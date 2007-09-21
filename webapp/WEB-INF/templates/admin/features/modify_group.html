@@ -1,0 +1,28 @@
+<div class="content-box" >
+
+    <h2>#i18n{portal.features.modify_group.title}</h2>
+
+    <form method="post"  action="jsp/admin/features/DoModifyGroup.jsp">
+
+            <p>
+                <label for="group_id" >#i18n{portal.features.modify_group.labelId}</label>
+                <input type="text" id="group_id" name="group_id" value="${feature_group.id}" />
+            </p>
+            <p>
+                <label for="group_name" >#i18n{portal.features.modify_group.labelName}</label>
+                <input type="text"  id="group_name" name="group_name" value="${feature_group.labelKey}" size="50" />
+            </p>
+            <p>
+                <label for="group_description" >#i18n{portal.features.modify_group.labelDescription}</label>
+                <input type="text" id="group_description" name="group_description" value="${feature_group.descriptionKey}" size="100" />
+            </p>
+            <p>
+                <label for="group_order" >#i18n{portal.features.modify_group.labelOrder}</label>
+                <@combo name="group_order" default_value="${feature_group.order}" items=order_list />
+            </p>
+            <p>
+        	<input class="button" type="submit" value="#i18n{portal.features.modify_group.buttonModify}" />
+		<input class="button" type="button" value="#i18n{portal.util.labelCancel}" onClick="javascript:history.go(-1);" />
+            </p>
+    </form>
+</div>

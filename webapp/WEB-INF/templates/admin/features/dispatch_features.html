@@ -1,0 +1,34 @@
+<div class="content-box" >
+
+    <h2>#i18n{portal.features.dispatch_features.title}</h2>
+
+    <table>
+    	<tr>
+    		<th>#i18n{portal.features.dispatch_features.tableLabelFeatureName}</th>
+    		<th>#i18n{portal.features.dispatch_features.tableLabelFeatureDescription}</th>
+    		<th>#i18n{portal.features.dispatch_features.tableLabelGroup}</th>
+    	</tr>
+		
+		
+		<#list feature_list?sort_by('name') as right >
+			
+			<#if right.url?has_content >
+				<tr>
+				         <td>${right.name}</td>
+				         <td>${right.description}</td>
+				         <td>
+				         	<form method="post" action="jsp/admin/features/DoDispatchFeature.jsp">
+				         		<@combo name="group_name" default_value="${right.featureGroup}" items=feature_group_list />
+				             	<input type="hidden" name="right_id" value="${right.id}" />
+				             	<input class="button" type="submit" value="#i18n{portal.features.dispatch_features_row.buttonSetGroup}" />
+				         	 </form>
+				         </td>
+				</tr>
+			</#if>
+		
+		
+		</#list>
+		
+		
+    </table>
+</div>

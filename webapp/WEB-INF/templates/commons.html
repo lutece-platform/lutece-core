@@ -1,0 +1,72 @@
+
+<#macro comboWithParams name default_value additionalParameters items >
+	<select id="${name}" name="${name}" ${additionalParameters} >			
+			<#list items as item>	
+				<#if default_value="${item.code}"> 			
+      				<option selected="selected" value="${item.code}" >${item.name}</option>    			    			
+      			<#else>
+      				<option value="${item.code}" >${item.name}</option>
+      			</#if>
+    		</#list>		
+	</select>
+</#macro>
+
+
+<#macro combo name default_value items >
+	<@comboWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
+</#macro>
+
+	
+	
+<#macro radioImageList name default_value items >
+        <#list items as item>
+            <#if default_value="${item.code}"> 			
+                <input checked="checked" class="radio" type="radio" name="${name}" value="${item.code}" /><img src="${item.name}" alt="" />
+            <#else>
+                <input class="radio" type="radio" name="${name}" value="${item.code}" /><img src="${item.name}" alt="" />
+            </#if>
+        </#list>
+</#macro>
+
+<#macro checkboxList name default_values items >
+        <#list items as item>
+        <p>
+            <#if item.checked > 			
+                <label for="document_type"> &nbsp;</label>
+                <input checked class="checkbox" type="checkbox" name="${name}" value="${item.code}" /> ${item.name}
+            <#else>
+                <label for="document_type"> &nbsp;</label>
+                <input class="checkbox" type="checkbox" name="${name}" value="${item.code}" /> ${item.name}
+            </#if>
+        </p>
+        </#list>
+</#macro>
+                
+
+
+<#macro pagination paginator >
+    <#if (paginator.pagesCount > 1) >
+        <#if (paginator.pageCurrent > 1) >
+        <a href="${paginator.previousPageLink}">
+            <img src="images/admin/skin/prev.png" alt="&lt;" align="bottom" />
+        </a>
+        <#else>
+            &nbsp;&nbsp;
+        </#if>
+        <#list paginator.pagesLinks as link>
+            <#if ( link.index = paginator.pageCurrent )>
+                <strong>${link.name}</strong>
+            <#else>
+                <a href="${link.url}">${link.name}</a>
+            </#if>
+        </#list>
+        <#if (paginator.pageCurrent < paginator.pagesCount) > 
+        <a href="${paginator.nextPageLink}">
+            <img src="images/admin/skin/next.png" alt="&gt;" align="bottom" />
+        </a>
+        <#else>
+            &nbsp;&nbsp;
+        </#if>
+    </#if>
+</#macro>  
+

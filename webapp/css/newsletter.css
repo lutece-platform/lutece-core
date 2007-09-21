@@ -1,0 +1,54 @@
+/******************************************************************************/
+/*                test              NEWSLETTER                                    */
+/******************************************************************************/
+/* links of menu */
+
+a.newsletter:link, a.newsletter:visited {
+	color: #202C65;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+/* links of menu hover */
+a.newsletter:hover {
+	color: #202C65;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+/* admin table */
+table.admin-news {
+	background-color: #202C65; /*	cellpadding: 5px;
+	cellspacing: 10px; */
+}
+
+/* cell admin */
+td.admin-news {
+	background-color: #FFFFFF;
+	color: #202C65;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+}
+
+/* cell title */
+th.admin-news {
+	background-color: #E0E7F3;
+	color: #202C65;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+/* cell title */
+th.admin-title-news {
+	background-color: #859ECF;
+	color: #202C65;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+}

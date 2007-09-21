@@ -1,0 +1,26 @@
+<div class="content-box" >
+
+    <h2>#i18n{portal.features.manage_levels.boxTitle}</h2>
+
+    <table>
+        <tr>            
+            <th >#i18n{portal.features.manage_levels.columnTitleId}</th>
+            <th >#i18n{portal.features.manage_levels.columnTitleName}</th>
+        </tr>
+       
+        <#list levels_list as level >
+        <tr>
+            <td>
+                <a href="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" class="bullet-link">${level.id}</a>
+            </td>
+            <td>${level.name}</td>
+        </tr>			
+        </#list>
+    </table>
+    
+    <form method="post"  action="jsp/admin/features/CreateLevel.jsp">
+        <p><input type="submit" tabindex="1" value="#i18n{portal.features.manage_levels.buttonLabelCreate}" class="button" /></p>
+    </form>
+        
+</div>
+

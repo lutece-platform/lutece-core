@@ -1,0 +1,26 @@
+
+<div class="content-box" >
+
+	<h2>#i18n{portal.system.modify_properties.boxTitle}</h2>
+
+	<form method="post" action="jsp/admin/DoModifyProperties.jsp" >
+		
+		<table>
+			<tr>
+				<th>#i18n{portal.system.modify_properties.keyLabel}</th>
+				<th>#i18n{portal.system.modify_properties.keyValue}</th>
+			</tr>
+			<#list properties_list as property>
+				<tr>
+				    <td><label for="${property.code}">${property.code}</label></td>
+				    <td><input name="${property.code}" id="${property.code}" value="${property.name}" /></td>
+				</tr>
+			</#list>
+		</table>
+		
+		<input class="button" type="submit" value="#i18n{portal.system.modify_properties.buttonLabel}">
+		
+	</form>
+	
+
+</div>

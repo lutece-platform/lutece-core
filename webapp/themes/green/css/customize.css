@@ -1,0 +1,18 @@
+/**************************************************************************/
+/*                         PORTAL CUSTOMIZE STYLE                             */
+/**************************************************************************/
+
+@import url("page_template_styles.css");
+
+.colorborder1 {
+	border: 1px solid #1E2A63;
+}
+
+.fontcolor1 {
+	color: #074B88;
+}
+
+.pagecolor1 {
+	background-color: #859ECF; 
+}
+

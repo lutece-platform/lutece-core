@@ -1,0 +1,57 @@
+<div class="content-box" >
+    <h2>#i18n{portal.mailinglist.modify_mailinglist.title}</h2>
+    
+    <form method="post"  action="jsp/admin/mailinglist/DoModifyMailingList.jsp">
+            <input type="hidden"  id="id_mailinglist" name="id_mailinglist" value="${mailinglist.id}" />
+        
+        <p>
+            <label for="name" >#i18n{portal.mailinglist.modify_mailinglist.labelName}* : </label>
+            <input type="text"  id="name" name="name" value="${mailinglist.name}" size="50" />
+        </p>
+        <p>
+            <label for="description" >#i18n{portal.mailinglist.modify_mailinglist.labelDescription}* : </label>
+            <input type="text" id="description" name="description" value="${mailinglist.description}" size="100" />
+        </p>
+        <p>
+            <label for="workgroup" >#i18n{portal.mailinglist.modify_mailinglist.labelWorkgroup}* : </label>
+            <@combo name="workgroup" default_value="${mailinglist.workgroup}" items=workgroups_list />
+        </p>
+        <p>
+            <input class="button" type="submit" value="#i18n{portal.mailinglist.modify_mailinglist.buttonModify}" />
+            <input class="button" type="button" value="#i18n{portal.util.labelCancel}" onClick="javascript:history.go(-1);" />
+        </p>
+    </form>
+    
+    <p>
+        <table>
+            <tr>
+                <th>#i18n{portal.mailinglist.modify_mailinglist.columnWorkgroup}</th>
+                <th>#i18n{portal.mailinglist.modify_mailinglist.columnRole}</th>
+                <th>#i18n{portal.mailinglist.modify_mailinglist.columnActions}</th>
+            </tr>
+            <#list mailinglist.filters as filter>
+            <tr>
+                <td>${filter.workgroup}</td>
+                <td>${filter.role}</td>
+                <td>
+                    <a href="jsp/admin/mailinglist/ViewUsers.jsp?workgroup=${filter.workgroup}&role=${filter.role}">
+                        <img src="images/admin/skin/actions/group.png" class="icon" alt="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}" />
+                    </a>
+                    <a href="jsp/admin/mailinglist/DoDeleteFilter.jsp?id_mailinglist=${mailinglist.id}&workgroup=${filter.workgroup}&role=${filter.role}">
+                        <img src="images/admin/skin/actions/delete.png" class="icon" alt="#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}" />
+                    </a>
+                </td>
+            </tr>
+            </#list>
+        </table>
+    </p>
+    <p>
+        <a href="jsp/admin/mailinglist/AddUsers.jsp?id_mailinglist=${mailinglist.id}">
+            <input class="button" type="button" value="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}" />
+        </a>    
+        <a href="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}">
+            <input class="button" type="button" value="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}" />
+        </a>
+    </p>
+    
+</div>

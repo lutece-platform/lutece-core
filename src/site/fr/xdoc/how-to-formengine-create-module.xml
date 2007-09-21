@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<properties>
+		<title>
+			Lutèce : Guide de développement d'un module de Formengine
+		</title>
+	</properties>
+
+	<body>
+		<section name="Introduction">
+				<p>
+					Ce document décrit les étapes nécessaires au développement d'un formulaire utilisant le plugin <code>formengine</code>. 
+                    Un tel formulaire se décompose en sous-formulaires composés de champs et de boutons. 
+                    Des contrôles peuvent être déclarés sur les champs.
+				</p>
+				<p>
+					Il est nécessaire d'écrire un fichier Xml qui décrit les composant du formulaire. 
+                    Associé à des feuilles de styles Xsl, ce fichier Xml permet de gérer aussi l'affichage des sous-formulaires. 
+                    Les actions à réaliser, et l'enchaînement de sous-formulaires lié à ces actions sont à décrire dans un ensemble 
+                    de classes Java.
+				</p>
+			
+			</section>
+
+			<section name="Les objets métier">
+				<p>
+					Les objets métier servent à générer le flux Xml de sortie et sont générés à l'aide de Jaxb grâce au schéma Xsd décrivant 
+                    le flux Xml.
+				</p>
+				<p>
+					Pour plus d'information concernant l'utilisation de Jaxb, se reporter à la documentation officielle, ainsi qu'aux 
+                    <a href="how-to-formengine-jaxb.html">recommandations relatives à l'utilisation de JAXB</a>.
+				</p>
+			
+			</section>
+
+
+			<section name="Le fichier Xml de définition du formulaire">
+				<p>
+					Ce fichier permet de décrire rapidement les éléments qui constituent un formulaire. Sa structure est décrite par le schéma "form-declaration.xsd".
+				</p>
+
+				<subsection name="Les informations générales concernant le formulaire">
+
+					<p>
+						Elles correspondent au titre et  au nom du formulaire ainsiqu'au nom de la classe principale à utiliser.
+					</p>
+					<p>
+<div class="source">
+<pre>
+&lt;formDefinition name="..." className="fr.paris.lutece.plugins.formengine.modules.....web.classForm"&gt;
+     &lt;title&gt;Titre du formulaire&lt;/title&gt;
+     ...
+&lt;/formDefinition&gt;
+</pre>
+</div>
+					</p>
+
+				</subsection>
+
+
+
+
+
+				<subsection name="Les informations concernant chaque sous-formulaire ">
+
+					<p>
+						Elles correspondent aux titre, nom, nom de la classe associée, champs, boutons, contrôles associés aux champs (contrôles sur un champ ou plusieurs), remarques, ...
+					</p>
+
+					<p><u><strong>1. Les informations concernant le sous-formulaire</strong></u></p>
+
+						<p>
+							Comme au niveau du formulaire, on définit un nom unique, un titre et une classe associée.
+						</p>
+						<p>
+<div class="source">
+<pre>
+&lt;subFormDefinition name="..." className="fr.paris.lutece.plugins.formengine.modules.....web.classSubForm"&gt;
+     &lt;title&gt;Saisie des objets&lt;/title&gt;
+     &lt;formElements&gt;...&lt;/formElements&gt;
+&lt;/subFormDefinition&gt;
+</pre>
+</div>
+						</p>
+
+
+
+
+
+					<p><u><strong>2. Les champs</strong></u></p>
+
+
+						<p>La liste de champs est fournie dans l'élément formElements.</p>
+						<p>Les types de champs disponibles sont :</p>
+						<p>
+							<ul>
+								<li><strong>text :</strong> champ texte libre</li>
+								<li><strong>checkbox :</strong> case à cocher</li>
+								<li><strong>radio :</strong> liste de radio buttons</li>
+								<li><strong>combo :</strong> liste déroulante</li>
+								<li><strong>textarea :</strong> zone de texte</li>
+								<li><strong>upload :</strong> champ permettant d'uploader des fichiers</li>
+							</ul>
+						</p>
+						<p>
+<div class="source">
+<pre>
+&lt;fields&gt;
+     &lt;field name="nomChamp" type="text"&gt;
+          &lt;label&gt;Titre du champ&lt;/label&gt;
+          &lt;value&gt;Valeur par défaut (peut-être vide)&lt;/value&gt;
+          &lt;additionalInfo&gt;Informations sur le champ&lt;/additionalInfo&gt;
+          &lt;checkFieldRules&gt;Cf. point suivant &lt;/checkFieldRules&gt;
+     &lt;/field&gt;
+     ...
+&lt;/fields&gt;
+</pre>
+</div>
+						</p>
+						<p>
+							Pour un champ de liste (radio ou combo), on peut de plus préciser les éléments constituant la liste. Notons que ces éléments peuvent aussi être ajoutés ou modifiés via le code java dans la classe de sous-formulaire associée (chargement d'une base par exemple).
+						</p>
+						<p><u>Exemple :</u></p>
+						<p>
+<div class="source">
+<pre>
+&lt;field name="arrondissement" type="combo"&gt;
+     &lt;label&gt;Arrondissement&lt;/label&gt;
+     &lt;value&gt;1&lt;/value&gt;
+     &lt;choiceList&gt;
+          &lt;choice value="1" label="1er"/&gt;
+	  &lt;choice value="2" label="2ème"/&gt;
+	  &lt;choice value="3" label="3ème"/&gt;
+	  ...
+	  &lt;/choiceList&gt;
+&lt;/field&gt;
+</pre>
+</div>
+						</p>
+
+
+
+					<p><u><strong>3. Les boutons</strong></u></p>
+						
+						<p>
+							Le sous-formulaire fournit aussi la liste de boutons (et donc des actions) disponibles :
+						</p>
+
+						<p>
+<div class="source">
+<pre>
+&lt;buttons&gt;
+     &lt;button name="Retour" type="submit"/&gt;
+     &lt;button name="Valider" type="submit"/&gt; 
+ &lt;/buttons&gt;
+</pre>
+</div>
+
+						</p>
+
+						<p>
+							Deux types sont disponibles : <code>submit</code> pour un bouton et <code>link</code> pour un lien. Il est obligatoire de définir au moins un bouton par sous-formulaire.
+						</p>
+
+
+
+
+
+
+					<p><u><strong>4. Les validateurs</strong></u></p>
+
+						<p>
+							Les validateurs permettent de contrôler les données saisies dans les champs. Ils peuvent être définis au niveau d'un champ (dans la balise <code>checkFieldRules</code>) ou au niveau d'un sous-formulaire (contrôle multi-champ, dans la balise <code>checkSubFormRules</code>)). On peut écrire des validateurs spécifiques ou accéder aux validateurs génériques disponibles.
+						</p>
+						<p>
+							Ceux-ci sont identifiés par leur type :
+						</p>
+						<p>
+							<ul>
+								<li>
+									<p>
+										<strong>fieldRequired</strong> : champ obligatoire
+									</p>
+									<p>
+<div class="source">
+<pre>
+&lt;checkRule type="fieldRequired" parameter="true" /&gt;
+</pre>
+</div>
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong>fieldNumeric</strong> : champ texte dont le contenu est numérique. On peut définir une valeur minimum et une valeur maximum.
+									</p>
+									<p>
+<div class="source">
+<pre>
+&lt;checkRule type="fieldNumeric" min="1" max="20" /&gt;
+</pre>
+</div>
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong>minLength :</strong> champ texte devant contenir un nombre minimum de caractères
+									</p>
+									<p>
+<div class="source">
+<pre>
+&lt;checkRule type="minLength" parameter="3" /&gt;
+</pre>
+</div>
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong>maxLength :</strong> champ texte pouvant contenir un nombre maximum de caractères
+									</p>
+									<p>
+<div class="source">
+<pre>
+&lt;checkRule type="maxLength" parameter="150" /&gt;
+</pre>
+</div>
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong>pattern :</strong> champ texte devant être validé par une expression régulière
+									</p>
+									<p>
+<div class="source">
+<pre>
+&lt;checkRule type="pattern" parameter="([0-9]{2})/([0-9]{2})" /&gt;
+</pre>
+</div>
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong>email :</strong> champ texte au format email valide
+									</p>
+									<p>
+<div class="source">
+<pre>
+&lt;checkRule type="email" /&gt;
+</pre>
+</div>
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong>dateFormat :</strong> champ texte correspondant à un date. L'attribut parameter donne le format à contrôler (suivant la syntaxe de la classe <code>java.text.SimpleDateFormat</code>). On peut définir une date minimum et une date maximum. Le mot-clé "<code>now</code>" peut être utilisé pour faire référence à la date du jour.
+									</p>
+									<p>
+<div class="source">
+<pre>
+&lt;checkRule type="dateFormat" parameter="dd/MM/yyyy" min=21/12/2000 max="now" /&gt;
+</pre>
+</div>
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong>phoneNumber :</strong> champ texte correspondant à un numéro de téléphone français à 10 chiffres.
+									</p>
+									<p>
+<div class="source">
+<pre>
+&lt;checkRule type="phoneNumber" /&gt;
+</pre>
+</div>
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong>xss :</strong> champ texte ne pouvant contenir certains caractères. Sont interdits les caractères pouvant être utilisés dans le cadre d'attaques xss.
+									</p>
+									<p>
+<div class="source">
+<pre>
+&lt;checkRule type="xss" /&gt;
+</pre>
+</div>
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong>maxFiles :</strong> restriction d'un champ d'upload à un certain nombre de fichiers
+									</p>
+									<p>
+<div class="source">
+<pre>
+&lt;checkRule type="maxFiles" parameter="5" /&gt;
+</pre>
+</div>
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong>fileTypes :</strong> restriction d'un champ d'upload à certains types de fichiers
+									</p>
+									<p>
+<div class="source">
+<pre>
+&lt;checkRule type="fileTypes" parameter="pdf, jpg, bmp" /&gt;
+</pre>
+</div>
+									</p>
+								</li>
+								<li>
+									<p>
+										<strong>specific :</strong> permet de définir un validateur spécifique
+									</p>
+									<p>
+<div class="source">
+<pre>
+&lt;checkRule type="specific" parameter="nompackage.NomClasse" /&gt;
+</pre>
+</div>
+									</p>
+								</li>
+
+							
+
+							</ul>
+						</p>
+
+						<p>
+							
+							Un contrôle non respecté provoque l'affichage d'un message par défaut. Ce message peut être personnalisé en utilisant :
+						</p>
+						<p>
+							<ul>
+								<li>l'attribut <code>errorMessage</code> : écriture du message dans le fichier Xml.</li>
+								<li>l'attribut <code>errorKey</code> : fournit la propriété contenant le message à afficher.</li>
+							</ul>
+						</p>
+
+
+
+
+					<p><u><strong>5. Les blocs de remarques</strong></u></p>
+
+						<p>
+							On peut aussi fournit dans le fichier  xml des informations textuelles exploitables au niveau du sous-formulaire. Ces informations peuvent être groupées et identifées par un nom unique :
+						</p>
+						<p>
+<div class="source">
+<pre>
+&lt;notices&gt;
+     &lt;noticeGroup name="warning" &gt;
+          &lt;notice&gt;blab la bla&lt;/notice&gt;
+	  ...
+     &lt;/noticeGroup&gt;
+     ...
+&lt;/notices&gt;
+</pre>
+</div>
+						</p>
+
+
+
+
+
+				</subsection>
+
+				<subsection name="Les informations de configuration des sorties à utiliser">
+					
+					<p>
+						Le fichier Xml permet enfin de définir les générateurs à utiliser. Il est ainsi possible de choisir si on ajoute ou non des informations de transaction génériques, et si c'est le cas,  de définir le générateur d'identifiants à utiliser.
+					</p>
+					<p>
+						<u>Exemple :</u>
+					</p>
+					<p>
+<div class="source">
+<pre>
+&lt;outputs&gt;
+     &lt;outputSet useTransactionHeaders="false" &gt;
+          &lt;output outputProcessorClassName="....DBOutputProcessor" /&gt;
+	  &lt;output outputProcessorClassName="....MailOutputProcessor" /&gt;
+     &lt;/outputSet&gt;
+     &lt;outputSet useTransactionHeaders="true" specificTransactionIdGeneratorClassName="....IdGeneratorClass" &gt;
+          &lt;output outputProcessorClassName="....XmlFileOutputProcessor"/&gt;
+     &lt;/outputSet&gt;
+&lt;/outputs&gt;
+</pre>
+</div>
+					</p>
+
+
+
+
+				</subsection>
+
+				
+				<p>
+					Les fichiers Xml peuvent être dupliqués pour fournir plusieurs instances d'un formulaire configurées différemment. Notons cependant que les noms (attribut <code>name</code>) de formulaires, de sous-formulaires, de champs, ... servent d'identifiant et sont utilisés par les classes Java. Ils ne doivent donc pas être modifiés d'une instance à l'autre.
+				</p>
+				
+				
+				
+			
+			</section>
+
+			<section name="Les classes Java">
+
+				<p>
+					Il est nécessaire de créer une classe dérivant de <code>Form</code>, et une classe par sous-formulaire dérivant de <code>SubForm</code>. On pourra de plus écrire des services spécifiques (par exemple un service de validation spécifique, ou encore un service de sortie spécifique).
+				</p>
+
+				<subsection name="La classe de formulaire">
+					<p>
+						Cette classe hérite de la classe <code>Form</code> et permet de définir les informations propres au formulaire et nécessaires au formengine : nom d'instance, code de transaction, chemin de stockage des feuilles Xsl, ...
+					</p>
+					<p>
+                                             <center>
+                                                <img src="images/formengine_form.gif" />
+                                              </center>
+                                        </p>						
+				</subsection>
+
+				<subsection name="Les classes de sous-formulaire">
+					<p>
+						Pour chaque sous-formulaire, il est nécessaire de créer une classe héritant de <code>SubForm</code>.
+					</p>
+ 					<p>
+                                             <center>
+                                                <img src="images/formengine_subform.gif" />
+                                              </center>
+                                        </p>	                                       					
+					<p>
+						Ceci implique :
+					</p>
+                                        <p>
+						<ul>
+							<li>
+								<strong>l'implémentation de la méthode <code>doAction()</code></strong>, qui permet de définir les actions à réaliser (mémorisation d'information, passage au formulaire suivant/précédent) en fonction du bouton cliqué.
+							</li>
+							<li>
+								<strong>l'implémentation de la méthode <code>getSubFormXslStylesheet()</code></strong>, qui retourne le chemin de la feuille de style à utiliser pour l'affichage des éléments de formulaire du sous-formulaire.
+							</li>
+							<li>
+								<strong>l'implémentation de la méthode <code>displaySummary()</code></strong>. Celle-ci permet d'insérer des informations sur les éléments renseignés aux étapes précédentes. On pourra par exemple utiliser les objets métiers Jaxb déjà crées, en générant leur code Xml associé et en appliquant à celui-ci une feuille de style spécifique. Si on ne désire pas afficher de récapitulatif, cette méthode devra renvoyer la chaîne vide ("").
+							</li>
+							<li>
+								<strong>dans certains cas, la surcharge de la méthode <code>displayForm()</code></strong>. L'implémentation fournie par la classe mère <code>SubForm</code> convient dans bien des cas. Cependant s'il est nécessaire de passer des variables à la feuille de style associée aux éléments de formulaire, ou bien s'il est nécessaire d'initialiser certaines données de formulaires (remplissage de listes déroulantes à partir d'une base de données par exemple), il faudra surcharger cette méthode. Après avoir réalisé les opérations spécifiques, elle devra appeler la méthode <code>buildHtmlForm()</code>.
+							</li>
+							<li>
+								<strong>dans certains cas, la surcharge de la méthode <code>displayHeader()</code></strong>. L'implémentation fournie par la classe mère <code>SubForm</code> affiche le titre du formulaire et le titre du sous-formulaire. Elle utilise pour cela un template Html commun à tous les sous-formulaires. Si on se trouve dans un cas où on doit utiliser des templates différents suivant le sous-formulaire, il faudra surcharger la méthode <code>displayHeader()</code>, et définir le template associé.
+							</li>
+
+						</ul>
+
+					</p>
+				</subsection>
+
+
+				<subsection name="Les services spécifiques">
+					<p>
+						Les services peuvent être utilisés pour fournir des validateurs spécifiques ou pour fournir des nouveaux types de sorties.
+					</p>
+ 					<p>
+                                             <center>
+                                                <img src="images/formengine_services.gif" />
+                                              </center>
+                                       </p>	                                            
+					<p>
+						<ul>
+							<li>
+								Les validateurs spécifiques doivent implémenter l'une des classes filles de la classe <code>Validator</code>, ou hériter de l'une des classes du package <code>fr.paris.lutece.plugins.formengine.validator</code>.
+							</li>
+							<li>
+								Les nouveaux types de sorties doivent implémenter la classe <code>OutputProcessor</code> ou hériter d'une des classes de formengine l'implémentant.
+							</li>
+							<li>
+								Les générateurs d'identifiants spécifiques doivent implémenter <code>IdGenerator</code> ou hériter d'une de ses classes filles.
+							</li>
+
+						</ul>
+
+					</p>
+				</subsection>
+
+				<subsection name="Les objets en sessions">
+					<p>
+						Il peut-être nécessaire de gérer des objets en session dont la portée est soit au niveau du formulaire, soit au niveau d'un sous-formulaire. Pour éviter tout effet de bord, il est impératif d'utiliser les méthodes de gestion de paramètres de session fournies par <code>Form</code> et <code>SubForm</code>.
+					</p>
+					<p>
+						Notons de plus que la session est nettoyée lors de l'affichage du dernier sous-formulaire. Celui-ci ne doit donc servir qu'à confirmer le bon déroulement des opérations. On ne peut plus ni y afficher des informations concernant la saisie en cours, ni y fournir des éléments de saisie impactant les objets métier. On peut cependant afficher l'identifiant qui vient d'être généré grâce à la méthode <code>getTransactionId()</code> de <code>Form</code> : Il faut passer cette variable à la feuille Xsl associée avec le sous-formulaire en question.
+					</p>
+				</subsection>
+
+
+			</section>
+
+			<section name="Les feuilles de styles Xsl">
+				<p>
+					Les feuilles de styles Xsl sont utilisées pour l'affichage des sous-formulaires. 
+				</p>
+				<p>
+					On doit définir au moins une feuille de styles par sous-formulaire : celle responsable de l'affichage des éléments de formulaire (champs, boutons, ...). Dans cette feuille de styles, il est conseillé d'importer "formelements.xsl" : cette feuille Xsl fournit un nombre important de templates prédéfinis (notamment les champs cachés des formulaires, permettant l'enchaînement correct des écrans). Si on ne désire pas utiliser cette feuille de styles générique, il est fortement conseillé d'en reprendre le principe pour définir un certain nombre de templates utilisables par tous les sous-formulaires.
+				</p>
+				<p>
+					Pour certains sous-formulaires, on peut de plus avoir à définir une deuxième feuille de styles : celle responsable de l'affichage de la partie "récapitulatif" dans un sous-formulaire. 
+				</p>
+				<p>
+				   <p>
+					  <strong>Remarque :</strong>
+		           </p>
+					<p>
+						Il est souvent intéressant de passer des variables Java aux feuilles de styles lors de la transformation Xsl. En effet ces variables peuvent servir à définir des champs cachés des formulaires, ou à afficher des informations contextuelles. Elles peuvent de plus permettre de réaliser des tests conditionnels au niveau de la feuille de style.
+					</p>
+					<p>
+						En utilisant la méthode <code>buildHtmlForm()</code> de la classe <code>SubForm</code>, le nom du formulaire et du sous-formulaire sont automatiquement passés à la Xsl. Pour le dernier sous-formulaire, l'url de redirection définie dans le fichier de properties et aussi passée automatiquement à la Xsl.
+					</p>
+
+				</p>
+
+			
+			</section>
+
+
+	</body>
+</document>

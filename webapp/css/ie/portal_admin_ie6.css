@@ -1,0 +1,59 @@
+/******************************************************************************/
+/*                     STYLES DU MODULE ADMINISTRATION         pour IE6          */
+/******************************************************************************/
+
+
+ul#admin-header-menu ul li {
+    display:inline;
+}
+
+ul#admin-header-menu ul li a span {
+    width:238px;
+}
+
+#admin-header {
+	height: 46px;		
+}
+
+#admin-main-menu {
+  margin: 15px 0 -15px 0;  
+}
+
+div.content-box {
+	background: #DEE8F1  url(../../images/admin/skin/roundbox_tl.gif) top left no-repeat;
+
+}
+
+div.multibox table {
+	 width: 90%;	
+}
+
+#feature-content div.admin-site-page {
+  margin-left:-2%;
+}
+
+div.insert-service table {
+	width: 90%;	
+}
+
+.preview {
+	float: right;
+	margin-left: 6px;
+	margin-right: 27px;
+	padding: 0;
+}
+
+/* simulation of min-width for IE6
+.container_minwidth_IE {  
+	padding-left: 700px;  
+}
+
+.container_container_IE {  
+	margin-left: -700px;  
+	position: relative;
+}
+
+.container_minwidth_IE, .container_container_IE, .container_layout_IE  {
+	height: 1px;
+}
+*/

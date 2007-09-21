@@ -1,0 +1,992 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>
+            Lutèce : Guide d'installation
+        </title>
+    </properties>
+
+    <body>
+        <section name="I. Guide d'installation">
+            <subsection name="1. Installation de MySQL" >
+                <p>
+                    <ul>
+                        <li>Télécharger MySQL à l'adresse suivante :
+                            <a href="http://www.mysql.com/downloads/index.html" target=
+                            "_blank">http://www.mysql.com/downloads/index.html</a>
+                        </li>
+                        <li>
+                            <p>
+                                Pour la documentation d'installation de mysql, se référer
+                                à l'url suivante :
+                                <a href="http://www.mysql.com/documentation/mysql/bychapter/manual_Installing.html#Installing"
+                                target="_blank">http://www.mysql.com/documentation/mysql/bychapter/manual_Installing.html#Installing</a>
+                            </p>
+                            <p>
+                                Mettre à jour la variable d'environnement PATH en ajoutant
+                                le chemin d'accès au répertoire <code>\bin</code> de MySQL à sa définition.
+                            </p>
+                            <p>
+                                Lancer le serveur MySQL, si cela n'est pas fait
+                                automatiquement.
+                            </p>
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    <strong>Remarque : </strong> vous pouvez créer un fichier SQL pour
+                    lancer ce script, ainsi le mot de passe n'apparaîtra pas
+                    dans l'historique
+                </p>
+                <p>
+                    Deux procédures d'installation sont proposées pour la base
+                    de données <code>lutece</code> :
+                </p>
+                <p>
+                    <ul>
+                        <li>
+                            création d'une base de données locale, qui sera utilisée
+                            par une webapp <code>lutece</code>
+                        </li>
+                        <li>
+                            création d'une base de données partagée et d'une ou de
+                            plusieurs bases locales, qui seront utilisées par une ou
+                            plusieurs webapps Lutece partageant du contenu.
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    Les fichiers <code>*.sql</code> utilisés avec la commande "source" de
+                    MySQL sont placés :
+                </p>
+                <p>
+                    <ul>
+                        <li>
+                            pour la base locale, dans le répertoire <code>/src/sql/default</code> de la distribution;
+                        </li>
+                        <li>
+                            pour la base partagée, dans le répertoire <code>/src/sql/shared</code> de la distribution.
+                        </li>
+                    </ul>   
+                </p>
+                <p>
+                    Pour utiliser la commande "source" comme indiquée dans
+                    la procédure d'installation ci-dessous, placez les fichiers
+                    <code>*.sql</code> dans le repertoire <code>/bin</code> de MySQL.
+                    Sinon, indiquez le chemin complet des fichiers dans la
+                    commande.
+                </p>
+                <p>
+                    <em>
+                        Dans le cas d'une utilisation de Lutèce avec une base
+                        partagée, reportez-vous au chapitre : Installation avec une
+                        base partagée.
+                    </em>
+                </p>
+            </subsection>
+            <subsection name="2. Cas de l'installation d'une base locale Lutece">
+                <p>
+                    <u>Créer la base lutece</u> :
+                </p>
+                <p>
+                    <strong>[Win32] :</strong>
+                </p>
+                <p>
+                    Lancer MySQL depuis le sous-répertoire bin de
+                    &lt;mysql_home&gt; (où &lt;mysql_home&gt; est le répertoire
+                    dans lequel vous avez installé mysql).
+                </p>
+                <p>
+                    Exécuter la commande suivante :
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql.exe
+mysql&gt; create database lutece;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <strong>[Unix] :</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+# mysql -u root -p <em>new_password</em>
+
+mysql&gt; create database lutece;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    Créer l'utilisateur qui servira à se connecter à la base
+                    depuis la webapp Lutece (les scripts SQL sont fournis dans le package de
+                    Lutece).
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix] :</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt; source create_user_lutece.sql
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <u>Se connecter à la base de données :</u>
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix]</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt; use lutece;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <u>Créer les objets de la base</u> : (les scripts SQL sont fournis dans le package de Lutece)
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix]</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt; source create_db_lutece.sql ;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <u>Initialisation les données :</u>
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix]</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt; source init_db_lutece.sql ;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    Si vous voulez vérifier que la base de données est
+                    correctement configurée pour l'utilisateur lutece (par défaut),
+                    lancer les commandes :
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix]:</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt; show tables;
+mysql&gt; select * from theme;
+                        </pre>
+                    </div>
+                </p>
+            </subsection>
+            
+            <subsection name="3. Cas de l'installation d'une base partagée et d'une base locale">
+                <p>
+                    <u>Créer la base partagée :</u>
+                </p>
+                <p>
+                    <strong>[Win32] :</strong>
+                </p>
+                <p>
+                    Lancer Mysql depuis le sous-répertoire bin de
+                    &lt;mysql_home&gt; (où &lt;mysql_home&gt; est le répertoire
+                    dans lequel vous avez installé mysql).
+                </p>
+                <p>
+                    Exécuter la commande suivante :
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql.exe
+mysql&gt; create database shared;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <strong>[Unix] :</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+# mysql -u root -p <em>new_password</em>
+
+mysql&gt; create database shared;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <u>Créer l'utilisateur qui servira à la webapp pour se
+                    connecter à la base shared.</u>
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix] :</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt; source create_user_shared.sql
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <u>Se connecter à la base de données :</u>
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix]</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt; use shared;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <u>Créer la structure de la base :</u>(les scripts SQL sont
+                    fournis dans le package de Lutece)
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix]</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt; source create_db_shared.sql ;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <u>Importer les données :</u>
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix]</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt; source init_db_shared.sql ;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    Si vous voulez vérifier que la base de données est
+                    correctement configurée pour l'utilisateur shared (par défaut),
+                    lancer les commandes :
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix]:</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt;use shared;
+
+mysql&gt; show tables;
+mysql&gt; select * from theme;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <u>Créer une base locale lutece :</u>
+                </p>
+                <p>
+                    <strong>[Win32] :</strong>
+                </p>
+                <p>
+                    Lancer Mysql depuis le sous-répertoire bin de
+                    &lt;mysql_home&gt; (où &lt;mysql_home&gt; est le répertoire
+                    dans lequel vous avez installé mysql).
+                </p>
+                <p>
+                    Exécuter la commande suivante :
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql.exe
+                                
+mysql&gt; create database lutece;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <strong>[Unix] :</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+# mysql -u root -p <em>new_password</em>
+
+mysql&gt; create database lutece;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <u>Créer l'utilisateur qui servira à la webapp pour se
+                    connecter à la base lutece.</u>
+                    (les scripts SQL sont fournis dans le package de
+                    Lutece)
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix]:</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt; source create_user_lutece.sql
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <em>Pour créer deux bases locales sur le même serveur de
+                    base de données, il faut que celles-ci aient des noms
+                    différents.
+                    Il faut donc reproduire l'étape de création de la base
+                    locale et de son utilisateur pour chaque base locale
+                    envisagée ( ne pas oublier de mettre à jour les fichiers
+                    db.properties pour le nom de la base locale et les mots de
+                    passe utilisateur, ainsi que le fichier config.properties
+                    pour les identifiants des différents portails. (Les
+                    identifiants des portails sont ceux créés dans la table
+                    portal de la base shared)</em>
+                </p>
+                <p>
+                    <u>Se connecter à la base de données :</u>
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix]</strong>
+                </p>
+                <p>
+                    <div class="source">    
+                        <pre>
+mysql&gt; use lutece;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <u>Créer la structure de la base :</u>
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix]</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt; source create_db_lutece.sql ;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    <u>Importer les données :</u>
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix]</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt; source init_db_lutece.sql ;
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    Si vous voulez vérifier que la base de données est
+                    correctement configurée pour l'utilisateur lutece (par défaut),
+                    lancer les commandes :
+                </p>
+                <p>
+                    <strong>[Win32] &amp; [Unix] :</strong>
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+mysql&gt; use lutece;
+mysql&gt; show tables;
+mysql&gt; select * from theme;
+                        </pre>
+                    </div>
+                </p>
+                    
+            </subsection>
+            
+            <subsection name="4. Installation du serveur d'application">
+                <p>
+                    L'installation décrite ci-après concerne le serveur
+                    d'application Tomcat.
+                </p>
+                <subsection name="4.1 Installation du J2SDK">
+                    <p>
+                        L'utilisation de Tomcat nécessite l'installation préalable
+                        de Java 2 SDK Standard Edition sur le serveur. La version minimale à utiliser est le 
+                        <strong>jdk 1.4.2_06</strong>.
+                    </p>
+                    <p>
+                        <strong>Installation de Java 2 SDK, Standard Edition</strong>
+                    </p>
+                    <p>
+                        Télécharger la version du JDK depuis le site de Sun :
+                        <a href="http://java.sun.com/j2se/downloads.html" target=
+                        "_blank">http://java.sun.com/j2se/downloads.html</a>
+                    </p>
+                    <p>
+                        Configurer ensuite la variable d'environnement JAVA_HOME en lui
+                        donnant pour valeur le chemin d'accès au répertoire contenant
+                        le JDK.
+                    </p>
+                    <p>
+                        Mettre à jour la variable d'environnement PATH en ajoutant
+                        JAVA_HOME\bin à sa définition.
+                    </p>
+                </subsection>
+            
+                <subsection name="4.2 Installation de Tomcat">
+                    <p>
+                        Télécharger Tomcat depuis l'adresse suivante : <a href=
+                        "http://jakarta.apache.org/tomcat/index.html" target=
+                        "_blank">http://jakarta.apache.org/tomcat/index.html</a>
+                        Configurer ensuite la variable d'environnement TOMCAT_HOME en
+                        lui donnant pour valeur le chemin d'accès au répertoire de
+                        Tomcat.
+                    </p>
+                    <p>
+                        Recharger le fichier contenant les variables d'environnement
+                        pour que les modifications soient prises en compte.
+                    </p>
+                </subsection>
+            
+                <subsection name="4.3 Vérification de l'installation">
+                    <p>
+                        <ul>
+                            <li>
+                                <p>
+                                    Lancer Tomcat : (&lt;tomcat_home&gt; est le répertoire
+                                    dans lequel vous avez installé Tomcat)
+                                </p>
+                                <p>
+                                    <strong>[Win32] :</strong>
+                                    &lt;tomcat_home&gt;/bin/startup.bat
+                                </p>
+                                <p>
+                                    <strong>[Unix] :</strong>
+                                    &lt;tomcat_home&gt;/bin/startup.sh
+                                </p>
+                            </li>
+                            <li>
+                                Lancer un navigateur et taper l'URL suivante :
+                               <strong><code>http://localhost:8080</code></strong>
+                                La page d'accueil de Tomcat doit s'afficher.
+                            </li>
+                            <li>
+                                <p>
+                                    Pour arrêter Tomcat :
+                                </p>
+                                <p>
+                                    <strong>[Win32] :</strong>
+                                    &lt;tomcat_home&gt;/bin/shutdown.bat
+                                </p>
+                                <p>
+                                    <strong>[Unix] :</strong>
+
+                                    &lt;tomcat_home&gt;/bin/shutdown.sh
+                                </p>
+                            </li>
+                        </ul>
+                    </p>
+                </subsection>
+            
+                <subsection name="4.4 Configuration du serveur">
+                    <p>
+                        <ul>
+                            <li>
+                                <p>
+                                    Pour désactiver l'affichage de la liste des fichiers à
+                                    partir de l'url d'une webapp, modifier le fichier
+                                    &lt;tomcat_home&gt;/conf/web.xml :
+                                </p>
+                                <p>
+                                    <div class="source">
+                                        <pre>
+&lt;init-param&gt;
+&lt;param-name&gt;listings&lt;/param-name&gt;
+&lt;param-value&gt;<strong>false</strong>&lt;/param-value&gt;
+
+&lt;/init-param&gt;
+                                        </pre>
+                                    </div>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    Modifier les tailles mémoire allouées à la machine virtuelle.
+                                </p>
+                                <p>
+                                    Dans le fichier &lt;tomcat_home&gt;/bin/catalina.sh, ajouter la ligne :
+                                </p>
+                                <p>
+                                    <div class="source">
+                                        <pre>
+CATALINA_OPTS="-Xms128m -Xmx512m"
+                                        </pre>
+                                    </div>
+                                </p>
+                                <p>
+                                    pour définir la mémoire initiale (128 Mo) et maximale (512 Mo) allouée à la JVM.
+                                </p>
+                            </li>
+                        </ul>
+                    </p>
+                </subsection>
+                        
+                <subsection name="4.5 Installation de l'application">
+                    <p>
+                        <ul>
+                            <li>
+                                Télécharger les fichiers zip de l'application Lutèce. Construire le projet Lutèce si vous utilisez les sources et non le .war.
+                            </li>
+                            <li>
+                                Copier le fichier war de Lutèce dans le répertoire webapps de Tomcat
+                            </li>
+                            <li>
+                                Lancer Tomcat pour déployer l'application
+                            </li>
+                            <li>
+                                <p>
+                                    Editer les fichiers de configuration config.properties et db.properties pour mettre à jour les chemins d'accès.
+                                </p>
+                                <p>
+                                    Le contenu de ces fichiers est décrit ci-après.
+                                </p>
+                            </li>
+                        </ul>
+                    </p>
+                </subsection>
+            </subsection>
+        </section>
+        
+        <section name="II. Configuration de l'application">
+            <p>
+                Les fichiers de configuration de l'application se trouvent
+                dans le répertoire WEB-INF/conf de la webapp. Les fichiers à
+                configurer sont les suivants :
+            </p>
+            <p>
+                <ul>
+                    <li>config.properties</li>
+                    <li>db.properties</li>
+                </ul>
+            </p>
+                
+            <subsection name="1. Configuration du fichier config.properties">
+                <p>
+                    A mettre à jour au moment du déploiement de l'application :
+                </p>
+                <p>
+                    <table>
+                        <tr>
+                            <th>
+                                Lors du premier lancement de l'application, autoInit est
+                                à true pour vous permettre la mise à jour automatique des chemins absolus du fichier.
+                                Par la suite, il est positionné à false.
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>
+                                    <code># AutoInit for first deployment</code>
+                                </p>
+                                <p>
+                                    <code>autoInit=false</code>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+                <p>
+                    <table>
+                        <tr>
+                            <th>
+                                Paramètres qui servent pour le plugin article
+                                (portal.param sert à créer et reconnaître le code du
+                                fournisseur de contenu et plugin.param.source.id est le
+                                nom du paramètre à récupérer dans le fichier de
+                                configuration xml du plugin )
+                            </th>
+                        </tr>                        
+                        <tr>
+                           <td>
+                                <p>
+                                    <code># Portal and Plugins parameters</code>
+                                </p>
+                                <p>
+                                    <code>portal.param=LUTECE</code>
+                                </p>
+                                <p>
+                                    <code>plugin.param.source.id=id_source</code>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+                <p>                    
+                    <table>
+                        <tr>
+                            <th>
+                                Renseigner ici l'adresse IP du serveur SMTP
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>
+                                    <code># Mail sending parameters</code>
+                                </p>
+                                <p>
+                                    <code>mail.server=</code>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+                <p>                    
+                    <table>
+                        <tr>
+                            <th>
+                                Renseigner ici les chemins complets pour accéder aux fichiers properties lutece, jtidy et webmaster
+                            </th>                            
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>
+                                    <code># Properties files</code>
+                                </p>
+                                <p>
+                                    <code>file.lutece.properties=C:/tomcat/webapps/lutece/WEB-INF/conf/lutece.properties</code>
+                                </p>
+                                <p>
+                                    <code>file.jtidy.properties=C:/tomcat/webapps/lutece/WEB-INF/conf/jtidy.properties</code>
+                                </p>
+                                <p>
+                                    <code>file.webmaster.properties=C:/tomcat/webapps/lutece/WEB-INF/conf/webmaster.properties</code>
+                                </p>
+                                <p>
+                                    <code>file.dir.plugins=C:/tomcat/webapps/lutece/WEB-INF/conf/plugins</code>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+                <p>                    
+                    <table>
+                        <tr>
+                            <th>
+                                Renseigner ici les chemins des fichiers logs
+                            </th>                            
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>
+                                    <code># Logs files</code>
+                                </p>
+                                <p>
+                                    <code>file.lutece.error.log=C:/tomcat/webapps/lutece/WEB-INF/logs/errors.log</code>
+                                </p>
+                                <p>
+                                    <code>file.lutece.app.log=C:/tomcat/webapps/lutece/WEB-INF/logs/application.log</code>
+                                </p>
+                                <p>
+                                    <code>file.pool.log=C:/tomcat/webapps/lutece/WEB-INF/logs/pool.log</code>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+                <p>                    
+                    <table>
+                        <tr>
+                            <th>
+                                    Si <code>error.page.debug=true</code>, le détail de l'erreur s'affiche
+                                    dans la page. Si <code>error.page.debug=false</code>, le message défini dans
+                                    error.page.message s'affiche dans la page
+                            </th>                            
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>
+                                    <code># Error page management</code>
+                                </p>
+                                <p>
+                                    <code>error.page.debug=true</code>
+                                </p>
+                                <p>
+                                    <code>error.page.message=Veuillez contacter immédiatement l'administrateur de l'application</code>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+                <p>                    
+                    <table>
+                        <tr>
+                            <th>
+                                Activez ou non la gestion du cache pour les templates, le
+                                contenu des pages ou les articles.
+                                En production, il est recommandé de mettre ces valeurs à <strong><code>true</code></strong>
+                            </th>                            
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>
+                                    <code># Caches management</code>
+                                </p>
+                                <p>
+                                    <code>service.templates.cache.enable=false</code>
+                                </p>
+                                <p>
+                                    <code>service.pages.cache.enable=false</code>
+                                </p>
+                                <p>
+                                    <code>service.articles.cache.enable=false</code>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+                <p>                    
+                    <table>
+                        <tr>
+                            <th>
+                                Configurer ici les paramètres d'indexation pour le moteur
+                                de recherche Lucene. Il faut renseigner dans <code>lucene.page.jsp</code>
+                                l'url de la JSP <code>Portal.jsp</code>.
+                                Si vous souhaitez que ce site indexe d'autres sites
+                                Lutece, indiquez la liste des sites dans
+                                lucene.list.sites.toindex (liste séparée par des "," )
+                            </th>                            
+                        </tr>
+                        <tr>                            
+                            <td>
+                                <p>
+                                    <code># Lucene search engine : indexing parameters</code>
+                                </p>
+                                <p>
+                                    <code>lucene.page.jsp=http://localhost:8080/lutece/jsp/site/Portal.jsp</code>
+                                </p>
+                                <p>
+                                     <code>lucene.nb.docs.per.page=5</code>
+                                </p>
+                                <p>
+                                    <code>lucene.last.indexation.file=C:/tomcat/webapps/lutece/WEB-INF/logs/last_indexation.log</code>
+                                </p>
+                                <p>
+                                    <code>lucene.list.sites.toindex= http://localhost:8080/lutece/servlet/XmlServlet</code>
+                                </p>
+                                <p>
+                                    <code>lucene.site.toindex=http://localhost:8080/lutece/servlet/XmlServlet</code>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+                <p>                    
+                    <table>
+                        <tr>
+                            <th>
+                                Renseigner ici les chemins d'accès aux fichiers
+                                application.log, error.log et pool.log
+                            </th>                            
+                        </tr>
+                        <tr>                    
+                            <td>
+                                <p>
+                                    <code># log4j parameters</code>
+                                </p>
+                                <p>
+                                    <code>log4j.rootLogger=WARNING, Error</code>
+                                </p>
+                                <p>
+                                    <code>log4j.appender.Error.File=C:/tomcat/webapps/lutece/WEB-INF/logs/error.log</code>
+                                </p>
+                                <p>
+                                    <code>...</code>
+                                </p>
+                                <p>
+                                    <code>log4j.logger.Application=DEBUG, App</code>
+                                </p>
+                                <p>
+                                    <code>...</code>
+                                </p>
+                                <p>
+                                    <code>log4j.logger.Pool=DEBUG, Pool</code>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+            </subsection>
+            <subsection name="Mise à jour du fichier db.properties">
+                <p>
+                    <table>
+                        <tr>
+                            <th>
+                                <p>     
+                                    Choix du service de connexion : 
+                                </p>
+                                <p>
+                                    <ul>
+                                        <li><strong><code>LuteceConnectionService</code></strong> pour utiliser le pool de connexion de l'application Lutèce</li>
+                                        <li><strong><code>TomcatConnectionService</code></strong> pour utiliser le pool de connexion de Tomcat</li>
+                                    </ul>
+                                </p>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>
+                                    <code>portal.poolservice=fr.paris.lutece.util.pool.service.LuteceConnectionService</code>
+                                </p>
+                                <p>
+                                    <strong>OU</strong>
+                                </p>
+                                <p>
+                                    <code>portal.poolservice=fr.paris.lutece.util.pool.service.TomcatConnectionService</code>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+                <p>
+                    <table>
+                        <tr>
+                            <th>
+                                Renseigner ici le nom du pilote à charger pour la
+                                connection à une base MySQL
+                            </th>                            
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>
+                                    <code>portal.driver=org.gjt.mm.mysql.Driver</code>
+                                </p>
+                            </td>
+                        </tr>    
+                    </table>
+                </p>
+                <p>
+                    <table>
+                        <tr>
+                            <th>
+                                Renseigner <code>portal.url</code> pour indentifier la source des
+                                données JDBC de la base lutece; 
+                                <code>portal.user</code> et <code>portal.password</code> renseignent le code et le
+                                mot de passe pour que l'application se connecte à la base
+                                lutece.
+                            </th>                            
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>
+                                    <code>portal.url=jdbc:mysql://127.0.0.1/lutece?autoReconnect=true</code>
+                                </p>
+                                <p>                              
+                                    <code>portal.user=lutece</code>
+                                </p>
+                                <p>
+                                    <code>portal.password=lutece</code>
+                                </p>
+                            </td>
+                        </tr>        
+                    </table>
+                </p>
+                <p>
+                    <table>
+                        <tr>
+                            <th>
+                                Les différents niveaux possibles (dans l'ordre du moins
+                                au plus verbeux) :
+                                error, info, debug
+                            </th>                    
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>
+                                    <code># Levels of the messages to write in the logs</code>
+                                </p>
+                                <p>
+                                    <code>portal.loglevel=error</code>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+                <p>
+                    <table>
+                        <tr>
+                            <th>
+                                Requête permettant de tester la validité de la connexion
+                                La valeur varie selon la base de données concernée : 
+                                par exemple <code>SELECT 1</code> pour une base de type MySQL, 
+                                <code>SELECT SYSDATE FROM dual</code> pour une base Oracle
+                            </th>                    
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>
+                                    <code>portal.checkvalidconnectionsql=SELECT 1</code>
+                                </p>
+                            </td>
+                        </tr>                        
+                    </table>
+                </p>
+                <p>
+                    <em>Remarque</em> : si vous modifiez un des fichiers
+                    properties, pensez à arrêter tomcat et à le relancer pour que
+                    les nouveaux paramétrages soient pris en compte.
+                </p>
+                <p>
+                    Le fichier webmaster.properties est également à paramétrer. Une
+                    interface permet de le faire simplement depuis le module
+                    d'administration.
+                </p>
+            </subsection>
+            <subsection name="Lancement de l'application">
+                <p>
+                    Pour lancer la webapp Lutece tapez directement l'URL
+                    suivant (le serveur tomcat doit avoir été lancé) :
+                    <strong>http://localhost:8080/lutece</strong>
+                </p>
+            </subsection>
+            <subsection name="Connexion au module d'administration de Lutece">
+                <p>
+                    Pour se connecter au module d'administration, tapez l'url
+                    suivante : <code>http://localhost:8080/lutece/admin/AdminLogin.jsp</code>
+                </p>
+                <p>
+                    Deux comptes sont créés par défaut :
+                </p>
+                <p>
+                    <ul> 
+                        <li>
+                            Login : <code>admin</code> - Mot de passe : <code>admin</code> 
+                            (compte de l'administrateur technique)
+                        </li>
+                        <li>
+                            Login : lutece
+                            Mot de passe : lutece (compte du gestionnaire de contenu)
+                        </li>
+                    </ul>
+                </p>
+            </subsection>
+        </section>
+    </body>
+</document>

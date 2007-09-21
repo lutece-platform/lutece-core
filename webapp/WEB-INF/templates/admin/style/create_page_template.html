@@ -1,0 +1,23 @@
+<div class="content-box" >
+
+    <h2>#i18n{portal.style.create_page_template.boxTitle}</h2>
+			       
+    <form method="post" name="create_page_template" enctype="multipart/form-data" action="jsp/admin/style/DoCreatePageTemplate.jsp">		
+        <p>
+            <label>#i18n{portal.style.create_page_template.labelDescription}</label>
+            <input type="text" name="page_template_description" tabindex="1" size="60" maxlength="50" />
+        </p>		
+        <p>
+            <label>#i18n{portal.style.create_page_template.labelFile}</label>
+            <input type="file" name="page_template_file" size="60" tabindex="2" maxlength="100" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_page_template.labelPicture}</label>
+            <input type="file" name="page_template_picture" size="60" tabindex="2" maxlength="100" />
+        </p>          
+        <p>
+            <input type="submit" value="#i18n{portal.style.create_mode.buttonLabelCreate}" tabindex="10" class="button" />
+           <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
+        </p>
+    </form>
+</div>

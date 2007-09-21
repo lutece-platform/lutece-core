@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <title>
+      Lutèce : Guide de développement : Fonctions d'administration
+    </title>
+   </properties>
+  <body>
+    <section name="Créer des nouvelles fonctionnalités d'administration">
+        <p>
+            Les fonctionnalités d'administration correspondent à l'ensemble
+            des fonctions disponibles dans le module
+            administrateur quelque soit son niveau d'accès : administrateur
+            technique, webmestre ou intervenant local.
+        </p>
+        <p>
+           Pour chaque fonctionnalité correspond un droit qui peut être
+           attribué à un utilisateur. Ce droit est nivelé pour distinguer
+           les différents profils d'utilisateurs. Les valeurs des niveaux
+           de droits sont les suivantes :
+        </p>
+        <p>
+           <ul>
+               <li>0 - Administrateur technique</li>
+               <li>1 - Producteur de contenu</li>
+               <li>2 - Webmestre</li>
+               <li>3 - Intervenant local</li>
+           </ul>
+        </p>
+        <p>
+           Lorsque l'utilisateur est autorisé, la fonctionnalité
+           s'affiche dans son menu d'accueil sous la forme d'un titre et
+           d'une description. En cliquant sur le lien, l'utilisateur
+           accède à la JSP qui est le point d'entrée de la
+           fonctionnalité.
+        </p>
+        <p>
+           Cette JSP porte généralement un nom de type <code>Manage&lt;MyFeature&gt;.jsp.</code>
+        </p>
+        <p>
+            Le code de la JSP doit vérifier que l'utilisateur courant est
+            authorisé, et si c'est le cas elle appelera la méthode du
+            JspBean associé à la fonctionnalité (typiquement
+            MyFeatureJspBean) restituant la page d'accueil de
+            celle-ci.
+        </p>
+        <p>
+           <div class="source">
+        <pre>
+&lt;%@ include file="../PluginAdminHeader.jsp" %&gt;
+
+&lt;jsp:useBean id="myFeature" scope="session" class="fr.paris.lutece.plugins.myplugin.web.MyFeatureJspBean" /&gt;
+&lt;jsp:useBean id="user" scope="session" class="fr.paris.lutece.portal.web.user.UserJspBean" /&gt;
+
+&lt;%
+    if( user.check( "MYFEATURE_MANAGEMENT" ) )
+    {
+%&gt;
+
+&lt;%= myFeature.getManageMyFeature(request) %&gt;
+&lt;%
+     }
+     else
+
+         response.sendRedirect(
+         user.getPluginAccessDeniedUrl() );
+     }
+%&gt;
+&lt;%@ include file="../../AdminFooter.jsp" %&gt; </pre>
+               </div>
+         </p>
+         <p>
+            NB :  La JSP de la fonctionnalité reçoit en paramètre de
+            la requête HTTP le nom du plugin auquel elle est associée
+            (paramètre <b>plugin_name</b>). Ceci permet à deux plugins de
+            partager les mêmes  fonctionnalités dans des contextes
+            différents.
+         </p>
+         
+    <subsection name="Définition d'une fonctionnalité d'administration dans le fichier de configuration d'un plugin">
+        <p>
+           Pour installer une nouvelle fonctionnalité à Lutèce,
+           celle-ci doit être "packagée" dans un plugin. [ <a href=
+           "howto-create-plugins.html">HOWTO - Plugins</a> ].
+        </p>
+        <p>
+           La définition de la fonctionnalité dans le fichier de
+           configuration du plugin se fait par l'ajout des lignes
+           suivantes :
+        </p>
+        <p>
+           <div class="source">
+                <pre>
+&lt;admin-feature&gt;
+   &lt;feature-id&gt;MYFEATURE_MANAGEMENT&lt;/feature-id&gt;
+   &lt;feature-title&gt;My Feature&lt;/feature-title&gt;
+   &lt;feature-description&gt;Description of my feature&lt;/feature-description&gt;
+   &lt;feature-level&gt;3&lt;/feature-level&gt;
+   &lt;feature-url&gt;plugins/myplugin/ManageMyFeature.jsp&lt;/feature-url&gt;
+&lt;/admin-feature&gt;</pre>
+            </div>
+         </p>
+       </subsection>
+    </section>
+  </body>
+</document>

@@ -1,0 +1,37 @@
+<div class="content-box">	
+    
+	<h2>#i18n{portal.style.modify_page_template.boxTitle} ${page_template.description}</h2>
+        
+	<form method="post" enctype="multipart/form-data" action="jsp/admin/style/DoModifyPageTemplate.jsp" name="modify_page_template">
+            <p>
+                <label>#i18n{portal.style.modify_page_template.labelDescription}</label>
+                <input type="text" name="page_template_description" value="${page_template.description}" size="78" maxlength="50" />
+                <input type="hidden" name="page_template_id" value="${page_template.id}" /> 			
+            </p>
+            <p style="padding-left:22%">
+                <strong>#i18n{portal.style.modify_page_template.labelFileTitle}</strong>
+            </p>
+            <p style="padding-left:22%">
+                <em>#i18n{portal.style.modify_page_template.labelCurrentFile}</em> ${page_template.file}
+            </p>
+            <p>
+               <label>#i18n{portal.style.modify_page_template.labelReloadFile}</label>
+                <input class="checkbox" type="checkbox" name="update_file"> 
+                <input type="file" name="page_template_file" size="50" maxlength="100" />
+            </p>
+            <p style="padding-left:22%">
+                <strong>#i18n{portal.style.modify_page_template.labelPictureTitle}</strong>
+            </p>
+            <p style="padding-left:22%">
+                <em>#i18n{portal.style.modify_page_template.labelCurrentPicture}</em> <img src="images/admin/page_templates/${page_template.picture}" align="middle">
+            </p>
+            <p>
+                <label>#i18n{portal.style.modify_page_template.labelReloadPicture}</label>
+                <input class="checkbox" type="checkbox" name="update_image">
+                <input type="file" name="page_template_picture" size="50" maxlength="100" />
+            </p>
+            <p>
+            	<input type="submit" value="#i18n{portal.style.modify_mode.buttonLabelValidate}" tabindex="9" class="button" />
+            </p>							 
+	</form>				      	
+</div>

@@ -1,0 +1,21 @@
+<div class="content-box" >
+    <h2>#i18n{portal.mailinglist.add_users.title}</h2>
+    
+    <form method="post"  action="jsp/admin/mailinglist/DoAddUsers.jsp">
+        <input type="hidden" name="id_mailinglist" value="${mailinglist.id}" />
+        
+        <p>
+            <label for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelWorkgroup}* : </label>
+            <@combo name="workgroup" default_value="all" items=workgroups_list />
+        </p>
+        <p>
+            <label for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelRole}* : </label>
+            <@combo name="role" default_value="none" items=roles_list />
+        </p>
+        <p>
+            <input class="button" type="submit" value="#i18n{portal.mailinglist.add_users.buttonAdd}" />
+            <input class="button" type="button" value="#i18n{portal.util.labelCancel}" onClick="javascript:history.go(-1);" />
+        </p>
+    </form>
+    
+</div>

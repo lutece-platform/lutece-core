@@ -1,0 +1,22 @@
+  <!-- main calendar program -->
+  <script type="text/javascript" src="js/jscalendar/calendar.js"></script>
+
+  <!-- language for the calendar -->
+  <script type="text/javascript" src="js/jscalendar/lang/calendar-${locale}.js"></script>
+
+  <!-- the following script defines the Calendar.setup helper function, which makes
+       adding a calendar a matter of 1 or 2 lines of code. -->
+  <script type="text/javascript" src="js/jscalendar/calendar-setup.js"></script>
+
+<#macro setupCalendar field button>
+<script type="text/javascript">
+    Calendar.setup({
+    inputField     :    "${field}",      // id of the input field
+    ifFormat       :    "%d/%m/%Y",       // format of the input field
+    showsTime      :    false,            // will display a time selector
+    button         :    "${button}",   // trigger for the calendar (button ID)
+    singleClick    :    true,           // double-click mode
+    step           :    1                // show all years in drop-down boxes (instead of every other year as default)
+    });
+</script>
+</#macro>

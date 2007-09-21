@@ -1,0 +1,77 @@
+<div id="left">
+    <div class="content-box" >
+        <h2>#i18n{portal.users.modify_user.titleUser}</h2>
+        <table>
+            <tr>
+                <th>
+                    #i18n{portal.users.modify_user.labelLastName} - #i18n{portal.users.modify_user.labelFirstName}
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    ${user.lastName} ${user.firstName}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    #i18n{portal.users.modify_user.labelAccessCode}                
+                </th>
+            </tr>
+            <td>
+                <#assign userCode = user.accessCode>
+                <#if userCode?length <= 20 >
+	                 ${userCode?right_pad(20, " ")}
+	         <#else>
+	                 ${userCode[0..17]}...
+	         </#if>
+            </td>
+            </tr>            
+            <tr>
+                <th>
+                    #i18n{portal.users.modify_user.actions}
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >
+                        <img src="images/admin/skin/actions/user.png" alt="#i18n{portal.users.actions.labelUser}" title="#i18n{portal.users.actions.labelUser}" />
+                    </a>
+                    <a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}" >
+                        <img src="images/admin/skin/actions/rbac.png" alt="#i18n{portal.users.actions.labelRoles}" title="#i18n{portal.users.actions.labelRoles}" />
+                    </a>
+                    <a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}" >
+    	                <img src="images/admin/skin/actions/group.png" alt="#i18n{portal.users.actions.labelWorkgroups}" title="#i18n{portal.users.actions.labelWorkgroups}" />
+	                </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="right">
+    <form method="post"  action="jsp/admin/user/DoModifyUserRights.jsp" >    
+    	<input type="hidden" name="delegate_rights" value="${can_delegate}" />
+        <div class="content-box">    
+            <h2>#i18n{portal.users.modify_user_rights.titleRightModificationForm}</h2>
+            <#list all_right_list?sort_by('name') as right>
+            <p>
+                <#assign checked = "" >
+                <#list user_right_list as user_right>
+				 	
+                <#if user_right.id = right.id >
+                <#assign checked >checked="checked"</#assign>
+                <#break>
+                </#if>
+				 	
+                </#list>
+				
+                <input class="checkbox" type="checkbox" name="right" value="${right.id}" ${checked} />
+                <strong>${right.name}</strong> (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level} ) - ${right.description}	
+            </p>
+            </#list>        
+            <p>
+                <input type="hidden" name="id_user" value="${user.userId}" />
+                <input type="submit"  value="#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}"  class="button" />
+            </p>        
+        </div>
+    </form>
+</div>

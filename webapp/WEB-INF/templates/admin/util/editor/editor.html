@@ -1,0 +1,18 @@
+<!-- XINHA -->
+<script type="text/javascript">
+        _site = "${webapp_url}"
+	      _editor_url  = "${webapp_url}js/editors/xinha/"
+        _editor_lang  = "${locale}"     // And the language we need to use in the editor.
+</script>
+
+<script type="text/javascript" src="${webapp_url}js/editors/xinha/htmlarea.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${webapp_url}js/editors/xinha/lutece_document.conf"></script>
+  
+<#macro initEditor>
+<!-- XINHA -->
+<script type="text/javascript">
+    window.onload = xinha_init();
+</script>
+</script>
+
+</#macro>

@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+    <properties>
+        <title>
+            Lutèce : Guide de développement : exemple de code : l'application Hello World
+        </title>
+    </properties>
+    <body>
+        <section name="Exemple de code : le Plugin HelloWorld">
+        <subsection name="Première implémentation">    
+            <p>
+                Voici comment réaliser le plugin le plus simple. L'objet de celui-ci est
+                d'afficher le texte "Hello, world!". Nous allons utiliser pour cela une 
+                XPageApplication. Le nom du plugin sera <strong>helloworld</strong>
+                et celui de la classe d'implémentation de l'application sera 
+                <code>HelloWorldApp</code>. En respectant les règles de nommage et de structure
+                des plugins, la classe sera créée dans le package 
+                <code>fr.paris.lutece.plugins.helloworld.web</code>.
+            </p>
+            <p>
+                Voici l'implémentation la plus simple de cette classe 
+            </p>
+            <p>
+                <div class="source">
+                    <pre>
+package fr.paris.lutece.plugins.helloworld.web;
+
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.web.xpages.XPage;
+import fr.paris.lutece.portal.web.xpages.XPageApplication;
+
+import javax.servlet.http.HttpServletRequest;
+
+public class HelloWorldApp implements XPageApplication
+{
+    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
+    {
+        XPage page = new XPage(  );
+        page.setContent( "Hello, World!" );
+        page.setTitle( "Hello, World!" );
+        page.setPathLabel( "Hello, World!" );
+        return page;
+    }
+}                       
+                    </pre>
+                </div>
+            </p>
+            <p>
+                Dans cette première implémentation, nous créons notre page en
+                instanciant un nouvel objet XPage pour lequel nous définissons 
+                les attributs suivants :
+            </p>
+            <p>
+                <table>
+                    <tr>
+                        <th>Attribut</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>content</td>
+                        <td>
+                            Le contenu de la page
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>
+                            Le titre de la page (s'affiche dans la barre de titre
+                            du navigateur)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>pathLabel</td>
+                        <td>
+                            Le nom de la page dans le fil d'ariane du portail
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>keywords</td>
+                        <td>
+                            Les mots clés à mettre dans les balises <em>meta</em>
+                            de la page HTML
+                        </td>
+                    </tr>
+                </table>
+            </p>
+            <p>
+                Cette implémentation illustre le fonctionnement de base d'une 
+                application XPage, néanmoins elle ne respecte pas certaines
+                règles élémentaires de développement qui veulent que des éléments
+                variables tels que des libellés ou du code HTML ne soient pas écrits "en dur"
+                dans le code Java. Pour corriger cela, nous allons réaliser une
+                nouvelle implémentation utilisant certains services de base de 
+                Lutèce.
+            </p>
+        </subsection>    
+        <subsection name="Packager le plugin">
+            <p>
+                Pour réaliser un plugin opérationnel, il faut à présent créer son 
+                fichier de déploiement. Celui doit être créé dans le répertoire
+                <code>WEB-INF/plugins</code> et s'appelera <code>helloworld.xml</code>.
+            </p>
+            <p>
+                Voici le contenu du fichier :
+            </p>
+            <p>
+                <div class="source">
+                    <pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+
+&lt;plug-in&gt;
+
+   &lt;!-- Plugin Informations --&gt;
+   &lt;name&gt;helloworld&lt;/name&gt;
+   &lt;class&gt;fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation&lt;/class&gt;
+   &lt;version&gt;1.4&lt;/version&gt;
+   &lt;documentation&gt;&lt;/documentation&gt;
+   &lt;installation&gt;&lt;/installation&gt;
+   &lt;changes&gt;&lt;/changes&gt;
+   &lt;user-guide&gt;&lt;/user-guide&gt;
+   &lt;description&gt;Exemple d'application&lt;/description&gt;
+   &lt;provider&gt;Mairie de Paris&lt;/provider&gt;
+   &lt;provider-url&gt;http://lutece.paris.fr&lt;/provider-url&gt;
+   &lt;icon-url&gt;images/admin/skin/plugins/helloworld/helloworld.png&lt;/icon-url&gt;
+   &lt;copyright&gt;Copyright 2001-2006 Mairie de Paris&lt;/copyright&gt;
+   &lt;db-pool-required&gt;0&lt;/db-pool-required&gt;
+
+   &lt;!-- Xpage configuration --&gt;
+   &lt;applications&gt;
+      &lt;application&gt;
+	 &lt;application-id&gt;helloworld&lt;/application-id&gt;
+	 &lt;application-class&gt;fr.paris.lutece.plugins.helloworld.web.HelloWorldApp&lt;/application-class&gt;
+      &lt;/application&gt;
+   &lt;applications&gt;
+
+
+&lt;/plug-in&gt;
+                        
+                    </pre>
+                </div>
+            </p>
+            <p>
+                Il faut également créer une icône pour l'application et l'enregistrer
+                dans le répertoire <code>images/admin/skin/plugins/helloworld</code>.
+            </p>
+            <p>
+                Voici l'icône de notre application <img src="images/helloworld.png" />
+            </p>
+        </subsection>
+        <subsection name="Deuxième implémentation">
+            <p>
+                Cette deuxième implémentation va déporter le code HTML du contenu
+                de la page dans un fichier template et les libellés du title et du PathLabel
+                dans le fichier de propriété du plugin.
+            </p>
+            <p>
+                <div class="source">
+                    <pre>
+package fr.paris.lutece.plugins.helloworld.web;
+
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.util.AppPropertiesService;
+import fr.paris.lutece.portal.util.AppTemplateService;
+import fr.paris.lutece.portal.web.xpages.XPage;
+import fr.paris.lutece.portal.web.xpages.XPageApplication;
+import fr.paris.lutece.util.html.HtmlTemplate;
+
+import javax.servlet.http.HttpServletRequest;
+
+public class HelloWorldApp2 implements XPageApplication
+{
+    private static final String TEMPLATE_HELLO_WORLD = "site/plugins/helloworld/helloworld.html";
+    private static final String PROPERTY_PAGE_TITLE = "helloworld.pageTitle";
+    private static final String PROPERTY_PAGE_PATH_LABEL = "helloworld.pagePathLabel";
+    
+    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
+    {
+        XPage page = new XPage(  );
+        
+        HtmlTemplate template = <strong>AppTemplateService.getTemplate</strong>( TEMPLATE_HELLO_WORLD );
+        String strPageTitle = <strong>AppPropertiesService.getProperty</strong>( PROPERTY_PAGE_TITLE );
+        String strPagePathLabel = <strong>AppPropertiesService.getProperty</strong>( PROPERTY_PAGE_PATH_LABEL );
+
+        page.setContent( template.getHtml() );
+        page.setTitle( strPageTitle );
+        page.setPathLabel( strPagePathLabel );
+        
+        return page;
+    }
+}                  </pre>
+                </div>
+            </p>
+            <p>
+                cette implémentation nécessite la création d'un fichier HTML
+                <code>helloworld.html</code> dans le répertoire 
+                <code>WEB-INF/templates/skin/plugins/helloworld</code>
+            </p>
+            <p>
+                Voici le contenu de fichier :
+            </p>
+            <p>
+                <div class="source">
+                    <pre>
+&lt;center&gt;
+    &lt;h1&gt;
+        Hello, World!
+    &lt;/h1&gt;
+&lt;/center&gt;                        
+                    </pre>
+                </div>
+            </p>
+            <p>
+                Il faut également créer un fichier <code>helloworld.properties</code>
+                dans le répertoire <code>WEB-INF/conf/plugins</code>.
+            </p>
+            <p>
+                Voici le contenu de ce fichier :
+            </p>
+            <p>
+                <div class="source">
+                    <pre>
+# fichier de configuration du plugin helloworld
+
+helloworld.pageTitle=Application Hello World
+helloworld.pagePathLabel=Hello World
+                    </pre>
+                </div>
+            </p>
+        </subsection>
+        <subsection name="Troisième implémentation (multilingue)">
+            <p>
+                Voici une dernière implémentation qui permettrait de proposer
+                facilement l'application en plusieurs langues. Pour cela, Lutece
+                utilise les fonctions d'internationalisation de Java à travers
+                le service <code>I18nService</code>.
+            </p>
+            <p>
+                Pour gérer les resources en plusieurs langues il faut créer, dans
+                le package <code>fr.paris.lutece.plugins.helloworld.resources</code>,
+                les fichiers properties correspondants à chaque localisation.
+            </p>
+            <p>
+                <ul>
+                    <li><code>helloworld_messages.properties</code> - langage par défaut</li>
+                    <li><code>helloworld_messages_fr.properties</code> - français</li>
+                    <li><code>helloworld_messages_fr_FR.properties</code> - français (France)</li>
+                    <li><code>helloworld_messages_fr_CA.properties</code> - français (Canada)</li>
+                    <li><code>helloworld_messages_en_US.properties</code> - anglais (Etats-Unis)</li>
+                    <li><code>...</code></li>
+                </ul>
+            </p>
+            <p>
+                Voici le contenu du fichier <code>helloworld_messages_fr.properties</code> :
+                <div class="source">
+                    <pre>
+# fichier de ressources du plugin helloworld en français
+
+content=Bonjour le Monde !
+pageTitle=Application Bonjour le Monde 
+pagePathLabel=Bonjour le Monde 
+                    </pre>
+                </div>
+            NB : Le fichier de configuration <code>helloworld.properties</code> ne 
+            sera plus nécessaire dans cet exemple.
+            </p>
+            <p>
+                Voici le nouveau contenu du fichier  <code>heloworld.html</code> : 
+            </p>
+            <p>
+                <div class="source">
+                    <pre>
+&lt;center&gt;
+    &lt;h1&gt;
+        #i18n{helloworld.content}
+    &lt;/h1&gt;
+&lt;/center&gt;                        
+                    </pre>
+                </div>
+            </p>
+            <p>
+                Enfin l'implémentation de l'application sera modifiée comme suit :
+            </p>
+            <p>
+                <div class="source">
+                    <pre>
+package fr.paris.lutece.plugins.helloworld.web;
+
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.util.AppPropertiesService;
+import fr.paris.lutece.portal.util.AppTemplateService;
+import fr.paris.lutece.portal.web.xpages.XPage;
+import fr.paris.lutece.portal.web.xpages.XPageApplication;
+import fr.paris.lutece.util.html.HtmlTemplate;
+
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+
+public class HelloWorldApp3 implements XPageApplication
+{
+    private static final String TEMPLATE_HELLO_WORLD = "site/plugins/helloworld/helloworld.html";
+    private static final String PROPERTY_PAGE_TITLE = "helloworld.pageTitle";
+    private static final String PROPERTY_PAGE_PATH_LABEL = "helloworld.pagePathLabel";
+    
+    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
+    {
+        XPage page = new XPage(  );
+        
+        Locale locale = request.getLocale();
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_HELLO_WORLD , locale );
+        String strPageTitle = I18nService.getLocalizedString( PROPERTY_PAGE_TITLE , locale );
+        String strPagePathLabel = I18nService.getLocalizedString( PROPERTY_PAGE_PATH_LABEL , locale );
+
+        page.setContent( template.getHtml() );
+        page.setTitle( strPageTitle );
+        page.setPathLabel( strPagePathLabel );
+        
+        return page;
+    }
+}                    </pre>
+                </div>
+            </p>
+        </subsection>
+        </section>
+    </body>
+</document>

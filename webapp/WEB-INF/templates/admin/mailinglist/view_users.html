@@ -1,0 +1,22 @@
+<div class="content-box" >
+    
+    <h2>#i18n{portal.mailinglist.view_users.boxTitle}</h2>
+    
+    <table>
+        <tr>
+            <th >#i18n{portal.mailinglist.view_users.columnTitleName}</th>
+            <th >#i18n{portal.mailinglist.view_users.columnTitleEmail}</th>
+        </tr>
+        <#list recipients_list as recipient>
+        <tr>
+            <td>${recipient.name}</td>
+            <td>${recipient.email}</td>
+        </tr>
+        </#list>
+    </table>
+    <p>
+        <input class="button" type="button" value="#i18n{portal.util.labelBack}" onClick="javascript:history.go(-1);" />
+    </p>
+    
+</div>
+

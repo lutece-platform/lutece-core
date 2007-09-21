@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+      <properties>
+          <title>
+              Lutèce : Introduction
+          </title>
+      </properties>
+      <body>
+          <section name="Bienvenue sur le projet Lutece">
+              <p>
+                  Lutece est un moteur de portail qui vous permet de créer rapidement un site internet ou intranet dynamique basé sur du contenu HTML, XML...
+              </p>
+              <p>
+                  Ce logiciel Open Source est écrit en Java et est basé sur les projets de l'Apache Software Foundation (Jakarta et projets XML).
+              </p>
+              <p>
+                  Lutece fournit une interface d'administration très simple qui peut être utilisée par des utilisateurs qui n'ont pas de compétences techniques particulières.
+                  Lutece est gratuit, distribué sous une licence équivalente à la licence BSD.
+              </p>
+          </section>
+		  <section name="Informations sur le projet">
+			<p>
+				<a href="project-summary.html">Résumé du projet</a> : informations sur le projet
+			</p>	
+			<p>
+				<a href="http://dev.lutece.paris.fr/jira/browse/LUTECE" target="_blank">Gestion des anomalies</a> : accès au système de contrôle des livraisons pour ce projet. Des entrées (bogues, dispositifs, demandes de changement) peuvent être créées et consultées en utilisant ce lien.
+			</p>	
+			<p>
+				<a href="http://dev.lutece.paris.fr/viewvc/trunk/core/" target="_blank">Dépôt de sources</a> : accès au dépôt de sources en ligne via un navigateur web.
+			</p>
+			<p>
+				<a href="dependencies.html">Dépendences</a> : liste des dépendances du projets, informations complémentaires.
+			</p>
+			<p>
+				<a href="license.html">Licence</a> : licence du projet.
+			</p>
+		  </section>
+      </body>
+  </document>
+          

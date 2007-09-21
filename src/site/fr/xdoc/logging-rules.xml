@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+   <properties>
+    <title>
+      Lutèce : Normes de développement : Règles de logging et de gestion des exceptions
+    </title>
+   </properties>
+  <body>
+      <section name="Règles de logging">
+          <subsection name="Les logs de Lutèce">
+          <div>
+              Lutèce dispose de plusieurs fichiers de logs :
+              <ul>
+                  <li>
+                      <code>application.log</code> contient les principaux événements
+                      de l'application : chargement des services, des plugins, etc
+                  </li>
+                  <li>
+                      <code>error.log</code> contient tous les faits anormaux.
+                  </li>
+              </ul>
+          </div>
+          </subsection>
+      </section>
+      
+      <section name="Gestion des exceptions">
+        
+          <p>
+             Toute exception doit être consignée dans un fichier log.
+          </p>
+          <p>
+             Les blocs <b>catch</b> ne doivent jamais être vide ou faire appel à <code>e.printStackTrace()</code>
+          </p>
+          
+          <subsection name="Exceptions non critiques">
+              <p>
+                 Les exceptions ne nécessitant pas l'arrêt du traitement en cours doivent être loguées de la manière suivante
+              </p>
+              <p>
+                 <div class="source">
+                 <pre>
+catch( Exception e )
+{
+    AppLogService.error( e.getMessage() , e );
+}         </pre>
+                </div>
+                </p>
+            </subsection>
+            
+            <subsection name="Exceptions critiques">
+                <p>
+                   Les exceptions nécessitant l'arrêt du traitement (exemples : erreur SQL, problème
+                   d'accès fichier, ...) doivent lever une exception dérivée de <code>LuteceException</code>
+                   (<code>PhysicalException</code> , <code>ClientException</code>...). La classe <code>LuteceException</code>
+                   réalise elle-même l'écriture dans les logs.
+                   Le traitement du bloc <b>catch</b> sera alors réalisé de la manière suivante :
+                </p>
+                <p>
+                   <div class="source">
+          <pre>
+catch( Exception e )
+{
+    throw new AppException( e.getMessage() , e );
+}         </pre>
+                   </div>
+               </p>    
+           </subsection>
+           
+           <subsection name="Exceptions applicatives">
+               <p>
+                  Les exceptions applicatives, telles que <code>UserActionException</code>, sont les seules qui ne nécessitent pas d'être
+                  loguées car elles correspondent à un cas normal d'exécution de l'application.
+               </p>
+           </subsection>
+      </section>
+  </body>
+  </document>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>
+            Lutèce : Guide de développement : Internationalisation (i18n)
+        </title>
+    </properties>
+    <body>
+        <section name="Internationalisation (i18n)">
+            <subsection name="Principes de localisation des ressources">
+                <p>
+                    Le mécanisme de localisation des libellés et des messages s'appuie 
+                    sur les recommendations et
+                    les outils proposés par l'API Java. Les fichiers contenant les
+                    resources textes localisées sont des fichiers "properties" ayant 
+                    un suffix précisant la langue et éventuellement le pays.
+                    La lecture des fichiers est réalisée par la classe <code>ResourceBundle</code>
+                    qui choisira en fonction de la <em>locale</em> (variable représentant
+                    une localisation basée sur une langue et un pays) parmi les fichiers suivants
+                    par exemple :
+                </p>
+            <p>
+                <ul>
+                    <li><code>myplugin_messages.properties</code> - langage par défaut</li>
+                    <li><code>myplugin_messages_fr.properties</code> - français</li>
+                    <li><code>myplugin_messages_fr_FR.properties</code> - français (France)</li>
+                    <li><code>myplugin_messages_fr_CA.properties</code> - français (Canada)</li>
+                    <li><code>myplugin_messages_en_US.properties</code> - anglais (Etats-Unis)</li>
+                    <li><code>...</code></li>
+                </ul>
+            </p>
+            </subsection>
+            <subsection name="Règles concernant les fichiers" >
+                Afin que Lutece puisse déterminer dans quel fichier rechercher une clé, 
+                le nom et l'emplacement des fichiers de ressources sont soumis aux règles suivantes selon
+                le type de composant (élément du noyau, plugin ou module d'un plugin):
+                
+                <h4>Sous-système du noyau</h4>
+                <table>
+                    <tr>
+                        <td>Nom du fichiers</td>
+                        <td><em>&lt;sous-systeme&gt;</em>_messages.properties</td>
+                    </tr>
+                    <tr>
+                        <td>Emplacement du fichier</td>
+                        <td>fr.paris.lutece.portal.resources</td>
+                    </tr>
+                    <tr>
+                        <td>Construction de la clé</td>
+                        <td>portal.<em>&lt;sous-systeme&gt;</em>.<em>&lt;key&gt;</em></td>
+                    </tr>
+                </table>
+                
+                <h4>Plugin</h4>
+                <table>
+                    <tr>
+                        <td>Nom du fichiers</td>
+                        <td><em>&lt;plugin&gt;</em>_messages.properties</td>
+                    </tr>
+                    <tr>
+                        <td>Emplacement du fichier</td>
+                        <td>fr.paris.lutece.portal.<em>&lt;plugin&gt;</em>.resources</td>
+                    </tr>
+                    <tr>
+                        <td>Construction de la clé</td>
+                        <td><em>&lt;plugin&gt;</em>.<em>&lt;key&gt;</em></td>
+                    </tr>
+                </table>
+                
+                <h4>Module d'un Plugin</h4>
+                <table>
+                    <tr>
+                        <td>Nom du fichiers</td>
+                        <td><em>&lt;module&gt;</em>_messages.properties</td>
+                    </tr>
+                    <tr>
+                        <td>Emplacement du fichier</td>
+                        <td>fr.paris.lutece.portal.<em>&lt;plugin&gt;</em>.modules.<em>&lt;module&gt;</em>.resources</td>
+                    </tr>
+                    <tr>
+                        <td>Construction de la clé</td>
+                        <td>module.<em>&lt;plugin&gt;</em>.<em>&lt;module&gt;</em>.<em>&lt;key&gt;</em></td>
+                    </tr>
+                </table>
+            </subsection>
+            <subsection name="Localisation des templates" >
+                <p>
+                    Les templates sont automatiquement localisés au moment de leur chargement par
+                    la methode <code>AppTemplateService.getTemplate( ... , Locale locale , ... )</code>.
+                    Les clés à localiser sont indiquées par le préfix <code><strong>#i18n</strong></code>
+                    suivi de la clé entourée de parenthèses.
+                </p>
+                <p>
+                    La structure des clés est la suivante :
+                <table>
+                    <tr>
+                        <th>Prefix de localisation du bundle</th>
+                        <th>Nom du template</th>
+                        <th>Nom de libellé (label, titre, bouton) </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            portal.<em>&lt;sous-systeme&gt;</em>. <br />
+                            <em>&lt;plugin&gt;</em> <br />
+                            module.<em>&lt;plugin&gt;</em>.<em>&lt;module&gt;</em>. 
+                        </td>
+                        <td>
+                            manage_myobjects<br />
+                            create_myobject
+                        </td>
+                        <td>
+                            titleObjectList<br />
+                            labelName<br />
+                            buttonCreate
+                        </td>
+                    </tr>
+                </table>
+                    
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+&lt;h2&gt;#i18n{document.create_document.title} « ${document_type} »&lt;/h2&gt;
+&lt;div class="highlight-box"&gt;
+    &lt;p&gt;
+         &lt;label for="document_title"&gt;<strong>#i18n{document.create_document.labelDocumentTitle}</strong>* : &lt;/label&gt;
+         &lt;input type="text" name="document_title" size="80" maxlength="255"/&gt; 
+         <strong>#i18n{document.create_document.helpDocumentTitle}</strong>
+    &lt;/p&gt;
+ ...                      </pre>
+                    </div>
+                </p>
+            </subsection>
+            
+            <subsection name="Localisation dans le code Java" >
+                <p>
+                    Dans le code Java, il faut recourir au service <code>I18nService</code> pour
+                    localiser une clé en fonction de la locale courante. NB : Les valeurs des clés
+                    doivent être déclarées dans des constantes comme dans l'exemple ci-dessous.
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+private static final PROPERTY_MESSAGE_MYMESSAGE = "myplugin.myMessage";
+
+...
+    String strLocalizedMessage = I18nService.getLocalizedString ( PROPERTY_MESSAGE_MYMESSAGE , locale );
+...
+                        </pre>
+                    </div>
+                </p>
+            </subsection>
+            
+        </section>
+    </body>
+</document>

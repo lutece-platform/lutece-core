@@ -1,0 +1,86 @@
+
+<div class="content-box" >
+
+	<h2>#i18n{portal.rbac.view_role_description.titleRoleDescription}</h2>
+
+	<p><strong>#i18n{portal.rbac.view_role_description.labelKey} :</strong> ${role.key}</p>
+	<p><strong>#i18n{portal.rbac.view_role_description.labelDescription} :</strong> ${role.description}</p>
+
+	<form method="post"  action="jsp/admin/rbac/ModifyRole.jsp">
+	    <p>
+	    	<input type="hidden" name="role_key" value="${role.key}" />
+			<input type="submit" value="#i18n{portal.rbac.view_role_description.buttonLabelModify}" class="button" />
+		    <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
+		</p>
+	</form>
+
+</div>
+
+
+<div class="content-box" >
+
+	<h2>#i18n{portal.rbac.view_role_description.titleControlsList} "${role.key}" </h2>
+
+				<table>
+					<tr>
+						<th>#i18n{portal.rbac.view_role_description.columnTitleResourceType}</th>
+						<th>#i18n{portal.rbac.view_role_description.columnTitleResourceId}</th>
+						<th>#i18n{portal.rbac.view_role_description.columnTitlePermission}</th>
+						<th>#i18n{portal.rbac.view_role_description.columnTitleDeleteControl}</th>
+					</tr>
+				<#assign previousResourceTypeKey = "" >
+				<#list controled_resource_list as controled_resource >
+
+		          		<#if controled_resource.resourceTypeKey != previousResourceTypeKey >
+							<tr>
+								<td colspan="4">&nbsp;</td>
+							</tr>
+						</#if>
+
+		          		<tr>
+
+		          		<#if controled_resource.resourceTypeKey != previousResourceTypeKey >
+							<td>${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</td>
+						<#else>
+							<td>&nbsp;</td>
+						</#if>
+
+							<!--<td>${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</td>-->
+
+							<td>${controled_resource.resourceIdLabel} (${controled_resource.resourceId})</td>
+							<td>
+									${controled_resource.permissionLabel} (${controled_resource.permissionKey})
+							</td>
+							<td>
+								<form method="post"  action="jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp">
+									<input type="hidden" name="rbac_id" value="${controled_resource.RBACId}" />
+									<input type="submit" value="#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}" class="button" />
+								</form>
+							</td>
+						</tr>
+
+						<#assign previousResourceTypeKey = controled_resource.resourceTypeKey >
+
+				 </#list>
+				 </table>
+
+
+
+					<form method="post"  action="jsp/admin/rbac/AddControlToRole.jsp">
+					    <p>
+						    <select name="resource_type" >
+						    	<!--<option value =""></option>-->
+						         <#list resource_type_list as resource_type >
+						          	<option value ="${resource_type.resourceTypeKey}">${resource_type.resourceTypeLabel}</option>
+								 </#list>
+							</select>
+							<input type="hidden" name="role_key" value="${role.key}" />
+							<input type="submit" value="#i18n{portal.rbac.view_role_description.buttonLabelAddControl}" class="button" />
+						</p>
+					</form>
+
+
+</div>
+
+
+

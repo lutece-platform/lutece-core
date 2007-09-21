@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+      <properties>
+          <title>
+              Lutèce : Lisez moi
+          </title>
+      </properties>
+        <body>
+                <section name="Lisez moi">
+                    <subsection name="Configuration requise">
+                        <p> 
+                              Lutece a été développé selon les spécifications J2EE concernant les web applications.
+                              La configuration suivante est requise pour exécuter Lutece :
+                        </p>
+                        <p>
+                        <ul>
+                              <li>Une machine virtuelle Java 1.4.2 ou supérieure fonctionnant sur votre système d'exploitation. </li>
+                              <li>Un moteur de servlet compatible avec l'API 2.2. (Par défaut Tomcat est préconisé). </li>
+                              <li>Une base de données relationnelle (La configuration par défaut est MySQL v3.23.xx). </li>
+                        </ul>
+                        </p>
+                    </subsection>
+                    <subsection name="Installation">
+                        <p> 
+                              Pour installer Lutece, reportez-vous aux instructions suivantes ( Windows et Linux ):
+                        </p>
+                        <p>
+                        <ul>
+                              <li><a href="installation.html">Installer Lutece </a></li>
+                        </ul>
+                        </p>
+                        <p>
+                            <strong>Licence et informations légales</strong>
+                        </p>    
+                        <p>
+                        <ul>
+                              <li><a href="license-lutece.html">Licence de Lutece </a></li>
+                              <li><a href="dependencies.html">Informations légales concernant les bibliothèques de code utilisées par Lutece </a></li>
+                        </ul>
+                        </p>
+                    </subsection>
+                </section>
+        </body>
+  </document>
+
+      

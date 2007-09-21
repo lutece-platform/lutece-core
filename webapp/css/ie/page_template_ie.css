@@ -1,0 +1,40 @@
+/******************************************************************************/
+/*                     STYLES DU MODULE ADMINISTRATION           pour IE         */
+/******************************************************************************/
+
+
+ul#menu ul li
+{
+    display:inline;
+}
+
+ul#menu ul li a span
+{
+    width:156px;
+	cursor:hand; /* for IE5.5*/
+}
+
+ul#menu-verti, ul#menu-verti ul
+{
+    width:150px;
+}
+
+ul#menu-verti li
+{
+    display:inline;
+}
+
+#searchbutton 
+{
+	cursor:hand; /* for IE5.5*/
+}
+
+div.admin-buttons input 
+{
+    cursor: hand; /* for IE5.5*/
+}
+
+input.site-buttons 
+{
+    cursor: hand; /* for IE5.5*/
+}

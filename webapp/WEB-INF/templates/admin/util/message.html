@@ -1,0 +1,41 @@
+<div id="message-box">
+
+	<div class="content-box">
+	    <#if message.type = 0 >
+	    <img src="images/admin/skin/messages/info.png" class="icon" alt="" />
+	    <#elseif message.type = 1 >
+	    <img src="images/admin/skin/messages/question.png" class="icon" alt="" />
+	    <#elseif message.type = 2 >
+	    <img src="images/admin/skin/messages/error.png" class="icon" alt="" />
+	    <#elseif message.type = 3 >
+	    <img src="images/admin/skin/messages/warning.png" class="icon" alt="" />
+	    <#elseif message.type = 4 >
+	    <img src="images/admin/skin/messages/confirmation.png" class="icon" alt="" />
+	    <#elseif message.type = 5 >
+	    <img src="images/admin/skin/messages/stop.png" class="icon" alt="" />
+	    </#if>
+	    <h2>${title}</h2>
+	    <p>
+	        ${text}
+	    </p>
+	    
+		<#if url?has_content>
+	     <form method="post" action="${url}"  target="${target}">
+	     <#if list_parameters?exists>
+	     <#assign keys = list_parameters?keys>
+		 <#list keys as key>
+	     	<input type="hidden" name="${key}" value="${list_parameters[key]}" />
+	     </#list>
+	     </#if>
+	     <p>
+			<input class="button" type="submit" value="#i18n{portal.admin.message.buttonValidate}" />
+		    <#if message.cancel >
+		      	<input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
+		     </#if>
+	      </p>
+	      </form>
+	      </#if>
+
+	</div>
+
+</div>

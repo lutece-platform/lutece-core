@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>
+            Lutece : Plugins disponibles
+        </title>
+    </properties>
+    <body>
+        <section name="Plugins disponibles">
+            <p>
+                L'architecture de Lutèce est modulaire. L'essentiel des fonctionnalités de l'application provient des plugins disponibles ci-dessous :
+            </p>  
+            <p>			  
+                <table>
+                    <tr>
+                        <th>Plugin</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-adminauthenticationdatabase/fr/">adminauthenticationdatabase</a></td>
+                        <td>Plugin Adminauthenticationdatabase</td>
+                    </tr>		
+                    <tr>
+                        <td><a href="/plugins/plugin-adminquery/fr/">adminquery</a></td>
+                        <td>Plugin Adminquery</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="/plugins/plugin-calendar/fr/">calendar</a></td>
+                        <td>Plugin Calendar</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/plugin-childpages/fr/">childpages</a></td>
+                        <td>Plugin Childpages</td>
+                    </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-codewizard/fr/">codewizard</a></td>
+                        <td>Plugin Codewizard</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="/plugins/plugin-contact/fr/">contact</a></td>
+                        <td>Plugin Contact</td>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-dbpage/fr/">dbpage</a></td>
+                        <td>Plugin DbPage</td>
+                    </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-document/fr/">document</a></td>
+                        <td>Plugin Document</td>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-formengine/fr/">formengine</a></td>
+                        <td>Plugin Formengine</td>
+                    </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-folderlisting/fr/">folderlisting</a></td>
+                        <td>Plugin Folderlisting</td>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-html/fr/">html</a></td>
+                        <td>Plugin Html</td>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-jsr170/fr/">jsr170</a></td>
+                        <td>Plugin Jsr170</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/plugin-library/fr/">library</a></td>
+                        <td>Plugin Library</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="/plugins/plugin-linkpages/fr/">linkpages</a></td>
+                        <td>Plugin Linkpages</td>
+                    </tr>											
+                    <tr>
+                        <td><a href="/plugins/plugin-links/fr/">links</a></td>
+                        <td>Plugin Links</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/plugin-myapps/fr/">myapps</a></td>
+                        <td>Plugin Myapps</td>
+                    </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-mylutece/fr/">mylutece</a></td>
+                        <td>Plugin Mylutece</td>
+                    </tr>							
+                    <tr>
+                        <td><a href="/plugins/plugin-newsletter/fr/">newsletter</a></td>
+                        <td>Plugin Newsletter</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="/plugins/plugin-pagelinkservice/fr/">pagelinkservice</a></td>
+                        <td>Plugin Pagelinkservice</td>
+                    </tr>							
+                    <tr>
+                        <td><a href="/plugins/plugin-poll/fr/">poll</a></td>
+                        <td>Plugin Poll</td>
+                    </tr>		
+                    <tr>
+                        <td><a href="/plugins/plugin-rss/fr/">rss</a></td>
+                        <td>Plugin RSS</td>
+                    </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-systeminfo/fr/">systeminfo</a></td>
+                        <td>Plugin SystemInfo</td>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-upload/fr/">upload</a></td>
+                        <td>Plugin Upload</td>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-whatsnew/fr/">whatsnew</a></td>
+                        <td>Plugin Whatsnew</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="/plugins/plugin-xmlpage/fr/">xmlpage</a></td>
+                        <td>Plugin Xmlpage</td>
+                    </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-xpagelinkservice/fr/">xpagelinkservice</a></td>
+                        <td>Plugin Xpagelinkservice</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-ldapdatabase/fr/">ldapdatabase</a></td>
+                        <td>Module Ldapdatabase</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-webserver/fr/">webserver</a></td>
+                        <td>Module Webserver</td>
+                    </tr>					
+                </table>                 
+            </p>
+        </section>
+    </body>
+</document>

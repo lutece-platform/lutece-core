@@ -1,0 +1,21 @@
+<div class="content-box" >
+
+    <h2>#i18n{portal.workgroup.modify_workgroup.titleModificationForm}</h2>
+		      
+    <form method="post" action="jsp/admin/workgroup/DoModifyWorkgroup.jsp" >
+    	<input type="hidden" name="old_workgroup_key" value="${workgroup.key}" />
+       <p>
+       		<label for="workgroup_key">#i18n{portal.workgroup.modify_workgroup.labelKey} * :</label>
+            <input type="text" id="workgroup_key" name="workgroup_key" value="${workgroup.key}" size="20" maxlength="50"  />
+       </p>
+       <p>
+            <label for="workgroup_description">#i18n{portal.workgroup.modify_workgroup.labelDescription} * :</label>
+            <input type="text" id="workgroup_description" name="workgroup_description" value="${workgroup.description}" size="50" maxlength="250" />
+       </p>
+       <p>
+	       	<input class="button" type="submit" value="#i18n{portal.workgroup.modify_workgroup.buttonLabelModify}" />
+		    <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
+       </p>
+    </form>
+</div>
+

@@ -1,0 +1,19 @@
+<div class="content-box">
+
+	<h2>#i18n{portal.group.create_group.boxTitle}</h2>
+
+	<form method="post" action="jsp/admin/group/DoCreateGroup.jsp" name="create_group">
+           <p>
+                <label for="group_key">#i18n{portal.group.create_group.labelName} * :</label>
+                <input type="text" id="group_key" name="group_key" size="70" maxlength="100" tabindex="1" />
+            </p>
+           <p>
+                <label for="group_description">#i18n{portal.group.create_group.labelDescription} :</label>
+                <input type="text" id="group_description" name="group_description"  size="70" maxlength="200" tabindex="2" />
+            </p>
+            <p>
+            	<input type="submit" value="#i18n{portal.group.modify_group.buttonLabelValidate}" class="button" tabindex="3" />
+			    <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
+            </p>
+	</form>
+</div>

@@ -1,0 +1,25 @@
+<div class="content-box">
+    <h2>#i18n{portal.workgroup.manage_workgroups.pageTitle}</h2>
+	<table>
+        <tr>
+            <th>#i18n{portal.workgroup.manage_workgroups.columnTitleKey}</th>
+            <th>#i18n{portal.workgroup.manage_workgroups.columnTitleDescription}</th>
+            <th>#i18n{portal.workgroup.manage_workgroups.columnTitleActions}</th>
+        </tr>
+        <#list workgroups_list as workgroup >
+        <tr>
+            <td><a href="jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}" class="bullet-link" >${workgroup.key}</a></td>
+            <td>${workgroup.description}</td>
+            <td>
+                <form method="post"  action="jsp/admin/workgroup/RemoveWorkgroup.jsp">
+                    <input type="hidden" name="workgroup_key"  value="${workgroup.key}" />
+                    <input type="image" src="images/admin/skin/actions/group.png"  style="border:0;vertical-align:bottom;" alt="#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers}" onclick="this.form.action='jsp/admin/workgroup/AssignUsersWorkgroup.jsp';" />
+                    <input type="image" src="images/admin/skin/actions/delete.png"  style="border:0;vertical-align:bottom;" alt="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}" onclick="this.form.action='jsp/admin/workgroup/RemoveWorkgroup.jsp';" />
+                </form>
+            </td>
+        </tr>
+        </#list>
+    </table>    <form method="post"  action="jsp/admin/workgroup/CreateWorkgroup.jsp">
+        <p><input type="submit" value="#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}"  class="button" /></p>
+    </form>
+</div>

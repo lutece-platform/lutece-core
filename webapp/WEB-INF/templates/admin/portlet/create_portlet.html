@@ -1,0 +1,63 @@
+<div id="feature-content" >
+    
+    <#if portletType.createScriptTemplate != "" >
+        <#include portletType.createScriptTemplate />
+    </#if>
+    <br /><br />
+    <div class="content-box" >
+        
+        <h2>#i18n{portal.site.portletType.labelCreate} ${portletType.name}</h2>
+    </div>
+    
+    <div class="content-box" >
+        
+        <form method="post" name="form"  action="${portletType.doCreateUrl}" target="_top">
+            
+            <input type="hidden" name="page_id" value="${portlet_page_id}">
+            <input type="hidden" name="portlet_type_id" value="${portletType.id}" >
+            
+            <p>
+                <label>#i18n{portal.site.create_portlet.labelPortletTitle}</label>
+                <input type="text" name="portlet_name" size="40" maxlength="40" />
+            </p>
+            <p align="center">
+                <input class="radio" type="radio" name="display_portlet_title" value="0" checked="checked">#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleYes}
+                <input class="radio" type="radio" name="display_portlet_title" value="1"  >#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleNo}
+            </p>
+            <p>
+                <label>#i18n{portal.site.create_portlet.labelOrder} </label>
+                <@combo name="order" default_value="1" items=portlet_order_combo />
+            </p>
+            <p>
+                <label>#i18n{portal.site.create_portlet.labelColumn}</label>
+                <@combo name="column" default_value="1" items=portlet_columns_combo />
+            </p>
+            <#if portletType.id != "ALIAS_PORTLET">
+            <p>
+                <label>#i18n{portal.site.create_portlet.labelStyle} </label>
+                <@combo name="style" default_value="0" items=portlet_style_combo />
+            </p>
+            </#if>
+            <p>
+                <label>#i18n{portal.site.create_portlet.labelAlias}</label>
+                <input class="radio" type="radio" name="accept_alias" value="1" > #i18n{portal.site.create_portlet.radioButtonAcceptAliasYes}
+                <input class="radio" type="radio" name="accept_alias" value="0" checked > #i18n{portal.site.create_portlet.radioButtonAcceptAliasNo}
+            </p>
+            <p>
+                <#if portletType.createSpecificTemplate != "" >
+                    <#include portletType.createSpecificTemplate />
+                </#if>
+            </p>
+            <p>
+                <input type="submit" value="#i18n{portal.site.create_portlet.buttonValidate}" class="button" />&nbsp;
+                <input type="button" value="#i18n{portal.site.create_portlet.buttonBack}" onclick="javascript:history.go(-1)" class="button" />
+            </p>
+            
+            <#if portletType.createSpecificFormTemplate != "" >
+                <#include portletType.createSpecificFormTemplate />
+            </#if>
+            
+        </form>
+    </div>
+    
+</div>

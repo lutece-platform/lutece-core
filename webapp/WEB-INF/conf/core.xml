@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<plug-in>
+    
+    <!-- Plugin Informations -->
+    <name>core</name>
+    <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
+    <version>2.0</version>
+    <description>portal.system.core_components.description</description>
+    <documentation></documentation>
+    <installation></installation>
+    <changes></changes>
+    <user-guide></user-guide>
+    <provider>portal.system.core_components.provider</provider>
+    <provider-url>http://lutece.paris.fr</provider-url>
+    <icon-url>images/admin/skin/core.png</icon-url>
+    <copyright>Copyright (c) 2001-2006 Mairie de Paris</copyright>
+    <db-pool-required>1</db-pool-required>
+    
+    <!-- Contents Service -->
+    <content-services>
+        <content-service>
+            <content-service-class>fr.paris.lutece.portal.service.page.PageService</content-service-class>
+        </content-service>
+        <content-service>
+            <content-service-class>fr.paris.lutece.portal.service.content.XPageAppService</content-service-class>
+        </content-service>
+		<content-service>
+			<content-service-class>fr.paris.lutece.portal.service.message.SiteMessageContentService</content-service-class>
+		</content-service>
+    </content-services>
+    
+    <!-- Search indexers -->
+    <search-indexers>
+        <search-indexer>
+            <search-indexer-class>fr.paris.lutece.portal.service.search.PageIndexer</search-indexer-class>
+        </search-indexer>
+    </search-indexers>
+    
+    <!-- Applications -->
+    <applications>
+        <application>
+            <application-id>search</application-id>
+            <application-class>fr.paris.lutece.portal.web.search.SearchApp</application-class>
+        </application>
+        <application>
+            <application-id>map</application-id>
+            <application-class>fr.paris.lutece.portal.web.xpages.SiteMapApp</application-class>
+        </application>
+    </applications>
+
+    <!-- Page Includes -->
+    <page-include-services>
+        <page-include-service>
+            <page-include-service-id>links</page-include-service-id>
+            <page-include-service-class>fr.paris.lutece.portal.web.includes.LinksInclude</page-include-service-class>
+        </page-include-service>
+        <page-include-service>
+            <page-include-service-id>metas</page-include-service-id>
+            <page-include-service-class>fr.paris.lutece.portal.web.includes.MetasInclude</page-include-service-class>
+        </page-include-service>
+        <page-include-service>
+            <page-include-service-id>statistics</page-include-service-id>
+            <page-include-service-class>fr.paris.lutece.portal.web.includes.StatisticsInclude</page-include-service-class>
+        </page-include-service>
+        <page-include-service>
+            <page-include-service-id>themes</page-include-service-id>
+            <page-include-service-class>fr.paris.lutece.portal.web.includes.ThemesInclude</page-include-service-class>
+        </page-include-service>
+    </page-include-services>
+    
+    <!-- Daemons -->
+    <daemons>
+        <daemon>
+            <daemon-id>indexer</daemon-id>
+            <daemon-name>portal.search.daemon.indexer.name</daemon-name>
+            <daemon-description>portal.search.daemon.indexer.description</daemon-description>
+            <daemon-class>fr.paris.lutece.portal.service.daemon.IndexerDaemon</daemon-class>
+        </daemon>
+        <daemon>
+            <daemon-id>mailSender</daemon-id>
+            <daemon-name>portal.system.daemon.mailSender.name</daemon-name>
+            <daemon-description>portal.system.daemon.mailSender.description</daemon-description>
+            <daemon-class>fr.paris.lutece.portal.service.mail.MailSenderDaemon</daemon-class>
+        </daemon>
+    </daemons>
+
+    <!-- RBAC Resources -->
+    <rbac-resource-types>
+        <rbac-resource-type>
+            <rbac-resource-type-class>fr.paris.lutece.portal.service.page.PageResourceIdService</rbac-resource-type-class>
+        </rbac-resource-type>
+        <rbac-resource-type>
+            <rbac-resource-type-class>fr.paris.lutece.portal.service.portlet.PortletResourceIdService</rbac-resource-type-class>
+        </rbac-resource-type>
+        <rbac-resource-type>
+            <rbac-resource-type-class>fr.paris.lutece.portal.service.insert.InsertResourceIdService</rbac-resource-type-class>
+        </rbac-resource-type>
+    </rbac-resource-types>
+    
+    
+</plug-in>

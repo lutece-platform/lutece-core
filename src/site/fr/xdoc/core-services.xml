@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+      <properties>
+          <title>
+              Lutèce : Guide de développement : Services de base
+          </title>
+      </properties>
+      <body>
+          <section name="Services de Lutèce : les Services de base">
+              <subsection name="AppPropertiesService">
+                  <p>
+                        Ce service permet d'accéder à tous les paramètres définis dans les fichiers
+                        <code>properties</code>. Les fichiers pris en compte par ce service sont les
+                        fichiers de configuration de Lutece situés dans le répertoire
+                        <code>WEB-INF/conf</code> et ceux des plugins situés dans
+                        <code>WEB-INF/conf/plugins</code>.
+                  </p>
+                  <p>
+                        L'utilisation type de ce service est :
+                  </p>
+                  <p>
+                        <div class="source">
+                             <pre>
+private static final String PROPERTY_NAME = "myplugin.name";
+...
+
+{
+    ...
+    String strName = AppPropertiesService.getProperty( PROPERTY_NAME );
+    ...
+                             </pre>
+                         </div>
+                  </p>
+              </subsection>
+              <subsection name="AppTemplateService">
+                   <p>
+                        Ce service permet de charger des templates HTML sur lesquels des
+                        substitutions pourront être faites pour valoriser des signets (bookmarks).
+                        Les templates sont stockés sous le répertoire <code>WEB-INF/templates</code>.
+                        On distingue néanmoins les templates destinés à l'administration (Back office)
+                        et ceux du site (Front office).
+                   </p>
+                   <p>
+                        L'utilisation type de ce service est :
+                              <div class="source">
+                                   <pre>
+private static final String TEMPLATE_MANAGE_MYPLUGIN = "admin/plugins/myplugin/manage_myplugin.html";
+...
+private static final String BOOKMARK_NAME = "@name@";
+...
+
+{
+    ...
+    HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_MYPLUGIN );
+    template.subtitute( BOOKMARK_NAME , strName );
+    ...
+}                                </pre>
+                              </div>
+                    </p>
+              </subsection>
+              <subsection name="AppPathService">
+                  <p>
+                      Ce service permet d'obtenir des informations concernant les URI d'exécution ou les répertoires
+                      d'installation de Lutèce. Les plugins ne doivent pas gérer des URI
+                      ou des chemins absolus, ils doivent les gérer de manière relative
+                      et utiliser ce service pour obtenir des références absolues.
+                  </p>
+                   <p>
+                        L'utilisation type de ce service est :
+                              <div class="source">
+                                   <pre>
+
+{
+    // Get the base URL ( ie: "http://localhost:8080/lutece" )
+    String strBaseUrl = AppPathService.getBaseUrl( request );
+
+    ...
+    
+    // Get the WebApp absolute path ( ie: "/usr/local/tomcat/webapps/lutece" )
+    String strWebAppPath = AppPathService.getWebAppPath();
+   
+}                                </pre>
+                              </div>
+                    </p>
+              </subsection>
+              <subsection name="AppConnectionService">
+                  <p>
+                      Ce service permet d'obtenir une connexion à la base de données du
+                      portail. Ce service est désormais encapsulé dans les objets DAOUtil.
+                      Pour plus d'informations sur l'accès aux données consulter le document 
+                      <a href="data-access.html">Guide de développement : Accès aux données</a>
+                   </p>
+                   <p>
+                        L'utilisation type de ce service est :
+                              <div class="source">
+                                   <pre>
+
+{
+    Connection connection = AppConnectionService.getConnection();
+    ...
+    
+    AppConnectionService.freeConnection();
+   
+}                                </pre>
+                              </div>
+                    </p>
+              </subsection>
+              <subsection name="AppLogService">
+                  <p>
+                  Ce service permet de d'enregistrer dans un fichier de logs des événements particuliers dans
+                  l'exécution de l'application (erreurs, informations de chargement, ...).
+                  <div class="source">
+                       <pre>
+catch( Exception e )
+{
+     AppLogService.error( e.getMessage() , e );
+}                       </pre>
+                  </div>
+                  Pour plus d'informations, consulter le document <a href="logging-rules.html">Normes de 
+                    développement : Règles de logging et de gestion des exceptions</a>
+                  </p>
+              </subsection>
+          </section>
+      </body>
+  </document>

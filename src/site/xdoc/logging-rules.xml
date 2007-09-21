@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+   <properties>
+    <title>
+      Lutece : Development Standards : Logging rules and exception handling
+    </title>
+   </properties>
+  <body>
+      <section name="Logging rule">
+          <subsection name="Lutece logs">
+          <div>
+              Lutece property files : 
+              <ul>
+                  <li>
+                      <code>application.log</code> contains the main events of the 
+                      application : loading of services,plugins, etc
+                  </li>
+                  <li>
+                      <code>error.log</code> contains unexpected events.
+                  </li>
+              </ul>
+          </div>
+          </subsection>
+      </section>
+      
+      <section name="Exception handling">
+        
+          <p>
+             All exceptions must be written in a log file.
+          </p>
+          <p>
+            The <b>catch</b> blocks must never be empty and should not call for <code>e.printStackTrace()</code>
+          </p>
+          
+          <subsection name="Non critical exceptions">
+              <p>
+                 The exception which does not require stopping the undergoing processing must be logged in the following way
+              </p>
+              <p>
+                 <div class="source">
+                 <pre>
+catch( Exception e )
+{
+    AppLogService.error( e.getMessage() , e );
+}         </pre>
+                </div>
+                </p>
+            </subsection>
+            
+            <subsection name="Critical exceptions">
+                <p>
+                   The exceptions requiring the stopping of the processing (examples : SQL error, file access error ...)
+                   must be throw an exception issued from <code>LuteceException</code>.
+                   
+                   (<code>PhysicalException</code> , <code>ClientException</code>...). The class <code>LuteceException</code>
+                   handles itself log writing.
+                   The <b>catch</b> block is treated as follows : 
+                </p>
+                <p>
+                   <div class="source">
+          <pre>
+catch( Exception e )
+{
+    throw new PhysicalException( e.getMessage() , plugin.getName() , e );
+}         </pre>
+                   </div>
+               </p>    
+           </subsection>
+           
+           <subsection name="Application exception">
+               <p>
+                  The application exceptions, such as <code>UserActionException</code>, 
+                  are the only ones  which need not being logged because they are
+                  used in normal execution of the application.
+               </p>
+           </subsection>
+      </section>
+  </body>
+  </document>

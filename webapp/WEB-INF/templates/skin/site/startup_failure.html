@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+    <link rel="stylesheet"  href="../../css/page_template_structure.css" type="text/css"  media="screen" />
+    <link rel="stylesheet"  href="../../css/page_template_styles.css" type="text/css"  media="screen" />
+</head>
+<body topmargin="0" leftmargin="0">
+
+<br />
+<br />
+<br />
+<br />
+
+<center>
+    <table width="70%">
+        <tr>
+            <td>
+                <div class="portlet">
+                    <h3 class="portlet-header">Lutece startup failure</h3>
+                    <table border="0" width="200" cellpadding="5" cellspacing="5" >
+                        <tr>
+                            <td align="center" width="100%">
+                                <img src="../../images/admin/skin/error.png" alt="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <h3> ${failure_message?default("")}</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            <textarea readonly cols="100" rows="20">${failure_details?default("")}</textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</center>

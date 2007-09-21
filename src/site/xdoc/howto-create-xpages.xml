@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+   <properties>
+    <title>
+      Lutece : Development Guide : Integrated Applications (XPageApplication)
+    </title>
+   </properties>
+  <body>
+    <section name="Create the integrated application (XPageApplication)">
+        <subsection name="The extended Lutece Pages(XPage)">
+            <p>
+               In Lutece, we can distinguish two types of page :
+               
+            </p>
+            <p>
+               <ul>
+                  <li>the classic pages assembled by portlets. 
+                      It concerns most pages on the website.
+                  </li>
+                  <li>Extended Pages which have a particular management scheme
+                  which facilitates application realisation due to to its flexible
+                  approach.
+                  </li>
+               </ul>
+            </p>
+            <p>
+               The Applications made of XPages can add features such as :
+            </p>
+            <p>
+               <ul>
+                   <li>a search engine</li>
+                   <li>the forms (contact, newsletter, formengine)</li>
+                   <li>the site plan</li>
+                   <li>...</li>
+               </ul>
+            </p>
+            <p>
+                The applications are thus completely binded to the site. They
+                consists of menus, banners, style sheets of the portal.
+                Their graphical appearance will also change during a website upgrade 
+                thus no additional work is needed.
+            </p>
+            
+        </subsection>
+        <subsection name="Technical description">
+            <p>
+               An extended page can be distinguished when the url of the page
+               has a <b>page</b> parameter and not  <b>id_page</b> as classical pages
+               of the site.
+            
+            </p>
+            <p>
+               
+               For exemple, <code>http://myhost/lutece/jsp/site/Portal.jsp?page=map</code> to
+               obtain the site map.
+            </p>
+            <p>
+               The parameter specified the plugin name containing the <code>XPageApp</code>.
+            </p>
+            <p>
+               <i>Note : By convention, we design this parameter in the
+               form : <b>&lt;xpage&gt;</b></i>.
+            </p>
+        </subsection>
+        
+        <subsection name="JAVA treatment">
+           <p>
+              When the parameter <b>&lt;page&gt;</b> is detected in the 
+              request, the class <b>fr.paris.lutece.portal.web.PortalJspBean</b>
+              (entry page of Lutece) calls to the method :
+              </p>
+              <p>
+                 <div class="source">
+<pre>
+public String getPage( HttpServletRequest request , int nMode )</pre>
+                 </div>
+                  of 
+                    <code>fr.paris.lutece.portal.service.XPageAppService</code> class.
+                    
+                    The service will look for the plugin whose name is specified 
+                    in the parameter <b>page</b> in the request and fetch it from 
+                    an instance of the <code>XPageApp</code> class.
+                   
+               </p>
+               <p>
+                  All the XPageApp must be implement the interface :
+                  
+                  <code>fr.paris.lutece.portal.web.xpages.XPageApplication</code>.
+               </p>
+               <p>
+                  It defines the following method :
+               </p>
+               <p>
+                  <div class="source">
+     <pre>
+public String getContent( HttpServletRequest request, int nMode, Plugin plugin );</pre>
+                  </div>
+               </p>
+               <p>  
+                   which returns the page content relative to the parameters contained 
+                   in the request, of mode (normal or administration) and
+                   the instance of the plugin for which it was instanciated.
+                 (The same class can be instanciated in different contexts).
+               </p>
+               <p>
+                  <code>XPageService</code> calls this method and fills a structure
+                  <code>XPage</code> with the XPage's own data :
+               </p>
+               <p>
+                  <ul>
+                      <li>title of the page in the browser title bar</li>
+                      <li>htm content in the page (described previously)</li>
+                      <li>the navigation path : "You are Here" with the the context path</li>
+                      <li>the key words associated to the page(used by search engines)</li>
+                  </ul>
+               </p>
+           </subsection>
+           
+           <subsection name="JSP">
+              <p>
+                 If the XPageApp developed needs an additional processing JSP 
+                 (such as sending a message to the contact page), the JSP
+                 should be placed in the folder :
+                   <code>portal/jsp/site/plugins/&lt;myplugin&gt;</code>. The only
+                   imposed ruled is inclusion in the file header :
+              </p>
+              <p>
+                 <div class="source">
+     <pre>
+&lt;%@ page errorPage="../../ErrorPagePortal.jsp" %&gt;
+&lt;jsp:include page="../../PortalHeader.jsp" /&gt;
+</pre>
+                  </div>
+              </p>
+           </subsection>
+           
+           <subsection name="Access to the page">
+              <p>
+                 There is no automatic links towards the XPages on Lutece.
+              </p>
+              <p>
+                 Normally, the XPages are accessible from the menu situated on 
+                 the banner.
+              </p>
+              <p>
+                 Adding an extended page from a properties file do not add
+                 automatically the XPage in the menu.
+                 The menu is a static menu, the links are written in hard in the template :
+                 dur dans le template :
+                 <code>WEB-INF/templates/skin/site/page_menu_tools.html</code>.
+              </p>
+              <p>
+                  A LinkService allows to insert from a Wysiwyg HTML editor 
+                  an article or an HTML portlet, alink towards XPages on the web site.
+              </p>
+              
+          </subsection>
+          
+           <subsection name="Page Administration">
+              <p>
+                 Administrative functions are generally needed to manage the
+                 backoffice fetaures.
+              </p>
+              <p>
+                 To create for the same plugin, administrative functions 
+                  [ <a href=
+                 "howto-create-admin-features.html">HOWTO - Create functions
+                 d'administration</a> ]
+              </p>
+             
+           </subsection>
+       
+           <subsection name="XPage definition in plugin configuration">
+               <p>
+                   The application must be declared in the XML file of the plugin as follows :
+  
+                   <div class="source">
+                       <pre>
+    &lt;!-- Application XPage --&gt;
+    &lt;application&gt;
+           &lt;application-class&gt;fr.paris.lutece.plugins.myplugin.web.MyPluginApp&lt;/application-class&gt;
+           &lt;application-roles&gt;role1,role2&lt;/application-roles&gt;
+    &lt;/application&gt;
+                       </pre>
+                   </div>
+               </p>
+           </subsection>
+           
+           <subsection name="Notice">
+               <p>
+                  The XPages are not indexed by the Lucene search engine.They
+                  will,thus, not be visible by a search from the home page.
+               </p>
+           </subsection>
+         </section>
+    </body>
+</document>
+
+

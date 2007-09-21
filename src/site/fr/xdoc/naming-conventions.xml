@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+   <properties>
+    <title>
+      Lutèce : Guide de développement : Règles de nommage
+    </title>
+   </properties>
+  <body>
+
+      <section name="Règles de nommage">
+          <p>
+             Toutes les règles de nommage décrites ici doivent être
+             vérifiées à l’aide des outils <a href="http://checkstyle.sourceforge.net/">checkstyle</a>
+             et <a href="http://pmd.sourceforge.net//">PMD</a>. Ces outils doivent être configurés de façon à
+             supporter les règles de nommage spécifiques, en utilisant
+             les fichiers de configuration fournis par la DSTI.
+          </p>
+          
+          <subsection name="Principes généraux">
+              <p>
+                 Les noms des identificateurs doivent respecter les règles
+                 suivantes:
+              </p>
+              <p>
+                 <ul>
+                     <li>Etre des noms communément utilisés pour désigner l’objet</li>
+                     <li>Ne pas introduire de contresens ou de problème d’interprétation</li>
+                     <li>Etre en langue anglaise</li>
+                     <li>Ne jamais être tronqués ou contractés</li>
+                 </ul>
+              </p>
+              <p>
+                 Ne pas utiliser les constantes ou les variables pour
+                 stocker des messages d’erreurs en dur (utilisation des
+                 fichiers properties dédiés). En règle général éviter toute
+                 valeur en dur, utiliser au maximum les fichiers de
+                 propriétés .properties de l’application ou des plugins.
+              </p>
+              <p>
+                 Ne pas utiliser de chemins absolus (les seuls chemins
+                 absolus utilisés sont stockés dans les paramètres existant
+                 du fichier config.properties).
+              </p>
+             
+          </subsection>
+          
+          <subsection name="Variables"> 
+              <p>
+                 Les types de base de Java doivent avoir les préfixes
+                 suivants:
+              </p>
+              <p>
+                 <table>
+                     <tr>
+                         <th>Préfixe</th>
+                         <th>Type</th>
+                     </tr>
+                     <tr>
+                         <td>n</td>
+                         <td>int</td>
+                     </tr>
+                     <tr>
+                         <td>str</td>
+                         <td>String</td>
+                     </tr>
+                     <tr>
+                         <td>b</td>
+                         <td>boolean</td>
+                     </tr>
+                     <tr>
+                         <td>l</td>
+                         <td>long</td>
+                     </tr>
+                 </table>
+              </p>
+              <p>
+                 Les instances d'objet doivent être préfixées par le nom de
+                 la classe ou la partie représentative du nom de la classe
+                 indiquant le plus précisément possible le type
+                 d'objet .
+              </p>
+              <p>
+	             <table>
+                     <tr>
+                         <th>Classe</th>
+                         <th>Exemple d’instance de la classe</th>
+                     </tr>
+                     <tr>
+                         <td>HtmlTemplate</td>
+                         <td>tList</td>
+                     </tr>
+                     <tr>
+                         <td>StringBuffer</td>
+                         <td>sbXml</td>
+                     </tr>
+                     <tr>
+                         <td>Date</td>
+                         <td>dateBegin</td>
+                     </tr>
+                     <tr>
+                         <td>List, ArrayList</td>
+                         <td>listUsers</td>
+                     </tr>
+                  </table>
+              </p>
+              <p>
+                 Mise en forme : Notation Hongroise à l'exception de
+                 l'initiale en minuscules, pas d'underscore. Les
+                 abréviations sont à éviter.
+              </p>
+              <p>
+                 Les variables d’instance (static ou non) doivent être
+                 préfixées par un underscore.
+              </p>
+          </subsection>
+          
+          <subsection name="Constantes">
+             <p>
+                Toute valeur littérale de chaîne de caractères ou numérique
+                doit être placée dans une constante. Les déclarations des
+                constantes doivent être faites dans les premières lignes du
+                source ou dans une classe spéciale dédiée aux
+                constantes.
+             </p>
+             <p>
+                Les préfixes doivent indiquer la nature de la constante.
+                Les préfixes courants sont :
+             </p>
+             <p>
+                <table>
+                    <tr>
+                        <th>Préfixe</th>
+                        <th>Type</th>
+                    </tr>
+                    <tr>
+                        <td>PATH_</td>
+                        <td>Pour les chemins des répertoires</td>
+                    </tr>
+                    <tr>
+                        <td>PROPERTY_</td>
+                        <td>Pour les noms de clé d'un fichier .properties</td>
+                    </tr>
+                    <tr>
+                        <td>TEMPLATE_</td>
+                        <td>Pour les noms des templates HTML</td>
+                    </tr>
+                    <tr>
+                        <td>BOOKMARK_</td>
+                        <td>Pour les noms des signets à substituer dans les templates</td>
+                    </tr>
+                    <tr>
+                        <td>MESSAGE_</td>
+                        <td>Pour les messages ou les clés de message utilisées par Message.jsp</td>
+                    </tr>
+                    <tr>
+                        <td>JSP_URL_</td>
+                        <td>pour les url des JSP</td>
+                    </tr>
+                    <tr>
+                        <td>PARAMETER_</td>
+                        <td>pour le nom d’un paramètre de la requête HTTP</td>
+                    </tr>
+                </table>
+             </p>
+             <p>
+                Mise en forme des constantes : tout en majuscules, mots
+                séparés par des underscores.
+             </p>
+             <p>
+                Pour un plugin d'une certaine taille, les constantes pourront être regoupées
+                dans une classe <code>fr.paris.lutece.plugins.myplugins.web.Constants</code>.
+             </p>
+          </subsection>
+          
+      <subsection name="Objets de base de données">
+          <p>
+              Tous les noms de table et de colonne doivent être en minuscules en séparant 
+              les mots par des underscores.
+              Tous les noms de table doivent être préfixés par "&lt;nom du plugin&gt;_" à l'exception des tables
+              du noyau qui sont préfixées par "core_".
+          </p>
+      </subsection>
+
+          <subsection name="Les requêtes SQL">
+              <p>
+                Les requêtes SQL des classes DAO (couche métier) doivent
+                être placées dans des variables de type string et
+                doivent respecter la forme suivante:
+             </p>
+             <p>
+                <ul>
+                    <li>mots clés en majuscules (SELECT, UPDATE, WHERE , AND …),</li>
+                    <li>noms des colonnes en minuscules,</li>
+                    <li>alias des noms de colonnes sous forme de lettres de l’alphabet</li>
+                </ul>
+             </p>
+             <p>
+		        Exemple de syntaxe:
+            </p>
+            <p>
+               <div class="source">
+                   <pre>
+String strSQL = "SELECT a.id_theme, a.description_theme \
+                 FROM theme a, theme_newsletter b WHERE \
+                 a.id_theme = b.id_theme and b.id_newsletter = ? ";</pre>
+                 </div>
+             </p>
+         
+         </subsection>
+         
+         <subsection name="Fichiers templates">
+              <p>
+                 Extension : .html 
+              </p>
+              <p>
+                 Mise en forme : tout en minuscules, mots séparés par des
+                 underscores, pas d’utilisation de tirets, langue anglaise, pas d’abréviations.
+              </p>
+
+              <p>
+                 Règles de nommage pour les fichiers servant à un traitement
+                 standard:
+                 <code>create_&lt;fonctionnalité&gt;.html</code> pour
+                 l’affichage d’une page de création,
+                 <code>modify_&lt;fonctionnalité&gt;.html</code> pour une page de
+                 modification,
+                 <code>remove_&lt;fonctionnalité&gt;.html</code> pour une
+                 page permettant une suppression,
+                 <code>manage_&lt;fonctionnalité&gt;.html</code> pour l’affichage d’une
+                 page de gestion d’une fonctionnalité,
+                 <code>view_&lt;fonctionnalité&gt;.html</code> pour une page d’affichage
+                 d’une fiche, <code>confirm_&lt;fonctionnalité&gt;.html</code> pour
+                 une page de message de confirmation,
+                 <code>&lt;fonctionnalité&gt;_list.html</code> pour une page d’affichage
+                 d’une liste.
+                 <code>&lt;fonctionnalité&gt;_row.html</code> pour l’affichage d'une ligne
+                 d’une liste.
+              </p>
+
+              <p>
+                 Règle de nommage des signets servant à la substitution des
+                 valeurs des Bookmarks: langue anglaise, minuscules,
+                 mots séparés par des underscores, pas d’abréviation ni de
+                 tirets. (ex: <code>@file_name@</code>)
+              </p>
+          </subsection>
+          
+          <subsection name="Fichiers JSP">
+             <p>
+                Mise en forme : Notation Hongroise, langue anglaise, pas
+                d’abréviation, pas de tirets,pas d'underscore;
+             </p>
+             <p>
+                Règles de nommages pour les fichiers servant à un traitement
+                d’affichage standard: <code>Create&lt;Fonctionnalité&gt;.jsp</code>
+                pour les pages servant à un traitement d’affichage de page de
+                création, <code>Modify&lt;Fonctionnalité&gt;.jsp</code> pour les pages
+                servant à un traitement d’affichage de page de modification ,
+                <code>Remove&lt;Fonctionnalité&gt;.jsp</code> pour les pages servant à un
+                traitement d’affichage de page de suppression,
+                <code>Manage&lt;Fonctionnalité&gt;.jsp</code> pour les pages servant à un
+                traitement d’affichage de page de gestion,
+                <code>View&lt;Fonctionnalité&gt;.jsp</code> pour les pages servant à un
+                traitement d’affichage de page de la fiche de la
+                fonctionnalité, <code>Confirm&lt;Fonctionnalité&gt;.jsp</code> pour les
+                pages servant à un traitement d’affichage de la page de
+                confirmation , <code>&lt;Fonctionnalité&gt; List.jsp</code> pour les pages
+                servant un traitement d’affichage de liste.
+             </p>
+
+             <p>
+                Mêmes règles de nommage pour les Jsp de traitements sans
+                affichage, auxquelles s’ajoute le préfixe Do (
+                ex: <code>DoCreate&lt;Fonctionnalité&gt;.jsp</code>,
+                <code>DoModify&lt;Fonctionnalité&gt;.jsp</code> … )
+             </p>
+          </subsection>
+          
+          <subsection name="Fichiers images">
+             <p>
+                Règle de nommage: langue anglaise, utilisation de
+                minuscule et d’underscores entre les mots, pas de tirets ni
+                d’abréviation. Les préfixes utilisés doivent correspondre à
+                la fonction de l’image quand elle existe:
+             </p>
+             <p>
+                <table>
+                  <tr>
+                      <th>Préfixe</th>
+                      <th>Type</th>
+                  </tr>
+                  <tr>
+                      <td>b_</td>
+                      <td>Images servant de bouton</td>
+                  </tr>
+                  <tr>
+                      <td>i_</td>
+                      <td>Images servant d icône (ex : i_delete.gif)</td>
+                  </tr>
+                  <tr>
+                      <td>l_</td>
+                      <td>Images d’une ligne</td>
+                  </tr>
+                </table>
+             </p>
+             <p>
+                Le format des images servant à la présentation des pages
+                doivent être au format .gif.
+             </p>
+        </subsection>
+        
+        <subsection name="Fichiers xml">
+            <p>
+               Les balises xml utilisées dans l’application devront être
+               en minuscules, séparés par des tirets lorsqu’il s’agit de
+               mots composés, en langue anglaise, sans abréviations.
+            </p>
+            
+            <p>
+               Les noms des balises devront être le plus proche possible
+               du modèle qu’ils doivent représenter: par exemple
+               «portlet-id» pour la balise stockant la valeur
+               de l’identifiant du portlet récupéré dans la colonne
+               <i>id_portlet</i> de la table <b>portlet</b>.
+             </p>
+          </subsection>
+       </section>
+    </body>
+</document>

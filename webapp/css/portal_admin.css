@@ -1,0 +1,1171 @@
+/******************************************************************************/
+/*                     STYLES DU MODULE ADMINISTRATION                              */
+/******************************************************************************/
+
+
+/* ========================================================================
+==============     REDEFINITION OF BASE HTML ELEMENTS     =================
+=========================================================================== */
+
+@import url( "../js/jscalendar/calendar-lutece.css" );
+
+/* Define the default font: */
+BODY, TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH, H1, H2, H3, H4, TEXTAREA
+{
+     font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+     font-size: 11px;
+     font-weight: normal; 
+}
+
+img {
+    border: none;
+}
+
+/*links */
+a {
+	color: #364C5E;
+	font-weight: bold;
+}
+
+
+/* links of menu hover */
+a.top {
+	float: right;
+}
+
+a.bullet-link
+{
+	background-image: url(../images/admin/skin/bullet.gif);
+	background-repeat: no-repeat;
+	background-position: left;
+	padding: 0 0 1px 12px;
+}
+
+/* title level 1 */
+h1 {
+	color: #364C5E;
+	font-size: 140%;
+	font-weight: bold;
+}
+
+/* title level 2 */
+h2 {
+	color: #364C5E;
+	font-size: 120%;
+	font-weight: bold;
+}
+
+/* title level 3 */
+h3 {
+	color: #364C5E;
+	font-weight: bold;
+}
+
+/* for a min-with site
+.global_container { 
+	min-width: 700px;  
+	width: auto;  
+}
+*/
+
+.alert {
+	color:red;
+	font-weight: bold;
+	text-align:center;
+}
+
+/* Menu à onglet de l'interface d'Administration des pages */
+#admin-site-menu {
+  float:left;
+  width:100%;
+  background:#FFFFFF url("../images/admin/skin/bg.gif")
+  repeat-x bottom;
+  font-size:93%;
+  line-height:normal;
+}
+
+#admin-site-menu ul {
+    margin:0;
+    padding:10px 10px 0;
+    list-style:none;
+}
+
+#admin-site-menu li {
+	float:left;
+   background:url("../images/admin/skin/left.gif")
+   no-repeat left top;
+   margin:0;
+   padding:0 0 0 9px;
+}
+
+ #admin-site-menu a, #admin-site-menu strong, #admin-site-menu span  {
+
+    display:block;
+    background:url("../images/admin/skin/right.gif")
+    no-repeat right top;
+    padding:5px 15px 4px 6px;
+    text-decoration:none;
+    font-weight:bold;
+    color:#364C5E;
+ }
+
+
+#admin-site-menu #current {
+    background-image:url("../images/admin/skin/left_on.gif");
+}
+
+#admin-site-menu #current a {
+   background-image:url("../images/admin/skin/right_on.gif");
+   padding-bottom:5px;
+	color: #EE9C00;
+	text-decoration: none;
+}
+
+
+
+/* Tree Menu Map of AdminSite */
+
+#tree-menu-mainMenu {
+  color: #364C5E;
+}
+
+ul.tree-menu-menuList {
+  margin: 0px;
+  padding: 10px 0px 10px 15px;
+}
+
+li.tree-menu-menubar {
+  background: url(../images/admin/skin/plus.gif) no-repeat 0em 0.3em;
+  font-size: 12px;
+  line-height: 1.5em;
+  list-style: none outside;
+}
+
+.tree-menu-menu{
+	display: none;
+   margin-left: 15px;
+   padding: 0px;
+	font-size: 10px;
+}
+
+.tree-menu-submenu {
+	/*display: none;*/
+   margin-left: 15px;
+   padding: 0px;
+}
+
+.tree-menu-menu li, .tree-menu-submenu li {
+  background: url(../images/admin/skin/square.gif) no-repeat 0em 0.3em;
+  list-style: none;/* outside;*/
+}
+
+a.tree-menu-actuator {
+  background-color: transparent;
+  color: #364C5E;
+  font-size: 12px;
+  padding-left: 15px;
+  text-decoration: none;
+}
+
+a.tree-menu-actuator:hover {
+  text-decoration: underline;
+}
+
+.tree-menu-menu li a, .tree-menu-submenu li a {
+  background-color: transparent;
+  color: #364C5E;
+  font-size: 12px;
+  padding-left: 15px;
+  text-decoration: none;
+}
+
+.tree-menu-menu li a:hover, tree-menu-submenu li a:hover {
+  text-decoration: underline;
+}
+
+tree-menu-span.key {
+  text-decoration: underline;
+}
+
+
+
+/* =====================================================================
+ * --------------      styles for horizontal menu      -----------------
+ * ===================================================================== */
+/* Horizontal menu : for admin-header-menu */
+
+#admin-header-menu-main
+{
+	margin: 0;
+	color: #364C5E;
+	font-size: 120%;
+	margin: -19px 0 20px 0;
+}
+
+ul#admin-header-menu li ul{
+   display:none;
+}
+
+ul#admin-header-menu li:hover>ul{
+    display:block;
+}
+
+
+ul#admin-header-menu{
+    margin:0px;
+    padding:0px;
+    list-style:none;
+    width:100%;
+	 border-bottom: 1px solid #EE9C00;
+    float:left;
+    cursor: pointer;
+}
+
+
+ul#admin-header-menu li{
+    background-image: url(../images/admin/skin/menu_bullet.gif);
+	 background-repeat: no-repeat;
+	 background-position: left center;
+    float:left;
+    display:block;
+    padding:1px 20px 1px 12px;
+}
+
+ul#admin-header-menu li.first{
+    padding-left:17px;
+}
+
+
+ul#admin-header-menu li.last{
+    padding-right:2px;
+}
+
+ul#admin-header-menu li a{
+    display:block;
+    padding:2px 6px;
+    color:#364C5E;
+    text-decoration:none;
+    font-weight: bold;
+}
+
+
+ul#admin-header-menu li a:hover{
+}
+
+ul#admin-header-menu ul{
+    position:absolute;
+    background:white;
+    border: 1px solid #364C5E;
+    list-style:none;
+    margin:0px;
+    padding:0px;
+    width:235px;
+    z-index:1;
+}
+
+
+
+ul#admin-header-menu ul ul{
+    top:0px;
+    left:155px;
+    z-index:2;
+}
+
+
+ul#admin-header-menu ul li{
+    position:relative;
+    float:none;
+    background-image:none;
+    margin:0px;
+    padding:0px;
+}
+
+
+ul#admin-header-menu ul li a{
+    font-size: 13px;
+    display:block;
+    margin:0px;
+    padding:0px;
+    width:230px;
+    border:none;
+}
+
+
+ul#admin-header-menu ul li a span{
+    display:block;
+    width:220px;
+    padding:2px 6px;
+    margin:0px 2px;
+    border:none;
+    cursor: pointer;
+}
+
+
+ul#admin-header-menu ul li a.next span{}
+
+ul#admin-header-menu ul li a.next:hover span{
+    background-position: -160px 50%;  
+    text-decoration: none;    
+}
+
+ul#admin-header-menu ul li a:hover {
+	width: 100%;
+    color: #364C5E;
+    border:none;
+    text-decoration: none;
+    background-color: #8EAABF;
+}
+
+ul#admin-header-menu ul li.admin-header-first{
+    padding-left:0px;
+    border-top: none;
+}
+
+
+ul#admin-header-menu ul li.admin-header-first a{
+    padding-top:0px;
+}
+
+ul#admin-header-menu ul li.admin-header-last{
+    padding-right:0px;
+}
+
+ul#admin-header-menu ul li.admin-header-last a{
+    padding-bottom:0px;
+}
+
+
+
+
+/********************************
+******** Page header box
+*********************************/
+#admin-header {
+	background-color: #395E7D;
+	background-image: url(../images/admin/skin/logo.gif);
+	background-repeat: no-repeat;
+	background-position: 2% 50%;
+}
+
+div.header-box {
+	background: #395E7D url(../images/admin/skin/roundbox_back.gif) right repeat-y;
+	margin-bottom: 20px;
+	/*padding: 15px 15px 14px 15px;*/
+	padding: 14px 13px 14px 14px;
+	text-align: left;
+}
+
+div.header-box:before {
+	background: transparent url(../images/admin/skin/roundbox_tr.gif) no-repeat top right;
+	content: url(../images/admin/skin/roundbox_tl.gif);
+	display: block;
+	font-size: 1px;
+	height: 15px;
+	line-height: 0.1;
+	margin: -15px -15px 0 -15px;
+	text-align: left;
+}
+	
+div.header-box:after {
+	background: transparent url(../images/admin/skin/roundbox_br.gif) scroll no-repeat bottom right;
+	clear: both;
+	content: url(../images/admin/skin/roundbox_bl.gif);
+	display: block;
+	font-size: 1px;
+	height: 8px;
+	line-height: 0.1;
+	margin: -15px;
+	padding-top: 15px;
+	text-align: left;
+}
+
+#admin-main-menu {
+  float:right;
+  width:80%;
+  background: url("../images/admin/skin/bg_header.gif") repeat-x bottom;
+  font-size:100%;
+  line-height:normal;
+  margin: 22px 2px -22px 0;
+}
+  
+div.admin-main-menu-text {
+	color: #EE9C00;
+	text-align: right;
+	font-weight: bold;
+	margin:  0 12px 0 0;
+}
+
+#admin-main-menu ul {
+  margin:0;
+  padding:10px 10px 0;
+  list-style:none;
+}
+
+
+#admin-main-menu li {
+  float:right;
+  background:url("../images/admin/skin/left_header.gif") no-repeat left top;
+  margin:0;
+  padding:0 0 0 9px;
+ }
+  
+  
+#admin-main-menu a {
+  float:right;
+  display:block;
+  background:url("../images/admin/skin/right_header.gif") no-repeat right top;
+  padding:5px 15px 4px 6px;
+  text-decoration:none;
+  font-weight:bold;
+  color:white;
+ }
+  
+  
+
+#admin-main-menu a {float:none;}
+
+#admin-main-menu a:hover {
+  color:#364C5E ;
+ }
+
+
+div.title{
+	float:left;
+}
+
+
+
+
+
+div.content-box {
+	background: #DEE8F1  url(../images/admin/skin/roundbox_back.gif) right repeat-y;
+	margin-bottom: 15px; 
+	padding: 15px 15px 14px 15px;
+	text-align: left;
+}
+
+
+
+div.content-box:before {
+	background: transparent url(../images/admin/skin/roundbox_tr.gif) no-repeat top right;
+	content: url(../images/admin/skin/roundbox_tl.gif);
+	display: block;
+	font-size: 1px;
+	height: 15px;
+	line-height: 0.1;
+	margin: -15px -15px 0 -15px;
+	text-align: left;
+}
+
+div.content-box:after {
+	background: transparent url(../images/admin/skin/roundbox_br.gif) scroll no-repeat bottom right;
+	clear: both; 
+	content: url(../images/admin/skin/roundbox_bl.gif);
+	display: block;
+	font-size: 1px;
+	height: 8px;
+	line-height: 0.1;
+	margin: -15px; 
+	padding-top: 30px; 
+	text-align: left;
+}
+
+div.content-box h2 {
+	border: none;
+	font-size: 150%;
+	font-family: Arial, Tahoma, Helvetica, sans-serif;
+	margin-left: 0;
+	border-bottom: 1px solid #364C5E;
+}
+
+
+div.content-box a:link, div.content-box a:visited  {
+	border: none;
+	font-size: 100%;
+   font-weight: normal;
+	font-family: Arial, Tahoma, Helvetica, sans-serif;
+   text-decoration: none;     
+}
+
+div.content-box a:hover  {
+	border: none;
+	font-size: 100%;
+	font-family: Arial, Tahoma, Helvetica, sans-serif;
+   text-decoration: underline;
+        
+}
+
+
+div.content-box h2 a:link, div.content-box h2 a:visited {
+	font-weight: bold;
+}
+div.content-box h2 a:hover {
+	text-decoration: none;
+}
+
+div.content-box h3 a:link, div.content-box h3 a:visited {
+	font-weight: bold;
+}
+
+
+div.content-box ul {
+    margin: 0px;
+    padding: 0px;
+    margin-left: 20px;
+}
+
+div.content-box li {
+	list-style: none;
+
+}
+
+div.content-box form {
+	margin: 10px;
+}
+
+div.content-box td form {
+    margin: 0px;
+}
+
+div.content-box form p.login {
+   clear: both;
+	position: relative;
+}
+
+div.content-box label
+{
+	font-weight: bold;
+	color: #364C5E;
+	margin: 0;
+	padding-right: 5px;
+	display: block;
+	width: 30%;
+	text-align: right;
+	float: left;
+}
+
+
+div.content-box input {
+    border: 1px solid #8EAABF;
+    font-family: Arial, Tahoma, Helvetica, sans-serif;
+    font-size: 100%;
+    padding-left: 4px;
+}
+
+div.content-box input.radio {
+	border: none;
+}
+
+div.content-box input.checkbox {
+	border: none;
+}
+
+div.content-box input.button {
+    display:inline;
+    background-color: #F7F2B0;
+    font-family: Arial, Tahoma, Helvetica, sans-serif;
+    font-size: 100%;
+    color: #364C5E ;
+    cursor: pointer;
+	 text-align: center; 
+}
+
+
+div.content-box select {
+    border: 1px solid #8EAABF;
+    font-family: Arial, Tahoma, Helvetica, sans-serif;
+    font-size: 100%;
+    color: #364C5E;
+    cursor: pointer;
+}
+
+
+div.content-box table
+{
+    background-color:#DEE8F1;
+	 border: none;
+	 border-collapse:collapse;
+	 margin-left: 10px;
+	 width: 98%;	
+}
+
+div.content-box table tr th
+{  
+	font-family: Arial, Tahoma, Helvetica, sans-serif;
+	font-size: 120%;
+	color: #364C5E;
+	border-bottom: 1px solid #8EAABF;
+	padding: 5px;
+	font-weight: bold;
+   text-align: left;
+}
+
+div.content-box table tr td
+{
+	border-bottom: 1px solid #8EAABF;
+	padding: 3px;
+   padding-right: 15px;
+}
+
+div.content-box pre
+{
+	padding:10px;
+	background-color: white;
+}
+/*for beug IE*/
+div.content-box li h3 
+{
+		margin-top: 0;
+		margin-bottom: 5px;
+}
+
+div.content-box li p 
+{
+		margin: 0;
+		margin-bottom: 20px;
+}
+/*end beug IE*/
+
+div.multibox table
+{
+    background-color:#DEE8F1;
+	 border: none;
+	 margin-left: 10px;
+	 width: 98%;	
+}
+
+div.multibox table tr th
+{  
+	font-size: 120%;
+	border: none;
+	color: #364C5E;
+	padding: 5px;
+	font-weight: bold;
+   text-align: left;
+}
+
+div.multibox table tr td
+{
+	border: none;
+	padding: 3px;	
+   padding-right: 15px;
+}
+
+
+div.editor
+{
+	margin: 0 0 0 17%;  	
+	clear: both;
+}
+
+div.editor table
+{
+    width: auto;	 
+	 margin: 0;
+	 padding: 0;
+}
+
+div.editor table tr td
+{
+	 margin: 0;
+	 padding: 0;
+}
+
+
+/* the login zone on the login page  */
+div#login-zone{
+	margin-left: 25%;
+   margin-right: 25%;
+   margin-top: 100px;
+	text-align: center;
+}
+
+/* the message zone on the message page  */
+div#message-box{
+	margin-left: 25%;
+   margin-right: 25%;
+   margin-top: 100px;
+}
+
+div#message-box img.icon {
+    border: none;
+    float: right;
+}
+
+div#message-box h2 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    padding-top: 15px;
+
+}
+
+/********************************
+******** welcome page structure
+*********************************/
+div#welcome-zone {
+	text-align: center;
+	margin-top: 50px;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+div#welcome-content-zone {
+	float: left;
+	width: 65%;
+}
+div#welcome-user-zone {	
+	float: right;
+	width: 30%;
+}
+
+
+/********************************
+******** feature title elements
+*********************************/
+div#feature-title {
+   margin-left: 3%;
+   margin-right: 3%;
+   margin-top: 35px;
+}
+
+div#feature-title img.icon {
+    border: none;
+    float: right;
+}
+
+
+div#feature-title h2 {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding-top: 15px;
+}
+
+div#feature-title a {
+	background-image: url(../images/admin/skin/puce.gif);
+	background-repeat:no-repeat;
+	background-position:center left;	
+	padding-left:25px;
+}
+
+
+div#feature-content{
+	margin-left:3%;
+	margin-right:3%;
+	clear: both;
+}
+/*
+div#left {   
+    float: left;
+    width: 250px;
+}
+
+div#right {
+    margin-left: 270px;
+}
+*/
+
+div#left {   
+    float: left;
+    width: 30%;
+}
+
+div#right {
+    float: right;
+	width: 68%;
+}
+
+div#right div.content-box {
+	height:100%;
+	margin-top: 0;
+}
+
+div#right div.content-box table tr td 
+{
+margin-left: 0;
+margin-right: 0; 
+padding-right: 0;
+padding-left: 0; 
+}
+
+
+div.thumbnail-element
+{
+    float: left;
+    width: 170px;
+    height: 300px;
+    padding: 5px;
+}
+
+
+div.highlight-box {
+
+    margin: 5px;
+	/* top: 0px;*/
+    /*float: left;*/
+    border: 1px solid #8EAABF;
+    padding-left: 5px;
+    padding-right: 6px;
+    margin-bottom: 10px;
+    /*width: 98%;*/
+    -moz-border-radius: 10px;
+}
+
+/*
+
+div.highlight-box:before {
+	line-height: 0.1;
+	font-size: 1px;
+	background: transparent url("../images/admin/skin/highligth_tr.gif") no-repeat top right;
+	margin: -8px -8px 0 -8px;
+	height: 10px;
+	display: block;
+	border: none;
+	content: url("../images/admin/skin/highligth_tl.gif");
+}
+
+div.highlight-box {
+	background: #8EAABF url("../images/admin/skin/highligth_back.gif") right repeat-y;
+	padding: 8px;
+	margin: 0px;
+}
+
+div.highlight-box:after {
+	display: block;
+	padding-top: 10px;
+	line-height: 0.1;
+	font-size: 1px;
+	content:  url("../images/admin/skin/highligth_bl.gif");
+	margin: -8px;
+	height: 8px;  
+	background: transparent url("../images/admin/skin/highligth_br.gif") scroll no-repeat bottom right ;
+}
+
+div.highlight-box input.button {
+    float:none;
+    display:inline;
+    border: 1px solid #364C5E;
+    background-color: #F7F2B0;
+    font-family: Arial, Tahoma, Helvetica, sans-serif;
+    font-size: 100%;
+    color: #364C5E ;
+    cursor: pointer;
+}
+
+div.highlight-box table {
+    background-color: #8EAABF;
+    margin: 0px;
+    padding: 0px;
+}
+
+*/
+
+/* Style menu admin v2*/
+
+#admin-site {
+  clear: both;
+  min-width: 800px;
+  width: auto;
+}
+
+#content-admin-site-page {
+   float:left;
+   width: 320px;
+}
+
+#feature-content div.admin-site-page{
+  margin-left: -3%;
+}
+
+#admin-site-preview table tr th {
+	font-family: Arial, Tahoma, Helvetica, sans-serif;
+	font-size: 120%;
+	color: #364C5E;
+	border-bottom: 1px solid #8EAABF;
+	padding: 5px;
+	font-weight: bold;
+        text-align: left;
+}
+
+div.admin-site-page label{
+	padding-top: 5px;
+	text-align:left;	
+	width:100%;
+	float: left;
+}
+
+div.admin-site-page input{
+	clear: both;
+	text-align:left;	
+	font-weight: normal;
+}
+
+div.admin-site-page select{
+	text-align:left;	
+	font-weight: normal;	
+}
+
+div.admin-site-highlight-box:before {
+	line-height: 0.1;
+	font-size: 1px;
+	background: transparent url("../images/admin/skin/roundbox_tr.gif") no-repeat top right;
+	margin: -15px -15px 0 -15px;
+	height: 15px;
+	display: block;
+	border: none;
+	content: url("../images/admin/skin/roundbox_tl.gif");
+}
+
+div.admin-site-highlight-box {
+	background: #8EAABF url("../images/admin/skin/roundbox_back.gif") right repeat-y;
+	padding: 15px;
+	margin-top: 18px;
+}
+
+div.admin-site-highlight-box:after {
+	display: block;
+	padding-top: 15px;
+	line-height: 0.1;
+	font-size: 1px;
+	content:  url("../images/admin/skin/roundbox_bl.gif");
+	margin: -15px;
+	height: 8px;
+	background: transparent url("../images/admin/skin/roundbox_br.gif") scroll no-repeat bottom right ;
+}
+
+div.admin-site-highlight-box input {
+    border: 1px solid #8EAABF;
+    font-family: Arial, Tahoma, Helvetica, sans-serif;
+    font-size: 100%;
+}
+
+div.admin-site-highlight-box input.button {
+    float:none;
+    display:inline;
+    border: 1px solid #364C5E;
+    background-color: #F7F2B0;
+    font-family: Arial, Tahoma, Helvetica, sans-serif;
+    font-size: 100%;
+    color: #364C5E ;
+    cursor: pointer;
+	 text-align: center; 	
+}
+
+div.admin-site-highlight-box label
+{
+	font-weight: bold;
+	color: #364C5E;
+	margin: 0;
+	padding-right: 5px;
+	display: block;
+	width: 30%;
+	text-align: right;
+	float: left;
+}
+
+/*for beug IE*/
+div.button-left {
+	width: 49%;
+}
+
+div.button-right {
+	width: 49%;
+}
+
+div.button-left input.button {
+	width: 100%;
+}
+
+div.button-right input.button {
+	width:110%;
+}
+/*end beug IE*/
+
+
+form input.button-image {
+	border: 0;
+	vertical-align: bottom;
+}
+
+body.insert-service {
+	background: #DEE8F1;
+}
+
+div.insert-service {
+    margin: 20px;
+}
+
+div.insert-service table
+{
+   background-color:#DEE8F1;
+	border: none;
+	border-collapse:collapse;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 98%;
+}
+
+div.insert-service table tr th
+{  
+	font-family: Arial, Tahoma, Helvetica, sans-serif;
+	font-size: 120%;
+	color: #364C5E;
+	border-bottom: 1px solid #8EAABF;
+	padding: 5px;
+	font-weight: bold;
+        text-align: left;
+}
+
+div.insert-service table tr td
+{
+	padding: 3px;
+        padding-right: 15px;
+}
+div.insert-service h2 {
+	border: none;
+	font-size: 150%;
+	font-family: Arial, Tahoma, Helvetica, sans-serif;
+	margin-left: 0;
+	border-bottom: 1px solid #364C5E;
+}
+
+
+div.insert-service a  {
+	border: none;
+        font-weight: normal;
+	font-size: 100%;
+	font-family: Arial, Tahoma, Helvetica, sans-serif;
+        text-decoration: none;
+        
+}
+
+div.insert-service a:link, div.content-box a:visited  {
+	border: none;
+	font-size: 100%;
+        font-weight: normal;
+	font-family: Arial, Tahoma, Helvetica, sans-serif;
+        text-decoration: none;     
+}
+
+div.insert-service a:hover  {
+	border: none;
+	font-size: 100%;
+	font-family: Arial, Tahoma, Helvetica, sans-serif;
+        text-decoration: underline;
+        
+}
+
+div.insert-service h3 a:link, div.content-box h3 a:visited {
+	font-weight: bold;
+}
+
+div.insert-service input.button {
+    display:inline;
+    border: 1px solid #364C5E;
+    background-color: #F7F2B0;
+    font-family: Arial, Tahoma, Helvetica, sans-serif;
+    font-size: 100%;
+    color: #364C5E ;
+    cursor: pointer;  
+	 text-align: center; 
+}
+
+div.insert-service input {
+    border: 1px solid #8EAABF;
+    font-family: Arial, Tahoma, Helvetica, sans-serif;
+    font-size: 100%;
+}
+
+div.insert-service select {
+    border: 1px solid #8EAABF;
+    font-family: Arial, Tahoma, Helvetica, sans-serif;
+    font-size: 100%;
+    color: #364C5E;
+    cursor: pointer;
+}
+
+div.insert-service label
+{
+	font-weight: bold;
+	color: #364C5E;
+	margin: 0;
+	padding-right: 5px;
+	display: block;
+	width: 30%;
+	text-align: right;
+	float: left;
+}
+
+a.info{
+    position:relative; /*this is the key*/
+    z-index:24;
+    background: url(../images/admin/skin/bullet.gif) no-repeat left;
+    padding: 0 0 1px 12px;
+    cursor: pointer;
+    }
+
+a.info:hover{
+    z-index:25; 
+    color: #EE9C00;
+    background-color: #DEE8F1;
+    text-decoration: none;
+}
+
+a.info span{
+    display: none;
+	
+}
+
+a.info:hover span{ /*the span will display just on :hover state*/
+    display:block;
+    position:absolute;
+    top:-10em; 
+    right:10em; 
+    width:60em;
+    border:1px solid #395E7D;
+    background-color: #DEE8F1; 
+    color:#000;
+    text-decoration: none;
+}
+
+/* Ajout toggle */
+
+.admin-site {
+ float: left;
+ border: none;
+ width: 30%;
+}
+
+/* Show / Hide AdminPage */
+.preview{
+ border: none;
+ margin-left: 330px;
+ margin-top: 0px;
+ margin-right: 33px;
+}
+
+.preview-ext{
+ border: none;
+ margin-left: 5%;
+ width: 92%;
+}
+
+.admin-site-page-hidden{
+   display: none;
+}
+
+div.toggle_admin{
+ height: 16px;
+ margin: 0 0 0 0;
+}
+
+.toggle_admin_off{
+ display: none;
+}
+
+.toggle_admin_on{
+  background: url(../images/admin/skin/application_side_expand.png) no-repeat left;
+  margin-left: 0px;
+}
+
+

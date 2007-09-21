@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+	<properties>
+		<title>
+			Lutece : Development Guide : Adding user message
+		</title>
+	</properties>
+	<body>
+		<section name="Site messages">
+			<p>
+			Site messages (or user messages) can be displayed on Lutece site (front office).
+			Theses messages can be used when :
+				<ul>
+					<li>
+						User want to execute an unhautorized action (restricted area),
+					</li>
+					<li>
+						an application error must be reported to user,
+					</li>
+					<li>
+						a confirmation message must be displayed.
+					</li>
+				</ul>
+
+				Site message details :
+				<ul>
+					<li>title,</li>
+					<li>message</li>
+					<li>arguments associated with message,</li>
+					<li>url validation,</li>
+					<li>
+						url validation target (défault : "_self"),
+					</li>
+					<li>
+						type of message (information, questionn, 
+						error, warning, confirmation, stop),
+					</li>
+					<li>Cancel button (true of false).</li>
+				</ul>
+				<subsection name="Content types">
+					<p>
+					Site messages can be used in many content types :
+					<ul>
+						<li><a href="howto-create-xpages.html">xpages</a>,</li>
+						<li><a href="howto-create-portlets.html">portlets</a>,</li>
+						<li><a href="howto-create-linkservices.html">insert services</a>,</li>
+						<li>filters.</li>
+					</ul>
+					</p>
+				</subsection>
+
+				<subsection name="SiteMessageService">
+					<p>
+						SiteMessageService provide a method setMessage() 
+						to display site messages. To display Site message, 
+						an exception SiteMessageException is thrown.
+						Example to use setMessage() method :
+						<div class="source">
+							<pre>
+SiteMessageService.setMessage( request, PROPERTY_ACCESS_DENIED_ERROR_MESSAGE, null,
+	PROPERTY_ACCESS_DENIED_TITLE_MESSAGE, null, null, SiteMessage.TYPE_STOP );
+							</pre>
+						</div>
+						PROPERTY_ACCESS_DENIED_ERROR_MESSAGE and
+						PROPERTY_ACCESS_DENIED_TITLE_MESSAGE Constants are the
+						internationalization strings of message and title message.
+					</p>
+					<p>
+						mylutece database module now using this service. It can be used in example.
+					</p>
+					<subsection name="Using service in filter">
+						<p>
+							SiteMessageService can be used in filters.
+							However, they have to catch themselves exception and forward to Portal.jsp.
+							UploadFilter filter provide an implementation example :
+							<div class="source">
+								<pre>
+try
+{
+	SiteMessageService.setMessage( httpRequest, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED,
+		new String[] { _nRequestSizeMax }, PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED, null,
+		"", SiteMessage.TYPE_STOP );
+}
+catch ( SiteMessageException lme )
+{
+	request.getRequestDispatcher( "/" + 
+		AppPathService.getPortalUrl(  ) ).forward( request, response );
+}
+								</pre>
+							</div>
+						</p>
+					</subsection>
+				</subsection>
+
+			</p>
+		</section>
+	</body>
+</document>

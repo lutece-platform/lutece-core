@@ -1,0 +1,13 @@
+<div id="feature-title" class="content-box" >	
+    <img src="${feature_icon}"  class="icon"  alt=""  />
+    <h2>
+    	<a href="${feature_url}">${feature_title}</a>
+    	<#if page_title?has_content>
+    		&nbsp;>&nbsp;${page_title}
+    	</#if>		
+    </h2>
+</div>	
+
+<div id="feature-content" >
+	${page_content}
+</div>

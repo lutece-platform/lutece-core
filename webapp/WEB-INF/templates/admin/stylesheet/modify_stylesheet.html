@@ -1,0 +1,36 @@
+<div class="content-box">
+    <h2>#i18n{portal.style.modify_stylesheet.title}</h2>
+    
+    <form method="post" action="jsp/admin/style/DoModifyStyleSheet.jsp" enctype="multipart/form-data" name="modify_stylesheet">
+        
+        <p>
+            <label for="stylesheet_name">#i18n{portal.style.modify_stylesheet.labelName}&nbsp;*&nbsp;:</label>
+            <input type="hidden" name="stylesheet_id" value="${stylesheet.id}" />
+            <input type="text" size="60" id="stylesheet_name" name="stylesheet_name" value="${stylesheet.description}" maxlength="255" />
+        </p>
+        <p>
+            <label for="stylesheet_source" >#i18n{portal.style.modify_stylesheet.labelFilename}&nbsp;*&nbsp;:</label>
+            <input type="file" id="stylesheet_source" name="stylesheet_source" size="60" maxlength="100" />
+        </p>
+        <p>
+            <label for="styles" >#i18n{portal.style.modify_stylesheet.labelStyle}&nbsp;*&nbsp;:</label>
+            <@combo name="styles" default_value="${stylesheet.styleId}" items=style_list />
+        </p>
+        <p>
+            <label for="mode_stylesheet" >#i18n{portal.style.modify_stylesheet.labelMode}&nbsp;*&nbsp;:</label>
+            <@combo name="mode_stylesheet" default_value="${stylesheet.modeId}" items=mode_list />
+        </p>
+        
+        <p>
+        <input type="submit" value="#i18n{portal.style.modify_stylesheet.buttonModify}" class="button" style="float:left;margin-right:5px;"/>
+    </form>
+    <form method="post"  action="ViewStyleSheetFile"  name="modify_stylesheet">
+        <input type="hidden" name="stylesheet_id" value="${stylesheet.id}" />
+        <input type="submit" value="#i18n{portal.style.modify_stylesheet.buttonView}" class="button" />
+    </form>
+    </p>
+    
+    <script language="JavaScript">
+        window.onload = modify_stylesheet.stylesheet_name.focus
+    </script>
+</div>

@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+   <properties>
+    <title>
+      Lutece : Development Guide : The Portlets.
+    </title>
+   </properties>
+  <body>
+    <section name="Create a new portlet">
+        <p>
+            The Lutece pages are composed of portlets. It is 
+            possible to define new types of portlet which 
+            will then be available for building pages
+            and enrich with new features. The new portlets must be
+            packaged with optional administrative features, in the
+            form of Plugins [<a href="howto-create-plugins.html">HOWTO - Les plugins</a>].
+        
+        </p>
+        <p>
+            This document intends to describe the main steps in order
+            to create a new portlet. The modifications needed concern
+            the entire application; java ,database, templates, xsl, jsp
+        </p>
+        <p>
+            We will refer the notation <strong>&lt;type&gt;</strong> to
+            indicate the name of a new type of portlet.
+        </p>
+    </section>
+    <section name="The JAVA classes to be defined">
+        <p>
+          The addition of a new portlet type implies the creation of
+          three business class :Portlet.java, PortletHome.java,
+          PortletDAO.java belonging to the <code>fr.paris.lutece.portal.business.portlet</code>
+          and also a bean for web display : PortletJspBean.java belonging to
+          the package <code>fr.paris.lutece.plugins.&lt;myplugin&gt;.web.portlet</code>
+          which is described as the following :
+        </p>
+        
+        <subsection name="&lt;type&gt;Portlet.java">
+            <p>
+              It must derive from the abstract class : <code>Portlet</code> which
+              itself implements the interface :<code>XmlContent</code> (package
+               <code>fr.paris.lutece.plugins.&lt;myplugin&gt;.business</code>).
+            </p>
+            
+            <p>
+               <table>
+                  <tr>
+                      <th>Declaration :</th>
+                  </tr>
+                  <tr>
+                      <td>public class Portlet extends Portlet</td>
+                  </tr>
+               </table>
+            </p>
+            <p>
+               This inheritance imposes the &lt;type&gt;Portlet class
+               to implement two methods :
+            </p>
+            <p>
+               <ul>
+                   <li><code>public String getXml();</code></li>
+                   <li><code>public String getXmlDocument();</code></li>
+                   which return the portlet content in xml format.
+               </ul>
+            </p>
+            <p>
+               Also, it inherits the accessors (getters and setters ) on the
+               properties representing a portlet which are grouped in the
+               Portlet class and in constants (tags), defined in the
+               <code>XmlContent</code> interface.
+            </p>
+            <p>
+               Finally ,two more methods need update on the portlet :
+            </p>
+            <p>
+               <ul>
+                   <li><code>public void update()</code></li>
+                   <li><code>public void remove()</code></li>
+                   which call for the update methods found in the corresponding DAO 
+                   and also for the accessors of the new portlet type.
+               </ul>
+            </p>
+        </subsection>
+        <subsection name="&lt;type&gt;PortletHome.java">
+            <p>
+               It must be derived from the abstract class :<strong>PortletHome</strong>
+               which itself implements the interface :
+               <strong>PortletHomeInterface</strong>.
+            </p>
+            <p>
+               <table>
+                   <tr>
+                       <th>Declaration :</th>
+                   </tr>
+                   <tr>
+                       <td><code>public class MyPortletHome extends PortletHome</code></td>
+                   </tr>
+               </table>
+            </p>
+            <p>
+               It must thus implement the two methods :
+            </p>
+            <p>
+               <ul>
+                   <li><code>public InterfaceDAO getDAO()</code> : returns the unique PortletDAO instance described below</li>
+                   <li><code>public int getPortletTypeId()</code> : reurns the identifier of a portlet type stored in the database</li>
+               </ul>
+            </p>
+            <p>
+               This class operates like a singleton; the method :
+            </p>
+            <p>
+               <ul>
+                   <li><code>public static PortletHome getInstance()</code> is necessary to access the unique instance.</li>
+               </ul>
+            </p>
+        </subsection>
+        
+        <subsection name="&lt;type&gt;PortletDAO.java">
+            <p>
+              It must implement the interface <strong>InterfaceDAO</strong>.
+           </p>
+           <p>
+              <table>
+                  <tr>
+                      <th>Declaration :</th>
+                  </tr>
+                  <tr>
+                      <td>public class PortletDAO implements InterfaceDAO</td>
+                  </tr>
+              </table>
+           </p>
+           <p>
+           
+              It must implement the data access methods as described below :
+           </p>
+           <p>
+              <ul>
+                  <li><code>public void insert( Portlet portlet ) throws AppException;</code></li>
+                  <li><code>public void delete( int nPortletId ) throws AppException;</code></li>
+                  <li><code>public void store( Portlet portlet ) throws AppException;</code></li>
+                  <li><code>public Portlet load( int nPortletId ) throws AppException;</code></li>
+              </ul>
+           </p>
+           <p>
+              Apart these essential methods, the developer is free to add
+              to this class any data access methods required to manage 
+              a new portlet.
+           </p>
+        </subsection>
+        
+        <subsection name="&lt;type&gt;PortletJspBean.java">
+           <p>
+              It must derive from the class : <strong>PortletJspBean</strong> which itself implements the
+              <strong>PortletJspBeanInterface</strong> interface.
+           </p>
+           <p>
+              <table>
+                 <tr>
+                    <th>Declaration :</th>
+                 </tr>
+                 <tr>
+                    <td>public class PortletJspBean extends PortletJspBean</td>
+                  </tr>
+              </table>
+           </p>
+           <p>
+              This implies implementing the following methods for managing 
+              the portlet forms  :
+           </p>
+           <p>
+              <ul>
+                  <li><code>public String getCreate( HttpServletRequest request );</code> : Displays of the creation portlet form</li>
+                  <li><code>public String doCreate( HttpServletRequest request );</code> : Processes the creation of the portlet</li>
+                  <li><code>public String getModify( HttpServletRequest request );</code> : Displays of the modification form</li>
+                  <li><code>public String doModify( HttpServletRequest request );</code> : Processes the portlet (must call to the update method of the class
+                  &lt;type&gt;Portlet)</li>
+                  <li><code>public String getPropertiesPrefix();</code> : Returns the prefix of properties of the portlet defined in the configuration file :
+                   lutece.properties</li>
+              </ul>
+           </p>
+           <p>
+              These different methods are called by the JSPs responsible for the
+              creation and modification on a portlet. They are described below :
+           </p>
+           <p>
+              Also, <code>&lt;type&gt;PortletJspBean</code> inherits various methods of
+              <code>PortletJspBean</code> allowing it to fetch the properties of the
+              forms to display.
+           </p>
+           <p>
+              Finally, this class can contain other methods for portlets requiring
+              further processing (for example, the saving process of a file in 
+              a Download type : DownloadFilePortlet)
+           </p>
+           <p>
+              Please notice that the processing of the deletion of a portlet
+              must not be managed by the developer because it is controlled
+              by <code>AdminJspBean</code> which calls the delete method redefined
+              in the <code>&lt;type&gt;Portlet</code>.
+           </p>
+           <p>
+              The processing is thus the same for all portlet types.
+           </p>
+        </subsection>
+            
+        <subsection name="JSP">
+            <p>
+               The four important JSPs in the management of a new portlet are :
+               
+               <ul>
+               <li><code>CreatePortlet&lt;type&gt;.jsp</code></li>
+               <li><code>DoCreatePortlet&lt;type&gt;.jsp</code></li>
+               <li><code>ModifyPortlet&lt;type&gt;.jsp</code></li>
+               <li><code>DoModifyPortlet&lt;type&gt;.jsp</code></li>
+               </ul>
+            </p>
+            <p>
+               They call to the <code>&lt;type&gt;PortletJspBean</code> described before :
+            </p>
+            <p>
+               <table border="1" align="center">
+                   <tr>
+                       <th>JSP</th>
+                       <th>Method of <code>&lt;type&gt;PortletJspBean</code> class</th>
+                   </tr>
+                   <tr>
+                        <td>CreatePortlet&lt;type&gt;.jsp</td>
+                        <td>public String getCreate( HttpServletRequest request )</td>
+                    </tr>
+                    <tr>
+                        <td>DoCreatePortlet&lt;type&gt;.jsp</td>
+                        <td>public String doCreate( HttpServletRequest request );</td>
+                    </tr>
+                    <tr>
+                        <td>ModifyPortlet&lt;type&gt;.jsp</td>
+                        <td>public String getModify( HttpServletRequest request );</td>
+                    </tr>
+                    <tr>
+                        <td>DoModifyPortlet&lt;type&gt;.jsp</td>
+                        <td>public String doModify( HttpServletRequest request );</td>
+                    </tr>
+                </table>
+            </p>
+            <p>
+               These JSP must also handle authentification and administration.
+            </p>
+            <p>
+               <strong>Example of JSP used for display :
+               <code>CreatePortlet&lt;Type&gt;.jsp</code></strong>
+            </p>
+            <p>
+               <div class="source">
+                   <pre>
+&lt;%@ include file="../PluginAdminHeader.jsp" %&gt;
+&lt;jsp:useBean id="&lt;type&gt;Portlet" scope="session" class="fr.paris.lutece.portal.web.portlet.Portlet&lt;Type&gt;JspBean" /&gt;
+&lt;jsp:useBean id="user" scope="session" class="fr.paris.lutece.portal.web.user.UserJspBean" /&gt;
+&lt;%
+    if( user.check( "DEF_ADMIN" ) )
+    {
+    %&gt;
+        &lt;%= &lt;type&gt;Portlet.getCreate( request ); &gt;
+    &lt;%
+    }
+    else
+    {
+        response.sendRedirect( user.getUrlAccesRefuse() );
+    }
+%&gt;
+&lt;%@ include file="../../AdminFooter.jsp" %&gt;
+</pre>
+               </div>  
+             </p>
+             <p>
+                <strong>Example de JSP used for processing : <i>DoCreatePortlet&lt;Type&gt;</i></strong>
+             </p>
+             <p>
+                <div class="source">
+                   <pre>
+&lt;%@ include file="../PluginAdminHeader.jsp" %&gt;
+&lt;jsp:useBean id="&lt;type&gt;Portlet" scope="session" class="mdp.portail.web.rubrique.Portlet&lt;Type&gt;JspBean" /&gt;
+&lt;jsp:useBean id="user" scope="session" class="mdp.portail.web.user.UserJspBean" /&gt;
+&lt;%
+    if( user.check( "DEF_ADMIN" ) )
+    {
+         response.sendRedirect( &lt;type&gt;Portlet.doCreate( request ) );
+    }
+    else
+    {
+         response.sendRedirect( user.getAccessDeniedUrl() );
+    }
+%&gt;
+&lt;%@ include file="../../AdminFooter.jsp" %&gt;
+</pre>
+               </div>
+            </p>
+        </subsection>
+     </section>
+     
+     <section name="The other files"> 
+            <subsection name="XSL style sheets">
+                <p>
+                   Many style sheets are developed by the management of the
+                   display of a new portlet type.
+                </p>
+                <p>
+                    A first category corresponds to the displaying of the 
+                    portlet. By convention, name name is :
+                </p>   
+                <p>
+                     <strong>portlet_&lt;type&gt;_&lt;suffixe&gt;.xsl</strong> where
+                     &lt;suffixe&gt; specifies the style sheet
+                     (<strong>for example :</strong>
+                     <i>portlet_html_no_title.xsl</i>).
+                </p>
+                <p>
+                      The second category is used to display in administration mode.
+                      Each style sheet from the first category must have a
+                      corresponding to a style sheet in administration.
+                      The style sheet is used for preview of the portlet in
+                      administration module. By convention, its name is :
+                </p>
+                <p>
+                      <strong>portlet_&lt;type&gt;_&lt;suffixe&gt;_adm.xsl</strong>.
+                      It is a copy of
+                      <strong>portlet_&lt;type&gt;_&lt;suffix&gt;.xsl</strong> to
+                      which must be added buttons ‘Modify this portlet’,
+                      ‘Delete this portlet’.
+                </p>
+                <p>
+                   All these style sheets must be stored in database from the
+                   administration interface (cf Database paragraph )
+                   
+                </p>
+            </subsection>
+            
+            <subsection name="HTML Templates">
+                <p>
+                   The HTML forms of a new portlet and its modification are 
+                   seperated files :
+                </p>
+                <p>
+                    <ul>
+                        <li>create_portlet.html et modify_portlet.html : contains
+                        corresponding common code for data entry forms and portlets modification.
+                        </li>
+                        <li>Portlet's own templates correponds to data entry forms by
+                        adding corresponding to fields and javascripts.<p>
+                        These templates must be added to each new portlet in the folder :
+                        <strong>WEB-INF/templates/admin/plugins/&lt;type&gt;/</strong>et
+                        must be specified in the plugin's properties file:</p>
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                   <table border="1" align="center">
+                      <tr>
+                         <th>Property</th>
+                         <th>Description</th>
+                      </tr>
+                      <tr>
+                         <td>portlet.&lt;type&gt;.create.title</td>
+                         <td>Title of the form for adding portlet of type &lt;type&gt;</td>
+                      </tr>
+                      <tr>
+                         <td>portlet.&lt;type&gt;.create.url</td>
+                         <td>Url of the jsp which manages addtion of a portlet of type &lt;type&gt;</td>
+                      </tr>
+                      <tr>
+                         <td>portlet.&lt;type&gt;.create.script</td>
+                         <td>Javascript used in the form to add portlet of type &lt;type&gt;.</td>
+                      </tr>
+                      <tr>
+                         <td>portlet.&lt;type&gt;.create.specific</td>
+                         <td>The name of the template which contains specific code for portlet of type &lt;type&gt;</td>
+                      </tr>
+                      <tr>
+                         <td>portlet.&lt;type&gt;.create.specificform</td>
+                         <td>Name of file template which contains code from another form to add next to the existing one, used to create a
+                         portlet of type  &lt;type&gt;..</td>
+                      </tr>
+                      <tr>
+                         <td>portlet.&lt;type&gt;.modify.title</td>
+                         <td>Title of portlet type modification form &lt;type&gt; </td>
+                      </tr>
+                      <tr>
+                         <td>portlet.&lt;type&gt;.modify.url </td>
+                         <td>Url of a jsp which handles update of a portlet type &lt;type&gt;</td>
+                      </tr>
+                      <tr>
+                         <td>portlet.&lt;type&gt;.modify.script</td>
+                         <td>Specific javascript used by the update form of portlet type &lt;type&gt;.</td>
+                      </tr>
+                      <tr>
+                         <td>portlet.&lt;type&gt;.modify.specific</td>
+                         <td>Template which contains specific code specific to the portlet type &lt;type&gt; </td>
+                      </tr>
+                      <tr>
+                         <td>portlet.&lt;type&gt;.modify.specificform</td>
+                         <td>Name of file template which contains code from another form to add next to the existing one, used to modify a
+                         portlet of type &lt;type&gt;..</td>
+                      </tr>
+                   </table>
+                </p>
+
+                <p>
+                   Only the properties :
+                   <code>portlet.&lt;type&gt;.create.title</code>,
+                   <code>portlet.&lt;type&gt;.create.url</code>,
+                   <code>portlet.&lt;type&gt;.modify.title</code> and
+                   <code>portlet.&lt;type&gt;.modify.url</code> are
+                   mandatory.
+                </p>
+                <p>
+                   Nevertherless, the javascript <code>Submit()</code> method must be 
+                   defined as it is required for form validation.
+                </p>
+                <p>
+                  To achieve this, the developer can proceed as follows :
+                </p>
+                <p>
+                   -use the standards respected by most portlets :
+                  <code>script_create_portlet.html</code> and
+                   <code>script_modify_portlet.html</code> (in the 
+                   Web-inf/templates/admin/portlet/ folder )
+                </p>
+                <p>
+                   
+                   - or define the method in the specific form (contrarily to 
+                   HTML portlet).
+                </p>
+            </subsection>
+            
+            <subsection name="Database">
+                <p>
+                   The modification in the database concerns 4 tables :
+                </p>
+                <p>
+                   Table <strong>portlet_type</strong> :
+                </p>
+                <p>
+                   <table border="1">
+                       <tr>
+                           <th>Name of the field</th>
+                           <th>Description</th>
+                       </tr>
+                       <tr>
+                           <td>id_portlet_type</td>
+                           <td>Portlet identifier.</td>
+                       </tr>
+                       <tr>
+                           <td>name</td>
+                           <td>Portlet's type label(label that will be displayed in scrolling menus)</td>
+                       </tr>
+                       <tr>
+                           <td>url_creation</td>
+                           <td>Url of the JSP which displays input form of the portlet</td>
+                       </tr>
+                       <tr>
+                           <td>url_update</td>
+                           <td>Url of the JSP which displays the update form of the portlet</td>
+                       </tr>
+                       <tr>
+                           <td>home_class</td>
+                           <td>Complete Name (package included) in the class &lt;type&gt;PortletHome of the new Portlet type</td>
+                       </tr>
+                     </table>
+                   </p>
+                   <p>
+                        <strong>Example record :</strong> <i>HTML Portlet</i>
+                   </p>
+                   <p>
+                       <table>
+                           <tr>
+                              <th>id_portlet_type</th>
+                              <th>name</th>
+                              <th>url_creation</th>
+                              <th>url_update</th>
+                              <th>home_class</th>
+                           </tr>
+                           <tr>
+                               <td>1</td>
+                               <td>Normal text or HTML</td>
+                               <td>CreatePortletHtml.jsp</td>
+                               <td>ModifyPortletHtml.jsp</td>
+                               <td>fr.paris.lutece.plugins.html.business.portlet.HtmlPortletHome</td>
+                           </tr>
+                       </table>
+                   </p>
+                   <p>
+                        The data is initialised in the database during installation.
+                   </p>
+                   <p>
+                        The configuration of the plugin will thus contain information in 
+                        the form
+                   </p>
+                   <p>
+                        <div class="source">
+                             <pre>
+&lt;portlet&gt;
+    &lt;portlet-class&gt;fr.paris.lutece.plugins.myportlet.business.portlet.MyPortletHome&lt;/portlet-class&gt;
+    &lt;portlet-type-name&gt;MyNew Portlet&lt;/portlet-type-name&gt;
+    &lt;portlet-creation-url&gt;plugins/article/CreatePortletMyPortlet.jsp&lt;/portlet-creation-url&gt;
+    &lt;portlet-update-url&gt;plugins/article/ModifyPortletMyPortlet.jsp&lt;/portlet-update-url&gt;
+&lt;/portlet&gt; </pre>
+                       </div>
+                   </p>
+                   <p>
+                       Table <strong>style</strong> :
+                   </p>
+                   <p>    
+                       A style corresponding to the new portlet type must e defined.
+                       This is done by using Lutece administration :
+                       : <strong>Style Management</strong>.
+                   </p>
+
+                    <p>
+                          Tables <strong>stylesheet</strong> and <strong>style_mode_stylesheet</strong> :
+                    </p>
+                    <p>
+                          Administration interface of Lutece :<strong>XSL stylesheets management</strong> 
+                          allows definition of new styles and to link them to those stored into the database.
+                          All the stylesheets developed according to paragraph : XSL stylesheets must be stored
+                          by using this interface.
+                    </p>
+              </subsection>
+          </section>
+    </body>
+</document>

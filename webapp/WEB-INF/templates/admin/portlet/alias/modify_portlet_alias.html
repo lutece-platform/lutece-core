@@ -1,0 +1,11 @@
+<p>
+	<label>Rubrique source : </label>
+	<@combo name="alias_id" default_value=alias_portlet items=alias_portlets_list />
+</p>
+
+<script language="javascript">
+document.form.accept_alias[0].disabled = true;
+document.form.accept_alias[1].disabled = true;
+</script>
+
+<input type="hidden" name="accept_alias" value="0" />

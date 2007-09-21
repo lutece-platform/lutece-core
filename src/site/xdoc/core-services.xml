@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+      <properties>
+          <title>
+              Lutece : Development Guide : Core Services
+          </title>
+      </properties>
+      <body>
+          <section name="Lutece Services : Base Services">
+              <subsection name="AppPropertiesService">
+                  <p>
+                        The service allows to access to all parameters defined in the <code>properties</code>
+                        files. The files taken into account by this service are Lutece configuration files
+                        placed into <code>WEB-INF/conf</code> folder and plugins configuration files placed in
+                        <code>WEB-INF/conf/plugins</code> folder.
+                  </p>
+                  <p>
+                        Use this type of service as described below :
+                  </p>
+                  <p>
+                        <div class="source">
+                             <pre>
+private static final String PROPERTY_NAME = "myplugin.name";
+...
+
+{
+    ...
+    String strName = AppPropertiesService.getProperty( PROPERTY_NAME );
+    ...
+                             </pre>
+                         </div>
+                  </p>
+              </subsection>
+              <subsection name="AppTemplateService">
+                   <p>
+                        This service allows loading of HTML templates within which the bookmarks can be
+                        substituted. The templates are stored  in the <code>WEB-INF/templates</code> folder.
+                        We can identify administrative templates (Back Office) and site templates (Front office).
+                   </p>
+                   <p>
+                        Use the service as follows :
+                              <div class="source">
+                                   <pre>
+private static final String TEMPLATE_MANAGE_MYPLUGIN = "admin/plugins/myplugin/manage_myplugin.html";
+...
+private static final String BOOKMARK_NAME = "@name@";
+...
+
+{
+    ...
+    HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_MYPLUGIN );
+    template.subtitute( BOOKMARK_NAME , strName );
+    ...
+}                                </pre>
+                              </div>
+                    </p>
+              </subsection>
+              <subsection name="AppPathService">
+                  <p>
+                      The service allows to obtaining information concerning the URI execution and the Lutece's installation folders.
+                      The plugins must not handle URL or absolute paths, it must generate with relative paths and use
+                      this service to obtain absolute references.
+                  </p>
+                   <p>
+                        Use the service as follows :
+                              <div class="source">
+                                   <pre>
+
+{
+    // Get the base URL ( i.e.: "http://localhost:8080/lutece" )
+    String strBaseUrl = AppPathService.getBaseUrl( request );
+
+    ...
+    
+    // Get the WebApp absolute path ( i.e.: "/usr/local/tomcat/webapps/lutece" )
+    String strWebAppPath = AppPathService.getWebAppPath();
+   
+}                                </pre>
+                              </div>
+                    </p>
+              </subsection>
+              <subsection name="AppConnectionService">
+                  <p>
+                      This service help to obtain a portal database connection. This service
+                      is now encapsulated in DAOUtil objects.
+                      To obtain more information about databases refer to
+                      <a href="data-access.html">Development Guide : Data Access</a>
+                   </p>
+                   <p>
+                        Use the service as follows :
+                              <div class="source">
+                                   <pre>
+
+{
+    Connection connection = AppConnectionService.getConnection();
+    ...
+    
+    AppConnectionService.freeConnection();
+   
+}                                </pre>
+                              </div>
+                    </p>
+              </subsection>
+              <subsection name="AppLogService">
+                  <p>
+                  This service enables logging of particular events during runtime in log files
+                  (errors, information on loading , ...).
+                  <div class="source">
+                       <pre>
+catch( Exception e )
+{
+     AppLogService.error( e.getMessage() , e );
+}                       </pre>
+                  </div>
+                  To obtain more information refer to <a href="logging-rules.html">
+                  Development Standard : Logging rules and exception handling</a>
+                  </p>
+              </subsection>
+          </section>
+      </body>
+  </document>

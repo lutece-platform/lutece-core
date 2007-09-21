@@ -1,0 +1,20 @@
+<div class="insert-service">
+    
+    <h2>#i18n{portal.insert.page_insertservice.title}</h2>
+    <table>
+        <tr>
+            <th>#i18n{portal.insert.page_insertservice.labelInsert} :</th>
+        </tr>
+        <#list insert_services_list as insertservice>
+        <tr>
+            <td>
+                <img src="images/admin/skin/bullet.gif" alt="" />
+                <a href="jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=${insertservice.id}&amp;plugin_name=${insertservice.pluginName}&amp;input=${input}&amp;selected_text=${selected_text}" >
+                    #i18n{${insertservice.labelKey}}
+                </a>
+            </td>
+        </tr>
+        </#list>
+    </table>
+</div>   
+ 

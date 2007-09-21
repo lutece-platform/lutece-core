@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+                        "http://java.sun.com/dtd/web-jsptaglibrary_1_1.dtd">
+
+<!--
+    Lutece tag libraries are defined here.
+
+     Note that we support only the 1.1 spec for now,
+     simply because there is no reason to break compatibility.
+ -->
+<taglib>
+  <tlibversion>1.0</tlibversion>
+  <jspversion>1.1</jspversion>
+  <shortname>lutece</shortname>
+
+  <tag>
+    <name>PortalHeader</name>
+    <tagclass>fr.paris.lutece.portal.web.taglib.PortalHeaderTag</tagclass>
+    <bodycontent>empty</bodycontent>
+    <attribute>
+       <name>pageTitle</name>
+    </attribute>
+    <attribute>
+       <name>pagePath</name>
+    </attribute>
+
+  </tag>  
+
+  <tag>
+    <name>PortalFooter</name>
+    <tagclass>fr.paris.lutece.portal.web.taglib.PortalFooterTag</tagclass>
+    <bodycontent>empty</bodycontent>
+  </tag>  
+
+</taglib>

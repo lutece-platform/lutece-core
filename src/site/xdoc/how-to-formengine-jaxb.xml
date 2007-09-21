@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<properties>
+            <title>
+                Lutèce : Recommandations relatives à l'utilisation de JAXB
+            </title>
+	</properties>
+
+	<body>
+			<section name="Introduction">
+                            <p>
+                                Ce document présente un ensemble de recommandations pour une utilisation adaptée de JAXB dans le cadre de la création de formulaires.
+                            </p>
+			</section>
+
+			<section name="Le schéma xsd utilisé pour la génération des classes java">
+				<p>
+                                    Les choix de syntaxe lors de l'écriture du schéma qui servira à la génération des classes JAVA influent fortement sur la forme du code généré.
+				</p>
+
+				<subsection name="Le nom des nœuds et des attributs">
+                                    <p>
+                                        Lors de la génération des classes Java, les nœuds et les attributs sont automatiquement renommés pour satisfaire les règles de nommage Java : <code>NomClasse</code> pour une classe et <code>nomMethode</code> pour une méthode. 
+                                    </p>
+                                    <p>
+                                        Ainsi les nœuds et attributs contenant un underscore ou un tiret sont transformés :
+                                    </p>
+                                    <p>
+                                        <table>
+                                            <tr>
+                                                <th>Nom XML</th>
+                                                <th>Nom de classe Java</th>
+                                                <th>Nom de méthode Java</th>
+                                            </tr>
+                                            <tr>
+                                                <td>mixedCaseName</td>
+                                                <td>MixedCaseName</td>
+                                                <td>getMixedCaseName</td>
+                                            </tr>
+                                            <tr>
+                                                <td>name-with-dash</td>
+                                                <td>NameWithDash</td>
+                                                <td>getNameWithDash</td>
+                                            </tr>
+                                            <tr>
+                                                <td>aa_bb-cc</td>
+                                                <td>AaBbCc</td>
+                                                <td>getAaBbCc</td>
+                                            </tr>
+                                        </table>
+                                    </p>
+                                    <p>
+                                        Lors de l'écriture du schéma, il est cependant recommandé de prendre garde aux risques de collisions dans les noms. Il existe 2 types de collisions possibles : 
+                                    </p>
+                                    <p>
+                                        <ul>
+                                            <li>
+                                                Le nom d'un nœud ou d'un attribut Xml choisi fournit un mot réservé en Java (L'élément "<code>class</code>" fournirait la classe "<code>Class</code>").
+                                            </li>
+                                            <li>
+                                                Un nœud Xml possède un attribut et un nœud-fils de même nom. Ceci est toléré en Xml mais n'est pas possible lors de la génération Java : les attributs et les nœuds ne sont pas considérés de façon différente lors de la génération du code Java.
+                                            </li>
+                                        </ul>
+                                    </p>
+
+                                    <p>
+                                        On évitera donc au maximum les noms générant des collisions lors de l'écriture du schéma. Si on n'a pas la maîtrise de ces noms et que des collisions apparaissent, on pourra cependant les résoudre grâce à un fichier de configuration qui permet de personnaliser les bindings.
+                                    </p>
+
+				</subsection>
+				<subsection name="Les règles qui fournissent le meilleur code">
+					<p>
+                                            <strong>1. Minimiser le nombre de classes générées</strong>
+					</p>	
+					<p>
+                                            Dans le schéma Xsd, il est possible de rendre identiques le nom de l'élément et le nom du type qu'il contient (pour les types complexes). Ceci permet de diviser par 2 le nombre de classes générées.
+					</p>
+					<p>
+                                            Par exemple :
+					</p>
+					<p>
+						<div class="source">
+							<pre>
+    &lt;xs:element name="..."&gt;
+        &lt;xs:complexType&gt;
+            &lt;xs:sequence&gt;
+                &lt;xs:element name="NomChoisi" type="NomChoisi"/&gt;
+            &lt;/xs:sequence&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;
+    &lt;xs:complexType name="NomChoisi"&gt;&lt;!--définition du type NomChoisi --&gt;
+    	...
+    &lt;/xs:complexType&gt;</pre>
+						</div>
+					</p>
+					<p>
+						<strong>2. Gérer la forme du code Xml généré par un marshalling partiel</strong>
+					</p>	
+					<p>
+						Cependant, ceci peut poser des problèmes pour le marshalling partiel, c'est-à-dire lorsqu'on veut générer le code Xml correspondant à un autre élément que la racine.
+					</p>
+					<p>
+						Par exemple, pour générer le code Xml correspondant à une adresse :
+					</p>
+					<p>
+						Code que l'on voudrait générer :
+					</p>
+					<p>
+						<div class="source">
+							<pre>
+    &lt;adresse&gt;
+    &lt;voie/&gt;&lt;codePostal/&gt;&lt;ville/&gt;
+    &lt;/adresse&gt;</pre>
+						</div>
+					</p>
+					<p>
+						Malheureusement, si on utilise la technique décrite au paragraphe précédent, l'élément "adresse" n'est pas généré. 
+					</p>
+					<p>
+						On obtient en effet :
+					</p>
+					<p>
+						<div class="source">
+							<pre>
+    &lt;voie/&gt;&lt;codePostal/&gt;&lt;ville/&gt;
+</pre>
+						</div>
+					</p>
+					<p>
+						Cela pose un réel problème car pour être utilisable (par les feuilles Xsl notamment) le code Xml doit présenter un racine unique.
+					</p>
+					<p>
+						Deux solutions permettent de contourner ce problème :
+					</p>
+					<p>
+						<ul>
+							<li>
+							    <p>
+								   <strong>donner un nom et un type différents lors de la définition Xsd de l'élément qui servira de racine pour le code Xml partiel</strong>
+				                </p>
+                                <p>
+								    <div class="source">
+								         <pre>
+    &lt;xs:element name="..."&gt;
+        &lt;xs:complexType&gt;
+            &lt;xs:sequence&gt;
+                &lt;xs:element name="Nom" type="type"/&gt;
+            &lt;/xs:sequence&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;
+    &lt;xs:complexType name="type"&gt;&lt;!--définition du type --&gt;
+    ...
+    &lt;/xs:complexType&gt;</pre>
+								    </div>
+								</p>    
+							</li>
+							<li>
+							    <p>
+								   <strong>utiliser une définition Xsd par relation pour les éléments qui serviront de racine au marshalling partiel</strong>
+				                </p>
+				                <p>
+								   <div class="source">
+								        <pre>
+    &lt;xs:element name="racine"&gt;
+    &lt;xs:complexType&gt;
+    &lt;xs:sequence&gt;
+    &lt;xs:element ref="racine-partielle"/&gt;
+    ...
+    &lt;/xs:sequence&gt;
+    &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;
+    &lt;xs:element name="racine-partielle"&gt;
+    ...
+    &lt;/xs:element&gt;</pre>
+                                    </div>
+                                 </p>   
+							</li>
+						</ul>
+					</p>
+					<p>
+						Dans tous les cas, il est important d'avoir identifié avant la génération Jaxb les éléments qui peuvent servir à une génération Xml partielle.
+					</p>
+				</subsection>
+			</section>
+
+			<section name="Utilisation d'un package runtime extérieur">
+				<p>
+					Par défaut, les classes permettant le processus de marshalling/unmarshalling sont générées systématiquement avec les classes objets générées. On peut utiliser cependant une instruction (<code>use-runtime</code>) pour forcer la réutilisation d'un package existant (typiquement, on cherchera à utiliser pour un module le package <code>runtime</code> du cœur de formengine). 
+				</p>
+				<p>
+					Cela ne peut cependant fonctionner sans risque que si les classes utilisant les mêmes runtimes ont été générées avec la même version de Jaxb.
+				</p>
+			</section>
+
+
+			<section name="La personnalisation de la génération des classes Java">
+				<p>
+					Il est possible de définir des instructions permettant de personnaliser la génération JAXB. Ces instructions peuvent être indiquées dans le schéma, ou dans un fichier externe. Pour des raisons de lisibilité, on préfèrera la deuxième solution.
+				</p>
+
+				<subsection name="Eviter les collisions">
+
+					<p>
+						Les instructions de personnalisation peuvent permettre de résoudre des collisions. On va en effet pouvoir redéfinir pour chaque élément du schéma le nom de la classe générée correspondante. 
+					</p>
+					<p>
+						Cf. documentation Jaxb.
+					</p>
+
+				</subsection>
+
+
+
+				<subsection name="Choisir les types retournés par les classes Java">
+
+					<p>
+						De la même manière, on peut définir de façon localisée, pour un nœud donné, le type Java à associer au type Xsd utilisé. On peut aussi - et préférera quand c'est possible - redéfinir les associations de types pour tous les éléments de façon globale.
+					</p>
+					<p>
+						Pour ce faire, on englobera les instructions d'association dans une balise de définition globale :
+					</p>
+					<p>
+						<div class="source">
+									<pre>
+    &lt;jxb:globalBindings&gt;...&lt;/jxb:globalBindings&gt;</pre>
+						</div>
+					</p>
+					<p>
+						Voici une liste d'exemples communément utilisés :
+					</p>
+					<p>
+						<ul>
+							<li>
+							    <p>
+								   Association d'une date Sql en Java au type <code>xs:date</code>
+                                </p>
+								<p>
+									<div class="source">
+										<pre>
+    &lt;jxb:javaType name="java.sql.Date" xmlType="xs:date" printMethod="toString" parseMethod="valueOf"/&gt;</pre>
+									</div>
+								</p>	
+							</li>
+							<li>
+							    <p>
+								 	Association d'une heure Sql en Java au type <code>xs:time</code>
+								 </p>	
+								 <p>	
+									<div class="source">
+										<pre>
+    &lt;jxb:javaType name="java.sql.Time" xmlType="xs:time" printMethod="toString" parseMethod="valueOf"/&gt;</pre>
+									</div>
+                                  </p>
+							</li>
+							<li>
+							    <p>
+								   Association du type Java <code>int</code> au type <code>xs:positiveInteger</code> (au lieu de <code>BigInteger</code> par défaut)
+								 </p>
+								 <p>	
+									<div class="source">
+										<pre>
+    &lt;jxb:javaType name="int" xmlType="xs:positiveInteger" parseMethod="javax.xml.bind.DatatypeConverter.parseInt" printMethod="javax.xml.bind.DatatypeConverter.printInt"/&gt;</pre>
+									</div>
+                                 </p>
+							</li>
+						</ul>
+
+					</p>
+					<p>
+						<strong>Remarque :</strong> On spécifie non seulement la correspondance entre types, mais aussi les méthodes à utiliser pour le marshalling et l'unmarshalling.
+					</p>
+
+				</subsection>
+
+
+				<subsection name="Maîtriser les énumérations">
+
+					<p>
+						Pour générer correctement les objets correspondant aux énumérations, il est nécessaire de fournir des règles spécifiques. 
+					</p>
+					<p>
+						Dans la plupart des cas, on peut les définir au niveau global (alors toutes les énumérations rencontrées seront considérées comme étant du même type), en rajoutant un paramètre à la balise <code>&lt;jxb:globalBindings/&gt;</code>.
+					</p>
+
+					<p>
+						Il s'agit en fait de fournir le type Java d'un élément de la liste. Ainsi, pour des énumérations d'éléments de type Java <code>String</code> on aura :
+					</p>
+					<p>
+						<div class="source">
+<pre>
+    &lt;jxb:globalBindings typesafeEnumBase="xs:string"&gt;...&lt;/jxb:globalBindings&gt;</pre>
+						</div>
+					</p>
+
+				</subsection>
+
+			</section>
+
+			
+
+
+	</body>
+</document>

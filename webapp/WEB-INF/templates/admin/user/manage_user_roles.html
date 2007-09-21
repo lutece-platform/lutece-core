@@ -1,0 +1,77 @@
+<div id="left">
+    <div class="content-box" >
+        <h2>#i18n{portal.users.modify_user.titleUser}</h2>
+        <table>
+            <tr>
+                <th>
+                    #i18n{portal.users.modify_user.labelLastName} - #i18n{portal.users.modify_user.labelFirstName}
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    ${user.lastName} ${user.firstName}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    #i18n{portal.users.modify_user.labelAccessCode}                
+                </th>
+            </tr>
+            <td>
+                <#assign userCode = user.accessCode>
+                <#if userCode?length <= 20 >
+	                 ${userCode?right_pad(20, " ")}
+	         <#else>
+	                 ${userCode[0..17]}...
+	         </#if>
+            </td>
+            </tr>            
+            <tr>
+                <th>
+                    #i18n{portal.users.modify_user.actions}
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >
+                        <img src="images/admin/skin/actions/user.png" alt="#i18n{portal.users.actions.labelUser}" title="#i18n{portal.users.actions.labelUser}" />
+                    </a>                    
+                    <a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}" >
+                        <img src="images/admin/skin/actions/right.png" alt="#i18n{portal.users.actions.labelRights}" title="#i18n{portal.users.actions.labelRights}" />
+                    </a>          
+                    <a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}" >
+    	                <img src="images/admin/skin/actions/group.png" alt="#i18n{portal.users.actions.labelWorkgroups}" title="#i18n{portal.users.actions.labelWorkgroups}" />
+	                </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="right">
+    <div class="content-box">
+        <h2>#i18n{portal.users.manage_user_roles.titleRoleList}</h2>         
+            <table>
+                <tr>
+                    <th>#i18n{portal.users.manage_user_roles.columnTitleKey}</th>
+                    <th>#i18n{portal.users.manage_user_roles.columnTitleDescription}</th>
+                </tr>
+                <#list user_role_list?sort_by('key') as role>
+                <tr>
+                    <td>${role.key}</td>
+                    <td>${role.description}</td>			
+                </tr>
+                </#list>		
+            </table>
+
+	    <form method="post" name="modifyform" action="jsp/admin/user/ModifyUserRoles.jsp">               
+            <input type="hidden" name="id_user" value="${user.userId}" />
+            <input type="hidden" name="delegate_rights" value="false"/>
+	        <#if can_modify>
+            <input onclick="document.modifyform.delegate_rights.value='false';document.modifyform.submit()" type="submit" value="#i18n{portal.users.manage_user_roles.buttonLabelModifyRoles}" class="button" />
+            </#if>
+	        <#if can_delegate>
+            <input onclick="document.modifyform.delegate_rights.value='true';document.modifyform.submit()" type="submit" value="#i18n{portal.users.manage_user_roles.buttonLabelDelegateRoles}" class="button" />            
+            </#if>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,233 @@
+<div id="toggle_admin" class="toggle_admin_off">
+    <a href="javascript:adminToggle();" title="Affiche/Masque les propriétés d'admin" alt="Affiche/Masque les propriétés d'admin">
+    &nbsp;&nbsp;&nbsp;
+    </a>
+ </div>
+<div id="content-admin-site-page" class="admin-site-page">
+
+     <div id="admin-site-menu">
+        <ul>
+            <li id="current"><a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">#i18n{portal.site.admin_page.tabPageManagement} ${page.id}</a></li>
+            <li><a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}">#i18n{portal.site.admin_page.tabAdminMapSite}</a></li>
+            <li><a href="javascript:adminToggle();"><img src="images/admin/skin/application_side_contract.png" /></a></li>
+        </ul>
+      </div>  
+       
+      
+    <div class="admin-site-highlight-box" >
+        <form method="post"  action="jsp/admin/site/AdminSite.jsp">
+            <p>
+                <h3>#i18n{portal.site.admin_page.labelSearchPage}</h3>
+				<input type="text" name="page_id" size="10" maxlength="10" value="${page_init_id}" />
+                <input type="submit" value="#i18n{portal.site.admin_page.buttonSearchPage}" class="button" />
+            </p>
+            <p>
+                <em>${page_message}</em>
+            </p>
+        </form>
+    </div>
+    <p style="margin-top:5px">&#160;</p>
+
+	<#if authorization != "1">
+    <div class="content-box" >
+        <form method="post"  action="jsp/admin/site/DoModifyPage.jsp">
+            <input type="hidden" name="page_id" value="${page.id}" />
+            <p>
+                <h2>
+                    <a href="javascript:displayId('page_admin');"><img src="images/admin/skin/open_block.gif" alt="" /></a>
+                    <a href="javascript:hideId('page_admin');"><img src="images/admin/skin/closed_block.gif" alt="" /></a>
+                    #i18n{portal.site.admin_page.titlePageProperties}
+                </h2>
+            </p>
+            <div id="page_admin" class="admin-site-page">
+                <p>
+                   	<label for="page_name" >#i18n{portal.site.admin_page.labelName}
+	                    <input type="text" name="page_name" value="${page.name}" size="40" maxlength="50" />
+					</label>
+				</p>
+				<p>
+		            <label for="page_description">#i18n{portal.site.admin_page.labelDescription}
+   		            	<textarea name="page_description" rows="3" cols="34" >${page.description}</textarea>
+					</label>
+				</p>
+				<p >
+   		            <label for="parent_id">#i18n{portal.site.admin_page.labelParentPageId}<br />
+	                <#if page.id = 1>
+     			        <input type="hidden" name="parent_id" size="10" maxlength="10" value="${page.parentPageId}" />
+						<span style="font-weight:normal;">#i18n{portal.site.admin_page.labelParentPageIdMessage}</span>
+   			        <#else>
+                    <input type="text" name="parent_id" size="10" maxlength="10" value="${page.parentPageId}" />
+       			    </#if>
+					</label>
+				</p>
+				<p>
+    		        <label for="page_order_list">#i18n{portal.site.admin_page.labelOrderPage}<br />
+            			<@combo name="order" default_value="${page.order}" items=page_order_list />
+					</label>
+				</p>
+				<p>
+		            <label for="roles_list">#i18n{portal.site.admin_page.labelRole}<br />
+	        		     <@combo name="role" default_value="${page.role}" items=page_roles_list />
+					</label>
+				</p>
+				<p>
+		            <label for="roles_list">#i18n{portal.site.admin_page.labelNodeStatus}<br />
+						<#if page.nodeStatus = 0>
+						<select name="node_status">
+							<option value="0" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus0}</option>
+							<option value="1">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
+						</select>
+						<#else>
+						<select name="node_status">
+							<option value="0" >#i18n{portal.site.admin_page.labelNodeStatus0}</option>
+							<option value="1" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
+						</select>
+						</#if>
+					</label>
+				</p>
+				<p>
+    		         <label for="themes_list">#i18n{portal.site.admin_page.labelTheme}<br />
+		        	     <@combo name="theme" default_value="${page.codeTheme}" items=page_themes_list />
+					 </label>
+				</p>
+				<p>
+		             <br /><strong>#i18n{portal.site.admin_page.labelPageTemplateList}</strong>
+				</p>
+				<table>
+					<tr>
+						${page_templates_list}
+					</tr>
+				</table>
+				<p>
+		             <input type="submit" value="#i18n{portal.site.admin_page.buttonModify}" class="button"/>
+				</p>
+            </div>
+        </form>
+    </div>
+
+    <div class="content-box">
+        <form method="post" enctype="multipart/form-data" action="jsp/admin/site/DoDefineImage.jsp" >
+            <input type="hidden" name="page_id" value="${page.id}" />
+            <p>
+                <h2>
+                    <a href="javascript:displayId('page_image');"><img src="images/admin/skin/open_block.gif" alt="" /></a>
+                    <a href="javascript:hideId('page_image');"><img src="images/admin/skin/closed_block.gif" alt="" /></a>
+                    #i18n{portal.site.admin_page.titlePictureProperties}
+                </h2>
+            </p>
+            <div id="page_image" class="admin-site-page">
+				<p>
+            		#i18n{portal.site.admin_page.labelCurrentPicture} <a href="javascript:history.go(0)">  #i18n{portal.site.admin_page.labelRefreshPicture}</a>
+				</p>
+				<p>
+                    <img src="${image_url}" width="80" height="80" border="1" alt="#i18n{portal.site.admin_page.labelAltImgDefinition}" />
+				</p>
+				<p>
+    	             <label for="image_content">#i18n{portal.site.admin_page.labelNewPicture}
+	                 	<input type="file" id="image_content" name="image_content" size="32" />
+					 </label>
+				</p>
+				<p>
+    	             <input type="submit" value="#i18n{portal.site.admin_page.buttonAssociate}" class="button" />
+				</p>
+            </div>
+        </form>
+    </div>
+
+	<#if portlet_types_list?has_content>
+    <div class="content-box" >
+        <form method="post"  action="jsp/admin/DoCreatePortlet.jsp" target="preview">
+            <input type="hidden" name="page_id" value="${page.id}" />
+            <p>
+                <h2>
+                    <a href="javascript:displayId('page_portlet');"><img src="images/admin/skin/open_block.gif" alt="" /></a>
+                    <a href="javascript:hideId('page_portlet');"><img src="images/admin/skin/closed_block.gif" alt="" /></a>
+                    #i18n{portal.site.admin_page.titlePortletProperties}
+                </h2>
+            </p>
+			<div id="page_portlet" class="admin-site-page">
+				<p>
+					<strong>#i18n{portal.site.admin_page.labelPortletType}</strong>
+						<select name="portlet_type_id">
+							<#list portlet_types_list as portlet_type>
+								<option value="${portlet_type.id}">${portlet_type.name}</option>
+							</#list>
+						</select>
+					<input type="submit" value="#i18n{portal.site.admin_page.buttonAdd}" class="button"/>
+				</p>
+			 </div>
+	    </form>
+    </div>
+	</#if>
+
+    <div class="content-box" >
+        <form method="post"  action="jsp/admin/site/DoCreateChildPage.jsp">
+            <input type="hidden" name="page_id" value="${page.id}" />
+            <p>
+                <h2>
+                    <a href="javascript:displayId('page_create');"><img src="images/admin/skin/open_block.gif" alt="" /></a>
+                    <a href="javascript:hideId('page_create');"><img src="images/admin/skin/closed_block.gif" alt="" /></a>
+                    #i18n{portal.site.admin_page.titleAddChildPage}
+                </h2>
+            </p>
+            <div id="page_create" class="admin-site-page">
+				<p>
+	            	<label for="child_page_name">#i18n{portal.site.admin_page.labelChildPageName}
+    	            	<!--<input type="text" name="child_page_name" size="40" maxlength="50" />-->
+    	            	<input type="text" name="page_name" size="40" maxlength="50" />
+					</label>
+				</p>
+				<p>
+                    <label for="child_page_description">#i18n{portal.site.admin_page.labelDescription}
+	   	                <!--<textarea name="child_page_description" rows="3" cols="34"></textarea>-->
+	   	                <textarea name="page_description" rows="3" cols="34"></textarea>
+					</label>
+				</p>
+				<p>
+   	                <label for="roles_list">#i18n{portal.site.admin_page.labelRole}<br />
+	                    <@combo name="role" default_value="${page.role}" items=page_roles_list />
+					</label>
+				</p>
+				<p>
+   	                <label for="themes_list">#i18n{portal.site.admin_page.labelTheme}<br />
+	                    <@combo name="theme" default_value="${page.codeTheme}" items=page_themes_list />
+					</label>
+				</p>
+				<p>
+   	                <br /><strong>#i18n{portal.site.admin_page.labelPageTemplateList}</strong>
+		            <table align="left">
+        	            <tr>
+            	            ${page_templates_list}
+                	    </tr>
+		            </table>
+				</p>
+				<p>
+					<input type="hidden" name="node_status" value="1" />
+	                <input type="submit" value="#i18n{portal.site.admin_page.buttonCreate}" class="button"/>
+				</p>
+            </div>
+        </form>
+    </div>
+
+    <#if page.id != 1>
+    <div class="content-box" style="background-color:#FFFFFF;margin:0;">
+        <div class="button-left" style="float:left">
+            <p>
+                <form method="post"  action="jsp/admin/site/RemovePage.jsp">
+                    <input type="hidden" name="page_id" value="${page.id}" />
+                    <input type="submit" value="#i18n{portal.site.admin_page.buttonDeletePage}" class="button" />
+                </form>
+            </p>
+        </div>
+        <div  class="button-right" style="float:right">
+            <p>
+                <form method="post"  action="jsp/admin/site/AdminSite.jsp">
+                    <input type="hidden" name="page_id" value="${page.parentPageId}" />
+                    <input type="submit" value="#i18n{portal.site.admin_page.buttonUpToParentPage}" class="button" />
+                </form>
+            </p>
+        </div>
+    </div>
+    </#if>
+	</#if>
+</div>

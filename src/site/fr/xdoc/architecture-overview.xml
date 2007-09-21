@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+      <properties>
+          <title>
+              Lutèce : Guide de développement : Architecture générale
+          </title>
+      </properties>
+      <body>
+          <section name="Architecture générale">
+              <p>
+                 Le choix général d'architecture repose sur la spécification J2EE qui apporte
+                  un cadre aux applications d'entreprise n-tiers. 
+              </p>
+              <subsection name="Découpage général de l'architecture">
+                  <p>
+                     Les choix de la conception détaillée se sont portés sur une architecture en quatre couches côté serveur :
+                  </p>
+                  <p>
+                     <ul>
+                         <li>La couche présentation assurant les fonctions de gestion de l'interface utilisateur</li>
+                         <li>La couche service assurant les fonctions d'interface entre la couche métier et la couche présentation,
+                             ainsi qu'un ensemble de services techniques : cache, transformations XML/XSL vers HTML ou HTML vers XHTML</li>
+                         <li>La couche métier assurant la gestion des objets modélisant l'activité métier</li>
+                         <li>La couche d'accès aux données qui assure la persistance des objets métiers</li>
+                     </ul>
+                  </p>
+              </subsection>
+              
+              <subsection name="Schéma de restitution du contenu">
+                  <p>
+                     Le schéma suivant présente de manière simplifiée le processus de restitution du contenu :
+                  </p>
+                  <p>
+                     <center>
+                          <img src="images/architecture001.gif" />   
+                     </center>
+                  </p>
+                  <p>
+                     Portal.jsp est le point d'entrée de restitution.
+                  </p>
+                  <p>
+                      Le bean de présentation associé à la JSP, PortalJspBean, effectue un dispatching des appels sur les différents 
+                      services de contenu en fonction des paramètres de la requête. Il joue le rôle de contrôleur.
+                  </p>
+                  <p>
+                      Si une page est demandée, le bean s'adresse au PageService qui fournira la page si elle est dans son cache ou 
+                      sinon il la construira.
+                  </p>
+                  <p>
+                     La construction d'une page fait appel à la classe PageHome pour obtenir une instance de la page demandée. Ensuite, le contenu de chaque rubrique de la page est récupéré en XML puis transformé à la l'aide de la feuille de style XSL associée, et agrégé pour constituer la page. La nouvelle page construite est alors mise dans le cache. 
+                     Si un article est demandé, le schéma est identique.
+                  </p>
+                  <p>
+                      Si la requête correspond à une recherche, le bean s'adressera au SearchService qui construira les pages de résultats.
+                  </p>
+              </subsection>
+
+              <subsection name="Schéma de création de contenu">
+                  <p>
+                     Le schéma suivant présente de manière simplifiée le processus de création de contenu sur l'exemple de l'ajout d'une rubrique HTML dans une page :
+                  </p>
+                  <p>
+                     <center>
+                          <img src="images/architecture002.gif" />   
+                     </center>
+                  </p>
+                  <p>
+                     La validation du formulaire de création d'une rubrique HTML appelle la JSP DoCreatePortletHtml.jsp.
+                      Le traitement est ensuite pris en charge par le bean.
+                  </p>
+                  <p>
+                      La première opération est de convertir le contenu HTML en XHTML de manière à ce que celui-ci puisse être véhiculé plus tard dans du XML. Sans cette opération, 
+                      les balises du contenu HTML peuvent perturber la lecture du document XML qui risque d'apparaître mal formé.
+                  </p>
+                  <p>
+                      Le processus de création se poursuit par le stockage dans la base au niveau de la table des rubriques 
+                      et de celle des rubriques HTML.
+                  </p>
+                  <p>
+                     La création d'une nouvelle rubrique entraîne la modification de la page dont la date de dernière 
+                     modification doit être mise à jour dans la base.
+                  </p>
+                  <p>
+                      Le service d'indexation, qui fonctionne en tâche de fond, détectera la page modifiée à partir de sa date de dernière modification 
+                      et la réindexera en récupérant son contenu à partir du service PageService.
+                  </p>
+              </subsection>
+          </section>
+          
+          <section name="Architecture logicielle par brique : description des couches logicielles">
+              
+              <subsection name="1. Couche de présentation">
+                  <p>
+                     Les composants réalisant la présentation et l'interface utilisateur sont regroupés dans le package 
+                     <strong>fr.paris.lutece.portal.web</strong>.
+                  </p>
+                  <p>
+                     Cette couche est réalisée à l'aide de JSP, de Java Beans, éventuellement de servlets. 
+                     Le code HTML est produit de deux manières :
+                  </p>
+                  <p>
+                     <ul>
+                         <li>Pour le portail, l'HTML sera produit par transformation du contenu XML à l'aide de feuilles de style. 
+                         Le contenu XML pourra éventuellement contenir lui-même du code HTML pour tout ce qui concerne les contenus non 
+                         structurés et notamment les pages locales.</li>
+                         <li>Pour le module administration, qui ne requiert pas le support de plusieurs formats de restitution, 
+                         des fichiers contenant des modèles de représentation HTML appelés  <code>Templates</code> seront utilisés.</li>
+                     </ul>
+                  </p>
+               </subsection>
+                  
+               <subsection name="1.1 Les JSP">
+                  <p>
+                      Le rôle attribué aux JSP est strictement limité à la gestion de la structure des pages et à la navigation.
+                      La partie HTML sera construite par des beans qui utiliseront des templates pour construire le code qui sera inséré dans les pages JSP.
+                  </p>
+                  <p>
+                     Les JSP contiendront donc essentiellement :
+                  </p>
+                  <p>
+                     <ul>
+                         <li>la directive de redirection sur la page d'erreur : <code>errorPage</code></li>
+                         <li>des directives d'inclusion d'objets statiques :<code>&lt;jsp :include&gt;</code>
+                         (ex : code HTML pour inclure une feuille de style)</li>
+                         <li>des branchements conditionnels (<code>&lt;jsp:forward&gt;</code> )</li>
+                     </ul>
+                  </p>
+                  <p>
+                     <em>Tout code Java et HTML est proscrit dans ces pages.</em>
+                  </p>
+                  <p>
+                     Les JSP doivent toutes contenir une JSP d'entête et une JSP de fin de page. 
+                     Ceci permet d'intégrer dans toutes les pages des traitements initiaux et finaux sans 
+                     avoir à modifier l'ensemble des pages (ex : test du timeout de la session, entête et pied de 
+                     page HTML, lien vers une feuille de style, ajout de traitements statistiques, ...).
+                  </p>
+                  <p>
+                     L'application comportera deux JSP d'entête une JSP de fin de page :
+                  </p>
+                  <p>
+                  </p>
+                      <table>
+                          <tr>
+                              <th>Fichier Jsp</th>
+                              <th>Caractéristique</th>
+                          </tr>
+                          <tr>
+                              <td>AdminHeader.jsp</td>
+                              <td>Entête standard vérifiant que l'utilisateur s'est bien identifié</td>
+                          </tr>
+                          <tr>
+                              <td>AdminHeaderSessionLess.jsp</td>
+                              <td>Entête pour les JSP accessible en mode non identifié</td>
+                          </tr>
+                          <tr>
+                              <td>PortletAdminHeader.jsp</td>
+                              <td>Entête standard des portlets vérifiant que l'utilisateur s'est bien identifié.</td>
+                          </tr>
+                          <tr>
+                              <td>PluginAdminHeaderSessionLess.jsp</td>
+                              <td>Entête pour les JSP des plugins  accessibles en mode non identifié</td>
+                          </tr>
+                          <tr>
+                              <td>AdminFooter.jsp</td>
+                              <td>Fin de page standard</td>
+                          </tr>
+                      </table>       
+              </subsection>
+              
+              <subsection name="1.2 Les JspBeans">
+                  <p>
+                     Ces beans sont chargés de gérer la présentation des informations issues des objets métier. 
+                     Ils doivent notamment produire du code HTML qui sera inséré dans les JSP. Ces composants seront localisés 
+                     dans le package <code>fr.paris.lutece.portal.web.</code> et ont un suffixe <em>JspBean</em> pour les différencier 
+                     des beans métier.
+                  </p>
+                  <p>
+                     Les JSP beans peuvent être utilisés par plusieurs pages JSP traitant des mêmes informations, notamment pour 
+                     partager des constantes.
+                  </p>
+                  <p>
+                     La portée des JSP beans (attribut " scope " dans la déclaration du bean dans la JSP) doit être soit session 
+                     s'il contient des variables d'instance relative à la session de l'utilisateur, soit request s'il n'a pas de variable 
+                     d'instance.
+                  </p>
+                  <p>
+                     Les méthodes des JSP Beans réalisant des opérations pour des JSP de traitement (préfixées par " <code>Do</code> ") 
+                     doivent être préfixées par " <code>do</code> " et renvoient l'URL d'une page qui est fonction du résultat du traitement.
+                  </p>
+              </subsection>
+              
+              <subsection name="1.3 Les templates">
+                  <p>
+                     Les templates sont des fichiers .html contenant exclusivement du code HTML et éventuellement Javascript. 
+                     Le balisage Html doit respecter les normes de validation XHTML 1.0 transitional du <a href="http://www.w3.org/">W3C</a>
+                  </p>
+                  <p>
+                     Les éléments variables à insérer dans ces blocs sont matérialisés par des signets sous la forme <code>@variable@</code>. 
+                     L'avantage de ces templates est qu'ils peuvent être partagés par plusieurs JSP et qu'ils peuvent être modifiés 
+                     par des concepteurs graphiques sans risque d'impact sur les traitements. Ces templates seront stockés dans le répertoire 
+                     <em>/WEB-INF/templates</em>. Les classes de base de gestion des templates font partie du framework développé en interne 
+                     et correspondent au package <strong>fr.paris.lutece.util.html.*</strong>. 
+                  </p>
+                  <p>
+                     Les javascripts seront à éviter au maximum. Néanmoins, dans le cas de l'utilisation de javascripts, la compatibilité
+                     avec les navigateurs Internet Explorer version 5.5 et supérieurs, Netscape version 6 et +, 
+                     Mozilla Firefox, les navigateurs Mac (IE 4.5, Netscape 6, Safari, Mozilla Firefox) devra être respectée.
+                  </p>
+              </subsection>
+              
+              <subsection name="2. La couche métier">
+                  <p>
+                     La couche métier sera réalisée par un ensemble de classes correspondant à des objets métiers.
+                  </p>
+                  <p>
+                     Ces classes ne contiendront aucun code technique HTML ou SQL. Ces composants seront regroupés dans les 
+                     packages <strong>fr.paris.lutece.portal.business.*.</strong>
+                  </p>
+                  <p>
+                     La persistance de ces objets sera assurée par des objets DAO (<code>Data Access Object</code>) dont l'interface 
+                     contient les principales méthodes d'accès aux données correspondant aux opérations SQL de base : 
+                     <code>load</code> (<code>SELECT</code>), <code>store</code> (<code>UPDATE</code>), <code>create</code> (
+                     <code>INSERT</code>), <code>drop</code> (<code>DELETE</code>).
+                  </p>
+                  <p>
+                     Afin d'avoir une conception la plus proche possible des EJB, nous utiliserons une classe " Home " 
+                     pour chaque objet métier principal c'est à dire disposant d'un DAO. Les prérogatives de classes sont, 
+                     comme pour les EJB, d'assurer la gestion des instances de l'objet métier :
+                  </p>
+                  <p>
+                     <ul>
+                         <li>Création d'une instance (méthode <code>create()</code> )</li>
+                         <li>Renvoi d'une instance à partir de sa clé primaire (méthode <code>findByPrimaryKey()</code>)</li>
+                         <li>Renvoi d'une collection d'instances pour un critère donné (méthodes <code>findByCritère()</code>)</li>
+                     </ul>
+                  </p>
+                  <p>
+                     A ces méthodes qui figurent dans l'interface des classes Home des EJB entity, nous ajouterons les méthodes 
+                     qui normalement correspondent à des actions gérées par le conteneur d'EJB. L'objet Home étant le seul objet 
+                     ayant accès au DAO, c'est lui qui assurera les opérations de modification et de suppression des entités dans 
+                     la base de données.  
+                  </p>
+                  <p>
+                     Les appels à ces méthodes seront effectués par le biais de méthodes <code>update()</code> et <code>remove()</code> 
+                     au niveau de l'objet métier.
+                  </p>
+                  <p>
+                     Voici le tableau récapitulatif des interfaces des différents objets, avec les liens des méthodes, leur portée, 
+                     et leur appartenance au modèle de programmation des EJB entity :
+                  </p>
+                  <p>
+                      <table>
+                          <tr>
+                              <th>Objet Métier</th>
+                              <th>&#160;</th>
+                              <th>&#160;</th>
+                              <th>Home</th>
+                              <th>&#160;</th>
+                              <th>&#160;</th>
+                              <th>DAO</th>
+                              <th>&#160;</th>
+                              <th>&#160;</th>
+                          </tr>
+                          <tr>
+                              <td><strong>Méthode</strong></td>
+                              <td><strong>Portée</strong></td>
+                              <td><strong>Equivalence modèle EJB</strong></td>
+                              <td><strong>Méthode</strong></td>
+                              <td><strong>Portée</strong></td>
+                              <td><strong>Equivalence modèle EJB</strong></td>
+                              <td><strong>Méthode</strong></td>
+                              <td><strong>Portée</strong></td>
+                              <td><strong>Equivalence modèle EJB</strong></td>
+                          </tr>
+                          <tr>
+                              <td>&#160;</td>
+                              <td>&#160;</td>
+                              <td>&#160;</td>
+                              <td><code>create</code></td>
+                              <td><em>public</em></td>
+                              <td>X</td>
+                              <td><code>insert</code></td>
+                              <td><em>package</em></td>
+                              <td>X</td>
+                          </tr>
+                          <tr>
+                              <td>&#160;</td>
+                              <td>&#160;</td>
+                              <td>&#160;</td>
+                              <td><code>findByPrimaryKey</code></td>
+                              <td><em>public</em></td>
+                              <td>X</td>
+                              <td><code>load</code></td>
+                              <td><em>package</em></td>
+                              <td>X</td>
+                          </tr>
+                          <tr>
+                              <td>&#160;</td>
+                              <td>&#160;</td>
+                              <td>&#160;</td>
+                              <td><code>finbBy...</code></td>
+                              <td><em>public</em></td>
+                              <td>X</td>
+                              <td><code>selectBy</code></td>
+                              <td><em>package</em></td>
+                              <td>X</td>
+                          </tr>
+                          <tr>
+                              <td>Update</td>
+                              <td><em>public</em></td>
+                              <td>&#160;</td>
+                              <td><code>update</code></td>
+                              <td>package</td>
+                              <td>&#160;</td>
+                              <td><code>store</code></td>
+                              <td><em>package</em></td>
+                              <td>X</td>
+                          </tr>
+                          <tr>
+                              <td>Remove</td>
+                              <td><em>public</em></td>
+                              <td>&#160;</td>
+                              <td><code>remove</code></td>
+                              <td>package</td>
+                              <td>&#160;</td>
+                              <td><code>delete</code></td>
+                              <td><em>package</em></td>
+                              <td>X</td>
+                          </tr>
+                      </table>
+                  </p>
+                  <p>
+                      Une recommandation importante de la conception d’EJB entity est d’avoir une granularité assez grosse, 
+                      c'est à dire que tout objet métier ne doit pas nécessairement être implémenté sous la forme d’un EJB entity. 
+                      Tous les objets métiers dépendant d’un objet métier principal, et particulièrement dans le cas où il est en 
+                      lecture seule, doivent être implémentés sous la forme d’une classe simple. La lecture de cet objet sera alors 
+                      réalisée au niveau du DAO de l’objet principal.
+                  </p>
+              </subsection>
+              <subsection name="3. Autres composants">
+                  <p>
+                      Services techniques : package <strong>fr.paris.lutece.portal.util.</strong>
+                  </p>
+                  <p>
+                      Un certain nombre de services techniques seront accessibles à partir des composants de l’application :
+                  </p>
+                  <p>
+                      <table>
+                          <tr>
+                              <th>Service</th>
+                              <th>Description</th>
+                          </tr>
+                          <tr>
+                              <td>AppTemplateService</td>
+                              <td>Renvoie un modèle HTML à partir de son nom. Ce service dispose d’un cache activable qui 
+                                  permet de ne pas relire sur disque un modèle qui a déjà été demandé. </td>
+                          </tr>
+                          <tr>
+                              <td>AppConnectionService</td>
+                              <td>Fourniture de connexions à la base données à partir d’un pool. 
+                                 Ce service est paramétrable pour utiliser soit le pool du serveur d’application, soit un pool
+                                 de connexions autonome.</td>
+                          </tr>
+                          <tr>
+                              <td>AppPropertiesService</td>
+                              <td>Renvoie les valeurs des variables définies dans les fichiers properties des répertoires
+                                /WEB-INF/conf/ et /WEB-INF/conf/plugins/</td>
+                          </tr>
+                      </table>
+                  </p>
+              </subsection>
+              <subsection name="4. Base de données Lutèce">
+                  <p>
+                      Les types de colonnes ainsi que la syntaxe des requêtes SQL doivent être compatibles avec les bases de données MySql 
+                      et PostgreSql. 
+                  </p>
+                  <p>
+                      <a href="shema-db-lutece.html">Shéma de la base</a>
+                  </p>
+               </subsection>
+          </section>
+          
+          <section name="Organisation physique des fichiers de l'application">
+              <p>
+                  L’arborescence des répertoires dans le projet source de Lutece core est définie 
+                  comme suit et intègre les spécifications J2EE - Servlet 2.2. 
+              </p>
+              <subsection name="Organisation des répertoires du noyau">
+                  <p>
+                      <table>
+                          <tr>
+                              <th>Localisation</th>
+                              <th>Type de fichier</th>
+                              <th>Description</th>
+                          </tr>
+                          <tr>
+                                <td>src/</td>
+                                <td>*.java</td>
+                                <td>Les sources de l’application</td>
+                          </tr>
+                          <tr>
+                                <td>/src/sql</td>
+                                <td>*.sql</td>
+                                <td>Les scripts de création de base et d’initialisation de l’application</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/css</td>
+                                <td>*.css</td>
+                                <td>Feuille de style CSS par défaut utilisée par l’application</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/images/**</td>
+                                <td>*.gif,*.jpg,*.png</td>
+                                <td>LEnsemble des pictogrammes utilisés par l’application</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/js/</td>
+                                <td>*.js</td>
+                                <td>Fichiers javascripts utilisés dans l’ensemble de l’application</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/jsp/admin</td>
+                                <td>*.jsp</td>
+                                <td>Les Java Server Pages du module d’administration de l’application</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/jsp/admin/plugins</td>
+                                <td>*.jsp</td>
+                                <td>Les Java Server Pages de la fonctionnalité de  gestion des plugins du module d’administration</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/jsp/site</td>
+                                <td>*.jsp</td>
+                                <td>Les Java Server Pages de la partie site de l’application</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF</td>
+                                <td>web.xml</td>
+                                <td>Fichier de configuration de l’application web (specs Servlet 2.2).
+                                    Contient la déclaration des servlets de l’application</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/conf</td>
+                                <td>*.properties</td>
+                                <td>
+                                    <ul>
+                                        <li>config.properties : le fichier de configuration de l'application. </li>
+                                        <li>db.properties : le fichier de configuration des pools de connexions aux bases de données.
+                                            Il comprend notamment les déclarations suivantes :
+                                            <ul>
+                                                <li>Drivers JDBC</li>
+                                                <li>Sources de données</li>
+                                                <li>Nombre de connexions ouvertes à la création d’un pool</li>
+                                                <li>Nombre maximum de connexions par pool</li>
+                                            </ul>    
+                                        Ce fichier est utilisé pour un fonctionnement autonome (sans serveur d’application).
+                                        </li>
+                                        <li>Autres fichiers properties</li>
+                                    </ul>
+                                </td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/index</td>
+                                <td>_*.f* et autres</td>
+                                <td>Les index du moteur de recherche Lucene pour le site de l’application</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/indexall</td>
+                                <td>_*.f* et autres</td>
+                                <td>Les index du moteur de recherche Lucene pour un ensemble de sites définis dans le fichier config.properties</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/lib</td>
+                                <td>*.jar</td>
+                                <td>Les fichiers archive contenant les classes importées dans l’application ainsi que ceux de lutece core. 
+                                    (specs Servlet 2.2)</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/logs</td>
+                                <td>*.logs</td>
+                                <td>Les logs de l’application.</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/taglibs</td>
+                                <td>*.tld</td>
+                                <td>Fichiers taglibs utilisés dans l’application</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/templates/admin et sous répertoires</td>
+                                <td>*.html</td>
+                                <td>Les modèles HTML utilisés pour la construction dynamique des pages. 
+                                    Il s’agit de blocs de code HTML utilisés par les beans de présentation 
+                                    du module d’administration</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/templates/site et sous-répertoires</td>
+                                <td>*.html</td>
+                                <td>Les modèles HTML utilisés pour la construction dynamique des pages. 
+                                    Il s’agit de blocs de code HTML utilisés par les beans de présentation 
+                                    du site</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/tmp</td>
+                                <td>aucun fichier</td>
+                                <td>Répertoire utilisé dans les fonctionnalités d’ upload , doit être toujours 
+                                    vidé après le traitement</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/xsl/admin</td>
+                                <td>*.xsl</td>
+                                <td>Les feuilles de style XSL de mise en forme du contenu XML sur le module 
+                                    d'administration</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/xsl/normal</td>
+                                <td>*.xsl</td>
+                                <td>Les feuilles de style XSL de mise en forme du contenu XML sur le site</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/xsl/wml</td>
+                                <td>*.xsl</td>
+                                <td>Les feuilles de style XSL de mise en forme du contenu XML en mode wap</td>
+                          </tr>
+                      </table>
+                  </p>      
+              </subsection>
+              <subsection name="Organisation des répertoires des plugins">
+                  <p>
+                      Un plugin peut nécessiter un ensemble assez important et divers de fichiers. 
+                      Voici les répertoires désignés pour contenir ces fichiers. 
+                  </p>
+                   <p>
+                      <table>
+                          <tr>
+                              <th>Localisation</th>
+                              <th>Type de fichier</th>
+                              <th>Description</th>
+                          </tr>
+                          <tr>
+                                <td>/src/java/fr/lutece/plugins/&lt;plugin_name&gt;/business/</td>
+                                <td>*.java</td>
+                                <td>Les fichiers sources java de la couche métier</td>
+                          </tr>
+                          <tr>
+                                <td>/src/java/fr/lutece/plugins/&lt;plugin_name&gt;/service/</td>
+                                <td>*.java</td>
+                                <td>Les fichiers sources java de la couche service</td>
+                          </tr>
+                          <tr>
+                                <td>/src/java/fr/lutece/plugins/&lt;plugin_name&gt;/web/</td>
+                                <td>*.java</td>
+                                <td>Les fichiers sources java de la couche présentation</td>
+                          </tr>
+                          <tr>
+                                <td>/src/sql/plugins/&lt;plugin_name&gt;/</td>
+                                <td>*.sql</td>
+                                <td>Les scripts SQL d'installation et d'initialisation des tables du plugin </td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/jsp/admin/plugins/&lt;plugin_name&gt;/</td>
+                                <td>*.jsp</td>
+                                <td>Les JSP des fonctions d'administration </td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/images/local/skin/plugins/&lt;plugin_name&gt;/</td>
+                                <td>*.gif,*.jpg,*.png</td>
+                                <td>Les images des fonctions d'administration</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/images/local/skin/plugins/&lt;plugin_name&gt;/</td>
+                                <td>*.gif,*.jpg,*.png</td>
+                                <td>Les images de présentation de l'application</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/images/local/data/&lt;plugin_name&gt;/</td>
+                                <td>*.gif,*.jpg,*.png</td>
+                                <td>Les images gérées comme des données du plugin</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/plugins/&lt;plugin_name&gt;/*.*</td>
+                                <td>Sous-répertoires, tous types de fichiers</td>
+                                <td>Emplacement réservé aux plugins ayant besoins de répertoires ou fichiers
+                                    spécifiques</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/conf/plugins/&lt;plugin_name&gt;.properties</td>
+                                <td>*.properties</td>
+                                <td>Le fichier de propriété .properties du plugin</td>
+                          </tr>
+                          <tr>
+                                <td>&lt;webapp&gt;/WEB-INF/plugins/</td>
+                                <td>*.xml, plugins.dat, plugin.dtd</td>
+                                <td>Le fichier de définition du plugin</td>
+                          </tr>
+                          <tr>
+                                <td>/WEB-INF/templates/admin/plugins/</td>
+                                <td>*.html</td>
+                                <td>Les templates des fonctions d'administration</td>
+                          </tr>
+                          <tr>
+                                <td>/WEB-INF/templates/skin/plugins/</td>
+                                <td>*.html</td>
+                                <td>Les templates de l'application accessibles du portail</td>
+                          </tr>
+                          <tr>
+                                <td>/WEB-INF/lib/plugin_&lt;plugin_name&gt;_&lt;version&gt;.jar</td>
+                                <td>*.jar</td>
+                                <td>Le fichier jar contenant les classes du plugin</td>
+                          </tr>
+                      </table>
+                   </p>
+              </subsection>     
+          </section>
+      </body>
+  </document>
+

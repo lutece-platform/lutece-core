@@ -1,0 +1,55 @@
+<div class="content-box" style="z-index:0;">
+    
+    <h2>#i18n{portal.system.manage_daemons.titleCacheList}</h2>
+    
+    <table>
+        <tr>
+            <th>#i18n{portal.system.manage_daemons.columnTitleId}</th>
+            <th>#i18n{portal.system.manage_daemons.columnTitleName}</th>
+            <th>#i18n{portal.system.manage_daemons.columnTitleRunningStatus}</th>
+            <th>#i18n{portal.system.manage_daemons.columnTitleInterval}</th>
+            <th>#i18n{portal.system.manage_daemons.columnTitleLastRun}</th>
+            <th>#i18n{portal.system.manage_daemons.columnTitleActions}</th>
+        </tr>
+        <#list daemons_list as daemon>
+        <tr>
+            <td>${daemon.id}<br />(${daemon.pluginName})</td>
+            <td>#i18n{${daemon.nameKey}}<br />#i18n{${daemon.descriptionKey}}</td>
+            <td>
+                <#if daemon.running>
+                <img src="images/admin/skin/enable.png" alt="" width="24" height="24" />
+                <#else>
+                <img src="images/admin/skin/disable.png" alt="" width="24" height="24" />
+                </#if>
+            </td>
+            <td>${daemon.interval}</td>
+            <td>
+                <a class="info" href="javascript:void;">
+                    ${daemon.lastRunDate}
+                <span>
+                    <br />
+                    <b style="margin-left:10px;">Logs ${daemon.id} ( ${daemon.pluginName} )</b>
+                    <br />
+                    <pre> 
+                        ${daemon.lastRunLogs}
+                    </pre>
+                </span>
+            </td>         
+            <td>
+                <form method="post" action="jsp/admin/system/DoDaemonAction.jsp" >
+                    <#if daemon.running>
+                    <input type="hidden" name="daemon" value="${daemon.id}" />
+                    <input type="hidden" name="action" value="STOP" />
+                    <input type="submit" class="button" value="#i18n{portal.system.manage_daemons.buttonStop}" />
+                    <#else>
+                    <input type="hidden" name="daemon" value="${daemon.id}" />
+                    <input type="hidden" name="action" value="START" />
+                    <input type="submit" class="button" value="#i18n{portal.system.manage_daemons.buttonStart}" />
+                    </#if>
+                </form>
+            </td>
+        </tr>
+        </#list>
+    </table>
+</div>
+

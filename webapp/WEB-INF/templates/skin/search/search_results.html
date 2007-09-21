@@ -1,0 +1,76 @@
+
+<div id="one-zone-first">
+    <div id="one-zone-first-content">
+        <h2 class="page-title" >#i18n{portal.search.search_results.title} </h2>
+        
+        <form name="search" method="post" action="jsp/site/Portal.jsp">
+            <div class="search-form"> 
+                <table>
+                    <tr>
+                        <td>
+                            <input type="hidden" name="page" value="search" />
+                            <input type="text" name="query" size="44" value="${query?if_exists}" />
+                            <input type="submit" value="#i18n{portal.search.search_results.buttonSearch}"  />
+                        </td>
+                        <td>
+                            <#-- Number of documents per page selector -->
+                            #i18n{portal.search.search_results.labelNbDocsPerPage} : <br />
+                            <@NbItemsPerPageSelectorRadioList nb_items_per_page />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="search-results-header"> 
+                <div class="error"> ${error} </div>
+                #i18n{portal.search.search_results.labelResultsCount} : <strong>${paginator.itemsCount}</strong> <br />
+                #i18n{portal.search.search_results.labelResultsRange} : <strong>${paginator.rangeMin} - ${paginator.rangeMax}</strong> <br />
+                <@pagination paginator=paginator />
+            </div>     
+        </form>
+        <div class="search-results">
+            <table>
+                <#list results_list as result>
+                <tr>
+                    <td width="90%">
+                        <img src="images/local/skin/arrows.gif" alt="" />
+                        <a href="${result.url}">${result.title}</a>
+                        <br />
+                        <em>#i18n{portal.search.search_results.labelTypeOfDocument} : ${result.type}</em>
+                        <br />
+                        ${result.summary}
+                    </td>
+                    <td width="10%">
+                        ${result.date}
+                    </td>
+                </tr>            
+                </#list>
+            </table>
+        </div>
+    </div>
+</div>
+
+<#-- Freemarker macros -->
+
+<#-- Number of items per page selector - Combo Box implementation -->
+<#macro NbItemsPerPageSelectorCombo nb_items_per_page>
+    <select name="items_per_page">
+    <#list [ "5" , "10" , "20" , "50" ] as nb>
+    <#if nb_items_per_page = nb >
+    <option selected="selected" value="${nb}">${nb}</option>
+    <#else>
+    <option value="${nb}">${nb}</option>
+    </#if>
+    </#list>
+    </select>
+</#macro>
+
+<#-- Number of items per page selector - Radio List implementation -->
+<#macro NbItemsPerPageSelectorRadioList nb_items_per_page>
+        <#list [ "5" , "10" , "20" , "50" ] as nb>
+        <#if nb = nb_items_per_page > 
+        <input value="${nb}" id="items_per_page${nb}" name="items_per_page" class="radio" type="radio" checked /><label for="items_per_page${nb}">${nb}</label>
+        <#else>
+        <input value="${nb}" id="items_per_page${nb}" name="items_per_page" class="radio" type="radio" /><label for="items_per_page${nb}">${nb}</label>
+        </#if>
+        </#list>
+</#macro>

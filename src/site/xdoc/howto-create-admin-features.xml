@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <title>
+      Lutece : Development Guide : Administrative funstionsFonctions d'administration
+    </title>
+   </properties>
+  <body>
+    <section name="Create new admin functions">
+        <p>
+            The administrative functions corresponds to a set o functions in
+            the admin module independent on the access level :
+            administrator, webmaster, etc ..
+        </p>
+        <p>
+           To every feature corresponds a right possibly given to the user.
+           This right has many levels in order to distinguish between
+           many different profiles. These levels are :
+        </p>
+        <p>
+           <ul>
+               <li>0 - Technical Administrator</li>
+               <li>1 - Content Producer</li>
+               <li>2 - Webmaster</li>
+               <li>3 - Local Participant</li>
+           </ul>
+        </p>
+        <p>
+           When a user has the right granted, the feature is displayed as title and a description
+           in his home menu. By clicking on a link, the user accesses to a JSP which is the entry
+           point of this JSP.
+        </p>
+        <p>
+           The JSP is usually named :<code>Manage&lt;MyFeature&gt;.jsp.</code>
+        </p>
+        <p>
+            The JSP code verifies whether the current user has the rights.
+            If authoriztaion succeeds it calls to the JspBean method associated
+            to this feature(typically MyFeatureJspBean) thus fetching its home page.
+        </p>
+        <p>
+           <div class="source">
+        <pre>
+&lt;%@ include file="../PluginAdminHeader.jsp" %&gt;
+
+&lt;jsp:useBean id="myFeature" scope="session" class="fr.paris.lutece.plugins.myplugin.web.MyFeatureJspBean" /&gt;
+&lt;jsp:useBean id="user" scope="session" class="fr.paris.lutece.portal.web.user.UserJspBean" /&gt;
+
+&lt;%
+    if( user.check( "MYFEATURE_MANAGEMENT" ) )
+    {
+%&gt;
+
+&lt;%= myFeature.getManageMyFeature(request) %&gt;
+&lt;%
+     }
+     else
+
+         response.sendRedirect(
+         user.getPluginAccessDeniedUrl() );
+     }
+%&gt;
+&lt;%@ include file="../../AdminFooter.jsp" %&gt; </pre>
+               </div>
+         </p>
+         <p>
+            NB :  The JSP of that feature receives an HTTP request parameter the plugin name
+            to which it is associated (parameter <b>plugin_name</b>). This allows two plugins to
+            share same features in different contexts.
+         </p>
+         
+    <subsection name="Definition of an administrative feature in the plugin's configuration file">
+        <p>
+           To install a new Lutece feature it must be packaged into
+           a plugin [ <a href=
+           "howto-create-plugins.html">HOWTO - Plugins</a> ].
+        </p>
+        <p>
+           The definition of the feature in the configuration file must done
+           by adding the following lines :
+        </p>
+        <p>
+           <div class="source">
+                <pre>
+&lt;admin-feature&gt;
+   &lt;feature-id&gt;MYFEATURE_MANAGEMENT&lt;/feature-id&gt;
+   &lt;feature-title&gt;My Feature&lt;/feature-title&gt;
+   &lt;feature-description&gt;Description of my feature&lt;/feature-description&gt;
+   &lt;feature-level&gt;3&lt;/feature-level&gt;
+   &lt;feature-url&gt;plugins/myplugin/ManageMyFeature.jsp&lt;/feature-url&gt;
+&lt;/admin-feature&gt;</pre>
+            </div>
+         </p>
+       </subsection>
+    </section>
+  </body>
+</document>

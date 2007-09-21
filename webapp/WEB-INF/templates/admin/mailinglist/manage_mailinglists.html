@@ -1,0 +1,34 @@
+<div class="content-box" >
+
+    <h2>#i18n{portal.mailinglist.manage_mailinglists.boxTitle}</h2>
+
+    <table>
+        <tr>
+            <th >#i18n{portal.mailinglist.manage_mailinglists.columnTitleName}</th>
+            <th >#i18n{portal.mailinglist.manage_mailinglists.columnTitleDescription}</th>
+            <th >#i18n{portal.mailinglist.manage_mailinglists.columnTitleWorkgroup}</th>
+            <th >#i18n{portal.mailinglist.manage_mailinglists.columnTitleActions}</th>
+        </tr>
+        <#list mailinglists_list as mailinglist>
+        <tr>
+            <td><a href="jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}" class="bullet-link">${mailinglist.name}</a></td>
+            <td>${mailinglist.description}</td>
+            <td>${mailinglist.workgroup}</td>
+            <td>
+                <a href="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}">
+                    <img src="images/admin/skin/actions/group.png" class="icon" alt="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}" />
+                </a>
+                <a href="jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}">
+                    <img src="images/admin/skin/actions/delete.png" class="icon" alt="#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}" />
+                </a>
+            </td>
+        </tr>
+        </#list>
+    </table>
+
+    <form method="post"  action="jsp/admin/mailinglist/CreateMailingList.jsp">
+        <p><input type="submit" tabindex="1" value="#i18n{portal.mailinglist.manage_mailinglists.buttonLabelCreate}" class="button" /></p>
+    </form>
+
+</div>
+

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>
+            Migration des plugins de la version v1.x vers v2.0
+        </title>
+    </properties>
+    <body>
+        <section name="Migration des plugins de la version v1.x vers v2.0">
+            <subsection name="Changements au niveau des JSP">
+                <p>
+                    Les changements sont les suivants :
+                    <ul>
+                        <li>Suppression du bean <code>UserJspBean</code></li>
+                        <li>Ajout d'un appel de la méthode init du JSPBean pour notamment 
+                            initialiser la constantes correspondant au droit d'accès à la
+                            fonctionnalités courante. Les droits sont vérifiés par
+                            cette méthode. L'ancien code de vérification disparaît ainsi.
+                        </li>
+                    </ul>
+                
+                </p>
+                <p>
+                    Nouveau code d'une JSP d'affichage :
+                    <div class="source">
+                        <pre>
+&lt;%@ page errorPage="../../ErrorPage.jsp" %&gt;
+
+&lt;jsp:include page="../../AdminHeader.jsp" /&gt;
+
+&lt;jsp:useBean id="contact" scope="session" class="fr.paris.lutece.plugins.contact.web.ContactJspBean" /&gt;
+
+&lt;% contact.init( request, contact.RIGHT_MANAGE_ADMIN_SITE ); %&gt;
+&lt;%= contact.getManageContacts ( request ) %&gt;
+
+&lt;%@ include file="../../AdminFooter.jsp" %&gt;                    
+                        </pre>
+                    </div>
+                
+                    Nouveau code d'une JSP d'action :
+                    <div class="source">
+                        <pre>
+&lt;%@ page errorPage="../../ErrorPage.jsp" %&gt;
+
+&lt;jsp:useBean id="contact" scope="session" class="fr.paris.lutece.plugins.contact.web.ContactJspBean" /&gt;
+
+&lt;%
+    contact.init( request, contact.RIGHT_MANAGE_ADMIN_SITE );
+    response.sendRedirect( contact.doCreateContact( request ) );
+%&gt;
+                        </pre>
+                    </div>
+                </p>
+            </subsection>
+            <subsection name="Changements au niveau du JSPBean pour une page d'administration">
+                <p>
+                    Le JSP Bean doit étendre la classe PluginAdminPageJspBean
+                    <div class="source">
+                        <pre>
+public class MyPluginJspBean extends PluginAdminPageJspBean
+                        </pre>
+                    </div>
+                </p>
+                <p>
+                    Les méthodes d'affichage d'une page d'administration doivent 
+                    définir le titre de cette page en utilisant une propriété
+                    définie dans un fichier de resource de type <code>myplugin_messages.properties</code>
+                    permettant l'internalitionalisation [voir i18n].
+                    Elles doivent par ailleurs renvoyer le contenu de la page par la
+                    méthode getAdminPage de la classe de base qui complètera la
+                    mise en page et formatera le titre de la page.
+                </p>
+                <p>
+                    La gestion du remplissage des templates est désormais faite de 
+                    préférence à l'aide de Freemarker. On utilisera une <code>HashMap</code> nommée
+                    <code>model</code> pour fournir les valeurs de substitution des signets
+                    du template. Les constantes utilisées pour les noms des signets devront
+                    avoir le préfix <code>MARK_</code> qui permettra de les distinguer des
+                    anciens signets préfixés par <code>BOOKMARK_</code>
+ 
+                    <div class="source">
+                        <pre>
+public String getManageContacts( HttpServletRequest request )
+{
+    setPageTitleProperty( PROPERTY_PAGE_TITLE_CONTACTS );
+
+    HashMap model = new HashMap(  );
+    model.put( MARK_CONTACT_LIST, ContactHome.findContactsList( getPlugin(  ) ) );
+    model.put( MARK_ORDER_LIST, getOrderList(  ) );
+
+    HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_CONTACTS, getLocale(  ), model );
+
+    return getAdminPage( templateList.getHtml(  ) );
+}
+                        </pre>
+                    </div>
+                </p>
+            </subsection>
+            <subsection name="Changements dans les templates">
+                <p>
+                    Les templates doivent désormais utiliser de préférence les signets
+                    et les possibilités de Freemarker notamment pour les listes et les combos.
+                    Des macros Freemarker sont disponibles dans le fichier commons.html.
+                </p>
+                <p>
+                    La mise en page s'appuie désormais essentiellement sur les feuilles de style CSS2.
+                    Il faut donc utiliser les balises <code><strong>&lt;div&gt;</strong></code> prévues et supprimer les 
+                    attributs <code><strong>class</strong></code> des autres balises ( a, table, tr ,td, ul, li, ...).                    
+                </p>
+                <p>
+                    Voici un exemple de template intégrant :
+                    <ul>
+                        <li>Une nouvelle balise <code><strong>&lt;div&gt;</strong></code></li>
+                        <li>Toutes les valeurs litéralles sous forme de clé i18n</li>
+                        <li>Le titre de la page : toujours en <code><strong>&lt;h2&gt;</strong></code></li>
+                        <li>Une table dont le seul attribut à définir est la largeur des cellules </li>
+                        <li>Des signets Freemarker notamment pour gérer la liste des lignes de la table</li>
+                    </ul>
+                </p>
+                <p>
+                <div class="source">
+                <pre>
+&lt;div class="content-box" &gt;
+    &lt;h2&gt;#i18n{contact.contacts.tableLabel}&lt;/h2&gt;
+        
+    &lt;table&gt;
+        &lt;tr&gt;
+            &lt;th width="40%"&gt;#i18n{contact.contacts.columnTitleLabel}&lt;/th&gt;
+            &lt;th width="40%"&gt;#i18n{contact.contacts.columnTitleEmail}&lt;/th&gt;
+            &lt;th width="20%"&gt;#i18n{contact.contacts.columnTitleOrder}&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;#list contact_list as contact &gt;
+	        &lt;tr&gt;
+	            &lt;td width="40%"&gt;
+	                &lt;a href="jsp/admin/plugins/contact/ViewContact.jsp?contact_id=${contact.id}" class="admin-menu"&gt;
+	                    ${contact.name}
+	                &lt;/a&gt;
+	            &lt;/td&gt;
+	            &lt;td width"40%"&gt;
+	            	${contact.email}
+	            &lt;/td&gt;
+	            &lt;td&gt;
+	            		&lt;form action="jsp/admin/plugins/contact/DoModifyOrdreContacts.jsp"&gt;
+	                    	&lt;input type="hidden" name="contact_id" value="${contact.id}" /&gt;			
+	                    	&lt;@combo name="contacts_order" default_value="${contact.contactOrder}" items=order_list /&gt;
+							&lt;input type="submit" class="button" value="#i18n{contact.contacts.buttonChangeOrder}" /&gt;
+	                     &lt;/form&gt;
+	             &lt;/td&gt;
+	        &lt;/tr&gt;
+        &lt;/#list&gt;
+    &lt;/table&gt;
+
+    &lt;form action="jsp/admin/plugins/contact/CreateContact.jsp"&gt;
+        &lt;input type="submit" value="#i18n{contact.contacts.buttonAddContact}" class="button" /&gt;
+    &lt;/form&gt;
+
+&lt;/div&gt;
+                </pre>
+                </div>
+                    
+                </p>
+            </subsection>    
+            <subsection name="Changements dans l’arborescence du code">
+                <p>
+                    Certaines classes du noyau ont été déplacées : Les classes <code>Plugin, PluginService
+                    PluginDefaultImplementation </code> sont descendues dans un sous-package <code>plugin</code> 
+                    du package <code>fr.paris.lutece.portal.service</code>. 
+                    Il faut corriger les chemins à partir des erreurs fournies par une première compilation.
+                </p>
+           </subsection>
+           <subsection name="Utilisation de la boucle for ">
+                <p>
+                <div class="source">
+                <pre>
+    List&lt;RssGeneratedFile&gt; listPushRssDatabase = RssGeneratedFileHome.getRssFileList(  );
+    for(RssGeneratedFile generatedFile : listPushRssDatabase )
+    {
+      listFileNames.add( generatedFile.getName( ) );
+    }
+                </pre>
+                </div>
+                </p>
+          
+                <p>
+                La nouvelle syntaxe de la boucle for introduit depuis la 
+                version Tiger de la J2SE permet d'éviter l'utilisation
+                d'itérateur suivi de conversions explicites. Ceci améliore 
+                la lisibilité et réduit les erreurs d'execution. Le <code>for</code>
+                permet de passer en paramètres une liste itérable(tel que <code>Collection</code>)).   
+                </p>
+           </subsection>
+           <subsection name="Utilisation de types paramétrés - Generics">
+                <p>
+                <div class="source">
+                <pre>
+  Collection&lt;Contact&gt; selectContactList( Plugin plugin )
+  {
+      Collection&lt;Contact&gt; contactList = new ArrayList&lt;Contact&gt;(  );
+                </pre>
+                </div>
+                </p>
+                <p>
+                L'utilisation des generics pour typer les collections réduit 
+                le besoin de conversion explicites de types à l'éxecution. Il faut
+                donc désormais rajouter le type de la liste comme indiqué au dessus.
+                Ici la methode <code>selectContactList( Plugin plugin )</code> renvoie
+                une Collection de <code>Contact</code> comme indiqué dans les balises.
+                </p>
+            </subsection>           
+            <subsection name="Changements dans le fichier XML">
+                <p>
+                    La classe <code>PluginDefaultImplementation</code> ayant été déplacée, il ne faut
+                    pas oublier de modifier le package dans le fichier XML.
+                </p>
+                 <p>
+                    Certaines informations telles que la description du plugin ou celle d'une fonction 
+                    d'administration doivent utiliser des clés de ressource pour être traduite dans
+                    d'autres langues ( i18n ).
+                </p>
+            </subsection>
+             <subsection name="Messages du module d'administration">
+                <p>
+                    L'utilisation de la page Message.jsp est désormais proscrite. Il faut utiliser 
+                    la nouvelle classe AdminMessageService qui fournit une URL dynamique vers une
+                    page affichant un message.
+                </p>
+                 <p>
+                    <div class="source">
+                        <pre>
+// Mandatory fields
+if ( request.getParameter( PARAMETER_CONTACT_NAME ).equals( "" ) ||
+        request.getParameter( PARAMETER_CONTACT_EMAIL ).equals( "" ) )
+{
+    return AdminMessageService.getMessageUrl( request , Messages.MANDATORY_FIELDS , AdminMessage.TYPE_STOP );
+}
+                        </pre>
+                    </div>
+                </p>
+            </subsection>
+            <subsection name="Gestion des Images">
+                <p>
+                    La gestion des images dans l'application ne se fait plus en filesystem mais via la servlet ImageServlet.java.
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+{         
+    String strResourceType = PageService.getInstance().getResourceTypeId();
+}                    
+                        </pre>
+                    </div>
+                </p>
+            </subsection>
+            
+            <subsection name="Utilisation d'UrlItem">
+                <p>
+                    Le retour vers des pages Jsp dans les méthodes des classes JspBean doivent dans la mesure du possible utiliser la classe UrlItem : 
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+{
+   	UrlItem url = new UrlItem( JSP_ADMIN_SITE );           
+   	url.addParameter( Parameters.PAGE_ID, nId );
+    return url.getUrl();
+}                 
+                        </pre>
+                     </div>    
+                </p>
+            </subsection>
+            
+            <subsection name="Utilisation des contextes Spring">
+                <p>
+                    Appel des DAO dans les fichiers de contextes Spring. Nécessite : modification des classes Hoùe et DAO, ajout d'une interface DAO, ajout d'un fichier de contexte xml 
+                </p>
+                <p>
+                    <div class="source">
+                        <pre>
+                        </pre>
+                     </div>    
+                </p>
+            </subsection>         
+            
+            <subsection name="Modification du nom des tables">
+                <p>
+                    Les tables du coeurs sont préfixées core_, les tables des plugins sont préfixées par le &lt;plugin_name&gt;_ 
+                </p>                
+            </subsection>                               
+        </section>
+    </body>
+</document>

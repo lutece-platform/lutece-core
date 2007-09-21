@@ -1,0 +1,41 @@
+<div class="content-box">
+    <h2>#i18n{portal.workgroup.assign_users.pageTitle}</h2>
+    <div class="multibox"  width="100%">		
+        <table width="100%" >
+            <tr>
+                <th width="48%">
+                    #i18n{portal.workgroup.assign_users.labelAvailableUser}
+                </th>
+                <th width="4%">
+                    &#160;
+                </th>
+                <th width="48%">
+                    #i18n{portal.workgroup.assign_users.labelSelectedUser}
+                </th>					
+            </tr>
+            <form name="assignUser" method="post" onSubmit="selectAllOptions(document.forms['assignUser']['list_users_ids2'])" action="jsp/admin/workgroup/DoAssignUsersWorkgroup.jsp">                        
+                <tr>					
+                    <td width="48%" align="left">
+                        <@comboWithParams name="list_users_ids1" default_value="" additionalParameters="multiple='multiple' size='10' style='width:100%;'" items=users_list />		    
+                    </td>
+                    <td width="4%" align="center">
+                        <input type="button" onClick="moveSelectedOptions(document.forms['assignUser']['list_users_ids1'],document.forms['assignUser']['list_users_ids2'],false);return false;" value="&gt;" /><br /><br />
+                        <input type="button" onClick="moveSelectedOptions(document.forms['assignUser']['list_users_ids2'],document.forms['assignUser']['list_users_ids1'],false);return false;" value="&lt;" />
+                    </td>
+                    <td width="48%" align="right">
+                        <@comboWithParams name="list_users_ids2" default_value="" additionalParameters="multiple='multiple' size='10' style='width:100%;'" items=new_users_list />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" width="52%">&#160;</td>
+                    <td width="48%" align="center">
+                        <input type="hidden" name="workgroup_key" value="${workgroup.key}" />
+                        <input type="submit" value="#i18n{portal.workgroup.assign_users.labelButtonValidate}" class="button" />
+					    <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
+                    </td>
+                </tr>
+            </form>
+        </table>	
+
+    </div>	
+</div>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+      <properties>
+          <title>
+              Lutece : Development Guide : Data Access
+          </title>
+      </properties>
+      <body>
+          <section name="Data Access">
+               <subsection name="Connection pool and db.properties">
+                   <p>
+                       Lutece has by default two connection pools on the database
+                       containing the portal data (portal and shared).
+                       More pools can be declared for further plugins needs.
+                    </p>
+                   <p>
+                       The pool declaration is done into a <code>db.properties</code>
+                       situated into the <code>WEB-INF/conf</code> folder.
+                   </p>
+                   <p>    
+                       <div class="source">
+                           <pre>
+# Pool for the quiz plugin database
+
+quiz.poolservice=fr.paris.lutece.util.pool.service.LuteceConnectionService
+quiz.driver=org.gjt.mm.mysql.Driver
+quiz.url=jdbc:mysql://localhost/quiz?autoReconnect=true
+quiz.user=
+quiz.password=
+quiz.initconns=1
+quiz.maxconns=3
+quiz.logintimeout=2000
+quiz.checkvalidconnectionsql=SELECT 1   </pre>
+                       </div>
+                   </p>
+                   <p>
+                       The properties of a pool are as follows :
+                       <table>
+                           <tr>
+                               <th>Name</th>
+                               <th>Description</th>
+                           </tr>
+                           <tr>
+                               <td>
+                                   poolservice (optional)
+                               </td>
+                               <td>
+                                   The class name which will try to connect to the pool.
+                                   By default the service is a Lutece service, but can be replaced by 
+                                   a Tomcat pool service :
+                                   <code>fr.paris.lutece.util.pool.service.TomcatConnectionService</code>
+                               </td>
+                           </tr>
+                           <tr>
+                               <td>
+                                   driver
+                               </td>
+                               <td>
+                                   The JDBC class name
+                               </td>
+                           </tr>
+                           <tr>
+                               <td>
+                                   url
+                               </td>
+                               <td>
+                                  The URL  of the JDBC connection to the database containing
+                                   namely the protocol, optional port number, server name and that of the database 
+                               </td>
+                           </tr>
+                           <tr>
+                               <td>
+                                   user
+                               </td>
+                               <td>
+                                   The name of the user of the database
+                               </td>
+                           </tr>
+                           <tr>
+                               <td>
+                                   password
+                               </td>
+                               <td>
+                                   The user's password to the database 
+                               </td>
+                           </tr>
+                          <tr>
+                               <td>
+                                   initconns
+                               </td>
+                               <td>
+                                   The number of connections to initialize at pool creation
+                               </td>
+                           </tr>
+                           <tr>
+                               <td>
+                                   maxconns
+                               </td>
+                               <td>
+                                   The maximum number of connections on the pool 
+                               </td>
+                           </tr>
+                           <tr>
+                               <td>
+                                   logintimeout
+                               </td>
+                               <td>
+                                   The delay expressed in milli seconds to give up a database connection.
+                               </td>
+                           </tr>
+                          <tr>
+                               <td>
+                                   checkvalidconnectionsql (optional)
+                               </td>
+                               <td>
+                                   This parameter contains the SQL request which allows to verifying whether
+                                   the connection pool is valid. The default value is <code> SELECT 1</code>
+                                   for MySQL. For Oracle, this parameter must be defined as
+                                   the following request :<code>SELECT SYSDATE FROM dual</code>.
+                                </td>
+                           </tr>
+                         </table>
+                   </p>
+               </subsection>
+               <subsection name="The DAO pattern">
+                   <p>
+                       As described in the <a href="architecture-overview.html">General Architecture</a>,
+                       the persistence of the relational database is ensured by the objects
+                       defined in the J2EE specification.The DAO objects may be generated by the <strong>codewizard</strong> plugin
+                       Since the 1.3 version , DAO objects are designed with the help of DAOUtil objects.
+                   </p>
+               </subsection>
+               <subsection name="DAOUtil object">
+                   <p>
+                       The DAOUtil class allows to create the objects which provide
+                       an interface to every data access operations :
+                   </p>
+                   <p>
+                       <ul>
+                           <li>Getting a connection from a pool</li>
+                           <li>Preparing an SQL order</li>
+                           <li>Definition of variable elements of the SQL order</li>
+                           <li>Execution of the order</li>
+                           <li>Fetching and possible scan of results</li>
+                           <li>Releasing the connection in the pool</li>
+                       </ul>
+                   </p>
+                   <p>
+                       Here is an example use of the DAO Util object :
+                   </p>
+                   <p>
+                       <div class="source">
+                           <pre>
+                               
+private static final String SQL_QUERY_SELECT = "SELECT id_contact, \
+    description, email, contact_order FROM contact WHERE id_contact = ? ";
+    
+...                              
+Contact load( int nContactId , Plugin plugin )
+{
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT , plugin );
+        daoUtil.setInt( 1 , nContactId );
+        daoUtil.executeQuery();
+
+        Contact contact = null;
+
+        if ( daoUtil.first(  ) )
+        {
+            contact = new Contact();
+            contact.setId( daoUtil.getInt( 1 ) );
+            contact.setName( daoUtil.getString( 2 ) );
+            contact.setEmail( daoUtil.getString( 3 ) );
+            contact.setContactOrder( daoUtil.getInt( 4 ) );
+        }
+        daoUtil.free();
+        return contact;
+}         
+                           </pre>
+                       </div>
+                   </p>
+               </subsection>
+          </section>
+      </body>
+  </document>

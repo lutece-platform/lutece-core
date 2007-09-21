@@ -1,0 +1,18 @@
+<div class="content-box">	
+    
+	<h2>#i18n{portal.features.modify_level.boxTitle} ${level.id}</h2>
+        
+	<form method="post" action="jsp/admin/features/DoModifyLevel.jsp" name="modify_level">
+            <p>
+                <label>#i18n{portal.features.modify_level.labelId}</label>
+                <input type="hidden" name="level_id" value="${level.id}" />		
+            </p>						
+            <p>
+		<label for="level_name" >#i18n{portal.features.modify_level.labelName}</label>
+                <input type="text" name="level_name" value="${level.name}" tabindex="1" size="60" maxlength="80" />			
+            </p>
+            <p>
+            	<input type="submit" value="#i18n{portal.features.modify_level.buttonLabelModify}" tabindex="2" class="button" />
+            </p>							 
+	</form>				      	
+</div>

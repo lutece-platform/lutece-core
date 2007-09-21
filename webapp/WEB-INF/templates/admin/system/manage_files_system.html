@@ -1,0 +1,22 @@
+<div class="content-box">
+
+	<h2>#i18n{portal.system.manage_files_system.boxTitle}</h2>
+	
+    <table>
+    	<tr>
+    		<th>#i18n{portal.system.manage_files_system.labelCategory}</th>
+    		<th>#i18n{portal.system.manage_files_system.labelDescription}</th>
+    	</tr>
+        <#list files_list as file >
+        <tr>
+            <td>
+                <a href="jsp/admin/system/ManageFilesSytemDir.jsp?dir=${file.directory}" class="bullet-link">${file.name}</a>
+            </td>
+            <td>
+                ${file.description}
+            </td>
+        </tr>
+        </#list>
+    </table>
+    
+</div>

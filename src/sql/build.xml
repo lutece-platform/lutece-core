@@ -1,0 +1,97 @@
+<project name="Lutece - Database Initialisation" default="all" basedir=".">
+
+	<target name="init" description="Prepare the database by creating it and inserting data">
+		<echo message="Preparing the database(s) by creating it and inserting data" />
+		<!-- Property file -->
+		<property file="build.properties" />
+		<property name="db.properties.path" value="../conf/db.properties"/>
+		<property name="db.connector.jar.path" value="../lib/mysql-connector-java-5.0.5.jar"/>
+		<!-- Webapp database pool configuration file -->
+		<property file="${db.properties.path}" />
+		<!-- Path to the jar that contain database connector driver -->
+		<property name="db.connector.path" value="${db.connector.jar.path}" />
+	</target>
+	
+	<!-- Default target to be used with sql/plugins/<plugin name>/core and sql/plugins/<plugin name>/plugin structure -->
+	<target name="all" depends="db_core_plugin_init,db_plugin_init"/>
+
+	<!-- Target that initialize core db -->	
+	<target name="core_files" depends="init">	
+		<fileset id="sql.core.files" dir="${basedir}">
+			<include name="*.sql" />
+		</fileset>	
+		<pathconvert refid="sql.core.files" setonempty="false" property="exists.sql.core.files"/>
+	</target>
+	<target name="db_core_init" if="exists.sql.core.files" depends="core_files">
+		<echo message="Preparing the core database" />
+		<property name="portal.driver" value="" />
+		<property name="portal.url" value="" />
+		<property name="portal.user" value="" />
+		<property name="portal.password" value="" />
+		<sql driver="${portal.driver}" url="${portal.url}" userid="${portal.user}" password="${portal.password}" encoding="utf8" onerror="${on_sql_error}">
+			<fileset refid="sql.core.files"/>
+			<classpath>
+				<pathelement location="${db.connector.path}" />
+			</classpath>
+		</sql>
+	</target>
+	
+	
+	<!-- Target to init core depend plugin database -->
+	<target name="plugin_init_core_files" depends="db_core_init">	
+		<fileset id="sql.core.plugin.files" dir="${basedir}">
+			<include name="plugins/**/core/*.sql" />
+		</fileset>	
+		<pathconvert refid="sql.core.plugin.files" setonempty="false" property="exists.sql.core.plugin.files"/>
+	</target>	
+	<target name="db_core_plugin_init" depends="plugin_init_core_files" if="exists.sql.core.plugin.files">
+		<echo message="Add plugin specific table(s) to the core database"/>	
+		<sql driver="${portal.driver}" url="${portal.url}" userid="${portal.user}" password="${portal.password}" encoding="utf8" onerror="${on_sql_error}">
+			<fileset refid="sql.core.plugin.files"/>
+			<classpath>
+				<pathelement location="${db.connector.path}" />
+			</classpath>
+		</sql>		
+	</target>
+				
+	<!-- Target to init plugin specific database -->
+	<target name="plugin_init_plugin_files" depends="db_core_init">	
+		<fileset id="sql.plugin.files" dir="${basedir}">
+			<include name="plugins/**/plugin/*.sql" />
+		</fileset>	
+		<pathconvert refid="sql.plugin.files" setonempty="false" property="exists.sql.plugin.files"/>
+	</target>
+	<target name="pool_plugins_exists_test" unless="plugins.poolservice">
+		<echo level="warning">
+		Plugins pool wasn't defined in db.properties file.
+		All tables will be create in core pool portal.
+		</echo>
+	</target>
+	<target name="db_plugin_init" if="exists.sql.plugin.files" depends="init,plugin_init_plugin_files">
+		<echo message="Preparing plugin specific database" />
+		<ant target="pool_plugins_exists_test"/>
+		<property name="plugins.driver" value="${portal.driver}" />
+		<property name="plugins.url" value="${portal.url}" />
+		<property name="plugins.user" value="${portal.user}" />
+		<property name="plugins.password" value="${portal.password}" />
+		<sql driver="${plugins.driver}" url="${plugins.url}" userid="${plugins.user}" password="${plugins.password}" encoding="utf8" onerror="${on_sql_error}">
+			<fileset refid="sql.plugin.files"/>
+			<classpath>
+				<pathelement location="${db.connector.path}" />
+			</classpath>
+		</sql>
+	</target>
+	
+	<!-- Target to be used with old sql directory structure --> 
+	<target name="db_init_old_structure" depends="db_core_init">
+		<echo message="Preparing unique database for all plugins." />
+		<sql driver="${portal.driver}" url="${portal.url}" userid="${portal.user}" password="${portal.password}" encoding="utf8" onerror="${on_sql_error}">
+			<fileset dir="${basedir}">
+				<include name="plugins/**/*.sql" />
+			</fileset>
+			<classpath>
+				<pathelement location="${db.connector.path}" />
+			</classpath>
+		</sql>
+	</target>
+</project>

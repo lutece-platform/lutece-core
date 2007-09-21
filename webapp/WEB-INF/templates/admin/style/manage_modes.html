@@ -1,0 +1,27 @@
+<div class="content-box" >
+
+    <h2>#i18n{portal.style.manage_modes.boxTitle}</h2>
+
+    <table>
+        <tr>            
+            <th >#i18n{portal.style.manage_modes.columnTitleId}</th>
+            <th >#i18n{portal.style.manage_modes.columnTitleDescription}</th>
+            <th >#i18n{portal.style.manage_modes.columnTitleXslPath}</th>
+        </tr>
+       
+        <#list mode_list as mode >
+        <tr>
+            <td>
+                <a href="jsp/admin/style/ModifyMode.jsp?mode_id=${mode.id}" class="bullet-link">${mode.id}</a>
+            </td>
+            <td>${mode.description}</td>
+            <td>${mode.path}</td>
+        </tr>			
+        </#list>
+    </table>
+    
+    <form method="post"  action="jsp/admin/style/CreateMode.jsp">
+        <p><input type="submit" tabindex="1" value="#i18n{portal.style.manage_modes.buttonLabelCreate}" class="button" /></p>
+    </form>
+        
+</div>

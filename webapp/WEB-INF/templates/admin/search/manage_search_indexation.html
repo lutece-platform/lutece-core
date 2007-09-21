@@ -1,0 +1,30 @@
+<div class="content-box">
+    <h2>#i18n{portal.search.manage_indexer.labelIndexersList}</h2>
+    <table>
+        <tr>
+            <th width="30%">#i18n{portal.search.manage_indexer.columnIndexerName}</th>
+            <th width="10%">#i18n{portal.search.manage_indexer.columnIndexerVersion}</th>
+            <th width="50%">#i18n{portal.search.manage_indexer.columnIndexerDescription}</th>
+            <th width="10%">#i18n{portal.search.manage_indexer.columnIndexerEnable}</th>
+        </tr>
+        <#list indexers_list as indexer>
+            <tr>
+                <td>${indexer.name}</td>
+                <td>${indexer.version}</td>
+                <td>${indexer.description}</td>
+                <td>
+                <#if indexer.enable >  
+                    <img src="images/admin/skin/enable.png" width="24" height="24" valign="center" />  
+                <#else>    
+                    <img src="images/admin/skin/disable.png" width="24" height="24" valign="center" />  
+                </#if>
+                </td>
+            </tr>
+        </#list>
+    </table>
+<br/>
+<form method="get" name="doIndexing" action="jsp/admin/search/DoIndexing.jsp" >
+    <input class="button" type=submit value="#i18n{portal.search.manage_indexer.buttonDoIndex}" />
+    <input class="button" type="button" value="#i18n{portal.util.labelCancel}" onClick="javascript:history.go(-1);" />
+</form>
+</div>

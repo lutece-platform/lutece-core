@@ -1,0 +1,53 @@
+<div class="content-box" >
+
+    <h2>#i18n{portal.style.manage_stylesheets.title}</h2>
+<div class="highlight-box">
+        <form method="post" >
+            <p>
+                <label for="mode_id" >#i18n{portal.style.manage_stylesheets.labelSortByMode} :</label>
+                <@combo name="mode_id" default_value="${mode_id}" items=mode_list />
+                <input type="submit" class="button" value="#i18n{portal.style.manage_stylesheets.buttonApplyCriterias}" />
+            </p>
+        </form>
+    </div>
+    <form method="post" action="jsp/admin/style/ManageStyleSheets.jsp">
+            <@pagination paginator=paginator />
+
+            <!-- Number of documents per page selector -->
+            #i18n{portal.style.manage_stylesheets.labelItemsPerPage} :
+            <select name="items_per_page">
+                <#list [ "5" , "10" , "20" , "50" ] as nb>
+                <#if nb_items_per_page = nb >
+                <option selected="selected" value="${nb}">${nb}</option>
+                <#else>
+                <option value="${nb}">${nb}</option>
+                </#if>
+                </#list>
+            </select>                            
+            <input type="submit" class="button" value="#i18n{portal.style.manage_stylesheets.buttonItemsPerPage}" />
+        </form>        
+    
+        <table>
+            <tr>
+                <th width="40%" >#i18n{portal.style.manage_stylesheets.columnName}</th>
+                <th width="60%" >#i18n{portal.style.manage_stylesheets.columnFilename}</th>
+            </tr>
+            
+            <#list stylesheet_list as stylesheet >
+            <tr>
+                <td width="40%">
+                    <a href="jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}" class="bullet-link">${stylesheet.description}</a>
+                </td>
+                <td width="60%">${stylesheet.file}</td>
+            </tr>
+            </#list>
+            
+        </table>
+  
+    <form method="post"  action="jsp/admin/style/CreateStyleSheet.jsp" >
+        <p>
+            <input type="hidden" name="mode_id" value="${mode_id}" />
+            <input type="submit" class="button" value="#i18n{portal.style.manage_stylesheets.buttonAdd}" />
+        </p>
+    </form>
+</div>

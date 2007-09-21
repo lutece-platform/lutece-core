@@ -1,0 +1,69 @@
+<div id="feature-content" >
+    
+    <#if portletType.modifyScriptTemplate != "" >
+        <#include portletType.modifyScriptTemplate />
+    </#if>
+    
+    <br /><br />
+    <div class="content-box" >
+        <h2>#i18n{portal.site.portletType.labelModify} ${portletType.name}</h2>
+    </div>
+    
+    <div class="content-box" >
+        <form method="post" name="form" action="${portletType.doModifyUrl}"  target="_top">
+            
+            <input type="hidden" name="portlet_id" value="${portlet.id}" />
+            <input type="hidden" name="portlet_type_id" value="${portletType.id}" />
+            
+            <p>
+                <label>#i18n{portal.site.modify_portlet.labelPortletTitle}</label>
+                <input type="text" name="portlet_name" value="${portlet.name}" size="40" maxlength="40" />
+            </p>
+            <p align="center">
+                <#if portlet.displayPortletTitle = 0 >
+                <input type="radio" class="radio" name="display_portlet_title" value="0" checked="checked"/>#i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleYes}
+                <input type="radio" class="radio" name="display_portlet_title" value="1"/> #i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleNo}
+                <#else>
+                <input type="radio" class="radio" name="display_portlet_title" value="0"/>#i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleYes}
+                <input type="radio" class="radio" name="display_portlet_title" value="1" checked="checked"/> #i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleNo}
+                </#if>
+            </p>
+            <p>
+                <label>#i18n{portal.site.modify_portlet.labelOrder}</label>
+                <@combo name="order" default_value="${portlet.order}" items=portlet_order_combo />
+            </p>
+            <p>
+                <label>#i18n{portal.site.modify_portlet.labelColumn}</label>
+                <@combo name="column" default_value="${portlet.column}" items=portlet_columns_combo />
+            </p>
+            <p>
+                <label>#i18n{portal.site.modify_portlet.labelStyle}</label>
+                <@combo name="style" default_value="${portlet.styleId}" items=portlet_style_combo />
+            </p>
+            <p >
+                <label>#i18n{portal.site.modify_portlet.labelAlias}</label>
+                <#if portlet.acceptAlias = 1 >
+                <input type= "radio" class="radio" name="accept_alias" value="1" checked="checked" />#i18n{portal.site.modify_portlet.radioButtonAcceptAliasYes}
+                <input type= "radio" class="radio" name="accept_alias" value="0" /> #i18n{portal.site.modify_portlet.radioButtonAcceptAliasNo}
+                <#else>
+                <input type= "radio" class="radio" name="accept_alias" value="1" />#i18n{portal.site.modify_portlet.radioButtonAcceptAliasYes}
+                <input type= "radio" class="radio" name="accept_alias" value="0" checked="checked" /> #i18n{portal.site.modify_portlet.radioButtonAcceptAliasNo}
+                </#if>
+            </p>
+            <p>
+                <#if portletType.modifySpecificTemplate != "" >
+                    <#include portletType.modifySpecificTemplate />
+                </#if>
+            </p>
+            <p>
+                <input type="submit" value="#i18n{portal.site.modify_portlet.buttonValidate}" class="button" />&nbsp;
+                <input type="button" value="#i18n{portal.site.modify_portlet.buttonBack}" onclick="javascript:history.go(-1)"  class="button" />
+            </p>
+            
+            <#if portletType.modifySpecificFormTemplate != "" >
+                <#include portletType.modifySpecificFormTemplate />
+            </#if>
+            
+        </form>
+    </div>
+</div>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+      <properties>
+          <title>
+              Lutece : Development Standards : Unit Tests
+          </title>
+      </properties>
+      <body>
+          <section name="Unit Tests">
+          <subsection name="Overview">
+          <p>
+              Automatised unit tests enables to rapidly control the source code.
+              These test allow to validate various requirements, business rules and 
+              to control stability across time(non regression).
+              The framework used to accomplish these tests is JUnit 
+              (<a href="http://www.junit.org">http://www.junit.org</a>)
+          </p>
+          </subsection>
+          <subsection name="Using JUnit">
+          <p>
+              JUnit is set up in various ways.It is equally possible to exploit other utilities.
+              Lutece uses the following way to take advantage of JUnit.
+          </p>
+          <p style="h4" class="h4">LuteceTestCase</p>
+          <p>
+              The granularity of a test is a class.
+              For each class to test, a derived class <code>LuteceTestCase</code>
+              must be created and grouped in a set of tests to realise.
+              The file structure of test classes must be reproduced as the sources of the application.
+          </p>
+          <p>
+              To realize the tests on the class :
+              <ul><li><code>src/java/<strong>fr/paris/lutece/plugins/myplugin/web/MyClass</strong></code></li></ul>
+              A class must be created :
+              <ul><li><code>test/java/<strong>test/fr/paris/lutece/plugins/myplugin/web/MyClassTest</strong></code></li></ul>
+          </p>
+          <p>
+              The class <code>LuteceTestCase</code> extends the abstract <code>TestCase</code>
+              of the JUnit framework by initializing a set of Lutece services in the
+              method implementation <code>setUp()</code>. It is thus possible, for all
+              tests methods to access Lutece services : 
+              <code>AppTemplateService</code>, <code>AppPropertiesService</code>,
+              <code>AppConnectionService</code>, etc.
+             
+          </p>
+          <p>
+              Each test method inside a class is prefixed by "test" as imposed by the framework.
+              This allows, by reflection, to dynamically find and launch each test in the class.
+          </p>
+
+          <p style="h4">MockHttpServletRequest Object</p>
+          <p>
+              To accomplish some tests, substitution(<i>Mock objects</i>) objects are necessary to simulate real objects.
+              Example :
+              In realizing the methods tests receiving a request object
+              <code>request</code> as a parameter, 
+              it is impossible so simulate a HTTP client to provide this object 
+              <code>request</code>.
+              The class <code>MockHttpServletRequest</code>, implements the interface 
+              <code>HttpServletRequest</code> and has accessors allowing it to add
+              parameters, attributes, sessions and cookies so as to test a real situation.
+             
+          </p>
+          <div class="source">
+              <pre>
+import test.fr.paris.lutece.LuteceTestCase;
+import test.fr.paris.lutece.MokeHttpServletRequest;
+
+import javax.servlet.http.Cookie;
+
+public class MyClassTest extends LuteceTestCase
+{
+    /**
+     * Test getNameFromCookie
+     */
+    public void testGetNameFromCookie(  )
+    {
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        Cookie cookieName = new Cookie( "mycookie", "name" );
+        Cookie[] cookies = { cookieName };
+        request.setMokeCookies( cookies );
+        assertEquals( getNameFromCookie( request ) , "name" );
+    }  
+    ...
+}</pre>
+          </div>
+
+          <p style="h4">Combination of tests (TestSuite)</p>
+          <p>
+              JUnit offers a test combination mechanism based on TestSuites.
+              For Lutece,a class <code>AllTests</code> is realized at each level of the package
+              and provides a static method <code>suite()</code> which returns TestSuite
+              containing all the tests of the package and the suites of the sub-packages.
+              This mechanism enables launching of tests at all level of the package, 
+              by considering all tests from the sub-packages.
+              
+          </p>
+          <p>
+              Here is an example of the <code>AllTests</code> class implementation
+          </p>
+          <div class="source">
+              <pre>
+public final class AllTests
+{
+    /**
+     * Constructor (private)
+     */
+    private AllTests(  )
+    {
+    }
+
+    /**
+     *  A set of tests
+     * @return Test the tests
+     */
+    public static Test suite(  )
+    {
+        TestSuite suite = new TestSuite( "Test of the package fr.paris.lutece.plugins.myplugin" );
+
+        //$JUnit-BEGIN$
+        // Add tests of the current package 
+        suite.addTest( new TestSuite( MyClassTest.class ) );
+        
+        // Add tests of sublevel packages
+        suite.addTest( test.fr.paris.lutece.plugins.myplugin.business.AllTests.suite(  ) );
+        suite.addTest( test.fr.paris.lutece.plugins.myplugin.web.AllTests.suite(  ) );
+    
+        //$JUnit-END$
+        return suite;
+    }
+}             </pre>
+          </div>
+
+          
+          </subsection>
+          </section>
+      </body>
+  </document>

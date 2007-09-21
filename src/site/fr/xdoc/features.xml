@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>
+            Lutèce : Fonctionnalités
+        </title>
+    </properties>
+
+    <body>
+        <section name="Principales caractéristiques de Lutèce">
+            <subsection name="Organisation du portail">
+                <p>
+                    <ul>
+                        <li>
+                            Un site conçu à partir de l'outil Lutèce se présente sous
+                            la forme d'une arborescence dynamique de pages, dont la
+                            racine est la page d'accueil.
+                        </li>
+                        <li>
+                            L'information présentée dans chacune des pages du portail
+                            s'organise à l'intérieur de blocs appelés rubriques de page.
+                            Ces rubriques de page constituent des zones de texte qui vont
+                            pouvoir être placées dynamiquement à l'intérieur d'une page
+                            par le webmestre au moment de la conception et de la mise à
+                            jour des pages. Chaque page est associée à un modèle de
+                            composition (ou gabarit) constitué de lignes et de colonnes.
+                        </li>
+                        <li>
+                            Les données techniques relatives à l'organisation d'un
+                            site (pages, rubriques, types de contenu, feuilles de style,
+                            …) sont stockées en base de données.
+                        </li>
+                    </ul>
+                </p>
+            </subsection>
+
+            <subsection name="Navigation">
+                <p>
+                    <ul>
+                        <li>
+                            Les pages principales du site sont regroupées dans une
+                            barre de navigation toujours visible.
+                        </li>
+                        <li>
+                            L'accès direct aux pages intérieures se fait à partir de
+                            menus déroulants associés à chacune des pages principales du
+                            site.
+                        </li>
+                        <li>
+                            Un chemin de navigation interactif est présent sur
+                            chacune des pages visitées (Fil d'Ariane).
+                        </li>
+                        <li>
+                            La navigation dans l'arborescence du site se fait
+                            également à partir de liens placés directement dans les pages
+                            (liens vers les pages filles).
+                        </li>
+                        <li>
+                            Le plan du site, généré dynamiquement, permet l'accès
+                            direct aux pages du site.
+                        </li>
+                    </ul>
+                </p>
+            </subsection>
+            
+            <subsection name="Services">
+                <p>
+                    <ul>
+                        <li>
+                            La gestion d'un ensemble de services est assurée par des
+                            pages spéciales, toujours visibles (moteur de recherche, plan
+                            du site, chat, lettres d'information, contacts, liens vers
+                            d'autres sites Internet).
+                        </li>
+                        <li>
+                            Certains produits logiciels disponibles en « open source
+                            » ont été intégrés sous la forme de services (indexation
+                            full-text et moteur de recherche ).
+                        </li>
+                        <li>
+                            <p>
+                                <strong><u>Rubriques de page et types de contenu</u></strong>
+                            </p>
+                            <p>
+                                Les rubriques de page, dans lesquelles vont se placer le
+                                contenu web, ont des types prédéfinis, déterminés par le
+                                type de contenu lui-même. Les types de rubriques
+                                disponibles sont : Liste d'articles (actualités, agenda,
+                                …), fiche de renseignements, texte libre ou HTML, document
+                                au format XML, liste de personnes, fichiers à télécharger,
+                                liste de liens Internet, liste de liens pour la navigation
+                                intérieure, syndication de contenu externe (au format
+                                RSS).
+                            </p>
+                            <p>
+                                Le placement de ces rubriques dans une page suit le modèle
+                                de composition de la page, entièrement paramétrable,  qui s'organise en lignes et en
+                                colonnes. La mise en page est également gérée par des feuilles de style CSS2.
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <strong><u>Séparation entre contenu et présentation</u></strong>
+                            </p>
+                            <p>
+                                La séparation entre le contenu et la mise en forme est
+                                rendue possible par le choix du format d'échange XML, dans
+                                lequel sont traduites les informations structurées issues
+                                de la base de données.
+                            </p>
+                            <p>
+                                L'affichage dynamique du contenu des pages est assuré par
+                                la transformation XSLT du contenu XML généré et des
+                                feuilles de style XSL associées à chacune des
+                                rubriques.
+                            </p>
+                            <p>
+                                Des modèles de mise en page de contenu sont définis pour
+                                chaque type de rubrique et peuvent être complétés au fur et
+                                à mesure des besoins.
+                            </p>
+                            <p>
+                                Tant que le contenu d'une page n'est pas modifié, celle-ci
+                                n'est pas recalculée (gestion intégrée du cache).
+                            </p>
+                        </li>
+                    </ul>
+                </p>
+            </subsection>
+            
+            <subsection name="Outil d'administration pour la mise en page des rubriques">
+                <p>
+                    <ul>
+                        <li>
+                            L'outil d'administration du portail est destiné aux
+                            webmestres et aux assistants de publication.
+                        </li>
+                        <li>
+                            Cet outil a été conçu pour être simple à utiliser, et
+                            n'exige pas d'avoir de compétences techniques spéciales.
+                        </li>
+                        <li>
+                            Un ensemble d'interfaces graphiques assiste le webmestre
+                            dans la création des pages, le choix des rubriques, la saisie
+                            ou la publication de contenus, le choix du style de
+                            présentation.
+                        </li>
+                        <li>
+                            Une fenêtre de prévisualisation permet au webmestre
+                            d'afficher la page sur laquelle il travaille et d'agir
+                            directement sur son contenu.
+                        </li>
+                        <li>
+                            La construction des pages du portail et la mise à jour
+                            des contenus se font dans un environnement de pré-production.
+                        </li>
+                        <li>
+                            La mise en ligne des ajouts ou modifications apportées en
+                            pré-production se fait après validation du webmestre.
+                        </li>
+                        <li>
+                            Les contenus HTML sont éditables grâce à un éditeur WYSIWIG
+                        </li>
+                    </ul>
+                </p>
+            </subsection>
+            
+           <subsection name="Outils d'administration des services">
+            <p>
+                <ul>
+                    <li>
+                        La liste des personnes à contacter depuis le portail est
+                        gérée depuis l'outil d'administration.
+                    </li>
+                    <li>
+                        Il est poosible de gérer une page "Liens Utiles", dans laquelle
+                        le webmestre fait apparaître les rubriques de type liens utiles 
+                        insérées dans le portail
+                    </li>
+                </ul>
+            </p>
+            </subsection>
+            
+            <subsection name="Outil de création de comptes utilisateurs">
+            <p>
+                <ul>
+                    <li>
+                        Un profil « administrateur » permet de créer les comptes
+                        de webmestres et de contributeurs externes.
+                    </li>
+                    <li>
+                        Le profil « webmestre » permet de créer l'ensemble des
+                        comptes utilisateurs amenés à produire du contenu ou à
+                        l'assister dans la publication.
+                    </li>
+                    <li>
+                        Chaque compte utilisateur est rattaché à un compte de
+                        fournisseurs de contenu, auquel est attribué un ou plusieurs
+                        flux d'information. Le flux d'information sert à définir un
+                        contexte propre à chaque fournisseur (portée de
+                        l'information, type et origine de l'information).
+                    </li>
+                </ul>
+            </p>
+            </subsection>
+            
+            <subsection name="Outil de production de contenu">
+                <p>
+                    <ul>
+                        <li>
+                            Les outils de production de contenu sont destinés aux
+                            webmestres et aux différents contributeurs externes.
+                        </li>
+                        <li>
+                            La production de contenu consiste en la saisie d'articles
+                            ou de fiches de renseignement, à l'aide d'un éditeur de texte
+                            intégré. Une image peut être associée à chaque contenu
+                            produit.
+                        </li>
+                        <li>
+                            Les contenus sont produits sans indication de leur mise
+                            en page future (principe de la séparation entre contenu et
+                            mise en forme).
+                        </li>
+                        <li>
+                            Des bibliothèques d'imageset de fichiers à télécharger
+                            permettent au webmestre de charger et de stocker les éléments
+                            qu'il souhaite placer dans les rubriques de texte de son portail.
+                            Il lui est également possible d'intégrer dans ses rubriques de manière simplifiée
+                            (via les "linksservices") des liens vers les pages spéciales du site, 
+                            les pages du site, les listes de liens utiles, les fiches d'acteurs locaux, 
+                            ou encore les thèmes de comarquage (lorsque le plugin est installé).
+                        </li>
+                    </ul>
+                </p>
+            </subsection>
+            
+            <subsection name="Outil de publication de contenu">
+                <p>
+                    <ul>
+                        <li>
+                            L'outil de publication de contenus web dans les pages du
+                            site est destiné au webmestre et aux assistants de
+                            publication. Cet outil permet de mettre à la disposition du
+                            webmestre l'ensemble des contenus produits par les
+                            contributeurs et de lui en donner un aperçu avant qu'il ne
+                            les place lui-même dans son portail.
+                        </li>
+                        <li>
+                            La publication consiste à associer un article à une ou
+                            plusieurs rubriques de page destinées à recevoir ce type de
+                            contenu (liste d'articles ou fiche de renseignements).
+                        </li> 
+                        <li>
+                            Un article peut être publié à plusieurs endroits du site,
+                            et se présenter sous différentes formes (titre seulement ;
+                            titre , image et résumé ; titre, dates de début et de fin)
+                        </li>
+                        <li>
+                            La validité d'un article est gérée au niveau de ses
+                            propriétés et conditionne son affichage.
+                        </li>
+                        <li>
+                            Il est possible d'associer un flux d'information à une
+                            rubrique de page, pour rendre automatique la publication des
+                            contenus produits sur ce flux dans la rubrique.
+                        </li>
+                    </ul>
+                </p>
+            </subsection>
+        </section>
+    </body>
+</document>

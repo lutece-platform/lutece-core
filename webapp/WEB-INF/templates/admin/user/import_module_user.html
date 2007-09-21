@@ -1,0 +1,52 @@
+<div class="content-box">
+	<h2>#i18n{portal.users.import_module_user.searchBoxTitle}</h2>
+	
+	      
+		<form method="post"  name="searchUsers" action="jsp/admin/user/ImportUser.jsp">
+			<p>
+				<label for="last_name" >#i18n{portal.users.import_module_user.searchBoxLabelLastName} :</label>
+				<input type="text" id="last_name"  name="last_name" value="${last_name?if_exists}" maxlength="100" size="35" tabindex="1" />
+			</p>
+			<p>
+				<label for="first_name" >#i18n{portal.users.import_module_user.searchBoxLabelFirstName} :</label>
+				<input type="text" id="first_name"  name="first_name" value="${first_name?if_exists}" maxlength="100" size="35" tabindex="1" />
+			</p>
+			<p>
+				<label for="email" >#i18n{portal.users.import_module_user.searchBoxLabelEmail} :</label>
+				<input type="text" id="email"  name="email" value="${email?if_exists}" maxlength="100" size="100" tabindex="1" />
+			</p>
+			<p><input type="submit" value="#i18n{portal.users.import_module_user.searchBoxbuttonLabelSearch}" tabindex="2" class="button" /></p>
+		</form>
+
+</div>
+
+
+<#if import_user_list?has_content>
+<div class="content-box">
+	<h2>#i18n{portal.users.import_module_user.resultBoxTitle}</h2>	
+	
+	<table>
+		<tr>
+			<th>#i18n{portal.users.import_module_user.resultColumnTitleLastName}</th>
+			<th>#i18n{portal.users.import_module_user.resultColumnTitleFirstName}</th>
+			<th>#i18n{portal.users.import_module_user.resultColumnTitleEmail}</th>
+			<th>#i18n{portal.users.import_module_user.resultColumnTitleAction}</th>
+		<th>
+		<#list import_user_list as user >
+			<tr>
+				<td>${user.lastName?if_exists}</td>
+				<td>${user.firstName?if_exists}</td>
+				<td>${user.email?if_exists}</td>
+				<td>
+					<form method="post"  name="importUsers" action="jsp/admin/user/DoSelectImportUser.jsp">
+						<input type="hidden" name="access_code" value="${user.accessCode}" />
+						<input type="submit" value="#i18n{portal.users.import_module_user.resultButtonLabelImportUser}" class="button" />
+					</form>
+				
+				</td>
+			<th>
+		</#list>
+	</table>
+
+</div>
+	</#if>

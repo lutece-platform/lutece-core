@@ -1,0 +1,70 @@
+
+<div id="welcome-zone">
+
+    <div id="welcome-user-zone">
+        <div class="content-box">
+            <h2>#i18n{portal.admin.admin_home.connectedUser}</h2>
+            <p>${user_firstname} ${user_lastname}</p>
+            <table>
+            
+            	<#if url_modify_password?has_content >
+	                <tr>
+	                    <td>
+	                        <h3>
+	                            <img src="images/admin/skin/change_password.png" alt="#i18n{portal.admin.admin_home.changePassword}" align="middle" />
+	                            #i18n{portal.admin.admin_home.password}
+	                        </h3>
+	                        <form method="post"  action="${url_modify_password}">
+	                            <p>
+	                            	<input type="submit" class="button" value="#i18n{portal.admin.admin_home.changePassword}" />
+	                            </p>
+	                        </form>
+	                    </td>
+	                </tr>
+                </#if>
+                <tr>
+                    <td>
+                        <h3>
+                            <img src="images/admin/skin/change_language.png" alt="#i18n{portal.admin.admin_home.language}"  align="middle"/>
+                            #i18n{portal.admin.admin_home.language} 
+                        </h3>
+
+                        <form method="post"  action="jsp/admin/DoChangeLanguage.jsp">
+                            <p>
+                                <@combo name="language" default_value="${current_language}" items=languages_list />
+                                <input type="submit" class="button" value="#i18n{portal.admin.admin_home.button.changeLanguage}" />
+                            </p>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="welcome-content-zone">
+        <#list feature_group_list as feature_group >
+        <div class="content-box" id="${feature_group.id}" >
+            <a href="jsp/admin/AdminMenu.jsp#top" class="top">
+                <img src="images/admin/skin/up.png" alt="Retour vers le haut" />
+            </a>
+            <h2>${feature_group.label}</h2>
+            <ul>
+                <#list feature_group.features as feature >
+                <li>
+                    <a href="${feature.url}">
+                        <img src="${feature.iconUrl}" alt="" align="left" hspace="15" />
+                    </a>
+
+                    <h3><a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a></h3>
+                    <p>
+                        ${feature.description}
+                    </p>
+                </li>
+                </#list>
+            </ul>
+        </div>
+        </#list>
+    </div>
+
+</div>
+

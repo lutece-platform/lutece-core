@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+      <properties>
+          <title>
+              Lutece : Available plugins
+          </title>
+      </properties>
+      <body>
+          <section name="Available plugins">
+             
+              <p>                 	
+					The architecture of Lutece is modular. The main part of the functionalities of the application comes from the plugins available below : 
+              </p>
+              <p>
+			  
+				<table>
+                    <tr>
+                        <th>Plugin</th>
+                        <th>Description</th>
+                    </tr>
+					<tr>
+						<td><a href="/plugins/plugin-adminauthenticationdatabase/">adminauthenticationdatabase</a></td>
+                        <td>Adminauthenticationdatabase Plugin</td>
+					</tr>		
+					<tr>
+						<td><a href="/plugins/plugin-adminquery/">adminquery</a></td>
+                        <td>Adminquery Plugin</td>
+					</tr>						
+                    <tr>
+						<td><a href="/plugins/plugin-calendar/">calendar</a></td>
+                        <td>Calendar Plugin</td>
+					</tr>	
+                    <tr>
+						<td><a href="/plugins/plugin-childpages/">childpages</a></td>
+                        <td>Childpages Plugin</td>
+					</tr>					
+                    <tr>
+						<td><a href="/plugins/plugin-codewizard/">codewizard</a></td>
+                        <td>Codewizard Plugin</td>
+					</tr>												
+                    <tr>
+						<td><a href="/plugins/plugin-contact/">contact</a></td>
+                        <td>Contact Plugin</td>
+					</tr>				
+                    <tr>
+						<td><a href="/plugins/plugin-dbpage/">dbpage</a></td>
+                        <td>DbPage Plugin</td>
+					</tr>					
+                    <tr>
+						<td><a href="/plugins/plugin-document/">document</a></td>
+                        <td>Document Plugin</td>
+					</tr>
+					<tr>
+						<td><a href="/plugins/plugin-folderlisting/">folderlisting</a></td>
+                        <td>Folderlisting Plugin</td>
+					</tr>
+					<tr>
+						<td><a href="/plugins/plugin-formengine/">formengine</a></td>
+                        <td>Formengine Plugin</td>
+					</tr>
+                    <tr>
+						<td><a href="/plugins/plugin-html/">html</a></td>
+                        <td>Html Plugin</td>
+					</tr>
+                    <tr>
+						<td><a href="/plugins/plugin-jsr170/">jsr170</a></td>
+                        <td>Jsr170 Plugin</td>
+					</tr>	
+                    <tr>
+						<td><a href="/plugins/plugin-library/">library</a></td>
+                        <td>Library Plugin</td>
+					</tr>						
+                    <tr>
+						<td><a href="/plugins/plugin-linkpages/">linkpages</a></td>
+                        <td>Linkpages Plugin</td>
+					</tr>											
+                    <tr>
+						<td><a href="/plugins/plugin-links/">links</a></td>
+                        <td>Links Plugin</td>
+					</tr>	
+                    <tr>
+						<td><a href="/plugins/plugin-myapps/">myapps</a></td>
+                        <td>Myapps Plugin</td>
+					</tr>					
+                    <tr>
+						<td><a href="/plugins/plugin-mylutece/">mylutece</a></td>
+                        <td>Mylutece Plugin</td>
+					</tr>							
+                    <tr>
+						<td><a href="/plugins/plugin-newsletter/">newsletter</a></td>
+                        <td>Newsletter Plugin</td>
+					</tr>						
+                    <tr>
+						<td><a href="/plugins/plugin-pagelinkservice/">pagelinkservice</a></td>
+                        <td>Pagelinkservice Plugin</td>
+					</tr>							
+                    <tr>
+						<td><a href="/plugins/plugin-poll/">poll</a></td>
+                        <td>Poll Plugin</td>
+					</tr>		
+					<tr>
+						<td><a href="/plugins/plugin-rss/">rss</a></td>
+                        <td>RSS Plugin</td>
+					</tr>					
+					<tr>
+						<td><a href="/plugins/plugin-systeminfo/">systeminfo</a></td>
+                        <td>SystemInfo Plugin</td>
+					</tr>
+                    <tr>
+						<td><a href="/plugins/plugin-upload/">upload</a></td>
+                        <td>Upload Plugin</td>
+					</tr>		
+					<tr>
+						<td><a href="/plugins/plugin-whatsnew/">whatsnew</a></td>
+                        <td>Whatsnew Plugin</td>
+					</tr>	
+                    <tr>
+						<td><a href="/plugins/plugin-xmlpage/">xmlpage</a></td>
+                        <td>Xmlpage Plugin</td>
+					</tr>					
+                    <tr>
+						<td><a href="/plugins/plugin-xpagelinkservice/">xpagelinkservice</a></td>
+                        <td>Xpagelinkservice Plugin</td>
+					</tr>						
+                    <tr>
+						<td><a href="/plugins/module-mylutece-ldapdatabase/">ldapdatabase</a></td>
+                        <td>Ldapdatabase module</td>
+					</tr>	
+                    <tr>
+						<td><a href="/plugins/module-mylutece-webserver/">webserver</a></td>
+                        <td>Webserver module</td>
+					</tr>					
+				</table>
+                 
+              </p>
+          </section>
+      </body>
+  </document>
+          

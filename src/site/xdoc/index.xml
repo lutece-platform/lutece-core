@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+      <properties>
+          <title>
+              Lutece : Introduction
+          </title>
+      </properties>
+      <body>
+          <section name="Welcome to the Lutece Project ">
+              <p>
+                  Lutece is a portal engine which allows you to easily create your websites or intranets based upon HTML,XML.. content. 
+                  This open-source software is implemented in Java and based on Apache Software Foundation projects (i.e. Jakarta and XML projects).
+                  Lutece provides a user friendly interface for portal management and therefore no specific technical skills are required. 
+              </p>
+              <p>    
+                  Lutece is free and is distributed under a BSD-like license.
+              </p>
+              <p>
+                  In the current version technical documentation and sources are in English but administration user interface is actually
+                   in French. French users are invited to consult the <a href="http://fr.lutece.paris.fr">french site</a>. 
+              </p>
+          </section>
+		  <section name="Project Information">
+			<p>
+				<a href="project-summary.html">Project Summary</a>: this document lists other related information of this project
+			</p>	
+			<p>
+				<a href="http://dev.lutece.paris.fr/jira/browse/LUTECE" target="_blank">Issue Tracking</a> : this is a link to the issue management system for this project. Issues (bugs, features, change requests) can be created and queried using this link.
+			</p>	
+			<p>
+				<a href="http://dev.lutece.paris.fr/viewvc/trunk/core/" target="_blank">Source Repository</a> : this is a link to the online source repository that can be viewed via a web browser.
+			</p>
+			<p>
+				<a href="dependencies.html">Dependencies</a> : this document lists the projects dependencies and provides information on each dependency.
+			</p>
+			<p>
+				<a href="license.html">Project License</a> : this is a link to the definitions of project licenses.
+			</p>
+		  </section>
+      </body>
+  </document>
+          

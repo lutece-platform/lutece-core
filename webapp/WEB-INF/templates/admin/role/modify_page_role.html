@@ -1,0 +1,16 @@
+<div class="content-box">
+
+	<h2>#i18n{portal.role.modify_role.boxTitle} ${role.role}</h2>
+
+	<form method="post" action="jsp/admin/role/DoModifyPageRole.jsp" name="modify_page_role">
+            <p>
+                <label>#i18n{portal.role.modify_role.labelDescription} * :</label>
+                <input type="text" name="role_description" value="${role.roleDescription}" size="78" maxlength="50" />
+                <input type="hidden" name="role" value="${role.role}" />
+            </p>
+            <p>
+            	<input type="submit" value="#i18n{portal.role.modify_role.buttonLabelValidate}" class="button" style="float:left;margin-right:5px;" />
+			    <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
+            </p>
+	</form>
+</div>

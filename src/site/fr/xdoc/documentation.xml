@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+   <properties>
+    <title>
+      Lutèce : Normes de Documentation
+    </title>
+   </properties>
+  <body>
+   <section name="Normes de documentation">
+       <p>
+          La documentation de Lutèce est écrite au format XML, puis est générée à l'aide de 
+          <a href="http://maven.apache.org/" target="_blank">Maven</a> aux formats HTML et PDF.
+       </p>
+       <p>
+          Un nombre limité de balises est utilisé, afin de permettre une mise en page 
+          homogène dans les deux formats.
+       </p>
+           
+       <subsection name="Créer une documentation : les règles de base">
+           <p>
+               L'encoding utilisé est UTF-8, les chapitres sont découpés en <code>section</code> et <code>subsection</code>.
+           </p>
+           <p>
+               Le code HTML inclu dans ces chapitres ne doit pas utiliser la balise <code>&lt;br&gt;</code>, mal interpretée lors
+               de la génération PDF. La balise <code>&lt;p&gt;</code> est donc à utiliser pour effectuer des retours à la ligne.
+           </p>
+           <p>
+               Les tables doivent comporter au mmoins un titre en première ligne( <code>&lt;th&gt;</code> )
+           </p>
+           <p>
+               Les images doivent mesurer 780px de large (centrer l'image sur fond blanc), et être créées au format <strong><code>.gif</code></strong>.
+           </p>
+       </subsection>
+       
+       <subsection name="Exemples de mise en oeuvre">
+           <p>
+              Structure globale du fichier :
+           </p>
+           <p>
+               <div class="source">
+                   <pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  &lt;document&gt;
+   &lt;properties&gt;
+    &lt;title&gt;
+      Lutèce : titre du document
+    &lt;/title&gt;
+   &lt;/properties&gt;
+   &lt;body&gt;
+   
+   &lt;section name="Titre de chapitre 1"&gt;
+               ...................
+   &lt;/section&gt;
+
+  &lt;/body&gt;
+  &lt;/document&gt;</pre>
+               </div>
+          </p>               
+          <p>
+             <br />
+          </p>
+          <p>
+             Un document peut contenir plusieurs sections.
+          </p>
+          <p>
+             Une section peut contenir du texte formaté par un paragraphe (<code>&lt;p&gt;</code>), ainsi qu'une ou plusieurs sous-section(s)
+          </p>
+          <p> 
+              Exemple : 
+          </p>
+          <p>
+             <div class="source">
+                  <pre>
+   &lt;section name="Titre de chapitre 1"&gt;
+        &lt;p&gt;
+           Introduction du chapitre 1
+        &lt;/p&gt;
+
+        &lt;subsection name="Sous-chapitre 1"&gt;
+           &lt;p&gt;
+              texte ...
+           &lt;/p&gt;
+        &lt;/subsection&gt;           
+        
+        &lt;subsection name="Sous-chapitre 2"&gt;
+           &lt;p&gt;
+              texte ...
+           &lt;/p&gt;
+        &lt;/subsection&gt;           
+
+   &lt;/section&gt;</pre>
+               </div>
+           </p>
+           <p>
+              Le résultat est le suivant : 
+           </p>          
+           <p>
+               <section name="Titre de chapitre 1">
+                    <p>
+                       Introduction du chapitre 1
+                    </p>
+            
+                    <subsection name="Sous-chapitre 1">
+                       <p>
+                          texte ...
+                       </p>
+                    </subsection>
+                    
+                    <subsection name="Sous-chapitre 2">
+                       <p>
+                          texte ...
+                       </p>
+                    </subsection>
+            
+               </section>
+           </p>   
+          <p>
+             <br />
+          </p>
+          <p>
+          </p>
+          <p>
+             Il est possible d'inclure une liste dans un paragraphe : 
+          </p>
+          <p>
+              <div class="source">
+                  <pre>
+       &lt;p&gt;
+          &lt;ul&gt;
+              &lt;li&gt;exemple de liste 1&lt;/li&gt;
+              &lt;li&gt;exemple de liste 2&lt;/li&gt;
+           &lt;/ul&gt;
+       &lt;/p&gt;
+       
+       &lt;p&gt;
+          &lt;ol&gt;
+              &lt;li&gt;exemple de liste numérotée 1&lt;/li&gt;
+              &lt;li&gt;exemple de liste numérotée 2&lt;/li&gt;
+           &lt;/ol&gt;
+       &lt;/p&gt;</pre>
+              </div>
+          </p>
+          <p>
+             Résultat : 
+          </p>
+           <p>
+              <ul>
+                  <li>exemple de liste 1</li>
+                  <li>exemple de liste 2</li>
+               </ul>
+           </p>
+           <p>
+              <ol>
+                  <li>exemple de liste numérotée 1</li>
+                  <li>exemple de liste numérotée 2</li>
+               </ol>
+           </p>
+          <p>
+             <br />
+          </p>
+          <p>
+          </p>           
+          <p>
+             Le texte peut être formaté avec des balise du type <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;code&gt;</code>
+          </p>                
+           <p>
+              <div class="source">
+                  <pre>
+   &lt;p&gt;
+       &lt;code&gt;texte au format code&lt;/code&gt;
+   &lt;/p&gt;
+   &lt;p&gt;
+       &lt;strong&gt;texte au format strong&lt;/strong&gt;
+   &lt;/p&gt;
+   &lt;p&gt;
+       &lt;em&gt;texte au format em&lt;/em&gt;
+   &lt;/p&gt;
+                  </pre>           
+              </div>
+          </p>
+          <p>
+             Résultat : 
+          </p>
+          
+          <p>
+             <ul>
+                 <li><code>texte au format code</code></li>
+                 <li><strong>texte au format strong</strong></li>
+                 <li><em>texte au format em</em></li>
+             </ul>
+          </p>
+          <p>
+             <br />
+          </p>
+          <p>
+          </p>          
+          <p>
+             Des exemples de code peuvent être introduit à l'aide de la balise <code>&lt;pre&gt;</code> : 
+          </p>
+          <p>
+             <div class="source">
+                  <pre>
+   &lt;p&gt;                       
+       &lt;div class="source"&gt;
+&lt;pre&gt;
+   &lt;application&gt;
+     &lt;application-class&gt;fr.paris.lutece.plugins.securedtest.SecuredTestApp&lt;/application-class&gt;
+     &lt;application-security-model&gt;1&lt;/application-security-model&gt;
+   &lt;/application&gt;
+&lt;/pre&gt;
+       &lt;/div&gt;
+   &lt;/p&gt;
+                   </pre>
+               </div>
+           </p>      
+           <p>
+              <strong>Attention :</strong> pour que le rendu soit conforme lors de l'utilisation de la balise <code>&lt;pre&gt;</code>, 
+              il faut coller le texte à gauche, sans tenir compte de l'indentation générale du code xml du fichier.
+           </p>
+           <p>
+              Le résultat est :
+           </p>
+           
+           <p>                       
+                <div class="source">
+<pre>
+&lt;application&gt;
+     &lt;application-class&gt;fr.paris.lutece.plugins.securedtest.SecuredTestApp&lt;/application-class&gt;
+     &lt;application-security-model&gt;1&lt;/application-security-model&gt;
+&lt;/application&gt;
+</pre>
+               </div>
+           </p>
+          <p>
+             <br />
+          </p>
+          <p>
+          </p>          
+            <p>
+              Pour insérer un tableau, la syntaxe est la suivante :
+           </p>
+           <p>
+              <div class="source">
+<pre>
+     &lt;p&gt;
+         &lt;table&gt;
+             &lt;tr&gt;
+                 &lt;th&gt;Titre 1&lt;/th&gt;
+                 &lt;th&gt;Titre 2&lt;/th&gt;
+             &lt;/tr&gt;
+             &lt;tr&gt;
+                 &lt;td&gt;Colonne 1&lt;/td&gt;
+                  &lt;td&gt;Colonne 2&lt;/td&gt;
+             &lt;/tr&gt;
+         &lt;/table&gt;
+     &lt;/p&gt;</pre>
+               </div>
+           </p>
+           <p>
+              Ce qui donne le tableau suivant :
+           </p>
+           <p>
+               <table>
+                   <tr>
+                       <th>Titre 1</th>
+                       <th>Titre 2</th>
+                   </tr>
+                   <tr>
+                       <td>Colonne 1</td>
+                        <td>Colonne 2</td>
+                   </tr>
+               </table>
+           </p>
+          <p>
+             <br />
+          </p>
+          <p>
+          </p>
+          <p>
+              Pour afficher une copie d'écran :  
+           </p>
+           <p>
+              <div class="source">
+<pre>
+   &lt;p&gt;
+       &lt;center&gt;
+              &lt;img src="images/logo_lutece.gif" /&gt;
+       &lt;/center&gt;
+   &lt;/p&gt;</pre>
+              </div>
+          </p>
+          <p>
+             La balise <code>&lt;center&gt;</code> n'est prise en compte que pour la génération HTML.
+          </p>
+          <p>
+             Pour que l'image ne soit pas déformée dans la version PDF, une astuce consiste à créer l'image utilisée pour 
+             la génération de ce format sur une taille de 780px de large (pour un format de sortie A4), 
+             la copie d'écran étant centrée dans cette largeur.
+          </p>
+          <p>
+             Le résultat est : 
+          </p>
+          <p>
+             <center>
+                 <img src="images/logo_lutece.gif" />
+             </center>
+          </p>
+       </subsection>
+   </section>
+  </body>
+  </document>
+  
+

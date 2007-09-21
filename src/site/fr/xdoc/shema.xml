@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <document>
+   <properties>
+    <title>
+      Lutèce : Schema de la base lutece_users
+    </title>
+   </properties>
+   <body>
+    <section name="Schéma de la base mylutece_users">
+        
+
+        <subsection name="lutece_group">
+            <p>
+               <table border="1">
+                   <tr>
+		               <th>Field</th>
+		               <th>Type</th>
+		               <th>Null</th>
+		               <th>Key</th>
+		               <th>Default</th>
+		               <th>Extra</th>
+	                </tr>
+	                <tr>
+		                <td>id_group</td>
+		                <td>int(11)</td>
+		                <td>&#160;</td>
+		                <td>PRI</td>
+		                <td>0</td>
+		                <td>&#160;</td>
+                   </tr>
+	               <tr>
+		               <td>group_name</td>
+		               <td>varchar(100)</td>
+		               <td>YES</td>
+		               <td>&#160;</td>
+		               <td>(NULL)</td>
+		               <td>&#160;</td>
+	                </tr>
+                 </table>
+            </p>    
+        </subsection>
+        
+        <subsection name="lutece_group_role">
+            <p>
+                <table border="1">
+                    <tr>
+		                <th>Field</th>
+		                <th>Type</th>
+		                <th>Null</th>
+		                <th>Key</th>
+		                <th>Default</th>
+		                <th>Extra</th>
+	                </tr>
+	                <tr>
+		                <td>id_group</td>
+		                <td>int(11)</td>
+		                <td>&#160;</td>
+		                <td>PRI</td>
+		                <td>0</td>
+		                <td>&#160;</td>
+	                </tr>
+	                <tr>
+	                    <td>id_role</td>
+		                <td>int(11)</td>
+		                <td>&#160;</td>
+		                <td>PRI</td>
+		                <td>0</td>
+		                <td>&#160;</td>
+	                </tr>
+                 </table>
+               </p>
+           </subsection>        
+
+           <subsection name="lutece_role">
+               <p>
+                   <table border="1">
+	                   <tr>
+		                   <th>Field</th>
+		                   <th>Type</th>
+		                   <th>Null</th>
+		                   <th>Key</th>
+		                   <th>Default</th>
+		                   <th>Extra</th>
+	                   </tr>
+	                   <tr>
+                           <td>id_role</td>
+		                   <td>int(11)</td>
+		                   <td>&#160;</td>
+		                   <td>PRI</td>
+		                   <td>0</td>
+		                   <td>&#160;</td>
+	                   </tr>
+	                   <tr>
+		                   <td>role_name</td>
+		                   <td>varchar(50)</td>
+		                   <td>&#160;</td>
+		                   <td>&#160;</td>
+		                   <td>&#160;</td>
+		                   <td>&#160;</td>
+	                   </tr>
+                   </table>
+               </p>
+           </subsection>    
+              
+           <subsection name="lutece_user">
+               <p>
+                   <table border="1">
+	                   <tr>
+	                       <th>Field</th>
+	                       <th>Type</th>
+	                       <th>Null</th>
+	                       <th>Key</th>
+	                       <th>Default</th>
+	                       <th>Extra</th>
+                       </tr>
+                       <tr>
+	                       <td>id_user</td>
+	                       <td>int(11)</td>
+	                       <td>&#160;</td>
+	                       <td>PRI</td>
+	                       <td>0</td>
+	                       <td>&#160;</td>
+                       </tr>
+                       <tr>
+	                       <td>name_given</td>
+	                       <td>varchar(50)</td>
+	                       <td>&#160;</td>
+	                       <td>&#160;</td>
+	                       <td>&#160;</td>
+	                       <td>&#160;</td>
+                       </tr>
+                       <tr>
+	                       <td>name_family</td>
+	                       <td>varchar(50)</td>
+	                       <td>&#160;</td>
+	                       <td>&#160;</td>
+	                       <td>&#160;</td>
+	                       <td>&#160;</td>
+                       </tr>
+                       <tr>
+	                       <td>email</td>
+	                       <td>varchar(100)</td>
+	                       <td>YES</td>
+	                       <td>&#160;</td>
+	                       <td>(NULL)</td>
+	                       <td>&#160;</td>
+                       </tr>
+                       <tr>
+	                       <td>user_name</td>
+	                       <td>varchar(50)</td>
+	                       <td>&#160;</td>
+	                       <td>&#160;</td>
+	                       <td>&#160;</td>
+	                       <td>&#160;</td>
+                       </tr>
+                       <tr>
+	                       <td>password</td>
+	                       <td>varchar(50)</td>
+	                       <td>YES</td>
+	                       <td>&#160;</td>
+	                       <td>(NULL)</td>
+	                       <td>&#160;</td>
+                       </tr>
+                   </table>
+               </p>    
+           </subsection>
+                   
+           <subsection name="lutece_user_group">
+               <p> 
+                   <table border="1">
+                       <tr>
+	                       <th>Field</th>
+	                       <th>Type</th>
+	                       <th>Null</th>
+	                       <th>Key</th>
+	                       <th>Default</th>
+	                       <th>Extra</th>
+                       </tr>
+                       <tr>
+	                       <td>id_user</td>
+	                       <td>int(11)</td>
+	                       <td>&#160;</td>
+	                       <td>PRI</td>
+	                       <td>0</td>
+	                       <td>&#160;</td>
+                       </tr>
+                       <tr>
+	                       <td>id_group</td>
+	                       <td>int(11)</td>
+	                       <td>&#160;</td>
+	                       <td>PRI</td>
+	                       <td>0</td>
+	                       <td>&#160;</td>
+                       </tr>
+                   </table>
+               </p>
+           </subsection>
+           
+           <subsection name="lutece_user_role">
+               <p>
+                   <table border="1">
+	                   <tr>
+		                   <th>Field</th>
+		                   <th>Type</th>
+		                   <th>Null</th>
+		                   <th>Key</th>
+		                   <th>Default</th>
+		                   <th>Extra</th>
+	                   </tr>
+	                   <tr>
+		                   <td>id_user</td>
+		                   <td>int(11)</td>
+		                   <td>&#160;</td>
+		                   <td>PRI</td>
+		                   <td>0</td>
+		                   <td>&#160;</td>
+	                   </tr>
+	                   <tr>
+		                   <td>id_role</td>
+		                   <td>int(11)</td>
+		                   <td>&#160;</td>
+		                   <td>PRI</td>
+		                   <td>0</td>
+		                   <td>&#160;</td>
+	                   </tr>
+                   </table>
+               </p>
+           </subsection>
+
+       </section>    
+   </body>
+</document>
+

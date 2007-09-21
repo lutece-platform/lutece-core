@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>
+            Lutece : Features
+        </title>
+    </properties>
+
+    <body>
+        <section name="Main caracteristics of Lutece">
+            <subsection name="Organization of the portal">
+                <p>
+                    <ul>
+                        <li>
+                            A site conceived by means of Lutece can be represented as
+                            a tree structure of dynamic pages, whose root is the home
+                            page.
+                        </li>
+                        <li>
+                            The data presented in each page of the portal coexists inside 
+                            blocks called portlets. These page headings are text zones
+                            ,which can be inserted dynamically within a page by the webmaster
+                            during conception or the update of the pages. Each page is 
+                            associated to a model composed of rows and columns.
+                            up of a model.
+                        </li>
+                        <li>
+                            The technical data used to organise the site (i.e. pages, headings, content type, style sheets ..) are stored
+                            in the database.
+                        </li>
+                    </ul>
+                </p>
+            </subsection>
+
+            <subsection name="Navigation">
+                <p>
+                    <ul>
+                        <li>
+                            The main pages of the site are grouped into a navigation 
+                            bar which is always visible.
+                        </li>
+                        <li>
+                            The direct access to the inner pages is done through the 
+                            sliding menus associated to each main page of the site.
+                        </li>
+                        <li>
+                            An interactive navigation path is present on each visited
+                            page. 
+                        </li>
+                        <li>
+                            The navigation through the tree structure within the site can
+                            be accessed directly by placing links onto the page ( towards the
+                            daughter pages ).
+                        </li>
+                        <li>
+                            The website plan, generated dynamically, allows direct 
+                            access to pages of the site. 
+                        </li>
+                    </ul>
+                </p>
+            </subsection>
+            
+            <subsection name="Services">
+                <p>
+                    <ul>
+                        <li>
+                            The management of a set of services is maintained by XPages
+                            which are always visible ( search engine, site plan,
+                             chat, newletter, contacts, links towards other websites )
+                        </li>
+                        <li>
+                            Some open-source softwares have been added as services
+                            ( full-text indexing, search engine ).
+                        </li>
+                        <li>
+                            <p>
+                                <strong><u>Portlets and content type</u></strong>
+                            </p>
+                            <p>
+                                The portlets, within which is placed web content, have 
+                                a known type, depending on its content. The available
+                                portlets are article list( news, agenda ,..), data sheets,
+                                normal text or HTML, XML Document, person list, Downloadable 
+                                files, internet links list, naviagation links list within 
+                                the site, Web syndication( RSS format). 
+                            </p>
+                            <p>
+                                The insertion of the portlets into a page follows a composition model
+                                , which organises itself into rows and columns ,can be fully parametrizable. 
+                                The page-setting is also controlled by style sheets(CSS).
+                              
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <strong><u>Seperation between content and presentation</u></strong>
+                            </p>
+                            <p>
+                                The seperation of content and view is possible by opting
+                                for XML as the exchange format. The XML files consist
+                                of structured data, extracted from the database.
+                       
+                            </p>
+                            <p>
+                                The dynamic rendering  of page content is managed by the
+                                transformation of XSLT content from XML data and style 
+                                sheets associated to each portlet. 
+                            </p>
+                            <p>
+                                Models for page-setting are predefined for each portlet
+                                type and can be completed to satify possible future needs. 
+                            </p>
+                            <p>
+                                A page is recalculated( integrated cache management ) 
+                                only when its content has changed. 
+                              
+                            </p>
+                        </li>
+                    </ul>
+                </p>
+            </subsection>
+            
+            <subsection name="Tool to manage page-setting of the portlets">
+                <p>
+                    <ul>
+                        <li>
+                            The administration tool is designed for webmasters of 
+                            the portal and also publication assistants.
+                        </li>
+                        <li>
+                            This tool was conceived to simplify use and does not 
+                            require particular skills.
+                            
+                        </li>
+                        <li>
+                            A set of graphical interfaces assists the webmaster 
+                            during the creation of the pages, the choice of the
+                            page headings, the entering and publication of content,
+                            and also the choice of the presentation style
+                            
+                        </li>
+                        <li>
+                            A preview window allows the webmaster to see the page 
+                            on which he is working and can thus interact 
+                            directly on his content.
+                        </li>
+                        <li>
+                            The construction of the pages of the portal and update
+                            are done into a pre-production environment.
+                        </li>
+                        <li>
+                            The additions or updates brought in pre-production
+                            are committed after the validation of the webmaster.
+                        </li>
+                        <li>
+                            The HTML content is editable through a WYSIWIG editor
+                        </li>
+                    </ul>
+                </p>
+            </subsection>
+          
+           <subsection name="Tool to manage the services">
+            <p>
+                <ul>
+                    <li>
+                        A list of persons to contact is exposed on the portal .This list is managed through the 
+                        administration tool. 
+                    </li>
+                    <li>
+                        It is also possible to manage a page of "Useful links", within which
+                        the webmaster inserts the portlets of type useful links.
+                    </li>
+                </ul>
+            </p>
+            </subsection>
+            
+            <subsection name="Tool to create user accounts">
+            <p>
+                <ul>
+                    <li>
+                        The profile  ® administrator  ¯ gives right to create 
+                        webmaster accounts and external contributor accounts.
+                    </li>
+                    <li>
+                        The profile ® webmestre¯ gives right to create all the 
+                        user accounts needed to produce content or assist the 
+                        publication process.
+                    </li>
+                    <li>
+                        Each user account is binded to a content producer account,
+                        to whom is associated a set of one or more information 
+                        channels. The information channel defines a unique context to 
+                        each producer( right to access information , type and origin 
+                        of the information ).
+    
+                    </li>
+                </ul>
+            </p>
+            </subsection>
+            
+            <subsection name="Tool to produce content">
+                <p>
+                    <ul>
+                        <li>
+                            The tools for content are designed for 
+                            webmasters and for different external contributors.
+                        </li>
+                        <li>
+                        
+                            The production of content consists of the typing of articles
+                            or data sheets, with the help of an integrated text editor.
+                            An image can be associated to each content produced.
+                        </li>
+                        <li>
+                            The contents are produced without details on future 
+                            page-setting( rule to seperate content and page-setting )
+                        </li>
+                        <li>
+                            Webmaster can upload Image libraries and downloadable files 
+                            which he can insert in his portal. He can also simply insert
+                            links in portlets ( through the "linkservices" ) which points towards
+                            xpages, useful link lists, local actors.  
+         
+                        </li>
+                    </ul>
+                </p>
+            </subsection>
+            
+            <subsection name="Tool to publish content">
+                <p>
+                    <ul>
+                        <li>
+                            The tool to publish web content into the site is designed
+                            for the webmaster and for the publication assistant.
+                            This tool gives access to all content added by contributors
+                            and even gives a preview before effective publication.
+
+                        </li>
+                        <li>
+                            The publication is the association of an article to different kinds of 
+                            portlets, which have also different content type.
+                            ( list of articles or datasheets ).
+                        </li> 
+                        <li>
+                            An article can be published on different spots of the website
+                            and is shaped in different ways. ( title only, title, image and summary, starting date and expiry date ).
+                        </li>
+                        <li>
+                            The validity of the article is managed at the level of
+                            its properties and determines its visual aspect.
+                        
+                        </li>
+                        <li>
+                            It is possible to bind an information channel to a
+                            portlet, to automatize the publication of the produced
+                            content on this specific channel.
+                        </li>
+                    </ul>
+                </p>
+            </subsection>
+        </section>
+    </body>
+</document>

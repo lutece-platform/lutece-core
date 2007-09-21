@@ -1,0 +1,73 @@
+<div class="content-box">
+    <h2>#i18n{portal.users.manage_users.titleUserList}</h2> 
+    <form method="post" action="jsp/admin/user/ManageUsers.jsp">
+        <@pagination paginator=paginator />
+        <!-- Number of documents per page selector -->
+        #i18n{portal.users.manage_users.labelItemsPerPage} :
+        <select name="items_per_page">
+            <#list [ "5" , "10" , "20" , "50", "75", "100" ] as nb>
+            <#if nb_items_per_page = nb >
+            <option selected="selected" value="${nb}">${nb}</option>
+            <#else>
+            <option value="${nb}">${nb}</option>
+            </#if>
+            </#list>
+        </select>                            
+        <input type="submit" class="button" value="#i18n{portal.users.manage_users.buttonItemsPerPage}" />
+    </form>  
+    <table>        
+        <tr>            
+            <th>#i18n{portal.users.manage_users.columnTitleLastName}</th>
+            <th>#i18n{portal.users.manage_users.columnTitleFirstName}</th>
+            <th>#i18n{portal.users.manage_users.columnTitleAccessCode}</th>            
+            <th>#i18n{portal.users.manage_users.columnTitleEmail}</th>
+            <th>#i18n{portal.users.manage_users.columnTitleStatus}</th>		
+            <th>#i18n{portal.users.manage_users.columnTitleAction}</th>
+        </tr>
+        <#list user_list as user>
+        <tr>
+            <td><a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" class="bullet-link" >${user.lastName}</a></td>
+            <td>${user.firstName}</td>
+            <td><em>${user.accessCode}</em></td>            
+            <td><a href="mailto:${user.email}">${user.email}</a></td>
+            <td>
+                <#if user.status == 0 >
+                <img src="images/admin/skin/enable.png" alt="#i18n{portal.users.manage_users.statusLabelEnabled}" />
+                <#else>
+                <img src="images/admin/skin/disable.png" alt="#i18n{portal.users.manage_users.statusLabelDisabled}" />
+                </#if>				
+            </td>
+            <td>
+                <a href="jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}" >
+                    <img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.users.actions.labelDelete}" title="#i18n{portal.users.actions.labelDelete}" />
+                </a>
+                <a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}" >
+                    <img src="images/admin/skin/actions/right.png" alt="#i18n{portal.users.actions.labelRights}" title="#i18n{portal.users.actions.labelRights}" />
+                </a>
+                <a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}" >
+                    <img src="images/admin/skin/actions/rbac.png" alt="#i18n{portal.users.actions.labelRoles}" title="#i18n{portal.users.actions.labelRoles}" />
+                </a>
+                <a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}" >
+                    <img src="images/admin/skin/actions/group.png" alt="#i18n{portal.users.actions.labelWorkgroups}" title="#i18n{portal.users.actions.labelWorkgroups}" />
+                </a>
+            </td>
+        </tr>
+        </#list>		
+    </table>
+    <div  style="float:left;width:300px">
+        <div class="button-left" style="float:left;width:150px">
+            <p>
+                <form method="post"  action="${url_user_creation}">
+                    <input type="submit" value="#i18n{portal.users.manage_users.buttonLabelAddUser}" class="button" />
+                </form>
+            </p>
+        </div>
+        <div  class="button-right" style="float:right;width:150px">
+              <p>
+                <form method="post"  action="jsp/admin/workgroup/ManageWorkgroups.jsp">
+                    <input type="submit" value="#i18n{portal.users.manage_users.buttonLabelManageWorkgroups}" class="button" />
+                </form>
+            </p>
+        </div>    
+    </div>   
+</div>

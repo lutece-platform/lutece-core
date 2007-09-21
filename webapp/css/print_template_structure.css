@@ -1,0 +1,228 @@
+/* =======================================================================
+ * This stylesheet gathers the main formatting styles, for PRINTING.
+ *
+ * It should be used for the media "print".
+ * It redefines the styles from "page_template_structure.css".
+ *
+ * It hides elements we don't want to print.
+ * It reorganises the layout so that it is more adapted to the paper medium and
+ * thus provide proper printing.
+ *
+ * ========================================================================
+ */
+
+/* border:nones are for NN4 */
+html
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+div
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+.clear {
+	clear:both;
+	height:1px;
+	font-size:1px;
+	border:none;
+	margin:0; padding:0;
+	background:transparent;
+}
+
+
+
+/* ====================================================================
+=====================     COLUMNS LAYOUT     ==========================
+=======================================================================  */
+/* In print mode, the all the columns layouts are the same.
+ * This means that 2nd and 3rd columns are put back above the 1rst columns,
+ * and not on the right.
+ */
+
+/* =====================================================================
+ * --------------     styles for a 1 column layout     -----------------
+ * ===================================================================== */
+/*
+ * > one-zone-first
+ * 		>> one-zone-first-content
+ */
+
+#one-zone-first
+{
+	width: 100%;
+}
+
+#one-zone-first-content
+{
+	border: none;
+	color: black;
+	padding:20px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+
+/* =====================================================================
+ * --------------     styles for a middle column layout     -----------------
+ * ===================================================================== */
+/*
+ /*
+ * > middle-column-col1
+ * 		>> middle-column-col1-content
+ * > middle-column-col2
+ * 		>> middle-column-col2-content
+ */
+ 
+ #middle-columns-float
+{
+	float: left;
+	width: 100%;
+}
+
+#middle-columns-col1
+{
+	float: none;
+	width: 100%;
+}
+
+#middle-columns-col2
+{
+	margin-left: 100%;
+}
+
+#middle-columns-col1-content
+{
+	border: none;
+	color: black;
+	padding-left:10px;
+	padding-right:10px;
+}
+#middle-columns-col2-content
+{
+	border: none;
+	color: black;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+/* ====================================================================
+ * ------------     styles for a 2 columns layout     -----------------
+ * ==================================================================== */
+/*
+ * > two-zones-first
+ * 		>> two-zones-first-content
+ * > two-zones-second
+ * 		>> two-zones-second-content
+ */
+
+#two-zones-first, #two-zones-second
+{
+	float: none;
+	width: 100%;
+}
+
+#two-zones-first-content, #two-zones-second-content
+{
+	border: none;
+	color: black;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+
+/* ====================================================================
+ * ------------     styles for a 3 columns layout     -----------------
+ * ==================================================================== */
+/* > three-zones-first-and-second
+ * 		>> three-zones-first
+ * 			>>> three-zones-first-content
+ * 		>> three-zones-second
+ * 			>>> three-zones-second-content
+ * > three-zones-third
+ * 		>> three-zones-third-content
+ */
+
+#three-zones-first-and-second
+{
+	float: none;
+	width: 100%;
+}
+
+#three-zones-first, #three-zones-second, #three-zones-third
+{
+	float: none;
+	width: 100%;
+}
+
+#three-zones-first-content, #three-zones-second, #three-zones-third
+{
+	border: none;
+	color: #000000;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+
+
+
+
+/* ====================================================================
+=================     HEADER & FOOTER LAYOUT     ======================
+=======================================================================  */
+/*
+ * Header and footer elements are not displayed in print mode.
+ */
+
+#banner { display: none; }
+#quick-search { display: none; }
+#menu-tools { display: none; }
+#menu-main { display: none; }
+#page-path { display: none; }
+#footer { display: none; }
+
+
+
+/* ====================================================================
+ * styles for the site map
+ * -------------------------------------------------------------------- */
+
+div.site-map-level-one
+{
+	margin-left:30px;
+	clear:both;
+}
+
+div.site-map-level-one div.level-one-image-position
+{
+	float:left;
+	width:80px;
+	margin-right:10px;
+	margin-left:10px;
+	margin-top:10px;
+	margin-bottom:20px;
+	border: 1px solid #f7941d;
+}
+div.site-map-level-one div.level-one-children-position
+{
+	margin-left:100px;
+	margin-bottom:20px;
+}
+
+div.site-map-level-two
+{
+	margin-left:30px;
+	margin-bottom:10px;
+	margin-top:5px;
+}
+
+div.site-map-level-highest
+{
+	margin-left:30px;
+	margin-bottom:5px;
+	margin-top:5px;
+}
+

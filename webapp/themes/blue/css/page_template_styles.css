@@ -1,0 +1,1235 @@
+/* =======================================================================
+ * This stylesheet gathers the main formatting styles.
+ *
+ * The stylesheet "page_template_structure.css" is to be used for styles that
+ * define the layout of a page and are related to positionning more than
+ * formatting/styling.
+ *
+ * ========================================================================
+ */
+
+
+
+/* ========================================================================
+==============     REDEFINITION OF BASE HTML ELEMENTS     =================
+=========================================================================== */
+
+/* Define the default font: */
+BODY, TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH, H1, H2, H3, H4
+{
+     font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+     font-size:11px;
+}
+
+
+
+/* ----------------- */
+/* Main links styles */
+
+a:link, a:visited {
+	color: #1C2861;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a:hover, a:active {
+	color: #1C2861;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+
+
+/* ------- */
+/*  titles */
+h1 {
+	color: #1C2861;
+	font-weight: bold;
+	font-size: 150%;
+}
+
+h2 {
+	color: #1C2861;
+	font-weight: bold;
+	font-size: 130%;
+}
+
+h3 {
+	color: #1C2861;
+	font-weight: bold;
+	font-size: 120%;
+}
+
+h4 {
+	color: Red;
+	font-weight: normal;
+	font-size: 110%;
+}
+
+/* ------------ */
+/* default cells*/
+td, th {
+	color: #FFFFFF;
+}
+
+h2.page-title
+{
+	background-image: url(../images/local/skin/arrows.gif);
+    background-repeat: no-repeat;
+    background-position: center left;
+    padding-left:15px;
+}
+
+/* =====================================================================
+ * --------------     form elements      -------------------
+ * ===================================================================== */
+form {
+	margin: 0;
+	padding: 0;
+}
+
+form.default-form
+{
+    margin: 0;
+}
+
+
+form.default-form fieldset
+{
+    border: 1px dotted Black;
+    text-align: left;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 10px;
+}
+form.default-form label.text-label, form.default-form label.combo-label,form.default-form label.textarea-label
+{
+    float:left;
+    text-align: right;
+    width: 40%;
+    margin-right: 5px;
+}
+
+form.default-form label.checkbox-label, form.default-form label.radio-label
+{
+
+    text-align: left;
+    margin-left: 5px;
+}
+form.default-form input.checkbox-field, form.default-form input.radio-field
+{
+    margin-left: 20px;
+}
+
+
+/* main search screen */
+form#main-search fieldset
+{
+    border: none;
+    border-bottom: 1px dotted Black;
+    text-align: left;
+    margin-left: 15px;
+    margin-right: 30px;
+    padding: 10px;
+}
+form#main-search-previous
+{
+    float:left;
+    width:40%;
+    text-align:right;
+    margin-bottom:15px;
+}
+form#main-search-next
+{
+    float:right;
+    width:40%;
+    text-align:left;
+    margin-bottom:15px;
+}
+/* ------------------------------------- */
+/* Styles to display the list of results */
+/* ------------------------------------- */
+ul.main-search-results {
+  list-style-type: none;
+}
+ul.main-search-results li {
+  margin-bottom: 30px;
+}
+
+
+/* =====================================================================
+ * --------------      ARTICLES & FICHES STYLES      -------------------
+ * ===================================================================== */
+
+/* Basic styles for articles,
+ * also used as basic styles for "fiches"
+ */
+div.article {
+	border: none;
+	margin-bottom: 10px;
+}
+
+
+/* article header  */
+h2.article-header {
+	 background-image: url(../images/local/skin/arrows.gif);
+    background-repeat: no-repeat;
+    background-position: center left;
+    padding-left:15px;
+}
+
+div.article-buttons-and-image{
+  float: left;
+  /*width: 33%;*/
+  margin-right: 10px;
+  margin-bottom: 5px;
+  border-right: 1px solid Black;
+  border-bottom: 1px solid Black;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+div.article-content{
+	margin-left: 150px;
+}
+
+/* box containing the article buttons (send, print, back) */
+div.article-buttons {
+   width:100px;
+   margin: 10px;
+}
+
+/* box containing the article image */
+div.article-image {
+    margin: 10px;
+	 width:134px;
+    height:134px;
+    background-image: url('../images/local/skin/fd_image_article.gif');
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
+div.article-image img
+{
+    margin-left:2px;
+    margin-top:2px;
+}
+
+
+/* --------------------------------------------------- */
+/* styles to display in a list of articles with images */
+/* --------------------------------------------------- */
+div.article-list-line
+{
+    clear:both;
+    width: 99%;
+    padding:0px;
+    margin: 0px;
+    margin-bottom:20px;
+
+}
+
+/* first line should not clear */
+div.article-list-line-first
+{
+    width: 99%;
+    padding:0px;
+    margin: 0px;
+    margin-bottom:20px;
+}
+
+div.article-list-line-image
+{
+    float: left;
+    width: 100px;
+    height: 100px;
+    padding:0px;
+    margin: 0px;
+    text-align:left;
+}
+div.article-list-line-element
+{
+    text-align:justify;
+}
+
+
+/* =====================================================================
+ * ------------------      styles for portlets     ---------------------
+ * ===================================================================== */
+
+/* ========================================================================
+ * styles for the basic portlets
+ * ------------------------------------------------------------------------ */
+/* the box "portlet" contains a header & a content */
+div.portlet {
+	border: 1px solid #C6C9C1;
+	margin-bottom: 10px;
+}
+
+/* the portlet header  */
+h3.portlet-header {
+	background-color: navy;
+	border-bottom: 1px dotted #C6C9C1;
+	color: #FFFFFF;
+	font-size: 120%;
+	font-weight: bold;
+	margin: 0;
+	padding: 5px;
+}
+
+/* the portlet header  */
+div.portlet-header {
+	background-color: navy;
+	border-bottom: 1px dotted #C6C9C1;
+	color: #260650;
+	font-size: 120%;
+	font-weight: bold;
+	margin: 0;
+	padding: 5px;
+}
+
+/* the portlet content  */
+div.portlet-content {
+	background-color: #859ECF;
+	border: 0;
+	margin: 0;
+	padding: 15px;
+}
+/* a footer for the portlet */
+/* Not currently used */
+div.portlet-footer {
+}
+div.portlet-footer p {
+}
+
+
+
+
+/* ========================================================================
+ * styles for portlets with a background of a colour other than white
+ * ------------------------------------------------------------------------ */
+
+/* The box "portlet-background-colored" is  similar to "portlet" but
+ * provides different settings.
+ */
+div.portlet-background-colored {
+	border: 1px solid #1C2861;
+	margin-bottom: 10px;
+}
+/* the portler header */
+h3.portlet-background-colored-header {
+	background-color: White;
+	border-bottom: 1px dotted #C6C9C1;
+	color: #1C2861;
+	font-size: 120%;
+	font-weight: bold;
+	margin: 0;
+	padding: 5px;
+}
+/* the portlet content  */
+div.portlet-background-colored-content {
+	background-color: #1C2861;
+	border: 0px;
+	color: #FFFFFF;
+	margin: 0;
+	padding: 15px;
+}
+
+/* the portlet content  */
+div.portlet-background-colored-content a {
+	color: #FFFFFF;
+}
+
+/* special style for lists */
+div.portlet-background-colored li {
+	color: #EE9C00;
+	list-style-type: square;
+}
+
+
+
+
+
+/
+/* ========================================================================
+ * styles for portlets with no background
+ * ------------------------------------------------------------------------ */
+/* The box "portlet-no-background" is  similar to "portlet" but
+ * provides different settings.
+ */
+div.portlet-no-background {
+	border: none;
+	margin-bottom: 10px;
+}
+/* portler header  */
+h3.portlet-no-background-header {
+	background-color: White;
+	color: #260650;
+	font-size: 120%;
+	font-weight: bold;
+	margin: 0;
+	padding: 5px;
+}
+/* portlet content  */
+div.portlet-no-background-content {
+	border: 0px;
+	margin: 0;
+	padding: 15px;
+}
+
+
+
+
+/* =====================================================================
+ * -----------------      styles for alert box      --------------------
+ * ===================================================================== */
+div.alert {
+	color: Red;
+	font-weight: bold;
+	font-size: 120% ;
+	text-align: center;
+}
+div.alert a:link, div.alert a:visited, div.alert a:hover, div.alert a:active {
+	color: Red;
+}
+
+/* =====================================================================
+ * -------------------      styles for table      ----------------------
+ * ===================================================================== */
+
+/* --------------------------------------------------------------------
+ * ------------- data-table : used to display data in rows ------------
+ */
+table.data-table {
+	background-color: White;
+	border: 1px solid #C6C9C1;
+	border-collapse: collapse;
+	margin-bottom: 10px;
+	width: 90%;
+}
+/* table cell */
+table.data-table td {
+	border-left: 1px solid #C6C9C1;
+	border-right: 1px solid #C6C9C1;
+	padding-bottom: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 5px;
+	vertical-align: middle;
+}
+/* table header, eg. : columns names */
+table.data-table th {
+	background-color: #E6EAF3;
+	border-bottom: 1px dotted #C6C9C1;
+	border-left: 1px solid #C6C9C1;
+	border-right: 1px solid #C6C9C1;
+	color: #260650;
+	font-weight: bold;
+	height: 20px;
+	vertical-align: middle;
+}
+/* basic row style */
+table.data-table tr {
+	background-color: #F8F8F8;
+}
+/* style for even rows */
+table.data-table tr.even-row {
+	background-color: White;
+}
+/* styles for odd rows */
+table.data-table tr.odd-row {
+	background-color: #F8F8F8;
+}
+
+/* --------------------------------------------------------------------
+ * ---------------------- external-border-only  -----------------------
+ * a border only around the table, no border for cells, white bg-color
+ */
+ table.external-border-only {
+	background-color: White;
+	border: 1px solid #C6C9C1;
+	border-collapse: collapse;
+	margin-bottom: 10px;
+}
+table.external-border-only th {
+	background-color: #E6EAF3;
+	border-bottom: 1px dotted #C6C9C1;
+	color: #260650;
+
+	font-weight: bold;
+	height: 20px;
+	vertical-align: middle;
+}
+
+/* --------------------------------------------------------------------
+ * ------------------- external-border-only-bgcolored  ----------------
+ * a border only around the table, no border for cells with
+ * a non white bg color
+ */
+ table.external-border-only-bgcolored {
+	background-color: #F8F8F8;
+	border: 1px solid #C6C9C1;
+	border-collapse: collapse;
+	margin-bottom: 10px;
+}
+
+table.external-border-only-bgcolored th {
+	background-color: #E6EAF3;
+	border-bottom: 1px dotted #C6C9C1;
+	color: #260650;
+	font-weight: bold;
+	height: 20px;
+	vertical-align: middle;
+}
+
+
+/* =====================================================================
+ * --------------      styles for horizontal menu      -----------------
+ * ===================================================================== */
+/* Horizontal menu : for menu-main */
+
+ul#menu li ul{
+    display:none;
+}
+
+ul#menu li:hover>ul{
+    display:block;
+}
+
+
+ul#menu{
+    margin:0px;
+    padding:0px;
+    list-style:none;
+    width:100%;
+    background:#859ECF;
+    float:left;
+    /*font:0.7em Arial;*/
+}
+
+ul#menu hr{
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+ul#menu li{
+    float:left;
+    display:block;
+    padding:1px 1px;
+    background-image: url(../images/local/skin/banner_arrows.gif);
+    background-repeat: no-repeat;
+    background-position: center left;
+    padding-left:15px;
+}
+
+ul#menu li.first{
+    /*padding-left:2px;*/
+    padding-left:17px;
+}
+
+ul#menu li.last{
+    padding-right:2px;
+}
+
+ul#menu li a{
+    display:block;
+    padding:2px 6px;
+    /*border:1px solid #CCCCCC;*/
+    color:White;
+    text-decoration:none
+}
+
+ul#menu li a:hover{
+    /*border-color: #000099;*/ /*needed for hover background of submenu to work */
+}
+
+ul#menu ul{
+    position:absolute;
+    background:#859ECF;
+    border: 1px solid #260650;
+    list-style:none;
+    margin:0px;
+    padding:0px;
+    width:160px;
+    z-index:1;
+}
+
+ul#menu ul ul{
+    top:0px;
+    left:155px;
+    z-index:2;
+}
+
+ul#menu ul li{
+    position:relative;
+    float:none;
+    background-image:none;
+    margin:0px;
+    padding:0px;
+    border-top: 1px solid #260650;
+    _display:inline;
+}
+
+ul#menu ul li a{
+    display:block;
+    margin:0px;
+	padding:0px;
+	width:160px;
+    border:none;
+}
+ul#menu ul li a span{
+    display:block;
+    width:144px;
+    _width:156px;
+    padding:2px 6px;
+    margin:0px 2px;
+    border:none;
+    cursor: pointer;
+	cursor:hand;
+}
+ul#menu ul li a.next span{}
+ul#menu ul li a.next:hover span{
+    background-position: -160px 50%;
+}
+
+ul#menu ul li a:hover span{
+    /*background-color:#000099;*/
+    color: #260650;
+    border:none;
+}
+
+ul#menu ul li.first{
+    padding-left:0px;
+    border-top: none;
+}
+
+ul#menu ul li.first a{
+    padding-top:2px;
+}
+
+ul#menu ul li.last{
+    padding-right:0px;
+}
+
+ul#menu ul li.last a{
+    padding-bottom:2px;
+}
+
+
+
+/* =====================================================================
+ * ---------------      styles for vertical menu      ------------------
+ * ===================================================================== */
+/* vertical menu */
+ul#menu-verti li ul{
+    display:none;
+}
+
+ul#menu-verti li:hover>ul{
+    display:block;
+}
+
+ul#menu-verti{
+    float:left;
+}
+
+ul#menu-verti, ul#menu-verti ul{
+    background: #EE9C00;
+    border: 1px solid #990000;
+    list-style:none;
+    margin:0px;
+    padding:0px;
+    width:148px;
+    _width:150px;
+}
+
+ul#menu-verti ul{
+    position:absolute;
+    top:-1px;
+    left:148px;
+}
+
+ul#menu-verti li{
+    position:relative;
+    margin:0px;
+    padding:0px;
+    _display:inline;
+}
+
+ul#menu-verti a{
+    display:block;
+    width:100%;
+    color:Black;
+    text-decoration:none
+}
+
+ul#menu-verti a:hover{
+    background:Black;
+    color:White;
+}
+
+
+
+/* =====================================================================
+ * -------------      styles for the footer content     ----------------
+ * ===================================================================== */
+#footer-content {
+	background-color: White ;
+	border: 0px;
+	color: #1C2861;
+	font-weight: bold;
+	text-align: center;
+
+}
+
+#footer-content img {
+border: none;
+}
+
+#footer-content a:link, #footer a:visited {
+	color: #1C2861;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#footer-content a:hover, #footer a:active {
+
+	color: #1C2861;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+
+
+
+#menu-init a:link, #menu-init a:visited, #menu-init a:hover, #menu-init a:active {
+	color: White;
+	text-decoration: none;
+}
+
+
+
+
+/* =====================================================================
+ * --------------    styles for the page-path content   ----------------
+ * ===================================================================== */
+#page-path-content {
+	background-color: #E6EAF3;
+	border: none;
+	color: #1C2861;
+	font-weight: bold;
+	padding: 0px;
+	text-align: left;
+}
+
+#page-path-content a:link, #page-path a:visited {
+	color: #1C2861;
+	font-weight: normal;
+	text-decoration: none;
+}
+#page-path-content a:hover, #page-path a:active {
+	color: #1C2861;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+
+
+/* ------------------------------------- */
+/* styles to display lines of 4 elements */
+/* ------------------------------------- */
+ /* to work ok, the last div line should be followed
+    by a div of class clear :<div class="clear">&nbsp;</div>
+    in order to fill the container and not to display the line
+    outside this container.
+ */
+
+/* each group of line-elements should be surronded by a line */
+div.line {
+ 	clear: both;
+ }
+
+div.line-first {
+ 	clear: none; /* first line should not clear */
+ }
+/* as we put 4 elements per line, the max we can size each element
+is 25% */
+div.line-element {
+    float: left;
+    width: 25%;
+    margin-bottom: 20px;
+
+}
+div.line-element p {
+    text-align: left;
+}
+div.line-element a {
+    background-image: url('../images/local/skin/arrows.gif');
+	background-position: left top ;
+	background-repeat: no-repeat;
+	padding-left: 15px;
+}
+
+/* ------------------------------------- */
+/* Styles to display a polaroid */
+/* ------------------------------------- */
+/* This style is used to contain an image of
+   width and height of 80 pixel and renders a
+   polaroid effect */
+div.polaroid {
+    /*margin:auto;*/ /* margin auto will center the polaroid in its container */
+    width:84px;
+    height:84px;
+    background-image: url('../images/local/skin/fd_images.gif');
+    background-position: top center;
+    background-repeat: no-repeat;
+
+}
+div.polaroid img {
+    margin-left:2px;
+    margin-top:2px;
+}
+
+/* ====================================================================
+ * -----------------      styles for the site map     -----------------
+ * ==================================================================== */
+ul.site-map-level-one
+{
+	margin-left:20px;
+	list-style:none;
+}
+
+ul.site-map-level-one li
+{
+   background-image: url(../images/local/skin/arrows.gif);
+	background-repeat: no-repeat;
+	background-position: top left;
+	padding-left: 15px;
+	margin-bottom: 20px;
+	border-bottom: 1px dotted Black;
+}
+
+
+ul.site-map-level-one a:link, ul.site-map-level-one a:visited
+{
+   color: #1C2861;
+	font-weight: bold;
+	font-size: 120%;
+	text-decoration: none;
+
+}
+ul.site-map-level-one a:hover
+{
+   color: #1C2861;
+ 	font-weight: bold;
+	font-size: 120%;
+	text-decoration: underline;
+
+}
+
+/* Postion of the image displayed for level one  */
+ul.site-map-level-one div.level-one-image
+{
+	float:left;
+	width:100px;
+	margin:0px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+
+ul.site-map-level-two
+{
+	margin-left:60px;
+	margin-bottom:10px;
+	margin-top:5px;
+	list-style:none;
+}
+
+
+ul.site-map-level-two li
+{
+   background-image: url(../images/local/skin/arrows.gif);
+	background-repeat: no-repeat;
+	background-position:  top left;
+	padding-left:15px;
+	margin-bottom: 5px;
+	border: none;
+}
+
+ul.site-map-level-two a:link, ul.site-map-level-two a:visited
+{
+   color: #1C2861;
+ 	font-weight: bold;
+	font-size: 110%;
+	text-decoration: none;
+
+}
+
+ul.site-map-level-two a:hover
+{
+   color: #1C2861;
+	font-weight: bold;
+	font-size: 110%;
+	text-decoration: underline;
+
+}
+
+ul.site-map-level-three
+{
+	margin-left:20px;
+	margin-bottom:5px;
+	margin-top:5px;
+	list-style:none;
+}
+
+ul.site-map-level-three li
+{
+    background-image: none;
+    margin-bottom: 5px;
+    border: none;
+}
+
+ul.site-map-level-three a:link, ul.site-map-level-three a:visited
+{
+   color: #1C2861;
+	font-weight: bold;
+	font-size: 100%;
+	text-decoration: none;
+}
+ul.site-map-level-three a:hover
+{
+   color: #1C2861;
+	font-weight: bold;
+	font-size: 100%;
+	text-decoration: underline;
+}
+
+ul.site-map-level-highest
+{
+	margin-left:0px;
+	margin-bottom:5px;
+	margin-top:5px;
+	list-style:none;
+}
+
+ul.site-map-level-highest li
+{
+    background-image: none;
+    margin-bottom: 0px;
+    border: none;
+}
+
+ul.site-map-level-highest a:link, ul.site-map-level-highest a:visited
+{
+   color: #1C2861;
+	font-weight: normal;
+	font-size: 100%;
+	text-decoration: none;
+
+}
+ul.site-map-level-highest a:hover
+{
+   color: #1C2861;
+	font-weight: normal;
+	font-size: 100%;
+	text-decoration: underline;
+}
+
+
+
+
+
+/* ---------------------------------------------------- */
+/* ------------  Styles for comarquage  --------------- */
+/* ---------------------------------------------------- */
+table.comarquage-table
+{
+	border:0px;
+	width: 75%;
+}
+/* style for even rows */
+table.comarquage-table tr.comarquage-table-even-row
+{
+	background-color: #EEEEEE;
+}
+/* styles for odd rows */
+table.comarquage-table tr.comarquage-table-odd-row
+{
+	background-color: White;
+}
+/* table header, eg. : columns names */
+table.comarquage-table tr.comarquage-table-header
+{
+	background-color: #FBAF5D;
+	height:10px;
+	font-weight: bold;
+
+}
+/* table footer, eg. : columns names */
+table.comarquage-table tr.comarquage-table-footer
+{
+	background-color: #FBAF5D;
+	height:10px;
+	font-weight: bold;
+}
+
+
+.comarquage-highlight
+{
+	color:Red;
+	font-weight: bold;
+}
+.comarquage-amount
+{
+	color:#00AA00;
+	font-weight: bold;
+}
+.comarquage-quotation
+{
+	font-style: italic;
+}}
+
+
+
+/* ====================================================================
+ * styles for the formengine modules
+ * -------------------------------------------------------------------- */
+
+.formengine-mandatory {
+	color:#FF0000;
+}
+
+p.formengine-mandatory-message {
+	font-style: italic;
+}
+
+form.formengine-form {
+	display: inline;
+   margin: 0px;
+   padding: 0px;
+}
+
+#formengine-form-summary fieldset {
+	text-align: left;
+   margin-bottom: 20px;
+}
+
+#formengine-form-summary ul {
+	text-align: left;
+   list-style-image: url(../images/local/skin/bullet.gif);
+}
+
+legend.formengine-legend {
+	font-size: 12px;
+   font-weight: bold;
+   color: #1C2861;
+}
+
+fieldset.formengine-fieldset {
+	background:#F8F8F8;
+   margin-top: 20px;
+   margin-bottom: 20px;
+   margin-right: 10px;
+   margin-left: 10px;
+   padding-bottom: 10px;
+}
+
+#formengine-form-content formengine-fieldset ul li label {
+	width: 100%;
+   float:none;
+   text-align: left;
+   margin: 0;
+   padding:0;
+}
+
+#formengine-form-content formengine-fieldset ul li input {
+   text-align: left;
+}
+
+#formengine-form-content formengine-fieldset span.formengine-field ul {
+   list-style-type: none;
+   padding: 0px;
+   padding-left: 5px;
+   margin-left: 50%;
+   margin-right: 0px;
+   margin-top:0px;
+}
+
+#formengine-form-content formengine-fieldset span.formengine-field li {
+   margin: 0px;
+   padding: 0px;
+}
+
+formengine-select {
+   font-size: 10px;
+}
+
+formengine-input {
+   font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-size: 12px;
+}
+
+formengine-input.submit {
+   margin-left: 5px;
+   margin-bottom: 5px;
+   padding-top:1px; border:none; color:#FFFFFF;
+   font-size:x-small;
+   font-weight:bold;
+   text-transform:uppercase;
+   background:#859ECF;
+   cursor: pointer;
+   cursor: hand;
+   text-align: center ;
+}
+
+div.formengine-element {
+   margin-bottom: 10px;
+   margin-top: 10px;
+   clear: both;
+}
+
+div.formengine-buttons {
+   clear: both;
+   text-align: center;
+   margin-bottom: 10px;
+   margin-top: 10px;
+}
+
+div.formengine-steps {
+   clear: both;
+   text-align: center;
+   height: 40px;
+}
+
+div.formengine-recapitulatif {
+   font-size: 12px;
+   font-weight: bold;
+   padding-right: 10px;
+   padding-left: 10px;
+	padding-top: 0px;
+   padding-bottom: 0px;
+}
+
+span.formengine-label {
+	float: left ;
+	width: 50%;
+	text-align: right;
+	padding-right: 5px;
+}
+
+span.formengine-additionnal-info {
+	font-style: italic;
+}
+
+span.formengine-field {
+	text-align: left ;
+}
+
+h1.formengine-form-title {
+	font-size: 16px;
+	font-weight: bold;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #EE9C00;
+	margin-left: 0px;
+	padding-left: 0px;
+}
+
+h1.formengine-title{
+	font-size:15px;
+	background:#F8F8F8;
+	background-image: url(../images/local/skin/sous-titre1.gif);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+}
+
+/* style h2 caché */
+
+h2.formengine-subform-title {
+	font-size: 10px;
+	font-weight: normal;
+	display: none;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+#formengine-form-button-delete {
+	border: none;
+	cursor: pointer;
+	cursor: hand;
+	display: inline;
+	background-color: #859ECF;
+	font-size: 10px;
+	color: #FFFFFF;
+}
+
+#formengine-form-button-modify {
+	border: none;
+	cursor: pointer;
+	cursor: hand;
+	display: inline;
+	background-color: #859ECF;
+	font-size: 10px;
+	color: #FFFFFF;
+}
+
+#formengine-menu {
+	font-size: 12px;
+	padding-bottom: 4px;
+}
+
+.formengine-menuactif {
+	padding: 2px;
+	color: #EE9C00;
+	margin: 0px;
+	font-weight: bold;
+}
+
+#formengine-menu ul {
+	padding: 0px;
+	margin: 0px;
+}
+
+#formengine-menu li {
+	display: inline;
+	padding-right: 5px;
+	padding-left: 5px;
+	margin: 0px;
+}
+
+#formengine-menu a {
+	/*font-size: 12px;*/
+	color: #260650;
+	background-repeat: no-repeat;
+	padding-left: 15px;
+	margin-left: 5px;
+}
+
+table.formengine-table-steps {
+	background-color: #FFFFFF;
+	border-collapse: collapse;
+   margin-bottom: 10px;
+}
+
+
+/* table cell */
+
+table.formengine-table-steps td {
+	background-color: #F8F8F8;
+	color: #260650;
+	font-size: 10px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+/* table header, eg. : columns names */
+
+table.formengine-table-steps th {
+	background-color: #E6EAF3;
+	color: #260650;
+	font-size: 10px;
+	vertical-align: middle;
+	text-align: center;
+}
+

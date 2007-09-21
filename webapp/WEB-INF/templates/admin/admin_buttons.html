@@ -1,0 +1,59 @@
+<!-- Fonctions d'administration -->
+<div class="admin-buttons">
+    <table align="left" summary="buttons">
+        <tr>
+            <#if portlet.status = 0>
+            <td>
+                <img src="images/admin/skin/enable.png" alt="" align="left"/>
+            </td>
+            <td>
+                <form method="post" action="jsp/admin/site/ModifyPortletStatus.jsp">
+                    <input type="hidden" name="portlet_id" value="${portlet.id}" />
+                    <input type="hidden" name="status" value="1" />
+                    <input type="submit" value="#i18n{portal.site.portletPreview.buttonSuspend}"/>
+                </form>
+            </td>
+            <#else>
+            <td>
+                <img src="images/admin/skin/disable.png" alt="" align="left" />
+            </td>
+            <td>
+                <form method="post" action="jsp/admin/site/ModifyPortletStatus.jsp">
+                    <input type="hidden" name="portlet_id" value="${portlet.id}" />
+                    <input type="hidden" name="status" value="0" />
+		    <input type="submit" value="#i18n{portal.site.portletPreview.buttonActivate}"/>
+		</form>
+            </td>
+            </#if>
+            <td>
+                <form method="post" action="jsp/admin/DoModifyPortlet.jsp">
+                    <input type="hidden" name="portlet_id" value="${portlet.id}" />
+		    <input type="submit" value="#i18n{portal.site.portletPreview.buttonModify}"/>
+		</form>
+            </td>
+            <td>
+                <form method="post" action="jsp/admin/site/RemovePortlet.jsp">
+                    <input type="hidden" name="portlet_id" value="${portlet.id}" />
+                    <input type="submit" value="#i18n{portal.site.portletPreview.buttonDelete}"/>
+		</form>
+            </td>
+        </tr>
+	<#if portlet.portletTypeId="DOCUMENT_PORTLET">
+	<tr>
+            <td colspan="4">
+                <form method="post" action="jsp/admin/plugins/document/ManagePublishing.jsp" target="_parent">
+                    <input type="hidden" name="id_portlet" value="${portlet.id}" />
+		    <input type="submit" value="#i18n{portal.site.portletPreview.buttonManage}"/>
+		</form>
+            </td>
+	</tr>
+	</#if>
+	</table>
+    <br />
+    <br />
+    <br />
+</div>
+
+<br />
+<br />
+<br />

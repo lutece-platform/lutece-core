@@ -1,0 +1,27 @@
+
+<div class="content-box" >
+
+<h2>#i18n{portal.rbac.create_role.titleCreateRole}</h2>
+
+				<form method="post" action="jsp/admin/rbac/DoCreateRole.jsp" name="create_role">
+                     <p>
+	                     <label for="role_key" >#i18n{portal.rbac.create_role.labelKey}&nbsp;*&nbsp;:</label>
+						 <input type="text" size="20" id="role_key" name="role_key" maxlength="255" />
+					</p>
+
+				     <p>
+	                     <label for="role_description" >#i18n{portal.rbac.create_role.labelDescription}&nbsp;*&nbsp;:</label>
+				      	<input type="text" id="role_description" name="role_description" size="100" maxlength="255" />
+					</p>
+					<p>
+						<input type="submit" value="#i18n{portal.rbac.create_role.buttonLabelCreate}" class="button" />
+					    <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
+					</p>
+				</form>
+
+
+<script language="JavaScript">
+	window.onload = create_role.role_key.focus
+</script>
+
+</div>
