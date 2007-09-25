@@ -105,9 +105,12 @@ public class AdminMailingListService
         Collection<Recipient> listRecipients = new ArrayList<Recipient>(  );
         MailingList mailinglist = MailingListHome.findByPrimaryKey( nIdMailingList );
 
-        for ( MailingListUsersFilter filter : mailinglist.getFilters(  ) )
+        if ( mailinglist != null )
         {
-            listRecipients.addAll( getRecipients( filter.getWorkgroup(  ), filter.getRole(  ) ) );
+            for ( MailingListUsersFilter filter : mailinglist.getFilters(  ) )
+            {
+                listRecipients.addAll( getRecipients( filter.getWorkgroup(  ), filter.getRole(  ) ) );
+            }
         }
 
         return listRecipients;
