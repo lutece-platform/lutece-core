@@ -280,21 +280,24 @@ public final class MailingListDAO implements IMailingListDAO
      */
     public void selectMailingListUsersFilters( MailingList mailinglist )
     {
-        Collection<MailingListUsersFilter> mailingListUsersFilterList = mailinglist.getFilters(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_SELECTALL );
-        daoUtil.setInt( 1, mailinglist.getId(  ) );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
+        if ( mailinglist != null )
         {
-            MailingListUsersFilter mailingListUsersFilter = new MailingListUsersFilter(  );
+            Collection<MailingListUsersFilter> mailingListUsersFilterList = mailinglist.getFilters(  );
+            DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_SELECTALL );
+            daoUtil.setInt( 1, mailinglist.getId(  ) );
+            daoUtil.executeQuery(  );
 
-            mailingListUsersFilter.setWorkgroup( daoUtil.getString( 2 ) );
-            mailingListUsersFilter.setRole( daoUtil.getString( 3 ) );
+            while ( daoUtil.next(  ) )
+            {
+                MailingListUsersFilter mailingListUsersFilter = new MailingListUsersFilter(  );
 
-            mailingListUsersFilterList.add( mailingListUsersFilter );
+                mailingListUsersFilter.setWorkgroup( daoUtil.getString( 2 ) );
+                mailingListUsersFilter.setRole( daoUtil.getString( 3 ) );
+
+                mailingListUsersFilterList.add( mailingListUsersFilter );
+            }
+
+            daoUtil.free(  );
         }
-
-        daoUtil.free(  );
     }
 }
