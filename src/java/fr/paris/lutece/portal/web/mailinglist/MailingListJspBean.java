@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.business.mailinglist.MailingListUsersFilter;
 import fr.paris.lutece.portal.business.mailinglist.Recipient;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
+import fr.paris.lutece.portal.service.mailinglist.MailingListRemovalListenerService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -48,6 +49,7 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
+import java.util.ArrayList;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -77,12 +79,13 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_RECIPIENTS_LIST = "recipients_list";
     private static final String MARK_MAILINGLIST = "mailinglist";
 
-    // Propeties
+    // Properties
     private static final String PROPERTY_CREATE_MAILINGLIST_PAGETITLE = "portal.mailinglist.create_mailinglist.pageTitle";
     private static final String PROPERTY_MODIFY_MAILINGLIST_PAGETITLE = "portal.mailinglist.modify_mailinglist.pageTitle";
     private static final String PROPERTY_VIEW_USERS_PAGETITLE = "portal.mailinglist.view_users.pageTitle";
     private static final String PROPERTY_ADD_USERS_PAGETITLE = "portal.mailinglist.add_users.pageTitle";
     private static final String MESSAGE_CONFIRM_REMOVE = "portal.mailinglist.message.confirmRemoveMailingList";
+    private static final String MESSAGE_CANNOT_REMOVE = "portal.mailinglist.message.cannotRemoveMailingList";
 
     // Parameters
     private static final String PARAMETER_WORKGROUP = "workgroup";
@@ -244,9 +247,14 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
         String strUrlRemove = JSP_URL_REMOVE_MAILINGLIST + "?" + PARAMETER_MAILINGLIST_ID + "=" + strId;
 
-        String strUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove,
-                AdminMessage.TYPE_CONFIRMATION );
-
+        ArrayList<String> listErrors = new ArrayList<String>();
+        String strUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION );
+        if( !MailingListRemovalListenerService.getService().checkForRemoval( strId , listErrors , getLocale() ) )
+        {
+            String strCause = AdminMessageService.getFormattedList( listErrors , getLocale() );
+            Object[] args = { strCause };
+            strUrl = AdminMessageService.getMessageUrl( request , MESSAGE_CANNOT_REMOVE , args , AdminMessage.TYPE_STOP );
+        }
         return strUrl;
     }
 
@@ -261,7 +269,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
         int nId = Integer.parseInt( strId );
 
-        MailingListHome.remove( nId );
+       MailingListHome.remove( nId );
 
         return this.getHomeUrl( request );
     }

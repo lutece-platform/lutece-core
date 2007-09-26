@@ -11,6 +11,10 @@
   
   <!--                      Mail Queue                            -->  
   <bean id="mailQueue" class="fr.paris.lutece.portal.service.mail.MemoryQueue" />
+  
+  <!--                      Removal Services                            -->  
+  <bean id="mailinglistRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
+  
     
   <!--                       Data Access Objects                             -->  
   <!-- package features -->
