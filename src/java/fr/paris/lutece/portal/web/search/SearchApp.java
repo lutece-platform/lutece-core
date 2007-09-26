@@ -153,7 +153,6 @@ public class SearchApp implements XPageApplication
         QueryEvent event = new QueryEvent();
         event.setQuery( strQuery );
         event.setResultsCount( nResultsCount );
-        Locale localeVisitor = request.getLocale();
         event.setRequest( request );
         QueryListenersService.getInstance().notifyListeners( event );
     }
