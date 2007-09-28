@@ -47,6 +47,7 @@ import java.util.Map;
  * */
 public class AppDaemonService
 {
+	
     private static Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<String, DaemonEntry>(  );
     private static boolean _bInit;
 
@@ -88,12 +89,6 @@ public class AppDaemonService
         entry.setInterval( lInterval );
         entry.setOnStartUp( bOnStartup );
         
-//      Add plugin name to Daemon class
-        if ( entry.getDaemon() != null )
-        {
-        	entry.getDaemon(  ).setPluginName( entry.getPluginName() );
-        }
-        
         try
         {
             entry.loadDaemon(  );
@@ -109,6 +104,12 @@ public class AppDaemonService
         catch ( IllegalAccessException e )
         {
             throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId(  ), e );
+        }
+        
+        // Add plugin name to Daemon class
+        if ( entry.getPluginName() != null )
+        {
+        	entry.getDaemon(  ).setPluginName( entry.getPluginName() );
         }
 
         _mapDaemonEntries.put( entry.getId(  ), entry );
