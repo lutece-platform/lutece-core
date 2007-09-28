@@ -26,7 +26,7 @@
 				<a href="http://dev.lutece.paris.fr/jira/browse/LUTECE" target="_blank">Gestion des anomalies</a> : accès au système de contrôle des livraisons pour ce projet. Des entrées (bogues, dispositifs, demandes de changement) peuvent être créées et consultées en utilisant ce lien.
 			</p>	
 			<p>
-				<a href="http://dev.lutece.paris.fr/viewvc/trunk/core/" target="_blank">Dépôt de sources</a> : accès au dépôt de sources en ligne via un navigateur web.
+				<a href="http://dev.lutece.paris.fr/viewvc/portal/trunk/" target="_blank">Dépôt de sources</a> : accès au dépôt de sources en ligne via un navigateur web.
 			</p>
 			<p>
 				<a href="dependencies.html">Dépendences</a> : liste des dépendances du projets, informations complémentaires.
