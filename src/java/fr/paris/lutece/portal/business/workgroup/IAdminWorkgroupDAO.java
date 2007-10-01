@@ -86,11 +86,9 @@ public interface IAdminWorkgroupDAO
 
     /**
      * Update the record identified by the given workgroup key with the given workgroup in the table
-     *
-     * @param strWorkgroupKey the key of the workgroup to modify
      * @param workgroup The reference of workgroup to be the new one
      */
-    void store( String strWorkgroupKey, AdminWorkgroup workgroup );
+    void store( AdminWorkgroup workgroup );
 
     /**
      * Is the user member of the workgroup

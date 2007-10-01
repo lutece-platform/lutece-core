@@ -81,7 +81,6 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MANAGE_WORKGROUPS_PAGETITLE = "portal.workgroup.manage_workgroups.pageTitle";
 
     // Parameters
-    private static final String PARAMETER_OLD_WORKGROUP_KEY = "old_workgroup_key";
     private static final String PARAMETER_WORKGROUP_KEY = "workgroup_key";
     private static final String PARAMETER_WORKGROUP_DESCRIPTION = "workgroup_description";
     private static final String PARAMETER_USERS_LIST_IDS = "list_users_ids2";
@@ -246,39 +245,18 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyWorkgroup( HttpServletRequest request )
     {
-        String strOldKey = request.getParameter( PARAMETER_OLD_WORKGROUP_KEY );
-        String strKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
+        String strWorgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
         String strDescription = request.getParameter( PARAMETER_WORKGROUP_DESCRIPTION );
-
-        if ( ( strKey == null ) || ( strKey.equals( "" ) ) )
-        {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-        }
 
         if ( ( strDescription == null ) || ( strDescription.equals( "" ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( AdminWorkgroupHome.getUserListForWorkgroup( strOldKey ).size(  ) > 0 )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_USED, AdminMessage.TYPE_STOP );
-        }
-
-        if ( !strKey.equals( strOldKey ) )
-        {
-            // Check if workgroup already exist
-            if ( AdminWorkgroupHome.checkExistWorkgroup( strKey ) == Boolean.TRUE )
-            {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_EXIST,
-                    AdminMessage.TYPE_STOP );
-            }
-        }
-
         AdminWorkgroup adminWorkgroup = new AdminWorkgroup(  );
-        adminWorkgroup.setKey( strKey );
+        adminWorkgroup.setKey( strWorgroupKey );
         adminWorkgroup.setDescription( strDescription );
-        AdminWorkgroupHome.update( strOldKey, adminWorkgroup );
+        AdminWorkgroupHome.update( adminWorkgroup );
 
         return JSP_MANAGE_WORKGROUPS;
     }

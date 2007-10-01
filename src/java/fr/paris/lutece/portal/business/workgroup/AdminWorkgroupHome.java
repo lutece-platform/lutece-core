@@ -74,9 +74,9 @@ public final class AdminWorkgroupHome
      * @param workgroup The instance of the workgroup which contains the new data to store
      * @return The instance of the  workgroup which has been updated
      */
-    public static AdminWorkgroup update( String strWorkgroupKey, AdminWorkgroup workgroup )
+    public static AdminWorkgroup update( AdminWorkgroup workgroup )
     {
-        _dao.store( strWorkgroupKey, workgroup );
+        _dao.store( workgroup );
 
         return workgroup;
     }
@@ -188,4 +188,9 @@ public final class AdminWorkgroupHome
     {
         _dao.deleteUserFromWorkgroup( user.getUserId(  ), strWorkgroupKey );
     }
+
+    /*public static void update(AdminWorkgroup adminWorkgroup)
+    {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }*/
 }

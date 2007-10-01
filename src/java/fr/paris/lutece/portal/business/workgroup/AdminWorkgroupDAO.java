@@ -51,7 +51,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     private static final String SQL_QUERY_SELECT = " SELECT workgroup_key, workgroup_description FROM core_admin_workgroup WHERE workgroup_key = ?  ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_workgroup ( workgroup_key, workgroup_description ) VALUES ( ?, ? ) ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_admin_workgroup WHERE workgroup_key = ?  ";
-    private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_workgroup SET workgroup_key = ?, workgroup_description = ? WHERE workgroup_key = ?  ";
+    private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_workgroup SET workgroup_description = ? WHERE workgroup_key = ?  ";
     private static final String SQL_QUERY_SELECTALL = " SELECT workgroup_key, workgroup_description FROM core_admin_workgroup ORDER BY workgroup_key";
     private static final String SQL_QUERY_SELECT_USER_WORKGROUP = " SELECT workgroup_key FROM core_admin_workgroup_user WHERE id_user = ? AND workgroup_key = ? ";
     private static final String SQL_QUERY_USER_IN_WORKGROUP  = " SELECT id_user FROM core_admin_workgroup_user WHERE id_user = ? ";   
@@ -121,15 +121,13 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
 
     /**
      * Update the record identified by the given workgroup key with the given workgroup in the table
-     * @param strWorkgroupKey the key of the workgroup to modify
      * @param workgroup The reference of workgroup to be the new one
      */
-    public void store( String strWorkgroupKey, AdminWorkgroup workgroup )
+    public void store( AdminWorkgroup workgroup )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setString( 1, workgroup.getKey(  ) );
-        daoUtil.setString( 2, workgroup.getDescription(  ) );
-        daoUtil.setString( 3, strWorkgroupKey );
+        daoUtil.setString( 1, workgroup.getDescription(  ) );
+        daoUtil.setString( 2, workgroup.getKey(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
