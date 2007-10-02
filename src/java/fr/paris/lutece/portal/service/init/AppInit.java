@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
+import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.search.IndexationService;
@@ -120,6 +121,8 @@ public final class AppInit
             AppConnectionService.init( strConfPath, FILE_PROPERTIES_DATABASE, "portal" );
             AppLogService.info( "Creating connexions pool 'portal'." );
 
+            AdminMailingListService.init(  );
+            
             // Initializes Search Engine Indexation Service
             IndexationService.init(  );
 

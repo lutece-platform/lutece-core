@@ -36,6 +36,9 @@ package fr.paris.lutece.portal.business.mailinglist;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import fr.paris.lutece.portal.service.mailinglist.MailingListRemovalListenerService;
+import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
+
 
 /**
  * This class represents a mailing list composed by admin users. All members of those
@@ -43,12 +46,27 @@ import java.util.Collection;
  */
 public class MailingList
 {
+    private static MailingListWorkgroupRemovalListener _listenerWorkgroup;
+
     // Variables declarations
     private int _nId;
     private String _strName;
     private String _strDescription;
     private String _strWorkgroup;
     private ArrayList<MailingListUsersFilter> _listFilters = new ArrayList<MailingListUsersFilter>(  );
+
+    /**
+     * Initialize the rule
+     */
+    public void init(  )
+    {
+        // Create removal listeners and register them
+        if ( _listenerWorkgroup == null )
+        {
+            _listenerWorkgroup = new MailingListWorkgroupRemovalListener(  );
+            WorkgroupRemovalListenerService.getService(  ).registerListener( _listenerWorkgroup );
+        }
+    }
 
     /**
      * Returns the Id

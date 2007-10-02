@@ -42,12 +42,14 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
+import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -93,6 +95,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_WORKGROUP_ALREADY_EXIST = "portal.workgroup.message.workgroupAlreadyExist";
     private static final String MESSAGE_CONFIRM_REMOVE = "portal.workgroup.message.confirmRemove";
     private static final String MESSAGE_WORKGROUP_ALREADY_USED = "portal.workgroup.message.workgroupAlreadyUsed";
+    private static final String MESSAGE_CANNOT_REMOVE_WORKGROUP = "portal.workgroup.message.cannotRemoveWorkgroup";
 
     /**
      * Get the workgroups management page.
@@ -200,10 +203,20 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     public String doRemoveWorkgroup( HttpServletRequest request )
     {
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
+        ArrayList<String> listErrors = new ArrayList<String>(  );
 
         if ( AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey ).size(  ) > 0 )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_USED, AdminMessage.TYPE_STOP );
+        }
+
+        if ( !WorkgroupRemovalListenerService.getService(  ).checkForRemoval( strWorkgroupKey, listErrors, getLocale(  ) ) )
+        {
+            String strCause = AdminMessageService.getFormattedList( listErrors, getLocale(  ) );
+            Object[] args = { strCause };
+
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_WORKGROUP, args,
+                AdminMessage.TYPE_STOP );
         }
         else
         {

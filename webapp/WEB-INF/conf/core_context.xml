@@ -14,6 +14,7 @@
   
   <!--                      Removal Services                            -->  
   <bean id="mailinglistRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
+  <bean id="workgroupRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
   
     
   <!--                       Data Access Objects                             -->  

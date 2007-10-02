@@ -56,6 +56,18 @@ public class AdminMailingListService
     public static final String ALL_ROLES = "*";
 
     /**
+     * Initialize
+     */
+    public static void init(  )
+    {
+        // Initialize mailing list 
+        for ( MailingList mailingList : MailingListHome.findAll(  ) )
+        {
+            mailingList.init(  );
+        }
+    }
+
+    /**
      * Returns a list of all mailing list visible by the user
      * @param user The user
      * @return The list as a ReferenceList
