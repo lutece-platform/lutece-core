@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.HashMap;
@@ -82,6 +83,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
     // Message
     private static final String MESSAGE_ROLE_EXIST = "portal.role.message.roleexist";
+    private static final String MESSAGE_ROLE_FORMAT = "portal.role.message.roleformat";
     private static final String MESSAGE_CONFIRM_REMOVE = "portal.role.message.confirmRemoveRole";
 
     /**
@@ -138,7 +140,13 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        // verifie que le role n'existe pas
+        // Check if code is valid
+        if ( !StringUtil.checkCodeKey( strPageRole ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_FORMAT, AdminMessage.TYPE_STOP );
+        }
+
+        // Check if role exist
         if ( RoleHome.findExistRole( strPageRole ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_EXIST, AdminMessage.TYPE_STOP );
