@@ -21,7 +21,6 @@
 	while( paramNames.hasMoreElements() )
 	{
             i = i + 1;
-            System.out.println("i  = "+ i );
             if( i > 1 )
             {
                 strSeparator = "&#38;";
