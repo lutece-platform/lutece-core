@@ -45,6 +45,7 @@ public final class StringUtil
 {
     private static final String PROPERTY_XSS_CHARACTERS = "input.xss.characters";
     private static final String EMAIL_PATTERN = "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$";
+    private static final String STRING_CODE_PATTERN = "^[\\w]+$";
 
     // The characters that are considered dangerous for XSS attacks
     private static char[] _aXssCharacters = null;
@@ -203,5 +204,22 @@ public final class StringUtil
     public static synchronized boolean checkEmail( String strEmail )
     {
         return strEmail.matches( EMAIL_PATTERN );
+    }
+
+    /**
+     * Check a code key.<br />
+     * Return true if each character of String is
+     * <ul>
+     * 	<li>number</li>
+     *  <li>lower case</li>
+     *  <li>upper case</li>
+     * </ul>
+     *  
+     * @param strCodeKey The code Key
+     * @return True if code key is valid
+     */
+    public static synchronized boolean checkCodeKey( String strCodeKey )
+    {
+        return ( strCodeKey == null ) ? null : strCodeKey.matches( STRING_CODE_PATTERN );
     }
 }
