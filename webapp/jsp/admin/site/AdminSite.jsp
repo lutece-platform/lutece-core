@@ -3,6 +3,7 @@
 
 <jsp:include page="../AdminHeader.jsp" />
 
+
 <jsp:useBean id="admin" scope="session" class="fr.paris.lutece.portal.web.admin.AdminPageJspBean" />
 
 <% admin.init( request , admin.RIGHT_MANAGE_ADMIN_SITE ); %>
@@ -12,7 +13,6 @@
     <jsp:include page="AdminPage.jsp" />
 
     <div id="admin-site-preview" class="preview">
-
 <%
 	String strParams = "";
 	String strSeparator = "?";
@@ -20,15 +20,18 @@
 	int i = 0;
 	while( paramNames.hasMoreElements() )
 	{
-            if( i != 0 )
+            i = i + 1;
+            System.out.println("i  = "+ i );
+            if( i > 1 )
             {
-                strSeparator = "&";
+                strSeparator = "&#38;";
             }
             String strParamName = (String) paramNames.nextElement();
             String strParamValue = request.getParameter( strParamName );
             strParams += strSeparator + strParamName + "=" + strParamValue;
 	}
 %>
+
 	<iframe name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="100%" height="750">
 	</iframe>
     </div>
