@@ -68,7 +68,7 @@ import java.util.Map;
 public class PluginFile
 {
     private static final String FILE_RULES = "/fr/paris/lutece/portal/service/plugin/plugin-digester-rules.xml";
-
+    
     // Variables
     private String _strName;
     private String _strVersion;
@@ -80,6 +80,8 @@ public class PluginFile
     private String _strIconUrl;
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
+    private List<String> _listCssStyleSheets = new ArrayList<String>();
+    private List<String> _listJavascriptFiles = new ArrayList<String>();
     private List<Right> _listRights = new ArrayList<Right>(  );
     private List<PortletType> _listPortletTypes = new ArrayList<PortletType>(  );
     private List<DaemonEntry> _listDaemons = new ArrayList<DaemonEntry>(  );
@@ -90,10 +92,8 @@ public class PluginFile
     private List<RBACResourceTypeEntry> _listRBACResourceTypes = new ArrayList<RBACResourceTypeEntry>(  );
     private List<PageIncludeEntry> _listPageIncludes = new ArrayList<PageIncludeEntry>(  );
     private Map<String, String> _mapParams = new HashMap<String, String>(  );
-    private String _strCssStylesheet; //Added in v1.4.1
-    private String _strJavascriptFile; //Added in v1.4.1
     private String _strSearchIndexerClass;
-
+    
     /**
      * Load plugin data from the XML file using Jakarta Commons Digester
      * @param strFilename The XML plugin filename
@@ -104,10 +104,10 @@ public class PluginFile
         // Configure Digester from XML ruleset
         URL rules = getClass(  ).getResource( FILE_RULES );
         Digester digester = DigesterLoader.createDigester( rules );
-
+        
         // Push empty List onto Digester's Stack
         digester.push( this );
-
+        
         try
         {
             InputStream input = new FileInputStream( strFilename );
@@ -126,7 +126,7 @@ public class PluginFile
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
         }
     }
-
+    
     /**
      * Returns the name of the plugin
      *
@@ -136,7 +136,7 @@ public class PluginFile
     {
         return _strName;
     }
-
+    
     /**
      * Sets the name of the plugin to the specified string.
      *
@@ -146,7 +146,7 @@ public class PluginFile
     {
         _strName = strName;
     }
-
+    
     /**
      * Returns the version of the plugin
      *
@@ -156,7 +156,7 @@ public class PluginFile
     {
         return _strVersion;
     }
-
+    
     /**
      * Sets the version of the plugin to the specified string.
      *
@@ -166,7 +166,7 @@ public class PluginFile
     {
         _strVersion = strVersion;
     }
-
+    
     /**
      * Returns the description of the plugin
      *
@@ -176,7 +176,7 @@ public class PluginFile
     {
         return _strDescription;
     }
-
+    
     /**
      * Sets the description of the plugin to the specified string.
      *
@@ -186,7 +186,7 @@ public class PluginFile
     {
         _strDescription = strDescription;
     }
-
+    
     /**
      * Returns the Provider of the plugin
      *
@@ -196,7 +196,7 @@ public class PluginFile
     {
         return _strProvider;
     }
-
+    
     /**
      * Sets the provider of the plugin to the specified string.
      *
@@ -206,7 +206,7 @@ public class PluginFile
     {
         _strProvider = strProvider;
     }
-
+    
     /**
      * Returns the Provider's URL of the plugin
      *
@@ -216,7 +216,7 @@ public class PluginFile
     {
         return _strProviderUrl;
     }
-
+    
     /**
      * Sets the provider url to the specified string.
      *
@@ -226,7 +226,7 @@ public class PluginFile
     {
         _strProviderUrl = strProviderUrl;
     }
-
+    
     /**
      * Returns the Icon's URL of the plugin
      *
@@ -236,7 +236,7 @@ public class PluginFile
     {
         return _strIconUrl;
     }
-
+    
     /**
      * Sets the url of the icon of the plugin to the specified string.
      *
@@ -246,7 +246,7 @@ public class PluginFile
     {
         _strIconUrl = strIconUrl;
     }
-
+    
     /**
      * Returns the Copyright of the plugin
      *
@@ -256,7 +256,7 @@ public class PluginFile
     {
         return _strCopyright;
     }
-
+    
     /**
      * Sets the copyright of the plugin to the specified string.
      *
@@ -266,7 +266,7 @@ public class PluginFile
     {
         _strCopyright = strCopyright;
     }
-
+    
     /**
      * Returns the main Class of the plugin
      *
@@ -276,7 +276,7 @@ public class PluginFile
     {
         return _strPluginClass;
     }
-
+    
     /**
      * Sets the class name of the plugin to the specified string.
      *
@@ -286,7 +286,7 @@ public class PluginFile
     {
         _strPluginClass = strPluginClass;
     }
-
+    
     /**
      * Returns the installation status of the plugin
      *
@@ -296,7 +296,7 @@ public class PluginFile
     {
         return _bIsInstalled;
     }
-
+    
     /**
      * Sets the boolean wich shows if the plugin is installed
      *
@@ -306,7 +306,43 @@ public class PluginFile
     {
         _bIsInstalled = bIsInstalled;
     }
-
+    
+    /**
+     * Add an CSS stylesheet to the plugin definition
+     * @param strStyleSheet The StyleSheet path
+     */
+    public void addCssStyleSheet( String strStyleSheet )
+    {
+        _listCssStyleSheets.add( strStyleSheet );
+    }
+    
+    /**
+     * Returns all CSS Style Sheets of the plugin
+     * @return The list of CSS Style Sheets
+     */
+    public List<String> getCssStyleSheets(  )
+    {
+        return _listCssStyleSheets;
+    }
+    
+    /**
+     * Add an Javascript File to the plugin definition
+     * @param strJavascriptFile The Javascript File path
+     */
+    public void addJavascriptFile( String strJavascriptFile )
+    {
+        _listJavascriptFiles.add( strJavascriptFile );
+    }
+    
+    /**
+     * Returns all Javascript File of the plugin
+     * @return The list of Javascript File
+     */
+    public List<String> getJavascriptFiles(  )
+    {
+        return _listJavascriptFiles;
+    }
+    
     /**
      * Add an AdminFeature Right to the plugin definition
      * @param right The Right to Add
@@ -315,7 +351,7 @@ public class PluginFile
     {
         _listRights.add( right );
     }
-
+    
     /**
      * Returns right list of the plugin
      *
@@ -328,10 +364,10 @@ public class PluginFile
         {
             right.setPluginName( _strName );
         }
-
+        
         return _listRights;
     }
-
+    
     /**
      * Add an Application to the plugin definition
      * @param application The application to Add
@@ -340,7 +376,7 @@ public class PluginFile
     {
         _listApplications.add( application );
     }
-
+    
     /**
      * Returns application list of the plugin
      *
@@ -350,7 +386,7 @@ public class PluginFile
     {
         return _listApplications;
     }
-
+    
     /**
      * Add a portlet type to the plugin definition
      * @param portletType a portlet type to the plugin definition
@@ -359,7 +395,7 @@ public class PluginFile
     {
         _listPortletTypes.add( portletType );
     }
-
+    
     /**
      * Returns the portlet types list of the plugin
      * @return the portlet types list
@@ -371,10 +407,10 @@ public class PluginFile
         {
             portletType.setPluginName( _strName );
         }
-
+        
         return _listPortletTypes;
     }
-
+    
     /**
      * Add an Content Service to the plugin definition
      * @param contentService The Content Service
@@ -383,7 +419,7 @@ public class PluginFile
     {
         _listContentServices.add( entry );
     }
-
+    
     /**
      * Returns all Content Services of the plugin
      * @return The list of Content Services
@@ -392,7 +428,7 @@ public class PluginFile
     {
         return _listContentServices;
     }
-
+    
     /**
      * Add an Insert Service to the plugin definition
      * @param insertService The Insert Service
@@ -401,7 +437,7 @@ public class PluginFile
     {
         _listInsertServices.add( is );
     }
-
+    
     /**
      * Returns all Insert Services of the plugin
      * @return The list of Insert Services
@@ -410,7 +446,7 @@ public class PluginFile
     {
         return _listInsertServices;
     }
-
+    
     /**
      * Add a SearchIndexer to the plugin definition
      * @param searchIndexer The Search Indexer
@@ -419,7 +455,7 @@ public class PluginFile
     {
         _listSearchIndexers.add( entry );
     }
-
+    
     /**
      * Returns all Search Indexer of the plugin
      * @return The list of Search Indexers
@@ -428,7 +464,7 @@ public class PluginFile
     {
         return _listSearchIndexers;
     }
-
+    
     /**
      * Add an Page Include to the plugin definition
      * @param pie The Page Include Entry
@@ -437,7 +473,7 @@ public class PluginFile
     {
         _listPageIncludes.add( entry );
     }
-
+    
     /**
      * Returns all Page Include Services of the plugin
      * @return The list of Page Include Services
@@ -446,7 +482,7 @@ public class PluginFile
     {
         return _listPageIncludes;
     }
-
+    
     /**
      * Add an RBAC Resource Type to the plugin definition
      * @param entry The RBACResourceType
@@ -455,7 +491,7 @@ public class PluginFile
     {
         _listRBACResourceTypes.add( entry );
     }
-
+    
     /**
      * Returns all RBAC Resource Types of the plugin
      * @return The list of RBACResourceType
@@ -464,7 +500,7 @@ public class PluginFile
     {
         return _listRBACResourceTypes;
     }
-
+    
     /**
      * Add a Daemon to the plugin definition
      * @param daemonEntry  The daemon entry to add
@@ -473,7 +509,7 @@ public class PluginFile
     {
         _listDaemons.add( daemonEntry );
     }
-
+    
     /**
      * Returns all Daemons of the plugin
      * @return The list of Daemons
@@ -482,7 +518,7 @@ public class PluginFile
     {
         return _listDaemons;
     }
-
+    
     /**
      * Returns if the plugin needs a database connection pool
      *
@@ -492,7 +528,7 @@ public class PluginFile
     {
         return _bDbPoolRequired;
     }
-
+    
     /**
      * Sets the boolean which shows if a pool is required for the plugin
      *
@@ -502,7 +538,7 @@ public class PluginFile
     {
         _bDbPoolRequired = bDbPoolRequired;
     }
-
+    
     /**
      * Gets plugin parameters defined in the XML file
      * @return The hashtable of the parameters
@@ -511,7 +547,7 @@ public class PluginFile
     {
         return _mapParams;
     }
-
+    
     /**
      * Add a parameter to the plugin definition
      * @param strName The parameter name
@@ -521,51 +557,8 @@ public class PluginFile
     {
         _mapParams.put( strName, strValue );
     }
-
-    /**
-     * Returns the CssStylesheet
-     *
-     * @return The CssStylesheet
-     * @since 1.4.1
-     */
-    public String getCssStylesheet(  )
-    {
-        return _strCssStylesheet;
-    }
-
-    /**
-     * Sets the CssStylesheet
-     *
-     * @param strCssStylesheet The CssStylesheet
-     * @since 1.4.1
-     */
-    public void setCssStylesheet( String strCssStylesheet )
-    {
-        _strCssStylesheet = strCssStylesheet;
-    }
-
-    /**
-     * Returns the JavascriptFile
-     *
-     * @return The JavascriptFile
-     * @since 1.4.1
-     */
-    public String getJavascriptFile(  )
-    {
-        return _strJavascriptFile;
-    }
-
-    /**
-     * Sets the JavascriptFile
-     *
-     * @param strJavascriptFile The JavascriptFile
-     * @since 1.4.1
-     */
-    public void setJavascriptFile( String strJavascriptFile )
-    {
-        _strJavascriptFile = strJavascriptFile;
-    }
-
+    
+    
     /**
      * Returns the SearchIndexer Class of the plugin
      *
@@ -576,7 +569,7 @@ public class PluginFile
     {
         return _strSearchIndexerClass;
     }
-
+    
     /**
      * Sets the class service of plugin
      * @since 2.0.0

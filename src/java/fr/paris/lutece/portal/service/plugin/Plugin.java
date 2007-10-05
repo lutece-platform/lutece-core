@@ -90,11 +90,10 @@ public abstract class Plugin implements Comparable<Plugin>
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
     private ContentService _contentService;
-    private String _strCssStylesheet; // added in v1.4.1
-    private String _strJavascriptFile; // added in v1.4.1
-
     // Lists of rights and portlets of the plugin
     private List<XPageApplicationEntry> _listXPageApplications;
+    private List<String> _listCssStyleSheets;
+    private List<String> _listJavascriptFiles;
     private List<Right> _listRights;
     private List<PortletType> _listPortletTypes;
     private List<ContentServiceEntry> _listContentServices;
@@ -145,11 +144,9 @@ public abstract class Plugin implements Comparable<Plugin>
             _mapParams = pluginFile.getParams(  );
             _bDbPoolRequired = pluginFile.isDbPoolRequired(  );
 
-            // Css Stylesheet added in v1.4
-            _strCssStylesheet = pluginFile.getCssStylesheet(  );
-            // Javascript File Stylesheet added in v1.4
-            _strJavascriptFile = pluginFile.getJavascriptFile(  );
-
+            _listCssStyleSheets = pluginFile.getCssStyleSheets();
+            _listJavascriptFiles = pluginFile.getJavascriptFiles();
+            
             // Register plugin components
             registerXPageApplications(  );
             registerContentServices(  );
@@ -875,45 +872,29 @@ public abstract class Plugin implements Comparable<Plugin>
     }
 
     /**
-     * Returns the CssStylesheet
-     *
-     * @return The CssStylesheet
-     * @since 1.4.1
+     * Returns all CSS Style Sheets of the plugin
+     * @return The list of CSS Style Sheets
      */
-    public String getCssStylesheet(  )
+    public List<String> getCssStyleSheets(  )
     {
-        return _strCssStylesheet;
+        return _listCssStyleSheets;
     }
-
+    
     /**
-     * Sets the CssStylesheet
-     *
-     * @param strCssStylesheet The CssStylesheet
-     * @since 1.4.1
+     * Add an Javascript File to the plugin definition
+     * @param strJavascriptFile The Javascript File path
      */
-    public void setCssStylesheet( String strCssStylesheet )
+    public void addJavascriptFile( String strJavascriptFile )
     {
-        _strCssStylesheet = strCssStylesheet;
+        _listJavascriptFiles.add( strJavascriptFile );
     }
-
+    
     /**
-     * Returns the JavascriptFile
-     * @return The JavascriptFile
-     * @since 1.4.1
+     * Returns all Javascript File of the plugin
+     * @return The list of Javascript File
      */
-    public String getJavascriptFile(  )
+    public List<String> getJavascriptFiles(  )
     {
-        return _strJavascriptFile;
-    }
-
-    /**
-     * Sets the JavascriptFile
-     *
-     * @param strJavascriptFile The JavascriptFile
-     * @since 1.4.1
-     */
-    public void setJavascriptFile( String strJavascriptFile )
-    {
-        _strJavascriptFile = strJavascriptFile;
+        return _listJavascriptFiles;
     }
 }

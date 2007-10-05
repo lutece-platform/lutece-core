@@ -214,9 +214,16 @@
     &lt;!-- Le plugin requiert-il un pool de connexions : 1 - oui, 0 - non --&gt;
     &lt;db-pool-required&gt;1&lt;/db-pool-required&gt;
 
-    &lt;!-- Feuille de style CSS spécifique éventuelle --&gt;
-    &lt;css-stylesheet&gt;myplugin/myplugin.css&lt;/css-stylesheet&gt;
-
+    &lt;!-- Feuilles de style CSS spécifiques éventuelles --&gt;
+    &lt;css-stylesheets&gt;
+         &lt;css-stylesheet&gt;myplugin/myplugin.css&lt;/css-stylesheet&gt;
+    &lt;/css-stylesheets&gt;
+    
+    &lt;!-- Scripts eventuels  --&gt;
+    &lt;javascript-files&gt;
+         &lt;javascript-file&gt;myplugin/myplugin.css&lt;/javascript-file&gt;
+    &lt;/javascript-files&gt;
+    
     &lt;!-- Listes des fonctionnalités d'administration éventuellement introduites par le plugin--&gt;
     &lt;admin-features&gt;
          &lt;admin-feature&gt;

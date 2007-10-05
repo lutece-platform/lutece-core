@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-  <!DOCTYPE digester-rules PUBLIC
-   "-//Jakarta Apache //DTD digester-rules XML V1.0//EN"
-   "digester-rules.dtd">
+<!DOCTYPE digester-rules PUBLIC
+"-//Jakarta Apache //DTD digester-rules XML V1.0//EN"
+"digester-rules.dtd">
 
 
 <digester-rules>
@@ -18,31 +18,37 @@
         <bean-property-setter-rule pattern="icon-url" propertyname="iconUrl"/>
         <bean-property-setter-rule pattern="db-pool-required" propertyname="isDbPoolRequired" />
         
-        <bean-property-setter-rule pattern="css-stylesheet" propertyname="cssStylesheet"/>
-        
-        <bean-property-setter-rule pattern="javascript-file" propertyname="javascriptFile"/>
-        
+        <pattern value="css-stylesheets">
+            <call-method-rule pattern="css-stylesheet" methodname="addCssStyleSheet" paramcount="1" />
+            <call-param-rule pattern="css-stylesheet" paramnumber="0"/>
+        </pattern>
+       
+        <pattern value="javascript-files">
+            <call-method-rule pattern="javascript-file" methodname="addJavascriptFile" paramcount="1" />
+            <call-param-rule pattern="javascript-file" paramnumber="0"/>
+        </pattern>
+       
         <pattern value="content-services/content-service">
             <object-create-rule classname="fr.paris.lutece.portal.service.content.ContentServiceEntry" />
             <set-properties-rule />              
-        <bean-property-setter-rule pattern="content-service-class" propertyname="className" />
+            <bean-property-setter-rule pattern="content-service-class" propertyname="className" />
             <set-next-rule methodname="addContentService" />
         </pattern>
-
+        
         <pattern value="search-indexers/search-indexer">
             <object-create-rule classname="fr.paris.lutece.portal.service.search.SearchIndexerEntry" />
             <set-properties-rule />              
-        <bean-property-setter-rule pattern="search-indexer-class" propertyname="className" />
+            <bean-property-setter-rule pattern="search-indexer-class" propertyname="className" />
             <set-next-rule methodname="addSearchIndexer" />
         </pattern>
-
+        
         <pattern value="insert-services/insert-service">
             <object-create-rule classname="fr.paris.lutece.portal.service.insert.InsertService" />
             <set-properties-rule />              
-        <bean-property-setter-rule pattern="insert-service-id" propertyname="id" />
-        <bean-property-setter-rule pattern="insert-service-name" propertyname="nameKey" />
-        <bean-property-setter-rule pattern="insert-service-label" propertyname="labelKey" />
-        <bean-property-setter-rule pattern="insert-service-bean-class" propertyname="actionBeanClassName" />
+            <bean-property-setter-rule pattern="insert-service-id" propertyname="id" />
+            <bean-property-setter-rule pattern="insert-service-name" propertyname="nameKey" />
+            <bean-property-setter-rule pattern="insert-service-label" propertyname="labelKey" />
+            <bean-property-setter-rule pattern="insert-service-bean-class" propertyname="actionBeanClassName" />
             <set-next-rule methodname="addInsertService" />
         </pattern>
         
@@ -103,7 +109,7 @@
             <bean-property-setter-rule pattern="rbac-resource-type-class" propertyname="className" />
             <set-next-rule methodname="addRBACResourceType" />
         </pattern>
-
+        
         <pattern value="page-include-services/page-include-service">
             <object-create-rule classname="fr.paris.lutece.portal.service.includes.PageIncludeEntry" />
             <set-properties-rule />              
@@ -111,7 +117,7 @@
             <bean-property-setter-rule pattern="page-include-service-class" propertyname="className" />
             <set-next-rule methodname="addPageInclude" />
         </pattern>
-
+        
         <pattern value="params">
             <call-method-rule pattern="param" methodname="addParameter" paramcount="2" />
             <call-param-rule pattern="param/param-name" paramnumber="0"/>

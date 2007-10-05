@@ -198,14 +198,21 @@
     &lt;provider&gt;Mairie de Paris&lt;/provider&gt;
     &lt;provider-url&gt;http://lutece.paris.fr&lt;/provider-url&gt;
     &lt;icon-url&gt;../../images/admin/skin/plugins/myplugin/myplugin.gif&lt;/icon-url&gt;
-    &lt;copyright&gt;Copyright (c) 2001-2006 Mairie de Paris&lt;/copyright&gt;
+    &lt;copyright&gt;Copyright (c) 2001-2007 Mairie de Paris&lt;/copyright&gt;
 
     &lt;!-- Does the plugin require a connection pool : 1 - yes, 0 - No --&gt;
     &lt;db-pool-required&gt;1&lt;/db-pool-required&gt;
 
-    &lt;!-- Specific CSS style sheet eventually used  --&gt;
-    &lt;css-stylesheet&gt;myplugin/myplugin.css&lt;/css-stylesheet&gt;
-
+    &lt;!-- Specific CSS style sheets eventually used  --&gt;
+    &lt;css-stylesheets&gt;
+         &lt;css-stylesheet&gt;myplugin/myplugin.css&lt;/css-stylesheet&gt;
+    &lt;/css-stylesheets&gt;
+    
+    &lt;!-- Specific scripts eventually used  --&gt;
+    &lt;javascript-files&gt;
+         &lt;javascript-file&gt;myplugin/myplugin.css&lt;/javascript-file&gt;
+    &lt;/javascript-files&gt;
+    
     &lt;!-- List of administrative features eventually intreoduced be the plugin--&gt;
     &lt;admin-features&gt;
          &lt;admin-feature&gt;
