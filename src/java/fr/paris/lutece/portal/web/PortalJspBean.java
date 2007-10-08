@@ -118,7 +118,8 @@ public class PortalJspBean
             }
             else
             {
-                if ( SecurityService.getInstance(  ).getRegisteredUser( request ) == null  )
+                if ( ( SecurityService.getInstance(  ).isPortalAuthenticationRequired(  ) ) &&
+                        ( SecurityService.getInstance(  ).getRegisteredUser( request ) == null ) )
                 {
                     // Authentication is required to access to the portal
                     throw new UserNotSignedException(  );
