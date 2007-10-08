@@ -60,12 +60,37 @@ public class AdminMessage
     private boolean _bCancel;
     private Object[] _messageArgs;
     private Map _requestParameters;
-
+    
     /** Creates a new instance of AppMessage */
+    public AdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
+        int nType, boolean bCancelButton )
+    {
+    	buildAdminMessage ( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, null );
+    }
+    
+    /** Creates a new instance of AppMessage with request parameters */
     public AdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
         int nType, boolean bCancelButton, Map requestParameters )
     {
-        _strTextKey = strTextKey;
+    	buildAdminMessage ( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, requestParameters );
+    }
+    
+    /**
+     * Build a new admin message
+     * 
+     * @param strTextKey the text key
+     * @param messageArgs the message args
+     * @param strTitleKey the title key
+     * @param strUrl the URL
+     * @param strTarget the target
+     * @param nType the type
+     * @param bCancelButton the cancel button
+     * @param requestParameters the request parameters
+     */
+    private void buildAdminMessage ( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
+            int nType, boolean bCancelButton, Map requestParameters )
+    {
+    	_strTextKey = strTextKey;
         _strTitleKey = strTitleKey;
         _strUrl = strUrl;
         _strTarget = strTarget;
@@ -74,17 +99,29 @@ public class AdminMessage
         _messageArgs = messageArgs;
         _requestParameters = requestParameters;
     }
-
+    
+    /**
+     * Return the type of message
+     * @return the type message
+     */
     public int getType(  )
     {
         return _nType;
     }
 
+    /**
+     * Return if the cancel button is display
+     * @return true if the cancel button is display
+     */
     public boolean isCancel(  )
     {
         return _bCancel;
     }
-
+    
+    /**
+     * Set the display of cancel button
+     * @param bCancel the new bCancel
+     */
     public void setCancel( boolean bCancel )
     {
         _bCancel = bCancel;
@@ -127,9 +164,9 @@ public class AdminMessage
     }
 
     /**
-         * Returns the Url of the message box Ok button
-         * @return the Url of the Ok button
-         */
+     * Returns the Url of the message box Ok button
+     * @return the Url of the Ok button
+     */
     public String getTarget(  )
     {
         return _strTarget;
