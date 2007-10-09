@@ -262,7 +262,7 @@ public final class SecurityService
      */
     public LuteceUser getRegisteredUser( HttpServletRequest request )
     {
-        HttpSession session = request.getSession(  );
+        HttpSession session = ( request != null ) ? request.getSession(  ) : null;
 
         if ( session != null )
         {
