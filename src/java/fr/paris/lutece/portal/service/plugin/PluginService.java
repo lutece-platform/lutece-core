@@ -160,7 +160,6 @@ public final class PluginService
                 Plugin plugin = (Plugin) Class.forName( strPluginClass ).newInstance(  );
                 plugin.load( pluginFile );
                 plugin.setStatus( getPluginStatus( plugin ) );
-                plugin.init(  );
 
                 if ( bRegisterAsPlugin )
                 {
@@ -175,6 +174,8 @@ public final class PluginService
                     plugin.setPoolName( strPoolName );
                     plugin.initConnectionService( strPoolName );
                 }
+
+                plugin.init(  );
             }
             catch ( Exception e )
             {
