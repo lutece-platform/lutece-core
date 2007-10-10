@@ -121,6 +121,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_DELEGATE_RIGHTS = "delegate_rights";
     private static final String PARAMETER_USER_LEVEL = "user_level";
     private static final String PARAMETER_WORKGROUP = "workgroup";
+    private static final String PARAMETER_SELECT = "select";
+    private static final String PARAMETER_SELECT_ALL = "all";
     
     // Jsp url
     private static final String JSP_MANAGE_USER_RIGHTS = "ManageUserRights.jsp";
@@ -156,6 +158,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_CURRENT_USER = "current_user";
     private static final String MARK_USER_WORKGROUP_LIST = "user_workgroup_list";
     private static final String MARK_ALL_WORKSGROUP_LIST = "all_workgroup_list";
+    private static final String MARK_SELECT_ALL = "select_all";
     
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
@@ -700,6 +703,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public String getModifyAdminUserRights( HttpServletRequest request )
     {
         boolean bDelegateRights = Boolean.valueOf( request.getParameter( PARAMETER_DELEGATE_RIGHTS ) );
+        
+        String strSelectAll = request.getParameter( PARAMETER_SELECT );
+        boolean bSelectAll = ( strSelectAll != null && strSelectAll.equals( PARAMETER_SELECT_ALL )) ? true : false;
 
         setPageTitleProperty( bDelegateRights ? PROPERTY_DELEGATE_USER_RIGHTS_PAGETITLE
                                               : PROPERTY_MODIFY_USER_RIGHTS_PAGETITLE );
@@ -738,6 +744,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_USER_RIGHT_LIST, I18nService.localizeCollection( rightList, getLocale(  ) ) );
         model.put( MARK_ALL_RIGHT_LIST, I18nService.localizeCollection( allRightList, getLocale(  ) ) );
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateRights ) );
+        model.put( MARK_SELECT_ALL , bSelectAll );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_RIGHTS, getLocale(  ), model );
 
