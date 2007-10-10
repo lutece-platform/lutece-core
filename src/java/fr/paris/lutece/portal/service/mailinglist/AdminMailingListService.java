@@ -61,10 +61,7 @@ public class AdminMailingListService
     public static void init(  )
     {
         // Initialize mailing list 
-        for ( MailingList mailingList : MailingListHome.findAll(  ) )
-        {
-            mailingList.init(  );
-        }
+        MailingList.init(  );
     }
 
     /**

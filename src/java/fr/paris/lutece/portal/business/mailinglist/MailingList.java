@@ -33,11 +33,10 @@
  */
 package fr.paris.lutece.portal.business.mailinglist;
 
+import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
+
 import java.util.ArrayList;
 import java.util.Collection;
-
-import fr.paris.lutece.portal.service.mailinglist.MailingListRemovalListenerService;
-import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
 
 
 /**
@@ -58,7 +57,7 @@ public class MailingList
     /**
      * Initialize the rule
      */
-    public void init(  )
+    public static void init(  )
     {
         // Create removal listeners and register them
         if ( _listenerWorkgroup == null )
