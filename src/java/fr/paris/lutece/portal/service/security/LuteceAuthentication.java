@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import java.util.Collection;
 import javax.security.auth.login.LoginException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -154,4 +155,18 @@ public interface LuteceAuthentication
      * @return The template path
      */
     String getAccessControledTemplate(  );
+    
+    
+    /**
+     * Tells whether or not the authentication service can provide a list of all its users
+     * @return true if the service can return a users list  
+     */
+    boolean isUsersListAvailable();
+    
+    /**
+     * Returns all users managed by the authentication service if this feature is
+     * available.
+     * @return A collection of Lutece users or null if the service doesn't provide a users list
+     */
+    Collection<LuteceUser> getUsers();
 }
