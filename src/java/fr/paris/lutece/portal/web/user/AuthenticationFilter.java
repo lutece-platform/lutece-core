@@ -68,7 +68,7 @@ public class AuthenticationFilter implements Filter
     private static final String PROPERTY_URL_PREFIX = "path.jsp.admin.public.";
     private static final String PROPERTY_URL_SUFFIX_LIST = "list";
     private static final String CONSTANT_LIST_SEPARATOR = ",";
-
+    
     /**
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
      * @param config The FilterConfig
@@ -77,7 +77,7 @@ public class AuthenticationFilter implements Filter
     public void init( FilterConfig config ) throws ServletException
     {
     }
-
+    
     /**
      * @see javax.servlet.Filter#destroy()
      */
@@ -85,7 +85,7 @@ public class AuthenticationFilter implements Filter
     {
         // Do nothing
     }
-
+    
     /**
      * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
      *      javax.servlet.ServletResponse, javax.servlet.FilterChain)
@@ -96,13 +96,13 @@ public class AuthenticationFilter implements Filter
      * @throws ServletException
      */
     public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
-        throws IOException, ServletException
+    throws IOException, ServletException
     {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-
+        
         AppLogService.debug( "lutece.authentication", "Accessing url : " + getResquestedUrl( req ) );
-
+        
         if ( isPrivateUrl( req ) )
         {
             try
@@ -111,25 +111,36 @@ public class AuthenticationFilter implements Filter
             }
             catch ( UserNotSignedException e )
             {
-                AppLogService.debug( "lutece.authentication", "Access NOT granted to url : " + getResquestedUrl( req ) );
-
-                String strRedirectUrl = AdminMessageService.getMessageUrl( req,
+                String strRedirectUrl = null;
+                if( AdminAuthenticationService.getInstance(  ).isExternalAuthentication() )
+                {
+                    AppLogService.debug( "lutece.authentication", "New session behind external authentication : " + getResquestedUrl( req ) );
+                    
+                    strRedirectUrl = AdminMessageService.getMessageUrl( req,
+                        Messages.MESSAGE_USER_NEW_SESSION, AppPathService.getAdminPortalUrl(), AdminMessage.TYPE_INFO );
+                }
+                else
+                {
+                    AppLogService.debug( "lutece.authentication", "Access NOT granted to url : " + getResquestedUrl( req ) );
+                    
+                    strRedirectUrl = AdminMessageService.getMessageUrl( req,
                         Messages.MESSAGE_USER_NOT_AUTHENTICATED, getRedirectUrl( req ), AdminMessage.TYPE_WARNING );
+                }
                 resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
             }
             catch ( AccessDeniedException e )
             {
                 AppLogService.debug( "lutece.authentication", "Access NOT granted to url : " + getResquestedUrl( req ) );
-
+                
                 String strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_AUTH_FAILURE,
-                        getRedirectUrl( req ), AdminMessage.TYPE_ERROR );
+                    getRedirectUrl( req ), AdminMessage.TYPE_ERROR );
                 resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
             }
         }
-
+        
         chain.doFilter( request, response );
     }
-
+    
     /**
      * Build the url to redirect to if not logged.
      * This is actually the login page of the authentication module, completed with the request parameters.
@@ -139,24 +150,24 @@ public class AuthenticationFilter implements Filter
     private String getRedirectUrl( HttpServletRequest request )
     {
         UrlItem url = new UrlItem( getLoginUrl( request ) );
-
+        
         Enumeration enumParams = request.getParameterNames(  );
-
+        
         String strParamName;
-
+        
         while ( enumParams.hasMoreElements(  ) )
         {
             strParamName = (String) enumParams.nextElement(  );
-
+            
             if ( !strParamName.equals( Parameters.ACCESS_CODE ) && !strParamName.equals( Parameters.PASSWORD ) )
             {
                 url.addParameter( strParamName, request.getParameter( strParamName ) );
             }
         }
-
+        
         return url.getUrl(  );
     }
-
+    
     /**
      * Get the absolute login url
      *
@@ -167,10 +178,10 @@ public class AuthenticationFilter implements Filter
     private String getLoginUrl( HttpServletRequest request )
     {
         String strLoginUrl = AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  );
-
+        
         return getAbsoluteUrl( request, strLoginUrl );
     }
-
+    
     /**
      * Check wether a given url is to be considered as private (ie that
      * needs a successful authentication to be accessed) or public (ie that
@@ -183,7 +194,7 @@ public class AuthenticationFilter implements Filter
     {
         boolean bIsRestricted = true;
         String strUrl = getResquestedUrl( request );
-
+        
         if ( strUrl.equals( getLoginUrl( request ) ) )
         {
             bIsRestricted = false;
@@ -192,10 +203,10 @@ public class AuthenticationFilter implements Filter
         {
             bIsRestricted = false;
         }
-
+        
         return bIsRestricted;
     }
-
+    
     /**
      * check that the access is granted
      *  @param request The HTTP request
@@ -204,7 +215,7 @@ public class AuthenticationFilter implements Filter
      *
      **/
     private static void filterAccess( HttpServletRequest request )
-        throws UserNotSignedException, AccessDeniedException
+    throws UserNotSignedException, AccessDeniedException
     {
         if ( AdminAuthenticationService.getInstance(  ).isExternalAuthentication(  ) )
         {
@@ -221,7 +232,7 @@ public class AuthenticationFilter implements Filter
             }
         }
     }
-
+    
     /**
      * Checks if the requested is in the list of urls that are under
      * jsp/admin but shouldn't be protected
@@ -234,25 +245,25 @@ public class AuthenticationFilter implements Filter
     {
         // recovers list from the
         String strList = AppPropertiesService.getProperty( PROPERTY_URL_PREFIX + PROPERTY_URL_SUFFIX_LIST );
-
+        
         // extracts each item (separated by a comma) from the includes list
         StringTokenizer strTokens = new StringTokenizer( strList, CONSTANT_LIST_SEPARATOR );
-
+        
         while ( strTokens.hasMoreTokens(  ) )
         {
             String strName = strTokens.nextToken(  );
             String strUrl = AppPropertiesService.getProperty( PROPERTY_URL_PREFIX + strName );
             strUrl = getAbsoluteUrl( request, strUrl );
-
+            
             if ( strRequestedUrl.equals( strUrl ) )
             {
                 return true;
             }
         }
-
+        
         return false;
     }
-
+    
     /**
      * Returns the absolute url corresponding to the given one, if the later
      * was found to be relative. An url starting with "http://" is absolute.
@@ -273,7 +284,7 @@ public class AuthenticationFilter implements Filter
             return strUrl;
         }
     }
-
+    
     /**
      * Return the absolute representation of the requested url
      * @param request the http request (provides the base path if needed)

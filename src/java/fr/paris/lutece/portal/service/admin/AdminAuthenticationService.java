@@ -107,7 +107,7 @@ public final class AdminAuthenticationService
      * Gets the AdminUser attached to the current Http session
      * @param request The Http request
      * @return A valid AdminUser object if found
-     * @throws UserNotSignedException If there is no current user
+     * @throws UserNotSignedException If there is no current user or if the session is lost
      */
     public AdminUser getRemoteUser( HttpServletRequest request )
         throws UserNotSignedException, AccessDeniedException
@@ -121,6 +121,8 @@ public final class AdminAuthenticationService
                 // User is not registered by Lutece, but it may be authenticated by another system
                 user = _authentication.getHttpAuthenticatedUser( request );
                 registerUser( request, user );
+                // Start a new session
+                throw new UserNotSignedException(  );
             }
             else
             {
@@ -129,12 +131,14 @@ public final class AdminAuthenticationService
 
                 if ( newUser == null )
                 {
-                    throw new UserNotSignedException(  );
+                    throw new AccessDeniedException(  );
                 }
                 else if ( !newUser.getAccessCode(  ).equals( user.getAccessCode(  ) ) )
                 {
                     unregisterUser( request );
                     registerUser( request, newUser );
+                    // Start a new session
+                    throw new UserNotSignedException(  );
                 }
             }
         }

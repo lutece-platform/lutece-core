@@ -47,6 +47,7 @@ public class Messages
     public static final String MESSAGE_USER_DISABLED = "portal.users.message.user.disabled";
     public static final String MESSAGE_AUTH_FAILURE = "portal.users.message.user.authentication.failure";
     public static final String MESSAGE_USER_NOT_AUTHENTICATED = "portal.users.message.user.not.authenticated";
+    public static final String MESSAGE_USER_NEW_SESSION = "portal.users.message.user.new.session";
     public static final String MESSAGE_ERROR_SESSION = "portal.users.message.user.error.session";
     public static final String PATH_ALREADY_EXISTS = "portal.util.message.errorPathAlreadyExists";
     public static final String PATH_CREATION_ERROR = "portal.util.message.errorCreatingPath";
