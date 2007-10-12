@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<plug-in>
+    <name>myplugin</name>
+    <class>fr.paris.lutece.portal.service.PluginDefaultImplementation</class>
+    <version>1.0</version>
+    <description>Description of the plugin</description>
+    <provider>Mairie de Paris</provider>
+    <provider-url>http://lutece.paris.fr</provider-url>
+    <icon-url>../../images/admin/skin/plugins/myplugin/myplugin.gif</icon-url>
+    <copyright>Copyright (c) 2001-2006 Mairie de Paris</copyright>
+
+    <!-- Le plugin requiert-il un pool de connexions : 1 - oui, 0 - non -->
+    <db-pool-required>1</db-pool-required>
+
+    <!-- Feuille de style CSS spécifique éventuelle -->
+    <css-stylesheet>myplugin/myplugin.css</css-stylesheet>
+
+    <!-- Javascript spécifique éventuel -->
+    <javascript-file>myplugin/myplugin.js</javascript-file>
+
+    <!-- Listes des fonctionnalités d'administration éventuellement introduites par le plugin-->
+    <admin-features>
+         <admin-feature>
+              <feature-id>MYFEATURE_MANAGEMENT</feature-id>
+              <feature-title>My Feature</feature-title>
+              <feature-description>Description of my feature</feature-description>
+              <feature-level>3</feature-level>
+              <feature-url>plugins/myplugin/ManageMyFeature.jsp</feature-url>
+         </admin-feature>
+         <admin-feature>
+              <feature-id>MYFEATURE_MANAGEMENT_2</feature-id>
+              <feature-title>My Feature 2 </feature-title>
+              <feature-description>Description of my feature 2</feature-description>
+              <feature-level>2</feature-level>
+              <feature-url>plugins/myplugin/ManageMyFeature2.jsp</feature-url>
+         </admin-feature>
+         ...
+    </admin-features>
+
+    <!-- Listes des portlets éventuellement introduits par le plugin-->
+    <portlets>
+        <portlet>
+	    <portlet-type-id>MY_PORTLET</portlet-type-id>
+            <portlet-type-name>MyNew Portlet</portlet-type-name>
+            <portlet-class>fr.paris.lutece.plugins.myportlet.business.portlet.MyPortletHome</portlet-class>
+            <portlet-creation-url>plugins/article/CreatePortletMyPortlet.jsp</portlet-creation-url>
+            <portlet-update-url>plugins/article/ModifyPortletMyPortlet.jsp</portlet-update-url>
+        </portlet>
+         ...
+    </portlets>
+
+    <!-- Application à base de pages spéciales introduite éventuellement par le plugin -->
+    <application>
+           <application-class>fr.paris.lutece.plugins.myplugin.web.MyPluginApp</application-class>
+           <application-roles>role1,role2</application-roles>
+           <application-security-model>1</application-security-model>
+    </application>
+
+   <!-- Page Include Service -->
+   <page-include-service>
+     <page-include-service-name>My Include Service</page-include-service-name>
+     <page-include-service-class>fr.paris.lutece.plugins.myplugin.web.MyPluginInclude</page-include-service-class>
+   </page-include-service>
+
+   <!-- Content Service -->
+   <content-service>
+     <content-service-class>fr.paris.lutece.plugins.myplugin.service.MyContentService</content-service-class>
+   </content-service>
+
+   <!-- Links Service -->
+   <link-service>
+     <link-service-id>mylinkservice</link-service-id>
+     <link-service-class>fr.paris.lutece.plugins.mylinkservice.service.MyLinkService</link-service-class>
+     <link-service-bean-class>fr.paris.lutece.plugins.mylinkservice.web.MyLinkServiceJspBean</link-service-bean-class>
+     <link-service-label>Link to my URIs</link-service-label>
+   </link-service>
+   
+   <!-- htmls Service -->
+   <html-service>
+     <html-service-id>myhtmlservice</html-service-id>
+     <html-service-class>fr.paris.lutece.plugins.myhtmlservice.service.MyhtmlService</html-service-class>
+     <html-service-bean-class>fr.paris.lutece.plugins.myhtmlservice.web.MyhtmlServiceJspBean</html-service-bean-class>
+     <html-service-label>html to my URIs</html-service-label>
+   </html-service>
+   
+   <!-- Plugins parameters -->
+   <params>
+      <param>
+        <param-name>id_source</param-name>
+        <param-value>0</param-value>
+        <param-description>Source local</param-description>
+    </param>
+  </params>
+
+
+</plug-in>
