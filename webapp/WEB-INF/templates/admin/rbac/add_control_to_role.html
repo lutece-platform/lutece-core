@@ -4,6 +4,7 @@
 	<h2>#i18n{portal.rbac.add_control_to_role.titleAddControl}</h2>
 		       
 	<form method="post" action="jsp/admin/rbac/DoSelectResources.jsp" name="add_control">
+            <#if resource_list_available = true >
 		<p>
 			<label>#i18n{portal.rbac.add_control_to_role.labelSelectAllResources} :</label>
 			<input class="radio" type="radio" name="select_resources" value="all" checked="checked" />
@@ -12,6 +13,11 @@
 			<label>#i18n{portal.rbac.add_control_to_role.labelSelectResourcesInList} :</label>
 			<input class="radio" type="radio" name="select_resources" value="choose" />
 		</p>
+            <#else>
+                <p>
+                    #i18n{portal.rbac.add_control_to_role.labelNoResourcesList}
+                </p>
+            </#if>
 		<p>
 	        <input type="hidden" name="role_key" value="${role_key}" />
 	        <input type="hidden" name="resource_type" value="${resource_type}" /> 

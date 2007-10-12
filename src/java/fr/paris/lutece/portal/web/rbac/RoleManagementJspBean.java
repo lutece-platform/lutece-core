@@ -93,6 +93,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_ROLE_KEY = "role_key";
     private static final String MARK_RESOURCE_TYPE = "resource_type";
     private static final String MARK_SELECT_RESOURCES_METHOD = "select_resources";
+    private static final String MARK_RESOURCE_LIST_AVAILABLE = "resource_list_available";
 
     // properties
     private static final String PROPERTY_CONFIRM_DELETE_ROLE = "portal.rbac.message.confirmDeleteRole";
@@ -399,13 +400,23 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_CHOOSE_RESOURCES_PAGETITLE );
 
-        HashMap<String, String> model = new HashMap<String, String>(  );
+        HashMap model = new HashMap(  );
 
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         String strResourceType = request.getParameter( PARAMETER_RESOURCE_TYPE );
 
+        ResourceType resourceType = ResourceTypeManager.getResourceType( strResourceType );
+
+        boolean bResourceListAvailable = true;
+        List listResources = resourceType.getResourceIdService(  ).getResourceIdList( getLocale(  ) );
+        if( ( listResources == null ) || ( listResources.size() == 0 ))
+        {
+            bResourceListAvailable = false;
+        }
+
         model.put( MARK_ROLE_KEY, strRoleKey );
         model.put( MARK_RESOURCE_TYPE, strResourceType );
+        model.put( MARK_RESOURCE_LIST_AVAILABLE , bResourceListAvailable );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADD_CONTROL_TO_ROLE, getLocale(  ), model );
 
