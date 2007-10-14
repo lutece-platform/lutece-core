@@ -117,7 +117,7 @@ public class AuthenticationFilter implements Filter
                     AppLogService.debug( "lutece.authentication", "New session behind external authentication : " + getResquestedUrl( req ) );
                     
                     strRedirectUrl = AdminMessageService.getMessageUrl( req,
-                        Messages.MESSAGE_USER_NEW_SESSION, AppPathService.getAdminPortalUrl(), AdminMessage.TYPE_INFO );
+                        Messages.MESSAGE_USER_NEW_SESSION, AppPathService.getAdminMenuUrl(), AdminMessage.TYPE_INFO );
                 }
                 else
                 {

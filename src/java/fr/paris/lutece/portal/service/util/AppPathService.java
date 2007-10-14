@@ -61,6 +61,7 @@ public final class AppPathService
     private static final String PROPERTY_BASE_URL = "lutece.base.url";
     private static final String PROPERTY_PORTAL_URL = "lutece.portal.path";
     private static final String PROPERTY_ADMIN_URL = "lutece.admin.path";
+    private static final String PROPERTY_ADMIN_MENU_URL = "lutece.admin.menu.url";
     private static final String PROPERTY_VIRTUAL_HOST_KEYS = "virtualHostKeys";
     private static final String PROPERTY_VIRTUAL_HOST_KEY_PARAMETER = "virtualHostKey.parameterName";
     private static final String PROPERTY_VIRTUAL_HOST = "virtualHost.";
@@ -225,6 +226,15 @@ public final class AppPathService
     public static String getAdminPortalUrl(  )
     {
         return AppPropertiesService.getProperty( PROPERTY_ADMIN_URL );
+    }
+
+    /**
+     * Returns the admin menu page relative url (jsp/admin/site/AdminMenu.jsp) defined in lutece.properties
+     * @return the Admin Menu Url
+     */
+    public static String getAdminMenuUrl(  )
+    {
+        return AppPropertiesService.getProperty( PROPERTY_ADMIN_MENU_URL );
     }
 
     private static String normalizeWebappPath( String strPath )
