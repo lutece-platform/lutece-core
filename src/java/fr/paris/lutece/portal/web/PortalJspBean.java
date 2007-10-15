@@ -113,7 +113,12 @@ public class PortalJspBean
                 // Should register the user if it's not already done
                 if ( SecurityService.getInstance(  ).getRegisteredUser( request ) == null )
                 {
-                    SecurityService.getInstance(  ).getRemoteUser( request );
+                    if ( ( SecurityService.getInstance(  ).getRemoteUser( request ) == null ) &&
+                            ( SecurityService.getInstance(  ).isPortalAuthenticationRequired(  ) ) )
+                    {
+                        // Authentication is required to access to the portal
+                        throw new UserNotSignedException(  );
+                    }
                 }
             }
             else
