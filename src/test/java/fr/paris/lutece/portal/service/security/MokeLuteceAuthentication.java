@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import java.util.Collection;
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -123,6 +124,16 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
 
      
     public String getAccessControledTemplate()
+    {
+        return null;
+    }
+
+    public boolean isUsersListAvailable()
+    {
+        return false;
+    }
+
+    public Collection<LuteceUser> getUsers()
     {
         return null;
     }
