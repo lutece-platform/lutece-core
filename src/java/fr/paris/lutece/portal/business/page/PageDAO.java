@@ -358,7 +358,7 @@ public final class PageDAO implements IPageDAO
             Page page = new Page(  );
             page.setId( daoUtil.getInt( 1 ) );
             page.setName( daoUtil.getString( 2 ) );
-            listPages.addItem( page.getId(  ), page.getName(  ) );
+            listPages.addItem( page.getId(  ), page.getName(  ) + " ( " + page.getId() + " )" );
         }
 
         daoUtil.free(  );
