@@ -75,7 +75,7 @@ CREATE TABLE `core_admin_right` (
   `id_feature_group` varchar(50) collate utf8_unicode_ci default NULL,
   `icon_url` varchar(255) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`id_right`),
-  KEY `index_right` (`level`,`admin_url`)
+  KEY `index_right` (`level_right`,`admin_url`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
