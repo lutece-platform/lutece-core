@@ -1,53 +1,59 @@
 <!-- Fonctions d'administration -->
-<div class="admin-buttons">
+<!-- <div class="admin-buttons"> -->
+<div>
     <table align="left" summary="buttons">
         <tr>
             <#if portlet.status = 0>
-            <td>
+            <!-- <td>
                 <img src="images/admin/skin/enable.png" alt="" align="left"/>
-            </td>
+            </td> -->
             <td>
                 <form method="post" action="jsp/admin/site/ModifyPortletStatus.jsp">
                     <input type="hidden" name="portlet_id" value="${portlet.id}" />
                     <input type="hidden" name="status" value="1" />
-                    <input type="submit" value="#i18n{portal.site.portletPreview.buttonSuspend}"/>
+                    <!-- <input type="submit" value="#i18n{portal.site.portletPreview.buttonSuspend}"/> -->
+                    <input type="image" title="#i18n{portal.site.portletPreview.buttonSuspend}" alt="#i18n{portal.site.portletPreview.buttonSuspend}" src="images/admin/skin/actions/enable.png"  />
                 </form>
             </td>
             <#else>
-            <td>
+            <!-- <td>
                 <img src="images/admin/skin/disable.png" alt="" align="left" />
-            </td>
+            </td> -->
             <td>
                 <form method="post" action="jsp/admin/site/ModifyPortletStatus.jsp">
                     <input type="hidden" name="portlet_id" value="${portlet.id}" />
                     <input type="hidden" name="status" value="0" />
-		    <input type="submit" value="#i18n{portal.site.portletPreview.buttonActivate}"/>
+		      <!-- <input type="submit" value="#i18n{portal.site.portletPreview.buttonActivate}"/> -->
+		    <input type="image" title="#i18n{portal.site.portletPreview.buttonActivate}" alt="#i18n{portal.site.portletPreview.buttonActivate}" src="images/admin/skin/actions/disable.png"  />
 		</form>
             </td>
             </#if>
             <td>
                 <form method="post" action="jsp/admin/DoModifyPortlet.jsp">
-                    <input type="hidden" name="portlet_id" value="${portlet.id}" />
-		    <input type="submit" value="#i18n{portal.site.portletPreview.buttonModify}"/>
-		</form>
+                  <input type="hidden" name="portlet_id" value="${portlet.id}" />
+		              <!-- <input type="submit" value="#i18n{portal.site.portletPreview.buttonModify}"/> -->
+		              <input type="image" title="#i18n{portal.site.portletPreview.buttonModify}" alt="#i18n{portal.site.portletPreview.buttonModify}" src="images/admin/skin/actions/modify.png"  />
+		            </form>
             </td>
             <td>
                 <form method="post" action="jsp/admin/site/RemovePortlet.jsp">
                     <input type="hidden" name="portlet_id" value="${portlet.id}" />
-                    <input type="submit" value="#i18n{portal.site.portletPreview.buttonDelete}"/>
+                    <!-- <input type="submit" value="#i18n{portal.site.portletPreview.buttonDelete}"/> -->
+                    <input type="image" title="#i18n{portal.site.portletPreview.buttonDelete}" alt="#i18n{portal.site.portletPreview.buttonDelete}" src="images/admin/skin/actions/delete.png"  />
 		</form>
             </td>
-        </tr>
+        
 	<#if portlet.portletTypeId="DOCUMENT_PORTLET">
-	<tr>
-            <td colspan="4">
+	          <td >
                 <form method="post" action="jsp/admin/plugins/document/ManagePublishing.jsp" target="_parent">
                     <input type="hidden" name="id_portlet" value="${portlet.id}" />
-		    <input type="submit" value="#i18n{portal.site.portletPreview.buttonManage}"/>
+		            <!-- <input type="submit" value="#i18n{portal.site.portletPreview.buttonManage}"/> -->
+                    <input type="image" title="#i18n{portal.site.portletPreview.buttonManage}" alt="#i18n{portal.site.portletPreview.buttonManage}" src="images/admin/skin/actions/publish.png"  />
 		</form>
             </td>
-	</tr>
+	
 	</#if>
+	</tr>
 	</table>
     <br />
     <br />
