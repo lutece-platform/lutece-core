@@ -54,10 +54,10 @@ public final class MailingListDAO implements IMailingListDAO
     private static final String SQL_QUERY_SELECT_BY_WORKGROUP = "SELECT id_mailinglist, name, description, workgroup FROM core_admin_mailinglist WHERE workgroup = ? ";
 
     // filters
-    private static final String SQL_QUERY_FILTERS_INSERT = "INSERT INTO core_admin_mailinglist_users_filter ( id_mailinglist, workgroup, role ) VALUES ( ?, ?, ? ) ";
-    private static final String SQL_QUERY_FILTERS_DELETE = "DELETE FROM core_admin_mailinglist_users_filter WHERE id_mailinglist = ? ";
-    private static final String SQL_QUERY_FILTERS_DELETE_FILTER = "DELETE FROM core_admin_mailinglist_users_filter WHERE id_mailinglist = ? AND workgroup = ? AND role = ? ";
-    private static final String SQL_QUERY_FILTERS_SELECTALL = "SELECT id_mailinglist, workgroup, role FROM core_admin_mailinglist_users_filter WHERE id_mailinglist = ?";
+    private static final String SQL_QUERY_FILTERS_INSERT = "INSERT INTO core_admin_mailinglist_filter ( id_mailinglist, workgroup, role ) VALUES ( ?, ?, ? ) ";
+    private static final String SQL_QUERY_FILTERS_DELETE = "DELETE FROM core_admin_mailinglist_filter WHERE id_mailinglist = ? ";
+    private static final String SQL_QUERY_FILTERS_DELETE_FILTER = "DELETE FROM core_admin_mailinglist_filter WHERE id_mailinglist = ? AND workgroup = ? AND role = ? ";
+    private static final String SQL_QUERY_FILTERS_SELECTALL = "SELECT id_mailinglist, workgroup, role FROM core_admin_mailinglist_filter WHERE id_mailinglist = ?";
 
     /**
      * Generates a new primary key

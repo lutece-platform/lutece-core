@@ -52,11 +52,11 @@ public class AdminUserDAO implements IAdminUserDAO
 {
     // Constants
     private static final String SQL_QUERY_NEWPK = "SELECT max( id_user ) FROM core_admin_user ";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, locale, level )  VALUES ( ? , ? , ? , ? , ? ,? , ?, ? ) ";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level FROM core_admin_user ORDER BY last_name ";
-    private static final String SQL_QUERY_SELECT_USER_FROM_USER_ID = "SELECT id_user , access_code, last_name , first_name, email, status, password, locale, level FROM core_admin_user  WHERE id_user = ? ORDER BY last_name";
-    private static final String SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level FROM core_admin_user  WHERE access_code = ? ";
-    private static final String SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID = " SELECT a.id_right , a.name, a.admin_url , a.description , a.plugin_name, a.id_feature_group, a.icon_url, a.level " +
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, locale, level_user )  VALUES ( ? , ? , ? , ? , ? ,? , ?, ? ) ";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user FROM core_admin_user ORDER BY last_name ";
+    private static final String SQL_QUERY_SELECT_USER_FROM_USER_ID = "SELECT id_user , access_code, last_name , first_name, email, status, password, locale, level_user FROM core_admin_user  WHERE id_user = ? ORDER BY last_name";
+    private static final String SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user FROM core_admin_user  WHERE access_code = ? ";
+    private static final String SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID = " SELECT a.id_right , a.name, a.admin_url , a.description , a.plugin_name, a.id_feature_group, a.icon_url, a.level_right " +
         " FROM core_admin_right a , core_user_right b " + " WHERE a.id_right = b.id_right " + " AND b.id_user = ? " +
         " AND a.admin_url <> '' " + " ORDER BY a.id_right ";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, locale = ? WHERE id_user = ?  ";
@@ -70,12 +70,12 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_DELETE_ALL_USER_ROLES = " DELETE FROM core_user_role WHERE id_user = ? ";
     private static final String SQL_CHECK_ROLE_ATTRIBUTED = " SELECT id_user FROM core_user_role WHERE role_key = ?";
     private static final String SQL_CHECK_ACCESS_CODE_IN_USE = " SELECT id_user FROM core_admin_user WHERE access_code = ?";
-    private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, password, locale, level )  VALUES ( ? , ? , ? , ? , ? ,? ,? ,?, ? ) ";
+    private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, password, locale, level_user )  VALUES ( ? , ? , ? , ? , ? ,? ,? ,?, ? ) ";
     private static final String SQL_QUERY_UPDATE_DEFAULT_USER = " UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, password = ?, locale = ?  WHERE id_user = ?  ";
     private static final String SQL_QUERY_SELECT_USERS_ID_BY_ROLES = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale " +
         " FROM core_admin_user a, core_user_role b WHERE a.id_user = b.id_user AND b.role_key = ? ";
-    private static final String SQL_QUERY_SELECT_USER_RIGHTS_OWN = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level >= ?";
-    private static final String SQL_QUERY_SELECT_USER_RIGHTS_DELEGATED = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level < ?";
+    private static final String SQL_QUERY_SELECT_USER_RIGHTS_OWN = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level_right >= ?";
+    private static final String SQL_QUERY_SELECT_USER_RIGHTS_DELEGATED = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level_right < ?";
     private static final String SQL_QUERY_DELETE_USER_RIGHTS = " DELETE FROM core_user_right WHERE id_user = ? and id_right = ?";
 
     /**

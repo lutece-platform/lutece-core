@@ -48,16 +48,16 @@ public final class ModeDAO implements IModeDAO
     // Constants
     private static final String SQL_QUERY_NEW_PK = " SELECT max( id_mode ) FROM core_mode";
     private static final String SQL_QUERY_SELECT = " SELECT id_mode, description_mode, path, output_xsl_method, output_xsl_version, " +
-        " output_xsl_media_type, output_xsl_encoding, output_xsl_indent, output_xsl_omit_xml_declaration, " +
+        " output_xsl_media_type, output_xsl_encoding, output_xsl_indent, output_xsl_omit_xml_dec, " +
         " output_xsl_standalone FROM core_mode WHERE id_mode = ?";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_mode ( id_mode, description_mode, path, output_xsl_method, output_xsl_version, output_xsl_media_type, output_xsl_encoding, output_xsl_indent, output_xsl_omit_xml_declaration, output_xsl_standalone ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_mode ( id_mode, description_mode, path, output_xsl_method, output_xsl_version, output_xsl_media_type, output_xsl_encoding, output_xsl_indent, output_xsl_omit_xml_dec, output_xsl_standalone ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_mode WHERE id_mode = ?";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_mode SET description_mode = ?, path = ?, " +
         " output_xsl_method = ? , output_xsl_version = ?, output_xsl_media_type = ?, output_xsl_encoding = ?, " +
-        " output_xsl_indent = ?, output_xsl_omit_xml_declaration = ?, output_xsl_standalone = ?" +
+        " output_xsl_indent = ?, output_xsl_omit_xml_dec = ?, output_xsl_standalone = ?" +
         " WHERE id_mode = ?";
     private static final String SQL_QUERY_SELECTALL = " SELECT id_mode, description_mode, path, output_xsl_method, output_xsl_version, output_xsl_media_type, " +
-        " output_xsl_encoding, output_xsl_indent, output_xsl_omit_xml_declaration, output_xsl_standalone " +
+        " output_xsl_encoding, output_xsl_indent, output_xsl_omit_xml_dec, output_xsl_standalone " +
         " FROM core_mode ORDER BY id_mode";
     private static final String SQL_QUERY_SELECT_MODES = " SELECT id_mode , description_mode FROM core_mode";
 

@@ -50,7 +50,7 @@ CREATE TABLE `core_admin_mailinglist` (
 -- Table structure for table `core_admin_mailinglist_users_filter`
 --
 
-DROP TABLE IF EXISTS `core_admin_mailinglist_users_filter`;
+DROP TABLE IF EXISTS `core_admin_mailinglist_filter`;
 CREATE TABLE `core_admin_mailinglist_users_filter` (
   `id_mailinglist` int(11) unsigned NOT NULL default '0',
   `workgroup` varchar(50) NOT NULL,
@@ -67,7 +67,7 @@ DROP TABLE IF EXISTS `core_admin_right`;
 CREATE TABLE `core_admin_right` (
   `id_right` varchar(50) collate utf8_unicode_ci NOT NULL default '',
   `name` varchar(255) collate utf8_unicode_ci default NULL,
-  `level` smallint(6) default NULL,
+  `level_right` smallint(6) default NULL,
   `admin_url` varchar(255) collate utf8_unicode_ci default NULL,
   `description` varchar(255) collate utf8_unicode_ci default NULL,
   `is_updatable` int(11) NOT NULL default '0',
@@ -117,7 +117,7 @@ CREATE TABLE `core_admin_user` (
   `status` smallint(1) NOT NULL default '0',
   `password` varchar(10) collate utf8_unicode_ci default NULL,
   `locale` varchar(10) collate utf8_unicode_ci NOT NULL default 'fr',
-  `level` smallint(1) unsigned NOT NULL default '0',
+  `level_user` smallint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id_user`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -215,7 +215,7 @@ CREATE TABLE `core_mode` (
   `output_xsl_media_type` varchar(50) collate utf8_unicode_ci default NULL,
   `output_xsl_encoding` varchar(50) collate utf8_unicode_ci default NULL,
   `output_xsl_indent` varchar(50) collate utf8_unicode_ci default NULL,
-  `output_xsl_omit_xml_declaration` varchar(50) collate utf8_unicode_ci default NULL,
+  `output_xsl_omit_xml_dec` varchar(50) collate utf8_unicode_ci default NULL,
   `output_xsl_standalone` varchar(50) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`id_mode`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
