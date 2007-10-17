@@ -31,7 +31,7 @@
 	}
 %>
 
-	<iframe name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="100%" height="750">
+	<iframe name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="100%" height="750" scrolling="auto">
 	</iframe>
     </div>
 </div>
