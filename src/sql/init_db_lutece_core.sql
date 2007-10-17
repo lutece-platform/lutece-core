@@ -33,25 +33,25 @@ INSERT INTO `core_admin_auth_db_module` (`access_code`,`password`,`date_valid_pa
 --
 
 /*!40000 ALTER TABLE `core_admin_right` DISABLE KEYS */;
-INSERT INTO `core_admin_right` (`id_right`,`name`,`level`,`admin_url`,`description`,`is_updatable`,`plugin_name`,`id_feature_group`,`icon_url`) VALUES 
+INSERT INTO `core_admin_right` (`id_right`,`name`,`level_right`,`admin_url`,`description`,`is_updatable`,`plugin_name`,`id_feature_group`,`icon_url`) VALUES 
  ('CORE_ADMIN_SITE','portal.site.adminFeature.admin_site.name',2,'jsp/admin/site/AdminSite.jsp','portal.site.adminFeature.admin_site.description',1,NULL,'SITE','images/admin/skin/features/admin_site.png'),
  ('CORE_CACHE_MANAGEMENT','portal.system.adminFeature.cache_management.name',0,'jsp/admin/system/ManageCaches.jsp','portal.system.adminFeature.cache_management.description',1,NULL,'SYSTEM','images/admin/skin/features/manage_caches.png'),
  ('CORE_SEARCH_INDEXATION','portal.search.adminFeature.indexer.name',0,'jsp/admin/search/ManageSearchIndexation.jsp','portal.search.adminFeature.indexer.description',0,NULL,'SYSTEM',NULL),
  ('CORE_LOGS_VISUALISATION','portal.system.adminFeature.logs_visualisation.name',0,'jsp/admin/system/ManageFilesSystem.jsp','portal.system.adminFeature.logs_visualisation.description',1,NULL,'SYSTEM','images/admin/skin/features/view_logs.png'),
  ('CORE_MODES_MANAGEMENT','portal.style.adminFeature.modes_management.name',0,'jsp/admin/style/ManageModes.jsp','portal.style.adminFeature.modes_management.description',1,NULL,'STYLE','images/admin/skin/features/manage_modes.png');
-INSERT INTO `core_admin_right` (`id_right`,`name`,`level`,`admin_url`,`description`,`is_updatable`,`plugin_name`,`id_feature_group`,`icon_url`) VALUES 
+INSERT INTO `core_admin_right` (`id_right`,`name`,`level_right`,`admin_url`,`description`,`is_updatable`,`plugin_name`,`id_feature_group`,`icon_url`) VALUES 
  ('CORE_PAGE_TEMPLATE_MANAGEMENT','portal.style.adminFeature.page_template_management.name',0,'jsp/admin/style/ManagePageTemplates.jsp','portal.style.adminFeature.page_template_management.description',0,NULL,'STYLE','images/admin/skin/features/manage_page_templates.png'),
  ('CORE_PLUGINS_MANAGEMENT','portal.system.adminFeature.plugins_management.name',0,'jsp/admin/system/ManagePlugins.jsp','portal.system.adminFeature.plugins_management.description',1,NULL,'SYSTEM','images/admin/skin/features/manage_plugins.png'),
  ('CORE_PROPERTIES_MANAGEMENT','portal.site.adminFeature.properties_management.name',2,'jsp/admin/ManageProperties.jsp','portal.site.adminFeature.properties_management.description',0,NULL,'SITE',NULL),
  ('CORE_STYLESHEET_MANAGEMENT','portal.style.adminFeature.stylesheet_management.name',0,'jsp/admin/style/ManageStyleSheets.jsp','portal.style.adminFeature.stylesheet_management.description',1,NULL,'STYLE','images/admin/skin/features/manage_stylesheets.png'),
  ('CORE_STYLES_MANAGEMENT','portal.style.adminFeature.styles_management.name',0,'jsp/admin/style/ManageStyles.jsp','portal.style.adminFeature.styles_management.description',1,NULL,'STYLE','images/admin/skin/features/manage_styles.png');
-INSERT INTO `core_admin_right` (`id_right`,`name`,`level`,`admin_url`,`description`,`is_updatable`,`plugin_name`,`id_feature_group`,`icon_url`) VALUES 
+INSERT INTO `core_admin_right` (`id_right`,`name`,`level_right`,`admin_url`,`description`,`is_updatable`,`plugin_name`,`id_feature_group`,`icon_url`) VALUES 
  ('CORE_USERS_MANAGEMENT','portal.users.adminFeature.users_management.name',2,'jsp/admin/user/ManageUsers.jsp','portal.users.adminFeature.users_management.description',1,'','USERS','images/admin/skin/features/manage_users.png'),
  ('CORE_FEATURES_MANAGEMENT','portal.admin.adminFeature.features_management.name',0,'jsp/admin/features/ManageFeatures.jsp','portal.admin.adminFeature.features_management.description',0,NULL,'SYSTEM','images/admin/skin/features/manage_features.png'),
  ('CORE_RBAC_MANAGEMENT','portal.rbac.adminFeature.rbac_management.name',0,'jsp/admin/rbac/ManageRoles.jsp','portal.rbac.adminFeature.rbac_management.description',0,'','USERS','images/admin/skin/features/manage_rbac.png'),
  ('CORE_DAEMONS_MANAGEMENT','portal.system.adminFeature.daemons_management.name',0,'jsp/admin/system/ManageDaemons.jsp','portal.system.adminFeature.daemons_management.description',0,NULL,'SYSTEM',NULL),
  ('CORE_WORKGROUPS_MANAGEMENT','portal.workgroup.adminFeature.workgroups_management.name',2,'jsp/admin/workgroup/ManageWorkgroups.jsp','portal.workgroup.adminFeature.workgroups_management.description',0,NULL,'USERS','images/admin/skin/features/manage_workgroups.png');
-INSERT INTO `core_admin_right` (`id_right`,`name`,`level`,`admin_url`,`description`,`is_updatable`,`plugin_name`,`id_feature_group`,`icon_url`) VALUES 
+INSERT INTO `core_admin_right` (`id_right`,`name`,`level_right`,`admin_url`,`description`,`is_updatable`,`plugin_name`,`id_feature_group`,`icon_url`) VALUES 
  ('CORE_ROLES_MANAGEMENT','portal.role.adminFeature.roles_management.name',2,'jsp/admin/role/ManagePageRole.jsp','portal.role.adminFeature.roles_management.description',0,NULL,'USERS','images/admin/skin/features/manage_roles.png'),
 ('CORE_GROUPS_MANAGEMENT','portal.group.adminFeature.groups_management.name',2,'jsp/admin/group/ManageGroups.jsp','portal.group.adminFeature.groups_management.description',0,NULL,'USERS','images/admin/skin/features/manage_groups.png'),
 ('CORE_MAILINGLISTS_MANAGEMENT','portal.mailinglist.adminFeature.mailinglists_management.name',2,'jsp/admin/mailinglist/ManageMailingLists.jsp','portal.mailinglist.adminFeature.mailinglists_management.description',0,NULL,'USERS','images/admin/skin/features/manage_mailinglists.png');
@@ -87,7 +87,7 @@ INSERT INTO `core_admin_role_resource` (`rbac_id`,`role_key`,`resource_type`,`re
 --
 
 /*!40000 ALTER TABLE `core_admin_user` DISABLE KEYS */;
-INSERT INTO `core_admin_user` (`id_user`,`access_code`,`last_name`,`first_name`,`email`,`status`,`password`,`locale`,`level`) VALUES 
+INSERT INTO `core_admin_user` (`id_user`,`access_code`,`last_name`,`first_name`,`email`,`status`,`password`,`locale`,`level_user`) VALUES 
  (1,'admin','Admin','admin','',0,'admin','fr',0),
  (2,'lutece','Lutèce','lutece','',0,'lutece','fr',1),
  (3,'redac','redac','redac','redac@mdp',0,'redac','fr',2),
@@ -152,7 +152,7 @@ INSERT INTO `core_level_right` (`id_level`,`name`) VALUES
 --
 
 /*!40000 ALTER TABLE `core_mode` DISABLE KEYS */;
-INSERT INTO `core_mode` (`id_mode`,`description_mode`,`path`,`output_xsl_method`,`output_xsl_version`,`output_xsl_media_type`,`output_xsl_encoding`,`output_xsl_indent`,`output_xsl_omit_xml_declaration`,`output_xsl_standalone`) VALUES 
+INSERT INTO `core_mode` (`id_mode`,`description_mode`,`path`,`output_xsl_method`,`output_xsl_version`,`output_xsl_media_type`,`output_xsl_encoding`,`output_xsl_indent`,`output_xsl_omit_xml_dec`,`output_xsl_standalone`) VALUES 
  (0,'Normal','normal/','xml','1.0','text/xml','UTF-8','yes','yes','yes'),
  (1,'Administration','admin/','xml','1.0','text/xml','UTF-8','yes','yes','yes'),
  (2,'Wap','wml/','xml','1.0','text/xml','UTF-8','yes','yes','yes');
