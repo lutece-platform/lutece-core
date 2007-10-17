@@ -46,15 +46,15 @@ INSERT INTO `core_admin_right` (`id_right`,`name`,`level_right`,`admin_url`,`des
  ('CORE_STYLESHEET_MANAGEMENT','portal.style.adminFeature.stylesheet_management.name',0,'jsp/admin/style/ManageStyleSheets.jsp','portal.style.adminFeature.stylesheet_management.description',1,NULL,'STYLE','images/admin/skin/features/manage_stylesheets.png'),
  ('CORE_STYLES_MANAGEMENT','portal.style.adminFeature.styles_management.name',0,'jsp/admin/style/ManageStyles.jsp','portal.style.adminFeature.styles_management.description',1,NULL,'STYLE','images/admin/skin/features/manage_styles.png');
 INSERT INTO `core_admin_right` (`id_right`,`name`,`level_right`,`admin_url`,`description`,`is_updatable`,`plugin_name`,`id_feature_group`,`icon_url`) VALUES 
- ('CORE_USERS_MANAGEMENT','portal.users.adminFeature.users_management.name',2,'jsp/admin/user/ManageUsers.jsp','portal.users.adminFeature.users_management.description',1,'','USERS','images/admin/skin/features/manage_users.png'),
+ ('CORE_USERS_MANAGEMENT','portal.users.adminFeature.users_management.name',2,'jsp/admin/user/ManageUsers.jsp','portal.users.adminFeature.users_management.description',1,'','MANAGERS','images/admin/skin/features/manage_users.png'),
  ('CORE_FEATURES_MANAGEMENT','portal.admin.adminFeature.features_management.name',0,'jsp/admin/features/ManageFeatures.jsp','portal.admin.adminFeature.features_management.description',0,NULL,'SYSTEM','images/admin/skin/features/manage_features.png'),
- ('CORE_RBAC_MANAGEMENT','portal.rbac.adminFeature.rbac_management.name',0,'jsp/admin/rbac/ManageRoles.jsp','portal.rbac.adminFeature.rbac_management.description',0,'','USERS','images/admin/skin/features/manage_rbac.png'),
+ ('CORE_RBAC_MANAGEMENT','portal.rbac.adminFeature.rbac_management.name',0,'jsp/admin/rbac/ManageRoles.jsp','portal.rbac.adminFeature.rbac_management.description',0,'','MANAGERS','images/admin/skin/features/manage_rbac.png'),
  ('CORE_DAEMONS_MANAGEMENT','portal.system.adminFeature.daemons_management.name',0,'jsp/admin/system/ManageDaemons.jsp','portal.system.adminFeature.daemons_management.description',0,NULL,'SYSTEM',NULL),
- ('CORE_WORKGROUPS_MANAGEMENT','portal.workgroup.adminFeature.workgroups_management.name',2,'jsp/admin/workgroup/ManageWorkgroups.jsp','portal.workgroup.adminFeature.workgroups_management.description',0,NULL,'USERS','images/admin/skin/features/manage_workgroups.png');
+ ('CORE_WORKGROUPS_MANAGEMENT','portal.workgroup.adminFeature.workgroups_management.name',2,'jsp/admin/workgroup/ManageWorkgroups.jsp','portal.workgroup.adminFeature.workgroups_management.description',0,NULL,'MANAGERS','images/admin/skin/features/manage_workgroups.png');
 INSERT INTO `core_admin_right` (`id_right`,`name`,`level_right`,`admin_url`,`description`,`is_updatable`,`plugin_name`,`id_feature_group`,`icon_url`) VALUES 
  ('CORE_ROLES_MANAGEMENT','portal.role.adminFeature.roles_management.name',2,'jsp/admin/role/ManagePageRole.jsp','portal.role.adminFeature.roles_management.description',0,NULL,'USERS','images/admin/skin/features/manage_roles.png'),
 ('CORE_GROUPS_MANAGEMENT','portal.group.adminFeature.groups_management.name',2,'jsp/admin/group/ManageGroups.jsp','portal.group.adminFeature.groups_management.description',0,NULL,'USERS','images/admin/skin/features/manage_groups.png'),
-('CORE_MAILINGLISTS_MANAGEMENT','portal.mailinglist.adminFeature.mailinglists_management.name',2,'jsp/admin/mailinglist/ManageMailingLists.jsp','portal.mailinglist.adminFeature.mailinglists_management.description',0,NULL,'USERS','images/admin/skin/features/manage_mailinglists.png');
+('CORE_MAILINGLISTS_MANAGEMENT','portal.mailinglist.adminFeature.mailinglists_management.name',2,'jsp/admin/mailinglist/ManageMailingLists.jsp','portal.mailinglist.adminFeature.mailinglists_management.description',0,NULL,'MANAGERS','images/admin/skin/features/manage_mailinglists.png');
 /*!40000 ALTER TABLE `core_admin_right` ENABLE KEYS */;
 
 
@@ -127,10 +127,11 @@ INSERT INTO `core_admin_user` (`id_user`,`access_code`,`last_name`,`first_name`,
 INSERT INTO `core_feature_group` (`id_feature_group`,`feature_group_description`,`feature_group_label`,`feature_group_order`) VALUES 
  ('CONTENT','portal.features.group.content.description','portal.features.group.content.label',1),
  ('APPLICATIONS','portal.features.group.applications.description','portal.features.group.applications.label',3),
- ('SYSTEM','portal.features.group.system.description','portal.features.group.system.label',6),
+ ('SYSTEM','portal.features.group.system.description','portal.features.group.system.label',7),
  ('SITE','portal.features.group.site.description','portal.features.group.site.label',2),
  ('STYLE','portal.features.group.charter.description','portal.features.group.charter.label',5),
- ('USERS','portal.features.group.users.description','portal.features.group.users.label',4);
+ ('USERS','portal.features.group.users.description','portal.features.group.users.label',4),
+ ('MANAGERS','portal.features.group.managers.description','portal.features.group.managers.label',6);
 /*!40000 ALTER TABLE `core_feature_group` ENABLE KEYS */;
 
 
