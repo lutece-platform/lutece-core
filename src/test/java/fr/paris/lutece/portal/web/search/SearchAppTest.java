@@ -31,35 +31,35 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.web.search;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.web.xpages.*;
 import fr.paris.lutece.LuteceTestCase;
 import fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.web.xpages.*;
+
 
 /**
  * SearchApp Test Class
- * 
+ *
  */
 public class SearchAppTest extends LuteceTestCase
 {
     /**
      * Test of getPage method, of class fr.paris.lutece.portal.web.search.SearchApp.
      */
-    public void testGetPage()
+    public void testGetPage(  )
     {
-        System.out.println("getPage");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.addMokeParameters( "query" , "lutece");
-        request.addMokeParameters( "items_per_page" , "5" );
+        System.out.println( "getPage" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.addMokeParameters( "query", "lutece" );
+        request.addMokeParameters( "items_per_page", "5" );
+
         int nMode = 0;
         Plugin plugin = null;
-        SearchApp instance = new SearchApp();
-        
-        XPage result = instance.getPage(request, nMode, plugin);
+        SearchApp instance = new SearchApp(  );
+
+        XPage result = instance.getPage( request, nMode, plugin );
     }
-    
 }

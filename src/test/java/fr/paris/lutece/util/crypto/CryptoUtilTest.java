@@ -35,31 +35,30 @@ package fr.paris.lutece.util.crypto;
 
 import fr.paris.lutece.LuteceTestCase;
 
+
 /**
  * CryptoUtil Test Class
- * 
+ *
  */
 public class CryptoUtilTest extends LuteceTestCase
 {
-    
-    public CryptoUtilTest(String testName)
+    public CryptoUtilTest( String testName )
     {
-        super(testName);
+        super( testName );
     }
 
     /**
      * Test of encrypt method, of class fr.paris.lutece.util.crypto.CryptoUtil.
      */
-    public void testEncrypt()
+    public void testEncrypt(  )
     {
-        System.out.println("encrypt");
-        
+        System.out.println( "encrypt" );
+
         String strDataToEncrypt = "Hello, World";
         String strKey = "A23A5C78";
-        
+
         String strEncrypted = CryptoUtil.encrypt( strDataToEncrypt, strKey );
-        String strDecrypted = CryptoUtil.decrypt( strEncrypted , strKey );
-        assertEquals( strDataToEncrypt, strDecrypted);
+        String strDecrypted = CryptoUtil.decrypt( strEncrypted, strKey );
+        assertEquals( strDataToEncrypt, strDecrypted );
     }
-  
 }

@@ -33,58 +33,60 @@
  */
 package fr.paris.lutece.portal.web.rbac;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.LuteceTestCase;
 import fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+
 
 /**
  * StyleSheetJspBean Test Class
- * 
+ *
  */
 public class RoleManagementJspBeanTest extends LuteceTestCase
 {
     private static final String PARAMETER_ROLE_KEY = "role_key";
-    private static final String TEST_ROLE_KEY = "redacteur"; 
+    private static final String TEST_ROLE_KEY = "redacteur";
     private static final String PARAMETER_RBAC_ID = "rbac_id";
-    private static final String TEST_RBAC_ID = "21"; 
-    
+    private static final String TEST_RBAC_ID = "21";
+
     /**
      * Test of getManageRoles method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testGetManageRoles() throws AccessDeniedException
+    public void testGetManageRoles(  ) throws AccessDeniedException
     {
-        System.out.println("getManageRoles");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , RoleManagementJspBean.RIGHT_MANAGE_ROLES);
-        
-        RoleManagementJspBean instance = new RoleManagementJspBean();
-        instance.init( request , RoleManagementJspBean.RIGHT_MANAGE_ROLES );
-        instance.getManageRoles(request);
+        System.out.println( "getManageRoles" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+
+        RoleManagementJspBean instance = new RoleManagementJspBean(  );
+        instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        instance.getManageRoles( request );
     }
 
     /**
      * Test of getCreateRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testGetCreateRole() throws AccessDeniedException
+    public void testGetCreateRole(  ) throws AccessDeniedException
     {
-        System.out.println("getCreateRole");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
+        System.out.println( "getCreateRole" );
 
-        request.registerAdminUserWithRigth( new AdminUser() , RoleManagementJspBean.RIGHT_MANAGE_ROLES);
-        RoleManagementJspBean instance = new RoleManagementJspBean();
-        instance.init( request , RoleManagementJspBean.RIGHT_MANAGE_ROLES );
-        instance.getCreateRole(request);
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+
+        request.registerAdminUserWithRigth( new AdminUser(  ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+
+        RoleManagementJspBean instance = new RoleManagementJspBean(  );
+        instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        instance.getCreateRole( request );
     }
 
     /**
      * Test of doCreateRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testDoCreateRole()
+    public void testDoCreateRole(  )
     {
-        System.out.println("doCreateRole");
+        System.out.println( "doCreateRole" );
 
         // Not implemented yet
     }
@@ -92,92 +94,95 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of getModifyRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testGetModifyRole() throws AccessDeniedException
+    public void testGetModifyRole(  ) throws AccessDeniedException
     {
-        System.out.println("getModifyRole");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.addMokeParameters( PARAMETER_ROLE_KEY , TEST_ROLE_KEY );
-        request.registerAdminUserWithRigth( new AdminUser() , RoleManagementJspBean.RIGHT_MANAGE_ROLES);
-        RoleManagementJspBean instance = new RoleManagementJspBean();
-        instance.init( request , RoleManagementJspBean.RIGHT_MANAGE_ROLES );
-        instance.getModifyRole(request);
+        System.out.println( "getModifyRole" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.addMokeParameters( PARAMETER_ROLE_KEY, TEST_ROLE_KEY );
+        request.registerAdminUserWithRigth( new AdminUser(  ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+
+        RoleManagementJspBean instance = new RoleManagementJspBean(  );
+        instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        instance.getModifyRole( request );
     }
 
     /**
      * Test of doModifyRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testDoModifyRole()
+    public void testDoModifyRole(  )
     {
-        System.out.println("doModifyRole");
-        
+        System.out.println( "doModifyRole" );
+
         // Not implemented yet
     }
 
     /**
      * Test of doConfirmRemoveRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testDoConfirmRemoveRole() throws AccessDeniedException
+    public void testDoConfirmRemoveRole(  ) throws AccessDeniedException
     {
-        System.out.println("doConfirmRemoveRole");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.addMokeParameters( PARAMETER_ROLE_KEY , TEST_ROLE_KEY );
-        request.registerAdminUserWithRigth( new AdminUser() , RoleManagementJspBean.RIGHT_MANAGE_ROLES);
-        RoleManagementJspBean instance = new RoleManagementJspBean();
-        instance.init( request , RoleManagementJspBean.RIGHT_MANAGE_ROLES );
-        instance.doConfirmRemoveRole(request);
+        System.out.println( "doConfirmRemoveRole" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.addMokeParameters( PARAMETER_ROLE_KEY, TEST_ROLE_KEY );
+        request.registerAdminUserWithRigth( new AdminUser(  ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+
+        RoleManagementJspBean instance = new RoleManagementJspBean(  );
+        instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        instance.doConfirmRemoveRole( request );
     }
 
     /**
      * Test of doRemoveRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testDoRemoveRole()
+    public void testDoRemoveRole(  )
     {
-        System.out.println("doRemoveRole");
-        
+        System.out.println( "doRemoveRole" );
+
         // Not implemented yet
     }
-    
+
     /**
      * Test of getViewRoleDescription method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testgetViewRoleDescription() throws AccessDeniedException
+    public void testgetViewRoleDescription(  ) throws AccessDeniedException
     {
-        System.out.println("getViewRoleDescription");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.addMokeParameters( PARAMETER_ROLE_KEY , TEST_ROLE_KEY );
-        request.registerAdminUserWithRigth( new AdminUser() , RoleManagementJspBean.RIGHT_MANAGE_ROLES);
-        RoleManagementJspBean instance = new RoleManagementJspBean();
-        instance.init( request , RoleManagementJspBean.RIGHT_MANAGE_ROLES );
-        instance.getViewRoleDescription(request);
+        System.out.println( "getViewRoleDescription" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.addMokeParameters( PARAMETER_ROLE_KEY, TEST_ROLE_KEY );
+        request.registerAdminUserWithRigth( new AdminUser(  ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+
+        RoleManagementJspBean instance = new RoleManagementJspBean(  );
+        instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        instance.getViewRoleDescription( request );
     }
-    
-    
+
     /**
      * Test of doConfirmRemoveControlFromRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testDoConfirmRemoveControlFromRole() throws AccessDeniedException
+    public void testDoConfirmRemoveControlFromRole(  )
+        throws AccessDeniedException
     {
-        System.out.println("doConfirmRemoveControlFromRole");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.addMokeParameters( PARAMETER_RBAC_ID , TEST_RBAC_ID);
-        request.registerAdminUserWithRigth( new AdminUser() , RoleManagementJspBean.RIGHT_MANAGE_ROLES);
-        RoleManagementJspBean instance = new RoleManagementJspBean();
-        instance.init( request , RoleManagementJspBean.RIGHT_MANAGE_ROLES );
-        instance.doConfirmRemoveControlFromRole(request);
+        System.out.println( "doConfirmRemoveControlFromRole" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.addMokeParameters( PARAMETER_RBAC_ID, TEST_RBAC_ID );
+        request.registerAdminUserWithRigth( new AdminUser(  ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+
+        RoleManagementJspBean instance = new RoleManagementJspBean(  );
+        instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        instance.doConfirmRemoveControlFromRole( request );
     }
 
     /**
      * Test of doRemoveControlFromRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testDoRemoveControlFromRole()
+    public void testDoRemoveControlFromRole(  )
     {
-        System.out.println("doRemoveControlFromRole");
-        
+        System.out.println( "doRemoveControlFromRole" );
+
         // Not implemented yet
     }
-
 }

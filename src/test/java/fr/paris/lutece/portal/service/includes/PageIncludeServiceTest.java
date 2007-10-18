@@ -34,15 +34,16 @@
 package fr.paris.lutece.portal.service.includes;
 
 import fr.paris.lutece.LuteceTestCase;
+
 import java.util.Collection;
 
 
 public class PageIncludeServiceTest extends LuteceTestCase
 {
-    public void testPageIncludes()
+    public void testPageIncludes(  )
     {
-        Collection listIncludes = PageIncludeService.getIncludes();
+        Collection listIncludes = PageIncludeService.getIncludes(  );
         // Assert default includes are loaded
-        assertTrue( listIncludes.size() > 2 );
+        assertTrue( listIncludes.size(  ) > 2 );
     }
 }

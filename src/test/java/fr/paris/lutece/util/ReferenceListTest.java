@@ -33,73 +33,74 @@
  */
 package fr.paris.lutece.util;
 
+import fr.paris.lutece.LuteceTestCase;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import fr.paris.lutece.LuteceTestCase;
+
 
 /**
  * ReferenceList Test Class
- * 
+ *
  */
 public class ReferenceListTest extends LuteceTestCase
 {
     /**
      * Test of addItem method, of class fr.paris.lutece.util.ReferenceList.
      */
-    public void testAddItem()
+    public void testAddItem(  )
     {
-        System.out.println("addItem");
-        
+        System.out.println( "addItem" );
+
         String strCode = "code";
         String strName = "name";
-        ReferenceList instance = new ReferenceList();
-        
-        instance.addItem(strCode, strName);
+        ReferenceList instance = new ReferenceList(  );
+
+        instance.addItem( strCode, strName );
     }
 
     /**
      * Test of convert method, of class fr.paris.lutece.util.ReferenceList.
      */
-    public void testConvert()
+    public void testConvert(  )
     {
-        System.out.println("convert");
-        
-        Collection collection = new ArrayList();
-        ReferenceItem item = new ReferenceItem();
+        System.out.println( "convert" );
+
+        Collection collection = new ArrayList(  );
+        ReferenceItem item = new ReferenceItem(  );
         String strCode = "code 1";
         String strName = "name 1";
         item.setCode( strCode );
         item.setName( strName );
         item.setChecked( true );
+
         boolean bNumericCode = false;
         collection.add( item );
-        
+
         // Convert the ArrayList into a ReferenceList
         String strCodeAttribute = "code";
         String strNameAttribute = "name";
-        ReferenceList result = ReferenceList.convert( collection, strCodeAttribute, strNameAttribute, bNumericCode);
-        assertEquals( strCode , result.get( 0 ).getCode() );
-        assertEquals( strName , result.get( 0 ).getName() );
+        ReferenceList result = ReferenceList.convert( collection, strCodeAttribute, strNameAttribute, bNumericCode );
+        assertEquals( strCode, result.get( 0 ).getCode(  ) );
+        assertEquals( strName, result.get( 0 ).getName(  ) );
     }
 
     /**
      * Test of checkItems method, of class fr.paris.lutece.util.ReferenceList.
      */
-    public void testCheckItems()
+    public void testCheckItems(  )
     {
-        System.out.println("checkItems");
-        
-        String[] valuesToCheck = { "code1" , "code3" };
-        ReferenceList instance = new ReferenceList();
-        instance.addItem( "code1" , "name1" );
-        instance.addItem( "code2" , "name2" );
-        instance.addItem( "code3" , "name3" );
-        
-        instance.checkItems(valuesToCheck);
-        assertTrue( instance.get( 0 ).isChecked() );
-        assertFalse( instance.get( 1 ).isChecked() );
-        assertTrue( instance.get( 2 ).isChecked() );
-        
+        System.out.println( "checkItems" );
+
+        String[] valuesToCheck = { "code1", "code3" };
+        ReferenceList instance = new ReferenceList(  );
+        instance.addItem( "code1", "name1" );
+        instance.addItem( "code2", "name2" );
+        instance.addItem( "code3", "name3" );
+
+        instance.checkItems( valuesToCheck );
+        assertTrue( instance.get( 0 ).isChecked(  ) );
+        assertFalse( instance.get( 1 ).isChecked(  ) );
+        assertTrue( instance.get( 2 ).isChecked(  ) );
     }
-    
 }

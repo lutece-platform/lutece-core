@@ -81,7 +81,6 @@ public class AdminMenuJspBean
     private static final String MARK_USER_LASTNAME = "user_lastname";
     private static final String MARK_ADMIN_URL = "admin_url";
     private static final String MARK_ADMIN_LOGOUT_URL = "admin_logout_url";
-
     private static final Object MARK_MODIFY_PASSWORD_URL = "url_modify_password";
 
     // Templates
@@ -122,8 +121,9 @@ public class AdminMenuJspBean
         model.put( Markers.VERSION, strVersion );
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
         model.put( MARK_ADMIN_URL, AppPathService.getBaseUrl( request ) + JSP_URL_ADMIN_MENU );
-        String strLogoutUrl = AppPropertiesService.getProperty(PROPERTY_LOGOUT_URL);
-        model.put( MARK_ADMIN_LOGOUT_URL, strLogoutUrl == null ? "" : strLogoutUrl );
+
+        String strLogoutUrl = AppPropertiesService.getProperty( PROPERTY_LOGOUT_URL );
+        model.put( MARK_ADMIN_LOGOUT_URL, ( strLogoutUrl == null ) ? "" : strLogoutUrl );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_HEADER, user.getLocale(  ), model );
 

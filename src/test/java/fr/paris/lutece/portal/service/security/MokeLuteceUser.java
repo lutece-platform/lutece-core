@@ -39,11 +39,9 @@ package fr.paris.lutece.portal.service.security;
  */
 public class MokeLuteceUser extends LuteceUser
 {
-    
     /** Creates a new instance of MokeLuteceUser */
-    public MokeLuteceUser( String strName , LuteceAuthentication auth )
+    public MokeLuteceUser( String strName, LuteceAuthentication auth )
     {
-        super( strName , auth );
+        super( strName, auth );
     }
-    
 }

@@ -35,25 +35,24 @@ package fr.paris.lutece.portal.web.insert;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
  * MokeInsertServiceJspBean
  */
 public class MokeInsertServiceJspBean extends InsertServiceJspBean
 {
-    
     /** Creates a new instance of MokeInsertService */
-    public MokeInsertServiceJspBean()
+    public MokeInsertServiceJspBean(  )
     {
     }
-    
-    public String testInsertUrl(  HttpServletRequest request , String strInput , String strInsert )
+
+    public String testInsertUrl( HttpServletRequest request, String strInput, String strInsert )
     {
-        return insertUrl( request , strInput , strInsert );
+        return insertUrl( request, strInput, strInsert );
     }
-    
-    public String testBuildLink( String strText , String strUrl, String strTitle , String strTarget )
+
+    public String testBuildLink( String strText, String strUrl, String strTitle, String strTarget )
     {
-        return buildLink( strText , strUrl , strTitle , strTarget );
+        return buildLink( strText, strUrl, strTitle, strTarget );
     }
-    
 }

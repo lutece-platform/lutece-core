@@ -31,11 +31,12 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.business.right;
 
-import java.util.List;
 import fr.paris.lutece.LuteceTestCase;
+
+import java.util.List;
+
 
 public class FeatureGroupTest extends LuteceTestCase
 {
@@ -47,44 +48,42 @@ public class FeatureGroupTest extends LuteceTestCase
     private final static int ORDER1 = 1;
     private final static int ORDER2 = 2;
 
-
     public void testBusinessFeatureGroup(  )
     {
         // Initialize an object
-        FeatureGroup featureGroup = new FeatureGroup();
+        FeatureGroup featureGroup = new FeatureGroup(  );
         featureGroup.setId( ID );
-        featureGroup.setLabelKey( LABELKEY1 );	
-        featureGroup.setDescriptionKey( DESCRIPTIONKEY1 );	
+        featureGroup.setLabelKey( LABELKEY1 );
+        featureGroup.setDescriptionKey( DESCRIPTIONKEY1 );
         featureGroup.setOrder( ORDER1 );
 
         // Create test
         FeatureGroupHome.create( featureGroup );
-        FeatureGroup featureGroupStored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId() );
-        assertEquals( featureGroupStored.getLabelKey() , featureGroup.getLabelKey() );
-        assertEquals( featureGroupStored.getDescriptionKey() , featureGroup.getDescriptionKey() );
-        assertEquals( featureGroupStored.getOrder() , featureGroup.getOrder() );
+
+        FeatureGroup featureGroupStored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId(  ) );
+        assertEquals( featureGroupStored.getLabelKey(  ), featureGroup.getLabelKey(  ) );
+        assertEquals( featureGroupStored.getDescriptionKey(  ), featureGroup.getDescriptionKey(  ) );
+        assertEquals( featureGroupStored.getOrder(  ), featureGroup.getOrder(  ) );
 
         // Update test
-        featureGroup.setLabelKey( LABELKEY2 );	
-        featureGroup.setDescriptionKey( DESCRIPTIONKEY2 );	
+        featureGroup.setLabelKey( LABELKEY2 );
+        featureGroup.setDescriptionKey( DESCRIPTIONKEY2 );
         featureGroup.setOrder( ORDER2 );
         FeatureGroupHome.update( featureGroup );
-        featureGroupStored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId() );
-        assertEquals( featureGroupStored.getLabelKey() , featureGroup.getLabelKey() );
-        assertEquals( featureGroupStored.getDescriptionKey() , featureGroup.getDescriptionKey() );
-        assertEquals( featureGroupStored.getOrder() , featureGroup.getOrder() );
-
+        featureGroupStored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId(  ) );
+        assertEquals( featureGroupStored.getLabelKey(  ), featureGroup.getLabelKey(  ) );
+        assertEquals( featureGroupStored.getDescriptionKey(  ), featureGroup.getDescriptionKey(  ) );
+        assertEquals( featureGroupStored.getOrder(  ), featureGroup.getOrder(  ) );
 
         // List test
-        List listGroups = FeatureGroupHome.getFeatureGroupsList();
-        assertTrue( listGroups.size() > 0 );
-        
-        assertTrue( FeatureGroupHome.getFeatureGroupsCount() > 0 );
-        
+        List listGroups = FeatureGroupHome.getFeatureGroupsList(  );
+        assertTrue( listGroups.size(  ) > 0 );
+
+        assertTrue( FeatureGroupHome.getFeatureGroupsCount(  ) > 0 );
+
         // Delete test
-        FeatureGroupHome.remove( featureGroup.getId() );
-        featureGroupStored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId() );
+        FeatureGroupHome.remove( featureGroup.getId(  ) );
+        featureGroupStored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId(  ) );
         assertNull( featureGroupStored );
     }
-
 }

@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
+
 /**
  * Application Mail Service
  */
@@ -45,12 +46,12 @@ public final class MailService
 {
     private static final String PROPERTY_MAIL_NOREPLY_EMAIL = "mail.noreply.email";
     private static IMailQueue _queue = (IMailQueue) SpringContextService.getBean( "mailQueue" );
-    
+
     /** Creates a new instance of AppMailService */
     private MailService(  )
     {
     }
-    
+
     /**
      * Send a message asynchronously. The message is queued until a daemon
      * thread send all awaiting messages
@@ -62,7 +63,7 @@ public final class MailService
      * @param strMessage The message.
      */
     public static void sendMail( String strRecipient, String strSenderName, String strSenderEmail, String strSubject,
-            String strMessage )
+        String strMessage )
     {
         MailItem item = new MailItem(  );
         item.setRecipient( strRecipient );
@@ -72,8 +73,7 @@ public final class MailService
         item.setMessage( strMessage );
         _queue.send( item );
     }
-    
-    
+
     /**
      * Shutdown the service
      */
@@ -81,13 +81,13 @@ public final class MailService
     {
         // if there is mails that have not been sent call the daemon to flush the list
         Daemon daemon = AppDaemonService.getDaemon( "mailSender" );
-        
+
         if ( daemon != null )
         {
             daemon.run(  );
         }
     }
-    
+
     /**
      * Returns a no reply email address defined in config.properties
      * @return A no reply email
@@ -96,12 +96,12 @@ public final class MailService
     {
         return AppPropertiesService.getProperty( PROPERTY_MAIL_NOREPLY_EMAIL );
     }
-    
+
     /**
      * Returns the mail queue
      * @return the mail queue
      */
-    public static IMailQueue getQueue()
+    public static IMailQueue getQueue(  )
     {
         return _queue;
     }

@@ -33,82 +33,84 @@
  */
 package fr.paris.lutece.portal.web.style;
 
+import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.MokeHttpServletRequest;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.web.constants.Parameters;
-import fr.paris.lutece.LuteceTestCase;
-import fr.paris.lutece.MokeHttpServletRequest;
+
 
 /**
  * PageTemplatesJspBeanTest Test Class
- * 
+ *
  */
-public class PageTemplatesJspBeanTest extends LuteceTestCase 
+public class PageTemplatesJspBeanTest extends LuteceTestCase
 {
     private static final String TEST_PAGE_TEMPLATE_ID = "1"; // Page template one column 
 
     /**
      * Test of getManagePageTemplate method, of class fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
-    public void testGetManagePageTemplate() throws AccessDeniedException
+    public void testGetManagePageTemplate(  ) throws AccessDeniedException
     {
-        System.out.println("getManagePageTemplate");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
-        PageTemplatesJspBean instance = new PageTemplatesJspBean();
-        instance.init( request , PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
+        System.out.println( "getManagePageTemplate" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
+
+        PageTemplatesJspBean instance = new PageTemplatesJspBean(  );
+        instance.init( request, PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
         instance.getManagePageTemplate( request );
     }
-    
+
     /**
      * Test of getCreatePageTemplate method, of class fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
-    public void testGetCreatePageTemplate() throws AccessDeniedException
+    public void testGetCreatePageTemplate(  ) throws AccessDeniedException
     {
-        System.out.println("getCreatePageTemplate");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
-        PageTemplatesJspBean instance = new PageTemplatesJspBean();
-        instance.init( request , PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
+        System.out.println( "getCreatePageTemplate" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
+
+        PageTemplatesJspBean instance = new PageTemplatesJspBean(  );
+        instance.init( request, PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
         instance.getCreatePageTemplate( request );
-    }    
-    
+    }
+
     /**
      * Test of doCreatePageTemplate method, of fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
-    public void testDoCreatePageTemplate()
+    public void testDoCreatePageTemplate(  )
     {
-        System.out.println("doCreatePageTemplate");
+        System.out.println( "doCreatePageTemplate" );
 
         // Not implemented yet
-    }   
-    
+    }
+
     /**
      * Test of getModifyPageTemplate method, of class fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
-    public void testGetModifyPageTemplate() throws AccessDeniedException
+    public void testGetModifyPageTemplate(  ) throws AccessDeniedException
     {
-        System.out.println("getModifyPageTemplate");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.addMokeParameters( Parameters.PAGE_TEMPLATE_ID , TEST_PAGE_TEMPLATE_ID );
-        request.registerAdminUserWithRigth( new AdminUser() , PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
-        PageTemplatesJspBean instance = new PageTemplatesJspBean();
-        instance.init( request , PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
+        System.out.println( "getModifyPageTemplate" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.addMokeParameters( Parameters.PAGE_TEMPLATE_ID, TEST_PAGE_TEMPLATE_ID );
+        request.registerAdminUserWithRigth( new AdminUser(  ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
+
+        PageTemplatesJspBean instance = new PageTemplatesJspBean(  );
+        instance.init( request, PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
         instance.getModifyPageTemplate( request );
-    }       
-    
-    
+    }
+
     /**
      * Test of doModifyPageTemplate method, of fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
-    public void testDoModifyPageTemplate()
+    public void testDoModifyPageTemplate(  )
     {
-        System.out.println("doModifyPageTemplate");
+        System.out.println( "doModifyPageTemplate" );
 
         // Not implemented yet
-    }       
-    
+    }
 }

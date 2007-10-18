@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.util;
 
 import fr.paris.lutece.LuteceTestCase;
 
+
 /**
  * AppLogService Test Class
  */
@@ -43,60 +44,58 @@ public class AppLogServiceTest extends LuteceTestCase
     /**
      * Test of init method, of class AppLogService.
      */
-    public void testInit()
+    public void testInit(  )
     {
-        System.out.println("init");
-        
+        System.out.println( "init" );
+
         String strConfigPath = "/WEB-INF/conf/";
         String strConfigFile = "config.properties";
-        
-        AppLogService.init(strConfigPath, strConfigFile);
+
+        AppLogService.init( strConfigPath, strConfigFile );
     }
-    
+
     /**
      * Test of debug method, of class AppLogService.
      */
-    public void testDebug()
+    public void testDebug(  )
     {
-        System.out.println("debug");
-        
+        System.out.println( "debug" );
+
         Object objToLog = "AppLogServiceTest : JUnit message debug test";
-        
-        AppLogService.debug(objToLog);
+
+        AppLogService.debug( objToLog );
     }
-    
+
     /**
      * Test of error method, of class AppLogService.
      */
-    public void testError()
+    public void testError(  )
     {
-        System.out.println("error");
-        
+        System.out.println( "error" );
+
         Object objToLog = "AppLogServiceTest : JUnit message error test";
-        
-        AppLogService.error(objToLog);
-        
+
+        AppLogService.error( objToLog );
+
         try
         {
             throw new AppException( "JUnit test exception" );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
-            AppLogService.error( e.getMessage() , e );
+            AppLogService.error( e.getMessage(  ), e );
         }
     }
-    
+
     /**
      * Test of info method, of class AppLogService.
      */
-    public void testInfo()
+    public void testInfo(  )
     {
-        System.out.println("info");
-        
+        System.out.println( "info" );
+
         Object objToLog = "AppLogServiceTest : JUnit message info test";
-        
-        AppLogService.info(objToLog);
+
+        AppLogService.info( objToLog );
     }
-    
-    
 }

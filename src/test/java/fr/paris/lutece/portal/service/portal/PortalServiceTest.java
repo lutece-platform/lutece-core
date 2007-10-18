@@ -45,6 +45,7 @@ public class PortalServiceTest extends LuteceTestCase
     {
         HttpServletRequest request = new MokeHttpServletRequest(  );
         int nMode = 0;
-       // PortalService.getDefaultPage( request, nMode );
+
+        // PortalService.getDefaultPage( request, nMode );
     }
 }

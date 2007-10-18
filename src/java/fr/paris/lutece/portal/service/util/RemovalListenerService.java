@@ -37,14 +37,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+
 /**
  * RemovalListenerService
  */
 public class RemovalListenerService
 {
-    private List<RemovalListener> _listRegisteredListeners = new ArrayList<RemovalListener>();
-    
-    
+    private List<RemovalListener> _listRegisteredListeners = new ArrayList<RemovalListener>(  );
+
     /**
      * Register a new Removal listener
      * @param listener The listener to register
@@ -53,26 +53,27 @@ public class RemovalListenerService
     {
         _listRegisteredListeners.add( listener );
     }
-    
+
     /**
-     * Check if an object can be remove 
+     * Check if an object can be remove
      * @param IdToRemove The object ID
      * @param listMessages Messages if some listeners have refused the removal
      * @param locale The current locale
      * @return true if the object can be removed otherwise false
      */
-    public boolean checkForRemoval( String IdToRemove , List<String> listMessages , Locale locale )
+    public boolean checkForRemoval( String IdToRemove, List<String> listMessages, Locale locale )
     {
         boolean bCheck = true;
-        for( RemovalListener listener : _listRegisteredListeners )
+
+        for ( RemovalListener listener : _listRegisteredListeners )
         {
-            if( ! listener.canBeRemoved( IdToRemove ))
+            if ( !listener.canBeRemoved( IdToRemove ) )
             {
-                listMessages.add( listener.getRemovalRefusedMessage( IdToRemove , locale ));
+                listMessages.add( listener.getRemovalRefusedMessage( IdToRemove, locale ) );
                 bCheck = false;
             }
         }
+
         return bCheck;
     }
-    
 }

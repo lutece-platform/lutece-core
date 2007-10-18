@@ -44,6 +44,7 @@ import org.apache.lucene.index.IndexWriter;
 
 //import org.xml.sax.XMLReader;
 import java.io.IOException;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -222,7 +223,6 @@ public final class IndexationService
     {
         return _analyzer;
     }
-
 
     /**
      * Returns all search indexers

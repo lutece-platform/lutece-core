@@ -34,108 +34,109 @@
 package fr.paris.lutece.portal.service.security;
 
 import java.util.Collection;
+
 import javax.security.auth.login.LoginException;
+
 import javax.servlet.http.HttpServletRequest;
+
 
 /**
  *
  */
 public class MokeLuteceAuthentication implements LuteceAuthentication
 {
-    
     /** Creates a new instance of MokeLuteceAuthentication */
-    public MokeLuteceAuthentication()
+    public MokeLuteceAuthentication(  )
     {
     }
 
-    public String getAuthServiceName()
+    public String getAuthServiceName(  )
     {
         return "MOKE AUTHENTICATION SERVICE";
     }
 
-    public String getAuthType(HttpServletRequest request)
+    public String getAuthType( HttpServletRequest request )
     {
         return null;
     }
 
-    public LuteceUser login(final String strUserName, final String strUserPassword, HttpServletRequest request) throws LoginException
+    public LuteceUser login( final String strUserName, final String strUserPassword, HttpServletRequest request )
+        throws LoginException
     {
         return null;
     }
 
-    public void logout(LuteceUser user)
+    public void logout( LuteceUser user )
     {
     }
 
-    public LuteceUser getAnonymousUser()
+    public LuteceUser getAnonymousUser(  )
     {
         return null;
     }
 
-    public boolean isUserInRole(LuteceUser user, HttpServletRequest request, String strRole)
+    public boolean isUserInRole( LuteceUser user, HttpServletRequest request, String strRole )
     {
         return true;
     }
 
-    public boolean isExternalAuthentication()
+    public boolean isExternalAuthentication(  )
     {
         return false;
     }
 
-    public LuteceUser getHttpAuthenticatedUser(HttpServletRequest request)
+    public LuteceUser getHttpAuthenticatedUser( HttpServletRequest request )
     {
         return null;
     }
 
-    public String getLoginPageUrl()
+    public String getLoginPageUrl(  )
     {
         return null;
     }
 
-    public String getDoLoginUrl()
+    public String getDoLoginUrl(  )
     {
         return null;
     }
 
-    public String getDoLogoutUrl()
+    public String getDoLogoutUrl(  )
     {
         return null;
     }
 
-    public String getNewAccountPageUrl()
+    public String getNewAccountPageUrl(  )
     {
         return null;
     }
 
-    public String getViewAccountPageUrl()
+    public String getViewAccountPageUrl(  )
     {
         return null;
     }
 
-    public String getLostPasswordPageUrl()
+    public String getLostPasswordPageUrl(  )
     {
         return null;
     }
 
-    public String getAccessDeniedTemplate()
+    public String getAccessDeniedTemplate(  )
     {
         return null;
     }
 
-     
-    public String getAccessControledTemplate()
+    public String getAccessControledTemplate(  )
     {
         return null;
     }
 
-    public boolean isUsersListAvailable()
+    public boolean isUsersListAvailable(  )
     {
         return false;
     }
 
-    public Collection<LuteceUser> getUsers()
+    public Collection<LuteceUser> getUsers(  )
     {
         return null;
     }
-    
 }

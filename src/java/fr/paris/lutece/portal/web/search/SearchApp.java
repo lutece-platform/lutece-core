@@ -63,7 +63,7 @@ public class SearchApp implements XPageApplication
 {
     ////////////////////////////////////////////////////////////////////////////
     // Constants
-    private static final String BEAN_SEARCH_ENGINE = "searchEngine"; 
+    private static final String BEAN_SEARCH_ENGINE = "searchEngine";
     private static final String TEMPLATE_RESULTS = "skin/search/search_results.html";
     private static final String PROPERTY_SEARCH_PAGE_URL = "search.pageSearch.baseUrl";
     private static final String PROPERTY_RESULTS_PER_PAGE = "search.nb.docs.per.page";
@@ -115,10 +115,10 @@ public class SearchApp implements XPageApplication
 
         SearchEngine engine = (SearchEngine) SpringContextService.getBean( BEAN_SEARCH_ENGINE );
         List<SearchResult> listResults = engine.getSearchResults( strQuery );
-        
+
         // Notify results infos to QueryEventListeners 
-        notifyQueryListeners( strQuery , listResults.size() , request );
-        
+        notifyQueryListeners( strQuery, listResults.size(  ), request );
+
         UrlItem url = new UrlItem( strSearchPageUrl );
         url.addParameter( PARAMETER_QUERY, strQuery );
         url.addParameter( PARAMETER_NB_ITEMS_PER_PAGE, nNbItemsPerPage );
@@ -141,19 +141,19 @@ public class SearchApp implements XPageApplication
 
         return page;
     }
-    
+
     /**
      * Notify all query Listeners
      * @param strQuery The query
      * @param nResultsCount The results count
      * @param request The request
      */
-    private void notifyQueryListeners( String strQuery , int nResultsCount , HttpServletRequest request )
+    private void notifyQueryListeners( String strQuery, int nResultsCount, HttpServletRequest request )
     {
-        QueryEvent event = new QueryEvent();
+        QueryEvent event = new QueryEvent(  );
         event.setQuery( strQuery );
         event.setResultsCount( nResultsCount );
         event.setRequest( request );
-        QueryListenersService.getInstance().notifyListeners( event );
+        QueryListenersService.getInstance(  ).notifyListeners( event );
     }
 }

@@ -54,8 +54,7 @@ public final class ModeDAO implements IModeDAO
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_mode WHERE id_mode = ?";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_mode SET description_mode = ?, path = ?, " +
         " output_xsl_method = ? , output_xsl_version = ?, output_xsl_media_type = ?, output_xsl_encoding = ?, " +
-        " output_xsl_indent = ?, output_xsl_omit_xml_dec = ?, output_xsl_standalone = ?" +
-        " WHERE id_mode = ?";
+        " output_xsl_indent = ?, output_xsl_omit_xml_dec = ?, output_xsl_standalone = ?" + " WHERE id_mode = ?";
     private static final String SQL_QUERY_SELECTALL = " SELECT id_mode, description_mode, path, output_xsl_method, output_xsl_version, output_xsl_media_type, " +
         " output_xsl_encoding, output_xsl_indent, output_xsl_omit_xml_dec, output_xsl_standalone " +
         " FROM core_mode ORDER BY id_mode";

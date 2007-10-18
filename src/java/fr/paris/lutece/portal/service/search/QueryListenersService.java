@@ -34,61 +34,65 @@
 package fr.paris.lutece.portal.service.search;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.util.ArrayList;
+
 
 /**
  * QueryListenersService
  */
 public class QueryListenersService
 {
-    private static ArrayList<QueryEventListener> _listListeners = new ArrayList<QueryEventListener>();
+    private static ArrayList<QueryEventListener> _listListeners = new ArrayList<QueryEventListener>(  );
     private static QueryListenersService _singleton;
+
     /**
      * Creates a new instance of QueryListenersService
      */
-    private QueryListenersService()
+    private QueryListenersService(  )
     {
     }
-    
+
     /**
      * Returns the unique instance of the service
      * @return The instance of the service
      */
-    public static QueryListenersService getInstance()
+    public static QueryListenersService getInstance(  )
     {
-        if( _singleton == null )
+        if ( _singleton == null )
         {
-            _singleton = new QueryListenersService();
+            _singleton = new QueryListenersService(  );
         }
+
         return _singleton;
     }
-    
+
     /**
      * Register a new listener
-     * @param listener 
+     * @param listener
      */
     public void registerQueryListener( QueryEventListener listener )
     {
         _listListeners.add( listener );
-        AppLogService.info( "New Query Event Listener registered : " + listener.getClass().getName() );
+        AppLogService.info( "New Query Event Listener registered : " + listener.getClass(  ).getName(  ) );
     }
-    
+
     /**
      * Notify all registered listeners
      * @param event The query event to notify
      */
     public void notifyListeners( QueryEvent event )
     {
-        for( QueryEventListener listener : _listListeners )
+        for ( QueryEventListener listener : _listListeners )
         {
             try
             {
                 listener.processQueryEvent( event );
             }
-            catch( Exception e)
+            catch ( Exception e )
             {
                 // Catch any exception in order to stay in the loop to notify all listeners
-                AppLogService.error( "Error while processing query event : " + e.getMessage() , e );
+                AppLogService.error( "Error while processing query event : " + e.getMessage(  ), e );
             }
         }
     }

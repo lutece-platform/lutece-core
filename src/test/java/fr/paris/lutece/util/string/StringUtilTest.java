@@ -35,85 +35,80 @@ package fr.paris.lutece.util.string;
 
 import fr.paris.lutece.LuteceTestCase;
 
+
 /**
  * StringUtil Test Class
- * 
+ *
  */
 public class StringUtilTest extends LuteceTestCase
 {
-    
     /**
      * Test of substitute method, of class fr.paris.lutece.util.string.StringUtil.
      */
-    public void testSubstitute()
+    public void testSubstitute(  )
     {
-        System.out.println("substitute");
-        
+        System.out.println( "substitute" );
+
         String strSource = "Hello, @name@";
         String strValue = "World";
         String strBookmark = "@name@";
-        
+
         String expResult = "Hello, World";
-        String result = fr.paris.lutece.util.string.StringUtil.substitute(strSource, strValue, strBookmark);
-        assertEquals(expResult, result);
-        
+        String result = fr.paris.lutece.util.string.StringUtil.substitute( strSource, strValue, strBookmark );
+        assertEquals( expResult, result );
     }
 
     /**
      * Test of replaceAccent method, of class fr.paris.lutece.util.string.StringUtil.
      */
-    public void testReplaceAccent()
+    public void testReplaceAccent(  )
     {
-        System.out.println("replaceAccent");
-        
+        System.out.println( "replaceAccent" );
+
         String strInit = "Hello, World";
-        
+
         String expResult = "Hello, World";
-        String result = fr.paris.lutece.util.string.StringUtil.replaceAccent(strInit);
-        assertEquals(expResult, result);
-        
+        String result = fr.paris.lutece.util.string.StringUtil.replaceAccent( strInit );
+        assertEquals( expResult, result );
     }
 
     /**
      * Test of containsHtmlSpecialCharacters method, of class fr.paris.lutece.util.string.StringUtil.
      */
-    public void testContainsHtmlSpecialCharacters()
+    public void testContainsHtmlSpecialCharacters(  )
     {
-        System.out.println("containsHtmlSpecialCharacters");
-        
+        System.out.println( "containsHtmlSpecialCharacters" );
+
         String strValue = "<";
-        
+
         boolean expResult = true;
-        boolean result = fr.paris.lutece.util.string.StringUtil.containsHtmlSpecialCharacters(strValue);
-        assertEquals(expResult, result);
+        boolean result = fr.paris.lutece.util.string.StringUtil.containsHtmlSpecialCharacters( strValue );
+        assertEquals( expResult, result );
     }
 
     /**
      * Test of containsXssCharacters method, of class fr.paris.lutece.util.string.StringUtil.
      */
-    public void testContainsXssCharacters()
+    public void testContainsXssCharacters(  )
     {
-        System.out.println("containsXssCharacters");
-        
+        System.out.println( "containsXssCharacters" );
+
         String strValue = "<";
-        
+
         boolean expResult = true;
-        boolean result = fr.paris.lutece.util.string.StringUtil.containsXssCharacters(strValue);
-        assertEquals(expResult, result);
-        
+        boolean result = fr.paris.lutece.util.string.StringUtil.containsXssCharacters( strValue );
+        assertEquals( expResult, result );
     }
 
     /**
      * Test of getXssCharactersAsString method, of class fr.paris.lutece.util.string.StringUtil.
      */
-    public void testGetXssCharactersAsString()
+    public void testGetXssCharactersAsString(  )
     {
-        System.out.println("getXssCharactersAsString");
-        
-        String result = fr.paris.lutece.util.string.StringUtil.getXssCharactersAsString();
+        System.out.println( "getXssCharactersAsString" );
+
+        String result = fr.paris.lutece.util.string.StringUtil.getXssCharactersAsString(  );
         // The result should not be empty
-        assertTrue( result.length() > 0 );
-        
+        assertTrue( result.length(  ) > 0 );
     }
-    
 }

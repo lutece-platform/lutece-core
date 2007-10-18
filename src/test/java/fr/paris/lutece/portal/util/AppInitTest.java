@@ -33,13 +33,12 @@
  */
 package fr.paris.lutece.portal.util;
 
+import fr.paris.lutece.LuteceTestCase;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import fr.paris.lutece.LuteceTestCase;
 
 import java.sql.Connection;
 
@@ -71,8 +70,8 @@ public class AppInitTest extends LuteceTestCase
      */
     public void testInitConfigProperties(  )
     {
-//        assertNotNull( AppPropertiesService.getProperty( "webapp.path" ) );
-//        assertNotNull( AppPropertiesService.getProperty( "lutece.webapp.url" ) );
+        //        assertNotNull( AppPropertiesService.getProperty( "webapp.path" ) );
+        //        assertNotNull( AppPropertiesService.getProperty( "lutece.webapp.url" ) );
     }
 
     /**
@@ -102,20 +101,18 @@ public class AppInitTest extends LuteceTestCase
         assertNotNull( connection );
         AppConnectionService.freeConnection( connection );
     }
-    
+
     /**
      * Test LuteceInitException
-     */ 
+     */
     public void testLuteceInitException(  )
     {
         try
         {
-            throw new LuteceInitException( "Test LuteceInitException" , new Exception( "Test LuteceInitException" ));
+            throw new LuteceInitException( "Test LuteceInitException", new Exception( "Test LuteceInitException" ) );
         }
-        catch( LuteceInitException e )
+        catch ( LuteceInitException e )
         {
-        	
         }
-                       
     }
 }

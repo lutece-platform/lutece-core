@@ -33,8 +33,9 @@
  */
 package fr.paris.lutece.portal.service.spring;
 
-import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
+
 
 /**
  * SpringContextService Test Class
@@ -44,14 +45,13 @@ public class SpringContextServiceTest extends LuteceTestCase
     /**
      * Test of getBean method, of class fr.paris.lutece.portal.service.spring.SpringContextService.
      */
-    public void testGetBean()
+    public void testGetBean(  )
     {
-        System.out.println("getBean");
-        
+        System.out.println( "getBean" );
+
         String strName = "adminAuthenticationModule";
-        
-        Object result = SpringContextService.getBean(strName);
+
+        Object result = SpringContextService.getBean( strName );
         assertTrue( LuteceDefaultAdminAuthentication.class.isInstance( result ) );
     }
-    
 }

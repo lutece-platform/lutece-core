@@ -33,29 +33,29 @@
  */
 package fr.paris.lutece.portal.web.xpages;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.LuteceTestCase;
 import fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+
 
 /**
  * SiteMap Test Class
  */
 public class SiteMapAppTest extends LuteceTestCase
 {
-    
     /**
      * Test of getPage method, of class fr.paris.lutece.portal.web.xpages.SiteMapApp.
      */
-    public void testGetPage()
+    public void testGetPage(  )
     {
-        System.out.println("getPage");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
+        System.out.println( "getPage" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
         int nMode = 0;
         Plugin plugin = null;
-        fr.paris.lutece.portal.web.xpages.SiteMapApp instance = new fr.paris.lutece.portal.web.xpages.SiteMapApp();
-        
+        fr.paris.lutece.portal.web.xpages.SiteMapApp instance = new fr.paris.lutece.portal.web.xpages.SiteMapApp(  );
+
         fr.paris.lutece.portal.web.xpages.XPage expResult = null;
-        fr.paris.lutece.portal.web.xpages.XPage result = instance.getPage(request, nMode, plugin);
-    }    
+        fr.paris.lutece.portal.web.xpages.XPage result = instance.getPage( request, nMode, plugin );
+    }
 }

@@ -33,12 +33,10 @@
  */
 package fr.paris.lutece.portal.business;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 import fr.paris.lutece.portal.business.features.FeaturesTest;
+import fr.paris.lutece.portal.business.portalcomponent.PortalComponentTest;
 import fr.paris.lutece.portal.business.portlet.AliasPortletTest;
 import fr.paris.lutece.portal.business.portlet.PortletTypeTest;
-import fr.paris.lutece.portal.business.portalcomponent.PortalComponentTest;
 import fr.paris.lutece.portal.business.rbac.AdminRoleTest;
 import fr.paris.lutece.portal.business.rbac.RBACTest;
 import fr.paris.lutece.portal.business.right.FeatureGroupTest;
@@ -49,6 +47,9 @@ import fr.paris.lutece.portal.business.style.PageTemplateTest;
 import fr.paris.lutece.portal.business.style.StyleTest;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheetTest;
 import fr.paris.lutece.portal.business.user.AdminUserTest;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 
 /**
@@ -66,8 +67,8 @@ public final class AllTests
 
         //$JUnit-BEGIN$
         suite.addTest( new TestSuite( FeaturesTest.class ) );
-        suite.addTest( new TestSuite( PortalComponentTest.class ) );        
-        suite.addTest( new TestSuite( AliasPortletTest.class ) );   
+        suite.addTest( new TestSuite( PortalComponentTest.class ) );
+        suite.addTest( new TestSuite( AliasPortletTest.class ) );
         suite.addTest( new TestSuite( PortletTypeTest.class ) );
         suite.addTest( new TestSuite( AdminRoleTest.class ) );
         suite.addTest( new TestSuite( RBACTest.class ) );

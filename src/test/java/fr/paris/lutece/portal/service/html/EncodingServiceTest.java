@@ -31,10 +31,10 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.html;
 
 import fr.paris.lutece.LuteceTestCase;
+
 
 /**
  * EncodingService Test Class
@@ -44,28 +44,25 @@ public class EncodingServiceTest extends LuteceTestCase
     /**
      * Test of encodeUrl method, of class fr.paris.lutece.portal.service.html.EncodingService.
      */
-    public void testEncodeUrl()
+    public void testEncodeUrl(  )
     {
-        System.out.println("encodeUrl");
-        
+        System.out.println( "encodeUrl" );
+
         String strSource = "Hello, world";
-        
+
         String expResult = "Hello%2C+world";
-        String result = EncodingService.encodeUrl(strSource);
-        assertEquals(expResult, result);
-        
+        String result = EncodingService.encodeUrl( strSource );
+        assertEquals( expResult, result );
     }
 
     /**
      * Test of getEncoding method, of class fr.paris.lutece.portal.service.html.EncodingService.
      */
-    public void testGetEncoding()
+    public void testGetEncoding(  )
     {
-        System.out.println("getEncoding");
-        
-        String result = EncodingService.getEncoding();
+        System.out.println( "getEncoding" );
+
+        String result = EncodingService.getEncoding(  );
         assertNotNull( result );
-        
     }
-    
 }

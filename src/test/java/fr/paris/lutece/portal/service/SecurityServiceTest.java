@@ -33,10 +33,9 @@
  */
 package fr.paris.lutece.portal.service;
 
-import fr.paris.lutece.portal.service.security.SecurityService;
-
 import fr.paris.lutece.LuteceTestCase;
 import fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.portal.service.security.SecurityService;
 
 import javax.security.auth.login.*;
 
@@ -55,12 +54,13 @@ public class SecurityServiceTest extends LuteceTestCase
         MokeHttpServletRequest request = new MokeHttpServletRequest(  );
         String strUserName = "";
         String strPassword = "";
-        if( SecurityService.isAuthenticationEnable() )
+
+        if ( SecurityService.isAuthenticationEnable(  ) )
         {
             try
             {
                 SecurityService.getInstance(  ).loginUser( request, strUserName, strPassword );
-                
+
                 // Exception should be thrown before this assertion
                 assertTrue( false );
             }

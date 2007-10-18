@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.mail;
 
 import java.io.Serializable;
+
 import java.util.Map;
 
 
@@ -45,7 +46,7 @@ public class MailItem implements Serializable
     public static final int FORMAT_HTML = 0; // Default
     public static final int FORMAT_TEXT = 1;
     public static final int FORMAT_HTML_WITH_ATTACHEMENTS = 2;
-    
+
     // Variables declarations
     private String _strRecipient;
     private String _strSenderName;
@@ -54,7 +55,7 @@ public class MailItem implements Serializable
     private String _strMessage;
     private int _nFormat;
     private Map _mapAttachements;
-    
+
     /**
      * Returns the Recipient
      *
@@ -64,7 +65,7 @@ public class MailItem implements Serializable
     {
         return _strRecipient;
     }
-    
+
     /**
      * Sets the Recipient
      *
@@ -74,7 +75,7 @@ public class MailItem implements Serializable
     {
         _strRecipient = strRecipient;
     }
-    
+
     /**
      * Returns the SenderName
      *
@@ -84,7 +85,7 @@ public class MailItem implements Serializable
     {
         return _strSenderName;
     }
-    
+
     /**
      * Sets the SenderName
      *
@@ -94,7 +95,7 @@ public class MailItem implements Serializable
     {
         _strSenderName = strSenderName;
     }
-    
+
     /**
      * Returns the SenderEmail
      *
@@ -104,7 +105,7 @@ public class MailItem implements Serializable
     {
         return _strSenderEmail;
     }
-    
+
     /**
      * Sets the SenderEmail
      *
@@ -114,7 +115,7 @@ public class MailItem implements Serializable
     {
         _strSenderEmail = strSenderEmail;
     }
-    
+
     /**
      * Returns the Subject
      *
@@ -124,7 +125,7 @@ public class MailItem implements Serializable
     {
         return _strSubject;
     }
-    
+
     /**
      * Sets the Subject
      *
@@ -134,7 +135,7 @@ public class MailItem implements Serializable
     {
         _strSubject = strSubject;
     }
-    
+
     /**
      * Returns the Message
      *
@@ -144,7 +145,7 @@ public class MailItem implements Serializable
     {
         return _strMessage;
     }
-    
+
     /**
      * Sets the Message
      *
@@ -154,17 +155,17 @@ public class MailItem implements Serializable
     {
         _strMessage = strMessage;
     }
-    
+
     /**
      * Returns the Format
      *
      * @return The Format
      */
-    public int getFormat()
+    public int getFormat(  )
     {
         return _nFormat;
     }
-    
+
     /**
      * Sets the Format
      *
@@ -174,17 +175,17 @@ public class MailItem implements Serializable
     {
         _nFormat = nFormat;
     }
-    
+
     /**
      * Returns the Attachements map
      *
      * @return The Attachements Map
      */
-    public Map getAttachements()
+    public Map getAttachements(  )
     {
         return _mapAttachements;
     }
-    
+
     /**
      * Sets the MapAttachements
      *
@@ -194,5 +195,4 @@ public class MailItem implements Serializable
     {
         _mapAttachements = mapAttachements;
     }
-    
 }

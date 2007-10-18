@@ -226,7 +226,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         PortletType portletType = PortletTypeHome.findByPrimaryKey( strPortletTypeId );
         Locale locale = getLocale(  );
         portletType.setLocale( locale );
-        
+
         model.put( MARK_PORTLET_TYPE, portletType );
         model.put( MARK_PORTLET_PAGE_ID, strPageId );
         model.put( MARK_PORTLET_ORDER_COMBO, getOrdersList(  ) );

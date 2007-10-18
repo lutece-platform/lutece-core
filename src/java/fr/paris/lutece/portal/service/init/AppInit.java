@@ -122,7 +122,7 @@ public final class AppInit
             AppLogService.info( "Creating connexions pool 'portal'." );
 
             AdminMailingListService.init(  );
-            
+
             // Initializes Search Engine Indexation Service
             IndexationService.init(  );
 

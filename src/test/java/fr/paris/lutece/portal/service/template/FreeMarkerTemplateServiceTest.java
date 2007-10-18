@@ -33,8 +33,9 @@
  */
 package fr.paris.lutece.portal.service.template;
 
-import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.util.html.HtmlTemplate;
+
 
 /**
  *
@@ -45,38 +46,35 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
     /**
      * Test of init method, of class fr.paris.lutece.portal.service.template.FreeMarkerTemplateService.
      */
-    public void testInit()
+    public void testInit(  )
     {
-        System.out.println("init");
-        
+        System.out.println( "init" );
+
         String strTemplatePath = "WEB-INF/templates/";
-        
-        FreeMarkerTemplateService.init(strTemplatePath);
+
+        FreeMarkerTemplateService.init( strTemplatePath );
     }
 
     /**
      * Test of loadTemplate method, of class fr.paris.lutece.portal.service.template.FreeMarkerTemplateService.
      */
-    public void testLoadTemplate()
+    public void testLoadTemplate(  )
     {
-        System.out.println("loadTemplate");
-        
+        System.out.println( "loadTemplate" );
+
         String strPath = "WEB-INF/templates/";
         String strTemplate = "skin/site/page_frameset.html";
-        
-        HtmlTemplate result = FreeMarkerTemplateService.loadTemplate(strPath, strTemplate);
-        
+
+        HtmlTemplate result = FreeMarkerTemplateService.loadTemplate( strPath, strTemplate );
     }
 
     /**
      * Test of resetCache method, of class fr.paris.lutece.portal.service.template.FreeMarkerTemplateService.
      */
-    public void testResetCache()
+    public void testResetCache(  )
     {
-        System.out.println("resetCache");
-        
-        FreeMarkerTemplateService.resetCache();
-    }
+        System.out.println( "resetCache" );
 
-    
+        FreeMarkerTemplateService.resetCache(  );
+    }
 }

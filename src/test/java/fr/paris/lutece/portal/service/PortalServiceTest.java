@@ -33,11 +33,10 @@
  */
 package fr.paris.lutece.portal.service;
 
-import fr.paris.lutece.portal.service.message.SiteMessageException;
-import fr.paris.lutece.portal.service.portal.PortalService;
-
 import fr.paris.lutece.LuteceTestCase;
 import fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.portal.PortalService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -48,13 +47,15 @@ public class PortalServiceTest extends LuteceTestCase
     {
         HttpServletRequest request = new MokeHttpServletRequest(  );
         int nMode = 0;
-        try 
+
+        try
         {
-			PortalService.getDefaultPage( request, nMode );
-		} 
-        catch (SiteMessageException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            PortalService.getDefaultPage( request, nMode );
+        }
+        catch ( SiteMessageException e )
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace(  );
+        }
     }
 }

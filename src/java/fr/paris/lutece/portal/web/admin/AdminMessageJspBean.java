@@ -70,7 +70,8 @@ public class AdminMessageJspBean
         if ( message == null )
         {
             message = new AdminMessage( Messages.MESSAGE_ERROR_SESSION, null, PROPERTY_TITLE_ERROR,
-                    AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ), "", AdminMessage.TYPE_ERROR, false, null );
+                    AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ), "", AdminMessage.TYPE_ERROR, false,
+                    null );
         }
 
         model.put( MARK_MESSAGE, message );
@@ -79,9 +80,6 @@ public class AdminMessageJspBean
         model.put( MARK_URL, message.getUrl(  ) );
         model.put( MARK_TARGET, message.getTarget(  ) );
         model.put( MARK_REQUEST_PARAMETERS, message.getRequestParameters(  ) );
-
-        
-        
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MESSAGE, locale, model );
 

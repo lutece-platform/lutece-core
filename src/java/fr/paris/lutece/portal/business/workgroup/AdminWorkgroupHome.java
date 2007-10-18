@@ -134,8 +134,7 @@ public final class AdminWorkgroupHome
     {
         return _dao.isUserInWorkgroup( user.getUserId(  ), strWorkgroup );
     }
-    
-    
+
     /**
      * Is the user member of the workgroup
      * @param nIdUser The user identifier
@@ -143,7 +142,7 @@ public final class AdminWorkgroupHome
     public static boolean checkUserHasWorkgroup( int nIdUser )
     {
         return _dao.checkUserHasWorkgroup( nIdUser );
-    }    
+    }
 
     /**
      * Returns the list of all workgroups the user is member

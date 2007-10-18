@@ -36,20 +36,20 @@ package fr.paris.lutece.portal.service.mailinglist;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
 
+
 /**
  * MailingListRemovalListenerService
  */
 public class MailingListRemovalListenerService
 {
     private static final String BEAN_MAILINGLIST_REMOVAL_SERVICE = "mailinglistRemovalService";
-    
+
     /**
      * Returns the removal service
      * @return The removal service
      */
-    public static RemovalListenerService getService()
+    public static RemovalListenerService getService(  )
     {
         return (RemovalListenerService) SpringContextService.getBean( BEAN_MAILINGLIST_REMOVAL_SERVICE );
     }
-    
 }

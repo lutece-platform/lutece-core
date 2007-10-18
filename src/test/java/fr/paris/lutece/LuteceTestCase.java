@@ -47,48 +47,47 @@ public class LuteceTestCase extends TestCase
 {
     protected static boolean _bInit = false;
     private String _strResourcesDir;
-    
-    public LuteceTestCase()
-    {
-        super();
-        _strResourcesDir = getClass().getResource("/").toString().replaceFirst("file:/", "").replaceFirst("test-classes/", "lutece/");
 
+    public LuteceTestCase(  )
+    {
+        super(  );
+        _strResourcesDir = getClass(  ).getResource( "/" ).toString(  ).replaceFirst( "file:/", "" )
+                               .replaceFirst( "test-classes/", "lutece/" );
     }
 
     public LuteceTestCase( String strTestName )
     {
         super( strTestName );
-        _strResourcesDir = getClass().getResource("/").toString().replaceFirst("file:/", "").replaceFirst("test-classes/", "lutece/");
+        _strResourcesDir = getClass(  ).getResource( "/" ).toString(  ).replaceFirst( "file:/", "" )
+                               .replaceFirst( "test-classes/", "lutece/" );
+    }
 
-    }
-    
-    public String getResourcesDir ( )
+    public String getResourcesDir(  )
     {
-    	return _strResourcesDir;
+        return _strResourcesDir;
     }
-    
-    public void setResourcesDir ( String strResourcesDir )
+
+    public void setResourcesDir( String strResourcesDir )
     {
-    	_strResourcesDir = strResourcesDir;
+        _strResourcesDir = strResourcesDir;
     }
-    
+
     protected void setUp(  ) throws Exception
     {
         super.setUp(  );
 
-        
         // Initializes Lutece services
         if ( !_bInit )
         {
-        	System.out.println("-------------resourcesDir------------"+_strResourcesDir);
+            System.out.println( "-------------resourcesDir------------" + _strResourcesDir );
             AppPathService.init( _strResourcesDir );
             AppInit.initServices( "/WEB-INF/conf/" );
-            
+
             _bInit = true;
-            System.out.println( "Lutece services initialized");
-            
+            System.out.println( "Lutece services initialized" );
         }
-        System.out.println( this.getName());
+
+        System.out.println( this.getName(  ) );
     }
 
     protected void tearDown(  ) throws Exception

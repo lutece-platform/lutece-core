@@ -4,12 +4,13 @@
  *
  * Created on 7 mai 2006, 19:55
  */
-
 package fr.paris.lutece.portal.service.plugin;
 
 import fr.paris.lutece.LuteceTestCase;
-import junit.framework.*;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+
+import junit.framework.*;
+
 
 /**
  *
@@ -17,23 +18,22 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
  */
 public class PluginFileTest extends LuteceTestCase
 {
-
-    public PluginFileTest(String testName)
+    public PluginFileTest( String testName )
     {
-        super(testName);
+        super( testName );
     }
 
-    protected void setUp() throws Exception
-    {
-    }
-
-    protected void tearDown() throws Exception
+    protected void setUp(  ) throws Exception
     {
     }
 
-    public static Test suite()
+    protected void tearDown(  ) throws Exception
     {
-        TestSuite suite = new TestSuite(PluginFileTest.class);
+    }
+
+    public static Test suite(  )
+    {
+        TestSuite suite = new TestSuite( PluginFileTest.class );
 
         return suite;
     }
@@ -41,17 +41,14 @@ public class PluginFileTest extends LuteceTestCase
     /**
      * Test of getName method, of class fr.paris.lutece.portal.service.PluginFile.
      */
-    public void testLoad() throws LuteceInitException
-	{
-        System.out.println("load");
+    public void testLoad(  ) throws LuteceInitException
+    {
+        System.out.println( "load" );
 
-        PluginFile instance = new PluginFile();
-        
+        PluginFile instance = new PluginFile(  );
+
         //TODO phath en dur...
-        String strFilename = getResourcesDir() + "../test-classes/plugin-test.xml";
+        String strFilename = getResourcesDir(  ) + "../test-classes/plugin-test.xml";
         instance.load( strFilename );
-
     }
-
-
 }

@@ -33,145 +33,150 @@
  */
 package fr.paris.lutece.portal.web.features;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.LuteceTestCase;
 import fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+
 
 /**
  * FeaturesGroupJspBeanTest Test Class
- * 
+ *
  */
-public class FeaturesGroupJspBeanTest extends LuteceTestCase 
+public class FeaturesGroupJspBeanTest extends LuteceTestCase
 {
-	private static final String PARAMETER_GROUP_ID = "group_id";
+    private static final String PARAMETER_GROUP_ID = "group_id";
     private static final String TEST_GROUP_ID = "CONTENT"; // content feautures_group 
 
     /**
      * Test of getManageFeatures method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
-    public void testGetManageFeatures() throws AccessDeniedException
+    public void testGetManageFeatures(  ) throws AccessDeniedException
     {
-        System.out.println("getManageFeatures");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        FeaturesGroupJspBean instance = new FeaturesGroupJspBean();
-        instance.init( request , FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        System.out.println( "getManageFeatures" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+
+        FeaturesGroupJspBean instance = new FeaturesGroupJspBean(  );
+        instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         instance.getManageFeatures( request );
     }
-    
+
     /**
      * Test of getManageGroups method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
-    public void testGetManageGroups() throws AccessDeniedException
+    public void testGetManageGroups(  ) throws AccessDeniedException
     {
-        System.out.println("getManageGroups");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        FeaturesGroupJspBean instance = new FeaturesGroupJspBean();
-        instance.init( request , FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        System.out.println( "getManageGroups" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+
+        FeaturesGroupJspBean instance = new FeaturesGroupJspBean(  );
+        instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         instance.getManageGroups( request );
-    }    
-    
-    
+    }
+
     /**
      * Test of getDispatchFeatures method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
-    public void testGetDispatchFeatures() throws AccessDeniedException
+    public void testGetDispatchFeatures(  ) throws AccessDeniedException
     {
-        System.out.println("getDispatchFeatures");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        FeaturesGroupJspBean instance = new FeaturesGroupJspBean();
-        instance.init( request , FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        System.out.println( "getDispatchFeatures" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+
+        FeaturesGroupJspBean instance = new FeaturesGroupJspBean(  );
+        instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         instance.getDispatchFeatures( request );
-    }     
-    
+    }
+
     /**
      * Test of doDispatchFeature method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
-    public void testDoDispatchFeature()
+    public void testDoDispatchFeature(  )
     {
-        System.out.println("doDispatchFeature");
+        System.out.println( "doDispatchFeature" );
 
         // Not implemented yet
-    }      
-    
+    }
+
     /**
      * Test of getCreateGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
-    public void testGetCreateGroup() throws AccessDeniedException
+    public void testGetCreateGroup(  ) throws AccessDeniedException
     {
-        System.out.println("getCreateGroup");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();        
-        request.registerAdminUserWithRigth( new AdminUser() , FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        FeaturesGroupJspBean instance = new FeaturesGroupJspBean();
-        instance.init( request , FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        System.out.println( "getCreateGroup" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+
+        FeaturesGroupJspBean instance = new FeaturesGroupJspBean(  );
+        instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         instance.getCreateGroup( request );
     }
-    
+
     /**
      * Test of getModifyGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
-    public void testGetModifyGroup() throws AccessDeniedException
+    public void testGetModifyGroup(  ) throws AccessDeniedException
     {
-        System.out.println("getModifyGroup");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.addMokeParameters( PARAMETER_GROUP_ID , TEST_GROUP_ID );
-        request.registerAdminUserWithRigth( new AdminUser() , FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        FeaturesGroupJspBean instance = new FeaturesGroupJspBean();
-        instance.init( request , FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        System.out.println( "getModifyGroup" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.addMokeParameters( PARAMETER_GROUP_ID, TEST_GROUP_ID );
+        request.registerAdminUserWithRigth( new AdminUser(  ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+
+        FeaturesGroupJspBean instance = new FeaturesGroupJspBean(  );
+        instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         instance.getModifyGroup( request );
     }
-    
+
     /**
      * Test of doCreateGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
-    public void testDoCreateGroup()
+    public void testDoCreateGroup(  )
     {
-        System.out.println("doCreateGroup");
+        System.out.println( "doCreateGroup" );
 
         // Not implemented yet
-    }  
-    
+    }
+
     /**
      * Test of doModifyGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
-    public void testDoModifyGroup()
+    public void testDoModifyGroup(  )
     {
-        System.out.println("doModifyGroup");
+        System.out.println( "doModifyGroup" );
 
         // Not implemented yet
-    }       
-    
+    }
+
     /**
      * Test of getRemoveGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
-    public void testGetRemoveGroup() throws AccessDeniedException
+    public void testGetRemoveGroup(  ) throws AccessDeniedException
     {
-        System.out.println("getRemoveGroup");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.addMokeParameters( PARAMETER_GROUP_ID , TEST_GROUP_ID );
-        request.registerAdminUserWithRigth( new AdminUser() , FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        FeaturesGroupJspBean instance = new FeaturesGroupJspBean();
-        instance.init( request , FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        System.out.println( "getRemoveGroup" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.addMokeParameters( PARAMETER_GROUP_ID, TEST_GROUP_ID );
+        request.registerAdminUserWithRigth( new AdminUser(  ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+
+        FeaturesGroupJspBean instance = new FeaturesGroupJspBean(  );
+        instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         instance.getRemoveGroup( request );
-    }    
-    
+    }
+
     /**
      * Test of doRemoveGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
-    public void testDoRemoveGroup()
+    public void testDoRemoveGroup(  )
     {
-        System.out.println("doRemoveGroup");
+        System.out.println( "doRemoveGroup" );
 
         // Not implemented yet
-    }       
-        
+    }
 }

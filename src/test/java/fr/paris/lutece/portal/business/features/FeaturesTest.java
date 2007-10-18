@@ -31,45 +31,44 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.business.features;
 
-import java.util.Collection;
 import fr.paris.lutece.LuteceTestCase;
+
+import java.util.Collection;
+
 
 public class FeaturesTest extends LuteceTestCase
 {
     private final static String NAME1 = "Level 1 JUnit";
     private final static String NAME2 = "Level 2 JUnit";
 
-
     public void testBusinessLevel(  )
     {
         // Initialize an object
-        Level level = new Level();
+        Level level = new Level(  );
         level.setName( NAME1 );
 
         // Create test
         LevelHome.create( level );
-        Level levelStored = LevelHome.findByPrimaryKey( level.getId() );
-        assertEquals( levelStored.getName() , level.getName() );
+
+        Level levelStored = LevelHome.findByPrimaryKey( level.getId(  ) );
+        assertEquals( levelStored.getName(  ), level.getName(  ) );
 
         // Update test
         level.setName( NAME2 );
 
         LevelHome.update( level );
-        levelStored = LevelHome.findByPrimaryKey( level.getId() );
-        assertEquals( levelStored.getName() , level.getName() );
+        levelStored = LevelHome.findByPrimaryKey( level.getId(  ) );
+        assertEquals( levelStored.getName(  ), level.getName(  ) );
 
         // Delete test
-        LevelHome.remove( level.getId() );
-        levelStored = LevelHome.findByPrimaryKey( level.getId() );
+        LevelHome.remove( level.getId(  ) );
+        levelStored = LevelHome.findByPrimaryKey( level.getId(  ) );
         assertNull( levelStored );
-        
+
         // List Test
-        Collection list = LevelHome.getLevelsList();
-        assertTrue( list.size() > 0 );
+        Collection list = LevelHome.getLevelsList(  );
+        assertTrue( list.size(  ) > 0 );
     }
 }
-
- 

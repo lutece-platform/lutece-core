@@ -31,11 +31,12 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.security;
 
-import java.util.ArrayList;
 import fr.paris.lutece.LuteceTestCase;
+
+import java.util.ArrayList;
+
 
 /**
  * LuteceUserTest
@@ -46,26 +47,28 @@ public class LuteceUserTest extends LuteceTestCase
     private static final String ROLE1 = "ROLE1";
     private static final String ROLE2 = "ROLE2";
     private static final String EMAIL = "EMAIL";
-    
-    public void testLuteceUser()
-    {
-        MokeLuteceAuthentication auth = new MokeLuteceAuthentication();
 
-        MokeLuteceUser user = new MokeLuteceUser( NAME , auth );
+    public void testLuteceUser(  )
+    {
+        MokeLuteceAuthentication auth = new MokeLuteceAuthentication(  );
+
+        MokeLuteceUser user = new MokeLuteceUser( NAME, auth );
         user.setName( NAME );
-        ArrayList<String> listRoles = new ArrayList();
+
+        ArrayList<String> listRoles = new ArrayList(  );
         listRoles.add( ROLE1 );
         listRoles.add( ROLE2 );
         user.setRoles( listRoles );
-        user.setUserInfo( LuteceUser.BUSINESS_INFO_ONLINE_EMAIL , EMAIL );
-        assertEquals( user.getName() , NAME );
-        String[] roles = user.getRoles();
+        user.setUserInfo( LuteceUser.BUSINESS_INFO_ONLINE_EMAIL, EMAIL );
+        assertEquals( user.getName(  ), NAME );
+
+        String[] roles = user.getRoles(  );
         assertTrue( roles.length == 2 );
+
         String strEmail = user.getUserInfo( LuteceUser.BUSINESS_INFO_ONLINE_EMAIL );
-        assertEquals( strEmail , EMAIL );
-        user.getUserInfos();
-        user.getAuthenticationService();
-        user.getAuthenticationType();
-        
+        assertEquals( strEmail, EMAIL );
+        user.getUserInfos(  );
+        user.getAuthenticationService(  );
+        user.getAuthenticationType(  );
     }
 }

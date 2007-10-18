@@ -33,32 +33,32 @@
  */
 package fr.paris.lutece.portal.service;
 
+import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.MokeHttpServletRequest;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
-import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.LuteceTestCase;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
+import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.util.Collection;
 import java.util.HashMap;
-
-import fr.paris.lutece.MokeHttpServletRequest;
 
 
 public class PageIncludeServiceTest extends LuteceTestCase
 {
-    public void testPageIncludes()
+    public void testPageIncludes(  )
     {
-        Collection<PageInclude> listIncludes = PageIncludeService.getIncludes();
+        Collection<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
         // Assert default includes are loaded
-        assertTrue( listIncludes.size() > 2 );
-        
-        for( PageInclude pis : listIncludes )
+        assertTrue( listIncludes.size(  ) > 2 );
+
+        for ( PageInclude pis : listIncludes )
         {
             //HtmlTemplate template = new HtmlTemplate( "Dummy Template ");
             HashMap<String, String> mapTemplate = new HashMap<String, String>(  );
-            PageData pageData = new PageData();
-            MokeHttpServletRequest request = new MokeHttpServletRequest();
-            pis.fillTemplate( mapTemplate , pageData , 0 , request );
+            PageData pageData = new PageData(  );
+            MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+            pis.fillTemplate( mapTemplate, pageData, 0, request );
         }
     }
 }

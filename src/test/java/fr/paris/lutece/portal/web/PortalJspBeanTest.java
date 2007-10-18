@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.portal.web;
 
-import fr.paris.lutece.portal.service.security.SecurityService;
-import javax.servlet.http.HttpServletRequest;
 import fr.paris.lutece.LuteceTestCase;
 import fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.portal.service.security.SecurityService;
+
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * PortalJspBean Test Class
@@ -44,82 +46,80 @@ import fr.paris.lutece.MokeHttpServletRequest;
  */
 public class PortalJspBeanTest extends LuteceTestCase
 {
-    
     /**
      * Test of getContent method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
-    public void testGetContent() throws Exception
+    public void testGetContent(  ) throws Exception
     {
-        System.out.println("getContent");
-        
-        HttpServletRequest request = new MokeHttpServletRequest();
-        PortalJspBean instance = new PortalJspBean();
-        
-        String result = instance.getContent(request);
+        System.out.println( "getContent" );
+
+        HttpServletRequest request = new MokeHttpServletRequest(  );
+        PortalJspBean instance = new PortalJspBean(  );
+
+        String result = instance.getContent( request );
     }
-    
+
     /**
      * Test of getStartUpFailurePage method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
-    public void testGetStartUpFailurePage()
+    public void testGetStartUpFailurePage(  )
     {
-        System.out.println("getStartUpFailurePage");
-        
-        PortalJspBean instance = new PortalJspBean();
-        String result = instance.getStartUpFailurePage();
+        System.out.println( "getStartUpFailurePage" );
+
+        PortalJspBean instance = new PortalJspBean(  );
+        String result = instance.getStartUpFailurePage(  );
     }
-    
+
     /**
      * Test of getCredits method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
-    public void testGetCredits()
+    public void testGetCredits(  )
     {
-        System.out.println("getCredits");
-        
-        HttpServletRequest request = new MokeHttpServletRequest();
-        PortalJspBean instance = new PortalJspBean();
+        System.out.println( "getCredits" );
+
+        HttpServletRequest request = new MokeHttpServletRequest(  );
+        PortalJspBean instance = new PortalJspBean(  );
         String result = instance.getCredits( request );
     }
-    
+
     /**
      * Test of getLegalInfos method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
-    public void testGetLegalInfos()
+    public void testGetLegalInfos(  )
     {
-        System.out.println("getLegalInfos");
-        
-        HttpServletRequest request = new MokeHttpServletRequest();
-        PortalJspBean instance = new PortalJspBean();
+        System.out.println( "getLegalInfos" );
+
+        HttpServletRequest request = new MokeHttpServletRequest(  );
+        PortalJspBean instance = new PortalJspBean(  );
         String result = instance.getLegalInfos( request );
     }
-    
+
     /**
      * Test of redirectLogin method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
-    public void testRedirectLogin()
+    public void testRedirectLogin(  )
     {
-        System.out.println("redirectLogin");
-        
-        if( SecurityService.isAuthenticationEnable() )
+        System.out.println( "redirectLogin" );
+
+        if ( SecurityService.isAuthenticationEnable(  ) )
         {
-            HttpServletRequest request = new MokeHttpServletRequest();
-            PortalJspBean instance = new PortalJspBean();
-            String result = instance.redirectLogin(request);
+            HttpServletRequest request = new MokeHttpServletRequest(  );
+            PortalJspBean instance = new PortalJspBean(  );
+            String result = instance.redirectLogin( request );
         }
     }
-    
+
     /**
      * Test of getLoginNextUrl method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
-    public void testGetLoginNextUrl()
+    public void testGetLoginNextUrl(  )
     {
-        System.out.println("getLoginNextUrl");
-        
-        if( SecurityService.isAuthenticationEnable() )
+        System.out.println( "getLoginNextUrl" );
+
+        if ( SecurityService.isAuthenticationEnable(  ) )
         {
-            HttpServletRequest request = new MokeHttpServletRequest();
-            PortalJspBean.getLoginNextUrl(request);
+            HttpServletRequest request = new MokeHttpServletRequest(  );
+            PortalJspBean.getLoginNextUrl( request );
         }
     }
-    
 }

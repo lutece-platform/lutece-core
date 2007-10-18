@@ -69,6 +69,7 @@ public final class AllTests
         //$JUnit-BEGIN$
         suite.addTest( fr.paris.lutece.util.AllTests.suite(  ) );
         suite.addTest( fr.paris.lutece.portal.AllTests.suite(  ) );
+
         //suite.addTest( fr.paris.lutece.plugins.AllTests.suite(  ) );
 
         //$JUnit-END$

@@ -121,6 +121,7 @@ public final class AdminAuthenticationService
                 // User is not registered by Lutece, but it may be authenticated by another system
                 user = _authentication.getHttpAuthenticatedUser( request );
                 registerUser( request, user );
+
                 // Start a new session
                 throw new UserNotSignedException(  );
             }
@@ -137,6 +138,7 @@ public final class AdminAuthenticationService
                 {
                     unregisterUser( request );
                     registerUser( request, newUser );
+
                     // Start a new session
                     throw new UserNotSignedException(  );
                 }
@@ -210,8 +212,7 @@ public final class AdminAuthenticationService
      * @param user The current user
      * @throws UserNotSignedException
      */
-    private AdminUser bindUser( AdminUser user )
-        throws AccessDeniedException, UserNotSignedException
+    private AdminUser bindUser( AdminUser user ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUser bindUser = user;
 

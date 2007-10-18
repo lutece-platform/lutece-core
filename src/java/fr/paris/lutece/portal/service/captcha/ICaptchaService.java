@@ -45,7 +45,7 @@ public interface ICaptchaService
      * @see fr.paris.lutece.plugins.jcaptcha.service.IJCaptchaValidator#validate(javax.servlet.http.HttpServletRequest)
      */
     public abstract boolean validate( HttpServletRequest request );
-    
+
     /* (non-Javadoc)
      * @see fr.paris.lutece.plugins.jcaptcha.service.IJCaptchaValidator#getHtmlCode(javax.servlet.http.HttpServletRequest)
      */

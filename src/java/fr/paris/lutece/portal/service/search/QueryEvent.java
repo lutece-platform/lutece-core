@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.search;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
  * QueryEvent
  */
@@ -44,17 +45,17 @@ public class QueryEvent
     private String _strQuery;
     private int _nResultsCount;
     private HttpServletRequest _request;
-    
+
     /**
      * Returns the Query
      *
      * @return The Query
      */
-    public String getQuery()
+    public String getQuery(  )
     {
         return _strQuery;
     }
-    
+
     /**
      * Sets the Query
      *
@@ -64,38 +65,37 @@ public class QueryEvent
     {
         _strQuery = strQuery;
     }
-    
+
     /**
      * Returns the ResultsCount
      *
      * @return The ResultsCount
      */
-    public int getResultsCount()
+    public int getResultsCount(  )
     {
         return _nResultsCount;
     }
-    
+
     /**
      * Sets the ResultsCount
      *
      * @param nResultsCount The ResultsCount
      */
-    
     public void setResultsCount( int nResultsCount )
     {
         _nResultsCount = nResultsCount;
     }
-    
+
     /**
      * Returns the request
      *
      * @return The request
      */
-    public HttpServletRequest getRequest()
+    public HttpServletRequest getRequest(  )
     {
         return _request;
     }
-    
+
     /**
      * Sets the request
      *
@@ -105,5 +105,4 @@ public class QueryEvent
     {
         _request = request;
     }
-    
 }

@@ -36,40 +36,43 @@ package fr.paris.lutece.portal.service.mail;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * MemoryQueue
  */
 public class MemoryQueue implements IMailQueue
 {
     private List<MailItem> _listMails = new ArrayList<MailItem>(  );
-    
+
     /**
      * Put a mail item into the list of the queue
      * @param item The mail item to add to the queue
-     */ 
-    public void send( MailItem item)
+     */
+    public void send( MailItem item )
     {
-        synchronized( _listMails )
+        synchronized ( _listMails )
         {
             _listMails.add( item );
         }
     }
-    
+
     /**
      * Get a mail item from the list and remove it from the queue
      * @return The older mail item of the queue
-     */ 
-    public MailItem consume()
+     */
+    public MailItem consume(  )
     {
         MailItem item = null;
-        synchronized( _listMails )
+
+        synchronized ( _listMails )
         {
-            if( _listMails.size() > 0 )
-            {    
+            if ( _listMails.size(  ) > 0 )
+            {
                 item = _listMails.get( 0 );
                 _listMails.remove( 0 );
             }
         }
+
         return item;
     }
 }

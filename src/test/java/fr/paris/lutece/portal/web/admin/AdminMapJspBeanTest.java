@@ -33,34 +33,34 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.MokeHttpServletRequest;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.web.constants.Parameters;
-import fr.paris.lutece.LuteceTestCase;
-import fr.paris.lutece.MokeHttpServletRequest;
 
 
 /**
  * AdminMapJspBeanTest Test Class
- * 
+ *
  */
 public class AdminMapJspBeanTest extends LuteceTestCase
 {
-   private static final String TEST_PAGE_ID = "1"; // home page
-	
+    private static final String TEST_PAGE_ID = "1"; // home page
+
     /**
      * Test of getMap method, of class fr.paris.lutece.portal.web.admin.AdminMapJspBean.
      */
-    public void testGetMap() throws AccessDeniedException
+    public void testGetMap(  ) throws AccessDeniedException
     {
-        System.out.println("getMap");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
+        System.out.println( "getMap" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
         request.addMokeParameters( Parameters.PAGE_ID, TEST_PAGE_ID );
-        request.registerAdminUserWithRigth( new AdminUser() , AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
-        AdminMapJspBean instance = new AdminMapJspBean();
-        instance.init( request , AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
-        instance.getMap( request );        
+        request.registerAdminUserWithRigth( new AdminUser(  ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+
+        AdminMapJspBean instance = new AdminMapJspBean(  );
+        instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        instance.getMap( request );
     }
-        
 }

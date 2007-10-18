@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.service;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 import fr.paris.lutece.portal.service.html.EncodingServiceTest;
 import fr.paris.lutece.portal.service.html.HtmlCleanerServiceTest;
 import fr.paris.lutece.portal.service.i18n.I18nServiceTest;
@@ -45,6 +43,9 @@ import fr.paris.lutece.portal.service.security.LuteceUserTest;
 import fr.paris.lutece.portal.service.template.FreeMarkerTemplateServiceTest;
 import fr.paris.lutece.portal.service.util.AppLogServiceTest;
 import fr.paris.lutece.portal.service.util.AppPathServiceTest;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 
 /**
@@ -82,10 +83,10 @@ public final class AllTests
         suite.addTest( new TestSuite( PortalServiceTest.class ) );
         suite.addTest( new TestSuite( PageIncludeServiceTest.class ) );
         suite.addTest( new TestSuite( SecurityServiceTest.class ) );
-//        suite.addTest( new TestSuite( ImageResourceTest.class ) );
-        
+
+        //        suite.addTest( new TestSuite( ImageResourceTest.class ) );
+
         //$JUnit-END$
         return suite;
     }
 }
-

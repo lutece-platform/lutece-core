@@ -409,14 +409,15 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         boolean bResourceListAvailable = true;
         List listResources = resourceType.getResourceIdService(  ).getResourceIdList( getLocale(  ) );
-        if( ( listResources == null ) || ( listResources.size() == 0 ))
+
+        if ( ( listResources == null ) || ( listResources.size(  ) == 0 ) )
         {
             bResourceListAvailable = false;
         }
 
         model.put( MARK_ROLE_KEY, strRoleKey );
         model.put( MARK_RESOURCE_TYPE, strResourceType );
-        model.put( MARK_RESOURCE_LIST_AVAILABLE , bResourceListAvailable );
+        model.put( MARK_RESOURCE_LIST_AVAILABLE, bResourceListAvailable );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADD_CONTROL_TO_ROLE, getLocale(  ), model );
 

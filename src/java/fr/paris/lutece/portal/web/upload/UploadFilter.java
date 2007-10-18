@@ -227,7 +227,8 @@ public abstract class UploadFilter implements Filter
             {
                 if ( e instanceof SizeLimitExceededException )
                 {
-                    request.getRequestDispatcher( "/" + getMessageRelativeUrl( httpRequest ) ).forward( request, response );
+                    request.getRequestDispatcher( "/" + getMessageRelativeUrl( httpRequest ) ).forward( request,
+                        response );
                 }
                 else
                 {

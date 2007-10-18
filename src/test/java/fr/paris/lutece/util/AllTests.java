@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.util;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 import fr.paris.lutece.util.crypto.CryptoUtilTest;
 import fr.paris.lutece.util.date.DateUtilTest;
 import fr.paris.lutece.util.filesystem.FileSystemUtilTest;
@@ -42,6 +40,10 @@ import fr.paris.lutece.util.filesystem.UploadUtilTest;
 import fr.paris.lutece.util.html.PaginatorTest;
 import fr.paris.lutece.util.string.StringUtilTest;
 import fr.paris.lutece.util.url.UrlItemTest;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 
 /**
  * This class is the main test suite for the package fr.paris.lutece.util

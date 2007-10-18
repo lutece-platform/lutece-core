@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.util;
 
 import java.util.Locale;
 
+
 /**
  * RemovalListener
  */
@@ -46,12 +47,12 @@ public interface RemovalListener
      * @return true if the pbject can be removed otherwise false
      */
     public abstract boolean canBeRemoved( String id );
+
     /**
      * Gives a message explaining why the object can't be removed
      * @param id The object id
      * @param locale The current locale
      * @return The message
      */
-    public abstract String getRemovalRefusedMessage( String id , Locale locale );
-    
+    public abstract String getRemovalRefusedMessage( String id, Locale locale );
 }

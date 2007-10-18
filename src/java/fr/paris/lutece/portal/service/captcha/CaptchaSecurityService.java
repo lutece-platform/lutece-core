@@ -33,12 +33,13 @@
  */
 package fr.paris.lutece.portal.service.captcha;
 
-import javax.servlet.http.HttpServletRequest;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * Default captcha security service implementation
@@ -60,9 +61,8 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     {
         try
         {
-        	// first check if captchaValidator bean is available in the jcaptcha plugin context
-        	captchaService = (ICaptchaService) SpringContextService.getPluginBean( SPRING_CONTEXT_NAME,
-                    "captchaService" );
+            // first check if captchaValidator bean is available in the jcaptcha plugin context
+            captchaService = (ICaptchaService) SpringContextService.getPluginBean( SPRING_CONTEXT_NAME, "captchaService" );
             _bAvailable = captchaService != null;
         }
         catch ( NoSuchBeanDefinitionException e )
@@ -71,7 +71,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
         }
         catch ( CannotLoadBeanClassException e )
         {
-        	_bAvailable = false;
+            _bAvailable = false;
         }
     }
 
@@ -91,7 +91,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     {
         if ( isAvailable(  ) && isActive(  ) )
         {
-        	return captchaService.getHtmlCode();
+            return captchaService.getHtmlCode(  );
         }
         else
         {

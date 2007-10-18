@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.search;
 
 import java.util.List;
 
+
 /**
  * SearchEngine
  */
@@ -46,5 +47,4 @@ public interface SearchEngine
      * @return Results as a collection of SearchResult
      */
     public List<SearchResult> getSearchResults( String strQuery );
-    
 }

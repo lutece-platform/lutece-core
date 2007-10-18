@@ -97,14 +97,12 @@ public interface IAdminWorkgroupDAO
      */
     boolean isUserInWorkgroup( int nIdUser, String strWorkgroup );
 
-    
     /**
      * Is the user member of the workgroup
      * @param nIdUser The user Id
      */
     boolean checkUserHasWorkgroup( int nIdUser );
-    
-    
+
     /**
      * Returns the list of all workgroups the user is member
      * @param nIdUser The user Id

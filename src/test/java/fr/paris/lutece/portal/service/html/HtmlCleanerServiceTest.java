@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.html;
 
 import fr.paris.lutece.LuteceTestCase;
 
+
 /**
  * HtmlCleanerService Test Class
  */
@@ -43,31 +44,32 @@ public class HtmlCleanerServiceTest extends LuteceTestCase
     /**
      * Test of clean method, of class fr.paris.lutece.portal.service.html.HtmlCleanerService.
      */
-    public void testClean() throws HtmlCleanerException
+    public void testClean(  ) throws HtmlCleanerException
     {
-        System.out.println("clean");
-        
+        System.out.println( "clean" );
+
         //TODO expression de test en dure...
         String strSource = "<p><font color=red>Hello, World</font>";
+
         // Add double quote to attribute's values
         // Add ending tags
         String expResult = "<p style=\"color: red\">Hello, World</p>\r\n";
-        String result = HtmlCleanerService.clean(strSource);
-        assertEquals(expResult, result);
-        
+        String result = HtmlCleanerService.clean( strSource );
+        assertEquals( expResult, result );
+
         strSource = "<invalid tag>";
+
         boolean bExceptionCaught = false;
+
         try
         {
-            result = HtmlCleanerService.clean(strSource);
+            result = HtmlCleanerService.clean( strSource );
         }
-        catch (HtmlCleanerException ex)
+        catch ( HtmlCleanerException ex )
         {
             bExceptionCaught = true;
         }
+
         assertTrue( bExceptionCaught );
-        
     }
-    
-    
 }

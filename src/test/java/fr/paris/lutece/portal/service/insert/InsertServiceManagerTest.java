@@ -35,22 +35,18 @@ package fr.paris.lutece.portal.service.insert;
 
 import fr.paris.lutece.LuteceTestCase;
 
+
 /**
  * InsertServiceManager Test Class
  */
 public class InsertServiceManagerTest extends LuteceTestCase
 {
-    
     /**
      * Test of registerInsertService method, of class fr.paris.lutece.portal.service.insert.InsertServiceManager.
      */
-    public void testRegisterInsertService()
+    public void testRegisterInsertService(  )
     {
-        
-        System.out.println("getInsertServicesList");
-        InsertServiceManager.getInsertServicesList();
-        
+        System.out.println( "getInsertServicesList" );
+        InsertServiceManager.getInsertServicesList(  );
     }
-    
-    
 }

@@ -33,17 +33,15 @@
  */
 package fr.paris.lutece.portal.web;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 import fr.paris.lutece.portal.web.admin.AdminMapJspBeanTest;
 import fr.paris.lutece.portal.web.admin.AdminMenuJspBeanTest;
 import fr.paris.lutece.portal.web.admin.AdminMessageJspBeanTest;
 import fr.paris.lutece.portal.web.features.FeaturesGroupJspBeanTest;
+import fr.paris.lutece.portal.web.features.LevelsJspBeanTest;
 import fr.paris.lutece.portal.web.insert.InsertServiceJspBeanTest;
 import fr.paris.lutece.portal.web.insert.InsertServiceSelectorJspBeanTest;
 import fr.paris.lutece.portal.web.portlet.AliasPortletJspBeanTest;
 import fr.paris.lutece.portal.web.rbac.RoleManagementJspBeanTest;
-import fr.paris.lutece.portal.web.features.LevelsJspBeanTest;
 import fr.paris.lutece.portal.web.search.SearchAppTest;
 import fr.paris.lutece.portal.web.search.SearchIndexationJspBeanTest;
 import fr.paris.lutece.portal.web.style.ModesJspBeanTest;
@@ -53,6 +51,9 @@ import fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBeanTest;
 import fr.paris.lutece.portal.web.system.PluginJspBeanTest;
 import fr.paris.lutece.portal.web.system.SystemJspBeanTest;
 import fr.paris.lutece.portal.web.xpages.SiteMapAppTest;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 
 /**
@@ -69,7 +70,7 @@ public final class AllTests
         TestSuite suite = new TestSuite( "*** Tests Lutece core " );
 
         //$JUnit-BEGIN$
-//        suite.addTest( new TestSuite( AdminPageJspBeanTest.class ) );
+        //        suite.addTest( new TestSuite( AdminPageJspBeanTest.class ) );
         suite.addTest( new TestSuite( AdminMapJspBeanTest.class ) );
         suite.addTest( new TestSuite( AdminMenuJspBeanTest.class ) );
         suite.addTest( new TestSuite( AdminMessageJspBeanTest.class ) );
@@ -87,13 +88,11 @@ public final class AllTests
         suite.addTest( new TestSuite( StyleSheetJspBeanTest.class ) );
         suite.addTest( new TestSuite( PluginJspBeanTest.class ) );
         suite.addTest( new TestSuite( SystemJspBeanTest.class ) );
-        suite.addTest( new TestSuite( SiteMapAppTest.class ) );                
+        suite.addTest( new TestSuite( SiteMapAppTest.class ) );
         suite.addTest( new TestSuite( PortalJspBeanTest.class ) );
         suite.addTest( new TestSuite( StandaloneAppJspBeanTest.class ) );
-        
+
         //$JUnit-END$
         return suite;
     }
 }
-
-

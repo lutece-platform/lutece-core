@@ -90,6 +90,7 @@ public abstract class Plugin implements Comparable<Plugin>
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
     private ContentService _contentService;
+
     // Lists of rights and portlets of the plugin
     private List<XPageApplicationEntry> _listXPageApplications;
     private List<String> _listCssStyleSheets;
@@ -144,9 +145,9 @@ public abstract class Plugin implements Comparable<Plugin>
             _mapParams = pluginFile.getParams(  );
             _bDbPoolRequired = pluginFile.isDbPoolRequired(  );
 
-            _listCssStyleSheets = pluginFile.getCssStyleSheets();
-            _listJavascriptFiles = pluginFile.getJavascriptFiles();
-            
+            _listCssStyleSheets = pluginFile.getCssStyleSheets(  );
+            _listJavascriptFiles = pluginFile.getJavascriptFiles(  );
+
             // Register plugin components
             registerXPageApplications(  );
             registerContentServices(  );
@@ -879,7 +880,7 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         return _listCssStyleSheets;
     }
-    
+
     /**
      * Add an Javascript File to the plugin definition
      * @param strJavascriptFile The Javascript File path
@@ -888,7 +889,7 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         _listJavascriptFiles.add( strJavascriptFile );
     }
-    
+
     /**
      * Returns all Javascript File of the plugin
      * @return The list of Javascript File

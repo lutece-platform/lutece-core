@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.search;
 
+
 /**
  * SearchResult
  */
@@ -45,17 +46,17 @@ public class SearchResult
     private String _strTitle;
     private String _strSummary;
     private String _strType;
-    
+
     /**
      * Returns the Id
      *
      * @return The Id
      */
-    public String getId()
+    public String getId(  )
     {
         return _strId;
     }
-    
+
     /**
      * Sets the Id
      *
@@ -65,17 +66,17 @@ public class SearchResult
     {
         _strId = strId;
     }
-    
+
     /**
      * Returns the Date
      *
      * @return The Date
      */
-    public String getDate()
+    public String getDate(  )
     {
         return _strDate;
     }
-    
+
     /**
      * Sets the Date
      *
@@ -85,17 +86,17 @@ public class SearchResult
     {
         _strDate = strDate;
     }
-    
+
     /**
      * Returns the Url
      *
      * @return The Url
      */
-    public String getUrl()
+    public String getUrl(  )
     {
         return _strUrl;
     }
-    
+
     /**
      * Sets the Url
      *
@@ -105,17 +106,17 @@ public class SearchResult
     {
         _strUrl = strUrl;
     }
-    
+
     /**
      * Returns the Title
      *
      * @return The Title
      */
-    public String getTitle()
+    public String getTitle(  )
     {
         return _strTitle;
     }
-    
+
     /**
      * Sets the Title
      *
@@ -125,17 +126,17 @@ public class SearchResult
     {
         _strTitle = strTitle;
     }
-    
+
     /**
      * Returns the Summary
      *
      * @return The Summary
      */
-    public String getSummary()
+    public String getSummary(  )
     {
         return _strSummary;
     }
-    
+
     /**
      * Sets the Summary
      *
@@ -145,17 +146,17 @@ public class SearchResult
     {
         _strSummary = strSummary;
     }
-    
+
     /**
      * Returns the Type
      *
      * @return The Type
      */
-    public String getType()
+    public String getType(  )
     {
         return _strType;
     }
-    
+
     /**
      * Sets the Type
      *
@@ -165,5 +166,4 @@ public class SearchResult
     {
         _strType = strType;
     }
-    
 }

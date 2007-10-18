@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.web;
 
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.LuteceTestCase;
 import fr.paris.lutece.MokeHttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -45,27 +45,25 @@ import fr.paris.lutece.MokeHttpServletRequest;
  */
 public class StandaloneAppJspBeanTest extends LuteceTestCase
 {
-	    
     /**
      * Test of getContent method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
-    public void testGetContent() throws Exception
+    public void testGetContent(  ) throws Exception
     {
-        System.out.println("getContent");
-        
-        HttpServletRequest request = new MokeHttpServletRequest();
-        StandaloneAppJspBean instance = new StandaloneAppJspBean();
-	        
-        String result = instance.getContent(request);
+        System.out.println( "getContent" );
+
+        HttpServletRequest request = new MokeHttpServletRequest(  );
+        StandaloneAppJspBean instance = new StandaloneAppJspBean(  );
+
+        String result = instance.getContent( request );
     }
-    
-    
-    public void testGetPluginList()
+
+    public void testGetPluginList(  )
     {
-        System.out.println("getPluginList");
-        HttpServletRequest request = new MokeHttpServletRequest();
-        StandaloneAppJspBean instance = new StandaloneAppJspBean();
-        instance.getPluginList( request );   
+        System.out.println( "getPluginList" );
+
+        HttpServletRequest request = new MokeHttpServletRequest(  );
+        StandaloneAppJspBean instance = new StandaloneAppJspBean(  );
+        instance.getPluginList( request );
     }
-	   
 }

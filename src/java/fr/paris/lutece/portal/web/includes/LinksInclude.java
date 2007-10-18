@@ -61,7 +61,7 @@ public class LinksInclude implements PageInclude
     private static final String TEMPLATE_PLUGIN_JAVASCRIPT_LINK = "skin/site/plugin_javascript_link.html";
     private static final String PREFIX_PLUGINS_CSS = "css/plugins/";
     private static final String ABSOLUTE_URL = "http://";
-    
+
     /**
      * Substitue specific bookmarks in the page template.
      * @param template The page template containing bookmarks to substitute
@@ -73,48 +73,50 @@ public class LinksInclude implements PageInclude
     {
         // Add links coming from the data object
         String strFavourite = ( data.getFavourite(  ) != null ) ? data.getFavourite(  )
-        : AppPropertiesService.getProperty( PROPERTY_FAVOURITE );
+                                                                : AppPropertiesService.getProperty( PROPERTY_FAVOURITE );
         rootModel.put( MARK_FAVOURITE, strFavourite );
-        
+
         Locale locale = ( request == null ) ? null : request.getLocale(  );
-        
+
         // Add CSS links coming from plugins
         Collection<Plugin> listPlugins = PluginService.getPluginList(  );
         StringBuffer sbCssLinks = new StringBuffer(  );
         StringBuffer sbJsLinks = new StringBuffer(  );
-        
+
         for ( Plugin plugin : listPlugins )
         {
             if ( plugin.isInstalled(  ) )
             {
-                if ( plugin.getCssStyleSheets(  ).size() > 0  )
+                if ( plugin.getCssStyleSheets(  ).size(  ) > 0 )
                 {
-                    for( String strCssStyleSheet : plugin.getCssStyleSheets(  ) )
+                    for ( String strCssStyleSheet : plugin.getCssStyleSheets(  ) )
                     {
-                        String strPrefix = (strCssStyleSheet.startsWith( ABSOLUTE_URL )) ? "" : PREFIX_PLUGINS_CSS;
-                        
+                        String strPrefix = ( strCssStyleSheet.startsWith( ABSOLUTE_URL ) ) ? "" : PREFIX_PLUGINS_CSS;
+
                         HashMap<String, String> model = new HashMap<String, String>(  );
                         model.put( MARK_PLUGIN_CSS_STYLESHEET, strCssStyleSheet );
-                        model.put( MARK_CSS_PREFIX , strPrefix );
+                        model.put( MARK_CSS_PREFIX, strPrefix );
+
                         HtmlTemplate tCss = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_CSS_LINK, locale, model );
                         sbCssLinks.append( tCss.getHtml(  ) );
                     }
                 }
-                
-                if ( plugin.getJavascriptFiles(  ).size() > 0 )
+
+                if ( plugin.getJavascriptFiles(  ).size(  ) > 0 )
                 {
-                    for( String strJavascriptFile : plugin.getJavascriptFiles(  ) )
+                    for ( String strJavascriptFile : plugin.getJavascriptFiles(  ) )
                     {
                         HashMap<String, String> model = new HashMap<String, String>(  );
                         model.put( MARK_PLUGIN_JAVASCRIPT_FILE, strJavascriptFile );
-                        
-                        HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale, model );
+
+                        HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale,
+                                model );
                         sbJsLinks.append( tJs.getHtml(  ) );
                     }
                 }
             }
         }
-        
+
         rootModel.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString(  ) );
         rootModel.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString(  ) );
     }

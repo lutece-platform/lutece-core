@@ -51,7 +51,7 @@ import javax.mail.MessagingException;
 public class MailSenderDaemon extends Daemon
 {
     private static final String PROPERTY_MAIL_HOST = "mail.server";
-    
+
     /**
      * Implements Runable interface
      */
@@ -61,30 +61,40 @@ public class MailSenderDaemon extends Daemon
         String strHost = AppPropertiesService.getProperty( PROPERTY_MAIL_HOST );
         Logger logger = Logger.getLogger( "lutece.mail" );
         sbLogs.append( "\r\nLast mails sent " + new Date(  ).toString(  ) );
-        IMailQueue queue = MailService.getQueue();
-        MailItem mail = queue.consume();
+
+        IMailQueue queue = MailService.getQueue(  );
+        MailItem mail = queue.consume(  );
+
         while ( mail != null )
         {
             try
             {
                 sbLogs.append( "\r\n - To " + mail.getRecipient(  ) + " - Subject : " + mail.getSubject(  ) );
-                switch( mail.getFormat() )
+
+                switch ( mail.getFormat(  ) )
                 {
-                    case MailItem.FORMAT_HTML :
+                    case MailItem.FORMAT_HTML:
                         MailUtil.sendMessageHtml( strHost, mail.getRecipient(  ), mail.getSenderName(  ),
-                                mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ) );
+                            mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ) );
+
                         break;
-                    case MailItem.FORMAT_TEXT :
+
+                    case MailItem.FORMAT_TEXT:
                         MailUtil.sendMessage( strHost, mail.getRecipient(  ), mail.getSenderName(  ),
-                                mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ) );
+                            mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ) );
+
                         break;
-                    case MailItem.FORMAT_HTML_WITH_ATTACHEMENTS :
+
+                    case MailItem.FORMAT_HTML_WITH_ATTACHEMENTS:
                         MailUtil.sendMessageHtml( strHost, mail.getRecipient(  ), mail.getSenderName(  ),
-                                mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ) , mail.getAttachements() );
+                            mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ), mail.getAttachements(  ) );
+
                         break;
-                        
-                    default: break;
+
+                    default:
+                        break;
                 }
+
                 sbLogs.append( " - Status [ OK ]" );
             }
             catch ( MessagingException e )
@@ -92,11 +102,11 @@ public class MailSenderDaemon extends Daemon
                 sbLogs.append( " - Status [ Failed ] : " + e.getMessage(  ) );
                 AppLogService.error( "MailSenderDaemon - Error sending mail : " + e.getMessage(  ), e );
             }
-            mail = queue.consume();
+
+            mail = queue.consume(  );
         }
-        
+
         logger.info( sbLogs.toString(  ) );
         setLastRunLogs( sbLogs.toString(  ) );
-        
     }
 }

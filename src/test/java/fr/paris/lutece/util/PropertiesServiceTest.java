@@ -33,12 +33,13 @@
  */
 package fr.paris.lutece.util;
 
-import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.portal.service.util.AppPathService;
+
 
 /**
  * PropertiesService Test Class
- * 
+ *
  */
 public class PropertiesServiceTest extends LuteceTestCase
 {
@@ -46,40 +47,36 @@ public class PropertiesServiceTest extends LuteceTestCase
     private static final String PATH_CONF_PLUGINS = "WEB-INF/conf/plugins";
     private static final String FILE_CONFIG = "config.properties";
     private static final String PROPERTY_PROD_URL = "lutece.prod.url";
- 
+
     /**
      * Test of addPropertiesFile method, of class fr.paris.lutece.util.PropertiesService.
      */
-    public void testAddPropertiesFile() throws Exception
+    public void testAddPropertiesFile(  ) throws Exception
     {
-        System.out.println("addPropertiesFile");
-        
-        PropertiesService instance = new PropertiesService( AppPathService.getWebAppPath() );
-        
+        System.out.println( "addPropertiesFile" );
+
+        PropertiesService instance = new PropertiesService( AppPathService.getWebAppPath(  ) );
+
         instance.addPropertiesFile( PATH_CONF, FILE_CONFIG );
         instance.getProperty( PROPERTY_PROD_URL );
-        
+
         // Test reloading
         instance.reload( FILE_CONFIG );
-        
     }
 
     /**
      * Test of addPropertiesDirectory method, of class fr.paris.lutece.util.PropertiesService.
      */
-    public void testAddPropertiesDirectory() throws Exception
+    public void testAddPropertiesDirectory(  ) throws Exception
     {
-        System.out.println("addPropertiesDirectory");
-        
+        System.out.println( "addPropertiesDirectory" );
+
         String strRelativePath = PATH_CONF_PLUGINS;
-        PropertiesService instance = new PropertiesService( AppPathService.getWebAppPath() );
-        
-        instance.addPropertiesDirectory(strRelativePath);
-        
+        PropertiesService instance = new PropertiesService( AppPathService.getWebAppPath(  ) );
+
+        instance.addPropertiesDirectory( strRelativePath );
+
         // Test reloading
-        instance.reloadAll();
+        instance.reloadAll(  );
     }
-
-
-    
 }

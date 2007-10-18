@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.search;
 
+
 /**
  * QueryEventListener
  */
@@ -43,5 +44,4 @@ public interface QueryEventListener
      * @param event The event to process
      */
     public void processQueryEvent( QueryEvent event );
-    
 }

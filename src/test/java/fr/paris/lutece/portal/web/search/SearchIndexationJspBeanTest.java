@@ -31,13 +31,13 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.web.search;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.LuteceTestCase;
 import fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+
 
 /**
  * SearchIndexationJspBean Test Class
@@ -48,33 +48,30 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
     /**
      * Test of getIndexingProperties method, of class fr.paris.lutece.portal.web.search.SearchIndexationJspBean.
      */
-    public void testGetIndexingProperties() throws AccessDeniedException
+    public void testGetIndexingProperties(  ) throws AccessDeniedException
     {
-        System.out.println("getIndexingProperties");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , SearchIndexationJspBean.RIGHT_INDEXER );
-        SearchIndexationJspBean instance = new SearchIndexationJspBean();
-        instance.init( request , SearchIndexationJspBean.RIGHT_INDEXER );
-        instance.getIndexingProperties(request);
+        System.out.println( "getIndexingProperties" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), SearchIndexationJspBean.RIGHT_INDEXER );
+
+        SearchIndexationJspBean instance = new SearchIndexationJspBean(  );
+        instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );
+        instance.getIndexingProperties( request );
     }
-    
-    
-    
+
     /**
      * Test of doIndexing method, of class fr.paris.lutece.portal.web.search.SearchIndexationJspBean.
      */
-    public void testDoIndexing() throws AccessDeniedException
+    public void testDoIndexing(  ) throws AccessDeniedException
     {
-        System.out.println("doIndexing");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        SearchIndexationJspBean instance = new SearchIndexationJspBean();
-        
-        request.registerAdminUserWithRigth( new AdminUser() , SearchIndexationJspBean.RIGHT_INDEXER );
-        instance.init( request , SearchIndexationJspBean.RIGHT_INDEXER );
-        instance.doIndexing(request);
-        
+        System.out.println( "doIndexing" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        SearchIndexationJspBean instance = new SearchIndexationJspBean(  );
+
+        request.registerAdminUserWithRigth( new AdminUser(  ), SearchIndexationJspBean.RIGHT_INDEXER );
+        instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );
+        instance.doIndexing( request );
     }
-    
 }

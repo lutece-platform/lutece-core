@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.mail;
 
+
 /**
  * IMailQueue interface
  */
@@ -41,13 +42,12 @@ public interface IMailQueue
     /**
      * Get a mail item from the list and remove it from the queue
      * @return The older mail item of the queue
-     */ 
-    MailItem consume();
+     */
+    MailItem consume(  );
 
     /**
      * Put a mail item into the list of the queue
      * @param item The mail item to add to the queue
-     */ 
-    void send(MailItem item);
-    
+     */
+    void send( MailItem item );
 }

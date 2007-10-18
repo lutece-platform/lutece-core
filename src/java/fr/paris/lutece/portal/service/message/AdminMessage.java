@@ -60,24 +60,25 @@ public class AdminMessage
     private boolean _bCancel;
     private Object[] _messageArgs;
     private Map _requestParameters;
-    
+
     /** Creates a new instance of AppMessage */
     public AdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
         int nType, boolean bCancelButton )
     {
-    	buildAdminMessage ( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, null );
+        buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, null );
     }
-    
+
     /** Creates a new instance of AppMessage with request parameters */
     public AdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
         int nType, boolean bCancelButton, Map requestParameters )
     {
-    	buildAdminMessage ( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, requestParameters );
+        buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton,
+            requestParameters );
     }
-    
+
     /**
      * Build a new admin message
-     * 
+     *
      * @param strTextKey the text key
      * @param messageArgs the message args
      * @param strTitleKey the title key
@@ -87,10 +88,10 @@ public class AdminMessage
      * @param bCancelButton the cancel button
      * @param requestParameters the request parameters
      */
-    private void buildAdminMessage ( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
-            int nType, boolean bCancelButton, Map requestParameters )
+    private void buildAdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl,
+        String strTarget, int nType, boolean bCancelButton, Map requestParameters )
     {
-    	_strTextKey = strTextKey;
+        _strTextKey = strTextKey;
         _strTitleKey = strTitleKey;
         _strUrl = strUrl;
         _strTarget = strTarget;
@@ -99,7 +100,7 @@ public class AdminMessage
         _messageArgs = messageArgs;
         _requestParameters = requestParameters;
     }
-    
+
     /**
      * Return the type of message
      * @return the type message
@@ -117,7 +118,7 @@ public class AdminMessage
     {
         return _bCancel;
     }
-    
+
     /**
      * Set the display of cancel button
      * @param bCancel the new bCancel
@@ -171,13 +172,13 @@ public class AdminMessage
     {
         return _strTarget;
     }
-    
+
     /**
-     * Return the request parameters 
+     * Return the request parameters
      * @return the request parameters
      */
-    public Map getRequestParameters( )
+    public Map getRequestParameters(  )
     {
-    	return _requestParameters;
+        return _requestParameters;
     }
 }

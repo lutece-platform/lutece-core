@@ -33,128 +33,135 @@
  */
 package fr.paris.lutece.portal.web.system;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.LuteceTestCase;
 import fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+
 
 /**
  * SystemJspBean Test Class
- * 
+ *
  */
 public class SystemJspBeanTest extends LuteceTestCase
 {
     private static final String PARAMETER_DIR = "dir";
     private static final String PARAMETER_DIR_VALUE = "/WEB-INF/conf/";
+
     /**
      * Test of getManageFilesSystem method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
-    public void testGetManageFilesSystem() throws AccessDeniedException
+    public void testGetManageFilesSystem(  ) throws AccessDeniedException
     {
-        System.out.println("getManageFilesSystem");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        SystemJspBean instance = new SystemJspBean();
-        instance.init( request , SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        instance.getManageFilesSystem(request);
+        System.out.println( "getManageFilesSystem" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+
+        SystemJspBean instance = new SystemJspBean(  );
+        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        instance.getManageFilesSystem( request );
     }
 
     /**
      * Test of getManageFilesSystemDir method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
-    public void testGetManageFilesSystemDir() throws AccessDeniedException
+    public void testGetManageFilesSystemDir(  ) throws AccessDeniedException
     {
-        System.out.println("getManageFilesSystemDir");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        request.addMokeParameters( PARAMETER_DIR , PARAMETER_DIR_VALUE );
-        SystemJspBean instance = new SystemJspBean();
-        instance.init( request , SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        instance.getManageFilesSystemDir(request);
+        System.out.println( "getManageFilesSystemDir" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        request.addMokeParameters( PARAMETER_DIR, PARAMETER_DIR_VALUE );
+
+        SystemJspBean instance = new SystemJspBean(  );
+        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        instance.getManageFilesSystemDir( request );
     }
 
     /**
      * Test of getFileView method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
-    public void testGetFileView() throws AccessDeniedException
+    public void testGetFileView(  ) throws AccessDeniedException
     {
-        System.out.println("getFileView");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        SystemJspBean instance = new SystemJspBean();
-        instance.init( request , SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        instance.getFileView(request);
+        System.out.println( "getFileView" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+
+        SystemJspBean instance = new SystemJspBean(  );
+        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        instance.getFileView( request );
     }
 
     /**
      * Test of getManageCaches method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
-    public void testGetManageCaches() throws AccessDeniedException
+    public void testGetManageCaches(  ) throws AccessDeniedException
     {
-        System.out.println("getManageCaches");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , SystemJspBean.RIGHT_CACHE_MANAGEMENT );
-        SystemJspBean instance = new SystemJspBean();
-        instance.init( request , SystemJspBean.RIGHT_CACHE_MANAGEMENT );
-        instance.getManageCaches(request);
+        System.out.println( "getManageCaches" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_CACHE_MANAGEMENT );
+
+        SystemJspBean instance = new SystemJspBean(  );
+        instance.init( request, SystemJspBean.RIGHT_CACHE_MANAGEMENT );
+        instance.getManageCaches( request );
     }
 
     /**
      * Test of doResetCaches method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
-    public void testDoResetCaches()
+    public void testDoResetCaches(  )
     {
-        System.out.println("doResetCaches");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , SystemJspBean.RIGHT_CACHE_MANAGEMENT );
-        SystemJspBean.doResetCaches();
+        System.out.println( "doResetCaches" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_CACHE_MANAGEMENT );
+        SystemJspBean.doResetCaches(  );
     }
 
     /**
      * Test of doReloadProperties method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
-    public void testDoReloadProperties()
+    public void testDoReloadProperties(  )
     {
-        System.out.println("doReloadProperties");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , SystemJspBean.RIGHT_CACHE_MANAGEMENT );
-        SystemJspBean instance = new SystemJspBean();
-        instance.doReloadProperties();
+        System.out.println( "doReloadProperties" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_CACHE_MANAGEMENT );
+
+        SystemJspBean instance = new SystemJspBean(  );
+        instance.doReloadProperties(  );
     }
 
     /**
      * Test of getManageProperties method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
-    public void testGetManageProperties() throws AccessDeniedException
+    public void testGetManageProperties(  ) throws AccessDeniedException
     {
-        System.out.println("getManageProperties");
-        
+        System.out.println( "getManageProperties" );
+
         // Check user rights
-        SystemJspBean instance = new SystemJspBean();
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        instance.init( request , SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        instance.getManageProperties();
+        SystemJspBean instance = new SystemJspBean(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        instance.getManageProperties(  );
     }
 
     /**
      * Test of getModifyProperties method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
-    public void testGetModifyProperties() throws AccessDeniedException
+    public void testGetModifyProperties(  ) throws AccessDeniedException
     {
-        System.out.println("getModifyProperties");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();
-        request.registerAdminUserWithRigth( new AdminUser() , SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        SystemJspBean instance = new SystemJspBean();
-        instance.init( request , SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        instance.getModifyProperties(request);
+        System.out.println( "getModifyProperties" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+
+        SystemJspBean instance = new SystemJspBean(  );
+        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        instance.getModifyProperties( request );
     }
-    
 }

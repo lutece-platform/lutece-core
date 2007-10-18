@@ -31,46 +31,43 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.business.role;
 
 import fr.paris.lutece.LuteceTestCase;
+
 
 public class RoleTest extends LuteceTestCase
 {
     private final static String ROLE = "Role";
     private final static String ROLEDESCRIPTION1 = "RoleDescription 1";
     private final static String ROLEDESCRIPTION2 = "RoleDescription 2";
-    
+
     public void testBusinessRole(  )
     {
         // Initialize an object
-        Role role = new Role();
+        Role role = new Role(  );
         role.setRole( ROLE );
         role.setRoleDescription( ROLEDESCRIPTION1 );
-        
-        
+
         // Create test
         RoleHome.create( role );
-        Role roleStored = RoleHome.findByPrimaryKey( role.getRole() );
-        assertEquals( roleStored.getRoleDescription() , role.getRoleDescription() );
-        
-        
+
+        Role roleStored = RoleHome.findByPrimaryKey( role.getRole(  ) );
+        assertEquals( roleStored.getRoleDescription(  ), role.getRoleDescription(  ) );
+
         // Update test
         role.setRoleDescription( ROLEDESCRIPTION2 );
-        
+
         RoleHome.update( role );
-        roleStored = RoleHome.findByPrimaryKey( role.getRole() );
-        assertEquals( roleStored.getRoleDescription() , role.getRoleDescription() );
-        
-        
+        roleStored = RoleHome.findByPrimaryKey( role.getRole(  ) );
+        assertEquals( roleStored.getRoleDescription(  ), role.getRoleDescription(  ) );
+
         // Delete test
-        RoleHome.remove( role.getRole() );
-        roleStored = RoleHome.findByPrimaryKey( role.getRole() );
+        RoleHome.remove( role.getRole(  ) );
+        roleStored = RoleHome.findByPrimaryKey( role.getRole(  ) );
         assertNull( roleStored );
-        
+
         // List test
-        RoleHome.getRolesList();
-        
+        RoleHome.getRolesList(  );
     }
 }

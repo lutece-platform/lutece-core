@@ -49,9 +49,9 @@ public final class TestRunner
     public static void main( String[] args )
     {
         junit.textui.TestRunner.run( AllTests.suite(  ) );
-        AppDaemonService.shutdown();
+        AppDaemonService.shutdown(  );
         AppConnectionService.releasePool(  );
-        System.out.println("Lutece services shutdown");
+        System.out.println( "Lutece services shutdown" );
         System.exit( 0 );
     }
 }

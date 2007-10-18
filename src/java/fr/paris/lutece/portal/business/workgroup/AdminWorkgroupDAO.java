@@ -54,7 +54,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_workgroup SET workgroup_description = ? WHERE workgroup_key = ?  ";
     private static final String SQL_QUERY_SELECTALL = " SELECT workgroup_key, workgroup_description FROM core_admin_workgroup ORDER BY workgroup_key";
     private static final String SQL_QUERY_SELECT_USER_WORKGROUP = " SELECT workgroup_key FROM core_admin_workgroup_user WHERE id_user = ? AND workgroup_key = ? ";
-    private static final String SQL_QUERY_USER_IN_WORKGROUP  = " SELECT id_user FROM core_admin_workgroup_user WHERE id_user = ? ";   
+    private static final String SQL_QUERY_USER_IN_WORKGROUP = " SELECT id_user FROM core_admin_workgroup_user WHERE id_user = ? ";
     private static final String SQL_QUERY_SELECT_USER_WORKGROUPS = " SELECT a.workgroup_key, a.workgroup_description " +
         " FROM core_admin_workgroup a, core_admin_workgroup_user b " +
         " WHERE a.workgroup_key = b.workgroup_key AND b.id_user = ?  ";
@@ -218,16 +218,17 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
         if ( daoUtil.next(  ) )
         {
             daoUtil.free(  );
+
             return true;
         }
         else
         {
             daoUtil.free(  );
+
             return false;
         }
     }
-    
-    
+
     /**
      * Returns the list of all workgroups the user is member
      * @param nIdUser The user Id

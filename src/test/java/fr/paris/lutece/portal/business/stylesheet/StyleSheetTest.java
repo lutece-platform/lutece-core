@@ -31,14 +31,13 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.business.stylesheet;
 
 import fr.paris.lutece.LuteceTestCase;
 
+
 public class StyleSheetTest extends LuteceTestCase
 {
-
     private final static String DESCRIPTION1 = "Description 1";
     private final static String DESCRIPTION2 = "Description 2";
     private final static String FILE1 = "Filename 1";
@@ -46,40 +45,40 @@ public class StyleSheetTest extends LuteceTestCase
     private final static String SOURCE1 = "<xsl Source 1>";
     private final static String SOURCE2 = "<xsl Source 2>";
 
-
     public void testBusiness(  )
     {
         // Initialize an object
-        StyleSheet styleSheet = new StyleSheet();
-	styleSheet.setDescription( DESCRIPTION1 );
-	styleSheet.setFile( FILE1 );
-	styleSheet.setSource( SOURCE1.getBytes() );
+        StyleSheet styleSheet = new StyleSheet(  );
+        styleSheet.setDescription( DESCRIPTION1 );
+        styleSheet.setFile( FILE1 );
+        styleSheet.setSource( SOURCE1.getBytes(  ) );
 
         // Create test
         StyleSheetHome.create( styleSheet );
-        StyleSheet styleSheetStored = StyleSheetHome.findByPrimaryKey( styleSheet.getId() );
-        assertEquals( styleSheetStored.getDescription() , styleSheet.getDescription() );
-        assertEquals( styleSheetStored.getFile() , styleSheet.getFile() );
-        assertEquals( styleSheetStored.getSource().length , styleSheet.getSource().length );
+
+        StyleSheet styleSheetStored = StyleSheetHome.findByPrimaryKey( styleSheet.getId(  ) );
+        assertEquals( styleSheetStored.getDescription(  ), styleSheet.getDescription(  ) );
+        assertEquals( styleSheetStored.getFile(  ), styleSheet.getFile(  ) );
+        assertEquals( styleSheetStored.getSource(  ).length, styleSheet.getSource(  ).length );
 
         // Update test
-	styleSheet.setDescription( DESCRIPTION2 );
-	styleSheet.setFile( FILE2 );
-	styleSheet.setSource( SOURCE2.getBytes() );
+        styleSheet.setDescription( DESCRIPTION2 );
+        styleSheet.setFile( FILE2 );
+        styleSheet.setSource( SOURCE2.getBytes(  ) );
 
         StyleSheetHome.update( styleSheet );
-        styleSheetStored = StyleSheetHome.findByPrimaryKey( styleSheet.getId() );
-        assertEquals( styleSheetStored.getDescription() , styleSheet.getDescription() );
-        assertEquals( styleSheetStored.getFile() , styleSheet.getFile() );
-        assertEquals( styleSheetStored.getSource().length , styleSheet.getSource().length );
-        
+        styleSheetStored = StyleSheetHome.findByPrimaryKey( styleSheet.getId(  ) );
+        assertEquals( styleSheetStored.getDescription(  ), styleSheet.getDescription(  ) );
+        assertEquals( styleSheetStored.getFile(  ), styleSheet.getFile(  ) );
+        assertEquals( styleSheetStored.getSource(  ).length, styleSheet.getSource(  ).length );
+
         // List Test
         StyleSheetHome.getStyleSheetList( 0 );
-        StyleSheetHome.getStylesList();
+        StyleSheetHome.getStylesList(  );
 
         // Delete test
-        StyleSheetHome.remove( styleSheet.getId() );
-        styleSheetStored = StyleSheetHome.findByPrimaryKey( styleSheet.getId() );
+        StyleSheetHome.remove( styleSheet.getId(  ) );
+        styleSheetStored = StyleSheetHome.findByPrimaryKey( styleSheet.getId(  ) );
         assertNull( styleSheetStored );
     }
 }

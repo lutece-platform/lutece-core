@@ -151,7 +151,6 @@ public interface IAdminUserDAO
      */
     AdminUser selectUserByAccessCode( String strUserAccessCode );
 
-
     /**
      * @return userList
      */

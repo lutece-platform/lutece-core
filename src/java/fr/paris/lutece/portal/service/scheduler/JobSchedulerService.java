@@ -34,13 +34,17 @@
 package fr.paris.lutece.portal.service.scheduler;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
-import java.util.Date;
+
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
+
 import org.quartz.impl.StdSchedulerFactory;
+
+import java.util.Date;
+
 
 /**
  * JobSchedulerService
@@ -49,91 +53,88 @@ public class JobSchedulerService
 {
     private static JobSchedulerService _singleton;
     private static Scheduler _scheduler;
-    
+
     /** Creates a new instance of JobSchedulerService */
-    private JobSchedulerService()
+    private JobSchedulerService(  )
     {
     }
-    
+
     /**
      * Gets the unique instance of the service
      * @return The service's instance
      */
-    public static JobSchedulerService getInstance()
+    public static JobSchedulerService getInstance(  )
     {
-        if( _singleton == null )
+        if ( _singleton == null )
         {
-            _singleton = new JobSchedulerService();
-            _singleton.init();
+            _singleton = new JobSchedulerService(  );
+            _singleton.init(  );
         }
+
         return _singleton;
     }
-    
+
     /**
      * Initialize the service.
      */
-    private void init()
+    private void init(  )
     {
         SchedulerFactory factory = new StdSchedulerFactory(  );
+
         try
         {
             _scheduler = factory.getScheduler(  );
             _scheduler.start(  );
             AppLogService.info( "Lutece job scheduler started." );
         }
-        catch( SchedulerException e )
+        catch ( SchedulerException e )
         {
-            AppLogService.error( "Error starting the Lutece job scheduler " , e );
+            AppLogService.error( "Error starting the Lutece job scheduler ", e );
         }
     }
-    
+
     /**
      * Schedule a job according cron information
      * @param job The Job to schedule
      * @param trigger The Cron trigger
      * @return Date
      */
-    
-    public Date scheduleJob( JobDetail job , CronTrigger trigger )
+    public Date scheduleJob( JobDetail job, CronTrigger trigger )
     {
         Date date = null;
-        if( _scheduler != null )
+
+        if ( _scheduler != null )
         {
             try
             {
                 date = _scheduler.scheduleJob( job, trigger );
-                AppLogService.info( "New job scheduled : " + job.getName()  );
+                AppLogService.info( "New job scheduled : " + job.getName(  ) );
             }
-            catch( SchedulerException e )
+            catch ( SchedulerException e )
             {
-                AppLogService.error( "Error scheduling job " + job.getName() , e );
+                AppLogService.error( "Error scheduling job " + job.getName(  ), e );
             }
         }
+
         return date;
     }
-    
+
     /**
      * Shutdown the service (Called by the core while the webapp is destroyed)
      */
-    public void shutdown()
+    public void shutdown(  )
     {
-        if( _scheduler != null )
+        if ( _scheduler != null )
         {
             try
             {
-                _scheduler.shutdown();
+                _scheduler.shutdown(  );
                 AppLogService.info( "Lutece job scheduler stoped." );
             }
-            catch (SchedulerException e)
+            catch ( SchedulerException e )
             {
-                AppLogService.error( "Error shuting down the Lutece job scheduler " , e );
+                AppLogService.error( "Error shuting down the Lutece job scheduler ", e );
             }
         }
     }
-    
-    
-    
-    
-    
-    
 }

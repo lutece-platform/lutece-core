@@ -31,11 +31,12 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.business.right;
 
-import java.util.Collection;
 import fr.paris.lutece.LuteceTestCase;
+
+import java.util.Collection;
+
 
 public class RightTest extends LuteceTestCase
 {
@@ -55,60 +56,56 @@ public class RightTest extends LuteceTestCase
     private final static String ICONURL1 = "IconUrl 1";
     private final static String ICONURL2 = "IconUrl 2";
 
-
     public void testBusinessRight(  )
     {
         // Initialize an object
-        Right right = new Right();
+        Right right = new Right(  );
         right.setId( RIGHT_ID );
-        right.setNameKey( NAMEKEY1 );	
-        right.setDescriptionKey( DESCRIPTIONKEY1 );	
-        right.setLevel( LEVEL1 );	
-        right.setUrl( URL1 );	
-        right.setPluginName( PLUGINNAME1 );	
-        right.setFeatureGroup( FEATUREGROUP1 );	
+        right.setNameKey( NAMEKEY1 );
+        right.setDescriptionKey( DESCRIPTIONKEY1 );
+        right.setLevel( LEVEL1 );
+        right.setUrl( URL1 );
+        right.setPluginName( PLUGINNAME1 );
+        right.setFeatureGroup( FEATUREGROUP1 );
         right.setIconUrl( ICONURL1 );
 
         // Create test
         RightHome.create( right );
-        Right rightStored = RightHome.findByPrimaryKey( right.getId() );
-        assertEquals( rightStored.getNameKey() , right.getNameKey() );
-        assertEquals( rightStored.getDescriptionKey() , right.getDescriptionKey() );
-        assertEquals( rightStored.getLevel() , right.getLevel() );
-        assertEquals( rightStored.getUrl() , right.getUrl() );
-        assertEquals( rightStored.getPluginName() , right.getPluginName() );
-        assertEquals( rightStored.getFeatureGroup() , right.getFeatureGroup() );
-        assertEquals( rightStored.getIconUrl() , right.getIconUrl() );
 
+        Right rightStored = RightHome.findByPrimaryKey( right.getId(  ) );
+        assertEquals( rightStored.getNameKey(  ), right.getNameKey(  ) );
+        assertEquals( rightStored.getDescriptionKey(  ), right.getDescriptionKey(  ) );
+        assertEquals( rightStored.getLevel(  ), right.getLevel(  ) );
+        assertEquals( rightStored.getUrl(  ), right.getUrl(  ) );
+        assertEquals( rightStored.getPluginName(  ), right.getPluginName(  ) );
+        assertEquals( rightStored.getFeatureGroup(  ), right.getFeatureGroup(  ) );
+        assertEquals( rightStored.getIconUrl(  ), right.getIconUrl(  ) );
 
         // Update test
-        right.setNameKey( NAMEKEY2 );	
-        right.setDescriptionKey( DESCRIPTIONKEY2 );	
-        right.setLevel( LEVEL2 );	
-        right.setUrl( URL2 );	
-        right.setPluginName( PLUGINNAME2 );	
-        right.setFeatureGroup( FEATUREGROUP2 );	
+        right.setNameKey( NAMEKEY2 );
+        right.setDescriptionKey( DESCRIPTIONKEY2 );
+        right.setLevel( LEVEL2 );
+        right.setUrl( URL2 );
+        right.setPluginName( PLUGINNAME2 );
+        right.setFeatureGroup( FEATUREGROUP2 );
         right.setIconUrl( ICONURL2 );
         RightHome.update( right );
-        rightStored = RightHome.findByPrimaryKey( right.getId() );
-        assertEquals( rightStored.getNameKey() , right.getNameKey() );
-        assertEquals( rightStored.getDescriptionKey() , right.getDescriptionKey() );
-        assertEquals( rightStored.getLevel() , right.getLevel() );
-        assertEquals( rightStored.getUrl() , right.getUrl() );
-        assertEquals( rightStored.getPluginName() , right.getPluginName() );
-        assertEquals( rightStored.getFeatureGroup() , right.getFeatureGroup() );
-        assertEquals( rightStored.getIconUrl() , right.getIconUrl() );
+        rightStored = RightHome.findByPrimaryKey( right.getId(  ) );
+        assertEquals( rightStored.getNameKey(  ), right.getNameKey(  ) );
+        assertEquals( rightStored.getDescriptionKey(  ), right.getDescriptionKey(  ) );
+        assertEquals( rightStored.getLevel(  ), right.getLevel(  ) );
+        assertEquals( rightStored.getUrl(  ), right.getUrl(  ) );
+        assertEquals( rightStored.getPluginName(  ), right.getPluginName(  ) );
+        assertEquals( rightStored.getFeatureGroup(  ), right.getFeatureGroup(  ) );
+        assertEquals( rightStored.getIconUrl(  ), right.getIconUrl(  ) );
 
         // List Test
-        Collection listRights = RightHome.getRightsList();
-        assertTrue( listRights.size() > 0 );
-        
+        Collection listRights = RightHome.getRightsList(  );
+        assertTrue( listRights.size(  ) > 0 );
+
         // Delete test
-        RightHome.remove( right.getId() );
-        rightStored = RightHome.findByPrimaryKey( right.getId() );
+        RightHome.remove( right.getId(  ) );
+        rightStored = RightHome.findByPrimaryKey( right.getId(  ) );
         assertNull( rightStored );
     }
-
 }
-
- 

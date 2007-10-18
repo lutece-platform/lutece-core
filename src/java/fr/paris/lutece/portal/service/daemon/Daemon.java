@@ -59,26 +59,25 @@ public abstract class Daemon implements Runnable
     private int _nResult;
     private String _strPluginName;
 
-
     /**
      * Gets the plugin name
-     * 
+     *
      * @return the plugin name
      */
-	public String getPluginName() 
-	{
-		return _strPluginName;
-	}
-	
-	/**
-	 * Sets the plugin name
-	 * 
-	 * @param pluginName The plugin name
-	 */
-	public void setPluginName(String pluginName) 
-	{
-		_strPluginName = pluginName;
-	}
+    public String getPluginName(  )
+    {
+        return _strPluginName;
+    }
+
+    /**
+     * Sets the plugin name
+     *
+     * @param pluginName The plugin name
+     */
+    public void setPluginName( String pluginName )
+    {
+        _strPluginName = pluginName;
+    }
 
     /**
      * Returns the LastRunLogs

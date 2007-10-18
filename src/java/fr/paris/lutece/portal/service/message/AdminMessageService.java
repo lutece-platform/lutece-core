@@ -36,10 +36,10 @@ package fr.paris.lutece.portal.service.message;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -329,19 +329,20 @@ public class AdminMessageService
 
         return bCancel;
     }
-    
-    
+
     /**
      * Format a list of item to include in a message
      * @param list The list of item as string
      * @param locale The current locale
      * @return The formatted list
      */
-    public static String getFormattedList( List<String> list , Locale locale )
+    public static String getFormattedList( List<String> list, Locale locale )
     {
-        HashMap model = new HashMap();
-        model.put( MARK_MESSAGES_LIST , list );
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FORMAT_LIST , locale , model );
-        return template.getHtml();
+        HashMap model = new HashMap(  );
+        model.put( MARK_MESSAGES_LIST, list );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FORMAT_LIST, locale, model );
+
+        return template.getHtml(  );
     }
 }

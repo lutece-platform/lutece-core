@@ -204,13 +204,13 @@ public class SiteMessage
     {
         _nTypeButton = nTypeButton;
     }
-    
+
     /**
-     * 
+     *
      * @return the request parameters.
      */
-    public Map getRequestParameters( )
+    public Map getRequestParameters(  )
     {
-    	return _requestParameters;
+        return _requestParameters;
     }
 }

@@ -210,11 +210,11 @@ public final class StringUtil
      * Check a code key.<br />
      * Return true if each character of String is
      * <ul>
-     * 	<li>number</li>
+     *         <li>number</li>
      *  <li>lower case</li>
      *  <li>upper case</li>
      * </ul>
-     *  
+     *
      * @param strCodeKey The code Key
      * @return True if code key is valid
      */

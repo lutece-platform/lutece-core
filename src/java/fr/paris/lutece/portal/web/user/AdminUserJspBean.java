@@ -87,9 +87,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_IMPORT_USER = "admin/user/import_module_user.html";
     private static final String TEMPLATE_DEFAULT_CREATE_USER = "admin/user/create_user_default_module.html";
     private static final String TEMPLATE_DEFAULT_MODIFY_USER = "admin/user/modify_user_default_module.html";
-    private static final String TEMPLATE_MANAGE_USER_WORKGROUPS = "admin/user/manage_user_workgroups.html";    
+    private static final String TEMPLATE_MANAGE_USER_WORKGROUPS = "admin/user/manage_user_workgroups.html";
     private static final String TEMPLATE_MODIFY_USER_WORKGROUPS = "admin/user/modify_user_workgroups.html";
-    
+
     // Properties
     private static final String PROPERTY_MANAGE_USERS_PAGETITLE = "portal.users.manage_users.pageTitle";
     private static final String PROPERTY_MODIFY_USER_PAGETITLE = "portal.users.modify_user.pageTitle";
@@ -104,8 +104,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_DELEGATE_USER_RIGHTS_PAGETITLE = "portal.users.delegate_user_rights.pageTitle";
     private static final String PROPERTY_MANAGE_USER_WORKGROUPS_PAGETITLE = "portal.users.manage_user_workgroups.pageTitle";
     private static final String PROPERTY_MODIFY_USER_WORKGROUPS_PAGETITLE = "portal.users.modify_user_workgroups.pageTitle";
-    private static final String PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED = "portal.users.message.user.accessCodeAlreadyUsed";   
-    private static final String PROPERTY_MESSAGE_EMAIL_FORMAT = "portal.users.message.user.emailFormat";        
+    private static final String PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED = "portal.users.message.user.accessCodeAlreadyUsed";
+    private static final String PROPERTY_MESSAGE_EMAIL_FORMAT = "portal.users.message.user.emailFormat";
 
     // Parameters
     private static final String PARAMETER_ACCESS_CODE = "access_code";
@@ -123,12 +123,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_WORKGROUP = "workgroup";
     private static final String PARAMETER_SELECT = "select";
     private static final String PARAMETER_SELECT_ALL = "all";
-    
+
     // Jsp url
     private static final String JSP_MANAGE_USER_RIGHTS = "ManageUserRights.jsp";
     private static final String JSP_MANAGE_USER_ROLES = "ManageUserRoles.jsp";
     private static final String JSP_MANAGE_USER = "ManageUsers.jsp";
-    private static final String JSP_MANAGE_USER_WORKGROUPS = "ManageUserWorkgroups.jsp";    
+    private static final String JSP_MANAGE_USER_WORKGROUPS = "ManageUserWorkgroups.jsp";
     private static final String JSP_URL_REMOVE_USER = "jsp/admin/user/DoRemoveUser.jsp";
     private static final String JSP_URL_CREATE_USER = "jsp/admin/user/CreateUser.jsp";
     private static final String JSP_URL_IMPORT_USER = "jsp/admin/user/ImportUser.jsp";
@@ -159,7 +159,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_USER_WORKGROUP_LIST = "user_workgroup_list";
     private static final String MARK_ALL_WORKSGROUP_LIST = "all_workgroup_list";
     private static final String MARK_SELECT_ALL = "select_all";
-    
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -193,20 +192,23 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         AdminUser currentUser = getUser(  );
 
-        List<AdminUser> listUser = ( List<AdminUser> ) AdminUserHome.findUserList(  );
+        List<AdminUser> listUser = (List<AdminUser>) AdminUserHome.findUserList(  );
         List<AdminUser> availableUsers = new ArrayList<AdminUser>(  );
 
         for ( AdminUser user : listUser )
         {
-            boolean b = ( ( haveCommonWorkgroups( currentUser, user ) ) || (! AdminWorkgroupHome.checkUserHasWorkgroup ( user.getUserId() ) ) );
-            if ( currentUser.isAdmin(  ) ||
-                    ( currentUser.isParent( user ) &&  ( ( haveCommonWorkgroups( currentUser, user ) ) || (! AdminWorkgroupHome.checkUserHasWorkgroup ( user.getUserId() ) ) ) ) ) 
+            boolean b = ( ( haveCommonWorkgroups( currentUser, user ) ) ||
+                ( !AdminWorkgroupHome.checkUserHasWorkgroup( user.getUserId(  ) ) ) );
 
+            if ( currentUser.isAdmin(  ) ||
+                    ( currentUser.isParent( user ) &&
+                    ( ( haveCommonWorkgroups( currentUser, user ) ) ||
+                    ( !AdminWorkgroupHome.checkUserHasWorkgroup( user.getUserId(  ) ) ) ) ) )
             {
                 availableUsers.add( user );
             }
         }
-        
+
         Paginator paginator = new Paginator( availableUsers, _nItemsPerPage, getHomeUrl( request ),
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
@@ -278,7 +280,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         // check that access code is not in use
         if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED,
+                AdminMessage.TYPE_STOP );
         }
 
         return AppPathService.getBaseUrl( request ) + JSP_URL_CREATE_USER + "?" + PARAMETER_ACCESS_CODE + "=" +
@@ -375,19 +378,20 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        
-        if ( ! ( ( strEmail == null ) || ( strEmail.trim().equals( "" )) ) ) 
-        {                
-            if ( ! StringUtil.checkEmail( strEmail ) )
+
+        if ( !( ( strEmail == null ) || ( strEmail.trim(  ).equals( "" ) ) ) )
+        {
+            if ( !StringUtil.checkEmail( strEmail ) )
             {
                 return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_FORMAT, AdminMessage.TYPE_STOP );
-            }           
+            }
         }
 
         // check again that access code is not in use
         if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED,
+                AdminMessage.TYPE_STOP );
         }
 
         // defines the new created user level
@@ -436,7 +440,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             AdminUserHome.create( user );
         }
 
-        return JSP_MANAGE_USER;       
+        return JSP_MANAGE_USER;
     }
 
     /**
@@ -462,7 +466,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
         {
             user = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( nUserId );
-            Level level = LevelHome.findByPrimaryKey( user.getUserLevel() );
+
+            Level level = LevelHome.findByPrimaryKey( user.getUserLevel(  ) );
             model.put( MARK_USER, user );
             model.put( MARK_LEVEL, level );
             model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale(  ) ) );
@@ -472,7 +477,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         else
         {
             user = AdminUserHome.findByPrimaryKey( nUserId );
-            Level level = LevelHome.findByPrimaryKey( user.getUserLevel() );
+
+            Level level = LevelHome.findByPrimaryKey( user.getUserLevel(  ) );
             model.put( MARK_USER, user );
             model.put( MARK_LEVEL, level );
             model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale(  ) ) );
@@ -512,12 +518,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        if ( ! ( ( strEmail == null ) || ( strEmail.trim().equals( "" )) ) ) 
-        {        
-            if ( ! StringUtil.checkEmail( strEmail ) )
+
+        if ( !( ( strEmail == null ) || ( strEmail.trim(  ).equals( "" ) ) ) )
+        {
+            if ( !StringUtil.checkEmail( strEmail ) )
             {
                 return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_FORMAT, AdminMessage.TYPE_STOP );
-            }        
+            }
         }
 
         int nUserId = Integer.parseInt( strUserId );
@@ -703,9 +710,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public String getModifyAdminUserRights( HttpServletRequest request )
     {
         boolean bDelegateRights = Boolean.valueOf( request.getParameter( PARAMETER_DELEGATE_RIGHTS ) );
-        
+
         String strSelectAll = request.getParameter( PARAMETER_SELECT );
-        boolean bSelectAll = ( strSelectAll != null && strSelectAll.equals( PARAMETER_SELECT_ALL )) ? true : false;
+        boolean bSelectAll = ( ( strSelectAll != null ) && strSelectAll.equals( PARAMETER_SELECT_ALL ) ) ? true : false;
 
         setPageTitleProperty( bDelegateRights ? PROPERTY_DELEGATE_USER_RIGHTS_PAGETITLE
                                               : PROPERTY_MODIFY_USER_RIGHTS_PAGETITLE );
@@ -744,7 +751,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_USER_RIGHT_LIST, I18nService.localizeCollection( rightList, getLocale(  ) ) );
         model.put( MARK_ALL_RIGHT_LIST, I18nService.localizeCollection( allRightList, getLocale(  ) ) );
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateRights ) );
-        model.put( MARK_SELECT_ALL , bSelectAll );
+        model.put( MARK_SELECT_ALL, bSelectAll );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_RIGHTS, getLocale(  ), model );
 
@@ -935,7 +942,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         for ( ReferenceItem item : workgroups )
         {
-            if (  AdminWorkgroupHome.isUserInWorkgroup( user2, item.getCode(  ) )  )             
+            if ( AdminWorkgroupHome.isUserInWorkgroup( user2, item.getCode(  ) ) )
             {
                 return true;
             }

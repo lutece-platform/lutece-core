@@ -35,6 +35,7 @@ package fr.paris.lutece.util.url;
 
 import fr.paris.lutece.LuteceTestCase;
 
+
 /**
  * UrlItem Test Class
  */
@@ -43,23 +44,22 @@ public class UrlItemTest extends LuteceTestCase
     /**
      * Test of addParameter method, of class fr.paris.lutece.util.url.UrlItem.
      */
-    public void testUrlItem()
+    public void testUrlItem(  )
     {
-        System.out.println("addParameter");
-        
+        System.out.println( "addParameter" );
+
         String strName = "param";
         String strValue = "value";
-        
+
         // Add a parameter to an url that have no parameter
-        UrlItem url = new UrlItem( "http://myhost/mypage.jsp");
-        url.addParameter(strName, strValue);
-//        assertEquals( "http://myhost/mypage.jsp?param=value" , url.getUrl() );
+        UrlItem url = new UrlItem( "http://myhost/mypage.jsp" );
+        url.addParameter( strName, strValue );
+        //        assertEquals( "http://myhost/mypage.jsp?param=value" , url.getUrl() );
 
         // Add a parameter to an url that have already one or more parameters
-        url = new UrlItem( "http://myhost/mypage.jsp?param2=value2");
-        url.addParameter(strName, strValue);
-//        assertEquals( "http://myhost/mypage.jsp?param2=value2&param=value" , url.toString() );
-        
+        url = new UrlItem( "http://myhost/mypage.jsp?param2=value2" );
+        url.addParameter( strName, strValue );
+
+        //        assertEquals( "http://myhost/mypage.jsp?param2=value2&param=value" , url.toString() );
     }
-  
 }

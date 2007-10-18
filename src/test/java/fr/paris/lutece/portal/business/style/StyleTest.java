@@ -31,10 +31,10 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.business.style;
 
 import fr.paris.lutece.LuteceTestCase;
+
 
 public class StyleTest extends LuteceTestCase
 {
@@ -48,12 +48,11 @@ public class StyleTest extends LuteceTestCase
     private final static String DESCRIPTION2 = "Description 2";
     private final static String PORTLETTYPENAME1 = "PortletTypeName 1";
     private final static String PORTALCOMPONENTNAME1 = "PortalComponentName 1";
-    
 
     public void testBusinessStyle(  )
     {
         // Initialize an object
-        Style style = new Style();
+        Style style = new Style(  );
         style.setId( STYLEID );
         style.setPortalComponentId( PORTALCOMPONENTID1 );
         style.setPortletTypeId( PORTLETTYPEID1 );
@@ -63,31 +62,31 @@ public class StyleTest extends LuteceTestCase
 
         // Create test
         StyleHome.create( style );
-        Style styleStored = StyleHome.findByPrimaryKey( style.getId() );
-        assertEquals( styleStored.getPortalComponentId() , style.getPortalComponentId() );
-        assertEquals( styleStored.getPortletTypeId() , style.getPortletTypeId() );
-        assertEquals( styleStored.getDescription() , style.getDescription() );
+
+        Style styleStored = StyleHome.findByPrimaryKey( style.getId(  ) );
+        assertEquals( styleStored.getPortalComponentId(  ), style.getPortalComponentId(  ) );
+        assertEquals( styleStored.getPortletTypeId(  ), style.getPortletTypeId(  ) );
+        assertEquals( styleStored.getDescription(  ), style.getDescription(  ) );
 
         // Update test
-        style.setPortalComponentId( PORTALCOMPONENTID2 );	
-        style.setPortletTypeId( PORTLETTYPEID2 );	
-        style.setDescription( DESCRIPTION2 );	
+        style.setPortalComponentId( PORTALCOMPONENTID2 );
+        style.setPortletTypeId( PORTLETTYPEID2 );
+        style.setDescription( DESCRIPTION2 );
         StyleHome.update( style );
-        styleStored = StyleHome.findByPrimaryKey( style.getId() );
-        assertEquals( styleStored.getPortalComponentId() , style.getPortalComponentId() );
-        assertEquals( styleStored.getPortletTypeId() , style.getPortletTypeId() );
-        assertEquals( styleStored.getDescription() , style.getDescription() );
+        styleStored = StyleHome.findByPrimaryKey( style.getId(  ) );
+        assertEquals( styleStored.getPortalComponentId(  ), style.getPortalComponentId(  ) );
+        assertEquals( styleStored.getPortletTypeId(  ), style.getPortletTypeId(  ) );
+        assertEquals( styleStored.getDescription(  ), style.getDescription(  ) );
 
         // List test
-        StyleHome.getPortalComponentList();
-        StyleHome.getStylesList();
-        StyleHome.getStyleSheetList( style.getId() );
+        StyleHome.getPortalComponentList(  );
+        StyleHome.getStylesList(  );
+        StyleHome.getStyleSheetList( style.getId(  ) );
         StyleHome.checkStylePortalComponent( TEST_PORTAL_COMPONENT_ID );
-        
+
         // Delete test
-        StyleHome.remove( style.getId() );
-        styleStored = StyleHome.findByPrimaryKey( style.getId() );
+        StyleHome.remove( style.getId(  ) );
+        styleStored = StyleHome.findByPrimaryKey( style.getId(  ) );
         assertNull( styleStored );
     }
-
 }

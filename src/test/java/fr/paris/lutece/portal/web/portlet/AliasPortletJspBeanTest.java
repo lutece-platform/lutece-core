@@ -33,56 +33,57 @@
  */
 package fr.paris.lutece.portal.web.portlet;
 
+import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.MokeHttpServletRequest;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.web.admin.AdminPageJspBean;
 import fr.paris.lutece.portal.web.constants.Parameters;
-import fr.paris.lutece.LuteceTestCase;
-import fr.paris.lutece.MokeHttpServletRequest;
+
 
 /**
  * AliasPortletJspBeanTest Test Class
- * 
+ *
  */
 public class AliasPortletJspBeanTest extends LuteceTestCase
 {
-	   private static final String TEST_PAGE_ID = "1"; // home page 
-	   private static final String TEST_PORTLET_TYPE_ID = "DOCUMENT_PORTLET"; // portlet type document
-	   
+    private static final String TEST_PAGE_ID = "1"; // home page 
+    private static final String TEST_PORTLET_TYPE_ID = "DOCUMENT_PORTLET"; // portlet type document
+
     /**
      * Test of doCreate method, of fr.paris.lutece.portal.web.portlet.AliasPortletJspBean.
      */
-    public void testDoCreate()
+    public void testDoCreate(  )
     {
-        System.out.println("doCreate");
+        System.out.println( "doCreate" );
 
         // Not implemented yet
-    }    
-    
+    }
+
     /**
      * Test of doModify method, of fr.paris.lutece.portal.web.portlet.AliasPortletJspBean.
      */
-    public void testDoModify()
+    public void testDoModify(  )
     {
-        System.out.println("doModify");
+        System.out.println( "doModify" );
 
         // Not implemented yet
-    }       
-    
+    }
+
     /**
      * Test of testGetCreate method, of class fr.paris.lutece.portal.web.portlet.AliasPortletJspBean.
      */
-    public void testGetCreate() throws AccessDeniedException
+    public void testGetCreate(  ) throws AccessDeniedException
     {
-        System.out.println("testGetCreate");
-        
-        MokeHttpServletRequest request = new MokeHttpServletRequest();   
-        request.addMokeParameters( Parameters.PAGE_ID , TEST_PAGE_ID );
+        System.out.println( "testGetCreate" );
+
+        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        request.addMokeParameters( Parameters.PAGE_ID, TEST_PAGE_ID );
         request.addMokeParameters( Parameters.PORTLET_TYPE_ID, TEST_PORTLET_TYPE_ID );
-        request.registerAdminUserWithRigth( new AdminUser() , AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
-        AliasPortletJspBean instance = new AliasPortletJspBean();
-        instance.init( request , AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        request.registerAdminUserWithRigth( new AdminUser(  ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+
+        AliasPortletJspBean instance = new AliasPortletJspBean(  );
+        instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         instance.getCreate( request );
-    }          
-     
+    }
 }

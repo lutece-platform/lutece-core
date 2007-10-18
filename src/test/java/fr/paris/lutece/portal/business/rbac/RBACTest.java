@@ -104,21 +104,20 @@ public class RBACTest extends LuteceTestCase
         Collection<RBAC> listByRole = RBACHome.findResourcesByCode( ROLEKEY2 );
         assertTrue( listByRole.size(  ) > 0 );
 
-        for (RBAC rbacListItem : listByRole)
+        for ( RBAC rbacListItem : listByRole )
         {
-        	assertEquals( ROLEKEY2, rbacListItem.getRoleKey(  ) );
+            assertEquals( ROLEKEY2, rbacListItem.getRoleKey(  ) );
         }
-        
 
         // find roles from resource and permission Test
         Collection<String> listOfRoles = RBACHome.findRoleKeys( RESOURCETYPE2, RESOURCEID2, PERMISSION2 );
         assertTrue( list.size(  ) > 0 );
 
         boolean bRoleFound = false;
-        
-        for (String strRoleKey : listOfRoles)
+
+        for ( String strRoleKey : listOfRoles )
         {
-        	if ( strRoleKey.equals( ROLEKEY2 ) )
+            if ( strRoleKey.equals( ROLEKEY2 ) )
             {
                 bRoleFound = true;
             }

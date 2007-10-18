@@ -93,7 +93,7 @@ public final class SiteMessageService
     {
         setMessage( request, strMessageKey, null, null, strUrl, null, nMessageType );
     }
-    
+
     /**
      * Set the message, store it in session and throw a LuteceSiteMessageException
      *
@@ -103,12 +103,12 @@ public final class SiteMessageService
      * @param strUrl The url o fthe Ok button
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    public static void setMessage( HttpServletRequest request, String strMessageKey, int nMessageType, String strUrl, Map requestParameters )
-        throws SiteMessageException
+    public static void setMessage( HttpServletRequest request, String strMessageKey, int nMessageType, String strUrl,
+        Map requestParameters ) throws SiteMessageException
     {
         setMessage( request, strMessageKey, null, null, strUrl, null, nMessageType, requestParameters );
     }
-    
+
     /**
      * Set the message, store it in session and throw a LuteceSiteMessageException
      *
@@ -121,9 +121,9 @@ public final class SiteMessageService
     public static void setMessage( HttpServletRequest request, String strMessageKey, String strTitleKey,
         int nMessageType ) throws SiteMessageException
     {
-    	setMessage( request, strMessageKey, null, strTitleKey, null, null, nMessageType );
+        setMessage( request, strMessageKey, null, strTitleKey, null, null, nMessageType );
     }
-    
+
     /**
      * Set the message, store it in session and throw a LuteceSiteMessageException
      *
@@ -203,9 +203,9 @@ public final class SiteMessageService
         String strTitleKey, String strUrl, String strTarget, int nMessageType )
         throws SiteMessageException
     {
-    	setMessage( request, strMessageKey, messageArgs, strTitleKey, strUrl, strTarget, nMessageType, null );
+        setMessage( request, strMessageKey, messageArgs, strTitleKey, strUrl, strTarget, nMessageType, null );
     }
-    
+
     /**
      * Set the message, store it in session and throw a LuteceSiteMessageException
      *

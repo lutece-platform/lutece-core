@@ -35,6 +35,7 @@ package fr.paris.lutece;
 
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.AdminUser;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -62,31 +63,27 @@ import javax.servlet.http.HttpSession;
 public class MokeHttpServletRequest implements HttpServletRequest
 {
     private static final String ATTRIBUTE_ADMIN_USER = "lutece_admin_user";
-
     private Cookie[] _cookies = null;
-    private Map _mapParameters = new HashMap();
+    private Map _mapParameters = new HashMap(  );
     private MokeHttpSession _session = null;
-    
-    public void registerAdminUserWithRigth( AdminUser user , String strRight )
+
+    public void registerAdminUserWithRigth( AdminUser user, String strRight )
     {
-        Map<String,Right> mapRights = new HashMap<String,Right>();
-        Right right = new Right();
-        right.setId(strRight);
-        mapRights.put( strRight , right );
+        Map<String, Right> mapRights = new HashMap<String, Right>(  );
+        Right right = new Right(  );
+        right.setId( strRight );
+        mapRights.put( strRight, right );
         user.setRights( mapRights );
-        
+
         //TODO set locale user
-        user.setLocale( new Locale("fr","FR","") );
+        user.setLocale( new Locale( "fr", "FR", "" ) );
         registerAdminUser( user );
-        
     }
- 
+
     public void registerAdminUser( AdminUser user )
     {
-        getSession( true ).setAttribute( ATTRIBUTE_ADMIN_USER , user );
+        getSession( true ).setAttribute( ATTRIBUTE_ADMIN_USER, user );
     }
- 
-    
 
     /**
      * getAuthType
@@ -102,7 +99,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getCookies
      *
      * @return Cookie[]
-
+    
      */
     public Cookie[] getCookies(  )
     {
@@ -114,7 +111,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @param string String
      * @return long
-
+    
      */
     public long getDateHeader( String string )
     {
@@ -126,7 +123,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @param string String
      * @return String
-
+    
      */
     public String getHeader( String string )
     {
@@ -138,7 +135,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @param string String
      * @return Enumeration
-
+    
      */
     public Enumeration getHeaders( String string )
     {
@@ -149,7 +146,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getHeaderNames
      *
      * @return Enumeration
-
+    
      */
     public Enumeration getHeaderNames(  )
     {
@@ -161,7 +158,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @param string String
      * @return int
-
+    
      */
     public int getIntHeader( String string )
     {
@@ -172,7 +169,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getMethod
      *
      * @return String
-
+    
      */
     public String getMethod(  )
     {
@@ -183,7 +180,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getPathInfo
      *
      * @return String
-
+    
      */
     public String getPathInfo(  )
     {
@@ -194,7 +191,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getPathTranslated
      *
      * @return String
-
+    
      */
     public String getPathTranslated(  )
     {
@@ -205,7 +202,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getContextPath
      *
      * @return String
-
+    
      */
     public String getContextPath(  )
     {
@@ -216,7 +213,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getQueryString
      *
      * @return String
-
+    
      */
     public String getQueryString(  )
     {
@@ -227,7 +224,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getRemoteUser
      *
      * @return String
-
+    
      */
     public String getRemoteUser(  )
     {
@@ -239,7 +236,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @param string String
      * @return boolean
-
+    
      */
     public boolean isUserInRole( String string )
     {
@@ -250,7 +247,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getUserPrincipal
      *
      * @return Principal
-
+    
      */
     public Principal getUserPrincipal(  )
     {
@@ -261,7 +258,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getRequestedSessionId
      *
      * @return String
-
+    
      */
     public String getRequestedSessionId(  )
     {
@@ -272,7 +269,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getRequestURI
      *
      * @return String
-
+    
      */
     public String getRequestURI(  )
     {
@@ -283,7 +280,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getRequestURL
      *
      * @return StringBuffer
-
+    
      */
     public StringBuffer getRequestURL(  )
     {
@@ -294,7 +291,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getServletPath
      *
      * @return String
-
+    
      */
     public String getServletPath(  )
     {
@@ -306,14 +303,15 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @param boolean0 boolean
      * @return HttpSession
-
+    
      */
     public HttpSession getSession( boolean bCreate )
     {
-        if( _session == null )
+        if ( _session == null )
         {
-            _session = new MokeHttpSession();
+            _session = new MokeHttpSession(  );
         }
+
         return _session;
     }
 
@@ -321,7 +319,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getSession
      *
      * @return HttpSession
-
+    
      */
     public HttpSession getSession(  )
     {
@@ -332,7 +330,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * isRequestedSessionIdValid
      *
      * @return boolean
-
+    
      */
     public boolean isRequestedSessionIdValid(  )
     {
@@ -343,7 +341,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * isRequestedSessionIdFromCookie
      *
      * @return boolean
-
+    
      */
     public boolean isRequestedSessionIdFromCookie(  )
     {
@@ -354,7 +352,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * isRequestedSessionIdFromURL
      *
      * @return boolean
-
+    
      */
     public boolean isRequestedSessionIdFromURL(  )
     {
@@ -365,7 +363,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * isRequestedSessionIdFromUrl
      *
      * @return boolean
-
+    
      */
     public boolean isRequestedSessionIdFromUrl(  )
     {
@@ -660,9 +658,9 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * Initialize moke parameters
      * @param map Map
      */
-    public void addMokeParameters( String strParameterName , Object value )
+    public void addMokeParameters( String strParameterName, Object value )
     {
-        _mapParameters.put( strParameterName , value );
+        _mapParameters.put( strParameterName, value );
     }
 
     /**
@@ -674,22 +672,22 @@ public class MokeHttpServletRequest implements HttpServletRequest
         _cookies = cookies;
     }
 
-    public int getRemotePort()
+    public int getRemotePort(  )
     {
         return 80;
     }
 
-    public String getLocalName()
+    public String getLocalName(  )
     {
         return "";
     }
 
-    public String getLocalAddr()
+    public String getLocalAddr(  )
     {
         return "";
     }
 
-    public int getLocalPort()
+    public int getLocalPort(  )
     {
         return 80;
     }

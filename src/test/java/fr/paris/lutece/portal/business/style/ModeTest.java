@@ -31,15 +31,15 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.business.style;
 
-import java.util.Collection;
 import fr.paris.lutece.LuteceTestCase;
+
+import java.util.Collection;
+
 
 public class ModeTest extends LuteceTestCase
 {
-
     private final static String DESCRIPTION1 = "Description 1";
     private final static String DESCRIPTION2 = "Description 2";
     private final static String PATH1 = "Path 1";
@@ -59,68 +59,68 @@ public class ModeTest extends LuteceTestCase
     private final static String OUTPUTXSLPROPERTYSTANDALONE1 = "OutputXslPropertyStandalone 1";
     private final static String OUTPUTXSLPROPERTYSTANDALONE2 = "OutputXslPropertyStandalone 2";
 
-
     public void testBusinessMode(  )
     {
         // Initialize an object
-        Mode mode = new Mode();
-        mode.setDescription( DESCRIPTION1 );	
-        mode.setPath( PATH1 );	
-        mode.setOutputXslPropertyMethod( OUTPUTXSLPROPERTYMETHOD1 );	
-        mode.setOutputXslPropertyVersion( OUTPUTXSLPROPERTYVERSION1 );	
-        mode.setOutputXslPropertyMediaType( OUTPUTXSLPROPERTYMEDIATYPE1 );	
-        mode.setOutputXslPropertyEncoding( OUTPUTXSLPROPERTYENCODING1 );	
-        mode.setOutputXslPropertyIndent( OUTPUTXSLPROPERTYINDENT1 );	
-        mode.setOutputXslPropertyOmitXmlDeclaration( OUTPUTXSLPROPERTYOMITXMLDECLARATION1 );	
+        Mode mode = new Mode(  );
+        mode.setDescription( DESCRIPTION1 );
+        mode.setPath( PATH1 );
+        mode.setOutputXslPropertyMethod( OUTPUTXSLPROPERTYMETHOD1 );
+        mode.setOutputXslPropertyVersion( OUTPUTXSLPROPERTYVERSION1 );
+        mode.setOutputXslPropertyMediaType( OUTPUTXSLPROPERTYMEDIATYPE1 );
+        mode.setOutputXslPropertyEncoding( OUTPUTXSLPROPERTYENCODING1 );
+        mode.setOutputXslPropertyIndent( OUTPUTXSLPROPERTYINDENT1 );
+        mode.setOutputXslPropertyOmitXmlDeclaration( OUTPUTXSLPROPERTYOMITXMLDECLARATION1 );
         mode.setOutputXslPropertyStandalone( OUTPUTXSLPROPERTYSTANDALONE1 );
 
         // Create test
         ModeHome.create( mode );
-        Mode modeStored = ModeHome.findByPrimaryKey( mode.getId() );
-        assertEquals( modeStored.getDescription() , mode.getDescription() );
-        assertEquals( modeStored.getPath() , mode.getPath() );
-        assertEquals( modeStored.getOutputXslPropertyMethod() , mode.getOutputXslPropertyMethod() );
-        assertEquals( modeStored.getOutputXslPropertyVersion() , mode.getOutputXslPropertyVersion() );
-        assertEquals( modeStored.getOutputXslPropertyMediaType() , mode.getOutputXslPropertyMediaType() );
-        assertEquals( modeStored.getOutputXslPropertyEncoding() , mode.getOutputXslPropertyEncoding() );
-        assertEquals( modeStored.getOutputXslPropertyIndent() , mode.getOutputXslPropertyIndent() );
-        assertEquals( modeStored.getOutputXslPropertyOmitXmlDeclaration() , mode.getOutputXslPropertyOmitXmlDeclaration() );
-        assertEquals( modeStored.getOutputXslPropertyStandalone() , mode.getOutputXslPropertyStandalone() );
 
+        Mode modeStored = ModeHome.findByPrimaryKey( mode.getId(  ) );
+        assertEquals( modeStored.getDescription(  ), mode.getDescription(  ) );
+        assertEquals( modeStored.getPath(  ), mode.getPath(  ) );
+        assertEquals( modeStored.getOutputXslPropertyMethod(  ), mode.getOutputXslPropertyMethod(  ) );
+        assertEquals( modeStored.getOutputXslPropertyVersion(  ), mode.getOutputXslPropertyVersion(  ) );
+        assertEquals( modeStored.getOutputXslPropertyMediaType(  ), mode.getOutputXslPropertyMediaType(  ) );
+        assertEquals( modeStored.getOutputXslPropertyEncoding(  ), mode.getOutputXslPropertyEncoding(  ) );
+        assertEquals( modeStored.getOutputXslPropertyIndent(  ), mode.getOutputXslPropertyIndent(  ) );
+        assertEquals( modeStored.getOutputXslPropertyOmitXmlDeclaration(  ),
+            mode.getOutputXslPropertyOmitXmlDeclaration(  ) );
+        assertEquals( modeStored.getOutputXslPropertyStandalone(  ), mode.getOutputXslPropertyStandalone(  ) );
 
         // Update test
-        mode.setDescription( DESCRIPTION2 );	
-        mode.setPath( PATH2 );	
-        mode.setOutputXslPropertyMethod( OUTPUTXSLPROPERTYMETHOD2 );	
-        mode.setOutputXslPropertyVersion( OUTPUTXSLPROPERTYVERSION2 );	
-        mode.setOutputXslPropertyMediaType( OUTPUTXSLPROPERTYMEDIATYPE2 );	
-        mode.setOutputXslPropertyEncoding( OUTPUTXSLPROPERTYENCODING2 );	
-        mode.setOutputXslPropertyIndent( OUTPUTXSLPROPERTYINDENT2 );	
-        mode.setOutputXslPropertyOmitXmlDeclaration( OUTPUTXSLPROPERTYOMITXMLDECLARATION2 );	
+        mode.setDescription( DESCRIPTION2 );
+        mode.setPath( PATH2 );
+        mode.setOutputXslPropertyMethod( OUTPUTXSLPROPERTYMETHOD2 );
+        mode.setOutputXslPropertyVersion( OUTPUTXSLPROPERTYVERSION2 );
+        mode.setOutputXslPropertyMediaType( OUTPUTXSLPROPERTYMEDIATYPE2 );
+        mode.setOutputXslPropertyEncoding( OUTPUTXSLPROPERTYENCODING2 );
+        mode.setOutputXslPropertyIndent( OUTPUTXSLPROPERTYINDENT2 );
+        mode.setOutputXslPropertyOmitXmlDeclaration( OUTPUTXSLPROPERTYOMITXMLDECLARATION2 );
         mode.setOutputXslPropertyStandalone( OUTPUTXSLPROPERTYSTANDALONE2 );
-        
-        ModeHome.update( mode );
-        modeStored = ModeHome.findByPrimaryKey( mode.getId() );
-        assertEquals( modeStored.getDescription() , mode.getDescription() );
-        assertEquals( modeStored.getPath() , mode.getPath() );
-        assertEquals( modeStored.getOutputXslPropertyMethod() , mode.getOutputXslPropertyMethod() );
-        assertEquals( modeStored.getOutputXslPropertyVersion() , mode.getOutputXslPropertyVersion() );
-        assertEquals( modeStored.getOutputXslPropertyMediaType() , mode.getOutputXslPropertyMediaType() );
-        assertEquals( modeStored.getOutputXslPropertyEncoding() , mode.getOutputXslPropertyEncoding() );
-        assertEquals( modeStored.getOutputXslPropertyIndent() , mode.getOutputXslPropertyIndent() );
-        assertEquals( modeStored.getOutputXslPropertyOmitXmlDeclaration() , mode.getOutputXslPropertyOmitXmlDeclaration() );
-        assertEquals( modeStored.getOutputXslPropertyStandalone() , mode.getOutputXslPropertyStandalone() );
 
-        Collection listModes = ModeHome.getModesList();
-        assertTrue( listModes.size() > 0 );
-        
-        listModes = ModeHome.getModes();
-        assertTrue( listModes.size() > 0 );
+        ModeHome.update( mode );
+        modeStored = ModeHome.findByPrimaryKey( mode.getId(  ) );
+        assertEquals( modeStored.getDescription(  ), mode.getDescription(  ) );
+        assertEquals( modeStored.getPath(  ), mode.getPath(  ) );
+        assertEquals( modeStored.getOutputXslPropertyMethod(  ), mode.getOutputXslPropertyMethod(  ) );
+        assertEquals( modeStored.getOutputXslPropertyVersion(  ), mode.getOutputXslPropertyVersion(  ) );
+        assertEquals( modeStored.getOutputXslPropertyMediaType(  ), mode.getOutputXslPropertyMediaType(  ) );
+        assertEquals( modeStored.getOutputXslPropertyEncoding(  ), mode.getOutputXslPropertyEncoding(  ) );
+        assertEquals( modeStored.getOutputXslPropertyIndent(  ), mode.getOutputXslPropertyIndent(  ) );
+        assertEquals( modeStored.getOutputXslPropertyOmitXmlDeclaration(  ),
+            mode.getOutputXslPropertyOmitXmlDeclaration(  ) );
+        assertEquals( modeStored.getOutputXslPropertyStandalone(  ), mode.getOutputXslPropertyStandalone(  ) );
+
+        Collection listModes = ModeHome.getModesList(  );
+        assertTrue( listModes.size(  ) > 0 );
+
+        listModes = ModeHome.getModes(  );
+        assertTrue( listModes.size(  ) > 0 );
 
         // Delete test
-        ModeHome.remove( mode.getId() );
-        modeStored = ModeHome.findByPrimaryKey( mode.getId() );
+        ModeHome.remove( mode.getId(  ) );
+        modeStored = ModeHome.findByPrimaryKey( mode.getId(  ) );
         assertNull( modeStored );
     }
-
 }

@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.portal.business.rbac;
 
-import java.util.Collection;
-
 import fr.paris.lutece.LuteceTestCase;
+
+import java.util.Collection;
 
 
 public class AdminRoleTest extends LuteceTestCase
@@ -68,17 +68,16 @@ public class AdminRoleTest extends LuteceTestCase
         assertEquals( adminRoleStored.getKey(  ), adminRole.getKey(  ) );
         assertEquals( adminRoleStored.getDescription(  ), adminRole.getDescription(  ) );
 
-        
         //list test
         Collection list = AdminRoleHome.findAll(  );
         assertTrue( list.size(  ) > 0 );
-        
+
         // check exist Test
-        boolean bCheck = AdminRoleHome.checkExistRole(ROLEKEY2);
+        boolean bCheck = AdminRoleHome.checkExistRole( ROLEKEY2 );
         assertTrue( bCheck );
-        bCheck = AdminRoleHome.checkExistRole(ROLEKEY1);
+        bCheck = AdminRoleHome.checkExistRole( ROLEKEY1 );
         assertFalse( bCheck );
-        
+
         // Delete test
         AdminRoleHome.remove( adminRole.getKey(  ) );
         adminRoleStored = AdminRoleHome.findByPrimaryKey( adminRole.getKey(  ) );
