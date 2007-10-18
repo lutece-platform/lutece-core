@@ -98,13 +98,56 @@
 		All tables will be create in core pool portal.
 		</echo>
 	</target>
-	<target name="db_plugin_init" if="exists.sql.plugin.files" depends="init,plugin_init_plugin_files">
+	<!-- Target that create db -->	
+	<target name="init_create_db_plugins" if="exists.sql.plugin.files" depends="plugin_init_plugin_files">
+		<echo message="init create plugin specific database" />
+		<ant target="pool_plugins_exists_test"/>
+		<property name="baseUrlPlugins" value="${baseUrl}" />
+		
+		<copy file="../conf/db.properties" tofile="db.properties" overwrite="true"/>	
+		<replaceregexp file="db.properties" match="plugins.url=(.*)/(.*)\?(.*)" replace="plugins.baseUrl=\1" byline="false"/>
+		<property file="db.properties" />
+		<property name="baseUrlPlugins" value="${plugins.baseUrl}" />
+						
+		<copy file="../conf/db.properties" tofile="db.properties" overwrite="true"/>
+		<replaceregexp file="db.properties" match="plugins.url=(.*)/(.*)\?(.*)" replace="plugins.baseName=\2" byline="false"/>	
+		<property file="db.properties" />
+		<property name="baseNamePlugins" value="${plugins.baseName}" />					
+				
+		<delete file="db.properties" verbose="true" />
+	
+	</target>
+	
+	<target name="drop_and_create_db_plugins" depends="init_create_db_plugins" if="exists.sql.plugin.files">
+		<echo message="Create the core database ${baseNamePlugins} on host ${baseUrlPlugins}" />
+		
+		<echo message="Preparing plugin specific database" />
+		<ant target="pool_plugins_exists_test"/>
+		<property name="plugins.driver" value="${portal.driver}" />
+		<property name="baseUrlPlugins" value="${portal.url}" />
+		<property name="plugins.user" value="${portal.user}" />
+		<property name="plugins.password" value="${portal.password}" />
+		
+		<sql driver="${plugins.driver}" 
+				           url="${baseUrlPlugins}" 
+				           userid="${plugins.user}" 
+				           password="${plugins.password}"
+				           classpath="${db.connector.path}">
+				DROP DATABASE IF EXISTS ${baseNamePlugins};
+				CREATE DATABASE IF NOT EXISTS ${baseNamePlugins};
+				USE ${baseName};
+		</sql>
+	</target>
+	
+	<target name="db_plugin_init" if="exists.sql.plugin.files" depends="init,drop_and_create_db_plugins">
 		<echo message="Preparing plugin specific database" />
 		<ant target="pool_plugins_exists_test"/>
 		<property name="plugins.driver" value="${portal.driver}" />
 		<property name="plugins.url" value="${portal.url}" />
 		<property name="plugins.user" value="${portal.user}" />
 		<property name="plugins.password" value="${portal.password}" />
+
+		
 		<sql driver="${plugins.driver}" url="${plugins.url}" userid="${plugins.user}" password="${plugins.password}" encoding="utf8" onerror="${on_sql_error}">
 			<fileset refid="sql.plugin.files"/>
 			<classpath>
