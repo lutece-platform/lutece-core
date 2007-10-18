@@ -47,14 +47,6 @@ package fr.paris.lutece;
 public final class MainTest
 {
     /**
-     * Constructor
-     *
-     */
-    private MainTest(  )
-    {
-    }
-
-    /**
      * The main method
      * @param args the arguments of the main method
      */
