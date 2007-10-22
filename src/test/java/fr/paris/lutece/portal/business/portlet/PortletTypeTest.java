@@ -98,7 +98,6 @@ public class PortletTypeTest extends LuteceTestCase
 
         // List test
         PortletTypeHome.getPortletTypesList( Locale.getDefault(  ) );
-        PortletTypeHome.getPortletsTypesList( Locale.getDefault(  ) );
 
         // Delete Test
         PortletTypeHome.remove( ID );

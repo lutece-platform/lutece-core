@@ -47,6 +47,9 @@ public class SystemJspBeanTest extends LuteceTestCase
 {
     private static final String PARAMETER_DIR = "dir";
     private static final String PARAMETER_DIR_VALUE = "/WEB-INF/conf/";
+    private static final String PARAMETER_DIRECTORY = "directory";
+    private static final String PARAMETER_FILE = "file";
+    private static final String PARAMETER_FILE_VALUE = "config.properties";
 
     /**
      * Test of getManageFilesSystem method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
@@ -88,6 +91,8 @@ public class SystemJspBeanTest extends LuteceTestCase
 
         MokeHttpServletRequest request = new MokeHttpServletRequest(  );
         request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        request.addMokeParameters( PARAMETER_DIRECTORY , PARAMETER_DIR_VALUE );
+        request.addMokeParameters( PARAMETER_FILE , PARAMETER_FILE_VALUE );
 
         SystemJspBean instance = new SystemJspBean(  );
         instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );

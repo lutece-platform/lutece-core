@@ -51,11 +51,12 @@ public class SiteMapAppTest extends LuteceTestCase
         System.out.println( "getPage" );
 
         MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        
         int nMode = 0;
         Plugin plugin = null;
-        fr.paris.lutece.portal.web.xpages.SiteMapApp instance = new fr.paris.lutece.portal.web.xpages.SiteMapApp(  );
+        SiteMapApp instance = new SiteMapApp(  );
 
-        fr.paris.lutece.portal.web.xpages.XPage expResult = null;
-        fr.paris.lutece.portal.web.xpages.XPage result = instance.getPage( request, nMode, plugin );
+        XPage expResult = null;
+        XPage result = instance.getPage( request, nMode, plugin );
     }
 }

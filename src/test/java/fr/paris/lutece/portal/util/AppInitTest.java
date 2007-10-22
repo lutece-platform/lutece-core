@@ -102,17 +102,4 @@ public class AppInitTest extends LuteceTestCase
         AppConnectionService.freeConnection( connection );
     }
 
-    /**
-     * Test LuteceInitException
-     */
-    public void testLuteceInitException(  )
-    {
-        try
-        {
-            throw new LuteceInitException( "Test LuteceInitException", new Exception( "Test LuteceInitException" ) );
-        }
-        catch ( LuteceInitException e )
-        {
-        }
-    }
 }

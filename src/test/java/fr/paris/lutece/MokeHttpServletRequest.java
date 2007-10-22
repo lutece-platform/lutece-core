@@ -375,7 +375,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @param string String
      * @return Object
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public Object getAttribute( String string )
     {
@@ -386,7 +386,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getAttributeNames
      *
      * @return Enumeration
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public Enumeration getAttributeNames(  )
     {
@@ -397,7 +397,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getCharacterEncoding
      *
      * @return String
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public String getCharacterEncoding(  )
     {
@@ -409,7 +409,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @param string String
      * @throws UnsupportedEncodingException
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public void setCharacterEncoding( String string ) throws UnsupportedEncodingException
     {
@@ -419,7 +419,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getContentLength
      *
      * @return int
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public int getContentLength(  )
     {
@@ -430,7 +430,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getContentType
      *
      * @return String
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public String getContentType(  )
     {
@@ -442,7 +442,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @throws IOException
      * @return ServletInputStream
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public ServletInputStream getInputStream(  ) throws IOException
     {
@@ -454,7 +454,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @param string String
      * @return String
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public String getParameter( String strParameterName )
     {
@@ -465,7 +465,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getParameterNames
      *
      * @return Enumeration
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public Enumeration getParameterNames(  )
     {
@@ -477,7 +477,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @param string String
      * @return String[]
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public String[] getParameterValues( String string )
     {
@@ -488,7 +488,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getParameterMap
      *
      * @return Map
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public Map getParameterMap(  )
     {
@@ -499,7 +499,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getProtocol
      *
      * @return String
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public String getProtocol(  )
     {
@@ -510,7 +510,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getScheme
      *
      * @return String
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public String getScheme(  )
     {
@@ -521,7 +521,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getServerName
      *
      * @return String
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public String getServerName(  )
     {
@@ -532,7 +532,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getServerPort
      *
      * @return int
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public int getServerPort(  )
     {
@@ -544,7 +544,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @throws IOException
      * @return BufferedReader
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public BufferedReader getReader(  ) throws IOException
     {
@@ -555,7 +555,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getRemoteAddr
      *
      * @return String
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public String getRemoteAddr(  )
     {
@@ -566,7 +566,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getRemoteHost
      *
      * @return String
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public String getRemoteHost(  )
     {
@@ -578,7 +578,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @param string String
      * @param object Object
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public void setAttribute( String string, Object object )
     {
@@ -588,7 +588,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * removeAttribute
      *
      * @param string String
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public void removeAttribute( String string )
     {
@@ -598,18 +598,18 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * getLocale
      *
      * @return Locale
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public Locale getLocale(  )
     {
-        return null;
+        return Locale.getDefault();
     }
 
     /**
      * getLocales
      *
      * @return Enumeration
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public Enumeration getLocales(  )
     {
@@ -620,7 +620,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      * isSecure
      *
      * @return boolean
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public boolean isSecure(  )
     {
@@ -632,7 +632,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @param string String
      * @return RequestDispatcher
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public RequestDispatcher getRequestDispatcher( String string )
     {
@@ -644,7 +644,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      *
      * @param string String
      * @return String
-     * @todo Impl?menter cette m?thode javax.servlet.ServletRequest
+     *
      */
     public String getRealPath( String string )
     {

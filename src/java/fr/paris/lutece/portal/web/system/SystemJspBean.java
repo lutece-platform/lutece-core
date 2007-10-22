@@ -94,7 +94,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_MANAGE_PROPERTIES = "admin/system/manage_properties.html";
     private static final String TEMPLATE_MODIFY_PROPERTIES = "admin/system/modify_properties.html";
 
-    // Images definition
+    // Parameters
     private static final String PARAMETER_FILE = "file";
     private static final String PARAMETER_DIRECTORY = "directory";
     private static final String PARAMETER_DIR = "dir";
