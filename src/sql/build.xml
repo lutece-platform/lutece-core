@@ -1,4 +1,4 @@
-<project name="Lutece - Database Initialisation" default="all" basedir=".">
+<project name="Lutece - Database Initialisation" default="specific" basedir=".">
 
 	<target name="init" description="Prepare the database by creating it and inserting data">
 		<echo message="Preparing the database(s) by creating it and inserting data" />
@@ -12,10 +12,41 @@
 		<property name="db.connector.path" value="${db.connector.jar.path}" />
 	</target>
 	
-	<!-- Default target to be used with sql/plugins/<plugin name>/core and sql/plugins/<plugin name>/plugin structure -->
-	<target name="all" depends="db_core_plugin_init,db_plugin_init"/>
+	<!-- For inport lib ant-contrib -->
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="ant-contrib/ant-contrib-1.0b3.jar"/>
+		</classpath>
+	</taskdef>
 	
-	<!-- Target that create db -->	
+	<target name="check_contrib_present">
+	
+		<available property="contrib.jar.present" resource="net/sf/antcontrib/antlib.xml">
+			<classpath >
+				<pathelement location="ant-contrib/ant-contrib-1.0b3.jar" />
+			</classpath>
+		</available>
+		
+	</target>
+	
+	<target name="contrib_not_found" unless="contrib.jar.present" depends="check_contrib_present">
+		<echo level="warning">
+		ATTENTION : package "ant-contrib.jar" is not found in your classpath ANT_HOME/lib.
+		You can dowload this on URL "http://sourceforge.net/project/showfiles.php?group_id=36177".
+		Version of ant-contrib require is 1.0b3 to work properly.
+		
+		All tables will be create in core pool portal.
+		</echo>
+	</target>
+	
+	<!-- target create specific database on pool define in db.properties-->
+	<target name="specific" if="contrib.jar.present" depends="contrib_not_found,db_core_plugin_init,db_plugins_specific_database_init,db_init_old_structure"/>
+	
+	<!-- Default target to be used with sql/plugins/<plugin name>/core and sql/plugins/<plugin name>/plugin structure -->
+	<target name="all" if="contrib.jar.present" depends="contrib_not_found,db_core_plugin_init,db_plugin_init,db_init_old_structure"/>
+	
+	
+		<!-- Target that create db -->	
 	<target name="init_create_db" depends="init">
 		<copy file="../conf/db.properties" tofile="db.properties" overwrite="true"/>	
 		<replaceregexp file="db.properties" match="portal.url=(.*)/(.*)\?(.*)" replace="portal.baseUrl=\1" byline="false"/>
@@ -69,7 +100,7 @@
 	
 	
 	<!-- Target to init core depend plugin database -->
-	<target name="plugin_init_core_files" depends="db_core_init">	
+	<target name="plugin_init_core_files" if="contrib.jar.present" depends="db_core_init">	
 		<fileset id="sql.core.plugin.files" dir="${basedir}">
 			<include name="plugins/**/core/*.sql" />
 		</fileset>	
@@ -86,78 +117,169 @@
 	</target>
 				
 	<!-- Target to init plugin specific database -->
-	<target name="plugin_init_plugin_files" depends="db_core_init">	
+	<target name="plugin_init_plugins_files" if="contrib.jar.present" depends="db_core_init">	
 		<fileset id="sql.plugin.files" dir="${basedir}">
 			<include name="plugins/**/plugin/*.sql" />
 		</fileset>	
 		<pathconvert refid="sql.plugin.files" setonempty="false" property="exists.sql.plugin.files"/>
 	</target>
-	<target name="pool_plugins_exists_test" unless="plugins.poolservice">
-		<echo level="warning">
-		Plugins pool wasn't defined in db.properties file.
-		All tables will be create in core pool portal.
-		</echo>
-	</target>
-	<!-- Target that create db -->	
-	<target name="init_create_db_plugins" if="exists.sql.plugin.files" depends="plugin_init_plugin_files">
-		<echo message="init create plugin specific database" />
-		<ant target="pool_plugins_exists_test"/>
-		<property name="baseUrlPlugins" value="${baseUrl}" />
-		
-		<copy file="../conf/db.properties" tofile="db.properties" overwrite="true"/>	
-		<replaceregexp file="db.properties" match="plugins.url=(.*)/(.*)\?(.*)" replace="plugins.baseUrl=\1" byline="false"/>
-		<property file="db.properties" />
-		<property name="baseUrlPlugins" value="${plugins.baseUrl}" />
-						
-		<copy file="../conf/db.properties" tofile="db.properties" overwrite="true"/>
-		<replaceregexp file="db.properties" match="plugins.url=(.*)/(.*)\?(.*)" replace="plugins.baseName=\2" byline="false"/>	
-		<property file="db.properties" />
-		<property name="baseNamePlugins" value="${plugins.baseName}" />					
+	
+	<!-- Create the plugins database -->
+	<target name="drop_and_create_db_plugins" depends="plugin_init_plugins_files" if="exists.sql.plugin.files">
+	
+		<if>
+			<equals arg1="${plugins.poolservice}" arg2="${portal.poolservice}" />
+			<then>
+	
+				<propertyregex property="baseUrlPlugins" input="${plugins.url}" regexp="(.*)/(.*)\?(.*)" replace="\1" casesensitive="true" override="true" />
+				<propertyregex property="baseNamePlugins" input="${plugins.url}" regexp="(.*)/(.*)\?(.*)" replace="\2" casesensitive="true" override="true" />
 				
-		<delete file="db.properties" verbose="true" />
-	
+				<echo message="Create the plugins database ${baseNamePlugins} on host ${baseUrlPlugins}" />
+				
+				<sql driver="${plugins.driver}" 
+						           url="${baseUrlPlugins}" 
+						           userid="${plugins.user}" 
+						           password="${plugins.password}"
+						           classpath="${db.connector.path}">
+						DROP DATABASE IF EXISTS ${baseNamePlugins};
+						CREATE DATABASE IF NOT EXISTS ${baseNamePlugins};
+						USE ${baseName};
+				</sql>
+			</then>
+			<else>
+					<echo level="warning">
+		"plugins" pool wasn't defined in db.properties file.
+		All tables will be create in core pool portal.
+					</echo>
+			</else>
+		</if>
 	</target>
 	
-	<target name="drop_and_create_db_plugins" depends="init_create_db_plugins" if="exists.sql.plugin.files">
-		<echo message="Create the core database ${baseNamePlugins} on host ${baseUrlPlugins}" />
+	<!-- init the plugins data base if existe -->
+	<target name="db_plugin_init" depends="drop_and_create_db_plugins" if="exists.sql.plugin.files">
 		
-		<echo message="Preparing plugin specific database" />
-		<ant target="pool_plugins_exists_test"/>
-		<property name="plugins.driver" value="${portal.driver}" />
-		<property name="baseUrlPlugins" value="${portal.url}" />
-		<property name="plugins.user" value="${portal.user}" />
-		<property name="plugins.password" value="${portal.password}" />
+		<if>
+			<equals arg1="${plugins.poolservice}" arg2="${portal.poolservice}" />
+			<then>
 		
-		<sql driver="${plugins.driver}" 
-				           url="${baseUrlPlugins}" 
-				           userid="${plugins.user}" 
-				           password="${plugins.password}"
-				           classpath="${db.connector.path}">
-				DROP DATABASE IF EXISTS ${baseNamePlugins};
-				CREATE DATABASE IF NOT EXISTS ${baseNamePlugins};
-				USE ${baseName};
-		</sql>
+				<sql driver="${plugins.driver}" url="${plugins.url}" userid="${plugins.user}" password="${plugins.password}" encoding="utf8" onerror="${on_sql_error}">
+					<fileset refid="sql.plugin.files"/>
+					<classpath>
+						<pathelement location="${db.connector.path}" />
+					</classpath>
+				</sql>
+			</then>
+			<else>
+					
+					<sql driver="${portal.driver}" url="${portal.url}" userid="${portal.user}" password="${portal.password}" encoding="utf8" onerror="${on_sql_error}">
+							<fileset refid="sql.plugin.files"/>
+							<classpath>
+								<pathelement location="${db.connector.path}" />
+							</classpath>
+						</sql>
+			</else>
+		</if>
 	</target>
 	
-	<target name="db_plugin_init" if="exists.sql.plugin.files" depends="init,drop_and_create_db_plugins">
-		<echo message="Preparing plugin specific database" />
-		<ant target="pool_plugins_exists_test"/>
-		<property name="plugins.driver" value="${portal.driver}" />
-		<property name="plugins.url" value="${portal.url}" />
-		<property name="plugins.user" value="${portal.user}" />
-		<property name="plugins.password" value="${portal.password}" />
+	<!-- init the list spesifics pools -->
+	<target name="init_list_db_plugins_specific_database" if="contrib.jar.present" depends="db_core_init" >
+		
+		<property name="list_plugins" value=""/>	
+		<property name="before_pool" value=""/>
+		<for param="file">
+			<path>
+			    <fileset dir="${basedir}">
+					<include name="plugins/**/plugin/*.sql" />
+			    </fileset>
+			</path>
+			<sequential>
+			
+				<dirname property="file.@{file}" file="@{file}"/>
+				<propertyregex property="pool" input="${file.@{file}}" regexp="(.*)\\(.*)\\plugin" replace="\2" casesensitive="true" override="true" />
 
+				<if>
+				 <equals arg1="${before_pool}" arg2="${pool}" />
+				 <then>
+
+				 </then>
+				 <else>
+				 	<propertyregex property="list_plugins" input="${list_plugins}" regexp="(.*)" replace="\1${pool}," global="false" casesensitive="true" override="true" />		 
+				 	<propertyregex property="before_pool" input="${pool}" regexp="(.*)" replace="\1" casesensitive="true" override="true" />			 	
+				 </else>
+				</if>
+				
+			</sequential>
+		</for>
+	</target>
+	
+	<!-- create and init spesifics pools -->
+	<target name="db_plugins_specific_database_init" if="contrib.jar.present" depends="init_list_db_plugins_specific_database">
+		<for list="${list_plugins}" delimiter="," param="pool">
+			<sequential>
+				<fileset id="sql.plugin.files" dir="${basedir}">
+					<include name="plugins/**/@{pool}/plugin/*.sql" />
+				</fileset>
+				<pathconvert refid="sql.plugin.files" setonempty="false" property="exists.sql.plugin.files"/>
+				
+				<echo message="" />
+				<echo message="======================================================================" />
+				
+				<if>
+				 <equals arg1="${@{pool}.poolservice}" arg2="${portal.poolservice}" />
+				 <then>
+				
+				<echo >db_@{pool}_init:</echo>
+				
+				<propertyregex property="baseUrl@{pool}" input="${@{pool}.url}" regexp="(.*)/(.*)\?(.*)" replace="\1" casesensitive="true" override="true" />
+				<propertyregex property="baseName@{pool}" input="${@{pool}.url}" regexp="(.*)/(.*)\?(.*)" replace="\2" casesensitive="true" override="true" />
+				
+				<echo message="" />
+				<echo>Create the "@{pool}" database "${baseName@{pool}}" on host "${baseUrl@{pool}}"</echo>
+				<sql driver="${@{pool}.driver}" 
+									url="${baseUrl@{pool}}" 
+							 		userid="${@{pool}.user}" 
+						   			password="${@{pool}.password}"
+						  			classpath="${db.connector.path}">
+								DROP DATABASE IF EXISTS ${baseName@{pool}};
+								CREATE DATABASE IF NOT EXISTS ${baseName@{pool}};
+								USE ${baseName@{pool}};
+				</sql>
+				
+				<echo message="" />
+				<echo message="Preparing plugin @{pool} database" />
+						<sql driver="${@{pool}.driver}" url="${@{pool}.url}" userid="${@{pool}.user}" password="${@{pool}.password}" encoding="utf8" onerror="${on_sql_error}">
+							<fileset refid="sql.plugin.files"/>
+							<classpath>
+								<pathelement location="${db.connector.path}" />
+							</classpath>
+						</sql>		
+				
+				</then>
+				 <else>
+					<echo >db_@{pool}_init:</echo>
+					<echo message="" />
+					<echo level="warning">
+		"@{pool}" pool wasn't defined in db.properties file.
+		All tables will be create in core pool portal.
+					</echo>
+					
+					<sql driver="${portal.driver}" url="${portal.url}" userid="${portal.user}" password="${portal.password}" encoding="utf8" onerror="${on_sql_error}">
+							<fileset refid="sql.plugin.files"/>
+							<classpath>
+								<pathelement location="${db.connector.path}" />
+							</classpath>
+						</sql>
+				 </else>
+				 </if>
+				
+				
+			</sequential>
+		</for>
 		
-		<sql driver="${plugins.driver}" url="${plugins.url}" userid="${plugins.user}" password="${plugins.password}" encoding="utf8" onerror="${on_sql_error}">
-			<fileset refid="sql.plugin.files"/>
-			<classpath>
-				<pathelement location="${db.connector.path}" />
-			</classpath>
-		</sql>
 	</target>
 	
 	<!-- Target to be used with old sql directory structure --> 
-	<target name="db_init_old_structure" depends="db_core_init">
+	<target name="db_init_old_structure" unless="contrib.jar.present" depends="db_core_init">
 		<echo message="Preparing unique database for all plugins." />
 		<sql driver="${portal.driver}" url="${portal.url}" userid="${portal.user}" password="${portal.password}" encoding="utf8" onerror="${on_sql_error}">
 			<fileset dir="${basedir}">
