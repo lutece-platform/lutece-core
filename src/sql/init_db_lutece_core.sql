@@ -55,6 +55,7 @@ INSERT INTO `core_admin_right` (`id_right`,`name`,`level_right`,`admin_url`,`des
  ('CORE_ROLES_MANAGEMENT','portal.role.adminFeature.roles_management.name',2,'jsp/admin/role/ManagePageRole.jsp','portal.role.adminFeature.roles_management.description',0,NULL,'USERS','images/admin/skin/features/manage_roles.png'),
 ('CORE_GROUPS_MANAGEMENT','portal.group.adminFeature.groups_management.name',2,'jsp/admin/group/ManageGroups.jsp','portal.group.adminFeature.groups_management.description',0,NULL,'USERS','images/admin/skin/features/manage_groups.png'),
 ('CORE_MAILINGLISTS_MANAGEMENT','portal.mailinglist.adminFeature.mailinglists_management.name',2,'jsp/admin/mailinglist/ManageMailingLists.jsp','portal.mailinglist.adminFeature.mailinglists_management.description',0,NULL,'MANAGERS','images/admin/skin/features/manage_mailinglists.png');
+('CORE_LEVEL_RIGHT_MANAGEMENT','portal.users.adminFeature.level_right_management.name',2,'jsp/admin/features/ManageLevels.jsp','portal.users.adminFeature.level_right_management.description',0,NULL,'MANAGERS','images/admin/skin/features/manage_levels.png');
 /*!40000 ALTER TABLE `core_admin_right` ENABLE KEYS */;
 
 
@@ -129,9 +130,9 @@ INSERT INTO `core_feature_group` (`id_feature_group`,`feature_group_description`
  ('APPLICATIONS','portal.features.group.applications.description','portal.features.group.applications.label',3),
  ('SYSTEM','portal.features.group.system.description','portal.features.group.system.label',7),
  ('SITE','portal.features.group.site.description','portal.features.group.site.label',2),
- ('STYLE','portal.features.group.charter.description','portal.features.group.charter.label',5),
+ ('STYLE','portal.features.group.charter.description','portal.features.group.charter.label',6),
  ('USERS','portal.features.group.users.description','portal.features.group.users.label',4),
- ('MANAGERS','portal.features.group.managers.description','portal.features.group.managers.label',6);
+ ('MANAGERS','portal.features.group.managers.description','portal.features.group.managers.label',5);
 /*!40000 ALTER TABLE `core_feature_group` ENABLE KEYS */;
 
 
@@ -334,6 +335,7 @@ INSERT INTO `core_user_right` (`id_right`,`id_user`) VALUES
  ('CORE_GROUPS_MANAGEMENT',1),
  ('CORE_GROUPS_MANAGEMENT',2),
  ('CORE_MAILINGLISTS_MANAGEMENT',1);
+ ('CORE_LEVEL_RIGHT_MANAGEMENT',1);
 /*!40000 ALTER TABLE `core_user_right` ENABLE KEYS */;
 
 
