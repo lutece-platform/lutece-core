@@ -40,7 +40,6 @@ import fr.paris.lutece.portal.web.features.FeaturesGroupJspBeanTest;
 import fr.paris.lutece.portal.web.features.LevelsJspBeanTest;
 import fr.paris.lutece.portal.web.insert.InsertServiceJspBeanTest;
 import fr.paris.lutece.portal.web.insert.InsertServiceSelectorJspBeanTest;
-import fr.paris.lutece.portal.web.portlet.AliasPortletJspBeanTest;
 import fr.paris.lutece.portal.web.rbac.RoleManagementJspBeanTest;
 import fr.paris.lutece.portal.web.search.SearchAppTest;
 import fr.paris.lutece.portal.web.search.SearchIndexationJspBeanTest;
@@ -78,7 +77,6 @@ public final class AllTests
         suite.addTest( new TestSuite( LevelsJspBeanTest.class ) );
         suite.addTest( new TestSuite( InsertServiceJspBeanTest.class ) );
         suite.addTest( new TestSuite( InsertServiceSelectorJspBeanTest.class ) );
-        suite.addTest( new TestSuite( AliasPortletJspBeanTest.class ) );
         suite.addTest( new TestSuite( RoleManagementJspBeanTest.class ) );
         suite.addTest( new TestSuite( SearchAppTest.class ) );
         suite.addTest( new TestSuite( SearchIndexationJspBeanTest.class ) );
