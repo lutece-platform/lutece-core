@@ -51,7 +51,7 @@ CREATE TABLE `core_admin_mailinglist` (
 --
 
 DROP TABLE IF EXISTS `core_admin_mailinglist_filter`;
-CREATE TABLE `core_admin_mailinglist_users_filter` (
+CREATE TABLE `core_admin_mailinglist_filter` (
   `id_mailinglist` int(11) unsigned NOT NULL default '0',
   `workgroup` varchar(50) NOT NULL,
   `role` varchar(50) NOT NULL,
