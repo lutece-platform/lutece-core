@@ -8,34 +8,6 @@
     
     
     <xsl:template match="page[page-level=0]">
-        <script type="text/javascript">
-            window.onfocus=function(){
-            initializeMenu('menu1', 'actuator1');
-            <xsl:value-of select="css-id" />
-            openMenu("actuator<xsl:value-of select="current-page-id" />");
-            }
-            
-            function openMenu(actuator) {
-            
-            var act = document.getElementById(actuator);
-            
-            var nIdMenu = act.parentNode.parentNode.getAttribute('id');
-            if ( nIdMenu != '') {
-            var menu = document.getElementById(nIdMenu);
-            
-            if (menu == null ) return;
-            
-            menu.parentNode.style.backgroundImage ="url(images/admin/skin/minus.gif)";
-            menu.style.display = "block";
-            
-            var nIdAct = 'actuator' + nIdMenu.substr( 4, nIdMenu.length - 4  );
-            openMenu( nIdAct );
-            }
-            
-            return true;
-            }
-        </script>
-        
         <table cellpadding="0" cellspacing="0" width="100%" border="0">
             <tr>
                 <td width="100%" align="left">
@@ -52,12 +24,12 @@
                 </td>
             </tr>
         </table>
-        
-        <ul>
-            <li class="tree-menu-menubar">
-                <a href="#" id="actuator1" class="tree-menu-actuator">
+        <br />
+              <span class="tree-root">
+                  <a href="{$site-path}?page_id={page-id}">
                     <xsl:value-of select="page-name" />
-                </a>
+                  </a>
+                </span>
                 <xsl:if test="not(string(page-role)='none')"><br />
                     <span class="colored">
                         <xsl:text disable-output-escaping="yes">
@@ -76,20 +48,19 @@
                     </strong>
                     <xsl:apply-templates select="page-description" />
                 </xsl:if>
-                
-                <ul id="menu{page-id}" class="tree-menu-menu">
-                    <xsl:apply-templates select="child-pages-list" />
+                <ul id="tree">
+                   <xsl:apply-templates select="child-pages-list" />
                 </ul>
-            </li>
-        </ul>
+  
     </xsl:template>
     
     <xsl:template match="page[page-level>0]" >
         <li>
-            <a href="#" id="actuator{page-id}" class="tree-menu-actuator"> </a>
+        <span>
             <a href="{$site-path}?page_id={page-id}">
                 <xsl:value-of select="page-name" />
             </a>
+          </span>  
             <xsl:if test="not(string(page-role)='none')"><br />
                 <span class="colored">
                     <xsl:text disable-output-escaping="yes">
@@ -111,7 +82,7 @@
             
             <xsl:choose>
                 <xsl:when test="count(child-pages-list/*)>0">
-                    <ul id="menu{page-id}" class="tree-menu-menu">
+                    <ul>
                         <xsl:apply-templates select="child-pages-list" />
                     </ul>
                 </xsl:when>

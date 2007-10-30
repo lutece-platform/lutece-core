@@ -19,9 +19,12 @@ ul#admin-header-menu ul li a span {
   margin: 15px 0 -15px 0;  
 }
 
+div.admin-site-page{
+	padding-left: 15px;
+}
+
 div.content-box {
 	background: #DEE8F1  url(../../images/admin/skin/roundbox_tl.gif) top left no-repeat;
-
 }
 
 div.multibox table {

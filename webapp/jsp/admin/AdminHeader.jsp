@@ -36,6 +36,10 @@
 <script type="text/javascript" src="js/tools.js"></script>
 <script type="text/javascript" src="js/selectbox.js"></script>
 
+<script src="js/jquery/jquery-1.2.1.min.js" type="text/javascript"></script>
+<script src="js/jquery/plugins/treeview/jquery.cookie.js" type="text/javascript"></script>
+<script src="js/jquery/plugins/treeview/jquery.treeview.pack.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 function init()
 {
@@ -48,6 +52,7 @@ function init()
 	hideId( 'page_create');
 }
 </script>
+
 
 </head>
 <body onload="init()">

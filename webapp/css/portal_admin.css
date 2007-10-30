@@ -8,6 +8,7 @@
 =========================================================================== */
 
 @import url( "../js/jscalendar/calendar-lutece.css" );
+@import url("../js/jquery/plugins/treeview/jquery.treeview.css");
 
 /* Define the default font: */
 BODY, TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH, H1, H2, H3, H4, TEXTAREA
@@ -1168,4 +1169,4 @@ div.toggle_admin{
   margin-left: 0px;
 }
 
-
+/* jQuery */
