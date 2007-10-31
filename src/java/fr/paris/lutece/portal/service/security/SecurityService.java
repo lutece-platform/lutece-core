@@ -36,8 +36,11 @@ package fr.paris.lutece.portal.service.security;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.url.UrlItem;
 
 import java.security.Principal;
+
+import java.util.Enumeration;
 
 import javax.security.auth.login.LoginException;
 
@@ -57,6 +60,9 @@ public final class SecurityService
     private static final String PROPERTY_AUTHENTICATION_CLASS = "mylutece.authentication.class";
     private static final String PROPERTY_AUTHENTICATION_ENABLE = "mylutece.authentication.enable";
     private static final String PROPERTY_PORTAL_AUTHENTICATION_REQUIRED = "mylutece.portal.authentication.required";
+    private static final String URL_INTERROGATIVE = "?";
+    private static final String URL_AMPERSAND = "&";
+    private static final String URL_EQUAL = "=";
     private static SecurityService _singleton = new SecurityService(  );
     private static LuteceAuthentication _authenticationService;
     private static boolean _bEnable;
@@ -385,5 +391,47 @@ public final class SecurityService
         LuteceUser user = _authenticationService.login( strUserName, strPassword, request );
 
         return user;
+    }
+
+    /**
+     * Return true if the requested url is equal to LoginUrl
+     * @param request The Http servlet request
+     * @return True if the requested url is equal to LoginUrl, false else.
+     */
+    public boolean isLoginUrl( HttpServletRequest request )
+    {
+        if ( ( getLoginPageUrl(  ) == null ) || ( request == null ) )
+        {
+            return false;
+        }
+
+        String strRequestUrl = request.getRequestURI(  );
+        UrlItem url = new UrlItem( strRequestUrl );
+
+        for ( String strParamValueLoginPageUrl : getLoginPageUrl(  )
+                                                     .substring( getLoginPageUrl(  ).indexOf( URL_INTERROGATIVE ) + 1 )
+                                                     .split( URL_AMPERSAND ) )
+        {
+            String[] arrayParamValueLoginPageUrl = strParamValueLoginPageUrl.split( URL_EQUAL );
+            Enumeration<String> enumParams = request.getParameterNames(  );
+
+            while ( enumParams.hasMoreElements(  ) )
+            {
+                String strRequestParameter = (String) enumParams.nextElement(  );
+
+                if ( arrayParamValueLoginPageUrl[0].equals( strRequestParameter ) &&
+                        arrayParamValueLoginPageUrl[1].equals( request.getParameter( strRequestParameter ) ) )
+                {
+                    url.addParameter( strRequestParameter, request.getParameter( strRequestParameter ) );
+                }
+            }
+        }
+
+        if ( url.getUrl(  ).endsWith( getLoginPageUrl(  ) ) && !getLoginPageUrl(  ).equals( "" ) )
+        {
+            return true;
+        }
+
+        return false;
     }
 }

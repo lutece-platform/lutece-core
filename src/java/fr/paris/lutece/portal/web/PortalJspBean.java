@@ -123,8 +123,11 @@ public class PortalJspBean
             }
             else
             {
+                //If portal authentication is enabled and user is null and the requested URL 
+                //is not the login URL, user cannot access to Portal
                 if ( ( SecurityService.getInstance(  ).isPortalAuthenticationRequired(  ) ) &&
-                        ( SecurityService.getInstance(  ).getRegisteredUser( request ) == null ) )
+                        ( SecurityService.getInstance(  ).getRegisteredUser( request ) == null ) &&
+                        !SecurityService.getInstance(  ).isLoginUrl( request ) )
                 {
                     // Authentication is required to access to the portal
                     throw new UserNotSignedException(  );
