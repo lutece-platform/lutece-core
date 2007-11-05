@@ -45,6 +45,8 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -59,12 +61,7 @@ public class StandaloneAppJspBean
     ////////////////////////////////////////////////////////////////////////////
     // Constants
     private static final int MODE_HTML = 0;
-    private static final String MARK_PLUGIN_NAME = "plugin_name";
-    private static final String MARK_PLUGIN_DESCRIPTION = "plugin_description";
-    private static final String MARK_PLUGIN_VERSION = "plugin_version";
-    private static final String MARK_PLUGIN_PROVIDER = "plugin_provider";
     private static final String TEMPLATE_STANDALONE = "skin/site/standalone_app.html";
-    private static final String TEMPLATE_STANDALONE_PLUGINS_LIST = "skin/site/standalone_plugins_list.html";
     private static final String MARK_PLUGINS_LIST = "plugins_list";
     private static final String MARK_BASE_URL = "base_url";
 
@@ -115,37 +112,26 @@ public class StandaloneAppJspBean
      */
     public String getPluginList( HttpServletRequest request )
     {
-        HashMap<String, String> modelList = null;
-        HashMap<String, String> modelLine = new HashMap<String, String>(  );
+        HashMap modelList = new HashMap(  );
+        Collection<Plugin> pluginList = new ArrayList<Plugin>(  );
         Locale locale = ( request == null ) ? null : request.getLocale(  );
-
-        StringBuffer strLines = new StringBuffer(  );
 
         // Scan of the list
         for ( XPageApplicationEntry entry : XPageAppService.getXPageApplicationsList(  ) )
         {
-            modelLine = new HashMap<String, String>(  );
-
             if ( entry.isEnable(  ) )
             {
                 Plugin plugin = entry.getPlugin(  );
 
                 if ( plugin != null )
                 {
-                    modelLine.put( MARK_PLUGIN_NAME, plugin.getName(  ) );
-                    modelLine.put( MARK_PLUGIN_DESCRIPTION, plugin.getDescription(  ) );
-                    modelLine.put( MARK_PLUGIN_VERSION, plugin.getVersion(  ) );
-                    modelLine.put( MARK_PLUGIN_PROVIDER, plugin.getProvider(  ) );
-
-                    HtmlTemplate templateLine = AppTemplateService.getTemplate( TEMPLATE_STANDALONE_PLUGINS_LIST,
-                            locale, modelLine );
-                    strLines.append( templateLine.getHtml(  ) );
+                    pluginList.add( plugin );
                 }
             }
         }
 
         // Insert the rows in the list
-        modelList.put( MARK_PLUGINS_LIST, strLines.toString(  ) );
+        modelList.put( MARK_PLUGINS_LIST, pluginList );
         modelList.put( MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_STANDALONE, locale, modelList );

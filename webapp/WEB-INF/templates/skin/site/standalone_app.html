@@ -34,6 +34,26 @@
     &nbsp;
   </td>
 </tr>
-  ${plugins_list}
+	<#list plugins_list as plugin>
+		<tr>
+		  <td width="30%" align="left">
+		     <a href="jsp/site/RunStandaloneApp.jsp?page=${plugin.name}">${plugin.name}</a>
+		  </td>
+		  <td width="10%" align="center">
+		      ${plugin.version}
+		  </td>
+		  <td width="30%" align="left">
+		      ${plugin.description}
+		  </td>
+		  <td width="30%" align="center">
+		      ${plugin.provider}
+		  </td>
+		</tr>
+		<tr>
+		<td colspan="4" height="10">
+		  &nbsp;
+		</td>
+		</tr>
+	</#list>
 </table>
 </center>
