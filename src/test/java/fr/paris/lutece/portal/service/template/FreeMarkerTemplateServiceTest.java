@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.template;
 
 import fr.paris.lutece.LuteceTestCase;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -67,9 +68,10 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
         String strPath = "WEB-INF/templates/";
         String strTemplate = "skin/site/portal_footer.html";
 
-        HashMap model = new HashMap();
-        model.put( "web_mail" , "lutece@paris.fr" );
-        HtmlTemplate result = FreeMarkerTemplateService.loadTemplate( strPath, strTemplate, Locale.getDefault() , model );
+        HashMap model = new HashMap(  );
+        model.put( "web_mail", "lutece@paris.fr" );
+
+        HtmlTemplate result = FreeMarkerTemplateService.loadTemplate( strPath, strTemplate, Locale.getDefault(  ), model );
     }
 
     /**

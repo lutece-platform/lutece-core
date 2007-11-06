@@ -108,7 +108,7 @@ public class AdminUserTest extends LuteceTestCase
         assertEquals( userStored.getFirstName(  ), user.getFirstName(  ) );
         assertEquals( userStored.getEmail(  ), user.getEmail(  ) );
         assertEquals( userStored.getStatus(  ), user.getStatus(  ) );
-//        assertEquals( userStored.getLocale(  ), user.getLocale(  ) );
+        //        assertEquals( userStored.getLocale(  ), user.getLocale(  ) );
 
         // Delete test
         AdminUserHome.removeAllRightsForUser( user.getUserId(  ) );

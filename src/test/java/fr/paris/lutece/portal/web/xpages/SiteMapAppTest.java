@@ -51,7 +51,7 @@ public class SiteMapAppTest extends LuteceTestCase
         System.out.println( "getPage" );
 
         MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        
+
         int nMode = 0;
         Plugin plugin = null;
         SiteMapApp instance = new SiteMapApp(  );

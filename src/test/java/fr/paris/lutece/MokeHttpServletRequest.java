@@ -602,7 +602,7 @@ public class MokeHttpServletRequest implements HttpServletRequest
      */
     public Locale getLocale(  )
     {
-        return Locale.getDefault();
+        return Locale.getDefault(  );
     }
 
     /**

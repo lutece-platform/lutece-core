@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.sql.Connection;
+
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -57,18 +58,19 @@ public class AppInitTest extends LuteceTestCase
     {
         // initServices is loaded by the LuteceTestCase setUp method
     }
-    
+
     /**
      * Check Template service
      */
     public void testTemplateService(  )
     {
-        HashMap model = new HashMap();
-        model.put( "web_mail" , "lutece@paris.fr" );
-        HtmlTemplate t = AppTemplateService.getTemplate( "skin/site/portal_footer.html" , Locale.getDefault() , model );
+        HashMap model = new HashMap(  );
+        model.put( "web_mail", "lutece@paris.fr" );
+
+        HtmlTemplate t = AppTemplateService.getTemplate( "skin/site/portal_footer.html", Locale.getDefault(  ), model );
         assertNotNull( t );
     }
-    
+
     /**
      * Check some keys from config.properties
      */
@@ -77,7 +79,7 @@ public class AppInitTest extends LuteceTestCase
         //        assertNotNull( AppPropertiesService.getProperty( "webapp.path" ) );
         //        assertNotNull( AppPropertiesService.getProperty( "lutece.webapp.url" ) );
     }
-    
+
     /**
      * Check some keys from lutece.properties
      */
@@ -86,7 +88,7 @@ public class AppInitTest extends LuteceTestCase
         assertNotNull( AppPropertiesService.getProperty( "lutece.page.root" ) );
         assertNotNull( AppPropertiesService.getProperty( "lutece.root.name" ) );
     }
-    
+
     /**
      * Check some keys from webmaster.properties
      */
@@ -95,7 +97,7 @@ public class AppInitTest extends LuteceTestCase
         assertNotNull( AppPropertiesService.getProperty( "head.meta.author" ) );
         assertNotNull( AppPropertiesService.getProperty( "email.webmaster" ) );
     }
-   
+
     /**
      * Check pool initialization for AppConnection Service
      */
@@ -105,5 +107,4 @@ public class AppInitTest extends LuteceTestCase
         assertNotNull( connection );
         AppConnectionService.freeConnection( connection );
     }
-    
 }

@@ -75,7 +75,7 @@ public class AppLogServiceTest extends LuteceTestCase
 
         Object objToLog = "AppLogServiceTest : JUnit message error test";
 
-        AppLogService.error( objToLog , new AppException( "JUnit test exception" ) );
+        AppLogService.error( objToLog, new AppException( "JUnit test exception" ) );
     }
 
     /**

@@ -64,7 +64,7 @@ public class StandaloneAppJspBeanTest extends LuteceTestCase
 
         HttpServletRequest request = new MokeHttpServletRequest(  );
         StandaloneAppJspBean instance = new StandaloneAppJspBean(  );
-        
+
         /* TODO waiting for LUTECE-451 Fix
         instance.getPluginList( request );
          */

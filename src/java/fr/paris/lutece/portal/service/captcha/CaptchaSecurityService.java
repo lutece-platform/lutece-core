@@ -33,14 +33,14 @@
  */
 package fr.paris.lutece.portal.service.captcha;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -71,7 +71,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
         }
         catch ( BeanDefinitionStoreException e )
         {
-        	_bAvailable = false;
+            _bAvailable = false;
         }
         catch ( NoSuchBeanDefinitionException e )
         {

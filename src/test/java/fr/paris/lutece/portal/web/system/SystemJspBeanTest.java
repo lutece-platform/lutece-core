@@ -91,8 +91,8 @@ public class SystemJspBeanTest extends LuteceTestCase
 
         MokeHttpServletRequest request = new MokeHttpServletRequest(  );
         request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        request.addMokeParameters( PARAMETER_DIRECTORY , PARAMETER_DIR_VALUE );
-        request.addMokeParameters( PARAMETER_FILE , PARAMETER_FILE_VALUE );
+        request.addMokeParameters( PARAMETER_DIRECTORY, PARAMETER_DIR_VALUE );
+        request.addMokeParameters( PARAMETER_FILE, PARAMETER_FILE_VALUE );
 
         SystemJspBean instance = new SystemJspBean(  );
         instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
