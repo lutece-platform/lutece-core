@@ -155,9 +155,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * @throws UserNotSignedException The UserNotSignedException
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    public String getAdminPagePreview( HttpServletRequest request )
-        throws UserNotSignedException, SiteMessageException
-    {
+    public String getAdminPagePreview( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
+    {        
         ContentService cs = PortalService.getInvokedContentService( request );
         int nMode = 1;
 

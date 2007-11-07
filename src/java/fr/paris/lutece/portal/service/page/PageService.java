@@ -193,51 +193,58 @@ public class PageService extends ContentService implements ImageResourceProvider
     public synchronized String getPage( String strIdPage, int nMode, HttpServletRequest request )
         throws SiteMessageException
     {
-        String strPage = "";
-
-        // Get request paramaters and store them in a HashMap
-        Enumeration enumParam = request.getParameterNames(  );
-        HashMap<String, String> htParamRequest = new HashMap<String, String>(  );
-        String paramName = "";
-
-        while ( enumParam.hasMoreElements(  ) )
+        try
         {
-            paramName = (String) enumParam.nextElement(  );
-            htParamRequest.put( paramName, request.getParameter( paramName ) );
-        }
+            String strPage = "";
 
-        LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
-        String strKey = getKey( htParamRequest, nMode, user );
+            // Get request paramaters and store them in a HashMap
+            Enumeration enumParam = request.getParameterNames(  );
+            HashMap<String, String> htParamRequest = new HashMap<String, String>(  );
+            String paramName = "";
 
-        // The cache is enable !
-        if ( isCacheEnable(  ) )
-        {
-            strPage = (String) getFromCache( strKey );
-
-            if ( strPage == null )
+            while ( enumParam.hasMoreElements(  ) )
             {
-                Boolean bCanBeCached = Boolean.TRUE;
-
-                // The key is not in the cache, so we have to build the page
-                strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
-
-                // Add the page to the cache if the page can be cached
-                if ( bCanBeCached.booleanValue(  ) )
-                {
-                    putInCache( strKey, strPage );
-                }
+                paramName = (String) enumParam.nextElement(  );
+                htParamRequest.put( paramName, request.getParameter( paramName ) );
             }
 
-            // The page is already in the cache, so just return it
+            LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
+            String strKey = getKey( htParamRequest, nMode, user );
+
+            // The cache is enable !
+            if ( isCacheEnable(  ) )
+            {
+                strPage = (String) getFromCache( strKey );
+
+                if ( strPage == null )
+                {
+                    Boolean bCanBeCached = Boolean.TRUE;
+
+                    // The key is not in the cache, so we have to build the page
+                    strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
+                    
+                    // Add the page to the cache if the page can be cached
+                    if ( bCanBeCached.booleanValue(  ) )
+                    {
+                        putInCache( strKey, strPage );
+                    }
+                }   
+
+                // The page is already in the cache, so just return it
+                return strPage;
+            }
+            else
+            {
+                Boolean bCanBeCached = Boolean.FALSE;
+                strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
+            }
+
             return strPage;
         }
-        else
+        catch ( NumberFormatException nfe )
         {
-            Boolean bCanBeCached = Boolean.FALSE;
-            strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
-        }
-
-        return strPage;
+            return PortalService.getDefaultPage( request, nMode );        
+        }            
     }
 
     /**
