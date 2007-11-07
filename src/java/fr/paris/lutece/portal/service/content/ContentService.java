@@ -45,6 +45,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public abstract class ContentService extends AbstractCacheableService
 {
+	private String _strPluginName;
+	
     /**
      * Returns the HTML (or XML) code for a page for a given mode. The Service should use request parameters to
      * identify the page content to provide.
@@ -65,4 +67,24 @@ public abstract class ContentService extends AbstractCacheableService
      * @return true if this ContentService should handle this request
      */
     public abstract boolean isInvoked( HttpServletRequest request );
+    
+    /**
+     * Return the name of the plugin
+     *
+     * @return The name of the plugin
+     */
+    public String getPluginName(  )
+    {
+        return _strPluginName;
+    }
+
+    /**
+     * Set the plugin name of the content service
+     *
+     * @param strPluginName the plugin name
+     */
+    public void setPluginName( String strPluginName )
+    {
+        _strPluginName = strPluginName;
+    }
 }
