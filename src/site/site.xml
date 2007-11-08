@@ -10,6 +10,7 @@
             <item name="Introduction" href="index.html"/>
             <item name="Read Me" href="readme.html"/>
             <item name="Download" href="download.html"/>
+            <item name="Nightly builds" href="/nightly_build/" />
             <item name="Features" href="features.html"/>
             <item name="Setup" href="install.html" />
             <item name="License" href="license.html"/>            
