@@ -11,8 +11,11 @@
 <#macro initEditor>
 <!-- XINHA -->
 <script type="text/javascript">
-    window.onload = xinha_init();
+     // 
+    if( getRichText().length > 0 ){     
+       xinha_init();
+    }
 </script>
-</script>
+
 
 </#macro>
