@@ -50,9 +50,11 @@
 </xsl:template>
 
 <xsl:template match="sublevel-menu-list" >
+	<xsl:if test="sublevel-menu!=''">
     	<ul>
  	            <xsl:apply-templates select="sublevel-menu" />
         </ul>
+	</xsl:if>
 </xsl:template>
 
 <xsl:template match="sublevel-menu">
