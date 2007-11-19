@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.search;
 
+import java.util.Date;
+
 
 /**
  * SearchResult
@@ -41,7 +43,7 @@ public class SearchResult
 {
     // Variables declarations
     private String _strId;
-    private String _strDate;
+    private Date _date;
     private String _strUrl;
     private String _strTitle;
     private String _strSummary;
@@ -72,19 +74,19 @@ public class SearchResult
      *
      * @return The Date
      */
-    public String getDate(  )
+    public Date getDate(  )
     {
-        return _strDate;
+        return _date;
     }
 
     /**
      * Sets the Date
      *
-     * @param strDate The Date
+     * @param date The Date
      */
-    public void setDate( String strDate )
+    public void setDate( Date date )
     {
-        _strDate = strDate;
+        _date = date;
     }
 
     /**

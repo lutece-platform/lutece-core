@@ -40,7 +40,9 @@
                         ${result.summary}
                     </td>
                     <td width="10%">
-                        ${result.date}
+                    <#if result.date?has_content>
+                        ${result.date?date?string.short}
+                    </#if>
                     </td>
                 </tr>            
                 </#list>

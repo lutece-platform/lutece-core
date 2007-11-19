@@ -43,6 +43,9 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -97,11 +100,23 @@ public class LuceneSearchEngine implements SearchEngine
     {
         List<SearchResult> listDest = new ArrayList<SearchResult>(  );
 
+        DateFormat formater = DateFormat.getDateInstance( DateFormat.SHORT );
+
         for ( SearchItem item : listSource )
         {
             SearchResult result = new SearchResult(  );
             result.setId( item.getId(  ) );
-            result.setDate( item.getDate(  ) );
+
+            try
+            {
+                result.setDate( formater.parse( item.getDate(  ) ) );
+            }
+            catch ( ParseException e )
+            {
+                AppLogService.error( "Bad Date Format for indexed item \"" + item.getTitle(  ) + "\" : " +
+                    e.getMessage(  ) );
+            }
+
             result.setUrl( item.getUrl(  ) );
             result.setTitle( item.getTitle(  ) );
             result.setSummary( item.getSummary(  ) );
