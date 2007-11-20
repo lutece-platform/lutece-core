@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.search;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.Hit;
@@ -43,7 +44,6 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 
 import java.util.ArrayList;
@@ -100,8 +100,6 @@ public class LuceneSearchEngine implements SearchEngine
     {
         List<SearchResult> listDest = new ArrayList<SearchResult>(  );
 
-        DateFormat formater = DateFormat.getDateInstance( DateFormat.SHORT );
-
         for ( SearchItem item : listSource )
         {
             SearchResult result = new SearchResult(  );
@@ -109,7 +107,7 @@ public class LuceneSearchEngine implements SearchEngine
 
             try
             {
-                result.setDate( formater.parse( item.getDate(  ) ) );
+                result.setDate( DateTools.stringToDate( item.getDate(  ) ) );
             }
             catch ( ParseException e )
             {

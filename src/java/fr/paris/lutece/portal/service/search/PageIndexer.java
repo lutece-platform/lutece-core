@@ -41,14 +41,13 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.lucene.demo.html.HTMLParser;
+import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-
-import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,8 +151,7 @@ public class PageIndexer implements SearchIndexer
         // Add the last modified date of the file a field named "modified".
         // Use a field that is indexed (i.e. searchable), but don't tokenize
         // the field into words.
-        DateFormat formater = DateFormat.getDateInstance( DateFormat.SHORT );
-        String strDate = formater.format( page.getDateUpdate(  ) );
+        String strDate = DateTools.dateToString( page.getDateUpdate(  ), DateTools.Resolution.DAY );
         doc.add( new Field( SearchItem.FIELD_DATE, strDate, Field.Store.YES, Field.Index.UN_TOKENIZED ) );
 
         // Add the uid as a field, so that index can be incrementally maintained.
