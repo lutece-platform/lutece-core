@@ -16,7 +16,7 @@
             <!-- Number of documents per page selector -->
             #i18n{portal.style.manage_stylesheets.labelItemsPerPage} :
             <select name="items_per_page">
-                <#list [ "5" , "10" , "20" , "50" ] as nb>
+                <#list [ "10" , "20" , "50" , "100" ] as nb>
                 <#if nb_items_per_page = nb >
                 <option selected="selected" value="${nb}">${nb}</option>
                 <#else>
