@@ -256,6 +256,8 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         for ( Right right : _listRights )
         {
+            RightHome.remove( right.getId(  ) );
+
             if ( ( right != null ) && ( !( right.getId(  ).equals( "" ) ) ) )
             {
                 RightHome.create( right );
@@ -284,6 +286,8 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         for ( PortletType portletType : _listPortletTypes )
         {
+            PortletTypeHome.remove( portletType.getId(  ) );
+
             if ( ( portletType.getHomeClass(  ) != null ) && ( !( portletType.getHomeClass(  ).equals( "" ) ) ) )
             {
                 PortletTypeHome.create( portletType );

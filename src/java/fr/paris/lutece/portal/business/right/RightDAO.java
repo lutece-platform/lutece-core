@@ -68,9 +68,6 @@ public final class RightDAO implements IRightDAO
      */
     public void insert( Right right )
     {
-        // Clear a previous right if exists before inserting
-        delete( right.getId(  ) );
-
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
         daoUtil.setString( 1, right.getId(  ) );
