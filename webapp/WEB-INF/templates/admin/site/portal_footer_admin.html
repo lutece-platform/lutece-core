@@ -1,13 +1,20 @@
-        <div id="footer">
 
-        	<div id="footer-content">
+<div id="footer">
+    <div id="footer-content" class="footer-content" >
+        <span class="powered">
+            <a href="http://lutece.paris.fr" title="#i18n{portal.site.portal_footer.labelPortal}">
+                <img src="images/local/skin/poweredby.jpg" width="55" height="22" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
+            </a>
+        </span>
+            <a href="mailto:${web_mail}" title="[Email] Contact Webmaster" accesskey="9" >webmaster</a> |
+            <a href="jsp/site/PopupCredits.jsp" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelCredits}" target="info_comp">#i18n{portal.site.portal_footer.labelCredits}</a> |
+	          <a href="jsp/admin/XPages.jsp?page=map" target="top" accesskey="3" >#i18n{portal.site.site_map.pathLabel}</a> |
+            <a href="jsp/admin/XPages.jsp?page=contact" target="top" accesskey="7" >#i18n{portal.site.page_menu_tools.xpage.contact}</a>
+        <span class="rss">
+           <a href="http://fr.lutece.paris.fr/fr/plugins/rss/lutece.xml" title="RSS">
+               <img src="images/local/skin/feed.png" alt="RSS" />
+           </a>
+        </span>
+     </div>
+</div>
 
-        		<a href="mailto:${web_mail}" title="[Email] Contact Webmaster" accesskey="9" >webmaster</a> |
-        	    <a href="jsp/site/PopupCredits.jsp" title="[Nouvelle fenêtre] Crédits" target="info_comp">crédits</a> |
-        		<a href="jsp/site/PopupLegalInfo.jsp" title="[Nouvelle fenêtre] Informations légales" target="info_comp" accesskey="8" >informations légales</a>
-        		<br/>
-        		<a href="http://lutece.paris.fr" title="Site du portail Lutèce"><img src="images/local/skin/poweredby.jpg" width="55" height="22" alt="réalisé grâce à Lutèce" /></a>
-
-        	</div>
-
-        </div>

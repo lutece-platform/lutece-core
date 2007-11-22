@@ -34,42 +34,49 @@ ${rss?default("<!-- no RSS feed -->")}
 
 <link rel="stylesheet" type="text/css" href="${theme_css}/customize.css" />
 
+${plugins_css_links}
+
 <!--[if IE]>
-	<link rel="stylesheet" type="text/css" href="css/ie/page_templates_ie.css" />
+	<link rel="stylesheet" type="text/css" href="css/ie/page_template_ie.css" />
+<![endif]-->
+
+<!--[if IE 7]>
+	<link rel="stylesheet" type="text/css" href="css/ie/page_template_ie7.css" />
 <![endif]-->
 
 
-<link rel="stylesheet" type="text/css" href="${theme_css}/customize.css" />
 
-${plugins_css_links}
+<script src="js/menu.js" type="text/javascript" ></script>
+
+<!--[if lte IE 6]>
+    <script src="js/jquery/jquery-1.2.1.min.js" type="text/javascript" ></script>
+		<script src="js/jquery/plugins/fixiepng/fixiepng.js" type="text/javascript" ></script>
+    <script type="text/javascript">
+    $().ready(function() {
+      // apply to png images 
+      $('img.png,div#menu-main li,div.boxed3 h2,div#logo,.site-buttons').ifixpng();
+      });
+    </script>
+<![endif]-->
+
 ${plugins_javascript_links}
 
 <link rel="shortcut icon" href="favicon.ico" />
 
-<script  src="js/menu.js" type="text/javascript" ></script>
-
 ${statistical_include_head}
 
 </head>
-
-<body onload="setHover( 'menu' );">
-
-	<div id="global-container" >
-
-    	  ${page_header}
-    	  ${page_tools_menu}
- 		  ${page_main_menu}
-		  ${page_path}
-
-		  <div id="page-content" >
-			  ${page_content}
-			  <div class="clear">&#160;</div><!-- to fill the page-content container on all browsers -->
-		  </div>
-		  ${page_footer}
-
-	 </div>
-
-	 ${statistical_include}
+<body onload="setHover( 'menu-main' );"> 
+	${page_header}	
+	${page_main_menu}	
+	<hr />		
+    <div id="page">	
+		${page_path}
+		${page_content}   		
+	<div style="clear: both;">&#160;</div>	
+	</div> 	
+	${page_footer}
+	${statistical_include}
 
 </body>
 </html>

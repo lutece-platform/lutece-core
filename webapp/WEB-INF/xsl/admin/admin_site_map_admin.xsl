@@ -8,10 +8,8 @@
     
     
     <xsl:template match="page[page-level=0]">
-        <table cellpadding="0" cellspacing="0" width="100%" border="0">
-            <tr>
-                <td width="100%" align="left">
-                    <div id="admin-site-menu">
+   
+      <div id="admin-site-menu">
                         <ul>
                             <li>
                                 <a href="{$site-path}?page_id={current-page-id}">#i18n{portal.site.admin_page.tabPageManagement} <xsl:value-of select="current-page-id" /></a>
@@ -20,12 +18,12 @@
                                 <a href="{$site-path}?page_id={current-page-id}">#i18n{portal.site.admin_page.tabAdminMapSite}</a>
                             </li>
                         </ul>
-                    </div>
-                </td>
-            </tr>
-        </table>
-        <br />
-              <span class="tree-root">
+       </div>
+        
+        <h3><img src="js/jquery/plugins/treeview/images/folder.gif" style="margin-bottom:-10px;"/></h3>
+        <ul id="tree" class="treeview">
+            <li>
+                <span>
                   <a href="{$site-path}?page_id={page-id}">
                     <xsl:value-of select="page-name" />
                   </a>
@@ -48,10 +46,11 @@
                     </strong>
                     <xsl:apply-templates select="page-description" />
                 </xsl:if>
-                <ul id="tree">
+                <ul>
                    <xsl:apply-templates select="child-pages-list" />
                 </ul>
-  
+            </li>
+        </ul>
     </xsl:template>
     
     <xsl:template match="page[page-level>0]" >

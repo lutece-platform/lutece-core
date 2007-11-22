@@ -17,31 +17,31 @@
     	<xsl:number level="single" />
     </xsl:variable>
 
-    <xsl:if test="$index &lt; 8">
+    <xsl:if test="$index &lt; 5">
 
      <xsl:choose>
        <xsl:when test="position()=1" >
             <li class="first">
-                <a href="{$site-path}?page_id={page-id}" >
+                <a href="{$site-path}?page_id={page-id}" target="_top" >
                    <xsl:value-of select="page-name" />
                 </a>
-	            <xsl:apply-templates select="sublevel-menu-list" />
+	            <!-- <xsl:apply-templates select="sublevel-menu-list" /> -->
              </li>
        </xsl:when>
-       <xsl:when test="position()=last() or $index=8" >
+       <xsl:when test="position()=last() or $index=4" >
                    <li class="last">
-                      <a href="{$site-path}?page_id={page-id}" >
+                      <a href="{$site-path}?page_id={page-id}" target="_top" >
                               <xsl:value-of select="page-name" />
                        </a>
-                       <xsl:apply-templates select="sublevel-menu-list" />
+                      <!-- <xsl:apply-templates select="sublevel-menu-list" /> -->
                     </li>
        </xsl:when>
        <xsl:otherwise>
                    <li>
-                      <a href="{$site-path}?page_id={page-id}" >
+                      <a href="{$site-path}?page_id={page-id}" target="_top" >
                               <xsl:value-of select="page-name" />
                        </a>
-                       <xsl:apply-templates select="sublevel-menu-list" />
+                       <!-- <xsl:apply-templates select="sublevel-menu-list" /> -->
                     </li>
        </xsl:otherwise>
         </xsl:choose>
@@ -65,21 +65,21 @@
         <xsl:choose>
            <xsl:when test="position()=1" >
              <li class="first">
-                <a href="{$site-path}?page_id={page-id}" >
+                <a href="{$site-path}?page_id={page-id}" target="_top" >
 	                    <span><xsl:value-of select="page-name" /></span>
                 </a>
               </li>
            </xsl:when>
            <xsl:when test="position()=last()" >
              <li class="last">
-                <a href="{$site-path}?page_id={page-id}" >
+                <a href="{$site-path}?page_id={page-id}" target="_top" >
 	                    <span><xsl:value-of select="page-name" /></span>
                 </a>
               </li>
            </xsl:when>
            <xsl:otherwise>
                <li>
-                <a href="{$site-path}?page_id={page-id}" >
+                <a href="{$site-path}?page_id={page-id}" target="_top" >
 	                    <span><xsl:value-of select="page-name" /></span>
                 </a>
               </li>

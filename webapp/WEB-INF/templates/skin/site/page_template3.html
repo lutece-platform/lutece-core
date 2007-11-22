@@ -1,21 +1,27 @@
-
-<div id="three-zones-first-and-second">
-	<div id="three-zones-first">
-		<div id="three-zones-first-content">
-			${page_content_col1}
+<div id="content">
+	<div id="three-zones-first-and-second">
+		<div id="three-zones-first">
+			<div id="three-zones-first-content">
+				${page_content_col1}
+			</div>
 		</div>
-	</div>
 
-	<div id="three-zones-second">
-		<div id="three-zones-second-content">
-			${page_content_col2}
+		<div id="three-zones-second">
+			<div id="three-zones-second-content">
+				${page_content_col2}
+			</div>
 		</div>
-	</div>
 
-</div><!-- close three-zones-first-and-second -->
-
-<div id="three-zones-third">
-	<div id="three-zones-third-content">
+	</div><!-- close three-zones-first-and-second -->
+	
+	<div id="three-zones-third">
+		<div id="three-zones-third-content">
 			${page_content_col3}
+		</div>
 	</div>
+</div>
+
+<div id="sidebar">
+	${page_tree_menu?if_exists}
+	${page_content_col5}
 </div>

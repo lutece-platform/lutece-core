@@ -1,15 +1,20 @@
 
-        <div id="footer">
-
-        	<div id="footer-content" >
-        	
-        		<a href="mailto:${web_mail}" title="[Email] Contact Webmaster" accesskey="9" >webmaster</a> |
-                        <a href="jsp/site/PopupCredits.jsp" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelCredits}" target="info_comp">#i18n{portal.site.portal_footer.labelCredits}</a> |
-        		<a href="jsp/site/PopupLegalInfo.jsp" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelInfo}" target="info_comp" accesskey="8" >#i18n{portal.site.portal_footer.labelInfo}</a>
-        		<br/>
-        		<a href="http://fr.lutece.paris.fr" title="#i18n{portal.site.portal_footer.labelPortal}"><img src="images/local/skin/poweredby.jpg" width="55" height="22" alt="#i18n{portal.site.portal_footer.labelMadeBy}" /></a>
-
-        	</div>
-
-        </div>
+<div id="footer">
+    <div id="footer-content" class="footer-content" >
+        <span class="powered">
+            <a href="http://lutece.paris.fr" title="#i18n{portal.site.portal_footer.labelPortal}">
+                <img src="images/local/skin/poweredby.jpg" width="55" height="22" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
+            </a>
+        </span>
+        <a href="mailto:${web_mail}" title="[Email] Contact Webmaster" accesskey="9" >webmaster</a> |
+        <a href="jsp/site/PopupCredits.jsp" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelCredits}" target="info_comp">#i18n{portal.site.portal_footer.labelCredits}</a> |
+	<a href="jsp/site/Portal.jsp?page=map" accesskey="3" >#i18n{portal.site.site_map.pathLabel}</a> |
+        <a href="jsp/site/Portal.jsp?page=contact" accesskey="7" >#i18n{portal.site.page_menu_tools.xpage.contact}</a>
+        <span class="rss">
+           <a href="http://lutece.paris.fr" title="RSS">
+               <img src="images/local/skin/feed.png" alt="RSS" />
+           </a>
+        </span>
+     </div>
+</div>
 

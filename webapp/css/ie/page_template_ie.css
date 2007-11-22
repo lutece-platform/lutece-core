@@ -1,6 +1,22 @@
 /******************************************************************************/
-/*                     STYLES DU MODULE ADMINISTRATION           pour IE         */
+/*                     STYLES FRONT-OFFICE pour IE                            */
 /******************************************************************************/
+
+
+BODY, TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH
+{
+		font-family : Tahoma, Verdana, Geneva, Arial;
+    font-size:13px;  
+}
+
+#banner {
+	margin: 4px auto 12px auto;
+}
+
+/* Content */
+#content {
+	margin: 0 ;
+}
 
 
 ul#menu ul li
@@ -10,7 +26,7 @@ ul#menu ul li
 
 ul#menu ul li a span
 {
-    width:156px;
+  width:156px;
 	cursor:hand; /* for IE5.5*/
 }
 
@@ -24,6 +40,39 @@ ul#menu-verti li
     display:inline;
 }
 
+/*
+#search {
+	float: right;
+	width: 330px;
+	padding-top: 20px;
+}
+
+#search form {
+	margin: 0;
+	padding: 0;
+}
+
+#search fieldset {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+#search legend {
+	display: none;
+}
+
+#searchinput, #searchsubmit {
+	border: 1px solid #81ADD7;
+	font: bold 100% "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #5693C0;
+}
+
+#searchinput {
+	padding: 2px 5px;
+	width: 130px;
+}
+*/
 #searchbutton 
 {
 	cursor:hand; /* for IE5.5*/
@@ -38,3 +87,4 @@ input.site-buttons
 {
     cursor: hand; /* for IE5.5*/
 }
+

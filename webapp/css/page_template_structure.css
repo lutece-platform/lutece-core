@@ -16,10 +16,10 @@
  */
 
 
-body
-{
-   margin: 0; /* to avoid margins */ 
-   text-align: center; /* to correct IE centering bug */
+body {
+	margin: 0;
+	padding: 0;
+	background: url(../images/local/skin/line.png) repeat-x;
 }
 
 body.pop-up
@@ -35,8 +35,8 @@ body.pop-up
 	margin-left: auto;
 	margin-right: auto;
 	width: 100%;
-
 	text-align: left; /* to bring back the normal alignment */
+	
 }
 
 
@@ -51,78 +51,84 @@ body.pop-up
 	background:transparent;
 }
 
-
-
 /* =====================================================================
  * ---------------------     Style for banner     ----------------------
  * ===================================================================== */
 #banner {
-	margin: 0;
-	background-image: url('../images/local/skin/banner_middle.gif');
-	background-position: top right;
-	background-repeat: repeat-x;
-	height: 70px;
-	overflow: hidden;
-}
-#banner-content {
-
-	background-image: url('../images/local/skin/banner_right.gif');
-	background-position: top right;
-	background-repeat: no-repeat;
+	width: 990px;
+	height: 100px;
+	margin: 0 auto 20px auto;
 }
 
-#banner-content img {
+/* Logo */
 
-	height: 70px;
-	border: none;
-	
+#logo {
+	float: left;
 }
 
+#logo h1, #logo h2 {
+	margin: -10px 0 0 0;
+	text-transform: lowercase;
+	text-align: center;
+	font-weight: bold;
+	color: #1F4772;
+}
+
+#logo h1 a{
+	padding-top: 15px;
+	font-size: 36px;
+}
+
+#logo h2 {
+	font-size: 12px;
+}
+
+#logo a {
+	text-decoration: none;
+	color: #5693C0;
+}
 
 
 /* =====================================================================
  * -----------------     Style for quick-search     --------------------
  * ===================================================================== */
-#quick-search 
-{
+#search {
 	float: right;
-	height:20px;
-	border-left: 1px solid #333366;
-	padding-left:2px;
-	padding-right:2px;
+	width: 300px;
+	padding-top: 20px;
 }
 
-#quick-search form, #quick-search label,#quick-search input, #quick-search p
-{ 
-	margin: 0px;
-}
-
-#quick-search label
-{
-    color: #260650;
-    font-weight: bold;
-}
-
-#searchfield
-{ 
-	height: 13px;	
-	vertical-align: middle;
-}
-
-#searchbutton
-{ 
-	color: white;
-	background-color: #EE9C00;
-	border: none;
-	font-size: 90%;
-	font-weight: bold;
+#search form {
+	margin: 0;
 	padding: 0;
-	vertical-align: middle;
-	height: 15px;
-	margin:0;
-	cursor: pointer;
 }
 
+#search fieldset {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+#search legend {
+	display: none;
+}
+
+#searchinput, #searchsubmit {
+	border: 1px solid #81ADD7;
+	font: bold 100% "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #5693C0;
+}
+
+#searchinput {
+	padding: 2px 5px; 
+	width: 150px;
+}
+
+
+#searchsubmit {
+	background: #FFFFFF ;
+	
+}
 
 /* =====================================================================
  * -----------------     Style for menu-tools     ----------------------
@@ -144,30 +150,28 @@ body.pop-up
 	background-position:  center left;
 	padding-left:10px;
 }
+
 #menu-tools a 
 {
 	margin: 0 2px;
-	color: #260650;
+	color: #5693C0;
 	text-decoration: none;
 }
 #menu-tools a:hover 
 {
-	color: #260650;
+	color: #5693C0;
 	text-decoration: underline;
 }
 
 
-/* =====================================================================
- * -------------------    Style for menu-main    -----------------------
- * ===================================================================== */
-#menu-main 
-{
-	margin: 0;
-}
 
+
+/* =====================================================================
+ * -------------------    Style for page-path    -----------------------
+ * ===================================================================== */
 #page-path 
 {
-	margin: 0;
+	margin: 0 0 0 -60px;
 }
 
 
@@ -175,10 +179,24 @@ body.pop-up
  * -----------------    Style for page-content    ----------------------
  * ===================================================================== */
 /* The page-content area should contain the main content of the page organized depending on the layout wanted */
-#page-content 
-{
-	clear:both;
-	padding-top:10px;
+
+#page {
+	width: 990px;
+	margin: -30px auto 20px auto;
+	background: #fff url(../images/local/skin/bg_dotted.gif) repeat-y 230px 0;
+}
+
+/* Content */
+#content {
+	float: right;
+	width: 700px;
+	margin-right: 55px;
+}
+
+/* Sidebar */
+#sidebar {
+	float: left;
+	width: 20%;	
 }
 
 /* =====================================================================
@@ -191,8 +209,9 @@ body.pop-up
  */
 #one-zone-first 
 {
-	width: 98%;
+	width: auto;
 }
+
 #one-zone-first-content 
 {
 	padding-left: 20px;
@@ -213,18 +232,22 @@ body.pop-up
 #two-zones-first 
 {
 	float: left;
-	width: 65%;
+	width:70%;
 }
+
 #two-zones-second 
 {
-	margin-left: 65%;
+	float: left;
+	width: 30%;
 }
+
 #two-zones-first-content
 {
 	padding-left: 14px;
 	padding-right: 7px;
 	
 }
+
 #two-zones-second-content
 {
     padding-left: 7px;
@@ -247,6 +270,7 @@ body.pop-up
 	float: left;
 	width: 50%;
 }
+
 #two-zones-equals-second 
 {
 	margin-left: 50%;
@@ -376,7 +400,9 @@ body.pop-up
 
 #middle-columns-col2
 {
-	margin-left: 50%;
+/*	margin-left: 50%;*/
+	 float: left; 
+	 width: 50%;
 }
 
 #middle-columns-col1-content

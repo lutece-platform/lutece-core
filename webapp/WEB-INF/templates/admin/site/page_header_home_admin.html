@@ -1,7 +1,21 @@
-
-	<div id="banner">
-	    <div id="banner-content" >
-    		<img src="${theme_images}/local/skin/banner.gif" alt="LUTECE - Open Source Portal" height="70" />
-		</div>
-	</div>
+<div id="banner">
+    <div id="logo">
+	<br />
+	<h1>
+            <a href="http://fr.lutece.paris.fr">
+                <img class="png" src="${theme_images}/local/skin/logo.png" alt="LUTECE - Free Software Portal" title="LUTECE - Free Software Portal"/>
+            </a>
+	</h1>	
+    </div>
+    <div id="search">
+        <form action="jsp/site/AdminSite.jsp" method="post">
+            <fieldset>
+                <input type="hidden" name="page" value="search" />
+		<input id="searchinput" type="text" name="query" value="" />
+		<input id="searchsubmit" type="submit" value="#i18n{portal.site.page_menu_tools.labelSearch}" /> 
+		<!-- 	<input id="searchsubmit" type="image" src="images/local/skin/search.png" title="#i18n{portal.site.page_menu_tools.labelSearch}" alt="#i18n{portal.site.page_menu_tools.labelSearch}" />-->
+            </fieldset>
+	</form>
+    </div> 		
+</div>
 

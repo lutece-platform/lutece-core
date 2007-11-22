@@ -5,12 +5,18 @@
 
 
 <xsl:template match="page[page-level=0]">
+<div id="content">
 <div id="one-zone-first">
-		<div id="one-zone-first-content">
-			<h2 class="page-title">Plan du Site</h2>
+		<div id="one-zone-first-content">			
 			<xsl:apply-templates select="child-pages-list" />
 		</div>
 	</div>
+</div>
+<div id="sidebar">
+	<img src="document?id=15&amp;id_attribute=52" alt="banner" title="banner"/>
+	&#160;
+</div>
+	
 </xsl:template>
 
 
