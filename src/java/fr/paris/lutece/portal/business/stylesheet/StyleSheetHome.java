@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.business.stylesheet;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 
@@ -122,15 +121,5 @@ public final class StyleSheetHome
     public static Collection<StyleSheet> getStyleSheetList( int nModeId )
     {
         return _dao.selectStyleSheetList( nModeId );
-    }
-
-    /**
-     * Returns a reference list which contains all the styles
-     *
-     * @return a reference list
-     */
-    public static ReferenceList getStylesList(  )
-    {
-        return _dao.selectStylesList(  );
     }
 }

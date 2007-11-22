@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.business.stylesheet;
 
 import fr.paris.lutece.portal.service.util.AppException;
-import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.util.ArrayList;
@@ -57,9 +56,6 @@ public final class StyleSheetDAO implements IStyleSheetDAO
     private static final String SQL_QUERY_UPDATE = " UPDATE core_stylesheet SET id_stylesheet = ?, description = ?, file_name = ?, source = ? WHERE id_stylesheet = ?  ";
     private static final String SQL_QUERY_SELECT_MODEID = " SELECT a.id_mode FROM core_mode a , core_style_mode_stylesheet b  " +
         " WHERE a.id_mode = b.id_mode AND b.id_stylesheet = ?";
-    private static final String SQL_QUERY_SELECT_STYLES = " SELECT a.id_style , b.name , c.name, a.description_style FROM  core_style a " +
-        " LEFT JOIN core_portlet_type b ON a.id_portlet_type = b.id_portlet_type " +
-        " LEFT JOIN core_portal_component c ON a.id_portal_component = c.id_portal_component " + " ORDER BY b.name ";
     private static final String SQL_QUERY_COUNT_STYLESHEET = " SELECT count(*) FROM core_style_mode_stylesheet WHERE id_style = ? AND id_mode = ? ";
     private static final String SQL_QUERY_INSERT_STYLEMODESTYLESHEET = " INSERT INTO core_style_mode_stylesheet ( id_style , id_mode , id_stylesheet ) " +
         " VALUES ( ?, ? ,? )";
@@ -224,30 +220,6 @@ public final class StyleSheetDAO implements IStyleSheetDAO
 
         // update the table style_mode_stylesheet
         updateStyleModeStyleSheet( stylesheet );
-    }
-
-    /**
-     * Returns a list of the styles in form of Reference List
-     *
-     * @return the list of styles in form of a ReferenceList object
-     */
-    public ReferenceList selectStylesList(  )
-    {
-        ReferenceList stylesList = new ReferenceList(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_STYLES );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            String strPortletType = daoUtil.getString( 2 );
-            String strNameList = ( strPortletType == null ) ? daoUtil.getString( 3 )
-                                                            : ( daoUtil.getString( 3 ) + " " + strPortletType );
-            stylesList.addItem( daoUtil.getInt( 1 ), strNameList + " - " + daoUtil.getString( 4 ) );
-        }
-
-        daoUtil.free(  );
-
-        return stylesList;
     }
 
     /**

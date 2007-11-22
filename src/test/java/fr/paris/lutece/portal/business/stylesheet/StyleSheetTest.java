@@ -74,7 +74,6 @@ public class StyleSheetTest extends LuteceTestCase
 
         // List Test
         StyleSheetHome.getStyleSheetList( 0 );
-        StyleSheetHome.getStylesList(  );
 
         // Delete test
         StyleSheetHome.remove( styleSheet.getId(  ) );

@@ -33,8 +33,13 @@
  */
 package fr.paris.lutece.portal.web.stylesheet;
 
+import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
+import fr.paris.lutece.portal.business.portlet.PortletType;
+import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.style.Mode;
 import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.business.style.Style;
+import fr.paris.lutece.portal.business.style.StyleHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheetHome;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
@@ -63,6 +68,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -91,11 +97,15 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_STYLESHEET = "stylesheet";
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
+    private static final String MARK_PORTAL_COMPONENT_NAME = "portal_component_name";
+    private static final String MARK_PORTLET_TYPE_NAME = "portlet_type_name";
+    private static final String MARK_STYLE_DESCRIPTION = "style_description";
 
     // Templates files path
     private static final String TEMPLATE_MANAGE_STYLESHEETS = "admin/stylesheet/manage_stylesheets.html";
     private static final String TEMPLATE_CREATE_STYLESHEET = "admin/stylesheet/create_stylesheet.html";
     private static final String TEMPLATE_MODIFY_STYLESHEET = "admin/stylesheet/modify_stylesheet.html";
+    private static final String TEMPLATE_STYLE_SELECT_OPTION = "admin/stylesheet/style_select_option.html";
 
     // Properties
     private static final String PROPERTY_PATH_XSL = "path.stylesheet";
@@ -157,7 +167,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strModeId = request.getParameter( Parameters.MODE_ID );
 
         HashMap model = new HashMap(  );
-        model.put( MARK_STYLE_LIST, StyleSheetHome.getStylesList(  ) );
+        model.put( MARK_STYLE_LIST, getStyleList(  ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes(  ) );
         model.put( MARK_MODE_ID, strModeId );
 
@@ -252,13 +262,42 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         int nId = Integer.parseInt( strStyleSheetId );
 
         HashMap model = new HashMap(  );
-        model.put( MARK_STYLE_LIST, StyleSheetHome.getStylesList(  ) );
+        model.put( MARK_STYLE_LIST, getStyleList(  ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes(  ) );
         model.put( MARK_STYLESHEET, StyleSheetHome.findByPrimaryKey( nId ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_STYLESHEET, getLocale(  ), model );
 
         return getAdminPage( template.getHtml(  ) );
+    }
+
+    /**
+     * Return a ReferenceList with id style for code and a concatenation of portal name + portlet type name + style description for name.
+     * @return The {@link ReferenceList}
+     */
+    public ReferenceList getStyleList(  )
+    {
+        Collection<Style> stylesList = StyleHome.getStylesList(  );
+        ReferenceList stylesListWithLabels = new ReferenceList(  );
+
+        for ( Style style : stylesList )
+        {
+            HashMap<String, String> model = new HashMap<String, String>(  );
+            model.put( MARK_PORTAL_COMPONENT_NAME,
+                PortalComponentHome.findByPrimaryKey( style.getPortalComponentId(  ) ).getName(  ) );
+
+            PortletType portletType = PortletTypeHome.findByPrimaryKey( style.getPortletTypeId(  ) );
+
+            model.put( MARK_PORTLET_TYPE_NAME,
+                ( ( portletType != null ) ? ( I18nService.getLocalizedString( portletType.getNameKey(  ), getLocale(  ) ) )
+                                          : "" ) );
+            model.put( MARK_STYLE_DESCRIPTION, style.getDescription(  ) );
+
+            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_STYLE_SELECT_OPTION, getLocale(  ), model );
+            stylesListWithLabels.addItem( style.getId(  ), template.getHtml(  ) );
+        }
+
+        return stylesListWithLabels;
     }
 
     /**

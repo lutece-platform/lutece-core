@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.business.stylesheet;
 
-import fr.paris.lutece.util.ReferenceList;
-
 import java.util.Collection;
 
 
@@ -93,14 +91,6 @@ public interface IStyleSheetDAO
      * @return the number of stylesheet associated
      */
     int selectStyleSheetNbPerStyleMode( int nStyleId, int nModeId );
-
-    /**
-     * Returns a list of the styles in form of Reference List
-     *
-     *
-     * @return the list of styles in form of a ReferenceList object
-     */
-    ReferenceList selectStylesList(  );
 
     /**
      * Update the record in the table
