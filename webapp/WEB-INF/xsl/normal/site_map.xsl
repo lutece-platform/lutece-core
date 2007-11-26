@@ -13,7 +13,7 @@
 	</div>
 </div>
 <div id="sidebar">
-	<img src="document?id=15&amp;id_attribute=52" alt="banner" title="banner"/>
+	<img src="document?id=7&amp;id_attribute=52" alt="banner" title="banner"/>
 	&#160;
 </div>
 	
