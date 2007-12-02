@@ -18,103 +18,107 @@
                     </tr>
                     <tr>
                         <td><a href="/plugins/plugin-adminauthenticationdatabase/fr/">adminauthenticationdatabase</a></td>
-                        <td>Plugin Adminauthenticationdatabase</td>
+                        <td>Plugin Adminauthenticationdatabase : Module d'authentification du Back Office</td>
                     </tr>		
                     <tr>
                         <td><a href="/plugins/plugin-adminquery/fr/">adminquery</a></td>
-                        <td>Plugin Adminquery</td>
+                        <td>Plugin Adminquery : Requeteur SQL pour le Back Office</td>
                     </tr>						
                     <tr>
                         <td><a href="/plugins/plugin-calendar/fr/">calendar</a></td>
-                        <td>Plugin Calendar</td>
+                        <td>Plugin Calendar : Agenda multi-projets compatible iCal</td>
                     </tr>	
                     <tr>
                         <td><a href="/plugins/plugin-childpages/fr/">childpages</a></td>
-                        <td>Plugin Childpages</td>
+                        <td>Plugin Childpages : Portlet de pages filles</td>
                     </tr>					
                     <tr>
                         <td><a href="/plugins/plugin-codewizard/fr/">codewizard</a></td>
-                        <td>Plugin Codewizard</td>
+                        <td>Plugin Codewizard : Générateur de code Java pour développer des plugins Lutece</td>
                     </tr>						
                     <tr>
                         <td><a href="/plugins/plugin-contact/fr/">contact</a></td>
-                        <td>Plugin Contact</td>
+                        <td>Plugin Contact : Formulaire ce contact</td>
                     </tr>
                     <tr>
                         <td><a href="/plugins/plugin-dbpage/fr/">dbpage</a></td>
-                        <td>Plugin DbPage</td>
+                        <td>Plugin DbPage : Publication de données provenant d'une base de données dans une page ou un porlet</td>
                     </tr>					
                     <tr>
                         <td><a href="/plugins/plugin-document/fr/">document</a></td>
-                        <td>Plugin Document</td>
+                        <td>Plugin Document : Gestion de contenu basée sur des documents </td>
                     </tr>
                     <tr>
                         <td><a href="/plugins/plugin-formengine/fr/">formengine</a></td>
-                        <td>Plugin Formengine</td>
+                        <td>Plugin Formengine : Moteur de formulaires à étapes</td>
                     </tr>					
                     <tr>
                         <td><a href="/plugins/plugin-folderlisting/fr/">folderlisting</a></td>
-                        <td>Plugin Folderlisting</td>
+                        <td>Plugin Folderlisting : publication d'une arborecence de dossiers et fichiers du serveur</td>
                     </tr>
                     <tr>
                         <td><a href="/plugins/plugin-html/fr/">html</a></td>
-                        <td>Plugin Html</td>
+                        <td>Plugin Html : Portlet HTML avec éditeur WYSIWYG</td>
                     </tr>
                     <tr>
                         <td><a href="/plugins/plugin-jsr170/fr/">jsr170</a></td>
-                        <td>Plugin Jsr170</td>
+                        <td>Plugin Jsr170 : Publication de documents provenant d'un référentiel de contenu externe (Alfresco, Jackrabbit, ...)</td>
                     </tr>	
                     <tr>
                         <td><a href="/plugins/plugin-library/fr/">library</a></td>
-                        <td>Plugin Library</td>
+                        <td>Plugin Library : Bibliothèque multimédia</td>
                     </tr>						
                     <tr>
                         <td><a href="/plugins/plugin-linkpages/fr/">linkpages</a></td>
-                        <td>Plugin Linkpages</td>
+                        <td>Plugin Linkpages : </td>
                     </tr>											
                     <tr>
                         <td><a href="/plugins/plugin-links/fr/">links</a></td>
-                        <td>Plugin Links</td>
+                        <td>Plugin Links : Portlet de liens</td>
                     </tr>	
                     <tr>
                         <td><a href="/plugins/plugin-myapps/fr/">myapps</a></td>
-                        <td>Plugin Myapps</td>
+                        <td>Plugin Myapps : Mes Applications favorites</td>
                     </tr>					
                     <tr>
                         <td><a href="/plugins/plugin-mylutece/fr/">mylutece</a></td>
-                        <td>Plugin Mylutece</td>
+                        <td>Plugin Mylutece : Gestion des utilisateurs authentifiés sur le site</td>
                     </tr>							
                     <tr>
                         <td><a href="/plugins/plugin-newsletter/fr/">newsletter</a></td>
-                        <td>Plugin Newsletter</td>
+                        <td>Plugin Newsletter : Lettre d'information</td>
                     </tr>						
                     <tr>
                         <td><a href="/plugins/plugin-pagelinkservice/fr/">pagelinkservice</a></td>
-                        <td>Plugin Pagelinkservice</td>
+                        <td>Plugin Pagelinkservice : Assistant de création de liens</td>
                     </tr>							
                     <tr>
                         <td><a href="/plugins/plugin-poll/fr/">poll</a></td>
-                        <td>Plugin Poll</td>
+                        <td>Plugin Poll : Sondages</td>
                     </tr>		
                     <tr>
                         <td><a href="/plugins/plugin-rss/fr/">rss</a></td>
-                        <td>Plugin RSS</td>
+                        <td>Plugin RSS : Publication et génération de fils RSS</td>
                     </tr>					
                     <tr>
                         <td><a href="/plugins/plugin-systeminfo/fr/">systeminfo</a></td>
-                        <td>Plugin SystemInfo</td>
+                        <td>Plugin SystemInfo : Affichage des informations du système</td>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-tagcloud/fr/">tagcloud</a></td>
+                        <td>Plugin TagCloud : Nuages de tags</td>
                     </tr>
                     <tr>
                         <td><a href="/plugins/plugin-upload/fr/">upload</a></td>
-                        <td>Plugin Upload</td>
+                        <td>Plugin Upload : Upload de fichiers</td>
                     </tr>
                     <tr>
                         <td><a href="/plugins/plugin-whatsnew/fr/">whatsnew</a></td>
-                        <td>Plugin Whatsnew</td>
+                        <td>Plugin Whatsnew : Portlet affichant les dernières pages et articles du site</td>
                     </tr>						
                     <tr>
                         <td><a href="/plugins/plugin-xmlpage/fr/">xmlpage</a></td>
-                        <td>Plugin Xmlpage</td>
+                        <td>Plugin Xmlpage : Publication de documents XML dans une page ou un portlet</td>
                     </tr>					
                     <tr>
                         <td><a href="/plugins/plugin-xpagelinkservice/fr/">xpagelinkservice</a></td>
@@ -129,6 +133,39 @@
                         <td>Module Webserver</td>
                     </tr>					
                 </table>                 
+            </p>
+            <p>
+                Lutece est aussi un socle pour le développement d'applications métiers intégrées au portail
+                et propose des plugins spécifiques aux collectivités et administrations.
+            </p>
+            <p>
+                <table>
+                    <tr>
+                        <th>Plugin métiers collectivités </th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-actes/fr/">actes</a></td>
+                        <td>Plugin ACTES - Télétransmission au contrôle de légalité</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/module-actes-s2low/fr/">actes-s2low</a></td>
+                        <td>Module de télétransmission basé sur la plate-forme S2LOW pour le plugin ACTES</td>
+                    </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-comarquage/fr/">comarquage</a></td>
+                        <td>Plugin Comarquage SPL - Service Public Local</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/module-formengine-etatcivil/fr/">formengine-etatcivil</a></td>
+                        <td>Formulaire de demande d'actes d'état civil produisant des flux XML compatibles avec le progiciel de la société Digitec</td>
+                    </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-ods/fr/">ods</a></td>
+                        <td>Plugin ODS - Outil de dématérialisation des documents de séance de conseil (municipal ou général)</td>
+                    </tr>	
+                </table>
+                
             </p>
         </section>
     </body>
