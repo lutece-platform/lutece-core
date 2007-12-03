@@ -25,7 +25,7 @@
                 <a href="{$site-path}?page_id={page-id}" target="_top" >
                    <xsl:value-of select="page-name" />
                 </a>
-	            <!-- <xsl:apply-templates select="sublevel-menu-list" /> -->
+	             <xsl:apply-templates select="sublevel-menu-list" /> 
              </li>
        </xsl:when>
        <xsl:when test="position()=last() or $index=4" >
@@ -33,7 +33,7 @@
                       <a href="{$site-path}?page_id={page-id}" target="_top" >
                               <xsl:value-of select="page-name" />
                        </a>
-                      <!-- <xsl:apply-templates select="sublevel-menu-list" /> -->
+                       <xsl:apply-templates select="sublevel-menu-list" /> 
                     </li>
        </xsl:when>
        <xsl:otherwise>
@@ -41,7 +41,7 @@
                       <a href="{$site-path}?page_id={page-id}" target="_top" >
                               <xsl:value-of select="page-name" />
                        </a>
-                       <!-- <xsl:apply-templates select="sublevel-menu-list" /> -->
+                        <xsl:apply-templates select="sublevel-menu-list" /> 
                     </li>
        </xsl:otherwise>
         </xsl:choose>

@@ -780,7 +780,7 @@ table.external-border-only-bgcolored th {
 }
 
 
-#menu-main li {
+#menu-main ul li {
 	background:transparent url(../images/local/skin/onglet_off_ns1.png) no-repeat scroll left top;
 	display:inline;
 	float:left;
@@ -788,34 +788,127 @@ table.external-border-only-bgcolored th {
 	padding:0px 0px 0px 10px;
 }
 
-#menu-main a {
+#menu-main ul li a {
 	color: #FFF;
 	background:transparent url(../images/local/skin/onglet_off_ns2.png) no-repeat scroll right top;
 	display:block;
 	float:left;
 	font-size:1em;
 	font-weight:bold;
+	text-align: center;
 	height:22px;
+	width: 100px;
 	padding:8px 10px 3px 0pt;
 	text-decoration:none;
 }
 
-#menu-main li:hover, #menu-main li:hover a {
+#menu-main ul li:hover, #menu-main ul li:hover a {
 	background-position: 0% -100px;
 }
 
-#menu-main li:hover a {
+#menu-main ul li:hover a {
 	background-position:100% -100px;
 }
 
-#menu-main li.active {
+#menu-main ul li.active {
 	background:transparent url(../images/local/skin/onglet_on_ns1.png) no-repeat scroll left top;
 }
 
-#menu-main li.active a {
+#menu-main ul li.active a {
 	background:transparent url(../images/local/skin/onglet_on_ns2.png) no-repeat scroll right top;
 	height:20px;
 	padding-bottom:5px;
+}
+
+/* Menu déroulant */
+
+ul#menu li ul{
+    display:none;
+}
+
+ul#menu li:hover>ul{
+    display:block;
+}
+
+
+ul#menu li a:hover{
+    /*border-color: #000099;*/ /*needed for hover background of submenu to work */
+}
+
+ul#menu ul{
+    position:absolute;
+    background:#C8D5EE;
+    background-image:none;
+    border: 1px solid #260650;
+    list-style:none;
+    margin:  32px 0 0 -10px;
+    padding:0px;
+    width:160px;
+    z-index:1;
+}
+
+/*
+ul#menu ul ul{
+    top:0px;
+    left:155px;
+    z-index:2;
+}*/
+
+ul#menu ul li{
+    position:relative;
+    float:none;
+    background-image:none;
+    margin:0px;
+    padding:0px;
+    border-top: 1px solid #260650;
+    _display:inline;
+}
+
+ul#menu ul li a{
+	display:block;
+   background-image:none;
+   margin:0px;
+	padding:0px;
+	width:160px;
+   border:none;
+}
+ul#menu ul li a span{
+ 	display:block;
+   width:144px;
+   _width:156px;
+   padding:2px 6px;
+   margin:0px 2px;
+   border:none;
+	text-align: left;
+   cursor: pointer;
+	cursor:hand;
+}
+ul#menu ul li a.next span{}
+ul#menu ul li a.next:hover span{
+    background-position: -160px 50%;
+}
+
+ul#menu ul li a:hover span{
+    /*background-color:#000099;*/
+    color: #260650;
+    border:none;
+}
+
+ul#menu ul li.first{
+    padding-left:0px;
+    border-top: none;
+}
+
+ul#menu ul li.first a{
+    padding-top:2px;
+}
+
+ul#menu ul li.last{
+    padding-right:0px;
+}
+
+ul#menu ul li.last a{
+    padding-bottom:2px;
 }
 
 
