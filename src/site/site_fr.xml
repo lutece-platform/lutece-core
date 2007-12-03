@@ -8,7 +8,7 @@
             <item name="Lisez moi" href="readme.html"/>
             <item name="Download" href="download.html"/>
             <item name="Nightly builds" href="../nightly_build/" />
-            <item name="Fonctionnalit&#233;s" href="features.html"/>
+            <item name="Fonctionnalités" href="features.html"/>
             <item name="Installation" href="install.html" />
             <item name="Licence" href="license.html"/>            
         </menu>
@@ -19,22 +19,22 @@
             <item name="Administration technique" href="technical-administration.html"/>
         </menu>
 
-        <menu name="Normes de d&#233;veloppement">
-            <item name="R&#232;gles de nommage" href="naming-conventions.html"/>
-            <item name="R&#232;gles de codage" href="coding-conventions.html"/>
-            <item name="R&#232;gles d'analyse de code" href="checkcode-rules.html"/>
-            <item name="R&#232;gles de logging" href="logging-rules.html"/>
-            <item name="R&#232;gle de documentation" href="documentation.html"/>
+        <menu name="Normes de développement">
+            <item name="Règles de nommage" href="naming-conventions.html"/>
+            <item name="Règles de codage" href="coding-conventions.html"/>
+            <item name="Règles d'analyse de code" href="checkcode-rules.html"/>
+            <item name="Règles de logging" href="logging-rules.html"/>
+            <item name="Règle de documentation" href="documentation.html"/>
             <item name="Tests unitaires" href="unit-testing.html"/>
         </menu>
 
-        <menu name="Guide de d&#233;veloppement">
-            <item name="Architecture g&#233;n&#233;rale" href="architecture-overview.html"/>
+        <menu name="Guide de développement">
+            <item name="Architecture générale" href="architecture-overview.html"/>
             <item name="Hello World" href="code-sample-hello-world.html"/>
             <item name="Services de base" href="core-services.html"/>
-            <item name="Acc&#232;s aux donn&#233;es" href="data-access.html"/>
+            <item name="Accès aux données" href="data-access.html"/>
             <item name="Internationalisation" href="i18n.html" />
-            <item name="Int&#233;gration Spring" href="spring.html" />
+            <item name="Intégration Spring" href="spring.html" />
 			<item name="Messages du site" href="howto-use-site-message.html" />
             <item name="Plugins" href="howto-create-plugins.html" collapse="true">
                 <item name="Portlets" href="howto-create-portlets.html"/>
@@ -48,10 +48,10 @@
             <item name="Formulaires" href="how-to-formengine-create-module.html" collapse="true">
                  <item name="Jaxb" href="how-to-formengine-jaxb.html"/>
             </item>                             
-            <item name="Migrer de la v1 &#224; la v2" href="migration1to2.html" />            
-            <item name="S&#233;curit&#233;" href="security.html" collapse="true">
+            <item name="Migrer de la v1 à la v2" href="migration1to2.html" />            
+            <item name="Sécurité" href="security.html" collapse="true">
                   <item name="Attributs" href="attributes.html"/>
-                  <item name="Sh&#233;ma" href="shema.html"/>
+                  <item name="Shéma" href="shema.html"/>
             </item>
         </menu>
       
