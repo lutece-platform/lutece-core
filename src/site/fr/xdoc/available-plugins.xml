@@ -29,6 +29,7 @@
                         <td>Plugin Calendar : Agenda multi-projets compatible iCal</td>
                     </tr>	
                     <tr>
+                    <tr>					
                         <td><a href="/plugins/plugin-childpages/fr/">childpages</a></td>
                         <td>Plugin Childpages : Portlet de pages filles</td>
                     </tr>					
@@ -60,6 +61,10 @@
                         <td><a href="/plugins/plugin-html/fr/">html</a></td>
                         <td>Plugin Html : Portlet HTML avec éditeur WYSIWYG</td>
                     </tr>
+                    <tr>
+                        <td><a href="plugins/plugin-jcaptcha/fr/">jcaptcha</a></td>
+                        <td>Plugin JCaptcha : Module Captcha pour les formulaires Lutèce</td>
+                    </tr>						
                     <tr>
                         <td><a href="/plugins/plugin-jsr170/fr/">jsr170</a></td>
                         <td>Plugin Jsr170 : Publication de documents provenant d'un référentiel de contenu externe (Alfresco, Jackrabbit, ...)</td>
