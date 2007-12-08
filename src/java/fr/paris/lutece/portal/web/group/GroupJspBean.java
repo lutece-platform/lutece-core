@@ -49,6 +49,7 @@ import fr.paris.lutece.util.url.UrlItem;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -270,7 +271,7 @@ public class GroupJspBean extends AdminFeaturesPageJspBean
         }
 
         Collection<Role> allRoleList = RoleHome.findAll(  );
-        ArrayList<String> groupRoleKeyList = GroupRoleHome.findGroupRoles( group.getGroupKey(  ) );
+        List<String> groupRoleKeyList = GroupRoleHome.findGroupRoles( group.getGroupKey(  ) );
         Collection<Role> groupRoleList = new ArrayList<Role>(  );
 
         for ( String strRoleKey : groupRoleKeyList )

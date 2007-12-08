@@ -180,7 +180,7 @@ public final class XmlUtil
      * @param strTag The tag name of the element to add
      * @param attrList The attributes list
      */
-    public static void addEmptyElement( StringBuffer strXmlBuffer, String strTag, HashMap attrList )
+    public static void addEmptyElement( StringBuffer strXmlBuffer, String strTag, Map attrList )
     {
         strXmlBuffer.append( TAG_BEGIN );
         strXmlBuffer.append( strTag );
@@ -248,7 +248,7 @@ public final class XmlUtil
      * @param strTag The tag name of the element to add
      * @param attrList The attributes list
      */
-    public static void beginElement( StringBuffer strXmlBuffer, String strTag, HashMap attrList )
+    public static void beginElement( StringBuffer strXmlBuffer, String strTag, Map attrList )
     {
         strXmlBuffer.append( TAG_BEGIN );
         strXmlBuffer.append( strTag );

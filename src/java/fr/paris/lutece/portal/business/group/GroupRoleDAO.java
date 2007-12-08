@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.group;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -66,7 +67,7 @@ public final class GroupRoleDAO implements IGroupRoleDAO
      * @param strGroupKey the group key
      * @return ArrayList the roles key list corresponding to the group
      */
-    public ArrayList<String> selectGroupRoles( String strGroupKey )
+    public List<String> selectGroupRoles( String strGroupKey )
     {
         int nParam = 0;
         ArrayList<String> arrayRoles = new ArrayList<String>(  );

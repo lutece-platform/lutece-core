@@ -33,12 +33,11 @@
  */
 package fr.paris.lutece.portal.business.group;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
- *
- *
+ * Interface for the GroupRoleDAO
  */
 public interface IGroupRoleDAO
 {
@@ -48,7 +47,7 @@ public interface IGroupRoleDAO
      * @param strGroupKey the group key
      * @return ArrayList the role key list corresponding to the group
      */
-    ArrayList<String> selectGroupRoles( String strGroupKey );
+    List<String> selectGroupRoles( String strGroupKey );
 
     /**
      * Delete roles for a user

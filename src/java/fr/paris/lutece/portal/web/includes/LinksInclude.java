@@ -43,6 +43,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -69,7 +70,7 @@ public class LinksInclude implements PageInclude
      * @param nMode The current mode
      * @param request The HTTP request
      */
-    public void fillTemplate( HashMap<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
+    public void fillTemplate( Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
         // Add links coming from the data object
         String strFavourite = ( data.getFavourite(  ) != null ) ? data.getFavourite(  )
@@ -93,7 +94,7 @@ public class LinksInclude implements PageInclude
                     {
                         String strPrefix = ( strCssStyleSheet.startsWith( ABSOLUTE_URL ) ) ? "" : PREFIX_PLUGINS_CSS;
 
-                        HashMap<String, String> model = new HashMap<String, String>(  );
+                        Map<String, String> model = new HashMap<String, String>(  );
                         model.put( MARK_PLUGIN_CSS_STYLESHEET, strCssStyleSheet );
                         model.put( MARK_CSS_PREFIX, strPrefix );
 
@@ -106,7 +107,7 @@ public class LinksInclude implements PageInclude
                 {
                     for ( String strJavascriptFile : plugin.getJavascriptFiles(  ) )
                     {
-                        HashMap<String, String> model = new HashMap<String, String>(  );
+                        Map<String, String> model = new HashMap<String, String>(  );
                         model.put( MARK_PLUGIN_JAVASCRIPT_FILE, strJavascriptFile );
 
                         HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale,

@@ -34,8 +34,7 @@
 package fr.paris.lutece.portal.business.group;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
-
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -59,7 +58,7 @@ public final class GroupRoleHome
      * @param strGroupKey the login
      * @return ArrayList the role key list corresponding to the group
      */
-    public static ArrayList<String> findGroupRoles( String strGroupKey )
+    public static List<String> findGroupRoles( String strGroupKey )
     {
         return _dao.selectGroupRoles( strGroupKey );
     }

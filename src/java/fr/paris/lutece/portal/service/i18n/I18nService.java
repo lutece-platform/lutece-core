@@ -104,11 +104,12 @@ public final class I18nService
      * <code>module.[plugin].[module].key </code></li>
      * </ul>
      * @param strKey The key of the string
-     * @param locale The locale
+     * @param theLocale The locale
      * @return The string corresponding to the key
      */
-    public static String getLocalizedString( String strKey, Locale locale )
+    public static String getLocalizedString( String strKey, Locale theLocale )
     {
+        Locale locale = theLocale;
         String strReturn = "";
 
         try

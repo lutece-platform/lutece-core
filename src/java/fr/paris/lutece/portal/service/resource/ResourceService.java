@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.StringTokenizer;
 
 
@@ -57,7 +58,7 @@ public abstract class ResourceService extends AbstractCacheableService
 
     // Variables
     private String _strName = UNDEFINED_SERVICE_NAME;
-    private ArrayList _listLoaders = new ArrayList(  );
+    private List _listLoaders = new ArrayList(  );
 
     protected ResourceService(  )
     {

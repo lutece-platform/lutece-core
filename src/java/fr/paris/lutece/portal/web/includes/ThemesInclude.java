@@ -38,7 +38,7 @@ import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,7 +66,7 @@ public class ThemesInclude implements PageInclude
      * @param nMode The current mode
      * @param request The HTTP request
      */
-    public void fillTemplate( HashMap<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
+    public void fillTemplate( Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
         // The code_theme of the page
         String strTheme = data.getTheme(  );

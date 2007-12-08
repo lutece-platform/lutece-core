@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.service.includes;
 
 import fr.paris.lutece.portal.service.content.PageData;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -55,5 +55,5 @@ public interface PageInclude
      * @param nMode The current mode
      * @param request The HTTP request
      */
-    void fillTemplate( HashMap<String, String> rootModel, PageData data, int nMode, HttpServletRequest request );
+    void fillTemplate( Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request );
 }

@@ -39,7 +39,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -66,7 +66,7 @@ public class StatisticsInclude implements PageInclude
      * @param nMode The current mode
      * @param request The HTTP request
      */
-    public void fillTemplate( HashMap<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
+    public void fillTemplate( Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
         String strStatisticalSiteId = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_SITE_ID, "1" );
         String strStatisticalIncludeEnable = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_ENABLE );

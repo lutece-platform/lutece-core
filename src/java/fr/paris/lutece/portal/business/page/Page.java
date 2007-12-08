@@ -311,7 +311,7 @@ public class Page implements RBACResource
      *
      * @param listPortlets the portlet list
      */
-    public void setPortlets( ArrayList<Portlet> listPortlets )
+    public void setPortlets( List<Portlet> listPortlets )
     {
         _listPortlets = listPortlets;
     }

@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -60,7 +60,7 @@ public class MetasInclude implements PageInclude
      * @param nMode The current mode
      * @param request The HTTP request
      */
-    public void fillTemplate( HashMap<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
+    public void fillTemplate( Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
         String strMetaAuthor = ( data.getMetaAuthor(  ) != null ) ? data.getMetaAuthor(  )
                                                                   : AppPropertiesService.getProperty( PROPERTY_HEAD_META_AUTHOR );
