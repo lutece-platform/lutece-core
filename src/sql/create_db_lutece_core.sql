@@ -407,6 +407,17 @@ CREATE TABLE `core_user_role` (
   PRIMARY KEY  (`role_key`,`id_user`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Table structure for table 'core_mail_queue'
+--
+
+DROP TABLE IF EXISTS `core_mail_queue`;
+CREATE TABLE `core_mail_queue`
+(
+	`id_mail_queue` int(11) NOT NULL default '0',
+	`mail_item` longblob,
+  	PRIMARY KEY  (`id_mail_queue`)
+)ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
