@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.portal.web;
 
-import fr.paris.lutece.LuteceTestCase;
-import fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.MokeHttpServletRequest;
 import fr.paris.lutece.portal.service.security.SecurityService;
 
 import javax.servlet.http.HttpServletRequest;

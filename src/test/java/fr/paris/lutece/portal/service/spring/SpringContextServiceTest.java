@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.spring;
 
-import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 
 

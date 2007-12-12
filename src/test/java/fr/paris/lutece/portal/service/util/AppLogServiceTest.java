@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.test.LuteceTestCase;
 
 
 /**

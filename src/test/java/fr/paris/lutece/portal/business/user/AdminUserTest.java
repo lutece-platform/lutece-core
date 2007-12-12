@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user;
 
-import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.Collection;
 import java.util.Locale;

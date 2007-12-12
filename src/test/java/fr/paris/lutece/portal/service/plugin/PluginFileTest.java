@@ -6,7 +6,7 @@
  */
 package fr.paris.lutece.portal.service.plugin;
 
-import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 
 import junit.framework.*;

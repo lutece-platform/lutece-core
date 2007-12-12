@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.util;
 
-import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.ArrayList;
 import java.util.Collection;

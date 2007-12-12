@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.portal.web.features;
 
-import fr.paris.lutece.LuteceTestCase;
-import fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.MokeHttpServletRequest;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.web.constants.Parameters;

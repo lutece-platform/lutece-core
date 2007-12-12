@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.stylesheet;
 
-import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.test.LuteceTestCase;
 
 
 public class StyleSheetTest extends LuteceTestCase

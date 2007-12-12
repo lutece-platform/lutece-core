@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import fr.paris.lutece.LuteceTestCase;
-import fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.MokeHttpServletRequest;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.io.FileInputStream;

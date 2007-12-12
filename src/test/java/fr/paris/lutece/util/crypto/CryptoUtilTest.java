@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.util.crypto;
 
-import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.test.LuteceTestCase;
 
 
 /**

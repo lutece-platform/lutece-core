@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.i18n;
 
-import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.text.DateFormat;

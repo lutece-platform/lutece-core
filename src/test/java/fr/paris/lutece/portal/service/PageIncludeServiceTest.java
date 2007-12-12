@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.portal.service;
 
-import fr.paris.lutece.LuteceTestCase;
-import fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.MokeHttpServletRequest;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;

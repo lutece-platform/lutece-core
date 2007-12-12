@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.template;
 
-import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.HashMap;

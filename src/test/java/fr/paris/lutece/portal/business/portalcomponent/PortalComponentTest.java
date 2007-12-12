@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.portalcomponent;
 
-import fr.paris.lutece.LuteceTestCase;
+import fr.paris.lutece.test.LuteceTestCase;
 
 
 public class PortalComponentTest extends LuteceTestCase
