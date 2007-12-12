@@ -11,7 +11,7 @@
   
   <!--                      Mail Queue                            -->  
   <bean id="mailQueue" class="fr.paris.lutece.portal.service.mail.MemoryQueue" />
-  
+  <!--  <bean id="mailQueue" class="fr.paris.lutece.portal.service.mail.DatabaseQueue" />--> 
   <!--                      Removal Services                            -->  
   <bean id="mailinglistRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
   <bean id="workgroupRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
@@ -65,5 +65,6 @@
   
   <!-- package workgroup -->
   <bean id="adminWorkgroupDAO"  class="fr.paris.lutece.portal.business.workgroup.AdminWorkgroupDAO" />
-
+  <!-- package mail -->
+  <bean id="mailItemQueueDAO"  class="fr.paris.lutece.portal.business.mail.MailItemQueueDAO" />  
 </beans>
