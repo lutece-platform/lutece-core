@@ -42,7 +42,9 @@ import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.xml.XmlUtil;
+import java.util.ArrayList;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -59,12 +61,15 @@ public class PortalMenuService implements CacheableService
 {
     public static final int MENU_INIT = 0;
     public static final int MENU_MAIN = 1;
+    
     private static final int PORTAL_COMPONENT_MENU_INIT_ID = 3;
     private static final int PORTAL_COMPONENT_MAIN_MENU_ID = 4;
-    private static final int PORTAL_COMPONENT_MENU_TREE = 7;
-    private static final String SERVICE_NAME = "PortalMenuService";
+    private static final int PORTAL_COMPONENT_MENU_TREE = 7;    
     private static final int MODE_NORMAL = 0;
     private static final int MODE_ADMIN = 1;
+    
+    private static final String SERVICE_NAME = "PortalMenuService";
+    private static final String PROPERTY_ROOT_TREE = "lutece.root.tree";
 
     // Menus cache
     private static PortalMenuService _singleton;
@@ -267,7 +272,20 @@ public class PortalMenuService implements CacheableService
     public String buildTreeMenuContent( int nIdPage, int nMode, HttpServletRequest request )
     {
         StringBuffer strXml = new StringBuffer(  );
-        Collection<Page> listPagesMenu = PageHome.getChildPages( getPageTree( nIdPage ) );
+        
+        String strTreeOnRoot = AppPropertiesService.getProperty( PROPERTY_ROOT_TREE );
+        Collection<Page> listPagesMenu = new ArrayList<Page>();
+            
+        // If the current page is the home page or the string strPathOnRoot equals false, not display the path
+        if ( strTreeOnRoot.equalsIgnoreCase( "true" ) )
+        {
+            listPagesMenu = PageHome.getChildPages( getPageTree( nIdPage ) );
+        }       
+        else 
+        {
+            listPagesMenu = PageHome.getChildPages( nIdPage );
+        }
+        
         strXml.append( XmlUtil.getXmlHeader(  ) );
         XmlUtil.beginElement( strXml, XmlContent.TAG_MENU_LIST );
 
@@ -281,6 +299,7 @@ public class PortalMenuService implements CacheableService
                 XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
                 XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, menuPage.getId(  ) );
                 XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, menuPage.getName(  ) );
+                XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_DESCRIPTION, menuPage.getDescription() );
 
                 // Seek of the sub-menus
                 XmlUtil.beginElement( strXml, XmlContent.TAG_SUBLEVEL_MENU_LIST );
@@ -297,6 +316,7 @@ public class PortalMenuService implements CacheableService
                         XmlUtil.addElement( strXml, XmlContent.TAG_SUBLEVEL_INDEX, nSubLevelMenuIndex );
                         XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, subLevelMenuPage.getId(  ) );
                         XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, subLevelMenuPage.getName(  ) );
+                        XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_DESCRIPTION, subLevelMenuPage.getDescription() );
                         XmlUtil.endElement( strXml, XmlContent.TAG_SUBLEVEL_MENU );
                     }
                 }
@@ -347,17 +367,17 @@ public class PortalMenuService implements CacheableService
         Page page = PageHome.getPage( nPageId );
         int nParentPageId = page.getParentPageId(  );
 
-        if ( nParentPageId == 1 )
+        if ( nParentPageId == 0 )
         {
             return nPageId;
         }
-
+        
         int nParentTree = nParentPageId;
 
-        while ( nParentPageId != 1 )
+        //while ( nParentPageId != 1 )
+        while ( nParentPageId != 0 )
         {
             nParentTree = nParentPageId;
-
             Page parentPage = PageHome.getPage( nParentPageId );
             nParentPageId = parentPage.getParentPageId(  );
         }

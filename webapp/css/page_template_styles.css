@@ -16,7 +16,7 @@
 BODY
 {
 		font-family : Tahoma, Verdana, Geneva, Arial;
-	  font-size: small;
+	   font-size: small;
 		color: #1F4772;
 }
 
@@ -798,6 +798,7 @@ table.external-border-only-bgcolored th {
 	text-align: center;
 	height:22px;
 	width: 100px;
+	width: 120px;
 	padding:8px 10px 3px 0pt;
 	text-decoration:none;
 }
@@ -1528,6 +1529,10 @@ div.internal-banner{
 	color: #FFFFFF;
 }
 
+.boxed1 span{
+	margin-left: 20%;
+}
+
 /* Box Style Two */
 
 .boxed2 {
@@ -1575,6 +1580,10 @@ div.internal-banner{
 	color: #FFFFFF;
 }
 
+.boxed2 span{
+	margin-left: 20%;
+}
+
 /* Box Style Three */
 
 .boxed3 {
@@ -1603,6 +1612,10 @@ div.internal-banner{
 
 .boxed3 a:hover {
 	color: #E55D13;
+}
+
+.boxed3 span{
+	margin-left: 20%;
 }
 
 /* Box Style Two */
@@ -1649,6 +1662,10 @@ div.internal-banner{
 .boxed4 .active, .boxed2 .active a {
 	background-color: #FBCA6D;
 	color: #FFFFFF;
+}
+
+.boxed4 span{
+	margin-left: 20%;
 }
 
 /* internal banner style */

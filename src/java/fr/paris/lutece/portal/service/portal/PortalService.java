@@ -265,12 +265,13 @@ public final class PortalService extends XmlTransformerService
         model.put( Markers.PAGE_NAME, ( data.getName(  ) == null ) ? "" : data.getName(  ) );
         model.put( Markers.PAGE_MAIN_MENU,
             PortalMenuService.getInstance(  ).getMenuContent( nMode, PortalMenuService.MENU_MAIN, request ) );
-        model.put( Markers.PAGE_CONTENT, ( data.getContent(  ) == null ) ? "" : data.getContent(  ) );
         model.put( Markers.PAGE_INIT_MENU,
-            PortalMenuService.getInstance(  ).getMenuContent( nMode, PortalMenuService.MENU_INIT, request ) );
+            PortalMenuService.getInstance(  ).getMenuContent( nMode, PortalMenuService.MENU_INIT, request ) );        
+        model.put( Markers.PAGE_TREE_MENU, ( data.getTreeMenu(  ) == null ) ? "" : data.getTreeMenu(  ) );
+        model.put( Markers.PAGE_CONTENT, ( data.getContent(  ) == null ) ? "" : data.getContent(  ) );
         model.put( Markers.PAGE_PATH, ( data.getPagePath(  ) == null ) ? "" : data.getPagePath(  ) );
         model.put( Markers.PAGE_TOOLS_MENU, tToolsMenu.getHtml(  ) );
-        model.put( Markers.PAGE_TREE_MENU, ( data.getTreeMenu(  ) == null ) ? "" : data.getTreeMenu(  ) );
+        
         model.put( Markers.PAGE_FOOTER, tFooter.getHtml(  ) );
 
         String strBaseUrl = ( request != null ) ? AppPathService.getBaseUrl( request ) : ""; // request could be null (method called by daemons or batch)

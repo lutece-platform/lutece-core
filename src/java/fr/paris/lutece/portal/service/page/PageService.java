@@ -347,14 +347,14 @@ public class PageService extends ContentService implements ImageResourceProvider
             data.setContent( getPageContent( nIdPage, nMode, request ) );
         }
 
-        if ( nIdPage == PortalService.getRootPageId(  ) )
+       /* if ( nIdPage == PortalService.getRootPageId(  ) )
         {
             data.setTreeMenu( "" );
         }
         else
-        {
+        {*/
             data.setTreeMenu( PortalMenuService.getInstance(  ).buildTreeMenuContent( nIdPage, nMode, request ) );
-        }
+        //}
 
         if ( nIdPage == PortalService.getRootPageId(  ) )
         {
