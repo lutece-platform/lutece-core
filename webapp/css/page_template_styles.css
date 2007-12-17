@@ -781,7 +781,7 @@ table.external-border-only-bgcolored th {
 
 
 #menu-main ul li {
-	background:transparent url(../images/local/skin/onglet_off_ns1.png) no-repeat scroll left top;
+	background:transparent url(../images/local/skin/tab_off_ns1.png) no-repeat scroll left top;
 	display:inline;
 	float:left;
 	margin:0px 5px 0px 0px;
@@ -790,7 +790,7 @@ table.external-border-only-bgcolored th {
 
 #menu-main ul li a {
 	color: #FFF;
-	background:transparent url(../images/local/skin/onglet_off_ns2.png) no-repeat scroll right top;
+	background:transparent url(../images/local/skin/tab_off_ns2.png) no-repeat scroll right top;
 	display:block;
 	float:left;
 	font-size:1em;
@@ -812,11 +812,11 @@ table.external-border-only-bgcolored th {
 }
 
 #menu-main ul li.active {
-	background:transparent url(../images/local/skin/onglet_on_ns1.png) no-repeat scroll left top;
+	background:transparent url(../images/local/skin/tab_on_ns1.png) no-repeat scroll left top;
 }
 
 #menu-main ul li.active a {
-	background:transparent url(../images/local/skin/onglet_on_ns2.png) no-repeat scroll right top;
+	background:transparent url(../images/local/skin/tab_on_ns2.png) no-repeat scroll right top;
 	height:20px;
 	padding-bottom:5px;
 }
