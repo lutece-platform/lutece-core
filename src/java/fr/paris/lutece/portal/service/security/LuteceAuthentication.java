@@ -169,4 +169,11 @@ public interface LuteceAuthentication
      * @return A collection of Lutece users or null if the service doesn't provide a users list
      */
     Collection<LuteceUser> getUsers(  );
+
+    /**
+     * Returns user managed by the authentication service if this feature is available.
+     * @param strUserLogin the user login
+     * @return A Lutece user or null if the service doesn't provide LuteceUser
+     */
+    LuteceUser getUser( String strUserLogin );
 }

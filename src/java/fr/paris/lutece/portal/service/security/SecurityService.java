@@ -454,5 +454,15 @@ public final class SecurityService
     {
         return _authenticationService.getUsers();
     }
+
+    /**
+     * Returns user managed by the authentication service if this feature is available.
+     * @param strUserLogin the user login
+     * @return A Lutece user or null if the service doesn't provide LuteceUser
+     */
+    public LuteceUser getUser( String strUserLogin )
+    {
+        return _authenticationService.getUser( strUserLogin );
+    }
     
 }
