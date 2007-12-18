@@ -450,7 +450,7 @@ public final class SecurityService
      * available.
      * @return A collection of Lutece users or null if the service doesn't provide a users list
      */
-    Collection<LuteceUser> getUsers(  )
+    public Collection<LuteceUser> getUsers(  )
     {
         return _authenticationService.getUsers();
     }
