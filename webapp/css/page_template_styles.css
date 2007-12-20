@@ -11,6 +11,8 @@
 /* ========================================================================
 ==============     REDEFINITION OF BASE HTML ELEMENTS     =================
 =========================================================================== */
+@import url("../js/jquery/plugins/treeview/jquery.treeview.css");
+
 
 /* Define the default font: , TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH, H1, H2, H3, H4*/
 BODY
@@ -781,7 +783,7 @@ table.external-border-only-bgcolored th {
 
 
 #menu-main ul li {
-	background:transparent url(../images/local/skin/tab_off_ns1.png) no-repeat scroll left top;
+	background:transparent url(../images/local/skin/onglet_off_ns1.png) no-repeat scroll left top;
 	display:inline;
 	float:left;
 	margin:0px 5px 0px 0px;
@@ -790,7 +792,7 @@ table.external-border-only-bgcolored th {
 
 #menu-main ul li a {
 	color: #FFF;
-	background:transparent url(../images/local/skin/tab_off_ns2.png) no-repeat scroll right top;
+	background:transparent url(../images/local/skin/onglet_off_ns2.png) no-repeat scroll right top;
 	display:block;
 	float:left;
 	font-size:1em;
@@ -812,11 +814,11 @@ table.external-border-only-bgcolored th {
 }
 
 #menu-main ul li.active {
-	background:transparent url(../images/local/skin/tab_on_ns1.png) no-repeat scroll left top;
+	background:transparent url(../images/local/skin/onglet_on_ns1.png) no-repeat scroll left top;
 }
 
 #menu-main ul li.active a {
-	background:transparent url(../images/local/skin/tab_on_ns2.png) no-repeat scroll right top;
+	background:transparent url(../images/local/skin/onglet_on_ns2.png) no-repeat scroll right top;
 	height:20px;
 	padding-bottom:5px;
 }
@@ -1576,7 +1578,7 @@ div.internal-banner{
 }
 
 .boxed2 .active, .boxed2 .active a {
-	background-color: #204B5C;
+	/*background-color: #204B5C;*/
 	color: #FFFFFF;
 }
 
@@ -1659,14 +1661,58 @@ div.internal-banner{
 	color: #204B5C;
 }
 
-.boxed4 .active, .boxed2 .active a {
-	background-color: #FBCA6D;
+.boxed4 .active, .boxed4 .active a {
+	/*background-color: #FBCA6D;*/
 	color: #FFFFFF;
 }
 
 .boxed4 span{
-	margin-left: 20%;
+	margin-left: 8%;
 }
+
+/* TREE */
+
+.tree4 {
+	margin-bottom: 20px;
+}
+
+.tree4 h2 {
+	height: 40px;
+	margin: 0 0 2px 0;
+	padding: 10px 0 0 50px;
+	background: #F7D694 url(../images/local/skin/head_orange.png) no-repeat;
+	text-transform: lowercase;
+	letter-spacing: -2px;
+	font-size: 200%;
+	font-weight: normal;
+	color: #FFFFFF;
+}
+
+.tree4 ul{
+	background-color: #F7D694;
+}
+
+ul#tree.tree4 {	
+	padding: 15px 0 15px 0;
+	background: #F7D694 url(../images/local/skin/bottom_orange.png) no-repeat left bottom;	
+}
+
+.tree4 a {
+	text-decoration: none;
+	font-weight: bold;
+	color: #F7A100;
+}
+
+.tree4 a:hover {
+	color: #204B5C;
+}
+
+.tree4 .active, .tree4 .active a {
+	/*background-color: #FBCA6D;*/
+	color: #FFFFFF;
+}
+
+
 
 /* internal banner style */
 img.internal-banner{
