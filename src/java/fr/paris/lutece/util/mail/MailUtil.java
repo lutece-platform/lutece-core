@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,6 +55,7 @@ import javax.activation.DataHandler;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -92,7 +94,7 @@ public final class MailUtil
 
     /**
      * Send a message.
-     *
+     *@deprecated
      * @param strHost The SMTP name or IP address.
      * @param strRecipient The recipient email.
      * @param strSenderName The sender name.
@@ -104,7 +106,8 @@ public final class MailUtil
     public static void sendMessage( String strHost, String strRecipient, String strSenderName, String strSenderEmail,
         String strSubject, String strMessage ) throws MessagingException
     {
-        Message msg = prepareMessage( strHost, strRecipient, strSenderName, strSenderEmail, strSubject );
+    	Session session=getMailSession(strHost);
+        Message msg = prepareMessage( strHost, strRecipient, strSenderName, strSenderEmail, strSubject,session );
         msg.setDataHandler( new DataHandler( 
                 new ByteArrayDataSource( strMessage,
                     AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN ) +
@@ -113,10 +116,35 @@ public final class MailUtil
         // Send the message
         Transport.send( msg );
     }
+    /**
+     * Send a message.
+     *
+     * @param strHost The SMTP name or IP address.
+     * @param strRecipient The recipient email.
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The message.
+     * @param transport the smtp transport object
+     * @param session the smtp session object
+     * @throws MessagingException The messaging exception
+     */
+    public static void sendMessage( String strHost, String strRecipient, String strSenderName, String strSenderEmail,
+        String strSubject, String strMessage,Transport transport,Session session ) throws MessagingException
+    {
+        Message msg = prepareMessage( strHost, strRecipient, strSenderName, strSenderEmail, strSubject,session );
+        msg.setDataHandler( new DataHandler( 
+                new ByteArrayDataSource( strMessage,
+                    AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN ) +
+                    AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
+
+        // Send the message
+        transport.sendMessage( msg,msg.getAllRecipients() );
+    }
 
     /**
      * Send a HTML formated message.
-     *
+     *@deprecated
      * @param strHost The SMTP name or IP address.
      * @param strRecipient The recipient email.
      * @param strSenderName The sender name.
@@ -129,8 +157,8 @@ public final class MailUtil
         String strSenderEmail, String strSubject, String strMessage )
         throws MessagingException
     {
-        Message msg = prepareMessage( strHost, strRecipient, strSenderName, strSenderEmail, strSubject );
-
+    	Session session=getMailSession(strHost);
+        Message msg = prepareMessage( strHost, strRecipient, strSenderName, strSenderEmail, strSubject,session );
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
         // Message body formated in HTML
         msg.setDataHandler( new DataHandler( 
@@ -141,10 +169,40 @@ public final class MailUtil
         // Send the message
         Transport.send( msg );
     }
-
+    
     /**
      * Send a HTML formated message.
      *
+     * @param strHost The SMTP name or IP address.
+     * @param strRecipient The recipient email.
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The message.
+     * @param transport the smtp transport object
+     * @param session the smtp session object
+     * @throws MessagingException The messaging exception
+     */
+    public static void sendMessageHtml( String strHost, String strRecipient, String strSenderName,
+        String strSenderEmail, String strSubject, String strMessage,Transport transport,Session session )
+        throws MessagingException
+    {
+        Message msg = prepareMessage( strHost, strRecipient, strSenderName, strSenderEmail, strSubject,session );
+
+        msg.setHeader( HEADER_NAME, HEADER_VALUE );
+        // Message body formated in HTML
+        msg.setDataHandler( new DataHandler( 
+                new ByteArrayDataSource( strMessage,
+                    AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML ) +
+                    AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
+
+        // Send the message
+        transport.sendMessage( msg,msg.getAllRecipients() );
+    }
+
+    /**
+     * Send a HTML formated message.
+     * @deprecated
      * @param strHost The SMTP name or IP address.
      * @param strRecipient The recipient email.
      * @param strSenderName The sender name.
@@ -158,7 +216,8 @@ public final class MailUtil
         String strSenderEmail, String strSubject, String strMessage, String strFileName )
         throws MessagingException
     {
-        Message msg = prepareMessage( strHost, strRecipient, strSenderName, strSenderEmail, strSubject );
+    	Session session=getMailSession(strHost);
+        Message msg = prepareMessage( strHost, strRecipient, strSenderName, strSenderEmail, strSubject ,session);
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
 
         // Message body formated in HTML
@@ -171,9 +230,41 @@ public final class MailUtil
         // Send the message
         Transport.send( msg );
     }
+    /**
+     * Send a HTML formated message.
+     * @param strHost The SMTP name or IP address.
+     * @param strRecipient The recipient email.
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The message.
+     * @param strFileName The name of the attachment.
+     * @param transport the smtp transport object
+     * @param session the smtp session object
+     * @throws MessagingException The messaging exception
+     */
+    public static void sendMessageHtmlWithAttachment( String strHost, String strRecipient, String strSenderName,
+        String strSenderEmail, String strSubject, String strMessage, String strFileName,Transport transport,Session session )
+        throws MessagingException
+    {
+    	
+        Message msg = prepareMessage( strHost, strRecipient, strSenderName, strSenderEmail, strSubject ,session);
+        msg.setHeader( HEADER_NAME, HEADER_VALUE );
+
+        // Message body formated in HTML
+        msg.setDataHandler( new DataHandler( 
+                new ByteArrayDataSource( strMessage,
+                    AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML ) +
+                    AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
+        msg.setFileName( strFileName );
+        
+        // Send the message
+        transport.sendMessage( msg,msg.getAllRecipients() );
+    }
 
     /**
      * Send a message.
+     * @deprecated
      * FIXME: use prepareMessage method
      * @param strHost The SMTP name or IP address.
      * @param strRecipient The recipient email.
@@ -188,7 +279,8 @@ public final class MailUtil
         String strSenderEmail, String strSubject, String strMessage, Map mapAttachments )
         throws MessagingException
     {
-        Message msg = prepareMessage( strHost, strRecipient, strSenderName, strSenderEmail, strSubject );
+    	Session session=getMailSession(strHost);
+    	Message msg = prepareMessage( strHost, strRecipient, strSenderName, strSenderEmail, strSubject,session );
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
 
         // Creation of the root part containing all the elements of the message 
@@ -210,7 +302,7 @@ public final class MailUtil
                 msgBodyPart = new MimeBodyPart(  );
 
                 String strContentLocation = (String) attachementList.next(  );
-                DataHandler handler = (DataHandler) mapAttachments.get( strContentLocation );
+                DataHandler handler =  new DataHandler( (URL)mapAttachments.get( strContentLocation ));
 
                 try
                 {
@@ -236,7 +328,72 @@ public final class MailUtil
         // Send the message
         Transport.send( msg );
     }
+    /**
+     * Send a message.
+     * FIXME: use prepareMessage method
+     * @param strHost The SMTP name or IP address.
+     * @param strRecipient The recipient email.
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The message.
+     * @param mapAttachments The map containing the attachments associated with their content-location.
+     * @param transport the smtp transport object
+     * @param session the smtp session object
+     * @throws MessagingException The messaging exception
+     */
+    public static void sendMessageHtml( String strHost, String strRecipient, String strSenderName,
+        String strSenderEmail, String strSubject, String strMessage, Map mapAttachments ,Transport transport,Session session )
+        throws MessagingException
+    {
+        Message msg = prepareMessage( strHost, strRecipient, strSenderName, strSenderEmail, strSubject,session );
+        msg.setHeader( HEADER_NAME, HEADER_VALUE );
 
+        // Creation of the root part containing all the elements of the message 
+        MimeMultipart multipart = new MimeMultipart( MULTIPART_RELATED );
+
+        // Creation of the html part, the "core" of the message
+        BodyPart msgBodyPart = new MimeBodyPart(  );
+        msgBodyPart.setContent( strMessage, BODY_PART_MIME_TYPE );
+
+        multipart.addBodyPart( msgBodyPart );
+
+        if ( mapAttachments != null )
+        {
+            // Add the attachments
+            Iterator attachementList = mapAttachments.keySet(  ).iterator(  );
+
+            while ( attachementList.hasNext(  ) )
+            {
+                msgBodyPart = new MimeBodyPart(  );
+
+                String strContentLocation = (String) attachementList.next(  );
+                DataHandler handler =  new DataHandler( (URL)mapAttachments.get( strContentLocation ));
+
+                try
+                {
+                    handler.getContent(  );
+                }
+                catch ( IOException e )
+                {
+                    // Document is ignored
+                    AppLogService.info( strContentLocation + MSG_ATTACHMENT_NOT_FOUND );
+
+                    continue;
+                }
+
+                // Fill this part, then add it to the root part with the good headers
+                msgBodyPart.setDataHandler( handler );
+                msgBodyPart.setHeader( HEADER_CONTENT_LOCATION, strContentLocation );
+                multipart.addBodyPart( msgBodyPart );
+            }
+        }
+
+        msg.setContent( multipart );
+
+        // Send the message
+        transport.sendMessage( msg,msg.getAllRecipients() );
+    }
     /**
      * Extract a collection of elements to be attached to a mail from an HTML string.
      *
@@ -259,6 +416,7 @@ public final class MailUtil
         return map;
     }
 
+   
     /**
      * Common part for sending message process :
      * <ul>
@@ -274,26 +432,16 @@ public final class MailUtil
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
+     * @param session the smtp session object
      * @return the message object initialised with the common settings
      * @throws MessagingException The messaging exception
      */
     private static Message prepareMessage( String strHost, String strRecipient, String strSenderName,
-        String strSenderEmail, String strSubject ) throws MessagingException
+        String strSenderEmail, String strSubject,Session session ) throws MessagingException
     {
-        boolean sessionDebug = false;
-
-        // Initializes a mail session with the SMTP server
-        Properties props = System.getProperties(  );
-        props.put( MAIL_HOST, strHost );
-        props.put( MAIL_TRANSPORT_PROTOCOL, SMTP );
-
-        Session mailSession = Session.getDefaultInstance( props, null );
-
-        // Activate debugging
-        mailSession.setDebug( sessionDebug );
-
+       
         // Instanciate and initialize a mime message
-        Message msg = new MimeMessage( mailSession );
+        Message msg = new MimeMessage( session);
         msg.setSentDate( new Date(  ) );
 
         try
@@ -329,5 +477,33 @@ public final class MailUtil
         msg.setRecipients( Message.RecipientType.TO, address );
 
         return msg;
+    }
+  
+    /**
+     * Open mail session with the SMTP server
+     * @param strHost The SMTP name or IP address.
+     * @return the mails session object
+     */
+    public static Session getMailSession( String strHost)
+    {
+    	boolean sessionDebug = false;
+    	// Initializes a mail session with the SMTP server
+        Properties props = System.getProperties(  );
+        props.put( MAIL_HOST, strHost );
+        props.put( MAIL_TRANSPORT_PROTOCOL, SMTP );
+        Session mailSession = Session.getDefaultInstance( props, null );
+        // Activate debugging
+        mailSession.setDebug( sessionDebug );
+        return mailSession;
+    }
+    /**
+     * return the transport object of the smtp session
+     * @param session the smtp session
+     * @return the transport object of the smtp session
+     * 
+     */
+    public static Transport getTransport( Session session) throws NoSuchProviderException
+    {
+    	return session.getTransport(SMTP);
     }
 }

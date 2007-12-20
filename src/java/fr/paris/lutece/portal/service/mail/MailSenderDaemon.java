@@ -60,52 +60,7 @@ public class MailSenderDaemon extends Daemon
         StringBuffer sbLogs = new StringBuffer(  );
         String strHost = AppPropertiesService.getProperty( PROPERTY_MAIL_HOST );
         Logger logger = Logger.getLogger( "lutece.mail" );
-        sbLogs.append( "\r\nLast mails sent " + new Date(  ).toString(  ) );
-
-        IMailQueue queue = MailService.getQueue(  );
-        MailItem mail = queue.consume(  );
-
-        while ( mail != null )
-        {
-            try
-            {
-                sbLogs.append( "\r\n - To " + mail.getRecipient(  ) + " - Subject : " + mail.getSubject(  ) );
-
-                switch ( mail.getFormat(  ) )
-                {
-                    case MailItem.FORMAT_HTML:
-                        MailUtil.sendMessageHtml( strHost, mail.getRecipient(  ), mail.getSenderName(  ),
-                            mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ) );
-
-                        break;
-
-                    case MailItem.FORMAT_TEXT:
-                        MailUtil.sendMessage( strHost, mail.getRecipient(  ), mail.getSenderName(  ),
-                            mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ) );
-
-                        break;
-
-                    case MailItem.FORMAT_HTML_WITH_ATTACHEMENTS:
-                        MailUtil.sendMessageHtml( strHost, mail.getRecipient(  ), mail.getSenderName(  ),
-                            mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ), mail.getAttachements(  ) );
-
-                        break;
-
-                    default:
-                        break;
-                }
-
-                sbLogs.append( " - Status [ OK ]" );
-            }
-            catch ( MessagingException e )
-            {
-                sbLogs.append( " - Status [ Failed ] : " + e.getMessage(  ) );
-                AppLogService.error( "MailSenderDaemon - Error sending mail : " + e.getMessage(  ), e );
-            }
-
-            mail = queue.consume(  );
-        }
-
+        MailService.transferQueueMails(strHost, sbLogs);
         logger.info( sbLogs.toString(  ) );
         setLastRunLogs( sbLogs.toString(  ) );
     }

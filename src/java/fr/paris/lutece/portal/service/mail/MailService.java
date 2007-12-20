@@ -33,10 +33,22 @@
  */
 package fr.paris.lutece.portal.service.mail;
 
+import java.util.Date;
+import java.util.Map;
+
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Session;
+import javax.mail.Transport;
+
+import org.apache.log4j.Logger;
+
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.mail.MailUtil;
 
 
 /**
@@ -73,6 +85,31 @@ public final class MailService
         item.setMessage( strMessage );
         _queue.send( item );
     }
+    /**
+     * Send a message asynchronously. The message is queued until a daemon
+     * thread send all awaiting messages
+     *
+     * @param strRecipient The recipient email.
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The message.
+     * @param mapAttachments The map containing the attachments associated with their content-location.
+     */
+    public static void sendMail( String strRecipient, String strSenderName, String strSenderEmail, String strSubject,
+        String strMessage, Map mapAttachments )
+    {
+        MailItem item = new MailItem(  );
+        item.setRecipient( strRecipient );
+        item.setSenderName( strSenderName );
+        item.setSenderEmail( strSenderEmail );
+        item.setSubject( strSubject );
+        item.setMessage( strMessage );
+        item.setRecipient( strRecipient );
+        item.setFormat( MailItem.FORMAT_HTML_WITH_ATTACHEMENTS );
+        item.setAttachements( mapAttachments );
+        _queue.send( item );
+    }
 
     /**
      * Shutdown the service
@@ -105,4 +142,89 @@ public final class MailService
     {
         return _queue;
     }
+    /**
+     * Send all messages store in the queue to the smtp server
+     * 
+     * @param strHost The SMTP name or IP address.
+     * @param sbLogs the string buffer use for loging all send Message.
+     */
+    public static void transferQueueMails( String strHost , StringBuffer sbLogs)
+    {
+    	
+    	  // Initializes a mail session with the SMTP server
+       
+        sbLogs.append( "\r\nLast mails sent " + new Date(  ).toString(  ) );
+
+        Session session = MailUtil.getMailSession(strHost);
+        Transport transportSmtp=null;
+        try {
+        	transportSmtp= MailUtil.getTransport(session);
+			} 
+        catch (NoSuchProviderException e)
+        {
+        	
+			AppLogService.error( e );
+		}
+        
+        if(transportSmtp!=null)
+        {
+	        IMailQueue queue = getQueue(  );
+	       
+	      
+	    	 try {
+				transportSmtp.connect();
+				 MailItem mail = queue.consume(  );
+					while ( mail != null )
+			      	 {
+			            try
+			            {
+			                sbLogs.append( "\r\n - To " + mail.getRecipient(  ) + " - Subject : " + mail.getSubject(  ) );
+			
+			                switch ( mail.getFormat(  ) )
+			                {
+			                    case MailItem.FORMAT_HTML:
+			                        MailUtil.sendMessageHtml( strHost, mail.getRecipient(  ), mail.getSenderName(  ),
+			                            mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),transportSmtp,session );
+			
+			                        break;
+			
+			                    case MailItem.FORMAT_TEXT:
+			                        MailUtil.sendMessage( strHost, mail.getRecipient(  ), mail.getSenderName(  ),
+			                            mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ) ,transportSmtp,session);
+			
+			                        break;
+			
+			                    case MailItem.FORMAT_HTML_WITH_ATTACHEMENTS:
+			                        MailUtil.sendMessageHtml( strHost, mail.getRecipient(  ), mail.getSenderName(  ),
+			                            mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ), mail.getAttachements(  ),transportSmtp,session);
+			
+			                        break;
+			
+			                    default:
+			                        break;
+			                }
+			
+			                sbLogs.append( " - Status [ OK ]" );
+			            }
+			            catch ( MessagingException e )
+			            {
+			                sbLogs.append( " - Status [ Failed ] : " + e.getMessage(  ) );
+			                AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
+			            }
+		
+			            mail = queue.consume(  );
+			      	 }
+					transportSmtp.close();	 
+	    	 }
+	    	 catch ( MessagingException e )
+	            {
+	               
+	                AppLogService.error( e );
+	            }
+	
+	    }
+    }
+
+          
+            
 }

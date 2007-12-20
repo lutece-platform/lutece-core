@@ -155,7 +155,7 @@ public class HtmlDocument
                 try
                 {
                     URL url = new URL( strSrc );
-                    mapUrl.put( getUrlName( url ), getUrlContent( url ) );
+                    mapUrl.put( getUrlName( url ), url );
                 }
                 catch ( MalformedURLException e )
                 {
