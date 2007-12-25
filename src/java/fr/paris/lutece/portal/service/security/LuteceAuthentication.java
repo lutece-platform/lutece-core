@@ -68,7 +68,7 @@ public interface LuteceAuthentication
      * @throws LoginException The Login Exception
      */
     LuteceUser login( final String strUserName, final String strUserPassword, HttpServletRequest request )
-        throws LoginException;
+        throws LoginException, LoginRedirectException;
 
     /**
      * logout the user
