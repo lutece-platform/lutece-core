@@ -183,7 +183,7 @@ public final class SecurityService
      * @throws LoginException The LoginException
      */
     public void loginUser( HttpServletRequest request, final String strUserName, final String strPassword )
-    throws LoginException
+    throws LoginException, LoginRedirectException
     {
         LuteceUser user = _authenticationService.login( strUserName, strPassword, request );
         registerUser( request, user );
@@ -387,7 +387,7 @@ public final class SecurityService
      * @throws LoginException The LoginException
      */
     public LuteceUser remoteLoginUser( final HttpServletRequest request, final String strUserName,
-        final String strPassword ) throws LoginException
+        final String strPassword ) throws LoginException, LoginRedirectException
     {
         LuteceUser user = _authenticationService.login( strUserName, strPassword, request );
         
