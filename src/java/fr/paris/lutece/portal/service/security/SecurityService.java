@@ -246,7 +246,7 @@ public final class SecurityService
      * @param request The Http request
      * @param user The current user
      */
-    private void registerUser( HttpServletRequest request, LuteceUser user )
+    public void registerUser( HttpServletRequest request, LuteceUser user )
     {
         HttpSession session = request.getSession( true );
         session.setAttribute( ATTRIBUTE_LUTECE_USER, user );
@@ -256,7 +256,7 @@ public final class SecurityService
      * Unregister the user in the Http session
      * @param request The Http request
      */
-    private void unregisterUser( HttpServletRequest request )
+    public void unregisterUser( HttpServletRequest request )
     {
         HttpSession session = request.getSession( true );
         session.removeAttribute( ATTRIBUTE_LUTECE_USER );
