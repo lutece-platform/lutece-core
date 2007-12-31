@@ -38,7 +38,7 @@
                     </tr>						
                     <tr>
                         <td><a href="/plugins/plugin-contact/fr/">contact</a></td>
-                        <td>Plugin Contact : Formulaire ce contact</td>
+                        <td>Plugin Contact : Formulaire de contact</td>
                     </tr>
                     <tr>
                         <td><a href="/plugins/plugin-dbpage/fr/">dbpage</a></td>
@@ -65,6 +65,10 @@
                         <td>Plugin JCaptcha : Module Captcha pour les formulaires Lutèce</td>
                     </tr>					
                     <tr>
+                        <td><a href="/plugins/plugin-jsr168/fr/">jsr168</a></td>
+                        <td>Plugin Jsr168 : Container de portlets JSR168</td>
+                    </tr>	
+                    <tr>
                         <td><a href="/plugins/plugin-jsr170/fr/">jsr170</a></td>
                         <td>Plugin Jsr170 : Publication de documents provenant d'un référentiel de contenu externe (Alfresco, Jackrabbit, ...)</td>
                     </tr>	
@@ -88,6 +92,22 @@
                         <td><a href="/plugins/plugin-mylutece/fr/">mylutece</a></td>
                         <td>Plugin Mylutece : Gestion des utilisateurs authentifiés sur le site</td>
                     </tr>							
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-database/fr/">mylutece-database</a></td>
+                        <td>Module database pour MyLutece - Authentification à partir d'une base de données</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-ldapdatabase/fr/">mylutece-ldapdatabase</a></td>
+                        <td>Module ldapdatabase pour MyLutece - Authentification à partir d'un annuaire LDAP + rôles en base de données</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-openid/fr/">mylutece-openid</a></td>
+                        <td>Module openid pour MyLutece - Authentification utilisant des URL OpenID</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-webserver/fr/">mylutece-webserver</a></td>
+                        <td>Module webserver pour MyLutece - Authentification faite au niveau du container de servlet (ex: Realm Tomcat)</td>
+                    </tr>					
                     <tr>
                         <td><a href="/plugins/plugin-newsletter/fr/">newsletter</a></td>
                         <td>Plugin Newsletter : Lettre d'information</td>
@@ -128,14 +148,6 @@
                         <td><a href="/plugins/plugin-xpagelinkservice/fr/">xpagelinkservice</a></td>
                         <td>Plugin Xpagelinkservice</td>
                     </tr>						
-                    <tr>
-                        <td><a href="/plugins/module-mylutece-ldapdatabase/fr/">ldapdatabase</a></td>
-                        <td>Module Ldapdatabase</td>
-                    </tr>	
-                    <tr>
-                        <td><a href="/plugins/module-mylutece-webserver/fr/">webserver</a></td>
-                        <td>Module Webserver</td>
-                    </tr>					
                 </table>                 
             </p>
             <p>
