@@ -94,19 +94,19 @@
                     </tr>							
                     <tr>
                         <td><a href="/plugins/module-mylutece-database/fr/">mylutece-database</a></td>
-                        <td>Module database pour MyLutece - Authentification à partir d'une base de données</td>
+                        <td>Module Database pour MyLutece - Authentification à partir d'une base de données</td>
                     </tr>	
                     <tr>
                         <td><a href="/plugins/module-mylutece-ldapdatabase/fr/">mylutece-ldapdatabase</a></td>
-                        <td>Module ldapdatabase pour MyLutece - Authentification à partir d'un annuaire LDAP + rôles en base de données</td>
+                        <td>Module LDAPDatabase pour MyLutece - Authentification à partir d'un annuaire LDAP + rôles en base de données</td>
                     </tr>	
                     <tr>
                         <td><a href="/plugins/module-mylutece-openid/fr/">mylutece-openid</a></td>
-                        <td>Module openid pour MyLutece - Authentification utilisant des URL OpenID</td>
+                        <td>Module OpenID pour MyLutece - Authentification utilisant des URL OpenID</td>
                     </tr>	
                     <tr>
                         <td><a href="/plugins/module-mylutece-webserver/fr/">mylutece-webserver</a></td>
-                        <td>Module webserver pour MyLutece - Authentification faite au niveau du container de servlet (ex: Realm Tomcat)</td>
+                        <td>Module WebServer pour MyLutece - Authentification faite au niveau du container de servlet (ex: Realm Tomcat)</td>
                     </tr>					
                     <tr>
                         <td><a href="/plugins/plugin-newsletter/fr/">newsletter</a></td>

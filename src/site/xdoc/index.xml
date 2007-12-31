@@ -16,6 +16,9 @@
                   Lutece is free and is distributed under a BSD-like license.
               </p>
               <p>
+                  Lutece provides an highly modular architecture based on plugins. <a href="available-plugins.html">See available plugins list</a>. 
+              </p>
+              <p>
                   In the current version technical documentation and sources are in English but administration user interface is actually
                    in French. French users are invited to consult the <a href="http://fr.lutece.paris.fr">french site</a>. 
               </p>

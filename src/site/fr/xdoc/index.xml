@@ -11,7 +11,13 @@
                   Lutece est un moteur de portail qui vous permet de créer rapidement un site internet ou intranet dynamique basé sur du contenu HTML, XML...
               </p>
               <p>
-                  Ce logiciel Open Source est écrit en Java et est basé sur les projets de l'Apache Software Foundation (Jakarta et projets XML).
+                  Son architecture très modulaire est basée sur des plugins. 
+                  <a href="available-plugins.html">Consulter la liste des plugins</a>
+                  
+              </p>
+              <p>
+                  Ce logiciel Open Source est écrit en Java et repose sur des briques logicielles Open Source reconnues
+                  (SpringFramework, Lucene, Freemarker, Ehcache, Jakarta-commons, PDFBox, ...).
               </p>
               <p>
                   Lutece fournit une interface d'administration très simple qui peut être utilisée par des utilisateurs qui n'ont pas de compétences techniques particulières.
