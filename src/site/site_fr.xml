@@ -2,7 +2,9 @@
 <project name="Lutece">
     <version />
     <body>
-       
+		<links>
+			<item name="EN" href="../index.html"   />
+        </links>       
         <menu name="Lutece">
             <item name="Introduction" href="index.html"/>
             <item name="Lisez moi" href="readme.html"/>
