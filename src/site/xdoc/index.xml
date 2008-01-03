@@ -9,7 +9,8 @@
           <section name="Welcome to the Lutece Project ">
               <p>
                   Lutece is a portal engine which allows you to easily create your websites or intranets based upon HTML,XML.. content. 
-                  This open-source software is implemented in Java and based on Apache Software Foundation projects (i.e. Jakarta and XML projects).
+                  This open-source software is implemented in Java and based on widely used libraries and frameworks : Spring, Freemarker, 
+                  Lucene, Ehcache, Jakarta-commons, ... .
                   Lutece provides a user friendly interface for portal management and therefore no specific technical skills are required. 
               </p>
               <p>    
@@ -19,8 +20,8 @@
                   Lutece provides an highly modular architecture based on plugins. <a href="available-plugins.html">See available plugins list</a>. 
               </p>
               <p>
-                  In the current version technical documentation and sources are in English but administration user interface is actually
-                   in French. French users are invited to consult the <a href="http://fr.lutece.paris.fr">french site</a>. 
+                  Languages available are for the moment English and French. 
+                  French users are invited to consult the <a href="http://fr.lutece.paris.fr">french site</a>. 
               </p>
           </section>
 		  <section name="Project Information">
