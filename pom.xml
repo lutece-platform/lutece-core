@@ -147,29 +147,6 @@
         </dependency>
     </dependencies>
     
-    <build>
-    	<plugins>
-    		<plugin>
-       			<groupId>org.apache.maven.plugins</groupId>
-       			<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>**/.svn/**</exclude>
-					</excludes>
-				</configuration>
-       			<executions>
-	         		<execution>
-	         			<id>packageTestsClasses</id>
-	         			<phase>package</phase>
-		         		<goals>
-		           			<goal>test-jar</goal>
-		         		</goals>
-	         		</execution>
-       			</executions>
-     		</plugin>
-    	</plugins>
-    </build>
-    
     <scm>
 			<connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/core</connection>
 			<developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/core</developerConnection>
