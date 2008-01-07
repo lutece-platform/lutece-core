@@ -51,6 +51,8 @@
     
 <div class="content-box">    
     <h2>#i18n{portal.users.modify_user_rights.titleRightModificationForm}</h2>
+    <p> #i18n{portal.users.modify_user_rights.informationRightModification}
+    </p>
     <form method="post"  action="jsp/admin/user/ModifyUserRights.jsp" >    
     	<input type="hidden" name="delegate_rights" value="${can_delegate}" />
         <input type="hidden" name="id_user" value="${user.userId}" />
@@ -79,7 +81,7 @@
             </#list>        
             <p>
                 <input type="hidden" name="id_user" value="${user.userId}" />
-                <input type="submit"  value="#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}"  class="button" />
+                <input type="submit"  value="#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}" class="button" />
             </p>        
         </div>
     </form>

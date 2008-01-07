@@ -68,12 +68,10 @@
             <input type="hidden" name="id_user" value="${user.userId}" />
             <input type="hidden" name="delegate_rights" value="false"/>
 	        <#if can_modify>
-            <input onclick="document.modifyform.delegate_rights.value='false';document.modifyform.submit()" type="submit" value="#i18n{portal.users.manage_user_rights.buttonLabelModifyRights}" class="button" />            
-	        <#if can_delegate>
-	        <!--
-            <input onclick="document.modifyform.delegate_rights.value='true';document.modifyform.submit()" type="submit" value="#i18n{portal.users.manage_user_rights.buttonLabelDelegateRights}" class="button" />            
-            -->
-	        </#if>
+    	        <input onclick="document.modifyform.delegate_rights.value='false';document.modifyform.submit()" type="submit" value="#i18n{portal.users.manage_user_rights.buttonLabelModifyRights}" class="button" />            
+		        <#if can_delegate>
+		            <input onclick="document.modifyform.delegate_rights.value='true';document.modifyform.submit()" type="submit" value="#i18n{portal.users.manage_user_rights.buttonLabelDelegateRights}" class="button" />            
+		        </#if>
 	        </#if>
         </form>
     </div>

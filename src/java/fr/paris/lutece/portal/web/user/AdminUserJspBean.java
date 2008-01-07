@@ -64,6 +64,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -722,28 +723,28 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
 
-        Collection<Right> rightList = AdminUserHome.getRightsListForUser( nUserId ).values(  );
-        Collection<Right> allRightList;
+        Collection<Right> rightList;
+        Collection<Right> allRightList = RightHome.getRightsList( user.getUserLevel(  ) );
 
         AdminUser currentUser = getUser(  );
 
         if ( bDelegateRights )
         {
-            Collection<Right> rights = RightHome.getRightsList( currentUser.getUserLevel(  ) );
-            allRightList = new ArrayList<Right>(  );
+            Map<String, Right> rights = AdminUserHome.getRightsListForUser( currentUser.getUserId(  ) );
+            rightList = new ArrayList<Right>(  );
 
-            for ( Right right : rights )
+            for ( String strRights : rights.keySet(  ) )
             {
-                //if ( right.getLevel(  ) < user.getUserLevel(  ) )
-                if ( right.getLevel(  ) >= user.getUserLevel(  ) )
+            	// logged user can only delegate rights with level higher or equal to user level.
+                if ( rights.get( strRights ).getLevel(  ) >= user.getUserLevel(  ) )
                 {
-                    allRightList.add( right );
+                    rightList.add( rights.get( strRights ) );
                 }
             }
         }
         else
         {
-            allRightList = RightHome.getRightsList( user.getUserLevel(  ) );
+            rightList = AdminUserHome.getRightsListForUser( nUserId ).values(  );
         }
 
         HashMap model = new HashMap(  );
@@ -766,7 +767,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyAdminUserRights( HttpServletRequest request )
     {
-        boolean bDelegateRights = Boolean.valueOf( request.getParameter( PARAMETER_DELEGATE_RIGHTS ) );
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
 
@@ -774,14 +774,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
 
-        if ( bDelegateRights )
-        {
-            AdminUserHome.removeAllDelegatedRightsForUser( user );
-        }
-        else
-        {
-            AdminUserHome.removeAllOwnRightsForUser( user );
-        }
+        AdminUserHome.removeAllOwnRightsForUser( user );
 
         if ( arrayRights != null )
         {
