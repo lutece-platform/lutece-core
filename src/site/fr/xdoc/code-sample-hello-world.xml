@@ -123,7 +123,7 @@ public class HelloWorldApp implements XPageApplication
    &lt;provider&gt;Mairie de Paris&lt;/provider&gt;
    &lt;provider-url&gt;http://lutece.paris.fr&lt;/provider-url&gt;
    &lt;icon-url&gt;images/admin/skin/plugins/helloworld/helloworld.png&lt;/icon-url&gt;
-   &lt;copyright&gt;Copyright 2001-2006 Mairie de Paris&lt;/copyright&gt;
+   &lt;copyright&gt;Copyright 2001-2008 Mairie de Paris&lt;/copyright&gt;
    &lt;db-pool-required&gt;0&lt;/db-pool-required&gt;
 
    &lt;!-- Xpage configuration --&gt;

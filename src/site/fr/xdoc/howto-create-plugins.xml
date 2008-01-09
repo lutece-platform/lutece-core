@@ -209,7 +209,7 @@
     &lt;provider&gt;Mairie de Paris&lt;/provider&gt;
     &lt;provider-url&gt;http://lutece.paris.fr&lt;/provider-url&gt;
     &lt;icon-url&gt;../../images/admin/skin/plugins/myplugin/myplugin.gif&lt;/icon-url&gt;
-    &lt;copyright&gt;Copyright (c) 2001-2006 Mairie de Paris&lt;/copyright&gt;
+    &lt;copyright&gt;Copyright (c) 2001-2008 Mairie de Paris&lt;/copyright&gt;
 
     &lt;!-- Le plugin requiert-il un pool de connexions : 1 - oui, 0 - non --&gt;
     &lt;db-pool-required&gt;1&lt;/db-pool-required&gt;
