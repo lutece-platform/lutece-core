@@ -7,7 +7,7 @@
     <provider>Mairie de Paris</provider>
     <provider-url>http://lutece.paris.fr</provider-url>
     <icon-url>../../images/admin/skin/plugins/myplugin/myplugin.gif</icon-url>
-    <copyright>Copyright (c) 2001-2006 Mairie de Paris</copyright>
+    <copyright>Copyright (c) 2001-2008 Mairie de Paris</copyright>
 
     <!-- Le plugin requiert-il un pool de connexions : 1 - oui, 0 - non -->
     <db-pool-required>1</db-pool-required>
