@@ -33,16 +33,10 @@
  */
 package fr.paris.lutece.portal.service.mail;
 
-import fr.paris.lutece.portal.service.daemon.Daemon;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.mail.MailUtil;
-
 import org.apache.log4j.Logger;
 
-import java.util.Date;
-
-import javax.mail.MessagingException;
+import fr.paris.lutece.portal.service.daemon.Daemon;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 
 /**

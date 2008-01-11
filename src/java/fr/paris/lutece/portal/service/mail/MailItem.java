@@ -35,7 +35,12 @@ package fr.paris.lutece.portal.service.mail;
 
 import java.io.Serializable;
 
+import java.util.List;
 import java.util.Map;
+
+import javax.activation.DataSource;
+
+import fr.paris.lutece.util.mail.FileAttachement;
 
 
 /**
@@ -45,25 +50,33 @@ public class MailItem implements Serializable
 {
     public static final int FORMAT_HTML = 0; // Default
     public static final int FORMAT_TEXT = 1;
-    public static final int FORMAT_HTML_WITH_ATTACHEMENTS = 2;
+    public static final int FORMAT_MULTIPART_HTML = 2;
+    public static final int FORMAT_MULTIPART_TEXT = 3;
 
     // Variables declarations
-    private String _strRecipient;
+    private String _strRecipientsTo;
+    private String _strRecipientsCc;
+    private String _strRecipientsBcc;
+    
     private String _strSenderName;
     private String _strSenderEmail;
     private String _strSubject;
     private String _strMessage;
     private int _nFormat;
-    private Map _mapAttachements;
+    private Map _mapUrlsAttachement;
+    private List<FileAttachement> _listFilesAttachement;
+   
 
-    /**
+  
+
+	/**
      * Returns the Recipient
      *
      * @return The Recipient
      */
-    public String getRecipient(  )
+    public String getRecipientsTo(  )
     {
-        return _strRecipient;
+        return _strRecipientsTo;
     }
 
     /**
@@ -71,9 +84,47 @@ public class MailItem implements Serializable
      *
      * @param strRecipient The Recipient
      */
-    public void setRecipient( String strRecipient )
+    public void setRecipientsTo( String strRecipient )
     {
-        _strRecipient = strRecipient;
+        _strRecipientsTo = strRecipient;
+    }
+    /**
+     * Returns the Recipient
+     *
+     * @return The Recipient
+     */
+    public String getRecipientsCc(  )
+    {
+        return _strRecipientsCc;
+    }
+
+    /**
+     * Sets the Recipient
+     *
+     * @param strRecipient The Recipient
+     */
+    public void setRecipientsCc( String strRecipient )
+    {
+        _strRecipientsCc = strRecipient;
+    }
+    /**
+     * Returns the Recipient
+     *
+     * @return The Recipient
+     */
+    public String getRecipientsBcc(  )
+    {
+        return _strRecipientsBcc;
+    }
+
+    /**
+     * Sets the Recipient
+     *
+     * @param strRecipient The Recipient
+     */
+    public void setRecipientsBcc( String strRecipient )
+    {
+        _strRecipientsBcc = strRecipient;
     }
 
     /**
@@ -181,9 +232,9 @@ public class MailItem implements Serializable
      *
      * @return The Attachements Map
      */
-    public Map getAttachements(  )
+    public Map getUrlsAttachement(  )
     {
-        return _mapAttachements;
+        return _mapUrlsAttachement;
     }
 
     /**
@@ -191,8 +242,27 @@ public class MailItem implements Serializable
      *
      * @param MapAttachements The MapAttachements
      */
-    public void setAttachements( Map mapAttachements )
+    public void setUrlsAttachement( Map mapAttachements )
     {
-        _mapAttachements = mapAttachements;
+        _mapUrlsAttachement = mapAttachements;
+    }
+    /**
+     * Returns a collection of files attachement
+     *
+     * @return The Attachements Map
+     */
+    public  List<FileAttachement>  getFilesAttachement(  )
+    {
+        return _listFilesAttachement;
+    }
+
+    /**
+     * Set a collection of files attachement
+     *
+     * @param fileAttachements  The collection of files attachement
+     */
+    public void setFilesAttachement( List<FileAttachement> fileAttachements)
+    {
+        _listFilesAttachement = fileAttachements;
     }
 }
