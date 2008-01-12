@@ -17,20 +17,12 @@
                         <th>Description</th>
                     </tr>
                     <tr>
-                        <td><a href="/plugins/plugin-adminauthenticationdatabase/fr/">adminauthenticationdatabase</a></td>
-                        <td>Plugin Adminauthenticationdatabase : Module d'authentification du Back Office</td>
-                    </tr>		
-                    <tr>
-                        <td><a href="/plugins/plugin-adminquery/fr/">adminquery</a></td>
-                        <td>Plugin Adminquery : Requeteur SQL pour le Back Office</td>
-                    </tr>						
-                    <tr>
                         <td><a href="/plugins/plugin-calendar/fr/">calendar</a></td>
                         <td>Plugin Calendar : Agenda multi-projets compatible iCal</td>
                     </tr>	
                     <tr>					
                         <td><a href="/plugins/plugin-childpages/fr/">childpages</a></td>
-                        <td>Plugin Childpages : Portlet de pages filles</td>
+                        <td>Plugin Childpages : Portlet de navigation vers les pages filles de la page courante </td>
                     </tr>					
                     <tr>
                         <td><a href="/plugins/plugin-codewizard/fr/">codewizard</a></td>
@@ -89,33 +81,9 @@
                         <td>Plugin Myapps : Mes Applications favorites</td>
                     </tr>					
                     <tr>
-                        <td><a href="/plugins/plugin-mylutece/fr/">mylutece</a></td>
-                        <td>Plugin Mylutece : Gestion des utilisateurs authentifiés sur le site</td>
-                    </tr>							
-                    <tr>
-                        <td><a href="/plugins/module-mylutece-database/fr/">mylutece-database</a></td>
-                        <td>Module Database pour MyLutece - Authentification à partir d'une base de données</td>
-                    </tr>	
-                    <tr>
-                        <td><a href="/plugins/module-mylutece-ldapdatabase/fr/">mylutece-ldapdatabase</a></td>
-                        <td>Module LDAPDatabase pour MyLutece - Authentification à partir d'un annuaire LDAP + rôles en base de données</td>
-                    </tr>	
-                    <tr>
-                        <td><a href="/plugins/module-mylutece-openid/fr/">mylutece-openid</a></td>
-                        <td>Module OpenID pour MyLutece - Authentification utilisant des URL OpenID</td>
-                    </tr>	
-                    <tr>
-                        <td><a href="/plugins/module-mylutece-webserver/fr/">mylutece-webserver</a></td>
-                        <td>Module WebServer pour MyLutece - Authentification faite au niveau du container de servlet (ex: Realm Tomcat)</td>
-                    </tr>					
-                    <tr>
                         <td><a href="/plugins/plugin-newsletter/fr/">newsletter</a></td>
                         <td>Plugin Newsletter : Lettre d'information</td>
                     </tr>						
-                    <tr>
-                        <td><a href="/plugins/plugin-pagelinkservice/fr/">pagelinkservice</a></td>
-                        <td>Plugin Pagelinkservice : Assistant de création de liens</td>
-                    </tr>							
                     <tr>
                         <td><a href="/plugins/plugin-poll/fr/">poll</a></td>
                         <td>Plugin Poll : Sondages</td>
@@ -124,10 +92,6 @@
                         <td><a href="/plugins/plugin-rss/fr/">rss</a></td>
                         <td>Plugin RSS : Publication et génération de fils RSS</td>
                     </tr>					
-                    <tr>
-                        <td><a href="/plugins/plugin-systeminfo/fr/">systeminfo</a></td>
-                        <td>Plugin SystemInfo : Affichage des informations du système</td>
-                    </tr>
                     <tr>
                         <td><a href="/plugins/plugin-tagcloud/fr/">tagcloud</a></td>
                         <td>Plugin TagCloud : Nuages de tags</td>
@@ -181,7 +145,58 @@
                         <td>Plugin ODS - Outil de dématérialisation des documents de séance de conseil (municipal ou général)</td>
                     </tr>	
                 </table>
-                
+            </p>
+            <p>			  
+                <table>
+                    <tr>
+                        <th>Plugin d'authentification du Front</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-mylutece/fr/">mylutece</a></td>
+                        <td>Plugin Mylutece : Gestion des utilisateurs authentifiés sur le site</td>
+                    </tr>							
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-database/fr/">mylutece-database</a></td>
+                        <td>Module Database pour MyLutece - Authentification à partir d'une base de données</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-ldapdatabase/fr/">mylutece-ldapdatabase</a></td>
+                        <td>Module LDAPDatabase pour MyLutece - Authentification à partir d'un annuaire LDAP + rôles en base de données</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-openid/fr/">mylutece-openid</a></td>
+                        <td>Module OpenID pour MyLutece - Authentification utilisant des URL OpenID</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-webserver/fr/">mylutece-webserver</a></td>
+                        <td>Module WebServer pour MyLutece - Authentification faite au niveau du container de servlet (ex: Realm Tomcat)</td>
+                    </tr>					
+                 </table>
+            </p>
+            <p>			  
+                <table>
+                    <tr>
+                        <th>Plugin exclusif Backoffice</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-adminauthenticationdatabase/fr/">adminauthenticationdatabase</a></td>
+                        <td>Plugin Adminauthenticationdatabase : Module d'authentification du Back Office</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/plugin-adminquery/fr/">adminquery</a></td>
+                        <td>Plugin Adminquery : Requeteur SQL pour le Back Office</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="/plugins/plugin-pagelinkservice/fr/">pagelinkservice</a></td>
+                        <td>Plugin Pagelinkservice : Assistant de création de liens pour le Back Office</td>
+                    </tr>							
+                    <tr>
+                        <td><a href="/plugins/plugin-systeminfo/fr/">systeminfo</a></td>
+                        <td>Plugin SystemInfo : Affichage des informations du système dans le Back Office</td>
+                    </tr>
+                 </table>
             </p>
         </section>
     </body>
