@@ -122,8 +122,8 @@ public final class AllTests
         suite.addTest( new TestSuite( MyClassTest.class ) );
         
         // Add tests of sublevel packages
-        suite.addTest( test.fr.paris.lutece.plugins.myplugin.business.AllTests.suite(  ) );
-        suite.addTest( test.fr.paris.lutece.plugins.myplugin.web.AllTests.suite(  ) );
+        suite.addTest( fr.paris.lutece.plugins.myplugin.business.AllTests.suite(  ) );
+        suite.addTest( fr.paris.lutece.plugins.myplugin.web.AllTests.suite(  ) );
     
         //$JUnit-END$
         return suite;
