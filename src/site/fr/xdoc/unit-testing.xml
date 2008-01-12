@@ -34,7 +34,7 @@
               Pour réaliser les tests de la classe :
               <ul><li><code>src/java/<strong>fr/paris/lutece/plugins/myplugin/web/MyClass</strong></code></li></ul>
               il faudra créer la classe :
-              <ul><li><code>test/java/<strong>test/fr/paris/lutece/plugins/myplugin/web/MyClassTest</strong></code></li></ul>
+              <ul><li><code>test/java/<strong>fr/paris/lutece/plugins/myplugin/web/MyClassTest</strong></code></li></ul>
           </p>
           <p>
               La classe <code>LuteceTestCase</code> étend la classe abstraite 
@@ -65,8 +65,8 @@
           </p>
           <div class="source">
               <pre>
-import test.fr.paris.lutece.LuteceTestCase;
-import test.fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.MokeHttpServletRequest;
 
 import javax.servlet.http.Cookie;
 
@@ -125,8 +125,8 @@ public final class AllTests
         suite.addTest( new TestSuite( MyClassTest.class ) );
         
         // Add tests of sublevel packages
-        suite.addTest( test.fr.paris.lutece.plugins.myplugin.business.AllTests.suite(  ) );
-        suite.addTest( test.fr.paris.lutece.plugins.myplugin.web.AllTests.suite(  ) );
+        suite.addTest( fr.paris.lutece.plugins.myplugin.business.AllTests.suite(  ) );
+        suite.addTest( fr.paris.lutece.plugins.myplugin.web.AllTests.suite(  ) );
     
         //$JUnit-END$
         return suite;
