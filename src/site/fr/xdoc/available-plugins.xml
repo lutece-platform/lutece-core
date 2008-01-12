@@ -13,7 +13,7 @@
             <p>			  
                 <table>
                     <tr>
-                        <th>Plugin</th>
+                        <th>Plugins de contenu</th>
                         <th>Description</th>
                     </tr>
                     <tr>
@@ -24,10 +24,6 @@
                         <td><a href="/plugins/plugin-childpages/fr/">childpages</a></td>
                         <td>Plugin Childpages : Portlet de navigation vers les pages filles de la page courante </td>
                     </tr>					
-                    <tr>
-                        <td><a href="/plugins/plugin-codewizard/fr/">codewizard</a></td>
-                        <td>Plugin Codewizard : Générateur de code Java pour développer des plugins Lutece</td>
-                    </tr>						
                     <tr>
                         <td><a href="/plugins/plugin-contact/fr/">contact</a></td>
                         <td>Plugin Contact : Formulaire de contact</td>
@@ -41,10 +37,6 @@
                         <td>Plugin Document : Gestion de contenu basée sur des documents </td>
                     </tr>
                     <tr>
-                        <td><a href="/plugins/plugin-formengine/fr/">formengine</a></td>
-                        <td>Plugin Formengine : Moteur de formulaires à étapes</td>
-                    </tr>					
-                    <tr>
                         <td><a href="/plugins/plugin-folderlisting/fr/">folderlisting</a></td>
                         <td>Plugin Folderlisting : publication d'une arborecence de dossiers et fichiers du serveur</td>
                     </tr>
@@ -52,14 +44,6 @@
                         <td><a href="/plugins/plugin-html/fr/">html</a></td>
                         <td>Plugin Html : Portlet HTML avec éditeur WYSIWYG</td>
                     </tr>
-                    <tr>
-                        <td><a href="plugins/plugin-jcaptcha/fr/">jcaptcha</a></td>
-                        <td>Plugin JCaptcha : Module Captcha pour les formulaires Lutèce</td>
-                    </tr>					
-                    <tr>
-                        <td><a href="/plugins/plugin-jsr168/fr/">jsr168</a></td>
-                        <td>Plugin Jsr168 : Container de portlets JSR168</td>
-                    </tr>	
                     <tr>
                         <td><a href="/plugins/plugin-jsr170/fr/">jsr170</a></td>
                         <td>Plugin Jsr170 : Publication de documents provenant d'un référentiel de contenu externe (Alfresco, Jackrabbit, ...)</td>
@@ -84,10 +68,6 @@
                         <td><a href="/plugins/plugin-newsletter/fr/">newsletter</a></td>
                         <td>Plugin Newsletter : Lettre d'information</td>
                     </tr>						
-                    <tr>
-                        <td><a href="/plugins/plugin-poll/fr/">poll</a></td>
-                        <td>Plugin Poll : Sondages</td>
-                    </tr>		
                     <tr>
                         <td><a href="/plugins/plugin-rss/fr/">rss</a></td>
                         <td>Plugin RSS : Publication et génération de fils RSS</td>
@@ -115,13 +95,49 @@
                 </table>                 
             </p>
             <p>
+                <table>
+                    <tr>
+                        <th>Plugins applicatifs</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-advert/fr/">advert</a></td>
+                        <td>Plugin Advert : Petites annonces</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="/plugins/plugin-form/fr/">form</a></td>
+                        <td>Plugin Form : Générateur formulaires pour utilisateurs</td>
+                    </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-formengine/fr/">formengine</a></td>
+                        <td>Plugin Formengine : Moteur de formulaires à étapes</td>
+                    </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-helpdesk/fr/">helpdesk</a></td>
+                        <td>Plugin Helpdesk : FAQ, Formulaire de support et base de réponses</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="/plugins/plugin-jsr168/fr/">jsr168</a></td>
+                        <td>Plugin Jsr168 : Container de portlets JSR168</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/plugin-poll/fr/">poll</a></td>
+                        <td>Plugin Poll : Sondages</td>
+                    </tr>		
+                    <tr>
+                        <td><a href="/plugins/plugin-quiz/fr/">quiz</a></td>
+                        <td>Plugin Quiz : Quiz</td>
+                    </tr>		
+                </table>                 
+            </p>
+            <p>
                 Lutece est aussi un socle pour le développement d'applications métiers intégrées au portail
                 et propose des plugins spécifiques aux collectivités et administrations.
             </p>
             <p>
                 <table>
                     <tr>
-                        <th>Plugin métiers collectivités </th>
+                        <th>Plugins métiers collectivités </th>
                         <th>Description</th>
                     </tr>
                     <tr>
@@ -149,7 +165,7 @@
             <p>			  
                 <table>
                     <tr>
-                        <th>Plugin d'authentification du Front</th>
+                        <th>Plugins d'authentification du Front</th>
                         <th>Description</th>
                     </tr>
                     <tr>
@@ -177,7 +193,7 @@
             <p>			  
                 <table>
                     <tr>
-                        <th>Plugin exclusif Backoffice</th>
+                        <th>Plugins exclusifs Backoffice</th>
                         <th>Description</th>
                     </tr>
                     <tr>
@@ -193,9 +209,29 @@
                         <td>Plugin Pagelinkservice : Assistant de création de liens pour le Back Office</td>
                     </tr>							
                     <tr>
+                        <td><a href="/plugins/plugin-searchstats/fr/">searchstats</a></td>
+                        <td>Plugin SearchStats : Donne les statistiques sur l'utilisation du moteur de recherches (termes fréquents, recherches sans réponses)</td>
+                    </tr>
+                    <tr>
                         <td><a href="/plugins/plugin-systeminfo/fr/">systeminfo</a></td>
                         <td>Plugin SystemInfo : Affichage des informations du système dans le Back Office</td>
                     </tr>
+                 </table>
+            </p>
+            <p>
+                <table>
+                    <tr>
+                        <th>Plugins divers</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-codewizard/fr/">codewizard</a></td>
+                        <td>Plugin Codewizard : Générateur de code Java pour développer des plugins Lutece</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="plugins/plugin-jcaptcha/fr/">jcaptcha</a></td>
+                        <td>Plugin JCaptcha : Module Captcha pour les formulaires Lutèce</td>
+                    </tr>					
                  </table>
             </p>
         </section>
