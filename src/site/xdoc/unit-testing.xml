@@ -32,7 +32,7 @@
               To realize the tests on the class :
               <ul><li><code>src/java/<strong>fr/paris/lutece/plugins/myplugin/web/MyClass</strong></code></li></ul>
               A class must be created :
-              <ul><li><code>test/java/<strong>test/fr/paris/lutece/plugins/myplugin/web/MyClassTest</strong></code></li></ul>
+              <ul><li><code>test/java/<strong>fr/paris/lutece/plugins/myplugin/web/MyClassTest</strong></code></li></ul>
           </p>
           <p>
               The class <code>LuteceTestCase</code> extends the abstract <code>TestCase</code>
@@ -63,8 +63,8 @@
           </p>
           <div class="source">
               <pre>
-import test.fr.paris.lutece.LuteceTestCase;
-import test.fr.paris.lutece.MokeHttpServletRequest;
+import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.MokeHttpServletRequest;
 
 import javax.servlet.http.Cookie;
 
