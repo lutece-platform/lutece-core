@@ -88,10 +88,6 @@
                         <td><a href="/plugins/plugin-xmlpage/fr/">xmlpage</a></td>
                         <td>Plugin Xmlpage : Publication de documents XML dans une page ou un portlet</td>
                     </tr>					
-                    <tr>
-                        <td><a href="/plugins/plugin-xpagelinkservice/fr/">xpagelinkservice</a></td>
-                        <td>Plugin Xpagelinkservice</td>
-                    </tr>						
                 </table>                 
             </p>
             <p>
@@ -106,7 +102,7 @@
                     </tr>						
                     <tr>
                         <td><a href="/plugins/plugin-form/fr/">form</a></td>
-                        <td>Plugin Form : Générateur formulaires pour utilisateurs</td>
+                        <td>Plugin Form : Conception et publication de formulaires (questions conditionnelles, sondages, ...)</td>
                     </tr>					
                     <tr>
                         <td><a href="/plugins/plugin-formengine/fr/">formengine</a></td>
@@ -210,12 +206,16 @@
                     </tr>							
                     <tr>
                         <td><a href="/plugins/plugin-searchstats/fr/">searchstats</a></td>
-                        <td>Plugin SearchStats : Donne les statistiques sur l'utilisation du moteur de recherches (termes fréquents, recherches sans réponses)</td>
+                        <td>Plugin SearchStats : Donne les statistiques sur l'utilisation du moteur de recherches (termes fréquents, recherches sans réponse)</td>
                     </tr>
                     <tr>
                         <td><a href="/plugins/plugin-systeminfo/fr/">systeminfo</a></td>
                         <td>Plugin SystemInfo : Affichage des informations du système dans le Back Office</td>
                     </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-xpagelinkservice/fr/">xpagelinkservice</a></td>
+                        <td>Plugin Xpagelinkservice</td>
+                    </tr>						
                  </table>
             </p>
             <p>
