@@ -12,20 +12,11 @@
                 The architecture of Lutece is modular. The main part of the functionalities of the application comes from the plugins available below : 
             </p>
             <p>
-                
                 <table>
                     <tr>
                         <th>Plugin</th>
                         <th>Description</th>
                     </tr>
-                    <tr>
-                        <td><a href="/plugins/plugin-adminauthenticationdatabase/">adminauthenticationdatabase</a></td>
-                        <td>Plugin Adminauthenticationdatabase : Back Office authentication module</td>
-                    </tr>		
-                    <tr>
-                        <td><a href="/plugins/plugin-adminquery/">adminquery</a></td>
-                        <td>Plugin Adminquery : SQL query for the Back Office</td>
-                    </tr>						
                     <tr>
                         <td><a href="/plugins/plugin-calendar/">calendar</a></td>
                         <td>Plugin Calendar : multi-projects Agenda (iCal compliant)</td>
@@ -34,10 +25,6 @@
                         <td><a href="/plugins/plugin-childpages/">childpages</a></td>
                         <td>Plugin Childpages : Child pages Portlet</td>
                     </tr>					
-                    <tr>
-                        <td><a href="/plugins/plugin-codewizard/">codewizard</a></td>
-                        <td>Plugin Codewizard : Java Code generator to develop Lutece plugins</td>
-                    </tr>						
                     <tr>
                         <td><a href="/plugins/plugin-contact/">contact</a></td>
                         <td>Plugin Contact : contact form</td>
@@ -51,10 +38,6 @@
                         <td>Plugin Document : The Lutece CMS plugin </td>
                     </tr>
                     <tr>
-                        <td><a href="/plugins/plugin-formengine/">formengine</a></td>
-                        <td>Plugin Formengine : Form engine to build complex forms</td>
-                    </tr>					
-                    <tr>
                         <td><a href="/plugins/plugin-folderlisting/">folderlisting</a></td>
                         <td>Plugin Folderlisting : Folder publishing</td>
                     </tr>
@@ -62,14 +45,6 @@
                         <td><a href="/plugins/plugin-html/">html</a></td>
                         <td>Plugin Html : HTML Portlet using a WYSIWYG editor</td>
                     </tr>
-                    <tr>
-                        <td><a href="plugins/plugin-jcaptcha/">jcaptcha</a></td>
-                        <td>Plugin JCaptcha : To Add Captcha in all kind of forms</td>
-                    </tr>					
-                    <tr>
-                        <td><a href="/plugins/plugin-jsr168/">jsr168</a></td>
-                        <td>Plugin Jsr168 : JSR168 portlets container</td>
-                    </tr>	
                     <tr>
                         <td><a href="/plugins/plugin-jsr170/">jsr170</a></td>
                         <td>Plugin Jsr170 : Publishing and storing data from a Java Content Repository (such as Alfresco, JackRabbit, ...)</td>
@@ -91,6 +66,67 @@
                         <td>Plugin Myapps : My favorites Applications</td>
                     </tr>					
                     <tr>
+                        <td><a href="/plugins/plugin-newsletter/">newsletter</a></td>
+                        <td>Plugin Newsletter : News letter based on latest documents published</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="/plugins/plugin-rss/">rss</a></td>
+                        <td>Plugin RSS : RSS feeds producer and publisher</td>
+                    </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-tagcloud/">tagcloud</a></td>
+                        <td>Plugin TagCloud : Classical Tag Cloud Portlet</td>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-upload/">upload</a></td>
+                        <td>Plugin Upload : File Upload from Lutece Back Office </td>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-whatsnew/">whatsnew</a></td>
+                        <td>Plugin Whatsnew : Displays latest documents or pages updated in a Portlet</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="/plugins/plugin-xmlpage/">xmlpage</a></td>
+                        <td>Plugin Xmlpage : XML document publishing</td>
+                    </tr>					
+                </table>
+                
+            </p>
+            <p>
+                <table>
+                    <tr>
+                        <th>Application plugins</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-form/">form</a></td>
+                        <td>Plugin Form : Design and provides various forms on the site (conditionnal questions, list of values, ...)</td>
+                    </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-formengine/">formengine</a></td>
+                        <td>Plugin Formengine : Form engine to build complex forms</td>
+                    </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-jsr168/">jsr168</a></td>
+                        <td>Plugin Jsr168 : JSR168 portlets container</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/plugin-poll/">poll</a></td>
+                        <td>Plugin Poll : Poll</td>
+                    </tr>		
+                    <tr>
+                        <td><a href="/plugins/plugin-quiz/">quiz</a></td>
+                        <td>Plugin Quiz : Quiz</td>
+                    </tr>		
+                 </table>
+             </p>
+            <p>
+                <table>
+                    <tr>
+                        <th>Front authentication plugins</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
                         <td><a href="/plugins/plugin-mylutece/">mylutece</a></td>
                         <td>Plugin Mylutece : Authentication management to manage private area and user's customization</td>
                     </tr>							
@@ -110,49 +146,52 @@
                         <td><a href="/plugins/module-mylutece-webserver/">mylutece-webserver</a></td>
                         <td>Module WebServer pour MyLutece - Web Server authentication (ex: Tomcat Realm)</td>
                     </tr>					
+                 </table>
+             </p>
+            <p>
+                <table>
                     <tr>
-                        <td><a href="/plugins/plugin-newsletter/">newsletter</a></td>
-                        <td>Plugin Newsletter : News letter based on latest documents published</td>
+                        <th>Back Office only plugins</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-adminauthenticationdatabase/">adminauthenticationdatabase</a></td>
+                        <td>Plugin Adminauthenticationdatabase : Back Office authentication module</td>
+                    </tr>		
+                    <tr>
+                        <td><a href="/plugins/plugin-adminquery/">adminquery</a></td>
+                        <td>Plugin Adminquery : SQL query for the Back Office</td>
                     </tr>						
                     <tr>
                         <td><a href="/plugins/plugin-pagelinkservice/">pagelinkservice</a></td>
                         <td>Plugin Pagelinkservice : Create Links into Lutece content</td>
                     </tr>							
                     <tr>
-                        <td><a href="/plugins/plugin-poll/">poll</a></td>
-                        <td>Plugin Poll : Poll</td>
-                    </tr>		
-                    <tr>
-                        <td><a href="/plugins/plugin-rss/">rss</a></td>
-                        <td>Plugin RSS : RSS feeds producer and publisher</td>
-                    </tr>					
-                    <tr>
                         <td><a href="/plugins/plugin-systeminfo/">systeminfo</a></td>
                         <td>Plugin SystemInfo : System Info display for Lutece Backoffice</td>
                     </tr>
                     <tr>
-                        <td><a href="/plugins/plugin-tagcloud/">tagcloud</a></td>
-                        <td>Plugin TagCloud : Classical Tag Cloud Portlet</td>
-                    </tr>
-                    <tr>
-                        <td><a href="/plugins/plugin-upload/">upload</a></td>
-                        <td>Plugin Upload : File Upload from Lutece Back Office </td>
-                    </tr>
-                    <tr>
-                        <td><a href="/plugins/plugin-whatsnew/">whatsnew</a></td>
-                        <td>Plugin Whatsnew : Displays latest documents or pages updated in a Portlet</td>
-                    </tr>						
-                    <tr>
-                        <td><a href="/plugins/plugin-xmlpage/">xmlpage</a></td>
-                        <td>Plugin Xmlpage : XML document publishing</td>
-                    </tr>					
-                    <tr>
                         <td><a href="/plugins/plugin-xpagelinkservice/">xpagelinkservice</a></td>
                         <td>Plugin Xpagelinkservice : Add links to applications in Lutece contents</td>
                     </tr>						
-                </table>
-                
-            </p>
+                 </table>
+             </p>
+            <p>
+                <table>
+                    <tr>
+                        <th>Other miscellanious plugins</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><a href="/plugins/plugin-codewizard/">codewizard</a></td>
+                        <td>Plugin Codewizard : Java Code generator to develop Lutece plugins</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="plugins/plugin-jcaptcha/">jcaptcha</a></td>
+                        <td>Plugin JCaptcha : To Add Captcha in all kind of forms</td>
+                    </tr>					
+                 </table>
+             </p>
         </section>
     </body>
 </document>
