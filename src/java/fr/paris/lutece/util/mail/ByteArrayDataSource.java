@@ -75,20 +75,19 @@ public class ByteArrayDataSource implements DataSource
         }
 
         _type = type;
-    } 
-    
+    }
+
     /**
      * Creates a new ByteArrayDataSource object.
     *
     * @param data The data
     * @param type The parameters
     */
-   public ByteArrayDataSource( byte[]data, String type )
-   {
-       
-	   _data=data;
-       _type = type;
-   }
+    public ByteArrayDataSource( byte[] data, String type )
+    {
+        _data = data;
+        _type = type;
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     // DataSource interface implementation

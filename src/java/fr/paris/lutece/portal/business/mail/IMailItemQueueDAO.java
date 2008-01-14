@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.mail;
 
+
 /**
  * This class provides Data Access methods for MailItemQueue objects
  */

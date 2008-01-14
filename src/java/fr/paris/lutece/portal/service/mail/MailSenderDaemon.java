@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.service.mail;
 
-import org.apache.log4j.Logger;
-
 import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
+import org.apache.log4j.Logger;
 
 
 /**
@@ -51,10 +51,9 @@ public class MailSenderDaemon extends Daemon
      */
     public void run(  )
     {
-        StringBuffer sbLogs = new StringBuffer(  );
         String strHost = AppPropertiesService.getProperty( PROPERTY_MAIL_HOST );
+        StringBuffer sbLogs = MailService.transferQueueMails( strHost );
         Logger logger = Logger.getLogger( "lutece.mail" );
-        MailService.transferQueueMails(strHost, sbLogs);
         logger.info( sbLogs.toString(  ) );
         setLastRunLogs( sbLogs.toString(  ) );
     }

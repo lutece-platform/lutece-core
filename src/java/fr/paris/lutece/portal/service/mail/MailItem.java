@@ -33,14 +33,12 @@
  */
 package fr.paris.lutece.portal.service.mail;
 
+import fr.paris.lutece.util.mail.FileAttachement;
+
 import java.io.Serializable;
 
 import java.util.List;
 import java.util.Map;
-
-import javax.activation.DataSource;
-
-import fr.paris.lutece.util.mail.FileAttachement;
 
 
 /**
@@ -57,7 +55,6 @@ public class MailItem implements Serializable
     private String _strRecipientsTo;
     private String _strRecipientsCc;
     private String _strRecipientsBcc;
-    
     private String _strSenderName;
     private String _strSenderEmail;
     private String _strSubject;
@@ -65,15 +62,12 @@ public class MailItem implements Serializable
     private int _nFormat;
     private Map _mapUrlsAttachement;
     private List<FileAttachement> _listFilesAttachement;
-   
 
-  
-
-	/**
-     * Returns the Recipient
-     *
-     * @return The Recipient
-     */
+    /**
+    * Returns the Recipient
+    *
+    * @return The Recipient
+    */
     public String getRecipientsTo(  )
     {
         return _strRecipientsTo;
@@ -88,6 +82,7 @@ public class MailItem implements Serializable
     {
         _strRecipientsTo = strRecipient;
     }
+
     /**
      * Returns the Recipient
      *
@@ -107,6 +102,7 @@ public class MailItem implements Serializable
     {
         _strRecipientsCc = strRecipient;
     }
+
     /**
      * Returns the Recipient
      *
@@ -246,12 +242,13 @@ public class MailItem implements Serializable
     {
         _mapUrlsAttachement = mapAttachements;
     }
+
     /**
      * Returns a collection of files attachement
      *
      * @return The Attachements Map
      */
-    public  List<FileAttachement>  getFilesAttachement(  )
+    public List<FileAttachement> getFilesAttachement(  )
     {
         return _listFilesAttachement;
     }
@@ -261,7 +258,7 @@ public class MailItem implements Serializable
      *
      * @param fileAttachements  The collection of files attachement
      */
-    public void setFilesAttachement( List<FileAttachement> fileAttachements)
+    public void setFilesAttachement( List<FileAttachement> fileAttachements )
     {
         _listFilesAttachement = fileAttachements;
     }
