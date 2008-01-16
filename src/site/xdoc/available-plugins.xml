@@ -190,6 +190,10 @@
                         <td><a href="plugins/plugin-jcaptcha/">jcaptcha</a></td>
                         <td>Plugin JCaptcha : To Add Captcha in all kind of forms</td>
                     </tr>					
+                    <tr>
+                        <td><a href="plugins/plugin-ohloh/">ohloh</a></td>
+                        <td>Plugin Ohloh : Display Open Source developers activity based on Ohloh data and API</td>
+                    </tr>					
                  </table>
              </p>
         </section>
