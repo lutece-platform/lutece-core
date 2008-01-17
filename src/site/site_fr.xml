@@ -10,7 +10,7 @@
 			<item name="Introduction" href="index.html"/>
 		</menu>
        <menu name="Guide de d&#233;veloppement">
-            <item name="Services de base" href="tech/core-services.html"/>
+            <item name="Services de base" href="core-services.html"/>
 		</menu>	
  		
     </body>
