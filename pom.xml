@@ -150,7 +150,7 @@
     <distributionManagement>
         <site>
             <id>ssh-repository</id>
-            <url>scp://${serverUrl}/opt/lutece/site</url>
+            <url>scp://${serverUrl}/opt/lutece/site/lutece-core/</url>
         </site>
     </distributionManagement>
     
