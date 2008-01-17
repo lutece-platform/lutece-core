@@ -6,57 +6,16 @@
 			<item name="FR" href="/fr/index.html" />
         </links>
         
-        <menu name="Lutece">
+        <menu name="Lutece : core component">
             <item name="Introduction" href="index.html"/>
-            <item name="Read Me" href="readme.html"/>
-            <item name="Download" href="download.html"/>
-            <item name="Nightly builds" href="/nightly_build/" />
-            <item name="Features" href="features.html"/>
-            <item name="Setup" href="install.html" />
-            <item name="License" href="license.html"/>            
-        </menu>
-
-        <menu name="Manuals">
-			<item name="Wiki" href="/wikilutece/index.php?title=Main_Page"/>
-            <item name="Site Administration" href="site-administration.html"/>
-            <item name="Technical Administration" href="technical-administration.html"/>
-        </menu>
-
-        <menu name="Development Standards">
-            <item name="Naming Conventions" href="naming-conventions.html"/>
-            <item name="Coding Conventions" href="coding-conventions.html"/>
-            <item name="Logging Rules" href="logging-rules.html"/>
-            <item name="Documentation Rule" href="documentation.html"/>
-            <item name="Unit Testing" href="unit-testing.html"/>
         </menu>
 
         <menu name="Developer's Resources">
-            <item name="Architecture Overview" href="architecture-overview.html"/>
-            <item name="Hello World" href="code-sample-hello-world.html"/>
             <item name="Core Services" href="core-services.html"/>
-            <item name="Data Access" href="data-access.html"/>
-   			<item name="Site messages" href="howto-use-site-message.html" />
-            <item name="Plugins" href="howto-create-plugins.html" collapse="true">
-                <item name="Portlets" href="howto-create-portlets.html"/>
-                <item name="Applications" href="howto-create-xpages.html"/>
-                <item name="Admin Features" href="howto-create-admin-features.html"/>
-                <item name="LinkServices" href="howto-create-linkservices.html"/>
-                <item name="ContentServices" href="howto-create-contentservices.html"/>
-                <item name="PageIncludeServices" href="howto-create-pageincludeservices.html"/>
-                <item name="ResourceServices" href="howto-resource-service.html"/>
-        <!--    <item name="Forms" href="how-to-formengine-create-module.html" collapse="true">
-                 <item name="Jaxb" href="how-to-formengine-jaxb.html"/>
-            </item>-->
-            </item>
             <!--<item name="Security" href="security.html" collapse="true">
                   <item name="Attributes" href="attributes.html"/>
                   <item name="Schema" href="schema.html"/>
             </item>-->
-        </menu>
-
-		<menu name="Plugins">
-			 <item name="Plugins List" href="available-plugins.html"/>
-			 <item name="Lutece plugin for Maven2" href="/plugins/maven-lutece-plugin/index.html" />
         </menu>
 
     </body>

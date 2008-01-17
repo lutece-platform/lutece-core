@@ -4,63 +4,14 @@
     <body>
 		<links>
 			<item name="EN" href="../index.html"   />
-        </links>       
-        <menu name="Lutece">
-            <item name="Introduction" href="index.html"/>
-            <item name="Lisez moi" href="readme.html"/>
-            <item name="Download" href="download.html"/>
-            <item name="Nightly builds" href="../nightly_build/" />
-            <item name="Fonctionnalités" href="features.html"/>
-            <item name="Installation" href="install.html" />
-            <item name="Licence" href="license.html"/>            
-        </menu>
-
-        <menu name="Manuels">
-			<item name="Wiki" href="../wikilutece/index.php?title=Accueil"/>
-            <item name="Administration du site" href="site-administration.html"/>
-            <item name="Administration technique" href="technical-administration.html"/>
-        </menu>
-
-        <menu name="Normes de développement">
-            <item name="Règles de nommage" href="naming-conventions.html"/>
-            <item name="Règles de codage" href="coding-conventions.html"/>
-            <item name="Règles d'analyse de code" href="checkcode-rules.html"/>
-            <item name="Règles de logging" href="logging-rules.html"/>
-            <item name="Règle de documentation" href="documentation.html"/>
-            <item name="Tests unitaires" href="unit-testing.html"/>
-        </menu>
-
-        <menu name="Guide de développement">
-            <item name="Architecture générale" href="architecture-overview.html"/>
-            <item name="Hello World" href="code-sample-hello-world.html"/>
-            <item name="Services de base" href="core-services.html"/>
-            <item name="Accès aux données" href="data-access.html"/>
-            <item name="Internationalisation" href="i18n.html" />
-            <item name="Intégration Spring" href="spring.html" />
-			<item name="Messages du site" href="howto-use-site-message.html" />
-            <item name="Plugins" href="howto-create-plugins.html" collapse="true">
-                <item name="Portlets" href="howto-create-portlets.html"/>
-                <item name="Applications" href="howto-create-xpages.html"/>
-                <item name="Fonctions d'administration" href="howto-create-admin-features.html"/>
-                <item name="LinkServices" href="howto-create-linkservices.html"/>
-                <item name="ContentServices" href="howto-create-contentservices.html"/>
-                <item name="PageIncludeServices" href="howto-create-pageincludeservices.html"/>
-                <item name="ResourceServices" href="howto-resource-service.html"/>
-            </item>
-            <item name="Formulaires" href="how-to-formengine-create-module.html" collapse="true">
-                 <item name="Jaxb" href="how-to-formengine-jaxb.html"/>
-            </item>                             
-            <item name="Migrer de la v1 à la v2" href="migration1to2.html" />            
-            <item name="Sécurité" href="security.html" collapse="true">
-                  <item name="Attributs" href="attributes.html"/>
-                  <item name="Shéma" href="shema.html"/>
-            </item>
-        </menu>
-      
-	    <menu name="Plugins">
-			 <item name="Liste de plugins" href="available-plugins.html"/>
-			 <item name="Plugin Lutece pour Maven2" href="../plugins/maven-lutece-plugin/fr/index.html" />
-        </menu>
-
+        </links>        
+		
+		<menu name="Lutece : le noyau">
+			<item name="Introduction" href="index.html"/>
+		</menu>
+       <menu name="Guide de d�veloppement">
+            <item name="Services de base" href="tech/core-services.html"/>
+		</menu>	
+ 		
     </body>
 </project>
