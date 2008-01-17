@@ -9,7 +9,7 @@
 		<menu name="Lutece : le noyau">
 			<item name="Introduction" href="index.html"/>
 		</menu>
-       <menu name="Guide de développement">
+       <menu name="Guide de d#&233;veloppement">
             <item name="Services de base" href="tech/core-services.html"/>
 		</menu>	
  		
