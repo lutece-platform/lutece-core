@@ -33,7 +33,8 @@
  */
 package fr.paris.lutece.portal.service.mail;
 
-import fr.paris.lutece.util.mail.FileAttachement;
+import fr.paris.lutece.util.mail.FileAttachment;
+import fr.paris.lutece.util.mail.UrlAttachment;
 
 import java.io.Serializable;
 
@@ -60,8 +61,8 @@ public class MailItem implements Serializable
     private String _strSubject;
     private String _strMessage;
     private int _nFormat;
-    private Map _mapUrlsAttachement;
-    private List<FileAttachement> _listFilesAttachement;
+    private List<UrlAttachment> _listUrlsAttachement;
+    private List<FileAttachment> _listFilesAttachement;
 
     /**
     * Returns the Recipient
@@ -224,31 +225,11 @@ public class MailItem implements Serializable
     }
 
     /**
-     * Returns the Attachements map
-     *
-     * @return The Attachements Map
-     */
-    public Map getUrlsAttachement(  )
-    {
-        return _mapUrlsAttachement;
-    }
-
-    /**
-     * Sets the MapAttachements
-     *
-     * @param MapAttachements The MapAttachements
-     */
-    public void setUrlsAttachement( Map mapAttachements )
-    {
-        _mapUrlsAttachement = mapAttachements;
-    }
-
-    /**
      * Returns a collection of files attachement
      *
      * @return The Attachements Map
      */
-    public List<FileAttachement> getFilesAttachement(  )
+    public List<FileAttachment> getFilesAttachement(  )
     {
         return _listFilesAttachement;
     }
@@ -258,8 +239,26 @@ public class MailItem implements Serializable
      *
      * @param fileAttachements  The collection of files attachement
      */
-    public void setFilesAttachement( List<FileAttachement> fileAttachements )
+    public void setFilesAttachement( List<FileAttachment> fileAttachements )
     {
         _listFilesAttachement = fileAttachements;
+    }
+
+    /**
+     * return the list of urls attachement
+     * @return the list of urls attachement
+     */
+    public List<UrlAttachment> getUrlsAttachement(  )
+    {
+        return _listUrlsAttachement;
+    }
+
+    /**
+     * set the list of urls attachement
+     * @param urlsAttachement the list of urls attachement
+     */
+    public void setUrlsAttachement( List<UrlAttachment> urlsAttachement )
+    {
+        _listUrlsAttachement = urlsAttachement;
     }
 }

@@ -56,4 +56,10 @@ public interface IMailItemQueueDAO
      * @param nIdMailItemQueue The indentifier of the mail item to remove
      */
     void delete( int nIdMailItemQueue );
+
+    /**
+     *
+     * @return the number of mail item present in the core_mail_queue
+     */
+    int getCountMailItem(  );
 }

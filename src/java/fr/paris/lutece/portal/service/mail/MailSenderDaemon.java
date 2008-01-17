@@ -54,6 +54,7 @@ public class MailSenderDaemon extends Daemon
         String strHost = AppPropertiesService.getProperty( PROPERTY_MAIL_HOST );
         StringBuffer sbLogs = MailService.transferQueueMails( strHost );
         Logger logger = Logger.getLogger( "lutece.mail" );
+        logger.setAdditivity( false );
         logger.info( sbLogs.toString(  ) );
         setLastRunLogs( sbLogs.toString(  ) );
     }

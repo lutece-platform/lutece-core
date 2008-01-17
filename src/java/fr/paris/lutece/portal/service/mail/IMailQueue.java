@@ -50,4 +50,10 @@ public interface IMailQueue
      * @param item The mail item to add to the queue
      */
     void send( MailItem item );
+
+    /**
+     *
+     * @return the number of mail item present in the queue
+     */
+    int size(  );
 }

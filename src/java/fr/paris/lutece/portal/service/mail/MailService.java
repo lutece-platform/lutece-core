@@ -38,12 +38,11 @@ import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.mail.FileAttachement;
-import fr.paris.lutece.util.mail.MailUtil;
+import fr.paris.lutece.util.mail.FileAttachment;
+import fr.paris.lutece.util.mail.UrlAttachment;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
@@ -64,6 +63,28 @@ public final class MailService
     /** Creates a new instance of AppMailService */
     private MailService(  )
     {
+    }
+
+    /**
+     * Send a message asynchronously. The message is queued until a daemon
+     * thread send all awaiting messages
+     * @deprecated
+     * @param strRecipient The recipient email.
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The message.
+     */
+    public static void sendMail( String strRecipient, String strSenderName, String strSenderEmail, String strSubject,
+        String strMessage )
+    {
+        MailItem item = new MailItem(  );
+        item.setRecipientsTo( strRecipient );
+        item.setSenderName( strSenderName );
+        item.setSenderEmail( strSenderEmail );
+        item.setSubject( strSubject );
+        item.setMessage( strMessage );
+        _queue.send( item );
     }
 
     /**
@@ -121,32 +142,13 @@ public final class MailService
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param strMessage The message.
-     * @param mapUrlAttachments The map containing the URL attachments associated with their content-location.
+     * @param urlsAttachement The List of UrlAttachement Object, containing the URL of attachments associated with their content-location.
      */
     public static void sendMailMultipartHtml( String strRecipientsTo, String strSenderName, String strSenderEmail,
-        String strSubject, String strMessage, Map mapUrlAttachments )
+        String strSubject, String strMessage, List<UrlAttachment> urlsAttachement )
     {
         sendMailMultipartHtml( strRecipientsTo, null, null, strSenderName, strSenderEmail, strSubject, strMessage,
-            mapUrlAttachments, null );
-    }
-
-    /**
-     * Send a HTML message asynchronously with attached files. The message is queued until a daemon
-     * thread send all awaiting messages
-     *
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
-     * @param strSenderName The sender name.
-     * @param strSenderEmail The sender email address.
-     * @param strSubject The message subject.
-     * @param strMessage The message.
-     * @param filesAttachement The list of attached files.
-     */
-    public static void sendMailMultipartHtml( String strRecipientsTo, String strSenderName, String strSenderEmail,
-        String strSubject, String strMessage, List<FileAttachement> filesAttachement )
-    {
-        sendMailMultipartHtml( strRecipientsTo, null, null, strSenderName, strSenderEmail, strSubject, strMessage,
-            null, filesAttachement );
+            urlsAttachement, null );
     }
 
     /**
@@ -161,12 +163,12 @@ public final class MailService
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param strMessage The message.
-     * @param mapUrlAttachments The map containing the URL attachments associated with their content-location.
+     * @param urlsAttachement The List of UrlAttachement Object, containing the URL of attachments associated with their content-location
      * @param filesAttachement The list of attached files.
      */
     public static void sendMailMultipartHtml( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
-        String strSenderName, String strSenderEmail, String strSubject, String strMessage, Map mapUrlAttachments,
-        List<FileAttachement> filesAttachement )
+        String strSenderName, String strSenderEmail, String strSubject, String strMessage,
+        List<UrlAttachment> urlsAttachement, List<FileAttachment> filesAttachement )
     {
         MailItem item = new MailItem(  );
         item.setRecipientsTo( strRecipientsTo );
@@ -177,7 +179,7 @@ public final class MailService
         item.setSubject( strSubject );
         item.setMessage( strMessage );
         item.setFormat( MailItem.FORMAT_MULTIPART_HTML );
-        item.setUrlsAttachement( mapUrlAttachments );
+        item.setUrlsAttachement( urlsAttachement );
         item.setFilesAttachement( filesAttachement );
         _queue.send( item );
     }
@@ -239,7 +241,7 @@ public final class MailService
      * @param filesAttachement The list of attached files.
      */
     public static void sendMailMultipartText( String strRecipientsTo, String strSenderName, String strSenderEmail,
-        String strSubject, String strMessage, List<FileAttachement> filesAttachement )
+        String strSubject, String strMessage, List<FileAttachment> filesAttachement )
     {
         sendMailMultipartText( strRecipientsTo, null, null, strSenderName, strSenderEmail, strSubject, strMessage,
             filesAttachement );
@@ -260,7 +262,7 @@ public final class MailService
      */
     public static void sendMailMultipartText( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
         String strSenderName, String strSenderEmail, String strSubject, String strMessage,
-        List<FileAttachement> filesAttachement )
+        List<FileAttachment> filesAttachement )
     {
         MailItem item = new MailItem(  );
         item.setRecipientsTo( strRecipientsTo );
@@ -317,112 +319,122 @@ public final class MailService
     {
         // Initializes a mail session with the SMTP server
         StringBuffer sbLogs = new StringBuffer(  );
-        sbLogs.append( "\r\nLast mails sent " + new Date(  ).toString(  ) );
+        IMailQueue queue = getQueue(  );
 
-        Session session = MailUtil.getMailSession( strHost );
-        Transport transportSmtp = null;
+        if ( queue.size(  ) != 0 )
+        {
+            sbLogs.append( "\r\nLast mails sent " + new Date(  ).toString(  ) );
 
-        try
-        {
-            transportSmtp = MailUtil.getTransport( session );
-        }
-        catch ( NoSuchProviderException e )
-        {
-            AppLogService.error( e );
-        }
-
-        if ( transportSmtp != null )
-        {
-            IMailQueue queue = getQueue(  );
+            Session session = MailUtil.getMailSession( strHost );
+            Transport transportSmtp = null;
 
             try
             {
-                transportSmtp.connect(  );
-
-                MailItem mail = queue.consume(  );
-
-                while ( mail != null )
-                {
-                    try
-                    {
-                        sbLogs.append( "\r\n - To " +
-                            ( ( mail.getRecipientsTo(  ) != null ) ? mail.getRecipientsTo(  ) : "" ) );
-                        sbLogs.append( " - Cc " +
-                            ( ( mail.getRecipientsCc(  ) != null ) ? mail.getRecipientsCc(  ) : "" ) );
-                        sbLogs.append( " - Bcc " +
-                            ( ( mail.getRecipientsBcc(  ) != null ) ? mail.getRecipientsBcc(  ) : "" ) );
-                        sbLogs.append( " - Subject : " + mail.getSubject(  ) );
-
-                        switch ( mail.getFormat(  ) )
-                        {
-                            case MailItem.FORMAT_HTML:
-                                MailUtil.sendMessageHtml( strHost, mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
-                                    mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
-                                    mail.getSubject(  ), mail.getMessage(  ), transportSmtp, session );
-
-                                break;
-
-                            case MailItem.FORMAT_TEXT:
-                                MailUtil.sendMessageText( strHost, mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
-                                    mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
-                                    mail.getSubject(  ), mail.getMessage(  ), transportSmtp, session );
-
-                                break;
-
-                            case MailItem.FORMAT_MULTIPART_HTML:
-                                MailUtil.sendMultipartMessageHtml( strHost, mail.getRecipientsTo(  ),
-                                    mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
-                                    mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
-                                    mail.getUrlsAttachement(  ), mail.getFilesAttachement(  ), transportSmtp, session );
-
-                                break;
-
-                            case MailItem.FORMAT_MULTIPART_TEXT:
-                                MailUtil.sendMultipartMessageText( strHost, mail.getRecipientsTo(  ),
-                                    mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
-                                    mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
-                                    mail.getFilesAttachement(  ), transportSmtp, session );
-
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                        sbLogs.append( " - Status [ OK ]" );
-                    }
-                    catch ( AddressException e )
-                    {
-                        //a wrongly formatted address is encountered in the list of recipients
-                        sbLogs.append( " - Status [ Failed ] : " + e.getMessage(  ) );
-                        AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
-                    }
-                    catch ( SendFailedException e )
-                    {
-                        //the send failed because of invalid addresses.
-                        sbLogs.append( " - Status [ Failed ] : " + e.getMessage(  ) );
-                        AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
-                    }
-                    catch ( MessagingException e )
-                    {
-                        //if the connection is dead or not in the connected state 
-                        //we put the mail in the queue before end process 
-                        sbLogs.append( " - Status [ Failed ] : " + e.getMessage(  ) );
-                        AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
-                        queue.send( mail );
-
-                        break;
-                    }
-
-                    mail = queue.consume(  );
-                }
-
-                transportSmtp.close(  );
+                transportSmtp = MailUtil.getTransport( session );
             }
-            catch ( MessagingException e )
+            catch ( NoSuchProviderException e )
             {
                 AppLogService.error( e );
             }
+
+            if ( transportSmtp != null )
+            {
+                try
+                {
+                    transportSmtp.connect(  );
+
+                    MailItem mail = queue.consume(  );
+
+                    while ( mail != null )
+                    {
+                        try
+                        {
+                            sbLogs.append( "\r\n - To " +
+                                ( ( mail.getRecipientsTo(  ) != null ) ? mail.getRecipientsTo(  ) : "" ) );
+                            sbLogs.append( " - Cc " +
+                                ( ( mail.getRecipientsCc(  ) != null ) ? mail.getRecipientsCc(  ) : "" ) );
+                            sbLogs.append( " - Bcc " +
+                                ( ( mail.getRecipientsBcc(  ) != null ) ? mail.getRecipientsBcc(  ) : "" ) );
+                            sbLogs.append( " - Subject : " + mail.getSubject(  ) );
+
+                            switch ( mail.getFormat(  ) )
+                            {
+                                case MailItem.FORMAT_HTML:
+                                    MailUtil.sendMessageHtml( strHost, mail.getRecipientsTo(  ),
+                                        mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
+                                        mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
+                                        transportSmtp, session );
+
+                                    break;
+
+                                case MailItem.FORMAT_TEXT:
+                                    MailUtil.sendMessageText( strHost, mail.getRecipientsTo(  ),
+                                        mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
+                                        mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
+                                        transportSmtp, session );
+
+                                    break;
+
+                                case MailItem.FORMAT_MULTIPART_HTML:
+                                    MailUtil.sendMultipartMessageHtml( strHost, mail.getRecipientsTo(  ),
+                                        mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
+                                        mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
+                                        mail.getUrlsAttachement(  ), mail.getFilesAttachement(  ), transportSmtp,
+                                        session );
+
+                                    break;
+
+                                case MailItem.FORMAT_MULTIPART_TEXT:
+                                    MailUtil.sendMultipartMessageText( strHost, mail.getRecipientsTo(  ),
+                                        mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
+                                        mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
+                                        mail.getFilesAttachement(  ), transportSmtp, session );
+
+                                    break;
+
+                                default:
+                                    break;
+                            }
+
+                            sbLogs.append( " - Status [ OK ]" );
+                        }
+                        catch ( AddressException e )
+                        {
+                            //a wrongly formatted address is encountered in the list of recipients
+                            sbLogs.append( " - Status [ Failed ] : " + e.getMessage(  ) );
+                            AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
+                        }
+                        catch ( SendFailedException e )
+                        {
+                            //the send failed because of invalid addresses.
+                            sbLogs.append( " - Status [ Failed ] : " + e.getMessage(  ) );
+                            AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
+                        }
+                        catch ( MessagingException e )
+                        {
+                            //if the connection is dead or not in the connected state 
+                            //we put the mail in the queue before end process 
+                            sbLogs.append( " - Status [ Failed ] : " + e.getMessage(  ) );
+                            AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
+                            queue.send( mail );
+
+                            break;
+                        }
+
+                        mail = queue.consume(  );
+                    }
+
+                    transportSmtp.close(  );
+                }
+                catch ( MessagingException e )
+                {
+                    AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
+                }
+            }
+        }
+        else
+        {
+            sbLogs.append( "\r\nNo mail to send " + new Date(  ).toString(  ) );
         }
 
         return sbLogs;
@@ -437,10 +449,10 @@ public final class MailService
      * @param strHtml The HTML code.
      * @param strBaseUrl The base url, can be null in order to extract all urls.
      * @param useAbsoluteUrl Determine if we use absolute or relative url for attachement content-location
-     * @return a collection of URL for created  DataHandler associated with attachment urls.
+     * @return a collection of UrlAttachment Object  for created  DataHandler associated with attachment urls.
      */
-    public static Map getAttachmentList( String strHtml, String strBaseUrl, boolean useAbsoluteUrl )
+    public static List<UrlAttachment> getUrlAttachmentList( String strHtml, String strBaseUrl, boolean useAbsoluteUrl )
     {
-        return MailUtil.getAttachmentList( strHtml, strBaseUrl, useAbsoluteUrl );
+        return MailUtil.getUrlAttachmentList( strHtml, strBaseUrl, useAbsoluteUrl );
     }
 }

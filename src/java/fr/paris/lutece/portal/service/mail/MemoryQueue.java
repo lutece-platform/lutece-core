@@ -75,4 +75,13 @@ public class MemoryQueue implements IMailQueue
 
         return item;
     }
+
+    /**
+     * get the MemoryQueue size
+     * @return the MemoryQueue size
+     */
+    public int size(  )
+    {
+        return _listMails.size(  );
+    }
 }

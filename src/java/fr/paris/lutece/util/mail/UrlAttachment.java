@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2008, Mairie de Paris
+ * Copyright (c) 2002-2007, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,52 +31,68 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.mail;
+package fr.paris.lutece.util.mail;
 
-import fr.paris.lutece.portal.business.mail.MailItemQueue;
-import fr.paris.lutece.portal.business.mail.MailItemQueueHome;
+import java.io.Serializable;
+
+import java.net.URL;
 
 
 /**
- * DatabaseQueue
+ *
+ * UrlAttachement Object
+ *
  */
-public class DatabaseQueue implements IMailQueue
+public class UrlAttachment implements Serializable
 {
+    private String _strContentLocation; //content location
+    private URL _urlData; //the url data
+
     /**
-     * Put a mail item into the database queue
-     * @param item The mail item to add to the queue
-     */
-    public synchronized void send( MailItem item )
+    * Creates a new UrlAttachement object.
+    *
+    * @param strContentLocation the content location
+    * @param urlData the url Data
+    */
+    public UrlAttachment( String strContentLocation, URL urlData )
     {
-        MailItemQueue mailQueue = new MailItemQueue(  );
-        mailQueue.setMailItem( item );
-        MailItemQueueHome.create( mailQueue );
+        _strContentLocation = strContentLocation;
+        _urlData = urlData;
     }
 
     /**
-     * Get a mail item from the database queue and remove it from the queue
-     * @return The older mail item of the queue
+     *
+     * @return the content-location
      */
-    public synchronized MailItem consume(  )
+    public String getContentLocation(  )
     {
-        MailItemQueue mailItemQueue = MailItemQueueHome.getNextMailItemQueue(  );
-
-        if ( mailItemQueue != null )
-        {
-            MailItemQueueHome.delete( mailItemQueue.getIdMailItemQueue(  ) );
-
-            return mailItemQueue.getMailItem(  );
-        }
-
-        return null;
+        return _strContentLocation;
     }
 
     /**
-     * get the DatabaseQueue size
-     * @return the DatabaseQueue size
+     * set the content-location
+     * @param contentLocation the content-location
      */
-    public int size(  )
+    public void setContentLocation( String contentLocation )
     {
-        return MailItemQueueHome.getMailItemNumber(  );
+        _strContentLocation = contentLocation;
+    }
+
+    /**
+     *
+     * @return the URL of data
+     */
+    public URL getUrlData(  )
+    {
+        return _urlData;
+    }
+
+    /**
+     * set the URL of data
+     * @param data the URL of data
+     */
+    public void setUrlData( URL data )
+    {
+        _urlData = data;
     }
 }

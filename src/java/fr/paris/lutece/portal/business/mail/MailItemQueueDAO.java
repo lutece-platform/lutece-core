@@ -51,6 +51,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
 {
     private static final String SQL_QUERY_NEW_PK = "SELECT max(id_mail_queue) FROM core_mail_queue";
     private static final String SQL_QUERY_SELECT = "SELECT min(id_mail_queue) FROM core_mail_queue";
+    private static final String SQL_QUERY_SELECT_COUNT = "SELECT COUNT(id_mail_queue) FROM core_mail_queue";
     private static final String SQL_QUERY_LOAD = "SELECT id_mail_queue,mail_item FROM core_mail_queue WHERE id_mail_queue=?";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_mail_queue( id_mail_queue ,mail_item) " +
         " VALUES ( ?, ?)";
@@ -178,5 +179,25 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
         daoUtil.setInt( 1, nIdMailItemQueue );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
+    }
+
+    /**
+     *@return the number of mail item present in the core_mail_queue
+     */
+    public int getCountMailItem(  )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_COUNT );
+        daoUtil.executeQuery(  );
+
+        int nCount = 0;
+
+        if ( daoUtil.next(  ) )
+        {
+            nCount = daoUtil.getInt( 1 );
+        }
+
+        daoUtil.free(  );
+
+        return nCount;
     }
 }

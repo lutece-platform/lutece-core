@@ -77,4 +77,13 @@ public class MailItemQueueHome
     {
         return _dao.select(  );
     }
+
+    /**
+     *
+     * @return the number of mail item present in the queue
+     */
+    public static int getMailItemNumber(  )
+    {
+        return _dao.getCountMailItem(  );
+    }
 }

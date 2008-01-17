@@ -47,7 +47,9 @@ import java.io.ByteArrayInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.activation.DataHandler;
@@ -166,6 +168,56 @@ public class HtmlDocument
         }
 
         return mapUrl;
+    }
+
+    /**
+     * Get the urls of all html elements specified by elementType
+     *
+     * @param elementType the type of element to get
+     * @return a Collection containing the urls. Those urls are Objects, as defined by getUrl().
+     */
+    public List getAllUrlsAttachement( ElementUrl elementType )
+    {
+        List<UrlAttachment> listUrlAttachement = new ArrayList<UrlAttachment>(  );
+        UrlAttachment urlAttachement;
+        NodeList nodes = _content.getElementsByTagName( elementType.getTagName(  ) );
+
+        for ( int i = 0; i < nodes.getLength(  ); i++ )
+        {
+            Node node = nodes.item( i );
+            NamedNodeMap attributes = node.getAttributes(  );
+
+            // Test if the element matches the required attribute
+            if ( elementType.getTestedAttributeName(  ) != null )
+            {
+                String strRel = attributes.getNamedItem( elementType.getTestedAttributeName(  ) ).getNodeValue(  );
+
+                if ( !elementType.getTestedAttributeValue(  ).equals( strRel ) )
+                {
+                    continue;
+                }
+            }
+
+            // Retrieve the url, then test if it matches the base url
+            String strSrc = attributes.getNamedItem( elementType.getAttributeName(  ) ).getNodeValue(  );
+
+            if ( strSrc.startsWith( _strBaseUrl ) )
+            {
+                try
+                {
+                    URL url = new URL( strSrc );
+                    urlAttachement = new UrlAttachment( getUrlName( url ), url );
+                    listUrlAttachement.add( urlAttachement );
+                }
+                catch ( MalformedURLException e )
+                {
+                    // ignored document
+                    AppLogService.info( strSrc + " not found, location ignored." );
+                }
+            }
+        }
+
+        return listUrlAttachement;
     }
 
     /**

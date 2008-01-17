@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2008, Mairie de Paris
+ * Copyright (c) 2002-2007, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,52 +31,87 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.mail;
+package fr.paris.lutece.util.mail;
 
-import fr.paris.lutece.portal.business.mail.MailItemQueue;
-import fr.paris.lutece.portal.business.mail.MailItemQueueHome;
+import java.io.Serializable;
 
 
 /**
- * DatabaseQueue
+ *
+ * File Attachement Object
+ *
  */
-public class DatabaseQueue implements IMailQueue
+public class FileAttachment implements Serializable
 {
+    private String _strFileName; //file-name
+    private byte[] _data; // data
+    private String _strType; // Content-type
+
     /**
-     * Put a mail item into the database queue
-     * @param item The mail item to add to the queue
-     */
-    public synchronized void send( MailItem item )
+    * Creates a new FileAttachement object.
+    *
+    * @param fileName the file name
+    * @param data The data
+    * @param type The file Content-type
+    */
+    public FileAttachment( String fileName, byte[] data, String type )
     {
-        MailItemQueue mailQueue = new MailItemQueue(  );
-        mailQueue.setMailItem( item );
-        MailItemQueueHome.create( mailQueue );
+        _strFileName = fileName;
+        _data = data;
+        _strType = type;
     }
 
     /**
-     * Get a mail item from the database queue and remove it from the queue
-     * @return The older mail item of the queue
+     *
+     * @return the content of the fileAttachement object
      */
-    public synchronized MailItem consume(  )
+    public byte[] getData(  )
     {
-        MailItemQueue mailItemQueue = MailItemQueueHome.getNextMailItemQueue(  );
-
-        if ( mailItemQueue != null )
-        {
-            MailItemQueueHome.delete( mailItemQueue.getIdMailItemQueue(  ) );
-
-            return mailItemQueue.getMailItem(  );
-        }
-
-        return null;
+        return _data;
     }
 
     /**
-     * get the DatabaseQueue size
-     * @return the DatabaseQueue size
+     * set the content of the fileAttachement object
+     * @param data the content of the fileAttachement object
      */
-    public int size(  )
+    public void setData( byte[] data )
     {
-        return MailItemQueueHome.getMailItemNumber(  );
+        _data = data;
+    }
+
+    /**
+     *
+     * @return the file name
+     */
+    public String getFileName(  )
+    {
+        return _strFileName;
+    }
+
+    /**
+     * set the file name
+     * @param fileName  the file name
+     */
+    public void setFileName( String fileName )
+    {
+        _strFileName = fileName;
+    }
+
+    /**
+     * return the file content-type
+     * @return Content-type
+     */
+    public String getType(  )
+    {
+        return _strType;
+    }
+
+    /**
+     * set the file content-type
+     * @param type the file content-type
+     */
+    public void setType( String type )
+    {
+        _strType = type;
     }
 }
