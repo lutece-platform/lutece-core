@@ -39,7 +39,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class AdminWorkgroupTest extends LuteceTestCase
 {
     private final static String GROUPKEY1 = "AdminWorkgroupKey1";
-    private final static String GROUPKEY2 = "AdminWorkgroupKey2";
     private final static String GROUPDESCRIPTION1 = "AdminWorkgroupDescription1";
     private final static String GROUPDESCRIPTION2 = "AdminWorkgroupDescription2";
 
@@ -57,7 +56,6 @@ public class AdminWorkgroupTest extends LuteceTestCase
         assertEquals( groupStored.getDescription() , group.getDescription() );
 
         // Update test
-        group.setKey( GROUPKEY2 );
         group.setDescription( GROUPDESCRIPTION2 );
         AdminWorkgroupHome.update( group );
         groupStored = AdminWorkgroupHome.findByPrimaryKey( group.getKey() );
