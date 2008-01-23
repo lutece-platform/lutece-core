@@ -34,6 +34,8 @@
 package fr.paris.lutece.portal.business;
 
 import fr.paris.lutece.portal.business.features.FeaturesTest;
+import fr.paris.lutece.portal.business.group.GroupRoleTest;
+import fr.paris.lutece.portal.business.group.GroupTest;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentTest;
 import fr.paris.lutece.portal.business.portlet.AliasPortletTest;
 import fr.paris.lutece.portal.business.portlet.PortletTypeTest;
@@ -47,6 +49,7 @@ import fr.paris.lutece.portal.business.style.PageTemplateTest;
 import fr.paris.lutece.portal.business.style.StyleTest;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheetTest;
 import fr.paris.lutece.portal.business.user.AdminUserTest;
+import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -67,6 +70,8 @@ public final class AllTests
 
         //$JUnit-BEGIN$
         suite.addTest( new TestSuite( FeaturesTest.class ) );
+        suite.addTest( new TestSuite( GroupTest.class ) );
+        suite.addTest( new TestSuite( GroupRoleTest.class ) );
         suite.addTest( new TestSuite( PortalComponentTest.class ) );
         suite.addTest( new TestSuite( AliasPortletTest.class ) );
         suite.addTest( new TestSuite( PortletTypeTest.class ) );
@@ -80,6 +85,7 @@ public final class AllTests
         suite.addTest( new TestSuite( StyleTest.class ) );
         suite.addTest( new TestSuite( StyleSheetTest.class ) );
         suite.addTest( new TestSuite( AdminUserTest.class ) );
+        suite.addTest( new TestSuite( AdminWorkgroupTest.class ) );
 
         //$JUnit-END$
         return suite;
