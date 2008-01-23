@@ -39,7 +39,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class GroupTest extends LuteceTestCase
 {
     private final static String GROUPKEY1 = "GroupKey1";
-    private final static String GROUPKEY2 = "GroupKey2";
     private final static String GROUPDESCRIPTION1 = "GroupDescription1";
     private final static String GROUPDESCRIPTION2 = "GroupDescription2";
 
@@ -57,7 +56,6 @@ public class GroupTest extends LuteceTestCase
         assertEquals( groupStored.getGroupDescription() , group.getGroupDescription() );
 
         // Update test
-        group.setGroupKey( GROUPKEY2 );
         group.setGroupDescription( GROUPDESCRIPTION2 );
         GroupHome.update( group );
         groupStored = GroupHome.findByPrimaryKey( group.getGroupKey() );
