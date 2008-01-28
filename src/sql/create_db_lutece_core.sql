@@ -148,7 +148,7 @@ CREATE TABLE core_admin_workgroup_user (
 
 DROP TABLE IF EXISTS `core_connections_log`;
 CREATE TABLE `core_connections_log` (
-  `access_code` varchar(8) collate utf8_unicode_ci default NULL,
+  `access_code` varchar(100) collate utf8_unicode_ci default NULL,
   `ip_address` varchar(16) collate utf8_unicode_ci default NULL,
   `date_login` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `login_status` int(11) default NULL,
