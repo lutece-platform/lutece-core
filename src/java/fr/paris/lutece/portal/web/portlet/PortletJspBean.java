@@ -258,7 +258,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     protected HtmlTemplate getModifyTemplate( Portlet portlet, Map model )
     {
         PortletType portletType = PortletTypeHome.findByPrimaryKey( portlet.getPortletTypeId(  ) );
-
+        portletType.setLocale( getLocale(  ) );
         model.put( MARK_PORTLET_TYPE, portletType );
         model.put( MARK_PORTLET, portlet );
         model.put( MARK_PORTLET_ORDER_COMBO, getOrdersList(  ) );
