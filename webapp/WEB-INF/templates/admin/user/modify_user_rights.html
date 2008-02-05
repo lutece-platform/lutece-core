@@ -51,8 +51,10 @@
     
 <div class="content-box">    
     <h2>#i18n{portal.users.modify_user_rights.titleRightModificationForm}</h2>
-    <p> #i18n{portal.users.modify_user_rights.informationRightModification}
-    </p>
+    <#if can_delegate = 'true'>
+	    <p>#i18n{portal.users.modify_user_rights.informationRightModification}
+	    </p>
+    </#if>
     <form method="post"  action="jsp/admin/user/ModifyUserRights.jsp" >    
     	<input type="hidden" name="delegate_rights" value="${can_delegate}" />
         <input type="hidden" name="id_user" value="${user.userId}" />
