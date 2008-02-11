@@ -96,7 +96,7 @@ public class AdminMenuJspBean
     private static final String PROPERTY_LOGOUT_URL = "lutece.admin.logout.url";
 
     // Jsp
-    private static final String JSP_URL_ADMIN_MENU = "/jsp/admin/AdminMenu.jsp";
+    private static final String JSP_URL_ADMIN_MENU = "jsp/admin/AdminMenu.jsp";
     private static final String MESSAGE_CONTROL_PASSWORD_NO_CORRESPONDING = "portal.users.message.password.confirm.error";
     private static final String PASSWORD_ERROR = "portal.users.message.password.wrong.current";
     private static final String PASSWORD_CURRENT_ERROR = "portal.users.message.password.new.equals.current";
