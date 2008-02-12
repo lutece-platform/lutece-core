@@ -44,6 +44,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 
 /**
  * Base class for InsertServiceJspBean
@@ -90,9 +92,9 @@ public abstract class InsertServiceJspBean
     protected String buildLink( String strText, String strUrl, String strTitle, String strTarget )
     {
         HashMap model = new HashMap(  );
-        model.put( MARK_TEXT, strText );
+        model.put( MARK_TEXT, StringEscapeUtils.escapeHtml( strText ) );
         model.put( MARK_URL, strUrl );
-        model.put( MARK_TITLE, strTitle );
+        model.put( MARK_TITLE, StringEscapeUtils.escapeHtml( strTitle ) );
         model.put( MARK_TARGET, strTarget );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_LINK, Locale.getDefault(  ), model );
