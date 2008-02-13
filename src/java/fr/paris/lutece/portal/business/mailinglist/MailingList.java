@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
 import java.util.ArrayList;
 import java.util.Collection;
 
+
 /**
  * This class represents a mailing list composed by admin users. All members of those
  * mailing lists are dynamically retreived by filters based on roles and workgroups.

@@ -222,13 +222,13 @@ public class PageService extends ContentService implements ImageResourceProvider
 
                     // The key is not in the cache, so we have to build the page
                     strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
-                    
+
                     // Add the page to the cache if the page can be cached
                     if ( bCanBeCached.booleanValue(  ) )
                     {
                         putInCache( strKey, strPage );
                     }
-                }   
+                }
 
                 // The page is already in the cache, so just return it
                 return strPage;
@@ -243,8 +243,8 @@ public class PageService extends ContentService implements ImageResourceProvider
         }
         catch ( NumberFormatException nfe )
         {
-            return PortalService.getDefaultPage( request, nMode );        
-        }            
+            return PortalService.getDefaultPage( request, nMode );
+        }
     }
 
     /**
@@ -347,15 +347,15 @@ public class PageService extends ContentService implements ImageResourceProvider
             data.setContent( getPageContent( nIdPage, nMode, request ) );
         }
 
-       /* if ( nIdPage == PortalService.getRootPageId(  ) )
-        {
-            data.setTreeMenu( "" );
-        }
-        else
-        {*/
-            data.setTreeMenu( PortalMenuService.getInstance(  ).buildTreeMenuContent( nIdPage, nMode, request ) );
-        //}
+        /* if ( nIdPage == PortalService.getRootPageId(  ) )
+         {
+             data.setTreeMenu( "" );
+         }
+         else
+         {*/
+        data.setTreeMenu( PortalMenuService.getInstance(  ).buildTreeMenuContent( nIdPage, nMode, request ) );
 
+        //}
         if ( nIdPage == PortalService.getRootPageId(  ) )
         {
             // This page is the home page.

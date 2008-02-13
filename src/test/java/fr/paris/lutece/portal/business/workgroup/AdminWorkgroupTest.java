@@ -31,10 +31,10 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.business.workgroup;
 
 import fr.paris.lutece.test.LuteceTestCase;
+
 
 public class AdminWorkgroupTest extends LuteceTestCase
 {
@@ -45,32 +45,31 @@ public class AdminWorkgroupTest extends LuteceTestCase
     public void testBusiness(  )
     {
         // Initialize an group
-        AdminWorkgroup group = new AdminWorkgroup();
+        AdminWorkgroup group = new AdminWorkgroup(  );
         group.setKey( GROUPKEY1 );
         group.setDescription( GROUPDESCRIPTION1 );
 
         // Create test
         AdminWorkgroupHome.create( group );
-        AdminWorkgroup groupStored = AdminWorkgroupHome.findByPrimaryKey( group.getKey() );
-        assertEquals( groupStored.getKey() , group.getKey() );
-        assertEquals( groupStored.getDescription() , group.getDescription() );
+
+        AdminWorkgroup groupStored = AdminWorkgroupHome.findByPrimaryKey( group.getKey(  ) );
+        assertEquals( groupStored.getKey(  ), group.getKey(  ) );
+        assertEquals( groupStored.getDescription(  ), group.getDescription(  ) );
 
         // Update test
         group.setDescription( GROUPDESCRIPTION2 );
         AdminWorkgroupHome.update( group );
-        groupStored = AdminWorkgroupHome.findByPrimaryKey( group.getKey() );
-        assertEquals( groupStored.getKey() , group.getKey() );
-        assertEquals( groupStored.getDescription() , group.getDescription() );
+        groupStored = AdminWorkgroupHome.findByPrimaryKey( group.getKey(  ) );
+        assertEquals( groupStored.getKey(  ), group.getKey(  ) );
+        assertEquals( groupStored.getDescription(  ), group.getDescription(  ) );
 
         // List test
-        AdminWorkgroupHome.findAll();
+        AdminWorkgroupHome.findAll(  );
         AdminWorkgroupHome.getUserListForWorkgroup( GROUPKEY1 );
-        
-        // Delete test
-        AdminWorkgroupHome.remove( group.getKey() );
-        groupStored = AdminWorkgroupHome.findByPrimaryKey( group.getKey() );
-        assertNull( groupStored );
-        
-    }
 
+        // Delete test
+        AdminWorkgroupHome.remove( group.getKey(  ) );
+        groupStored = AdminWorkgroupHome.findByPrimaryKey( group.getKey(  ) );
+        assertNull( groupStored );
+    }
 }

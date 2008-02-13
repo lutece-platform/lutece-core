@@ -41,7 +41,7 @@ import fr.paris.lutece.portal.service.rbac.RBACResource;
  */
 public class Role implements RBACResource
 {
-	public static final String RESOURCE_TYPE = "ROLE_TYPE";
+    public static final String RESOURCE_TYPE = "ROLE_TYPE";
     private String _strRole;
     private String _strRoleDescription;
 
@@ -80,21 +80,22 @@ public class Role implements RBACResource
     {
         _strRoleDescription = strRoleDescription;
     }
+
     /**
      * RBAC resource implmentation
      * @return The resource type code
      */
-     public String getResourceTypeCode(  )
-     {
-         return RESOURCE_TYPE;
-     }
+    public String getResourceTypeCode(  )
+    {
+        return RESOURCE_TYPE;
+    }
 
-     /**
-      * RBAC resource implmentation
-      * @return The resourceId
-      */
-     public String getResourceId(  )
-     {
-         return _strRole;
-     }
+    /**
+     * RBAC resource implmentation
+     * @return The resourceId
+     */
+    public String getResourceId(  )
+    {
+        return _strRole;
+    }
 }

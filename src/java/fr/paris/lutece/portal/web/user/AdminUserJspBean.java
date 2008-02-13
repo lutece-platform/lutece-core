@@ -735,7 +735,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             for ( String strRights : rights.keySet(  ) )
             {
-            	// logged user can only delegate rights with level higher or equal to user level.
+                // logged user can only delegate rights with level higher or equal to user level.
                 if ( rights.get( strRights ).getLevel(  ) >= user.getUserLevel(  ) )
                 {
                     rightList.add( rights.get( strRights ) );

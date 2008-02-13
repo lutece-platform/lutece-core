@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.service;
 
-import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
 import fr.paris.lutece.portal.service.security.LoginRedirectException;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.MokeHttpServletRequest;
 
 import javax.security.auth.login.*;
 
@@ -68,11 +68,11 @@ public class SecurityServiceTest extends LuteceTestCase
             catch ( LoginException e )
             {
                 assertEquals( e.getClass(  ), FailedLoginException.class );
-            } 
-            catch (LoginRedirectException e) 
+            }
+            catch ( LoginRedirectException e )
             {
-            	assertEquals( e.getClass(  ), LoginRedirectException.class );
-			}
+                assertEquals( e.getClass(  ), LoginRedirectException.class );
+            }
         }
     }
 }

@@ -140,8 +140,8 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
         return null;
     }
 
-	public LuteceUser getUser(String strUserLogin) 
-	{
-		return null;
-	}
+    public LuteceUser getUser( String strUserLogin )
+    {
+        return null;
+    }
 }

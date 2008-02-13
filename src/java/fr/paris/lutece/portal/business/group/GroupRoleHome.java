@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.business.group;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+
 import java.util.List;
 
 

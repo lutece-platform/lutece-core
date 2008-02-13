@@ -36,13 +36,12 @@ package fr.paris.lutece.portal.business.group;
 import fr.paris.lutece.portal.service.rbac.RBACResource;
 
 
-
 /**
  * This class represents business objects group
  */
 public class Group implements RBACResource
 {
-	public static final String RESOURCE_TYPE = "GROUP_TYPE";
+    public static final String RESOURCE_TYPE = "GROUP_TYPE";
     private String _strGroupKey;
     private String _strGroupDescription;
 
@@ -81,21 +80,22 @@ public class Group implements RBACResource
     {
         _strGroupDescription = strGroupDescription;
     }
+
     /**
      * RBAC resource implmentation
      * @return The resource type code
      */
-     public String getResourceTypeCode(  )
-     {
-         return RESOURCE_TYPE;
-     }
+    public String getResourceTypeCode(  )
+    {
+        return RESOURCE_TYPE;
+    }
 
-     /**
-      * RBAC resource implmentation
-      * @return The resourceId
-      */
-     public String getResourceId(  )
-     {
-         return _strGroupKey;
-     }
+    /**
+     * RBAC resource implmentation
+     * @return The resourceId
+     */
+    public String getResourceId(  )
+    {
+        return _strGroupKey;
+    }
 }

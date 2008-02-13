@@ -31,10 +31,10 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.business.group;
 
 import fr.paris.lutece.test.LuteceTestCase;
+
 
 public class GroupTest extends LuteceTestCase
 {
@@ -45,32 +45,31 @@ public class GroupTest extends LuteceTestCase
     public void testBusiness(  )
     {
         // Initialize an group
-        Group group = new Group();
+        Group group = new Group(  );
         group.setGroupKey( GROUPKEY1 );
         group.setGroupDescription( GROUPDESCRIPTION1 );
 
         // Create test
         GroupHome.create( group );
-        Group groupStored = GroupHome.findByPrimaryKey( group.getGroupKey() );
-        assertEquals( groupStored.getGroupKey() , group.getGroupKey() );
-        assertEquals( groupStored.getGroupDescription() , group.getGroupDescription() );
+
+        Group groupStored = GroupHome.findByPrimaryKey( group.getGroupKey(  ) );
+        assertEquals( groupStored.getGroupKey(  ), group.getGroupKey(  ) );
+        assertEquals( groupStored.getGroupDescription(  ), group.getGroupDescription(  ) );
 
         // Update test
         group.setGroupDescription( GROUPDESCRIPTION2 );
         GroupHome.update( group );
-        groupStored = GroupHome.findByPrimaryKey( group.getGroupKey() );
-        assertEquals( groupStored.getGroupKey() , group.getGroupKey() );
-        assertEquals( groupStored.getGroupDescription() , group.getGroupDescription() );
+        groupStored = GroupHome.findByPrimaryKey( group.getGroupKey(  ) );
+        assertEquals( groupStored.getGroupKey(  ), group.getGroupKey(  ) );
+        assertEquals( groupStored.getGroupDescription(  ), group.getGroupDescription(  ) );
 
         // List test
-        GroupHome.findAll();
-        GroupHome.getGroupsList();
-        
-        // Delete test
-        GroupHome.remove( group.getGroupKey() );
-        groupStored = GroupHome.findByPrimaryKey( group.getGroupKey() );
-        assertNull( groupStored );
-        
-    }
+        GroupHome.findAll(  );
+        GroupHome.getGroupsList(  );
 
+        // Delete test
+        GroupHome.remove( group.getGroupKey(  ) );
+        groupStored = GroupHome.findByPrimaryKey( group.getGroupKey(  ) );
+        assertNull( groupStored );
+    }
 }

@@ -68,10 +68,10 @@ public class SecurityServiceTest extends LuteceTestCase
         catch ( NullPointerException e )
         {
             assertEquals( e.getClass(  ), NullPointerException.class );
-        } 
-        catch (LoginRedirectException e) 
+        }
+        catch ( LoginRedirectException e )
         {
-        	assertEquals( e.getClass(  ), LoginRedirectException.class );
-		}
+            assertEquals( e.getClass(  ), LoginRedirectException.class );
+        }
     }
 }

@@ -328,9 +328,9 @@ public abstract class Plugin implements Comparable<Plugin>
             try
             {
                 ContentService cs = (ContentService) Class.forName( entry.getClassName(  ) ).newInstance(  );
-                
-                cs.setPluginName( getName( ) );
-                
+
+                cs.setPluginName( getName(  ) );
+
                 PortalService.registerContentService( cs.getName(  ), cs );
             }
             catch ( IllegalAccessException e )

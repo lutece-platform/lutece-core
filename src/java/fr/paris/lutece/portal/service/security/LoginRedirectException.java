@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+
 /**
  * This Exception should be thrown when the Authentication service wants to redirect
  * the login on a specific URL
@@ -40,21 +41,20 @@ package fr.paris.lutece.portal.service.security;
 public class LoginRedirectException extends Exception
 {
     private String _strRedirectUrl;
-    
+
     /** Creates a new instance of LoginRedirectException */
     public LoginRedirectException( String strRedirectUrl )
     {
-        super();
+        super(  );
         _strRedirectUrl = strRedirectUrl;
     }
-    
+
     /**
      * Return the redirect url
      * @return The redirect url
      */
-    public String getRedirectUrl()
+    public String getRedirectUrl(  )
     {
         return _strRedirectUrl;
     }
-    
 }

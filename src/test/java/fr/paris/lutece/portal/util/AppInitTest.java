@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.portal.util;
 
-import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.sql.Connection;

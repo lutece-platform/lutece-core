@@ -31,10 +31,10 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.business.group;
 
 import fr.paris.lutece.test.LuteceTestCase;
+
 
 public class GroupRoleTest extends LuteceTestCase
 {
@@ -43,11 +43,8 @@ public class GroupRoleTest extends LuteceTestCase
 
     public void testBusiness(  )
     {
-        GroupRoleHome.addRole( GROUPKEY1 , ROLEKEY1 );
+        GroupRoleHome.addRole( GROUPKEY1, ROLEKEY1 );
         GroupRoleHome.findGroupRoles( GROUPKEY1 );
         GroupRoleHome.removeRoles( GROUPKEY1 );
-        
-        
     }
-
 }

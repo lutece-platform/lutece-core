@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.portal.web.xpages;
 
+import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
-import fr.paris.lutece.portal.service.plugin.Plugin;
 
 
 /**
