@@ -57,13 +57,13 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     public static final String RIGHT_MANAGE_LEVELS = "CORE_LEVEL_RIGHT_MANAGEMENT";
 
     // Properties for page titles                             
-    private final static String PROPERTY_PAGE_TITLE_LEVEL_LIST = "portal.features.manage_levels.pageTitle";
-    private final static String PROPERTY_PAGE_TITLE_CREATE_LEVEL = "portal.features.create_level.pageTitle";
-    private final static String PROPERTY_PAGE_TITLE_MODIFY_LEVEL = "portal.features.modify_level.pageTitle";
+    private static final  String PROPERTY_PAGE_TITLE_LEVEL_LIST = "portal.features.manage_levels.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_CREATE_LEVEL = "portal.features.create_level.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_MODIFY_LEVEL = "portal.features.modify_level.pageTitle";
 
     // Markers            
-    private final static String MARK_LEVELS_LIST = "levels_list";
-    private final static String MARK_LEVEL = "level";
+    private static final String MARK_LEVELS_LIST = "levels_list";
+    private static final String MARK_LEVEL = "level";
 
     // Templates files path    
     private static final String TEMPLATE_MANAGE_LEVELS = "admin/features/manage_levels.html";

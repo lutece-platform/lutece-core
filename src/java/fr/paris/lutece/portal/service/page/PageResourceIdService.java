@@ -80,6 +80,7 @@ public class PageResourceIdService extends ResourceIdService
 
     /**
      * Returns a list of resource ids
+     * @param Locale the locale
      * @return A list of resource ids
      */
     public ReferenceList getResourceIdList( Locale locale )
@@ -90,6 +91,7 @@ public class PageResourceIdService extends ResourceIdService
     /**
      * Returns the Title of a given resource
      * @param strPageId The Id of the resource
+     * @param Locale the locale
      * @return The Title of a given resource
      */
     public String getTitle( String strPageId, Locale locale )

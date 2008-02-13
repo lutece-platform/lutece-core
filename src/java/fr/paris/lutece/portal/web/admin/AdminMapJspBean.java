@@ -65,10 +65,10 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
     public static final String RIGHT_MANAGE_ADMIN_SITE = "CORE_ADMIN_SITE";
 
     // Markers
-    private final static String MARKER_MAP_SITE = "map_site";
+    private static final String MARKER_MAP_SITE = "map_site";
 
     // Templates
-    private final static String TEMPLATE_MAP_SITE = "admin/site/site_map.html";
+    private static final String TEMPLATE_MAP_SITE = "admin/site/site_map.html";
 
     // Parameters
     private static final String PARAMETER_SITE_PATH = "site-path";

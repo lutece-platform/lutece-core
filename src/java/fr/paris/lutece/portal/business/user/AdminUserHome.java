@@ -59,8 +59,8 @@ public class AdminUserHome
 
     /**
      * Get the user infos from the access code.
-     * @param
-     * @return
+     * @param strUserLogin the login
+     * @return user info
      */
     public static AdminUser findUserByLogin( String strUserLogin )
     {
@@ -69,8 +69,8 @@ public class AdminUserHome
 
     /**
      * Get the user infos from user id
-     * @param
-     * @return
+     * @param nUserId the user identifier
+     * @return The user
      */
     public static AdminUser findByPrimaryKey( int nUserId )
     {
@@ -78,7 +78,7 @@ public class AdminUserHome
     }
 
     /**
-     * @return
+     * @return the user list
      */
     public static Collection<AdminUser> findUserList(  )
     {
@@ -86,7 +86,7 @@ public class AdminUserHome
     }
 
     /**
-     * @param user
+     * @param user The AdminUser
      */
     public static void create( AdminUser user )
     {
@@ -94,7 +94,7 @@ public class AdminUserHome
     }
 
     /**
-     * @param user
+     * @param user The AdminUser
      */
     public static void update( AdminUser user )
     {
@@ -102,7 +102,7 @@ public class AdminUserHome
     }
 
     /**
-     * @param nUserId
+     * @param nUserId the user identifier
      */
     public static void remove( int nUserId )
     {
@@ -120,8 +120,8 @@ public class AdminUserHome
     }
 
     /**
-     * @param nUserId
-     * @param strRightId
+     * @param nUserId The user identifier
+     * @param strRightId The right identifier
      */
     public static void createRightForUser( int nUserId, String strRightId )
     {
@@ -129,7 +129,7 @@ public class AdminUserHome
     }
 
     /**
-     * @param nUserId
+     * @param nUserId The user identifier
      */
     public static void removeAllRightsForUser( int nUserId )
     {
@@ -137,7 +137,7 @@ public class AdminUserHome
     }
 
     /**
-     * @param nUserId
+     * @param user The Admin User object
      */
     public static void removeAllDelegatedRightsForUser( AdminUser user )
     {
@@ -145,7 +145,7 @@ public class AdminUserHome
     }
 
     /**
-     * @param nUserId
+     * @param user The Admin User object
      */
     public static void removeAllOwnRightsForUser( AdminUser user )
     {
@@ -163,8 +163,8 @@ public class AdminUserHome
     }
 
     /**
-     * @param nUserId
-     * @param strRightId
+     * @param nUserId the id of the user
+     * @param strRightId the right identifier
      */
     public static void createRoleForUser( int nUserId, String strRightId )
     {
@@ -172,7 +172,7 @@ public class AdminUserHome
     }
 
     /**
-     * @param nUserId
+     * @param nUserId the user identifier
      */
     public static void removeAllRolesForUser( int nUserId )
     {
@@ -190,7 +190,7 @@ public class AdminUserHome
     }
 
     /**
-     * @param strAccessCode
+     * @param strAccessCode The access code
      */
     public static boolean checkAccessCodeAlreadyInUse( String strAccessCode )
     {
@@ -201,7 +201,7 @@ public class AdminUserHome
     /// for no-module mode
 
     /**
-     * @param user
+     * @param user the LuteceDefaultAdminUSer
      */
     public static void create( LuteceDefaultAdminUser user )
     {
@@ -209,7 +209,7 @@ public class AdminUserHome
     }
 
     /**
-     * @param user
+     * @param user the LuteceDefaultAdminUSer
      */
     public static void update( LuteceDefaultAdminUser user )
     {
@@ -218,8 +218,8 @@ public class AdminUserHome
 
     /**
      * Get the user infos from user id
-     * @param
-     * @return
+     * @param nUserId the user identifier
+     * @return the delfault admin user
      */
     public static LuteceDefaultAdminUser findLuteceDefaultAdminUserByPrimaryKey( int nUserId )
     {

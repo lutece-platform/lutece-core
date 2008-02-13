@@ -71,13 +71,13 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     public static final String RIGHT_MANAGE_PAGE_TEMPLATES = "CORE_PAGE_TEMPLATE_MANAGEMENT";
 
     // Properties for page titles
-    private final static String PROPERTY_PAGE_TITLE_PAGE_TEMPLATE_LIST = "portal.style.manage_page_templates.pageTitle";
-    private final static String PROPERTY_PAGE_TITLE_CREATE_PAGE_TEMPLATE = "portal.style.create_page_template.pageTitle";
-    private final static String PROPERTY_PAGE_TITLE_MODIFY_PAGE_TEMPLATE = "portal.style.modify_page_template.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_PAGE_TEMPLATE_LIST = "portal.style.manage_page_templates.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_CREATE_PAGE_TEMPLATE = "portal.style.create_page_template.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_MODIFY_PAGE_TEMPLATE = "portal.style.modify_page_template.pageTitle";
 
     // Markers
-    private final static String MARK_PAGE_TEMPLATES_LIST = "page_templates_list";
-    private final static String MARK_PAGE_TEMPLATE = "page_template";
+    private static final String MARK_PAGE_TEMPLATES_LIST = "page_templates_list";
+    private static final String MARK_PAGE_TEMPLATE = "page_template";
 
     // Templates files path
     private static final String TEMPLATE_PAGE_TEMPLATES = "admin/style/manage_page_templates.html";

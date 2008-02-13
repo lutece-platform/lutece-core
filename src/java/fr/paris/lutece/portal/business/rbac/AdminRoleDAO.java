@@ -69,7 +69,7 @@ public final class AdminRoleDAO implements IAdminRoleDAO
     /**
      * Load the data of AdminRole from the table
      *
-     * @param nRoleId The identifier of AdminRole
+     * @param strRoleKey The identifier of AdminRole
      * @return the instance of the AdminRole
      */
     public AdminRole load( String strRoleKey )
@@ -94,7 +94,7 @@ public final class AdminRoleDAO implements IAdminRoleDAO
 
     /**
      * Delete a record from the table
-     * @param role The AdminRole object
+     * @param strRoleKey The role key
      */
     public void delete( String strRoleKey )
     {
@@ -147,7 +147,7 @@ public final class AdminRoleDAO implements IAdminRoleDAO
 
     /**
      * Check that the given key points to an existing role
-     * @param strNewRoleKey
+     * @param strRoleKey the role key
      * @return true if the role exists, false otherwise
      */
     public boolean checkExistRole( String strRoleKey )

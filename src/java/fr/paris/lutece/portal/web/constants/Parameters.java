@@ -114,7 +114,7 @@ public abstract class Parameters
     public static final String MODE_OUTPUT_XSL_STANDALONE = "mode_output_xsl_standalone"; /* Since v1.2 */
 
     //Image Servlet
-    public final static String IMAGE_SERVLET = "image";
-    public final static String RESOURCE_ID = "id";
-    public final static String RESOURCE_TYPE = "resource_type";
+    public static final String IMAGE_SERVLET = "image";
+    public static final String RESOURCE_ID = "id";
+    public static final String RESOURCE_TYPE = "resource_type";
 }

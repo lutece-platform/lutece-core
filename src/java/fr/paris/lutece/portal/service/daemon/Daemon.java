@@ -41,20 +41,20 @@ public abstract class Daemon implements Runnable
 {
     ////////////////////////////////////////////////////////////////////////////////
     // Constants
-    public final static int STATUS_STOPPED = 0;
-    public final static int STATUS_RUNNING = 1;
+    public static final int STATUS_STOPPED = 0;
+    public static final int STATUS_RUNNING = 1;
 
     /** The result for this daemon is not yet known. */
-    public final static int RESULT_UNKNOWN = 0;
+    public static final int RESULT_UNKNOWN = 0;
 
     /** A daemon has processed and it was successful */
-    public final static int RESULT_SUCCESS = 1;
+    public static final int RESULT_SUCCESS = 1;
 
     /** A daemon has processed but it has failed */
-    public final static int RESULT_FAILED = 2;
+    public static final int RESULT_FAILED = 2;
 
     /** A daemon is processing so its result is not yet known */
-    public final static int RESULT_PROCESSING = 3;
+    public static final int RESULT_PROCESSING = 3;
     private String _strLastRunLogs;
     private int _nResult;
     private String _strPluginName;

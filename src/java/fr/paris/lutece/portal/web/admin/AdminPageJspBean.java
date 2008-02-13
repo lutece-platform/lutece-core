@@ -85,25 +85,25 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     public static final String RIGHT_MANAGE_ADMIN_SITE = "CORE_ADMIN_SITE";
 
     // Properties for page titles
-    public final static String PROPERTY_PAGE_TITLE_ADMIN_SITE = "portal.site.admin_page.pageTitle";
+    public static final String PROPERTY_PAGE_TITLE_ADMIN_SITE = "portal.site.admin_page.pageTitle";
 
     // Markers
-    private final static String MARK_PAGE = "page";
-    private final static String MARK_PAGE_INIT_ID = "page_init_id";
-    private final static String MARK_PAGE_MESSAGE = "page_message";
-    private final static String MARK_PORTLET_TYPES_LIST = "portlet_types_list";
-    private final static String MARK_PAGE_ORDER_LIST = "page_order_list";
-    private final static String MARK_PAGE_ROLES_LIST = "page_roles_list";
-    private final static String MARK_PAGE_THEMES_LIST = "page_themes_list";
-    private final static String MARK_IMAGE_URL = "image_url";
-    private final static String MARK_PAGE_TEMPLATES_LIST = "page_templates_list";
-    private final static String MARK_PAGE_TEMPLATE = "page_template";
-    private final static String MARK_INDEX_ROW = "index_row";
-    private final static String MARK_AUTORIZATION = "authorization";
+    private static final String MARK_PAGE = "page";
+    private static final String MARK_PAGE_INIT_ID = "page_init_id";
+    private static final String MARK_PAGE_MESSAGE = "page_message";
+    private static final String MARK_PORTLET_TYPES_LIST = "portlet_types_list";
+    private static final String MARK_PAGE_ORDER_LIST = "page_order_list";
+    private static final String MARK_PAGE_ROLES_LIST = "page_roles_list";
+    private static final String MARK_PAGE_THEMES_LIST = "page_themes_list";
+    private static final String MARK_IMAGE_URL = "image_url";
+    private static final String MARK_PAGE_TEMPLATES_LIST = "page_templates_list";
+    private static final String MARK_PAGE_TEMPLATE = "page_template";
+    private static final String MARK_INDEX_ROW = "index_row";
+    private static final String MARK_AUTORIZATION = "authorization";
 
     // Parameters
     private static final String PARAMETER_IMAGE_CONTENT = "image_content";
-    private final static String PARAMETER_NODE_STATUS = "node_status";
+    private static final String PARAMETER_NODE_STATUS = "node_status";
 
     // Templates
     private static final String TEMPLATE_PAGE_TEMPLATE_ROW = "admin/site/page_template_list_row.html";

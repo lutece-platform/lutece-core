@@ -69,12 +69,12 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_ADMIN_SITE = "../../site/AdminSite.jsp";
 
     // Markers
-    private final static String MARK_PORTLET = "portlet";
-    private final static String MARK_PORTLET_TYPE = "portletType";
-    private final static String MARK_PORTLET_PAGE_ID = "portlet_page_id";
-    private final static String MARK_PORTLET_ORDER_COMBO = "portlet_order_combo";
-    private final static String MARK_PORTLET_COLUMNS_COMBO = "portlet_columns_combo";
-    private final static String MARK_PORTLET_STYLES_COMBO = "portlet_style_combo";
+    private static final String MARK_PORTLET = "portlet";
+    private static final String MARK_PORTLET_TYPE = "portletType";
+    private static final String MARK_PORTLET_PAGE_ID = "portlet_page_id";
+    private static final String MARK_PORTLET_ORDER_COMBO = "portlet_order_combo";
+    private static final String MARK_PORTLET_COLUMNS_COMBO = "portlet_columns_combo";
+    private static final String MARK_PORTLET_STYLES_COMBO = "portlet_style_combo";
 
     // Templates
     private static final String TEMPLATE_CREATE_PORTLET = "admin/portlet/create_portlet.html";
