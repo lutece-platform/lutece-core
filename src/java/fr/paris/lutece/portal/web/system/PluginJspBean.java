@@ -239,6 +239,13 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Private implementation
+    
+    /**
+     * Return a filter list of plugins
+     * @param listPlugins the COllection of plugins
+     * @param strPluginTypeFilter The filter
+     * @return list The list of plugins
+     */
     private Collection<Plugin> filterPluginsList( Collection<Plugin> listPlugins, String strPluginTypeFilter )
     {
         Collection<Plugin> list = new ArrayList<Plugin>(  );
@@ -292,7 +299,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Create a ReferenceList containing all Plugin types
-     *
+     * @param locale The Locale
      * @return A ReferenceList containing all Plugin types
      */
     private ReferenceList getPluginTypeFilterList( Locale locale )
@@ -313,6 +320,10 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         return list;
     }
 
+    /**
+     * Return a list of pools
+     * @return listPools the list of pools
+     */
     private ReferenceList getPoolsList(  )
     {
         ReferenceList listPools = new ReferenceList(  );

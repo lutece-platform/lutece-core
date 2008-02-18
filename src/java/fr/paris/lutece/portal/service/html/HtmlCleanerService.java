@@ -67,7 +67,7 @@ public final class HtmlCleanerService
      *
      * @param strSource The input string to clean
      * @return The cleaned string
-     * @throws HtmlCleanerException
+     * @throws HtmlCleanerException the HtmlCleanerException
      */
     public static synchronized String clean( String strSource ) throws HtmlCleanerException
     {

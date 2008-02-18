@@ -79,9 +79,10 @@ public final class LevelDAO implements ILevelDAO
         return nKey;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.features.ILevelDAO#insert(fr.paris.lutece.portal.business.features.Level)
-         */
+    /**
+     * Insert a new record in the table.
+     * @param level The level object
+     */
     public void insert( Level level )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
@@ -93,9 +94,11 @@ public final class LevelDAO implements ILevelDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.features.ILevelDAO#load(int)
-         */
+    /**
+     * load the data of Level from the table
+     * @param nIdLevel The indentifier of the object Level
+     * @return The Instance of the object Level
+     */
     public Level load( int nIdLevel )
     {
         Level level = null;
@@ -115,9 +118,10 @@ public final class LevelDAO implements ILevelDAO
         return level;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.features.ILevelDAO#delete(int)
-         */
+    /**
+     * Delete a record from the table
+     * @param nIdLevel The indentifier of the object Level
+     */
     public void delete( int nIdLevel )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
@@ -127,9 +131,10 @@ public final class LevelDAO implements ILevelDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.features.ILevelDAO#store(fr.paris.lutece.portal.business.features.Level)
-         */
+    /**
+     * Update the record in the table
+     * @param level The instance of the Level to update
+     */
     public void store( Level level )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
@@ -142,9 +147,10 @@ public final class LevelDAO implements ILevelDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.features.ILevelDAO#selectLevelsList()
-         */
+    /**
+     * Returns a list of all the right level
+     * @return A collection of right level objects
+     */
     public Collection<Level> selectLevelsList(  )
     {
         Collection<Level> levelList = new ArrayList<Level>(  );

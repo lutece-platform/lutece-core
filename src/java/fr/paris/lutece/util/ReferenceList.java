@@ -126,6 +126,10 @@ public class ReferenceList extends ArrayList<ReferenceItem>
         return list;
     }
 
+   /**
+    * CheckItems when are selected
+    * @param valuesToCheck The list of string
+    */ 
     public void checkItems( String[] valuesToCheck )
     {
         for ( int i = 0; i < valuesToCheck.length; i++ )

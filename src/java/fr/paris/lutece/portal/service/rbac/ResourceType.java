@@ -56,7 +56,7 @@ public class ResourceType implements Localizable
     private Map<String, Permission> _mapPermissions;
     private String _strResourceIdServiceClass;
     private String _strPluginName;
-    Locale _locale;
+    private Locale _locale;
 
     /**
      *
@@ -98,7 +98,7 @@ public class ResourceType implements Localizable
     /**
      * Get a particular permission
      *
-     * @param strId Identifier of the seeked permission
+     * @param strPermissionId Identifier of the seeked permission
      * @return the selected resource type
      */
     public Permission getPermission( String strPermissionId )
