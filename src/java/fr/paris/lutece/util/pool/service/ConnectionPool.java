@@ -145,7 +145,7 @@ public class ConnectionPool
      * @return An open connection
      * @throws SQLException The SQL exception
      */
-    private synchronized Connection getConnection( long timeout )
+    private Connection getConnection( long timeout )
         throws SQLException
     {
         // Get a pooled Connection from the cache or a new one.
@@ -246,7 +246,7 @@ public class ConnectionPool
      * @return An opened connection
      * @throws SQLException The exception
      */
-    private Connection getPooledConnection(  ) throws SQLException
+    private synchronized Connection getPooledConnection(  ) throws SQLException
     {
         Connection conn = null;
 
