@@ -46,6 +46,7 @@ public abstract class Parameters
     public static final String PAGE_TEMPLATE_DESCRIPTION = "page_template_description";
     public static final String PAGE_TEMPLATE_FILE = "page_template_file";
     public static final String PAGE_TEMPLATE_PICTURE = "page_template_picture";
+    public static final String PAGE_PORTLETS_HASH="portlet_hash";
     public static final String PARENT_ID = "parent_id";
     public static final String CHILD_PAGE_NAME = "child_page_name";
     public static final String CHILD_PAGE_DESCRIPTION = "child_page_description";
@@ -117,4 +118,5 @@ public abstract class Parameters
     public static final String IMAGE_SERVLET = "image";
     public static final String RESOURCE_ID = "id";
     public static final String RESOURCE_TYPE = "resource_type";
+            
 }

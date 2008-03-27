@@ -31,7 +31,7 @@ ${rss?default("<!-- no RSS feed -->")}
 
 <link rel="stylesheet"  href="${theme_css}/print_template_styles.css" type="text/css"  media="print" />
 <link rel="stylesheet"  href="${theme_css}/print_template_structure.css" type="text/css"  media="print" />
-
+<link rel="stylesheet"  href="js/jquery/plugins/treeview/jquery.treeview.css"  type="text/css" />
 
 ${plugins_css_links}
 
@@ -46,12 +46,18 @@ ${plugins_css_links}
 <script src="js/jquery/jquery-1.2.1.min.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/treeview/jquery.cookie.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/treeview/jquery.treeview.pack.js" type="text/javascript"></script>
+<script src="js/jquery/plugins/treeview/jquery.treeview.async.js" type="text/javascript"></script>
+<script src="js/jquery/jquery.chainedSelects.js" type="text/javascript"></script>
+<script src="js/jquery/jquery.blockUI.js" type="text/javascript"></script>
+<script src="js/jquery/plugins/interface/interface.js" type="text/javascript"></script>
+
 
 <script src="js/menu.js" type="text/javascript" ></script>
 
 <!--[if lte IE 6]>
     <script src="js/jquery/jquery-1.2.1.min.js" type="text/javascript" ></script>
 		<script src="js/jquery/plugins/fixiepng/fixiepng.js" type="text/javascript" ></script>
+                <script src="js/jquery/plugins/interface/interface.js" type="text/javascript"></script>
     <script type="text/javascript">
     $().ready(function() {
       // apply to png images 
