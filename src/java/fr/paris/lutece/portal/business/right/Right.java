@@ -55,6 +55,7 @@ public class Right implements Localizable
     private String _strPluginName;
     private String _strFeatureGroup;
     private String _strIconUrl;
+    private String _strDocumentationUrl;
     private Locale _locale;
 
     /**
@@ -248,4 +249,24 @@ public class Right implements Localizable
     {
         _strIconUrl = strIconUrl;
     }
+
+	/**
+	 * Returns the url of the documentation associated to the right.
+	 * 
+	 * @return the _strDocumentationUrl
+	 */
+	public String getDocumentationUrl( ) 
+	{
+		return _strDocumentationUrl;
+	}
+
+	/**
+	 * Sets the url of the documentation associated to the right.
+	 * 
+	 * @param documentationUrl the _strDocumentationUrl to set
+	 */
+	public void setDocumentationUrl( String strDocumentationUrl ) 
+	{
+		_strDocumentationUrl = strDocumentationUrl;
+	}
 }

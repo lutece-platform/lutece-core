@@ -1,0 +1,38 @@
+ 
+ <div id="feature-title" class="content-box" >
+
+    <img src="${help_icon}"  class="icon"  alt="" title=""  />
+
+    <h2>#i18n{portal.features.documentation.summary.feature.title}</h2>
+</div>	
+ 
+ <div id="feature-content">
+	 <div class="content-box">
+			 	<h2>#i18n{portal.features.documentation.summary.title}</h2>
+	         	<ul>
+	         	<#list feature_group_list as feature_group >
+				<li>
+	            <h1>${feature_group.label}</h1>
+	            <ul>
+	                <#list feature_group.features as feature >
+	                
+						<#if feature.documentationUrl?exists>
+						<li>
+							<h3>
+		                    <a href="${feature.documentationUrl}" target="_blank" class="bullet-link" >
+								${feature.name}
+		                    </a>
+		                    </h3>
+		                    <p>
+		                        ${feature.description}
+		                    </p>
+	                    </li>
+						</#if>
+	                
+	                </#list>
+	            </ul>
+	            </li>
+	        </#list>
+	        </ul>
+	</div>
+</div>

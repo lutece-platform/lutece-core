@@ -46,15 +46,15 @@ public final class RightDAO implements IRightDAO
 {
     // Constants
     private static final String SQL_QUERY_SELECT = " SELECT id_right, name, level_right, " +
-        " admin_url, description, plugin_name, id_feature_group, icon_url " + " FROM core_admin_right " +
+        " admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url " + " FROM core_admin_right " +
         " WHERE id_right = ? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_right ( id_right , name, level_right, admin_url , " +
-        " description, plugin_name, id_feature_group, icon_url  ) " + " VALUES ( ?, ?, ?, ? , ?, ?, ?, ? )";
+        " description, plugin_name, id_feature_group, icon_url, documentation_url  ) " + " VALUES ( ?, ?, ?, ? , ?, ?, ?, ?, ? )";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_right SET name = ?, admin_url = ? , description = ? , " +
-        " plugin_name = ?, id_feature_group = ?, icon_url = ?, level_right = ? WHERE id_right = ?";
-    private static final String SQL_QUERY_SELECTALL = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url  " +
+        " plugin_name = ?, id_feature_group = ?, icon_url = ?, level_right = ?, , documentation_url = ? WHERE id_right = ?";
+    private static final String SQL_QUERY_SELECTALL = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url  " +
         " FROM core_admin_right WHERE level_right >= ? ORDER BY name ASC";
-    private static final String SQL_QUERY_SELECTALL_FOR_FEATUREGROUP = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url  " +
+    private static final String SQL_QUERY_SELECTALL_FOR_FEATUREGROUP = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url  " +
         " FROM core_admin_right WHERE id_feature_group like ? ORDER BY name ASC";
     private static final String SQL_QUERY_DELETE_USERRIGHT = " DELETE FROM core_user_right WHERE id_right = ?";
     private static final String SQL_QUERY_DELETE_ADMINRIGHT = " DELETE FROM core_admin_right WHERE id_right = ?";
@@ -78,7 +78,8 @@ public final class RightDAO implements IRightDAO
         daoUtil.setString( 6, right.getPluginName(  ) );
         daoUtil.setString( 7, right.getFeatureGroup(  ) );
         daoUtil.setString( 8, right.getIconUrl(  ) );
-
+        daoUtil.setString( 9, right.getDocumentationUrl(  ) );
+        
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
@@ -107,6 +108,7 @@ public final class RightDAO implements IRightDAO
             right.setPluginName( daoUtil.getString( 6 ) );
             right.setFeatureGroup( daoUtil.getString( 7 ) );
             right.setIconUrl( daoUtil.getString( 8 ) );
+            right.setDocumentationUrl( daoUtil.getString( 9 ) );
         }
 
         daoUtil.free(  );
@@ -148,8 +150,9 @@ public final class RightDAO implements IRightDAO
         daoUtil.setString( 5, right.getFeatureGroup(  ) );
         daoUtil.setString( 6, right.getIconUrl(  ) );
         daoUtil.setInt( 7, right.getLevel(  ) );
-        daoUtil.setString( 8, right.getId(  ) );
-
+        daoUtil.setString( 8, right.getDocumentationUrl(  ) );
+        daoUtil.setString( 9, right.getId(  ) );
+        
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
@@ -188,7 +191,8 @@ public final class RightDAO implements IRightDAO
             right.setPluginName( daoUtil.getString( 6 ) );
             right.setFeatureGroup( daoUtil.getString( 7 ) );
             right.setIconUrl( daoUtil.getString( 8 ) );
-
+            right.setDocumentationUrl( daoUtil.getString( 9 ) );
+            
             rightList.add( right );
         }
 
@@ -223,7 +227,8 @@ public final class RightDAO implements IRightDAO
             right.setPluginName( daoUtil.getString( 6 ) );
             right.setFeatureGroup( daoUtil.getString( 7 ) );
             right.setIconUrl( daoUtil.getString( 8 ) );
-
+            right.setDocumentationUrl( daoUtil.getString( 9 ) );
+            
             rightList.add( right );
         }
 

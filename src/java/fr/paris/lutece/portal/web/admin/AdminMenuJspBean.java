@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.admin;
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Right;
+import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
@@ -74,6 +75,7 @@ public class AdminMenuJspBean
     // Constants
 
     // Markers
+	private static final String MARK_FEATURE_LIST = "feature_list";
     private static final String MARK_FEATURE_GROUP_LIST = "feature_group_list";
     private static final String MARK_LANGUAGES_LIST = "languages_list";
     private static final String MARK_CURRENT_LANGUAGE = "current_language";
@@ -82,7 +84,9 @@ public class AdminMenuJspBean
     private static final String MARK_ADMIN_URL = "admin_url";
     private static final String MARK_ADMIN_LOGOUT_URL = "admin_logout_url";
     private static final Object MARK_MODIFY_PASSWORD_URL = "url_modify_password";
-
+    private static final String MARK_ADMIN_SUMMARY_DOCUMENTATION_URL = "admin_summary_documentation_url";
+    
+    
     // Templates
     private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.html";
     private static final String TEMPLATE_ADMIN_MENU_HEADER = "admin/user/admin_header.html";
@@ -94,7 +98,7 @@ public class AdminMenuJspBean
     // Properties
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
     private static final String PROPERTY_LOGOUT_URL = "lutece.admin.logout.url";
-
+    private static final String PROPERTY_DOCUMENTATION_SUMMARY_URL = "lutece.documentation.summary.url";
     // Jsp
     private static final String JSP_URL_ADMIN_MENU = "jsp/admin/AdminMenu.jsp";
     private static final String MESSAGE_CONTROL_PASSWORD_NO_CORRESPONDING = "portal.users.message.password.confirm.error";
@@ -124,6 +128,9 @@ public class AdminMenuJspBean
 
         String strLogoutUrl = AppPropertiesService.getProperty( PROPERTY_LOGOUT_URL );
         model.put( MARK_ADMIN_LOGOUT_URL, ( strLogoutUrl == null ) ? "" : strLogoutUrl );
+        
+        String strDocumentationUrl = AppPropertiesService.getProperty( PROPERTY_DOCUMENTATION_SUMMARY_URL );
+        model.put( MARK_ADMIN_SUMMARY_DOCUMENTATION_URL, ( strDocumentationUrl == null ) ? null : strDocumentationUrl );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_HEADER, user.getLocale(  ), model );
 
@@ -144,6 +151,8 @@ public class AdminMenuJspBean
         //Displays the menus according to the users rights
         ArrayList listFeatureGroups = getFeatureGroupsList( user );
         HashMap model = new HashMap(  );
+        
+        
         model.put( MARK_FEATURE_GROUP_LIST, listFeatureGroups );
         model.put( MARK_USER_LASTNAME, user.getLastName(  ) );
         model.put( MARK_USER_FIRSTNAME, user.getFirstName(  ) );

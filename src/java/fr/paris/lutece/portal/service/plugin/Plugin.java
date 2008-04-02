@@ -87,6 +87,7 @@ public abstract class Plugin implements Comparable<Plugin>
     private String _strPluginClass;
     private String _strDbPoolName;
     private String _strIconUrl;
+    private String  _strDocumentationUrl;
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
     private ContentService _contentService;
@@ -131,6 +132,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
             String strDefaultIconUrl = AppPropertiesService.getProperty( PROPERTY_DEFAULT_ICON_URL );
             _strIconUrl = pluginFile.getIconUrl(  ).equals( "" ) ? strDefaultIconUrl : pluginFile.getIconUrl(  );
+            _strDocumentationUrl = pluginFile.getDocumentationUrl(  );
             _strCopyright = pluginFile.getCopyright(  );
             _strPluginClass = pluginFile.getPluginClass(  );
             _listXPageApplications = pluginFile.getXPageApplications(  );
@@ -711,7 +713,27 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         _strIconUrl = strIconUrl;
     }
+    
+    /**
+     * Returns the Documentation's URL of the plugin
+     *
+     * @return the plugin Documentation's URL as a String
+     */
+    public String getDocumentationUrl(  )
+    {
+        return _strDocumentationUrl;
+    }
 
+    /**
+     * Sets the url of the plugin's Documentation
+     *
+     * @param strIconUrl The url of documentation
+     */
+    public void setDocumentationUrl( String strDocumentationUrl )
+    {
+    	_strDocumentationUrl = strDocumentationUrl;
+    }
+    
     /**
      * Returns the Copyright of the plugin
      *

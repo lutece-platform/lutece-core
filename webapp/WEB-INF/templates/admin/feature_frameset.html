@@ -1,5 +1,11 @@
-<div id="feature-title" class="content-box" >	
-    <img src="${feature_icon}"  class="icon"  alt=""  />
+<div id="feature-title" class="content-box" >
+	<#if feature_documentation?exists>
+	<a target="_blank" href="${feature_documentation}" alt="#i18n{portal.features.documentation.help}" title="#i18n{portal.features.documentation.help}">
+	</#if>	
+    	<img src="${feature_icon}"  class="icon"/>
+    <#if feature_documentation?exists>
+    </a>
+    </#if>
     <h2>
     	<a href="${feature_url}">${feature_title}</a>
     	<#if page_title?has_content>

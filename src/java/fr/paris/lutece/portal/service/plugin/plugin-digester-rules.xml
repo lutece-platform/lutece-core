@@ -71,6 +71,7 @@
             <bean-property-setter-rule pattern="feature-level" propertyname="level" />
             <bean-property-setter-rule pattern="feature-group" propertyname="featureGroup" />
             <bean-property-setter-rule pattern="icon-url" propertyname="iconUrl" />
+            <bean-property-setter-rule pattern="feature-documentation-url" propertyname="documentationUrl" />
             <set-next-rule methodname="addRight" />
         </pattern>
         

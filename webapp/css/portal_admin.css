@@ -740,7 +740,7 @@ div#feature-title h2 {
     padding-top: 15px;
 }
 
-div#feature-title a {
+div#feature-title h2 a {
 	background-image: url(../images/admin/skin/puce.gif);
 	background-repeat:no-repeat;
 	background-position:center left;	

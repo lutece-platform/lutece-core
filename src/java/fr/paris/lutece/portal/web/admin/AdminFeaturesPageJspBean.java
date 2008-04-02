@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -62,16 +63,18 @@ public abstract class AdminFeaturesPageJspBean
     private static final String MARK_FEATURE_URL = "feature_url";
     private static final String MARK_FEATURE_TITLE = "feature_title";
     private static final String MARK_FEATURE_ICON = "feature_icon";
+    private static final String MARK_FEATURE_DOCUMENTATION = "feature_documentation";
     private static final String MARK_PAGE_TITLE = "page_title";
     private static final String MARK_PAGE_CONTENT = "page_content";
 
     // Properties
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
-
+    
     // private fields
     private String _strFeatureLabel;
     private String _strFeatureUrl;
     private String _strFeatureIcon;
+    private String _strFeatureDocumentation;
     private String _strPageTitleKey;
     private Locale _locale;
     private AdminUser _user;
@@ -100,6 +103,7 @@ public abstract class AdminFeaturesPageJspBean
         _strFeatureLabel = right.getName(  );
         _strFeatureUrl = right.getUrl(  );
         _strFeatureIcon = right.getIconUrl(  );
+        _strFeatureDocumentation = right.getDocumentationUrl(  );
     }
 
     /**
@@ -183,7 +187,17 @@ public abstract class AdminFeaturesPageJspBean
         String strIconUrl = ( _strFeatureIcon != null ) ? _strFeatureIcon
                                                         : AppPropertiesService.getProperty( PROPERTY_DEFAULT_FEATURE_ICON );
         rootModel.put( MARK_FEATURE_ICON, strIconUrl );
-
+        
+        String _strDocumentationUrl = null;
+        if ( _strFeatureDocumentation != null )
+        {
+        	_strDocumentationUrl = _strFeatureDocumentation;
+        }
+        
+        
+        
+        rootModel.put( MARK_FEATURE_DOCUMENTATION, _strDocumentationUrl );
+        
         rootModel.put( MARK_PAGE_TITLE, getPageTitle(  ) );
         rootModel.put( MARK_PAGE_CONTENT, strContent );
 
@@ -191,4 +205,5 @@ public abstract class AdminFeaturesPageJspBean
 
         return template.getHtml(  );
     }
+    
 }
