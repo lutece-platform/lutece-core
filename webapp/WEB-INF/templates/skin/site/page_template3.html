@@ -1,100 +1,23 @@
-<style type="text/css" media="all">
-.serializer
-{
-        clear: both;
-        }
-        .wrapper
-        {
-        
-        margin-bottom: 20px;
-        }
-        
-        .sortHelper
-        {
-        border: 3px dashed #666;
-	width: auto !important;
-}
-.groupWrapper p
-{
-	height: 1px;
-	overflow: hidden;
-	margin: 0;
-	padding: 0;
-}
-</style>    
-<script type="text/javascript">
-$(document).ready(
-	function () {
-		$('div.groupWrapper').Sortable(
-			{
-                        
-				accept: 'wrapper',
-				helperclass: 'sortHelper',
-				activeclass : 	'sortableactive',
-				hoverclass : 	'sortablehover',
-				handle: '.portlet-background-colored-header',
-				tolerance: 'pointer',
-				onChange : function(ser)
-				{
-                                    serial = $.SortSerialize(); 
-                                    $.ajax({
-                                    type: "POST",
-                                    url: "jsp/admin/site/AdminSavePortlets.jsp",
-                                    data: "column=3&"+serial.hash,
-                                    error:function(msg){
-                                    alert( "Error !: " + msg );
-                                        },
-                                    success:function(data)
-                                    {
-                                    }}); 
-				},
-				onStart : function()
-				{
-					$.iAutoscroller.start(this, document.getElementsByTagName('body'));
-				},
-				onStop : function()
-				{
-					$.iAutoscroller.stop();
-				}
-			}
-		);
-	}
-);
-var toggleContent = function(e)
-{
-	var targetContent = $('div.itemContent', this.parentNode.parentNode);
-	if (targetContent.css('display') == 'none') {
-		targetContent.slideDown(300);
-		$(this).html('[-]');
-	} else {
-		targetContent.slideUp(300);
-		$(this).html('[+]');
-	}
-	return false;
-};
-function serialize(s)
-{
-	serial = $.SortSerialize(s);
-	alert(serial.hash);
-};
-</script>
 <div id="content">
 	<div id="three-zones-first-and-second">
-		<div id="three-zones-first" class="groupWrapper"> 
-                    &nbsp;
-                            ${page_content_col1}
+		<div id="three-zones-first">
+			<div id="three-zones-first-content">
+				${page_content_col1}
+			</div>
 		</div>
 
-		<div id="three-zones-second" class="groupWrapper">
-                      &nbsp;
-                            ${page_content_col2}
+		<div id="three-zones-second">
+			<div id="three-zones-second-content">
+				${page_content_col2}
+			</div>
 		</div>
 
 	</div><!-- close three-zones-first-and-second -->
 	
-	<div id="three-zones-third" class="groupWrapper">
-              &nbsp;
-            ${page_content_col3}	
+	<div id="three-zones-third">
+		<div id="three-zones-third-content">
+			${page_content_col3}
+		</div>
 	</div>
 </div>
 

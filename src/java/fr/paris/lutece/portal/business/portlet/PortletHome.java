@@ -266,15 +266,4 @@ public abstract class PortletHome implements PortletHomeInterface
     {
         return _dao.selectPortletListByStyle( nStyleId );
     }
-    
-
-    /**
-     * Method saving a portlet
-     * @param portlet The portlet to be saved
-     */
-    public static void savePortlet( Portlet portlet )
-    {
-         _dao.store(portlet);
-    }
-    
 }

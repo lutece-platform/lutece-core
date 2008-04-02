@@ -35,10 +35,6 @@ package fr.paris.lutece.portal.web.admin;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
-import fr.paris.lutece.portal.business.portlet.IPortletInterfaceDAO;
-import fr.paris.lutece.portal.business.portlet.Portlet;
-import fr.paris.lutece.portal.business.portlet.PortletDAO;
-import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.role.RoleHome;
@@ -80,16 +76,17 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This class provides the admin interface to manage administration of site
  */
-public class AdminPageJspBean extends AdminFeaturesPageJspBean {
+public class AdminPageJspBean extends AdminFeaturesPageJspBean
+{
     ////////////////////////////////////////////////////////////////////////////
     // Constants
-    
+
     // Right
     public static final String RIGHT_MANAGE_ADMIN_SITE = "CORE_ADMIN_SITE";
-    
+
     // Properties for page titles
     public static final String PROPERTY_PAGE_TITLE_ADMIN_SITE = "portal.site.admin_page.pageTitle";
-    
+
     // Markers
     private static final String MARK_PAGE = "page";
     private static final String MARK_PAGE_INIT_ID = "page_init_id";
@@ -103,34 +100,25 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean {
     private static final String MARK_PAGE_TEMPLATE = "page_template";
     private static final String MARK_INDEX_ROW = "index_row";
     private static final String MARK_AUTORIZATION = "authorization";
-    
+
     // Parameters
     private static final String PARAMETER_IMAGE_CONTENT = "image_content";
     private static final String PARAMETER_NODE_STATUS = "node_status";
-    
+
     // Templates
     private static final String TEMPLATE_PAGE_TEMPLATE_ROW = "admin/site/page_template_list_row.html";
     private static final String TEMPLATE_ADMIN_PAGE = "admin/site/admin_page.html";
-    
+
     // Properties definition
     private static final String PROPERTY_MESSAGE_PAGE_INEXISTENT = "portal.site.admin_page.messagePageInexistent";
     private static final String PROPERTY_MESSAGE_PAGE_FORMAT = "portal.site.admin_page.messagePageFormat";
     private static final String PROPERTY_MESSAGE_CONFIRM_REMOVE_PAGE = "portal.site.message.confirmRemovePage";
     private static final String PROPERTY_LIST_ORDER_MAX = "list.order.max";
-    
-    //parameters fetched from properties used to implement the dynamic portlets
-    
-    public static final String PROPERTY_PARAMETER_FIRST_COLUMN = "portlet.column.first";
-    public static final String PROPERTY_PARAMETER_SECOND_COLUMN = "portlet.column.second";
-    public static final String PROPERTY_PARAMETER_THIRD_COLUMN = "portlet.column.third";
-    public static final String PROPERTY_PARAMETER_FOURTH_COLUMN = "portlet.column.fourth";
-    public static final String PROPERTY_PARAMETER_FIFTH_COLUMN = "portlet.column.fifth";
-    
-    
+
     // Jsp
     private static final String JSP_ADMIN_SITE = "AdminSite.jsp";
     private static final String JSP_REMOVE_PAGE = "jsp/admin/site/DoRemovePage.jsp";
-    
+
     //Messages
     private static final String MESSAGE_TITLE_INVALID_CHARACTERS = "portal.site.message.invalidCharactersInTitleName";
     private static final String MESSAGE_CANNOT_REMOVE_CHILDPAGE_EXISTS = "portal.site.message.cannotRemoveChildPageExists";
@@ -139,23 +127,25 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean {
     private static final String MESSAGE_INVALID_PAGE_ID = "portal.site.message.pageIdInvalid";
     private static final String MESSAGE_PAGE_ID_CHILDPAGE = "portal.site.message.pageIdChildPage";
     private static final String MESSAGE_SAME_PAGE_ID = "portal.site.message.pageSameId";
-    
+
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
      * @param request The identifier of the page
      * @return The html code of the management forms of a page
      */
-    public String getAdminPage( HttpServletRequest request ) {
+    public String getAdminPage( HttpServletRequest request )
+    {
         String strPageId = request.getParameter( Parameters.PAGE_ID );
-        
-        if ( ( strPageId == null ) || strPageId.equals( "" ) ) {
+
+        if ( ( strPageId == null ) || strPageId.equals( "" ) )
+        {
             strPageId = String.valueOf( PortalService.getRootPageId(  ) );
         }
-        
+
         return getAdminPageBlock( strPageId );
     }
-    
+
     /**
      * Returns the html code for displaying the page whose identifier is specified in parameter from the administration
      * unit. <br> That is useful to make a preview of the page.
@@ -166,241 +156,263 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean {
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
     public String getAdminPagePreview( HttpServletRequest request )
-    throws UserNotSignedException, SiteMessageException {
+        throws UserNotSignedException, SiteMessageException
+    {
         ContentService cs = PortalService.getInvokedContentService( request );
         int nMode = 1;
-        
-        if ( cs != null ) {
+
+        if ( cs != null )
+        {
             return cs.getPage( request, nMode );
         }
-        
+
         return PortalService.getDefaultPage( request, nMode );
     }
-    
+
     /**
      * Processes of the modification of the page informations
      *
      * @param request The http request
      * @return The jsp url result of the process
      */
-    public String doModifyPage( HttpServletRequest request ) {
+    public String doModifyPage( HttpServletRequest request )
+    {
         int nPageId = Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
         Page page = PageHome.getPage( nPageId );
-        
+
         String strErrorUrl = getPageData( request, page );
-        
-        if ( strErrorUrl != null ) {
+
+        if ( strErrorUrl != null )
+        {
             return strErrorUrl;
         }
-        
+
         int nParentPageId = Integer.parseInt( request.getParameter( Parameters.PARENT_ID ) );
-        
-        if ( nParentPageId != page.getParentPageId(  ) ) {
+
+        if ( nParentPageId != page.getParentPageId(  ) )
+        {
             strErrorUrl = getNewParentPageId( request, page, nParentPageId );
-            
-            if ( strErrorUrl != null ) {
+
+            if ( strErrorUrl != null )
+            {
                 return strErrorUrl;
             }
         }
-        
+
         // Updates the page
         PageService.getInstance(  ).updatePage( page );
-        
+
         // Displays again the current page with the modifications
         return getUrlPage( nPageId );
     }
-    
+
     /**
      * Display the confirm page for the delete of a page
      *
      * @param request The http request
      * @return The html code of the confirm page
      */
-    public String getRemovePage( HttpServletRequest request ) {
+    public String getRemovePage( HttpServletRequest request )
+    {
         String strPageId = request.getParameter( Parameters.PAGE_ID );
         UrlItem url = new UrlItem( JSP_REMOVE_PAGE );
         url.addParameter( Parameters.PAGE_ID, strPageId );
-        
+
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PAGE, url.getUrl(  ), "",
-                AdminMessage.TYPE_CONFIRMATION );
+            AdminMessage.TYPE_CONFIRMATION );
     }
-    
+
     /**
      * Processes the deletion of a page
      *
      * @param request The http request
      * @return The jsp url result of the process
      */
-    public String doRemovePage( HttpServletRequest request ) {
+    public String doRemovePage( HttpServletRequest request )
+    {
         String strPageId = request.getParameter( Parameters.PAGE_ID );
         int nPageId = Integer.parseInt( strPageId );
-        
+
         // Checks that the page has no child
         Collection list = PageHome.getChildPages( nPageId );
-        
-        if ( list.size(  ) > 0 ) {
+
+        if ( list.size(  ) > 0 )
+        {
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_CHILDPAGE_EXISTS,
-                    AdminMessage.TYPE_STOP );
+                AdminMessage.TYPE_STOP );
         }
-        
+
         int nParentPageId = PageHome.getPage( nPageId ).getParentPageId(  );
-        
+
         // Delete the page
         PageService.getInstance(  ).removePage( nPageId );
-        
+
         return getUrlPage( nParentPageId );
     }
-    
+
     /**
      * Processes the creation of a child page to the page whose identifier is stored in the http request
      *
      * @param request The http request
      * @return The jsp url result of the process
      */
-    public String doCreateChildPage( HttpServletRequest request ) {
+    public String doCreateChildPage( HttpServletRequest request )
+    {
         String strParentPageId = request.getParameter( Parameters.PAGE_ID );
         int nParentPageId = Integer.parseInt( strParentPageId );
-        
+
         Page page = new Page(  );
         page.setParentPageId( nParentPageId );
-        
+
         String strErrorUrl = getPageData( request, page );
-        
-        if ( strErrorUrl != null ) {
+
+        if ( strErrorUrl != null )
+        {
             return strErrorUrl;
         }
-        
+
         // Create the page
         PageService.getInstance(  ).createPage( page );
-        
+
         // Displays again the current page with the modifications
         return getUrlPage( page.getId(  ) );
     }
-    
+
     /**
      * Associate an image to the current page
      *
      * @param request The http request
      * @return The Jsp URL of the process result
      */
-    public String doDefineImage( HttpServletRequest request ) {
+    public String doDefineImage( HttpServletRequest request )
+    {
         MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
         String strPageId = mRequest.getParameter( Parameters.PAGE_ID );
         int nPageId = Integer.parseInt( strPageId );
-        
+
         Page page = PageHome.getPage( nPageId );
-        
+
         FileItem item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
-        
+
         byte[] bytes = item.get(  );
         String strMimeType = item.getContentType(  );
-        
+
         page.setImageContent( bytes );
         page.setMimeType( strMimeType );
         PageService.getInstance(  ).updatePage( page );
-        
+
         // Displays again the current page
         return getUrlPage( nPageId );
     }
-    
+
     /**
      * Management of the image associated to the page
      * @param page The Page Object
      * @param strPageId The page identifier
-     * @return A resource
      */
-    public String getResourceImagePage( Page page, String strPageId ) {
+    public String getResourceImagePage( Page page, String strPageId )
+    {
         String strResourceType = PageService.getInstance(  ).getResourceTypeId(  );
         UrlItem url = new UrlItem( Parameters.IMAGE_SERVLET );
         url.addParameter( Parameters.RESOURCE_TYPE, strResourceType );
         url.addParameter( Parameters.RESOURCE_ID, strPageId );
-        
+
         return url.getUrlWithEntity(  );
     }
-    
+
     //////////////////////////////////////////////////////////////////////////////////
     // Private implementation
-    
+
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
      * @param strPageId The identifier of the page
      * @return The management page of a page
      */
-    private String getAdminPageBlock( String strPageId ) {
+    private String getAdminPageBlock( String strPageId )
+    {
         HashMap model = new HashMap(  );
-        
+
         Page page = null;
         int nPageId = 1;
         int nPageIdInit = 1;
-        
-        try {
+
+        try
+        {
             nPageId = Integer.parseInt( strPageId );
             nPageIdInit = nPageId;
-            
+
             boolean bPageExist = PageHome.checkPageExist( nPageId );
-            
-            if ( bPageExist ) {
+
+            if ( bPageExist )
+            {
                 page = PageHome.getPage( nPageId );
                 model.put( MARK_PAGE_MESSAGE, "" );
-            } else {
+            }
+            else
+            {
                 nPageId = PortalService.getRootPageId(  );
                 page = PageHome.getPage( nPageId );
                 model.put( MARK_PAGE_MESSAGE,
-                        I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_INEXISTENT, getLocale(  ) ) );
+                    I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_INEXISTENT, getLocale(  ) ) );
             }
-        } catch ( NumberFormatException nfe ) {
+        }
+        catch ( NumberFormatException nfe )
+        {
             nPageId = PortalService.getRootPageId(  );
             page = PageHome.getPage( nPageId );
             model.put( MARK_PAGE_MESSAGE, I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_FORMAT, getLocale(  ) ) );
         }
-        
+
         model.put( MARK_PAGE, page );
         model.put( MARK_PAGE_INIT_ID, Integer.toString( nPageIdInit ) );
         model.put( MARK_PAGE_ORDER_LIST, getOrdersList(  ) );
         model.put( MARK_PAGE_ROLES_LIST, RoleHome.getRolesList(  ) );
         model.put( MARK_PAGE_THEMES_LIST, ThemesInclude.getThemesList(  ) );
         model.put( MARK_IMAGE_URL, getResourceImagePage( page, strPageId ) );
-        
+
         int nIndexRow = 1;
         StringBuffer strPageTemplatesRow = new StringBuffer(  );
-        
+
         // Scan of the list
-        for ( PageTemplate pageTemplate : PageTemplateHome.getPageTemplatesList(  ) ) {
+        for ( PageTemplate pageTemplate : PageTemplateHome.getPageTemplatesList(  ) )
+        {
             strPageTemplatesRow.append( getTemplatesPageList( pageTemplate.getId(  ), page.getPageTemplateId(  ),
                     Integer.toString( nIndexRow ) ) );
             nIndexRow++;
         }
-        
+
         model.put( MARK_PAGE_TEMPLATES_LIST, strPageTemplatesRow );
         model.put( MARK_PORTLET_TYPES_LIST, getPortletTypeList( getUser(  ) ) );
-        
+
         // Add in v2.0
         String strAuthorizedPageId = Page.getAuthorizedPageId( page, nPageId );
-        
+
         int nManageAuthorization = 0;
-        
+
         if ( !RBACService.isAuthorized( Page.RESOURCE_TYPE, strAuthorizedPageId,
-                PageResourceIdService.PERMISSION_MANAGE, getUser(  ) ) ) {
+                    PageResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+        {
             nManageAuthorization = 1;
         }
-        
+
         model.put( MARK_AUTORIZATION, Integer.toString( nManageAuthorization ) );
-        
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale(  ), model );
-        
+
         return getAdminPage( template.getHtml(  ) );
     }
-    
+
     /**
      * Provide page data
      * @param request The HttpServletRequest
      * @param page the Page Object
      * @return strErrorUrl
      */
-    private String getPageData( HttpServletRequest request, Page page ) {
+    private String getPageData( HttpServletRequest request, Page page )
+    {
         String strErrorUrl = null;
-        
+
         String strPageId = request.getParameter( Parameters.PAGE_ID );
         int nPageId = Integer.parseInt( strPageId );
         String strName = request.getParameter( Parameters.PAGE_NAME );
@@ -410,67 +422,75 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean {
         String strOrder = request.getParameter( Parameters.ORDER );
         String strRole = request.getParameter( Parameters.ROLE );
         String strTheme = request.getParameter( Parameters.THEME );
-        
+
         /* Added in v2.0 */
         String strNodeStatus = request.getParameter( PARAMETER_NODE_STATUS );
         int nNodeStatus = Integer.parseInt( strNodeStatus );
-        
+
         // Checks the description length (150 car. maximum)
-        if ( strDescription.length(  ) > 150 ) {
+        if ( strDescription.length(  ) > 150 )
+        {
             return AdminMessageService.getMessageUrl( request, MESSAGE_LENGTH_DESCRIPTION, AdminMessage.TYPE_STOP );
         }
-        
+
         // Checks if the mandatory field page name is found in the request
-        if ( strName.trim(  ).equals( "" ) ) {
+        if ( strName.trim(  ).equals( "" ) )
+        {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        
+
         // Checks if the page name contains HTML special characters
-        else if ( StringUtil.containsHtmlSpecialCharacters( strName ) ) {
+        else if ( StringUtil.containsHtmlSpecialCharacters( strName ) )
+        {
             return AdminMessageService.getMessageUrl( request, MESSAGE_TITLE_INVALID_CHARACTERS, AdminMessage.TYPE_STOP );
-        } else {
+        }
+        else
+        {
             page.setName( strName );
         }
-        
+
         int nOrder = ( strOrder != null ) ? Integer.parseInt( strOrder ) : PageHome.getNewChildPageOrder( nPageId );
-        
+
         page.setPageTemplateId( nTemplatePageId );
         page.setDescription( strDescription );
         page.setOrder( nOrder );
         page.setRole( strRole );
         page.setCodeTheme( strTheme );
         page.setNodeStatus( nNodeStatus );
-        
+
         return strErrorUrl;
     }
-    
+
     /**
      * Returns the list of the orders
      *
      * @return The list of the orders in form of a ReferenceList object
      */
-    private ReferenceList getOrdersList(  ) {
+    private ReferenceList getOrdersList(  )
+    {
         ReferenceList list = new ReferenceList(  );
         int nOrderMax = AppPropertiesService.getPropertyInt( PROPERTY_LIST_ORDER_MAX, 15 );
-        
-        for ( int i = 1; i <= nOrderMax; i++ ) {
+
+        for ( int i = 1; i <= nOrderMax; i++ )
+        {
             list.addItem( i, String.valueOf( i ) );
         }
-        
+
         return list;
     }
-    
+
     /**
      * Returns an html template containing the list of the portlet types
      * @param user The AdminUser
      * @return The html code
      */
-    private Collection getPortletTypeList( AdminUser user ) {
+    private Collection getPortletTypeList( AdminUser user )
+    {
         List<PortletType> listPortletType = PortletTypeHome.getPortletTypesList( getLocale(  ) );
-        
+
         return RBACService.getAuthorizedCollection( listPortletType, PortletResourceIdService.PERMISSION_CREATE, user );
     }
-    
+
     /**
      * Gets an html template displaying the patterns list available in the portal for the layout
      *
@@ -479,92 +499,35 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean {
      * @param nIndexRow the index row
      * @return The html code of the list
      */
-    private String getTemplatesPageList( int nTemplatePageId, int nPageTemplatePageId, String nIndexRow ) {
+    private String getTemplatesPageList( int nTemplatePageId, int nPageTemplatePageId, String nIndexRow )
+    {
         HashMap model = new HashMap(  );
-        
+
         PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( nTemplatePageId );
         model.put( MARK_PAGE_TEMPLATE, pageTemplate );
         model.put( MARK_INDEX_ROW, nIndexRow );
-        
+
         String strChecked = ( pageTemplate.getId(  ) == nPageTemplatePageId ) ? "checked=\"checked\"" : "";
         model.put( Markers.PAGE_TEMPLATE_CHECKED, strChecked );
-        
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_TEMPLATE_ROW, getLocale(  ), model );
-        
+
         return template.getHtml(  );
     }
-    
+
     /**
      * Return AdminSite Url
      * @param nId The PageId
      * @return url
      */
-    private String getUrlPage( int nId ) {
+    private String getUrlPage( int nId )
+    {
         UrlItem url = new UrlItem( JSP_ADMIN_SITE );
         url.addParameter( Parameters.PAGE_ID, nId );
-        
+
         return url.getUrl(  );
     }
-    
-    
-    /**
-     * Method saves the order of the portlets in the display
-     * @param request The Http Request
-     */
-    public void savePortlets(HttpServletRequest request ) {
-        
-        String tabFirst[] = request.getParameterValues( AppPropertiesService.getProperty(PROPERTY_PARAMETER_FIRST_COLUMN ));
-        String tabSecond[] = request.getParameterValues( AppPropertiesService.getProperty(PROPERTY_PARAMETER_SECOND_COLUMN ));
-        String tabThird[] = request.getParameterValues( AppPropertiesService.getProperty(PROPERTY_PARAMETER_THIRD_COLUMN ));
-        String tabFourth[] = request.getParameterValues( AppPropertiesService.getProperty(PROPERTY_PARAMETER_FOURTH_COLUMN) );
-        String tabFifth[] = request.getParameterValues( AppPropertiesService.getProperty(PROPERTY_PARAMETER_FIFTH_COLUMN ));
-        
-        if(tabFirst != null ) {
-            for(int i=0 ;i<tabFirst.length;i++) {
-                Portlet portlet = PortletHome.findByPrimaryKey( Integer.parseInt(tabFirst[i]));
-                portlet.setColumn(1);
-                portlet.setOrder(i+1);
-                PortletHome.savePortlet( portlet );
-            }
-        }
-        if(tabSecond != null ) {
-            for(int i=0 ;i<tabSecond.length;i++) {
-                Portlet portlet = PortletHome.findByPrimaryKey( Integer.parseInt(tabSecond[i]));
-                portlet.setColumn(2);
-                portlet.setOrder(i+1);
-                
-                PortletHome.savePortlet( portlet );
-            }
-        }
-        if(tabThird !=null ) {
-            
-            for(int i=0 ;i<tabThird.length;i++) {
-                Portlet portlet = PortletHome.findByPrimaryKey( Integer.parseInt(tabThird[i]));
-                portlet.setColumn(3);
-                portlet.setOrder(i+1);
-                PortletHome.savePortlet( portlet );
-            }
-        }
-        if(tabFourth !=null ) {
-            
-            for(int i=0 ;i<tabFourth.length;i++) {
-                Portlet portlet = PortletHome.findByPrimaryKey( Integer.parseInt(tabFourth[i]));
-                portlet.setColumn(4);
-                portlet.setOrder(i+1);
-                PortletHome.savePortlet( portlet );
-            }
-        }
-        
-        if(tabFifth !=null ) {
-            
-            for(int i=0 ;i<tabFifth.length;i++) {
-                Portlet portlet = PortletHome.findByPrimaryKey( Integer.parseInt(tabFifth[i]));
-                portlet.setColumn(5);
-                portlet.setOrder(i+1);
-                PortletHome.savePortlet( portlet );
-            }
-        }
-    }
+
     /**
      *
      * @param request The HttpServletRequest
@@ -572,46 +535,63 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean {
      * @param nParentPageId
      * @return strParentPageId the new parent id
      */
-    private String getNewParentPageId( HttpServletRequest request, Page page, int nParentPageId ) {
+    private String getNewParentPageId( HttpServletRequest request, Page page, int nParentPageId )
+    {
         String strErrorUrl = null;
-        
-        if ( nParentPageId != 0 ) {
+
+        if ( nParentPageId != 0 )
+        {
             int nChildPagePageId = nParentPageId;
             boolean bPageExist = PageHome.checkPageExist( nChildPagePageId );
-            
-            if ( bPageExist ) {
-                if ( nChildPagePageId >= PortalService.getRootPageId(  ) ) {
+
+            if ( bPageExist )
+            {
+                if ( nChildPagePageId >= PortalService.getRootPageId(  ) )
+                {
                     Page childPage = PageHome.getPage( nChildPagePageId );
                     int nParentChildPageId = childPage.getParentPageId(  );
-                    
-                    while ( ( nChildPagePageId != page.getId(  ) ) && ( nChildPagePageId != 0 ) ) {
-                        if ( nParentChildPageId != page.getId(  ) ) {
+
+                    while ( ( nChildPagePageId != page.getId(  ) ) && ( nChildPagePageId != 0 ) )
+                    {
+                        if ( nParentChildPageId != page.getId(  ) )
+                        {
                             childPage = PageHome.getPage( nParentChildPageId );
                             nChildPagePageId = childPage.getId(  );
                             nParentChildPageId = childPage.getParentPageId(  );
-                        } else {
+                        }
+                        else
+                        {
                             return AdminMessageService.getMessageUrl( request, MESSAGE_PAGE_ID_CHILDPAGE,
-                                    AdminMessage.TYPE_STOP );
+                                AdminMessage.TYPE_STOP );
                         }
                     }
-                    
-                    if ( nParentPageId != page.getId(  ) ) {
+
+                    if ( nParentPageId != page.getId(  ) )
+                    {
                         String strParentPageId = Integer.toString( nParentPageId );
                         page.setParentPageId( Integer.parseInt( strParentPageId ) );
-                    } else {
+                    }
+                    else
+                    {
                         return AdminMessageService.getMessageUrl( request, MESSAGE_SAME_PAGE_ID, AdminMessage.TYPE_STOP );
                     }
-                } else {
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_ROOT_PAGE_FORBIDDEN,
-                            AdminMessage.TYPE_STOP );
                 }
-            } else {
+                else
+                {
+                    return AdminMessageService.getMessageUrl( request, MESSAGE_ROOT_PAGE_FORBIDDEN,
+                        AdminMessage.TYPE_STOP );
+                }
+            }
+            else
+            {
                 return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
             }
-        } else {
+        }
+        else
+        {
             return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
         }
-        
+
         return strErrorUrl;
     }
 }

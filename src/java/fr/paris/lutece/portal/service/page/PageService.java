@@ -84,13 +84,10 @@ public class PageService extends ContentService implements ImageResourceProvider
     public static final String TEMPLATE_PAGE_ACCESS_DENIED = "/skin/site/page_access_denied.html";
     public static final String TEMPLATE_PAGE_ACCESS_CONTROLED = "/skin/site/page_access_controled.html";
     private final static String MARK_PORTLET = "portlet";
-    private final static String MARK_PORTLET_CONTENT = "portlet_content";
-    private final static String MARK_PORTLET_ID = "portlet_id";
     private static final String MARK_URL_LOGIN = "url_login";
 
     // Added in v1.3
     private static final String TEMPLATE_ADMIN_BUTTONS = "/admin/admin_buttons.html";
-    private static final String TEMPLATE_ADMIN_WRAPPER = "/admin/admin_wrapper.html";
     private static final String PARAMETER_SITE_PATH = "site-path";
     private static final String CONTENT_SERVICE_NAME = "PageService";
     private static final String PARAMETER_MODE = "mode";
@@ -466,14 +463,9 @@ public class PageService extends ContentService implements ImageResourceProvider
                     Locale locale = user.getLocale(  );
                     HashMap model = new HashMap(  );
                     model.put( MARK_PORTLET, portlet );
+
                     HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_BUTTONS, locale, model );
                     strPortletContent = strPortletContent + template.getHtml(  );
-                    HashMap modelWrapper = new HashMap();
-                    modelWrapper.put( MARK_PORTLET_CONTENT,strPortletContent );
-                    modelWrapper.put( MARK_PORTLET_ID,portlet.getId() );
-                    
-                    HtmlTemplate templateWrapper = AppTemplateService.getTemplate( TEMPLATE_ADMIN_WRAPPER, locale, modelWrapper );
-                    strPortletContent=templateWrapper.getHtml();
                 }
             }
 
