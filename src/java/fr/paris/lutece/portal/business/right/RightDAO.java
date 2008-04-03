@@ -51,7 +51,7 @@ public final class RightDAO implements IRightDAO
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_right ( id_right , name, level_right, admin_url , " +
         " description, plugin_name, id_feature_group, icon_url, documentation_url  ) " + " VALUES ( ?, ?, ?, ? , ?, ?, ?, ?, ? )";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_right SET name = ?, admin_url = ? , description = ? , " +
-        " plugin_name = ?, id_feature_group = ?, icon_url = ?, level_right = ?, , documentation_url = ? WHERE id_right = ?";
+        " plugin_name = ?, id_feature_group = ?, icon_url = ?, level_right = ?, documentation_url = ? WHERE id_right = ?";
     private static final String SQL_QUERY_SELECTALL = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url  " +
         " FROM core_admin_right WHERE level_right >= ? ORDER BY name ASC";
     private static final String SQL_QUERY_SELECTALL_FOR_FEATUREGROUP = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url  " +
