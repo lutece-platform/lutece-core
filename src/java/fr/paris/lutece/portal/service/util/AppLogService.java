@@ -163,7 +163,10 @@ public final class AppLogService
      */
     public static void error( Object objToLog )
     {
-        _loggerErrors.error( objToLog );
+        if ( _loggerErrors != null )
+        {
+            _loggerErrors.error( objToLog );
+        }
     }
 
     /**
@@ -176,7 +179,10 @@ public final class AppLogService
      */
     public static void error( Object message, Throwable t )
     {
-        _loggerErrors.error( message, t );
+        if ( _loggerErrors != null )
+        {
+            _loggerErrors.error( message, t );
+        }
     }
 
     /**
@@ -186,7 +192,7 @@ public final class AppLogService
      */
     public static void info( Object objToLog )
     {
-        if ( _loggerEvents.isInfoEnabled(  ) )
+        if ( ( _loggerEvents != null ) && _loggerEvents.isInfoEnabled(  ) )
         {
             _loggerEvents.info( objToLog );
         }
