@@ -34,8 +34,12 @@
 package fr.paris.lutece.util.pool;
 
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.pool.service.ConnectionPool;
 import fr.paris.lutece.util.pool.service.ConnectionService;
 import fr.paris.lutece.util.pool.service.LuteceConnectionService;
+import java.util.Collection;
+import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
@@ -57,7 +61,7 @@ public final class PoolManager
     private static final String LOGGER_NAME = "lutece.pool";
     private static PoolManager _instance;
     private Logger _logger;
-    private Hashtable _pools = new Hashtable(  );
+    private HashMap<String, ConnectionService> _pools = new HashMap<String, ConnectionService>(  );
 
     /**
      * Creates a new PoolManager object.
@@ -240,21 +244,37 @@ public final class PoolManager
      */
     public synchronized void release(  )
     {
-        Enumeration allPools = _pools.elements(  );
-
-        while ( allPools.hasMoreElements(  ) )
+        for ( ConnectionService pool : _pools.values() )
         {
-            ConnectionService pool = (ConnectionService) allPools.nextElement(  );
             pool.release(  );
         }
     }
 
     /**
-     * Gives the name of all pools available
+     * Returns all pools available
      * @return The list of available pools
      */
-    public Enumeration getPoolsNames(  )
+    public Collection<ConnectionService> getPools()
     {
-        return _pools.keys(  );
+        return _pools.values();
+    }
+    
+    /**
+     * Returns pool's infos (currently opened connections)
+     * @return The pool's infos
+     */
+    public ReferenceList getPoolsInfos()
+    {
+        ReferenceList listPoolsInfos = new ReferenceList();
+        Collection<ConnectionService> listPools = getPools();
+        for( ConnectionService cs : listPools )
+        {
+            if( cs instanceof LuteceConnectionService )
+            {
+                ConnectionPool pool = ((LuteceConnectionService) cs).getConnectionPool();
+                listPoolsInfos.addItem( cs.getPoolName() , "" + pool.getConnectionCount() );
+            }    
+        }
+        return listPoolsInfos;
     }
 }

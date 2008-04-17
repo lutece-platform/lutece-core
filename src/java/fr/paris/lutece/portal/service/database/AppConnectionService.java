@@ -38,13 +38,11 @@ import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.pool.PoolManager;
+import fr.paris.lutece.util.pool.service.ConnectionService;
 
 import java.io.InputStream;
 
 import java.sql.Connection;
-
-import java.util.Enumeration;
-
 
 /**
  * This class provides a Database Connection Service based on pooled connections.
@@ -137,6 +135,7 @@ public final class AppConnectionService
         }
 
         return _poolManager;
+       
     }
 
     /**
@@ -146,12 +145,9 @@ public final class AppConnectionService
      */
     public static void getPoolList( ReferenceList list )
     {
-        Enumeration e = _poolManager.getPoolsNames(  );
-
-        while ( e.hasMoreElements(  ) )
+        for ( ConnectionService cs : _poolManager.getPools() )
         {
-            String strPoolName = (String) e.nextElement(  );
-            list.addItem( strPoolName, strPoolName );
+            list.addItem( cs.getPoolName() ,  cs.getPoolName()  );
         }
     }
 

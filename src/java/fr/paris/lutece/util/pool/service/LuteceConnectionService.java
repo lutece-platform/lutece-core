@@ -42,6 +42,9 @@ import java.sql.SQLException;
 
 import java.util.Hashtable;
 
+/**
+ * Lutece Connection Service
+ */
 
 public class LuteceConnectionService implements ConnectionService
 {
@@ -49,26 +52,46 @@ public class LuteceConnectionService implements ConnectionService
     private Logger _logger;
     private ConnectionPool _connPool;
 
+    /**
+     * Sets the pool name
+     * @param strPoolName The pool name 
+     */
     public void setPoolName( String strPoolName )
     {
         _strPoolName = strPoolName;
     }
 
+    /**
+     * Returns the pool name
+     * @return The pool name
+     */
     public String getPoolName(  )
     {
         return _strPoolName;
     }
 
+    /**
+     * Sets the logger
+     * @param logger The logger
+     */
     public void setLogger( Logger logger )
     {
         _logger = logger;
     }
 
+    /**
+     * Gets the pool logger
+     * @return The logger
+     */
     public Logger getLogger(  )
     {
         return _logger;
     }
 
+    /**
+     * Initializes the connection pool
+     * @param htParamsConnectionPool Pool parameters
+     */
     public void init( Hashtable<String, String> htParamsConnectionPool )
     {
         String url = htParamsConnectionPool.get( getPoolName(  ) + ".url" );
@@ -130,6 +153,10 @@ public class LuteceConnectionService implements ConnectionService
                 checkValidConnectionSql );
     }
 
+    /**
+     * Get a connection
+     * @return A connection
+     */
     public Connection getConnection(  )
     {
         try
@@ -144,13 +171,29 @@ public class LuteceConnectionService implements ConnectionService
         }
     }
 
+    /**
+     * Free the connection
+     * @param conn The connection to release
+     */
     public void freeConnection( Connection conn )
     {
         _connPool.freeConnection( conn );
     }
 
+    /**
+     * Release the pool
+     */
     public void release(  )
     {
         _connPool.release(  );
+    }
+    
+    /**
+     * Returns the coonection pool
+     * @return the coonection pool
+     */
+    public ConnectionPool getConnectionPool()
+    {
+        return _connPool;
     }
 }
