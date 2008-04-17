@@ -153,29 +153,11 @@ public class ConnectionPool
         // been reached.
         long startTime = System.currentTimeMillis(  );
         long remaining = timeout;
-        Connection conn = null;
+        Connection conn = getPooledConnection(  );
 
-        while ( ( conn = getPooledConnection(  ) ) == null )
+        if ( conn == null )
         {
-            try
-            {
-                _logger.debug( "Waiting for connection. Timeout=" + remaining );
-
-                wait( remaining );
-            }
-            catch ( InterruptedException e )
-            {
-                throw new AppException( e.toString(  ) );
-            }
-
-            remaining = timeout - ( System.currentTimeMillis(  ) - startTime );
-
-            if ( remaining <= 0 )
-            {
-                // Timeout has expired
-                _logger.debug( "Time-out while waiting for connection" );
-                throw new SQLException( "getConnection() timed-out" );
-            }
+            throw new AppException( "Connection pool error : max connections reached (" + _nMaxConns +  "). No more connection available" );
         }
 
         // Check if the Connection is still OK
@@ -284,7 +266,7 @@ public class ConnectionPool
             conn = DriverManager.getConnection( _strUrl, _strUser, _strPassword );
         }
 
-        _logger.debug( "Opened a new connection" );
+        _logger.info( "New connection created. Connections count is : " + getConnectionCount() );
 
         return conn;
     }
@@ -299,7 +281,6 @@ public class ConnectionPool
         // Put the connection at the end of the Vector
         _freeConnections.add( conn );
         _nCheckedOut--;
-        notifyAll(  );
         _logger.debug( "Returned connection to pool" );
         _logger.debug( getStats(  ) );
     }
@@ -332,7 +313,36 @@ public class ConnectionPool
      */
     private String getStats(  )
     {
-        return "Total connections: " + ( _freeConnections.size(  ) + _nCheckedOut ) + " Available: " +
-        _freeConnections.size(  ) + " Checked-out: " + _nCheckedOut;
+        return "Total connections: " + getConnectionCount() + " Available: " +
+        getFreeConnectionCount() + " Checked-out: " + getBusyConnectionCount();
     }
+    
+    /**
+     * Returns the number of connections opened by the pool (available or busy)
+     * @return A connection count
+     */
+    
+    public int getConnectionCount()
+    {
+        return  getFreeConnectionCount() + getBusyConnectionCount();
+    }
+    
+    /**
+     * Returns the number of free connections of the pool (available or busy)
+     * @return A connection count
+     */
+    public int getFreeConnectionCount()
+    {
+        return  _freeConnections.size(  );
+    }
+
+    /**
+     * Returns the number of busy connections of the pool (available or busy)
+     * @return A connection count
+     */
+    public int getBusyConnectionCount()
+    {
+        return  _nCheckedOut;
+    }
+    
 }
