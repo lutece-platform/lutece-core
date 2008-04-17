@@ -266,7 +266,7 @@ public class ConnectionPool
             conn = DriverManager.getConnection( _strUrl, _strUser, _strPassword );
         }
 
-        _logger.info( "New connection created. Connections count is : " + getConnectionCount() );
+        _logger.info( "New connection created. Connections count is : " + ( getConnectionCount()  + 1 ) );
 
         return conn;
     }
