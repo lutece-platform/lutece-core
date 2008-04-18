@@ -40,10 +40,17 @@ import fr.paris.lutece.portal.service.util.RemovalListenerService;
 /**
  * MailingListRemovalListenerService
  */
-public class MailingListRemovalListenerService
+public final class MailingListRemovalListenerService
 {
     private static final String BEAN_MAILINGLIST_REMOVAL_SERVICE = "mailinglistRemovalService";
 
+    /**
+     * Private constructor
+     */
+    private MailingListRemovalListenerService() 
+    {
+    }
+    
     /**
      * Returns the removal service
      * @return The removal service
