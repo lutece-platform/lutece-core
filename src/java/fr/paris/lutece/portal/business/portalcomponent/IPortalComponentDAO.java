@@ -45,26 +45,26 @@ public interface IPortalComponentDAO
      * Insert a new record in the table.
      * @param portalComponent component The Instance of the object PortalComponent
      */
-    public abstract void insert( PortalComponent portalComponent );
+    void insert( PortalComponent portalComponent );
 
     /**
      * load the data of PortalComponent from the table
      * @param nPortalComponentId The indentifier of the object PortalComponent
      * @return The Instance of the object PortalComponent
      */
-    public abstract PortalComponent load( int nPortalComponentId );
+    PortalComponent load( int nPortalComponentId );
 
     /**
      * Delete a record from the table
      * @param nPortalComponentId The indentifier of the object PortalComponent
      */
-    public abstract void delete( int nPortalComponentId );
+    void delete( int nPortalComponentId );
 
     /**
      * Update the record in the table
      * @param portalComponent The instance of the PortalComponent to update
      */
-    public abstract void store( PortalComponent portalComponent );
+    void store( PortalComponent portalComponent );
 
     /**
      * Returns the stylesheet of the portlet according to the mode
@@ -73,5 +73,5 @@ public interface IPortalComponentDAO
      * @param nIdMode the selected mode
      * @return the stylesheet
      */
-    public abstract StyleSheet selectXslFile( int nPortalComponentId, int nIdMode );
+    StyleSheet selectXslFile( int nPortalComponentId, int nIdMode );
 }
