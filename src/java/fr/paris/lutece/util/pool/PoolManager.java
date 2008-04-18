@@ -65,8 +65,10 @@ public final class PoolManager
 
     /**
      * Creates a new PoolManager object.
-     *
+     * 
+     * 
      * @param isDbProperties A properties file containing pools parameters.
+     * @throws LuteceInitException If any error occured 
      */
     private PoolManager( InputStream isDbProperties ) throws LuteceInitException
     {
@@ -75,9 +77,10 @@ public final class PoolManager
 
     /**
      * This method returns the unique instance of the PoolManager.
-     *
-     * @param isDbProperties An InputStream on a db.properties File to initialiaze the pool if it's not already created.
+     * 
      * @return The unique instance of Poolmanager.
+     * @param isDbProperties An InputStream on a db.properties File to initialiaze the pool if it's not already created.
+     * @throws LuteceInitException  If any error occured 
      */
     public static synchronized PoolManager getInstance( InputStream isDbProperties )
         throws LuteceInitException
@@ -92,8 +95,9 @@ public final class PoolManager
 
     /**
      * Initializes pools with parameters defined in a db.properties File.
-     *
+     * 
      * @param is An InputStream on a db.properties File.
+     * @throws LuteceInitException If any error occured 
      */
     private void init( InputStream is ) throws LuteceInitException
     {
@@ -116,8 +120,9 @@ public final class PoolManager
 
     /**
      * Creates all pools defined in a properties file.
-     *
+     * 
      * @param props A properties file containing pools parameters.
+     * @throws LuteceInitException  If any error occured 
      */
     private void createPools( Properties props ) throws LuteceInitException
     {

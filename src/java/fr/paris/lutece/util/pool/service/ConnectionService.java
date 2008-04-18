@@ -39,22 +39,56 @@ import java.sql.Connection;
 
 import java.util.Hashtable;
 
+/**
+ * Database Connection Service Interface
+ */
 
 public interface ConnectionService
 {
-    public Connection getConnection(  );
+    /**
+     * Get a connection 
+     * @return A database connection
+     */
+    Connection getConnection(  );
 
-    public void freeConnection( Connection conn );
+    /**
+     * Release the connection
+     * @param conn The connection to release
+     */
+    void freeConnection( Connection conn );
 
-    public void release(  );
+    /**
+     * Free all connections
+     */
+    void release(  );
 
-    public void init( Hashtable<String, String> htParamsConnectionPool );
+    /**
+     * Initialize pool parameters
+     * @param htParamsConnectionPool Parameters
+     */
+    void init( Hashtable<String, String> htParamsConnectionPool );
 
-    public void setPoolName( String strPoolName );
+    /**
+     * Define the pool name 
+     * @param strPoolName The pool name
+     */
+    void setPoolName( String strPoolName );
 
-    public String getPoolName(  );
+    /**
+     * Gets the pool name
+     * @return The pool name
+     */
+    String getPoolName(  );
 
-    public void setLogger( Logger logger );
+    /**
+     * Define the logger
+     * @param logger The logger
+     */
+    void setLogger( Logger logger );
 
-    public Logger getLogger(  );
+    /**Gets the logger
+     * 
+     * @return  The logger
+     */
+    Logger getLogger(  );
 }
