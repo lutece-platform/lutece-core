@@ -37,15 +37,14 @@ import java.util.Collection;
 
 
 /**
- *
- * @author LEVY
+ * AdminRoleDAO Interface
  */
 public interface IAdminRoleDAO
 {
     /**
      * Check that the given key points to an existing role
      *
-     * @param strNewRoleKey
+     * @param strRoleKey
      * @return true if the role exists, false otherwise
      */
     boolean checkExistRole( String strRoleKey );
@@ -53,13 +52,12 @@ public interface IAdminRoleDAO
     /**
      * Delete a record from the table
      *
-     * @param role The AdminRole object
+     * @param strRoleKey The AdminRole object
      */
     void delete( String strRoleKey );
 
     /**
      * Insert a new record in the table.
-     *
      *
      * @param role The role object
      */
@@ -68,8 +66,7 @@ public interface IAdminRoleDAO
     /**
      * Load the data of AdminRole from the table
      *
-     *
-     * @param nRoleId The identifier of AdminRole
+     * @param strRoleKey The identifier of AdminRole
      * @return the instance of the AdminRole
      */
     AdminRole load( String strRoleKey );
