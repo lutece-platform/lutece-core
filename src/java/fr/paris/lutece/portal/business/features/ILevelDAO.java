@@ -46,7 +46,7 @@ public interface ILevelDAO
      *
      * @param level The level object
      */
-    public abstract void insert( Level level );
+    void insert( Level level );
 
     /**
      * load the data of Level from the table
@@ -54,24 +54,24 @@ public interface ILevelDAO
      * @param nIdLevel The indentifier of the object Level
      * @return The Instance of the object Level
      */
-    public abstract Level load( int nIdLevel );
+    Level load( int nIdLevel );
 
     /**
      * Delete a record from the table
      *
      * @param nIdLevel The indentifier of the object Level
      */
-    public abstract void delete( int nIdLevel );
+    void delete( int nIdLevel );
 
     /**
      * Update the record in the table
      * @param level The instance of the Level to update
      */
-    public abstract void store( Level level );
+    void store( Level level );
 
     /**
      * Returns a list of all the right level
      * @return A collection of right level objects
      */
-    public abstract Collection<Level> selectLevelsList(  );
+    Collection<Level> selectLevelsList(  );
 }
