@@ -54,14 +54,18 @@ public abstract class ResourceIdService
 
     /**
      * Provide the list of all resources (id - label)
+     * 
      * @return the list of all resources available for restricted access
+     * @param locale The locale
      */
     public abstract ReferenceList getResourceIdList( Locale locale );
 
     /**
      * Provide the title of a resource given its id
-     * @param strId the id of the resource
+     * 
      * @return the title the corresponding label
+     * @param locale The locale
+     * @param strId the id of the resource
      */
     public abstract String getTitle( String strId, Locale locale );
 
