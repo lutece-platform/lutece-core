@@ -47,22 +47,23 @@ public interface IAdminWorkgroupDAO
 {
     /**
      * Check that the given key points to an existing workgroup
-     *
-     * @param strNewWorkgroupKey
+     * 
+     * 
      * @return true if the workgroup exists, false otherwise
+     * @param strWorkgroupKey 
      */
     boolean checkExistWorkgroup( String strWorkgroupKey );
 
     /**
      * Delete a record from the table
-     *
-     * @param workgroup The AdminWorkgroup object
+     * 
+     * 
+     * @param strWorkgroupKey The workgroup key
      */
     void delete( String strWorkgroupKey );
 
     /**
      * Insert a new record in the table.
-     *
      *
      * @param workgroup The workgroup object
      */
@@ -70,9 +71,8 @@ public interface IAdminWorkgroupDAO
 
     /**
      * Load the data of AdminWorkgroup from the table
-     *
-     *
-     * @param nWorkgroupId The identifier of AdminWorkgroup
+     * 
+     * @param strWorkgroupKey  The workgroup key 
      * @return the instance of the AdminWorkgroup
      */
     AdminWorkgroup load( String strWorkgroupKey );
@@ -92,43 +92,56 @@ public interface IAdminWorkgroupDAO
 
     /**
      * Is the user member of the workgroup
+     * 
      * @param nIdUser The user Id
      * @param strWorkgroup The workgroup key
+     * @return True if the user is in the workgroup, otherwise false 
      */
     boolean isUserInWorkgroup( int nIdUser, String strWorkgroup );
 
     /**
      * Is the user member of the workgroup
+     * 
      * @param nIdUser The user Id
+     * @return True if the user has workgroup
      */
     boolean checkUserHasWorkgroup( int nIdUser );
 
     /**
      * Returns the list of all workgroups the user is member
+     * 
      * @param nIdUser The user Id
+     * @return The list of all user's workgroups
      */
     ReferenceList getUserWorkgroups( int nIdUser );
 
     /**
      * Returns the list of all users for a workgroup
-     * @param nIdUser The workgroup key
+     * 
+     * @param strWorkgroupKey The workgroup key
+     * @return The collection of all users of a workgroup
      */
     Collection<AdminUser> getUsersListForWorkgroup( String strWorkgroupKey );
 
     /**
-     * @param nUserId the user id
+     * Remove all users of a workgroup
+     * 
+     * @param strWorkgroupKey 
      */
     public void deleteAllUsersForWorkgroup( String strWorkgroupKey );
 
     /**
-     * @param nUserId the user id
+     * Insert a user into a workgroup
+     * 
+     * @param user The user to insert
      * @param strWorkgroupKey the key workgroup
      */
     void insertUserForWorkgroup( AdminUser user, String strWorkgroupKey );
 
     /**
-     * @param userId
-     * @param strWorkgroupKey
+     * Remove an user from a workgroup
+     * @param userId The user ID
+     * @param strWorkgroupKey The workgroup key
      */
     void deleteUserFromWorkgroup( int userId, String strWorkgroupKey );
 }
