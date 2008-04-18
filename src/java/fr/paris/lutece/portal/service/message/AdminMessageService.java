@@ -65,6 +65,13 @@ public class AdminMessageService
     private static final String MARK_MESSAGES_LIST = "messages_list";
 
     /**
+     * Private constructor
+     */
+    private AdminMessageService()
+    {
+        
+    }
+    /**
      * Returns the Url that display the given message
      * @param request The HttpRequest
      * @param strMessageKey The message key
