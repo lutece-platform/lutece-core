@@ -169,7 +169,8 @@ public final class RightDAO implements IRightDAO
     /**
      * Loads the data of all the rights with level greater or equal than nLevel
      * and returns them in form of a collection
-     *
+     * 
+     * @param nLevel The right level
      * @return the collection which contains the data of all the rights
      */
     public Collection<Right> selectRightsList( int nLevel )
