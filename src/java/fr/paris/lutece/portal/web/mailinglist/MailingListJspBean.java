@@ -169,6 +169,12 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         return urlModify.getUrl(  );
     }
 
+    /**
+     * Process Form Data
+     * @param request The HTTP request
+     * @param mailinglist The mailing list
+     * @return An Error message or null if no error
+     */
     private String processFormData( HttpServletRequest request, MailingList mailinglist )
     {
         String strErrors = null;
