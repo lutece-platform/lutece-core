@@ -49,7 +49,7 @@ public interface IPageDAO
      * Insert a new record in the table.
      * @param page The Page object
      */
-    public abstract void insert( Page page );
+    void insert( Page page );
 
     /**
      * load the data of Level from the table
@@ -57,19 +57,19 @@ public interface IPageDAO
      * @param bPortlets The boolean
      * @return The Instance of the object Page
      */
-    public abstract Page load( int nPageId, boolean bPortlets );
+    Page load( int nPageId, boolean bPortlets );
 
     /**
      * Delete a record from the table
      * @param nPageId The indentifier of the object nPageId
      */
-    public abstract void delete( int nPageId );
+    void delete( int nPageId );
 
     /**
      * Update the record in the table
      * @param page The instance of the page to update
      */
-    public abstract void store( Page page );
+    void store( Page page );
 
     /**
      * Select all the child pages for a page which is specified in parameter
@@ -77,32 +77,33 @@ public interface IPageDAO
      * @param nParentPageId The parent page identifier
      * @return The list of objects Page (without portlets list)
      */
-    public abstract Collection<Page> selectChildPages( int nParentPageId );
+    Collection<Page> selectChildPages( int nParentPageId );
 
     /**
      * Loads all the pages for a portal
      * @return The pages of the current portal (without portlets list, of course !)
      */
-    public abstract List<Page> selectAllPages(  );
+    List<Page> selectAllPages(  );
 
     /**
      * Invalidate the page after a modification
      *
      * @param nPageId the page identifier
      */
-    public abstract void invalidatePage( int nPageId );
+    void invalidatePage( int nPageId );
 
     /**
      * Load the Referencelist of documentTypes
      * @return listDocumentTypes
      */
-    public abstract ReferenceList getPagesList(  );
+    ReferenceList getPagesList(  );
 
     /**
-     * Serach the last order of child page list
+     * Search the last order of child page list
+     * @param nParentPageId The parent page Id
      * @return The new page order
      */
-    public abstract int selectNewChildPageOrder( int nParentPageId );
+    int selectNewChildPageOrder( int nParentPageId );
 
     /**
      * Load a image corresponding to an Page
@@ -110,7 +111,7 @@ public interface IPageDAO
      * @param nIdPage The Page Id
      * @return the instance of the ImageContent
      */
-    public abstract ImageResource loadImageResource( int nIdPage );
+    ImageResource loadImageResource( int nIdPage );
 
     /**
      * Tests if page exist
