@@ -345,4 +345,14 @@ public class ConnectionPool
         return  _nCheckedOut;
     }
     
+    /**
+     * Returns the maximum number of connections of the pool
+     * @return A connection count
+     */
+    public int getMaxConnectionCount()
+    {
+        return  _nMaxConns;
+    }
+    
+    
 }
