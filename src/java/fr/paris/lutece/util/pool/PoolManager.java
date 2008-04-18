@@ -274,6 +274,10 @@ public final class PoolManager
                 ConnectionPool pool = ((LuteceConnectionService) cs).getConnectionPool();
                 listPoolsInfos.addItem( cs.getPoolName() , "" + pool.getConnectionCount() + " / " + pool.getMaxConnectionCount() );
             }    
+            else
+            {
+                listPoolsInfos.addItem( cs.getPoolName() , "- / -" );
+            }
         }
         return listPoolsInfos;
     }
