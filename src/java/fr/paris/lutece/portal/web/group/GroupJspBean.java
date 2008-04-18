@@ -95,7 +95,7 @@ public class GroupJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_ERROR_MANAGE_GROUPS = "portal.group.message.errorManageGroups";
 
     // Right
-    public final String RIGHT_GROUPS_MANAGEMENT = "CORE_GROUPS_MANAGEMENT";
+    public static final String RIGHT_GROUPS_MANAGEMENT = "CORE_GROUPS_MANAGEMENT";
 
     /**
      * Creates a new GroupJspBean object.
