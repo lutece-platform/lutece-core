@@ -108,8 +108,8 @@ public class AdminUserDAO implements IAdminUserDAO
     }
 
     /**
-     * @param strUserAccessCode th elogin
-     * @return user
+     * @param strUserAccessCode the login
+     * @return user The admin User
      */
     public AdminUser selectUserByAccessCode( String strUserAccessCode )
     {
@@ -137,7 +137,8 @@ public class AdminUserDAO implements IAdminUserDAO
     }
 
     /**
-     * @return userList
+     * Get a list of all admin users
+     * @return userList The list
      */
     public Collection<AdminUser> selectUserList(  )
     {
@@ -211,6 +212,7 @@ public class AdminUserDAO implements IAdminUserDAO
     }
 
     /**
+     * Store an admin user
       * @param user The AdminUser
      */
     public void store( AdminUser user )
@@ -231,7 +233,8 @@ public class AdminUserDAO implements IAdminUserDAO
     }
 
     /**
-     * @param nUserId th user id
+     * Delete a admin user
+     * @param nUserId the user id
      */
     public void delete( int nUserId )
     {
@@ -275,6 +278,7 @@ public class AdminUserDAO implements IAdminUserDAO
     }
 
     /**
+     * Insert a right for a user
      * @param nUserId the user id
      * @param strRightId the right id
      */
@@ -288,6 +292,7 @@ public class AdminUserDAO implements IAdminUserDAO
     }
 
     /**
+     * Delete all rights for an user
      * @param nUserId the user id
      */
     public void deleteAllRightsForUser( int nUserId )
@@ -326,6 +331,7 @@ public class AdminUserDAO implements IAdminUserDAO
     }
 
     /**
+     * Add a role to an user
      * @param nUserId the user id
      * @param strRoleKey the key role
      */
@@ -339,6 +345,7 @@ public class AdminUserDAO implements IAdminUserDAO
     }
 
     /**
+     * Remove all roles from an user
      * @param nUserId the user id
      */
     public void deleteAllRolesForUser( int nUserId )
@@ -373,8 +380,9 @@ public class AdminUserDAO implements IAdminUserDAO
     }
 
     /**
-     * @param strAccessCode
-     * @return
+     * Check weather the access code already exists or not
+     * @param strAccessCode The access code
+     * @return True if already in use, otherwise false
      */
     public boolean checkAccessCodeAlreadyInUse( String strAccessCode )
     {
@@ -419,6 +427,7 @@ public class AdminUserDAO implements IAdminUserDAO
     }
 
     /**
+     * Store an admin user
      * @param user The AdminUser
      */
     public void store( LuteceDefaultAdminUser user )
@@ -440,8 +449,9 @@ public class AdminUserDAO implements IAdminUserDAO
     }
 
     /**
-     * @param nUserId th user id
-     * @return user
+     * Gets a default admin user
+     * @param nUserId the user id
+     * @return The user
      */
     public LuteceDefaultAdminUser loadDefaultAdminUser( int nUserId )
     {
@@ -471,8 +481,10 @@ public class AdminUserDAO implements IAdminUserDAO
     }
 
     /**
-    * @return userList
-    */
+     * Select all user that own a given role
+     * @param strRoleKey The role
+     * @return userList The user's list
+     */
     public Collection<AdminUser> selectUsersByRole( String strRoleKey )
     {
         Collection<AdminUser> userList = new ArrayList<AdminUser>(  );
