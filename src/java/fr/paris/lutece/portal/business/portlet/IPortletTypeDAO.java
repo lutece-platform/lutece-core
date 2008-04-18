@@ -50,7 +50,7 @@ public interface IPortletTypeDAO
      *
      * @param portletType The portlet Type object
      */
-    public abstract void insert( PortletType portletType );
+    void insert( PortletType portletType );
 
     /**
      * Load the data of PortletType  from the table
@@ -58,14 +58,14 @@ public interface IPortletTypeDAO
      * @param strPortletTypeId The identifier of PortletType
      * @return The instance of the PortletType
      */
-    public abstract PortletType load( String strPortletTypeId );
+    PortletType load( String strPortletTypeId );
 
     /**
      * Delete a record from the table
      *
      * @param strPortletTypeId The POrtletTYpe identifier
      */
-    public abstract void delete( String strPortletTypeId );
+    void delete( String strPortletTypeId );
 
     /**
      * Returns the portlet type identifier
@@ -73,7 +73,7 @@ public interface IPortletTypeDAO
      * @param strPluginHomeClass the name of the portlet type
      * @return the identifier of the portlet type
      */
-    public abstract String selectPortletTypeId( String strPluginHomeClass );
+    String selectPortletTypeId( String strPluginHomeClass );
 
     /**
      * Returns the portlet count for a given provider
@@ -81,18 +81,18 @@ public interface IPortletTypeDAO
      * @param strPortletTypeId The provider's identifier
      * @return nCount
      */
-    public abstract int selectNbPortletTypeByPortlet( String strPortletTypeId );
+    int selectNbPortletTypeByPortlet( String strPortletTypeId );
 
     /**
      * Return a Reference List of portletType
      * @return list The reference List
      */
-    public abstract ReferenceList selectPortletsTypesList( Locale locale );
+    ReferenceList selectPortletsTypesList( Locale locale );
 
     /**
      * Returns the list of the portlet types
      *
      * @return the list of the portlet types
      */
-    public abstract List<PortletType> selectPortletTypesList(  );
+    List<PortletType> selectPortletTypesList(  );
 }

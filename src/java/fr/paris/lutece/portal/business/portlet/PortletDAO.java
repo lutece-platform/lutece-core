@@ -86,6 +86,10 @@ public final class PortletDAO implements IPortletDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#insert(fr.paris.lutece.portal.business.portlet.Portlet)
          */
+    /**
+     * Insert a portlet
+     * @param portlet The portlet to insert
+     */
     public void insert( Portlet portlet )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
@@ -109,6 +113,10 @@ public final class PortletDAO implements IPortletDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#delete(int)
          */
+    /**
+     * Delete a portlet
+     * @param nPortletId The portlet ID 
+     */
     public void delete( int nPortletId )
     {
         // we recover the alias of the portlet parent to delete
@@ -134,6 +142,11 @@ public final class PortletDAO implements IPortletDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#load(int)
          */
+    /**
+     * Load a portlet
+     * @param nPortletId The portlet ID 
+     * @return The loaded portlet
+     */
     public Portlet load( int nPortletId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
@@ -170,6 +183,10 @@ public final class PortletDAO implements IPortletDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#store(fr.paris.lutece.portal.business.portlet.Portlet)
          */
+    /**
+     * Store a portlet
+     * @param portlet the portlet to update
+     */
     public void store( Portlet portlet )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
@@ -214,6 +231,11 @@ public final class PortletDAO implements IPortletDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#updateStatus(fr.paris.lutece.portal.business.portlet.Portlet, int)
          */
+    /**
+     * Update the portlet status
+     * @param portlet 
+     * @param nStatus 
+     */
     public void updateStatus( Portlet portlet, int nStatus )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_STATUS );
@@ -228,6 +250,12 @@ public final class PortletDAO implements IPortletDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#selectXslFile(int, int)
          */
+    /**
+     * Select the XSL
+     * @param nPortletId The portlet ID
+     * @param nIdMode The mode
+     * @return The Style Sheet
+     */
     public StyleSheet selectXslFile( int nPortletId, int nIdMode )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_XSL_FILE );
@@ -253,6 +281,11 @@ public final class PortletDAO implements IPortletDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#selectPortletsListbyName(java.lang.String)
          */
+    /**
+     * Retreive portlet by name
+     * @param strPortletName The portlet name
+     * @return A collection of portlets
+     */
     public Collection selectPortletsListbyName( String strPortletName )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_LIST_BY_NAME );
@@ -278,6 +311,11 @@ public final class PortletDAO implements IPortletDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#selectPortletsByType(java.lang.String)
          */
+    /**
+     * Retrieve a collectio of portlets by type
+     * @param strPortletTypeId The portlet type ID
+     * @return A collection of portlet
+     */
     public List<Portlet> selectPortletsByType( String strPortletTypeId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_LIST_BY_TYPE );
@@ -303,6 +341,11 @@ public final class PortletDAO implements IPortletDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#selectStylesList(java.lang.String)
          */
+    /**
+     * Retrieve a list of styles for a given portlet type
+     * @param strPortletTypeId The portlet type ID
+     * @return A list of styles
+     */
     public ReferenceList selectStylesList( String strPortletTypeId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_STYLE_LIST );
@@ -324,6 +367,11 @@ public final class PortletDAO implements IPortletDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#hasAlias(int)
          */
+    /**
+     * Check if the portlet has an alias
+     * @param nPortletId The portlet ID
+     * @return True if the portlet has an alias
+     */
     public boolean hasAlias( int nPortletId )
     {
         boolean bHasAlias = false;
@@ -345,6 +393,11 @@ public final class PortletDAO implements IPortletDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#selectPortletType(java.lang.String)
          */
+    /**
+     * Select a portlet type
+     * @param strPortletTypeId The portlet type ID
+     * @return The portlet type
+     */
     public PortletType selectPortletType( String strPortletTypeId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_TYPE );
@@ -371,6 +424,11 @@ public final class PortletDAO implements IPortletDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#selectPortletListByStyle(int)
          */
+    /**
+     * Retrieve a collection of portlet of a given style
+     * @param nStyleId The styleID
+     * @return A collection of portlet
+     */
     public Collection selectPortletListByStyle( int nStyleId )
     {
         Collection portletList = new ArrayList(  );

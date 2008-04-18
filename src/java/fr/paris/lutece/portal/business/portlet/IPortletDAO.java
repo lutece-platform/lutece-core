@@ -51,14 +51,14 @@ public interface IPortletDAO
      *
      * @param portlet the portlet to insert in the database
      */
-    public abstract void insert( Portlet portlet );
+    void insert( Portlet portlet );
 
     /**
      * Delete a record from the table and its alias
      *
      * @param nPortletId the identifier of the portlet to be deleted
      */
-    public abstract void delete( int nPortletId );
+    void delete( int nPortletId );
 
     /**
      * Load the data of a portlet from the database
@@ -66,21 +66,21 @@ public interface IPortletDAO
      * @param nPortletId the portlet identifier
      * @return the object Portlet initialized with the data of the database
      */
-    public abstract Portlet load( int nPortletId );
+    Portlet load( int nPortletId );
 
     /**
      * Update the record in the table
      *
      * @param portlet the portlet reference
      */
-    public abstract void store( Portlet portlet );
+    void store( Portlet portlet );
 
     /**
      * Returns a new primary key which will be used to add a new portlet
      *
      * @return The new key.
      */
-    public abstract int newPrimaryKey(  );
+    int newPrimaryKey(  );
 
     /**
      * Update the portlet status : 0 for activated - 1 for suspended
@@ -88,7 +88,7 @@ public interface IPortletDAO
      * @param portlet the portlet to upadte in the database
      * @param nStatus the status to update
      */
-    public abstract void updateStatus( Portlet portlet, int nStatus );
+    void updateStatus( Portlet portlet, int nStatus );
 
     /**
      * Returns the stylesheet of the portlet according to the mode
@@ -97,7 +97,7 @@ public interface IPortletDAO
      * @param nIdMode the selected mode
      * @return the stylesheet
      */
-    public abstract StyleSheet selectXslFile( int nPortletId, int nIdMode );
+    StyleSheet selectXslFile( int nPortletId, int nIdMode );
 
     /**
      * Returns the list of portlets in a distinct name
@@ -106,7 +106,7 @@ public interface IPortletDAO
      * @return the list in form of Collection
      * @throws AppException
      */
-    public abstract Collection selectPortletsListbyName( String strPortletName );
+    Collection selectPortletsListbyName( String strPortletName );
 
     /**
      * Returns a list of portlets according to the selected type
@@ -114,7 +114,7 @@ public interface IPortletDAO
      * @param strPortletTypeId the portlet type
      * @return the portlets in form of Collection
      */
-    public abstract List<Portlet> selectPortletsByType( String strPortletTypeId );
+    List<Portlet> selectPortletsByType( String strPortletTypeId );
 
     /**
      * Returns all the styles corresponding to a portlet type
@@ -122,7 +122,7 @@ public interface IPortletDAO
      * @param strPortletTypeId the identifier of the portlet type
      * @return the list of styles in form of ReferenceList
      */
-    public abstract ReferenceList selectStylesList( String strPortletTypeId );
+    ReferenceList selectStylesList( String strPortletTypeId );
 
     /**
      * Indicates if the portlet has alias in the database or not.
@@ -130,7 +130,7 @@ public interface IPortletDAO
      * @param nPortletId the identifier of the portlet
      * @return true if the portlet has some alias, false if not.
      */
-    public abstract boolean hasAlias( int nPortletId );
+    boolean hasAlias( int nPortletId );
 
     /**
      * Returns the instance of the PortletType whose identifier is specified in parameter
@@ -138,12 +138,12 @@ public interface IPortletDAO
      * @param strPortletTypeId the identifier of the portlet type
      * @return the instance of the portlet type
      */
-    public abstract PortletType selectPortletType( String strPortletTypeId );
+    PortletType selectPortletType( String strPortletTypeId );
 
     /**
      * Returns the list of the portlets associated to the style
      * @param nStyleId the identifier of the style
      * @return the list of the portlets in form of a Collection of Portlets objects
      */
-    public abstract Collection selectPortletListByStyle( int nStyleId );
+    Collection selectPortletListByStyle( int nStyleId );
 }

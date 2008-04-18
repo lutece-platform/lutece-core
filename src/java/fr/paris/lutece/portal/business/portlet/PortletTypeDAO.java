@@ -189,6 +189,7 @@ public final class PortletTypeDAO implements IPortletTypeDAO
     
     /**
      * Return a Reference List of portletType
+     * @param locale The current locale
      * @return list The reference List
      */
     public ReferenceList selectPortletsTypesList( Locale locale )
