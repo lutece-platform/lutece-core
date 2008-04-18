@@ -46,5 +46,5 @@ public interface SearchEngine
      * @param strQuery The search query
      * @return Results as a collection of SearchResult
      */
-    public List<SearchResult> getSearchResults( String strQuery );
+   List<SearchResult> getSearchResults( String strQuery );
 }

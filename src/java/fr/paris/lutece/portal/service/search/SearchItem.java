@@ -57,6 +57,10 @@ public class SearchItem
     private String _strLastModifiedDate;
     private String _strType;
 
+    /**
+     * Constructor
+     * @param document The document retrieved by the search 
+     */
     public SearchItem( Document document )
     {
         setId( document.get( FIELD_UID ) );

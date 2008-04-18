@@ -96,6 +96,11 @@ public class LuceneSearchEngine implements SearchEngine
         return convertList( listResults );
     }
 
+    /**
+     * Convert a list of Lucene items into a list of generic search items
+     * @param listSource The list of Lucene items
+     * @return A list of generic search items
+     */
     private List<SearchResult> convertList( List<SearchItem> listSource )
     {
         List<SearchResult> listDest = new ArrayList<SearchResult>(  );
