@@ -196,7 +196,8 @@
 			
 				<dirname property="file.@{file}" file="@{file}"/>
 				<propertyregex property="pool" input="${file.@{file}}" regexp="(.*)\\(.*)\\plugin" replace="\2" casesensitive="true" override="true" />
-
+  			    <propertyregex property="pool" input="${file.@{file}}" regexp="(.*)/(.*)/plugin" replace="\2" casesensitive="true" override="true" />
+				
 				<if>
 				 <equals arg1="${before_pool}" arg2="${pool}" />
 				 <then>
