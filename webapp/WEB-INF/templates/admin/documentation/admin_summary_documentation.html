@@ -3,12 +3,13 @@
 
     <img src="${help_icon}"  class="icon"  alt="" title=""  />
 
-    <h2>#i18n{portal.features.documentation.summary.feature.title}</h2>
+    <h2><a href="jsp/admin/documentation/AdminSummaryDocumentation.jsp">#i18n{portal.features.documentation.summary.feature.title}</a></h2>
 </div>	
  
  <div id="feature-content">
 	 <div class="content-box">
 			 	<h2>#i18n{portal.features.documentation.summary.title}</h2>
+	         	<#if feature_group_list?has_content>
 	         	<ul>
 	         	<#list feature_group_list as feature_group >
 				<li>
@@ -34,5 +35,10 @@
 	            </li>
 	        </#list>
 	        </ul>
+	        <#else>
+	        	<ul>
+	        		<li>#i18n{portal.features.documentation.summary.empty}</h2></li>
+	        	</ul>
+	        </#if>
 	</div>
 </div>

@@ -97,6 +97,7 @@ public class AdminDocumentationJspBean
 	private static final String LOCAL_DEFAULT = "en";
 	private static final String XML_BASE_PATH = "/doc/xml/";
 	private static final String XML_USER_PATH = "/xdoc/user/";
+	private static final String FEATURES_GROPU_SYSTEM = "SYSTEM";
 
 	/**
      * Returns the view of features documentation
@@ -202,26 +203,28 @@ public class AdminDocumentationJspBean
         // get the list of user's features
         Map<String, Right> featuresMap = user.getRights(  );
         Collection<Right> features = featuresMap.values(  );
-
+        
+        
         // for each group, load the features
         for ( FeatureGroup featureGroup : FeatureGroupHome.getFeatureGroupsList(  ) )
         {
-            ArrayList<Right> aLeftFeatures = new ArrayList<Right>(  );
-
+        	ArrayList<Right> aLeftFeatures = new ArrayList<Right>(  );
+        	
             for ( Right right : features )
             {
                 right.setLocale( user.getLocale(  ) );
-
+                
                 String strFeatureGroup = right.getFeatureGroup(  );
-
-                if ( featureGroup.getId(  ).equalsIgnoreCase( strFeatureGroup ) )
-                {
-                    featureGroup.addFeature( right );
-                }
-                else
-                {
-                    aLeftFeatures.add( right );
-                }
+                String strUrlDocumentation = right.getDocumentationUrl(  );
+                
+	                if ( featureGroup.getId(  ).equalsIgnoreCase( strFeatureGroup ) && strUrlDocumentation != null && ! ( strUrlDocumentation.equals( "" ) ) )
+	                {
+	                    featureGroup.addFeature( right );
+	                }
+	                else if( strUrlDocumentation != null && !( strUrlDocumentation.equals( "" ) ) )
+	                {
+	                    aLeftFeatures.add( right );
+	                }
             }
 
             if ( !featureGroup.isEmpty(  ) )
@@ -229,20 +232,30 @@ public class AdminDocumentationJspBean
                 featureGroup.setLocale( user.getLocale(  ) );
                 aOutFeatureGroupList.add( featureGroup );
             }
-
+            
             features = aLeftFeatures;
         }
+        
+        
+        // add the features with no group to the features group SYSTEM
+        FeatureGroup featureGroupSystem = FeatureGroupHome.findByPrimaryKey(FEATURES_GROPU_SYSTEM);
+        if( featureGroupSystem != null && !features.isEmpty() )
+        {
+        	for (Right right : features) 
+    		{
+    			featureGroupSystem.addFeature(right);
+    		}
 
-        // add the features with no group to the last group
-        if ( aOutFeatureGroupList.size(  ) > 0 )
+    		featureGroupSystem.setLocale(user.getLocale());
+    		aOutFeatureGroupList.add(featureGroupSystem);
+        }
+        else if ( aOutFeatureGroupList.size(  ) > 0 )
         {
             FeatureGroup lastFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size(  ) - 1 );
 
             for ( Right right : features )
             {
                 lastFeatureGroup.addFeature( right );
-
-                // FIXME ????         itFeatures.remove(  );
             }
         }
 
