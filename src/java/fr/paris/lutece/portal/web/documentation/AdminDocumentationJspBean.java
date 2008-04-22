@@ -237,19 +237,42 @@ public class AdminDocumentationJspBean
         }
         
         
-        // add the features with no group to the features group SYSTEM
+        
         FeatureGroup featureGroupSystem = FeatureGroupHome.findByPrimaryKey(FEATURES_GROPU_SYSTEM);
         if( featureGroupSystem != null && !features.isEmpty() )
         {
-        	for (Right right : features) 
-    		{
-    			featureGroupSystem.addFeature(right);
-    		}
+        	boolean bSystemFeaturesGroupExist = false;
+        	//Check if the features group system exist in list features group
+        	for( FeatureGroup featureGroup : aOutFeatureGroupList )
+            {
+        		//if exist
+        		if ( featureGroup.getId(  ).equalsIgnoreCase( featureGroupSystem.getId(  ) ) )
+        		{
+        			// add the features with no group to the list in features group SYSTEM
+        			for (Right right : features) 
+            		{
+        				featureGroup.addFeature(right);
+            		}
 
-    		featureGroupSystem.setLocale(user.getLocale());
-    		aOutFeatureGroupList.add(featureGroupSystem);
+            		bSystemFeaturesGroupExist = true;
+        			break;
+        		}
+            }
+        	
+        	// if not, add features group SYSTEM to the list with the feautres no group
+        	if( !bSystemFeaturesGroupExist )
+        	{
+        		for (Right right : features) 
+        		{
+        			featureGroupSystem.addFeature(right);
+        		}
+
+        		featureGroupSystem.setLocale(user.getLocale());
+        		aOutFeatureGroupList.add(featureGroupSystem);
+        	}
+        	
         }
-        else if ( aOutFeatureGroupList.size(  ) > 0 )
+        else if ( aOutFeatureGroupList.size(  ) > 0 && !features.isEmpty() )
         {
             FeatureGroup lastFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size(  ) - 1 );
 
