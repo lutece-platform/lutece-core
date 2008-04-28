@@ -1,0 +1,10 @@
+
+<#-- getThumbnailUrlFromMimeType
+ # Print the image url of the file corresponding to the specify mime type 
+ # (display the image thumbnail if the file is an image or a standard image else).
+ # The standard image collection is available
+ #
+ # param mimeType The standard mime type of the file (see http://www.mimetype.org/)
+ # param fileUrl the file url. Used if the file is an image
+-->
+<#macro getThumbnailUrlFromMimeType mimeType fileUrl ><#assign audio = "images/local/skin/filetypes/audio.png" /><#assign compressed = "images/local/skin/filetypes/compressed.png" /><#assign file = "images/local/skin/filetypes/file.png" /><#assign pdf = "images/local/skin/filetypes/pdf.png" /><#assign video = "images/local/skin/filetypes/video.png" /><#if mimeType?starts_with("image/") >${fileUrl}<#elseif mimeType?starts_with("audio/") >${audio}<#elseif mimeType?starts_with("video/") >${video}<#elseif mimeType == 'application/zip' >${compressed}<#elseif mimeType == 'application/x-zip-compressed'>${compressed}<#elseif mimeType == 'application/x-tar-gz'>${compressed}<#elseif mimeType == 'application/x-rar-compressed'>${compressed}<#elseif mimeType == 'application/x-gunzip'>${compressed}<#elseif mimeType == 'application/x-gzip'>${compressed}<#elseif mimeType == 'application/x-arj-compressed'>${compressed}<#elseif mimeType == 'application/pdf'>${pdf}<#else>${file}</#if></#macro>
