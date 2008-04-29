@@ -35,15 +35,18 @@ package fr.paris.lutece.portal.service.message;
 
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
-import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.includes.PageInclude;
+import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +69,8 @@ public class SiteMessageContentService extends ContentService
     private static final String MARK_CANCEL_BUTTON = "cancel_button";
     private static final String MARK_REQUEST_PARAMETERS = "list_parameters";
     private static final String PROPERTY_TITLE_ERROR = "portal.util.message.titleError";
+    private static final String TEMPLATE_PAGE_SITE_MESSAGE = "skin/site/page_site_message.html";
+    private static final String BOOKMARK_BASE_URL = "@base_url@";
 
     /**
      * Returns the content of a page according to the parameters found in the http request. One distinguishes article,
@@ -109,10 +114,51 @@ public class SiteMessageContentService extends ContentService
         // Fill a PageData structure for those elements
         PageData data = new PageData(  );
         data.setName( message.getTitle( locale ) );
-        data.setPagePath( PortalService.getXPagePathContent( message.getTitle( locale ), nMode, request ) );
+        // FIXME Cannot set the page path when app run in standalone mode (cannot connect to database). The page path is now not set.
+        //        data.setPagePath( PortalService.getXPagePathContent( message.getTitle( locale ), nMode, request ) );
         data.setContent( template.getHtml(  ) );
 
-        return PortalService.buildPageContent( data, nMode, request );
+        return buildPageContent( data, nMode, request );
+    }
+
+    /**
+     * Returns the html code which represents the page content
+     *
+     * @param data The structure which contains the informations about the page
+     * @param nMode The mode in which displaying the page : normal or administration
+     * @param request The request
+     * @return The html code of a page
+     */
+    private static String buildPageContent( PageData data, int nMode, HttpServletRequest request )
+    {
+        Locale locale = null;
+        HashMap<String, String> model = new HashMap<String, String>(  );
+
+        if ( request != null )
+        {
+            locale = request.getLocale(  );
+        }
+
+        List<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
+
+        for ( PageInclude pic : listIncludes )
+        {
+            pic.fillTemplate( model, data, nMode, request );
+        }
+
+        model.put( Markers.PAGE_NAME, ( data.getName(  ) == null ) ? "" : data.getName(  ) );
+        model.put( Markers.PAGE_CONTENT, ( data.getContent(  ) == null ) ? "" : data.getContent(  ) );
+
+        String strBaseUrl = ( request != null ) ? AppPathService.getBaseUrl( request ) : ""; // request could be null (method called by daemons or batch)
+
+        // for link service
+        model.put( Markers.BASE_URL, strBaseUrl );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_SITE_MESSAGE, locale, model );
+
+        template.substitute( BOOKMARK_BASE_URL, ( request != null ) ? AppPathService.getBaseUrl( request ) : "" ); // request could be null (method called by daemons or batch)
+
+        return template.getHtml(  );
     }
 
     /**
