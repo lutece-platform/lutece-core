@@ -38,9 +38,12 @@ import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.content.XPageAppService;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
+import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.xpages.XPage;
@@ -71,6 +74,7 @@ public class StandaloneAppService extends ContentService
     private static final String TEMPLATE_PAGE_FRAMESET = "page_frameset.html";
     private static final String TEMPLATE_STANDALONE_PAGE_FRAMESET = "skin/site/standalone_app_frameset.html";
     private static final String CONTENT_SERVICE_NAME = "StandaloneAppService";
+    private static final String MESSAGE_ERROR_APP_BODY = "portal.util.message.errorXpageApp";
 
     /**
      * Returns the Content Service name
@@ -153,18 +157,25 @@ public class StandaloneAppService extends ContentService
 
         if ( ( strName == null ) || ( strName.length(  ) <= 0 ) )
         {
-            return PortalService.getDefaultPage( request, nMode );
+            // Return the welcome page
+            return null;
         }
 
         PageData data = new PageData(  );
         XPageApplicationEntry entry = XPageAppService.getApplicationEntry( strName );
 
-        if ( entry.isEnable(  ) )
+        if ( ( entry != null ) && ( entry.isEnable(  ) ) )
         {
             XPageApplication app = entry.getApplication(  );
             XPage page = app.getPage( request, nMode, entry.getPlugin(  ) );
             data.setContent( page.getContent(  ) );
             data.setName( page.getTitle(  ) );
+        }
+        else
+        {
+            AppLogService.error( "The specified Xpage '" + strName +
+                "' cannot be retrieved. Check installation of your Xpage application." );
+            SiteMessageService.setMessage( request, MESSAGE_ERROR_APP_BODY, SiteMessage.TYPE_ERROR );
         }
 
         return buildPageContent( data, nMode, strName, request );

@@ -35,9 +35,9 @@ package fr.paris.lutece.portal.web;
 
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.XPageAppService;
+import fr.paris.lutece.portal.service.message.SiteMessageContentService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.portal.StandaloneAppService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -93,16 +93,26 @@ public class StandaloneAppJspBean
     public String getContent( HttpServletRequest request, int nMode )
         throws UserNotSignedException, SiteMessageException
     {
-        StandaloneAppService standaloneAppService = new StandaloneAppService(  );
+        // Get the SiteMessageContentService
+        ContentService cs = new SiteMessageContentService(  );
 
-        ContentService cs = standaloneAppService;
-
-        if ( cs != null )
+        // Check if the service is invoked, set the standalone content service else
+        if ( ( cs == null ) || !cs.isInvoked( request ) )
         {
-            return cs.getPage( request, nMode );
+            cs = new StandaloneAppService(  );
         }
 
-        return PortalService.getDefaultPage( request, nMode );
+        String htmlPage = cs.getPage( request, nMode );
+
+        if ( htmlPage == null )
+        {
+            // Return the welcome page
+            return getPluginList( request );
+        }
+        else
+        {
+            return htmlPage;
+        }
     }
 
     /**
