@@ -142,7 +142,7 @@ public class DAOUtil
             else
             {
                 throw new AppException( "Database access error for component '" + _strPluginName + "' on pool '" +
-                		_connectionService.getConnection() + "'. Please check plugin installation and db.properties." );
+                    _connectionService.getConnection(  ) + "'. Please check plugin installation and db.properties." );
             }
         }
         catch ( SQLException e )
