@@ -1791,3 +1791,40 @@ img.internal-banner{
 .button-contact{
 	padding-left: 2em;
 }
+
+/* =====================================================================
+ * --------------     styles for the site messages     -----------------
+ * ===================================================================== */
+
+/* the box "message" contains a header & a content */
+div.message {
+	border: 1px solid #C6C9C1;
+	margin-left: 25%;
+	margin-right: 25%;
+	margin-top: 150px;
+	margin-bottom: 50px;
+}
+
+/* the message header  */
+div.message-header {
+	background-color: #E6EAF3; /*#FF9999*/
+	border-bottom: 1px dotted #C6C9C1;
+	color: red; /*#1C2861; */
+	font-size: 120%;
+	font-weight: bold;
+	margin: 0;
+	padding: 5px;
+}
+
+/* the message content  */
+div.message-content {
+	background-color: white;
+	border: 0;
+	margin: 0;
+	padding: 15px;
+}
+
+img.message  {
+    border: none;
+    float: right;
+}
