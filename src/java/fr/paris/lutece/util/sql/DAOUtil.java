@@ -124,8 +124,7 @@ public class DAOUtil
 
         if ( _connectionService == null )
         {
-            throw new AppException( "Database access error for plugin '" + _strPluginName + "' on pool '" +
-                plugin.getDbPoolName(  ) + "'. Please check plugin installation and db.properties." );
+            throw new AppException( "Database access error. Please check component installations and db.properties." );
         }
 
         // Use the logger name "lutece.debug.sql.<plugin_name>" to filter logs by plugins
@@ -142,8 +141,8 @@ public class DAOUtil
             }
             else
             {
-                throw new AppException( "Database access error for module '" + _strPluginName + "' on pool '" +
-                    plugin.getDbPoolName(  ) + "'. Please check plugin installation and db.properties." );
+                throw new AppException( "Database access error for component '" + _strPluginName + "' on pool '" +
+                		_connectionService.getConnection() + "'. Please check plugin installation and db.properties." );
             }
         }
         catch ( SQLException e )
