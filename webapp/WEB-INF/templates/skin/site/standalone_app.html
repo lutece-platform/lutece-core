@@ -1,59 +1,61 @@
-<base href="${base_url}" />
-<link rel="stylesheet" type="text/css" href="css/page_template_styles.css" title="portal">
-<center>
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-    <tr>
-        <td class="portlet-title">
-            &nbsp;&nbsp;<img  alt="" src="images/local/skin/lutece.gif" width="102" height="51" />
-        </td>
-    </tr>
-</table>
-<table>
-   <tr>
-      <td height="20%">&nbsp;</td>
-   </tr>
-</table>
-<br/>
-<table cellpadding="0" cellpadding="0" width="80%" >
-<tr>
-  <th height="25" width="30%" align="center">
-     Nom de l'application
-  </th>
-  <th height="25" width="10%" align="center">
-      Version
-  </th>
-  <th height="25" width="30%" align="center">
-      Description
-  </th>
-  <th height="25" width="30%" align="center">
-      Auteur
-  </th>
-</tr>
-<tr>
-  <td height="15" colspan="4">
-    &nbsp;
-  </td>
-</tr>
-	<#list plugins_list as plugin>
-		<tr>
-		  <td width="30%" align="left">
-		     <a href="jsp/site/RunStandaloneApp.jsp?page=${plugin.name}">${plugin.name}</a>
-		  </td>
-		  <td width="10%" align="center">
-		      ${plugin.version}
-		  </td>
-		  <td width="30%" align="left">
-		      ${plugin.description}
-		  </td>
-		  <td width="30%" align="center">
-		      ${plugin.provider}
-		  </td>
-		</tr>
-		<tr>
-		<td colspan="4" height="10">
-		  &nbsp;
-		</td>
-		</tr>
-	</#list>
-</table>
-</center>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+	<head>
+		
+		<title>#i18n{portal.site.standalone_app.applicationsList.pageName}</title>
+		
+		<base href="${base_url}" />
+		
+		<link rel="stylesheet" href="css/page_template_structure.css"
+			type="text/css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="css/customize.css" />
+		
+		<link rel="stylesheet" href="css/print_template_styles.css"
+			type="text/css" media="print" />
+		<link rel="stylesheet" href="css/print_template_structure.css"
+			type="text/css" media="print" />
+		
+		<!--[if IE]>
+			<link rel="stylesheet" type="text/css" href="css/ie/page_template_ie.css" />
+		<![endif]-->
+		
+		<!--[if IE 7]>
+			<link rel="stylesheet" type="text/css" href="css/ie/page_template_ie7.css" />
+		<![endif]-->
+		
+		<link rel="shortcut icon" href="favicon.ico" />
+	</head>
+
+	<body>
+		<h1><a href="http://fr.lutece.paris.fr"> <img class="png" src="images/local/skin/logo.png" 
+		alt="LUTECE - Free Software Portal" title="LUTECE - Free Software Portal" /></a></h1>
+		
+		<div class="content">
+			<div class="one-zone-first">
+				<div class="one-zone-first-content">
+				
+					<br />
+					<h2 class="page-title">#i18n{portal.site.standalone_app.applicationsList.pageTitle}</h2>
+					
+					<table class="data-table">
+						<tr>
+							<th>#i18n{portal.site.standalone_app.applicationsList.labelName}</th>
+							<th>#i18n{portal.site.standalone_app.applicationsList.labelVersion}</th>
+							<th>#i18n{portal.site.standalone_app.applicationsList.labelDescription}</th>
+							<th>#i18n{portal.site.standalone_app.applicationsList.labelAuthor}</th>
+						</tr>
+						<#list plugins_list as plugin>
+							<tr>
+								<td><a href="jsp/site/RunStandaloneApp.jsp?page=${plugin.name}">${plugin.name}</a></td>
+								<td>${plugin.version}</td>
+								<td>${plugin.description}</td>
+								<td>${plugin.provider}</td>
+							</tr>
+						</#list>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
