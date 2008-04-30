@@ -68,14 +68,14 @@ public abstract class UploadFilter implements Filter
     private FilterConfig _filterConfig;
     private int _nSizeThreshold = -1;
     private long _nRequestSizeMax = -1;
-    
+
     /**
      * Forward the error message url when file is bigger than the max size authorized
      * @param request The http request
      * @return Message
      */
     protected abstract String getMessageRelativeUrl( HttpServletRequest request );
-    
+
     /**
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
      * @param config The FilterConfig
@@ -84,18 +84,18 @@ public abstract class UploadFilter implements Filter
     public void init( FilterConfig config ) throws ServletException
     {
         _filterConfig = config;
-        
+
         try
         {
             String paramValue = _filterConfig.getInitParameter( "sizeThreshold" );
-            
+
             if ( paramValue != null )
             {
                 _nSizeThreshold = Integer.parseInt( paramValue );
             }
-            
+
             paramValue = _filterConfig.getInitParameter( "requestSizeMax" );
-            
+
             if ( paramValue != null )
             {
                 _nRequestSizeMax = Long.parseLong( paramValue );
@@ -108,7 +108,7 @@ public abstract class UploadFilter implements Filter
             throw servletEx;
         }
     }
-    
+
     /**
      * @see javax.servlet.Filter#destroy()
      */
@@ -116,7 +116,7 @@ public abstract class UploadFilter implements Filter
     {
         // Do nothing
     }
-    
+
     /**
      * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
      * javax.servlet.ServletResponse, javax.servlet.FilterChain)
@@ -127,18 +127,18 @@ public abstract class UploadFilter implements Filter
      * @throws ServletException The SerletException
      */
     public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
-    throws IOException, ServletException
+        throws IOException, ServletException
     {
         if ( !( request instanceof HttpServletRequest ) )
         {
             chain.doFilter( request, response );
-            
+
             return;
         }
-        
+
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         boolean isMultipartContent = ServletFileUpload.isMultipartContent( httpRequest );
-        
+
         if ( !isMultipartContent )
         {
             chain.doFilter( request, response );
@@ -147,45 +147,45 @@ public abstract class UploadFilter implements Filter
         {
             // Create a factory for disk-based file items
             DiskFileItemFactory factory = new DiskFileItemFactory(  );
-            
+
             // Set factory constraints
             factory.setSizeThreshold( _nSizeThreshold );
-            
+
             /* TODO
             if ( _repositoryPath != null )
             {
                 factory.setRepository( _repositoryPath );
             }
              */
-            
+
             // Create a new file upload handler
             ServletFileUpload upload = new ServletFileUpload( factory );
-            
+
             // Set overall request size constraint
             upload.setSizeMax( _nRequestSizeMax );
-            
+
             // get encoding to be used
             String strEncoding = httpRequest.getCharacterEncoding(  );
-            
+
             if ( strEncoding == null )
             {
                 strEncoding = EncodingService.getEncoding(  );
             }
-            
+
             Map<String, FileItem> mapFiles = new HashMap<String, FileItem>(  );
             Map<String, String[]> mapParameters = new HashMap<String, String[]>(  );
-            
+
             try
             {
                 List<FileItem> listItems = upload.parseRequest( httpRequest );
-                
+
                 // Process the uploaded items
                 for ( FileItem item : listItems )
                 {
                     if ( item.isFormField(  ) )
                     {
                         String strValue = null;
-                        
+
                         try
                         {
                             strValue = item.getString( strEncoding );
@@ -195,10 +195,10 @@ public abstract class UploadFilter implements Filter
                             // if encoding problem, try with system encoding
                             strValue = item.getString(  );
                         }
-                        
+
                         // check if item of same name already in map
                         String[] curParam = mapParameters.get( item.getFieldName(  ) );
-                        
+
                         if ( curParam == null )
                         {
                             // simple form field
@@ -219,9 +219,9 @@ public abstract class UploadFilter implements Filter
                         mapFiles.put( item.getFieldName(  ), item );
                     }
                 }
-                
+
                 MultipartHttpServletRequest multiHtppRequest = new MultipartHttpServletRequest( httpRequest, mapFiles,
-                    mapParameters );
+                        mapParameters );
                 chain.doFilter( multiHtppRequest, response );
             }
             catch ( FileUploadException e )
@@ -238,7 +238,7 @@ public abstract class UploadFilter implements Filter
             }
         }
     }
-    
+
     /**
      * Get the max size of upload file
      * @return The max size

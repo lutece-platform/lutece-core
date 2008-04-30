@@ -239,7 +239,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Private implementation
-    
+
     /**
      * Return a filter list of plugins
      * @param listPlugins the COllection of plugins

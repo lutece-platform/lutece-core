@@ -61,10 +61,10 @@ public final class PortletTypeDAO implements IPortletTypeDAO
     private static final String SQL_QUERY_SELECT_NB_PORTLET_TYPE_BY_PORTLET = " SELECT count(*) FROM core_portlet WHERE id_portlet_type = ? ";
     private static final String SQL_QUERY_SELECT_PORTLETS_TYPE_LIST = " SELECT id_portlet_type , name FROM core_portlet_type ORDER BY name ";
     private static final String SQL_QUERY_SELECT_PORTLET_TYPE_LIST = "SELECT id_portlet_type , name , url_creation, url_update FROM core_portlet_type ORDER BY name";
-    
+
     ///////////////////////////////////////////////////////////////////////////////////////
     //Access methods to data
-    
+
     /**
      * Insert a new record in the table PortletType
      * @param portletType The portlet Type object
@@ -86,11 +86,10 @@ public final class PortletTypeDAO implements IPortletTypeDAO
         daoUtil.setString( 12, portletType.getModifyScriptTemplate(  ) );
         daoUtil.setString( 13, portletType.getModifySpecificTemplate(  ) );
         daoUtil.setString( 14, portletType.getModifySpecificFormTemplate(  ) );
-        
+
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
-    
 
     /**
      * Load the data of PortletType  from the table
@@ -102,9 +101,9 @@ public final class PortletTypeDAO implements IPortletTypeDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setString( 1, strPortletTypeId );
         daoUtil.executeQuery(  );
-        
+
         PortletType portletType = new PortletType(  );
-        
+
         if ( daoUtil.next(  ) )
         {
             portletType.setId( daoUtil.getString( 1 ) );
@@ -122,12 +121,12 @@ public final class PortletTypeDAO implements IPortletTypeDAO
             portletType.setModifySpecificTemplate( daoUtil.getString( 13 ) );
             portletType.setModifySpecificFormTemplate( daoUtil.getString( 14 ) );
         }
-        
+
         daoUtil.free(  );
-        
+
         return portletType;
     }
-    
+
     /**
      * Delete a record from the table
      * @param strPortletTypeId The POrtletTYpe identifier
@@ -136,11 +135,11 @@ public final class PortletTypeDAO implements IPortletTypeDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
         daoUtil.setString( 1, strPortletTypeId );
-        
+
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
-    
+
     /**
      * Returns the portlet type identifier
      * @param strPluginHomeClass the name of the portlet type
@@ -151,19 +150,19 @@ public final class PortletTypeDAO implements IPortletTypeDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_TYPE_ID );
         daoUtil.setString( 1, strPluginHomeClass );
         daoUtil.executeQuery(  );
-        
+
         String strPortletTypeId = "";
-        
+
         if ( daoUtil.next(  ) )
         {
             strPortletTypeId = daoUtil.getString( 1 );
         }
-        
+
         daoUtil.free(  );
-        
+
         return strPortletTypeId;
     }
-    
+
     /**
      * Returns the portlet count for a given provider
      * @param strPortletTypeId The provider's identifier
@@ -174,19 +173,19 @@ public final class PortletTypeDAO implements IPortletTypeDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_NB_PORTLET_TYPE_BY_PORTLET );
         daoUtil.setString( 1, strPortletTypeId );
         daoUtil.executeQuery(  );
-        
+
         int nCount = 0;
-        
+
         if ( daoUtil.next(  ) )
         {
             nCount = daoUtil.getInt( 1 );
         }
-        
+
         daoUtil.free(  );
-        
+
         return nCount;
     }
-    
+
     /**
      * Return a Reference List of portletType
      * @param locale The current locale
@@ -196,9 +195,9 @@ public final class PortletTypeDAO implements IPortletTypeDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETS_TYPE_LIST );
         daoUtil.executeQuery(  );
-        
+
         ReferenceList list = new ReferenceList(  );
-        
+
         while ( daoUtil.next(  ) )
         {
             PortletType portletType = new PortletType(  );
@@ -208,12 +207,12 @@ public final class PortletTypeDAO implements IPortletTypeDAO
             portletType.setLocale( locale );
             list.addItem( portletType.getId(  ), portletType.getName(  ) );
         }
-        
+
         daoUtil.free(  );
-        
+
         return list;
     }
-    
+
     /**
      * Returns the list of the portlet types
      * @return the list of the portlet types
@@ -223,7 +222,7 @@ public final class PortletTypeDAO implements IPortletTypeDAO
         List<PortletType> list = new ArrayList<PortletType>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_TYPE_LIST );
         daoUtil.executeQuery(  );
-        
+
         while ( daoUtil.next(  ) )
         {
             PortletType portletType = new PortletType(  );
@@ -233,9 +232,9 @@ public final class PortletTypeDAO implements IPortletTypeDAO
             portletType.setUrlUpdate( daoUtil.getString( 4 ) );
             list.add( portletType );
         }
-        
+
         daoUtil.free(  );
-        
+
         return list;
     }
 }

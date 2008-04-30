@@ -50,9 +50,8 @@ ${plugins_css_links}
 <script src="js/menu.js" type="text/javascript" ></script>
 
 <!--[if lte IE 6]>
-    <script src="js/jquery/jquery-1.2.1.min.js" type="text/javascript" ></script>
-		<script src="js/jquery/plugins/fixiepng/fixiepng.js" type="text/javascript" ></script>
-    <script type="text/javascript">
+   <script src="js/jquery/plugins/fixiepng/fixiepng.js" type="text/javascript" ></script>
+   <script type="text/javascript">
     $().ready(function() {
       // apply to png images 
       $('img.png,div#menu-main li,div.boxed3 h2,div#logo,.site-buttons').ifixpng();
@@ -73,10 +72,10 @@ ${statistical_include_head}
 	<hr />		
     <div id="page">	
 		${page_path}
-	
+	             
 	<div id="sidebar">
 		${page_tree_menu?if_exists}	
-	</div>
+	</div>        
 		
 		${page_content}   		
 	<div style="clear: both;">&#160;</div>	

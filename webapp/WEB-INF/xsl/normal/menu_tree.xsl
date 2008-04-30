@@ -20,13 +20,15 @@
 	
 	<!-- Menu Tree -->      
 	<xsl:if test="not(string(menu)='')">
-	<div class="tree4">		
-		<h2>&#160;</h2>
-		<ul id="tree" class="tree4">
-			<xsl:apply-templates select="menu" />        
-		</ul>	
-     </div>
-	 <br />
+	    <xsl:text disable-output-escaping="yes">		    
+            <div class="tree4">		
+			<h2>&#160;</h2>
+			<ul id="tree" class="tree4">
+                <xsl:apply-templates select="menu" />        
+			</ul>	
+			</div>
+		 	 <br />
+		</xsl:text> 
 	</xsl:if>
 </xsl:template>
 
@@ -40,7 +42,8 @@
           <a href="{$site-path}?page_id={page-id}" target="_top" >
                <xsl:value-of select="page-name" />
            </a>	   
-		 
+		   <br />
+		   <xsl:value-of select="page-description" />
 		   <!--<xsl:value-of select="page-description" /><br />-->		   			
 			<xsl:apply-templates select="sublevel-menu-list" /> 
 			
