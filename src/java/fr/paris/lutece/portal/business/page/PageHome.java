@@ -159,8 +159,8 @@ public final class PageHome
     }
 
     /**
-     *
-     * @param nPageId
+     * Gets an image resource
+     * @param nPageId The page ID
      * @return ImageResource
      */
     public static ImageResource getImageResource( int nPageId )
@@ -170,7 +170,7 @@ public final class PageHome
 
     /**
      * Select the max child page order and create the new order for new child page
-     * @param nParentPageId
+     * @param nParentPageId The parent page Id
      * @return the new child page order
      */
     public static int getNewChildPageOrder( int nParentPageId )
@@ -179,9 +179,9 @@ public final class PageHome
     }
 
     /**
-     * Check the existing page
-     * @param nPageId
-     * @return boolean
+     * Check if the page exists
+     * @param nPageId The Page ID
+     * @return True if the page exists, otherwise false
      */
     public static boolean checkPageExist( int nPageId )
     {
