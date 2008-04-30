@@ -48,6 +48,11 @@ public class ImageResourceManager
     /** resource type registry */
     private static Map<String, ImageResourceProvider> _mapResourceTypes = new HashMap<String, ImageResourceProvider>(  );
 
+    /** private constructor */
+    private ImageResourceManager()
+    {
+    }
+    
     /**
      * Registers a new resource type
      *
@@ -60,9 +65,9 @@ public class ImageResourceManager
     }
 
     /**
-     *
-     * @param strResourceTypeId
-     * @param nResourceId
+     * Gets an image resource
+     * @param strResourceTypeId The resource's type ID
+     * @param nResourceId The resource ID
      * @return ImageResource
      */
     public static ImageResource getImageResource( String strResourceTypeId, int nResourceId )

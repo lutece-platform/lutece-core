@@ -46,7 +46,11 @@ public class LuteceInitException extends Exception
      */
     private static final long serialVersionUID = 4128643403411524651L;
 
-    /** Creates a new instance of LuteceInitException */
+    /**
+     * Creates a new instance of LuteceInitException
+     * @param strMessage The exception message
+     * @param e The cause exception
+     */
     public LuteceInitException( String strMessage, Exception e )
     {
         super( strMessage, e );

@@ -73,6 +73,7 @@ public final class AdminAuthenticationService
 
     /**
      * Initialize service
+     * @throws LuteceInitException If error while initialization
      */
     public static synchronized void init(  ) throws LuteceInitException
     {
@@ -105,9 +106,11 @@ public final class AdminAuthenticationService
 
     /**
      * Gets the AdminUser attached to the current Http session
-     * @param request The Http request
+     * 
      * @return A valid AdminUser object if found
-     * @throws UserNotSignedException If there is no current user or if the session is lost
+     * @param request The Http request
+     * @throws AccessDeniedException If the user cannot have access
+     * @throws UserNotSignedException If the user is not signed
      */
     public AdminUser getRemoteUser( HttpServletRequest request )
         throws UserNotSignedException, AccessDeniedException
@@ -209,8 +212,11 @@ public final class AdminAuthenticationService
 
     /**
      * Bind user : complete module user with local settings (roles, etc)
+     * 
      * @param user The current user
-     * @throws UserNotSignedException
+     * @throws AccessDeniedException If the user cannot have access
+     * @throws UserNotSignedException If the user is not signed
+     * @return 
      */
     private AdminUser bindUser( AdminUser user ) throws AccessDeniedException, UserNotSignedException
     {
@@ -241,9 +247,11 @@ public final class AdminAuthenticationService
 
     /**
      * Register the user in the Http session
+     * 
      * @param request The Http request
      * @param user The current user
-     * @throws UserNotSignedException
+     * @throws AccessDeniedException If the user cannot have access
+     * @throws UserNotSignedException If the user is not signed
      */
     private void registerUser( HttpServletRequest request, AdminUser user )
         throws AccessDeniedException, UserNotSignedException
@@ -353,8 +361,11 @@ public final class AdminAuthenticationService
 
     /**
      * Returns the user list
+     * 
      * @return the collection of all users from the module
-     *
+     * @param strLastName The last name
+     * @param strFirstName The first name
+     * @param strEmail The email
      */
     public Collection getUserListFromModule( String strLastName, String strFirstName, String strEmail )
     {
@@ -362,8 +373,9 @@ public final class AdminAuthenticationService
     }
 
     /**
-     * @param strAccessCode
-     * @return
+     * 
+     * @param strAccessCode The login
+     * @return The AdminUser
      */
     public AdminUser getUserPublicDataFromModule( String strAccessCode )
     {
