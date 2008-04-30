@@ -84,7 +84,7 @@ public final class PageTemplateDAO implements IPageTemplateDAO
      * Insert a new record in the table.
      * @param pageTemplate The Instance of the object PageTemplate
      */
-    public void insert( PageTemplate pageTemplate )
+    public synchronized void insert( PageTemplate pageTemplate )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 

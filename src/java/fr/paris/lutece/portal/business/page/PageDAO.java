@@ -109,7 +109,7 @@ public final class PageDAO implements IPageDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.page.IPageDAO#insert(fr.paris.lutece.portal.business.page.Page)
          */
-    public void insert( Page page )
+    public synchronized void insert( Page page )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 

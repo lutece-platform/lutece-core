@@ -94,7 +94,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      * Insert a new record in the table.
      * @param stylesheet The StyleSheet object
      */
-    public void insert( StyleSheet stylesheet )
+    public synchronized void insert( StyleSheet stylesheet )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 

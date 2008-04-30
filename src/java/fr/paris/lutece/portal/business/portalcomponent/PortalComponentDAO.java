@@ -59,7 +59,7 @@ public final class PortalComponentDAO implements IPortalComponentDAO
     /* (non-Javadoc)
      * @see fr.paris.lutece.portal.business.portalcomponent.IPortalComponentDAO#insert(fr.paris.lutece.portal.business.portalcomponent.PortalComponent)
      */
-    public void insert( PortalComponent portalComponent )
+    public synchronized void insert( PortalComponent portalComponent )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 

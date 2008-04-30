@@ -89,7 +89,7 @@ public final class RBACDAO implements IRBACDAO
      *
      * @param rBAC The rBAC object
      */
-    public void insert( RBAC rBAC )
+    public synchronized void insert( RBAC rBAC )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         rBAC.setRBACId( newPrimaryKey(  ) );

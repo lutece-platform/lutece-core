@@ -193,7 +193,7 @@ public class AdminUserDAO implements IAdminUserDAO
      * Insert a new record in the table.
      * @param user The AdminUser
      */
-    public void insert( AdminUser user )
+    public synchronized void insert( AdminUser user )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 

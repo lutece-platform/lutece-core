@@ -91,7 +91,7 @@ public final class ModeDAO implements IModeDAO
      * Insert a new record in the table.
      * @param mode The mode object
      */
-    public void insert( Mode mode )
+    public synchronized void insert( Mode mode )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         mode.setId( newPrimaryKey(  ) );

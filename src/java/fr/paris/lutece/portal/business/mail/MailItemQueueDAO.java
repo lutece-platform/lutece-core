@@ -85,7 +85,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * Insert a new mail item in the table.
      * @param mailItemQueue the mail item
      */
-    public void insert( MailItemQueue mailItemQueue )
+    public synchronized void insert( MailItemQueue mailItemQueue )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         int nNewPrimaryKey = newPrimaryKey(  );

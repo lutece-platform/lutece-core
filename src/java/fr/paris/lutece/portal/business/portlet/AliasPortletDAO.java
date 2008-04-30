@@ -57,7 +57,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#insert(fr.paris.lutece.portal.business.portlet.Portlet)
          */
-    public void insert( Portlet portlet )
+    public synchronized void insert( Portlet portlet )
     {
         AliasPortlet alias = (AliasPortlet) portlet;
 

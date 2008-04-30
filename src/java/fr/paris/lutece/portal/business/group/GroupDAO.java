@@ -59,7 +59,7 @@ public final class GroupDAO implements IGroupDAO
      * Insert a new record in the table.
      * @param group The Instance of the object Group
      */
-    public void insert( Group group )
+    public synchronized void insert( Group group )
     {
         int nParam = 0;
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );

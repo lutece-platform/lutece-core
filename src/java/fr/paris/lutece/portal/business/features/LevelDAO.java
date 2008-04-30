@@ -83,7 +83,7 @@ public final class LevelDAO implements ILevelDAO
      * Insert a new record in the table.
      * @param level The level object
      */
-    public void insert( Level level )
+    public synchronized void insert( Level level )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         level.setId( newPrimaryKey(  ) );

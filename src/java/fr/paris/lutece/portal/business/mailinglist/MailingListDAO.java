@@ -88,7 +88,7 @@ public final class MailingListDAO implements IMailingListDAO
      *
      * @param mailingList instance of the MailingList object to insert
      */
-    public void insert( MailingList mailingList )
+    public synchronized void insert( MailingList mailingList )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
