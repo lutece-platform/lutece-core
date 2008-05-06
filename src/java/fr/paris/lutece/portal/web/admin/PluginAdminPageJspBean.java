@@ -53,6 +53,7 @@ public abstract class PluginAdminPageJspBean extends AdminFeaturesPageJspBean
      * Initialize the jspbean data
      * Allows to set the feature url and feature title associated
      * @param request the HTTP request
+     * @param strRight The right
      * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException Access denied exception
      */
     public void init( HttpServletRequest request, String strRight )

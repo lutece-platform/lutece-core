@@ -53,6 +53,9 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 
+/**
+ * FeaturesGroupJspBean 
+ */
 public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 {
     public static final String RIGHT_FEATURES_MANAGEMENT = "CORE_FEATURES_MANAGEMENT";

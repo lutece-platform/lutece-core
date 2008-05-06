@@ -36,16 +36,28 @@ package fr.paris.lutece.portal.web.encoding;
 import javax.servlet.http.HttpServletResponse;
 
 
+/**
+ * This class provides a Wrapper of an Http response that manage a correct UTF-8 encoding
+ * 
+ */
 public class EncodingServletResponse extends javax.servlet.http.HttpServletResponseWrapper
 {
     private static final String RESPONSE_ENCODING = "UTF-8";
     private boolean encodingSpecified = false;
 
+    /**
+     * Constructor
+     * @param response The HTTP response
+     */
     public EncodingServletResponse( HttpServletResponse response )
     {
         super( response );
     }
 
+    /**
+     * Sets the content type
+     * @param type The content type
+     */
     public void setContentType( String type )
     {
         String explicitType = type;

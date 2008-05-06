@@ -309,6 +309,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * Management of the image associated to the page
      * @param page The Page Object
      * @param strPageId The page identifier
+     * @return The url
      */
     public String getResourceImagePage( Page page, String strPageId )
     {

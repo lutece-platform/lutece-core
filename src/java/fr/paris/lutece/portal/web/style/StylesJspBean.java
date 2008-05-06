@@ -101,6 +101,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Displays the styles list
+     * @param request The HTTP request
      * @return the html code for displaying the styles list
      */
     public String getStylesManagement( HttpServletRequest request )

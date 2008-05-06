@@ -253,6 +253,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
      * Fills update template with portlet values
      *
      * @param portlet the object to update
+     * @param model 
      * @return the update template filled
      */
     protected HtmlTemplate getModifyTemplate( Portlet portlet, Map model )
@@ -270,6 +271,11 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         return template;
     }
 
+    /**
+     * Gets the page URL
+     * @param nIdPage Page ID
+     * @return The page URL
+     */
     protected String getPageUrl( int nIdPage )
     {
         return JSP_ADMIN_SITE + "?" + PARAMETER_PAGE_ID + "=" + nIdPage;

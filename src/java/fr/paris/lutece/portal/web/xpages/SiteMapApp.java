@@ -294,6 +294,7 @@ public class SiteMapApp implements XPageApplication, CacheableService
 
     /**
      * Returns the localized service name
+     * @param locale The locale
      * @return The localized service name
      */
     public String getName( Locale locale )

@@ -49,6 +49,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 
+/**
+ * Page include that insert links into the head part of HTML pages
+ */
 public class LinksInclude implements PageInclude
 {
     private static final String PROPERTY_FAVOURITE = "lutece.favourite";
@@ -65,7 +68,6 @@ public class LinksInclude implements PageInclude
 
     /**
      * Substitue specific bookmarks in the page template.
-     * @param template The page template containing bookmarks to substitute
      * @param data A PageData object containing applications data
      * @param nMode The current mode
      * @param request The HTTP request

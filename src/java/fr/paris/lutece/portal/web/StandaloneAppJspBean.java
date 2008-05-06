@@ -118,6 +118,7 @@ public class StandaloneAppJspBean
     /**
      * Display the list of plugins app installed on the instance of lutece
      *
+     * @param request The HTTP request
      * @return the list
      */
     public String getPluginList( HttpServletRequest request )

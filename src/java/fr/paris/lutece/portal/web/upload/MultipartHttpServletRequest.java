@@ -43,11 +43,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 
+/**
+ * This class provides a Wrapper of an HTTP request that handle multipart content 
+ */
 public class MultipartHttpServletRequest extends HttpServletRequestWrapper
 {
     private final Map<String, FileItem> _multipartFiles;
     private final Map<String, String[]> _stringParameters;
 
+    /**
+     * Constructor
+     * @param request The HTTP request
+     * @param multipartFiles Files
+     * @param parameters Request parameters
+     */
     public MultipartHttpServletRequest( HttpServletRequest request, Map<String, FileItem> multipartFiles,
         Map<String, String[]> parameters )
     {
@@ -56,11 +65,20 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
         _stringParameters = Collections.unmodifiableMap( parameters );
     }
 
+    /**
+     * Gets parameters names
+     * @return An enumeration of parameters names
+     */
     public Enumeration getParameterNames(  )
     {
         return Collections.enumeration( _stringParameters.keySet(  ) );
     }
 
+    /**
+     * Gets a parameter value
+     * @param strName The parameter name
+     * @return The value
+     */
     public String getParameter( String strName )
     {
         String[] values = getParameterValues( strName );
@@ -68,26 +86,48 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
         return ( ( ( values != null ) && ( values.length > 0 ) ) ? values[0] : null );
     }
 
+    /**
+     * Gets parameter values
+     * @param strName The parameter name
+     * @return An array of values
+     */
     public String[] getParameterValues( String strName )
     {
         return (String[]) _stringParameters.get( strName );
     }
 
+    /**
+     * Gets the parameter map
+     * @return A map containing all request parameters
+     */
     public Map getParameterMap(  )
     {
         return _stringParameters;
     }
 
+    /**
+     * Gets the list of filenames attached to the request
+     * @return The list as an enumeration
+     */
     public Enumeration getFileNames(  )
     {
         return Collections.enumeration( _multipartFiles.keySet(  ) );
     }
 
+    /**
+     * Gets a map of all files attached to the request 
+     * @return The map
+     */
     public Map getFileMap(  )
     {
         return _multipartFiles;
     }
 
+    /**
+     * Gets a file
+     * @param strName The file name
+     * @return The file as a FileItem
+     */
     public FileItem getFile( String strName )
     {
         return _multipartFiles.get( strName );

@@ -103,7 +103,8 @@ public class AdminDocumentationJspBean
      * Returns the view of features documentation
      *
      * @param request The request
-     * @return The HTML documentation
+         * @return The HTML documentation
+         * @throws AccessDeniedException If the access is refused to the user
      */
     public String getDocumentation( HttpServletRequest request ) throws AccessDeniedException
     {

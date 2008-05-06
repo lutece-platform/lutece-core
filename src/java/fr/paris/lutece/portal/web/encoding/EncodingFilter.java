@@ -43,10 +43,18 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
 
+/**
+ * Encoding filter
+ */
 public class EncodingFilter implements javax.servlet.Filter
 {
     private static final String REQUEST_ENCODING = "UTF-8";
 
+    /**
+     * Initializes the filter
+     * @param filterConfig The filter config
+     * @throws ServletException If an error occured
+     */
     public void init( FilterConfig filterConfig ) throws ServletException
     {
         // This would be a good place to collect a parameterized
@@ -54,6 +62,14 @@ public class EncodingFilter implements javax.servlet.Filter
         // use a hard-coded value in this example.
     }
 
+    /**
+     * Apply the filter
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @param filterChain The Filter Chain
+     * @throws IOException If an error occured
+     * @throws ServletException If an error occured
+     */
     public void doFilter( ServletRequest request, ServletResponse response, FilterChain filterChain )
         throws IOException, ServletException
     {
@@ -70,6 +86,9 @@ public class EncodingFilter implements javax.servlet.Filter
         filterChain.doFilter( request, response );
     }
 
+    /**
+     * Destroy the filter
+     */
     public void destroy(  )
     {
         // no-op

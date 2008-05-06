@@ -56,6 +56,11 @@ public class DaemonsJspBean extends AdminPageJspBean
     private static final String ACTION_START = "START";
     private static final String ACTION_STOP = "STOP";
 
+    /**
+     * 
+     * @param request
+     * @return
+     */
     public String getManageDaemons( HttpServletRequest request )
     {
         HashMap model = new HashMap(  );
@@ -66,6 +71,11 @@ public class DaemonsJspBean extends AdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Process the daemon action
+     * @param request The HTTP request
+     * @return The forward URL 
+     */
     public String doDaemonAction( HttpServletRequest request )
     {
         String strAction = request.getParameter( PARAMETER_ACTION );
