@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.web.admin;
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Right;
-import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
@@ -109,7 +108,6 @@ public class AdminMenuJspBean
     /**
      * Returns the Administration header menu
      *
-     * @param userJspBean The current user of the http session
      * @param request The HttpServletRequest
      * @return The html code of the header
      */
@@ -139,7 +137,7 @@ public class AdminMenuJspBean
 
     /**
      * Returns the html code of the menu of the users
-     * @param userJspBean The object which represents the user connected to the administration
+     * @param request The Http request 
      * @return The html code of the users menu
      */
     public String getAdminMenuUser( HttpServletRequest request )
@@ -231,6 +229,7 @@ public class AdminMenuJspBean
      * Change the current language of the user
      *
      * @param request The HTTP request
+     * @return The forward Url 
      */
     public String doChangeLanguage( HttpServletRequest request )
     {
