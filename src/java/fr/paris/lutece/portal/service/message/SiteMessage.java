@@ -73,6 +73,7 @@ public class SiteMessage
     * @param strTarget Target for the form (_blank, _self, ...)
     * @param nType Message type (TYPE_INFO, TYPE_QUESTION, ...)
     * @param nTypeButton Type of Cancel button
+    * @param requestParameters Request parameters as a Map 
     */
     public SiteMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
         int nType, int nTypeButton, Map requestParameters )

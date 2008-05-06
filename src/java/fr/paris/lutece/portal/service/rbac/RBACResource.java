@@ -39,7 +39,15 @@ package fr.paris.lutece.portal.service.rbac;
  */
 public interface RBACResource
 {
+    /**
+     * Gets the resource type code
+     * @return The resource type code
+     */
     String getResourceTypeCode(  );
 
+    /**
+     * Gets the resource ID
+     * @return The resource ID
+     */
     String getResourceId(  );
 }

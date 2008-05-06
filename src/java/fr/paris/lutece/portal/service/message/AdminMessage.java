@@ -61,14 +61,31 @@ public class AdminMessage
     private Object[] _messageArgs;
     private Map _requestParameters;
 
-    /** Creates a new instance of AppMessage */
+    /** Creates a new instance of AppMessage
+     * @param strTextKey The message Key
+     * @param strUrl The default Button URL
+     * @param messageArgs The message arguments
+     * @param strTitleKey The Title key
+     * @param strTarget The target
+     * @param nType The message Type
+     * @param bCancelButton Add a Cancel Button
+     */
     public AdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
         int nType, boolean bCancelButton )
     {
         buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, null );
     }
 
-    /** Creates a new instance of AppMessage with request parameters */
+    /** Creates a new instance of AppMessage with request parameters
+     * @param strTextKey The message Key
+     * @param strUrl The default Button URL
+     * @param messageArgs The message arguments
+     * @param strTitleKey The Title key
+     * @param strTarget The target
+     * @param nType The message Type
+     * @param bCancelButton Add a Cancel Button
+     * @param requestParameters The Request parameters in a map
+     */
     public AdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
         int nType, boolean bCancelButton, Map requestParameters )
     {
@@ -79,14 +96,14 @@ public class AdminMessage
     /**
      * Build a new admin message
      *
-     * @param strTextKey the text key
-     * @param messageArgs the message args
-     * @param strTitleKey the title key
-     * @param strUrl the URL
-     * @param strTarget the target
-     * @param nType the type
-     * @param bCancelButton the cancel button
-     * @param requestParameters the request parameters
+     * @param strTextKey The message Key
+     * @param strUrl The default Button URL
+     * @param messageArgs The message arguments
+     * @param strTitleKey The Title key
+     * @param strTarget The target
+     * @param nType The message Type
+     * @param bCancelButton Add a Cancel Button
+     * @param requestParameters The Request parameters in a map
      */
     private void buildAdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl,
         String strTarget, int nType, boolean bCancelButton, Map requestParameters )

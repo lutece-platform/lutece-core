@@ -78,6 +78,10 @@ public class PortalMenuService implements CacheableService
     {
     }
 
+    /**
+     * Get the unique instance of the service
+     * @return The unique instance
+     */
     public static synchronized PortalMenuService getInstance(  )
     {
         if ( _singleton == null )

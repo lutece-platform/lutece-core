@@ -79,6 +79,7 @@ public final class PluginService
 
     /**
      * Initialize the service
+     * @throws LuteceInitException If an error occured
      */
     public static void init(  ) throws LuteceInitException
     {
@@ -290,6 +291,7 @@ public final class PluginService
 
     /**
      * Gets the plugin status enable / disable
+     * @param strPluginName The plugin name
      * @return True if the plugin is enable, otherwise false
      */
     public static boolean isPluginEnable( String strPluginName )

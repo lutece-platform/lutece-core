@@ -66,7 +66,8 @@ public class Permission implements Localizable
     }
 
     /**
-     * @param _strPermissionKey The Permission Key to set.
+     * Sets the permission
+     * @param strPermissionKey The Permission Key to set.
      */
     public void setPermissionKey( String strPermissionKey )
     {
@@ -82,7 +83,8 @@ public class Permission implements Localizable
     }
 
     /**
-     * @param _strPermissionTitle The Permission Title to set.
+     * Sets the permission title
+     * @param strPermissionTitleThe Permission Title to set.
      */
     public void setPermissionTitleKey( String strPermissionTitle )
     {

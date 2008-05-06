@@ -60,6 +60,9 @@ public abstract class ResourceService extends AbstractCacheableService
     private String _strName = UNDEFINED_SERVICE_NAME;
     private List _listLoaders = new ArrayList(  );
 
+    /**
+     * 
+     */
     protected ResourceService(  )
     {
         String strLoadersProperty = getLoadersProperty(  );
@@ -77,6 +80,10 @@ public abstract class ResourceService extends AbstractCacheableService
     }
 
     // Methods to overide
+    /**
+     * Gets the name of the property that list all loaders
+     * @return The property key
+     */
     protected abstract String getLoadersProperty(  );
 
     /**
@@ -124,6 +131,7 @@ public abstract class ResourceService extends AbstractCacheableService
 
     /**
      * Defines whether the cache is enable or disable reading a property
+     * @param strKey The key name of the cache
      * @param bCache The cache status
      */
     protected void setCacheKey( String strKey )

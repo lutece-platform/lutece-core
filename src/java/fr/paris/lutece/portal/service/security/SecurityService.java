@@ -77,6 +77,7 @@ public final class SecurityService
 
     /**
      * Initialize service
+     * @throws LuteceInitException If an error occured
      */
     public static synchronized void init(  ) throws LuteceInitException
     {
@@ -180,7 +181,8 @@ public final class SecurityService
      * @param request The Http request
      * @param strUserName The user's login
      * @param strPassword The user's password
-     * @throws LoginException The LoginException
+     * @throws LoginException If an error occured
+     * @throws LoginRedirectException If a redirection is needed for authentication
      */
     public void loginUser( HttpServletRequest request, final String strUserName, final String strPassword )
         throws LoginException, LoginRedirectException
@@ -384,7 +386,8 @@ public final class SecurityService
      * @param strUserName The user's login
      * @param strPassword The user's password
      * @return user's informations
-     * @throws LoginException The LoginException
+     * @throws LoginException If an error occured
+     * @throws LoginRedirectException If a redirection is needed for authentication
      */
     public LuteceUser remoteLoginUser( final HttpServletRequest request, final String strUserName,
         final String strPassword ) throws LoginException, LoginRedirectException

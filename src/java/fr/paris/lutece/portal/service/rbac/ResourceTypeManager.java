@@ -96,7 +96,7 @@ public final class ResourceTypeManager
     /**
      * Registers a collection of resource type
      *
-     * @param a collection of ResourceType objects
+     * @param resourceTypeList The resource type list
      */
     public static void registerList( Collection<ResourceType> resourceTypeList )
     {
@@ -106,7 +106,8 @@ public final class ResourceTypeManager
     /**
      * Registers a collection of resource type
      *
-     * @param a collection of ResourceType objects
+     * @param listResourcesType  The resource type list
+     * @param strPluginName The plugin name
      * @param the name of the associated plugin
      */
     public static void registerList( Collection<ResourceType> listResourcesType, String strPluginName )
@@ -118,6 +119,12 @@ public final class ResourceTypeManager
         }
     }
 
+    /**
+     * Gets a localized list of permission for a given resource type
+     * @param strResourceType The resource type
+     * @param locale The Locale
+     * @return A list of permission
+     */
     public static ReferenceList getPermissionsList( String strResourceType, Locale locale )
     {
         ReferenceList list = new ReferenceList(  );

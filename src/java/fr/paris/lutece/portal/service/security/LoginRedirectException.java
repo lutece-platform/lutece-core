@@ -42,7 +42,9 @@ public class LoginRedirectException extends Exception
 {
     private String _strRedirectUrl;
 
-    /** Creates a new instance of LoginRedirectException */
+    /** Creates a new instance of LoginRedirectException
+     * @param strRedirectUrl The Url wished for the redirection
+     */
     public LoginRedirectException( String strRedirectUrl )
     {
         super(  );

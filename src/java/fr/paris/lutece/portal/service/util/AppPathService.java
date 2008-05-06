@@ -77,8 +77,10 @@ public final class AppPathService
     {
     }
 
-    /*
+    /**
      * Initialize The path service
+     * 
+     * @param context The servlet context
      */
     public static void init( ServletContext context )
     {
@@ -86,8 +88,10 @@ public final class AppPathService
         _strWebAppPath = normalizeWebappPath( strRealPath );
     }
 
-    /*
+    /**
      * Initialize The webapppath
+     * 
+     * @param strWebAppPath The Webapp path
      */
     public static void init( String strWebAppPath )
     {
@@ -329,7 +333,7 @@ public final class AppPathService
     /**
      * Build the url item to use for a url that includes the redirection parameter for reconnection.
      * @param strRootUrl the root part of the url, to build an absolute url
-     * @param strUrlPropertyKey the property suffix to retrieve the url
+     * @param strUrlPropertySuffixKey The property suffix to retrieve the url
      * @return an absolute url, completed with the redirectUrl parameter (contains the relative part of the url), as an UrlItem
      */
     public static UrlItem buildRedirectUrlItem( String strRootUrl, String strUrlPropertySuffixKey )

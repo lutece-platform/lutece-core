@@ -90,6 +90,7 @@ public class FreeMarkerTemplateService
      * Load a template and process a model
      * @param strPath the root path
      * @param strTemplate the path of the template from the root path
+     * @param locale The locale
      * @param rootMap the model root
      * @return the processed html template
      */

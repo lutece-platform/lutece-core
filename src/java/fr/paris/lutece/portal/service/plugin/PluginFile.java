@@ -434,6 +434,7 @@ public class PluginFile
 
     /**
      * Add an Content Service to the plugin definition
+     * @param entry The entry
      * @param contentService The Content Service
      */
     public void addContentService( ContentServiceEntry entry )
@@ -452,6 +453,7 @@ public class PluginFile
 
     /**
      * Add an Insert Service to the plugin definition
+     * @param is The Insert Service
      * @param insertService The Insert Service
      */
     public void addInsertService( InsertService is )
@@ -470,7 +472,7 @@ public class PluginFile
 
     /**
      * Add a SearchIndexer to the plugin definition
-     * @param searchIndexer The Search Indexer
+     * @param entry The Search Indexer Entry
      */
     public void addSearchIndexer( SearchIndexerEntry entry )
     {
@@ -488,6 +490,7 @@ public class PluginFile
 
     /**
      * Add an Page Include to the plugin definition
+     * @param entry The Page Include Entry
      * @param pie The Page Include Entry
      */
     public void addPageInclude( PageIncludeEntry entry )

@@ -55,6 +55,11 @@ public final class AppPropertiesService
     private static PropertiesService _propertiesService;
     private static String _strConfPath;
 
+    /**
+     * Initializes the service
+     * @param strConfPath The configuration path
+     * @throws LuteceInitException If an error occured
+     */
     public static void init( String strConfPath ) throws LuteceInitException
     {
         _strConfPath = strConfPath;
@@ -138,6 +143,7 @@ public final class AppPropertiesService
 
     /**
      * Reloads a given properties file
+     * @param strFilename 
      */
     public static void reload( String strFilename )
     {
