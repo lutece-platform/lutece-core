@@ -82,8 +82,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
 
     /**
      * Load the data of AdminWorkgroup from the table
-     *
-     * @param nWorkgroupId The identifier of AdminWorkgroup
+     * @param strWorkgroupKey The workgroup key
      * @return the instance of the AdminWorkgroup
      */
     public AdminWorkgroup load( String strWorkgroupKey )
@@ -108,8 +107,8 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
 
     /**
      * Delete a record from the table
-     * @param workgroup The AdminWorkgroup object
-     */
+     * @param strWorkgroupKey The workgroup key
+    */
     public void delete( String strWorkgroupKey )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
@@ -159,7 +158,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
 
     /**
      * Check that the given key points to an existing workgroup
-     * @param strNewWorkgroupKey
+     * @param strWorkgroupKey The workgroup key
      * @return true if the workgroup exists, false otherwise
      */
     public boolean checkExistWorkgroup( String strWorkgroupKey )
@@ -185,7 +184,8 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     /**
      * Is the user member of the workgroup
      * @param nIdUser The user Id
-     * @param strWorkgroup The workgroup key
+     * @param strWorkgroupKey The workgroup key
+     * @return True if the user is in the workgroup, otherwise false
      */
     public boolean isUserInWorkgroup( int nIdUser, String strWorkgroupKey )
     {
@@ -275,7 +275,8 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     }
 
     /**
-     * @param nUserId the user id
+     * Remove all users from a workgroup
+     * @param strWorkgroupKey The workgroup key
      */
     public void deleteAllUsersForWorkgroup( String strWorkgroupKey )
     {
@@ -286,7 +287,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     }
 
     /**
-     * @param nUserId the user id
+     * Insert an user into a workgroup
      * @param strWorkgroupKey the key workgroup
      */
     public void insertUserForWorkgroup( AdminUser user, String strWorkgroupKey )
