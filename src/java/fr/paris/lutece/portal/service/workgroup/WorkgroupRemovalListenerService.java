@@ -43,6 +43,14 @@ import fr.paris.lutece.portal.service.util.RemovalListenerService;
 public class WorkgroupRemovalListenerService
 {
     private static final String BEAN_WORKGROUP_REMOVAL_SERVICE = "workgroupRemovalService";
+    
+    /**
+     * private constructor
+     */
+    private WorkgroupRemovalListenerService()
+    {
+        
+    }
 
     /**
      * Returns the removal service

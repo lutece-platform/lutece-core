@@ -203,6 +203,9 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
 
     /**
      * Not used - Return null always for this module
+     * @param strLastName The last name
+     * @param strFirstName The first name
+     * @param strEmail The email
      * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getUserList()
      */
     public Collection getUserList( String strLastName, String strFirstName, String strEmail )
@@ -212,6 +215,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
 
     /**
      * Not used - Return null always for this module
+     * @param strLogin The login
      * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getUserPublicData(java.lang.String)
      */
     public AdminUser getUserPublicData( String strLogin )

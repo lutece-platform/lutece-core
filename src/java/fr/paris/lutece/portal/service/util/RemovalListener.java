@@ -46,7 +46,7 @@ public interface RemovalListener
      * @param id The object id
      * @return true if the pbject can be removed otherwise false
      */
-    public abstract boolean canBeRemoved( String id );
+    boolean canBeRemoved( String id );
 
     /**
      * Gives a message explaining why the object can't be removed
@@ -54,5 +54,5 @@ public interface RemovalListener
      * @param locale The current locale
      * @return The message
      */
-    public abstract String getRemovalRefusedMessage( String id, Locale locale );
+    String getRemovalRefusedMessage( String id, Locale locale );
 }

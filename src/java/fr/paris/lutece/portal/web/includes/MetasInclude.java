@@ -42,6 +42,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 
+/**
+ * This class includes metas into the head of the HTML page 
+ */
 public class MetasInclude implements PageInclude
 {
     private static final String PROPERTY_HEAD_META_AUTHOR = "head.meta.author";

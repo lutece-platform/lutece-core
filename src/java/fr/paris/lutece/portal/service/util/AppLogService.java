@@ -132,6 +132,7 @@ public final class AppLogService
     /**
      * Tells if the logger accepts debug messages. If not it prevents to build
      * consuming messages that will be ignored.
+     * @param strLogger The Logger name
      * @return True if the logger accepts debug messages, otherwise false.
      */
     public static boolean isDebugEnabled( String strLogger )
@@ -144,6 +145,7 @@ public final class AppLogService
     /**
      * Log a message object with the DEBUG level. It is logged in application.log
      *
+     * @param strLogger The Logger name
      * @param objToLog the message object to log
      */
     public static void debug( String strLogger, Object objToLog )

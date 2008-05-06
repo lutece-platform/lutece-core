@@ -110,7 +110,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         HashMap<String, Collection<AdminWorkgroup>> model = new HashMap<String, Collection<AdminWorkgroup>>(  );
         Collection<AdminWorkgroup> listWorkGroups = AdminWorkgroupHome.findAll(  );
 
-        if ( getUser(  ).isAdmin(  ) == false )
+        if ( ! getUser(  ).isAdmin(  ) )
         {
             listWorkGroups = AdminWorkgroupService.getAuthorizedCollection( (Collection<?extends AdminWorkgroupResource>) listWorkGroups,
                     getUser(  ) );
@@ -293,7 +293,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         for ( AdminUser user : AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey ) )
         {
             //Add users with higher level then connected user or add all users if connected user is administrator
-            if ( ( user.getUserLevel(  ) > getUser(  ).getUserLevel(  ) ) || ( getUser(  ).isAdmin(  ) == true ) )
+            if ( ( user.getUserLevel(  ) > getUser(  ).getUserLevel(  ) ) || ( getUser(  ).isAdmin(  ) ) )
             {
                 listAssignedUsers.addItem( Integer.toString( user.getUserId(  ) ),
                     user.getAccessCode(  ) + "(" + user.getFirstName(  ) + " " + user.getLastName(  ) + ")" );
@@ -321,7 +321,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
             //Add users with higher level then connected user or add all users if connected user is administrator
             if ( !bAssigned &&
-                    ( ( user.getUserLevel(  ) > getUser(  ).getUserLevel(  ) ) || ( getUser(  ).isAdmin(  ) == true ) ) )
+                    ( ( user.getUserLevel(  ) > getUser(  ).getUserLevel(  ) ) || ( getUser(  ).isAdmin(  ) ) ) )
             {
                 listUsers.add( itemUser );
             }
@@ -368,7 +368,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         // Add user with high or equal level  or  do not add users if connected user is administrator
         for ( AdminUser user : listAdminUsers )
         {
-            if ( ( user.getUserLevel(  ) <= getUser(  ).getUserLevel(  ) ) && ( getUser(  ).isAdmin(  ) == false ) )
+            if ( ( user.getUserLevel(  ) <= getUser(  ).getUserLevel(  ) ) && ( ! getUser(  ).isAdmin(  ) ) )
             {
                 AdminWorkgroupHome.addUserForWorkgroup( user, strWorkgroupKey );
             }
