@@ -310,6 +310,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Register XPage applications
+     * @throws LuteceInitException If an error occurs
      */
     protected void registerXPageApplications(  ) throws LuteceInitException
     {
@@ -322,6 +323,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Register Content Services
+     * @throws LuteceInitException If an error occurs
      */
     protected void registerContentServices(  ) throws LuteceInitException
     {
@@ -352,6 +354,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Register Insert Services
+     * @throws LuteceInitException If an error occurs
      */
     protected void registerInsertServices(  ) throws LuteceInitException
     {
@@ -364,6 +367,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Register Search Indexers
+     * @throws LuteceInitException If an error occurs
      */
     protected void registerSearchIndexers(  ) throws LuteceInitException
     {
@@ -391,6 +395,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Register Page Includes
+     * @throws LuteceInitException 
      */
     protected void registerPageIncludes(  ) throws LuteceInitException
     {
@@ -403,6 +408,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Register RBAC Resource Types
+     * @throws LuteceInitException If an error occurs
      */
     protected void registerRBACResourceTypes(  ) throws LuteceInitException
     {
@@ -433,6 +439,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Register Daemons
+     * @throws LuteceInitException If an error occurs
      */
     protected void registerDaemons(  ) throws LuteceInitException
     {
@@ -588,7 +595,7 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets plugin rights list
      *
-     * @param vRights The rights list
+     * @param listRights The rights list
      */
     public void setRights( List<Right> listRights )
     {
@@ -727,7 +734,7 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the url of the plugin's Documentation
      *
-     * @param strIconUrl The url of documentation
+     * @param strDocumentationUrl The documentation Url
      */
     public void setDocumentationUrl( String strDocumentationUrl )
     {
@@ -869,7 +876,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Sets parameters values with an hashtable
-     * @param htParams The hashtable of the parameters
+     * @param mapParams The parameter map
      */
     public void setParams( Map<String, String> mapParams )
     {
@@ -891,7 +898,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Implementation of the Comparable interface.
-     * @param o A plugin Object
+     * @param plugin A plugin Object
      * @return 1, 0 ou -1 according the plugin name
      */
     public int compareTo( Plugin plugin )

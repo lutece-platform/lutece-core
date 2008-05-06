@@ -44,12 +44,12 @@ public interface ImageResourceProvider
      * Return the Resource Type id
      * @return The Resource Type Id
      */
-    public String getResourceTypeId(  );
+    String getResourceTypeId(  );
 
     /**
      * Return the Resource id
      * @param nIdResource The resource identifier
      * @return The Resource Image
      */
-    public ImageResource getImageResource( int nIdResource );
+    ImageResource getImageResource( int nIdResource );
 }

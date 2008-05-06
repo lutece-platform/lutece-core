@@ -51,7 +51,10 @@ public class PageEvent
     private Page _page;
     private int _nType;
 
-    /** Creates a new instance of PageEvent */
+    /** Creates a new instance of PageEvent
+     * @param page The page
+     * @param nType The event type
+     */
     public PageEvent( Page page, int nType )
     {
         _page = page;

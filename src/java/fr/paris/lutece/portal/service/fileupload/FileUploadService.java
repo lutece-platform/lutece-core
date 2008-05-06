@@ -41,7 +41,7 @@ import org.apache.commons.io.FilenameUtils;
  * This service provides utils to extract parameters from multipart request
  * using Jakarta Commons FileUpload.
  */
-public class FileUploadService
+public final class FileUploadService
 {
     /** Creates a new instance of FileUploadService */
     private FileUploadService(  )

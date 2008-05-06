@@ -257,7 +257,7 @@ public abstract class LuteceUser implements Principal
      */
     public void setRoles( Collection<String> roles )
     {
-        _roles = getArray( roles );
+        _roles = getArray( roles ) ;
     }
 
     /**
@@ -288,10 +288,11 @@ public abstract class LuteceUser implements Principal
     }
 
     /**
-     * Set elements of collection in array
+     * Add elements of a collection into an array
      *
      * @param array the array to fill
      * @param collection the collection containing the elements to add
+     * @return The new array 
      */
     private String[] addInArray( String[] array, Collection<String> collection )
     {
@@ -322,9 +323,10 @@ public abstract class LuteceUser implements Principal
     }
 
     /**
-     * Set elements of collection in array
+     * Set elements of a collection in array
      *
      * @param collection the collection containing the elements to add
+     * @return  An array
      */
     private String[] getArray( Collection<String> collection )
     {

@@ -197,7 +197,7 @@ public final class PortalService extends XmlTransformerService
     /**
      * Return the xml content of the pages contained in the list specified in parameter
      *
-     * @param list The list which contains the pages
+     * @param listPages The pages list
      * @return the xml code for the content page
      */
     public static String getXmlPagesList( Collection<Page> listPages )
@@ -295,6 +295,7 @@ public final class PortalService extends XmlTransformerService
      *
      * @param nPageId The identifier of the page
      * @param nMode The mode to use for the formatting
+     * @param request The HTTP request
      * @return the formated path
      */
     public static String getPagePathContent( int nPageId, int nMode, HttpServletRequest request )
@@ -346,6 +347,7 @@ public final class PortalService extends XmlTransformerService
      *
      * @param strXPageName The xpage name
      * @param nMode The mode to use for the formatting
+     * @param request  The HTTP request
      * @return the formated path
      */
     public static String getXPagePathContent( String strXPageName, int nMode, HttpServletRequest request )
@@ -432,6 +434,7 @@ public final class PortalService extends XmlTransformerService
      * Formats the path specified in parameter and returns it
      *
      * @param strPath The path to format
+     * @param request The HTTP request 
      * @return the html code to display the path
      */
     public static String formatPath( String strPath, HttpServletRequest request )
@@ -480,6 +483,7 @@ public final class PortalService extends XmlTransformerService
      * @param strXPageName The xpage name
      * @param nMode The mode to use for the formatting
      * @param strTitlesUrls list of links (url and titles)
+     * @param request The HTTP request 
      * @return the formatted path
      */
     public static String getXPagePathContent( String strXPageName, int nMode, String strTitlesUrls,

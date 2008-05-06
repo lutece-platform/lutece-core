@@ -80,10 +80,13 @@ public class PageService extends ContentService implements ImageResourceProvider
 {
     ////////////////////////////////////////////////////////////////////////////
     // Variables
-    // Added in v1.1
+
+    /** Access denied template */
     public static final String TEMPLATE_PAGE_ACCESS_DENIED = "/skin/site/page_access_denied.html";
+    /** Access Controled template */
     public static final String TEMPLATE_PAGE_ACCESS_CONTROLED = "/skin/site/page_access_controled.html";
-    private final static String MARK_PORTLET = "portlet";
+    
+    private static final String MARK_PORTLET = "portlet";
     private static final String MARK_URL_LOGIN = "url_login";
 
     // Added in v1.3
@@ -100,7 +103,7 @@ public class PageService extends ContentService implements ImageResourceProvider
 
     // Added in v1.2
     private static final String PARAMETER_PLUGIN_NAME = "plugin-name";
-    private static PageService _singleton = null;
+    private static PageService _singleton;
     private ArrayList<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
 
     /**
@@ -125,6 +128,10 @@ public class PageService extends ContentService implements ImageResourceProvider
         ImageResourceManager.registerProvider( this );
     }
 
+    /**
+     * Gets the service instance 
+     * @return The unique Instance
+     */
     public static synchronized PageService getInstance(  )
     {
         if ( _singleton == null )
@@ -599,7 +606,7 @@ public class PageService extends ContentService implements ImageResourceProvider
 
     /**
      * Create a page
-     * @param The page to create
+     * @param page The page to create
      */
     public void createPage( Page page )
     {
@@ -611,7 +618,7 @@ public class PageService extends ContentService implements ImageResourceProvider
 
     /**
      * Update a given page
-     * @param The page to update
+     * @param page The page to update
      */
     public void updatePage( Page page )
     {
@@ -640,6 +647,10 @@ public class PageService extends ContentService implements ImageResourceProvider
         PortalService.resetCache(  );
     }
 
+    /**
+     * Invalidate Page Content
+     * @param nPageId The Page ID
+     */
     public void invalidateContent( int nPageId )
     {
         Page page = PageHome.findByPrimaryKey( nPageId );

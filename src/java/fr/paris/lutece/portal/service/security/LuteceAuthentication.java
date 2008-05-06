@@ -65,7 +65,8 @@ public interface LuteceAuthentication
      * @param strUserPassword The user's passord
      * @param request The HttpServletRequest
      * @return The login
-     * @throws LoginException The Login Exception
+     * @throws LoginException If a Login error occured
+     * @throws LoginRedirectException If the the login process should be redirected
      */
     LuteceUser login( final String strUserName, final String strUserPassword, HttpServletRequest request )
         throws LoginException, LoginRedirectException;
