@@ -272,7 +272,7 @@ public class PortalMenuService implements CacheableService
         StringBuffer strXml = new StringBuffer(  );
 
         String strTreeOnRoot = AppPropertiesService.getProperty( PROPERTY_ROOT_TREE );
-        Collection<Page> listPagesMenu = new ArrayList<Page>(  );
+        Collection<Page> listPagesMenu;
 
         // If the current page is the home page or the string strPathOnRoot equals false, not display the path
         if ( strTreeOnRoot.equalsIgnoreCase( "true" ) )

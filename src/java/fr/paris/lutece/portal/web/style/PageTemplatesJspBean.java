@@ -206,8 +206,6 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyPageTemplate( HttpServletRequest request )
     {
-        PageTemplate pageTemplate = new PageTemplate(  );
-
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
         String strId = multipartRequest.getParameter( Parameters.PAGE_TEMPLATE_ID );
@@ -221,7 +219,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );
+        PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );
 
         boolean bUpdateFile = false;
         boolean bUpdatePicture = false;
