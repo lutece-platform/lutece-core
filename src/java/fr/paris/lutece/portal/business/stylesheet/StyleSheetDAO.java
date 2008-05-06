@@ -204,7 +204,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
 
     /**
      * Update the record in the table
-     * @param styleSheet The reference of styleSheet
+     * @param stylesheet The stylesheet
      */
     public void store( StyleSheet stylesheet )
     {

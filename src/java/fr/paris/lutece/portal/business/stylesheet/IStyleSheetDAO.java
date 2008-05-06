@@ -95,7 +95,7 @@ public interface IStyleSheetDAO
     /**
      * Update the record in the table
      *
-     * @param styleSheet The reference of styleSheet
+     * @param stylesheet The stylesheet to store
      */
     void store( StyleSheet stylesheet );
 }
