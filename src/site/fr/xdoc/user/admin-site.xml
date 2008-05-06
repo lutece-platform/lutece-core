@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "//UNKNOWN/" "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+	<properties>
+		<title>Guide de démarrage rapide - Lutèce V2</title>
+	</properties>
+	<body>
+		<section name="1. LUTECE V2 : PRESENTATION GENERALE">
+			<subsection name="2.1 Administration du site">
+							
+							<a name="2.1.1_Généralités_et_accès"/>
+							<h4>2.1.1 Généralités et accès</h4>
+							
+							<p>
+							Comme évoqué plus haut, l'<strong>administration du site</strong> permet : 
+							</p>
+							 <p>
+			          <ul>
+			              <li>de concevoir l'arborescence des pages du site public</li>
+			              <li># d'insérer au sein de chacune des pages, des zones de contenus (Rubriques) et leurs contenus (texte, images, liens...)</li>
+			              <li>de choisir (ou de modifier) : </li>
+			               <p>
+			                  <ul>
+			                      <li>e positionnement (ordre d'affichage) des rubriques les unes par rapport aux autres</li>
+			                      <li>e placement des rubriques dans l'une des colonnes disponibles sur la page</li>
+			                   </ul>
+			               </p>
+			              <li>de modifier ces blocs / rubriques et leurs contenus</li>
+			           </ul>
+			       </p>
+			       <p>
+			       Pour accéder aux <strong>fonctionnalités d'administration du site</strong>, sélectionner dans le bandeau supérieur,
+			"<em>Site > Administration du site</em>".
+			       </p>
+			       <p>
+			       L'écran ci-dessous apparait :
+			       </p>
+			       <p>
+			         <center>
+			          <img alt="Admin AdminSite Accueil" src="images/admin/admin_site_home.gif"/>
+			         </center>
+			       </p>
+							<a name="2.1.2_Création_de_l'arborescence"/>
+							<h4>2.1.2 Création de l'arborescence</h4>
+			        <p>
+			        C'est à partir de la page d'accueil que se constitue donc
+			        l'arborescence du site. 
+			        </p>
+			        <p>
+			        En reprenant l'arborescence décrite dans le chapitre 1.3.1
+			        (Niveau 0, 1, 2...), un exemple est illustré
+			        ci-dessous. 
+			        </p>
+			        <p>
+			          <center>
+			            <img alt="Arbo Ex" src="images/public_site/public_site_level_tree_example.gif"/>
+			          </center>
+			        </p>
+			        <p>
+			        <ul>
+			          <li><strong>La page A de niveau 1</strong> se nomme "<strong>Actualités</strong>"</li>
+			          <li><strong>Les pages A1, A2, A3 (de niveau 2)</strong> sont des sous-thématiques de cette page "Actualités"</li>
+			          <p>
+			            <ul>
+			              <li>page A1 : la page "<strong>Innovation</strong>" (Actualités sur l'innovation) comportent une liste d'actualités sur l'innovation, menant directement vers l'ensemble des pages de niveau 3 de cette thématique</li>
+			              <li>page A2 : la page "<strong>International</strong>"(Actualités sur l'international) comportent une liste d'actualités sur l'international, menant directement vers l'ensemble des pages de niveau 3 de cette thématique.</li>
+			              <li>etc...</li>
+			            </ul>
+			          </p>
+			          <li><strong>Chaque page de niveau 3</strong> constituerait, dans cet exemple, le texte complet de chaque actualité selon la thématique à laquelle elle est rattachée (innovation ou international ou autres) </li>
+			        </ul>
+			        </p>
+			        <p>
+			        L'écran qui apparait par défaut dans la fonctionnalité "Administration du site" est la page d'administration de la page d'accueil du site : 
+			        </p>
+							<p>
+							Toutes les pages ont un numéro d'identifiant 
+							</p>
+							<p>
+			          <ul>
+			              <li>la page d'accueil porte l'identifiant 1 ("page_id"=1)</li>
+			           </ul>
+			        </p>
+			        <p>
+			        L'accès à l'administration d'une page, peut se faire des trois manières suivantes :
+			        </p>
+			         <p>
+			          <ul>
+			              <li>utiliser <strong>le plan du site</strong> qui visualise l'arborescence de l'ensemble des pages du site (accès en cliquant sur l'onglet "<em>Plan du site</em>" de la navigation gauche)</li>
+			               <p>
+			                  <ul>
+			                      <li><em>Cette fonctionnalité "Plan du site" de l'interface d'administration est détaillée plus bas dans ce support</em></li>
+			                   </ul>
+			               </p>
+			              <li>utiliser <strong>la recherche par le numéro d'identifiant</strong> de la page (saisir le numéro de la page dans le champs de rechercher "<em>Rechercher la page Id</em>")</li>
+			              <p>
+			                  <ul>
+			                      <li><em>Le numéro de la page est généré à la création de la page et figure dans l'adresse (URL) de la page du site public ("http://nom_de_domaine/nom_du_site/jsp/site/Portal.jsp?page_id=3"). </em></li>
+			                   </ul>
+			               </p>
+			               <li>utiliser <strong>la navigation dans la partie de prévisualisation (à droite)</strong>, permet de naviguer dans le site public tout en restant dans l'interface d'administration.</li>
+			           </ul>
+			       </p>
+			       <p>
+			        <center>
+			          <img alt="Admin_AdminSite_Zoom_ModifPages" src="images/admin/admin_site_modify_page.gif"/>
+			        </center>
+			       </p>
+			       <p>
+			       La <strong>partie droite</strong> de l'écran représente une prévisualisation de la page courante. 
+			       </p>
+			        <p>
+			          <ul>
+			              <li>Selon la rubrique de son choix, il est possible d'accéder directement à la modification des contenus avec les actions présentées ci-dessous (icônes sous chacune des rubriques) : </li>
+			               <p>
+			                  <ul>
+			                      <li>L'icône <img alt="Modifier" src="images/icones/modify.gif"/> permet d'accéder à l'écran de modification de la rubrique et de ses contenus</li>
+			                      <li>L'icône <img alt="Supprimer" src="images/icones/delete_button.gif"/> permet de supprimer après confirmation la rubrique (et le contenu dans le cas d'une rubrique de type Html). Celle-ci disparait age.</li>
+			                      <li>L'icône <img alt="Publier" src="images/icones/published.gif"/> permet d'accéder à la gestion de la publication/Dépublication de la rubrique et de ses contenus.</li>
+			                       <p>
+			                          <ul>
+			                              <li><em>Cette fonction n'est disponible que pour les rubriques de type "Liste de Documents". Plus de détails sur ce sujet au <a href="user_docs.html#a2.2.2._Zoom_sur_le_contenu_Document">chapitre 2.2.2 "Zoom sur Documents"</a></em></li>
+			                           </ul>
+			                       </p>
+			                      <li>L'icône <img alt="Suspendre" src="images/icones/suspend_button.gif"/> permet de dépublier une rubrique, c'est à dire de la rendre non visible aux internautes :</li>
+			                       <p>
+			                          <ul>
+			                              <li>Elle permet de dépublier une rubrique sans la supprimer.</li>
+			                              <li>Dès que la rubrique est dépubliée, l'icône <img alt="Publier X" src="images/icones/depublished.gif"/> apparait. Cette icône permettra de republier à nouveau la rubrique, ce qui la rendra à nouveau visible aux internautes.</li>
+			                           </ul>
+			                       </p>
+			                   </ul>
+			               </p>
+			           </ul>
+			       </p>
+							<a name="2.1.3_Arborescence_et_Plan_du_site"/>
+							<h4>2.1.3 Arborescence et Plan du site</h4>
+							<p>
+							  <center>
+							    <img src="images/admin/admin_site_map_zoom_1.gif" alt="Plan site Zoom"/>
+			          </center>
+							</p>
+							<p>				
+			        1- L’accès à l’arborescence complète du site s’effectue en cliquant sur l’onglet « <em>Plan du site</em> » dans la partie gauche de l'écran. <strong>(1)</strong>
+							</p>
+							<p>
+							2- Le plan du site se déploie en cliquant sur l'icône + à gauche du lien "Accueil"Seul le niveau 1 d'arborescence est déployé. <strong>(2)</strong>
+							</p>
+							<p>
+			3 - Dans le plan du site, la sous-arborescence d’une page se déploie en cliquant sur le bouton + <strong>(3)</strong> de son choix, ce qui déploit le niveau 2 d'arborescence, de la page associée <strong>(4)</strong>
+							</p>
+							 <p>
+			          <ul>
+			              <li><em>Exemple ci-dessus : Déployer la sous-arborescence de la page "Documentation" permet de visualiser ses 2 pages filles "Guide utilisateur" et "Guide technique"</em></li>
+			           </ul>
+			       </p>
+			       <p>
+			       Après le déploiement d'une sous-arborescence, il est possible de déployer une autre sous-arborescence de son choix.
+			       </p>
+							<a name="2.1.4_Zoom_sur_l'administration_des_pages_du_site"/>
+							<h4>2.1.4 Zoom sur l'administration des pages du site</h4>
+							
+							<h5>Gérer la page n</h5>
+							
+							<p>
+			L’onglet " <strong>Gérer la page n</strong> " situé dans la navigation gauche, permet de définir les propriétés de chaque page et d’y ajouter du contenu. Les actions possibles sont les suivantes :
+							</p>
+							
+							 <p>
+			          <ul>
+			              <li>Le champ « <em>Rechercher la page Id</em> » permet d’accéder directement à une page via son identifiant :</li>
+			                <p>
+			                  <ul>
+			                      <li>Renseigner le champ d’un numéro, puis cliquez sur rechercher :</li>
+			                       <p>
+			                          <ul>
+			                              <li>Si l’identifiant fourni correspond bien à une page existante de votre site, la page d'administration de la page recherchée apparait. </li>
+			                              <li>Si l’identifiant fourni ne correspond à aucune page de votre site, la page d'administration de la page d'accueil apparait, un message placé sous le champ de recherche indique que "Cette page n'existe pas". </li>
+			                           </ul>
+			                       </p>
+			                   </ul>
+			               </p>
+			              <li>Le menu <em><a href="user_docs.html#aProprietes_de_la_page">Propriétés de la page</a></em> permet de définir les caractéristiques de chaque page.</li>
+			              <li>Le menu <em><a href="user_docs.html#aAssocier_une_image">Associer une image</a></em>  permet d’associer une image à chaque page.</li>
+			               <p>
+			                    <ul>
+			                        <li><em>Cette image peut notamment apparaitre à coté de la page correspondante dans le plan du site public</em></li>
+			                     </ul>
+			                 </p>
+			              <li>Le menu <em><a href="user_docs.html#aAjouter_une_rubrique">Ajouter une rubrique</a></em> permet d’ajouter tous les types de rubriques sur chaque page.</li>
+			              <li>Le menu <em><a href="user_docs.html#aCreer_une_page_fille">Créer une page fille</a></em> permet de créer une page fille dans la sous-arborescence de la page courante.</li>
+			           </ul>
+			        </p>
+							
+			  				<a name="Proprietes_de_la_page"/>
+			  				<h5>Propriétés de la page</h5>
+							  <p>				  
+			          Pour accéder aux propriétés de la page cliquez sur l’icône « + » à gauche du label « Propriétés de la page » :
+							  </p>
+							  <p>
+							  <center>
+							    <img alt="Propriété de la page" src="images/property_page.gif"/> 
+							  </center>
+							  </p>
+							  <p>
+							  La saisie des champs suivants est proposée :
+							  </p>
+							   <p>
+			              <ul>
+			                  <li>Le champ « <strong>Nom</strong> » permet de spécifier le nom de la page (limité à 50 caractères)
+			Ce nom apparaît :</li>
+			                   <p>
+			                      <ul>
+			                          <li>dans le plan du site</li>
+			                          <li>dans le chemin de navigation (fil d’ariane) du site </li>
+			                          <li>dans les menus de navigation du site (l'affichage du nom dépend du niveau d'arborescence)</li>
+			                       </ul>
+			                   </p>
+			                  <li>Le champ « <strong>Description</strong> » permet de spécifier une brève description de la page. Cette description apparaîtra dans le plan du site</li>
+			                    <li>Le champ « <strong>Id de la page mère</strong> » indique l'identifiant de la page mère. Il est modifiable pour permettre de déplacer la page dans l'arborescence du site</li>
+			                     <p>
+			                        <ul>
+			                            <li>La page d'accueil est la seule page du site à ne pas avoir de page mère. (champ "id de la page mère" non disponible)</li>
+			                            <li>Pour les autres pages, toute modification de l'id de la page mère, entraîne une modification de l'arborescence </li>
+			                            <li>Cette modification du site est répercutée automatiquement dans le plan du site et dans les menus de navigation</li>
+			                         </ul>
+			                     </p>
+			                  <li>Le champ « <strong>Ordre</strong> » permet de spécifier la position de la page par rapport aux autres pages du même niveau</li>
+			                  <p>
+			                        <ul>
+			                            <li><em>Toute modification est répercutée automatiquement dans la navigation sur le site et dans le plan du site</em></li>
+			                         </ul>
+			                     </p>
+			                    <li>Le champ « <strong>Accès restreint au rôle</strong> » permet de restreindre l’accès de la page à un rôle <strong>coté internautes</strong></li>
+			                    <p>
+			                        <ul>
+			                            <li>Sélectionner l’option « <strong>No restriction</strong> » pour que la page soit accessible librement</li>
+			                            <li>L'accès à la gestion des rôles est accessible dans le menu "<em>Utilisateurs > Gestion des rôles</em>"</li>
+			                         </ul>
+			                     </p>
+			                  <li>Le champ « <strong>Nœud d’autorisation</strong> » permet de définir des restrictions de visualisation ou de gestion de la page, pour les <strong>gestionnaires Lutèce</strong>. Il s'applique à l'ensemble des pages filles jusqu'au prochain noeud d'autorisation</li>
+			                    <p>
+			                        <ul>
+			                            <li>Par défaut, l'option « <strong>Non</strong> » est selectionnée</li>
+			                            <li>Sélectionner l’option « <strong>Oui</strong> » pour pouvoir poser des autorisations spécifiques sur la page et ses pages filles (réservé aux utilisateurs avancés)</li>
+			                         </ul>
+			                     </p>
+			                    <li>Le champ « <strong>Thème de la page</strong> » permet d'associer un thème spécifique à la page. (Ex : déclinaison de couleur ...)</li>
+			                    <li>Le champ « <strong>Mise en page</strong> » permet de définir la structure de la page</li>
+			                     <p>
+			                        <ul>
+			                            <li>Sélectionner une structure de mise en page (bouton radio) parmi les modèles proposés</li>
+			                            <li>Il est possible de créer d'autres structures de mise en page. </li>
+			                            <li>Le schéma ci-dessous illustre les notions de <strong>mise en page</strong>, de <strong>colonnes</strong> et <strong>d'ordre</strong> d'apparition des rubriques</li>
+			                         </ul>
+			                     </p>
+			               </ul>
+			           </p>
+			           <p>
+			            <center>
+			              <img alt="Site_Public_Rubrique_MiseEnPage" src="images/public_site/public_site_page.gif"/>
+			            </center>
+			           </p>
+			           <p>
+			           Après avoir défini ces propriétés, cliquer sur le bouton « <strong>Modifier</strong> ». 
+			           </p>
+							  <a name="Associer_une_image"/>
+							  <h5>Associer une image</h5>
+							  <p>
+							  Pour associer une image à une page, cliquer sur l’icône « + » à gauche du titre « <em>Associer une image</em> » :
+							  </p>
+							  <p>
+							    <center>
+							    <img alt="Associer une image" src="images/link_image.gif"/>
+			            </center>
+							  </p>
+							   <p>
+			          <ul>
+			              <li>Le champ « <strong>Image courante</strong> » donne un aperçu de l’image actuellement associée à une page.</li>
+			              <li>Le champ « <strong>Nouvelle image</strong> » permet de sélectionner une image du disque dur afin de l’associer à la page courante :</li>
+			               <p>
+			                  <ul>
+			                      <li>Cliquer sur le bouton « <strong>Parcourir...</strong> », </li>
+			                      <li>Sélectionner l'image sur votre disque dur, </li>
+			                      <li>Cliquer sur « <strong>Ouvrir</strong> »</li>
+			                      <li>Cliquer sur le bouton « <strong>Associer</strong> »</li>
+			                   </ul>
+			               </p>
+			           </ul>
+			       </p>
+			       <p>
+			       L’image associée à chaque page apparaîtra dans le plan du site public permettant ainsi d'illustrer le contenu de la page et de sa sous-arborescence. 
+			       </p>
+							  
+							    <a name="Ajouter_une_rubrique"/>
+							  <h5>Ajouter une rubrique</h5>
+							  <p>
+							  Pour ajouter une rubrique à la page courante, cliquer dans la navigation gauche sur l’icône « + » à gauche du titre « <em>Ajouter une rubrique</em> » :
+							  </p>
+							   <p>
+			          <ul>
+			              <li>Dans le champ " <strong>Type de rubrique</strong> ", sélectionner le type de rubrique à ajouter à la page courante</li>
+			              <p>
+			                  <ul>
+			                      <li>L'exemple ci-dessous présente le type " <em>Html ou Texte libre</em> ".</li>
+			                   </ul>
+			               </p>
+			              <li>Dans la <strong>partie droite</strong> apparait un formulaire avec les champs de saisie nécessaire pour le type de rubrique demandée. </li>
+			           </ul>
+			       </p>
+			       <p>
+			        <center>
+			          <img alt="Ajouter une rubrique" src="images/add_rubrique.gif"/>
+			        </center>
+			      </p>
+			      <p>
+			      Les champs communs à toutes les rubriques sont les suivants :
+			      </p>
+			       <p>
+			          <ul>
+			              <li>le champ « <strong>Titre de la rubrique</strong> » permet de définir le titre de la rubrique</li>
+			               <p>
+			                  <ul>
+			                      <li>ce titre pourra être affiché en entête de la rubrique sur le site public. Pour cela, il faut laisser coché, le bouton radio "<strong>Affichage avec titre</strong>" situé sous le champ. </li>
+			                      <li>pour ne pas voir affiché ce titre, selectionner le bouton radio "<strong>Affichage sans titre</strong>" </li>
+			                   </ul>
+			               </p>
+			              <li>e champ « <strong>Ordre</strong> » correspond à la position de la rubrique dans la colonne de votre page</li>
+			               <p>
+			                  <ul>
+			                      <li>par exemple définir l’ordre à 2, positionne la rubrique en deuxième position en partant du haut de la colonne</li>
+			                   </ul>
+			               </p>
+			              <li>le champ « <strong>Colonne</strong> » permet de positionner la rubrique dans la colonne souhaitée</li>
+			               <p>
+			                  <ul>
+			                      <li>le nombre de colonne est à préciser dans la partie "<em>Propriété de la page</em>" à l'attribut "<em>Mise en page</em>"</li>
+			                      <li>attention : le positionnement dans une colonne doit être cohérent avec les paramètres de cette attribut "<em>Mise en page</em>"</li>
+			                       <p>
+			                          <ul>
+			                              <li><em>exemple : si la mise en page (dans les propriétés de la page) est en 1 colonne, et que le positionnement de la rubrique est dans la colonne 2, cette rubrique n’apparaitra pas sur la page car la colonne 2 n’existe pas dans les propriétés de la page</em></li>
+			                           </ul>
+			                       </p>
+			                   </ul>
+			               </p>
+			              <li>le champ « <strong>Style</strong>» permet de choisir le modèle de présentation de la rubrique. Celui-ci détermine le rendu graphique de la rubrique</li>
+			               <p>
+			                  <ul>
+			                      <li><em>ces styles sont définis dans la fonctionnalité d’administration « Gestion des styles » (menu du bandeau suppérieur « charte »). L'accès à cette fonction est réservé à un profil "Administrateur Technique"</em></li>
+			                   </ul>
+			               </p>
+			              <li>les boutons radios « <strong>Accepte Alias</strong> » permettent de spécifier si la rubrique accepte ou pas les alias. </li>
+			               <p>
+			                  <ul>
+			                      <li>cette fonctionnalité "Alias" permet de faire apparaitre une même rubrique (et son contenu) dans plusieurs pages du site public</li>
+			                      <li>si le bouton radio "<strong>Oui</strong>" est coché, il sera possible (en utilisant le type de rubrique <a href="user_docs.html#aAjouter_une_rubrique_alias">Rubrique Alias</a>, voir ci-dessous) de faire apparaitre la rubrique (et son contenu) dans d'autres pages du site</li>
+			                       <p>
+			                          <ul>
+			                              <li>Inutile dans ce cas de créer plusieurs fois la rubrique. La modification de la rubrique (et de son contenu) se fera à un seul endroit et sera répercuté sur l'ensemble des pages où un alias aura été inséré</li>
+			                           </ul>
+			                       </p>
+			                      <li>si le bouton radio "<strong>Non</strong>" est coché, cette rubrique ne pourra pas apparaitre dans d'autres pages du site</li>
+			                   </ul>
+			               </p>
+			           </ul>
+			       </p>
+			       <p>
+			       Les champs présentés ci-dessous étant les champs communs à tous les types de rubriques, les autres champs sont spécifiques à chaque type de rubrique :
+			       </p>
+			        <p>
+			          <ul>
+			              <li>epar exemple : </li>
+			               <p>
+			                  <ul>
+			                      <li>le champ « <strong>Contenu Html</strong> » (présenté dans l'écran ci-dessus) permet de remplir librement le contenu de la rubrique, via un éditeur de texte enrichi (voir ci-dessous le zoom sur le champ "Texte enrichi")</li>
+			                   </ul>
+			               </p>
+			           </ul>
+			       </p>
+			       <p>
+			       Pour valider la saisie des informations concernant la rubrique :
+			       </p>
+			        <p>
+			          <ul>
+			              <li>cliquer sur le bouton « <strong>Valider</strong> ». La rubrique apparait alors sur la page courante</li>
+			           </ul>
+			       </p>
+			       
+			        <a name="Zoom_sur_le_champ_Texte_enrichi"/>
+			       <h5>Zoom sur le champ "Texte enrichi"</h5>
+			       <p>
+			       Le champ de texte enrichi (ou rich text) est proposé sur plusieurs types de contenus.
+			Il permet d'effectuer les actions suivantes sur les contenus saisis  : 
+			       </p>
+			        <p>
+			          <ul>
+			              <li><strong>mettre en forme le texte</strong> (Gras, italique, styles...)</li>
+			               <p>
+			                  <ul>
+			                      <li>à noter que des styles sont proposés par défaut dans le champs (lien à droite du texte avec les deux styles proposés "<em>fontcolor1</em>" et "<em>pagecolor1</em>")</li>
+			                   </ul>
+			               </p>
+			              <li><strong>insérer des liens à partir d'un texte sélectionné </strong></li>
+			               <p>
+			                  <ul>
+			                      <li>fonction Linkservices, accessible avec l'icône <img alt="Link services" src="images/icones/link_services.gif"/> après sélection de l'élément en lien. Cette fonction est détaillée ci-dessous</li>
+			                   </ul>
+			               </p>
+			              <li><strong>concevoir des tableaux</strong></li>
+			              <li>...</li>
+			           </ul>
+			       </p>
+			       <p>
+			        <center>
+			        <img alt="Admin_AdminSite_RichText" src="images/admin/admin_site_rich_text.gif"/>
+			        </center>
+			       </p>
+			       <p>
+			       Le schéma ci-dessous illustre l'utilisation de la fonction Linkservice dans les champ rich text : 
+			       </p>
+			       <p>
+			       <center>
+			       <img alt="Admin_AdminSite_RichText_Linkservice" src="images/admin/admin_site_rich_text_link_service.gif"/>
+			       </center>
+			       </p>
+			       <p>
+			          <ol>
+			              <li>dans le champ rich text, sélectionner le texte ou positionner le curseur à l'endroit où le lien doit apparaitre</li>
+			              <li>cliquer sur l'icône<img alt="Linkservices" src="images/icones/link_services.gif"/></li>
+			              <p>
+			                <ul>
+			                    <li>la fenêtre ci-dessus apparait et propose l'ensemble des types de liens possibles suivants : </li>
+			                      <p>
+			                       <table>
+			                           <tr>
+			                               <th>Types de liens</th>
+			                               <th>Description</th>
+			                           </tr>
+			                           <tr>
+			                               <td><strong>Un lien vers une application</strong></td>
+			                                <td>
+			                                <p>Permet d'insérer un lien vers une page spéciale ou vers une application.
+			</p>
+			<p>
+			Ex : lien vers un sondage (poll), lien vers un calendrier (calendar), lien vers une page Xml (Xml page)...
+			</p>
+			</td>
+			                           </tr>
+			                            <tr>
+			                               <td><strong>Insertion d'un média</strong></td>
+			                                <td>
+			                                <p>Permet d'insérer un lien vers une page de la bibiliothèque multimédia, située dans la gestion de documents (Répertoire "Bibliothèque multimédia")
+			</p>
+			<p>
+			La bibliothèque multimédia comprend les types de documents suivants :
+			</p>
+			<p>
+			<ul>
+			<li>icônes et pictos</li>
+			<li>images</li>
+			<li>fichiers sons</li>
+			<li>vidéos</li>
+			</ul>
+			</p>
+			<p>                           
+			Pour pouvoir être inséré dans un champ rich text, l'élément de la bibliothèque doit avoir été inséré et validé au préalable dans la gestion des documents. Si cela n'est pas le cas, il n'apparaitra pas dans la fonction Linkservice. 
+			</p>
+			</td>
+			                           </tr>
+			                            <tr>
+			                               <td><strong>Un lien vers un document</strong></td>
+			                                <td>
+			                                <p>
+			                                Pour insérer un lien vers un document de type "Article" ou "brèves".
+			</p><p>
+			<ul>
+
+			<li>sélectionner la page dans laquelle figure la rubrique</li>
+			<li>sélectionner la rubrique où se trouve le document</li>
+			<li>sélectionner le document</li>
+			</ul>
+			</p>
+			<p>>
+			Pour pouvoir être inséré dans un champ rich text, le document doit avoir été inséré , validé et publié au préalable dans la gestion des documents. Si cela n'est pas le cas, il n'apparaitra pas dans la fonction Linkservice. </p></td>
+			                           </tr>
+			                            <tr>
+			                               <td><strong>Un lien vers une page du site</strong></td>
+			                                <td>
+			                                <p>
+			                                Permet d'insérer un lien vers une page existante du site.
+			</p>
+			<p>
+			La navigation dans l'arborescence du site public, permet d'accéder à la page désirée
+			</p></td>
+			                           </tr>
+			                            <tr>
+			                               <td><strong>Sélection de document depuis la newsletter</strong></td>
+			                                <td>Accessible uniquement depuis la newsletter</td>
+			                           </tr>
+			                       </table>
+			                      </p>
+			                 </ul>
+			             </p>
+			              <li>Cliquer sur le type de liens à créer</li>
+			              <li>Saisir les champs spécifiques (selon le type de lien) puis valider pour créer le lien</li>
+			           </ol>
+			       </p>
+			        <a name="Ajouter_une_rubrique_alias"/>
+							<h5> Ajouter une rubrique alias</h5>
+			        <p>
+			        Cette fonctionnalité "Alias" permet de faire apparaitre une même rubrique (et son contenu) dans plusieurs pages du site public. 
+			        </p>
+			        <p>
+			        Pour utiliser cette fonctionnalité : 
+			        </p>
+			        <p>
+			          <ol>
+			              <li>Associer une rubrique à un alias (voir fonction présentée plus haut : boutons radio "<em>Accepte Alias</em>")</li>
+			              <li>Se positionner sur une autre page d'administration où vous désirez insérer un alias</li>
+			              <li>Dans le menu « <em>Ajouter une rubrique</em> », sélectionner le type de rubrique « <strong>Rubrique alias</strong> » puis cliquer sur le bouton « <strong>Ajouter</strong> » :</li>
+			              <li>La zone principale à droite se met à jour avec les champs spécifiques concernant l'alias</li>
+			              <p>
+			                  <ul>
+			                      <li>Remplir tout les champs proposés</li>
+			                      <li>Dans le champ « <strong>Rubrique source</strong> », toutes les rubriques pour lesquelles "Oui" a été coché dans le champs "Accepte Alias" apparaissent</li>
+			                      <li>Sélectionner alors le titre de votre rubrique.</li>
+			                      <li>Cliquez sur le bouton « <strong>Valider</strong> ».</li>
+			                   </ul>
+			              </p>
+			           </ol>
+			        </p>
+			        
+							<a name="Creer_une_page_fille"/>
+							<h5>Créer une page fille</h5>
+							<p>
+			        La création d'une page fille permet de créer une sous-arborescence à une page existante.
+			        </p>
+			        <p>
+			        Pour créer une page fille :
+			        </p>
+			          <p>
+			          <ol>
+			              <li>Se positionner sur la page mère à partir de laquelle vous souhaitez créer une page fille</li>
+			              <li>Dans la navigation gauche de la page, cliquer sur « + » à gauche du libellé « <strong>Créer une page fille</strong> »</li>
+			              <li>Les champs visibles dans l'écran ci-dessous apparaissent sous ce libellé</li>
+			                 <p>
+			                    <ul>
+			                        <li>ces champs sont les mêmes que ceux du menu <em><a href="user_docs.html#aProprietes_de_la_page">Propriétés de la page</a></em></li>
+			                     </ul>
+			                     <p>
+			                      <center>
+			                        <img alt="Créer une page fille" src="images/create_child_page.gif"/>
+			                      </center>
+			                     </p>
+			                 </p>
+			              <li>Une fois les champs renseignés, cliquer sur le bouton « <strong>Créer</strong> » pour valider la création de la page fille. </li>
+			              <li>La page créée devient la page courante</li>
+			           </ol>
+			       </p>
+			        <p>
+			        La page créée est donc une page fille de la page courante et est accessible notamment dans sa sous-arborescence.
+			        </p>
+			        
+			        <a name="Autres_actions_sur_une_page"/>
+							<h5>Autres actions sur une page</h5>
+			        <p>
+			        Pour toutes les pages (sauf la page d’accueil), les actions suivantes sont possibles :
+			        </p>
+			        <p>
+			          <ul>
+			              <li><strong>Supprimer la page</strong></li>
+			              <li><strong>Remonter à la page mère</strong></li>
+			          </ul>
+			              <p>
+			              <center>
+			                <img alt="Admin_AdminSite_Zoom_NavGaucheSupMere" src="images/admin/admin_site_zoom_delete_and_acces_parent_page.gif"/>
+			              </center>
+			              </p>
+			         <ul>
+			              <li><strong>Supprimer la page courante. </strong></li>
+			              <p>
+			              Pour cela :
+			              </p>
+			               <p>
+			                  <ol>
+			                      <li>Accéder à l'écran de gestion de la page à supprimer</li>
+			                      <li>Cliquer sur le bouton " <strong>Supprimer la page</strong> " en bas de la navigation gauche</li>
+			                      <li>Cliquer sur « <strong>Ok</strong> » pour confirmer la suppression dans l'écran de confirmation</li>
+			                       <p>
+			                          <ul>
+			                              <li><em>Remarque : la suppression d'une page mère est impossible tant que toutes ses pages filles n'ont pas été supprimées. </em></li>
+			                           </ul>
+			                       </p>
+			                   </ol>
+			               </p>
+			              <li><strong>Accéder directement à la gestion de la page mère de la page courante</strong></li>
+			              <p>
+			              Pour cela :
+			              </p>
+			               <p>
+			                  <ol>
+			                      <li>Cliquer sur le bouton " <strong>Remonter à la page mère</strong> " en bas de la navigation gauche.</li>
+			                      <li>Cette action mène vers la page de gestion de la page mère</li>
+			                   </ol>
+			               </p>
+			           </ul>
+			       </p>
+			       
+			       <a name="Visualisation_pleine_page"/>
+							<h5>Visualisation pleine page</h5>
+			       <p>
+			       Dans la navigation gauche, à droite de l'onglet "Plan du site l'icône <img alt="Visu Pleine Page" src="images/icones/application_side_contract.gif"/> permet de replier la partie gauche. 
+			       Cette version "pleine page" est très proche du site public (<em>avec les icônes d'accès à la modification de chaque rubrique</em>) Le site public (<em>tel que l'internaute le visualisera, et donc sans les icônes d'accès à la modification de chaque rubrique</em>) est accessible en cliquant sur l'<strong>onglet Site</strong>, à droite du bandeau supérieur. 
+			       </p>
+			        <p>
+			        <center>
+			          <img alt="Visualisation pleine page" src="images/admin/admin_site_view_full_screen.gif"/>
+			        </center>
+			        </p>
+			        
+			</subsection>
+		</section>
+	</body>
+</document>
