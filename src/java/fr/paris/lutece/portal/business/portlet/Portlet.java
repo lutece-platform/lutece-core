@@ -449,7 +449,7 @@ public abstract class Portlet implements XmlContent
      */
     public String getXslFile( int nMode )
     {
-        StyleSheet xsl = new StyleSheet(  );
+        StyleSheet xsl;
 
         // Added in v1.3
         // Use the same stylesheet for normal or admin mode
@@ -478,7 +478,7 @@ public abstract class Portlet implements XmlContent
      */
     public byte[] getXslSource( int nMode )
     {
-        StyleSheet xsl = new StyleSheet(  );
+        StyleSheet xsl;
 
         // Added in v1.3
         // Use the same stylesheet for normal or admin mode

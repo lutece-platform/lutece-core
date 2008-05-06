@@ -130,8 +130,6 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
 
         if ( PortletHome.hasAlias( nPortletId ) )
         {
-            Object[] messageArgs = { PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS };
-
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS,
                 AdminMessage.TYPE_STOP );
         }

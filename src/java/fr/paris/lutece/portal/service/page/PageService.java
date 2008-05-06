@@ -295,9 +295,6 @@ public class PageService extends ContentService implements ImageResourceProvider
 
         if ( !strRole.equals( Page.ROLE_NONE ) && SecurityService.isAuthenticationEnable(  ) )
         {
-            // The page should not be added to the cache
-            bCanBeCached = Boolean.FALSE;
-
             if ( nMode != MODE_ADMIN )
             {
                 LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
