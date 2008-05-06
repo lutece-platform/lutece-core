@@ -544,7 +544,7 @@ public class DAOUtil
     /**
      * Fills the prepared statement with a double value
      * @param nIndex parameter index in the prepared statement
-     * @param nValue int value
+     * @param dValue The value
      */
     public void setDouble( int nIndex, double dValue )
     {

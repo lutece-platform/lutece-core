@@ -46,6 +46,9 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 
+/**
+ * This class provides a ConnectionService based on Tomcat
+ */
 public class TomcatConnectionService implements ConnectionService
 {
     private DataSource _ds;
