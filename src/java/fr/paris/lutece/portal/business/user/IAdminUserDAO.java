@@ -42,14 +42,14 @@ import java.util.Map;
 
 
 /**
- *
- * @author lenaini
+ * AdminUserDAO Interface
  */
 public interface IAdminUserDAO
 {
     /**
-     * @param strAccessCode
-     * @return
+     * Checks the availibility of an access code
+     * @param strAccessCode The access code
+     * @return True if the access code is already used by another user
      */
     boolean checkAccessCodeAlreadyInUse( String strAccessCode );
 
@@ -61,7 +61,8 @@ public interface IAdminUserDAO
     boolean checkRoleAttributed( String strRoleKey );
 
     /**
-     * @param nUserId th user id
+     * Delete an user
+     * @param nUserId the user id
      */
     void delete( int nUserId );
 
@@ -73,18 +74,20 @@ public interface IAdminUserDAO
     void deleteAllDelegatedRightsForUser( int nUserId, int nUserLevel );
 
     /**
-     * Deletes rights own by user ie rights with level >= userlevel
+     * Deletes all rights owned by user ie rights with level >= userlevel
      * @param nUserId the user id
      * @param nUserLevel the user level
      */
     void deleteAllOwnRightsForUser( int nUserId, int nUserLevel );
 
     /**
+     * Delete all rights owned by an user
      * @param nUserId the user id
      */
     void deleteAllRightsForUser( int nUserId );
 
     /**
+     * Remove all rights from an user
      * @param nUserId the user id
      */
     void deleteAllRolesForUser( int nUserId );
@@ -102,25 +105,29 @@ public interface IAdminUserDAO
     void insert( LuteceDefaultAdminUser user );
 
     /**
+     * Add a right to an user
      * @param nUserId the user id
      * @param strRightId the right id
      */
     void insertRightsListForUser( int nUserId, String strRightId );
 
     /**
+     * Gives a role to an user
      * @param nUserId the user id
      * @param strRoleKey the key role
      */
     void insertRolesListForUser( int nUserId, String strRoleKey );
 
     /**
-     * @param nUserId th user id
+     * Load an AdminUser
+     * @param nUserId the user id
      * @return user
      */
     AdminUser load( int nUserId );
 
     /**
-     * @param nUserId th user id
+     * Load a default AdminUser
+     * @param nUserId the user id
      * @return user
      */
     LuteceDefaultAdminUser loadDefaultAdminUser( int nUserId );
@@ -146,27 +153,33 @@ public interface IAdminUserDAO
     Map<String, AdminRole> selectRolesListForUser( int nUserId );
 
     /**
-     * @param strUserAccessCode th elogin
-     * @return user
+     * Get an user by its access code (login)
+     * @param strUserAccessCode the login
+     * @return The user found, otherwise null
      */
     AdminUser selectUserByAccessCode( String strUserAccessCode );
 
     /**
-     * @return userList
+     * Gets the collection of all AdminUsers
+     * @return The user list
      */
     Collection<AdminUser> selectUserList(  );
 
     /**
-     * @return userList
+     * Gets a collection of AdminUser that share a given role
+     * @param strRoleKey The role key
+     * @return The user List
      */
     Collection<AdminUser> selectUsersByRole( String strRoleKey );
 
     /**
+     * Update AdminUser data
      * @param user The AdminUser
      */
     void store( AdminUser user );
 
     /**
+     * Update AdminUser data
      * @param user The AdminUser
      */
     void store( LuteceDefaultAdminUser user );
