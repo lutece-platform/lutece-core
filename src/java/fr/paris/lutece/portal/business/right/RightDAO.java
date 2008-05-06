@@ -46,10 +46,11 @@ public final class RightDAO implements IRightDAO
 {
     // Constants
     private static final String SQL_QUERY_SELECT = " SELECT id_right, name, level_right, " +
-        " admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url " + " FROM core_admin_right " +
-        " WHERE id_right = ? ";
+        " admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url " +
+        " FROM core_admin_right " + " WHERE id_right = ? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_right ( id_right , name, level_right, admin_url , " +
-        " description, plugin_name, id_feature_group, icon_url, documentation_url  ) " + " VALUES ( ?, ?, ?, ? , ?, ?, ?, ?, ? )";
+        " description, plugin_name, id_feature_group, icon_url, documentation_url  ) " +
+        " VALUES ( ?, ?, ?, ? , ?, ?, ?, ?, ? )";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_right SET name = ?, admin_url = ? , description = ? , " +
         " plugin_name = ?, id_feature_group = ?, icon_url = ?, level_right = ?, documentation_url = ? WHERE id_right = ?";
     private static final String SQL_QUERY_SELECTALL = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url  " +
@@ -79,7 +80,7 @@ public final class RightDAO implements IRightDAO
         daoUtil.setString( 7, right.getFeatureGroup(  ) );
         daoUtil.setString( 8, right.getIconUrl(  ) );
         daoUtil.setString( 9, right.getDocumentationUrl(  ) );
-        
+
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
@@ -152,7 +153,7 @@ public final class RightDAO implements IRightDAO
         daoUtil.setInt( 7, right.getLevel(  ) );
         daoUtil.setString( 8, right.getDocumentationUrl(  ) );
         daoUtil.setString( 9, right.getId(  ) );
-        
+
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
@@ -169,7 +170,7 @@ public final class RightDAO implements IRightDAO
     /**
      * Loads the data of all the rights with level greater or equal than nLevel
      * and returns them in form of a collection
-     * 
+     *
      * @param nLevel The right level
      * @return the collection which contains the data of all the rights
      */
@@ -193,7 +194,7 @@ public final class RightDAO implements IRightDAO
             right.setFeatureGroup( daoUtil.getString( 7 ) );
             right.setIconUrl( daoUtil.getString( 8 ) );
             right.setDocumentationUrl( daoUtil.getString( 9 ) );
-            
+
             rightList.add( right );
         }
 
@@ -229,7 +230,7 @@ public final class RightDAO implements IRightDAO
             right.setFeatureGroup( daoUtil.getString( 7 ) );
             right.setIconUrl( daoUtil.getString( 8 ) );
             right.setDocumentationUrl( daoUtil.getString( 9 ) );
-            
+
             rightList.add( right );
         }
 

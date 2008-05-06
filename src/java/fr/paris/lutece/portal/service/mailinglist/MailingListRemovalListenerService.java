@@ -47,10 +47,10 @@ public final class MailingListRemovalListenerService
     /**
      * Private constructor
      */
-    private MailingListRemovalListenerService() 
+    private MailingListRemovalListenerService(  )
     {
     }
-    
+
     /**
      * Returns the removal service
      * @return The removal service

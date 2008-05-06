@@ -33,16 +33,6 @@
  */
 package fr.paris.lutece.portal.web.documentation;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.transform.stream.StreamSource;
-
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -57,106 +47,121 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
 
+import java.io.File;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import javax.xml.transform.stream.StreamSource;
+
+
 /**
- * 
+ *
  * Classe for display the admin features documentation
  *
  */
-public class AdminDocumentationJspBean 
+public class AdminDocumentationJspBean
 {
-	//xsl
-	private static final String XSL_PATH = "admin_documentation.xsl";
-	
-	//xsl paramaters
-	private static final String PARAMS_LOCAL = "locale";
-	private static final String PARAMS_DEFAULT_LOCAL = "default_locale";
-	
-	//parameters
-	private static final String PARAMETER_FEATURE_DOC = "doc";
-	
-	//jsp
-	private static final String JSP_CLOSE = "javascript:window.close()";
-	
-	//templates
-	private static final String TEMPLATE_ADMIN_SUMMARY_DOCUMENTATION = "admin/documentation/admin_summary_documentation.html";
-	
-	//bookmark
-	private static final String BOOKMARK_FEATURE_GROUP_LIST = "feature_group_list";
-	private static final String BOOKMARK_HELP_ICON = "help_icon";
-	
-	//images
-	private static final String IMAGE_HELP_PATH = "images/admin/skin/features/admin_help.png";
-	
-	//properties
-	private static final String PROPERTY_XSL_BASE_PATH = "lutece.documentation.xsl.path";
-	
-	//messages
-	private static final String MESSAGE_ERROR = "portal.features.documentation.message.error";
-	
-	//utils
-	private static final String LOCAL_DEFAULT = "en";
-	private static final String XML_BASE_PATH = "/doc/xml/";
-	private static final String XML_USER_PATH = "/xdoc/user/";
-	private static final String FEATURES_GROPU_SYSTEM = "SYSTEM";
+    //xsl
+    private static final String XSL_PATH = "admin_documentation.xsl";
 
-	/**
-     * Returns the view of features documentation
-     *
-     * @param request The request
-         * @return The HTML documentation
-         * @throws AccessDeniedException If the access is refused to the user
-     */
-    public String getDocumentation( HttpServletRequest request ) throws AccessDeniedException
+    //xsl paramaters
+    private static final String PARAMS_LOCAL = "locale";
+    private static final String PARAMS_DEFAULT_LOCAL = "default_locale";
+
+    //parameters
+    private static final String PARAMETER_FEATURE_DOC = "doc";
+
+    //jsp
+    private static final String JSP_CLOSE = "javascript:window.close()";
+
+    //templates
+    private static final String TEMPLATE_ADMIN_SUMMARY_DOCUMENTATION = "admin/documentation/admin_summary_documentation.html";
+
+    //bookmark
+    private static final String BOOKMARK_FEATURE_GROUP_LIST = "feature_group_list";
+    private static final String BOOKMARK_HELP_ICON = "help_icon";
+
+    //images
+    private static final String IMAGE_HELP_PATH = "images/admin/skin/features/admin_help.png";
+
+    //properties
+    private static final String PROPERTY_XSL_BASE_PATH = "lutece.documentation.xsl.path";
+
+    //messages
+    private static final String MESSAGE_ERROR = "portal.features.documentation.message.error";
+
+    //utils
+    private static final String LOCAL_DEFAULT = "en";
+    private static final String XML_BASE_PATH = "/doc/xml/";
+    private static final String XML_USER_PATH = "/xdoc/user/";
+    private static final String FEATURES_GROPU_SYSTEM = "SYSTEM";
+
+    /**
+    * Returns the view of features documentation
+    *
+    * @param request The request
+     * @return The HTML documentation
+     * @throws AccessDeniedException If the access is refused to the user
+    */
+    public String getDocumentation( HttpServletRequest request )
+        throws AccessDeniedException
     {
-    	String strFeature = request.getParameter( PARAMETER_FEATURE_DOC ); 
-    	
-    	AdminUser user = AdminUserService.getAdminUser( request );
-    	Locale locale = user.getLocale( );
+        String strFeature = request.getParameter( PARAMETER_FEATURE_DOC );
 
-    
-    	//get the xsl file
-    	String strXslPath = AppPathService.getPath( PROPERTY_XSL_BASE_PATH, XSL_PATH );
-    	File fileXsl = new File( strXslPath );
+        AdminUser user = AdminUserService.getAdminUser( request );
+        Locale locale = user.getLocale(  );
+
+        //get the xsl file
+        String strXslPath = AppPathService.getPath( PROPERTY_XSL_BASE_PATH, XSL_PATH );
+        File fileXsl = new File( strXslPath );
         StreamSource sourceStyleSheet = new StreamSource( fileXsl );
-    	
+
         //get the xml documentation file
         File fileXml;
         StreamSource sourceXml;
         String strLocal = locale.toString(  );
-        
-        if ( locale == null || strLocal.equals( LOCAL_DEFAULT )  )
+
+        if ( ( locale == null ) || strLocal.equals( LOCAL_DEFAULT ) )
         {
-        	 String strXmlPath = AppPathService.getWebAppPath() + XML_BASE_PATH + XML_USER_PATH + strFeature+".xml" ;
-             fileXml = new File( strXmlPath );
+            String strXmlPath = AppPathService.getWebAppPath(  ) + XML_BASE_PATH + XML_USER_PATH + strFeature + ".xml";
+            fileXml = new File( strXmlPath );
         }
         else
         {
-        	String strXmlPath = AppPathService.getWebAppPath() + XML_BASE_PATH + locale.toString(  ) + XML_USER_PATH + strFeature+".xml" ;
+            String strXmlPath = AppPathService.getWebAppPath(  ) + XML_BASE_PATH + locale.toString(  ) + XML_USER_PATH +
+                strFeature + ".xml";
             fileXml = new File( strXmlPath );
         }
-        
+
         sourceXml = new StreamSource( fileXml );
-        
+
         String strHtmlDoc = null;
-        
+
         Map<String, String> params = new HashMap<String, String>(  );
         params.put( PARAMS_LOCAL, locale.toString(  ) );
         params.put( PARAMS_DEFAULT_LOCAL, LOCAL_DEFAULT );
-        
-        try 
+
+        try
         {
-        	strHtmlDoc = XmlUtil.transform( sourceXml, sourceStyleSheet, params, null );
-		} 
-         catch (Exception e) 
-		{
-			AppLogService.debug( "Can't parse XML: " + e.getMessage(  ), e );
-			AppLogService.error( "Can't parse XML: " + e.getMessage(  ), e );
-			return null;
-		}
-    	
-    	return strHtmlDoc;
+            strHtmlDoc = XmlUtil.transform( sourceXml, sourceStyleSheet, params, null );
+        }
+        catch ( Exception e )
+        {
+            AppLogService.debug( "Can't parse XML: " + e.getMessage(  ), e );
+            AppLogService.error( "Can't parse XML: " + e.getMessage(  ), e );
+
+            return null;
+        }
+
+        return strHtmlDoc;
     }
-    
+
     /**
      * Returns an error message when an error occured
      *
@@ -165,10 +170,9 @@ public class AdminDocumentationJspBean
      */
     public String doAdminMessage( HttpServletRequest request )
     {
-    	
-    	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR, JSP_CLOSE, AdminMessage.TYPE_ERROR );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR, JSP_CLOSE, AdminMessage.TYPE_ERROR );
     }
-    
+
     /**
      * Returns the view of summary documentation
      *
@@ -177,19 +181,20 @@ public class AdminDocumentationJspBean
      */
     public String getSummaryDocumentation( HttpServletRequest request )
     {
-    	AdminUser user = AdminUserService.getAdminUser( request );
-    	
-    	ArrayList listFeatureGroups = getFeatureGroupsList( user );
-        HashMap model = new HashMap(  );
-    	
-    	model.put( BOOKMARK_FEATURE_GROUP_LIST, listFeatureGroups );
-    	model.put( BOOKMARK_HELP_ICON, IMAGE_HELP_PATH );
-    	
-    	  HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_SUMMARY_DOCUMENTATION,  user.getLocale(  ), model );
+        AdminUser user = AdminUserService.getAdminUser( request );
 
-          return template.getHtml(  );
+        ArrayList listFeatureGroups = getFeatureGroupsList( user );
+        HashMap model = new HashMap(  );
+
+        model.put( BOOKMARK_FEATURE_GROUP_LIST, listFeatureGroups );
+        model.put( BOOKMARK_HELP_ICON, IMAGE_HELP_PATH );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_SUMMARY_DOCUMENTATION,
+                user.getLocale(  ), model );
+
+        return template.getHtml(  );
     }
-    
+
     /**
      * Returns an array that contains all feature groups corresponding to the user
      * @param nUserId The user Id
@@ -204,28 +209,28 @@ public class AdminDocumentationJspBean
         // get the list of user's features
         Map<String, Right> featuresMap = user.getRights(  );
         Collection<Right> features = featuresMap.values(  );
-        
-        
+
         // for each group, load the features
         for ( FeatureGroup featureGroup : FeatureGroupHome.getFeatureGroupsList(  ) )
         {
-        	ArrayList<Right> aLeftFeatures = new ArrayList<Right>(  );
-        	
+            ArrayList<Right> aLeftFeatures = new ArrayList<Right>(  );
+
             for ( Right right : features )
             {
                 right.setLocale( user.getLocale(  ) );
-                
+
                 String strFeatureGroup = right.getFeatureGroup(  );
                 String strUrlDocumentation = right.getDocumentationUrl(  );
-                
-	                if ( featureGroup.getId(  ).equalsIgnoreCase( strFeatureGroup ) && strUrlDocumentation != null && ! ( strUrlDocumentation.equals( "" ) ) )
-	                {
-	                    featureGroup.addFeature( right );
-	                }
-	                else if( strUrlDocumentation != null && !( strUrlDocumentation.equals( "" ) ) )
-	                {
-	                    aLeftFeatures.add( right );
-	                }
+
+                if ( featureGroup.getId(  ).equalsIgnoreCase( strFeatureGroup ) && ( strUrlDocumentation != null ) &&
+                        !( strUrlDocumentation.equals( "" ) ) )
+                {
+                    featureGroup.addFeature( right );
+                }
+                else if ( ( strUrlDocumentation != null ) && !( strUrlDocumentation.equals( "" ) ) )
+                {
+                    aLeftFeatures.add( right );
+                }
             }
 
             if ( !featureGroup.isEmpty(  ) )
@@ -233,47 +238,47 @@ public class AdminDocumentationJspBean
                 featureGroup.setLocale( user.getLocale(  ) );
                 aOutFeatureGroupList.add( featureGroup );
             }
-            
+
             features = aLeftFeatures;
         }
-        
-        
-        
-        FeatureGroup featureGroupSystem = FeatureGroupHome.findByPrimaryKey(FEATURES_GROPU_SYSTEM);
-        if( featureGroupSystem != null && !features.isEmpty() )
+
+        FeatureGroup featureGroupSystem = FeatureGroupHome.findByPrimaryKey( FEATURES_GROPU_SYSTEM );
+
+        if ( ( featureGroupSystem != null ) && !features.isEmpty(  ) )
         {
-        	boolean bSystemFeaturesGroupExist = false;
-        	//Check if the features group system exist in list features group
-        	for( FeatureGroup featureGroup : aOutFeatureGroupList )
+            boolean bSystemFeaturesGroupExist = false;
+
+            //Check if the features group system exist in list features group
+            for ( FeatureGroup featureGroup : aOutFeatureGroupList )
             {
-        		//if exist
-        		if ( featureGroup.getId(  ).equalsIgnoreCase( featureGroupSystem.getId(  ) ) )
-        		{
-        			// add the features with no group to the list in features group SYSTEM
-        			for (Right right : features) 
-            		{
-        				featureGroup.addFeature(right);
-            		}
+                //if exist
+                if ( featureGroup.getId(  ).equalsIgnoreCase( featureGroupSystem.getId(  ) ) )
+                {
+                    // add the features with no group to the list in features group SYSTEM
+                    for ( Right right : features )
+                    {
+                        featureGroup.addFeature( right );
+                    }
 
-            		bSystemFeaturesGroupExist = true;
-        			break;
-        		}
+                    bSystemFeaturesGroupExist = true;
+
+                    break;
+                }
             }
-        	
-        	// if not, add features group SYSTEM to the list with the feautres no group
-        	if( !bSystemFeaturesGroupExist )
-        	{
-        		for (Right right : features) 
-        		{
-        			featureGroupSystem.addFeature(right);
-        		}
 
-        		featureGroupSystem.setLocale(user.getLocale());
-        		aOutFeatureGroupList.add(featureGroupSystem);
-        	}
-        	
+            // if not, add features group SYSTEM to the list with the feautres no group
+            if ( !bSystemFeaturesGroupExist )
+            {
+                for ( Right right : features )
+                {
+                    featureGroupSystem.addFeature( right );
+                }
+
+                featureGroupSystem.setLocale( user.getLocale(  ) );
+                aOutFeatureGroupList.add( featureGroupSystem );
+            }
         }
-        else if ( aOutFeatureGroupList.size(  ) > 0 && !features.isEmpty() )
+        else if ( ( aOutFeatureGroupList.size(  ) > 0 ) && !features.isEmpty(  ) )
         {
             FeatureGroup lastFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size(  ) - 1 );
 
@@ -285,5 +290,4 @@ public class AdminDocumentationJspBean
 
         return aOutFeatureGroupList;
     }
-
 }

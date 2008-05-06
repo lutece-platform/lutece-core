@@ -247,27 +247,27 @@ public class PluginFile
     {
         _strIconUrl = strIconUrl;
     }
-    
-	/**
-	 * Returns the Documentation's URL of the plugin
-	 * 
-	 * @return the plugin Documentation's URL as a String
-	 */
-	public String getDocumentationUrl() 
-	{
-		return _strDocumentationUrl;
-	}
 
-	/**
-	 * Sets the url of the Documentation of the plugin to the specified string.
-	 * 
-	 * @param strDocumentationUrl the url of the documentation
-	 */
-	public void setDocumentationUrl( String strDocumentationUrl ) 
-	{
-		_strDocumentationUrl = strDocumentationUrl;
-	}
-    
+    /**
+     * Returns the Documentation's URL of the plugin
+     *
+     * @return the plugin Documentation's URL as a String
+     */
+    public String getDocumentationUrl(  )
+    {
+        return _strDocumentationUrl;
+    }
+
+    /**
+     * Sets the url of the Documentation of the plugin to the specified string.
+     *
+     * @param strDocumentationUrl the url of the documentation
+     */
+    public void setDocumentationUrl( String strDocumentationUrl )
+    {
+        _strDocumentationUrl = strDocumentationUrl;
+    }
+
     /**
      * Returns the Copyright of the plugin
      *

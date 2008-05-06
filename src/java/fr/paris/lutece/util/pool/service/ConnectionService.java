@@ -39,14 +39,14 @@ import java.sql.Connection;
 
 import java.util.Hashtable;
 
+
 /**
  * Database Connection Service Interface
  */
-
 public interface ConnectionService
 {
     /**
-     * Get a connection 
+     * Get a connection
      * @return A database connection
      */
     Connection getConnection(  );
@@ -69,7 +69,7 @@ public interface ConnectionService
     void init( Hashtable<String, String> htParamsConnectionPool );
 
     /**
-     * Define the pool name 
+     * Define the pool name
      * @param strPoolName The pool name
      */
     void setPoolName( String strPoolName );
@@ -87,7 +87,7 @@ public interface ConnectionService
     void setLogger( Logger logger );
 
     /**Gets the logger
-     * 
+     *
      * @return  The logger
      */
     Logger getLogger(  );

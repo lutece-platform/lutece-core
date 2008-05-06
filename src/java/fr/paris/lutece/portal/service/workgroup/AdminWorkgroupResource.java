@@ -39,8 +39,8 @@ package fr.paris.lutece.portal.service.workgroup;
  */
 public interface AdminWorkgroupResource
 {
-    /** 
-     * Gets the Workgroup of the Resource 
+    /**
+     * Gets the Workgroup of the Resource
      * @return The workgroup
      */
     String getWorkgroup(  );

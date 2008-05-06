@@ -54,7 +54,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * FeaturesGroupJspBean 
+ * FeaturesGroupJspBean
  */
 public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 {

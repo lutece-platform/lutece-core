@@ -106,7 +106,7 @@ public final class AdminAuthenticationService
 
     /**
      * Gets the AdminUser attached to the current Http session
-     * 
+     *
      * @return A valid AdminUser object if found
      * @param request The Http request
      * @throws AccessDeniedException If the user cannot have access
@@ -212,11 +212,11 @@ public final class AdminAuthenticationService
 
     /**
      * Bind user : complete module user with local settings (roles, etc)
-     * 
+     *
      * @param user The current user
      * @throws AccessDeniedException If the user cannot have access
      * @throws UserNotSignedException If the user is not signed
-     * @return 
+     * @return
      */
     private AdminUser bindUser( AdminUser user ) throws AccessDeniedException, UserNotSignedException
     {
@@ -247,7 +247,7 @@ public final class AdminAuthenticationService
 
     /**
      * Register the user in the Http session
-     * 
+     *
      * @param request The Http request
      * @param user The current user
      * @throws AccessDeniedException If the user cannot have access
@@ -361,7 +361,7 @@ public final class AdminAuthenticationService
 
     /**
      * Returns the user list
-     * 
+     *
      * @return the collection of all users from the module
      * @param strLastName The last name
      * @param strFirstName The first name
@@ -373,7 +373,7 @@ public final class AdminAuthenticationService
     }
 
     /**
-     * 
+     *
      * @param strAccessCode The login
      * @return The AdminUser
      */

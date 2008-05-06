@@ -145,8 +145,7 @@ public class ConnectionPool
      * @return An open connection
      * @throws SQLException The SQL exception
      */
-    private Connection getConnection( long timeout )
-        throws SQLException
+    private Connection getConnection( long timeout ) throws SQLException
     {
         // Get a pooled Connection from the cache or a new one.
         // Wait if all are checked out and the max limit has
@@ -157,7 +156,8 @@ public class ConnectionPool
 
         if ( conn == null )
         {
-            throw new AppException( "Connection pool error : max connections reached (" + _nMaxConns +  "). No more connection available" );
+            throw new AppException( "Connection pool error : max connections reached (" + _nMaxConns +
+                "). No more connection available" );
         }
 
         // Check if the Connection is still OK
@@ -228,7 +228,8 @@ public class ConnectionPool
      * @return An opened connection
      * @throws SQLException The exception
      */
-    private synchronized Connection getPooledConnection(  ) throws SQLException
+    private synchronized Connection getPooledConnection(  )
+        throws SQLException
     {
         Connection conn = null;
 
@@ -266,7 +267,7 @@ public class ConnectionPool
             conn = DriverManager.getConnection( _strUrl, _strUser, _strPassword );
         }
 
-        _logger.info( "New connection created. Connections count is : " + ( getConnectionCount()  + 1 ) );
+        _logger.info( "New connection created. Connections count is : " + ( getConnectionCount(  ) + 1 ) );
 
         return conn;
     }
@@ -313,46 +314,43 @@ public class ConnectionPool
      */
     private String getStats(  )
     {
-        return "Total connections: " + getConnectionCount() + " Available: " +
-        getFreeConnectionCount() + " Checked-out: " + getBusyConnectionCount();
+        return "Total connections: " + getConnectionCount(  ) + " Available: " + getFreeConnectionCount(  ) +
+        " Checked-out: " + getBusyConnectionCount(  );
     }
-    
+
     /**
      * Returns the number of connections opened by the pool (available or busy)
      * @return A connection count
      */
-    
-    public int getConnectionCount()
+    public int getConnectionCount(  )
     {
-        return  getFreeConnectionCount() + getBusyConnectionCount();
+        return getFreeConnectionCount(  ) + getBusyConnectionCount(  );
     }
-    
+
     /**
      * Returns the number of free connections of the pool (available or busy)
      * @return A connection count
      */
-    public int getFreeConnectionCount()
+    public int getFreeConnectionCount(  )
     {
-        return  _freeConnections.size(  );
+        return _freeConnections.size(  );
     }
 
     /**
      * Returns the number of busy connections of the pool (available or busy)
      * @return A connection count
      */
-    public int getBusyConnectionCount()
+    public int getBusyConnectionCount(  )
     {
-        return  _nCheckedOut;
+        return _nCheckedOut;
     }
-    
+
     /**
      * Returns the maximum number of connections of the pool
      * @return A connection count
      */
-    public int getMaxConnectionCount()
+    public int getMaxConnectionCount(  )
     {
-        return  _nMaxConns;
+        return _nMaxConns;
     }
-    
-    
 }

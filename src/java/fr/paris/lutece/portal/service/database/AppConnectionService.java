@@ -44,6 +44,7 @@ import java.io.InputStream;
 
 import java.sql.Connection;
 
+
 /**
  * This class provides a Database Connection Service based on pooled connections.
  */
@@ -135,7 +136,6 @@ public final class AppConnectionService
         }
 
         return _poolManager;
-       
     }
 
     /**
@@ -145,9 +145,9 @@ public final class AppConnectionService
      */
     public static void getPoolList( ReferenceList list )
     {
-        for ( ConnectionService cs : _poolManager.getPools() )
+        for ( ConnectionService cs : _poolManager.getPools(  ) )
         {
-            list.addItem( cs.getPoolName() ,  cs.getPoolName()  );
+            list.addItem( cs.getPoolName(  ), cs.getPoolName(  ) );
         }
     }
 

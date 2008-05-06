@@ -44,7 +44,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 
 /**
- * This class provides a Wrapper of an HTTP request that handle multipart content 
+ * This class provides a Wrapper of an HTTP request that handle multipart content
  */
 public class MultipartHttpServletRequest extends HttpServletRequestWrapper
 {
@@ -115,7 +115,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
     }
 
     /**
-     * Gets a map of all files attached to the request 
+     * Gets a map of all files attached to the request
      * @return The map
      */
     public Map getFileMap(  )

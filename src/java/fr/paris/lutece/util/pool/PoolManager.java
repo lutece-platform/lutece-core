@@ -38,8 +38,6 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.pool.service.ConnectionPool;
 import fr.paris.lutece.util.pool.service.ConnectionService;
 import fr.paris.lutece.util.pool.service.LuteceConnectionService;
-import java.util.Collection;
-import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
@@ -47,7 +45,9 @@ import java.io.InputStream;
 
 import java.sql.Connection;
 
+import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Properties;
 
@@ -65,10 +65,10 @@ public final class PoolManager
 
     /**
      * Creates a new PoolManager object.
-     * 
-     * 
+     *
+     *
      * @param isDbProperties A properties file containing pools parameters.
-     * @throws LuteceInitException If any error occured 
+     * @throws LuteceInitException If any error occured
      */
     private PoolManager( InputStream isDbProperties ) throws LuteceInitException
     {
@@ -77,10 +77,10 @@ public final class PoolManager
 
     /**
      * This method returns the unique instance of the PoolManager.
-     * 
+     *
      * @return The unique instance of Poolmanager.
      * @param isDbProperties An InputStream on a db.properties File to initialiaze the pool if it's not already created.
-     * @throws LuteceInitException  If any error occured 
+     * @throws LuteceInitException  If any error occured
      */
     public static synchronized PoolManager getInstance( InputStream isDbProperties )
         throws LuteceInitException
@@ -95,9 +95,9 @@ public final class PoolManager
 
     /**
      * Initializes pools with parameters defined in a db.properties File.
-     * 
+     *
      * @param is An InputStream on a db.properties File.
-     * @throws LuteceInitException If any error occured 
+     * @throws LuteceInitException If any error occured
      */
     private void init( InputStream is ) throws LuteceInitException
     {
@@ -120,9 +120,9 @@ public final class PoolManager
 
     /**
      * Creates all pools defined in a properties file.
-     * 
+     *
      * @param props A properties file containing pools parameters.
-     * @throws LuteceInitException  If any error occured 
+     * @throws LuteceInitException  If any error occured
      */
     private void createPools( Properties props ) throws LuteceInitException
     {
@@ -249,7 +249,7 @@ public final class PoolManager
      */
     public synchronized void release(  )
     {
-        for ( ConnectionService pool : _pools.values() )
+        for ( ConnectionService pool : _pools.values(  ) )
         {
             pool.release(  );
         }
@@ -259,31 +259,34 @@ public final class PoolManager
      * Returns all pools available
      * @return The list of available pools
      */
-    public Collection<ConnectionService> getPools()
+    public Collection<ConnectionService> getPools(  )
     {
-        return _pools.values();
+        return _pools.values(  );
     }
-    
+
     /**
      * Returns pool's infos (currently opened connections)
      * @return The pool's infos
      */
-    public ReferenceList getPoolsInfos()
+    public ReferenceList getPoolsInfos(  )
     {
-        ReferenceList listPoolsInfos = new ReferenceList();
-        Collection<ConnectionService> listPools = getPools();
-        for( ConnectionService cs : listPools )
+        ReferenceList listPoolsInfos = new ReferenceList(  );
+        Collection<ConnectionService> listPools = getPools(  );
+
+        for ( ConnectionService cs : listPools )
         {
-            if( cs instanceof LuteceConnectionService )
+            if ( cs instanceof LuteceConnectionService )
             {
-                ConnectionPool pool = ((LuteceConnectionService) cs).getConnectionPool();
-                listPoolsInfos.addItem( cs.getPoolName() , "" + pool.getConnectionCount() + " / " + pool.getMaxConnectionCount() );
-            }    
+                ConnectionPool pool = ( (LuteceConnectionService) cs ).getConnectionPool(  );
+                listPoolsInfos.addItem( cs.getPoolName(  ),
+                    "" + pool.getConnectionCount(  ) + " / " + pool.getMaxConnectionCount(  ) );
+            }
             else
             {
-                listPoolsInfos.addItem( cs.getPoolName() , "- / -" );
+                listPoolsInfos.addItem( cs.getPoolName(  ), "- / -" );
             }
         }
+
         return listPoolsInfos;
     }
 }

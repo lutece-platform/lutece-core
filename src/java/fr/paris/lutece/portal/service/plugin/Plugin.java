@@ -87,7 +87,7 @@ public abstract class Plugin implements Comparable<Plugin>
     private String _strPluginClass;
     private String _strDbPoolName;
     private String _strIconUrl;
-    private String  _strDocumentationUrl;
+    private String _strDocumentationUrl;
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
     private ContentService _contentService;
@@ -395,7 +395,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Register Page Includes
-     * @throws LuteceInitException 
+     * @throws LuteceInitException
      */
     protected void registerPageIncludes(  ) throws LuteceInitException
     {
@@ -720,7 +720,7 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         _strIconUrl = strIconUrl;
     }
-    
+
     /**
      * Returns the Documentation's URL of the plugin
      *
@@ -738,9 +738,9 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public void setDocumentationUrl( String strDocumentationUrl )
     {
-    	_strDocumentationUrl = strDocumentationUrl;
+        _strDocumentationUrl = strDocumentationUrl;
     }
-    
+
     /**
      * Returns the Copyright of the plugin
      *

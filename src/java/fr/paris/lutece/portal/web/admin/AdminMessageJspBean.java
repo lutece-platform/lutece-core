@@ -61,7 +61,6 @@ public class AdminMessageJspBean
     private static final String MARK_REQUEST_PARAMETERS = "list_parameters";
     private static final String PROPERTY_TITLE_ERROR = "portal.util.message.titleError";
 
-    
     /**
      * Retrieve a message stored into a request
      * @param request The HTTP request

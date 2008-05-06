@@ -42,10 +42,10 @@ import java.sql.SQLException;
 
 import java.util.Hashtable;
 
+
 /**
  * Lutece Connection Service
  */
-
 public class LuteceConnectionService implements ConnectionService
 {
     private String _strPoolName;
@@ -54,7 +54,7 @@ public class LuteceConnectionService implements ConnectionService
 
     /**
      * Sets the pool name
-     * @param strPoolName The pool name 
+     * @param strPoolName The pool name
      */
     public void setPoolName( String strPoolName )
     {
@@ -187,12 +187,12 @@ public class LuteceConnectionService implements ConnectionService
     {
         _connPool.release(  );
     }
-    
+
     /**
      * Returns the coonection pool
      * @return the coonection pool
      */
-    public ConnectionPool getConnectionPool()
+    public ConnectionPool getConnectionPool(  )
     {
         return _connPool;
     }

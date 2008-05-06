@@ -101,7 +101,7 @@ public final class SiteMessageService
      * @param strMessageKey The message key
      * @param nMessageType The message type
      * @param strUrl The url o fthe Ok button
-     * @param requestParameters 
+     * @param requestParameters
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
     public static void setMessage( HttpServletRequest request, String strMessageKey, int nMessageType, String strUrl,
@@ -180,7 +180,7 @@ public final class SiteMessageService
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @param messageArgs Message Arguments
-     * @param strUrl 
+     * @param strUrl
      * @param strTitleKey The title key
      * @param nMessageType The message type
      * @throws SiteMessageException occurs when a site message need to be displayed

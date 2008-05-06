@@ -83,9 +83,9 @@ public class PageService extends ContentService implements ImageResourceProvider
 
     /** Access denied template */
     public static final String TEMPLATE_PAGE_ACCESS_DENIED = "/skin/site/page_access_denied.html";
+
     /** Access Controled template */
     public static final String TEMPLATE_PAGE_ACCESS_CONTROLED = "/skin/site/page_access_controled.html";
-    
     private static final String MARK_PORTLET = "portlet";
     private static final String MARK_URL_LOGIN = "url_login";
 
@@ -129,7 +129,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     }
 
     /**
-     * Gets the service instance 
+     * Gets the service instance
      * @return The unique Instance
      */
     public static synchronized PageService getInstance(  )

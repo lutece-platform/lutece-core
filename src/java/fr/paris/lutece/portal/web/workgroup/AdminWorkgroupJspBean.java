@@ -110,7 +110,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         HashMap<String, Collection<AdminWorkgroup>> model = new HashMap<String, Collection<AdminWorkgroup>>(  );
         Collection<AdminWorkgroup> listWorkGroups = AdminWorkgroupHome.findAll(  );
 
-        if ( ! getUser(  ).isAdmin(  ) )
+        if ( !getUser(  ).isAdmin(  ) )
         {
             listWorkGroups = AdminWorkgroupService.getAuthorizedCollection( (Collection<?extends AdminWorkgroupResource>) listWorkGroups,
                     getUser(  ) );
@@ -368,7 +368,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         // Add user with high or equal level  or  do not add users if connected user is administrator
         for ( AdminUser user : listAdminUsers )
         {
-            if ( ( user.getUserLevel(  ) <= getUser(  ).getUserLevel(  ) ) && ( ! getUser(  ).isAdmin(  ) ) )
+            if ( ( user.getUserLevel(  ) <= getUser(  ).getUserLevel(  ) ) && ( !getUser(  ).isAdmin(  ) ) )
             {
                 AdminWorkgroupHome.addUserForWorkgroup( user, strWorkgroupKey );
             }

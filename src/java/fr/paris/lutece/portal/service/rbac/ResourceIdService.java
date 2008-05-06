@@ -54,7 +54,7 @@ public abstract class ResourceIdService
 
     /**
      * Provide the list of all resources (id - label)
-     * 
+     *
      * @return the list of all resources available for restricted access
      * @param locale The locale
      */
@@ -62,7 +62,7 @@ public abstract class ResourceIdService
 
     /**
      * Provide the title of a resource given its id
-     * 
+     *
      * @return the title the corresponding label
      * @param locale The locale
      * @param strId the id of the resource

@@ -43,7 +43,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * This class includes metas into the head of the HTML page 
+ * This class includes metas into the head of the HTML page
  */
 public class MetasInclude implements PageInclude
 {

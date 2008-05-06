@@ -49,10 +49,10 @@ public class ImageResourceManager
     private static Map<String, ImageResourceProvider> _mapResourceTypes = new HashMap<String, ImageResourceProvider>(  );
 
     /** private constructor */
-    private ImageResourceManager()
+    private ImageResourceManager(  )
     {
     }
-    
+
     /**
      * Registers a new resource type
      *

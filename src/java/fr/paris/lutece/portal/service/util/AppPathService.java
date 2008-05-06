@@ -79,7 +79,7 @@ public final class AppPathService
 
     /**
      * Initialize The path service
-     * 
+     *
      * @param context The servlet context
      */
     public static void init( ServletContext context )
@@ -90,7 +90,7 @@ public final class AppPathService
 
     /**
      * Initialize The webapppath
-     * 
+     *
      * @param strWebAppPath The Webapp path
      */
     public static void init( String strWebAppPath )

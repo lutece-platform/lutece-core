@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * This class provides a Wrapper of an Http response that manage a correct UTF-8 encoding
- * 
+ *
  */
 public class EncodingServletResponse extends javax.servlet.http.HttpServletResponseWrapper
 {

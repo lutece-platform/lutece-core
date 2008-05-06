@@ -434,7 +434,7 @@ public final class PortalService extends XmlTransformerService
      * Formats the path specified in parameter and returns it
      *
      * @param strPath The path to format
-     * @param request The HTTP request 
+     * @param request The HTTP request
      * @return the html code to display the path
      */
     public static String formatPath( String strPath, HttpServletRequest request )
@@ -483,7 +483,7 @@ public final class PortalService extends XmlTransformerService
      * @param strXPageName The xpage name
      * @param nMode The mode to use for the formatting
      * @param strTitlesUrls list of links (url and titles)
-     * @param request The HTTP request 
+     * @param request The HTTP request
      * @return the formatted path
      */
     public static String getXPagePathContent( String strXPageName, int nMode, String strTitlesUrls,

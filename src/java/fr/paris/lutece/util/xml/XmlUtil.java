@@ -74,7 +74,7 @@ public final class XmlUtil
     }
 
     /**
-     * Gets the header of an XML file 
+     * Gets the header of an XML file
      * @return The header
      */
     public static String getXmlHeader(  )

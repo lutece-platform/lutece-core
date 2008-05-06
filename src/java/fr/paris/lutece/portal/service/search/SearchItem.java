@@ -59,7 +59,7 @@ public class SearchItem
 
     /**
      * Constructor
-     * @param document The document retrieved by the search 
+     * @param document The document retrieved by the search
      */
     public SearchItem( Document document )
     {

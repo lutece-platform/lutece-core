@@ -250,23 +250,23 @@ public class Right implements Localizable
         _strIconUrl = strIconUrl;
     }
 
-	/**
-	 * Returns the url of the documentation associated to the right.
-	 * 
-	 * @return the _strDocumentationUrl
-	 */
-	public String getDocumentationUrl( ) 
-	{
-		return _strDocumentationUrl;
-	}
+    /**
+     * Returns the url of the documentation associated to the right.
+     *
+     * @return the _strDocumentationUrl
+     */
+    public String getDocumentationUrl(  )
+    {
+        return _strDocumentationUrl;
+    }
 
-	/**
-	 * Sets the url of the documentation associated to the right.
-	 * 
-	 * @param documentationUrl the _strDocumentationUrl to set
-	 */
-	public void setDocumentationUrl( String strDocumentationUrl ) 
-	{
-		_strDocumentationUrl = strDocumentationUrl;
-	}
+    /**
+     * Sets the url of the documentation associated to the right.
+     *
+     * @param documentationUrl the _strDocumentationUrl to set
+     */
+    public void setDocumentationUrl( String strDocumentationUrl )
+    {
+        _strDocumentationUrl = strDocumentationUrl;
+    }
 }

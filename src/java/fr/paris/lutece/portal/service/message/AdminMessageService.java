@@ -67,10 +67,10 @@ public class AdminMessageService
     /**
      * Private constructor
      */
-    private AdminMessageService()
+    private AdminMessageService(  )
     {
-        
     }
+
     /**
      * Returns the Url that display the given message
      * @param request The HttpRequest

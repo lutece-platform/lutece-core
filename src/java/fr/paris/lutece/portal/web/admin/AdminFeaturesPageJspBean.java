@@ -69,7 +69,7 @@ public abstract class AdminFeaturesPageJspBean
 
     // Properties
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
-    
+
     // private fields
     private String _strFeatureLabel;
     private String _strFeatureUrl;
@@ -189,17 +189,16 @@ public abstract class AdminFeaturesPageJspBean
         String strIconUrl = ( _strFeatureIcon != null ) ? _strFeatureIcon
                                                         : AppPropertiesService.getProperty( PROPERTY_DEFAULT_FEATURE_ICON );
         rootModel.put( MARK_FEATURE_ICON, strIconUrl );
-        
+
         String _strDocumentationUrl = null;
+
         if ( _strFeatureDocumentation != null )
         {
-        	_strDocumentationUrl = _strFeatureDocumentation;
+            _strDocumentationUrl = _strFeatureDocumentation;
         }
-        
-        
-        
+
         rootModel.put( MARK_FEATURE_DOCUMENTATION, _strDocumentationUrl );
-        
+
         rootModel.put( MARK_PAGE_TITLE, getPageTitle(  ) );
         rootModel.put( MARK_PAGE_CONTENT, strContent );
 
@@ -207,5 +206,4 @@ public abstract class AdminFeaturesPageJspBean
 
         return template.getHtml(  );
     }
-    
 }
