@@ -6,22 +6,22 @@
 	<body>
 		<section name="1. ADMINISTRATION DU SITE">
 			<OL type="I">
-				<li><a href="#a1._ADMINISTRATION_DU_SITE">Administration du site</a></li>
+				<li><a href="admin-site.html#a1._ADMINISTRATION_DU_SITE">Administration du site</a></li>
 				<ol>
-					<li><a href="#a1.1_Généralités_et_accès">Généralités et accès</a></li>
-					<li><a href="#a1.2_Création_de_larborescence">Création de l'arborescence</a></li>
-					<li><a href="#a1.3_Arborescence_et_Plan_du_site">Arborescence et Plan du site</a></li>
-					<li><a href="#a1.4_Zoom_sur_ladministration_des_pages_du_site">Zoom sur l'administration des pages du site</a></li>
+					<li><a href="admin-site.html#a1.1_Généralités_et_accès">Généralités et accès</a></li>
+					<li><a href="admin-site.html#a1.2_Création_de_larborescence">Création de l'arborescence</a></li>
+					<li><a href="admin-site.html#a1.3_Arborescence_et_Plan_du_site">Arborescence et Plan du site</a></li>
+					<li><a href="admin-site.html#a1.4_Zoom_sur_ladministration_des_pages_du_site">Zoom sur l'administration des pages du site</a></li>
 					<ol>
-						<li><a href="#Gerer_la_page_n">Gérer la page n</a></li>
-						<li><a href="#Proprietes_de_la_page">Propriétés de la page</a></li>
-						<li><a href="#Associer_une_image">Associer une image</a></li>
-						<li><a href="#Ajouter_une_rubrique">Ajouter une rubrique</a></li>
-						<li><a href="#Zoom_sur_le_champ_Texte_enrichi">Zoom sur le champ "Texte enrichi"</a></li>
-						<li><a href="#Ajouter_une_rubrique_alias">Ajouter une rubrique alias</a></li>
-						<li><a href="#Creer_une_page_fille">Créer une page fille</a></li>
-						<li><a href="#Autres_actions_sur_une_page">Autres actions sur une page</a></li>
-						<li><a href="#Visualisation_pleine_page">Visualisation pleine page</a></li>
+						<li><a href="admin-site.html#Gerer_la_page_n">Gérer la page n</a></li>
+						<li><a href="admin-site.html#Proprietes_de_la_page">Propriétés de la page</a></li>
+						<li><a href="admin-site.html#Associer_une_image">Associer une image</a></li>
+						<li><a href="admin-site.html#Ajouter_une_rubrique">Ajouter une rubrique</a></li>
+						<li><a href="admin-site.html#Zoom_sur_le_champ_Texte_enrichi">Zoom sur le champ "Texte enrichi"</a></li>
+						<li><a href="admin-site.html#Ajouter_une_rubrique_alias">Ajouter une rubrique alias</a></li>
+						<li><a href="admin-site.html#Creer_une_page_fille">Créer une page fille</a></li>
+						<li><a href="admin-site.html#Autres_actions_sur_une_page">Autres actions sur une page</a></li>
+						<li><a href="admin-site.html#Visualisation_pleine_page">Visualisation pleine page</a></li>
 					</ol>
 				</ol>
 			</OL>
