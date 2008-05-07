@@ -47,14 +47,14 @@ public interface IAliasPortletDAO extends IPortletInterfaceDAO
      *
      * @param portlet the portlet to insert in the database
      */
-    public abstract void insert( Portlet portlet );
+    void insert( Portlet portlet );
 
     /**
      * Delete a record from the table
      *
      * @param nPortletId the identifier of the portlet to be deleted
      */
-    public abstract void delete( int nPortletId );
+    void delete( int nPortletId );
 
     /**
      * Load the data of a portlet from the database
@@ -62,27 +62,27 @@ public interface IAliasPortletDAO extends IPortletInterfaceDAO
      * @param nPortletId the portlet identifier
      * @return the object Portlet initialized with the data of the database
      */
-    public abstract Portlet load( int nIdPortlet );
+    Portlet load( int nPortletId );
 
     /**
      * Update the record in the table
      *
      * @param portlet the portlet reference
      */
-    public abstract void store( Portlet portlet );
+    void store( Portlet portlet );
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#selectPortletsByTypeList(java.lang.String)
+    /**
+     * {@inheritDoc} 
      */
-    public abstract ReferenceList selectPortletsByTypeList( String strPortletTypeId );
+    ReferenceList selectPortletsByTypeList( String strPortletTypeId );
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#selectAliasId(int)
+    /**
+     * {@inheritDoc} 
      */
-    public abstract int selectAliasId( int nIdPortlet );
+    int selectAliasId( int nIdPortlet );
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#selectAcceptAliasPortletList()
+    /**
+     * {@inheritDoc} 
      */
-    public abstract ReferenceList selectAcceptAliasPortletList(  );
+    ReferenceList selectAcceptAliasPortletList(  );
 }

@@ -83,13 +83,8 @@ public final class PortletDAO implements IPortletDAO
     ///////////////////////////////////////////////////////////////////////////////////////
     //Access methods to data
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#insert(fr.paris.lutece.portal.business.portlet.Portlet)
-         */
-
     /**
-     * Insert a portlet
-     * @param portlet The portlet to insert
+     * {@inheritDoc} 
      */
     public void insert( Portlet portlet )
     {
@@ -111,13 +106,8 @@ public final class PortletDAO implements IPortletDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#delete(int)
-         */
-
     /**
-     * Delete a portlet
-     * @param nPortletId The portlet ID
+     * {@inheritDoc} 
      */
     public void delete( int nPortletId )
     {
@@ -141,14 +131,8 @@ public final class PortletDAO implements IPortletDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#load(int)
-         */
-
     /**
-     * Load a portlet
-     * @param nPortletId The portlet ID
-     * @return The loaded portlet
+     * {@inheritDoc} 
      */
     public Portlet load( int nPortletId )
     {
@@ -183,13 +167,8 @@ public final class PortletDAO implements IPortletDAO
         return portlet;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#store(fr.paris.lutece.portal.business.portlet.Portlet)
-         */
-
     /**
-     * Store a portlet
-     * @param portlet the portlet to update
+     * {@inheritDoc} 
      */
     public void store( Portlet portlet )
     {
@@ -232,14 +211,8 @@ public final class PortletDAO implements IPortletDAO
         return nKey;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#updateStatus(fr.paris.lutece.portal.business.portlet.Portlet, int)
-         */
-
     /**
-     * Update the portlet status
-     * @param portlet
-     * @param nStatus
+     * {@inheritDoc} 
      */
     public void updateStatus( Portlet portlet, int nStatus )
     {
@@ -252,15 +225,8 @@ public final class PortletDAO implements IPortletDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#selectXslFile(int, int)
-         */
-
     /**
-     * Select the XSL
-     * @param nPortletId The portlet ID
-     * @param nIdMode The mode
-     * @return The Style Sheet
+     * {@inheritDoc} 
      */
     public StyleSheet selectXslFile( int nPortletId, int nIdMode )
     {
@@ -284,14 +250,8 @@ public final class PortletDAO implements IPortletDAO
         return stylesheet;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#selectPortletsListbyName(java.lang.String)
-         */
-
     /**
-     * Retreive portlet by name
-     * @param strPortletName The portlet name
-     * @return A collection of portlets
+     * {@inheritDoc} 
      */
     public Collection selectPortletsListbyName( String strPortletName )
     {
@@ -315,14 +275,8 @@ public final class PortletDAO implements IPortletDAO
         return list;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#selectPortletsByType(java.lang.String)
-         */
-
     /**
-     * Retrieve a collectio of portlets by type
-     * @param strPortletTypeId The portlet type ID
-     * @return A collection of portlet
+     * {@inheritDoc} 
      */
     public List<Portlet> selectPortletsByType( String strPortletTypeId )
     {
@@ -346,14 +300,8 @@ public final class PortletDAO implements IPortletDAO
         return list;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#selectStylesList(java.lang.String)
-         */
-
     /**
-     * Retrieve a list of styles for a given portlet type
-     * @param strPortletTypeId The portlet type ID
-     * @return A list of styles
+     * {@inheritDoc} 
      */
     public ReferenceList selectStylesList( String strPortletTypeId )
     {
@@ -373,14 +321,8 @@ public final class PortletDAO implements IPortletDAO
         return list;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#hasAlias(int)
-         */
-
     /**
-     * Check if the portlet has an alias
-     * @param nPortletId The portlet ID
-     * @return True if the portlet has an alias
+     * {@inheritDoc} 
      */
     public boolean hasAlias( int nPortletId )
     {
@@ -400,14 +342,8 @@ public final class PortletDAO implements IPortletDAO
         return bHasAlias;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#selectPortletType(java.lang.String)
-         */
-
     /**
-     * Select a portlet type
-     * @param strPortletTypeId The portlet type ID
-     * @return The portlet type
+     * {@inheritDoc} 
      */
     public PortletType selectPortletType( String strPortletTypeId )
     {
@@ -432,14 +368,8 @@ public final class PortletDAO implements IPortletDAO
         return portletType;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IPortletDAO#selectPortletListByStyle(int)
-         */
-
     /**
-     * Retrieve a collection of portlet of a given style
-     * @param nStyleId The styleID
-     * @return A collection of portlet
+     * {@inheritDoc} 
      */
     public Collection selectPortletListByStyle( int nStyleId )
     {

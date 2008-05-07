@@ -56,8 +56,8 @@ public final class PortalComponentDAO implements IPortalComponentDAO
     ///////////////////////////////////////////////////////////////////////////////////////
     //Access methods to data
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.portalcomponent.IPortalComponentDAO#insert(fr.paris.lutece.portal.business.portalcomponent.PortalComponent)
+    /**
+     * {@inheritDoc} 
      */
     public synchronized void insert( PortalComponent portalComponent )
     {
@@ -94,8 +94,8 @@ public final class PortalComponentDAO implements IPortalComponentDAO
         return portalComponent;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.portalcomponent.IPortalComponentDAO#delete(int)
+    /**
+     * {@inheritDoc} 
      */
     public void delete( int nPortalComponentId )
     {
@@ -106,8 +106,8 @@ public final class PortalComponentDAO implements IPortalComponentDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.portalcomponent.IPortalComponentDAO#store(fr.paris.lutece.portal.business.portalcomponent.PortalComponent)
+    /**
+     * {@inheritDoc} 
      */
     public void store( PortalComponent portalComponent )
     {
@@ -121,9 +121,9 @@ public final class PortalComponentDAO implements IPortalComponentDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portalcomponent.IPortalComponentDAO#selectXslFile(int, int)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public StyleSheet selectXslFile( int nPortalComponentId, int nIdMode )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTXSL );

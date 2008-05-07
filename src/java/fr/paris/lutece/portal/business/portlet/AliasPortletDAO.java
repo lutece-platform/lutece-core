@@ -54,9 +54,9 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     ///////////////////////////////////////////////////////////////////////////////////////
     //Access methods to data
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#insert(fr.paris.lutece.portal.business.portlet.Portlet)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public synchronized void insert( Portlet portlet )
     {
         AliasPortlet alias = (AliasPortlet) portlet;
@@ -70,9 +70,9 @@ public final class AliasPortletDAO implements IAliasPortletDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#delete(int)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public void delete( int nPortletId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
@@ -82,9 +82,9 @@ public final class AliasPortletDAO implements IAliasPortletDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#load(int)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public Portlet load( int nIdPortlet )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
@@ -103,9 +103,9 @@ public final class AliasPortletDAO implements IAliasPortletDAO
         return portlet;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#store(fr.paris.lutece.portal.business.portlet.Portlet)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public void store( Portlet portlet )
     {
         AliasPortlet r = (AliasPortlet) portlet;
@@ -118,13 +118,9 @@ public final class AliasPortletDAO implements IAliasPortletDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#selectPortletsByTypeList(java.lang.String)
-         */
-
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#selectPortletsByTypeList(java.lang.String)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public ReferenceList selectPortletsByTypeList( String strPortletTypeId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETS_BY_TYPE );
@@ -143,13 +139,9 @@ public final class AliasPortletDAO implements IAliasPortletDAO
         return list;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#selectAliasId(int)
-         */
-
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#selectAliasId(int)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public int selectAliasId( int nIdPortlet )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALIAS_ID );
@@ -168,13 +160,9 @@ public final class AliasPortletDAO implements IAliasPortletDAO
         return nAliasId;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#selectAcceptAliasPortletList()
-         */
-
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.portlet.IAliasPortletDAO#selectAcceptAliasPortletList()
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public ReferenceList selectAcceptAliasPortletList(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST );

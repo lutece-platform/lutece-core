@@ -57,24 +57,24 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     private ILuteceDefaultAdminUserDAO _dao = (ILuteceDefaultAdminUserDAO) SpringContextService.getBean( 
             "luteceDefaultAdminUserDAO" );
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getAuthServiceName()
+    /**
+     * {@inheritDoc} 
      */
     public String getAuthServiceName(  )
     {
         return "LUTECE DEFAULT AUTHENTICATION";
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getAuthType(javax.servlet.http.HttpServletRequest)
+    /**
+     * {@inheritDoc} 
      */
     public String getAuthType( HttpServletRequest request )
     {
         return HttpServletRequest.BASIC_AUTH;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#login(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
+    /**
+     * {@inheritDoc} 
      */
     public AdminUser login( String strAccessCode, String strUserPassword, HttpServletRequest request )
         throws LoginException
@@ -107,16 +107,16 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
         return user;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#logout(fr.paris.lutece.portal.business.user.authentication.AdminUser)
+    /**
+     * {@inheritDoc} 
      */
     public void logout( AdminUser user )
     {
         // TODO Auto-generated method stub
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getAnonymousUser()
+    /**
+     * {@inheritDoc} 
      */
     public AdminUser getAnonymousUser(  )
     {
@@ -124,40 +124,40 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#isExternalAuthentication()
+    /**
+     * {@inheritDoc} 
      */
     public boolean isExternalAuthentication(  )
     {
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getHttpAuthenticatedUser(javax.servlet.http.HttpServletRequest)
+    /**
+     * {@inheritDoc} 
      */
     public AdminUser getHttpAuthenticatedUser( HttpServletRequest request )
     {
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getLoginPageUrl()
+    /**
+     * {@inheritDoc} 
      */
     public String getLoginPageUrl(  )
     {
         return "jsp/admin/AdminLogin.jsp";
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getNewAccountPageUrl()
+    /**
+     * {@inheritDoc} 
      */
     public String getChangePasswordPageUrl(  )
     {
         return "jsp/admin/user/ModifyDefaultUserPassword.jsp";
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getDoLoginUrl()
+    /**
+     * {@inheritDoc} 
      */
     public String getDoLoginUrl(  )
     {
@@ -165,8 +165,8 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getDoLogoutUrl()
+    /**
+     * {@inheritDoc} 
      */
     public String getDoLogoutUrl(  )
     {
@@ -174,8 +174,8 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getNewAccountPageUrl()
+    /**
+     * {@inheritDoc} 
      */
     public String getNewAccountPageUrl(  )
     {
@@ -183,8 +183,8 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getViewAccountPageUrl()
+    /**
+     * {@inheritDoc} 
      */
     public String getViewAccountPageUrl(  )
     {
@@ -192,8 +192,8 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getLostPasswordPageUrl()
+    /**
+     * {@inheritDoc} 
      */
     public String getLostPasswordPageUrl(  )
     {

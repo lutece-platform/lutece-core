@@ -106,9 +106,9 @@ public final class PageDAO implements IPageDAO
         return nKey;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.page.IPageDAO#insert(fr.paris.lutece.portal.business.page.Page)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public synchronized void insert( Page page )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
@@ -138,9 +138,9 @@ public final class PageDAO implements IPageDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.page.IPageDAO#load(int, boolean)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public Page load( int nPageId, boolean bPortlets )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
@@ -178,9 +178,9 @@ public final class PageDAO implements IPageDAO
         return page;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.page.IPageDAO#delete(int)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public void delete( int nPageId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
@@ -265,9 +265,9 @@ public final class PageDAO implements IPageDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.page.IPageDAO#selectChildPages(int)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public Collection<Page> selectChildPages( int nParentPageId )
     {
         Collection<Page> pageList = new ArrayList<Page>(  );
@@ -298,9 +298,9 @@ public final class PageDAO implements IPageDAO
         return pageList;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.page.IPageDAO#selectAllPages()
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public List<Page> selectAllPages(  )
     {
         List<Page> pageList = new ArrayList<Page>(  );
@@ -330,9 +330,9 @@ public final class PageDAO implements IPageDAO
         return pageList;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.page.IPageDAO#invalidatePage(int)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public void invalidatePage( int nPageId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PAGE_DATE );
@@ -366,9 +366,9 @@ public final class PageDAO implements IPageDAO
         return listPages;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.page.IPageDAO#selectNewChildPageOrder(int)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public int selectNewChildPageOrder( int nParentPageId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_CHILD_PAGE_ORDER );
@@ -390,9 +390,9 @@ public final class PageDAO implements IPageDAO
         return nPageOrder;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.page.IPageDAO#loadImageResource(int)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public ImageResource loadImageResource( int nIdPage )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RESOURCE_IMAGE );

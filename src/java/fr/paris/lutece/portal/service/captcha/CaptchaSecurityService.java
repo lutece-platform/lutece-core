@@ -80,8 +80,8 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
         }
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.jcaptcha.service.ICaptchaSecurityService#getActiveBlockHtml()
+    /**
+     * {@inheritDoc} 
      */
     public String getActiveBlockHtml(  )
     {
@@ -89,8 +89,8 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.jcaptcha.service.ICaptchaSecurityService#getHtmlCode()
+    /**
+     * {@inheritDoc} 
      */
     public String getHtmlCode(  )
     {
@@ -104,16 +104,16 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
         }
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.jcaptcha.service.ICaptchaSecurityService#setActive(boolean)
+    /**
+     * {@inheritDoc} 
      */
     public void setActive( boolean isActive )
     {
         _bActive = isActive;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.jcaptcha.service.ICaptchaSecurityService#validate(javax.servlet.http.HttpServletRequest)
+    /**
+     * {@inheritDoc} 
      */
     public boolean validate( HttpServletRequest request )
     {
@@ -127,16 +127,16 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
         }
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.jcaptcha.service.ICaptchaSecurityService#isActive()
+    /**
+     * {@inheritDoc} 
      */
     public boolean isActive(  )
     {
         return _bActive;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.jcaptcha.service.ICaptchaSecurityService#isAvailable()
+    /**
+     * {@inheritDoc} 
      */
     public boolean isAvailable(  )
     {
