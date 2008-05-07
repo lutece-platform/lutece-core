@@ -71,15 +71,12 @@ public abstract class InsertServiceJspBean
      */
     protected String insertUrl( HttpServletRequest request, String strInput, String strInsert )
     {
-        // Encode the HTML code to insert
-        AppLogService.info( "'" + strInsert + "'");
+        // No CR is allowed in the insert string
+        String strCleanInsert = strInsert.replaceAll( "\n" , "" );
+        strCleanInsert = strCleanInsert.replaceAll( "\r" , "" );
         
-        strInsert.replace( "\n" , "" );  // No CR is allowed in the insert string
-        strInsert.replace( "\r" , "" );  // No CR is allowed in the insert string
-        AppLogService.info( "'" + strInsert + "'");
-        String strEncodedInsert = EncodingService.encodeUrl( strInsert );
-        strEncodedInsert.replace( "%0D" , "" );  // No CR is allowed in the insert string
-        strEncodedInsert.replace( "%0A" , "" );  // No CR is allowed in the insert string
+        // Encode the HTML code to insert
+        String strEncodedInsert = EncodingService.encodeUrl( strCleanInsert );
 
         // Build the url to make the insert
         UrlItem urlDoInsert = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_DO_INSERT );
