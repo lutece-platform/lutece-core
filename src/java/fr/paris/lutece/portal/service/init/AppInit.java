@@ -120,6 +120,9 @@ public final class AppInit
             // Initializes the connection pools
             AppConnectionService.init( strConfPath, FILE_PROPERTIES_DATABASE, "portal" );
             AppLogService.info( "Creating connexions pool 'portal'." );
+            
+            // Initialize and run StartUp services
+            StartUpServiceManager.init(  );
 
             AdminMailingListService.init(  );
 

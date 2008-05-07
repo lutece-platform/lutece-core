@@ -3,6 +3,19 @@
 
 <beans>
     
+  <bean id="startUpServiceManager" class="fr.paris.lutece.portal.service.init.StartUpServiceManager" >
+      <property name="servicesList">
+		<list>
+                    <!--
+                     Insert Services Here
+                     <idref bean="myStartUpService" />
+                    -->
+		</list>
+	</property>
+
+      
+  </bean>  
+  
   <!--                      Search Engine                                   -->  
   <bean id="searchEngine" class="fr.paris.lutece.portal.service.search.LuceneSearchEngine" />
     
