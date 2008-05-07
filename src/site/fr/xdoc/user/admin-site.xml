@@ -4,12 +4,28 @@
 		<title>Guide de démarrage rapide - Lutèce V2</title>
 	</properties>
 	<body>
-		<section name="1. LUTECE V2 : PRESENTATION GENERALE">
-			<subsection name="2.1 Administration du site">
-							
-							<a name="2.1.1_Généralités_et_accès"/>
-							<h4>2.1.1 Généralités et accès</h4>
-							
+		<section name="1. ADMINISTRATION DU SITE">
+			<OL type="I">
+				<li><a href="#a1._ADMINISTRATION_DU_SITE">Administration du site</a></li>
+				<ol>
+					<li><a href="#a1.1_Généralités_et_accès">Généralités et accès</a></li>
+					<li><a href="#a1.2_Création_de_larborescence">Création de l'arborescence</a></li>
+					<li><a href="#a1.3_Arborescence_et_Plan_du_site">Arborescence et Plan du site</a></li>
+					<li><a href="#a1.4_Zoom_sur_ladministration_des_pages_du_site">Zoom sur l'administration des pages du site</a></li>
+					<ol>
+						<li><a href="#Gerer_la_page_n">Gérer la page n</a></li>
+						<li><a href="#Proprietes_de_la_page">Propriétés de la page</a></li>
+						<li><a href="#Associer_une_image">Associer une image</a></li>
+						<li><a href="#Ajouter_une_rubrique">Ajouter une rubrique</a></li>
+						<li><a href="#Zoom_sur_le_champ_Texte_enrichi">Zoom sur le champ "Texte enrichi"</a></li>
+						<li><a href="#Ajouter_une_rubrique_alias">Ajouter une rubrique alias</a></li>
+						<li><a href="#Creer_une_page_fille">Créer une page fille</a></li>
+						<li><a href="#Autres_actions_sur_une_page">Autres actions sur une page</a></li>
+						<li><a href="#Visualisation_pleine_page">Visualisation pleine page</a></li>
+					</ol>
+				</ol>
+			</OL>
+			<subsection name="1.1 Généralités et accès">
 							<p>
 							Comme évoqué plus haut, l'<strong>administration du site</strong> permet : 
 							</p>
@@ -39,8 +55,8 @@
 			          <img alt="Admin AdminSite Accueil" src="../user/images/admin/admin_site_home.gif"/>
 			         </center>
 			       </p>
-							<a name="2.1.2_Création_de_l'arborescence"/>
-							<h4>2.1.2 Création de l'arborescence</h4>
+			       </subsection>
+			       <subsection name="1.2 Création de l'arborescence">
 			        <p>
 			        C'est à partir de la page d'accueil que se constitue donc
 			        l'arborescence du site. 
@@ -132,8 +148,8 @@
 			               </p>
 			           </ul>
 			       </p>
-							<a name="2.1.3_Arborescence_et_Plan_du_site"/>
-							<h4>2.1.3 Arborescence et Plan du site</h4>
+			       </subsection>
+			       <subsection name="1.3 Arborescence et Plan du site">
 							<p>
 							  <center>
 							    <img src="../user/images/admin/admin_site_map_zoom_1.gif" alt="Plan site Zoom"/>
@@ -156,10 +172,10 @@
 			       <p>
 			       Après le déploiement d'une sous-arborescence, il est possible de déployer une autre sous-arborescence de son choix.
 			       </p>
-							<a name="2.1.4_Zoom_sur_l'administration_des_pages_du_site"/>
-							<h4>2.1.4 Zoom sur l'administration des pages du site</h4>
-							
-							<h5>Gérer la page n</h5>
+			       </subsection>
+			       <subsection name="1.4 Zoom sur l'administration des pages du site">
+		      	 		<a name="Gerer_la_page_n"/>
+						<h4>1.4.1 Gérer la page n</h4>
 							
 							<p>
 			L’onglet " <strong>Gérer la page n</strong> " situé dans la navigation gauche, permet de définir les propriétés de chaque page et d’y ajouter du contenu. Les actions possibles sont les suivantes :
@@ -192,7 +208,7 @@
 			        </p>
 							
 			  				<a name="Proprietes_de_la_page"/>
-			  				<h5>Propriétés de la page</h5>
+			  				<h4>1.4.2 Propriétés de la page</h4>
 							  <p>				  
 			          Pour accéder aux propriétés de la page cliquez sur l’icône « + » à gauche du label « Propriétés de la page » :
 							  </p>
@@ -264,7 +280,7 @@
 			           Après avoir défini ces propriétés, cliquer sur le bouton « <strong>Modifier</strong> ». 
 			           </p>
 							  <a name="Associer_une_image"/>
-							  <h5>Associer une image</h5>
+							  <h4>1.4.3 Associer une image</h4>
 							  <p>
 							  Pour associer une image à une page, cliquer sur l’icône « + » à gauche du titre « <em>Associer une image</em> » :
 							  </p>
@@ -291,8 +307,8 @@
 			       L’image associée à chaque page apparaîtra dans le plan du site public permettant ainsi d'illustrer le contenu de la page et de sa sous-arborescence. 
 			       </p>
 							  
-							    <a name="Ajouter_une_rubrique"/>
-							  <h5>Ajouter une rubrique</h5>
+					   		  <a name="Ajouter_une_rubrique"/>
+							  <h4>1.4.4 Ajouter une rubrique</h4>
 							  <p>
 							  Pour ajouter une rubrique à la page courante, cliquer dans la navigation gauche sur l’icône « + » à gauche du titre « <em>Ajouter une rubrique</em> » :
 							  </p>
@@ -386,7 +402,7 @@
 			       </p>
 			       
 			        <a name="Zoom_sur_le_champ_Texte_enrichi"/>
-			       <h5>Zoom sur le champ "Texte enrichi"</h5>
+			       <h4>1.4.5 Zoom sur le champ "Texte enrichi"</h4>
 			       <p>
 			       Le champ de texte enrichi (ou rich text) est proposé sur plusieurs types de contenus.
 			Il permet d'effectuer les actions suivantes sur les contenus saisis  : 
@@ -505,7 +521,7 @@
 			           </ol>
 			       </p>
 			        <a name="Ajouter_une_rubrique_alias"/>
-							<h5> Ajouter une rubrique alias</h5>
+					<h4>1.4.6 Ajouter une rubrique alias</h4>
 			        <p>
 			        Cette fonctionnalité "Alias" permet de faire apparaitre une même rubrique (et son contenu) dans plusieurs pages du site public. 
 			        </p>
@@ -529,8 +545,8 @@
 			           </ol>
 			        </p>
 			        
-							<a name="Creer_une_page_fille"/>
-							<h5>Créer une page fille</h5>
+					<a name="Creer_une_page_fille"/>
+					<h4>1.4.7 Créer une page fille</h4>
 							<p>
 			        La création d'une page fille permet de créer une sous-arborescence à une page existante.
 			        </p>
@@ -561,7 +577,7 @@
 			        </p>
 			        
 			        <a name="Autres_actions_sur_une_page"/>
-							<h5>Autres actions sur une page</h5>
+					<h4>1.4.8 Autres actions sur une page</h4>
 			        <p>
 			        Pour toutes les pages (sauf la page d’accueil), les actions suivantes sont possibles :
 			        </p>
@@ -606,7 +622,7 @@
 			       </p>
 			       
 			       <a name="Visualisation_pleine_page"/>
-							<h5>Visualisation pleine page</h5>
+				   <h4>1.4.9 Visualisation pleine page</h4>
 			       <p>
 			       Dans la navigation gauche, à droite de l'onglet "Plan du site l'icône <img alt="Visu Pleine Page" src="../user/images/icones/application_side_contract.gif"/> permet de replier la partie gauche. 
 			       Cette version "pleine page" est très proche du site public (<em>avec les icônes d'accès à la modification de chaque rubrique</em>) Le site public (<em>tel que l'internaute le visualisera, et donc sans les icônes d'accès à la modification de chaque rubrique</em>) est accessible en cliquant sur l'<strong>onglet Site</strong>, à droite du bandeau supérieur. 
