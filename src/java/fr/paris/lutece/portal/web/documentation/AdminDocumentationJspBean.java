@@ -100,7 +100,7 @@ public class AdminDocumentationJspBean
     private static final String LOCAL_DEFAULT = "en";
     private static final String XML_BASE_PATH = "/doc/xml/";
     private static final String XML_USER_PATH = "/xdoc/user/";
-    private static final String FEATURES_GROPU_SYSTEM = "SYSTEM";
+    private static final String FEATURES_GROUP_SYSTEM = "SYSTEM";
 
     /**
     * Returns the view of features documentation
@@ -242,7 +242,7 @@ public class AdminDocumentationJspBean
             features = aLeftFeatures;
         }
 
-        FeatureGroup featureGroupSystem = FeatureGroupHome.findByPrimaryKey( FEATURES_GROPU_SYSTEM );
+        FeatureGroup featureGroupSystem = FeatureGroupHome.findByPrimaryKey( FEATURES_GROUP_SYSTEM );
 
         if ( ( featureGroupSystem != null ) && !features.isEmpty(  ) )
         {
