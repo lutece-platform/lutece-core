@@ -8,6 +8,9 @@
 		
 		<menu name="Lutece : le noyau">
 			<item name="Introduction" href="index.html"/>
+			<item name="Utilisation" href="/user/admin-core.html" collapse="true" >
+            	<item name="Administration du site" href="/user/admin-site.html"/>
+			</item>
 		</menu>
        <menu name="Guide de d&#233;veloppement">
             <item name="Services de base" href="core-services.html"/>

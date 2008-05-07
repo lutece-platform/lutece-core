@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>
+            Menu principal de l'utilisation du c&#339;ur de Lut&#232;ce
+        </title>
+    </properties>
+    <body>
+        <section name="C&#339;ur">
+             <p>
+            	 Le menu principal r&#233;capitule en fonction des r&#244;les de l'utilisateur les fonctionnalit&#233;s n&#233;cessaires &#224; la gestion du c&#339;ur de Lut&#232;ce.
+            </p>
+
+             <ul>
+                 <li><a href="admin-site.html">Administration du site</a></li>
+             </ul>
+           </section>
+   </body>
+</document>       
+             
