@@ -74,9 +74,7 @@ public class DosGuardFilter implements Filter
     private LinkedList<Entry> _listOrderedRequests;
 
     /**
-     * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
-     * @param config The FilterConfig
-     * @throws ServletException
+     * {@inheritDoc} 
      */
     public void init( FilterConfig config ) throws ServletException
     {
@@ -109,7 +107,7 @@ public class DosGuardFilter implements Filter
     }
 
     /**
-     * @see javax.servlet.Filter#destroy()
+     * {@inheritDoc} 
      */
     public void destroy(  )
     {
@@ -117,13 +115,7 @@ public class DosGuardFilter implements Filter
     }
 
     /**
-     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
-     *      javax.servlet.ServletResponse, javax.servlet.FilterChain)
-         * @param request The ServletRequest
-         * @param response The ServletResponse
-         * @param chain The FilterChain
-         * @throws IOException
-         * @throws ServletException
+     * {@inheritDoc} 
      */
     public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
         throws IOException, ServletException
@@ -258,17 +250,30 @@ public class DosGuardFilter implements Filter
         private String _strRemoteAddr = null;
         private long _lRequestTime = 0;
 
+        /**
+         * Constructor
+         * @param strRemoteAddr The remote address
+         * @param lRequestTime The request time
+         */
         public Entry( String strRemoteAddr, long lRequestTime )
         {
             this._strRemoteAddr = strRemoteAddr;
             this._lRequestTime = lRequestTime;
         }
 
+        /**
+         * Gets the remote address
+         * @return The remote address 
+         */
         public String getRemoteAddr(  )
         {
             return _strRemoteAddr;
         }
 
+        /**
+         * Gets the request time
+         * @return The request time 
+         */
         public long getRequestTime(  )
         {
             return _lRequestTime;

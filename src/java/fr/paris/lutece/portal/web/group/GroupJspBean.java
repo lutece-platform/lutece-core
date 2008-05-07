@@ -59,6 +59,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class GroupJspBean extends AdminFeaturesPageJspBean
 {
+    // Right
+    public static final String RIGHT_GROUPS_MANAGEMENT = "CORE_GROUPS_MANAGEMENT";
+
     //Constants
     private static final String MANAGE_GROUPS = "ManageGroups.jsp";
 
@@ -94,8 +97,6 @@ public class GroupJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_ERROR_REMOVE = "portal.group.message.errorRemoveGroup";
     private static final String MESSAGE_ERROR_MANAGE_GROUPS = "portal.group.message.errorManageGroups";
 
-    // Right
-    public static final String RIGHT_GROUPS_MANAGEMENT = "CORE_GROUPS_MANAGEMENT";
 
     /**
      * Creates a new GroupJspBean object.

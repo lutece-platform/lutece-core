@@ -71,6 +71,11 @@ public class XPageAppService extends ContentService
     private static final String MESSAGE_ERROR_APP_BODY = "portal.util.message.errorXpageApp";
     private static Map<String, XPageApplicationEntry> _mapApplications = new HashMap<String, XPageApplicationEntry>(  );
 
+    /**
+     * Register an application by its entry defined in the plugin xml file
+     * @param entry The application entry
+     * @throws LuteceInitException If an error occured 
+     */
     public static void registerXPageApplication( XPageApplicationEntry entry )
         throws LuteceInitException
     {
@@ -252,11 +257,20 @@ public class XPageAppService extends ContentService
         return PortalService.buildPageContent( data, nMode, request );
     }
 
+    /**
+     * Gets Application entry by name
+     * @param strName The application's name
+     * @return The entry
+     */
     public static XPageApplicationEntry getApplicationEntry( String strName )
     {
         return _mapApplications.get( strName );
     }
 
+    /**
+     * Gets applications list
+     * @return A collection of applications
+     */
     public static Collection<XPageApplicationEntry> getXPageApplicationsList(  )
     {
         return _mapApplications.values(  );

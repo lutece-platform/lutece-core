@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -84,7 +83,7 @@ public abstract class AdminFeaturesPageJspBean
      * Allows to set the feature url and feature title associated
      * @param request the HTTP request
      * @param strRight The right
-     * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException Access denied exception
+     * @throws AccessDeniedException Access denied exception
      */
     public void init( HttpServletRequest request, String strRight )
         throws AccessDeniedException
@@ -190,14 +189,14 @@ public abstract class AdminFeaturesPageJspBean
                                                         : AppPropertiesService.getProperty( PROPERTY_DEFAULT_FEATURE_ICON );
         rootModel.put( MARK_FEATURE_ICON, strIconUrl );
 
-        String _strDocumentationUrl = null;
+        String strDocumentationUrl = null;
 
         if ( _strFeatureDocumentation != null )
         {
-            _strDocumentationUrl = _strFeatureDocumentation;
+            strDocumentationUrl = _strFeatureDocumentation;
         }
 
-        rootModel.put( MARK_FEATURE_DOCUMENTATION, _strDocumentationUrl );
+        rootModel.put( MARK_FEATURE_DOCUMENTATION, strDocumentationUrl );
 
         rootModel.put( MARK_PAGE_TITLE, getPageTitle(  ) );
         rootModel.put( MARK_PAGE_CONTENT, strContent );

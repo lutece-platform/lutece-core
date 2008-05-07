@@ -70,8 +70,8 @@ public final class PortalComponentDAO implements IPortalComponentDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.portalcomponent.IPortalComponentDAO#load(int)
+    /**
+     * {@inheritDoc} 
      */
     public PortalComponent load( int nPortalComponentId )
     {

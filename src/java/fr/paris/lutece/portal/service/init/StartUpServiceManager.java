@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * StartUpServiceManager
  */
-public class StartUpServiceManager
+public final class StartUpServiceManager
 {
     private static final String BEAN_MANAGER = "startUpServiceManager";
 

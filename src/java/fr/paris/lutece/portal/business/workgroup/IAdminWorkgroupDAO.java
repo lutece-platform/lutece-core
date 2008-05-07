@@ -41,16 +41,14 @@ import java.util.Collection;
 
 /**
  * Interface for AdminWorkgroup DAO
- *
  */
 public interface IAdminWorkgroupDAO
 {
     /**
      * Check that the given key points to an existing workgroup
      *
-     *
+     * @param strWorkgroupKey The workgroup key
      * @return true if the workgroup exists, false otherwise
-     * @param strWorkgroupKey
      */
     boolean checkExistWorkgroup( String strWorkgroupKey );
 
@@ -126,9 +124,9 @@ public interface IAdminWorkgroupDAO
     /**
      * Remove all users of a workgroup
      *
-     * @param strWorkgroupKey
+     * @param strWorkgroupKey The workgroup key
      */
-    public void deleteAllUsersForWorkgroup( String strWorkgroupKey );
+    void deleteAllUsersForWorkgroup( String strWorkgroupKey );
 
     /**
      * Insert a user into a workgroup

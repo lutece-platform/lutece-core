@@ -197,8 +197,8 @@ public class AdminDocumentationJspBean
 
     /**
      * Returns an array that contains all feature groups corresponding to the user
-     * @param nUserId The user Id
-     * @param locale the locale
+     * 
+     * @param user The user
      * @return An array of FeatureGroup objects
      */
     private ArrayList getFeatureGroupsList( AdminUser user )

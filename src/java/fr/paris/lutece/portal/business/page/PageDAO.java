@@ -190,9 +190,9 @@ public final class PageDAO implements IPageDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.page.IPageDAO#store(fr.paris.lutece.portal.business.page.Page)
-         */
+    /**
+     * {@inheritDoc} 
+     */
     public void store( Page page )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
@@ -344,8 +344,8 @@ public final class PageDAO implements IPageDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.page.IPageDAO#getPagesList()
+    /**
+     * {@inheritDoc} 
      */
     public ReferenceList getPagesList(  )
     {

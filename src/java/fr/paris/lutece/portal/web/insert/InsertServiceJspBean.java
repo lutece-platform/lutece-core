@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.web.insert;
 
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
@@ -71,7 +72,14 @@ public abstract class InsertServiceJspBean
     protected String insertUrl( HttpServletRequest request, String strInput, String strInsert )
     {
         // Encode the HTML code to insert
+        AppLogService.info( "'" + strInsert + "'");
+        
+        strInsert.replace( "\n" , "" );  // No CR is allowed in the insert string
+        strInsert.replace( "\r" , "" );  // No CR is allowed in the insert string
+        AppLogService.info( "'" + strInsert + "'");
         String strEncodedInsert = EncodingService.encodeUrl( strInsert );
+        strEncodedInsert.replace( "%0D" , "" );  // No CR is allowed in the insert string
+        strEncodedInsert.replace( "%0A" , "" );  // No CR is allowed in the insert string
 
         // Build the url to make the insert
         UrlItem urlDoInsert = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_DO_INSERT );

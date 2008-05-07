@@ -115,7 +115,7 @@ public final class PluginService
 
     /**
      * Load components of the core.
-     *
+     * @throws LuteceInitException If an error occured 
      */
     private static void loadCoreComponents(  ) throws LuteceInitException
     {
@@ -129,6 +129,7 @@ public final class PluginService
 
     /**
      * Load all plugins installed on the system.
+     * @throws LuteceInitException If an error occured 
      */
     private static void loadPlugins(  ) throws LuteceInitException
     {
@@ -245,6 +246,7 @@ public final class PluginService
     }
 
     /**
+     * Load plugins status
      */
     private static void loadPluginsStatus(  )
     {

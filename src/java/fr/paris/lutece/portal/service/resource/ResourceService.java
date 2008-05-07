@@ -132,7 +132,6 @@ public abstract class ResourceService extends AbstractCacheableService
     /**
      * Defines whether the cache is enable or disable reading a property
      * @param strKey The key name of the cache
-     * @param bCache The cache status
      */
     protected void setCacheKey( String strKey )
     {

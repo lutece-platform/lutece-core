@@ -56,6 +56,13 @@ public final class AppPropertiesService
     private static String _strConfPath;
 
     /**
+     * Private constructor
+     */
+    private AppPropertiesService()
+    {
+    }
+    
+    /**
      * Initializes the service
      * @param strConfPath The configuration path
      * @throws LuteceInitException If an error occured

@@ -43,7 +43,7 @@ import java.util.Locale;
  * This Service is used to retreive HTML templates, stored as files in the WEB-INF/templates directory of the webapp,
  * to build the user interface. It provides a cache feature to prevent from loading file each time it is asked.
  */
-public class AppTemplateService
+public final class AppTemplateService
 {
     // Variables
     private static String _strTemplateDefaultPath;

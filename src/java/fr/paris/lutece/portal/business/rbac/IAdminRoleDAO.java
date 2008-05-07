@@ -44,7 +44,7 @@ public interface IAdminRoleDAO
     /**
      * Check that the given key points to an existing role
      *
-     * @param strRoleKey
+     * @param strRoleKey The role key
      * @return true if the role exists, false otherwise
      */
     boolean checkExistRole( String strRoleKey );

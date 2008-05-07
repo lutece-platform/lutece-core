@@ -49,7 +49,7 @@ import javax.servlet.http.HttpSession;
 /**
  * This class provides a service that build messages and deliver the Url to display them
  */
-public class AdminMessageService
+public final class AdminMessageService
 {
     private static final String ATTRIBUTE_MESSAGE = "LUTECE_ADMIN_MESSAGE";
     private static final String JSP_ADMIN_MESSAGE = "jsp/admin/AdminMessage.jsp";

@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.io.StringWriter;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;

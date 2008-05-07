@@ -68,6 +68,7 @@ public class LinksInclude implements PageInclude
 
     /**
      * Substitue specific bookmarks in the page template.
+     * @param rootModel The data model
      * @param data A PageData object containing applications data
      * @param nMode The current mode
      * @param request The HTTP request

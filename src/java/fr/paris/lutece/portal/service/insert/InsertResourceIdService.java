@@ -89,7 +89,7 @@ public class InsertResourceIdService extends ResourceIdService
 
     /**
      * Returns the Title of a given resource
-     * @param strPortletTypeId The Id of the resource
+     * @param strInsertServiceId The Id of the resource
      * @param locale The current locale
      * @return The Title of a given resource
      */

@@ -41,13 +41,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface ICaptchaService
 {
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.jcaptcha.service.IJCaptchaValidator#validate(javax.servlet.http.HttpServletRequest)
+    /**
+     * {@inheritDoc} 
      */
     public abstract boolean validate( HttpServletRequest request );
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.jcaptcha.service.IJCaptchaValidator#getHtmlCode(javax.servlet.http.HttpServletRequest)
+    /**
+     * {@inheritDoc} 
      */
     public abstract String getHtmlCode(  );
 }

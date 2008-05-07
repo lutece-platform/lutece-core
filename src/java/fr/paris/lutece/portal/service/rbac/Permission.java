@@ -84,7 +84,7 @@ public class Permission implements Localizable
 
     /**
      * Sets the permission title
-     * @param strPermissionTitleThe Permission Title to set.
+     * @param strPermissionTitle The Permission Title to set.
      */
     public void setPermissionTitleKey( String strPermissionTitle )
     {

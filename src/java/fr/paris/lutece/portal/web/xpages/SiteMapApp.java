@@ -71,7 +71,7 @@ public class SiteMapApp implements XPageApplication, CacheableService
     private static final String PROPERTY_PAGE_TITLE = "portal.site.site_map.pageTitle";
     private static final String SERVICE_NAME = "SiteMapService";
     private static Map<String, String> _mapSiteMapCache = new HashMap<String, String>(  );
-    private static boolean _bRegister = false;
+    private static boolean _bRegister;
 
     /**
      * Creates a new SiteMapPage object
@@ -124,6 +124,12 @@ public class SiteMapApp implements XPageApplication, CacheableService
         return page;
     }
 
+    /**
+     * Gets the cache key
+     * @param nMode The mode
+     * @param request The HTTP request
+     * @return The key
+     */
     private String getKey( int nMode, HttpServletRequest request )
     {
         String strUser = "";

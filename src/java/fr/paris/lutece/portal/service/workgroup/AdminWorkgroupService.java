@@ -46,11 +46,18 @@ import java.util.Locale;
 /**
  * AdminWorkgroupService
  */
-public class AdminWorkgroupService
+public final class AdminWorkgroupService
 {
     public static final String ALL_GROUPS = "all";
     private static final String PROPERTY_LABEL_ALL_GROUPS = "portal.workgroup.labelAllGroups";
 
+    /**
+     * Private constructor
+     */
+    private AdminWorkgroupService()
+    {
+    }
+    
     /**
      * Check if a resource should be visible to the user according its workgroup
      * @param resource The resource to check
