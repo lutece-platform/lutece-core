@@ -50,11 +50,17 @@ import javax.crypto.spec.SecretKeySpec;
  *
  * @since 1.2.1
  */
-public class CryptoUtil
+public final class CryptoUtil
 {
     private static final String ALGORITHM_DES = "DES";
     private static final String ENCODING_UTF8 = "UTF8";
 
+    /** Private constructor */
+    private CryptoUtil()
+    {
+        
+    }
+    
     /**
      * This function encrypt a given string using the DES algorithm.
      * @param strDataToEncrypt The String to encrypt

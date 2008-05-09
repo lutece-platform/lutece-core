@@ -40,12 +40,12 @@ import fr.paris.lutece.portal.service.util.RemovalListenerService;
 /**
  * WorkgroupRemovalListenerService
  */
-public class WorkgroupRemovalListenerService
+public final class WorkgroupRemovalListenerService
 {
     private static final String BEAN_WORKGROUP_REMOVAL_SERVICE = "workgroupRemovalService";
 
     /**
-     * private constructor
+     * Private constructor
      */
     private WorkgroupRemovalListenerService(  )
     {

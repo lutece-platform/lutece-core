@@ -133,10 +133,11 @@ public final class RBACHome
     }
 
     /**
-     * @param strTypeCode
-     * @param strId
-     * @param strPermission
-     * @return
+     * Gets all role keys
+     * @param strTypeCode The code type
+     * @param strId The ID
+     * @param strPermission The permission
+     * @return A collection of role keys
      */
     public static Collection<String> findRoleKeys( String strTypeCode, String strId, String strPermission )
     {

@@ -59,12 +59,13 @@ public final class IndexationService
 {
     // Constants corresponding to the variables defined in the lutece.properties file
     public static final String PATH_INDEX = "search.lucene.indexPath";
+    public static final String PARAM_FORCING = "forcing";
+
     private static final String PROPERTY_WRITER_MERGE_FACTOR = "search.lucene.writer.mergeFactor";
     private static final String PROPERTY_WRITER_MAX_FIELD_LENGTH = "search.lucene.writer.maxFieldLength";
     private static final String PROPERTY_ANALYSER_CLASS_NAME = "search.lucene.analyser.className";
     private static final int DEFAULT_WRITER_MERGE_FACTOR = 20;
     private static final int DEFAULT_WRITER_MAX_FIELD_LENGTH = 1000000;
-    public static final String PARAM_FORCING = "forcing";
     private static String _strIndex;
     private static int _nWriterMergeFactor;
     private static int _nWriterMaxFieldLength;
@@ -79,8 +80,8 @@ public final class IndexationService
     }
 
     /**
-     * Initalize the service
-     * @throws fr.paris.lutece.portal.service.init.LuteceInitException
+     * Initalizes the service
+     * @throws LuteceInitException If an error occured
      */
     public static void init(  ) throws LuteceInitException
     {

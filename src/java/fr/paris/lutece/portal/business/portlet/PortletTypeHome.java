@@ -118,6 +118,7 @@ public final class PortletTypeHome
     /**
      * Returns the list of the portlet types
      *
+     * @param locale The locale
      * @return the list of portlet types
      */
     public static ReferenceList getPortletsTypesList( Locale locale )
@@ -128,6 +129,7 @@ public final class PortletTypeHome
     /**
      * Returns the list of the portlet types
      *
+     * @param locale The locale
      * @return the list of portlet types
      */
     public static List<PortletType> getPortletTypesList( Locale locale )

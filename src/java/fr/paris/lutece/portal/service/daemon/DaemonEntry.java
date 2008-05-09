@@ -139,11 +139,23 @@ public class DaemonEntry
         _strClassName = strClassName;
     }
 
+    /**
+     * Load the daemon 
+     *
+     * @throws ClassNotFoundException If an error occured 
+     * @throws InstantiationException If an error occured 
+     * @throws IllegalAccessException If an error occured 
+     */
     void loadDaemon(  ) throws ClassNotFoundException, InstantiationException, IllegalAccessException
     {
         _daemon = (Daemon) Class.forName( _strClassName ).newInstance(  );
     }
 
+    /**
+     * Returns the daemon associated to the entry
+     *
+     * @return The daemon
+     */
     Daemon getDaemon(  )
     {
         return _daemon;
@@ -167,6 +179,9 @@ public class DaemonEntry
         return _bOnStartup;
     }
 
+    /**
+     * Starts the thread
+     */
     void startThread(  )
     {
         _thread = new DaemonThread( this );
@@ -175,6 +190,9 @@ public class DaemonEntry
         AppLogService.info( "Starting daemon '" + getId(  ) + "'" );
     }
 
+    /**
+     * Stops the thread
+     */
     void stopThread(  )
     {
         if ( _thread != null )
@@ -186,6 +204,10 @@ public class DaemonEntry
         }
     }
 
+    /**
+     * Checks if the daemon is running
+     * @return True if the thread is running, otherwise false 
+     */
     public boolean isRunning(  )
     {
         return _bIsRunning;
@@ -251,11 +273,19 @@ public class DaemonEntry
         _strLastRunLogs = strLastRunLogs;
     }
 
+    /**
+     * Sets the interval
+     * @param lInterval The interval
+     */
     void setInterval( long lInterval )
     {
         _lInterval = lInterval;
     }
 
+    /**
+     * Sets the OnStartUp property
+     * @param bOnStartup True if the daemon should be launched on startup, otherwise false
+     */
     void setOnStartUp( boolean bOnStartup )
     {
         _bOnStartup = bOnStartup;

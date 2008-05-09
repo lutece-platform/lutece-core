@@ -74,7 +74,6 @@ public class AppException extends RuntimeException
 
     /**
      * Constructor 3
-     *
      */
     public AppException(  )
     {
@@ -116,7 +115,7 @@ public class AppException extends RuntimeException
      * Overides getMessage method
      * @return strMessage The error message
      */
-    private final String getAppMessage(  )
+    private String getAppMessage(  )
     {
         StringBuffer strMessage = new StringBuffer(  );
         strMessage.append( _strMessage );

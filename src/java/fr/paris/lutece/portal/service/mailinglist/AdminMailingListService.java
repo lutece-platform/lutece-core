@@ -51,9 +51,16 @@ import java.util.Collection;
 /**
  * AdminMailingListService
  */
-public class AdminMailingListService
+public final class AdminMailingListService
 {
     public static final String ALL_ROLES = "*";
+
+    /**
+     * Private COnstructor
+     */
+    private AdminMailingListService()
+    {
+    }
 
     /**
      * Initialize

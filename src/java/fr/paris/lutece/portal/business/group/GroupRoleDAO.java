@@ -89,7 +89,6 @@ public final class GroupRoleDAO implements IGroupRoleDAO
     /**
      * Delete roles for a group
      * @param strGroupKey The key of the group
-     * @param plugin The Plugin using this data access service
      */
     public void deleteRoles( String strGroupKey )
     {

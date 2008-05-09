@@ -96,19 +96,22 @@ final class MailUtil
 
     /**
      * Send a text message.
-     *
+     * 
+     * 
      * @param strHost The SMTP name or IP address.
      * @param strRecipientsTo The list of the main recipients email.Every recipient
-    *                   must be separated by the mail separator defined in config.properties
-    * @param strRecipientsCc The recipients list of the carbon copies .
-    * @param strRecipientsBcc The recipients list of the blind carbon copies .
+     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsCc The recipients list of the carbon copies .
+     * @param strRecipientsBcc The recipients list of the blind carbon copies .
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param strMessage The message.
      * @param transport the smtp transport object
      * @param session the smtp session object
-     * @throws MessagingException The messaging exception
+     * @throws AddressException If invalid address 
+     * @throws SendFailedException If an error occured during sending
+     * @throws MessagingException If a messaging error occured
      */
     protected static void sendMessageText( String strHost, String strRecipientsTo, String strRecipientsCc,
         String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
@@ -127,19 +130,22 @@ final class MailUtil
 
     /**
      * Send a HTML formated message.
-     *
+     * 
+     * 
      * @param strHost The SMTP name or IP address.
      * @param strRecipientsTo The list of the main recipients email.Every recipient
-    *                   must be separated by the mail separator defined in config.properties
-    * @param strRecipientsCc The recipients list of the carbon copies .
-    * @param strRecipientsBcc The recipients list of the blind carbon copies .
+     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsCc The recipients list of the carbon copies .
+     * @param strRecipientsBcc The recipients list of the blind carbon copies .
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param strMessage The message.
      * @param transport the smtp transport object
      * @param session the smtp session object
-     * @throws MessagingException The messaging exception
+     * @throws AddressException If invalid address 
+     * @throws SendFailedException If an error occured during sending
+     * @throws MessagingException If a messaging error occured
      */
     protected static void sendMessageHtml( String strHost, String strRecipientsTo, String strRecipientsCc,
         String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
@@ -162,20 +168,23 @@ final class MailUtil
     /**
      * Send a Multipart HTML message with the attachements associated to the message and attached files.
      * FIXME: use prepareMessage method
+     * 
      * @param strHost The SMTP name or IP address.
      * @param strRecipientsTo The list of the main recipients email.Every recipient
-    *                   must be separated by the mail separator defined in config.properties
-    * @param strRecipientsCc The recipients list of the carbon copies .
-    * @param strRecipientsBcc The recipients list of the blind carbon copies .
+     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsCc The recipients list of the carbon copies .
+     * @param strRecipientsBcc The recipients list of the blind carbon copies .
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param strMessage The message.
      * @param urlAttachements The List of UrlAttachement Object, containing the URL of attachments associated with their content-location.
-     * @param  fileAttachement The list of attached files
+     * @param fileAttachements The list of files attached
      * @param transport the smtp transport object
      * @param session the smtp session object
-     * @throws MessagingException The messaging exception
+     * @throws AddressException If invalid address 
+     * @throws SendFailedException If an error occured during sending
+     * @throws MessagingException If a messaging error occured
      */
     protected static void sendMultipartMessageHtml( String strHost, String strRecipientsTo, String strRecipientsCc,
         String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
@@ -251,19 +260,22 @@ final class MailUtil
     /**
      * Send a Multipart text message with attached files.
      * FIXME: use prepareMessage method
+     * 
      * @param strHost The SMTP name or IP address.
      * @param strRecipientsTo The list of the main recipients email.Every recipient
-    *                   must be separated by the mail separator defined in config.properties
-    * @param strRecipientsCc The recipients list of the carbon copies .
-    * @param strRecipientsBcc The recipients list of the blind carbon copies .
+     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsCc The recipients list of the carbon copies .
+     * @param strRecipientsBcc The recipients list of the blind carbon copies .
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param strMessage The message.
-     * @param  fileAttachements The list of attached files
+     * @param fileAttachements The list of attached files
      * @param transport the smtp transport object
      * @param session the smtp session object
-     * @throws MessagingException The messaging exception
+     * @throws AddressException If invalid address 
+     * @throws SendFailedException If an error occured during sending
+     * @throws MessagingException If a messaging error occured
      */
     protected static void sendMultipartMessageText( String strHost, String strRecipientsTo, String strRecipientsCc,
         String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
@@ -341,18 +353,20 @@ final class MailUtil
      *  <li>sets the sent date, the from field, the subject field</li>
      *  <li>sets the recipients</li>
      * </ul>
-     *
+     * 
+     * 
+     * @return the message object initialised with the common settings
      * @param strHost The SMTP name or IP address.
      * @param strRecipientsTo The list of the main recipients email.Every recipient
-    *                   must be separated by the mail separator defined in config.properties
-    * @param strRecipientsCc The recipients list of the carbon copies .
-    * @param strRecipientsBcc The recipients list of the blind carbon copies .
+     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsCc The recipients list of the carbon copies .
+     * @param strRecipientsBcc The recipients list of the blind carbon copies .
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param session the smtp session object
-     * @return the message object initialised with the common settings
-     * @throws MessagingException The messaging exception
+     * @throws AddressException If invalid address 
+     * @throws MessagingException If a messaging error occured
      */
     protected static Message prepareMessage( String strHost, String strRecipientsTo, String strRecipientsCc,
         String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, Session session )
@@ -416,9 +430,10 @@ final class MailUtil
 
     /**
      * return the transport object of the smtp session
-     * @param session the smtp session
+     * 
      * @return the transport object of the smtp session
-     *
+     * @param session the smtp session
+     * @throws NoSuchProviderException If the provider is not found 
      */
     protected static Transport getTransport( Session session )
         throws NoSuchProviderException
@@ -428,9 +443,10 @@ final class MailUtil
 
     /**
      * extract The list of Internet Adress content in the string strRecipients
-     * @param strRecipients The list of recipient separated by the mail separator defined in config.properties
+     * 
      * @return The list of Internet Adress content in the string strRecipients
-     * @throws MessagingException
+     * @param strRecipients The list of recipient separated by the mail separator defined in config.properties
+     * @throws AddressException If invalid address 
      */
     private static InternetAddress[] getAllAdressOfRecipients( String strRecipients )
         throws AddressException

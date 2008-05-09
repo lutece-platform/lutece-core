@@ -119,6 +119,7 @@ public abstract class Plugin implements Comparable<Plugin>
      * Load plugin's data from the plugin's xml file.
      *
      * @param pluginFile The plugin file object
+     * @throws LuteceInitException If an error occured
      */
     void load( PluginFile pluginFile ) throws LuteceInitException
     {
@@ -395,7 +396,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Register Page Includes
-     * @throws LuteceInitException
+     * @throws LuteceInitException If an error occured
      */
     protected void registerPageIncludes(  ) throws LuteceInitException
     {
@@ -447,17 +448,6 @@ public abstract class Plugin implements Comparable<Plugin>
         {
             entry.setPluginName( getName(  ) );
             AppDaemonService.registerDaemon( entry );
-        }
-    }
-
-    /**
-     * Remove a portlet from the portlets type set.
-     */
-    protected void unregisterDaemons(  )
-    {
-        for ( DaemonEntry daemonEntry : _listDaemons )
-        {
-            //            AppDaemonService.unregisterDaemon( daemonEntry );
         }
     }
 

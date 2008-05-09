@@ -520,7 +520,9 @@ public final class PortalService extends XmlTransformerService
     }
 
     /**
-     *
+     * Sets XSL portal path
+     * @param mapParameters Parameters as a map
+     * @param nMode The mode
      */
     static void setXslPortalPath( Map<String, String> mapParameters, int nMode )
     {

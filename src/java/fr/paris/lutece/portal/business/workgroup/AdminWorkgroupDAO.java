@@ -66,9 +66,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     private static final String SQL_QUERY_DELETE_USER_FROM_WORKGROUP = " DELETE FROM core_admin_workgroup_user WHERE workgroup_key = ?  AND id_user = ?";
 
     /**
-     * Insert a new record in the table.
-     *
-     * @param workgroup The workgroup object
+     * {@inheritDoc}
      */
     public void insert( AdminWorkgroup workgroup )
     {
@@ -81,9 +79,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     }
 
     /**
-     * Load the data of AdminWorkgroup from the table
-     * @param strWorkgroupKey The workgroup key
-     * @return the instance of the AdminWorkgroup
+     * {@inheritDoc}
      */
     public AdminWorkgroup load( String strWorkgroupKey )
     {
@@ -106,9 +102,8 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     }
 
     /**
-     * Delete a record from the table
-     * @param strWorkgroupKey The workgroup key
-    */
+     * {@inheritDoc}
+     */
     public void delete( String strWorkgroupKey )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
@@ -119,8 +114,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     }
 
     /**
-     * Update the record identified by the given workgroup key with the given workgroup in the table
-     * @param workgroup The reference of workgroup to be the new one
+     * {@inheritDoc}
      */
     public void store( AdminWorkgroup workgroup )
     {
@@ -133,8 +127,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     }
 
     /**
-     * Load the list of workgroups
-     * @return The Collection of the Workgroups
+     * {@inheritDoc}
      */
     public Collection<AdminWorkgroup> selectWorkgroupList(  )
     {
@@ -157,9 +150,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     }
 
     /**
-     * Check that the given key points to an existing workgroup
-     * @param strWorkgroupKey The workgroup key
-     * @return true if the workgroup exists, false otherwise
+     * {@inheritDoc}
      */
     public boolean checkExistWorkgroup( String strWorkgroupKey )
     {
@@ -182,10 +173,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     }
 
     /**
-     * Is the user member of the workgroup
-     * @param nIdUser The user Id
-     * @param strWorkgroupKey The workgroup key
-     * @return True if the user is in the workgroup, otherwise false
+     * {@inheritDoc}
      */
     public boolean isUserInWorkgroup( int nIdUser, String strWorkgroupKey )
     {
@@ -206,8 +194,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     }
 
     /**
-     * Is the user member of the workgroup
-     * @param nIdUser The user Id
+     * {@inheritDoc}
      */
     public boolean checkUserHasWorkgroup( int nIdUser )
     {
@@ -230,8 +217,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     }
 
     /**
-     * Returns the list of all workgroups the user is member
-     * @param nIdUser The user Id
+     * {@inheritDoc}
      */
     public ReferenceList getUserWorkgroups( int nIdUser )
     {
@@ -250,6 +236,9 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
         return listWorkgroups;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Collection<AdminUser> getUsersListForWorkgroup( String strWorkgroupKey )
     {
         Collection<AdminUser> listUsers = new ArrayList<AdminUser>(  );
@@ -275,8 +264,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     }
 
     /**
-     * Remove all users from a workgroup
-     * @param strWorkgroupKey The workgroup key
+     * {@inheritDoc}
      */
     public void deleteAllUsersForWorkgroup( String strWorkgroupKey )
     {
@@ -287,8 +275,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     }
 
     /**
-     * Insert an user into a workgroup
-     * @param strWorkgroupKey the key workgroup
+     * {@inheritDoc}
      */
     public void insertUserForWorkgroup( AdminUser user, String strWorkgroupKey )
     {
@@ -300,8 +287,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     }
 
     /**
-     * @param nUserId the user id
-     * @param strWorkgroupKey the key workgroup
+     * {@inheritDoc}
      */
     public void deleteUserFromWorkgroup( int nUserId, String strWorkgroupKey )
     {

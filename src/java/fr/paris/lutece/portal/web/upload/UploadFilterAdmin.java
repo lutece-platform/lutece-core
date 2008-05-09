@@ -55,19 +55,17 @@ public class UploadFilterAdmin extends UploadFilter
     /**
      * Get the error message url when file is bigger than the max size authorized
      * @param request The http request
+     * @return The error message URL
      */
-    @Override
     protected String getMessageRelativeUrl( HttpServletRequest request )
     {
         long lSizeMax = getRequestSizeMax(  );
         DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance(  );
         decimalFormat.applyPattern( "#" );
-        AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED,
-            new String[]
-            {
-                ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) )
-                                          : ( decimalFormat.format( lSizeMax / KILO_BYTE ) )
-            }, AdminMessage.TYPE_STOP );
+        String strMessage =  ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) )
+                                          : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
+        Object[] args = { strMessage };
+        AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args, AdminMessage.TYPE_STOP );
 
         return AdminMessageService.getMessageRelativeUrl(  );
     }

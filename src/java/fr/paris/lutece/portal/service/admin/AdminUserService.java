@@ -44,10 +44,15 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This service provides features concerning the administration users
  */
-public class AdminUserService
+public final class AdminUserService
 {
     private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
 
+    /** Private constructor */
+    private AdminUserService()
+    {
+    }
+    
     /**
      * Get the user in session
      * @param request The HTTP request
@@ -85,14 +90,14 @@ public class AdminUserService
         return locale;
     }
 
-    /**
+   /**
+    * Gets the admin right level
     *
-    * @param userJspBean The UserJspBean
+    * @param request The HTTP request
     * @return The boolean level right
-    *
     */
 
-    // TODO : move somewhere else ?
+    // TODO : move somewhere else or could be removed ?
     public static boolean getUserAdminRightLevel( HttpServletRequest request )
     {
         String strRightCode = AppPropertiesService.getProperty( PROPERTY_ADMINISTRATOR );

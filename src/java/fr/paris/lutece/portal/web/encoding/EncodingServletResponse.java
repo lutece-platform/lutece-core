@@ -43,7 +43,7 @@ import javax.servlet.http.HttpServletResponse;
 public class EncodingServletResponse extends javax.servlet.http.HttpServletResponseWrapper
 {
     private static final String RESPONSE_ENCODING = "UTF-8";
-    private boolean encodingSpecified = false;
+    private boolean _bEncodingSpecified;
 
     /**
      * Constructor
@@ -65,7 +65,7 @@ public class EncodingServletResponse extends javax.servlet.http.HttpServletRespo
         // If a specific encoding has not already been set by the app,
         // let's see if this is a call to specify it.  If the content
         // type doesn't explicitly set an encoding, make it UTF-8.
-        if ( !encodingSpecified )
+        if ( !_bEncodingSpecified )
         {
             String lowerType = type.toLowerCase(  );
 
@@ -85,7 +85,7 @@ public class EncodingServletResponse extends javax.servlet.http.HttpServletRespo
             {
                 // App picked a specific encoding, so let's make
                 // sure we don't override it.
-                encodingSpecified = true;
+                _bEncodingSpecified = true;
             }
         }
 

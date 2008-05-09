@@ -55,6 +55,9 @@ public class TomcatConnectionService implements ConnectionService
     private String _strPoolName;
     private Logger _logger;
 
+    /**
+     * {@inheritDoc} 
+     */
     public Connection getConnection(  )
     {
         Connection conn = null;
@@ -79,6 +82,9 @@ public class TomcatConnectionService implements ConnectionService
         return conn;
     }
 
+    /**
+     * {@inheritDoc} 
+     */
     public void freeConnection( Connection conn )
     {
         try
@@ -95,6 +101,9 @@ public class TomcatConnectionService implements ConnectionService
         }
     }
 
+    /**
+     * {@inheritDoc} 
+     */
     public void init( Hashtable<String, String> htParamsConnectionPool )
     {
         try
@@ -118,26 +127,42 @@ public class TomcatConnectionService implements ConnectionService
         _logger.info( "Initialization of the pool " + getPoolName(  ) );
     }
 
+    /**
+     * {@inheritDoc} 
+     */
     public void setPoolName( String strPoolName )
     {
         _strPoolName = strPoolName;
     }
 
+    /**
+     * {@inheritDoc} 
+     */
     public String getPoolName(  )
     {
         return _strPoolName;
     }
 
+    /**
+     * Sets the logger
+     * @param logger The logger
+     */
     public void setLogger( Logger logger )
     {
         _logger = logger;
     }
 
+    /**
+     * {@inheritDoc} 
+     */
     public Logger getLogger(  )
     {
         return _logger;
     }
 
+    /**
+     * {@inheritDoc} 
+     */
     public void release(  )
     {
     }

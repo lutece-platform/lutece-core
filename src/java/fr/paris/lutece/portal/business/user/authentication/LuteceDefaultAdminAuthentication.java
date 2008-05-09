@@ -207,6 +207,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
      * @param strFirstName The first name
      * @param strEmail The email
      * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getUserList()
+     * @return null
      */
     public Collection getUserList( String strLastName, String strFirstName, String strEmail )
     {
