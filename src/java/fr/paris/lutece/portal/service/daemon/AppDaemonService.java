@@ -45,15 +45,21 @@ import java.util.Map;
 /**
  *  this class provides methods to manage daemons services
  * */
-public class AppDaemonService
+public final class AppDaemonService
 {
     private static Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<String, DaemonEntry>(  );
     private static boolean _bInit;
-
+    
+    /** Private constructor */
+    private AppDaemonService()
+    {
+    }
+    
     /**
      * Performs initialization of the DaemonFactory.  Note that this should
      * return right away so that processing can continue (IE thread off
      * everything)
+     * @throws LuteceInitException If an error occured 
      */
     public static synchronized void init(  ) throws LuteceInitException
     {
@@ -80,6 +86,11 @@ public class AppDaemonService
         _bInit = true;
     }
 
+    /**
+     * Register a daemon by its entry 
+     * @param entry The daemon entry
+     * @throws LuteceInitException If an error occured 
+     */
     public static void registerDaemon( DaemonEntry entry )
         throws LuteceInitException
     {
@@ -116,16 +127,28 @@ public class AppDaemonService
         AppLogService.info( "New daemon registered : '" + entry.getId(  ) + "'" );
     }
 
+    /**
+     * Unregister a daemon
+     * @param strDaemonKey The daemon key
+     */
     public static void unregisterDaemon( String strDaemonKey )
     {
     }
 
+    /**
+     * Starts a daemon
+     * @param strDaemonKey The daemon key
+     */
     public static void startDaemon( String strDaemonKey )
     {
         DaemonEntry entry = _mapDaemonEntries.get( strDaemonKey );
         entry.startThread(  );
     }
 
+    /**
+     * Stops a daemon 
+     * @param strDaemonKey The daemon key 
+     */
     public static void stopDaemon( String strDaemonKey )
     {
         DaemonEntry entry = _mapDaemonEntries.get( strDaemonKey );
@@ -155,6 +178,8 @@ public class AppDaemonService
 
     /**
      * Gets a daemon object from its key name
+     * 
+     * @param strDaemonKey The daemon key
      * @return The daemon
      */
     public static Daemon getDaemon( String strDaemonKey )

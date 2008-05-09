@@ -85,6 +85,7 @@ public interface IPortletTypeDAO
 
     /**
      * Return a Reference List of portletType
+     * @param locale The locale
      * @return list The reference List
      */
     ReferenceList selectPortletsTypesList( Locale locale );

@@ -82,7 +82,6 @@ public class PropertiesService
     /**
      * Add properties from all files found in a given directory
      * @param strRelativePath Relative path from the root path
-     * @throws java.io.FileNotFoundException If the file is not found
      * @throws java.io.IOException If an error occurs reading the file
      */
     public void addPropertiesDirectory( String strRelativePath )
@@ -111,7 +110,6 @@ public class PropertiesService
     /**
      * Load properties of a file
      * @param strFullPath The absolute path of the properties file
-     * @throws java.io.FileNotFoundException If the file is not found
      * @throws java.io.IOException If an error occurs reading the file
      */
     private void loadFile( String strFullPath ) throws FileNotFoundException, IOException
@@ -124,7 +122,6 @@ public class PropertiesService
     /**
      * Reload a properties file .
      * @param strFilename The filename of the properties file
-     * @throws java.io.FileNotFoundException If the file is not found
      * @throws java.io.IOException If an error occurs reading the file
      */
     public void reload( String strFilename ) throws FileNotFoundException, IOException
@@ -135,7 +132,6 @@ public class PropertiesService
 
     /**
      * Reload all properties files
-     * @throws java.io.FileNotFoundException If the file is not found
      * @throws java.io.IOException If an error occurs reading the file
      */
     public void reloadAll(  ) throws FileNotFoundException, IOException

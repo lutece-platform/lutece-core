@@ -50,7 +50,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     private static final String SPRING_CONTEXT_NAME = "jcaptcha";
     private boolean _bActive = true;
     private boolean _bAvailable;
-    private ICaptchaService captchaService;
+    private ICaptchaService _captchaService;
 
     /**
      * Default constructor.
@@ -63,8 +63,8 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
         try
         {
             // first check if captchaValidator bean is available in the jcaptcha plugin context
-            captchaService = (ICaptchaService) SpringContextService.getPluginBean( SPRING_CONTEXT_NAME, "captchaService" );
-            _bAvailable = captchaService != null;
+            _captchaService = (ICaptchaService) SpringContextService.getPluginBean( SPRING_CONTEXT_NAME, "captchaService" );
+            _bAvailable = _captchaService != null;
         }
         catch ( BeanDefinitionStoreException e )
         {
@@ -96,7 +96,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     {
         if ( isAvailable(  ) && isActive(  ) )
         {
-            return captchaService.getHtmlCode(  );
+            return _captchaService.getHtmlCode(  );
         }
         else
         {
@@ -119,7 +119,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     {
         if ( isAvailable(  ) && isActive(  ) )
         {
-            return captchaService.validate( request );
+            return _captchaService.validate( request );
         }
         else
         {

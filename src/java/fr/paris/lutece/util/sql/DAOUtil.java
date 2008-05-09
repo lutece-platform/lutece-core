@@ -152,6 +152,11 @@ public class DAOUtil
         }
     }
 
+    /**
+     * Build a formatted error message for a given exception
+     * @param e The exception
+     * @return The error message
+     */
     private String getErrorMessage( Exception e )
     {
         free(  );
@@ -197,6 +202,10 @@ public class DAOUtil
         }
     }
 
+    /**
+     * Log a message
+     * @param strMessage The message to log 
+     */
     private void log( String strMessage )
     {
         if ( _logger.isDebugEnabled(  ) )
@@ -205,12 +214,20 @@ public class DAOUtil
         }
     }
 
+    /**
+     * Log a parameter
+     * @param oName The parameter name
+     * @param oValue The parameter value
+     */
     private void logParameter( Object oName, Object oValue )
     {
         Object[] args = { oName, oValue };
         log( MessageFormat.format( "\n               Index : ''{0}''       Value : ''{1}'' ", args ) );
     }
 
+    /**
+     * Writes logs
+     */
     private void writeLogs(  )
     {
         if ( _logger.isDebugEnabled(  ) )
@@ -252,8 +269,8 @@ public class DAOUtil
     }
 
     /**
-     * @deprecated
      * Moves the cursor to the first row in this ResultSet object.
+     * @deprecated
      * @return true if the cursor is on a valid row; false if there are no rows in the result set
      */
     public boolean first(  )
@@ -347,7 +364,6 @@ public class DAOUtil
      * Gets a binary stream from a resultSet
      *
      * @param nIndex column index
-     *
      * @return InputStream instance
      */
     public InputStream getBinaryStream( int nIndex )
@@ -367,7 +383,6 @@ public class DAOUtil
      * Gets a blob from a resultset
      *
      * @param nIndex column index
-     *
      * @return Blob instance
      */
     public Blob getBlob( int nIndex )
@@ -939,7 +954,7 @@ public class DAOUtil
     /**
      * finalize implementation
      * @see java.lang.Object#finalize()
-     * @throws Throwable
+     * @throws Throwable An exception
      */
     protected void finalize(  ) throws Throwable
     {

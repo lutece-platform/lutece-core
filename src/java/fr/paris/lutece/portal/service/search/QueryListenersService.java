@@ -41,7 +41,7 @@ import java.util.ArrayList;
 /**
  * QueryListenersService
  */
-public class QueryListenersService
+public final class QueryListenersService
 {
     private static ArrayList<QueryEventListener> _listListeners = new ArrayList<QueryEventListener>(  );
     private static QueryListenersService _singleton;

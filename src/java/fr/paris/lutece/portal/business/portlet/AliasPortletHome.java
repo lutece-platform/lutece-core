@@ -48,7 +48,7 @@ public class AliasPortletHome extends PortletHome
     private static IAliasPortletDAO _dao = (IAliasPortletDAO) SpringContextService.getBean( "aliasPortletDAO" );
 
     /** This class implements the Singleton design pattern. */
-    private static AliasPortletHome _singleton = null;
+    private static AliasPortletHome _singleton;
 
     /**
      * Constructor

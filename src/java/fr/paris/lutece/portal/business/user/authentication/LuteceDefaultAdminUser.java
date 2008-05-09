@@ -46,15 +46,20 @@ public class LuteceDefaultAdminUser extends AdminUser
     private String _strPassword;
     private Date _dateValidityPassword;
     private String _strLastPassword;
-
+    
+    
+    /**
+     * Constructor
+     */
     public LuteceDefaultAdminUser(  )
     {
         super(  );
     }
 
     /**
-     * @param strUserName
-     * @param authenticationService
+     * Constructor
+     * @param strUserName The user
+     * @param authenticationService The authentication service
      */
     public LuteceDefaultAdminUser( String strUserName, AdminAuthentication authenticationService )
     {
@@ -62,7 +67,8 @@ public class LuteceDefaultAdminUser extends AdminUser
     }
 
     /**
-     * @return Returns the _strPassword.
+     * Returns the Password
+     * @return The Password.
      */
     public String getPassword(  )
     {
@@ -70,7 +76,8 @@ public class LuteceDefaultAdminUser extends AdminUser
     }
 
     /**
-     * @param strPassword The _strPassword to set.
+     * Sets the password
+     * @param strPassword The Password
      */
     public void setPassword( String strPassword )
     {
@@ -78,7 +85,8 @@ public class LuteceDefaultAdminUser extends AdminUser
     }
 
     /**
-     * @return Returns the _dateValidityPassword.
+     * Returns the password validity date 
+     * @return The password validity date
      */
     public Date getDateValidityPassword(  )
     {
@@ -86,7 +94,8 @@ public class LuteceDefaultAdminUser extends AdminUser
     }
 
     /**
-     * @param dateValidityPassword The _dateValidityPassword to set.
+     * Sets the password validity date
+     * @param dateValidityPassword The password validity date
      */
     public void setDateValidityPassword( Date dateValidityPassword )
     {
@@ -94,7 +103,8 @@ public class LuteceDefaultAdminUser extends AdminUser
     }
 
     /**
-     * @return Returns the _strLastPassword.
+     * Returns the Last Password.
+     * @return The Last Password.
      */
     public String getLastPassword(  )
     {
@@ -102,7 +112,8 @@ public class LuteceDefaultAdminUser extends AdminUser
     }
 
     /**
-     * @param strLastPassword The _strLastPassword to set.
+     * Sets the Last Password.
+     * @param strLastPassword The Last Password.
      */
     public void setLastPassword( String strLastPassword )
     {
