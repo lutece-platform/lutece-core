@@ -84,7 +84,7 @@ public final class PortletDAO implements IPortletDAO
     //Access methods to data
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void insert( Portlet portlet )
     {
@@ -107,7 +107,7 @@ public final class PortletDAO implements IPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void delete( int nPortletId )
     {
@@ -132,7 +132,7 @@ public final class PortletDAO implements IPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public Portlet load( int nPortletId )
     {
@@ -168,7 +168,7 @@ public final class PortletDAO implements IPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void store( Portlet portlet )
     {
@@ -212,7 +212,7 @@ public final class PortletDAO implements IPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void updateStatus( Portlet portlet, int nStatus )
     {
@@ -226,7 +226,7 @@ public final class PortletDAO implements IPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public StyleSheet selectXslFile( int nPortletId, int nIdMode )
     {
@@ -251,7 +251,7 @@ public final class PortletDAO implements IPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public Collection selectPortletsListbyName( String strPortletName )
     {
@@ -276,7 +276,7 @@ public final class PortletDAO implements IPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public List<Portlet> selectPortletsByType( String strPortletTypeId )
     {
@@ -301,7 +301,7 @@ public final class PortletDAO implements IPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public ReferenceList selectStylesList( String strPortletTypeId )
     {
@@ -322,7 +322,7 @@ public final class PortletDAO implements IPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public boolean hasAlias( int nPortletId )
     {
@@ -343,7 +343,7 @@ public final class PortletDAO implements IPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public PortletType selectPortletType( String strPortletTypeId )
     {
@@ -369,7 +369,7 @@ public final class PortletDAO implements IPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public Collection selectPortletListByStyle( int nStyleId )
     {

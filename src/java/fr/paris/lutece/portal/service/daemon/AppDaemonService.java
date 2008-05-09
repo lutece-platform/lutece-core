@@ -49,17 +49,17 @@ public final class AppDaemonService
 {
     private static Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<String, DaemonEntry>(  );
     private static boolean _bInit;
-    
+
     /** Private constructor */
-    private AppDaemonService()
+    private AppDaemonService(  )
     {
     }
-    
+
     /**
      * Performs initialization of the DaemonFactory.  Note that this should
      * return right away so that processing can continue (IE thread off
      * everything)
-     * @throws LuteceInitException If an error occured 
+     * @throws LuteceInitException If an error occured
      */
     public static synchronized void init(  ) throws LuteceInitException
     {
@@ -87,9 +87,9 @@ public final class AppDaemonService
     }
 
     /**
-     * Register a daemon by its entry 
+     * Register a daemon by its entry
      * @param entry The daemon entry
-     * @throws LuteceInitException If an error occured 
+     * @throws LuteceInitException If an error occured
      */
     public static void registerDaemon( DaemonEntry entry )
         throws LuteceInitException
@@ -146,8 +146,8 @@ public final class AppDaemonService
     }
 
     /**
-     * Stops a daemon 
-     * @param strDaemonKey The daemon key 
+     * Stops a daemon
+     * @param strDaemonKey The daemon key
      */
     public static void stopDaemon( String strDaemonKey )
     {
@@ -178,7 +178,7 @@ public final class AppDaemonService
 
     /**
      * Gets a daemon object from its key name
-     * 
+     *
      * @param strDaemonKey The daemon key
      * @return The daemon
      */

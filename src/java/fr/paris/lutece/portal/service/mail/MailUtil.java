@@ -95,8 +95,8 @@ final class MailUtil
 
     /**
      * Send a text message.
-     * 
-     * 
+     *
+     *
      * @param strHost The SMTP name or IP address.
      * @param strRecipientsTo The list of the main recipients email.Every recipient
      *                   must be separated by the mail separator defined in config.properties
@@ -108,7 +108,7 @@ final class MailUtil
      * @param strMessage The message.
      * @param transport the smtp transport object
      * @param session the smtp session object
-     * @throws AddressException If invalid address 
+     * @throws AddressException If invalid address
      * @throws SendFailedException If an error occured during sending
      * @throws MessagingException If a messaging error occured
      */
@@ -129,8 +129,8 @@ final class MailUtil
 
     /**
      * Send a HTML formated message.
-     * 
-     * 
+     *
+     *
      * @param strHost The SMTP name or IP address.
      * @param strRecipientsTo The list of the main recipients email.Every recipient
      *                   must be separated by the mail separator defined in config.properties
@@ -142,7 +142,7 @@ final class MailUtil
      * @param strMessage The message.
      * @param transport the smtp transport object
      * @param session the smtp session object
-     * @throws AddressException If invalid address 
+     * @throws AddressException If invalid address
      * @throws SendFailedException If an error occured during sending
      * @throws MessagingException If a messaging error occured
      */
@@ -167,7 +167,7 @@ final class MailUtil
     /**
      * Send a Multipart HTML message with the attachements associated to the message and attached files.
      * FIXME: use prepareMessage method
-     * 
+     *
      * @param strHost The SMTP name or IP address.
      * @param strRecipientsTo The list of the main recipients email.Every recipient
      *                   must be separated by the mail separator defined in config.properties
@@ -181,7 +181,7 @@ final class MailUtil
      * @param fileAttachements The list of files attached
      * @param transport the smtp transport object
      * @param session the smtp session object
-     * @throws AddressException If invalid address 
+     * @throws AddressException If invalid address
      * @throws SendFailedException If an error occured during sending
      * @throws MessagingException If a messaging error occured
      */
@@ -259,7 +259,7 @@ final class MailUtil
     /**
      * Send a Multipart text message with attached files.
      * FIXME: use prepareMessage method
-     * 
+     *
      * @param strHost The SMTP name or IP address.
      * @param strRecipientsTo The list of the main recipients email.Every recipient
      *                   must be separated by the mail separator defined in config.properties
@@ -272,7 +272,7 @@ final class MailUtil
      * @param fileAttachements The list of attached files
      * @param transport the smtp transport object
      * @param session the smtp session object
-     * @throws AddressException If invalid address 
+     * @throws AddressException If invalid address
      * @throws SendFailedException If an error occured during sending
      * @throws MessagingException If a messaging error occured
      */
@@ -352,8 +352,8 @@ final class MailUtil
      *  <li>sets the sent date, the from field, the subject field</li>
      *  <li>sets the recipients</li>
      * </ul>
-     * 
-     * 
+     *
+     *
      * @return the message object initialised with the common settings
      * @param strHost The SMTP name or IP address.
      * @param strRecipientsTo The list of the main recipients email.Every recipient
@@ -364,7 +364,7 @@ final class MailUtil
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param session the smtp session object
-     * @throws AddressException If invalid address 
+     * @throws AddressException If invalid address
      * @throws MessagingException If a messaging error occured
      */
     protected static Message prepareMessage( String strHost, String strRecipientsTo, String strRecipientsCc,
@@ -429,10 +429,10 @@ final class MailUtil
 
     /**
      * return the transport object of the smtp session
-     * 
+     *
      * @return the transport object of the smtp session
      * @param session the smtp session
-     * @throws NoSuchProviderException If the provider is not found 
+     * @throws NoSuchProviderException If the provider is not found
      */
     protected static Transport getTransport( Session session )
         throws NoSuchProviderException
@@ -442,10 +442,10 @@ final class MailUtil
 
     /**
      * extract The list of Internet Adress content in the string strRecipients
-     * 
+     *
      * @return The list of Internet Adress content in the string strRecipients
      * @param strRecipients The list of recipient separated by the mail separator defined in config.properties
-     * @throws AddressException If invalid address 
+     * @throws AddressException If invalid address
      */
     private static InternetAddress[] getAllAdressOfRecipients( String strRecipients )
         throws AddressException

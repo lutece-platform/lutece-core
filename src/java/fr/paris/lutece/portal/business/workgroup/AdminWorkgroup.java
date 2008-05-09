@@ -55,7 +55,7 @@ public class AdminWorkgroup implements AdminWorkgroupResource
 
     /**
      * Sets the workgroup key
-     * 
+     *
      * @param strKey The Key
      */
     public void setKey( String strKey )
@@ -74,7 +74,7 @@ public class AdminWorkgroup implements AdminWorkgroupResource
 
     /**
      * Sets the workgroup's description
-     * 
+     *
      * @param strDescription The workgroup's description
      */
     public void setDescription( String strDescription )
@@ -84,7 +84,7 @@ public class AdminWorkgroup implements AdminWorkgroupResource
 
     /**
      * Gets the workgroup key
-     * 
+     *
      * @return The workgroup key
      */
     public String getWorkgroup(  )

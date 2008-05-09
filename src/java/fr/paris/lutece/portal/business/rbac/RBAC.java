@@ -68,7 +68,7 @@ public class RBAC implements Localizable
     }
 
     /**
-     * Returns the RBAC ID  
+     * Returns the RBAC ID
      * @return The RBAC ID
      */
     public int getRBACId(  )

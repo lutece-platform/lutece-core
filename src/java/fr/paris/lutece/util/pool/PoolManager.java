@@ -38,7 +38,6 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.pool.service.ConnectionPool;
 import fr.paris.lutece.util.pool.service.ConnectionService;
 import fr.paris.lutece.util.pool.service.LuteceConnectionService;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -50,6 +49,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Properties;
 
 

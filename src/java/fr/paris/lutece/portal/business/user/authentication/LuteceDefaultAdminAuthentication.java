@@ -58,7 +58,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
             "luteceDefaultAdminUserDAO" );
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public String getAuthServiceName(  )
     {
@@ -66,7 +66,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public String getAuthType( HttpServletRequest request )
     {
@@ -74,7 +74,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public AdminUser login( String strAccessCode, String strUserPassword, HttpServletRequest request )
         throws LoginException
@@ -108,7 +108,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void logout( AdminUser user )
     {
@@ -116,7 +116,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public AdminUser getAnonymousUser(  )
     {
@@ -125,7 +125,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public boolean isExternalAuthentication(  )
     {
@@ -133,7 +133,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public AdminUser getHttpAuthenticatedUser( HttpServletRequest request )
     {
@@ -141,7 +141,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public String getLoginPageUrl(  )
     {
@@ -149,7 +149,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public String getChangePasswordPageUrl(  )
     {
@@ -157,7 +157,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public String getDoLoginUrl(  )
     {
@@ -166,7 +166,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public String getDoLogoutUrl(  )
     {
@@ -175,7 +175,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public String getNewAccountPageUrl(  )
     {
@@ -184,7 +184,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public String getViewAccountPageUrl(  )
     {
@@ -193,7 +193,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public String getLostPasswordPageUrl(  )
     {

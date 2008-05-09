@@ -54,10 +54,10 @@ public final class AdminWorkgroupService
     /**
      * Private constructor
      */
-    private AdminWorkgroupService()
+    private AdminWorkgroupService(  )
     {
     }
-    
+
     /**
      * Check if a resource should be visible to the user according its workgroup
      * @param resource The resource to check

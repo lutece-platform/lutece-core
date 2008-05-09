@@ -56,11 +56,10 @@ public final class CryptoUtil
     private static final String ENCODING_UTF8 = "UTF8";
 
     /** Private constructor */
-    private CryptoUtil()
+    private CryptoUtil(  )
     {
-        
     }
-    
+
     /**
      * This function encrypt a given string using the DES algorithm.
      * @param strDataToEncrypt The String to encrypt

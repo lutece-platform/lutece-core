@@ -43,14 +43,14 @@ public interface ICaptchaService
 {
     /**
      * Validate the captcha field
-     * @param request The HTTP request 
+     * @param request The HTTP request
      * @return True if OK, otherwise false
      */
     boolean validate( HttpServletRequest request );
 
     /**
      * Gets the captcha HTML code
-     * @return The captcha HTML code 
+     * @return The captcha HTML code
      */
     String getHtmlCode(  );
 }

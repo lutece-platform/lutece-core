@@ -106,7 +106,7 @@ public final class AdminRoleHome
 
     /**
      * Returns a collection of roles objects
-     * 
+     *
      * @return A collection of roles
      */
     public static Collection<AdminRole> findAll(  )
@@ -116,7 +116,7 @@ public final class AdminRoleHome
 
     /**
      * Returns a reference of roles objects
-     * 
+     *
      * @return A collection of roles
      */
     public static ReferenceList getRolesList(  )
@@ -134,7 +134,7 @@ public final class AdminRoleHome
 
     /**
      * Check that the given key points to an existing role
-     * 
+     *
      * @param strRoleKey The role key
      * @return true if the role exists, false otherwise
      */

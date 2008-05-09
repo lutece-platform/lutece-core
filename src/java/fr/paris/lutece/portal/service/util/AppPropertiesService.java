@@ -58,10 +58,10 @@ public final class AppPropertiesService
     /**
      * Private constructor
      */
-    private AppPropertiesService()
+    private AppPropertiesService(  )
     {
     }
-    
+
     /**
      * Initializes the service
      * @param strConfPath The configuration path

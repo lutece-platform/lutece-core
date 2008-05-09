@@ -31,16 +31,16 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.init;
+
 
 /**
  * StartUp Service Interface
  */
-public interface StartUpService 
+public interface StartUpService
 {
     /**
      * Run the service
      */
-    void process();
+    void process(  );
 }

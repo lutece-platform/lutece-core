@@ -55,7 +55,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     //Access methods to data
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public synchronized void insert( Portlet portlet )
     {
@@ -71,7 +71,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void delete( int nPortletId )
     {
@@ -83,7 +83,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public Portlet load( int nIdPortlet )
     {
@@ -104,7 +104,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void store( Portlet portlet )
     {
@@ -119,7 +119,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public ReferenceList selectPortletsByTypeList( String strPortletTypeId )
     {
@@ -140,7 +140,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public int selectAliasId( int nIdPortlet )
     {
@@ -161,7 +161,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public ReferenceList selectAcceptAliasPortletList(  )
     {

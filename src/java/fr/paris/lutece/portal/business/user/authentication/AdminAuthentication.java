@@ -112,7 +112,7 @@ public interface AdminAuthentication
      * Returns the password modification page URL of the Authentication Service
      * @return The URL
      */
-   String getChangePasswordPageUrl(  );
+    String getChangePasswordPageUrl(  );
 
     /**
      * Returns the DoLogin URL of the Authentication Service
@@ -146,7 +146,7 @@ public interface AdminAuthentication
 
     /**
      * get the list of user to display a list for selection in the main user management page
-     * 
+     *
      * @param strLastName The last name
      * @param strFirstName The first name
      * @param strEmail The email

@@ -140,11 +140,11 @@ public class DaemonEntry
     }
 
     /**
-     * Load the daemon 
+     * Load the daemon
      *
-     * @throws ClassNotFoundException If an error occured 
-     * @throws InstantiationException If an error occured 
-     * @throws IllegalAccessException If an error occured 
+     * @throws ClassNotFoundException If an error occured
+     * @throws InstantiationException If an error occured
+     * @throws IllegalAccessException If an error occured
      */
     void loadDaemon(  ) throws ClassNotFoundException, InstantiationException, IllegalAccessException
     {
@@ -206,7 +206,7 @@ public class DaemonEntry
 
     /**
      * Checks if the daemon is running
-     * @return True if the thread is running, otherwise false 
+     * @return True if the thread is running, otherwise false
      */
     public boolean isRunning(  )
     {

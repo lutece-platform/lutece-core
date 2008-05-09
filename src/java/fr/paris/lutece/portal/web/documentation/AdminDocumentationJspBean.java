@@ -198,7 +198,7 @@ public class AdminDocumentationJspBean
 
     /**
      * Returns an array that contains all feature groups corresponding to the user
-     * 
+     *
      * @param user The user
      * @return A list of FeatureGroup objects
      */

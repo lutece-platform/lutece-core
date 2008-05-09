@@ -63,7 +63,8 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
         try
         {
             // first check if captchaValidator bean is available in the jcaptcha plugin context
-            _captchaService = (ICaptchaService) SpringContextService.getPluginBean( SPRING_CONTEXT_NAME, "captchaService" );
+            _captchaService = (ICaptchaService) SpringContextService.getPluginBean( SPRING_CONTEXT_NAME,
+                    "captchaService" );
             _bAvailable = _captchaService != null;
         }
         catch ( BeanDefinitionStoreException e )
@@ -81,7 +82,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public String getActiveBlockHtml(  )
     {
@@ -90,7 +91,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public String getHtmlCode(  )
     {
@@ -105,7 +106,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void setActive( boolean isActive )
     {
@@ -113,7 +114,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public boolean validate( HttpServletRequest request )
     {
@@ -128,7 +129,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public boolean isActive(  )
     {
@@ -136,7 +137,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public boolean isAvailable(  )
     {

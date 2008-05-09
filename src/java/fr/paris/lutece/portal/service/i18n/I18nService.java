@@ -66,10 +66,10 @@ public final class I18nService
     /**
      * Private constructor
      */
-    private I18nService()
+    private I18nService(  )
     {
     }
-    
+
     /**
      * This method localize a string. It scans for localization keys and replace
      * them by localized values.<br>

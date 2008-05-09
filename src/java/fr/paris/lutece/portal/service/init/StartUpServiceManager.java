@@ -34,7 +34,9 @@
 package fr.paris.lutece.portal.service.init;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+
 import java.util.List;
+
 
 /**
  * StartUpServiceManager
@@ -42,32 +44,31 @@ import java.util.List;
 public final class StartUpServiceManager
 {
     private static final String BEAN_MANAGER = "startUpServiceManager";
-
     private static StartUpServiceManager _singleton;
     private static List<StartUpService> _listServices;
-    
+
     /**
      * Private constructor
      */
-    private StartUpServiceManager()
+    private StartUpServiceManager(  )
     {
     }
 
     /**
      * Initialize the service and run all Startup Services
      */
-    public static void init()
+    public static void init(  )
     {
         // Get the bean from the Spring Context 
         _singleton = (StartUpServiceManager) SpringContextService.getBean( BEAN_MANAGER );
-        
+
         // Process all services
-        for( StartUpService service : _listServices )
+        for ( StartUpService service : _listServices )
         {
-            service.process();
+            service.process(  );
         }
     }
-    
+
     /**
      * Sets the list of startup services
      * @param list The list of startup services

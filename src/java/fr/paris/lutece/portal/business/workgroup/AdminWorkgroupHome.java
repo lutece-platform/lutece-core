@@ -192,5 +192,4 @@ public final class AdminWorkgroupHome
     {
         _dao.deleteUserFromWorkgroup( user.getUserId(  ), strWorkgroupKey );
     }
-
 }

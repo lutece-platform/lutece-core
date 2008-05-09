@@ -205,7 +205,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Reads stylesheet's data
-     * @param multipartRequest The request 
+     * @param multipartRequest The request
      * @param stylesheet The style sheet
      * @return An error message URL or null if no error
      */
@@ -388,7 +388,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
     /**
      *  Use parsing for validate the modify xsl file
-     * 
+     *
      * @param baXslSource The XSL source
      * @return the message exception when the validation is false
      */
@@ -413,7 +413,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Create and Update the local download file
-     * 
+     *
      * @param stylesheet The style sheet
      */
     private void localStyleSheetFile( StyleSheet stylesheet )

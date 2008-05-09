@@ -130,7 +130,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Generate a combo containing all available groups
-     * 
+     *
      * @param locale The locale
      * @return the reference list of feature groups
      */

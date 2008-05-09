@@ -100,8 +100,8 @@ public final class AppPathService
 
     /**
      * Returns the absolute path of a repository from a relative definition in properties file
-     * 
-     * 
+     *
+     *
      * @return the repository absolute path
      * @param strKey the repository key definied in properties file
      */
@@ -122,8 +122,8 @@ public final class AppPathService
 
     /**
      * Returns the webapp path from the properties file
-     * 
-     * 
+     *
+     *
      * @return the webapp path
      */
     public static String getWebAppPath(  )
@@ -168,8 +168,8 @@ public final class AppPathService
 
     /**
      * Returns the absolute path of a repository from a relative path
-     * 
-     * 
+     *
+     *
      * @return the repository absolute path
      * @param strDirectory the relative path
      */

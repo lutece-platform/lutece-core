@@ -55,10 +55,10 @@ public final class SiteMessageService
     /**
      * Private constructor
      */
-    private SiteMessageService()
+    private SiteMessageService(  )
     {
     }
-    
+
     /**
      * Set the INFO message, store it in session and throw a LuteceSiteMessageException
      *

@@ -115,7 +115,7 @@ public class PageService extends ContentService implements ImageResourceProvider
         init(  );
         _singleton = this;
     }
-    
+
     /**
      * Initializes the service
      */
@@ -504,11 +504,11 @@ public class PageService extends ContentService implements ImageResourceProvider
 
     /**
      * Build the Cache HashMap key for pages
-     * 
+     *
      * @return The HashMap key for articles pages as a String.
      * @param mapParams The Map params
      * @param nMode The current mode.
-     * @param user The user 
+     * @param user The user
      */
     private String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
@@ -599,7 +599,7 @@ public class PageService extends ContentService implements ImageResourceProvider
 
     /**
      * Gets the image resource for a given resource
-     * 
+     *
      * @param nIdResource The Resource id
      * @return The image resource
      */

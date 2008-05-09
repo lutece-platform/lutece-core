@@ -74,7 +74,7 @@ public class XPageAppService extends ContentService
     /**
      * Register an application by its entry defined in the plugin xml file
      * @param entry The application entry
-     * @throws LuteceInitException If an error occured 
+     * @throws LuteceInitException If an error occured
      */
     public static void registerXPageApplication( XPageApplicationEntry entry )
         throws LuteceInitException

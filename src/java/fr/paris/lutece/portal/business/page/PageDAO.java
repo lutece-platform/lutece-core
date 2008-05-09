@@ -107,7 +107,7 @@ public final class PageDAO implements IPageDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public synchronized void insert( Page page )
     {
@@ -139,7 +139,7 @@ public final class PageDAO implements IPageDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public Page load( int nPageId, boolean bPortlets )
     {
@@ -179,7 +179,7 @@ public final class PageDAO implements IPageDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void delete( int nPageId )
     {
@@ -191,7 +191,7 @@ public final class PageDAO implements IPageDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void store( Page page )
     {
@@ -266,7 +266,7 @@ public final class PageDAO implements IPageDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public Collection<Page> selectChildPages( int nParentPageId )
     {
@@ -299,7 +299,7 @@ public final class PageDAO implements IPageDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public List<Page> selectAllPages(  )
     {
@@ -331,7 +331,7 @@ public final class PageDAO implements IPageDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void invalidatePage( int nPageId )
     {
@@ -345,7 +345,7 @@ public final class PageDAO implements IPageDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public ReferenceList getPagesList(  )
     {
@@ -367,7 +367,7 @@ public final class PageDAO implements IPageDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public int selectNewChildPageOrder( int nParentPageId )
     {
@@ -391,7 +391,7 @@ public final class PageDAO implements IPageDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public ImageResource loadImageResource( int nIdPage )
     {

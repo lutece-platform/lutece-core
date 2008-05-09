@@ -46,8 +46,7 @@ public class LuteceDefaultAdminUser extends AdminUser
     private String _strPassword;
     private Date _dateValidityPassword;
     private String _strLastPassword;
-    
-    
+
     /**
      * Constructor
      */
@@ -85,7 +84,7 @@ public class LuteceDefaultAdminUser extends AdminUser
     }
 
     /**
-     * Returns the password validity date 
+     * Returns the password validity date
      * @return The password validity date
      */
     public Date getDateValidityPassword(  )

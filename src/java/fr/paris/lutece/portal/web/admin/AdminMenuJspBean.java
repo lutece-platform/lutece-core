@@ -164,7 +164,7 @@ public class AdminMenuJspBean
 
     /**
      * Returns an array that contains all feature groups corresponding to the user
-     * 
+     *
      * @param user The Admin user
      * @return An array of FeatureGroup objects
      */

@@ -204,7 +204,7 @@ public class DAOUtil
 
     /**
      * Log a message
-     * @param strMessage The message to log 
+     * @param strMessage The message to log
      */
     private void log( String strMessage )
     {

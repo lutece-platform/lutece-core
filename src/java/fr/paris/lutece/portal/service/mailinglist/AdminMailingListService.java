@@ -58,7 +58,7 @@ public final class AdminMailingListService
     /**
      * Private COnstructor
      */
-    private AdminMailingListService()
+    private AdminMailingListService(  )
     {
     }
 

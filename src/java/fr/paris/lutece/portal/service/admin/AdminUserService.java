@@ -49,10 +49,10 @@ public final class AdminUserService
     private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
 
     /** Private constructor */
-    private AdminUserService()
+    private AdminUserService(  )
     {
     }
-    
+
     /**
      * Get the user in session
      * @param request The HTTP request
@@ -90,12 +90,12 @@ public final class AdminUserService
         return locale;
     }
 
-   /**
-    * Gets the admin right level
-    *
-    * @param request The HTTP request
-    * @return The boolean level right
-    */
+    /**
+     * Gets the admin right level
+     *
+     * @param request The HTTP request
+     * @return The boolean level right
+     */
 
     // TODO : move somewhere else or could be removed ?
     public static boolean getUserAdminRightLevel( HttpServletRequest request )

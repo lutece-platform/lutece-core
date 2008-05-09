@@ -62,10 +62,12 @@ public class UploadFilterAdmin extends UploadFilter
         long lSizeMax = getRequestSizeMax(  );
         DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance(  );
         decimalFormat.applyPattern( "#" );
-        String strMessage =  ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) )
-                                          : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
+
+        String strMessage = ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) )
+                                                      : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
         Object[] args = { strMessage };
-        AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args, AdminMessage.TYPE_STOP );
+        AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args,
+            AdminMessage.TYPE_STOP );
 
         return AdminMessageService.getMessageRelativeUrl(  );
     }

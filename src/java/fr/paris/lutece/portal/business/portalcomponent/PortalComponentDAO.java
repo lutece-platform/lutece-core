@@ -57,7 +57,7 @@ public final class PortalComponentDAO implements IPortalComponentDAO
     //Access methods to data
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public synchronized void insert( PortalComponent portalComponent )
     {
@@ -71,7 +71,7 @@ public final class PortalComponentDAO implements IPortalComponentDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public PortalComponent load( int nPortalComponentId )
     {
@@ -95,7 +95,7 @@ public final class PortalComponentDAO implements IPortalComponentDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void delete( int nPortalComponentId )
     {
@@ -107,7 +107,7 @@ public final class PortalComponentDAO implements IPortalComponentDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void store( PortalComponent portalComponent )
     {
@@ -122,7 +122,7 @@ public final class PortalComponentDAO implements IPortalComponentDAO
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public StyleSheet selectXslFile( int nPortalComponentId, int nIdMode )
     {

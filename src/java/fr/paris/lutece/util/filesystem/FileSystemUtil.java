@@ -51,9 +51,10 @@ public final class FileSystemUtil
     /**
      * Private constructor
      */
-    private FileSystemUtil()
+    private FileSystemUtil(  )
     {
     }
+
     /**
      * Returns the sub-directories of a directory.
      *

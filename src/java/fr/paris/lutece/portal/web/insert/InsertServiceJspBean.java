@@ -71,9 +71,9 @@ public abstract class InsertServiceJspBean
     protected String insertUrl( HttpServletRequest request, String strInput, String strInsert )
     {
         // No CR is allowed in the insert string
-        String strCleanInsert = strInsert.replaceAll( "\n" , "" );
-        strCleanInsert = strCleanInsert.replaceAll( "\r" , "" );
-        
+        String strCleanInsert = strInsert.replaceAll( "\n", "" );
+        strCleanInsert = strCleanInsert.replaceAll( "\r", "" );
+
         // Encode the HTML code to insert
         String strEncodedInsert = EncodingService.encodeUrl( strCleanInsert );
 

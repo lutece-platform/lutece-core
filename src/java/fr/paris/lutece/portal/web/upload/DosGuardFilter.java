@@ -74,7 +74,7 @@ public class DosGuardFilter implements Filter
     private LinkedList<Entry> _listOrderedRequests;
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void init( FilterConfig config ) throws ServletException
     {
@@ -107,7 +107,7 @@ public class DosGuardFilter implements Filter
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void destroy(  )
     {
@@ -115,7 +115,7 @@ public class DosGuardFilter implements Filter
     }
 
     /**
-     * {@inheritDoc} 
+     * {@inheritDoc}
      */
     public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
         throws IOException, ServletException
@@ -263,7 +263,7 @@ public class DosGuardFilter implements Filter
 
         /**
          * Gets the remote address
-         * @return The remote address 
+         * @return The remote address
          */
         public String getRemoteAddr(  )
         {
@@ -272,7 +272,7 @@ public class DosGuardFilter implements Filter
 
         /**
          * Gets the request time
-         * @return The request time 
+         * @return The request time
          */
         public long getRequestTime(  )
         {

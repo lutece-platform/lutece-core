@@ -31,7 +31,6 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.business.group;
 
 import fr.paris.lutece.portal.service.rbac.RBACResource;
