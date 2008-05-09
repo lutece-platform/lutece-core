@@ -150,7 +150,7 @@ public final class AppPropertiesService
 
     /**
      * Reloads a given properties file
-     * @param strFilename
+     * @param strFilename The file name
      */
     public static void reload( String strFilename )
     {

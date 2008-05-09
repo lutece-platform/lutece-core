@@ -49,7 +49,7 @@ import java.util.Date;
 /**
  * JobSchedulerService
  */
-public class JobSchedulerService
+public final class JobSchedulerService
 {
     private static JobSchedulerService _singleton;
     private static Scheduler _scheduler;

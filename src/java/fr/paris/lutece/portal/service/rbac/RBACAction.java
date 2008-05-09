@@ -43,5 +43,5 @@ public interface RBACAction
      * Returns the permission associated to the action
      * @return The permission
      */
-    public String getPermission(  );
+    String getPermission(  );
 }

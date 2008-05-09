@@ -253,7 +253,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
      * Fills update template with portlet values
      *
      * @param portlet the object to update
-     * @param model
+     * @param model The Data model
      * @return the update template filled
      */
     protected HtmlTemplate getModifyTemplate( Portlet portlet, Map model )

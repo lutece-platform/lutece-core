@@ -115,7 +115,10 @@ public class PageService extends ContentService implements ImageResourceProvider
         init(  );
         _singleton = this;
     }
-
+    
+    /**
+     * Initializes the service
+     */
     private void init(  )
     {
         String strCachePages = AppPropertiesService.getProperty( PROPERTY_PAGE_SERVICE_CACHE, "true" );
@@ -177,7 +180,7 @@ public class PageService extends ContentService implements ImageResourceProvider
      * @param request The page ID
      * @param nMode The current mode.
      * @return The HTML code of the page as a String.
-     * @throws SiteMessageException
+     * @throws SiteMessageException If a message shouldbe displayed
      */
     public synchronized String getPage( HttpServletRequest request, int nMode )
         throws SiteMessageException
@@ -501,10 +504,11 @@ public class PageService extends ContentService implements ImageResourceProvider
 
     /**
      * Build the Cache HashMap key for pages
-     *
+     * 
+     * @return The HashMap key for articles pages as a String.
      * @param mapParams The Map params
      * @param nMode The current mode.
-     * @return The HashMap key for articles pages as a String.
+     * @param user The user 
      */
     private String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
@@ -594,7 +598,10 @@ public class PageService extends ContentService implements ImageResourceProvider
     }
 
     /**
-     * @param nIdResource The Resource identifier
+     * Gets the image resource for a given resource
+     * 
+     * @param nIdResource The Resource id
+     * @return The image resource
      */
     public ImageResource getImageResource( int nIdResource )
     {
@@ -637,6 +644,10 @@ public class PageService extends ContentService implements ImageResourceProvider
         notifyListeners( event );
     }
 
+    /**
+     * Process a page event
+     * @param event The event to process
+     */
     public void processPageEvent( PageEvent event )
     {
         Page page = event.getPage(  );

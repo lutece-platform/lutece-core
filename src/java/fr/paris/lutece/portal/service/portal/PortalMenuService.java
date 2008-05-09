@@ -45,7 +45,6 @@ import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.xml.XmlUtil;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,7 +56,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This Service build the portal menu
  */
-public class PortalMenuService implements CacheableService
+public final class PortalMenuService implements CacheableService
 {
     public static final int MENU_INIT = 0;
     public static final int MENU_MAIN = 1;
@@ -394,6 +393,7 @@ public class PortalMenuService implements CacheableService
      *
      * @param nMode The mode
      * @param nPart the part
+     * @param request The HTTP request
      * @return The key as a String
      */
     private String getKey( int nMode, int nPart, HttpServletRequest request )

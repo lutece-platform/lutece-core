@@ -53,6 +53,13 @@ public final class SiteMessageService
     private static final String PROPERTY_TITLE_STOP = "portal.util.message.titleStop";
 
     /**
+     * Private constructor
+     */
+    private SiteMessageService()
+    {
+    }
+    
+    /**
      * Set the INFO message, store it in session and throw a LuteceSiteMessageException
      *
      * @param request The HttpRequest
@@ -101,7 +108,7 @@ public final class SiteMessageService
      * @param strMessageKey The message key
      * @param nMessageType The message type
      * @param strUrl The url o fthe Ok button
-     * @param requestParameters
+     * @param requestParameters The request parameters as a map
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
     public static void setMessage( HttpServletRequest request, String strMessageKey, int nMessageType, String strUrl,
@@ -180,7 +187,7 @@ public final class SiteMessageService
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @param messageArgs Message Arguments
-     * @param strUrl
+     * @param strUrl The forward URL
      * @param strTitleKey The title key
      * @param nMessageType The message type
      * @throws SiteMessageException occurs when a site message need to be displayed

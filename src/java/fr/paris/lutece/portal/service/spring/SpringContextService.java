@@ -50,7 +50,7 @@ import java.util.Map;
  * offering IoC (Inversion of Control) features.
  * @see http://www.springframework.org
  */
-public class SpringContextService
+public final class SpringContextService
 {
     private static final String CORE = "core";
     private static Map<String, BeanFactory> _mapBeanFactories = new HashMap<String, BeanFactory>(  );

@@ -13,7 +13,7 @@
  *     and the following disclaimer in the documentation and/or other materials
  *     provided with the distribution.
  *
- *  3. Neither the key of 'Mairie de Paris' nor 'Lutece' nor the keys of its
+ *  3. Neither the name of 'Mairie de Paris' nor 'Lutece' nor the names of its
  *     contributors may be used to endorse or promote products derived from
  *     this software without specific prior written permission.
  *
@@ -31,6 +31,7 @@
  *
  * License 1.0
  */
+
 package fr.paris.lutece.portal.business.group;
 
 import fr.paris.lutece.portal.service.rbac.RBACResource;

@@ -108,7 +108,6 @@ public final class ResourceTypeManager
      *
      * @param listResourcesType  The resource type list
      * @param strPluginName The plugin name
-     * @param the name of the associated plugin
      */
     public static void registerList( Collection<ResourceType> listResourcesType, String strPluginName )
     {

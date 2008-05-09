@@ -46,7 +46,7 @@ import java.io.IOException;
 /**
  * Provides cache object for cacheable services
  */
-public class CacheService
+public final class CacheService
 {
     private static CacheService _singleton;
     private static final String PATH_CONF = "/WEB-INF/conf/";

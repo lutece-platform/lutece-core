@@ -216,7 +216,7 @@ public final class AdminAuthenticationService
      * @param user The current user
      * @throws AccessDeniedException If the user cannot have access
      * @throws UserNotSignedException If the user is not signed
-     * @return
+     * @return The AdminUser
      */
     private AdminUser bindUser( AdminUser user ) throws AccessDeniedException, UserNotSignedException
     {

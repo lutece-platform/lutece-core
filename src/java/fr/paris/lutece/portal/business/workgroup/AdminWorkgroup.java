@@ -45,6 +45,7 @@ public class AdminWorkgroup implements AdminWorkgroupResource
     private String _strDescription;
 
     /**
+     * Gets the workgroup key
      * @return Returns the Key.
      */
     public String getKey(  )
@@ -53,7 +54,9 @@ public class AdminWorkgroup implements AdminWorkgroupResource
     }
 
     /**
-     * @param _strKey The Key to set.
+     * Sets the workgroup key
+     * 
+     * @param strKey The Key
      */
     public void setKey( String strKey )
     {
@@ -61,6 +64,7 @@ public class AdminWorkgroup implements AdminWorkgroupResource
     }
 
     /**
+     * Returns the workgroup's description
      * @return Returns the Description.
      */
     public String getDescription(  )
@@ -69,7 +73,9 @@ public class AdminWorkgroup implements AdminWorkgroupResource
     }
 
     /**
-     * @param _strDescription The Description to set.
+     * Sets the workgroup's description
+     * 
+     * @param strDescription The workgroup's description
      */
     public void setDescription( String strDescription )
     {
@@ -77,7 +83,9 @@ public class AdminWorkgroup implements AdminWorkgroupResource
     }
 
     /**
-     * @param Return the Workgroup
+     * Gets the workgroup key
+     * 
+     * @return The workgroup key
      */
     public String getWorkgroup(  )
     {

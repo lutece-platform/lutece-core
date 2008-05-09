@@ -40,15 +40,14 @@ import java.util.Map;
 
 
 /**
- * @author lenaini
- *
+ * ImageResourceManager
  */
-public class ImageResourceManager
+public final class ImageResourceManager
 {
     /** resource type registry */
     private static Map<String, ImageResourceProvider> _mapResourceTypes = new HashMap<String, ImageResourceProvider>(  );
 
-    /** private constructor */
+    /** Private constructor */
     private ImageResourceManager(  )
     {
     }

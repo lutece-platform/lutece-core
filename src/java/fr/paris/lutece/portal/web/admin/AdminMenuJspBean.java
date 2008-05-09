@@ -164,8 +164,8 @@ public class AdminMenuJspBean
 
     /**
      * Returns an array that contains all feature groups corresponding to the user
-     * @param nUserId The user Id
-     * @param locale the locale
+     * 
+     * @param user The Admin user
      * @return An array of FeatureGroup objects
      */
     private ArrayList getFeatureGroupsList( AdminUser user )
@@ -242,9 +242,9 @@ public class AdminMenuJspBean
     }
 
     /**
-     *
-     * @param right
-     * @return
+     * Gets the feature icon
+     * @param right The right
+     * @return The icon
      */
     private String getFeatureIcon( Right right )
     {

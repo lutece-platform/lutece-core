@@ -533,7 +533,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      *
      * @param request The HttpServletRequest
      * @param page The Page
-     * @param nParentPageId
+     * @param nParentPageId The page parent Id
      * @return strParentPageId the new parent id
      */
     private String getNewParentPageId( HttpServletRequest request, Page page, int nParentPageId )

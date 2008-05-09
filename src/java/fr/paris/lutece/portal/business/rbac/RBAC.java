@@ -68,7 +68,8 @@ public class RBAC implements Localizable
     }
 
     /**
-     * @return
+     * Returns the RBAC ID  
+     * @return The RBAC ID
      */
     public int getRBACId(  )
     {
@@ -76,6 +77,7 @@ public class RBAC implements Localizable
     }
 
     /**
+     * Sets the RBAC ID
      * @param nRBACId The RBAC Id to set
      */
     public void setRBACId( int nRBACId )
@@ -84,7 +86,8 @@ public class RBAC implements Localizable
     }
 
     /**
-     * @return Returns the Permission Key
+     * Returns the Permission Key
+     * @return The Permission Key
      */
     public String getPermissionKey(  )
     {
@@ -92,6 +95,7 @@ public class RBAC implements Localizable
     }
 
     /**
+     * Sets the Permission Key
      * @param strPermissionKey The Permission Key to set
      */
     public void setPermissionKey( String strPermissionKey )
@@ -100,7 +104,8 @@ public class RBAC implements Localizable
     }
 
     /**
-     * @return Returns the Resource Id
+     * Returns the Resource Id
+     * @return The Resource Id
      */
     public String getResourceId(  )
     {
@@ -108,6 +113,7 @@ public class RBAC implements Localizable
     }
 
     /**
+     * Sets the Resource Id
      * @param strResourceId The Resource Id to set
      */
     public void setResourceId( String strResourceId )
@@ -116,7 +122,8 @@ public class RBAC implements Localizable
     }
 
     /**
-     * @return Returns the Resource Type Key.
+     * Returns the Resource Type Key
+     * @return The Resource Type Key.
      */
     public String getResourceTypeKey(  )
     {
@@ -124,6 +131,7 @@ public class RBAC implements Localizable
     }
 
     /**
+     * Sets the Resource Type Key
      * @param strResourceTypeKey The Resource Type Key to set.
      */
     public void setResourceTypeKey( String strResourceTypeKey )
@@ -132,7 +140,8 @@ public class RBAC implements Localizable
     }
 
     /**
-     * @return Returns the Role Key.
+     * Returns the Role Key.
+     * @return The Role Key.
      */
     public String getRoleKey(  )
     {
@@ -140,6 +149,7 @@ public class RBAC implements Localizable
     }
 
     /**
+     * Sets the Role Key
      * @param strRoleKey The Role Key to set.
      */
     public void setRoleKey( String strRoleKey )

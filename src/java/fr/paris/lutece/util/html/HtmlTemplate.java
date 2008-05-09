@@ -86,7 +86,7 @@ public class HtmlTemplate
      * Load the template from a file
      *
      * @param strFilename The file name to load
-     * @throws IOException
+     * @throws IOException  If an error occured
      */
     public void load( String strFilename ) throws IOException
     {
@@ -107,7 +107,7 @@ public class HtmlTemplate
      * Load the template from an InputStream
      *
      * @param is The open InputStream that point on the template
-     * @throws IOException
+     * @throws IOException If an error occured
      */
     public void load( InputStream is ) throws IOException
     {

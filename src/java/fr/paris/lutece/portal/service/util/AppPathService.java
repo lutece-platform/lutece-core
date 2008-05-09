@@ -100,10 +100,10 @@ public final class AppPathService
 
     /**
      * Returns the absolute path of a repository from a relative definition in properties file
-     *
-     * @param strKey the repository key definied in properties file
+     * 
+     * 
      * @return the repository absolute path
-     * @throws AppException
+     * @param strKey the repository key definied in properties file
      */
     public static String getPath( String strKey )
     {
@@ -122,9 +122,9 @@ public final class AppPathService
 
     /**
      * Returns the webapp path from the properties file
-     *
+     * 
+     * 
      * @return the webapp path
-     * @throws AppException
      */
     public static String getWebAppPath(  )
     {
@@ -168,10 +168,10 @@ public final class AppPathService
 
     /**
      * Returns the absolute path of a repository from a relative path
-     *
-     * @param strDirectory the relative path
+     * 
+     * 
      * @return the repository absolute path
-     * @throws AppException
+     * @param strDirectory the relative path
      */
     public static String getAbsolutePathFromRelativePath( String strDirectory )
     {
@@ -241,6 +241,11 @@ public final class AppPathService
         return AppPropertiesService.getProperty( PROPERTY_ADMIN_MENU_URL );
     }
 
+    /**
+     * Normalizes the Webapp Path
+     * @param strPath The path to normalize
+     * @return The normalized path
+     */
     private static String normalizeWebappPath( String strPath )
     {
         // convert Windows path separator if present

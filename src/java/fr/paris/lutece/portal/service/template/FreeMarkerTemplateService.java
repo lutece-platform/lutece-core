@@ -54,7 +54,7 @@ import java.util.Map;
 /**
  * Template service based on the Freemarker template engine
  */
-public class FreeMarkerTemplateService
+public final class FreeMarkerTemplateService
 {
     private static final String PATH_AUTO_INCLUDE_COMMONS = "*/commons.html";
     private static final String NUMBER_FORMAT_PATTERN = "0.######";
