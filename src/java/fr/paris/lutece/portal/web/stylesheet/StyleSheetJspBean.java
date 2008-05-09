@@ -203,6 +203,12 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         return getHomeUrl( request );
     }
 
+    /**
+     * Reads stylesheet's data
+     * @param multipartRequest The request 
+     * @param stylesheet The style sheet
+     * @return An error message URL or null if no error
+     */
     private String getData( MultipartHttpServletRequest multipartRequest, StyleSheet stylesheet )
     {
         String strErrorUrl = null;
@@ -382,8 +388,9 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
     /**
      *  Use parsing for validate the modify xsl file
-     *  @param strSource the xsl source
-     *  @return the message exception when the validation is false
+     * 
+     * @param baXslSource The XSL source
+     * @return the message exception when the validation is false
      */
     private String isValid( byte[] baXslSource )
     {
@@ -406,8 +413,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Create and Update the local download file
-     * @param nId The identifier of the XSL document whose download file is stored
-     * in a blob an will be copied in the directory of the local site.
+     * 
+     * @param stylesheet The style sheet
      */
     private void localStyleSheetFile( StyleSheet stylesheet )
     {

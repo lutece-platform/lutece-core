@@ -263,7 +263,7 @@ public class Right implements Localizable
     /**
      * Sets the url of the documentation associated to the right.
      *
-     * @param documentationUrl the _strDocumentationUrl to set
+     * @param strDocumentationUrl the _strDocumentationUrl to set
      */
     public void setDocumentationUrl( String strDocumentationUrl )
     {

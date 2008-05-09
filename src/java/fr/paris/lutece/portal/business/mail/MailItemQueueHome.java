@@ -39,7 +39,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 /**
  * This class provides Data Access methods for MailItemQueue objects
  */
-public class MailItemQueueHome
+public final class MailItemQueueHome
 {
     // Static variable pointed at the DAO instance
     private static IMailItemQueueDAO _dao = (IMailItemQueueDAO) SpringContextService.getBean( "mailItemQueueDAO" );

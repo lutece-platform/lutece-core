@@ -42,12 +42,15 @@ import javax.servlet.http.HttpServletRequest;
 public interface ICaptchaService
 {
     /**
-     * {@inheritDoc} 
+     * Validate the captcha field
+     * @param request The HTTP request 
+     * @return True if OK, otherwise false
      */
-    public abstract boolean validate( HttpServletRequest request );
+    boolean validate( HttpServletRequest request );
 
     /**
-     * {@inheritDoc} 
+     * Gets the captcha HTML code
+     * @return The captcha HTML code 
      */
-    public abstract String getHtmlCode(  );
+    String getHtmlCode(  );
 }

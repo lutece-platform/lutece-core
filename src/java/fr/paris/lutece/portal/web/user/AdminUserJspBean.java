@@ -920,8 +920,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Tell if 2 users have groups in common
-     * @param user1
-     * @param user2
+     * @param user1 User1
+     * @param user2 User2
      * @return true or false
      */
     private boolean haveCommonWorkgroups( AdminUser user1, AdminUser user2 )

@@ -70,7 +70,6 @@ public final class AdminWorkgroupHome
 
     /**
      * Update of the workgroup which is specified in parameter
-     * @param strWorkgroupKey the key of the workgroup to update
      * @param workgroup The instance of the workgroup which contains the new data to store
      * @return The instance of the  workgroup which has been updated
      */
@@ -97,7 +96,7 @@ public final class AdminWorkgroupHome
     /**
      * Returns an instance of a workgroup whose identifier is specified in parameter
      *
-     * @param strWorkgroupKey The Primary key of the workgroup
+     * @param strWorkgroupKey The key of the workgroup
      * @return An instance of workgroup
      */
     public static AdminWorkgroup findByPrimaryKey( String strWorkgroupKey )
@@ -107,7 +106,6 @@ public final class AdminWorkgroupHome
 
     /**
      * Returns a collection of workgroups objects
-     * @param plugin The current plugin using this method
      * @return A collection of workgroups
      */
     public static Collection<AdminWorkgroup> findAll(  )
@@ -129,6 +127,7 @@ public final class AdminWorkgroupHome
      * Is the user member of the workgroup
      * @param user The user
      * @param strWorkgroup The workgroup key
+     * @return True if the user is in the workgroup, otherwise false
      */
     public static boolean isUserInWorkgroup( AdminUser user, String strWorkgroup )
     {
@@ -138,6 +137,7 @@ public final class AdminWorkgroupHome
     /**
      * Is the user member of the workgroup
      * @param nIdUser The user identifier
+     * @return True if the user is in a workgroup, otherwise false
      */
     public static boolean checkUserHasWorkgroup( int nIdUser )
     {
@@ -147,6 +147,7 @@ public final class AdminWorkgroupHome
     /**
      * Returns the list of all workgroups the user is member
      * @param user The user
+     * @return A reference list of all user's workgroups
      */
     public static ReferenceList getUserWorkgroups( AdminUser user )
     {
@@ -156,6 +157,7 @@ public final class AdminWorkgroupHome
     /**
       * Returns the list of all users for a workgroup
       * @param user The user
+      * @return A list of all users of the workgroup
       */
     public static Collection<AdminUser> getUserListForWorkgroup( String strWorkgroupKey )
     {
@@ -163,8 +165,9 @@ public final class AdminWorkgroupHome
     }
 
     /**
-     * @param nUserId
-     * @param strWorkgroupKey
+     * Add user to the workgroup
+     * @param user The user
+     * @param strWorkgroupKey The workgroup key
      */
     public static void addUserForWorkgroup( AdminUser user, String strWorkgroupKey )
     {
@@ -172,7 +175,8 @@ public final class AdminWorkgroupHome
     }
 
     /**
-     * @param strWorkgroupKey
+     * Remove all users of a workgroup
+     * @param strWorkgroupKey The workgroup key
      */
     public static void removeAllUsersForWorkgroup( String strWorkgroupKey )
     {
@@ -180,16 +184,13 @@ public final class AdminWorkgroupHome
     }
 
     /**
-     * @param user
-     * @param strWorkgroupKey
+     * Remove an user from a workgroup
+     * @param user The user
+     * @param strWorkgroupKey The workgroup key
      */
     public static void removeUserFromWorkgroup( AdminUser user, String strWorkgroupKey )
     {
         _dao.deleteUserFromWorkgroup( user.getUserId(  ), strWorkgroupKey );
     }
 
-    /*public static void update(AdminWorkgroup adminWorkgroup)
-    {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }*/
 }

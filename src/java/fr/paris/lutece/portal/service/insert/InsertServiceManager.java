@@ -66,7 +66,7 @@ public final class InsertServiceManager
     /**
      * Registers a new Index Service
      *
-     * @param ls the  service
+     * @param is the  service
      */
     public static void registerInsertService( InsertService is )
     {

@@ -64,6 +64,13 @@ public final class I18nService
     private static final String PROPERTY_AVAILABLES_LOCALES = "lutece.i18n.availableLocales";
 
     /**
+     * Private constructor
+     */
+    private I18nService()
+    {
+    }
+    
+    /**
      * This method localize a string. It scans for localization keys and replace
      * them by localized values.<br>
      * The localization key structure is : #{bundle.key}.<br>
@@ -265,7 +272,7 @@ public final class I18nService
 
     /**
      * Localize all items of a list
-     * @param list The list to localize
+     * @param collection The list to localize
      * @param locale The locale
      * @return The localized collection
      */

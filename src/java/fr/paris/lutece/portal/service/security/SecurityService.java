@@ -215,6 +215,7 @@ public final class SecurityService
     /**
      * Retrieves the portal authentication service configured in the config.properties
      * @return A PortalAuthentication object
+     * @throws LuteceInitException If an error occured
      */
     private static LuteceAuthentication getPortalAuthentication(  )
         throws LuteceInitException

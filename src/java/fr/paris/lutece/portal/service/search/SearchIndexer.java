@@ -50,33 +50,33 @@ public interface SearchIndexer
     /**
      * Returns a List of lucene documents to add to the index
      * @return A List of lucene documents to add to the index
-     * @throws java.io.IOException
-     * @throws java.lang.InterruptedException
+     * @throws IOException If an IO error occured
+     * @throws InterruptedException If a thread error occured
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    public List<Document> getDocuments(  ) throws IOException, InterruptedException, SiteMessageException;
+    List<Document> getDocuments(  ) throws IOException, InterruptedException, SiteMessageException;
 
     /**
      * Returns the indexer service name
      * @return the indexer service name
      */
-    public String getName(  );
+    String getName(  );
 
     /**
      * Returns the indexer service version
      * @return the indexer service version
      */
-    public String getVersion(  );
+    String getVersion(  );
 
     /**
      * Returns the indexer service description
      * @return the indexer service description
      */
-    public String getDescription(  );
+    String getDescription(  );
 
     /**
      * Tells whether the service is enable or not
      * @return true if enable, otherwise false
      */
-    public boolean isEnable(  );
+    boolean isEnable(  );
 }

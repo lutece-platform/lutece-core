@@ -46,7 +46,7 @@ import java.util.Map;
 /**
  * This class provides the main methods to control the access to a resource depending on the user's roles
  */
-public class RBACService
+public final class RBACService
 {
     /**
      * Constructor
@@ -102,8 +102,8 @@ public class RBACService
 
     /**
      * Check that a given user is in the given role
-     * @param user
-     * @param strRole
+     * @param user The user
+     * @param strRole The role
      * @return true if the user has the given role, false otherwise
      */
     public static boolean isUserInRole( AdminUser user, String strRole )
