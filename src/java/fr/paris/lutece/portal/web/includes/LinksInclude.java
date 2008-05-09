@@ -80,7 +80,7 @@ public class LinksInclude implements PageInclude
                                                                 : AppPropertiesService.getProperty( PROPERTY_FAVOURITE );
         rootModel.put( MARK_FAVOURITE, strFavourite );
 
-        Locale locale = ( request == null ) ? null : request.getLocale(  );
+        Locale locale = ( request == null ) ? Locale.getDefault(  ) : request.getLocale(  );
 
         // Add CSS links coming from plugins
         Collection<Plugin> listPlugins = PluginService.getPluginList(  );

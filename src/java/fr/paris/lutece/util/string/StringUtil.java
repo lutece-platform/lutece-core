@@ -220,6 +220,6 @@ public final class StringUtil
      */
     public static synchronized boolean checkCodeKey( String strCodeKey )
     {
-        return ( strCodeKey == null ) ? null : strCodeKey.matches( STRING_CODE_PATTERN );
+        return ( strCodeKey == null ) ? false : strCodeKey.matches( STRING_CODE_PATTERN );
     }
 }

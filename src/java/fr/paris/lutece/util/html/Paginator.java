@@ -95,7 +95,9 @@ public class Paginator
      * Gets the number of pages
      * @return the number of pages
      */
-    public int getPagesCount(  )
+
+    // Declared as final because used by the constructor (PMD issue)
+    public final int getPagesCount(  )
     {
         return ( ( _list.size(  ) - 1 ) / _nItemPerPage ) + 1;
     }

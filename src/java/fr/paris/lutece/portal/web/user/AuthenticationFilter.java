@@ -68,6 +68,7 @@ public class AuthenticationFilter implements Filter
     private static final String PROPERTY_URL_PREFIX = "path.jsp.admin.public.";
     private static final String PROPERTY_URL_SUFFIX_LIST = "list";
     private static final String CONSTANT_LIST_SEPARATOR = ",";
+    private static final String LOGGER_NAME = "lutece.authentication";
 
     /**
      * {@inheritDoc}
@@ -93,7 +94,7 @@ public class AuthenticationFilter implements Filter
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        AppLogService.debug( "lutece.authentication", "Accessing url : " + getResquestedUrl( req ) );
+        AppLogService.debug( LOGGER_NAME, "Accessing url : " + getResquestedUrl( req ) );
 
         if ( isPrivateUrl( req ) )
         {
@@ -107,7 +108,7 @@ public class AuthenticationFilter implements Filter
 
                 if ( AdminAuthenticationService.getInstance(  ).isExternalAuthentication(  ) )
                 {
-                    AppLogService.debug( "lutece.authentication",
+                    AppLogService.debug( LOGGER_NAME,
                         "New session behind external authentication : " + getResquestedUrl( req ) );
 
                     strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_USER_NEW_SESSION,
@@ -115,8 +116,7 @@ public class AuthenticationFilter implements Filter
                 }
                 else
                 {
-                    AppLogService.debug( "lutece.authentication",
-                        "Access NOT granted to url : " + getResquestedUrl( req ) );
+                    AppLogService.debug( LOGGER_NAME, "Access NOT granted to url : " + getResquestedUrl( req ) );
 
                     strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_USER_NOT_AUTHENTICATED,
                             getRedirectUrl( req ), AdminMessage.TYPE_WARNING );
@@ -126,7 +126,7 @@ public class AuthenticationFilter implements Filter
             }
             catch ( AccessDeniedException e )
             {
-                AppLogService.debug( "lutece.authentication", "Access NOT granted to url : " + getResquestedUrl( req ) );
+                AppLogService.debug( LOGGER_NAME, "Access NOT granted to url : " + getResquestedUrl( req ) );
 
                 String strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_AUTH_FAILURE,
                         getRedirectUrl( req ), AdminMessage.TYPE_ERROR );

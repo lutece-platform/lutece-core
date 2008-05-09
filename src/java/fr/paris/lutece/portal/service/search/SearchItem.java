@@ -63,12 +63,12 @@ public class SearchItem
      */
     public SearchItem( Document document )
     {
-        setId( document.get( FIELD_UID ) );
-        setTitle( document.get( FIELD_TITLE ) );
-        setUrl( document.get( FIELD_URL ) );
-        setSummary( document.get( FIELD_SUMMARY ) );
-        setDate( document.get( FIELD_DATE ) );
-        setType( document.get( FIELD_TYPE ) );
+        _strId = document.get( FIELD_UID );
+        _strTitle = document.get( FIELD_TITLE );
+        _strUrl = document.get( FIELD_URL );
+        _strSummary = document.get( FIELD_SUMMARY );
+        _strLastModifiedDate = document.get( FIELD_DATE );
+        _strType = document.get( FIELD_TYPE );
     }
 
     /**
