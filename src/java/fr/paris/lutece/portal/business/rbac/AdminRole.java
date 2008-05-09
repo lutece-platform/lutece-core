@@ -43,7 +43,8 @@ public class AdminRole
     private String _strDescription;
 
     /**
-     * @return Returns the Key.
+     * Returns the role Key
+     * @return The role Key.
      */
     public String getKey(  )
     {
@@ -51,7 +52,8 @@ public class AdminRole
     }
 
     /**
-     * @param _strKey The Key to set.
+     * Sets the role key
+     * @param strKey The Key to set.
      */
     public void setKey( String strKey )
     {
@@ -59,7 +61,8 @@ public class AdminRole
     }
 
     /**
-     * @return Returns the Description.
+     * Returns the role description.
+     * @return The description.
      */
     public String getDescription(  )
     {
@@ -67,7 +70,8 @@ public class AdminRole
     }
 
     /**
-     * @param _strDescription The Description to set.
+     * Sets the role description
+     * @param strDescription The description to set.
      */
     public void setDescription( String strDescription )
     {

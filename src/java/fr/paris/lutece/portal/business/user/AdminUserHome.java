@@ -45,13 +45,13 @@ import java.util.Map;
 /**
  * This class provides instances management methods (create, find, ...) for AdminUser objects
  */
-public class AdminUserHome
+public final class AdminUserHome
 {
     // Static variable pointed at the DAO instance
     private static IAdminUserDAO _dao = (IAdminUserDAO) SpringContextService.getBean( "adminUserDAO" );
 
     /**
-     * Creates a new UserLogHome object.
+     * Private constructor
      */
     private AdminUserHome(  )
     {
@@ -190,7 +190,9 @@ public class AdminUserHome
     }
 
     /**
-     * @param strAccessCode The access code
+     * Checks if a given login is already in use
+     * @param strAccessCode The login
+     * @true If the the login is already in use, otherwise false
      */
     public static boolean checkAccessCodeAlreadyInUse( String strAccessCode )
     {

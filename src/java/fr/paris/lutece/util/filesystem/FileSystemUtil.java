@@ -46,8 +46,14 @@ import java.util.TreeSet;
 /**
  * This Service is used to manipulate Files and Directories in the File System.
  */
-public abstract class FileSystemUtil
+public final class FileSystemUtil
 {
+    /**
+     * Private constructor
+     */
+    private FileSystemUtil()
+    {
+    }
     /**
      * Returns the sub-directories of a directory.
      *

@@ -65,10 +65,11 @@ public final class AppConnectionService
 
     /**
      * Initializes the connection pool and sets the pool manager instance
-     *
+     * 
      * @param strConfigPath The relative Config path
      * @param strConfigFilename The config file name
      * @param strPoolName The pool name
+     * @throws LuteceInitException If an error occured 
      */
     public static void init( String strConfigPath, String strConfigFilename, String strPoolName )
         throws LuteceInitException
@@ -88,9 +89,8 @@ public final class AppConnectionService
 
     /**
      * Returns a connection to database from the pool name
-     *
+     * 
      * @return a connection to database from the pool
-     * @throws RuntimeException
      */
     public static Connection getConnection(  )
     {
@@ -124,9 +124,8 @@ public final class AppConnectionService
 
     /**
      * Gets a reference on the current Pool Manager
-     *
+     * 
      * @return The current Pool Manager
-     * @throws AppException
      */
     public static PoolManager getPoolManager(  )
     {
@@ -153,7 +152,7 @@ public final class AppConnectionService
 
     /**
      * Returns a default Plugin Connection Service
-     * @return  _connectionService The connection Service
+     * @return  The connection Service
      */
     public static PluginConnectionService getDefaultConnectionService(  )
     {

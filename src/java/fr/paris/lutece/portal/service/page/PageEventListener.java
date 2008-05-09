@@ -45,5 +45,5 @@ public interface PageEventListener extends EventListener
      * Process a page event
      * @param event The event to process
      */
-    public void processPageEvent( PageEvent event );
+    void processPageEvent( PageEvent event );
 }

@@ -59,8 +59,10 @@ public final class PageIncludeService
     }
 
     /**
-     *  Register a Portal Content Include
+     * Register a Portal Content Include
+     * 
      * @param entry The PageInclude entry
+     * @throws LuteceInitException If an error occured 
      */
     public static void registerPageInclude( PageIncludeEntry entry )
         throws LuteceInitException

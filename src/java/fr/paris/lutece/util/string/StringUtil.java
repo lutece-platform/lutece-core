@@ -48,8 +48,8 @@ public final class StringUtil
     private static final String STRING_CODE_PATTERN = "^[\\w]+$";
 
     // The characters that are considered dangerous for XSS attacks
-    private static char[] _aXssCharacters = null;
-    private static String _xssCharactersAsString = null;
+    private static char[] _aXssCharacters;
+    private static String _xssCharactersAsString;
 
     /**
      * Constructor with no parameter

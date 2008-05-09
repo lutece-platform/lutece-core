@@ -91,7 +91,8 @@ public class AdminUser
     }
 
     /**
-     * Get the user Locale
+     * Get the user's Locale
+     * @return The user's locale
      */
     public Locale getLocale(  )
     {
@@ -100,6 +101,7 @@ public class AdminUser
 
     /**
      * Set the user Locale
+     * @param locale The locale
      */
     public void setLocale( Locale locale )
     {
@@ -371,6 +373,7 @@ public class AdminUser
 
     /**
      * Check if this user has a given role
+     * @param strRole The role key
      * @return true if user has the role
      */
     public boolean isInRole( String strRole )

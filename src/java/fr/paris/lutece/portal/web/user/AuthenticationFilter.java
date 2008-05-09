@@ -70,16 +70,14 @@ public class AuthenticationFilter implements Filter
     private static final String CONSTANT_LIST_SEPARATOR = ",";
 
     /**
-     * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
-     * @param config The FilterConfig
-     * @throws ServletException
+     * {@inheritDoc}
      */
     public void init( FilterConfig config ) throws ServletException
     {
     }
 
     /**
-     * @see javax.servlet.Filter#destroy()
+     * {@inheritDoc}
      */
     public void destroy(  )
     {
@@ -87,13 +85,7 @@ public class AuthenticationFilter implements Filter
     }
 
     /**
-     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
-     *      javax.servlet.ServletResponse, javax.servlet.FilterChain)
-     * @param request The ServletRequest
-     * @param response The ServletResponse
-     * @param chain The FilterChain
-     * @throws IOException
-     * @throws ServletException
+     * {@inheritDoc}
      */
     public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
         throws IOException, ServletException
@@ -214,8 +206,8 @@ public class AuthenticationFilter implements Filter
     /**
      * check that the access is granted
      *  @param request The HTTP request
-     *  @throws AccessDeniedException
-     *  @throws UserNotSignedException
+     *  @throws AccessDeniedException If the user is not allowed
+     *  @throws UserNotSignedException If the user is not signed
      *
      **/
     private static void filterAccess( HttpServletRequest request )

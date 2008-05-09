@@ -66,11 +66,7 @@ public class PageIndexer implements SearchIndexer
     private static final String PARAMETER_PAGE_ID = "page_id";
 
     /**
-     * Returns a list of lucene documents to add to the index
-     * @return A list of lucene documents to add to the index
-     * @throws java.io.IOException
-     * @throws java.lang.InterruptedException
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * {@inheritDoc}
      */
     public List<Document> getDocuments(  ) throws IOException, InterruptedException, SiteMessageException
     {
@@ -91,8 +87,7 @@ public class PageIndexer implements SearchIndexer
     }
 
     /**
-     * Returns the indexer service name
-     * @return the indexer service name
+     * {@inheritDoc}
      */
     public String getName(  )
     {
@@ -100,8 +95,7 @@ public class PageIndexer implements SearchIndexer
     }
 
     /**
-     * Returns the indexer service version
-     * @return The indexer service version
+     * {@inheritDoc}
      */
     public String getVersion(  )
     {
@@ -109,8 +103,7 @@ public class PageIndexer implements SearchIndexer
     }
 
     /**
-     * Returns the indexer service description
-     * @return The indexer service description
+     * {@inheritDoc}
      */
     public String getDescription(  )
     {
@@ -118,8 +111,7 @@ public class PageIndexer implements SearchIndexer
     }
 
     /**
-     * Tells whether the service is enable or not
-     * @return true if enable, otherwise false
+     * {@inheritDoc}
      */
     public boolean isEnable(  )
     {

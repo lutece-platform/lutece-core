@@ -58,8 +58,8 @@ public class UploadFilterSite extends UploadFilter
     /**
      * Get the error message url when file is bigger than the max size authorized
      * @param request The http request
+     * @return The Message URL
      */
-    @Override
     protected String getMessageRelativeUrl( HttpServletRequest request )
     {
         long lSizeMax = getRequestSizeMax(  );
@@ -68,12 +68,9 @@ public class UploadFilterSite extends UploadFilter
         {
             DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance(  );
             decimalFormat.applyPattern( "#" );
-            SiteMessageService.setMessage( request, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED,
-                new String[]
-                {
-                    ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) )
-                                              : ( decimalFormat.format( lSizeMax / KILO_BYTE ) )
-                }, PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED, null, "", SiteMessage.TYPE_STOP );
+            String strMessage =  ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) ) : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
+            Object[] args = { strMessage };
+            SiteMessageService.setMessage( request, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args , PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED, null, "", SiteMessage.TYPE_STOP );
         }
         catch ( SiteMessageException lme )
         {

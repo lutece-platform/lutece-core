@@ -38,7 +38,6 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * The interface for Captcha security service
- *
  */
 public interface ICaptchaSecurityService
 {
@@ -64,9 +63,9 @@ public interface ICaptchaSecurityService
 
     /**
      * Activate the service for the current client
-     * @param isActive
+     * @param bActive True to activate, otherwise false
      */
-    void setActive( boolean isActive );
+    void setActive( boolean bActive );
 
     /**
      * @return true if a captcha security service is loaded

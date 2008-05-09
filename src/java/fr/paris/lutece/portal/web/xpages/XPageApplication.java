@@ -54,7 +54,7 @@ public interface XPageApplication
      * @param nMode The current mode.
      * @param plugin The plugin
      * @return The page content.
-     * @throws UserNotSignedException
+     * @throws UserNotSignedException If the application ask for an user sign
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
     XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )

@@ -57,9 +57,9 @@ public class DaemonsJspBean extends AdminPageJspBean
     private static final String ACTION_STOP = "STOP";
 
     /**
-     *
-     * @param request
-     * @return
+     * Build the manage daemon page
+     * @param request The HTTP request
+     * @return The Manage daemon page
      */
     public String getManageDaemons( HttpServletRequest request )
     {

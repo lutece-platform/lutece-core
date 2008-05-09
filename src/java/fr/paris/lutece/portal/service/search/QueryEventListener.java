@@ -43,5 +43,5 @@ public interface QueryEventListener
      * Process a query event
      * @param event The event to process
      */
-    public void processQueryEvent( QueryEvent event );
+    void processQueryEvent( QueryEvent event );
 }

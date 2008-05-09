@@ -41,5 +41,9 @@ import java.util.Locale;
  */
 public interface Localizable
 {
-    public void setLocale( Locale locale );
+    /**
+     * Sets the locale
+     * @param locale The locale
+     */
+    void setLocale( Locale locale );
 }
