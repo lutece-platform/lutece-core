@@ -150,7 +150,6 @@ public class ConnectionPool
         // Get a pooled Connection from the cache or a new one.
         // Wait if all are checked out and the max limit has
         // been reached.
-        long startTime = System.currentTimeMillis(  );
         long remaining = timeout;
         Connection conn = getPooledConnection(  );
 

@@ -83,7 +83,6 @@ final class MailUtil
     private static final String HEADER_NAME = "Content-Transfer-Encoding";
     private static final String HEADER_VALUE = "quoted-printable";
     private static final String HEADER_CONTENT_LOCATION = "Content-Location";
-    private static final String BODY_PART_MIME_TYPE = "text/html";
     private static final String MULTIPART_RELATED = "related";
     private static final String MSG_ATTACHMENT_NOT_FOUND = " not found, document ignored.";
 

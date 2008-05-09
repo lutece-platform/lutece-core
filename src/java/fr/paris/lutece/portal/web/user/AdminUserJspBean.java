@@ -198,9 +198,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         for ( AdminUser user : listUser )
         {
-            boolean b = ( ( haveCommonWorkgroups( currentUser, user ) ) ||
-                ( !AdminWorkgroupHome.checkUserHasWorkgroup( user.getUserId(  ) ) ) );
-
             if ( currentUser.isAdmin(  ) ||
                     ( currentUser.isParent( user ) &&
                     ( ( haveCommonWorkgroups( currentUser, user ) ) ||

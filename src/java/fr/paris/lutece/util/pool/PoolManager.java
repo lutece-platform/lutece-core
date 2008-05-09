@@ -38,6 +38,7 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.pool.service.ConnectionPool;
 import fr.paris.lutece.util.pool.service.ConnectionService;
 import fr.paris.lutece.util.pool.service.LuteceConnectionService;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -61,7 +62,7 @@ public final class PoolManager
     private static final String LOGGER_NAME = "lutece.pool";
     private static PoolManager _instance;
     private Logger _logger;
-    private HashMap<String, ConnectionService> _pools = new HashMap<String, ConnectionService>(  );
+    private Map<String, ConnectionService> _pools = new HashMap<String, ConnectionService>(  );
 
     /**
      * Creates a new PoolManager object.

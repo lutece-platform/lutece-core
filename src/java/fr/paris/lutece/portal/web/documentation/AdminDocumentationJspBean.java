@@ -52,6 +52,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -183,7 +184,7 @@ public class AdminDocumentationJspBean
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        ArrayList listFeatureGroups = getFeatureGroupsList( user );
+        List<FeatureGroup> listFeatureGroups = getFeatureGroupsList( user );
         HashMap model = new HashMap(  );
 
         model.put( BOOKMARK_FEATURE_GROUP_LIST, listFeatureGroups );
@@ -199,9 +200,9 @@ public class AdminDocumentationJspBean
      * Returns an array that contains all feature groups corresponding to the user
      * 
      * @param user The user
-     * @return An array of FeatureGroup objects
+     * @return A list of FeatureGroup objects
      */
-    private ArrayList getFeatureGroupsList( AdminUser user )
+    private List<FeatureGroup> getFeatureGroupsList( AdminUser user )
     {
         // structure that will be returned
         ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<FeatureGroup>(  );

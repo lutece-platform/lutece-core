@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.search;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -43,7 +44,7 @@ import java.util.ArrayList;
  */
 public final class QueryListenersService
 {
-    private static ArrayList<QueryEventListener> _listListeners = new ArrayList<QueryEventListener>(  );
+    private static List<QueryEventListener> _listListeners = new ArrayList<QueryEventListener>(  );
     private static QueryListenersService _singleton;
 
     /**

@@ -59,6 +59,7 @@ import fr.paris.lutece.util.string.StringUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -74,7 +75,6 @@ public class AdminMenuJspBean
     // Constants
 
     // Markers
-    private static final String MARK_FEATURE_LIST = "feature_list";
     private static final String MARK_FEATURE_GROUP_LIST = "feature_group_list";
     private static final String MARK_LANGUAGES_LIST = "languages_list";
     private static final String MARK_CURRENT_LANGUAGE = "current_language";
@@ -117,7 +117,7 @@ public class AdminMenuJspBean
         String strVersion = AppInfo.getVersion(  );
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        ArrayList aFeaturesGroupList = getFeatureGroupsList( user );
+        List<FeatureGroup> aFeaturesGroupList = getFeatureGroupsList( user );
 
         // Displays the menus accroding to the rights of the users
         model.put( Markers.VERSION, strVersion );
@@ -146,8 +146,8 @@ public class AdminMenuJspBean
 
         Locale locale = user.getLocale(  );
 
-        //Displays the menus according to the users rights
-        ArrayList listFeatureGroups = getFeatureGroupsList( user );
+        // Displays the menus according to the users rights
+        List<FeatureGroup> listFeatureGroups = getFeatureGroupsList( user );
         HashMap model = new HashMap(  );
 
         model.put( MARK_FEATURE_GROUP_LIST, listFeatureGroups );
@@ -168,7 +168,7 @@ public class AdminMenuJspBean
      * @param user The Admin user
      * @return An array of FeatureGroup objects
      */
-    private ArrayList getFeatureGroupsList( AdminUser user )
+    private List<FeatureGroup> getFeatureGroupsList( AdminUser user )
     {
         // structure that will be returned
         ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<FeatureGroup>(  );
