@@ -61,10 +61,10 @@ public class DosGuardFilter implements Filter
     private FilterConfig _filterConfig;
 
     // The size under which requests are allowed systematically
-    private int _nMinContentLength = 0;
+    private int _nMinContentLength;
 
     // The minimum interval allowed between two requests from the same client
-    private int _nMinInterval = 0;
+    private int _nMinInterval;
 
     // The HashMap used to store IP/time entries
     private Map<String, Long> _mapLastRequestTimes;
@@ -247,8 +247,8 @@ public class DosGuardFilter implements Filter
      */
     private class Entry
     {
-        private String _strRemoteAddr = null;
-        private long _lRequestTime = 0;
+        private String _strRemoteAddr;
+        private long _lRequestTime;
 
         /**
          * Constructor

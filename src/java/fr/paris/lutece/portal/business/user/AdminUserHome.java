@@ -192,7 +192,7 @@ public final class AdminUserHome
     /**
      * Checks if a given login is already in use
      * @param strAccessCode The login
-     * @true If the the login is already in use, otherwise false
+     * @return True if the the login is already in use, otherwise false
      */
     public static boolean checkAccessCodeAlreadyInUse( String strAccessCode )
     {

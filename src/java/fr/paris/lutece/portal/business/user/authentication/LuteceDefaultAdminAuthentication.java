@@ -218,6 +218,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
      * Not used - Return null always for this module
      * @param strLogin The login
      * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getUserPublicData(java.lang.String)
+     * @return null
      */
     public AdminUser getUserPublicData( String strLogin )
     {

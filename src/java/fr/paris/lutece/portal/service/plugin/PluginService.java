@@ -147,6 +147,12 @@ public final class PluginService
         }
     }
 
+    /**
+     * Load a plugin from a file definition
+     * @param file The plugin file
+     * @param bRegisterAsPlugin Register it as a plugin : true for plugins, false for core components file
+     * @throws LuteceInitException If an error occured
+     */
     private static void loadPluginFromFile( File file, boolean bRegisterAsPlugin )
         throws LuteceInitException
     {

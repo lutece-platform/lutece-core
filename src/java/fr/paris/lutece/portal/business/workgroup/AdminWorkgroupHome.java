@@ -115,7 +115,7 @@ public final class AdminWorkgroupHome
 
     /**
      * Check that the given key points to an existing workgroup
-     * @param strNewWorkgroupKey
+     * @param strWorkgroupKey The workgroup key
      * @return true if the workgroup exists, false otherwise
      */
     public static boolean checkExistWorkgroup( String strWorkgroupKey )
@@ -156,7 +156,7 @@ public final class AdminWorkgroupHome
 
     /**
       * Returns the list of all users for a workgroup
-      * @param user The user
+      * @param strWorkgroupKey The workgroup key
       * @return A list of all users of the workgroup
       */
     public static Collection<AdminUser> getUserListForWorkgroup( String strWorkgroupKey )

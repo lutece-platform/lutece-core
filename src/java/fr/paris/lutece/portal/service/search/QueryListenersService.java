@@ -70,7 +70,7 @@ public final class QueryListenersService
 
     /**
      * Register a new listener
-     * @param listener
+     * @param listener The listener to register
      */
     public void registerQueryListener( QueryEventListener listener )
     {

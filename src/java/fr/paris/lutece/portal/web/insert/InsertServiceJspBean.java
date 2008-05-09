@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.web.insert;
 
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
