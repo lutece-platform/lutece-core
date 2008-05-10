@@ -63,7 +63,7 @@ public final class StartUpServiceManager
         _singleton = (StartUpServiceManager) SpringContextService.getBean( BEAN_MANAGER );
 
         // Process all services
-        for ( StartUpService service : _listServices )
+        for ( StartUpService service : (List<StartUpService>) _listServices )
         {
             service.process(  );
         }
