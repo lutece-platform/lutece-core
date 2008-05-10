@@ -45,7 +45,7 @@ public final class StartUpServiceManager
 {
     private static final String BEAN_MANAGER = "startUpServiceManager";
     private static StartUpServiceManager _singleton;
-    private static List<StartUpService> _listServices;
+    private static List _listServices;
 
     /**
      * Private constructor
@@ -73,7 +73,7 @@ public final class StartUpServiceManager
      * Sets the list of startup services
      * @param list The list of startup services
      */
-    public void setServicesList( List<StartUpService> list )
+    public void setServicesList( List list )
     {
         _listServices = list;
     }
