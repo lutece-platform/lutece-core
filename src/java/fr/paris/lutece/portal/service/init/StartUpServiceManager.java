@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.init;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import java.util.List;
 
 
@@ -63,12 +64,26 @@ public final class StartUpServiceManager
         _singleton = (StartUpServiceManager) SpringContextService.getBean( BEAN_MANAGER );
 
         // Process all services
-        for ( StartUpService service : (List<StartUpService>) _listServices )
+/*        for ( StartUpService service : (List<StartUpService>) _listServices )
         {
             service.process(  );
         }
     }
-
+*/
+        for ( Object object :  _listServices )
+        {
+            if( object instanceof StartUpService )
+            {    
+                ( (StartUpService) object).process(  );
+                AppLogService.info( "Processing startup service : " );
+            }
+            else
+            {
+                AppLogService.info( "Invalide Startup service : " + object.toString() );
+            }    
+        }
+    }   
+        
     /**
      * Sets the list of startup services
      * @param list The list of startup services
