@@ -50,7 +50,7 @@ public final class StartUpServiceManager
     /**
      * Private constructor
      */
-    private StartUpServiceManager(  )
+    public StartUpServiceManager(  )
     {
     }
 
