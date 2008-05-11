@@ -45,13 +45,12 @@ import java.util.List;
 public final class StartUpServiceManager
 {
     private static final String BEAN_MANAGER = "startUpServiceManager";
-    private static StartUpServiceManager _singleton;
     private static List _listServices;
 
     /**
      * Private constructor
      */
-    public StartUpServiceManager(  )
+    private StartUpServiceManager(  )
     {
     }
 
@@ -60,26 +59,23 @@ public final class StartUpServiceManager
      */
     public static void init(  )
     {
-        // Get the bean from the Spring Context 
-        _singleton = (StartUpServiceManager) SpringContextService.getBean( BEAN_MANAGER );
+        // Get the bean from the main Spring Context (core_context.xml) with 
+        // its dependencies : startup services defined in a list
+        
+        SpringContextService.getBean( BEAN_MANAGER );
 
         // Process all services
-/*        for ( StartUpService service : (List<StartUpService>) _listServices )
-        {
-            service.process(  );
-        }
-    }
-*/
         for ( Object object :  _listServices )
         {
             if( object instanceof StartUpService )
             {    
-                ( (StartUpService) object).process(  );
-                AppLogService.info( "Processing startup service : " );
+                StartUpService service = (StartUpService) object;
+                AppLogService.info( "Processing startup service : " + service.getName() );
+                service.process();
             }
             else
             {
-                AppLogService.info( "Invalide Startup service : " + object.toString() );
+                AppLogService.error( "Invalid startup service : '" + object.toString() + "' defined in core_context.xml" );
             }    
         }
     }   

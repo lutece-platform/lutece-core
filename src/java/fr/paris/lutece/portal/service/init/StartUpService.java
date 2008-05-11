@@ -33,11 +33,13 @@
  */
 package fr.paris.lutece.portal.service.init;
 
+import fr.paris.lutece.portal.service.util.LuteceService;
+
 
 /**
  * StartUp Service Interface
  */
-public interface StartUpService
+public interface StartUpService extends LuteceService
 {
     /**
      * Run the service
