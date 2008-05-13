@@ -9,6 +9,7 @@
 
 @import url( "../js/jscalendar/calendar-lutece.css" );
 @import url("../js/jquery/plugins/treeview/jquery.treeview.css");
+@import url("../js/jquery/plugins/ui/datepicker/ui.datepicker.css");
 
 /* Define the default font: */
 BODY, TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH, H1, H2, H3, H4, TEXTAREA
@@ -75,7 +76,7 @@ h3 {
 	text-align:center;
 }
 
-/* Menu à onglet de l'interface d'Administration des pages */
+/* Menu ï¿½ onglet de l'interface d'Administration des pages */
 #admin-site-menu {
   float:left;
   width:100%;
