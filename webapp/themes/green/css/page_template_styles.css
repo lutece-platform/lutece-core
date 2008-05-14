@@ -13,6 +13,7 @@
 /* ========================================================================
 ==============     REDEFINITION OF BASE HTML ELEMENTS     =================
 =========================================================================== */
+@import url("../js/jquery/plugins/ui/datepicker/ui.datepicker.css");
 
 /* Define the default font: */
 BODY, TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH, H1, H2, H3, H4
@@ -1152,7 +1153,7 @@ h1.formengine-title{
 	padding-left: 20px;
 }
 
-/* style h2 caché */
+/* style h2 cachï¿½ */
 
 h2.formengine-subform-title {
 	font-size: 10px;
