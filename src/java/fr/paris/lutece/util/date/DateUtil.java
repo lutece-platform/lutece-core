@@ -33,10 +33,15 @@
  */
 package fr.paris.lutece.util.date;
 
+import java.sql.Timestamp;
+
+import java.text.DateFormat;
 import java.text.FieldPosition;
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 
+import java.util.Date;
 import java.util.Locale;
 
 
@@ -47,6 +52,21 @@ public final class DateUtil
 {
     private static SimpleDateFormat _formatter = new SimpleDateFormat( "dd'/'MM'/'yyyy", Locale.FRANCE );
     private static SimpleDateFormat _formatterDateTime = new SimpleDateFormat( "dd'/'MM'/'yyyy' 'HH':'mm", Locale.FRANCE );
+
+    //TODO Define the two date format in properties
+    /**
+     * This format corresponds to that defined by the datepicker
+     * See dateFormat field into webapp/js/jquery/plugins/ui/datepicker/ui.datepicker-fr.js
+     * Format Datepicker : mm/dd/yy
+     */
+    private static final String FORMAT_DATE_SHORT_EN = "MM'/'dd'/'yyyy";
+
+    /**
+     * This format corresponds to that defined by the datepicker
+     * See dateFormat field into webapp/js/jquery/plugins/ui/datepicker/ui.datepicker.js
+     * Format Datepicker : dd/mm/yy
+     */
+    private static final String FORMAT_DATE_SHORT_FR = "dd'/'MM'/'yyyy";
 
     /**
      * Creates a new DateUtil object
@@ -59,6 +79,7 @@ public final class DateUtil
      * Returns the date of the day in form of a String
      *
      * @return The Date of the day in a  "JJ/MM/AAAA" format
+     * @deprecated Use getCurrentDateString( Locale locale )
      */
     public static synchronized String getCurrentDateString(  )
     {
@@ -70,6 +91,7 @@ public final class DateUtil
      *
      * @param strDate The String Date to convert, in a date in the "jj/mm/aaaa" format
      * @return The date in form of a java.sql.Date type date
+     * @deprecated Use formatDateSql( String strDate, Locale locale )
      */
     public static synchronized java.sql.Date getDateSql( String strDate )
     {
@@ -89,6 +111,7 @@ public final class DateUtil
      *
      * @param strDate The String Date to convert, in a date in the "jj/mm/aaaa" format
      * @return The date in form of a java.sql.Date tyep date
+     * @deprecated Use formatDate( String strDate, Locale locale )
      */
     public static synchronized java.util.Date getDate( String strDate )
     {
@@ -103,6 +126,7 @@ public final class DateUtil
      *
      * @param strDate The String Date to convert, in a date in the "jj/mm/aaaa" format
      * @return The date in form of a java.sql.Date tyep date
+     * @deprecated Use formatTimestamp( String strDate, Locale locale )
      */
     public static synchronized java.sql.Timestamp getTimestamp( String strDate )
     {
@@ -122,6 +146,7 @@ public final class DateUtil
      *
      * @param date java.sql.Date date to convert
      * @return strDate The date converted to String in a "jj/mm/aaaa" format or an empty String if the date is null
+     * @deprecated Use getDateString( Date date, Locale locale )
      */
     public static synchronized String getDateString( java.sql.Date date )
     {
@@ -144,6 +169,7 @@ public final class DateUtil
      *
      * @param date java.sql.Timestamp date to convert
      * @return strDate The String date in a "jj/mm/aaaa" format or the emmpty String if the date is null
+     * @deprecated Use getDateString( java.sql.Timestamp date, Locale locale )
      */
     public static synchronized String getDateString( java.sql.Timestamp date )
     {
@@ -166,6 +192,7 @@ public final class DateUtil
      *
      * @param date java.util.Date date to convert
      * @return strDate A String date in a "jj/mm/aaaa" format or an empty String if the date is null
+     * @deprecated Use formatDate( String strDate, Locale locale )
      */
     public static synchronized String getDateString( java.util.Date date )
     {
@@ -183,6 +210,7 @@ public final class DateUtil
     ///////////////////////////////////////////////////////////////////////////
     // methods using a long value
 
+    //TODO : Create a new getDateTimeString(  ) function with locale
     /**
      * Converts a long value to a String date in a "jj/mm/aaaa hh:mm" format
      *
@@ -195,5 +223,168 @@ public final class DateUtil
         _formatterDateTime.format( new java.util.Date( lTime ), strDate, new FieldPosition( 0 ) );
 
         return strDate.toString(  );
+    }
+
+    /* -------------- Added in 2.2.1 ----------------- */
+
+    /**
+     * Get the date from String date
+     * The format pattern is specified internaly
+     * @param strDate the date to format
+     * @param locale The Locale
+     * @return The Date or null else
+     */
+    public static Date formatDate( String strDate, Locale locale )
+    {
+        Date date = null;
+
+        if ( strDate != null )
+        {
+            DateFormat dateFormat = null;
+
+            if ( locale != null )
+            {
+                if ( locale.equals( Locale.FRENCH ) )
+                {
+                    dateFormat = new SimpleDateFormat( FORMAT_DATE_SHORT_FR );
+                }
+                else if ( locale.equals( Locale.ENGLISH ) )
+                {
+                    dateFormat = new SimpleDateFormat( FORMAT_DATE_SHORT_EN );
+                }
+                else
+                {
+                    dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, locale );
+                }
+            }
+            else
+            {
+                dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, Locale.getDefault(  ) );
+            }
+
+            dateFormat.setLenient( false );
+
+            try
+            {
+                date = dateFormat.parse( strDate );
+            }
+            catch ( ParseException e )
+            {
+                return null;
+            }
+        }
+
+        return date;
+    }
+
+    /**
+     * Get the {@link Timestamp} from String date
+     * The format pattern is specified internaly
+     * @param strDate the date to format
+     * @param locale The Locale
+     * @return The {@link Timestamp} or null else
+     */
+    public static Timestamp formatTimestamp( String strDate, Locale locale )
+    {
+        Date date = formatDate( strDate, locale );
+
+        if ( date == null )
+        {
+            return null;
+        }
+
+        return new Timestamp( date.getTime(  ) );
+    }
+
+    /**
+     * Get the {@link java.sql.Date} from String date
+     * The format pattern is specified internaly
+     * @param strDate the date to format
+     * @param locale The Locale
+     * @return The {@link java.sql.Date} or null else
+     */
+    public static java.sql.Date formatDateSql( String strDate, Locale locale )
+    {
+        Date date = formatDate( strDate, locale );
+
+        if ( date == null )
+        {
+            return null;
+        }
+
+        return new java.sql.Date( date.getTime(  ) );
+    }
+
+    /**
+     * Convert the date to String with a standard pattern
+     * @param date The date to convert
+     * @param locale The Locale
+     * @return The formated String
+     */
+    public static String getDateString( Date date, Locale locale )
+    {
+        DateFormat dateFormat = null;
+
+        if ( locale != null )
+        {
+            if ( locale.equals( Locale.FRENCH ) )
+            {
+                dateFormat = new SimpleDateFormat( FORMAT_DATE_SHORT_FR );
+            }
+            else if ( locale.equals( Locale.ENGLISH ) )
+            {
+                dateFormat = new SimpleDateFormat( FORMAT_DATE_SHORT_EN );
+            }
+            else
+            {
+                dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, locale );
+            }
+        }
+        else
+        {
+            dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, Locale.getDefault(  ) );
+        }
+
+        return dateFormat.format( date );
+    }
+
+    /**
+     * Converts a long value to a String date
+     *
+     * @param lTime The long value to convert
+     * @param locale the locale
+     * @return The formatted string
+     */
+    public static String getDateString( long lTime, Locale locale )
+    {
+        return getDateString( new Date( lTime ), locale );
+    }
+
+    /**
+     * Converts a Timestamp value to a String date
+     *
+     * @param lTime The long value to convert
+     * @param locale the locale
+     * @return The formatted string
+     */
+    public static String getDateString( java.sql.Timestamp date, Locale locale )
+    {
+        if ( date == null )
+        {
+            return "";
+        }
+
+        return getDateString( new Date( date.getTime(  ) ), locale );
+    }
+
+    /**
+     * Converts the current Date to a String date
+     *
+     * @param locale the locale
+     * @return The formatted string
+     */
+    public static String getCurrentDateString( Locale locale )
+    {
+        return getDateString( new Date(  ), locale );
     }
 }
