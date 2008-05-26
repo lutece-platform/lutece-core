@@ -42,28 +42,14 @@
                     <input type="image" title="#i18n{portal.site.portletPreview.buttonDelete}" alt="#i18n{portal.site.portletPreview.buttonDelete}" src="images/admin/skin/actions/delete.png"  />
 		</form>
             </td>
-        
-	<#if portlet.portletTypeId="DOCUMENT_LIST_PORTLET">
-	          <td >
-                <form method="post" action="jsp/admin/plugins/document/ManagePublishing.jsp" target="_parent">
-                    <input type="hidden" name="id_portlet" value="${portlet.id}" />
-		            <!-- <input type="submit" value="#i18n{portal.site.portletPreview.buttonManage}"/> -->
-                    <input type="image" title="#i18n{portal.site.portletPreview.buttonManage}" alt="#i18n{portal.site.portletPreview.buttonManage}" src="images/admin/skin/actions/publish.png"  />
-		</form>
-            </td>
-	
-	</#if>
-	<#if portlet.portletTypeId="DOCUMENT_PORTLET">
-	          <td >
-                <form method="post" action="jsp/admin/plugins/document/ManagePublishing.jsp" target="_parent">
-                    <input type="hidden" name="id_portlet" value="${portlet.id}" />
-		            <!-- <input type="submit" value="#i18n{portal.site.portletPreview.buttonManage}"/> -->
-                    <input type="image" title="#i18n{portal.site.portletPreview.buttonManage}" alt="#i18n{portal.site.portletPreview.buttonManage}" src="images/admin/skin/actions/publish.png"  />
-		</form>
-            </td>
-	
-	</#if>
-
+			<#list custom_action_list as custom_action>
+				<td >
+			    	<form method="post" action="${custom_action.actionUrl}" target="_parent">
+			        	<input type="hidden" name="id_portlet" value="${portlet.id}" />
+			            <input type="image" title="#i18n{${custom_action.title}}" alt="#i18n{${custom_action.title}}" src="${custom_action.imageUrl}"  />
+					</form>
+				</td>
+			</#list>
 	 <td>&#160;</td>
 	<td>&#160;</td>
   </tr>

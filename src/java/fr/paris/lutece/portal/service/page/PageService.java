@@ -62,6 +62,7 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +88,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     /** Access Controled template */
     public static final String TEMPLATE_PAGE_ACCESS_CONTROLED = "/skin/site/page_access_controled.html";
     private static final String MARK_PORTLET = "portlet";
+    private static final String MARK_CUSTOM_ACTIONS = "custom_action_list";
     private static final String MARK_URL_LOGIN = "url_login";
 
     // Added in v1.3
@@ -105,6 +107,14 @@ public class PageService extends ContentService implements ImageResourceProvider
     private static final String PARAMETER_PLUGIN_NAME = "plugin-name";
     private static PageService _singleton;
     private ArrayList<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
+    
+    // Specific for plugin-document
+    private static final String DOCUMENT_LIST_PORTLET = "DOCUMENT_LIST_PORTLET";
+    private static final String DOCUMENT_PORTLET = "DOCUMENT_PORTLET";
+    private static final String DOCUMENT_ACTION_URL = "jsp/admin/plugins/document/ManagePublishing.jsp";
+    private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
+    private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
+    
 
     /**
      * Creates a new PageService object.
@@ -468,8 +478,23 @@ public class PageService extends ContentService implements ImageResourceProvider
                             PortletResourceIdService.PERMISSION_MANAGE, user ) )
                 {
                     Locale locale = user.getLocale(  );
+                    Collection<CustomAction> listCustomActions = new ArrayList<CustomAction>(  );
+
+                    //TODO : listCustomActions should be provided by PortletType
+                    //FIXME : Delete plugin-document specifics 
+                    if ( portlet.getPortletTypeId(  ).equals( DOCUMENT_LIST_PORTLET ) ||
+                            portlet.getPortletTypeId(  ).equals( DOCUMENT_PORTLET ) )
+                    {
+                        CustomAction customAction = new CustomAction(  );
+                        customAction.setActionUrl( DOCUMENT_ACTION_URL );
+                        customAction.setImageUrl( DOCUMENT_IMAGE_URL );
+                        customAction.setTitle( DOCUMENT_TITLE );
+                        listCustomActions.add( customAction );
+                    }
+
                     HashMap model = new HashMap(  );
                     model.put( MARK_PORTLET, portlet );
+                    model.put( MARK_CUSTOM_ACTIONS, listCustomActions );
 
                     HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_BUTTONS, locale, model );
                     strPortletContent = strPortletContent + template.getHtml(  );
@@ -664,5 +689,64 @@ public class PageService extends ContentService implements ImageResourceProvider
         Page page = PageHome.findByPrimaryKey( nPageId );
         PageEvent event = new PageEvent( page, PageEvent.PAGE_CONTENT_MODIFIED );
         notifyListeners( event );
+    }
+
+    /**
+     * CustomAction define a customized action for portlet types
+     *
+     */
+    public class CustomAction
+    {
+        private String _strActionUrl;
+        private String _strImageUrl;
+        private String _strTitle;
+
+        /**
+         * @return the _actionUrl
+         */
+        public String getActionUrl(  )
+        {
+            return _strActionUrl;
+        }
+
+        /**
+         * @param strActionUrl the _actionUrl to set
+         */
+        public void setActionUrl( String strActionUrl )
+        {
+            _strActionUrl = strActionUrl;
+        }
+
+        /**
+         * @return the _imageUrl
+         */
+        public String getImageUrl(  )
+        {
+            return _strImageUrl;
+        }
+
+        /**
+         * @param strImageUrl the _imageUrl to set
+         */
+        public void setImageUrl( String strImageUrl )
+        {
+            _strImageUrl = strImageUrl;
+        }
+
+        /**
+         * @return the _strTitle
+         */
+        public String getTitle(  )
+        {
+            return _strTitle;
+        }
+
+        /**
+         * @param strTitle the _strTitle to set
+         */
+        public void setTitle( String strTitle )
+        {
+            _strTitle = strTitle;
+        }
     }
 }
