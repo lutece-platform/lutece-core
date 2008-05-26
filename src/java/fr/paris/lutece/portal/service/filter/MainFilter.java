@@ -72,11 +72,6 @@ public class MainFilter implements Filter
         throws IOException, ServletException
     {
         HttpServletRequest request = (HttpServletRequest) requestServlet;
-        AppLogService.info( "MainFilter - doFilter : " + request.getContextPath(  ) );
-        AppLogService.info( "MainFilter - doFilter : " + request.getRequestURI(  ) );
-        AppLogService.info( "MainFilter - doFilter : " + request.getServletPath(  ) );
-        AppLogService.info( "MainFilter - doFilter : " + request.getPathInfo(  ) );
-        AppLogService.info( "MainFilter - doFilter : " + request.getPathTranslated(  ) );
 
         for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
         {
@@ -107,7 +102,7 @@ public class MainFilter implements Filter
 
     private boolean matchMapping( LuteceFilter filter, HttpServletRequest request )
     {
-        String strPath = request.getContextPath(  );
+        String strPath = request.getServletPath(  );
 
         return strPath.startsWith( filter.getMapping(  ) );
     }
