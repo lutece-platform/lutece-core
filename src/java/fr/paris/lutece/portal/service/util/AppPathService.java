@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.string.StringUtil;
@@ -61,6 +62,7 @@ public final class AppPathService
     private static final String PROPERTY_BASE_URL = "lutece.base.url";
     private static final String PROPERTY_PORTAL_URL = "lutece.portal.path";
     private static final String PROPERTY_ADMIN_URL = "lutece.admin.path";
+    private static final String PROPERTY_JSP_SITE = "path.jsp.site";
     private static final String PROPERTY_ADMIN_MENU_URL = "lutece.admin.menu.url";
     private static final String PROPERTY_VIRTUAL_HOST_KEYS = "virtualHostKeys";
     private static final String PROPERTY_VIRTUAL_HOST_KEY_PARAMETER = "virtualHostKey.parameterName";
@@ -68,6 +70,7 @@ public final class AppPathService
     private static final String PROPERTY_PREFIX_URL = "url.";
     private static final String SUFFIX_BASE_URL = ".baseUrl";
     private static final String SUFFIX_DESCRIPTION = ".description";
+    private static final String SLASH = "/";
     private static String _strWebAppPath;
 
     /**
@@ -212,6 +215,34 @@ public final class AppPathService
         }
 
         return strBase + "/";
+    }
+
+    /**
+     * Return the url of the webapp, built from the request
+     * @param request The HttpServletRequest
+     * @return strBase the webapp url
+     */
+    public static String getSiteMessageUrl( HttpServletRequest request )
+    {
+    	// Get the base Url
+        String strBaseUrl = getBaseUrl( request );
+        
+        // Determine the mode (Portal or Standalone)
+        String strRequestUrl = request.getRequestURL(  ).toString(  );
+        int nlastIndexOf = strRequestUrl.lastIndexOf( AppPropertiesService.getProperty( PROPERTY_JSP_SITE ) );
+
+        if ( nlastIndexOf > -1 )
+        {
+            strRequestUrl = strRequestUrl.substring( nlastIndexOf );
+
+            if ( strRequestUrl.startsWith( SLASH ) && strBaseUrl.endsWith( SLASH ) )
+            {
+                strRequestUrl = strRequestUrl.substring( SLASH.length(  ) );
+            }
+        }
+
+        // Set the site message url
+        return SiteMessageService.setSiteMessageUrl( strBaseUrl + strRequestUrl );
     }
 
     /**

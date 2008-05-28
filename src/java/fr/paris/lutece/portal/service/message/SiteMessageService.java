@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.message;
 
+import fr.paris.lutece.util.url.UrlItem;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,6 +53,8 @@ public final class SiteMessageService
     private static final String PROPERTY_TITLE_WARNING = "portal.util.message.titleWarning";
     private static final String PROPERTY_TITLE_CONFIRMATION = "portal.util.message.titleConfirmation";
     private static final String PROPERTY_TITLE_STOP = "portal.util.message.titleStop";
+    private static final String PARAMETER_SITE_MESSAGE = "sitemessage";
+    private static final String PARAMETER_SITE_MESSAGE_VALUE = "true";
 
     /**
      * Private constructor
@@ -275,6 +279,19 @@ public final class SiteMessageService
     {
         HttpSession session = request.getSession( true );
         session.removeAttribute( ATTRIBUTE_MESSAGE );
+    }
+
+    /**
+     * Set the site message url with parameters if necessary
+     *
+     * @param the site message url
+     */
+    public static String setSiteMessageUrl( String strRequestUrl )
+    {
+        UrlItem urlItem = new UrlItem( strRequestUrl );
+        urlItem.addParameter( PARAMETER_SITE_MESSAGE, PARAMETER_SITE_MESSAGE_VALUE );
+
+        return urlItem.getUrl(  );
     }
 
     /**

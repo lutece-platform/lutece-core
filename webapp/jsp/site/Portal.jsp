@@ -29,7 +29,7 @@
 	}
 	catch( SiteMessageException lme )
 	{
-		response.sendRedirect( AppPathService.getBaseUrl( request ) );
+		response.sendRedirect( AppPathService.getSiteMessageUrl( request ) );
 	}
 	catch( UserNotSignedException e )
 	{
