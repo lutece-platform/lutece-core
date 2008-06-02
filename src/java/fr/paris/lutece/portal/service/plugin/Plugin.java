@@ -43,6 +43,8 @@ import fr.paris.lutece.portal.service.content.XPageAppService;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.DaemonEntry;
 import fr.paris.lutece.portal.service.database.PluginConnectionService;
+import fr.paris.lutece.portal.service.filter.FilterEntry;
+import fr.paris.lutece.portal.service.filter.FilterService;
 import fr.paris.lutece.portal.service.includes.PageIncludeEntry;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
@@ -94,6 +96,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
     // Lists of rights and portlets of the plugin
     private List<XPageApplicationEntry> _listXPageApplications;
+    private List<FilterEntry> _listFilters;
     private List<String> _listCssStyleSheets;
     private List<String> _listJavascriptFiles;
     private List<Right> _listRights;
@@ -137,6 +140,7 @@ public abstract class Plugin implements Comparable<Plugin>
             _strCopyright = pluginFile.getCopyright(  );
             _strPluginClass = pluginFile.getPluginClass(  );
             _listXPageApplications = pluginFile.getXPageApplications(  );
+            _listFilters = pluginFile.getFilters(  );
             _listRights = pluginFile.getRights(  );
             _listPortletTypes = pluginFile.getPortletTypes(  );
             _listContentServices = pluginFile.getContentServices(  );
@@ -319,6 +323,18 @@ public abstract class Plugin implements Comparable<Plugin>
         {
             entry.setPluginName( getName(  ) );
             XPageAppService.registerXPageApplication( entry );
+        }
+    }
+
+    /**
+     * Register Filters
+     * @throws LuteceInitException If an error occurs
+     */
+    protected void registerFilters(  ) throws LuteceInitException
+    {
+        for ( FilterEntry entry : _listFilters )
+        {
+            FilterService.getInstance().registerFilter( entry, this );
         }
     }
 

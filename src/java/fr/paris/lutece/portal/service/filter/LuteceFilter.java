@@ -48,7 +48,7 @@ public class LuteceFilter
     private String _strMapping;
     private Plugin _plugin;
 
-    public LuteceFilter( String strName, Filter filter, String strMapping, Plugin plugin )
+    public LuteceFilter( String strName, Filter filter, String strMapping , Plugin plugin)
     {
         _strName = strName;
         _filter = filter;

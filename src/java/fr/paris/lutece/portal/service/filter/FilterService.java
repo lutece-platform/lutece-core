@@ -62,14 +62,14 @@ public class FilterService
         return _singleton;
     }
 
-    void registerFilter( String strFilterName, String strFilterClass, String strFilterMapping, Plugin plugin )
+    public void registerFilter( FilterEntry entry, Plugin plugin )
     {
         try
         {
-            Filter filter = (Filter) Class.forName( strFilterClass ).newInstance(  );
-            LuteceFilter f = new LuteceFilter( strFilterName, filter, strFilterMapping, plugin );
+            Filter filter = (Filter) Class.forName( entry.getFilterClass() ).newInstance(  );
+            LuteceFilter f = new LuteceFilter( entry.getName(), filter, entry.getMapping() , plugin );
             _listFilters.add( f );
-            AppLogService.info( "New plugin filter registered : " + strFilterName );
+            AppLogService.info( "New plugin filter registered : " + entry.getName() );
         }
         catch ( InstantiationException e )
         {
@@ -85,7 +85,7 @@ public class FilterService
         }
     }
 
-    List<LuteceFilter> getFilters(  )
+    public List<LuteceFilter> getFilters(  )
     {
         return _listFilters;
     }

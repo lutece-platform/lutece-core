@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.service.content.ContentServiceEntry;
 import fr.paris.lutece.portal.service.daemon.DaemonEntry;
+import fr.paris.lutece.portal.service.filter.FilterEntry;
 import fr.paris.lutece.portal.service.includes.PageIncludeEntry;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.insert.InsertService;
@@ -87,6 +88,7 @@ public class PluginFile
     private List<PortletType> _listPortletTypes = new ArrayList<PortletType>(  );
     private List<DaemonEntry> _listDaemons = new ArrayList<DaemonEntry>(  );
     private List<XPageApplicationEntry> _listApplications = new ArrayList<XPageApplicationEntry>(  );
+    private List<FilterEntry> _listFilters = new ArrayList<FilterEntry>(  );
     private List<ContentServiceEntry> _listContentServices = new ArrayList<ContentServiceEntry>(  );
     private List<SearchIndexerEntry> _listSearchIndexers = new ArrayList<SearchIndexerEntry>(  );
     private List<InsertService> _listInsertServices = new ArrayList<InsertService>(  );
@@ -407,6 +409,27 @@ public class PluginFile
     {
         return _listApplications;
     }
+    
+    /**
+     * Add a filter to the plugin definition
+     * @param filter The filter to Add
+     */
+    public void addFilter( FilterEntry entry )
+    {
+        _listFilters.add( entry );
+    }
+
+    /**
+     * Returns filter list of the plugin
+     *
+     * @return the list of filters
+     */
+    public List<FilterEntry> getFilters(  )
+    {
+        return _listFilters;
+    }
+    
+    
 
     /**
      * Add a portlet type to the plugin definition

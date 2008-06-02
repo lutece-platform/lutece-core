@@ -61,6 +61,15 @@
             <set-next-rule methodname="addXPageApplication" />
         </pattern>
         
+        <pattern value="filters/filter">
+            <object-create-rule classname="fr.paris.lutece.portal.service.filter.FilterEntry" />
+            <set-properties-rule />              
+            <bean-property-setter-rule pattern="filter-name" propertyname="name" />
+            <bean-property-setter-rule pattern="filter-class" propertyname="filterClass" />
+            <bean-property-setter-rule pattern="filter-mapping" propertyname="mapping" />
+            <set-next-rule methodname="addFilter" />
+        </pattern>
+        
         <pattern value="admin-features/admin-feature">
             <object-create-rule classname="fr.paris.lutece.portal.business.right.Right" />
             <set-properties-rule />              
