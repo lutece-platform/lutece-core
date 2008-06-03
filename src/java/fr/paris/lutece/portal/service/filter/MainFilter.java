@@ -45,22 +45,22 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * MainFilter
  */
 public class MainFilter implements Filter
 {
+
     /**
      * {@inheritDoc}
      */
     public void init( FilterConfig config ) throws ServletException
     {
-        for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
+        for( LuteceFilter filter : FilterService.getInstance().getFilters() )
         {
-            if ( filter.getPlugin(  ).isInstalled(  ) )
+            if( filter.getPlugin().isInstalled() )
             {
-                filter.getFilter(  ).init( config );
+                filter.getFilter().init( config );
             }
         }
     }
@@ -69,16 +69,16 @@ public class MainFilter implements Filter
      * {@inheritDoc}
      */
     public void doFilter( ServletRequest requestServlet, ServletResponse response, FilterChain chain )
-        throws IOException, ServletException
+            throws IOException, ServletException
     {
-        HttpServletRequest request = (HttpServletRequest) requestServlet;
+        HttpServletRequest request = ( HttpServletRequest ) requestServlet;
 
-        for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
+        for( LuteceFilter filter : FilterService.getInstance().getFilters() )
         {
             // Checks mapping and plugin status
-            if ( matchMapping( filter, request ) && filter.getPlugin(  ).isInstalled(  ) )
+            if( matchMapping( filter, request ) && filter.getPlugin().isInstalled() )
             {
-                filter.getFilter(  ).doFilter( request, response, chain );
+                filter.getFilter().doFilter( request, response, chain );
             }
         }
 
@@ -88,22 +88,68 @@ public class MainFilter implements Filter
     /**
      * {@inheritDoc}
      */
-    public void destroy(  )
+    public void destroy()
     {
-        for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
+        for( LuteceFilter filter : FilterService.getInstance().getFilters() )
         {
             // Checks mapping and plugin status
-            if ( filter.getPlugin(  ).isInstalled(  ) )
+            if( filter.getPlugin().isInstalled() )
             {
-                filter.getFilter(  ).destroy(  );
+                filter.getFilter().destroy();
             }
         }
     }
 
-    private boolean matchMapping( LuteceFilter filter, HttpServletRequest request )
+    boolean matchMapping( LuteceFilter filter, HttpServletRequest request )
     {
-        String strPath = request.getServletPath(  );
+        return matchFilterUrl( filter.getMapping(), request.getServletPath() );
+    }
 
-        return strPath.startsWith( filter.getMapping(  ) );
+    
+    
+    boolean matchFilterUrl( String strMapping, String strRequestUrl )
+    {
+        if( strMapping == null )
+        {
+            return (false);        // Case 1 - Exact Match
+        }
+        if( strMapping.equals( strRequestUrl ) )
+        {
+            return (true);        // Case 2 - Path Match ("/.../*")
+        }
+        if( strMapping.equals( "/*" ) )
+        {
+            return (true);
+        }
+        if( strMapping.endsWith( "/*" ) )
+        {
+            if( strMapping.regionMatches( 0, strRequestUrl, 0, strMapping.length() - 2 ) )
+            {
+                if( strRequestUrl.length() == (strMapping.length() - 2) )
+                {
+                    return (true);
+                }
+                else if( '/' == strRequestUrl.charAt( strMapping.length() - 2 ) )
+                {
+                    return (true);
+                }
+            }
+            return (false);
+        }
+
+        // Case 3 - Extension Match
+        if( strMapping.startsWith( "*." ) )
+        {
+            int slash = strRequestUrl.lastIndexOf( '/' );
+            int period = strRequestUrl.lastIndexOf( '.' );
+            if( (slash >= 0) && (period > slash) && (period != strRequestUrl.length() - 1) && ((strRequestUrl.length() - period) == (strMapping.length() - 1)) )
+            {
+                return (strMapping.regionMatches( 2, strRequestUrl, period + 1,
+                        strMapping.length() - 2 ));
+            }
+        }
+
+        // Case 4 - "Default" Match
+        return (false); // NOTE - Not relevant for selecting filters
     }
 }
