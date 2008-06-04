@@ -3,11 +3,8 @@
 <!DOCTYPE digester-rules PUBLIC
 "-//Jakarta Apache //DTD digester-rules XML V1.0//EN"
 "digester-rules.dtd">
-
-
 <digester-rules>
     <pattern value="plug-in">
-        
         <bean-property-setter-rule pattern="name" />
         <bean-property-setter-rule pattern="version"/>
         <bean-property-setter-rule pattern="description"/>
@@ -17,62 +14,57 @@
         <bean-property-setter-rule pattern="class" propertyname="pluginClass" />
         <bean-property-setter-rule pattern="icon-url" propertyname="iconUrl"/>
         <bean-property-setter-rule pattern="db-pool-required" propertyname="isDbPoolRequired" />
-        
         <pattern value="css-stylesheets">
             <call-method-rule pattern="css-stylesheet" methodname="addCssStyleSheet" paramcount="1" />
             <call-param-rule pattern="css-stylesheet" paramnumber="0"/>
         </pattern>
-       
         <pattern value="javascript-files">
             <call-method-rule pattern="javascript-file" methodname="addJavascriptFile" paramcount="1" />
             <call-param-rule pattern="javascript-file" paramnumber="0"/>
         </pattern>
-       
         <pattern value="content-services/content-service">
             <object-create-rule classname="fr.paris.lutece.portal.service.content.ContentServiceEntry" />
-            <set-properties-rule />              
+            <set-properties-rule />
             <bean-property-setter-rule pattern="content-service-class" propertyname="className" />
             <set-next-rule methodname="addContentService" />
         </pattern>
-        
         <pattern value="search-indexers/search-indexer">
             <object-create-rule classname="fr.paris.lutece.portal.service.search.SearchIndexerEntry" />
-            <set-properties-rule />              
+            <set-properties-rule />
             <bean-property-setter-rule pattern="search-indexer-class" propertyname="className" />
             <set-next-rule methodname="addSearchIndexer" />
         </pattern>
-        
         <pattern value="insert-services/insert-service">
             <object-create-rule classname="fr.paris.lutece.portal.service.insert.InsertService" />
-            <set-properties-rule />              
+            <set-properties-rule />
             <bean-property-setter-rule pattern="insert-service-id" propertyname="id" />
             <bean-property-setter-rule pattern="insert-service-name" propertyname="nameKey" />
             <bean-property-setter-rule pattern="insert-service-label" propertyname="labelKey" />
             <bean-property-setter-rule pattern="insert-service-bean-class" propertyname="actionBeanClassName" />
             <set-next-rule methodname="addInsertService" />
         </pattern>
-        
         <pattern value="applications/application">
             <object-create-rule classname="fr.paris.lutece.portal.web.xpages.XPageApplicationEntry" />
-            <set-properties-rule />              
+            <set-properties-rule />
             <bean-property-setter-rule pattern="application-id" propertyname="id" />
             <bean-property-setter-rule pattern="application-class" propertyname="className" />
             <bean-property-setter-rule pattern="application-roles" propertyname="roles" />
             <set-next-rule methodname="addXPageApplication" />
         </pattern>
-        
         <pattern value="filters/filter">
             <object-create-rule classname="fr.paris.lutece.portal.service.filter.FilterEntry" />
-            <set-properties-rule />              
+            <set-properties-rule />
             <bean-property-setter-rule pattern="filter-name" propertyname="name" />
             <bean-property-setter-rule pattern="filter-class" propertyname="filterClass" />
-            <bean-property-setter-rule pattern="filter-mapping" propertyname="mapping" />
+            <bean-property-setter-rule pattern="url-pattern" propertyname="mappingUrlPattern" />
+            <call-method-rule pattern="init-param" methodname="addParameter" paramcount="2" />
+            <call-param-rule pattern="init-param/param-name" paramnumber="0"/>
+            <call-param-rule pattern="init-param/param-value" paramnumber="1"/>
             <set-next-rule methodname="addFilter" />
         </pattern>
-        
         <pattern value="admin-features/admin-feature">
             <object-create-rule classname="fr.paris.lutece.portal.business.right.Right" />
-            <set-properties-rule />              
+            <set-properties-rule />
             <bean-property-setter-rule pattern="feature-id" propertyname="id" />
             <bean-property-setter-rule pattern="feature-title" propertyname="nameKey" />
             <bean-property-setter-rule pattern="feature-description" propertyname="descriptionKey" />
@@ -83,7 +75,6 @@
             <bean-property-setter-rule pattern="feature-documentation-url" propertyname="documentationUrl" />
             <set-next-rule methodname="addRight" />
         </pattern>
-        
         <pattern value="portlets/portlet">
             <object-create-rule classname="fr.paris.lutece.portal.business.portlet.PortletType" />
             <set-properties-rule />
@@ -102,7 +93,6 @@
             <bean-property-setter-rule pattern="portlet-modify-specific-form-template" propertyname="modifySpecificFormTemplate" />
             <set-next-rule methodname="addPortletType" />
         </pattern>
-        
         <pattern value="daemons/daemon">
             <object-create-rule classname="fr.paris.lutece.portal.service.daemon.DaemonEntry" />
             <set-properties-rule />
@@ -112,30 +102,24 @@
             <bean-property-setter-rule pattern="daemon-class" propertyname="className" />
             <set-next-rule methodname="addDaemon" />
         </pattern>
-        
         <pattern value="rbac-resource-types/rbac-resource-type">
             <object-create-rule classname="fr.paris.lutece.portal.service.rbac.RBACResourceTypeEntry" />
-            <set-properties-rule />              
+            <set-properties-rule />
             <bean-property-setter-rule pattern="rbac-resource-type-class" propertyname="className" />
             <set-next-rule methodname="addRBACResourceType" />
         </pattern>
-        
         <pattern value="page-include-services/page-include-service">
             <object-create-rule classname="fr.paris.lutece.portal.service.includes.PageIncludeEntry" />
-            <set-properties-rule />              
+            <set-properties-rule />
             <bean-property-setter-rule pattern="page-include-service-id" propertyname="id" />
             <bean-property-setter-rule pattern="page-include-service-class" propertyname="className" />
             <set-next-rule methodname="addPageInclude" />
         </pattern>
-        
         <pattern value="params">
             <call-method-rule pattern="param" methodname="addParameter" paramcount="2" />
             <call-param-rule pattern="param/param-name" paramnumber="0"/>
             <call-param-rule pattern="param/param-value" paramnumber="1"/>
         </pattern>
-        
-        
-        
     </pattern>
 </digester-rules>
 

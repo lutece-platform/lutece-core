@@ -39,6 +39,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+
 /**
  * FilterService Test
  */
@@ -65,7 +66,7 @@ public class FilterServiceTest extends LuteceTestCase
         FilterEntry entry = new FilterEntry(  );
         entry.setName( "filter" );
         entry.setFilterClass( "" );
-        entry.setMapping( "/jsp/" );
+        entry.setMappingUrlPattern( "/jsp/" );
 
         Plugin plugin = null;
         FilterService instance = FilterService.getInstance(  );

@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.service.filter;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
+import java.util.Map;
+
 import javax.servlet.Filter;
 
 
@@ -47,13 +49,16 @@ public class LuteceFilter
     private Filter _filter;
     private String _strMapping;
     private Plugin _plugin;
+    private Map<String, String> _mapInitParameters;
 
-    public LuteceFilter( String strName, Filter filter, String strMapping, Plugin plugin )
+    public LuteceFilter( String strName, Filter filter, String strMapping, Plugin plugin,
+        Map<String, String> mapInitParameters )
     {
         _strName = strName;
         _filter = filter;
         _strMapping = strMapping;
         _plugin = plugin;
+        _mapInitParameters = mapInitParameters;
     }
 
     /**
@@ -101,7 +106,7 @@ public class LuteceFilter
      *
      * @return The Mapping
      */
-    public String getMapping(  )
+    public String getMappingUrlPattern(  )
     {
         return _strMapping;
     }
@@ -111,7 +116,7 @@ public class LuteceFilter
      *
      * @param strMapping The Mapping
      */
-    public void setMapping( String strMapping )
+    public void setMappingUrlPattern( String strMapping )
     {
         _strMapping = strMapping;
     }
@@ -134,5 +139,14 @@ public class LuteceFilter
     public void setPlugin( Plugin plugin )
     {
         _plugin = plugin;
+    }
+
+    /**
+    * Returns init parameters
+    * @return Init parameters in a map object
+    */
+    public Map<String, String> getInitParameters(  )
+    {
+        return _mapInitParameters;
     }
 }

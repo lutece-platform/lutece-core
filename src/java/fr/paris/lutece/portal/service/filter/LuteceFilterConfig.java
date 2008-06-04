@@ -33,96 +33,58 @@
  */
 package fr.paris.lutece.portal.service.filter;
 
-import java.util.HashMap;
+import java.util.Enumeration;
 import java.util.Map;
+
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 
 
 /**
- * Filter Entry used to load filter from the plugin XML file
+ *
  */
-public class FilterEntry
+public class LuteceFilterConfig implements FilterConfig
 {
     private String _strName;
-    private String _strFilterClass;
-    private String _strMapping;
-    private Map<String, String> _mapInitParameters = new HashMap<String, String>(  );
+    private ServletContext _context;
+    private Map _mapInitParameters;
+
+    public LuteceFilterConfig( String strName, FilterConfig config, Map mapInitParameters )
+    {
+        _strName = strName;
+        _context = config.getServletContext(  );
+        _mapInitParameters = mapInitParameters;
+    }
 
     /**
-     * Returns the Name
-     *
-     * @return The Name
+     * {@inheritDoc}
      */
-    public String getName(  )
+    public String getFilterName(  )
     {
         return _strName;
     }
 
     /**
-     * Sets the Name
-     *
-     * @param strName The Name
+     * {@inheritDoc}
      */
-    public void setName( String strName )
+    public ServletContext getServletContext(  )
     {
-        _strName = strName;
+        return _context;
     }
 
     /**
-     * Returns the filter
-     *
-     * @return The filter
+     * {@inheritDoc}
      */
-    public String getFilterClass(  )
+    public String getInitParameter( String strKey )
     {
-        return _strFilterClass;
+        return (String) _mapInitParameters.get( strKey );
     }
 
     /**
-     * Sets the filter
-     *
-     * @param strFilterClass The filter
+     * {@inheritDoc}
      */
-    public void setFilterClass( String strFilterClass )
+    public Enumeration getInitParameterNames(  )
     {
-        _strFilterClass = strFilterClass;
-    }
-
-    /**
-     * Returns the Mapping
-     *
-     * @return The Mapping
-     */
-    public String getMappingUrlPattern(  )
-    {
-        return _strMapping;
-    }
-
-    /**
-     * Sets the Mapping
-     *
-     * @param strMapping The Mapping
-     */
-    public void setMappingUrlPattern( String strMapping )
-    {
-        _strMapping = strMapping;
-    }
-
-    /**
-     * Add an init parameter
-     * @param strName The parameter name
-     * @param strValue The parameter value
-     */
-    public void addParameter( String strName, String strValue )
-    {
-        _mapInitParameters.put( strName, strValue );
-    }
-
-    /**
-     * Returns init parameters
-     * @return Init parameters in a map object
-     */
-    public Map<String, String> getInitParameters(  )
-    {
-        return _mapInitParameters;
+        return (Enumeration) _mapInitParameters.keySet(  );
     }
 }

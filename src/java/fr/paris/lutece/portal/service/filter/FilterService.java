@@ -67,7 +67,8 @@ public class FilterService
         try
         {
             Filter filter = (Filter) Class.forName( entry.getFilterClass(  ) ).newInstance(  );
-            LuteceFilter f = new LuteceFilter( entry.getName(  ), filter, entry.getMapping(  ), plugin );
+            LuteceFilter f = new LuteceFilter( entry.getName(  ), filter, entry.getMappingUrlPattern(  ), plugin,
+                    entry.getInitParameters(  ) );
             _listFilters.add( f );
             AppLogService.info( "New plugin filter registered : " + entry.getName(  ) );
         }
