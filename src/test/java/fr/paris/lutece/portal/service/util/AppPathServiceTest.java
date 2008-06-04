@@ -48,7 +48,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AppPathServiceTest extends LuteceTestCase
 {
-    //TODO Décomenter les virtuals host dans config.properties...
+    //TODO Dï¿½comenter les virtuals host dans config.properties...
     private static final String PROPERTY_VIRTUAL_HOST_KEY_PARAMETER = "virtualHostKey.parameterName";
     private static final String PROPERTY_BASE_URL = "lutece.base.url";
 

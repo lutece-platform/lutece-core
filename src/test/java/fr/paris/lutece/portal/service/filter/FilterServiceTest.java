@@ -35,48 +35,52 @@ package fr.paris.lutece.portal.service.filter;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.test.LuteceTestCase;
-import java.util.List;
 import static org.junit.Assert.*;
+
+import java.util.List;
 
 /**
  * FilterService Test
  */
 public class FilterServiceTest extends LuteceTestCase
 {
-
     /**
      * Test of getInstance method, of class FilterService.
      */
-    public void testGetInstance()
+    public void testGetInstance(  )
     {
         System.out.println( "getInstance" );
-        FilterService result = FilterService.getInstance();
+
+        FilterService result = FilterService.getInstance(  );
         assertNotNull( result );
     }
 
     /**
      * Test of registerFilter method, of class FilterService.
      */
-    public void testRegisterFilter()
+    public void testRegisterFilter(  )
     {
         System.out.println( "registerFilter" );
-        FilterEntry entry = new FilterEntry();
+
+        FilterEntry entry = new FilterEntry(  );
         entry.setName( "filter" );
         entry.setFilterClass( "" );
         entry.setMapping( "/jsp/" );
+
         Plugin plugin = null;
-        FilterService instance = FilterService.getInstance();
+        FilterService instance = FilterService.getInstance(  );
         instance.registerFilter( entry, plugin );
     }
 
     /**
      * Test of getFilters method, of class FilterService.
      */
-    public void testGetFilters()
+    public void testGetFilters(  )
     {
         System.out.println( "getFilters" );
-        FilterService instance = FilterService.getInstance();
-        List<LuteceFilter> result = instance.getFilters();
+
+        FilterService instance = FilterService.getInstance(  );
+        List<LuteceFilter> result = instance.getFilters(  );
         assertNotNull( result );
     }
 }

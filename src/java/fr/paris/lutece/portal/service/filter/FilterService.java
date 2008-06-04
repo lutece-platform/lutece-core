@@ -66,10 +66,10 @@ public class FilterService
     {
         try
         {
-            Filter filter = (Filter) Class.forName( entry.getFilterClass() ).newInstance(  );
-            LuteceFilter f = new LuteceFilter( entry.getName(), filter, entry.getMapping() , plugin );
+            Filter filter = (Filter) Class.forName( entry.getFilterClass(  ) ).newInstance(  );
+            LuteceFilter f = new LuteceFilter( entry.getName(  ), filter, entry.getMapping(  ), plugin );
             _listFilters.add( f );
-            AppLogService.info( "New plugin filter registered : " + entry.getName() );
+            AppLogService.info( "New plugin filter registered : " + entry.getName(  ) );
         }
         catch ( InstantiationException e )
         {

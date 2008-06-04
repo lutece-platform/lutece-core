@@ -44,16 +44,16 @@ public class MainFilterTest extends LuteceTestCase
     /**
      * Test of matchFilterUrl method, of class MainFilter.
      */
-    public void testMatchFilterUrl()
+    public void testMatchFilterUrl(  )
     {
         System.out.println( "matchFilterUrl" );
-        MainFilter instance = new MainFilter();
-        
-        assertTrue( instance.matchFilterUrl( "/*" , "/images/test.png" ) );
-        assertTrue( instance.matchFilterUrl( "/jsp/*" , "/jsp/site/Portal.jsp" ) );
-        assertFalse( instance.matchFilterUrl( "/jsp/*" , "/images/test.png" ) );
-        assertTrue( instance.matchFilterUrl( "*.jsp" , "/jsp/site/Portal.jsp" ) );
-        assertFalse( instance.matchFilterUrl( "/jsp/site/*.jsp" , "/jsp/site/Portal.png" ) );
-        
+
+        MainFilter instance = new MainFilter(  );
+
+        assertTrue( instance.matchFilterUrl( "/*", "/images/test.png" ) );
+        assertTrue( instance.matchFilterUrl( "/jsp/*", "/jsp/site/Portal.jsp" ) );
+        assertFalse( instance.matchFilterUrl( "/jsp/*", "/images/test.png" ) );
+        assertTrue( instance.matchFilterUrl( "*.jsp", "/jsp/site/Portal.jsp" ) );
+        assertFalse( instance.matchFilterUrl( "/jsp/site/*.jsp", "/jsp/site/Portal.png" ) );
     }
 }

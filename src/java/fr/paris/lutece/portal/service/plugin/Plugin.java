@@ -334,7 +334,7 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         for ( FilterEntry entry : _listFilters )
         {
-            FilterService.getInstance().registerFilter( entry, this );
+            FilterService.getInstance(  ).registerFilter( entry, this );
         }
     }
 

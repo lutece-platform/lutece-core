@@ -106,15 +106,14 @@ public class PageService extends ContentService implements ImageResourceProvider
     // Added in v1.2
     private static final String PARAMETER_PLUGIN_NAME = "plugin-name";
     private static PageService _singleton;
-    private ArrayList<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
-    
+
     // Specific for plugin-document
     private static final String DOCUMENT_LIST_PORTLET = "DOCUMENT_LIST_PORTLET";
     private static final String DOCUMENT_PORTLET = "DOCUMENT_PORTLET";
     private static final String DOCUMENT_ACTION_URL = "jsp/admin/plugins/document/ManagePublishing.jsp";
     private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
     private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
-    
+    private ArrayList<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
 
     /**
      * Creates a new PageService object.

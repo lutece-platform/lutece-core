@@ -224,9 +224,9 @@ public final class AppPathService
      */
     public static String getSiteMessageUrl( HttpServletRequest request )
     {
-    	// Get the base Url
+        // Get the base Url
         String strBaseUrl = getBaseUrl( request );
-        
+
         // Determine the mode (Portal or Standalone)
         String strRequestUrl = request.getRequestURL(  ).toString(  );
         int nlastIndexOf = strRequestUrl.lastIndexOf( AppPropertiesService.getProperty( PROPERTY_JSP_SITE ) );

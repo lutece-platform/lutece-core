@@ -409,7 +409,7 @@ public class PluginFile
     {
         return _listApplications;
     }
-    
+
     /**
      * Add a filter to the plugin definition
      * @param filter The filter to Add
@@ -428,8 +428,6 @@ public class PluginFile
     {
         return _listFilters;
     }
-    
-    
 
     /**
      * Add a portlet type to the plugin definition

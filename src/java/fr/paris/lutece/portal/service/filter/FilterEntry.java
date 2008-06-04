@@ -31,13 +31,13 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.filter;
+
 
 /**
  * Filter Entry used to load filter from the plugin XML file
  */
-public class FilterEntry 
+public class FilterEntry
 {
     private String _strName;
     private String _strFilterClass;
@@ -102,5 +102,4 @@ public class FilterEntry
     {
         _strMapping = strMapping;
     }
-
 }
