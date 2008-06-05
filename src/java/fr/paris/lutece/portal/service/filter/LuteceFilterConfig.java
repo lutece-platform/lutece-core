@@ -49,10 +49,10 @@ public class LuteceFilterConfig implements FilterConfig
     private ServletContext _context;
     private Map _mapInitParameters;
 
-    public LuteceFilterConfig( String strName, FilterConfig config, Map mapInitParameters )
+    public LuteceFilterConfig( String strName, ServletContext context, Map mapInitParameters )
     {
         _strName = strName;
-        _context = config.getServletContext(  );
+        _context = context;
         _mapInitParameters = mapInitParameters;
     }
 

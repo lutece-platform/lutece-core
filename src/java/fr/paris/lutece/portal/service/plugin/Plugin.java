@@ -157,6 +157,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
             // Register plugin components
             registerXPageApplications(  );
+            registerFilters(  );
             registerContentServices(  );
             registerInsertServices(  );
             registerSearchIndexers(  );

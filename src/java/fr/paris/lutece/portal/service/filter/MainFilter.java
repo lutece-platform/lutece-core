@@ -54,26 +54,9 @@ public class MainFilter implements Filter
     /**
      * {@inheritDoc}
      */
-    public void init( FilterConfig filterConfigMain ) throws ServletException
+    public void init( FilterConfig config ) throws ServletException
     {
-        for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
-        {
-            // Catch exception for each filter to execute all chain
-            try
-            {
-                if ( filter.getPlugin(  ).isInstalled(  ) )
-                {
-                    // Create a FilterConfig wrapper to provide init parameters to the filter
-                    LuteceFilterConfig filterConfig = new LuteceFilterConfig( filter.getName(  ), filterConfigMain,
-                            filter.getInitParameters(  ) );
-                    filter.getFilter(  ).init( filterConfig );
-                }
-            }
-            catch ( Exception e )
-            {
-                AppLogService.error( "Error execution init() method - Filter " + filter.getName(  ), e );
-            }
-        }
+        FilterService.setServletContext( config.getServletContext() );
     }
 
     /**

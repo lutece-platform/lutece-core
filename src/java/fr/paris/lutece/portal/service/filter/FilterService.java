@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.filter;
 
+import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.Filter;
+import javax.servlet.ServletContext;
 
 
 /**
@@ -48,7 +50,8 @@ import javax.servlet.Filter;
 public class FilterService
 {
     private static FilterService _singleton = new FilterService(  );
-    List<LuteceFilter> _listFilters = new ArrayList<LuteceFilter>(  );
+    private static ServletContext _context;
+    private List<LuteceFilter> _listFilters = new ArrayList<LuteceFilter>(  );
 
     /**
      * Private constructor
@@ -70,7 +73,11 @@ public class FilterService
             LuteceFilter f = new LuteceFilter( entry.getName(  ), filter, entry.getMappingUrlPattern(  ), plugin,
                     entry.getInitParameters(  ) );
             _listFilters.add( f );
-            AppLogService.info( "New plugin filter registered : " + entry.getName(  ) );
+            AppLogService.info( "New filter registered : " + entry.getName(  ) );
+            for( String strKey : entry.getInitParameters(  ).keySet() )
+            {
+                 AppLogService.info( " * init parameter - name : '" + strKey + "' - value : '" + entry.getInitParameters(  ).get(  strKey ) + "'" );
+            }
         }
         catch ( InstantiationException e )
         {
@@ -85,6 +92,37 @@ public class FilterService
             AppLogService.error( "Error registering a filter : " + e.getMessage(  ), e );
         }
     }
+    
+    public static void setServletContext( ServletContext servletContext )
+    {
+        _context = servletContext;
+    }
+
+    public static void init() throws LuteceInitException
+    {
+        AppLogService.info( "Initialize plugins filters");
+        for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
+        {
+            // Catch exception for each filter to execute all chain
+            try
+            {
+                if ( filter.getPlugin(  ).isInstalled(  ) )
+                {
+                    // Create a FilterConfig wrapper to provide init parameters to the filter
+                    LuteceFilterConfig filterConfig = new LuteceFilterConfig( filter.getName(  ), _context,
+                            filter.getInitParameters(  ) );
+                    filter.getFilter(  ).init( filterConfig );
+                }
+            }
+            catch ( Exception e )
+            {
+                AppLogService.error( "Error execution init() method - Filter " + filter.getName(  ), e );
+                throw new LuteceInitException( "Error execution init() method - Filter " + filter.getName(  ), e );
+            }
+        }
+
+    }
+    
 
     public List<LuteceFilter> getFilters(  )
     {

@@ -68,6 +68,7 @@
     <filter-name>pluginsFilters</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+
     
   <servlet>
     <servlet-name>ImageServlet</servlet-name>
@@ -118,6 +119,8 @@
     <servlet-name>StyleSheetServlet</servlet-name>
     <url-pattern>/ViewStyleSheetFile</url-pattern>
   </servlet-mapping>
+  
+  
   
   <taglib>
     <taglib-uri>http://java.sun.com/portlet</taglib-uri>
