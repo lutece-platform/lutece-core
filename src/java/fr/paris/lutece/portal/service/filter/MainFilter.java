@@ -109,11 +109,28 @@ public class MainFilter implements Filter
             }
         }
     }
+    
+    /**
+     * Check the mapping of the request with an url pattern
+     * @param filter The filter
+     * @param request The request
+     * @return True if the request match the url pattern
+     */
 
     boolean matchMapping( LuteceFilter filter, HttpServletRequest request )
     {
         return matchFilterUrl( filter.getMappingUrlPattern(  ), request.getServletPath(  ) );
     }
+
+    /**
+     * Check the mapping of the request with an url pattern according servlet 
+     * specifications 2.3 rules
+     * @param strUrlPattern The filter url pattern
+     * @param strRequestUrl The request Url
+     * @return True if the request match the url pattern
+     * 
+     * Algorithm comming from tomcat6
+     */
 
     boolean matchFilterUrl( String strUrlPattern, String strRequestUrl )
     {
