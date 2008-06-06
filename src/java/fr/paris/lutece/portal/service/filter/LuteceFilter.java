@@ -51,6 +51,14 @@ public class LuteceFilter
     private Plugin _plugin;
     private Map<String, String> _mapInitParameters;
 
+    /**
+     * Constructor
+     * @param strName The name
+     * @param filter The filter class
+     * @param strMapping The mapping url pattern
+     * @param plugin The plugin
+     * @param mapInitParameters Init parameters as a map
+     */
     public LuteceFilter( String strName, Filter filter, String strMapping, Plugin plugin,
         Map<String, String> mapInitParameters )
     {
@@ -134,7 +142,7 @@ public class LuteceFilter
     /**
      * Sets the Plugin
      *
-     * @param Plugin The Plugin
+     * @param plugin The plugin
      */
     public void setPlugin( Plugin plugin )
     {

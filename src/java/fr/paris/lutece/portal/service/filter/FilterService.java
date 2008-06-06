@@ -47,7 +47,7 @@ import javax.servlet.ServletContext;
 /**
  * FilterService
  */
-public class FilterService
+public final class FilterService
 {
     private static FilterService _singleton = new FilterService(  );
     private static ServletContext _context;
@@ -60,11 +60,20 @@ public class FilterService
     {
     }
 
+    /**
+     * Return the unique instance
+     * @return
+     */
     public static FilterService getInstance(  )
     {
         return _singleton;
     }
 
+    /**
+     * Register a filter
+     * @param entry The filter entry defined in the plugin's XML file
+     * @param plugin The plugin
+     */
     public void registerFilter( FilterEntry entry, Plugin plugin )
     {
         try
@@ -93,11 +102,19 @@ public class FilterService
         }
     }
     
+    /**
+     * Defines the servlet context used by the FilterConfig given to the filters
+     * @param servletContext The context
+     */
     public static void setServletContext( ServletContext servletContext )
     {
         _context = servletContext;
     }
 
+    /**
+     * Initializes filters
+     * @throws LuteceInitException If an error occurs
+     */
     public static void init() throws LuteceInitException
     {
         AppLogService.info( "Initialize plugins filters");
@@ -124,6 +141,10 @@ public class FilterService
     }
     
 
+    /**
+     * Gives the filters list
+     * @return The list of filters
+     */
     public List<LuteceFilter> getFilters(  )
     {
         return _listFilters;
