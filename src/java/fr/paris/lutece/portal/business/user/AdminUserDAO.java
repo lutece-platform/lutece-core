@@ -77,6 +77,8 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_SELECT_USER_RIGHTS_OWN = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level_right >= ?";
     private static final String SQL_QUERY_SELECT_USER_RIGHTS_DELEGATED = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level_right < ?";
     private static final String SQL_QUERY_DELETE_USER_RIGHTS = " DELETE FROM core_user_right WHERE id_user = ? and id_right = ?";
+    private static final String SQL_QUERY_SELECT_USERS_BY_LEVEL = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale " +
+    " FROM core_admin_user a WHERE a.level_user = ? ";
 
     /**
      * @param nUserId th user id
@@ -490,6 +492,36 @@ public class AdminUserDAO implements IAdminUserDAO
         Collection<AdminUser> userList = new ArrayList<AdminUser>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_ID_BY_ROLES );
         daoUtil.setString( 1, strRoleKey );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            AdminUser user = new AdminUser(  );
+            user.setUserId( daoUtil.getInt( 1 ) );
+            user.setAccessCode( daoUtil.getString( 2 ) );
+            user.setLastName( daoUtil.getString( 3 ) );
+            user.setFirstName( daoUtil.getString( 4 ) );
+            user.setEmail( daoUtil.getString( 5 ) );
+            user.setStatus( daoUtil.getInt( 6 ) );
+            user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+            userList.add( user );
+        }
+
+        daoUtil.free(  );
+
+        return userList;
+    }
+    
+    /**
+     * Select all user that own a given level
+     * @param nIdLevel The level
+     * @return userList The user's list
+     */
+    public Collection<AdminUser> selectUsersByLevel( int nIdLevel )
+    {
+        Collection<AdminUser> userList = new ArrayList<AdminUser>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_BY_LEVEL );
+        daoUtil.setInt( 1, nIdLevel );
         daoUtil.executeQuery(  );
 
         while ( daoUtil.next(  ) )

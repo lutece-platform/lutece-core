@@ -52,6 +52,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class LuteceDefaultAdminAuthentication implements AdminAuthentication
 {
+    private static final String CONSTANT_LOST_PASSWORD_URL = "jsp/admin/AdminForgotPassword.jsp";
     private static final String PROPERTY_MAX_ACCESS_FAILED = "access.failures.max";
     private static final String PROPERTY_INTERVAL_MINUTES = "access.failures.interval.minutes";
     private ILuteceDefaultAdminUserDAO _dao = (ILuteceDefaultAdminUserDAO) SpringContextService.getBean( 
@@ -197,8 +198,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
      */
     public String getLostPasswordPageUrl(  )
     {
-        // TODO Auto-generated method stub
-        return null;
+        return CONSTANT_LOST_PASSWORD_URL;
     }
 
     /**

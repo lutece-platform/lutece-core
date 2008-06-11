@@ -183,4 +183,11 @@ public interface IAdminUserDAO
      * @param user The AdminUser
      */
     void store( LuteceDefaultAdminUser user );
+    
+    /**
+     * Select all user that own a given level
+     * @param nIdLevel The level
+     * @return userList The user's list
+     */
+    Collection<AdminUser> selectUsersByLevel( int nIdLevel );
 }

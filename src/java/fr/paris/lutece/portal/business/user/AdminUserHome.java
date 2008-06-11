@@ -237,4 +237,14 @@ public final class AdminUserHome
     {
         return _dao.selectUsersByRole( strRoleKey );
     }
+
+    /**
+     * Get all users having a given level
+     * @param nIdLevel The level
+     * @return A collection of AdminUser
+     */
+    public static Collection<AdminUser> findByLevel( int nIdLevel )
+    {
+        return _dao.selectUsersByLevel( nIdLevel );
+    }
 }

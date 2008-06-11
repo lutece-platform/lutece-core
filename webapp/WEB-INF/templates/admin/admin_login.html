@@ -31,7 +31,7 @@
                 </p>
 		<p class="login">
                     <label for="password" >#i18n{portal.admin.admin_login.passwordLabel} :</label>
-		    <input type="password" name="password" id="password" AUTOCOMPLETE="off"  tabindex="2" />
+		    <input type="password" name="password" id="password" AUTOCOMPLETE="off"  tabindex="2" /> <a href="${forgot_password_url?if_exists}">#i18n{portal.admin.admin_login.forgotPassword}</a>
                 </p>
 		<#list params_list as param>
 			<input type="hidden" name="${param.code}" value="${param.name}">
@@ -43,7 +43,7 @@
                 </form>
         </div>
 	        <p>
-                    <span style="float:right;margin-top:-1em;"
+                    <span style="float:right;margin-top:-1em;">
                           <a href="http://fr.lutece.paris.fr" target="_blank" ><img  alt="Powered By Lutece" title="Powered By Lutece" src="images/local/skin/poweredby.jpg" /></a>
                     </span>
                     <span style="float:left;font-size:xx-small;font-style:italic;margin-top:-1em;">

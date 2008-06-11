@@ -33,22 +33,31 @@
  */
 package fr.paris.lutece.portal.web.user;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.business.user.log.UserLog;
 import fr.paris.lutece.portal.business.user.log.UserLogHome;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.init.AppInfo;
+import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.password.PasswordUtil;
+import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
@@ -67,11 +76,40 @@ public class AdminLoginJspBean
 {
     ////////////////////////////////////////////////////////////////////////////
     // Constants
-    private static final String JSP_ADMIN_MENU = "jsp/admin/AdminMenu.jsp";
+    private static final String CONSTANT_EMAIL_DELIMITER = ";";
+    private static final String CONSTANT_EMPTY_STRING = "";
+    private static final String REGEX_ID = "^[\\d]+$";
+
+    // Jsp
+    private static final String JSP_URL_ADMIN_MENU = "jsp/admin/AdminMenu.jsp";
+    private static final String JSP_URL_FORM_CONTACT = "AdminFormContact.jsp";
+
+    // Templates
     private static final String TEMPLATE_ADMIN_LOGIN = "admin/admin_login.html";
+    private static final String TEMPLATE_ADMIN_FORGOT_PASSWORD = "admin/admin_forgot_password.html";
+    private static final String TEMPLATE_ADMIN_FORM_CONTACT = "admin/admin_form_contact.html";
+    private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD = "admin/admin_email_forgot_password.html";
+
+    // Markers
     private static final String MARK_PARAMS_LIST = "params_list";
+    private static final String MARK_FORGOT_PASSWORD_URL = "forgot_password_url";
     private static final String MARK_PARAM_VERSION = "version";
+    private static final String MARK_NEW_PASSWORD = "new_password";
+    private static final String MARK_LOGIN_URL = "login_url";
     private static final String SESSION_ATTRIBUTE_USER = "lutece_admin_user"; // Used by all JSP
+
+    // parameters
+    private static final String PARAMETER_MESSAGE = "message_contact";
+
+    // I18n message keys
+    private static final String MESSAGE_SENDING_SUCCESS = "portal.admin.message.admin_forgot_password.sendingSuccess";
+    private static final String MESSAGE_ADMIN_SENDING_SUCCESS = "portal.admin.message.admin_form_contact.sendingSuccess";
+    private static final String MESSAGE_EMAIL_SUBJECT = "portal.admin.admin_forgot_password.email.subject";
+    private static final String MESSAGE_EMAIL_ADMIN_SUBJECT = "portal.admin.admin_form_contact.email.subject";
+
+    // Properties
+    private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
+    private static final String PROPERTY_LEVEL = "askPasswordReinitialization.admin.level";
 
     /**
      * Returns the view of login form
@@ -107,8 +145,75 @@ public class AdminLoginJspBean
 
         model.put( MARK_PARAM_VERSION, AppInfo.getVersion(  ) );
         model.put( MARK_PARAMS_LIST, listParams );
+        model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance(  ).getLostPasswordPageUrl(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_LOGIN, locale, model );
+
+        return template.getHtml(  );
+    }
+
+    /**
+     * Returns the view of forgot password form
+     *
+     * @param request The request
+     * @return The HTML form
+     */
+    public String getForgotPassword( HttpServletRequest request )
+    {
+        HashMap model = new HashMap(  );
+
+        // Invalidate a previous session
+        HttpSession session = request.getSession(  );
+
+        if ( session != null )
+        {
+            session.removeAttribute( SESSION_ATTRIBUTE_USER );
+        }
+
+        Locale locale = AdminUserService.getLocale( request );
+
+        Enumeration enumParams = request.getParameterNames(  );
+        ReferenceList listParams = new ReferenceList(  );
+        String strParamName;
+
+        while ( enumParams.hasMoreElements(  ) )
+        {
+            strParamName = (String) enumParams.nextElement(  );
+
+            String strParamValue = request.getParameter( strParamName );
+            listParams.addItem( strParamName, strParamValue );
+        }
+
+        model.put( MARK_PARAM_VERSION, AppInfo.getVersion(  ) );
+        model.put( MARK_PARAMS_LIST, listParams );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_FORGOT_PASSWORD, locale, model );
+
+        return template.getHtml(  );
+    }
+
+    /**
+     * Get the admin contact form
+     * @param request The Http request
+     * @return The HTML form
+     */
+    public String getFormContact( HttpServletRequest request )
+    {
+        HashMap<String, String> model = new HashMap<String, String>(  );
+
+        // Invalidate a previous session
+        HttpSession session = request.getSession(  );
+
+        if ( session != null )
+        {
+            session.removeAttribute( SESSION_ATTRIBUTE_USER );
+        }
+
+        Locale locale = AdminUserService.getLocale( request );
+
+        model.put( MARK_PARAM_VERSION, AppInfo.getVersion(  ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_FORM_CONTACT, locale, model );
 
         return template.getHtml(  );
     }
@@ -153,9 +258,122 @@ public class AdminLoginJspBean
                 AdminMessage.TYPE_STOP );
         }
 
-        UrlItem url = AppPathService.resolveRedirectUrl( request, JSP_ADMIN_MENU );
+        UrlItem url = AppPathService.resolveRedirectUrl( request, JSP_URL_ADMIN_MENU );
 
         return url.getUrl(  );
+    }
+
+    /**
+     * Process the sending to user password
+     *
+     * @param request The HTTP Request
+     * @return The Jsp URL of the process result
+     * @throws Exception The exception
+     */
+    public String doForgotPassword( HttpServletRequest request )
+        throws Exception
+    {
+        //get mail from user
+        String strAccessCode = request.getParameter( Parameters.ACCESS_CODE );
+        Locale locale = AdminUserService.getLocale( request );
+
+        if ( ( strAccessCode == null ) || strAccessCode.equals( CONSTANT_EMPTY_STRING ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+
+        if ( locale == null )
+        {
+            locale = Locale.getDefault(  );
+        }
+
+        // if user or mail not found, send admin message
+        AdminUser user = AdminUserHome.findUserByLogin( strAccessCode );
+
+        if ( ( user == null ) || ( user.getEmail(  ) == null ) || user.getEmail(  ).equals( CONSTANT_EMPTY_STRING ) )
+        {
+            return JSP_URL_FORM_CONTACT;
+        }
+
+        // make password
+        String strPassword = PasswordUtil.makePassword(  );
+
+        // update password
+        if ( ( strPassword != null ) && !strPassword.equals( CONSTANT_EMPTY_STRING ) )
+        {
+            LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
+            userStored.setPassword( strPassword );
+            AdminUserHome.update( userStored );
+        }
+
+        //send password by e-mail
+        String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
+        String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_SUBJECT, locale );
+        HashMap<String, String> model = new HashMap<String, String>(  );
+        model.put( MARK_NEW_PASSWORD, strPassword );
+        model.put( MARK_LOGIN_URL,
+            AppPathService.getBaseUrl( request ) + AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD, locale, model );
+
+        MailService.sendMailHtml( user.getEmail(  ), strSenderEmail, strSenderEmail, strEmailSubject,
+            template.getHtml(  ) );
+
+        return AdminMessageService.getMessageUrl( request, MESSAGE_SENDING_SUCCESS, AdminMessage.TYPE_INFO );
+    }
+
+    /**
+     * Send the message to the adminsitrator(s)
+     * @param request The {@link HttpServletRequest}
+     * @return an adminMessage
+     */
+    public String doFormContact( HttpServletRequest request )
+    {
+        //Get message, check if empty
+        String strMessage = request.getParameter( PARAMETER_MESSAGE );
+
+        if ( ( strMessage == null ) || strMessage.equals( CONSTANT_EMPTY_STRING ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+
+        Locale locale = AdminUserService.getLocale( request );
+
+        if ( locale == null )
+        {
+            locale = Locale.getDefault(  );
+        }
+
+        //send mail to admin wich have level
+        int nIdLevel = 0;
+        String strLevelId = AppPropertiesService.getProperty( PROPERTY_LEVEL, "0" );
+
+        if ( ( strLevelId != null ) && strLevelId.matches( REGEX_ID ) )
+        {
+            nIdLevel = Integer.parseInt( strLevelId );
+        }
+
+        Collection<AdminUser> adminUserList = AdminUserHome.findByLevel( nIdLevel );
+        String strMailsTo = CONSTANT_EMPTY_STRING;
+
+        for ( AdminUser adminUser : adminUserList )
+        {
+            if ( StringUtil.checkEmail( adminUser.getEmail(  ) ) )
+            {
+                strMailsTo += ( adminUser.getEmail(  ) + CONSTANT_EMAIL_DELIMITER );
+            }
+        }
+
+        if ( !strMailsTo.equals( CONSTANT_EMPTY_STRING ) )
+        {
+            String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
+            String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_ADMIN_SUBJECT, locale );
+
+            MailService.sendMailHtml( strMailsTo, strSenderEmail, strSenderEmail, strEmailSubject, strMessage );
+        }
+
+        return AdminMessageService.getMessageUrl( request, MESSAGE_ADMIN_SENDING_SUCCESS,
+            AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ), AdminMessage.TYPE_INFO );
     }
 
     /**
