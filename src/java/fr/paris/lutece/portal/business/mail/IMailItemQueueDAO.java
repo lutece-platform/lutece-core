@@ -46,10 +46,11 @@ public interface IMailItemQueueDAO
     void insert( MailItemQueue mailItemQueue );
 
     /**
-     * Return the first mail item in the table
-     * @return the first mail item in the table
-     */
-    MailItemQueue select(  );
+         * return the first mail item  in the table
+         * @param nIdMailItemQueue the id of the mail item
+         * @return the first mail item in the table
+         */
+    MailItemQueue load( int nIdMailItemQueue );
 
     /**
      * Delete  the mail item record in the table
@@ -62,4 +63,16 @@ public interface IMailItemQueueDAO
      * @return the number of mail item present in the core_mail_queue
      */
     int getCountMailItem(  );
+
+    /**
+     * return the next mail item queue id
+     * @return the next mail item queue id
+     */
+    int nextMailItemQueueId(  );
+
+    /**
+     * Lock the  mail item
+     * @param nIdMailItemQueue the id of the mail item  to lock
+     */
+    void lockMailItemQueue( int nIdMailItemQueue );
 }

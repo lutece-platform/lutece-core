@@ -52,30 +52,41 @@ public final class MailItemQueueHome
     }
 
     /**
-         * Insert a new mail item in the database queue.
-         * @param mailItemQueue the mail item to insert
-         */
+     * Insert a new mail item in the database queue.
+     * @param mailItemQueue the mail item to insert
+     */
     public static void create( MailItemQueue mailItemQueue )
     {
         _dao.insert( mailItemQueue );
     }
 
     /**
-         * Delete  the mail item record in the table
-         * @param nIdMailItemQueue The indentifier of the mail item to remove
-         */
+     * Delete  the mail item record in the table
+     * @param nIdMailItemQueue The indentifier of the mail item to remove
+     */
     public static void delete( int nIdMailItemQueue )
     {
         _dao.delete( nIdMailItemQueue );
     }
 
     /**
-         * Return the first mail item in the queue
-         * @return the first mail item in the queue
-         */
+     * Return the first mail item in the queue
+     * @return the first mail item in the queue
+     */
     public static MailItemQueue getNextMailItemQueue(  )
     {
-        return _dao.select(  );
+        //get the id of the next mail item queue
+        int nIdMailItemQueue = _dao.nextMailItemQueueId(  );
+
+        if ( nIdMailItemQueue != -1 )
+        {
+            //lock the mail item queue before getting mailItemQueue Object
+            _dao.lockMailItemQueue( nIdMailItemQueue );
+
+            return _dao.load( nIdMailItemQueue );
+        }
+
+        return null;
     }
 
     /**

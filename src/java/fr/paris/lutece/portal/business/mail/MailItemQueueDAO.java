@@ -50,18 +50,19 @@ import java.io.ObjectOutputStream;
 public class MailItemQueueDAO implements IMailItemQueueDAO
 {
     private static final String SQL_QUERY_NEW_PK = "SELECT max(id_mail_queue) FROM core_mail_queue";
-    private static final String SQL_QUERY_SELECT = "SELECT min(id_mail_queue) FROM core_mail_queue";
+    private static final String SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID = "SELECT min(id_mail_queue) FROM core_mail_queue WHERE is_locked=false";
     private static final String SQL_QUERY_SELECT_COUNT = "SELECT COUNT(id_mail_queue) FROM core_mail_queue";
-    private static final String SQL_QUERY_LOAD = "SELECT id_mail_queue,mail_item FROM core_mail_queue WHERE id_mail_queue=?";
+    private static final String SQL_QUERY_LOAD = "SELECT id_mail_queue,mail_item FROM core_mail_queue WHERE id_mail_queue=? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_mail_queue( id_mail_queue ,mail_item) " +
         " VALUES ( ?, ?)";
+    private static final String SQL_QUERY_LOCK_MAIL_ITEM = " UPDATE core_mail_queue SET is_locked=true WHERE id_mail_queue= ? ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_mail_queue WHERE id_mail_queue = ?";
 
     /**
      * Generates a new primary key
      * @return The new primary key
      */
-    int newPrimaryKey(  )
+    private int newPrimaryKey(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
         daoUtil.executeQuery(  );
@@ -79,6 +80,40 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
         daoUtil.free(  );
 
         return nKey;
+    }
+
+    /**
+     * return the next mail item queue id
+     * @return the next mail item queue id
+     */
+    public int nextMailItemQueueId(  )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID );
+
+        daoUtil.executeQuery(  );
+
+        int nIdMailItemQueue = -1;
+
+        if ( daoUtil.next(  ) )
+        {
+            nIdMailItemQueue = daoUtil.getInt( 1 );
+        }
+
+        daoUtil.free(  );
+
+        return nIdMailItemQueue;
+    }
+
+    /**
+     * Lock the  mail item
+     * @param nIdMailItemQueue the id of the mail item  to lock
+     */
+    public void lockMailItemQueue( int nIdMailItemQueue )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOCK_MAIL_ITEM );
+        daoUtil.setInt( 1, nIdMailItemQueue );
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
     }
 
     /**
@@ -114,57 +149,46 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
 
     /**
      * return the first mail item  in the table
+     * @param nIdMailItemQueue the id of the mail item
      * @return the first mail item in the table
      */
-    public MailItemQueue select(  )
+    public MailItemQueue load( int nIdMailItemQueue )
     {
         MailItemQueue mailItemQueue = null;
         MailItem mailItem = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         InputStream inputStream;
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD );
+        daoUtil.setInt( 1, nIdMailItemQueue );
         daoUtil.executeQuery(  );
 
         if ( daoUtil.next(  ) )
         {
             mailItemQueue = new MailItemQueue(  );
             mailItemQueue.setIdMailItemQueue( daoUtil.getInt( 1 ) );
+            inputStream = daoUtil.getBinaryStream( 2 );
+
+            try
+            {
+                ObjectInputStream objectInputStream = new ObjectInputStream( inputStream );
+                mailItem = (MailItem) objectInputStream.readObject(  );
+                objectInputStream.close(  );
+                inputStream.close(  );
+            }
+            catch ( IOException e )
+            {
+                // TODO Auto-generated catch block
+                AppLogService.error( e );
+            }
+            catch ( ClassNotFoundException e )
+            {
+                // TODO Auto-generated catch block
+                AppLogService.error( e );
+            }
+
+            mailItemQueue.setMailItem( mailItem );
         }
 
         daoUtil.free(  );
-
-        if ( mailItemQueue != null )
-        {
-            daoUtil = new DAOUtil( SQL_QUERY_LOAD );
-            daoUtil.setInt( 1, mailItemQueue.getIdMailItemQueue(  ) );
-            daoUtil.executeQuery(  );
-
-            if ( daoUtil.next(  ) )
-            {
-                inputStream = daoUtil.getBinaryStream( 2 );
-
-                try
-                {
-                    ObjectInputStream objectInputStream = new ObjectInputStream( inputStream );
-                    mailItem = (MailItem) objectInputStream.readObject(  );
-                    objectInputStream.close(  );
-                    inputStream.close(  );
-                }
-                catch ( IOException e )
-                {
-                    // TODO Auto-generated catch block
-                    AppLogService.error( e );
-                }
-                catch ( ClassNotFoundException e )
-                {
-                    // TODO Auto-generated catch block
-                    AppLogService.error( e );
-                }
-
-                mailItemQueue.setMailItem( mailItem );
-            }
-
-            daoUtil.free(  );
-        }
 
         return mailItemQueue;
     }

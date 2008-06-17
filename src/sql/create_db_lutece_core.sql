@@ -417,6 +417,7 @@ CREATE TABLE `core_mail_queue`
 (
 	`id_mail_queue` int(11) NOT NULL default '0',
 	`mail_item` longblob,
+	`is_locked` smallint(1) default '0',
   	PRIMARY KEY  (`id_mail_queue`)
 )ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
