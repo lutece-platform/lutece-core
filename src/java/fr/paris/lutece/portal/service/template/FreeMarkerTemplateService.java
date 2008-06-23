@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.template;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import freemarker.template.Configuration;
@@ -58,6 +59,9 @@ public final class FreeMarkerTemplateService
 {
     private static final String PATH_AUTO_INCLUDE_COMMONS = "*/commons.html";
     private static final String NUMBER_FORMAT_PATTERN = "0.######";
+    private static final String SETTING_DATE_FORMAT = "date_format";
+    private static final String SETTING_DATETIME_FORMAT = "datetime_format";
+    
     private static Map<String, Configuration> _mapConfigurations = new HashMap<String, Configuration>(  );
     private static String _strDefaultPath;
 
@@ -126,7 +130,12 @@ public final class FreeMarkerTemplateService
             }
 
             Template ftl;
-
+            
+            //Used to set the default format to display a date and datetime
+        	cfg.setSetting( SETTING_DATE_FORMAT, DateUtil.getDefaultPattern( locale ) );
+        	//WARNING : the Datetime format is defined as the date format, i.e. the hours and minutes will not be displayed
+//        	cfg.setSetting( SETTING_DATETIME_FORMAT, DateUtil.getDefaultPattern( locale ) );
+        	
             if ( locale == null )
             {
                 ftl = cfg.getTemplate( strTemplate );

@@ -387,4 +387,46 @@ public final class DateUtil
     {
         return getDateString( new Date(  ), locale );
     }
+
+    /**
+     * Return the pattern for date
+     * @param locale the Locale
+     * @return The pattern as a String
+     */
+    public static String getDefaultPattern( Locale locale )
+    {
+        if ( locale != null )
+        {
+            if ( locale.equals( Locale.FRENCH ) )
+            {
+                return FORMAT_DATE_SHORT_FR;
+            }
+            else if ( locale.equals( Locale.ENGLISH ) )
+            {
+                return FORMAT_DATE_SHORT_EN;
+            }
+            else
+            {
+                DateFormat df = DateFormat.getDateInstance( DateFormat.SHORT, locale );
+
+                if ( df instanceof SimpleDateFormat )
+                {
+                    SimpleDateFormat sdf = (SimpleDateFormat) df;
+
+                    return sdf.toPattern(  );
+                }
+            }
+        }
+
+        DateFormat df = DateFormat.getDateInstance( DateFormat.SHORT, Locale.getDefault(  ) );
+
+        if ( df instanceof SimpleDateFormat )
+        {
+            SimpleDateFormat sdf = (SimpleDateFormat) df;
+
+            return sdf.toPattern(  );
+        }
+
+        return null;
+    }
 }
