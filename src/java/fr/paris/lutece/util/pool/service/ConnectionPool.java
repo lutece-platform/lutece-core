@@ -145,18 +145,36 @@ public class ConnectionPool
      * @return An open connection
      * @throws SQLException The SQL exception
      */
-    private Connection getConnection( long timeout ) throws SQLException
+    private synchronized Connection getConnection( long timeout ) throws SQLException
     {
         // Get a pooled Connection from the cache or a new one.
         // Wait if all are checked out and the max limit has
         // been reached.
+        long startTime = System.currentTimeMillis(  );
         long remaining = timeout;
-        Connection conn = getPooledConnection(  );
+        Connection conn = null;
 
-        if ( conn == null )
+        while ( ( conn = getPooledConnection(  ) ) == null )
         {
-            throw new AppException( "Connection pool error : max connections reached (" + _nMaxConns +
-                "). No more connection available" );
+            try
+            {
+                _logger.debug( "Waiting for connection. Timeout=" + remaining );
+
+                wait( remaining );
+            }
+            catch ( InterruptedException e )
+            {
+                _logger.debug( "A connection has been released by another thread." );
+            }
+
+            remaining = timeout - ( System.currentTimeMillis(  ) - startTime );
+
+            if ( remaining <= 0 )
+            {
+                // Timeout has expired
+                _logger.debug( "Time-out while waiting for connection" );
+                throw new SQLException( "getConnection() timed-out" );
+            }
         }
 
         // Check if the Connection is still OK
@@ -227,7 +245,7 @@ public class ConnectionPool
      * @return An opened connection
      * @throws SQLException The exception
      */
-    private synchronized Connection getPooledConnection(  )
+    private Connection getPooledConnection(  )
         throws SQLException
     {
         Connection conn = null;
@@ -281,6 +299,7 @@ public class ConnectionPool
         // Put the connection at the end of the Vector
         _freeConnections.add( conn );
         _nCheckedOut--;
+        notifyAll();
         _logger.debug( "Returned connection to pool" );
         _logger.debug( getStats(  ) );
     }
