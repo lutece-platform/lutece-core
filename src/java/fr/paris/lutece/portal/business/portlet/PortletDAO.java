@@ -77,7 +77,8 @@ public final class PortletDAO implements IPortletDAO
     private static final String SQL_QUERY_SELECT_PORTLET_ALIAS = " SELECT a.id_portlet FROM core_portlet a , core_portlet_alias b" +
         " WHERE a.id_portlet = b.id_portlet " + " AND b.id_alias= ? ";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_NAME = " SELECT id_portlet , id_page , name FROM core_portlet WHERE name LIKE ? ";
-    private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_TYPE = " SELECT a.id_portlet, a.name , a.date_update " +
+    private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_TYPE = " SELECT a.id_portlet, a.id_portlet_type, a.id_page, a.name, " +
+		"a.date_update, a.status, a.portlet_order, a.column_no, a.id_style, a.accept_alias, a.date_creation, a.display_portlet_title" +
         " FROM core_portlet a, core_page b  WHERE a.id_page = b.id_page " + " AND a.id_portlet_type = ? ";
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -284,14 +285,30 @@ public final class PortletDAO implements IPortletDAO
         daoUtil.setString( 1, strPortletTypeId );
         daoUtil.executeQuery(  );
 
-        List<Portlet> list = new ArrayList(  );
+        List<Portlet> list = new ArrayList<Portlet>(  );
 
         while ( daoUtil.next(  ) )
         {
             PortletImpl portlet = new PortletImpl(  );
             portlet.setId( daoUtil.getInt( 1 ) );
-            portlet.setName( daoUtil.getString( 2 ) );
-            portlet.setDateUpdate( daoUtil.getTimestamp( 3 ) );
+            portlet.setPortletTypeId( daoUtil.getString( 2 ) );
+            portlet.setPageId( daoUtil.getInt( 3 ) );
+            portlet.setName( daoUtil.getString( 4 ) );
+            portlet.setDateUpdate( daoUtil.getTimestamp( 5 ) );
+            portlet.setStatus( daoUtil.getInt( 6 ) );
+            portlet.setOrder( daoUtil.getInt( 7 ) );
+            portlet.setColumn( daoUtil.getInt( 8 ) );
+            portlet.setStyleId( daoUtil.getInt( 9 ) );
+            portlet.setAcceptAlias( daoUtil.getInt( 10 ) );
+            //FIXME date_creation ??
+            portlet.setDisplayPortletTitle( daoUtil.getInt( 12 ) );
+
+            //FIXME Theses attributes concerns PortletType :
+            //            portlet.setHomeClassName(daoUtil.getString( 1 ));
+            //            portlet.setPluginName(daoUtil.getString( 1 ));
+            //            portlet.setPortletTypeName(daoUtil.getString( 1 ));
+            //            portlet.setUrlCreation(daoUtil.getString( 1 ));
+            //            portlet.setUrlUpdate(daoUtil.getString( 1 ));
             list.add( portlet );
         }
 
