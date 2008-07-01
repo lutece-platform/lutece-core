@@ -37,10 +37,15 @@ import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.portlet.PortletRemovalListenerService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -54,6 +59,8 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     public static final String RIGHT_MANAGE_ADMIN_SITE = "CORE_ADMIN_SITE";
     private static final String PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS = "portal.site.message.warningPortletAlias";
     private static final String PROPERTY_MESSAGE_CONFIRM_REMOVE_PORTLET = "portal.site.message.confirmRemovePortlet";
+    private static final String MESSAGE_CANNOT_REMOVE_PORTLET = "portal.site.message.cannotRemovePortlet";
+    private static final String MESSAGE_CANNOT_REMOVE_PORTLET_TITLE = "portal.site.message.cannotRemovePortlet.title";
     private static final String PROPERTY_MESSAGE_CONFIRM_MODIFY_STATUS = "portal.site.message.confirmModifyStatus";
     private static final String PORTLET_STATUS = "status";
     private static final String JSP_REMOVE_PORTLET = "jsp/admin/site/DoRemovePortlet.jsp";
@@ -125,13 +132,23 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         String strPortletId = request.getParameter( Parameters.PORTLET_ID );
         String strUrl = JSP_REMOVE_PORTLET + "?portlet_id=" + strPortletId;
         String strTarget = "_top";
-
+        ArrayList<String> listErrors = new ArrayList<String>(  );
+        Locale locale = AdminUserService.getLocale( request );
         int nPortletId = Integer.parseInt( strPortletId );
 
         if ( PortletHome.hasAlias( nPortletId ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS,
                 AdminMessage.TYPE_STOP );
+        }
+
+        if ( !PortletRemovalListenerService.getService(  ).checkForRemoval( strPortletId, listErrors, locale ) )
+        {
+            String strCause = AdminMessageService.getFormattedList( listErrors, locale );
+            Object[] args = { strCause };
+
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_PORTLET, args,
+                MESSAGE_CANNOT_REMOVE_PORTLET_TITLE, strUrl, strTarget, AdminMessage.TYPE_STOP );
         }
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PORTLET, strUrl, strTarget,
@@ -148,10 +165,17 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     {
         String strPortletId = request.getParameter( Parameters.PORTLET_ID );
         int nPortletId = Integer.parseInt( strPortletId );
+        ArrayList<String> listErrors = new ArrayList<String>(  );
         Portlet portlet = PortletHome.findByPrimaryKey( nPortletId );
-        portlet.remove(  );
+        String strUrl = JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId(  );
+        Locale locale = AdminUserService.getLocale( request );
 
-        return JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId(  );
+        if ( PortletRemovalListenerService.getService(  ).checkForRemoval( strPortletId, listErrors, locale ) )
+        {
+            portlet.remove(  );
+        }
+
+        return strUrl;
     }
 
     /**
