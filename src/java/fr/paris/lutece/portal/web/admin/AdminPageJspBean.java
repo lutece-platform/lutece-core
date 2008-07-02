@@ -121,6 +121,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
     //Messages
     private static final String MESSAGE_TITLE_INVALID_CHARACTERS = "portal.site.message.invalidCharactersInTitleName";
+    private static final String MESSAGE_DESCRIPTION_INVALID_CHARACTERS = "portal.site.message.invalidCharactersInDescription";
     private static final String MESSAGE_CANNOT_REMOVE_CHILDPAGE_EXISTS = "portal.site.message.cannotRemoveChildPageExists";
     private static final String MESSAGE_LENGTH_DESCRIPTION = "portal.site.message.pageLengthDescription";
     private static final String MESSAGE_ROOT_PAGE_FORBIDDEN = "portal.site.message.rootPageForbidden";
@@ -444,6 +445,13 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         else if ( StringUtil.containsHtmlSpecialCharacters( strName ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_TITLE_INVALID_CHARACTERS, AdminMessage.TYPE_STOP );
+        }
+
+        // Checks if the page description contains HTML special characters
+        else if ( StringUtil.containsHtmlSpecialCharacters( strDescription ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS,
+                AdminMessage.TYPE_STOP );
         }
         else
         {
