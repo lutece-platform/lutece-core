@@ -46,12 +46,14 @@ public class UrlItem
 {
     ////////////////////////////////////////////////////////////////////////////
     // Constants
+    private static final String ANCHOR_DELIMITER = "#";
 
     /** the root of the url. */
     private String _strRoot;
 
     /** the list of parameters. */
     private List<UrlParameterItem> _listParameters = new ArrayList<UrlParameterItem>(  );
+    private String _strAnchor;
 
     /**
      * Constructs an url with no parameters.
@@ -97,6 +99,11 @@ public class UrlItem
             urlCode += parameter.getCode( bFirst );
         }
 
+        if ( ( getAnchor(  ) != null ) && !getAnchor(  ).equals( "" ) )
+        {
+            urlCode += ( ANCHOR_DELIMITER + getAnchor(  ) );
+        }
+
         return urlCode;
     }
 
@@ -115,6 +122,29 @@ public class UrlItem
             urlCode += parameter.getCodeEntity( bFirst );
         }
 
+        if ( ( getAnchor(  ) != null ) && !getAnchor(  ).equals( "" ) )
+        {
+            urlCode += ( ANCHOR_DELIMITER + getAnchor(  ) );
+        }
+
         return urlCode;
+    }
+
+    /**
+     * Get the anchor
+     * @return the _srtAnchor
+     */
+    public String getAnchor(  )
+    {
+        return _strAnchor;
+    }
+
+    /**
+     * Set the anchor
+     * @param strAnchorName the _srtAnchor to set
+     */
+    public void setAnchor( String strAnchorName )
+    {
+        _strAnchor = strAnchorName;
     }
 }
