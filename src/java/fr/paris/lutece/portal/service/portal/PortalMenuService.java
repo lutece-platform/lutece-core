@@ -60,13 +60,19 @@ public final class PortalMenuService implements CacheableService
 {
     public static final int MENU_INIT = 0;
     public static final int MENU_MAIN = 1;
+    
     private static final int PORTAL_COMPONENT_MENU_INIT_ID = 3;
     private static final int PORTAL_COMPONENT_MAIN_MENU_ID = 4;
     private static final int PORTAL_COMPONENT_MENU_TREE = 7;
+    
     private static final int MODE_NORMAL = 0;
     private static final int MODE_ADMIN = 1;
+    
     private static final String SERVICE_NAME = "PortalMenuService";
     private static final String PROPERTY_ROOT_TREE = "lutece.root.tree";
+    
+    // Parameters    
+    private static final String PARAMETER_PAGE_ID = "page_id";    
 
     // Menus cache
     private static PortalMenuService _singleton;
@@ -168,6 +174,8 @@ public final class PortalMenuService implements CacheableService
         StringBuffer strXml = new StringBuffer(  );
         Collection<Page> listPagesMenu = PageHome.getChildPages( PortalService.getRootPageId(  ) );
 
+        String strCurrentPageId = Integer.toString( PortalService.getRootPageId( ) );
+        
         strXml.append( XmlUtil.getXmlHeader(  ) );
         XmlUtil.beginElement( strXml, XmlContent.TAG_MENU_LIST );
 
@@ -177,10 +185,13 @@ public final class PortalMenuService implements CacheableService
         {
             if ( ( menuPage.isVisible( request ) ) || ( nMode == MODE_ADMIN ) )
             {
+                strCurrentPageId = request.getParameter( PARAMETER_PAGE_ID );
                 XmlUtil.beginElement( strXml, XmlContent.TAG_MENU );
                 XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
                 XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, menuPage.getId(  ) );
                 XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, menuPage.getName(  ) );
+                XmlUtil.addElementHtml( strXml, XmlContent.TAG_CURRENT_PAGE_ID, strCurrentPageId );
+
 
                 Collection<Page> listSubLevelMenuPages = PageHome.getChildPages( menuPage.getId(  ) );
 
