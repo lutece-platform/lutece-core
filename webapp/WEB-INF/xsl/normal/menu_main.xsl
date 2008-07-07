@@ -2,7 +2,10 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:param name="site-path" select="site-path" />
-
+<xsl:variable name="current-page-id">
+    <xsl:value-of select="current-page-id" />
+</xsl:variable>
+	
 <xsl:template match="menu-list">
 	<div id="menu-main">
          <ul id="menu">
