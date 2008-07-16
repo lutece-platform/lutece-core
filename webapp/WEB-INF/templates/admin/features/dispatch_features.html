@@ -1,34 +1,89 @@
+<#macro featuresGroupDisplay groupDisplay >
 <div class="content-box" >
-
-    <h2>#i18n{portal.features.dispatch_features.title}</h2>
-
-    <table>
-    	<tr>
-    		<th>#i18n{portal.features.dispatch_features.tableLabelFeatureName}</th>
-    		<th>#i18n{portal.features.dispatch_features.tableLabelFeatureDescription}</th>
-    		<th>#i18n{portal.features.dispatch_features.tableLabelGroup}</th>
-    	</tr>
-		
-		
-		<#list feature_list?sort_by('name') as right >
-			
+	<a name="${groupDisplay.feature_group.id?if_exists}" >&nbsp;</a>
+	<#if groupDisplay.feature_group.order != 0>
+	    <h2>#i18n{${groupDisplay.feature_group.labelKey}}</h2>
+    <#else>
+	    <h2 class="alert">#i18n{portal.features.nogroup.title}</h2>
+    </#if>
+	<#if groupDisplay.feature_list?has_content>
+	    <table>
+	    	<tr>
+	    		<th width="25%">#i18n{portal.features.dispatch_features.tableLabelFeatureName}</th>
+	    		<th width="40%">#i18n{portal.features.dispatch_features.tableLabelFeatureDescription}</th>
+	    		<th width="20%">#i18n{portal.features.dispatch_features.tableLabelGroup}</th>
+	    		<th width="15%">
+	    			<#if groupDisplay.feature_group.order != 0>#i18n{portal.features.dispatch_features.tableLabelOrder}
+    				<#else>&nbsp;
+    				</#if>
+				</th>
+	    	</tr>
+    	<#list groupDisplay.feature_list?sort_by('order') as right >
 			<#if right.url?has_content >
 				<tr>
-				         <td>${right.name}</td>
-				         <td>${right.description}</td>
-				         <td>
-				         	<form method="post" action="jsp/admin/features/DoDispatchFeature.jsp">
-				         		<@combo name="group_name" default_value="${right.featureGroup}" items=feature_group_list />
-				             	<input type="hidden" name="right_id" value="${right.id}" />
-				             	<input class="button" type="submit" value="#i18n{portal.features.dispatch_features_row.buttonSetGroup}" />
-				         	 </form>
-				         </td>
+			        <td>${right.name}</td>
+			        <td>${right.description}</td>
+			        <td>
+						<form method="post" action="jsp/admin/features/DoDispatchFeature.jsp">
+				        	<@comboGroups name="group_name" default_value="${right.featureGroup?if_exists}" />
+			            	<input type="hidden" name="right_id" value="${right.id}" />
+				            <input class="button" type="submit" value="#i18n{portal.features.dispatch_features_row.buttonSetGroup}" />
+				         </form>
+					</td>
+			    	<td>
+				    	<#if groupDisplay.feature_group.order != 0>
+				    		<form method="post" action="jsp/admin/features/DoDispatchFeature.jsp">
+					        	<@comboOrders name="order_id" default_value=right.order max=groupDisplay.feature_list?size />
+				            	<input type="hidden" name="right_id" value="${right.id}" />
+				            	<input type="hidden" name="group_name" value="${right.featureGroup?if_exists}" />
+				            	<input class="button" type="submit" value="#i18n{portal.features.dispatch_features_row.buttonSetOrder}" />
+				         	</form>
+			         	<#else>
+			         		&nbsp;
+						</#if>
+					</td>
 				</tr>
 			</#if>
-		
-		
-		</#list>
-		
-		
+		</#list>	
     </table>
+<#else>
+	<em>#i18n{portal.features.dispatch_features.noFeatureForGroup}</em>
+</#if>
 </div>
+</#macro>
+
+<#macro comboGroups name default_value >
+	<select id="${name}" name="${name}" >
+		<#if default_value="${no_group.feature_group.id?if_exists}">
+  			<option selected="selected" value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
+		<#else>
+			<option value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
+		</#if>
+		<#list feature_group_list as groupDisplay>
+			<#if default_value="${groupDisplay.feature_group.id?if_exists}">
+  				<option selected="selected" value="${groupDisplay.feature_group.id?if_exists}" >#i18n{${groupDisplay.feature_group.labelKey}}</option>
+  			<#else>
+  				<option value="${groupDisplay.feature_group.id?if_exists}" >#i18n{${groupDisplay.feature_group.labelKey}}</option>
+  			</#if>
+		</#list>
+	</select>
+</#macro>
+
+<#macro comboOrders name default_value max >
+	<select id="${name}" name="${name}" >
+		<#list 1..max as i>
+			<#if "${default_value}" == "${i}">
+  				<option selected="selected" value="${i}" >${i}</option>
+  			<#else>
+  				<option value="${i}" >${i}</option>
+  			</#if>
+		</#list>
+	</select>
+</#macro>
+
+<#if no_group.feature_list?has_content >
+	<@featuresGroupDisplay groupDisplay=no_group />
+</#if>
+<#list feature_group_list as groupDisplay>
+	<@featuresGroupDisplay groupDisplay=groupDisplay />
+</#list>

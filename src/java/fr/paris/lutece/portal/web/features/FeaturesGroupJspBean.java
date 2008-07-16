@@ -45,7 +45,9 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.url.UrlItem;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -68,6 +70,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_GROUP_NAME = "group_name";
     private static final String PARAMETER_GROUP_DESCRIPTION = "group_description";
     private static final String PARAMETER_GROUP_ORDER = "group_order";
+    private static final String PARAMETER_ORDER_ID = "order_id";
     private static final String PARAMETER_RIGHT_ID = "right_id";
     private static final String JSP_DISPATCH_FEATURES = "DispatchFeatures.jsp";
     private static final String JSP_MANAGE_GROUPS = "ManageGroups.jsp";
@@ -75,10 +78,16 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_RIGHT_ALREADY_ASSIGN = "portal.features.message.rightAlreadyAssign";
     private static final String MARK_GROUPS_LIST = "groups_list";
     private static final String MARK_RIGHT_LIST = "feature_list";
+    private static final String MARK_FEATURE_NO_GROUP = "no_group";
     private static final String MARK_FEATURE_GROUP_LIST = "feature_group_list";
     private static final String MARK_ORDER_LIST = "order_list";
     private static final String MARK_FEATURE_GROUP = "feature_group";
     private static final String MARK_DEFAULT_ORDER = "order_default";
+    private static final String NO_GROUP_DESCRIPTION = "portal.features.nogroup.description";
+    private static final String NO_GROUP_LABEL = "portal.features.nogroup.label";
+    private static final int NO_GROUP_ORDER = 0;
+    private static final String NO_GROUP_ID = null;
+    private static final String REGEX_ID = "^[\\d]+$";
 
     /**
      * Returns the Manage Features page
@@ -117,10 +126,8 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     {
         Locale locale = getLocale(  );
 
-        Collection colRightsList = I18nService.localizeCollection( RightHome.getRightsList(  ), locale );
-
         HashMap model = new HashMap(  );
-        model.put( MARK_RIGHT_LIST, colRightsList );
+        model.put( MARK_FEATURE_NO_GROUP, getNoGroup( locale ) );
         model.put( MARK_FEATURE_GROUP_LIST, getRefListFeatureGroups( locale ) );
 
         HtmlTemplate tPage = AppTemplateService.getTemplate( TEMPLATE_DISPATCH_FEATURES, locale, model );
@@ -134,18 +141,44 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @param locale The locale
      * @return the reference list of feature groups
      */
-    private ReferenceList getRefListFeatureGroups( Locale locale )
+    private HashMap getNoGroup( Locale locale )
     {
+        FeatureGroup noGroup = new FeatureGroup(  );
+        noGroup.setLocale( locale );
+        noGroup.setId( NO_GROUP_ID );
+        noGroup.setOrder( NO_GROUP_ORDER );
+        noGroup.setDescriptionKey( NO_GROUP_DESCRIPTION );
+        noGroup.setLabelKey( NO_GROUP_LABEL );
+
+        HashMap groupMap = new HashMap(  );
+        groupMap.put( MARK_FEATURE_GROUP, noGroup );
+        groupMap.put( MARK_RIGHT_LIST,
+            I18nService.localizeCollection( RightHome.getRightsList( noGroup.getId(  ) ), locale ) );
+
+        return groupMap;
+    }
+
+    /**
+     * Generate a combo containing all available groups
+     *
+     * @param locale The locale
+     * @return the reference list of feature groups
+     */
+    private Collection<HashMap> getRefListFeatureGroups( Locale locale )
+    {
+        Collection<HashMap> colGroupMap = new ArrayList<HashMap>(  );
         Collection<FeatureGroup> colGroups = FeatureGroupHome.getFeatureGroupsList(  );
-        ReferenceList listGroups = new ReferenceList(  );
 
         for ( FeatureGroup fg : colGroups )
         {
-            fg.setLocale( locale );
-            listGroups.addItem( fg.getId(  ), fg.getLabel(  ) );
+            HashMap groupMap = new HashMap(  );
+            groupMap.put( MARK_FEATURE_GROUP, fg );
+            groupMap.put( MARK_RIGHT_LIST,
+                I18nService.localizeCollection( RightHome.getRightsList( fg.getId(  ) ), locale ) );
+            colGroupMap.add( groupMap );
         }
 
-        return listGroups;
+        return colGroupMap;
     }
 
     /**
@@ -157,11 +190,24 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     {
         String strRightId = request.getParameter( PARAMETER_RIGHT_ID );
         String strGroupName = request.getParameter( PARAMETER_GROUP_NAME );
+        String strOrderId = request.getParameter( PARAMETER_ORDER_ID );
         Right right = RightHome.findByPrimaryKey( strRightId );
-        right.setFeatureGroup( strGroupName );
+        UrlItem url = new UrlItem( JSP_DISPATCH_FEATURES );
+
+        if ( ( strGroupName != null ) )
+        {
+            right.setFeatureGroup( strGroupName.equals( "" ) ? null : strGroupName );
+            url.setAnchor( strGroupName );
+        }
+
+        if ( ( strOrderId != null ) && strOrderId.matches( REGEX_ID ) )
+        {
+            right.setOrder( Integer.parseInt( strOrderId ) );
+        }
+
         RightHome.update( right );
 
-        return JSP_DISPATCH_FEATURES;
+        return url.getUrl(  );
     }
 
     /**

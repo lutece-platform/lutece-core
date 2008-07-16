@@ -56,9 +56,9 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_SELECTALL = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user FROM core_admin_user ORDER BY last_name ";
     private static final String SQL_QUERY_SELECT_USER_FROM_USER_ID = "SELECT id_user , access_code, last_name , first_name, email, status, password, locale, level_user FROM core_admin_user  WHERE id_user = ? ORDER BY last_name";
     private static final String SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user FROM core_admin_user  WHERE access_code = ? ";
-    private static final String SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID = " SELECT a.id_right , a.name, a.admin_url , a.description , a.plugin_name, a.id_feature_group, a.icon_url, a.level_right, a.documentation_url " +
+    private static final String SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID = " SELECT a.id_right , a.name, a.admin_url , a.description , a.plugin_name, a.id_feature_group, a.icon_url, a.level_right, a.documentation_url, a.id_order " +
         " FROM core_admin_right a , core_user_right b " + " WHERE a.id_right = b.id_right " + " AND b.id_user = ? " +
-        " AND a.admin_url <> '' " + " ORDER BY a.id_right ";
+        " AND a.admin_url <> '' " + " ORDER BY a.id_order ASC, a.id_right ASC ";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, locale = ? WHERE id_user = ?  ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_admin_user WHERE id_user = ? ";
     private static final String SQL_QUERY_INSERT_USER_RIGHT = "INSERT INTO core_user_right ( id_right, id_user )  VALUES ( ? , ? ) ";
@@ -78,7 +78,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_SELECT_USER_RIGHTS_DELEGATED = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level_right < ?";
     private static final String SQL_QUERY_DELETE_USER_RIGHTS = " DELETE FROM core_user_right WHERE id_user = ? and id_right = ?";
     private static final String SQL_QUERY_SELECT_USERS_BY_LEVEL = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale " +
-    " FROM core_admin_user a WHERE a.level_user = ? ";
+        " FROM core_admin_user a WHERE a.level_user = ? ";
 
     /**
      * @param nUserId th user id
@@ -271,6 +271,7 @@ public class AdminUserDAO implements IAdminUserDAO
             right.setIconUrl( daoUtil.getString( 7 ) );
             right.setLevel( daoUtil.getInt( 8 ) );
             right.setDocumentationUrl( daoUtil.getString( 9 ) );
+            right.setOrder( daoUtil.getInt( 10 ) );
             rightsMap.put( right.getId(  ), right );
         }
 
@@ -511,7 +512,7 @@ public class AdminUserDAO implements IAdminUserDAO
 
         return userList;
     }
-    
+
     /**
      * Select all user that own a given level
      * @param nIdLevel The level

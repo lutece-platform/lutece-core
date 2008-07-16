@@ -43,6 +43,10 @@ import java.util.Collection;
  */
 public final class RightHome
 {
+    //Constants
+    private static int ERROR_ORDER = -2; //this value must be negative
+    private static int STEP_ORDER = 1;
+
     // Static variable pointed at the DAO instance
     private static IRightDAO _dao = (IRightDAO) SpringContextService.getBean( "rightDAO" );
 
@@ -61,6 +65,7 @@ public final class RightHome
      */
     public static Right create( Right right )
     {
+        right.setOrder( getRightsList( right.getFeatureGroup(  ) ).size(  ) + STEP_ORDER );
         _dao.insert( right );
 
         return right;
@@ -74,6 +79,28 @@ public final class RightHome
      */
     public static Right update( Right right )
     {
+        Right oldRight = findByPrimaryKey( right.getId(  ) );
+
+        if ( oldRight == null )
+        {
+            return null;
+        }
+
+        // The feature group have changed
+        if ( ( ( right.getFeatureGroup(  ) != null ) &&
+                !right.getFeatureGroup(  ).equals( oldRight.getFeatureGroup(  ) ) ) ||
+                ( ( right.getFeatureGroup(  ) == null ) && ( oldRight.getFeatureGroup(  ) != null ) ) )
+        {
+            deleteEntryFromList( oldRight.getFeatureGroup(  ), oldRight.getOrder(  ) );
+            right.setOrder( getRightsList( right.getFeatureGroup(  ) ).size(  ) + STEP_ORDER );
+        }
+
+        // The order have changed
+        else if ( right.getOrder(  ) != oldRight.getOrder(  ) )
+        {
+            right.setOrder( changeRightOrder( oldRight, right.getOrder(  ) ) );
+        }
+
         _dao.store( right );
 
         return right;
@@ -86,6 +113,13 @@ public final class RightHome
      */
     public static void remove( String strId )
     {
+        Right oldRight = findByPrimaryKey( strId );
+
+        if ( oldRight != null )
+        {
+            deleteEntryFromList( oldRight.getFeatureGroup(  ), oldRight.getOrder(  ) );
+        }
+
         _dao.delete( strId );
     }
 
@@ -135,5 +169,68 @@ public final class RightHome
     public static Collection<Right> getRightsList( String strFeatureGroup )
     {
         return _dao.selectRightsList( strFeatureGroup );
+    }
+
+    /**
+     * Change the order in a {@link Right}
+     *
+     * @param strRightKey the {@link Right} identifier
+     * @param nNewOrder The new place in the list or END_OF_LIST to place Right at the end
+     * @return The new order
+     */
+    public static int changeRightOrder( Right right, int nNewOrder )
+    {
+        if ( right == null )
+        {
+            return ERROR_ORDER;
+        }
+
+        if ( nNewOrder < right.getOrder(  ) )
+        {
+            for ( Right rightGroup : getRightsList( right.getFeatureGroup(  ) ) )
+            {
+                int nRightToUpdateOrder = rightGroup.getOrder(  );
+
+                if ( ( nRightToUpdateOrder >= nNewOrder ) && ( nRightToUpdateOrder < right.getOrder(  ) ) )
+                {
+                    rightGroup.setOrder( nRightToUpdateOrder + STEP_ORDER );
+                    _dao.store( rightGroup );
+                }
+            }
+        }
+        else if ( nNewOrder > right.getOrder(  ) )
+        {
+            for ( Right rightGroup : getRightsList( right.getFeatureGroup(  ) ) )
+            {
+                int nRightToUpdateOrder = rightGroup.getOrder(  );
+
+                if ( ( nRightToUpdateOrder <= nNewOrder ) && ( nRightToUpdateOrder > right.getOrder(  ) ) )
+                {
+                    rightGroup.setOrder( nRightToUpdateOrder - STEP_ORDER );
+                    _dao.store( rightGroup );
+                }
+            }
+        }
+
+        return nNewOrder;
+    }
+
+    /**
+     * Delete entry (specify by nOrderId)
+     * @param strFeatureGroup The {@link FeatureGroup} impacted
+     * @param nOrderId The order to delete
+     */
+    public static void deleteEntryFromList( String strFeatureGroup, int nOrderId )
+    {
+        for ( Right rightGroup : getRightsList( strFeatureGroup ) )
+        {
+            int nRightToUpdateOrder = rightGroup.getOrder(  );
+
+            if ( ( nRightToUpdateOrder > nOrderId ) )
+            {
+                rightGroup.setOrder( nRightToUpdateOrder - STEP_ORDER );
+                _dao.store( rightGroup );
+            }
+        }
     }
 }

@@ -58,6 +58,7 @@ import fr.paris.lutece.util.string.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -175,7 +176,8 @@ public class AdminMenuJspBean
 
         // get the list of user's features
         Map<String, Right> featuresMap = user.getRights(  );
-        Collection<Right> features = featuresMap.values(  );
+        List<Right> features = new ArrayList<Right>( featuresMap.values(  ) );
+        Collections.sort( features );
 
         // for each group, load the features
         for ( FeatureGroup featureGroup : FeatureGroupHome.getFeatureGroupsList(  ) )

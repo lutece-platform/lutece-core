@@ -42,7 +42,7 @@ import java.util.Locale;
 /**
  * This class represents business objects right
  */
-public class Right implements Localizable
+public class Right implements Localizable, Comparable<Right>
 {
     /////////////////////////////////////////////////////////////////////////////////
     // Constants
@@ -57,6 +57,7 @@ public class Right implements Localizable
     private String _strIconUrl;
     private String _strDocumentationUrl;
     private Locale _locale;
+    private int _nIdOrder;
 
     /**
      * set the local used by  this right
@@ -227,7 +228,7 @@ public class Right implements Localizable
      */
     public void setFeatureGroup( String strFeatureGroup )
     {
-        _strFeatureGroup = ( strFeatureGroup == null ) ? EMPTY_STRING : strFeatureGroup;
+        _strFeatureGroup = strFeatureGroup;
     }
 
     /**
@@ -268,5 +269,43 @@ public class Right implements Localizable
     public void setDocumentationUrl( String strDocumentationUrl )
     {
         _strDocumentationUrl = strDocumentationUrl;
+    }
+
+    /**
+     * Get the right order
+     * @return the _order
+     */
+    public int getOrder(  )
+    {
+        return _nIdOrder;
+    }
+
+    /**
+     * Set the right order in feature group
+     * @param nOrder the _order to set
+     */
+    public void setOrder( int nOrder )
+    {
+        this._nIdOrder = nOrder;
+    }
+
+    /**
+     * Compare the right with the specified right
+     * @param o The right to be compared with the instancied right
+     */
+    public int compareTo( Right o )
+    {
+        if ( this.getOrder(  ) > o.getOrder(  ) )
+        {
+            return 1;
+        }
+        else if ( this.getOrder(  ) < o.getOrder(  ) )
+        {
+            return -1;
+        }
+        else
+        {
+            return this.getId(  ).compareTo( o.getId(  ) );
+        }
     }
 }
