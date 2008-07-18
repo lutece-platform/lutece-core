@@ -61,8 +61,14 @@ public abstract class LuteceUser implements Principal
     public static final String NAME_MIDDLE = "user.name.middle";
     public static final String NAME_SUFFIX = "user.name.suffix";
     public static final String NAME_NICKNAME = "user.name.nickName";
+    public static final String NAME_CIVILITY = "user.name.civility";
     public static final String HOME_INFO_POSTAL_NAME = "user.home-info.postal.name";
     public static final String HOME_INFO_POSTAL_STREET = "user.home-info.postal.street";
+    public static final String HOME_INFO_POSTAL_STREET_NUMBER = "user.home-info.postal.street.number";
+    public static final String HOME_INFO_POSTAL_STREET_SUFFIX = "user.home-info.postal.street.suffix";
+    public static final String HOME_INFO_POSTAL_STREET_NAME = "user.home-info.postal.street.name";
+    public static final String HOME_INFO_POSTAL_STREET_TYPE = "user.home-info.postal.street.type";
+    public static final String HOME_INFO_POSTAL_STREET_URBAN_DISTRICT = "user.home-info.postal.street.urbandistrict";
     public static final String HOME_INFO_POSTAL_CITY = "user.home-info.postal.city";
     public static final String HOME_INFO_POSTAL_STATEPROV = "user.home-info.postal.stateprov";
     public static final String HOME_INFO_POSTAL_POSTALCODE = "user.home-info.postal.postalcode";
