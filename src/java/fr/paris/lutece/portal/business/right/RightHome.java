@@ -46,6 +46,7 @@ public final class RightHome
     //Constants
     private static int ERROR_ORDER = -2; //this value must be negative
     private static int STEP_ORDER = 1;
+    private static int FIRST_ID_ORDER = 1;
 
     // Static variable pointed at the DAO instance
     private static IRightDAO _dao = (IRightDAO) SpringContextService.getBean( "rightDAO" );
@@ -232,5 +233,52 @@ public final class RightHome
                 _dao.store( rightGroup );
             }
         }
+    }
+
+    /**
+     * Reinitialize feature order groups
+     * @param strFeatureGroup
+     */
+    public static void reinitFeatureOrders( String strFeatureGroup )
+    {
+        if ( ( strFeatureGroup == null ) || strFeatureGroup.equals( "" ) )
+        {
+            return;
+        }
+
+        int nOrder = FIRST_ID_ORDER;
+
+        for ( Right rightGroup : getRightsList( strFeatureGroup ) )
+        {
+            rightGroup.setOrder( nOrder++ );
+            _dao.store( rightGroup );
+        }
+    }
+
+    /**
+     * Check feature orders and return false if at least one order is twice
+     * @param strFeatureGroup
+     * @return true if order list is ok, false else.
+     */
+    public static boolean checkFeatureOrders( String strFeatureGroup )
+    {
+        if ( ( strFeatureGroup == null ) || strFeatureGroup.equals( "" ) )
+        {
+            return false;
+        }
+
+        int nOrder = FIRST_ID_ORDER;
+
+        for ( Right rightGroup : getRightsList( strFeatureGroup ) )
+        {
+            if ( nOrder != rightGroup.getOrder(  ) )
+            {
+                return false;
+            }
+
+            nOrder++;
+        }
+
+        return true;
     }
 }

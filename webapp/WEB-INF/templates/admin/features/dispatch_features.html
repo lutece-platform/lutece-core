@@ -3,6 +3,11 @@
 	<a name="${groupDisplay.feature_group.id?if_exists}" >&nbsp;</a>
 	<#if groupDisplay.feature_group.order != 0>
 	    <h2>#i18n{${groupDisplay.feature_group.labelKey}}</h2>
+	    <#if groupDisplay.order_list_state == false>
+	    <p>
+	    	<a class="alert" href="jsp/admin/features/DoReinitFeatures.jsp?group_id=${groupDisplay.feature_group.id?if_exists}">#i18n{portal.features.dispatch_features.reinitFeatureOrders}</a>
+    	</p>
+	    </#if>
     <#else>
 	    <h2 class="alert">#i18n{portal.features.nogroup.title}</h2>
     </#if>
@@ -12,11 +17,7 @@
 	    		<th width="25%">#i18n{portal.features.dispatch_features.tableLabelFeatureName}</th>
 	    		<th width="40%">#i18n{portal.features.dispatch_features.tableLabelFeatureDescription}</th>
 	    		<th width="20%">#i18n{portal.features.dispatch_features.tableLabelGroup}</th>
-	    		<th width="15%">
-	    			<#if groupDisplay.feature_group.order != 0>#i18n{portal.features.dispatch_features.tableLabelOrder}
-    				<#else>&nbsp;
-    				</#if>
-				</th>
+				<th width="15%">#i18n{portal.features.dispatch_features.tableLabelOrder}</th>
 	    	</tr>
     	<#list groupDisplay.feature_list?sort_by('order') as right >
 			<#if right.url?has_content >
@@ -30,8 +31,8 @@
 				            <input class="button" type="submit" value="#i18n{portal.features.dispatch_features_row.buttonSetGroup}" />
 				         </form>
 					</td>
-			    	<td>
-				    	<#if groupDisplay.feature_group.order != 0>
+					<td>
+				    	<#if groupDisplay.order_list_state == true>
 				    		<form method="post" action="jsp/admin/features/DoDispatchFeature.jsp">
 					        	<@comboOrders name="order_id" default_value=right.order max=groupDisplay.feature_list?size />
 				            	<input type="hidden" name="right_id" value="${right.id}" />
@@ -39,9 +40,9 @@
 				            	<input class="button" type="submit" value="#i18n{portal.features.dispatch_features_row.buttonSetOrder}" />
 				         	</form>
 			         	<#else>
-			         		&nbsp;
+			         		<em>#i18n{portal.features.dispatch_features.notAvailable}</em>
 						</#if>
-					</td>
+		         	</td>
 				</tr>
 			</#if>
 		</#list>	

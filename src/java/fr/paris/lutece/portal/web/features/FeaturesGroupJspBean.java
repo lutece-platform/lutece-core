@@ -78,6 +78,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_RIGHT_ALREADY_ASSIGN = "portal.features.message.rightAlreadyAssign";
     private static final String MARK_GROUPS_LIST = "groups_list";
     private static final String MARK_RIGHT_LIST = "feature_list";
+    private static final String MARK_ORDER_IS_OK = "order_list_state";
     private static final String MARK_FEATURE_NO_GROUP = "no_group";
     private static final String MARK_FEATURE_GROUP_LIST = "feature_group_list";
     private static final String MARK_ORDER_LIST = "order_list";
@@ -154,6 +155,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         groupMap.put( MARK_FEATURE_GROUP, noGroup );
         groupMap.put( MARK_RIGHT_LIST,
             I18nService.localizeCollection( RightHome.getRightsList( noGroup.getId(  ) ), locale ) );
+        groupMap.put( MARK_ORDER_IS_OK, RightHome.checkFeatureOrders( noGroup.getId(  ) ) );
 
         return groupMap;
     }
@@ -175,6 +177,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
             groupMap.put( MARK_FEATURE_GROUP, fg );
             groupMap.put( MARK_RIGHT_LIST,
                 I18nService.localizeCollection( RightHome.getRightsList( fg.getId(  ) ), locale ) );
+            groupMap.put( MARK_ORDER_IS_OK, RightHome.checkFeatureOrders( fg.getId(  ) ) );
             colGroupMap.add( groupMap );
         }
 
@@ -206,6 +209,26 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         }
 
         RightHome.update( right );
+
+        return url.getUrl(  );
+    }
+
+    /**
+     * Reinitialize feature orders
+     * @param request The {@link HttpServletRequest}
+     * @return The next URL to redirect after processing
+     */
+    public String doReinitFeatures( HttpServletRequest request )
+    {
+        String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
+        RightHome.reinitFeatureOrders( strGroupId );
+
+        UrlItem url = new UrlItem( JSP_DISPATCH_FEATURES );
+
+        if ( ( strGroupId != null ) )
+        {
+            url.setAnchor( strGroupId );
+        }
 
         return url.getUrl(  );
     }

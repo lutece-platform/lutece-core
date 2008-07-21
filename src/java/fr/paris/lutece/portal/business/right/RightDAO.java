@@ -54,11 +54,11 @@ public final class RightDAO implements IRightDAO
     private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_right SET name = ?, admin_url = ? , description = ? , " +
         " plugin_name = ?, id_feature_group = ?, icon_url = ?, level_right = ?, documentation_url = ?, id_order = ? WHERE id_right = ?";
     private static final String SQL_QUERY_SELECTALL = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url, id_order " +
-        " FROM core_admin_right WHERE level_right >= ? ORDER BY id_order ASC, name ASC";
+        " FROM core_admin_right WHERE level_right >= ? ORDER BY id_order ASC, id_right ASC";
     private static final String SQL_QUERY_SELECTALL_FOR_FEATUREGROUP = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url, id_order " +
-        " FROM core_admin_right WHERE id_feature_group = ? ORDER BY id_order ASC, name ASC";
+        " FROM core_admin_right WHERE id_feature_group = ? ORDER BY id_order ASC, id_right ASC";
     private static final String SQL_QUERY_SELECTALL_FOR_FEATUREGROUP_IS_NULL = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url, id_order " +
-        " FROM core_admin_right WHERE id_feature_group IS null ORDER BY id_order ASC, name ASC";
+        " FROM core_admin_right WHERE id_feature_group IS null ORDER BY id_order ASC, id_right ASC";
     private static final String SQL_QUERY_DELETE_USERRIGHT = " DELETE FROM core_user_right WHERE id_right = ?";
     private static final String SQL_QUERY_DELETE_ADMINRIGHT = " DELETE FROM core_admin_right WHERE id_right = ?";
 
