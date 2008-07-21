@@ -199,8 +199,9 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         if ( ( strGroupName != null ) )
         {
+            //Set the old group as anchor
+            url.setAnchor( right.getFeatureGroup(  ) );
             right.setFeatureGroup( strGroupName.equals( "" ) ? null : strGroupName );
-            url.setAnchor( strGroupName );
         }
 
         if ( ( strOrderId != null ) && strOrderId.matches( REGEX_ID ) )
