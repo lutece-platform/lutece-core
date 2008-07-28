@@ -215,7 +215,7 @@ public final class SecurityService
     /**
      * Retrieves the portal authentication service configured in the config.properties
      * @return A PortalAuthentication object
-     * @throws LuteceInitException If an error occured
+     * @throws LuteceInitException If an error occurred
      */
     private static LuteceAuthentication getPortalAuthentication(  )
         throws LuteceInitException
@@ -223,22 +223,25 @@ public final class SecurityService
         String strAuthenticationClass = AppPropertiesService.getProperty( PROPERTY_AUTHENTICATION_CLASS );
         LuteceAuthentication authentication = null;
 
-        try
+        if ( ( strAuthenticationClass != null ) && !strAuthenticationClass.equals( "" ) )
         {
-            authentication = (LuteceAuthentication) Class.forName( strAuthenticationClass ).newInstance(  );
-            AppLogService.info( "Authentication service loaded : " + authentication.getAuthServiceName(  ) );
-        }
-        catch ( InstantiationException e )
-        {
-            throw new LuteceInitException( "Error instantiating Authentication Class", e );
-        }
-        catch ( IllegalAccessException e )
-        {
-            throw new LuteceInitException( "Error instantiating Authentication Class", e );
-        }
-        catch ( ClassNotFoundException e )
-        {
-            throw new LuteceInitException( "Error instantiating Authentication Class", e );
+            try
+            {
+                authentication = (LuteceAuthentication) Class.forName( strAuthenticationClass ).newInstance(  );
+                AppLogService.info( "Authentication service loaded : " + authentication.getAuthServiceName(  ) );
+            }
+            catch ( InstantiationException e )
+            {
+                throw new LuteceInitException( "Error instantiating Authentication Class", e );
+            }
+            catch ( IllegalAccessException e )
+            {
+                throw new LuteceInitException( "Error instantiating Authentication Class", e );
+            }
+            catch ( ClassNotFoundException e )
+            {
+                throw new LuteceInitException( "Error instantiating Authentication Class", e );
+            }
         }
 
         return authentication;
