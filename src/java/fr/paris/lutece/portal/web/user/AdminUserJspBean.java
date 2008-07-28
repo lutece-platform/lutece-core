@@ -377,12 +377,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( !( ( strEmail == null ) || ( strEmail.trim(  ).equals( "" ) ) ) )
+        if ( ( ( strEmail == null ) || ( strEmail.trim(  ).equals( "" ) ) ) )
         {
-            if ( !StringUtil.checkEmail( strEmail ) )
-            {
-                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_FORMAT, AdminMessage.TYPE_STOP );
-            }
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+
+        if ( !StringUtil.checkEmail( strEmail ) )
+        {
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_FORMAT, AdminMessage.TYPE_STOP );
         }
 
         // check again that access code is not in use
@@ -517,12 +519,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( !( ( strEmail == null ) || ( strEmail.trim(  ).equals( "" ) ) ) )
+        if ( ( ( strEmail == null ) || ( strEmail.trim(  ).equals( "" ) ) ) )
         {
-            if ( !StringUtil.checkEmail( strEmail ) )
-            {
-                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_FORMAT, AdminMessage.TYPE_STOP );
-            }
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+
+        if ( !StringUtil.checkEmail( strEmail ) )
+        {
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_FORMAT, AdminMessage.TYPE_STOP );
         }
 
         int nUserId = Integer.parseInt( strUserId );
