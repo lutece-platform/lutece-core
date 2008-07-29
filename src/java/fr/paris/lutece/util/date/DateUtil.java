@@ -52,8 +52,6 @@ import java.util.Locale;
  */
 public final class DateUtil
 {
-    // Message
-    private static final String PROPERTY_MESSAGE_FORMAT_DATE_SHORT = "util.format.date.short";
     @Deprecated
     private static SimpleDateFormat _formatter = new SimpleDateFormat( "dd'/'MM'/'yyyy", Locale.FRANCE );
     @Deprecated
@@ -235,8 +233,7 @@ public final class DateUtil
 
             if ( locale != null )
             {
-                String strLocalizedDateFormat = I18nService.getLocalizedString( PROPERTY_MESSAGE_FORMAT_DATE_SHORT,
-                        locale );
+                String strLocalizedDateFormat = I18nService.getDateFormatShortPattern( locale );
 
                 if ( ( strLocalizedDateFormat != null ) && !strLocalizedDateFormat.equals( "" ) )
                 {
@@ -317,7 +314,7 @@ public final class DateUtil
 
         if ( locale != null )
         {
-            String strLocalizedDateFormat = I18nService.getLocalizedString( PROPERTY_MESSAGE_FORMAT_DATE_SHORT, locale );
+            String strLocalizedDateFormat = I18nService.getDateFormatShortPattern( locale );
 
             if ( ( strLocalizedDateFormat != null ) && !strLocalizedDateFormat.equals( "" ) )
             {
@@ -385,7 +382,7 @@ public final class DateUtil
     {
         if ( locale != null )
         {
-            String strLocalizedDateFormat = I18nService.getLocalizedString( PROPERTY_MESSAGE_FORMAT_DATE_SHORT, locale );
+            String strLocalizedDateFormat = I18nService.getDateFormatShortPattern( locale );
 
             if ( ( strLocalizedDateFormat != null ) && !strLocalizedDateFormat.equals( "" ) )
             {

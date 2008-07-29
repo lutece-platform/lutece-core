@@ -62,6 +62,7 @@ public final class I18nService
     private static final String MARK_LOCALIZED_KEY_END = "}";
     private static final Locale LOCALE_DEFAULT = new Locale( "", "", "" );
     private static final String PROPERTY_AVAILABLES_LOCALES = "lutece.i18n.availableLocales";
+    private static final String PROPERTY_FORMAT_DATE_SHORT_LIST = "lutece.format.date.short";
 
     /**
      * Private constructor
@@ -251,6 +252,36 @@ public final class I18nService
         }
 
         return list;
+    }
+
+    /**
+     * Get the short date format specified by a locale
+     * @return The localized short date pattern or null else
+     */
+    public static String getDateFormatShortPattern( Locale locale )
+    {
+        String strAvailableLocales = AppPropertiesService.getProperty( PROPERTY_FORMAT_DATE_SHORT_LIST );
+
+        if ( ( locale != null ) && ( strAvailableLocales != null ) && !strAvailableLocales.equals( "" ) )
+        {
+            StringTokenizer strTokens = new StringTokenizer( strAvailableLocales, "," );
+            String strToken = null;
+
+            for ( Locale adminLocale : getAdminAvailableLocales(  ) )
+            {
+                if ( ( strTokens != null ) && strTokens.hasMoreTokens(  ) )
+                {
+                    strToken = strTokens.nextToken(  );
+                }
+
+                if ( adminLocale.getLanguage(  ).equals( locale.getLanguage(  ) ) )
+                {
+                    return strToken;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
