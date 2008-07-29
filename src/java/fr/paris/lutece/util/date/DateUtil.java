@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.util.date;
 
+import fr.paris.lutece.portal.service.i18n.I18nService;
+
 import java.sql.Timestamp;
 
 import java.text.DateFormat;
@@ -50,23 +52,12 @@ import java.util.Locale;
  */
 public final class DateUtil
 {
+    // Message
+    private static final String PROPERTY_MESSAGE_FORMAT_DATE_SHORT = "util.format.date.short";
+    @Deprecated
     private static SimpleDateFormat _formatter = new SimpleDateFormat( "dd'/'MM'/'yyyy", Locale.FRANCE );
+    @Deprecated
     private static SimpleDateFormat _formatterDateTime = new SimpleDateFormat( "dd'/'MM'/'yyyy' 'HH':'mm", Locale.FRANCE );
-
-    //TODO Define the two date format in properties
-    /**
-     * This format corresponds to that defined by the datepicker
-     * See dateFormat field into webapp/js/jquery/plugins/ui/datepicker/ui.datepicker-fr.js
-     * Format Datepicker : mm/dd/yy
-     */
-    private static final String FORMAT_DATE_SHORT_EN = "MM'/'dd'/'yyyy";
-
-    /**
-     * This format corresponds to that defined by the datepicker
-     * See dateFormat field into webapp/js/jquery/plugins/ui/datepicker/ui.datepicker.js
-     * Format Datepicker : dd/mm/yy
-     */
-    private static final String FORMAT_DATE_SHORT_FR = "dd'/'MM'/'yyyy";
 
     /**
      * Creates a new DateUtil object
@@ -244,13 +235,12 @@ public final class DateUtil
 
             if ( locale != null )
             {
-                if ( locale.equals( Locale.FRENCH ) )
+                String strLocalizedDateFormat = I18nService.getLocalizedString( PROPERTY_MESSAGE_FORMAT_DATE_SHORT,
+                        locale );
+
+                if ( ( strLocalizedDateFormat != null ) && !strLocalizedDateFormat.equals( "" ) )
                 {
-                    dateFormat = new SimpleDateFormat( FORMAT_DATE_SHORT_FR );
-                }
-                else if ( locale.equals( Locale.ENGLISH ) )
-                {
-                    dateFormat = new SimpleDateFormat( FORMAT_DATE_SHORT_EN );
+                    dateFormat = new SimpleDateFormat( strLocalizedDateFormat );
                 }
                 else
                 {
@@ -327,13 +317,11 @@ public final class DateUtil
 
         if ( locale != null )
         {
-            if ( locale.equals( Locale.FRENCH ) )
+            String strLocalizedDateFormat = I18nService.getLocalizedString( PROPERTY_MESSAGE_FORMAT_DATE_SHORT, locale );
+
+            if ( ( strLocalizedDateFormat != null ) && !strLocalizedDateFormat.equals( "" ) )
             {
-                dateFormat = new SimpleDateFormat( FORMAT_DATE_SHORT_FR );
-            }
-            else if ( locale.equals( Locale.ENGLISH ) )
-            {
-                dateFormat = new SimpleDateFormat( FORMAT_DATE_SHORT_EN );
+                dateFormat = new SimpleDateFormat( strLocalizedDateFormat );
             }
             else
             {
@@ -397,13 +385,11 @@ public final class DateUtil
     {
         if ( locale != null )
         {
-            if ( locale.equals( Locale.FRENCH ) )
+            String strLocalizedDateFormat = I18nService.getLocalizedString( PROPERTY_MESSAGE_FORMAT_DATE_SHORT, locale );
+
+            if ( ( strLocalizedDateFormat != null ) && !strLocalizedDateFormat.equals( "" ) )
             {
-                return FORMAT_DATE_SHORT_FR;
-            }
-            else if ( locale.equals( Locale.ENGLISH ) )
-            {
-                return FORMAT_DATE_SHORT_EN;
+                return strLocalizedDateFormat;
             }
             else
             {
