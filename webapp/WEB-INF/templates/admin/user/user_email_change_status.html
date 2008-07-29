@@ -1,0 +1,19 @@
+<html>
+    <head>
+    <title>[${site_name}] #i18n{portal.users.user_change_status.email.title}</title>
+    </head>
+    <body>
+    #i18n{portal.users.user_change_status.email.textChangeStatus}<br />
+    ----------------------------------------------------------<br />
+    #i18n{portal.users.user_change_status.email.textNewStatus} : 
+    <#if user.status == 0 >
+    	#i18n{portal.users.modify_user.statusLabelEnabled}<br />
+   		----------------------------------------------------------<br />
+   		#i18n{portal.users.user_change_status.email.textLoginUrl} :<br />
+   		<a href="${login_url}">${login_url}</a>
+	<#else>
+		#i18n{portal.users.modify_user.statusLabelDisabled}
+	</#if>
+    </body>
+</html>
+

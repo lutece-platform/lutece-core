@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUse
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
@@ -90,8 +91,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_DEFAULT_MODIFY_USER = "admin/user/modify_user_default_module.html";
     private static final String TEMPLATE_MANAGE_USER_WORKGROUPS = "admin/user/manage_user_workgroups.html";
     private static final String TEMPLATE_MODIFY_USER_WORKGROUPS = "admin/user/modify_user_workgroups.html";
+    private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD = "admin/user/user_email_change_status.html";
 
-    // Properties
+    // Messages
     private static final String PROPERTY_MANAGE_USERS_PAGETITLE = "portal.users.manage_users.pageTitle";
     private static final String PROPERTY_MODIFY_USER_PAGETITLE = "portal.users.modify_user.pageTitle";
     private static final String PROPERTY_CREATE_USER_PAGETITLE = "portal.users.create_user.pageTitle";
@@ -107,6 +109,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MODIFY_USER_WORKGROUPS_PAGETITLE = "portal.users.modify_user_workgroups.pageTitle";
     private static final String PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED = "portal.users.message.user.accessCodeAlreadyUsed";
     private static final String PROPERTY_MESSAGE_EMAIL_FORMAT = "portal.users.message.user.emailFormat";
+    private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT = "portal.users.user_change_status.email.subject";
+
+    // Properties
+    private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
+    private static final String PROPERTY_SITE_NAME = "lutece.name";
 
     // Parameters
     private static final String PARAMETER_ACCESS_CODE = "access_code";
@@ -160,6 +167,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_USER_WORKGROUP_LIST = "user_workgroup_list";
     private static final String MARK_ALL_WORKSGROUP_LIST = "all_workgroup_list";
     private static final String MARK_SELECT_ALL = "select_all";
+    private static final String MARK_SITE_NAME = "site_name";
+    private static final String MARK_LOGIN_URL = "login_url";
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -534,7 +543,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         // modification in no-module mode : we manage the password
         if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
         {
-            LuteceDefaultAdminUser user = new LuteceDefaultAdminUser(  );
+            LuteceDefaultAdminUser user = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( nUserId );
 
             String strPassword = request.getParameter( PARAMETER_PASSWORD );
 
@@ -550,7 +559,15 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setLastName( strLastName );
             user.setFirstName( strFirstName );
             user.setEmail( strEmail );
-            user.setStatus( Integer.parseInt( strStatus ) );
+
+            int nStatus = Integer.parseInt( strStatus );
+
+            if ( nStatus != user.getStatus(  ) )
+            {
+                user.setStatus( nStatus );
+                notifyUser( request, user );
+            }
+
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
             AdminUserHome.update( user );
         }
@@ -569,6 +586,31 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         return JSP_MANAGE_USER;
+    }
+
+    /**
+     * Notify an user by email
+     * @param The {@link HttpServletRequest}
+     * @param user The admin user to notify
+     */
+    private void notifyUser( HttpServletRequest request, AdminUser user )
+    {
+        //send password by e-mail
+        String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
+        String strSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
+        String strEmailSubject = I18nService.getLocalizedString( PROPERTY_MESSAGE_EMAIL_SUBJECT,
+                new String[] { strSiteName }, getLocale(  ) );
+        HashMap model = new HashMap(  );
+        model.put( MARK_USER, user );
+        model.put( MARK_SITE_NAME, strSiteName );
+        model.put( MARK_LOGIN_URL,
+            AppPathService.getBaseUrl( request ) + AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD, getLocale(  ),
+                model );
+
+        MailService.sendMailHtml( user.getEmail(  ), strSenderEmail, strSenderEmail, strEmailSubject,
+            template.getHtml(  ) );
     }
 
     /**
