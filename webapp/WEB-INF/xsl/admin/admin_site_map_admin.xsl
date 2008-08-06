@@ -29,11 +29,11 @@
                   </a>
                 </span>
                 <xsl:if test="not(string(page-role)='none')"><br />
-                    <span class="colored">
+                    <strong>
                         <xsl:text disable-output-escaping="yes">
                             #i18n{portal.site.admin_page.tabAdminMapRoleReserved}
                         </xsl:text>
-                    </span>
+                    </strong>
                     <xsl:value-of select="page-role" />
                 </xsl:if>
                 
@@ -61,11 +61,11 @@
             </a>
           </span>  
             <xsl:if test="not(string(page-role)='none')"><br />
-                <span class="colored">
+                <strong>
                     <xsl:text disable-output-escaping="yes">
                         #i18n{portal.site.admin_page.tabAdminMapRoleReserved}
                     </xsl:text>
-                </span> 
+                </strong> 
                 <xsl:value-of select="page-role" />
             </xsl:if>
             
