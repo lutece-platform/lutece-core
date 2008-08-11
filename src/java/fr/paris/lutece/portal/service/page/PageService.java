@@ -88,6 +88,8 @@ public class PageService extends ContentService implements ImageResourceProvider
     /** Access Controled template */
     public static final String TEMPLATE_PAGE_ACCESS_CONTROLED = "/skin/site/page_access_controled.html";
     private static final String MARK_PORTLET = "portlet";
+    private static final String MARK_STATUS_PUBLISHED = "portlet_status_published";
+    private static final String MARK_STATUS_UNPUBLISHED = "portlet_status_unpublished";
     private static final String MARK_CUSTOM_ACTIONS = "custom_action_list";
     private static final String MARK_URL_LOGIN = "url_login";
 
@@ -493,6 +495,8 @@ public class PageService extends ContentService implements ImageResourceProvider
 
                     HashMap model = new HashMap(  );
                     model.put( MARK_PORTLET, portlet );
+                    model.put( MARK_STATUS_PUBLISHED, portlet.STATUS_PUBLISHED );
+                    model.put( MARK_STATUS_UNPUBLISHED, portlet.STATUS_UNPUBLISHED );
                     model.put( MARK_CUSTOM_ACTIONS, listCustomActions );
 
                     HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_BUTTONS, locale, model );
@@ -500,7 +504,7 @@ public class PageService extends ContentService implements ImageResourceProvider
                 }
             }
 
-            if ( ( nMode != MODE_ADMIN ) && ( portlet.getStatus(  ) == 1 ) )
+            if ( ( nMode != MODE_ADMIN ) && ( portlet.getStatus(  ) == Portlet.STATUS_UNPUBLISHED ) )
             {
                 strPortletContent = "";
             }

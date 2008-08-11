@@ -3,14 +3,14 @@
 <div>
     <table align="left" summary="buttons" style="margin-left:10px; border-bottom: 1px solid;border-left: 1px solid;">
         <tr>
-            <#if portlet.status = 0>
+            <#if portlet.status = portlet_status_published>
             <!-- <td>
                 <img src="images/admin/skin/enable.png" alt="" align="left"/>
             </td> -->
             <td>
                 <form method="post" action="jsp/admin/site/ModifyPortletStatus.jsp">
                     <input type="hidden" name="portlet_id" value="${portlet.id}" />
-                    <input type="hidden" name="status" value="1" />
+                    <input type="hidden" name="status" value="${portlet_status_unpublished}" />
                     <!-- <input type="submit" value="#i18n{portal.site.portletPreview.buttonSuspend}"/> -->
                     <input type="image" title="#i18n{portal.site.portletPreview.buttonSuspend}" alt="#i18n{portal.site.portletPreview.buttonSuspend}" src="images/admin/skin/actions/enable.png"  />
                 </form>
@@ -22,7 +22,7 @@
             <td>
                 <form method="post" action="jsp/admin/site/ModifyPortletStatus.jsp">
                     <input type="hidden" name="portlet_id" value="${portlet.id}" />
-                    <input type="hidden" name="status" value="0" />
+                    <input type="hidden" name="status" value="${portlet_status_published}" />
 		      <!-- <input type="submit" value="#i18n{portal.site.portletPreview.buttonActivate}"/> -->
 		    <input type="image" title="#i18n{portal.site.portletPreview.buttonActivate}" alt="#i18n{portal.site.portletPreview.buttonActivate}" src="images/admin/skin/actions/disable.png"  />
 		</form>

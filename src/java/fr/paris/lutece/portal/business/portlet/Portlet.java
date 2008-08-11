@@ -49,10 +49,16 @@ import java.util.Map;
  */
 public abstract class Portlet implements XmlContent
 {
+	////////////////////////////////////////////////////////////////////////////
+    // Publics variables common to all the portlets
+    public static final int STATUS_PUBLISHED = 0;
+    public static final int STATUS_UNPUBLISHED = 1;
+    
     ////////////////////////////////////////////////////////////////////////////
     // Privates variables common to all the portlets
     private static final int MODE_NORMAL = 0;
     private static final int MODE_ADMIN = 1;
+    
     private int _nId;
     private int _nPageId;
     private int _nStyleId;

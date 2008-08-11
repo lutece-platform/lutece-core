@@ -62,8 +62,8 @@ public final class PortletDAO implements IPortletDAO
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_portlet WHERE id_portlet = ?";
     private static final String SQL_QUERY_UPDATE_STATUS = " UPDATE core_portlet SET status = ? WHERE id_portlet = ? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_portlet ( id_portlet, id_portlet_type, id_page, id_style, name, " +
-        " date_creation, date_update, column_no, portlet_order, accept_alias, display_portlet_title ) " +
-        " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)";
+        " date_creation, date_update, status, column_no, portlet_order, accept_alias, display_portlet_title ) " +
+        " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_STYLE = "SELECT id_portlet, name, id_page FROM core_portlet WHERE id_style=?";
     private static final String SQL_QUERY_SELECT_XSL_FILE = " SELECT a.id_stylesheet , a.description , a.file_name, a.source " +
         " FROM core_stylesheet a, core_portlet b, core_style_mode_stylesheet c " +
@@ -98,10 +98,11 @@ public final class PortletDAO implements IPortletDAO
         daoUtil.setString( 5, portlet.getName(  ) );
         daoUtil.setTimestamp( 6, new Timestamp( new java.util.Date(  ).getTime(  ) ) );
         daoUtil.setTimestamp( 7, new Timestamp( new java.util.Date(  ).getTime(  ) ) );
-        daoUtil.setInt( 8, portlet.getColumn(  ) );
-        daoUtil.setInt( 9, portlet.getOrder(  ) );
-        daoUtil.setInt( 10, portlet.getAcceptAlias(  ) );
-        daoUtil.setInt( 11, portlet.getDisplayPortletTitle(  ) );
+        daoUtil.setInt( 8, portlet.getStatus(  ) );
+        daoUtil.setInt( 9, portlet.getColumn(  ) );
+        daoUtil.setInt( 10, portlet.getOrder(  ) );
+        daoUtil.setInt( 11, portlet.getAcceptAlias(  ) );
+        daoUtil.setInt( 12, portlet.getDisplayPortletTitle(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
