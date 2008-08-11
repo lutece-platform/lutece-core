@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.page.PageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
@@ -48,6 +49,9 @@ import java.util.List;
  */
 public abstract class PortletHome implements PortletHomeInterface
 {
+    private static final String PROPERTY_PORTLET_CREATION_STATUS = "lutece.portlet.creation.status";
+    private static final int CONSTANT_DEFAULT_STATUS = Portlet.STATUS_PUBLISHED;
+
     // Static variable pointed at the DAO instance
     private static IPortletDAO _dao = (IPortletDAO) SpringContextService.getBean( "portletDAO" );
 
@@ -144,6 +148,9 @@ public abstract class PortletHome implements PortletHomeInterface
         // Recovery of an identifier for the new portlet
         int nIdPortlet = PortletHome.newPrimaryKey(  );
         portlet.setId( nIdPortlet );
+
+        portlet.setStatus( AppPropertiesService.getPropertyInt( PROPERTY_PORTLET_CREATION_STATUS,
+                CONSTANT_DEFAULT_STATUS ) );
 
         // Creation of the portlet child
         getDAO(  ).insert( portlet );
