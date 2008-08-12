@@ -93,14 +93,14 @@ public class AliasPortlet extends Portlet
         //gets the portlet parent
         Portlet portlet = PortletHome.findByPrimaryKey( nAliasId );
         String strXmlAlias = portlet.getXml( request );
-        int indexDeb = strXmlAlias.indexOf( "</" + TAG_PORTLET_ID + ">" );
+        String strTagPortletName = "</" + TAG_PORTLET_NAME + ">";
+        int indexDeb = strXmlAlias.indexOf( strTagPortletName );
         int indexFin = strXmlAlias.indexOf( "</" + TAG_PORTLET + ">" );
-        strXmlAlias = strXmlAlias.substring( indexDeb + 1, indexFin );
+        strXmlAlias = strXmlAlias.substring( indexDeb + strTagPortletName.length(  ), indexFin );
 
         StringBuffer buffXml = new StringBuffer(  );
         XmlUtil.beginElement( buffXml, TAG_PORTLET );
         XmlUtil.addElement( buffXml, TAG_PORTLET_NAME, getName(  ) );
-        XmlUtil.addElement( buffXml, TAG_PORTLET_ID, getId(  ) );
         buffXml.append( strXmlAlias );
         XmlUtil.endElement( buffXml, TAG_PORTLET );
 
