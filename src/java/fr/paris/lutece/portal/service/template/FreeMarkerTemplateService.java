@@ -39,6 +39,11 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import freemarker.cache.FileTemplateLoader;
+import freemarker.cache.MultiTemplateLoader;
+import freemarker.cache.StringTemplateLoader;
+import freemarker.cache.TemplateLoader;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -57,11 +62,11 @@ import java.util.Map;
  */
 public final class FreeMarkerTemplateService
 {
+    private static final String STRING_TEMPLATE_LOADER_NAME = "stringTemplate";
     private static final String PATH_AUTO_INCLUDE_COMMONS = "*/commons.html";
     private static final String NUMBER_FORMAT_PATTERN = "0.######";
     private static final String SETTING_DATE_FORMAT = "date_format";
     private static final String SETTING_DATETIME_FORMAT = "datetime_format";
-    
     private static Map<String, Configuration> _mapConfigurations = new HashMap<String, Configuration>(  );
     private static String _strDefaultPath;
 
@@ -100,11 +105,11 @@ public final class FreeMarkerTemplateService
      */
     public static HtmlTemplate loadTemplate( String strPath, String strTemplate, Locale locale, Object rootMap )
     {
-        HtmlTemplate template = null;
+        Configuration cfg = null;
 
         try
         {
-            Configuration cfg = (Configuration) _mapConfigurations.get( strPath );
+            cfg = (Configuration) _mapConfigurations.get( strPath );
 
             if ( cfg == null )
             {
@@ -127,15 +132,92 @@ public final class FreeMarkerTemplateService
                 cfg.setNumberFormat( NUMBER_FORMAT_PATTERN );
 
                 _mapConfigurations.put( strPath, cfg );
-            }
 
-            Template ftl;
-            
+                //Used to set the default format to display a date and datetime
+                cfg.setSetting( SETTING_DATE_FORMAT, DateUtil.getDefaultPattern( locale ) );
+
+                //WARNING : the Datetime format is defined as the date format, i.e. the hours and minutes will not be displayed
+                //        	cfg.setSetting( SETTING_DATETIME_FORMAT, DateUtil.getDefaultPattern( locale ) );
+            }
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( e.getMessage(  ), e );
+        }
+        catch ( TemplateException e )
+        {
+            throw new AppException( e.getMessage(  ) );
+        }
+
+        return processTemplate( cfg, strTemplate, rootMap, locale );
+    }
+
+    /**
+     * Load a template from a String and process a model
+     * @param strTemplate the path of the template from the root path
+     * @param locale The {@link Locale}
+     * @param rootMap the model root
+     * @return the processed html template
+     */
+    public static HtmlTemplate loadTemplate( String strTemplateData, Locale locale, Object rootMap )
+    {
+        Configuration cfg = null;
+
+        try
+        {
+            cfg = new Configuration(  );
+
+            // set the root directory for template loading
+            File directory = new File( AppPathService.getAbsolutePathFromRelativePath( _strDefaultPath ) );
+            FileTemplateLoader ftl1 = new FileTemplateLoader( directory );
+            StringTemplateLoader stringLoader = new StringTemplateLoader(  );
+            stringLoader.putTemplate( STRING_TEMPLATE_LOADER_NAME, strTemplateData );
+
+            TemplateLoader[] loaders = new TemplateLoader[] { ftl1, stringLoader };
+            MultiTemplateLoader mtl = new MultiTemplateLoader( loaders );
+
+            cfg.setTemplateLoader( mtl );
+
+            // add the macros auto inclusion
+            cfg.addAutoInclude( PATH_AUTO_INCLUDE_COMMONS );
+
+            // disable the localized look-up process to find a template
+            cfg.setLocalizedLookup( false );
+
+            // keep control localized number formating (can cause pb on ids, and we don't want to use the ?c directive all the time)
+            cfg.setNumberFormat( NUMBER_FORMAT_PATTERN );
+
             //Used to set the default format to display a date and datetime
-        	cfg.setSetting( SETTING_DATE_FORMAT, DateUtil.getDefaultPattern( locale ) );
-        	//WARNING : the Datetime format is defined as the date format, i.e. the hours and minutes will not be displayed
-//        	cfg.setSetting( SETTING_DATETIME_FORMAT, DateUtil.getDefaultPattern( locale ) );
-        	
+            cfg.setSetting( SETTING_DATE_FORMAT, DateUtil.getDefaultPattern( locale ) );
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( e.getMessage(  ), e );
+        }
+        catch ( TemplateException e )
+        {
+            throw new AppException( e.getMessage(  ) );
+        }
+
+        return processTemplate( cfg, STRING_TEMPLATE_LOADER_NAME, rootMap, locale );
+    }
+
+    /**
+     * Process the template transformation and return the {@link HtmlTemplate}
+     * @param cfg The Freemarker configuration to use
+     * @param strTemplate The template name to call
+     * @param rootMap The HashMap model
+     * @param locale The {@link Locale}
+     * @return The {@link HtmlTemplate}
+     */
+    private static HtmlTemplate processTemplate( Configuration cfg, String strTemplate, Object rootMap, Locale locale )
+    {
+        HtmlTemplate template = null;
+
+        try
+        {
+            Template ftl;
+
             if ( locale == null )
             {
                 ftl = cfg.getTemplate( strTemplate );

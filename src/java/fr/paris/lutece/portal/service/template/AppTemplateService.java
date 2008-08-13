@@ -152,6 +152,23 @@ public final class AppTemplateService
     }
 
     /**
+     * Returns a reference on a template object (load the template or get it from the cache if present.)
+     *
+     * @param strFreemarkerTemplateData The content of the template
+     * @param locale The current {@link Locale} to localize the template
+     * @return The template object
+     * @since 1.5
+     */
+    public static HtmlTemplate getTemplateFromStringFtl( String strFreemarkerTemplateData, Locale locale, Object model )
+    {
+        HtmlTemplate template = null;
+        //    	 Load the template from the file
+        template = loadTemplate( strFreemarkerTemplateData, locale, model );
+
+        return template;
+    }
+
+    /**
      * Load the template from the file
      * @param strTemplate The name of the template
      * @param strPath The specific path to load the template
@@ -163,6 +180,28 @@ public final class AppTemplateService
     {
         HtmlTemplate template = null;
         template = FreeMarkerTemplateService.loadTemplate( strPath, strTemplate, locale, model );
+
+        if ( locale != null )
+        {
+            String strLocalized = I18nService.localize( template.getHtml(  ), locale );
+            template = new HtmlTemplate( strLocalized );
+        }
+
+        return template;
+    }
+
+    /**
+     * Load the template from the file
+     * @param strTemplate The name of the template
+     * @param strPath The specific path to load the template
+     * @param locale The current locale to localize the template
+     * @param model the model to use for loading
+     * @return The loaded template
+     */
+    private static HtmlTemplate loadTemplate( String strTemplateData, Locale locale, Object model )
+    {
+        HtmlTemplate template = null;
+        template = FreeMarkerTemplateService.loadTemplate( strTemplateData, locale, model );
 
         if ( locale != null )
         {
