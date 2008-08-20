@@ -114,7 +114,10 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_STYLESHEET_NOT_VALID = "portal.style.message.stylesheetNotValid";
     private static final String MESSAGE_CONFIRM_DELETE_STYLESHEET = "portal.style.message.stylesheetConfirmDelete";
     private static final String LABEL_ALL = "portal.util.labelAll";
+    
     private static final String JSP_DO_REMOVE_STYLESHEET = "jsp/admin/style/DoRemoveStyleSheet.jsp";
+    private static final String JSP_REMOVE_STYLE = "RemoveStyle.jsp";
+    
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -365,6 +368,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     public String doRemoveStyleSheet( HttpServletRequest request )
     {
         int nId = Integer.parseInt( request.getParameter( Parameters.STYLESHEET_ID ) );
+        int nIdStyle = Integer.parseInt( request.getParameter( Parameters.STYLE_ID ) );
         StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( nId );
         String strFile = stylesheet.getFile(  );
         StyleSheetHome.remove( nId );
@@ -380,7 +384,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             fileToDelete.delete(  );
         }
 
-        return getHomeUrl( request );
+       // return getHomeUrl( request );
+        return JSP_REMOVE_STYLE + "?" + Parameters.STYLE_ID + "=" + nIdStyle;
     }
 
     //////////////////////////////////////////////////////////////////////////////////

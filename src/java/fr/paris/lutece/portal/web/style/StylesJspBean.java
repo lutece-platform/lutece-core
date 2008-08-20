@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.style.Style;
 import fr.paris.lutece.portal.business.style.StyleHome;
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -87,6 +88,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
 
     // Jsp Definition
     private static final String JSP_DO_REMOVE_STYLE = "jsp/admin/style/DoRemoveStyle.jsp";
+    private static final String JSP_DO_REMOVE_STYLESHEET = "jsp/admin/style/DoRemoveStyleSheet.jsp";
 
     // Message keys
     private static final String MESSAGE_CANT_DELETE_STYLE_PORTLETS = "portal.style.message.cannotDeleteStylePorlets";
@@ -95,6 +97,8 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_CREATE_STYLE_INVALID_FORMAT_ID = "portal.style.message.createStyle.InvalidIdFormat";
     private static final String MESSAGE_CREATE_STYLE_ID_ALREADY_EXISTS = "portal.style.message.createStyle.idAlreadyExists";
     private static final String MESSAGE_CREATE_STYLE_COMPONENT_EXISTS = "portal.style.message.createStyle.componentHasAlreadyAStyle";
+    private static final String MESSAGE_CONFIRM_DELETE_STYLESHEET = "portal.style.message.stylesheetConfirmDelete";
+    
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -272,24 +276,32 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( Parameters.STYLE_ID );
         int nId = Integer.parseInt( strId );
         Collection listPortlets = PortletHome.getPortletListByStyle( nId );
-        Collection listStyleSheets = StyleHome.getStyleSheetList( nId );
+        Collection<StyleSheet> listStyleSheets = StyleHome.getStyleSheetList( nId );
 
         if ( listPortlets.size(  ) > 0 )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANT_DELETE_STYLE_PORTLETS,
                 AdminMessage.TYPE_STOP );
         }
+                        
 
         if ( listStyleSheets.size(  ) > 0 )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANT_DELETE_STYLE_XSL, AdminMessage.TYPE_STOP );
+            for( StyleSheet styleSheet : listStyleSheets )
+            {
+                int nIdStyleSheet = styleSheet.getId();
+                UrlItem urlStylesheet = new UrlItem( JSP_DO_REMOVE_STYLESHEET );
+                urlStylesheet.addParameter( Parameters.STYLESHEET_ID, nIdStyleSheet );
+                urlStylesheet.addParameter( Parameters.STYLE_ID, nId );
+                
+                Object[] args = { styleSheet.getDescription(  ) };
+                 return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET,  args, urlStylesheet.getUrl(  ),  AdminMessage.TYPE_CONFIRMATION );                
+            }                            
         }
-
-        UrlItem url = new UrlItem( JSP_DO_REMOVE_STYLE );
+        
+        UrlItem url = new UrlItem( JSP_DO_REMOVE_STYLE );        
         url.addParameter( Parameters.STYLE_ID, nId );
-
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLE, url.getUrl(  ),
-            AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLE, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
