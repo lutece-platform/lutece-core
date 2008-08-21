@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>
+            Gestion du fichier webmaster.properties
+        </title>
+    </properties>
+    <body>
+        <section name="Introduction">
+             <p>
+            	 Le fichier webmaster.properties permet de mettre &#224; jour sur la partie site de Lut&#232;ce les donn&#233;es telles que le nom du site, la description, les mots-cl&#233;s, ...
+            </p>
+           </section>
+        <section name="Liste des donn&#233;es">
+             <p>
+            	 Les donn&#233;es pouvant &#234;tre mises &#224; jour sont les suivantes : 				 
+            </p>
+			<p>
+				<ul>
+					<li> <strong>lutece.legal.infos</strong> : permet de renseigner les donn&#233;es de la fen&#234;tre "Infos l&#233;les"</li>
+					<li> <strong>lutece.favourite</strong> : permet de renseigner le nom du site lorsqu'il est ins&#233;r&#233; dans les favoris du navigateur</li>
+ 					<li> <strong>lutece.name</strong> : permet de renseigner le nom du site, visible en pr&#233;fixe du titre des pages</li>				
+ 					<li> <strong>head.meta.author</strong> : permet de renseigner le nom de la balise meta "author"</li>					<li> <strong>head.meta.description</strong> : permet de renseigner le nom de la balise meta "description"</li>
+					<li> <strong> head.meta.keywords</strong> : permet de renseigner le nom de la balise meta "keywords", c'est-&#224; dire les mots-cl&#233;q</li>					
+ 					<li> <strong> head.meta.copyright</strong> : permet de renseigner le nom de la balise meta "copyright"</li> 				   <li> <strong> lutece.webmaster</strong> : permet de renseigner l'adresse mail utilis&#233;e dans le pied de page du site</li>				</ul>
+			</p>
+           </section>		   
+   </body>
+</document>       
+             
