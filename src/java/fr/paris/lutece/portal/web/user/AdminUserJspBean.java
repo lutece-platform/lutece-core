@@ -108,8 +108,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MANAGE_USER_WORKGROUPS_PAGETITLE = "portal.users.manage_user_workgroups.pageTitle";
     private static final String PROPERTY_MODIFY_USER_WORKGROUPS_PAGETITLE = "portal.users.modify_user_workgroups.pageTitle";
     private static final String PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED = "portal.users.message.user.accessCodeAlreadyUsed";
+    private static final String PROPERTY_MESSAGE_DIFFERENTS_PASSWORD = "portal.users.message.differentsPassword";    
     private static final String PROPERTY_MESSAGE_EMAIL_FORMAT = "portal.users.message.user.emailFormat";
     private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT = "portal.users.user_change_status.email.subject";
+
 
     // Properties
     private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
@@ -124,7 +126,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_USER_ID = "id_user";
     private static final String PARAMETER_ROLE = "roles";
     private static final String PARAMETER_RIGHT = "right";
-    private static final String PARAMETER_PASSWORD = "password";
+    private static final String PARAMETER_FIRST_PASSWORD = "first_password";
+    private static final String PARAMETER_SECOND_PASSWORD = "second_password";
     private static final String PARAMETER_LANGUAGE = "language";
     private static final String PARAMETER_DELEGATE_RIGHTS = "delegate_rights";
     private static final String PARAMETER_USER_LEVEL = "user_level";
@@ -416,14 +419,19 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
         {
             LuteceDefaultAdminUser user = new LuteceDefaultAdminUser(  );
-            String strPassword = request.getParameter( PARAMETER_PASSWORD );
-
-            if ( ( strPassword == null ) || ( strPassword.equals( "" ) ) )
+            String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
+            String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
+            
+            if ( ( strFirstPassword == null ) || ( strFirstPassword.equals( "" ) ) )
             {
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
+            if ( ! strFirstPassword.equals( strSecondPassword ) )
+            {
+                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD , AdminMessage.TYPE_STOP );
+            }            
 
-            user.setPassword( strPassword );
+            user.setPassword( strFirstPassword );
 
             user.setAccessCode( strAccessCode );
             user.setLastName( strLastName );
@@ -545,14 +553,19 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             LuteceDefaultAdminUser user = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( nUserId );
 
-            String strPassword = request.getParameter( PARAMETER_PASSWORD );
+            String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
+            String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );            
 
-            if ( ( strPassword == null ) || ( strPassword.equals( "" ) ) )
+            if ( ( strFirstPassword == null ) || ( strFirstPassword.equals( "" ) ) )
             {
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
+            if ( ! strFirstPassword.equals( strSecondPassword  ) )
+            {
+                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD , AdminMessage.TYPE_STOP );
+            }              
 
-            user.setPassword( strPassword );
+            user.setPassword( strFirstPassword );
 
             user.setUserId( nUserId );
             user.setAccessCode( strAccessCode );

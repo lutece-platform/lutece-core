@@ -117,7 +117,7 @@ CREATE TABLE `core_admin_user` (
   `first_name` varchar(100) collate utf8_unicode_ci NOT NULL default '',
   `email` varchar(100) collate utf8_unicode_ci NOT NULL default '0',
   `status` smallint(1) NOT NULL default '0',
-  `password` varchar(10) collate utf8_unicode_ci default NULL,
+  `password` varchar(100) collate utf8_unicode_ci default NULL,
   `locale` varchar(10) collate utf8_unicode_ci NOT NULL default 'fr',
   `level_user` smallint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id_user`)
