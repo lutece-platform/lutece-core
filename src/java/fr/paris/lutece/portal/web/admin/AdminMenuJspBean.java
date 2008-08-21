@@ -83,9 +83,10 @@ public class AdminMenuJspBean
     private static final String MARK_USER_LASTNAME = "user_lastname";
     private static final String MARK_ADMIN_URL = "admin_url";
     private static final String MARK_ADMIN_LOGOUT_URL = "admin_logout_url";
-    private static final Object MARK_MODIFY_PASSWORD_URL = "url_modify_password";
     private static final String MARK_ADMIN_SUMMARY_DOCUMENTATION_URL = "admin_summary_documentation_url";
-
+    private static final String MARK_SITE_NAME = "site_name";
+    private static final Object MARK_MODIFY_PASSWORD_URL = "url_modify_password";
+    
     // Templates
     private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.html";
     private static final String TEMPLATE_ADMIN_MENU_HEADER = "admin/user/admin_header.html";
@@ -98,6 +99,7 @@ public class AdminMenuJspBean
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
     private static final String PROPERTY_LOGOUT_URL = "lutece.admin.logout.url";
     private static final String PROPERTY_DOCUMENTATION_SUMMARY_URL = "lutece.documentation.summary.url";
+    private static final String PROPERTY_SITE_NAME = "lutece.name";
 
     // Jsp
     private static final String JSP_URL_ADMIN_MENU = "jsp/admin/AdminMenu.jsp";
@@ -116,12 +118,14 @@ public class AdminMenuJspBean
     {
         HashMap model = new HashMap(  );
         String strVersion = AppInfo.getVersion(  );
+        String strSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );        
         AdminUser user = AdminUserService.getAdminUser( request );
 
         List<FeatureGroup> aFeaturesGroupList = getFeatureGroupsList( user );
 
         // Displays the menus accroding to the rights of the users
         model.put( Markers.VERSION, strVersion );
+        model.put( MARK_SITE_NAME, strSiteName );
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
         model.put( MARK_ADMIN_URL, AppPathService.getBaseUrl( request ) + JSP_URL_ADMIN_MENU );
 

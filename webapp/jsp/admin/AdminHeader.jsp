@@ -14,6 +14,10 @@
 <title>LUTECE - Administration</title>
 <base href="<%= AppPathService.getBaseUrl( request ) %>" />
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<meta http-equiv="Expires" content="0" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+
 <%
 	response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
 	response.setHeader("Pragma","no-cache"); //HTTP 1.0
@@ -23,11 +27,11 @@
 <link rel="stylesheet" type="text/css" href="css/portal_admin.css" title="lutece_admin" />
 
 <!--[if IE 6]>
-		<link rel="stylesheet" type="text/css" href="css/ie/portal_admin_ie6.css" 			title="lutece_admin_ie6" />
+		<link rel="stylesheet" type="text/css" href="css/ie/portal_admin_ie6.css" title="lutece_admin_ie6" />
 <![endif]-->
 
 <!--[if IE 7]>
-		<link rel="stylesheet" type="text/css" href="css/ie/portal_admin_ie7.css" 			title="lutece_admin_ie7" />
+		<link rel="stylesheet" type="text/css" href="css/ie/portal_admin_ie7.css" title="lutece_admin_ie7" />
 	<![endif]-->
 
 

@@ -94,6 +94,7 @@ public class AdminLoginJspBean
     private static final String MARK_PARAMS_LIST = "params_list";
     private static final String MARK_FORGOT_PASSWORD_URL = "forgot_password_url";
     private static final String MARK_PARAM_VERSION = "version";
+    private static final String MARK_SITE_NAME = "site_name";
     private static final String MARK_NEW_PASSWORD = "new_password";
     private static final String MARK_LOGIN_URL = "login_url";
     private static final String SESSION_ATTRIBUTE_USER = "lutece_admin_user"; // Used by all JSP
@@ -110,6 +111,7 @@ public class AdminLoginJspBean
     // Properties
     private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
     private static final String PROPERTY_LEVEL = "askPasswordReinitialization.admin.level";
+    private static final String PROPERTY_SITE_NAME = "lutece.name";
 
     /**
      * Returns the view of login form
@@ -144,6 +146,7 @@ public class AdminLoginJspBean
         }
 
         model.put( MARK_PARAM_VERSION, AppInfo.getVersion(  ) );
+        model.put( MARK_SITE_NAME, AppPropertiesService.getProperty( PROPERTY_SITE_NAME ) );
         model.put( MARK_PARAMS_LIST, listParams );
         model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance(  ).getLostPasswordPageUrl(  ) );
 
