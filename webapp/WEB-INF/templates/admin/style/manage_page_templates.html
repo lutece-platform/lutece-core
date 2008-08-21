@@ -4,18 +4,24 @@
 
     <table>
         <tr>            
-            <th >#i18n{portal.style.manage_page_templates.columnTitleDescription}</th>
-            <th >#i18n{portal.style.manage_page_templates.columnTitleFile}</th>
-            <th >#i18n{portal.style.manage_page_templates.columnTitlePicture}</th>            
+            <th width="20%">#i18n{portal.style.manage_page_templates.columnTitleDescription}</th>
+            <th width="30%">#i18n{portal.style.manage_page_templates.columnTitleFile}</th>
+            <th width="30%">#i18n{portal.style.manage_page_templates.columnTitlePicture}</th>            
+            <th width="20%">#i18n{portal.style.manage_page_templates.columnTitleActions}</th>    
         </tr>
        
         <#list page_templates_list as page_templates >
         <tr>
-            <td>
+            <td width="20%">
                 <a href="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}" class="bullet-link">${page_templates.description}</a>
             </td>
-            <td>${page_templates.file}</td>
-            <td><img src="images/admin/page_templates/${page_templates.picture}" align="middle" /></td>
+            <td width="30%">${page_templates.file}</td>
+            <td width="30%"><img src="images/admin/page_templates/${page_templates.picture}" align="middle" /></td>
+            <td width="20%" >
+                <a href="jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}">
+                    <img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.style.manage_styles.actionDelete}" title="#i18n{portal.style.manage_styles.actionDelete}" />
+                </a>
+            </td>            
         </tr>			
         </#list>
     </table>

@@ -49,6 +49,7 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.fileupload.FileItem;
 
@@ -88,7 +89,11 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_PATH_TEMPLATE = "path.templates";
     private static final String PROPERTY_PATH_FILE_PAGE_TEMPLATE = "path.file.page.template";
     private static final String PROPERTY_PATH_IMAGE_PAGE_TEMPLATE = "path.image.page.template";
-
+    
+    // Messages
+    private static final String MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE = "portal.style.message.pageTemplateConfirmDelete";
+    private static final String MESSAGE_PAGE_TEMPLATE_IS_USED = "portal.style.message.pageTemplateIsUsed";
+        
     // Parameters
     private static final String PARAMETER_PAGE_TEMPLATE_FILE = "page_template_file";
     private static final String PARAMETER_PAGE_TEMPLATE_PICTURE = "page_template_picture";
@@ -98,6 +103,9 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         File.separator;
     private static final String strPathFilePageTemplate = AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) +
         File.separator + AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE );
+    
+    //JSP
+    private static final String JSP_DO_REMOVE_PAGE_TEMPLATE = "jsp/admin/style/DoRemovePageTemplate.jsp";
 
     /**
      * Returns the list of page templates
@@ -273,6 +281,67 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         return getHomeUrl( request );
     }
 
+    
+    /**
+     * Returns the confirm of removing the page_template whose identifier is in
+     * the http request
+     * @param request The Http request
+     * @return the html code for the remove confirmation page
+     */
+    public String getConfirmRemovePageTemplate( HttpServletRequest request )
+    {
+        String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );
+        int nId = Integer.parseInt( strId );     
+        
+        boolean bIsUsed = PageTemplateHome.checkStylePageTemplateIsUsed( nId) ;
+        if ( ! bIsUsed )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_PAGE_TEMPLATE_IS_USED, AdminMessage.TYPE_STOP );
+        }
+  
+        UrlItem url = new UrlItem( JSP_DO_REMOVE_PAGE_TEMPLATE );        
+        url.addParameter( Parameters.PAGE_TEMPLATE_ID, nId );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
+    }
+
+    /**
+     * Processes the deletion of a page template
+     * @param request the http request
+     * @return The Jsp URL of the process result
+     */
+    public String doRemovePageTemplate( HttpServletRequest request )
+    {
+        String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );
+        int nId = Integer.parseInt( strId );        
+        
+        // Delete files associated
+        PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );        
+      //  String strPathPageTemplateFile =   AppPathService.getPath( PROPERTY_PATH_FILE_PAGE_TEMPLATE );
+        
+        File filePageTemplateToDelete = new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) , pageTemplate.getFile() );
+
+        if ( ( filePageTemplateToDelete != null ) && filePageTemplateToDelete.exists(  ) )
+        {
+            filePageTemplateToDelete.delete(  );
+        }
+        
+    //    String strPathPictureFile = AppPathService.getPath( PROPERTY_PATH_IMAGE_PAGE_TEMPLATE ); 
+        File filePictureToDelete = new File( strPathImagePageTemplate, pageTemplate.getPicture() );
+
+        if ( ( filePictureToDelete != null ) && filePictureToDelete.exists(  ) )
+        {
+            filePictureToDelete.delete(  );
+        }
+        
+        PageTemplateHome.remove( nId );
+        
+        return getHomeUrl( request );
+    }
+
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // private methods
+    
     /**
      * Write the templates files (html and image)
      *

@@ -78,4 +78,11 @@ public interface IPageTemplateDAO
      * @param pageTemplate The instance of the PageTemplate to update
      */
     void store( PageTemplate pageTemplate );
+    
+    /**
+     * Checks if a page template has been used by a page
+     * @param nPageTemplateId The identifier of the page template
+     * @return true if a page template is used by a page, false otherwise
+     */
+    boolean checkPageTemplateIsUsed( int nPageTemplateId );
 }

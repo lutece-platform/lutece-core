@@ -52,7 +52,8 @@ public final class PageTemplateDAO implements IPageTemplateDAO
     private static final String SQL_QUERY_UPDATE = " UPDATE core_page_template SET id_template = ?, description = ?, file_name = ?, picture = ? " +
         " WHERE id_template = ?";
     private static final String SQL_QUERY_SELECTALL = " SELECT id_template , description, file_name, picture FROM core_page_template ORDER BY id_template ";
-
+    private static final String SQL_CHECK_PAGE_TEMPLATE_IS_USED = " SELECT id_template FROM core_page WHERE id_template = ? ";
+    
     ///////////////////////////////////////////////////////////////////////////////////////
     //Access methods to data
 
@@ -182,4 +183,29 @@ public final class PageTemplateDAO implements IPageTemplateDAO
 
         return listPageTemplates;
     }
+    
+
+    /**
+     * Checks if a page template has been used by a page
+     * @param nPageTemplateId The identifier of the page template
+     * @return true if a page template is used by a page, false otherwise
+     */
+    public boolean checkPageTemplateIsUsed( int nPageTemplateId )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_CHECK_PAGE_TEMPLATE_IS_USED );
+
+        daoUtil.setInt( 1, nPageTemplateId );
+        daoUtil.executeQuery(  );
+
+        if ( !daoUtil.next(  ) )
+        {
+            daoUtil.free(  );
+
+            return true;
+        }
+
+        daoUtil.free(  );
+
+        return false;
+    }    
 }
