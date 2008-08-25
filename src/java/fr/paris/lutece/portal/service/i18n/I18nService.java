@@ -60,8 +60,8 @@ public final class I18nService
     private static final String FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION = "fr.paris.lutece.plugins.{0}.modules.{1}.resources.{1}_messages";
     private static final String MARK_LOCALIZED_KEY_BEGIN = "#i18n{";
     private static final String MARK_LOCALIZED_KEY_END = "}";
-    private static final Locale LOCALE_DEFAULT = new Locale( "", "", "" );
     private static final String PROPERTY_AVAILABLES_LOCALES = "lutece.i18n.availableLocales";
+    private static final String PROPERTY_DEFAULT_LOCALE = "lutece.i18n.defaultLocale";
     private static final String PROPERTY_FORMAT_DATE_SHORT_LIST = "lutece.format.date.short";
 
     /**
@@ -173,7 +173,7 @@ public final class I18nService
                 // bundle instead of the bundle of default locale.
                 if ( locale.getLanguage(  ).equals( Locale.ENGLISH.getLanguage(  ) ) )
                 {
-                    locale = LOCALE_DEFAULT;
+                    locale = getDefaultLocale(  );
                 }
 
                 ResourceBundle rbLabels = ResourceBundle.getBundle( strBundle, locale );
@@ -252,6 +252,17 @@ public final class I18nService
         }
 
         return list;
+    }
+
+    /**
+     * Get the default Locale specified in properties file
+     * @return The default Locale
+     */
+    public static Locale getDefaultLocale(  )
+    {
+        String strDefaultLocale = AppPropertiesService.getProperty( PROPERTY_DEFAULT_LOCALE );
+
+        return new Locale( strDefaultLocale );
     }
 
     /**
