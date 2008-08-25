@@ -298,10 +298,15 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_PAGE_TEMPLATE_IS_USED, AdminMessage.TYPE_STOP );
         }
+        
+        PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );            
+        String strPathPageTemplateFile =   AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator + pageTemplate.getFile() ;
+        String strPathPictureFile =  strPathImagePageTemplate + pageTemplate.getPicture(); 
+        Object[] args = { strPathPageTemplateFile, strPathPictureFile };        
   
         UrlItem url = new UrlItem( JSP_DO_REMOVE_PAGE_TEMPLATE );        
         url.addParameter( Parameters.PAGE_TEMPLATE_ID, nId );
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, args, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
@@ -316,7 +321,6 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         
         // Delete files associated
         PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );        
-      //  String strPathPageTemplateFile =   AppPathService.getPath( PROPERTY_PATH_FILE_PAGE_TEMPLATE );
         
         File filePageTemplateToDelete = new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) , pageTemplate.getFile() );
 
@@ -324,8 +328,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         {
             filePageTemplateToDelete.delete(  );
         }
-        
-    //    String strPathPictureFile = AppPathService.getPath( PROPERTY_PATH_IMAGE_PAGE_TEMPLATE ); 
+
         File filePictureToDelete = new File( strPathImagePageTemplate, pageTemplate.getPicture() );
 
         if ( ( filePictureToDelete != null ) && filePictureToDelete.exists(  ) )
