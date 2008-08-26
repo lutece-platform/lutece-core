@@ -171,7 +171,7 @@ public class PageIndexer implements SearchIndexer
 
         // Add the tag-stripped contents as a Reader-valued Text field so it will
         // get tokenized and indexed.
-        doc.add( new Field( SearchItem.FIELD_CONTENTS, page.getName(  ) + " " + strPageContent, Field.Store.NO,
+        doc.add( new Field( SearchItem.FIELD_CONTENTS, page.getName(  ) + " " + sb.toString(  ), Field.Store.NO,
                 Field.Index.TOKENIZED ) );
 
         // Add the title as a separate Text field, so that it can be searched
