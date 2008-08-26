@@ -85,6 +85,7 @@ public class AppInitServlet extends HttpServlet
      */
     public void destroy(  )
     {
+        ShutdownServiceManager.shutdown();
         JobSchedulerService.getInstance(  ).shutdown(  );
         MailService.shutdown(  );
         AppDaemonService.shutdown(  );
