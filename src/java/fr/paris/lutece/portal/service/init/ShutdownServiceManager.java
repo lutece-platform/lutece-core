@@ -45,7 +45,7 @@ import java.util.List;
  */
 public final class ShutdownServiceManager
 {
-    private static final String BEAN_MANAGER = "ShutdownServiceManager";
+    private static final String BEAN_MANAGER = "shutdownServiceManager";
     private static List _listServices;
 
     /**
