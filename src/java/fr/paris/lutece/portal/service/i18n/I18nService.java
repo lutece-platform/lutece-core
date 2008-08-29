@@ -182,7 +182,12 @@ public final class I18nService
         }
         catch ( Exception e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            String strErrorMessage = "Error localizing key : '" + strKey + "' - " + e.getMessage();
+            if( e.getCause() != null )
+            {
+                strErrorMessage += " - cause : " + e.getCause().getMessage();
+            }
+            AppLogService.error( strErrorMessage );
         }
 
         return strReturn;
