@@ -203,7 +203,7 @@ public class PortalJspBean
      * @return The login page URL
      * @since v1.1
      */
-    public String redirectLogin( HttpServletRequest request )
+    public static String redirectLogin( HttpServletRequest request )
     {
         String strNextUrl = request.getRequestURI(  );
         UrlItem url = new UrlItem( strNextUrl );
