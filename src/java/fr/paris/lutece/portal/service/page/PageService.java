@@ -59,6 +59,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.ArrayList;
@@ -96,6 +97,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     // Added in v1.3
     private static final String TEMPLATE_ADMIN_BUTTONS = "/admin/admin_buttons.html";
     private static final String PARAMETER_SITE_PATH = "site-path";
+    private static final String PARAMETER_USER_SELECTED_LOCALE = "user-selected-language";
     private static final String CONTENT_SERVICE_NAME = "PageService";
     private static final String PARAMETER_MODE = "mode";
     private static final String PROP_NB_COLUMN = "nb.columns";
@@ -408,6 +410,9 @@ public class PageService extends ContentService implements ImageResourceProvider
                 paramName = (String) enumParam.nextElement(  );
                 mapModifyParam.put( paramName, request.getParameter( paramName ) );
             }
+            
+            // Add selected locale
+            mapModifyParam.put( PARAMETER_USER_SELECTED_LOCALE , LocaleService.getUserSelectedLocale( request ).getLanguage() );
         }
 
         //Added in v1.3

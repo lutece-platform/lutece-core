@@ -50,6 +50,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
@@ -240,7 +241,7 @@ public final class PortalService extends XmlTransformerService
 
         if ( request != null )
         {
-            locale = request.getLocale(  );
+            locale = LocaleService.getUserSelectedLocale( request );
         }
 
         List<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
