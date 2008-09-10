@@ -53,4 +53,5 @@ public class Messages
     public static final String PATH_CREATION_ERROR = "portal.util.message.errorCreatingPath";
     public static final String PATH_MODIFICATION_ERROR = "portal.util.message.errorModifyingPath";
     public static final String HTML_CLEANER_ERROR = "portal.util.message.errorHtmlCleaner";
+    public static final String MESSAGE_STRING_FORMAT = "portal.util.message.accentuatedCharacter";
 }
