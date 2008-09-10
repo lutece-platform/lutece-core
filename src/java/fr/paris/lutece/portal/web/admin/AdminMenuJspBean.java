@@ -47,17 +47,18 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.dashboard.DashboardService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -85,7 +86,9 @@ public class AdminMenuJspBean
     private static final String MARK_ADMIN_LOGOUT_URL = "admin_logout_url";
     private static final String MARK_ADMIN_SUMMARY_DOCUMENTATION_URL = "admin_summary_documentation_url";
     private static final String MARK_SITE_NAME = "site_name";
-    private static final Object MARK_MODIFY_PASSWORD_URL = "url_modify_password";
+    private static final String MARK_MODIFY_PASSWORD_URL = "url_modify_password";
+    private static final String MARK_DASHBOARD_ZONE1 = "dashboard_zone_1";
+    private static final String MARK_DASHBOARD_ZONE2 = "dashboard_zone_2";
     
     // Templates
     private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.html";
@@ -108,6 +111,11 @@ public class AdminMenuJspBean
     private static final String PASSWORD_CURRENT_ERROR = "portal.users.message.password.new.equals.current";
     private static final String MESSAGE_PASSWORD_REDIRECT = "portal.users.message.password.ok.redirect";
 
+    private static final String BEAN_DASHBOARD_SERVICE ="dashboardService";
+
+    private static final int ZONE1 = 0;
+    private static final int ZONE2 = 1;
+    
     /**
      * Returns the Administration header menu
      *
@@ -153,6 +161,8 @@ public class AdminMenuJspBean
 
         // Displays the menus according to the users rights
         List<FeatureGroup> listFeatureGroups = getFeatureGroupsList( user );
+        
+        DashboardService dashboardService = ( DashboardService ) SpringContextService.getBean( BEAN_DASHBOARD_SERVICE );
         HashMap model = new HashMap(  );
 
         model.put( MARK_FEATURE_GROUP_LIST, listFeatureGroups );
@@ -161,6 +171,8 @@ public class AdminMenuJspBean
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
         model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage(  ) );
         model.put( MARK_MODIFY_PASSWORD_URL, AdminAuthenticationService.getInstance(  ).getChangePasswordPageUrl(  ) );
+        model.put( MARK_DASHBOARD_ZONE1, dashboardService.getDashboardData( user, ZONE1 ));
+        model.put( MARK_DASHBOARD_ZONE2, dashboardService.getDashboardData( user, ZONE2 ));
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_HOME, locale, model );
 
