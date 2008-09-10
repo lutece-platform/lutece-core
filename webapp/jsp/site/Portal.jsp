@@ -9,6 +9,7 @@
 <%@page import="fr.paris.lutece.portal.service.message.SiteMessageException"%>
 <%@page import="fr.paris.lutece.portal.service.util.AppPathService"%>
 <jsp:include page="PortalHeader.jsp" />
+<%@page import="fr.paris.lutece.portal.web.PortalJspBean"%>
 
 <%@ page pageEncoding="UTF-8" %>
 
@@ -52,7 +53,7 @@
 		}
 		else
 		{
-			response.sendRedirect( portal.redirectLogin( request ));
+			response.sendRedirect( PortalJspBean.redirectLogin( request ));
 		}
 	}
 	finally
