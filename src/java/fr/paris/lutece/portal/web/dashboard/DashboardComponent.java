@@ -31,7 +31,6 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.web.dashboard;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -41,17 +40,65 @@ import fr.paris.lutece.portal.business.user.AdminUser;
  */
 public abstract class DashboardComponent implements Comparable
 {
+    private int _nZone;
+    private int _nOrder;
+
+    /**
+     * Gets dashboard data for a given user 
+     * @param user The user
+     * @return HTML content to insert into a dashboard zone
+     */
     public abstract String getDashboardData( AdminUser user );
-    
-    public abstract int getZone();
-    
-    public abstract int getOrder();
-    
+
+    /**
+     * user's right to display the content
+     * @return The right
+     */
     public abstract String getRight();
 
-    public int compareTo( Object o )
+    /**
+     * Returns the Zone
+     * @return The Zone
+     */
+    public int getZone()
     {
-        return getOrder() - ( (DashboardComponent) o ).getOrder();
+        return _nZone;
     }
 
+    /**
+     * Sets the Zone
+     * @param nZone The Zone
+     */
+    public void setZone( int nZone )
+    {
+        _nZone = nZone;
+    }
+
+    /**
+     * Returns the Order
+     * @return The Order
+     */
+    public int getOrder()
+    {
+        return _nOrder;
+    }
+
+    /**
+     * Sets the Order
+     * @param nOrder The Order
+     */
+    public void setOrder( int nOrder )
+    {
+        _nOrder = nOrder;
+    }
+
+    /**
+     * Compare component order
+     * @param o The component to compare to
+     * @return less than 0 if the order is lower, 0 if equals and greater than 0 if higher
+     */
+    public int compareTo( Object o )
+    {
+        return getOrder() - (( DashboardComponent ) o).getOrder();
+    }
 }

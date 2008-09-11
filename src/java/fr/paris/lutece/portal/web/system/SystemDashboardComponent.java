@@ -35,6 +35,7 @@
 package fr.paris.lutece.portal.web.system;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.web.dashboard.DashboardComponent;
 
@@ -43,44 +44,12 @@ import fr.paris.lutece.portal.web.dashboard.DashboardComponent;
  */
 public class SystemDashboardComponent extends DashboardComponent
 {
-    private int _nOrder;
-    private int _nZone;
-
+    private static final String MESSAGE_PLUGIN_COUNT = "portal.system.dashboard.labelPluginCount";
+    
     @Override
     public String getDashboardData( AdminUser user )
     {
-        return "Nombre de plugins installés : " + PluginService.getPluginList().size();
-    }
-
-    @Override
-    public int getZone()
-    {
-        return _nZone;
-    }
-
-    /**
-     * Sets the zone
-     * @param nZone The zone
-     */
-    public void setZone( int nZone )
-    {
-        _nZone = nZone;
-    }
-
-    /**
-     * Sets the Order
-     * @param nOrder The Order
-     */
-    public void setOrder( int nOrder )
-    {
-        _nOrder = nOrder;
-    }
-
-
-    @Override
-    public int getOrder()
-    {
-        return _nOrder;
+        return I18nService.getLocalizedString( MESSAGE_PLUGIN_COUNT, user.getLocale() ) + PluginService.getPluginList().size();
     }
 
     @Override
