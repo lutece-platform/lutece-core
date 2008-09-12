@@ -120,6 +120,16 @@
             <call-param-rule pattern="param/param-name" paramnumber="0"/>
             <call-param-rule pattern="param/param-value" paramnumber="1"/>
         </pattern>
+        <pattern value="dashboard-components/dashboard-component">
+            <object-create-rule classname="fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry" />
+            <set-properties-rule />
+            <bean-property-setter-rule pattern="dashboard-component-name" propertyname="name" />
+            <bean-property-setter-rule pattern="dashboard-component-class" propertyname="componentClass" />
+            <bean-property-setter-rule pattern="dashboard-feature-right" propertyname="right" />
+            <bean-property-setter-rule pattern="dashboard-zone" propertyname="zone" />
+            <bean-property-setter-rule pattern="dashboard-zone-order" propertyname="order" />
+            <set-next-rule methodname="addDashboardComponent" />
+        </pattern>
     </pattern>
 </digester-rules>
 

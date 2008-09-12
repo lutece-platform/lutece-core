@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-  <!--                      Dashboard  components                              -->
-    <bean id="dashboardService" class="fr.paris.lutece.portal.web.dashboard.DashboardService" >
-        <property name="componentsList">
-            <list>
-                    <bean id="systemDashboardComponent" class="fr.paris.lutece.portal.web.system.SystemDashboardComponent" >
-                        <property name="order" value="1" />
-                        <property name="zone" value="0" />
-                    </bean>
-            </list>
-        </property>
-    </bean>  
-    
   <!--                      Startup services                                   -->
     <bean id="startUpServiceManager" class="fr.paris.lutece.portal.service.init.StartUpServiceManager" >
         <property name="servicesList">

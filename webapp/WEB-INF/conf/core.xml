@@ -98,5 +98,27 @@
         </rbac-resource-type>
     </rbac-resource-types>
     
+    <!-- Dashboard  components -->
+    <dashboard-components>
+        <dashboard-component>
+            <dashboard-component-name>CORE_SYSTEM</dashboard-component-name>
+            <dashboard-component-class>fr.paris.lutece.portal.web.system.SystemDashboardComponent</dashboard-component-class>
+            <dashboard-feature-right></dashboard-feature-right>
+            <dashboard-zone>0</dashboard-zone>
+            <dashboard-zone-order>0</dashboard-zone-order>
+        </dashboard-component>
+    </dashboard-components>
+        
+    <bean id="dashboardService" class="" >
+        <property name="componentsList">
+            <list>
+                    <bean id="systemDashboardComponent" class="fr.paris.lutece.portal.web.system.SystemDashboardComponent" >
+                        <property name="order" value="1" />
+                        <property name="zone" value="0" />
+                    </bean>
+            </list>
+        </property>
+    </bean>  
+    
     
 </plug-in>

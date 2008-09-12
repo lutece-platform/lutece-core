@@ -37,7 +37,7 @@ package fr.paris.lutece.portal.web.system;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.web.dashboard.DashboardComponent;
+import fr.paris.lutece.portal.service.dashboard.DashboardComponent;
 
 /**
  * System Dashboard Component

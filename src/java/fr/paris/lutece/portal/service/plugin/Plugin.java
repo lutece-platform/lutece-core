@@ -42,6 +42,8 @@ import fr.paris.lutece.portal.service.content.ContentServiceEntry;
 import fr.paris.lutece.portal.service.content.XPageAppService;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.DaemonEntry;
+import fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry;
+import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.database.PluginConnectionService;
 import fr.paris.lutece.portal.service.filter.FilterEntry;
 import fr.paris.lutece.portal.service.filter.FilterService;
@@ -105,6 +107,7 @@ public abstract class Plugin implements Comparable<Plugin>
     private List<SearchIndexerEntry> _listSearchIndexers;
     private List<InsertService> _listInsertServices;
     private List<PageIncludeEntry> _listPageIncludes;
+    private List<DashboardComponentEntry> _listDashboardComponents;
     private List<RBACResourceTypeEntry> _listRBACResourceTypes;
     private List<DaemonEntry> _listDaemons;
 
@@ -147,6 +150,7 @@ public abstract class Plugin implements Comparable<Plugin>
             _listInsertServices = pluginFile.getInsertServices(  );
             _listSearchIndexers = pluginFile.getSearchIndexers(  );
             _listPageIncludes = pluginFile.getPageIncludes(  );
+            _listDashboardComponents = pluginFile.getDashboardComponents(  );
             _listRBACResourceTypes = pluginFile.getRBACResourceTypes(  );
             _listDaemons = pluginFile.getDaemons(  );
             _mapParams = pluginFile.getParams(  );
@@ -162,6 +166,7 @@ public abstract class Plugin implements Comparable<Plugin>
             registerInsertServices(  );
             registerSearchIndexers(  );
             registerPageIncludes(  );
+            registerDashboardComponents(  );
             registerRBACResourceTypes(  );
             registerDaemons(  );
         }
@@ -421,6 +426,18 @@ public abstract class Plugin implements Comparable<Plugin>
         {
             entry.setPluginName( getName(  ) );
             PageIncludeService.registerPageInclude( entry );
+        }
+    }
+
+    /**
+     * Register Dashboard Components
+     * @throws LuteceInitException If an error occured
+     */
+    protected void registerDashboardComponents(  ) throws LuteceInitException
+    {
+        for ( DashboardComponentEntry entry : _listDashboardComponents )
+        {
+            DashboardService.getInstance().registerDashboardComponent( entry , this );
         }
     }
 

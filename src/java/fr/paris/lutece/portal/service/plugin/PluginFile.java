@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.service.content.ContentServiceEntry;
 import fr.paris.lutece.portal.service.daemon.DaemonEntry;
+import fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry;
 import fr.paris.lutece.portal.service.filter.FilterEntry;
 import fr.paris.lutece.portal.service.includes.PageIncludeEntry;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
@@ -94,6 +95,7 @@ public class PluginFile
     private List<InsertService> _listInsertServices = new ArrayList<InsertService>(  );
     private List<RBACResourceTypeEntry> _listRBACResourceTypes = new ArrayList<RBACResourceTypeEntry>(  );
     private List<PageIncludeEntry> _listPageIncludes = new ArrayList<PageIncludeEntry>(  );
+    private List<DashboardComponentEntry> _listDashboardComponents = new ArrayList<DashboardComponentEntry>();
     private Map<String, String> _mapParams = new HashMap<String, String>(  );
     private String _strSearchIndexerClass;
 
@@ -523,6 +525,24 @@ public class PluginFile
     public List<PageIncludeEntry> getPageIncludes(  )
     {
         return _listPageIncludes;
+    }
+
+    /**
+     * Add an Dashboard Component to the plugin definition
+     * @param entry The Dashboard Component Entry
+     */
+    public void addDashboardComponent( DashboardComponentEntry entry )
+    {
+        _listDashboardComponents.add( entry );
+    }
+
+    /**
+     * Returns all Dashboard Component Services of the plugin
+     * @return The list of Dashboard Component Services
+     */
+    public List<DashboardComponentEntry> getDashboardComponents(  )
+    {
+        return _listDashboardComponents;
     }
 
     /**
