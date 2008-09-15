@@ -103,7 +103,14 @@
         <dashboard-component>
             <dashboard-component-name>CORE_SYSTEM</dashboard-component-name>
             <dashboard-component-class>fr.paris.lutece.portal.web.system.SystemDashboardComponent</dashboard-component-class>
-            <dashboard-feature-right></dashboard-feature-right>
+            <dashboard-feature-right>CORE_PLUGINS_MANAGEMENT</dashboard-feature-right>
+            <dashboard-zone>0</dashboard-zone>
+            <dashboard-zone-order>2</dashboard-zone-order>
+        </dashboard-component>
+        <dashboard-component>
+            <dashboard-component-name>CORE_USERS</dashboard-component-name>
+            <dashboard-component-class>fr.paris.lutece.portal.web.user.UsersDashboardComponent</dashboard-component-class>
+            <dashboard-feature-right>CORE_USERS_MANAGEMENT</dashboard-feature-right>
             <dashboard-zone>0</dashboard-zone>
             <dashboard-zone-order>0</dashboard-zone-order>
         </dashboard-component>

@@ -134,4 +134,5 @@ public abstract class DashboardComponent implements Comparable
     {
         return getOrder() - (( DashboardComponent ) o).getOrder();
     }
+    
 }
