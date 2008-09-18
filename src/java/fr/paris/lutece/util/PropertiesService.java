@@ -82,10 +82,10 @@ public class PropertiesService
     /**
      * Add properties from all files found in a given directory
      * @param strRelativePath Relative path from the root path
-     * @throws java.io.IOException If an error occurs reading the file
+     * @throws IOException If an error occurs reading the file
      */
     public void addPropertiesDirectory( String strRelativePath )
-        throws FileNotFoundException, IOException
+        throws IOException
     {
         File directory = new File( _strRootPath + strRelativePath );
 
@@ -122,9 +122,9 @@ public class PropertiesService
     /**
      * Reload a properties file .
      * @param strFilename The filename of the properties file
-     * @throws java.io.IOException If an error occurs reading the file
+     * @throws IOException If an error occurs reading the file
      */
-    public void reload( String strFilename ) throws FileNotFoundException, IOException
+    public void reload( String strFilename ) throws IOException
     {
         String strFullPath = _mapPropertiesFiles.get( strFilename );
         loadFile( strFullPath );
@@ -132,9 +132,9 @@ public class PropertiesService
 
     /**
      * Reload all properties files
-     * @throws java.io.IOException If an error occurs reading the file
+     * @throws IOException If an error occurs reading the file
      */
-    public void reloadAll(  ) throws FileNotFoundException, IOException
+    public void reloadAll(  ) throws IOException
     {
         for ( String strFullPath : _mapPropertiesFiles.values(  ) )
         {

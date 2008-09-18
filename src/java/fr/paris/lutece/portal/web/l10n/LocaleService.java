@@ -31,20 +31,21 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.web.l10n;
 
 import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 
 /**
  * LocaleService
  */
-public class LocaleService 
+public class LocaleService
 {
     private static String ATTRIBUTE_SELECTED_LOCALE = "LUTECE_ATTRIBUTE_USER_SELECTED_LOCALE";
-    
+
     /**
      * Set the locale selected by the user in the front office. The user may select a language
      * without been authenticated.
@@ -54,9 +55,9 @@ public class LocaleService
     public static void setUserSelectedLocale( HttpServletRequest request, Locale locale )
     {
         HttpSession session = request.getSession( true );
-        session.setAttribute( ATTRIBUTE_SELECTED_LOCALE , locale);
+        session.setAttribute( ATTRIBUTE_SELECTED_LOCALE, locale );
     }
-    
+
     /**
      * Get a Locale selected by the user in front office
      * @param request The HTTP request
@@ -64,17 +65,19 @@ public class LocaleService
      */
     public static Locale getUserSelectedLocale( HttpServletRequest request )
     {
-        Locale locale = Locale.getDefault();
-        HttpSession session = request.getSession();
-        if( session != null )
+        Locale locale = Locale.getDefault(  );
+        HttpSession session = request.getSession(  );
+
+        if ( session != null )
         {
-            Locale localeSession = (Locale) session.getAttribute(ATTRIBUTE_SELECTED_LOCALE);
-            if( localeSession != null )
+            Locale localeSession = (Locale) session.getAttribute( ATTRIBUTE_SELECTED_LOCALE );
+
+            if ( localeSession != null )
             {
                 locale = localeSession;
             }
         }
+
         return locale;
     }
-
 }

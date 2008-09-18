@@ -42,8 +42,9 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.util.List;
 
+
 /**
- * 
+ *
  * this class provides services for use regular expression
  */
 public class RegularExpressionService

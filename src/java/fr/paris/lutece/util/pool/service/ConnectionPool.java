@@ -145,7 +145,8 @@ public class ConnectionPool
      * @return An open connection
      * @throws SQLException The SQL exception
      */
-    private synchronized Connection getConnection( long timeout ) throws SQLException
+    private synchronized Connection getConnection( long timeout )
+        throws SQLException
     {
         // Get a pooled Connection from the cache or a new one.
         // Wait if all are checked out and the max limit has
@@ -245,8 +246,7 @@ public class ConnectionPool
      * @return An opened connection
      * @throws SQLException The exception
      */
-    private Connection getPooledConnection(  )
-        throws SQLException
+    private Connection getPooledConnection(  ) throws SQLException
     {
         Connection conn = null;
 
@@ -299,7 +299,7 @@ public class ConnectionPool
         // Put the connection at the end of the Vector
         _freeConnections.add( conn );
         _nCheckedOut--;
-        notifyAll();
+        notifyAll(  );
         _logger.debug( "Returned connection to pool" );
         _logger.debug( getStats(  ) );
     }

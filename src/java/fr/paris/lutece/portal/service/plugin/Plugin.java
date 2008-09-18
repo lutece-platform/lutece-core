@@ -437,7 +437,7 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         for ( DashboardComponentEntry entry : _listDashboardComponents )
         {
-            DashboardService.getInstance().registerDashboardComponent( entry , this );
+            DashboardService.getInstance(  ).registerDashboardComponent( entry, this );
         }
     }
 

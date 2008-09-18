@@ -216,7 +216,7 @@ public class PortalJspBean
         }
 
         HttpSession session = request.getSession( true );
-        session.setAttribute( ATTRIBUTE_LOGIN_NEXT_URL, url.getUrl());
+        session.setAttribute( ATTRIBUTE_LOGIN_NEXT_URL, url.getUrl(  ) );
 
         String strRedirect = SecurityService.getInstance(  ).getLoginPageUrl(  );
 

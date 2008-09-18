@@ -31,7 +31,6 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.init;
 
 import fr.paris.lutece.portal.service.util.LuteceService;

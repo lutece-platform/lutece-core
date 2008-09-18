@@ -31,7 +31,6 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.web.user;
 
 import fr.paris.lutece.portal.business.right.Right;
@@ -41,7 +40,9 @@ import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.dashboard.DashboardComponent;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.util.HashMap;
+
 
 /**
  * User Dashboard Component
@@ -53,15 +54,16 @@ public class UsersDashboardComponent extends DashboardComponent
     private static final String MARK_URL = "url";
     private static final String MARK_ICON = "icon";
 
-    
     public String getDashboardData( AdminUser user )
     {
-        Right right = RightHome.findByPrimaryKey( getRight() );
-        HashMap model = new HashMap();
-        model.put( MARK_USERS_COUNT , AdminUserHome.findUserList().size());
-        model.put( MARK_URL, right.getUrl() );
-        model.put( MARK_ICON, right.getIconUrl() );
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale(), model );
-        return t.getHtml();
+        Right right = RightHome.findByPrimaryKey( getRight(  ) );
+        HashMap model = new HashMap(  );
+        model.put( MARK_USERS_COUNT, AdminUserHome.findUserList(  ).size(  ) );
+        model.put( MARK_URL, right.getUrl(  ) );
+        model.put( MARK_ICON, right.getIconUrl(  ) );
+
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale(  ), model );
+
+        return t.getHtml(  );
     }
 }

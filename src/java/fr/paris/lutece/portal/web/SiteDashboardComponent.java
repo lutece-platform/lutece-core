@@ -31,18 +31,18 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.web;
 
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.dashboard.DashboardComponent;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.util.HashMap;
+
 
 /**
  * SiteDashboardComponent
@@ -54,15 +54,21 @@ public class SiteDashboardComponent extends DashboardComponent
     private static final String MARK_URL = "url";
     private static final String MARK_ICON = "icon";
 
-    
+    /**
+     * The HTML code of the component
+     * @param user The Admin User
+     * @return The dashboard component
+     */
     public String getDashboardData( AdminUser user )
     {
-        Right right = RightHome.findByPrimaryKey( getRight() );
-        HashMap model = new HashMap();
-        model.put( MARK_PAGES_COUNT , PageHome.getAllPages().size() );
-        model.put( MARK_URL, right.getUrl() );
-        model.put( MARK_ICON, right.getIconUrl() );
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale(), model );
-        return t.getHtml();
+        Right right = RightHome.findByPrimaryKey( getRight(  ) );
+        HashMap model = new HashMap(  );
+        model.put( MARK_PAGES_COUNT, PageHome.getAllPages(  ).size(  ) );
+        model.put( MARK_URL, right.getUrl(  ) );
+        model.put( MARK_ICON, right.getIconUrl(  ) );
+
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale(  ), model );
+
+        return t.getHtml(  );
     }
 }

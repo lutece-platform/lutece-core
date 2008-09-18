@@ -31,15 +31,16 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.web.system;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.dashboard.DashboardComponent;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.util.HashMap;
+
 
 /**
  * System Dashboard Component
@@ -49,13 +50,13 @@ public class SystemDashboardComponent extends DashboardComponent
     private static final String TEMPLATE_DASHBOARD = "/admin/system/system_dashboard.html";
     private static final String MARK_PLUGINS_COUNT = "plugins_count";
 
-    
     public String getDashboardData( AdminUser user )
     {
-        HashMap model = new HashMap();
-        model.put( MARK_PLUGINS_COUNT , PluginService.getPluginList().size());
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale(), model );
-        return t.getHtml();
-    }
+        HashMap model = new HashMap(  );
+        model.put( MARK_PLUGINS_COUNT, PluginService.getPluginList(  ).size(  ) );
 
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale(  ), model );
+
+        return t.getHtml(  );
+    }
 }

@@ -95,7 +95,7 @@ public class PluginFile
     private List<InsertService> _listInsertServices = new ArrayList<InsertService>(  );
     private List<RBACResourceTypeEntry> _listRBACResourceTypes = new ArrayList<RBACResourceTypeEntry>(  );
     private List<PageIncludeEntry> _listPageIncludes = new ArrayList<PageIncludeEntry>(  );
-    private List<DashboardComponentEntry> _listDashboardComponents = new ArrayList<DashboardComponentEntry>();
+    private List<DashboardComponentEntry> _listDashboardComponents = new ArrayList<DashboardComponentEntry>(  );
     private Map<String, String> _mapParams = new HashMap<String, String>(  );
     private String _strSearchIndexerClass;
 
@@ -414,7 +414,7 @@ public class PluginFile
 
     /**
      * Add a filter to the plugin definition
-     * @param filter The filter to Add
+     * @param entry The filter entry
      */
     public void addFilter( FilterEntry entry )
     {

@@ -72,17 +72,22 @@ public interface IAliasPortletDAO extends IPortletInterfaceDAO
     void store( Portlet portlet );
 
     /**
-     * {@inheritDoc}
+     * Select portlets by type
+     * @param strPortletTypeId The type Id
+     * @return A list of portlets
      */
     ReferenceList selectPortletsByTypeList( String strPortletTypeId );
 
     /**
-     * {@inheritDoc}
+     * Select the Alias Id
+     * @param nIdPortlet The portlet Id
+     * @return  The alias Id
      */
     int selectAliasId( int nIdPortlet );
 
     /**
-     * {@inheritDoc}
+     * Select all portlets that accept alias
+     * @return A reference list
      */
     ReferenceList selectAcceptAliasPortletList(  );
 }

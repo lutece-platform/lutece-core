@@ -132,9 +132,9 @@ public final class AppInit
 
             // Initializes PluginService
             PluginService.init(  );
-            
+
             // Initializes FilterService
-            FilterService.init();
+            FilterService.init(  );
 
             // Trace Contents services loading
             traceContentServicesLoading(  );

@@ -56,7 +56,6 @@ public final class PortalComponentHome
      * Insert a new record in the table.
      *
      * @param portalComponent component The Instance of the object PortalComponent
-     * @return
      */
     public static void create( PortalComponent portalComponent )
     {

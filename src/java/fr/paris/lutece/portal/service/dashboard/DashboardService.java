@@ -36,33 +36,34 @@ package fr.paris.lutece.portal.service.dashboard;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Dashboard Service
  */
 public class DashboardService
 {
-    private static DashboardService _singleton = new DashboardService();
-    private List<DashboardComponent> _listComponents = new ArrayList<DashboardComponent>();
+    private static DashboardService _singleton = new DashboardService(  );
+    private List<DashboardComponent> _listComponents = new ArrayList<DashboardComponent>(  );
 
     /**
      * Private Constructor
      */
-    private DashboardService()
+    private DashboardService(  )
     {
     }
-    
-        /**
-     * Return the unique instance
-     * @return The instance
-     */
+
+    /**
+    * Return the unique instance
+    * @return The instance
+    */
     public static DashboardService getInstance(  )
     {
         return _singleton;
     }
-
 
     /**
      * Register a Dashboard Component
@@ -74,11 +75,11 @@ public class DashboardService
         try
         {
             DashboardComponent dc = (DashboardComponent) Class.forName( entry.getComponentClass(  ) ).newInstance(  );
-            
+
             dc.setName( entry.getName(  ) );
-            dc.setRight( entry.getRight());
-            dc.setZone( entry.getZone() );
-            dc.setOrder( entry.getOrder() );
+            dc.setRight( entry.getRight(  ) );
+            dc.setZone( entry.getZone(  ) );
+            dc.setOrder( entry.getOrder(  ) );
             _listComponents.add( dc );
             AppLogService.info( "New Dashboard Component registered : " + entry.getName(  ) );
         }
@@ -95,7 +96,7 @@ public class DashboardService
             AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage(  ), e );
         }
     }
-    
+
     /**
      * Gets Data from all components of the zone
      * @param user The user
@@ -104,14 +105,16 @@ public class DashboardService
      */
     public String getDashboardData( AdminUser user, int nZone )
     {
-        StringBuffer sbDashboardData = new StringBuffer();
-        for( DashboardComponent dc : _listComponents )
+        StringBuffer sbDashboardData = new StringBuffer(  );
+
+        for ( DashboardComponent dc : _listComponents )
         {
-            if( dc.getZone() == nZone && user.checkRight( dc.getRight() ))
+            if ( ( dc.getZone(  ) == nZone ) && user.checkRight( dc.getRight(  ) ) )
             {
-                sbDashboardData.append( dc.getDashboardData( user )  );
+                sbDashboardData.append( dc.getDashboardData( user ) );
             }
         }
-        return sbDashboardData.toString();
+
+        return sbDashboardData.toString(  );
     }
 }

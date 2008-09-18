@@ -88,6 +88,7 @@ public class LuteceFilterConfig implements FilterConfig
 
     /**
      * {@inheritDoc}
+     * @return
      */
     public Enumeration getInitParameterNames(  )
     {

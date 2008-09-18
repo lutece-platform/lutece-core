@@ -138,8 +138,8 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
 
         if ( PortletHome.hasAlias( nPortletId ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS, strUrl, strTarget,
-                AdminMessage.TYPE_CONFIRMATION );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS, strUrl,
+                strTarget, AdminMessage.TYPE_CONFIRMATION );
         }
 
         if ( !PortletRemovalListenerService.getService(  ).checkForRemoval( strPortletId, listErrors, locale ) )

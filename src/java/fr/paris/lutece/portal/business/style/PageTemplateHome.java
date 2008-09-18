@@ -112,7 +112,7 @@ public final class PageTemplateHome
     {
         return _dao.selectPageTemplatesList(  );
     }
-    
+
     /**
      * Checks if a page template is used by a page
      *
@@ -122,5 +122,5 @@ public final class PageTemplateHome
     public static boolean checkStylePageTemplateIsUsed( int nPageTemplateId )
     {
         return _dao.checkPageTemplateIsUsed( nPageTemplateId );
-    }    
+    }
 }

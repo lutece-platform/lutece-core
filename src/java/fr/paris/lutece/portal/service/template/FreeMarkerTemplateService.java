@@ -154,9 +154,9 @@ public final class FreeMarkerTemplateService
 
     /**
      * Load a template from a String and process a model
-     * WARNING : This method must not be used in front office (no cache management available). 
-     * 
-     * @param strTemplate the path of the template from the root path
+     * WARNING : This method must not be used in front office (no cache management available).
+     *
+     * @param strTemplateData The template as a string
      * @param locale The {@link Locale}
      * @param rootMap the model root
      * @return the processed html template

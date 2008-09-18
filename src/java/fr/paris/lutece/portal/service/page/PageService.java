@@ -410,9 +410,10 @@ public class PageService extends ContentService implements ImageResourceProvider
                 paramName = (String) enumParam.nextElement(  );
                 mapModifyParam.put( paramName, request.getParameter( paramName ) );
             }
-            
+
             // Add selected locale
-            mapModifyParam.put( PARAMETER_USER_SELECTED_LOCALE , LocaleService.getUserSelectedLocale( request ).getLanguage() );
+            mapModifyParam.put( PARAMETER_USER_SELECTED_LOCALE,
+                LocaleService.getUserSelectedLocale( request ).getLanguage(  ) );
         }
 
         //Added in v1.3

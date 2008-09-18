@@ -104,7 +104,6 @@ public interface IPortletDAO
      *
      * @param strPortletName the name of portlet
      * @return the list in form of Collection
-     * @throws AppException
      */
     Collection selectPortletsListbyName( String strPortletName );
 

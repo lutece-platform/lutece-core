@@ -37,8 +37,9 @@ import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
 
 import java.util.List;
 
+
 /**
- * 
+ *
  * IRegularExpressionService
  */
 public interface IRegularExpressionService

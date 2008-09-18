@@ -33,12 +33,12 @@
  */
 package fr.paris.lutece.portal.service.dashboard;
 
+
 /**
  *
  */
 public class DashboardComponentEntry
 {
-
     private String _strName;
     private String _strComponentClass;
     private String _strRight;
@@ -49,7 +49,7 @@ public class DashboardComponentEntry
      * Returns the Name
      * @return The Name
      */
-    public String getName()
+    public String getName(  )
     {
         return _strName;
     }
@@ -67,7 +67,7 @@ public class DashboardComponentEntry
      * Returns the ComponentClass
      * @return The ComponentClass
      */
-    public String getComponentClass()
+    public String getComponentClass(  )
     {
         return _strComponentClass;
     }
@@ -85,7 +85,7 @@ public class DashboardComponentEntry
      * Returns the Right
      * @return The Right
      */
-    public String getRight()
+    public String getRight(  )
     {
         return _strRight;
     }
@@ -103,7 +103,7 @@ public class DashboardComponentEntry
      * Returns the Zone
      * @return The Zone
      */
-    public int getZone()
+    public int getZone(  )
     {
         return _nZone;
     }
@@ -121,7 +121,7 @@ public class DashboardComponentEntry
      * Returns the Order
      * @return The Order
      */
-    public int getOrder()
+    public int getOrder(  )
     {
         return _nOrder;
     }

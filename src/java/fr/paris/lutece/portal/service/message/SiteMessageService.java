@@ -284,7 +284,8 @@ public final class SiteMessageService
     /**
      * Set the site message url with parameters if necessary
      *
-     * @param the site message url
+     * @param strRequestUrl The Request url
+     * @return The message url
      */
     public static String setSiteMessageUrl( String strRequestUrl )
     {

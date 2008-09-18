@@ -182,11 +182,13 @@ public final class I18nService
         }
         catch ( Exception e )
         {
-            String strErrorMessage = "Error localizing key : '" + strKey + "' - " + e.getMessage();
-            if( e.getCause() != null )
+            String strErrorMessage = "Error localizing key : '" + strKey + "' - " + e.getMessage(  );
+
+            if ( e.getCause(  ) != null )
             {
-                strErrorMessage += " - cause : " + e.getCause().getMessage();
+                strErrorMessage += ( " - cause : " + e.getCause(  ).getMessage(  ) );
             }
+
             AppLogService.error( strErrorMessage );
         }
 
@@ -272,6 +274,7 @@ public final class I18nService
 
     /**
      * Get the short date format specified by a locale
+     * @param locale The locale
      * @return The localized short date pattern or null else
      */
     public static String getDateFormatShortPattern( Locale locale )

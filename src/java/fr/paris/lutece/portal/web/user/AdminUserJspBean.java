@@ -108,10 +108,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MANAGE_USER_WORKGROUPS_PAGETITLE = "portal.users.manage_user_workgroups.pageTitle";
     private static final String PROPERTY_MODIFY_USER_WORKGROUPS_PAGETITLE = "portal.users.modify_user_workgroups.pageTitle";
     private static final String PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED = "portal.users.message.user.accessCodeAlreadyUsed";
-    private static final String PROPERTY_MESSAGE_DIFFERENTS_PASSWORD = "portal.users.message.differentsPassword";    
+    private static final String PROPERTY_MESSAGE_DIFFERENTS_PASSWORD = "portal.users.message.differentsPassword";
     private static final String PROPERTY_MESSAGE_EMAIL_FORMAT = "portal.users.message.user.emailFormat";
     private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT = "portal.users.user_change_status.email.subject";
-
 
     // Properties
     private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
@@ -421,15 +420,17 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             LuteceDefaultAdminUser user = new LuteceDefaultAdminUser(  );
             String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
             String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
-            
+
             if ( ( strFirstPassword == null ) || ( strFirstPassword.equals( "" ) ) )
             {
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
-            if ( ! strFirstPassword.equals( strSecondPassword ) )
+
+            if ( !strFirstPassword.equals( strSecondPassword ) )
             {
-                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD , AdminMessage.TYPE_STOP );
-            }            
+                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
+                    AdminMessage.TYPE_STOP );
+            }
 
             user.setPassword( strFirstPassword );
 
@@ -554,16 +555,18 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             LuteceDefaultAdminUser user = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( nUserId );
 
             String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
-            String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );            
+            String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
 
             if ( ( strFirstPassword == null ) || ( strFirstPassword.equals( "" ) ) )
             {
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
-            if ( ! strFirstPassword.equals( strSecondPassword  ) )
+
+            if ( !strFirstPassword.equals( strSecondPassword ) )
             {
-                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD , AdminMessage.TYPE_STOP );
-            }              
+                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
+                    AdminMessage.TYPE_STOP );
+            }
 
             user.setPassword( strFirstPassword );
 

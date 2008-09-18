@@ -98,7 +98,6 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_CREATE_STYLE_ID_ALREADY_EXISTS = "portal.style.message.createStyle.idAlreadyExists";
     private static final String MESSAGE_CREATE_STYLE_COMPONENT_EXISTS = "portal.style.message.createStyle.componentHasAlreadyAStyle";
     private static final String MESSAGE_CONFIRM_DELETE_STYLESHEET = "portal.style.message.stylesheetConfirmDelete";
-    
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -283,25 +282,28 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANT_DELETE_STYLE_PORTLETS,
                 AdminMessage.TYPE_STOP );
         }
-                        
 
         if ( listStyleSheets.size(  ) > 0 )
         {
-            for( StyleSheet styleSheet : listStyleSheets )
+            for ( StyleSheet styleSheet : listStyleSheets )
             {
-                int nIdStyleSheet = styleSheet.getId();
+                int nIdStyleSheet = styleSheet.getId(  );
                 UrlItem urlStylesheet = new UrlItem( JSP_DO_REMOVE_STYLESHEET );
                 urlStylesheet.addParameter( Parameters.STYLESHEET_ID, nIdStyleSheet );
                 urlStylesheet.addParameter( Parameters.STYLE_ID, nId );
-                
+
                 Object[] args = { styleSheet.getDescription(  ) };
-                 return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET,  args, urlStylesheet.getUrl(  ),  AdminMessage.TYPE_CONFIRMATION );                
-            }                            
+
+                return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args,
+                    urlStylesheet.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
+            }
         }
-        
-        UrlItem url = new UrlItem( JSP_DO_REMOVE_STYLE );        
+
+        UrlItem url = new UrlItem( JSP_DO_REMOVE_STYLE );
         url.addParameter( Parameters.STYLE_ID, nId );
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLE, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
+
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLE, url.getUrl(  ),
+            AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**

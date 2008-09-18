@@ -36,6 +36,7 @@ package fr.paris.lutece.util.string;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.text.Collator;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,14 +48,13 @@ public final class StringUtil
 {
     private static final String PROPERTY_XSS_CHARACTERS = "input.xss.characters";
     private static final String EMAIL_PATTERN = "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$";
-    private static final String ACCENTUATED_PATTERN = "[éèàùëäïüöÿçÇêÉÈÀÙêûôÔâÂîÎ]";
+    private static final String ACCENTUATED_PATTERN = "[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]";
     private static final String STRING_CODE_PATTERN = "^[\\w]+$";
 
     // The characters that are considered dangerous for XSS attacks
     private static char[] _aXssCharacters;
     private static String _xssCharactersAsString;
 
- 
     /**
      * Constructor with no parameter
      */
@@ -210,26 +210,26 @@ public final class StringUtil
         return strEmail.matches( EMAIL_PATTERN );
     }
 
-    
-   /**
-     * This function checks if an string is in a valid format 
-     * Returns true if the string is valid
-     *
-     * @param strString  The string to check
-     * @return boolean true if r is valid
-     */
-    public static synchronized boolean checkAccentuatedCharacter ( String strString )
+    /**
+      * This function checks if an string is in a valid format
+      * Returns true if the string is valid
+      *
+      * @param strString  The string to check
+      * @return boolean true if r is valid
+      */
+    public static synchronized boolean checkAccentuatedCharacter( String strString )
     {
         boolean bAccentuatedCharacter = true;
-        Matcher matcher = Pattern.compile( ACCENTUATED_PATTERN ).matcher(strString);
-        while ( matcher.find() ) 
+        Matcher matcher = Pattern.compile( ACCENTUATED_PATTERN ).matcher( strString );
+
+        while ( matcher.find(  ) )
         {
             bAccentuatedCharacter = false;
-        }       
-        return bAccentuatedCharacter;
-    }    
+        }
 
-    
+        return bAccentuatedCharacter;
+    }
+
     /**
      * Check a code key.<br />
      * Return true if each character of String is

@@ -281,7 +281,7 @@ public final class PortalService extends XmlTransformerService
         // for link service
         model.put( Markers.WEBAPP_PATH_FOR_LINKSERVICE, strBaseUrl );
         model.put( Markers.BASE_URL, strBaseUrl );
-        
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_FRAMESET, locale, model );
 
         template.substitute( BOOKMARK_BASE_URL, ( request != null ) ? AppPathService.getBaseUrl( request ) : "" ); // request could be null (method called by daemons or batch)

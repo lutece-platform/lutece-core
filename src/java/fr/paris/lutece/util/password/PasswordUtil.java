@@ -39,7 +39,7 @@ import java.util.Random;
 
 
 /**
- * Utility class used to generate random passwords 
+ * Utility class used to generate random passwords
  *
  */
 public class PasswordUtil

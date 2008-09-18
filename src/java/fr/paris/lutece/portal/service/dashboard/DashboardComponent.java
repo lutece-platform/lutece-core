@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.dashboard;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 
+
 /**
  * Dashboard Component
  */
@@ -46,7 +47,7 @@ public abstract class DashboardComponent implements Comparable
     private int _nOrder;
 
     /**
-     * Gets dashboard data for a given user 
+     * Gets dashboard data for a given user
      * @param user The user
      * @return HTML content to insert into a dashboard zone
      */
@@ -56,7 +57,7 @@ public abstract class DashboardComponent implements Comparable
      * Returns the Name
      * @return The Name
      */
-    public String getName()
+    public String getName(  )
     {
         return _strName;
     }
@@ -74,7 +75,7 @@ public abstract class DashboardComponent implements Comparable
      * Returns the Right
      * @return The Right
      */
-    public String getRight()
+    public String getRight(  )
     {
         return _strRight;
     }
@@ -88,12 +89,11 @@ public abstract class DashboardComponent implements Comparable
         _strRight = strRight;
     }
 
-
     /**
      * Returns the Zone
      * @return The Zone
      */
-    public int getZone()
+    public int getZone(  )
     {
         return _nZone;
     }
@@ -111,7 +111,7 @@ public abstract class DashboardComponent implements Comparable
      * Returns the Order
      * @return The Order
      */
-    public int getOrder()
+    public int getOrder(  )
     {
         return _nOrder;
     }
@@ -132,7 +132,6 @@ public abstract class DashboardComponent implements Comparable
      */
     public int compareTo( Object o )
     {
-        return getOrder() - (( DashboardComponent ) o).getOrder();
+        return getOrder(  ) - ( (DashboardComponent) o ).getOrder(  );
     }
-    
 }

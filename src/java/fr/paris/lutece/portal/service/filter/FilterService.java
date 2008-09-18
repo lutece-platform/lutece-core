@@ -83,9 +83,11 @@ public final class FilterService
                     entry.getInitParameters(  ) );
             _listFilters.add( f );
             AppLogService.info( "New filter registered : " + entry.getName(  ) );
-            for( String strKey : entry.getInitParameters(  ).keySet() )
+
+            for ( String strKey : entry.getInitParameters(  ).keySet(  ) )
             {
-                 AppLogService.info( " * init parameter - name : '" + strKey + "' - value : '" + entry.getInitParameters(  ).get(  strKey ) + "'" );
+                AppLogService.info( " * init parameter - name : '" + strKey + "' - value : '" +
+                    entry.getInitParameters(  ).get( strKey ) + "'" );
             }
         }
         catch ( InstantiationException e )
@@ -101,7 +103,7 @@ public final class FilterService
             AppLogService.error( "Error registering a filter : " + e.getMessage(  ), e );
         }
     }
-    
+
     /**
      * Defines the servlet context used by the FilterConfig given to the filters
      * @param servletContext The context
@@ -115,9 +117,10 @@ public final class FilterService
      * Initializes filters
      * @throws LuteceInitException If an error occurs
      */
-    public static void init() throws LuteceInitException
+    public static void init(  ) throws LuteceInitException
     {
-        AppLogService.info( "Initialize plugins filters");
+        AppLogService.info( "Initialize plugins filters" );
+
         for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
         {
             // Catch exception for each filter to execute all chain
@@ -137,9 +140,7 @@ public final class FilterService
                 throw new LuteceInitException( "Error execution init() method - Filter " + filter.getName(  ), e );
             }
         }
-
     }
-    
 
     /**
      * Gives the filters list

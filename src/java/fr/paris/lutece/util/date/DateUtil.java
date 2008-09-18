@@ -348,7 +348,7 @@ public final class DateUtil
     /**
      * Converts a Timestamp value to a String date
      *
-     * @param lTime The long value to convert
+     * @param date The date
      * @param locale the locale
      * @return The formatted string
      */

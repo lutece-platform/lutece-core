@@ -53,7 +53,7 @@ public final class PageTemplateDAO implements IPageTemplateDAO
         " WHERE id_template = ?";
     private static final String SQL_QUERY_SELECTALL = " SELECT id_template , description, file_name, picture FROM core_page_template ORDER BY id_template ";
     private static final String SQL_CHECK_PAGE_TEMPLATE_IS_USED = " SELECT id_template FROM core_page WHERE id_template = ? ";
-    
+
     ///////////////////////////////////////////////////////////////////////////////////////
     //Access methods to data
 
@@ -183,7 +183,6 @@ public final class PageTemplateDAO implements IPageTemplateDAO
 
         return listPageTemplates;
     }
-    
 
     /**
      * Checks if a page template has been used by a page
@@ -207,5 +206,5 @@ public final class PageTemplateDAO implements IPageTemplateDAO
         daoUtil.free(  );
 
         return false;
-    }    
+    }
 }
