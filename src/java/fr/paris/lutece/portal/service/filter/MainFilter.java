@@ -65,17 +65,26 @@ public class MainFilter implements Filter
     public void doFilter( ServletRequest requestServlet, ServletResponse response, FilterChain chain )
         throws IOException, ServletException
     {
+        AppLogService.debug( "MainFilter : doFilter()" );
         HttpServletRequest request = (HttpServletRequest) requestServlet;
+        LuteceFilterChain chainPluginsFilters = new LuteceFilterChain();
 
         for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
         {
+            AppLogService.debug( "PluginFilter : " + filter.getName() + " - url pattern : " + filter.getMappingUrlPattern() );
             // Catch exception for each filter to execute all chain
             try
             {
                 // Checks mapping and plugin status
                 if ( matchMapping( filter, request ) && filter.getPlugin(  ).isInstalled(  ) )
                 {
-                    filter.getFilter(  ).doFilter( request, response, chain );
+                    chainPluginsFilters.setFollowChain( false );
+                    filter.getFilter(  ).doFilter( request, response, chainPluginsFilters );
+                    if( ! chainPluginsFilters.shouldFollowChain() )
+                    {
+                        // The filter didn't call chain.doFilter so the chain should be interrupted
+                        return;
+                    }
                 }
             }
             catch ( Exception e )
@@ -83,7 +92,7 @@ public class MainFilter implements Filter
                 AppLogService.error( "Error execution doFilter method - Filter " + filter.getName(  ), e );
             }
         }
-
+        // Follow the standard filters chain
         chain.doFilter( request, response );
     }
 
