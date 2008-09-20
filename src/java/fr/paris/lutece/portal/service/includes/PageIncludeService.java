@@ -72,7 +72,7 @@ public final class PageIncludeService
             PageInclude pageInclude = (PageInclude) Class.forName( entry.getClassName(  ) ).newInstance(  );
             entry.setPageInclude( pageInclude );
             _mapPageIncludes.put( entry.getId(  ), entry );
-            AppLogService.info( "New page include service registered : '" + entry.getId(  ) + "'" );
+            AppLogService.info( "New Page Include Service registered : " + entry.getId(  ) );
         }
         catch ( ClassNotFoundException e )
         {

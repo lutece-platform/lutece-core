@@ -84,7 +84,7 @@ public class XPageAppService extends ContentService
             XPageApplication application = (XPageApplication) Class.forName( entry.getClassName(  ) ).newInstance(  );
             entry.setApplication( application );
             _mapApplications.put( entry.getId(  ), entry );
-            AppLogService.info( "New XPage application '" + entry.getId(  ) + "' registered" );
+            AppLogService.info( "New XPage application registered : " + entry.getId(  ) );
         }
         catch ( ClassNotFoundException e )
         {

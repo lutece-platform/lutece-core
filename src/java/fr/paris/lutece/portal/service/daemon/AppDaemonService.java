@@ -124,7 +124,7 @@ public final class AppDaemonService
 
         _mapDaemonEntries.put( entry.getId(  ), entry );
 
-        AppLogService.info( "New daemon registered : '" + entry.getId(  ) + "'" );
+        AppLogService.info( "New Daemon registered : " + entry.getId(  ) );
     }
 
     /**

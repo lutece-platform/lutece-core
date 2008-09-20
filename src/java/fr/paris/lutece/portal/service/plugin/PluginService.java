@@ -205,7 +205,7 @@ public final class PluginService
     private static void registerPlugin( Plugin plugin )
     {
         _mapPlugins.put( plugin.getName(  ), plugin );
-        AppLogService.info( "New plugin registered : " + plugin.getName(  ) );
+        AppLogService.info( "New Plugin registered : " + plugin.getName(  ) );
     }
 
     /**

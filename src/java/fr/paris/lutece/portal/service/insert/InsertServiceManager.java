@@ -71,7 +71,7 @@ public final class InsertServiceManager
     public static void registerInsertService( InsertService is )
     {
         _mapInsertServicesRegistry.put( is.getId(  ), is );
-        AppLogService.info( "New Insert Service '" + is.getId(  ) + "' registered" );
+        AppLogService.info( "New Insert Service registered : " + is.getId(  ) );
     }
 
     /**
