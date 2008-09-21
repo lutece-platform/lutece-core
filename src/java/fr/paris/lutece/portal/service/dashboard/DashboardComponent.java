@@ -72,6 +72,11 @@ public abstract class DashboardComponent implements Comparable
     }
 
     /**
+     * Returns the PluginName
+     *
+     * @return The PluginName
+     */
+    /**
      * Returns the Right
      * @return The Right
      */

@@ -4,7 +4,7 @@
     <div id="welcome-user-zone">
         <div class="content-box">
             <h2>#i18n{portal.admin.admin_home.connectedUser}</h2>
-            <p>${user_firstname} ${user_lastname}</p>
+            <p>${user.firstName} ${user.lastName} </p>
             <table>
             
             	<#if url_modify_password?has_content >
@@ -40,6 +40,7 @@
             </table>
         </div>
         <div class="content-box">
+            <h2>#i18n{portal.admin.admin_home.dashboard}</h2>
             ${dashboard_zone_1}
         </div>
     </div>

@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.service.dashboard;
 
 
 /**
- *
+ * Dashboard Component Entry
  */
 public class DashboardComponentEntry
 {

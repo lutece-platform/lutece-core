@@ -79,8 +79,7 @@ public class AdminMenuJspBean
     private static final String MARK_FEATURE_GROUP_LIST = "feature_group_list";
     private static final String MARK_LANGUAGES_LIST = "languages_list";
     private static final String MARK_CURRENT_LANGUAGE = "current_language";
-    private static final String MARK_USER_FIRSTNAME = "user_firstname";
-    private static final String MARK_USER_LASTNAME = "user_lastname";
+    private static final String MARK_USER = "user";
     private static final String MARK_ADMIN_URL = "admin_url";
     private static final String MARK_ADMIN_LOGOUT_URL = "admin_logout_url";
     private static final String MARK_ADMIN_SUMMARY_DOCUMENTATION_URL = "admin_summary_documentation_url";
@@ -161,8 +160,7 @@ public class AdminMenuJspBean
         HashMap model = new HashMap(  );
 
         model.put( MARK_FEATURE_GROUP_LIST, listFeatureGroups );
-        model.put( MARK_USER_LASTNAME, user.getLastName(  ) );
-        model.put( MARK_USER_FIRSTNAME, user.getFirstName(  ) );
+        model.put( MARK_USER, user );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
         model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage(  ) );
         model.put( MARK_MODIFY_PASSWORD_URL, AdminAuthenticationService.getInstance(  ).getChangePasswordPageUrl(  ) );
