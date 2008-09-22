@@ -61,6 +61,7 @@ public final class I18nService
     private static final String MARK_LOCALIZED_KEY_BEGIN = "#i18n{";
     private static final String MARK_LOCALIZED_KEY_END = "}";
     private static final String PROPERTY_AVAILABLES_LOCALES = "lutece.i18n.availableLocales";
+    private static final Locale LOCALE_DEFAULT = new Locale( "", "", "" );
     private static final String PROPERTY_DEFAULT_LOCALE = "lutece.i18n.defaultLocale";
     private static final String PROPERTY_FORMAT_DATE_SHORT_LIST = "lutece.format.date.short";
 
@@ -173,7 +174,7 @@ public final class I18nService
                 // bundle instead of the bundle of default locale.
                 if ( locale.getLanguage(  ).equals( Locale.ENGLISH.getLanguage(  ) ) )
                 {
-                    locale = getDefaultLocale(  );
+                    locale = LOCALE_DEFAULT;
                 }
 
                 ResourceBundle rbLabels = ResourceBundle.getBundle( strBundle, locale );
