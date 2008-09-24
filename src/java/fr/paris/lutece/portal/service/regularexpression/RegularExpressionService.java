@@ -33,14 +33,15 @@
  */
 package fr.paris.lutece.portal.service.regularexpression;
 
-import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import java.util.List;
 
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
-import java.util.List;
+import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
+import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 
 /**
@@ -49,30 +50,32 @@ import java.util.List;
  */
 public class RegularExpressionService
 {
-    private static final String SPRING_CONTEXT_NAME = "regularexpression";
+    private static final String PLUGIN_REGULAR_EXPRESSION_NAME = "regularexpression";
     private static RegularExpressionService _singleton;
-    private boolean _bAvailable = true;
+    private boolean _bServiceAvailable = true;
     private IRegularExpressionService _service;
 
     private RegularExpressionService(  )
     {
+    	
+    
         try
         {
-            _service = (IRegularExpressionService) SpringContextService.getPluginBean( SPRING_CONTEXT_NAME,
+            _service = (IRegularExpressionService) SpringContextService.getPluginBean( PLUGIN_REGULAR_EXPRESSION_NAME,
                     "regularExpressionService" );
-            _bAvailable = _service != null;
+            _bServiceAvailable= _service != null;
         }
         catch ( BeanDefinitionStoreException e )
         {
-            _bAvailable = false;
+            _bServiceAvailable = false;
         }
         catch ( NoSuchBeanDefinitionException e )
         {
-            _bAvailable = false;
+            _bServiceAvailable = false;
         }
         catch ( CannotLoadBeanClassException e )
         {
-            _bAvailable = false;
+            _bServiceAvailable = false;
         }
     }
 
@@ -96,7 +99,7 @@ public class RegularExpressionService
     */
     public boolean isAvailable(  )
     {
-        return _bAvailable;
+        return _bServiceAvailable && PluginService.isPluginEnable(PLUGIN_REGULAR_EXPRESSION_NAME )  ;
     }
 
     /**
@@ -106,7 +109,7 @@ public class RegularExpressionService
          */
     boolean isPatternValide( String strPattern )
     {
-        return _bAvailable ? _service.isPatternValide( strPattern ) : false;
+        return isAvailable() ? _service.isPatternValide( strPattern ) : false;
     }
 
     /**
@@ -116,7 +119,7 @@ public class RegularExpressionService
      */
     boolean isPatternValide( RegularExpression regularExpression )
     {
-        return _bAvailable ? _service.isPatternValide( regularExpression ) : false;
+        return isAvailable() ? _service.isPatternValide( regularExpression ) : false;
     }
 
     /**
@@ -127,7 +130,7 @@ public class RegularExpressionService
     */
     public boolean isMatches( String strValueToTest, String strPattern )
     {
-        return _bAvailable ? _service.isMatches( strValueToTest, strPattern ) : false;
+        return isAvailable() ? _service.isMatches( strValueToTest, strPattern ) : false;
     }
 
     /**
@@ -138,7 +141,7 @@ public class RegularExpressionService
      */
     public boolean isMatches( String strValueToTest, RegularExpression regularExpression )
     {
-        return _bAvailable ? _service.isMatches( strValueToTest, regularExpression ) : false;
+        return isAvailable() ? _service.isMatches( strValueToTest, regularExpression ) : false;
     }
 
     /**
@@ -148,7 +151,7 @@ public class RegularExpressionService
      */
     public RegularExpression getRegularExpressionByKey( int nKey )
     {
-        return _bAvailable ? _service.getRegularExpressionByKey( nKey ) : null;
+        return isAvailable()? _service.getRegularExpressionByKey( nKey ) : null;
     }
 
     /**
@@ -157,6 +160,6 @@ public class RegularExpressionService
      */
     public List<RegularExpression> getAllRegularExpression(  )
     {
-        return _bAvailable ? _service.getAllRegularExpression(  ) : null;
+        return isAvailable()? _service.getAllRegularExpression(  ) : null;
     }
 }

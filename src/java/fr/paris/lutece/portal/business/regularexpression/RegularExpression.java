@@ -156,4 +156,27 @@ public class RegularExpression
     {
         _strValue = value;
     }
+   
+    /**
+     * @param obj the object to compare
+     * @return true if the regularExpression in parameter is the same regularExpression
+     */
+    public boolean equals( Object obj )
+    {
+        if ( ( (RegularExpression) obj ).getIdExpression(  ) == _nIdExpression )
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return the id of the expression
+     */
+    public int hashCode(  )
+    {
+        return _nIdExpression;
+    }
+
 }
