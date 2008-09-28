@@ -80,6 +80,7 @@ public class DashboardService
             dc.setRight( entry.getRight(  ) );
             dc.setZone( entry.getZone(  ) );
             dc.setOrder( entry.getOrder(  ) );
+            dc.setPlugin( plugin );
             _listComponents.add( dc );
             AppLogService.info( "New Dashboard Component registered : " + entry.getName(  ) );
         }
@@ -109,7 +110,7 @@ public class DashboardService
 
         for ( DashboardComponent dc : _listComponents )
         {
-            if ( ( dc.getZone(  ) == nZone ) && user.checkRight( dc.getRight(  ) ) )
+            if ( ( dc.getZone(  ) == nZone ) && dc.isEnabled() && user.checkRight( dc.getRight(  ) ) )
             {
                 sbDashboardData.append( dc.getDashboardData( user ) );
             }
