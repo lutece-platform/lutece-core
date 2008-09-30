@@ -60,6 +60,7 @@ public abstract class Parameters
     public static final String STYLESHEET_ID = "stylesheet_id";
     public static final String SEARCH_MESSAGE = "search_message";
     public static final String ROLE = "role"; /* since v1.1 */
+    public static final String WORKGROUP_KEY = "workgroup_key"; /* since v2.2.0b1 */
     public static final String THEME = "theme"; /* since v1.1 */
 
     // url parameter for redirection after admin

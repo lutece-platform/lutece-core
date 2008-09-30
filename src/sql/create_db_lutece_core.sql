@@ -242,6 +242,7 @@ CREATE TABLE `core_page` (
   `node_status` smallint(6) NOT NULL default '1',
   `image_content` longblob,
   `mime_type` varchar(255) collate utf8_unicode_ci default 'NULL',
+  `workgroup_key` varchar(50) default NULL,
   PRIMARY KEY  (`id_page`),
   KEY `index_page` (`id_template`,`id_parent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

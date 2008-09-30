@@ -58,6 +58,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -349,10 +350,7 @@ public class PageService extends ContentService implements ImageResourceProvider
         if ( nMode == MODE_ADMIN )
         {
             AdminUser user = AdminUserService.getAdminUser( request );
-
-            String strPageId = Page.getAuthorizedPageId( page, nIdPage );
-
-            if ( RBACService.isAuthorized( Page.RESOURCE_TYPE, strPageId, PageResourceIdService.PERMISSION_VIEW, user ) )
+            if (isAuthorizedAdminPage( nIdPage,PageResourceIdService.PERMISSION_VIEW, user ))
             {
                 // Fill a PageData structure for those elements
                 data.setContent( getPageContent( nIdPage, nMode, request ) );
@@ -649,7 +647,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     public void createPage( Page page )
     {
         PageHome.create( page );
-
+        
         PageEvent event = new PageEvent( page, PageEvent.PAGE_CREATED );
         notifyListeners( event );
     }
@@ -699,28 +697,64 @@ public class PageService extends ContentService implements ImageResourceProvider
         PageEvent event = new PageEvent( page, PageEvent.PAGE_CONTENT_MODIFIED );
         notifyListeners( event );
     }
-
+	
     /**
-     * CustomAction define a customized action for portlet types
-     *
-     */
-    public class CustomAction
-    {
-        private String _strActionUrl;
-        private String _strImageUrl;
-        private String _strTitle;
+	 * Check if a page should be visible to the user according its workgroup
+	 * @param nIdPage the id of the page to check
+	 * @param user The current user
+	 * @return true if authorized, otherwise false
+	 */
+	private  boolean isAuthorizedAdminPageByWorkGroup( int nIdPage,AdminUser user )
+	{
+		Page page=PageHome.findByPrimaryKey( nIdPage );
+		if( AdminWorkgroupService.isAuthorized( page , user) )
+		{
+			if( page.getId() != PortalService.getRootPageId(  ))
+			{
+				return isAuthorizedAdminPageByWorkGroup( page.getParentPageId() , user );
+			}
+			return true;
 
-        /**
-         * @return the _actionUrl
-         */
-        public String getActionUrl(  )
-        {
-            return _strActionUrl;
-        }
+		}
+		return false;
 
-        /**
-         * @param strActionUrl the _actionUrl to set
-         */
+	}
+	  /**
+	 * Check that a given user is allowed to access a page  for a given permission and his workgroups
+	 * @param nIdPage the id of the page to check
+	 * @param strPermission the permission needed
+	 * @param user The current user
+	 * @return true if authorized, otherwise false
+	 */
+	public  boolean isAuthorizedAdminPage( int nIdPage,String strPermission,AdminUser user )
+	{
+		 String strAuthorizationNode=Integer.toString(Page.getAuthorizationNode(nIdPage));
+		return ( RBACService.isAuthorized( Page.RESOURCE_TYPE,strAuthorizationNode , strPermission, user ) && isAuthorizedAdminPageByWorkGroup(nIdPage, user) );
+
+	}
+	
+	
+	/**
+    * CustomAction define a customized action for portlet types
+    *
+    */
+   public class CustomAction
+   {
+       private String _strActionUrl;
+       private String _strImageUrl;
+       private String _strTitle;
+
+       /**
+        * @return the _actionUrl
+        */
+       public String getActionUrl(  )
+       {
+           return _strActionUrl;
+       }
+
+       /**
+        * @param strActionUrl the _actionUrl to set
+        */
         public void setActionUrl( String strActionUrl )
         {
             _strActionUrl = strActionUrl;

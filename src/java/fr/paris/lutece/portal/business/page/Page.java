@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.rbac.RBACResource;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 import fr.paris.lutece.util.xml.XmlUtil;
 
 import java.sql.Timestamp;
@@ -51,7 +52,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This class reprsents business objects Page
  */
-public class Page implements RBACResource
+public class Page implements RBACResource,AdminWorkgroupResource
 {
     /////////////////////////////////////////////////////////////////////////////////
     // Constants
@@ -75,7 +76,7 @@ public class Page implements RBACResource
     private byte[] _strImageContent;
     private Timestamp _dateUpdate;
     private List<Portlet> _listPortlets = new ArrayList<Portlet>(  );
-
+    private String _strWorkgroup;
     /**
      * Sets the identifier of the page
      *
@@ -449,41 +450,21 @@ public class Page implements RBACResource
 
     /**
      * Return the page id of the node authorization page
-     * Addition of the control of the roles on the page: if the user does not have the sufficient roles,
-     * the blocks of management of the page are not posted
-     * Control the node_status and defined the pageId
-     * @param page The Page object
+     * 
      * @param nPageId the page identifier
      * @return strPageId the page identifier with node_status to 0
      */
-    public static String getAuthorizedPageId( Page page, int nPageId )
+    public static int  getAuthorizationNode(  int nPageId )
     {
-        String strPageId = Integer.toString( nPageId );
-
-        if ( nPageId != PortalService.getRootPageId(  ) )
+    	
+    	Page page=PageHome.findByPrimaryKey(nPageId);
+    	if ( nPageId != PortalService.getRootPageId(  ) && page.getNodeStatus(  ) != 0)
         {
-            // Control the node_status
-            if ( page.getNodeStatus(  ) != 0 )
-            {
-                Page parentPage = PageHome.findByPrimaryKey( page.getParentPageId(  ) );
-                int nParentPageNodeStatus = parentPage.getNodeStatus(  );
-                int nParentPageId = parentPage.getId(  );
-
-                // If 0 the page have a node authorization, else
-                // the parent page node_status must be controlled
-                // until it is equal to 0
-                while ( nParentPageNodeStatus != 0 )
-                {
-                    parentPage = PageHome.findByPrimaryKey( nParentPageId );
-                    nParentPageNodeStatus = parentPage.getNodeStatus(  );
-                    nParentPageId = parentPage.getParentPageId(  );
-                }
-
-                strPageId = Integer.toString( parentPage.getId(  ) );
-            }
+    		return getAuthorizationNode(page.getParentPageId());  
+            
         }
 
-        return strPageId;
+        return nPageId;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -506,4 +487,21 @@ public class Page implements RBACResource
     {
         return "" + getId(  );
     }
+    /**
+    *
+    * @return the work group associate to the page
+    */
+   public String getWorkgroup(  )
+   {
+       return _strWorkgroup;
+   }
+
+   /**
+    * set  the work group associate to the page
+    * @param workGroup  the work group associate to the page
+    */
+   public void setWorkgroup( String workGroup )
+   {
+       _strWorkgroup = workGroup;
+   }
 }

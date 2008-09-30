@@ -48,7 +48,8 @@ public class SearchItem
     public static final String FIELD_URL = "url";
     public static final String FIELD_DATE = "date";
     public static final String FIELD_TYPE = "type";
-
+    public static final String FIELD_ROLE = "role";
+    public static final String FIELD_STATE = "state";
     // Variables declarations
     private String _strId;
     private String _strTitle;
@@ -56,6 +57,8 @@ public class SearchItem
     private String _strUrl;
     private String _strLastModifiedDate;
     private String _strType;
+    private String _strRole;
+    private String _strState;
 
     /**
      * Constructor
@@ -69,6 +72,7 @@ public class SearchItem
         _strSummary = document.get( FIELD_SUMMARY );
         _strLastModifiedDate = document.get( FIELD_DATE );
         _strType = document.get( FIELD_TYPE );
+        setRole( document.get( FIELD_ROLE ) );
     }
 
     /**
@@ -190,4 +194,35 @@ public class SearchItem
     {
         _strType = strType;
     }
+    
+    /**
+     * Return the role of the document
+     * @return the role of the document
+     */
+	public String getRole( ) {
+		return _strRole;
+	}
+	
+	/**
+	 * Sets the role of the document
+	 * @param role the role of the document
+	 */
+	public void setRole( String role ) {
+		_strRole = role;
+	}
+	/**
+     * Return the state of the document
+     * @return the state of the document
+     */
+	public String getState( ) {
+		return _strState;
+	}
+	
+	/**
+	 * Sets the state of the document
+	 * @param state of the document
+	 */
+	public void setState( String state ) {
+		_strState = state;
+	}
 }

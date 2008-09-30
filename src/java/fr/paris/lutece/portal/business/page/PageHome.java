@@ -126,6 +126,16 @@ public final class PageHome
     {
         return _dao.load( nPageId, false );
     }
+    /**
+     * Loads a page associated to a portlet
+     * @param nPorletId The indentifier of the object portlet associate to the page
+     * @return The Instance of the object Page
+     */
+
+    public static Page getPageByIdPortlet( int nPorletId )
+    {
+    	return _dao.loadPageByIdPortlet( nPorletId );
+    }
 
     /**
      * Returns the list of the child pages from the current parent page identifier

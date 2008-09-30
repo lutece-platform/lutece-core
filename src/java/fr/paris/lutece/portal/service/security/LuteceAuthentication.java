@@ -92,6 +92,16 @@ public interface LuteceAuthentication
      * @return Returns true if the user is associated to the role, otherwise false
      */
     boolean isUserInRole( LuteceUser user, HttpServletRequest request, String strRole );
+    /**
+     * get all roles for this user :
+     *    - user's roles
+     *    - user's groups roles
+     *
+     * @param user The user
+     * @return Array of roles
+     */
+    String[] getRolesByUser( LuteceUser user);
+
 
     /**
      * Indicates that the user should be already authenticated by an external

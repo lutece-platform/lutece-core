@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.search;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -48,6 +49,7 @@ public class SearchResult
     private String _strTitle;
     private String _strSummary;
     private String _strType;
+    private List<String> _listRoles;
 
     /**
      * Returns the Id
@@ -168,4 +170,19 @@ public class SearchResult
     {
         _strType = strType;
     }
+    /**
+     * Return the list of roles
+     * @return the list of roles
+     */
+	public List<String> getRoles( ) {
+		return _listRoles;
+	}
+	
+	/**
+	 * Sets the list of roles
+	 * @param listRoles the list of roles
+	 */
+	public void setRole(List<String> listRoles) {
+		_listRoles = listRoles;
+	}
 }

@@ -54,6 +54,7 @@ import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -94,12 +95,14 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PORTLET_TYPES_LIST = "portlet_types_list";
     private static final String MARK_PAGE_ORDER_LIST = "page_order_list";
     private static final String MARK_PAGE_ROLES_LIST = "page_roles_list";
+    private static final String MARK_PAGE_WORKGROUPS_LIST = "user_workgroup_list";
     private static final String MARK_PAGE_THEMES_LIST = "page_themes_list";
     private static final String MARK_IMAGE_URL = "image_url";
     private static final String MARK_PAGE_TEMPLATES_LIST = "page_templates_list";
     private static final String MARK_PAGE_TEMPLATE = "page_template";
     private static final String MARK_INDEX_ROW = "index_row";
     private static final String MARK_AUTORIZATION = "authorization";
+    
 
     // Parameters
     private static final String PARAMETER_IMAGE_CONTENT = "image_content";
@@ -388,18 +391,17 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PORTLET_TYPES_LIST, getPortletTypeList( getUser(  ) ) );
 
         // Add in v2.0
-        String strAuthorizedPageId = Page.getAuthorizedPageId( page, nPageId );
+        
+        int nManageAuthorization = 1;
 
-        int nManageAuthorization = 0;
-
-        if ( !RBACService.isAuthorized( Page.RESOURCE_TYPE, strAuthorizedPageId,
-                    PageResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+        if (PageService.getInstance().isAuthorizedAdminPage( nPageId,PageResourceIdService.PERMISSION_MANAGE, getUser() ))
         {
-            nManageAuthorization = 1;
+            nManageAuthorization = 0;
         }
+        
 
         model.put( MARK_AUTORIZATION, Integer.toString( nManageAuthorization ) );
-
+        model.put(MARK_PAGE_WORKGROUPS_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale ( ) ));
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale(  ), model );
 
         return getAdminPage( template.getHtml(  ) );
@@ -423,6 +425,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         int nTemplatePageId = Integer.parseInt( strTemplatePageId );
         String strOrder = request.getParameter( Parameters.ORDER );
         String strRole = request.getParameter( Parameters.ROLE );
+        String strWorkgroup = request.getParameter( Parameters.WORKGROUP_KEY );
         String strTheme = request.getParameter( Parameters.THEME );
 
         /* Added in v2.0 */
@@ -464,6 +467,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         page.setDescription( strDescription );
         page.setOrder( nOrder );
         page.setRole( strRole );
+        page.setWorkgroup(strWorkgroup);
         page.setCodeTheme( strTheme );
         page.setNodeStatus( nNodeStatus );
 

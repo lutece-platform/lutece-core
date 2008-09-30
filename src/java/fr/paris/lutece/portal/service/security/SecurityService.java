@@ -77,7 +77,6 @@ public final class SecurityService
 
     /**
      * Initialize service
-     * @throws LuteceInitException If an error occured
      */
     public static synchronized void init(  ) throws LuteceInitException
     {
@@ -175,14 +174,26 @@ public final class SecurityService
 
         return _authenticationService.isUserInRole( user, request, strRole );
     }
-
+    /**
+     * get all roles for this user :
+     *    - user's roles
+     *    - user's groups roles
+     *
+     * @param user The user
+     * @return Array of roles
+     */
+    public   String[] getRolesByUser( LuteceUser user)
+    {
+            
+        return _authenticationService.getRolesByUser(user);
+    }
+    
     /**
      * Checks user's login with the Authentication service.
      * @param request The Http request
      * @param strUserName The user's login
      * @param strPassword The user's password
-     * @throws LoginException If an error occured
-     * @throws LoginRedirectException If a redirection is needed for authentication
+     * @throws LoginException The LoginException
      */
     public void loginUser( HttpServletRequest request, final String strUserName, final String strPassword )
         throws LoginException, LoginRedirectException
@@ -390,8 +401,7 @@ public final class SecurityService
      * @param strUserName The user's login
      * @param strPassword The user's password
      * @return user's informations
-     * @throws LoginException If an error occured
-     * @throws LoginRedirectException If a redirection is needed for authentication
+     * @throws LoginException The LoginException
      */
     public LuteceUser remoteLoginUser( final HttpServletRequest request, final String strUserName,
         final String strPassword ) throws LoginException, LoginRedirectException

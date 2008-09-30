@@ -79,7 +79,10 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
     {
         return true;
     }
-
+    public String[] getRolesByUser( LuteceUser user)
+    {
+    	return null;
+    }
     public boolean isExternalAuthentication(  )
     {
         return false;

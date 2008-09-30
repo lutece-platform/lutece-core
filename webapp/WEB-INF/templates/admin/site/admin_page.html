@@ -1,5 +1,5 @@
 <div id="toggle_admin" class="toggle_admin_off">
-    <a href="javascript:adminToggle();" title="Affiche/Masque les propriétés d'admin" alt="Affiche/Masque les propriétés d'admin">
+    <a href="javascript:adminToggle();" title="Affiche/Masque les propriï¿½tï¿½s d'admin" alt="Affiche/Masque les propriï¿½tï¿½s d'admin">
     &nbsp;&nbsp;&nbsp;
     </a>
  </div>
@@ -69,6 +69,15 @@
 		            <label for="roles_list">#i18n{portal.site.admin_page.labelRole}<br />
 	        		     <@combo name="role" default_value="${page.role}" items=page_roles_list />
 					</label>
+				</p>
+				<p>
+		    		<label for="workgroup_list">#i18n{portal.site.admin_page.labelWorkgroup} 
+		     			<#if page.workgroup?exists>
+		     				<@combo name="workgroup_key"  items=user_workgroup_list default_value=page.workgroup />
+		     			<#else>
+		     					<@combo name="workgroup_key"  items=user_workgroup_list default_value="" />
+		     			</#if>	
+		     		</label>	
 				</p>
 				<p>
 		            <label for="roles_list">#i18n{portal.site.admin_page.labelNodeStatus}<br />
@@ -187,6 +196,15 @@
    	                <label for="roles_list">#i18n{portal.site.admin_page.labelRole}<br />
 	                    <@combo name="role" default_value="${page.role}" items=page_roles_list />
 					</label>
+				</p>
+				<p>
+		    		<label for="workgroup_list">#i18n{portal.site.admin_page.labelWorkgroup} 
+		     			<#if page.workgroup?exists>
+		     				<@combo name="workgroup_key"  items=user_workgroup_list default_value=page.workgroup />
+		     			<#else>
+		     					<@combo name="workgroup_key"  items=user_workgroup_list default_value="all" />
+		     			</#if>	
+		     		</label>	
 				</p>
 				<p>
    	                <label for="themes_list">#i18n{portal.site.admin_page.labelTheme}<br />

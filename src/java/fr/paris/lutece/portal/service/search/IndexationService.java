@@ -146,8 +146,7 @@ public final class IndexationService
                     sbLogs.append( "</strong>\r\n" );
 
                     List<Document> listDocuments = indexer.getDocuments(  );
-
-                    for ( Document doc : listDocuments )
+                   for ( Document doc : listDocuments )
                     {
                         writer.addDocument( doc );
                         sbLogs.append( "Indexing " );
