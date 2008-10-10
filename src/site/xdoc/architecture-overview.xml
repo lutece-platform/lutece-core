@@ -573,7 +573,7 @@
                           </tr>
                           <tr>
                                 <td>&lt;webapp&gt;/WEB-INF/plugins/</td>
-                                <td>*.xml, plugins.dat, plugin.dtd</td>
+                                <td>*.xml, plugins.dat, plugin_2_2.dtd</td>
                                 <td>File definition of the plugin</td>
                           </tr>
                           <tr>
