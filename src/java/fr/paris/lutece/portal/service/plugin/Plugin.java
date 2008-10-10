@@ -958,4 +958,13 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         return _listJavascriptFiles;
     }
+    
+    /**
+     * useful for debugging
+     */
+    public String toString()
+    {
+    	return getName();
+    }
+    
 }
