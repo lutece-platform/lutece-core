@@ -48,6 +48,7 @@
     <bean id="workgroupRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="portletRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="regularExpressionRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
+    <bean id="RoleRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
   
     
   <!--                       Data Access Objects                             -->  

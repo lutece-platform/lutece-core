@@ -37,13 +37,16 @@ import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.role.RoleRemovalListenerService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -85,6 +88,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_ROLE_EXIST = "portal.role.message.roleexist";
     private static final String MESSAGE_ROLE_FORMAT = "portal.role.message.roleformat";
     private static final String MESSAGE_CONFIRM_REMOVE = "portal.role.message.confirmRemoveRole";
+    private static final String MESSAGE_CANNOT_REMOVE_ROLE = "portal.role.message.cannotRemoveRole";
 
     /**
      * Creates a new RoleJspBean object.
@@ -224,7 +228,19 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     public String doRemovePageRole( HttpServletRequest request )
     {
         String strPageRole = (String) request.getParameter( PARAMETER_PAGE_ROLE );
-        RoleHome.remove( strPageRole );
+        ArrayList<String> listErrors = new ArrayList<String>(  );
+
+        if ( !RoleRemovalListenerService.getService(  ).checkForRemoval( strPageRole, listErrors, getLocale(  ) ) )
+        {
+            String strCause = AdminMessageService.getFormattedList( listErrors, getLocale(  ) );
+            Object[] args = { strCause };
+
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
+        }
+        else
+        {
+            RoleHome.remove( strPageRole );
+        }
 
         return getHomeUrl( request );
     }
