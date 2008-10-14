@@ -126,6 +126,11 @@ public class PluginFile
         {
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
         }
+        catch ( java.net.ConnectException e )
+        {
+            //can't access the dtd file. Normal if you run J2EE server behind a gateway
+        	//or if the dtd file is not on the server as it should be.
+        }
         catch ( IOException e )
         {
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
