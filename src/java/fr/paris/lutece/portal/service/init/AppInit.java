@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.filter.FilterService;
+import fr.paris.lutece.portal.service.group.GroupService;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.PortalService;
@@ -124,6 +125,8 @@ public final class AppInit
 
             // Initialize and run StartUp services
             StartUpServiceManager.init(  );
+
+            GroupService.init(  );
 
             AdminMailingListService.init(  );
 

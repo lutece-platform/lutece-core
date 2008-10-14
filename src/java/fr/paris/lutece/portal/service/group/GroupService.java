@@ -31,66 +31,26 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.group;
+package fr.paris.lutece.portal.service.group;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-
-import java.util.List;
+import fr.paris.lutece.portal.business.group.Group;
 
 
-/**
- * This class provides instances management methods (create, find, ...) for Group right objects
- */
-public final class GroupRoleHome
+public class GroupService
 {
-    // Static variable pointed at the DAO instance
-    private static IGroupRoleDAO _dao = (IGroupRoleDAO) SpringContextService.getBean( "groupRoleDAO" );
-
     /**
-     * Creates a new GroupHome object.
+     * Private Constructor
      */
-    private GroupRoleHome(  )
+    private GroupService(  )
     {
     }
 
     /**
-     * Find group's roles
-     *
-     * @param strGroupKey the login
-     * @return ArrayList the role key list corresponding to the group
+     * Initialize
      */
-    public static List<String> findGroupRoles( String strGroupKey )
+    public static void init(  )
     {
-        return _dao.selectGroupRoles( strGroupKey );
-    }
-
-    /**
-     * Find group's roles
-     *
-     * @param strRoleKey The Role key
-     * @return ArrayList the groups key list corresponding to the role
-     */
-    public static List<String> findGroupRolesByRoleKey( String strRoleKey )
-    {
-        return _dao.selectGroupRolesByRoleKey( strRoleKey );
-    }
-
-    /**
-     * Delete groups for a group
-     * @param strGroupKey The key of the group
-     */
-    public static void removeRoles( String strGroupKey )
-    {
-        _dao.deleteRoles( strGroupKey );
-    }
-
-    /**
-     * Assign a role to group
-     * @param strGroupKey The key of the group
-     * @param strRoleKey The key of the role
-     */
-    public static void addRole( String strGroupKey, String strRoleKey )
-    {
-        _dao.createRole( strGroupKey, strRoleKey );
+        // Initialize group
+        Group.init(  );
     }
 }

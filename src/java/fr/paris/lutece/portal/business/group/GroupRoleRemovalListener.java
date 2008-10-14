@@ -33,64 +33,51 @@
  */
 package fr.paris.lutece.portal.business.group;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.util.RemovalListener;
 
 import java.util.List;
+import java.util.Locale;
 
 
 /**
- * This class provides instances management methods (create, find, ...) for Group right objects
+ * Group Removal Listener
  */
-public final class GroupRoleHome
+public class GroupRoleRemovalListener implements RemovalListener
 {
-    // Static variable pointed at the DAO instance
-    private static IGroupRoleDAO _dao = (IGroupRoleDAO) SpringContextService.getBean( "groupRoleDAO" );
+    private static final String PROPERTY_ROLE_CANNOT_BE_REMOVED = "portal.group.message.roleCannotBeRemoved";
 
     /**
-     * Creates a new GroupHome object.
-     */
-    private GroupRoleHome(  )
+    * Check if the object can be safely removed
+    * @param strId The object id
+    * @return true if the object can be removed otherwise false
+    */
+    public boolean canBeRemoved( String strId )
     {
+        if ( strId == null )
+        {
+            return true;
+        }
+
+        List<String> listGroupsKey = GroupRoleHome.findGroupRolesByRoleKey( strId );
+
+        if ( ( listGroupsKey != null ) && ( listGroupsKey.size(  ) > 0 ) )
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /**
-     * Find group's roles
-     *
-     * @param strGroupKey the login
-     * @return ArrayList the role key list corresponding to the group
+     * Gives a message explaining why the object can't be removed
+     * @param strId The object id
+     * @param locale The current locale
+     * @return The message
      */
-    public static List<String> findGroupRoles( String strGroupKey )
+    public String getRemovalRefusedMessage( String strId, Locale locale )
     {
-        return _dao.selectGroupRoles( strGroupKey );
-    }
-
-    /**
-     * Find group's roles
-     *
-     * @param strRoleKey The Role key
-     * @return ArrayList the groups key list corresponding to the role
-     */
-    public static List<String> findGroupRolesByRoleKey( String strRoleKey )
-    {
-        return _dao.selectGroupRolesByRoleKey( strRoleKey );
-    }
-
-    /**
-     * Delete groups for a group
-     * @param strGroupKey The key of the group
-     */
-    public static void removeRoles( String strGroupKey )
-    {
-        _dao.deleteRoles( strGroupKey );
-    }
-
-    /**
-     * Assign a role to group
-     * @param strGroupKey The key of the group
-     * @param strRoleKey The key of the role
-     */
-    public static void addRole( String strGroupKey, String strRoleKey )
-    {
-        _dao.createRole( strGroupKey, strRoleKey );
+        // Build a message
+        return I18nService.getLocalizedString( PROPERTY_ROLE_CANNOT_BE_REMOVED, locale );
     }
 }

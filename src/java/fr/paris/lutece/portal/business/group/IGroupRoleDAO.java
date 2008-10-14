@@ -50,6 +50,14 @@ public interface IGroupRoleDAO
     List<String> selectGroupRoles( String strGroupKey );
 
     /**
+     * Find group's roles
+     *
+     * @param strRoleKey The Role key
+     * @return ArrayList the groups key list corresponding to the role
+     */
+    List<String> selectGroupRolesByRoleKey( String strRoleKey );
+
+    /**
      * Delete roles for a user
      * @param strGroupKey The key of the group
      */

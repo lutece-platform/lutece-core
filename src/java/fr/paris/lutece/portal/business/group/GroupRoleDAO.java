@@ -45,6 +45,7 @@ import java.util.List;
 public final class GroupRoleDAO implements IGroupRoleDAO
 {
     public static final String SQL_QUERY_FIND_ROLES_FROM_GROUP_ID = "SELECT role_key FROM core_group_role WHERE group_key like ? ";
+    public static final String SQL_QUERY_FIND_GROUPS_FROM_ROLE_ID = "SELECT group_key FROM core_group_role WHERE role_key = ? ";
     private static final String SQL_QUERY_DELETE_ROLES_FOR_GROUP = "DELETE FROM core_group_role WHERE group_key like ?";
     private static final String SQL_QUERY_INSERT_ROLE_FOR_GROUP = "INSERT INTO core_group_role ( group_key, role_key ) VALUES ( ?, ? ) ";
 
@@ -84,6 +85,31 @@ public final class GroupRoleDAO implements IGroupRoleDAO
         daoUtil.free(  );
 
         return arrayRoles;
+    }
+    
+    /**
+     * Find group's roles
+     *
+     * @param strRoleKey The Role key
+     * @return ArrayList the groups key list corresponding to the role
+     */
+    public List<String> selectGroupRolesByRoleKey( String strRoleKey )
+    {
+        int nParam = 0;
+        ArrayList<String> arrayGroup = new ArrayList<String>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_GROUPS_FROM_ROLE_ID );
+        daoUtil.setString( ++nParam, strRoleKey );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            nParam = 0;
+            arrayGroup.add( daoUtil.getString( ++nParam ) );
+        }
+
+        daoUtil.free(  );
+
+        return arrayGroup;
     }
 
     /**
