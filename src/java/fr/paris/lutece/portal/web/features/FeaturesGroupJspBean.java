@@ -111,6 +111,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     {
         Collection listGroups = FeatureGroupHome.getFeatureGroupsList(  );
         HashMap model = new HashMap(  );
+        model.put( MARK_ORDER_LIST, getOrderRefList(  ) );
         model.put( MARK_GROUPS_LIST, listGroups );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_GROUPS, getLocale(  ), model );
@@ -215,6 +216,29 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
+     * Dispatch a feature group
+     *
+     * @param request The HTTP request
+     * @return The next URL to redirect after processing
+     */
+    public String doDispatchFeatureGroup( HttpServletRequest request )
+    {
+        String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
+        String strOrderId = request.getParameter( PARAMETER_ORDER_ID );
+        FeatureGroup featureGroup = FeatureGroupHome.findByPrimaryKey( strGroupId );
+        UrlItem url = new UrlItem( JSP_MANAGE_GROUPS );
+
+        if ( ( strOrderId != null ) && strOrderId.matches( REGEX_ID ) )
+        {
+            featureGroup.setOrder( Integer.parseInt( strOrderId ) );
+        }
+
+        FeatureGroupHome.update( featureGroup );
+
+        return url.getUrl(  );
+    }
+
+    /**
      * Reinitialize feature orders
      * @param request The {@link HttpServletRequest}
      * @return The next URL to redirect after processing
@@ -294,8 +318,10 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         group.setId( strGroupId );
         group.setLabelKey( strGroupName );
         group.setDescriptionKey( strGroupDescription );
-        group.setOrder( Integer.parseInt( strGroupOrder ) );
+
         FeatureGroupHome.create( group );
+        group.setOrder( Integer.parseInt( strGroupOrder ) );
+        FeatureGroupHome.update( group );
 
         return JSP_MANAGE_GROUPS;
     }

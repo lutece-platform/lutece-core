@@ -45,6 +45,8 @@ public final class FeatureGroupHome
 {
     // Static variable pointed at the DAO instance
     private static IFeatureGroupDAO _dao = (IFeatureGroupDAO) SpringContextService.getBean( "featureGroupDAO" );
+    private static int ERROR_ORDER = -2; //this value must be negative
+    private static int STEP_ORDER = 1;
 
     /**
      * Creates a new FeatureGroupHome object.
@@ -61,6 +63,7 @@ public final class FeatureGroupHome
      */
     public static FeatureGroup create( FeatureGroup featureGroup )
     {
+        featureGroup.setOrder( getFeatureGroupsCount(  ) + STEP_ORDER );
         _dao.insert( featureGroup );
 
         return featureGroup;
@@ -74,6 +77,19 @@ public final class FeatureGroupHome
      */
     public static FeatureGroup update( FeatureGroup featureGroup )
     {
+        FeatureGroup oldFeatureGroup = findByPrimaryKey( featureGroup.getId(  ) );
+
+        if ( oldFeatureGroup == null )
+        {
+            return null;
+        }
+
+        // The order have changed
+        else if ( featureGroup.getOrder(  ) != oldFeatureGroup.getOrder(  ) )
+        {
+            featureGroup.setOrder( changeRightOrder( oldFeatureGroup, featureGroup.getOrder(  ) ) );
+        }
+
         _dao.store( featureGroup );
 
         return featureGroup;
@@ -86,7 +102,32 @@ public final class FeatureGroupHome
      */
     public static void remove( String strId )
     {
+        FeatureGroup oldFeature = findByPrimaryKey( strId );
+
+        if ( oldFeature != null )
+        {
+            deleteEntryFromList( oldFeature.getOrder(  ) );
+        }
+
         _dao.delete( strId );
+    }
+
+    /**
+     * Delete entry (specify by nOrderId)
+     * @param nOrderId The order to delete
+     */
+    public static void deleteEntryFromList( int nOrderId )
+    {
+        for ( FeatureGroup featureGroupChange : getFeatureGroupsList(  ) )
+        {
+            int nFeatureGroupToUpdateOrder = featureGroupChange.getOrder(  );
+
+            if ( ( nFeatureGroupToUpdateOrder > nOrderId ) )
+            {
+                featureGroupChange.setOrder( nFeatureGroupToUpdateOrder - STEP_ORDER );
+                _dao.store( featureGroupChange );
+            }
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -120,5 +161,52 @@ public final class FeatureGroupHome
     public static int getFeatureGroupsCount(  )
     {
         return _dao.selectFeatureGroupsCount(  );
+    }
+
+    /**
+     * Change the order in a {@link Right}
+     *
+     * @param featureGroup
+     * @param strRightKey the {@link Right} identifier
+     * @param nNewOrder The new place in the list or END_OF_LIST to place Right at the end
+     * @return The new order
+     */
+    public static int changeRightOrder( FeatureGroup featureGroup, int nNewOrder )
+    {
+        if ( featureGroup == null )
+        {
+            return ERROR_ORDER;
+        }
+
+        if ( nNewOrder < featureGroup.getOrder(  ) )
+        {
+            for ( FeatureGroup featureGroupChange : getFeatureGroupsList(  ) )
+            {
+                int nFeatureGroupToUpdateOrder = featureGroupChange.getOrder(  );
+
+                if ( ( nFeatureGroupToUpdateOrder >= nNewOrder ) &&
+                        ( nFeatureGroupToUpdateOrder < featureGroup.getOrder(  ) ) )
+                {
+                    featureGroupChange.setOrder( nFeatureGroupToUpdateOrder + STEP_ORDER );
+                    _dao.store( featureGroupChange );
+                }
+            }
+        }
+        else if ( nNewOrder > featureGroup.getOrder(  ) )
+        {
+            for ( FeatureGroup featureGroupChange : getFeatureGroupsList(  ) )
+            {
+                int nFeatureGroupToUpdateOrder = featureGroupChange.getOrder(  );
+
+                if ( ( nFeatureGroupToUpdateOrder <= nNewOrder ) &&
+                        ( nFeatureGroupToUpdateOrder > featureGroup.getOrder(  ) ) )
+                {
+                    featureGroupChange.setOrder( nFeatureGroupToUpdateOrder - STEP_ORDER );
+                    _dao.store( featureGroupChange );
+                }
+            }
+        }
+
+        return nNewOrder;
     }
 }
