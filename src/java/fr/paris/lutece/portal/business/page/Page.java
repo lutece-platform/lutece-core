@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.rbac.RBACResource;
+import fr.paris.lutece.portal.service.role.RoleRemovalListenerService;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 import fr.paris.lutece.util.xml.XmlUtil;
@@ -52,10 +53,11 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This class reprsents business objects Page
  */
-public class Page implements RBACResource,AdminWorkgroupResource
+public class Page implements RBACResource, AdminWorkgroupResource
 {
     /////////////////////////////////////////////////////////////////////////////////
     // Constants
+    private static PageRoleRemovalListener _listenerRole;
     public static final String RESOURCE_TYPE = "PAGE";
     public static final String ROLE_NONE = "none";
     private static final String THEME_DEFAULT = "default";
@@ -77,6 +79,20 @@ public class Page implements RBACResource,AdminWorkgroupResource
     private Timestamp _dateUpdate;
     private List<Portlet> _listPortlets = new ArrayList<Portlet>(  );
     private String _strWorkgroup;
+
+    /**
+     * Initialize the Page
+     */
+    public static void init(  )
+    {
+        // Create removal listeners and register them
+        if ( _listenerRole == null )
+        {
+            _listenerRole = new PageRoleRemovalListener(  );
+            RoleRemovalListenerService.getService(  ).registerListener( _listenerRole );
+        }
+    }
+
     /**
      * Sets the identifier of the page
      *
@@ -450,18 +466,17 @@ public class Page implements RBACResource,AdminWorkgroupResource
 
     /**
      * Return the page id of the node authorization page
-     * 
+     *
      * @param nPageId the page identifier
      * @return strPageId the page identifier with node_status to 0
      */
-    public static int  getAuthorizationNode(  int nPageId )
+    public static int getAuthorizationNode( int nPageId )
     {
-    	
-    	Page page=PageHome.findByPrimaryKey(nPageId);
-    	if ( nPageId != PortalService.getRootPageId(  ) && page.getNodeStatus(  ) != 0)
+        Page page = PageHome.findByPrimaryKey( nPageId );
+
+        if ( ( nPageId != PortalService.getRootPageId(  ) ) && ( page.getNodeStatus(  ) != 0 ) )
         {
-    		return getAuthorizationNode(page.getParentPageId());  
-            
+            return getAuthorizationNode( page.getParentPageId(  ) );
         }
 
         return nPageId;
@@ -487,21 +502,22 @@ public class Page implements RBACResource,AdminWorkgroupResource
     {
         return "" + getId(  );
     }
+
     /**
     *
     * @return the work group associate to the page
     */
-   public String getWorkgroup(  )
-   {
-       return _strWorkgroup;
-   }
+    public String getWorkgroup(  )
+    {
+        return _strWorkgroup;
+    }
 
-   /**
-    * set  the work group associate to the page
-    * @param workGroup  the work group associate to the page
-    */
-   public void setWorkgroup( String workGroup )
-   {
-       _strWorkgroup = workGroup;
-   }
+    /**
+     * set  the work group associate to the page
+     * @param workGroup  the work group associate to the page
+     */
+    public void setWorkgroup( String workGroup )
+    {
+        _strWorkgroup = workGroup;
+    }
 }

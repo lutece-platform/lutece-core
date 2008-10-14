@@ -58,13 +58,12 @@ public interface IPageDAO
      * @return The Instance of the object Page
      */
     Page load( int nPageId, boolean bPortlets );
-    
+
     /**
      * load a page associated to a portlet
      * @param nPorletId The indentifier of the object portlet associate to the page
      * @return The Instance of the object Page
      */
-
     public Page loadPageByIdPortlet( int nPorletId );
 
     /**
@@ -105,6 +104,14 @@ public interface IPageDAO
      * @return listDocumentTypes
      */
     ReferenceList getPagesList(  );
+
+    /**
+     * Return the list of all the pages filtered by Lutece Role specified in parameter
+     *
+     * @param strRoleKey The Lutece Role key
+     * @return a collection of pages
+     */
+    Collection<Page> getPagesByRoleKey( String strRoleKey );
 
     /**
      * Search the last order of child page list

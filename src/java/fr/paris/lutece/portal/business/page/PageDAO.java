@@ -56,11 +56,9 @@ public final class PageDAO implements IPageDAO
     private static final String SQL_QUERY_SELECT = " SELECT a.id_parent, a.name, a.description, a.id_template, b.file_name, " +
         " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, " +
         " a.workgroup_key FROM core_page a, core_page_template b WHERE a.id_template = b.id_template AND a.id_page = ? ";
-    
     private static final String SQL_QUERY_SELECT_BY_ID_PORTLET = " SELECT a.id_page, a.id_parent, a.name, a.description, a.id_template, " +
-    " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, " +
-    " a.workgroup_key FROM core_page a,core_portlet b WHERE a.id_page = b.id_page AND b.id_portlet = ? ";
-    
+        " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, " +
+        " a.workgroup_key FROM core_page a,core_portlet b WHERE a.id_page = b.id_page AND b.id_portlet = ? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_page ( id_page , id_parent , name , description, date_update, " +
         " id_template,  page_order, status, role, date_creation, code_theme , node_status, image_content , mime_type , workgroup_key ) " +
         " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )";
@@ -74,7 +72,9 @@ public final class PageDAO implements IPageDAO
         " FROM core_page WHERE id_parent = ? ORDER BY page_order";
     private static final String SQL_QUERY_SELECTALL = " SELECT id_page , id_parent,  name, description, date_update, " +
         " page_order, status, role, code_theme, image_content, mime_type ,workgroup_key FROM core_page ";
-     private static final String SQL_QUERY_SELECT_PORTLET = " SELECT id_portlet FROM core_portlet WHERE id_page = ? ORDER BY portlet_order";
+    private static final String SQL_QUERY_BY_ROLE_KEY = " SELECT id_page , id_parent,  name, description, date_update, " +
+        " page_order, status, role, code_theme, image_content, mime_type ,workgroup_key FROM core_page WHERE role = ? ";
+    private static final String SQL_QUERY_SELECT_PORTLET = " SELECT id_portlet FROM core_portlet WHERE id_page = ? ORDER BY portlet_order";
     private static final String SQL_QUERY_UPDATE_PAGE_DATE = " UPDATE core_page SET date_update = ? WHERE id_page = ?";
     private static final String SQL_QUERY_SELECTALL_NODE_PAGE = " SELECT id_page ,  name FROM core_page WHERE node_status = 0";
     private static final String SQL_QUERY_NEW_CHILD_PAGE_ORDER = " SELECT max(page_order) FROM core_page WHERE id_parent = ?";
@@ -138,7 +138,7 @@ public final class PageDAO implements IPageDAO
         daoUtil.setInt( 12, page.getNodeStatus(  ) );
         daoUtil.setBytes( 13, page.getImageContent(  ) );
         daoUtil.setString( 14, page.getMimeType(  ) );
-        daoUtil.setString( 15, page.getWorkgroup() );
+        daoUtil.setString( 15, page.getWorkgroup(  ) );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
@@ -171,7 +171,7 @@ public final class PageDAO implements IPageDAO
             page.setImageContent( daoUtil.getBytes( 11 ) );
             page.setMimeType( daoUtil.getString( 12 ) );
             page.setWorkgroup( daoUtil.getString( 13 ) );
-            
+
             // Loads the portlets contained into the page
             if ( bPortlets )
             {
@@ -183,12 +183,13 @@ public final class PageDAO implements IPageDAO
 
         return page;
     }
+
     /* (non-Javadoc)
      * @see fr.paris.lutece.portal.business.page.IPageDAO#loadPageByIdPortlet(int)
      */
     public Page loadPageByIdPortlet( int nPorletId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ID_PORTLET);
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ID_PORTLET );
         daoUtil.setInt( 1, nPorletId );
 
         daoUtil.executeQuery(  );
@@ -197,7 +198,7 @@ public final class PageDAO implements IPageDAO
 
         if ( daoUtil.next(  ) )
         {
-            page.setId(daoUtil.getInt(1) );
+            page.setId( daoUtil.getInt( 1 ) );
             page.setParentPageId( daoUtil.getInt( 2 ) );
             page.setName( daoUtil.getString( 3 ) );
             page.setDescription( daoUtil.getString( 4 ) );
@@ -210,13 +211,13 @@ public final class PageDAO implements IPageDAO
             page.setImageContent( daoUtil.getBytes( 11 ) );
             page.setMimeType( daoUtil.getString( 12 ) );
             page.setWorkgroup( daoUtil.getString( 13 ) );
-            
         }
 
         daoUtil.free(  );
 
         return page;
     }
+
     /* (non-Javadoc)
          * @see fr.paris.lutece.portal.business.page.IPageDAO#delete(int)
          */
@@ -249,7 +250,7 @@ public final class PageDAO implements IPageDAO
         daoUtil.setInt( 10, page.getNodeStatus(  ) );
         daoUtil.setBytes( 11, page.getImageContent(  ) );
         daoUtil.setString( 12, page.getMimeType(  ) );
-        daoUtil.setString( 13, page.getWorkgroup() );
+        daoUtil.setString( 13, page.getWorkgroup(  ) );
         daoUtil.setInt( 14, page.getId(  ) );
 
         daoUtil.executeUpdate(  );
@@ -409,6 +410,43 @@ public final class PageDAO implements IPageDAO
     }
 
     /**
+     * Return the list of all the pages filtered by Lutece Role specified in parameter
+     *
+     * @param strRoleKey The Lutece Role key
+     * @return a collection of pages
+     */
+    public Collection<Page> getPagesByRoleKey( String strRoleKey )
+    {
+        Collection<Page> pageList = new ArrayList<Page>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_BY_ROLE_KEY );
+        daoUtil.setString( 1, strRoleKey );
+
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            Page page = new Page(  );
+
+            page.setId( daoUtil.getInt( 1 ) );
+            page.setParentPageId( daoUtil.getInt( 2 ) );
+            page.setName( daoUtil.getString( 3 ) );
+            page.setDescription( daoUtil.getString( 4 ) );
+            page.setOrder( daoUtil.getInt( 5 ) );
+            page.setStatus( daoUtil.getInt( 6 ) );
+            page.setRole( daoUtil.getString( 7 ) );
+            page.setCodeTheme( daoUtil.getString( 8 ) );
+            page.setImageContent( daoUtil.getBytes( 9 ) );
+            page.setMimeType( daoUtil.getString( 10 ) );
+            page.setWorkgroup( daoUtil.getString( 11 ) );
+            pageList.add( page );
+        }
+
+        daoUtil.free(  );
+
+        return pageList;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public int selectNewChildPageOrder( int nParentPageId )
@@ -478,7 +516,4 @@ public final class PageDAO implements IPageDAO
 
         return bPageExisted;
     }
-    
-    
-   
 }

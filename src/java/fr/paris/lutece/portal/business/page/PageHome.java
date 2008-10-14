@@ -126,15 +126,15 @@ public final class PageHome
     {
         return _dao.load( nPageId, false );
     }
+
     /**
      * Loads a page associated to a portlet
      * @param nPorletId The indentifier of the object portlet associate to the page
      * @return The Instance of the object Page
      */
-
     public static Page getPageByIdPortlet( int nPorletId )
     {
-    	return _dao.loadPageByIdPortlet( nPorletId );
+        return _dao.loadPageByIdPortlet( nPorletId );
     }
 
     /**
@@ -166,6 +166,17 @@ public final class PageHome
     public static ReferenceList getPagesList(  )
     {
         return _dao.getPagesList(  );
+    }
+
+    /**
+     * Return the list of all the pages filtered by Lutece Role specified in parameter
+     *
+     * @param strRoleKey The Lutece Role key
+     * @return a collection of pages
+     */
+    public static Collection<Page> getPagesByRoleKey( String strRoleKey )
+    {
+        return _dao.getPagesByRoleKey( strRoleKey );
     }
 
     /**
