@@ -156,7 +156,7 @@ public class RegularExpression
     {
         _strValue = value;
     }
-   
+
     /**
      * @param obj the object to compare
      * @return true if the regularExpression in parameter is the same regularExpression
@@ -178,5 +178,4 @@ public class RegularExpression
     {
         return _nIdExpression;
     }
-
 }

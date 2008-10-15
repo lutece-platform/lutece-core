@@ -174,6 +174,7 @@ public final class SecurityService
 
         return _authenticationService.isUserInRole( user, request, strRole );
     }
+
     /**
      * get all roles for this user :
      *    - user's roles
@@ -182,12 +183,11 @@ public final class SecurityService
      * @param user The user
      * @return Array of roles
      */
-    public   String[] getRolesByUser( LuteceUser user)
+    public String[] getRolesByUser( LuteceUser user )
     {
-            
-        return _authenticationService.getRolesByUser(user);
+        return _authenticationService.getRolesByUser( user );
     }
-    
+
     /**
      * Checks user's login with the Authentication service.
      * @param request The Http request

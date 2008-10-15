@@ -50,6 +50,7 @@ public class SearchItem
     public static final String FIELD_TYPE = "type";
     public static final String FIELD_ROLE = "role";
     public static final String FIELD_STATE = "state";
+
     // Variables declarations
     private String _strId;
     private String _strTitle;
@@ -194,35 +195,40 @@ public class SearchItem
     {
         _strType = strType;
     }
-    
+
     /**
      * Return the role of the document
      * @return the role of the document
      */
-	public String getRole( ) {
-		return _strRole;
-	}
-	
-	/**
-	 * Sets the role of the document
-	 * @param role the role of the document
-	 */
-	public void setRole( String role ) {
-		_strRole = role;
-	}
-	/**
-     * Return the state of the document
-     * @return the state of the document
+    public String getRole(  )
+    {
+        return _strRole;
+    }
+
+    /**
+     * Sets the role of the document
+     * @param role the role of the document
      */
-	public String getState( ) {
-		return _strState;
-	}
-	
-	/**
-	 * Sets the state of the document
-	 * @param state of the document
-	 */
-	public void setState( String state ) {
-		_strState = state;
-	}
+    public void setRole( String role )
+    {
+        _strRole = role;
+    }
+
+    /**
+    * Return the state of the document
+    * @return the state of the document
+    */
+    public String getState(  )
+    {
+        return _strState;
+    }
+
+    /**
+     * Sets the state of the document
+     * @param state of the document
+     */
+    public void setState( String state )
+    {
+        _strState = state;
+    }
 }

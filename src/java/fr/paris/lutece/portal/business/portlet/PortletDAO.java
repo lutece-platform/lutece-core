@@ -33,14 +33,15 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
+
+import java.sql.Timestamp;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -76,10 +77,9 @@ public final class PortletDAO implements IPortletDAO
     private static final String SQL_QUERY_SELECT_PORTLET_ALIAS = " SELECT a.id_portlet FROM core_portlet a , core_portlet_alias b" +
         " WHERE a.id_portlet = b.id_portlet " + " AND b.id_alias= ? ";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_NAME = " SELECT id_portlet , id_page , name FROM core_portlet WHERE name LIKE ? ";
-
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_TYPE = " SELECT a.id_portlet, a.id_portlet_type, a.id_page, a.name, " +
         "a.date_update, a.status, a.portlet_order, a.column_no, a.id_style, a.accept_alias, a.date_creation, a.display_portlet_title" +
-		" FROM core_portlet a, core_page b  WHERE a.id_page = b.id_page " + " AND a.id_portlet_type = ? ";
+        " FROM core_portlet a, core_page b  WHERE a.id_page = b.id_page " + " AND a.id_portlet_type = ? ";
 
     ///////////////////////////////////////////////////////////////////////////////////////
     //Access methods to data
@@ -269,7 +269,7 @@ public final class PortletDAO implements IPortletDAO
             portlet.setId( daoUtil.getInt( 1 ) );
             portlet.setPageId( daoUtil.getInt( 2 ) );
             portlet.setName( daoUtil.getString( 3 ) );
-            
+
             list.add( portlet );
         }
 
@@ -286,6 +286,7 @@ public final class PortletDAO implements IPortletDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_LIST_BY_TYPE );
         daoUtil.setString( 1, strPortletTypeId );
         daoUtil.executeQuery(  );
+
         List<Portlet> list = new ArrayList<Portlet>(  );
 
         while ( daoUtil.next(  ) )

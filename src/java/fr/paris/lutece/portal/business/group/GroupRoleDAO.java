@@ -86,7 +86,7 @@ public final class GroupRoleDAO implements IGroupRoleDAO
 
         return arrayRoles;
     }
-    
+
     /**
      * Find group's roles
      *

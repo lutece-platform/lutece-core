@@ -102,7 +102,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PAGE_TEMPLATE = "page_template";
     private static final String MARK_INDEX_ROW = "index_row";
     private static final String MARK_AUTORIZATION = "authorization";
-    
 
     // Parameters
     private static final String PARAMETER_IMAGE_CONTENT = "image_content";
@@ -391,17 +390,17 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PORTLET_TYPES_LIST, getPortletTypeList( getUser(  ) ) );
 
         // Add in v2.0
-        
         int nManageAuthorization = 1;
 
-        if (PageService.getInstance().isAuthorizedAdminPage( nPageId,PageResourceIdService.PERMISSION_MANAGE, getUser() ))
+        if ( PageService.getInstance(  )
+                            .isAuthorizedAdminPage( nPageId, PageResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
         {
             nManageAuthorization = 0;
         }
-        
 
         model.put( MARK_AUTORIZATION, Integer.toString( nManageAuthorization ) );
-        model.put(MARK_PAGE_WORKGROUPS_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale ( ) ));
+        model.put( MARK_PAGE_WORKGROUPS_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale(  ), model );
 
         return getAdminPage( template.getHtml(  ) );
@@ -467,7 +466,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         page.setDescription( strDescription );
         page.setOrder( nOrder );
         page.setRole( strRole );
-        page.setWorkgroup(strWorkgroup);
+        page.setWorkgroup( strWorkgroup );
         page.setCodeTheme( strTheme );
         page.setNodeStatus( nNodeStatus );
 

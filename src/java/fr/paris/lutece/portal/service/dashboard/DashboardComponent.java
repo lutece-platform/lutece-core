@@ -37,12 +37,12 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 
+
 /**
  * Dashboard Component
  */
 public abstract class DashboardComponent implements Comparable
 {
-
     private String _strName;
     private String _strRight;
     private int _nZone;
@@ -60,7 +60,7 @@ public abstract class DashboardComponent implements Comparable
      * Returns the Name
      * @return The Name
      */
-    public String getName()
+    public String getName(  )
     {
         return _strName;
     }
@@ -79,11 +79,12 @@ public abstract class DashboardComponent implements Comparable
      *
      * @return The PluginName
      */
+
     /**
      * Returns the Right
      * @return The Right
      */
-    public String getRight()
+    public String getRight(  )
     {
         return _strRight;
     }
@@ -101,7 +102,7 @@ public abstract class DashboardComponent implements Comparable
      * Returns the Zone
      * @return The Zone
      */
-    public int getZone()
+    public int getZone(  )
     {
         return _nZone;
     }
@@ -119,7 +120,7 @@ public abstract class DashboardComponent implements Comparable
      * Returns the Order
      * @return The Order
      */
-    public int getOrder()
+    public int getOrder(  )
     {
         return _nOrder;
     }
@@ -137,7 +138,7 @@ public abstract class DashboardComponent implements Comparable
      * Returns the Plugin
      * @return The Plugin
      */
-    public Plugin getPlugin()
+    public Plugin getPlugin(  )
     {
         return _plugin;
     }
@@ -158,15 +159,15 @@ public abstract class DashboardComponent implements Comparable
      */
     public int compareTo( Object o )
     {
-        return getOrder() - (( DashboardComponent ) o).getOrder();
+        return getOrder(  ) - ( (DashboardComponent) o ).getOrder(  );
     }
-    
+
     /**
      * Tells if the component is enabled
      * @return true if enabled
      */
-    public boolean isEnabled()
+    public boolean isEnabled(  )
     {
-        return PluginService.isPluginEnable( _plugin.getName() );
+        return PluginService.isPluginEnable( _plugin.getName(  ) );
     }
 }

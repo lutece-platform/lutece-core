@@ -110,7 +110,7 @@ public class DashboardService
 
         for ( DashboardComponent dc : _listComponents )
         {
-            if ( ( dc.getZone(  ) == nZone ) && dc.isEnabled() && user.checkRight( dc.getRight(  ) ) )
+            if ( ( dc.getZone(  ) == nZone ) && dc.isEnabled(  ) && user.checkRight( dc.getRight(  ) ) )
             {
                 sbDashboardData.append( dc.getDashboardData( user ) );
             }

@@ -34,10 +34,12 @@
 package fr.paris.lutece.portal.service.filter;
 
 import java.io.IOException;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+
 
 /**
  * Lutece filter chain
@@ -47,7 +49,7 @@ import javax.servlet.ServletResponse;
 public class LuteceFilterChain implements FilterChain
 {
     private boolean _bFollowChain;
-    
+
     /**
      * Initialize the follow chain flag (does the filter called "chain.doFilter")
      * @param bFollowChain The follow chain flag
@@ -56,12 +58,12 @@ public class LuteceFilterChain implements FilterChain
     {
         _bFollowChain = bFollowChain;
     }
-    
+
     /**
      * Returns the follow chain flag
      * @return The follow chain flag
      */
-    public boolean shouldFollowChain()
+    public boolean shouldFollowChain(  )
     {
         return _bFollowChain;
     }
@@ -69,7 +71,8 @@ public class LuteceFilterChain implements FilterChain
     /**
      * {@inheritDoc }
      */
-    public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException
+    public void doFilter( ServletRequest request, ServletResponse response )
+        throws IOException, ServletException
     {
         // Do nothing and set the follow chain flag to true
         setFollowChain( true );

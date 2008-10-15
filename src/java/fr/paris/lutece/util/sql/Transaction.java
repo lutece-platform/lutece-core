@@ -37,28 +37,34 @@ import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.database.PluginConnectionService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppException;
+
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import org.apache.log4j.Logger;
+
 
 /**
  * Transaction
  */
 public class Transaction
 {
-
     public static final int OPENED = -1;
     public static final int COMMITED = 0;
     public static final int ROLLEDBACK = 1;
     private static final String DEFAULT_MODULE_NAME = "core";
     private static final String LOGGER_DEBUG_SQL = "lutece.debug.sql.";
+
     /** Connection Service providing connection from a defined pool */
     private PluginConnectionService _connectionService;
+
     /** JDBC Connection */
     private Connection _connection;
+
     /** Plugin name */
     private String _strPluginName;
+
     /** The debug logger */
     private Logger _logger;
     private PreparedStatement _statement;
@@ -69,7 +75,7 @@ public class Transaction
     /**
      * Constructor
      */
-    public Transaction()
+    public Transaction(  )
     {
         beginTransaction( null );
     }
@@ -91,47 +97,47 @@ public class Transaction
     public void prepareStatement( String strSQL ) throws SQLException
     {
         // Close the previous statement if exists
-        if( _statement != null )
+        if ( _statement != null )
         {
-            _statement.close();
+            _statement.close(  );
         }
 
         // Get a new statement 
         _strSQL = strSQL;
         _statement = _connection.prepareStatement( _strSQL );
     }
-    
+
     /**
      * The current prepared statement
      * @return The current statement
      */
-    public PreparedStatement getStatement()
+    public PreparedStatement getStatement(  )
     {
         return _statement;
     }
-    
+
     /**
      * Execute the current statement
      * @throws SQLException
      */
-    public void executeStatement( ) throws SQLException
+    public void executeStatement(  ) throws SQLException
     {
         _logger.debug( "Plugin : '" + _strPluginName + "' - EXECUTE STATEMENT : " + _strSQL );
-        _statement.executeUpdate();
+        _statement.executeUpdate(  );
     }
 
     /**
      * Commit the transaction
      */
-    public void commit()
+    public void commit(  )
     {
         try
         {
-            _connection.commit();
+            _connection.commit(  );
             _logger.debug( "Plugin : '" + _strPluginName + "' - COMMIT TRANSACTION" );
             closeTransaction( COMMITED );
         }
-        catch( SQLException e )
+        catch ( SQLException e )
         {
             rollback( e );
         }
@@ -140,7 +146,7 @@ public class Transaction
     /**
      * Rollback the transaction
      */
-    public void rollback()
+    public void rollback(  )
     {
         rollback( null );
     }
@@ -151,19 +157,20 @@ public class Transaction
      */
     public void rollback( Exception e )
     {
-        if( e != null )
+        if ( e != null )
         {
-            _logger.error( "Transaction Error - Rollback in progress " + e.getMessage(), e.getCause() );
+            _logger.error( "Transaction Error - Rollback in progress " + e.getMessage(  ), e.getCause(  ) );
         }
+
         try
         {
-            _connection.rollback();
+            _connection.rollback(  );
             _logger.debug( "Plugin : '" + _strPluginName + "' - ROLLBACK TRANSACTION" );
             closeTransaction( ROLLEDBACK );
         }
-        catch( SQLException ex )
+        catch ( SQLException ex )
         {
-            _logger.error( "Transaction Error - Rollback error : " + ex.getMessage(), ex.getCause() );
+            _logger.error( "Transaction Error - Rollback error : " + ex.getMessage(  ), ex.getCause(  ) );
         }
     }
 
@@ -171,7 +178,7 @@ public class Transaction
      * Return the transaction status
      * @return The transaction status
      */
-    public int getStatus()
+    public int getStatus(  )
     {
         return _nStatus;
     }
@@ -182,18 +189,18 @@ public class Transaction
      */
     private void beginTransaction( Plugin plugin )
     {
-        if( plugin != null )
+        if ( plugin != null )
         {
-            _strPluginName = plugin.getName();
-            _connectionService = plugin.getConnectionService();
+            _strPluginName = plugin.getName(  );
+            _connectionService = plugin.getConnectionService(  );
         }
         else
         {
             _strPluginName = DEFAULT_MODULE_NAME;
-            _connectionService = AppConnectionService.getDefaultConnectionService();
+            _connectionService = AppConnectionService.getDefaultConnectionService(  );
         }
 
-        if( _connectionService == null )
+        if ( _connectionService == null )
         {
             throw new AppException( "Database access error. Please check component installations and db.properties." );
         }
@@ -203,13 +210,13 @@ public class Transaction
 
         try
         {
-            _connection = _connectionService.getConnection();
+            _connection = _connectionService.getConnection(  );
 
             // Save the autocommit configuration of the connection
-            _bAutoCommit = _connection.getAutoCommit();
+            _bAutoCommit = _connection.getAutoCommit(  );
             _connection.setAutoCommit( false );
         }
-        catch( SQLException e )
+        catch ( SQLException e )
         {
             rollback( e );
         }
@@ -222,21 +229,23 @@ public class Transaction
     private void closeTransaction( int nStatus )
     {
         _nStatus = nStatus;
+
         try
         {
-            if( _statement != null )
+            if ( _statement != null )
             {
-                _statement.close();
+                _statement.close(  );
             }
+
             // Restore the autocommit configuration of the connection
             _connection.setAutoCommit( _bAutoCommit );
         }
-        catch( SQLException ex )
+        catch ( SQLException ex )
         {
-            _logger.error( "Transaction Error - Unable to close transaction " + ex.getMessage(), ex.getCause() );
+            _logger.error( "Transaction Error - Unable to close transaction " + ex.getMessage(  ), ex.getCause(  ) );
         }
-        _connectionService.freeConnection( _connection );
 
+        _connectionService.freeConnection( _connection );
     }
 
     /**
@@ -245,7 +254,7 @@ public class Transaction
      * @throws java.lang.Throwable
      */
     @Override
-    protected void finalize() throws Throwable
+    protected void finalize(  ) throws Throwable
     {
         if ( _nStatus == OPENED )
         {
@@ -255,7 +264,4 @@ public class Transaction
 
         super.finalize(  );
     }
-    
-    
-
 }

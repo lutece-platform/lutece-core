@@ -112,7 +112,7 @@ public class PluginFile
 
         // Push empty List onto Digester's Stack
         digester.push( this );
-        digester.setValidating(false);
+        digester.setValidating( false );
 
         try
         {

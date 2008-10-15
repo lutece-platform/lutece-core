@@ -33,15 +33,15 @@
  */
 package fr.paris.lutece.portal.service.regularexpression;
 
-import java.util.List;
+import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
+import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
-import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
-import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import java.util.List;
 
 
 /**
@@ -57,13 +57,11 @@ public class RegularExpressionService
 
     private RegularExpressionService(  )
     {
-    	
-    
         try
         {
             _service = (IRegularExpressionService) SpringContextService.getPluginBean( PLUGIN_REGULAR_EXPRESSION_NAME,
                     "regularExpressionService" );
-            _bServiceAvailable= _service != null;
+            _bServiceAvailable = _service != null;
         }
         catch ( BeanDefinitionStoreException e )
         {
@@ -99,7 +97,7 @@ public class RegularExpressionService
     */
     public boolean isAvailable(  )
     {
-        return _bServiceAvailable && PluginService.isPluginEnable(PLUGIN_REGULAR_EXPRESSION_NAME )  ;
+        return _bServiceAvailable && PluginService.isPluginEnable( PLUGIN_REGULAR_EXPRESSION_NAME );
     }
 
     /**
@@ -109,7 +107,7 @@ public class RegularExpressionService
          */
     boolean isPatternValide( String strPattern )
     {
-        return isAvailable() ? _service.isPatternValide( strPattern ) : false;
+        return isAvailable(  ) ? _service.isPatternValide( strPattern ) : false;
     }
 
     /**
@@ -119,7 +117,7 @@ public class RegularExpressionService
      */
     boolean isPatternValide( RegularExpression regularExpression )
     {
-        return isAvailable() ? _service.isPatternValide( regularExpression ) : false;
+        return isAvailable(  ) ? _service.isPatternValide( regularExpression ) : false;
     }
 
     /**
@@ -130,7 +128,7 @@ public class RegularExpressionService
     */
     public boolean isMatches( String strValueToTest, String strPattern )
     {
-        return isAvailable() ? _service.isMatches( strValueToTest, strPattern ) : false;
+        return isAvailable(  ) ? _service.isMatches( strValueToTest, strPattern ) : false;
     }
 
     /**
@@ -141,7 +139,7 @@ public class RegularExpressionService
      */
     public boolean isMatches( String strValueToTest, RegularExpression regularExpression )
     {
-        return isAvailable() ? _service.isMatches( strValueToTest, regularExpression ) : false;
+        return isAvailable(  ) ? _service.isMatches( strValueToTest, regularExpression ) : false;
     }
 
     /**
@@ -151,7 +149,7 @@ public class RegularExpressionService
      */
     public RegularExpression getRegularExpressionByKey( int nKey )
     {
-        return isAvailable()? _service.getRegularExpressionByKey( nKey ) : null;
+        return isAvailable(  ) ? _service.getRegularExpressionByKey( nKey ) : null;
     }
 
     /**
@@ -160,6 +158,6 @@ public class RegularExpressionService
      */
     public List<RegularExpression> getAllRegularExpression(  )
     {
-        return isAvailable()? _service.getAllRegularExpression(  ) : null;
+        return isAvailable(  ) ? _service.getAllRegularExpression(  ) : null;
     }
 }

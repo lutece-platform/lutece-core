@@ -33,12 +33,10 @@
  */
 package fr.paris.lutece.portal.service.search;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
+import fr.paris.lutece.portal.business.page.Page;
+import fr.paris.lutece.portal.service.security.LuteceUser;
+import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
@@ -56,120 +54,139 @@ import org.apache.lucene.search.QueryWrapperFilter;
 import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.TermQuery;
 
-import fr.paris.lutece.portal.business.page.Page;
-import fr.paris.lutece.portal.service.security.LuteceUser;
-import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.util.AppLogService;
+import java.text.ParseException;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * LuceneSearchEngine
  */
-public class LuceneSearchEngine implements SearchEngine {
-	/**
-	 * Return search results
-	 * 
-	 * @param strQuery The search query
-	 * @param request The HTTP request
-	 * @return Results as a collection of SearchResult
-	 */
-	public List<SearchResult> getSearchResults(String strQuery,HttpServletRequest request) {
-
-
-		ArrayList<SearchItem> listResults = new ArrayList<SearchItem>();
-		Searcher searcher = null;
-		Filter filterRole = null;
-		boolean bFilterResult=false;
-		LuteceUser user=null;
-		if (SecurityService.isAuthenticationEnable()) {
-			user= SecurityService.getInstance(  ).getRegisteredUser( request );
-			Filter[] filtersRole = null;
-			if (user != null ) 
-			{
-				String[] userRoles = SecurityService.getInstance()
-				.getRolesByUser(user);
-				if(userRoles!=null)
-				{
-
-					filtersRole = new Filter[userRoles.length + 1];
-					for (int i = 0; i < userRoles.length; i++) {
-						Query queryRole = new TermQuery(new Term(
-								SearchItem.FIELD_ROLE, userRoles[i]));
-						filtersRole[i] = new CachingWrapperFilter(new QueryWrapperFilter(queryRole));
-					}
-				}
-				else
-				{
-					bFilterResult=true;
-				}
-
-
-			} 
-			else 
-			{
-				filtersRole = new Filter[1];
-			}
-
-			if( ! bFilterResult )
-			{
-				Query queryRole = new TermQuery(new Term(SearchItem.FIELD_ROLE,
-						Page.ROLE_NONE));
-				filtersRole[filtersRole.length - 1] =new CachingWrapperFilter(new QueryWrapperFilter(queryRole));
-				filterRole = new ChainedFilter(filtersRole, ChainedFilter.OR);
-			}
-		}
-		try {
-			searcher = new IndexSearcher(IndexationService.getIndex());
-			Query query = null;
-			QueryParser parser = new QueryParser(SearchItem.FIELD_CONTENTS,
-					IndexationService.getAnalyser());
-			query = parser.parse((strQuery != null) ? strQuery : "");
-			// Get results documents
-			Hits hits = searcher.search(query,filterRole);
-			Iterator i = hits.iterator();
-			while (i.hasNext()) 
-			{
-				Hit hit = (Hit) i.next();
-				Document document = hit.getDocument();
-				SearchItem si = new SearchItem(document);
-				if( ( !bFilterResult ) ||(bFilterResult&&si.getRole().equals( Page.ROLE_NONE ) )||( bFilterResult&& SecurityService.getInstance( )
-						.isUserInRole(request, si.getRole( )  )))
-				{
-					listResults.add(si);
-				}
-			}
-
-
-			searcher.close();
-		} catch (Exception e) {
-			AppLogService.error(e.getMessage(), e);
-		}
-		return convertList(listResults);
-	}
-	 /**
-     * Convert a list of Lucene items into a list of generic search items
-     * @param listSource The list of Lucene items
-     * @return A list of generic search items
+public class LuceneSearchEngine implements SearchEngine
+{
+    /**
+     * Return search results
+     *
+     * @param strQuery The search query
+     * @param request The HTTP request
+     * @return Results as a collection of SearchResult
      */
-	private List<SearchResult> convertList(List<SearchItem> listSource) {
-		List<SearchResult> listDest = new ArrayList<SearchResult>();
-		for (SearchItem item : listSource) {
-			SearchResult result = new SearchResult();
-			result.setId(item.getId());
+    public List<SearchResult> getSearchResults( String strQuery, HttpServletRequest request )
+    {
+        ArrayList<SearchItem> listResults = new ArrayList<SearchItem>(  );
+        Searcher searcher = null;
+        Filter filterRole = null;
+        boolean bFilterResult = false;
+        LuteceUser user = null;
 
-			try {
-				result.setDate(DateTools.stringToDate(item.getDate()));
-			} catch (ParseException e) {
-				AppLogService.error("Bad Date Format for indexed item \""
-						+ item.getTitle() + "\" : " + e.getMessage());
-			}
+        if ( SecurityService.isAuthenticationEnable(  ) )
+        {
+            user = SecurityService.getInstance(  ).getRegisteredUser( request );
 
-			result.setUrl(item.getUrl());
-			result.setTitle(item.getTitle());
-			result.setSummary(item.getSummary());
-			result.setType(item.getType());
-			listDest.add(result);
-		}
+            Filter[] filtersRole = null;
 
-		return listDest;
-	}
+            if ( user != null )
+            {
+                String[] userRoles = SecurityService.getInstance(  ).getRolesByUser( user );
+
+                if ( userRoles != null )
+                {
+                    filtersRole = new Filter[userRoles.length + 1];
+
+                    for ( int i = 0; i < userRoles.length; i++ )
+                    {
+                        Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, userRoles[i] ) );
+                        filtersRole[i] = new CachingWrapperFilter( new QueryWrapperFilter( queryRole ) );
+                    }
+                }
+                else
+                {
+                    bFilterResult = true;
+                }
+            }
+            else
+            {
+                filtersRole = new Filter[1];
+            }
+
+            if ( !bFilterResult )
+            {
+                Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, Page.ROLE_NONE ) );
+                filtersRole[filtersRole.length - 1] = new CachingWrapperFilter( new QueryWrapperFilter( queryRole ) );
+                filterRole = new ChainedFilter( filtersRole, ChainedFilter.OR );
+            }
+        }
+
+        try
+        {
+            searcher = new IndexSearcher( IndexationService.getIndex(  ) );
+
+            Query query = null;
+            QueryParser parser = new QueryParser( SearchItem.FIELD_CONTENTS, IndexationService.getAnalyser(  ) );
+            query = parser.parse( ( strQuery != null ) ? strQuery : "" );
+
+            // Get results documents
+            Hits hits = searcher.search( query, filterRole );
+            Iterator i = hits.iterator(  );
+
+            while ( i.hasNext(  ) )
+            {
+                Hit hit = (Hit) i.next(  );
+                Document document = hit.getDocument(  );
+                SearchItem si = new SearchItem( document );
+
+                if ( ( !bFilterResult ) || ( bFilterResult && si.getRole(  ).equals( Page.ROLE_NONE ) ) ||
+                        ( bFilterResult && SecurityService.getInstance(  ).isUserInRole( request, si.getRole(  ) ) ) )
+                {
+                    listResults.add( si );
+                }
+            }
+
+            searcher.close(  );
+        }
+        catch ( Exception e )
+        {
+            AppLogService.error( e.getMessage(  ), e );
+        }
+
+        return convertList( listResults );
+    }
+
+    /**
+    * Convert a list of Lucene items into a list of generic search items
+    * @param listSource The list of Lucene items
+    * @return A list of generic search items
+    */
+    private List<SearchResult> convertList( List<SearchItem> listSource )
+    {
+        List<SearchResult> listDest = new ArrayList<SearchResult>(  );
+
+        for ( SearchItem item : listSource )
+        {
+            SearchResult result = new SearchResult(  );
+            result.setId( item.getId(  ) );
+
+            try
+            {
+                result.setDate( DateTools.stringToDate( item.getDate(  ) ) );
+            }
+            catch ( ParseException e )
+            {
+                AppLogService.error( "Bad Date Format for indexed item \"" + item.getTitle(  ) + "\" : " +
+                    e.getMessage(  ) );
+            }
+
+            result.setUrl( item.getUrl(  ) );
+            result.setTitle( item.getTitle(  ) );
+            result.setSummary( item.getSummary(  ) );
+            result.setType( item.getType(  ) );
+            listDest.add( result );
+        }
+
+        return listDest;
+    }
 }

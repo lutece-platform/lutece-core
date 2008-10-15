@@ -177,7 +177,7 @@ public class PageIndexer implements SearchIndexer
         // Add the title as a separate Text field, so that it can be searched
         // separately.
         doc.add( new Field( SearchItem.FIELD_TITLE, page.getName(  ), Field.Store.YES, Field.Index.NO ) );
-        
+
         if ( ( page.getDescription(  ) != null ) && ( page.getDescription(  ).length(  ) > 1 ) )
         {
             // Add the summary as an UnIndexed field, so that it is stored and returned
@@ -186,7 +186,7 @@ public class PageIndexer implements SearchIndexer
         }
 
         doc.add( new Field( SearchItem.FIELD_TYPE, "Page", Field.Store.YES, Field.Index.NO ) );
-        doc.add( new Field( SearchItem.FIELD_ROLE, page.getRole(), Field.Store.YES,  Field.Index.UN_TOKENIZED  ) );
+        doc.add( new Field( SearchItem.FIELD_ROLE, page.getRole(  ), Field.Store.YES, Field.Index.UN_TOKENIZED ) );
 
         // return the document
         return doc;

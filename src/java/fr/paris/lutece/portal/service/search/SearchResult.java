@@ -170,19 +170,22 @@ public class SearchResult
     {
         _strType = strType;
     }
+
     /**
      * Return the list of roles
      * @return the list of roles
      */
-	public List<String> getRoles( ) {
-		return _listRoles;
-	}
-	
-	/**
-	 * Sets the list of roles
-	 * @param listRoles the list of roles
-	 */
-	public void setRole(List<String> listRoles) {
-		_listRoles = listRoles;
-	}
+    public List<String> getRoles(  )
+    {
+        return _listRoles;
+    }
+
+    /**
+     * Sets the list of roles
+     * @param listRoles the list of roles
+     */
+    public void setRole( List<String> listRoles )
+    {
+        _listRoles = listRoles;
+    }
 }

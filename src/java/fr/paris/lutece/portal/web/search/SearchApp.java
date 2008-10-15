@@ -33,12 +33,6 @@
  */
 package fr.paris.lutece.portal.web.search;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.search.QueryEvent;
@@ -56,6 +50,12 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -83,6 +83,7 @@ public class SearchApp implements XPageApplication
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_ERROR = "error";
     private static final int MODE_ADMIN = 1;
+
     /**
      * Returns search results
      *
@@ -98,8 +99,7 @@ public class SearchApp implements XPageApplication
         String strSearchPageUrl = AppPropertiesService.getProperty( PROPERTY_SEARCH_PAGE_URL );
         String strError = "";
         Locale locale = request.getLocale(  );
-        LuteceUser user=null;
-       
+        LuteceUser user = null;
 
         // Check XSS characters
         if ( ( strQuery != null ) && ( StringUtil.containsXssCharacters( strQuery ) ) )
@@ -116,13 +116,13 @@ public class SearchApp implements XPageApplication
         int nNbItemsPerPage = Integer.parseInt( strNbItemPerPage );
         String strCurrentPageIndex = request.getParameter( PARAMETER_PAGE_INDEX );
         strCurrentPageIndex = ( strCurrentPageIndex != null ) ? strCurrentPageIndex : DEFAULT_PAGE_INDEX;
+
         SearchEngine engine = (SearchEngine) SpringContextService.getBean( BEAN_SEARCH_ENGINE );
-        List<SearchResult> listResults = engine.getSearchResults( strQuery,request );
-    
-        
-            // The page should not be added to the cache
-         
-       // Notify results infos to QueryEventListeners 
+        List<SearchResult> listResults = engine.getSearchResults( strQuery, request );
+
+        // The page should not be added to the cache
+
+        // Notify results infos to QueryEventListeners 
         notifyQueryListeners( strQuery, listResults.size(  ), request );
 
         UrlItem url = new UrlItem( strSearchPageUrl );
