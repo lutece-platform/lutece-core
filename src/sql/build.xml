@@ -12,6 +12,18 @@
 		<property name="db.connector.path" value="${db.connector.jar.path}" />
 	</target>
 	
+	<target name="init_update" description="Prepare the database by updating data">
+		<echo message="Preparing the database(s) by updating data" />
+		<!-- Property file -->
+		<property file="build.properties" />
+		<property name="db.properties.path" value="../conf/db.properties"/>
+		<property name="db.connector.jar.path" value="../lib/mysql-connector-java-5.0.5.jar"/>
+		<!-- Webapp database pool configuration file -->
+		<property file="${db.properties.path}" />
+		<!-- Path to the jar that contain database connector driver -->
+		<property name="db.connector.path" value="${db.connector.jar.path}" />
+	</target>
+	
 	<!-- For inport lib ant-contrib -->
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
@@ -44,6 +56,9 @@
 	
 	<!-- Default target to be used with sql/plugins/<plugin name>/core and sql/plugins/<plugin name>/plugin structure -->
 	<target name="all" if="contrib.jar.present" depends="contrib_not_found,db_core_plugin_init,db_plugin_init,db_init_old_structure"/>
+	
+	<!-- target for update script -->
+	<target name="update" if="contrib.jar.present" depends="contrib_not_found,db_plugins_specific_database_update"/>
 	
 	
 		<!-- Target that create db -->	
@@ -115,7 +130,9 @@
 			</classpath>
 		</sql>		
 	</target>
-				
+			
+	<!-- ALL command line -->
+			
 	<!-- Target to init plugin specific database -->
 	<target name="plugin_init_plugins_files" if="contrib.jar.present" depends="db_core_init">	
 		<fileset id="sql.plugin.files" dir="${basedir}">
@@ -181,6 +198,99 @@
 		</if>
 	</target>
 	
+	<!-- UPDATE command line -->
+	
+	<!-- init the list spesifics pools for update -->
+	<target name="init_list_db_plugins_specific_database_update" if="contrib.jar.present" depends="init_update" >
+		
+		<property name="list_plugins" value=""/>	
+		<property name="before_pool" value=""/>
+		<for param="file">
+			<path>
+			    <fileset dir="${basedir}">
+					<include name="plugins/**/upgrade/*.sql" />
+			    </fileset>
+			</path>
+			<sequential>
+			
+				<dirname property="file.@{file}" file="@{file}"/>
+				<propertyregex property="pool" input="${file.@{file}}" regexp="(.*)\\(.*)\\upgrade" replace="\2" casesensitive="true" override="true" />
+  			    <propertyregex property="pool" input="${file.@{file}}" regexp="(.*)/(.*)/upgrade" replace="\2" casesensitive="true" override="true" />
+				
+				<if>
+				 <equals arg1="${before_pool}" arg2="${pool}" />
+				 <then>
+
+				 </then>
+				 <else>
+				 	<propertyregex property="list_plugins" input="${list_plugins}" regexp="(.*)" replace="\1${pool}," global="false" casesensitive="true" override="true" />		 
+				 	<propertyregex property="before_pool" input="${pool}" regexp="(.*)" replace="\1" casesensitive="true" override="true" />			 	
+				 </else>
+				</if>
+				
+			</sequential>
+		</for>
+	</target>
+	
+	<!-- update spesifics pools -->
+	<target name="db_plugins_specific_database_update" if="contrib.jar.present" depends="init_list_db_plugins_specific_database_update">
+		<for list="${list_plugins}" delimiter="," param="pool">
+			<sequential>
+				<fileset id="sql.plugin.files" dir="${basedir}">
+					<include name="plugins/**/@{pool}/plugin/*.sql" />
+				</fileset>
+				<pathconvert refid="sql.plugin.files" setonempty="false" property="exists.sql.plugin.files"/>
+				
+				<echo message="" />
+				<echo message="======================================================================" />
+				
+				<if>
+				 <equals arg1="${@{pool}.poolservice}" arg2="${portal.poolservice}" />
+				 <then>
+				
+				<echo >db_@{pool}_init:</echo>
+				
+				<propertyregex property="baseUrl@{pool}" input="${@{pool}.url}" regexp="(.*)/(.*)\?(.*)" replace="\1" casesensitive="true" override="true" />
+				<propertyregex property="baseName@{pool}" input="${@{pool}.url}" regexp="(.*)/(.*)\?(.*)" replace="\2" casesensitive="true" override="true" />
+				
+				<echo message="" />
+				<echo>Update the "@{pool}" database "${baseName@{pool}}" on host "${baseUrl@{pool}}"</echo>
+
+				<echo message="" />
+				<echo message="Preparing plugin @{pool} database" />
+						<sql driver="${@{pool}.driver}" url="${@{pool}.url}" userid="${@{pool}.user}" password="${@{pool}.password}" encoding="utf8" onerror="${on_sql_error}">
+							<fileset refid="sql.plugin.files"/>
+							<classpath>
+								<pathelement location="${db.connector.path}" />
+							</classpath>
+						</sql>		
+				
+				</then>
+				 <else>
+					<echo >db_@{pool}_init:</echo>
+					<echo message="" />
+					<echo level="warning">
+		"@{pool}" pool wasn't defined in db.properties file.
+		All tables will be update in core pool portal.
+					</echo>
+					
+					<sql driver="${portal.driver}" url="${portal.url}" userid="${portal.user}" password="${portal.password}" encoding="utf8" onerror="${on_sql_error}">
+							<fileset refid="sql.plugin.files"/>
+							<classpath>
+								<pathelement location="${db.connector.path}" />
+							</classpath>
+						</sql>
+				 </else>
+				 </if>
+				
+				
+			</sequential>
+		</for>
+		
+	</target>
+
+	<!-- SPESIFICS command line (by default) -->
+
 	<!-- init the list spesifics pools -->
 	<target name="init_list_db_plugins_specific_database" if="contrib.jar.present" depends="db_core_init" >
 		
@@ -278,6 +388,8 @@
 		</for>
 		
 	</target>
+	
+	<!-- DB_INIT_OLD_STRUCTURE command line -->
 	
 	<!-- Target to be used with old sql directory structure --> 
 	<target name="db_init_old_structure" unless="contrib.jar.present" depends="db_core_init">
