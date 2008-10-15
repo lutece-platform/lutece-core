@@ -112,6 +112,7 @@ public class PluginFile
 
         // Push empty List onto Digester's Stack
         digester.push( this );
+        digester.setValidating(false);
 
         try
         {
@@ -125,11 +126,6 @@ public class PluginFile
         catch ( SAXException e )
         {
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
-        }
-        catch ( java.net.ConnectException e )
-        {
-            //can't access the dtd file. Normal if you run J2EE server behind a gateway
-        	//or if the dtd file is not on the server as it should be.
         }
         catch ( IOException e )
         {
