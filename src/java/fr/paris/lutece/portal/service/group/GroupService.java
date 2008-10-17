@@ -35,8 +35,10 @@ package fr.paris.lutece.portal.service.group;
 
 import fr.paris.lutece.portal.business.group.Group;
 
-
-public class GroupService
+/**
+ * Group Service
+ */
+public final class GroupService
 {
     /**
      * Private Constructor

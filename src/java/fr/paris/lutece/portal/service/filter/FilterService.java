@@ -62,7 +62,7 @@ public final class FilterService
 
     /**
      * Return the unique instance
-     * @return
+     * @return The instance
      */
     public static FilterService getInstance(  )
     {

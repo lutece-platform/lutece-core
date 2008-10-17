@@ -49,5 +49,5 @@ public interface SearchEngine
      * @param request The HTTP request
      * @return Results as a collection of SearchResult
      */
-    public List<SearchResult> getSearchResults( String strQuery, HttpServletRequest request );
+    List<SearchResult> getSearchResults( String strQuery, HttpServletRequest request );
 }

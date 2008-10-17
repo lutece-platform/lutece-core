@@ -44,7 +44,7 @@ import java.util.List;
 /**
  * Dashboard Service
  */
-public class DashboardService
+public final class DashboardService
 {
     private static DashboardService _singleton = new DashboardService(  );
     private List<DashboardComponent> _listComponents = new ArrayList<DashboardComponent>(  );
