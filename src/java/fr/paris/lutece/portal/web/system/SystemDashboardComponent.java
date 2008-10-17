@@ -50,6 +50,11 @@ public class SystemDashboardComponent extends DashboardComponent
     private static final String TEMPLATE_DASHBOARD = "/admin/system/system_dashboard.html";
     private static final String MARK_PLUGINS_COUNT = "plugins_count";
 
+    /**
+     * Returns the dashboard component HTML code
+     * @param user The current user
+     * @return The dashboard data
+     */
     public String getDashboardData( AdminUser user )
     {
         HashMap model = new HashMap(  );

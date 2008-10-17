@@ -54,6 +54,11 @@ public class UsersDashboardComponent extends DashboardComponent
     private static final String MARK_URL = "url";
     private static final String MARK_ICON = "icon";
 
+    /**
+     * Returns the dashboard component HTML code
+     * @param user The current user
+     * @return The dashboard data
+     */
     public String getDashboardData( AdminUser user )
     {
         Right right = RightHome.findByPrimaryKey( getRight(  ) );

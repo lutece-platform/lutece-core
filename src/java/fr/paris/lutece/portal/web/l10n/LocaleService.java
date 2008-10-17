@@ -42,9 +42,16 @@ import javax.servlet.http.HttpSession;
 /**
  * LocaleService
  */
-public class LocaleService
+public final class LocaleService
 {
-    private static String ATTRIBUTE_SELECTED_LOCALE = "LUTECE_ATTRIBUTE_USER_SELECTED_LOCALE";
+    private static final String ATTRIBUTE_SELECTED_LOCALE = "LUTECE_ATTRIBUTE_USER_SELECTED_LOCALE";
+
+    /**
+     * Private constructor
+     */
+    private LocaleService()
+    {
+    }
 
     /**
      * Set the locale selected by the user in the front office. The user may select a language
