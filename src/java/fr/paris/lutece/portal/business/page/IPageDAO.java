@@ -64,7 +64,7 @@ public interface IPageDAO
      * @param nPorletId The indentifier of the object portlet associate to the page
      * @return The Instance of the object Page
      */
-    public Page loadPageByIdPortlet( int nPorletId );
+    Page loadPageByIdPortlet( int nPorletId );
 
     /**
      * Delete a record from the table

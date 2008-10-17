@@ -184,8 +184,8 @@ public final class PageDAO implements IPageDAO
         return page;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.page.IPageDAO#loadPageByIdPortlet(int)
+    /**
+     * {@inheritDoc}
      */
     public Page loadPageByIdPortlet( int nPorletId )
     {
@@ -218,9 +218,9 @@ public final class PageDAO implements IPageDAO
         return page;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.page.IPageDAO#delete(int)
-         */
+    /**
+     * {@inheritDoc}
+     */
     public void delete( int nPageId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );

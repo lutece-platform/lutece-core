@@ -167,7 +167,6 @@ public final class FeatureGroupHome
      * Change the order in a {@link Right}
      *
      * @param featureGroup
-     * @param strRightKey the {@link Right} identifier
      * @param nNewOrder The new place in the list or END_OF_LIST to place Right at the end
      * @return The new order
      */
