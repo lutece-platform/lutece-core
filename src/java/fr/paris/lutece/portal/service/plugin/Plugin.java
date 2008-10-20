@@ -960,7 +960,9 @@ public abstract class Plugin implements Comparable<Plugin>
     }
 
     /**
-     * useful for debugging
+     * Useful for debugging
+     *
+     * @return The plugin object in String format
      */
     public String toString(  )
     {

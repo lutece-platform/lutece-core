@@ -44,9 +44,9 @@ import java.util.Collection;
 public final class RightHome
 {
     //Constants
-    private static int ERROR_ORDER = -2; //this value must be negative
-    private static int STEP_ORDER = 1;
-    private static int FIRST_ID_ORDER = 1;
+    private static final int CONSTANT_ERROR_ORDER = -2; //this value must be negative
+    private static final int CONSTANT_STEP_ORDER = 1;
+    private static final int CONSTANT_FIRST_ID_ORDER = 1;
 
     // Static variable pointed at the DAO instance
     private static IRightDAO _dao = (IRightDAO) SpringContextService.getBean( "rightDAO" );
@@ -66,7 +66,7 @@ public final class RightHome
      */
     public static Right create( Right right )
     {
-        right.setOrder( getRightsList( right.getFeatureGroup(  ) ).size(  ) + STEP_ORDER );
+        right.setOrder( getRightsList( right.getFeatureGroup(  ) ).size(  ) + CONSTANT_STEP_ORDER );
         _dao.insert( right );
 
         return right;
@@ -93,7 +93,7 @@ public final class RightHome
                 ( ( right.getFeatureGroup(  ) == null ) && ( oldRight.getFeatureGroup(  ) != null ) ) )
         {
             deleteEntryFromList( oldRight.getFeatureGroup(  ), oldRight.getOrder(  ) );
-            right.setOrder( getRightsList( right.getFeatureGroup(  ) ).size(  ) + STEP_ORDER );
+            right.setOrder( getRightsList( right.getFeatureGroup(  ) ).size(  ) + CONSTANT_STEP_ORDER );
         }
 
         // The order have changed
@@ -175,8 +175,7 @@ public final class RightHome
     /**
      * Change the order in a {@link Right}
      *
-     * @param right
-     * @param strRightKey the {@link Right} identifier
+     * @param right The right to update order
      * @param nNewOrder The new place in the list or END_OF_LIST to place Right at the end
      * @return The new order
      */
@@ -184,7 +183,7 @@ public final class RightHome
     {
         if ( right == null )
         {
-            return ERROR_ORDER;
+            return CONSTANT_ERROR_ORDER;
         }
 
         if ( nNewOrder < right.getOrder(  ) )
@@ -195,7 +194,7 @@ public final class RightHome
 
                 if ( ( nRightToUpdateOrder >= nNewOrder ) && ( nRightToUpdateOrder < right.getOrder(  ) ) )
                 {
-                    rightGroup.setOrder( nRightToUpdateOrder + STEP_ORDER );
+                    rightGroup.setOrder( nRightToUpdateOrder + CONSTANT_STEP_ORDER );
                     _dao.store( rightGroup );
                 }
             }
@@ -208,7 +207,7 @@ public final class RightHome
 
                 if ( ( nRightToUpdateOrder <= nNewOrder ) && ( nRightToUpdateOrder > right.getOrder(  ) ) )
                 {
-                    rightGroup.setOrder( nRightToUpdateOrder - STEP_ORDER );
+                    rightGroup.setOrder( nRightToUpdateOrder - CONSTANT_STEP_ORDER );
                     _dao.store( rightGroup );
                 }
             }
@@ -230,7 +229,7 @@ public final class RightHome
 
             if ( ( nRightToUpdateOrder > nOrderId ) )
             {
-                rightGroup.setOrder( nRightToUpdateOrder - STEP_ORDER );
+                rightGroup.setOrder( nRightToUpdateOrder - CONSTANT_STEP_ORDER );
                 _dao.store( rightGroup );
             }
         }
@@ -238,7 +237,8 @@ public final class RightHome
 
     /**
      * Reinitialize feature order groups
-     * @param strFeatureGroup
+     *
+     * @param strFeatureGroup The feature group key
      */
     public static void reinitFeatureOrders( String strFeatureGroup )
     {
@@ -247,7 +247,7 @@ public final class RightHome
             return;
         }
 
-        int nOrder = FIRST_ID_ORDER;
+        int nOrder = CONSTANT_FIRST_ID_ORDER;
 
         for ( Right rightGroup : getRightsList( strFeatureGroup ) )
         {
@@ -258,7 +258,8 @@ public final class RightHome
 
     /**
      * Check feature orders and return false if at least one order is twice
-     * @param strFeatureGroup
+     *
+     * @param strFeatureGroup The feature group key
      * @return true if order list is ok, false else.
      */
     public static boolean checkFeatureOrders( String strFeatureGroup )
@@ -268,7 +269,7 @@ public final class RightHome
             return false;
         }
 
-        int nOrder = FIRST_ID_ORDER;
+        int nOrder = CONSTANT_FIRST_ID_ORDER;
 
         for ( Right rightGroup : getRightsList( strFeatureGroup ) )
         {

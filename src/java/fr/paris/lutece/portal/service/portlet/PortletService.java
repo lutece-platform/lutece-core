@@ -51,6 +51,10 @@ public class PortletService
 {
     private static PortletService _singleton;
 
+    /**
+     * Constructor for class PortletService
+     * 
+     */
     private PortletService(  )
     {
     }

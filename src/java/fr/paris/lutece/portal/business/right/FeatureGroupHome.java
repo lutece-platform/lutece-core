@@ -45,8 +45,8 @@ public final class FeatureGroupHome
 {
     // Static variable pointed at the DAO instance
     private static IFeatureGroupDAO _dao = (IFeatureGroupDAO) SpringContextService.getBean( "featureGroupDAO" );
-    private static int ERROR_ORDER = -2; //this value must be negative
-    private static int STEP_ORDER = 1;
+    private static final int CONSTANT_ERROR_ORDER = -2; //this value must be negative
+    private static final int CONSTANT_STEP_ORDER = 1;
 
     /**
      * Creates a new FeatureGroupHome object.
@@ -63,7 +63,7 @@ public final class FeatureGroupHome
      */
     public static FeatureGroup create( FeatureGroup featureGroup )
     {
-        featureGroup.setOrder( getFeatureGroupsCount(  ) + STEP_ORDER );
+        featureGroup.setOrder( getFeatureGroupsCount(  ) + CONSTANT_STEP_ORDER );
         _dao.insert( featureGroup );
 
         return featureGroup;
@@ -124,7 +124,7 @@ public final class FeatureGroupHome
 
             if ( ( nFeatureGroupToUpdateOrder > nOrderId ) )
             {
-                featureGroupChange.setOrder( nFeatureGroupToUpdateOrder - STEP_ORDER );
+                featureGroupChange.setOrder( nFeatureGroupToUpdateOrder - CONSTANT_STEP_ORDER );
                 _dao.store( featureGroupChange );
             }
         }
@@ -166,7 +166,7 @@ public final class FeatureGroupHome
     /**
      * Change the order in a {@link Right}
      *
-     * @param featureGroup
+     * @param featureGroup The {@link FeatureGroup}
      * @param nNewOrder The new place in the list or END_OF_LIST to place Right at the end
      * @return The new order
      */
@@ -174,7 +174,7 @@ public final class FeatureGroupHome
     {
         if ( featureGroup == null )
         {
-            return ERROR_ORDER;
+            return CONSTANT_ERROR_ORDER;
         }
 
         if ( nNewOrder < featureGroup.getOrder(  ) )
@@ -186,7 +186,7 @@ public final class FeatureGroupHome
                 if ( ( nFeatureGroupToUpdateOrder >= nNewOrder ) &&
                         ( nFeatureGroupToUpdateOrder < featureGroup.getOrder(  ) ) )
                 {
-                    featureGroupChange.setOrder( nFeatureGroupToUpdateOrder + STEP_ORDER );
+                    featureGroupChange.setOrder( nFeatureGroupToUpdateOrder + CONSTANT_STEP_ORDER );
                     _dao.store( featureGroupChange );
                 }
             }
@@ -200,7 +200,7 @@ public final class FeatureGroupHome
                 if ( ( nFeatureGroupToUpdateOrder <= nNewOrder ) &&
                         ( nFeatureGroupToUpdateOrder > featureGroup.getOrder(  ) ) )
                 {
-                    featureGroupChange.setOrder( nFeatureGroupToUpdateOrder - STEP_ORDER );
+                    featureGroupChange.setOrder( nFeatureGroupToUpdateOrder - CONSTANT_STEP_ORDER );
                     _dao.store( featureGroupChange );
                 }
             }

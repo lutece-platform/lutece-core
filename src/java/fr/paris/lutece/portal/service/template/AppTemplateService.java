@@ -195,8 +195,7 @@ public final class AppTemplateService
      * Load the template from the file
      * WARNING : This method must not be used in front office (no cache management available).
      *
-     * @param strTemplate The name of the template
-     * @param strPath The specific path to load the template
+     * @param strTemplateData The data of the template
      * @param locale The current locale to localize the template
      * @param model the model to use for loading
      * @return The loaded template

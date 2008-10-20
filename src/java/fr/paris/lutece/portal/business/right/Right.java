@@ -291,7 +291,8 @@ public class Right implements Localizable, Comparable<Right>
 
     /**
      * Compare the right with the specified right
-     * @param o The right to be compared with the instancied right
+     * @param o The right to be compared with the instanced right
+     * @return The result of comparison
      */
     public int compareTo( Right o )
     {
