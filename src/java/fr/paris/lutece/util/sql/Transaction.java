@@ -92,7 +92,7 @@ public class Transaction
     /**
      * Gets a prepared statement
      * @param strSQL The SQL statement
-     * @throws SQLException
+     * @throws SQLException If an SQL error occurs
      */
     public void prepareStatement( String strSQL ) throws SQLException
     {
@@ -118,7 +118,7 @@ public class Transaction
 
     /**
      * Execute the current statement
-     * @throws SQLException
+     * @throws SQLException If an SQL error occurs
      */
     public void executeStatement(  ) throws SQLException
     {
@@ -251,7 +251,7 @@ public class Transaction
     /**
      * Checks that the transaction has been commited (or rolled back) before being destroyed
      * and release all transaction resources (statement, connection, ...) if not.
-     * @throws java.lang.Throwable
+     * {@inheritDoc }
      */
     @Override
     protected void finalize(  ) throws Throwable
