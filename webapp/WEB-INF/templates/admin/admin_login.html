@@ -3,7 +3,7 @@
         <title>#i18n{portal.admin.admin_login.title}</title>
     </head>
 
-    <body>
+    <body onLoad="document.login.access_code.focus();">
 <div id="admin-header" class="header-box">
     <div id="admin-main-menu" >       
      <div class="admin-main-menu-text">
@@ -49,10 +49,5 @@
                     </span>
 	        </p>
     </div>
-  
-    <script language="JavaScript">
-        window.onload = document.forms['login'].access_code.focus;
-    </script>
-
     </body>
 </html>
