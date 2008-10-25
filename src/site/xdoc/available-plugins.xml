@@ -19,7 +19,7 @@
                     </tr>
                     <tr>
                         <td><a href="/plugins/plugin-calendar/">calendar</a></td>
-                        <td>Plugin Calendar : multi-projects Agenda (iCal compliant)</td>
+                        <td>Plugin Calendar : multi-projects Agenda (iCalendar compliant)</td>
                     </tr>	
                     <tr>					
                         <td><a href="/plugins/plugin-childpages/">childpages</a></td>
@@ -131,16 +131,28 @@
                         <td>Plugin Mylutece : Authentication management to manage private area and user's customization</td>
                     </tr>							
                     <tr>
+                        <td><a href="/plugins/module-mylutece-cas/">mylutece-cas</a></td>
+                        <td>Module CAS for MyLutece - CAS authentication</td>
+                    </tr>	
+                    <tr>
                         <td><a href="/plugins/module-mylutece-database/">mylutece-database</a></td>
-                        <td>Module Database pour MyLutece - Database based authentication</td>
+                        <td>Module Database for MyLutece - Database based authentication</td>
                     </tr>	
                     <tr>
                         <td><a href="/plugins/module-mylutece-ldapdatabase/">mylutece-ldapdatabase</a></td>
-                        <td>Module LDAPDatabase pour MyLutece - LDAP based authentication + roles stored in DB</td>
+                        <td>Module LDAPDatabase for MyLutece - LDAP based authentication + roles stored in DB</td>
                     </tr>	
                     <tr>
                         <td><a href="/plugins/module-mylutece-openid/">mylutece-openid</a></td>
-                        <td>Module OpenID pour MyLutece - OpenID authentication</td>
+                        <td>Module OpenID for MyLutece - OpenID authentication</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-openiddatabase/">mylutece-openiddatabase</a></td>
+                        <td>Module OpenID for MyLutece - OpenID authentication + roles stored in DB</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-saml/">mylutece-saml</a></td>
+                        <td>Module SAML for MyLutece - SAML authentication</td>
                     </tr>	
                     <tr>
                         <td><a href="/plugins/module-mylutece-webserver/">mylutece-webserver</a></td>
@@ -166,6 +178,10 @@
                         <td><a href="/plugins/plugin-pagelinkservice/">pagelinkservice</a></td>
                         <td>Plugin Pagelinkservice : Create Links into Lutece content</td>
                     </tr>							
+                    <tr>
+                        <td><a href="/plugins/plugin-updater/">updater</a></td>
+                        <td>Plugin Updater : Install new plugins or upgrade existing once.</td>
+                    </tr>
                     <tr>
                         <td><a href="/plugins/plugin-systeminfo/">systeminfo</a></td>
                         <td>Plugin SystemInfo : System Info display for Lutece Backoffice</td>
@@ -194,6 +210,14 @@
                         <td><a href="plugins/plugin-ohloh/">ohloh</a></td>
                         <td>Plugin Ohloh : Display Open Source developers activity based on Ohloh data and API</td>
                     </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-pluginwizard/">pluginwizard</a></td>
+                        <td>Plugin Pluginwizard : Generate most files needed to make a simple plugin</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="/plugins/plugin-urlrewriter/">urlrewriter</a></td>
+                        <td>Plugin UrlRewriter : Url Rewriting features</td>
+                    </tr>						
                  </table>
              </p>
         </section>

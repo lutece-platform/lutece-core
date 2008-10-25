@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <document>
     <properties>
         <title>
@@ -18,7 +18,7 @@
                     </tr>
                     <tr>
                         <td><a href="/plugins/plugin-calendar/fr/">calendar</a></td>
-                        <td>Plugin Calendar : Agenda multi-projets compatible iCal</td>
+                        <td>Plugin Calendar : Agenda multi-projets compatible iCalendar</td>
                     </tr>	
                     <tr>					
                         <td><a href="/plugins/plugin-childpages/fr/">childpages</a></td>
@@ -169,6 +169,10 @@
                         <td>Plugin Mylutece : Gestion des utilisateurs authentifiés sur le site</td>
                     </tr>							
                     <tr>
+                        <td><a href="/plugins/module-mylutece-cas/fr/">mylutece-cas</a></td>
+                        <td>Module CAS pour MyLutece - Authentification utilisant CAS</td>
+                    </tr>	
+                    <tr>
                         <td><a href="/plugins/module-mylutece-database/fr/">mylutece-database</a></td>
                         <td>Module Database pour MyLutece - Authentification à partir d'une base de données</td>
                     </tr>	
@@ -179,6 +183,14 @@
                     <tr>
                         <td><a href="/plugins/module-mylutece-openid/fr/">mylutece-openid</a></td>
                         <td>Module OpenID pour MyLutece - Authentification utilisant des URL OpenID</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-openiddatabase/fr/">mylutece-openiddatabase</a></td>
+                        <td>Module OpenID pour MyLutece - Authentification utilisant des URL OpenID ou login/password et rôles en base de données</td>
+                    </tr>	
+                    <tr>
+                        <td><a href="/plugins/module-mylutece-saml/fr/">mylutece-saml</a></td>
+                        <td>Module SAML pour MyLutece - Authentification utilisant SAML</td>
                     </tr>	
                     <tr>
                         <td><a href="/plugins/module-mylutece-webserver/fr/">mylutece-webserver</a></td>
@@ -213,6 +225,10 @@
                         <td>Plugin SystemInfo : Affichage des informations du système dans le Back Office</td>
                     </tr>
                     <tr>
+                        <td><a href="/plugins/plugin-updater/fr/">updater</a></td>
+                        <td>Plugin Updater : Installation de nouveaux plugins et mise à jour de plugins déjà installés</td>
+                    </tr>
+                    <tr>
                         <td><a href="/plugins/plugin-xpagelinkservice/fr/">xpagelinkservice</a></td>
                         <td>Plugin Xpagelinkservice</td>
                     </tr>						
@@ -232,6 +248,14 @@
                         <td><a href="plugins/plugin-jcaptcha/fr/">jcaptcha</a></td>
                         <td>Plugin JCaptcha : Module Captcha pour les formulaires Lutèce</td>
                     </tr>					
+                    <tr>
+                        <td><a href="/plugins/plugin-pluginwizard/fr/">pluginwizard</a></td>
+                        <td>Plugin Pluginwizard : Assistant de génération des principaux fichiers pour réaliser un plugin Lutece simple</td>
+                    </tr>						
+                    <tr>
+                        <td><a href="/plugins/plugin-urlrewriter/fr/">urlrewriter</a></td>
+                        <td>Plugin UrlRewriter : Réécriture d'URL</td>
+                    </tr>						
                  </table>
             </p>
         </section>
