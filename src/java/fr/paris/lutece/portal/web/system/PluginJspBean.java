@@ -33,6 +33,14 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Locale;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -47,14 +55,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -101,7 +101,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         Locale locale = AdminUserService.getLocale( request );
         String strPluginTypeFilter = request.getParameter( PARAM_PLUGIN_TYPE );
         Collection<Plugin> listPlugins = PluginService.getPluginList(  );
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLUGINS_LIST, filterPluginsList( listPlugins, strPluginTypeFilter ) );
         model.put( MARK_POOLS_LIST, getPoolsList(  ) );
         model.put( MARK_FILTER_LIST, getPluginTypeFilterList( locale ) );
