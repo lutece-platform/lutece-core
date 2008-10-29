@@ -33,6 +33,15 @@
  */
 package fr.paris.lutece.portal.web.user;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.features.Level;
 import fr.paris.lutece.portal.business.features.LevelHome;
 import fr.paris.lutece.portal.business.rbac.AdminRole;
@@ -59,15 +68,6 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.string.StringUtil;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -221,7 +221,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         Paginator paginator = new Paginator( availableUsers, _nItemsPerPage, getHomeUrl( request ),
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_USER_LIST, paginator.getPageItems(  ) );
@@ -248,8 +248,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strFirstName = request.getParameter( PARAMETER_FIRST_NAME );
         String strEmail = request.getParameter( PARAMETER_EMAIL );
 
-        HashMap model = new HashMap(  );
-        Collection allImportUsers = null;
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        Collection<?> allImportUsers = null;
 
         if ( !( ( strLastName == null ) && ( strFirstName == null ) && ( strEmail == null ) ) ) // at least 1 criteria check
         {
@@ -322,7 +322,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         // creation in no-module mode : load empty form
         if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
         {
-            HashMap model = new HashMap(  );
+            Map<String, Object> model = new HashMap<String, Object>(  );
 
             model.put( MARK_USER_LEVELS_LIST, filteredLevels );
             model.put( MARK_CURRENT_USER, currentUser );
@@ -341,7 +341,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 user = AdminAuthenticationService.getInstance(  ).getUserPublicDataFromModule( strAccessCode );
             }
 
-            HashMap model = new HashMap(  );
+            Map<String, Object> model = new HashMap<String, Object>(  );
 
             if ( user != null )
             {
@@ -475,7 +475,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         int nUserId = Integer.parseInt( strUserId );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         HtmlTemplate template;
 
         AdminUser user = null;
@@ -616,7 +616,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
         String strEmailSubject = I18nService.getLocalizedString( PROPERTY_MESSAGE_EMAIL_SUBJECT,
                 new String[] { strSiteName }, getLocale(  ) );
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, user );
         model.put( MARK_SITE_NAME, strSiteName );
         model.put( MARK_LOGIN_URL,
@@ -680,7 +680,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AdminUser selectedUser = AdminUserHome.findByPrimaryKey( nUserId );
         Collection<Right> rightList = AdminUserHome.getRightsListForUser( nUserId ).values(  );
 
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_CAN_MODIFY, getUser(  ).isParent( selectedUser ) || getUser(  ).isAdmin(  ) );
         model.put( MARK_CAN_DELEGATE, getUser(  ).getUserId(  ) != nUserId );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
@@ -708,7 +708,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         ReferenceList workgroupsList = AdminWorkgroupHome.getUserWorkgroups( selectedUser );
 
         //  ReferenceList assignableWorkgroupsList = AdminWorkgroupHome.getUserWorkgroups( selectedUser );
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_CAN_MODIFY, getUser(  ).isParent( selectedUser ) || getUser(  ).isAdmin(  ) );
         model.put( MARK_CAN_DELEGATE, getUser(  ).getUserId(  ) != nUserId );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
@@ -751,7 +751,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         assignableWorkspaces.checkItems( checkedValues.toArray( new String[] {  } ) );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_ALL_WORKSGROUP_LIST, assignableWorkspaces );
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateWorkgroups ) );
@@ -806,7 +806,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             rightList = AdminUserHome.getRightsListForUser( nUserId ).values(  );
         }
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_RIGHT_LIST, I18nService.localizeCollection( rightList, getLocale(  ) ) );
         model.put( MARK_ALL_RIGHT_LIST, I18nService.localizeCollection( allRightList, getLocale(  ) ) );
@@ -861,7 +861,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AdminUser selectedUser = AdminUserHome.findByPrimaryKey( nUserId );
         Collection<AdminRole> roleList = AdminUserHome.getRolesListForUser( nUserId ).values(  );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_CAN_MODIFY, getUser(  ).isParent( selectedUser ) || getUser(  ).isAdmin(  ) );
         model.put( MARK_CAN_DELEGATE, getUser(  ).getUserId(  ) != nUserId );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
@@ -910,7 +910,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             assignableRoleList = AdminRoleHome.findAll(  );
         }
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_ROLE_LIST, roleList );
         model.put( MARK_ALL_ROLE_LIST, assignableRoleList );
