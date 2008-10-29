@@ -16,5 +16,10 @@
             <item name="Services de base" href="core-services.html"/>
 		</menu>	
  		
+		<menu name="Téléchargements" inherit="bottom" >
+			<item name="Versions stables" href="download.html"/>
+			<item name="Nightly builds" href="../nightly_build/" />
+		</menu>
+		
     </body>
 </project>

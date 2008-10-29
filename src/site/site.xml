@@ -17,6 +17,11 @@
                   <item name="Schema" href="schema.html"/>
             </item>-->
         </menu>
-
+		
+		    <menu name="Downloads" inherit="bottom">
+			       <item name="Released versions" href="download.html" />
+            <item name="Nightly builds" href="/nightly_build/" />
+		    </menu>
+		
     </body>
 </project>
