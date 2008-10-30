@@ -33,6 +33,12 @@
  */
 package fr.paris.lutece.portal.web.portlet;
 
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
@@ -46,12 +52,6 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -210,7 +210,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
      */
     protected HtmlTemplate getCreateTemplate( String strPageId, String strPortletTypeId )
     {
-        return getCreateTemplate( strPageId, strPortletTypeId, new HashMap(  ) );
+        return getCreateTemplate( strPageId, strPortletTypeId, new HashMap<String, Object>(  ) );
     }
 
     /**
@@ -221,7 +221,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
      * @param model Specific data stored in a hashtable
      * @return the template filled
      */
-    protected HtmlTemplate getCreateTemplate( String strPageId, String strPortletTypeId, Map model )
+    protected HtmlTemplate getCreateTemplate( String strPageId, String strPortletTypeId, Map<String, Object> model )
     {
         PortletType portletType = PortletTypeHome.findByPrimaryKey( strPortletTypeId );
         Locale locale = getLocale(  );
@@ -256,7 +256,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
      * @param model The Data model
      * @return the update template filled
      */
-    protected HtmlTemplate getModifyTemplate( Portlet portlet, Map model )
+    protected HtmlTemplate getModifyTemplate( Portlet portlet, Map<String, Object> model )
     {
         PortletType portletType = PortletTypeHome.findByPrimaryKey( portlet.getPortletTypeId(  ) );
         portletType.setLocale( getLocale(  ) );

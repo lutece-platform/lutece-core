@@ -33,6 +33,17 @@
  */
 package fr.paris.lutece.portal.web.documentation;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.transform.stream.StreamSource;
+
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -46,19 +57,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
-
-import java.io.File;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import javax.xml.transform.stream.StreamSource;
 
 
 /**
@@ -185,7 +183,7 @@ public class AdminDocumentationJspBean
         AdminUser user = AdminUserService.getAdminUser( request );
 
         List<FeatureGroup> listFeatureGroups = getFeatureGroupsList( user );
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         model.put( BOOKMARK_FEATURE_GROUP_LIST, listFeatureGroups );
         model.put( BOOKMARK_HELP_ICON, IMAGE_HELP_PATH );

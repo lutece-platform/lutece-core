@@ -41,6 +41,7 @@ import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
+import javax.naming.directory.SearchResult;
 
 
 /**
@@ -68,7 +69,7 @@ public final class LdapUtil
     public static DirContext getContext( String strLDAPContext, String strLDAPUrl, String strAdminDN,
         String strAdminPassword ) throws NamingException
     {
-        Hashtable env = new Hashtable(  );
+    	Hashtable<String, String> env = new Hashtable<String, String>(  );
 
         env.put( Context.INITIAL_CONTEXT_FACTORY, strLDAPContext );
         env.put( Context.PROVIDER_URL, strLDAPUrl );
@@ -108,7 +109,7 @@ public final class LdapUtil
     {
         DirContext context = null;
 
-        Hashtable env = new Hashtable(  );
+        Hashtable<String, String> env = new Hashtable<String, String>(  );
 
         env.put( Context.INITIAL_CONTEXT_FACTORY, strLDAPContext );
         env.put( Context.PROVIDER_URL, strLDAPUrl );
@@ -130,10 +131,10 @@ public final class LdapUtil
      * @return an enumeration of the elements found
      * @throws NamingException in case of error
      */
-    public static NamingEnumeration searchUsers( DirContext context, String strFilter, String strUserDN,
+    public static NamingEnumeration<SearchResult> searchUsers( DirContext context, String strFilter, String strUserDN,
         String strDNBase, SearchControls sc ) throws NamingException
     {
-        NamingEnumeration enumeration = context.search( strUserDN + strDNBase, strFilter, sc );
+        NamingEnumeration<SearchResult> enumeration = context.search( strUserDN + strDNBase, strFilter, sc );
 
         return enumeration;
     }
