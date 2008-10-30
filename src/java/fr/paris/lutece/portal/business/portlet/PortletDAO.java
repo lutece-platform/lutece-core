@@ -33,15 +33,14 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.sql.DAOUtil;
-
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
+import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.sql.DAOUtil;
 
 
 /**
@@ -255,13 +254,13 @@ public final class PortletDAO implements IPortletDAO
     /**
      * {@inheritDoc}
      */
-    public Collection selectPortletsListbyName( String strPortletName )
+    public Collection<PortletImpl> selectPortletsListbyName( String strPortletName )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_LIST_BY_NAME );
         daoUtil.setString( 1, '%' + strPortletName + '%' );
         daoUtil.executeQuery(  );
 
-        ArrayList list = new ArrayList(  );
+        List<PortletImpl> list = new ArrayList<PortletImpl>(  );
 
         while ( daoUtil.next(  ) )
         {
@@ -390,9 +389,9 @@ public final class PortletDAO implements IPortletDAO
     /**
      * {@inheritDoc}
      */
-    public Collection selectPortletListByStyle( int nStyleId )
+    public Collection<PortletImpl> selectPortletListByStyle( int nStyleId )
     {
-        Collection portletList = new ArrayList(  );
+        Collection<PortletImpl> portletList = new ArrayList<PortletImpl>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_LIST_BY_STYLE );
 
         daoUtil.setInt( 1, nStyleId );
