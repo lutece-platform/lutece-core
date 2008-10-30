@@ -22,7 +22,7 @@
             <th>#i18n{portal.system.manage_plugins.columnTitleDatabase}</th>
         </tr>
         <#list plugins_list as plugin >
-        <tr id="plugin_${plugin.name}">
+        <tr id="plugin_${plugin.name}_${plugin.version}">
             <td >
                 <a href="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" >
                     <img src="${plugin.iconUrl}" alt="" />
@@ -48,7 +48,7 @@
                 <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonDisable}" />
                 </form>
                 <#else>
-                <form method="post" action="jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}">
+                <form method="post" action="jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}">
                 <img src="images/admin/skin/disable.png" width="24" height="24"  valign="center" />
                 <input type="hidden" name="plugin_name" value="${plugin.name}" />
             </td>
@@ -59,7 +59,7 @@
             </td>
             <td width="30%">
                 <#if plugin.installed & plugin.dbPoolRequired >
-                <form method="post" action="jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}">
+                <form method="post" action="jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}">
                 <@combo name="db_pool_name" default_value="${plugin.dbPoolName}" items=pools_list />
                 <input type="hidden" name="plugin_name" value="${plugin.name}" />
                 <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonModifyDbPool}" />
