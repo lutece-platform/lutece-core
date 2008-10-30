@@ -59,6 +59,7 @@
 <!ELEMENT feature-level ( #PCDATA ) >
 <!ELEMENT feature-url ( #PCDATA ) >
 <!ELEMENT feature-description ( #PCDATA ) >
+<!ELEMENT feature-group ( #PCDATA ) >
 
 <!-- Portlet parameters -->
 <!ELEMENT portlets ( portlet* ) >
