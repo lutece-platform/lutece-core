@@ -33,6 +33,12 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.XmlContent;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
@@ -49,12 +55,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -109,7 +109,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
 
         Properties outputProperties = ModeHome.getOuputXslProperties( MODE_ADMIN );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARKER_MAP_SITE,
             XmlTransformerService.transformBySource( strArborescenceXml.toString(  ), baXslSource, mapParamRequest,
                 outputProperties ) );

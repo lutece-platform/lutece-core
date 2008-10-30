@@ -33,6 +33,15 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
@@ -64,14 +73,6 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.fileupload.FileItem;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -335,7 +336,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      */
     private String getAdminPageBlock( String strPageId )
     {
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         Page page = null;
         int nPageId = 1;
@@ -513,7 +514,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      */
     private String getTemplatesPageList( int nTemplatePageId, int nPageTemplatePageId, String nIndexRow )
     {
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( nTemplatePageId );
         model.put( MARK_PAGE_TEMPLATE, pageTemplate );

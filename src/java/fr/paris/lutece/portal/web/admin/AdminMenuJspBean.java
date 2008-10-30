@@ -33,6 +33,15 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -56,15 +65,6 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -119,7 +119,7 @@ public class AdminMenuJspBean
      */
     public String getAdminMenuHeader( HttpServletRequest request )
     {
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         String strVersion = AppInfo.getVersion(  );
         String strSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
         AdminUser user = AdminUserService.getAdminUser( request );
@@ -157,7 +157,7 @@ public class AdminMenuJspBean
         // Displays the menus according to the users rights
         List<FeatureGroup> listFeatureGroups = getFeatureGroupsList( user );
 
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
 
         model.put( MARK_FEATURE_GROUP_LIST, listFeatureGroups );
         model.put( MARK_USER, user );
