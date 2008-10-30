@@ -33,17 +33,16 @@
  */
 package fr.paris.lutece.portal.service.resource;
 
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import fr.paris.lutece.plugins.dbpage.business.DbPage;
-import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
-import fr.paris.lutece.portal.service.portal.PortalService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 
 /**
@@ -59,7 +58,7 @@ public abstract class ResourceService extends AbstractCacheableService
 
     // Variables
     private String _strName = UNDEFINED_SERVICE_NAME;
-    private List<ResourceLoader> _listLoaders = new ArrayList<ResourceLoader>(  );
+    private List _listLoaders = new ArrayList(  );
 
     /**
      *
@@ -208,7 +207,7 @@ public abstract class ResourceService extends AbstractCacheableService
     private Resource loadResource( String strId )
     {
         Resource resource = null;
-        Iterator<ResourceLoader> i = _listLoaders.iterator(  );
+        Iterator i = _listLoaders.iterator(  );
 
         while ( i.hasNext(  ) && ( resource == null ) )
         {
@@ -223,20 +222,20 @@ public abstract class ResourceService extends AbstractCacheableService
      * Load all resources
      * @return A collection of resources
      */
-    protected Collection<DbPage> getResources(  )
+    protected Collection<Resource> getResources(  )
     {
-        Collection<DbPage> listResources = new ArrayList<DbPage>(  );
-        Iterator<ResourceLoader> i = _listLoaders.iterator(  );
+        ArrayList listResources = new ArrayList(  );
+        Iterator i = _listLoaders.iterator(  );
 
         while ( i.hasNext(  ) )
         {
             ResourceLoader loader = (ResourceLoader) i.next(  );
-            Collection<DbPage> colResources = loader.getResources(  );
-            Iterator<DbPage> j = colResources.iterator(  );
+            Collection colResources = loader.getResources(  );
+            Iterator j = colResources.iterator(  );
 
             while ( j.hasNext(  ) )
             {
-            	DbPage resource = (DbPage) j.next(  );
+                Resource resource = (Resource) j.next(  );
                 listResources.add( resource );
             }
         }

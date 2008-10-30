@@ -35,8 +35,6 @@ package fr.paris.lutece.portal.service.resource;
 
 import java.util.Collection;
 
-import fr.paris.lutece.plugins.dbpage.business.DbPage;
-
 
 /**
  * This interface provides an abstract layer for an application to load its
@@ -50,7 +48,7 @@ public interface ResourceLoader
      * Load all resources available for this loader
      * @return A collection of resources
      */
-    Collection<DbPage> getResources(  );
+    Collection getResources(  );
 
     /**
      * Load a resource by its Id
