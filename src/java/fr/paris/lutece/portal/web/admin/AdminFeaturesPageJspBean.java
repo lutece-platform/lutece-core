@@ -33,6 +33,12 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -43,11 +49,6 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -180,7 +181,7 @@ public abstract class AdminFeaturesPageJspBean
      */
     public String getAdminPage( String strContent )
     {
-        HashMap rootModel = new HashMap(  );
+        Map<String, String> rootModel = new HashMap<String, String>(  );
 
         rootModel.put( MARK_FEATURE_URL, _strFeatureUrl );
         rootModel.put( MARK_FEATURE_TITLE, _strFeatureLabel );
