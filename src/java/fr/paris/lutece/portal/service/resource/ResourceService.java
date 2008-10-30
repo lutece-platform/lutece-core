@@ -223,9 +223,9 @@ public abstract class ResourceService extends AbstractCacheableService
      * Load all resources
      * @return A collection of resources
      */
-    protected Collection<Resource> getResources(  )
+    protected Collection<DbPage> getResources(  )
     {
-        List<Resource> listResources = new ArrayList<Resource>(  );
+        Collection<DbPage> listResources = new ArrayList<DbPage>(  );
         Iterator<ResourceLoader> i = _listLoaders.iterator(  );
 
         while ( i.hasNext(  ) )
@@ -236,7 +236,7 @@ public abstract class ResourceService extends AbstractCacheableService
 
             while ( j.hasNext(  ) )
             {
-                Resource resource = (Resource) j.next(  );
+            	DbPage resource = (DbPage) j.next(  );
                 listResources.add( resource );
             }
         }

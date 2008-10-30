@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.business.mailinglist;
 
-import fr.paris.lutece.util.sql.DAOUtil;
-
 import java.util.ArrayList;
 import java.util.Collection;
+
+import fr.paris.lutece.util.sql.DAOUtil;
 
 
 /**
@@ -177,7 +177,7 @@ public final class MailingListDAO implements IMailingListDAO
      */
     public Collection<MailingList> selectAll(  )
     {
-        Collection<MailingList> mailingListList = new ArrayList(  );
+        Collection<MailingList> mailingListList = new ArrayList<MailingList>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
         daoUtil.executeQuery(  );
 
@@ -204,9 +204,9 @@ public final class MailingListDAO implements IMailingListDAO
      * @param strWorkgroup The workgroup
      * @return the collection which contains the data of all the mailingLists
      */
-    public Collection selectByWorkgroup( String strWorkgroup )
+    public Collection<MailingList> selectByWorkgroup( String strWorkgroup )
     {
-        Collection<MailingList> mailingListList = new ArrayList(  );
+        Collection<MailingList> mailingListList = new ArrayList<MailingList>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_WORKGROUP );
         daoUtil.setString( 1, strWorkgroup );
         daoUtil.executeQuery(  );
