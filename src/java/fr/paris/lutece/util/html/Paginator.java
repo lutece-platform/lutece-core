@@ -33,12 +33,12 @@
  */
 package fr.paris.lutece.util.html;
 
-import fr.paris.lutece.util.url.UrlItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
+import fr.paris.lutece.util.url.UrlItem;
 
 
 /**
@@ -110,7 +110,7 @@ public class Paginator
     public List getPageItems(  )
     {
         int nStartIndex = ( _nPageCurrent - 1 ) * _nItemPerPage;
-        ArrayList list = new ArrayList(  );
+        List list = new ArrayList(  );
 
         for ( int i = nStartIndex; ( i < ( nStartIndex + _nItemPerPage ) ) && ( i < _list.size(  ) ); i++ )
         {
