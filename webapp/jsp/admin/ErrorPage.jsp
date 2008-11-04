@@ -4,7 +4,6 @@
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessageService" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessage" %>
 
-
 <%!
 	private final static String PROPERTY_DEBUG = "error.page.debug";
 	private final static String PROPERTY_DEBUG_DEFAULT = "true";
@@ -16,7 +15,6 @@
     {
         response.sendRedirect( AdminMessageService.getMessageUrl( request , Messages.USER_ACCESS_DENIED , AdminMessage.TYPE_STOP ) );
     }
-
 %>
 
 <html>
@@ -44,15 +42,19 @@
 %>
 		<tr>
          <td>
-         <div>&nbsp;</div>
-         <div>&nbsp;</div>
-		<pre id="stackMsg"><%
+
+		<br />
+		<pre id="stackMsg" style="display:none">
+		<%
 		java.io.CharArrayWriter cw = new java.io.CharArrayWriter();
 		java.io.PrintWriter pw = new java.io.PrintWriter(cw,true);
 		exception.printStackTrace(pw);
 		out.println(cw.toString());
-		%></pre>
-		
+		%>
+		</pre>
+		<a onclick="document.getElementById('stackMsg').style.display='block'">Get more details.</a>
+
+<!-- 		
 		<form action="mailto:thibaut.lassalle@paris.fr" name="bugForm">
 			<input type="hidden" name="stack" />
 			<input type="submit" value="Report the bug" />
@@ -60,6 +62,8 @@
 		<script>
 			document.forms["bugForm"].stack.value = document.getElementById("stackMsg").innerHTML;
 		</script>
+ -->
+ 		
 		 </td>
         </tr>
 
