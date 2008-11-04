@@ -9,7 +9,6 @@
 	private final static String PROPERTY_DEBUG = "error.page.debug";
 	private final static String PROPERTY_DEBUG_DEFAULT = "true";
 	private final static String PROPERTY_MESSAGE = "error.page.message";
-	private final static String PROPERTY_MESSAGE_DEFAULT = "Veuillez contacter l'administrateur de l'application";
 %>
 
 <%
@@ -33,31 +32,34 @@
  <tr>
   <td>
 <div class="portlet">
- <h3 class="portlet-header"> Une erreur s'est produite dans l'application</h3>
+<h3 class="portlet-header">Internal error</h3>
 <div class="portlet-content">
   <table border="0" width="200" cellpadding="5" cellspacing="5" >
 <%
 	if( AppPropertiesService.getProperty( PROPERTY_DEBUG , PROPERTY_DEBUG_DEFAULT ).equalsIgnoreCase( "true" ))
 	{
 %>
-
-		<tr>
-         <td>
 <%
 		String strErrorMessage = (exception.getMessage() != null ) ? exception.getMessage() : exception.toString();
 %>
-		Le message d'erreur est : <%= strErrorMessage %>
-		 </td>
-        </tr>
 		<tr>
          <td>
-		Le tracé de pile est : <br />
-		<PRE><FONT COLOR="#1C2861"><%
+         <div>&nbsp;</div>
+         <div>&nbsp;</div>
+		<pre id="stackMsg"><%
 		java.io.CharArrayWriter cw = new java.io.CharArrayWriter();
 		java.io.PrintWriter pw = new java.io.PrintWriter(cw,true);
 		exception.printStackTrace(pw);
 		out.println(cw.toString());
-		%></FONT></PRE>
+		%></pre>
+		
+		<form action="mailto:thibaut.lassalle@paris.fr" name="bugForm">
+			<input type="hidden" name="stack" />
+			<input type="submit" value="Report the bug" />
+		</form>
+		<script>
+			document.forms["bugForm"].stack.value = document.getElementById("stackMsg").innerHTML;
+		</script>
 		 </td>
         </tr>
 
@@ -73,7 +75,7 @@
 		</tr>
 		<tr>
 		 <td>
-		   <%= AppPropertiesService.getProperty( PROPERTY_MESSAGE , PROPERTY_MESSAGE_DEFAULT ) %>
+		   <%= AppPropertiesService.getProperty( PROPERTY_MESSAGE ) %>
          </td>
         </tr>
 <%
@@ -86,4 +88,3 @@
 </tr>
 </table>
 </center>
-<%@ include file="AdminFooter.jsp" %>
