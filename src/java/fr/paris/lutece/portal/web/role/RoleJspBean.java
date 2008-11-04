@@ -33,6 +33,12 @@
  */
 package fr.paris.lutece.portal.web.role;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -44,11 +50,6 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -105,7 +106,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( null );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ROLES_LIST, RoleHome.findAll(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ROLES, getLocale(  ), model );
@@ -172,7 +173,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_ROLE );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         String strPageRole = (String) request.getParameter( PARAMETER_PAGE_ROLE );
         model.put( MARK_ROLE, RoleHome.findByPrimaryKey( strPageRole ) );
