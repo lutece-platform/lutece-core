@@ -35,7 +35,7 @@
 <div class="portlet">
 <h3 class="portlet-header">Internal error</h3>
 <div class="portlet-content">
-  <table border="0" width="200" cellpadding="5" cellspacing="5" >
+  <table border="0" cellpadding="5" cellspacing="5" width="100%" >
 <%
 	if( AppPropertiesService.getProperty( PROPERTY_DEBUG , PROPERTY_DEBUG_DEFAULT ).equalsIgnoreCase( "true" ))
 	{
@@ -76,7 +76,7 @@
 	{
 %>
 		<tr>
-         <td align="center" width="100%">
+         <td align="center">
 			<img src="images/admin/skin/messages/warning.png" />
         </td>
 		</tr>
