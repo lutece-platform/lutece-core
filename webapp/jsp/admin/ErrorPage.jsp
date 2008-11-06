@@ -77,7 +77,7 @@
 %>
 		<tr>
          <td align="center" width="100%">
-			<img src="images/admin/skin/warning.png" />
+			<img src="images/admin/skin/messages/warning.png" />
         </td>
 		</tr>
 		<tr>
