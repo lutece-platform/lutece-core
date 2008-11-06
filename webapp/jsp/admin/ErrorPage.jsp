@@ -4,6 +4,9 @@
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessageService" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessage" %>
 
+<%@ page buffer="1024kb"%>
+<%@ page autoFlush="false"%>
+
 <%!
 	private final static String PROPERTY_DEBUG = "error.page.debug";
 	private final static String PROPERTY_DEBUG_DEFAULT = "true";
