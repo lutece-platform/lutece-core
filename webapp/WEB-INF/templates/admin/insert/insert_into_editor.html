@@ -1,8 +1,13 @@
-        <script type="text/javascript">
-            if (opener != null)
-            {
-            // The caller must provide an insert_html method
-            opener.xinha_editors.${input}.insertHTML( '${insert}' );
-            } 
-            self.close();
-        </script>    
+<script type="text/javascript">
+	if (opener.xinha_editors != null && opener.xinha_editors.${input} != null )
+	{
+		// The caller must provide an insert_html method
+		opener.xinha_editors.${input}.insertHTML( '${insert}' );
+	}
+	else
+	{
+		var elementInput = opener.document.getElementById("${input}");
+		elementInput.value = '${insert}';
+	} 
+	self.close();
+</script>    
