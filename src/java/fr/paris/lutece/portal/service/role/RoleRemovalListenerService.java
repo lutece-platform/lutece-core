@@ -42,7 +42,7 @@ import fr.paris.lutece.portal.service.util.RemovalListenerService;
  */
 public final class RoleRemovalListenerService
 {
-    private static final String BEAN_ROLE_REMOVAL_SERVICE = "RoleRemovalService";
+    private static final String BEAN_ROLE_REMOVAL_SERVICE = "roleRemovalService";
 
     /**
      * Private constructor
