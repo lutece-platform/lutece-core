@@ -38,7 +38,10 @@
     <bean id="searchEngine" class="fr.paris.lutece.portal.service.search.LuceneSearchEngine" />
     
   <!--                      Admin Authentication                             -->
-    <bean id="adminAuthenticationModule" class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication" />
+    <bean id="adminAuthenticationModule" class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication">
+        <property name="dao" ref="luteceDefaultAdminUserDAO"/>
+    </bean>
+
   
   <!--                      Mail Queue                            -->
     <bean id="mailQueue" class="fr.paris.lutece.portal.service.mail.MemoryQueue" />
