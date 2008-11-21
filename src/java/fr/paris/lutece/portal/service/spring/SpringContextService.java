@@ -33,17 +33,13 @@
  */
 package fr.paris.lutece.portal.service.spring;
 
-import fr.paris.lutece.portal.service.util.AppPathService;
-
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+
+import fr.paris.lutece.portal.service.util.AppPathService;
 
 /**
  * This class provides a way to use Spring Framework ligthweight containers
@@ -52,14 +48,15 @@ import java.util.Map;
  */
 public final class SpringContextService
 {
+
     private static final String CORE = "core";
-    private static Map<String, BeanFactory> _mapBeanFactories = new HashMap<String, BeanFactory>(  );
+    private static Map<String, ApplicationContext> _mapContext = new HashMap<String, ApplicationContext>();
     private static final String PATH_CONF = "/WEB-INF/conf/";
     private static final String DIR_PLUGINS = "plugins/";
     private static final String SUFFIX_CONTEXT_FILE = "_context.xml";
 
     /** Creates a new instance of SpringContextService */
-    private SpringContextService(  )
+    private SpringContextService()
     {
     }
 
@@ -71,11 +68,11 @@ public final class SpringContextService
      * @param strName The bean's name
      * @return The instance of the bean
      */
-    public static Object getBean( String strName )
+    public static Object getBean(String strName)
     {
-        BeanFactory factory = getBeanFactory( CORE );
+        ApplicationContext context = getContext(CORE);
 
-        return factory.getBean( strName );
+        return context.getBean(strName);
     }
 
     /**
@@ -85,11 +82,11 @@ public final class SpringContextService
      * @param strName The bean's name
      * @return The instance of the bean
      */
-    public static Object getPluginBean( String strPluginName, String strName )
+    public static Object getPluginBean(String strPluginName, String strName)
     {
-        BeanFactory factory = getBeanFactory( strPluginName );
+        ApplicationContext context = getContext(strPluginName);
 
-        return factory.getBean( strName );
+        return context.getBean(strName);
     }
 
     /**
@@ -97,27 +94,40 @@ public final class SpringContextService
      * @param strContextName The context's name
      * @return The context
      */
-    private static BeanFactory getBeanFactory( String strContextName )
+    private static ApplicationContext getContext(String strContextName)
     {
         // Try to get the context from the cache
-        BeanFactory factory = (BeanFactory) _mapBeanFactories.get( strContextName );
+        ApplicationContext context = (ApplicationContext) _mapContext.get(strContextName);
 
-        if ( factory == null )
+        if (context == null)
         {
             // If not found then load the context from the XML file
-            String strContextFilePath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
+            String strContextFilePath = AppPathService.getAbsolutePathFromRelativePath(PATH_CONF);
 
-            if ( !strContextName.equals( CORE ) )
+            if (!strContextName.equals(CORE))
             {
                 strContextFilePath += DIR_PLUGINS;
             }
 
             String strContextFile = strContextFilePath + strContextName + SUFFIX_CONTEXT_FILE;
-            Resource resource = new FileSystemResource( strContextFile );
-            factory = new XmlBeanFactory( resource );
-            _mapBeanFactories.put( strContextName, factory );
+
+            try
+            {
+                context = new FileSystemXmlApplicationContext("file:" + strContextFile);
+
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                _mapContext.put(strContextName, context);
+            }
+
+            _mapContext.put(strContextName, context);
         }
 
-        return factory;
+        return context;
     }
 }
