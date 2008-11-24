@@ -1,4 +1,7 @@
-<jsp:useBean id="indexing" scope="session" class="fr.paris.lutece.portal.web.search.SearchIndexationJspBean" />
+<%@ page isErrorPage="true" %>
 
+<%@ page import="fr.paris.lutece.portal.service.search.IndexationService" %>
 
-<%= indexing.doIndexing( request ) %>
+<%
+	IndexationService.processIndexing( true );
+%>
