@@ -40,10 +40,10 @@
                     A plugin can contain one or more extension types. For example, it can introduce a new type
                     of portlet and two administrative functions to manage this portlet type.
                  </p>
-                  <p>In summary , a plugin may contain : :</p>
+                  <p>In summary, a plugin may contain :</p>
                   <p>
                      <ul>
-                        <li>0 to 1 application</li>
+                        <li>0 to n applications</li>
                         <li>0 to n administrative functions</li>
                         <li>0 to n portlets</li>
                         <li>0 to 1 content service</li>
@@ -53,6 +53,8 @@
                         <li>0 to 1 javascript link inclusion services of type PageIncludeServices</li>
                         <li>0 to 1 CSS specific style sheets</li>
                         <li>0 to 1 specific Javascript</li>
+                        <li>0 to n filters</li>
+                        <li>0 to n dashboards</li>
                     </ul>
                   </p>
               </subsection>

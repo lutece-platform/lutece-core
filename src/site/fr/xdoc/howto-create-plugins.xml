@@ -48,7 +48,7 @@
                   <p>En résumé, un plugin peut contenir :</p>
                   <p>
                      <ul>
-                        <li>0 à 1 application</li>
+                        <li>0 à n applications</li>
                         <li>0 à n fonctions d'administration</li>
                         <li>0 à n portlets</li>
                         <li>0 à 1 service de contenu</li>
@@ -58,6 +58,8 @@
                         <li>0 à 1 services d'inclusion de lien javascript de type PageIncludeServices</li>
                         <li>0 à 1 feuille de style CSS spécifique</li>
                         <li>0 à 1 script Javascript spécifique</li>
+                        <li>0 à n filters</li>
+						<li>0 à n tableau de bord (dashboard)</li>
                     </ul>
                   </p>
               </subsection>
