@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.portal.service.filter;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
-
 import java.util.Map;
 
 import javax.servlet.Filter;
+
+import fr.paris.lutece.portal.service.plugin.Plugin;
 
 
 /**
@@ -156,5 +156,12 @@ public class LuteceFilter
     public Map<String, String> getInitParameters(  )
     {
         return _mapInitParameters;
+    }
+    /**
+     * for debug purpose
+     */
+    public String toString()
+    {
+    	return getName();
     }
 }

@@ -87,26 +87,10 @@
     <servlet-class>fr.paris.lutece.portal.service.init.AppInitServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
-  <servlet>
-	<servlet-name>JCaptchaImage</servlet-name>
-	<servlet-class>fr.paris.lutece.plugins.jcaptcha.service.image.ImageCaptchaServlet</servlet-class>
-   </servlet>
-   <servlet>
-	 <servlet-name>JCaptchaSound</servlet-name>
-	 <servlet-class>fr.paris.lutece.plugins.jcaptcha.service.sound.SoundCaptchaServlet</servlet-class>
-  </servlet>
   <servlet-mapping>
     <servlet-name>InitApp</servlet-name>
     <url-pattern>/InitApp</url-pattern>
   </servlet-mapping>
- <servlet-mapping>
-	<servlet-name>JCaptchaImage</servlet-name>
-	<url-pattern>/JCaptchaImage</url-pattern>
- </servlet-mapping>
- <servlet-mapping>
-	<servlet-name>JCaptchaSound</servlet-name>
-	<url-pattern>/JCaptchaSound</url-pattern>
- </servlet-mapping> 
     <servlet-mapping>
     <servlet-name>ImageServlet</servlet-name>
     <url-pattern>/image</url-pattern>
