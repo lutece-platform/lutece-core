@@ -33,13 +33,14 @@
  */
 package fr.paris.lutece.portal.service.spring;
 
-import java.util.HashMap;
-import java.util.Map;
+import fr.paris.lutece.portal.service.util.AppPathService;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import fr.paris.lutece.portal.service.util.AppPathService;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * This class provides a way to use Spring Framework ligthweight containers
@@ -48,15 +49,14 @@ import fr.paris.lutece.portal.service.util.AppPathService;
  */
 public final class SpringContextService
 {
-
     private static final String CORE = "core";
-    private static Map<String, ApplicationContext> _mapContext = new HashMap<String, ApplicationContext>();
+    private static Map<String, ApplicationContext> _mapContext = new HashMap<String, ApplicationContext>(  );
     private static final String PATH_CONF = "/WEB-INF/conf/";
     private static final String DIR_PLUGINS = "plugins/";
     private static final String SUFFIX_CONTEXT_FILE = "_context.xml";
 
     /** Creates a new instance of SpringContextService */
-    private SpringContextService()
+    private SpringContextService(  )
     {
     }
 
@@ -68,11 +68,11 @@ public final class SpringContextService
      * @param strName The bean's name
      * @return The instance of the bean
      */
-    public static Object getBean(String strName)
+    public static Object getBean( String strName )
     {
-        ApplicationContext context = getContext(CORE);
+        ApplicationContext context = getContext( CORE );
 
-        return context.getBean(strName);
+        return context.getBean( strName );
     }
 
     /**
@@ -82,11 +82,11 @@ public final class SpringContextService
      * @param strName The bean's name
      * @return The instance of the bean
      */
-    public static Object getPluginBean(String strPluginName, String strName)
+    public static Object getPluginBean( String strPluginName, String strName )
     {
-        ApplicationContext context = getContext(strPluginName);
+        ApplicationContext context = getContext( strPluginName );
 
-        return context.getBean(strName);
+        return ( context != null ) ? context.getBean( strName ) : null;
     }
 
     /**
@@ -94,17 +94,17 @@ public final class SpringContextService
      * @param strContextName The context's name
      * @return The context
      */
-    private static ApplicationContext getContext(String strContextName)
+    private static ApplicationContext getContext( String strContextName )
     {
         // Try to get the context from the cache
-        ApplicationContext context = (ApplicationContext) _mapContext.get(strContextName);
+        ApplicationContext context = (ApplicationContext) _mapContext.get( strContextName );
 
-        if (context == null)
+        if ( context == null )
         {
             // If not found then load the context from the XML file
-            String strContextFilePath = AppPathService.getAbsolutePathFromRelativePath(PATH_CONF);
+            String strContextFilePath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
 
-            if (!strContextName.equals(CORE))
+            if ( !strContextName.equals( CORE ) )
             {
                 strContextFilePath += DIR_PLUGINS;
             }
@@ -113,19 +113,18 @@ public final class SpringContextService
 
             try
             {
-                context = new FileSystemXmlApplicationContext("file:" + strContextFile);
-
+                context = new FileSystemXmlApplicationContext( "file:" + strContextFile );
             }
-            catch (Exception e)
+            catch ( Exception e )
             {
-                e.printStackTrace();
+                e.printStackTrace(  );
             }
             finally
             {
-                _mapContext.put(strContextName, context);
+                _mapContext.put( strContextName, context );
             }
 
-            _mapContext.put(strContextName, context);
+            _mapContext.put( strContextName, context );
         }
 
         return context;
