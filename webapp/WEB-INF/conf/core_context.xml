@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-  <!--                      Startup services                                   -->
+
+<!-- 
+	travail en cours de Thibaut
+	le but est de gérer le pool dbcp ou c3po via spring pour faire du transactionel
+	
+	<bean id="dbproperties" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="db" />
+	</bean>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${portal.driver}"/>
+		<property name="url" value="${portal.url}"/>
+		<property name="username" value="${portal.user}"/>
+		<property name="password" value="${portal.password}"/>
+		<property name="validationQuery" value="SELECT NOW()"/>
+		<property name="testOnReturn" value="true"/>
+		<property name="testOnBorrow" value="true"/>
+	</bean>
+ -->
+
     <bean id="startUpServiceManager" class="fr.paris.lutece.portal.service.init.StartUpServiceManager" >
         <property name="servicesList">
             <list>
