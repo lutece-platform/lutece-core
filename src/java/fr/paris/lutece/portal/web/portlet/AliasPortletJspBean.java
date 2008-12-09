@@ -33,6 +33,11 @@
  */
 package fr.paris.lutece.portal.web.portlet;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.portlet.AliasPortlet;
 import fr.paris.lutece.portal.business.portlet.AliasPortletHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
@@ -41,10 +46,6 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -173,7 +174,7 @@ public class AliasPortletJspBean extends PortletJspBean
     {
         String strIdPage = request.getParameter( PARAMETER_PAGE_ID );
         String strIdPortletType = request.getParameter( PARAMETER_PORTLET_TYPE_ID );
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ALIAS_PORTLETS_LIST, AliasPortletHome.getAcceptAliasPortletList(  ) );
 
         HtmlTemplate template = getCreateTemplate( strIdPage, strIdPortletType, model );
@@ -193,7 +194,7 @@ public class AliasPortletJspBean extends PortletJspBean
         int idPortlet = Integer.parseInt( strIdPortlet );
         Portlet portlet = PortletHome.findByPrimaryKey( idPortlet );
         AliasPortlet aliasPortlet = (AliasPortlet) portlet;
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ALIAS_PORTLETS_LIST, AliasPortletHome.getAcceptAliasPortletList(  ) );
         model.put( MARK_ALIAS_PORTLET, aliasPortlet.getAliasId(  ) );
 
