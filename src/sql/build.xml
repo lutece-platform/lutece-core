@@ -5,7 +5,7 @@
 		<!-- Property file -->
 		<property file="build.properties" />
 		<property name="db.properties.path" value="../conf/db.properties"/>
-		<property name="db.connector.jar.path" value="../lib/mysql-connector-java-5.0.5.jar"/>
+		<property name="db.connector.jar.path" value="../lib/mysql-connector-java-5.1.6.jar"/>
 		<!-- Webapp database pool configuration file -->
 		<property file="${db.properties.path}" />
 		<!-- Path to the jar that contain database connector driver -->
@@ -17,7 +17,7 @@
 		<!-- Property file -->
 		<property file="build.properties" />
 		<property name="db.properties.path" value="../conf/db.properties"/>
-		<property name="db.connector.jar.path" value="../lib/mysql-connector-java-5.0.5.jar"/>
+		<property name="db.connector.jar.path" value="../lib/mysql-connector-java-5.1.6.jar"/>
 		<!-- Webapp database pool configuration file -->
 		<property file="${db.properties.path}" />
 		<!-- Path to the jar that contain database connector driver -->
