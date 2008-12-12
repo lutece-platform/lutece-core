@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
 
 <!-- 
-	travail en cours de Thibaut
-	le but est de gérer le pool dbcp ou c3po via spring pour faire du transactionel
-	
-	<bean id="dbproperties" class="org.springframework.context.support.ResourceBundleMessageSource">
+	works well
+	<bean id="dbProperties" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="db" />
 	</bean>
+	<bean id="dataSourceFactory" class="fr.paris.lutece.util.sql.DataSourceFactory">
+		<property name="dbResourceBundle" ref="dbProperties" />
+	</bean>
+
+
+	http://static.springframework.org/spring/docs/2.5.x/reference/beans.html#beans-factory-placeholderconfigurer
+
+	doesn't work
+	<context:property-placeholder location="file:db.properties" />
+	doesn't work
+	<context:property-placeholder location="c:\Documents and Settings\lassallt\workspace\portal\target\lutece\WEB-INF\conf\db.properties" />
+	works well
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="c:\Documents and Settings\lassallt\workspace\portal\target\lutece\WEB-INF\conf\db.properties" />
+	</bean>
+
+	works well
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${portal.driver}"/>
 		<property name="url" value="${portal.url}"/>
@@ -58,6 +82,7 @@
   <!--                      Admin Authentication                             -->
     <bean id="adminAuthenticationModule" class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication">
         <property name="dao" ref="luteceDefaultAdminUserDAO"/>
+		<property name="dataSourceFactory" ref="dataSourceFactory" />
     </bean>
 
   
