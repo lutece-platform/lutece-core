@@ -82,7 +82,7 @@
   <!--                      Admin Authentication                             -->
     <bean id="adminAuthenticationModule" class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication">
         <property name="dao" ref="luteceDefaultAdminUserDAO"/>
-		<property name="dataSourceFactory" ref="dataSourceFactory" />
+		<!--<property name="dataSourceFactory" ref="dataSourceFactory" />-->
     </bean>
 
   
