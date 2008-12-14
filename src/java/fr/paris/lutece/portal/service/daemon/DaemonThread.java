@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.util.Date;
@@ -62,6 +63,8 @@ public class DaemonThread extends Thread
      */
     public void run(  )
     {
+        Daemon daemon = _entry.getDaemon(  );
+
         //at the very minimum this daemon is processing...
         AppLogService.info( "Daemon '" + _entry.getId(  ) + "' - first process." );
 
@@ -86,7 +89,7 @@ public class DaemonThread extends Thread
             }
 
             // Runs the execution process of the daemon
-            runDaemon( _entry.getDaemon(  ) );
+            runDaemon( daemon );
         }
 
         AppLogService.info( "Daemon '" + _entry.getId(  ) + "' - stopped." );
@@ -106,8 +109,15 @@ public class DaemonThread extends Thread
         try
         {
             _entry.setLastRunDate( new Date(  ) );
-            daemon.run(  );
-            _entry.setLastRunLogs( daemon.getLastRunLogs(  ) );
+            if ( PluginService.isPluginEnable( daemon.getPluginName() ) )
+            {
+                daemon.run(  );
+                _entry.setLastRunLogs( daemon.getLastRunLogs(  ) );
+            }
+            else
+            {
+                _entry.setLastRunLogs( "Plugin not enabled" );
+            }
         }
         catch ( Throwable t )
         {
@@ -116,4 +126,5 @@ public class DaemonThread extends Thread
 
         AppLogService.info( "Daemon '" + _entry.getId(  ) + "' - end of process." );
     }
+
 }
