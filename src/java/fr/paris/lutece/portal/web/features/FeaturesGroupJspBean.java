@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.features;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -112,7 +113,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     public String getManageGroups( HttpServletRequest request )
     {
         List<FeatureGroup> listGroups = FeatureGroupHome.getFeatureGroupsList(  );
-        Map model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ORDER_LIST, getOrderRefList(  ) );
         model.put( MARK_GROUPS_LIST, listGroups );
 
@@ -130,7 +131,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     {
         Locale locale = getLocale(  );
 
-        Map model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_FEATURE_NO_GROUP, getNoGroup( locale ) );
         model.put( MARK_FEATURE_GROUP_LIST, getRefListFeatureGroups( locale ) );
 
@@ -145,7 +146,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @param locale The locale
      * @return the reference list of feature groups
      */
-    private HashMap getNoGroup( Locale locale )
+    private Map<String, Object> getNoGroup( Locale locale )
     {
         FeatureGroup noGroup = new FeatureGroup(  );
         noGroup.setLocale( locale );
@@ -154,7 +155,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         noGroup.setDescriptionKey( NO_GROUP_DESCRIPTION );
         noGroup.setLabelKey( NO_GROUP_LABEL );
 
-        HashMap groupMap = new HashMap(  );
+        Map<String, Object> groupMap = new HashMap<String, Object>(  );
         groupMap.put( MARK_FEATURE_GROUP, noGroup );
         groupMap.put( MARK_RIGHT_LIST,
             I18nService.localizeCollection( RightHome.getRightsList( noGroup.getId(  ) ), locale ) );
@@ -176,7 +177,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         for ( FeatureGroup fg : colGroups )
         {
-            HashMap groupMap = new HashMap(  );
+            HashMap<String, Object> groupMap = new HashMap<String, Object>(  );
             groupMap.put( MARK_FEATURE_GROUP, fg );
             groupMap.put( MARK_RIGHT_LIST,
                 I18nService.localizeCollection( RightHome.getRightsList( fg.getId(  ) ), locale ) );
@@ -269,7 +270,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     {
         int nCount = FeatureGroupHome.getFeatureGroupsCount(  ) + 1;
 
-        HashMap model = new HashMap(  );
+        Map<String, Serializable> model = new HashMap<String, Serializable>(  );
         model.put( MARK_ORDER_LIST, getOrderRefList(  ) );
         model.put( MARK_DEFAULT_ORDER, String.valueOf( nCount ) );
 
@@ -289,7 +290,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         FeatureGroup group = FeatureGroupHome.findByPrimaryKey( strGroupId );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ORDER_LIST, getOrderRefList(  ) );
         model.put( MARK_FEATURE_GROUP, group );
 
