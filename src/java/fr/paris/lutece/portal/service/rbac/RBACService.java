@@ -33,14 +33,15 @@
  */
 package fr.paris.lutece.portal.service.rbac;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+
+import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
 
 
 /**
@@ -108,7 +109,7 @@ public final class RBACService
      */
     public static boolean isUserInRole( AdminUser user, String strRole )
     {
-        Map userRoles = user.getRoles(  );
+        Map<String, AdminRole> userRoles = user.getRoles(  );
 
         if ( userRoles.containsKey( strRole ) )
         {
