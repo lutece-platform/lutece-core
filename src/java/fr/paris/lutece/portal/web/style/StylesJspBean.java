@@ -33,6 +33,13 @@
  */
 package fr.paris.lutece.portal.web.style;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.style.Style;
@@ -48,12 +55,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -92,7 +93,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
 
     // Message keys
     private static final String MESSAGE_CANT_DELETE_STYLE_PORTLETS = "portal.style.message.cannotDeleteStylePorlets";
-    private static final String MESSAGE_CANT_DELETE_STYLE_XSL = "portal.style.message.cannotDeleteStyleXsl";
+//    private static final String MESSAGE_CANT_DELETE_STYLE_XSL = "portal.style.message.cannotDeleteStyleXsl";
     private static final String MESSAGE_CONFIRM_DELETE_STYLE = "portal.style.message.confirmDeleteStyle";
     private static final String MESSAGE_CREATE_STYLE_INVALID_FORMAT_ID = "portal.style.message.createStyle.InvalidIdFormat";
     private static final String MESSAGE_CREATE_STYLE_ID_ALREADY_EXISTS = "portal.style.message.createStyle.idAlreadyExists";
@@ -114,11 +115,11 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
 
-        List listStyles = (List<Style>) StyleHome.getStylesList(  );
+        List<Style> listStyles = (List<Style>) StyleHome.getStylesList(  );
         Paginator paginator = new Paginator( listStyles, _nItemsPerPage, getHomeUrl( request ),
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_STYLE_LIST, paginator.getPageItems(  ) );
@@ -135,7 +136,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
      */
     public String getCreateStyle( HttpServletRequest request )
     {
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale(  ) ) );
         model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList(  ) );
 
@@ -213,7 +214,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         String strIdStyles = request.getParameter( Parameters.STYLE_ID );
         int nStyleId = Integer.parseInt( strIdStyles );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_STYLE, StyleHome.findByPrimaryKey( nStyleId ) );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale(  ) ) );
         model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList(  ) );
