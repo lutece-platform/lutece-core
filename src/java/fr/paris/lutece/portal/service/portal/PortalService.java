@@ -68,7 +68,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This class provides methods to build the pages of the portal and manage the cache
  */
-public final class PortalService extends XmlTransformerService
+public final class PortalService
 {
     ////////////////////////////////////////////////////////////////////////////
     // Constants
