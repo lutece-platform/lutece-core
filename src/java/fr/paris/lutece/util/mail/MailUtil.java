@@ -251,9 +251,9 @@ public final class MailUtil
      * @param useAbsoluteUrl Determine if we use absolute or relative url for attachement content-location
      * @return a collection of DataHandler associated with attachment urls.
      */
-    public static Map getAttachmentList( String strHtml, String strBaseUrl, boolean useAbsoluteUrl )
+    public static Map<String, URL> getAttachmentList( String strHtml, String strBaseUrl, boolean useAbsoluteUrl )
     {
-        Map map = new HashMap(  );
+        Map<String, URL> map = new HashMap<String, URL>(  );
         HtmlDocument doc = new HtmlDocument( strHtml, strBaseUrl, useAbsoluteUrl );
         map.putAll( doc.getAllUrls( HtmlDocument.ELEMENT_IMG ) );
         map.putAll( doc.getAllUrls( HtmlDocument.ELEMENT_CSS ) );
