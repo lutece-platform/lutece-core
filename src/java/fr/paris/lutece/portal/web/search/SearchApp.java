@@ -33,13 +33,19 @@
  */
 package fr.paris.lutece.portal.web.search;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.search.QueryEvent;
 import fr.paris.lutece.portal.service.search.QueryListenersService;
 import fr.paris.lutece.portal.service.search.SearchEngine;
 import fr.paris.lutece.portal.service.search.SearchResult;
-import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -49,12 +55,6 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -81,7 +81,7 @@ public class SearchApp implements XPageApplication
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_ERROR = "error";
-    private static final int MODE_ADMIN = 1;
+//    private static final int MODE_ADMIN = 1;
 
     /**
      * Returns search results
@@ -98,7 +98,6 @@ public class SearchApp implements XPageApplication
         String strSearchPageUrl = AppPropertiesService.getProperty( PROPERTY_SEARCH_PAGE_URL );
         String strError = "";
         Locale locale = request.getLocale(  );
-        LuteceUser user = null;
 
         // Check XSS characters
         if ( ( strQuery != null ) && ( StringUtil.containsXssCharacters( strQuery ) ) )
@@ -131,7 +130,7 @@ public class SearchApp implements XPageApplication
         Paginator paginator = new Paginator( listResults, nNbItemsPerPage, url.getUrl(  ), PARAMETER_PAGE_INDEX,
                 strCurrentPageIndex );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_RESULTS_LIST, paginator.getPageItems(  ) );
         model.put( MARK_QUERY, strQuery );
         model.put( MARK_PAGINATOR, paginator );
