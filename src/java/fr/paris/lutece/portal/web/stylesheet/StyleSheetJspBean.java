@@ -33,6 +33,22 @@
  */
 package fr.paris.lutece.portal.web.stylesheet;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.apache.commons.fileupload.FileItem;
+import org.xml.sax.InputSource;
+
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
@@ -58,24 +74,6 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.fileupload.FileItem;
-
-import org.xml.sax.InputSource;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 
 /**
@@ -142,11 +140,11 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
 
-        List listStyleSheets = (List<StyleSheet>) StyleSheetHome.getStyleSheetList( nModeId );
+        List<StyleSheet> listStyleSheets = (List<StyleSheet>) StyleSheetHome.getStyleSheetList( nModeId );
         Paginator paginator = new Paginator( listStyleSheets, _nItemsPerPage, getHomeUrl( request ),
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_MODE_ID, strModeId );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
@@ -167,7 +165,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     {
         String strModeId = request.getParameter( Parameters.MODE_ID );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_STYLE_LIST, getStyleList(  ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes(  ) );
         model.put( MARK_MODE_ID, strModeId );
@@ -268,7 +266,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strStyleSheetId = request.getParameter( Parameters.STYLESHEET_ID );
         int nId = Integer.parseInt( strStyleSheetId );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_STYLE_LIST, getStyleList(  ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes(  ) );
         model.put( MARK_STYLESHEET, StyleSheetHome.findByPrimaryKey( nId ) );
