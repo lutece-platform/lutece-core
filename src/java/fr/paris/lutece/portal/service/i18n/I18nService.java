@@ -33,13 +33,8 @@
  */
 package fr.paris.lutece.portal.service.i18n;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.ReferenceList;
-
 import java.text.DateFormat;
 import java.text.MessageFormat;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -47,6 +42,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.ReferenceList;
 
 
 /**
@@ -343,7 +342,7 @@ public final class I18nService
      * @param locale The locale
      * @return The localized collection
      */
-    public static List localizeCollection( List<?extends Localizable> list, Locale locale )
+    public static List<?extends Localizable> localizeCollection( List<?extends Localizable> list, Locale locale )
     {
         for ( Localizable object : list )
         {
