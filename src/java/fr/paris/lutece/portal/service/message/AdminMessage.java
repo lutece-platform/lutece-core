@@ -33,12 +33,11 @@
  */
 package fr.paris.lutece.portal.service.message;
 
-import fr.paris.lutece.portal.service.i18n.I18nService;
-
 import java.text.MessageFormat;
-
 import java.util.Locale;
 import java.util.Map;
+
+import fr.paris.lutece.portal.service.i18n.I18nService;
 
 
 /**
@@ -59,7 +58,7 @@ public class AdminMessage
     private int _nType;
     private boolean _bCancel;
     private Object[] _messageArgs;
-    private Map _requestParameters;
+    private Map<String, Object> _requestParameters;
 
     /** Creates a new instance of AppMessage
      * @param strTextKey The message Key
@@ -87,7 +86,7 @@ public class AdminMessage
      * @param requestParameters The Request parameters in a map
      */
     public AdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
-        int nType, boolean bCancelButton, Map requestParameters )
+        int nType, boolean bCancelButton, Map<String, Object> requestParameters )
     {
         buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton,
             requestParameters );
@@ -106,7 +105,7 @@ public class AdminMessage
      * @param requestParameters The Request parameters in a map
      */
     private void buildAdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl,
-        String strTarget, int nType, boolean bCancelButton, Map requestParameters )
+        String strTarget, int nType, boolean bCancelButton, Map<String, Object> requestParameters )
     {
         _strTextKey = strTextKey;
         _strTitleKey = strTitleKey;
@@ -194,7 +193,7 @@ public class AdminMessage
      * Return the request parameters
      * @return the request parameters
      */
-    public Map getRequestParameters(  )
+    public Map<String, Object> getRequestParameters(  )
     {
         return _requestParameters;
     }

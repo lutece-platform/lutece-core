@@ -33,10 +33,6 @@
  */
 package fr.paris.lutece.portal.service.message;
 
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.util.html.HtmlTemplate;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -44,6 +40,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.util.html.HtmlTemplate;
 
 
 /**
@@ -161,7 +161,7 @@ public final class AdminMessageService
      * @param requestParameters a collection of parameters
      */
     public static String getMessageUrl( HttpServletRequest request, String strMessageKey, String strUrl,
-        int nMessageType, Map requestParameters )
+        int nMessageType, Map<String, Object> requestParameters )
     {
         return getMessageUrl( request, strMessageKey, null, null, strUrl, "", nMessageType, requestParameters );
     }
@@ -211,7 +211,7 @@ public final class AdminMessageService
      * @param requestParameters a collection of parameters
      */
     public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-        String strTitleKey, String strUrl, String strTarget, int nMessageType, Map requestParameters )
+        String strTitleKey, String strUrl, String strTarget, int nMessageType, Map<String, Object> requestParameters )
     {
         String strTitle = ( strTitleKey != null ) ? strTitleKey : getDefaultTitle( nMessageType );
         boolean bCancelButton = getCancelButton( nMessageType );
@@ -345,7 +345,7 @@ public final class AdminMessageService
      */
     public static String getFormattedList( List<String> list, Locale locale )
     {
-        HashMap model = new HashMap(  );
+        Map<String, List<String>> model = new HashMap<String, List<String>>(  );
         model.put( MARK_MESSAGES_LIST, list );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FORMAT_LIST, locale, model );
