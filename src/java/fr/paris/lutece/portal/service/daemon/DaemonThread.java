@@ -77,7 +77,7 @@ public class DaemonThread extends Thread
                 synchronized ( this )
                 {
                     // Puts the thread in sleep
-                    this.sleep( _entry.getInterval(  ) * 1000 );
+                    Thread.sleep( _entry.getInterval(  ) * 1000 );
                 }
             }
             catch ( InterruptedException e )
