@@ -63,7 +63,7 @@ public class DaemonsJspBean extends AdminPageJspBean
      */
     public String getManageDaemons( HttpServletRequest request )
     {
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_DAEMONS_LIST, AppDaemonService.getDaemonEntries(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DAEMONS, getLocale(  ), model );

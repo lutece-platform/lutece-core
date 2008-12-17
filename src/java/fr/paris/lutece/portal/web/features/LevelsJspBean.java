@@ -33,6 +33,10 @@
  */
 package fr.paris.lutece.portal.web.features;
 
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.features.Level;
 import fr.paris.lutece.portal.business.features.LevelHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -42,10 +46,6 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -83,7 +83,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_LEVEL_LIST );
 
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_LEVELS_LIST, LevelHome.getLevelsList(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_LEVELS, getLocale(  ), model );
@@ -142,7 +142,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
 
         String strId = request.getParameter( Parameters.LEVEL_ID );
 
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_LEVEL, LevelHome.findByPrimaryKey( Integer.parseInt( strId ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_LEVEL, getLocale(  ), model );

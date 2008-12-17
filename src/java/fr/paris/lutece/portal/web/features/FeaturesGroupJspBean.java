@@ -170,9 +170,9 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @param locale The locale
      * @return the reference list of feature groups
      */
-    private Collection<HashMap> getRefListFeatureGroups( Locale locale )
+    private Collection<HashMap<String, Object>> getRefListFeatureGroups( Locale locale )
     {
-        Collection<HashMap> colGroupMap = new ArrayList<HashMap>(  );
+        Collection<HashMap<String, Object>> colGroupMap = new ArrayList<HashMap<String, Object>>(  );
         Collection<FeatureGroup> colGroups = FeatureGroupHome.getFeatureGroupsList(  );
 
         for ( FeatureGroup fg : colGroups )

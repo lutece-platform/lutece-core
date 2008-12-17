@@ -33,6 +33,13 @@
  */
 package fr.paris.lutece.portal.web.mailinglist;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.mailinglist.MailingList;
 import fr.paris.lutece.portal.business.mailinglist.MailingListHome;
 import fr.paris.lutece.portal.business.mailinglist.MailingListUsersFilter;
@@ -49,12 +56,6 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -136,7 +137,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         ReferenceList listWorkgroups = AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) );
 
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_MAILINGLIST, getLocale(  ), model );
@@ -210,7 +211,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         int nMailingListId = Integer.parseInt( strMailingListId );
         MailingList mailinglist = MailingListHome.findByPrimaryKey( nMailingListId );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
         model.put( MARK_MAILINGLIST, mailinglist );
 
@@ -293,7 +294,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_VIEW_USERS_PAGETITLE );
 
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         Collection<Recipient> listRecipients;
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
 
@@ -332,7 +333,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         ReferenceList listRoles = AdminRoleHome.getRolesList(  );
         listRoles.addItem( AdminMailingListService.ALL_ROLES, AdminMailingListService.ALL_ROLES );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
         model.put( MARK_ROLES_LIST, listRoles );
         model.put( MARK_MAILINGLIST, mailinglist );

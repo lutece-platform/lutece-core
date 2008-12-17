@@ -33,18 +33,18 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
+import java.util.HashMap;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringEscapeUtils;
+
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringEscapeUtils;
-
-import java.util.HashMap;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -95,7 +95,7 @@ public abstract class InsertServiceJspBean
      */
     protected String buildLink( String strText, String strUrl, String strTitle, String strTarget )
     {
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_TEXT, StringEscapeUtils.escapeHtml( strText ) );
         model.put( MARK_URL, strUrl );
         model.put( MARK_TITLE, StringEscapeUtils.escapeHtml( strTitle ) );

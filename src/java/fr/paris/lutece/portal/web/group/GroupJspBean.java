@@ -33,6 +33,13 @@
  */
 package fr.paris.lutece.portal.web.group;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.group.Group;
 import fr.paris.lutece.portal.business.group.GroupHome;
 import fr.paris.lutece.portal.business.group.GroupRoleHome;
@@ -45,13 +52,6 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -285,7 +285,7 @@ public class GroupJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ROLES_LIST, allRoleList );
         model.put( MARK_ROLES_LIST_FOR_GROUP, groupRoleList );
         model.put( MARK_GROUP, group );

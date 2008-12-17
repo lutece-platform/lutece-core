@@ -45,7 +45,7 @@ import java.util.List;
 public final class StartUpServiceManager
 {
     private static final String BEAN_MANAGER = "startUpServiceManager";
-    private static List _listServices;
+    private static List<Object> _listServices;
 
     /**
      * Private constructor
@@ -84,7 +84,7 @@ public final class StartUpServiceManager
      * Sets the list of startup services
      * @param list The list of startup services
      */
-    public void setServicesList( List list )
+    public void setServicesList( List<Object> list )
     {
         _listServices = list;
     }

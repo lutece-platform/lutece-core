@@ -146,7 +146,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
 
-        List listRole = (List<AdminRole>) AdminRoleHome.findAll(  );
+        List<AdminRole> listRole = (List<AdminRole>) AdminRoleHome.findAll(  );
         Paginator paginator = new Paginator( listRole, _nItemsPerPage, getHomeUrl( request ),
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
@@ -220,7 +220,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
 
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ROLE, AdminRoleHome.findByPrimaryKey( strRoleKey ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_ROLE, getLocale(  ), model );

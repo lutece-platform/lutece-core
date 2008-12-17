@@ -35,6 +35,15 @@ package fr.paris.lutece.portal.web.style;
 
 
 //import com.oreilly.servlet.MultipartRequest;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+
 import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
@@ -50,17 +59,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.fileupload.FileItem;
-
-// API which processes the file upload with form-multipart
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -117,7 +115,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_PAGE_TEMPLATE_LIST );
 
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PAGE_TEMPLATES_LIST, PageTemplateHome.getPageTemplatesList(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_TEMPLATES, getLocale(  ), model );
@@ -198,7 +196,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );
 
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PAGE_TEMPLATE, PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PAGE_TEMPLATE, getLocale(  ), model );

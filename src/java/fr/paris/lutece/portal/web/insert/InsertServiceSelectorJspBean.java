@@ -33,6 +33,12 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.insert.InsertResourceIdService;
 import fr.paris.lutece.portal.service.insert.InsertService;
@@ -43,11 +49,6 @@ import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.Collection;
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -89,7 +90,7 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
         RBACService.getAuthorizedCollection( listServices, InsertResourceIdService.PERMISSION_USE, getUser(  ) );
 
         // building from a template
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_INSERT_SERVICES_LIST, listServices );
         model.put( MARK_SELECTED_TEXT, strText );
         model.put( MARK_INPUT, strInput );
@@ -131,7 +132,7 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
     {
         String strInput = request.getParameter( PARAMETER_INPUT );
         String strInsert = request.getParameter( PARAMETER_INSERT );
-        HashMap model = new HashMap(  );
+        Map<String, String> model = new HashMap<String, String>(  );
         model.put( MARK_INPUT, strInput );
         model.put( MARK_INSERT, strInsert );
 
