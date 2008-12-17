@@ -33,6 +33,13 @@
  */
 package fr.paris.lutece.portal.web.rbac;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -50,12 +57,6 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -149,7 +150,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         Paginator paginator = new Paginator( listRole, _nItemsPerPage, getHomeUrl( request ),
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_ROLE_LIST, paginator.getPageItems(  ) );
@@ -341,7 +342,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         Collection<ResourceType> listResourceTypes = ResourceTypeManager.getResourceTypeList(  );
         I18nService.localizeCollection( listResourceTypes, getLocale(  ) );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ROLE, AdminRoleHome.findByPrimaryKey( strRoleKey ) );
         model.put( MARK_CONTROLED_RESOURCE_LIST, listResources );
         model.put( MARK_RESOURCE_TYPE_LIST, listResourceTypes );
@@ -400,7 +401,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_CHOOSE_RESOURCES_PAGETITLE );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         String strResourceType = request.getParameter( PARAMETER_RESOURCE_TYPE );
@@ -478,7 +479,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         ResourceType resourceType = ResourceTypeManager.getResourceType( strResourceType );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         model.put( MARK_RESOURCE_ID_LIST, resourceType.getResourceIdService(  ).getResourceIdList( getLocale(  ) ) );
         model.put( MARK_ROLE_KEY, strRoleKey );
@@ -577,7 +578,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // load the permission list for permission selection
         ReferenceList listPermissions = ResourceTypeManager.getPermissionsList( strResourceType, getLocale(  ) );
 
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         // forward the resource id  list
         model.put( MARK_RESOURCE_ID_LIST, strArrayResourceIds );

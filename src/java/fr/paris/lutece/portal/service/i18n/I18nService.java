@@ -327,7 +327,7 @@ public final class I18nService
      * @param locale The locale
      * @return The localized collection
      */
-    public static Collection localizeCollection( Collection<?extends Localizable> collection, Locale locale )
+    public static Collection<?extends Localizable> localizeCollection( Collection<?extends Localizable> collection, Locale locale )
     {
         for ( Localizable object : collection )
         {
