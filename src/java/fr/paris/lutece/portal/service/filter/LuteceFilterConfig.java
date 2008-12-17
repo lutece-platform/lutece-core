@@ -47,7 +47,7 @@ public class LuteceFilterConfig implements FilterConfig
 {
     private String _strName;
     private ServletContext _context;
-    private Map _mapInitParameters;
+    private Map<String, String> _mapInitParameters;
 
     /**
      * Constructor
@@ -55,7 +55,7 @@ public class LuteceFilterConfig implements FilterConfig
      * @param context The servlet context
      * @param mapInitParameters Init parameters as a Map
      */
-    public LuteceFilterConfig( String strName, ServletContext context, Map mapInitParameters )
+    public LuteceFilterConfig( String strName, ServletContext context, Map<String, String> mapInitParameters )
     {
         _strName = strName;
         _context = context;
@@ -90,8 +90,8 @@ public class LuteceFilterConfig implements FilterConfig
      * {@inheritDoc}
      * @return
      */
-    public Enumeration getInitParameterNames(  )
+    public Enumeration<String> getInitParameterNames(  )
     {
-        return (Enumeration) _mapInitParameters.keySet(  );
+        return (Enumeration<String>) _mapInitParameters.keySet(  );
     }
 }
