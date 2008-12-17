@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.web.user;
 
+import java.util.HashMap;
+
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -40,8 +42,6 @@ import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.dashboard.DashboardComponent;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
 
 
 /**
@@ -62,7 +62,7 @@ public class UsersDashboardComponent extends DashboardComponent
     public String getDashboardData( AdminUser user )
     {
         Right right = RightHome.findByPrimaryKey( getRight(  ) );
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USERS_COUNT, AdminUserHome.findUserList(  ).size(  ) );
         model.put( MARK_URL, right.getUrl(  ) );
         model.put( MARK_ICON, right.getIconUrl(  ) );

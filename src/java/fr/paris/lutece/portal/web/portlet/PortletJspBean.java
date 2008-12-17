@@ -246,7 +246,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
      */
     protected HtmlTemplate getModifyTemplate( Portlet portlet )
     {
-        return getModifyTemplate( portlet, new HashMap(  ) );
+        return getModifyTemplate( portlet, new HashMap<String, Object>(  ) );
     }
 
     /**

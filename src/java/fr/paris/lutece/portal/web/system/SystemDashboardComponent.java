@@ -33,13 +33,13 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import java.util.HashMap;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.dashboard.DashboardComponent;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
 
 
 /**
@@ -57,7 +57,7 @@ public class SystemDashboardComponent extends DashboardComponent
      */
     public String getDashboardData( AdminUser user )
     {
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLUGINS_COUNT, PluginService.getPluginList(  ).size(  ) );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale(  ), model );

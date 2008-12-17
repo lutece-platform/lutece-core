@@ -33,6 +33,13 @@
  */
 package fr.paris.lutece.portal.web.workgroup;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroup;
@@ -48,12 +55,6 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -282,7 +283,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      */
     public String getAssignUsers( HttpServletRequest request )
     {
-        HashMap model = new HashMap(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGE_TITLE );
 
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );

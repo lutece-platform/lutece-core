@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.service.init;
 
+import java.util.List;
+
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-
-import java.util.List;
 
 
 /**

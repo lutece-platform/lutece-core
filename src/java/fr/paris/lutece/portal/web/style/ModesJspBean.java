@@ -33,6 +33,11 @@
  */
 package fr.paris.lutece.portal.web.style;
 
+import java.io.File;
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.style.Mode;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -43,12 +48,6 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.io.File;
-
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -91,7 +90,7 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODE_LIST );
 
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_MODES_LIST, ModeHome.getModesList(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_MODES, getLocale(  ), model );
@@ -182,7 +181,7 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
 
         String strId = request.getParameter( Parameters.MODE_ID );
 
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_MODE, ModeHome.findByPrimaryKey( Integer.parseInt( strId ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_MODE, getLocale(  ), model );
@@ -237,7 +236,7 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
 
         int nModeId = Integer.parseInt( request.getParameter( Parameters.MODE_ID ) );
 
-        HashMap model = new HashMap(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_MODE, ModeHome.findByPrimaryKey( nModeId ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_MODE, getLocale(  ), model );
