@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.portal.business.mailinglist;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-
 import java.util.Collection;
+
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 
 /**
@@ -118,7 +118,7 @@ public final class MailingListHome
      * @param strWorkgroup The workgroup
      * @return A mailing list collection
      */
-    public static Collection findByWorkgroup( String strWorkgroup )
+    public static Collection<MailingList> findByWorkgroup( String strWorkgroup )
     {
         return _dao.selectByWorkgroup( strWorkgroup );
     }

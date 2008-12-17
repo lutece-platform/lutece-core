@@ -77,7 +77,7 @@ public interface IMailingListDAO
      *
      * @return the collection which contains the data of all the mailingLists
      */
-    Collection selectAll(  );
+    Collection<MailingList> selectAll(  );
 
     /**
      * Returns all mailing lists having a scope restricted to a given workgroup
@@ -85,7 +85,7 @@ public interface IMailingListDAO
      * @param strWorkgroup The workgroup
      * @return the collection which contains the data of all the mailingLists
      */
-    Collection selectByWorkgroup( String strWorkgroup );
+    Collection<MailingList> selectByWorkgroup( String strWorkgroup );
 
     /**
      * Add an users filter to the mailing list
