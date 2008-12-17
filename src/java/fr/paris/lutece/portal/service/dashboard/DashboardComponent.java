@@ -41,7 +41,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 /**
  * Dashboard Component
  */
-public abstract class DashboardComponent implements Comparable
+public abstract class DashboardComponent implements Comparable<DashboardComponent>
 {
     private String _strName;
     private String _strRight;
@@ -157,11 +157,11 @@ public abstract class DashboardComponent implements Comparable
      * @param o The component to compare to
      * @return less than 0 if the order is lower, 0 if equals and greater than 0 if higher
      */
-    public int compareTo( Object o )
+    public int compareTo( DashboardComponent o )
     {
-        return getOrder(  ) - ( (DashboardComponent) o ).getOrder(  );
+        return getOrder(  ) - o.getOrder(  );
     }
-
+    
     /**
      * Tells if the component is enabled
      * @return true if enabled
