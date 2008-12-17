@@ -59,6 +59,7 @@ import fr.paris.lutece.portal.service.page.PageResourceIdService;
 import fr.paris.lutece.portal.service.page.PageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
+import fr.paris.lutece.portal.service.rbac.RBACResource;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -238,7 +239,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         int nPageId = Integer.parseInt( strPageId );
 
         // Checks that the page has no child
-        Collection list = PageHome.getChildPages( nPageId );
+        Collection<Page> list = PageHome.getChildPages( nPageId );
 
         if ( list.size(  ) > 0 )
         {
@@ -497,7 +498,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * @param user The AdminUser
      * @return The html code
      */
-    private Collection getPortletTypeList( AdminUser user )
+    private Collection<RBACResource> getPortletTypeList( AdminUser user )
     {
         List<PortletType> listPortletType = PortletTypeHome.getPortletTypesList( getLocale(  ) );
 
