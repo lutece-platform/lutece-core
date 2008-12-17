@@ -45,7 +45,7 @@ import java.util.List;
 public final class ShutdownServiceManager
 {
     private static final String BEAN_MANAGER = "shutdownServiceManager";
-    private static List _listServices;
+    private static List<Object> _listServices;
 
     /**
      * Private constructor
@@ -84,7 +84,7 @@ public final class ShutdownServiceManager
      * Sets the list of shutdown services
      * @param list The list of shutdown services
      */
-    public void setServicesList( List list )
+    public void setServicesList( List<Object> list )
     {
         _listServices = list;
     }

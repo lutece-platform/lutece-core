@@ -33,16 +33,16 @@
  */
 package fr.paris.lutece.portal.web.includes;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -79,7 +79,7 @@ public class StatisticsInclude implements PageInclude
         {
             String strStatisticalIncludeTemplateHead = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_HEAD_TEMPLATE );
 
-            Map<String, String> model = new HashMap(  );
+            Map<String, String> model = new HashMap<String, String>(  );
             model.put( MARK_STATISTICAL_SITE_ID, strStatisticalSiteId );
             model.put( MARK_STATISTICAL_SERVER_URL, strStatisticalServerUrl );
 
