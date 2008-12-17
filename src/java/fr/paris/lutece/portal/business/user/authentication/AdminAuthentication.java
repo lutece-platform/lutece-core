@@ -33,13 +33,12 @@
  */
 package fr.paris.lutece.portal.business.user.authentication;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-
 import java.util.Collection;
 
 import javax.security.auth.login.LoginException;
-
 import javax.servlet.http.HttpServletRequest;
+
+import fr.paris.lutece.portal.business.user.AdminUser;
 
 
 /**
@@ -152,7 +151,7 @@ public interface AdminAuthentication
      * @param strEmail The email
      * @return the collection of available users
      */
-    Collection getUserList( String strLastName, String strFirstName, String strEmail );
+    Collection<AdminUser> getUserList( String strLastName, String strFirstName, String strEmail );
 
     /**
      * Get user data

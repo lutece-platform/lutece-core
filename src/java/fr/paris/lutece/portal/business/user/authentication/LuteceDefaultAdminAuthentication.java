@@ -33,18 +33,16 @@
  */
 package fr.paris.lutece.portal.business.user.authentication;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.business.user.log.UserLog;
-import fr.paris.lutece.portal.business.user.log.UserLogHome;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-
 import java.util.Collection;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
-
 import javax.servlet.http.HttpServletRequest;
+
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.user.log.UserLog;
+import fr.paris.lutece.portal.business.user.log.UserLogHome;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 /**
  * Default authentication module for admin authentication
@@ -217,7 +215,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
      * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getUserList()
      * @return null
      */
-    public Collection getUserList(String strLastName, String strFirstName, String strEmail)
+    public Collection<AdminUser> getUserList(String strLastName, String strFirstName, String strEmail)
     {
         return null;
     }
