@@ -48,7 +48,7 @@ public interface ResourceLoader
      * Load all resources available for this loader
      * @return A collection of resources
      */
-    Collection getResources(  );
+    Collection<Resource> getResources(  );
 
     /**
      * Load a resource by its Id

@@ -33,16 +33,16 @@
  */
 package fr.paris.lutece.portal.service.resource;
 
-import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
-import fr.paris.lutece.portal.service.portal.PortalService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 
 /**
@@ -58,7 +58,7 @@ public abstract class ResourceService extends AbstractCacheableService
 
     // Variables
     private String _strName = UNDEFINED_SERVICE_NAME;
-    private List _listLoaders = new ArrayList(  );
+    private List<ResourceLoader> _listLoaders = new ArrayList<ResourceLoader>(  );
 
     /**
      *
@@ -207,7 +207,7 @@ public abstract class ResourceService extends AbstractCacheableService
     private Resource loadResource( String strId )
     {
         Resource resource = null;
-        Iterator i = _listLoaders.iterator(  );
+        Iterator<ResourceLoader> i = _listLoaders.iterator(  );
 
         while ( i.hasNext(  ) && ( resource == null ) )
         {
@@ -224,14 +224,14 @@ public abstract class ResourceService extends AbstractCacheableService
      */
     protected Collection<Resource> getResources(  )
     {
-        ArrayList listResources = new ArrayList(  );
-        Iterator i = _listLoaders.iterator(  );
+        List<Resource> listResources = new ArrayList<Resource>(  );
+        Iterator<ResourceLoader> i = _listLoaders.iterator(  );
 
         while ( i.hasNext(  ) )
         {
             ResourceLoader loader = (ResourceLoader) i.next(  );
-            Collection colResources = loader.getResources(  );
-            Iterator j = colResources.iterator(  );
+            Collection<Resource> colResources = loader.getResources(  );
+            Iterator<Resource> j = colResources.iterator(  );
 
             while ( j.hasNext(  ) )
             {
