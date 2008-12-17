@@ -33,15 +33,15 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
+import java.util.Collection;
+import java.util.List;
+
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.page.PageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
-
-import java.util.Collection;
-import java.util.List;
 
 
 /**
@@ -109,7 +109,7 @@ public abstract class PortletHome implements PortletHomeInterface
      * @param strPortletName STh name of the portlet
      * @return the list in form of Collection
      */
-    public static Collection getPortletsListbyName( String strPortletName )
+    public static Collection<PortletImpl> getPortletsListbyName( String strPortletName )
     {
         return _dao.selectPortletsListbyName( strPortletName );
     }
@@ -269,7 +269,7 @@ public abstract class PortletHome implements PortletHomeInterface
      * @param nStyleId identifier of the style
      * @return A collection of styles
      */
-    public static Collection getPortletListByStyle( int nStyleId )
+    public static Collection<PortletImpl> getPortletListByStyle( int nStyleId )
     {
         return _dao.selectPortletListByStyle( nStyleId );
     }

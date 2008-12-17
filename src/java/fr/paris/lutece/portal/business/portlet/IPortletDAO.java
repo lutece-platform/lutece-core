@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.util.ReferenceList;
-
 import java.util.Collection;
 import java.util.List;
+
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
+import fr.paris.lutece.util.ReferenceList;
 
 
 /**
@@ -105,7 +105,7 @@ public interface IPortletDAO
      * @param strPortletName the name of portlet
      * @return the list in form of Collection
      */
-    Collection selectPortletsListbyName( String strPortletName );
+    Collection<PortletImpl> selectPortletsListbyName( String strPortletName );
 
     /**
      * Returns a list of portlets according to the selected type
@@ -144,5 +144,5 @@ public interface IPortletDAO
      * @param nStyleId the identifier of the style
      * @return the list of the portlets in form of a Collection of Portlets objects
      */
-    Collection selectPortletListByStyle( int nStyleId );
+    Collection<PortletImpl> selectPortletListByStyle( int nStyleId );
 }
