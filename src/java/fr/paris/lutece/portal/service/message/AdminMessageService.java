@@ -161,7 +161,7 @@ public final class AdminMessageService
      * @param requestParameters a collection of parameters
      */
     public static String getMessageUrl( HttpServletRequest request, String strMessageKey, String strUrl,
-        int nMessageType, Map<String, Object> requestParameters )
+        int nMessageType, Map requestParameters )
     {
         return getMessageUrl( request, strMessageKey, null, null, strUrl, "", nMessageType, requestParameters );
     }

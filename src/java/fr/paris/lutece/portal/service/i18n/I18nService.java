@@ -326,7 +326,7 @@ public final class I18nService
      * @param locale The locale
      * @return The localized collection
      */
-    public static Collection<?extends Localizable> localizeCollection( Collection<?extends Localizable> collection, Locale locale )
+    public static Collection localizeCollection( Collection<?extends Localizable> collection, Locale locale )
     {
         for ( Localizable object : collection )
         {
@@ -342,7 +342,7 @@ public final class I18nService
      * @param locale The locale
      * @return The localized collection
      */
-    public static List<?extends Localizable> localizeCollection( List<?extends Localizable> list, Locale locale )
+    public static List localizeCollection( List<?extends Localizable> list, Locale locale )
     {
         for ( Localizable object : list )
         {
