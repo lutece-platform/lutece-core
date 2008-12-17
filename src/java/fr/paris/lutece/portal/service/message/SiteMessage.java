@@ -33,12 +33,11 @@
  */
 package fr.paris.lutece.portal.service.message;
 
-import fr.paris.lutece.portal.service.i18n.I18nService;
-
 import java.text.MessageFormat;
-
 import java.util.Locale;
 import java.util.Map;
+
+import fr.paris.lutece.portal.service.i18n.I18nService;
 
 
 /**
@@ -62,7 +61,7 @@ public class SiteMessage
     private int _nTypeButton;
     private int _nType;
     private Object[] _messageArgs;
-    private Map _requestParameters;
+    private Map<String, Object> _requestParameters;
 
     /**
     *
@@ -76,7 +75,7 @@ public class SiteMessage
     * @param requestParameters Request parameters as a Map
     */
     public SiteMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
-        int nType, int nTypeButton, Map requestParameters )
+        int nType, int nTypeButton, Map<String, Object> requestParameters )
     {
         _strTextKey = strTextKey;
         _strTitleKey = strTitleKey;
@@ -210,7 +209,7 @@ public class SiteMessage
      *
      * @return the request parameters.
      */
-    public Map getRequestParameters(  )
+    public Map<String, Object> getRequestParameters(  )
     {
         return _requestParameters;
     }

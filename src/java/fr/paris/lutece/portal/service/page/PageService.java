@@ -502,8 +502,8 @@ public class PageService extends ContentService implements ImageResourceProvider
 
                     Map<String, Object> model = new HashMap<String, Object>(  );
                     model.put( MARK_PORTLET, portlet );
-                    model.put( MARK_STATUS_PUBLISHED, portlet.STATUS_PUBLISHED );
-                    model.put( MARK_STATUS_UNPUBLISHED, portlet.STATUS_UNPUBLISHED );
+                    model.put( MARK_STATUS_PUBLISHED, Portlet.STATUS_PUBLISHED );
+                    model.put( MARK_STATUS_UNPUBLISHED, Portlet.STATUS_UNPUBLISHED );
                     model.put( MARK_CUSTOM_ACTIONS, listCustomActions );
 
                     HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_BUTTONS, locale, model );
