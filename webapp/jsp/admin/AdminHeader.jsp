@@ -40,7 +40,7 @@
 <script type="text/javascript" src="js/tools.js"></script>
 <script type="text/javascript" src="js/selectbox.js"></script>
 
-<script src="js/jquery/jquery-1.2.1.min.js" type="text/javascript"></script>
+<script src="js/jquery/jquery-1.2.6.min.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/treeview/jquery.cookie.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/treeview/jquery.treeview.pack.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/ui/datepicker/ui.datepicker.js" type="text/javascript"></script>
