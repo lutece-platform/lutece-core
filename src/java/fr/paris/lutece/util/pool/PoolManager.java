@@ -35,7 +35,6 @@ package fr.paris.lutece.util.pool;
 
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.pool.service.ConnectionPool;
 import fr.paris.lutece.util.pool.service.ConnectionService;
 import fr.paris.lutece.util.pool.service.LuteceConnectionService;
 
@@ -276,16 +275,9 @@ public final class PoolManager
 
         for ( ConnectionService cs : listPools )
         {
-            if ( cs instanceof LuteceConnectionService )
-            {
-                ConnectionPool pool = ( (LuteceConnectionService) cs ).getConnectionPool(  );
-                listPoolsInfos.addItem( cs.getPoolName(  ),
-                    "" + pool.getConnectionCount(  ) + " / " + pool.getMaxConnectionCount(  ) );
-            }
-            else
-            {
-                listPoolsInfos.addItem( cs.getPoolName(  ), "- / -" );
-            }
+            String strCurrentConnections = ( cs.getCurrentConnections() == cs.INFO_NOT_AVAILABLE ) ? "-" : "" + cs.getCurrentConnections();
+            String strMaxConnections = ( cs.getMaxConnections() == cs.INFO_NOT_AVAILABLE ) ? "-" : "" + cs.getMaxConnections();
+            listPoolsInfos.addItem( cs.getPoolName(  ), strCurrentConnections + " / " + strMaxConnections + " (" + cs.getPoolProvider() + ")" );
         }
 
         return listPoolsInfos;

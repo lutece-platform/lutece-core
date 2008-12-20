@@ -166,4 +166,29 @@ public class TomcatConnectionService implements ConnectionService
     public void release(  )
     {
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int getCurrentConnections()
+    {
+        return ConnectionService.INFO_NOT_AVAILABLE;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int getMaxConnections()
+    {
+        return ConnectionService.INFO_NOT_AVAILABLE;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public String getPoolProvider()
+    {
+        return "Tomcat";
+    }
+
 }

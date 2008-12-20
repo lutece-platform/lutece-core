@@ -45,6 +45,8 @@ import java.util.Hashtable;
  */
 public interface ConnectionService
 {
+    public int INFO_NOT_AVAILABLE = -1;
+
     /**
      * Get a connection
      * @return A database connection
@@ -91,4 +93,23 @@ public interface ConnectionService
      * @return  The logger
      */
     Logger getLogger(  );
+
+    /**
+     * Gets the number of opened connections
+     * @return The current connections count
+     */
+    int getCurrentConnections();
+
+    /**
+     * Gets the max connections
+     * @return The max connections count
+     */
+    int getMaxConnections();
+
+    /**
+     * Gets the pool manager provider
+     * @return The pool manager
+     */
+    String getPoolProvider();
+
 }

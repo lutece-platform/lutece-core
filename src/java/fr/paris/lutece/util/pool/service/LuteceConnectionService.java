@@ -189,11 +189,36 @@ public class LuteceConnectionService implements ConnectionService
     }
 
     /**
-     * Returns the coonection pool
-     * @return the coonection pool
+     * Returns the connection pool
+     * @return the connection pool
      */
     public ConnectionPool getConnectionPool(  )
     {
         return _connPool;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int getCurrentConnections()
+    {
+        return _connPool.getConnectionCount();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int getMaxConnections()
+    {
+        return _connPool.getMaxConnectionCount();
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public String getPoolProvider()
+    {
+        return "Lutece";
+    }
+
 }

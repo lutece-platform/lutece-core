@@ -31,9 +31,7 @@
  *
  * License 1.0
  */
-
 /** Contibution AtosWorldline / Meteo France - mlux */
-
 package fr.paris.lutece.util.pool.service;
 
 import java.sql.Connection;
@@ -49,6 +47,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
  */
 public class C3p0ConnectionService implements ConnectionService
 {
+
     /**
      * C3P0 connection pool
      */
@@ -71,16 +70,28 @@ public class C3p0ConnectionService implements ConnectionService
         {
             _dataSource = new ComboPooledDataSource( _strPoolName );
 
-            String strMaxConns = htParamsConnectionPool.get( getPoolName(  ) + ".maxconns" );
+            String strDriver = htParamsConnectionPool.get( getPoolName() + ".driver" );
+            _dataSource.setDriverClass( strDriver );
+
+            String strUrl = htParamsConnectionPool.get( getPoolName() + ".url" );
+            _dataSource.setJdbcUrl( strUrl );
+
+            String strUser = htParamsConnectionPool.get( getPoolName() + ".user" );
+            _dataSource.setUser( strUser );
+
+            String strPassword = htParamsConnectionPool.get( getPoolName() + ".password" );
+            _dataSource.setPassword( strPassword );
+
+            String strMaxConns = htParamsConnectionPool.get( getPoolName() + ".maxconns" );
             int nMaxConns = ( strMaxConns == null ) ? 0 : Integer.parseInt( strMaxConns );
             _dataSource.setMaxPoolSize( nMaxConns );
 
-            String strMinConns = htParamsConnectionPool.get( getPoolName(  ) + ".initconns" );
+            String strMinConns = htParamsConnectionPool.get( getPoolName() + ".initconns" );
             int nInitConns = ( strMinConns == null ) ? 0 : Integer.parseInt( strMinConns );
             _dataSource.setInitialPoolSize( nInitConns );
             _dataSource.setMinPoolSize( nInitConns );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             _logger.error( "Error while initializing the pool " + getPoolName(), e );
         }
@@ -97,17 +108,17 @@ public class C3p0ConnectionService implements ConnectionService
 
         try
         {
-            if( _dataSource != null )
+            if ( _dataSource != null )
             {
                 conn = _dataSource.getConnection();
 
-                if( conn != null )
+                if ( conn != null )
                 {
                     _logger.debug( "The connexion is get, Current/Max pool : " + _dataSource.getNumConnectionsAllUsers() + "/" + _dataSource.getMaxPoolSize() );
                 }
             }
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             _logger.error( "Erreur when getting the connexion with the pool : " + getPoolName(), e );
         }
@@ -126,11 +137,11 @@ public class C3p0ConnectionService implements ConnectionService
 
             _logger.debug( "The connexion is released, Current/Max pool : " + _dataSource.getNumConnectionsAllUsers() + "/" + _dataSource.getMaxPoolSize() );
         }
-        catch( SQLException e )
+        catch ( SQLException e )
         {
             _logger.error( "SQL error when releasing the connexion with the pool : " + getPoolName(), e );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             _logger.error( "Error while releasing the connexion with the pool : " + getPoolName(), e );
         }
@@ -175,4 +186,36 @@ public class C3p0ConnectionService implements ConnectionService
     {
     }
 
+    /**
+     * {@inheritDoc }
+     */
+    public int getCurrentConnections()
+    {
+        int nCurrentConnections = -1;
+        try
+        {
+            nCurrentConnections = _dataSource.getNumConnections();
+        }
+        catch ( SQLException ex )
+        {
+            _logger.error( "GetCurrentConnections error : " + ex.getMessage() , ex );
+        }
+        return nCurrentConnections;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public int getMaxConnections()
+    {
+        return _dataSource.getMaxPoolSize();
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public String getPoolProvider()
+    {
+        return "C3P0";
+    }
 }
