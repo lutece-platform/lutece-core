@@ -109,7 +109,8 @@ public class DaemonThread extends Thread
         try
         {
             _entry.setLastRunDate( new Date(  ) );
-            if ( PluginService.isPluginEnable( daemon.getPluginName() ) )
+
+            if ( PluginService.isPluginEnable( daemon.getPluginName(  ) ) )
             {
                 daemon.run(  );
                 _entry.setLastRunLogs( daemon.getLastRunLogs(  ) );
@@ -126,5 +127,4 @@ public class DaemonThread extends Thread
 
         AppLogService.info( "Daemon '" + _entry.getId(  ) + "' - end of process." );
     }
-
 }

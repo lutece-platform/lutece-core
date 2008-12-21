@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.portal.business.mailinglist;
 
-import java.util.Collection;
-
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+
+import java.util.Collection;
 
 
 /**

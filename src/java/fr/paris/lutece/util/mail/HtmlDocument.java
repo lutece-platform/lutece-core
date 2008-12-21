@@ -33,23 +33,26 @@
  */
 package fr.paris.lutece.util.mail;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import org.w3c.tidy.Tidy;
+
 import java.io.ByteArrayInputStream;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.activation.DataHandler;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.tidy.Tidy;
-
-import fr.paris.lutece.portal.service.util.AppLogService;
 
 
 /**

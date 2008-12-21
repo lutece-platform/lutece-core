@@ -275,9 +275,14 @@ public final class PoolManager
 
         for ( ConnectionService cs : listPools )
         {
-            String strCurrentConnections = ( cs.getCurrentConnections() == cs.INFO_NOT_AVAILABLE ) ? "-" : "" + cs.getCurrentConnections();
-            String strMaxConnections = ( cs.getMaxConnections() == cs.INFO_NOT_AVAILABLE ) ? "-" : "" + cs.getMaxConnections();
-            listPoolsInfos.addItem( cs.getPoolName(  ), strCurrentConnections + " / " + strMaxConnections + " (" + cs.getPoolProvider() + ")" );
+            String strCurrentConnections = ( cs.getCurrentConnections(  ) == cs.INFO_NOT_AVAILABLE ) ? "-"
+                                                                                                     : ( "" +
+                cs.getCurrentConnections(  ) );
+            String strMaxConnections = ( cs.getMaxConnections(  ) == cs.INFO_NOT_AVAILABLE ) ? "-"
+                                                                                             : ( "" +
+                cs.getMaxConnections(  ) );
+            listPoolsInfos.addItem( cs.getPoolName(  ),
+                strCurrentConnections + " / " + strMaxConnections + " (" + cs.getPoolProvider(  ) + ")" );
         }
 
         return listPoolsInfos;

@@ -33,23 +33,24 @@
  */
 package fr.paris.lutece.portal.business.user.authentication;
 
-import java.util.Collection;
-
-import javax.security.auth.login.FailedLoginException;
-import javax.security.auth.login.LoginException;
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.log.UserLog;
 import fr.paris.lutece.portal.business.user.log.UserLogHome;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
+import java.util.Collection;
+
+import javax.security.auth.login.FailedLoginException;
+import javax.security.auth.login.LoginException;
+
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * Default authentication module for admin authentication
  */
 public class LuteceDefaultAdminAuthentication implements AdminAuthentication
 {
-
     private static final String CONSTANT_LOST_PASSWORD_URL = "jsp/admin/AdminForgotPassword.jsp";
     private static final String PROPERTY_MAX_ACCESS_FAILED = "access.failures.max";
     private static final String PROPERTY_INTERVAL_MINUTES = "access.failures.interval.minutes";
@@ -59,7 +60,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
      * Setter used by Spring IoC
      * @param dao The DAO (defined in the Spring context)
      */
-    public void setDao(ILuteceDefaultAdminUserDAO dao)
+    public void setDao( ILuteceDefaultAdminUserDAO dao )
     {
         _dao = dao;
     }
@@ -67,7 +68,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public String getAuthServiceName()
+    public String getAuthServiceName(  )
     {
         return "LUTECE DEFAULT AUTHENTICATION";
     }
@@ -75,7 +76,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public String getAuthType(HttpServletRequest request)
+    public String getAuthType( HttpServletRequest request )
     {
         return HttpServletRequest.BASIC_AUTH;
     }
@@ -83,33 +84,33 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public AdminUser login(String strAccessCode, String strUserPassword, HttpServletRequest request)
-            throws LoginException
+    public AdminUser login( String strAccessCode, String strUserPassword, HttpServletRequest request )
+        throws LoginException
     {
         // Creating a record of connections log
-        UserLog userLog = new UserLog();
-        userLog.setAccessCode(strAccessCode);
-        userLog.setIpAddress(request.getRemoteAddr());
-        userLog.setDateLogin(new java.sql.Timestamp(new java.util.Date().getTime()));
+        UserLog userLog = new UserLog(  );
+        userLog.setAccessCode( strAccessCode );
+        userLog.setIpAddress( request.getRemoteAddr(  ) );
+        userLog.setDateLogin( new java.sql.Timestamp( new java.util.Date(  ).getTime(  ) ) );
 
         //      Test the number of errors during an interval of minutes
-        int nMaxFailed = AppPropertiesService.getPropertyInt(PROPERTY_MAX_ACCESS_FAILED, 3);
-        int nIntervalMinutes = AppPropertiesService.getPropertyInt(PROPERTY_INTERVAL_MINUTES, 10);
-        int nNbFailed = UserLogHome.getLoginErrors(userLog, nIntervalMinutes);
+        int nMaxFailed = AppPropertiesService.getPropertyInt( PROPERTY_MAX_ACCESS_FAILED, 3 );
+        int nIntervalMinutes = AppPropertiesService.getPropertyInt( PROPERTY_INTERVAL_MINUTES, 10 );
+        int nNbFailed = UserLogHome.getLoginErrors( userLog, nIntervalMinutes );
 
-        if (nNbFailed > nMaxFailed)
+        if ( nNbFailed > nMaxFailed )
         {
-            throw new FailedLoginException();
+            throw new FailedLoginException(  );
         }
 
-        int nUserCode = _dao.checkPassword(strAccessCode, strUserPassword);
+        int nUserCode = _dao.checkPassword( strAccessCode, strUserPassword );
 
-        if (nUserCode != LuteceDefaultAdminUserDAO.USER_OK)
+        if ( nUserCode != LuteceDefaultAdminUserDAO.USER_OK )
         {
-            throw new FailedLoginException();
+            throw new FailedLoginException(  );
         }
 
-        AdminUser user = _dao.load(strAccessCode, this);
+        AdminUser user = _dao.load( strAccessCode, this );
 
         return user;
     }
@@ -117,7 +118,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public void logout(AdminUser user)
+    public void logout( AdminUser user )
     {
         // TODO Auto-generated method stub
     }
@@ -125,7 +126,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public AdminUser getAnonymousUser()
+    public AdminUser getAnonymousUser(  )
     {
         // TODO Auto-generated method stub
         return null;
@@ -134,7 +135,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public boolean isExternalAuthentication()
+    public boolean isExternalAuthentication(  )
     {
         return false;
     }
@@ -142,7 +143,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public AdminUser getHttpAuthenticatedUser(HttpServletRequest request)
+    public AdminUser getHttpAuthenticatedUser( HttpServletRequest request )
     {
         return null;
     }
@@ -150,7 +151,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public String getLoginPageUrl()
+    public String getLoginPageUrl(  )
     {
         return "jsp/admin/AdminLogin.jsp";
     }
@@ -158,7 +159,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public String getChangePasswordPageUrl()
+    public String getChangePasswordPageUrl(  )
     {
         return "jsp/admin/user/ModifyDefaultUserPassword.jsp";
     }
@@ -166,7 +167,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public String getDoLoginUrl()
+    public String getDoLoginUrl(  )
     {
         // TODO Auto-generated method stub
         return null;
@@ -175,7 +176,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public String getDoLogoutUrl()
+    public String getDoLogoutUrl(  )
     {
         // TODO Auto-generated method stub
         return null;
@@ -184,7 +185,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public String getNewAccountPageUrl()
+    public String getNewAccountPageUrl(  )
     {
         // TODO Auto-generated method stub
         return null;
@@ -193,7 +194,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public String getViewAccountPageUrl()
+    public String getViewAccountPageUrl(  )
     {
         // TODO Auto-generated method stub
         return null;
@@ -202,7 +203,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     /**
      * {@inheritDoc}
      */
-    public String getLostPasswordPageUrl()
+    public String getLostPasswordPageUrl(  )
     {
         return CONSTANT_LOST_PASSWORD_URL;
     }
@@ -215,7 +216,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
      * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getUserList()
      * @return null
      */
-    public Collection<AdminUser> getUserList(String strLastName, String strFirstName, String strEmail)
+    public Collection<AdminUser> getUserList( String strLastName, String strFirstName, String strEmail )
     {
         return null;
     }
@@ -226,7 +227,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
      * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getUserPublicData(java.lang.String)
      * @return null
      */
-    public AdminUser getUserPublicData(String strLogin)
+    public AdminUser getUserPublicData( String strLogin )
     {
         return null;
     }

@@ -98,18 +98,17 @@ public interface ConnectionService
      * Gets the number of opened connections
      * @return The current connections count
      */
-    int getCurrentConnections();
+    int getCurrentConnections(  );
 
     /**
      * Gets the max connections
      * @return The max connections count
      */
-    int getMaxConnections();
+    int getMaxConnections(  );
 
     /**
      * Gets the pool manager provider
      * @return The pool manager
      */
-    String getPoolProvider();
-
+    String getPoolProvider(  );
 }

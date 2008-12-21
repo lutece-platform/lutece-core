@@ -33,12 +33,6 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.insert.InsertResourceIdService;
 import fr.paris.lutece.portal.service.insert.InsertService;
@@ -49,6 +43,12 @@ import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

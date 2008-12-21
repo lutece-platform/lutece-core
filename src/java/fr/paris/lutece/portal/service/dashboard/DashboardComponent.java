@@ -161,7 +161,7 @@ public abstract class DashboardComponent implements Comparable<DashboardComponen
     {
         return getOrder(  ) - o.getOrder(  );
     }
-    
+
     /**
      * Tells if the component is enabled
      * @return true if enabled

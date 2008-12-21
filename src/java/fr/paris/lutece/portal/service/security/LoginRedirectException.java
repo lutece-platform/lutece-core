@@ -40,8 +40,8 @@ package fr.paris.lutece.portal.service.security;
  */
 public class LoginRedirectException extends Exception
 {
-	private static final long serialVersionUID = -7833180892056881199L;
-	private String _strRedirectUrl;
+    private static final long serialVersionUID = -7833180892056881199L;
+    private String _strRedirectUrl;
 
     /** Creates a new instance of LoginRedirectException
      * @param strRedirectUrl The Url wished for the redirection

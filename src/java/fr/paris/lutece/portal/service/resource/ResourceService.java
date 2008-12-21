@@ -33,16 +33,16 @@
  */
 package fr.paris.lutece.portal.service.resource;
 
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
-import fr.paris.lutece.portal.service.portal.PortalService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 
 /**

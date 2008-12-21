@@ -33,14 +33,15 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
+
+import java.sql.Timestamp;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 /**

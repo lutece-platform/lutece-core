@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.portal.business.role;
 
-import java.util.Collection;
-
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
+
+import java.util.Collection;
 
 
 /**

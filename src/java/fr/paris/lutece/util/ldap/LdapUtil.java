@@ -69,7 +69,7 @@ public final class LdapUtil
     public static DirContext getContext( String strLDAPContext, String strLDAPUrl, String strAdminDN,
         String strAdminPassword ) throws NamingException
     {
-    	Hashtable<String, String> env = new Hashtable<String, String>(  );
+        Hashtable<String, String> env = new Hashtable<String, String>(  );
 
         env.put( Context.INITIAL_CONTEXT_FACTORY, strLDAPContext );
         env.put( Context.PROVIDER_URL, strLDAPUrl );

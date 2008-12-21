@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.business.rbac;
 
-import java.util.Collection;
-
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
+
+import java.util.Collection;
 
 
 /**

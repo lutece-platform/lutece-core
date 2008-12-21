@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.web.user;
 
-import java.util.HashMap;
-
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -42,6 +40,8 @@ import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.dashboard.DashboardComponent;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
+import java.util.HashMap;
 
 
 /**

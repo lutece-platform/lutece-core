@@ -49,7 +49,7 @@ public final class LocaleService
     /**
      * Private constructor
      */
-    private LocaleService()
+    private LocaleService(  )
     {
     }
 

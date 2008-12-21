@@ -33,11 +33,6 @@
  */
 package fr.paris.lutece.portal.web.style;
 
-import java.io.File;
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.style.Mode;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -48,6 +43,12 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
+import java.io.File;
+
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

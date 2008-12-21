@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
-import java.util.Collection;
-import java.util.List;
-
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.util.ReferenceList;
+
+import java.util.Collection;
+import java.util.List;
 
 
 /**

@@ -200,25 +200,24 @@ public class LuteceConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
-    public int getCurrentConnections()
+    public int getCurrentConnections(  )
     {
-        return _connPool.getConnectionCount();
+        return _connPool.getConnectionCount(  );
     }
 
     /**
      * {@inheritDoc}
      */
-    public int getMaxConnections()
+    public int getMaxConnections(  )
     {
-        return _connPool.getMaxConnectionCount();
+        return _connPool.getMaxConnectionCount(  );
     }
 
     /**
      * {@inheritDoc }
      */
-    public String getPoolProvider()
+    public String getPoolProvider(  )
     {
         return "Lutece";
     }
-
 }

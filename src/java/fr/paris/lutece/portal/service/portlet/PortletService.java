@@ -53,7 +53,7 @@ public class PortletService
 
     /**
      * Constructor for class PortletService
-     * 
+     *
      */
     private PortletService(  )
     {

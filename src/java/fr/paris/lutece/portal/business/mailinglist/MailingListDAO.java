@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.business.mailinglist;
 
+import fr.paris.lutece.util.sql.DAOUtil;
+
 import java.util.ArrayList;
 import java.util.Collection;
-
-import fr.paris.lutece.util.sql.DAOUtil;
 
 
 /**

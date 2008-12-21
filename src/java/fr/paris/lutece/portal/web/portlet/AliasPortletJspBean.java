@@ -33,11 +33,6 @@
  */
 package fr.paris.lutece.portal.web.portlet;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.portlet.AliasPortlet;
 import fr.paris.lutece.portal.business.portlet.AliasPortletHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
@@ -46,6 +41,11 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

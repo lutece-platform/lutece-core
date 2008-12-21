@@ -33,16 +33,17 @@
  */
 package fr.paris.lutece.portal.service.html;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.xml.XmlUtil;
+
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;
+
 import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
-
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.util.xml.XmlUtil;
 
 
 /**
@@ -96,8 +97,8 @@ public abstract class XmlTransformerService
      * @param outputProperties properties to use for the xsl transform. Will overload the xsl output definition.
      * @return The output document
      */
-    public static synchronized String transformBySource( String strXml, Source sourceStyleSheet, Map<String, String> params,
-        Properties outputProperties )
+    public static synchronized String transformBySource( String strXml, Source sourceStyleSheet,
+        Map<String, String> params, Properties outputProperties )
     {
         StringReader srInputXml = new StringReader( strXml );
         StreamSource sourceDocument = new StreamSource( srInputXml );

@@ -33,12 +33,13 @@
  */
 package fr.paris.lutece.portal.business.user.authentication;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
+
 import java.util.Collection;
 
 import javax.security.auth.login.LoginException;
-import javax.servlet.http.HttpServletRequest;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

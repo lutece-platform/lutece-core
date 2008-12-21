@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.group;
 
 import fr.paris.lutece.portal.business.group.Group;
 
+
 /**
  * Group Service
  */

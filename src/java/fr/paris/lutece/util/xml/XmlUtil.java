@@ -33,7 +33,10 @@
  */
 package fr.paris.lutece.util.xml;
 
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
 import java.io.StringWriter;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -46,8 +49,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamResult;
-
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 
 /**
@@ -92,8 +93,8 @@ public final class XmlUtil
      * @return The output document transformed
      * @throws Exception The exception
      */
-    public static String transform( Source source, Source stylesheet, Map<String, String> params, Properties outputProperties )
-        throws Exception
+    public static String transform( Source source, Source stylesheet, Map<String, String> params,
+        Properties outputProperties ) throws Exception
     {
         try
         {

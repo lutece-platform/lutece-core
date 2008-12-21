@@ -43,7 +43,6 @@ import fr.paris.lutece.portal.service.role.RoleRemovalListenerService;
 public class Group implements RBACResource
 {
     public static final String RESOURCE_TYPE = "GROUP_TYPE";
-
     private static GroupRoleRemovalListener _listenerRole;
     private String _strGroupKey;
     private String _strGroupDescription;

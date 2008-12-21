@@ -33,12 +33,6 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
-import java.util.Collection;
-
-import javax.security.auth.login.LoginException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
@@ -47,6 +41,13 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+
+import java.util.Collection;
+
+import javax.security.auth.login.LoginException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 /**

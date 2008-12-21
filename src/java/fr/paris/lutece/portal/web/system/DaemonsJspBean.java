@@ -33,14 +33,14 @@
  */
 package fr.paris.lutece.portal.web.system;
 
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

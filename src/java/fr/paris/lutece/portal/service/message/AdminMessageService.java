@@ -33,6 +33,10 @@
  */
 package fr.paris.lutece.portal.service.message;
 
+import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -40,10 +44,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.util.html.HtmlTemplate;
 
 
 /**

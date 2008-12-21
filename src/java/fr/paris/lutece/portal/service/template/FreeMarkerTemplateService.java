@@ -33,25 +33,28 @@
  */
 package fr.paris.lutece.portal.service.template;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.cache.TemplateLoader;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 
 /**
@@ -63,7 +66,8 @@ public final class FreeMarkerTemplateService
     private static final String PATH_AUTO_INCLUDE_COMMONS = "*/commons.html";
     private static final String NUMBER_FORMAT_PATTERN = "0.######";
     private static final String SETTING_DATE_FORMAT = "date_format";
-//    private static final String SETTING_DATETIME_FORMAT = "datetime_format";
+
+    //    private static final String SETTING_DATETIME_FORMAT = "datetime_format";
     private static Map<String, Configuration> _mapConfigurations = new HashMap<String, Configuration>(  );
     private static String _strDefaultPath;
 

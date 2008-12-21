@@ -33,12 +33,24 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import fr.paris.lutece.portal.service.cache.CacheableService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -50,17 +62,6 @@ import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-
-import fr.paris.lutece.portal.service.cache.CacheableService;
-import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.portal.PortalService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
-import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.html.HtmlTemplate;
 
 
 /**

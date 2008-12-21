@@ -33,17 +33,6 @@
  */
 package fr.paris.lutece.portal.service.page;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
@@ -73,6 +62,17 @@ import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -395,7 +395,7 @@ public class PageService extends ContentService implements ImageResourceProvider
      * @return The HTML code of the page as a String.
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-	public String getPageContent( int nIdPage, int nMode, HttpServletRequest request )
+    public String getPageContent( int nIdPage, int nMode, HttpServletRequest request )
         throws SiteMessageException
     {
         Map<String, String> mapModifyParam = new HashMap<String, String>(  );

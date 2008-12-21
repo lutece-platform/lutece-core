@@ -33,13 +33,6 @@
  */
 package fr.paris.lutece.portal.web.mailinglist;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.mailinglist.MailingList;
 import fr.paris.lutece.portal.business.mailinglist.MailingListHome;
 import fr.paris.lutece.portal.business.mailinglist.MailingListUsersFilter;
@@ -56,6 +49,13 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

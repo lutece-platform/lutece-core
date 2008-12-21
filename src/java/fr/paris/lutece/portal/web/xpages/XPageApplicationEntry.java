@@ -33,12 +33,12 @@
  */
 package fr.paris.lutece.portal.web.xpages;
 
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
 
 
 /**

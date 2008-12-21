@@ -170,7 +170,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
-    public int getCurrentConnections()
+    public int getCurrentConnections(  )
     {
         return ConnectionService.INFO_NOT_AVAILABLE;
     }
@@ -178,7 +178,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
-    public int getMaxConnections()
+    public int getMaxConnections(  )
     {
         return ConnectionService.INFO_NOT_AVAILABLE;
     }
@@ -186,9 +186,8 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
-    public String getPoolProvider()
+    public String getPoolProvider(  )
     {
         return "Tomcat";
     }
-
 }
