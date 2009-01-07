@@ -33,18 +33,18 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
+import java.util.HashMap;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringEscapeUtils;
+
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringEscapeUtils;
-
-import java.util.HashMap;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -68,14 +68,17 @@ public abstract class InsertServiceJspBean
      * @param strInsert The code to insert
      * @return The Url that will provide the insertion
      */
-    protected String insertUrl( HttpServletRequest request, String strInput, String strInsert )
+    protected String insertUrl( HttpServletRequest request, String strInput, String strInsert, boolean cleanCarriageReturn )
     {
-        // No CR is allowed in the insert string
-        String strCleanInsert = strInsert.replaceAll( "\n", "" );
-        strCleanInsert = strCleanInsert.replaceAll( "\r", "" );
+    	if(cleanCarriageReturn)
+    	{
+	    	// No CR is allowed in the insert string
+    		strInsert = strInsert.replaceAll( "\n", "" );
+    		strInsert = strInsert.replaceAll( "\r", "" );
+    	}
 
         // Encode the HTML code to insert
-        String strEncodedInsert = EncodingService.encodeUrl( strCleanInsert );
+        String strEncodedInsert = EncodingService.encodeUrl( strInsert );
 
         // Build the url to make the insert
         UrlItem urlDoInsert = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_DO_INSERT );
@@ -83,6 +86,12 @@ public abstract class InsertServiceJspBean
         urlDoInsert.addParameter( PARAMETER_INSERT, strEncodedInsert );
 
         return urlDoInsert.getUrl(  );
+    }
+
+    @Deprecated
+    protected String insertUrl( HttpServletRequest request, String strInput, String strInsert )
+    {
+    	return insertUrl(request, strInput, strInsert, true);
     }
 
     /**
