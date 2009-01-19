@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2008, Mairie de Paris
+ * Copyright (c) 2002-2009, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,18 +33,18 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
-import java.util.HashMap;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringEscapeUtils;
-
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.commons.lang.StringEscapeUtils;
+
+import java.util.HashMap;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -68,14 +68,15 @@ public abstract class InsertServiceJspBean
      * @param strInsert The code to insert
      * @return The Url that will provide the insertion
      */
-    protected String insertUrl( HttpServletRequest request, String strInput, String strInsert, boolean cleanCarriageReturn )
+    protected String insertUrl( HttpServletRequest request, String strInput, String strInsert,
+        boolean cleanCarriageReturn )
     {
-    	if(cleanCarriageReturn)
-    	{
-	    	// No CR is allowed in the insert string
-    		strInsert = strInsert.replaceAll( "\n", "" );
-    		strInsert = strInsert.replaceAll( "\r", "" );
-    	}
+        if ( cleanCarriageReturn )
+        {
+            // No CR is allowed in the insert string
+            strInsert = strInsert.replaceAll( "\n", "" );
+            strInsert = strInsert.replaceAll( "\r", "" );
+        }
 
         // Encode the HTML code to insert
         String strEncodedInsert = EncodingService.encodeUrl( strInsert );
@@ -91,7 +92,7 @@ public abstract class InsertServiceJspBean
     @Deprecated
     protected String insertUrl( HttpServletRequest request, String strInput, String strInsert )
     {
-    	return insertUrl(request, strInput, strInsert, true);
+        return insertUrl( request, strInput, strInsert, true );
     }
 
     /**
