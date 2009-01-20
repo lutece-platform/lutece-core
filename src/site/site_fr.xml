@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Lutece">
-    <version />
-    <body>
+	<version />
+	<body>
 		<links>
-			<item name="EN" href="../index.html"   />
-        </links>        
-		
+			<item name="EN" href="../index.html" />
+		</links>
+
 		<menu name="Lutece : le noyau">
-			<item name="Introduction" href="index.html"/>
-			<item name="Utilisation" href="/user/admin-core.html" collapse="true" >
-            	<item name="Administration du site" href="/user/admin-site.html"/>
+			<item name="Introduction" href="index.html" />
+			<item name="Utilisation" href="/user/admin-core.html" collapse="true">
+				<item name="Administration du site" href="/user/admin-site.html" />
 			</item>
 		</menu>
-       <menu name="Guide de d&#233;veloppement">
-            <item name="Services de base" href="core-services.html"/>
-		</menu>	
- 		
-		<menu name="Téléchargements" inherit="bottom" >
-			<item name="Versions stables" href="download.html"/>
+		<menu name="Guide de d&#233;veloppement">
+			<item name="Services de base" href="core-services.html" />
+		</menu>
+
+		<menu name="T&#233;l&#233;chargements" inherit="bottom">
+			<item name="Versions stables" href="download.html" />
 			<item name="Nightly builds" href="../nightly_build/" />
 		</menu>
-		
-    </body>
+
+	</body>
 </project>
