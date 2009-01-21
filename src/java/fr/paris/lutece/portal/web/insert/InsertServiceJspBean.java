@@ -92,6 +92,7 @@ public abstract class InsertServiceJspBean
     @Deprecated
     protected String insertUrl( HttpServletRequest request, String strInput, String strInsert )
     {
+    	strInsert = StringEscapeUtils.unescapeJavaScript( strInsert );
         return insertUrl( request, strInput, strInsert, true );
     }
 
