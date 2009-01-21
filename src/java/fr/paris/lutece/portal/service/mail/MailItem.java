@@ -46,7 +46,8 @@ import java.util.List;
  */
 public class MailItem implements Serializable
 {
-    public static final int FORMAT_HTML = 0; // Default
+	private static final long serialVersionUID = 1L;
+	public static final int FORMAT_HTML = 0; // Default
     public static final int FORMAT_TEXT = 1;
     public static final int FORMAT_MULTIPART_HTML = 2;
     public static final int FORMAT_MULTIPART_TEXT = 3;
