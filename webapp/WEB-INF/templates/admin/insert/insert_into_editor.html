@@ -1,16 +1,13 @@
-﻿<div id="tag">${insert}</div>
 <script type="text/javascript">
-	var textToInsert = document.getElementById("tag").innerHTML;
-	
 	if (opener.xinha_editors != null && opener.xinha_editors.${input} != null )
 	{
 		// The caller must provide an insert_html method
-		opener.xinha_editors.${input}.insertHTML( textToInsert );
+		opener.xinha_editors.${input}.insertHTML( '${insert}' );
 	}
 	else
 	{
 		var elementInput = opener.document.getElementById("${input}");
-		elementInput.value = textToInsert;
-	} 
+		elementInput.value = '${insert}';
+	}
 	self.close();
 </script>

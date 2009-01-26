@@ -68,18 +68,14 @@ public abstract class InsertServiceJspBean
      * @param strInsert The code to insert
      * @return The Url that will provide the insertion
      */
-    protected String insertUrl( HttpServletRequest request, String strInput, String strInsert,
-        boolean cleanCarriageReturn )
+    protected String insertUrl( HttpServletRequest request, String strInput, String strInsert )
     {
-        if ( cleanCarriageReturn )
-        {
-            // No CR is allowed in the insert string
-            strInsert = strInsert.replaceAll( "\n", "" );
-            strInsert = strInsert.replaceAll( "\r", "" );
-        }
+        // No CR is allowed in the insert string
+        String strCleanInsert = strInsert.replaceAll( "\n", "" );
+        strCleanInsert = strCleanInsert.replaceAll( "\r", "" );
 
         // Encode the HTML code to insert
-        String strEncodedInsert = EncodingService.encodeUrl( strInsert );
+        String strEncodedInsert = EncodingService.encodeUrl( strCleanInsert );
 
         // Build the url to make the insert
         UrlItem urlDoInsert = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_DO_INSERT );
@@ -87,13 +83,6 @@ public abstract class InsertServiceJspBean
         urlDoInsert.addParameter( PARAMETER_INSERT, strEncodedInsert );
 
         return urlDoInsert.getUrl(  );
-    }
-
-    @Deprecated
-    protected String insertUrl( HttpServletRequest request, String strInput, String strInsert )
-    {
-    	strInsert = StringEscapeUtils.unescapeJavaScript( strInsert );
-        return insertUrl( request, strInput, strInsert, true );
     }
 
     /**
