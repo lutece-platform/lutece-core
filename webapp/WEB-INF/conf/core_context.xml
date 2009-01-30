@@ -11,39 +11,6 @@
 		http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
 
-<!-- 
-	works well
-	<bean id="dbProperties" class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename" value="db" />
-	</bean>
-	<bean id="dataSourceFactory" class="fr.paris.lutece.util.sql.DataSourceFactory">
-		<property name="dbResourceBundle" ref="dbProperties" />
-	</bean>
-
-
-	http://static.springframework.org/spring/docs/2.5.x/reference/beans.html#beans-factory-placeholderconfigurer
-
-	doesn't work
-	<context:property-placeholder location="file:db.properties" />
-	doesn't work
-	<context:property-placeholder location="c:\Documents and Settings\lassallt\workspace\portal\target\lutece\WEB-INF\conf\db.properties" />
-	works well
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="c:\Documents and Settings\lassallt\workspace\portal\target\lutece\WEB-INF\conf\db.properties" />
-	</bean>
-
-	works well
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${portal.driver}"/>
-		<property name="url" value="${portal.url}"/>
-		<property name="username" value="${portal.user}"/>
-		<property name="password" value="${portal.password}"/>
-		<property name="validationQuery" value="SELECT NOW()"/>
-		<property name="testOnReturn" value="true"/>
-		<property name="testOnBorrow" value="true"/>
-	</bean>
- -->
-
     <bean id="startUpServiceManager" class="fr.paris.lutece.portal.service.init.StartUpServiceManager" >
         <property name="servicesList">
             <list>
