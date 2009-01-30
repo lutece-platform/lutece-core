@@ -33,18 +33,18 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
+import java.util.HashMap;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringEscapeUtils;
+
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringEscapeUtils;
-
-import java.util.HashMap;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -52,6 +52,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public abstract class InsertServiceJspBean
 {
+    private static final String PARAMETER_MODE = "mode";
     private static final String PARAMETER_INPUT = "input";
     private static final String PARAMETER_INSERT = "insert";
     private static final String JSP_DO_INSERT = "jsp/admin/insert/DoInsertIntoEditor.jsp";
@@ -81,10 +82,23 @@ public abstract class InsertServiceJspBean
         UrlItem urlDoInsert = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_DO_INSERT );
         urlDoInsert.addParameter( PARAMETER_INPUT, strInput );
         urlDoInsert.addParameter( PARAMETER_INSERT, strEncodedInsert );
+        urlDoInsert.addParameter( PARAMETER_MODE, 1 );
+        
+        return urlDoInsert.getUrl(  );
+    }
+    protected String insertUrlWithoutEscape( HttpServletRequest request, String strInput, String strInsert )
+    {
+        strInsert = EncodingService.encodeUrl( strInsert );
+
+        // Build the url to make the insert
+        UrlItem urlDoInsert = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_DO_INSERT );
+        urlDoInsert.addParameter( PARAMETER_INPUT, strInput );
+        urlDoInsert.addParameter( PARAMETER_INSERT, strInsert );
+        urlDoInsert.addParameter( PARAMETER_MODE, 2 );
 
         return urlDoInsert.getUrl(  );
     }
-
+    
     /**
      * Build an HTML link
      * @param strText The text of the link
