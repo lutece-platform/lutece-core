@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build-update" default="db_plugins_specific_database_update" basedir=".">
+    <!-- init the list spesifics pools for update -->
+    <target name="init_list_db_plugins_specific_database_update" if="contrib.jar.present" depends="init">
+        
+        <property name="list_plugins" value=""/>	
+        <property name="before_pool" value=""/>
+        <for param="file">
+            <path>
+                <fileset dir="${basedir}">
+                    <include name="plugins/**/upgrade/*.sql" />
+                </fileset>
+            </path>
+            <sequential>
+                
+                <dirname property="file.@{file}" file="@{file}"/>
+                <propertyregex property="pool" input="${file.@{file}}" regexp="(.*)\\(.*)\\upgrade" replace="\2" casesensitive="true" override="true" />
+                <propertyregex property="pool" input="${file.@{file}}" regexp="(.*)/(.*)/upgrade" replace="\2" casesensitive="true" override="true" />
+                
+                <if>
+                    <equals arg1="${before_pool}" arg2="${pool}" />
+                    <then>
+                        
+                    </then>
+                    <else>
+                        <propertyregex property="list_plugins" input="${list_plugins}" regexp="(.*)" replace="\1${pool}," global="false" casesensitive="true" override="true" />		 
+                        <propertyregex property="before_pool" input="${pool}" regexp="(.*)" replace="\1" casesensitive="true" override="true" />			 	
+                    </else>
+                </if>
+                
+            </sequential>
+        </for>
+    </target>
+    
+    <!-- update specifics pools -->
+    <target name="db_plugins_specific_database_update" if="contrib.jar.present" depends="init_list_db_plugins_specific_database_update">
+        <for list="${list_plugins}" delimiter="," param="pool">
+            <sequential>
+                <fileset id="sql.plugin.files" dir="${basedir}">
+                    <include name="plugins/**/@{pool}/plugin/*.sql" />
+                </fileset>
+                <pathconvert refid="sql.plugin.files" setonempty="false" property="exists.sql.plugin.files"/>
+                
+                <echo message="" />
+                <echo message="======================================================================" />
+                
+                <if>
+                    <equals arg1="${@{pool}.poolservice}" arg2="${portal.poolservice}" />
+                    <then>
+                        
+                        <echo >db_@{pool}_init:</echo>
+                        
+                        <propertyregex property="baseUrl@{pool}" input="${@{pool}.url}" regexp="(.*)/(.*)\?(.*)" replace="\1" casesensitive="true" override="true" />
+                        <propertyregex property="baseName@{pool}" input="${@{pool}.url}" regexp="(.*)/(.*)\?(.*)" replace="\2" casesensitive="true" override="true" />
+                        
+                        <echo message="" />
+                        <echo>Update the "@{pool}" database "${baseName@{pool}}" on host "${baseUrl@{pool}}"</echo>
+                        
+                        <echo message="" />
+                        <echo message="Preparing plugin @{pool} database" />
+                        <runsql sql.driver="${@{pool}.driver}"
+                                sql.url="${@{pool}.url}"
+                                sql.userid="${@{pool}.user}" 
+                                sql.password="${@{spool}.password}"
+                                sql.classpath="${db.connector.path}"
+                                sql.fileset.refid="sql.plugin.files"
+                        />
+                    </then>
+                    <else>
+                        <echo >db_@{pool}_init:</echo>
+                        <echo message="" />
+                        <echo level="warning">
+                            "@{pool}" pool wasn't defined in db.properties file.
+                            All tables will be update in core pool portal.
+                        </echo>
+                        
+                        <runsql sql.driver="${portal.driver}"
+                                sql.url="${portal.url}"
+                                sql.userid="${portal.user}" 
+                                sql.password="${portal.password}"
+                                sql.connector.path="${db.connector.path}"
+                                sql.fileset.refid="sql.plugin.files"/>
+                            </else>
+                        </if>
+                        
+                        
+                    </sequential>
+                </for>
+                
+            </target>
+            
+        </project>
+        

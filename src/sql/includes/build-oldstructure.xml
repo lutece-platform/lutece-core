@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build-oldstructure" default="db_init_old_structure" basedir=".">
+    
+    <!-- Target to be used with old sql directory structure --> 
+    <target name="db_init_old_structure" unless="contrib.jar.present" depends="db_core_init">
+        <echo message="Preparing unique database for all plugins." />
+        <fileset dir="${basedir}" refid="sql.plugin.files">
+            <include name="plugins/**/*.sql" />
+        </fileset>
+        
+        <runsql sql.driver="${portal.driver}"
+                sql.url="${portal.url}"
+                sql.userid="${portal.user}" 
+                sql.password="${portal.password}"
+                sql.connector.path="${db.connector.path}" 
+                sql.fileset.refid="sql.plugin.files" />
+    </target>
+</project>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build-all" default="db_plugin_init" basedir=".">
+    
+    
+    <!-- Target to init plugin specific database -->
+    <target name="plugin_init_plugins_files" if="contrib.jar.present" depends="db_core_init">	
+        <fileset id="sql.plugin.files" dir="${basedir}">
+            <include name="plugins/**/plugin/*.sql" />
+        </fileset>	
+        <pathconvert refid="sql.plugin.files" setonempty="false" property="exists.sql.plugin.files"/>
+    </target>
+    
+    <!-- Create the plugins database -->
+    <target name="drop_and_create_db_plugins" depends="plugin_init_plugins_files" if="exists.sql.plugin.files">
+        
+        <if>
+            <equals arg1="${plugins.poolservice}" arg2="${portal.poolservice}" />
+            <then>
+                
+                <propertyregex property="baseUrlPlugins" input="${plugins.url}" regexp="(.*)/(.*)\?(.*)" replace="\1" casesensitive="true" override="true" />
+                <propertyregex property="baseNamePlugins" input="${plugins.url}" regexp="(.*)/(.*)\?(.*)" replace="\2" casesensitive="true" override="true" />
+                <getdbms dbms.url="${plugins.url}" property="plugins.dbms" />
+
+                <echo message="Create the plugins database ${baseNamePlugins} on host ${baseUrlPlugins}" />
+                
+                <!-- Copy the drop & create SQL script and replace the baseName -->
+                <copy file="init_db/${plugins.dbms}.sql" tofile="${plugins.dbms}.sql" overwrite="true" />
+                <replaceregexp file="${plugins.dbms}.sql" match="baseName" replace="${baseNamePlugins}" byline="true" />		
+                
+                <fileset file="${plugins.dbms}.sql" id="sql.db.create" />
+                
+                <runsql sql.driver="${plugins.driver}"
+                        sql.url="${baseUrlPlugins}"
+                        sql.userid="${plugins.user}" 
+                        sql.password="${plugins.password}"
+                        sql.connector.path="${db.connector.path}"
+                        sql.fileset.refid="sql.db.create"
+                />
+                
+            </then>
+            <else>
+                <echo level="warning">
+                    "plugins" pool wasn't defined in db.properties file.
+                    All tables will be create in core pool portal.
+                </echo>
+            </else>
+        </if>
+    </target>
+    
+    <!-- init the plugins data base if existe -->
+    <target name="db_plugin_init" depends="drop_and_create_db_plugins" if="exists.sql.plugin.files">
+        
+        <if>
+            <equals arg1="${plugins.poolservice}" arg2="${portal.poolservice}" />
+            <then>
+                <runsql sql.driver="${portal.driver}"
+                        sql.url="${portal.url}"
+                        sql.userid="${portal.user}" 
+                        sql.password="${portal.password}"
+                        sql.connector.path="${db.connector.path}" 
+                        sql.fileset.refid="sql.plugin.files" />
+            </then>
+            <else>
+                
+                <runsql sql.driver="${plugins.driver}"
+                        sql.url="${plugins.url}"
+                        sql.userid="${plugins.user}" 
+                        sql.password="${plugins.password}"
+                        sql.connector.path="${db.connector.path}" 
+                        sql.fileset.refid="sql.plugin.files" />
+            </else>
+        </if>
+    </target>
+    
+</project>
