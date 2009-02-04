@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Lutece">
-   	<version />
-    <body>
-	    <links>
+	<version />
+	<body>
+		<links>
 			<item name="FR" href="/fr/index.html" />
-        </links>
-        
-        <menu name="Lutece : core component">
-            <item name="Introduction" href="index.html"/>
-        </menu>
+		</links>
 
-        <menu name="Developer's Resources">
-            <item name="Core Services" href="core-services.html"/>
-            <!--<item name="Security" href="security.html" collapse="true">
-                  <item name="Attributes" href="attributes.html"/>
-                  <item name="Schema" href="schema.html"/>
-            </item>-->
-        </menu>
-		
-		    <menu name="Downloads" inherit="bottom">
-			       <item name="Released versions" href="download.html" />
-            <item name="Nightly builds" href="/nightly_build/" />
-		    </menu>
-		
-    </body>
+		<menu name="Lutece : core component">
+			<item name="Introduction" href="index.html" />
+		</menu>
+
+		<menu name="Developer's Resources">
+			<item name="Core Services" href="core-services.html" />
+			<!--
+				<item name="Security" href="security.html" collapse="true"> <item
+				name="Attributes" href="attributes.html"/> <item name="Schema"
+				href="schema.html"/> </item>
+			-->
+		</menu>
+
+		<menu name="Downloads" inherit="bottom">
+			<item name="Released versions" href="../stable_builds/plugins/core/" />
+			<item name="Nightly builds" href="../nightly_builds/plugins/core/" />
+		</menu>
+
+	</body>
 </project>

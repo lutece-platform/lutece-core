@@ -16,9 +16,9 @@
 			<item name="Services de base" href="core-services.html" />
 		</menu>
 
-		<menu name="T&#233;l&#233;chargements" inherit="bottom">
-			<item name="Versions stables" href="download.html" />
-			<item name="Nightly builds" href="../nightly_build/" />
+		<menu name="T&#233;l&#233;chargements" inherit="bottom">			
+			<item name="Versions stables" href="../../stable_builds/plugins/core/" />
+			<item name="Nightly builds" href="../../nightly_builds/plugins/core/" />
 		</menu>
 
 	</body>
