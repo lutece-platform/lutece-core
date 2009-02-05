@@ -53,19 +53,19 @@
         <if>
             <equals arg1="${plugins.poolservice}" arg2="${portal.poolservice}" />
             <then>
-                <runsql sql.driver="${portal.driver}"
-                        sql.url="${portal.url}"
-                        sql.userid="${portal.user}" 
-                        sql.password="${portal.password}"
-                        sql.connector.path="${db.connector.path}" 
-                        sql.fileset.refid="sql.plugin.files" />
-            </then>
-            <else>
-                
+                 
                 <runsql sql.driver="${plugins.driver}"
                         sql.url="${plugins.url}"
                         sql.userid="${plugins.user}" 
                         sql.password="${plugins.password}"
+                        sql.connector.path="${db.connector.path}" 
+                        sql.fileset.refid="sql.plugin.files" />
+            </then>
+            <else>
+               <runsql sql.driver="${portal.driver}"
+                        sql.url="${portal.url}"
+                        sql.userid="${portal.user}" 
+                        sql.password="${portal.password}"
                         sql.connector.path="${db.connector.path}" 
                         sql.fileset.refid="sql.plugin.files" />
             </else>

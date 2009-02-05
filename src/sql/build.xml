@@ -15,7 +15,7 @@
             <echo message="sql.connector.path : @{sql.connector.path}" /-->
             <!-- Concatenate all sql files into one -->
             <echo message="Translating SQL files to fit ${dbms} requirements"/>
-            <tempfile property="temp.sql" prefix="tmp_" deleteonexit="true" />
+            <tempfile property="temp.sql" prefix="tmp_" />
             <concat destfile="${temp.sql}" fixlastline="true">
                 <fileset refid="@{sql.fileset.refid}"/>
             </concat>
@@ -37,6 +37,7 @@
             >
                 <fileset file="${temp.sql}"/>
             </sql>
+            <delete file="${temp.sql}" verbose="true" />
         </sequential>
     </macrodef>
     
