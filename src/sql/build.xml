@@ -35,6 +35,7 @@
                  password="@{sql.password}"
                  classpath="@{sql.connector.path}"
                  onerror="${on_sql_error}"
+                 encoding="${db.encoding}"
             >
                 <fileset file="${temp.sql}"/>
             </sql>
@@ -171,7 +172,7 @@
                 sql.userid="${portal.user}" 
                 sql.password="${portal.password}"
                 sql.connector.path="${db.connector.path}"
-                sql.fileset.refid="sql.db.create"/>
+                sql.fileset.refid="sql.db.create" />
         
         <delete file="${dbms}.sql" verbose="true" />
     </target>
