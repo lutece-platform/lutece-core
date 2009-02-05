@@ -10,7 +10,6 @@
 @import url( "../js/jscalendar/calendar-lutece.css" );
 @import url("../js/jquery/plugins/treeview/jquery.treeview.css");
 @import url("../js/jquery/plugins/ui/datepicker/ui.datepicker.css");
-
 /* Define the default font: */
 BODY, TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH, H1, H2, H3, H4, TEXTAREA
 {
@@ -741,7 +740,7 @@ div#feature-title h2 {
     padding-top: 15px;
 }
 
-div#feature-title h2 a {
+div#feature-title  h2 a {
 	background-image: url(../images/admin/skin/puce.gif);
 	background-repeat:no-repeat;
 	background-position:center left;	
@@ -1123,8 +1122,7 @@ a.info:hover span{ /*the span will display just on :hover state*/
     position:absolute;
     top:-10em; 
     right:10em; 
-    width:60em;
-    border:1px solid #395E7D;
+   border:1px solid #395E7D;
     background-color: #DEE8F1; 
     color:#000;
     text-decoration: none;
@@ -1171,3 +1169,70 @@ div.toggle_admin{
 }
 
 /* jQuery */
+
+/* Formulaire */
+
+form  div  {
+	margin-bottom: 10px;
+   	margin-top: 10px;
+    clear: both;
+}
+
+form  span.form-field-column  ul li label {
+    float:none;
+    text-align: left;
+}
+form  span.form-field-ligne  ul li label {
+    float:none;
+    text-align: left;
+    display : inline;
+}
+form  span.form-field-ligne  ul li label input {
+	border: none;
+}
+
+form  span.form-field-column  ul li label input {
+	border: none;
+}
+
+form  span.form-field-column ul {
+	padding : 0 px;
+	padding-left : 5px;
+    margin-left: 30%;
+    border : none;
+}
+
+form span.form-field-column li {
+    margin: 0px;
+    padding: 0px;
+}
+
+form  span.form-field-ligne ul {
+	padding : 0 px;
+	padding-left : 5px;
+    margin-left: 30%;
+    border : none;
+}
+
+form span.form-field-ligne li {
+   margin: 0px;
+   padding: 0px;
+   float: left;
+}
+div.content-box table tr td.cell-indent{
+	
+
+	padding-left:30px;
+   
+}
+
+a.bullet-link-blue
+{
+	background-image: url(../images/admin/skin/bullet_blue.gif);
+	background-repeat: no-repeat;
+	background-position: left;
+	padding: 0 0 1px 12px;
+}
+
+
+

@@ -20,3 +20,14 @@ div.content-box {
 .preview {
 	margin-right: 30px;
 }
+
+/* Form  */
+
+form  span.form-field-column ul {
+    margin-left: 26%;
+}
+
+form  span.form-field-ligne ul {
+    margin-left: 26%;
+
+}

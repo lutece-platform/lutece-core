@@ -46,6 +46,16 @@ div.insert-service table {
 	padding: 0;
 }
 
+/* Form */
+
+form  span.form-field-column ul {
+    margin-left: 26%;
+}
+
+form  span.form-field-ligne ul {
+    margin-left: 26%;
+}
+
 /* simulation of min-width for IE6
 .container_minwidth_IE {  
 	padding-left: 700px;  
