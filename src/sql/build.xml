@@ -34,6 +34,7 @@
                  userid="@{sql.userid}" 
                  password="@{sql.password}"
                  classpath="@{sql.connector.path}"
+                 onerror="${on_sql_error}"
             >
                 <fileset file="${temp.sql}"/>
             </sql>
