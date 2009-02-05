@@ -167,7 +167,7 @@
         
         <fileset file="${dbms}.sql" id="sql.db.create" />
         <runsql sql.driver="${portal.driver}"
-                sql.url="${portal.url}"
+                sql.url="${baseUrl}"
                 sql.userid="${portal.user}" 
                 sql.password="${portal.password}"
                 sql.connector.path="${db.connector.path}"
