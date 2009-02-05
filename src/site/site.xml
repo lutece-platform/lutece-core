@@ -20,8 +20,8 @@
 		</menu>
 
 		<menu name="Downloads" inherit="bottom">
-			<item name="Released versions" href="../stable_builds/plugins/core/" />
-			<item name="Nightly builds" href="../nightly_builds/plugins/core/" />
+			<item name="Released versions" href="../stable_builds/lutece-core/" />
+			<item name="Nightly builds" href="../nightly_builds/lutece-core/" />
 		</menu>
 
 	</body>

@@ -17,8 +17,8 @@
 		</menu>
 
 		<menu name="T&#233;l&#233;chargements" inherit="bottom">			
-			<item name="Versions stables" href="../../stable_builds/plugins/core/" />
-			<item name="Nightly builds" href="../../nightly_builds/plugins/core/" />
+			<item name="Versions stables" href="../../stable_builds/lutece-core/" />
+			<item name="Nightly builds" href="../../nightly_builds/lutece-core/" />
 		</menu>
 
 	</body>
