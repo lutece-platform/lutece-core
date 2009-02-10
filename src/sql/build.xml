@@ -56,7 +56,7 @@
         </sequential>
     </macrodef>
     <regexp id="regexp.mysql.url" pattern="(.*)/(.*)\?(.*)" />
-    <regexp id="regexp.hsqldb.url" pattern=".*(:|/)(.*)" />
+    <regexp id="regexp.hsqldb.url" pattern=".*(:|/)(.*);" />
     
     <target name="init" description="Prepare the database by creating it and inserting data">
         <echo message="Preparing the database(s) by creating it and inserting data" />
