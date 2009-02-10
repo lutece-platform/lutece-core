@@ -17,6 +17,7 @@
             <echo message="Translating SQL files to fit ${dbms} requirements"/>
             <tempfile property="temp.sql" prefix="tmp_" />
             <concat destfile="${temp.sql}" fixlastline="true">
+            	<fileset file="init_db/init_session_${dbms}.sql" />
                 <fileset refid="@{sql.fileset.refid}"/>
             </concat>
             <propertycopy name="regexp.list" from="regexp.${dbms}.list" override="true"/>
