@@ -55,8 +55,8 @@
                        casesensitive="false" />
         </sequential>
     </macrodef>
-    <regexp id="regexp.mysql.url" pattern="(.*)/(.*)\?(.*)" />
-    <regexp id="regexp.hsqldb.url" pattern=".*(:|/)(.*);" />
+    <regexp id="regexp.mysql.url" pattern="(.*)/([^?]*)\??" />
+	<regexp id="regexp.hsqldb.url" pattern=".*[:|/]([^;]*);?" />
     
     <target name="init" description="Prepare the database by creating it and inserting data">
         <echo message="Preparing the database(s) by creating it and inserting data" />
@@ -118,7 +118,7 @@
         <property name="baseUrl" value="${portal.url}" />
         <propertyregex property="baseName"
                        input="${portal.url}"
-                       select="\2"
+                       select="\1"
                        casesensitive="false">
             <regexp refid="regexp.hsqldb.url"/>
         </propertyregex>
