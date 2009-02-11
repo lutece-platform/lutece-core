@@ -1,1 +1,1 @@
-ALTER TABLE `core_page` ADD COLUMN `workgroup_key` varchar(50) collate utf8_unicode_ci DEFAULT NULL;
+ALTER TABLE core_page ADD COLUMN workgroup_key varchar(50) DEFAULT NULL;
