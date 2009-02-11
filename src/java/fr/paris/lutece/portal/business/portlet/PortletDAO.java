@@ -60,7 +60,7 @@ public final class PortletDAO implements IPortletDAO
     private static final String SQL_QUERY_SELECT_ALIAS = " SELECT a.id_portlet FROM core_portlet a, core_portlet_alias b " +
         " WHERE a.id_portlet = b.id_portlet AND b.id_alias= ? ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_portlet WHERE id_portlet = ?";
-    private static final String SQL_QUERY_UPDATE_STATUS = " UPDATE core_portlet SET status = ? WHERE id_portlet = ? ";
+    private static final String SQL_QUERY_UPDATE_STATUS = " UPDATE core_portlet SET status = ?, date_update = ? WHERE id_portlet = ? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_portlet ( id_portlet, id_portlet_type, id_page, id_style, name, " +
         " date_creation, date_update, status, column_no, portlet_order, accept_alias, display_portlet_title ) " +
         " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)";
@@ -221,7 +221,8 @@ public final class PortletDAO implements IPortletDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_STATUS );
 
         daoUtil.setInt( 1, nStatus );
-        daoUtil.setInt( 2, portlet.getId(  ) );
+        daoUtil.setTimestamp( 2, new Timestamp( new java.util.Date(  ).getTime(  ) ) );
+        daoUtil.setInt( 3, portlet.getId(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
