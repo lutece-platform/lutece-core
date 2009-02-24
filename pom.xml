@@ -151,6 +151,19 @@
         </dependency>
     </dependencies>
     
+    <profiles>
+		<profile>
+			<id>hsqldb</id>
+			<dependencies>
+				<dependency>
+		            <groupId>hsqldb</groupId>
+		            <artifactId>hsqldb</artifactId>
+		            <version>1.8.0.7</version>
+		        </dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+    
     <scm>
 			<connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/core</connection>
 			<developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/core</developerConnection>
