@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -45,7 +46,7 @@ import java.util.Map;
 /**
  * This Interface defines all methods required for an admin user implementation
  */
-public class AdminUser
+public class AdminUser implements Serializable
 {
     private static final String EMPTY_STRING = "";
     private static final int ACTIVE_CODE = 0;

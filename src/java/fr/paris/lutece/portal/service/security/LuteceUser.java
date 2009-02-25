@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import java.io.Serializable;
 import java.security.Principal;
 
 import java.util.Collection;
@@ -43,7 +44,7 @@ import java.util.Map;
 /**
  * This Interface defines all methods required for a Lutece user implementation
  */
-public abstract class LuteceUser implements Principal
+public abstract class LuteceUser implements Principal, Serializable
 {
     /* These attribute names are derived from the Platform for Privacy
      * Preferences 1.0 (P3P 1.0) Specification by the
