@@ -1168,11 +1168,25 @@ div.toggle_admin{
   margin-left: 0px;
 }
 
-/* jQuery */
+div.content-box table tr td.cell-indent{
+	
+
+	padding-left:30px;
+   
+}
+
+a.bullet-link-blue
+{
+	background-image: url(../images/admin/skin/bullet_blue.gif);
+	background-repeat: no-repeat;
+	background-position: left;
+	padding: 0 0 1px 12px;
+}
+
 
 /* Formulaire */
 
-form  div  {
+form  div.form-element  {
 	margin-bottom: 10px;
    	margin-top: 10px;
     clear: both;
@@ -1219,20 +1233,5 @@ form span.form-field-ligne li {
    padding: 0px;
    float: left;
 }
-div.content-box table tr td.cell-indent{
-	
-
-	padding-left:30px;
-   
-}
-
-a.bullet-link-blue
-{
-	background-image: url(../images/admin/skin/bullet_blue.gif);
-	background-repeat: no-repeat;
-	background-position: left;
-	padding: 0 0 1px 12px;
-}
-
 
 
