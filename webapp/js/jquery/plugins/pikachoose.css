@@ -1,21 +1,24 @@
 
 /* These hieghts and widths should be edited to your images */	
-ul#pikame{
+ul#pikame {
 	padding-left:0;
-	width:450px;
-	margin:0 auto;}
-.pika_main{
-	width:500px;
-	padding-right:20px;
-	margin:0 auto;}
-#pikame li{
+	width:250px;
+	margin:0 auto;
+}
+.pika_main {
+	width:250px;
+	padding:0px;
+	margin:0 auto;
+}
+#pikame li {
 	margin:5px;
 	float: left;
-	border:2px solid #222;}
+	border:1px solid #222;
+}
 
 /* thats all you NEED to edit. But continue if you'd like. */
 ul#pikame li img{position:relative;cursor:pointer;}
-.pika_main img{border:5px solid #222;}
+.pika_main img{border:2px solid #222;}
 .pika_main{position: relative;margin:0 auto;}
 .pikachoose li{float:left;position:relative;overflow:hidden;list-style:none;}
 .pika_play{position:absolute;top:10px;right:20px;z-index:1;}
