@@ -54,8 +54,8 @@
                         <propertyregex property="baseName@{pool}" input="${@{pool}.url}" regexp="(.*)/(.*)\?(.*)" replace="\2" casesensitive="true" override="true" />
                         
                         <echo message="" />
-                        <property name="baseName.pool" value="${baseName@{pool}}" /> 
-                        <property name="baseUrl.pool" value="${baseUrl@{pool}}" /> 
+                        <propertycopy name="baseName.pool" from="baseName@{pool}" override="true" /> 
+                        <propertycopy name="baseUrl.pool" from="baseUrl@{pool}" override="true" /> 
                         
                         <getdbms dbms.url="${@{pool}.url}" property="@{pool}.dbms" />
                         
