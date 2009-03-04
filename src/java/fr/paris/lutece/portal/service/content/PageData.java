@@ -41,6 +41,8 @@ public class PageData
 {
     ////////////////////////////////////////////////////////////////////////////
     // Constants
+    private static final String EMPTY_STRING = "";
+    
     private String _strName;
     private String _strFavourite;
     private String _strCssUrl;
@@ -320,7 +322,7 @@ public class PageData
      */
     public void setTreeMenu( String strTreeMenu )
     {
-        _strTreeMenu = strTreeMenu;
+        _strTreeMenu = ( strTreeMenu == null ) ? EMPTY_STRING : strTreeMenu;
     }
 
     /**

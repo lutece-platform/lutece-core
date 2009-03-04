@@ -225,13 +225,26 @@ public final class PortalService
 
     /**
      * Returns the html code which represents the page content
-     * @since v1.2.4
+     * @param nCurrentPageId the current page id
      * @param data The structure which contains the informations about the page
      * @param nMode The mode in which displaying the page : normal or administration
      * @param request The request
      * @return The html code of a page
      */
     public static String buildPageContent( PageData data, int nMode, HttpServletRequest request )
+    {
+        return buildPageContent ( getRootPageId() , data, nMode, request );
+    }
+
+    /**
+     * Returns the html code which represents the page content
+     * @since v1.2.4
+     * @param data The structure which contains the informations about the page
+     * @param nMode The mode in which displaying the page : normal or administration
+     * @param request The request
+     * @return The html code of a page
+     */
+    public static String buildPageContent( int nCurrentPageId, PageData data, int nMode, HttpServletRequest request )
     {
         Locale locale = null;
         HashMap<String, String> model = new HashMap<String, String>(  );
@@ -264,11 +277,6 @@ public final class PortalService
         HtmlTemplate tToolsMenu = AppTemplateService.getTemplate( strToolsMenu, locale, model );
         model.put( Markers.PAGE_HEADER, tHeader.getHtml(  ) );
         model.put( Markers.PAGE_NAME, ( data.getName(  ) == null ) ? "" : data.getName(  ) );
-        model.put( Markers.PAGE_MAIN_MENU,
-            PortalMenuService.getInstance(  ).getMenuContent( nMode, PortalMenuService.MENU_MAIN, request ) );
-        model.put( Markers.PAGE_INIT_MENU,
-            PortalMenuService.getInstance(  ).getMenuContent( nMode, PortalMenuService.MENU_INIT, request ) );
-        model.put( Markers.PAGE_TREE_MENU, ( data.getTreeMenu(  ) == null ) ? "" : data.getTreeMenu(  ) );
         model.put( Markers.PAGE_CONTENT, ( data.getContent(  ) == null ) ? "" : data.getContent(  ) );
         model.put( Markers.PAGE_PATH, ( data.getPagePath(  ) == null ) ? "" : data.getPagePath(  ) );
         model.put( Markers.PAGE_TOOLS_MENU, tToolsMenu.getHtml(  ) );
@@ -340,7 +348,7 @@ public final class PortalService
 
         String strPath = XmlTransformerService.transformBySource( strXml, baXslSource, mapParamRequest, outputProperties );
 
-        return formatPath( strPath, request );
+        return formatPath( strPath, nMode, request );
     }
 
     /**
@@ -382,7 +390,7 @@ public final class PortalService
 
         String strPath = XmlTransformerService.transformBySource( strXml, baXslSource, mapXslParams, outputProperties );
 
-        return formatPath( strPath, request );
+        return formatPath( strPath, nMode, request );
     }
 
     /**
@@ -438,10 +446,18 @@ public final class PortalService
      * @param request The HTTP request
      * @return the html code to display the path
      */
-    public static String formatPath( String strPath, HttpServletRequest request )
+    public static String formatPath( String strPath, int nMode, HttpServletRequest request )
     {
         HashMap<String, String> model = new HashMap<String, String>(  );
         model.put( Markers.PAGE_PATH, strPath );
+
+        List<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
+        PageData data = new PageData(  );
+        for ( PageInclude pic : listIncludes )
+        {
+            pic.fillTemplate( model, data, nMode, request );
+        }
+
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_PATH,
                 ( request == null ) ? null : request.getLocale(  ), model );
@@ -517,7 +533,7 @@ public final class PortalService
 
         String strPath = XmlTransformerService.transformBySource( strXml, baXslSource, mapXslParams );
 
-        return formatPath( strPath, request );
+        return formatPath( strPath, nMode, request );
     }
 
     /**
@@ -525,7 +541,7 @@ public final class PortalService
      * @param mapParameters Parameters as a map
      * @param nMode The mode
      */
-    static void setXslPortalPath( Map<String, String> mapParameters, int nMode )
+    public static void setXslPortalPath( Map<String, String> mapParameters, int nMode )
     {
         if ( nMode != MODE_ADMIN )
         {

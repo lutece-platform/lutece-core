@@ -47,6 +47,8 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.image.ImageResourceManager;
 import fr.paris.lutece.portal.service.image.ImageResourceProvider;
+import fr.paris.lutece.portal.service.includes.PageInclude;
+import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.portal.PortalMenuService;
 import fr.paris.lutece.portal.service.portal.PortalService;
@@ -331,7 +333,7 @@ public class PageService extends ContentService implements ImageResourceProvider
 
                     data.setContent( tAccessControled.getHtml(  ) );
 
-                    return PortalService.buildPageContent( data, nMode, request );
+                    return PortalService.buildPageContent( nIdPage, data, nMode, request );
                 }
 
                 if ( !SecurityService.getInstance(  ).isUserInRole( request, strRole ) )
@@ -342,7 +344,7 @@ public class PageService extends ContentService implements ImageResourceProvider
                             request.getLocale(  ) );
                     data.setContent( tAccessDenied.getHtml(  ) );
 
-                    return PortalService.buildPageContent( data, nMode, request );
+                    return PortalService.buildPageContent( nIdPage, data, nMode, request );
                 }
             }
         }
@@ -367,23 +369,14 @@ public class PageService extends ContentService implements ImageResourceProvider
         {
             data.setContent( getPageContent( nIdPage, nMode, request ) );
         }
-
-        /* if ( nIdPage == PortalService.getRootPageId(  ) )
-         {
-             data.setTreeMenu( "" );
-         }
-         else
-         {*/
-        data.setTreeMenu( PortalMenuService.getInstance(  ).buildTreeMenuContent( nIdPage, nMode, request ) );
-
-        //}
+        
         if ( nIdPage == PortalService.getRootPageId(  ) )
         {
             // This page is the home page.
             data.setHomePage( true );
         }
 
-        return PortalService.buildPageContent( data, nMode, request );
+        return PortalService.buildPageContent( nIdPage, data, nMode, request );
     }
 
     /**
@@ -523,12 +516,18 @@ public class PageService extends ContentService implements ImageResourceProvider
                 arrayContent[nCol] += strPortletContent;
             }
         }
-
         HashMap<String, String> rootModel = new HashMap<String, String>(  );
 
         for ( int j = 0; j < nColumn; j++ )
         {
             rootModel.put( "page_content_col" + ( j + 1 ), arrayContent[j] );
+        }
+
+        List<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
+        PageData data = new PageData(  );
+        for ( PageInclude pic : listIncludes )
+        {
+            pic.fillTemplate( rootModel, data, nMode, request );
         }
 
         HtmlTemplate t = AppTemplateService.getTemplate( page.getTemplate(  ),
