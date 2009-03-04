@@ -52,6 +52,14 @@
     <!-- Page Includes -->
     <page-include-services>
         <page-include-service>
+            <page-include-service-id>main_menu</page-include-service-id>
+            <page-include-service-class>fr.paris.lutece.portal.web.includes.MainMenuInclude</page-include-service-class>
+        </page-include-service>	
+        <page-include-service>
+            <page-include-service-id>tree_menu</page-include-service-id>
+            <page-include-service-class>fr.paris.lutece.portal.web.includes.TreeMenuInclude</page-include-service-class>
+        </page-include-service>			
+        <page-include-service>
             <page-include-service-id>links</page-include-service-id>
             <page-include-service-class>fr.paris.lutece.portal.web.includes.LinksInclude</page-include-service-class>
         </page-include-service>
