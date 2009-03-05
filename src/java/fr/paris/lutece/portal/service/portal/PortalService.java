@@ -238,7 +238,6 @@ public final class PortalService
 
     /**
      * Returns the html code which represents the page content
-     * @since v1.2.4
      * @param data The structure which contains the informations about the page
      * @param nMode The mode in which displaying the page : normal or administration
      * @param request The request
