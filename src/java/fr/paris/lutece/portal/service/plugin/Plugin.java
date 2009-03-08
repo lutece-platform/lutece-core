@@ -92,6 +92,8 @@ public abstract class Plugin implements Comparable<Plugin>
     private String _strDbPoolName;
     private String _strIconUrl;
     private String _strDocumentationUrl;
+    private String _strMinCoreVersion;
+    private String _strMaxCoreVersion;
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
     private ContentService _contentService;
@@ -142,6 +144,8 @@ public abstract class Plugin implements Comparable<Plugin>
             _strDocumentationUrl = pluginFile.getDocumentationUrl(  );
             _strCopyright = pluginFile.getCopyright(  );
             _strPluginClass = pluginFile.getPluginClass(  );
+            _strMinCoreVersion = pluginFile.getMinCoreVersion();
+            _strMaxCoreVersion = pluginFile.getMaxCoreVersion();
             _listXPageApplications = pluginFile.getXPageApplications(  );
             _listFilters = pluginFile.getFilters(  );
             _listRights = pluginFile.getRights(  );
@@ -485,16 +489,18 @@ public abstract class Plugin implements Comparable<Plugin>
         }
     }
 
+
     /**
      * Installs a Plugin
      */
     public void install(  )
     {
         // Register a new right for the plugin
-        registerRights(  );
+         registerRights(  );
 
         // Register a new portlets as plugin
         registerPortlets(  );
+
         _bIsInstalled = true;
         update(  );
     }
@@ -824,6 +830,47 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         _bIsInstalled = bIsInstalled;
     }
+
+    /**
+     * Returns the min core version compatibility for the plugin
+     *
+     * @return the min core version as a String
+     */
+    public String getMinCoreVersion(  )
+    {
+        return _strMinCoreVersion;
+    }
+
+    /**
+     * Sets the the min core version compatibility for the plugin
+     *
+     * @param strMinCoreVersion The min core version
+     */
+    public void setMinCoreVersion( String strMinCoreVersion )
+    {
+        _strMinCoreVersion = strMinCoreVersion;
+    }
+
+    /**
+     * Returns the max core version compatibility for the plugin
+     *
+     * @return the max core version as a String
+     */
+    public String getMaxCoreVersion(  )
+    {
+        return _strMaxCoreVersion;
+    }
+
+    /**
+     * Sets the the max core version compatibility for the plugin
+     *
+     * @param strMinCoreVersion The max core version
+     */
+    public void setMaxCoreVersion( String strMaxCoreVersion )
+    {
+        _strMaxCoreVersion = strMaxCoreVersion;
+    }
+
 
     /**
      * Returns if the plugin needs a database connection pool

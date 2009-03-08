@@ -81,6 +81,8 @@ public class PluginFile
     private String _strPluginClass;
     private String _strIconUrl;
     private String _strDocumentationUrl;
+    private String _strMinCoreVersion;
+    private String _strMaxCoreVersion;
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
     private List<String> _listCssStyleSheets = new ArrayList<String>(  );
@@ -331,6 +333,46 @@ public class PluginFile
     public void setIsInstalled( boolean bIsInstalled )
     {
         _bIsInstalled = bIsInstalled;
+    }
+
+    /**
+     * Returns the min core version compatibility for the plugin
+     *
+     * @return the min core version as a String
+     */
+    public String getMinCoreVersion(  )
+    {
+        return _strMinCoreVersion;
+    }
+
+    /**
+     * Sets the the min core version compatibility for the plugin
+     *
+     * @param strMinCoreVersion The min core version
+     */
+    public void setMinCoreVersion( String strMinCoreVersion )
+    {
+        _strMinCoreVersion = strMinCoreVersion;
+    }
+
+    /**
+     * Returns the max core version compatibility for the plugin
+     *
+     * @return the max core version as a String
+     */
+    public String getMaxCoreVersion(  )
+    {
+        return _strMaxCoreVersion;
+    }
+
+    /**
+     * Sets the the max core version compatibility for the plugin
+     *
+     * @param strMinCoreVersion The max core version
+     */
+    public void setMaxCoreVersion( String strMaxCoreVersion )
+    {
+        _strMaxCoreVersion = strMaxCoreVersion;
     }
 
     /**
