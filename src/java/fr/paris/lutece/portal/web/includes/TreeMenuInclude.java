@@ -75,9 +75,12 @@ public class TreeMenuInclude implements PageInclude
      */
     public void fillTemplate( Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
-        int nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID )  == null ) ? 0 : Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
-        data.setTreeMenu( buildTreeMenuContent( nCurrentPageId, nMode, request ) );
-        rootModel.put( Markers.PAGE_TREE_MENU, ( data.getTreeMenu(  ) == null ) ? "" : data.getTreeMenu(  ) );
+        if ( request != null )
+        {
+            int nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID )  == null ) ? 0 : Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
+            data.setTreeMenu( buildTreeMenuContent( nCurrentPageId, nMode, request ) );
+            rootModel.put( Markers.PAGE_TREE_MENU, ( data.getTreeMenu(  ) == null ) ? "" : data.getTreeMenu(  ) );
+        }
     }
 
     /**
