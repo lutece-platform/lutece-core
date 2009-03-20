@@ -55,8 +55,11 @@ public class MainMenuInclude implements PageInclude
      * @param request The HTTP request
      */
     public void fillTemplate( Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
-    {        
-        int nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID )  == null ) ? 0 : Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );        
-        rootModel.put( Markers.PAGE_MAIN_MENU, PortalMenuService.getInstance().getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) );
+    {
+        if( request != null )
+        {
+            int nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID )  == null ) ? 0 : Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
+            rootModel.put( Markers.PAGE_MAIN_MENU, PortalMenuService.getInstance().getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) );
+        }
     }
 }
