@@ -34,6 +34,9 @@
 package fr.paris.lutece.portal.web.search;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.message.SiteMessage;
+import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.search.QueryEvent;
 import fr.paris.lutece.portal.service.search.QueryListenersService;
@@ -41,6 +44,7 @@ import fr.paris.lutece.portal.service.search.SearchEngine;
 import fr.paris.lutece.portal.service.search.SearchResult;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
@@ -48,6 +52,18 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.commons.codec.binary.Base64;
+
+import java.io.UnsupportedEncodingException;
+
+import java.net.URLEncoder;
+
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.UnsupportedCharsetException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -71,16 +87,22 @@ public class SearchApp implements XPageApplication
     private static final String PROPERTY_PATH_LABEL = "portal.search.search_results.pathLabel";
     private static final String PROPERTY_PAGE_TITLE = "portal.search.search_results.pageTitle";
     private static final String MESSAGE_INVALID_SEARCH_TERMS = "portal.search.message.invalidSearchTerms";
+    private static final String MESSAGE_ENCODING_ERROR = "portal.search.message.encodingError";
     private static final String DEFAULT_RESULTS_PER_PAGE = "10";
     private static final String DEFAULT_PAGE_INDEX = "1";
     private static final String PARAMETER_PAGE_INDEX = "page_index";
     private static final String PARAMETER_NB_ITEMS_PER_PAGE = "items_per_page";
     private static final String PARAMETER_QUERY = "query";
+    private static final String PARAMETER_ENCODED = "encoded";
     private static final String MARK_RESULTS_LIST = "results_list";
     private static final String MARK_QUERY = "query";
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_ERROR = "error";
+    private static final String PROPERTY_ENCODE_URI = "search.encode.uri";
+    private static final String PROPERTY_ENCODE_URI_ENCODING = "search.encode.uri.encoding";
+    private static final String DEFAULT_URI_ENCODING = "ISO-8859-1";
+    private static final boolean DEFAULT_ENCODE_URI = false;
 
     //    private static final int MODE_ADMIN = 1;
 
@@ -93,9 +115,19 @@ public class SearchApp implements XPageApplication
      * @return The HTML code of the page.
      */
     public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
+        throws SiteMessageException
     {
         XPage page = new XPage(  );
         String strQuery = request.getParameter( PARAMETER_QUERY );
+        String strEncoded = request.getParameter( PARAMETER_ENCODED );
+        boolean bEncodeUri = Boolean.parseBoolean( AppPropertiesService.getProperty( PROPERTY_ENCODE_URI,
+                    Boolean.toString( DEFAULT_ENCODE_URI ) ) );
+
+        if ( bEncodeUri )
+        {
+            strQuery = encodeQuery( request, strQuery, strEncoded );
+        }
+
         String strSearchPageUrl = AppPropertiesService.getProperty( PROPERTY_SEARCH_PAGE_URL );
         String strError = "";
         Locale locale = request.getLocale(  );
@@ -125,7 +157,9 @@ public class SearchApp implements XPageApplication
         notifyQueryListeners( strQuery, listResults.size(  ), request );
 
         UrlItem url = new UrlItem( strSearchPageUrl );
+
         url.addParameter( PARAMETER_QUERY, strQuery );
+        url.addParameter( PARAMETER_ENCODED, Boolean.TRUE.toString(  ) );
         url.addParameter( PARAMETER_NB_ITEMS_PER_PAGE, nNbItemsPerPage );
 
         Paginator paginator = new Paginator( listResults, nNbItemsPerPage, url.getUrl(  ), PARAMETER_PAGE_INDEX,
@@ -145,6 +179,41 @@ public class SearchApp implements XPageApplication
         page.setContent( template.getHtml(  ) );
 
         return page;
+    }
+
+    /**
+     *
+     * @param request
+     * @param strQuery
+     * @param strEncoded
+     * @return
+     * @throws SiteMessageException
+     */
+    private String encodeQuery( HttpServletRequest request, String strQuery, String strEncoded )
+        throws SiteMessageException
+    {
+        String strEncodedQuery = strQuery;
+        String strURIEncoding = AppPropertiesService.getProperty( PROPERTY_ENCODE_URI_ENCODING, DEFAULT_URI_ENCODING );
+
+        try
+        {
+            CharsetEncoder encoder = Charset.forName( strURIEncoding ).newEncoder(  );
+
+            if ( strEncoded != null )
+            {
+                strEncodedQuery = new String( encoder.encode( CharBuffer.wrap( strQuery.toCharArray(  ) ) ).array(  ) );
+            }
+        }
+        catch ( UnsupportedCharsetException e )
+        {
+            SiteMessageService.setMessage( request, MESSAGE_ENCODING_ERROR, SiteMessage.TYPE_ERROR );
+        }
+        catch ( CharacterCodingException e )
+        {
+            SiteMessageService.setMessage( request, MESSAGE_ENCODING_ERROR, SiteMessage.TYPE_ERROR );
+        }
+
+        return strEncodedQuery;
     }
 
     /**
