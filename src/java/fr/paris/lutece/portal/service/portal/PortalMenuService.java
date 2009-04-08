@@ -158,7 +158,7 @@ public final class PortalMenuService implements CacheableService
      *
      * @param nMode The selected mode
      * @param nPart The part of the menu to build
-         * @param request The HttpServletRequest
+     * @param request The HttpServletRequest
      * @return The list of the menus layed out with the stylesheet of the mode
      */
     private String buildMenuContent( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
