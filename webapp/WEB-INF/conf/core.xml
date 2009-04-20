@@ -131,16 +131,6 @@
         </dashboard-component>
     </dashboard-components>
         
-    <bean id="dashboardService" class="" >
-        <property name="componentsList">
-            <list>
-                    <bean id="systemDashboardComponent" class="fr.paris.lutece.portal.web.system.SystemDashboardComponent" >
-                        <property name="order" value="1" />
-                        <property name="zone" value="0" />
-                    </bean>
-            </list>
-        </property>
-    </bean>  
     
     
 </plug-in>
