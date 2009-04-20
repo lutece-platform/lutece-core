@@ -59,6 +59,8 @@ public class ThemesInclude implements PageInclude
     private static final String PROPERTY_THEMES_LIST = "themes.list";
     private static final String DEFAULT_THEME = "default";
 
+    private static String _strGlobalTheme = DEFAULT_THEME;
+
     /**
      * Substitue specific Freemarker markers in the page template.
      * @param rootModel the HashMap containing markers to substitute
@@ -72,9 +74,9 @@ public class ThemesInclude implements PageInclude
         String strTheme = data.getTheme(  );
 
         // If code_theme is null, used the default files ( css and images )
-        if ( ( strTheme == null ) || ( strTheme.equals( "" ) ) )
+        if ( ( strTheme == null ) || ( strTheme.equals( "" ) || ( strTheme.equals( DEFAULT_THEME )) ) )
         {
-            strTheme = DEFAULT_THEME;
+            strTheme = _strGlobalTheme;
         }
 
         String strCss = AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_CSS );
@@ -108,4 +110,23 @@ public class ThemesInclude implements PageInclude
 
         return listThemes;
     }
+
+    /**
+     * Returns the global theme
+     * @return the global theme
+     */
+    public static String getGlobalTheme()
+    {
+        return _strGlobalTheme;
+    }
+
+    /**
+     * Sets the global theme
+     * @param strTheme The global theme
+     */
+    public static void setGlobalTheme( String strTheme )
+    {
+        _strGlobalTheme = strTheme;
+    }
+
 }

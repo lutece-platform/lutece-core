@@ -1,0 +1,17 @@
+<div class="content-box" >
+
+
+    <h2>#i18n{portal.style.manage_themes.title}</h2>
+
+    <form method="post"  action="jsp/admin/style/DoModifyGlobalTheme.jsp">
+        <p>
+            <label for="theme">#i18n{portal.style.manage_themes.labelGlobalTheme} : </label>
+            <@combo name="theme" default_value="${theme}" items=themes_list />
+
+        </p>
+        <p>
+            <input type="submit" tabindex="1" value="#i18n{portal.style.manage_themes.buttonModify}" class="button" />
+        </p>
+    </form>
+
+</div>
