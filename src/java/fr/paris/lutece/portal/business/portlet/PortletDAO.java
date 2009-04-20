@@ -71,7 +71,7 @@ public final class PortletDAO implements IPortletDAO
         " AND b.id_style = c.id_style AND b.id_portlet = ? AND c.id_mode = ? ";
     private static final String SQL_QUERY_SELECT_STYLE_LIST = " SELECT distinct a.id_style , a.description_style " +
         " FROM core_style a , core_style_mode_stylesheet b " + " WHERE  a.id_style = b.id_style " +
-        " AND a.id_portlet_type = ? ";
+        " AND a.id_portlet_type = ? ORDER BY a.description_style";
     private static final String SQL_QUERY_SELECT_PORTLET_TYPE = " SELECT id_portlet_type , name , url_creation, url_update, plugin_name " +
         " FROM core_portlet_type WHERE id_portlet_type = ? ORDER BY id_portlet_type ";
     private static final String SQL_QUERY_SELECT_PORTLET_ALIAS = " SELECT a.id_portlet FROM core_portlet a , core_portlet_alias b" +
