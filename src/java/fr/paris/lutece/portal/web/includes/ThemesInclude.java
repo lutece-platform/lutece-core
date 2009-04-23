@@ -36,11 +36,14 @@ package fr.paris.lutece.portal.web.includes;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -58,6 +61,7 @@ public class ThemesInclude implements PageInclude
     private static final String PROPERTY_SUFFIX_IMAGES = ".images";
     private static final String PROPERTY_THEMES_LIST = "themes.list";
     private static final String DEFAULT_THEME = "default";
+    private static final String COOKIE_NAME = "theme";
 
     private static String _strGlobalTheme = DEFAULT_THEME;
 
@@ -72,6 +76,13 @@ public class ThemesInclude implements PageInclude
     {
         // The code_theme of the page
         String strTheme = data.getTheme(  );
+
+        // The theme of the user
+        String strUserTheme =  getUserTheme( request );
+        if( strUserTheme != null )
+        {
+            strTheme = strUserTheme;
+        }
 
         // If code_theme is null, used the default files ( css and images )
         if ( ( strTheme == null ) || ( strTheme.equals( "" ) || ( strTheme.equals( DEFAULT_THEME )) ) )
@@ -110,6 +121,54 @@ public class ThemesInclude implements PageInclude
 
         return listThemes;
     }
+
+    /**
+     * Gets the theme selected by the user
+     * @param request The HTTP request
+     * @return The theme if available otherwise null
+     */
+    private static String getUserTheme( HttpServletRequest request )
+    {
+        Cookie[] cookies = request.getCookies();
+        if( cookies != null )
+        {
+            for( int i = 0 ; i < cookies.length ; i++ )
+            {
+                Cookie cookie = cookies[i];
+                System.out.println( "Cookie : " + cookie.getName() + " = " + cookie.getValue() );
+                if( cookie.getName().equalsIgnoreCase( COOKIE_NAME ) )
+                {
+                    String strTheme = cookie.getValue();
+                    if( isValidTheme( strTheme ) )
+                    {
+                        return strTheme;
+                    }
+                }
+            }
+        }
+        return null;
+        
+    }
+
+    /**
+     * Checks if the theme is among existing themes
+     * @param strTheme The theme to check
+     * @return True if the theme is valid
+     */
+    private static boolean isValidTheme( String strTheme )
+    {
+        Iterator i = getThemesList(  ).iterator();
+        while( i.hasNext() )
+        {
+            ReferenceItem item = (ReferenceItem) i.next();
+            if( item.getCode().equals( strTheme ))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Returns the global theme
