@@ -40,6 +40,7 @@ import fr.paris.lutece.portal.web.includes.ThemesInclude;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -58,6 +59,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
 
     // Parameters
     private static final String PARAMETER_THEME = "theme";
+    private static final String PARAMETER_URL = "url";
 
     /**
      * Returns the list of Themes
@@ -89,6 +91,21 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
         String strTheme = request.getParameter( PARAMETER_THEME );
         ThemesInclude.setGlobalTheme( strTheme );
         return this.getHomeUrl( request );
+    }
+
+
+    /**
+     * Modify the User theme
+     *
+     * @param request The Http request
+     * @return the html code for display the manage themes page
+     */
+    public String doModifyUserTheme( HttpServletRequest request , HttpServletResponse response )
+    {
+        String strTheme = request.getParameter( PARAMETER_THEME );
+        String strForwardUrl = request.getParameter( PARAMETER_URL );
+        ThemesInclude.setUserTheme( request , response , strTheme );
+        return strForwardUrl;
     }
 
 

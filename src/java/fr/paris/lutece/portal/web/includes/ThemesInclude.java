@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.includes;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 
@@ -45,6 +46,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -135,7 +137,6 @@ public class ThemesInclude implements PageInclude
             for( int i = 0 ; i < cookies.length ; i++ )
             {
                 Cookie cookie = cookies[i];
-                System.out.println( "Cookie : " + cookie.getName() + " = " + cookie.getValue() );
                 if( cookie.getName().equalsIgnoreCase( COOKIE_NAME ) )
                 {
                     String strTheme = cookie.getValue();
@@ -149,6 +150,12 @@ public class ThemesInclude implements PageInclude
         return null;
         
     }
+
+    public static void setUserTheme( HttpServletRequest request , HttpServletResponse response , String strTheme )
+    {
+        Cookie cookie = new Cookie( COOKIE_NAME , strTheme );
+        response.addCookie( cookie );
+     }
 
     /**
      * Checks if the theme is among existing themes
