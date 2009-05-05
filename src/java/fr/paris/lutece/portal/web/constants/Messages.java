@@ -41,6 +41,7 @@ public class Messages
 {
     public static final String MANDATORY_FIELDS = "portal.util.message.mandatoryFields";
     public static final String MANDATORY_FILE = "portal.util.message.mandatoryFileSelection";
+    public static final String MESSAGE_ILLEGAL_CHARACTER = "portal.util.message.illegalCharacter";
     public static final String TEXT_SIZE = "portal.util.message.textSize";
     public static final String USER_ACCESS_DENIED = "portal.users.message.user.accessDenied";
     public static final String MESSAGE_LOGOUT = "portal.users.message.user.logout";
