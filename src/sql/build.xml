@@ -30,6 +30,7 @@
                                    replace="${replace.index}" byline="true" flags="gi" />
                 </sequential>
             </for>
+
             <sql driver="@{sql.driver}"
                  url="@{sql.url}"
                  userid="@{sql.userid}" 
@@ -55,7 +56,10 @@
                        casesensitive="false" />
         </sequential>
     </macrodef>
+    <regexp id="regexp.oracle.url" pattern="(jdbc:oracle:thin:.*)/([^?]*)\??" />
+
     <regexp id="regexp.mysql.url" pattern="(.*)/([^?]*)\??" />
+
 	<regexp id="regexp.hsqldb.url" pattern=".*[:|/]([^;]*);?" />
     
     <target name="init" description="Prepare the database by creating it and inserting data">
@@ -77,6 +81,9 @@
             <case value="hsqldb">
                 <property name="hsqldb" value="hsqldb" />
             </case>
+						<case value="oracle">
+								<property name="oracle" value="oracle" />
+						</case>
             <default>
                 <property name="mysql" value="mysql" />
             </default>
@@ -106,7 +113,30 @@
             <regexp refid="regexp.mysql.url"/>
         </propertyregex>
     </target>
-    
+
+    <target name="init_oracle" if="oracle">
+        <echo message="=> Oracle" />
+        
+        <!-- Path to the jar that contain database connector driver -->
+        <property name="db.connector.path" value="${oracle.connector.jar.path}" />
+        
+        <!-- Define the baseUrl and baseName (drop and create DB) -->
+        <property file="${db.properties.path}" />
+        <propertyregex property="baseUrl"
+                       input="${portal.url}"
+                       select="\1/\2"
+                       casesensitive="false">
+            <regexp refid="regexp.oracle.url"/>
+        </propertyregex>
+        
+        <propertyregex property="baseName"
+                       input="${portal.url}"
+                       select="\2"
+                       casesensitive="false">
+            <regexp refid="regexp.oracle.url"/>
+        </propertyregex>
+    </target>    
+
     <target name="init_hsqldb" if="hsqldb">
         <echo message="=> HSQLDB" />
         
@@ -159,7 +189,7 @@
     <target name="update" if="contrib.jar.present" depends="contrib_not_found,db_plugins_specific_database_update"/>
     
     <!-- Target that create db -->	
-    <target name="drop_and_create_db" depends="init, init_mysql, init_hsqldb">
+    <target name="drop_and_create_db" depends="init, init_mysql, init_hsqldb, init_oracle">
         <echo message="Create the core database ${baseName} on host ${baseUrl}" />	
         <property file="${db.properties.path}" />
         

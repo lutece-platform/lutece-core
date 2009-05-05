@@ -58,7 +58,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user FROM core_admin_user  WHERE access_code = ? ";
     private static final String SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID = " SELECT a.id_right , a.name, a.admin_url , a.description , a.plugin_name, a.id_feature_group, a.icon_url, a.level_right, a.documentation_url, a.id_order " +
         " FROM core_admin_right a , core_user_right b " + " WHERE a.id_right = b.id_right " + " AND b.id_user = ? " +
-        " AND a.admin_url <> '' " + " ORDER BY a.id_order ASC, a.id_right ASC ";
+        " AND a.admin_url is not null " + " ORDER BY a.id_order ASC, a.id_right ASC ";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, locale = ? WHERE id_user = ?  ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_admin_user WHERE id_user = ? ";
     private static final String SQL_QUERY_INSERT_USER_RIGHT = "INSERT INTO core_user_right ( id_right, id_user )  VALUES ( ? , ? ) ";
