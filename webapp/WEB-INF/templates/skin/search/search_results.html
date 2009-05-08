@@ -1,20 +1,22 @@
 <br />
 <div id="content">
 <div id="one-zone-first">
-    <div id="one-zone-first-content">		
-        <h2 class="page-title" >#i18n{portal.search.search_results.title} </h2>
-        
-        <div class="portlet-background">
+    <div id="one-zone-first-content">	
+    <div class="portlet-background">
+       <div class="portlet-background-header">
+       <h3 class="portlet-background-header">#i18n{portal.search.search_results.title} </h3>
+       </div> 
+        <div class="portlet-background-content">
                 <div class="error"> ${error} </div>
                 #i18n{portal.search.search_results.labelResultsCount} : <strong>${paginator.itemsCount}</strong> <br />
                 #i18n{portal.search.search_results.labelResultsRange} : <strong>${paginator.rangeMin} - ${paginator.rangeMax}</strong> <br />
                 <@pagination paginator=paginator />
             </div>     
 
-       <div class="portlet-background">
+       <div class="portlet-background-content">
             <ul>
                <#list results_list as result>
-               <li style="list-style-type:none;list-style-image:url(images/local/skin/arrows.gif);height:50px;border-bottom:solid 1px;margin-bottom: 10px;">
+               <li class="search">
                <div>
                    <a href="${result.url}">${result.title}</a>
                     <br />

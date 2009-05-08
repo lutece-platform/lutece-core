@@ -1,422 +1,330 @@
-/* =======================================================================
- * This stylesheet gathers styles used to define the struture of the html
- * documents.
- *
- * The styles here are related to the positionning of the main elements in
- * the page :
- * - the position of header, footer, menus, banners is defined here ;
- * - the general layout of the page is defined here ( eg. one, two or
- * three columns) ;
- * - styles for positionning other elements (eg. the site map levels).
- *
- * The stylesheet "page_template_styles.css" is to be used for formatting
- * styles related to colors, fonts, aspect of the page elements.
- *
- * ========================================================================
- */
-
-
-body {
-	margin: 0;
-	padding: 0;
-	background: url(../images/local/skin/line.png) repeat-x;
+body, div {
+margin:0px;
+padding:0px;
 }
 
-body.pop-up
-{
-    text-align: left;
-    padding: 10px;
+#global-container {
+margin-left:auto;
+margin-right:auto;
+text-align:left;
+width:100%;
 }
 
-/* To be able to center a page on all browsers, we use a container for al  the elements on the page */
-#global-container 
-{
-	/* used to center the page */
-	margin-left: auto;
-	margin-right: auto;
-	width: 100%;
-	text-align: left; /* to bring back the normal alignment */
-	
-}
-
-
-/* */
 .clear {
-	clear:both;
-	height:1px;
-	font-size:1px;
-	border:none;
-	margin:0; 
-	padding:0;
-	background:transparent;
+background:transparent;
+border:none;
+clear:both;
+font-size:1px;
+height:1px;
+margin:0;
+padding:0;
 }
 
-/* =====================================================================
- * ---------------------     Style for banner     ----------------------
- * ===================================================================== */
 #banner {
-	width: 990px;
-	height: 100px;
-	margin: 0 auto 20px auto;
+-moz-border-radius-topleft:10px;
+-moz-border-radius-topright:10px;
+background-image:url(../images/local/skin/header_background.png);
+height:80px;
+margin:0 auto;
+padding:1px;
+width:1020px;
 }
-
-/* Logo */
 
 #logo {
-	float: left;
+float:left;
+margin:24px;
 }
 
-#logo h1, #logo h2 {
-	margin: -10px 0 0 0;
-	text-transform: lowercase;
-	text-align: center;
-	font-weight: bold;
-	color: #1F4772;
-}
-
-#logo h1 a{
-	padding-top: 15px;
-	font-size: 36px;
-}
-
-#logo h2 {
-	font-size: 12px;
-}
-
-#logo a {
-	text-decoration: none;
-	color: #5693C0;
-}
-
-
-/* =====================================================================
- * -----------------     Style for quick-search     --------------------
- * ===================================================================== */
 #search {
-	float: right;
-	width: 300px;
-	padding-top: 20px;
+float:right;
+padding-top:5px;
+text-align:right;
+width:280px;
 }
 
-#search form {
-	margin: 0;
-	padding: 0;
+#banner-header {
+padding-right:15px;
+padding-top:10px;
 }
 
 #search fieldset {
-	margin: 0;
-	padding: 0;
-	border: none;
+border:none;
+margin-right:15px;
+padding:0;
 }
 
 #search legend {
-	display: none;
+display:none;
 }
 
-#searchinput, #searchsubmit {
-	border: 1px solid #81ADD7;
-	font: bold 100% "Trebuchet MS", Arial, Helvetica, sans-serif;
-	color: #5693C0;
+#searchinput,#searchsubmit {
+-moz-border-radius:5px;
+border:1px solid #81ADD7;
+color:#5693C0;
+font:bold 100% "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
 #searchinput {
-	padding: 2px 5px; 
-	width: 150px;
+padding:2px 5px;
+width:140px;
 }
-
 
 #searchsubmit {
-	background: #FFFFFF ;
-	
+background:#FFF;
+width:100px;
 }
 
-/* =====================================================================
- * -----------------     Style for menu-tools     ----------------------
- * ===================================================================== */
-#menu-tools
-{
-	height:20px;
-}
-#menu-tools, #menu-tools ul
-{
-	margin: 0;
-	padding:0;
-}
-#menu-tools li 
-{
-	display: inline;
-	background-image: url(../images/local/skin/banner_bullet.gif);
-	background-repeat: no-repeat;
-	background-position:  center left;
-	padding-left:10px;
+#login {
+color:#FFF;
+cursor:pointer;
+display:inline;
+float:right;
+padding-right:10px;
+padding-top:10px;
+text-align:right;
 }
 
-#menu-tools a 
-{
-	margin: 0 2px;
-	color: #5693C0;
-	text-decoration: none;
-}
-#menu-tools a:hover 
-{
-	color: #5693C0;
-	text-decoration: underline;
+#login a {
+color:#FFF;
 }
 
-
-
-
-/* =====================================================================
- * -------------------    Style for page-path    -----------------------
- * ===================================================================== */
-#page-path 
-{
-	margin: 0 0 0 -60px;
+#personnalisation {
+color:#FFF;
+cursor:pointer;
+display:inline;
+float:right;
+padding-top:10px;
+width:100px;
 }
 
+#auth {
+background-color:#a4a6a9;
+display:none;
+padding-left:2%;
+padding-top:10px;
+text-align:center;
+width:98%;
+}
 
-/* =====================================================================
- * -----------------    Style for page-content    ----------------------
- * ===================================================================== */
-/* The page-content area should contain the main content of the page organized depending on the layout wanted */
+#perso-menu {
+background-color:#a4a6a9;
+display:none;
+padding-left:2%;
+padding-top:10px;
+width:98%;
+}
+
+.input {
+-moz-border-radius:4px;
+border:1px solid #EEE;
+width:120px;
+}
+
+#auth h3 {
+font-size:120%;
+}
+
+#auth-lutece {
+clear:both;
+float:left;
+width:33%;
+}
+
+#menu-tools {
+height:20px;
+}
+
+#menu-tools li {
+background-image:url(../images/local/skin/banner_bullet.gif);
+background-position:center left;
+background-repeat:no-repeat;
+display:inline;
+padding-left:10px;
+}
+
+#menu-tools a {
+color:#5693C0;
+margin:0 2px;
+text-decoration:none;
+}
+
+#menu-tools a:hover {
+color:#5693C0;
+text-decoration:underline;
+}
+
+#page-path {
+/* margin:0 0 0 -60px; */
+}
 
 #page {
-	width: 990px;
-	margin: -30px auto 20px auto;
-	background: #fff url(../images/local/skin/bg_dotted.gif) repeat-y 230px 0;
+margin:0 auto;
+width:1022px;
+padding:0px;
 }
 
-/* Content */
 #content {
-	float: right;
-	width: 700px;
-	margin-right: 55px;
+background-color:#DBDBDB;
+clear:both;
+width:100%;
 }
 
-/* Sidebar */
 #sidebar {
-	float: left;
-	width: 20%;	
+display:none;
+float:left;
+width:20%;
 }
 
-/* =====================================================================
- * --------------     styles for a 1 zone layout     -----------------
- * ===================================================================== */
-/* Positioning style for a one-zone layout */
-/*
- * > one-zone-first
- * 		>> one-zone-first-content
- */
-#one-zone-first 
-{
-	width: auto;
+#one-zone-first {
+width:auto;
 }
 
-#one-zone-first-content 
-{
-	padding-left: 20px;
-	padding-right: 20px;
+#one-zone-first-content {
+background-color:#DBDBDB;
+padding:30px;
 }
 
-/* ====================================================================
- * ------------     styles for a 2 zones layout     -----------------
- * ==================================================================== */
-/* Positioning styles for a two-zones layout */
-/*
- * > two-zones-first
- * 		>> two-zones-first-content
- * > two-zones-second
- * 		>> two-zones-second-content
- */
-
-#two-zones-first 
-{
-	float: left;
-	width:70%;
+#two-zones-first {
+float:left;
+width:70%;
 }
 
-#two-zones-second 
-{
-	float: left;
-	width: 30%;
+#two-zones-first-content {
+padding-left:14px;
+padding-right:7px;
 }
 
-#two-zones-first-content
-{
-	padding-left: 14px;
-	padding-right: 7px;
-	
+#two-zones-second-content {
+padding-left:7px;
+padding-right:14px;
 }
 
-#two-zones-second-content
-{
-    padding-left: 7px;
-	padding-right: 14px;
+#two-zones-equals-second {
+margin-left:50%;
 }
 
-/* ====================================================================
- * ------------     styles for a 2 zones equals     -----------------
- * ==================================================================== */
-/* Positioning styles for a two-zones layout */
-/*
- * > two-zones-first
- * 		>> two-zones-first-content
- * > two-zones-second
- * 		>> two-zones-second-content
- */
-
-#two-zones-equals-first 
-{
-	float: left;
-	width: 50%;
+#three-zones-first-and-second {
+background-color:#DBDBDB;
+float:left;
+width:66%;
 }
 
-#two-zones-equals-second 
-{
-	margin-left: 50%;
+#three-zones-first {
+background-color:#DBDBDB;
+float:left;
+width:50%;
 }
 
-/* ====================================================================
- * ------------     styles for a 3 zones layout     -----------------
- * ==================================================================== */
-/* Positioning styles for a three-zones layout */
-/* > three-zones-first-and-second
- * 		>> three-zones-first
- * 			>>> three-zones-first-content
- * 		>> three-zones-second
- * 			>>> three-zones-second-content
- * > three-zones-third
- * 		>> three-zones-third-content
- */
-#three-zones-first-and-second
-{
-	float: left;
-	width: 66%;
+#three-zones-second {
+background-color:#DBDBDB;
+margin-left:50%;
 }
-#three-zones-first 
-{
-	float: left;
-	width: 50%;
+
+#three-zones-third {
+background-color:#DBDBDB;
+margin-left:66%;
 }
-#three-zones-second 
-{
-	border-left-style: dotted;
-	border-left-width: thin;
-	margin-left: 50%;
-	border-right-style: dotted;
-	border-right-width: thin;	
+
+#three-zones-first-content {
+background-color:#DBDBDB;
+padding-left:10px;
+padding-right:8px;
 }
-#three-zones-third 
-{
-	margin-left: 66%;
+
+#three-zones-second-content {
+background-color:#DBDBDB;
+padding-left:8px;
+padding-right:8px;
 }
-#three-zones-first-content 
-{
-	padding-left: 10px;
-	padding-right: 8px;
+
+#three-zones-third-content {
+margin-top:5px;
+padding-left:8px;
+padding-right:10px;
 }
-#three-zones-second-content
-{
-   padding-left: 8px;
-	padding-right: 8px;
+
+#three-zones-left {
+background-color:#DBDBDB;
+float:left;
+margin-left:15px;
+width:31%;
 }
-#three-zones-third-content 
-{
-   padding-left: 8px;
-	padding-right: 10px;
+
+#three-zones-right {
+background-color:#DBDBDB;
+float:right;
+margin-right:15px;
+width:31%;
+}
+
+#three-zones-middle {
+background-color:#DBDBDB;
+margin-left:34%;
+margin-right:34%;
+}
+
+#three-different-zones-first-and-second {
+float:left;
+width:77%;
+}
+
+#three-different-zones-second {
+margin-left:30%;
+}
+
+#three-different-zones-third {
+margin-left:77%;
+}
+
+#three-different-zones-first-content {
+padding-left:10px;
+padding-right:5px;
+}
+
+#three-different-zones-second-content {
+padding-left:5px;
+padding-right:5px;
+}
+
+#three-different-zones-third-content {
+padding-left:5px;
+padding-right:10px;
+}
+
+#middle-columns-float {
+float:left;
+width:100%;
+}
+
+#middle-columns-col1-content {
+color:#000;
+}
+
+#middle-columns-col2-content {
+border:none;
+color:#000;
+padding-left:5px;
+padding-right:10px;
 }
 
 
-
-
-/* ====================================================================
- * ----------     styles for a 3 different zones layout  --------------
- * ==================================================================== */
-/* Positioning styles for a three-zones layout */
-/* > three-zones-first-and-second
- * 		>> three-zones-first
- * 			>>> three-zones-first-content
- * 		>> three-zones-second
- * 			>>> three-zones-second-content
- * > three-zones-third
- * 		>> three-zones-third-content
- */
-#three-different-zones-first-and-second
-{
-	float: left;
-	width: 77%;
-}
-#three-different-zones-first 
-{
-	float: left;
-	width: 30%;
-}
-#three-different-zones-second 
-{
-	margin-left: 30%;
-}
-#three-different-zones-third 
-{
-	margin-left: 77%;
-}
-#three-different-zones-first-content 
-{
-    padding-left: 10px;
-	padding-right: 5px;
-}
-#three-different-zones-second-content
-{
-    padding-left: 5px;
-	padding-right: 5px;
-}
-#three-different-zones-third-content 
-{
-   padding-left: 5px;
-	padding-right: 10px;
+#auth-openid,#auth-register {
+float:left;
+width:33%;
 }
 
-/* =====================================================================
- * --------------     styles for a middle column layout     -----------------
- * ===================================================================== */
-/*
- /*
- * > middle-column-col1
- * 		>> middle-column-col1-content
- * > middle-column-col2
- * 		>> middle-column-col2-content
- */
- 
- #middle-columns-float
-{
-	float: left;
-	width: 100%;
+#two-zones-second,#three-different-zones-first {
+float:left;
+width:30%;
 }
 
-#middle-columns-col1
-{
-	float: left;
-	width: 50%;
+#two-zones-equals-first,#middle-columns-col1,#middle-columns-col2 {
+float:left;
+width:50%;
 }
 
-#middle-columns-col2
-{
-/*	margin-left: 50%;*/
-	 float: left; 
-	 width: 50%;
+#footer1,#footer2 {
+clear:both;
+margin:0 auto;
+width:1022px;
 }
-
-#middle-columns-col1-content
-{
-	border: none;
-	color: #000000;
-	padding-left:10px;
-	padding-right:5px;
-}
-#middle-columns-col2-content
-{
-	border: none;
-	color: #000000;
-	padding-left:5px;
-	padding-right:10px;
-}
-

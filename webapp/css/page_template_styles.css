@@ -1,1831 +1,927 @@
-/* =======================================================================
- * This stylesheet gathers the main formatting styles.
- *
- * The stylesheet "page_template_structure.css" is to be used for styles that
- * define the layout of a page and are related to positionning more than
- * formatting/styling.
- *
- * ========================================================================
- */
+@import url(../js/jquery/plugins/treeview/jquery.treeview.css);
+@import url(../js/jquery/plugins/ui/datepicker/ui.datepicker.css);
 
-/* ========================================================================
-==============     REDEFINITION OF BASE HTML ELEMENTS     =================
-=========================================================================== */
-@import url("../js/jquery/plugins/treeview/jquery.treeview.css");
-@import url("../js/jquery/plugins/ui/datepicker/ui.datepicker.css");
-
-
-/* Define the default font: , TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH, H1, H2, H3, H4*/
-BODY
-{
-		font-family : Tahoma, Verdana, Geneva, Arial;
-	   font-size: small;
-		color: #1F4772;
+body {
+background-color:#fff;
+color:#444;
+font-family:verdana,helvetica,arial,sans-serif;
+font-size:.7em;
 }
 
 img {
- 	border:none;	
+border:none;
 }
 
-/* ----------------- */
-/* Main links styles */
-
-a:link, a:visited {
-   color : #1F4772;
-	font-weight: bold;
-	text-decoration: none;
+a:link,a:visited {
+color:#147;
+font-weight:400;
+text-decoration:none;
 }
 
-a:hover, a:active {
-  color : #1F4772;
-	font-weight: bold;
-	text-decoration: underline;
+a:hover,a:active {
+color:#1F4772;
+font-weight:400;
+text-decoration:underline;
 }
 
-/* ------- */
-/*  titles */
-h1, h2, h3 {
-	margin-top: 0;
-	font-family: Arial, Helvetica, sans-serif;
-	font-weight: normal;
-	color : #1F4772;
+h1,h2,h3 {
+font-family:verdana, Arial, Helvetica, sans-serif;
+font-weight:700;
+margin:0;
 }
 
-h1{
-  	font-size: 150%;
+h1 {
+font-size:160%;
 }
 
-h2{
-  	font-size: 130%;
-	font-weight: bold;
+h2 {
+font-size:150%;
 }
 
-h3{
- 	font-size: 130%;
+h3 {
+font-size:140%;
 }
-
 
 h4 {
-	color: Red;
-	font-weight: normal;
-	font-size: 110%;
+color:Red;
+font-size:110%;
+font-weight:400;
 }
 
-hr {
-	display: none;
+ul {
+list-style-type:none;
 }
 
-/* ------------ */
-/* default cells*/
-td, th {
-	color: Black;
+div.banner-skyscraper {
+float:right;
+margin:0;
 }
 
-td.highlight {
-	background-color: #FBCA6D;
-}
-
-h2.page-title
-{
-    background-image: url(../images/local/skin/arrows.gif);
-    background-repeat: no-repeat;
-    background-position: center left;
-    padding-left:15px;
-}
-
-/* =====================================================================
- * --------------     form elements      -------------------
- * ===================================================================== */
 form {
-	margin: 0;
-	padding: 0;
+margin:0;
+padding:0;
 }
 
-
-form.default-form
-{
-    margin: 0;
+form.default-form {
+margin:0;
 }
 
-
-form.default-form fieldset
-{
-    border: 1px dotted Black;
-    text-align: left;
-    margin-left: 15px;
-    margin-right: 15px;
-    padding: 10px;
-}
-form.default-form label.text-label, form.default-form label.combo-label,form.default-form label.textarea-label
-{
-    float:left;
-    text-align: right;
-    width: 30%;
-    margin-right: 5px;
+form.default-form fieldset {
+border:1px dotted #000;
+margin-left:15px;
+margin-right:15px;
+padding:10px;
+text-align:left;
 }
 
-form.default-form label.checkbox-label, form.default-form label.radio-label
-{
-    text-align: left;
-    margin-left: 5px;
-}
-form.default-form input.checkbox-field, form.default-form input.radio-field
-{
-    margin-left: 20px;
-}
-form.default-form p.buttons
-{
-	text-align: center;
+form.default-form label.text-label,form.default-form label.combo-label,form.default-form label.textarea-label {
+float:left;
+margin-right:5px;
+text-align:right;
+width:30%;
 }
 
-form.default-form .error
-{
-	border: 2px groove red;
+form.default-form label.checkbox-label,form.default-form label.radio-label {
+margin-left:5px;
+text-align:left;
 }
 
-/* main search screen */
-form#main-search fieldset
-{
-    border: none;
-    border-bottom: 1px dotted Black;
-    text-align: left;
-    margin-left: 15px;
-    margin-right: 30px;
-    padding: 10px;
-}
-form#main-search-previous
-{
-    float:left;
-    width:40%;
-    text-align:right;
-    margin-bottom:15px;
-}
-form#main-search-next
-{
-    float:right;
-    width:40%;
-    text-align:left;
-    margin-bottom:15px;	 	  
+form.default-form input.checkbox-field,form.default-form input.radio-field {
+margin-left:20px;
 }
 
+form.default-form p.buttons {
+text-align:center;
+}
 
-/* ------------------------------------- */
-/* Styles to display the list of results */
-/* ------------------------------------- */
+form.default-form .error {
+border:2px groove red;
+}
+
+form#main-search fieldset {
+border:none;
+border-bottom:1px dotted #000;
+margin-left:15px;
+margin-right:30px;
+padding:10px;
+text-align:left;
+}
+
+form#main-search-previous {
+float:left;
+margin-bottom:15px;
+text-align:right;
+width:40%;
+}
+
+form#main-search-next {
+float:right;
+margin-bottom:15px;
+text-align:left;
+width:40%;
+}
+
+li.search {
+border:none;
+border-bottom:1px dotted #000;
+margin:10px;
+}
+
 ul.main-search-results {
-  list-style-type: none;
+list-style-type:none;
 }
+
 ul.main-search-results li {
-  margin-bottom: 30px;
+margin-bottom:30px;
 }
 
-
-/* =====================================================================
- * --------------      Documents style      -------------------
- * ===================================================================== */
-
-/* box containing the document buttons (send, print, comment, back) */
 div.document-buttons {
-   float: left;
-   width: 100px;
-   margin-bottom: 8px;
+float:left;
+margin-bottom:8px;
+padding:5px;
+width:100px;
 }
 
 div.document-buttons p {
-	/*display: inline;*/
-	margin: 0px;
-	margin-bottom: 2px;
-	padding: 0px;
+margin:0 0 2px;
 }
 
-div.document-buttons p a:hover, div.document-buttons p a:link, div.document-buttons p a:visited, div.document-buttons p a:active {
-	text-decoration: none;
+div.document-buttons p a:hover,div.document-buttons p a:link,div.document-buttons p a:visited,div.document-buttons p a:active {
+padding:5px;
+text-decoration:none;
 }
 
-div.document {
-	/*border: 1px solid #C6C9C1;*/
-	margin-left: 10px;
-	margin-bottom: 10px;
-}
 div.document-content {
-	background-color: #fff;
-	border: 0;
-	margin: 0;
-	padding: 5px;
+-moz-border-radius:4px;
+background-color:#FFF;
+min-height:560px;
+padding:20px;
+width:780px;
 }
 
-/* box containing the comments associated with the documents */
 div.documents-comments {
-	margin-left: 10px;
-	color: #1F4772;
+color:#1F4772;
+margin-left:10px;
 }
 
-
-
-/* =====================================================================
- * ------------------      styles for portlets     ---------------------
- * ===================================================================== */
-
-/* ========================================================================
- * styles for the basic portlets
- * ------------------------------------------------------------------------ */
-/* the box "portlet" contains a header & a content */
 div.portlet {
-	margin-bottom: 10px;
+-moz-border-radius:5px;
+background-color:#FFF;
+margin:5px 5px 20px;
 }
 
-/* the portlet header  */
+a.portlet-header-close {
+-moz-border-radius:5px;
+cursor:pointer;
+display:inline;
+float:right;
+font-weight:700;
+margin:3px 5px 0 0;
+padding:4px 2px;
+}
+
+a:hover.portlet-header-close {
+border:1px solid #D3D3D3;
+cursor:pointer;
+}
+
 div.portlet-header {
-	background-color: #6887C2;
-	color : #1F4772;
-	padding: 2px;
+color:#1F4772;
+padding:2px;
 }
 
-/* the portlet header  */
 h3.portlet-header {
-	padding: 0 0 5px 5px;
-	margin: 0 0 0 5px;
-	border-bottom: 1px solid #fff;
-	text-transform: lowercase;
-	letter-spacing: -2px;
-	font-size: 200%;
-	font-weight: normal;
+border-bottom:1px solid #DBDBDB;
+display:none;
+font-size:200%;
+height:30px;
+letter-spacing:-2px;
+padding-left:15px;
 }
 
-/* the portlet content  */
 div.portlet-content {
-	background-color: #fff;
-	border: 0;
-	margin: 0;
-	padding: 15px;
-	/*border-bottom: 1px solid #669ED6;*/
+padding:10px 25px;
+text-align:justify;
 }
 
-div.portlet-content h1, div.portlet-content h2, div.portlet-content h3 {
-	color : #1F4772;
+div.portlet-content h1,div.portlet-content h2,div.portlet-content h3 {
+color:#1F4772;
 }
 
-/* a footer for the portlet */
-/* Not currently used */
-div.portlet-footer {
-}
-div.portlet-footer p {
-}
-
-
-/* ========================================================================
- * styles for the comments portlets
- * ------------------------------------------------------------------------ */
-/* the box "portlet" contains a header & a content */
-
-div.portlet-comment {
-	min-height: 30px;
-	background: url(../images/local/skin/comment_bubble_top.png) no-repeat;
-}
-
-/* the portlet header  */
-div.portlet-comment-header {
-   color: #000;
-	text-align: right;
-}
-
-/* the portlet header  */
-h3.portlet-comment-header {
-	padding: 0 0 5px 5px;
-	margin: 10px 0 0 5px;
-	font-weight: bold;
-	font-size: large;
-}
-
-/* the portlet content  */
-div.portlet-comment-content {
-	background: url(../images/local/skin/comment_bubble_filler.png) repeat-y;
-	margin: 15px 0 0 0;
-	padding: 5px;
-	color: #fff;
-}
-
-/* the portlet content  */
-div.portlet-comment-content p.posted{
-  margin: 0;
-  padding: 0 0 2px 0;
-	border-bottom: 1px solid #fff;
-	color: #fff;
-}
-
-/* a footer for the portlet */
-/* Not currently used */
-div.portlet-comment-footer {
-	background: url(../images/local/skin/comment_bubble_bottom.png) no-repeat;
-	text-align: center;
-	font-weight: bold;
-	margin: 0 0 15px 0;
-}
-
-div.portlet-comment-footer p {
-}
-
-
-/* ========================================================================
- * styles for portlets with a background of a colour other than white
- * ------------------------------------------------------------------------ */
-
-/* The box "portlet-background-colored" is  similar to "portlet" but
- * provides different settings.
- */
-  
- 
-div.portlet-background-colored {
-	
-	background: #C6DEE7  url(../images/admin/skin/roundbox_back.gif) right repeat-y;
-	margin-bottom: 15px; 
-	padding: 15px 15px 14px 15px;
-	text-align: left;
-}
-
-
-div.portlet-background-colored:before {
-	background: transparent url(../images/admin/skin/roundbox_tr.gif) no-repeat top right;
-	content: url(../images/admin/skin/roundbox_tl.gif);
-	display: block;
-	font-size: 1px;
-	height: 15px;
-	line-height: 0.1;
-	margin: -15px -15px 0 -15px;
-	text-align: left;
-}
-
-div.portlet-background-colored:after {
-	background: transparent url(../images/admin/skin/roundbox_br.gif) scroll no-repeat bottom right;
-	clear: both; 
-	content: url(../images/admin/skin/roundbox_bl.gif);
-	display: block;
-	font-size: 1px;
-	height: 8px;
-	line-height: 0.1;
-	margin: -15px; 
-	padding-top: 30px; 
-	text-align: left;
-}
-
-/* the portler header */
-h3.portlet-background-colored-header {
-	border: none;
-	text-transform: lowercase;
-	letter-spacing: -2px;
-	font-size: 200%;
-	font-weight: normal;
-	margin-left: 0;
-	border-bottom: 1px solid #fff;
-}
-/* the portlet content  */
-div.portlet-background-colored-content {
-	background-color: #C6DEE7;
-	border: 0px;
-	margin: 0;
-	padding: 0;
-}
-/* special style for lists */
-div.portlet-background-colored-content ul{
-	margin: 0 0 0 5px;
-	padding: 0;
-}
-
-div.portlet-background-colored-content ul li{
-	list-style-type: square;
-}
-
-div.portlet-background-colored-content li {
-	list-style-type: square;
-}
-
-div.portlet-background-colored  a:link, div.portlet-content  a:visited  {
-	color : #1F4772;
- 	border: none;
-	font-size: 100%;
-   font-weight: bold;
-   text-decoration: none;     
-}
-
-div.portlet-background-colored  a:hover{
-   color : #1F4772;
-	border: none;
-	font-size: 100%;
-   font-weight: bold;
-   text-decoration: underline;        
-}
-
-
-/* ========================================================================
- * styles for the basic portlets
- * ------------------------------------------------------------------------ */
-/* the box "portlet" contains a header & a content */
 div.portlet-bordered {
-	border: #D2D6D6 1px solid;
-    padding-left: 5px;
-    padding-right: 6px;
-    MARGIN-bottom: 10px;
-    -moz-border-radius: 10px;
+-moz-border-radius:5px;
+border:#D2D6D6 1px solid;
+margin:5px 5px 20px;
 }
 
-/* the portlet header  */
 h3.portlet-bordered-header {
-	background-image: url(../images/local/skin/portlet_title_back.gif);
-   background-repeat: repeat-x; 
-	border-bottom: 1px dotted #C6C9C1;
-	color: #1F4772;
-	text-transform: lowercase;
-	letter-spacing: -2px;
-	font-size: 200%;
-	font-weight: normal;
+background-image:url(../images/local/skin/title_background.png);
+background-repeat:repeat-x;
+border-bottom:1px dotted #C6C9C1;
+padding-left:15px;
 }
 
-/* the portlet header  */
 div.portlet-bordered-header {
-	background-color: #C6DEE7;
-	border-bottom: 1px dotted #C6C9C1;
-	color: #260650;
-	font-size: 120%;
-	font-weight: bold;
-	margin: 0;
-	padding: 5px;
+background-color:#C6DEE7;
+border-bottom:1px dotted #C6C9C1;
+color:#260650;
+font-size:120%;
+font-weight:700;
+padding:5px;
 }
 
-/* the portlet content  */
 div.portlet-bordered-content {
-	background-color: #FFFFFF; 
-	border: 0;
-	margin: 0;
-	padding: 15px;
-	width: 90%;
-}
-/* a footer for the portlet */
-/* Not currently used */
-div.portlet-bordered-footer {
-}
-div.portlet-bordered-footer p {
+background-color:#FFF;
+padding:10px 25px;
 }
 
-
-
-/* ========================================================================
- * styles for portlets with no background
- * ------------------------------------------------------------------------ */
-/* The box "portlet-no-background" is  similar to "portlet" but
- * provides different settings.
- */
-
-div.portlet-no-background {
-	border: none;
-	margin-bottom: 10px;
+div.portlet-no-background-article {
+-moz-border-radius:5px;
+background-color:#FFF;
+text-align:justify;
 }
-/* portler header  */
-h3.portlet-no-background-header {
-	background-color: White;
-	color: #260650;
-	text-transform: lowercase;
-	letter-spacing: -2px;
-	font-size: 200%;
-	font-weight: normal;
-	margin: 0;
-	padding: 5px;
+
+div.portlet-no-background-header {
+-moz-border-radius-topleft:5px;
+-moz-border-radius-topright:5px;
+background:url(../images/local/skin/title_background2.png);
+border-bottom:1px solid #A5A7AA;
+height:30px;
+line-height:30px;
 }
-/* portlet content  */
+
 div.portlet-no-background-content {
-	border: 0px;
-	margin: 0;
-	padding: 15px;
+padding:10px 25px;
 }
 
-/* ========================================================================
- * styles for portlets with a background of a colour other than white
- * ------------------------------------------------------------------------ */
-
-/* The box "portlet-background-colored" is  similar to "portlet" but
- * provides different settings.
- */
-div.portlet-background {
-	border: #D2D6D6 1px solid;
-    padding-left: 5px;
-    padding-right: 6px;
-	 padding-bottom: 6px;
-    margin-bottom: 10px;
-    -moz-border-radius: 10px;
+div.portlet-no-background-content li {
+color:#1F4772;
+list-style-type:disc;
 }
 
-/* the portler header */
+div.portlet-no-background a:link,div.portlet-content a:visited {
+border:none;
+color:#1F4772;
+font-size:100%;
+font-weight:400;
+text-decoration:none;
+}
+
+div.portlet-background-header {
+-moz-border-radius-topleft:5px;
+-moz-border-radius-topright:5px;
+background:url(../images/local/skin/title_background.png);
+border-bottom:1px solid #A5A7AA;
+color:#eee;
+height:30px;
+line-height:30px;
+}
+
 h3.portlet-background-header {
-	background-color: White; 
-	border-bottom: 1px dotted #C6C9C1;
-	color: #260650;
-	text-transform: lowercase;
-	letter-spacing: -2px;
-	font-size: 200%;
-	font-weight: normal;
-	margin: 0;
-	padding: 5px;
+color:#eee;
+padding-left:15px;
 }
 
-/* the portlet content  */
 div.portlet-background-content {
-	background-image: url(../images/local/skin/portlet_back.gif);
-   background-repeat: repeat-x;
-	border: 0px;
-	color: #260650;
-	margin: 0;
-	padding: 15px;
+background-image:url(../images/local/skin/portlet_background2.png);
+background-repeat:repeat-x;
+border:0;
+color:#260650;
+padding:10px;
 }
 
-
-/* ========================================================================
- * styles for portlets with a background of a colour other than white
- * ------------------------------------------------------------------------ */
-
-/* The box "portlet-background-colored" is  similar to "portlet" but
- * provides different settings.
- */
-  
- 
-div.portlet-background-colored {
-	background: #C8D5EE  url(../images/admin/skin/roundbox_back.gif) right repeat-y;
-	margin-bottom: 15px; 
-	padding: 15px 15px 14px 15px;
-	text-align: left;
+div.portlet-background-colored-article {
+-moz-border-radius:5px;
+background-color:#FFF;
+margin:5px 5px 20px;
+text-align:justify;
 }
 
-
-div.portlet-background-colored:before {
-	background: transparent url(../images/admin/skin/roundbox_tr.gif) no-repeat top right;
-	content: url(../images/admin/skin/roundbox_tl.gif);
-	display: block;
-	font-size: 1px;
-	height: 15px;
-	line-height: 0.1;
-	margin: -15px -15px 0 -15px;
-	text-align: left;
+div.portlet-background-colored-header {
+-moz-border-radius-topleft:5px;
+-moz-border-radius-topright:5px;
+background:url(../images/local/skin/title_background2.png);
+border-bottom:1px solid #A5A7AA;
+border-left:15px;
+height:30px;
+line-height:30px;
+width:100%;
 }
 
-div.portlet-background-colored:after {
-	background: transparent url(../images/admin/skin/roundbox_br.gif) scroll no-repeat bottom right;
-	clear: both; 
-	content: url(../images/admin/skin/roundbox_bl.gif);
-	display: block;
-	font-size: 1px;
-	height: 8px;
-	line-height: 0.1;
-	margin: -15px; 
-	padding-top: 30px; 
-	text-align: left;
-}
-
-
-/* the portler header */
-h3.portlet-background-colored-header {
-	border: none;
-	font-size: 200%;
-	font-family: Arial, Tahoma, Helvetica, sans-serif;
-	margin-left: 0;
-	border-bottom: 1px solid #fff;
-}
-/* the portlet content  */
 div.portlet-background-colored-content {
-	background-color: #C8D5EE;
-	border: 0px;
-	margin: 0;
-	padding: 0;
-}
-/* special style for lists */
-div.portlet-background-colored-content ul{
-	margin: 0 0 0 5px;
-	padding: 0;
-}
-
-div.portlet-background-colored-content ul li{
-	list-style-type: square;
+-moz-border-radius:5px;
+background:#1F4772 url(../images/local/skin/portlet_background.png);
+padding:5px 20px;
 }
 
 div.portlet-background-colored-content li {
-	list-style-type: square;
+list-style-type:disc;
 }
 
-div.portlet-background-colored  a:link, div.portlet-content  a:visited  {
-	color : #1F4772;
- 	border: none;
-	font-size: 110%;
-   font-weight: bold;
-	font-family: Arial, Tahoma, Helvetica, sans-serif;
-   text-decoration: none;     
+div.portlet-background-colored a {
+border:none;
+color:#eee;
+font-size:110%;
+font-weight:400;
+text-decoration:none;
 }
 
-div.portlet-background-colored  a:hover{
-   color : #1F4772;
-	border: none;
-	font-size: 110%;
-   font-weight: bold;
-	font-family: Arial, Tahoma, Helvetica, sans-serif;
-   text-decoration: underline;        
+div.comment-content {
+-moz-border-radius:4px;
+background-color:#FFF;
+margin-left:20px;
+padding:20px;
+width:820px;
 }
 
-
-
-
-
-/* special style for lists */
-div.portlet-background li {
-	color: #EE9C00;
-	list-style-type: square;
+div.portlet-comment-header {
+color:#000;
+text-align:right;
 }
 
-/* special style for lists */
-div.portlet-background form {
- 	margin-left: 2%;
+h3.portlet-comment-header {
+font-size:large;
+font-weight:700;
+margin:10px 0 0 5px;
+padding:0 0 5px 5px;
 }
 
-/* special style for lists */
+div.portlet-comment-content {
+color:#fff;
+}
+
+div.portlet-comment-content p.posted {
+border-bottom:1px solid #fff;
+color:#fff;
+margin:0;
+padding:0 0 2px;
+}
+
 div.portlet-background form p {
- 	margin-left: 10%;
-}
-/* special style for lists */
-div.portlet-background form label {
- 	margin-left: 2%;
+margin-left:10%;
 }
 
-/* special style for lists */
-div.portlet-background form input {
- 	margin-left: 2%;
-}
-/* special style for lists */
 div.portlet-background form textarea {
- 	margin-left: 5%;
+margin-left:5%;
 }
-/* =====================================================================
- * -----------------      styles for alert box      --------------------
- * ===================================================================== */
+
 div.alert {
-	color: Red;
-	font-weight: bold;
-	font-size: 120% ;
-	text-align: center;
-}
-div.alert a:link, div.alert a:visited, div.alert a:hover, div.alert a:active {
-	color: Red;
+color:Red;
+font-size:120%;
+font-weight:700;
+text-align:center;
 }
 
-/* =====================================================================
- * -------------------      styles for table      ----------------------
- * ===================================================================== */
+div.alert a:link,div.alert a:visited,div.alert a:hover,div.alert a:active {
+color:Red;
+}
 
-/* --------------------------------------------------------------------
- * ------------- data-table : used to display data in rows ------------
- */
 table.data-table {
-	background-color: #fff;
-	border: 1px solid #C6C9C1;
-	border-collapse: collapse;
-	margin-bottom: 10px;
-	width: 90%;
+background-color:#fff;
+border:1px solid #C6C9C1;
+border-collapse:collapse;
+margin-bottom:10px;
+width:90%;
 }
-/* table cell */
+
 table.data-table td {
-	border-left: 1px solid #C6C9C1;
-	border-right: 1px solid #C6C9C1;
-	padding-bottom: 5px;
-	padding-left: 15px;
-	padding-right: 15px;
-	padding-top: 5px;
-	vertical-align: middle;
+border-left:1px solid #C6C9C1;
+border-right:1px solid #C6C9C1;
+padding:5px 15px;
+vertical-align:middle;
 }
-/* table header, eg. : columns names */
+
 table.data-table th {
-	background-color: #6887C2;
-	border-bottom: 1px dotted #C6C9C1;
-	border-left: 1px solid #C6C9C1;
-	border-right: 1px solid #C6C9C1;
-	color: #fff;
-	font-weight: bold;
-	height: 20px;
-	vertical-align: middle;
+background-color:#6887C2;
+border-bottom:1px dotted #C6C9C1;
+border-left:1px solid #C6C9C1;
+border-right:1px solid #C6C9C1;
+color:#fff;
+font-weight:700;
+height:20px;
+vertical-align:middle;
 }
-/* basic row style */
+
 table.data-table tr {
-	background-color: #FFF;
+background-color:#FFF;
 }
-/* style for even rows */
+
 table.data-table tr.even-row {
-	background-color: #fff;
+background-color:#fff;
 }
-/* styles for odd rows */
+
 table.data-table tr.odd-row {
-	background-color: #F8F8F8;
+background-color:#F8F8F8;
 }
 
-/* --------------------------------------------------------------------
- * ---------------------- external-border-only  -----------------------
- * a border only around the table, no border for cells, white bg-color
- */
- table.external-border-only {
-	background-color: #fff;
-	border: 1px solid #C6C9C1;
-	border-collapse: collapse;
-	margin-bottom: 10px;
-}
-table.external-border-only th {
-	background-color: #C6DEE7;
-	border-bottom: 1px dotted #C6C9C1;
-	color: Black;
-	font-weight: bold;
-	height: 20px;
-	vertical-align: middle;
+table.external-border-only {
+background-color:#fff;
+border:1px solid #C6C9C1;
+border-collapse:collapse;
+margin-bottom:10px;
 }
 
-/* --------------------------------------------------------------------
- * ------------------- external-border-only-bgcolored  ----------------
- * a border only around the table, no border for cells with
- * a non white bg color
- */
- table.external-border-only-bgcolored {
-	background-color: #F8F8F8;
-	border: 1px solid #C6C9C1;
-	border-collapse: collapse;
-	margin-bottom: 10px;
+table.external-border-only-bgcolored {
+background-color:#F8F8F8;
+border:1px solid #C6C9C1;
+border-collapse:collapse;
+margin-bottom:10px;
 }
 
-table.external-border-only-bgcolored th {
-	background-color: #C6DEE7;
-	border-bottom: 1px dotted #C6C9C1;
-	color: Black;
-	font-weight: bold;
-	height: 20px;
-	vertical-align: middle;
+#menu ul {
+margin:20px;
+width:100%;
 }
-
-/* =====================================================================
- * --------------      styles for horizontal menu      -----------------
- * ===================================================================== */
-/* Horizontal menu : for menu-main */
-
-/* =====================================================================
- * --------------      styles for horizontal menu      -----------------
- * ===================================================================== */
-/* Horizontal menu : for menu-main */
-
-#menu-main {
-	height: 70px;
-	margin: -42px 14% 0 auto;
-}
-
-
-#menu-main ul {
-	float: right;
-	margin: 0 ;
-	padding: 0;
-	list-style: none;
-}
-
 
 #menu-main ul li {
-	background:transparent url(../images/local/skin/tab_off_ns1.png) no-repeat scroll left top;
-	display:inline;
-	float:left;
-	margin:0px 5px 0px 0px;
-	padding:0px 0px 0px 10px;
+float:left;
+width:32%;
 }
 
-#menu-main ul li a {
-	color: #FFF;
-	background:transparent url(../images/local/skin/tab_off_ns2.png) no-repeat scroll right top;
-	display:block;
-	float:left;
-	font-size:1em;
-	font-weight:bold;
-	text-align: center;
-	height:22px;
-	width: 100px;
-	width: 120px;
-	padding:8px 10px 3px 0pt;
-	text-decoration:none;
+#menu-main .first a {
+color:#1F4772;
+font-size:1.4em;
+font-weight:700;
+margin:0;
+padding:0;
+text-decoration:none;
 }
 
-#menu-main ul li:hover, #menu-main ul li:hover a {
-	background-position: 0% -100px;
+#menu-main li.last {
+width:300px;
 }
 
-#menu-main ul li:hover a {
-	background-position:100% -100px;
+#menu-main .last a {
+font-size:1em;
+font-weight:400;
 }
 
-#menu-main ul li.active {
-	background:transparent url(../images/local/skin/tab_on_ns1.png) no-repeat scroll left top;
-}
-
-#menu-main ul li.active a {
-	background:transparent url(../images/local/skin/tab_on_ns2.png) no-repeat scroll right top;
-	height:20px;
-	padding-bottom:5px;
-}
-
-/* Menu d�roulant */
-
-ul#menu li ul{
-    display:none;
-}
-
-ul#menu li:hover>ul{
-    display:block;
-}
-
-
-ul#menu li a:hover{
-    /*border-color: #000099;*/ /*needed for hover background of submenu to work */
-}
-
-ul#menu ul{
-    position:absolute;
-    background:#C8D5EE;
-    background-image:none;
-    border: 1px solid #260650;
-    list-style:none;
-    margin:  32px 0 0 -10px;
-    padding:0px;
-    width:160px;
-    z-index:1;
-}
-
-/*
-ul#menu ul ul{
-    top:0px;
-    left:155px;
-    z-index:2;
-}*/
-
-ul#menu ul li{
-    position:relative;
-    float:none;
-    background-image:none;
-    margin:0px;
-    padding:0px;
-    border-top: 1px solid #260650;
-    _display:inline;
-}
-
-ul#menu ul li a{
-	display:block;
-   background-image:none;
-   margin:0px;
-	padding:0px;
-	width:160px;
-   border:none;
-}
-ul#menu ul li a span{
- 	display:block;
-   width:144px;
-   _width:156px;
-   padding:2px 6px;
-   margin:0px 2px;
-   border:none;
-	text-align: left;
-   cursor: pointer;
-	cursor:hand;
-}
-ul#menu ul li a.next span{}
-ul#menu ul li a.next:hover span{
-    background-position: -160px 50%;
-}
-
-ul#menu ul li a:hover span{
-    /*background-color:#000099;*/
-    color: #260650;
-    border:none;
-}
-
-ul#menu ul li.first{
-    padding-left:0px;
-    border-top: none;
-}
-
-ul#menu ul li.first a{
-    padding-top:2px;
-}
-
-ul#menu ul li.last{
-    padding-right:0px;
-}
-
-ul#menu ul li.last a{
-    padding-bottom:2px;
-}
-
-
-
-/* =====================================================================
- * ---------------      styles for vertical menu      ------------------
- * ===================================================================== */
-/* vertical menu */
-ul#menu-verti li ul{
-    display:none;
-}
-
-ul#menu-verti li:hover>ul{
-    display:block;
-}
-
-ul#menu-verti{
-    float:left;
-}
-
-ul#menu-verti, ul#menu-verti ul{
-    background: #6887C2;
-    border: 1px solid #6887C2;
-    list-style:none;
-    margin:0px;
-    padding:0px;
-    width:148px;
-}
-
-ul#menu-verti ul{
-    position:absolute;
-    top:-1px;
-    left:148px;
-}
-
-ul#menu-verti li{
-    position:relative;
-    margin:0px;
-    padding:0px;
-}
-
-ul#menu-verti a{
-    display:block;
-    width:100%;
-    color:Black;
-    text-decoration:none
-}
-
-ul#menu-verti a:hover{
-    background:Black;
-    color: #fff;
-}
-
-
-
-/* =====================================================================
- * -------------      styles for the footer content     ----------------
- * ===================================================================== */
-#footer {
-   clear: both;
-}
-
-div.footer-content a:link, #footer a:visited {
-	color: #fff;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-div.footer-content a:hover, #footer a:active {
-	color: #fff;
-	font-weight: bold;
-	text-decoration: underline;
+div.footer-content a:hover,#footer a:active {
+text-decoration:underline;
 }
 
 div.footer-content {
-	color: #fff;
-	text-align: center;
-	font-size: 77%;
-	width: 960px;
-	margin: 0px auto 30px auto;	
-	background: #F7D694  url(../images/admin/skin/roundbox_back.gif) right repeat-y;
-	padding: 15px 15px 14px 15px;
+background:#777;
+min-height:200px;
+padding:15px;
 }
 
-div.footer-content:before {
-	background: transparent url(../images/admin/skin/roundbox_tr.gif) no-repeat top right;
-	content: url(../images/admin/skin/roundbox_tl.gif);
-	display: block;
-	font-size: 1px;
-	height: 15px;
-	line-height: 0.1;
-	margin: -15px -15px 0 -15px;
-	text-align: left;
+div.footer-content2 {
+-moz-border-radius:10px;
+background:#fff url(../images/local/skin/portlet_background2.png) repeat-x;
+min-height:170px;
+margin:0;
+padding:15px;
 }
 
-div.footer-content:after {
-	background: transparent url(../images/admin/skin/roundbox_br.gif) scroll no-repeat bottom right;
-	clear: both; 
-	content: url(../images/admin/skin/roundbox_bl.gif);
-	display: block;
-	font-size: 1px;
-	height: 8px;
-	line-height: 0.1;
-	margin: -15px -16px -15px -15px;
-	/*padding-top: 0px;*/ 
-	text-align: left;
+div.footer-content3 {
+-moz-border-radius-bottomleft:10px;
+-moz-border-radius-bottomright:10px;
+background:#444;
+color:#eee;
+margin:0 auto;
+padding:15px;
+text-align:right;
 }
 
-div.footer-content span.powered{
-  float:left;
-  margin-top:-5px;
+div.footer-content3-logo {
+float:left;
 }
 
-div.footer-content span.rss{
-  float:right;
-  margin-top:-10px;
+div.footer-content3 ul {
+margin-left:50px;
 }
 
+div.footer-content3 a {
+color:#ddd;
+}
 
-/* =====================================================================
- * --------------    styles for the menu init  ----------------
- * ===================================================================== */
-#menu-init a:link, #menu-init a:visited, #menu-init a:hover, #menu-init a:active {
-	color: #fff;
-	text-decoration: none;
+div.footer-content span.powered {
+float:left;
+margin-top:-5px;
+}
+
+div.footer-content span.rss {
+float:right;
+margin-top:-10px;
 }
 
 
-/* =====================================================================
- * --------------    styles for the page-path content   ----------------
- * ===================================================================== */
+
 #page-path-content {
-	border: none;
-	font-weight: bold;
-	padding-left : 315px;
-	margin-bottom: 5px;
-	text-align: left;
+border:none;
+display:none;
+font-weight:700;
+margin-bottom:5px;
+padding-left:315px;
+text-align:left;
 }
 
-#page-path-content a:link, #page-path a:visited {
-	font-weight: normal;
-	text-decoration: none;
-}
-#page-path-content a:hover, #page-path a:active {
-	font-weight: normal;
-	text-decoration: underline;
+#page-path-content a:link,#page-path a:visited {
+font-weight:400;
+text-decoration:none;
 }
 
+#page-path-content a:hover,#page-path a:active {
+font-weight:400;
+text-decoration:underline;
+}
 
-
-/* ------------------------------------- */
-/* styles to display lines of 4 elements */
-/* ------------------------------------- */
- /* to work ok, the last div line should be followed
-    by a div of class clear :<div class="clear">&nbsp;</div>
-    in order to fill the container and not to display the line
-    outside this container.
- */
-
-/* each group of line-elements should be surronded by a line */
 div.line {
- 	clear: both;
- }
+clear:both;
+}
 
 div.line-first {
- 	clear: none; /* first line should not clear */
- }
-/* as we put 4 elements per line, the max we can size each element
-is 25% */
+clear:none;
+}
+
 div.line-element {
-    float: left;
-    width: 25%;
-    margin-bottom: 20px;
-
+float:left;
+margin-bottom:20px;
+width:25%;
 }
+
 div.line-element p {
-    text-align: left;
+text-align:left;
 }
 
-div.line-element a {
-   background-image: url('../images/local/skin/arrows.gif');
-	background-position: left top ;
-	background-repeat: no-repeat;
-	padding-left: 15px;
+ul.site-map-level-one {
+list-style:none;
+margin-left:20px;
 }
 
-/* ------------------------------------- */
-/* Styles to display a polaroid */
-/* ------------------------------------- */
-/* This style is used to contain an image of
-   width and height of 80 pixel and renders a
-   polaroid effect */
-div.polaroid {
-    /*margin:auto;*/ /* margin auto will center the polaroid in its container */
-    width:84px;
-    height:84px;
-    background-image: url('../images/local/skin/fd_images.gif');
-    background-position: top center;
-    background-repeat: no-repeat;
-
-}
-div.polaroid img {
-    margin-left:2px;
-    margin-top:2px;
+ul.site-map-level-one a:link,ul.site-map-level-one a:visited {
+color:#000;
+font-size:120%;
+font-weight:700;
+text-decoration:none;
 }
 
-/* ====================================================================
- * -----------------      styles for the site map     -----------------
- * ==================================================================== */
-ul.site-map-level-one
-{
-	margin-left:20px;
-	list-style:none;
+ul.site-map-level-one a:hover {
+color:#000;
+font-size:120%;
+font-weight:700;
+text-decoration:underline;
 }
 
-ul.site-map-level-one li
-{
-   background-image: url(../images/local/skin/arrows.gif);
-	background-repeat: no-repeat;
-	background-position: top left;
-	padding-left: 15px;
-	margin-bottom: 20px;
-	border-bottom: 1px dotted Black;
+ul.site-map-level-one div.level-one-image {
+float:left;
+margin:10px 0;
+width:100px;
 }
 
-
-ul.site-map-level-one a:link, ul.site-map-level-one a:visited
-{
-   color: Black;
-	font-weight: bold;
-	font-size: 120%;
-	text-decoration: none;
-
-}
-ul.site-map-level-one a:hover
-{
-   color: Black;
- 	font-weight: bold;
-	font-size: 120%;
-	text-decoration: underline;
-
+ul.site-map-level-two {
+list-style:none;
+margin-bottom:10px;
+margin-left:60px;
+margin-top:5px;
 }
 
-/* Postion of the image displayed for level one  */
-ul.site-map-level-one div.level-one-image
-{
-	float:left;
-	width:100px;
-	margin:0px;
-	margin-top: 10px;
-	margin-bottom: 10px;
+ul.site-map-level-two a:link,ul.site-map-level-two a:visited {
+color:#000;
+font-size:110%;
+font-weight:700;
+text-decoration:none;
 }
 
-
-ul.site-map-level-two
-{
-	margin-left:60px;
-	margin-bottom:10px;
-	margin-top:5px;
-	list-style:none;
+ul.site-map-level-two a:hover {
+color:#000;
+font-size:110%;
+font-weight:700;
+text-decoration:underline;
 }
 
-
-ul.site-map-level-two li
-{
-   background-image: url(../images/local/skin/arrows.gif);
-	background-repeat: no-repeat;
-	background-position:  top left;
-	padding-left:15px;
-	margin-bottom: 5px;
-	border: none;
+ul.site-map-level-three {
+list-style:none;
+margin-bottom:5px;
+margin-left:20px;
+margin-top:5px;
 }
 
-ul.site-map-level-two a:link, ul.site-map-level-two a:visited
-{
-   color: Black;
- 	font-weight: bold;
-	font-size: 110%;
-	text-decoration: none;
-
+ul.site-map-level-three li {
+background-image:none;
+border:none;
+margin-bottom:5px;
 }
 
-ul.site-map-level-two a:hover
-{
-   color: Black;
-	font-weight: bold;
-	font-size: 110%;
-	text-decoration: underline;
-
+ul.site-map-level-three a:link,ul.site-map-level-three a:visited {
+color:#000;
+font-size:100%;
+font-weight:700;
+text-decoration:none;
 }
 
-ul.site-map-level-three
-{
-	margin-left:20px;
-	margin-bottom:5px;
-	margin-top:5px;
-	list-style:none;
+ul.site-map-level-three a:hover {
+color:#000;
+font-size:100%;
+font-weight:700;
+text-decoration:underline;
 }
 
-ul.site-map-level-three li
-{
-    background-image: none;
-    margin-bottom: 5px;
-    border: none;
+ul.site-map-level-highest {
+list-style:none;
+margin-bottom:5px;
+margin-left:0;
+margin-top:5px;
 }
 
-ul.site-map-level-three a:link, ul.site-map-level-three a:visited
-{
-   color: Black;
-	font-weight: bold;
-	font-size: 100%;
-	text-decoration: none;
-}
-ul.site-map-level-three a:hover
-{
-   color: Black;
-	font-weight: bold;
-	font-size: 100%;
-	text-decoration: underline;
+ul.site-map-level-highest li {
+background-image:none;
+border:none;
+margin-bottom:0;
 }
 
-ul.site-map-level-highest
-{
-	margin-left:0px;
-	margin-bottom:5px;
-	margin-top:5px;
-	list-style:none;
+ul.site-map-level-highest a:link,ul.site-map-level-highest a:visited {
+color:#000;
+font-size:100%;
+font-weight:400;
+text-decoration:none;
 }
 
-ul.site-map-level-highest li
-{
-    background-image: none;
-    margin-bottom: 0px;
-    border: none;
+ul.site-map-level-highest a:hover {
+color:#000;
+font-size:100%;
+font-weight:400;
+text-decoration:underline;
 }
 
-ul.site-map-level-highest a:link, ul.site-map-level-highest a:visited
-{
-   color: Black;
-	font-weight: normal;
-	font-size: 100%;
-	text-decoration: none;
-
-}
-ul.site-map-level-highest a:hover
-{
-   color: Black;
-	font-weight: normal;
-	font-size: 100%;
-	text-decoration: underline;
+div.admin-buttons input {
+background-color:#F7F2B0;
+border:1px solid #364C5E;
+color:#364C5E;
+cursor:pointer;
+font-family:Arial, Tahoma, Helvetica, sans-serif;
+font-size:100%;
 }
 
-/* Styles for admin preview*/
-div.admin-buttons input
-{
-    border: 1px solid #364C5E;
-    background-color: #F7F2B0;
-    font-family: Arial, Tahoma, Helvetica, sans-serif;
-    font-size: 100%;
-    color: #364C5E ;
-    cursor: pointer;   
+input.mandatory {
+background-color:#FBCA6D;
 }
 
-/* Pages document */
-
-input.mandatory{
-	background-color: #FBCA6D;
+div.windows-header {
+color:#000;
+float:left;
+font-size:14px;
+margin:5px;
 }
 
-div.windows-header{
-	margin: 5px 5px 5px 5px;
-	float: left;
-	font-size: 14px;
-	color: Black;
+div.windows-content {
+clear:both;
+color:#000;
+float:left;
+margin:5px;
+width:80%;
 }
 
-div.windows-content{
-	clear: both;
-	margin: 5px 5px 5px 5px;
-	float: left;
-	color: Black;
-	width: 80%;
+div.windows-form {
+color:#000;
+width:80%;
 }
 
-div.windows-form{
-	color: Black;
-	width: 80%;
-} 
-div.windows-form table{
-	width: 95%;
+div.windows-form table {
+width:95%;
 }
 
-div.windows-form table label{
-	float: right;
-	color: Black;
+div.windows-form table label {
+color:#000;
+float:right;
 }
 
-div.windows-form table input{
-	float: left;
-	color: Black;
+div.windows-form table input {
+color:#000;
+float:left;
 }
 
 div.error {
-    color: red;
-    font-weight: bold;
-}
-
-div.search-form {
-    border: 1px solid #C6C9C1;
-    margin: 30px;
-    padding: 10px;
+color:red;
+font-weight:700;
 }
 
 div.search-form table {
-    width: 90%;
-    margin: 5px;
-    padding: 5px;
+margin:5px;
+padding:5px;
+width:90%;
 }
 
 div.search-results-header {
-    border: 1px solid #C6C9C1;
-    margin: 30px;
-    padding: 10px;
-    background-color: #C6DEE7;
+background-color:#C6DEE7;
+border:1px solid #C6C9C1;
+margin:30px;
+padding:10px;
 }
 
 div.search-results-header a {
-    font-weight: normal;
-}
-
-div.search-results {
-    border: 1px solid #C6C9C1;
-    margin: 30px;
-    padding: 10px;
+font-weight:400;
 }
 
 div.search-results table {
-    width: 90%;
-    margin: 10px;
-    padding: 5px;
+margin:10px;
+padding:5px;
+width:90%;
 }
 
 div.search-results td {
-    margin: 5px;
-    padding: 10px;
+margin:5px;
+padding:10px;
 }
 
 div.search-results a {
-    font-weight: bold;
+font-weight:700;
 }
-
-
-/* =====================================================================
- * ---------    styles for the buttons on the web site  text-align: center;    ------------
- * ===================================================================== */
 
 input.site-buttons {
-    height: 22px; 
-    width: 22px; 
-    border-style: none; 
-    font-weight: bold;
-    color: Black; 
-    font-size: 12px; 
-    cursor: pointer; 
+border-style:none;
+color:#000;
+cursor:pointer;
+font-size:12px;
+font-weight:700;
+height:22px;
+width:22px;
 }
-
 
 div.site-buttons {
-    height: 22px;
-    width: 22px;
-	 float: right; 
-	margin: 0 0 0 2px;
+float:right;
+height:22px;
+margin:0 0 0 2px;
+width:22px;
 }
 
-
-div.site-buttons a{
-    display: block;
-    text-decoration: none;
+div.site-buttons a {
+display:block;
+text-decoration:none;
 }
 
-#button-comment 
-{
-     background-image: url(../images/local/skin/buttons/b_comment.png); 
+#button-comment {
+background-image:url(../images/local/skin/buttons/b_comment.png);
 }
 
-#button-lastresults 
-{
-    background-image: url(../images/local/skin/buttons/b_lastresults.png); 
+#button-lastresults {
+background-image:url(../images/local/skin/buttons/b_lastresults.png);
 }
 
-#button-nextresults 
-{
-    background-image: url(../images/local/skin/buttons/b_nextresults.png); 
+#button-nextresults {
+background-image:url(../images/local/skin/buttons/b_nextresults.png);
 }
 
-#button-print 
-{
-	 background-image: url(../images/local/skin/buttons/b_print.png); 
+#button-print {
+background-image:url(../images/local/skin/buttons/b_print.png);
 }
 
-#button-reset 
-{
-    background: url(../images/local/skin/buttons/b_reload.png) no-repeat left; 
+#button-reset {
+background:url(../images/local/skin/buttons/b_reload.png) no-repeat left;
 }
 
-#button-return 
-{
-	 background-image: url(../images/local/skin/buttons/b_back.png); 
+#button-return {
+background-image:url(../images/local/skin/buttons/b_back.png);
 }
 
-#button-search 
-{
-    background-image: url(../images/local/skin/buttons/b_search.png); 
+#button-search {
+background-image:url(../images/local/skin/buttons/b_search.png);
 }
 
 #button-send {
-	 background: url(../images/local/skin/buttons/b_send.png)  no-repeat left; 
+background:url(../images/local/skin/buttons/b_send.png) no-repeat left;
 }
 
-#button-subscribe 
-{
-    background: url(../images/local/skin/buttons/b_subscribe.png) no-repeat left; 
-	 height: 25px; 
-}
-
-a.tt{
-    position:relative;
-    z-index:24;
-    color : #1F4772;
-	 font-weight:bold;
-    text-decoration:none;
-}
-a.tt span{ display: none; }
-
-/*background:; ie hack, something must be changed in a for ie to execute it*/
-a.tt:hover{ z-index:25; color: #aaaaff; background:;}
-a.tt:hover span.tooltip{
-   display:block;
-   position:absolute;
-   top:15px; left:0px;
-	 padding: 15px 0 0 0;
-	 width:100px;
-	 color: #fff;
-   text-align: center;
-	 filter: alpha(opacity:90);
-	 KHTMLOpacity: 0.90;
-	 MozOpacity: 0.90;
-	 opacity: 0.90;
-}
-a.tt:hover span.top{
-	display: block;
-	padding: 20px 8px 0 0;
-  background: url(../images/local/skin/bubble3.png) no-repeat top;
-}
-a.tt:hover span.middle{ /* different middle bg for stretch */
-	display: block;
-	padding: 0 8px; 
-	background: url(../images/local/skin/bubble_filler3.png) repeat bottom; 
-}
-a.tt:hover span.bottom{
-	display: block;
-	padding:3px 8px 10px 0;
-	color: #548912;
-  background: url(../images/local/skin/bubble3.png) no-repeat bottom;
-}
-
-/* NEW STYLES FOR NEW LAYOUT                */
-/* Special thanks to freecsstemplates.org */
-
-/*  internal banner */
-div.internal-banner{
-  margin: 0 0 1% 30%;
-}
-/* Box Style One */
-
-.boxed1 {
-	margin-bottom: 20px;
-}
-
-.boxed1 h2 {
-	height: 40px;
-	margin: 0 0 2px 0;
-	padding: 10px 0 0 50px;
-	background: #AFB43C url("../images/local/skin/head_vert.png") no-repeat;
-	text-transform: lowercase;
-	letter-spacing: -2px;
-	font-size: 200%;
-	font-weight: normal;
-	color: #FFFFFF;
-}
-
-.boxed1 ul {
-	margin: 0;
-	padding: 0;
-	background: #E4E9C5 url(../images/local/skin/bottom_vert.png) no-repeat left bottom;
-	list-style: none;
-}
-
-.boxed1 li {
-	padding: 10px;
-	background: url(../images/local/skin/img08.gif) repeat-x;
-	/*font-size: small;*/
-}
-
-.boxed1 a {
-	text-decoration: none;
-	font-weight: bold;
-	color: #A7B83F;
-}
-
-.boxed1 a:hover {
-	color: #545C20;
-}
-
-.boxed1 .active, .boxed1 .active a {
-	background-color: #ABB63D;
-	color: #FFFFFF;
-}
-
-.boxed1 span{
-	margin-left: 20%;
-}
-
-/* Box Style Two */
-
-.boxed2 {
-	margin-bottom: 20px;
-}
-
-.boxed2 h2 {
-	height: 40px;
-	margin: 0 0 2px 0;
-	padding: 10px 0 0 50px;
-	background: url(../images/local/skin/head_bleu.png) no-repeat;
-	text-transform: lowercase;
-	letter-spacing: -2px;
-	font-size: 200%;
-	font-weight: normal;
-	color: #FFFFFF;
-}
-
-.boxed2 ul {
-	margin: 0;
-	padding: 0;
-	background: #C6DEE7 url(../images/local/skin/bottom_bleu.png) no-repeat left bottom;
-	list-style: none;
+#button-subscribe {
+background:url(../images/local/skin/buttons/b_subscribe.png) no-repeat left;
+height:25px;
 }
 
 
-.boxed2 li {
-	padding: 10px;
-	background:  url(../images/local/skin/img11.gif) repeat-x;
-/*	font-size: small; */
+img.internal-banner {
+margin:-10px 0 0;
 }
 
-.boxed2 a {
-	text-decoration: none;
-	font-weight: bold;
-	color: #6887C2;
-}
-
-.boxed2 a:hover {
-	color: #204B5C;
-}
-
-.boxed2 .active, .boxed2 .active a {
-	/*background-color: #204B5C;*/
-	color: #FFFFFF;
-}
-
-.boxed2 span{
-	margin-left: 20%;
-}
-
-/* Box Style Three */
-
-.boxed3 {
-	text-align: justify;
-	font-size: small;
-}
-
-.boxed3 h2 {
-	height: 40px;
-	margin: 0 0 10px 0;
-	padding: 10px 0 0 55px;
-	background: #FFF url(../images/local/skin/head_transparent.png) no-repeat;
-	border-bottom: 2px solid #CCCCCC;
-	text-transform: lowercase;
-	letter-spacing: -2px;
-	font-size: 200%;
-	font-weight: normal;
-	
-}
-
-.boxed3 a {
-	text-decoration: none;
-	color: #8E959B;
-	word-spacing: -2px;
-}
-
-.boxed3 a:hover {
-	color: #E55D13;
-}
-
-.boxed3 span{
-	margin-left: 20%;
-}
-
-/* Box Style Two */
-
-.boxed4 {
-	margin-bottom: 20px;
-}
-
-.boxed4 h2 {
-	height: 40px;
-	margin: 0 0 2px 0;
-	padding: 10px 0 0 50px;
-	background: #F7D694 url(../images/local/skin/head_orange.png) no-repeat;
-	text-transform: lowercase;
-	letter-spacing: -2px;
-	font-size: 200%;
-	font-weight: normal;
-	color: #FFFFFF;
-}
-
-.boxed4 ul {
-	margin: 0;
-	padding: 0;
-	background: #F7D694 url(../images/local/skin/bottom_orange.png) no-repeat left bottom;
-	list-style: none;
-}
-
-.boxed4 li {
-	padding: 10px;
-	background: url(../images/local/skin/dotted_orange.png) repeat-x;
-/*	font-size: small; */
-}
-
-.boxed4 a {
-	text-decoration: none;
-	font-weight: bold;
-	color: #F7A100;
-}
-
-.boxed4 a:hover {
-	color: #204B5C;
-}
-
-.boxed4 .active, .boxed4 .active a {
-	/*background-color: #FBCA6D;*/
-	color: #FFFFFF;
-}
-
-.boxed4 span{
-	margin-left: 8%;
-}
-
-/* TREE */
-
-.tree4 {
-	margin-bottom: 20px;
-}
-
-.tree4 h2 {
-	height: 40px;
-	margin: 0 0 2px 0;
-	padding: 10px 0 0 50px;
-	background: #F7D694 url(../images/local/skin/head_orange.png) no-repeat;
-	text-transform: lowercase;
-	letter-spacing: -2px;
-	font-size: 200%;
-	font-weight: normal;
-	color: #FFFFFF;
-}
-
-.tree4 ul{
-	background-color: #F7D694;
-}
-
-ul#tree.tree4 {	
-	padding: 15px 0 40px 0;
-	background: #F7D694 url(../images/local/skin/bottom_orange.png) no-repeat left bottom;	
-}
-
-.tree4 a {
-	text-decoration: none;
-	font-weight: bold;
-	color: #F7A100;
-}
-
-.tree4 a:hover {
-	color: #204B5C;
-}
-
-.tree4 .active, .tree4 .active a {
-	/*background-color: #FBCA6D;*/
-	color: #FFFFFF;
-}
-
-
-
-/* internal banner style */
-img.internal-banner{
-	margin: -10px 0 0 0;
-}
-
-/* Liste articles avec nb commentaires*/
 #posts {
-	float: right;
-	width: 50%;
+float:right;
+width:50%;
 }
 
 .post {
-	padding-bottom: 1em;
+padding-bottom:1em;
 }
 
 .post .title {
-	padding-top: 10px;
-	letter-spacing: -.1em;
-	font-size: 2em;
-	font-weight: normal;
-	color: #8E959B;
+color:#8E959B;
+font-size:2em;
+font-weight:400;
+letter-spacing:-.1em;
+padding-top:10px;
 }
 
 .post .date {
-	height: 20px;
-	padding: 2px 0 0 10px;
-	background: url(images/img12.gif) no-repeat;
-	font-size: 12px;
-	font-weight: normal;
+background:url(images/img12.gif) no-repeat;
+font-size:12px;
+font-weight:400;
+height:20px;
+padding:2px 0 0 10px;
 }
 
 .post .story {
-	padding: 0 20px;
-	line-height: 1.6em;
+line-height:1.6em;
+padding:0 20px;
 }
 
 .post .meta {
-	height: 40px;
-	margin: 0 20px;
-	padding: 0 0 0 10px;
-	background: #EEEDED url(images/img13.gif) no-repeat;
-}
-
-.post .meta span {
-	display: none;
+background:#EEEDED url(images/img13.gif) no-repeat;
+height:40px;
+margin:0 20px;
+padding:0 0 0 10px;
 }
 
 .post .meta p {
-	margin: 0;
-	padding: 10px 0 0 0;
+margin:0;
+padding:10px 0 0;
 }
 
 .post .meta a {
-	float: left;
-	height: 20px;
-	padding: 4px 20px 0 37px;
-	text-decoration: none;
-	font-size: small;
-	font-weight: bold;
-	color: #777777;
+color:#777;
+float:left;
+font-size:small;
+font-weight:700;
+height:20px;
+padding:4px 20px 0 37px;
+text-decoration:none;
 }
 
 .post .meta a:hover {
-	color: #E55D13;
+color:#E55D13;
 }
 
 .post .category {
-	background: url(images/img14.gif) no-repeat left bottom;
+background:url(images/img14.gif) no-repeat left bottom;
 }
 
 .post .comments {
-	background: url(images/img15.gif) no-repeat left bottom;
+background:url(images/img15.gif) no-repeat left bottom;
 }
 
-.button-contact{
-	padding-left: 2em;
+.button-contact {
+padding-left:2em;
 }
 
-/* =====================================================================
- * --------------     styles for the site messages     -----------------
- * ===================================================================== */
-
-/* the box "message" contains a header & a content */
 div.message {
-	border: 1px solid #C6C9C1;
-	margin-left: 25%;
-	margin-right: 25%;
-	margin-top: 150px;
-	margin-bottom: 50px;
+border:1px solid #C6C9C1;
+margin:150px 25% 50px;
 }
 
-/* the message header  */
 div.message-header {
-	background-color: #E6EAF3; /*#FF9999*/
-	border-bottom: 1px dotted #C6C9C1;
-	color: red; /*#1C2861; */
-	font-size: 120%;
-	font-weight: bold;
-	margin: 0;
-	padding: 5px;
+background-color:#E6EAF3;
+border-bottom:1px dotted #C6C9C1;
+color:red;
+font-size:120%;
+font-weight:700;
+margin:0;
+padding:5px;
 }
 
-/* the message content  */
 div.message-content {
-	background-color: white;
-	border: 0;
-	margin: 0;
-	padding: 15px;
+background-color:#FFF;
+border:0;
+margin:0;
+padding:15px;
 }
 
-img.message  {
-    border: none;
-    float: right;
+img.message {
+border:none;
+float:right;
+}
+
+div.portlet-no-background,div.portlet-background,div.portlet-background-colored {
+-moz-border-radius:5px;
+background-color:#FFF;
+margin:5px 5px 20px;
+}
+
+h3.portlet-no-background-header,h3.portlet-background-colored-header {
+color:#1F4772;
+padding-left:15px;
+}
+
+div.portlet-background form,div.portlet-background form label,div.portlet-background form input {
+margin-left:2%;
+}
+
+table.external-border-only th,table.external-border-only-bgcolored th {
+background-color:#C6DEE7;
+border-bottom:1px dotted #C6C9C1;
+color:#000;
+font-weight:700;
+height:20px;
+vertical-align:middle;
+}
+
+div.footer-content3-links1,div.footer-content3-links2 {
+float:right;
+}
+
+div.search-form,div.search-results {
+border:1px solid #C6C9C1;
+margin:30px;
+padding:10px;
+}
+
+a.tt span,.post .meta span {
+display:none;
 }
