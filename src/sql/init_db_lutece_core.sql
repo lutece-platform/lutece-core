@@ -94,17 +94,6 @@ INSERT INTO core_portal_component VALUES (6,'Plan du site');
 INSERT INTO core_portal_component VALUES (7,'Arborescence');
 INSERT INTO core_portal_component VALUES (8,'Plan du site admin');
 
-INSERT INTO core_portlet VALUES (85,'CHILDPAGES_PORTLET',5,'Pages filles','2007-11-24 17:15:10',0,1,5,303,0,'2007-11-24 17:14:58',1);
-INSERT INTO core_portlet VALUES (87,'CHILDPAGES_PORTLET',3,'Pages filles','2007-11-24 17:21:01',0,1,5,302,0,'2007-11-24 17:19:50',1);
-INSERT INTO core_portlet VALUES (88,'CHILDPAGES_PORTLET',10,'Pages filles','2007-11-24 17:20:37',0,1,5,305,0,'2007-11-24 17:20:37',1);
-INSERT INTO core_portlet VALUES (83,'CHILDPAGES_PORTLET',1,'Pages filles','2007-11-24 16:11:33',0,1,5,305,0,'2007-11-24 16:11:33',1);
-INSERT INTO core_portlet VALUES (56,'HTML_PORTLET',1,'Comptes d\'administration du portail','2009-05-02 00:18:43',0,1,2,104,0,'2007-03-14 16:15:26',0);
-INSERT INTO core_portlet VALUES (57,'HTML_PORTLET',5,'Le projet','2009-05-02 00:28:13',0,2,1,104,0,'2007-03-14 16:17:30',0);
-INSERT INTO core_portlet VALUES (55,'HTML_PORTLET',1,'Lutèce v2 - Sinnamary','2009-05-02 00:19:09',0,1,1,104,0,'2007-03-14 16:13:39',0);
-INSERT INTO core_portlet VALUES (86,'HTML_PORTLET',3,'Bannière','2007-11-24 17:19:18',0,1,1,100,0,'2007-11-24 17:19:18',1);
-INSERT INTO core_portlet VALUES (64,'HTML_PORTLET',10,'Infos développeurs','2009-05-02 00:23:47',0,1,1,104,0,'2007-03-14 16:45:14',0);
-INSERT INTO core_portlet VALUES (65,'HTML_PORTLET',10,'Liens développeurs','2009-05-02 00:24:58',0,1,2,104,0,'2007-03-14 16:49:18',0);
-INSERT INTO core_portlet VALUES (58,'HTML_PORTLET',3,'Accès à la documentation technique','2007-11-24 17:19:26',0,2,1,100,0,'2007-03-14 16:20:08',1);
 
 
 INSERT INTO core_portlet_type VALUES ('ALIAS_PORTLET','portal.site.portletAlias.name','plugins/alias/CreatePortletAlias.jsp','plugins/alias/ModifyPortletAlias.jsp','fr.paris.lutece.portal.business.portlet.AliasPortletHome','alias','plugins/alias/DoCreatePortletAlias.jsp','/admin/portlet/script_create_portlet.html','/admin/portlet/alias/create_portlet_alias.html','','plugins/alias/DoModifyPortletAlias.jsp','/admin/portlet/script_modify_portlet.html','/admin/portlet/alias/modify_portlet_alias.html','');
