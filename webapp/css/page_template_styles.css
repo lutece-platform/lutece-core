@@ -1,5 +1,5 @@
-@import url(../js/jquery/plugins/treeview/jquery.treeview.css);
-@import url(../js/jquery/plugins/ui/datepicker/ui.datepicker.css);
+@import url(js/jquery/plugins/treeview/jquery.treeview.css);
+@import url(js/jquery/plugins/ui/datepicker/ui.datepicker.css);
 
 body {
 background-color:#fff;
