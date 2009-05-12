@@ -1,9 +1,11 @@
 <div id="banner" class="span-24 last">
-	<div id="logo" class="span-11 colborder">
+	<div id="logo" class="span-4">
 		<a href="jsp/site/Portal.jsp"><img class="png" src="${theme_images}/local/skin/logo.png" alt="Home"/></a>
 	</div>
-	${pageinclude_userlogin?default("<!-- No user login -->")}
-	<div id="search" class="span-12 last">
+	<div class="span-16">
+		${pageinclude_userlogin?default("<!-- No user login -->")}
+	</div>
+	<div id="search" class="span-4 last">
 		<form action="jsp/site/Portal.jsp" method="post">
 			<input type="hidden" name="page" value="search" />
 			<input id="searchinput" type="text" name="query" value="" />
