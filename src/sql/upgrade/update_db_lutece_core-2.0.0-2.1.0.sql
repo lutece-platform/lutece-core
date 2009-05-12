@@ -1,0 +1,1 @@
+ALTER TABLE core_mode change output_xsl_omit_xml_declaration output_xsl_omit_xml_dec varchar(50) character SET utf8 collate utf8_unicode_ci NULL;
