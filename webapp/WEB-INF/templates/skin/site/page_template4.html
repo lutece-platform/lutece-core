@@ -1,24 +1,3 @@
-<div id="content">
-
-	<div id="one-column-col1">
-		<div id="one-column-col1-content">
-			${page_content_col1}
-		</div>
-	</div>
-	<div id="middle-columns-float">
-		<div id="middle-columns-col1">
-			<div id="middle-columns-col1-content">
-				${page_content_col2}
-			</div>
-		</div>
-		<div id="middle-columns-col2">
-			<div id="middle-columns-col2-content">
-				${page_content_col3}
-			</div>
-		</div>
-	</div>
-</div>
-<div id="sidebar">
-	<!--${page_tree_menu?if_exists}-->
-	${page_content_col5}
-</div>
+<div id="one-column-col1" class="span-24 last">${page_content_col1}</div>
+<div id="middle-columns-col1" class="span-11 colborder">${page_content_col2}</div>
+<div id="middle-columns-col2" class="span-12 last">${page_content_col3}</div>

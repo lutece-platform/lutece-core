@@ -83,27 +83,6 @@ div
 	width: 100%;
 }
 
-#middle-columns-col1
-{
-	float: none;
-	width: 100%;
-}
-
-/* CSS HACK: Caio hide from NN4 since NN4's float model is all wrong */
-/*/*/
-#middle-columns-col2
-{
-	margin-left: 100%;
-}
-/* */
-
-#middle-columns-col1-content
-{
-	border: none;
-	color: black;
-	padding-left:10px;
-	padding-right:10px;
-}
 #middle-columns-col2-content
 {
 	border: none;
