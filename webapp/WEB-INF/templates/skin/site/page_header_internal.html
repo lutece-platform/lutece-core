@@ -5,11 +5,9 @@
 	${pageinclude_userlogin?default("<!-- No user login -->")}
 	<div id="search" class="span-12 last">
 		<form action="jsp/site/Portal.jsp" method="post">
-			<fieldset>
-				<input type="hidden" name="page" value="search" />
-				<input id="searchinput" type="text" name="query" value="" />
-				<input id="searchsubmit" type="submit" value="#i18n{portal.site.page_menu_tools.labelSearch}" /> 
-			</fieldset>
+			<input type="hidden" name="page" value="search" />
+			<input id="searchinput" type="text" name="query" value="" />
+			<input id="searchsubmit" type="submit" value="#i18n{portal.site.page_menu_tools.labelSearch}" /> 
 		</form>
 	</div> 	
 </div>
