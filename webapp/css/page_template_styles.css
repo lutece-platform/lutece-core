@@ -1,35 +1,59 @@
 @import url(js/jquery/plugins/treeview/jquery.treeview.css);
 @import url(js/jquery/plugins/ui/datepicker/ui.datepicker.css);
 
+.-lutece-border-radius-top {
+	-moz-border-radius-topleft:0.8em;
+	-moz-border-radius-topright:0.8em;
+	-webkit-border-top-left-radius:0.8em;
+	-webkit-border-top-right-radius:0.8em;
+	border-top-left-radius:0.8em;
+	border-top-right-radius:0.8em;
+}
+
+.-lutece-border-radius-bottom {
+	-moz-border-radius-bottomleft:0.8em;
+	-moz-border-radius-bottomright:0.8em;
+	-webkit-border-bottom-left-radius:0.8em;
+	-webkit-border-bottom-right-radius:0.8em;
+	border-bottom-left-radius:0.8em;
+	border-bottom-right-radius:0.8em;
+}
+
+.-lutece-border-radius {
+	-moz-border-radius:0.8em;
+	-webkit-border-radius:0.8em;
+	border-radius:0.8em;
+}
+
+/**************************************************************************************************************/
+
 #banner {
-	-moz-border-radius-topleft:10px;
-	-moz-border-radius-topright:10px;
-	border-top-left-radius:10px;
-	border-top-right-radius:10px;
 	background-color: #2178B3;
+	padding:0.8em;
 }
 
 #page {
 	background-color: #f8f8f8;
+	padding:0.8em;
+}
+
+#footer1 {
+	background-color: black;
+	padding:0.8em;
 }
 
 #footer1-subelement {
-	-moz-border-radius:10px;
-	border-radius:10px;
 	/*background:#FFFFFF url(../images/local/skin/portlet_background2.png) repeat-x scroll 0 0;*/
 	background-color: #F1F1F1;
+	padding:0.8em;
 }
 
 #footer2 {
-	-moz-border-radius-bottomleft:10px;
-	-moz-border-radius-bottomright:10px;
-	border-bottom-left-radius:10px;
-	border-bottom-right-radius:10px;
+	padding:0.8em;
 	background-color: #444444;
-	text-align:right;
+	text-align: right;
 }
 
 #footer2 a {
 	color:#DDDDDD;
 }
-
