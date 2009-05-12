@@ -35,6 +35,7 @@
 #page {
 	background-color: #f8f8f8;
 	padding:0.8em;
+	min-height: 422px;
 }
 
 #footer1 {
@@ -57,3 +58,8 @@
 #footer2 a {
 	color:#DDDDDD;
 }
+
+.portlet-background {
+	border:1px solid grey;
+}
+
