@@ -4,8 +4,9 @@
 #banner {
 	-moz-border-radius-topleft:10px;
 	-moz-border-radius-topright:10px;
-	background-image:url(../images/local/skin/header_background.png);
-	height:80px;
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
+	background-color: #2178B3;
 }
 
 #page {
@@ -14,17 +15,21 @@
 
 #footer1-subelement {
 	-moz-border-radius:10px;
-	background:#FFFFFF url(../images/local/skin/portlet_background2.png) repeat-x scroll 0 0;
-	min-height:170px;
+	border-radius:10px;
+	/*background:#FFFFFF url(../images/local/skin/portlet_background2.png) repeat-x scroll 0 0;*/
+	background-color: #F1F1F1;
 }
 
 #footer2 {
 	-moz-border-radius-bottomleft:10px;
 	-moz-border-radius-bottomright:10px;
-	background-color:#444444;
+	border-bottom-left-radius:10px;
+	border-bottom-right-radius:10px;
+	background-color: #444444;
 	text-align:right;
 }
 
 #footer2 a {
 	color:#DDDDDD;
 }
+
