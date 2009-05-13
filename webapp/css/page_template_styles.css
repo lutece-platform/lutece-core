@@ -1,6 +1,3 @@
-@import url(js/jquery/plugins/treeview/jquery.treeview.css);
-@import url(js/jquery/plugins/ui/datepicker/ui.datepicker.css);
-
 .-lutece-border-radius-top {
 	-moz-border-radius-topleft:0.8em;
 	-moz-border-radius-topright:0.8em;
@@ -29,37 +26,62 @@
 
 #banner {
 	background-color: #2178B3;
-	padding:0.8em;
+	height: 7em;
+	margin-top: 1em;
+}
+
+#search {
+	text-align: right;
 }
 
 #page {
 	background-color: #f8f8f8;
-	padding:0.8em;
-	min-height: 422px;
+	padding:2em 0;
 }
 
+/***************************************************/
 #footer1 {
-	background-color: black;
-	padding:0.8em;
+	background-color: #757779;
 }
 
 #footer1-subelement {
-	/*background:#FFFFFF url(../images/local/skin/portlet_background2.png) repeat-x scroll 0 0;*/
-	background-color: #F1F1F1;
-	padding:0.8em;
+	background-color: #f1f1f1;
+	height:20em;
+	margin:1.5%;
+	width:97%;
 }
 
+.footer1-column {
+	width:32%;
+	float:left;
+}
+
+a.first {
+	color:#1F4772;
+	font-size:1.4em;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+a.last {
+	font-size:1em;
+	font-weight:normal;
+}
+/***************************************************/
 #footer2 {
-	padding:0.8em;
 	background-color: #444444;
+	height: 5em;
+	margin-bottom: 1em;
+}
+
+#footer-links {
+	text-align: right;
+}
+
+#footer-rss {
 	text-align: right;
 }
 
 #footer2 a {
-	color:#DDDDDD;
+	color: #dddddd;
 }
-
-.portlet-background {
-	border:1px solid grey;
-}
-

@@ -1,11 +1,11 @@
-<div id="banner" class="prepend-top append-bottom" >
-	<div id="logo" class="span-4 push-1">
+<div id="banner" class="span-24 last -lutece-border-radius-top">
+	<div id="logo" class="span-4 prepend-1 prepend-top">
 		<a href="jsp/site/Portal.jsp"><img class="png" src="${theme_images}/local/skin/logo.png" title="Home"/></a>
 	</div>
-	<div class="span-16">
+	<div class="span-10 prepend-top">
 		${pageinclude_userlogin?default("<!-- No user login -->")}&nbsp;
 	</div>
-	<div id="search" class="span-4">
+	<div id="search" class="span-8 prepend-top append-1 last">
 		<form action="jsp/site/Portal.jsp" method="post">
 			<input type="hidden" name="page" value="search" />
 			<input id="searchinput" type="text" name="query" value="" />
