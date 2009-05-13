@@ -289,6 +289,12 @@ height:30px;
 line-height:30px;
 }
 
+h3.portlet-background-header {
+color:#1F4772;
+padding-top:7px;
+padding-left:15px;
+}
+
 div.portlet-background-content {
 -moz-border-radius-bottomleft:5px;
 -moz-border-radius-bottomright:5px;
@@ -317,7 +323,8 @@ width:100%;
 }
 
 h3.portlet-background-colored-header {
-color:#1F4772;
+color:#f90;
+padding-top:7px;
 padding-left:15px;
 }
 
