@@ -28,6 +28,7 @@
 	background-color: #2178B3;
 	height: 7em;
 	margin-top: 5px;
+	background-image: url("../images/local/skin/header_background.png");	
 }
 
 #search {
@@ -85,4 +86,21 @@ a.last {
 
 #footer2 a {
 	color: #dddddd;
+}
+/***************************************************/
+.portlet-background-header {
+	background-image: url("../images/local/skin/title_background.png");
+	background-color:#2178B3;
+	font-size:1.4em;
+	font-weight:bold;
+	color:#EEEEEE;
+	padding:0.32em 1em;
+}
+.portlet-background-content {
+	background-color: white;
+	padding:1em;
+}
+.portlet {
+	background-color: white;
+	padding:1em;
 }
