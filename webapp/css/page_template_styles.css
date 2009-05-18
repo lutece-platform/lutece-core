@@ -1,25 +1,25 @@
 .-lutece-border-radius-top {
-	-moz-border-radius-topleft:0.8em;
-	-moz-border-radius-topright:0.8em;
-	-webkit-border-top-left-radius:0.8em;
-	-webkit-border-top-right-radius:0.8em;
-	border-top-left-radius:0.8em;
-	border-top-right-radius:0.8em;
+	-moz-border-radius-topleft:5px;
+	-moz-border-radius-topright:5px;
+	-webkit-border-top-left-radius:5px;
+	-webkit-border-top-right-radius:5px;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
 }
 
 .-lutece-border-radius-bottom {
-	-moz-border-radius-bottomleft:0.8em;
-	-moz-border-radius-bottomright:0.8em;
-	-webkit-border-bottom-left-radius:0.8em;
-	-webkit-border-bottom-right-radius:0.8em;
-	border-bottom-left-radius:0.8em;
-	border-bottom-right-radius:0.8em;
+	-moz-border-radius-bottomleft:5px;
+	-moz-border-radius-bottomright:5px;
+	-webkit-border-bottom-left-radius:5px;
+	-webkit-border-bottom-right-radius:5px;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
 }
 
 .-lutece-border-radius {
-	-moz-border-radius:0.8em;
-	-webkit-border-radius:0.8em;
-	border-radius:0.8em;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
 }
 
 /**************************************************************************************************************/
@@ -27,7 +27,7 @@
 #banner {
 	background-color: #2178B3;
 	height: 7em;
-	margin-top: 5px;
+	margin-top: 2px;
 	background-image: url("../images/local/skin/header_background.png");	
 }
 
@@ -73,7 +73,7 @@ a.last {
 #footer2 {
 	background-color: #444444;
 	height: 5em;
-	margin-bottom: 5px;
+	margin-bottom: 2px;
 }
 
 #footer-links {
@@ -94,7 +94,7 @@ a.last {
 	font-size:1.4em;
 	font-weight:bold;
 	color:#EEEEEE;
-	padding:0.32em 1em;
+	padding:0.3em 1em;
 }
 .portlet-background-content {
 	background-color: white;
