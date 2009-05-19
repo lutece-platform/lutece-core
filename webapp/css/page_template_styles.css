@@ -23,7 +23,6 @@
 }
 
 /**************************************************************************************************************/
-
 #banner {
 	background-color: #2178B3;
 	height: 7em;
@@ -36,7 +35,7 @@
 }
 
 #page {
-	background-color: #f8f8f8;
+	background-color: #DBDBDB;
 	padding:2em 0;
 }
 
@@ -72,6 +71,7 @@ a.last-level {
 	text-decoration:none;
 	padding-left: 2em;
 }
+
 /***************************************************/
 #footer2 {
 	background-color: #444444;
@@ -90,6 +90,7 @@ a.last-level {
 #footer2 a {
 	color: #dddddd;
 }
+
 /***************************************************/
 .portlet-background-header {
 	background-image: url("../images/local/skin/title_background.png");
@@ -102,11 +103,13 @@ a.last-level {
 }
 .portlet-background-content {
 	background-image: url("../images/local/skin/portlet_background2.png");
-	background-repeat: repeat-x;
 	background-color: white;
+	background-repeat: repeat-x;
 	padding:1em;
 }
 .portlet {
+	background-image: url("../images/local/skin/portlet_background2.png");
 	background-color: white;
+	background-repeat: repeat-x;
 	padding:1em;
 }

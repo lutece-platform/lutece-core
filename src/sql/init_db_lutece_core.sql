@@ -68,7 +68,7 @@ INSERT INTO core_mode VALUES (0,'Normal','normal/','xml','1.0','text/xml','UTF-8
 INSERT INTO core_mode VALUES (1,'Administration','admin/','xml','1.0','text/xml','UTF-8','yes','yes','yes');
 INSERT INTO core_mode VALUES (2,'Wap','wml/','xml','1.0','text/xml','UTF-8','yes','yes','yes');
 
-INSERT INTO core_page VALUES (1,0,'accueil','Page d\'accueil','2009-05-02 00:19:33',1,1,2,'2003-09-09 06:38:01','none','default',0,'','application/octet-stream','all');
+INSERT INTO core_page VALUES (1,0,'accueil','Page d\'accueil','2009-05-02 00:19:33',1,1,5,'2003-09-09 06:38:01','none','default',0,'','application/octet-stream','all');
 INSERT INTO core_page VALUES (3,1,'Documentation','Tout ce dont vous avez besoin pour utiliser Lutece','2006-10-18 15:39:24',0,2,2,'2002-09-09 06:46:46','none','default',0,'','application/octet-stream','all');
 INSERT INTO core_page VALUES (6,3,'Guide utilisateur','Accès au guide utilisateur','2006-09-19 14:20:13',0,1,1,'2006-02-15 16:39:59','none','default',1,NULL,'','all');
 INSERT INTO core_page VALUES (5,1,'L\'outil','Description du CMS Lutèce','2006-10-12 15:03:49',0,1,2,'2006-02-15 16:37:26','none','default',1,NULL,'','all');
