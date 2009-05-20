@@ -6,7 +6,6 @@
 	border-top-left-radius:7px;
 	border-top-right-radius:7px;
 }
-
 .-lutece-border-radius-bottom {
 	-moz-border-radius-bottomleft:7px;
 	-moz-border-radius-bottomright:7px;
@@ -15,13 +14,33 @@
 	border-bottom-left-radius:7px;
 	border-bottom-right-radius:7px;
 }
-
 .-lutece-border-radius {
 	-moz-border-radius:7px;
 	-webkit-border-radius:7px;
 	border-radius:7px;
 }
-
+.-lutece-border-radius-mini {
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+}
+.-lutece-clear-both {
+	clear: both;
+}
+.-lutece-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+.-lutece-full-width {
+	width: 100%;
+}
+.-lutece-800px-width {/* useful for insert-album gallery view panel only */ 
+	width: 800px;
+}
+.-lutece-input {
+	border:1px solid #81ADD7;
+	color:#5693C0;
+}
 /**************************************************************************************************************/
 #banner {
 	background-color: #2178B3;
@@ -38,7 +57,32 @@
 	background-color: #DBDBDB;
 	padding:2em 0;
 }
-
+/***************************************************/
+.portlet-background-header {
+	background-image: url("../images/local/skin/title_background.png");
+	background-color:#2178B3;
+	font-size:1.4em;
+	font-weight:bold;
+	color:#EEEEEE;
+	padding:0.28em 1em;
+	border-bottom: 1px solid #efefef;
+}
+.portlet-background-content {
+	background-image: url("../images/local/skin/portlet_background2.png");
+	background-color: white;
+	background-repeat: repeat-x;
+	padding:1em;
+}
+.portlet {
+	background-image: url("../images/local/skin/portlet_background2.png");
+	background-color: white;
+	background-repeat: repeat-x;
+	padding:1em;
+}
+.portlet-header{
+	font-size:1.4em;
+	font-weight:bold;
+}
 /***************************************************/
 #footer1 {
 	background-color: #757779;
@@ -91,25 +135,3 @@ a.last-level {
 	color: #dddddd;
 }
 
-/***************************************************/
-.portlet-background-header {
-	background-image: url("../images/local/skin/title_background.png");
-	background-color:#2178B3;
-	font-size:1.4em;
-	font-weight:bold;
-	color:#EEEEEE;
-	padding:0.28em 1em;
-	border-bottom: 1px solid #efefef;
-}
-.portlet-background-content {
-	background-image: url("../images/local/skin/portlet_background2.png");
-	background-color: white;
-	background-repeat: repeat-x;
-	padding:1em;
-}
-.portlet {
-	background-image: url("../images/local/skin/portlet_background2.png");
-	background-color: white;
-	background-repeat: repeat-x;
-	padding:1em;
-}
