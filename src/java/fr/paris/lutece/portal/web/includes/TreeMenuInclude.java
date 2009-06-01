@@ -43,6 +43,7 @@ import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.portal.PortalMenuService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -77,7 +78,15 @@ public class TreeMenuInclude implements PageInclude
     {
         if ( request != null )
         {
-            int nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID )  == null ) ? 0 : Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
+        	int nCurrentPageId;
+        	try {
+            	nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID )  == null ) ? 0 : Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
+            }
+            catch ( NumberFormatException nfe )
+            {
+            	AppLogService.info(  "TreeMenuInclude.fillTemplate() : " + nfe.getLocalizedMessage() );
+            	nCurrentPageId = 0;
+            }
             data.setTreeMenu( buildTreeMenuContent( nCurrentPageId, nMode, request ) );
             rootModel.put( Markers.PAGE_TREE_MENU, ( data.getTreeMenu(  ) == null ) ? "" : data.getTreeMenu(  ) );
         }

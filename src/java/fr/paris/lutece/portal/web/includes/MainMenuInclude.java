@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.includes;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.portal.PortalMenuService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import java.util.Map;
@@ -58,8 +59,16 @@ public class MainMenuInclude implements PageInclude
     {
         if( request != null )
         {
-            int nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID )  == null ) ? 0 : Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
-            rootModel.put( Markers.PAGE_MAIN_MENU, PortalMenuService.getInstance().getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) );
+        	int nCurrentPageId;
+        	try {
+        		nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID )  == null ) ? 0 : Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
+        	}
+        	catch ( NumberFormatException nfe )
+            {
+        		AppLogService.info(  "MainMenuInclude.fillTemplate() : " + nfe.getLocalizedMessage() );
+             	nCurrentPageId = 0;
+            }
+        	rootModel.put( Markers.PAGE_MAIN_MENU, PortalMenuService.getInstance().getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) );
         }
     }
 }
