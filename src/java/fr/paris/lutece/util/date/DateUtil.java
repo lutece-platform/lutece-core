@@ -56,7 +56,7 @@ public final class DateUtil
     private static SimpleDateFormat _formatter = new SimpleDateFormat( "dd'/'MM'/'yyyy", Locale.FRANCE );
     @Deprecated
     private static SimpleDateFormat _formatterDateTime = new SimpleDateFormat( "dd'/'MM'/'yyyy' 'HH':'mm", Locale.FRANCE );
-
+    private static final String CONSTANTE_PATTERN_DATE = "dd/MM/yyyy";
     /**
      * Creates a new DateUtil object
      */
@@ -263,6 +263,22 @@ public final class DateUtil
 
         return date;
     }
+    
+    /**
+     * Get the date from String date
+     * @param strDate the date to format
+     * @param locale The Locale
+     * @return The Date or null else
+     */
+	 public static Date formatDateLongYear( String strDate, Locale locale )
+	 {
+	    Date date = null;
+	    if ( strDate != null && strDate.trim().length() == CONSTANTE_PATTERN_DATE.length(  ))
+		{
+			date = formatDate( strDate, locale);
+		}
+		 return date;
+	 }
 
     /**
      * Get the {@link Timestamp} from String date
