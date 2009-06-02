@@ -85,11 +85,11 @@
 }
 /***************************************************/
 #footer1 {
-	background-color: #333333;
+	background-color: #171717;
 }
 
 #footer1-subelement {
-	background-color: #333333;
+	background-color: #515151;
 	color: #1F4772;
 	height:20em;
 	margin:1.5%;
@@ -103,14 +103,12 @@
 }
 
 a.first-level {
-	color: #1F4772;
 	font-size:1.4em;
 	font-weight:bold;
 	text-decoration:none;
 }
 
 a.last-level {
-	color: #1F4772;
 	font-size:0.9em;
 	text-decoration:none;
 	padding-left: 2em;
@@ -131,7 +129,11 @@ a.last-level {
 	text-align: right;
 }
 
-#footer2 a {
-	color: #dddddd;
+a {
+	color: #4A99EF;
+}
+body {
+	background-color: #1F4772;
+	color: #4A99EF;
 }
 
