@@ -2,14 +2,15 @@
 	<div id="logo" class="span-4 prepend-1 prepend-top">
 		<a href="jsp/site/Portal.jsp"><img class="png" src="${theme_images}/local/skin/logo.png" title="Home"/></a>
 	</div>
-	<div class="span-10 prepend-top">
-		${pageinclude_userlogin?default("<!-- No user login -->")}&nbsp;
-	</div>
+	<div class="span-10 prepend-top" id="header-link">${pageinclude_userlogin_title}</div>
 	<div id="search" class="span-8 prepend-top append-1 last">
 		<form action="jsp/site/Portal.jsp" method="post">
 			<input type="hidden" name="page" value="search" />
-			<input id="searchinput" type="text" name="query" value="" />
-			<input id="searchsubmit" type="submit" value="#i18n{portal.site.page_menu_tools.labelSearch}" /> 
+			<input class="-lutece-input -lutece-border-radius-mini" type="text" name="query" value="" />
+			<input class="-lutece-input -lutece-border-radius-mini" type="submit" value="#i18n{portal.site.page_menu_tools.labelSearch}" /> 
 		</form>
-	</div> 	
+	</div>
+</div>
+<div id="header-menu" class="span-24 last -lutece-hidden">
+	<div class="span-23 prepend-1 last">${pageinclude_userlogin}</div>
 </div>

@@ -34,6 +34,12 @@
 .-lutece-full-width {
 	width: 100%;
 }
+.-lutece-hidden {
+	display:none;
+}
+.-lutece-show {
+	display:block;
+}
 .-lutece-800px-width {/* useful for insert-album gallery view panel only */ 
 	width: 800px;
 }
@@ -42,6 +48,11 @@
 	color:#5693C0;
 }
 /**************************************************************************************************************/
+body {
+	background-color: #5A5A5A;
+	color: #ddd;
+}
+
 #banner {
 	background-color: #333333;
 	height: 7em;
@@ -53,11 +64,30 @@
 	text-align: right;
 }
 
+#header-link {
+	text-align: right;
+	display: inline;
+}
+
+#header-menu {
+	background-color:#757779;
+	padding: 30px 0px;
+}
+#menu-auth-label {
+	text-decoration: underline;
+	cursor: pointer;
+	color: #ddd;
+}
+/***************************************************/
 #page {
 	background-color: #333333;
 	padding:2em 0;
 }
-/***************************************************/
+
+#page a {
+	color: #fff;
+}
+
 .portlet-background-header {
 	background-image: url("../images/local/skin/title_background.png");
 	background-color:#2178B3;
@@ -103,12 +133,14 @@
 }
 
 a.first-level {
+	color: #FF9900;
 	font-size:1.4em;
 	font-weight:bold;
 	text-decoration:none;
 }
 
 a.last-level {
+	color: #FF9900;
 	font-size:0.9em;
 	text-decoration:none;
 	padding-left: 2em;
@@ -129,11 +161,6 @@ a.last-level {
 	text-align: right;
 }
 
-a {
+#footer2 a {
 	color: #ddd;
 }
-body {
-	background-color: #5A5A5A;
-	color: #ddd;
-}
-
