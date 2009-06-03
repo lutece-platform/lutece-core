@@ -113,6 +113,11 @@ body {
 	font-size:1.4em;
 	font-weight:bold;
 }
+.portlet-background-colored-content {
+	background-image: url("../images/local/skin/portlet_background.png");
+	background-repeat: repeat-x;
+	background-color: #fdfdff;
+}
 /***************************************************/
 #footer1 {
 	background-color: #757779;

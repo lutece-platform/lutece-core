@@ -93,13 +93,13 @@ body {
 	background-color:#2178B3;
 	font-size:1.4em;
 	font-weight:bold;
-	color:#EEEEEE;
+	color:#FF9900;
 	padding:0.28em 1em;
 	border-bottom: 1px solid #efefef;
 }
 .portlet-background-content {
 	background-image: url("../images/local/skin/portlet_background2.png");
-	background-color: white;
+	background-color: #fff;
 	background-repeat: repeat-x;
 	padding:1em;
 }
@@ -112,6 +112,11 @@ body {
 .portlet-header{
 	font-size:1.4em;
 	font-weight:bold;
+}
+.portlet-background-colored-content {
+	background-image: url("../images/local/skin/portlet_background.png");
+	background-repeat: repeat-x;
+	background-color: #7b7b7b;
 }
 /***************************************************/
 #footer1 {
@@ -140,7 +145,7 @@ a.first-level {
 }
 
 a.last-level {
-	color: #FF9900;
+	color: #fff;
 	font-size:0.9em;
 	text-decoration:none;
 	padding-left: 2em;
