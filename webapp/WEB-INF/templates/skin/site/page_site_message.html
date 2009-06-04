@@ -1,31 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
-
-<title>${page_name}</title>
-
-<base href="${base_url}" />
-
-<link rel="stylesheet"  href="${theme_css}/page_template_structure.css" type="text/css"  media="screen" />
-<link rel="stylesheet" type="text/css" href="${theme_css}/customize.css" />
-
-<link rel="stylesheet"  href="${theme_css}/print_template_styles.css" type="text/css"  media="print" />
-<link rel="stylesheet"  href="${theme_css}/print_template_structure.css" type="text/css"  media="print" />
-
-<!--[if IE]>
-	<link rel="stylesheet" type="text/css" href="css/ie/page_template_ie.css" />
-<![endif]-->
-
-<!--[if IE 7]>
-	<link rel="stylesheet" type="text/css" href="css/ie/page_template_ie7.css" />
-<![endif]-->
-
-<link rel="shortcut icon" href="favicon.ico" />
+	<title>${page_name}</title>
+	<base href="${base_url}" />
+	<link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection" />
+	<link rel="stylesheet" href="${theme_css}/page_template_styles.css"	type="text/css" media="screen, projection" />
 </head>
-
-<body> 
-	${page_content}   		
+<body>
+${page_content}
 </body>
 </html>
 

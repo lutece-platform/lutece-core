@@ -1,7 +1,6 @@
-<div id="content">
-    <div id="one-zone-first">
-        <div id="one-zone-first-content">
-<div class="message">
+<div class="container">
+		<div class="span-24 prepend-top last">
+
 	<div class="message-header">
  		<#if message.type = 0 > <img
 			src="images/local/skin/messages/info.png" class="message" 
@@ -46,22 +45,12 @@
 			</#if>
 
 			<#if cancel_button = 1> 
-				<input type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.util.labelBack}" />
+				<input type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.util.labelBack}" class="-lutece-input -lutece-border-radius-mini" />
 			<#elseif cancel_button = 2>
-				<input type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.util.labelCancel}" />
+				<input type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.util.labelCancel}" class="-lutece-input -lutece-border-radius-mini" />
 			</#if>
 
 		</form>
 	</div>
-</div>
-
-    </div>
   </div>
-</div>
-<div id="sidebar">	 
-
-<div>	
-&nbsp;	
-</div>
-
 </div>
