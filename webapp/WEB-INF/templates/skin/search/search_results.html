@@ -1,17 +1,15 @@
-<br />
-<div id="content">
-<div id="one-zone-first">
+<div id="one-zone-first" class="span-15 prepend-1 append-1 prepend-top">
     <div id="one-zone-first-content">	
     <div class="portlet-background">
-       <div class="portlet-background-header">#i18n{portal.search.search_results.title}</div> 
+       <div class="portlet-background-header -lutece-border-radius-top">#i18n{portal.search.search_results.title}</div> 
         <div class="portlet-background-content">
                 <div class="error"> ${error} </div>
                 #i18n{portal.search.search_results.labelResultsCount} : <strong>${paginator.itemsCount}</strong> <br />
                 #i18n{portal.search.search_results.labelResultsRange} : <strong>${paginator.rangeMin} - ${paginator.rangeMax}</strong> <br />
                 <@pagination paginator=paginator />
-            </div>     
+       </div>     
 
-       <div class="portlet-background-content">
+       <div class="portlet-background-content -lutece-border-radius-bottom">
             <ul>
                <#list results_list as result>
                <li class="search">
@@ -59,12 +57,12 @@
         </#list>
 </#macro>
 </div>
-<div id="sidebar">
+<div id="sidebar" class="span-6 append-1 prepend-top last">
 	<form name="search" method="post" action="jsp/site/Portal.jsp">
             <div class="portlet-background">
                 <input type="hidden" name="page" value="search" />
                 <p>
-                <input type="text" name="query" size="20" value="${query?if_exists}" style="margin-bottom:5px;" /> 
+                <input type="text" name="query" size="20" value="${query?if_exists}" /> 
                 <input type="image" src="images/local/skin/buttons/b_search.png" title="#i18n{portal.search.search_results.buttonSearch}" alt="#i18n{portal.search.search_results.buttonSearch}" />
                 </p>
                 <p>
