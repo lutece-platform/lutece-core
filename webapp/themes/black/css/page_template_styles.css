@@ -119,3 +119,12 @@ a.last-level {
 #footer2 a {
 	color: #ddd;
 }
+
+.-lutece-framed {
+	border: 1px solid #fff;
+	padding:0.8em;
+}
+.-lutece-input {
+	border:1px solid #81ADD7;
+	color:#5693C0;
+}
