@@ -50,8 +50,8 @@ import fr.paris.lutece.portal.service.image.ImageResourceProvider;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
-import fr.paris.lutece.portal.service.portal.PortalMenuService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
@@ -109,6 +109,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     private static final int MODE_ADMIN = 1;
     private static final String LOGGER_PORTLET_XML_CONTENT = "lutece.debug.portlet.xmlContent";
     private static final String IMAGE_RESOURCE_TYPE_ID = "page_thumbnail";
+    private static final String KEY_THEME ="theme";
 
     // Added in v1.2
     private static final String PARAMETER_PLUGIN_NAME = "plugin-name";
@@ -237,6 +238,11 @@ public class PageService extends ContentService implements ImageResourceProvider
             }
 
             LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
+            String strUserTheme = ThemesService.getUserTheme(request);
+            if( strUserTheme != null )
+            {
+                htParamRequest.put( KEY_THEME , strUserTheme );
+            }
             String strKey = getKey( htParamRequest, nMode, user );
 
             // The cache is enable !
