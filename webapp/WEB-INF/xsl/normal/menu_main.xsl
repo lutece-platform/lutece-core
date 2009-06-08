@@ -15,7 +15,7 @@
 
 		<xsl:if test="$index &lt; 4">
 			<div class="footer1-column">
-				<a href="{$site-path}?page_id={page-id}" class="first-level">
+				<a href="{$site-path}?page_id={page-id}" class="first-level" target="_top">
 					<xsl:value-of select="page-name" />
 				</a>
 				<br />
@@ -33,7 +33,7 @@
 		<xsl:variable name="index_sous_menu">
 			<xsl:number level="single" />
 		</xsl:variable>
-		<a href="{$site-path}?page_id={page-id}" class="last-level">
+		<a href="{$site-path}?page_id={page-id}" class="last-level" target="_top">
 			<xsl:value-of select="page-name" />
 		</a>
 		<br />
