@@ -34,9 +34,9 @@
 
 package fr.paris.lutece.portal.web.style;
 
+import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
-import fr.paris.lutece.portal.web.includes.ThemesInclude;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
@@ -71,8 +71,8 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     {
 
         HashMap<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_THEMES_LIST, ThemesInclude.getThemesList() );
-        model.put( MARK_THEME, ThemesInclude.getGlobalTheme() );
+        model.put( MARK_THEMES_LIST, ThemesService.getThemesList() );
+        model.put( MARK_THEME, ThemesService.getGlobalTheme() );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_THEMES, getLocale(  ), model );
 
@@ -89,7 +89,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     public String doModifyGlobalTheme( HttpServletRequest request )
     {
         String strTheme = request.getParameter( PARAMETER_THEME );
-        ThemesInclude.setGlobalTheme( strTheme );
+        ThemesService.setGlobalTheme( strTheme );
         return this.getHomeUrl( request );
     }
 
@@ -104,7 +104,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     {
         String strTheme = request.getParameter( PARAMETER_THEME );
         String strForwardUrl = request.getParameter( PARAMETER_URL );
-        ThemesInclude.setUserTheme( request , response , strTheme );
+        ThemesService.setUserTheme( request , response , strTheme );
         return strForwardUrl;
     }
 

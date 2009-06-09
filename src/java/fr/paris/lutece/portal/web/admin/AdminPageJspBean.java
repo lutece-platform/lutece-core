@@ -49,6 +49,7 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.page.PageResourceIdService;
 import fr.paris.lutece.portal.service.page.PageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACResource;
 import fr.paris.lutece.portal.service.rbac.RBACService;
@@ -59,7 +60,6 @@ import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
-import fr.paris.lutece.portal.web.includes.ThemesInclude;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -374,7 +374,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PAGE_INIT_ID, Integer.toString( nPageIdInit ) );
         model.put( MARK_PAGE_ORDER_LIST, getOrdersList(  ) );
         model.put( MARK_PAGE_ROLES_LIST, RoleHome.getRolesList(  ) );
-        model.put( MARK_PAGE_THEMES_LIST, ThemesInclude.getThemesList(  ) );
+        model.put( MARK_PAGE_THEMES_LIST, ThemesService.getThemesList(  ) );
         model.put( MARK_IMAGE_URL, getResourceImagePage( page, strPageId ) );
 
         int nIndexRow = 1;
