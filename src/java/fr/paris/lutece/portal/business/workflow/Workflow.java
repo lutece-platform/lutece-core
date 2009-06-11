@@ -33,10 +33,11 @@
  */
 package fr.paris.lutece.portal.business.workflow;
 
-import java.sql.Timestamp;
-import java.util.List;
-
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
+
+import java.sql.Timestamp;
+
+import java.util.List;
 
 
 /**
@@ -59,7 +60,6 @@ public class Workflow implements AdminWorkgroupResource, IReferenceItem
      */
     public static void init(  )
     {
-  
     }
 
     /**

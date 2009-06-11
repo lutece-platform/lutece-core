@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2008, Mairie de Paris
+ * Copyright (c) 2002-2009, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,16 +31,18 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.web.style;
 
 import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 /**
  *
@@ -69,16 +71,14 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageThemes( HttpServletRequest request )
     {
-
         HashMap<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_THEMES_LIST, ThemesService.getThemesList() );
-        model.put( MARK_THEME, ThemesService.getGlobalTheme() );
+        model.put( MARK_THEMES_LIST, ThemesService.getThemesList(  ) );
+        model.put( MARK_THEME, ThemesService.getGlobalTheme(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_THEMES, getLocale(  ), model );
 
         return getAdminPage( template.getHtml(  ) );
     }
-
 
     /**
      * Modify the global theme
@@ -90,9 +90,9 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     {
         String strTheme = request.getParameter( PARAMETER_THEME );
         ThemesService.setGlobalTheme( strTheme );
+
         return this.getHomeUrl( request );
     }
-
 
     /**
      * Modify the User theme
@@ -100,13 +100,12 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
      * @param request The Http request
      * @return the html code for display the manage themes page
      */
-    public String doModifyUserTheme( HttpServletRequest request , HttpServletResponse response )
+    public String doModifyUserTheme( HttpServletRequest request, HttpServletResponse response )
     {
         String strTheme = request.getParameter( PARAMETER_THEME );
         String strForwardUrl = request.getParameter( PARAMETER_URL );
-        ThemesService.setUserTheme( request , response , strTheme );
+        ThemesService.setUserTheme( request, response, strTheme );
+
         return strForwardUrl;
     }
-
-
 }

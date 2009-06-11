@@ -47,13 +47,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
  * This class provides  the list of the path associated by the topics of the page
  */
 public class ThemesInclude implements PageInclude
 {
     // Constants
-
     private static final String MARK_THEME_CSS = "theme_css";
     private static final String MARK_THEME_IMAGES = "theme_images";
     private static final String PROPERTY_PREFIX = "themes.";
@@ -72,29 +72,30 @@ public class ThemesInclude implements PageInclude
      * @param nMode The current mode
      * @param request The HTTP request
      */
-    public void fillTemplate(Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request)
+    public void fillTemplate( Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
         // The code_theme of the page
-        String strTheme = data.getTheme();
+        String strTheme = data.getTheme(  );
 
         // The theme of the user
-        String strUserTheme = getUserTheme(request);
-        if (strUserTheme != null)
+        String strUserTheme = getUserTheme( request );
+
+        if ( strUserTheme != null )
         {
             strTheme = strUserTheme;
         }
 
         // If code_theme is null, used the default files ( css and images )
-        if ((strTheme == null) || (strTheme.equals("") || (strTheme.equals(DEFAULT_THEME))))
+        if ( ( strTheme == null ) || ( strTheme.equals( "" ) || ( strTheme.equals( DEFAULT_THEME ) ) ) )
         {
             strTheme = _strGlobalTheme;
         }
 
-        String strCss = AppPropertiesService.getProperty(PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_CSS);
-        rootModel.put(MARK_THEME_CSS, strCss);
+        String strCss = AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_CSS );
+        rootModel.put( MARK_THEME_CSS, strCss );
 
-        String strImages = AppPropertiesService.getProperty(PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_IMAGES);
-        rootModel.put(MARK_THEME_IMAGES, strImages);
+        String strImages = AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_IMAGES );
+        rootModel.put( MARK_THEME_IMAGES, strImages );
     }
 
     /**
@@ -102,21 +103,21 @@ public class ThemesInclude implements PageInclude
      *
      * @return the list of the page Code_theme in form of ReferenceList
      */
-    public static ReferenceList getThemesList()
+    public static ReferenceList getThemesList(  )
     {
         // recovers themes list from the includes.list entry in the properties download file
-        String strThemesList = AppPropertiesService.getProperty(PROPERTY_THEMES_LIST);
+        String strThemesList = AppPropertiesService.getProperty( PROPERTY_THEMES_LIST );
 
         // extracts each item (separated by a comma) from the includes list
-        StringTokenizer strTokens = new StringTokenizer(strThemesList, ",");
+        StringTokenizer strTokens = new StringTokenizer( strThemesList, "," );
 
-        ReferenceList listThemes = new ReferenceList();
+        ReferenceList listThemes = new ReferenceList(  );
 
-        while (strTokens.hasMoreTokens())
+        while ( strTokens.hasMoreTokens(  ) )
         {
-            String strTheme = (String) strTokens.nextToken();
-            String strThemeName = AppPropertiesService.getProperty(PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_NAME);
-            listThemes.addItem(strTheme, strThemeName);
+            String strTheme = (String) strTokens.nextToken(  );
+            String strThemeName = AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_NAME );
+            listThemes.addItem( strTheme, strThemeName );
         }
 
         return listThemes;
@@ -127,20 +128,23 @@ public class ThemesInclude implements PageInclude
      * @param request The HTTP request
      * @return The theme if available otherwise null
      */
-    private static String getUserTheme(HttpServletRequest request)
+    private static String getUserTheme( HttpServletRequest request )
     {
-        if (request != null)
+        if ( request != null )
         {
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null)
+            Cookie[] cookies = request.getCookies(  );
+
+            if ( cookies != null )
             {
-                for (int i = 0; i < cookies.length; i++)
+                for ( int i = 0; i < cookies.length; i++ )
                 {
                     Cookie cookie = cookies[i];
-                    if (cookie.getName().equalsIgnoreCase(COOKIE_NAME))
+
+                    if ( cookie.getName(  ).equalsIgnoreCase( COOKIE_NAME ) )
                     {
-                        String strTheme = cookie.getValue();
-                        if (isValidTheme(strTheme))
+                        String strTheme = cookie.getValue(  );
+
+                        if ( isValidTheme( strTheme ) )
                         {
                             return strTheme;
                         }
@@ -148,14 +152,14 @@ public class ThemesInclude implements PageInclude
                 }
             }
         }
-        return null;
 
+        return null;
     }
 
-    public static void setUserTheme(HttpServletRequest request, HttpServletResponse response, String strTheme)
+    public static void setUserTheme( HttpServletRequest request, HttpServletResponse response, String strTheme )
     {
-        Cookie cookie = new Cookie(COOKIE_NAME, strTheme);
-        response.addCookie(cookie);
+        Cookie cookie = new Cookie( COOKIE_NAME, strTheme );
+        response.addCookie( cookie );
     }
 
     /**
@@ -163,17 +167,20 @@ public class ThemesInclude implements PageInclude
      * @param strTheme The theme to check
      * @return True if the theme is valid
      */
-    private static boolean isValidTheme(String strTheme)
+    private static boolean isValidTheme( String strTheme )
     {
-        Iterator i = getThemesList().iterator();
-        while (i.hasNext())
+        Iterator i = getThemesList(  ).iterator(  );
+
+        while ( i.hasNext(  ) )
         {
-            ReferenceItem item = (ReferenceItem) i.next();
-            if (item.getCode().equals(strTheme))
+            ReferenceItem item = (ReferenceItem) i.next(  );
+
+            if ( item.getCode(  ).equals( strTheme ) )
             {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -181,7 +188,7 @@ public class ThemesInclude implements PageInclude
      * Returns the global theme
      * @return the global theme
      */
-    public static String getGlobalTheme()
+    public static String getGlobalTheme(  )
     {
         return _strGlobalTheme;
     }
@@ -190,7 +197,7 @@ public class ThemesInclude implements PageInclude
      * Sets the global theme
      * @param strTheme The global theme
      */
-    public static void setGlobalTheme(String strTheme)
+    public static void setGlobalTheme( String strTheme )
     {
         _strGlobalTheme = strTheme;
     }

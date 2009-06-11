@@ -48,7 +48,7 @@ public class SearchAppTest extends LuteceTestCase
 {
     /**
      * Test of getPage method, of class fr.paris.lutece.portal.web.search.SearchApp.
-     * @throws SiteMessageException 
+     * @throws SiteMessageException
      */
     public void testGetPage(  ) throws SiteMessageException
     {

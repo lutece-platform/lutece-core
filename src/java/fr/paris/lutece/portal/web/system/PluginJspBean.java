@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.web.system;
 
-
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -68,19 +67,15 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     ////////////////////////////////////////////////////////////////////////////////
     // Constants
     public static final String RIGHT_MANAGE_PLUGINS = "CORE_PLUGINS_MANAGEMENT";
-
     private static final String TEMPLATE_MANAGE_PLUGINS = "admin/system/manage_plugins.html";
-
     private static final String MARK_PLUGINS_LIST = "plugins_list";
     private static final String MARK_POOLS_LIST = "pools_list";
     private static final String MARK_FILTER_LIST = "filter_list";
     private static final String MARK_CURRENT_FILTER = "current_filter";
-
     private static final String PROPERTY_PLUGIN_MESSAGE = "portal.system.message.confirmDisable";
     private static final String PROPERTY_PLUGIN_PORTLET_EXIST_MESSAGE = "portal.system.message.portletExist";
     private static final String PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE = "portal.system.message.noCoreCompatibility";
     private static final String PROPERTY_PLUGIN_INSTALL_ERROR = "portal.system.message.installError";
-
     private static final String PARAM_PLUGIN_NAME = "plugin_name";
     private static final String PARAM_PLUGIN_TYPE = "plugin_type";
     private static final String PARAM_DB_POOL_NAME = "db_pool_name";
@@ -90,7 +85,6 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     private static final String PARAM_PLUGIN_TYPE_FEATURE = "feature";
     private static final String PARAM_PLUGIN_TYPE_INSERTSERVICE = "insertservice";
     private static final String PARAM_PLUGIN_TYPE_CONTENTSERVICE = "contentservice";
-
     private static final String PROPERTY_PLUGIN_TYPE_NAME_ALL = "portal.system.pluginType.name.all";
     private static final String PROPERTY_PLUGIN_TYPE_NAME_APPLICATION = "portal.system.pluginType.name.application";
     private static final String PROPERTY_PLUGIN_TYPE_NAME_PORTLET = "portal.system.pluginType.name.portlet";
@@ -135,19 +129,22 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
             String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );
             Plugin plugin = PluginService.getPlugin( strPluginName );
 
-            if( verifyCoreCompatibility( plugin ) )
+            if ( verifyCoreCompatibility( plugin ) )
             {
                 plugin.install(  );
             }
             else
             {
-                Object[] args = { plugin.getMinCoreVersion(), plugin.getMaxCoreVersion() };
-                return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args, AdminMessage.TYPE_STOP );
+                Object[] args = { plugin.getMinCoreVersion(  ), plugin.getMaxCoreVersion(  ) };
+
+                return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args,
+                    AdminMessage.TYPE_STOP );
             }
         }
         catch ( Exception e )
         {
             AppLogService.error( e.getMessage(  ), e );
+
             return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_INSTALL_ERROR, AdminMessage.TYPE_STOP );
         }
 
@@ -373,34 +370,37 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         boolean bCompatibility = false;
         boolean bMin = false;
         boolean bMax = false;
-        String[] coreVersion = AppInfo.getVersion().split("\\.");
+        String[] coreVersion = AppInfo.getVersion(  ).split( "\\." );
 
-        String strMinCoreVersion = plugin.getMinCoreVersion() == null ? "" : plugin.getMinCoreVersion();
-        String strMaxCoreVersion = plugin.getMaxCoreVersion() == null ? "" : plugin.getMaxCoreVersion();
+        String strMinCoreVersion = ( plugin.getMinCoreVersion(  ) == null ) ? "" : plugin.getMinCoreVersion(  );
+        String strMaxCoreVersion = ( plugin.getMaxCoreVersion(  ) == null ) ? "" : plugin.getMaxCoreVersion(  );
 
-        System.out.println("Min" + strMinCoreVersion );
-        System.out.println("Max" + strMaxCoreVersion );
+        System.out.println( "Min" + strMinCoreVersion );
+        System.out.println( "Max" + strMaxCoreVersion );
 
-        bMin = ( ( ( strMinCoreVersion == null ) || strMinCoreVersion.trim().equals("") ) ? true : false );
-        bMax = ( ( ( strMaxCoreVersion == null ) || strMaxCoreVersion.trim().equals("") ) ? true : false );
+        bMin = ( ( ( strMinCoreVersion == null ) || strMinCoreVersion.trim(  ).equals( "" ) ) ? true : false );
+        bMax = ( ( ( strMaxCoreVersion == null ) || strMaxCoreVersion.trim(  ).equals( "" ) ) ? true : false );
 
         // test the min core version
-        if( ! strMinCoreVersion.trim().equals("") )
+        if ( !strMinCoreVersion.trim(  ).equals( "" ) )
         {
-            String[] minCoreVersion = strMinCoreVersion.split("\\.");
+            String[] minCoreVersion = strMinCoreVersion.split( "\\." );
+
             if ( checkCoreMinCompatibility( minCoreVersion, coreVersion ) )
             {
-                AppLogService.error("Min core version ok : " + plugin.getMinCoreVersion());
+                AppLogService.error( "Min core version ok : " + plugin.getMinCoreVersion(  ) );
                 bMin = true;
-            }        
+            }
         }
+
         // test the max core version
-        if( ! strMaxCoreVersion.trim().equals("") ) 
+        if ( !strMaxCoreVersion.trim(  ).equals( "" ) )
         {
-            String[] maxCoreVersion = strMaxCoreVersion.split("\\.");
+            String[] maxCoreVersion = strMaxCoreVersion.split( "\\." );
+
             if ( checkCoreMaxCompatibility( maxCoreVersion, coreVersion ) )
             {
-                AppLogService.error("Max core version ok : " + plugin.getMaxCoreVersion() );
+                AppLogService.error( "Max core version ok : " + plugin.getMaxCoreVersion(  ) );
                 bMax = true;
             }
         }
@@ -409,8 +409,8 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         {
             bCompatibility = true;
         }
-        return bCompatibility;
 
+        return bCompatibility;
     }
 
     private boolean checkCoreMinCompatibility( String[] minCoreVersion, String[] coreVersion )
@@ -420,21 +420,26 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         boolean bSplit2 = false;
 
         // test the split of string : split2 is the third number, split1 the second
-        if( ( Integer.parseInt(minCoreVersion[2])) <= ( Integer.parseInt(coreVersion[2])) )
+        if ( ( Integer.parseInt( minCoreVersion[2] ) ) <= ( Integer.parseInt( coreVersion[2] ) ) )
         {
             bSplit2 = true;
         }
-        if( ( ( Integer.parseInt(minCoreVersion[1])) <= ( Integer.parseInt(coreVersion[1])) ) )
+
+        if ( ( ( Integer.parseInt( minCoreVersion[1] ) ) <= ( Integer.parseInt( coreVersion[1] ) ) ) )
         {
             bSplit1 = true;
         }
-        if( ( bSplit2 && bSplit1 ) || ( ( ! bSplit2 && bSplit1 ) && ( ( Integer.parseInt(minCoreVersion[1])) <= ( Integer.parseInt(coreVersion[1])) ) ) )
+
+        if ( ( bSplit2 && bSplit1 ) ||
+                ( ( !bSplit2 && bSplit1 ) &&
+                ( ( Integer.parseInt( minCoreVersion[1] ) ) <= ( Integer.parseInt( coreVersion[1] ) ) ) ) )
         {
-            if ( ( Integer.parseInt(minCoreVersion[0])) <= ( Integer.parseInt(coreVersion[0])) )
+            if ( ( Integer.parseInt( minCoreVersion[0] ) ) <= ( Integer.parseInt( coreVersion[0] ) ) )
             {
                 b = true;
             }
         }
+
         return b;
     }
 
@@ -444,22 +449,26 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         boolean bSplit1 = false;
         boolean bSplit2 = false;
 
-        if( ( Integer.parseInt(maxCoreVersion[2])) >= ( Integer.parseInt(coreVersion[2])) )
+        if ( ( Integer.parseInt( maxCoreVersion[2] ) ) >= ( Integer.parseInt( coreVersion[2] ) ) )
         {
             bSplit2 = true;
         }
-        if( ( ( Integer.parseInt(maxCoreVersion[1])) >= ( Integer.parseInt(coreVersion[1])) ) )
+
+        if ( ( ( Integer.parseInt( maxCoreVersion[1] ) ) >= ( Integer.parseInt( coreVersion[1] ) ) ) )
         {
             bSplit1 = true;
         }
-        if( ( bSplit2 && bSplit1 ) || ( ( ! bSplit2 && bSplit1 ) && ( ( Integer.parseInt(maxCoreVersion[1])) >= ( Integer.parseInt(coreVersion[1])) ) ) )
+
+        if ( ( bSplit2 && bSplit1 ) ||
+                ( ( !bSplit2 && bSplit1 ) &&
+                ( ( Integer.parseInt( maxCoreVersion[1] ) ) >= ( Integer.parseInt( coreVersion[1] ) ) ) ) )
         {
-            if ( ( Integer.parseInt(maxCoreVersion[0])) >= ( Integer.parseInt(coreVersion[0])) )
+            if ( ( Integer.parseInt( maxCoreVersion[0] ) ) >= ( Integer.parseInt( coreVersion[0] ) ) )
             {
                 b = true;
             }
         }
+
         return b;
     }
-
 }

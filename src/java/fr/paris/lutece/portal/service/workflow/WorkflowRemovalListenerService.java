@@ -57,7 +57,6 @@ public final class WorkflowRemovalListenerService
      */
     public static RemovalListenerService getService(  )
     {
-        return (RemovalListenerService) SpringContextService.getBean( 
-            BEAN_FORM_REMOVAL_SERVICE );
+        return (RemovalListenerService) SpringContextService.getBean( BEAN_FORM_REMOVAL_SERVICE );
     }
 }

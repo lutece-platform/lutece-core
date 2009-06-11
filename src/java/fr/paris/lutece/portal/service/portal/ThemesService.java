@@ -31,25 +31,26 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.portal;
 
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
+
 import java.util.Iterator;
 import java.util.StringTokenizer;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
  * ThemesService
  */
-public class ThemesService 
+public class ThemesService
 {
     public static final String DEFAULT_THEME = "default";
-
     private static final String PROPERTY_PREFIX = "themes.";
     private static final String PROPERTY_SUFFIX_CSS = ".css";
     private static final String PROPERTY_SUFFIX_IMAGES = ".images";
@@ -63,21 +64,21 @@ public class ThemesService
      *
      * @return the list of the page Code_theme in form of ReferenceList
      */
-    public static ReferenceList getThemesList()
+    public static ReferenceList getThemesList(  )
     {
         // recovers themes list from the includes.list entry in the properties download file
-        String strThemesList = AppPropertiesService.getProperty(PROPERTY_THEMES_LIST);
+        String strThemesList = AppPropertiesService.getProperty( PROPERTY_THEMES_LIST );
 
         // extracts each item (separated by a comma) from the includes list
-        StringTokenizer strTokens = new StringTokenizer(strThemesList, ",");
+        StringTokenizer strTokens = new StringTokenizer( strThemesList, "," );
 
-        ReferenceList listThemes = new ReferenceList();
+        ReferenceList listThemes = new ReferenceList(  );
 
-        while (strTokens.hasMoreTokens())
+        while ( strTokens.hasMoreTokens(  ) )
         {
-            String strTheme = (String) strTokens.nextToken();
-            String strThemeName = AppPropertiesService.getProperty(PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_NAME);
-            listThemes.addItem(strTheme, strThemeName);
+            String strTheme = (String) strTokens.nextToken(  );
+            String strThemeName = AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_NAME );
+            listThemes.addItem( strTheme, strThemeName );
         }
 
         return listThemes;
@@ -88,20 +89,23 @@ public class ThemesService
      * @param request The HTTP request
      * @return The theme if available otherwise null
      */
-    public static String getUserTheme(HttpServletRequest request)
+    public static String getUserTheme( HttpServletRequest request )
     {
-        if (request != null)
+        if ( request != null )
         {
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null)
+            Cookie[] cookies = request.getCookies(  );
+
+            if ( cookies != null )
             {
-                for (int i = 0; i < cookies.length; i++)
+                for ( int i = 0; i < cookies.length; i++ )
                 {
                     Cookie cookie = cookies[i];
-                    if (cookie.getName().equalsIgnoreCase(COOKIE_NAME))
+
+                    if ( cookie.getName(  ).equalsIgnoreCase( COOKIE_NAME ) )
                     {
-                        String strTheme = cookie.getValue();
-                        if (isValidTheme(strTheme))
+                        String strTheme = cookie.getValue(  );
+
+                        if ( isValidTheme( strTheme ) )
                         {
                             return strTheme;
                         }
@@ -109,14 +113,14 @@ public class ThemesService
                 }
             }
         }
-        return null;
 
+        return null;
     }
 
-    public static void setUserTheme(HttpServletRequest request, HttpServletResponse response, String strTheme)
+    public static void setUserTheme( HttpServletRequest request, HttpServletResponse response, String strTheme )
     {
-        Cookie cookie = new Cookie(COOKIE_NAME, strTheme);
-        response.addCookie(cookie);
+        Cookie cookie = new Cookie( COOKIE_NAME, strTheme );
+        response.addCookie( cookie );
     }
 
     /**
@@ -124,17 +128,20 @@ public class ThemesService
      * @param strTheme The theme to check
      * @return True if the theme is valid
      */
-    private static boolean isValidTheme(String strTheme)
+    private static boolean isValidTheme( String strTheme )
     {
-        Iterator i = getThemesList().iterator();
-        while (i.hasNext())
+        Iterator i = getThemesList(  ).iterator(  );
+
+        while ( i.hasNext(  ) )
         {
-            ReferenceItem item = (ReferenceItem) i.next();
-            if (item.getCode().equals(strTheme))
+            ReferenceItem item = (ReferenceItem) i.next(  );
+
+            if ( item.getCode(  ).equals( strTheme ) )
             {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -142,7 +149,7 @@ public class ThemesService
      * Returns the global theme
      * @return the global theme
      */
-    public static String getGlobalTheme()
+    public static String getGlobalTheme(  )
     {
         return _strGlobalTheme;
     }
@@ -151,19 +158,18 @@ public class ThemesService
      * Sets the global theme
      * @param strTheme The global theme
      */
-    public static void setGlobalTheme(String strTheme)
+    public static void setGlobalTheme( String strTheme )
     {
         _strGlobalTheme = strTheme;
     }
 
     public static String getThemeCSS( String strTheme )
     {
-        return AppPropertiesService.getProperty(PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_CSS);
+        return AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_CSS );
     }
 
     public static String getThemeImages( String strTheme )
     {
-        return AppPropertiesService.getProperty(PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_IMAGES);
+        return AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_IMAGES );
     }
-
 }

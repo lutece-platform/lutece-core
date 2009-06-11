@@ -61,7 +61,6 @@ public final class PortalMenuService implements CacheableService
     public static final int MENU_MAIN = 1;
     public static final int MODE_NORMAL = 0;
     public static final int MODE_ADMIN = 1;
-
     private static final int PORTAL_COMPONENT_MENU_INIT_ID = 3;
     private static final int PORTAL_COMPONENT_MAIN_MENU_ID = 4;
     private static final String SERVICE_NAME = "PortalMenuService";
@@ -128,10 +127,11 @@ public final class PortalMenuService implements CacheableService
 
     /**
      * Returns the menu bar from the cache or builds it if it not stored in it
-     * @return The list of the menus layed out with the stylesheet correpsonding to the mode
      * @param request The HTTP request
      * @param nMode The selected mode
      * @param nPart The part of the menu to build
+     * @param nCurrentPageId The current page ID
+     * @return The list of the menus layed out with the stylesheet correpsonding to the mode
      */
     public String getMenuContent( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
     {
@@ -183,7 +183,7 @@ public final class PortalMenuService implements CacheableService
                 XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, menuPage.getId(  ) );
                 XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, menuPage.getName(  ) );
                 XmlUtil.addElementHtml( strXml, XmlContent.TAG_CURRENT_PAGE_ID, strCurrentPageId );
-                
+
                 Collection<Page> listSubLevelMenuPages = PageHome.getChildPages( menuPage.getId(  ) );
 
                 // add element submenu-list only if list not empty
@@ -264,7 +264,6 @@ public final class PortalMenuService implements CacheableService
         return XmlTransformerService.transformBySource( strXml.toString(  ), baXslSource, mapParamRequest,
             outputProperties );
     }
-
 
     /**
      * Returns the key corresponding to the part accroding to the selected mode

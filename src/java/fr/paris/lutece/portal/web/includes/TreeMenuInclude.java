@@ -48,11 +48,14 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.xml.XmlUtil;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
 import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * This class provides  the list of the page associated by the main menu of the site
@@ -66,7 +69,6 @@ public class TreeMenuInclude implements PageInclude
     // Properties
     private static final String PROPERTY_ROOT_TREE = "lutece.root.tree";
 
-
     /**
      * Substitue specific Freemarker markers in the page template.
      * @param rootModel the HashMap containing markers to substitute
@@ -78,15 +80,20 @@ public class TreeMenuInclude implements PageInclude
     {
         if ( request != null )
         {
-        	int nCurrentPageId;
-        	try {
-            	nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID )  == null ) ? 0 : Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
+            int nCurrentPageId;
+
+            try
+            {
+                nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID ) == null ) ? 0
+                                                                                        : Integer.parseInt( request.getParameter( 
+                            Parameters.PAGE_ID ) );
             }
             catch ( NumberFormatException nfe )
             {
-            	AppLogService.info(  "TreeMenuInclude.fillTemplate() : " + nfe.getLocalizedMessage() );
-            	nCurrentPageId = 0;
+                AppLogService.info( "TreeMenuInclude.fillTemplate() : " + nfe.getLocalizedMessage(  ) );
+                nCurrentPageId = 0;
             }
+
             data.setTreeMenu( buildTreeMenuContent( nCurrentPageId, nMode, request ) );
             rootModel.put( Markers.PAGE_TREE_MENU, ( data.getTreeMenu(  ) == null ) ? "" : data.getTreeMenu(  ) );
         }
@@ -118,7 +125,6 @@ public class TreeMenuInclude implements PageInclude
         {
             listPagesMenu = PageHome.getChildPages( nIdPage );
         }
-
 
         strXml.append( XmlUtil.getXmlHeader(  ) );
         XmlUtil.beginElement( strXml, XmlContent.TAG_MENU_LIST );
@@ -173,7 +179,8 @@ public class TreeMenuInclude implements PageInclude
         {
             case PortalMenuService.MODE_NORMAL:
             case PortalMenuService.MODE_ADMIN:
-                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_TREE, PortalMenuService.MODE_NORMAL ).getSource(  );
+                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_TREE, PortalMenuService.MODE_NORMAL )
+                                                 .getSource(  );
 
                 break;
 
@@ -222,5 +229,4 @@ public class TreeMenuInclude implements PageInclude
 
         return nParentTree;
     }
-
 }

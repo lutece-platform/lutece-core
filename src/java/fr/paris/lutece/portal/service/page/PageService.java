@@ -109,7 +109,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     private static final int MODE_ADMIN = 1;
     private static final String LOGGER_PORTLET_XML_CONTENT = "lutece.debug.portlet.xmlContent";
     private static final String IMAGE_RESOURCE_TYPE_ID = "page_thumbnail";
-    private static final String KEY_THEME ="theme";
+    private static final String KEY_THEME = "theme";
 
     // Added in v1.2
     private static final String PARAMETER_PLUGIN_NAME = "plugin-name";
@@ -238,11 +238,13 @@ public class PageService extends ContentService implements ImageResourceProvider
             }
 
             LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
-            String strUserTheme = ThemesService.getUserTheme(request);
-            if( strUserTheme != null )
+            String strUserTheme = ThemesService.getUserTheme( request );
+
+            if ( strUserTheme != null )
             {
-                htParamRequest.put( KEY_THEME , strUserTheme );
+                htParamRequest.put( KEY_THEME, strUserTheme );
             }
+
             String strKey = getKey( htParamRequest, nMode, user );
 
             // The cache is enable !
@@ -277,7 +279,8 @@ public class PageService extends ContentService implements ImageResourceProvider
         }
         catch ( NumberFormatException nfe )
         {
-        	AppLogService.info(  "PageService.getPage() : " + nfe.getLocalizedMessage() );
+            AppLogService.info( "PageService.getPage() : " + nfe.getLocalizedMessage(  ) );
+
             return PortalService.getDefaultPage( request, nMode );
         }
     }
@@ -376,7 +379,7 @@ public class PageService extends ContentService implements ImageResourceProvider
         {
             data.setContent( getPageContent( nIdPage, nMode, request ) );
         }
-        
+
         if ( nIdPage == PortalService.getRootPageId(  ) )
         {
             // This page is the home page.
@@ -523,6 +526,7 @@ public class PageService extends ContentService implements ImageResourceProvider
                 arrayContent[nCol] += strPortletContent;
             }
         }
+
         HashMap<String, String> rootModel = new HashMap<String, String>(  );
 
         for ( int j = 0; j < nColumn; j++ )
@@ -532,6 +536,7 @@ public class PageService extends ContentService implements ImageResourceProvider
 
         List<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
         PageData data = new PageData(  );
+
         for ( PageInclude pic : listIncludes )
         {
             pic.fillTemplate( rootModel, data, nMode, request );

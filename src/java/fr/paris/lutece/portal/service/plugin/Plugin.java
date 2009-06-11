@@ -144,8 +144,8 @@ public abstract class Plugin implements Comparable<Plugin>
             _strDocumentationUrl = pluginFile.getDocumentationUrl(  );
             _strCopyright = pluginFile.getCopyright(  );
             _strPluginClass = pluginFile.getPluginClass(  );
-            _strMinCoreVersion = pluginFile.getMinCoreVersion();
-            _strMaxCoreVersion = pluginFile.getMaxCoreVersion();
+            _strMinCoreVersion = pluginFile.getMinCoreVersion(  );
+            _strMaxCoreVersion = pluginFile.getMaxCoreVersion(  );
             _listXPageApplications = pluginFile.getXPageApplications(  );
             _listFilters = pluginFile.getFilters(  );
             _listRights = pluginFile.getRights(  );
@@ -489,14 +489,13 @@ public abstract class Plugin implements Comparable<Plugin>
         }
     }
 
-
     /**
      * Installs a Plugin
      */
     public void install(  )
     {
         // Register a new right for the plugin
-         registerRights(  );
+        registerRights(  );
 
         // Register a new portlets as plugin
         registerPortlets(  );
@@ -864,13 +863,12 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the the max core version compatibility for the plugin
      *
-     * @param strMinCoreVersion The max core version
+     * @param strMaxCoreVersion The max core version
      */
     public void setMaxCoreVersion( String strMaxCoreVersion )
     {
         _strMaxCoreVersion = strMaxCoreVersion;
     }
-
 
     /**
      * Returns if the plugin needs a database connection pool

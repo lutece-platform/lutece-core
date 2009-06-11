@@ -39,15 +39,17 @@ import fr.paris.lutece.portal.service.portal.PortalMenuService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Parameters;
+
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * This class provides  the list of the page associated by the main menu of the site
  */
 public class MainMenuInclude implements PageInclude
 {
-
     /**
      * Substitue specific Freemarker markers in the page template.
      * @param rootModel the HashMap containing markers to substitute
@@ -57,18 +59,25 @@ public class MainMenuInclude implements PageInclude
      */
     public void fillTemplate( Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
-        if( request != null )
+        if ( request != null )
         {
-        	int nCurrentPageId;
-        	try {
-        		nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID )  == null ) ? 0 : Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
-        	}
-        	catch ( NumberFormatException nfe )
+            int nCurrentPageId;
+
+            try
             {
-        		AppLogService.info(  "MainMenuInclude.fillTemplate() : " + nfe.getLocalizedMessage() );
-             	nCurrentPageId = 0;
+                nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID ) == null ) ? 0
+                                                                                        : Integer.parseInt( request.getParameter( 
+                            Parameters.PAGE_ID ) );
             }
-        	rootModel.put( Markers.PAGE_MAIN_MENU, PortalMenuService.getInstance().getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) );
+            catch ( NumberFormatException nfe )
+            {
+                AppLogService.info( "MainMenuInclude.fillTemplate() : " + nfe.getLocalizedMessage(  ) );
+                nCurrentPageId = 0;
+            }
+
+            rootModel.put( Markers.PAGE_MAIN_MENU,
+                PortalMenuService.getInstance(  )
+                                 .getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) );
         }
     }
 }

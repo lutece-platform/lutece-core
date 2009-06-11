@@ -99,6 +99,13 @@ public final class PortalService
     private static Map<String, CacheableService> _mapCacheableServicesRegistry = new HashMap<String, CacheableService>(  );
 
     /**
+     * Private Constructor
+     */
+    private PortalService(  )
+    {
+    }
+
+    /**
      * Reset the cache
      */
     public static void resetCache(  )
@@ -225,7 +232,6 @@ public final class PortalService
 
     /**
      * Returns the html code which represents the page content
-     * @param nCurrentPageId the current page id
      * @param data The structure which contains the informations about the page
      * @param nMode The mode in which displaying the page : normal or administration
      * @param request The request
@@ -233,11 +239,12 @@ public final class PortalService
      */
     public static String buildPageContent( PageData data, int nMode, HttpServletRequest request )
     {
-        return buildPageContent ( getRootPageId() , data, nMode, request );
+        return buildPageContent( getRootPageId(  ), data, nMode, request );
     }
 
     /**
      * Returns the html code which represents the page content
+     * @param nCurrentPageId the current page id
      * @param data The structure which contains the informations about the page
      * @param nMode The mode in which displaying the page : normal or administration
      * @param request The request
@@ -442,6 +449,7 @@ public final class PortalService
      * Formats the path specified in parameter and returns it
      *
      * @param strPath The path to format
+     * @param nMode The mode to use for the formatting
      * @param request The HTTP request
      * @return the html code to display the path
      */
@@ -452,11 +460,11 @@ public final class PortalService
 
         List<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
         PageData data = new PageData(  );
+
         for ( PageInclude pic : listIncludes )
         {
             pic.fillTemplate( model, data, nMode, request );
         }
-
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_PATH,
                 ( request == null ) ? null : request.getLocale(  ), model );

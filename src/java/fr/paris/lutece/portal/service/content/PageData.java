@@ -42,7 +42,6 @@ public class PageData
     ////////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String EMPTY_STRING = "";
-    
     private String _strName;
     private String _strFavourite;
     private String _strCssUrl;

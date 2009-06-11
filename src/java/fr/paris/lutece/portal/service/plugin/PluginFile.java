@@ -368,7 +368,7 @@ public class PluginFile
     /**
      * Sets the the max core version compatibility for the plugin
      *
-     * @param strMinCoreVersion The max core version
+     * @param strMaxCoreVersion The max core version
      */
     public void setMaxCoreVersion( String strMaxCoreVersion )
     {

@@ -53,7 +53,6 @@ public class State implements IReferenceItem, RBACResource
     private List<Action> _listActions;
     private Boolean _bInitialState;
     private Boolean _bRequiredWorkgroupAssigned;
-    
 
     /**
      *
@@ -186,17 +185,20 @@ public class State implements IReferenceItem, RBACResource
     }
 
     /**
-     * 
+     *
      * @return return true if the resources of this state shall be assigned to a workgroup
      */
-	public Boolean isRequiredWorkgroupAssigned() {
-		return _bRequiredWorkgroupAssigned;
-	}
-	/**
-	 * set true return true if the resources of this state shall be assigned to a workgroup
-	 * @param requireUserAssigned true return true if the resources of this state shall be assigned to to a workgroup
-	 */
-	public void setRequiredWorkgroupAssigned(Boolean requireUserAssociated) {
-		_bRequiredWorkgroupAssigned = requireUserAssociated;
-	}
+    public Boolean isRequiredWorkgroupAssigned(  )
+    {
+        return _bRequiredWorkgroupAssigned;
+    }
+
+    /**
+     * set true return true if the resources of this state shall be assigned to a workgroup
+     * @param requireUserAssigned true return true if the resources of this state shall be assigned to to a workgroup
+     */
+    public void setRequiredWorkgroupAssigned( Boolean requireUserAssociated )
+    {
+        _bRequiredWorkgroupAssigned = requireUserAssociated;
+    }
 }

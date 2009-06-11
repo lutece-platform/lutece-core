@@ -160,6 +160,7 @@ public class LuteceFilter
 
     /**
      * for debug purpose
+     * @return The name of the filter
      */
     public String toString(  )
     {

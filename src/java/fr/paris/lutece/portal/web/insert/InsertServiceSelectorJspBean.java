@@ -138,15 +138,16 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
         Map<String, String> model = new HashMap<String, String>(  );
         model.put( MARK_INPUT, strInput );
         model.put( MARK_INSERT, strInsert );
-        
+
         HtmlTemplate template;
-        if( strMode.compareTo("2") == 0 )
+
+        if ( strMode.compareTo( "2" ) == 0 )
         {
-        	template = AppTemplateService.getTemplate( TEMPLATE_INSERT_INTO_EDITOR2, getLocale(  ), model );
+            template = AppTemplateService.getTemplate( TEMPLATE_INSERT_INTO_EDITOR2, getLocale(  ), model );
         }
         else
         {
-        	template = AppTemplateService.getTemplate( TEMPLATE_INSERT_INTO_EDITOR, getLocale(  ), model );
+            template = AppTemplateService.getTemplate( TEMPLATE_INSERT_INTO_EDITOR, getLocale(  ), model );
         }
 
         return template.getHtml(  );

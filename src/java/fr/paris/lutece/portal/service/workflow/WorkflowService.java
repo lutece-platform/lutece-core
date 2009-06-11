@@ -33,21 +33,21 @@
  */
 package fr.paris.lutece.portal.service.workflow;
 
-import java.util.Collection;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.CannotLoadBeanClassException;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.workflow.Action;
 import fr.paris.lutece.portal.business.workflow.State;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
+
+import org.springframework.beans.factory.BeanDefinitionStoreException;
+import org.springframework.beans.factory.CannotLoadBeanClassException;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+
+import java.util.Collection;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /*
@@ -87,210 +87,199 @@ import fr.paris.lutece.util.ReferenceList;
 /**
  * WorkflowService
  */
-public class WorkflowService 
+public class WorkflowService
 {
-	 private static final String PLUGIN_WORKFLOW_NAME = "workflow";
-	    private static WorkflowService _singleton;
-	    private boolean _bServiceAvailable = true;
-	    private IWorkflowService _service;
+    private static final String PLUGIN_WORKFLOW_NAME = "workflow";
+    private static WorkflowService _singleton;
+    private boolean _bServiceAvailable = true;
+    private IWorkflowService _service;
 
-	    private WorkflowService(  )
-	    {
-	        try
-	        {
-	            _service = (IWorkflowService) SpringContextService.getPluginBean( PLUGIN_WORKFLOW_NAME,
-	                    "workflowService" );
-	            _bServiceAvailable = _service != null;
-	        }
-	        catch ( BeanDefinitionStoreException e )
-	        {
-	            _bServiceAvailable = false;
-	        }
-	        catch ( NoSuchBeanDefinitionException e )
-	        {
-	            _bServiceAvailable = false;
-	        }
-	        catch ( CannotLoadBeanClassException e )
-	        {
-	            _bServiceAvailable = false;
-	        }
-	    }
+    private WorkflowService(  )
+    {
+        try
+        {
+            _service = (IWorkflowService) SpringContextService.getPluginBean( PLUGIN_WORKFLOW_NAME, "workflowService" );
+            _bServiceAvailable = _service != null;
+        }
+        catch ( BeanDefinitionStoreException e )
+        {
+            _bServiceAvailable = false;
+        }
+        catch ( NoSuchBeanDefinitionException e )
+        {
+            _bServiceAvailable = false;
+        }
+        catch ( CannotLoadBeanClassException e )
+        {
+            _bServiceAvailable = false;
+        }
+    }
 
-	    /**
-	    * Returns the unique instance of the service
-	    * @return The instance of the service
-	    */
-	    public static WorkflowService getInstance(  )
-	    {
-	        if ( _singleton == null )
-	        {
-	            _singleton = new WorkflowService(  );
-	        }
+    /**
+    * Returns the unique instance of the service
+    * @return The instance of the service
+    */
+    public static WorkflowService getInstance(  )
+    {
+        if ( _singleton == null )
+        {
+            _singleton = new WorkflowService(  );
+        }
 
-	        return _singleton;
-	    }
+        return _singleton;
+    }
 
-	    /**
-	    *
-	    * @return true if the workflow service is available
-	    */
-	    public boolean isAvailable(  )
-	    {
-	        return _bServiceAvailable && PluginService.isPluginEnable( PLUGIN_WORKFLOW_NAME );
-	    }
-	    
-	    
-	    
-		/**
-		 * returns a list of actions possible for a given document based on the status
-		 * of the document in the workflow and the user role
-		 * @param nIdResource the document id
-		 * @param strResourceType the document type
-		 * @param user the adminUser
-		 * @param nIdWorkflow the workflow id
-		 * @return a list of Action
-		 */
-		public Collection<Action> getActions(int nIdResource, String strResourceType,
-				int nIdWorkflow, AdminUser user)
-		{
-			return isAvailable(  ) ? _service.getActions(nIdResource, strResourceType, nIdWorkflow, user) : null;
-		 }
+    /**
+    *
+    * @return true if the workflow service is available
+    */
+    public boolean isAvailable(  )
+    {
+        return _bServiceAvailable && PluginService.isPluginEnable( PLUGIN_WORKFLOW_NAME );
+    }
 
-		/**
-		 * returns the state of a  given document 
-		 * of the document in the workflow and the user role
-		 * @param nIdResource the document id
-		 * @param strResourceType the document type
-		 * @param user the adminUser
-		 * @param nIdWorkflow the workflow id
-		 * @return the state of a given document
-		 */
-		public State getState(int nIdResource, String strResourceType, int nIdWorkflow,
-				AdminUser user)
-		{
-			return isAvailable(  ) ? _service.getState(nIdResource, strResourceType, nIdWorkflow, user) : null;
-		}
+    /**
+     * returns a list of actions possible for a given document based on the status
+     * of the document in the workflow and the user role
+     * @param nIdResource the document id
+     * @param strResourceType the document type
+     * @param user the adminUser
+     * @param nIdWorkflow the workflow id
+     * @return a list of Action
+     */
+    public Collection<Action> getActions( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
+    {
+        return isAvailable(  ) ? _service.getActions( nIdResource, strResourceType, nIdWorkflow, user ) : null;
+    }
 
-		/**
-		 * return true if a form is associate to the action
-		 *
-		 * @param nIdAction the action id
-		 * @param locale the loacle
-		 * @return true if a form is associate to the action
-		 */
-		public boolean isDisplayTasksForm(int nIdAction, Locale locale)
-		{
-			return isAvailable(  ) ? _service.isDisplayTasksForm(nIdAction, locale):false;
-		}
+    /**
+     * returns the state of a  given document
+     * of the document in the workflow and the user role
+     * @param nIdResource the document id
+     * @param strResourceType the document type
+     * @param user the adminUser
+     * @param nIdWorkflow the workflow id
+     * @return the state of a given document
+     */
+    public State getState( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
+    {
+        return isAvailable(  ) ? _service.getState( nIdResource, strResourceType, nIdWorkflow, user ) : null;
+    }
 
-		/**
-		 * Proceed action given in parameter
-		 * @param nIdResource the resource id
-		 * @param strResourceType the resource type
-		 * @param request the request
-		 * @param nIdAction the action id
-		 * @param locale locale
-		 *
-		 */
-		public void doProcessAction(int nIdResource, String strResourceType,
-				int nIdAction, HttpServletRequest request, Locale locale)
-		{
-			if(isAvailable(  ) )
-			{
-				 _service.doProcessAction(nIdResource, strResourceType, nIdAction, request, locale);
-			}
-		}
+    /**
+     * return true if a form is associate to the action
+     *
+     * @param nIdAction the action id
+     * @param locale the loacle
+     * @return true if a form is associate to the action
+     */
+    public boolean isDisplayTasksForm( int nIdAction, Locale locale )
+    {
+        return isAvailable(  ) ? _service.isDisplayTasksForm( nIdAction, locale ) : false;
+    }
 
-		/**
-		 * returns the  actions history performed on a resource
-		 * @param nIdResource the resource id
-		 * @param strResourceType the resource type
-		 * @param request the request
-		 * @param nIdWorkflow the workflow id
-		 * @param locale the locale
-		 * @return the history of actions performed on a resource
-		 */
-		public String getDisplayDocumentHistory(int nIdResource, String strResourceType,
-				int nIdWorkflow, HttpServletRequest request, Locale locale)
-		{
-			return isAvailable(  ) ? _service.getDisplayDocumentHistory(nIdResource, strResourceType, nIdWorkflow, request, locale) : null;
-		}
+    /**
+     * Proceed action given in parameter
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     * @param request the request
+     * @param nIdAction the action id
+     * @param locale locale
+     *
+     */
+    public void doProcessAction( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
+        Locale locale )
+    {
+        if ( isAvailable(  ) )
+        {
+            _service.doProcessAction( nIdResource, strResourceType, nIdAction, request, locale );
+        }
+    }
 
-		/**
-		 * Perform the information on the various tasks associated with the given action specified in parameter
-		 * @param nIdResource the resource id
-		 * @param strResourceType the resource type
-		 * @param request the request
-		 * @param nIdAction the action id
-		 * @return null if there is no error in the task form
-		 *                    else return the error message url
-		 
-		 */
-		public String doSaveTasksForm(int nIdResource, String strResourceType,
-				int nIdAction, HttpServletRequest request, Locale locale)
-		{
-			
-			return isAvailable(  ) ? _service.doSaveTasksForm(nIdResource, strResourceType, nIdAction, request, locale) : null;
-		}
-		
+    /**
+     * returns the  actions history performed on a resource
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     * @param request the request
+     * @param nIdWorkflow the workflow id
+     * @param locale the locale
+     * @return the history of actions performed on a resource
+     */
+    public String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow,
+        HttpServletRequest request, Locale locale )
+    {
+        return isAvailable(  )
+        ? _service.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale ) : null;
+    }
 
-		/**
-		 * Remove in all workflows the resource specified in parameter
-		 * @param nIdResource the resource id
-		 * @param strResourceType the resource type
-		 */
-		public void doRemoveWorkFlowResource(int nIdResource, String strResourceType)
-		{
-			if(isAvailable(  ) )
-			{
-				_service.doRemoveWorkFlowResource(nIdResource, strResourceType);
-			}
-			
-		}
+    /**
+     * Perform the information on the various tasks associated with the given action specified in parameter
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     * @param request the request
+     * @param nIdAction the action id
+     * @return null if there is no error in the task form
+     *                    else return the error message url
+    
+     */
+    public String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
+        Locale locale )
+    {
+        return isAvailable(  ) ? _service.doSaveTasksForm( nIdResource, strResourceType, nIdAction, request, locale )
+                               : null;
+    }
 
-		
-		/**
-		 * returns the tasks form
-		 * @param nIdResource the document id
-		 * @param strResourceType the document type
-		 * @param request the request
-		 * @param nIdAction the action id
-		 * @param locale the locale
-		 * @return the tasks form associated to the action
-		 *
-		 */
-		public String getDisplayTasksForm(int nIdResource, String strResourceType,
-				int nIdAction, HttpServletRequest request, Locale locale)
-		{
-			return isAvailable(  ) ? _service.getDisplayTasksForm(nIdResource, strResourceType, nIdAction, request, locale) : null;
-		}
+    /**
+     * Remove in all workflows the resource specified in parameter
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     */
+    public void doRemoveWorkFlowResource( int nIdResource, String strResourceType )
+    {
+        if ( isAvailable(  ) )
+        {
+            _service.doRemoveWorkFlowResource( nIdResource, strResourceType );
+        }
+    }
 
-		/**
-		 * Check that a given user is allowed to view a resource depending the state of the resource
-		 * @param nIdResource the document id
-		 * @param strResourceType the document type
-		 * @param  user the AdminUser
-		 * @param nIdWorkflow the workflow id
-		 * @return a list of Action
-		 */
-	  public 	boolean isAuthorized(int nIdResource, String strResourceType,
-				int nIdWorkflow, AdminUser user)
-	  {
-		  
-		 return _bServiceAvailable && _service.isAuthorized(nIdResource, strResourceType, nIdWorkflow, user);
-	  }
+    /**
+     * returns the tasks form
+     * @param nIdResource the document id
+     * @param strResourceType the document type
+     * @param request the request
+     * @param nIdAction the action id
+     * @param locale the locale
+     * @return the tasks form associated to the action
+     *
+     */
+    public String getDisplayTasksForm( int nIdResource, String strResourceType, int nIdAction,
+        HttpServletRequest request, Locale locale )
+    {
+        return isAvailable(  )
+        ? _service.getDisplayTasksForm( nIdResource, strResourceType, nIdAction, request, locale ) : null;
+    }
 
-	  /**
-		 * return a referencelist wich contains a list enabled workflow
-		 * @param user the AdminUser
-		 * @param locale the locale
-		 * @return a referencelist wich contains a list enabled workflow
-		 */
-	    public ReferenceList getWorkflowsEnabled( AdminUser user,Locale locale)
-	    {
-	    	
-	    	return isAvailable(  ) ? _service.getWorkflowsEnabled(user, locale):null;
-	    	
-	    }
-	    
+    /**
+     * Check that a given user is allowed to view a resource depending the state of the resource
+     * @param nIdResource the document id
+     * @param strResourceType the document type
+     * @param  user the AdminUser
+     * @param nIdWorkflow the workflow id
+     * @return a list of Action
+     */
+    public boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
+    {
+        return _bServiceAvailable && _service.isAuthorized( nIdResource, strResourceType, nIdWorkflow, user );
+    }
+
+    /**
+           * return a referencelist wich contains a list enabled workflow
+           * @param user the AdminUser
+           * @param locale the locale
+           * @return a referencelist wich contains a list enabled workflow
+           */
+    public ReferenceList getWorkflowsEnabled( AdminUser user, Locale locale )
+    {
+        return isAvailable(  ) ? _service.getWorkflowsEnabled( user, locale ) : null;
+    }
 }
