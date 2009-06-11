@@ -51,7 +51,9 @@ public class State implements IReferenceItem, RBACResource
     private String _strName;
     private String _strDescription;
     private List<Action> _listActions;
-    private Boolean _bIsInitialState;
+    private Boolean _bInitialState;
+    private Boolean _bRequiredWorkgroupAssigned;
+    
 
     /**
      *
@@ -153,7 +155,7 @@ public class State implements IReferenceItem, RBACResource
      */
     public Boolean isInitialState(  )
     {
-        return _bIsInitialState;
+        return _bInitialState;
     }
 
     /**
@@ -162,7 +164,7 @@ public class State implements IReferenceItem, RBACResource
      */
     public void setInitialState( Boolean isInitialState )
     {
-        _bIsInitialState = isInitialState;
+        _bInitialState = isInitialState;
     }
 
     /**
@@ -182,4 +184,19 @@ public class State implements IReferenceItem, RBACResource
     {
         return Integer.toString( _nId );
     }
+
+    /**
+     * 
+     * @return return true if the resources of this state shall be assigned to a workgroup
+     */
+	public Boolean isRequiredWorkgroupAssigned() {
+		return _bRequiredWorkgroupAssigned;
+	}
+	/**
+	 * set true return true if the resources of this state shall be assigned to a workgroup
+	 * @param requireUserAssigned true return true if the resources of this state shall be assigned to to a workgroup
+	 */
+	public void setRequiredWorkgroupAssigned(Boolean requireUserAssociated) {
+		_bRequiredWorkgroupAssigned = requireUserAssociated;
+	}
 }

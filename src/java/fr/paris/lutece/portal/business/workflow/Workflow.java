@@ -52,7 +52,7 @@ public class Workflow implements AdminWorkgroupResource, IReferenceItem
     private List<State> _listStates;
     private Timestamp _tCreationDate;
     private String _strWorkgroupKey;
-    private boolean _bIsEnabled;
+    private boolean _bEnabled;
 
     /**
      * Initialize the workflow
@@ -194,7 +194,7 @@ public class Workflow implements AdminWorkgroupResource, IReferenceItem
     */
     public boolean isEnabled(  )
     {
-        return _bIsEnabled;
+        return _bEnabled;
     }
 
     /**
@@ -203,6 +203,6 @@ public class Workflow implements AdminWorkgroupResource, IReferenceItem
      */
     public void setEnabled( boolean enable )
     {
-        _bIsEnabled = enable;
+        _bEnabled = enable;
     }
 }
