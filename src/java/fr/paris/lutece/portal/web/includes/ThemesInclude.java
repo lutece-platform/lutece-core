@@ -156,6 +156,12 @@ public class ThemesInclude implements PageInclude
         return null;
     }
 
+    /**
+     * Attach a given theme to an user using a cookie
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @param strTheme The new Theme
+     */
     public static void setUserTheme( HttpServletRequest request, HttpServletResponse response, String strTheme )
     {
         Cookie cookie = new Cookie( COOKIE_NAME, strTheme );

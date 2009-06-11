@@ -45,7 +45,7 @@ import java.util.Hashtable;
  */
 public interface ConnectionService
 {
-    public int INFO_NOT_AVAILABLE = -1;
+    int INFO_NOT_AVAILABLE = -1;
 
     /**
      * Get a connection

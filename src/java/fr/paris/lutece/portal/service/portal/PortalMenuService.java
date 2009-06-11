@@ -156,6 +156,7 @@ public final class PortalMenuService implements CacheableService
     /**
      * Builds the menu bar
      *
+     * @param nCurrentPageId The current page ID
      * @param nMode The selected mode
      * @param nPart The part of the menu to build
      * @param request The HttpServletRequest

@@ -364,6 +364,9 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Verify the core compatibility for a plugin
+     *
+     * @param plugin The plugin
+     * @return true if compatible with the current core version
      */
     private boolean verifyCoreCompatibility( Plugin plugin )
     {
@@ -374,9 +377,6 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
         String strMinCoreVersion = ( plugin.getMinCoreVersion(  ) == null ) ? "" : plugin.getMinCoreVersion(  );
         String strMaxCoreVersion = ( plugin.getMaxCoreVersion(  ) == null ) ? "" : plugin.getMaxCoreVersion(  );
-
-        System.out.println( "Min" + strMinCoreVersion );
-        System.out.println( "Max" + strMaxCoreVersion );
 
         bMin = ( ( ( strMinCoreVersion == null ) || strMinCoreVersion.trim(  ).equals( "" ) ) ? true : false );
         bMax = ( ( ( strMaxCoreVersion == null ) || strMaxCoreVersion.trim(  ).equals( "" ) ) ? true : false );
@@ -413,6 +413,12 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         return bCompatibility;
     }
 
+    /**
+     * Checks the compatibility
+     * @param minCoreVersion The min core version
+     * @param coreVersion The current core version
+     * @return true if compatible with the current core version
+     */
     private boolean checkCoreMinCompatibility( String[] minCoreVersion, String[] coreVersion )
     {
         boolean b = false;
@@ -443,6 +449,12 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         return b;
     }
 
+    /**
+     * Checks the compatibility
+     * @param maxCoreVersion The max core version
+     * @param coreVersion The current core version
+     * @return true if compatible with the current core version
+     */
     private boolean checkCoreMaxCompatibility( String[] maxCoreVersion, String[] coreVersion )
     {
         boolean b = false;

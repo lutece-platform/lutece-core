@@ -104,6 +104,7 @@ public class SearchApp implements XPageApplication
      * @param nMode The current mode.
      * @param plugin The plugin
      * @return The HTML code of the page.
+     * @throws SiteMessageException If an error occurs
      */
     public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
         throws SiteMessageException
@@ -173,8 +174,10 @@ public class SearchApp implements XPageApplication
 
     /**
      * Encode an url string
+     * @param request The HTTP request
      * @param strSource The string to encode
      * @return The encoded string
+     * @throws SiteMessageException If an error occurs
      */
     public static String encodeUrl( HttpServletRequest request, String strSource )
         throws SiteMessageException

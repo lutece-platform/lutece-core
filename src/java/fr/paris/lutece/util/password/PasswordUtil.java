@@ -42,7 +42,7 @@ import java.util.Random;
  * Utility class used to generate random passwords
  *
  */
-public class PasswordUtil
+public final class PasswordUtil
 {
     private static final int CONSTANT_PASSWORD_SIZE = 8;
     private static final int CONSTANT_NUMBER_LETTERS = 26;

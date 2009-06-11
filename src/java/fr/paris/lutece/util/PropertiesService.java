@@ -111,6 +111,7 @@ public class PropertiesService
      * Load properties of a file
      * @param strFullPath The absolute path of the properties file
      * @throws java.io.IOException If an error occurs reading the file
+     * @throws java.io.FileNotFoundException If the file is not found
      */
     private void loadFile( String strFullPath ) throws FileNotFoundException, IOException
     {

@@ -606,7 +606,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Notify an user by email
-     * @param The {@link HttpServletRequest}
+     * @param request Http Request}
      * @param user The admin user to notify
      */
     private void notifyUser( HttpServletRequest request, AdminUser user )

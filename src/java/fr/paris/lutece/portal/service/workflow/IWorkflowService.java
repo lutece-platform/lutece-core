@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2008, Mairie de Paris
+ * Copyright (c) 2002-2009, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -110,6 +110,7 @@ public interface IWorkflowService
      * @param strResourceType the resource type
      * @param request the request
      * @param nIdAction the action id
+     * @param locale the locale
      * @return null if there is no error in the task form
      *                    else return the error message url
     

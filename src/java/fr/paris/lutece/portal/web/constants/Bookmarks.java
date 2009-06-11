@@ -40,6 +40,9 @@ package fr.paris.lutece.portal.web.constants;
 public class Bookmarks
 {
     // to retrieve the webapp url when using linkservice
+    /**
+     * @deprecated
+     */
     public static final String WEBAPP_PATH_FOR_LINKSERVICE = "@webapp_path_for_linkservice@";
 
     /* public static final String BASE_URL = "@base_url@";

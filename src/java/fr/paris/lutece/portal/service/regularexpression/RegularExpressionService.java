@@ -48,13 +48,16 @@ import java.util.List;
  *
  * this class provides services for use regular expression
  */
-public class RegularExpressionService
+public final class RegularExpressionService
 {
     private static final String PLUGIN_REGULAR_EXPRESSION_NAME = "regularexpression";
     private static RegularExpressionService _singleton;
     private boolean _bServiceAvailable = true;
     private IRegularExpressionService _service;
 
+    /**
+     * Private constructor
+     */
     private RegularExpressionService(  )
     {
         try

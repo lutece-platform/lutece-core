@@ -47,7 +47,7 @@ import java.util.Collection;
 /**
  * class PortletService
  */
-public class PortletService
+public final class PortletService
 {
     private static PortletService _singleton;
 

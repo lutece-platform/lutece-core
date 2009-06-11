@@ -98,6 +98,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
      * Modify the User theme
      *
      * @param request The Http request
+     * @param response The Http response
      * @return the html code for display the manage themes page
      */
     public String doModifyUserTheme( HttpServletRequest request, HttpServletResponse response )

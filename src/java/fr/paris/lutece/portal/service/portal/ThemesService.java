@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2008, Mairie de Paris
+ * Copyright (c) 2002-2009, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * ThemesService
  */
-public class ThemesService
+public final class ThemesService
 {
     public static final String DEFAULT_THEME = "default";
     private static final String PROPERTY_PREFIX = "themes.";
@@ -58,6 +58,13 @@ public class ThemesService
     private static final String PROPERTY_THEMES_LIST = "themes.list";
     private static final String COOKIE_NAME = "theme";
     private static String _strGlobalTheme = DEFAULT_THEME;
+
+    /**
+     * Private constructor
+     */
+    private ThemesService()
+    {
+    }
 
     /**
      * Returns the list of the code_theme of the page
@@ -163,11 +170,21 @@ public class ThemesService
         _strGlobalTheme = strTheme;
     }
 
+    /**
+     * Returns the url of the CSS of the given theme
+     * @param strTheme The theme
+     * @return The CSS url
+     */
     public static String getThemeCSS( String strTheme )
     {
         return AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_CSS );
     }
 
+    /**
+     * Returns the url of the images directory of the given theme
+     * @param strTheme The theme
+     * @return The images directory url
+     */
     public static String getThemeImages( String strTheme )
     {
         return AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_IMAGES );
