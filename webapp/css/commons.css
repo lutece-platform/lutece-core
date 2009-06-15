@@ -27,6 +27,7 @@
 .-lutece-center {
 	margin-left: auto;
 	margin-right: auto;
+	text-align: center;
 }
 .-lutece-full-width {
 	width: 100%;
