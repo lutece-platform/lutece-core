@@ -43,3 +43,6 @@
 .-lutece-800px-width {/* useful for insert-album gallery view panel only */ 
 	width: 800px;
 }
+.-lutece-padding-1em {
+	padding: 1em;
+}
