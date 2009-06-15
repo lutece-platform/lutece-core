@@ -24,21 +24,12 @@
 	-webkit-border-radius:3px;
 	border-radius:3px;
 }
-.-lutece-clear-both {
-	clear: both;
-}
 .-lutece-center {
 	margin-left: auto;
 	margin-right: auto;
 }
 .-lutece-full-width {
 	width: 100%;
-}
-.-lutece-hidden {
-	display:none;
-}
-.-lutece-show {
-	display:block;
 }
 .-lutece-800px-width {/* useful for insert-album gallery view panel only */ 
 	width: 800px;
