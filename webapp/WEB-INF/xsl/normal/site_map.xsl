@@ -5,18 +5,13 @@
 
 
 <xsl:template match="page[page-level=0]">
-<div id="content">
-<div id="one-zone-first">
-		<div id="one-zone-first-content">			
-			<xsl:apply-templates select="child-pages-list" />
-		</div>
+	<div class="span-15 prepend-1 append-1 prepend-top">
+		<xsl:apply-templates select="child-pages-list" />
 	</div>
-</div>
-<div id="sidebar">
-	<img src="document?id=7&amp;id_attribute=52" alt="banner" title="banner"/>
-	&#160;
-</div>
-	
+	<div id="sidebar" class="span-6 append-1 prepend-top last">
+		<img src="document?id=7&amp;id_attribute=52" alt="banner" title="banner"/>
+		&#160;
+	</div>
 </xsl:template>
 
 
