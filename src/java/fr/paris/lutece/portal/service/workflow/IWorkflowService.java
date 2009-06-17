@@ -155,4 +155,22 @@ public interface IWorkflowService
      * @return a referencelist wich contains a list enabled workflow
      */
     ReferenceList getWorkflowsEnabled( AdminUser user, Locale locale );
+
+    /**
+     * return a list wich contains idRessource for a given state
+     * @param nIdState id State
+     * @param nIdWorkflow id Workflow
+     * @param strRessource the name of ressource
+     * @param user the AdminUser
+     * @return a list wich contains idRessource
+     */
+    Collection<Integer> getListIdRessourceByFilter( int nIdState, String strResource, int nIdWorkflow, AdminUser user );
+
+    /**
+     * returns all state of a  given workflow
+     * @param user the adminUser
+     * @param nIdWorkflow the workflow id
+     * @return the state of a given document
+     */
+    Collection<State> getAllStateByWorkflow( int nIdWorkflow, AdminUser user );
 }

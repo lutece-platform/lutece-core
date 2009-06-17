@@ -45,6 +45,7 @@ import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -153,26 +154,12 @@ public class WorkflowService
     }
 
     /**
-     * returns the state of a  given document
-     * of the document in the workflow and the user role
-     * @param nIdResource the document id
-     * @param strResourceType the document type
-     * @param user the adminUser
-     * @param nIdWorkflow the workflow id
-     * @return the state of a given document
-     */
-    public State getState( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
-    {
-        return isAvailable(  ) ? _service.getState( nIdResource, strResourceType, nIdWorkflow, user ) : null;
-    }
-
-    /**
-     * return true if a form is associate to the action
-     *
-     * @param nIdAction the action id
-     * @param locale the loacle
-     * @return true if a form is associate to the action
-     */
+    * return true if a form is associate to the action
+    *
+    * @param nIdAction the action id
+    * @param locale the loacle
+    * @return true if a form is associate to the action
+    */
     public boolean isDisplayTasksForm( int nIdAction, Locale locale )
     {
         return isAvailable(  ) ? _service.isDisplayTasksForm( nIdAction, locale ) : false;
@@ -273,13 +260,37 @@ public class WorkflowService
     }
 
     /**
-           * return a referencelist wich contains a list enabled workflow
-           * @param user the AdminUser
-           * @param locale the locale
-           * @return a referencelist wich contains a list enabled workflow
-           */
+     * return a referencelist wich contains a list enabled workflow
+     * @param user the AdminUser
+     * @param locale the locale
+     * @return a referencelist wich contains a list enabled workflow
+     */
     public ReferenceList getWorkflowsEnabled( AdminUser user, Locale locale )
     {
         return isAvailable(  ) ? _service.getWorkflowsEnabled( user, locale ) : null;
+    }
+
+    /**
+     * returns all state of a  given workflow
+     * @param user the adminUser
+     * @param nIdWorkflow the workflow id
+     * @return the state of a given document
+     */
+    public Collection<State> getAllStateByWorkflow( int nListIdWorkflow, AdminUser user )
+    {
+        return isAvailable(  ) ? _service.getAllStateByWorkflow( nListIdWorkflow, user ) : null;
+    }
+
+    /**
+     * return a list wich contains idRessource for a given filter
+     * @param nIdState the id State
+     * @param strRessource the name of ressource
+     * @param user the AdminUser
+     * @return a list wich contains idRessource
+     */
+    public Collection<Integer> getListIdRessourceByFilter( int nIdState, String strRessource, int nIdWorkflow,
+        AdminUser user )
+    {
+        return isAvailable(  ) ? _service.getListIdRessourceByFilter( nIdState, strRessource, nIdWorkflow, user ) : null;
     }
 }
