@@ -293,4 +293,18 @@ public class WorkflowService
     {
         return isAvailable(  ) ? _service.getListIdRessourceByFilter( nIdState, strRessource, nIdWorkflow, user ) : null;
     }
+    
+    /**
+     * returns the state of a  given document
+     * of the document in the workflow and the user role
+     * @param nIdResource the document id
+     * @param strResourceType the document type
+     * @param user the adminUser
+     * @param nIdWorkflow the workflow id
+     * @return the state of a given document
+     */
+    public State getState( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
+    {
+        return isAvailable(  ) ? _service.getState( nIdResource, strResourceType, nIdWorkflow, user ) : null;
+    }
 }
