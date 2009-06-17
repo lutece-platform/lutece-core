@@ -33,13 +33,17 @@
  */
 package fr.paris.lutece.portal.business.rbac;
 
+import java.io.Serializable;
+
 
 /**
  * This class describes a role used by the administration
  */
-public class AdminRole
+public class AdminRole implements Serializable
 {
-    private String _strKey;
+
+	private static final long serialVersionUID = 6596841223502982731L;
+	private String _strKey;
     private String _strDescription;
 
     /**
