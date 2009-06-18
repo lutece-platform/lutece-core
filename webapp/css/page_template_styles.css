@@ -38,7 +38,7 @@ body {
 	color: #000;
 }
 
-.portlet-background-header {
+.portlet-background-header, .portlet-background-colored-header {
 	background-image: url("../images/local/skin/title_background.png");
 	background-color:#2178B3;
 	font-size:1.4em;
