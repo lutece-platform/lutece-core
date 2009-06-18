@@ -288,12 +288,12 @@ public class WorkflowService
      * @param user the AdminUser
      * @return a list wich contains idRessource
      */
-    public Collection<Integer> getListIdRessourceByFilter( int nIdState, String strRessource, int nIdWorkflow,
+    public Collection<Integer> getListIdRessourceByState( int nIdState, String strRessource, int nIdWorkflow,
         AdminUser user )
     {
-        return isAvailable(  ) ? _service.getListIdRessourceByFilter( nIdState, strRessource, nIdWorkflow, user ) : null;
+        return isAvailable(  ) ? _service.getListIdRessourceByState( nIdState, strRessource, user ) : null;
     }
-    
+
     /**
      * returns the state of a  given document
      * of the document in the workflow and the user role
