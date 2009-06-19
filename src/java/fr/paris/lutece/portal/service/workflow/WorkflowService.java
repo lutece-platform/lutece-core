@@ -288,7 +288,7 @@ public class WorkflowService
      * @param user the AdminUser
      * @return a list wich contains idRessource
      */
-    public Collection<Integer> getListIdRessourceByState( int nIdState, String strRessource, int nIdWorkflow,
+    public Collection<Integer> getListIdRessourceByState( int nIdState, String strRessource,
         AdminUser user )
     {
         return isAvailable(  ) ? _service.getListIdRessourceByState( nIdState, strRessource, user ) : null;
