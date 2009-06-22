@@ -3,6 +3,7 @@
 <%@ page import="fr.paris.lutece.portal.service.util.*" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessageService" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessage" %>
+<%@page import="fr.paris.lutece.portal.service.i18n.I18nService" %>
 
 <%@ page buffer="1024kb"%>
 <%@ page autoFlush="false"%>
@@ -10,7 +11,7 @@
 <%!
 	private final static String PROPERTY_DEBUG = "error.page.debug";
 	private final static String PROPERTY_DEBUG_DEFAULT = "true";
-	private final static String PROPERTY_MESSAGE = "error.page.message";
+	private final static String PROPERTY_MESSAGE = "portal.util.error.page.message";
 %>
 
 <%
@@ -19,6 +20,7 @@
         response.sendRedirect( AdminMessageService.getMessageUrl( request , Messages.USER_ACCESS_DENIED , AdminMessage.TYPE_STOP ) );
     }
 %>
+
 
 <html>
 <head>
@@ -82,7 +84,7 @@
 		</tr>
 		<tr>
 		 <td>
-		   <%= AppPropertiesService.getProperty( PROPERTY_MESSAGE ) %>
+		   <%= I18nService.getLocalizedString(PROPERTY_MESSAGE, request.getLocale() ) %>
          </td>
         </tr>
 <%

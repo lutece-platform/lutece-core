@@ -693,21 +693,9 @@ CATALINA_OPTS="-Xms128m -Xmx512m"
                             <th>
                                     If <code>error.page.debug=true</code>, the detail of the error is
                                     visible on the page. If <code>error.page.debug=false</code>, the message
-                                    defined in error.page.message is visible in the page.
+                                    defined in error.page.message (which are in the resources file "util_messages.properties")
+                                    is visible in the page.
                             </th>                            
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>
-                                    <code># Error page management</code>
-                                </p>
-                                <p>
-                                    <code>error.page.debug=true</code>
-                                </p>
-                                <p>
-                                    <code>error.page.message=Please contact the administrator of the site</code>
-                                </p>
-                            </td>
                         </tr>
                     </table>
                 </p>

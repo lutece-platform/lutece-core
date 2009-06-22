@@ -717,21 +717,9 @@ CATALINA_OPTS="-Xms128m -Xmx512m"
                             <th>
                                     Si <code>error.page.debug=true</code>, le détail de l'erreur s'affiche
                                     dans la page. Si <code>error.page.debug=false</code>, le message défini dans
-                                    error.page.message s'affiche dans la page
+                                    error.page.message (qui se situe dans le fichier de ressources "util_messages_fr.properties")
+                                    s'affiche dans la page
                             </th>                            
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>
-                                    <code># Error page management</code>
-                                </p>
-                                <p>
-                                    <code>error.page.debug=true</code>
-                                </p>
-                                <p>
-                                    <code>error.page.message=Veuillez contacter immédiatement l'administrateur de l'application</code>
-                                </p>
-                            </td>
                         </tr>
                     </table>
                 </p>
