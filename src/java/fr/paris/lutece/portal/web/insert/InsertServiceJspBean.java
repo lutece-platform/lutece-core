@@ -33,26 +33,28 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringEscapeUtils;
+
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
-import java.util.HashMap;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
 
 /**
  * Base class for InsertServiceJspBean
  */
-public abstract class InsertServiceJspBean
+public abstract class InsertServiceJspBean implements Serializable
 {
-    private static final String PARAMETER_MODE = "mode";
+	private static final long serialVersionUID = -2870769178710689751L;
+	private static final String PARAMETER_MODE = "mode";
     private static final String PARAMETER_INPUT = "input";
     private static final String PARAMETER_INSERT = "insert";
     private static final String JSP_DO_INSERT = "jsp/admin/insert/DoInsertIntoEditor.jsp";
