@@ -48,7 +48,7 @@ body {
 }
 .portlet-background-content {
 	background-image: url("../images/local/skin/portlet_background2.png");
-	background-color: #fff;
+	background-color: #606060;
 	background-repeat: repeat-x;
 	padding:1em;
 }
