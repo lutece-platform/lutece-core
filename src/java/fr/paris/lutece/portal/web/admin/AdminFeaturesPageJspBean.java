@@ -44,6 +44,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -54,9 +55,11 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Provides generic methods for jspBeans
  */
-public abstract class AdminFeaturesPageJspBean
+public abstract class AdminFeaturesPageJspBean implements Serializable
 {
-    // template for all admin pages
+	private static final long serialVersionUID = 7931965789869988340L;
+
+	// template for all admin pages
     private static final String TEMPLATE_MAIN = "/admin/feature_frameset.html";
 
     // bookmarks
