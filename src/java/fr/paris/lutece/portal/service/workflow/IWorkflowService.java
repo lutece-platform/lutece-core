@@ -103,7 +103,17 @@ public interface IWorkflowService
      */
     String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow,
         HttpServletRequest request, Locale locale );
-
+    /**
+     * returns a xml wich contains the  actions history performed on a resource
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     * @param request the request
+     * @param nIdWorkflow the workflow id
+     * @param locale the locale
+     * @return a xml wich contains  the history of actions performed on a resource
+     */
+     String getDocumentHistoryXml( int nIdResource, String strResourceType, int nIdWorkflow,
+        HttpServletRequest request, Locale locale );
     /**
      * Perform the information on the various tasks associated with the given action specified in parameter
      * @param nIdResource the resource id

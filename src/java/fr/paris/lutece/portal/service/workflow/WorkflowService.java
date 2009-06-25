@@ -198,6 +198,24 @@ public class WorkflowService
         return isAvailable(  )
         ? _service.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale ) : null;
     }
+    
+    
+    
+    /**
+     * returns a xml wich contains the  actions history performed on a resource
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     * @param request the request
+     * @param nIdWorkflow the workflow id
+     * @param locale the locale
+     * @return a xml wich contains  the history of actions performed on a resource
+     */
+    public String getDocumentHistoryXml( int nIdResource, String strResourceType, int nIdWorkflow,
+        HttpServletRequest request, Locale locale )
+    {
+    	 return isAvailable(  )
+         ? _service.getDocumentHistoryXml( nIdResource, strResourceType, nIdWorkflow, request, locale ) : null;
+    }
 
     /**
      * Perform the information on the various tasks associated with the given action specified in parameter
