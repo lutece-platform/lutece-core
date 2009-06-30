@@ -1,0 +1,1 @@
+ALTER TABLE core_style MODIFY COLUMN description_style VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;

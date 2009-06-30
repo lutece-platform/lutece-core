@@ -316,7 +316,7 @@ CREATE TABLE core_role (
 DROP TABLE IF EXISTS core_style;
 CREATE TABLE core_style (
 	id_style int default 0 NOT NULL,
-	description_style varchar(50) default '' NOT NULL,
+	description_style varchar(100) default '' NOT NULL,
 	id_portlet_type varchar(50) default NULL,
 	id_portal_component int default 0 NOT NULL,
 	PRIMARY KEY (id_style)
