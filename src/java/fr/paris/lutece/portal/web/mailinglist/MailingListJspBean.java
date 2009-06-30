@@ -76,6 +76,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     // Bookmarks
     private static final String MARK_MAILINGLISTS_LIST = "mailinglists_list";
     private static final String MARK_WORKGROUPS_LIST = "workgroups_list";
+    private static final String MARK_WORKGROUP_SELECTED = "selected_workgroup";
     private static final String MARK_ROLES_LIST = "roles_list";
     private static final String MARK_RECIPIENTS_LIST = "recipients_list";
     private static final String MARK_MAILINGLIST = "mailinglist";
@@ -108,17 +109,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     public String getManageMailinglists( HttpServletRequest request )
     {
         HashMap<String, Collection<MailingList>> model = new HashMap<String, Collection<MailingList>>(  );
-        Collection<MailingList> listMailinglists;
-
-        if ( getUser(  ).isAdmin(  ) )
-        {
-            listMailinglists = MailingListHome.findAll(  );
-        }
-        else
-        {
-            listMailinglists = AdminMailingListService.getUserMailingLists( getUser(  ) );
-        }
-
+        Collection<MailingList> listMailinglists = AdminMailingListService.getUserMailingLists( getUser(  ) );
         model.put( MARK_MAILINGLISTS_LIST, listMailinglists );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_MAILINGLISTS, getLocale(  ), model );
@@ -139,6 +130,12 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
+        
+        //LUTECE-890 : the first workgroup will be selected by default
+        if ( !listWorkgroups.isEmpty() )
+        {
+        	model.put( MARK_WORKGROUP_SELECTED, listWorkgroups.get( 0 ).getCode() );
+        }        
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_MAILINGLIST, getLocale(  ), model );
 
