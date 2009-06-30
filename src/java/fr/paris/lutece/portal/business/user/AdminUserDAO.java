@@ -70,6 +70,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_DELETE_ALL_USER_ROLES = " DELETE FROM core_user_role WHERE id_user = ? ";
     private static final String SQL_CHECK_ROLE_ATTRIBUTED = " SELECT id_user FROM core_user_role WHERE role_key = ?";
     private static final String SQL_CHECK_ACCESS_CODE_IN_USE = " SELECT id_user FROM core_admin_user WHERE access_code = ?";
+    private static final String SQL_CHECK_EMAIL_IN_USE = " SELECT id_user FROM core_admin_user WHERE email = ?";
     private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, password, locale, level_user )  VALUES ( ? , ? , ? , ? , ? ,? ,? ,?, ? ) ";
     private static final String SQL_QUERY_UPDATE_DEFAULT_USER = " UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, password = ?, locale = ?  WHERE id_user = ?  ";
     private static final String SQL_QUERY_SELECT_USERS_ID_BY_ROLES = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale " +
@@ -385,23 +386,45 @@ public class AdminUserDAO implements IAdminUserDAO
     /**
      * Check weather the access code already exists or not
      * @param strAccessCode The access code
-     * @return True if already in use, otherwise false
+     * @return user ID if the access code is already used by another user, -1 otherwise
      */
-    public boolean checkAccessCodeAlreadyInUse( String strAccessCode )
+    public int checkAccessCodeAlreadyInUse( String strAccessCode )
     {
-        boolean bInUse = false;
+    	int nIdUser = -1;
         DAOUtil daoUtil = new DAOUtil( SQL_CHECK_ACCESS_CODE_IN_USE );
         daoUtil.setString( 1, strAccessCode );
         daoUtil.executeQuery(  );
 
         if ( daoUtil.next(  ) )
         {
-            bInUse = true;
+        	nIdUser =  daoUtil.getInt( 1 );
         }
 
         daoUtil.free(  );
 
-        return bInUse;
+        return nIdUser;
+    }
+    
+    /**
+     * Checks the availibility of an email
+     * @param strEmail The email
+     * @return user ID if the email is already used by another user, -1 otherwise
+     */
+    public int checkEmailAlreadyInUse( String strEmail )
+    {
+        int nIdUser = -1;
+        DAOUtil daoUtil = new DAOUtil( SQL_CHECK_EMAIL_IN_USE );
+        daoUtil.setString( 1, strEmail );
+        daoUtil.executeQuery(  );
+
+        if ( daoUtil.next(  ) )
+        {
+            nIdUser =  daoUtil.getInt( 1 );
+        }
+
+        daoUtil.free(  );
+
+        return nIdUser;
     }
 
     //////////////////////////////////////////////////////////////////

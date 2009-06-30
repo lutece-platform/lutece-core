@@ -108,6 +108,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MANAGE_USER_WORKGROUPS_PAGETITLE = "portal.users.manage_user_workgroups.pageTitle";
     private static final String PROPERTY_MODIFY_USER_WORKGROUPS_PAGETITLE = "portal.users.modify_user_workgroups.pageTitle";
     private static final String PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED = "portal.users.message.user.accessCodeAlreadyUsed";
+    private static final String PROPERTY_MESSAGE_EMAIL_ALREADY_USED = "portal.users.message.user.accessEmailUsed";
     private static final String PROPERTY_MESSAGE_DIFFERENTS_PASSWORD = "portal.users.message.differentsPassword";
     private static final String PROPERTY_MESSAGE_EMAIL_FORMAT = "portal.users.message.user.emailFormat";
     private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT = "portal.users.user_change_status.email.subject";
@@ -287,7 +288,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         // check that access code is not in use
-        if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) )
+        if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) != -1 )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED,
                 AdminMessage.TYPE_STOP );
@@ -399,9 +400,16 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         // check again that access code is not in use
-        if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) )
+        if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) != -1 )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED,
+                AdminMessage.TYPE_STOP );
+        }
+        
+        // check again that email is not in use
+        if ( AdminUserHome.checkEmailAlreadyInUse( strEmail ) != -1)
+        {
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_ALREADY_USED,
                 AdminMessage.TYPE_STOP );
         }
 
@@ -546,9 +554,25 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_FORMAT, AdminMessage.TYPE_STOP );
         }
-
+        
         int nUserId = Integer.parseInt( strUserId );
 
+        // check again that access code is not in use
+        if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) != -1 &&
+        		AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) != nUserId )
+        {
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED,
+                AdminMessage.TYPE_STOP );
+        }
+        
+        // check again that email is not in use
+        if ( AdminUserHome.checkEmailAlreadyInUse( strEmail ) != -1 &&
+        		AdminUserHome.checkEmailAlreadyInUse( strEmail ) != nUserId )
+        {
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_ALREADY_USED,
+                AdminMessage.TYPE_STOP );
+        }
+        
         // modification in no-module mode : we manage the password
         if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
         {

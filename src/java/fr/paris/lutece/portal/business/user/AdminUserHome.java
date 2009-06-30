@@ -192,11 +192,21 @@ public final class AdminUserHome
     /**
      * Checks if a given login is already in use
      * @param strAccessCode The login
-     * @return True if the the login is already in use, otherwise false
+     * @return user ID if the access code is already used by another user, -1 otherwise
      */
-    public static boolean checkAccessCodeAlreadyInUse( String strAccessCode )
+    public static int checkAccessCodeAlreadyInUse( String strAccessCode )
     {
         return _dao.checkAccessCodeAlreadyInUse( strAccessCode );
+    }
+    
+    /**
+     * Checks if a given email is already in use
+     * @param strEmail The email
+     * @return user ID if the email is already used by another user, -1 otherwise
+     */
+    public static int checkEmailAlreadyInUse( String strEmail )
+    {
+        return _dao.checkEmailAlreadyInUse( strEmail );
     }
 
     //////////////////////////////////////////////////////////////////

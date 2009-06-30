@@ -49,14 +49,21 @@ public interface IAdminUserDAO
     /**
      * Checks the availibility of an access code
      * @param strAccessCode The access code
-     * @return True if the access code is already used by another user
+     * @return user ID if the access code is already used by another user, -1 otherwise
      */
-    boolean checkAccessCodeAlreadyInUse( String strAccessCode );
+    int checkAccessCodeAlreadyInUse( String strAccessCode );
+    
+    /**
+     * Checks the availibility of an email
+     * @param strEmail The email
+     * @return True if the email is already used by another user
+     */
+    int checkEmailAlreadyInUse( String strEmail );
 
     /**
      * Checks wether the role is in use or not
      * @param strRoleKey the role key to check
-     * @return true if the role is attributed, false otherwise
+     * @return user ID if the emaile is already used by another user, -1 otherwise
      */
     boolean checkRoleAttributed( String strRoleKey );
 
