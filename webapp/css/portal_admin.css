@@ -561,7 +561,7 @@ div.content-box input.checkbox {
 	border: none;
 }
 
-div.content-box input.button {
+.button {
     display:inline;
     background-color: #F7F2B0;
     font-family: Arial, Tahoma, Helvetica, sans-serif;
@@ -840,16 +840,6 @@ div.highlight-box:after {
 	background: transparent url("../images/admin/skin/highligth_br.gif") scroll no-repeat bottom right ;
 }
 
-div.highlight-box input.button {
-    float:none;
-    display:inline;
-    border: 1px solid #364C5E;
-    background-color: #F7F2B0;
-    font-family: Arial, Tahoma, Helvetica, sans-serif;
-    font-size: 100%;
-    color: #364C5E ;
-    cursor: pointer;
-}
 
 div.highlight-box table {
     background-color: #8EAABF;
@@ -938,17 +928,6 @@ div.admin-site-highlight-box input {
     font-size: 100%;
 }
 
-div.admin-site-highlight-box input.button {
-    float:none;
-    display:inline;
-    border: 1px solid #364C5E;
-    background-color: #F7F2B0;
-    font-family: Arial, Tahoma, Helvetica, sans-serif;
-    font-size: 100%;
-    color: #364C5E ;
-    cursor: pointer;
-	 text-align: center; 	
-}
 
 div.admin-site-highlight-box label
 {
