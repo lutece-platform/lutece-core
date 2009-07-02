@@ -60,7 +60,7 @@
 <div id="sidebar" class="span-6 append-1 prepend-top last">
 	<form name="search" method="post" action="jsp/site/Portal.jsp">
             <div class="portlet-background">
-                <input type="hidden" name="page" value="search" />
+                <div class="hide"><input type="hidden" name="page" value="search" /></div>
                 <p>
                 <input type="text" name="query" size="20" value="${query?if_exists}" /> 
                 <input type="image" src="images/local/skin/buttons/b_search.png" title="#i18n{portal.search.search_results.buttonSearch}" alt="#i18n{portal.search.search_results.buttonSearch}" />
