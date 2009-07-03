@@ -5,9 +5,11 @@
 	<div class="span-10 prepend-top" id="header-link">${pageinclude_userlogin_title?default("<!-- no myLutece plugin installed -->")}</div>
 	<div id="search" class="span-8 prepend-top append-1 last">
 		<form action="jsp/site/Portal.jsp" method="post">
-			<input type="hidden" name="page" value="search" />
-			<input class="-lutece-input -lutece-border-radius-mini" type="text" name="query" value="" />
-			<input class="-lutece-input -lutece-border-radius-mini" type="submit" value="#i18n{portal.site.page_menu_tools.labelSearch}" /> 
+			<div class="hide"><input type="hidden" name="page" value="search" /></div>
+			<div>
+				<input class="-lutece-input -lutece-border-radius-mini" type="text" name="query" value="" />
+				<input class="-lutece-input -lutece-border-radius-mini" type="submit" value="#i18n{portal.site.page_menu_tools.labelSearch}" />
+			</div>
 		</form>
 	</div>
 </div>
