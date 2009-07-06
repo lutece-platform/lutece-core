@@ -49,13 +49,13 @@ body {
 }
 .portlet-background-content {
 	background-image: url("../images/local/skin/portlet_background2.png");
-	background-color: white;
+	background-color: #fff;
 	background-repeat: repeat-x;
 	padding:1em;
 }
 .portlet {
 	background-image: url("../images/local/skin/portlet_background2.png");
-	background-color: white;
+	background-color: #fff;
 	background-repeat: repeat-x;
 	padding:1em;
 }
@@ -67,6 +67,7 @@ body {
 	background-image: url("../images/local/skin/portlet_background.png");
 	background-repeat: repeat-x;
 	background-color: #fdfdff;
+	padding:1em;
 }
 /***************************************************/
 #footer1 {

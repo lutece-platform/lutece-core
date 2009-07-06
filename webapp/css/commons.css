@@ -53,3 +53,7 @@
 	display: inline;
 }
 
+/* to overwrite bluecss behavior */
+h3 {
+	margin-bottom:0em;
+}
