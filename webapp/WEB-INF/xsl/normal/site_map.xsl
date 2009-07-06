@@ -5,12 +5,16 @@
 
 
 <xsl:template match="page[page-level=0]">
-	<div class="span-15 prepend-1 append-1 prepend-top">
-		<xsl:apply-templates select="child-pages-list" />
+	<div class="span-15 prepend-1 append-1 append-bottom">
+		<div class="portlet -lutece-border-radius">
+			<xsl:apply-templates select="child-pages-list" />
+		</div>
 	</div>
-	<div id="sidebar" class="span-6 append-1 prepend-top last">
-		<img src="document?id=7&amp;id_attribute=52" alt="banner" title="banner"/>
-		&#160;
+	<div id="sidebar" class="span-6 append-1 append-bottom last">
+		<div class="portlet -lutece-border-radius">
+			<img src="document?id=7&amp;id_attribute=52" alt="banner" title="banner"/>
+			&#160;
+		</div>
 	</div>
 </xsl:template>
 
