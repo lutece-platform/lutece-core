@@ -1,8 +1,3 @@
-INSERT INTO core_admin_auth_db_module VALUES ('admin','admin','2006-07-21','x','admin','admin','admin@lutece.fr');
-INSERT INTO core_admin_auth_db_module VALUES ('lutece','lutece','2006-07-21','x','lutece','lutece','lutece@lutece.fr');
-INSERT INTO core_admin_auth_db_module VALUES ('redac','redac','2006-07-21','x','redac','redac','redac@lutece.fr');
-INSERT INTO core_admin_auth_db_module VALUES ('valid','valid','2006-07-21','x','valid','valid','valid@lutece.fr');
-
 INSERT INTO core_admin_right VALUES ('CORE_ADMIN_SITE','portal.site.adminFeature.admin_site.name',2,'jsp/admin/site/AdminSite.jsp','portal.site.adminFeature.admin_site.description',1,NULL,'SITE','images/admin/skin/features/admin_site.png','jsp/admin/documentation/AdminDocumentation.jsp?doc=admin-site',1);
 INSERT INTO core_admin_right VALUES ('CORE_CACHE_MANAGEMENT','portal.system.adminFeature.cache_management.name',0,'jsp/admin/system/ManageCaches.jsp','portal.system.adminFeature.cache_management.description',1,NULL,'SYSTEM','images/admin/skin/features/manage_caches.png',NULL,1);
 INSERT INTO core_admin_right VALUES ('CORE_SEARCH_INDEXATION','portal.search.adminFeature.indexer.name',0,'jsp/admin/search/ManageSearchIndexation.jsp','portal.search.adminFeature.indexer.description',0,NULL,'SYSTEM',NULL,NULL,2);
