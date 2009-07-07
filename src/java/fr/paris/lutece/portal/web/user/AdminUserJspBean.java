@@ -76,7 +76,8 @@ import javax.servlet.http.HttpServletRequest;
 public class AdminUserJspBean extends AdminFeaturesPageJspBean
 {
     ////////////////////////////////////////////////////////////////////////////
-    // Constants    
+    // Constants
+	private static final String CONSTANTE_UN = "1";
 
     // Templates
     private static final String TEMPLATE_MANAGE_USERS = "admin/user/manage_users.html";
@@ -91,7 +92,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_DEFAULT_MODIFY_USER = "admin/user/modify_user_default_module.html";
     private static final String TEMPLATE_MANAGE_USER_WORKGROUPS = "admin/user/manage_user_workgroups.html";
     private static final String TEMPLATE_MODIFY_USER_WORKGROUPS = "admin/user/modify_user_workgroups.html";
-    private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD = "admin/user/user_email_change_status.html";
+    private static final String TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS = "admin/user/user_email_change_status.html";
+    private static final String TEMPLATE_NOTIFY_USER = "admin/user/notify_user.html";
+
 
     // Messages
     private static final String PROPERTY_MANAGE_USERS_PAGETITLE = "portal.users.manage_users.pageTitle";
@@ -111,8 +114,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_EMAIL_ALREADY_USED = "portal.users.message.user.accessEmailUsed";
     private static final String PROPERTY_MESSAGE_DIFFERENTS_PASSWORD = "portal.users.message.differentsPassword";
     private static final String PROPERTY_MESSAGE_EMAIL_FORMAT = "portal.users.message.user.emailFormat";
-    private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT = "portal.users.user_change_status.email.subject";
-
+    private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT_CHANGE_STATUS = "portal.users.user_change_status.email.subject";
+    private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER = "portal.users.notify_user.email.subject";
+    
     // Properties
     private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
     private static final String PROPERTY_SITE_NAME = "lutece.name";
@@ -122,6 +126,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_LAST_NAME = "last_name";
     private static final String PARAMETER_FIRST_NAME = "first_name";
     private static final String PARAMETER_EMAIL = "email";
+    private static final String PARAMETER_NOTIFY_USER = "notify_user";
     private static final String PARAMETER_STATUS = "status";
     private static final String PARAMETER_USER_ID = "id_user";
     private static final String PARAMETER_ROLE = "roles";
@@ -373,6 +378,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strEmail = request.getParameter( PARAMETER_EMAIL );
         String strStatus = request.getParameter( PARAMETER_STATUS );
         String strUserLevel = request.getParameter( PARAMETER_USER_LEVEL );
+        String strNotifyUser = request.getParameter( PARAMETER_NOTIFY_USER );
 
         if ( ( strAccessCode == null ) || ( strAccessCode.equals( "" ) ) )
         {
@@ -451,6 +457,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             user.setUserLevel( nNewUserLevel );
             AdminUserHome.create( user );
+
+            if ( strNotifyUser != null && strNotifyUser.equals( CONSTANTE_UN ) )
+            {
+                //Notify user for the creation of this account
+            	notifyUser( request, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
+            }
         }
         else
         {
@@ -465,7 +477,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setUserLevel( nNewUserLevel );
             AdminUserHome.create( user );
         }
-
         return JSP_MANAGE_USER;
     }
 
@@ -605,7 +616,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( nStatus != user.getStatus(  ) )
             {
                 user.setStatus( nStatus );
-                notifyUser( request, user );
+                notifyUser( request, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_CHANGE_STATUS, TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS );
             }
 
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
@@ -632,22 +643,33 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * Notify an user by email
      * @param request Http Request}
      * @param user The admin user to notify
+     * @param strPropertyEmailSubject the property of the subject email
+     * @param strTemplate the URL of the HTML Template
      */
-    private void notifyUser( HttpServletRequest request, AdminUser user )
+    private void notifyUser( HttpServletRequest request, AdminUser user, String strPropertyEmailSubject, String strTemplate )
     {
-        //send password by e-mail
         String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
         String strSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
-        String strEmailSubject = I18nService.getLocalizedString( PROPERTY_MESSAGE_EMAIL_SUBJECT,
-                new String[] { strSiteName }, getLocale(  ) );
+        
+        Locale locale;
+        if ( user.getLocale() != null )
+        {
+        	locale = user.getLocale();
+        }
+        else
+        {
+        	locale = getLocale();
+        }
+        
+        String strEmailSubject = I18nService.getLocalizedString( strPropertyEmailSubject,
+                new String[] { strSiteName }, locale );
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, user );
         model.put( MARK_SITE_NAME, strSiteName );
         model.put( MARK_LOGIN_URL,
             AppPathService.getBaseUrl( request ) + AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD, getLocale(  ),
-                model );
+        HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, locale, model );
 
         MailService.sendMailHtml( user.getEmail(  ), strSenderEmail, strSenderEmail, strEmailSubject,
             template.getHtml(  ) );

@@ -34,20 +34,23 @@
 			<p>
                             <label for="email">#i18n{portal.users.create_user.labelEmail} * :</label>
                             <input type="text" id="email" name="email" value="" maxlength="100" size="35" tabindex="4" />
+                            &nbsp;&nbsp;&nbsp;&nbsp;#i18n{portal.users.create_user.labelNotify} :
+                            <input type="radio" name="notify_user" value="1" checked="checked" tabindex="5" />#i18n{portal.util.labelYes}
+                            <input type="radio" name="notify_user" value="0" tabindex="6" />#i18n{portal.util.labelNo}
 			</p>
-                        <p>
+            <p>
                             <label for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
                             <@combo name="language" default_value="${current_language}" items=languages_list />
-                        </p>
+            </p>
 			<p>
                             <label for="status">#i18n{portal.users.create_user.labelStatus} :</label>
-                            <select id="status" name="status" tabindex="5">
+                            <select id="status" name="status" tabindex="7">
                                 <option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
                                 <option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
                             </select>
 			</p>
 			<p>
-                            <input type="submit" value="#i18n{portal.users.create_user.buttonLabelCreate}" tabindex="6" class="button" />
+                            <input type="submit" value="#i18n{portal.users.create_user.buttonLabelCreate}" tabindex="8" class="button" />
                         </p>
 	    
 			<script language="JavaScript">
