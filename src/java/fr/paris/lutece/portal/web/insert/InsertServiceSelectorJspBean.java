@@ -59,8 +59,8 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
     ////////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String TEMPLATE_INSERT_TYPE_PAGE = "admin/insert/page_insertservice.html";
-    private static final String TEMPLATE_INSERT_INTO_EDITOR = "admin/insert/insert_into_editor.html";
-    private static final String TEMPLATE_INSERT_INTO_EDITOR2 = "admin/insert/insert_into_editor2.html";
+    private static final String TEMPLATE_INSERT_INTO_ELEMENT = "admin/insert/insert_into_element.html";
+    private static final String TEMPLATE_INSERT_INTO_ELEMENT2 = "admin/insert/insert_into_element2.html";
     private static final String MSG_NO_SERVICE_AVAILABLE = "portal.insert.message.noServiceAvailable";
 
     /** name of the links type parameter */
@@ -130,7 +130,7 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
      * @param request HTTP request
      * @return the HTML code of the page that insert code into the editor
      */
-    public String doInsertIntoEditor( HttpServletRequest request )
+    public String doInsertIntoElement( HttpServletRequest request )
     {
         String strMode = request.getParameter( PARAMETER_MODE );
         String strInput = request.getParameter( PARAMETER_INPUT );
@@ -143,11 +143,11 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
 
         if ( strMode.compareTo( "2" ) == 0 )
         {
-            template = AppTemplateService.getTemplate( TEMPLATE_INSERT_INTO_EDITOR2, getLocale(  ), model );
+            template = AppTemplateService.getTemplate( TEMPLATE_INSERT_INTO_ELEMENT2, getLocale(  ), model );
         }
         else
         {
-            template = AppTemplateService.getTemplate( TEMPLATE_INSERT_INTO_EDITOR, getLocale(  ), model );
+            template = AppTemplateService.getTemplate( TEMPLATE_INSERT_INTO_ELEMENT, getLocale(  ), model );
         }
 
         return template.getHtml(  );

@@ -57,7 +57,7 @@ public abstract class InsertServiceJspBean implements Serializable
 	private static final String PARAMETER_MODE = "mode";
     private static final String PARAMETER_INPUT = "input";
     private static final String PARAMETER_INSERT = "insert";
-    private static final String JSP_DO_INSERT = "jsp/admin/insert/DoInsertIntoEditor.jsp";
+    private static final String JSP_DO_INSERT = "jsp/admin/insert/DoInsertIntoElement.jsp";
     private static final String TEMPLATE_LINK = "/admin/insert/insert_link.html";
     private static final String MARK_TEXT = "text";
     private static final String MARK_URL = "url";
