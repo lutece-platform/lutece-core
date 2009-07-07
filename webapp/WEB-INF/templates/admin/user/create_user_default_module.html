@@ -17,26 +17,27 @@
 			</p>
 			<p>
                             <label for="first_password" >#i18n{portal.users.create_user.labelFirstPassword} * :</label>
-                            <input type="password"  id="password" name="first_password" maxlength="100" size="35" tabindex="2" value=""/>
+                            <input type="password" id="first_password" name="first_password" maxlength="100" size="35" tabindex="2" value=""/>
+                             <input type="button" id="generate_password" value="#i18n{portal.users.create_user.buttonLabelGeneratePassword}" tabindex="3" class="button" />
 			</p>
 			<p>
                             <label for="second_password" >#i18n{portal.users.create_user.labelSecondPassword} * :</label>
-                            <input type="password"  id="password" name="second_password" maxlength="100" size="35" tabindex="2" value=""/>
+                            <input type="password" id="second_password" name="second_password" maxlength="100" size="35" tabindex="4" value=""/>
 			</p>                        
 			<p>
                             <label for="last_name" >#i18n{portal.users.create_user.labelLastName} * :</label>
-                            <input type="text"  id="last_name" name="last_name" value="" maxlength="100" size="35" tabindex="2" />
+                            <input type="text"  id="last_name" name="last_name" value="" maxlength="100" size="35" tabindex="5" />
 			</p>
 			<p>
                             <label for="first_name">#i18n{portal.users.create_user.labelFirstName} * :</label>
-                            <input type="text" id="first_name" name="first_name" value="" maxlength="100" size="35" tabindex="3" />
+                            <input type="text" id="first_name" name="first_name" value="" maxlength="100" size="35" tabindex="6" />
 			</p>
 			<p>
                             <label for="email">#i18n{portal.users.create_user.labelEmail} * :</label>
-                            <input type="text" id="email" name="email" value="" maxlength="100" size="35" tabindex="4" />
+                            <input type="text" id="email" name="email" value="" maxlength="100" size="35" tabindex="7" />
                             &nbsp;&nbsp;&nbsp;&nbsp;#i18n{portal.users.create_user.labelNotify} :
-                            <input type="radio" name="notify_user" value="1" checked="checked" tabindex="5" />#i18n{portal.util.labelYes}
-                            <input type="radio" name="notify_user" value="0" tabindex="6" />#i18n{portal.util.labelNo}
+                            <input type="radio" name="notify_user" value="1" checked="checked" tabindex="8" />#i18n{portal.util.labelYes}
+                            <input type="radio" name="notify_user" value="0" tabindex="9" />#i18n{portal.util.labelNo}
 			</p>
             <p>
                             <label for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
@@ -44,17 +45,41 @@
             </p>
 			<p>
                             <label for="status">#i18n{portal.users.create_user.labelStatus} :</label>
-                            <select id="status" name="status" tabindex="7">
+                            <select id="status" name="status" tabindex="10">
                                 <option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
                                 <option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
                             </select>
 			</p>
 			<p>
-                            <input type="submit" value="#i18n{portal.users.create_user.buttonLabelCreate}" tabindex="8" class="button" />
+                            <input type="submit" value="#i18n{portal.users.create_user.buttonLabelCreate}" tabindex="11" class="button" />
                         </p>
 	    
 			<script language="JavaScript">
-				window.onload = create_user.access_code.focus
+				window.onload = document.create_user.access_code.focus();
 			</script>			
 		</form>	
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function(){	
+		$("#first_password").jpassword({
+			lang: {
+				please: "#i18n{portal.users.create_user.jpassword.please}",
+				low: "#i18n{portal.users.create_user.jpassword.low}",
+				correct: "#i18n{portal.users.create_user.jpassword.correct}",
+				high: "#i18n{portal.users.create_user.jpassword.high}",
+				length: "#i18n{portal.users.create_user.jpassword.length}",
+				number: "#i18n{portal.users.create_user.jpassword.number}",
+				uppercase: "#i18n{portal.users.create_user.jpassword.uppercase}",
+				lowercase: "#i18n{portal.users.create_user.jpassword.lowercase}",
+				punctuation: "#i18n{portal.users.create_user.jpassword.punctuation}",
+				special: "#i18n{portal.users.create_user.jpassword.special}"
+			},
+			generate: "generate_password",
+			onKeyup: function()
+				{
+					document.getElementById("second_password").value = document.getElementById("first_password").value;
+				}
+		});
+	});
+</script>

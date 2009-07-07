@@ -45,6 +45,7 @@
 <script src="js/jquery/plugins/treeview/jquery.treeview.pack.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/ui/datepicker/ui.datepicker.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/ui/datepicker/ui.datepicker-fr.js" type="text/javascript"></script>
+<script src="js/jquery/plugins/jpassword/jquery.jpassword.pack.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 function init()
