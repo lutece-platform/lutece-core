@@ -79,6 +79,8 @@ public final class PortalService
     private static final String PROPERTY_PORTAL_FOOTER = "page.portal.footer.mode";
     private static final String PROPERTY_WEBMASTER_EMAIL = "email.webmaster";
     private static final String PROPERTY_PATH_ON_ROOT = "lutece.root.path";
+    private static final String PROPERTY_ENCODING = "lutece.encoding";
+    private static final String PROPERTY_ENCODING_DEFAULT = "UTF-8";
     private static final String TEMPLATE_PAGE_FRAMESET = "skin/site/page_frameset.html";
     private static final String TEMPLATE_HOME_PAGE_HEADER = "skin/site/page_header_home.html";
     private static final String TEMPLATE_INTERNAL_PAGE_HEADER = "skin/site/page_header_internal.html";
@@ -294,6 +296,13 @@ public final class PortalService
         // for link service
         model.put( Markers.WEBAPP_PATH_FOR_LINKSERVICE, strBaseUrl );
         model.put( Markers.BASE_URL, strBaseUrl );
+        
+        String strEncoding = AppPropertiesService.getProperty( PROPERTY_ENCODING, PROPERTY_ENCODING_DEFAULT );
+        if ( strEncoding == null || strEncoding.equals("") )
+        {
+        	strEncoding = PROPERTY_ENCODING_DEFAULT;
+        }
+        model.put( Markers.ENCODING, strEncoding );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_FRAMESET, locale, model );
 
