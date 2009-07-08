@@ -31,28 +31,44 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.daemon;
-
-import fr.paris.lutece.portal.service.search.IndexationService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
+package fr.paris.lutece.portal.business.indexeraction;
 
 
 /**
- * This class provides methods which allows Daemon to manage and process the
- * treatment of the indexing.
+ *
+ * class IndexerActionFilter
+ *
  */
-public class IndexerDaemon extends Daemon
+public class IndexerActionFilter
 {
-    private static String PROPERTY_INDEXER_PARAM_TOTAL = "indexer.param.total";
+    public static final int ALL_INT = -1;
+    private int _nIdTask = ALL_INT;
 
     /**
-     * Implementation of the run method of the Runnable interface.It processes
-     * the daemon treatment.
+     *
+     * @return  the task id insert in the filter
      */
-    public void run(  )
+    public int getIdTask(  )
     {
-        // Launching of the incremental indexing.    	
-        boolean bTotalIndexing = Boolean.valueOf( AppPropertiesService.getProperty( PROPERTY_INDEXER_PARAM_TOTAL, "true" ) );
-        setLastRunLogs( IndexationService.processIndexing( bTotalIndexing ) );
+        return _nIdTask;
+    }
+
+    /**
+     * set  the task id  in the filter
+     * @param idTask the task id to insert in the filter
+     */
+    public void setIdTask( int idTask )
+    {
+        _nIdTask = idTask;
+    }
+
+    /**
+     *
+     * @return true if the filter contain a task id
+     *
+     */
+    public boolean containsIdTask(  )
+    {
+        return ( _nIdTask != ALL_INT );
     }
 }

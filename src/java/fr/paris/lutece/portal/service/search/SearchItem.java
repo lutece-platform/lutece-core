@@ -50,6 +50,7 @@ public class SearchItem
     public static final String FIELD_TYPE = "type";
     public static final String FIELD_ROLE = "role";
     public static final String FIELD_STATE = "state";
+    public static final String FIELD_DOCUMENT_PORTLET_ID = "document_portlet_id";
 
     // Variables declarations
     private String _strId;
@@ -60,6 +61,7 @@ public class SearchItem
     private String _strType;
     private String _strRole;
     private String _strState;
+    private String _strDocPortletId;
 
     /**
      * Constructor
@@ -73,6 +75,7 @@ public class SearchItem
         _strSummary = document.get( FIELD_SUMMARY );
         _strLastModifiedDate = document.get( FIELD_DATE );
         _strType = document.get( FIELD_TYPE );
+        _strDocPortletId = document.get( FIELD_DOCUMENT_PORTLET_ID );
         setRole( document.get( FIELD_ROLE ) );
     }
 
@@ -94,6 +97,26 @@ public class SearchItem
     public void setId( String strId )
     {
         _strId = strId;
+    }
+
+    /**
+     * Returns the DocPortletId
+     *
+     * @return The DocPortletId
+     */
+    public String getDocPortletId(  )
+    {
+        return _strDocPortletId;
+    }
+
+    /**
+     * Sets the DocPortletId
+     *
+     * @param strId The DocPortletId
+     */
+    public void setDocPortletId( String strDocPortletId )
+    {
+        _strDocPortletId = strDocPortletId;
     }
 
     /**

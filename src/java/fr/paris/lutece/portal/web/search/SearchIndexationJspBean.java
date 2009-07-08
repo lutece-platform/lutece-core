@@ -84,7 +84,17 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
     public String doIndexing( HttpServletRequest request )
     {
         HashMap<String, String> model = new HashMap<String, String>(  );
-        String strLogs = IndexationService.processIndexing( true );
+        String strLogs;
+
+        if ( request.getParameter( "incremental" ) != null )
+        {
+            strLogs = IndexationService.processIndexing( false );
+        }
+        else
+        {
+            strLogs = IndexationService.processIndexing( true );
+        }
+
         model.put( MARK_LOGS, strLogs );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_INDEXER_LOGS, null, model );

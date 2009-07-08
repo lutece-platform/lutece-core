@@ -31,28 +31,71 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.daemon;
+package fr.paris.lutece.portal.business.indexeraction;
 
-import fr.paris.lutece.portal.service.search.IndexationService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import java.util.List;
 
 
 /**
- * This class provides methods which allows Daemon to manage and process the
- * treatment of the indexing.
+ *
+ * IIndexerActionDAO
+ *
  */
-public class IndexerDaemon extends Daemon
+public interface IIndexerActionDAO
 {
-    private static String PROPERTY_INDEXER_PARAM_TOTAL = "indexer.param.total";
+    /**
+     * Generates a new primary key
+     *   
+     * @return The new primary key
+     */
+    int newPrimaryKey(  );
 
     /**
-     * Implementation of the run method of the Runnable interface.It processes
-     * the daemon treatment.
+     * Insert a new record in the table.
+     *
+     * @param indexerAction instance of the IndexerAction object to insert     
      */
-    public void run(  )
-    {
-        // Launching of the incremental indexing.    	
-        boolean bTotalIndexing = Boolean.valueOf( AppPropertiesService.getProperty( PROPERTY_INDEXER_PARAM_TOTAL, "true" ) );
-        setLastRunLogs( IndexationService.processIndexing( bTotalIndexing ) );
-    }
+    void insert( IndexerAction indexerAction );
+
+    /**
+     * Load the data of the IndexerAction  from the table
+     *
+     * @param nId The identifier of the action     
+     * @return the instance of the  IndexerAction
+     */
+    IndexerAction load( int nId );
+
+    /**
+     * Delete a record from the table
+     *
+     * @param nId The identifier of the action    
+     */
+    void delete( int nId );
+
+    /**
+     * Delete a record from the table
+     *
+     */
+    void deleteAll(  );
+
+    /**
+     * Update the indexerAction in the table
+     *
+     * @param indexerAction instance of the IndexerAction object to update    
+     */
+    void store( IndexerAction indexerAction );
+
+    /**
+     * Load the data of all indexerAction and returns them in a list
+     * @param filter the search filter
+     * @return The List which contains the data of all action
+     */
+    List<IndexerAction> selectList( IndexerActionFilter filter );
+
+    /**
+     * Load the data of all indexerAction
+     *
+     * @return The List which contains the data of all action
+     */
+    List<IndexerAction> selectList(  );
 }

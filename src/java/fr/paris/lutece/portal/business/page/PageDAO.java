@@ -55,7 +55,7 @@ public final class PageDAO implements IPageDAO
     private static final String SQL_QUERY_NEW_PK = " SELECT max(id_page) FROM core_page";
     private static final String SQL_QUERY_SELECT = " SELECT a.id_parent, a.name, a.description, a.id_template, b.file_name, " +
         " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, " +
-        " a.workgroup_key FROM core_page a, core_page_template b WHERE a.id_template = b.id_template AND a.id_page = ? ";
+        " a.workgroup_key, a.date_update FROM core_page a, core_page_template b WHERE a.id_template = b.id_template AND a.id_page = ? ";
     private static final String SQL_QUERY_SELECT_BY_ID_PORTLET = " SELECT a.id_page, a.id_parent, a.name, a.description, a.id_template, " +
         " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, " +
         " a.workgroup_key FROM core_page a,core_portlet b WHERE a.id_page = b.id_page AND b.id_portlet = ? ";
@@ -171,6 +171,7 @@ public final class PageDAO implements IPageDAO
             page.setImageContent( daoUtil.getBytes( 11 ) );
             page.setMimeType( daoUtil.getString( 12 ) );
             page.setWorkgroup( daoUtil.getString( 13 ) );
+            page.setDateUpdate( daoUtil.getTimestamp( 14 ) );
 
             // Loads the portlets contained into the page
             if ( bPortlets )

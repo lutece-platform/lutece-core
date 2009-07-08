@@ -48,13 +48,22 @@ import java.util.List;
 public interface SearchIndexer
 {
     /**
+     * Index all lucene documents from the plugin, replace  List<Document> getDocuments(  ) method
+     * @throws IOException If an IO error occured
+     * @throws InterruptedException If a thread error occured
+     * @throws SiteMessageException occurs when a site message need to be displayed
+     */
+    void indexDocuments(  ) throws IOException, InterruptedException, SiteMessageException;
+
+    /**
      * Returns a List of lucene documents to add to the index
+     * @param strIdDocument document id
      * @return A List of lucene documents to add to the index
      * @throws IOException If an IO error occured
      * @throws InterruptedException If a thread error occured
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    List<Document> getDocuments(  ) throws IOException, InterruptedException, SiteMessageException;
+    List<Document> getDocuments( String strIdDocument ) throws IOException, InterruptedException, SiteMessageException;
 
     /**
      * Returns the indexer service name

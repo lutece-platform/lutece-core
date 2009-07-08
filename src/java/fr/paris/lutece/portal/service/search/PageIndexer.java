@@ -58,7 +58,7 @@ import java.util.List;
  */
 public class PageIndexer implements SearchIndexer
 {
-    private static final String INDEXER_NAME = "PageIndexer";
+    public static final String INDEXER_NAME = "PageIndexer";
     private static final String INDEXER_DESCRIPTION = "Indexer service for pages";
     private static final String INDEXER_VERSION = "1.0.0";
     private static final String PROPERTY_PAGE_BASE_URL = "search.pageIndexer.baseUrl";
@@ -68,9 +68,8 @@ public class PageIndexer implements SearchIndexer
     /**
      * {@inheritDoc}
      */
-    public List<Document> getDocuments(  ) throws IOException, InterruptedException, SiteMessageException
+    public void indexDocuments(  ) throws IOException, InterruptedException, SiteMessageException
     {
-        ArrayList<Document> listDocuments = new ArrayList<Document>(  );
         String strPageBaseUrl = AppPropertiesService.getProperty( PROPERTY_PAGE_BASE_URL );
         List<Page> listPages = PageHome.getAllPages(  );
 
@@ -80,8 +79,29 @@ public class PageIndexer implements SearchIndexer
             url.addParameter( PARAMETER_PAGE_ID, page.getId(  ) );
 
             Document doc = getDocument( page, url.getUrl(  ) );
-            listDocuments.add( doc );
+            IndexationService.write( doc );
         }
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public List<Document> getDocuments( String nIdDocument )
+        throws IOException, InterruptedException, SiteMessageException
+    {
+        ArrayList<Document> listDocuments = new ArrayList<Document>(  );
+        String strPageBaseUrl = AppPropertiesService.getProperty( PROPERTY_PAGE_BASE_URL );
+
+        Page page = PageHome.getPage( Integer.parseInt(nIdDocument ));
+        if((page != null) && (page.getId() != 0))
+        {
+        	 UrlItem url = new UrlItem( strPageBaseUrl );
+             url.addParameter( PARAMETER_PAGE_ID, page.getId(  ) );
+
+             Document doc = getDocument( page, url.getUrl(  ) );
+             listDocuments.add( doc );
+        }
+       
 
         return listDocuments;
     }
@@ -185,7 +205,7 @@ public class PageIndexer implements SearchIndexer
             doc.add( new Field( SearchItem.FIELD_SUMMARY, page.getDescription(  ), Field.Store.YES, Field.Index.NO ) );
         }
 
-        doc.add( new Field( SearchItem.FIELD_TYPE, "Page", Field.Store.YES, Field.Index.NO ) );
+        doc.add( new Field( SearchItem.FIELD_TYPE, "Page", Field.Store.YES, Field.Index.UN_TOKENIZED ) );
         doc.add( new Field( SearchItem.FIELD_ROLE, page.getRole(  ), Field.Store.YES, Field.Index.UN_TOKENIZED ) );
 
         // return the document

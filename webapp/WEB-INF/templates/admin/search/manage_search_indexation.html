@@ -24,7 +24,8 @@
     </table>
 <br/>
 <form method="get" name="doIndexing" action="jsp/admin/search/DoIndexing.jsp" >
-    <input class="button" type=submit value="#i18n{portal.search.manage_indexer.buttonDoIndex}" />
+    <input class="button" type="submit" value="#i18n{portal.search.manage_indexer.buttonDoIndex}" name="total"/>
+    <input class="button" type="submit" value="#i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}" name="incremental"/>
     <input class="button" type="button" value="#i18n{portal.util.labelCancel}" onClick="javascript:history.go(-1);" />
 </form>
 </div>
