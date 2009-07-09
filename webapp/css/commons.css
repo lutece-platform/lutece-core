@@ -40,13 +40,14 @@
 .-lutece-padding-1em {
 	padding: 1em;
 }
-
+.-lutece-float-right {
+	float: right;
+}
 .-lutece-control {
 	border-left: 1px solid #000;
 	border-bottom: 1px solid #000;
 	height: 30px;
 }
-
 .-lutece-control-element {
 	float: left;
 	width: 40px;
