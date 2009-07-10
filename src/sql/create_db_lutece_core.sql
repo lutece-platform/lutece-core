@@ -366,3 +366,17 @@ CREATE TABLE core_mail_queue (
 	is_locked smallint default 0,
 	PRIMARY KEY (id_mail_queue)
 );
+
+
+--
+-- Table structure for table core_indexer_action
+--
+DROP TABLE IF EXISTS core_indexer_action;
+CREATE TABLE  core_indexer_action (
+  id_action int default 0 NOT NULL,
+  id_document varchar(255) NOT NULL,
+  id_task int default 0 NOT NULL,
+  indexer_name varchar(255) NOT NULL,
+  id_portlet int default 0 NOT NULL,
+  PRIMARY KEY (id_action)
+);
