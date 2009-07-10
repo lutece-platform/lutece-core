@@ -241,10 +241,22 @@ public final class IndexationService
                                     	_sbLogs.append( "Adding " );
                                     }
                                     else if ( action.getIdTask(  ) == IndexerAction.TASK_MODIFY )
-                                    {                                    	
-                                    	_writer.updateDocument( new Term( SearchItem.FIELD_UID,
-                                                doc.getField( SearchItem.FIELD_UID ).stringValue( )  ), doc );
-                                    	_sbLogs.append( "Updating " );
+                                    {              
+                                    	if ( action.getIdPortlet(  ) != ALL_DOCUMENT )
+                                        {
+                                            //delete only the index linked to this portlet
+                                        	_writer.updateDocument( new Term( SearchItem.FIELD_DOCUMENT_PORTLET_ID,
+                                                    action.getIdDocument(  )  + "&" +
+                                                    Integer.toString( action.getIdPortlet(  ) ) ) , doc );
+                                        	_sbLogs.append( "Updating " );
+                                        }     
+                                    	else
+                                    	{
+                                    		_writer.updateDocument( new Term( SearchItem.FIELD_UID,
+                                                    doc.getField( SearchItem.FIELD_UID ).stringValue( )  ), doc );
+                                        	_sbLogs.append( "Updating " );
+                                    	}
+                                    	
                                     }
 
                                     _sbLogs.append( doc.get( SearchItem.FIELD_TYPE ) );
