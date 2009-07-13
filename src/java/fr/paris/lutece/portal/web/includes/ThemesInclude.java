@@ -33,12 +33,6 @@
  */
 package fr.paris.lutece.portal.web.includes;
 
-import fr.paris.lutece.portal.service.content.PageData;
-import fr.paris.lutece.portal.service.includes.PageInclude;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.ReferenceItem;
-import fr.paris.lutece.util.ReferenceList;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -46,6 +40,13 @@ import java.util.StringTokenizer;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import fr.paris.lutece.portal.service.content.PageData;
+import fr.paris.lutece.portal.service.includes.PageInclude;
+import fr.paris.lutece.portal.service.portal.ThemesService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
 
 
 /**
@@ -88,7 +89,8 @@ public class ThemesInclude implements PageInclude
         // If code_theme is null, used the default files ( css and images )
         if ( ( strTheme == null ) || ( strTheme.equals( "" ) || ( strTheme.equals( DEFAULT_THEME ) ) ) )
         {
-            strTheme = _strGlobalTheme;
+//            strTheme = _strGlobalTheme;
+            strTheme = ThemesService.getGlobalTheme();
         }
 
         String strCss = AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_CSS );
