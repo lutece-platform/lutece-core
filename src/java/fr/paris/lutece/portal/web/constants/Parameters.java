@@ -62,6 +62,8 @@ public abstract class Parameters
     public static final String ROLE = "role"; /* since v1.1 */
     public static final String WORKGROUP_KEY = "workgroup_key"; /* since v2.2.0b1 */
     public static final String THEME = "theme"; /* since v1.1 */
+    public static final String META_KEYWORDS = "meta_keywords";
+    public static final String META_DESCRIPTION = "meta_description";
 
     // url parameter for redirection after admin
     public static final String REDIRECT_URL = "redirectUrl";

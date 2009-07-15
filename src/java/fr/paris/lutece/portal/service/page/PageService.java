@@ -326,6 +326,8 @@ public class PageService extends ContentService implements ImageResourceProvider
         data.setName( page.getName(  ) );
         data.setPagePath( PortalService.getPagePathContent( nIdPage, nMode, request ) );
         data.setTheme( page.getCodeTheme(  ) );
+        data.setMetaKeywords( page.getMetaKeywords( ) );
+        data.setMetaDescription( page.getMetaDescription( ) );
 
         // Checks the page role (v1.1)
         String strRole = page.getRole(  );

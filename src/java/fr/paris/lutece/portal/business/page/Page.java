@@ -79,6 +79,8 @@ public class Page implements RBACResource, AdminWorkgroupResource
     private Timestamp _dateUpdate;
     private List<Portlet> _listPortlets = new ArrayList<Portlet>(  );
     private String _strWorkgroup;
+    private String _strMetaKeywords;
+    private String _strMetaDescription;
 
     /**
      * Initialize the Page
@@ -520,4 +522,40 @@ public class Page implements RBACResource, AdminWorkgroupResource
     {
         _strWorkgroup = workGroup;
     }
+
+    /**
+    *
+    * @return the META Name associate to the page
+    */
+	public String getMetaKeywords() 
+	{
+		return _strMetaKeywords;
+	}
+
+    /**
+     * set the META name
+     * @param strMetaKeywords the META name
+     */
+	public void setMetaKeywords(String strMetaKeywords) 
+	{
+		_strMetaKeywords = strMetaKeywords;
+	}
+
+	/**
+    *
+    * @return the META description associate to the page
+    */
+	public String getMetaDescription() 
+	{
+		return _strMetaDescription;
+	}
+
+    /**
+     * set the META description
+     * @param strMetaDescription  the META description
+     */
+	public void setMetaDescription(String strMetaDescription) 
+	{
+		_strMetaDescription = strMetaDescription;
+	}
 }

@@ -196,6 +196,8 @@ CREATE TABLE core_page (
 	image_content long varbinary,
 	mime_type varchar(255) default 'NULL',
 	workgroup_key varchar(50) default NULL,
+	meta_keywords varchar(255) default NULL,
+	meta_description varchar(255) default NULL,
 	PRIMARY KEY (id_page)
 );
 

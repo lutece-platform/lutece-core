@@ -100,13 +100,40 @@
 					 </label>
 				</p>
 				<p>
-		             <br /><strong>#i18n{portal.site.admin_page.labelPageTemplateList}</strong>
+		             <strong>#i18n{portal.site.admin_page.labelPageTemplateList}</strong>
 				</p>
 				<table>
 					<tr>
 						${page_templates_list}
 					</tr>
 				</table>
+				<p>
+		            <strong>#i18n{portal.site.admin_page.labelMetadata}</strong>
+					<br/>
+                   	<label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords}
+	                    <br/>
+	                    <input type="text" name="meta_keywords" size="40" maxlength="250"
+	                    	<#if page.metaKeywords?exists && page.metaKeywords?has_content>
+	                    		value="${page.metaKeywords}"
+	                    	<#else>
+	                    		value=""
+	                    	</#if>
+	                    />
+					</label>
+				</p>
+				<p>
+                   	<label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}
+	                    <br/>
+	                    <input type="text" name="meta_description" size="40" maxlength="250"
+	                    	<#if page.metaDescription?exists && page.metaDescription?has_content>
+	                    		value="${page.metaDescription}"
+	                    	<#else>
+	                    		value=""
+	                    	</#if>
+	                    />
+					</label>
+                    #i18n{portal.site.admin_page.labelMetaDescriptionInfo}
+				</p>
 				<p>
 		             <input type="submit" value="#i18n{portal.site.admin_page.buttonModify}" class="button"/>
 				</p>
@@ -182,13 +209,11 @@
             <div id="page_create" class="admin-site-page">
 				<p>
 	            	<label for="child_page_name">#i18n{portal.site.admin_page.labelChildPageName}
-    	            	<!--<input type="text" name="child_page_name" size="40" maxlength="50" />-->
     	            	<input type="text" name="page_name" size="40" maxlength="50" />
 					</label>
 				</p>
 				<p>
                     <label for="child_page_description">#i18n{portal.site.admin_page.labelDescription}
-	   	                <!--<textarea name="child_page_description" rows="3" cols="34"></textarea>-->
 	   	                <textarea name="page_description" rows="3" cols="34"></textarea>
 					</label>
 				</p>
@@ -218,6 +243,22 @@
             	            ${page_templates_list}
                 	    </tr>
 		            </table>
+				</p>
+				<p>
+		             <strong>#i18n{portal.site.admin_page.labelMetadata}</strong>
+					<br />
+                   	<label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords}
+	                    <br />
+	                    <input type="text" name="meta_keywords" size="40" maxlength="250" />
+					</label>
+				</p>
+				<p>
+                   	<label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}
+	                    <br />
+	                    <input type="text" name="meta_description" size="40" maxlength="250" />
+					</label>
+                    #i18n{portal.site.admin_page.labelMetaDescriptionInfo}
+					
 				</p>
 				<p>
 					<input type="hidden" name="node_status" value="1" />

@@ -428,6 +428,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strRole = request.getParameter( Parameters.ROLE );
         String strWorkgroup = request.getParameter( Parameters.WORKGROUP_KEY );
         String strTheme = request.getParameter( Parameters.THEME );
+        String strMetaKeywords = request.getParameter( Parameters.META_KEYWORDS ).trim(); 
+        String strMetaDescription = request.getParameter( Parameters.META_DESCRIPTION ).trim();
 
         /* Added in v2.0 */
         String strNodeStatus = request.getParameter( PARAMETER_NODE_STATUS );
@@ -444,15 +446,25 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-
         // Checks if the page name contains HTML special characters
         else if ( StringUtil.containsHtmlSpecialCharacters( strName ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_TITLE_INVALID_CHARACTERS, AdminMessage.TYPE_STOP );
         }
-
         // Checks if the page description contains HTML special characters
         else if ( StringUtil.containsHtmlSpecialCharacters( strDescription ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS,
+                AdminMessage.TYPE_STOP );
+        }
+        // Checks if the META name of the page contains HTML special characters
+        else if ( StringUtil.containsHtmlSpecialCharacters( strMetaKeywords ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS,
+                AdminMessage.TYPE_STOP );
+        }
+        // Checks if the META description of the page description contains HTML special characters
+        else if ( StringUtil.containsHtmlSpecialCharacters( strMetaDescription ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS,
                 AdminMessage.TYPE_STOP );
@@ -471,6 +483,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         page.setWorkgroup( strWorkgroup );
         page.setCodeTheme( strTheme );
         page.setNodeStatus( nNodeStatus );
+        page.setMetaKeywords( strMetaKeywords );
+        page.setMetaDescription( strMetaDescription );
 
         return strErrorUrl;
     }

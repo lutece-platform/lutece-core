@@ -55,28 +55,28 @@ public final class PageDAO implements IPageDAO
     private static final String SQL_QUERY_NEW_PK = " SELECT max(id_page) FROM core_page";
     private static final String SQL_QUERY_SELECT = " SELECT a.id_parent, a.name, a.description, a.id_template, b.file_name, " +
         " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, " +
-        " a.workgroup_key, a.date_update FROM core_page a, core_page_template b WHERE a.id_template = b.id_template AND a.id_page = ? ";
+        " a.workgroup_key, a.date_update, a.meta_keywords, a.meta_description FROM core_page a, core_page_template b WHERE a.id_template = b.id_template AND a.id_page = ? ";
     private static final String SQL_QUERY_SELECT_BY_ID_PORTLET = " SELECT a.id_page, a.id_parent, a.name, a.description, a.id_template, " +
         " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, " +
-        " a.workgroup_key FROM core_page a,core_portlet b WHERE a.id_page = b.id_page AND b.id_portlet = ? ";
+        " a.workgroup_key, a.meta_keywords, a.meta_description FROM core_page a,core_portlet b WHERE a.id_page = b.id_page AND b.id_portlet = ? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_page ( id_page , id_parent , name , description, date_update, " +
-        " id_template,  page_order, status, role, date_creation, code_theme , node_status, image_content , mime_type , workgroup_key ) " +
-        " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )";
+        " id_template,  page_order, status, role, date_creation, code_theme , node_status, image_content , mime_type , workgroup_key, " +
+        " meta_keywords, meta_description ) " + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_page WHERE id_page = ?";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_page SET id_parent = ?,  name = ?, description = ? , date_update = ? , " +
         " id_template = ? , page_order = ? , status = ? , role = ? , code_theme = ? , node_status = ? , " +
-        " image_content = ? , mime_type = ? , workgroup_key= ?" + " WHERE id_page = ?";
+        " image_content = ? , mime_type = ? , workgroup_key = ?, meta_keywords = ?, meta_description = ? " + " WHERE id_page = ?";
     private static final String SQL_QUERY_CHECKPK = " SELECT id_page FROM core_page WHERE id_page = ?";
     private static final String SQL_QUERY_CHILDPAGE = " SELECT id_page , id_parent, name, description, " +
-        " page_order , status , role, code_theme, image_content, mime_type , workgroup_key" +
+        " page_order , status , role, code_theme, image_content, mime_type , workgroup_key, meta_keywords, meta_description " +
         " FROM core_page WHERE id_parent = ? ORDER BY page_order";
     private static final String SQL_QUERY_SELECTALL = " SELECT id_page , id_parent,  name, description, date_update, " +
-        " page_order, status, role, code_theme, image_content, mime_type ,workgroup_key FROM core_page ";
+        " page_order, status, role, code_theme, image_content, mime_type ,workgroup_key, meta_keywords, meta_description FROM core_page ";
     private static final String SQL_QUERY_BY_ROLE_KEY = " SELECT id_page , id_parent,  name, description, date_update, " +
-        " page_order, status, role, code_theme, image_content, mime_type ,workgroup_key FROM core_page WHERE role = ? ";
+        " page_order, status, role, code_theme, image_content, mime_type ,workgroup_key, meta_keywords, meta_description FROM core_page WHERE role = ? ";
     private static final String SQL_QUERY_SELECT_PORTLET = " SELECT id_portlet FROM core_portlet WHERE id_page = ? ORDER BY portlet_order";
     private static final String SQL_QUERY_UPDATE_PAGE_DATE = " UPDATE core_page SET date_update = ? WHERE id_page = ?";
-    private static final String SQL_QUERY_SELECTALL_NODE_PAGE = " SELECT id_page ,  name FROM core_page WHERE node_status = 0";
+    private static final String SQL_QUERY_SELECTALL_NODE_PAGE = " SELECT id_page, name FROM core_page WHERE node_status = 0";
     private static final String SQL_QUERY_NEW_CHILD_PAGE_ORDER = " SELECT max(page_order) FROM core_page WHERE id_parent = ?";
     private static final String SQL_QUERY_CHECK_PAGE_EXIST = " SELECT id_page FROM core_page " + " WHERE id_page = ? ";
 
@@ -139,6 +139,25 @@ public final class PageDAO implements IPageDAO
         daoUtil.setBytes( 13, page.getImageContent(  ) );
         daoUtil.setString( 14, page.getMimeType(  ) );
         daoUtil.setString( 15, page.getWorkgroup(  ) );
+        
+        if (page.getMetaKeywords() != null && page.getMetaKeywords().length() > 0 )
+        {
+        	daoUtil.setString( 16, page.getMetaKeywords( ) );
+        }
+        else
+        {
+        	daoUtil.setString( 16, null );
+        }
+        
+        if (page.getMetaDescription() != null && page.getMetaDescription().length() > 0 )
+        {
+            daoUtil.setString( 17, page.getMetaDescription( ) );
+        }
+        else
+        {
+            daoUtil.setString( 17, null );
+        }
+        
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
@@ -172,6 +191,8 @@ public final class PageDAO implements IPageDAO
             page.setMimeType( daoUtil.getString( 12 ) );
             page.setWorkgroup( daoUtil.getString( 13 ) );
             page.setDateUpdate( daoUtil.getTimestamp( 14 ) );
+            page.setMetaKeywords( daoUtil.getString( 15 ) ) ;
+            page.setMetaDescription( daoUtil.getString( 16 ) );
 
             // Loads the portlets contained into the page
             if ( bPortlets )
@@ -212,6 +233,8 @@ public final class PageDAO implements IPageDAO
             page.setImageContent( daoUtil.getBytes( 11 ) );
             page.setMimeType( daoUtil.getString( 12 ) );
             page.setWorkgroup( daoUtil.getString( 13 ) );
+            page.setMetaKeywords( daoUtil.getString( 14 ) ) ;
+            page.setMetaDescription( daoUtil.getString( 15 ) );
         }
 
         daoUtil.free(  );
@@ -252,7 +275,26 @@ public final class PageDAO implements IPageDAO
         daoUtil.setBytes( 11, page.getImageContent(  ) );
         daoUtil.setString( 12, page.getMimeType(  ) );
         daoUtil.setString( 13, page.getWorkgroup(  ) );
-        daoUtil.setInt( 14, page.getId(  ) );
+        
+        if (page.getMetaKeywords() != null && page.getMetaKeywords().length() > 0 )
+        {
+        	daoUtil.setString( 14, page.getMetaKeywords( ) );
+        }
+        else
+        {
+        	daoUtil.setString( 14, null );
+        }
+        
+        if (page.getMetaDescription() != null && page.getMetaDescription().length() > 0 )
+        {
+            daoUtil.setString( 15, page.getMetaDescription( ) );
+        }
+        else
+        {
+            daoUtil.setString( 15, null );
+        }
+        
+        daoUtil.setInt( 16, page.getId(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -333,6 +375,8 @@ public final class PageDAO implements IPageDAO
             page.setImageContent( daoUtil.getBytes( 9 ) );
             page.setMimeType( daoUtil.getString( 10 ) );
             page.setWorkgroup( daoUtil.getString( 11 ) );
+            page.setMetaKeywords( daoUtil.getString( 12 ) ) ;
+            page.setMetaDescription( daoUtil.getString( 13 ) );
             pageList.add( page );
         }
 
@@ -366,6 +410,8 @@ public final class PageDAO implements IPageDAO
             page.setImageContent( daoUtil.getBytes( 10 ) );
             page.setMimeType( daoUtil.getString( 11 ) );
             page.setWorkgroup( daoUtil.getString( 12 ) );
+            page.setMetaKeywords( daoUtil.getString( 13 ) ) ;
+            page.setMetaDescription( daoUtil.getString( 14 ) );
             pageList.add( page );
         }
 
@@ -439,6 +485,8 @@ public final class PageDAO implements IPageDAO
             page.setImageContent( daoUtil.getBytes( 9 ) );
             page.setMimeType( daoUtil.getString( 10 ) );
             page.setWorkgroup( daoUtil.getString( 11 ) );
+            page.setMetaKeywords( daoUtil.getString( 12 ) ) ;
+            page.setMetaDescription( daoUtil.getString( 13 ) );
             pageList.add( page );
         }
 
