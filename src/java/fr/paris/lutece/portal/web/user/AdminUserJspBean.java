@@ -591,19 +591,34 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
             String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
-
-            if ( ( strFirstPassword == null ) || ( strFirstPassword.equals( "" ) ) )
+            
+            if ( ( strFirstPassword != null ) && ( strFirstPassword.equals( "" ) )  && 
+            		( strSecondPassword != null ) && ( !strSecondPassword.equals ( "" ) ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                // First password is empty but second password is filled
+            	return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
+                        AdminMessage.TYPE_STOP );
+            }
+            
+            if ( ( strSecondPassword != null ) && ( strSecondPassword.equals( "" ) ) && 
+            		( strFirstPassword != null ) && !strFirstPassword.equals( "" ) )
+            {
+                // First password is filled but second password is empty
+            	return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
+                        AdminMessage.TYPE_STOP );
             }
 
             if ( !strFirstPassword.equals( strSecondPassword ) )
             {
+                // First and second password are filled but there are different
                 return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
                     AdminMessage.TYPE_STOP );
             }
 
-            user.setPassword( strFirstPassword );
+            if ( strFirstPassword != null && !strFirstPassword.equals( "" ) )
+            {
+            	user.setPassword( strFirstPassword );
+            }
 
             user.setUserId( nUserId );
             user.setAccessCode( strAccessCode );
