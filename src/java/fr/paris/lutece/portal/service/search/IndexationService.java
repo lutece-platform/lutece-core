@@ -230,11 +230,12 @@ public final class IndexationService
                         {
                             for ( org.apache.lucene.document.Document doc : luceneDocuments )
                             {
-                                if ( ( action.getIdPortlet(  ) == ALL_DOCUMENT ) ||
+                            	if ( ( action.getIdPortlet(  ) == ALL_DOCUMENT ) ||
                                         ( ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) != null ) &&
                                         ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID )
-                                                 .equals( action.getIdDocument(  ) + "&" + action.getIdPortlet(  ) ) ) ) )
+                                                 .equals( doc.get( SearchItem.FIELD_UID ) + "&" + action.getIdPortlet(  ) ) ) ) )
                                 {
+                                	
                                     if ( action.getIdTask(  ) == IndexerAction.TASK_CREATE )
                                     {
                                     	_writer.addDocument( doc );
@@ -246,8 +247,7 @@ public final class IndexationService
                                         {
                                             //delete only the index linked to this portlet
                                         	_writer.updateDocument( new Term( SearchItem.FIELD_DOCUMENT_PORTLET_ID,
-                                                    action.getIdDocument(  )  + "&" +
-                                                    Integer.toString( action.getIdPortlet(  ) ) ) , doc );
+                                        			doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) ) , doc );
                                         	_sbLogs.append( "Updating " );
                                         }     
                                     	else
@@ -276,76 +276,7 @@ public final class IndexationService
                 _writer.deleteDocuments( new Term( SearchItem.FIELD_TYPE, PARAM_TYPE_PAGE ) );
                 _mapIndexers.get( PageIndexer.INDEXER_NAME ).indexDocuments( );
 
-                /*
-                    //add all document which must be add
-                    for ( IndexerAction action : getAllIndexerActionByTask( IndexerAction.TASK_CREATE) )
-                    {
-                
-                            SearchIndexer indexer = _mapIndexers.get(action.getIndexerName());
-                
-                        List<org.apache.lucene.document.Document> luceneDocuments = indexer.getDocuments( action.getIdDocument());
-                
-                        if ( ( luceneDocuments != null ) && ( luceneDocuments.size() > 0) )
-                        {
-                                        Iterator<org.apache.lucene.document.Document> it = luceneDocuments.iterator();
-                                        while(it.hasNext())
-                                        {
-                                                Document doc = it.next();
-                                                writer.addDocument( doc );
-                                                sbLogs.append( "Adding" );
-                                        sbLogs.append( doc.get( SearchItem.FIELD_TYPE ) );
-                                        sbLogs.append( " #" );
-                                        sbLogs.append( doc.get( SearchItem.FIELD_UID ) );
-                                        sbLogs.append( " - " );
-                                        sbLogs.append( doc.get( SearchItem.FIELD_TITLE ) );
-                                        sbLogs.append( "\r\n" );
-                                        }
-                
-                        }
-                
-                        removeIndexerAction( action.getIdAction(  ) );
-                    }
-                    //Update all document which must be update
-                    for ( IndexerAction action : getAllIndexerActionByTask( IndexerAction.TASK_MODIFY ) )
-                    {
-                            SearchIndexer indexer = _mapIndexers.get(action.getIndexerName());
-                        List<org.apache.lucene.document.Document> luceneDocuments = indexer.getDocuments(action.getIdDocument());
-                
-                        if ( ( luceneDocuments != null ) && ( luceneDocuments.size() > 0) )
-                        {
-                                        Iterator<org.apache.lucene.document.Document> it = luceneDocuments.iterator();
-                                        while(it.hasNext())
-                                        {
-                                                Document doc = it.next();
-                                                writer.updateDocument( new Term( SearchItem.FIELD_UID,
-                                            Integer.toString( action.getIdDocument(  ) ) ),  doc);
-                                                sbLogs.append( "Updating " );
-                                        sbLogs.append( doc.get( SearchItem.FIELD_TYPE ) );
-                                        sbLogs.append( " #" );
-                                        sbLogs.append( doc.get( SearchItem.FIELD_UID ) );
-                                        sbLogs.append( " - " );
-                                        sbLogs.append( doc.get( SearchItem.FIELD_TITLE ) );
-                                        sbLogs.append( "\r\n" );
-                                        }
-                
-                        }
-                
-                
-                        removeIndexerAction( action.getIdAction(  ) );
-                    }
-                  //delete all document which must be delete
-                    for ( IndexerAction action : getAllIndexerActionByTask( IndexerAction.TASK_DELETE ) )
-                    {
-                        writer.deleteDocuments( new Term( SearchItem.FIELD_UID,
-                                Integer.toString( action.getIdDocument(  ) ) ) );
-                
-                                        sbLogs.append( "Deleting " );
-                                    sbLogs.append( " #" );
-                                    sbLogs.append( action.getIdDocument() );
-                                    sbLogs.append( "\r\n" );
-                
-                        removeIndexerAction( action.getIdAction(  ) );
-                    }*/
+               
             }
 
             _sbLogs.append( "\r\nOptimization of the index for the current site...\r\n\r\n" );
