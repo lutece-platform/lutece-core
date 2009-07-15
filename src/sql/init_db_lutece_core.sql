@@ -18,6 +18,7 @@ INSERT INTO core_admin_right VALUES ('CORE_GROUPS_MANAGEMENT','portal.group.admi
 INSERT INTO core_admin_right VALUES ('CORE_MAILINGLISTS_MANAGEMENT','portal.mailinglist.adminFeature.mailinglists_management.name',2,'jsp/admin/mailinglist/ManageMailingLists.jsp','portal.mailinglist.adminFeature.mailinglists_management.description',0,NULL,'MANAGERS','images/admin/skin/features/manage_mailinglists.png',NULL,4);
 INSERT INTO core_admin_right VALUES ('CORE_LEVEL_RIGHT_MANAGEMENT','portal.users.adminFeature.level_right_management.name',2,'jsp/admin/features/ManageLevels.jsp','portal.users.adminFeature.level_right_management.description',0,NULL,'MANAGERS','images/admin/skin/features/manage_rights_levels.png',NULL,5);
 INSERT INTO core_admin_right VALUES ('CORE_THEMES_MANAGEMENT','portal.style.adminFeature.themes_management.name',0,'jsp/admin/style/ManageThemes.jsp','portal.style.adminFeature.themes_management.description',1,NULL,'STYLE','images/admin/skin/features/manage_styles.png',NULL,4);
+INSERT INTO core_admin_right VALUES ('CORE_LINK_SERVICE_MANAGEMENT','portal.insert.adminFeature.linkService_management.name',2,NULL,'portal.insert.adminFeature.linkService_management.description',0,NULL,NULL,NULL,NULL,1);
 
 INSERT INTO core_admin_role VALUES ('all_site_manager','Site Manager');
 INSERT INTO core_admin_role VALUES ('super_admin','Super Administrateur');

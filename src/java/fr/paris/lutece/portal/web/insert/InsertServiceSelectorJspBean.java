@@ -57,7 +57,10 @@ import javax.servlet.http.HttpServletRequest;
 public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
 {
     ////////////////////////////////////////////////////////////////////////////
-    // Constants
+	// Right
+    public static final String RIGHT_MANAGE_LINK_SERVICE = "CORE_LINK_SERVICE_MANAGEMENT";
+	
+	// Constants
     private static final String TEMPLATE_INSERT_TYPE_PAGE = "admin/insert/page_insertservice.html";
     private static final String TEMPLATE_INSERT_INTO_ELEMENT = "admin/insert/insert_into_element.html";
     private static final String TEMPLATE_INSERT_INTO_ELEMENT2 = "admin/insert/insert_into_element2.html";
@@ -88,12 +91,11 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
         // Encode the HTML code to insert
         strText = EncodingService.encodeUrl( strText );
 
-        Collection<InsertService> listServices = InsertServiceManager.getInsertServicesList(  );
-        RBACService.getAuthorizedCollection( listServices, InsertResourceIdService.PERMISSION_USE, getUser(  ) );
+        Collection<InsertService> listServices = InsertServiceManager.getInsertServicesList(  );        
 
         // building from a template
         Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_INSERT_SERVICES_LIST, listServices );
+        model.put( MARK_INSERT_SERVICES_LIST, RBACService.getAuthorizedCollection( listServices, InsertResourceIdService.PERMISSION_USE, getUser(  ) ) );
         model.put( MARK_SELECTED_TEXT, strText );
         model.put( MARK_INPUT, strInput );
 
