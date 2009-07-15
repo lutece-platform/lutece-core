@@ -64,7 +64,6 @@ public class ThemesInclude implements PageInclude
     private static final String PROPERTY_THEMES_LIST = "themes.list";
     private static final String DEFAULT_THEME = "default";
     private static final String COOKIE_NAME = "theme";
-    private static String _strGlobalTheme = DEFAULT_THEME;
 
     /**
      * Substitue specific Freemarker markers in the page template.
@@ -191,21 +190,4 @@ public class ThemesInclude implements PageInclude
         return false;
     }
 
-    /**
-     * Returns the global theme
-     * @return the global theme
-     */
-    public static String getGlobalTheme(  )
-    {
-        return _strGlobalTheme;
-    }
-
-    /**
-     * Sets the global theme
-     * @param strTheme The global theme
-     */
-    public static void setGlobalTheme( String strTheme )
-    {
-        _strGlobalTheme = strTheme;
-    }
 }
