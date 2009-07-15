@@ -29,6 +29,7 @@ body {
 	color: #ddd;
 }
 #menu-auth-label-logged a#menu-auth-label-logged {
+	text-transform: capitalize;
 	color: #ddd;
 }
 /***************************************************/
