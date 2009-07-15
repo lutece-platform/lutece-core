@@ -28,6 +28,9 @@ body {
 	cursor: pointer;
 	color: #ddd;
 }
+#menu-auth-label-logged a, #menu-auth-label-logged {
+	color: #ddd;
+}
 /***************************************************/
 #page {
 	background-color: #DBDBDB;
