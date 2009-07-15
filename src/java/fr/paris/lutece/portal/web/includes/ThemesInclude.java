@@ -89,7 +89,6 @@ public class ThemesInclude implements PageInclude
         // If code_theme is null, used the default files ( css and images )
         if ( ( strTheme == null ) || ( strTheme.equals( "" ) || ( strTheme.equals( DEFAULT_THEME ) ) ) )
         {
-//            strTheme = _strGlobalTheme;
             strTheme = ThemesService.getGlobalTheme();
         }
 
