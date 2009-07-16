@@ -33,15 +33,16 @@
  */
 package fr.paris.lutece.portal.web.style;
 
-import fr.paris.lutece.portal.service.portal.ThemesService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
-import fr.paris.lutece.util.html.HtmlTemplate;
-
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import fr.paris.lutece.portal.service.portal.ThemesService;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.util.html.HtmlTemplate;
 
 
 /**
@@ -49,7 +50,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ThemesJspBean extends AdminFeaturesPageJspBean
 {
-    // Right
+
+	// Right
     public static final String RIGHT_MANAGE_THEMES = "CORE_THEMES_MANAGEMENT";
 
     // Templates files path
@@ -57,11 +59,12 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
 
     // Markers
     private static final String MARK_THEMES_LIST = "themes_list";
-    private static final String MARK_THEME = "theme";
+    private static final String MARK_THEME = "theme_default";
 
     // Parameters
     private static final String PARAMETER_THEME = "theme";
     private static final String PARAMETER_URL = "url";
+    private static final String BASE_URL = "base_url";
 
     /**
      * Returns the list of Themes
@@ -74,6 +77,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_THEMES_LIST, ThemesService.getThemesList(  ) );
         model.put( MARK_THEME, ThemesService.getGlobalTheme(  ) );
+        model.put( BASE_URL, AppPathService.getBaseUrl( request ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_THEMES, getLocale(  ), model );
 

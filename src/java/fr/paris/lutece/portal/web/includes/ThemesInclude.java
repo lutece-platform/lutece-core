@@ -54,7 +54,7 @@ import fr.paris.lutece.util.ReferenceList;
  */
 public class ThemesInclude implements PageInclude
 {
-    // Constants
+	// Constants
     private static final String MARK_THEME_CSS = "theme_css";
     private static final String MARK_THEME_IMAGES = "theme_images";
     private static final String PROPERTY_PREFIX = "themes.";
@@ -62,8 +62,8 @@ public class ThemesInclude implements PageInclude
     private static final String PROPERTY_SUFFIX_CSS = ".css";
     private static final String PROPERTY_SUFFIX_IMAGES = ".images";
     private static final String PROPERTY_THEMES_LIST = "themes.list";
-    private static final String DEFAULT_THEME = "default";
     private static final String COOKIE_NAME = "theme";
+    private static final String THEME_TEST = "theme_test";
 
     /**
      * Substitue specific Freemarker markers in the page template.
@@ -74,22 +74,7 @@ public class ThemesInclude implements PageInclude
      */
     public void fillTemplate( Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
-        // The code_theme of the page
-        String strTheme = data.getTheme(  );
-
-        // The theme of the user
-        String strUserTheme = getUserTheme( request );
-
-        if ( strUserTheme != null )
-        {
-            strTheme = strUserTheme;
-        }
-
-        // If code_theme is null, used the default files ( css and images )
-        if ( ( strTheme == null ) || ( strTheme.equals( "" ) || ( strTheme.equals( DEFAULT_THEME ) ) ) )
-        {
-            strTheme = ThemesService.getGlobalTheme();
-        }
+    	String strTheme = getThemeCode(data, request);
 
         String strCss = AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_CSS );
         rootModel.put( MARK_THEME_CSS, strCss );
@@ -97,6 +82,53 @@ public class ThemesInclude implements PageInclude
         String strImages = AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_IMAGES );
         rootModel.put( MARK_THEME_IMAGES, strImages );
     }
+
+    /**
+     * Get the theme code depending of the different priorities.
+     * The priorities are :
+     * 1) the theme of test (in case you want to test a page with a specific theme)
+     * 2) the theme choosen by the user
+     * 3) the global theme : the one choosen in the back office for the whole site
+     * 4) the page theme : a theme specified for a page
+     * 
+     * @param data
+     * @param request
+     * @return
+     */
+	private String getThemeCode(PageData data, HttpServletRequest request)
+	{
+		String strTheme = null;
+
+        // The code_theme of the page
+        String strPageTheme = data.getTheme(  );
+        if( strPageTheme != null )
+        {
+        	strTheme = strPageTheme;
+        }
+    	
+        //the global theme (choosen in the backoffice for the whole website)
+        String strGlobalTheme = ThemesService.getGlobalTheme();
+        if ( strGlobalTheme != null )
+        {
+        	strTheme = strGlobalTheme;
+        }
+
+        // The theme of the user
+        String strUserTheme = getUserTheme( request );
+        if ( strUserTheme != null )
+        {
+        	strTheme = strUserTheme;
+        }
+
+        //the test theme (choosen for a page to test the different theme from the backoffice theme section)
+        String themeTest = request.getParameter(THEME_TEST);
+        if( themeTest != null )
+        {
+        	strTheme = themeTest;
+        }
+        
+		return strTheme;
+	}
 
     /**
      * Returns the list of the code_theme of the page
@@ -132,7 +164,7 @@ public class ThemesInclude implements PageInclude
     {
         if ( request != null )
         {
-            Cookie[] cookies = request.getCookies(  );
+        	Cookie[] cookies = request.getCookies(  );
 
             if ( cookies != null )
             {

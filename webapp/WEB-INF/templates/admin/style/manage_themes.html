@@ -1,17 +1,33 @@
-<div class="content-box" >
+<div class="content-box">
 
-
-    <h2>#i18n{portal.style.manage_themes.title}</h2>
-
-    <form method="post"  action="jsp/admin/style/DoModifyGlobalTheme.jsp">
-        <p>
-            <label for="theme">#i18n{portal.style.manage_themes.labelGlobalTheme} : </label>
-            <@combo name="theme" default_value="${theme}" items=themes_list />
-
-        </p>
-        <p>
-            <input type="submit" tabindex="1" value="#i18n{portal.style.manage_themes.buttonModify}" class="button" />
-        </p>
-    </form>
+	<h2>#i18n{portal.style.manage_themes.title}</h2>
+	
+	<form method="post" action="jsp/admin/style/DoModifyGlobalTheme.jsp">
+	<p>
+		<p>#i18n{portal.style.manage_themes.labelGlobalTheme} : </p>
+		<table>
+		<tbody>
+		<#list themes_list as theme>
+			<tr>
+			<td width="1%">
+				<input type="radio" name="theme" value="${theme.code}" <#if theme_default = theme.code >checked="checked"</#if> />
+			</td>
+			<td align="left">
+				${theme.name}
+			</td>
+			<td>
+			<a href="${base_url}jsp/site/Portal.jsp?theme_test=${theme.code}" target="_preview_${theme.code}">
+				<img src="images/admin/skin/actions/publish.png" alt="Preview" title="Preview" border="0" />
+			</a>
+			</td>
+			</tr>
+		</#list>
+		</tbody>
+		</table>
+	</p>
+	<p>
+		<input type="submit" tabindex="1" value="#i18n{portal.style.manage_themes.buttonModify}" class="button" />
+	</p>
+	</form>
 
 </div>
