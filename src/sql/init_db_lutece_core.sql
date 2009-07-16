@@ -103,6 +103,8 @@ INSERT INTO core_style_mode_stylesheet VALUES (8,1,279);
 
 INSERT INTO core_user_right VALUES ('CORE_ADMIN_SITE',1);
 INSERT INTO core_user_right VALUES ('CORE_ADMIN_SITE',2);
+INSERT INTO core_user_right VALUES ('CORE_LINK_SERVICE_MANAGEMENT',1);
+INSERT INTO core_user_right VALUES ('CORE_LINK_SERVICE_MANAGEMENT',2);
 INSERT INTO core_user_right VALUES ('CORE_CACHE_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_DAEMONS_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_FEATURES_MANAGEMENT',1);
@@ -131,4 +133,6 @@ INSERT INTO core_user_right VALUES ('CORE_WORKGROUPS_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_WORKGROUPS_MANAGEMENT',2);
 
 INSERT INTO core_user_role VALUES ('all_site_manager',1);
+INSERT INTO core_user_role VALUES ('super_admin',1);
 INSERT INTO core_user_role VALUES ('all_site_manager',2);
+INSERT INTO core_user_role VALUES ('super_admin',2);
