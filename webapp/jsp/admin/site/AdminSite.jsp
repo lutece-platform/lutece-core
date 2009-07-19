@@ -12,7 +12,7 @@
 
     <jsp:include page="AdminPage.jsp" />
 
-    <div id="admin-site-preview" class="preview">
+
 <%
 	String strParams = "";
 	String strSeparator = "?";
@@ -29,10 +29,20 @@
             String strParamValue = request.getParameter( strParamName );
             strParams += strSeparator + strParamName + "=" + strParamValue;
 	}
-%>
 
-	<iframe name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="100%" height="750" scrolling="auto">
-	</iframe>
+    String strClassPreview = "preview-toolbar";
+    String strParamBlock = request.getParameter("param_block");
+    if( strParamBlock != null )
+    {
+        if( strParamBlock.equals("property") || strParamBlock.equals("image") || strParamBlock.equals("portlet") || strParamBlock.equals("childpage") )
+        {
+            strClassPreview = "preview";
+        }
+    }
+%>
+    <div id="admin-site-preview" class=<%= strClassPreview %> >
+        <iframe name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="100%" height="750" scrolling="auto">
+        </iframe>
     </div>
 </div>
 

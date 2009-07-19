@@ -108,10 +108,20 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     // Parameters
     private static final String PARAMETER_IMAGE_CONTENT = "image_content";
     private static final String PARAMETER_NODE_STATUS = "node_status";
+    private static final String PARAMETER_BLOCK = "param_block";
+    
+    private static final String BLOCK_PROPERTY = "property";
+    private static final String BLOCK_IMAGE = "image";
+    private static final String BLOCK_PORTLET = "portlet";
+    private static final String BLOCK_CHILDPAGE = "childpage";
 
     // Templates
     private static final String TEMPLATE_PAGE_TEMPLATE_ROW = "admin/site/page_template_list_row.html";
     private static final String TEMPLATE_ADMIN_PAGE = "admin/site/admin_page.html";
+    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY = "admin/site/admin_page_block_property.html";
+    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_IMAGE = "admin/site/admin_page_block_image.html";
+    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_PORTLET = "admin/site/admin_page_block_portlet.html";
+    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE = "admin/site/admin_page_block_childpage.html";
 
     // Properties definition
     private static final String PROPERTY_MESSAGE_PAGE_INEXISTENT = "portal.site.admin_page.messagePageInexistent";
@@ -133,6 +143,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_PAGE_ID_CHILDPAGE = "portal.site.message.pageIdChildPage";
     private static final String MESSAGE_SAME_PAGE_ID = "portal.site.message.pageSameId";
 
+
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
@@ -148,6 +159,15 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             strPageId = String.valueOf( PortalService.getRootPageId(  ) );
         }
 
+        String strParamBlock = request.getParameter( PARAMETER_BLOCK );
+
+        if( strParamBlock != null )
+        {
+            if( strParamBlock.equals( BLOCK_PROPERTY) || strParamBlock.equals( BLOCK_IMAGE ) || strParamBlock.equals( BLOCK_PORTLET ) || strParamBlock.equals( BLOCK_CHILDPAGE ) )
+            {
+                return getAdminPageBlock( strPageId, strParamBlock );
+            }
+        }
         return getAdminPageBlock( strPageId );
     }
 
@@ -329,6 +349,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     //////////////////////////////////////////////////////////////////////////////////
     // Private implementation
 
+
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
@@ -341,12 +362,10 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         Page page = null;
         int nPageId = 1;
-        int nPageIdInit = 1;
 
         try
         {
             nPageId = Integer.parseInt( strPageId );
-            nPageIdInit = nPageId;
 
             boolean bPageExist = PageHome.checkPageExist( nPageId );
 
@@ -371,11 +390,81 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         }
 
         model.put( MARK_PAGE, page );
-        model.put( MARK_PAGE_INIT_ID, Integer.toString( nPageIdInit ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale(  ), model );
+
+        return getAdminPage( template.getHtml(  ) );
+    }
+
+    /**
+     * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
+     *
+     * @param strPageId The identifier of the page
+     * @return The management page of a page
+     */
+    private String getAdminPageBlock( String strPageId, String strParamBlock )
+    {
+        Map<String, Object> model = new HashMap<String, Object>(  );
+
+        Page page = null;
+        int nPageId = 1;
+
+        try
+        {
+            nPageId = Integer.parseInt( strPageId );
+
+            boolean bPageExist = PageHome.checkPageExist( nPageId );
+
+            if ( bPageExist )
+            {
+                page = PageHome.getPage( nPageId );
+                model.put( MARK_PAGE_MESSAGE, "" );
+            }
+            else
+            {
+                nPageId = PortalService.getRootPageId(  );
+                page = PageHome.getPage( nPageId );
+                model.put( MARK_PAGE_MESSAGE,
+                    I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_INEXISTENT, getLocale(  ) ) );
+            }
+        }
+        catch ( NumberFormatException nfe )
+        {
+            nPageId = PortalService.getRootPageId(  );
+            page = PageHome.getPage( nPageId );
+            model.put( MARK_PAGE_MESSAGE, I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_FORMAT, getLocale(  ) ) );
+        }
+
+        if( strParamBlock.equals( BLOCK_PROPERTY ) || strParamBlock.equals( BLOCK_CHILDPAGE ))
+        {
+            return getAdminPageBlockProperty( page, strParamBlock, model );
+        }
+        if( strParamBlock.equals( BLOCK_IMAGE ) )
+        {
+            return getAdminPageBlockImage( page, model );
+        }
+        if( strParamBlock.equals( BLOCK_PORTLET ) )
+        {
+            return getAdminPageBlockPortlet( page, model );
+        }
+
+        return getAdminPage( strPageId );
+    }
+
+
+    /**
+     * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
+     *
+     * @param strPageId The identifier of the page
+     * @return The management page of a page
+     */
+    private String getAdminPageBlockProperty( Page page, String strParamBlock, Map model )
+    {
+        model.put( MARK_PAGE, page );
+        model.put( MARK_PAGE_INIT_ID, page.getId() );
         model.put( MARK_PAGE_ORDER_LIST, getOrdersList(  ) );
         model.put( MARK_PAGE_ROLES_LIST, RoleHome.getRolesList(  ) );
         model.put( MARK_PAGE_THEMES_LIST, ThemesService.getThemesList(  ) );
-        model.put( MARK_IMAGE_URL, getResourceImagePage( page, strPageId ) );
 
         int nIndexRow = 1;
         StringBuffer strPageTemplatesRow = new StringBuffer(  );
@@ -389,13 +478,12 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         }
 
         model.put( MARK_PAGE_TEMPLATES_LIST, strPageTemplatesRow );
-        model.put( MARK_PORTLET_TYPES_LIST, getPortletTypeList( getUser(  ) ) );
 
         // Add in v2.0
         int nManageAuthorization = 1;
 
         if ( PageService.getInstance(  )
-                            .isAuthorizedAdminPage( nPageId, PageResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+                            .isAuthorizedAdminPage( page.getId(), PageResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
         {
             nManageAuthorization = 0;
         }
@@ -403,10 +491,51 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_AUTORIZATION, Integer.toString( nManageAuthorization ) );
         model.put( MARK_PAGE_WORKGROUPS_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale(  ), model );
+        String strTemplate = TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY;
+
+        if( strParamBlock.equals( BLOCK_CHILDPAGE ) )
+        {
+            strTemplate = TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE;
+        }
+        
+        HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, getLocale(  ), model );
 
         return getAdminPage( template.getHtml(  ) );
     }
+
+    /**
+     * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
+     *
+     * @param strPageId The identifier of the page
+     * @return The management page of a page
+     */
+    private String getAdminPageBlockImage( Page page, Map model )
+    {
+        model.put( MARK_PAGE, page );
+        model.put( MARK_IMAGE_URL, getResourceImagePage( page, Integer.toString( page.getId() ) ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_IMAGE, getLocale(  ), model );
+
+        return getAdminPage( template.getHtml(  ) );
+    }
+
+    /**
+     * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
+     *
+     * @param strPageId The identifier of the page
+     * @return The management page of a page
+     */
+    private String getAdminPageBlockPortlet( Page page, Map model )
+    {
+        model.put( MARK_PAGE, page );
+        model.put( MARK_PORTLET_TYPES_LIST, getPortletTypeList( getUser(  ) ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_PORTLET, getLocale(  ), model );
+
+        return getAdminPage( template.getHtml(  ) );
+    }
+
+
 
     /**
      * Provide page data

@@ -864,6 +864,12 @@ div.highlight-box table {
    width: 320px;
 }
 
+
+#content-admin-site-toolbar {
+   float:left;
+   width: 100px;
+}
+
 #feature-content div.admin-site-page{
   margin-left: -3%;
 }
@@ -1124,6 +1130,14 @@ a.info:hover span{ /*the span will display just on :hover state*/
  margin-top: 0px;
  margin-right: 33px;
 }
+
+.preview-toolbar{
+ border: none;
+ margin-left: 110px;
+ margin-top: 0px;
+ margin-right: 33px;
+}
+
 
 .preview-ext{
  border: none;
