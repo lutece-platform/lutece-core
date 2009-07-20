@@ -1,0 +1,81 @@
+<div id="content-admin-site-page" class="admin-site-page">
+
+    <p>
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}"><img src="images/admin/skin/back_adminsite.png"  width="36" height="36" hspace="12" alt="Administration du site" title="Administration du site" /></a>
+        <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}"><img src="images/admin/skin/sitemap.png" width="36" height="36" hspace="12" alt="#i18n{portal.site.admin_page.tabAdminMapSite}" title="#i18n{portal.site.admin_page.tabAdminMapSite}" /></a>
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=property"><img src="images/admin/skin/property.png"  width="36" height="36" hspace="12" alt="Propriétés de la page" title="Propriétés de la page" /></a>
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=image"><img src="images/admin/skin/image.png" width="36" height="36" hspace="12" alt="Image de la page" title="Image de la page" /></a>
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=portlet"><img src="images/admin/skin/portlet.png" width="36" height="36" hspace="12" alt="Ajouter une rubrique" title="Ajouter une rubrique" /></a>
+        <h2>Page ${page.name} - Id ${page.id}</h2>
+    </p>
+
+    <div class="content-box" >
+        <form method="post"  action="jsp/admin/site/DoCreateChildPage.jsp">
+            <input type="hidden" name="page_id" value="${page.id}" />
+            <p>
+                <h2>
+                    #i18n{portal.site.admin_page.titleAddChildPage}
+                </h2>
+            </p>
+            <div id="page_create" class="admin-site-page">
+				<p>
+	            	<label for="child_page_name">#i18n{portal.site.admin_page.labelChildPageName}
+    	            	<input type="text" name="page_name" size="40" maxlength="50" />
+					</label>
+				</p>
+				<p>
+                    <label for="child_page_description">#i18n{portal.site.admin_page.labelDescription}
+	   	                <textarea name="page_description" rows="3" cols="34"></textarea>
+					</label>
+				</p>
+				<p>
+   	                <label for="roles_list">#i18n{portal.site.admin_page.labelRole}<br />
+	                    <@combo name="role" default_value="${page.role}" items=page_roles_list />
+					</label>
+				</p>
+				<p>
+		    		<label for="workgroup_list">#i18n{portal.site.admin_page.labelWorkgroup}
+		     			<#if page.workgroup?exists>
+		     				<@combo name="workgroup_key"  items=user_workgroup_list default_value=page.workgroup />
+		     			<#else>
+		     					<@combo name="workgroup_key"  items=user_workgroup_list default_value="all" />
+		     			</#if>
+		     		</label>
+				</p>
+				<p>
+   	                <label for="themes_list">#i18n{portal.site.admin_page.labelTheme}<br />
+	                    <@combo name="theme" default_value="${page.codeTheme}" items=page_themes_list />
+					</label>
+				</p>
+				<p>
+   	                <br /><strong>#i18n{portal.site.admin_page.labelPageTemplateList}</strong>
+		            <table align="left">
+        	            <tr>
+            	            ${page_templates_list}
+                	    </tr>
+		            </table>
+				</p>
+				<p>
+		             <strong>#i18n{portal.site.admin_page.labelMetadata}</strong>
+					<br />
+                   	<label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords}
+	                    <br />
+	                    <input type="text" name="meta_keywords" size="40" maxlength="250" />
+					</label>
+				</p>
+				<p>
+                   	<label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}
+	                    <br />
+	                    <input type="text" name="meta_description" size="40" maxlength="250" />
+					</label>
+                    #i18n{portal.site.admin_page.labelMetaDescriptionInfo}
+
+				</p>
+				<p>
+					<input type="hidden" name="node_status" value="1" />
+	                <input type="submit" value="#i18n{portal.site.admin_page.buttonCreate}" class="button"/>
+				</p>
+            </div>
+        </form>
+    </div>
+</div>

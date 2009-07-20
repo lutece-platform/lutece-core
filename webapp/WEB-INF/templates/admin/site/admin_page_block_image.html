@@ -1,0 +1,38 @@
+<div id="content-admin-site-page" class="admin-site-page">
+    <p>
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}"><img src="images/admin/skin/back_adminsite.png"  width="36" height="36"  hspace="12" alt="Administration du site" title="Administration du site" /></a>
+        <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}"><img src="images/admin/skin/sitemap.png" width="36" height="36" hspace="12" alt="#i18n{portal.site.admin_page.tabAdminMapSite}" title="#i18n{portal.site.admin_page.tabAdminMapSite}" /></a>
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=property"><img src="images/admin/skin/property.png"  width="36" height="36" hspace="12" alt="Propriétés de la page" title="Propriétés de la page" /></a>
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=portlet"><img src="images/admin/skin/portlet.png" width="36" height="36" hspace="12" alt="Ajouter une rubrique" title="Ajouter une rubrique" /></a>
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=childpage"><img src="images/admin/skin/childpage.png" width="36" height="36" hspace="12" alt="Ajouter une page fille" title="Ajouter une page fille" /></a>
+        <h2>Page ${page.name} - Id ${page.id}</h2>
+    </p>
+
+
+    <div class="content-box">
+        <form method="post" enctype="multipart/form-data" action="jsp/admin/site/DoDefineImage.jsp" >
+            <input type="hidden" name="page_id" value="${page.id}" />
+            <p>
+                <h2>
+                    #i18n{portal.site.admin_page.titlePictureProperties}
+                </h2>
+            </p>
+            <div id="page_image" class="admin-site-page">
+				<p>
+            		#i18n{portal.site.admin_page.labelCurrentPicture} <a href="javascript:history.go(0)">  #i18n{portal.site.admin_page.labelRefreshPicture}</a>
+				</p>
+				<p>
+                    <img src="${image_url}" width="80" height="80" border="1" alt="#i18n{portal.site.admin_page.labelAltImgDefinition}" />
+				</p>
+				<p>
+    	             <label for="image_content">#i18n{portal.site.admin_page.labelNewPicture}
+	                 	<input type="file" id="image_content" name="image_content" size="32" />
+					 </label>
+				</p>
+				<p>
+    	             <input type="submit" value="#i18n{portal.site.admin_page.buttonAssociate}" class="button" />
+				</p>
+            </div>
+        </form>
+    </div>
+</div>

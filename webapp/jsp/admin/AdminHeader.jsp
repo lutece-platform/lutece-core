@@ -53,10 +53,7 @@ function init()
 	// The class id of the ul tag of the CSS menu
 	setHover( 'admin-header-menu');
 	window.focus();
-	hideId( 'page_admin');
-	hideId( 'page_image');
-	hideId( 'page_portlet');
-	hideId( 'page_create');
+
 }
 </script>
 
