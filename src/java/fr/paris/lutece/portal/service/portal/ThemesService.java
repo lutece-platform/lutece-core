@@ -37,7 +37,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.portal.business.style.ThemeHome;
+import fr.paris.lutece.portal.service.content.PageData;
 
 /**
  * ThemesService
@@ -47,12 +49,62 @@ public final class ThemesService
 	public static final String DEFAULT_THEME = "default";
 	private static final String COOKIE_NAME = "theme";
 	private static String _strGlobalTheme = DEFAULT_THEME;
+	private static final String THEME_TEST = "theme_test";
 
 	/**
 	 * Private constructor
 	 */
 	private ThemesService( )
 	{
+	}
+
+	/**
+	 * Get the theme code depending of the different priorities. The priorities are :
+	 * <ol>
+	 * <li>the theme of test (in case you want to test a page with a specific theme)</li>
+	 * <li>the theme choosen by the user</li>
+	 * <li>the global theme : the one choosen in the back office for the whole site</li>
+	 * <li>the page theme : a theme specified for a page</li>
+	 * </ol>
+	 * 
+	 * @param data
+	 * @param request
+	 * @return
+	 */
+	public static Theme getTheme( PageData data, HttpServletRequest request )
+	{
+		String strTheme = null;
+
+		// The code_theme of the page
+		String strPageTheme = data.getTheme( );
+		if( strPageTheme != null )
+		{
+			strTheme = strPageTheme;
+		}
+
+		// the global theme (choosen in the backoffice for the whole website)
+		String strGlobalTheme = ThemesService.getGlobalTheme( );
+		if( strGlobalTheme != null )
+		{
+			strTheme = strGlobalTheme;
+		}
+
+		// The theme of the user
+		String strUserTheme = getUserTheme( request );
+		if( strUserTheme != null )
+		{
+			strTheme = strUserTheme;
+		}
+
+		// the test theme (choosen for a page to test the different theme from the backoffice theme section)
+		String themeTest = request.getParameter( THEME_TEST );
+		if( themeTest != null )
+		{
+			strTheme = themeTest;
+		}
+
+		Theme theme = ThemeHome.findByPrimaryKey( strTheme );
+		return theme;
 	}
 
 	/**
