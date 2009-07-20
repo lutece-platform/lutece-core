@@ -153,7 +153,7 @@ public class PortalJspBean
      */
     public String getStartUpFailurePage(  )
     {
-        HashMap<String, String> model = new HashMap<String, String>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_FAILURE_MESSAGE, AppInit.getLoadingFailureCause(  ) );
         model.put( MARK_FAILURE_DETAILS, AppInit.getLoadingFailureDetails(  ) );
 
@@ -170,7 +170,7 @@ public class PortalJspBean
      */
     public String getCredits( HttpServletRequest request )
     {
-        HashMap<String, String> model = new HashMap<String, String>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_APP_VERSION, AppInfo.getVersion(  ) );
         model.put( MARK_PORTAL_DOMAIN, AppPropertiesService.getProperty( PROPERTY_PORTAL_DOMAIN ) );
 
@@ -187,7 +187,7 @@ public class PortalJspBean
      */
     public String getLegalInfos( HttpServletRequest request )
     {
-        HashMap<String, String> model = new HashMap<String, String>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ADDRESS_INFOS_CNIL, AppPropertiesService.getProperty( PROPERTY_INFOS_CNIL ) );
         model.put( MARK_PORTAL_DOMAIN, AppPropertiesService.getProperty( PROPERTY_PORTAL_DOMAIN ) );
 

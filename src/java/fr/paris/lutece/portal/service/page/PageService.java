@@ -342,7 +342,7 @@ public class PageService extends ContentService implements ImageResourceProvider
                 {
                     // The user is not registered and identify itself with the Portal authentication
                     String strAccessControledTemplate = SecurityService.getInstance(  ).getAccessControledTemplate(  );
-                    HashMap<String, String> model = new HashMap<String, String>(  );
+                    HashMap<String, Object> model = new HashMap<String, Object>(  );
                     String strLoginUrl = SecurityService.getInstance(  ).getLoginPageUrl(  );
                     model.put( MARK_URL_LOGIN, strLoginUrl );
 
@@ -537,7 +537,7 @@ public class PageService extends ContentService implements ImageResourceProvider
             }
         }
 
-        HashMap<String, String> rootModel = new HashMap<String, String>(  );
+        HashMap<String, Object> rootModel = new HashMap<String, Object>(  );
 
         for ( int j = 0; j < nColumn; j++ )
         {

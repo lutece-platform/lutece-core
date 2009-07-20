@@ -213,7 +213,7 @@ public final class AppInit
      */
     private static void initProperties( String strRealPath )
     {
-        HashMap<String, String> model = new HashMap<String, String>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         Properties p = new Properties(  );
 
         try

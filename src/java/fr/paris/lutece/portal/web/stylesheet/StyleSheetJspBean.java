@@ -290,7 +290,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
         for ( Style style : stylesList )
         {
-            HashMap<String, String> model = new HashMap<String, String>(  );
+            HashMap<String, Object> model = new HashMap<String, Object>(  );
             model.put( MARK_PORTAL_COMPONENT_NAME,
                 PortalComponentHome.findByPrimaryKey( style.getPortalComponentId(  ) ).getName(  ) );
 

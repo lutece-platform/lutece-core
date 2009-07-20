@@ -83,7 +83,7 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
      */
     public String doIndexing( HttpServletRequest request )
     {
-        HashMap<String, String> model = new HashMap<String, String>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         String strLogs;
 
         if ( request.getParameter( "incremental" ) != null )

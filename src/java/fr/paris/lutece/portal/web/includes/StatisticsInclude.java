@@ -67,7 +67,7 @@ public class StatisticsInclude implements PageInclude
      * @param nMode The current mode
      * @param request The HTTP request
      */
-    public void fillTemplate( Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
+    public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
         String strStatisticalSiteId = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_SITE_ID, "1" );
         String strStatisticalIncludeEnable = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_ENABLE );

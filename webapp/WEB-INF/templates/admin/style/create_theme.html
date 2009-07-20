@@ -1,0 +1,43 @@
+<div class="content-box" >
+
+    <h2>#i18n{portal.style.create_theme.title}</h2>
+		        
+    <form method="post" action="jsp/admin/style/DoCreateTheme.jsp">
+        <p>
+            <label>#i18n{portal.style.create_theme.codeTheme} * : </label>
+            <input type="text" name="code_theme" size="10" maxlength="10" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.themeDescription} : </label>
+            <input type="text" name="theme_description" size="40" maxlength="40" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.pathImages} * : </label>
+            <input type="text" name="path_images" size="40" maxlength="40" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.pathCss} * : </label>
+            <input type="text" name="path_css" size="40" maxlength="40" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.themeAuthor} : </label>
+            <input type="text" name="theme_author" size="40" maxlength="40" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.themeAuthorUrl}: </label>
+            <input type="text" name="theme_author_url" size="40" maxlength="40" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.themeVersion} : </label>
+            <input type="text" name="theme_version" size="40" maxlength="40" value="0.1" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.themeLicence} : </label>
+            <input type="text" name="theme_licence" size="40" maxlength="40" value="Creative Commons by-nc-sa 2.5" />
+        </p>
+        <p>
+            <input type="submit" value="#i18n{portal.style.create_theme.buttonCreate}" class="button" />
+            <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
+        </p>
+    </form>
+</div>

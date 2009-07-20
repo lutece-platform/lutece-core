@@ -203,7 +203,7 @@ public class AdminLoginJspBean
      */
     public String getFormContact( HttpServletRequest request )
     {
-        HashMap<String, String> model = new HashMap<String, String>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
 
         // Invalidate a previous session
         HttpSession session = request.getSession(  );
@@ -313,7 +313,7 @@ public class AdminLoginJspBean
         //send password by e-mail
         String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
         String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_SUBJECT, locale );
-        HashMap<String, String> model = new HashMap<String, String>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_NEW_PASSWORD, strPassword );
         model.put( MARK_LOGIN_URL,
             AppPathService.getBaseUrl( request ) + AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ) );

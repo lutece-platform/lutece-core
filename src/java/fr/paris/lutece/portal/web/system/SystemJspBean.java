@@ -226,7 +226,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      */
     public String getFileView( HttpServletRequest request )
     {
-        HashMap<String, String> model = new HashMap<String, String>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         setPageTitleProperty( PROPERTY_TITLE_VIEW_FILE );
 
         String strFilePath = null;
@@ -310,7 +310,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageProperties(  )
     {
-        HashMap<String, String> model = new HashMap<String, String>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_WEBMASTER_PROPERTIES, getFileProperties(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_PROPERTIES, getLocale(  ), model );

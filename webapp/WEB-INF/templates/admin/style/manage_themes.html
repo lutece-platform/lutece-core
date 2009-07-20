@@ -10,14 +10,17 @@
 		<#list themes_list as theme>
 			<tr>
 			<td width="1%">
-				<input type="radio" name="theme" value="${theme.code}" <#if theme_default = theme.code >checked="checked"</#if> />
+				<input type="radio" name="theme" value="${theme.codeTheme}" <#if theme_default = theme.codeTheme >checked="checked"</#if> />
 			</td>
 			<td align="left">
-				${theme.name}
+				${theme.themeDescription}
 			</td>
 			<td>
-			<a href="${base_url}jsp/site/Portal.jsp?theme_test=${theme.code}" target="_preview_${theme.code}">
+			<a href="${base_url}jsp/site/Portal.jsp?theme_test=${theme.codeTheme}" target="_preview_${theme.codeTheme}">
 				<img src="images/admin/skin/actions/publish.png" alt="Preview" title="Preview" border="0" />
+			</a>
+			<a href="${base_url}jsp/admin/style/ModifyTheme.jsp?code_theme=${theme.codeTheme}" >
+				<img src="images/admin/skin/actions/modify.png" alt="Edit" title="Edit" border="0" />
 			</a>
 			</td>
 			</tr>
@@ -25,8 +28,9 @@
 		</tbody>
 		</table>
 	</p>
-	<p>
-		<input type="submit" tabindex="1" value="#i18n{portal.style.manage_themes.buttonModify}" class="button" />
+	<p id="validationButtons">
+		<input type="submit" tabindex="1" value="#i18n{portal.style.manage_themes.buttonChangeChoose}" class="button" />
+		<a href="jsp/admin/style/CreateTheme.jsp">#i18n{portal.style.manage_themes.buttonCreate}</a>
 	</p>
 	</form>
 

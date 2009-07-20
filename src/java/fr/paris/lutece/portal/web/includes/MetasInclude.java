@@ -63,7 +63,7 @@ public class MetasInclude implements PageInclude
      * @param nMode The current mode
      * @param request The HTTP request
      */
-    public void fillTemplate( Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request )
+    public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
         String strMetaAuthor = ( data.getMetaAuthor(  ) != null ) ? data.getMetaAuthor(  )
                                                                   : AppPropertiesService.getProperty( PROPERTY_HEAD_META_AUTHOR );

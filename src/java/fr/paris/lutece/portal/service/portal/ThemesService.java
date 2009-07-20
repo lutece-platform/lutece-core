@@ -33,160 +33,85 @@
  */
 package fr.paris.lutece.portal.service.portal;
 
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.ReferenceItem;
-import fr.paris.lutece.util.ReferenceList;
-
-import java.util.Iterator;
-import java.util.StringTokenizer;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.paris.lutece.portal.business.style.ThemeHome;
 
 /**
  * ThemesService
  */
 public final class ThemesService
 {
-    public static final String DEFAULT_THEME = "default";
-    private static final String PROPERTY_PREFIX = "themes.";
-    private static final String PROPERTY_SUFFIX_CSS = ".css";
-    private static final String PROPERTY_SUFFIX_IMAGES = ".images";
-    private static final String PROPERTY_SUFFIX_NAME = ".name";
-    private static final String PROPERTY_THEMES_LIST = "themes.list";
-    private static final String COOKIE_NAME = "theme";
-    private static String _strGlobalTheme = DEFAULT_THEME;
+	public static final String DEFAULT_THEME = "default";
+	private static final String COOKIE_NAME = "theme";
+	private static String _strGlobalTheme = DEFAULT_THEME;
 
-    /**
-     * Private constructor
-     */
-    private ThemesService()
-    {
-    }
+	/**
+	 * Private constructor
+	 */
+	private ThemesService( )
+	{
+	}
 
-    /**
-     * Returns the list of the code_theme of the page
-     *
-     * @return the list of the page Code_theme in form of ReferenceList
-     */
-    public static ReferenceList getThemesList(  )
-    {
-        // recovers themes list from the includes.list entry in the properties download file
-        String strThemesList = AppPropertiesService.getProperty( PROPERTY_THEMES_LIST );
+	/**
+	 * Gets the theme selected by the user
+	 * 
+	 * @param request The HTTP request
+	 * @return The theme if available otherwise null
+	 */
+	public static String getUserTheme( HttpServletRequest request )
+	{
+		if( request != null )
+		{
+			Cookie[] cookies = request.getCookies( );
 
-        // extracts each item (separated by a comma) from the includes list
-        StringTokenizer strTokens = new StringTokenizer( strThemesList, "," );
+			if( cookies != null )
+			{
+				for( int i = 0; i < cookies.length; i++ )
+				{
+					Cookie cookie = cookies[i];
 
-        ReferenceList listThemes = new ReferenceList(  );
+					if( cookie.getName( ).equalsIgnoreCase( COOKIE_NAME ) )
+					{
+						String strTheme = cookie.getValue( );
 
-        while ( strTokens.hasMoreTokens(  ) )
-        {
-            String strTheme = (String) strTokens.nextToken(  );
-            String strThemeName = AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_NAME );
-            listThemes.addItem( strTheme, strThemeName );
-        }
+						if( ThemeHome.isValidTheme( strTheme ) )
+						{
+							return strTheme;
+						}
+					}
+				}
+			}
+		}
 
-        return listThemes;
-    }
+		return null;
+	}
 
-    /**
-     * Gets the theme selected by the user
-     * @param request The HTTP request
-     * @return The theme if available otherwise null
-     */
-    public static String getUserTheme( HttpServletRequest request )
-    {
-        if ( request != null )
-        {
-            Cookie[] cookies = request.getCookies(  );
+	public static void setUserTheme( HttpServletRequest request, HttpServletResponse response, String strTheme )
+	{
+		Cookie cookie = new Cookie( COOKIE_NAME, strTheme );
+		response.addCookie( cookie );
+	}
 
-            if ( cookies != null )
-            {
-                for ( int i = 0; i < cookies.length; i++ )
-                {
-                    Cookie cookie = cookies[i];
+	/**
+	 * Returns the global theme
+	 * 
+	 * @return the global theme
+	 */
+	public static String getGlobalTheme( )
+	{
+		return _strGlobalTheme;
+	}
 
-                    if ( cookie.getName(  ).equalsIgnoreCase( COOKIE_NAME ) )
-                    {
-                        String strTheme = cookie.getValue(  );
-
-                        if ( isValidTheme( strTheme ) )
-                        {
-                            return strTheme;
-                        }
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public static void setUserTheme( HttpServletRequest request, HttpServletResponse response, String strTheme )
-    {
-        Cookie cookie = new Cookie( COOKIE_NAME, strTheme );
-        response.addCookie( cookie );
-    }
-
-    /**
-     * Checks if the theme is among existing themes
-     * @param strTheme The theme to check
-     * @return True if the theme is valid
-     */
-    private static boolean isValidTheme( String strTheme )
-    {
-        Iterator i = getThemesList(  ).iterator(  );
-
-        while ( i.hasNext(  ) )
-        {
-            ReferenceItem item = (ReferenceItem) i.next(  );
-
-            if ( item.getCode(  ).equals( strTheme ) )
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns the global theme
-     * @return the global theme
-     */
-    public static String getGlobalTheme(  )
-    {
-        return _strGlobalTheme;
-    }
-
-    /**
-     * Sets the global theme
-     * @param strTheme The global theme
-     */
-    public static void setGlobalTheme( String strTheme )
-    {
-        _strGlobalTheme = strTheme;
-    }
-
-    /**
-     * Returns the url of the CSS of the given theme
-     * @param strTheme The theme
-     * @return The CSS url
-     */
-    public static String getThemeCSS( String strTheme )
-    {
-        return AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_CSS );
-    }
-
-    /**
-     * Returns the url of the images directory of the given theme
-     * @param strTheme The theme
-     * @return The images directory url
-     */
-    public static String getThemeImages( String strTheme )
-    {
-        return AppPropertiesService.getProperty( PROPERTY_PREFIX + strTheme + PROPERTY_SUFFIX_IMAGES );
-    }
+	/**
+	 * Sets the global theme
+	 * 
+	 * @param strTheme The global theme
+	 */
+	public static void setGlobalTheme( String strTheme )
+	{
+		_strGlobalTheme = strTheme;
+	}
 }

@@ -55,5 +55,5 @@ public interface PageInclude
      * @param nMode The current mode
      * @param request The HTTP request
      */
-    void fillTemplate( Map<String, String> rootModel, PageData data, int nMode, HttpServletRequest request );
+    void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request );
 }

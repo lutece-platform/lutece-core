@@ -133,7 +133,7 @@ public class SiteMessageContentService extends ContentService
     private static String buildPageContent( PageData data, int nMode, HttpServletRequest request )
     {
         Locale locale = null;
-        HashMap<String, String> model = new HashMap<String, String>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
 
         if ( request != null )
         {

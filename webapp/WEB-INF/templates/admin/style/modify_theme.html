@@ -1,0 +1,43 @@
+<div class="content-box" >
+
+    <h2>#i18n{portal.style.modify_theme.title}</h2>
+		        
+    <form method="post" action="jsp/admin/style/DoModifyTheme.jsp">
+        <p>
+            <label>#i18n{portal.style.create_theme.codeTheme} * : </label>
+            <input type="text" name="code_theme" value="${theme.codeTheme}" size="10" maxlength="10" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.themeDescription} : </label>
+            <input type="text" name="theme_description" value="${theme.themeDescription}" size="60" maxlength="60" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.pathImages} * : </label>
+            <input type="text" name="path_images" value="${theme.pathImages}" size="60" maxlength="60" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.pathCss} * : </label>
+            <input type="text" name="path_css" value="${theme.pathCss}" size="60" maxlength="60" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.themeAuthor} : </label>
+            <input type="text" name="theme_author" value="${theme.themeAuthor}" size="60" maxlength="60" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.themeAuthorUrl} : </label>
+            <input type="text" name="theme_author_url" value="${theme.themeAuthorUrl}" size="60" maxlength="60" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.themeVersion} : </label>
+            <input type="text" name="theme_version" value="${theme.themeVersion}" size="60" maxlength="60" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.create_theme.themeLicence} : </label>
+            <input type="text" name="theme_licence" value="${theme.themeLicence}" size="60" maxlength="60" />
+        </p>
+        <p>
+            <input type="submit" value="#i18n{portal.style.modify_theme.buttonModify}" class="button" />
+            <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
+        </p>
+    </form>
+</div>
