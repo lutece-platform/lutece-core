@@ -1,12 +1,16 @@
+ <h2>Page ${page.name} - Id ${page.id}</h2>
 <div id="content-admin-site-toolbar" class="admin-site-page">
-        <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}"><img src="images/admin/skin/sitemap.png" width="80" height="80" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" /></a>
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=1"><img src="images/admin/skin/search.png"  width="30" height="30" vspace="8" alt="Rechercher une page" title="Rechercher une page" /></a>
 <br />
-        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=property"><img src="images/admin/skin/property.png" width="80" height="80" alt="Propriétés de la page" title="Propriétés de la page" /></a>
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2"><img src="images/admin/skin/property.png" width="30" height="30" vspace="8" alt="Propriétés de la page" title="Propriétés de la page" /></a>
 <br />
-        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=image"><img src="images/admin/skin/image.png" width="80" height="80" alt="Image de la page" title="Image de la page" /></a>
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=3"><img src="images/admin/skin/image.png" width="30" height="30" vspace="8" alt="Image de la page" title="Image de la page" /></a>
 <br />
-        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=portlet"><img src="images/admin/skin/portlet.png" width="80" height="80" alt="Ajouter une rubrique" title="Ajouter une rubrique" /></a>
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=4"><img src="images/admin/skin/portlet.png" width="30" height="30" vspace="8" alt="Ajouter une rubrique" title="Ajouter une rubrique" /></a>
 <br />
-        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=childpage"><img src="images/admin/skin/childpage.png" width="80" height="80" alt="Ajouter une page fille" title="Ajouter une page fille" /></a>
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5"><img src="images/admin/skin/childpage.png"  width="30" height="30" vspace="8" alt="Ajouter une page fille" title="Ajouter une page fille" /></a>
+<br />
+        <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}"><img src="images/admin/skin/sitemap.png" width="30" height="30" vspace="8" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" /></a>
 </div>
+${page_block}
 

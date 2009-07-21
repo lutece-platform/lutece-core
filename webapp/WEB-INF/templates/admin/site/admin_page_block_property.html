@@ -1,29 +1,5 @@
 <div id="content-admin-site-page" class="admin-site-page">
 
-    <p>
-        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}"><img src="images/admin/skin/back_adminsite.png"  width="36" height="36" hspace="12" alt="Administration du site" title="Administratrion du site" /></a>
-        <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}"><img src="images/admin/skin/sitemap.png" width="36" height="36" hspace="12" alt="#i18n{portal.site.admin_page.tabAdminMapSite}" title="#i18n{portal.site.admin_page.tabAdminMapSite}" /></a>
-        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=image"><img src="images/admin/skin/image.png" width="36" hspace="12" height="36"  alt="Image de la page" title="Image de la page" /></a>
-        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=portlet"><img src="images/admin/skin/portlet.png" width="36" hspace="12" height="36" alt="Ajouter une rubrique" title="Ajouter une rubrique" /></a>
-        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=childpage"><img src="images/admin/skin/childpage.png" width="36" height="36" hspace="12" alt="Ajouter une page fille" title="Ajouter une page fille" /></a>
-        <h2>Page ${page.name} - Id ${page.id}</h2>
-    </p>
-
-    
-    <div class="admin-site-highlight-box" >
-        <form method="post"  action="jsp/admin/site/AdminSite.jsp">
-            <p>
-                <h3>#i18n{portal.site.admin_page.labelSearchPage}</h3>
-				<input type="text" name="page_id" size="10" maxlength="10" value="${page_init_id}" />
-                <input type="submit" value="#i18n{portal.site.admin_page.buttonSearchPage}" class="button" />
-            </p>
-            <p>
-                <em>${page_message}</em>
-            </p>
-        </form>
-    </div>
-    <p style="margin-top:5px">&#160;</p>
-
 	<#if authorization != "1">
     <div class="content-box" >
         <form method="post"  action="jsp/admin/site/DoModifyPage.jsp">

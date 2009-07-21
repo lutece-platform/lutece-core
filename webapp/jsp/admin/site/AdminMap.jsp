@@ -9,9 +9,10 @@
 <% adminMap.init( request , adminMap.RIGHT_MANAGE_ADMIN_SITE ); %>
  
    <div id="admin-site">
+
            <%= adminMap.getMap( request ) %>
 
-    <div id="admin-site-preview" class="preview">
+ 
   
 <%
 	String strParams = "";
@@ -22,13 +23,15 @@
 	{
             if( i != 0 )
             {
-                strSeparator = "&";
+                strSeparator = "&#38;";
             }
             String strParamName = (String) paramNames.nextElement();
             String strParamValue = request.getParameter( strParamName );
             strParams += strSeparator + strParamName + "=" + strParamValue;
-	}
+
+     }   
 %>
+    <div id="admin-site-preview" class="preview" >
 	<iframe name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="100%" height="750">
 	</iframe> 
     </div>

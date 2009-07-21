@@ -7,24 +7,7 @@
     </xsl:variable>
     
     
-    <xsl:template match="page[page-level=0]">
-   
-
-
-
-<div id="content-admin-site-page" class="admin-site-page">
-    <p>
-        <a href="jsp/admin/site/AdminSite.jsp?page_id={current-page-id}"><img src="images/admin/skin/back_adminsite.png"  width="36" height="36" hspace="12" alt="Administration du site" title="Administratrion du site" /></a>
-        <a href="jsp/admin/site/AdminSite.jsp?page_id={current-page-id}&amp;param_block=property"><img src="images/admin/skin/property.png"  width="36" height="36" hspace="12" alt="Propriétés de la page" title="Propriétés de la page" /></a>
-        <a href="jsp/admin/site/AdminSite.jsp?page_id={current-page-id}&amp;param_block=image"><img src="images/admin/skin/image.png" width="36" height="36" hspace="12" alt="Image de la page" title="Image de la page" /></a>
-        <a href="jsp/admin/site/AdminSite.jsp?page_id={current-page-id}&amp;param_block=portlet"><img src="images/admin/skin/portlet.png" width="36" height="36" hspace="12" alt="Ajouter une rubrique" title="Ajouter une rubrique" /></a>
-        <a href="jsp/admin/site/AdminSite.jsp?page_id={current-page-id}&amp;param_block=childpage"><img src="images/admin/skin/childpage.png"  width="36" height="36" hspace="12" alt="Ajouter une page fille" title="Ajouter une page fille" /></a>
-    </p>
-</div>
-
-
-
-        
+    <xsl:template match="page[page-level=0]">    
         <h3><img src="js/jquery/plugins/treeview/images/folder.gif" style="margin-bottom:-10px;"/></h3>
         <ul id="tree" class="treeview">
             <li>
@@ -56,6 +39,7 @@
                 </ul>
             </li>
         </ul>
+
     </xsl:template>
     
     <xsl:template match="page[page-level>0]" >

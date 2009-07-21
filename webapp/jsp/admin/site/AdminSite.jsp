@@ -30,14 +30,33 @@
             strParams += strSeparator + strParamName + "=" + strParamValue;
 	}
 
-    String strClassPreview = "preview-toolbar";
+    String strClassPreview = "";
+    
     String strParamBlock = request.getParameter("param_block");
-    if( strParamBlock != null )
+
+    int nParamBlock = 0;
+    try
     {
-        if( strParamBlock.equals("property") || strParamBlock.equals("image") || strParamBlock.equals("portlet") || strParamBlock.equals("childpage") )
-        {
+        nParamBlock = strParamBlock != null ? Integer.parseInt( strParamBlock ) : 0;
+    }
+    catch ( NumberFormatException nfe )
+    {
+        nParamBlock = 0;
+    }
+
+    switch ( nParamBlock )
+    {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
             strClassPreview = "preview";
-        }
+            break;
+
+        default:
+            strClassPreview = "preview-toolbar";
+            break;
     }
 %>
     <div id="admin-site-preview" class=<%= strClassPreview %> >

@@ -104,20 +104,27 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PAGE_TEMPLATE = "page_template";
     private static final String MARK_INDEX_ROW = "index_row";
     private static final String MARK_AUTORIZATION = "authorization";
+    private static final String MARK_PAGE_BLOCK = "page_block";
 
     // Parameters
     private static final String PARAMETER_IMAGE_CONTENT = "image_content";
     private static final String PARAMETER_NODE_STATUS = "node_status";
     private static final String PARAMETER_BLOCK = "param_block";
     
-    private static final String BLOCK_PROPERTY = "property";
+  /*  private static final String BLOCK_PROPERTY = "property";
     private static final String BLOCK_IMAGE = "image";
     private static final String BLOCK_PORTLET = "portlet";
-    private static final String BLOCK_CHILDPAGE = "childpage";
+    private static final String BLOCK_CHILDPAGE = "childpage";*/
+    private static final int BLOCK_SEARCH = 1;
+    private static final int BLOCK_PROPERTY = 2;
+    private static final int BLOCK_IMAGE = 3;
+    private static final int BLOCK_PORTLET = 4;
+    private static final int BLOCK_CHILDPAGE = 5;
 
     // Templates
     private static final String TEMPLATE_PAGE_TEMPLATE_ROW = "admin/site/page_template_list_row.html";
     private static final String TEMPLATE_ADMIN_PAGE = "admin/site/admin_page.html";
+    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_SEARCH = "admin/site/admin_page_block_search.html";
     private static final String TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY = "admin/site/admin_page_block_property.html";
     private static final String TEMPLATE_ADMIN_PAGE_BLOCK_IMAGE = "admin/site/admin_page_block_image.html";
     private static final String TEMPLATE_ADMIN_PAGE_BLOCK_PORTLET = "admin/site/admin_page_block_portlet.html";
@@ -161,14 +168,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         String strParamBlock = request.getParameter( PARAMETER_BLOCK );
 
-        if( strParamBlock != null )
-        {
-            if( strParamBlock.equals( BLOCK_PROPERTY) || strParamBlock.equals( BLOCK_IMAGE ) || strParamBlock.equals( BLOCK_PORTLET ) || strParamBlock.equals( BLOCK_CHILDPAGE ) )
-            {
-                return getAdminPageBlock( strPageId, strParamBlock );
-            }
-        }
-        return getAdminPageBlock( strPageId );
+        return getAdminPageBlock( strPageId, strParamBlock );
     }
 
     /**
@@ -356,7 +356,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * @param strPageId The identifier of the page
      * @return The management page of a page
      */
-    private String getAdminPageBlock( String strPageId )
+  /*  private String getAdminPageBlock( String strPageId )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
 
@@ -394,7 +394,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale(  ), model );
 
         return getAdminPage( template.getHtml(  ) );
-    }
+    }*/
 
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
@@ -408,11 +408,14 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         Page page = null;
         int nPageId = 1;
+        int nPageIdInit = 1;
+        int nParamBlock = 0;
 
         try
         {
             nPageId = Integer.parseInt( strPageId );
-
+            nPageIdInit = nPageId;
+            nParamBlock = strParamBlock != null ? Integer.parseInt( strParamBlock ) : 0;
             boolean bPageExist = PageHome.checkPageExist( nPageId );
 
             if ( bPageExist )
@@ -433,22 +436,37 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             nPageId = PortalService.getRootPageId(  );
             page = PageHome.getPage( nPageId );
             model.put( MARK_PAGE_MESSAGE, I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_FORMAT, getLocale(  ) ) );
+        }        
+
+        switch ( nParamBlock )
+        {
+            case BLOCK_SEARCH:
+                model.put( MARK_PAGE_BLOCK,  getAdminPageBlockSearch( nPageIdInit, model ) );
+                break;
+
+            case BLOCK_PROPERTY:
+            case BLOCK_CHILDPAGE :
+                model.put( MARK_PAGE_BLOCK , getAdminPageBlockProperty( page, nParamBlock, model ) );
+                break;
+
+            case BLOCK_IMAGE:
+                model.put( MARK_PAGE_BLOCK,  getAdminPageBlockImage( page, model ) );
+                break;
+
+            case BLOCK_PORTLET:
+                model.put( MARK_PAGE_BLOCK,  getAdminPageBlockPortlet( page, model ) );
+                break;
+
+            default:
+                model.put( MARK_PAGE_BLOCK,  "" );
+                break;
         }
 
-        if( strParamBlock.equals( BLOCK_PROPERTY ) || strParamBlock.equals( BLOCK_CHILDPAGE ))
-        {
-            return getAdminPageBlockProperty( page, strParamBlock, model );
-        }
-        if( strParamBlock.equals( BLOCK_IMAGE ) )
-        {
-            return getAdminPageBlockImage( page, model );
-        }
-        if( strParamBlock.equals( BLOCK_PORTLET ) )
-        {
-            return getAdminPageBlockPortlet( page, model );
-        }
+        model.put( MARK_PAGE, page );
 
-        return getAdminPage( strPageId );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale(  ), model );
+
+        return getAdminPage( template.getHtml(  ) );
     }
 
 
@@ -458,13 +476,13 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * @param strPageId The identifier of the page
      * @return The management page of a page
      */
-    private String getAdminPageBlockProperty( Page page, String strParamBlock, Map model )
+    private String getAdminPageBlockProperty( Page page, int nParamBlock, Map model )
     {
         model.put( MARK_PAGE, page );
         model.put( MARK_PAGE_INIT_ID, page.getId() );
         model.put( MARK_PAGE_ORDER_LIST, getOrdersList(  ) );
         model.put( MARK_PAGE_ROLES_LIST, RoleHome.getRolesList(  ) );
-        model.put( MARK_PAGE_THEMES_LIST, ThemeHome.getThemesList(  ) );
+        model.put( MARK_PAGE_THEMES_LIST, ThemeHome.getThemes(  ) );
 
         int nIndexRow = 1;
         StringBuffer strPageTemplatesRow = new StringBuffer(  );
@@ -493,14 +511,28 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         String strTemplate = TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY;
 
-        if( strParamBlock.equals( BLOCK_CHILDPAGE ) )
+        if( nParamBlock == BLOCK_CHILDPAGE )
         {
             strTemplate = TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE;
         }
         
         HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return template.getHtml();
+    }
+
+    /**
+     * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
+     *
+     * @param strPageId The identifier of the page
+     * @return The management page of a page
+     */
+    private String getAdminPageBlockSearch( int nPageIdInit, Map model )
+    {
+        model.put( MARK_PAGE_INIT_ID, Integer.toString( nPageIdInit ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_SEARCH, getLocale(  ), model );
+
+        return template.getHtml();
     }
 
     /**
@@ -516,7 +548,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_IMAGE, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return template.getHtml();
     }
 
     /**
@@ -532,7 +564,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_PORTLET, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return template.getHtml();
     }
 
 
