@@ -33,15 +33,14 @@
  */
 package fr.paris.lutece.portal.service;
 
+import java.util.Collection;
+import java.util.HashMap;
+
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
-import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.Collection;
-import java.util.HashMap;
 
 
 public class PageIncludeServiceTest extends LuteceTestCase
@@ -55,7 +54,7 @@ public class PageIncludeServiceTest extends LuteceTestCase
         for ( PageInclude pis : listIncludes )
         {
             //HtmlTemplate template = new HtmlTemplate( "Dummy Template ");
-            HashMap<String, String> mapTemplate = new HashMap<String, String>(  );
+            HashMap<String, Object> mapTemplate = new HashMap<String, Object>(  );
             PageData pageData = new PageData(  );
             MokeHttpServletRequest request = new MokeHttpServletRequest(  );
             pis.fillTemplate( mapTemplate, pageData, 0, request );
