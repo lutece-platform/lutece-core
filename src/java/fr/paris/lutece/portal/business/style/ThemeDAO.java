@@ -53,7 +53,7 @@ public final class ThemeDAO implements IThemeDAO
 			+ " path_css = ? , theme_author = ?, theme_author_url = ?, theme_version = ?, " + " theme_licence = ? WHERE code_theme = ?";
 	private static final String SQL_QUERY_SELECTALL = " SELECT code_theme, theme_description, path_images, path_css, theme_author, "
 			+ " theme_author_url, theme_version, theme_licence FROM core_theme ORDER BY code_theme";
-	private static final String SQL_QUERY_SELECT_THEME = " SELECT id_theme , description_theme FROM core_theme";
+	private static final String SQL_QUERY_SELECT_THEME = " SELECT code_theme, theme_description FROM core_theme";
 
 	/*
 	 * (non-Javadoc)
@@ -189,7 +189,7 @@ public final class ThemeDAO implements IThemeDAO
 
 		while( daoUtil.next( ) )
 		{
-			themesList.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
+			themesList.addItem( daoUtil.getString( 1 ), daoUtil.getString( 2 ) );
 		}
 
 		daoUtil.free( );
