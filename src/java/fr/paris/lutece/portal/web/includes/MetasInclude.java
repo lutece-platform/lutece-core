@@ -69,10 +69,12 @@ public class MetasInclude implements PageInclude
                                                                   : AppPropertiesService.getProperty( PROPERTY_HEAD_META_AUTHOR );
         String strMetaCopyright = ( data.getMetaCopyright(  ) != null ) ? data.getMetaCopyright(  )
                                                                         : AppPropertiesService.getProperty( PROPERTY_HEAD_META_COPYRIGHT );
-        String strMetaKeywords = ( data.getMetaKeywords(  ) != null && data.getMetaKeywords().length() > 0 ) ? data.getMetaKeywords(  )
-                                                                      : AppPropertiesService.getProperty( PROPERTY_HEAD_META_KEYWORDS );
-        String strMetaDescription = ( data.getMetaDescription(  ) != null && data.getMetaDescription().length() > 0 ) ? data.getMetaDescription(  )
-                                                                            : AppPropertiesService.getProperty( PROPERTY_HEAD_META_DESCRIPTION );
+        String strMetaKeywords = ( data.getMetaKeywords(  ) != null && data.getMetaKeywords().length() > 0 )
+        		? AppPropertiesService.getProperty( PROPERTY_HEAD_META_KEYWORDS ) + ", "  + data.getMetaKeywords(  )
+                : AppPropertiesService.getProperty( PROPERTY_HEAD_META_KEYWORDS );
+        String strMetaDescription = ( data.getMetaDescription(  ) != null && data.getMetaDescription().length() > 0 )
+        		? data.getMetaDescription(  )
+                : AppPropertiesService.getProperty( PROPERTY_HEAD_META_DESCRIPTION );
 
         rootModel.put( MARK_PAGE_HEAD_META_AUTHOR, strMetaAuthor );
         rootModel.put( MARK_PAGE_HEAD_META_COPYRIGHT, strMetaCopyright );
