@@ -59,7 +59,10 @@ public class ThemesInclude implements PageInclude
 	 */
 	public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
 	{
-		Theme theme = ThemesService.getTheme( data, request );
-		rootModel.put( MARK_THEME, theme );
+        if ( request != null )
+        {
+            Theme theme = ThemesService.getTheme( data, request );
+            rootModel.put( MARK_THEME, theme );
+        }
 	}
 }
