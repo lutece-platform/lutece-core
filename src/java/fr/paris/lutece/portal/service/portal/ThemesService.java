@@ -75,18 +75,18 @@ public final class ThemesService
 	{
 		String strTheme = null;
 
-		// The code_theme of the page
-		String strPageTheme = data.getTheme( );
-		if( strPageTheme != null )
-		{
-			strTheme = strPageTheme;
-		}
-
 		// the global theme (choosen in the backoffice for the whole website)
 		String strGlobalTheme = ThemesService.getGlobalTheme( );
 		if( strGlobalTheme != null )
 		{
 			strTheme = strGlobalTheme;
+		}
+
+		// The code_theme of the page
+		String strPageTheme = data.getTheme( );
+		if( strPageTheme != null && strPageTheme.compareToIgnoreCase( DEFAULT_THEME )!=0 )
+		{
+			strTheme = strPageTheme;
 		}
 
 		// The theme of the user
