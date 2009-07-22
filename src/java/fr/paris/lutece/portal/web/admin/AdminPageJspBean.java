@@ -426,18 +426,18 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             else
             {
                 nPageId = PortalService.getRootPageId(  );
+             //   nParamBlock = BLOCK_SEARCH;
                 page = PageHome.getPage( nPageId );
                 model.put( MARK_PAGE_MESSAGE,
-                    I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_INEXISTENT, getLocale(  ) ) );
-                model.put( MARK_PAGE_BLOCK,  getAdminPageBlockSearch( nPageIdInit, model ) );
+                    I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_INEXISTENT, getLocale(  ) ) );                
             }
         }
         catch ( NumberFormatException nfe )
         {
             nPageId = PortalService.getRootPageId(  );
+          //  nParamBlock = BLOCK_SEARCH;
             page = PageHome.getPage( nPageId );
-            model.put( MARK_PAGE_MESSAGE, I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_FORMAT, getLocale(  ) ) );
-            model.put( MARK_PAGE_BLOCK,  getAdminPageBlockSearch( nPageIdInit, model ) );
+            model.put( MARK_PAGE_MESSAGE, I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_FORMAT, getLocale(  ) ) );            
         }        
 
         switch ( nParamBlock )

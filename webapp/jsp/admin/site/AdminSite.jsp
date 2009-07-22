@@ -34,15 +34,7 @@
     
     String strParamBlock = request.getParameter("param_block");
 
-    int nParamBlock = 0;
-    try
-    {
-        nParamBlock = strParamBlock != null ? Integer.parseInt( strParamBlock ) : 0;
-    }
-    catch ( NumberFormatException nfe )
-    {
-        nParamBlock = 0;
-    }
+    int nParamBlock = strParamBlock != null ? Integer.parseInt( strParamBlock ) : 0;
 
     switch ( nParamBlock )
     {
