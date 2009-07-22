@@ -421,7 +421,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             if ( bPageExist )
             {
                 page = PageHome.getPage( nPageId );
-                model.put( MARK_PAGE_MESSAGE, "" );
+                model.put( MARK_PAGE_MESSAGE, "" );                
             }
             else
             {
@@ -429,6 +429,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
                 page = PageHome.getPage( nPageId );
                 model.put( MARK_PAGE_MESSAGE,
                     I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_INEXISTENT, getLocale(  ) ) );
+                model.put( MARK_PAGE_BLOCK,  getAdminPageBlockSearch( nPageIdInit, model ) );
             }
         }
         catch ( NumberFormatException nfe )
@@ -436,6 +437,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             nPageId = PortalService.getRootPageId(  );
             page = PageHome.getPage( nPageId );
             model.put( MARK_PAGE_MESSAGE, I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_FORMAT, getLocale(  ) ) );
+            model.put( MARK_PAGE_BLOCK,  getAdminPageBlockSearch( nPageIdInit, model ) );
         }        
 
         switch ( nParamBlock )

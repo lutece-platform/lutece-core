@@ -32,7 +32,7 @@ div.multibox table {
 }
 
 #feature-content div.admin-site-page {
-  margin-left:-2%;
+  /*margin-left:-2%;*/
 }
 
 div.insert-service table {
@@ -44,6 +44,11 @@ div.insert-service table {
 	margin-left: 6px;
 	margin-right: 27px;
 	padding: 0;
+}
+
+.preview-toolbar {
+	float: right;
+	margin-right: 30px;
 }
 
 /* Form */
