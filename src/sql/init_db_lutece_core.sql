@@ -101,6 +101,11 @@ INSERT INTO core_style_mode_stylesheet VALUES (6,0,217);
 INSERT INTO core_style_mode_stylesheet VALUES (7,0,253);
 INSERT INTO core_style_mode_stylesheet VALUES (8,1,279);
 
+INSERT INTO core_theme VALUES ('black','Thème Noir','images/local/skin/','themes/black/css/page_template_styles.css','Mairie de Paris','http://fr.lutece.paris.fr','1.0','Creative-Commons');
+INSERT INTO core_theme VALUES ('blue','Thème bleu','images/local/skin/','css/page_template_styles.css','Mairie de Paris','http://fr.lutece.paris.fr','1.0','Creative-Commons');
+
+INSERT INTO core_theme_global VALUES ('blue');
+
 INSERT INTO core_user_right VALUES ('CORE_ADMIN_SITE',1);
 INSERT INTO core_user_right VALUES ('CORE_ADMIN_SITE',2);
 INSERT INTO core_user_right VALUES ('CORE_LINK_SERVICE_MANAGEMENT',1);
@@ -136,6 +141,3 @@ INSERT INTO core_user_role VALUES ('all_site_manager',1);
 INSERT INTO core_user_role VALUES ('super_admin',1);
 INSERT INTO core_user_role VALUES ('all_site_manager',2);
 INSERT INTO core_user_role VALUES ('super_admin',2);
-
-INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence) VALUES ('default','Thème par défaut','images/local/skin/','css/page_template_styles.css','Mairie de Paris','http://www.paris.fr','1.0','BSD');
-INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence) VALUES ('black','Thème Noir','themes/black/images/','themes/black/css/page_template_styles.css','Mairie de Paris','http://www.paris.fr','1.0','BSD');

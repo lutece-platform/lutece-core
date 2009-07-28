@@ -15,9 +15,12 @@ CREATE TABLE  core_indexer_action (
   PRIMARY KEY (id_action)
 );
 
+--
+-- Table structure for table core_theme
+--
 DROP TABLE IF EXISTS core_theme;
 CREATE TABLE  core_theme (
-  code_theme varchar(16) default "default" NOT NULL,
+  code_theme varchar(25) default '' NOT NULL,
   theme_description varchar(255),
   path_images varchar(255) NOT NULL,
   path_css varchar(255) NOT NULL,
@@ -27,5 +30,17 @@ CREATE TABLE  core_theme (
   theme_licence varchar(255) NOT NULL,
   PRIMARY KEY (code_theme)
 );
-INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence) VALUES ('default','Thème par défaut','images/local/skin/','css/page_template_styles.css','Mairie de Paris','http://www.paris.fr','1.0','BSD');
-INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence) VALUES ('black','Thème Noir','themes/black/images/','themes/black/css/page_template_styles.css','Mairie de Paris','http://www.paris.fr','1.0','BSD');
+
+INSERT INTO core_theme VALUES ('black','Thème Noir','images/local/skin/','themes/black/css/page_template_styles.css','Mairie de Paris','http://fr.lutece.paris.fr','1.0','Creative-Commons');
+INSERT INTO core_theme VALUES ('blue','Thème bleu','images/local/skin/','css/page_template_styles.css','Mairie de Paris','http://fr.lutece.paris.fr','1.0','Creative-Commons');
+
+--
+-- Table structure for table core_theme_global
+--
+DROP TABLE IF EXISTS core_theme_global;
+CREATE TABLE core_theme_global (
+  global_theme_code varchar(50) default '' NOT NULL,
+  PRIMARY KEY  (global_theme_code)
+);
+
+INSERT INTO core_theme_global VALUES ('blue');

@@ -149,6 +149,20 @@ CREATE TABLE core_group_role (
 );
 
 --
+-- Table structure for table core_indexer_action
+--
+DROP TABLE IF EXISTS core_indexer_action;
+CREATE TABLE  core_indexer_action (
+  id_action int default 0 NOT NULL,
+  id_document varchar(255) NOT NULL,
+  id_task int default 0 NOT NULL,
+  indexer_name varchar(255) NOT NULL,
+  id_portlet int default 0 NOT NULL,
+  PRIMARY KEY (id_action)
+);
+
+
+--
 -- Table structure for table core_level_right
 --
 DROP TABLE IF EXISTS core_level_right;
@@ -156,6 +170,18 @@ CREATE TABLE core_level_right (
 	id_level smallint default 0 NOT NULL,
 	name varchar(80) default NULL,
 	PRIMARY KEY (id_level)
+);
+
+
+--
+-- Table structure for table core_mail_queue
+--
+DROP TABLE IF EXISTS core_mail_queue;
+CREATE TABLE core_mail_queue (
+	id_mail_queue int default 0 NOT NULL,
+	mail_item long varbinary,
+	is_locked smallint default 0,
+	PRIMARY KEY (id_mail_queue)
 );
 
 --
@@ -337,6 +363,33 @@ CREATE TABLE core_stylesheet (
 );
 
 --
+-- Table structure for table core_theme
+--
+DROP TABLE IF EXISTS core_theme;
+CREATE TABLE  core_theme (
+  code_theme varchar(25) default '' NOT NULL,
+  theme_description varchar(255),
+  path_images varchar(255) NOT NULL,
+  path_css varchar(255) NOT NULL,
+  theme_author varchar(255),
+  theme_author_url varchar(255),
+  theme_version varchar(255) NOT NULL,
+  theme_licence varchar(255) NOT NULL,
+  PRIMARY KEY (code_theme)
+);
+
+
+--
+-- Table structure for table core_theme_global
+--
+DROP TABLE IF EXISTS core_theme_global;
+CREATE TABLE core_theme_global (
+  global_theme_code varchar(50) default '' NOT NULL,
+  PRIMARY KEY  (global_theme_code)
+);
+
+
+--
 -- Table structure for table core_user_right
 --
 DROP TABLE IF EXISTS core_user_right;
@@ -356,45 +409,4 @@ CREATE TABLE core_user_role (
 	role_key varchar(50) default '' NOT NULL,
 	id_user int default 0 NOT NULL,
 	PRIMARY KEY (role_key,id_user)
-);
-
---
--- Table structure for table core_mail_queue
---
-DROP TABLE IF EXISTS core_mail_queue;
-CREATE TABLE core_mail_queue (
-	id_mail_queue int default 0 NOT NULL,
-	mail_item long varbinary,
-	is_locked smallint default 0,
-	PRIMARY KEY (id_mail_queue)
-);
-
-
---
--- Table structure for table core_indexer_action
---
-DROP TABLE IF EXISTS core_indexer_action;
-CREATE TABLE  core_indexer_action (
-  id_action int default 0 NOT NULL,
-  id_document varchar(255) NOT NULL,
-  id_task int default 0 NOT NULL,
-  indexer_name varchar(255) NOT NULL,
-  id_portlet int default 0 NOT NULL,
-  PRIMARY KEY (id_action)
-);
-
---
---
---
-DROP TABLE IF EXISTS core_theme;
-CREATE TABLE  core_theme (
-  code_theme varchar(16) default "default" NOT NULL,
-  theme_description varchar(255),
-  path_images varchar(255) NOT NULL,
-  path_css varchar(255) NOT NULL,
-  theme_author varchar(255),
-  theme_author_url varchar(255),
-  theme_version varchar(255) NOT NULL,
-  theme_licence varchar(255) NOT NULL,
-  PRIMARY KEY (code_theme)
 );
