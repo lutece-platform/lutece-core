@@ -158,6 +158,16 @@ public final class ThemesService
 	}
 
 	/**
+	 * Returns the global theme Object
+	 * 
+	 * @return the global theme Object
+	 */
+	public static Theme getGlobalThemeObject( )
+	{
+		return ThemeHome.findByPrimaryKey( _strGlobalTheme );
+	}
+
+	/**
 	 * Sets the global theme
 	 * 
 	 * @param strTheme The global theme

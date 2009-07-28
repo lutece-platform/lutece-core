@@ -91,7 +91,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
 		HashMap<String, Object> model = new HashMap<String, Object>( );
 
 		model.put( MARK_THEMES_LIST, ThemeHome.getThemesList( ) );
-		model.put( MARK_THEME, ThemesService.getGlobalTheme( ) );
+		model.put( MARK_THEME, ThemesService.getGlobalThemeObject( ) );
 		model.put( BASE_URL, AppPathService.getBaseUrl( request ) );
 
 		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_THEMES, getLocale( ), model );

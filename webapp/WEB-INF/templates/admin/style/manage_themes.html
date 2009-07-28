@@ -1,7 +1,16 @@
 <div class="content-box">
-
 	<h2>#i18n{portal.style.manage_themes.title}</h2>
-	
+</div>
+<div id="left">
+	<div class="content-box">
+		#i18n{portal.style.manage_themes.name} : ${theme_default.themeDescription}<br />
+		#i18n{portal.style.manage_themes.author} : ${theme_default.themeAuthor}<br />
+		<br />
+		<img src="${theme_default.pathImages}preview.png" width="322px" />
+	</div>
+</div>
+<div id="right">
+<div class="content-box">
 	<form method="post" action="jsp/admin/style/DoModifyGlobalTheme.jsp">
 	<p>
 		<p>#i18n{portal.style.manage_themes.labelGlobalTheme} : </p>
@@ -10,7 +19,7 @@
 		<#list themes_list as theme>
 			<tr>
 			<td width="1%">
-				<input type="radio" name="theme" value="${theme.codeTheme}" <#if theme_default = theme.codeTheme >checked="checked"</#if> />
+				<input type="radio" name="theme" value="${theme.codeTheme}" <#if theme_default.codeTheme = theme.codeTheme >checked="checked"</#if> />
 			</td>
 			<td align="left">
 				${theme.themeDescription}
@@ -42,3 +51,5 @@
 	</form>
 
 </div>
+</div>
+
