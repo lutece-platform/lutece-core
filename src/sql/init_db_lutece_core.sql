@@ -102,7 +102,7 @@ INSERT INTO core_style_mode_stylesheet VALUES (7,0,253);
 INSERT INTO core_style_mode_stylesheet VALUES (8,1,279);
 
 INSERT INTO core_theme VALUES ('black','Thème Noir','images/local/skin/','themes/black/css/page_template_styles.css','Mairie de Paris','http://fr.lutece.paris.fr','1.0','Creative-Commons');
-INSERT INTO core_theme VALUES ('blue','Thème bleu','images/local/skin/','css/page_template_styles.css','Mairie de Paris','http://fr.lutece.paris.fr','1.0','Creative-Commons');
+INSERT INTO core_theme VALUES ('blue','Thème Bleu','images/local/skin/','css/page_template_styles.css','Mairie de Paris','http://fr.lutece.paris.fr','1.0','Creative-Commons');
 
 INSERT INTO core_theme_global VALUES ('blue');
 

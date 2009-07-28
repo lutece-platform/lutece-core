@@ -32,7 +32,7 @@ CREATE TABLE  core_theme (
 );
 
 INSERT INTO core_theme VALUES ('black','Thème Noir','images/local/skin/','themes/black/css/page_template_styles.css','Mairie de Paris','http://fr.lutece.paris.fr','1.0','Creative-Commons');
-INSERT INTO core_theme VALUES ('blue','Thème bleu','images/local/skin/','css/page_template_styles.css','Mairie de Paris','http://fr.lutece.paris.fr','1.0','Creative-Commons');
+INSERT INTO core_theme VALUES ('blue','Thème Bleu','images/local/skin/','css/page_template_styles.css','Mairie de Paris','http://fr.lutece.paris.fr','1.0','Creative-Commons');
 
 --
 -- Table structure for table core_theme_global
