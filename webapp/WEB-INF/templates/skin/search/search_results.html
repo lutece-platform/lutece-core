@@ -1,75 +1,69 @@
-<div id="one-zone-first" class="span-15 prepend-1 append-1 prepend-top">
-    <div id="one-zone-first-content">	
-    <div class="portlet-background">
-       <div class="portlet-background-header -lutece-border-radius-top">#i18n{portal.search.search_results.title}</div> 
-        <div class="portlet-background-content">
-                <div class="error"> ${error} </div>
-                #i18n{portal.search.search_results.labelResultsCount} : <strong>${paginator.itemsCount}</strong> <br />
-                #i18n{portal.search.search_results.labelResultsRange} : <strong>${paginator.rangeMin} - ${paginator.rangeMax}</strong> <br />
-                <@pagination paginator=paginator />
-       </div>     
-
-       <div class="portlet-background-content -lutece-border-radius-bottom">
-            <ul>
-               <#list results_list as result>
-               <li class="search">
-               <div>
-                   <a href="${result.url}">${result.title}</a>
-                    <br />
-                    <em>#i18n{portal.search.search_results.labelTypeOfDocument} : ${result.type}</em>
-               
-               <div style="float:right;" >
-					<#if result.date?has_content>
-                        ${result.date?date?string.short}
-                    </#if></div>
-               </div>
-               <div style="float:left;">${result.summary}</div>
-                </li>            
-                </#list>
-            </ul>
-        </div>
-    </div>
+<div class="span-15 prepend-1 append-1 append-bottom">
+	<div class="portlet -lutece-border-radius">
+		<div class="portlet-header">#i18n{portal.search.search_results.title}</div>
+		<#if error?has_content>
+			<div class="error">${error}</div>
+		</#if>
+		<div>#i18n{portal.search.search_results.labelResultsCount} : <strong>${paginator.itemsCount}</strong></div>
+		<div>#i18n{portal.search.search_results.labelResultsRange} : <strong>${paginator.rangeMin} - ${paginator.rangeMax}</strong></div>
+		<div>&nbsp;</div>
+		<@pagination paginator=paginator />
+		<#list results_list as result>
+			<div>
+				<a href="${result.url}">${result.title}</a> | 
+				<em>#i18n{portal.search.search_results.labelTypeOfDocument} : ${result.type}</em> | 
+				<#if result.date?has_content>
+					${result.date?date?string.short}
+				</#if>
+			</div>
+			<div>${result.summary}</div>
+			<div>&nbsp;</div>
+		</#list>
+	</div>
 </div>
 
 <#-- Freemarker macros -->
 
 <#-- Number of items per page selector - Combo Box implementation -->
 <#macro NbItemsPerPageSelectorCombo nb_items_per_page>
-    <select name="items_per_page">
-    <#list [ "10" , "20" , "50" , "100" ] as nb>
-    <#if nb_items_per_page = nb >
-    <option selected="selected" value="${nb}">${nb}</option>
-    <#else>
-    <option value="${nb}">${nb}</option>
-    </#if>
-    </#list>
-    </select>
+	<select name="items_per_page">
+	<#list [ "10" , "20" , "50" , "100" ] as nb>
+	<#if nb_items_per_page = nb >
+	<option selected="selected" value="${nb}">${nb}</option>
+	<#else>
+	<option value="${nb}">${nb}</option>
+	</#if>
+	</#list>
+	</select>
 </#macro>
 
 <#-- Number of items per page selector - Radio List implementation -->
 <#macro NbItemsPerPageSelectorRadioList nb_items_per_page>
-        <#list [ "5" , "10" , "20" , "50" ] as nb>
-        <#if nb = nb_items_per_page > 
-        <input value="${nb}" id="items_per_page${nb}" name="items_per_page" class="radio" type="radio" checked /><label for="items_per_page${nb}">${nb}</label>
-        <#else>
-        <input value="${nb}" id="items_per_page${nb}" name="items_per_page" class="radio" type="radio" /><label for="items_per_page${nb}">${nb}</label>
-        </#if>
-        </#list>
+	<#list [ "5" , "10" , "20" , "50" ] as nb>
+	<#if nb = nb_items_per_page > 
+	<input value="${nb}" id="items_per_page${nb}" name="items_per_page" class="radio" type="radio" checked /><label for="items_per_page${nb}">${nb}</label>
+	<#else>
+	<input value="${nb}" id="items_per_page${nb}" name="items_per_page" class="radio" type="radio" /><label for="items_per_page${nb}">${nb}</label>
+	</#if>
+	</#list>
 </#macro>
-</div>
-<div id="sidebar" class="span-6 append-1 prepend-top last">
-	<form name="search" method="post" action="jsp/site/Portal.jsp">
-            <div class="portlet-background">
-                <div class="hide"><input type="hidden" name="page" value="search" /></div>
-                <p>
-	                <input type="text" name="query" size="20" value="${query?if_exists}" /> 
-	                <input type="image" src="images/local/skin/buttons/b_search.png" title="#i18n{portal.search.search_results.buttonSearch}" alt="#i18n{portal.search.search_results.buttonSearch}" />
-                </p>
-                <p>
-                  <#-- Number of documents per page selector -->
-                  #i18n{portal.search.search_results.labelNbDocsPerPage}<br />
-                  <@NbItemsPerPageSelectorRadioList nb_items_per_page />
-                </p>
-            </div>
-    </form>
+
+<div class="span-6 append-1 append-bottom last">
+	<div class="portlet -lutece-border-radius">
+		<form name="search" method="post" action="jsp/site/Portal.jsp">
+			<div class="hide"><input type="hidden" name="page" value="search" /></div>
+			<div>
+				<input type="text" name="query" size="20" value="${query?if_exists}" /> 
+				<input type="image" 
+					src="images/local/skin/buttons/b_search.png" 
+					title="#i18n{portal.search.search_results.buttonSearch}" 
+					alt="#i18n{portal.search.search_results.buttonSearch}" />
+			</div>
+			<div>
+				<#-- Number of documents per page selector -->
+				#i18n{portal.search.search_results.labelNbDocsPerPage}<br />
+				<@NbItemsPerPageSelectorRadioList nb_items_per_page />
+			</div>
+		</form>
+	</div>
 </div>
