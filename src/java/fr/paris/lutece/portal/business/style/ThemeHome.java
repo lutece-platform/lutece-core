@@ -43,96 +43,116 @@ import fr.paris.lutece.util.ReferenceList;
  */
 public final class ThemeHome
 {
-	// Static variable pointed at the DAO instance
-	private static IThemeDAO _dao = (IThemeDAO) SpringContextService.getBean( "coreThemeDAO" );
+    // Static variable pointed at the DAO instance
 
-	private ThemeHome( )
-	{
-	}
+    private static IThemeDAO _dao = ( IThemeDAO ) SpringContextService.getBean( "coreThemeDAO" );
 
-	/**
-	 * Creation of an instance of a theme
-	 * 
-	 * @param theme An instance of a theme which contains the informations to store
-	 * @return The instance of a theme which has been created with its primary key.
-	 */
-	public static Theme create( Theme theme )
-	{
-		_dao.insert( theme );
+    private ThemeHome()
+    {
+    }
 
-		return theme;
-	}
+    /**
+     * Creation of an instance of a theme
+     *
+     * @param theme An instance of a theme which contains the informations to store
+     * @return The instance of a theme which has been created with its primary key.
+     */
+    public static Theme create( Theme theme )
+    {
+        _dao.insert( theme );
 
-	/**
-	 * Update of the theme which is specified
-	 * 
-	 * @param theme The instance of the theme which contains the data to store
-	 * @return The instance of the theme which has been updated
-	 */
-	public static Theme update( Theme theme )
-	{
-		_dao.store( theme );
+        return theme;
+    }
 
-		return theme;
-	}
+    /**
+     * Update of the theme which is specified
+     *
+     * @param theme The instance of the theme which contains the data to store
+     * @return The instance of the theme which has been updated
+     */
+    public static Theme update( Theme theme )
+    {
+        _dao.store( theme );
 
-	/**
-	 * Remove the theme whose identifier is specified in parameter
-	 * 
-	 * @param nId The identifier of the theme to remove
-	 */
-	public static void remove( String strCodeTheme )
-	{
-		_dao.delete( strCodeTheme );
-	}
+        return theme;
+    }
 
-	/**
-	 * Returns an instance of an theme whose identifier is specified in parameter
-	 * 
-	 * @param nKey The theme primary key
-	 * @return an instance of a theme
-	 */
-	public static Theme findByPrimaryKey( String strCodeTheme )
-	{
-		return _dao.load( strCodeTheme );
-	}
+    /**
+     * Remove the theme whose identifier is specified in parameter
+     *
+     * @param nId The identifier of the theme to remove
+     */
+    public static void remove( String strCodeTheme )
+    {
+        _dao.delete( strCodeTheme );
+    }
 
-	/**
-	 * Return the list of all the themes
-	 * 
-	 * @return A collection of themes objects
-	 */
-	public static Collection<Theme> getThemesList( )
-	{
-		return _dao.selectThemesList( );
-	}
+    /**
+     * Returns an instance of an theme whose identifier is specified in parameter
+     *
+     * @param nKey The theme primary key
+     * @return an instance of a theme
+     */
+    public static Theme findByPrimaryKey( String strCodeTheme )
+    {
+        return _dao.load( strCodeTheme );
+    }
 
-	/**
-	 * Returns a reference list which contains all the themes
-	 * 
-	 * @return a reference list
-	 */
-	public static ReferenceList getThemes( )
-	{
-		return _dao.getThemesList( );
-	}
+    /**
+     * Return the list of all the themes
+     *
+     * @return A collection of themes objects
+     */
+    public static Collection<Theme> getThemesList()
+    {
+        return _dao.selectThemesList();
+    }
 
-	/**
-	 * Checks if the theme is among existing themes
-	 * 
-	 * @param strTheme The theme to check
-	 * @return True if the theme is valid
-	 */
-	public static boolean isValidTheme( String strCodeTheme )
-	{
-		Theme theme = ThemeHome.findByPrimaryKey( strCodeTheme );
-		if( theme == null )
-		{
-			return false;
-		} else
-		{
-			return true;
-		}
-	}
+    /**
+     * Returns a reference list which contains all the themes
+     *
+     * @return a reference list
+     */
+    public static ReferenceList getThemes()
+    {
+        return _dao.getThemesList();
+    }
+
+    /**
+     * Checks if the theme is among existing themes
+     *
+     * @param strTheme The theme to check
+     * @return True if the theme is valid
+     */
+    public static boolean isValidTheme( String strCodeTheme )
+    {
+        Theme theme = ThemeHome.findByPrimaryKey( strCodeTheme );
+        if ( theme == null )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    /**
+     * Sets the global theme
+     * @param strGlobalTheme The Global Theme
+     */
+    public static void setGlobalTheme( String strGlobalTheme )
+    {
+        _dao.setGlobalTheme( strGlobalTheme );
+    }
+
+    /**
+     * Returns the global theme
+     * @return The Global Theme
+     */
+    public static String getGlobalTheme()
+    {
+        return _dao.getGlobalTheme();
+    }
 
 }

@@ -49,7 +49,6 @@ import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
-import fr.paris.lutece.portal.business.style.ThemeHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -59,6 +58,7 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.page.PageResourceIdService;
 import fr.paris.lutece.portal.service.page.PageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACResource;
 import fr.paris.lutece.portal.service.rbac.RBACService;
@@ -484,7 +484,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PAGE_INIT_ID, page.getId() );
         model.put( MARK_PAGE_ORDER_LIST, getOrdersList(  ) );
         model.put( MARK_PAGE_ROLES_LIST, RoleHome.getRolesList(  ) );
-        model.put( MARK_PAGE_THEMES_LIST, ThemeHome.getThemes(  ) );
+        model.put( MARK_PAGE_THEMES_LIST, ThemesService.getPageThemes( getLocale() ) );
 
         int nIndexRow = 1;
         StringBuffer strPageTemplatesRow = new StringBuffer(  );

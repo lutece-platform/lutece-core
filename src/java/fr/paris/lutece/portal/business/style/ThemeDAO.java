@@ -44,156 +44,187 @@ import fr.paris.lutece.util.sql.DAOUtil;
  */
 public final class ThemeDAO implements IThemeDAO
 {
-	private static final String SQL_QUERY_SELECT = " SELECT code_theme, theme_description, path_images, path_css, theme_author, "
-			+ " theme_author_url, theme_version, theme_licence FROM core_theme WHERE code_theme = ?";
-	private static final String SQL_QUERY_INSERT = " INSERT INTO core_theme ( code_theme, theme_description, path_images, path_css,"
-			+ " theme_author, theme_author_url, theme_version, theme_licence ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? )";
-	private static final String SQL_QUERY_DELETE = " DELETE FROM core_theme WHERE code_theme = ?";
-	private static final String SQL_QUERY_UPDATE = " UPDATE core_theme SET theme_description = ?, path_images = ?, "
-			+ " path_css = ? , theme_author = ?, theme_author_url = ?, theme_version = ?, " + " theme_licence = ? WHERE code_theme = ?";
-	private static final String SQL_QUERY_SELECTALL = " SELECT code_theme, theme_description, path_images, path_css, theme_author, "
-			+ " theme_author_url, theme_version, theme_licence FROM core_theme ORDER BY code_theme";
-	private static final String SQL_QUERY_SELECT_THEME = " SELECT code_theme, theme_description FROM core_theme";
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.paris.lutece.portal.business.style.IThemeDAO#insert(Theme)
-	 */
-	public synchronized void insert( Theme theme )
-	{
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+    private static final String SQL_QUERY_SELECT = " SELECT code_theme, theme_description, path_images, path_css, theme_author, " + " theme_author_url, theme_version, theme_licence FROM core_theme WHERE code_theme = ?";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_theme ( code_theme, theme_description, path_images, path_css," + " theme_author, theme_author_url, theme_version, theme_licence ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? )";
+    private static final String SQL_QUERY_DELETE = " DELETE FROM core_theme WHERE code_theme = ?";
+    private static final String SQL_QUERY_UPDATE = " UPDATE core_theme SET theme_description = ?, path_images = ?, " + " path_css = ? , theme_author = ?, theme_author_url = ?, theme_version = ?, " + " theme_licence = ? WHERE code_theme = ?";
+    private static final String SQL_QUERY_SELECTALL = " SELECT code_theme, theme_description, path_images, path_css, theme_author, " + " theme_author_url, theme_version, theme_licence FROM core_theme ORDER BY code_theme";
+    private static final String SQL_QUERY_SELECT_THEME = " SELECT code_theme, theme_description FROM core_theme";
+    private static final String SQL_QUERY_SELECT_GLOBAL_THEME = " SELECT global_theme_code FROM core_theme_global ";
+    private static final String SQL_QUERY_UPDATE_GLOBAL_THEME = " UPDATE core_theme_global SET global_theme_code = ? ";
 
-		daoUtil.setString( 1, theme.getCodeTheme( ) );
-		daoUtil.setString( 2, theme.getThemeDescription( ) );
-		daoUtil.setString( 3, theme.getPathImages( ) );
-		daoUtil.setString( 4, theme.getPathCss( ) );
-		daoUtil.setString( 5, theme.getThemeAuthor( ) );
-		daoUtil.setString( 6, theme.getThemeAuthorUrl( ) );
-		daoUtil.setString( 7, theme.getThemeVersion( ) );
-		daoUtil.setString( 8, theme.getThemeLicence( ) );
+    /*
+     * (non-Javadoc)
+     *
+     * @see fr.paris.lutece.portal.business.style.IThemeDAO#insert(Theme)
+     */
+    public synchronized void insert( Theme theme )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
-		daoUtil.executeUpdate( );
-		daoUtil.free( );
-	}
+        daoUtil.setString( 1, theme.getCodeTheme() );
+        daoUtil.setString( 2, theme.getThemeDescription() );
+        daoUtil.setString( 3, theme.getPathImages() );
+        daoUtil.setString( 4, theme.getPathCss() );
+        daoUtil.setString( 5, theme.getThemeAuthor() );
+        daoUtil.setString( 6, theme.getThemeAuthorUrl() );
+        daoUtil.setString( 7, theme.getThemeVersion() );
+        daoUtil.setString( 8, theme.getThemeLicence() );
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.paris.lutece.portal.business.style.IThemeDAO#load(String)
-	 */
-	public Theme load( String strCodeTheme )
-	{
-		Theme theme = null;
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-		daoUtil.setString( 1, strCodeTheme );
+        daoUtil.executeUpdate();
+        daoUtil.free();
+    }
 
-		daoUtil.executeQuery( );
+    /*
+     * (non-Javadoc)
+     *
+     * @see fr.paris.lutece.portal.business.style.IThemeDAO#load(String)
+     */
+    public Theme load( String strCodeTheme )
+    {
+        Theme theme = null;
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
+        daoUtil.setString( 1, strCodeTheme );
 
-		if( daoUtil.next( ) )
-		{
-			theme = new Theme( );
-			theme.setCodeTheme( daoUtil.getString( 1 ) );
-			theme.setThemeDescription( daoUtil.getString( 2 ) );
-			theme.setPathImages( daoUtil.getString( 3 ) );
-			theme.setPathCss( daoUtil.getString( 4 ) );
-			theme.setThemeAuthor( daoUtil.getString( 5 ) );
-			theme.setThemeAuthorUrl( daoUtil.getString( 6 ) );
-			theme.setThemeVersion( daoUtil.getString( 7 ) );
-			theme.setThemeLicence( daoUtil.getString( 8 ) );
-		}
+        daoUtil.executeQuery();
 
-		daoUtil.free( );
+        if ( daoUtil.next() )
+        {
+            theme = new Theme();
+            theme.setCodeTheme( daoUtil.getString( 1 ) );
+            theme.setThemeDescription( daoUtil.getString( 2 ) );
+            theme.setPathImages( daoUtil.getString( 3 ) );
+            theme.setPathCss( daoUtil.getString( 4 ) );
+            theme.setThemeAuthor( daoUtil.getString( 5 ) );
+            theme.setThemeAuthorUrl( daoUtil.getString( 6 ) );
+            theme.setThemeVersion( daoUtil.getString( 7 ) );
+            theme.setThemeLicence( daoUtil.getString( 8 ) );
+        }
 
-		return theme;
-	}
+        daoUtil.free();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.paris.lutece.portal.business.style.IThemeDAO#delete(String)
-	 */
-	public void delete( String strCodeTheme )
-	{
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-		daoUtil.setString( 1, strCodeTheme );
-		daoUtil.executeUpdate( );
-		daoUtil.free( );
-	}
+        return theme;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.paris.lutece.portal.business.style.IThemeDAO#store(fr.paris.lutece.portal.business.style.Theme)
-	 */
-	public void store( Theme theme )
-	{
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+    /*
+     * (non-Javadoc)
+     *
+     * @see fr.paris.lutece.portal.business.style.IThemeDAO#delete(String)
+     */
+    public void delete( String strCodeTheme )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
+        daoUtil.setString( 1, strCodeTheme );
+        daoUtil.executeUpdate();
+        daoUtil.free();
+    }
 
-		daoUtil.setString( 1, theme.getThemeDescription( ) );
-		daoUtil.setString( 2, theme.getPathImages( ) );
-		daoUtil.setString( 3, theme.getPathCss( ) );
-		daoUtil.setString( 4, theme.getThemeAuthor( ) );
-		daoUtil.setString( 5, theme.getThemeAuthorUrl( ) );
-		daoUtil.setString( 6, theme.getThemeVersion( ) );
-		daoUtil.setString( 7, theme.getThemeLicence( ) );
-		daoUtil.setString( 8, theme.getCodeTheme( ) );
+    /*
+     * (non-Javadoc)
+     *
+     * @see fr.paris.lutece.portal.business.style.IThemeDAO#store(fr.paris.lutece.portal.business.style.Theme)
+     */
+    public void store( Theme theme )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
 
-		daoUtil.executeUpdate( );
-		daoUtil.free( );
-	}
+        daoUtil.setString( 1, theme.getThemeDescription() );
+        daoUtil.setString( 2, theme.getPathImages() );
+        daoUtil.setString( 3, theme.getPathCss() );
+        daoUtil.setString( 4, theme.getThemeAuthor() );
+        daoUtil.setString( 5, theme.getThemeAuthorUrl() );
+        daoUtil.setString( 6, theme.getThemeVersion() );
+        daoUtil.setString( 7, theme.getThemeLicence() );
+        daoUtil.setString( 8, theme.getCodeTheme() );
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.paris.lutece.portal.business.style.IThemeDAO#selectThemesList()
-	 */
-	public Collection<Theme> selectThemesList( )
-	{
-		Collection<Theme> themeList = new ArrayList<Theme>( );
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-		daoUtil.executeQuery( );
+        daoUtil.executeUpdate();
+        daoUtil.free();
+    }
 
-		while( daoUtil.next( ) )
-		{
-			Theme theme = new Theme( );
+    /*
+     * (non-Javadoc)
+     *
+     * @see fr.paris.lutece.portal.business.style.IThemeDAO#selectThemesList()
+     */
+    public Collection<Theme> selectThemesList()
+    {
+        Collection<Theme> themeList = new ArrayList<Theme>();
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
+        daoUtil.executeQuery();
 
-			theme.setCodeTheme( daoUtil.getString( 1 ) );
-			theme.setThemeDescription( daoUtil.getString( 2 ) );
-			theme.setPathImages( daoUtil.getString( 3 ) );
-			theme.setPathCss( daoUtil.getString( 4 ) );
-			theme.setThemeAuthor( daoUtil.getString( 5 ) );
-			theme.setThemeAuthorUrl( daoUtil.getString( 6 ) );
-			theme.setThemeVersion( daoUtil.getString( 7 ) );
-			theme.setThemeLicence( daoUtil.getString( 8 ) );
+        while ( daoUtil.next() )
+        {
+            Theme theme = new Theme();
 
-			themeList.add( theme );
-		}
+            theme.setCodeTheme( daoUtil.getString( 1 ) );
+            theme.setThemeDescription( daoUtil.getString( 2 ) );
+            theme.setPathImages( daoUtil.getString( 3 ) );
+            theme.setPathCss( daoUtil.getString( 4 ) );
+            theme.setThemeAuthor( daoUtil.getString( 5 ) );
+            theme.setThemeAuthorUrl( daoUtil.getString( 6 ) );
+            theme.setThemeVersion( daoUtil.getString( 7 ) );
+            theme.setThemeLicence( daoUtil.getString( 8 ) );
 
-		daoUtil.free( );
+            themeList.add( theme );
+        }
 
-		return themeList;
-	}
+        daoUtil.free();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.paris.lutece.portal.business.style.IThemeDAO#getThemesList()
-	 */
-	public ReferenceList getThemesList( )
-	{
-		ReferenceList themesList = new ReferenceList( );
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_THEME );
+        return themeList;
+    }
 
-		daoUtil.executeQuery( );
+    /*
+     * (non-Javadoc)
+     *
+     * @see fr.paris.lutece.portal.business.style.IThemeDAO#getThemesList()
+     */
+    public ReferenceList getThemesList()
+    {
+        ReferenceList themesList = new ReferenceList();
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_THEME );
 
-		while( daoUtil.next( ) )
-		{
-			themesList.addItem( daoUtil.getString( 1 ), daoUtil.getString( 2 ) );
-		}
+        daoUtil.executeQuery();
 
-		daoUtil.free( );
+        while ( daoUtil.next() )
+        {
+            themesList.addItem( daoUtil.getString( 1 ), daoUtil.getString( 2 ) );
+        }
 
-		return themesList;
-	}
+        daoUtil.free();
+
+        return themesList;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public void setGlobalTheme( String strGlobalTheme )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_GLOBAL_THEME );
+
+        daoUtil.setString( 1, strGlobalTheme );
+
+        daoUtil.executeUpdate();
+        daoUtil.free();
+
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public String getGlobalTheme()
+    {
+        String strGlobalTheme = null;
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_GLOBAL_THEME );
+
+        daoUtil.executeQuery();
+
+        if ( daoUtil.next() )
+        {
+            strGlobalTheme = daoUtil.getString( 1 );
+        }
+        daoUtil.free();
+        return strGlobalTheme;
+    }
 }

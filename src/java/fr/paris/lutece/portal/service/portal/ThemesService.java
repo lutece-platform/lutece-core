@@ -40,140 +40,156 @@ import javax.servlet.http.HttpServletResponse;
 import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.portal.business.style.ThemeHome;
 import fr.paris.lutece.portal.service.content.PageData;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.util.ReferenceList;
+import java.util.Collection;
+import java.util.Locale;
 
 /**
  * ThemesService
  */
 public final class ThemesService
 {
-	public static final String DEFAULT_THEME = "default";
-	private static final String COOKIE_NAME = "theme";
-	private static String _strGlobalTheme = DEFAULT_THEME;
-	private static final String THEME_TEST = "theme_test";
+    public static final String GLOBAL_THEME = "default";
+    private static final String COOKIE_NAME = "theme";
+    private static final String THEME_TEST = "theme_test";
+    private static final String PROPERTY_USE_GLOBAL_THEME = "portal.style.label.useGlobalTheme";
 
-	/**
-	 * Private constructor
-	 */
-	private ThemesService( )
-	{
-	}
+    /**
+     * Private constructor
+     */
+    private ThemesService()
+    {
+    }
 
-	/**
-	 * Get the theme code depending of the different priorities. The priorities are :
-	 * <ol>
-	 * <li>the theme of test (in case you want to test a page with a specific theme)</li>
-	 * <li>the theme choosen by the user</li>
-	 * <li>the global theme : the one choosen in the back office for the whole site</li>
-	 * <li>the page theme : a theme specified for a page</li>
-	 * </ol>
-	 * 
-	 * @param data
-	 * @param request
-	 * @return
-	 */
-	public static Theme getTheme( PageData data, HttpServletRequest request )
-	{
-		String strTheme = null;
+    /**
+     * Get the theme code depending of the different priorities. The priorities are :
+     * <ol>
+     * <li>the theme of test (in case you want to test a page with a specific theme)</li>
+     * <li>the theme choosen by the user</li>
+     * <li>the global theme : the one choosen in the back office for the whole site</li>
+     * <li>the page theme : a theme specified for a page</li>
+     * </ol>
+     *
+     * @param data
+     * @param request
+     * @return
+     */
+    public static Theme getTheme( PageData data, HttpServletRequest request )
+    {
+        String strTheme = getGlobalTheme();
 
-		// the global theme (choosen in the backoffice for the whole website)
-		String strGlobalTheme = ThemesService.getGlobalTheme( );
-		if( strGlobalTheme != null )
-		{
-			strTheme = strGlobalTheme;
-		}
+        // The code_theme of the page
+        String strPageTheme = data.getTheme();
+        if ( strPageTheme != null && strPageTheme.compareToIgnoreCase( GLOBAL_THEME ) != 0 )
+        {
+            strTheme = strPageTheme;
+        }
 
-		// The code_theme of the page
-		String strPageTheme = data.getTheme( );
-		if( strPageTheme != null && strPageTheme.compareToIgnoreCase( DEFAULT_THEME )!=0 )
-		{
-			strTheme = strPageTheme;
-		}
+        // The theme of the user
+        String strUserTheme = getUserTheme( request );
+        if ( strUserTheme != null )
+        {
+            strTheme = strUserTheme;
+        }
 
-		// The theme of the user
-		String strUserTheme = getUserTheme( request );
-		if( strUserTheme != null )
-		{
-			strTheme = strUserTheme;
-		}
+        // the test theme (choosen for a page to test the different theme from the backoffice theme section)
+        String themeTest = request.getParameter( THEME_TEST );
+        if ( themeTest != null )
+        {
+            strTheme = themeTest;
+        }
 
-		// the test theme (choosen for a page to test the different theme from the backoffice theme section)
-		String themeTest = request.getParameter( THEME_TEST );
-		if( themeTest != null )
-		{
-			strTheme = themeTest;
-		}
+        Theme theme = ThemeHome.findByPrimaryKey( strTheme );
+        return theme;
+    }
 
-		Theme theme = ThemeHome.findByPrimaryKey( strTheme );
-		return theme;
-	}
+    /**
+     * Gets the theme selected by the user
+     *
+     * @param request The HTTP request
+     * @return The theme if available otherwise null
+     */
+    public static String getUserTheme( HttpServletRequest request )
+    {
+        if ( request != null )
+        {
+            Cookie[] cookies = request.getCookies();
 
-	/**
-	 * Gets the theme selected by the user
-	 * 
-	 * @param request The HTTP request
-	 * @return The theme if available otherwise null
-	 */
-	public static String getUserTheme( HttpServletRequest request )
-	{
-		if( request != null )
-		{
-			Cookie[] cookies = request.getCookies( );
+            if ( cookies != null )
+            {
+                for ( int i = 0; i < cookies.length; i++ )
+                {
+                    Cookie cookie = cookies[i];
 
-			if( cookies != null )
-			{
-				for( int i = 0; i < cookies.length; i++ )
-				{
-					Cookie cookie = cookies[i];
+                    if ( cookie.getName().equalsIgnoreCase( COOKIE_NAME ) )
+                    {
+                        String strTheme = cookie.getValue();
 
-					if( cookie.getName( ).equalsIgnoreCase( COOKIE_NAME ) )
-					{
-						String strTheme = cookie.getValue( );
+                        if ( ThemeHome.isValidTheme( strTheme ) )
+                        {
+                            return strTheme;
+                        }
+                    }
+                }
+            }
+        }
 
-						if( ThemeHome.isValidTheme( strTheme ) )
-						{
-							return strTheme;
-						}
-					}
-				}
-			}
-		}
+        return null;
+    }
 
-		return null;
-	}
+    /**
+     * Sets the users theme using a cookie
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @param strTheme The Theme code
+     */
+    public static void setUserTheme( HttpServletRequest request, HttpServletResponse response, String strTheme )
+    {
+        Cookie cookie = new Cookie( COOKIE_NAME, strTheme );
+        response.addCookie( cookie );
+    }
 
-	public static void setUserTheme( HttpServletRequest request, HttpServletResponse response, String strTheme )
-	{
-		Cookie cookie = new Cookie( COOKIE_NAME, strTheme );
-		response.addCookie( cookie );
-	}
+    /**
+     * Returns the global theme
+     *
+     * @return the global theme
+     */
+    public static String getGlobalTheme()
+    {
+        return ThemeHome.getGlobalTheme();
+    }
 
-	/**
-	 * Returns the global theme
-	 * 
-	 * @return the global theme
-	 */
-	public static String getGlobalTheme( )
-	{
-		return _strGlobalTheme;
-	}
+    /**
+     * Returns the global theme Object
+     *
+     * @return the global theme Object
+     */
+    public static Theme getGlobalThemeObject()
+    {
+        return ThemeHome.findByPrimaryKey( ThemeHome.getGlobalTheme() );
+    }
 
-	/**
-	 * Returns the global theme Object
-	 * 
-	 * @return the global theme Object
-	 */
-	public static Theme getGlobalThemeObject( )
-	{
-		return ThemeHome.findByPrimaryKey( _strGlobalTheme );
-	}
+    /**
+     * Sets the global theme
+     *
+     * @param strTheme The global theme
+     */
+    public static void setGlobalTheme( String strGlobalTheme )
+    {
+        ThemeHome.setGlobalTheme( strGlobalTheme );
+    }
 
-	/**
-	 * Sets the global theme
-	 * 
-	 * @param strTheme The global theme
-	 */
-	public static void setGlobalTheme( String strTheme )
-	{
-		_strGlobalTheme = strTheme;
-	}
+    /**
+     * Returns a reference list which contains all the themes
+     *
+     * @return a reference list
+     */
+    public static ReferenceList getPageThemes( Locale locale )
+    {
+        ReferenceList listThemes = ThemeHome.getThemes();
+        String strGlobalTheme = I18nService.getLocalizedString( PROPERTY_USE_GLOBAL_THEME, locale );
+        listThemes.addItem( GLOBAL_THEME, strGlobalTheme );
+        return listThemes;
+    }
 }
