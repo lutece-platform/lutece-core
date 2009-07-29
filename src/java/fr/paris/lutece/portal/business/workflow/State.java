@@ -195,7 +195,7 @@ public class State implements IReferenceItem, RBACResource
 
     /**
      * set true return true if the resources of this state shall be assigned to a workgroup
-     * @param requireUserAssigned true return true if the resources of this state shall be assigned to to a workgroup
+     * @param requireUserAssociated true return true if the resources of this state shall be assigned to to a workgroup
      */
     public void setRequiredWorkgroupAssigned( Boolean requireUserAssociated )
     {
