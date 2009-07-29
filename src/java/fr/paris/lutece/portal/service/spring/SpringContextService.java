@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.spring;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
 import org.springframework.context.ApplicationContext;
@@ -117,7 +118,7 @@ public final class SpringContextService
             }
             catch ( Exception e )
             {
-                e.printStackTrace(  );
+                AppLogService.error( "Error retrieving context file : " + e.getMessage(), e);
             }
             finally
             {
