@@ -37,7 +37,7 @@ package fr.paris.lutece.portal.web.constants;
 /**
  * This class provides the Parameters interface which contains the common parameters
  */
-public abstract class Parameters
+public final class Parameters
 {
     public static final String PAGE_ID = "page_id";
     public static final String PAGE_NAME = "page_name";
@@ -120,4 +120,9 @@ public abstract class Parameters
     public static final String IMAGE_SERVLET = "image";
     public static final String RESOURCE_ID = "id";
     public static final String RESOURCE_TYPE = "resource_type";
+
+    /** Private constructor */
+    private Parameters()
+    {
+    }
 }

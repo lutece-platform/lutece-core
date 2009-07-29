@@ -35,9 +35,9 @@ package fr.paris.lutece.portal.web.constants;
 
 
 /**
- *
+ * Shared messages constants
  */
-public class Messages
+public final class Messages
 {
     public static final String MANDATORY_FIELDS = "portal.util.message.mandatoryFields";
     public static final String MANDATORY_FILE = "portal.util.message.mandatoryFileSelection";
@@ -55,4 +55,10 @@ public class Messages
     public static final String PATH_MODIFICATION_ERROR = "portal.util.message.errorModifyingPath";
     public static final String HTML_CLEANER_ERROR = "portal.util.message.errorHtmlCleaner";
     public static final String MESSAGE_STRING_FORMAT = "portal.util.message.accentuatedCharacter";
+
+    /** Private constructor */
+    private Messages()
+    {
+    }
+    
 }
