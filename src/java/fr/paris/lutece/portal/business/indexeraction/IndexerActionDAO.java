@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.indexeraction;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.util.ArrayList;
@@ -60,9 +59,9 @@ public final class IndexerActionDAO implements IIndexerActionDAO
         " FROM core_indexer_action  ";
     private static final String SQL_FILTER_ID_TASK = " id_task = ? ";
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.plugins.directory.service.directorysearch.IIndexerActionDAO#newPrimaryKey(fr.paris.lutece.portal.service.plugin.Plugin)
-         */
+    /**
+     * {@inheritDoc}
+     */
     public int newPrimaryKey(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
@@ -82,9 +81,9 @@ public final class IndexerActionDAO implements IIndexerActionDAO
         return nKey;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.plugins.directory.service.directorysearch.IIndexerActionDAO#insert(fr.paris.lutece.plugins.directory.service.directorysearch.IndexerAction, fr.paris.lutece.portal.service.plugin.Plugin)
-         */
+    /**
+     * {@inheritDoc}
+     */
     public synchronized void insert( IndexerAction indexerAction )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
@@ -100,9 +99,9 @@ public final class IndexerActionDAO implements IIndexerActionDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.plugins.directory.service.directorysearch.IIndexerActionDAO#load(int, fr.paris.lutece.portal.service.plugin.Plugin)
-         */
+    /**
+     * {@inheritDoc}
+     */
     public IndexerAction load( int nId )
     {
         IndexerAction indexerAction = null;
@@ -126,9 +125,9 @@ public final class IndexerActionDAO implements IIndexerActionDAO
         return indexerAction;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.plugins.directory.service.directorysearch.IIndexerActionDAO#delete(int, fr.paris.lutece.portal.service.plugin.Plugin)
-         */
+    /**
+     * {@inheritDoc}
+     */
     public void delete( int nId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
@@ -137,8 +136,8 @@ public final class IndexerActionDAO implements IIndexerActionDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.directory.service.directorysearch.IIndexerActionDAO#delete(int, fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
     public void deleteAll(  )
     {
@@ -147,9 +146,9 @@ public final class IndexerActionDAO implements IIndexerActionDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.plugins.directory.service.directorysearch.IIndexerActionDAO#store(fr.paris.lutece.plugins.directory.service.directorysearch.IndexerAction, fr.paris.lutece.portal.service.plugin.Plugin)
-         */
+    /**
+     * {@inheritDoc}
+     */
     public void store( IndexerAction indexerAction )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
@@ -163,9 +162,9 @@ public final class IndexerActionDAO implements IIndexerActionDAO
         daoUtil.free(  );
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.plugins.directory.service.directorysearch.IIndexerActionDAO#selectList(fr.paris.lutece.plugins.directory.service.directorysearch.IndexerActionlFilter, fr.paris.lutece.portal.service.plugin.Plugin)
-         */
+    /**
+     * {@inheritDoc}
+     */
     public List<IndexerAction> selectList( IndexerActionFilter filter )
     {
         List<IndexerAction> indexerActionList = new ArrayList<IndexerAction>(  );
@@ -207,8 +206,8 @@ public final class IndexerActionDAO implements IIndexerActionDAO
         return indexerActionList;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.directory.service.directorysearch.IIndexerActionDAO#selectList(fr.paris.lutece.plugins.directory.service.directorysearch.IndexerActionlFilter, fr.paris.lutece.portal.service.plugin.Plugin)
+    /**
+     * {@inheritDoc}
      */
     public List<IndexerAction> selectList(  )
     {
