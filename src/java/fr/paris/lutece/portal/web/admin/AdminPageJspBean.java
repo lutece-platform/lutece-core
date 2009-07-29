@@ -347,6 +347,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
      * @param strPageId The identifier of the page
+     * @param strParamBlock The block parameter to display
      * @return The management page of a page
      */
     private String getAdminPageBlock( String strPageId, String strParamBlock )
@@ -426,6 +427,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
      * @param strPageId The identifier of the page
+     * @param nParamBlock The id parameter to display
+     * @param model The HashMap
      * @return The management page of a page
      */
     private String getAdminPageBlockProperty( Page page, int nParamBlock, Map model )
@@ -476,7 +479,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
-     * @param strPageId The identifier of the page
+     * @param nPageIdInit The identifier of the init page
+     * @param model The HashMap
      * @return The management page of a page
      */
     private String getAdminPageBlockSearch( int nPageIdInit, Map model )
@@ -491,7 +495,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
-     * @param strPageId The identifier of the page
+     * @param page The page object
+     * @param model The HashMap
      * @return The management page of a page
      */
     private String getAdminPageBlockImage( Page page, Map model )
@@ -507,7 +512,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
-     * @param strPageId The identifier of the page
+     * @param page The page object
+     * @param model The HashMap
      * @return The management page of a page
      */
     private String getAdminPageBlockPortlet( Page page, Map model )
