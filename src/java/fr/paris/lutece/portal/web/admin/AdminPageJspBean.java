@@ -111,10 +111,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_NODE_STATUS = "node_status";
     private static final String PARAMETER_BLOCK = "param_block";
     
-  /*  private static final String BLOCK_PROPERTY = "property";
-    private static final String BLOCK_IMAGE = "image";
-    private static final String BLOCK_PORTLET = "portlet";
-    private static final String BLOCK_CHILDPAGE = "childpage";*/
     private static final int BLOCK_SEARCH = 1;
     private static final int BLOCK_PROPERTY = 2;
     private static final int BLOCK_IMAGE = 3;
@@ -356,52 +352,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * @param strPageId The identifier of the page
      * @return The management page of a page
      */
-  /*  private String getAdminPageBlock( String strPageId )
-    {
-        Map<String, Object> model = new HashMap<String, Object>(  );
-
-        Page page = null;
-        int nPageId = 1;
-
-        try
-        {
-            nPageId = Integer.parseInt( strPageId );
-
-            boolean bPageExist = PageHome.checkPageExist( nPageId );
-
-            if ( bPageExist )
-            {
-                page = PageHome.getPage( nPageId );
-                model.put( MARK_PAGE_MESSAGE, "" );
-            }
-            else
-            {
-                nPageId = PortalService.getRootPageId(  );
-                page = PageHome.getPage( nPageId );
-                model.put( MARK_PAGE_MESSAGE,
-                    I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_INEXISTENT, getLocale(  ) ) );
-            }
-        }
-        catch ( NumberFormatException nfe )
-        {
-            nPageId = PortalService.getRootPageId(  );
-            page = PageHome.getPage( nPageId );
-            model.put( MARK_PAGE_MESSAGE, I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_FORMAT, getLocale(  ) ) );
-        }
-
-        model.put( MARK_PAGE, page );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale(  ), model );
-
-        return getAdminPage( template.getHtml(  ) );
-    }*/
-
-    /**
-     * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
-     *
-     * @param strPageId The identifier of the page
-     * @return The management page of a page
-     */
     private String getAdminPageBlock( String strPageId, String strParamBlock )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -426,7 +376,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             else
             {
                 nPageId = PortalService.getRootPageId(  );
-             //   nParamBlock = BLOCK_SEARCH;
                 page = PageHome.getPage( nPageId );
                 model.put( MARK_PAGE_MESSAGE,
                     I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_INEXISTENT, getLocale(  ) ) );                
@@ -435,7 +384,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         catch ( NumberFormatException nfe )
         {
             nPageId = PortalService.getRootPageId(  );
-          //  nParamBlock = BLOCK_SEARCH;
             page = PageHome.getPage( nPageId );
             model.put( MARK_PAGE_MESSAGE, I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_FORMAT, getLocale(  ) ) );            
         }        
