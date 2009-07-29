@@ -217,12 +217,10 @@ public class PageData
      *
      * @param strMetaKeywords The Keywords to mention in the META tags of the page.
      */
-
-        public void setMetaKeywords( String strMetaKeywords )
-        {
-            _strMetaKeywords = strMetaKeywords;
-        }
-    
+    public void setMetaKeywords( String strMetaKeywords )
+    {
+        _strMetaKeywords = strMetaKeywords;
+    }
 
     /**
      * Returns Description to mention in the META tags of the page.

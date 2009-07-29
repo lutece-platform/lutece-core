@@ -52,7 +52,7 @@ public interface IAdminUserDAO
      * @return user ID if the access code is already used by another user, -1 otherwise
      */
     int checkAccessCodeAlreadyInUse( String strAccessCode );
-    
+
     /**
      * Checks the availibility of an email
      * @param strEmail The email

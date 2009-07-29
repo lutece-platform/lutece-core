@@ -33,36 +33,37 @@
  */
 package fr.paris.lutece.portal.web.includes;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.portal.ThemesService;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * This class provides the list of the path associated by the topics of the page
  */
 public class ThemesInclude implements PageInclude
 {
-	private static final String MARK_THEME = "theme";
+    private static final String MARK_THEME = "theme";
 
-	/**
-	 * Substitue specific Freemarker markers in the page template.
-	 * 
-	 * @param rootModel the HashMap containing markers to substitute
-	 * @param data A PageData object containing applications data
-	 * @param nMode The current mode
-	 * @param request The HTTP request
-	 */
-	public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
-	{
+    /**
+     * Substitue specific Freemarker markers in the page template.
+     *
+     * @param rootModel the HashMap containing markers to substitute
+     * @param data A PageData object containing applications data
+     * @param nMode The current mode
+     * @param request The HTTP request
+     */
+    public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
+    {
         if ( request != null )
         {
             Theme theme = ThemesService.getTheme( data, request );
             rootModel.put( MARK_THEME, theme );
         }
-	}
+    }
 }

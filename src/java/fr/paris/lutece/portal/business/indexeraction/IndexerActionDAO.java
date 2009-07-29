@@ -46,7 +46,7 @@ import java.util.List;
 public final class IndexerActionDAO implements IIndexerActionDAO
 {
     // Constants
-	public static final String CONSTANT_WHERE = " WHERE ";
+    public static final String CONSTANT_WHERE = " WHERE ";
     public static final String CONSTANT_AND = " AND ";
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_action ) FROM core_indexer_action";
     private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_action,id_document,id_task,indexer_name, id_portlet" +
@@ -59,7 +59,6 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     private static final String SQL_QUERY_SELECT = "SELECT id_action,id_document,id_task,indexer_name,id_portlet" +
         " FROM core_indexer_action  ";
     private static final String SQL_FILTER_ID_TASK = " id_task = ? ";
-    
 
     /* (non-Javadoc)
          * @see fr.paris.lutece.plugins.directory.service.directorysearch.IIndexerActionDAO#newPrimaryKey(fr.paris.lutece.portal.service.plugin.Plugin)

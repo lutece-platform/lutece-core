@@ -87,6 +87,8 @@ public final class PortalService
     private static final String TEMPLATE_PAGE_TOOLS_MENU = "skin/site/page_menu_tools.html";
     private static final String TEMPLATE_PAGE_PATH = "skin/site/page_path.html";
     private static final String TEMPLATE_PORTAL_FOOTER = "skin/site/portal_footer.html";
+    private static final String MARKER_TARGET = "target";
+    private static final String TARGET_TOP = "target='_top'";
     private static final String BOOKMARK_BASE_URL = "@base_url@";
 
     // Added in v1.3
@@ -296,12 +298,14 @@ public final class PortalService
         // for link service
         model.put( Markers.WEBAPP_PATH_FOR_LINKSERVICE, strBaseUrl );
         model.put( Markers.BASE_URL, strBaseUrl );
-        
+
         String strEncoding = AppPropertiesService.getProperty( PROPERTY_ENCODING, PROPERTY_ENCODING_DEFAULT );
-        if ( strEncoding == null || strEncoding.equals("") )
+
+        if ( ( strEncoding == null ) || strEncoding.equals( "" ) )
         {
-        	strEncoding = PROPERTY_ENCODING_DEFAULT;
+            strEncoding = PROPERTY_ENCODING_DEFAULT;
         }
+
         model.put( Markers.ENCODING, strEncoding );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_FRAMESET, locale, model );
@@ -566,6 +570,7 @@ public final class PortalService
         else
         {
             mapParameters.put( PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl(  ) );
+            mapParameters.put( MARKER_TARGET, TARGET_TOP );
         }
     }
 }

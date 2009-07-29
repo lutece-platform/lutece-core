@@ -45,7 +45,7 @@ public interface IIndexerActionDAO
 {
     /**
      * Generates a new primary key
-     *   
+     *
      * @return The new primary key
      */
     int newPrimaryKey(  );
@@ -53,14 +53,14 @@ public interface IIndexerActionDAO
     /**
      * Insert a new record in the table.
      *
-     * @param indexerAction instance of the IndexerAction object to insert     
+     * @param indexerAction instance of the IndexerAction object to insert
      */
     void insert( IndexerAction indexerAction );
 
     /**
      * Load the data of the IndexerAction  from the table
      *
-     * @param nId The identifier of the action     
+     * @param nId The identifier of the action
      * @return the instance of the  IndexerAction
      */
     IndexerAction load( int nId );
@@ -68,7 +68,7 @@ public interface IIndexerActionDAO
     /**
      * Delete a record from the table
      *
-     * @param nId The identifier of the action    
+     * @param nId The identifier of the action
      */
     void delete( int nId );
 
@@ -81,7 +81,7 @@ public interface IIndexerActionDAO
     /**
      * Update the indexerAction in the table
      *
-     * @param indexerAction instance of the IndexerAction object to update    
+     * @param indexerAction instance of the IndexerAction object to update
      */
     void store( IndexerAction indexerAction );
 

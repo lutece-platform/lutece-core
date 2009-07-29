@@ -33,11 +33,12 @@
  */
 package fr.paris.lutece.portal.business.right;
 
-import java.io.Serializable;
-import java.util.Locale;
-
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.i18n.Localizable;
+
+import java.io.Serializable;
+
+import java.util.Locale;
 
 
 /**
@@ -45,9 +46,9 @@ import fr.paris.lutece.portal.service.i18n.Localizable;
  */
 public class Right implements Localizable, Comparable<Right>, Serializable
 {
-	private static final long serialVersionUID = 4075896005615205007L;
-	
-	/////////////////////////////////////////////////////////////////////////////////
+    private static final long serialVersionUID = 4075896005615205007L;
+
+    /////////////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String EMPTY_STRING = "";
     private String _strId;

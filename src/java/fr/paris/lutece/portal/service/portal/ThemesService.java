@@ -33,17 +33,19 @@
  */
 package fr.paris.lutece.portal.service.portal;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.portal.business.style.ThemeHome;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.util.ReferenceList;
+
 import java.util.Collection;
 import java.util.Locale;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * ThemesService
@@ -58,7 +60,7 @@ public final class ThemesService
     /**
      * Private constructor
      */
-    private ThemesService()
+    private ThemesService(  )
     {
     }
 
@@ -77,17 +79,19 @@ public final class ThemesService
      */
     public static Theme getTheme( PageData data, HttpServletRequest request )
     {
-        String strTheme = getGlobalTheme();
+        String strTheme = getGlobalTheme(  );
 
         // The code_theme of the page
-        String strPageTheme = data.getTheme();
-        if ( strPageTheme != null && strPageTheme.compareToIgnoreCase( GLOBAL_THEME ) != 0 )
+        String strPageTheme = data.getTheme(  );
+
+        if ( ( strPageTheme != null ) && ( strPageTheme.compareToIgnoreCase( GLOBAL_THEME ) != 0 ) )
         {
             strTheme = strPageTheme;
         }
 
         // The theme of the user
         String strUserTheme = getUserTheme( request );
+
         if ( strUserTheme != null )
         {
             strTheme = strUserTheme;
@@ -95,12 +99,14 @@ public final class ThemesService
 
         // the test theme (choosen for a page to test the different theme from the backoffice theme section)
         String themeTest = request.getParameter( THEME_TEST );
+
         if ( themeTest != null )
         {
             strTheme = themeTest;
         }
 
         Theme theme = ThemeHome.findByPrimaryKey( strTheme );
+
         return theme;
     }
 
@@ -114,7 +120,7 @@ public final class ThemesService
     {
         if ( request != null )
         {
-            Cookie[] cookies = request.getCookies();
+            Cookie[] cookies = request.getCookies(  );
 
             if ( cookies != null )
             {
@@ -122,9 +128,9 @@ public final class ThemesService
                 {
                     Cookie cookie = cookies[i];
 
-                    if ( cookie.getName().equalsIgnoreCase( COOKIE_NAME ) )
+                    if ( cookie.getName(  ).equalsIgnoreCase( COOKIE_NAME ) )
                     {
-                        String strTheme = cookie.getValue();
+                        String strTheme = cookie.getValue(  );
 
                         if ( ThemeHome.isValidTheme( strTheme ) )
                         {
@@ -155,9 +161,9 @@ public final class ThemesService
      *
      * @return the global theme
      */
-    public static String getGlobalTheme()
+    public static String getGlobalTheme(  )
     {
-        return ThemeHome.getGlobalTheme();
+        return ThemeHome.getGlobalTheme(  );
     }
 
     /**
@@ -165,9 +171,9 @@ public final class ThemesService
      *
      * @return the global theme Object
      */
-    public static Theme getGlobalThemeObject()
+    public static Theme getGlobalThemeObject(  )
     {
-        return ThemeHome.findByPrimaryKey( ThemeHome.getGlobalTheme() );
+        return ThemeHome.findByPrimaryKey( ThemeHome.getGlobalTheme(  ) );
     }
 
     /**
@@ -187,9 +193,10 @@ public final class ThemesService
      */
     public static ReferenceList getPageThemes( Locale locale )
     {
-        ReferenceList listThemes = ThemeHome.getThemes();
+        ReferenceList listThemes = ThemeHome.getThemes(  );
         String strGlobalTheme = I18nService.getLocalizedString( PROPERTY_USE_GLOBAL_THEME, locale );
         listThemes.addItem( GLOBAL_THEME, strGlobalTheme );
+
         return listThemes;
     }
 }

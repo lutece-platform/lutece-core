@@ -130,12 +130,12 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
-        
+
         //LUTECE-890 : the first workgroup will be selected by default
-        if ( !listWorkgroups.isEmpty() )
+        if ( !listWorkgroups.isEmpty(  ) )
         {
-        	model.put( MARK_WORKGROUP_SELECTED, listWorkgroups.get( 0 ).getCode() );
-        }        
+            model.put( MARK_WORKGROUP_SELECTED, listWorkgroups.get( 0 ).getCode(  ) );
+        }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_MAILINGLIST, getLocale(  ), model );
 

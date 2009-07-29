@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -45,8 +45,9 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
  */
 public abstract class PluginAdminPageJspBean extends AdminFeaturesPageJspBean
 {
-	private static final long serialVersionUID = 4578248013299079234L;
-	// Parameters
+    private static final long serialVersionUID = 4578248013299079234L;
+
+    // Parameters
     private static final String PARAMETER_PLUGIN_NAME = "plugin_name";
     private Plugin _plugin;
 
@@ -57,7 +58,6 @@ public abstract class PluginAdminPageJspBean extends AdminFeaturesPageJspBean
      * @param strRight The right
      * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException Access denied exception
      */
-    
     public void init( HttpServletRequest request, String strRight )
         throws AccessDeniedException
     {

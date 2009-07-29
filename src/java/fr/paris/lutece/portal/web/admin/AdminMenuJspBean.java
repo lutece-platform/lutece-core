@@ -186,18 +186,20 @@ public class AdminMenuJspBean
         // get the list of user's features
         Map<String, Right> featuresMap = user.getRights(  );
         List<Right> features = new ArrayList<Right>( featuresMap.values(  ) );
-        
-        List<Right> rightsToDelete = new ArrayList<Right>();
+
+        List<Right> rightsToDelete = new ArrayList<Right>(  );
+
         //delete features which have a null URL : these features does not have to be displayed in the menu
         for ( Right right : features )
         {
-        	if ( right.getUrl() == null )
-        	{
-        		rightsToDelete.add( right );
-        	}        	
+            if ( right.getUrl(  ) == null )
+            {
+                rightsToDelete.add( right );
+            }
         }
+
         features.removeAll( rightsToDelete );
-        
+
         Collections.sort( features );
 
         // for each group, load the features

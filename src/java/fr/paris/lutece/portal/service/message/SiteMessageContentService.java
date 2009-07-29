@@ -82,7 +82,6 @@ public class SiteMessageContentService extends ContentService
      * @return the html code for the display of a page of a site
      * @throws UserNotSignedException The UserNotSignedException
      */
-    @Override
     public String getPage( HttpServletRequest request, int nMode )
         throws UserNotSignedException
     {
@@ -168,7 +167,6 @@ public class SiteMessageContentService extends ContentService
      * @param request The HTTP request
      * @return true if this ContentService should handle this request
      */
-    @Override
     public boolean isInvoked( HttpServletRequest request )
     {
         SiteMessage message = SiteMessageService.getMessage( request );

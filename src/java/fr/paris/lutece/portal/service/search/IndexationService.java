@@ -150,12 +150,11 @@ public final class IndexationService
         _sbLogs = new StringBuffer(  );
 
         _writer = null;
+
         boolean bCreateIndex = bCreate;
 
         try
         {
-        	
-
             if ( !IndexReader.indexExists( _strIndex ) )
             { //init index
                 bCreateIndex = true;
@@ -168,20 +167,20 @@ public final class IndexationService
 
             if ( bCreateIndex )
             {
-            	_sbLogs.append( "\r\nIndexing all contents ...\r\n" );
+                _sbLogs.append( "\r\nIndexing all contents ...\r\n" );
+
                 for ( SearchIndexer indexer : _mapIndexers.values(  ) )
                 {
                     if ( indexer.isEnable(  ) )
                     {
-                    	_sbLogs.append( "\r\n<strong>Indexer : " );
-                    	_sbLogs.append( indexer.getName(  ) );
-                    	_sbLogs.append( " - " );
-                    	_sbLogs.append( indexer.getDescription(  ) );
-                    	_sbLogs.append( "</strong>\r\n" );
+                        _sbLogs.append( "\r\n<strong>Indexer : " );
+                        _sbLogs.append( indexer.getName(  ) );
+                        _sbLogs.append( " - " );
+                        _sbLogs.append( indexer.getDescription(  ) );
+                        _sbLogs.append( "</strong>\r\n" );
 
-                    	//the indexer will call write(doc) 
+                        //the indexer will call write(doc) 
                         indexer.indexDocuments(  );
-                        
                     }
                 }
 
@@ -189,30 +188,31 @@ public final class IndexationService
             }
             else
             {
-            	_sbLogs.append( "\r\nIncremental Indexing ...\r\n" );
+                _sbLogs.append( "\r\nIncremental Indexing ...\r\n" );
+
                 //incremental indexing
-            	Collection<IndexerAction> actions = IndexerActionHome.getList(  );
-            	/*if(actions.size() < 1)
-            	{
-            		_sbLogs.append("\n Nothing to index\n");
-            	}*/
-                for ( IndexerAction action :  actions )
+                Collection<IndexerAction> actions = IndexerActionHome.getList(  );
+
+                /*if(actions.size() < 1)
+                    {
+                            _sbLogs.append("\n Nothing to index\n");
+                    }*/
+                for ( IndexerAction action : actions )
                 {
-                	SearchIndexer indexer = _mapIndexers.get( action.getIndexerName(  ) );
+                    SearchIndexer indexer = _mapIndexers.get( action.getIndexerName(  ) );
+
                     if ( action.getIdTask(  ) == IndexerAction.TASK_DELETE )
                     {
                         if ( action.getIdPortlet(  ) != ALL_DOCUMENT )
                         {
                             //delete only the index linked to this portlet
-                        	_writer.deleteDocuments( new Term( SearchItem.FIELD_DOCUMENT_PORTLET_ID,
-                                    action.getIdDocument(  )  + "&" +
-                                    Integer.toString( action.getIdPortlet(  ) ) ) );
-                        }                        
+                            _writer.deleteDocuments( new Term( SearchItem.FIELD_DOCUMENT_PORTLET_ID,
+                                    action.getIdDocument(  ) + "&" + Integer.toString( action.getIdPortlet(  ) ) ) );
+                        }
                         else
                         {
                             //delete all index linked to uid
-                        	
-                        	_writer.deleteDocuments( new Term( SearchItem.FIELD_UID, action.getIdDocument(  ) ) );
+                            _writer.deleteDocuments( new Term( SearchItem.FIELD_UID, action.getIdDocument(  ) ) );
                         }
 
                         _sbLogs.append( "Deleting " );
@@ -222,41 +222,38 @@ public final class IndexationService
                     }
                     else
                     {
-                         
-                        
                         List<org.apache.lucene.document.Document> luceneDocuments = indexer.getDocuments( action.getIdDocument(  ) );
 
                         if ( ( luceneDocuments != null ) && ( luceneDocuments.size(  ) > 0 ) )
                         {
                             for ( org.apache.lucene.document.Document doc : luceneDocuments )
                             {
-                            	if ( ( action.getIdPortlet(  ) == ALL_DOCUMENT ) ||
+                                if ( ( action.getIdPortlet(  ) == ALL_DOCUMENT ) ||
                                         ( ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) != null ) &&
                                         ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID )
-                                                 .equals( doc.get( SearchItem.FIELD_UID ) + "&" + action.getIdPortlet(  ) ) ) ) )
+                                                 .equals( doc.get( SearchItem.FIELD_UID ) + "&" +
+                                            action.getIdPortlet(  ) ) ) ) )
                                 {
-                                	
                                     if ( action.getIdTask(  ) == IndexerAction.TASK_CREATE )
                                     {
-                                    	_writer.addDocument( doc );
-                                    	_sbLogs.append( "Adding " );
+                                        _writer.addDocument( doc );
+                                        _sbLogs.append( "Adding " );
                                     }
                                     else if ( action.getIdTask(  ) == IndexerAction.TASK_MODIFY )
-                                    {              
-                                    	if ( action.getIdPortlet(  ) != ALL_DOCUMENT )
+                                    {
+                                        if ( action.getIdPortlet(  ) != ALL_DOCUMENT )
                                         {
                                             //delete only the index linked to this portlet
-                                        	_writer.updateDocument( new Term( SearchItem.FIELD_DOCUMENT_PORTLET_ID,
-                                        			doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) ) , doc );
-                                        	_sbLogs.append( "Updating " );
-                                        }     
-                                    	else
-                                    	{
-                                    		_writer.updateDocument( new Term( SearchItem.FIELD_UID,
-                                                    doc.getField( SearchItem.FIELD_UID ).stringValue( )  ), doc );
-                                        	_sbLogs.append( "Updating " );
-                                    	}
-                                    	
+                                            _writer.updateDocument( new Term( SearchItem.FIELD_DOCUMENT_PORTLET_ID,
+                                                    doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) ), doc );
+                                            _sbLogs.append( "Updating " );
+                                        }
+                                        else
+                                        {
+                                            _writer.updateDocument( new Term( SearchItem.FIELD_UID,
+                                                    doc.getField( SearchItem.FIELD_UID ).stringValue(  ) ), doc );
+                                            _sbLogs.append( "Updating " );
+                                        }
                                     }
 
                                     _sbLogs.append( doc.get( SearchItem.FIELD_TYPE ) );
@@ -272,11 +269,10 @@ public final class IndexationService
 
                     removeIndexerAction( action.getIdAction(  ) );
                 }
+
                 //reindexing all pages.
                 _writer.deleteDocuments( new Term( SearchItem.FIELD_TYPE, PARAM_TYPE_PAGE ) );
-                _mapIndexers.get( PageIndexer.INDEXER_NAME ).indexDocuments( );
-
-               
+                _mapIndexers.get( PageIndexer.INDEXER_NAME ).indexDocuments(  );
             }
 
             _sbLogs.append( "\r\nOptimization of the index for the current site...\r\n\r\n" );
@@ -289,11 +285,11 @@ public final class IndexationService
         }
         catch ( Exception e )
         {
-        	_sbLogs.append( " caught a " );
-        	_sbLogs.append( e.getClass(  ) );
-        	_sbLogs.append( "\n with message: " );
-        	_sbLogs.append( e.getMessage(  ) );
-        	_sbLogs.append( "\r\n" );
+            _sbLogs.append( " caught a " );
+            _sbLogs.append( e.getClass(  ) );
+            _sbLogs.append( "\n with message: " );
+            _sbLogs.append( e.getMessage(  ) );
+            _sbLogs.append( "\r\n" );
             AppLogService.error( "Indexing error : " + e.getMessage(  ), e );
         }
         finally
@@ -302,7 +298,7 @@ public final class IndexationService
             {
                 if ( _writer != null )
                 {
-                	_writer.close(  );
+                    _writer.close(  );
                 }
             }
             catch ( IOException e )
@@ -313,24 +309,23 @@ public final class IndexationService
 
         return _sbLogs.toString(  );
     }
-    
+
     /**
      * Index one document, called by plugin indexers
      * @param doc the document to index
      * @throws CorruptIndexException corruptIndexException
      * @throws IOException i/o exception
      */
-    public static void write( Document doc ) 
-    	throws CorruptIndexException, IOException
+    public static void write( Document doc ) throws CorruptIndexException, IOException
     {
-    	_writer.addDocument( doc );
-    	_sbLogs.append( "Indexing " );
-    	_sbLogs.append( doc.get( SearchItem.FIELD_TYPE ) );
-    	_sbLogs.append( " #" );
-    	_sbLogs.append( doc.get( SearchItem.FIELD_UID ) );
-    	_sbLogs.append( " - " );
-    	_sbLogs.append( doc.get( SearchItem.FIELD_TITLE ) );
-    	_sbLogs.append( "\r\n" );
+        _writer.addDocument( doc );
+        _sbLogs.append( "Indexing " );
+        _sbLogs.append( doc.get( SearchItem.FIELD_TYPE ) );
+        _sbLogs.append( " #" );
+        _sbLogs.append( doc.get( SearchItem.FIELD_UID ) );
+        _sbLogs.append( " - " );
+        _sbLogs.append( doc.get( SearchItem.FIELD_TITLE ) );
+        _sbLogs.append( "\r\n" );
     }
 
     /**

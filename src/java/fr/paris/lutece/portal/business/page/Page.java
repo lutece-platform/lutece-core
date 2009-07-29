@@ -527,35 +527,35 @@ public class Page implements RBACResource, AdminWorkgroupResource
     *
     * @return the META Name associate to the page
     */
-	public String getMetaKeywords() 
-	{
-		return _strMetaKeywords;
-	}
+    public String getMetaKeywords(  )
+    {
+        return _strMetaKeywords;
+    }
 
     /**
      * set the META name
      * @param strMetaKeywords the META name
      */
-	public void setMetaKeywords(String strMetaKeywords) 
-	{
-		_strMetaKeywords = strMetaKeywords;
-	}
+    public void setMetaKeywords( String strMetaKeywords )
+    {
+        _strMetaKeywords = strMetaKeywords;
+    }
 
-	/**
+    /**
     *
     * @return the META description associate to the page
     */
-	public String getMetaDescription() 
-	{
-		return _strMetaDescription;
-	}
+    public String getMetaDescription(  )
+    {
+        return _strMetaDescription;
+    }
 
     /**
      * set the META description
      * @param strMetaDescription  the META description
      */
-	public void setMetaDescription(String strMetaDescription) 
-	{
-		_strMetaDescription = strMetaDescription;
-	}
+    public void setMetaDescription( String strMetaDescription )
+    {
+        _strMetaDescription = strMetaDescription;
+    }
 }

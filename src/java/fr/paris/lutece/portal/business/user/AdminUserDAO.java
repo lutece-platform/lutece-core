@@ -390,21 +390,21 @@ public class AdminUserDAO implements IAdminUserDAO
      */
     public int checkAccessCodeAlreadyInUse( String strAccessCode )
     {
-    	int nIdUser = -1;
+        int nIdUser = -1;
         DAOUtil daoUtil = new DAOUtil( SQL_CHECK_ACCESS_CODE_IN_USE );
         daoUtil.setString( 1, strAccessCode );
         daoUtil.executeQuery(  );
 
         if ( daoUtil.next(  ) )
         {
-        	nIdUser =  daoUtil.getInt( 1 );
+            nIdUser = daoUtil.getInt( 1 );
         }
 
         daoUtil.free(  );
 
         return nIdUser;
     }
-    
+
     /**
      * Checks the availibility of an email
      * @param strEmail The email
@@ -419,7 +419,7 @@ public class AdminUserDAO implements IAdminUserDAO
 
         if ( daoUtil.next(  ) )
         {
-            nIdUser =  daoUtil.getInt( 1 );
+            nIdUser = daoUtil.getInt( 1 );
         }
 
         daoUtil.free(  );

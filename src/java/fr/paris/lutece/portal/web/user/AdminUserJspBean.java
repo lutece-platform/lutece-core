@@ -77,7 +77,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 {
     ////////////////////////////////////////////////////////////////////////////
     // Constants
-	private static final String CONSTANTE_UN = "1";
+    private static final String CONSTANTE_UN = "1";
 
     // Templates
     private static final String TEMPLATE_MANAGE_USERS = "admin/user/manage_users.html";
@@ -94,7 +94,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_MODIFY_USER_WORKGROUPS = "admin/user/modify_user_workgroups.html";
     private static final String TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS = "admin/user/user_email_change_status.html";
     private static final String TEMPLATE_NOTIFY_USER = "admin/user/notify_user.html";
-
 
     // Messages
     private static final String PROPERTY_MANAGE_USERS_PAGETITLE = "portal.users.manage_users.pageTitle";
@@ -116,7 +115,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_EMAIL_FORMAT = "portal.users.message.user.emailFormat";
     private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT_CHANGE_STATUS = "portal.users.user_change_status.email.subject";
     private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER = "portal.users.notify_user.email.subject";
-    
+
     // Properties
     private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
     private static final String PROPERTY_SITE_NAME = "lutece.name";
@@ -411,9 +410,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED,
                 AdminMessage.TYPE_STOP );
         }
-        
+
         // check again that email is not in use
-        if ( AdminUserHome.checkEmailAlreadyInUse( strEmail ) != -1)
+        if ( AdminUserHome.checkEmailAlreadyInUse( strEmail ) != -1 )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_ALREADY_USED,
                 AdminMessage.TYPE_STOP );
@@ -458,10 +457,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setUserLevel( nNewUserLevel );
             AdminUserHome.create( user );
 
-            if ( strNotifyUser != null && strNotifyUser.equals( CONSTANTE_UN ) )
+            if ( ( strNotifyUser != null ) && strNotifyUser.equals( CONSTANTE_UN ) )
             {
                 //Notify user for the creation of this account
-            	notifyUser( request, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
+                notifyUser( request, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
             }
         }
         else
@@ -477,6 +476,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setUserLevel( nNewUserLevel );
             AdminUserHome.create( user );
         }
+
         return JSP_MANAGE_USER;
     }
 
@@ -565,25 +565,25 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_FORMAT, AdminMessage.TYPE_STOP );
         }
-        
+
         int nUserId = Integer.parseInt( strUserId );
 
         // check again that access code is not in use
-        if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) != -1 &&
-        		AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) != nUserId )
+        if ( ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) != -1 ) &&
+                ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) != nUserId ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED,
                 AdminMessage.TYPE_STOP );
         }
-        
+
         // check again that email is not in use
-        if ( AdminUserHome.checkEmailAlreadyInUse( strEmail ) != -1 &&
-        		AdminUserHome.checkEmailAlreadyInUse( strEmail ) != nUserId )
+        if ( ( AdminUserHome.checkEmailAlreadyInUse( strEmail ) != -1 ) &&
+                ( AdminUserHome.checkEmailAlreadyInUse( strEmail ) != nUserId ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_ALREADY_USED,
                 AdminMessage.TYPE_STOP );
         }
-        
+
         // modification in no-module mode : we manage the password
         if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
         {
@@ -591,21 +591,21 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
             String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
-            
-            if ( ( strFirstPassword != null ) && ( strFirstPassword.equals( "" ) )  && 
-            		( strSecondPassword != null ) && ( !strSecondPassword.equals ( "" ) ) )
+
+            if ( ( strFirstPassword != null ) && ( strFirstPassword.equals( "" ) ) && ( strSecondPassword != null ) &&
+                    ( !strSecondPassword.equals( "" ) ) )
             {
                 // First password is empty but second password is filled
-            	return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
-                        AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
+                    AdminMessage.TYPE_STOP );
             }
-            
-            if ( ( strSecondPassword != null ) && ( strSecondPassword.equals( "" ) ) && 
-            		( strFirstPassword != null ) && !strFirstPassword.equals( "" ) )
+
+            if ( ( strSecondPassword != null ) && ( strSecondPassword.equals( "" ) ) && ( strFirstPassword != null ) &&
+                    !strFirstPassword.equals( "" ) )
             {
                 // First password is filled but second password is empty
-            	return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
-                        AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
+                    AdminMessage.TYPE_STOP );
             }
 
             if ( !strFirstPassword.equals( strSecondPassword ) )
@@ -615,9 +615,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                     AdminMessage.TYPE_STOP );
             }
 
-            if ( strFirstPassword != null && !strFirstPassword.equals( "" ) )
+            if ( ( strFirstPassword != null ) && !strFirstPassword.equals( "" ) )
             {
-            	user.setPassword( strFirstPassword );
+                user.setPassword( strFirstPassword );
             }
 
             user.setUserId( nUserId );
@@ -631,7 +631,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( nStatus != user.getStatus(  ) )
             {
                 user.setStatus( nStatus );
-                notifyUser( request, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_CHANGE_STATUS, TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS );
+                notifyUser( request, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_CHANGE_STATUS,
+                    TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS );
             }
 
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
@@ -661,23 +662,25 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @param strPropertyEmailSubject the property of the subject email
      * @param strTemplate the URL of the HTML Template
      */
-    private void notifyUser( HttpServletRequest request, AdminUser user, String strPropertyEmailSubject, String strTemplate )
+    private void notifyUser( HttpServletRequest request, AdminUser user, String strPropertyEmailSubject,
+        String strTemplate )
     {
         String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
         String strSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
-        
+
         Locale locale;
-        if ( user.getLocale() != null )
+
+        if ( user.getLocale(  ) != null )
         {
-        	locale = user.getLocale();
+            locale = user.getLocale(  );
         }
         else
         {
-        	locale = getLocale();
+            locale = getLocale(  );
         }
-        
-        String strEmailSubject = I18nService.getLocalizedString( strPropertyEmailSubject,
-                new String[] { strSiteName }, locale );
+
+        String strEmailSubject = I18nService.getLocalizedString( strPropertyEmailSubject, new String[] { strSiteName },
+                locale );
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, user );
         model.put( MARK_SITE_NAME, strSiteName );

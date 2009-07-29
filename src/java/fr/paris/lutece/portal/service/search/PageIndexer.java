@@ -82,7 +82,7 @@ public class PageIndexer implements SearchIndexer
             IndexationService.write( doc );
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -92,16 +92,16 @@ public class PageIndexer implements SearchIndexer
         ArrayList<Document> listDocuments = new ArrayList<Document>(  );
         String strPageBaseUrl = AppPropertiesService.getProperty( PROPERTY_PAGE_BASE_URL );
 
-        Page page = PageHome.getPage( Integer.parseInt(nIdDocument ));
-        if((page != null) && (page.getId() != 0))
-        {
-        	 UrlItem url = new UrlItem( strPageBaseUrl );
-             url.addParameter( PARAMETER_PAGE_ID, page.getId(  ) );
+        Page page = PageHome.getPage( Integer.parseInt( nIdDocument ) );
 
-             Document doc = getDocument( page, url.getUrl(  ) );
-             listDocuments.add( doc );
+        if ( ( page != null ) && ( page.getId(  ) != 0 ) )
+        {
+            UrlItem url = new UrlItem( strPageBaseUrl );
+            url.addParameter( PARAMETER_PAGE_ID, page.getId(  ) );
+
+            Document doc = getDocument( page, url.getUrl(  ) );
+            listDocuments.add( doc );
         }
-       
 
         return listDocuments;
     }

@@ -33,11 +33,6 @@
  */
 package fr.paris.lutece.portal.web.style;
 
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.portal.business.style.ThemeHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -49,190 +44,195 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
 /**
  *
  */
 public class ThemesJspBean extends AdminFeaturesPageJspBean
 {
+    // Right
+    public static final String RIGHT_MANAGE_THEMES = "CORE_THEMES_MANAGEMENT";
 
-	// Right
-	public static final String RIGHT_MANAGE_THEMES = "CORE_THEMES_MANAGEMENT";
+    // Templates files path
+    private static final String TEMPLATE_MANAGE_THEMES = "admin/style/manage_themes.html";
+    private static final String TEMPLATE_CREATE_THEME = "admin/style/create_theme.html";
+    private static final String TEMPLATE_MODIFY_THEME = "admin/style/modify_theme.html";
 
-	// Templates files path
-	private static final String TEMPLATE_MANAGE_THEMES = "admin/style/manage_themes.html";
-	private static final String TEMPLATE_CREATE_THEME = "admin/style/create_theme.html";
-	private static final String TEMPLATE_MODIFY_THEME = "admin/style/modify_theme.html";
+    // Markers
+    private static final String MARK_THEMES_LIST = "themes_list";
+    private static final String MARK_THEME = "theme_default";
 
-	// Markers
-	private static final String MARK_THEMES_LIST = "themes_list";
-	private static final String MARK_THEME = "theme_default";
+    // Parameters
+    private static final String PARAMETER_THEME = "theme";
+    private static final String PARAMETER_URL = "url";
+    private static final String BASE_URL = "base_url";
+    private static final String THEME_LICENCE = "theme_licence";
+    private static final String THEME_VERSION = "theme_version";
+    private static final String THEME_AUTHOR_URL = "theme_author_url";
+    private static final String THEME_AUTHOR = "theme_author";
+    private static final String PATH_CSS = "path_css";
+    private static final String PATH_IMAGES = "path_images";
+    private static final String THEME_DESCRIPTION = "theme_description";
+    private static final String CODE_THEME = "code_theme";
 
-	// Parameters
-	private static final String PARAMETER_THEME = "theme";
-	private static final String PARAMETER_URL = "url";
-	private static final String BASE_URL = "base_url";
-	private static final String THEME_LICENCE = "theme_licence";
-	private static final String THEME_VERSION = "theme_version";
-	private static final String THEME_AUTHOR_URL = "theme_author_url";
-	private static final String THEME_AUTHOR = "theme_author";
-	private static final String PATH_CSS = "path_css";
-	private static final String PATH_IMAGES = "path_images";
-	private static final String THEME_DESCRIPTION = "theme_description";
-	private static final String CODE_THEME = "code_theme";
+    /**
+     * Returns the list of Themes
+     *
+     * @param request The Http request
+     * @return the html code for display the manage themes page
+     */
+    public String getManageThemes( HttpServletRequest request )
+    {
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
 
-	/**
-	 * Returns the list of Themes
-	 * 
-	 * @param request The Http request
-	 * @return the html code for display the manage themes page
-	 */
-	public String getManageThemes( HttpServletRequest request )
-	{
-		HashMap<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_THEMES_LIST, ThemeHome.getThemesList(  ) );
+        model.put( MARK_THEME, ThemesService.getGlobalThemeObject(  ) );
+        model.put( BASE_URL, AppPathService.getBaseUrl( request ) );
 
-		model.put( MARK_THEMES_LIST, ThemeHome.getThemesList( ) );
-		model.put( MARK_THEME, ThemesService.getGlobalThemeObject( ) );
-		model.put( BASE_URL, AppPathService.getBaseUrl( request ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_THEMES, getLocale(  ), model );
 
-		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_THEMES, getLocale( ), model );
+        return getAdminPage( template.getHtml(  ) );
+    }
 
-		return getAdminPage( template.getHtml( ) );
-	}
+    /**
+     * Modify the global theme
+     *
+     * @param request The Http request
+     * @return the html code for display the manage themes page
+     */
+    public String doModifyGlobalTheme( HttpServletRequest request )
+    {
+        String strTheme = request.getParameter( PARAMETER_THEME );
+        ThemesService.setGlobalTheme( strTheme );
 
-	/**
-	 * Modify the global theme
-	 * 
-	 * @param request The Http request
-	 * @return the html code for display the manage themes page
-	 */
-	public String doModifyGlobalTheme( HttpServletRequest request )
-	{
-		String strTheme = request.getParameter( PARAMETER_THEME );
-		ThemesService.setGlobalTheme( strTheme );
+        return this.getHomeUrl( request );
+    }
 
-		return this.getHomeUrl( request );
-	}
+    /**
+     * Modify the User theme
+     *
+     * @param request The Http request
+     * @param response The Http response
+     * @return the html code for display the manage themes page
+     */
+    public String doModifyUserTheme( HttpServletRequest request, HttpServletResponse response )
+    {
+        String strTheme = request.getParameter( PARAMETER_THEME );
+        String strForwardUrl = request.getParameter( PARAMETER_URL );
+        ThemesService.setUserTheme( request, response, strTheme );
 
-	/**
-	 * Modify the User theme
-	 * 
-	 * @param request The Http request
-	 * @param response The Http response
-	 * @return the html code for display the manage themes page
-	 */
-	public String doModifyUserTheme( HttpServletRequest request, HttpServletResponse response )
-	{
-		String strTheme = request.getParameter( PARAMETER_THEME );
-		String strForwardUrl = request.getParameter( PARAMETER_URL );
-		ThemesService.setUserTheme( request, response, strTheme );
+        return strForwardUrl;
+    }
 
-		return strForwardUrl;
-	}
+    /**
+     *
+     * @param request
+     * @return
+     */
+    public String getCreateTheme( HttpServletRequest request )
+    {
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        model.put( BASE_URL, AppPathService.getBaseUrl( request ) );
 
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public String getCreateTheme( HttpServletRequest request )
-	{
-		HashMap<String, Object> model = new HashMap<String, Object>( );
-		model.put( BASE_URL, AppPathService.getBaseUrl( request ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_THEME, getLocale(  ), model );
 
-		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_THEME, getLocale( ), model );
+        return getAdminPage( template.getHtml(  ) );
+    }
 
-		return getAdminPage( template.getHtml( ) );
-	}
+    /**
+     *
+     * @param request
+     * @return
+     */
+    public String getModifyTheme( HttpServletRequest request )
+    {
+        Theme themeToModify = ThemeHome.findByPrimaryKey( request.getParameter( CODE_THEME ) );
 
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public String getModifyTheme( HttpServletRequest request )
-	{
-		Theme themeToModify = ThemeHome.findByPrimaryKey( request.getParameter( CODE_THEME ) );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        model.put( BASE_URL, AppPathService.getBaseUrl( request ) );
+        model.put( PARAMETER_THEME, themeToModify );
 
-		HashMap<String, Object> model = new HashMap<String, Object>( );
-		model.put( BASE_URL, AppPathService.getBaseUrl( request ) );
-		model.put( PARAMETER_THEME, themeToModify );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_THEME, getLocale(  ), model );
 
-		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_THEME, getLocale( ), model );
+        return getAdminPage( template.getHtml(  ) );
+    }
 
-		return getAdminPage( template.getHtml( ) );
-	}
+    /**
+     *
+     * @param request
+     * @return
+     */
+    public String doModifyTheme( HttpServletRequest request )
+    {
+        Theme theme = getThemeFromRequest( request );
 
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public String doModifyTheme( HttpServletRequest request )
-	{
-		Theme theme = getThemeFromRequest( request );
+        // Mandatory fields
+        if ( isMissingFields( request ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
 
-		// Mandatory fields
-		if( isMissingFields( request ) )
-		{
-			return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-		}
+        ThemeHome.update( theme );
 
-		ThemeHome.update( theme );
+        return this.getHomeUrl( request );
+    }
 
-		return this.getHomeUrl( request );
-	}
+    /**
+     *
+     * @param request
+     * @return
+     */
+    public String doCreateTheme( HttpServletRequest request )
+    {
+        Theme theme = getThemeFromRequest( request );
 
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public String doCreateTheme( HttpServletRequest request )
-	{
-		Theme theme = getThemeFromRequest( request );
+        // Mandatory fields
+        if ( isMissingFields( request ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
 
-		// Mandatory fields
-		if( isMissingFields( request ) )
-		{
-			return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-		}
+        ThemeHome.create( theme );
 
-		ThemeHome.create( theme );
-		return this.getHomeUrl( request );
-	}
+        return this.getHomeUrl( request );
+    }
 
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private Theme getThemeFromRequest( HttpServletRequest request )
-	{
-		Theme theme = new Theme( );
+    /**
+     *
+     * @param request
+     * @return
+     */
+    private Theme getThemeFromRequest( HttpServletRequest request )
+    {
+        Theme theme = new Theme(  );
 
-		theme.setCodeTheme( request.getParameter( CODE_THEME ) );
-		theme.setThemeDescription( request.getParameter( THEME_DESCRIPTION ) );
-		theme.setPathImages( request.getParameter( PATH_IMAGES ) );
-		theme.setPathCss( request.getParameter( PATH_CSS ) );
-		theme.setThemeAuthor( request.getParameter( THEME_AUTHOR ) );
-		theme.setThemeAuthorUrl( request.getParameter( THEME_AUTHOR_URL ) );
-		theme.setThemeVersion( request.getParameter( THEME_VERSION ) );
-		theme.setThemeLicence( request.getParameter( THEME_LICENCE ) );
+        theme.setCodeTheme( request.getParameter( CODE_THEME ) );
+        theme.setThemeDescription( request.getParameter( THEME_DESCRIPTION ) );
+        theme.setPathImages( request.getParameter( PATH_IMAGES ) );
+        theme.setPathCss( request.getParameter( PATH_CSS ) );
+        theme.setThemeAuthor( request.getParameter( THEME_AUTHOR ) );
+        theme.setThemeAuthorUrl( request.getParameter( THEME_AUTHOR_URL ) );
+        theme.setThemeVersion( request.getParameter( THEME_VERSION ) );
+        theme.setThemeLicence( request.getParameter( THEME_LICENCE ) );
 
-		return theme;
-	}
+        return theme;
+    }
 
-	/**
-	 * return true if 1 field is missing
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private boolean isMissingFields( HttpServletRequest request )
-	{
-		return request.getParameter( CODE_THEME ).equals( "" ) 
-			|| request.getParameter( THEME_DESCRIPTION ).equals( "" )
-			|| request.getParameter( PATH_IMAGES ).equals( "" )
-			|| request.getParameter( PATH_CSS ).equals( "" );
-	}
+    /**
+     * return true if 1 field is missing
+     *
+     * @param request
+     * @return
+     */
+    private boolean isMissingFields( HttpServletRequest request )
+    {
+        return request.getParameter( CODE_THEME ).equals( "" ) ||
+        request.getParameter( THEME_DESCRIPTION ).equals( "" ) || request.getParameter( PATH_IMAGES ).equals( "" ) ||
+        request.getParameter( PATH_CSS ).equals( "" );
+    }
 }

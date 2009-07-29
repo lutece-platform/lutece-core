@@ -63,7 +63,8 @@ public interface SearchIndexer
      * @throws InterruptedException If a thread error occured
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    List<Document> getDocuments( String strIdDocument ) throws IOException, InterruptedException, SiteMessageException;
+    List<Document> getDocuments( String strIdDocument )
+        throws IOException, InterruptedException, SiteMessageException;
 
     /**
      * Returns the indexer service name

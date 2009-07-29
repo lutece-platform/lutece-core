@@ -198,7 +198,7 @@ public final class AdminUserHome
     {
         return _dao.checkAccessCodeAlreadyInUse( strAccessCode );
     }
-    
+
     /**
      * Checks if a given email is already in use
      * @param strEmail The email

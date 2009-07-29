@@ -33,10 +33,11 @@
  */
 package fr.paris.lutece.portal.business.style;
 
-import java.util.Collection;
-
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
+
+import java.util.Collection;
+
 
 /**
  * This class provides instances management methods (create, find, ...) for Theme objects
@@ -44,10 +45,9 @@ import fr.paris.lutece.util.ReferenceList;
 public final class ThemeHome
 {
     // Static variable pointed at the DAO instance
+    private static IThemeDAO _dao = (IThemeDAO) SpringContextService.getBean( "coreThemeDAO" );
 
-    private static IThemeDAO _dao = ( IThemeDAO ) SpringContextService.getBean( "coreThemeDAO" );
-
-    private ThemeHome()
+    private ThemeHome(  )
     {
     }
 
@@ -103,9 +103,9 @@ public final class ThemeHome
      *
      * @return A collection of themes objects
      */
-    public static Collection<Theme> getThemesList()
+    public static Collection<Theme> getThemesList(  )
     {
-        return _dao.selectThemesList();
+        return _dao.selectThemesList(  );
     }
 
     /**
@@ -113,9 +113,9 @@ public final class ThemeHome
      *
      * @return a reference list
      */
-    public static ReferenceList getThemes()
+    public static ReferenceList getThemes(  )
     {
-        return _dao.getThemesList();
+        return _dao.getThemesList(  );
     }
 
     /**
@@ -127,6 +127,7 @@ public final class ThemeHome
     public static boolean isValidTheme( String strCodeTheme )
     {
         Theme theme = ThemeHome.findByPrimaryKey( strCodeTheme );
+
         if ( theme == null )
         {
             return false;
@@ -150,9 +151,8 @@ public final class ThemeHome
      * Returns the global theme
      * @return The Global Theme
      */
-    public static String getGlobalTheme()
+    public static String getGlobalTheme(  )
     {
-        return _dao.getGlobalTheme();
+        return _dao.getGlobalTheme(  );
     }
-
 }

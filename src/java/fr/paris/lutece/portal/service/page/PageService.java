@@ -89,6 +89,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     // Templates
     /** Access denied template */
     public static final String TEMPLATE_PAGE_ACCESS_DENIED = "/skin/site/page_access_denied.html";
+
     /** Access Controled template */
     public static final String TEMPLATE_PAGE_ACCESS_CONTROLED = "/skin/site/page_access_controled.html";
     private static final String TEMPLATE_ADMIN_BUTTONS = "/admin/admin_buttons.html";
@@ -99,7 +100,8 @@ public class PageService extends ContentService implements ImageResourceProvider
     private static final String MARK_STATUS_UNPUBLISHED = "portlet_status_unpublished";
     private static final String MARK_CUSTOM_ACTIONS = "custom_action_list";
     private static final String MARK_URL_LOGIN = "url_login";
-    
+    private static final String MARKER_TARGET = "target";
+
     // Parameters
     private static final String PARAMETER_SITE_PATH = "site-path";
     private static final String PARAMETER_PAGE_ID = "page-id";
@@ -110,14 +112,13 @@ public class PageService extends ContentService implements ImageResourceProvider
     // Properties
     private static final String PROPERTY_PAGE_SERVICE_CACHE = "service.pages.cache.enable";
     private static final String PROPERTY_MESSAGE_PAGE_ACCESS_DENIED = "portal.site.message.pageAccessDenied";
-
     private static final String CONTENT_SERVICE_NAME = "PageService";
     private static final String PROP_NB_COLUMN = "nb.columns";
-    private static final int MODE_ADMIN = 1;
     private static final String LOGGER_PORTLET_XML_CONTENT = "lutece.debug.portlet.xmlContent";
     private static final String IMAGE_RESOURCE_TYPE_ID = "page_thumbnail";
     private static final String KEY_THEME = "theme";
-    
+    private static final String TARGET_TOP = "target='_top'";
+    private static final int MODE_ADMIN = 1;
     private static PageService _singleton;
 
     // Specific for plugin-document
@@ -126,7 +127,6 @@ public class PageService extends ContentService implements ImageResourceProvider
     private static final String DOCUMENT_ACTION_URL = "jsp/admin/plugins/document/ManagePublishing.jsp";
     private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
     private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
-    
     private ArrayList<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
 
     /**
@@ -326,8 +326,8 @@ public class PageService extends ContentService implements ImageResourceProvider
         data.setName( page.getName(  ) );
         data.setPagePath( PortalService.getPagePathContent( nIdPage, nMode, request ) );
         data.setTheme( page.getCodeTheme(  ) );
-        data.setMetaKeywords( page.getMetaKeywords( ) );
-        data.setMetaDescription( page.getMetaDescription( ) );
+        data.setMetaKeywords( page.getMetaKeywords(  ) );
+        data.setMetaDescription( page.getMetaDescription(  ) );
 
         // Checks the page role (v1.1)
         String strRole = page.getRole(  );
@@ -424,7 +424,8 @@ public class PageService extends ContentService implements ImageResourceProvider
             }
 
             // Add selected locale
-            mapModifyParam.put( PARAMETER_USER_SELECTED_LOCALE, LocaleService.getUserSelectedLocale( request ).getLanguage(  ) );
+            mapModifyParam.put( PARAMETER_USER_SELECTED_LOCALE,
+                LocaleService.getUserSelectedLocale( request ).getLanguage(  ) );
         }
 
         //Added in v1.3
@@ -436,6 +437,7 @@ public class PageService extends ContentService implements ImageResourceProvider
         else
         {
             mapModifyParam.put( PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl(  ) );
+            mapModifyParam.put( MARKER_TARGET, TARGET_TOP );
         }
 
         // Add current page id

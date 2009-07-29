@@ -33,15 +33,6 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.FileItem;
-
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
@@ -74,6 +65,15 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.commons.fileupload.FileItem;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -110,7 +110,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_IMAGE_CONTENT = "image_content";
     private static final String PARAMETER_NODE_STATUS = "node_status";
     private static final String PARAMETER_BLOCK = "param_block";
-    
     private static final int BLOCK_SEARCH = 1;
     private static final int BLOCK_PROPERTY = 2;
     private static final int BLOCK_IMAGE = 3;
@@ -145,7 +144,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_INVALID_PAGE_ID = "portal.site.message.pageIdInvalid";
     private static final String MESSAGE_PAGE_ID_CHILDPAGE = "portal.site.message.pageIdChildPage";
     private static final String MESSAGE_SAME_PAGE_ID = "portal.site.message.pageSameId";
-
 
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
@@ -345,7 +343,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     //////////////////////////////////////////////////////////////////////////////////
     // Private implementation
 
-
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
@@ -365,50 +362,56 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         {
             nPageId = Integer.parseInt( strPageId );
             nPageIdInit = nPageId;
-            nParamBlock = strParamBlock != null ? Integer.parseInt( strParamBlock ) : 0;
+            nParamBlock = ( strParamBlock != null ) ? Integer.parseInt( strParamBlock ) : 0;
+
             boolean bPageExist = PageHome.checkPageExist( nPageId );
 
             if ( bPageExist )
             {
                 page = PageHome.getPage( nPageId );
-                model.put( MARK_PAGE_MESSAGE, "" );                
+                model.put( MARK_PAGE_MESSAGE, "" );
             }
             else
             {
                 nPageId = PortalService.getRootPageId(  );
                 page = PageHome.getPage( nPageId );
                 model.put( MARK_PAGE_MESSAGE,
-                    I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_INEXISTENT, getLocale(  ) ) );                
+                    I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_INEXISTENT, getLocale(  ) ) );
             }
         }
         catch ( NumberFormatException nfe )
         {
             nPageId = PortalService.getRootPageId(  );
             page = PageHome.getPage( nPageId );
-            model.put( MARK_PAGE_MESSAGE, I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_FORMAT, getLocale(  ) ) );            
-        }        
+            model.put( MARK_PAGE_MESSAGE, I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_FORMAT, getLocale(  ) ) );
+        }
 
         switch ( nParamBlock )
         {
             case BLOCK_SEARCH:
-                model.put( MARK_PAGE_BLOCK,  getAdminPageBlockSearch( nPageIdInit, model ) );
+                model.put( MARK_PAGE_BLOCK, getAdminPageBlockSearch( nPageIdInit, model ) );
+
                 break;
 
             case BLOCK_PROPERTY:
-            case BLOCK_CHILDPAGE :
-                model.put( MARK_PAGE_BLOCK , getAdminPageBlockProperty( page, nParamBlock, model ) );
+            case BLOCK_CHILDPAGE:
+                model.put( MARK_PAGE_BLOCK, getAdminPageBlockProperty( page, nParamBlock, model ) );
+
                 break;
 
             case BLOCK_IMAGE:
-                model.put( MARK_PAGE_BLOCK,  getAdminPageBlockImage( page, model ) );
+                model.put( MARK_PAGE_BLOCK, getAdminPageBlockImage( page, model ) );
+
                 break;
 
             case BLOCK_PORTLET:
-                model.put( MARK_PAGE_BLOCK,  getAdminPageBlockPortlet( page, model ) );
+                model.put( MARK_PAGE_BLOCK, getAdminPageBlockPortlet( page, model ) );
+
                 break;
 
             default:
-                model.put( MARK_PAGE_BLOCK,  "" );
+                model.put( MARK_PAGE_BLOCK, "" );
+
                 break;
         }
 
@@ -419,7 +422,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
-
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
@@ -429,10 +431,10 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private String getAdminPageBlockProperty( Page page, int nParamBlock, Map model )
     {
         model.put( MARK_PAGE, page );
-        model.put( MARK_PAGE_INIT_ID, page.getId() );
+        model.put( MARK_PAGE_INIT_ID, page.getId(  ) );
         model.put( MARK_PAGE_ORDER_LIST, getOrdersList(  ) );
         model.put( MARK_PAGE_ROLES_LIST, RoleHome.getRolesList(  ) );
-        model.put( MARK_PAGE_THEMES_LIST, ThemesService.getPageThemes( getLocale() ) );
+        model.put( MARK_PAGE_THEMES_LIST, ThemesService.getPageThemes( getLocale(  ) ) );
 
         int nIndexRow = 1;
         StringBuffer strPageTemplatesRow = new StringBuffer(  );
@@ -451,7 +453,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         int nManageAuthorization = 1;
 
         if ( PageService.getInstance(  )
-                            .isAuthorizedAdminPage( page.getId(), PageResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+                            .isAuthorizedAdminPage( page.getId(  ), PageResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
         {
             nManageAuthorization = 0;
         }
@@ -461,14 +463,14 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         String strTemplate = TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY;
 
-        if( nParamBlock == BLOCK_CHILDPAGE )
+        if ( nParamBlock == BLOCK_CHILDPAGE )
         {
             strTemplate = TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE;
         }
-        
+
         HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, getLocale(  ), model );
 
-        return template.getHtml();
+        return template.getHtml(  );
     }
 
     /**
@@ -480,9 +482,10 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private String getAdminPageBlockSearch( int nPageIdInit, Map model )
     {
         model.put( MARK_PAGE_INIT_ID, Integer.toString( nPageIdInit ) );
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_SEARCH, getLocale(  ), model );
 
-        return template.getHtml();
+        return template.getHtml(  );
     }
 
     /**
@@ -494,11 +497,11 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private String getAdminPageBlockImage( Page page, Map model )
     {
         model.put( MARK_PAGE, page );
-        model.put( MARK_IMAGE_URL, getResourceImagePage( page, Integer.toString( page.getId() ) ) );
+        model.put( MARK_IMAGE_URL, getResourceImagePage( page, Integer.toString( page.getId(  ) ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_IMAGE, getLocale(  ), model );
 
-        return template.getHtml();
+        return template.getHtml(  );
     }
 
     /**
@@ -514,10 +517,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_PORTLET, getLocale(  ), model );
 
-        return template.getHtml();
+        return template.getHtml(  );
     }
-
-
 
     /**
      * Provide page data
@@ -539,8 +540,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strRole = request.getParameter( Parameters.ROLE );
         String strWorkgroup = request.getParameter( Parameters.WORKGROUP_KEY );
         String strTheme = request.getParameter( Parameters.THEME );
-        String strMetaKeywords = request.getParameter( Parameters.META_KEYWORDS ).trim(); 
-        String strMetaDescription = request.getParameter( Parameters.META_DESCRIPTION ).trim();
+        String strMetaKeywords = request.getParameter( Parameters.META_KEYWORDS ).trim(  );
+        String strMetaDescription = request.getParameter( Parameters.META_DESCRIPTION ).trim(  );
 
         /* Added in v2.0 */
         String strNodeStatus = request.getParameter( PARAMETER_NODE_STATUS );
@@ -557,23 +558,27 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
+
         // Checks if the page name contains HTML special characters
         else if ( StringUtil.containsHtmlSpecialCharacters( strName ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_TITLE_INVALID_CHARACTERS, AdminMessage.TYPE_STOP );
         }
+
         // Checks if the page description contains HTML special characters
         else if ( StringUtil.containsHtmlSpecialCharacters( strDescription ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS,
                 AdminMessage.TYPE_STOP );
         }
+
         // Checks if the META name of the page contains HTML special characters
         else if ( StringUtil.containsHtmlSpecialCharacters( strMetaKeywords ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS,
                 AdminMessage.TYPE_STOP );
         }
+
         // Checks if the META description of the page description contains HTML special characters
         else if ( StringUtil.containsHtmlSpecialCharacters( strMetaDescription ) )
         {

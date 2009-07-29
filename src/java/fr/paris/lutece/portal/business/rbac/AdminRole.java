@@ -41,9 +41,8 @@ import java.io.Serializable;
  */
 public class AdminRole implements Serializable
 {
-
-	private static final long serialVersionUID = 6596841223502982731L;
-	private String _strKey;
+    private static final long serialVersionUID = 6596841223502982731L;
+    private String _strKey;
     private String _strDescription;
 
     /**

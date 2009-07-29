@@ -119,7 +119,7 @@ public class IndexerAction
      */
     public void setIdDocument( String strIdDocument )
     {
-    	_strIdDocument = strIdDocument;
+        _strIdDocument = strIdDocument;
     }
 
     /**
