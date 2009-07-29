@@ -51,6 +51,11 @@ public final class PasswordUtil
     private static final int CONSTANT_ASCII_CODE_A_LOWERCASE = 97;
     private static final int CONSTANT_ASCII_CODE_ZERO = 48;
 
+    /** Private Constructor */
+    private PasswordUtil()
+    {
+    }
+    
     /**
      * Generate a new random password
      * @return the new password
