@@ -1,11 +1,12 @@
-<div class="content-box">
-	<h2>#i18n{portal.style.manage_themes.title}</h2>
-</div>
 <div id="left">
 	<div class="content-box">
-		#i18n{portal.style.manage_themes.name} : ${theme_default.themeDescription}<br />
-		#i18n{portal.style.manage_themes.author} : ${theme_default.themeAuthor}<br />
+		<h2>#i18n{portal.style.manage_themes.previewLabel} : </h2>
+		<label>#i18n{portal.style.manage_themes.name}</label> : ${theme_default.themeDescription}<br />
+		<label>#i18n{portal.style.manage_themes.author}</label> : <a href="${theme_default.themeAuthorUrl}" target="_author_url">${theme_default.themeAuthor}</a><br />
+		<label>#i18n{portal.style.manage_themes.version}</label> : ${theme_default.themeVersion}<br />
+		<label>#i18n{portal.style.manage_themes.licence}</label> : ${theme_default.themeLicence}<br />
 		<br />
+		<label>#i18n{portal.style.manage_themes.preview}</label> : <br />
 		<img src="${theme_default.pathImages}preview.png" width="322px" />
 	</div>
 </div>
@@ -13,12 +14,17 @@
 <div class="content-box">
 	<form method="post" action="jsp/admin/style/DoModifyGlobalTheme.jsp">
 	<p>
-		<p>#i18n{portal.style.manage_themes.labelGlobalTheme} : </p>
+		<h2>#i18n{portal.style.manage_themes.labelGlobalTheme} : </h2>
 		<table>
 		<tbody>
+			<tr>
+				<th width="20%">#i18n{portal.style.manage_themes.globalTheme}</th>
+				<th>#i18n{portal.style.manage_themes.themeName}</th>
+				<th>#i18n{portal.style.manage_themes.actions}</th>
+			</tr>
 		<#list themes_list as theme>
 			<tr>
-			<td width="1%">
+			<td>
 				<input type="radio" name="theme" value="${theme.codeTheme}" <#if theme_default.codeTheme = theme.codeTheme >checked="checked"</#if> />
 			</td>
 			<td align="left">

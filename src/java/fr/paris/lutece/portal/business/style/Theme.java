@@ -35,99 +35,178 @@ package fr.paris.lutece.portal.business.style;
 
 import java.io.Serializable;
 
-
 /**
  * This class represents business objects Mode
  */
 public class Theme implements Serializable
 {
-    private static final long serialVersionUID = -1423380460541137444L;
-    private String _strCodeTheme;
-    private String _strThemeDescription;
-    private String _strPathImages;
-    private String _strPathCss;
-    private String _strThemeAuthor;
-    private String _strThemeAuthorUrl;
-    private String _strThemeVersion;
-    private String _strThemeLicence;
+	private static final long serialVersionUID = -1423380460541137444L;
+	private String _strCodeTheme;
+	private String _strThemeDescription;
+	private String _strPathImages;
+	private String _strPathCss;
+	private String _strThemeAuthor;
+	private String _strThemeAuthorUrl;
+	private String _strThemeVersion;
+	private String _strThemeLicence;
 
-    public String getCodeTheme(  )
-    {
-        return _strCodeTheme;
-    }
+	/**
+	 * Returns the _strCodeTheme
+	 * 
+	 * @return the _strCodeTheme
+	 */
+	public String getCodeTheme( )
+	{
+		return _strCodeTheme;
+	}
 
-    public void setCodeTheme( String codeTheme )
-    {
-        _strCodeTheme = codeTheme;
-    }
+	/**
+	 * Sets the _strCodeTheme
+	 * 
+	 * @param strCodeTheme the _strCodeTheme to set
+	 */
+	public void setCodeTheme( String strCodeTheme )
+	{
+		_strCodeTheme = strCodeTheme;
+	}
 
-    public String getThemeDescription(  )
-    {
-        return _strThemeDescription;
-    }
+	/**
+	 * Returns the _strThemeDescription
+	 * 
+	 * @return the _strThemeDescription
+	 */
+	public String getThemeDescription( )
+	{
+		return _strThemeDescription;
+	}
 
-    public void setThemeDescription( String themeDescription )
-    {
-        _strThemeDescription = themeDescription;
-    }
+	/**
+	 * Sets the _strThemeDescription
+	 * 
+	 * @param strThemeDescription the _strThemeDescription to set
+	 */
+	public void setThemeDescription( String strThemeDescription )
+	{
+		_strThemeDescription = strThemeDescription;
+	}
 
-    public String getPathImages(  )
-    {
-        return _strPathImages;
-    }
+	/**
+	 * Returns the _strPathImages
+	 * 
+	 * @return the _strPathImages
+	 */
+	public String getPathImages( )
+	{
+		return _strPathImages;
+	}
 
-    public void setPathImages( String pathImages )
-    {
-        _strPathImages = pathImages;
-    }
+	/**
+	 * Sets the _strPathImages
+	 * 
+	 * @param strPathImages the _strPathImages to set
+	 */
+	public void setPathImages( String strPathImages )
+	{
+		_strPathImages = strPathImages;
+	}
 
-    public String getPathCss(  )
-    {
-        return _strPathCss;
-    }
+	/**
+	 * Returns the _strPathCss
+	 * 
+	 * @return the _strPathCss
+	 */
+	public String getPathCss( )
+	{
+		return _strPathCss;
+	}
 
-    public void setPathCss( String pathCss )
-    {
-        _strPathCss = pathCss;
-    }
+	/**
+	 * Sets the _strPathCss
+	 * 
+	 * @param strPathCss the _strPathCss to set
+	 */
+	public void setPathCss( String strPathCss )
+	{
+		_strPathCss = strPathCss;
+	}
 
-    public String getThemeAuthor(  )
-    {
-        return _strThemeAuthor;
-    }
+	/**
+	 * Returns the _strThemeAuthor
+	 * 
+	 * @return the _strThemeAuthor
+	 */
+	public String getThemeAuthor( )
+	{
+		return _strThemeAuthor;
+	}
 
-    public void setThemeAuthor( String themeAuthor )
-    {
-        _strThemeAuthor = themeAuthor;
-    }
+	/**
+	 * Sets the _strThemeAuthor
+	 * 
+	 * @param strThemeAuthor the _strThemeAuthor to set
+	 */
+	public void setThemeAuthor( String strThemeAuthor )
+	{
+		_strThemeAuthor = strThemeAuthor;
+	}
 
-    public String getThemeAuthorUrl(  )
-    {
-        return _strThemeAuthorUrl;
-    }
+	/**
+	 * Returns the _strThemeAuthorUrl
+	 * 
+	 * @return the _strThemeAuthorUrl
+	 */
+	public String getThemeAuthorUrl( )
+	{
+		return _strThemeAuthorUrl;
+	}
 
-    public void setThemeAuthorUrl( String themeAuthorUrl )
-    {
-        _strThemeAuthorUrl = themeAuthorUrl;
-    }
+	/**
+	 * Sets the _strThemeAuthorUrl
+	 * 
+	 * @param strThemeAuthorUrl the _strThemeAuthorUrl to set
+	 */
+	public void setThemeAuthorUrl( String strThemeAuthorUrl )
+	{
+		_strThemeAuthorUrl = strThemeAuthorUrl;
+	}
 
-    public String getThemeVersion(  )
-    {
-        return _strThemeVersion;
-    }
+	/**
+	 * Returns the _strThemeVersion
+	 * 
+	 * @return the _strThemeVersion
+	 */
+	public String getThemeVersion( )
+	{
+		return _strThemeVersion;
+	}
 
-    public void setThemeVersion( String themeVersion )
-    {
-        _strThemeVersion = themeVersion;
-    }
+	/**
+	 * Sets the _strThemeVersion
+	 * 
+	 * @param strThemeVersion the _strThemeVersion to set
+	 */
+	public void setThemeVersion( String strThemeVersion )
+	{
+		_strThemeVersion = strThemeVersion;
+	}
 
-    public String getThemeLicence(  )
-    {
-        return _strThemeLicence;
-    }
+	/**
+	 * Returns the _strThemeLicence
+	 * 
+	 * @return the _strThemeLicence
+	 */
+	public String getThemeLicence( )
+	{
+		return _strThemeLicence;
+	}
 
-    public void setThemeLicence( String themeLicence )
-    {
-        _strThemeLicence = themeLicence;
-    }
+	/**
+	 * Sets the _strThemeLicence
+	 * 
+	 * @param strThemeLicence the _strThemeLicence to set
+	 */
+	public void setThemeLicence( String strThemeLicence )
+	{
+		_strThemeLicence = strThemeLicence;
+	}
 }

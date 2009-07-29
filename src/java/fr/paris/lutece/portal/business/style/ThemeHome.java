@@ -128,14 +128,11 @@ public final class ThemeHome
     {
         Theme theme = ThemeHome.findByPrimaryKey( strCodeTheme );
 
-        if ( theme == null )
-        {
-            return false;
-        }
-        else
+        if ( theme != null )
         {
             return true;
         }
+        return false;
     }
 
     /**

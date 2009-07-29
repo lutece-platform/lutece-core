@@ -59,10 +59,8 @@ public final class ThemeDAO implements IThemeDAO
     private static final String SQL_QUERY_SELECT_GLOBAL_THEME = " SELECT global_theme_code FROM core_theme_global ";
     private static final String SQL_QUERY_UPDATE_GLOBAL_THEME = " UPDATE core_theme_global SET global_theme_code = ? ";
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see fr.paris.lutece.portal.business.style.IThemeDAO#insert(Theme)
+    /**
+     * {@inheritDoc}
      */
     public synchronized void insert( Theme theme )
     {
@@ -81,10 +79,8 @@ public final class ThemeDAO implements IThemeDAO
         daoUtil.free(  );
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see fr.paris.lutece.portal.business.style.IThemeDAO#load(String)
+    /**
+     * {@inheritDoc}
      */
     public Theme load( String strCodeTheme )
     {
@@ -112,10 +108,8 @@ public final class ThemeDAO implements IThemeDAO
         return theme;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see fr.paris.lutece.portal.business.style.IThemeDAO#delete(String)
+    /**
+     * {@inheritDoc}
      */
     public void delete( String strCodeTheme )
     {
@@ -125,10 +119,8 @@ public final class ThemeDAO implements IThemeDAO
         daoUtil.free(  );
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see fr.paris.lutece.portal.business.style.IThemeDAO#store(fr.paris.lutece.portal.business.style.Theme)
+    /**
+     * {@inheritDoc}
      */
     public void store( Theme theme )
     {
@@ -147,10 +139,8 @@ public final class ThemeDAO implements IThemeDAO
         daoUtil.free(  );
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see fr.paris.lutece.portal.business.style.IThemeDAO#selectThemesList()
+    /**
+     * {@inheritDoc}
      */
     public Collection<Theme> selectThemesList(  )
     {
@@ -179,10 +169,8 @@ public final class ThemeDAO implements IThemeDAO
         return themeList;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see fr.paris.lutece.portal.business.style.IThemeDAO#getThemesList()
+    /**
+     * {@inheritDoc}
      */
     public ReferenceList getThemesList(  )
     {
