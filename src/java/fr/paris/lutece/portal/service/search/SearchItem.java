@@ -112,7 +112,7 @@ public class SearchItem
     /**
      * Sets the DocPortletId
      *
-     * @param strId The DocPortletId
+     * @param strDocPortletId The DocPortletId
      */
     public void setDocPortletId( String strDocPortletId )
     {
