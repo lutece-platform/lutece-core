@@ -43,7 +43,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
  */
 public class IndexerDaemon extends Daemon
 {
-    private static String PROPERTY_INDEXER_PARAM_TOTAL = "indexer.param.total";
+    private static final String PROPERTY_INDEXER_PARAM_TOTAL = "indexer.param.total";
 
     /**
      * Implementation of the run method of the Runnable interface.It processes
