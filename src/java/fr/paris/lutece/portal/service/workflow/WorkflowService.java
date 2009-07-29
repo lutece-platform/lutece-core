@@ -60,6 +60,9 @@ public class WorkflowService
     private boolean _bServiceAvailable = true;
     private IWorkflowService _service;
 
+    /**
+     * Private constructor
+     */
     private WorkflowService(  )
     {
         try
@@ -186,6 +189,7 @@ public class WorkflowService
      * @param strResourceType the resource type
      * @param request the request
      * @param nIdAction the action id
+     * @param locale the loacle
      * @return null if there is no error in the task form
      *                    else return the error message url
     
@@ -254,7 +258,7 @@ public class WorkflowService
     /**
      * returns all state of a  given workflow
      * @param user the adminUser
-     * @param nIdWorkflow the workflow id
+     * @param nListIdWorkflow the workflow id
      * @return the state of a given document
      */
     public Collection<State> getAllStateByWorkflow( int nListIdWorkflow, AdminUser user )
