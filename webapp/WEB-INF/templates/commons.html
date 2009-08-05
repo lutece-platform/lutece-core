@@ -18,10 +18,27 @@
 </#macro>
 
 
+<#macro comboWithParamsAndLength name default_value additionalParameters items max_length >
+	<select id="${name}" name="${name}" ${additionalParameters} >			
+		<#list items as item>
+    	    <#if max_length < item.name?length >
+            	<#assign item_new = "..." + "${item.name?substring(item.name?length-max_length+3)}" >
+            <#else>
+              	<#assign item_new = "${item.name}">
+            </#if>	
+			<#if default_value="${item.code}"> 			
+      			<option selected="selected" value="${item.code}" >${item_new}</option>    			    			
+      		<#else>
+      			<option value="${item.code}" >${item_new}</option>
+      		</#if>
+    	</#list>		
+	</select>
+</#macro>
+
+
 <#macro combo name default_value items >
 	<@comboWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
 </#macro>
-
 	
 	
 <#macro radioImageList name default_value items >
