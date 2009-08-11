@@ -1,53 +1,61 @@
 <div class="content-box" >       
     <h2>#i18n{portal.style.manage_styles.title}</h2>
     
-        <form method="post" action="jsp/admin/style/ManageStyles.jsp">
-            <@pagination paginator=paginator />
+    <form method="post" action="jsp/admin/style/ManageStyles.jsp">
+        <@pagination paginator=paginator />
 
-            <!-- Number of documents per page selector -->
-            #i18n{portal.style.manage_styles.labelItemsPerPage} :
-            <select name="items_per_page">
-                <#list [ "10" , "20" , "50" , "100" ] as nb>
-                <#if nb_items_per_page = nb >
-                <option selected="selected" value="${nb}">${nb}</option>
-                <#else>
-                <option value="${nb}">${nb}</option>
-                </#if>
-                </#list>
-            </select>                            
-            <input type="submit" class="button" value="#i18n{portal.style.manage_styles.buttonItemsPerPage}" />
-        </form>
-   
+        <!-- Number of documents per page selector -->
+        #i18n{portal.style.manage_styles.labelItemsPerPage} :
+        <select name="items_per_page">
+            <#list [ "10" , "20" , "50" , "100" ] as nb>
+             <#if nb_items_per_page = nb >
+             	<option selected="selected" value="${nb}">${nb}</option>
+             <#else>
+             	<option value="${nb}">${nb}</option>
+             </#if>
+            </#list>
+        </select>                            
+        <input type="submit" class="button" value="#i18n{portal.style.manage_styles.buttonItemsPerPage}" />
+    </form>
     	       
-        <table>
-            <tr>			
-                <th width="10%" >#i18n{portal.style.manage_styles.labelId}</th>
-                <th width="25%" >#i18n{portal.style.manage_styles.labelName}</th>
-                <th width="25%" >#i18n{portal.style.manage_styles.labelComponentType}</th>
-                <th width="25%" >#i18n{portal.style.manage_styles.labelPortletType}</th>
-                <th width="15%" >#i18n{portal.style.manage_styles.labelActions}</th>
-            </tr>
-				
-            <#list style_list as style >
-            <tr>
-                <td width="10%" >
-                    <a href="jsp/admin/style/ModifyStyle.jsp?style_id=${style.id}" class="bullet-link">${style.id}</a>
-                </td>
-                <td width="25%" >${style.description}</td>
-                <td width="25%" >${style.portalComponentName}</td>
-                <td width="25%" >#i18n{${style.portletTypeName}}</td>
-                <td width="15%" >
-                    <a href="jsp/admin/style/RemoveStyle.jsp?style_id=${style.id}">
-                        <img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.style.manage_styles.actionDelete}" title="#i18n{portal.style.manage_styles.actionDelete}" />
-                    </a>
-                </td>
-            </tr>
-            </#list>	
-        </table>
-		
-        <form method="post"  action="jsp/admin/style/CreateStyle.jsp">
-            <p><input type="submit" value="#i18n{portal.style.manage_styles.buttonCreate}" class="button" /></p>
-        </form>
+    <table>
+        <tr>			
+            <th width="15%" >
+            	#i18n{portal.style.manage_styles.labelId}
+            	<@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="id" />
+            </th>
+            <th width="25%" >
+            	#i18n{portal.style.manage_styles.labelName}
+            	<@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="description" />
+            </th>
+            <th width="25%" >
+            	#i18n{portal.style.manage_styles.labelComponentType}
+            	<@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="portalComponentName" />
+            </th>
+            <th width="25%" >
+            	#i18n{portal.style.manage_styles.labelPortletType}
+            	<@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="portletTypeName" />
+            </th>
+            <th width="10%" >#i18n{portal.style.manage_styles.labelActions}</th>
+        </tr>				
+        <#list style_list as style >
+         <tr>
+             <td width="10%" >
+                 <a href="jsp/admin/style/ModifyStyle.jsp?style_id=${style.id}" class="bullet-link">${style.id}</a>
+             </td>
+             <td width="25%" >${style.description}</td>
+             <td width="25%" >${style.portalComponentName}</td>
+             <td width="25%" >#i18n{${style.portletTypeName}}</td>
+             <td width="15%" >
+                 <a href="jsp/admin/style/RemoveStyle.jsp?style_id=${style.id}">
+                     <img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.style.manage_styles.actionDelete}" title="#i18n{portal.style.manage_styles.actionDelete}" />
+                 </a>
+             </td>
+         </tr>
+        </#list>	
+    </table>
 
+    <form method="post"  action="jsp/admin/style/CreateStyle.jsp">
+        <p><input type="submit" value="#i18n{portal.style.manage_styles.buttonCreate}" class="button" /></p>
+    </form>
 </div>
-

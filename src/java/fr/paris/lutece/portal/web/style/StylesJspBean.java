@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.style;
 
 import fr.paris.lutece.portal.business.portlet.PortletHome;
+import fr.paris.lutece.portal.business.portlet.PortletImpl;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.style.Style;
 import fr.paris.lutece.portal.business.style.StyleHome;
@@ -47,9 +48,11 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
+import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,13 +114,35 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
      */
     public String getStylesManagement( HttpServletRequest request )
     {
+        List<Style> listStyles = (List<Style>) StyleHome.getStylesList(  );
+        
+        String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
+        String strAscSort = null;
+        if ( strSortedAttributeName != null )
+        {
+        	strAscSort = request.getParameter( Parameters.SORTED_ASC );
+        	boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
+        
+        	Collections.sort( listStyles, new AttributeComparator( strSortedAttributeName, bIsAscSort ) ) ;
+        }
+
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLES_PER_PAGE, 10 );
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
-
-        List<Style> listStyles = (List<Style>) StyleHome.getStylesList(  );
-        Paginator paginator = new Paginator( listStyles, _nItemsPerPage, getHomeUrl( request ),
+        
+        String strURL = getHomeUrl( request );
+        if ( strSortedAttributeName != null )
+        {
+        	strURL += "?" + Parameters.SORTED_ATTRIBUTE_NAME + "=" + strSortedAttributeName;  
+        }
+        
+        if ( strAscSort != null )
+        {
+        	strURL += "&" + Parameters.SORTED_ASC + "=" + strAscSort;
+        }
+        
+        Paginator paginator = new Paginator( listStyles, _nItemsPerPage, strURL,
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -276,7 +301,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     {
         String strId = request.getParameter( Parameters.STYLE_ID );
         int nId = Integer.parseInt( strId );
-        Collection listPortlets = PortletHome.getPortletListByStyle( nId );
+        Collection<PortletImpl> listPortlets = PortletHome.getPortletListByStyle( nId );
         Collection<StyleSheet> listStyleSheets = StyleHome.getStyleSheetList( nId );
 
         if ( listPortlets.size(  ) > 0 )
