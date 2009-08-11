@@ -17,10 +17,22 @@
     </form>  
     <table>        
         <tr>            
-            <th>#i18n{portal.users.manage_users.columnTitleLastName}</th>
-            <th>#i18n{portal.users.manage_users.columnTitleFirstName}</th>
-            <th>#i18n{portal.users.manage_users.columnTitleAccessCode}</th>            
-            <th>#i18n{portal.users.manage_users.columnTitleEmail}</th>
+            <th>
+            	#i18n{portal.users.manage_users.columnTitleLastName}
+            	<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="lastName" />
+            </th>
+            <th>
+            	#i18n{portal.users.manage_users.columnTitleFirstName}
+            	<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="firstName" />
+            </th>
+            <th>
+            	#i18n{portal.users.manage_users.columnTitleAccessCode}
+            	<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="accessCode" />
+             </th>            
+            <th>
+            	#i18n{portal.users.manage_users.columnTitleEmail}
+            	<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="email" />
+            </th>
             <th>#i18n{portal.users.manage_users.columnTitleStatus}</th>		
             <th>#i18n{portal.users.manage_users.columnTitleAction}</th>
         </tr>
