@@ -52,6 +52,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,7 +76,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_WORKGROUPS_LIST = "workgroups_list";
     private static final String MARK_WORKGROUP = "workgroup";
     private static final String MARK_USERS_LIST = "users_list";
-    private static final String MARK_NEW_USERS_LIST = "new_users_list";
+    private static final String MARK_ASSIGNED_USERS_LIST = "assigned_users_list";
+    private static final String MARK_ASSIGNED_USERS_NUMBER = "assigned_users_number";
 
     // Properties
     private static final String PROPERTY_CREATE_WORKGROUP_PAGETITLE = "portal.workgroup.create_workgroup.pageTitle";
@@ -86,10 +88,13 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     // Parameters
     private static final String PARAMETER_WORKGROUP_KEY = "workgroup_key";
     private static final String PARAMETER_WORKGROUP_DESCRIPTION = "workgroup_description";
-    private static final String PARAMETER_USERS_LIST_IDS = "list_users_ids2";
+    private static final String PARAMETER_USERS_LIST = "list_users";
+    private static final String PARAMETER_CANCEL = "cancel";
+    private static final String PARAMETER_ID_USER = "id_user";
 
     // JSP
     private static final String JSP_MANAGE_WORKGROUPS = "ManageWorkgroups.jsp";
+    private static final String JSP_ASSIGN_USERS_TO_WORKGROUPS = "AssignUsersWorkgroup.jsp";
     private static final String JSP_URL_REMOVE_WORKGROUP = "jsp/admin/workgroup/DoRemoveWorkgroup.jsp";
 
     // Messages
@@ -132,12 +137,9 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      */
     public String getCreateWorkgroup( HttpServletRequest request )
     {
-        HashMap model = new HashMap(  );
         setPageTitleProperty( PROPERTY_CREATE_WORKGROUP_PAGETITLE );
 
-        HtmlTemplate template;
-
-        template = AppTemplateService.getTemplate( TEMPLATE_CREATE_WORKGROUP, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_WORKGROUP, getLocale(  ) );
 
         return getAdminPage( template.getHtml(  ) );
     }
@@ -289,15 +291,13 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
 
         AdminWorkgroup adminWorkgroup = AdminWorkgroupHome.findByPrimaryKey( strWorkgroupKey );
-        ReferenceList listAssignedUsers = new ReferenceList(  );
-
+        List<AdminUser> listAssignedUsers = new ArrayList<AdminUser>();
         for ( AdminUser user : AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey ) )
         {
             //Add users with higher level then connected user or add all users if connected user is administrator
             if ( ( user.getUserLevel(  ) > getUser(  ).getUserLevel(  ) ) || ( getUser(  ).isAdmin(  ) ) )
             {
-                listAssignedUsers.addItem( Integer.toString( user.getUserId(  ) ),
-                    user.getAccessCode(  ) + "(" + user.getFirstName(  ) + " " + user.getLastName(  ) + ")" );
+            	listAssignedUsers.add( user ); 
             }
         }
 
@@ -311,10 +311,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             itemUser.setCode( Integer.toString( user.getUserId(  ) ) );
             itemUser.setName( user.getAccessCode(  ) + "(" + user.getFirstName(  ) + " " + user.getLastName(  ) + ")" );
             bAssigned = Boolean.FALSE;
-
-            for ( ReferenceItem itemAssignedUser : listAssignedUsers )
+           
+            for ( AdminUser assignedUser : listAssignedUsers )
             {
-                if ( itemAssignedUser.getCode(  ).equals( itemUser.getCode(  ) ) )
+                if ( Integer.toString( assignedUser.getUserId() ).equals( itemUser.getCode(  ) ) )
                 {
                     bAssigned = Boolean.TRUE;
                 }
@@ -330,8 +330,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_WORKGROUP, adminWorkgroup );
         model.put( MARK_USERS_LIST, listUsers );
-        model.put( MARK_NEW_USERS_LIST, listAssignedUsers );
-
+        model.put( MARK_ASSIGNED_USERS_LIST, listAssignedUsers );
+        model.put( MARK_ASSIGNED_USERS_NUMBER, listAssignedUsers.size() );
+        
+        
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale(  ), model );
 
         return getAdminPage( template.getHtml(  ) );
@@ -345,36 +347,63 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      */
     public String doAssignUsers( HttpServletRequest request )
     {
-        String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
+    	String strReturn;
 
-        //retrieve the selected portlets ids
-        String[] arrayUsersIds = request.getParameterValues( PARAMETER_USERS_LIST_IDS );
-        Collection<AdminUser> listAdminUsers = AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey );
-        AdminWorkgroupHome.removeAllUsersForWorkgroup( strWorkgroupKey );
-
-        if ( ( arrayUsersIds != null ) )
-        {
-            for ( int i = 0; i < arrayUsersIds.length; i++ )
-            {
-                int nUserId = Integer.parseInt( arrayUsersIds[i] );
-                AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
-
-                if ( !AdminWorkgroupHome.isUserInWorkgroup( user, strWorkgroupKey ) )
-                {
-                    AdminWorkgroupHome.addUserForWorkgroup( user, strWorkgroupKey );
-                }
-            }
-        }
-
-        // Add user with high or equal level  or  do not add users if connected user is administrator
-        for ( AdminUser user : listAdminUsers )
-        {
-            if ( ( user.getUserLevel(  ) <= getUser(  ).getUserLevel(  ) ) && ( !getUser(  ).isAdmin(  ) ) )
-            {
-                AdminWorkgroupHome.addUserForWorkgroup( user, strWorkgroupKey );
-            }
-        }
-
-        return JSP_MANAGE_WORKGROUPS;
+    	String strActionCancel = request.getParameter( PARAMETER_CANCEL );
+    	if ( strActionCancel != null )
+    	{
+    		strReturn = JSP_MANAGE_WORKGROUPS;
+    	}
+    	else
+    	{
+	        String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
+	        Collection<AdminUser> listAdminUsers = AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey );
+	        
+	        //retrieve the selected portlets ids
+	        String[] arrayUsersIds = request.getParameterValues( PARAMETER_USERS_LIST );	
+	        if ( ( arrayUsersIds != null ) )
+	        {
+	            for ( int i = 0; i < arrayUsersIds.length; i++ )
+	            {
+	                int nUserId = Integer.parseInt( arrayUsersIds[i] );
+	                AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
+	
+	                if ( !AdminWorkgroupHome.isUserInWorkgroup( user, strWorkgroupKey ) )
+	                {
+	                    AdminWorkgroupHome.addUserForWorkgroup( user, strWorkgroupKey );
+	                }
+	            }
+	        }
+	
+	        // Add user with high or equal level  or  do not add users if connected user is administrator
+	        for ( AdminUser user : listAdminUsers )
+	        {
+	            if ( ( user.getUserLevel(  ) <= getUser(  ).getUserLevel(  ) ) && ( !getUser(  ).isAdmin(  ) ) )
+	            {
+	                AdminWorkgroupHome.addUserForWorkgroup( user, strWorkgroupKey );
+	            }
+	        }
+	        strReturn = JSP_ASSIGN_USERS_TO_WORKGROUPS + "?" + PARAMETER_WORKGROUP_KEY + "=" + strWorkgroupKey;
+    	}
+        return strReturn;
     }
+    
+    /**
+     * unassigns user from workgroup
+     * @param request The HttpRequest
+     * @return the HTML code of list assignations
+     */
+    public String doUnAssignUser( HttpServletRequest request )
+    {
+    	String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
+        int nIdUser= Integer.parseInt( request.getParameter( PARAMETER_ID_USER ) );
+
+        AdminUser adminUser = AdminUserHome.findByPrimaryKey( nIdUser );
+        if ( adminUser != null )
+        {
+        	AdminWorkgroupHome.removeUserFromWorkgroup(adminUser, strWorkgroupKey);
+        }
+        
+        return JSP_ASSIGN_USERS_TO_WORKGROUPS + "?" + PARAMETER_WORKGROUP_KEY + "=" + strWorkgroupKey;
+   }
 }
