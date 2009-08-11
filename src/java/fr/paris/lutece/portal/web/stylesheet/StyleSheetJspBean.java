@@ -57,6 +57,7 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
+import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.fileupload.FileItem;
@@ -69,6 +70,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,13 +140,35 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strComboItem = I18nService.getLocalizedString( LABEL_ALL, getLocale(  ) );
         listModes.addItem( -1, strComboItem );
 
+        List<StyleSheet> listStyleSheets = (List<StyleSheet>) StyleSheetHome.getStyleSheetList( nModeId );
+        
+        String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
+        String strAscSort = null;
+        if ( strSortedAttributeName != null )
+        {
+        	strAscSort = request.getParameter( Parameters.SORTED_ASC );
+        	boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
+        
+        	Collections.sort( listStyleSheets, new AttributeComparator( strSortedAttributeName, bIsAscSort ) ) ;
+        }
+        
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLESHEETS_PER_PAGE, 50 );
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
-
-        List<StyleSheet> listStyleSheets = (List<StyleSheet>) StyleSheetHome.getStyleSheetList( nModeId );
-        Paginator paginator = new Paginator( listStyleSheets, _nItemsPerPage, getHomeUrl( request ),
+        
+        String strURL = getHomeUrl( request );
+        if ( strSortedAttributeName != null )
+        {
+        	strURL += "?" + Parameters.SORTED_ATTRIBUTE_NAME + "=" + strSortedAttributeName;  
+        }
+        
+        if ( strAscSort != null )
+        {
+        	strURL += "&" + Parameters.SORTED_ASC + "=" + strAscSort;
+        }
+        
+        Paginator paginator = new Paginator( listStyleSheets, _nItemsPerPage, strURL,
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
         Map<String, Object> model = new HashMap<String, Object>(  );

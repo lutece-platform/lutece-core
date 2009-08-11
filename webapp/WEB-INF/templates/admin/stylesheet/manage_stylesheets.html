@@ -11,38 +11,43 @@
         </form>
     </div>
     <form method="post" action="jsp/admin/style/ManageStyleSheets.jsp">
-            <@pagination paginator=paginator />
-
-            <!-- Number of stylesheets per page selector -->
-            #i18n{portal.style.manage_stylesheets.labelItemsPerPage} :
-            <select name="items_per_page">
-                <#list [ "10" , "20" , "50" , "100" ] as nb>
-                <#if nb_items_per_page = nb >
-                <option selected="selected" value="${nb}">${nb}</option>
-                <#else>
-                <option value="${nb}">${nb}</option>
-                </#if>
-                </#list>
-            </select>                            
-            <input type="submit" class="button" value="#i18n{portal.style.manage_stylesheets.buttonItemsPerPage}" />
-        </form>        
+	    <@pagination paginator=paginator />
+	
+	    <!-- Number of stylesheets per page selector -->
+	    #i18n{portal.style.manage_stylesheets.labelItemsPerPage} :
+	    <select name="items_per_page">
+	        <#list [ "10" , "20" , "50" , "100" ] as nb>
+	         <#if nb_items_per_page = nb >
+	         	<option selected="selected" value="${nb}">${nb}</option>
+	         <#else>
+	         	<option value="${nb}">${nb}</option>
+	         </#if>
+	        </#list>
+	    </select>                            
+	    <input type="submit" class="button" value="#i18n{portal.style.manage_stylesheets.buttonItemsPerPage}" />
+	</form>        
     
-        <table>
-            <tr>
-                <th width="40%" >#i18n{portal.style.manage_stylesheets.columnName}</th>
-                <th width="60%" >#i18n{portal.style.manage_stylesheets.columnFilename}</th>
-            </tr>
-            
-            <#list stylesheet_list as stylesheet >
-            <tr>
-                <td width="40%">
-                    <a href="jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}" class="bullet-link">${stylesheet.description}</a>
-                </td>
-                <td width="60%">${stylesheet.file}</td>
-            </tr>
-            </#list>
-            
-        </table>
+    <table>
+        <tr>
+            <th width="40%" >
+            	#i18n{portal.style.manage_stylesheets.columnName}
+            	<@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="description" />
+            </th>
+            <th width="60%" >
+            	#i18n{portal.style.manage_stylesheets.columnFilename}
+            	<@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="file" />
+            </th>
+        </tr>            
+        <#list stylesheet_list as stylesheet >
+        <tr>
+            <td width="40%">
+                <a href="jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}" class="bullet-link">${stylesheet.description}</a>
+            </td>
+            <td width="60%">${stylesheet.file}</td>
+        </tr>
+        </#list>
+        
+    </table>
   
     <form method="post"  action="jsp/admin/style/CreateStyleSheet.jsp" >
         <p>
