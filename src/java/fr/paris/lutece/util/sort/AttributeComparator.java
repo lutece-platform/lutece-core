@@ -92,8 +92,9 @@ public class AttributeComparator implements Comparator<Object>
     private Method getMethod (Object obj)
     {
       Method method = null;
-      String strMethodName = "get" + _strSortedAttribute.replace(
-    		  _strSortedAttribute.substring( 0, 1 ), _strSortedAttribute.substring( 0, 1 ).toUpperCase( ) );
+      String strFirstLetter = _strSortedAttribute.substring( 0, 1 ).toUpperCase();
+      
+      String strMethodName = "get" + strFirstLetter + _strSortedAttribute.substring( 1, _strSortedAttribute.length() );
 
      try 
      {
