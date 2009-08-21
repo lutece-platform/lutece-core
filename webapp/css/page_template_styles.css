@@ -34,7 +34,7 @@ body {
 }
 /***************************************************/
 #page {
-	background-color: #DBDBDB;
+	background-color: #ededed;
 	padding-top: 1.4em;
 }
 
@@ -72,6 +72,38 @@ body {
 	background-repeat: repeat-x;
 	background-color: #fdfdff;
 	padding:1em;
+}
+
+/***************************************************/
+/* For Lutece V3 */
+
+.portlet-V3 {
+	padding:0; 
+	background-color:#ededed; 
+	border-left:1px solid #ced0d0; 
+	border-top:1px solid #ced0d0; 
+	border-right:1px solid #ced0d0;
+}
+.portlet-element-V3 {
+	border-top:1px solid #fff; 
+	border-left:1px solid #fff; 
+	border-bottom:1px solid #ced0d0; 
+	padding:10px;
+}
+
+.-lutece-title-3 {
+	font:1.1em Georgia;
+	padding-bottom: 10px;
+	font-weight: bold;
+}
+a.-lutece-list {
+	text-decoration: none;
+}
+a.-lutece-list:hover { 
+	text-decoration: underline;
+}
+hr {
+	border-top:1px solid #ced0d0;
 }
 /***************************************************/
 #footer1 {
@@ -132,4 +164,7 @@ a.last-level {
 .-lutece-input {
 	border:1px solid #81ADD7;
 	color:#5693C0;
+}
+em {
+	background-color: #F3ECDC;
 }
