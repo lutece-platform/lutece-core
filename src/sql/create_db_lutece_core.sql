@@ -228,6 +228,7 @@ CREATE TABLE core_page (
 );
 
 CREATE INDEX index_page ON core_page (id_template,id_parent);
+CREATE INDEX index_childpage ON core_page (id_parent,page_order);
 
 --
 -- Table structure for table core_page_template

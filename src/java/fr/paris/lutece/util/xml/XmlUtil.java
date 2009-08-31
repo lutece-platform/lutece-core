@@ -65,12 +65,6 @@ public final class XmlUtil
     private static final String TAG_ASSIGNMENT = "=";
     private static final String TAG_ENCLOSED = "\"";
 
-    /**
-     * Constructor with no parameter
-     */
-    private XmlUtil(  )
-    {
-    }
 
     /**
      * Gets the header of an XML file
@@ -85,7 +79,8 @@ public final class XmlUtil
 
     /**
      * This method performs XSL Transformation.
-     *
+     * <br />
+     * <b>Deprecated use XmlTransformer.transform</b>
      * @param source The input XML document
      * @param stylesheet The XSL stylesheet
      * @param params parameters to apply to the XSL Stylesheet
@@ -93,8 +88,9 @@ public final class XmlUtil
      * @return The output document transformed
      * @throws Exception The exception
      */
-    public static String transform( Source source, Source stylesheet, Map<String, String> params,
-        Properties outputProperties ) throws Exception
+    @Deprecated
+    public String transform( Source source, Source stylesheet, Map<String, String> params, Properties outputProperties )
+        throws Exception
     {
         try
         {
@@ -110,7 +106,7 @@ public final class XmlUtil
             {
                 transformer.clearParameters(  );
 
-                Iterator i = params.keySet(  ).iterator(  );
+                Iterator<?> i = params.keySet(  ).iterator(  );
 
                 while ( i.hasNext(  ) )
                 {
@@ -183,14 +179,14 @@ public final class XmlUtil
      * @param strTag The tag name of the element to add
      * @param attrList The attributes list
      */
-    public static void addEmptyElement( StringBuffer strXmlBuffer, String strTag, Map attrList )
+    public static void addEmptyElement( StringBuffer strXmlBuffer, String strTag, Map<?, ?> attrList )
     {
         strXmlBuffer.append( TAG_BEGIN );
         strXmlBuffer.append( strTag );
 
         if ( attrList != null )
         {
-            Iterator iterator = attrList.keySet(  ).iterator(  );
+            Iterator<?> iterator = attrList.keySet(  ).iterator(  );
 
             while ( iterator.hasNext(  ) )
             {
@@ -251,14 +247,14 @@ public final class XmlUtil
      * @param strTag The tag name of the element to add
      * @param attrList The attributes list
      */
-    public static void beginElement( StringBuffer strXmlBuffer, String strTag, Map attrList )
+    public static void beginElement( StringBuffer strXmlBuffer, String strTag, Map<?, ?> attrList )
     {
         strXmlBuffer.append( TAG_BEGIN );
         strXmlBuffer.append( strTag );
 
         if ( attrList != null )
         {
-            Iterator iterator = attrList.keySet(  ).iterator(  );
+            Iterator<?> iterator = attrList.keySet(  ).iterator(  );
 
             while ( iterator.hasNext(  ) )
             {

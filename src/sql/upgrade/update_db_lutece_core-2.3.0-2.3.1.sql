@@ -1,0 +1,1 @@
+CREATE INDEX index_childpage ON core_page (id_parent,page_order);
