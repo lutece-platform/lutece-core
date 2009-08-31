@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.includes.PageInclude;
@@ -172,20 +173,19 @@ public class TreeMenuInclude implements PageInclude
 
         XmlUtil.endElement( strXml, XmlContent.TAG_MENU_LIST );
 
-        byte[] baXslSource;
+        StyleSheet xslSource;
 
         // Selection of the XSL stylesheet
         switch ( nMode )
         {
             case PortalMenuService.MODE_NORMAL:
             case PortalMenuService.MODE_ADMIN:
-                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_TREE, PortalMenuService.MODE_NORMAL )
-                                                 .getSource(  );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_TREE, PortalMenuService.MODE_NORMAL );
 
                 break;
 
             default:
-                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_TREE, nMode ).getSource(  );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_TREE, nMode );
 
                 break;
         }
@@ -197,7 +197,9 @@ public class TreeMenuInclude implements PageInclude
         Map<String, String> mapParamRequest = new HashMap<String, String>(  );
         PortalService.setXslPortalPath( mapParamRequest, nMode );
 
-        return XmlTransformerService.transformBySource( strXml.toString(  ), baXslSource, mapParamRequest,
+        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+
+        return xmlTransformerService.transformBySourceWithXslCache( strXml.toString(  ), xslSource, mapParamRequest,
             outputProperties );
     }
 
