@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
@@ -100,7 +101,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
         String strCurrentPageId = request.getParameter( PARAMETER_PAGE_ID );
         findPages( request, strArborescenceXml, PortalService.getRootPageId(  ), nLevel, strCurrentPageId, strCssId );
 
-        byte[] baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_SITE_MAP_ID, MODE_ADMIN ).getSource(  );
+        StyleSheet xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_SITE_MAP_ID, MODE_ADMIN );
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
@@ -110,9 +111,11 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
         Properties outputProperties = ModeHome.getOuputXslProperties( MODE_ADMIN );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARKER_MAP_SITE,
-            XmlTransformerService.transformBySource( strArborescenceXml.toString(  ), baXslSource, mapParamRequest,
-                outputProperties ) );
+        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+        String map = xmlTransformerService.transformBySourceWithXslCache( strArborescenceXml.toString(  ), xslSource,
+                mapParamRequest, outputProperties );
+
+        model.put( MARKER_MAP_SITE, map );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MAP_SITE, getLocale(  ), model );
 
