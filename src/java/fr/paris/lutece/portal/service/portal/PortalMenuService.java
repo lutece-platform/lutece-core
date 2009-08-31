@@ -38,10 +38,12 @@ import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.util.UniqueIDGenerator;
 import fr.paris.lutece.util.xml.XmlUtil;
 
 import java.util.Collection;
@@ -221,19 +223,19 @@ public final class PortalMenuService implements CacheableService
 
         // Added in v1.3
         // Use the same stylesheet for normal or admin mode
-        byte[] baXslSource;
+        StyleSheet xslSource;
 
         // Selection of the XSL stylesheet
         switch ( nMode )
         {
             case MODE_NORMAL:
             case MODE_ADMIN:
-                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MAIN_MENU_ID, MODE_NORMAL ).getSource(  );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MAIN_MENU_ID, MODE_NORMAL );
 
                 break;
 
             default:
-                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MAIN_MENU_ID, nMode ).getSource(  );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MAIN_MENU_ID, nMode );
 
                 break;
         }
@@ -244,12 +246,12 @@ public final class PortalMenuService implements CacheableService
             {
                 case MODE_NORMAL:
                 case MODE_ADMIN:
-                    baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_INIT_ID, MODE_NORMAL ).getSource(  );
+                    xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_INIT_ID, MODE_NORMAL );
 
                     break;
 
                 default:
-                    baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_INIT_ID, nMode ).getSource(  );
+                    xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_INIT_ID, nMode );
 
                     break;
             }
@@ -262,7 +264,9 @@ public final class PortalMenuService implements CacheableService
         Map<String, String> mapParamRequest = new HashMap<String, String>(  );
         PortalService.setXslPortalPath( mapParamRequest, nMode );
 
-        return XmlTransformerService.transformBySource( strXml.toString(  ), baXslSource, mapParamRequest,
+        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+
+        return xmlTransformerService.transformBySourceWithXslCache( strXml.toString(  ), xslSource, mapParamRequest,
             outputProperties );
     }
 

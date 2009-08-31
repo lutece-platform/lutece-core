@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
@@ -340,18 +341,18 @@ public final class PortalService
         // Selection of the XSL stylesheet
         // Added in v1.3
         // Use the same stylesheet for normal or admin mode
-        byte[] baXslSource;
+        StyleSheet xslSource;
 
         switch ( nMode )
         {
             case MODE_NORMAL:
             case MODE_ADMIN:
-                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL ).getSource(  );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL );
 
                 break;
 
             default:
-                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode ).getSource(  );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode );
 
                 break;
         }
@@ -365,7 +366,9 @@ public final class PortalService
         Map<String, String> mapParamRequest = new HashMap<String, String>(  );
         setXslPortalPath( mapParamRequest, nMode );
 
-        String strPath = XmlTransformerService.transformBySource( strXml, baXslSource, mapParamRequest, outputProperties );
+        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapParamRequest,
+                outputProperties );
 
         return formatPath( strPath, nMode, request );
     }
@@ -381,19 +384,19 @@ public final class PortalService
     public static String getXPagePathContent( String strXPageName, int nMode, HttpServletRequest request )
     {
         // Added in v1.3
-        byte[] baXslSource;
+        StyleSheet xslSource;
 
         // Selection of the XSL stylesheet
         switch ( nMode )
         {
             case MODE_NORMAL:
             case MODE_ADMIN:
-                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL ).getSource(  );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL );
 
                 break;
 
             default:
-                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode ).getSource(  );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode );
 
                 break;
         }
@@ -407,7 +410,9 @@ public final class PortalService
         Map<String, String> mapXslParams = new HashMap<String, String>(  );
         setXslPortalPath( mapXslParams, nMode );
 
-        String strPath = XmlTransformerService.transformBySource( strXml, baXslSource, mapXslParams, outputProperties );
+        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams,
+                outputProperties );
 
         return formatPath( strPath, nMode, request );
     }
@@ -527,19 +532,19 @@ public final class PortalService
         HttpServletRequest request )
     {
         // Selection of the XSL stylesheet
-        byte[] baXslSource;
+        StyleSheet xslSource;
 
         // Selection of the XSL stylesheet
         switch ( nMode )
         {
             case MODE_NORMAL:
             case MODE_ADMIN:
-                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL ).getSource(  );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL );
 
                 break;
 
             default:
-                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode ).getSource(  );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode );
 
                 break;
         }
@@ -551,7 +556,8 @@ public final class PortalService
         Map<String, String> mapXslParams = new HashMap<String, String>(  );
         setXslPortalPath( mapXslParams, nMode );
 
-        String strPath = XmlTransformerService.transformBySource( strXml, baXslSource, mapXslParams );
+        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams );
 
         return formatPath( strPath, nMode, request );
     }
