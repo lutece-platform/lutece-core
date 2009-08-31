@@ -61,9 +61,17 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
+import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
+import fr.paris.lutece.util.UniqueIDGenerator;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
+import net.sf.ehcache.Ehcache;
+import net.sf.ehcache.Element;
+import net.sf.ehcache.event.CacheEventListener;
+
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,18 +81,23 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * This class delivers pages to web componants. It handles XML tranformation to HTML and provides a cache feature in
- * order to reduce the number of tranformations.
+ * This class delivers pages to web componants. It handles XML tranformation to
+ * HTML and provides a cache feature in order to reduce the number of
+ * tranformations.
  */
-public class PageService extends ContentService implements ImageResourceProvider, PageEventListener
+public class PageService extends ContentService implements ImageResourceProvider, PageEventListener, CacheEventListener
 {
     ////////////////////////////////////////////////////////////////////////////
     // Variables
+
+    // Redirection
+    public static final String REDIRECTION_KEY = "redirect:";
 
     // Templates
     /** Access denied template */
@@ -119,6 +132,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     private static final String KEY_THEME = "theme";
     private static final String TARGET_TOP = "target='_top'";
     private static final int MODE_ADMIN = 1;
+    private static final String XSL_UNIQUE_PREFIX = "page-";
     private static PageService _singleton;
 
     // Specific for plugin-document
@@ -127,6 +141,9 @@ public class PageService extends ContentService implements ImageResourceProvider
     private static final String DOCUMENT_ACTION_URL = "jsp/admin/plugins/document/ManagePublishing.jsp";
     private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
     private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
+
+    // Performance patch
+    private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<String, String>(  );
     private ArrayList<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
 
     /**
@@ -149,6 +166,7 @@ public class PageService extends ContentService implements ImageResourceProvider
         if ( strCachePages.equalsIgnoreCase( "true" ) )
         {
             initCache( getName(  ) );
+            getCache(  ).getCacheEventNotificationService(  ).registerListener( this );
         }
 
         ImageResourceManager.registerProvider( this );
@@ -199,15 +217,49 @@ public class PageService extends ContentService implements ImageResourceProvider
     }
 
     /**
-     * Returns the page for a given ID. The page is built using XML data of each portlet or retrieved from the cache if
-     * it's enable.
+     * Evaluate base URL from request Useful when a Lutece instance can be
+     * accessed from different virtual hosts
+     *
+     * @param request The HTTP servlet request
+     * @return URL de base du site
+     */
+    public static String getBaseUrl( HttpServletRequest request )
+    {
+        String localName = request.getServerName(  );
+        int localPort = request.getLocalPort(  );
+
+        String base = "http://" + localName;
+
+        if ( localPort != 80 )
+        {
+            base += ( ":" + localPort );
+        }
+
+        if ( request.getServerPort(  ) == 443 )
+        {
+            base = "https://" + localName;
+        }
+
+        if ( ( request.getContextPath(  ) != null ) && !"/".equals( request.getContextPath(  ) ) )
+        {
+            base += request.getContextPath(  );
+        }
+
+        base += "/";
+
+        return base;
+    }
+
+    /**
+     * Returns the page for a given ID. The page is built using XML data of each
+     * portlet or retrieved from the cache if it's enable.
      *
      * @param request The page ID
      * @param nMode The current mode.
      * @return The HTML code of the page as a String.
      * @throws SiteMessageException If a message shouldbe displayed
      */
-    public synchronized String getPage( HttpServletRequest request, int nMode )
+    public String getPage( HttpServletRequest request, int nMode )
         throws SiteMessageException
     {
         String strPageId = request.getParameter( Parameters.PAGE_ID );
@@ -216,8 +268,8 @@ public class PageService extends ContentService implements ImageResourceProvider
     }
 
     /**
-     * Returns the page for a given ID. The page is built using XML data of each portlet or retrieved from the cache if
-     * it's enable.
+     * Returns the page for a given ID. The page is built using XML data of each
+     * portlet or retrieved from the cache if it's enable.
      *
      * @param strIdPage The page ID
      * @param nMode The current mode.
@@ -225,7 +277,7 @@ public class PageService extends ContentService implements ImageResourceProvider
      * @return The HTML code of the page as a String.
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    public synchronized String getPage( String strIdPage, int nMode, HttpServletRequest request )
+    public String getPage( String strIdPage, int nMode, HttpServletRequest request )
         throws SiteMessageException
     {
         try
@@ -233,7 +285,7 @@ public class PageService extends ContentService implements ImageResourceProvider
             String strPage = "";
 
             // Get request paramaters and store them in a HashMap
-            Enumeration enumParam = request.getParameterNames(  );
+            Enumeration<?> enumParam = request.getParameterNames(  );
             HashMap<String, String> htParamRequest = new HashMap<String, String>(  );
             String paramName = "";
 
@@ -251,35 +303,96 @@ public class PageService extends ContentService implements ImageResourceProvider
                 htParamRequest.put( KEY_THEME, strUserTheme );
             }
 
-            String strKey = getKey( htParamRequest, nMode, user );
-
             // The cache is enable !
             if ( isCacheEnable(  ) )
             {
+                // we add the key in the memory key only if cache is enable
+                String strKey = getKey( htParamRequest, nMode, user );
+
+                // get page from cache
                 strPage = (String) getFromCache( strKey );
 
                 if ( strPage == null )
                 {
-                    Boolean bCanBeCached = Boolean.TRUE;
-
-                    // The key is not in the cache, so we have to build the page
-                    strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
-
-                    // Add the page to the cache if the page can be cached
-                    if ( bCanBeCached.booleanValue(  ) )
+                    // only one thread can evaluate the page
+                    synchronized ( strKey )
                     {
-                        putInCache( strKey, strPage );
+                        // can be useful if an other thread had evaluate the
+                        // page
+                        strPage = (String) getFromCache( strKey );
+
+                        // ignore checkstyle, this double verification is useful
+                        // when page cache has been created when thread is
+                        // blocked on synchronized
+                        if ( strPage == null )
+                        {
+                            Boolean bCanBeCached = Boolean.TRUE;
+
+                            AppLogService.debug( "Page generation " + strKey );
+
+                            RedirectionResponseWrapper response = new RedirectionResponseWrapper( LocalVariables.getResponse(  ) );
+
+                            LocalVariables.setLocal( LocalVariables.getConfig(  ), LocalVariables.getRequest(  ),
+                                response );
+
+                            // The key is not in the cache, so we have to build
+                            // the page
+                            strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
+
+                            if ( response.getRedirectLocation(  ) != null )
+                            {
+                                AppLogService.debug( "Redirection found " + response.getRedirectLocation(  ) );
+                                strPage = REDIRECTION_KEY + response.getRedirectLocation(  );
+                            }
+
+                            // Add the page to the cache if the page can be
+                            // cached
+                            if ( bCanBeCached.booleanValue(  ) )
+                            {
+                                putInCache( strKey, strPage );
+                            }
+                        }
+                        else
+                        {
+                            AppLogService.debug( "Page read from cache after synchronisation " + strKey );
+                        }
                     }
                 }
+                else
+                {
+                    AppLogService.debug( "Page read from cache " + strKey );
+                }
 
-                // The page is already in the cache, so just return it
-                return strPage;
+                // redirection handling
+                if ( strPage.startsWith( REDIRECTION_KEY ) )
+                {
+                    strPage = strPage.replaceFirst( REDIRECTION_KEY, "" );
+
+                    try
+                    {
+                        LocalVariables.getResponse(  ).sendRedirect( strPage );
+                    }
+                    catch ( IOException e )
+                    {
+                        AppLogService.error( "Error on sendRedirect for " + strPage );
+                    }
+                }
             }
             else
             {
                 Boolean bCanBeCached = Boolean.FALSE;
                 strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
             }
+
+            String strBase = getBaseUrl( request );
+            boolean bBefore = strPage.contains( strBase );
+
+            strPage = strPage.replaceFirst( "<base href=\".*\" >", "<base href=\"" + strBase + "\" >" );
+
+            boolean bAfter = strPage.contains( strBase );
+
+            AppLogService.debug( "Replacement of <base href=\"***\"> : base=" + strBase + ", before=" + bBefore +
+                ", after=" + bAfter );
 
             return strPage;
         }
@@ -415,7 +528,7 @@ public class PageService extends ContentService implements ImageResourceProvider
         // Get request paramaters and store them in a HashMap
         if ( request != null )
         {
-            Enumeration enumParam = request.getParameterNames(  );
+            Enumeration<?> enumParam = request.getParameterNames(  );
 
             while ( enumParam.hasMoreElements(  ) )
             {
@@ -428,7 +541,7 @@ public class PageService extends ContentService implements ImageResourceProvider
                 LocaleService.getUserSelectedLocale( request ).getLanguage(  ) );
         }
 
-        //Added in v1.3
+        // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
         if ( nMode != MODE_ADMIN )
         {
@@ -488,8 +601,10 @@ public class PageService extends ContentService implements ImageResourceProvider
                 AppLogService.debug( LOGGER_PORTLET_XML_CONTENT, strPortletXmlContent );
             }
 
-            String strPortletContent = XmlTransformerService.transformBySource( strPortletXmlContent,
-                    portlet.getXslSource( nMode ), mapModifyParam, outputProperties );
+            XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+            String strXslUniqueId = XSL_UNIQUE_PREFIX + String.valueOf( portlet.getStyleId(  ) );
+            String strPortletContent = xmlTransformerService.transformBySourceWithXslCache( strPortletXmlContent,
+                    portlet.getXslSource( nMode ), strXslUniqueId, mapModifyParam, outputProperties );
 
             // Added in v1.3
             // Add the admin buttons for portlet management on admin mode
@@ -503,8 +618,8 @@ public class PageService extends ContentService implements ImageResourceProvider
                     Locale locale = user.getLocale(  );
                     Collection<CustomAction> listCustomActions = new ArrayList<CustomAction>(  );
 
-                    //TODO : listCustomActions should be provided by PortletType
-                    //FIXME : Delete plugin-document specifics 
+                    // TODO : listCustomActions should be provided by PortletType
+                    // FIXME : Delete plugin-document specifics
                     if ( portlet.getPortletTypeId(  ).equals( DOCUMENT_LIST_PORTLET ) ||
                             portlet.getPortletTypeId(  ).equals( DOCUMENT_PORTLET ) )
                     {
@@ -561,21 +676,24 @@ public class PageService extends ContentService implements ImageResourceProvider
     }
 
     /**
-     * Build the Cache HashMap key for pages
+     * Build the Cache HashMap key for pages Goal is to be able to have a
+     * synchronized on the key but a synchronize only work with strict
+     * reference. So we manage an hashmap of string reference for cache keys to
+     * be able to get them back.
      *
-     * @return The HashMap key for articles pages as a String.
      * @param mapParams The Map params
      * @param nMode The current mode.
-     * @param user The user
+     * @param user Current Lutece user
+     * @return The HashMap key for articles pages as a String.
      */
     private String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
-        String strKey = "";
+        StringBuilder strKey = new StringBuilder(  );
         String strUserName = "";
 
         for ( String strHtKey : mapParams.keySet(  ) )
         {
-            strKey += ( strHtKey + "'" + mapParams.get( strHtKey ) + "'" );
+            strKey.append( strHtKey + "'" + mapParams.get( strHtKey ) + "'" );
         }
 
         if ( user != null )
@@ -583,7 +701,16 @@ public class PageService extends ContentService implements ImageResourceProvider
             strUserName = user.getName(  );
         }
 
-        return strKey + strUserName + PARAMETER_MODE + nMode;
+        String key = strKey + strUserName + PARAMETER_MODE + nMode;
+
+        String keyInMemory = _keyMemory.putIfAbsent( key, key );
+
+        if ( keyInMemory != null )
+        {
+            return keyInMemory;
+        }
+
+        return key;
     }
 
     /**
@@ -602,6 +729,7 @@ public class PageService extends ContentService implements ImageResourceProvider
      *
      * @param strIdPage The page ID
      */
+    @SuppressWarnings( "unchecked" )
     private void invalidatePage( String strIdPage )
     {
         String strKey = Parameters.PAGE_ID + "'" + strIdPage + "'";
@@ -725,11 +853,12 @@ public class PageService extends ContentService implements ImageResourceProvider
     }
 
     /**
-         * Check if a page should be visible to the user according its workgroup
-         * @param nIdPage the id of the page to check
-         * @param user The current user
-         * @return true if authorized, otherwise false
-         */
+     * Check if a page should be visible to the user according its workgroup
+     *
+     * @param nIdPage the id of the page to check
+     * @param user The current user
+     * @return true if authorized, otherwise false
+     */
     private boolean isAuthorizedAdminPageByWorkGroup( int nIdPage, AdminUser user )
     {
         Page page = PageHome.findByPrimaryKey( nIdPage );
@@ -748,12 +877,14 @@ public class PageService extends ContentService implements ImageResourceProvider
     }
 
     /**
-    * Check that a given user is allowed to access a page  for a given permission and his workgroups
-    * @param nIdPage the id of the page to check
-    * @param strPermission the permission needed
-    * @param user The current user
-    * @return true if authorized, otherwise false
-    */
+     * Check that a given user is allowed to access a page for a given
+     * permission and his workgroups
+     *
+     * @param nIdPage the id of the page to check
+     * @param strPermission the permission needed
+     * @param user The current user
+     * @return true if authorized, otherwise false
+     */
     public boolean isAuthorizedAdminPage( int nIdPage, String strPermission, AdminUser user )
     {
         String strAuthorizationNode = Integer.toString( Page.getAuthorizationNode( nIdPage ) );
@@ -763,9 +894,86 @@ public class PageService extends ContentService implements ImageResourceProvider
     }
 
     /**
-    * CustomAction define a customized action for portlet types
-    *
+    * @see net.sf.ehcache.event.CacheEventListener#notifyElementEvicted(net.sf.ehcache.Ehcache,
+    *      net.sf.ehcache.Element)
     */
+    public void notifyElementEvicted( Ehcache cache, Element element )
+    {
+        removeKeyFromMap( element );
+    }
+
+    /**
+     * @see net.sf.ehcache.event.CacheEventListener#notifyElementExpired(net.sf.ehcache.Ehcache,
+     *      net.sf.ehcache.Element)
+     */
+    public void notifyElementExpired( Ehcache cache, Element element )
+    {
+        removeKeyFromMap( element );
+    }
+
+    /**
+     * @see net.sf.ehcache.event.CacheEventListener#notifyElementPut(net.sf.ehcache.Ehcache,
+     *      net.sf.ehcache.Element)
+     */
+    public void notifyElementPut( Ehcache cache, Element element )
+    {
+    }
+
+    /**
+     * @see net.sf.ehcache.event.CacheEventListener#notifyElementRemoved(net.sf.ehcache.Ehcache,
+     *      net.sf.ehcache.Element)
+     */
+    public void notifyElementRemoved( Ehcache cache, Element element )
+    {
+        removeKeyFromMap( element );
+    }
+
+    /**
+     * @see net.sf.ehcache.event.CacheEventListener#notifyElementUpdated(net.sf.ehcache.Ehcache,
+     *      net.sf.ehcache.Element)
+     */
+    public void notifyElementUpdated( Ehcache cache, Element element )
+    {
+    }
+
+    /**
+     * @see net.sf.ehcache.event.CacheEventListener#notifyRemoveAll(net.sf.ehcache.Ehcache)
+     * @param cache .
+     */
+    public void notifyRemoveAll( Ehcache cache )
+    {
+        _keyMemory.clear(  );
+    }
+
+    /**
+     * @param element .
+     */
+    public void removeKeyFromMap( Element element )
+    {
+        _keyMemory.remove( element.getKey(  ) );
+    }
+
+    /**
+     * @see java.lang.Object#clone()
+     * @return .
+     */
+    @Override
+    public Object clone(  )
+    {
+        return getInstance(  );
+    }
+
+    /**
+     * @see net.sf.ehcache.event.CacheEventListener#dispose()
+     */
+    public void dispose(  )
+    {
+    }
+
+    /**
+     * CustomAction define a customized action for portlet types
+     *
+     */
     public class CustomAction
     {
         private String _strActionUrl;

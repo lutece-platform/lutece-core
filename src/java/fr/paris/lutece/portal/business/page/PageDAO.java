@@ -52,34 +52,34 @@ import java.util.List;
 public final class PageDAO implements IPageDAO
 {
     // Constants
-    private static final String SQL_QUERY_NEW_PK = " SELECT max(id_page) FROM core_page";
-    private static final String SQL_QUERY_SELECT = " SELECT a.id_parent, a.name, a.description, a.id_template, b.file_name, " +
+    private static final String SQL_QUERY_NEW_PK = "SELECT max(id_page) FROM core_page";
+    private static final String SQL_QUERY_SELECT = "SELECT a.id_parent, a.name, a.description, a.id_template, b.file_name, " +
         " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, " +
         " a.workgroup_key, a.date_update, a.meta_keywords, a.meta_description FROM core_page a, core_page_template b WHERE a.id_template = b.id_template AND a.id_page = ? ";
-    private static final String SQL_QUERY_SELECT_BY_ID_PORTLET = " SELECT a.id_page, a.id_parent, a.name, a.description, a.id_template, " +
+    private static final String SQL_QUERY_SELECT_BY_ID_PORTLET = "SELECT a.id_page, a.id_parent, a.name, a.description, a.id_template, " +
         " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, " +
         " a.workgroup_key, a.meta_keywords, a.meta_description FROM core_page a,core_portlet b WHERE a.id_page = b.id_page AND b.id_portlet = ? ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_page ( id_page , id_parent , name , description, date_update, " +
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_page ( id_page , id_parent , name , description, date_update, " +
         " id_template,  page_order, status, role, date_creation, code_theme , node_status, image_content , mime_type , workgroup_key, " +
         " meta_keywords, meta_description ) " + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
-    private static final String SQL_QUERY_DELETE = " DELETE FROM core_page WHERE id_page = ?";
-    private static final String SQL_QUERY_UPDATE = " UPDATE core_page SET id_parent = ?,  name = ?, description = ? , date_update = ? , " +
+    private static final String SQL_QUERY_DELETE = "DELETE FROM core_page WHERE id_page = ?";
+    private static final String SQL_QUERY_UPDATE = "UPDATE core_page SET id_parent = ?,  name = ?, description = ? , date_update = ? , " +
         " id_template = ? , page_order = ? , status = ? , role = ? , code_theme = ? , node_status = ? , " +
         " image_content = ? , mime_type = ? , workgroup_key = ?, meta_keywords = ?, meta_description = ? " +
         " WHERE id_page = ?";
-    private static final String SQL_QUERY_CHECKPK = " SELECT id_page FROM core_page WHERE id_page = ?";
-    private static final String SQL_QUERY_CHILDPAGE = " SELECT id_page , id_parent, name, description, " +
+    private static final String SQL_QUERY_CHECKPK = "SELECT id_page FROM core_page WHERE id_page = ?";
+    private static final String SQL_QUERY_CHILDPAGE = "SELECT id_page , id_parent, name, description, " +
         " page_order , status , role, code_theme, image_content, mime_type , workgroup_key, meta_keywords, meta_description " +
         " FROM core_page WHERE id_parent = ? ORDER BY page_order";
-    private static final String SQL_QUERY_SELECTALL = " SELECT id_page , id_parent,  name, description, date_update, " +
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_page , id_parent,  name, description, date_update, " +
         " page_order, status, role, code_theme, image_content, mime_type ,workgroup_key, meta_keywords, meta_description FROM core_page ";
-    private static final String SQL_QUERY_BY_ROLE_KEY = " SELECT id_page , id_parent,  name, description, date_update, " +
+    private static final String SQL_QUERY_BY_ROLE_KEY = "SELECT id_page , id_parent,  name, description, date_update, " +
         " page_order, status, role, code_theme, image_content, mime_type ,workgroup_key, meta_keywords, meta_description FROM core_page WHERE role = ? ";
-    private static final String SQL_QUERY_SELECT_PORTLET = " SELECT id_portlet FROM core_portlet WHERE id_page = ? ORDER BY portlet_order";
-    private static final String SQL_QUERY_UPDATE_PAGE_DATE = " UPDATE core_page SET date_update = ? WHERE id_page = ?";
-    private static final String SQL_QUERY_SELECTALL_NODE_PAGE = " SELECT id_page, name FROM core_page WHERE node_status = 0";
-    private static final String SQL_QUERY_NEW_CHILD_PAGE_ORDER = " SELECT max(page_order) FROM core_page WHERE id_parent = ?";
-    private static final String SQL_QUERY_CHECK_PAGE_EXIST = " SELECT id_page FROM core_page " + " WHERE id_page = ? ";
+    private static final String SQL_QUERY_SELECT_PORTLET = "SELECT id_portlet FROM core_portlet WHERE id_page = ? ORDER BY portlet_order";
+    private static final String SQL_QUERY_UPDATE_PAGE_DATE = "UPDATE core_page SET date_update = ? WHERE id_page = ?";
+    private static final String SQL_QUERY_SELECTALL_NODE_PAGE = "SELECT id_page, name FROM core_page WHERE node_status = 0";
+    private static final String SQL_QUERY_NEW_CHILD_PAGE_ORDER = "SELECT max(page_order) FROM core_page WHERE id_parent = ?";
+    private static final String SQL_QUERY_CHECK_PAGE_EXIST = "SELECT id_page FROM core_page " + " WHERE id_page = ? ";
 
     // ImageResource queries
     private static final String SQL_QUERY_SELECT_RESOURCE_IMAGE = " SELECT image_content , mime_type FROM core_page " +
@@ -194,6 +194,9 @@ public final class PageDAO implements IPageDAO
             page.setDateUpdate( daoUtil.getTimestamp( 14 ) );
             page.setMetaKeywords( daoUtil.getString( 15 ) );
             page.setMetaDescription( daoUtil.getString( 16 ) );
+
+            // Patch perfs : close connection before loadPortlets
+            daoUtil.free(  );
 
             // Loads the portlets contained into the page
             if ( bPortlets )
@@ -337,17 +340,25 @@ public final class PageDAO implements IPageDAO
 
         daoUtil.executeQuery(  );
 
-        ArrayList<Portlet> pageColl = new ArrayList<Portlet>(  );
+        // Patch perfs :  get query responses and close connection before getting portlet
+        ArrayList<Integer> portletIds = new ArrayList<Integer>(  );
 
         while ( daoUtil.next(  ) )
         {
-            int nPortletId = daoUtil.getInt( 1 );
+            portletIds.add( Integer.valueOf( daoUtil.getInt( 1 ) ) );
+        }
+
+        daoUtil.free(  );
+
+        ArrayList<Portlet> pageColl = new ArrayList<Portlet>(  );
+
+        for ( Integer nPortletId : portletIds )
+        {
             Portlet portlet = PortletHome.findByPrimaryKey( nPortletId );
             pageColl.add( portlet );
         }
 
         page.setPortlets( pageColl );
-        daoUtil.free(  );
     }
 
     /**
