@@ -39,12 +39,14 @@ import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.xml.XmlTransformer;
 import fr.paris.lutece.util.xml.XmlUtil;
 
 import java.io.File;
@@ -93,6 +95,7 @@ public class AdminDocumentationJspBean
 
     //properties
     private static final String PROPERTY_XSL_BASE_PATH = "lutece.documentation.xsl.path";
+    private static final String ADMIN_DOCUMENTATION_XSL_UNIQUE_PREFIX = "adminDocumentation-";
 
     //messages
     private static final String MESSAGE_ERROR = "portal.features.documentation.message.error";
@@ -124,23 +127,21 @@ public class AdminDocumentationJspBean
         StreamSource sourceStyleSheet = new StreamSource( fileXsl );
 
         //get the xml documentation file
-        File fileXml;
+        String strXmlPath;
         StreamSource sourceXml;
         String strLocal = locale.toString(  );
 
         if ( ( locale == null ) || strLocal.equals( LOCAL_DEFAULT ) )
         {
-            String strXmlPath = AppPathService.getWebAppPath(  ) + XML_BASE_PATH + XML_USER_PATH + strFeature + ".xml";
-            fileXml = new File( strXmlPath );
+            strXmlPath = AppPathService.getWebAppPath(  ) + XML_BASE_PATH + XML_USER_PATH + strFeature + ".xml";
         }
         else
         {
-            String strXmlPath = AppPathService.getWebAppPath(  ) + XML_BASE_PATH + locale.toString(  ) + XML_USER_PATH +
+            strXmlPath = AppPathService.getWebAppPath(  ) + XML_BASE_PATH + locale.toString(  ) + XML_USER_PATH +
                 strFeature + ".xml";
-            fileXml = new File( strXmlPath );
         }
 
-        sourceXml = new StreamSource( fileXml );
+        sourceXml = new StreamSource( new File( strXmlPath ) );
 
         String strHtmlDoc = null;
 
@@ -148,9 +149,13 @@ public class AdminDocumentationJspBean
         params.put( PARAMS_LOCAL, locale.toString(  ) );
         params.put( PARAMS_DEFAULT_LOCAL, LOCAL_DEFAULT );
 
+        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+        String strUniqueId = ADMIN_DOCUMENTATION_XSL_UNIQUE_PREFIX + strXmlPath;
+
         try
         {
-            strHtmlDoc = XmlUtil.transform( sourceXml, sourceStyleSheet, params, null );
+            strHtmlDoc = xmlTransformerService.transformBySourceWithXslCache( sourceXml.toString(  ), sourceStyleSheet,
+                    strUniqueId, params, null );
         }
         catch ( Exception e )
         {
