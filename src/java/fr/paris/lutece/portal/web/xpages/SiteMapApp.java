@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -164,18 +165,18 @@ public class SiteMapApp implements XPageApplication, CacheableService
 
         // Added in v1.3
         // Use the same stylesheet for normal or admin mode
-        byte[] baXslSource;
+        StyleSheet xslSource;
 
         switch ( nMode )
         {
             case MODE_NORMAL:
             case MODE_ADMIN:
-                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_SITE_MAP_ID, MODE_NORMAL ).getSource(  );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_SITE_MAP_ID, MODE_NORMAL );
 
                 break;
 
             default:
-                baXslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_SITE_MAP_ID, nMode ).getSource(  );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_SITE_MAP_ID, nMode );
 
                 break;
         }
@@ -195,8 +196,10 @@ public class SiteMapApp implements XPageApplication, CacheableService
 
         Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
 
-        return XmlTransformerService.transformBySource( strArborescenceXml.toString(  ), baXslSource, mapParamRequest,
-            outputProperties );
+        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+
+        return xmlTransformerService.transformBySourceWithXslCache( strArborescenceXml.toString(  ), xslSource,
+            mapParamRequest, outputProperties );
     }
 
     /**
