@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.template;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -62,12 +63,13 @@ import java.util.Map;
  */
 public final class FreeMarkerTemplateService
 {
+    private static final String PROPERTY_TEMPLATE_UPDATE_DELAY = "service.freemarker.templateUpdateDelay";
+    private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY,
+            5 );
     private static final String STRING_TEMPLATE_LOADER_NAME = "stringTemplate";
     private static final String PATH_AUTO_INCLUDE_COMMONS = "*/commons.html";
     private static final String NUMBER_FORMAT_PATTERN = "0.######";
     private static final String SETTING_DATE_FORMAT = "date_format";
-
-    //    private static final String SETTING_DATETIME_FORMAT = "datetime_format";
     private static Map<String, Configuration> _mapConfigurations = new HashMap<String, Configuration>(  );
     private static String _strDefaultPath;
 
@@ -139,6 +141,9 @@ public final class FreeMarkerTemplateService
 
                 //WARNING : the Datetime format is defined as the date format, i.e. the hours and minutes will not be displayed
                 //        	cfg.setSetting( SETTING_DATETIME_FORMAT, DateUtil.getDefaultPattern( locale ) );
+
+                // Time in seconds that must elapse before checking whether there is a newer version of a template file
+                cfg.setTemplateUpdateDelay( TEMPLATE_UPDATE_DELAY );
             }
         }
         catch ( IOException e )
@@ -157,11 +162,14 @@ public final class FreeMarkerTemplateService
      * Load a template from a String and process a model
      * WARNING : This method must not be used in front office (no cache management available).
      *
+     * <br /><b>Deprecated</b> Using Freemarker without cache is huge CPU consuming
+     *
      * @param strTemplateData The template as a string
      * @param locale The {@link Locale}
      * @param rootMap the model root
      * @return the processed html template
      */
+    @Deprecated
     public static HtmlTemplate loadTemplate( String strTemplateData, Locale locale, Object rootMap )
     {
         Configuration cfg = null;
@@ -192,6 +200,9 @@ public final class FreeMarkerTemplateService
 
             //Used to set the default format to display a date and datetime
             cfg.setSetting( SETTING_DATE_FORMAT, DateUtil.getDefaultPattern( locale ) );
+
+            // Time in seconds that must elapse before checking whether there is a newer version of a template file
+            cfg.setTemplateUpdateDelay( TEMPLATE_UPDATE_DELAY );
         }
         catch ( IOException e )
         {

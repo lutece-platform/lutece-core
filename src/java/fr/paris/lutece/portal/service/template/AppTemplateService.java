@@ -152,7 +152,9 @@ public final class AppTemplateService
     }
 
     /**
-     * Returns a reference on a template object (load the template or get it from the cache if present.)
+     * Returns a reference on a template object
+     *
+     * <br /><b>Deprecated</b> Using Freemarker without cache is huge CPU consuming
      *
      * @param strFreemarkerTemplateData The content of the template
      * @param locale The current {@link Locale} to localize the template
@@ -160,6 +162,7 @@ public final class AppTemplateService
      * @return The template object
      * @since 1.5
      */
+    @Deprecated
     public static HtmlTemplate getTemplateFromStringFtl( String strFreemarkerTemplateData, Locale locale, Object model )
     {
         HtmlTemplate template = null;
@@ -195,11 +198,14 @@ public final class AppTemplateService
      * Load the template from the file
      * WARNING : This method must not be used in front office (no cache management available).
      *
+     * <br /><b>Deprecated</b> Using Freemarker without cache is huge CPU consuming
+     *
      * @param strTemplateData The data of the template
      * @param locale The current locale to localize the template
      * @param model the model to use for loading
      * @return The loaded template
      */
+    @Deprecated
     private static HtmlTemplate loadTemplate( String strTemplateData, Locale locale, Object model )
     {
         HtmlTemplate template = null;

@@ -106,6 +106,9 @@ public final class AppInit
             AppLogService.init( strConfPath, FILE_PROPERTIES_CONFIG );
             AppLogService.info( "Starting application..." );
 
+            // Initializes the properties download files containing the variables used by the application
+            AppPropertiesService.init( strConfPath );
+
             // Initializes the template services from the servlet context information
             AppTemplateService.init( PATH_TEMPLATES );
 
@@ -115,9 +118,6 @@ public final class AppInit
                 // variables used by the application
                 initProperties( strRealPath );
             }
-
-            // Initializes the properties download files containing the variables used by the application
-            AppPropertiesService.init( strConfPath );
 
             // Initializes the connection pools
             AppConnectionService.init( strConfPath, FILE_PROPERTIES_DATABASE, "portal" );
