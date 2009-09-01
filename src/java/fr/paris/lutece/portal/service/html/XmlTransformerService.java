@@ -97,7 +97,8 @@ public final class XmlTransformerService
      * @param outputProperties properties to use for the xsl transform. Will overload the xsl output definition.
      * @return The output document
      */
-    @Deprecated
+    @SuppressWarnings("static-access")
+	@Deprecated
     public static String transformBySource( String strXml, Source sourceStyleSheet, Map<String, String> params,
         Properties outputProperties )
     {

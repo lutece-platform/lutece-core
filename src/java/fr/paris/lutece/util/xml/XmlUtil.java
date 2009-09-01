@@ -89,7 +89,7 @@ public final class XmlUtil
      * @throws Exception The exception
      */
     @Deprecated
-    public String transform( Source source, Source stylesheet, Map<String, String> params, Properties outputProperties )
+    public static String transform( Source source, Source stylesheet, Map<String, String> params, Properties outputProperties )
         throws Exception
     {
         try
