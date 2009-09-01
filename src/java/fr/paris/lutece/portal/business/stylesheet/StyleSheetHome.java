@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.stylesheet;
 
+import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.Collection;
@@ -74,6 +75,7 @@ public final class StyleSheetHome
     public static void remove( int nId )
     {
         _dao.delete( nId );
+        XmlTransformerService.clearXslCache(  );
     }
 
     /**
@@ -84,6 +86,7 @@ public final class StyleSheetHome
     public static void update( StyleSheet stylesheet )
     {
         _dao.store( stylesheet );
+        XmlTransformerService.clearXslCache(  );
     }
 
     ///////////////////////////////////////////////////////////////////////////

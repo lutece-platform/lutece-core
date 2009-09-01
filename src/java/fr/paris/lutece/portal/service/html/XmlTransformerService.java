@@ -64,7 +64,7 @@ public final class XmlTransformerService
      * @param params Parameters that can be used by the XSL stylesheet
      * @return The output document
      */
-     @Deprecated
+    @Deprecated
     public static String transformBySource( String strXml, byte[] baSource, Map<String, String> params )
     {
         return transformBySource( strXml, baSource, params, null );
@@ -79,7 +79,7 @@ public final class XmlTransformerService
      * @param outputProperties properties to use for the xsl transform. Will overload the xsl output definition.
      * @return The output document
      */
-     @Deprecated
+    @Deprecated
     public static String transformBySource( String strXml, byte[] baSource, Map<String, String> params,
         Properties outputProperties )
     {
@@ -97,9 +97,9 @@ public final class XmlTransformerService
      * @param outputProperties properties to use for the xsl transform. Will overload the xsl output definition.
      * @return The output document
      */
-     @Deprecated
-    public static String transformBySource( String strXml, Source sourceStyleSheet,
-        Map<String, String> params, Properties outputProperties )
+    @Deprecated
+    public static String transformBySource( String strXml, Source sourceStyleSheet, Map<String, String> params,
+        Properties outputProperties )
     {
         StringReader srInputXml = new StringReader( strXml );
         StreamSource sourceDocument = new StreamSource( srInputXml );
@@ -118,8 +118,8 @@ public final class XmlTransformerService
 
         return strContent;
     }
-    
-       //-------------------------------
+
+    //-------------------------------
 
     /**
      * This method performs XSL transformation with cache.
@@ -209,5 +209,13 @@ public final class XmlTransformerService
         }
 
         return strContent;
+    }
+
+    /**
+     * This method clean XSL transformer cache
+     */
+    public static void clearXslCache(  )
+    {
+        XmlTransformer.cleanTransformerList(  );
     }
 }

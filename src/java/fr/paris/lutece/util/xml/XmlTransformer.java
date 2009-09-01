@@ -63,7 +63,8 @@ public final class XmlTransformer
 {
     private static final String PROPERTY_TRANSFORMER_POOL_SIZE = "service.xmlTransformer.transformerPoolSize";
     private static final int MAX_TRANSFORMER_SIZE = 1000;
-    private static final int TRANSFORMER_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_TRANSFORMER_POOL_SIZE, 2 );
+    private static final int TRANSFORMER_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_TRANSFORMER_POOL_SIZE,
+            2 );
     private static List<ConcurrentMap<String, Transformer>> transformerPoolList = null;
 
     /**
@@ -93,14 +94,18 @@ public final class XmlTransformer
         throws Exception
     {
         Transformer result = null;
-        int nTransformerListIndex = 0;
 
-        do
+        if ( TRANSFORMER_POOL_SIZE > 0 )
         {
-            result = transformerPoolList.get( nTransformerListIndex ).remove( strStyleSheetId );
-            nTransformerListIndex++;
+            int nTransformerListIndex = 0;
+
+            do
+            {
+                result = transformerPoolList.get( nTransformerListIndex ).remove( strStyleSheetId );
+                nTransformerListIndex++;
+            }
+            while ( ( result == null ) && ( nTransformerListIndex < TRANSFORMER_POOL_SIZE ) );
         }
-        while ( ( result == null ) && ( nTransformerListIndex < TRANSFORMER_POOL_SIZE ) );
 
         if ( result == null )
         {
@@ -139,7 +144,7 @@ public final class XmlTransformer
     /**
      * Remove all Transformer instance from cache
      */
-    protected void cleanTransformerList(  )
+    public static void cleanTransformerList(  )
     {
         for ( ConcurrentMap<String, Transformer> transformerList : transformerPoolList )
         {
@@ -154,29 +159,36 @@ public final class XmlTransformer
      */
     private void releaseTransformer( Transformer transformer, String strStyleSheetId )
     {
-        Transformer result = null;
-        ConcurrentMap<String, Transformer> transformerList = null;
-        int nTransformerListIndex = 0;
-
-        do
+        if ( TRANSFORMER_POOL_SIZE > 0 )
         {
-            transformerList = transformerPoolList.get( nTransformerListIndex );
-            nTransformerListIndex++;
+            Transformer result = null;
+            ConcurrentMap<String, Transformer> transformerList = null;
+            int nTransformerListIndex = 0;
 
-            // This set of action are not performed atomically but it can not cause problems
-            if ( transformerList.size(  ) < MAX_TRANSFORMER_SIZE )
+            do
             {
-                result = transformerList.putIfAbsent( strStyleSheetId, transformer );
-            }
-            else
-            {
-                // Aggressive release ( speed up GC )
-                transformer = null;
+                transformerList = transformerPoolList.get( nTransformerListIndex );
+                nTransformerListIndex++;
 
-                AppLogService.info( "XmlTransformer : cache is full, you may need to increase cache size." );
+                // This set of action is not performed atomically but it can not cause problems
+                if ( transformerList.size(  ) < MAX_TRANSFORMER_SIZE )
+                {
+                    result = transformerList.putIfAbsent( strStyleSheetId, transformer );
+                }
+                else
+                {
+                    // Aggressive release ( speed up GC )
+                    transformer = null;
+
+                    AppLogService.info( "XmlTransformer : cache is full, you may need to increase cache size." );
+                }
             }
+            while ( ( result != null ) && ( nTransformerListIndex < TRANSFORMER_POOL_SIZE ) );
         }
-        while ( ( result != null ) && ( nTransformerListIndex < TRANSFORMER_POOL_SIZE ) );
+        else
+        {
+            transformer = null;
+        }
     }
 
     /**
