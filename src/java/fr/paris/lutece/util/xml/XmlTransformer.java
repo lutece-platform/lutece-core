@@ -179,6 +179,7 @@ public final class XmlTransformer
                 {
                     // Aggressive release ( speed up GC )
                     transformer = null;
+                    transformerList.clear(  );
 
                     AppLogService.info( "XmlTransformer : cache is full, you may need to increase cache size." );
                 }
