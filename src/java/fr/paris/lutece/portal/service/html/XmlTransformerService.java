@@ -97,8 +97,8 @@ public final class XmlTransformerService
      * @param outputProperties properties to use for the xsl transform. Will overload the xsl output definition.
      * @return The output document
      */
-    @SuppressWarnings("static-access")
-	@Deprecated
+    @SuppressWarnings( "static-access" )
+    @Deprecated
     public static String transformBySource( String strXml, Source sourceStyleSheet, Map<String, String> params,
         Properties outputProperties )
     {
@@ -201,6 +201,35 @@ public final class XmlTransformerService
         try
         {
             strContent = xmlTransformer.transform( sourceDocument, sourceStyleSheet, strStyleSheetId, params,
+                    outputProperties );
+        }
+        catch ( Exception e )
+        {
+            strContent = e.getMessage(  );
+            AppLogService.error( e.getMessage(  ), e );
+        }
+
+        return strContent;
+    }
+
+    /**
+     * This method performs XSL transformation with cache.
+     * @param sourceXml The XML document content
+     * @param sourceStyleSheet The XSL source
+     * @param strStyleSheetId The StyleSheet Id
+     * @param params Parameters that can be used by the XSL StyleSheet
+     * @param outputProperties
+     * @return The output document
+     */
+    public String transformBySourceWithXslCache( Source sourceXml, Source sourceStyleSheet, String strStyleSheetId,
+        Map<String, String> params, Properties outputProperties )
+    {
+        String strContent = null;
+        XmlTransformer xmlTransformer = new XmlTransformer(  );
+
+        try
+        {
+            strContent = xmlTransformer.transform( sourceXml, sourceStyleSheet, strStyleSheetId, params,
                     outputProperties );
         }
         catch ( Exception e )
