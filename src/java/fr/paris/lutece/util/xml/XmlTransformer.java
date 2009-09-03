@@ -65,21 +65,13 @@ public final class XmlTransformer
     private static final int MAX_TRANSFORMER_SIZE = 1000;
     private static final int TRANSFORMER_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_TRANSFORMER_POOL_SIZE,
             2 );
-    private static List<ConcurrentMap<String, Transformer>> transformerPoolList = null;
+    private static final List<ConcurrentMap<String, Transformer>> transformerPoolList = new ArrayList<ConcurrentMap<String, Transformer>>( TRANSFORMER_POOL_SIZE );
 
-    /**
-     * XmlTransformer constructor
-     */
-    public XmlTransformer(  )
+    static
     {
-        if ( transformerPoolList == null )
+        for ( int i = 0; i < TRANSFORMER_POOL_SIZE; i++ )
         {
-            transformerPoolList = new ArrayList<ConcurrentMap<String, Transformer>>( TRANSFORMER_POOL_SIZE );
-
-            for ( int i = 0; i < TRANSFORMER_POOL_SIZE; i++ )
-            {
-                transformerPoolList.add( new ConcurrentHashMap<String, Transformer>( MAX_TRANSFORMER_SIZE ) );
-            }
+            transformerPoolList.add( new ConcurrentHashMap<String, Transformer>( MAX_TRANSFORMER_SIZE ) );
         }
     }
 
