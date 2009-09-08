@@ -253,7 +253,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         int nPageId = Integer.parseInt( strPageId );
 
         // Checks that the page has no child
-        Collection<Page> list = PageHome.getChildPages( nPageId );
+        Collection<Page> list = PageHome.getChildPagesMinimalData( nPageId );
 
         if ( list.size(  ) > 0 )
         {

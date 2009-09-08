@@ -201,7 +201,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
 
             XmlUtil.beginElement( strXmlArborescence, XmlContent.TAG_CHILD_PAGES_LIST );
 
-            for ( Page pageChild : PageHome.getChildPages( nPageId ) )
+            for ( Page pageChild : PageHome.getChildPagesMinimalData( nPageId ) )
             {
                 findPages( request, strXmlArborescence, pageChild.getId(  ), nLevel + 1, strCurrentPageId, strCssId );
                 strCssId.append( "initializeMenu('menu" + pageChild.getId(  ) + "' , 'actuator" + pageChild.getId(  ) +
