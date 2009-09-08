@@ -43,7 +43,6 @@ import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.util.UniqueIDGenerator;
 import fr.paris.lutece.util.xml.XmlUtil;
 
 import java.util.Collection;
@@ -167,7 +166,7 @@ public final class PortalMenuService implements CacheableService
     private String buildMenuContent( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
     {
         StringBuffer strXml = new StringBuffer(  );
-        Collection<Page> listPagesMenu = PageHome.getChildPages( PortalService.getRootPageId(  ) );
+        Collection<Page> listPagesMenu = PageHome.getChildPagesMinimalData( PortalService.getRootPageId(  ) );
 
         String strCurrentPageId = Integer.toString( nCurrentPageId );
 
@@ -187,7 +186,7 @@ public final class PortalMenuService implements CacheableService
                 XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, menuPage.getName(  ) );
                 XmlUtil.addElementHtml( strXml, XmlContent.TAG_CURRENT_PAGE_ID, strCurrentPageId );
 
-                Collection<Page> listSubLevelMenuPages = PageHome.getChildPages( menuPage.getId(  ) );
+                Collection<Page> listSubLevelMenuPages = PageHome.getChildPagesMinimalData( menuPage.getId(  ) );
 
                 // add element submenu-list only if list not empty
                 if ( !listSubLevelMenuPages.isEmpty(  ) )
