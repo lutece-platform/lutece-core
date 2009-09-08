@@ -237,7 +237,7 @@ public class SiteMapApp implements XPageApplication, CacheableService
 
             XmlUtil.beginElement( strXmlArborescence, XmlContent.TAG_CHILD_PAGES_LIST );
 
-            for ( Page pageChild : PageHome.getChildPages( nPageId ) )
+            for ( Page pageChild : PageHome.getChildPagesMinimalData( nPageId ) )
             {
                 findPages( strXmlArborescence, pageChild.getId(  ), nLevel + 1, request );
             }
