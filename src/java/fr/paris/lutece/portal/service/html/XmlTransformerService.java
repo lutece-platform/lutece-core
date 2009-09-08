@@ -97,19 +97,17 @@ public final class XmlTransformerService
      * @param outputProperties properties to use for the xsl transform. Will overload the xsl output definition.
      * @return The output document
      */
-    @SuppressWarnings( "static-access" )
     @Deprecated
-    public static String transformBySource( String strXml, Source sourceStyleSheet, Map<String, String> params,
-        Properties outputProperties )
+    public synchronized static String transformBySource( String strXml, Source sourceStyleSheet,
+        Map<String, String> params, Properties outputProperties )
     {
         StringReader srInputXml = new StringReader( strXml );
         StreamSource sourceDocument = new StreamSource( srInputXml );
         String strContent = null;
-        XmlUtil xmlUtil = new XmlUtil(  );
 
         try
         {
-            strContent = xmlUtil.transform( sourceDocument, sourceStyleSheet, params, outputProperties );
+            strContent = XmlUtil.transform( sourceDocument, sourceStyleSheet, params, outputProperties );
         }
         catch ( Exception e )
         {
