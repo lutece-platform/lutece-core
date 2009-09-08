@@ -128,6 +128,17 @@ public final class PageHome
     }
 
     /**
+     * Loads a page without portlets from its identifier without image content
+     *
+     * @param nPageId the page identifier
+     * @return an instance a the class Page
+     */
+    public static Page getPageWithoutImageContent( int nPageId )
+    {
+        return _dao.loadWithoutImageContent( nPageId, false );
+    }
+
+    /**
      * Loads a page associated to a portlet
      * @param nPorletId The indentifier of the object portlet associate to the page
      * @return The Instance of the object Page
@@ -146,6 +157,17 @@ public final class PageHome
     public static Collection<Page> getChildPages( int nParentPageId )
     {
         return _dao.selectChildPages( nParentPageId );
+    }
+
+    /**
+     * Returns the list of the child pages from the current parent page identifier
+     *
+     * @param nParentPageId
+     * @return
+     */
+    public static Collection<Page> getChildPagesMinimalData( int nParentPageId )
+    {
+        return _dao.selectChildPagesMinimalData( nParentPageId );
     }
 
     /**

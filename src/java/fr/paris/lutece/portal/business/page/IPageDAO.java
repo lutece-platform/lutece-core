@@ -52,23 +52,31 @@ public interface IPageDAO
     void insert( Page page );
 
     /**
-     * load the data of Level from the table
-     * @param nPageId The indentifier of the object Page
+     * load the data of level from the table
+     * @param nPageId The identifier of the object Page
      * @param bPortlets The boolean
      * @return The Instance of the object Page
      */
     Page load( int nPageId, boolean bPortlets );
 
     /**
+     * load the data of level from the table without image content
+     * @param nPageId The identifier of the object Page
+     * @param bPortlets The boolean
+     * @return The Instance of the object Page
+     */
+    Page loadWithoutImageContent( int nPageId, boolean bPortlets );
+
+    /**
      * load a page associated to a portlet
-     * @param nPorletId The indentifier of the object portlet associate to the page
+     * @param nPorletId The identifier of the object portlet associate to the page
      * @return The Instance of the object Page
      */
     Page loadPageByIdPortlet( int nPorletId );
 
     /**
      * Delete a record from the table
-     * @param nPageId The indentifier of the object nPageId
+     * @param nPageId The identifier of the object nPageId
      */
     void delete( int nPageId );
 
@@ -85,6 +93,14 @@ public interface IPageDAO
      * @return The list of objects Page (without portlets list)
      */
     Collection<Page> selectChildPages( int nParentPageId );
+
+    /**
+     * Select all child pages for a page which is specified in parameter
+     * For each pages, only select : Id, pageParentId, name and description
+     * @param nParentPageId
+     * @return The list of objects Page
+     */
+    Collection<Page> selectChildPagesMinimalData( int nParentPageId );
 
     /**
      * Loads all the pages for a portal

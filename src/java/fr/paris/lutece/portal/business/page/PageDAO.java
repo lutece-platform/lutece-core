@@ -56,6 +56,10 @@ public final class PageDAO implements IPageDAO
     private static final String SQL_QUERY_SELECT = "SELECT a.id_parent, a.name, a.description, a.id_template, b.file_name, " +
         " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, " +
         " a.workgroup_key, a.date_update, a.meta_keywords, a.meta_description FROM core_page a, core_page_template b WHERE a.id_template = b.id_template AND a.id_page = ? ";
+    private static final String SQL_QUERY_SELECT_WITHOUT_IMAGE_CONTENT = "SELECT a.id_parent, a.name, a.description, a.id_template, b.file_name, " +
+        " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.mime_type, " +
+        " a.workgroup_key, a.date_update, a.meta_keywords, a.meta_description FROM core_page a INNER JOIN " +
+        " core_page_template b ON (a.id_template = b.id_template) WHERE a.id_page = ? ";
     private static final String SQL_QUERY_SELECT_BY_ID_PORTLET = "SELECT a.id_page, a.id_parent, a.name, a.description, a.id_template, " +
         " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, " +
         " a.workgroup_key, a.meta_keywords, a.meta_description FROM core_page a,core_portlet b WHERE a.id_page = b.id_page AND b.id_portlet = ? ";
@@ -71,6 +75,8 @@ public final class PageDAO implements IPageDAO
     private static final String SQL_QUERY_CHILDPAGE = "SELECT id_page , id_parent, name, description, " +
         " page_order , status , role, code_theme, image_content, mime_type , workgroup_key, meta_keywords, meta_description " +
         " FROM core_page WHERE id_parent = ? ORDER BY page_order";
+    private static final String SQL_QUERY_CHILDPAGE_MINIMAL_DATA = "SELECT id_page ,id_parent, name, description, role FROM core_page " +
+        " WHERE id_parent = ? ORDER BY page_order";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_page , id_parent,  name, description, date_update, " +
         " page_order, status, role, code_theme, image_content, mime_type ,workgroup_key, meta_keywords, meta_description FROM core_page ";
     private static final String SQL_QUERY_BY_ROLE_KEY = "SELECT id_page , id_parent,  name, description, date_update, " +
@@ -194,6 +200,52 @@ public final class PageDAO implements IPageDAO
             page.setDateUpdate( daoUtil.getTimestamp( 14 ) );
             page.setMetaKeywords( daoUtil.getString( 15 ) );
             page.setMetaDescription( daoUtil.getString( 16 ) );
+
+            // Patch perfs : close connection before loadPortlets
+            daoUtil.free(  );
+
+            // Loads the portlets contained into the page
+            if ( bPortlets )
+            {
+                loadPortlets( page );
+            }
+        }
+
+        daoUtil.free(  );
+
+        return page;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Page loadWithoutImageContent( int nPageId, boolean bPortlets )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_WITHOUT_IMAGE_CONTENT );
+        daoUtil.setInt( 1, nPageId );
+
+        daoUtil.executeQuery(  );
+
+        Page page = new Page(  );
+
+        if ( daoUtil.next(  ) )
+        {
+            page.setId( nPageId );
+            page.setParentPageId( daoUtil.getInt( 1 ) );
+            page.setName( daoUtil.getString( 2 ) );
+            page.setDescription( daoUtil.getString( 3 ) );
+            page.setPageTemplateId( daoUtil.getInt( 4 ) );
+            page.setTemplate( daoUtil.getString( 5 ) );
+            page.setOrder( daoUtil.getInt( 6 ) );
+            page.setStatus( daoUtil.getInt( 7 ) );
+            page.setRole( daoUtil.getString( 8 ) );
+            page.setCodeTheme( daoUtil.getString( 9 ) );
+            page.setNodeStatus( daoUtil.getInt( 10 ) );
+            page.setMimeType( daoUtil.getString( 11 ) );
+            page.setWorkgroup( daoUtil.getString( 12 ) );
+            page.setDateUpdate( daoUtil.getTimestamp( 13 ) );
+            page.setMetaKeywords( daoUtil.getString( 14 ) );
+            page.setMetaDescription( daoUtil.getString( 15 ) );
 
             // Patch perfs : close connection before loadPortlets
             daoUtil.free(  );
@@ -389,6 +441,33 @@ public final class PageDAO implements IPageDAO
             page.setWorkgroup( daoUtil.getString( 11 ) );
             page.setMetaKeywords( daoUtil.getString( 12 ) );
             page.setMetaDescription( daoUtil.getString( 13 ) );
+            pageList.add( page );
+        }
+
+        daoUtil.free(  );
+
+        return pageList;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Collection<Page> selectChildPagesMinimalData( int nParentPageId )
+    {
+        Collection<Page> pageList = new ArrayList<Page>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHILDPAGE_MINIMAL_DATA );
+        daoUtil.setInt( 1, nParentPageId );
+
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            Page page = new Page(  );
+            page.setId( daoUtil.getInt( 1 ) );
+            page.setParentPageId( daoUtil.getInt( 2 ) );
+            page.setName( daoUtil.getString( 3 ) );
+            page.setDescription( daoUtil.getString( 4 ) );
+            page.setRole( daoUtil.getString( 5 ) );
             pageList.add( page );
         }
 
