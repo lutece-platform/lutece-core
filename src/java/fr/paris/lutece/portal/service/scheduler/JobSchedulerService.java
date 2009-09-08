@@ -122,7 +122,7 @@ public final class JobSchedulerService
     /**
      * Shutdown the service (Called by the core while the webapp is destroyed)
      */
-    public void shutdown(  )
+    public static void shutdown(  )
     {
         if ( _scheduler != null )
         {

@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.date.DateUtil;
 
 import java.util.Date;
@@ -42,7 +41,7 @@ import java.util.Date;
 /**
  *  this class is used to manage daemons declaration
  */
-public class DaemonEntry
+public final class DaemonEntry
 {
     private String _strId;
     private String _strNameKey;
@@ -58,6 +57,14 @@ public class DaemonEntry
     private String _strPluginName;
 
     // Variables declarations
+
+    /**
+     * Constructor
+     */
+    public DaemonEntry(  )
+    {
+        _thread = new DaemonThread( this );
+    }
 
     /**
      * Returns the Id
@@ -146,7 +153,7 @@ public class DaemonEntry
      * @throws InstantiationException If an error occured
      * @throws IllegalAccessException If an error occured
      */
-    void loadDaemon(  ) throws ClassNotFoundException, InstantiationException, IllegalAccessException
+    public void loadDaemon(  ) throws ClassNotFoundException, InstantiationException, IllegalAccessException
     {
         _daemon = (Daemon) Class.forName( _strClassName ).newInstance(  );
     }
@@ -156,9 +163,18 @@ public class DaemonEntry
      *
      * @return The daemon
      */
-    Daemon getDaemon(  )
+    protected Daemon getDaemon(  )
     {
         return _daemon;
+    }
+
+    /**
+     * Returns the thread which start the daemon task
+     * @return The thread
+     */
+    public DaemonThread getDaemonThread(  )
+    {
+        return _thread;
     }
 
     /**
@@ -180,37 +196,21 @@ public class DaemonEntry
     }
 
     /**
-     * Starts the thread
-     */
-    void startThread(  )
-    {
-        _thread = new DaemonThread( this );
-        _thread.start(  );
-        _bIsRunning = true;
-        AppLogService.info( "Starting daemon '" + getId(  ) + "'" );
-    }
-
-    /**
-     * Stops the thread
-     */
-    void stopThread(  )
-    {
-        if ( _thread != null )
-        {
-            _thread.interrupt(  );
-            _thread = null;
-            _bIsRunning = false;
-            AppLogService.info( "Stopping daemon '" + getId(  ) + "'" );
-        }
-    }
-
-    /**
      * Checks if the daemon is running
      * @return True if the thread is running, otherwise false
      */
     public boolean isRunning(  )
     {
         return _bIsRunning;
+    }
+
+    /**
+     * Set running daemon status
+     * @param bIsRunning True if the thread is running, otherwise false
+     */
+    public void setIsRunning( boolean bIsRunning )
+    {
+        _bIsRunning = bIsRunning;
     }
 
     /**
@@ -277,7 +277,7 @@ public class DaemonEntry
      * Sets the interval
      * @param lInterval The interval
      */
-    void setInterval( long lInterval )
+    public void setInterval( long lInterval )
     {
         _lInterval = lInterval;
     }
@@ -286,7 +286,7 @@ public class DaemonEntry
      * Sets the OnStartUp property
      * @param bOnStartup True if the daemon should be launched on startup, otherwise false
      */
-    void setOnStartUp( boolean bOnStartup )
+    public void setOnStartUp( boolean bOnStartup )
     {
         _bOnStartup = bOnStartup;
     }

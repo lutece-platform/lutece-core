@@ -40,6 +40,12 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -47,7 +53,20 @@ import java.util.Map;
  * */
 public final class AppDaemonService
 {
-    private static Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<String, DaemonEntry>(  );
+    private static final String PROPERTY_MAX_INITIAL_START_DELAY = "daemon.maxInitialStartDelay";
+    private static final String PROPERTY_MAX_AWAIT_TERMINATION_DELAY = "daemon.maxAwaitTerminationDelay";
+    private static final String PROPERTY_SCHEDULED_THREAD_CORE_POOL_SIZE = "daemon.ScheduledThreadCorePoolSize";
+    private static final int MAX_INITIAL_START_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_INITIAL_START_DELAY,
+            30 );
+    private static final int MAX_AWAIT_TERMINATION_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY,
+            15 );
+    private static final int DAEMON_CORE_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_SCHEDULED_THREAD_CORE_POOL_SIZE,
+            30 );
+    private static final Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<String, DaemonEntry>(  );
+    private static final ScheduledThreadPoolExecutor _scheduler = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool( DAEMON_CORE_POOL_SIZE,
+            new DaemonThreadFactory(  ) );
+    private static ConcurrentHashMap<String, ScheduledFuture<?>> _lRunningThread = new ConcurrentHashMap<String, ScheduledFuture<?>>(  );
+    private static final Random _random = new Random(  );
     private static boolean _bInit;
 
     /** Private constructor */
@@ -59,7 +78,7 @@ public final class AppDaemonService
      * Performs initialization of the DaemonFactory.  Note that this should
      * return right away so that processing can continue (IE thread off
      * everything)
-     * @throws LuteceInitException If an error occured
+     * @throws LuteceInitException If an error occurred
      */
     public static synchronized void init(  ) throws LuteceInitException
     {
@@ -69,17 +88,32 @@ public final class AppDaemonService
             return;
         }
 
-        // Register core default daemons
-        DaemonEntry entryIndexer = new DaemonEntry(  );
-        entryIndexer.setId( "indexer" );
+        // Unsynchronized daemon start
+        int nInitialDaemon = 0;
 
-        //        registerDaemon( CORE_DAEMON_INDEXER );
+        for ( DaemonEntry entry : _mapDaemonEntries.values(  ) )
+        {
+            if ( entry.onStartup(  ) )
+            {
+                if ( entry.onStartup(  ) )
+                {
+                    ++nInitialDaemon;
+                }
+            }
+        }
+
+        int nDelay = MAX_INITIAL_START_DELAY / nInitialDaemon;
+        int nInitialDelay = 0;
+
+        // Register core default daemons
         for ( DaemonEntry entry : _mapDaemonEntries.values(  ) )
         {
             // starts any daemon declared as startup daemons
             if ( entry.onStartup(  ) )
             {
-                entry.startThread(  );
+                nInitialDelay += nDelay;
+
+                scheduleThread( entry, nInitialDelay );
             }
         }
 
@@ -89,7 +123,7 @@ public final class AppDaemonService
     /**
      * Register a daemon by its entry
      * @param entry The daemon entry
-     * @throws LuteceInitException If an error occured
+     * @throws LuteceInitException If an error occurred
      */
     public static void registerDaemon( DaemonEntry entry )
         throws LuteceInitException
@@ -133,6 +167,8 @@ public final class AppDaemonService
      */
     public static void unregisterDaemon( String strDaemonKey )
     {
+        UnScheduleThread( _mapDaemonEntries.get( strDaemonKey ) );
+        _mapDaemonEntries.remove( strDaemonKey );
     }
 
     /**
@@ -141,8 +177,7 @@ public final class AppDaemonService
      */
     public static void startDaemon( String strDaemonKey )
     {
-        DaemonEntry entry = _mapDaemonEntries.get( strDaemonKey );
-        entry.startThread(  );
+        scheduleThread( _mapDaemonEntries.get( strDaemonKey ) );
     }
 
     /**
@@ -151,8 +186,65 @@ public final class AppDaemonService
      */
     public static void stopDaemon( String strDaemonKey )
     {
-        DaemonEntry entry = _mapDaemonEntries.get( strDaemonKey );
-        entry.stopThread(  );
+        UnScheduleThread( _mapDaemonEntries.get( strDaemonKey ) );
+    }
+
+    /**
+     * Add daemon to schedule's queue
+     * @param entry The DaemonEntry
+     */
+    private static void scheduleThread( DaemonEntry entry )
+    {
+        scheduleThread( entry, _random.nextInt( MAX_INITIAL_START_DELAY ) );
+    }
+
+    /**
+     *  Add daemon to schedule's queue
+     * @param entry The DaemonEntry
+     * @param nInitialDelay Initial start delay
+     */
+    private static void scheduleThread( DaemonEntry entry, int nInitialDelay )
+    {
+        ScheduledFuture<?> result = _lRunningThread.get( entry.getId(  ) );
+
+        if ( result == null )
+        {
+            ScheduledFuture<?> task = _scheduler.scheduleWithFixedDelay( entry.getDaemonThread(  ), nInitialDelay,
+                    entry.getInterval(  ), TimeUnit.SECONDS );
+
+            _lRunningThread.putIfAbsent( entry.getId(  ), task );
+            AppLogService.info( "Starting daemon '" + entry.getId(  ) + "'" );
+        }
+
+        entry.setIsRunning( true );
+    }
+
+    /**
+     * Remove daemon from schedule's queue
+     * @param entry The DaemonEntry
+     */
+    private static void UnScheduleThread( DaemonEntry entry )
+    {
+        cancelScheduledThread( entry.getId(  ) );
+        entry.setIsRunning( false );
+        AppLogService.info( "Stopping daemon '" + entry.getId(  ) + "'" );
+    }
+
+    /**
+     * Cancel scheduled thread (don't interrupt if it is running )
+     * @param strEntryId
+     */
+    protected static void cancelScheduledThread( String strEntryId )
+    {
+        ScheduledFuture<?> task = _lRunningThread.get( strEntryId );
+
+        if ( task != null )
+        {
+            task.cancel( false );
+            _scheduler.remove( (Runnable) task );
+            _scheduler.purge(  );
+            _lRunningThread.remove( strEntryId );
+        }
     }
 
     /**
@@ -170,9 +262,43 @@ public final class AppDaemonService
      */
     public static void shutdown(  )
     {
-        for ( DaemonEntry entry : _mapDaemonEntries.values(  ) )
+        AppLogService.info( 
+            "Lutece daemons scheduler stop requested : trying to terminate gracefully daemons list (max wait " +
+            MAX_AWAIT_TERMINATION_DELAY + " s)." );
+        _scheduler.setExecuteExistingDelayedTasksAfterShutdownPolicy( false );
+        _scheduler.setContinueExistingPeriodicTasksAfterShutdownPolicy( false );
+        _scheduler.shutdown(  );
+
+        try
         {
-            entry.stopThread(  );
+            if ( _scheduler.awaitTermination( MAX_AWAIT_TERMINATION_DELAY, TimeUnit.SECONDS ) )
+            {
+                AppLogService.info( "All daemons shutdown successfully." );
+            }
+            else
+            {
+                AppLogService.info( _scheduler.getActiveCount(  ) +
+                    " daemons steel running, trying to interrupt them..." );
+                _scheduler.shutdownNow(  );
+
+                if ( _scheduler.awaitTermination( 1, TimeUnit.SECONDS ) )
+                {
+                    AppLogService.info( "All running daemons successfully interrupted." );
+                }
+                else
+                {
+                    AppLogService.error( "Interrupt failed : " + _scheduler.getActiveCount(  ) +
+                        " daemons steel running." );
+                }
+            }
+        }
+        catch ( InterruptedException e )
+        {
+            AppLogService.error( "Error during waiting for daemons termination", e );
+        }
+        finally
+        {
+            _scheduler.purge(  );
         }
     }
 

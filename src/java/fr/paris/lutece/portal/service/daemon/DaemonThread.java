@@ -42,9 +42,10 @@ import java.util.Date;
 /**
  * This class performs methods to manage threads of execution for a given daemon instance
  */
-public class DaemonThread extends Thread
+public final class DaemonThread implements Runnable
 {
     private DaemonEntry _entry;
+    private String _strDaemonName = null;
 
     /**
      * Constructor Creates the thread of execution from informations contained
@@ -53,78 +54,51 @@ public class DaemonThread extends Thread
      */
     public DaemonThread( DaemonEntry entry )
     {
-        super( "DaemonThread:" + entry.getId(  ) );
         _entry = entry;
-        setPriority( Thread.MIN_PRIORITY );
     }
 
     /**
-     * the execution method of the daemon thread
+     * Execution process of the daemon associated with the thread
+         * This methods is called for regular interval
      */
     public void run(  )
     {
-        Daemon daemon = _entry.getDaemon(  );
-
-        //at the very minimum this daemon is processing...
-        AppLogService.info( "Daemon '" + _entry.getId(  ) + "' - first process." );
-
-        // Execution loop of the thread (in which the thread is put in sleep during a given interval)
-        while ( true )
+        if ( _entry.isRunning(  ) )
         {
-            //move the seconds to milliseconds
+            if ( _strDaemonName == null )
+            {
+                _strDaemonName = "Daemon '" + _entry.getId(  ) + "'";
+            }
+
+            Thread.currentThread(  ).setName( _strDaemonName );
+
+            Daemon daemon = _entry.getDaemon(  );
+            AppLogService.info( _strDaemonName + " - starts processing." );
+
             try
             {
-                synchronized ( this )
+                _entry.setLastRunDate( new Date(  ) );
+
+                if ( PluginService.isPluginEnable( daemon.getPluginName(  ) ) )
                 {
-                    // Puts the thread in sleep
-                    Thread.sleep( _entry.getInterval(  ) * 1000 );
+                    daemon.run(  );
+                    _entry.setLastRunLogs( daemon.getLastRunLogs(  ) );
+                }
+                else
+                {
+                    _entry.setLastRunLogs( "Plugin not enabled" );
                 }
             }
-            catch ( InterruptedException e )
+            catch ( Throwable t )
             {
-                break;
-
-                //the DaemonFactory may want to stop this thread from
-                //sleeping and call interrupt() on this thread.
+                AppLogService.error( "Could not process Daemon: " + _entry.getId(  ), t );
             }
 
-            // Runs the execution process of the daemon
-            runDaemon( daemon );
+            AppLogService.info( _strDaemonName + " - end of process." );
         }
-
-        AppLogService.info( "Daemon '" + _entry.getId(  ) + "' - stopped." );
-    }
-
-    /**
-     * Execution process of the daemon associated with the thread This methods
-     * is called for regular interval
-     *
-     * @param daemon the daemon instance to process
-     */
-    private void runDaemon( Daemon daemon )
-    {
-        //       daemon.setStatus( Daemon.STATUS_RUNNING );
-        AppLogService.info( "Daemon '" + _entry.getId(  ) + "' - starts processing." );
-
-        try
+        else
         {
-            _entry.setLastRunDate( new Date(  ) );
-
-            if ( PluginService.isPluginEnable( daemon.getPluginName(  ) ) )
-            {
-                daemon.run(  );
-                _entry.setLastRunLogs( daemon.getLastRunLogs(  ) );
-            }
-            else
-            {
-                _entry.setLastRunLogs( "Plugin not enabled" );
-            }
+            AppDaemonService.cancelScheduledThread( _entry.getId(  ) );
         }
-        catch ( Throwable t )
-        {
-            AppLogService.error( "Could not process Daemon: " + _entry.getId(  ), t );
-        }
-
-        AppLogService.info( "Daemon '" + _entry.getId(  ) + "' - end of process." );
     }
 }

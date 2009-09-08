@@ -83,14 +83,15 @@ public class AppInitServlet extends HttpServlet
     /**
      * Overloads the servlet destroy() method
      */
+    @Override
     public void destroy(  )
     {
-        ShutdownServiceManager.shutdown(  );
-        JobSchedulerService.getInstance(  ).shutdown(  );
         MailService.shutdown(  );
         AppDaemonService.shutdown(  );
-        AppConnectionService.releasePool(  );
+        JobSchedulerService.shutdown(  );
+        ShutdownServiceManager.shutdown(  );
         CacheService.getInstance(  ).shutdown(  );
+        AppConnectionService.releasePool(  );
         super.destroy(  );
         AppLogService.info( "Application stopped" );
     }
