@@ -120,11 +120,11 @@ public class TreeMenuInclude implements PageInclude
         // If the current page is the home page or the string strTreeOnRoot equals false, not display the treeMenu
         if ( strTreeOnRoot.equalsIgnoreCase( "true" ) )
         {
-            listPagesMenu = PageHome.getChildPages( getPageTree( nIdPage ) );
+            listPagesMenu = PageHome.getChildPagesMinimalData( getPageTree( nIdPage ) );
         }
         else
         {
-            listPagesMenu = PageHome.getChildPages( nIdPage );
+            listPagesMenu = PageHome.getChildPagesMinimalData( nIdPage );
         }
 
         strXml.append( XmlUtil.getXmlHeader(  ) );
@@ -146,7 +146,7 @@ public class TreeMenuInclude implements PageInclude
                 // Seek of the sub-menus
                 XmlUtil.beginElement( strXml, XmlContent.TAG_SUBLEVEL_MENU_LIST );
 
-                Collection<Page> listSubLevelMenuPages = PageHome.getChildPages( menuPage.getId(  ) );
+                Collection<Page> listSubLevelMenuPages = PageHome.getChildPagesMinimalData( menuPage.getId(  ) );
                 int nSubLevelMenuIndex = 1;
 
                 for ( Page subLevelMenuPage : listSubLevelMenuPages )
@@ -225,7 +225,7 @@ public class TreeMenuInclude implements PageInclude
         {
             nParentTree = nParentPageId;
 
-            Page parentPage = PageHome.getPage( nParentPageId );
+            Page parentPage = PageHome.getPageWithoutImageContent( nParentPageId );
             nParentPageId = parentPage.getParentPageId(  );
         }
 
