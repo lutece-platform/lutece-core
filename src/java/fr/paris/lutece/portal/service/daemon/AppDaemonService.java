@@ -88,32 +88,41 @@ public final class AppDaemonService
             return;
         }
 
-        // Unsynchronized daemon start
-        int nInitialDaemon = 0;
-
-        for ( DaemonEntry entry : _mapDaemonEntries.values(  ) )
+        if ( _mapDaemonEntries.size(  ) > 0 )
         {
-            if ( entry.onStartup(  ) )
+            // Unsynchronized daemon start
+            int nInitialDaemon = 0;
+
+            for ( DaemonEntry entry : _mapDaemonEntries.values(  ) )
             {
                 if ( entry.onStartup(  ) )
                 {
-                    ++nInitialDaemon;
+                    if ( entry.onStartup(  ) )
+                    {
+                        ++nInitialDaemon;
+                    }
                 }
             }
-        }
 
-        int nDelay = MAX_INITIAL_START_DELAY / nInitialDaemon;
-        int nInitialDelay = 0;
+            int nDelay = MAX_INITIAL_START_DELAY;
 
-        // Register core default daemons
-        for ( DaemonEntry entry : _mapDaemonEntries.values(  ) )
-        {
-            // starts any daemon declared as startup daemons
-            if ( entry.onStartup(  ) )
+            if ( nInitialDaemon > 0 )
             {
-                nInitialDelay += nDelay;
+                nDelay = MAX_INITIAL_START_DELAY / nInitialDaemon;
+            }
 
-                scheduleThread( entry, nInitialDelay );
+            int nInitialDelay = 0;
+
+            // Register daemons
+            for ( DaemonEntry entry : _mapDaemonEntries.values(  ) )
+            {
+                // starts any daemon declared as startup daemons
+                if ( entry.onStartup(  ) )
+                {
+                    nInitialDelay += nDelay;
+
+                    scheduleThread( entry, nInitialDelay );
+                }
             }
         }
 
@@ -232,7 +241,7 @@ public final class AppDaemonService
 
     /**
      * Cancel scheduled thread (don't interrupt if it is running )
-     * @param strEntryId
+     * @param strEntryId The DaemonEntry Id
      */
     protected static void cancelScheduledThread( String strEntryId )
     {

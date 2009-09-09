@@ -35,8 +35,6 @@ package fr.paris.lutece.portal.service.daemon;
 
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
@@ -49,7 +47,6 @@ public final class DaemonThreadFactory implements ThreadFactory
     private static final String PROPERTY_RUN_THREAD_AS_DAEMON = "daemon.runThreadAsDaemon";
     private static final boolean RUN_THREAD_AS_DAEMON = Boolean.valueOf( AppPropertiesService.getProperty( 
                 PROPERTY_RUN_THREAD_AS_DAEMON, "0" ) );
-    private static final ConcurrentMap<Thread, Runnable> _lThread = new ConcurrentHashMap<Thread, Runnable>(  );
     private static final ThreadFactory _defaultThreadFactory = Executors.defaultThreadFactory(  );
 
     /**
@@ -63,8 +60,6 @@ public final class DaemonThreadFactory implements ThreadFactory
         Thread thread = _defaultThreadFactory.newThread( runnable );
         thread.setDaemon( RUN_THREAD_AS_DAEMON );
         thread.setPriority( Thread.MIN_PRIORITY );
-
-        _lThread.put( thread, runnable );
 
         return thread;
     }
