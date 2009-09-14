@@ -10,7 +10,7 @@
 
 	<xsl:template match="menu">
 		<xsl:variable name="index">
-			<xsl:number level="single" />
+			<xsl:number level="single" value="position()" />
 		</xsl:variable>
 
 		<xsl:if test="$index &lt; 4">
@@ -31,7 +31,7 @@
 
 	<xsl:template match="sublevel-menu">
 		<xsl:variable name="index_sous_menu">
-			<xsl:number level="single" />
+			<xsl:number level="single" value="position()" />
 		</xsl:variable>
 		<a href="{$site-path}?page_id={page-id}" class="last-level" target="_top">
 			<xsl:value-of select="page-name" />
