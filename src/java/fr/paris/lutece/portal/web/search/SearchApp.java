@@ -80,6 +80,7 @@ public class SearchApp implements XPageApplication
     private static final String PROPERTY_PAGE_TITLE = "portal.search.search_results.pageTitle";
     private static final String MESSAGE_INVALID_SEARCH_TERMS = "portal.search.message.invalidSearchTerms";
     private static final String MESSAGE_ENCODING_ERROR = "portal.search.message.encodingError";
+    private static final String MESSAGE_QUERY_NULL = "portal.search.message.queryNull";
     private static final String DEFAULT_RESULTS_PER_PAGE = "10";
     private static final String DEFAULT_PAGE_INDEX = "1";
     private static final String PARAMETER_PAGE_INDEX = "page_index";
@@ -189,10 +190,15 @@ public class SearchApp implements XPageApplication
         {
             strEncoded = URLEncoder.encode( strSource, strURIEncoding );
         }
-        catch ( UnsupportedEncodingException e )
+        catch ( UnsupportedEncodingException ue )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( ue.getMessage(  ), ue );
             SiteMessageService.setMessage( request, MESSAGE_ENCODING_ERROR, SiteMessage.TYPE_ERROR );
+        }
+        catch ( NullPointerException ne )
+        {
+            AppLogService.error( ne.getMessage(  ), ne );
+            SiteMessageService.setMessage( request, MESSAGE_QUERY_NULL, SiteMessage.TYPE_ERROR );
         }
 
         return strEncoded;
