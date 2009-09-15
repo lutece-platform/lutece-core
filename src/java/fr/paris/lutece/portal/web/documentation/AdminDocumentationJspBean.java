@@ -154,12 +154,11 @@ public class AdminDocumentationJspBean
 
         try
         {
-            strHtmlDoc = xmlTransformerService.transformBySourceWithXslCache( sourceXml.toString(  ), sourceStyleSheet,
-                    strUniqueId, params, null );
+            strHtmlDoc = xmlTransformerService.transformBySourceWithXslCache( sourceXml, sourceStyleSheet, strUniqueId,
+                    params, null );
         }
         catch ( Exception e )
         {
-            AppLogService.debug( "Can't parse XML: " + e.getMessage(  ), e );
             AppLogService.error( "Can't parse XML: " + e.getMessage(  ), e );
 
             return null;
