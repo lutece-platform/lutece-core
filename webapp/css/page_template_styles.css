@@ -6,7 +6,6 @@ body {
 #banner {
 	background-color: #2178B3;
 	height: 7em;
-	margin-top: 2px;
 	background-image: url("../images/local/skin/header_background.png");
 }
 
@@ -42,6 +41,22 @@ body {
 	color: #000;
 }
 
+.portlet {
+	background-color: #fff;
+	padding:1em;
+	border:1px solid #ced0d0;
+}
+
+.portlet-background-content {
+	background-color: #fff;
+	padding:1em;
+}
+
+.portlet-header{
+	font-size:1.4em;
+	font-weight:bold;
+}
+
 .portlet-background-header, .portlet-background-colored-header {
 	background-image: url("../images/local/skin/title_background.png");
 	background-color:#2178B3;
@@ -51,22 +66,7 @@ body {
 	padding:0.28em 1em;
 	border-bottom: 1px solid #efefef;
 }
-.portlet-background-content {
-	background-image: url("../images/local/skin/portlet_background2.png");
-	background-color: #fff;
-	background-repeat: repeat-x;
-	padding:1em;
-}
-.portlet {
-	background-image: url("../images/local/skin/portlet_background2.png");
-	background-color: #fff;
-	background-repeat: repeat-x;
-	padding:1em;
-}
-.portlet-header{
-	font-size:1.4em;
-	font-weight:bold;
-}
+
 .portlet-background-colored-content {
 	background-image: url("../images/local/skin/portlet_background.png");
 	background-repeat: repeat-x;
@@ -74,38 +74,6 @@ body {
 	padding:1em;
 }
 
-/***************************************************/
-/* For Lutece V3 */
-
-.portlet-V3 {
-	padding:0; 
-	background-color:#ededed; 
-	border-left:1px solid #ced0d0; 
-	border-top:1px solid #ced0d0; 
-	border-right:1px solid #ced0d0;
-}
-.portlet-element-V3 {
-	border-top:1px solid #fff; 
-	border-left:1px solid #fff; 
-	border-bottom:1px solid #ced0d0; 
-	padding:10px;
-}
-
-.-lutece-title-3 {
-	font:1.1em Georgia;
-	padding-bottom: 10px;
-	font-weight: bold;
-}
-a.-lutece-list {
-	text-decoration: none;
-}
-a.-lutece-list:hover { 
-	text-decoration: underline;
-}
-hr {
-	border-top:1px solid #ced0d0;
-}
-/***************************************************/
 #footer1 {
 	background-color: #757779;
 }
@@ -161,10 +129,16 @@ a.last-level {
 	border: 1px solid #000;
 	padding:0.8em;
 }
-.-lutece-input {
+
+input[type="submit"], input[type="button"] {
 	border:1px solid #81ADD7;
 	color:#5693C0;
+	background-color: #ECE9D8;
 }
+input[type="submit"]:hover, input[type="button"]:hover {
+	background-color: #fff;
+}
+
 em {
 	background-color: #F3ECDC;
 }
