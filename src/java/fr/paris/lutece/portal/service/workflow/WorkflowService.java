@@ -143,11 +143,11 @@ public class WorkflowService
      *
      */
     public void doProcessAction( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
-        Locale locale )
+        Locale locale, boolean isAutomatic )
     {
         if ( isAvailable(  ) )
         {
-            _service.doProcessAction( nIdResource, strResourceType, nIdAction, request, locale );
+            _service.doProcessAction( nIdResource, strResourceType, nIdAction, request, locale, isAutomatic );
         }
     }
 
@@ -291,4 +291,19 @@ public class WorkflowService
     {
         return isAvailable(  ) ? _service.getState( nIdResource, strResourceType, nIdWorkflow, user ) : null;
     }
+    
+    /**
+     * Execute action automatic
+     * @param nIdResource the document id
+     * @param strResourceType the document type
+     * @param nIdWorkflow the workflow id
+     */
+    public void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow )
+    {
+    	if ( isAvailable(  ) )
+        {
+            _service.executeActionAutomatic( nIdResource, strResourceType,nIdWorkflow );
+        }
+    }
+
 }

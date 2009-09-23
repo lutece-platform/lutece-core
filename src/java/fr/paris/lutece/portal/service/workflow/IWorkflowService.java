@@ -87,10 +87,10 @@ public interface IWorkflowService
      * @param request the request
      * @param nIdAction the action id
      * @param locale locale
-     *
+     * @param isAutomatic true if action is automatic
      */
     void doProcessAction( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
-        Locale locale );
+        Locale locale, boolean isAutomatic );
 
     /**
      * returns the  actions history performed on a resource
@@ -184,4 +184,13 @@ public interface IWorkflowService
      * @return a list wich contains idRessource
      */
     Collection<Integer> getListIdRessourceByState( int nIdState, String strResourceType, AdminUser user );
+
+    /**
+     * Execute action automatic
+     * @param nIdResource the document id
+     * @param strResourceType the document type
+     * @param nIdWorkflow the workflow id
+     */
+    void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow );
+    
 }
