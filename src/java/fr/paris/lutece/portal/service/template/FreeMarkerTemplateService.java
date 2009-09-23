@@ -242,6 +242,9 @@ public final class FreeMarkerTemplateService
             }
 
             StringWriter writer = new StringWriter( 1024 );
+            //Used to set the default format to display a date and datetime
+            ftl.setDateFormat( DateUtil.getDefaultPattern( locale ) );
+            
             ftl.process( rootMap, writer );
             template = new HtmlTemplate( writer.toString(  ) );
         }
