@@ -41,7 +41,7 @@ body {
 	color: #000;
 }
 
-.portlet {
+.-digglike-element, .-digglike-element2, .portlet {
 	background-color: #fff;
 	padding:1em;
 	border:1px solid #ced0d0;
