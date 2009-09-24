@@ -130,12 +130,12 @@ a.last-level {
 	padding:0.8em;
 }
 
-input[type="submit"], input[type="button"] {
+input[type="submit"], input[type="reset"], input[type="button"] {
 	border:1px solid #81ADD7;
 	color:#5693C0;
 	background-color: #ECE9D8;
 }
-input[type="submit"]:hover, input[type="button"]:hover {
+input[type="submit"]:hover, input[type="reset"]:hover, input[type="button"]:hover {
 	background-color: #fff;
 }
 
