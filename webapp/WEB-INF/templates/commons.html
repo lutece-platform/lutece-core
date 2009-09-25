@@ -76,7 +76,23 @@
 </#macro>
 
 <#macro pagination paginator >
+	<#assign nbLinkPages = 10 />
+	<#assign offsetPrev = nbLinkPages/2 />
+	<#assign offsetNext = nbLinkPages/2 />
+	
+	<#if paginator.pageCurrent &lt; nbLinkPages-offsetPrev>
+		<#assign offsetPrev = nbLinkPages - paginator.pageCurrent />
+		<#assign offsetNext = nbLinkPages - offsetPrev />
+	<#elseif paginator.pageCurrent &gt; paginator.pagesCount - (nbLinkPages - offsetNext) >
+		<#assign offsetNext = nbLinkPages - (paginator.pagesCount - paginator.pageCurrent) />
+		<#assign offsetPrev = nbLinkPages - offsetNext />
+	</#if>
     <#if (paginator.pagesCount > 1) >
+        <#if paginator.pageCurrent &gt; nbLinkPages-offsetPrev >
+        <a href="${paginator.firstPageLink}">
+            <img src="images/admin/skin/first.png" alt="&lt;" align="bottom" />
+        </a>
+        </#if>
         <#if (paginator.pageCurrent > 1) >
         <a href="${paginator.previousPageLink}">
             <img src="images/admin/skin/prev.png" alt="&lt;" align="bottom" />
@@ -84,17 +100,30 @@
         <#else>
             &nbsp;&nbsp;
         </#if>
+        <#if paginator.pageCurrent &gt; nbLinkPages-offsetPrev >
+        	<strong>...</strong>
+        </#if>
         <#list paginator.pagesLinks as link>
-            <#if ( link.index = paginator.pageCurrent )>
-                <strong>${link.name}</strong>
-            <#else>
-                <a href="${link.url}">${link.name}</a>
-            </#if>
+			<#if (link.index &gt; (paginator.pageCurrent - (nbLinkPages-offsetPrev))) && (link.index &lt;= (paginator.pageCurrent + (nbLinkPages-offsetNext))) >
+				<#if ( link.index == paginator.pageCurrent )>
+					<strong>${link.name}</strong>
+				<#else>
+					<a href="${link.url}">${link.name}</a>
+				</#if>
+			</#if>
         </#list>
+        <#if paginator.pageCurrent &lt; paginator.pagesCount - (nbLinkPages-offsetNext) >
+        	<strong>...</strong>
+        </#if>
         <#if (paginator.pageCurrent < paginator.pagesCount) > 
         <a href="${paginator.nextPageLink}">
             <img src="images/admin/skin/next.png" alt="&gt;" align="bottom" />
         </a>
+        <#if paginator.pageCurrent &lt; paginator.pagesCount - (nbLinkPages-offsetNext) >
+        <a href="${paginator.lastPageLink}">
+            <img src="images/admin/skin/last.png" alt="&lt;" align="bottom" />
+        </a>
+        </#if>
         <#else>
             &nbsp;&nbsp;
         </#if>

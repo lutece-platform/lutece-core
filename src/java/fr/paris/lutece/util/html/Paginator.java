@@ -135,11 +135,37 @@ public class Paginator
      *
      * @return The previous page link
      */
+    public String getFirstPageLink(  )
+    {
+        UrlItem url = new UrlItem( _strBaseUrl );
+        url.addParameter( _strPageIndexParameterName, "" + 1 );
+
+        return url.getUrl(  );
+    }
+
+    /**
+     * Returns the previous page link
+     *
+     * @return The previous page link
+     */
     public String getPreviousPageLink(  )
     {
         int nPreviousIndex = _nPageCurrent - 1;
         UrlItem url = new UrlItem( _strBaseUrl );
         url.addParameter( _strPageIndexParameterName, "" + nPreviousIndex );
+
+        return url.getUrl(  );
+    }
+
+    /**
+     * Returns the previous page link
+     *
+     * @return The previous page link
+     */
+    public String getLastPageLink(  )
+    {
+        UrlItem url = new UrlItem( _strBaseUrl );
+        url.addParameter( _strPageIndexParameterName, "" + getPagesCount(  ) );
 
         return url.getUrl(  );
     }
