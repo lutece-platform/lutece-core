@@ -45,6 +45,7 @@ import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -245,6 +246,21 @@ public class WorkflowService
     }
 
     /**
+     * Get all authorized resource Id
+     * @param strResourceType the resource type
+     * @param nIdWorkflow the workflow id
+     * @param nIdWorkflowState The workflow state id or -1 for all workflow states
+     * @param user the AdminUser
+     * @return a list resource id
+     */
+    public List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState,
+        AdminUser user )
+    {
+        return isAvailable(  )
+        ? _service.getAuthorizedResourceList( strResourceType, nIdWorkflow, nIdWorkflowState, user ) : null;
+    }
+
+    /**
      * return a referencelist wich contains a list enabled workflow
      * @param user the AdminUser
      * @param locale the locale
@@ -291,7 +307,7 @@ public class WorkflowService
     {
         return isAvailable(  ) ? _service.getState( nIdResource, strResourceType, nIdWorkflow, user ) : null;
     }
-    
+
     /**
      * Execute action automatic
      * @param nIdResource the document id
@@ -300,10 +316,9 @@ public class WorkflowService
      */
     public void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow )
     {
-    	if ( isAvailable(  ) )
+        if ( isAvailable(  ) )
         {
-            _service.executeActionAutomatic( nIdResource, strResourceType,nIdWorkflow );
+            _service.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow );
         }
     }
-
 }

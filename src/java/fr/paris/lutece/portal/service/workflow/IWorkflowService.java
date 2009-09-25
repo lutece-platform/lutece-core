@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.business.workflow.State;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -161,6 +162,17 @@ public interface IWorkflowService
     boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user );
 
     /**
+     * Get all authorized resource Id
+     * @param strResourceType the resource type
+     * @param nIdWorkflow the workflow id
+     * @param nIdWorkflowState The workflow state id or -1 for all workflow states
+     * @param user the AdminUser
+     * @return a list resource id
+     */
+    List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState,
+        AdminUser user );
+
+    /**
      * return a referencelist wich contains a list enabled workflow
      * @param user the AdminUser
      * @param locale the locale
@@ -192,5 +204,4 @@ public interface IWorkflowService
      * @param nIdWorkflow the workflow id
      */
     void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow );
-    
 }
