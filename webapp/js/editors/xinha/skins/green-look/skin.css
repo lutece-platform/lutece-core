@@ -60,6 +60,14 @@
   color:ButtonText;
   font:11px helvetica,arial,sans-serif;
 }
+
+.htmlarea .statusBar .statusBarWidgetContainer
+{
+  background-image: url(button-background.gif);
+  background-repeat: repeat-x;
+  background-color: #f8fdf8;
+}
+
 .htmlarea .statusBar .statusBarTree
 {
   display:block;

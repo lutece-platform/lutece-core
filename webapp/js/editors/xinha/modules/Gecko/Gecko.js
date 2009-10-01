@@ -25,18 +25,18 @@
     --   be a part of the Gecko.prototype, we won't trample on namespace
     --   that way.
     --
-    --  $HeadURL: http://svn.xinha.python-hosting.com/trunk/modules/Gecko/Gecko.js $
-    --  $LastChangedDate: 2007-04-05 10:13:03 +1200 (Thu, 05 Apr 2007) $
-    --  $LastChangedRevision: 808 $
-    --  $LastChangedBy: wymsy $
+    --  $HeadURL: http://svn.xinha.webfactional.com/trunk/modules/Gecko/Gecko.js $
+    --  $LastChangedDate: 2008-10-13 06:42:42 +1300 (Mon, 13 Oct 2008) $
+    --  $LastChangedRevision: 1084 $
+    --  $LastChangedBy: ray $
     --------------------------------------------------------------------------*/
                                                     
 Gecko._pluginInfo = {
   name          : "Gecko",
   origin        : "Xinha Core",
-  version       : "$LastChangedRevision: 808 $".replace(/^[^:]*: (.*) \$$/, '$1'),
+  version       : "$LastChangedRevision: 1084 $".replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
   developer     : "The Xinha Core Developer Team",
-  developer_url : "$HeadURL: http://svn.xinha.python-hosting.com/trunk/modules/Gecko/Gecko.js $".replace(/^[^:]*: (.*) \$$/, '$1'),
+  developer_url : "$HeadURL: http://svn.xinha.webfactional.com/trunk/modules/Gecko/Gecko.js $".replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
   sponsor       : "",
   sponsor_url   : "",
   license       : "htmlArea"
@@ -166,10 +166,11 @@ Gecko.prototype.onKeyPress = function(ev)
         {
           if (RE_date.test(matchData))
           {
-            if (!RE_ip.test(matchData)) 
+            break; //ray: disabling linking of IP numbers because of general bugginess (see Ticket #1085)
+            /*if (!RE_ip.test(matchData)) 
             {
               break;
-            }
+            }*/
           } 
           var leftTextUrl  = s.anchorNode;
           var rightTextUrl = leftTextUrl.splitText(s.anchorOffset);
@@ -187,11 +188,7 @@ Gecko.prototype.onKeyPress = function(ev)
   {    
 /*  This is now handled by a plugin  
     case 13: // ENTER
-      if( !ev.shiftKey && editor.config.mozParaHandler == 'dirty' )
-      {
-        this.dom_checkInsertP();
-        Xinha._stopEvent(ev);
-      }
+
     break;*/
 
     case 27: // ESCAPE
@@ -254,12 +251,14 @@ Gecko.prototype.onKeyPress = function(ev)
             }
 
             var m = s.anchorNode.data.match(Xinha.RE_url);
-            if ( m && a.href.match(s.anchorNode.data.trim()) )
+
+            if ( m && a.href.match(new RegExp( 'http(s)?://' + Xinha.escapeStringForRegExp( s.anchorNode.data.trim() ) ) ) )
             {
               var txtNode = s.anchorNode;
               var fnUrl = function()
               {
                 // Sometimes m is undefined becase the url is not an url anymore (was www.url.com and become for example www.url)
+                // ray: shouldn't the link be un-linked then?
                 m = txtNode.data.match(Xinha.RE_url);
                 if(m)
                 {
@@ -366,19 +365,44 @@ Gecko.prototype.onExecCommand = function(cmdID, UI, param)
       alert(Xinha._lc("The Paste button does not work in Mozilla based web browsers (technical security reasons). Press CTRL-V on your keyboard to paste directly."));
       return true; // Indicate paste is done, stop command being issued to browser by Xinha.prototype.execCommand
     }
+    break;
+    case 'removeformat':
+      var editor = this.editor;
+      var sel = editor.getSelection();
+      var selSave = editor.saveSelection(sel);
+      var range = editor.createRange(sel);
+
+      var els = editor._doc.body.getElementsByTagName('*');
+
+      var start = ( range.startContainer.nodeType == 1 ) ? range.startContainer : range.startContainer.parentNode;
+      var i, el;
+      if (sel.isCollapsed) range.selectNodeContents(editor._doc.body);
+      
+      for (i=0; i<els.length;i++)
+      {
+        el = els[i];
+        if ( range.isPointInRange(el, 0) || (els[i] == start && range.startOffset == 0))
+        {
+          el.removeAttribute('style');
+        }
+      }
+      this.editor._doc.execCommand(cmdID, UI, param);
+      editor.restoreSelection(selSave);
+      return true;
+    break;
   }
   
   return false;
 }
 Gecko.prototype.onMouseDown = function(ev)
 {   
-	// Gecko doesn't select hr's on single click
-	if (ev.target.tagName.toLowerCase() == "hr")
-	{
-	  var sel = this.editor.getSelection();
-	  var range = this.editor.createRange(sel);
-	  range.selectNode(ev.target);
-	}
+  // Gecko doesn't select hr's on single click
+  if (ev.target.tagName.toLowerCase() == "hr")
+  {
+    var sel = this.editor.getSelection();
+    var range = this.editor.createRange(sel);
+    range.selectNode(ev.target);
+  }
 }
 
 
@@ -392,6 +416,13 @@ Gecko.prototype.onMouseDown = function(ev)
 
 Xinha.prototype.insertNodeAtSelection = function(toBeInserted)
 {
+  if ( toBeInserted.ownerDocument != this._doc ) // as of FF3, Gecko is strict regarding the ownerDocument of an element
+  {
+    try 
+	{
+		toBeInserted = this._doc.adoptNode( toBeInserted );
+	} catch (e) {}
+  }
   var sel = this.getSelection();
   var range = this.createRange(sel);
   // remove the current selection
@@ -400,6 +431,7 @@ Xinha.prototype.insertNodeAtSelection = function(toBeInserted)
   var node = range.startContainer;
   var pos = range.startOffset;
   var selnode = toBeInserted;
+  
   switch ( node.nodeType )
   {
     case 3: // Node.TEXT_NODE
@@ -543,26 +575,35 @@ Xinha.prototype.saveSelection = function()
  */
 Xinha.prototype.restoreSelection = function(savedSelection)
 {
+  try 
+  {
   var sel = this.getSelection();
   sel.removeAllRanges();
   sel.addRange(savedSelection);
+  }
+  catch (e) {}
 }
 /**
  * Selects the contents of the given node.  If the node is a "control" type element, (image, form input, table)
  * the node itself is selected for manipulation.
  *
  * @param node DomNode 
- * @param pos  Set to a numeric position inside the node to collapse the cursor here if possible. 
+ * @param collapseToStart A boolean that, when supplied, says to collapse the selection. True collapses to the start, and false to the end.
  */
  
-Xinha.prototype.selectNodeContents = function(node, pos)
+Xinha.prototype.selectNodeContents = function(node, collapseToStart)
 {
   this.focusEditor();
   this.forceRedraw();
   var range;
-  var collapsed = typeof pos == "undefined" ? true : false;
+  var collapsed = typeof collapseToStart == "undefined" ? true : false;
   var sel = this.getSelection();
   range = this._doc.createRange();
+  if ( !node )
+  {
+     sel.removeAllRanges();
+     return;
+  }
   // Tables and Images get selected as "objects" rather than the text contents
   if ( collapsed && node.tagName && node.tagName.toLowerCase().match(/table|img|input|textarea|select/) )
   {
@@ -571,10 +612,19 @@ Xinha.prototype.selectNodeContents = function(node, pos)
   else
   {
     range.selectNodeContents(node);
-    //(collapsed) && range.collapse(pos);
   }
   sel.removeAllRanges();
   sel.addRange(range);
+  if (typeof collapseToStart != "undefined")
+  {
+    if (collapseToStart)
+    {
+      sel.collapse(range.startContainer, range.startOffset);
+    } else
+    {
+      sel.collapse(range.endContainer, range.endOffset);
+    }
+  }
 };
   
 /** Insert HTML at the current position, deleting the selection if any. 
@@ -608,6 +658,7 @@ Xinha.prototype.insertHTML = function(html)
 Xinha.prototype.getSelectedHTML = function()
 {
   var sel = this.getSelection();
+  if (sel.isCollapsed) return '';
   var range = this.createRange(sel);
   return Xinha.getHTML(range.cloneContents(), false, this);
 };
@@ -684,10 +735,11 @@ Xinha.getOuterHTML = function(element)
 };
 
 //Control character for retaining edit location when switching modes
-Xinha.prototype.cc = String.fromCharCode(173); 
+Xinha.cc = String.fromCharCode(8286); 
 
 Xinha.prototype.setCC = function ( target )
 {
+  var cc = Xinha.cc;
   try
   {
     if ( target == "textarea" )
@@ -697,48 +749,61 @@ Xinha.prototype.setCC = function ( target )
       var before = ta.value.substring( 0, index )
       var after = ta.value.substring( index, ta.value.length );
 
-      if ( after.match(/^[^<]*>/) )
+      if ( after.match(/^[^<]*>/) ) // make sure cursor is in an editable area (outside tags, script blocks, entities, and inside the body)
       {
         var tagEnd = after.indexOf(">") + 1;
-        ta.value = before + after.substring( 0, tagEnd ) + this.cc + after.substring( tagEnd, after.length );
+        ta.value = before + after.substring( 0, tagEnd ) + cc + after.substring( tagEnd, after.length );
       }
-      else ta.value = before + this.cc + after;
+      else ta.value = before + cc + after;
+      ta.value = ta.value.replace(new RegExp ('(&[^'+cc+']*?)('+cc+')([^'+cc+']*?;)'), "$1$3$2");
+      ta.value = ta.value.replace(new RegExp ('(<script[^>]*>[^'+cc+']*?)('+cc+')([^'+cc+']*?<\/script>)'), "$1$3$2");
+      ta.value = ta.value.replace(new RegExp ('^([^'+cc+']*)('+cc+')([^'+cc+']*<body[^>]*>)(.*?)'), "$1$3$2$4");
     }
     else
     {
       var sel = this.getSelection();
-      sel.getRangeAt(0).insertNode( document.createTextNode( this.cc ) );
+      sel.getRangeAt(0).insertNode( this._doc.createTextNode( cc ) );
     }
   } catch (e) {}
 };
 
 Xinha.prototype.findCC = function ( target )
 {
-  try 
+  if ( target == 'textarea' )
   {
-    var findIn = ( target == 'textarea' ) ? window : this._iframe.contentWindow;
-    if( findIn.find( this.cc ) )
+  var ta = this._textArea;
+  var pos = ta.value.indexOf( Xinha.cc );
+  if ( pos == -1 ) return;
+  var end = pos + Xinha.cc.length;
+  var before =  ta.value.substring( 0, pos );
+  var after = ta.value.substring( end, ta.value.length );
+  ta.value = before ;
+
+  ta.scrollTop = ta.scrollHeight;
+  var scrollPos = ta.scrollTop;
+  
+  ta.value += after;
+  ta.setSelectionRange(pos,pos);
+
+  ta.focus();
+  
+  ta.scrollTop = scrollPos;
+
+  }
+  else
+  {
+    try
     {
-      if (target == "textarea")
-      {
-        var ta = this._textArea;
-        var start = pos = ta.selectionStart;
-        var end = ta.selectionEnd;
-        var scrollTop = ta.scrollTop;
-        ta.value = ta.value.substring( 0, start ) + ta.value.substring( end, ta.value.length );
-        ta.selectionStart = pos;
-        ta.selectionEnd = pos;
-        ta.scrollTop = scrollTop
-        ta.focus();
-      }
-      else
-      {
-        var sel = this.getSelection();
-        sel.getRangeAt(0).deleteContents();
-        this._iframe.contentWindow.focus();
-      }
-    }
-  } catch (e) {}
+      var doc = this._doc; 
+      doc.body.innerHTML = doc.body.innerHTML.replace(new RegExp(Xinha.cc),'<span id="XinhaEditingPostion"></span>');
+      var posEl = doc.getElementById('XinhaEditingPostion');
+      this.selectNodeContents(posEl);
+      this.scrollToElement(posEl);
+      posEl.parentNode.removeChild(posEl);
+
+      this._iframe.contentWindow.focus();
+    } catch (e) {}
+  }
 };
 /*--------------------------------------------------------------------------*/
 /*------------ EXTEND SOME STANDARD "Xinha.prototype" METHODS --------------*/

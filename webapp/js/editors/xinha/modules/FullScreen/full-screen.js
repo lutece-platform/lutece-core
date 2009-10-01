@@ -2,12 +2,15 @@ function FullScreen(editor, args)
 {
   this.editor = editor;
   editor._superclean_on = false;
-  cfg = editor.config;
+  var cfg = editor.config;
 
+  cfg.registerIcon('fullscreen', [_editor_url + cfg.imgURL + 'ed_buttons_main.png',8,0]);
+  cfg.registerIcon('fullscreenrestore', [_editor_url + cfg.imgURL + 'ed_buttons_main.png',9,0]);
+  
   cfg.registerButton
   ( 'fullscreen',
     this._lc("Maximize/Minimize Editor"),
-    [_editor_url + cfg.imgURL + 'ed_buttons_main.gif',8,0], true,
+    cfg.iconList.fullscreen, true,
       function(e, objname, obj)
       {
         e._fullScreen();
@@ -43,6 +46,7 @@ FullScreen.prototype._lc = function(string) {
 Xinha.prototype._fullScreen = function()
 {
   var e = this;
+  var cfg = e.config;
   function sizeItUp()
   {
     if(!e._isFullScreen || e._sizing) return false;
@@ -55,7 +59,7 @@ Xinha.prototype._fullScreen = function()
 
     e.sizeEditor(w + 'px', h + 'px',true,true);
     e._sizing = false;
-    if ( e._toolbarObjects.fullscreen ) e._toolbarObjects.fullscreen.swapImage([_editor_url + cfg.imgURL + 'ed_buttons_main.gif',9,0]); 
+    if ( e._toolbarObjects.fullscreen ) e._toolbarObjects.fullscreen.swapImage(cfg.iconList.fullscreenrestore); 
   }
 
   function sizeItDown()
@@ -64,7 +68,7 @@ Xinha.prototype._fullScreen = function()
     e._sizing = true;
     e.initSize();
     e._sizing = false;
-    if ( e._toolbarObjects.fullscreen ) e._toolbarObjects.fullscreen.swapImage([_editor_url + cfg.imgURL + 'ed_buttons_main.gif',8,0]); 
+    if ( e._toolbarObjects.fullscreen ) e._toolbarObjects.fullscreen.swapImage(cfg.iconList.fullscreen); 
   }
 
   /** It's not possible to reliably get scroll events, particularly when we are hiding the scrollbars
@@ -185,7 +189,7 @@ Xinha.prototype._fullScreen = function()
     this._htmlArea.style.zIndex   = 999;
     this._htmlArea.style.left     = e.config.fullScreenMargins[3] + 'px';
     this._htmlArea.style.top      = e.config.fullScreenMargins[0] + 'px';
-    if ( !Xinha.is_ie ) this._htmlArea.style.border   = 'none';
+    if ( !Xinha.is_ie && !Xinha.is_webkit ) this._htmlArea.style.border   = 'none';
     this._isFullScreen = true;
     resetScroll();
 

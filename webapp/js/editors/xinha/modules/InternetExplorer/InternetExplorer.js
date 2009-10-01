@@ -25,18 +25,18 @@
     --   be a part of the InternetExplorer.prototype, we won't trample on 
     --   namespace that way.
     --
-    --  $HeadURL: http://svn.xinha.python-hosting.com/trunk/modules/InternetExplorer/InternetExplorer.js $
-    --  $LastChangedDate: 2007-05-18 12:58:46 +1200 (Fri, 18 May 2007) $
-    --  $LastChangedRevision: 839 $
-    --  $LastChangedBy: wymsy $
+    --  $HeadURL: http://svn.xinha.webfactional.com/trunk/modules/InternetExplorer/InternetExplorer.js $
+    --  $LastChangedDate: 2009-03-20 11:52:06 +1300 (Fri, 20 Mar 2009) $
+    --  $LastChangedRevision: 1173 $
+    --  $LastChangedBy: ray $
     --------------------------------------------------------------------------*/
                                                     
 InternetExplorer._pluginInfo = {
   name          : "Internet Explorer",
   origin        : "Xinha Core",
-  version       : "$LastChangedRevision: 839 $".replace(/^[^:]*: (.*) \$$/, '$1'),
+  version       : "$LastChangedRevision: 1173 $".replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
   developer     : "The Xinha Core Developer Team",
-  developer_url : "$HeadURL: http://svn.xinha.python-hosting.com/trunk/modules/InternetExplorer/InternetExplorer.js $".replace(/^[^:]*: (.*) \$$/, '$1'),
+  developer_url : "$HeadURL: http://svn.xinha.webfactional.com/trunk/modules/InternetExplorer/InternetExplorer.js $".replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
   sponsor       : "",
   sponsor_url   : "",
   license       : "htmlArea"
@@ -146,6 +146,11 @@ InternetExplorer.prototype.inwardHtml = function(html)
    // make sure there is something before the first script on the page
    html = html.replace(/(<script|<!--)/i,"&nbsp;$1");
    
+   // We've got a workaround for certain issues with saving and restoring
+   // selections that may cause us to fill in junk span tags.  We'll clean
+   // those here
+   html = html.replace(/<span[^>]+id="__InsertSpan_Workaround_[a-z]+".*?>([\s\S]*?)<\/span>/i,"$1");
+   
    return html;
 }
 
@@ -153,10 +158,150 @@ InternetExplorer.prototype.outwardHtml = function(html)
 {
    // remove space added before first script on the page
    html = html.replace(/&nbsp;(\s*)(<script|<!--)/i,"$1$2");
+
+   // We've got a workaround for certain issues with saving and restoring
+   // selections that may cause us to fill in junk span tags.  We'll clean
+   // those here
+   html = html.replace(/<span[^>]+id="__InsertSpan_Workaround_[a-z]+".*?>([\s\S]*?)<\/span>/i,"$1");
    
    return html;
 }
 
+InternetExplorer.prototype.onExecCommand = function(cmdID, UI, param)
+{   
+  switch(cmdID)
+  {
+    // #645 IE only saves the initial content of the iframe, so we create a temporary iframe with the current editor contents
+    case 'saveas':
+        var doc = null;
+        var editor = this.editor;
+        var iframe = document.createElement("iframe");
+        iframe.src = "about:blank";
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+        try
+        {
+          if ( iframe.contentDocument )
+          {
+            doc = iframe.contentDocument;        
+          }
+          else
+          {
+            doc = iframe.contentWindow.document;
+          }
+        }
+        catch(ex)
+        { 
+          //hope there's no exception
+        }
+        
+        doc.open("text/html","replace");
+        var html = '';
+        if ( editor.config.browserQuirksMode === false )
+        {
+          var doctype = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">';
+        }
+        else if ( editor.config.browserQuirksMode === true )
+        {
+           var doctype = '';
+        }
+        else
+        {
+           var doctype = Xinha.getDoctype(document);
+        }
+        if ( !editor.config.fullPage )
+        {
+          html += doctype + "\n";
+          html += "<html>\n";
+          html += "<head>\n";
+          html += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + editor.config.charSet + "\">\n";
+          if ( typeof editor.config.baseHref != 'undefined' && editor.config.baseHref !== null )
+          {
+            html += "<base href=\"" + editor.config.baseHref + "\"/>\n";
+          }
+          
+          if ( typeof editor.config.pageStyleSheets !== 'undefined' )
+          {
+            for ( var i = 0; i < editor.config.pageStyleSheets.length; i++ )
+            {
+              if ( editor.config.pageStyleSheets[i].length > 0 )
+              {
+                html += "<link rel=\"stylesheet\" type=\"text/css\" href=\"" + editor.config.pageStyleSheets[i] + "\">";
+                //html += "<style> @import url('" + editor.config.pageStyleSheets[i] + "'); </style>\n";
+              }
+            }
+          }
+          
+          if ( editor.config.pageStyle )
+          {
+            html += "<style type=\"text/css\">\n" + editor.config.pageStyle + "\n</style>";
+          }
+          
+          html += "</head>\n";
+          html += "<body>\n";
+          html += editor.getEditorContent();
+          html += "</body>\n";
+          html += "</html>";
+        }
+        else
+        {
+          html = editor.getEditorContent();
+          if ( html.match(Xinha.RE_doctype) )
+          {
+            editor.setDoctype(RegExp.$1);
+          }
+        }
+        doc.write(html);
+        doc.close();
+        doc.execCommand(cmdID, UI, param);
+        document.body.removeChild(iframe);
+      return true;
+    break;
+    case 'removeformat':
+      var editor = this.editor;
+      var sel = editor.getSelection();
+      var selSave = editor.saveSelection(sel);
+
+      var i, el, els;
+
+      function clean (el)
+      {
+        if (el.nodeType != 1) return;
+        el.removeAttribute('style');
+        for (var j=0; j<el.childNodes.length;j++)
+        {
+          clean(el.childNodes[j]);
+        }
+        if ( (el.tagName.toLowerCase() == 'span' && !el.attributes.length ) || el.tagName.toLowerCase() == 'font')
+        {
+          el.outerHTML = el.innerHTML;
+        }
+      }
+      if ( editor.selectionEmpty(sel) )
+      {
+        els = editor._doc.body.childNodes;
+        for (i = 0; i < els.length; i++) 
+        {
+          el = els[i];
+          if (el.nodeType != 1) continue;
+          if (el.tagName.toLowerCase() == 'span')
+          {
+            newNode = editor.convertNode(el, 'div');
+            el.parentNode.replaceChild(newNode, el);
+            el = newNode;
+          }
+          clean(el);
+        }
+      } 
+      editor._doc.execCommand(cmdID, UI, param);
+
+      editor.restoreSelection(selSave);
+      return true;
+    break;
+  }
+  
+  return false;
+};
 /*--------------------------------------------------------------------------*/
 /*------- IMPLEMENTATION OF THE ABSTRACT "Xinha.prototype" METHODS ---------*/
 /*--------------------------------------------------------------------------*/
@@ -297,7 +442,7 @@ Xinha.prototype.selectionEmpty = function(sel)
  */
 Xinha.prototype.saveSelection = function()
 {
-  return this.createRange(this._getSelection())
+  return this.createRange(this.getSelection())
 }
 /** 
  * Restores a selection previously stored
@@ -305,7 +450,124 @@ Xinha.prototype.saveSelection = function()
  */
 Xinha.prototype.restoreSelection = function(savedSelection)
 {
-  savedSelection.select();
+  if (!savedSelection) return;
+  // In order to prevent triggering the IE bug mentioned below, we will try to
+  // optimize by not restoring the selection if it happens to match the current
+  // selection.
+  var range = this.createRange(this.getSelection());
+
+  // We can't compare two selections that come from different documents, so we
+  // must make sure they're from the same document.
+  var findDoc = function(el)
+  {
+    for (var root=el; root; root=root.parentNode)
+    {
+      if (root.tagName.toLowerCase() == 'html')
+      {
+        return root.parentNode;
+      }
+    }
+    return null;
+  }
+
+  if (findDoc(savedSelection.parentElement()) == findDoc(range.parentElement()))
+  {
+    if (range.isEqual(savedSelection))
+    {
+      // The selection hasn't moved, no need to restore.
+      return;
+    }
+  }
+
+  try { savedSelection.select() } catch (e) {};
+  range = this.createRange(this.getSelection());
+  if (range.parentElement() != savedSelection.parentElement())
+  {
+    // IE has a problem with selections at the end of text nodes that
+    // immediately precede block nodes. Example markup:
+    // <div>Text Node<p>Text in Block</p></div>
+    //               ^
+    // The problem occurs when the cursor is after the 'e' in Node.
+
+    var solution = this.config.selectWorkaround || 'VisibleCue';
+    switch (solution)
+    {
+      case 'SimulateClick':
+        // Try to get the bounding box of the selection and then simulate a
+        // mouse click in the upper right corner to return the cursor to the
+        // correct location.
+
+        // No code yet, fall through to InsertSpan
+      case 'InsertSpan':
+        // This workaround inserts an empty span element so that we are no
+        // longer trying to select a text node,
+        var parentDoc = findDoc(savedSelection.parentElement());
+
+        // A function used to generate a unique ID for our temporary span.
+        var randLetters = function(count)
+        {
+          // Build a list of 26 letters.
+          var Letters = '';
+          for (var index = 0; index<26; ++index)
+          {
+            Letters += String.fromCharCode('a'.charCodeAt(0) + index);
+          }
+
+          var result = '';
+          for (var index=0; index<count; ++index)
+          {
+            result += Letters.substr(Math.floor(Math.random()*Letters.length + 1), 1);
+          }
+          return result;
+        }
+
+        // We'll try to find a unique ID to use for finding our element.
+        var keyLength = 1;
+        var tempId = '__InsertSpan_Workaround_' + randLetters(keyLength);
+        while (parentDoc.getElementById(tempId))
+        {
+          // Each time there's a collision, we'll increase our key length by
+          // one, making the chances of a collision exponentially more rare.
+          keyLength += 1;
+          tempId = '__InsertSpan_Workaround_' + randLetters(keyLength);
+        }
+
+        // Now that we have a uniquely identifiable element, we'll stick it and
+        // and use it to orient our selection.
+        savedSelection.pasteHTML('<span id="' + tempId + '"></span>');
+        var tempSpan = parentDoc.getElementById(tempId);
+        savedSelection.moveToElementText(tempSpan);
+        savedSelection.select();
+        break;
+      case 'JustificationHack':
+        // Setting the justification on an element causes IE to alter the
+        // markup so that the selection we want to make is possible.
+        // Unfortunately, this can force block elements to be kicked out of
+        // their containing element, so it is not recommended.
+
+        // Set a non-valid character and use it to anchor our selection.
+        var magicString = String.fromCharCode(1);
+        savedSelection.pasteHTML(magicString);
+        savedSelection.findText(magicString,-1);
+        savedSelection.select();
+
+        // I don't know how to find out if there's an existing justification on
+        // this element.  Hopefully, you're doing all of your styling outside,
+        // so I'll just clear.  I already told you this was a hack.
+        savedSelection.execCommand('JustifyNone');
+        savedSelection.pasteHTML('');
+        break;
+      case 'VisibleCue':
+      default:
+        // This method will insert a little box character to hold our selection
+        // in the desired spot.  We're depending on the user to see this ugly
+        // box and delete it themselves.
+        var magicString = String.fromCharCode(1);
+        savedSelection.pasteHTML(magicString);
+        savedSelection.findText(magicString,-1);
+        savedSelection.select();
+    }
+  }
 }
 
 /**
@@ -313,15 +575,15 @@ Xinha.prototype.restoreSelection = function(savedSelection)
  * the node itself is selected for manipulation.
  *
  * @param node DomNode 
- * @param pos  Set to a numeric position inside the node to collapse the cursor here if possible. 
+ * @param collapseToStart A boolean that, when supplied, says to collapse the selection. True collapses to the start, and false to the end.
  */
  
-Xinha.prototype.selectNodeContents = function(node, pos)
+Xinha.prototype.selectNodeContents = function(node, collapseToStart)
 {
   this.focusEditor();
   this.forceRedraw();
   var range;
-  var collapsed = typeof pos == "undefined" ? true : false;
+  var collapsed = typeof collapseToStart == "undefined" ? true : false;
   // Tables and Images get selected as "objects" rather than the text contents
   if ( collapsed && node.tagName && node.tagName.toLowerCase().match(/table|img|input|select|textarea/) )
   {
@@ -331,8 +593,101 @@ Xinha.prototype.selectNodeContents = function(node, pos)
   else
   {
     range = this._doc.body.createTextRange();
+    if (3 == node.nodeType)
+    {
+      // Special handling for text nodes, since moveToElementText fails when
+      // attempting to select a text node
+
+      // Since the TextRange has a quite limited API, our strategy here is to
+      // select (where possible) neighboring nodes, and then move our ranges
+      // endpoints to be just inside of neighboring selections.
+      if (node.parentNode)
+      {
+        range.moveToElementText(node.parentNode);
+      } else
+      {
+        range.moveToElementText(this._doc.body);
+      }
+      var trimmingRange = this._doc.body.createTextRange();
+
+      // In rare situations (mostly html that's been monkeyed about with by
+      // javascript, but that's what we're doing) there can be two adjacent
+      // text nodes.  Since we won't be able to handle these, we'll have to
+      // hack an offset by 'move'ing the number of characters they contain.
+      var texthackOffset = 0;
+      var borderElement=node.previousSibling;
+      for (; borderElement && (1 != borderElement.nodeType); borderElement = borderElement.previousSibling)
+      {
+        if (3 == borderElement.nodeType)
+        {
+          // IE doesn't count '\r' as a character, so we have to adjust the offset.
+          texthackOffset += borderElement.nodeValue.length-borderElement.nodeValue.split('\r').length-1;
+        }
+      }
+      if (borderElement && (1 == borderElement.nodeType))
+      {
+        trimmingRange.moveToElementText(borderElement);
+        range.setEndPoint('StartToEnd', trimmingRange);
+      }
+      if (texthackOffset)
+      {
+        // We now need to move the selection forward the number of characters
+        // in all text nodes in between our text node and our ranges starting
+        // border.
+        range.moveStart('character',texthackOffset);
+      }
+
+      // Youpi!  Now we get to repeat this trimming on the right side.
+      texthackOffset = 0;
+      borderElement=node.nextSibling;
+      for (; borderElement && (1 != borderElement.nodeType); borderElement = borderElement.nextSibling)
+      {
+        if (3 == borderElement.nodeType)
+        {
+          // IE doesn't count '\r' as a character, so we have to adjust the offset.
+          texthackOffset += borderElement.nodeValue.length-borderElement.nodeValue.split('\r').length-1;
+          if (!borderElement.nextSibling)
+          {
+            // When a text node is the last child, IE adds an extra selection
+            // "placeholder" for the newline character.  We need to adjust for
+            // this character as well.
+            texthackOffset += 1;
+          }
+        }
+      }
+      if (borderElement && (1 == borderElement.nodeType))
+      {
+        trimmingRange.moveToElementText(borderElement);
+        range.setEndPoint('EndToStart', trimmingRange);
+      }
+      if (texthackOffset)
+      {
+        // We now need to move the selection backward the number of characters
+        // in all text nodes in between our text node and our ranges ending
+        // border.
+        range.moveEnd('character',-texthackOffset);
+      }
+      if (!node.nextSibling)
+      {
+        // Above we performed a slight adjustment to the offset if the text
+        // node contains a selectable "newline".  We need to do the same if the
+        // node we are trying to select contains a newline.
+        range.moveEnd('character',-1);
+      }
+    }
+    else
+    {
     range.moveToElementText(node);
-    //(collapsed) && range.collapse(pos);
+    }
+  }
+  if (typeof collapseToStart != "undefined")
+  {
+    range.collapse(collapseToStart);
+    if (!collapseToStart)
+    {
+      range.moveStart('character',-1);
+      range.moveEnd('character',-1);
+    }
   }
   range.select();
 };
@@ -359,6 +714,7 @@ Xinha.prototype.insertHTML = function(html)
 Xinha.prototype.getSelectedHTML = function()
 {
   var sel = this.getSelection();
+  if (this.selectionEmpty(sel)) return '';
   var range = this.createRange(sel);
   
   // Need to be careful of control ranges which won't have htmlText
@@ -392,6 +748,7 @@ Xinha.prototype.getSelection = function()
  
 Xinha.prototype.createRange = function(sel)
 {
+  if (!sel) sel = this.getSelection();
   return sel.createRange();
 };
 
@@ -431,26 +788,30 @@ Xinha.getOuterHTML = function(element)
 };
 
 // Control character for retaining edit location when switching modes
-Xinha.prototype.cc = String.fromCharCode(0x2009);
+Xinha.cc = String.fromCharCode(0x2009);
 
 Xinha.prototype.setCC = function ( target )
 {
+  var cc = Xinha.cc;
   if ( target == "textarea" )
   {
     var ta = this._textArea;
     var pos = document.selection.createRange();
     pos.collapse();
-    pos.text = this.cc;
-    var index = ta.value.indexOf( this.cc );
+    pos.text = cc;
+    var index = ta.value.indexOf( cc );
     var before = ta.value.substring( 0, index );
-    var after  = ta.value.substring( index + this.cc.length , ta.value.length );
+    var after  = ta.value.substring( index + cc.length , ta.value.length );
     
-    if ( after.match(/^[^<]*>/) )
+    if ( after.match(/^[^<]*>/) ) // make sure cursor is in an editable area (outside tags, script blocks, entities, and inside the body)
     {
       var tagEnd = after.indexOf(">") + 1;
-      ta.value = before + after.substring( 0, tagEnd ) + this.cc + after.substring( tagEnd, after.length );
+      ta.value = before + after.substring( 0, tagEnd ) + cc + after.substring( tagEnd, after.length );
     }
-    else ta.value = before + this.cc + after;
+    else ta.value = before + cc + after;
+    ta.value = ta.value.replace(new RegExp ('(&[^'+cc+']*?)('+cc+')([^'+cc+']*?;)'), "$1$3$2");
+    ta.value = ta.value.replace(new RegExp ('(<script[^>]*>[^'+cc+']*?)('+cc+')([^'+cc+']*?<\/script>)'), "$1$3$2");
+    ta.value = ta.value.replace(new RegExp ('^([^'+cc+']*)('+cc+')([^'+cc+']*<body[^>]*>)(.*?)'), "$1$3$2$4");
   }
   else
   {
@@ -459,12 +820,12 @@ Xinha.prototype.setCC = function ( target )
     if ( sel.type == 'Control' )
     {
       var control = r.item(0);
-      control.outerHTML += this.cc;
+      control.outerHTML += cc;
     }
     else
     {
       r.collapse();
-      r.text = this.cc;
+      r.text = cc;
     }
   }
 };
@@ -475,15 +836,17 @@ Xinha.prototype.findCC = function ( target )
   range = findIn.createTextRange();
   // in case the cursor is inside a link automatically created from a url
   // the cc also appears in the url and we have to strip it out additionally 
-  if( range.findText( escape(this.cc) ) )
+  if( range.findText( escape(Xinha.cc) ) )
   {
     range.select();
     range.text = '';
+    range.select();
   }
-  if( range.findText( this.cc ) )
+  if( range.findText( Xinha.cc ) )
   {
     range.select();
     range.text = '';
+    range.select();
   }
   if ( target == 'textarea' ) this._textArea.focus();
 };
@@ -496,5 +859,5 @@ Xinha.prototype.findCC = function ( target )
  */
 Xinha.getDoctype = function (doc)
 {
-  return (doc.compatMode == "CSS1Compat") ? '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">' : '';
+  return (doc.compatMode == "CSS1Compat" && Xinha.ie_version < 8 ) ? '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">' : '';
 };

@@ -13,5 +13,6 @@
   "Go": "Go",
   "Cancel": "Abbrechen",
   "Tidy failed.  Check your HTML for syntax errors.": "Säubern fehlgeschlagen. Überprüfen Sie Ihren Code auf Fehler.",
-  "You don't have anything to tidy!": "Es gibt nichts zu säubern...!"
+  "You don't have anything to tidy!": "Es gibt nichts zu säubern...!",
+  "Please stand by while cleaning in process..." : "Bitte warten Sie, während die Säuberung läuft..."
 };

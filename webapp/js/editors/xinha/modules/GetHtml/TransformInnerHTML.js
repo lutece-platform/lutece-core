@@ -33,31 +33,37 @@ GetHtmlImplementation._pluginInfo = {
 };
 
 Xinha.RegExpCache = [
-/*00*/  new RegExp().compile(/<\s*\/?([^\s\/>]+)[\s*\/>]/gi),//lowercase tags
-/*01*/  new RegExp().compile(/(\s+)_moz[^=>]*=[^\s>]*/gi),//strip _moz attributes
-/*02*/  new RegExp().compile(/\s*=\s*(([^'"][^>\s]*)([>\s])|"([^"]+)"|'([^']+)')/g),// find attributes
-/*03*/  new RegExp().compile(/\/>/g),//strip singlet terminators
-/*04*/  new RegExp().compile(/<(br|hr|img|input|link|meta|param|embed|area)((\s*\S*="[^"]*")*)>/g),//terminate singlet tags
-/*05*/  new RegExp().compile(/(<\w+\s+(\w*="[^"]*"\s+)*)(checked|compact|declare|defer|disabled|ismap|multiple|no(href|resize|shade|wrap)|readonly|selected)([\s>])/gi),//expand singlet attributes
-/*06*/  new RegExp().compile(/(="[^']*)'([^'"]*")/),//check quote nesting
-/*07*/  new RegExp().compile(/&(?=[^<]*>)/g),//expand query ampersands
-/*08*/  new RegExp().compile(/<\s+/g),//strip tagstart whitespace
-/*09*/  new RegExp().compile(/\s+(\/)?>/g),//trim whitespace
-/*10*/  new RegExp().compile(/\s{2,}/g),//trim extra whitespace
-/*11*/  new RegExp().compile(/\s+([^=\s]+)((="[^"]+")|([\s>]))/g),// lowercase attribute names
-/*12*/  new RegExp().compile(/\s+contenteditable(=[^>\s\/]*)?/gi),//strip contenteditable
-/*13*/  new RegExp().compile(/((href|src)=")([^\s]*)"/g), //find href and src for stripBaseHref()
-/*14*/  new RegExp().compile(/<\/?(div|p|h[1-6]|table|tr|td|th|ul|ol|li|blockquote|object|br|hr|img|embed|param|pre|script|html|head|body|meta|link|title|area|input|form|textarea|select|option)[^>]*>/g),
-/*15*/  new RegExp().compile(/<\/(div|p|h[1-6]|table|tr|ul|ol|blockquote|object|html|head|body|script|form|select)( [^>]*)?>/g),//blocklevel closing tag
-/*16*/  new RegExp().compile(/<(div|p|h[1-6]|table|tr|ul|ol|blockquote|object|html|head|body|script|form|select)( [^>]*)?>/g),//blocklevel opening tag
-/*17*/  new RegExp().compile(/<(td|th|li|option|br|hr|embed|param|pre|meta|link|title|area|input|textarea)[^>]*>/g),//singlet tag or output on 1 line
-/*18*/  new RegExp().compile(/(^|<\/(pre|script)>)(\s|[^\s])*?(<(pre|script)[^>]*>|$)/g),//find content NOT inside pre and script tags
-/*19*/  new RegExp().compile(/(<pre[^>]*>)([\s\S])*?(<\/pre>)/g),//find content inside pre tags
-/*20*/  new RegExp().compile(/(^|<!--[\s\S]*?-->)([\s\S]*?)(?=<!--[\s\S]*?-->|$)/g),//find content NOT inside comments
-/*21*/  new RegExp().compile(/\S*=""/g), //find empty attributes
-/*22*/  new RegExp().compile(/<!--[\s\S]*?-->|<\?[\s\S]*?\?>|<\/?\w[^>]*>/g), //find all tags, including comments and php
-/*23*/  new RegExp().compile(/(^|<\/script>)[\s\S]*?(<script[^>]*>|$)/g) //find content NOT inside script tags
+/*00*/  /<\s*\/?([^\s\/>]+)[\s*\/>]/gi,//lowercase tags
+/*01*/  /(\s+)_moz[^=>]*=[^\s>]*/gi,//strip _moz attributes
+/*02*/  /\s*=\s*(([^'"][^>\s]*)([>\s])|"([^"]+)"|'([^']+)')/g,// find attributes
+/*03*/  /\/>/g,//strip singlet terminators
+/*04*/  /<(br|hr|img|input|link|meta|param|embed|area)((\s*\S*="[^"]*")*)>/g,//terminate singlet tags
+/*05*/  /(<\w+\s+(\w*="[^"]*"\s+)*)(checked|compact|declare|defer|disabled|ismap|multiple|no(href|resize|shade|wrap)|readonly|selected)([\s>])/gi,//expand singlet attributes
+/*06*/  /(="[^']*)'([^'"]*")/,//check quote nesting
+/*07*/  /&(?=(?!(#[0-9]{2,5};|[a-zA-Z0-9]{2,6};|#x[0-9a-fA-F]{2,4};))[^<]*>)/g,//expand query ampersands not in html entities
+/*08*/  /<\s+/g,//strip tagstart whitespace
+/*09*/  /\s+(\/)?>/g,//trim whitespace
+/*10*/  /\s{2,}/g,//trim extra whitespace
+/*11*/  /\s+([^=\s]+)((="[^"]+")|([\s>]))/g,// lowercase attribute names
+/*12*/  /\s+contenteditable(=[^>\s\/]*)?/gi,//strip contenteditable
+/*13*/  /((href|src)=")([^\s]*)"/g, //find href and src for stripBaseHref()
+/*14*/  /<\/?(div|p|h[1-6]|table|tr|td|th|ul|ol|li|dl|dt|dd|blockquote|object|br|hr|img|embed|param|pre|script|html|head|body|meta|link|title|area|input|form|textarea|select|option)[^>]*>/g,
+/*15*/  /<\/(div|p|h[1-6]|table|tr|ul|ol|dl|blockquote|object|html|head|body|script|form|select)( [^>]*)?>/g,//blocklevel closing tag
+/*16*/  /<(div|p|h[1-6]|table|tr|ul|ol|dl|blockquote|object|html|head|body|script|form|select)( [^>]*)?>/g,//blocklevel opening tag
+/*17*/  /<(td|th|li|dt|dd|option|br|hr|embed|param|pre|meta|link|title|area|input|textarea)[^>]*>/g,//singlet tag or output on 1 line
+/*18*/  /(^|<\/(pre|script)>)(\s|[^\s])*?(<(pre|script)[^>]*>|$)/g,//find content NOT inside pre and script tags
+/*19*/  /(<pre[^>]*>)([\s\S])*?(<\/pre>)/g,//find content inside pre tags
+/*20*/  /(^|<!--[\s\S]*?-->)([\s\S]*?)(?=<!--[\s\S]*?-->|$)/g,//find content NOT inside comments
+/*21*/  /\S*=""/g, //find empty attributes
+/*22*/  /<!--[\s\S]*?-->|<\?[\s\S]*?\?>|<\/?\w[^>]*>/g, //find all tags, including comments and php
+/*23*/  /(^|<\/script>)[\s\S]*?(<script[^>]*>|$)/g //find content NOT inside script tags
 ];
+// compile for performance; WebKit doesn't support this
+if (typeof RegExp.prototype.compile == 'function') {
+	for (var i=0; i<Xinha.RegExpCache.length;i++ ) {
+		Xinha.RegExpCache[i] = new RegExp().compile(Xinha.RegExpCache[i]);
+	}
+}
 
 /** 
   * Cleans HTML into wellformed xhtml
@@ -73,22 +79,24 @@ Xinha.prototype.cleanHTML = function(sHtml) {
 		replace(c[11], function(str, p1, p2) { return ' '+p1.toLowerCase()+p2; }).//lowercase attribute names
 		replace(c[3], '>').//strip singlet terminators
 		replace(c[9], '$1>').//trim whitespace
-		replace(c[5], '$1$3="$3"$4').//expand singlet attributes
+		replace(c[5], '$1$3="$3"$5').//expand singlet attributes
 		replace(c[4], '<$1$2 />').//terminate singlet tags
 		replace(c[6], '$1$2').//check quote nesting
-	//	replace(c[7], '&amp;').//expand query ampersands
+		replace(c[7], '&amp;').//expand query ampersands
 		replace(c[8], '<').//strip tagstart whitespace
 		replace(c[10], ' ');//trim extra whitespace
 	if(Xinha.is_ie && c[13].test(sHtml)) {
-		sHtml = sHtml.replace(c[13],'$1'+this.stripBaseURL(RegExp.$3)+'"');
+          sHtml = sHtml.replace(c[13],'$1'+Xinha._escapeDollars(stripBaseURL(RegExp.$3))+'"');
 	}
+
 	if(this.config.only7BitPrintablesInURLs) {
 		if (Xinha.is_ie) c[13].test(sHtml); // oddly the test below only triggers when we call this once before (IE6), in Moz it fails if tested twice
 		if ( c[13].test(sHtml)) {
 			try { //Mozilla returns an incorrectly encoded value with innerHTML
-				sHtml = sHtml.replace(c[13], '$1'+decodeURIComponent(RegExp.$3).replace(/([^!-~]+)/g,function(chr){return escape(chr);})+'"');
+                          sHtml = sHtml.replace(c[13], '$1'+Xinha._escapeDollars(decodeURIComponent(RegExp.$3).replace(/([^!-~]+)/g, function(chr) 
+                                                                                                                       {return escape(chr);}))+'"');
 			} catch (e) { // once the URL is escape()ed, you can't decodeURIComponent() it anymore
-				sHtml = sHtml.replace(c[13], '$1'+RegExp.$3.replace(/([^!-~]+)/g,function(chr){return escape(chr);})+'"');
+                          sHtml = sHtml.replace(c[13], Xinha._escapeDollars('$1'+RegExp.$3.replace(/([^!-~]+)/g,function(chr){return escape(chr);})+'"'));
 			}
 		}
 	}
@@ -135,7 +143,7 @@ Xinha.indent = function(s, sindentChar) {
     //final cleanup
     s = s.replace(/^\s*/,'').//strip leading whitespace
         replace(/ +\n/g,'\n').//strip spaces at end of lines
-        replace(/[\r\n]+<\/script>/g,'\n</script>');//strip returns added into scripts
+        replace(/[\r\n]+(\s+)<\/script>/g,'\n$1</script>');//strip returns added into scripts
     return s;
 };
 
@@ -190,14 +198,17 @@ Xinha.getHTML = function(root, outputRoot, editor) {
 				else return ''});
 			return strn;
 		});
-		//IE drops  all </li> tags in a list except the last one
+		//IE drops  all </li>,</dt>,</dd> tags in a list except the last one
 		if(Xinha.is_ie) {
-			html = html.replace(/<li( [^>]*)?>/g,'</li><li$1>').
-				replace(/(<(ul|ol)[^>]*>)[\s\n]*<\/li>/g, '$1').
-				replace(/<\/li>([\s\n]*<\/li>)+/g, '<\/li>');
+			html = html.replace(/<(li|dd|dt)( [^>]*)?>/g,'</$1><$1$2>').
+				replace(/(<[uod]l[^>]*>[\s\S]*?)<\/(li|dd|dt)>/g, '$1').
+				replace(/\s*<\/(li|dd|dt)>(\s*<\/(li|dd|dt)>)+/g, '</$1>').
+				replace(/(<dt[\s>][\s\S]*?)(<\/d[dt]>)+/g, '$1</dt>');
 		}
 		if(Xinha.is_gecko)
 			html = html.replace(/<br \/>\n$/, ''); //strip trailing <br> added by moz
+		//Cleanup redundant whitespace before </li></dd></dt> in IE and Mozilla
+		html = html.replace(/\s*(<\/(li|dd|dt)>)/g, '$1');
 		if (outputRoot) {
 			html += "</" + root_tag + ">";
 		}
@@ -206,4 +217,14 @@ Xinha.getHTML = function(root, outputRoot, editor) {
 //	html = Xinha.htmlEncode(html);
 
 	return html;
+};
+
+/** 
+  * Escapes dollar signs ($) to make them safe to use in regex replacement functions by replacing each $ in the input with $$.
+  * 
+  * This is advisable any time the replacement string for a call to replace() is a variable and could contain dollar signs that should not be interpreted as references to captured groups (e.g., when you want the text "$10" and not the first captured group followed by a 0).
+  * See http://trac.xinha.org/ticket/1337
+  */
+Xinha._escapeDollars = function(str) {
+  return str.replace(/\$/g, "$$$$");
 };

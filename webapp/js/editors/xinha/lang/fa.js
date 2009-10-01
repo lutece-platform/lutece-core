@@ -1,4 +1,4 @@
-// I18N constants
+﻿// I18N constants
 // LANG: "fa", ENCODING: UTF-8
 {
   "Bold": "ضخیم",
@@ -132,9 +132,11 @@
   "You must enter the URL": "شما باید URL را وارد کنید",
 
   // toolbar
+  /*
   "button_bold": "fr/bold.gif",
   "button_underline": "fr/underline.gif",
   "button_strikethrough": "fr/strikethrough.gif",
+  */
 
   // Editor Help
   "Xinha Help": "راهنمای Xinha",

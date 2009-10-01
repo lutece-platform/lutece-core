@@ -132,9 +132,11 @@
   "Image Preview:": "Bild Voransicht:",
   "You must enter the URL": "Bitte geben Sie die URL ein",
 
+/*
   "button_bold": "de/bold.gif",
   "button_italic": "de/italic.gif",
   "button_underline": "de/underline.gif",
+*/
 
   // Editor Help
   "Keyboard shortcuts": "Tastaturkürzel",

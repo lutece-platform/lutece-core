@@ -1,120 +1,90 @@
 
   /*--------------------------------------:noTabs=true:tabSize=2:indentSize=2:--
-    --  Xinha (is not htmlArea) - http://xinha.gogo.co.nz/
+    --  Xinha (is not htmlArea) - http://xinha.org
     --
     --  Use of Xinha is granted by the terms of the htmlArea License (based on
     --  BSD license)  please read license.txt in this package for details.
+    --
+    --  Copyright (c) 2005-2008 Xinha Developer Team and contributors
     --
     --  Xinha was originally based on work by Mihai Bazon which is:
     --      Copyright (c) 2003-2004 dynarch.com.
     --      Copyright (c) 2002-2003 interactivetools.com, inc.
     --      This copyright notice MUST stay intact for use.
     --
-    --  This is the standard implementation of the Xinha.prototype._insertTable method,
-    --  which provides the functionality to insert an image in the editor.
+    --  This is the Xinha standard implementation of a table insertion plugin
     --
-    --  he file is loaded as a special plugin by the Xinha Core when no alternative method (plugin) is loaded.
+    --  The file is loaded by the Xinha Core when no alternative method (plugin) is loaded.
     --
     --
-    --  $HeadURL: http://svn.xinha.python-hosting.com/trunk/modules/InsertTable/insert_table.js $
-    --  $LastChangedDate: 2007-01-23 09:22:22 +1300 (Tue, 23 Jan 2007) $
-    --  $LastChangedRevision: 688 $
+    --  $HeadURL: http://svn.xinha.webfactional.com/trunk/modules/InsertTable/insert_table.js $
+    --  $LastChangedDate: 2008-10-13 06:52:26 +1300 (Mon, 13 Oct 2008) $
+    --  $LastChangedRevision: 1085 $
     --  $LastChangedBy: ray $
     --------------------------------------------------------------------------*/
 InsertTable._pluginInfo = {
   name          : "InsertTable",
   origin        : "Xinha Core",
-  version       : "$LastChangedRevision: 688 $".replace(/^[^:]*: (.*) \$$/, '$1'),
+  version       : "$LastChangedRevision: 1085 $".replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
   developer     : "The Xinha Core Developer Team",
-  developer_url : "$HeadURL: http://svn.xinha.python-hosting.com/trunk/modules/InsertTable/insert_table.js $".replace(/^[^:]*: (.*) \$$/, '$1'),
+  developer_url : "$HeadURL: http://svn.xinha.webfactional.com/trunk/modules/InsertTable/insert_table.js $".replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
   sponsor       : "",
   sponsor_url   : "",
   license       : "htmlArea"
 };
 
 function InsertTable(editor) {
-}                                      
+	this.editor = editor;
+	var cfg = editor.config;
+	var self = this;
 
-Xinha.prototype._insertTable = function()
+	editor.config.btnList.inserttable[3] = function() { self.show(); }
+      }
+
+InsertTable.prototype._lc = function(string) {
+	return Xinha._lc(string, 'Xinha');
+};
+
+
+InsertTable.prototype.onGenerateOnce = function()
 {
-  var sel = this.getSelection();
-  var range = this.createRange(sel);
-  var editor = this;	// for nested functions
-  Dialog(
-    editor.config.URIs.insert_table,
-    function(param)
-    {
-      // user must have pressed Cancel
-      if ( !param )
-      {
-        return false;
-      }
-      var doc = editor._doc;
-      // create the table element
-      var table = doc.createElement("table");
-      // assign the given arguments
+	InsertTable.loadAssets();
+};
+InsertTable.loadAssets = function()
+{
+	var self = InsertTable;
+	if (self.loading) return;
+	self.loading = true;
+	Xinha._getback(_editor_url + 'modules/InsertTable/dialog.html', function(getback) { self.html = getback; self.dialogReady = true; });
+	Xinha._getback(_editor_url + 'modules/InsertTable/pluginMethods.js', function(getback) { eval(getback); self.methodsReady = true; });
+};
 
-      for ( var field in param )
-      {
-        var value = param[field];
-        if ( !value )
-        {
-          continue;
-        }
-        switch (field)
-        {
-          case "f_width":
-            table.style.width = value + param.f_unit;
-          break;
-          case "f_align":
-            table.align = value;
-          break;
-          case "f_border":
-            table.border = parseInt(value, 10);
-          break;
-          case "f_spacing":
-            table.cellSpacing = parseInt(value, 10);
-          break;
-          case "f_padding":
-            table.cellPadding = parseInt(value, 10);
-          break;
-        }
-      }
-      var cellwidth = 0;
-      if ( param.f_fixed )
-      {
-        cellwidth = Math.floor(100 / parseInt(param.f_cols, 10));
-      }
-      var tbody = doc.createElement("tbody");
-      table.appendChild(tbody);
-      for ( var i = 0; i < param.f_rows; ++i )
-      {
-        var tr = doc.createElement("tr");
-        tbody.appendChild(tr);
-        for ( var j = 0; j < param.f_cols; ++j )
-        {
-          var td = doc.createElement("td");
-          // @todo : check if this line doesnt stop us to use pixel width in cells
-          if (cellwidth)
-          {
-            td.style.width = cellwidth + "%";
-          }
-          tr.appendChild(td);
-          // Browsers like to see something inside the cell (&nbsp;).
-          td.appendChild(doc.createTextNode('\u00a0'));
-        }
-      }
-      if ( Xinha.is_ie )
-      {
-        range.pasteHTML(table.outerHTML);
-      }
-      else
-      {
-        // insert the table
-        editor.insertNodeAtSelection(table);
-      }
-      return true;
-    },
-    null
-  );
+InsertTable.prototype.onUpdateToolbar = function()
+{ 
+  if (!(InsertTable.dialogReady && InsertTable.methodsReady))
+	{
+	  this.editor._toolbarObjects.inserttable.state("enabled", false);
+	}
+	else this.onUpdateToolbar = null;
+};
+
+InsertTable.prototype.prepareDialog = function()
+{
+	var self = this;
+	var editor = this.editor;
+
+	var dialog = this.dialog = new Xinha.Dialog(editor, InsertTable.html, 'Xinha',{width:400})
+	// Connect the OK and Cancel buttons
+	dialog.getElementById('ok').onclick = function() {self.apply();}
+	dialog.getElementById('cancel').onclick = function() { self.dialog.hide()};
+  
+	this.borderColorPicker = new Xinha.colorPicker.InputBinding(dialog.getElementById('border_color'));
+
+	this.dialog.onresize = function ()
+	{
+		this.getElementById("layout_fieldset").style.width =(this.width / 2) + 50 + 'px';
+    this.getElementById("spacing_fieldset").style.width =(this.width / 2) - 120 + 'px'; 
+	}
+
+	this.dialogReady = true;
 };

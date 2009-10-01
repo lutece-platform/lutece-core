@@ -51,6 +51,14 @@
   color:ButtonText;
   font:11px helvetica,arial,sans-serif;
 }
+
+.htmlarea .statusBar .statusBarWidgetContainer
+{
+  background-image: url(button-background.png);
+  background-repeat: repeat-x;
+  background-color: #c3daf9;
+}
+
 .htmlarea .statusBar .statusBarTree {
   display:block;
   margin:3px;

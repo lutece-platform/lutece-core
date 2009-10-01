@@ -75,7 +75,7 @@ html > body .htmlarea .toolbar .button {
   border-left: 1px dotted black;
   border-right: none;
   width: 1px;
-  height: 18px;
+  height: 11px;
   padding: 0px;
 }
 
@@ -91,14 +91,19 @@ html > body .htmlarea .toolbar .button {
   vertical-align: middle;
 }
 
+.htmlarea .statusBar .statusBarWidgetContainer
+{
+  background-image: url(statusbar.png);
+  background-repeat: repeat-x;
+  background-color: white;
+}
+
 .htmlarea .statusBar .statusBarTree
 {
   display:block;
   margin: 3px;
 }
-.htmlarea .statusBar span {
- display:none;
-}
+
 .htmlarea .statusBar .statusBarTree a
 {
   padding: 0 5px;
@@ -162,8 +167,8 @@ body.dialog {
 }
 .htmlarea textarea.xinha_textarea {
   background:url(html.gif) bottom right no-repeat;
-  padding:5px;
-  border:2px dotted #bbb;
+  /*padding:5px;
+  border:2px dotted #bbb;*/
   font-family: "Lucida Console",Courier,monospace;
   font-size: 10pt;
 }

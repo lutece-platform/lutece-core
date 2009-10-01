@@ -9,10 +9,12 @@
 // Version 3.0 developed by Mihai Bazon.
 //   http://dynarch.com/mishoo
 //
-// $Id: popup.js 797 2007-03-27 23:14:46Z ray $
-Xinha = window.opener.Xinha;
+// $Id:popup.js 929 2008-01-09 21:10:59Z ray $
+if(typeof Xinha == 'undefined')
+  Xinha = window.opener.Xinha;
+
 // Backward compatibility will be removed some time or not?
-HTMLArea = window.opener.Xinha;
+HTMLArea = Xinha;
 
 function getAbsolutePos(el) {
 	var r = { x: el.offsetLeft, y: el.offsetTop };
@@ -52,7 +54,11 @@ function __xinha_dlg_init( win_dim ) {
     link.rel = "stylesheet";
     head.appendChild(link);
   }
-	window.dialogArguments = opener.Dialog._arguments;
+  if (!window.dialogArguments && opener.Dialog._arguments)
+  {
+    window.dialogArguments = opener.Dialog._arguments;
+  }
+  
 
   var page = Xinha.pageSize(window);
   if ( !win_dim )

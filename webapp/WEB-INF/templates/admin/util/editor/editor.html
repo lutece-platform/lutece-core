@@ -1,21 +1,75 @@
 <!-- XINHA -->
 <script type="text/javascript">
-        _site = "${webapp_url}"
-	      _editor_url  = "${webapp_url}js/editors/xinha/"
-        _editor_lang  = "${locale}"     // And the language we need to use in the editor.
-</script>
+var _editor_url  = "${webapp_url}js/editors/xinha/";
+var _editor_lang = "${locale}";
 
-<script type="text/javascript" src="${webapp_url}js/editors/xinha/htmlarea.js" charset="UTF-8"></script>
-<script type="text/javascript" src="${webapp_url}js/editors/xinha/lutece_document.conf"></script>
-  
-<#macro initEditor>
-<!-- XINHA -->
-<script type="text/javascript">
-     // 
-    if( getRichText().length > 0 ){     
-       xinha_init();
+function getRichText()
+    {
+    var richTextAreas = new Array();
+    var allTextAreas = document.getElementsByTagName("textarea");
+    var j=0;
+
+    for (var i=0; i < allTextAreas.length; i++) {
+        
+        var className = allTextAreas[i].className;
+    
+        if ( className ==  "richtext" ) {
+           richTextAreas[j] = allTextAreas[i].id;
+            j++;   
+        }
+      }
+    return richTextAreas;
     }
+
 </script>
+<#macro initEditor>
 
+<!-- Load up the actual editor core -->
+<script type="text/javascript" src="${webapp_url}js/editors/xinha/XinhaCore.js" charset="UTF-8"></script>
+<script type="text/javascript">
+var xinha_plugins =  [
+    'CharacterMap',
+    'CharCounter',
+    'ContextMenu',
+    'ListType',
+    'TableOperations',
+    'DoubleClick',
+    'FindReplace',
+    'LuteceService',
+    'Stylist',
+    'QuickTag',
+    'GetHtml',
+    ];
+var xinha_editors = getRichText();
 
+function xinha_init()
+{
+ if(!Xinha.loadPlugins(xinha_plugins, xinha_init)) return;
+ var xinha_config = new Xinha.Config();
+ xinha_config.baseHref = '${webapp_url}';
+ xinha_config.stripBaseHref = false;
+    
+ xinha_config.getHtmlMethod = "TransformInnerHTML";
+    
+ xinha_config.toolbar =
+    [
+    ["popupeditor"],
+    ["separator","formatblock","bold","italic","underline","strikethrough"],
+    ["separator","textindicator"],
+    ["separator","subscript","superscript"],
+    ["linebreak","separator","justifyleft","justifycenter","justifyright","justifyfull"],
+    ["separator","insertorderedlist","insertunorderedlist","outdent","indent"],
+    ["separator","inserthorizontalrule","createlink","inserttable"],
+    ["separator","undo","redo","selectall","print"], (HTMLArea.is_gecko ? [] : ["cut","copy","paste","overwrite","saveas"]),
+    ["separator","killword","clearfonts","toggleborders","splitblock"],
+    ["separator","htmlmode","showhelp","about"]
+ ];  
+
+ xinha_config.pageStyle = "@import url( 'css/page_template_styles.css' );";
+ xinha_config.stylistLoadStylesheet('${webapp_url}css/customize.css');
+ xinha_editors = Xinha.makeEditors(xinha_editors, xinha_config, xinha_plugins);
+ Xinha.startEditors(xinha_editors);
+}
+Xinha.addOnloadHandler(xinha_init);
+</script>
 </#macro>

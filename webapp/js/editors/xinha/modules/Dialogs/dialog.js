@@ -16,10 +16,10 @@
     --   it's just namespace for protecting global symbols.
     --
     --
-    --  $HeadURL: http://svn.xinha.python-hosting.com/trunk/modules/Dialogs/dialog.js $
-    --  $LastChangedDate: 2007-01-24 03:26:04 +1300 (Wed, 24 Jan 2007) $
-    --  $LastChangedRevision: 694 $
-    --  $LastChangedBy: gogo $
+    --  $HeadURL: http://svn.xinha.webfactional.com/trunk/modules/Dialogs/dialog.js $
+    --  $LastChangedDate: 2008-10-13 06:42:42 +1300 (Mon, 13 Oct 2008) $
+    --  $LastChangedRevision: 1084 $
+    --  $LastChangedBy: ray $
     --------------------------------------------------------------------------*/
 
 
@@ -27,7 +27,17 @@ function Dialog(url, action, init) {
 	if (typeof init == "undefined") {
 		init = window;	// pass this window object by default
 	}
-	Dialog._geckoOpenModal(url, action, init);
+	if (typeof window.showModalDialog == 'function' && !Xinha.is_webkit) // webkit easily looses the selection with window.showModalDialog
+	{
+		Dialog._return = function(retVal) {
+			if (typeof action == 'function') action (retVal);
+		}
+		var r = window.showModalDialog(url, init, "dialogheight=300;dialogwidth=400;resizable=yes");
+	}
+	else
+	{
+		Dialog._geckoOpenModal(url, action, init);
+	}
 }
 
 Dialog._parentEvent = function(ev) {
@@ -50,6 +60,8 @@ Dialog._modal = null;
 
 // the dialog will read it's args from this variable
 Dialog._arguments = null;
+
+Dialog._selection = null;
 
 Dialog._geckoOpenModal = function(url, action, init) {
 	var dlg = window.open(url, "hadialog",

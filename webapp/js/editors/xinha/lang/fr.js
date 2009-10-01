@@ -132,9 +132,11 @@
   "You must enter the URL": "Vous devez entrer l'URL",
 
   // toolbar
+/*
   "button_bold": "fr/bold.gif",
   "button_underline": "fr/underline.gif",
   "button_strikethrough": "fr/strikethrough.gif",
+*/
 
   // Editor Help
   "Xinha Help": "Aide Xinha",

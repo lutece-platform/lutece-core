@@ -1,4 +1,6 @@
-.CharacterMap { }
+.CharacterMap { 
+background-color:white;
+}
 .CharacterMap a.entity {
   font-size:12px;
   width:18px;
