@@ -58,17 +58,6 @@
 		%>
 		</pre>
 		<a onclick="document.getElementById('stackMsg').style.display='block'">Get more details.</a>
-
-<!-- 		
-		<form action="mailto:thibaut.lassalle@paris.fr" name="bugForm">
-			<input type="hidden" name="stack" />
-			<input type="submit" value="Report the bug" />
-		</form>
-		<script>
-			document.forms["bugForm"].stack.value = document.getElementById("stackMsg").innerHTML;
-		</script>
- -->
- 		
 		 </td>
         </tr>
 
@@ -89,6 +78,7 @@
         </tr>
 <%
 	}
+	fr.paris.lutece.portal.service.util.AppLogService.error( exception.getMessage() , exception );
 %>
     </table>
 </div>
