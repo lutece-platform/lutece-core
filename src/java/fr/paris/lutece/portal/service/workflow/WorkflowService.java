@@ -193,7 +193,7 @@ public class WorkflowService
      * @param locale the loacle
      * @return null if there is no error in the task form
      *                    else return the error message url
-    
+
      */
     public String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
         Locale locale )
@@ -258,6 +258,33 @@ public class WorkflowService
     {
         return isAvailable(  )
         ? _service.getAuthorizedResourceList( strResourceType, nIdWorkflow, nIdWorkflowState, user ) : null;
+    }
+
+    /**
+     * Get all authorized resource Id by given authorized state list
+     * @param strResourceType the resource type
+     * @param nIdWorkflow the workflow id
+     * @param lAuthorizedState list of authorized state
+     * @param user AdminUser
+     * @return a list resource id
+     */
+    public List<Integer> getAuthorizedResourceIdListByAuthorizedStateList( String strResourceType, int nIdWorkflow,
+        Collection<State> lAuthorizedState, AdminUser user )
+    {
+        return isAvailable(  )
+        ? _service.getAuthorizedResourceIdListByAuthorizedStateList( strResourceType, nIdWorkflow, lAuthorizedState,
+            user ) : null;
+    }
+
+    /**
+     * Test if an user is allowed to see all workflow state
+     * @param nIdWorkflow he workflow id
+     * @param user AdminUser
+     * @return true if user is allowed to see all
+     */
+    public Boolean IsUserAllowedToSeeAllWorkflowState( int nIdWorkflow, AdminUser user )
+    {
+        return isAvailable(  ) ? _service.IsUserAllowedToSeeAllWorkflowState( nIdWorkflow, user ) : null;
     }
 
     /**
