@@ -104,12 +104,10 @@
         	<strong>...</strong>
         </#if>
         <#list paginator.pagesLinks as link>
-			<#if (link.index &gt; (paginator.pageCurrent - (nbLinkPages-offsetPrev))) && (link.index &lt;= (paginator.pageCurrent + (nbLinkPages-offsetNext))) >
-				<#if ( link.index == paginator.pageCurrent )>
-					<strong>${link.name}</strong>
-				<#else>
-					<a href="${link.url}">${link.name}</a>
-				</#if>
+			<#if ( link.index == paginator.pageCurrent )>
+				<strong>${link.name}</strong>
+			<#else>
+				<a href="${link.url}">${link.name}</a>
 			</#if>
         </#list>
         <#if paginator.pageCurrent &lt; paginator.pagesCount - (nbLinkPages-offsetNext) >

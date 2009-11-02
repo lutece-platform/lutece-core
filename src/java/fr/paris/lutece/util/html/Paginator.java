@@ -110,9 +110,15 @@ public class Paginator
     public List getPageItems(  )
     {
         int nStartIndex = ( _nPageCurrent - 1 ) * _nItemPerPage;
+        int nMax = _list.size(  );
+        int nMaxPage = nStartIndex + _nItemPerPage;
+        if(nMaxPage<nMax){
+        	nMax = nMaxPage;
+        }
+        
         List list = new ArrayList(  );
 
-        for ( int i = nStartIndex; ( i < ( nStartIndex + _nItemPerPage ) ) && ( i < _list.size(  ) ); i++ )
+        for ( int i = nStartIndex; i < nMax; i++ )
         {
             list.add( _list.get( i ) );
         }
@@ -193,7 +199,35 @@ public class Paginator
     {
         ArrayList<PaginatorPage> list = new ArrayList<PaginatorPage>(  );
 
-        for ( int i = 1; i <= getPagesCount(  ); i++ )
+        int nMax = getPagesCount(  );
+        int nbLinkPages = 10;
+        int nOffsetPrev = nbLinkPages/2;
+        int nOffsetNext = nbLinkPages/2;
+        
+        if(_nPageCurrent< nbLinkPages - nOffsetPrev){
+        	nOffsetPrev =  nbLinkPages - _nPageCurrent;
+        	nOffsetNext = nbLinkPages - nOffsetPrev;
+        }else if(_nPageCurrent> this.getPagesCount() - (nbLinkPages - nOffsetNext)){
+        	nOffsetPrev =  nbLinkPages - (this.getPagesCount() - _nPageCurrent);
+        	nOffsetNext = nbLinkPages - nOffsetPrev;        	
+        }
+        
+        int nMin = 1;
+        int nTmpMin = (_nPageCurrent - ( nbLinkPages - nOffsetPrev)) + 1;
+        int nTmpMax = (_nPageCurrent+ (nbLinkPages-nOffsetNext));
+        if(nTmpMax<nMax){
+        	nMax = nTmpMax;
+        }
+        if(nTmpMin>0){
+        	nMin = nTmpMin;
+        	int nTmp = ( getPagesCount(  ) - nbLinkPages);
+        	if(nMin > nTmp && nTmp>0){
+        		nMin = nTmp;
+        	}
+        }
+        
+        
+        for ( int i = nMin; i <= nMax; i++ )
         {
             PaginatorPage page = new PaginatorPage(  );
             String strIndex = "" + i;
