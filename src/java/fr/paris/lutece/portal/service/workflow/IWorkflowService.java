@@ -71,6 +71,17 @@ public interface IWorkflowService
      * @return the state of a given document
      */
     State getState( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user );
+    
+    /**
+     * returns the state of a  given document
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     * @param nIdWorkflow the workflow id
+     * @param nIdExternalParentId the external parent id
+     * @param user The user
+     * @return the state of a given document
+     */
+    State getState( int nIdResource, String strResourceType, int nIdWorkflow, Integer nIdExternalParentId, AdminUser user );
 
     /**
      * return true if a form is associate to the action
@@ -93,6 +104,19 @@ public interface IWorkflowService
     void doProcessAction( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
         Locale locale, boolean isAutomatic );
 
+    /**
+     * Proceed action given in parameter
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     * @param request the request
+     * @param nIdAction the action id
+     * @param nIdExternalParentId the external parent id
+     * @param locale locale
+     * @param isAutomatic true if action is automatic
+     */
+    void doProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
+    		HttpServletRequest request, Locale locale, boolean isAutomatic );
+    
     /**
      * returns the  actions history performed on a resource
      * @param nIdResource the resource id
@@ -132,11 +156,34 @@ public interface IWorkflowService
         Locale locale );
 
     /**
+     * Perform the information on the various tasks associated with the given action specified in parameter
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     * @param request the request
+     * @param nIdAction the action id
+     * @param nExternalParentId the external parent id
+     * @param locale the locale
+     * @return null if there is no error in the task form
+     *                    else return the error message url
+
+     */
+    String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId
+    		, HttpServletRequest request, Locale locale );
+    
+    /**
      * Remove in all workflows the resource specified in parameter
      * @param nIdResource the resource id
      * @param strResourceType the resource type
      */
     void doRemoveWorkFlowResource( int nIdResource, String strResourceType );
+    
+    /**
+     * Remove list of resource by list of id resource
+     * @param lListIdResource the list of resource id
+     * @param strResourceType  the resource type
+     * @param nIdWorflow the workflow id
+     */
+    void doRemoveWorkFlowResourceByListId( List<Integer> lListIdResource, String strResourceType, Integer nIdWorflow );
 
     /**
      * returns the tasks form
@@ -181,7 +228,7 @@ public interface IWorkflowService
      * @return a list resource id
      */
     List<Integer> getAuthorizedResourceIdListByAuthorizedStateList( String strResourceType, int nIdWorkflow,
-        Collection<State> lAuthorizedState, AdminUser user );
+        Collection<State> lAuthorizedState, Integer nExternalParentId, AdminUser user );
 
     /**
      * Test if an user is allowed to see all workflow state
@@ -223,4 +270,13 @@ public interface IWorkflowService
      * @param nIdWorkflow the workflow id
      */
     void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow );
+    
+    /**
+     * Execute action automatic
+     * @param nIdResource the document id
+     * @param strResourceType the document type
+     * @param nIdWorkflow the workflow id
+     * @param nExternalParentId the external parent id
+     */
+    void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow, Integer nExternalParentId );
 }
