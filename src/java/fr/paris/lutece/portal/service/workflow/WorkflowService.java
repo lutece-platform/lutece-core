@@ -142,6 +142,7 @@ public class WorkflowService
      * @param nIdAction the action id
      * @param locale locale
      */
+    @Deprecated
     public void doProcessAction( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
         Locale locale, boolean isAutomatic )
     {
@@ -207,8 +208,8 @@ public class WorkflowService
      * @param locale the locale
      * @return null if there is no error in the task form
      *                    else return the error message url
-
      */
+    @Deprecated
     public String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
         Locale locale )
     {
@@ -225,13 +226,12 @@ public class WorkflowService
      * @param locale the locale
      * @return null if there is no error in the task form
      *                    else return the error message url
-
      */    
-    public String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId
-    		, HttpServletRequest request, Locale locale )
+    public String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
+    		HttpServletRequest request, Locale locale )
     {
-        return isAvailable(  ) ? _service.doSaveTasksForm( nIdResource, strResourceType, nIdAction, nExternalParentId
-        		,request, locale ): null;
+        return isAvailable(  ) ? _service.doSaveTasksForm( nIdResource, strResourceType, nIdAction, nExternalParentId,
+        		request, locale ): null;
     }
 
     /**
@@ -299,38 +299,44 @@ public class WorkflowService
      * @param user the AdminUser
      * @return a list resource id
      */
+    @Deprecated
     public List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState, AdminUser user )
     {
-        return isAvailable(  )
-        ? _service.getAuthorizedResourceList( strResourceType, nIdWorkflow, nIdWorkflowState, user ) : null;
+        return this.getAuthorizedResourceList(strResourceType, nIdWorkflow, nIdWorkflowState, null, user);
     }
-
+    
     /**
-     * Get all authorized resource Id by given authorized state list
+     * Get all authorized resource Id
      * @param strResourceType the resource type
      * @param nIdWorkflow the workflow id
-     * @param lAuthorizedState list of authorized state
-     * @param user AdminUser
+     * @param nIdWorkflowState The workflow state id or -1 for all workflow states
+     * @param nExternalParentId The external parent id
+     * @param user the AdminUser
      * @return a list resource id
      */
-    public List<Integer> getAuthorizedResourceIdListByAuthorizedStateList( String strResourceType, int nIdWorkflow,
-        Collection<State> lAuthorizedState, Integer nExternalParentId, AdminUser user )
+    public List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState, 
+    		Integer nExternalParentId, AdminUser user )
+	{
+    	return isAvailable( )
+    	? _service.getAuthorizedResourceList( strResourceType, nIdWorkflow, nIdWorkflowState, nExternalParentId, user ) : null;
+	}
+    
+    /**
+     * Get all authorized resource Id by list of state
+     * @param strResourceType the resource type
+     * @param nIdWorkflow the workflow id
+     * @param lListIdWorkflowState The workflow state <b>id or null</b> for all workflow states
+     * @param nExternalParentId
+     * @param user the AdminUser
+     * @return a list resource id
+     */
+    public List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, List<Integer> lListIdWorkflowState, 
+    		Integer nExternalParentId, AdminUser user )
     {
         return isAvailable(  )
-        ? _service.getAuthorizedResourceIdListByAuthorizedStateList( strResourceType, nIdWorkflow, lAuthorizedState,
-        	nExternalParentId, user ) : null;
+        ? _service.getAuthorizedResourceList( strResourceType, nIdWorkflow, lListIdWorkflowState, nExternalParentId, user ) : null;
     }
-
-    /**
-     * Test if an user is allowed to see all workflow state
-     * @param nIdWorkflow he workflow id
-     * @param user AdminUser
-     * @return true if user is allowed to see all
-     */
-    public Boolean IsUserAllowedToSeeAllWorkflowState( int nIdWorkflow, AdminUser user )
-    {
-        return isAvailable(  ) ? _service.IsUserAllowedToSeeAllWorkflowState( nIdWorkflow, user ) : null;
-    }
+    
 
     /**
      * return a reference list which contains a list enabled workflow
@@ -355,12 +361,14 @@ public class WorkflowService
     }
 
     /**
+     * <b> WRONG : need to filter on workflow id</b>
      * Returns a list which contains idResource for a given filter
      * @param nIdState the id State
      * @param strResource the name of resource
      * @param user the AdminUser
      * @return a list which contains idRessource
      */
+    @Deprecated
     public Collection<Integer> getListIdRessourceByState( int nIdState, String strResource, AdminUser user )
     {
         return isAvailable(  ) ? _service.getListIdRessourceByState( nIdState, strResource, user ) : null;
@@ -375,6 +383,7 @@ public class WorkflowService
      * @param nIdWorkflow the workflow id
      * @return the state of a given document
      */
+    @Deprecated
     public State getState( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
     {
     	return this.getState(nIdResource, strResourceType, nIdWorkflow, null ,user);
@@ -413,6 +422,7 @@ public class WorkflowService
      * @param strResourceType the document type
      * @param nIdWorkflow the workflow id
      */
+    @Deprecated
     public void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow )
     {
     	this.executeActionAutomatic(nIdResource, strResourceType, nIdWorkflow, null);

@@ -70,6 +70,7 @@ public interface IWorkflowService
      * @param nIdWorkflow the workflow id
      * @return the state of a given document
      */
+    @Deprecated
     State getState( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user );
     
     /**
@@ -101,6 +102,7 @@ public interface IWorkflowService
      * @param locale locale
      * @param isAutomatic true if action is automatic
      */
+    @Deprecated
     void doProcessAction( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
         Locale locale, boolean isAutomatic );
 
@@ -150,8 +152,8 @@ public interface IWorkflowService
      * @param locale the locale
      * @return null if there is no error in the task form
      *                    else return the error message url
-
      */
+    @Deprecated
     String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
         Locale locale );
 
@@ -165,10 +167,9 @@ public interface IWorkflowService
      * @param locale the locale
      * @return null if there is no error in the task form
      *                    else return the error message url
-
      */
-    String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId
-    		, HttpServletRequest request, Locale locale );
+    String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId, 
+    		HttpServletRequest request, Locale locale );
     
     /**
      * Remove in all workflows the resource specified in parameter
@@ -176,7 +177,7 @@ public interface IWorkflowService
      * @param strResourceType the resource type
      */
     void doRemoveWorkFlowResource( int nIdResource, String strResourceType );
-    
+        
     /**
      * Remove list of resource by list of id resource
      * @param lListIdResource the list of resource id
@@ -193,7 +194,6 @@ public interface IWorkflowService
      * @param nIdAction the action id
      * @param locale the locale
      * @return the tasks form associated to the action
-     *
      */
     String getDisplayTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
         Locale locale );
@@ -212,31 +212,37 @@ public interface IWorkflowService
      * Get all authorized resource Id
      * @param strResourceType the resource type
      * @param nIdWorkflow the workflow id
-     * @param nIdWorkflowState The workflow state id or -1 for all workflow states
+     * @param nIdWorkflowState The workflow state id
      * @param user the AdminUser
      * @return a list resource id
      */
+    @Deprecated
     List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState,
         AdminUser user );
 
     /**
-     * Get all authorized resource Id by given authorized state list
+     * Get all authorized resource Id
      * @param strResourceType the resource type
      * @param nIdWorkflow the workflow id
-     * @param lAuthorizedState list of authorized state
-     * @param user AdminUser
-     * @return a list resource id
+     * @param nIdWorkflowState The workflow state id
+     * @param nExternalParentId The external parent id
+     * @param user the AdminUser
+     * @return
      */
-    List<Integer> getAuthorizedResourceIdListByAuthorizedStateList( String strResourceType, int nIdWorkflow,
-        Collection<State> lAuthorizedState, Integer nExternalParentId, AdminUser user );
-
+    List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState, 
+    		Integer nExternalParentId, AdminUser user );
+    
     /**
-     * Test if an user is allowed to see all workflow state
-     * @param nIdWorkflow he workflow id
-     * @param user AdminUser
-     * @return true if user is allowed to see all
+     * Get all authorized resource Id
+     * @param strResourceType the resource type
+     * @param nIdWorkflow the workflow id
+     * @param lListIdWorkflowState The list workflow state id
+     * @param nExternalParentId he external parent id
+     * @param user the AdminUser
+     * @return
      */
-    Boolean IsUserAllowedToSeeAllWorkflowState( int nIdWorkflow, AdminUser user );
+    List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, List<Integer> lListIdWorkflowState, 
+    		Integer nExternalParentId, AdminUser user );
 
     /**
      * return a referencelist wich contains a list enabled workflow
@@ -255,12 +261,14 @@ public interface IWorkflowService
     Collection<State> getAllStateByWorkflow( int nIdWorkflow, AdminUser user );
 
     /**
-     * return a list wich contains idRessource for a given state
+     * <b> WRONG : need to filter on workflow id</b>
+     * return a list witch contains idRessource for a given state
      * @param nIdState the id State
      * @param strResourceType the resource type
      * @param user the AdminUser
-     * @return a list wich contains idRessource
+     * @return a list witch contains idRessource
      */
+    @Deprecated
     Collection<Integer> getListIdRessourceByState( int nIdState, String strResourceType, AdminUser user );
 
     /**
@@ -269,6 +277,7 @@ public interface IWorkflowService
      * @param strResourceType the document type
      * @param nIdWorkflow the workflow id
      */
+    @Deprecated
     void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow );
     
     /**
