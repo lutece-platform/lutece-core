@@ -45,6 +45,7 @@ import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -120,6 +121,20 @@ public class WorkflowService
     public Collection<Action> getActions( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
     {
         return isAvailable(  ) ? _service.getActions( nIdResource, strResourceType, nIdWorkflow, user ) : null;
+    }
+    
+    /**
+     * returns a list of actions possible for a given document based on the status
+     * of the document in the workflow and the user role
+     * @param listIdResssource the list of resource id
+     * @param strResourceType the document type
+     * @param user the adminUser
+     * @param nIdWorkflow the workflow id
+     * @return a list of Action
+     */
+    public HashMap<Integer, List<Action>> getActions( List<Integer> listIdResssource, String strResourceType, Integer nIdExternalParentId, int nIdWorkflow, AdminUser user )
+    {
+    	return isAvailable(  ) ? _service.getActions(listIdResssource, strResourceType, nIdExternalParentId, nIdWorkflow, user) : null;
     }
 
     /**
