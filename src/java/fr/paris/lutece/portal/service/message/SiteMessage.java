@@ -35,18 +35,22 @@ package fr.paris.lutece.portal.service.message;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 
 /**
  * The class provides a bean to hold message box informations
  */
-public class SiteMessage
+public class SiteMessage implements Serializable
 {
-    public static final int TYPE_INFO = 0;
+	private static final long serialVersionUID = -34775038853250525L;
+	public static final int TYPE_INFO = 0;
     public static final int TYPE_QUESTION = 1;
     public static final int TYPE_ERROR = 2;
     public static final int TYPE_WARNING = 3;
@@ -61,8 +65,8 @@ public class SiteMessage
     private String _strTarget;
     private int _nTypeButton;
     private int _nType;
-    private Object[] _messageArgs;
-    private Map<String, Object> _requestParameters;
+    private String[] _messageArgs;
+    private HashMap<String, String> _requestParameters;
 
     /**
     *
@@ -84,8 +88,26 @@ public class SiteMessage
         _strTarget = strTarget;
         _nType = nType;
         _nTypeButton = nTypeButton;
-        _messageArgs = messageArgs;
-        _requestParameters = requestParameters;
+
+        // Object message conversion into String values
+        if(messageArgs != null)
+        {
+	        _messageArgs = new String[messageArgs.length];
+	        for(int i=0; i<messageArgs.length; i++)
+	        {
+	        	_messageArgs[0] = messageArgs[i] == null ? null : messageArgs[i].toString();
+	        }
+        }
+
+        // Object message conversion into String values for map of parameters
+        if(requestParameters != null)
+        {
+        	_requestParameters = new HashMap<String, String>( );
+        	for(Entry<String, Object> entry : requestParameters.entrySet())
+        	{
+        		_requestParameters.put(entry.getKey(), entry.getValue() == null ? null : entry.getValue().toString());
+        	}
+        }
     }
 
     /**
@@ -154,7 +176,7 @@ public class SiteMessage
 
         if ( _messageArgs != null )
         {
-            strText = MessageFormat.format( strText, _messageArgs );
+            strText = MessageFormat.format( strText, (Object[]) _messageArgs );
         }
 
         return strText;
@@ -210,7 +232,7 @@ public class SiteMessage
      *
      * @return the request parameters.
      */
-    public Map<String, Object> getRequestParameters(  )
+    public Map<String, String> getRequestParameters(  )
     {
         return _requestParameters;
     }
