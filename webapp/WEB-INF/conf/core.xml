@@ -5,7 +5,7 @@
     <!-- Plugin Informations -->
     <name>core</name>
     <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
-    <version>2.0</version>
+    <version>2.3.1</version>
     <description>portal.system.core_components.description</description>
     <documentation></documentation>
     <installation></installation>
@@ -14,7 +14,7 @@
     <provider>portal.system.core_components.provider</provider>
     <provider-url>http://fr.lutece.paris.fr</provider-url>
     <icon-url>images/admin/skin/core.png</icon-url>
-    <copyright>Copyright (c) 2001-2008 Mairie de Paris</copyright>
+    <copyright>Copyright (c) 2001-2009 Mairie de Paris</copyright>
     <db-pool-required>1</db-pool-required>
     
     <!-- Contents Service -->
