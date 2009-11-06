@@ -141,35 +141,38 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         listModes.addItem( -1, strComboItem );
 
         List<StyleSheet> listStyleSheets = (List<StyleSheet>) StyleSheetHome.getStyleSheetList( nModeId );
-        
+
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
         String strAscSort = null;
+
         if ( strSortedAttributeName != null )
         {
-        	strAscSort = request.getParameter( Parameters.SORTED_ASC );
-        	boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
-        
-        	Collections.sort( listStyleSheets, new AttributeComparator( strSortedAttributeName, bIsAscSort ) ) ;
+            strAscSort = request.getParameter( Parameters.SORTED_ASC );
+
+            boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
+
+            Collections.sort( listStyleSheets, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
-        
+
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLESHEETS_PER_PAGE, 50 );
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
-        
+
         String strURL = getHomeUrl( request );
+
         if ( strSortedAttributeName != null )
         {
-        	strURL += "?" + Parameters.SORTED_ATTRIBUTE_NAME + "=" + strSortedAttributeName;  
+            strURL += ( "?" + Parameters.SORTED_ATTRIBUTE_NAME + "=" + strSortedAttributeName );
         }
-        
+
         if ( strAscSort != null )
         {
-        	strURL += "&" + Parameters.SORTED_ASC + "=" + strAscSort;
+            strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
-        
-        Paginator paginator = new Paginator( listStyleSheets, _nItemsPerPage, strURL,
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+
+        Paginator paginator = new Paginator( listStyleSheets, _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX,
+                _strCurrentPageIndex );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_MODE_ID, strModeId );

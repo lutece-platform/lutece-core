@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.message;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
 import java.io.Serializable;
+
 import java.text.MessageFormat;
 
 import java.util.HashMap;
@@ -49,8 +50,8 @@ import java.util.Map.Entry;
  */
 public class SiteMessage implements Serializable
 {
-	private static final long serialVersionUID = -34775038853250525L;
-	public static final int TYPE_INFO = 0;
+    private static final long serialVersionUID = -34775038853250525L;
+    public static final int TYPE_INFO = 0;
     public static final int TYPE_QUESTION = 1;
     public static final int TYPE_ERROR = 2;
     public static final int TYPE_WARNING = 3;
@@ -90,23 +91,26 @@ public class SiteMessage implements Serializable
         _nTypeButton = nTypeButton;
 
         // Object message conversion into String values
-        if(messageArgs != null)
+        if ( messageArgs != null )
         {
-	        _messageArgs = new String[messageArgs.length];
-	        for(int i=0; i<messageArgs.length; i++)
-	        {
-	        	_messageArgs[0] = messageArgs[i] == null ? null : messageArgs[i].toString();
-	        }
+            _messageArgs = new String[messageArgs.length];
+
+            for ( int i = 0; i < messageArgs.length; i++ )
+            {
+                _messageArgs[0] = ( messageArgs[i] == null ) ? null : messageArgs[i].toString(  );
+            }
         }
 
         // Object message conversion into String values for map of parameters
-        if(requestParameters != null)
+        if ( requestParameters != null )
         {
-        	_requestParameters = new HashMap<String, String>( );
-        	for(Entry<String, Object> entry : requestParameters.entrySet())
-        	{
-        		_requestParameters.put(entry.getKey(), entry.getValue() == null ? null : entry.getValue().toString());
-        	}
+            _requestParameters = new HashMap<String, String>(  );
+
+            for ( Entry<String, Object> entry : requestParameters.entrySet(  ) )
+            {
+                _requestParameters.put( entry.getKey(  ),
+                    ( entry.getValue(  ) == null ) ? null : entry.getValue(  ).toString(  ) );
+            }
         }
     }
 

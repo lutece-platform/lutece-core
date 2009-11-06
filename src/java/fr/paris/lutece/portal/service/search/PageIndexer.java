@@ -191,19 +191,23 @@ public class PageIndexer implements SearchIndexer
 
         // Add the tag-stripped contents as a Reader-valued Text field so it will
         // get tokenized and indexed.        
-        StringBuffer sbFieldContent = new StringBuffer();
+        StringBuffer sbFieldContent = new StringBuffer(  );
         sbFieldContent.append( page.getName(  ) + " " + sb.toString(  ) );
+
         // Add the metadata description of the page if it exists
-        if ( page.getMetaDescription() != null )
+        if ( page.getMetaDescription(  ) != null )
         {
-        	sbFieldContent.append( " " + page.getMetaDescription() );
+            sbFieldContent.append( " " + page.getMetaDescription(  ) );
         }
+
         // Add the metadata keywords of the page if it exists
-        if ( page.getMetaKeywords() != null )
+        if ( page.getMetaKeywords(  ) != null )
         {
-        	sbFieldContent.append( " " + page.getMetaKeywords() );
+            sbFieldContent.append( " " + page.getMetaKeywords(  ) );
         }
-        doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString(), Field.Store.NO, Field.Index.TOKENIZED ) );
+
+        doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString(  ), Field.Store.NO,
+                Field.Index.TOKENIZED ) );
 
         // Add the title as a separate Text field, so that it can be searched
         // separately.

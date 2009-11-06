@@ -52,10 +52,10 @@ public final class PasswordUtil
     private static final int CONSTANT_ASCII_CODE_ZERO = 48;
 
     /** Private Constructor */
-    private PasswordUtil()
+    private PasswordUtil(  )
     {
     }
-    
+
     /**
      * Generate a new random password
      * @return the new password

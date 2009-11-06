@@ -65,7 +65,6 @@ public final class XmlUtil
     private static final String TAG_ASSIGNMENT = "=";
     private static final String TAG_ENCLOSED = "\"";
 
-
     /**
      * Gets the header of an XML file
      * @return The header
@@ -89,8 +88,8 @@ public final class XmlUtil
      * @throws Exception The exception
      */
     @Deprecated
-    public static String transform( Source source, Source stylesheet, Map<String, String> params, Properties outputProperties )
-        throws Exception
+    public static String transform( Source source, Source stylesheet, Map<String, String> params,
+        Properties outputProperties ) throws Exception
     {
         try
         {

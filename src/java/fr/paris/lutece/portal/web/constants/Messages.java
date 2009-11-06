@@ -57,8 +57,7 @@ public final class Messages
     public static final String MESSAGE_STRING_FORMAT = "portal.util.message.accentuatedCharacter";
 
     /** Private constructor */
-    private Messages()
+    private Messages(  )
     {
     }
-    
 }

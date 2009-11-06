@@ -132,7 +132,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     /**
      *
      * @param request
-     * @return the html code to create a theme 
+     * @return the html code to create a theme
      */
     public String getCreateTheme( HttpServletRequest request )
     {

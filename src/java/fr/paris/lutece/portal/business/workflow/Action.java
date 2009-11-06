@@ -52,7 +52,7 @@ public class Action implements RBACResource, IReferenceItem
     private State _stateAfter;
     private Workflow _workflow;
     private boolean _bAutomaticState;
-    
+
     /**
      *
      * @return the id of the workflow action
@@ -202,22 +202,22 @@ public class Action implements RBACResource, IReferenceItem
     {
         _workflow = workflow;
     }
-    
+
     /**
     *
     * @return return true if the resources of this state shall be assigned to a workgroup
     */
-   public boolean isAutomaticState(  )
-   {
-       return _bAutomaticState;
-   }
+    public boolean isAutomaticState(  )
+    {
+        return _bAutomaticState;
+    }
 
-   /**
-    * set true return true if the resources of this state is automatic
-    * @param requireUserAssociated true return true if the state is automatic
-    */
-   public void setAutomaticState( Boolean automaticState )
-   {
-	   _bAutomaticState = automaticState;
-   }
+    /**
+     * set true return true if the resources of this state is automatic
+     * @param requireUserAssociated true return true if the state is automatic
+     */
+    public void setAutomaticState( Boolean automaticState )
+    {
+        _bAutomaticState = automaticState;
+    }
 }

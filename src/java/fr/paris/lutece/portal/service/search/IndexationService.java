@@ -67,7 +67,6 @@ public final class IndexationService
     public static final String PATH_INDEX = "search.lucene.indexPath";
     public static final String PARAM_FORCING = "forcing";
     public static final int ALL_DOCUMENT = -1;
-
     private static final String PARAM_TYPE_PAGE = "Page";
     private static final String PROPERTY_WRITER_MERGE_FACTOR = "search.lucene.writer.mergeFactor";
     private static final String PROPERTY_WRITER_MAX_FIELD_LENGTH = "search.lucene.writer.maxFieldLength";

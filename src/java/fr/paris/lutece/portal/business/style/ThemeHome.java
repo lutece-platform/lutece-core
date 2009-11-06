@@ -132,6 +132,7 @@ public final class ThemeHome
         {
             return true;
         }
+
         return false;
     }
 

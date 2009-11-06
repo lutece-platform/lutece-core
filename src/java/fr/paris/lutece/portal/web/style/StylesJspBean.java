@@ -115,35 +115,38 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     public String getStylesManagement( HttpServletRequest request )
     {
         List<Style> listStyles = (List<Style>) StyleHome.getStylesList(  );
-        
+
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
         String strAscSort = null;
+
         if ( strSortedAttributeName != null )
         {
-        	strAscSort = request.getParameter( Parameters.SORTED_ASC );
-        	boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
-        
-        	Collections.sort( listStyles, new AttributeComparator( strSortedAttributeName, bIsAscSort ) ) ;
+            strAscSort = request.getParameter( Parameters.SORTED_ASC );
+
+            boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
+
+            Collections.sort( listStyles, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLES_PER_PAGE, 10 );
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
-        
+
         String strURL = getHomeUrl( request );
+
         if ( strSortedAttributeName != null )
         {
-        	strURL += "?" + Parameters.SORTED_ATTRIBUTE_NAME + "=" + strSortedAttributeName;  
+            strURL += ( "?" + Parameters.SORTED_ATTRIBUTE_NAME + "=" + strSortedAttributeName );
         }
-        
+
         if ( strAscSort != null )
         {
-        	strURL += "&" + Parameters.SORTED_ASC + "=" + strAscSort;
+            strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
-        
-        Paginator paginator = new Paginator( listStyles, _nItemsPerPage, strURL,
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+
+        Paginator paginator = new Paginator( listStyles, _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX,
+                _strCurrentPageIndex );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );

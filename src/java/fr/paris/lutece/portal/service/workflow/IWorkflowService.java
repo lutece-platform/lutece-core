@@ -71,8 +71,9 @@ public interface IWorkflowService
      * @param nIdWorkflow the workflow id
      * @return a list of Action
      */
-    HashMap<Integer, List<Action>> getActions( List<Integer> listIdResource, String strResourceType, Integer nIdExternalParentId, int nIdWorkflow, AdminUser user );
-    
+    HashMap<Integer, List<Action>> getActions( List<Integer> listIdResource, String strResourceType,
+        Integer nIdExternalParentId, int nIdWorkflow, AdminUser user );
+
     /**
      * returns the state of a  given document
      * of the document in the workflow and the user role
@@ -84,7 +85,7 @@ public interface IWorkflowService
      */
     @Deprecated
     State getState( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user );
-    
+
     /**
      * returns the state of a  given document
      * @param nIdResource the resource id
@@ -94,7 +95,8 @@ public interface IWorkflowService
      * @param user The user
      * @return the state of a given document
      */
-    State getState( int nIdResource, String strResourceType, int nIdWorkflow, Integer nIdExternalParentId, AdminUser user );
+    State getState( int nIdResource, String strResourceType, int nIdWorkflow, Integer nIdExternalParentId,
+        AdminUser user );
 
     /**
      * return true if a form is associate to the action
@@ -129,8 +131,8 @@ public interface IWorkflowService
      * @param isAutomatic true if action is automatic
      */
     void doProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
-    		HttpServletRequest request, Locale locale, boolean isAutomatic );
-    
+        HttpServletRequest request, Locale locale, boolean isAutomatic );
+
     /**
      * returns the  actions history performed on a resource
      * @param nIdResource the resource id
@@ -180,16 +182,16 @@ public interface IWorkflowService
      * @return null if there is no error in the task form
      *                    else return the error message url
      */
-    String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId, 
-    		HttpServletRequest request, Locale locale );
-    
+    String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
+        HttpServletRequest request, Locale locale );
+
     /**
      * Remove in all workflows the resource specified in parameter
      * @param nIdResource the resource id
      * @param strResourceType the resource type
      */
     void doRemoveWorkFlowResource( int nIdResource, String strResourceType );
-        
+
     /**
      * Remove list of resource by list of id resource
      * @param lListIdResource the list of resource id
@@ -241,9 +243,9 @@ public interface IWorkflowService
      * @param user the AdminUser
      * @return
      */
-    List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState, 
-    		Integer nExternalParentId, AdminUser user );
-    
+    List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState,
+        Integer nExternalParentId, AdminUser user );
+
     /**
      * Get all authorized resource Id
      * @param strResourceType the resource type
@@ -253,8 +255,8 @@ public interface IWorkflowService
      * @param user the AdminUser
      * @return
      */
-    List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, List<Integer> lListIdWorkflowState, 
-    		Integer nExternalParentId, AdminUser user );
+    List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow,
+        List<Integer> lListIdWorkflowState, Integer nExternalParentId, AdminUser user );
 
     /**
      * return a referencelist wich contains a list enabled workflow
@@ -291,7 +293,7 @@ public interface IWorkflowService
      */
     @Deprecated
     void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow );
-    
+
     /**
      * Execute action automatic
      * @param nIdResource the document id

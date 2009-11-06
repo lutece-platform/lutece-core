@@ -120,13 +120,13 @@ public final class Parameters
     public static final String IMAGE_SERVLET = "image";
     public static final String RESOURCE_ID = "id";
     public static final String RESOURCE_TYPE = "resource_type";
-    
+
     //Sorted list
     public static final String SORTED_ATTRIBUTE_NAME = "sorted_attribute_name";
     public static final String SORTED_ASC = "asc_sort";
 
     /** Private constructor */
-    private Parameters()
+    private Parameters(  )
     {
     }
 }

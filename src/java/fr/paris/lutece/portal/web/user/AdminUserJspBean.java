@@ -211,6 +211,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         for ( AdminUser user : listUser )
         {
             AdminUser currentUser = getUser(  );
+
             if ( currentUser.isAdmin(  ) ||
                     ( currentUser.isParent( user ) &&
                     ( ( haveCommonWorkgroups( currentUser, user ) ) ||
@@ -219,35 +220,38 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 availableUsers.add( user );
             }
         }
-        
+
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
         String strAscSort = null;
+
         if ( strSortedAttributeName != null )
         {
-        	strAscSort = request.getParameter( Parameters.SORTED_ASC );
-        	boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
-        
-        	Collections.sort( availableUsers, new AttributeComparator( strSortedAttributeName, bIsAscSort ) ) ;
+            strAscSort = request.getParameter( Parameters.SORTED_ASC );
+
+            boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
+
+            Collections.sort( availableUsers, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_USERS_PER_PAGE, 50 );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
-        
+
         String strURL = getHomeUrl( request );
+
         if ( strSortedAttributeName != null )
         {
-        	strURL += "?" + Parameters.SORTED_ATTRIBUTE_NAME + "=" + strSortedAttributeName;  
-        }
-        
-        if ( strAscSort != null )
-        {
-        	strURL += "&" + Parameters.SORTED_ASC + "=" + strAscSort;
+            strURL += ( "?" + Parameters.SORTED_ATTRIBUTE_NAME + "=" + strSortedAttributeName );
         }
 
-        Paginator paginator = new Paginator( availableUsers, _nItemsPerPage, strURL ,
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        if ( strAscSort != null )
+        {
+            strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
+        }
+
+        Paginator paginator = new Paginator( availableUsers, _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX,
+                _strCurrentPageIndex );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
