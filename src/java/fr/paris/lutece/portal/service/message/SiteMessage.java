@@ -97,7 +97,7 @@ public class SiteMessage implements Serializable
 
             for ( int i = 0; i < messageArgs.length; i++ )
             {
-                _messageArgs[0] = ( messageArgs[i] == null ) ? null : messageArgs[i].toString(  );
+                _messageArgs[i] = ( messageArgs[i] == null ) ? null : messageArgs[i].toString(  );
             }
         }
 
