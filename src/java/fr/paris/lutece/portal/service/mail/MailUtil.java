@@ -123,8 +123,7 @@ final class MailUtil
                     AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN ) +
                     AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
 
-        // Send the message
-        transport.sendMessage( msg, msg.getAllRecipients(  ) );
+        sendMessage( msg, transport );
     }
 
     /**
@@ -160,8 +159,7 @@ final class MailUtil
                     AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML ) +
                     AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
 
-        // Send the message
-        transport.sendMessage( msg, msg.getAllRecipients(  ) );
+        sendMessage( msg, transport );
     }
 
     /**
@@ -252,8 +250,7 @@ final class MailUtil
 
         msg.setContent( multipart );
 
-        // Send the message
-        transport.sendMessage( msg, msg.getAllRecipients(  ) );
+        sendMessage( msg, transport );
     }
 
     /**
@@ -317,8 +314,27 @@ final class MailUtil
 
         msg.setContent( multipart );
 
-        // Send the message
-        transport.sendMessage( msg, msg.getAllRecipients(  ) );
+        sendMessage( msg, transport );
+    }
+    
+    /**
+     * Send the message
+     * @param msg the message to send
+     * @param transport the transport used to send the message
+     * @throws MessagingException If a messaging error occured
+     * @throws AddressException If invalid address
+     */
+    private static void sendMessage ( Message msg, Transport transport ) throws MessagingException, AddressException
+    {
+    	if ( msg.getAllRecipients(  ) != null )
+    	{
+    		// Send the message
+    		 transport.sendMessage( msg, msg.getAllRecipients(  ) );
+    	}
+    	else
+    	{
+    		throw new AddressException( "Mail adress is null");
+    	}       
     }
 
     /**
