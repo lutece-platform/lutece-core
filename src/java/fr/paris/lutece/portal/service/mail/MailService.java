@@ -428,6 +428,12 @@ public final class MailService
                 }
                 catch ( MessagingException e )
                 {
+                    sbLogs.append( "MailService - Error sending mail (MessagingException): " + e.getMessage(  ) );
+                    AppLogService.error( "MailService - Error sending mail (MessagingException): " + e.getMessage(  ), e );
+                }
+                catch ( Exception e )
+                {
+                    sbLogs.append( "MailService - Error sending mail : " + e.getMessage(  ) );
                     AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
                 }
             }
