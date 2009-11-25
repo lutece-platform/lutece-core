@@ -316,7 +316,7 @@ final class MailUtil
 
         sendMessage( msg, transport );
     }
-    
+
     /**
      * Send the message
      * @param msg the message to send
@@ -324,17 +324,18 @@ final class MailUtil
      * @throws MessagingException If a messaging error occured
      * @throws AddressException If invalid address
      */
-    private static void sendMessage ( Message msg, Transport transport ) throws MessagingException, AddressException
+    private static void sendMessage( Message msg, Transport transport )
+        throws MessagingException, AddressException
     {
-    	if ( msg.getAllRecipients(  ) != null )
-    	{
-    		// Send the message
-    		 transport.sendMessage( msg, msg.getAllRecipients(  ) );
-    	}
-    	else
-    	{
-    		throw new AddressException( "Mail adress is null");
-    	}       
+        if ( msg.getAllRecipients(  ) != null )
+        {
+            // Send the message
+            transport.sendMessage( msg, msg.getAllRecipients(  ) );
+        }
+        else
+        {
+            throw new AddressException( "Mail adress is null" );
+        }
     }
 
     /**

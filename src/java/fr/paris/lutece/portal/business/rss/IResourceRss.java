@@ -33,12 +33,10 @@
  */
 package fr.paris.lutece.portal.business.rss;
 
-
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
 
 
 /**
@@ -63,25 +61,25 @@ public interface IResourceRss
     * @return the description
     */
     String getDescription(  );
-    
+
     /**
      * set the description
      * @param strDescription the description
      */
     void setDescription( String strDescription );
-    
+
     /**
     *
     * @return the name
     */
     String getName(  );
-    
+
     /**
      * set the name
      * @param strName the name
      */
     void setName( String strName );
-    
+
     /**
      *
      * @return the ResourceRssType Object
@@ -119,49 +117,49 @@ public interface IResourceRss
      * @return the information which must  be displayed in the modification resourceRss configuration
      */
     String getDisplayModifyConfigForm( HttpServletRequest request, Locale locale );
-    
+
     /**
      * Save the ResourceRss configuration
      * @param request request
      * @param locale locale
      */
     void doSaveConfig( HttpServletRequest request, Locale locale );
-    
+
     /**
      * Update the ResourceRss configuration
      * @param request request
      * @param locale locale
      */
     void doUpdateConfig( HttpServletRequest request, Locale locale );
-    
+
     /**
      * verified that the resource contains the resource to be exploited
      * @return true if resourceRss content resource
      */
-    boolean contentResourceRss();
-    
+    boolean contentResourceRss(  );
+
     /**
      * create Html Rss
      * @return Html rss
      */
     String createHtmlRss(  );
-    
+
     /**
      * Update the ResourceRss configuration
      * @param idResourceRss id of resourceRss
      */
-    void deleteResourceRssConfig( int idResourceRss);
-    
+    void deleteResourceRssConfig( int idResourceRss );
+
     /**
      * Return the list of parameter to keep when action apply
      * @param request request
      * @return the map of parameter
      */
     Map<String, String> getParameterToApply( HttpServletRequest request );
-    
+
     /**
      * verify that the resource exist
      * @return true if resource exist
      */
-    boolean checkResource();
+    boolean checkResource(  );
 }

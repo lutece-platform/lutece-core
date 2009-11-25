@@ -79,7 +79,7 @@ public abstract class ResourceRss implements IResourceRss
     {
         _taskType = taskType;
     }
-    
+
     /*
      * (non-Javadoc)
      * @see fr.paris.lutece.portal.business.rss.IResourceRss#getDescription()
@@ -97,7 +97,7 @@ public abstract class ResourceRss implements IResourceRss
     {
         _strName = strName;
     }
-    
+
     /*
      * (non-Javadoc)
      * @see fr.paris.lutece.portal.business.rss.IResourceRss#setDescription(String)
