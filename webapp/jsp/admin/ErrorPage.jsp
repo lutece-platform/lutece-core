@@ -62,6 +62,7 @@
         </tr>
 
 <%
+	AppLogService.error( exception.getMessage(  ), exception );
 	}
 	else
 	{
@@ -78,7 +79,7 @@
         </tr>
 <%
 	}
-	fr.paris.lutece.portal.service.util.AppLogService.error( exception.getMessage() , exception );
+	AppLogService.error( exception.getMessage(  ), exception );
 %>
     </table>
 </div>

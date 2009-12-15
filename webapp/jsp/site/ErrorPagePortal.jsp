@@ -62,16 +62,16 @@
 		out.println(cw.toString());
 		%></FONT></PRE>
 		 </td>
-        </tr>
-
+        </tr>        
 <%
+    AppLogService.error( exception.getMessage(  ), exception );
 	}
 	else
 	{
 %>
 		<tr>
          <td align="center" width="100%">
-			<img src="images/admin/skin/messages/warning.png" />
+			<img src="images/admin/skin/messages/warning.png" alt=""/>
         </td>
 		</tr>
 		<tr>
@@ -80,6 +80,7 @@
          </td>
         </tr>
 <%
+    AppLogService.error( exception.getMessage(  ), exception );
 	}
 %>
     </table>
