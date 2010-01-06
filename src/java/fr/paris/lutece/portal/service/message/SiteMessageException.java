@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,4 +45,5 @@ public class SiteMessageException extends Exception
      *
      */
     private static final long serialVersionUID = -4094440607342043242L;
+
 }

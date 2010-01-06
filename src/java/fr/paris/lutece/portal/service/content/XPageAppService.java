@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,6 +32,7 @@
  * License 1.0
  */
 package fr.paris.lutece.portal.service.content;
+
 
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.message.SiteMessage;
@@ -246,6 +247,7 @@ public class XPageAppService extends ContentService
             {
                 data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel(  ), 0, strXml, request ) );
             }
+
         }
         else
         {

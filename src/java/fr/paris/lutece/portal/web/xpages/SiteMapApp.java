@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,9 +64,11 @@ import javax.servlet.http.HttpServletRequest;
 public class SiteMapApp implements XPageApplication, CacheableService
 {
     private static final int PORTAL_COMPONENT_SITE_MAP_ID = 6;
-    private static final String PARAMETER_SITE_PATH = "site-path";
     private static final int MODE_NORMAL = 0;
     private static final int MODE_ADMIN = 1;
+    private static final String PARAMETER_SITE_PATH = "site-path";
+    private static final String MARKER_TARGET = "target";
+    private static final String TARGET_TOP = "target='_top'";
     private static final String PROPERTY_SERVICE_NAME = "portal.site.serviceName.siteMapService";
     private static final String PROPERTY_PATH_LABEL = "portal.site.site_map.pathLabel";
     private static final String PROPERTY_PAGE_TITLE = "portal.site.site_map.pageTitle";
@@ -192,6 +194,7 @@ public class SiteMapApp implements XPageApplication, CacheableService
         else
         {
             mapParamRequest.put( PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl(  ) );
+            mapParamRequest.put( MARKER_TARGET, TARGET_TOP );
         }
 
         Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
