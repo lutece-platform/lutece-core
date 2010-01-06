@@ -199,7 +199,7 @@ public final class SiteMessageService
     public static void setMessage( HttpServletRequest request, String strMessageKey, int nMessageType, String strUrl,
         String strTitleKey, Object[] messageArgs ) throws SiteMessageException
     {
-        setMessage( request, strMessageKey, messageArgs, strTitleKey, null, null, nMessageType );
+        setMessage( request, strMessageKey, messageArgs, strTitleKey, strUrl, null, nMessageType );
     }
 
     /**
