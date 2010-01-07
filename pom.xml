@@ -14,12 +14,22 @@
     <url>http://dev.lutece.paris.fr/</url>
     
     <repositories>
-        <repository>
-            <id>lutece</id>
-            <name>luteceRepository</name>
-            <url>http://dev.lutece.paris.fr/maven_repository</url>
-            <layout>default</layout>
-        </repository>
+	    <repository>
+	      <id>luteceSnapshot</id>
+	      <name>luteceSnapshot</name>
+	      <url>http://dev.lutece.paris.fr/snapshot_repository</url>
+	      <snapshots>
+	      	<enabled>true</enabled>
+		  </snapshots>
+	    </repository>
+	    <repository>
+	      <id>lutece</id>
+	      <name>luteceRepository</name>
+	      <url>http://dev.lutece.paris.fr/maven_repository</url>
+	      <snapshots>
+		      <enabled>false</enabled>
+		  </snapshots>
+	    </repository>
     </repositories>
     
     <dependencies>
