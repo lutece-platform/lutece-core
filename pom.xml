@@ -2,7 +2,7 @@
     <parent>
         <artifactId>lutece-parent-pom</artifactId>
         <groupId>fr.paris.lutece</groupId>
-        <version>2.21-SNAPSHOT</version>
+        <version>RELEASE</version>
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
