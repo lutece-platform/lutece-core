@@ -257,4 +257,14 @@ public final class AdminUserHome
     {
         return _dao.selectUsersByLevel( nIdLevel );
     }
+    
+    /**
+     * Update role key if role key name has change
+     * @param strOldRoleKey The old role key name
+     * @param role The new role
+     */
+    public static void updateUsersRole( String strOldRoleKey, AdminRole role )
+    {
+    	_dao.storeUsersRole( strOldRoleKey, role );
+    }
 }

@@ -80,6 +80,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_DELETE_USER_RIGHTS = " DELETE FROM core_user_right WHERE id_user = ? and id_right = ?";
     private static final String SQL_QUERY_SELECT_USERS_BY_LEVEL = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale " +
         " FROM core_admin_user a WHERE a.level_user = ? ";
+    private static final String SQL_QUERY_UPDATE_USERS_ROLE = "UPDATE core_user_role SET role_key = ? WHERE role_key = ?";
 
     /**
      * @param nUserId th user id
@@ -633,5 +634,20 @@ public class AdminUserDAO implements IAdminUserDAO
         Collection<String> idRightList = selectIdRights( nUserId, nUserLevel, true );
 
         deleteRightsForUser( nUserId, idRightList );
+    }
+    
+    /**
+     * Update role key if role key name has change
+     * @param strRoleKey The old role key name
+     * @param role The new role key
+     */
+    public void storeUsersRole( String strOldRoleKey, AdminRole role )
+    {
+    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_USERS_ROLE );
+        daoUtil.setString( 1, role.getKey(  ) );
+        daoUtil.setString( 2, strOldRoleKey );
+
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
     }
 }

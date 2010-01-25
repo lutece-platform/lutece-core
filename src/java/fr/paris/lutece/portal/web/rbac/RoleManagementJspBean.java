@@ -278,7 +278,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                     role.setKey( strNewRoleKey );
                     role.setDescription( strRoleDescription );
                     AdminRoleHome.update( strOldRoleKey, role );
-
+                    AdminUserHome.updateUsersRole( strOldRoleKey, role );
+                    
                     //  update the role key in the role-resource associations
                     RBACHome.updateRoleKey( strOldRoleKey, strNewRoleKey );
                 }
