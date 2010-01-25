@@ -68,10 +68,10 @@
 
 <#macro sort jsp_url attribute >
 	<a href="${jsp_url}?sorted_attribute_name=${attribute}&asc_sort=true" >
-		<img src="images/admin/skin/actions/sort_asc.gif" style="vertical-align: bottom" alt="#i18n{portal.util.sort.asc}" title="#i18n{portal.util.sort.asc}" />
+		<img src="images/admin/skin/actions/sort_asc.gif" style="vertical-align: text-bottom;" alt="#i18n{portal.util.sort.asc}" title="#i18n{portal.util.sort.asc}" />
 	</a>
 	<a href="${jsp_url}?sorted_attribute_name=${attribute}&asc_sort=false" >
-    	<img src="images/admin/skin/actions/sort_desc.gif" style="vertical-align: bottom" alt="#i18n{portal.util.sort.desc}" title="#i18n{portal.util.sort.desc}" />
+    	<img src="images/admin/skin/actions/sort_desc.gif" style="vertical-align: text-bottom;" alt="#i18n{portal.util.sort.desc}" title="#i18n{portal.util.sort.desc}" />
     </a>
 </#macro>
 
@@ -89,13 +89,13 @@
 	</#if>
     <#if (paginator.pagesCount > 1) >
         <#if paginator.pageCurrent &gt; nbLinkPages-offsetPrev >
-        <a href="${paginator.firstPageLink}">
-            <img src="images/admin/skin/first.png" alt="&lt;" align="bottom" />
+        <a href="${paginator.firstPageLink?xhtml}">
+            <img src="images/admin/skin/first.png" alt="&lt;" style="vertical-align: baseline;" />
         </a>
         </#if>
         <#if (paginator.pageCurrent > 1) >
-        <a href="${paginator.previousPageLink}">
-            <img src="images/admin/skin/prev.png" alt="&lt;" align="bottom" />
+        <a href="${paginator.previousPageLink?xhtml}">
+            <img src="images/admin/skin/prev.png" alt="&lt;" style="vertical-align: baseline;" />
         </a>
         <#else>
             &nbsp;&nbsp;
@@ -107,19 +107,19 @@
 			<#if ( link.index == paginator.pageCurrent )>
 				<strong>${link.name}</strong>
 			<#else>
-				<a href="${link.url}">${link.name}</a>
+				<a href="${link.url?xhtml}">${link.name}</a>
 			</#if>
         </#list>
         <#if paginator.pageCurrent &lt; paginator.pagesCount - (nbLinkPages-offsetNext) >
         	<strong>...</strong>
         </#if>
         <#if (paginator.pageCurrent < paginator.pagesCount) > 
-        <a href="${paginator.nextPageLink}">
-            <img src="images/admin/skin/next.png" alt="&gt;" align="bottom" />
+        <a href="${paginator.nextPageLink?xhtml}">
+            <img src="images/admin/skin/next.png" alt="&gt;" style="vertical-align: baseline;" />
         </a>
         <#if paginator.pageCurrent &lt; paginator.pagesCount - (nbLinkPages-offsetNext) >
-        <a href="${paginator.lastPageLink}">
-            <img src="images/admin/skin/last.png" alt="&lt;" align="bottom" />
+        <a href="${paginator.lastPageLink?xhtml}">
+            <img src="images/admin/skin/last.png" alt="&lt;" style="vertical-align: baseline;" />
         </a>
         </#if>
         <#else>

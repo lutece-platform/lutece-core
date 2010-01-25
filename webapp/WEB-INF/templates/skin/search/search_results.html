@@ -10,13 +10,15 @@
 		<@pagination paginator=paginator />
 		<#list results_list as result>
 			<div>
-				<a href="${result.url}">${result.title}</a> | 
+				<a href="${result.url?xhtml}">${result.title}</a> | 
 				<em>#i18n{portal.search.search_results.labelTypeOfDocument} : ${result.type}</em> | 
 				<#if result.date?has_content>
 					${result.date?date?string.short}
 				</#if>
 			</div>
+			<#if result.summary?has_content>
 			<div>${result.summary}</div>
+			</#if>
 			<div>&nbsp;</div>
 		</#list>
 	</div>
@@ -41,7 +43,7 @@
 <#macro NbItemsPerPageSelectorRadioList nb_items_per_page>
 	<#list [ "5" , "10" , "20" , "50" ] as nb>
 	<#if nb = nb_items_per_page > 
-	<input value="${nb}" id="items_per_page${nb}" name="items_per_page" class="radio" type="radio" checked /><label for="items_per_page${nb}">${nb}</label>
+	<input value="${nb}" id="items_per_page${nb}" name="items_per_page" class="radio" type="radio" checked="checked" /><label for="items_per_page${nb}">${nb}</label>
 	<#else>
 	<input value="${nb}" id="items_per_page${nb}" name="items_per_page" class="radio" type="radio" /><label for="items_per_page${nb}">${nb}</label>
 	</#if>
@@ -50,8 +52,10 @@
 
 <div class="span-6 append-1 append-bottom last">
 	<div class="portlet -lutece-border-radius">
-		<form name="search" method="post" action="jsp/site/Portal.jsp">
-			<div class="hide"><input type="hidden" name="page" value="search" /></div>
+		<form method="post" action="jsp/site/Portal.jsp">
+			<div class="hide">
+				<input type="hidden" name="page" value="search" />
+			</div>
 			<div>
 				<input type="text" name="query" size="20" value="${query?if_exists}" /> 
 				<input type="image" 
