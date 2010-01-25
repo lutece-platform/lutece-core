@@ -50,6 +50,7 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
+import fr.paris.lutece.util.string.StringUtil;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -111,6 +112,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_ID_LIST_EMPTY = "portal.rbac.message.resourceIdListEmpty";
     private static final String PROPERTY_MESSAGE_NO_PERMISSION_SELECTION_METHOD = "portal.rbac.message.permissionSelectionMethod";
     private static final String PROPERTY_MESSAGE_PERMISSION_LIST_EMPTY = "portal.rbac.message.permissionListEmpty";
+    private static final String MESSAGE_ROLE_SPECIAL_CHARACTER = "portal.rbac.message.specialCharacters";
     private static final String PROPERTY_ROLES_PER_PAGE = "paginator.roles.itemsPerPage";
 
     // templates
@@ -197,10 +199,14 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
         }
+        else if( !StringUtil.checkCodeKey( strRoleKey ) )
+        {
+        	return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_SPECIAL_CHARACTER, AdminMessage.TYPE_STOP );
+        }
         else
         {
             AdminRole role = new AdminRole(  );
-            role.setKey( strRoleKey );
+            role.setKey( strRoleKey.trim(  ) );
             role.setDescription( strRoleDescription );
             AdminRoleHome.create( role );
 
