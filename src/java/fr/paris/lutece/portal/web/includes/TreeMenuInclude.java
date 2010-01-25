@@ -85,7 +85,7 @@ public class TreeMenuInclude implements PageInclude
 
             try
             {
-                nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID ) == null ) ? 0
+                nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID ) == null ) ? PortalService.getRootPageId()
                                                                                         : Integer.parseInt( request.getParameter( 
                             Parameters.PAGE_ID ) );
             }
