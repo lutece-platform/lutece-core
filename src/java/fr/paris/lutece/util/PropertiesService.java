@@ -42,6 +42,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
 
 /**
  * This class provides utility methods to read values of the properties stored in the .properties file of the
@@ -177,14 +180,20 @@ public class PropertiesService
      */
     public int getPropertyInt( String strProperty, int nDefault )
     {
-        String strValue = _properties.getProperty( strProperty );
+        String strValue = AppPropertiesService.getProperty( strProperty );
+        int nValue = nDefault;
 
-        if ( strValue == null )
+        try
         {
-            return nDefault;
+            if ( ( strValue != null ) && strValue.matches( "^[\\d]+$" ) )
+            {
+                nValue = Integer.parseInt( strValue );
+            }
         }
-
-        int nValue = Integer.parseInt( strValue );
+        catch ( NumberFormatException e )
+        {
+            AppLogService.info( e );
+        }
 
         return nValue;
     }
