@@ -48,6 +48,7 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.string.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -102,6 +103,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_CONFIRM_REMOVE = "portal.workgroup.message.confirmRemove";
     private static final String MESSAGE_WORKGROUP_ALREADY_USED = "portal.workgroup.message.workgroupAlreadyUsed";
     private static final String MESSAGE_CANNOT_REMOVE_WORKGROUP = "portal.workgroup.message.cannotRemoveWorkgroup";
+    private static final String MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER = "portal.workgroup.message.accentuatedCharacter";
 
     /**
      * Get the workgroups management page.
@@ -171,8 +173,14 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_EXIST, AdminMessage.TYPE_STOP );
         }
 
+        // Check if strKey contains accentuated caracters
+        if( !StringUtil.checkCodeKey( strKey ) )
+        {
+        	return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER, AdminMessage.TYPE_STOP );
+        }
+        
         AdminWorkgroup adminWorkgroup = new AdminWorkgroup(  );
-        adminWorkgroup.setKey( strKey );
+        adminWorkgroup.setKey( strKey.trim(  ) );
         adminWorkgroup.setDescription( strDescription );
         AdminWorkgroupHome.create( adminWorkgroup );
         AdminWorkgroupHome.addUserForWorkgroup( getUser(  ), strKey );
