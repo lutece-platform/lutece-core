@@ -4,7 +4,8 @@
         
 	<form method="post" action="jsp/admin/features/DoModifyLevel.jsp" name="modify_level">
             <p>
-                <label>#i18n{portal.features.modify_level.labelId}</label>
+            	<#-- LUTECE-1107: label seems useless before hidden field. -->
+                <#-- <label>#i18n{portal.features.modify_level.labelId}</label> -->
                 <input type="hidden" name="level_id" value="${level.id}" />		
             </p>						
             <p>
