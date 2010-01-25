@@ -85,8 +85,7 @@ public class AdminMenuJspBean
     private static final String MARK_ADMIN_SUMMARY_DOCUMENTATION_URL = "admin_summary_documentation_url";
     private static final String MARK_SITE_NAME = "site_name";
     private static final String MARK_MODIFY_PASSWORD_URL = "url_modify_password";
-    private static final String MARK_DASHBOARD_ZONE1 = "dashboard_zone_1";
-    private static final String MARK_DASHBOARD_ZONE2 = "dashboard_zone_2";
+    private static final String MARK_DASHBOARD_ZONE = "dashboard_zone_";
 
     // Templates
     private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.html";
@@ -101,6 +100,8 @@ public class AdminMenuJspBean
     private static final String PROPERTY_LOGOUT_URL = "lutece.admin.logout.url";
     private static final String PROPERTY_DOCUMENTATION_SUMMARY_URL = "lutece.documentation.summary.url";
     private static final String PROPERTY_SITE_NAME = "lutece.name";
+    private static final String PROPERTY_DASHBOARD_ZONES = "lutece.dashboard.zones.count";
+    private static final int PROPERTY_DASHBOARD_ZONES_DEFAULT = 4;
 
     // Jsp
     private static final String JSP_URL_ADMIN_MENU = "jsp/admin/AdminMenu.jsp";
@@ -108,8 +109,6 @@ public class AdminMenuJspBean
     private static final String PASSWORD_ERROR = "portal.users.message.password.wrong.current";
     private static final String PASSWORD_CURRENT_ERROR = "portal.users.message.password.new.equals.current";
     private static final String MESSAGE_PASSWORD_REDIRECT = "portal.users.message.password.ok.redirect";
-    private static final int ZONE1 = 0;
-    private static final int ZONE2 = 1;
 
     /**
      * Returns the Administration header menu
@@ -138,6 +137,8 @@ public class AdminMenuJspBean
         String strDocumentationUrl = AppPropertiesService.getProperty( PROPERTY_DOCUMENTATION_SUMMARY_URL );
         model.put( MARK_ADMIN_SUMMARY_DOCUMENTATION_URL, ( strDocumentationUrl == null ) ? null : strDocumentationUrl );
 
+        setDashboardData( model , user );
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_HEADER, user.getLocale(  ), model );
 
         return template.getHtml(  );
@@ -164,12 +165,26 @@ public class AdminMenuJspBean
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
         model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage(  ) );
         model.put( MARK_MODIFY_PASSWORD_URL, AdminAuthenticationService.getInstance(  ).getChangePasswordPageUrl(  ) );
-        model.put( MARK_DASHBOARD_ZONE1, DashboardService.getInstance(  ).getDashboardData( user, ZONE1 ) );
-        model.put( MARK_DASHBOARD_ZONE2, DashboardService.getInstance(  ).getDashboardData( user, ZONE2 ) );
+
+        setDashboardData( model , user );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_HOME, locale, model );
 
         return template.getHtml(  );
+    }
+
+    /**
+     * Add dashboard data to the template's model
+     * @param model The template's model
+     * @param user The Admin User
+     */
+    private void setDashboardData( HashMap<String, Object> model , AdminUser user )
+    {
+        for( int i = 0 ; i < AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES , PROPERTY_DASHBOARD_ZONES_DEFAULT ) ; i ++ )
+        {
+            model.put( MARK_DASHBOARD_ZONE + ( i + 1 ), DashboardService.getInstance(  ).getDashboardData( user, i ) );
+        }
+
     }
 
     /**
