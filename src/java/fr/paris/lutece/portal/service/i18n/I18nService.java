@@ -47,6 +47,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -58,8 +60,7 @@ public final class I18nService
     private static final String FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION = "fr.paris.lutece.portal.resources.{0}_messages";
     private static final String FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION = "fr.paris.lutece.plugins.{0}.resources.{0}_messages";
     private static final String FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION = "fr.paris.lutece.plugins.{0}.modules.{1}.resources.{1}_messages";
-    private static final String MARK_LOCALIZED_KEY_BEGIN = "#i18n{";
-    private static final String MARK_LOCALIZED_KEY_END = "}";
+    private static final Pattern PATTERN_LOCALIZED_KEY = Pattern.compile("#i18n\\{(.*?)\\}");
     private static final String PROPERTY_AVAILABLES_LOCALES = "lutece.i18n.availableLocales";
     private static final Locale LOCALE_DEFAULT = new Locale( "", "", "" );
     private static final String PROPERTY_DEFAULT_LOCALE = "lutece.i18n.defaultLocale";
@@ -83,23 +84,29 @@ public final class I18nService
      */
     public static String localize( String strSource, Locale locale )
     {
-        StringBuffer sbReturn = new StringBuffer(  );
-        int nPos = strSource.indexOf( MARK_LOCALIZED_KEY_BEGIN );
-        int nLastPos = -1;
-
-        while ( nPos != -1 )
-        {
-            sbReturn.append( strSource.substring( nLastPos + 1, nPos ) );
-            nLastPos = strSource.indexOf( MARK_LOCALIZED_KEY_END, nPos );
-
-            String strKey = strSource.substring( nPos + MARK_LOCALIZED_KEY_BEGIN.length(  ), nLastPos );
-            sbReturn.append( getLocalizedString( strKey, locale ) );
-            nPos = strSource.indexOf( MARK_LOCALIZED_KEY_BEGIN, nLastPos );
-        }
-
-        sbReturn.append( strSource.substring( nLastPos + 1 ) );
-
-        return sbReturn.toString(  );
+    	String result = strSource;
+    	
+    	if (strSource != null) {
+    		
+    		Matcher matcher = PATTERN_LOCALIZED_KEY.matcher(strSource);
+    		
+    		if (matcher.find()) {
+    			
+    			StringBuffer sb = new StringBuffer();
+    			
+    			do {
+    				matcher.appendReplacement(
+    					sb, getLocalizedString(matcher.group(1), locale)
+    				);
+    			}
+    			while (matcher.find());
+    			
+    			matcher.appendTail(sb);    			
+    			result = sb.toString();
+    		}
+    	}
+    	
+    	return result;
     }
 
     /**
