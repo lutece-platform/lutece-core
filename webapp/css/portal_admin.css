@@ -350,6 +350,11 @@ ul#admin-header-menu ul li.admin-header-last a{
 	background-position: 2% 50%;
 }
 
+#admin-header-dashboard {
+    color: #fff;
+    margin-left: 140px;
+}
+
 div.header-box {
 	background: #395E7D url(../images/admin/skin/roundbox_back.gif) right repeat-y;
 	margin-bottom: 20px;
@@ -384,7 +389,7 @@ div.header-box:after {
 
 #admin-main-menu {
   float:right;
-  width:80%;
+  width:70%;
   background: url("../images/admin/skin/bg_header.gif") repeat-x bottom;
   font-size:100%;
   line-height:normal;
