@@ -18,7 +18,7 @@
 			<p>
                             <label for="first_password" >#i18n{portal.users.create_user.labelFirstPassword} * :</label>
                             <input type="password" id="first_password" name="first_password" maxlength="100" size="35" tabindex="2" value=""/>
-                             <input type="button" id="generate_password" value="#i18n{portal.users.create_user.buttonLabelGeneratePassword}" tabindex="3" class="button" />
+                             <input type="button" onClick="generatePwd()" id="generate_password" value="#i18n{portal.users.create_user.buttonLabelGeneratePassword}" tabindex="3" class="button" />
 			</p>
 			<p>
                             <label for="second_password" >#i18n{portal.users.create_user.labelSecondPassword} * :</label>
@@ -74,12 +74,14 @@
 				lowercase: "#i18n{portal.users.create_user.jpassword.lowercase}",
 				punctuation: "#i18n{portal.users.create_user.jpassword.punctuation}",
 				special: "#i18n{portal.users.create_user.jpassword.special}"
-			},
-			generate: "generate_password",
-			onKeyup: function()
-				{
-					document.getElementById("second_password").value = document.getElementById("first_password").value;
-				}
+			}
 		});
 	});
+
+	function generatePwd()
+	{
+		var pwd = $.password(8, true);
+		document.getElementById("first_password").value = pwd;
+		document.getElementById("second_password").value = document.getElementById("first_password").value;
+	}
 </script>
