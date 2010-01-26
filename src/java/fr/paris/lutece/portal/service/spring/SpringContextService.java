@@ -118,7 +118,7 @@ public final class SpringContextService
             }
             catch ( Exception e )
             {
-                AppLogService.error( "Error retrieving context file : " + e.getMessage(  ), e );
+                AppLogService.debug( "Error retrieving context file : " + e.getMessage(  ) );
             }
             finally
             {
