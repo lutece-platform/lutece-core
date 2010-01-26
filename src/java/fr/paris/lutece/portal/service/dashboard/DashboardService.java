@@ -46,6 +46,7 @@ import java.util.List;
  */
 public final class DashboardService
 {
+    private static final String ALL = "ALL";
     private static DashboardService _singleton = new DashboardService(  );
     private List<DashboardComponent> _listComponents = new ArrayList<DashboardComponent>(  );
 
@@ -110,7 +111,8 @@ public final class DashboardService
 
         for ( DashboardComponent dc : _listComponents )
         {
-            if ( ( dc.getZone(  ) == nZone ) && dc.isEnabled(  ) && user.checkRight( dc.getRight(  ) ) )
+            boolean bRight = user.checkRight( dc.getRight(  ) ) || dc.getRight().equalsIgnoreCase( ALL );
+            if ( ( dc.getZone(  ) == nZone ) && dc.isEnabled(  ) && bRight )
             {
                 sbDashboardData.append( dc.getDashboardData( user ) );
             }
