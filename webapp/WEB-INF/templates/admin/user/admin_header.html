@@ -1,23 +1,20 @@
 <div id="top">
     <div id="admin-header" class="header-box">
-        <div id="admin-main-menu" >
-            <div class="admin-main-menu-text">
-                <big>${site_name}</big>   <br />
-                #i18n{portal.users.admin_header.labelVersion} : ${version}
-                <div id="admin-header-dashboard">
-                    ${dashboard_zone_4}
-                </div>
+        <div class="admin-main-menu-text">
+            <big>${site_name}</big>   <br />
+            #i18n{portal.users.admin_header.labelVersion} : ${version}
+            <div id="admin-header-dashboard">
+                ${dashboard_zone_4}
             </div>
-            <ul>
-                <#if admin_logout_url?has_content>
-                <li><a href="${admin_logout_url}">#i18n{portal.users.admin_header.deconnectionLink}</a></li>
-                </#if>
-                <li><a href="jsp/site/Portal.jsp" target="_blank" title="#i18n{portal.users.admin_header.title.viewSite}">#i18n{portal.users.admin_header.viewSite}</a></li>
-                <li><a href="jsp/admin/AdminMenu.jsp" title="#i18n{portal.users.admin_header.title.homePage}">#i18n{portal.users.admin_header.homePage}</a></li>
-                <#if admin_summary_documentation_url?exists>
-                <li><a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">#i18n{portal.users.admin_header.documentation}</a></li>
-                </#if>
-            </ul>
+            <div id="admin-main-menu" >
+                <ul>
+                    <li><a href="jsp/site/Portal.jsp" target="_blank" title="#i18n{portal.users.admin_header.title.viewSite}">#i18n{portal.users.admin_header.viewSite}</a></li>
+                    <li><a href="jsp/admin/AdminMenu.jsp" title="#i18n{portal.users.admin_header.title.homePage}">#i18n{portal.users.admin_header.homePage}</a></li>
+                    <#if admin_summary_documentation_url?exists>
+                    <li><a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">#i18n{portal.users.admin_header.documentation}</a></li>
+                    </#if>
+                </ul>
+            </div>
         </div>
     </div>
 

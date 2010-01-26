@@ -1,1 +1,5 @@
-<img src="images/admin/skin/user.png" alt="user" /> ${user}
+<img src="images/admin/skin/connected_user.png" alt="${user}" title="${user}" /> ${user}
+
+<#if admin_logout_url?has_content>
+<a href="${admin_logout_url}"><img src="images/admin/skin/actions/quit.png" alt="#i18n{portal.users.admin_header.deconnectionLink}" title="#i18n{portal.users.admin_header.deconnectionLink}" /></a>
+</#if>

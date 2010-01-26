@@ -75,6 +75,8 @@ public class AdminMenuJspBean
     /////////////////////////////////////////////////////////////////////////////////
     // Constants
 
+    public static final String PROPERTY_LOGOUT_URL = "lutece.admin.logout.url";
+
     // Markers
     private static final String MARK_FEATURE_GROUP_LIST = "feature_group_list";
     private static final String MARK_LANGUAGES_LIST = "languages_list";
@@ -97,7 +99,6 @@ public class AdminMenuJspBean
 
     // Properties
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
-    private static final String PROPERTY_LOGOUT_URL = "lutece.admin.logout.url";
     private static final String PROPERTY_DOCUMENTATION_SUMMARY_URL = "lutece.documentation.summary.url";
     private static final String PROPERTY_SITE_NAME = "lutece.name";
     private static final String PROPERTY_DASHBOARD_ZONES = "lutece.dashboard.zones.count";

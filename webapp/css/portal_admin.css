@@ -355,6 +355,12 @@ ul#admin-header-menu ul li.admin-header-last a{
     margin-left: 140px;
 }
 
+#admin-header-dashboard img {
+    width: 16px;
+    height: 16px;
+    vertical-align: bottom;
+}
+
 div.header-box {
 	background: #395E7D url(../images/admin/skin/roundbox_back.gif) right repeat-y;
 	margin-bottom: 20px;
