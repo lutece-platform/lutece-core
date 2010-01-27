@@ -45,5 +45,4 @@ public class SiteMessageException extends Exception
      *
      */
     private static final long serialVersionUID = -4094440607342043242L;
-
 }

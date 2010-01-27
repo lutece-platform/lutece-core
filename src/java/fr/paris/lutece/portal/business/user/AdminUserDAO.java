@@ -635,7 +635,7 @@ public class AdminUserDAO implements IAdminUserDAO
 
         deleteRightsForUser( nUserId, idRightList );
     }
-    
+
     /**
      * Update role key if role key name has change
      * @param strRoleKey The old role key name
@@ -643,7 +643,7 @@ public class AdminUserDAO implements IAdminUserDAO
      */
     public void storeUsersRole( String strOldRoleKey, AdminRole role )
     {
-    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_USERS_ROLE );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_USERS_ROLE );
         daoUtil.setString( 1, role.getKey(  ) );
         daoUtil.setString( 2, strOldRoleKey );
 

@@ -60,7 +60,7 @@ public final class I18nService
     private static final String FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION = "fr.paris.lutece.portal.resources.{0}_messages";
     private static final String FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION = "fr.paris.lutece.plugins.{0}.resources.{0}_messages";
     private static final String FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION = "fr.paris.lutece.plugins.{0}.modules.{1}.resources.{1}_messages";
-    private static final Pattern PATTERN_LOCALIZED_KEY = Pattern.compile("#i18n\\{(.*?)\\}");
+    private static final Pattern PATTERN_LOCALIZED_KEY = Pattern.compile( "#i18n\\{(.*?)\\}" );
     private static final String PROPERTY_AVAILABLES_LOCALES = "lutece.i18n.availableLocales";
     private static final Locale LOCALE_DEFAULT = new Locale( "", "", "" );
     private static final String PROPERTY_DEFAULT_LOCALE = "lutece.i18n.defaultLocale";
@@ -84,29 +84,28 @@ public final class I18nService
      */
     public static String localize( String strSource, Locale locale )
     {
-    	String result = strSource;
-    	
-    	if (strSource != null) {
-    		
-    		Matcher matcher = PATTERN_LOCALIZED_KEY.matcher(strSource);
-    		
-    		if (matcher.find()) {
-    			
-    			StringBuffer sb = new StringBuffer();
-    			
-    			do {
-    				matcher.appendReplacement(
-    					sb, getLocalizedString(matcher.group(1), locale)
-    				);
-    			}
-    			while (matcher.find());
-    			
-    			matcher.appendTail(sb);    			
-    			result = sb.toString();
-    		}
-    	}
-    	
-    	return result;
+        String result = strSource;
+
+        if ( strSource != null )
+        {
+            Matcher matcher = PATTERN_LOCALIZED_KEY.matcher( strSource );
+
+            if ( matcher.find(  ) )
+            {
+                StringBuffer sb = new StringBuffer(  );
+
+                do
+                {
+                    matcher.appendReplacement( sb, getLocalizedString( matcher.group( 1 ), locale ) );
+                }
+                while ( matcher.find(  ) );
+
+                matcher.appendTail( sb );
+                result = sb.toString(  );
+            }
+        }
+
+        return result;
     }
 
     /**

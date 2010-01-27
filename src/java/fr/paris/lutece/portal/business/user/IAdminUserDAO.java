@@ -197,7 +197,7 @@ public interface IAdminUserDAO
      * @return userList The user's list
      */
     Collection<AdminUser> selectUsersByLevel( int nIdLevel );
-    
+
     /**
      * Update role key if role key name has change
      * @param strOldRoleKey The old role key name

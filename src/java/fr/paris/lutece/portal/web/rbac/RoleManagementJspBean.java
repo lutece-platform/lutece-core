@@ -199,9 +199,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
         }
-        else if( !StringUtil.checkCodeKey( strRoleKey ) )
+        else if ( !StringUtil.checkCodeKey( strRoleKey ) )
         {
-        	return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_SPECIAL_CHARACTER, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_SPECIAL_CHARACTER, AdminMessage.TYPE_STOP );
         }
         else
         {
@@ -279,7 +279,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                     role.setDescription( strRoleDescription );
                     AdminRoleHome.update( strOldRoleKey, role );
                     AdminUserHome.updateUsersRole( strOldRoleKey, role );
-                    
+
                     //  update the role key in the role-resource associations
                     RBACHome.updateRoleKey( strOldRoleKey, strNewRoleKey );
                 }

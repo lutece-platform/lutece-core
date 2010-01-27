@@ -58,7 +58,7 @@ import javax.servlet.http.HttpSession;
  */
 public final class AppPathService
 {
-	public static final String SESSION_BASE_URL = "base_url";
+    public static final String SESSION_BASE_URL = "base_url";
     private static final String MSG_LOG_PROPERTY_NOT_FOUND = "Property {0} not found in the properties file ";
     private static final int PORT_NUMBER_HTTP = 80;
     private static final String PROPERTY_BASE_URL = "lutece.base.url";
@@ -194,19 +194,21 @@ public final class AppPathService
 
         // Search for a Virtual Host Base Url defined in the request
         strBase = getVirtualHostBaseUrl( request );
-        
+
         // If not found, get the base url from session
-        if ( strBase == null || strBase.equals( "" ))
+        if ( ( strBase == null ) || strBase.equals( "" ) )
         {
-        	HttpSession session = request.getSession( false );
-        	if ( session != null )
-        	{
-        		Object oBase = session.getAttribute( SESSION_BASE_URL );
-        		if ( oBase != null )
-        		{
-            		strBase = (String) oBase ;
-        		}
-        	}
+            HttpSession session = request.getSession( false );
+
+            if ( session != null )
+            {
+                Object oBase = session.getAttribute( SESSION_BASE_URL );
+
+                if ( oBase != null )
+                {
+                    strBase = (String) oBase;
+                }
+            }
         }
 
         // If not found, get the base url from the config.properties
@@ -229,10 +231,10 @@ public final class AppPathService
 
             strBase += request.getContextPath(  );
         }
-        
+
         if ( !strBase.endsWith( "/" ) )
         {
-        	strBase += "/";
+            strBase += "/";
         }
 
         return strBase;

@@ -74,7 +74,6 @@ public class AdminMenuJspBean
 {
     /////////////////////////////////////////////////////////////////////////////////
     // Constants
-
     public static final String PROPERTY_LOGOUT_URL = "lutece.admin.logout.url";
 
     // Markers
@@ -138,7 +137,7 @@ public class AdminMenuJspBean
         String strDocumentationUrl = AppPropertiesService.getProperty( PROPERTY_DOCUMENTATION_SUMMARY_URL );
         model.put( MARK_ADMIN_SUMMARY_DOCUMENTATION_URL, ( strDocumentationUrl == null ) ? null : strDocumentationUrl );
 
-        setDashboardData( model , user );
+        setDashboardData( model, user );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_HEADER, user.getLocale(  ), model );
 
@@ -167,7 +166,7 @@ public class AdminMenuJspBean
         model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage(  ) );
         model.put( MARK_MODIFY_PASSWORD_URL, AdminAuthenticationService.getInstance(  ).getChangePasswordPageUrl(  ) );
 
-        setDashboardData( model , user );
+        setDashboardData( model, user );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_HOME, locale, model );
 
@@ -179,13 +178,14 @@ public class AdminMenuJspBean
      * @param model The template's model
      * @param user The Admin User
      */
-    private void setDashboardData( HashMap<String, Object> model , AdminUser user )
+    private void setDashboardData( HashMap<String, Object> model, AdminUser user )
     {
-        for( int i = 0 ; i < AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES , PROPERTY_DASHBOARD_ZONES_DEFAULT ) ; i ++ )
+        for ( int i = 0;
+                i < AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
+                i++ )
         {
             model.put( MARK_DASHBOARD_ZONE + ( i + 1 ), DashboardService.getInstance(  ).getDashboardData( user, i ) );
         }
-
     }
 
     /**

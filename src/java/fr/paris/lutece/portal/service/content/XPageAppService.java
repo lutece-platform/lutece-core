@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.content;
 
-
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
@@ -247,7 +246,6 @@ public class XPageAppService extends ContentService
             {
                 data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel(  ), 0, strXml, request ) );
             }
-
         }
         else
         {

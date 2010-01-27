@@ -174,11 +174,12 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         }
 
         // Check if strKey contains accentuated caracters
-        if( !StringUtil.checkCodeKey( strKey ) )
+        if ( !StringUtil.checkCodeKey( strKey ) )
         {
-        	return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER,
+                AdminMessage.TYPE_STOP );
         }
-        
+
         AdminWorkgroup adminWorkgroup = new AdminWorkgroup(  );
         adminWorkgroup.setKey( strKey.trim(  ) );
         adminWorkgroup.setDescription( strDescription );

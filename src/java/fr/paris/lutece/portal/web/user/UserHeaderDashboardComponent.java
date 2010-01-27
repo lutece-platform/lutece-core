@@ -31,7 +31,6 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.web.user;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -40,12 +39,14 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminMenuJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.util.HashMap;
+
 
 /**
  * UserHeaderDashboardComponent
  */
-public class UserHeaderDashboardComponent  extends DashboardComponent
+public class UserHeaderDashboardComponent extends DashboardComponent
 {
     private static final String TEMPLATE_DASHBOARD = "/admin/user/user_header_dashboard.html";
     private static final String MARK_USER = "user";
@@ -59,8 +60,8 @@ public class UserHeaderDashboardComponent  extends DashboardComponent
     public String getDashboardData( AdminUser user )
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_USER, user.getFirstName() + " " + user.getLastName() );
-        model.put( MARK_URL_LOGOUT, AppPropertiesService.getProperty( AdminMenuJspBean.PROPERTY_LOGOUT_URL) );
+        model.put( MARK_USER, user.getFirstName(  ) + " " + user.getLastName(  ) );
+        model.put( MARK_URL_LOGOUT, AppPropertiesService.getProperty( AdminMenuJspBean.PROPERTY_LOGOUT_URL ) );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale(  ), model );
 
