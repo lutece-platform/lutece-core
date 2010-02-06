@@ -120,7 +120,7 @@ public class SearchApp implements XPageApplication
         Locale locale = request.getLocale(  );
 
         // Check XSS characters
-        if ( ( strQuery != null ) && ( SecurityUtil.containsXssCharacters( request , strQuery ) ) )
+        if ( ( strQuery != null ) && ( SecurityUtil.containsXssCharacters( request, strQuery ) ) )
         {
             strError = I18nService.getLocalizedString( MESSAGE_INVALID_SEARCH_TERMS, locale );
             strQuery = "";

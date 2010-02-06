@@ -269,7 +269,7 @@ public class SiteMapApp implements XPageApplication, CacheableService
     {
      // Invalidate the map site in all the modes
      Enumeration eKeys = _mapSiteMapCache.keys(  );
-    
+
      while ( eKeys.hasMoreElements(  ) )
      {
          String strKey = (String) eKeys.nextElement(  );

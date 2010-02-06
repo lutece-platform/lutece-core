@@ -34,24 +34,27 @@
 package fr.paris.lutece.util.http;
 
 import fr.paris.lutece.util.string.StringUtil;
-import java.util.Enumeration;
-import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
+
+import java.util.Enumeration;
+
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * Security utils
- * 
+ *
  */
 public final class SecurityUtil
 {
-
     private static final String LOGGER_NAME = "lutece.security.http";
     private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
 
     /**
      * Private Constructor
      */
-    private SecurityUtil()
+    private SecurityUtil(  )
     {
     }
 
@@ -60,32 +63,33 @@ public final class SecurityUtil
      * @param request The HTTP request
      * @return true if all parameters don't contains any special characters
      */
-    public static boolean containsCleanParameters(HttpServletRequest request)
+    public static boolean containsCleanParameters( HttpServletRequest request )
     {
         String key;
-        String values[];
+        String[] values;
 
-        Enumeration e = request.getParameterNames();
-        while (e.hasMoreElements())
+        Enumeration e = request.getParameterNames(  );
+
+        while ( e.hasMoreElements(  ) )
         {
-            key = (String) e.nextElement();
-            values = request.getParameterValues(key);
+            key = (String) e.nextElement(  );
+            values = request.getParameterValues( key );
 
             int length = values.length;
 
-            for (int i = 0; i < length; i++)
+            for ( int i = 0; i < length; i++ )
             {
-                if (!values[i].matches(PATTERN_CLEAN_PARAMETER))
+                if ( !values[i].matches( PATTERN_CLEAN_PARAMETER ) )
                 {
-                    Logger logger = Logger.getLogger(LOGGER_NAME);
-                    logger.warn("SECURITY WARNING : INVALID REQUEST PARAMETERS" + dumpRequest(request));
+                    Logger logger = Logger.getLogger( LOGGER_NAME );
+                    logger.warn( "SECURITY WARNING : INVALID REQUEST PARAMETERS" + dumpRequest( request ) );
+
                     return false;
                 }
             }
-
         }
-        return true;
 
+        return true;
     }
 
     /**
@@ -96,15 +100,18 @@ public final class SecurityUtil
      * @param strValue a character String
      * @return true if the String contains illegal characters
      */
-    public static boolean containsXssCharacters(HttpServletRequest request, String strString)
+    public static boolean containsXssCharacters( HttpServletRequest request, String strString )
     {
-        boolean bContains = StringUtil.containsXssCharacters(strString);
-        if (bContains)
+        boolean bContains = StringUtil.containsXssCharacters( strString );
+
+        if ( bContains )
         {
-            Logger logger = Logger.getLogger(LOGGER_NAME);
-            logger.warn("SECURITY WARNING : XSS CHARACTERS DETECTED" + dumpRequest(request));
+            Logger logger = Logger.getLogger( LOGGER_NAME );
+            logger.warn( "SECURITY WARNING : XSS CHARACTERS DETECTED" + dumpRequest( request ) );
+
             return false;
         }
+
         return bContains;
     }
 
@@ -113,17 +120,17 @@ public final class SecurityUtil
      * @param request The HTTP request
      * @return A report containing all request info
      */
-    public static String dumpRequest(HttpServletRequest request)
+    public static String dumpRequest( HttpServletRequest request )
     {
-        StringBuffer sbDump = new StringBuffer("\r\n Request Dump : \r\n");
-        dumpTitle(sbDump, "Request variables");
-        dumpVariables(sbDump, request);
-        dumpTitle(sbDump, "Request parameters");
-        dumpParameters(sbDump, request);
-        dumpTitle(sbDump, "Request headers");
-        dumpHeaders(sbDump, request);
+        StringBuffer sbDump = new StringBuffer( "\r\n Request Dump : \r\n" );
+        dumpTitle( sbDump, "Request variables" );
+        dumpVariables( sbDump, request );
+        dumpTitle( sbDump, "Request parameters" );
+        dumpParameters( sbDump, request );
+        dumpTitle( sbDump, "Request headers" );
+        dumpHeaders( sbDump, request );
 
-        return sbDump.toString();
+        return sbDump.toString(  );
     }
 
     /**
@@ -131,11 +138,11 @@ public final class SecurityUtil
      * @param sbDump The dump stringbuffer
      * @param strTitle The title
      */
-    private static void dumpTitle(StringBuffer sbDump, String strTitle)
+    private static void dumpTitle( StringBuffer sbDump, String strTitle )
     {
-        sbDump.append("** ");
-        sbDump.append(strTitle);
-        sbDump.append("  **\r\n");
+        sbDump.append( "** " );
+        sbDump.append( strTitle );
+        sbDump.append( "  **\r\n" );
     }
 
     /**
@@ -143,22 +150,22 @@ public final class SecurityUtil
      * @param sb The dump stringbuffer
      * @param request The HTTP request
      */
-    private static void dumpVariables(StringBuffer sb, HttpServletRequest request)
+    private static void dumpVariables( StringBuffer sb, HttpServletRequest request )
     {
-        dumpVariable(sb, "AUTH_TYPE", request.getAuthType());
-        dumpVariable(sb, "REQUEST_METHOD", request.getMethod());
-        dumpVariable(sb, "PATH_INFO", request.getPathInfo());
-        dumpVariable(sb, "PATH_TRANSLATED", request.getPathTranslated());
-        dumpVariable(sb, "QUERY_STRING", request.getQueryString());
-        dumpVariable(sb, "REQUEST_URI", request.getRequestURI());
-        dumpVariable(sb, "SCRIPT_NAME", request.getServletPath());
-        dumpVariable(sb, "LOCAL_ADDR", request.getLocalAddr());
-        dumpVariable(sb, "SERVER_PROTOCOL", request.getProtocol());
-        dumpVariable(sb, "REMOTE_ADDR", request.getRemoteAddr());
-        dumpVariable(sb, "REMOTE_HOST", request.getRemoteHost());
-        dumpVariable(sb, "HTTPS", request.getScheme());
-        dumpVariable(sb, "SERVER_NAME", request.getServerName());
-        dumpVariable(sb, "SERVER_PORT", String.valueOf(request.getServerPort()));
+        dumpVariable( sb, "AUTH_TYPE", request.getAuthType(  ) );
+        dumpVariable( sb, "REQUEST_METHOD", request.getMethod(  ) );
+        dumpVariable( sb, "PATH_INFO", request.getPathInfo(  ) );
+        dumpVariable( sb, "PATH_TRANSLATED", request.getPathTranslated(  ) );
+        dumpVariable( sb, "QUERY_STRING", request.getQueryString(  ) );
+        dumpVariable( sb, "REQUEST_URI", request.getRequestURI(  ) );
+        dumpVariable( sb, "SCRIPT_NAME", request.getServletPath(  ) );
+        dumpVariable( sb, "LOCAL_ADDR", request.getLocalAddr(  ) );
+        dumpVariable( sb, "SERVER_PROTOCOL", request.getProtocol(  ) );
+        dumpVariable( sb, "REMOTE_ADDR", request.getRemoteAddr(  ) );
+        dumpVariable( sb, "REMOTE_HOST", request.getRemoteHost(  ) );
+        dumpVariable( sb, "HTTPS", request.getScheme(  ) );
+        dumpVariable( sb, "SERVER_NAME", request.getServerName(  ) );
+        dumpVariable( sb, "SERVER_PORT", String.valueOf( request.getServerPort(  ) ) );
     }
 
     /**
@@ -166,18 +173,20 @@ public final class SecurityUtil
      * @param sb The dump stringbuffer
      * @param request The HTTP request
      */
-    private static void dumpHeaders(StringBuffer sb, HttpServletRequest request)
+    private static void dumpHeaders( StringBuffer sb, HttpServletRequest request )
     {
         Enumeration values;
         String key;
-        Enumeration headers = request.getHeaderNames();
-        while (headers.hasMoreElements())
+        Enumeration headers = request.getHeaderNames(  );
+
+        while ( headers.hasMoreElements(  ) )
         {
-            key = (String) headers.nextElement();
-            values = request.getHeaders(key);
-            while (values.hasMoreElements())
+            key = (String) headers.nextElement(  );
+            values = request.getHeaders( key );
+
+            while ( values.hasMoreElements(  ) )
             {
-                dumpVariable(sb, key, (String) values.nextElement());
+                dumpVariable( sb, key, (String) values.nextElement(  ) );
             }
         }
     }
@@ -187,25 +196,25 @@ public final class SecurityUtil
      * @param sb The dump stringbuffer
      * @param request The HTTP request
      */
-    private static void dumpParameters(StringBuffer sb, HttpServletRequest request)
+    private static void dumpParameters( StringBuffer sb, HttpServletRequest request )
     {
         String key;
-        String values[];
+        String[] values;
 
-        Enumeration e = request.getParameterNames();
-        while (e.hasMoreElements())
+        Enumeration e = request.getParameterNames(  );
+
+        while ( e.hasMoreElements(  ) )
         {
-            key = (String) e.nextElement();
-            values = request.getParameterValues(key);
+            key = (String) e.nextElement(  );
+            values = request.getParameterValues( key );
 
             int length = values.length;
 
-            for (int i = 0; i < length; i++)
+            for ( int i = 0; i < length; i++ )
             {
-                dumpVariable(sb, key, values[i]);
+                dumpVariable( sb, key, values[i] );
             }
         }
-
     }
 
     /**
@@ -214,11 +223,11 @@ public final class SecurityUtil
      * @param strName The info name
      * @param strValue The info value
      */
-    private static void dumpVariable(StringBuffer sb, String strName, String strValue)
+    private static void dumpVariable( StringBuffer sb, String strName, String strValue )
     {
-        sb.append(strName);
-        sb.append(" : \"");
-        sb.append(strValue);
-        sb.append("\"\r\n");
+        sb.append( strName );
+        sb.append( " : \"" );
+        sb.append( strValue );
+        sb.append( "\"\r\n" );
     }
 }
