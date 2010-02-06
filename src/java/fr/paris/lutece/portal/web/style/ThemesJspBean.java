@@ -44,6 +44,8 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import fr.paris.lutece.util.http.SecurityUtil;
+import fr.paris.lutece.util.string.StringUtil;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -124,6 +126,11 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     {
         String strTheme = request.getParameter( PARAMETER_THEME );
         String strForwardUrl = request.getParameter( PARAMETER_URL );
+        String strPattern = "/ [^A-z]/";
+        if (! SecurityUtil.containsCleanParameters( request ))
+        {
+            return AppPathService.getBaseUrl(request);
+        }
         ThemesService.setUserTheme( request, response, strTheme );
 
         return strForwardUrl;
