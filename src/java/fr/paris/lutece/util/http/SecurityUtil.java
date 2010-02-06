@@ -1,0 +1,224 @@
+/*
+ * Copyright (c) 2002-2009, Mairie de Paris
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice
+ *     and the following disclaimer.
+ *
+ *  2. Redistributions in binary form must reproduce the above copyright notice
+ *     and the following disclaimer in the documentation and/or other materials
+ *     provided with the distribution.
+ *
+ *  3. Neither the name of 'Mairie de Paris' nor 'Lutece' nor the names of its
+ *     contributors may be used to endorse or promote products derived from
+ *     this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * License 1.0
+ */
+package fr.paris.lutece.util.http;
+
+import fr.paris.lutece.util.string.StringUtil;
+import java.util.Enumeration;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.log4j.Logger;
+
+/**
+ * Security utils
+ * 
+ */
+public final class SecurityUtil
+{
+
+    private static final String LOGGER_NAME = "lutece.security.http";
+    private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
+
+    /**
+     * Private Constructor
+     */
+    private SecurityUtil()
+    {
+    }
+
+    /**
+     * Scan request parameters to see if there no malicious code
+     * @param request The HTTP request
+     * @return true if all parameters don't contains any special characters
+     */
+    public static boolean containsCleanParameters(HttpServletRequest request)
+    {
+        String key;
+        String values[];
+
+        Enumeration e = request.getParameterNames();
+        while (e.hasMoreElements())
+        {
+            key = (String) e.nextElement();
+            values = request.getParameterValues(key);
+
+            int length = values.length;
+
+            for (int i = 0; i < length; i++)
+            {
+                if (!values[i].matches(PATTERN_CLEAN_PARAMETER))
+                {
+                    Logger logger = Logger.getLogger(LOGGER_NAME);
+                    logger.warn("SECURITY WARNING : INVALID REQUEST PARAMETERS" + dumpRequest(request));
+                    return false;
+                }
+            }
+
+        }
+        return true;
+
+    }
+
+    /**
+     * Checks if a String contains characters that could be used for a
+     * cross-site scripting attack.
+     *
+     * @param request The HTTP request
+     * @param strValue a character String
+     * @return true if the String contains illegal characters
+     */
+    public static boolean containsXssCharacters(HttpServletRequest request, String strString)
+    {
+        boolean bContains = StringUtil.containsXssCharacters(strString);
+        if (bContains)
+        {
+            Logger logger = Logger.getLogger(LOGGER_NAME);
+            logger.warn("SECURITY WARNING : XSS CHARACTERS DETECTED" + dumpRequest(request));
+            return false;
+        }
+        return bContains;
+    }
+
+    /**
+     * Dump all request info
+     * @param request The HTTP request
+     * @return A report containing all request info
+     */
+    public static String dumpRequest(HttpServletRequest request)
+    {
+        StringBuffer sbDump = new StringBuffer("\r\n Request Dump : \r\n");
+        dumpTitle(sbDump, "Request variables");
+        dumpVariables(sbDump, request);
+        dumpTitle(sbDump, "Request parameters");
+        dumpParameters(sbDump, request);
+        dumpTitle(sbDump, "Request headers");
+        dumpHeaders(sbDump, request);
+
+        return sbDump.toString();
+    }
+
+    /**
+     * Write a title into the dump stringbuffer
+     * @param sbDump The dump stringbuffer
+     * @param strTitle The title
+     */
+    private static void dumpTitle(StringBuffer sbDump, String strTitle)
+    {
+        sbDump.append("** ");
+        sbDump.append(strTitle);
+        sbDump.append("  **\r\n");
+    }
+
+    /**
+     * Write request variables into the dump stringbuffer
+     * @param sb The dump stringbuffer
+     * @param request The HTTP request
+     */
+    private static void dumpVariables(StringBuffer sb, HttpServletRequest request)
+    {
+        dumpVariable(sb, "AUTH_TYPE", request.getAuthType());
+        dumpVariable(sb, "REQUEST_METHOD", request.getMethod());
+        dumpVariable(sb, "PATH_INFO", request.getPathInfo());
+        dumpVariable(sb, "PATH_TRANSLATED", request.getPathTranslated());
+        dumpVariable(sb, "QUERY_STRING", request.getQueryString());
+        dumpVariable(sb, "REQUEST_URI", request.getRequestURI());
+        dumpVariable(sb, "SCRIPT_NAME", request.getServletPath());
+        dumpVariable(sb, "LOCAL_ADDR", request.getLocalAddr());
+        dumpVariable(sb, "SERVER_PROTOCOL", request.getProtocol());
+        dumpVariable(sb, "REMOTE_ADDR", request.getRemoteAddr());
+        dumpVariable(sb, "REMOTE_HOST", request.getRemoteHost());
+        dumpVariable(sb, "HTTPS", request.getScheme());
+        dumpVariable(sb, "SERVER_NAME", request.getServerName());
+        dumpVariable(sb, "SERVER_PORT", String.valueOf(request.getServerPort()));
+    }
+
+    /**
+     * Write request headers infos into the dump stringbuffer
+     * @param sb The dump stringbuffer
+     * @param request The HTTP request
+     */
+    private static void dumpHeaders(StringBuffer sb, HttpServletRequest request)
+    {
+        Enumeration values;
+        String key;
+        Enumeration headers = request.getHeaderNames();
+        while (headers.hasMoreElements())
+        {
+            key = (String) headers.nextElement();
+            values = request.getHeaders(key);
+            while (values.hasMoreElements())
+            {
+                dumpVariable(sb, key, (String) values.nextElement());
+            }
+        }
+    }
+
+    /**
+     * Write request parameters infos into the dump stringbuffer
+     * @param sb The dump stringbuffer
+     * @param request The HTTP request
+     */
+    private static void dumpParameters(StringBuffer sb, HttpServletRequest request)
+    {
+        String key;
+        String values[];
+
+        Enumeration e = request.getParameterNames();
+        while (e.hasMoreElements())
+        {
+            key = (String) e.nextElement();
+            values = request.getParameterValues(key);
+
+            int length = values.length;
+
+            for (int i = 0; i < length; i++)
+            {
+                dumpVariable(sb, key, values[i]);
+            }
+        }
+
+    }
+
+    /**
+     * Write name / value infos into the dump stringbuffer
+     * @param sb The dump string buffer
+     * @param strName The info name
+     * @param strValue The info value
+     */
+    private static void dumpVariable(StringBuffer sb, String strName, String strValue)
+    {
+        sb.append(strName);
+        sb.append(" : \"");
+        sb.append(strValue);
+        sb.append("\"\r\n");
+    }
+}

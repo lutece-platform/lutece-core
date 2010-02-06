@@ -50,7 +50,7 @@ import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
-import fr.paris.lutece.util.string.StringUtil;
+import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.io.UnsupportedEncodingException;
@@ -120,7 +120,7 @@ public class SearchApp implements XPageApplication
         Locale locale = request.getLocale(  );
 
         // Check XSS characters
-        if ( ( strQuery != null ) && ( StringUtil.containsXssCharacters( strQuery ) ) )
+        if ( ( strQuery != null ) && ( SecurityUtil.containsXssCharacters( request , strQuery ) ) )
         {
             strError = I18nService.getLocalizedString( MESSAGE_INVALID_SEARCH_TERMS, locale );
             strQuery = "";
