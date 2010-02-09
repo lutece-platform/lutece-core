@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -66,6 +67,7 @@ public class AppInitTest extends LuteceTestCase
     {
         HashMap model = new HashMap(  );
         model.put( "web_mail", "lutece@paris.fr" );
+        model.put( Markers.PAGE_MAIN_MENU, "menu" );
 
         HtmlTemplate t = AppTemplateService.getTemplate( "skin/site/portal_footer.html", Locale.getDefault(  ), model );
         assertNotNull( t );

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.template;
 
+import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -70,6 +71,7 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
 
         HashMap model = new HashMap(  );
         model.put( "web_mail", "lutece@paris.fr" );
+        model.put( Markers.PAGE_MAIN_MENU, "menu" );
 
         HtmlTemplate result = FreeMarkerTemplateService.loadTemplate( strPath, strTemplate, Locale.getDefault(  ), model );
     }
