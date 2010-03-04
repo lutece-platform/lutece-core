@@ -49,15 +49,15 @@ public class FileSystemUtilTest extends LuteceTestCase
         //Create a base folder named Folder
         String strTempDirectoryPath = System.getProperty( "java.io.tmpdir" );
         String strFolderName = "Folder";
-        String strFolderPath = strTempDirectoryPath + strFolderName;
+        String strFolderPath = strTempDirectoryPath +  File.separator + strFolderName;
         File fileFolder = new File( strFolderPath );
         fileFolder.mkdir(  );
 
         //Place two directories in the base folder
-        File fileFolder1 = new File( strFolderPath + "/" + "Folder1" );
+        File fileFolder1 = new File( strFolderPath + File.separator +  "Folder1" );
         fileFolder1.mkdir(  );
 
-        File fileFolder2 = new File( strFolderPath + "/" + "Folder2" );
+        File fileFolder2 = new File( strFolderPath + File.separator +  "Folder2" );
         fileFolder2.mkdir(  );
 
         String strDirectory = "Folder";
