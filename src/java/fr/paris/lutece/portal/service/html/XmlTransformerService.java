@@ -33,20 +33,19 @@
  */
 package fr.paris.lutece.portal.service.html;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.util.UniqueIDGenerator;
-import fr.paris.lutece.util.xml.XmlTransformer;
-import fr.paris.lutece.util.xml.XmlUtil;
-
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;
-
 import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
+
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.UniqueIDGenerator;
+import fr.paris.lutece.util.xml.XmlTransformer;
+import fr.paris.lutece.util.xml.XmlUtil;
 
 
 /**
@@ -55,7 +54,8 @@ import javax.xml.transform.stream.StreamSource;
 public final class XmlTransformerService
 {
     private static final String XSLSOURCE_STYLE_PREFIX_ID = UniqueIDGenerator.getNewId(  );
-
+	private static final String LOGGER_XML_CONTENT = "lutece.debug.xmlContent";
+	
     /**
      * This method performes XSL transformation.
      *
@@ -198,6 +198,10 @@ public final class XmlTransformerService
 
         try
         {
+            if ( AppLogService.isDebugEnabled( LOGGER_XML_CONTENT ) )
+            {
+                AppLogService.debug( LOGGER_XML_CONTENT, strXml );
+            }
             strContent = xmlTransformer.transform( sourceDocument, sourceStyleSheet, strStyleSheetId, params,
                     outputProperties );
         }

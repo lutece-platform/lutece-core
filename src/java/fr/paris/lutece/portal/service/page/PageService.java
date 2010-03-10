@@ -126,7 +126,6 @@ public class PageService extends ContentService implements ImageResourceProvider
     private static final String PROPERTY_MESSAGE_PAGE_ACCESS_DENIED = "portal.site.message.pageAccessDenied";
     private static final String CONTENT_SERVICE_NAME = "PageService";
     private static final String PROP_NB_COLUMN = "nb.columns";
-    private static final String LOGGER_PORTLET_XML_CONTENT = "lutece.debug.portlet.xmlContent";
     private static final String IMAGE_RESOURCE_TYPE_ID = "page_thumbnail";
     private static final String KEY_THEME = "theme";
     private static final String TARGET_TOP = "target='_top'";
@@ -594,11 +593,6 @@ public class PageService extends ContentService implements ImageResourceProvider
             }
 
             String strPortletXmlContent = portlet.getXml( request );
-
-            if ( AppLogService.isDebugEnabled( LOGGER_PORTLET_XML_CONTENT ) )
-            {
-                AppLogService.debug( LOGGER_PORTLET_XML_CONTENT, strPortletXmlContent );
-            }
 
             XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
             String strXslUniqueId = XSL_UNIQUE_PREFIX + String.valueOf( portlet.getStyleId(  ) );
