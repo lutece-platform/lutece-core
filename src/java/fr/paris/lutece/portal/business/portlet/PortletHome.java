@@ -207,12 +207,20 @@ public abstract class PortletHome implements PortletHomeInterface
 
     /**
      * Invalidate the portlet which is specified in parameter
+     * Invalidates the alias portlets connected to this portlet too.
      *
      * @param portlet the portlet instance
      */
     public static void invalidate( Portlet portlet )
     {
         PageService.getInstance(  ).invalidateContent( portlet.getPageId(  ) );
+        
+        // invalidate aliases
+        Collection<Portlet> listAliases = getAliasList( portlet.getId(  ) );
+        for ( Portlet alias : listAliases )
+        {
+        	PageService.getInstance(  ).invalidateContent( alias.getPageId(  ) );
+        }
     }
 
     /**
@@ -272,5 +280,16 @@ public abstract class PortletHome implements PortletHomeInterface
     public static Collection<PortletImpl> getPortletListByStyle( int nStyleId )
     {
         return _dao.selectPortletListByStyle( nStyleId );
+    }
+    
+    /**
+     * Returns the collection of the StyleSheet objects associated to the Style
+     *
+     * @param nStyleId identifier of the style
+     * @return A collection of styles
+     */
+    public static Collection<Portlet> getAliasList( int nPortletId )
+    {
+    	return _dao.selectAliasesForPortlet( nPortletId );
     }
 }

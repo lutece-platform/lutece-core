@@ -129,6 +129,8 @@ public class PageService extends ContentService implements ImageResourceProvider
     private static final String IMAGE_RESOURCE_TYPE_ID = "page_thumbnail";
     private static final String KEY_THEME = "theme";
     private static final String TARGET_TOP = "target='_top'";
+    private static final String WELCOME_PAGE_ID = "1";
+    private static final String WELCOME_PAGE_CACHE_KEY = "mode0";
     private static final int MODE_ADMIN = 1;
     private static final String XSL_UNIQUE_PREFIX = "page-";
     private static PageService _singleton;
@@ -168,7 +170,8 @@ public class PageService extends ContentService implements ImageResourceProvider
         }
 
         ImageResourceManager.registerProvider( this );
-
+        addPageEventListener( this );
+        
         Page.init(  );
     }
 
@@ -731,10 +734,14 @@ public class PageService extends ContentService implements ImageResourceProvider
         {
             for ( String strKeyTemp : (List<String>) getCache(  ).getKeys(  ) )
             {
-                if ( strKeyTemp.indexOf( strKey ) != -1 )
+            	// FIXME Portal.jsp (welcome page) is cached as "mode0", and is actually page_id = 1.
+                if ( strKeyTemp.indexOf( strKey ) != -1 || ( WELCOME_PAGE_ID.equals( strIdPage ) && WELCOME_PAGE_CACHE_KEY.equals( strKeyTemp  ) ) )
                 {
                     getCache(  ).remove( strKeyTemp );
-                    AppLogService.debug( "Page (cache key : " + strKeyTemp + ") removed from the cache." );
+                    if ( AppLogService.isDebugEnabled(  ) )
+                    {
+                    	AppLogService.debug( "Page (cache key : " + strKeyTemp + ") removed from the cache." );
+                    }
                 }
             }
         }
@@ -831,7 +838,8 @@ public class PageService extends ContentService implements ImageResourceProvider
     {
         Page page = event.getPage(  );
         invalidatePage( page.getId(  ) );
-        PortalService.resetCache(  );
+        // Clearing ALL cache is not needed anymore
+        //PortalService.resetCache(  );
     }
 
     /**

@@ -145,4 +145,11 @@ public interface IPortletDAO
      * @return the list of the portlets in form of a Collection of Portlets objects
      */
     Collection<PortletImpl> selectPortletListByStyle( int nStyleId );
+    
+    /**
+     * Returns the list of the alias portlets associated to the original portlet
+     * @param nPortletId the original portlet id
+     * @return the list of alais portlets.
+     */
+    Collection<Portlet> selectAliasesForPortlet( int nPortletId );
 }
