@@ -13,6 +13,14 @@
     <name>Lutece</name>
     <url>http://dev.lutece.paris.fr/</url>
     
+    <properties>
+    	<luceneVersion>2.4.1</luceneVersion>
+        <jiraProjectName>LUTECE</jiraProjectName>
+        <jiraComponentId>10000</jiraComponentId>
+        <springVersion>3.0.1.RELEASE</springVersion>
+		<luceneVersion>2.4.1</luceneVersion>
+    </properties>
+    
     <repositories>
 	    <repository>
 	      <id>luteceSnapshot</id>
@@ -86,7 +94,7 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-            <version>2.3.15</version>
+            <version>2.3.16</version>
         </dependency>
         <dependency>
             <groupId>jtidy</groupId>
@@ -140,27 +148,27 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.6</version>
+            <version>5.1.12</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <version>2.5.6</version>
+            <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>2.5.6</version>
+            <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>2.5.6</version>
+            <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>2.5.6</version>
+            <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>opensymphony</groupId>
@@ -181,11 +189,5 @@
             <url>scp://${serverUrl}/opt/lutece/site/lutece-core/</url>
         </site>
     </distributionManagement>
-    
-    <properties>
-    	<luceneVersion>2.4.1</luceneVersion>
-        <jiraProjectName>LUTECE</jiraProjectName>
-        <jiraComponentId>10000</jiraComponentId>
-    </properties>
     
 </project>
