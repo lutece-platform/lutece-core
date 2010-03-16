@@ -14,7 +14,6 @@
     <url>http://dev.lutece.paris.fr/</url>
     
     <properties>
-    	<luceneVersion>2.4.1</luceneVersion>
         <jiraProjectName>LUTECE</jiraProjectName>
         <jiraComponentId>10000</jiraComponentId>
         <springVersion>3.0.1.RELEASE</springVersion>
