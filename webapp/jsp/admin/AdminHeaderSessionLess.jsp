@@ -13,7 +13,7 @@
 <head>
 	<title>LUTECE - Administration</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-	<base href="<%= strBase %>" />
+	<base href="<%= strBase %>"></base>
 	<%
 		response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
 		response.setHeader("Pragma","no-cache"); //HTTP 1.0

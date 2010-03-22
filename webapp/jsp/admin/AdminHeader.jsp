@@ -12,7 +12,7 @@
 
 <head>
 <title>LUTECE - Administration</title>
-<base href="<%= AppPathService.getBaseUrl( request ) %>" />
+<base href="<%= AppPathService.getBaseUrl( request ) %>"></base>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <meta http-equiv="Expires" content="0" />
 <meta http-equiv="Pragma" content="no-cache" />
