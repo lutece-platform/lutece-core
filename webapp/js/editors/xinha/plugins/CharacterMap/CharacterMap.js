@@ -35,7 +35,7 @@ CharacterMap._pluginInfo =
   c_owner       : "Xinha community",
   sponsor       : "",
   sponsor_url   : "",
-  license       : "Creative Commons Attribution-ShareAlike License"
+  license       : "HTMLArea"
 };
 
 CharacterMap._isActive = false;

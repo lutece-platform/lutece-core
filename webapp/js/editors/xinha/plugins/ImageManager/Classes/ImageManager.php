@@ -313,7 +313,7 @@ class ImageManager
 		if($this->config['safe_mode'] == true
 			|| strlen(trim($this->config['thumbnail_dir'])) == 0)
 		{
-			Return Files::makeFile($this->getImagesURL(),$thumbnail);
+			Return Files::makeFile($this->getImagesURL(),rawurlencode($thumbnail));
 		}
 		else
 		{
@@ -324,7 +324,7 @@ class ImageManager
 
 				_ddt( __FILE__, __LINE__, "getThumbURL(): url_path is '$url_path'" );
 
-				Return Files::makeFile($url_path,$thumbnail);
+				Return Files::makeFile($url_path,rawurlencode($thumbnail));
 			}
 			else //should this ever happen?
 			{

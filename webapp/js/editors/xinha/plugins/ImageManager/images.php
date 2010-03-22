@@ -21,11 +21,14 @@ $manager = new ImageManager($IMConfig);
 //process any file uploads
 $manager->processUploads();
 
-$manager->deleteFiles();
+if($IMConfig['allow_delete']) 
+{
+  $manager->deleteFiles();
+}
 
 $refreshDir = false;
 //process any directory functions
-if($manager->deleteDirs() || $manager->processNewDir())
+if(($IMConfig['allow_delete'] && $manager->deleteDirs()) || $manager->processNewDir())
 	$refreshDir = true;
 
 //check for any sub-directory request
@@ -84,9 +87,22 @@ function drawFiles($list, &$manager)
               <td><?php echo Files::formatSize($file['stat']['size']); ?></td>
               <td><?php if($file['image']){ echo $file['image'][0].'x'.$file['image'][1]; } ?></td>
               <td class="actions">
+                <?php
+                  if($IMConfig['allow_delete'])
+                  {
+                    ?>
                 <a href="<?php print $IMConfig['backend_url']; ?>__function=images&dir=<?php echo $relative; ?>&amp;delf=<?php echo rawurlencode($file['relative']);?>" title="Trash" onclick="return confirmDeleteFile('<?php echo $entry; ?>');"><img src="<?php print $IMConfig['base_url'];?>img/edit_trash.gif" height="15" width="15" alt="Trash" border="0"  /></a>
-        
+                    <?php
+                  }
+                ?>
+                <?php
+                  if($IMConfig['allow_edit'])
+                  {
+                    ?>
                 <a href="javascript:;" title="Edit" onclick="editImage('<?php echo rawurlencode($file['relative']);?>');"><img src="<?php print $IMConfig['base_url'];?>img/edit_pencil.gif" height="15" width="15" alt="Edit" border="0" /></a>
+                    <?php
+                  }
+                ?>
               </td>
             </tr>
             <?php        
@@ -109,10 +125,24 @@ function drawFiles($list, &$manager)
         <img src="<?php print $manager->getThumbnail($file['relative']); ?>" alt="<?php echo $entry; ?> - <?php echo Files::formatSize($file['stat']['size']); ?>"/>
       </a>
       <div class="edit">
+      
+      <?php
+        if($IMConfig['allow_delete'])
+        {
+          ?>
         <a href="<?php print $IMConfig['backend_url']; ?>__function=images&dir=<?php echo $relative; ?>&amp;delf=<?php echo rawurlencode($file['relative']);?>" title="Trash" onclick="return confirmDeleteFile('<?php echo $entry; ?>');"><img src="<?php print $IMConfig['base_url'];?>img/edit_trash.gif" height="15" width="15" alt="Trash"  /></a>
-
+          <?php
+        }
+      ?>
+      
+      <?php
+        if($IMConfig['allow_edit'])
+        {
+          ?>
         <a href="javascript:;" title="Edit" onclick="editImage('<?php echo rawurlencode($file['relative']);?>');"><img src="<?php print $IMConfig['base_url'];?>img/edit_pencil.gif" height="15" width="15" alt="Edit" /></a>
-
+          <?php
+        }
+      ?>
         <?php if($file['image']){ echo $file['image'][0].'x'.$file['image'][1]; } else echo $entry;?>
       </div>
     </div>
@@ -148,7 +178,15 @@ function drawDirs($list, &$manager)
       <a class="dir" href="<?php print $IMConfig['backend_url'];?>__function=images&dir=<?php echo rawurlencode($path); ?>" onclick="updateDir('<?php echo $path; ?>')" title="<?php echo $dir['entry']; ?>"><img src="<?php print $IMConfig['base_url'];?>img/folder.gif" height="80" width="80" alt="<?php echo $dir['entry']; ?>" /></a>
 
       <div class="edit">
+        <?php
+          if($IMConfig['allow_delete'])
+          {
+            ?>
         <a href="<?php print $IMConfig['backend_url'];?>__function=images&dir=<?php echo $relative; ?>&amp;deld=<?php echo rawurlencode($path); ?>" title="Trash" onclick="return confirmDeleteDir('<?php echo $dir['entry']; ?>', <?php echo $dir['count']; ?>);"><img src="<?php print $IMConfig['base_url'];?>img/edit_trash.gif" height="15" width="15" alt="Trash"/></a>
+            <?php
+          }
+        ?>
+              
         <?php echo $dir['entry']; ?>
       </div>
     </div>

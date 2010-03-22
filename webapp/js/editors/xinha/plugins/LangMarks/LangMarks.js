@@ -11,11 +11,30 @@ function LangMarks(editor, args) {
   var self = this;
   var options = {};
   options[this._lc("&mdash; language &mdash;")] = '';
-	for (var i in cfg.LangMarks)
-	{
-		if (typeof i != 'string') continue;
-		options[this._lc(i)] = cfg.LangMarks[i];
+  
+  // Old configuration type
+  if(!cfg.LangMarks.languages)
+  {
+    Xinha.debugMsg('Warning: Old style LangMarks configuration detected, please update your LangMarks configuration.');
+    var newConfig = {
+      languages:  [],
+      attributes: Xinha.Config.prototype.attributes      
+    };
+    
+    for (var i in cfg.LangMarks)
+    {
+      if (typeof i != 'string') continue;
+      newConfig.languages.push( { name: i, code: cfg.LangMarks[i] } );      
+    }
+    
+    cfg.LangMarks = newConfig;
+  }
+  
+	for (var i = 0; i < cfg.LangMarks.languages.length; i++)
+	{		
+		options[this._lc(cfg.LangMarks.languages[i].name)] = cfg.LangMarks.languages[i].code;
 	}
+  
 
   cfg.registerDropdown({
     id	: "langmarks",
@@ -39,10 +58,17 @@ LangMarks._pluginInfo = {
 };
 
 Xinha.Config.prototype.LangMarks = {
-  "Greek" : "el",
-  "English" : "en",
-  "French" : "fr",
-  "Latin" : "la"
+  'languages': [
+    { name:"Greek",   code: "el" } ,
+    { name:"English", code: "en" },
+    { name:"French",  code: "fr" } ,
+    { name:"Latin" ,  code: "la" }  
+  ],
+  
+  'attributes': [
+    'lang',
+    'xml:lang'    
+  ]
 };
 
 LangMarks.prototype._lc = function(string) {
@@ -67,7 +93,13 @@ LangMarks.prototype.onSelect = function(editor, obj, context, updatecontextclass
 
   if (update_parent) {
     parent.className = "haslang";
-    parent.lang = language;
+    parent.lang = language;    
+    
+    for(var i = 0; i < this.editor.config.LangMarks.attributes.length; i++)
+    {
+      parent.setAttribute(this.editor.config.LangMarks.attributes[i], language);
+    }
+    
     editor.updateToolbar();
     return;
   }
@@ -86,6 +118,12 @@ LangMarks.prototype.onSelect = function(editor, obj, context, updatecontextclass
     if (parent.childNodes.length == 1) {
       parent.className = "haslang";
       parent.lang = language;
+      
+      for(var i = 0; i < this.editor.config.LangMarks.attributes.length; i++)
+      {
+        parent.setAttribute(this.editor.config.LangMarks.attributes[i], language);
+      }
+            
       surround = false;
       // in this case we should handle the toolbar updation
       // ourselves.
@@ -99,7 +137,13 @@ LangMarks.prototype.onSelect = function(editor, obj, context, updatecontextclass
     // shit happens ;-) most of the time.  this method works, but
     // it's dangerous when selection spans multiple block-level
     // elements.
-    editor.surroundHTML('<span lang="' + language + '" class="haslang">', '</span>');
+    var html = '';
+    for(var i = 0; i < this.editor.config.LangMarks.attributes.length; i++)
+    {
+      html += ' ' +this.editor.config.LangMarks.attributes[i] + '="'+language+'"';
+    }
+    
+    editor.surroundHTML('<span'+html+' class="haslang">', '</span>');
   }
 };
 
@@ -107,13 +151,21 @@ LangMarks.prototype.updateValue = function(editor, obj) {
   var select = editor._toolbarObjects[obj.id].element;
   var parents = editor.getAllAncestors();
   var parent;
+  var lang;
 	for (var i=0;i<parents.length;i++)
 	{
-		if (parents[i].lang) parent = parents[i];
+    for(var j = 0; j < editor.config.LangMarks.attributes.length; j++)
+    {      
+      if(parents[i].getAttribute(this.editor.config.LangMarks.attributes[j]))
+      {
+         parent = parents[i];      
+         lang = parents[i].getAttribute(this.editor.config.LangMarks.attributes[j]);                
+      }
+    }		
 	}
 	if (parent) {
     var options = select.options;
-    var value = parent.lang;
+    var value = lang;
     for (var i = options.length; --i >= 0;) {
       var option = options[i];
       if (value == option.value) {

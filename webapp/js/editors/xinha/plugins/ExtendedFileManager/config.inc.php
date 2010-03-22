@@ -147,6 +147,15 @@ $IMConfig['thumbnail_prefix'] = 't_';
 $IMConfig['thumbnail_dir'] = 't';
 
 /**
+ * Resize files, or not.  If the dimensions for an image are changed
+ * this will control if the image is actually resized.  
+ *
+ * Usually you want this true, unless you are very disk space concious.
+ */
+ 
+$IMConfig['resize_files'] = true;
+
+/**
 * Resized prefix
 *
 * The prefix for resized files, something like .resized will do.  The
@@ -212,6 +221,16 @@ $IMConfig['allow_rename'] = true;
 
 */
 $IMConfig['allow_cut_copy_paste'] = true;
+
+/*
+  Possible values: true, false
+
+ TRUE -  Allow the user to delete files and folders.
+
+ FALSE - No delete icon will be displayed.
+
+*/
+$IMConfig['allow_delete'] = true;
 
 /*
   Possible values: true, false

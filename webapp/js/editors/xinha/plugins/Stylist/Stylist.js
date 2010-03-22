@@ -7,11 +7,18 @@ Xinha.Config.prototype.css_style = { };
 
 /**
  * This method loads an external stylesheet and uses it in the stylist
+ *
+ * @param string URL to the stylesheet
+ * @param hash Alternate descriptive names for your classes 
+ *              { '.fooclass': 'Foo Description' }
+ * @param bool If set true then @import rules in the stylesheet are skipped,
+ *   otherwise they will be incorporated if possible.
  */
-Xinha.Config.prototype.stylistLoadStylesheet = function(url, altnames)
+ 
+Xinha.Config.prototype.stylistLoadStylesheet = function(url, altnames, skip_imports)
 {
   if(!altnames) altnames = { };
-  var newStyles = Xinha.ripStylesFromCSSFile(url);
+  var newStyles = Xinha.ripStylesFromCSSFile(url, skip_imports);
   for(var i in newStyles)
   {
     if(altnames[i])
@@ -23,16 +30,35 @@ Xinha.Config.prototype.stylistLoadStylesheet = function(url, altnames)
       this.css_style[i] = newStyles[i];
     }
   }
+  
+  for(var x = 0; x < this.pageStyleSheets.length; x++)
+  {
+    if(this.pageStyleSheets[x] == url) return;
+  }
   this.pageStyleSheets[this.pageStyleSheets.length] = url;
 };
 
 /**
  * This method takes raw style definitions and uses them in the stylist
+ *
+ * @param string CSS
+ *
+ * @param hash Alternate descriptive names for your classes 
+ *              { '.fooclass': 'Foo Description' }
+ *
+ * @param bool If set true then @import rules in the stylesheet are skipped,
+ *   otherwise they will be incorporated if possible.
+ *
+ * @param string If skip_imports is false, this string should contain
+ *   the "URL" of the stylesheet these styles came from (doesn't matter
+ *   if it exists or not), it is used when resolving relative URLs etc.  
+ *   If not provided, it defaults to Xinha.css in the Xinha root.
  */
-Xinha.Config.prototype.stylistLoadStyles = function(styles, altnames)
+ 
+Xinha.Config.prototype.stylistLoadStyles = function(styles, altnames, skip_imports, imports_relative_to)
 {
   if(!altnames) altnames = { };
-  var newStyles = Xinha.ripStylesFromCSSString(styles);
+  var newStyles = Xinha.ripStylesFromCSSString(styles, skip_imports);
   for(var i in newStyles)
   {
     if(altnames[i])
@@ -214,7 +240,7 @@ Xinha.prototype._fillStylist = function()
         anch.style.background = 'Highlight';
         anch.style.color = 'HighlightText';
       }
-
+      anch.style.position = 'relative';
       main.appendChild(anch);
     }
   }
@@ -457,35 +483,58 @@ Xinha.prototype._ancestorsWithClasses = function(sel, tag, classes)
 };
 
 
-Xinha.ripStylesFromCSSFile = function(URL)
+Xinha.ripStylesFromCSSFile = function(URL, skip_imports)
 {
   var css = Xinha._geturlcontent(URL);
-  var RE_atimport = '@import\\s*(url\\()?["\'](.*)["\'].*';
-  var imports = css.match(new RegExp(RE_atimport,'ig'));
-  var m, file, re = new RegExp(RE_atimport,'i');
-
-  if (imports)
-  {
-    var path = URL.replace(/\?.*$/,'').split("/");
-    path.pop();
-    path = path.join('/');
-    for (var i=0;i<imports.length;i++)
-    {
-      m = imports[i].match(re);
-      file = m[2];
-      if (!file.match(/^([^:]+\:)?\//))
-      {
-        file = Xinha._resolveRelativeUrl(path,file);
-      }
-      css += Xinha._geturlcontent(file);
-    }
-  }
-
-  return Xinha.ripStylesFromCSSString(css);
+ 
+  return Xinha.ripStylesFromCSSString(css, skip_imports, URL);
 };
 
-Xinha.ripStylesFromCSSString = function(css)
+Xinha.ripStylesFromCSSString = function(css, skip_imports, imports_relative_to)
 {
+  if(!skip_imports)
+  {    
+    if(!imports_relative_to) 
+    {
+      imports_relative_to = _editor_url + 'Xinha.css'
+    }
+    
+    var seen = { };
+    
+    function resolve_imports(css, url)
+    {
+      seen[url] = true; // protects against infinite recursion
+      
+      var RE_atimport = '@import\\s*(url\\()?["\'](.*)["\'].*';
+      var imports = css.match(new RegExp(RE_atimport,'ig'));
+      var m, file, re = new RegExp(RE_atimport,'i');
+
+      if (imports)
+      {
+        var path = url.replace(/\?.*$/,'').split("/");
+        path.pop();
+        path = path.join('/');
+        for (var i=0;i<imports.length;i++)
+        {
+          m = imports[i].match(re);
+          file = m[2];
+          if (!file.match(/^([^:]+\:)?\//))
+          {
+            file = Xinha._resolveRelativeUrl(path,file);
+          }
+                    
+          if(seen[file]) continue;
+          
+          css += resolve_imports(Xinha._geturlcontent(file), file);
+        }
+      }
+      
+      return css;
+    }
+    
+    css = resolve_imports(css, imports_relative_to);
+  }
+
   // We are only interested in the selectors, the rules are not important
   //  so we'll drop out all coments and rules
   var RE_comment = /\/\*(.|\r|\n)*?\*\//g;

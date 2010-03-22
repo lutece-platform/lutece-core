@@ -48,7 +48,7 @@ Xinha.RegExpCache = [
 /*12*/  /\s+contenteditable(=[^>\s\/]*)?/gi,//strip contenteditable
 /*13*/  /((href|src)=")([^\s]*)"/g, //find href and src for stripBaseHref()
 /*14*/  /<\/?(div|p|h[1-6]|table|tr|td|th|ul|ol|li|dl|dt|dd|blockquote|object|br|hr|img|embed|param|pre|script|html|head|body|meta|link|title|area|input|form|textarea|select|option)[^>]*>/g,
-/*15*/  /<\/(div|p|h[1-6]|table|tr|ul|ol|dl|blockquote|object|html|head|body|script|form|select)( [^>]*)?>/g,//blocklevel closing tag
+/*15*/  /<\/(div|p|h[1-6]|table|tr|ul|ol|dl|blockquote|html|head|body|script|form|select)( [^>]*)?>/g,//blocklevel closing tag
 /*16*/  /<(div|p|h[1-6]|table|tr|ul|ol|dl|blockquote|object|html|head|body|script|form|select)( [^>]*)?>/g,//blocklevel opening tag
 /*17*/  /<(td|th|li|dt|dd|option|br|hr|embed|param|pre|meta|link|title|area|input|textarea)[^>]*>/g,//singlet tag or output on 1 line
 /*18*/  /(^|<\/(pre|script)>)(\s|[^\s])*?(<(pre|script)[^>]*>|$)/g,//find content NOT inside pre and script tags
@@ -59,7 +59,8 @@ Xinha.RegExpCache = [
 /*23*/  /(^|<\/script>)[\s\S]*?(<script[^>]*>|$)/g //find content NOT inside script tags
 ];
 // compile for performance; WebKit doesn't support this
-if (typeof RegExp.prototype.compile == 'function') {
+var testRE = new RegExp().compile(Xinha.RegExpCache[3]);
+if (typeof testRE != 'undefined') {
 	for (var i=0; i<Xinha.RegExpCache.length;i++ ) {
 		Xinha.RegExpCache[i] = new RegExp().compile(Xinha.RegExpCache[i]);
 	}
@@ -86,7 +87,7 @@ Xinha.prototype.cleanHTML = function(sHtml) {
 		replace(c[8], '<').//strip tagstart whitespace
 		replace(c[10], ' ');//trim extra whitespace
 	if(Xinha.is_ie && c[13].test(sHtml)) {
-          sHtml = sHtml.replace(c[13],'$1'+Xinha._escapeDollars(stripBaseURL(RegExp.$3))+'"');
+          sHtml = sHtml.replace(c[13],'$1'+Xinha._escapeDollars(this.stripBaseURL(RegExp.$3))+'"');
 	}
 
 	if(this.config.only7BitPrintablesInURLs) {

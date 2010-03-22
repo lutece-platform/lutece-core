@@ -79,7 +79,7 @@
   ColorPicker._pluginInfo =
   {
     name     : "colorPicker",
-    version  : "$LastChangedRevision: 1084 $".replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
+    version  : "$LastChangedRevision: 1237 $".replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
     developer: "James Sleeman",
     developer_url: "http://www.gogo.co.nz/",
     c_owner      : "Gogo Internet Services",
@@ -760,6 +760,7 @@
             this.iframe.style.position = "absolute";
             this.iframe.style.width = this.table.offsetWidth;
             this.iframe.style.height = this.table.offsetHeight;
+            this.iframe.style.zIndex = '1049';
             document.body.insertBefore(this.iframe, this.table);
           }
           this.iframe.style.display = '';

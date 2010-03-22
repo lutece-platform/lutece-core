@@ -55,6 +55,8 @@ function ImagePicker(field)
 ImagePicker.prototype.backend             = Xinha.getPluginDir('ImageManager') + '/backend.php?__plugin=ImageManager&';
 ImagePicker.prototype.backend_data        = null;
 
+ImagePicker.prototype.append_query_string = true;
+
 ImagePicker.prototype.popup_picker = function()
 {
   var picker = this; // closure for later  
@@ -79,6 +81,15 @@ ImagePicker.prototype.popup_picker = function()
       f_padding: null,
       f_margin: null
     };
+    
+    while(outparam.f_url.match(/[?&]((f_[a-z0-9]+)=([^&#]+))/i))
+    {
+      outparam[RegExp.$2] = decodeURIComponent(RegExp.$3);
+      outparam.f_url = outparam.f_url.replace(RegExp.$1, '');
+    }
+    
+    outparam.f_url = outparam.f_url.replace(/&{2,}/g, '&');
+    outparam.f_url = outparam.f_url.replace(/\?&*(#.*)?$/, ''); 
   }
 
   var manager = this.backend + '__function=manager';
@@ -104,7 +115,32 @@ ImagePicker.prototype.popup_picker = function()
 		if (!param) {	// user must have pressed Cancel
 			return false;
 		}
+    
     picker.field.value = param.f_url;
+    if(picker.append_query_string)
+    {
+      if(picker.field.value.match(/[?&](.*)$/))
+      {
+        if(RegExp.$1.length)
+        {
+          picker.field.value += '&';
+        }
+      }
+      else
+      {
+        picker.field.value += '?';
+      }
+      
+      for(var i in param)
+      {        
+        if(i == 'f_url' || param[i] == null || param[i] == 'null' || param[i] == '') continue;                
+        if(typeof param[i] == 'function') continue;
+        if(param[i].length = 0) continue;
+        
+        picker.field.value += i + '=' + encodeURIComponent(param[i]) + '&';
+      }
+    }
+    
 		}, outparam);
 }
 

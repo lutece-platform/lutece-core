@@ -6,7 +6,7 @@
 // Distributed under the same terms as HTMLArea itself.
 // This notice MUST stay intact for use (see license.txt).
 //
-// $Id: ContextMenu.js 1084 2008-10-12 17:42:42Z ray $
+// $Id: ContextMenu.js 1196 2009-11-08 04:34:16Z gogo $
 
 Xinha.loadStyle("menu.css", "ContextMenu");
 
@@ -26,7 +26,8 @@ ContextMenu._pluginInfo = {
 };
 
 Xinha.Config.prototype.ContextMenu = {
-	disableMozillaSpellCheck : false
+	disableMozillaSpellCheck : false,
+  customHooks : { } // 'a': [ ['Label', function() { alert('Action'); }, 'Tooltip', '/icon.jpg' ] ]
 }
 
 ContextMenu.prototype.onGenerate = function() {
@@ -237,6 +238,16 @@ ContextMenu.prototype.getContextMenu = function(target) {
            function() { editor.config.btnList['createlink'][3](editor); },
 				  Xinha._lc("Create a link", "ContextMenu"),
 				  config.btnList["createlink"][1] ]);
+
+  if(editor.config.ContextMenu.customHooks[currentTarget.tagName.toLowerCase()]) 
+  { 
+    var items = editor.config.ContextMenu.customHooks[currentTarget.tagName.toLowerCase()]; 
+    
+    for (var i = 0; i < items.length; ++i)
+    {
+      menu.push(items[i]); 
+    }
+  }
 
 	for (var i = 0; i < elmenus.length; ++i)
 		menu.push(elmenus[i]);

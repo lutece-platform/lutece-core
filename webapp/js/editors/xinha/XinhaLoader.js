@@ -1,43 +1,51 @@
 var Xinha = {};
 
 // Auto detect _editor_url if it's not set.
-if (!window._editor_url) {
-  // Because of the way the DOM is loaded, this is guaranteed to always pull our script tag.
-  var scripts = document.getElementsByTagName('script');
-  var this_script = scripts[scripts.length-1];
-
-  // We'll allow two ways to specify arguments.  We'll accept them in the
-  // argument of the script, or we'll accept them embedded into our script tag.
-  var args = this_script.src.split('?');
-  args = args.length == 2 ? args[1].split('&') : '';
-  for (var index=0; index<args.length; ++index) {
-    var arg = args[index].split('=');
-    if (arg.length == 2) {
-        switch (arg[0]) {
-            case 'lang':
-            case 'icons':
-            case 'skin':
-            case 'url':
-              window['_editor_'+arg[0]] = arg[1];
-              break;
+if (!window._editor_url) 
+{
+  (function() // wrap this in an ad-hoc function to avoid unecessary pollution of global namespace
+  {
+    // Because of the way the DOM is loaded, this is guaranteed to always pull our script tag.
+    var scripts = document.getElementsByTagName('script');
+    var this_script = scripts[scripts.length - 1];
+  
+    // We'll allow two ways to specify arguments.  We'll accept them in the
+    // argument of the script, or we'll accept them embedded into our script tag.
+    var args = this_script.src.split('?');
+    args = args.length == 2 ? args[1].split('&') : '';
+    for (var index = 0; index < args.length; ++index) 
+    {
+      var arg = args[index].split('=');
+      if (arg.length == 2) 
+      {
+        switch (arg[0])
+        {
+          case 'lang':
+          case 'icons':
+          case 'skin':
+          case 'url':
+            window['_editor_' + arg[0]] = arg[1];
+            break;
         }
+      }
     }
-  }
-
-  // We can grab the script innerHTML and execute that to cut down on script
-  // tags.  Thanks John Resig!
-  // http://ejohn.org/blog/degrading-script-tags/
-  if (this_script.innerHTML.replace(/\s+/,'')) {
+    
+    // We can grab the script innerHTML and execute that to cut down on script
+    // tags.  Thanks John Resig!
+    // http://ejohn.org/blog/degrading-script-tags/
+    if (this_script.innerHTML.replace(/\s+/, '')) 
+    {
       eval(this_script.innerHTML);
-  }
+    }
+    
+    // Default values
+    _editor_lang = window._editor_lang || 'en';
+    
+    // Chop off any query string.  Chop the filename off of the URL.
+    _editor_url = window._editor_url || this_script.src.split('?')[0].split('/').slice(0, -1).join('/');
 
-  // Default values
-  _editor_lang = window._editor_lang || 'de';
-
-  // Chop off any query string.  Chop the filename off of the URL.
-  _editor_url = window._editor_url || this_script.src.split('?')[0].split('/').slice(0,-1).join('/');
+  })()
 }
-
 _editor_url = _editor_url.replace(/\x2f*$/, '/');
 
 Xinha.agt       = navigator.userAgent.toLowerCase();

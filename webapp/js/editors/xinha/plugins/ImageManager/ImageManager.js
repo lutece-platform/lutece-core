@@ -109,7 +109,9 @@ Xinha.prototype._insertImage = function(image) {
 			f_width  : image.width,
 			f_height  : image.height,
       f_backgroundColor: image.style.backgroundColor,
-      f_borderColor: image.style.borderColor
+      f_borderColor: image.style.borderColor,
+      f_hspace:  image.hspace && image.hspace != '-1' ? parseInt(image.hspace) : '',
+      f_vspace: image.vspace && image.vspace != '-1' ? parseInt(image.vspace) : ''
 			};
 
     function shortSize(cssSize)
@@ -266,6 +268,18 @@ Xinha.prototype._insertImage = function(image) {
 				  case "f_height":
           {
             if(!isNaN(parseInt(value))) { img.height = parseInt(value); } else { img.height = ''; }
+          }
+          break;
+          
+          case "f_hspace" : 
+          {
+            if(!isNaN(parseInt(value))) { img.hspace  = parseInt(value); } else { img.hspace = ''; }
+          }
+          break;
+          
+          case "f_vspace" : 
+          {
+            if(!isNaN(parseInt(value))) { img.vspace  = parseInt(value); } else { img.vspace = ''; }
           }
           break;
 			}

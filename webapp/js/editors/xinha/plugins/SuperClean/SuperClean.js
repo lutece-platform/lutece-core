@@ -37,6 +37,9 @@ Xinha.Config.prototype.SuperClean =
   // it's called through XMLHTTPRequest
   'tidy_handler': Xinha.getPluginDir("SuperClean") + '/tidy.php',
 
+  // set additional arguments needed for the tidy request 
+  'tidy_args' : {},  
+
   //avaliable filters (these are built-in filters)
   // You can either use
   //    'filter_name' : "Label/Description String"

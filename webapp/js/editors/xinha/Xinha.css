@@ -193,6 +193,7 @@ body.xinha_dialog_background_modal {
   letter-spacing: 0.01em;
 }
 .dialog h1 { 
+  padding-left:22px;
   margin:0;
   border-radius: 8px 8px 0 0;
   -moz-border-radius: 8px 8px 0 0;

@@ -56,7 +56,7 @@
 		var obj = topDoc.getElementById('orginal_width'); obj.value = width;
 		var obj = topDoc.getElementById('orginal_height'); obj.value = height;		
     // Set preview for the selected
-    topDoc.getElementById('f_preview').src = window.parent._backend_url + '__function=thumbs&img=' + filename;
+    topDoc.getElementById('f_preview').src = window.parent._backend_url + '__function=thumbs&img=' + encodeURIComponent(filename);
     
     update_selected();
 	}

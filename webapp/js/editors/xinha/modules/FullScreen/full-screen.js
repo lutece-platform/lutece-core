@@ -1,6 +1,7 @@
 function FullScreen(editor, args)
 {
   this.editor = editor;
+  this.originalSizes = null;
   editor._superclean_on = false;
   var cfg = editor.config;
 
@@ -53,6 +54,14 @@ Xinha.prototype._fullScreen = function()
     e._sizing = true;
     // Width & Height of window
     var dim = Xinha.viewportSize();
+    if(e.config.fullScreenSizeDownMethod == 'restore') 
+    {
+      e.originalSizes = {
+        x:   parseInt(e._htmlArea.style.width),
+        y:   parseInt(e._htmlArea.style.height),
+        dim: dim
+      };
+    }
 
     var h = dim.y - e.config.fullScreenMargins[0] -  e.config.fullScreenMargins[2];
     var w = dim.x - e.config.fullScreenMargins[1] -  e.config.fullScreenMargins[3];
@@ -66,7 +75,18 @@ Xinha.prototype._fullScreen = function()
   {
     if(e._isFullScreen || e._sizing) return false;
     e._sizing = true;
-    e.initSize();
+
+    if(e.originalSizes != null) 
+    {
+        var os = e.originalSizes;
+        var nDim = Xinha.viewportSize();
+        var nW = os.x + (nDim.x - os.dim.x);
+        var nH = os.y + (nDim.y - os.dim.y);
+        e.sizeEditor( nW + 'px', nH + 'px', e.config.sizeIncludesBars, e.config.sizeIncludesPanels);
+        e.originalSizes = null;
+    }
+    else e.initSize();
+
     e._sizing = false;
     if ( e._toolbarObjects.fullscreen ) e._toolbarObjects.fullscreen.swapImage(cfg.iconList.fullscreen); 
   }

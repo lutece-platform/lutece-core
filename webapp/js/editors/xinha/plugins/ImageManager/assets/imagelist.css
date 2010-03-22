@@ -44,3 +44,5 @@ body { margin: 0; padding: 0; }
 .listview td, .listview th { text-align:left; font-size:small; }
 .listview td.actions { text-align:right; }
 .listview td.actions img { border:0px; }
+
+.flk-license { font-size: xx-small; text-align:center; }

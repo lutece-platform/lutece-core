@@ -16,9 +16,9 @@
     --         Before you are going to work on Xinha code, please see http://trac.xinha.org/wiki/Documentation/StyleGuide
     --
     --  $HeadURL: http://svn.xinha.webfactional.com/trunk/XinhaCore.js $
-    --  $LastChangedDate: 2009-04-24 07:50:25 +1200 (Fri, 24 Apr 2009) $
-    --  $LastChangedRevision: 1188 $
-    --  $LastChangedBy: douglas $
+    --  $LastChangedDate: 2010-03-10 09:48:01 +1300 (Wed, 10 Mar 2010) $
+    --  $LastChangedRevision: 1248 $
+    --  $LastChangedBy: wymsy $
     --------------------------------------------------------------------------*/
 /*jslint regexp: false, rhino: false, browser: true, bitwise: false, forin: true, adsafe: false, evil: true, nomen: false, 
 glovar: false, debug: false, eqeqeq: false, passfail: false, sidebar: false, laxbreak: false, on: false, cap: true, 
@@ -32,9 +32,9 @@ Xinha.version =
 {
   'Release'   : 'Trunk',
   'Head'      : '$HeadURL: http://svn.xinha.webfactional.com/trunk/XinhaCore.js $'.replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
-  'Date'      : '$LastChangedDate: 2009-04-24 07:50:25 +1200 (Fri, 24 Apr 2009) $'.replace(/^[^:]*:\s*([0-9\-]*) ([0-9:]*) ([+0-9]*) \((.*)\)\s*\$/, '$4 $2 $3'),
-  'Revision'  : '$LastChangedRevision: 1188 $'.replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
-  'RevisionBy': '$LastChangedBy: douglas $'.replace(/^[^:]*:\s*(.*)\s*\$$/, '$1')
+  'Date'      : '$LastChangedDate: 2010-03-10 09:48:01 +1300 (Wed, 10 Mar 2010) $'.replace(/^[^:]*:\s*([0-9\-]*) ([0-9:]*) ([+0-9]*) \((.*)\)\s*\$/, '$4 $2 $3'),
+  'Revision'  : '$LastChangedRevision: 1248 $'.replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
+  'RevisionBy': '$LastChangedBy: wymsy $'.replace(/^[^:]*:\s*(.*)\s*\$$/, '$1')
 };
 
 //must be here. it is called while converting _editor_url to absolute
@@ -191,14 +191,11 @@ Xinha.is_gecko  = (navigator.product == "Gecko") || Xinha.is_opera;
  * @type Boolean 
  */
 Xinha.is_real_gecko = (navigator.product == "Gecko" && !Xinha.is_webkit);
-/** Gecko version 1.9 (or greater)
- * @type Boolean 
- */
-Xinha.is_ff3 = Xinha.is_real_gecko && parseInt(navigator.productSub, 10) >= 2007121016;
+
 /** Gecko version lower than 1.9
  * @type Boolean 
  */
-Xinha.is_ff2 = Xinha.is_real_gecko && parseInt(navigator.productSub, 10) < 2007121016;
+Xinha.is_ff2 = Xinha.is_real_gecko && parseInt(navigator.productSub.substr(0,10), 10) < 20071210;
 
 /** File is opened locally opened ("file://" protocol)
  * @type Boolean
@@ -231,7 +228,7 @@ if ( Xinha.isRunLocally && Xinha.isSupportedBrowser)
 }
 
 /** Creates a new Xinha object
- * @version $Rev: 1188 $ $LastChangedDate: 2009-04-24 07:50:25 +1200 (Fri, 24 Apr 2009) $
+ * @version $Rev: 1248 $ $LastChangedDate: 2010-03-10 09:48:01 +1300 (Wed, 10 Mar 2010) $
  * @constructor
  * @param {String|DomNode}   textarea the textarea to replace; can be either only the id or the DOM object as returned by document.getElementById()
  * @param {Xinha.Config} config optional if no Xinha.Config object is passed, the default config is used
@@ -503,7 +500,7 @@ Xinha.RE_url      = /(https?:\/\/)?(([a-z0-9_]+:[a-z0-9_]+@)?[a-z0-9_\-]{2,}(\.[
 /**
  * This class creates an object that can be passed to the Xinha constructor as a parameter.
  * Set the object's properties as you need to configure the editor (toolbar etc.)
- * @version $Rev: 1188 $ $LastChangedDate: 2009-04-24 07:50:25 +1200 (Fri, 24 Apr 2009) $
+ * @version $Rev: 1248 $ $LastChangedDate: 2010-03-10 09:48:01 +1300 (Wed, 10 Mar 2010) $
  * @constructor
  */
 Xinha.Config = function()
@@ -837,6 +834,13 @@ Xinha.Config = function()
    */
   this.toolbarAlign = "left";
   
+  /** Set to true to display the font names in the toolbar font select list in their actual font.
+   *  Note that this doesn't work in IE, but doesn't hurt anything either.
+   *  Default: <code>false</code>
+   *  @type Boolean
+   */
+   this.showFontStylesInToolbar = false;
+  
   /** Set to true if you want the loading panel to show at startup<br />
    *  Default: <code>false</code>
    *  @type Boolean
@@ -900,6 +904,30 @@ Xinha.Config = function()
    */
   this.fullScreenMargins = [0,0,0,0];
   
+  
+  /** Specify the method that is being used to calculate the editor's size<br/>
+    * when we return from fullscreen mode.
+    *  There are two choices:
+    * 
+    * <table border="1">
+    *   <tr>
+    *       <td><em>initSize</em></td>
+    *       <td>Use the internal Xinha.initSize() method to calculate the editor's 
+    *       dimensions. This is suitable for most usecases.</td>
+    *   </tr>
+    *   <tr>
+    *       <td><em>restore</em></td>
+    *       <td>The editor's dimensions will be stored before going into fullscreen
+    *       mode and restored when we return to normal mode, taking a possible
+    *       window resize during fullscreen in account.</td>
+    *     </tr>
+    * </table>
+    *
+    * Default: <code>"initSize"</code>
+    * @type String
+    */
+  this.fullScreenSizeDownMethod = 'initSize';
+  
   /** This array orders all buttons except plugin buttons in the toolbar. Plugin buttons typically look for one 
    *  a certain button in the toolbar and place themselves next to it.
    * Default value:
@@ -939,7 +967,7 @@ Xinha.Config = function()
    *<pre>
    *xinha_config.fontname =
    *{
-   *  "&mdash; font &mdash;" : '',
+   *  "&#8212; font &#8212;" : '',
    *  "Arial"                : 'arial,helvetica,sans-serif',
    *  "Courier New"          : 'courier new,courier,monospace',
    *  "Georgia"              : 'georgia,times new roman,times,serif',
@@ -954,7 +982,7 @@ Xinha.Config = function()
    */
   this.fontname =
   {
-    "&mdash; font &mdash;": '',
+    "&#8212; font &#8212;": "", // &#8212; is mdash
     "Arial"           :	'arial,helvetica,sans-serif',
     "Courier New"     :	'courier new,courier,monospace',
     "Georgia"         :	'georgia,times new roman,times,serif',
@@ -970,7 +998,7 @@ Xinha.Config = function()
    *<pre>
    *xinha_config.fontsize =
    *{
-   *  "&mdash; size &mdash;": "",
+   *  "&#8212; size &#8212;": "",
    *  "1 (8 pt)" : "1",
    *  "2 (10 pt)": "2",
    *  "3 (12 pt)": "3",
@@ -984,7 +1012,7 @@ Xinha.Config = function()
    */
   this.fontsize =
   {
-    "&mdash; size &mdash;": "",
+    "&#8212; size &#8212;": "", // &#8212; is mdash
     "1 (8 pt)" : "1",
     "2 (10 pt)": "2",
     "3 (12 pt)": "3",
@@ -998,7 +1026,7 @@ Xinha.Config = function()
    *<pre>
    *xinha_config.formatblock =
    *{
-   *  "&mdash; size &mdash;": "",
+   *  "&#8212; size &#8212;": "",
    *  "1 (8 pt)" : "1",
    *  "2 (10 pt)": "2",
    *  "3 (12 pt)": "3",
@@ -1012,7 +1040,7 @@ Xinha.Config = function()
    */
   this.formatblock =
   {
-    "&mdash; format &mdash;": "",
+    "&#8212; format &#8212;": "", // &#8212; is mdash
     "Heading 1": "h1",
     "Heading 2": "h2",
     "Heading 3": "h3",
@@ -1128,7 +1156,7 @@ Xinha.Config = function()
     htmlmode: [ "Toggle HTML Source", ["ed_buttons_main.png",7,0], true, function(e) { e.execCommand("htmlmode"); } ],
     toggleborders: [ "Toggle Borders", ["ed_buttons_main.png",7,2], false, function(e) { e._toggleBorders(); } ],
     print: [ "Print document", ["ed_buttons_main.png",8,1], false, function(e) { if(Xinha.is_gecko) {e._iframe.contentWindow.print(); } else { e.focusEditor(); print(); } } ],
-    saveas: [ "Save as", "ed_saveas.png", false, function(e) { e.execCommand("saveas",false,"noname.htm"); } ],
+    saveas: [ "Save as", ["ed_buttons_main.png",9,1], false, function(e) { e.execCommand("saveas",false,"noname.htm"); } ],
     about: [ "About this editor", ["ed_buttons_main.png",8,2], true, function(e) { e.getPluginInstance("AboutBox").show(); } ],
     showhelp: [ "Help using editor", ["ed_buttons_main.png",9,2], true, function(e) { e.execCommand("showhelp"); } ],
 
@@ -1744,6 +1772,10 @@ Xinha.prototype._createToolbar1 = function (editor, toolbar, tb_objects)
         var op = document.createElement("option");
         op.innerHTML = Xinha._lc(i);
         op.value = options[i];
+        if (txt =='fontname' && editor.config.showFontStylesInToolbar)
+        {
+          op.style.fontFamily = options[i];
+        }
         el.appendChild(op);
       }
       Xinha._addEvent(el, "change", function () { editor._comboSelected(el, txt); } );
@@ -2101,7 +2133,7 @@ Xinha.prototype._createStatusBar = function()
   Xinha.freeLater(this, '_statusBarTree');
   statusBar.appendChild(statusBarTree);
   var statusBarTextMode = document.createElement("span");
-  statusBarTextMode.innerHTML = Xinha._lc("You are in TEXT MODE.  Use the [<>] button to switch back to WYSIWYG.");
+  statusBarTextMode.innerHTML = Xinha.htmlEncode(Xinha._lc("You are in TEXT MODE.  Use the [<>] button to switch back to WYSIWYG."));
   statusBarTextMode.style.display = "none";
 
   this._statusBarTextMode = statusBarTextMode;
@@ -2765,8 +2797,8 @@ Xinha.prototype.sizeEditor = function(width, height, includingBars, includingPan
   //here 100% can lead to an effect that the editor is considerably higher in text mode
   this._textArea.style.height = '1px';
   
-  this._iframe.style.width    = '';
-  this._textArea.style.width  = '';
+  this._iframe.style.width    = '0px';
+  this._textArea.style.width  = '0px';
 
   if ( includingBars !== null )
   {
@@ -3166,6 +3198,11 @@ Xinha.prototype.activateEditor = function()
       {
         this._doc.designMode = 'on';
       }
+
+      // Opera loses some of it's event listeners when the designMode is set to on.
+	  // the true just shortcuts the method to only set some listeners.
+      if(Xinha.is_opera) this.setEditorEvents(true);
+
     } catch (ex) {}
   }
   else if ( Xinha.is_ie&& this._doc.body.contentEditable !== true )
@@ -3246,6 +3283,7 @@ Xinha.prototype.initIframe = function()
   catch(ex)
   { // try later
     setTimeout(function() { editor.initIframe(); }, 50);
+    return false;
   }
   
   Xinha.freeLater(this, '_doc');
@@ -3329,7 +3367,7 @@ Xinha.prototype.initIframe = function()
 
   // If this IFRAME had been configured for autofocus, we'll focus it now,
   // since everything needed to do so is now fully loaded.
-  if ((typeof editor.config.autofocus != "undefined") &&
+  if ((typeof editor.config.autofocus != "undefined") && editor.config.autofocus !== false &&
       ((editor.config.autofocus == editor._textArea.id) || editor.config.autofocus == true))
   {
     editor.activateEditor();
@@ -3469,7 +3507,7 @@ Xinha.prototype.setFullHTML = function(html)
 /** Initialize some event handlers
  * @private
  */
-Xinha.prototype.setEditorEvents = function()
+Xinha.prototype.setEditorEvents = function(resetting_events_for_opera)
 {
   var editor=this;
   var doc = this._doc;
@@ -3477,6 +3515,7 @@ Xinha.prototype.setEditorEvents = function()
   editor.whenDocReady(
     function()
     {
+      if(!resetting_events_for_opera) {
       // if we have multiple editors some bug in Mozilla makes some lose editing ability
       Xinha._addEvents(
         doc,
@@ -3505,6 +3544,7 @@ Xinha.prototype.setEditorEvents = function()
           }
         );
       }
+      }
 
       // intercept some events; for updating the toolbar & keyboard handlers
       Xinha._addEvents(
@@ -3515,6 +3555,7 @@ Xinha.prototype.setEditorEvents = function()
           return editor._editorEvent(Xinha.is_ie ? editor._iframe.contentWindow.event : event);
         }
       );
+      if(resetting_events_for_opera) return;
 
       // FIXME - this needs to be cleaned up and use editor.firePluginEvent
       //  I don't like both onGenerate and onGenerateOnce, we should only
@@ -4011,6 +4052,174 @@ Xinha.loadStyle = function(style, plugin, id,prepend)
   
 };
 
+/** Adds a script to the document
+ *
+ * Warning: Browsers may cause the script to load asynchronously.
+ *
+ * @param {String} style name of the javascript file
+ * @param {String} plugin optional name of a plugin; if passed this function looks for the stylesheet file in the plugin directory 
+ *
+ */
+Xinha.loadScript = function(script, plugin, callback)
+{
+  var url = _editor_url || '';
+  if ( plugin )
+  {
+    url = Xinha.getPluginDir( plugin ) + "/";
+  }
+  url += script;
+  // @todo: would not it be better to check the first character instead of a regex ?
+  // if ( typeof style == 'string' && style.charAt(0) == '/' )
+  // {
+  //   url = style;
+  // }
+  if ( /^\//.test(script) )
+  {
+    url = script;
+  }
+  
+  Xinha._loadback(url, callback);
+  
+};
+
+/** Load one or more assets, sequentially, where an asset is a CSS file, or a javascript file.
+ *  
+ * Example Usage:
+ *
+ * Xinha.includeAssets( 'foo.css', 'bar.js', [ 'foo.css', 'MyPlugin' ], { type: 'text/css', url: 'foo.php', plugin: 'MyPlugin } );
+ *
+ * Alternative usage, use Xinha.includeAssets() to make a loader, then use loadScript, loadStyle and whenReady methods
+ * on your loader object as and when you wish, you can chain the calls if you like.
+ *
+ * You may add any number of callbacks using .whenReady() multiple times.
+ *
+ *   var myAssetLoader = Xinha.includeAssets();
+ *       myAssetLoader.loadScript('foo.js', 'MyPlugin')
+ *                    .loadStyle('foo.css', 'MyPlugin');                        
+ * 
+ */
+
+Xinha.includeAssets = function()
+{
+  var assetLoader = { pendingAssets: [ ], loaderRunning: false, loadedScripts: [ ] };
+  
+  assetLoader.callbacks = [ ];
+  
+  assetLoader.loadNext = function()
+  {  
+    var self = this;
+    this.loaderRunning = true;
+    
+    if(this.pendingAssets.length)
+    {
+      var nxt = this.pendingAssets[0];
+      this.pendingAssets.splice(0,1); // Remove 1 element
+      switch(nxt.type)
+      {
+        case 'text/css':
+          Xinha.loadStyle(nxt.url, nxt.plugin);
+          return this.loadNext();
+        
+        case 'text/javascript':
+          Xinha.loadScript(nxt.url, nxt.plugin, function() { self.loadNext(); });
+      }
+    }
+    else
+    {
+      this.loaderRunning = false;
+      this.runCallback();      
+    }
+  };
+  
+  assetLoader.loadScript = function(url, plugin)
+  {
+    var self = this;
+    
+    this.pendingAssets.push({ 'type': 'text/javascript', 'url': url, 'plugin': plugin });
+    if(!this.loaderRunning) this.loadNext();
+    
+    return this;
+  };
+  
+  assetLoader.loadScriptOnce = function(url, plugin)
+  {
+    for(var i = 0; i < this.loadedScripts.length; i++)
+    {
+      if(this.loadedScripts[i].url == url && this.loadedScripts[i].plugin == plugin)
+        return this; // Already done (or in process)
+    }
+    
+    return this.loadScript(url, plugin);
+  }
+  
+  assetLoader.loadStyle = function(url, plugin)
+  {
+    var self = this;
+    
+    this.pendingAssets.push({ 'type': 'text/css', 'url': url, 'plugin': plugin });
+    if(!this.loaderRunning) this.loadNext();
+    
+    return this;    
+  };
+  
+  assetLoader.whenReady = function(callback) 
+  {
+    this.callbacks.push(callback);    
+    if(!this.loaderRunning) this.loadNext();
+    
+    return this;    
+  };
+  
+  assetLoader.runCallback = function()
+  {
+    while(this.callbacks.length)
+    { 
+      var _callback = this.callbacks.splice(0,1);
+      _callback[0]();
+      _callback = null;
+    }
+    return this;
+  }
+  
+  for(var i = 0 ; i < arguments.length; i++)
+  {
+    if(typeof arguments[i] == 'string')
+    {
+      if(arguments[i].match(/\.css$/i))
+      {
+        assetLoader.loadStyle(arguments[i]);
+      }
+      else 
+      {
+        assetLoader.loadScript(arguments[i]);
+      }
+    }
+    else if(arguments[i].type)
+    {
+      if(arguments[i].type.match(/text\/css/i))
+      {
+        assetLoader.loadStyle(arguments[i].url, arguments[i].plugin);
+      }
+      else if(arguments[i].type.match(/text\/javascript/i))
+      {
+        assetLoader.loadScript(arguments[i].url, arguments[i].plugin);
+      }
+    }
+    else if(arguments[i].length >= 1)
+    {
+      if(arguments[i][0].match(/\.css$/i))
+      {
+        assetLoader.loadStyle(arguments[i][0], arguments[i][1]);
+      }
+      else 
+      {
+        assetLoader.loadScript(arguments[i][0], arguments[i][1]);
+      }
+    }
+  }
+  
+  return assetLoader;
+}
 
 /***************************************************
  *  Category: EDITOR UTILITIES
@@ -4444,7 +4653,8 @@ Xinha.prototype.updateToolbar = function(noStatus)
         item = null;
       }
 
-      this._statusBarTree.innerHTML = Xinha._lc("Path") + ": "; // clear
+      this._statusBarTree.innerHTML = ' ';
+      this._statusBarTree.appendChild(document.createTextNode(Xinha._lc("Path") + ": ")); 
       for ( var i = ancestors.length; --i >= 0; )
       {
         var el = ancestors[i];
@@ -4968,7 +5178,7 @@ Xinha.prototype._comboSelected = function(el, txt)
       var dropdown = this.config.customSelects[txt];
       if ( typeof dropdown != "undefined" )
       {
-        dropdown.action(this);
+        dropdown.action(this, value, el, txt);
       }
       else
       {
@@ -5728,6 +5938,109 @@ Xinha.cloneObject = function(obj)
 
   return newObj;
 };
+
+
+/** Extend one class from another, that is, make a sub class.
+ *  This manner of doing it was probably first devised by Kevin Lindsey
+ *
+ *  http://kevlindev.com/tutorials/javascript/inheritance/index.htm
+ *
+ *  It has subsequently been used in one form or another by various toolkits 
+ *  such as the YUI.
+ *
+ *  I make no claim as to understanding it really, but it works.
+ * 
+ *  Example Usage:
+ *  {{{
+ *  -------------------------------------------------------------------------
+ 
+    // =========  MAKING THE INITIAL SUPER CLASS ===========
+    
+        document.write("<h1>Superclass Creation And Test</h1>");
+    
+        function Vehicle(name, sound)
+        {    
+          this.name  = name;
+          this.sound = sound
+        }
+      
+        Vehicle.prototype.pressHorn = function()
+        {
+          document.write(this.name + ': ' + this.sound + '<br/>');
+        }
+        
+        var Bedford  = new Vehicle('Bedford Van', 'Honk Honk');
+        Bedford.pressHorn(); // Vehicle::pressHorn() is defined
+    
+    
+    // ========= MAKING A SUBCLASS OF A SUPER CLASS =========
+    
+        document.write("<h1>Subclass Creation And Test</h1>");
+        
+        // Make the sub class constructor first
+        Car = function(name)
+        {
+          // This is how we call the parent's constructor, note that
+          // we are using Car.parent.... not "this", we can't use this.
+          Car.parentConstructor.call(this, name, 'Toot Toot');
+        }
+        
+        // Remember the subclass comes first, then the base class, you are extending
+        // Car with the methods and properties of Vehicle.
+        Xinha.extend(Car, Vehicle);
+        
+        var MazdaMx5 = new Car('Mazda MX5');  
+        MazdaMx5.pressHorn(); // Car::pressHorn() is inherited from Vehicle::pressHorn()
+    
+    // =========  ADDING METHODS TO THE SUB CLASS ===========
+
+        document.write("<h1>Add Method to Sub Class And Test</h1>");
+        
+        Car.prototype.isACar = function()
+        {
+          document.write(this.name + ": Car::isACar() is implemented, this is a car! <br/>");
+          this.pressHorn();
+        }
+       
+        MazdaMx5.isACar(); // Car::isACar() is defined as above
+        try      { Bedford.isACar(); } // Vehicle::isACar() is not defined, will throw this exception
+        catch(e) { document.write("Bedford: Vehicle::onGettingCutOff() not implemented, this is not a car!<br/>"); }
+    
+    // =========  EXTENDING A METHOD (CALLING MASKED PARENT METHODS) ===========
+    
+        document.write("<h1>Extend/Override Inherited Method in Sub Class And Test</h1>");
+        
+        Car.prototype.pressHorn = function()
+        { 
+          document.write(this.name + ': I am going to press the horn... <br/>');
+          Car.superClass.pressHorn.call(this);        
+        }
+        MazdaMx5.pressHorn(); // Car::pressHorn()
+        Bedford.pressHorn();  // Vehicle::pressHorn()
+        
+    // =========  MODIFYING THE SUPERCLASS AFTER SUBCLASSING ===========
+    
+        document.write("<h1>Add New Method to Superclass And Test In Subclass</h1>");  
+        
+        Vehicle.prototype.startUp = function() { document.write(this.name + ": Vroooom <br/>"); }  
+        MazdaMx5.startUp(); // Cars get the prototype'd startUp() also.
+        
+ *  -------------------------------------------------------------------------
+ *  }}}  
+ *
+ *  @param subclass_constructor (optional)  Constructor function for the subclass
+ *  @param superclass Constructor function for the superclass 
+ */
+
+Xinha.extend = function(subClass, baseClass) {
+   function inheritance() {}
+   inheritance.prototype = baseClass.prototype;
+
+   subClass.prototype = new inheritance();
+   subClass.prototype.constructor = subClass;
+   subClass.parentConstructor = baseClass;
+   subClass.superClass = baseClass.prototype;
+}
 
 /** Event Flushing
  *  To try and work around memory leaks in the rather broken

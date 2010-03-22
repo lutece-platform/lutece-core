@@ -71,7 +71,7 @@
 
       while($dh && ($file = readdir($dh)))
       {
-        if($file !== '.' && $file !== '..')
+        if($file[0] !== '.')
         {
           $path = realpath($dir . '/' . $file);
           $url  = $durl . '/' . $file;

@@ -18,7 +18,10 @@ Xinha.Config.prototype.Linker =
   'treeCaption' : document.location.host,
   'backend' : Xinha.getPluginDir("Linker") + '/scan.php',
   'backend_data' : null,
-  'files' : null
+  'files' : null, 
+  'dialog': null,
+  'canSetTarget': true,
+  'canRemoveLink': true
 };
 
 

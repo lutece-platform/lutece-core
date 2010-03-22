@@ -56,7 +56,15 @@ SuperClean.prototype._superClean = function(opts, obj)
           break;
         }
       }
-      Xinha._postback(editor.config.SuperClean.tidy_handler, {'content' : editor.getInnerHTML()},callback);
+      
+      var args = editor.config.SuperClean.tidy_args; 
+      if ( typeof args != 'object' ) 
+      { 
+        args = {}; 
+      } 
+      args['content'] =  editor.getInnerHTML(); 
+     
+      Xinha._postback(editor.config.SuperClean.tidy_handler, args, callback);       
     }
     else
     {
@@ -153,7 +161,15 @@ SuperClean.filterFunctions.tidy = function(html, editor)
       break;
     }
   }
-  Xinha._postback(editor.config.SuperClean.tidy_handler, {'content' : html},callback);
+  
+  var args = editor.config.SuperClean.tidy_args; 
+  if ( typeof args != 'object' ) 
+  { 
+    args = {}; 
+  }
+  args['content'] =  html; 
+  
+  Xinha._postback(editor.config.SuperClean.tidy_handler, args, callback);         
 };
 
 

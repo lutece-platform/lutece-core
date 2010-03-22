@@ -15,9 +15,9 @@
     --
     --
     --  $HeadURL: http://svn.xinha.webfactional.com/trunk/modules/Dialogs/XinhaDialog.js $
-    --  $LastChangedDate: 2009-02-18 08:26:59 +1300 (Wed, 18 Feb 2009) $
-    --  $LastChangedRevision: 1166 $
-    --  $LastChangedBy: ray $
+    --  $LastChangedDate: 2010-02-15 07:13:26 +1300 (Mon, 15 Feb 2010) $
+    --  $LastChangedRevision: 1238 $
+    --  $LastChangedBy: wymsy $
     --------------------------------------------------------------------------*/
 /*jslint regexp: false, rhino: false, browser: true, bitwise: false, forin: false, adsafe: false, evil: true, nomen: false, 
 glovar: false, debug: false, eqeqeq: false, passfail: false, sidebar: false, laxbreak: false, on: false, cap: true, 
@@ -27,7 +27,7 @@ white: false, widget: false, undef: true, plusplus: false*/
 /** Xinha Dialog
  *  
  * @constructor
- * @version $LastChangedRevision: 1166 $ $LastChangedDate: 2009-02-18 08:26:59 +1300 (Wed, 18 Feb 2009) $
+ * @version $LastChangedRevision: 1238 $ $LastChangedDate: 2010-02-15 07:13:26 +1300 (Mon, 15 Feb 2010) $
  * @param {Xinha} editor Xinha object    
  * @param {String} html string The HTML for the dialog's UI
  * @param {String} localizer string the "context" parameter for Xinha._lc(), typically the name of the plugin
@@ -374,7 +374,7 @@ Xinha.Dialog = function(editor, html, localizer, size, options)
   icon.style.left = '2px';
   icon.ondrag = function () {return false;};
 
-  captionBar.style.paddingLeft = '22px';
+  //captionBar.style.paddingLeft = '22px';
   rootElem.appendChild(this.icon);
   
   var all = rootElem.getElementsByTagName("*");
@@ -528,8 +528,11 @@ Xinha.Dialog.prototype.show = function(values)
         {
           if (input[i].type == 'text')
           {
-            input[i].focus();
-            break;
+            try {
+              input[i].focus();
+              break;
+            }
+            catch (e) {}
           }
         }
       }
@@ -701,6 +704,11 @@ Xinha.Dialog.prototype.collapse = function()
  */
 Xinha.Dialog.prototype.getElementById = function(id)
 {
+  if(!this.rootElem.parentNode)
+  {     
+    this.document.body.appendChild(this.rootElem);
+  }
+  
   return this.document.getElementById(this.id[id] ? this.id[id] : id);
 };
 /** Equivalent to document.getElementByName. You can't use document.getElementByName because names are dynamic to avoid name clashes between plugins
@@ -709,6 +717,11 @@ Xinha.Dialog.prototype.getElementById = function(id)
  */
 Xinha.Dialog.prototype.getElementsByName = function(name)
 {
+  if(!this.rootElem.parentNode)
+  {     
+    this.document.body.appendChild(this.rootElem);
+  }
+    
   var els = this.document.getElementsByName(this.id[name] ? this.id[name] : name); 
   return Xinha.collectionToArray(els);
 };
@@ -1002,7 +1015,7 @@ Xinha.Dialog.prototype.detachFromPanel = function()
   rootElemStyle.top = pos.top + "px";
   rootElemStyle.left = pos.left + "px";
   
-  dialog.captionBar.style.paddingLeft = "22px";
+  //dialog.captionBar.style.paddingLeft = "22px";
   dialog.resizer.style.display = '';
   if (dialog.closable) 
   {
@@ -1286,13 +1299,15 @@ Xinha.Dialog.prototype.getValues = function()
   }
   return values;
 };
-/** Localizes strings in the dialog.
- * @private
- * @param {String} html The HTML to translate
- * @param {String} localizer Context for translation, usually plugin's name
+
+/** Sets the localizer to use for the dialog
+ *  @param function|string Either a function which takes a string as a parameter and returns 
+ *    a localized string, or the name of a contact to pass to the standard Xinha localizer
+ *    the "context" usually means the name of a plugin.
  */
-Xinha.Dialog.prototype.translateHtml = function(html, localizer)
-{
+ 
+Xinha.Dialog.prototype.setLocalizer = function(localizer)
+{  
   var dialog = this;
   if(typeof localizer == 'function')
   {
@@ -1312,7 +1327,19 @@ Xinha.Dialog.prototype.translateHtml = function(html, localizer)
       return string;
     };
   }
+}
 
+/** Localizes strings in the dialog.
+ * @private
+ * @param {String} html The HTML to translate
+ * @param {String} localizer Context for translation, usually plugin's name (optional if setLocalizer() has been used) 
+ */
+ 
+Xinha.Dialog.prototype.translateHtml = function(html,localizer)
+{  
+  var dialog = this;
+  if(localizer) this.setLocalizer(localizer);
+  
   // looking for strings of the form name='[foo]' or id="[bar]"
   html = html.replace(/((?:name)|(?:id))=(['"])\[([a-z0-9_]+)\]\2/ig,
     function(fullString, type, quote, id)

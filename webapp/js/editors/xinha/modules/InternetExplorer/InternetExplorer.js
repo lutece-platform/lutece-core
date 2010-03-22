@@ -26,15 +26,15 @@
     --   namespace that way.
     --
     --  $HeadURL: http://svn.xinha.webfactional.com/trunk/modules/InternetExplorer/InternetExplorer.js $
-    --  $LastChangedDate: 2009-03-20 11:52:06 +1300 (Fri, 20 Mar 2009) $
-    --  $LastChangedRevision: 1173 $
-    --  $LastChangedBy: ray $
+    --  $LastChangedDate: 2010-02-01 00:43:35 +1300 (Mon, 01 Feb 2010) $
+    --  $LastChangedRevision: 1233 $
+    --  $LastChangedBy: gogo $
     --------------------------------------------------------------------------*/
                                                     
 InternetExplorer._pluginInfo = {
   name          : "Internet Explorer",
   origin        : "Xinha Core",
-  version       : "$LastChangedRevision: 1173 $".replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
+  version       : "$LastChangedRevision: 1233 $".replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
   developer     : "The Xinha Core Developer Team",
   developer_url : "$HeadURL: http://svn.xinha.webfactional.com/trunk/modules/InternetExplorer/InternetExplorer.js $".replace(/^[^:]*:\s*(.*)\s*\$$/, '$1'),
   sponsor       : "",
@@ -92,6 +92,13 @@ InternetExplorer.prototype.onKeyPress = function(ev)
       }
     }
     break;
+    
+    case 9: // KEY tab, see ticket #1121
+    {
+      Xinha._stopEvent(ev);
+      return true;
+    }
+
   }
   
   return false;
@@ -451,10 +458,43 @@ Xinha.prototype.saveSelection = function()
 Xinha.prototype.restoreSelection = function(savedSelection)
 {
   if (!savedSelection) return;
+  
+  // Ticket #1387
+  // avoid problem where savedSelection does not implement parentElement(). 
+  // This condition occurs if there was no text selection at the time saveSelection() was called.  In the case 
+  // an image selection, the situation is confusing... the image may be selected in two different ways:  1) by 
+  // simply clicking the image it will appear to be selected by a box with sizing handles; or 2) by clicking and 
+  // dragging over the image as you might click and drag over text.  In the first case, the resulting selection 
+  // object does not implement parentElement(), leading to a crash later on in the code below.  The following 
+  // hack avoids that problem. 
+  
+  // Ticket #1488
+  // fix control selection in IE8
+  
+  var savedParentElement = null;
+  if (savedSelection.parentElement)
+  {
+    savedParentElement =  savedSelection.parentElement();
+  }
+  else
+  {
+    savedParentElement = savedSelection.item(0);
+  }
+  
   // In order to prevent triggering the IE bug mentioned below, we will try to
   // optimize by not restoring the selection if it happens to match the current
   // selection.
   var range = this.createRange(this.getSelection());
+
+  var rangeParentElement =  null;
+  if (range.parentElement)
+  {
+    rangeParentElement =  range.parentElement();
+  }
+  else
+  {
+    rangeParentElement = range.item(0);
+  }
 
   // We can't compare two selections that come from different documents, so we
   // must make sure they're from the same document.
@@ -470,7 +510,7 @@ Xinha.prototype.restoreSelection = function(savedSelection)
     return null;
   }
 
-  if (findDoc(savedSelection.parentElement()) == findDoc(range.parentElement()))
+  if (savedSelection.parentElement && findDoc(savedParentElement) == findDoc(rangeParentElement))
   {
     if (range.isEqual(savedSelection))
     {
@@ -481,7 +521,17 @@ Xinha.prototype.restoreSelection = function(savedSelection)
 
   try { savedSelection.select() } catch (e) {};
   range = this.createRange(this.getSelection());
-  if (range.parentElement() != savedSelection.parentElement())
+  
+  if (range.parentElement)
+  {
+    rangeParentElement =  range.parentElement();
+  }
+  else
+  {
+    rangeParentElement = range.item(0);
+  }
+  
+  if (rangeParentElement != savedParentElement)
   {
     // IE has a problem with selections at the end of text nodes that
     // immediately precede block nodes. Example markup:
@@ -501,7 +551,7 @@ Xinha.prototype.restoreSelection = function(savedSelection)
       case 'InsertSpan':
         // This workaround inserts an empty span element so that we are no
         // longer trying to select a text node,
-        var parentDoc = findDoc(savedSelection.parentElement());
+        var parentDoc = findDoc(savedParentElement);
 
         // A function used to generate a unique ID for our temporary span.
         var randLetters = function(count)
@@ -749,6 +799,7 @@ Xinha.prototype.getSelection = function()
 Xinha.prototype.createRange = function(sel)
 {
   if (!sel) sel = this.getSelection();
+  if(sel.type == 'None') this.focusEditor();
   return sel.createRange();
 };
 

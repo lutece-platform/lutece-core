@@ -1,9 +1,13 @@
-By default the smileys are hosted on an external server. If you would like to put them on your own server, you can download a zip file from here:
-http://www.x-webservice.net/storage/xinha/plugins/InsertSmiley/smileys.zip
+A small number of smileys are included in this release.
 
-1. Extract the file to your server
-2. Change xinha_config.InsertSmiley.smileyURL to the appropriate path (with trailing slash), e.g.
-   
-   xinha_config.InsertSmiley.smileyURL = "/smileys/";
-   
- You can also reduce/expand/replace the list of smileys with your own files by editing the file smileys.txt in the plugins's folder.
+To add more smileys, 
+
+  1. Dump as many as you would like as image files into the smileys folder (gif, jpg, png).
+  2. EITHER:
+    a. Edit smileys/smileys.js as appropriate, or;
+    b. Set this Xinha configuration (if your server handles PHP ok)
+       
+        xinha_config.InsertSmiley.smileys = _editor_url+'/plugins/InsertSmiley/smileys/smileys.php';
+       
+       it will automatically pickup the new smileys without you needing to edit the js file.
+      

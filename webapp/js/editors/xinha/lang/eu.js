@@ -45,7 +45,7 @@
   "Toggle Borders": "Ertzak trukatu",
   "Save as": "Gorde honela:",
   "Insert/Overwrite": "Txertatu/Gainidatzi",
-  "&mdash; format &mdash;": "&mdash; Formatua &mdash;",
+  "&#8212; format &#8212;": "&#8212; Formatua &#8212;",
   "Heading 1": "Goiburua 1",
   "Heading 2": "Goiburua 2",
   "Heading 3": "Goiburua 3",

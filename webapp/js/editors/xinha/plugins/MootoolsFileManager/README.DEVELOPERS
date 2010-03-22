@@ -1,0 +1,11 @@
+The mootools-filemanager is a git repository which (probably) contains local modifications to work better with Xinha.  Therefore, we want to keep it as a git repo so we can easily update.
+
+The upstream git repository is (from http://github.com/cpojer/mootools-filemanager)
+
+git://github.com/cpojer/mootools-filemanager.git
+
+Simply CD'ing into the mootools-filemanager directory and performing
+  git pull
+should be sufficient to update.
+
+The mootools-filemanager/.git/ directory should be stripped prior to shipping for space concerns.

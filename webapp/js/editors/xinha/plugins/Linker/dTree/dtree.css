@@ -11,8 +11,10 @@
   white-space: nowrap;
 }
 .dtree img {
-  border: 0px;
-  vertical-align: middle;
+  border: 0px !important;
+  margin:0px  !important;
+  display:inline !important;
+  vertical-align: middle !important;
 }
 .dtree a,.dtree a:visited {
   color: #333;

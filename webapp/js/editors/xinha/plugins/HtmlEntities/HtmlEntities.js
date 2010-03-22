@@ -29,7 +29,7 @@ HtmlEntities._pluginInfo = {
   c_owner       : "Xinha community",
   sponsor       : "",
   sponsor_url   : "",
-  license       : "Creative Commons Attribution-ShareAlike License"
+  license       : "HTMLArea"
 }
 Xinha.Config.prototype.HtmlEntities =
 {

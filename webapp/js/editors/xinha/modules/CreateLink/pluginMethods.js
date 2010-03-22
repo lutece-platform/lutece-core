@@ -27,7 +27,7 @@ CreateLink.prototype.show = function(a)
 		inputs.f_title  = a.title;
 		if (a.target)
 		{
-			if (!/_self|_top_|_blank/.test(a.target))
+			if (!/_self|_top|_blank/.test(a.target))
 			{
 				inputs.f_target = '_other';
 				inputs.f_other_target = a.target;

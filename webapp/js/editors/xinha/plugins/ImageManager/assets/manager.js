@@ -93,7 +93,7 @@
           }
         }
       }
-      document.getElementById('f_preview').src = _backend_url + '__function=thumbs&img=' + param.f_url;      
+      document.getElementById('f_preview').src = _backend_url + '__function=thumbs&img=' + encodeURIComponent(param.f_url);      
 		}
 		
 		 // Hookup color pickers
@@ -113,7 +113,7 @@
 	function onOK() 
 	{
 		// pass data back to the calling window
-		var fields = ["f_url", "f_alt", "f_align", "f_width", "f_height", "f_padding", "f_margin", "f_border", "f_borderColor", "f_backgroundColor"];
+		var fields = ["f_url", "f_alt", "f_align", "f_width", "f_height", "f_padding", "f_margin", "f_border", "f_borderColor", "f_backgroundColor", 'f_hspace', 'f_vspace'];
 		var param = new Object();
 		for (var i in fields) 
 		{
@@ -132,7 +132,7 @@
 				}
 			else if (el)
 				param[id] = el.value;
-      else alert("Missing " + fields[i]);
+      // else alert("Missing " + fields[i]); <-- Not useful to tell people this, maybe for debugging.
 
 		}
 

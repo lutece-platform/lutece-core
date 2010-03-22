@@ -24,6 +24,11 @@ if(!isset($_GET['img']) || !isset($_GET['width']) || !isset($_GET['height']))
   js_fail('Missing parameter.');
 }
 
+if($IMConfig['resize_files'] == FALSE)
+{
+  js_success($_GET['img']);
+}
+
 $manager = new ImageManager($IMConfig);
 
 //get the image and the full path to the image

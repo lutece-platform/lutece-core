@@ -45,7 +45,7 @@
   "Toggle Borders": "Tabellenränder ein/ausblenden",
   "Save as": "speichern unter",
   "Insert/Overwrite": "Einfügen/Überschreiben",
-  "&mdash; format &mdash;": "&mdash; Format &mdash;",
+  "&#8212; format &#8212;": "&#8212; Format &#8212;",
   "Heading 1": "Überschrift 1",
   "Heading 2": "Überschrift 2",
   "Heading 3": "Überschrift 3",

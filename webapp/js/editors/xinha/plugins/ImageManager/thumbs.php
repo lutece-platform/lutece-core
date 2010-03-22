@@ -23,6 +23,16 @@ $manager = new ImageManager($IMConfig);
 
 //get the image and the full path to the image
 $image = rawurldecode($_GET['img']);
+
+// If the image is a URL, see if there is an x-thumbnail x-thumb or x-tn param on it
+//  probably best to use x-tn to save space on the URL
+if(preg_match('/^[a-z]+:\/\/.*[?&]x-(thumbnail|thumb|tn)=([^&]+)/i', $image, $Matches))
+{
+  // In which case, we will use the thumbnail
+  header('location: ' . rawurldecode($Matches[2]));
+  exit;
+}
+
 $fullpath = Files::makeFile($manager->getImagesDir(),$image);
 
 //not a file, so exit

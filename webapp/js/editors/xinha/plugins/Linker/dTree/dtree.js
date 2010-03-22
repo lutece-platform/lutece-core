@@ -385,7 +385,10 @@ dTree.prototype.setCS_All = function()
   {
     var node = this.aNodes[n];
     node._ls = ids[node.pid]._ls_is == node.id ? true : false;
-    node._hc = ids[node.id]._hc;
+    if(ids[node.id]) 
+    {
+      node._hc = ids[node.id]._hc;
+    }
   }
 };
 

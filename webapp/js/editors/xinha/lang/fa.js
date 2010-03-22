@@ -45,7 +45,7 @@
   "Toggle Borders": "فعال/غیر فعال کردن لبه ها",
   "Save as": "ذخیره مانند...",
   "Insert/Overwrite": "افزودن/جانویسی",
-  "&mdash; format &mdash;": "&mdash; قالب &mdash;",
+  "&#8212; format &#8212;": "&#8212; قالب &#8212;",
   "Heading 1": "تیتر 1",
   "Heading 2": "تیتر 2",
   "Heading 3": "تیتر 3",

@@ -46,7 +46,7 @@
   "Toggle Borders": "境界線の切替",
   "Save as": "名前をつけて保存",
   "Insert/Overwrite": "挿入/上書き",
-  "&mdash; format &mdash;": "&mdash; 書式 &mdash;",
+  "&#8212; format &#8212;": "&#8212; 書式 &#8212;",
   "Heading 1": "見出し1",
   "Heading 2": "見出し2",
   "Heading 3": "見出し3",
@@ -56,8 +56,8 @@
   "Normal": "標準",
   "Address": "アドレス",
   "Formatted": "整形済み",
-  "&mdash; font &mdash;": "&mdash; フォント &mdash;",
-  "&mdash; size &mdash;": "&mdash; サイズ &mdash;",
+  "&#8212; font &#8212;": "&#8212; フォント &#8212;",
+  "&#8212; size &#8212;": "&#8212; サイズ &#8212;",
   
   //dialogs
   "OK": "OK",

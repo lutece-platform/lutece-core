@@ -53,7 +53,7 @@
         "Split Block": "Подели блок",
         "Toggle Borders": "Пребаци оквирне линије",
 
-        "&mdash; format &mdash;": "&mdash; Format &mdash;",
+        "&#8212; format &#8212;": "&#8212; Format &#8212;",
         "Heading 1": "Заглавље 1",
         "Heading 2": "Заглавље 2",
         "Heading 3": "Заглавље 3",

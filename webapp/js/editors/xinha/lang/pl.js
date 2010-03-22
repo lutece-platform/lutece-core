@@ -42,7 +42,7 @@
   "Split Block": "Podziel blok",
   "Toggle Borders": "Włącz / wyłącz ramki",
 
-  "&mdash; format &mdash;": "&mdash; Format &mdash;",
+  "&#8212; format &#8212;": "&#8212; Format &#8212;",
   "Heading 1": "Nagłówek 1",
   "Heading 2": "Nagłówek 2",
   "Heading 3": "Nagłówek 3",

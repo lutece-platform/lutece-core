@@ -163,6 +163,17 @@ $IMConfig['thumbnail_dir'] = '.thumbs';
 // -------------------------------------------------------------------------
 
 /**
+ * Resize files, or not.  If the dimensions for an image are changed
+ * this will control if the image is actually resized.  
+ *
+ * Usually you want this true, unless you are very disk space concious.
+ */
+ 
+$IMConfig['resize_files'] = true;
+
+// -------------------------------------------------------------------------
+
+/**
 * Resized prefix
 *
 * The prefix for resized files, something like .resized will do.  The
@@ -233,6 +244,37 @@ $IMConfig['allow_upload'] = false;
 // -------------------------------------------------------------------------
 
 /**
+* Allow Delete
+*
+*  Possible values: true, false
+*
+*  TRUE - Allow the user to delete files/dirs
+*
+*  FALSE - No deleting allowed.
+* 
+*/
+
+$IMConfig['allow_delete'] = true;
+
+// -------------------------------------------------------------------------
+
+/**
+* Allow Edit
+*
+*  Possible values: true, false
+*
+*  TRUE - Allow the user to edit files
+*
+*  FALSE - No editing allowed.
+* 
+*/
+
+$IMConfig['allow_edit'] = true;
+
+
+// -------------------------------------------------------------------------
+
+/**
 * Validate Images
 *
 * Possible values: true, false
@@ -283,7 +325,58 @@ $IMConfig['tmp_prefix'] = '.editor_';
 
 $IMConfig['ViewMode'] = 'thumbs';
 
+// -------------------------------------------------------------------------
 
+/** Margin Types 
+ *  If your HTML will be used in an email, then using CSS type "margin"
+ *  is not so reliable and you should set UseHSpaceVSpace to be true
+ *  to go back to the old fashioned hspace="" and vspace="" attributes on
+ *  images.
+ */
+$IMConfig['UseHSpaceVSpace'] = false;
+
+// -------------------------------------------------------------------------
+
+/**
+ * ImageManager/Picker can provide selection interfaces for more than just 
+ * images on the server ("Pictures").
+ *
+ *  Local - the classical ImageManager for images stored on this server.
+ *
+ *  YouTube  - provides selection (but not upload etc) of videos on YouTube
+ *    see smart-image.js for how to make the videos work as videos instead of
+ *    static images.
+ *
+ *  Flickr   - provides selection (but not upload etc) of public images on Flickr
+ *    Set 
+ *       $IMConfig['Flickr'] = array('Key' => 'yourkeyhere');
+ *    to turn on Flickr support.
+ * 
+ *    To get a key: http://www.flickr.com/services/api/keys/
+ *
+ *    WARNING: Flickr restricts commercial use of the API.  If your site is in any way even 
+ *     remotely commercial you need to ask for a commercial key from flickr.
+ *
+ *    ADDITIONAL WARNING: Flickr requires that you provide a link back to them, preferably
+ *     on the image itself (linking to the image) - you can use smart-image.js to do
+ *     something like this. 
+ *
+ *    ADDITIONAL ADDITIONAL WARNING: It's up to you to comply with the image's license!! 
+ */
+ 
+$IMConfig['Local'] = TRUE;
+$IMConfig['YouTube']  = FALSE;
+$IMConfig['Flickr']   = FALSE;
+
+// These are some configurable defaults for Flickr, to override
+//  $IMConfig['Flickr'] = array('Whatever' => 'You Want');
+$FlickrDefaults = array
+(
+  // This is the URL as flickr provides it for the licence which you wish 
+  // to search on by default.  The default here is the least restrictive one.
+  'Default License' => 'http://creativecommons.org/licenses/by/2.0/',
+    
+);  
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -299,6 +392,17 @@ if($passed_data = xinha_read_passed_data())
 {
   $IMConfig = array_merge($IMConfig, $passed_data);
   $IMConfig['backend_url'] .= xinha_passed_data_querystring() . '&';
+  
+  if($IMConfig['Flickr'])
+  {
+    foreach($FlickrDefaults as $k => $v)
+    {
+      if(!isset($IMConfig['Flickr'][$k]))
+      {
+        $IMConfig['Flickr'][$k] = $v;
+      }
+    }
+  }
 }
 // Deprecated config passing, don't use this way any more!
 elseif(isset($_REQUEST['backend_config']))

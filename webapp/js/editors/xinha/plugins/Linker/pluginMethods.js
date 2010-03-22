@@ -269,7 +269,9 @@ Linker.Dialog.prototype._prepareDialog = function()
   var files = this.linker.files;
 
   // Now we have everything we need, so we can build the dialog.
-  var dialog = this.dialog = new Xinha.Dialog(linker.editor, Linker.html, 'Linker',{width:600,height:400});
+  if(!linker.lConfig.dialog && Xinha.Dialog) linker.lConfig.dialog = Xinha.Dialog;
+  
+  var dialog = this.dialog = new linker.lConfig.dialog(linker.editor, Linker.html, 'Linker',{width:600,height:400});
   var dTreeName = Xinha.uniq('dTree_');
 
   this.dTree = new dTree(dTreeName, Xinha.getPluginDir("Linker") + '/dTree/');
@@ -352,7 +354,7 @@ Linker.Dialog.prototype._prepareDialog = function()
 };
 
 Linker.Dialog.prototype.makeNodes = function(files, parent)
-{
+{ 
   for(var i = 0; i < files.length; i++)
   {
     if(typeof files[i] == 'string')
@@ -405,7 +407,12 @@ Linker.Dialog.prototype.show = function(inputs, ok, cancel)
   {
     this.ddTree.innerHTML = this.dTree._linker_premade;
   }
-
+  
+  if(!this.linker.lConfig.canSetTarget)
+  {
+    this.dialog.getElementById('target_options').style.display = 'none';    
+  }
+  
   this.showOptionsForType(inputs.type);
   this.showOptionsForTarget(inputs.target);
   
@@ -521,6 +528,13 @@ Linker.Dialog.prototype.show = function(inputs, ok, cancel)
       clearBtn.onclick = function() { lDialog.removeLink(ok); };
     }
   }
+  
+  // It could be forced not be able to be removed, as is the case with link-picker.js
+  if(!this.linker.lConfig.canRemoveLink)
+  {
+    this.dialog.getElementById('clear').style.display = 'none';
+  }
+  
   // Connect the OK and Cancel buttons
   var dialog = this.dialog;
   var lDialog = this;

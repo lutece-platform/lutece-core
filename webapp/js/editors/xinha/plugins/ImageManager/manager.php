@@ -51,6 +51,25 @@
     <?php
   }
 ?>
+
+<script type="text/javascript">
+  function switchChooser(toChooserPanel)
+  {
+    var ourPanel =  document.getElementById(toChooserPanel);
+    if(!ourPanel) return false; // Can't change, doesn't exist.
+    
+    // hide all panels
+    var d = document.getElementById('chooserFieldset').getElementsByTagName('div');
+    for(i = 0; i < d.length; i++)
+    {
+      if(d[i].className.match(/chooserPanel/))
+        d[i].style.display = 'none';      
+    }
+    
+    // show ours
+    ourPanel.style.display = 'block';
+  }
+</script>
 </head>
 <body>
 
@@ -59,8 +78,44 @@
 <input type="hidden" name="__plugin" value="ImageManager" />
 <input type="hidden" name="__function" value="images" />
 
-<fieldset>
-  <legend>Image Manager</legend>
+<fieldset id="chooserFieldset">
+  <legend>
+    Choose From: 
+    <select onchange="switchChooser(this.options[this.selectedIndex].value)">
+    <?php
+      if($IMConfig['Local'])
+      {
+        ?>
+        <option value="picturesChooser">This Server</option>
+        <?php
+      }
+    ?>
+    
+    <?php
+      if($IMConfig['YouTube'])
+      {
+        ?>
+        <option value="youtubeChooser">YouTube Videos</option>
+        <?php
+      }
+    ?>
+    
+    <?php
+      if($IMConfig['Flickr'])
+      {
+        ?>
+        <option value="flickrChooser">Flickr Pictures</option>
+        <?php
+      }
+    ?>
+    </select>
+  </legend>
+    
+  <?php
+    if($IMConfig['Local'])
+    {
+      ?>
+  <div id="picturesChooser" class="chooserPanel">
   <table width="100%">
     <tr>
       <th><label for="dirPath">Directory</label></th>
@@ -110,7 +165,102 @@
   <div id="messages" style="display: none;"><span id="message"></span><img src="<?php print $IMConfig['base_url']; ?>img/dots.gif" width="22" height="12" alt="..." /></div>
 
   <iframe src="<?php print $IMConfig['backend_url']; ?>__function=images" name="imgManager" id="imgManager" class="imageFrame" scrolling="auto" title="Image Selection" frameborder="0"></iframe>
-
+  </div>
+  <?php
+    }
+  ?>
+  
+  <?php
+    if($IMConfig['YouTube'])
+    {
+      ?>
+      <div id="youtubeChooser" style="display:none" class="chooserPanel">
+            
+        <table width="100%">
+          <tr>
+            <th><labelfor="ytUsername">YouTube Username</label></th>
+            <td>
+              <input type="text" name="ytUsername" id="ytUsername" />
+            </td>
+            
+            <th><labelfor="ytSearch">Keyword</label></th>
+            <td>
+              <input type="text" name="ytSearch" id="ytSearch" />
+            </td>     
+            <td>
+              <input type="button" value="Search" onclick="document.getElementById('ytManager').src='<?php print $IMConfig['backend_url']; ?>__function=youtube&ytSearch='+document.getElementById('ytSearch').value+'&ytUsername='+document.getElementById('ytUsername').value;" />
+            </td>
+          </tr>    
+        </table>
+      
+        <div id="messages" style="display: none;"><span id="message"></span><img SRC="<?php print $IMConfig['base_url']; ?>img/dots.gif" width="22" height="12" alt="..." /></div>
+      
+        <iframe src="<?php print $IMConfig['backend_url']; ?>__function=youtube" name="ytManager" id="ytManager" class="imageFrame" scrolling="auto" title="YouTube Selection" frameborder="0"></iframe>
+    
+      </div>
+      <?php
+    }
+  ?>
+    
+  <?php
+    if($IMConfig['Flickr'])
+    {
+      require_once('Classes/Flickr.php');
+      $lics = flickr_get_license_id_by_usage(); 
+      ?>
+      <div id="flickrChooser" style="display:none" class="chooserPanel">
+        <script type="text/javascript">
+          function flickr_go()
+          {
+            var u = '<?php print $IMConfig['backend_url']; ?>__function=flickr';
+            u += '&flkSearch='  + encodeURIComponent(document.getElementById('flkSearch').value);
+            u += '&flkUsername='+ encodeURIComponent(document.getElementById('flkUsername').value);
+            u += '&flkLicense=' + encodeURIComponent( document.getElementById('flkLicense').options[document.getElementById('flkLicense').selectedIndex].value );
+            
+            document.getElementById('flkManager').src= u;            
+          }
+        </script>
+        <table width="100%">
+          <tr>
+            <th><labelfor="ytUsername">Flickr Username/Email</label></th>
+            <td>
+              <input type="text" name="flkUsername" id="flkUsername" />
+            </td>
+            
+            <th><labelfor="ytSearch">Keyword</label></th>
+            <td>
+              <input type="text" name="flkSearch" id="flkSearch" />
+            </td>     
+            <td>
+              <input type="button" value="Search" onclick="flickr_go();" />
+            </td>
+          </tr>    
+          <tr>
+            <th>Usage Restriction:</th>
+            <td colspan="3">
+              <select name="flkLicense" id="flkLicense"  onchange="flickr_go();">
+                <?php
+                  foreach($lics as $usage => $licid)
+                  {
+                    ?>
+                    <option value="<?php echo $licid ?>" <?php if(flickr_is_default_license($licid)) echo 'selected="selected"' ?>> <?php echo $licid ?> <?php echo htmlspecialchars($usage) ?></li>
+                    <?php
+                  }
+                ?>
+              </select>
+            </td>         
+            <td><a href="http://flickr.com/" target="_blank">flickr.com</a></td>
+          </tr>
+        </table>
+      
+        <div id="messages" style="display: none;"><span id="message"></span><img SRC="<?php print $IMConfig['base_url']; ?>img/dots.gif" width="22" height="12" alt="..." /></div>
+      
+        <iframe src="<?php print $IMConfig['backend_url']; ?>__function=flickr" name="flkManager" id="flkManager" class="imageFrame" scrolling="auto" title="Flickr Selection" frameborder="0"></iframe>
+    
+      </div>
+      <?php
+    }
+  ?>
 </fieldset>
 
 <!-- image properties -->
@@ -138,7 +288,21 @@
     </td>
     <th style="text-align: left;" class="fullOptions">Margin:</th>
     <td colspan="3" class="fullOptions">
-      <input name="f_margin" type="text" id="f_margin" size="3" />
+    <?php
+      if(@$IMConfig['UseHSpaceVSpace'])
+      {
+        ?>
+          <input name="f_hspace" type="text" id="f_hspace" size="3" />
+        x <input name="f_vspace" type="text" id="f_vspace" size="3" /> 
+        <?php
+      }
+      else
+      {
+        ?>
+        <input name="f_margin" type="text" id="f_margin" size="3" />
+        <?php
+      }
+    ?>      
       px </td>
   </tr>
 
