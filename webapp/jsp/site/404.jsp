@@ -3,7 +3,7 @@
 
 <%@page import="fr.paris.lutece.portal.service.i18n.I18nService"%><html>
 <head>
-	<title><%= I18nService.getLocalizedString("portal.error_404.error404.pageTitle", request.getLocale(  ) ) %></title>
+	<title><%= I18nService.getLocalizedString("portal.util.error404.pageTitle", request.getLocale(  ) ) %></title>
 	<base href="<%= AppPathService.getBaseUrl( request ) %>" />
 	<link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection" />
 	<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print" />
@@ -20,10 +20,10 @@
 </div>
 <div id="page" class="span-24 last">
 <div id="one-column-col1" class="span-22 prepend-1 append-1 last"><div class="portlet -lutece-border-radius append-bottom"><div class="portlet-content"><div class="-lutece-center -lutece-800px-width">&#160;
-<div class="portlet-header"><%= I18nService.getLocalizedString("portal.error_404.error404.title", request.getLocale(  ) ) %></div>
+<div class="portlet-header"><%= I18nService.getLocalizedString("portal.util.error404.title", request.getLocale(  ) ) %></div>
 <div class="portlet-content">
 <p>
-<%= I18nService.getLocalizedString("portal.error_404.error404.link", request.getLocale(  ) ) %> <a href="jsp/site/Portal.jsp"><%= I18nService.getLocalizedString("portal.error_404.error404.link2", request.getLocale(  ) ) %></a>.
+<%= I18nService.getLocalizedString("portal.util.error404.link", request.getLocale(  ) ) %> <a href="jsp/site/Portal.jsp"><%= I18nService.getLocalizedString("portal.util.error404.link2", request.getLocale(  ) ) %></a>.
 </p>
 </div>
 </div></div>
