@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business;
 
-import fr.paris.lutece.portal.business.features.FeaturesTest;
+import fr.paris.lutece.portal.business.right.LevelTest;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentTest;
 import fr.paris.lutece.portal.business.portlet.AliasPortletTest;
 import fr.paris.lutece.portal.business.portlet.PortletTypeTest;
@@ -67,7 +67,7 @@ public final class AllTests
         TestSuite suite = new TestSuite( "*** Tests Lutece core " );
 
         //$JUnit-BEGIN$
-        suite.addTest( new TestSuite( FeaturesTest.class ) );
+        suite.addTest( new TestSuite( LevelTest.class ) );
         suite.addTest( new TestSuite( PortalComponentTest.class ) );
         suite.addTest( new TestSuite( AliasPortletTest.class ) );
         suite.addTest( new TestSuite( PortletTypeTest.class ) );
