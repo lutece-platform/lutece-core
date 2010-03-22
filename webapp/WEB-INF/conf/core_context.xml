@@ -60,10 +60,6 @@
   <!-- package features -->
     <bean id="levelDAO"  class="fr.paris.lutece.portal.business.features.LevelDAO" />  
   
-  <!-- package group -->
-    <bean id="groupDAO"  class="fr.paris.lutece.portal.business.group.GroupDAO" />
-    <bean id="groupRoleDAO"  class="fr.paris.lutece.portal.business.group.GroupRoleDAO" />  
-  
   <!-- package mailinglist -->
     <bean id="mailingListDAO"  class="fr.paris.lutece.portal.business.mailinglist.MailingListDAO" />  
   
