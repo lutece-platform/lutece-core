@@ -34,8 +34,6 @@
 package fr.paris.lutece.portal.business;
 
 import fr.paris.lutece.portal.business.features.FeaturesTest;
-import fr.paris.lutece.portal.business.group.GroupRoleTest;
-import fr.paris.lutece.portal.business.group.GroupTest;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentTest;
 import fr.paris.lutece.portal.business.portlet.AliasPortletTest;
 import fr.paris.lutece.portal.business.portlet.PortletTypeTest;
@@ -70,8 +68,6 @@ public final class AllTests
 
         //$JUnit-BEGIN$
         suite.addTest( new TestSuite( FeaturesTest.class ) );
-        suite.addTest( new TestSuite( GroupTest.class ) );
-        suite.addTest( new TestSuite( GroupRoleTest.class ) );
         suite.addTest( new TestSuite( PortalComponentTest.class ) );
         suite.addTest( new TestSuite( AliasPortletTest.class ) );
         suite.addTest( new TestSuite( PortletTypeTest.class ) );
