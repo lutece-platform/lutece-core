@@ -104,7 +104,10 @@
     <url-pattern>/ViewStyleSheetFile</url-pattern>
   </servlet-mapping>
   
-  
+  <error-page>
+    <error-code>404</error-code>
+    <location>/jsp/site/404.jsp</location>
+  </error-page>
   
   <taglib>
     <taglib-uri>http://java.sun.com/portlet</taglib-uri>

@@ -399,9 +399,9 @@ public class PageService extends ContentService implements ImageResourceProvider
         }
         catch ( NumberFormatException nfe )
         {
-            AppLogService.info( "PageService.getPage() : " + nfe.getLocalizedMessage(  ) );
+            AppLogService.error( "PageService.getPage() : " + nfe.getLocalizedMessage(  ), nfe );
 
-            return PortalService.getDefaultPage( request, nMode );
+            throw new PageNotFoundException(  );
         }
     }
 
