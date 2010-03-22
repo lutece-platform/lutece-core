@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.portal.web.features;
 
-import fr.paris.lutece.portal.business.features.Level;
-import fr.paris.lutece.portal.business.features.LevelHome;
+import fr.paris.lutece.portal.business.right.Level;
+import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;

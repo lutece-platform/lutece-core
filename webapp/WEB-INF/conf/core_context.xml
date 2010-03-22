@@ -58,7 +58,7 @@
     
   <!--                       Data Access Objects                             -->  
   <!-- package features -->
-    <bean id="levelDAO"  class="fr.paris.lutece.portal.business.features.LevelDAO" />  
+    <bean id="levelDAO"  class="fr.paris.lutece.portal.business.right.LevelDAO" />
   
   <!-- package mailinglist -->
     <bean id="mailingListDAO"  class="fr.paris.lutece.portal.business.mailinglist.MailingListDAO" />  
