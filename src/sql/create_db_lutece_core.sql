@@ -128,25 +128,7 @@ CREATE TABLE core_feature_group (
 	PRIMARY KEY (id_feature_group)
 );
 
---
--- Table struture for table core_group
---
-DROP TABLE IF EXISTS core_group;
-CREATE TABLE core_group (
-	group_key varchar(100) default '0' NOT NULL,
-	group_description varchar(200) default NULL,
-	PRIMARY KEY (group_key)
-);
 
---
--- Table struture for table core_group_role
---
-DROP TABLE IF EXISTS core_group_role;
-CREATE TABLE core_group_role (
-	group_key varchar(100) default '0' NOT NULL,
-	role_key varchar(50) default '0' NOT NULL,
-	PRIMARY KEY (group_key,role_key)
-);
 
 --
 -- Table structure for table core_indexer_action
