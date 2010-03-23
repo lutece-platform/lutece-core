@@ -33,16 +33,15 @@
  */
 package fr.paris.lutece.portal.service.page;
 
+
 /**
- * 
+ *
  * Exception to throw when a page cannot be found
  */
 public class PageNotFoundException extends RuntimeException
 {
-
-	/**
-	 * serialVersionUID
-	 */
-	private static final long serialVersionUID = 1L;
-	
+    /**
+     * serialVersionUID
+     */
+    private static final long serialVersionUID = 1L;
 }

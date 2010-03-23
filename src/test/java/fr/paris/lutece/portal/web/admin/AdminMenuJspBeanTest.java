@@ -57,9 +57,10 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     private static final String TEST_USER_PASSWORD = "admin";
     private static final String TEST_LANGUAGE = "en";
     AdminUser _user = new AdminUser(  );
+
     {
-    	_user.setFirstName( "first_name" );
-    	_user.setLastName( "last_name" );
+        _user.setFirstName( "first_name" );
+        _user.setLastName( "last_name" );
     }
 
     /**

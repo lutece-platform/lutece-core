@@ -33,13 +33,13 @@
  */
 package fr.paris.lutece.portal.business;
 
-import fr.paris.lutece.portal.business.right.LevelTest;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentTest;
 import fr.paris.lutece.portal.business.portlet.AliasPortletTest;
 import fr.paris.lutece.portal.business.portlet.PortletTypeTest;
 import fr.paris.lutece.portal.business.rbac.AdminRoleTest;
 import fr.paris.lutece.portal.business.rbac.RBACTest;
 import fr.paris.lutece.portal.business.right.FeatureGroupTest;
+import fr.paris.lutece.portal.business.right.LevelTest;
 import fr.paris.lutece.portal.business.right.RightTest;
 import fr.paris.lutece.portal.business.role.RoleTest;
 import fr.paris.lutece.portal.business.style.ModeTest;

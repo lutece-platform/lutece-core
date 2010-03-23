@@ -77,7 +77,7 @@ public final class PortletDAO implements IPortletDAO
     private static final String SQL_QUERY_SELECT_PORTLET_ALIAS = " SELECT a.id_portlet FROM core_portlet a , core_portlet_alias b" +
         " WHERE a.id_portlet = b.id_portlet " + " AND b.id_alias= ? ";
     private static final String SQL_QUERY_SELECT_ALIASES_FOR_PORTLET = "SELECT p.id_portlet, p.id_page, p.name " +
-    		"FROM core_portlet_alias a JOIN core_portlet p ON p.id_portlet = a.id_portlet WHERE a.id_alias = ? ";
+        "FROM core_portlet_alias a JOIN core_portlet p ON p.id_portlet = a.id_portlet WHERE a.id_alias = ? ";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_NAME = " SELECT id_portlet , id_page , name FROM core_portlet WHERE name LIKE ? ";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_TYPE = " SELECT a.id_portlet, a.id_portlet_type, a.id_page, a.name, " +
         "a.date_update, a.status, a.portlet_order, a.column_no, a.id_style, a.accept_alias, a.date_creation, a.display_portlet_title" +
@@ -280,31 +280,31 @@ public final class PortletDAO implements IPortletDAO
 
         return list;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Collection<Portlet> selectAliasesForPortlet( int nPortletId )
     {
-    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALIASES_FOR_PORTLET );
-    	daoUtil.setInt( 1, nPortletId );
-    	daoUtil.executeQuery(  );
-    	
-    	List<Portlet> list = new ArrayList<Portlet>(  );
-    	
-    	while ( daoUtil.next(  ) )
-    	{
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALIASES_FOR_PORTLET );
+        daoUtil.setInt( 1, nPortletId );
+        daoUtil.executeQuery(  );
+
+        List<Portlet> list = new ArrayList<Portlet>(  );
+
+        while ( daoUtil.next(  ) )
+        {
             PortletImpl portlet = new PortletImpl(  );
             portlet.setId( daoUtil.getInt( 1 ) );
             portlet.setPageId( daoUtil.getInt( 2 ) );
             portlet.setName( daoUtil.getString( 3 ) );
 
             list.add( portlet );
-    	}
-    	
-    	daoUtil.free(  );
-    	
-    	return list;
+        }
+
+        daoUtil.free(  );
+
+        return list;
     }
 
     /**

@@ -51,7 +51,6 @@ public class AppPathServiceTest extends LuteceTestCase
     //TODO D�comenter les virtuals host dans config.properties...
     private static final String PROPERTY_VIRTUAL_HOST_KEY_PARAMETER = "virtualHostKey.parameterName";
     private static final String PROPERTY_BASE_URL = "lutece.base.url";
-    
     private static final String FRAGMENT_END_PATH_XSL = "/WEB-INF/xsl/";
     private static final String FRAGMENT_END_PATH_CONF = "/WEB-INF/conf/";
     private static final String FRAGMENT_END_PATH_TEMPLATES = "/WEB-INF/templates";
@@ -92,10 +91,11 @@ public class AppPathServiceTest extends LuteceTestCase
      * Test of getWebAppPath method, of class fr.paris.lutece.portal.service.util.AppPathService.
      * FIXME : uncomment this method when a better way to find real app path is found.
      */
+
     /*public void testGetWebAppPath(  )
     {
         System.out.println( "getWebAppPath" );
-
+    
         String expResult = WEBAPP_PATH;
         String result = AppPathService.getWebAppPath(  );
         assertNotNull( result );
@@ -125,12 +125,13 @@ public class AppPathServiceTest extends LuteceTestCase
      * Test of getAbsolutePathFromRelativePath method, of class fr.paris.lutece.portal.service.util.AppPathService.
      * FIXME : uncomment this method when a better way to find real app path is found.
      */
+
     /*public void testGetAbsolutePathFromRelativePath(  )
     {
         System.out.println( "getAbsolutePathFromRelativePath" );
-
+    
         String strDirectory = FRAGMENT_END_PATH_TEMPLATES;
-
+    
         String expResult = strDirectory;
         String result = AppPathService.getAbsolutePathFromRelativePath( strDirectory );
         assertNotNull( result );

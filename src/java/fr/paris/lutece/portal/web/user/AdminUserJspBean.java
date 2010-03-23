@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.web.user;
 
-import fr.paris.lutece.portal.business.right.Level;
-import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
+import fr.paris.lutece.portal.business.right.Level;
+import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;

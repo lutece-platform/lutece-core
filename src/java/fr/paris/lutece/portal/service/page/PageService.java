@@ -171,7 +171,7 @@ public class PageService extends ContentService implements ImageResourceProvider
 
         ImageResourceManager.registerProvider( this );
         addPageEventListener( this );
-        
+
         Page.init(  );
     }
 
@@ -734,13 +734,15 @@ public class PageService extends ContentService implements ImageResourceProvider
         {
             for ( String strKeyTemp : (List<String>) getCache(  ).getKeys(  ) )
             {
-            	// FIXME Portal.jsp (welcome page) is cached as "mode0", and is actually page_id = 1.
-                if ( strKeyTemp.indexOf( strKey ) != -1 || ( WELCOME_PAGE_ID.equals( strIdPage ) && WELCOME_PAGE_CACHE_KEY.equals( strKeyTemp  ) ) )
+                // FIXME Portal.jsp (welcome page) is cached as "mode0", and is actually page_id = 1.
+                if ( ( strKeyTemp.indexOf( strKey ) != -1 ) ||
+                        ( WELCOME_PAGE_ID.equals( strIdPage ) && WELCOME_PAGE_CACHE_KEY.equals( strKeyTemp ) ) )
                 {
                     getCache(  ).remove( strKeyTemp );
+
                     if ( AppLogService.isDebugEnabled(  ) )
                     {
-                    	AppLogService.debug( "Page (cache key : " + strKeyTemp + ") removed from the cache." );
+                        AppLogService.debug( "Page (cache key : " + strKeyTemp + ") removed from the cache." );
                     }
                 }
             }
@@ -838,6 +840,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     {
         Page page = event.getPage(  );
         invalidatePage( page.getId(  ) );
+
         // Clearing ALL cache is not needed anymore
         //PortalService.resetCache(  );
     }
