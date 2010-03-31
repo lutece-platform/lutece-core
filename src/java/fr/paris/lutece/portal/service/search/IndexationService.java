@@ -57,13 +57,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * This class provides management methods for indexing
  */
 public final class IndexationService
 {
     // Constants corresponding to the variables defined in the lutece.properties file
-
     public static final String PATH_INDEX = "search.lucene.indexPath";
     public static final String PARAM_FORCING = "forcing";
     public static final int ALL_DOCUMENT = -1;
@@ -77,7 +77,7 @@ public final class IndexationService
     private static int _nWriterMergeFactor;
     private static int _nWriterMaxFieldLength;
     private static Analyzer _analyzer;
-    private static Map<String, SearchIndexer> _mapIndexers = new HashMap<String, SearchIndexer>();
+    private static Map<String, SearchIndexer> _mapIndexers = new HashMap<String, SearchIndexer>(  );
     private static IndexationService _singleton;
     private static IndexWriter _writer;
     private static StringBuffer _sbLogs;
@@ -85,7 +85,7 @@ public final class IndexationService
     /**
      * The private constructor
      */
-    private IndexationService()
+    private IndexationService(  )
     {
     }
 
@@ -93,11 +93,11 @@ public final class IndexationService
      *
      * @return singleton
      */
-    public static IndexationService getInstance()
+    public static IndexationService getInstance(  )
     {
         if ( _singleton == null )
         {
-            _singleton = new IndexationService();
+            _singleton = new IndexationService(  );
         }
 
         return _singleton;
@@ -107,7 +107,7 @@ public final class IndexationService
      * Initalizes the service
      * @throws LuteceInitException If an error occured
      */
-    public static void init() throws LuteceInitException
+    public static void init(  ) throws LuteceInitException
     {
         // Read configuration properties
         _strIndex = AppPathService.getPath( PATH_INDEX );
@@ -131,7 +131,7 @@ public final class IndexationService
 
         try
         {
-            _analyzer = ( Analyzer ) Class.forName( strAnalyserClassName ).newInstance();
+            _analyzer = (Analyzer) Class.forName( strAnalyserClassName ).newInstance(  );
         }
         catch ( Exception e )
         {
@@ -145,14 +145,14 @@ public final class IndexationService
      */
     public static void registerIndexer( SearchIndexer indexer )
     {
-        if( indexer instanceof SearchIndexer  )
+        if ( indexer instanceof SearchIndexer )
         {
-            _mapIndexers.put( indexer.getName(), indexer );
-            AppLogService.info( "New search indexer registered : " + indexer.getName() );
+            _mapIndexers.put( indexer.getName(  ), indexer );
+            AppLogService.info( "New search indexer registered : " + indexer.getName(  ) );
         }
         else
         {
-            AppLogService.info( "Bad search indexer not registered : " + indexer.getName() );
+            AppLogService.info( "Bad search indexer not registered : " + indexer.getName(  ) );
         }
     }
 
@@ -164,7 +164,7 @@ public final class IndexationService
     public static synchronized String processIndexing( boolean bCreate )
     {
         // String buffer for building the response page;
-        _sbLogs = new StringBuffer();
+        _sbLogs = new StringBuffer(  );
 
         _writer = null;
 
@@ -177,7 +177,7 @@ public final class IndexationService
                 bCreateIndex = true;
             }
 
-            Date start = new Date();
+            Date start = new Date(  );
             _writer = new IndexWriter( _strIndex, _analyzer, bCreateIndex );
             _writer.setMergeFactor( _nWriterMergeFactor );
             _writer.setMaxFieldLength( _nWriterMaxFieldLength );
@@ -186,41 +186,41 @@ public final class IndexationService
             {
                 _sbLogs.append( "\r\nIndexing all contents ...\r\n" );
 
-                for ( SearchIndexer indexer : _mapIndexers.values() )
+                for ( SearchIndexer indexer : _mapIndexers.values(  ) )
                 {
                     // catch any exception coming from an indexer to prevent global indexation to fail
                     try
                     {
-                        if ( indexer.isEnable() )
+                        if ( indexer.isEnable(  ) )
                         {
                             _sbLogs.append( "\r\n<strong>Indexer : " );
-                            _sbLogs.append( indexer.getName() );
+                            _sbLogs.append( indexer.getName(  ) );
                             _sbLogs.append( " - " );
-                            _sbLogs.append( indexer.getDescription() );
+                            _sbLogs.append( indexer.getDescription(  ) );
                             _sbLogs.append( "</strong>\r\n" );
 
                             //the indexer will call write(doc)
-                            indexer.indexDocuments();
+                            indexer.indexDocuments(  );
                         }
                     }
                     catch ( Exception e )
                     {
                         _sbLogs.append( "\r\n<strong>Indexer : " );
-                        _sbLogs.append( indexer.getName() );
+                        _sbLogs.append( indexer.getName(  ) );
                         _sbLogs.append( " - ERROR : " );
-                        _sbLogs.append( e.getMessage() + " : " + e.getCause().getMessage() );
+                        _sbLogs.append( e.getMessage(  ) + " : " + e.getCause(  ).getMessage(  ) );
                         _sbLogs.append( "</strong>\r\n" );
                     }
                 }
 
-                removeAllIndexerAction();
+                removeAllIndexerAction(  );
             }
             else
             {
                 _sbLogs.append( "\r\nIncremental Indexing ...\r\n" );
 
                 //incremental indexing
-                Collection<IndexerAction> actions = IndexerActionHome.getList();
+                Collection<IndexerAction> actions = IndexerActionHome.getList(  );
 
                 /*if(actions.size() < 1)
                 {
@@ -231,58 +231,60 @@ public final class IndexationService
                     // catch any exception coming from an indexer to prevent global indexation to fail
                     try
                     {
-                        SearchIndexer indexer = _mapIndexers.get( action.getIndexerName() );
+                        SearchIndexer indexer = _mapIndexers.get( action.getIndexerName(  ) );
 
-                        if ( action.getIdTask() == IndexerAction.TASK_DELETE )
+                        if ( action.getIdTask(  ) == IndexerAction.TASK_DELETE )
                         {
-                            if ( action.getIdPortlet() != ALL_DOCUMENT )
+                            if ( action.getIdPortlet(  ) != ALL_DOCUMENT )
                             {
                                 //delete only the index linked to this portlet
                                 _writer.deleteDocuments( new Term( SearchItem.FIELD_DOCUMENT_PORTLET_ID,
-                                        action.getIdDocument() + "&" + Integer.toString( action.getIdPortlet() ) ) );
+                                        action.getIdDocument(  ) + "&" + Integer.toString( action.getIdPortlet(  ) ) ) );
                             }
                             else
                             {
                                 //delete all index linked to uid
-                                _writer.deleteDocuments( new Term( SearchItem.FIELD_UID, action.getIdDocument() ) );
+                                _writer.deleteDocuments( new Term( SearchItem.FIELD_UID, action.getIdDocument(  ) ) );
                             }
 
                             _sbLogs.append( "Deleting " );
                             _sbLogs.append( " #" );
-                            _sbLogs.append( action.getIdDocument() );
+                            _sbLogs.append( action.getIdDocument(  ) );
                             _sbLogs.append( "\r\n" );
                         }
                         else
                         {
-                            List<org.apache.lucene.document.Document> luceneDocuments = indexer.getDocuments( action.getIdDocument() );
+                            List<org.apache.lucene.document.Document> luceneDocuments = indexer.getDocuments( action.getIdDocument(  ) );
 
-                            if ( ( luceneDocuments != null ) && ( luceneDocuments.size() > 0 ) )
+                            if ( ( luceneDocuments != null ) && ( luceneDocuments.size(  ) > 0 ) )
                             {
                                 for ( org.apache.lucene.document.Document doc : luceneDocuments )
                                 {
-                                    if ( ( action.getIdPortlet() == ALL_DOCUMENT )
-                                            || ( ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) != null )
-                                            && ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ).equals( doc.get( SearchItem.FIELD_UID ) + "&"
-                                            + action.getIdPortlet() ) ) ) )
+                                    if ( ( action.getIdPortlet(  ) == ALL_DOCUMENT ) ||
+                                            ( ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) != null ) &&
+                                            ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID )
+                                                     .equals( doc.get( SearchItem.FIELD_UID ) + "&" +
+                                                action.getIdPortlet(  ) ) ) ) )
                                     {
-                                        if ( action.getIdTask() == IndexerAction.TASK_CREATE )
+                                        if ( action.getIdTask(  ) == IndexerAction.TASK_CREATE )
                                         {
                                             _writer.addDocument( doc );
                                             _sbLogs.append( "Adding " );
                                         }
-                                        else if ( action.getIdTask() == IndexerAction.TASK_MODIFY )
+                                        else if ( action.getIdTask(  ) == IndexerAction.TASK_MODIFY )
                                         {
-                                            if ( action.getIdPortlet() != ALL_DOCUMENT )
+                                            if ( action.getIdPortlet(  ) != ALL_DOCUMENT )
                                             {
                                                 //delete only the index linked to this portlet
-                                                _writer.updateDocument( new Term( SearchItem.FIELD_DOCUMENT_PORTLET_ID,
+                                                _writer.updateDocument( new Term( 
+                                                        SearchItem.FIELD_DOCUMENT_PORTLET_ID,
                                                         doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) ), doc );
                                                 _sbLogs.append( "Updating " );
                                             }
                                             else
                                             {
                                                 _writer.updateDocument( new Term( SearchItem.FIELD_UID,
-                                                        doc.getField( SearchItem.FIELD_UID ).stringValue() ), doc );
+                                                        doc.getField( SearchItem.FIELD_UID ).stringValue(  ) ), doc );
                                                 _sbLogs.append( "Updating " );
                                             }
                                         }
@@ -298,40 +300,41 @@ public final class IndexationService
                             }
                         }
 
-                        removeIndexerAction( action.getIdAction() );
+                        removeIndexerAction( action.getIdAction(  ) );
                     }
                     catch ( Exception e )
                     {
                         _sbLogs.append( "\r\n<strong>Action from indexer : " );
-                        _sbLogs.append( action.getIndexerName() );
-                        _sbLogs.append( " Action ID : " + action.getIdAction() + " - Document ID : " + action.getIdDocument() );
+                        _sbLogs.append( action.getIndexerName(  ) );
+                        _sbLogs.append( " Action ID : " + action.getIdAction(  ) + " - Document ID : " +
+                            action.getIdDocument(  ) );
                         _sbLogs.append( " - ERROR : " );
-                        _sbLogs.append( e.getMessage() + " : " + e.getCause().getMessage() );
+                        _sbLogs.append( e.getMessage(  ) + " : " + e.getCause(  ).getMessage(  ) );
                         _sbLogs.append( "</strong>\r\n" );
                     }
                 }
 
                 //reindexing all pages.
                 _writer.deleteDocuments( new Term( SearchItem.FIELD_TYPE, PARAM_TYPE_PAGE ) );
-                _mapIndexers.get( PageIndexer.INDEXER_NAME ).indexDocuments();
+                _mapIndexers.get( PageIndexer.INDEXER_NAME ).indexDocuments(  );
             }
 
             _sbLogs.append( "\r\nOptimization of the index for the current site...\r\n\r\n" );
-            _writer.optimize();
+            _writer.optimize(  );
 
-            Date end = new Date();
+            Date end = new Date(  );
             _sbLogs.append( "Duration of the treatment : " );
-            _sbLogs.append( end.getTime() - start.getTime() );
+            _sbLogs.append( end.getTime(  ) - start.getTime(  ) );
             _sbLogs.append( " milliseconds\r\n" );
         }
         catch ( Exception e )
         {
             _sbLogs.append( " caught a " );
-            _sbLogs.append( e.getClass() );
+            _sbLogs.append( e.getClass(  ) );
             _sbLogs.append( "\n with message: " );
-            _sbLogs.append( e.getMessage() );
+            _sbLogs.append( e.getMessage(  ) );
             _sbLogs.append( "\r\n" );
-            AppLogService.error( "Indexing error : " + e.getMessage(), e );
+            AppLogService.error( "Indexing error : " + e.getMessage(  ), e );
         }
         finally
         {
@@ -339,16 +342,16 @@ public final class IndexationService
             {
                 if ( _writer != null )
                 {
-                    _writer.close();
+                    _writer.close(  );
                 }
             }
             catch ( IOException e )
             {
-                AppLogService.error( e.getMessage(), e );
+                AppLogService.error( e.getMessage(  ), e );
             }
         }
 
-        return _sbLogs.toString();
+        return _sbLogs.toString(  );
     }
 
     /**
@@ -373,7 +376,7 @@ public final class IndexationService
      * Gets the current index
      * @return The index
      */
-    public static String getIndex()
+    public static String getIndex(  )
     {
         return _strIndex;
     }
@@ -382,7 +385,7 @@ public final class IndexationService
      * Gets the current analyser
      * @return The analyser
      */
-    public static Analyzer getAnalyser()
+    public static Analyzer getAnalyser(  )
     {
         return _analyzer;
     }
@@ -391,9 +394,9 @@ public final class IndexationService
      * Returns all search indexers
      * @return A collection of indexers
      */
-    public static Collection<SearchIndexer> getIndexers()
+    public static Collection<SearchIndexer> getIndexers(  )
     {
-        return _mapIndexers.values();
+        return _mapIndexers.values(  );
     }
 
     /**
@@ -403,7 +406,7 @@ public final class IndexationService
      */
     public static List<IndexerAction> getAllIndexerActionByTask( int nIdTask )
     {
-        IndexerActionFilter filter = new IndexerActionFilter();
+        IndexerActionFilter filter = new IndexerActionFilter(  );
         filter.setIdTask( nIdTask );
 
         return IndexerActionHome.getList( filter );
@@ -423,9 +426,9 @@ public final class IndexationService
      * Remove all Indexer Action
      *
      */
-    public static void removeAllIndexerAction()
+    public static void removeAllIndexerAction(  )
     {
-        IndexerActionHome.removeAll();
+        IndexerActionHome.removeAll(  );
     }
 
     /**
@@ -437,7 +440,7 @@ public final class IndexationService
      */
     public static void addIndexerAction( String strIdDocument, String indexerName, int nIdTask, int nIdPortlet )
     {
-        IndexerAction indexerAction = new IndexerAction();
+        IndexerAction indexerAction = new IndexerAction(  );
         indexerAction.setIdDocument( strIdDocument );
         indexerAction.setIdTask( nIdTask );
         indexerAction.setIndexerName( indexerName );
