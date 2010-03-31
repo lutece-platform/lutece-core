@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import java.sql.Timestamp;
 import java.util.Comparator;
 
 
@@ -97,6 +98,14 @@ public class AttributeComparator implements Comparator<Object>
                 else if ( strReturnType.equals( "int" ) )
                 {
                     nStatus = ( (Integer) method1.invoke( o1 ) ).compareTo( (Integer) method2.invoke( o2 ) );
+                }
+                else if ( strReturnType.equals( "boolean" ) )
+                {
+                    nStatus = ( (Boolean) method1.invoke( o1 ) ).compareTo( (Boolean) method2.invoke( o2 ) );
+                }
+                else if ( strReturnType.equals( "java.sql.Timestamp" ) )
+                {
+                    nStatus = ( (Timestamp) method1.invoke( o1 ) ).compareTo( (Timestamp) method2.invoke( o2 ) );
                 }
             }
             catch ( IllegalArgumentException e )
