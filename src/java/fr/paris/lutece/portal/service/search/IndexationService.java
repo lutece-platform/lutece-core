@@ -140,6 +140,23 @@ public final class IndexationService
     }
 
     /**
+     * Register an indexer
+     * @param indexer The indexer to add to the registry
+     */
+    public static void registerIndexer( SearchIndexer indexer )
+    {
+        if( indexer instanceof SearchIndexer  )
+        {
+            _mapIndexers.put( indexer.getName(), indexer );
+            AppLogService.info( "New search indexer registered : " + indexer.getName() );
+        }
+        else
+        {
+            AppLogService.info( "Bad search indexer not registered : " + indexer.getName() );
+        }
+    }
+
+    /**
      * Process the indexing
      * @param bCreate Force creating the index
      * @return the result log of the indexing
@@ -350,16 +367,6 @@ public final class IndexationService
         _sbLogs.append( " - " );
         _sbLogs.append( doc.get( SearchItem.FIELD_TITLE ) );
         _sbLogs.append( "\r\n" );
-    }
-
-    /**
-     * Register an indexer
-     * @param indexer The indexer to add to the registry
-     */
-    public static void registerIndexer( SearchIndexer indexer )
-    {
-        _mapIndexers.put( indexer.getName(), indexer );
-        AppLogService.info( "New search indexer registered : " + indexer.getName() );
     }
 
     /**
