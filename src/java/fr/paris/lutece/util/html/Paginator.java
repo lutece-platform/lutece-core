@@ -33,18 +33,18 @@
  */
 package fr.paris.lutece.util.html;
 
-import fr.paris.lutece.util.url.UrlItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.util.url.UrlItem;
+
 
 /**
  * Paginator provides a way to display a collection of items on severals pages.
  */
-public class Paginator
+public class Paginator<E>
 {
     /** Default value for Page Index Parameter */
     public static final String PARAMETER_PAGE_INDEX = "page_index";
@@ -56,7 +56,7 @@ public class Paginator
     private String _strPageIndexParameterName;
     private int _nItemPerPage;
     private String _strBaseUrl;
-    private List _list;
+    private List<E> _list;
     private int _nPageCurrent;
 
     /**
@@ -67,7 +67,7 @@ public class Paginator
      * @param strPageIndexParameterName The parameter name for the page index
      * @param strPageIndex The current page index
      */
-    public Paginator( List list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
+    public Paginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
         String strPageIndex )
     {
         _list = list;
@@ -107,7 +107,7 @@ public class Paginator
      *
      * @return The List
      */
-    public List getPageItems(  )
+    public List<E> getPageItems(  )
     {
         int nStartIndex = ( _nPageCurrent - 1 ) * _nItemPerPage;
         int nMax = _list.size(  );
@@ -118,7 +118,7 @@ public class Paginator
             nMax = nMaxPage;
         }
 
-        List list = new ArrayList(  );
+        List<E> list = new ArrayList<E>(  );
 
         for ( int i = nStartIndex; i < nMax; i++ )
         {
