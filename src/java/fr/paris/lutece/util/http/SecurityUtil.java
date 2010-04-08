@@ -50,16 +50,15 @@ import javax.servlet.http.HttpServletRequest;
 public final class SecurityUtil
 {
     private static final String LOGGER_NAME = "lutece.security.http";
+
     //private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
     private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
-    
 
     /**
      * Private Constructor
      */
     private SecurityUtil(  )
     {
-        
     }
 
     /**
@@ -78,12 +77,12 @@ public final class SecurityUtil
         {
             key = (String) e.nextElement(  );
             values = request.getParameterValues( key );
-      
+
             int length = values.length;
 
             for ( int i = 0; i < length; i++ )
             {
-                if( SecurityUtil.containsXssCharacters( request, values[i] ) )
+                if ( SecurityUtil.containsXssCharacters( request, values[i] ) )
                 {
                     Logger logger = Logger.getLogger( LOGGER_NAME );
                     logger.warn( "SECURITY WARNING : INVALID REQUEST PARAMETERS" + dumpRequest( request ) );
