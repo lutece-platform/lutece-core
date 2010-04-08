@@ -129,7 +129,7 @@ public final class JobSchedulerService
             try
             {
                 _scheduler.shutdown(  );
-                AppLogService.info( "Lutece job scheduler stoped." );
+                AppLogService.info( "Lutece job scheduler stopped." );
             }
             catch ( SchedulerException e )
             {

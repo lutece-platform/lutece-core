@@ -126,9 +126,8 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     {
         String strTheme = request.getParameter( PARAMETER_THEME );
         String strForwardUrl = request.getParameter( PARAMETER_URL );
-        String strPattern = "/ [^A-z]/";
 
-        if ( !SecurityUtil.containsCleanParameters( request ) )
+        if ( ! SecurityUtil.containsCleanParameters( request ) )
         {
             return AppPathService.getBaseUrl( request );
         }
