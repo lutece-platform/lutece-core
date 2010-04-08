@@ -9,7 +9,7 @@
     <groupId>fr.paris.lutece</groupId>
     <artifactId>lutece-core</artifactId>
     <packaging>lutece-core</packaging>
-    <version>2.3.7-SNAPSHOT</version>
+    <version>2.3.7</version>
     <name>Lutece</name>
     <url>http://dev.lutece.paris.fr/</url>
     
@@ -177,9 +177,9 @@
     </dependencies>
     
     <scm>
-        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/core</connection>
-        <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/core</developerConnection>
-        <url>http://dev.lutece.paris.fr/viewvc/portal/trunk/core/</url>
+        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/tags/lutece-core-2.3.7</connection>
+        <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/tags/lutece-core-2.3.7</developerConnection>
+        <url>http://dev.lutece.paris.fr/viewvc/portal/tags/lutece-core-2.3.7</url>
     </scm>
     
     <distributionManagement>
