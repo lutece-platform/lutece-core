@@ -32,8 +32,11 @@ ${plugins_css_links}
 <!--[if IE]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
 <link rel="stylesheet" href="css/commons.css" type="text/css" media="screen, projection" />
 
-<link rel="stylesheet" href="${theme.pathCss}/page_template_styles.css" type="text/css" media="screen, projection" />
-
+<#if plugin_theme?? >
+	<link rel="stylesheet"  href="${plugin_theme.pathCss}/page_template_styles.css" type="text/css"  media="screen" />
+<#else>
+	<link rel="stylesheet" href="${theme.pathCss}/page_template_styles.css" type="text/css" media="screen, projection" />
+</#if>
 
 <link rel="shortcut icon" href="favicon.ico" />
 

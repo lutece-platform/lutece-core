@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
+import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.ContentServiceEntry;
 import fr.paris.lutece.portal.service.content.XPageAppService;
@@ -65,6 +66,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -97,6 +100,7 @@ public abstract class Plugin implements Comparable<Plugin>
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
     private ContentService _contentService;
+    
 
     // Lists of rights and portlets of the plugin
     private List<XPageApplicationEntry> _listXPageApplications;
@@ -137,7 +141,7 @@ public abstract class Plugin implements Comparable<Plugin>
             _strVersion = pluginFile.getVersion(  );
             _strDescription = pluginFile.getDescription(  );
             _strProvider = pluginFile.getProvider(  );
-            _strProviderUrl = pluginFile.getProviderUrl(  );
+            _strProviderUrl = pluginFile.getProviderUrl(  );           
 
             String strDefaultIconUrl = AppPropertiesService.getProperty( PROPERTY_DEFAULT_ICON_URL );
             _strIconUrl = pluginFile.getIconUrl(  ).equals( "" ) ? strDefaultIconUrl : pluginFile.getIconUrl(  );
@@ -984,6 +988,15 @@ public abstract class Plugin implements Comparable<Plugin>
     public List<String> getCssStyleSheets(  )
     {
         return _listCssStyleSheets;
+    }
+    
+    /**
+     * Returns the theme the plugin use for rendering a Xpage
+     * @return The theme
+     */
+    public Theme getXPageTheme( HttpServletRequest request )
+    {
+        return null;
     }
 
     /**

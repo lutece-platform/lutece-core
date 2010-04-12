@@ -33,12 +33,14 @@
  */
 package fr.paris.lutece.portal.web.includes;
 
+import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.Collection;
@@ -55,13 +57,16 @@ import javax.servlet.http.HttpServletRequest;
 public class LinksInclude implements PageInclude
 {
     private static final String PROPERTY_FAVOURITE = "lutece.favourite";
+    
+    private static final String PARAMETER_PAGE = "page";    
     private static final String MARK_FAVOURITE = "favourite";
+    private static final String MARK_PLUGIN_THEME_CSS = "plugin_theme";
     private static final String MARK_PLUGINS_CSS_LINKS = "plugins_css_links";
     private static final String MARK_PLUGINS_JAVASCRIPT_LINKS = "plugins_javascript_links";
     private static final String MARK_PLUGIN_CSS_STYLESHEET = "plugin_css_stylesheet";
     private static final String MARK_PLUGIN_JAVASCRIPT_FILE = "plugin_javascript_file";
     private static final String MARK_CSS_PREFIX = "css_prefix";
-    private static final String TEMPLATE_PLUGIN_CSS_LINK = "skin/site/plugin_css_link.html";
+    private static final String TEMPLATE_PLUGIN_CSS_LINK = "skin/site/plugin_css_link.html"; 
     private static final String TEMPLATE_PLUGIN_JAVASCRIPT_LINK = "skin/site/plugin_javascript_link.html";
     private static final String PREFIX_PLUGINS_CSS = "css/plugins/";
     private static final String ABSOLUTE_URL = "http://";
@@ -114,10 +119,26 @@ public class LinksInclude implements PageInclude
                         model.put( MARK_PLUGIN_JAVASCRIPT_FILE, strJavascriptFile );
 
                         HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale,
-                                model );
+                        		model );
                         sbJsLinks.append( tJs.getHtml(  ) );
                     }
                 }
+
+                String strPage = request.getParameter( PARAMETER_PAGE );
+                Theme xpageTheme = plugin.getXPageTheme( request );
+                if( ( strPage != null ) && ( xpageTheme != null ) )
+        		{                	
+                	for( XPageApplicationEntry entry : plugin.getApplications( ))
+                	{
+                		
+                		if( strPage.equals( entry.getId( ) ) )
+            			{
+                			 rootModel.put(MARK_PLUGIN_THEME_CSS, xpageTheme );
+            			}
+                		
+                	}                	
+                   
+        		}
             }
         }
 
