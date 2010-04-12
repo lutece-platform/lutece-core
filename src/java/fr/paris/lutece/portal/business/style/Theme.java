@@ -46,6 +46,7 @@ public class Theme implements Serializable
     private String _strThemeDescription;
     private String _strPathImages;
     private String _strPathCss;
+    private String _strPathJs;
     private String _strThemeAuthor;
     private String _strThemeAuthorUrl;
     private String _strThemeVersion;
@@ -129,6 +130,26 @@ public class Theme implements Serializable
     public void setPathCss( String strPathCss )
     {
         _strPathCss = strPathCss;
+    }
+    
+    /**
+     * Returns the _strPathJs
+     *
+     * @return the _strPathJs
+     */
+    public String getPathJs(  )
+    {
+        return _strPathJs;
+    }
+
+    /**
+     * Sets the _strPathJs
+     *
+     * @param strPathJs the _strPathJs to set
+     */
+    public void setPathJs( String strPathJs )
+    {
+    	_strPathJs = strPathJs;
     }
 
     /**

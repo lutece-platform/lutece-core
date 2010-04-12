@@ -358,6 +358,7 @@ CREATE TABLE  core_theme (
   theme_author_url varchar(255),
   theme_version varchar(255) NOT NULL,
   theme_licence varchar(255) NOT NULL,
+  path_js varchar(255) NOT NULL,
   PRIMARY KEY (code_theme)
 );
 

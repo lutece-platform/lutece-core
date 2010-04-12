@@ -46,15 +46,15 @@ import java.util.Collection;
 public final class ThemeDAO implements IThemeDAO
 {
     private static final String SQL_QUERY_SELECT = " SELECT code_theme, theme_description, path_images, path_css, theme_author, " +
-        " theme_author_url, theme_version, theme_licence FROM core_theme WHERE code_theme = ?";
+        " theme_author_url, theme_version, theme_licence, path_js FROM core_theme WHERE code_theme = ?";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_theme ( code_theme, theme_description, path_images, path_css," +
-        " theme_author, theme_author_url, theme_version, theme_licence ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? )";
+        " theme_author, theme_author_url, theme_version, theme_licence, path_js ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? )";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_theme WHERE code_theme = ?";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_theme SET theme_description = ?, path_images = ?, " +
         " path_css = ? , theme_author = ?, theme_author_url = ?, theme_version = ?, " +
-        " theme_licence = ? WHERE code_theme = ?";
+        " theme_licence = ?, path_js = ? WHERE code_theme = ?";
     private static final String SQL_QUERY_SELECTALL = " SELECT code_theme, theme_description, path_images, path_css, theme_author, " +
-        " theme_author_url, theme_version, theme_licence FROM core_theme ORDER BY code_theme";
+        " theme_author_url, theme_version, theme_licence, path_js FROM core_theme ORDER BY code_theme";
     private static final String SQL_QUERY_SELECT_THEME = " SELECT code_theme, theme_description FROM core_theme";
     private static final String SQL_QUERY_SELECT_GLOBAL_THEME = " SELECT global_theme_code FROM core_theme_global ";
     private static final String SQL_QUERY_UPDATE_GLOBAL_THEME = " UPDATE core_theme_global SET global_theme_code = ? ";
@@ -74,6 +74,7 @@ public final class ThemeDAO implements IThemeDAO
         daoUtil.setString( 6, theme.getThemeAuthorUrl(  ) );
         daoUtil.setString( 7, theme.getThemeVersion(  ) );
         daoUtil.setString( 8, theme.getThemeLicence(  ) );
+        daoUtil.setString( 9, theme.getPathJs(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -101,6 +102,7 @@ public final class ThemeDAO implements IThemeDAO
             theme.setThemeAuthorUrl( daoUtil.getString( 6 ) );
             theme.setThemeVersion( daoUtil.getString( 7 ) );
             theme.setThemeLicence( daoUtil.getString( 8 ) );
+            theme.setPathJs( daoUtil.getString( 9 ) );
         }
 
         daoUtil.free(  );
@@ -133,7 +135,8 @@ public final class ThemeDAO implements IThemeDAO
         daoUtil.setString( 5, theme.getThemeAuthorUrl(  ) );
         daoUtil.setString( 6, theme.getThemeVersion(  ) );
         daoUtil.setString( 7, theme.getThemeLicence(  ) );
-        daoUtil.setString( 8, theme.getCodeTheme(  ) );
+        daoUtil.setString( 8, theme.getPathJs(  ) );
+        daoUtil.setString( 9, theme.getCodeTheme(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -160,6 +163,7 @@ public final class ThemeDAO implements IThemeDAO
             theme.setThemeAuthorUrl( daoUtil.getString( 6 ) );
             theme.setThemeVersion( daoUtil.getString( 7 ) );
             theme.setThemeLicence( daoUtil.getString( 8 ) );
+            theme.setPathJs( daoUtil.getString( 9 ) );
 
             themeList.add( theme );
         }
