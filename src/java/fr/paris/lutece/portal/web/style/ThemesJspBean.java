@@ -78,6 +78,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     private static final String THEME_AUTHOR_URL = "theme_author_url";
     private static final String THEME_AUTHOR = "theme_author";
     private static final String PATH_CSS = "path_css";
+    private static final String PATH_JS = "path_js";
     private static final String PATH_IMAGES = "path_images";
     private static final String THEME_DESCRIPTION = "theme_description";
     private static final String CODE_THEME = "code_theme";
@@ -223,6 +224,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
         theme.setThemeDescription( request.getParameter( THEME_DESCRIPTION ) );
         theme.setPathImages( request.getParameter( PATH_IMAGES ) );
         theme.setPathCss( request.getParameter( PATH_CSS ) );
+        theme.setPathJs( request.getParameter( PATH_JS ) );
         theme.setThemeAuthor( request.getParameter( THEME_AUTHOR ) );
         theme.setThemeAuthorUrl( request.getParameter( THEME_AUTHOR_URL ) );
         theme.setThemeVersion( request.getParameter( THEME_VERSION ) );
@@ -239,6 +241,6 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     {
         return request.getParameter( CODE_THEME ).equals( "" ) ||
         request.getParameter( THEME_DESCRIPTION ).equals( "" ) || request.getParameter( PATH_IMAGES ).equals( "" ) ||
-        request.getParameter( PATH_CSS ).equals( "" );
+        request.getParameter( PATH_CSS ).equals( "" )|| request.getParameter( PATH_JS ).equals( "" );
     }
 }
