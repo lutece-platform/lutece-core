@@ -43,6 +43,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.search.IndexationService;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -121,6 +122,9 @@ public final class AppInit
             // Initializes the connection pools
             AppConnectionService.init( strConfPath, FILE_PROPERTIES_DATABASE, "portal" );
             AppLogService.info( "Creating connexions pool 'portal'." );
+
+            // Spring ApplicationContext initialization
+            SpringContextService.init();
 
             // Initialize and run StartUp services
             StartUpServiceManager.init(  );

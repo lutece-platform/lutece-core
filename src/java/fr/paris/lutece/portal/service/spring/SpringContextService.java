@@ -33,14 +33,22 @@
  */
 package fr.paris.lutece.portal.service.spring;
 
+import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 /**
@@ -55,6 +63,8 @@ public final class SpringContextService
     private static final String PATH_CONF = "/WEB-INF/conf/";
     private static final String DIR_PLUGINS = "plugins/";
     private static final String SUFFIX_CONTEXT_FILE = "_context.xml";
+    private static final String FILE_CORE_CONTEXT = "core_context.xml";
+    private static ApplicationContext _context;
 
     /** Creates a new instance of SpringContextService */
     private SpringContextService(  )
@@ -130,4 +140,137 @@ public final class SpringContextService
 
         return context;
     }
+
+
+    //// 2.4 Features  // comment to be removed
+
+    /**
+     * Initialize a global Application Context containing all beans (core + plugins)
+     * @throws LuteceInitException
+     * @since 2.4
+     */
+    public static void init() throws LuteceInitException
+    {
+        try
+        {
+            // Load the core context file : core_context.xml
+            String strConfPath = AppPathService.getAbsolutePathFromRelativePath(PATH_CONF);
+            String strContextFile = "file:" + strConfPath + FILE_CORE_CONTEXT;
+            _context = new ClassPathXmlApplicationContext( strContextFile );
+            AppLogService.info("Context file loaded : " + FILE_CORE_CONTEXT);
+
+            // Load all context files found in the conf/plugins directory
+            // Files are loaded separatly with an individual try/catch block
+            // to avoid stopping the process in case of a failure
+            String strConfPluginsPath = strConfPath + DIR_PLUGINS;
+            File dirConfPlugins = new File(strConfPluginsPath);
+            FilenameFilter filterContext = new ContextFileFilter();
+            String[] filesContext = dirConfPlugins.list(filterContext);
+            for (String fileContext : filesContext)
+            {
+
+                String[] file =
+                {
+                    "file:" + strConfPluginsPath + fileContext
+                };
+                // Safe loading of plugin context file
+                try
+                {
+                    _context = new ClassPathXmlApplicationContext(file, _context);
+                    AppLogService.info("Context file loaded : " + fileContext);
+                }
+                catch (Exception e)
+                {
+                    AppLogService.error("Unable to load Spring context file : " + fileContext + " - cause : " + e.getMessage(), e);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            AppLogService.error("Error initializing Spring Context Service", e);
+            throw new LuteceInitException("Error initializing Spring Context Service", e);
+        }
+    }
+
+    /**
+     * Gets the application context
+     *
+     * @return The application context
+     */
+    public static ApplicationContext getContext()
+    {
+        return _context;
+    }
+
+
+    /**
+     * Returns a list of bean among all that implements a given interface or extends a given class
+     * @param <T> The class type
+     * @param classDef The class type
+     * @return A list of beans
+     */
+    public static <T> List<T> getBeansOfType( Class classDef )
+    {
+        List<T> list = new ArrayList<T>();
+        Map<String , T> map = _context.getBeansOfType(classDef);
+        String[] sBeanNames = (String[]) map.entrySet().toArray( new String[0] );
+        for( String strBeanName : sBeanNames )
+        {
+            String strPluginPrefix = getPrefix( strBeanName );
+            if( (strPluginPrefix != null ) && isEnabled( strPluginPrefix ))
+            {
+                list.add(map.get( strBeanName ));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * Gets the prefix of the bean (supposed to be the plugin name)
+     * @param strBeanName The bean name
+     * @return The prefix
+     */
+    private static String getPrefix( String strBeanName )
+    {
+        int nPos = strBeanName.indexOf(".");
+        if( nPos > 0 )
+        {
+            return strBeanName.substring(nPos);
+        }
+        return null;
+    }
+
+    /**
+     * Analyze a bean prefix to tell if it matchs an activated plugin
+     * @param strPrefix The prefix of a bean
+     * @return True if the prefix matchs an activated plugin
+     */
+    private static boolean isEnabled( String strPrefix )
+    {
+        Plugin plugin = PluginService.getPlugin( strPrefix );
+        if( (plugin != null) && plugin.isInstalled() )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Utils filename filter to identify context files
+     */
+    static class ContextFileFilter implements FilenameFilter
+    {
+        /**
+         * Filter filename
+         * @param file The current file
+         * @param strName The file name
+         * @return true if the file is a context file otherwise false
+         */
+        public boolean accept(File file, String strName)
+        {
+            return strName.endsWith( SUFFIX_CONTEXT_FILE );
+        }
+    }
+
+
 }

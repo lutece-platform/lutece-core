@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.spring;
 
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
+import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.test.LuteceTestCase;
 
 
@@ -54,4 +55,16 @@ public class SpringContextServiceTest extends LuteceTestCase
         Object result = SpringContextService.getBean( strName );
         assertTrue( LuteceDefaultAdminAuthentication.class.isInstance( result ) );
     }
+
+    public void testInit() throws LuteceInitException
+    {
+        System.out.println( "init" );
+        SpringContextService.init();
+        for( String name : SpringContextService.getContext().getBeanDefinitionNames() )
+        {
+            System.out.println( name );
+        }
+
+    }
+
 }
