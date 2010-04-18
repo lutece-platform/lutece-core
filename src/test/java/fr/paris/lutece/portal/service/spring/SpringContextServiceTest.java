@@ -35,7 +35,9 @@ package fr.paris.lutece.portal.service.spring;
 
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.search.SearchEngine;
 import fr.paris.lutece.test.LuteceTestCase;
+import java.util.List;
 
 
 /**
@@ -67,4 +69,14 @@ public class SpringContextServiceTest extends LuteceTestCase
 
     }
 
+    public void testGetBeanOfType()
+    {
+        System.out.println( "getBeanOfType" );
+        List<SearchEngine> list = SpringContextService.getBeansOfType( SearchEngine.class);
+        for( SearchEngine engine : list )
+        {
+            System.out.println( engine.getClass() );
+        }
+
+    }
 }

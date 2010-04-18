@@ -213,11 +213,11 @@ public final class SpringContextService
     {
         List<T> list = new ArrayList<T>();
         Map<String , T> map = _context.getBeansOfType(classDef);
-        String[] sBeanNames = (String[]) map.entrySet().toArray( new String[0] );
+        String[] sBeanNames = map.keySet().toArray( new String[0] );
         for( String strBeanName : sBeanNames )
         {
             String strPluginPrefix = getPrefix( strBeanName );
-            if( (strPluginPrefix != null ) && isEnabled( strPluginPrefix ))
+            if( (strPluginPrefix == null) || ((strPluginPrefix != null ) && isEnabled( strPluginPrefix )))
             {
                 list.add(map.get( strBeanName ));
             }
