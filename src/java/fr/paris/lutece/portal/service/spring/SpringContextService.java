@@ -42,6 +42,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -212,7 +213,7 @@ public final class SpringContextService
     public static <T> List<T> getBeansOfType( Class classDef )
     {
         List<T> list = new ArrayList<T>();
-        Map<String , T> map = _context.getBeansOfType(classDef);
+        Map<String , T> map = BeanFactoryUtils.beansOfTypeIncludingAncestors( _context, classDef );
         String[] sBeanNames = map.keySet().toArray( new String[0] );
         for( String strBeanName : sBeanNames )
         {
@@ -235,7 +236,7 @@ public final class SpringContextService
         int nPos = strBeanName.indexOf(".");
         if( nPos > 0 )
         {
-            return strBeanName.substring(nPos);
+            return strBeanName.substring( 0, nPos );
         }
         return null;
     }
