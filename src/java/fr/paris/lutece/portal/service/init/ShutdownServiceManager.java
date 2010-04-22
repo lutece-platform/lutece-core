@@ -44,9 +44,6 @@ import java.util.List;
  */
 public final class ShutdownServiceManager
 {
-    private static final String BEAN_MANAGER = "shutdownServiceManager";
-    private static List<Object> _listServices;
-
     /**
      * Private constructor
      */
@@ -59,33 +56,22 @@ public final class ShutdownServiceManager
      */
     public static void shutdown(  )
     {
-        // Get the bean from the main Spring Context (core_context.xml) with 
-        // its dependencies : shutdown services defined in a list
-        SpringContextService.getBean( BEAN_MANAGER );
+        // Get all beans from the global ApplicationContext
+        List<ShutdownService> listServices = SpringContextService.getBeansOfType( ShutdownService.class );
 
         // Process all services
-        for ( Object object : _listServices )
+        for ( ShutdownService service : listServices )
         {
-            if ( object instanceof ShutdownService )
+            try
             {
-                ShutdownService service = (ShutdownService) object;
                 AppLogService.info( "Processing shutdown service : " + service.getName(  ) );
                 service.process(  );
             }
-            else
+            catch( Exception e )
             {
-                AppLogService.error( "Invalid shutdown service : '" + object.toString(  ) +
-                    "' defined in core_context.xml" );
+                AppLogService.error( "Error while processing shutdown service : " + service.getName(  ) , e );
             }
         }
     }
 
-    /**
-     * Sets the list of shutdown services
-     * @param list The list of shutdown services
-     */
-    public void setServicesList( List<Object> list )
-    {
-        _listServices = list;
-    }
 }

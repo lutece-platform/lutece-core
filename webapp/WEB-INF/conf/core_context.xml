@@ -1,37 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="startUpServiceManager" class="fr.paris.lutece.portal.service.init.StartUpServiceManager" >
-        <property name="servicesList">
-            <list>
-                <!--
-                    Insert Services Here
-                    <ref bean="myStartUpService" />
-                -->
-                <!-- plugin updater -->
-                <!--
-                    <bean id="updaterStartUpService" class="fr.paris.lutece.plugins.updater.service.UpdaterStartUpService" />
-                -->
-            </list>
-        </property>
-    </bean>  
-
-  <!--                      Shutdown services                                   -->
-    <bean id="shutdownServiceManager" class="fr.paris.lutece.portal.service.init.ShutdownServiceManager" >
-        <property name="servicesList">
-            <list>
-                <!--
-                    Insert Services Here
-                    <ref bean="myShutdownService" />
-                -->
-                <!-- plugin updater -->
-                <!--
-                    <bean id="updaterShutdownService" class="fr.paris.lutece.plugins.updater.service.UpdaterShutdownService" />
-                -->
-            </list>
-        </property>
-    </bean>  
-  
 
   <!--                      Search Engine                                   -->
     <bean id="searchEngine" class="fr.paris.lutece.portal.service.search.LuceneSearchEngine" />
