@@ -16,7 +16,7 @@
     <properties>
         <jiraProjectName>LUTECE</jiraProjectName>
         <jiraComponentId>10000</jiraComponentId>
-        <springVersion>2.5.6</springVersion>
+        <springVersion>3.0.1.RELEASE</springVersion>
         <luceneVersion>2.4.1</luceneVersion>
     </properties>
 
@@ -167,6 +167,11 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
             <version>${springVersion}</version>
         </dependency>
         <dependency>

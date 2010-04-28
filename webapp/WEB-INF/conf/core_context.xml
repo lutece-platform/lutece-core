@@ -1,75 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+    <import resource="jpa_context.xml"/>
 
-  <!--                      Search Engine                                   -->
+    
+    <!--                      Search Engine                                   -->
     <bean id="searchEngine" class="fr.paris.lutece.portal.service.search.LuceneSearchEngine" />
     <bean id="indexerActionDAO" class="fr.paris.lutece.portal.business.indexeraction.IndexerActionDAO" />
-    
-  <!--                      Admin Authentication                             -->
+
+    <!--                      Admin Authentication                             -->
     <bean id="adminAuthenticationModule" class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication">
         <property name="dao" ref="luteceDefaultAdminUserDAO"/>
-		<!--<property name="dataSourceFactory" ref="dataSourceFactory" />-->
+        <!--<property name="dataSourceFactory" ref="dataSourceFactory" />-->
     </bean>
 
-  
-  <!--                      Mail Queue                            -->
+
+    <!--                      Mail Queue                            -->
   <!--  <bean id="mailQueue" class="fr.paris.lutece.portal.service.mail.MemoryQueue" /> -->
     <bean id="mailQueue" class="fr.paris.lutece.portal.service.mail.DatabaseQueue" />
-  <!--                      Removal Services                            -->
+    <!--                      Removal Services                            -->
     <bean id="mailinglistRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="workgroupRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="portletRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="regularExpressionRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="roleRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
-     <bean id="workflowRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
-  
-    
-  <!--                       Data Access Objects                             -->  
+    <bean id="workflowRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
+
+
+    <!--                       Data Access Objects                             -->
   <!-- package features -->
     <bean id="levelDAO"  class="fr.paris.lutece.portal.business.right.LevelDAO" />
-  
-  <!-- package mailinglist -->
-    <bean id="mailingListDAO"  class="fr.paris.lutece.portal.business.mailinglist.MailingListDAO" />  
-  
-  <!-- package page -->
+
+    <!-- package mailinglist -->
+    <bean id="mailingListDAO"  class="fr.paris.lutece.portal.business.mailinglist.MailingListDAO" />
+
+    <!-- package page -->
     <bean id="pageDAO"  class="fr.paris.lutece.portal.business.page.PageDAO" />
-  
-  <!-- package portalcomponent -->
+
+    <!-- package portalcomponent -->
     <bean id="portalComponentDAO"  class="fr.paris.lutece.portal.business.portalcomponent.PortalComponentDAO" />
-  
-  <!-- package portlet -->
+
+    <!-- package portlet -->
     <bean id="aliasPortletDAO"  class="fr.paris.lutece.portal.business.portlet.AliasPortletDAO" />
     <bean id="portletDAO"  class="fr.paris.lutece.portal.business.portlet.PortletDAO" />
     <bean id="portletTypeDAO"  class="fr.paris.lutece.portal.business.portlet.PortletTypeDAO" />
-  
-  <!-- package rbac -->
+
+    <!-- package rbac -->
     <bean id="adminRoleDAO"  class="fr.paris.lutece.portal.business.rbac.AdminRoleDAO" />
     <bean id="rBACDAO"  class="fr.paris.lutece.portal.business.rbac.RBACDAO" />
-  
-  <!-- package right -->
+
+    <!-- package right -->
     <bean id="featureGroupDAO"  class="fr.paris.lutece.portal.business.right.FeatureGroupDAO" />
-    <bean id="rightDAO"  class="fr.paris.lutece.portal.business.right.RightDAO" />   
-  
-  <!-- package role -->
-    <bean id="roleDAO"  class="fr.paris.lutece.portal.business.role.RoleDAO" />  
-  
-  <!-- package style -->
+    <bean id="rightDAO"  class="fr.paris.lutece.portal.business.right.RightDAO" />
+
+    <!-- package role -->
+    <bean id="roleDAO"  class="fr.paris.lutece.portal.business.role.RoleDAO" />
+
+    <!-- package style -->
     <bean id="modeDAO"  class="fr.paris.lutece.portal.business.style.ModeDAO" />
     <bean id="pageTemplateDAO"  class="fr.paris.lutece.portal.business.style.PageTemplateDAO" />
-    <bean id="styleDAO"  class="fr.paris.lutece.portal.business.style.StyleDAO" />  
+    <bean id="styleDAO"  class="fr.paris.lutece.portal.business.style.StyleDAO" />
     <bean id="coreThemeDAO"  class="fr.paris.lutece.portal.business.style.ThemeDAO" />
-  
-   <!-- package stylesheet -->
-    <bean id="styleSheetDAO"  class="fr.paris.lutece.portal.business.stylesheet.StyleSheetDAO" />  
-  
-   <!-- package user -->
+
+    <!-- package stylesheet -->
+    <bean id="styleSheetDAO"  class="fr.paris.lutece.portal.business.stylesheet.StyleSheetDAO" />
+
+    <!-- package user -->
     <bean id="adminUserDAO"  class="fr.paris.lutece.portal.business.user.AdminUserDAO" />
     <bean id="luteceDefaultAdminUserDAO"  class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUserDAO" />
-    <bean id="userLogDAO"  class="fr.paris.lutece.portal.business.user.log.UserLogDAO" />  
-  
-  <!-- package workgroup -->
+    <bean id="userLogDAO"  class="fr.paris.lutece.portal.business.user.log.UserLogDAO" />
+
+    <!-- package workgroup -->
     <bean id="adminWorkgroupDAO"  class="fr.paris.lutece.portal.business.workgroup.AdminWorkgroupDAO" />
-  <!-- package mail -->
+    <!-- package mail -->
     <bean id="mailItemQueueDAO"  class="fr.paris.lutece.portal.business.mail.MailItemQueueDAO" />
 </beans>
