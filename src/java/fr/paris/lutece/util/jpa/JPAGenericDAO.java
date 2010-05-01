@@ -38,6 +38,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import org.apache.log4j.Logger;
 
@@ -50,8 +51,8 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
 {
     private Class<E> _entityClass;
     private EntityManagerFactory _emf;
-    private EntityManager _em;
     private static final Logger _log = Logger.getLogger(JPAGenericDAO.class.getName());
+
 
     /**
      * Constructor
@@ -86,9 +87,8 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
         if (_emf == null)
         {
             _emf = getEntityManagerFactory();
-            _em = _emf.createEntityManager();
         }
-        return _em;
+        return _emf.createEntityManager();
     }
 
     /**
@@ -96,8 +96,27 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
      */
     public void create(E entity)
     {
-        _log.debug( "Creating entity : " + entity);
-        getEM().persist(entity);
+        _log.debug( "Creating entity : " + entity  );
+        EntityManager em = getEM();
+        EntityTransaction tx = null;
+        try
+        {
+            tx = em.getTransaction();
+            tx.begin();
+            em.persist(entity);
+            tx.commit();
+        }
+        finally
+        {
+            if( em != null || em.isOpen() )
+            {
+                if( tx.isActive() )
+                {
+                    tx.rollback();
+                }
+            }
+        }
+       
     }
 
     /**
@@ -105,9 +124,28 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
      */
     public void remove(K key)
     {
-        E entity = findById(key);
+        EntityManager em = getEM();
+        E entity = em.find(_entityClass, key);
         _log.debug( "Removing entity : " + entity);
-        getEM().remove(entity);
+        EntityTransaction tx = null;
+        try
+        {
+            tx = em.getTransaction();
+            tx.begin();
+            em.remove(entity);
+            tx.commit();
+        }
+        finally
+        {
+            if( em != null || em.isOpen() )
+            {
+                if( tx.isActive() )
+                {
+                    tx.rollback();
+                }
+            }
+        }
+
     }
 
     /**
@@ -116,7 +154,26 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
     public void update(E entity)
     {
        _log.debug( "Updating entity : " + entity);
-       getEM().merge(entity);
+        EntityManager em = getEM();
+        EntityTransaction tx = null;
+        try
+        {
+            tx = em.getTransaction();
+            tx.begin();
+            em.merge(entity);
+            tx.commit();
+        }
+        finally
+        {
+            if( em != null || em.isOpen() )
+            {
+                if( tx.isActive() )
+                {
+                    tx.rollback();
+                }
+            }
+        }
+
 
     }
 

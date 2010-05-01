@@ -35,6 +35,7 @@
 package fr.paris.lutece.util.jpa;
 
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Interface IGenericLuteceHome
@@ -45,6 +46,7 @@ public interface IGenericHome<K, E>
 	 * Creates the entity
 	 * @param entity object
 	 */
+        @Transactional
 	void create( E entity );
 
 
@@ -52,12 +54,14 @@ public interface IGenericHome<K, E>
 	 * Merges the entity
 	 * @param entity object
 	 */
+        @Transactional
 	void update( E entity );
 
 	/**
 	 * Removes the entity if exists
 	 * @param key The entity key
 	 */
+        @Transactional
 	void remove( K key );
 
 	/**
@@ -65,7 +69,8 @@ public interface IGenericHome<K, E>
 	 * @param pKey primary key
 	 * @return the found entity, <code>null</code> otherwise.
 	 */
-	E findByPrimaryKey( K pKey );
+        @Transactional
+        E findByPrimaryKey( K pKey );
 
 	/**
 	 * Finds all
