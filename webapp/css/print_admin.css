@@ -1,0 +1,38 @@
+/* Buttons are not usefull in printed page... */
+input {
+	display: none;
+}
+
+.button {
+	display: none;
+}
+
+content-box {
+     width:100%
+}
+
+/* use this class if an element should not be printed */
+.no_print {
+	display: none;
+}
+
+/* page breaks : new page before this element */
+.page_break {
+	page-break-before: always;
+}
+
+/* hide menu */
+.header-box {
+	display: none;
+}
+
+ul#admin-header-menu {
+	display:none;
+}
+
+div#welcome-zone {
+	margin-left:0px;
+	margin-right:0px;
+	margin-top:0px;
+	text-align:center;
+}

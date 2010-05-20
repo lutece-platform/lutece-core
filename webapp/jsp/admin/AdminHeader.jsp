@@ -19,6 +19,7 @@
 <meta http-equiv="Cache-Control" content="no-cache" />
 
 <link rel="stylesheet" type="text/css" href="css/portal_admin.css" title="lutece_admin" />
+<link rel="stylesheet" type="text/css" href="css/print_admin.css" media="print" /
 <link rel="stylesheet" type="text/css" href="js/jquery/plugins/autocomplete/jquery.autocomplete.css" />
 
 <!--[if IE 6]>
