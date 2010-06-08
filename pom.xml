@@ -16,7 +16,7 @@
     <properties>
         <jiraProjectName>LUTECE</jiraProjectName>
         <jiraComponentId>10000</jiraComponentId>
-        <springVersion>3.0.1.RELEASE</springVersion>
+        <springVersion>3.0.2.RELEASE</springVersion>
         <luceneVersion>2.4.1</luceneVersion>
     </properties>
 
