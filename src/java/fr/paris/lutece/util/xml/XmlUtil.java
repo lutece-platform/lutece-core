@@ -227,6 +227,38 @@ public final class XmlUtil
         strXmlBuffer.append( strTag );
         strXmlBuffer.append( TAG_END );
     }
+    
+    /**
+     * Add a CDATA type element to XML document buffer.
+     *
+     * @param strXmlBuffer The XML document buffer
+     * @param strTag The tag name of the element to add
+     * @param strValue The value of the element
+     * @param attrList The attributes list
+     */
+    public static void addElementHtml( StringBuffer strXmlBuffer, String strTag, String strValue, Map<?, ?> attrList )
+    {
+        strXmlBuffer.append( TAG_BEGIN );
+        strXmlBuffer.append( strTag );
+        
+        if ( attrList != null )
+        {
+            Iterator<?> iterator = attrList.keySet(  ).iterator(  );
+
+            while ( iterator.hasNext(  ) )
+            {
+                String code = (String) iterator.next(  );
+                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + attrList.get( code ) +
+                    TAG_ENCLOSED );
+            }
+        }
+        
+        strXmlBuffer.append( "><![CDATA[" );
+        strXmlBuffer.append( strValue );
+        strXmlBuffer.append( "]]></" );
+        strXmlBuffer.append( strTag );
+        strXmlBuffer.append( TAG_END );
+    }
 
     /**
      * Add an opening tag for an element in a XML document buffer
