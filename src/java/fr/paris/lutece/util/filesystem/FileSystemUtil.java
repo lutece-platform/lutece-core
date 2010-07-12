@@ -36,11 +36,17 @@ package fr.paris.lutece.util.filesystem;
 
 // Java IO
 import java.io.File;
+import java.io.IOException;
 
 // Java Util
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
+
+import javax.activation.MimetypesFileTypeMap;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 
 
 /**
@@ -48,6 +54,11 @@ import java.util.TreeSet;
  */
 public final class FileSystemUtil
 {
+	  
+    private static final String DEFAULT_MIME_TYPE = "application/octet-stream";
+    private static final String FILE_SEPARATOR = File.separator;
+    private static final String FILE_MIME_TYPE = "WEB-INF"+ FILE_SEPARATOR +"conf" + FILE_SEPARATOR +"mime.types";
+    
     /**
      * Private constructor
      */
@@ -134,5 +145,24 @@ public final class FileSystemUtil
 
         // Convert into a list to preserve the order
         return new ArrayList<File>( set );
+    }
+    /**
+     * Return the mimetype of the file depending of his extension and the mime.types file
+     * @param strFilename the file name
+     * @return the file mime type
+     */
+    public static String getMIMEType(String strFilename)
+    {              
+    	try 
+    	{
+			MimetypesFileTypeMap mimeTypeMap = 
+				new MimetypesFileTypeMap( AppPathService.getWebAppPath(  )+ File.separator + FILE_MIME_TYPE );
+			return  mimeTypeMap.getContentType( strFilename.toLowerCase(  ) ); 
+		} 
+    	catch ( IOException e ) 
+    	{
+			AppLogService.error( e );
+			return DEFAULT_MIME_TYPE;
+		}             
     }
 }
