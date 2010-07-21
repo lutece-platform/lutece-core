@@ -197,6 +197,36 @@ public final class XmlUtil
 
         strXmlBuffer.append( TAG_CLOSE_END );
     }
+    
+    /**
+     * Add an element to an XML document buffer with attributes
+     *
+     * @param strXmlBuffer The XML document buffer
+     * @param strTag The tag name of the element to add
+     * @param strValue The value of the element
+     * @param attrList the attribute list
+     */
+    public static void addElement( StringBuffer strXmlBuffer, String strTag, String strValue, Map<?, ?> attrList )
+    {
+        strXmlBuffer.append( TAG_BEGIN );
+        strXmlBuffer.append( strTag );
+        if ( attrList != null )
+        {
+            Iterator<?> iterator = attrList.keySet(  ).iterator(  );
+
+            while ( iterator.hasNext(  ) )
+            {
+                String code = (String) iterator.next(  );
+                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + attrList.get( code ) +
+                    TAG_ENCLOSED );
+            }
+        }
+        strXmlBuffer.append( ">" );
+        strXmlBuffer.append( strValue );
+        strXmlBuffer.append( TAG_CLOSE_BEGIN );
+        strXmlBuffer.append( strTag );
+        strXmlBuffer.append( TAG_END );
+    }
 
     /**
      * Add an element to an XML document buffer.
