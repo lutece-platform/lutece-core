@@ -50,6 +50,7 @@ public class State implements IReferenceItem, RBACResource
     private Workflow _workflow;
     private String _strName;
     private String _strDescription;
+    private Icon _icon;
     private List<Action> _listActions;
     private Boolean _bInitialState;
     private Boolean _bRequiredWorkgroupAssigned;
@@ -129,6 +130,27 @@ public class State implements IReferenceItem, RBACResource
     {
         _strDescription = strDescription;
     }
+    
+    /**
+     * Returns the action icon
+     *
+     * @return The Icon
+     */
+    public Icon getIcon(  )
+    {
+        return _icon;
+    }
+
+    /**
+     * Set the action icon
+     *
+     * @param icon the icon
+     */
+    public void setIcon( Icon icon )
+    {
+        _icon = icon;
+    }
+
 
     /**
      *return the list of all actions associated to the state
