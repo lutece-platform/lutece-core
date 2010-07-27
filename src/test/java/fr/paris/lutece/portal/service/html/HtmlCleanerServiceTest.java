@@ -53,7 +53,7 @@ public class HtmlCleanerServiceTest extends LuteceTestCase
 
         // Add double quote to attribute's values
         // Add ending tags
-        String expResult = "<p><font color=\"red\">Hello, World</font></p>";
+        String expResult = "<p style=\"color: red\">Hello, World</p>";
         String result = HtmlCleanerService.clean( strSource );
         assertNotNull( result );
         assertTrue( result.contains( expResult ) );
