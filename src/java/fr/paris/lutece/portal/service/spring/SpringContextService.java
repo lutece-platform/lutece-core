@@ -40,8 +40,10 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.net.URL;
 import java.util.ArrayList;
 
+import org.apache.commons.beanutils.ContextClassLoaderLocal;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -82,9 +84,9 @@ public final class SpringContextService
      */
     public static Object getBean( String strName )
     {
-        ApplicationContext context = getContext( CORE );
+//        ApplicationContext context = getContext( CORE );
 
-        return context.getBean( strName );
+        return _context.getBean( strName );
     }
 
     /**
@@ -96,15 +98,14 @@ public final class SpringContextService
      */
     public static Object getPluginBean( String strPluginName, String strName )
     {
-        ApplicationContext context = getContext( strPluginName );
-
-        return ( context != null ) ? context.getBean( strName ) : null;
+        return _context.getBean( strName );
     }
 
     /**
      * Gets a Spring Application context from a given name
      * @param strContextName The context's name
      * @return The context
+     * @deprecated 
      */
     private static ApplicationContext getContext( String strContextName )
     {
@@ -210,7 +211,7 @@ public final class SpringContextService
      * @param classDef The class type
      * @return A list of beans
      */
-    public static <T> List<T> getBeansOfType( Class classDef )
+    public static <T> List<T> getBeansOfType( Class<T> classDef )
     {
         List<T> list = new ArrayList<T>();
         Map<String , T> map = BeanFactoryUtils.beansOfTypeIncludingAncestors( _context, classDef );

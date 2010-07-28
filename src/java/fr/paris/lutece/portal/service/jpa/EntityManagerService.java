@@ -43,15 +43,24 @@ import javax.persistence.EntityManagerFactory;
  */
 public class EntityManagerService
 {
-    private static Map< String ,  EntityManagerFactory> _mapFactories;
+    private static Map<String ,  EntityManagerFactory> _mapFactories;
 
     /**
      * Sets the map of factories (injected in core_context.xml)
      * @param mapFactories The factories map
      */
-    public void setMapFactories( Map mapFactories )
+    public void setMapFactories( Map<String ,  EntityManagerFactory> mapFactories )
     {
         _mapFactories = mapFactories;
+    }
+    
+    /**
+     * Returns all factories
+     * @return all factories
+     */
+    public Map<String, EntityManagerFactory> getEntityManagerFactories(  )
+    {
+    	return _mapFactories;
     }
 
     /**

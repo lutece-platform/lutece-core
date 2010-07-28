@@ -37,9 +37,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.jpa.JPAGenericDAO;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 /**
@@ -65,55 +63,18 @@ public abstract class JPALuteceDAO<K, E> extends JPAGenericDAO<K, E>
     public EntityManagerFactory getEntityManagerFactory()
     {
         String strPersistenceUnit = DEFAULT_PERSISTENCE_UNIT;
-        Plugin plugin = PluginService.getPlugin(getPluginName());
-        if (plugin != null)
+        Plugin plugin = PluginService.getPlugin( getPluginName(  ) );
+        if ( plugin != null )
         {
-            strPersistenceUnit = plugin.getDbPoolName();
+            strPersistenceUnit = plugin.getDbPoolName(  );
         }
         EntityManagerService ems = (EntityManagerService) SpringContextService.getBean(BEAN_ENTITY_MANAGER_SERVICE);
         return ems.getEntityManagerFactory(strPersistenceUnit);
     }
 
-    protected void executeUpdateQuery( EntityManager em , Query query)
+    protected Query createNativeQuery( String strSQL )
     {
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        try
-        {
-            query.executeUpdate();
-            tx.commit();
-        }
-        finally
-        {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-        }
-    }
-
-    protected void executeUpdateQuery( Query query)
-    {
-        EntityTransaction tx = getEM().getTransaction();
-        tx.begin();
-        try
-        {
-            query.executeUpdate();
-            tx.commit();
-        }
-        finally
-        {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-        }
-
-    }
-
-    protected Query createNativeQuery( String strSQL)
-    {
-        return getEM().createNativeQuery(strSQL);
+        return getEM(  ).createNativeQuery(strSQL);
     }
 
 }

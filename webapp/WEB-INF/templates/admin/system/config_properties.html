@@ -111,6 +111,7 @@ log4j.logger.lutece.debug.sql=ERROR, Console
 log4j.logger.lutece.pool=INFO, Pool
 log4j.logger.lutece.mail=INFO, Mail
 log4j.logger.lutece.security=WARN, Security
+log4j.logger.lutece.jpa=ERROR, JPA
 log4j.logger.servlet=ERROR, Error
 log4j.logger.session=ERROR, Error
 log4j.logger.compiler=ERROR, Error
@@ -176,6 +177,15 @@ log4j.appender.Security.layout=org.apache.log4j.PatternLayout
 log4j.appender.Security.layout.ConversionPattern=%d{dd/MM/yy HH:mm:ss} %-5p [%t] %c{2} - %m%n
 log4j.appender.Security.MaxFileSize=1000KB
 log4j.appender.Security.MaxBackupIndex=5
+
+# File "JPA.log"
+log4j.appender.JPA=org.apache.log4j.RollingFileAppender
+log4j.appender.JPA.File=${webapp_home}/WEB-INF/logs/JPA.log
+log4j.appender.JPA.Append=true
+log4j.appender.JPA.layout=org.apache.log4j.PatternLayout
+log4j.appender.JPA.layout.ConversionPattern=%d{dd/MM/yy HH:mm:ss} %-5p [%t] %c{2} - %m%n
+log4j.appender.JPA.MaxFileSize=1000KB
+log4j.appender.JPA.MaxBackupIndex=5
 
 
 # Console

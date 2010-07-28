@@ -38,9 +38,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.orm.jpa.EntityManagerFactoryUtils;
+import org.springframework.orm.jpa.EntityManagerHolder;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
  * Class JPAGenericDAO
@@ -49,17 +52,17 @@ import org.apache.log4j.Logger;
  */
 public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
 {
+
     private Class<E> _entityClass;
     private EntityManagerFactory _emf;
-    private static final Logger _log = Logger.getLogger(JPAGenericDAO.class.getName());
-
+    private static final Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
 
     /**
      * Constructor
      */
     public JPAGenericDAO()
     {
-        _entityClass = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        _entityClass = ( Class<E> ) ( ( ParameterizedType ) getClass().getGenericSuperclass() ).getActualTypeArguments()[1];
     }
 
     /**
@@ -77,112 +80,89 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
         return _entityClass.getName();
     }
 
-
     /**
      * Return the Entity Manager
      * @return The Entity Manager
      */
     public EntityManager getEM()
     {
-        if (_emf == null)
+        if ( _emf == null )
         {
+            // TODO : changement de pool : _emf ne devrait pas etre "gardé".
             _emf = getEntityManagerFactory();
         }
+
+        _log.debug( _emf.toString() );
+        _log.debug( TransactionSynchronizationManager.getResourceMap().toString());
+
+        if ( TransactionSynchronizationManager.isSynchronizationActive() )
+        {
+            // first, get Spring entitymanager (if available)
+            try
+            {
+
+//                EntityManagerHolder emh = (EntityManagerHolder) TransactionSynchronizationManager.getResource( _emf );
+//                EntityManager em = emh.getEntityManager();
+
+                EntityManager em = EntityManagerFactoryUtils.getTransactionalEntityManager( _emf );
+                if ( em == null )
+                {
+                    _log.error( "getEM(  ) : no EntityManagerHolder found. Will use native entity manager factory [Transaction will not be supported]" );
+                }
+                else
+                {
+                    _log.debug( "getEM(  ) : EntityManagerHolder found. [Transaction will be supported] : " + em.toString() + "EM Factory : " + _emf.toString() );
+                    return em;
+                }
+            }
+            catch ( DataAccessResourceFailureException ex )
+            {
+                _log.error( ex );
+            }
+        }
+        _log.error( "getEM(  ) : no EntityManagerHolder found. Will use native entity manager factory [Transaction will not be supported]" );
+
         return _emf.createEntityManager();
     }
 
     /**
      * {@inheritDoc }
      */
-    public void create(E entity)
+    public void create( E entity )
     {
-        _log.debug( "Creating entity : " + entity  );
+        _log.debug( "Creating entity : " + entity );
         EntityManager em = getEM();
-        EntityTransaction tx = null;
-        try
-        {
-            tx = em.getTransaction();
-            tx.begin();
-            em.persist(entity);
-            tx.commit();
-        }
-        finally
-        {
-            if( em != null || em.isOpen() )
-            {
-                if( tx.isActive() )
-                {
-                    tx.rollback();
-                }
-            }
-        }
-       
+        em.persist( entity );
     }
 
     /**
      * {@inheritDoc }
      */
-    public void remove(K key)
+    public void remove( K key )
     {
         EntityManager em = getEM();
-        E entity = em.find(_entityClass, key);
-        _log.debug( "Removing entity : " + entity);
-        EntityTransaction tx = null;
-        try
-        {
-            tx = em.getTransaction();
-            tx.begin();
-            em.remove(entity);
-            tx.commit();
-        }
-        finally
-        {
-            if( em != null || em.isOpen() )
-            {
-                if( tx.isActive() )
-                {
-                    tx.rollback();
-                }
-            }
-        }
+        E entity = em.find( _entityClass, key );
+        _log.debug( "Removing entity : " + entity );
+        em.remove( entity );
 
     }
 
     /**
      * {@inheritDoc }
      */
-    public void update(E entity)
+    public void update( E entity )
     {
-       _log.debug( "Updating entity : " + entity);
+        _log.debug( "Updating entity : " + entity );
         EntityManager em = getEM();
-        EntityTransaction tx = null;
-        try
-        {
-            tx = em.getTransaction();
-            tx.begin();
-            em.merge(entity);
-            tx.commit();
-        }
-        finally
-        {
-            if( em != null || em.isOpen() )
-            {
-                if( tx.isActive() )
-                {
-                    tx.rollback();
-                }
-            }
-        }
-
-
+            em.merge( entity );
     }
 
     /**
      * {@inheritDoc }
      */
-    public E findById(K key)
+    public E findById( K key )
     {
-        return (E) getEM().find(_entityClass, key);
+        return ( E ) getEM().find( _entityClass, key );
     }
 
     /**
@@ -190,7 +170,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
      */
     public List<E> findAll()
     {
-        Query query = getEM().createQuery("SELECT e FROM " + getEntityClassName() + " e ");
+        Query query = getEM().createQuery( "SELECT e FROM " + getEntityClassName() + " e " );
         return query.getResultList();
     }
 }

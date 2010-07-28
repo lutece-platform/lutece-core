@@ -394,3 +394,13 @@ CREATE TABLE core_user_role (
 	id_user int default 0 NOT NULL,
 	PRIMARY KEY (role_key,id_user)
 );
+
+--
+--
+--
+DROP TABLE IF EXISTS core_id_generator;
+CREATE TABLE core_id_generator (
+	class_name varchar(250) default '' NOT NULL,
+	current_value int default 0 NOT NULL,
+	PRIMARY KEY (class_name)
+);

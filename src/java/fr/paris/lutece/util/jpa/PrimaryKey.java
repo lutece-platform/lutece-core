@@ -31,50 +31,70 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.util.jpa;
 
-import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
- * Interface IGenericLuteceHome
+ * 
+ * PrimaryKey : a value and a class name.
+ * <br>
+ * The value is the last inserted primary key for the class.
  */
-@Transactional
-public interface IGenericHome<K, E>
+@Entity
+@Table( name="core_id_generator" )
+public class PrimaryKey
 {
+	private String _strClassName;
+	private int _nValue;
+	
 	/**
-	 * Creates the entity
-	 * @param entity object
+	 * "Getter method" for {@link #_strClassName}
+	 * @return value of {@link #_strClassName}
 	 */
-	void create( E entity );
-
+	@Id
+	@Column( name="class_name" )
+	public String getClassName(  )
+	{
+		return _strClassName;
+	}
+	/**
+	 * "Setter method" for {@link #_strClassName}
+	 * @param className new value of {@link #_strClassName}
+	 */
+	public void setClassName( String className )
+	{
+		_strClassName = className;
+	}
+	/**
+	 * "Getter method" for {@link #_nValue}
+	 * @return value of {@link #_nValue}
+	 */
+	@Column( name="current_value" )
+	public int getValue(  )
+	{
+		return _nValue;
+	}
+	/**
+	 * "Setter method" for {@link #_nValue}
+	 * @param value new value of {@link #_nValue}
+	 */
+	public void setValue( int value )
+	{
+		_nValue = value;
+	}
 
 	/**
-	 * Merges the entity
-	 * @param entity object
+	 * 
+	 *{@inheritDoc}
 	 */
-	void update( E entity );
-
-	/**
-	 * Removes the entity if exists
-	 * @param key The entity key
-	 */
-	void remove( K key );
-
-	/**
-	 * Loads an entity by its key
-	 * @param pKey primary key
-	 * @return the found entity, <code>null</code> otherwise.
-	 */
-	@Transactional( readOnly=true )
-    E findByPrimaryKey( K pKey );
-
-	/**
-	 * Finds all
-	 * @return the list
-	 */
-	@Transactional( readOnly=true )
-	List<E> findAll();
-
+	@Override
+	public String toString(  )
+	{
+		return getClassName(  ) + " " + getValue(  );
+	}
+	
 }
