@@ -92,26 +92,20 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
             _emf = getEntityManagerFactory();
         }
 
-        _log.debug( _emf.toString() );
-        _log.debug( TransactionSynchronizationManager.getResourceMap().toString());
-
         if ( TransactionSynchronizationManager.isSynchronizationActive() )
         {
             // first, get Spring entitymanager (if available)
             try
             {
 
-//                EntityManagerHolder emh = (EntityManagerHolder) TransactionSynchronizationManager.getResource( _emf );
-//                EntityManager em = emh.getEntityManager();
-
                 EntityManager em = EntityManagerFactoryUtils.getTransactionalEntityManager( _emf );
                 if ( em == null )
                 {
-                    _log.error( "getEM(  ) : no EntityManagerHolder found. Will use native entity manager factory [Transaction will not be supported]" );
+                    _log.error( "getEM(  ) : no EntityManager found. Will use native entity manager factory [Transaction will not be supported]" );
                 }
                 else
                 {
-                    _log.debug( "getEM(  ) : EntityManagerHolder found. [Transaction will be supported] : " + em.toString() + "EM Factory : " + _emf.toString() );
+                    _log.debug( "EntityManager found for the current transaction : " + em.toString() + " - using Factory : " + _emf.toString() );
                     return em;
                 }
             }
@@ -120,7 +114,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
                 _log.error( ex );
             }
         }
-        _log.error( "getEM(  ) : no EntityManagerHolder found. Will use native entity manager factory [Transaction will not be supported]" );
+        _log.error( "getEM(  ) : no EntityManager found. Will use native entity manager factory [Transaction will not be supported]" );
 
         return _emf.createEntityManager();
     }
@@ -130,9 +124,10 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
      */
     public void create( E entity )
     {
-        _log.debug( "Creating entity : " + entity );
+        _log.debug( "Creating entity : " + entity.toString() );
         EntityManager em = getEM();
         em.persist( entity );
+        _log.debug( "Entity created : " + entity.toString() );
     }
 
     /**
@@ -142,8 +137,9 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
     {
         EntityManager em = getEM();
         E entity = em.find( _entityClass, key );
-        _log.debug( "Removing entity : " + entity );
+        _log.debug( "Removing entity : " + entity.toString() );
         em.remove( entity );
+        _log.debug( "Entity removed : " + entity.toString() );
 
     }
 
@@ -152,9 +148,10 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
      */
     public void update( E entity )
     {
-        _log.debug( "Updating entity : " + entity );
+        _log.debug( "Updating entity : " + entity.toString() );
         EntityManager em = getEM();
-            em.merge( entity );
+        em.merge( entity );
+        _log.debug( "Entity Updated : " + entity.toString() );
     }
 
     /**
@@ -162,6 +159,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
      */
     public E findById( K key )
     {
+        _log.debug( "Selecting entity " + getEntityClassName() + " by ID : " + key.toString() );
         return ( E ) getEM().find( _entityClass, key );
     }
 
@@ -170,6 +168,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
      */
     public List<E> findAll()
     {
+        _log.debug( "Selecting all entities of type : "  + getEntityClassName()  );
         Query query = getEM().createQuery( "SELECT e FROM " + getEntityClassName() + " e " );
         return query.getResultList();
     }

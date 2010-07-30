@@ -31,8 +31,8 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.util.jpa.transaction;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,155 +46,150 @@ import org.springframework.transaction.TransactionStatus;
 public class MultiTransactionStatus implements TransactionStatus
 {
 
-	private Map<PlatformTransactionManager, TransactionStatus> _transactionStatuses;
-	private PlatformTransactionManager _mainPTM;
-	private boolean _bNewSynchonization;
+    private Map<PlatformTransactionManager, TransactionStatus> _transactionStatuses;
+    private PlatformTransactionManager _mainPTM;
+    private boolean _bNewSynchonization;
 
-	/**
-	 * Creates a TransactionStatus that handles several TransactionStatus
-	 * @param transactionStatuses all TransactionStatuts to manage
-	 * @param mainPTM will be default {@link PlatformTransactionManager} for status informations (is*, has* methods)
-	 */
-	public MultiTransactionStatus( PlatformTransactionManager mainPTM )
-	{
-		_mainPTM = mainPTM;
-		_transactionStatuses = new HashMap<PlatformTransactionManager, TransactionStatus>(  );
-	}
+    /**
+     * Creates a TransactionStatus that handles several TransactionStatus
+     * @param transactionStatuses all TransactionStatuts to manage
+     * @param mainPTM will be default {@link PlatformTransactionManager} for status informations (is*, has* methods)
+     */
+    public MultiTransactionStatus( PlatformTransactionManager mainPTM )
+    {
+        _mainPTM = mainPTM;
+        _transactionStatuses = new HashMap<PlatformTransactionManager, TransactionStatus>();
+    }
 
-	public void setNewSynchonization() {
+    public void setNewSynchonization()
+    {
         this._bNewSynchonization = true;
     }
 
-	public boolean isNewSynchonization()
-	{
-		return this._bNewSynchonization;
-	}
+    public boolean isNewSynchonization()
+    {
+        return this._bNewSynchonization;
+    }
 
+    public TransactionStatus getTransactionStatus( PlatformTransactionManager ptm )
+    {
+        return _transactionStatuses.get( ptm );
+    }
 
-	public TransactionStatus getTransactionStatus( PlatformTransactionManager ptm )
-	{
-		return _transactionStatuses.get( ptm );
-	}
-
-	/**
-	 *
-	 *{@inheritDoc}
-	 */
-	public void flush(  )
-	{
-		for(TransactionStatus ts : _transactionStatuses.values(  ) )
-		{
-            ts.flush(  );
+    /**
+     *
+     *{@inheritDoc}
+     */
+    public void flush()
+    {
+        for ( TransactionStatus ts : _transactionStatuses.values() )
+        {
+            ts.flush();
         }
-	}
+    }
 
-	private TransactionStatus getMainTransactionStatus(  )
-	{
-		return _transactionStatuses.get( _mainPTM );
-	}
+    private TransactionStatus getMainTransactionStatus()
+    {
+        return _transactionStatuses.get( _mainPTM );
+    }
 
-	/**
-	 *
-	 *{@inheritDoc}
-	 */
-	public boolean hasSavepoint()
-	{
-		return getMainTransactionStatus(  ).hasSavepoint(  );
-	}
+    /**
+     *
+     *{@inheritDoc}
+     */
+    public boolean hasSavepoint()
+    {
+        return getMainTransactionStatus().hasSavepoint();
+    }
 
-	/**
-	 *
-	 *{@inheritDoc}
-	 */
-	public boolean isCompleted()
-	{
-		return getMainTransactionStatus(  ).isCompleted(  );
-	}
+    /**
+     *
+     *{@inheritDoc}
+     */
+    public boolean isCompleted()
+    {
+        return getMainTransactionStatus().isCompleted();
+    }
 
-	/**
-	 *
-	 *{@inheritDoc}
-	 */
-	public boolean isNewTransaction()
-	{
-		return getMainTransactionStatus(  ).isNewTransaction(  );
-	}
+    /**
+     *
+     *{@inheritDoc}
+     */
+    public boolean isNewTransaction()
+    {
+        return getMainTransactionStatus().isNewTransaction();
+    }
 
-	/**
-	 *
-	 *{@inheritDoc}
-	 */
-	public boolean isRollbackOnly()
-	{
-		return getMainTransactionStatus(  ).isRollbackOnly(  );
-	}
+    /**
+     *
+     *{@inheritDoc}
+     */
+    public boolean isRollbackOnly()
+    {
+        return getMainTransactionStatus().isRollbackOnly();
+    }
 
-	/**
-	 *
-	 *{@inheritDoc}
-	 */
-	public void setRollbackOnly()
-	{
-		for(TransactionStatus ts : _transactionStatuses.values(  ) )
-		{
-            ts.setRollbackOnly(  );
+    /**
+     *
+     *{@inheritDoc}
+     */
+    public void setRollbackOnly()
+    {
+        for ( TransactionStatus ts : _transactionStatuses.values() )
+        {
+            ts.setRollbackOnly();
         }
-	}
+    }
 
-	/**
-	 *
-	 *{@inheritDoc}
-	 */
-	public Object createSavepoint(  ) throws TransactionException
-	{
-		return null;
-	}
+    /**
+     *
+     *{@inheritDoc}
+     */
+    public Object createSavepoint() throws TransactionException
+    {
+        return null;
+    }
 
-	/**
-	 *
-	 *{@inheritDoc}
-	 */
-	public void releaseSavepoint( Object savepoint ) throws TransactionException
-	{
-		for(TransactionStatus ts : _transactionStatuses.values() )
-		{
+    /**
+     *
+     *{@inheritDoc}
+     */
+    public void releaseSavepoint( Object savepoint ) throws TransactionException
+    {
+        for ( TransactionStatus ts : _transactionStatuses.values() )
+        {
             ts.releaseSavepoint( savepoint );
         }
-	}
+    }
 
-	/**
-	 *
-	 *{@inheritDoc}
-	 */
-	public void rollbackToSavepoint( Object savepoint ) throws TransactionException
-	{
-		for(TransactionStatus ts : _transactionStatuses.values(  ) )
-		{
+    /**
+     *
+     *{@inheritDoc}
+     */
+    public void rollbackToSavepoint( Object savepoint ) throws TransactionException
+    {
+        for ( TransactionStatus ts : _transactionStatuses.values() )
+        {
             ts.rollbackToSavepoint( savepoint );
         }
 
-	}
+    }
 
+    /**
+     * "Getter method" pour la variable {@link #_transactionStatuses}
+     * @return La variable {@link #_transactionStatuses}
+     */
+    public Map<PlatformTransactionManager, TransactionStatus> getTransactionStatuses()
+    {
+        return _transactionStatuses;
+    }
 
-
-	/**
-	 * "Getter method" pour la variable {@link #_transactionStatuses}
-	 * @return La variable {@link #_transactionStatuses}
-	 */
-	public Map<PlatformTransactionManager, TransactionStatus> getTransactionStatuses()
-	{
-		return _transactionStatuses;
-	}
-
-
-
-	/**
-	 * "Setter method" pour la variable {@link #_transactionStatuses}
-	 * @param statuses La nouvelle valeur de la variable {@link #_transactionStatuses}
-	 */
-	public void setTransactionStatuses( Map<PlatformTransactionManager, TransactionStatus> statuses )
-	{
-		_transactionStatuses = statuses;
-	}
-
+    /**
+     * "Setter method" pour la variable {@link #_transactionStatuses}
+     * @param statuses La nouvelle valeur de la variable {@link #_transactionStatuses}
+     */
+    public void setTransactionStatuses( Map<PlatformTransactionManager, TransactionStatus> statuses )
+    {
+        _transactionStatuses = statuses;
+    }
 }

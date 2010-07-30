@@ -38,13 +38,13 @@ import java.util.List;
 
 import fr.paris.lutece.util.jpa.IGenericDAO;
 import fr.paris.lutece.util.jpa.IGenericHome;
+import org.springframework.transaction.annotation.Transactional;
 
 public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> implements IGenericHome<K, E>
 {
         private DAO _dao;
 
 	/**
-	 *
 	 *{@inheritDoc}
 	 */
 	public void setDao( DAO dao )
@@ -53,7 +53,6 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
         }
 
 	/**
-	 *
 	 *{@inheritDoc}
 	 */
 	public DAO getDao(  )
@@ -62,25 +61,24 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
         }
 
 	/**
-	 *
 	 *{@inheritDoc}
 	 */
+        @Transactional
 	public void create( E entityBean )
 	{
 		getDao(  ).create( entityBean );
 	}
 
 	/**
-	 *
 	 *{@inheritDoc}
 	 */
+        @Transactional
 	public void remove( K key )
 	{
 		getDao(  ).remove( key );
 	}
 
 	/**
-	 *
 	 *{@inheritDoc}
 	 */
 	public E findByPrimaryKey( K key  )
@@ -89,22 +87,19 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
 	}
 
 	/**
-	 *
 	 *{@inheritDoc}
 	 */
+        @Transactional
 	public void update( E entityBean )
 	{
 		getDao(  ).update(entityBean);
 	}
 
 	/**
-	 *
 	 *{@inheritDoc}
 	 */
 	public List<E> findAll( )
 	{
 		return getDao(  ).findAll();
 	}
-
-
 }

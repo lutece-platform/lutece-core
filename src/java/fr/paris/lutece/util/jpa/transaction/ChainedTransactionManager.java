@@ -64,6 +64,34 @@ public class ChainedTransactionManager implements PlatformTransactionManager
     }
 
     /**
+     * Begin a transaction for all transaction managers
+     *{@inheritDoc}
+     */
+    public TransactionStatus getTransaction( TransactionDefinition definition ) throws TransactionException
+    {
+        if ( _transactionManagers.isEmpty() )
+        {
+            return null;
+        }
+
+        MultiTransactionStatus mts = new MultiTransactionStatus( _transactionManagers.get( 0 ) );
+
+        if ( !TransactionSynchronizationManager.isSynchronizationActive() )
+        {
+            TransactionSynchronizationManager.initSynchronization();
+            mts.setNewSynchonization();
+            _log.debug( "Begin transaction : " + mts.toString() );
+        }
+
+        for ( PlatformTransactionManager transactionManager : _transactionManagers )
+        {
+            mts.getTransactionStatuses().put( transactionManager, transactionManager.getTransaction( definition ) );
+        }
+
+        return mts;
+    }
+
+     /**
      *
      *{@inheritDoc}
      */
@@ -86,7 +114,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager
 
         if ( _log.isDebugEnabled() )
         {
-            _log.debug( "Ending transaction" );
+            _log.debug( "Ending transaction : " + status.toString() );
         }
 
         if ( ( ( MultiTransactionStatus ) status ).isNewSynchonization() )
@@ -96,35 +124,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager
 
     }
 
-    /**
-     *
-     *{@inheritDoc}
-     */
-    public TransactionStatus getTransaction( TransactionDefinition definition ) throws TransactionException
-    {
-        if ( _transactionManagers.isEmpty() )
-        {
-            return null;
-        }
-
-        MultiTransactionStatus mts = new MultiTransactionStatus( _transactionManagers.get( 0 ) );
-
-        if ( !TransactionSynchronizationManager.isSynchronizationActive() )
-        {
-            TransactionSynchronizationManager.initSynchronization();
-            mts.setNewSynchonization();
-            _log.debug( "Begin transaction" );
-        }
-
-        for ( PlatformTransactionManager transactionManager : _transactionManagers )
-        {
-            mts.getTransactionStatuses().put( transactionManager, transactionManager.getTransaction( definition ) );
-        }
-
-        return mts;
-    }
-
-    /**
+   /**
      *
      *{@inheritDoc}
      */

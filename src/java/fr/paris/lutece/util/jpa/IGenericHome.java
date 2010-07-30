@@ -40,7 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Interface IGenericLuteceHome
  */
-@Transactional
 public interface IGenericHome<K, E>
 {
 	/**
