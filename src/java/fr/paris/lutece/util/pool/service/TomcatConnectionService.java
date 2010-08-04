@@ -190,4 +190,12 @@ public class TomcatConnectionService implements ConnectionService
     {
         return "Tomcat";
     }
+
+    /**
+     * {@inheritDoc }
+     */
+    public DataSource getDataSource()
+    {
+        return _ds;
+    }
 }

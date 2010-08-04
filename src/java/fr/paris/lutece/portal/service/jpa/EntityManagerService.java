@@ -34,15 +34,17 @@
 
 package fr.paris.lutece.portal.service.jpa;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.jpa.JPAConstants;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
+import org.apache.log4j.Logger;
 
 /**
  * Class EntityManagerService
  */
 public class EntityManagerService
 {
+    private static Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
     private static Map<String ,  EntityManagerFactory> _mapFactories;
 
     /**
@@ -64,16 +66,16 @@ public class EntityManagerService
     }
 
     /**
-     * Gets an Entity Manager Factory for a given persistence unit
-     * @param strPersistenceUnit The name of the persistence unit
+     * Gets an Entity Manager Factory for a given pool name
+     * @param strPoolName The name of the persistence pool name
      * @return An Entity Manager Factory
      */
-    public EntityManagerFactory getEntityManagerFactory( String strPersistenceUnit )
+    public EntityManagerFactory getEntityManagerFactory( String strPoolName )
     {
-        EntityManagerFactory emf = _mapFactories.get( strPersistenceUnit );
+        EntityManagerFactory emf = _mapFactories.get( strPoolName );
         if( emf == null )
         {
-            AppLogService.error( "EntityManagerService error - Persistence unit factory not found : " + strPersistenceUnit );
+            _log.error( "EntityManagerService Error - No factory was found for pool : " + strPoolName );
         }
         return emf;
     }

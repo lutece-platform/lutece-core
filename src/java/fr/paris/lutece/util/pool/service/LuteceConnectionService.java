@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.util.pool.service;
 
+import javax.sql.DataSource;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -219,5 +220,13 @@ public class LuteceConnectionService implements ConnectionService
     public String getPoolProvider(  )
     {
         return "Lutece";
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public DataSource getDataSource()
+    {
+        return _connPool;
     }
 }

@@ -34,6 +34,7 @@
 package fr.paris.lutece.util.pool.service;
 
 import fr.paris.lutece.portal.service.util.AppException;
+import java.io.PrintWriter;
 
 import org.apache.log4j.Logger;
 
@@ -44,12 +45,13 @@ import java.sql.Statement;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.sql.DataSource;
 
 
 /**
  * This class manages a database connection pool.
  */
-public class ConnectionPool
+public class ConnectionPool implements DataSource
 {
     private static final String DEFAULT_CHECK_VALID_CONNECTION_SQL = "SELECT 1";
     private String _strUrl;
@@ -61,6 +63,7 @@ public class ConnectionPool
     private int _nCheckedOut;
     private List<Connection> _freeConnections = new ArrayList<Connection>(  );
     private String _strCheckValidConnectionSql; // Added in v1.4
+    private PrintWriter _logWriter;
 
     /**
      * Constructor
@@ -371,4 +374,43 @@ public class ConnectionPool
     {
         return _nMaxConns;
     }
+
+    public Connection getConnection( String username, String password ) throws SQLException
+    {
+        return getConnection();
+    }
+
+    public PrintWriter getLogWriter() throws SQLException
+    {
+        _logger.debug( "ConnectionPool : DataSource getLogWriter called" );
+        return _logWriter;
+    }
+
+    public void setLogWriter( PrintWriter out ) throws SQLException
+    {
+        _logger.debug( "ConnectionPool : DataSource setLogWriter called" );
+        _logWriter = out;
+    }
+
+    public void setLoginTimeout( int seconds ) throws SQLException
+    {
+
+    }
+
+    public int getLoginTimeout() throws SQLException
+    {
+        return _nTimeOut;
+    }
+
+    public <T> T unwrap( Class<T> iface ) throws SQLException
+    {
+        return null;
+    }
+
+    public boolean isWrapperFor( Class<?> iface ) throws SQLException
+    {
+        return false;
+    }
+
+
 }

@@ -36,6 +36,7 @@
 package fr.paris.lutece.util.pool.service;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 
@@ -226,5 +227,13 @@ public class C3p0ConnectionService implements ConnectionService
     public String getPoolProvider(  )
     {
         return "C3P0";
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public DataSource getDataSource()
+    {
+        return _dataSource;
     }
 }

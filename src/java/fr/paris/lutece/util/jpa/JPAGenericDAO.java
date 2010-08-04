@@ -42,7 +42,6 @@ import javax.persistence.Query;
 import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
-import org.springframework.orm.jpa.EntityManagerHolder;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
@@ -54,7 +53,6 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
 {
 
     private Class<E> _entityClass;
-    private EntityManagerFactory _emf;
     private static final Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
 
     /**
@@ -86,11 +84,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
      */
     public EntityManager getEM()
     {
-        if ( _emf == null )
-        {
-            // TODO : changement de pool : _emf ne devrait pas etre "gardé".
-            _emf = getEntityManagerFactory();
-        }
+        EntityManagerFactory emf = getEntityManagerFactory();
 
         if ( TransactionSynchronizationManager.isSynchronizationActive() )
         {
@@ -98,14 +92,14 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
             try
             {
 
-                EntityManager em = EntityManagerFactoryUtils.getTransactionalEntityManager( _emf );
+                EntityManager em = EntityManagerFactoryUtils.getTransactionalEntityManager( emf );
                 if ( em == null )
                 {
                     _log.error( "getEM(  ) : no EntityManager found. Will use native entity manager factory [Transaction will not be supported]" );
                 }
                 else
                 {
-                    _log.debug( "EntityManager found for the current transaction : " + em.toString() + " - using Factory : " + _emf.toString() );
+                    _log.debug( "EntityManager found for the current transaction : " + em.toString() + " - using Factory : " + emf.toString() );
                     return em;
                 }
             }
@@ -116,7 +110,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
         }
         _log.error( "getEM(  ) : no EntityManager found. Will use native entity manager factory [Transaction will not be supported]" );
 
-        return _emf.createEntityManager();
+        return emf.createEntityManager();
     }
 
     /**

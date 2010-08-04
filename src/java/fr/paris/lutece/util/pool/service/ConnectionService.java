@@ -38,6 +38,7 @@ import org.apache.log4j.Logger;
 import java.sql.Connection;
 
 import java.util.Hashtable;
+import javax.sql.DataSource;
 
 
 /**
@@ -111,4 +112,10 @@ public interface ConnectionService
      * @return The pool manager
      */
     String getPoolProvider(  );
+
+    /**
+     * Get datasource
+     * @return A data source object
+     */
+    DataSource getDataSource();
 }
