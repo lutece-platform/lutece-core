@@ -58,7 +58,7 @@ import javax.mail.internet.AddressException;
 public final class MailService
 {
     private static final String PROPERTY_MAIL_NOREPLY_EMAIL = "mail.noreply.email";
-    private static IMailQueue _queue = (IMailQueue) SpringContextService.getBean( "mailQueue" );
+    private static final String BEAN_MAIL_QUEUE = "mailQueue";
 
     /** Creates a new instance of AppMailService */
     private MailService(  )
@@ -84,7 +84,8 @@ public final class MailService
         item.setSenderEmail( strSenderEmail );
         item.setSubject( strSubject );
         item.setMessage( strMessage );
-        _queue.send( item );
+        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
+        queue.send( item );
     }
 
     /**
@@ -129,7 +130,8 @@ public final class MailService
         item.setSubject( strSubject );
         item.setMessage( strMessage );
         item.setFormat( MailItem.FORMAT_HTML );
-        _queue.send( item );
+        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
+        queue.send( item );
     }
 
     /**
@@ -181,7 +183,8 @@ public final class MailService
         item.setFormat( MailItem.FORMAT_MULTIPART_HTML );
         item.setUrlsAttachement( urlsAttachement );
         item.setFilesAttachement( filesAttachement );
-        _queue.send( item );
+        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
+        queue.send( item );
     }
 
     /**
@@ -225,7 +228,8 @@ public final class MailService
         item.setSubject( strSubject );
         item.setMessage( strMessage );
         item.setFormat( MailItem.FORMAT_TEXT );
-        _queue.send( item );
+        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
+        queue.send( item );
     }
 
     /**
@@ -274,7 +278,8 @@ public final class MailService
         item.setMessage( strMessage );
         item.setFormat( MailItem.FORMAT_MULTIPART_TEXT );
         item.setFilesAttachement( filesAttachement );
-        _queue.send( item );
+        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
+        queue.send( item );
     }
 
     /**
@@ -306,7 +311,8 @@ public final class MailService
      */
     public static IMailQueue getQueue(  )
     {
-        return _queue;
+        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
+        return queue;
     }
 
     /**
@@ -323,7 +329,8 @@ public final class MailService
 
         if ( queue.size(  ) != 0 )
         {
-            sbLogs.append( "\r\nLast mails sent " + new Date(  ).toString(  ) );
+            sbLogs.append("\r\nLast mails sent ");
+            sbLogs.append(new Date().toString());
 
             Session session = MailUtil.getMailSession( strHost );
             Transport transportSmtp = null;
@@ -349,13 +356,14 @@ public final class MailService
                     {
                         try
                         {
-                            sbLogs.append( "\r\n - To " +
-                                ( ( mail.getRecipientsTo(  ) != null ) ? mail.getRecipientsTo(  ) : "" ) );
-                            sbLogs.append( " - Cc " +
-                                ( ( mail.getRecipientsCc(  ) != null ) ? mail.getRecipientsCc(  ) : "" ) );
-                            sbLogs.append( " - Bcc " +
-                                ( ( mail.getRecipientsBcc(  ) != null ) ? mail.getRecipientsBcc(  ) : "" ) );
-                            sbLogs.append( " - Subject : " + mail.getSubject(  ) );
+                            sbLogs.append( "\r\n - To " );
+                            sbLogs.append( ( ( mail.getRecipientsTo(  ) != null ) ? mail.getRecipientsTo(  ) : "" ) );
+                            sbLogs.append( " - Cc " );
+                            sbLogs.append( ( mail.getRecipientsCc(  ) != null ) ? mail.getRecipientsCc(  ) : ""  );
+                            sbLogs.append( " - Bcc " );
+                            sbLogs.append    ( ( mail.getRecipientsBcc(  ) != null ) ? mail.getRecipientsBcc(  ) : "" );
+                            sbLogs.append( " - Subject : " );
+                            sbLogs.append( mail.getSubject(  ) );
 
                             switch ( mail.getFormat(  ) )
                             {
@@ -401,20 +409,23 @@ public final class MailService
                         catch ( AddressException e )
                         {
                             //a wrongly formatted address is encountered in the list of recipients
-                            sbLogs.append( " - Status [ Failed ] : " + e.getMessage(  ) );
+                            sbLogs.append( " - Status [ Failed ] : " );
+                            sbLogs.append( e.getMessage(  ) );
                             AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
                         }
                         catch ( SendFailedException e )
                         {
                             //the send failed because of invalid addresses.
-                            sbLogs.append( " - Status [ Failed ] : " + e.getMessage(  ) );
+                            sbLogs.append( " - Status [ Failed ] : " );
+                            sbLogs.append( e.getMessage(  ) );
                             AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
                         }
                         catch ( MessagingException e )
                         {
                             //if the connection is dead or not in the connected state 
                             //we put the mail in the queue before end process 
-                            sbLogs.append( " - Status [ Failed ] : " + e.getMessage(  ) );
+                            sbLogs.append( " - Status [ Failed ] : " );
+                            sbLogs.append( e.getMessage(  ) );
                             AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
                             queue.send( mail );
 
@@ -428,19 +439,22 @@ public final class MailService
                 }
                 catch ( MessagingException e )
                 {
-                    sbLogs.append( "MailService - Error sending mail (MessagingException): " + e.getMessage(  ) );
+                    sbLogs.append( "MailService - Error sending mail (MessagingException): " );
+                    sbLogs.append( e.getMessage(  ) );
                     AppLogService.error( "MailService - Error sending mail (MessagingException): " + e.getMessage(  ), e );
                 }
                 catch ( Exception e )
                 {
-                    sbLogs.append( "MailService - Error sending mail : " + e.getMessage(  ) );
+                    sbLogs.append( "MailService - Error sending mail : " );
+                    sbLogs.append( e.getMessage(  ) );
                     AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
                 }
             }
         }
         else
         {
-            sbLogs.append( "\r\nNo mail to send " + new Date(  ).toString(  ) );
+            sbLogs.append( "\r\nNo mail to send " );
+            sbLogs.append( new Date(  ).toString(  ) );
         }
 
         return sbLogs;
