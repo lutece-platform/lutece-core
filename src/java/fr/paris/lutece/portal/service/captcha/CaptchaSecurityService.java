@@ -64,7 +64,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
         {
             // first check if captchaValidator bean is available in the jcaptcha plugin context
             _captchaService = (ICaptchaService) SpringContextService.getPluginBean( SPRING_CONTEXT_NAME,
-                    "captchaService" );
+                    "jcaptcha.captchaService" );
             _bAvailable = _captchaService != null;
         }
         catch ( BeanDefinitionStoreException e )
