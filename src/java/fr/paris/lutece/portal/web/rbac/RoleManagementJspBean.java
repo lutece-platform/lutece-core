@@ -37,22 +37,37 @@ import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
+import fr.paris.lutece.portal.business.right.Level;
+import fr.paris.lutece.portal.business.right.LevelHome;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.user.AdminUserFilter;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.business.workgroup.AdminWorkgroup;
+import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.rbac.ResourceType;
 import fr.paris.lutece.portal.service.rbac.ResourceTypeManager;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.util.LocalizedPaginator;
+import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.html.ItemNavigator;
 import fr.paris.lutece.util.html.Paginator;
+import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.string.StringUtil;
+import fr.paris.lutece.util.url.UrlItem;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +83,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     //////////////////////////////////////////////////////////////////////////////////
     // Contants
     public static final String RIGHT_MANAGE_ROLES = "CORE_RBAC_MANAGEMENT";
+    private static final String CONSTANT_MOINS_UN = "-1";
+    private static final String CONSTANT_DEFAULT_LEVEL = "noValue";
 
     // parameters
     private static final String PARAMETER_METHOD_SELECTION_ALL = "all";
@@ -82,6 +99,18 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_PERMISSION_KEY = "permission_key";
     private static final String PARAMETER_SELECT_PERMISSIONS_METHOD = "select_permissions";
     private static final String PARAMETER_RBAC_ID = "rbac_id";
+    private static final String PARAMETER_AVAILABLE_USER_LIST = "available_users_list";
+    private static final String PARAMETER_CANCEL = "cancel";
+    private static final String PARAMETER_ID_USER = "id_user";
+    private static final String PARAMETER_SEARCH_USERS = "search_users";
+    private static final String PARAMETER_SEARCH_ACCESS_CODE = "search_access_code";
+    private static final String PARAMETER_SEARCH_LAST_NAME = "search_last_name";
+    private static final String PARAMETER_SEARCH_FIRST_NAME = "search_first_name";
+    private static final String PARAMETER_SEARCH_EMAIL = "search_email";
+    private static final String PARAMETER_SEARCH_STATUS = "search_status";
+    private static final String PARAMETER_SEARCH_USER_LEVEL = "search_user_level";
+    private static final String PARAMETER_SEARCH_IS_SEARCH = "search_is_search";
+    private static final String PARAMETER_ANCHOR = "anchor";
 
     //markers
     private static final String MARK_PERMISSIONS_LIST = "permissions_list";
@@ -96,6 +125,14 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_RESOURCE_TYPE = "resource_type";
     private static final String MARK_SELECT_RESOURCES_METHOD = "select_resources";
     private static final String MARK_RESOURCE_LIST_AVAILABLE = "resource_list_available";
+    private static final String MARK_ASSIGNED_USERS_LIST = "assigned_users_list";
+    private static final String MARK_AVAILABLE_USERS_LIST = "available_users_list";
+    private static final String MARK_ASSIGNED_USERS_NUMBER = "assigned_users_number";
+    private static final String MARK_ITEM_NAVIGATOR = "item_navigator";
+	private static final String MARK_SEARCH_IS_SEARCH = "search_is_search";
+    private static final String MARK_SEARCH_ADMIN_USER_FILTER = "search_admin_user_filter";
+    private static final String MARK_USER_LEVELS_LIST = "user_levels";
+    private static final String MARK_SORT_SEARCH_ATTRIBUTE = "sort_search_attribute";
 
     // properties
     private static final String PROPERTY_CONFIRM_DELETE_ROLE = "portal.rbac.message.confirmDeleteRole";
@@ -114,6 +151,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_PERMISSION_LIST_EMPTY = "portal.rbac.message.permissionListEmpty";
     private static final String MESSAGE_ROLE_SPECIAL_CHARACTER = "portal.rbac.message.specialCharacters";
     private static final String PROPERTY_ROLES_PER_PAGE = "paginator.roles.itemsPerPage";
+    private static final String PROPERTY_ASSIGN_USERS_PAGE_TITLE = "portal.rbac.assign_users.pageTitle";
 
     // templates
     private static final String TEMPLATE_MANAGE_ROLES = "admin/rbac/manage_roles.html";
@@ -123,6 +161,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_ADD_CONTROL_TO_ROLE = "admin/rbac/add_control_to_role.html";
     private static final String TEMPLATE_SELECT_PERMISSIONS = "admin/rbac/select_permissions.html";
     private static final String TEMPLATE_SELECT_RESOURCE_IDS = "admin/rbac/select_resource_ids.html";
+    private static final String TEMPLATE_ASSIGN_USERS = "admin/rbac/assign_users_role.html";
 
     // jsp
     private static final String JSP_URL_ROLES_MANAGEMENT = "ManageRoles.jsp";
@@ -131,6 +170,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_SELECT_SPECIFIC_IDS = "SelectSpecificIds.jsp";
     private static final String JSP_URL_REMOVE_ROLE = "jsp/admin/rbac/DoRemoveRole.jsp";
     private static final String JSP_URL_REMOVE_CONTROL_FROM_ROLE = "jsp/admin/rbac/DoRemoveControlFromRole.jsp";
+    private static final String JSP_URL_ASSIGN_USERS_TO_ROLE = "AssignUsersRole.jsp";
+    private static final String JSP_URL_ASSIGN_USERS_TO_ROLE_COMPLETE = "jsp/admin/rbac/AssignUsersRole.jsp";
+    
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -143,14 +185,42 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageRoles( HttpServletRequest request )
     {
+        List<AdminRole> listRole = (List<AdminRole>) AdminRoleHome.findAll(  );
+        
+        // SORT
+        String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
+        String strAscSort = null;
+
+        if ( strSortedAttributeName != null )
+        {
+            strAscSort = request.getParameter( Parameters.SORTED_ASC );
+
+            boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
+
+            Collections.sort( listRole, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
+        }
+
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_ROLES_PER_PAGE, 10 );
+        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_ROLES_PER_PAGE, 50 );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
 
-        List<AdminRole> listRole = (List<AdminRole>) AdminRoleHome.findAll(  );
-        Paginator paginator = new Paginator( listRole, _nItemsPerPage, getHomeUrl( request ),
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        String strURL = getHomeUrl( request );
+        UrlItem url = new UrlItem( strURL );
+
+        if ( strSortedAttributeName != null )
+        {
+        	url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
+        }
+
+        if ( strAscSort != null )
+        {
+        	url.addParameter( Parameters.SORTED_ASC, strAscSort );
+        }
+        
+        // PAGINATOR
+        LocalizedPaginator paginator = new LocalizedPaginator( listRole, _nItemsPerPage, url.getUrl(  ),
+                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
@@ -684,4 +754,236 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
     }
+    
+    /**
+     * Returns the users assignation form
+     *
+     * @param request The Http request
+     * @return the html code for display the modes list
+     */
+    public String getAssignUsers( HttpServletRequest request )
+    {
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGE_TITLE );
+
+        // ROLE
+        String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );       
+        AdminRole role = AdminRoleHome.findByPrimaryKey( strRoleKey );
+        
+        // ASSIGNED USERS
+        List<AdminUser> listAssignedUsers = new ArrayList<AdminUser>(  );
+        for ( AdminUser user : AdminUserHome.findByRole( strRoleKey ) )
+        {
+            //Add users with higher level then connected user or add all users if connected user is administrator
+            if ( ( user.getUserLevel(  ) > getUser(  ).getUserLevel(  ) ) || ( getUser(  ).isAdmin(  ) ) )
+            {
+                listAssignedUsers.add( user );
+            }
+        }
+        
+        // FILTER
+        AdminUserFilter auFilter = new AdminUserFilter(  );
+        List<AdminUser> listFilteredUsers = new ArrayList<AdminUser>(  );
+        boolean bIsSearch = auFilter.setAdminUserFilter( request );
+        boolean bIsFiltered;
+        
+        for ( AdminUser userFiltered : AdminUserHome.findUserByFilter( auFilter ) )
+        {
+        	bIsFiltered = Boolean.FALSE;
+        	
+        	for( AdminUser assignedUser : listAssignedUsers )
+        	{
+        		if ( assignedUser.getUserId(  ) == userFiltered.getUserId(  ) )
+                {
+            		bIsFiltered = Boolean.TRUE;
+            		break;
+                }
+        	}
+        	
+        	if ( bIsFiltered &&
+                    ( ( userFiltered.getUserLevel(  ) > getUser(  ).getUserLevel(  ) ) || ( getUser(  ).isAdmin(  ) ) ) )
+            {
+        		listFilteredUsers.add( userFiltered );
+            }
+        }
+        
+        // AVAILABLE USERS
+        ReferenceList listAvailableUsers = new ReferenceList(  );
+        ReferenceItem itemUser = null;
+        boolean bAssigned;
+        for ( AdminUser user : AdminUserHome.findUserList(  ) )
+        {
+            itemUser = new ReferenceItem(  );
+            itemUser.setCode( Integer.toString( user.getUserId(  ) ) );
+            itemUser.setName( user.getAccessCode(  ) + "(" + user.getFirstName(  ) + " " + user.getLastName(  ) + ")" );
+            bAssigned = Boolean.FALSE;
+
+            for ( AdminUser assignedUser : listAssignedUsers )
+            {
+                if ( Integer.toString( assignedUser.getUserId(  ) ).equals( itemUser.getCode(  ) ) )
+                {
+                    bAssigned = Boolean.TRUE;
+                    break;
+                }
+            }
+
+            //Add users with higher level then connected user or add all users if connected user is administrator
+            if ( !bAssigned &&
+                    ( ( user.getUserLevel(  ) > getUser(  ).getUserLevel(  ) ) || ( getUser(  ).isAdmin(  ) ) ) )
+            {
+            	listAvailableUsers.add( itemUser );
+            }
+        }
+        
+        // SORT
+        String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
+        String strAscSort = null;
+
+        if ( strSortedAttributeName != null )
+        {
+            strAscSort = request.getParameter( Parameters.SORTED_ASC );
+
+            boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
+
+            Collections.sort( listFilteredUsers, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
+        }
+
+        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_ROLES_PER_PAGE, 50 );
+        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
+                _nDefaultItemsPerPage );
+
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_ROLE_COMPLETE;
+        UrlItem url = new UrlItem( strBaseUrl );
+        
+        if ( strSortedAttributeName != null )
+        {
+        	url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
+        }
+
+        if ( strAscSort != null )
+        {
+        	url.addParameter( Parameters.SORTED_ASC, strAscSort );
+        }
+        
+        String strSortSearchAttribute = "";
+        if( bIsSearch )
+        {
+        	auFilter.setUrlAttributes( url );
+        	strSortSearchAttribute = "&" + auFilter.getUrlAttributes(  );
+        }
+        
+        // ITEM NAVIGATION
+        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
+        Collection<AdminRole> listAllRole = AdminRoleHome.findAll(  );
+        int nMapKey = 1;
+        int nCurrentItemId = 1;
+        for( AdminRole AllRole : listAllRole )
+        {
+        	listItem.put( nMapKey, AllRole.getKey(  ) );
+        	if( AllRole.getKey(  ).equals( role.getKey(  ) ) )
+        	{
+        		nCurrentItemId = nMapKey;
+        	}
+        	nMapKey++;
+        }
+        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_ROLE_KEY );
+        
+        // PAGINATOR
+        url.addParameter( PARAMETER_ROLE_KEY, role.getKey(  ) );
+        LocalizedPaginator paginator = new LocalizedPaginator( listFilteredUsers, _nItemsPerPage, url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX,
+                    _strCurrentPageIndex, getLocale(  ) );
+        
+        // USER LEVEL
+        Collection<Level> filteredLevels = new ArrayList<Level>(  );
+        for ( Level level : LevelHome.getLevelsList(  ) )
+        {
+            if ( getUser(  ).isAdmin(  ) || getUser(  ).hasRights( level.getId(  ) ) )
+            {
+                filteredLevels.add( level );
+            }
+        }
+        
+        model.put( MARK_ROLE, role );
+        model.put( MARK_USER_LEVELS_LIST, filteredLevels );
+        model.put( MARK_AVAILABLE_USERS_LIST, listAvailableUsers );
+        model.put( MARK_ASSIGNED_USERS_LIST, paginator.getPageItems(  ) );
+        model.put( MARK_ASSIGNED_USERS_NUMBER, listAssignedUsers.size(  ) );
+        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
+        model.put( MARK_SEARCH_ADMIN_USER_FILTER, auFilter );
+        model.put( MARK_SEARCH_IS_SEARCH, bIsSearch );
+        model.put( MARK_PAGINATOR, paginator );
+        model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
+        model.put( MARK_SORT_SEARCH_ATTRIBUTE, strSortSearchAttribute );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale(  ), model );
+
+        return getAdminPage( template.getHtml(  ) );
+    }
+
+    /**
+     * Process the data capture form for assign users to a role
+     *
+     * @param request The HTTP Request
+     * @return The Jsp URL of the process result
+     */
+    public String doAssignUsers( HttpServletRequest request )
+    {
+        String strReturn;
+
+        String strActionCancel = request.getParameter( PARAMETER_CANCEL );
+
+        if ( strActionCancel != null )
+        {
+            strReturn = JSP_URL_ROLES_MANAGEMENT;
+        }
+        else
+        {
+            String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
+
+            //retrieve the selected portlets ids
+            String[] arrayUsersIds = request.getParameterValues( PARAMETER_AVAILABLE_USER_LIST );
+
+            if ( ( arrayUsersIds != null ) )
+            {
+                for ( int i = 0; i < arrayUsersIds.length; i++ )
+                {
+                    int nUserId = Integer.parseInt( arrayUsersIds[i] );
+                    AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
+
+                    if ( !AdminUserHome.hasRole( user, strRoleKey ) )
+                    {
+                    	AdminUserHome.createRoleForUser( user.getUserId(  ), strRoleKey );
+                    }
+                }
+            }
+
+            strReturn = JSP_URL_ASSIGN_USERS_TO_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
+        }
+
+        return strReturn;
+    }
+
+    /**
+     * unassigns user from role
+     * @param request The HttpRequest
+     * @return the HTML code of list assignations
+     */
+    public String doUnAssignUser( HttpServletRequest request )
+    {
+        String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
+        int nIdUser = Integer.parseInt( request.getParameter( PARAMETER_ID_USER ) );
+        String strAnchor = request.getParameter( PARAMETER_ANCHOR );
+
+        AdminUser adminUser = AdminUserHome.findByPrimaryKey( nIdUser );
+
+        if ( adminUser != null )
+        {
+        	AdminUserHome.removeRoleForUser( nIdUser, strRoleKey );
+        }
+
+        return JSP_URL_ASSIGN_USERS_TO_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey
+        		+ "#" + strAnchor;
+    }
+    
 }

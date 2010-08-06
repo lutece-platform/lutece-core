@@ -1,24 +1,19 @@
 <div class="content-box">
     <h2>#i18n{portal.rbac.manage_roles.pageTitle}</h2>
-    <form method="post" action="jsp/admin/rbac/ManageRoles.jsp">
-        <@pagination paginator=paginator />
-        <!-- Number of documents per page selector -->
-        #i18n{portal.rbac.manage_roles.labelItemsPerPage} :
-        <select name="items_per_page">
-            <#list [ "10" , "20" , "50" , "100" ] as nb>
-            <#if nb_items_per_page = nb >
-            <option selected="selected" value="${nb}">${nb}</option>
-            <#else>
-            <option value="${nb}">${nb}</option>
-            </#if>
-            </#list>
-        </select>                            
-        <input type="submit" class="button" value="#i18n{portal.rbac.manage_roles.buttonItemsPerPage}" />
-    </form>  
+    <form method="post" action="jsp/admin/rbac/CreateRole.jsp">
+        <p><input type="submit" value="#i18n{portal.rbac.manage_roles.buttonLabelNewRole}"  class="button" /></p>
+    </form>
+    <@paginationAdminCombo paginator=paginator />
     <table>
         <tr>
-            <th>#i18n{portal.rbac.manage_roles.columnTitleKey}</th>
-            <th>#i18n{portal.rbac.manage_roles.columnTitleDescription}</th>
+            <th>
+            	#i18n{portal.rbac.manage_roles.columnTitleKey}
+            	<@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="key" />
+            </th>
+            <th>
+            	#i18n{portal.rbac.manage_roles.columnTitleDescription}
+            	<@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="description" />
+            </th>
             <th>#i18n{portal.rbac.manage_roles.columnTitleActions}</th>
         </tr>
         <#list role_list as role >
@@ -26,15 +21,18 @@
             <td><a href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" class="bullet-link" >${role.key}</a></td>
             <td>${role.description}</td>
             <td>
-                <form method="post"  action="jsp/admin/rbac/DoConfirmRemoveRole.jsp">
-                    <input type="hidden" name="role_key"  value="${role.key}" />
-                    <input type="image" src="images/admin/skin/actions/delete.png"  style="border:0;vertical-align:bottom;" alt="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" />
-                </form>
+            	<a href="jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}">
+            		<img title="#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers}" alt="#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers}"src="images/admin/skin/actions/group.png" />
+            	</a>
+				<a href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}">
+					<img title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" alt="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" src="images/admin/skin/actions/delete.png" />
+				</a>
             </td>
         </tr>
         </#list>
     </table>
-    <form method="post"  action="jsp/admin/rbac/CreateRole.jsp">
+    <@paginationAdmin paginator=paginator />
+    <form method="post" action="jsp/admin/rbac/CreateRole.jsp">
         <p><input type="submit" value="#i18n{portal.rbac.manage_roles.buttonLabelNewRole}"  class="button" /></p>
     </form>
 </div>
