@@ -1,10 +1,8 @@
 <div class="content-box" >       
     <h2>#i18n{portal.style.manage_styles.title}</h2>
-    
+    <!--
     <form method="post" action="jsp/admin/style/ManageStyles.jsp">
-        <@pagination paginator=paginator />
 
-        <!-- Number of documents per page selector -->
         #i18n{portal.style.manage_styles.labelItemsPerPage} :
         <select name="items_per_page">
             <#list [ "10" , "20" , "50" , "100" ] as nb>
@@ -16,8 +14,12 @@
             </#list>
         </select>                            
         <input type="submit" class="button" value="#i18n{portal.style.manage_styles.buttonItemsPerPage}" />
+
+        <@paginationAdmin paginator=paginator />
+
     </form>
-    	       
+    -->
+    	<@paginationAdminCombo paginator=paginator />
     <table>
         <tr>			
             <th width="15%" >
