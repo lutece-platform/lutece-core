@@ -67,10 +67,10 @@
 
 
 <#macro sort jsp_url attribute >
-	<a href="${jsp_url}?sorted_attribute_name=${attribute}&asc_sort=true" >
+	<a id="sort" href="${jsp_url}?sorted_attribute_name=${attribute}&asc_sort=true#sort" >
 		<img src="images/admin/skin/actions/sort_asc.gif" style="vertical-align: text-bottom;" alt="#i18n{portal.util.sort.asc}" title="#i18n{portal.util.sort.asc}" />
 	</a>
-	<a href="${jsp_url}?sorted_attribute_name=${attribute}&asc_sort=false" >
+	<a href="${jsp_url}?sorted_attribute_name=${attribute}&asc_sort=false#sort" >
     	<img src="images/admin/skin/actions/sort_desc.gif" style="vertical-align: text-bottom;" alt="#i18n{portal.util.sort.desc}" title="#i18n{portal.util.sort.desc}" />
     </a>
 </#macro>
@@ -402,4 +402,26 @@
         </p>
     </div>
     </#if>
+</#macro>
+
+
+<#macro item_navigation item_navigator>
+	<div id="item-navigator">
+		<#if (item_navigator.currentItemId > 1)>
+			<a href="${item_navigator.previousPageLink?xhtml}">
+	            <img src="images/admin/skin/prev.png" alt="&lt;" style="vertical-align: baseline;" />
+	            #i18n{portal.util.labelPrevious}
+	        </a>
+	    <#else>
+	    	&nbsp;&nbsp;
+		</#if>
+		<#if (item_navigator.currentItemId < item_navigator.listItemSize) >
+	         <a href="${item_navigator.nextPageLink?xhtml}">
+	         	#i18n{portal.util.labelNext}
+	            <img src="images/admin/skin/next.png" alt="&gt;" style="vertical-align: baseline;" />
+	        </a>
+	    <#else>
+	    	&nbsp;&nbsp;
+		</#if>
+	</div>
 </#macro>

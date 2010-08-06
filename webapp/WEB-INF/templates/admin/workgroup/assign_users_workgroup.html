@@ -1,53 +1,41 @@
 <div id="left">
     <div class="content-box" >
+    	<h2>#i18n{portal.workgroup.assign_users.workgroup.name} : ${workgroup.key}</h2>
         <table>
             <tr>
-                <th colspan="2">
-                   #i18n{portal.workgroup.assign_users.workgroup.name}
-                </th>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    ${workgroup.key}
-                </td>
-            </tr>
-            <tr>
-                <th colspan="2">
+                <th>
                      #i18n{portal.workgroup.assign_users.workgroup.description}
                 </th>
             </tr>
             <tr>
-                <td colspan="2">
+                <td>
                     ${workgroup.description}
                 </td>
             </tr>
             <tr>
-                <th colspan="2">
+                <th>
                      #i18n{portal.workgroup.assign_users.workgroup.number_user}
                 </th>
             </tr>
             <tr>
-                <td colspan="2">
+                <td>
                     ${assigned_users_number}
                 </td>
             </tr>
             <tr>
-                <th colspan="2">
-                     #i18n{portal.workgroup.assign_users.workgroup.action}
+                <th>
+                     #i18n{portal.workgroup.assign_users.workgroup.actions}
                 </th>
             </tr>
             <tr>
-                <td width="1%">
-                    <form method="post" action="jsp/admin/workgroup/ModifyWorkgroup.jsp">
-                        <input type="hidden" name="workgroup_key" value="${workgroup.key}"/> 
-                        <input src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}" type="image">
-                    </form>
-                </td>
                 <td>
-                    <form method="post" action="jsp/admin/workgroup/RemoveWorkgroup.jsp">
-                        <input type="hidden" name="workgroup_key" value="${workgroup.key}"/>  
-                        <input src="images/admin/skin/actions/delete.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}" type="image">
-                    </form>                    
+                	<a href="jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}">
+                		<img alt="#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}" src="images/admin/skin/actions/modify.png" />
+                	</a>
+                	<a href="jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}">
+                		<img alt="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}" src="images/admin/skin/actions/delete.png" />
+                	</a>
+                    <@item_navigation item_navigator=item_navigator />
                 </td>
             </tr>
         </table>
@@ -91,17 +79,117 @@
 		    #i18n{portal.workgroup.assign_users.labelAssignedUser}
 		</h2>
 		        
-	    <#if assigned_users_list?size &gt; 0 >
+	    <#if assigned_users_list?size &gt; 0 || search_is_search >
+	    	<div class="highlight-box">
+				<div id="search-users">
+					<form method="post" name="search_users" action="jsp/admin/workgroup/AssignUsersWorkgroup.jsp"  >
+						<#if (user_levels?has_content)>
+							<p>
+				                <label for="user_level">#i18n{portal.users.manage_users.search_users.userLevelLabel} :</label>
+								<select id="user_level" name="search_user_level">
+									<#if (search_admin_user_filter.userLevel > -1) >
+										<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
+				                		<#list user_levels as user_level>
+				                			<#if (search_admin_user_filter.userLevel == user_level.id) >
+				                    			<option value="${user_level.id}" selected="selected" >${user_level.name}</option>
+				                    		<#else>
+				                    			<option value="${user_level.id}" >${user_level.name}</option>
+				                    		</#if>
+				                    	</#list>
+				                	<#else>
+				                		<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
+				                		<#list user_levels as user_level>
+				                			<option value="${user_level.id}" >${user_level.name}</option>
+				                		</#list>
+				                	</#if>
+				                </select>
+				            </p>
+						</#if>
+						<p>
+							<label for="access_code" >#i18n{portal.users.manage_users.search_users.labelAccessCode} :</label>
+							<input type="text" id="access_code" name="search_access_code" value="${search_admin_user_filter.accessCode}" />
+						</p>
+						<p>
+							<label for="last_name" >#i18n{portal.users.manage_users.search_users.labelLastName} :</label>
+							<input type="text"  id="last_name" name="search_last_name" value="${search_admin_user_filter.lastName}" maxlength="100" size="35" tabindex="2" />
+						</p>
+						<p>
+							<label for="first_name">#i18n{portal.users.manage_users.search_users.labelFirstName} :</label>
+							<input type="text" id="first_name" name="search_first_name" value="${search_admin_user_filter.firstName}" maxlength="100" size="35" tabindex="3" />
+						</p>
+						<p>
+							<label for="email">#i18n{portal.users.manage_users.search_users.labelEmail} :</label>
+							<input type="text" id="email" name="search_email" value="${search_admin_user_filter.email}" maxlength="100" size="35" tabindex="4" />
+						</p>
+						<p>
+				            <label for="status">#i18n{portal.users.manage_users.search_users.labelStatus} :</label>
+				            <select id="status" name="search_status" tabindex="5">
+				            	<#switch search_admin_user_filter.status >
+			                		<#case 0 >
+			                			<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+						               	<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+										<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+			                			<#break>
+			                		<#case 1 >
+			                			<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+						               	<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+										<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+			                			<#break>
+			                		<#default>
+			                			<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+						               	<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+										<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+										<#break>
+		                		</#switch>
+				            </select>
+						</p>
+						<p>
+							<input type="hidden" name="workgroup_key" value="${workgroup.key}" />
+				           	<input type="submit" value="#i18n{portal.users.manage_users.search_users.buttonSearch}" tabindex="6" class="button" name="search_is_search"/>   
+				        </p>
+					</form>
+		    	</div>
+		    </div>
+		    <form method="post" action="jsp/admin/workgroup/AssignUsersWorkgroup.jsp">
+		        <@paginationAdminComboWithoutForm paginator=paginator />
+		        <#if search_is_search >
+		   			<input type="hidden" name="search_is_search" value="true"/>
+		   			<input type="hidden" name="search_user_level" value="${search_admin_user_filter.userLevel}"/>
+		   			<input type="hidden" name="search_access_code" value="${search_admin_user_filter.accessCode}"/>
+		   			<input type="hidden" name="search_last_name" value="${search_admin_user_filter.lastName}"/>
+		   			<input type="hidden" name="search_first_name" value="${search_admin_user_filter.firstName}"/>
+		   			<input type="hidden" name="search_email" value="${search_admin_user_filter.email}"/>
+		   			<input type="hidden" name="search_status" value="${search_admin_user_filter.status}"/>
+		        </#if>
+		        <input type="hidden" name="workgroup_key" value="${workgroup.key}" />
+		    </form>
 	    	<table width="80%">
 	    		 <tr>            
-		            <th>#i18n{portal.users.manage_users.columnTitleLastName}</th>
-		            <th>#i18n{portal.users.manage_users.columnTitleFirstName}</th> 
-		            <th>#i18n{portal.users.manage_users.columnTitleAccessCode}</th>        
-		            <th>#i18n{portal.users.manage_users.columnTitleEmail}</th>
-		            <th>#i18n{portal.users.manage_users.columnTitleAction}</th>
-		        </tr>        
+		            <th>
+		            	#i18n{portal.users.manage_users.columnTitleLastName}
+		            	<@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="lastName&workgroup_key=${workgroup.key}${sort_search_attribute}" />
+		            </th>
+		            <th>
+		            	#i18n{portal.users.manage_users.columnTitleFirstName}
+		            	<@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="firstName&workgroup_key=${workgroup.key}${sort_search_attribute}" />
+		            </th> 
+		            <th>
+		            	#i18n{portal.users.manage_users.columnTitleAccessCode}
+		            	<@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="accessCode&workgroup_key=${workgroup.key}${sort_search_attribute}" />
+		            </th>        
+		            <th>
+		            	#i18n{portal.users.manage_users.columnTitleEmail}
+		            	<@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="email&workgroup_key=${workgroup.key}${sort_search_attribute}" />
+		            </th>
+		            <th>#i18n{portal.users.manage_users.columnTitleActions}</th>
+		        </tr>
 	        	<#list assigned_users_list as assigned_user>
-		            <tr>
+	        		<#if assigned_user_has_next>
+	        			<#assign anchor = assigned_user_index>
+	        		<#else>
+	        			<#assign anchor = assigned_user_index - 1 >
+	        		</#if>
+		            <tr id="anchor-${assigned_user_index}">
 		                <td>${assigned_user.lastName}</td>
 		                <td>${assigned_user.firstName}</td>
 		                <td>${assigned_user.accessCode}</td>
@@ -110,13 +198,14 @@
 		                    <a href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}" >
 			                    <img src="images/admin/skin/actions/modify.png" alt="#i18n{portal.workgroup.assign_users.actionModify}" title="#i18n{portal.workgroup.assign_users.actionModify}" />
 			                </a>
-			                <a href="jsp/admin/workgroup/DoUnassignUser.jsp?id_user=${assigned_user.userId}&workgroup_key=${workgroup.key}" >
+			                <a href="jsp/admin/workgroup/DoUnassignUser.jsp?id_user=${assigned_user.userId}&workgroup_key=${workgroup.key}&anchor=anchor-${anchor}" >
 			                    <img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.workgroup.assign_users.actionUnassign}" title="#i18n{portal.workgroup.assign_users.actionUnassign}" />
 			                </a>
 	               		</td>
 		            </tr>            
 	        	</#list>        
 	   		</table>
+			<@paginationAdmin paginator=paginator />
 	    <#else>
 	    	#i18n{portal.workgroup.assign_users.noAssignedList}
 	    </#if>	    

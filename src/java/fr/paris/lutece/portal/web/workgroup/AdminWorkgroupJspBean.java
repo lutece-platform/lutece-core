@@ -33,25 +33,40 @@
  */
 package fr.paris.lutece.portal.web.workgroup;
 
+import fr.paris.lutece.portal.business.rbac.AdminRole;
+import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
+import fr.paris.lutece.portal.business.right.Level;
+import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.user.AdminUserFilter;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroup;
+import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupFilter;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.html.ItemNavigator;
+import fr.paris.lutece.util.html.Paginator;
+import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.string.StringUtil;
+import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,24 +94,36 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_USERS_LIST = "users_list";
     private static final String MARK_ASSIGNED_USERS_LIST = "assigned_users_list";
     private static final String MARK_ASSIGNED_USERS_NUMBER = "assigned_users_number";
+    private static final String MARK_SEARCH_IS_SEARCH = "search_is_search";
+    private static final String MARK_NB_WORKGROUPS = "nb_workgroups";
+    private static final String MARK_SEARCH_ADMIN_WORKGROUP_FILTER = "search_admin_workgroup_filter";
+    private static final String MARK_USER_LEVELS_LIST = "user_levels";
+    private static final String MARK_SEARCH_ADMIN_USER_FILTER = "search_admin_user_filter";
+    private static final String MARK_ITEM_NAVIGATOR = "item_navigator";
+    private static final String MARK_PAGINATOR = "paginator";
+    private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
+    private static final String MARK_SORT_SEARCH_ATTRIBUTE = "sort_search_attribute";
 
     // Properties
     private static final String PROPERTY_CREATE_WORKGROUP_PAGETITLE = "portal.workgroup.create_workgroup.pageTitle";
     private static final String PROPERTY_MODIFY_WORKGROUP_PAGETITLE = "portal.workgroup.modify_workgroup.pageTitle";
     private static final String PROPERTY_ASSIGN_USERS_PAGE_TITLE = "portal.workgroup.assign_users.pageTitle";
     private static final String PROPERTY_MANAGE_WORKGROUPS_PAGETITLE = "portal.workgroup.manage_workgroups.pageTitle";
-
+    private static final String PROPERTY_USERS_PER_PAGE = "paginator.user.itemsPerPage";
+    
     // Parameters
     private static final String PARAMETER_WORKGROUP_KEY = "workgroup_key";
     private static final String PARAMETER_WORKGROUP_DESCRIPTION = "workgroup_description";
     private static final String PARAMETER_USERS_LIST = "list_users";
     private static final String PARAMETER_CANCEL = "cancel";
     private static final String PARAMETER_ID_USER = "id_user";
+    private static final String PARAMETER_ANCHOR = "anchor";
 
     // JSP
     private static final String JSP_MANAGE_WORKGROUPS = "ManageWorkgroups.jsp";
     private static final String JSP_ASSIGN_USERS_TO_WORKGROUPS = "AssignUsersWorkgroup.jsp";
     private static final String JSP_URL_REMOVE_WORKGROUP = "jsp/admin/workgroup/DoRemoveWorkgroup.jsp";
+    private static final String JSP_ASSIGN_USERS_TO_WORKGROUPS_COMPLETE = "jsp/admin/workgroup/AssignUsersWorkgroup.jsp";
 
     // Messages
     private static final String MESSAGE_WORKGROUP_ALREADY_EXIST = "portal.workgroup.message.workgroupAlreadyExist";
@@ -105,6 +132,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_CANNOT_REMOVE_WORKGROUP = "portal.workgroup.message.cannotRemoveWorkgroup";
     private static final String MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER = "portal.workgroup.message.accentuatedCharacter";
 
+    private int _nItemsPerPage;
+    private int _nDefaultItemsPerPage;
+    private String _strCurrentPageIndex;
+    
     /**
      * Get the workgroups management page.
      * This page provides the list of all existing workgroups.
@@ -114,17 +145,72 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     public String getManageWorkgroups( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MANAGE_WORKGROUPS_PAGETITLE );
+        
+        // FILTER
+        AdminWorkgroupFilter awFilter = new AdminWorkgroupFilter(  );
+        boolean bIsSearch = awFilter.setAdminWorkgroupFilter( request );
+        
+        List<AdminWorkgroup> listFilteredWorkgroups = ( List<AdminWorkgroup> ) AdminWorkgroupHome.findByFilter( awFilter );
 
-        HashMap<String, Collection<AdminWorkgroup>> model = new HashMap<String, Collection<AdminWorkgroup>>(  );
-        Collection<AdminWorkgroup> listWorkGroups = AdminWorkgroupHome.findAll(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
 
         if ( !getUser(  ).isAdmin(  ) )
         {
-            listWorkGroups = AdminWorkgroupService.getAuthorizedCollection( (Collection<?extends AdminWorkgroupResource>) listWorkGroups,
-                    getUser(  ) );
+        	listFilteredWorkgroups = ( List<AdminWorkgroup> ) AdminWorkgroupService.getAuthorizedCollection( 
+        			(Collection<?extends AdminWorkgroupResource>) listFilteredWorkgroups, getUser(  ) );
+        }
+        
+        // SORT
+        String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
+        String strAscSort = null;
+
+        if ( strSortedAttributeName != null )
+        {
+            strAscSort = request.getParameter( Parameters.SORTED_ASC );
+
+            boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
+
+            Collections.sort( listFilteredWorkgroups, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
-        model.put( MARK_WORKGROUPS_LIST, listWorkGroups );
+        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_USERS_PER_PAGE, 50 );
+        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
+                _nDefaultItemsPerPage );
+        
+        String strURL = getHomeUrl( request );
+        UrlItem url = new UrlItem( strURL );
+
+        if ( strSortedAttributeName != null )
+        {
+        	url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
+        }
+
+        if ( strAscSort != null )
+        {
+        	url.addParameter( Parameters.SORTED_ASC, strAscSort );
+        }
+        
+        String strSortSearchAttribute = "";
+        if( bIsSearch )
+        {
+        	awFilter.setUrlAttributes( url );
+        	if ( awFilter.getUrlAttributes(  ) != "" )
+        	{
+        		strSortSearchAttribute = "&" + awFilter.getUrlAttributes(  );
+        	}
+        }
+        
+        // PAGINATOR
+        LocalizedPaginator paginator = new LocalizedPaginator( listFilteredWorkgroups, _nItemsPerPage, url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX,
+                _strCurrentPageIndex, getLocale(  ) );
+
+        model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
+        model.put( MARK_PAGINATOR, paginator );
+        model.put( MARK_WORKGROUPS_LIST, paginator.getPageItems(  ) );
+        model.put( MARK_SEARCH_IS_SEARCH, bIsSearch );
+        model.put( MARK_SEARCH_ADMIN_WORKGROUP_FILTER, awFilter );
+        model.put( MARK_SORT_SEARCH_ATTRIBUTE, strSortSearchAttribute );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_WORGROUPS, getLocale(  ), model );
 
@@ -297,11 +383,12 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<String, Object>(  );
         setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGE_TITLE );
 
+        // WORKGROUP
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
-
         AdminWorkgroup adminWorkgroup = AdminWorkgroupHome.findByPrimaryKey( strWorkgroupKey );
+        
+        // ASSIGNED USERS
         List<AdminUser> listAssignedUsers = new ArrayList<AdminUser>(  );
-
         for ( AdminUser user : AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey ) )
         {
             //Add users with higher level then connected user or add all users if connected user is administrator
@@ -310,7 +397,34 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
                 listAssignedUsers.add( user );
             }
         }
+        
+        // FILTER
+        AdminUserFilter auFilter = new AdminUserFilter(  );
+        List<AdminUser> listFilteredUsers = new ArrayList<AdminUser>(  );
+        boolean bIsSearch = auFilter.setAdminUserFilter( request );
+        boolean bIsFiltered;
+        
+        for ( AdminUser userFiltered : AdminUserHome.findUserByFilter( auFilter ) )
+        {
+        	bIsFiltered = Boolean.FALSE;
+        	
+        	for( AdminUser assignedUser : listAssignedUsers )
+        	{
+        		if ( assignedUser.getUserId(  ) == userFiltered.getUserId(  ) )
+                {
+            		bIsFiltered = Boolean.TRUE;
+            		break;
+                }
+        	}
+        	
+        	if ( bIsFiltered &&
+                    ( ( userFiltered.getUserLevel(  ) > getUser(  ).getUserLevel(  ) ) || ( getUser(  ).isAdmin(  ) ) ) )
+            {
+        		listFilteredUsers.add( userFiltered );
+            }
+        }
 
+        // AVAILABLE USERS
         ReferenceList listUsers = new ReferenceList(  );
         ReferenceItem itemUser = null;
         boolean bAssigned;
@@ -319,7 +433,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         {
             itemUser = new ReferenceItem(  );
             itemUser.setCode( Integer.toString( user.getUserId(  ) ) );
-            itemUser.setName( user.getAccessCode(  ) + "(" + user.getFirstName(  ) + " " + user.getLastName(  ) + ")" );
+            itemUser.setName( user.getLastName(  ) + " " + user.getFirstName(  ) + " (" + user.getAccessCode(  ) + ")" );
             bAssigned = Boolean.FALSE;
 
             for ( AdminUser assignedUser : listAssignedUsers )
@@ -337,11 +451,88 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
                 listUsers.add( itemUser );
             }
         }
+        
+        // SORT
+        String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
+        String strAscSort = null;
+
+        if ( strSortedAttributeName != null )
+        {
+            strAscSort = request.getParameter( Parameters.SORTED_ASC );
+
+            boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
+
+            Collections.sort( listFilteredUsers, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
+        }
+
+        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_USERS_PER_PAGE, 50 );
+        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
+                _nDefaultItemsPerPage );
+
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_ASSIGN_USERS_TO_WORKGROUPS_COMPLETE;
+        UrlItem url = new UrlItem( strBaseUrl );
+        
+        if ( strSortedAttributeName != null )
+        {
+        	url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
+        }
+
+        if ( strAscSort != null )
+        {
+        	url.addParameter( Parameters.SORTED_ASC, strAscSort );
+        }
+        
+        String strSortSearchAttribute = "";
+        if( bIsSearch )
+        {
+        	auFilter.setUrlAttributes( url );
+        	strSortSearchAttribute = "&" + auFilter.getUrlAttributes(  );
+        }
+        
+        // ITEM NAVIGATION
+        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
+        Collection<AdminWorkgroup> listAllWorkgroups = AdminWorkgroupHome.findAll(  );
+        int nMapKey = 1;
+        int nCurrentItemId = 1;
+        for( AdminWorkgroup AllWorkgroup : listAllWorkgroups )
+        {
+        	listItem.put( nMapKey, AllWorkgroup.getKey(  ) );
+        	if( AllWorkgroup.getKey(  ).equals( adminWorkgroup.getKey(  ) ) )
+        	{
+        		nCurrentItemId = nMapKey;
+        	}
+        	nMapKey++;
+        }
+        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_WORKGROUP_KEY );
+
+        // PAGINATOR
+        url.addParameter( PARAMETER_WORKGROUP_KEY, adminWorkgroup.getKey(  ) );
+        LocalizedPaginator paginator = new LocalizedPaginator( listFilteredUsers, _nItemsPerPage, url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX,
+                    _strCurrentPageIndex, getLocale(  ) );
+        
+        // USER LEVEL
+        Collection<Level> filteredLevels = new ArrayList<Level>(  );
+
+        for ( Level level : LevelHome.getLevelsList(  ) )
+        {
+            if ( getUser(  ).isAdmin(  ) || getUser(  ).hasRights( level.getId(  ) ) )
+            {
+                filteredLevels.add( level );
+            }
+        }
 
         model.put( MARK_WORKGROUP, adminWorkgroup );
         model.put( MARK_USERS_LIST, listUsers );
-        model.put( MARK_ASSIGNED_USERS_LIST, listAssignedUsers );
+        model.put( MARK_ASSIGNED_USERS_LIST, paginator.getPageItems(  ) );
         model.put( MARK_ASSIGNED_USERS_NUMBER, listAssignedUsers.size(  ) );
+        model.put( MARK_USER_LEVELS_LIST, filteredLevels );
+        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
+        model.put( MARK_SEARCH_ADMIN_USER_FILTER, auFilter );
+        model.put( MARK_SEARCH_IS_SEARCH, bIsSearch );
+        model.put( MARK_PAGINATOR, paginator );
+        model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
+        model.put( MARK_SORT_SEARCH_ATTRIBUTE, strSortSearchAttribute );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale(  ), model );
 
@@ -410,6 +601,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     {
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
         int nIdUser = Integer.parseInt( request.getParameter( PARAMETER_ID_USER ) );
+        String strAnchor = request.getParameter( PARAMETER_ANCHOR );
 
         AdminUser adminUser = AdminUserHome.findByPrimaryKey( nIdUser );
 
@@ -418,6 +610,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             AdminWorkgroupHome.removeUserFromWorkgroup( adminUser, strWorkgroupKey );
         }
 
-        return JSP_ASSIGN_USERS_TO_WORKGROUPS + "?" + PARAMETER_WORKGROUP_KEY + "=" + strWorkgroupKey;
+        return JSP_ASSIGN_USERS_TO_WORKGROUPS + "?" + PARAMETER_WORKGROUP_KEY + "=" + strWorkgroupKey
+        		+ "#" + strAnchor;
     }
 }

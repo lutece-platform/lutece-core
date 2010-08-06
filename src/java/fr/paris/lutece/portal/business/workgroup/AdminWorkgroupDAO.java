@@ -48,6 +48,7 @@ import java.util.Collection;
 public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
 {
     // Constants
+	private static final String CONSTANT_PERCENT = "%";
     private static final String SQL_QUERY_SELECT = " SELECT workgroup_key, workgroup_description FROM core_admin_workgroup WHERE workgroup_key = ?  ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_workgroup ( workgroup_key, workgroup_description ) VALUES ( ?, ? ) ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_admin_workgroup WHERE workgroup_key = ?  ";
@@ -64,7 +65,8 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     private static final String SQL_QUERY_DELETE_ALL_USERS_WORKGROUP = " DELETE FROM core_admin_workgroup_user WHERE workgroup_key = ?  ";
     private static final String SQL_QUERY_INSERT_USER_WORKGROUP = " INSERT INTO core_admin_workgroup_user ( workgroup_key, id_user ) VALUES ( ?, ? ) ";
     private static final String SQL_QUERY_DELETE_USER_FROM_WORKGROUP = " DELETE FROM core_admin_workgroup_user WHERE workgroup_key = ?  AND id_user = ?";
-
+    private static final String SQL_QUERY_SELECT_WORKGROUP_FROM_SEARCH = " SELECT workgroup_key, workgroup_description FROM core_admin_workgroup " +
+    	" WHERE workgroup_key LIKE ? AND workgroup_description LIKE ? ORDER BY workgroup_key ";
     /**
      * {@inheritDoc}
      */
@@ -296,5 +298,34 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
         daoUtil.setInt( 2, nUserId );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
+    }
+    
+    /**
+     * Find workgroups from a filter
+     * @param awFilter the filter
+     * @return the list of workgroups
+     */
+    public Collection<AdminWorkgroup> selectWorkgroupsByFilter( AdminWorkgroupFilter awFilter )
+    {
+    	Collection<AdminWorkgroup> listFilteredWorkgroups = new ArrayList<AdminWorkgroup>(  );
+    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_WORKGROUP_FROM_SEARCH );
+    	
+    	daoUtil.setString( 1, CONSTANT_PERCENT + awFilter.getKey(  ) + CONSTANT_PERCENT );
+    	daoUtil.setString( 2, CONSTANT_PERCENT + awFilter.getDescription(  ) + CONSTANT_PERCENT );
+    	
+    	daoUtil.executeQuery(  );
+    	
+    	while ( daoUtil.next(  ) )
+        {
+    		AdminWorkgroup workgroup = new AdminWorkgroup(  );
+    		workgroup.setKey( daoUtil.getString( 1 ) );
+    		workgroup.setDescription( daoUtil.getString( 2 ) );
+    		
+    		listFilteredWorkgroups.add( workgroup );
+        }
+    	
+    	daoUtil.free(  );
+    	
+    	return listFilteredWorkgroups;
     }
 }

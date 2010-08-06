@@ -1,9 +1,43 @@
 <div class="content-box">
     <h2>#i18n{portal.workgroup.manage_workgroups.pageTitle}</h2>
+    <div class="highlight-box">
+		<div id="search-wokgroups">
+			<form method="post" name="search_workgroups" action="jsp/admin/workgroup/ManageWorkgroups.jsp"  >
+				<p>
+					<label for="key" >#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelKey} :</label>
+					<input type="text" id="key" name="search_key" value="${search_admin_workgroup_filter.key}" maxlength="50" size="20" />
+				</p>
+				<p>
+					<label for="description" >#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelDescription} :</label>
+					<input type="text" id="description" name="search_description" value="${search_admin_workgroup_filter.description}" maxlength="250" size="50" tabindex="2" />
+				</p>
+				<p>
+		           	<input type="submit" value="#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}" tabindex="6" class="button" name="search_is_search"/>   
+		        </p>
+			</form>
+    	</div>
+    </div>
+    <form method="post"  action="jsp/admin/workgroup/CreateWorkgroup.jsp">
+        <p><input type="submit" value="#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}"  class="button" /></p>
+    </form>
+    <form method="post" action="jsp/admin/workgroup/ManageWorkgroups.jsp">
+        <@paginationAdminComboWithoutForm paginator=paginator />
+        <#if search_is_search >
+   			<input type="hidden" name="search_is_search" value="true"/>
+   			<input type="hidden" name="search_key" value="${search_admin_workgroup_filter.key}"/>
+   			<input type="hidden" name="description" value="${search_admin_workgroup_filter.description}"/>
+        </#if>
+    </form>
 	<table>
         <tr>
-            <th>#i18n{portal.workgroup.manage_workgroups.columnTitleKey}</th>
-            <th>#i18n{portal.workgroup.manage_workgroups.columnTitleDescription}</th>
+            <th>
+            	#i18n{portal.workgroup.manage_workgroups.columnTitleKey}
+            	<@sort jsp_url="jsp/admin/workgroup/ManageWorkgroups.jsp" attribute="key${sort_search_attribute}" />
+            </th>
+            <th>
+            	#i18n{portal.workgroup.manage_workgroups.columnTitleDescription}
+            	<@sort jsp_url="jsp/admin/workgroup/ManageWorkgroups.jsp" attribute="description${sort_search_attribute}" />
+            </th>
             <th>#i18n{portal.workgroup.manage_workgroups.columnTitleActions}</th>
         </tr>
         <#list workgroups_list as workgroup >
@@ -19,7 +53,9 @@
             </td>
         </tr>
         </#list>
-    </table>    <form method="post"  action="jsp/admin/workgroup/CreateWorkgroup.jsp">
+    </table>
+	<@paginationAdminCombo paginator=paginator />
+    <form method="post"  action="jsp/admin/workgroup/CreateWorkgroup.jsp">
         <p><input type="submit" value="#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}"  class="button" /></p>
     </form>
 </div>

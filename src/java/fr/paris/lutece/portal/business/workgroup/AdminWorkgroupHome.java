@@ -192,4 +192,14 @@ public final class AdminWorkgroupHome
     {
         _dao.deleteUserFromWorkgroup( user.getUserId(  ), strWorkgroupKey );
     }
+    
+    /**
+     * Find workgroups from a filter
+     * @param awFilter the filter
+     * @return the list of workgroups
+     */
+    public static Collection<AdminWorkgroup> findByFilter( AdminWorkgroupFilter awFilter )
+    {
+    	return _dao.selectWorkgroupsByFilter( awFilter );
+    }
 }
