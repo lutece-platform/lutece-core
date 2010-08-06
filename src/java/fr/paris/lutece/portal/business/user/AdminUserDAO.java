@@ -51,6 +51,10 @@ import java.util.Map;
 public class AdminUserDAO implements IAdminUserDAO
 {
     // Constants
+	private static final String CONSTANT_AND_STATUS = " AND status = ?";
+    private static final String CONSTANT_AND_USER_LEVEL = " AND level_user = ?";
+    private static final String CONSTANT_ORDER_BY_LAST_NAME = " ORDER BY last_name ";
+    private static final String CONSTANT_PERCENT = "%";
     private static final String SQL_QUERY_NEWPK = "SELECT max( id_user ) FROM core_admin_user ";
     private static final String SQL_QUERY_INSERT = "INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, locale, level_user )  VALUES ( ? , ? , ? , ? , ? ,? , ?, ? ) ";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user FROM core_admin_user ORDER BY last_name ";
@@ -81,7 +85,14 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_SELECT_USERS_BY_LEVEL = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale " +
         " FROM core_admin_user a WHERE a.level_user = ? ";
     private static final String SQL_QUERY_UPDATE_USERS_ROLE = "UPDATE core_user_role SET role_key = ? WHERE role_key = ?";
-
+    private static final String SQL_QUERY_SELECT_USER_ROLE = " SELECT id_user FROM core_user_role WHERE id_user = ? AND role_key = ? ";
+    private static final String SQL_QUERY_DELETE_ROLE_FOR_USER = " DELETE FROM core_user_role WHERE id_user = ? AND role_key = ? ";
+    private static final String SQL_QUERY_SELECT_USER_FROM_SEARCH = " SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user " +
+        " FROM core_admin_user WHERE access_code LIKE ? AND last_name LIKE ? AND first_name LIKE ? AND email LIKE ? ";
+	private static final String SQL_QUERY_SELECT_USERS_BY_RIGHT = " SELECT  u.id_user , u.access_code, u.last_name , u.first_name, u.email, u.status, u.locale, u.level_user " +
+		" FROM core_admin_user u INNER JOIN core_user_right r ON u.id_user = r.id_user WHERE r.id_right = ? ";
+	private static final String SQL_QUERY_SELECT_USER_RIGHT = " SELECT id_user FROM core_user_right WHERE id_user = ? AND id_right = ? ";
+	
     /**
      * @param nUserId th user id
      * @return user
@@ -647,6 +658,179 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setString( 1, role.getKey(  ) );
         daoUtil.setString( 2, strOldRoleKey );
 
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
+    }
+    
+    /**
+     * Check if the user has the role
+     * @param nUserId The ID of the user
+     * @param strRoleKey The role Key
+     * @return true if the user has the role
+     */
+    public boolean hasRole( int nUserId, String strRoleKey )
+    {
+    	boolean bHasRole = false;
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ROLE );
+        daoUtil.setInt( 1, nUserId );
+        daoUtil.setString( 2, strRoleKey );
+        daoUtil.executeQuery(  );
+
+        if ( daoUtil.next(  ) )
+        {
+        	bHasRole = true;
+        }
+
+        daoUtil.free(  );
+
+        return bHasRole;
+    }
+    
+    /**
+     * Remove role for an user
+     * @param nUserId The ID of the user
+     * @param strRoleKey The role key
+     */
+    public void deleteRoleForUser( int nUserId, String strRoleKey )
+    {
+    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ROLE_FOR_USER );
+    	daoUtil.setInt( 1, nUserId );
+        daoUtil.setString( 2, strRoleKey );
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
+    }
+	
+	/**
+     * Gets a collection of AdminUser by using a filter.
+     * @param auFilter The filter
+     * @return The user List
+     */
+    public Collection<AdminUser> selectUsersByFilter( AdminUserFilter auFilter )
+    {
+        Collection<AdminUser> userList = new ArrayList<AdminUser>(  );
+        DAOUtil daoUtil;
+        
+        String query = SQL_QUERY_SELECT_USER_FROM_SEARCH;
+
+        if ( auFilter.getStatus(  ) != -1 )
+        {
+            query += CONSTANT_AND_STATUS;
+        }
+
+        if ( auFilter.getUserLevel(  ) != -1 )
+        {
+            query += CONSTANT_AND_USER_LEVEL;
+        }
+        
+        query += CONSTANT_ORDER_BY_LAST_NAME;
+
+        daoUtil = new DAOUtil( query );
+        daoUtil.setString( 1, CONSTANT_PERCENT + auFilter.getAccessCode(  ) + CONSTANT_PERCENT );
+        daoUtil.setString( 2, CONSTANT_PERCENT + auFilter.getLastName(  ) + CONSTANT_PERCENT );
+        daoUtil.setString( 3, CONSTANT_PERCENT + auFilter.getFirstName(  ) + CONSTANT_PERCENT );
+        daoUtil.setString( 4, CONSTANT_PERCENT + auFilter.getEmail(  ) + CONSTANT_PERCENT );
+
+        if ( auFilter.getStatus(  ) != -1 )
+        {
+            daoUtil.setInt( 5, auFilter.getStatus(  ) );
+
+            if ( auFilter.getUserLevel(  ) != -1 )
+            {
+                daoUtil.setInt( 6, auFilter.getUserLevel(  ) );
+            }
+        }
+        else
+        {
+            if ( auFilter.getUserLevel(  ) != -1 )
+            {
+                daoUtil.setInt( 5, auFilter.getUserLevel(  ) );
+            }
+        }
+            
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            AdminUser user = new AdminUser(  );
+            user.setUserId( daoUtil.getInt( 1 ) );
+            user.setAccessCode( daoUtil.getString( 2 ) );
+            user.setLastName( daoUtil.getString( 3 ) );
+            user.setFirstName( daoUtil.getString( 4 ) );
+            user.setEmail( daoUtil.getString( 5 ) );
+            user.setStatus( daoUtil.getInt( 6 ) );
+            user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+            userList.add( user );
+        }
+
+        daoUtil.free(  );
+
+        return userList;
+    }
+
+    /**
+     * Get all users having a given right
+     * @param strIdRight The ID right
+     * @return A collection of AdminUser
+     */
+	public Collection<AdminUser> selectUsersByRight( String strIdRight )
+	{
+		Collection<AdminUser> userList = new ArrayList<AdminUser>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_BY_RIGHT );
+        daoUtil.setString( 1, strIdRight );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            AdminUser user = new AdminUser(  );
+            user.setUserId( daoUtil.getInt( 1 ) );
+            user.setAccessCode( daoUtil.getString( 2 ) );
+            user.setLastName( daoUtil.getString( 3 ) );
+            user.setFirstName( daoUtil.getString( 4 ) );
+            user.setEmail( daoUtil.getString( 5 ) );
+            user.setStatus( daoUtil.getInt( 6 ) );
+            user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+            userList.add( user );
+        }
+
+        daoUtil.free(  );
+
+        return userList;
+	}
+
+	/**
+     * Check if the user has the given right
+     * @param nUserId The ID of the user
+     * @param strIdRight The ID right
+     * @return true if the user has the right
+     */
+    public boolean hasRight( int nUserId, String strIdRight )
+    {
+    	boolean bHasRight = false;
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_RIGHT );
+        daoUtil.setInt( 1, nUserId );
+        daoUtil.setString( 2, strIdRight );
+        daoUtil.executeQuery(  );
+
+        if ( daoUtil.next(  ) )
+        {
+        	bHasRight = true;
+        }
+
+        daoUtil.free(  );
+
+        return bHasRight;
+    }
+    
+    /**
+     * Remove a right for an user
+     * @param nUserId The user ID
+     * @param strIdRight The right ID
+     */
+    public void deleteRightForUser( int nUserId, String strIdRight )
+    {
+    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_RIGHTS );
+    	daoUtil.setInt( 1, nUserId );
+        daoUtil.setString( 2, strIdRight );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }

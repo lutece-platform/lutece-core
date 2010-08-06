@@ -49,6 +49,8 @@ import java.util.Map;
  */
 public class AdminUser implements Serializable
 {
+	public static String RESOURCE_TYPE = "ADMIN_USER";
+	
     private static final String EMPTY_STRING = "";
     private static final int ACTIVE_CODE = 0;
     private int _nUserId;

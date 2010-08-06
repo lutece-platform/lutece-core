@@ -1,40 +1,120 @@
 <div class="content-box">
     <h2>#i18n{portal.users.manage_users.titleUserList}</h2> 
+    <div class="highlight-box">
+		<div id="search-users">
+			<form method="post" name="search_users" action="jsp/admin/user/ManageUsers.jsp"  >
+				<#if (user_levels?has_content)>
+					<p>
+		                <label for="user_level">#i18n{portal.users.manage_users.search_users.userLevelLabel} :</label>
+						<select id="user_level" name="search_user_level">
+							<#if (search_admin_user_filter.userLevel > -1) >
+								<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
+		                		<#list user_levels as user_level>
+		                			<#if (search_admin_user_filter.userLevel == user_level.id) >
+		                    			<option value="${user_level.id}" selected="selected" >${user_level.name}</option>
+		                    		<#else>
+		                    			<option value="${user_level.id}" >${user_level.name}</option>
+		                    		</#if>
+		                    	</#list>
+		                	<#else>
+		                		<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
+		                		<#list user_levels as user_level>
+		                			<option value="${user_level.id}" >${user_level.name}</option>
+		                		</#list>
+		                	</#if>
+		                </select>
+		            </p>
+				</#if>
+				<p>
+					<label for="access_code" >#i18n{portal.users.manage_users.search_users.labelAccessCode} :</label>
+					<input type="text" id="access_code" name="search_access_code" value="${search_admin_user_filter.accessCode}" />
+				</p>
+				<p>
+					<label for="last_name" >#i18n{portal.users.manage_users.search_users.labelLastName} :</label>
+					<input type="text"  id="last_name" name="search_last_name" value="${search_admin_user_filter.lastName}" maxlength="100" size="35" tabindex="2" />
+				</p>
+				<p>
+					<label for="first_name">#i18n{portal.users.manage_users.search_users.labelFirstName} :</label>
+					<input type="text" id="first_name" name="search_first_name" value="${search_admin_user_filter.firstName}" maxlength="100" size="35" tabindex="3" />
+				</p>
+				<p>
+					<label for="email">#i18n{portal.users.manage_users.search_users.labelEmail} :</label>
+					<input type="text" id="email" name="search_email" value="${search_admin_user_filter.email}" maxlength="100" size="35" tabindex="4" />
+				</p>
+				<p>
+		            <label for="status">#i18n{portal.users.manage_users.search_users.labelStatus} :</label>
+		            <select id="status" name="search_status" tabindex="5">
+		            	<#switch search_admin_user_filter.status >
+	                		<#case 0 >
+	                			<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+				               	<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+								<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+	                			<#break>
+	                		<#case 1 >
+	                			<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+				               	<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+								<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+	                			<#break>
+	                		<#default>
+	                			<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+				               	<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+								<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+								<#break>
+                		</#switch>
+		            </select>
+				</p>
+				<p>
+		           	<input type="submit" value="#i18n{portal.users.manage_users.search_users.buttonSearch}" tabindex="6" class="button" name="search_is_search"/>   
+		        </p>
+			</form>
+	        <div>
+	              <p>
+	                <form method="post" action="jsp/admin/user/ManageAdvancedParameters.jsp">
+	                    <input type="submit" value="#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}" class="button" />
+	                </form>
+	            </p>
+	        </div>  
+    	</div>
+    </div>
+    <div>
+        <p>
+            <form method="post"  action="${url_user_creation}">
+                <input type="submit" value="#i18n{portal.users.manage_users.buttonLabelAddUser}" class="button" />
+            </form>
+        </p>
+    </div>
     <form method="post" action="jsp/admin/user/ManageUsers.jsp">
-        <@pagination paginator=paginator />
-        <!-- Number of documents per page selector -->
-        #i18n{portal.users.manage_users.labelItemsPerPage} :
-        <select name="items_per_page">
-            <#list [ "10" , "20" , "50" , "100" ] as nb>
-            <#if nb_items_per_page = nb >
-            <option selected="selected" value="${nb}">${nb}</option>
-            <#else>
-            <option value="${nb}">${nb}</option>
-            </#if>
-            </#list>
-        </select>                            
-        <input type="submit" class="button" value="#i18n{portal.users.manage_users.buttonItemsPerPage}" />
-    </form>  
+        <@paginationAdminComboWithoutForm paginator=paginator />
+        <#if search_is_search >
+   			<input type="hidden" name="search_is_search" value="true"/>
+   			<input type="hidden" name="search_user_level" value="${search_admin_user_filter.userLevel}"/>
+   			<input type="hidden" name="search_access_code" value="${search_admin_user_filter.accessCode}"/>
+   			<input type="hidden" name="search_last_name" value="${search_admin_user_filter.lastName}"/>
+   			<input type="hidden" name="search_first_name" value="${search_admin_user_filter.firstName}"/>
+   			<input type="hidden" name="search_email" value="${search_admin_user_filter.email}"/>
+   			<input type="hidden" name="search_status" value="${search_admin_user_filter.status}"/>
+        </#if>
+    </form>
     <table>        
         <tr>            
             <th>
             	#i18n{portal.users.manage_users.columnTitleLastName}
-            	<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="lastName" />
+            	<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="lastName${sort_search_attribute}" />
             </th>
             <th>
             	#i18n{portal.users.manage_users.columnTitleFirstName}
-            	<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="firstName" />
+            	<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="firstName${sort_search_attribute}" />
             </th>
             <th>
             	#i18n{portal.users.manage_users.columnTitleAccessCode}
-            	<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="accessCode" />
+            	<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="accessCode${sort_search_attribute}" />
              </th>            
             <th>
             	#i18n{portal.users.manage_users.columnTitleEmail}
-            	<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="email" />
+            	<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="email${sort_search_attribute}" />
             </th>
             <th>#i18n{portal.users.manage_users.columnTitleStatus}</th>		
-            <th>#i18n{portal.users.manage_users.columnTitleAction}</th>
+            <th>#i18n{portal.users.manage_users.columnTitleActions}</th>
         </tr>
         <#list user_list as user>
         <tr>
@@ -66,21 +146,14 @@
         </tr>
         </#list>		
     </table>
-    <div style="float:left;width:320px">
-        <div class="button-left" style="float:left;width:150px">
-            <p>
-                <form method="post"  action="${url_user_creation}">
-                    <input type="submit" value="#i18n{portal.users.manage_users.buttonLabelAddUser}" class="button" />
-                </form>
-            </p>
-        </div>
-        <div  class="button-right" style="float:right;width:150px">
-              <p>
-                <form method="post"  action="jsp/admin/workgroup/ManageWorkgroups.jsp">
-                    <input type="submit" value="#i18n{portal.users.manage_users.buttonLabelManageWorkgroups}" class="button" />
-                </form>
-            </p>
-        </div>    
-    </div>   
+	<@paginationAdmin paginator=paginator />
+    <div>
+        <p>
+            <form method="post"  action="${url_user_creation}">
+                <input type="submit" value="#i18n{portal.users.manage_users.buttonLabelAddUser}" class="button" />
+            </form>
+        </p>
+    </div>  
     <br /><br />
 </div>
+

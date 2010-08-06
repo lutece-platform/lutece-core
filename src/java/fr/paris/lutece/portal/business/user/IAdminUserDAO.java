@@ -204,4 +204,48 @@ public interface IAdminUserDAO
      * @param role The new role
      */
     void storeUsersRole( String strOldRoleKey, AdminRole role );
+    
+    /**
+     * Check if the user has the role
+     * @param nUserId The ID of the user
+     * @param strRoleKey The role Key
+     * @return true if the user has the role
+     */
+    boolean hasRole( int nUserId, String strRoleKey );
+    
+    /**
+     * Remove role for an user
+     * @param nUserId The ID of the user
+     * @param strRoleKey The role key
+     */
+    void deleteRoleForUser( int nUserId, String strRoleKey );
+	
+	/**
+	 * Select users by filter
+	 * @param auFilter the filter
+	 * @return a list of AdminUser
+	 */
+	Collection<AdminUser> selectUsersByFilter( AdminUserFilter auFilter );
+	
+	/**
+     * Get all users having a given right
+     * @param strIdRight The ID right
+     * @return A collection of AdminUser
+     */
+	Collection<AdminUser> selectUsersByRight( String strIdRight );
+	
+	/**
+     * Check if the user has the given right
+     * @param nUserId The ID of the user
+     * @param strIdRight The ID right
+     * @return true if the user has the right
+     */
+    boolean hasRight( int nUserId, String strIdRight );
+    
+    /**
+     * Remove a right for an user
+     * @param nUserId The user ID
+     * @param strIdRight The right ID
+     */
+    void deleteRightForUser( int nUserId, String strIdRight );
 }
