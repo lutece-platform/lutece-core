@@ -1,0 +1,96 @@
+<div class="content-box">
+    <h2>#i18n{portal.users.manage_advanced_parameters.pageTitle}</h2> 
+    <!-- PASSWORD ENCRYPTION -->
+    <#if enable_password_encryption?exists>
+    	<div class="highlight-box">
+	    	<div id="password-encryption">
+	    		<form method="post" name="password_encryption" action="jsp/admin/user/ModifyPasswordEncryption.jsp">
+	    			<p>
+	    				<label for="enable_password_encryption">#i18n{portal.users.manage_advanced_parameters.labelEnablePasswordEncryption}</label>
+	    				<#if enable_password_encryption = "false">
+	    					<input type="radio" name="enable_password_encryption" value="false" checked="checked" /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
+	    					<input type="radio" name="enable_password_encryption" value="true" /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
+	    				<#else>
+	    					<input type="radio" name="enable_password_encryption" value="false" /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
+	    					<input type="radio" name="enable_password_encryption" value="true" checked="checked"/> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
+	    				</#if>
+	    				<br />
+	    				<br />
+	    				<span id="password-encryption-algorithm">
+	    					<label for="encryption_algorithm">#i18n{portal.users.manage_advanced_parameters.labelEncryptionAlgorithm}</label>
+	    					<select name="encryption_algorithm">
+	    						<#if !encryption_algorithm?has_content>
+	    							<option value="noValue" selected="selected">---</option>
+	    						<#else>
+	    							<option value="noValue">------</option>
+	    						</#if>
+		    					<#list encryption_algorithms_list as algorithm>
+		    						<#if algorithm = encryption_algorithm>
+		    							<option value="${algorithm}" selected="selected">${algorithm}</option>
+		    						<#else>
+		    							<option value=${algorithm}>${algorithm}</option>
+		    						</#if>
+		    					</#list>
+	    					</select>
+	    				</span>
+	    				<br />
+	    				<input type="submit" class="button" value="#i18n{portal.users.manage_advanced_parameters.buttonModify}" />
+	    			</p>
+	    		</form>
+	    	</div>
+    	</div>
+    </#if>
+    
+    <!-- DEFAULT USER PARAMETERS -->
+    <div class="highlight-box">
+    	<p>#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}</p>
+    	<form method="post" name="default_user_parameters" action="jsp/admin/user/DoModifyDefaultUserParameterValues.jsp">
+    		<!-- USER LEVEL -->
+    		<p>
+    			<label for="user_level">#i18n{portal.users.manage_advanced_parameters.userLevelLabel} :</label>
+				<select id="user_level" name="user_level">
+	                <#list user_levels as user_level>
+	                	<#if user_level.id = default_user_level.id>
+	                    	<option value="${user_level.id}" selected="selected">${user_level.name}</option>
+	                    <#else>
+	                    	<option value="${user_level.id}">${user_level.name}</option>
+	                    </#if>
+	                </#list>
+                </select>
+    		</p>
+    		<!-- USER NOTIFICATION -->
+    		<p>
+    			<label for="notify_user">#i18n{portal.users.manage_advanced_parameters.labelNotify} :</label>
+    			<#if default_user_notification = 1>
+    				<input type="radio" name="notify_user" value="1" checked="checked" tabindex="8" />#i18n{portal.util.labelYes}
+					<input type="radio" name="notify_user" value="0" tabindex="9" />#i18n{portal.util.labelNo}
+    			<#else>
+    				<input type="radio" name="notify_user" value="1" tabindex="8" />#i18n{portal.util.labelYes}
+					<input type="radio" name="notify_user" value="0" checked="checked" tabindex="9" />#i18n{portal.util.labelNo}
+    			</#if>
+    		</p>
+    		<!-- USER LANGUAGE -->
+    		<p>
+				<label for="language">#i18n{portal.users.manage_advanced_parameters.labelLanguage} :</label>
+				<@combo name="language" default_value="${default_user_language}" items=languages_list />
+    		</p>
+    		<!-- USER STATUS -->
+    		<p>
+                <label for="status">#i18n{portal.users.manage_advanced_parameters.labelStatus} :</label>
+                <select id="status" name="status" tabindex="10">
+                	<#if default_user_status = 1>
+                		<option value="0">#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
+                    	<option value="1" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
+                	<#else>
+                		<option value="0" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
+                    	<option value="1">#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
+                	</#if>
+                </select>
+			</p>
+			<p>
+				<input type="submit" class="button" value="#i18n{portal.users.manage_advanced_parameters.buttonModify}" /> 
+			</p>
+    	</form>
+    </div>
+    
+</div>

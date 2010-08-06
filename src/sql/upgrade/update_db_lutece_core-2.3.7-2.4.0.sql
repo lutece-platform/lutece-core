@@ -7,3 +7,23 @@ INSERT INTO core_admin_right VALUES ( 'CORE_RIGHT_MANAGEMENT', 'portal.users.adm
 
 INSERT INTO core_user_right VALUES ('CORE_RIGHT_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_RIGHT_MANAGEMENT',2);
+
+DROP TABLE IF EXISTS core_parameters;
+
+--
+-- Table structure for table core_user_parameters
+--
+DROP TABLE IF EXISTS core_user_parameter;
+CREATE TABLE core_user_parameter (
+	parameter_key varchar(100) NOT NULL,
+	parameter_value varchar(100) NOT NULL,
+	PRIMARY KEY (parameter_key)
+);
+
+INSERT INTO core_user_parameter VALUES ('password_duration', '120');
+INSERT INTO core_user_parameter VALUES ('enable_password_encryption', 'false');
+INSERT INTO core_user_parameter VALUES ('encryption_algorithm', '');
+INSERT INTO core_user_parameter VALUES ('default_user_level', '0');
+INSERT INTO core_user_parameter VALUES ('default_user_notification', '1');
+INSERT INTO core_user_parameter VALUES ('default_user_language', 'fr');
+INSERT INTO core_user_parameter VALUES ('default_user_status', '0');

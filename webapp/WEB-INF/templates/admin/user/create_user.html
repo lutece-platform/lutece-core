@@ -4,15 +4,19 @@
 	<#if import_user?has_content>
 		<form method="post" name="create_user" action="jsp/admin/user/DoCreateUser.jsp"  >
 			<#if (user_levels?has_content)>
-			<p>
-                            <label for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>
-				<select id="user_level" name="user_level">
-                                <#list user_levels as user_level>
-                                    <option value="${user_level.id}">${user_level.name}</option>
-                                </#list>
-                                </select>
-                        </p>			
-			</#if>                    
+				<p>
+					<label for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>
+					<select id="user_level" name="user_level">
+						<#list user_levels as user_level>
+							<#if user_level.id = default_user_level.id>
+								<option value="${user_level.id}" selected="selected">${user_level.name}</option>
+							<#else>
+								<option value="${user_level.id}">${user_level.name}</option>
+							</#if>
+						</#list>
+					</select>
+				</p>
+			</#if>
 			<p>
 				<label for="access_code" >#i18n{portal.users.create_user.labelAccessCode} * :</label>
 				<input type="hidden" id="access_code" name="access_code" value="${import_user.accessCode?if_exists}" />
@@ -30,20 +34,25 @@
 				<label for="email">#i18n{portal.users.create_user.labelEmail} * :</label>
 				<input type="text" id="email" name="email" value="${import_user.email?if_exists}" maxlength="100" size="35" tabindex="4" />
 			</p>
-                        <p>
-                             <label for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
-                             <@combo name="language" default_value="${current_language}" items=languages_list />
-                        </p>
 			<p>
-                            <label for="status">#i18n{portal.users.create_user.labelStatus} :</label>
-                            <select id="status" name="status" tabindex="5">
-                                <option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-				<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-                            </select>
+				<label for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
+				<@combo name="language" default_value="${default_user_language}" items=languages_list />
 			</p>
 			<p>
-                            <input type="submit" value="#i18n{portal.users.create_user.buttonLabelCreate}" tabindex="6" class="button" />   
-                        </p>
+				<label for="status">#i18n{portal.users.create_user.labelStatus} :</label>
+				<select id="status" name="status" tabindex="5">
+					<#if default_user_status = 1>
+                		<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
+                    	<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+                	<#else>
+                		<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+                    	<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
+                	</#if>
+				</select>
+			</p>
+			<p>
+				<input type="submit" value="#i18n{portal.users.create_user.buttonLabelCreate}" tabindex="6" class="button" />   
+			</p>
 	    
 			<script language="JavaScript">
 				window.onload = create_user.access_code.focus
@@ -51,7 +60,7 @@
 			
 		</form>
 	<#else>
-			<p>#i18n{portal.users.create_user.error.accessCodeNotFound}</p>
+		<p>#i18n{portal.users.create_user.error.accessCodeNotFound}</p>
 	
 	</#if>
 

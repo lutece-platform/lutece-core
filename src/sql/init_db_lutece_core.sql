@@ -27,6 +27,7 @@ INSERT INTO core_admin_role_resource VALUES (57,'all_site_manager','PAGE','*','V
 INSERT INTO core_admin_role_resource VALUES (58,'all_site_manager','PAGE','*','MANAGE');
 INSERT INTO core_admin_role_resource VALUES (77,'super_admin','INSERT_SERVICE','*','*');
 INSERT INTO core_admin_role_resource VALUES (101,'all_site_manager','PORTLET_TYPE','*','*');
+INSERT INTO core_admin_role_resource VALUES (111, 'all_site_manager', 'ADMIN_USER', '*', 'MANAGE');
 
 INSERT INTO core_admin_user VALUES (1,'admin','Admin','admin','admin@lutece.fr',0,'adminadmin','fr',0);
 INSERT INTO core_admin_user VALUES (2,'lutece','Lutèce','lutece','lutece@lutece.fr',0,'adminadmin','fr',1);
@@ -143,3 +144,11 @@ INSERT INTO core_user_role VALUES ('all_site_manager',1);
 INSERT INTO core_user_role VALUES ('super_admin',1);
 INSERT INTO core_user_role VALUES ('all_site_manager',2);
 INSERT INTO core_user_role VALUES ('super_admin',2);
+
+INSERT INTO core_user_parameter VALUES ('password_duration', '120');
+INSERT INTO core_user_parameter VALUES ('enable_password_encryption', 'false');
+INSERT INTO core_user_parameter VALUES ('encryption_algorithm', '');
+INSERT INTO core_user_parameter VALUES ('default_user_level', '0');
+INSERT INTO core_user_parameter VALUES ('default_user_notification', '1');
+INSERT INTO core_user_parameter VALUES ('default_user_language', 'fr');
+INSERT INTO core_user_parameter VALUES ('default_user_status', '0');

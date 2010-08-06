@@ -225,14 +225,6 @@ CREATE TABLE core_page_template (
 );
 
 --
--- Table structure for table core_parameters
---
-DROP TABLE IF EXISTS core_parameters;
-CREATE TABLE core_parameters (
-	password_duration int default 0 NOT NULL
-);
-
---
 -- Table structure for table core_portal_component
 --
 DROP TABLE IF EXISTS core_portal_component;
@@ -403,4 +395,14 @@ CREATE TABLE core_id_generator (
 	class_name varchar(250) default '' NOT NULL,
 	current_value int default 0 NOT NULL,
 	PRIMARY KEY (class_name)
+);
+
+--
+-- Table structure for table core_user_parameters
+--
+DROP TABLE IF EXISTS core_user_parameter;
+CREATE TABLE core_user_parameter (
+	parameter_key varchar(100) NOT NULL,
+	parameter_value varchar(100) NOT NULL,
+	PRIMARY KEY (parameter_key)
 );

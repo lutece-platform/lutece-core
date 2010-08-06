@@ -2,15 +2,19 @@
 	<h2>#i18n{portal.users.create_user.titleCreationForm}</h2>	
 		<form method="post" name="create_user" action="jsp/admin/user/DoCreateUser.jsp"  >
 			<#if (user_levels?has_content)>
-			<p>
-                        <label for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>
-				<select id="user_level" name="user_level">
-                                <#list user_levels as user_level>
-                                    <option value="${user_level.id}">${user_level.name}</option>
-                                </#list>
-                                </select>
-			</p>
-			</#if>                    
+				<p>
+					<label for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>
+					<select id="user_level" name="user_level">
+						<#list user_levels as user_level>
+							<#if user_level.id = default_user_level.id>
+								<option value="${user_level.id}" selected="selected">${user_level.name}</option>
+							<#else>
+								<option value="${user_level.id}">${user_level.name}</option>
+							</#if>
+						</#list>
+					</select>
+				</p>
+			</#if>
 			<p>
                             <label for="access_code" >#i18n{portal.users.create_user.labelAccessCode} * :</label>
                             <input type="text"  id="access_code" name="access_code" value="" maxlength="100" size="35" tabindex="1" />				
@@ -36,18 +40,28 @@
                             <label for="email">#i18n{portal.users.create_user.labelEmail} * :</label>
                             <input type="text" id="email" name="email" value="" maxlength="100" size="35" tabindex="7" />
                             &nbsp;&nbsp;&nbsp;&nbsp;#i18n{portal.users.create_user.labelNotify} :
-                            <input type="radio" name="notify_user" value="1" checked="checked" tabindex="8" />#i18n{portal.util.labelYes}
-                            <input type="radio" name="notify_user" value="0" tabindex="9" />#i18n{portal.util.labelNo}
+                            <#if default_user_notification = 1>
+			    				<input type="radio" name="notify_user" value="1" checked="checked" tabindex="8" />#i18n{portal.util.labelYes}
+								<input type="radio" name="notify_user" value="0" tabindex="9" />#i18n{portal.util.labelNo}
+			    			<#else>
+			    				<input type="radio" name="notify_user" value="1" tabindex="8" />#i18n{portal.util.labelYes}
+								<input type="radio" name="notify_user" value="0" checked="checked" tabindex="9" />#i18n{portal.util.labelNo}
+			    			</#if>
 			</p>
             <p>
                             <label for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
-                            <@combo name="language" default_value="${current_language}" items=languages_list />
+                            <@combo name="language" default_value="${default_user_language}" items=languages_list />
             </p>
 			<p>
                             <label for="status">#i18n{portal.users.create_user.labelStatus} :</label>
                             <select id="status" name="status" tabindex="10">
-                                <option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-                                <option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+                                <#if default_user_status = 1>
+			                		<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
+			                    	<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+			                	<#else>
+			                		<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+			                    	<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
+			                	</#if>
                             </select>
 			</p>
 			<p>
