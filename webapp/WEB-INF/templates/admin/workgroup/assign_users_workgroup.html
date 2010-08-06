@@ -151,7 +151,7 @@
 		    	</div>
 		    </div>
 		    <form method="post" action="jsp/admin/workgroup/AssignUsersWorkgroup.jsp">
-		        <@paginationAdminComboWithoutForm paginator=paginator />
+		        <@paginationAdmin paginator=paginator combo=1 form=0 />
 		        <#if search_is_search >
 		   			<input type="hidden" name="search_is_search" value="true"/>
 		   			<input type="hidden" name="search_user_level" value="${search_admin_user_filter.userLevel}"/>
@@ -203,7 +203,7 @@
 			                </a>
 	               		</td>
 		            </tr>            
-	        	</#list>        
+	        	</#list>
 	   		</table>
 			<@paginationAdmin paginator=paginator />
 	    <#else>
