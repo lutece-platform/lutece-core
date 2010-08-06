@@ -1318,3 +1318,11 @@ form span.form-field-ligne li {
     height: 16px;
     cursor: pointer;
 }
+
+/********************************
+******** Item Navigation
+*********************************/
+#item-navigator {
+	float: right;
+	padding-top: 8px;
+}

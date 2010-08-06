@@ -1,0 +1,27 @@
+<div class="content-box" >
+
+    <h2>#i18n{portal.features.manage_rights.boxTitle}</h2>
+
+    <table>
+        <tr>            
+            <th>#i18n{portal.features.manage_rights.columnTitleName}</th>
+            <th>#i18n{portal.features.manage_rights.columnTitleDescription}</th>
+            <th>#i18n{portal.features.manage_rights.columnTitleLevel}</th>
+            <th>#i18n{portal.features.manage_rights.columnTitleActions}</th>
+        </tr>
+       
+        <#list rights_list?sort_by('name') as right >
+	        <tr>
+	            <td>${right.name}</td>
+	            <td>${right.description}</td>
+	            <td>${right.level}</td>
+	            <td>
+	            	<a href="jsp/admin/features/AssignUsersRight.jsp?id_right=${right.id}">
+	            		<img title="#i18n{portal.features.manage_rights.buttonLabelAssignUsers}" alt="#i18n{portal.features.manage_rights.buttonLabelAssignUsers}"src="images/admin/skin/actions/group.png" />
+	            	</a>
+	            </td>
+	        </tr>
+        </#list>
+    </table>
+</div>
+
