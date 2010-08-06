@@ -381,5 +381,13 @@ public class Paginator<E>
         return "";
     }
 
+    /**
+     * Get Item Count per page label
+     * @return The Label
+     */
+    public String getLabelItemCountPerPage()
+    {
+        return "";
+    }
 
 }

@@ -47,6 +47,7 @@ public class LocalizedPaginator<E> extends Paginator<E>
     private static final String KEY_NEXT = "portal.util.labelNext";
     private static final String KEY_LAST = "portal.util.labelLast";
     private static final String KEY_ITEM_COUNT = "portal.util.labelItemCount";
+    private static final String KEY_ITEM_COUNT_PER_PAGE = "portal.util.labelItemCountPerPage";
     private Locale _locale;
     /**
      * Creates a new instance of Paginator
@@ -106,6 +107,15 @@ public class LocalizedPaginator<E> extends Paginator<E>
     public String getLabelItemCount()
     {
         return I18nService.getLocalizedString( KEY_ITEM_COUNT, _locale);
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getLabelItemCountPerPage()
+    {
+        return I18nService.getLocalizedString( KEY_ITEM_COUNT_PER_PAGE, _locale);
     }
 
 }

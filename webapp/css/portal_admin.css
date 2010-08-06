@@ -1249,34 +1249,15 @@ form span.form-field-ligne li {
 
 #lutece-paginator p {
     text-align: right;
-    font-size:9px;
     color:#888888;
-    font-weight:bold;
 }
 
-#lutece-paginator p.combo {
-    text-align: center;
-    font-size:9px;
-    color:#888888;
-    font-weight:bold;
-}
 
 #lutece-paginator span {
     float: left;
-    width: 70%;
+    width: 50%;
 }
 
-#lutece-paginator span.left {
-    text-align: left;
-    float: left;
-    width: 25%;
-}
-
-#lutece-paginator span.right {
-    text-align: right;
-    float: right;
-    width: 25%;
-}
 
 #lutece-paginator ul{
     border:0;
@@ -1320,7 +1301,7 @@ form span.form-field-ligne li {
 }
 #lutece-paginator a:link,
 #lutece-paginator a:visited {
-    color:#0e509e;
+    color: #888888;
     display:block;
     float:left;
     padding:3px 6px;
@@ -1328,4 +1309,12 @@ form span.form-field-ligne li {
 }
 #lutece-paginator a:hover{
     border:solid 1px #364C5E;
+}
+
+#lutece-paginator .refresh {
+    background:url(../images/admin/skin/refresh.png);
+    border:none;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
 }

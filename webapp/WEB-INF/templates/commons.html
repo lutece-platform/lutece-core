@@ -228,21 +228,8 @@
     <#if (paginator.pagesCount > 1) >
     <div id="lutece-paginator">
     <form method="post" action="">
-        <p class="combo">
-            <span class="left">
-        <!-- Number of documents per page selector -->
-        #i18n{portal.style.manage_styles.labelItemsPerPage} :
-        <select name="items_per_page">
-            <#list [ "10" , "20" , "50" , "100" ] as nb>
-             <#if nb_items_per_page = nb >
-             	<option selected="selected" value="${nb}">${nb}</option>
-             <#else>
-             	<option value="${nb}">${nb}</option>
-             </#if>
-            </#list>
-        </select>
-        <input type="submit" class="button" value="Refesh" />
-        </span>
+        <p>
+        <span>
         <ul>
         <#if paginator.pageCurrent &gt; nbLinkPages-offsetPrev >
         <li>
@@ -302,9 +289,20 @@
         </li>
         </#if>
         </ul>
-            <span class="right">
-            ${paginator.labelItemCount} : ${paginator.itemsCount}
-            </span>
+        </span>
+        ${paginator.labelItemCountPerPage} :
+        <select name="items_per_page">
+            <#list [ "10" , "20" , "50" , "100" ] as nb>
+             <#if nb_items_per_page = nb >
+             	<option selected="selected" value="${nb}">${nb}</option>
+             <#else>
+             	<option value="${nb}">${nb}</option>
+             </#if>
+            </#list>
+        </select>
+        <input type="submit" class="refresh" value="" />
+        &nbsp;-&nbsp;
+        ${paginator.labelItemCount} : ${paginator.itemsCount}
         </p>
     </form>
     </div>
