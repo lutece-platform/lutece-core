@@ -20,9 +20,9 @@
 	    					<label for="encryption_algorithm">#i18n{portal.users.manage_advanced_parameters.labelEncryptionAlgorithm}</label>
 	    					<select name="encryption_algorithm">
 	    						<#if !encryption_algorithm?has_content>
-	    							<option value="noValue" selected="selected">---</option>
+	    							<option value="noValue" selected="selected">#i18n{portal.users.manage_advanced_parameters.labelNoAlgorithm}</option>
 	    						<#else>
-	    							<option value="noValue">------</option>
+	    							<option value="noValue">#i18n{portal.users.manage_advanced_parameters.labelNoAlgorithm}</option>
 	    						</#if>
 		    					<#list encryption_algorithms_list as algorithm>
 		    						<#if algorithm = encryption_algorithm>
