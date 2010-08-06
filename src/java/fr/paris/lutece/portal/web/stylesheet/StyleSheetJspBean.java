@@ -54,6 +54,7 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
+import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
@@ -171,8 +172,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
 
-        Paginator paginator = new Paginator( listStyleSheets, _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX,
-                _strCurrentPageIndex );
+        LocalizedPaginator paginator = new LocalizedPaginator( listStyleSheets, _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX,
+                _strCurrentPageIndex , getLocale() );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_MODE_ID, strModeId );

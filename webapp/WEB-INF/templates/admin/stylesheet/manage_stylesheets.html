@@ -10,22 +10,7 @@
             </p>
         </form>
     </div>
-    <form method="post" action="jsp/admin/style/ManageStyleSheets.jsp">
-	    <@pagination paginator=paginator />
-	
-	    <!-- Number of stylesheets per page selector -->
-	    #i18n{portal.style.manage_stylesheets.labelItemsPerPage} :
-	    <select name="items_per_page">
-	        <#list [ "10" , "20" , "50" , "100" ] as nb>
-	         <#if nb_items_per_page = nb >
-	         	<option selected="selected" value="${nb}">${nb}</option>
-	         <#else>
-	         	<option value="${nb}">${nb}</option>
-	         </#if>
-	        </#list>
-	    </select>                            
-	    <input type="submit" class="button" value="#i18n{portal.style.manage_stylesheets.buttonItemsPerPage}" />
-	</form>        
+    <@paginationAdmin paginator=paginator combo=1 />
     
     <table>
         <tr>
@@ -48,6 +33,7 @@
         </#list>
         
     </table>
+    <@paginationAdmin paginator=paginator />
   
     <form method="post"  action="jsp/admin/style/CreateStyleSheet.jsp" >
         <p>
