@@ -128,7 +128,8 @@
     </#if>
 </#macro>
 
-<#macro paginationAdmin paginator >
+
+<#macro paginationAdmin paginator combo=0 form=1 >
 	<#assign nbLinkPages = 10 />
 	<#assign offsetPrev = nbLinkPages/2 />
 	<#assign offsetNext = nbLinkPages/2 />
@@ -140,95 +141,12 @@
 		<#assign offsetNext = nbLinkPages - (paginator.pagesCount - paginator.pageCurrent) />
 		<#assign offsetPrev = nbLinkPages - offsetNext />
 	</#if>
-    <#if (paginator.pagesCount > 1) >
     <div id="lutece-paginator">
-        <p>
-        <span>
-        <ul>
-        <#if paginator.pageCurrent &gt; nbLinkPages-offsetPrev >
-        <li>
-        <a href="${paginator.firstPageLink?xhtml}">
-            ${paginator.labelFirst}
-        </a>
-        </li>
-        </#if>
-        <#if (paginator.pageCurrent > 1) >
-        <li class="previous">
-        <a href="${paginator.previousPageLink?xhtml}">
-            ${paginator.labelPrevious}
-        </a>
-        </li>
-        <#else>
-        <li class="previous-off">
-            ${paginator.labelPrevious}
-        </li>
-        </#if>
-        <#if paginator.pageCurrent &gt; nbLinkPages-offsetPrev >
-        <li>
-        	<strong>...</strong>
-        </li>
-        </#if>
-        <#list paginator.pagesLinks as link>
-			<#if ( link.index == paginator.pageCurrent )>
-                        <li class="active">
-				<strong>${link.name}</strong>
-                        </li>
-			<#else>
-                        <li>
-				<a href="${link.url?xhtml}">${link.name}</a>
-                        </li>
-			</#if>
-        </#list>
-        <#if paginator.pageCurrent &lt; paginator.pagesCount - (nbLinkPages-offsetNext) >
-        <li>
-        	<strong>...</strong>
-        </li>
-        </#if>
-        <#if (paginator.pageCurrent < paginator.pagesCount) >
-        <li class="next">
-        <a href="${paginator.nextPageLink?xhtml}">
-            ${paginator.labelNext}
-        </a>
-        </li>
-        <#if paginator.pageCurrent &lt; paginator.pagesCount - (nbLinkPages-offsetNext) >
-        <li class="next">
-        <a href="${paginator.lastPageLink?xhtml}">
-            ${paginator.labelLast}
-        </a>
-        </li>
-        </#if>
-        <#else>
-        <li class="next-off">
-            ${paginator.labelNext}
-        </li>
-        </#if>
-        </ul>
-    </span>
-            ${paginator.labelItemCount} : ${paginator.itemsCount}
-        </p>
-
-    </div>
-    </#if>
-</#macro>
-
-
-
-<#macro paginationAdminCombo paginator >
-	<#assign nbLinkPages = 10 />
-	<#assign offsetPrev = nbLinkPages/2 />
-	<#assign offsetNext = nbLinkPages/2 />
-
-	<#if paginator.pageCurrent &lt; nbLinkPages-offsetPrev>
-		<#assign offsetPrev = nbLinkPages - paginator.pageCurrent />
-		<#assign offsetNext = nbLinkPages - offsetPrev />
-	<#elseif paginator.pageCurrent &gt; paginator.pagesCount - (nbLinkPages - offsetNext) >
-		<#assign offsetNext = nbLinkPages - (paginator.pagesCount - paginator.pageCurrent) />
-		<#assign offsetPrev = nbLinkPages - offsetNext />
-	</#if>
-    <#if (paginator.pagesCount > 1) >
-    <div id="lutece-paginator">
+    <#if form == 1 >
     <form method="post" action="">
+    </#if>
         <p>
+    <#if (paginator.pagesCount > 1) >
         <span>
         <ul>
         <#if paginator.pageCurrent &gt; nbLinkPages-offsetPrev >
@@ -290,6 +208,16 @@
         </#if>
         </ul>
         </span>
+    </#if>
+        <@paginationItemCount paginator=paginator combo=combo />
+        </p>
+    <#if form == 1 >
+    </form>
+    </#if>
+   </div>
+ </#macro>
+
+<#macro paginationCombo paginator >
         ${paginator.labelItemCountPerPage} :
         <select name="items_per_page">
             <#list [ "10" , "20" , "50" , "100" ] as nb>
@@ -302,106 +230,16 @@
         </select>
         <input type="submit" class="refresh" value="" />
         &nbsp;-&nbsp;
-        ${paginator.labelItemCount} : ${paginator.itemsCount}
-        </p>
-    </form>
-    </div>
-    </#if>
 </#macro>
 
-
-<#macro paginationAdminComboWithoutForm paginator >
-	<#assign nbLinkPages = 10 />
-	<#assign offsetPrev = nbLinkPages/2 />
-	<#assign offsetNext = nbLinkPages/2 />
-
-	<#if paginator.pageCurrent &lt; nbLinkPages-offsetPrev>
-		<#assign offsetPrev = nbLinkPages - paginator.pageCurrent />
-		<#assign offsetNext = nbLinkPages - offsetPrev />
-	<#elseif paginator.pageCurrent &gt; paginator.pagesCount - (nbLinkPages - offsetNext) >
-		<#assign offsetNext = nbLinkPages - (paginator.pagesCount - paginator.pageCurrent) />
-		<#assign offsetPrev = nbLinkPages - offsetNext />
-	</#if>
-    <#if (paginator.pagesCount > 1) >
-    <div id="lutece-paginator">
-         <p>
-        <span>
-        <ul>
-        <#if paginator.pageCurrent &gt; nbLinkPages-offsetPrev >
-        <li>
-        <a href="${paginator.firstPageLink?xhtml}">
-            ${paginator.labelFirst}
-        </a>
-        </li>
+<#macro paginationItemCount paginator combo=0>
+        <#-- Display combo -->
+        <#if combo == 1 >
+            <@paginationCombo paginator=paginator />
         </#if>
-        <#if (paginator.pageCurrent > 1) >
-        <li class="previous">
-        <a href="${paginator.previousPageLink?xhtml}">
-            ${paginator.labelPrevious}
-        </a>
-        </li>
-        <#else>
-        <li class="previous-off">
-            ${paginator.labelPrevious}
-        </li>
-        </#if>
-        <#if paginator.pageCurrent &gt; nbLinkPages-offsetPrev >
-        <li>
-        	<strong>...</strong>
-        </li>
-        </#if>
-        <#list paginator.pagesLinks as link>
-			<#if ( link.index == paginator.pageCurrent )>
-                        <li class="active">
-				<strong>${link.name}</strong>
-                        </li>
-			<#else>
-                        <li>
-				<a href="${link.url?xhtml}">${link.name}</a>
-                        </li>
-			</#if>
-        </#list>
-        <#if paginator.pageCurrent &lt; paginator.pagesCount - (nbLinkPages-offsetNext) >
-        <li>
-        	<strong>...</strong>
-        </li>
-        </#if>
-        <#if (paginator.pageCurrent < paginator.pagesCount) >
-        <li class="next">
-        <a href="${paginator.nextPageLink?xhtml}">
-            ${paginator.labelNext}
-        </a>
-        </li>
-        <#if paginator.pageCurrent &lt; paginator.pagesCount - (nbLinkPages-offsetNext) >
-        <li class="next">
-        <a href="${paginator.lastPageLink?xhtml}">
-            ${paginator.labelLast}
-        </a>
-        </li>
-        </#if>
-        <#else>
-        <li class="next-off">
-            ${paginator.labelNext}
-        </li>
-        </#if>
-        </ul>
-        </span>
-        ${paginator.labelItemCountPerPage} :
-        <select name="items_per_page">
-            <#list [ "10" , "20" , "50" , "100" ] as nb>
-             <#if nb_items_per_page = nb >
-             	<option selected="selected" value="${nb}">${nb}</option>
-             <#else>
-             	<option value="${nb}">${nb}</option>
-             </#if>
-            </#list>
-        </select>
-        <input type="submit" class="refresh" value="" />
-        &nbsp;-&nbsp;
+        <#-- Display item count -->
         ${paginator.labelItemCount} : ${paginator.itemsCount}
-        </p>
-    </div>
-    </#if>
+
 </#macro>
 
 
