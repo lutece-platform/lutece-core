@@ -6,7 +6,8 @@
 	<form method="post"  action="jsp/admin/rbac/DoModifyRole.jsp" name="modify_role">
 		<p>
 			<label for="role_key" >#i18n{portal.rbac.modify_role.labelKey}&nbsp;*&nbsp;:</label>
-			<input type="text" size="20" id="role_key" name="role_key" value="${role.key}" maxlength="255" />
+			<input type="hidden" id="role_key" name="role_key" value="${role.key}" />
+			${role.key}
 		</p>
 		<p>
 			<label for="role_description" >#i18n{portal.rbac.modify_role.labelDescription}&nbsp;*&nbsp;:</label>
