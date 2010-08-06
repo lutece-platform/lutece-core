@@ -21,7 +21,7 @@
         <p><input type="submit" value="#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}"  class="button" /></p>
     </form>
     <form method="post" action="jsp/admin/workgroup/ManageWorkgroups.jsp">
-        <@paginationAdminComboWithoutForm paginator=paginator />
+        <@paginationAdmin paginator=paginator combo=1 form=0 />
         <#if search_is_search >
    			<input type="hidden" name="search_is_search" value="true"/>
    			<input type="hidden" name="search_key" value="${search_admin_workgroup_filter.key}"/>
@@ -54,7 +54,7 @@
         </tr>
         </#list>
     </table>
-	<@paginationAdminCombo paginator=paginator />
+	<@paginationAdmin paginator=paginator />
     <form method="post"  action="jsp/admin/workgroup/CreateWorkgroup.jsp">
         <p><input type="submit" value="#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}"  class="button" /></p>
     </form>
