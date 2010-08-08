@@ -1,24 +1,16 @@
-<div id="top">
-    <div id="admin-header" class="header-box">
-        <div class="admin-main-menu-text">
-            <big>${site_name}</big>   <br />
-            #i18n{portal.users.admin_header.labelVersion} : ${version}
-            <div id="admin-header-dashboard">
-                ${dashboard_zone_4}
-            </div>
-            <div id="admin-main-menu" >
-                <ul>
-                    <li><a href="jsp/site/Portal.jsp" target="_blank" title="#i18n{portal.users.admin_header.title.viewSite}">#i18n{portal.users.admin_header.viewSite}</a></li>
-                    <li><a href="jsp/admin/AdminMenu.jsp" title="#i18n{portal.users.admin_header.title.homePage}">#i18n{portal.users.admin_header.homePage}</a></li>
-                    <#if admin_summary_documentation_url?exists>
-                    <li><a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">#i18n{portal.users.admin_header.documentation}</a></li>
-                    </#if>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="admin-header-menu-main">
+<div id="admin-header">
+<p id="admin-header-toolbar">
+  <a href="jsp/admin/AdminMenu.jsp" title="#i18n{portal.users.admin_header.title.homePage}">#i18n{portal.users.admin_header.homePage}</a>
+   <a href="jsp/site/Portal.jsp" target="_blank" title="#i18n{portal.users.admin_header.title.viewSite}">#i18n{portal.users.admin_header.viewSite}</a>
+  <#if admin_summary_documentation_url?exists>
+   <a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">#i18n{portal.users.admin_header.documentation}</a>
+  </#if>
+  ${dashboard_zone_4}
+</p>
+<div id="admin-header-main">
+<div id="admin-header-sitename">${site_name}</div>
+<!-- p>${dashboard_zone_4}</p -->
+<div id="admin-header-menu-main">
         <ul id="admin-header-menu">
             <#list feature_group_list as feature_group >
             <#if feature_group_index = 0 >
@@ -34,7 +26,8 @@
                         <#else>
                     <li>
                         </#if>
-                        <a href="${feature.url}?plugin_name=${feature.pluginName}"><span>${feature.name}</span>
+                        <a href="${feature.url}?plugin_name=${feature.pluginName}">
+                           ${feature.name}
                         </a>
                     </li>
                     </#list>
@@ -43,4 +36,6 @@
             </#list>
         </ul>
     </div>
-    <br />
+</div>
+</div>
+

@@ -12,29 +12,32 @@
 @import url("../js/jquery/plugins/ui/datepicker/ui.datepicker.css");
 @import url("../js/jquery/plugins/jpassword/jpassword.css");
 
+html, body {
+ height: 100%;
+ margin: 0;
+ padding: 0;
+ }
+
 /* Define the default font: */
 BODY, TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH, H1, H2, H3, H4, TEXTAREA
 {
     font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
     font-size: 11px;
     font-weight: normal;
+    margin:0;
 }
+
+p{line-height: 1.5;}
 
 img {
     border: none;
 }
 
 /*links */
-a {
-    color: #364C5E;
-    font-weight: bold;
-}
-
-
+a {color: #364C5E;font-weight: bold; text-decoration: none}
+a:hover{text-decoration: underline;}
 /* links of menu hover */
-a.top {
-    float: right;
-}
+a.top {float: right;}
 
 a.bullet-link
 {
@@ -77,7 +80,32 @@ h3 {
     text-align:center;
 }
 
-/* Menu � onglet de l'interface d'Administration des pages */
+.user{color:#fff;}
+/*
+#admin-header-login{
+background:none #3B5A76;
+border-bottom:1px solid 1E4262;
+font-family:verdana;
+font-size:80%;
+padding-right:20px;
+text-align:right;
+height: 100px;
+}*/
+/* Toolbar above menu */
+#admin-header-toolbar {
+background:none #3B5A76;
+border-bottom:1px solid #1E4262;
+font-family:verdana;
+font-size:80%;
+padding-right:20px;
+text-align:right;
+}
+#admin-header-toolbar a{
+    color:#fff;
+    margin:0 5px;
+    font-weight:normal;
+}
+/* Menu onglet de l'interface d'Administration des pages */
 #admin-site-menu {
     float:left;
     width:100%;
@@ -190,166 +218,91 @@ tree-menu-span.key {
     text-decoration: underline;
 }
 
-
+#admin-header{/*background:#3B5A76;*/}
+#admin-header-main {background:#3B5A76;/*background:url(../images/admin/skin/logo.gif) no-repeat;*/height:50px;
+-moz-border-radius-bottomleft:10px; -webkit-border-bottom-left-radius:10px;
+-moz-border-radius-bottomright:10px; -webkit-border-bottom-right-radius:10px;
+}
+#admin-header-sitename{color:#fff;font-weight: bold;font-size: 150%;float: left;margin:1% 2%;}
 
 /* =====================================================================
  * --------------      styles for horizontal menu      -----------------
  * ===================================================================== */
 /* Horizontal menu : for admin-header-menu */
 
-#admin-header-menu-main
-{
-    margin: 0;
-    color: #364C5E;
+#admin-header-menu-main{
+    float:right;
+    margin: 0 160px 0 0;
+    padding:0;
+    color: #fff;
     font-size: 120%;
-    margin: -19px 0 20px 0;
+    /*height: 50px;*/
 }
-
-ul#admin-header-menu li ul{
-    display:none;
-}
-
-ul#admin-header-menu li:hover>ul{
-    display:block;
-}
-
-
+ul#admin-header-menu li ul{display:none;}
+ul#admin-header-menu li:hover>ul{display:block;}
 ul#admin-header-menu{
     margin:0px;
     padding:0px;
     list-style:none;
     width:100%;
-    border-bottom: 1px solid #EE9C00;
     float:left;
     cursor: pointer;
 }
-
-
 ul#admin-header-menu li{
-    background-image: url(../images/admin/skin/menu_bullet.gif);
+    background:#3B5A76;
     background-repeat: no-repeat;
     background-position: left center;
+    color: #fff;
     float:left;
     display:block;
-    padding:1px 20px 1px 12px;
+    /*padding:1px 20px 1px 12px;*/
 }
 
-ul#admin-header-menu li.first{
-    padding-left:17px;
-}
-
-
-ul#admin-header-menu li.last{
-    padding-right:2px;
-}
-
+ul#admin-header-menu li.first{}
+ul#admin-header-menu li.last{}
 ul#admin-header-menu li a{
     display:block;
-    padding:2px 6px;
-    color:#364C5E;
+    padding:16px;
+    color:#fff;
     text-decoration:none;
     font-weight: bold;
 }
-
-
-ul#admin-header-menu li a:hover{
-}
-
+ul#admin-header-menu li a:hover{background:#74A4CF;}
 ul#admin-header-menu ul{
     position:absolute;
-    background:white;
-    border: 1px solid #364C5E;
     list-style:none;
     margin:0px;
     padding:0px;
     width:235px;
     z-index:1;
 }
-
-
-
 ul#admin-header-menu ul ul{
-    top:0px;
+    top:20px;
     left:155px;
     z-index:2;
 }
-
-
 ul#admin-header-menu ul li{
     position:relative;
     float:none;
-    background-image:none;
     margin:0px;
-    padding:0px;
+    padding:4px;
 }
-
-
 ul#admin-header-menu ul li a{
-    font-size: 13px;
+    font-weight: normal;
+    color:#fff;
     display:block;
     margin:0px;
-    padding:0px;
+    padding:4px;
     width:230px;
     border:none;
 }
-
-
-ul#admin-header-menu ul li a span{
-    display:block;
-    width:220px;
-    padding:2px 6px;
-    margin:0px 2px;
-    border:none;
-    cursor: pointer;
-}
-
-
-ul#admin-header-menu ul li a.next span{}
-
-ul#admin-header-menu ul li a.next:hover span{
-    background-position: -160px 50%;  
-    text-decoration: none;    
-}
-
-ul#admin-header-menu ul li a:hover {
-    width: 100%;
-    color: #364C5E;
-    border:none;
-    text-decoration: none;
-    background-color: #8EAABF;
-}
-
-ul#admin-header-menu ul li.admin-header-first{
-    padding-left:0px;
-    border-top: none;
-}
-
-
-ul#admin-header-menu ul li.admin-header-first a{
-    padding-top:0px;
-}
-
-ul#admin-header-menu ul li.admin-header-last{
-    padding-right:0px;
-}
-
-ul#admin-header-menu ul li.admin-header-last a{
-    padding-bottom:0px;
-}
-
-
-
-
+/*ul#admin-header-menu ul li a:hover{font-weight:bold;background:none;}*/
+ul#admin-header-menu ul li a:hover{background:#74A4CF;padding:2px 0px 2px 1px;margin:0px;}
 /********************************
 ******** Page header box
 *********************************/
-#admin-header {
-    background-color: #395E7D;
-    background-image: url(../images/admin/skin/logo.gif);
-    background-repeat: no-repeat;
-    background-position: 2% 50%;
-}
 
+/*
 #admin-header-dashboard {
     color: #fff;
     margin-left: 140px;
@@ -364,8 +317,7 @@ ul#admin-header-menu ul li.admin-header-last a{
 div.header-box {
     background: #395E7D url(../images/admin/skin/roundbox_back.gif) right repeat-y;
     margin-bottom: 20px;
-    /*padding: 15px 15px 14px 15px;*/
-    padding: 14px 13px 14px 14px;
+   padding: 14px 13px 14px 14px;
     text-align: left;
 }
 
@@ -395,11 +347,9 @@ div.header-box:after {
 
 #admin-main-menu {
     float:right;
-    width:70%;
-    background: url("../images/admin/skin/bg_header.gif") repeat-x bottom;
     font-size:100%;
     line-height:normal;
-    margin: 22px 2px -22px 0;
+    margin: 22px 2px -22px 50%;
 }
 
 div.admin-main-menu-text {
@@ -418,7 +368,6 @@ div.admin-main-menu-text {
 
 #admin-main-menu li {
     float:right;
-    background:url("../images/admin/skin/left_header.gif") no-repeat left top;
     margin:0;
     padding:0 0 0 9px;
 }
@@ -427,28 +376,28 @@ div.admin-main-menu-text {
 #admin-main-menu a {
     float:right;
     display:block;
-    background:url("../images/admin/skin/right_header.gif") no-repeat right top;
     padding:5px 15px 4px 6px;
     text-decoration:none;
     font-weight:bold;
     color:white;
 }
 
-
-
 #admin-main-menu a {float:none;}
 
 #admin-main-menu a:hover {
     color:#364C5E ;
 }
-
+*/
+#main-footer{
+ background: #E3E2DF url(../images/local/skin/poweredby.jpg) right no-repeat;
+ padding: 0 60px;
+ font-weight: bold;
+ text-align: right;
+ clear:both;}
 
 div.title{
     float:left;
 }
-
-
-
 
 
 div.content-box {
@@ -718,7 +667,7 @@ div#message-box h2 {
 *********************************/
 div#welcome-zone {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 10px;
     margin-left: 5%;
     margin-right: 5%;
 }
@@ -735,57 +684,13 @@ div#welcome-user-zone {
 /********************************
 ******** feature title elements
 *********************************/
-div#feature-title {
-    margin-left: 3%;
-    margin-right: 3%;
-    margin-top: 35px;
-}
-
-div#feature-title img.icon {
-    border: none;
-    float: right;
-}
-
-
-div#feature-title h2 {
-    margin-top: 10px;
-    margin-bottom: 0px;
-    padding-top: 15px;
-}
-
-div#feature-title  h2 a {
-    background-image: url(../images/admin/skin/puce.gif);
-    background-repeat:no-repeat;
-    background-position:center left;
-    padding-left:25px;
-}
-
-
-div#feature-content{
-    margin-left:3%;
-    margin-right:3%;
-    clear: both;
-}
-/*
-div#left {   
-    float: left;
-    width: 250px;
-}
-
-div#right {
-    margin-left: 270px;
-}
-*/
-
-div#left {   
-    float: left;
-    width: 30%;
-}
-
-div#right {
-    float: right;
-    width: 68%;
-}
+div#feature-title {margin:10px 3%;}
+div#feature-title img.icon {border: none;float: right;}
+div#feature-title h2 { margin:10px 0 0 0;padding-top: 15px;}
+div#feature-title  h2 a { background: url(../images/admin/skin/puce.gif) no-repeat center left;padding-left:25px;}
+div#feature-content{margin:0 3%;clear: both;}
+div#left {float: left;width: 30%;}
+div#right {float: right;width: 68%;}
 
 div#right div.content-box {
     height:100%;
