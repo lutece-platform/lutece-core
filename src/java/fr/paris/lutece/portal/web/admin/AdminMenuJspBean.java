@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
-import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
@@ -52,7 +51,6 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.service.util.CryptoService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -93,11 +91,11 @@ public class AdminMenuJspBean
     // Templates
     private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.html";
     private static final String TEMPLATE_ADMIN_MENU_HEADER = "admin/user/admin_header.html";
+    private static final String TEMPLATE_ADMIN_MENU_FOOTER = "admin/user/admin_footer.html";
     private static final String TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE = "admin/user/modify_password_default_module.html";
 
     // Parameter
     private static final String PARAMETER_LANGUAGE = "language";
-    private static final String PARAMETER_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
 
     // Properties
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
@@ -148,6 +146,25 @@ public class AdminMenuJspBean
     }
 
     /**
+     * Returns the Administration footer menu
+     *
+     * @param request The HttpServletRequest
+     * @return The html code of the header
+     */
+    public String getAdminMenuFooter( HttpServletRequest request )
+    {
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        String strFooterVersion = AppInfo.getVersion(  );
+        String strFooterSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
+        AdminUser user = AdminUserService.getAdminUser( request );
+        Locale locale = ( user != null ) ? user.getLocale() : Locale.getDefault();
+        model.put( Markers.VERSION, strFooterVersion );
+        model.put( MARK_SITE_NAME, strFooterSiteName );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_FOOTER, locale ,model);
+        return template.getHtml(  );
+    }
+
+    /**
      * Returns the html code of the menu of the users
      * @param request The Http request
      * @return The html code of the users menu
@@ -175,6 +192,8 @@ public class AdminMenuJspBean
 
         return template.getHtml(  );
     }
+
+
 
     /**
      * Add dashboard data to the template's model
@@ -358,21 +377,13 @@ public class AdminMenuJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        
+
         // Test the difference between the two fields of new password
         if ( !strNewPassword.equals( strConfirmNewPassword ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_CONTROL_PASSWORD_NO_CORRESPONDING,
                 AdminMessage.TYPE_STOP );
         }
-        
-        // Encryption passwords
-        if ( Boolean.valueOf( 
-        		DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
-    	{
-        	strCurrentPassword = CryptoService.encrypt( strCurrentPassword );
-        	strNewPassword = CryptoService.encrypt( strNewPassword );
-    	}
 
         // Test of the value of the current password
         if ( !strCurrentPassword.equals( strPassword ) )
