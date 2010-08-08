@@ -1,20 +1,14 @@
 <html>
-    <head>
-        <title>#i18n{portal.admin.admin_login.title}</title>
-    </head>
-
-    <body onLoad="document.login.access_code.focus();">
-<div id="admin-header" class="header-box">
-    <div id="admin-main-menu" >       
-     <div class="admin-main-menu-text">
-            <big>${site_name}</big>   <br />
-            version : ${version}
-     </div>  
-     <br /><br />
-    </div> 
+<head>
+<title>#i18n{portal.admin.admin_login.title}</title>
+</head>
+<body onLoad="document.login.access_code.focus();">
+<div id="admin-header-main">
+<div id="admin-header-sitename">${site_name}</div>
 </div>
-    <div id="login-zone">
-        <div class="content-box">
+
+<div id="login-zone">
+  <div class="content-box">
             <h2>#i18n{portal.admin.admin_login.boxTitle}</h2>
                 <p>
                     <img src="images/admin/skin/login.png" hspace="3" vspace="5" align="left" />
@@ -43,11 +37,4 @@
                 </p>
                 </form>
         </div>
-	        <p>
-                    <span style="float:right;margin-top:-1em;">
-                          <a href="http://fr.lutece.paris.fr" target="_blank" ><img  alt="Powered By Lutece" title="Powered By Lutece" src="images/local/skin/poweredby.jpg" /></a>
-                    </span>
-	        </p>
     </div>
-    </body>
-</html>
