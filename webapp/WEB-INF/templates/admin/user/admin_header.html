@@ -1,9 +1,10 @@
+<div id="wrapper">
 <div id="admin-header">
 <p id="admin-header-toolbar">
-  <a href="jsp/admin/AdminMenu.jsp" title="#i18n{portal.users.admin_header.title.homePage}">#i18n{portal.users.admin_header.homePage}</a>
-   <a href="jsp/site/Portal.jsp" target="_blank" title="#i18n{portal.users.admin_header.title.viewSite}">#i18n{portal.users.admin_header.viewSite}</a>
-  <#if admin_summary_documentation_url?exists>
-   <a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">#i18n{portal.users.admin_header.documentation}</a>
+  <a href="jsp/admin/AdminMenu.jsp" title="#i18n{portal.users.admin_header.title.homePage}"><img src="images/admin/skin/home.png" /> #i18n{portal.users.admin_header.homePage}</a>
+   <a href="jsp/site/Portal.jsp" target="_blank" title="#i18n{portal.users.admin_header.title.viewSite}"><img src="images/admin/skin/world.png" /> #i18n{portal.users.admin_header.viewSite}</a>
+   <#if admin_summary_documentation_url?exists>
+   <a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}"><img src="images/admin/skin/document-library.png" /> #i18n{portal.users.admin_header.documentation}</a>
   </#if>
   ${dashboard_zone_4}
 </p>
@@ -11,13 +12,9 @@
 <div id="admin-header-sitename">${site_name}</div>
 <!-- p>${dashboard_zone_4}</p -->
 <div id="admin-header-menu-main">
-        <ul id="admin-header-menu">
+        <ul id="menu-main">
             <#list feature_group_list as feature_group >
-            <#if feature_group_index = 0 >
-            <li class="admin-header-first">
-                <#else>
             <li>
-                </#if>
                 <a href="${admin_url}#${feature_group.id}">${feature_group.label}</a>
                 <ul>
                     <#list feature_group.features as feature >

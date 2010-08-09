@@ -1,65 +1,35 @@
 <div id="left">
-
-     <div class="content-box">
-     
-     	<h2>#i18n{portal.users.modify_user.titleUser}</h2>
-           
-        <table>
-            <tr>
-                <th>
-                    #i18n{portal.users.modify_user.labelLastName} - #i18n{portal.users.modify_user.labelFirstName}
-                </th>
-            </tr>
-            <tr>
-                <td>
-                    ${user.lastName} ${user.firstName}
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    #i18n{portal.users.modify_user.labelAccessCode}                
-                </th>
-            </tr>
-            <td>
-                <#assign userCode = user.accessCode>
-                <#if userCode?length <= 20 >
-	                 ${userCode?right_pad(20, " ")}
-	            <#else>
-	                 ${userCode[0..17]}...
-	            </#if>
-            </td>
-            </tr>            
-            <tr>
-                <th>
-                    #i18n{portal.users.modify_user.actions}
-                </th>
-            </tr>
-            <tr>
-                <td>
-                    <a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}" >
-                        <img src="images/admin/skin/actions/right.png" alt="#i18n{portal.users.actions.labelRights}" title="#i18n{portal.users.actions.labelRights}" />
-                    </a>
-                    <a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}" >
-                        <img src="images/admin/skin/actions/rbac.png" alt="#i18n{portal.users.actions.labelRoles}" title="#i18n{portal.users.actions.labelRoles}" />
-                    </a>
-                    <a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}" >
-    	                <img src="images/admin/skin/actions/group.png" alt="#i18n{portal.users.actions.labelWorkgroups}" title="#i18n{portal.users.actions.labelWorkgroups}" />
-	                </a>
-                </td>
-            </tr>
-        </table> 
-   
-    </div>
-    
+<div class="content-box">
+<h2>#i18n{portal.users.modify_user.titleUser}</h2>
+    <p class="title">
+     #i18n{portal.users.modify_user.labelLastName} - #i18n{portal.users.modify_user.labelFirstName}
+    </p>
+    <p>${user.lastName} ${user.firstName}</p>
+    <p class="title">#i18n{portal.users.modify_user.labelAccessCode}</p>
+   <p><#assign userCode = user.accessCode>
+      <#if userCode?length <= 20 >
+     ${userCode?right_pad(20, " ")}
+     <#else>
+     ${userCode[0..17]}...
+     </#if>
+    </p>
+    <p class="title">#i18n{portal.users.modify_user.actions}</p>
+    <p>
+      <a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}" >
+       <img src="images/admin/skin/actions/right.png" alt="#i18n{portal.users.actions.labelRights}" title="#i18n{portal.users.actions.labelRights}" />
+      </a>
+      <a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}" >
+         <img src="images/admin/skin/actions/rbac.png" alt="#i18n{portal.users.actions.labelRoles}" title="#i18n{portal.users.actions.labelRoles}" />
+       </a>
+       <a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}" >
+         <img src="images/admin/skin/actions/group.png" alt="#i18n{portal.users.actions.labelWorkgroups}" title="#i18n{portal.users.actions.labelWorkgroups}" />
+       </a>
+    </p>
+ </div>
 </div>
-
 <div id="right">
-
-
     <div class="content-box">
-        	
-        	<h2>#i18n{portal.users.modify_user.titleModificationForm}</h2>
-            
+     	<h2>#i18n{portal.users.modify_user.titleModificationForm}</h2>
             <form method="post" name="modify_user" action="jsp/admin/user/DoModifyUser.jsp" >
              <p>
                 <label for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>                         

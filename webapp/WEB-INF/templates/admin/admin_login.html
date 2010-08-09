@@ -3,15 +3,16 @@
 <title>#i18n{portal.admin.admin_login.title}</title>
 </head>
 <body onLoad="document.login.access_code.focus();">
+<div id="wrapper">
 <div id="admin-header-main">
 <div id="admin-header-sitename">${site_name}</div>
 </div>
 
 <div id="login-zone">
   <div class="content-box">
-            <h2>#i18n{portal.admin.admin_login.boxTitle}</h2>
+            <h2><img style="float:right;padding:0 5px;" src="images/admin/skin/login.png" alt="" title="" />#i18n{portal.admin.admin_login.boxTitle}</h2>
                 <p>
-                    <img src="images/admin/skin/login.png" hspace="3" vspace="5" align="left" />
+                    <!-- img src="images/admin/skin/login.png" hspace="3" vspace="5" align="left" / -->
 		</p>
 		<p>
                     #i18n{portal.admin.admin_login.welcome} 
@@ -26,15 +27,18 @@
                 </p>
 		<p class="login">
                     <label for="password" >#i18n{portal.admin.admin_login.passwordLabel} :</label>
-		    <input type="password" name="password" id="password" AUTOCOMPLETE="off"  tabindex="2" /> <a href="${forgot_password_url?if_exists}">#i18n{portal.admin.admin_login.forgotPassword}</a>
+		    <input type="password" name="password" id="password" AUTOCOMPLETE="off"  tabindex="2" />
+
                 </p>
-		<#list params_list as param>
+                <#list params_list as param>
 			<input type="hidden" name="${param.code}" value="${param.name}">
 		</#list>
 		                    
-                <p>
-                    <input class="button" type="submit" value="#i18n{portal.admin.admin_login.buttonConnect}" tabindex="3">
+                <p style="margin:0 0 0 32%;">
+                    <input class="button" type="submit" value="#i18n{portal.admin.admin_login.buttonConnect}" tabindex="3"> 
                 </p>
                 </form>
         </div>
+    <p><a href="${forgot_password_url?if_exists}">#i18n{portal.admin.admin_login.forgotPassword}</a></p>
     </div>
+        </div>

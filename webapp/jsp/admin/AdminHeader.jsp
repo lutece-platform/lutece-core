@@ -26,7 +26,7 @@
 <script type="text/javascript" src="js/admin_map.js"></script>
 <script type="text/javascript" src="js/tools.js"></script>
 <script type="text/javascript" src="js/selectbox.js"></script>
-<script src="js/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
+<script src="js/jquery/jquery-1.4.2.min.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/treeview/jquery.cookie.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/treeview/jquery.treeview.pack.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/ui/datepicker/ui.datepicker.js" type="text/javascript"></script>
@@ -34,12 +34,6 @@
 <script src="js/jquery/plugins/jpassword/jquery.jpassword.pack.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/autocomplete/jquery.autocomplete.pack.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/generatepassword/jquery.password.min.js" type="text/javascript"></script>
-<script src="js/jquery/plugins/superfish/superfish.js" type="text/javascript" ></script>
-<script type="text/javascript">
-$(document).ready(function(){
-$("ul.admin-header-menu").superfish({pathClass:  'admin-header-first' });
-});
-</script>
 </head>
 <body id="#top">
 <%-- Display the admin menu --%>

@@ -1,38 +1,20 @@
 <div id="left">
-    <div class="content-box" >
-        <h2>#i18n{portal.users.modify_user.titleUser}</h2>
-        <table>
-            <tr>
-                <th>
-                    #i18n{portal.users.modify_user.labelLastName} - #i18n{portal.users.modify_user.labelFirstName}
-                </th>
-            </tr>
-            <tr>
-                <td>
-                    ${user.lastName} ${user.firstName}
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    #i18n{portal.users.modify_user.labelAccessCode}                
-                </th>
-            </tr>
-            <td>
-                <#assign userCode = user.accessCode>
-                <#if userCode?length <= 20 >
-	                 ${userCode?right_pad(20, " ")}
-	         <#else>
-	                 ${userCode[0..17]}...
-	         </#if>
-            </td>
-            </tr>            
-            <tr>
-                <th>
-                    #i18n{portal.users.modify_user.actions}
-                </th>
-            </tr>
-            <tr>
-                <td>
+<div class="content-box">
+<h2>#i18n{portal.users.modify_user.titleUser}</h2>
+    <p class="title">
+     #i18n{portal.users.modify_user.labelLastName} - #i18n{portal.users.modify_user.labelFirstName}
+    </p>
+    <p>${user.lastName} ${user.firstName}</p>
+    <p class="title">#i18n{portal.users.modify_user.labelAccessCode}</p>
+   <p><#assign userCode = user.accessCode>
+      <#if userCode?length <= 20 >
+     ${userCode?right_pad(20, " ")}
+     <#else>
+     ${userCode[0..17]}...
+     </#if>
+    </p>
+    <p class="title">#i18n{portal.users.modify_user.actions}</p>
+    <p>
                     <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >
                         <img src="images/admin/skin/actions/user.png" alt="#i18n{portal.users.actions.labelUser}" title="#i18n{portal.users.actions.labelUser}" />
                     </a>
@@ -42,9 +24,7 @@
                     <a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}" >
                         <img src="images/admin/skin/actions/rbac.png" alt="#i18n{portal.users.actions.labelRoles}" title="#i18n{portal.users.actions.labelRoles}" />
                     </a>
-                </td>
-            </tr>
-        </table>
+                </p>
     </div>
 </div>
 <div id="right">
