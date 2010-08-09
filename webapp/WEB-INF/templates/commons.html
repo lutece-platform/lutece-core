@@ -130,6 +130,25 @@
 
 
 <#macro paginationAdmin paginator combo=0 form=1 >
+    <div id="lutece-paginator">
+    <#if form == 1 >
+    <form method="post" action="">
+    </#if>
+        <p>
+    <#if (paginator.pagesCount > 1) >
+        <span>
+        <@paginationPageLinks paginator=paginator />
+        </span>
+    </#if>
+        <@paginationItemCount paginator=paginator combo=combo />
+        </p>
+    <#if form == 1 >
+    </form>
+    </#if>
+   </div>
+ </#macro>
+
+ <#macro paginationPageLinks paginator >
 	<#assign nbLinkPages = 10 />
 	<#assign offsetPrev = nbLinkPages/2 />
 	<#assign offsetNext = nbLinkPages/2 />
@@ -141,14 +160,7 @@
 		<#assign offsetNext = nbLinkPages - (paginator.pagesCount - paginator.pageCurrent) />
 		<#assign offsetPrev = nbLinkPages - offsetNext />
 	</#if>
-    <div id="lutece-paginator">
-    <#if form == 1 >
-    <form method="post" action="">
-    </#if>
-        <p>
-    <#if (paginator.pagesCount > 1) >
-        <span>
-        <ul>
+         <ul>
         <#if paginator.pageCurrent &gt; nbLinkPages-offsetPrev >
         <li>
         <a href="${paginator.firstPageLink?xhtml}">
@@ -207,16 +219,8 @@
         </li>
         </#if>
         </ul>
-        </span>
-    </#if>
-        <@paginationItemCount paginator=paginator combo=combo />
-        </p>
-    <#if form == 1 >
-    </form>
-    </#if>
-   </div>
  </#macro>
-
+ 
 <#macro paginationCombo paginator >
         ${paginator.labelItemCountPerPage} :
         <select name="items_per_page">
@@ -228,7 +232,7 @@
              </#if>
             </#list>
         </select>
-        <input type="submit" class="refresh" value="" />
+        <input type="submit" class="refresh" value="" title="#i18n{portal.util.labelRefresh}"/>
         &nbsp;-&nbsp;
 </#macro>
 
