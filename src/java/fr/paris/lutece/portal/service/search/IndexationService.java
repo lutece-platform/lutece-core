@@ -208,7 +208,12 @@ public final class IndexationService
                         _sbLogs.append( "\r\n<strong>Indexer : " );
                         _sbLogs.append( indexer.getName(  ) );
                         _sbLogs.append( " - ERROR : " );
-                        _sbLogs.append( e.getMessage(  ) + " : " + e.getCause(  ).getMessage(  ) );
+                        _sbLogs.append( e.getMessage(  ) );
+                        if ( e.getCause(  ) != null )
+                        {
+                        	 _sbLogs.append( " : " );
+                        	 _sbLogs.append(  e.getCause(  ).getMessage(  ) );
+                        }
                         _sbLogs.append( "</strong>\r\n" );
                     }
                 }
