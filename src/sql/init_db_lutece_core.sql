@@ -67,8 +67,6 @@ INSERT INTO core_page_template VALUES (4,'1 + 2 colonnes','skin/site/page_templa
 INSERT INTO core_page_template VALUES (5,'Deux colonnes égales','skin/site/page_template5.html','page_template5.gif');
 INSERT INTO core_page_template VALUES (6,'Trois colonnes inégales','skin/site/page_template6.html','page_template6.gif');
 
-INSERT INTO core_parameters VALUES (120);
-
 INSERT INTO core_portal_component VALUES (0,'Rubrique');
 INSERT INTO core_portal_component VALUES (1,'Article');
 INSERT INTO core_portal_component VALUES (2,'Rubrique Liste Article');
