@@ -184,16 +184,22 @@ public abstract class UploadFilter implements Filter
                 {
                     if ( item.isFormField(  ) )
                     {
-                        String strValue = null;
+                        String strValue = "";
 
                         try
                         {
-                            strValue = item.getString( strEncoding );
+                        	if( item.getSize()>0 )
+                        	{
+                        		strValue = item.getString( strEncoding );
+                        	}
                         }
                         catch ( UnsupportedEncodingException ex )
                         {
-                            // if encoding problem, try with system encoding
-                            strValue = item.getString(  );
+                        	if( item.getSize()>0 )
+                        	{
+	                            // if encoding problem, try with system encoding
+	                            strValue = item.getString(  );
+                        	}
                         }
 
                         // check if item of same name already in map
