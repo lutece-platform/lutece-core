@@ -136,7 +136,6 @@ INSERT INTO core_user_right VALUES ('CORE_USERS_MANAGEMENT',2);
 INSERT INTO core_user_right VALUES ('CORE_WORKGROUPS_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_WORKGROUPS_MANAGEMENT',2);
 INSERT INTO core_user_right VALUES ('CORE_RIGHT_MANAGEMENT',1);
-INSERT INTO core_user_right VALUES ('CORE_RIGHT_MANAGEMENT',2);
 
 INSERT INTO core_user_role VALUES ('all_site_manager',1);
 INSERT INTO core_user_role VALUES ('super_admin',1);

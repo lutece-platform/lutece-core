@@ -759,6 +759,7 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setEmail( daoUtil.getString( 5 ) );
             user.setStatus( daoUtil.getInt( 6 ) );
             user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+            user.setUserLevel( daoUtil.getInt( 8 ) );
             userList.add( user );
         }
 
