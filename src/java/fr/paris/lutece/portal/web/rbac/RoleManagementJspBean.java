@@ -42,8 +42,6 @@ import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserFilter;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
-import fr.paris.lutece.portal.business.workgroup.AdminWorkgroup;
-import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
@@ -83,8 +81,6 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     //////////////////////////////////////////////////////////////////////////////////
     // Contants
     public static final String RIGHT_MANAGE_ROLES = "CORE_RBAC_MANAGEMENT";
-    private static final String CONSTANT_MOINS_UN = "-1";
-    private static final String CONSTANT_DEFAULT_LEVEL = "noValue";
 
     // parameters
     private static final String PARAMETER_METHOD_SELECTION_ALL = "all";
@@ -102,14 +98,6 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_AVAILABLE_USER_LIST = "available_users_list";
     private static final String PARAMETER_CANCEL = "cancel";
     private static final String PARAMETER_ID_USER = "id_user";
-    private static final String PARAMETER_SEARCH_USERS = "search_users";
-    private static final String PARAMETER_SEARCH_ACCESS_CODE = "search_access_code";
-    private static final String PARAMETER_SEARCH_LAST_NAME = "search_last_name";
-    private static final String PARAMETER_SEARCH_FIRST_NAME = "search_first_name";
-    private static final String PARAMETER_SEARCH_EMAIL = "search_email";
-    private static final String PARAMETER_SEARCH_STATUS = "search_status";
-    private static final String PARAMETER_SEARCH_USER_LEVEL = "search_user_level";
-    private static final String PARAMETER_SEARCH_IS_SEARCH = "search_is_search";
     private static final String PARAMETER_ANCHOR = "anchor";
 
     //markers

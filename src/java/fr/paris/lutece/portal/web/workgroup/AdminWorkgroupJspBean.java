@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.web.workgroup;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
-import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -95,7 +93,6 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_ASSIGNED_USERS_LIST = "assigned_users_list";
     private static final String MARK_ASSIGNED_USERS_NUMBER = "assigned_users_number";
     private static final String MARK_SEARCH_IS_SEARCH = "search_is_search";
-    private static final String MARK_NB_WORKGROUPS = "nb_workgroups";
     private static final String MARK_SEARCH_ADMIN_WORKGROUP_FILTER = "search_admin_workgroup_filter";
     private static final String MARK_USER_LEVELS_LIST = "user_levels";
     private static final String MARK_SEARCH_ADMIN_USER_FILTER = "search_admin_user_filter";

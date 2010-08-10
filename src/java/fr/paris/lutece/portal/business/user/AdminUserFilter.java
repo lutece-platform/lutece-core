@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.business.user;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +54,6 @@ public class AdminUserFilter
     private static final String CONSTANT_ESPERLUETTE = "&";
     
     // Parameteres
-	private static final String PARAMETER_SEARCH_USERS = "search_users";
     private static final String PARAMETER_SEARCH_ACCESS_CODE = "search_access_code";
     private static final String PARAMETER_SEARCH_LAST_NAME = "search_last_name";
     private static final String PARAMETER_SEARCH_FIRST_NAME = "search_first_name";

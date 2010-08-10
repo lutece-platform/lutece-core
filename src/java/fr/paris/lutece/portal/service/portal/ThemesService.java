@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.util.ReferenceList;
 
-import java.util.Collection;
 import java.util.Locale;
 
 import javax.servlet.http.Cookie;
