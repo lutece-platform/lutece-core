@@ -46,7 +46,15 @@ import java.net.URLEncoder;
  */
 public final class EncodingService
 {
+	/**
+	 * <b>lutece.encoding.url</b>
+	 */
     private static final String PROPERTY_URL_ENCODING = "lutece.encoding.url";
+    
+    /**
+     * Default encoding (UTF-8)
+     */
+    private static final String DEFAULT_URI_ENCODING = "UTF-8";
 
     /** Creates a new instance of EncodingService */
     private EncodingService(  )
@@ -54,14 +62,37 @@ public final class EncodingService
     }
 
     /**
-     * Encode an url string
+     * Encode an url string. Uses {@link #PROPERTY_URL_ENCODING} property and {@link #DEFAULT_URI_ENCODING} as default if {@link #PROPERTY_URL_ENCODING} not found.
      * @param strSource The string to encode
      * @return The encoded string
      */
     public static String encodeUrl( String strSource )
     {
+    	return encodeUrl( strSource, PROPERTY_URL_ENCODING, DEFAULT_URI_ENCODING );
+    }
+    
+    /**
+     * Encode an url string. Uses {@link #DEFAULT_URI_ENCODING} as default.
+     * @param strSource The string to encode
+     * @param strProperty The property used used for the encoding. (ex : lutece.encoding.url )
+     * @return The encoded string
+     */
+    public static String encodeUrl( String strSource, String strProperty )
+    {
+        return encodeUrl( strSource, strProperty, DEFAULT_URI_ENCODING );
+    }
+    
+    /**
+     * Encode an url string
+     * @param strSource The string to encode
+     * @param strProperty The property used used for the encoding. (ex : lutece.encoding.url )
+     * @param strDefaultEncoding default encoding if <code>strProperty</code> cannot be found.
+     * @return The encoded string
+     */
+    public static String encodeUrl( String strSource, String strProperty, String strDefaultEncoding )
+    {
         String strEncoded = "";
-        String strEncoding = AppPropertiesService.getProperty( PROPERTY_URL_ENCODING );
+        String strEncoding = AppPropertiesService.getProperty( strProperty, strDefaultEncoding );
 
         try
         {
@@ -74,6 +105,8 @@ public final class EncodingService
 
         return strEncoded;
     }
+    
+    
 
     /**
      * Returns the current encoding

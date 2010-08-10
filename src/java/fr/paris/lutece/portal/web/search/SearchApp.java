@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.search;
 
+import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
@@ -63,6 +64,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -183,22 +186,16 @@ public class SearchApp implements XPageApplication
     public static String encodeUrl( HttpServletRequest request, String strSource )
         throws SiteMessageException
     {
-        String strEncoded = "";
-        String strURIEncoding = AppPropertiesService.getProperty( PROPERTY_ENCODE_URI_ENCODING, DEFAULT_URI_ENCODING );
-
-        try
+    	if ( strSource == null )
+    	{
+    		SiteMessageService.setMessage( request, MESSAGE_QUERY_NULL, SiteMessage.TYPE_ERROR );
+    	}
+    	
+        String strEncoded = EncodingService.encodeUrl( strSource, PROPERTY_ENCODE_URI_ENCODING, DEFAULT_URI_ENCODING );
+        
+        if ( StringUtils.isBlank( strEncoded ) )
         {
-            strEncoded = URLEncoder.encode( strSource, strURIEncoding );
-        }
-        catch ( UnsupportedEncodingException ue )
-        {
-            AppLogService.error( ue.getMessage(  ), ue );
-            SiteMessageService.setMessage( request, MESSAGE_ENCODING_ERROR, SiteMessage.TYPE_ERROR );
-        }
-        catch ( NullPointerException ne )
-        {
-            AppLogService.error( ne.getMessage(  ), ne );
-            SiteMessageService.setMessage( request, MESSAGE_QUERY_NULL, SiteMessage.TYPE_ERROR );
+        	SiteMessageService.setMessage( request, MESSAGE_ENCODING_ERROR, SiteMessage.TYPE_ERROR );
         }
 
         return strEncoded;
