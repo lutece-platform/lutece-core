@@ -74,12 +74,15 @@ public final class AnnotationUtil
     		}
     	});
     	
-    	AppLogService.info( "AnnotationUtil WEB-INF/lib scanned" );
-    	
     	for ( String strJar : allJars )
     	{
     		try
     		{
+    			if ( AppLogService.isDebugEnabled(  ) )
+    			{
+    				AppLogService.debug( "Scanning " + strJar );
+    			}
+    			
     			db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_LIB + strJar ) );
     		}
     		catch ( MalformedURLException e )
@@ -91,6 +94,9 @@ public final class AnnotationUtil
     			AppLogService.error( e.getMessage(  ), e );
     		}
     	}
+    	
+    	AppLogService.info( "AnnotationUtil WEB-INF/lib scanned" );
+    	
     	try
     	{
     		db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_CLASS ) );

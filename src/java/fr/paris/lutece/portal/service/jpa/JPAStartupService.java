@@ -83,7 +83,12 @@ public class JPAStartupService implements StartUpService
 
             DefaultPersistenceUnitManager pum = new DefaultPersistenceUnitManager();
             pum.setDefaultDataSource( ds );
+            
+            PersistenceUnitPostProcessor[] postProcessors = { new JPAPersistenceUnitPostProcessor() };
+            pum.setPersistenceUnitPostProcessors( postProcessors );
+            
             pum.afterPropertiesSet();
+            
             _log.info( "JPA Startup Service : Persistence Unit Manager for pool : " + strPoolname );
             _log.debug( "> PUM : " + pum.toString() );
 
@@ -97,9 +102,6 @@ public class JPAStartupService implements StartUpService
             lcemfb.setJpaPropertyMap( mapJpaProperties );
             JpaVendorAdapter jpaVendorAdapter = (JpaVendorAdapter) SpringContextService.getBean( "jpaVendorAdapter");
             lcemfb.setJpaVendorAdapter( jpaVendorAdapter );
-
-            PersistenceUnitPostProcessor[] postProcessors = { new JPAPersistenceUnitPostProcessor() };
-            lcemfb.setPersistenceUnitPostProcessors( postProcessors );
             
             lcemfb.afterPropertiesSet();
 

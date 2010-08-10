@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util.jpa;
 
-import java.util.Properties;
 import java.util.Set;
 
 import javax.persistence.Embeddable;
@@ -43,7 +42,6 @@ import javax.persistence.MappedSuperclass;
 import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
 import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;
 
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.annotation.AnnotationUtil;
 import org.apache.log4j.Logger;
 
@@ -62,6 +60,7 @@ public class JPAPersistenceUnitPostProcessor implements PersistenceUnitPostProce
      */
     public void postProcessPersistenceUnitInfo( MutablePersistenceUnitInfo pui )
     {
+    	_log.info( "Scanning for JPA entities..." );
 
         Set<String> entityClasses = AnnotationUtil.find( Entity.class.getName() );
         entityClasses.addAll( AnnotationUtil.find( Embeddable.class.getName() ) );
