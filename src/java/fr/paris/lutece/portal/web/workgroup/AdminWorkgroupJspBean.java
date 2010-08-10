@@ -555,7 +555,6 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         else
         {
             String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
-            Collection<AdminUser> listAdminUsers = AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey );
 
             //retrieve the selected portlets ids
             String[] arrayUsersIds = request.getParameterValues( PARAMETER_USERS_LIST );
@@ -571,15 +570,6 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
                     {
                         AdminWorkgroupHome.addUserForWorkgroup( user, strWorkgroupKey );
                     }
-                }
-            }
-
-            // Add user with high or equal level  or  do not add users if connected user is administrator
-            for ( AdminUser user : listAdminUsers )
-            {
-                if ( ( user.getUserLevel(  ) <= getUser(  ).getUserLevel(  ) ) && ( !getUser(  ).isAdmin(  ) ) )
-                {
-                    AdminWorkgroupHome.addUserForWorkgroup( user, strWorkgroupKey );
                 }
             }
 
