@@ -116,7 +116,7 @@ background: #fff;
 ******** Page content
 *********************************/
 div#content{margin:0 3%;clear: both;}
-h2#content-header{margin: 0 0 15px 0; padding: 2px 0;float:left;width:50%;}
+h2#content-header{margin: 0 0 15px 0; padding: 12px 0;float:left;width:50%;}
 h2#content-header a{text-decoration: underline; font-size: 120%; color:#3B5A76; }
 h2#content-header img {border: none;width:24px;height:24px;}
 
