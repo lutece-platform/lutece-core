@@ -27,7 +27,8 @@ INSERT INTO core_admin_role_resource VALUES (57,'all_site_manager','PAGE','*','V
 INSERT INTO core_admin_role_resource VALUES (58,'all_site_manager','PAGE','*','MANAGE');
 INSERT INTO core_admin_role_resource VALUES (77,'super_admin','INSERT_SERVICE','*','*');
 INSERT INTO core_admin_role_resource VALUES (101,'all_site_manager','PORTLET_TYPE','*','*');
-INSERT INTO core_admin_role_resource VALUES (111, 'all_site_manager', 'ADMIN_USER', '*', 'MANAGE');
+INSERT INTO core_admin_role_resource VALUES (111, 'all_site_manager', 'ADMIN_USER', '*', '*');
+INSERT INTO core_admin_role_resource VALUES (120, 'all_site_manager', 'ADVANCED_PARAMETER', '*', '*');
 
 INSERT INTO core_admin_user VALUES (1,'admin','Admin','admin','admin@lutece.fr',0,'adminadmin','fr',0);
 INSERT INTO core_admin_user VALUES (2,'lutece','Lutèce','lutece','lutece@lutece.fr',0,'adminadmin','fr',1);

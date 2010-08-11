@@ -49,6 +49,7 @@ import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
+import fr.paris.lutece.portal.service.advancedparameter.AdvancedParameterResourceIdService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -222,6 +223,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_DEFAULT_USER_NOTIFICATION = "default_user_notification";
     private static final String MARK_DEFAULT_USER_LANGUAGE = "default_user_language";
     private static final String MARK_DEFAULT_USER_STATUS = "default_user_status";
+    private static final String MARK_PERMISSION_ADVANCED_PARAMETER = "permission_advanced_parameter";
+    
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -319,6 +322,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 filteredLevels.add( level );
             }
         }
+        
+        boolean bPermissionAdvancedParameter = RBACService.isAuthorized( AdvancedParameterResourceIdService.RESOURCE_TYPE, 
+        		RBAC.WILDCARD_RESOURCES_ID,	AdvancedParameterResourceIdService.PERMISSION_MANAGE, getUser(  ) );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
@@ -329,6 +335,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_SEARCH_ADMIN_USER_FILTER, auFilter );
         model.put( MARK_SEARCH_IS_SEARCH, bIsSearch );
         model.put( MARK_SORT_SEARCH_ATTRIBUTE, strSortSearchAttribute );
+        model.put( MARK_PERMISSION_ADVANCED_PARAMETER, bPermissionAdvancedParameter );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USERS, getLocale(  ), model );
 
@@ -1201,6 +1208,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageAdvancedParameters( HttpServletRequest request )
     {
+    	if ( !RBACService.isAuthorized( AdvancedParameterResourceIdService.RESOURCE_TYPE, 
+        		RBAC.WILDCARD_RESOURCES_ID,	AdvancedParameterResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+    	{
+            return getManageAdminUsers( request );
+    	}
+    	
     	setPageTitleProperty( PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE );
     	
     	Map<String, Object> model = new HashMap<String, Object>(  );
@@ -1388,7 +1401,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @return The Jsp URL of the process result
      */
     public String doModifyDefaultUserParameterValues( HttpServletRequest request )
+    	throws AccessDeniedException
     {
+    	if ( !RBACService.isAuthorized( AdvancedParameterResourceIdService.RESOURCE_TYPE, 
+        		RBAC.WILDCARD_RESOURCES_ID,	AdvancedParameterResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+    	{
+    		throw new AccessDeniedException(  );
+    	}
+    	
         DefaultUserParameter userParamStatus = 
     		new DefaultUserParameter( PARAMETER_DEFAULT_USER_STATUS, request.getParameter( PARAMETER_STATUS ) );
         DefaultUserParameterHome.update( userParamStatus );

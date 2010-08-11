@@ -27,4 +27,5 @@ INSERT INTO core_user_parameter VALUES ('default_user_notification', '1');
 INSERT INTO core_user_parameter VALUES ('default_user_language', 'fr');
 INSERT INTO core_user_parameter VALUES ('default_user_status', '0');
 
-INSERT INTO core_admin_role_resource VALUES (111, 'all_site_manager', 'ADMIN_USER', '*', 'MANAGE');
+INSERT INTO core_admin_role_resource VALUES (111, 'all_site_manager', 'ADMIN_USER', '*', '*');
+INSERT INTO core_admin_role_resource VALUES (120, 'all_site_manager', 'ADVANCED_PARAMETER', '*', '*');
