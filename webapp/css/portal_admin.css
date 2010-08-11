@@ -70,21 +70,18 @@ padding:8px 4px 4px 0;
 text-align:right;
 }
 
-#admin-header-toolbar a{ color:#fff; margin:0 5px; font-weight:normal;}
+#admin-header-toolbar a{ color:#fff; margin:0 5px; font-weight:normal;text-decoration: none;}
 
 #admin-header-main {
 height:50px;
-/*background: #444; */
 background: #444;/* for non-css3 browsers */
-/*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444', endColorstr='#1D507D'); /* for IE */
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444', endColorstr='#666'); /* for IE */
-/*background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#1D507D)); /* for webkit browsers */
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#666666'); /* for IE */
 background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#666)); /* for webkit browsers */
-/*background: -moz-linear-gradient(top,  #444,#1D507D ); /* for firefox 3.6+ */
 background: -moz-linear-gradient(top,  #444,#666 ); /* for firefox 3.6+ */
 -moz-border-radius-bottomleft:10px; -webkit-border-bottom-left-radius:10px;
 -moz-border-radius-bottomright:10px; -webkit-border-bottom-right-radius:10px;
 }
+
 
 #admin-header-sitename{color:#fff;font-weight: bold;font-size: 180%;float: left;margin:1% 2%;}
 
@@ -180,14 +177,14 @@ div.content-box li p{ margin: 0; margin-bottom: 20px;}
 div.content-box p { margin: 0 0 0 10px; }
 div.content-box p.title { margin:2px 10px; padding: 2px 0; border-bottom:1px dotted #55B4E5; font-weight: bold;  }
 
-div.content-box ul { margin: 15px 0 0 20px; padding: 0px; }
+div.content-box ul { margin: 15px 0 15px 20px; padding: 0px; }
 div.content-box li { list-style: none; }
 div.content-box form { margin: 10px; }
 div.content-box td form { margin: 0px; }
 div.content-box form p.login { clear: both; position: relative; }
 div.content-box label{ font-weight: bold; color: #444; margin: 0; padding-right: 5px; display: block; width: 30%; text-align: right;  float: left;}
 div.content-box input {
-    border: 1px solid #8EAABF;
+    border: 1px solid #55B4E5;
     font-family: Arial, Tahoma, Helvetica, sans-serif;
     font-size: 100%;
     padding-left: 4px;
@@ -218,7 +215,7 @@ text-decoration:none;
 }
 
 div.content-box select {
-    border: 1px solid #8EAABF;
+    border: 1px solid #55B4E5;
     font-family: Arial, Tahoma, Helvetica, sans-serif;
     font-size: 100%;
     color: #444;
@@ -226,9 +223,9 @@ div.content-box select {
     margin: 2px 0;
 }
 
-div.content-box table{ border: none; border-collapse:collapse; margin-left: 10px; width: 98%;}
+div.content-box table{ border: none;  margin-left: 10px; width: 95%; padding-bottom: 5px;}
 div.content-box table tr th{ color: #444; border-bottom: 1px solid #444; padding: 5px;font-weight: bold; text-align:left;}
-div.content-box table tr td{ border-bottom: 1px solid #8EAABF;padding: 6px 15px 3px 3px;}
+div.content-box table tr td{ border-bottom: 0.1em solid #55B4E5;padding: 6px 15px 3px 3px; }
 div.content-box table tr td.cell-indent{padding-left:30px;}
 div.content-box pre{ padding:10px; background-color: white;}
 
@@ -278,7 +275,7 @@ div.thumbnail-element{ float: left; width: 170px; height: 300px; padding: 5px;}
 *********************************/
 div.highlight-box{
      margin: 5px;
-    border: 1px solid #8EAABF;
+    border: 1px solid #55B4E5;
     padding-left: 5px;
     padding-right: 6px;
     margin-bottom: 10px;
@@ -287,7 +284,7 @@ div.highlight-box{
 }
 
 div.admin-site-highlight-box input {
-    border: 1px solid #8EAABF;
+    border: 1px solid #55B4E5;
     font-family: Arial, Tahoma, Helvetica, sans-serif;
     font-size: 100%;
 }
@@ -312,7 +309,7 @@ body.insert-service { background: #DEE8F1;}
 div.insert-service { margin: 20px;}
 
 div.insert-service table{ background-color:#DEE8F1; border: none; border-collapse:collapse; margin-left: 20px; margin-right: 20px; margin-top: 5px; margin-bottom: 5px; width: 98%;}
-div.insert-service table tr th{ font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 120%; color: #444; border-bottom: 1px solid #8EAABF; padding: 5px; font-weight: bold;text-align: left;}
+div.insert-service table tr th{ font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 120%; color: #444; border-bottom: 1px solid #55B4E5; padding: 5px; font-weight: bold;text-align: left;}
 div.insert-service table tr td{ padding: 3px; padding-right: 15px;}
 div.insert-service h2 { border: none; font-size: 150%;font-family: Arial, Tahoma, Helvetica, sans-serif; margin-left: 0; border-bottom: 1px solid #444;}
 div.insert-service a{ border: none; font-weight: normal; font-size: 100%; font-family: Arial, Tahoma, Helvetica, sans-serif; text-decoration: none;}
@@ -322,8 +319,8 @@ div.insert-service a:hover{ border: none; font-size: 100%; font-family: Arial, T
 div.insert-service h3 a:link, div.content-box h3 a:visited{ font-weight: bold;}
 div.insert-service input.button{ display:inline; border: 1px solid #444; background-color: #F7F2B0;
     font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%; color: #444 ; cursor: pointer; text-align: center;}
-div.insert-service input{ border: 1px solid #8EAABF; font-family: Arial, Tahoma, Helvetica, sans-serif;   font-size: 100%;}
-div.insert-service select{ border: 1px solid #8EAABF; font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%; color:#444;cursor: pointer;}
+div.insert-service input{ border: 1px solid #55B4E5; font-family: Arial, Tahoma, Helvetica, sans-serif;   font-size: 100%;}
+div.insert-service select{ border: 1px solid #55B4E5; font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%; color:#444;cursor: pointer;}
 div.insert-service label{ font-weight:bold; color:#444; margin:0; padding-right:5px; display:block; width:30%; text-align: right; float: left;}
 a.info{ position:relative; /*this is the key*/ z-index:24; background: url(../images/admin/skin/bullet.gif) no-repeat left;
 padding: 0 0 1px 12px;  cursor: pointer;}
@@ -403,7 +400,7 @@ form input.button-image{border:0;vertical-align: bottom;}
 /********************************
 ******** Dashboard
 *********************************/
-div.dashboard-item{margin: 0 0 0 10px;}
+div.dashboard-item{margin: 0 0 10px 10px;}
 
 /********************************
 ******** Administration du site
@@ -460,7 +457,7 @@ p.admin-page-title{font-size: 120%;font-weight: bold;color:#55B4E5;/*border: #55
     font-family: Arial, Tahoma, Helvetica, sans-serif;
     font-size: 120%;
     color: #444;
-    border-bottom: 1px solid #8EAABF;
+    border-bottom: 1px solid #55B4E5;
     padding: 5px;
     font-weight: bold;
     text-align: left;

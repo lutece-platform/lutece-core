@@ -15,7 +15,6 @@
 }
 /* fix for IE6 */
 * html div.hitarea {
-	background: #DEE8F1;
 	filter: alpha(opacity=0);
 	display: inline;
 	float:none;
@@ -27,7 +26,7 @@
 }
 
 .treeview a.selected {
-	background-color: #DEE8F1;
+	background-color: #FFFFFF;
 }
 
 #treecontrol { margin: 1em 0; }
@@ -47,7 +46,6 @@
 .filetree span.file { background: url(images/file.gif) 0 0 no-repeat; }
 
 #spaces.treeview ul{
-	background-color: #DEE8F1;
 }
 
 #red.treeview li { background: url(images/red/tv-item.gif) 0 0 no-repeat; }
