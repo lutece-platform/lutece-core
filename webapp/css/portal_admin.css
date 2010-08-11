@@ -40,8 +40,15 @@ h2 { color: #444; font-size: 120%; font-weight: bold;}
 h3 { color: #444; font-weight: bold;}
 .alert { color:red;  font-weight: bold; text-align:center;}
 
+html, body {
+margin: 0;
+padding: 0;
+height: 100%
+}
+
+
 #wrapper{
-    min-height:2640px;
+    min-height:100%;    
     padding-bottom: 20px;
     background: #DEDEDE; /* for non-css3 browsers */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#DEDEDE'); /* for IE */
@@ -124,8 +131,8 @@ background: #fff;
 /********************************
 ******** Page content
 *********************************/
-div#content{margin:0 3%;clear: both;}
-h2#content-header{margin: 0 0 15px 0; padding: 12px 0;float:left;width:50%;}
+div#content{margin:0 3%;clear: both; overflow: hidden;}
+h2#content-header{margin: 12px 0 15px 0; padding: 12px 0;float:left;width:50%;}
 /*h2#content-header a{text-decoration: none; font-size: 120%; color:#444; }*/
 h2#content-header a{text-decoration: none; font-size: 120%; color:#444; }
 h2#content-header img {border: none;width:24px;height:24px;}
@@ -143,7 +150,7 @@ div.content-box{
     -moz-border-radius:10px; -webkit-border-radius:10px;
 }
 
-div#content-box-actions{float:right;}
+div#content-box-actions{float:right; margin: 12px 0 0; }
 div.content-box h2 {
     background: #DEDEDE;
     padding: 5px 0 6px 12px;
@@ -173,7 +180,7 @@ div.content-box li p{ margin: 0; margin-bottom: 20px;}
 div.content-box p { margin: 0 0 0 10px; }
 div.content-box p.title { margin:2px 10px; padding: 2px 0; border-bottom:1px dotted #55B4E5; font-weight: bold;  }
 
-div.content-box ul { margin: 0 0 0 20px; padding: 0px; }
+div.content-box ul { margin: 15px 0 0 20px; padding: 0px; }
 div.content-box li { list-style: none; }
 div.content-box form { margin: 10px; }
 div.content-box td form { margin: 0px; }
@@ -221,7 +228,7 @@ div.content-box select {
 
 div.content-box table{ border: none; border-collapse:collapse; margin-left: 10px; width: 98%;}
 div.content-box table tr th{ color: #444; border-bottom: 1px solid #444; padding: 5px;font-weight: bold; text-align:left;}
-div.content-box table tr td{ border-bottom: 1px solid #8EAABF;padding: 3px; padding-right: 15px;}
+div.content-box table tr td{ border-bottom: 1px solid #8EAABF;padding: 6px 15px 3px 3px;}
 div.content-box table tr td.cell-indent{padding-left:30px;}
 div.content-box pre{ padding:10px; background-color: white;}
 
@@ -242,7 +249,7 @@ div.editor table tr td{  margin: 0; padding: 0;}
 /********************************
 ******** Welcome page structure
 *********************************/
-div#welcome-zone { text-align: center; margin: 10px 1%;}
+div#welcome-zone { text-align: center; margin: 10px 1%;  overflow: hidden;}
 div#welcome-content-zone { float: left; width: 70%;}
 div#welcome-user-zone {	float: right; width: 28%;}
 
@@ -259,7 +266,7 @@ div#message-box h2 { padding-top: 15px;}
 /********************************
 ******** Two side page structure
 *********************************/
-div#left {clear: left;float: left;width: 30%;}
+div#left {clear: left;float: left;width: 30%; margin: -20px 0 0;}
 div#right {float: right;width: 68%;}
 div#right div.content-box {height:100%; margin-top: 0;}
 div#right div.content-box table tr td { margin-left: 0; margin-right: 0; padding-right: 0;  padding-left: 0;}
@@ -309,7 +316,7 @@ div.insert-service table tr th{ font-family: Arial, Tahoma, Helvetica, sans-seri
 div.insert-service table tr td{ padding: 3px; padding-right: 15px;}
 div.insert-service h2 { border: none; font-size: 150%;font-family: Arial, Tahoma, Helvetica, sans-serif; margin-left: 0; border-bottom: 1px solid #444;}
 div.insert-service a{ border: none; font-weight: normal; font-size: 100%; font-family: Arial, Tahoma, Helvetica, sans-serif; text-decoration: none;}
-div.insert-service a:link, div.content-box a:visited{ border: none; font-size: 100%; font-weight: normal;
+div.insert-service a:link, div.content-box a:visited{ border: none; font-size: 100%; font-weight: bold;
     font-family: Arial, Tahoma, Helvetica, sans-serif; text-decoration: none;}
 div.insert-service a:hover{ border: none; font-size: 100%; font-family: Arial, Tahoma, Helvetica, sans-serif;   text-decoration: underline;}
 div.insert-service h3 a:link, div.content-box h3 a:visited{ font-weight: bold;}
