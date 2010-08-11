@@ -1,4 +1,14 @@
-<div id="content-box-actions"
+<div id="content-box-actions">
+			<#if permission_advanced_parameter>
+		        <div>
+		              <p>
+						<form method="post" action="jsp/admin/user/ManageAdvancedParameters.jsp">
+							<input type="submit" value="#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}" 		class="button bt-toolbar" />
+						</form>
+		            </p>
+		        </div>
+		    </#if>  
+
 <form method="post"  action="${url_user_creation}">
       <input type="submit" value="#i18n{portal.users.manage_users.buttonLabelAddUser}" class="button bt-toolbar" />
  </form>
@@ -10,7 +20,7 @@
 		<div id="search-users">
 			<form method="post" name="search_users" action="jsp/admin/user/ManageUsers.jsp"  >
 				<#if (user_levels?has_content)>
-					<p>
+				<p>
 		                <label for="user_level">#i18n{portal.users.manage_users.search_users.userLevelLabel} :</label>
 						<select id="user_level" name="search_user_level">
 							<#if (search_admin_user_filter.userLevel > -1) >
@@ -73,17 +83,6 @@
 		           	<input type="submit" value="#i18n{portal.users.manage_users.search_users.buttonSearch}" tabindex="6" class="button" name="search_is_search"/>   
 		        </p>
 			</form>
-			<#if permission_advanced_parameter>
-		        <div>
-		              <p>
-		                <form method="post" action="jsp/admin/user/ManageAdvancedParameters.jsp">
-		                    <input type="submit" value="#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}" class="button" />
-		                </form>
-		            </p>
-		        </div>
-		    </#if>  
-    	</div>
-    </div>
     <form method="post" action="jsp/admin/user/ManageUsers.jsp">
         <@paginationAdmin paginator=paginator combo=1 form=0/>
         <#if search_is_search >

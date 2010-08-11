@@ -1,17 +1,15 @@
-<div id="content-box-actions">
-    <div class="admin-page-title">
-     <form method="post"  action="jsp/admin/site/AdminSite.jsp" style="display: inline;" >
-     Page ${page.name} - Id ${page.id}
-     <input type="text" name="page_id" size="3" maxlength="10" value="" />
-        <input type="submit" value="#i18n{portal.site.admin_page.buttonSearchPage}" class="button" />
-       ${page_message}
-    </form>
+<div id="content-actions">
     <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2"><img src="images/admin/skin/config.png" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}" /></a>
-    <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=3"><img src="images/admin/skin/image.png" alt="#i18n{portal.site.admin_page.labelImagePage}" title="#i18n{portal.site.admin_page.labelImagePage}" /></a>
+     <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=3"><img src="images/admin/skin/image.png"  alt="#i18n{portal.site.admin_page.labelImagePage}" title="#i18n{portal.site.admin_page.labelImagePage}" /></a>
     <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=4"><img src="images/admin/skin/portlet.png" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}" /></a>
     <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5"><img src="images/admin/skin/childpage.png"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" /></a>
     <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}"><img src="images/admin/skin/sitemap.png" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" /></a>
- </div>
+    <form method="post"  action="jsp/admin/site/AdminSite.jsp">
+     Page ${page.name} - Id ${page.id}
+     <input type="text" name="page_id" size="3" maxlength="10" value="" />
+        <input type="submit" value="#i18n{portal.site.admin_page.buttonSearchPage}" class="button" />
+        <div class="alert">${page_message}</div>
+    </form>
 </div>
 ${page_block}
 <script type="text/javascript">

@@ -16,7 +16,7 @@ function hideId(baliseId)
     	document.getElementById(baliseId).style.display='none';
     }
   }
-
+/*
 function adminToggle() {
 if ( document.getElementById('content-admin-site-page').className == 'admin-site-page' ) 
     {
@@ -28,4 +28,4 @@ if ( document.getElementById('content-admin-site-page').className == 'admin-site
       document.getElementById('admin-site-preview').className = 'preview';
       document.getElementById('toggle_admin').className = 'toggle_admin_off';
     }
-}
+}*/

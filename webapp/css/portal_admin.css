@@ -1,38 +1,27 @@
 /******************************************************************************/
-/*                     STYLES DU MODULE ADMINISTRATION                              */
+/*                      ADMINISTRATION CSS STYLES                             */
 /******************************************************************************/
-
-
 /* ========================================================================
 ==============     REDEFINITION OF BASE HTML ELEMENTS     =================
 =========================================================================== */
 
-@import url( "../js/jscalendar/calendar-lutece.css" );
-@import url("../js/jquery/plugins/treeview/jquery.treeview.css");
-@import url("../js/jquery/plugins/ui/datepicker/ui.datepicker.css");
-@import url("../js/jquery/plugins/jpassword/jpassword.css");
-
 html, body { height: 100%; margin: 0; padding: 0; }
 /* Define the default font: */
-BODY, TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH, H1, H2, H3, H4, TEXTAREA
-{
+BODY, TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH, H1, H2, H3, H4, TEXTAREA{
     font-family: Tahoma,verdana,sans-serif;
     font-size: 11px;
     font-weight: normal;
     margin:0;
 }
-
 p{line-height: 1.5;}
 img { border: none;}
 /*links */
-/*a {color: #444;font-weight: bold; text-decoration: none}*/
 a {color: #444;font-weight: bold; text-decoration: none}
 a:hover{text-decoration: underline;}
 /* links of menu hover */
 a.top {float: right;padding:2px 5px;}
 a.bullet-link{background: url(../images/admin/skin/bullet.gif) no-repeat left; padding: 0 0 1px 12px;}
 /* title level 1 */
-/*h1 {color: #444; font-size: 140%; font-weight: bold;}*/
 h1 {color: #444; font-size: 140%; font-weight: bold;}
 /* title level 2 */
 h2 { color: #444; font-size: 120%; font-weight: bold;}
@@ -40,13 +29,9 @@ h2 { color: #444; font-size: 120%; font-weight: bold;}
 h3 { color: #444; font-weight: bold;}
 .alert { color:red;  font-weight: bold; text-align:center;}
 
-html, body {
-margin: 0;
-padding: 0;
-height: 100%
-}
-
-
+/********************************
+******** Global Container
+**********************************/
 #wrapper{
     min-height:100%;    
     padding-bottom: 20px;
@@ -56,49 +41,49 @@ height: 100%
     background: -moz-linear-gradient(top,  #fff,  #DEDEDE); /* for firefox 3.6+ */
 }
 
+/********************************
+******** Header
+**********************************/
 #admin-header{margin:0 15px;}
 
 /* Toolbar above menu */
 #admin-header-toolbar {
-/*background:none #444;*/
-/*border-bottom:1px solid /*#444 #E2EDF7;*/
-background:none #444;
-border-bottom:1px solid /*#444*/ #666;
-font-family:verdana;
-font-size:80%;
-padding:8px 4px 4px 0;
-text-align:right;
+    background:none #444; border-bottom:1px solid #666; font-family:verdana;
+    font-size:80%;
+    padding:8px 4px 4px 0;
+    text-align:right;
 }
-
 #admin-header-toolbar a{ color:#fff; margin:0 5px; font-weight:normal;text-decoration: none;}
 
+/* Menu */
 #admin-header-main {
-height:50px;
-background: #444;/* for non-css3 browsers */
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#666666'); /* for IE */
-background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#666)); /* for webkit browsers */
-background: -moz-linear-gradient(top,  #444,#666 ); /* for firefox 3.6+ */
--moz-border-radius-bottomleft:10px; -webkit-border-bottom-left-radius:10px;
--moz-border-radius-bottomright:10px; -webkit-border-bottom-right-radius:10px;
+    height:50px;
+    background: #444;/* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#666666'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#666)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #444,#666 ); /* for firefox 3.6+ */
+    -moz-border-radius-bottomleft:10px;
+    -webkit-border-bottom-left-radius:10px;
+    -moz-border-radius-bottomright:10px;
+    -webkit-border-bottom-right-radius:10px;
 }
-
-
 #admin-header-sitename{color:#fff;font-weight: bold;font-size: 180%;float: left;margin:1% 2%;}
 
-#user-connected{padding:15px 8px 2px; opacity:0.8; border: #fff 1px outset;
-background: #fff;
--moz-border-radius-bottomleft:10px; -webkit-border-bottom-left-radius:10px;
--moz-border-radius-bottomright:10px; -webkit-border-bottom-right-radius:10px;}
+/* Toolbar Menu User*/
+#user-connected{
+    padding:15px 8px 2px; opacity:0.8; border: #fff 1px outset;
+    background: #fff;
+    -moz-border-radius-bottomleft:10px; -webkit-border-bottom-left-radius:10px;
+    -moz-border-radius-bottomright:10px; -webkit-border-bottom-right-radius:10px;}
 #user-connected a{color:#000;}
 .user{color:#fff;}
-
-#admin-header-menu-main{ right : 160px ; padding:0; color: #fff; font-size: 120%; position: absolute;}
 
 /********************************
 ******** Main Menu
 *********************************/
+#admin-header-menu-main{ right : 160px ; padding:0; color: #fff; font-size: 120%; position: absolute;}
 #menu-main { list-style-type: none; height: 40px; padding: 0; margin: 10px 0; }
-#menu-main li { float: left; position: relative; padding: 0; line-height: 40px; background: /*#444 url(nav-bg.png) repeat-x 0 0;*/ transparent; }
+#menu-main li { float: left; position: relative; padding: 0; line-height: 40px; background: transparent; }
 #menu-main li:hover { background-position: 0 -40px; }
 #menu-main li a { display: block; padding: 0 15px; color: #fff; text-decoration: none; font-size: 100%; }
 #menu-main li a:hover { background: #55B4E5;color: #fff; text-decoration: none; }
@@ -106,7 +91,6 @@ background: #fff;
 #menu-main li:hover ul { opacity: 1; }
 #menu-main li ul li { float: none; position: static; height: 0; line-height: 0; background: none; }
 #menu-main li:hover ul li { height: 30px; line-height: 30px; }
-/*#menu-main li ul li a { background: #444; font-weight: normal; }*/
 #menu-main li ul li a { background: #444; font-weight: normal; }
 #menu-main li ul li a:hover { background: #55B4E5; color:#fff;text-decoration: none; }
 #menu-main li { -webkit-transition: all 0.2s; }
@@ -118,21 +102,28 @@ background: #fff;
 ******** Page footer
 *********************************/
 #main-footer{
- background: #fff url(../images/local/skin/poweredby.jpg) right no-repeat;
- margin: 10px 0;
- padding: 0 150px;
- font-weight: bold;
- text-align: right;
- clear:both;}
+    background: #fff url(../images/local/skin/poweredby.jpg) right no-repeat;
+    margin: 10px 0;
+    padding: 0 80px;
+    font-weight: bold;
+    text-align: right;
+    clear:both;}
+#main-footer p{color: #888888;}
 
 /********************************
 ******** Page content
 *********************************/
 div#content{margin:0 3%;clear: both; overflow: hidden;}
-h2#content-header{margin: 12px 0 15px 0; padding: 12px 0;float:left;width:50%;}
-/*h2#content-header a{text-decoration: none; font-size: 120%; color:#444; }*/
-h2#content-header a{text-decoration: none; font-size: 120%; color:#444; }
-h2#content-header img {border: none;width:24px;height:24px;}
+h2#content-header{margin: 5px 0; padding: 12px 0;float:left;width:50%;}
+h2#content-header a{float:left;text-decoration: none; font-size: 120%; color:#444; margin:8px 0; }
+h2#content-header img{float:left;padding:5px;width:24px;height:24px;}
+h2#content-header a img{margin:-8px 0;}
+h2#content-header div#content-title{margin:10px 5px;font-size: 110%; color:#444;}
+div#content div#content-actions{float:right;margin: 10px 5px 0 20px; padding: 5px 10px;}
+div#content div#content-actions img{padding:5px;width:24px;height:24px;border: 1px outset #000;-moz-border-radius:10px;-webkit-border-radius:10px;padding:5px;}
+div#content div#content-actions img:hover{border: 1px inset #000;}
+
+div#content div#content-actions form{float:right; display:inline; margin:0 5px; border: 1px outset #000;-moz-border-radius:10px;-webkit-border-radius:10px;padding:5px;}
 
 /********************************
 ******** Page content box
@@ -142,12 +133,15 @@ div.content-box{
     border: 1px #444 outset;
     text-align: left;
     clear: both;
-    margin: 10px 4px;
-	 margin-top : 20px;
-    -moz-border-radius:10px; -webkit-border-radius:10px;
+    margin: 20px 4px 10px 4px;  -moz-border-radius:10px; -webkit-border-radius:10px;
 }
 
-div#content-box-actions{float:right; margin: 12px 0 0; }
+div#content-box-actions{float:right; margin: 20px 0 0; }
+div#content-box-actions form{float:right; }
+
+/*div.content-box h2 div.content-box-actions form{margin:0;padding:2.5px 5px;}
+div.content-box-header div.content-box-actions form{margin:0;padding:2.5px 5px;}*/
+
 div.content-box h2 {
     background: #DEDEDE;
     padding: 5px 0 6px 12px;
@@ -169,14 +163,11 @@ div.content-box-header {
     margin: 0 0 5px 0;
 }
 
-div.content-box h2 div.content-box-actions form{margin:0;padding:2.5px 5px;}
-div.content-box-header div.content-box-actions form{margin:0;padding:2.5px 5px;}
-div.content-box-actions{float: right;}
+
 div.content-box li h3{ margin-top: 0; margin-bottom: 5px;}
 div.content-box li p{ margin: 0; margin-bottom: 20px;}
 div.content-box p { margin: 0 0 0 10px; }
 div.content-box p.title { margin:2px 10px; padding: 2px 0; border-bottom:1px dotted #55B4E5; font-weight: bold;  }
-
 div.content-box ul { margin: 15px 0 15px 20px; padding: 0px; }
 div.content-box li { list-style: none; }
 div.content-box form { margin: 10px; }
@@ -192,26 +183,24 @@ div.content-box input {
 }
 div.content-box input.radio { border: none; }
 div.content-box input.checkbox { border: none; }
-
-/*.button { display:inline; font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%; color: #444; cursor: pointer;    text-align: center;}*/
 .bt-toolbar{margin:10px 0 2px 2px;}
 
 input.button{
-background:#55B4E5;
-border-color:#55B4E5;
-color:#fff;
-font-weight:bold;
-text-shadow:0 -1px 0 rgba(0, 0, 0, 0.3);
--moz-border-radius:11px 11px 11px 11px;
--webkit-border-radius:11px 11px 11px 11px;
--moz-box-sizing:content-box;
-border-style:solid;
-border-width:1px;
-cursor:pointer;
-font-size:11px !important;
-line-height:13px;
-padding:3px 8px;
-text-decoration:none;
+    background:#55B4E5;
+    border-color:#55B4E5;
+    color:#fff;
+    font-weight:bold;
+    text-shadow:0 -1px 0 rgba(0, 0, 0, 0.3);
+    -moz-border-radius:11px 11px 11px 11px;
+    -webkit-border-radius:11px 11px 11px 11px;
+    -moz-box-sizing:content-box;
+    border-style:solid;
+    border-width:1px;
+    cursor:pointer;
+    font-size:11px !important;
+    line-height:13px;
+    padding:3px 8px;
+    text-decoration:none;
 }
 
 div.content-box select {
@@ -273,24 +262,9 @@ div.thumbnail-element{ float: left; width: 170px; height: 300px; padding: 5px;}
 /********************************
 ******** Highlight box
 *********************************/
-div.highlight-box{
-     margin: 5px;
-    border: 1px solid #55B4E5;
-    padding-left: 5px;
-    padding-right: 6px;
-    margin-bottom: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-}
-
-div.admin-site-highlight-box input {
-    border: 1px solid #55B4E5;
-    font-family: Arial, Tahoma, Helvetica, sans-serif;
-    font-size: 100%;
-}
-
-div.admin-site-highlight-box label
-{
+div.highlight-box{margin: 5px 5px 10px 5px; border: 1px solid #55B4E5; padding-:0 5px; -moz-border-radius: 10px; -webkit-border-radius: 10px;}
+div.admin-site-highlight-box input {border: 1px solid #55B4E5; font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%;}
+div.admin-site-highlight-box label{
     font-weight: bold;
     color: #444;
     margin: 0;
@@ -305,36 +279,56 @@ div.admin-site-highlight-box label
 ******** Insert service
 *********************************/
 body.insert-service { background: #DEE8F1;}
-
 div.insert-service { margin: 20px;}
-
 div.insert-service table{ background-color:#DEE8F1; border: none; border-collapse:collapse; margin-left: 20px; margin-right: 20px; margin-top: 5px; margin-bottom: 5px; width: 98%;}
 div.insert-service table tr th{ font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 120%; color: #444; border-bottom: 1px solid #55B4E5; padding: 5px; font-weight: bold;text-align: left;}
 div.insert-service table tr td{ padding: 3px; padding-right: 15px;}
 div.insert-service h2 { border: none; font-size: 150%;font-family: Arial, Tahoma, Helvetica, sans-serif; margin-left: 0; border-bottom: 1px solid #444;}
 div.insert-service a{ border: none; font-weight: normal; font-size: 100%; font-family: Arial, Tahoma, Helvetica, sans-serif; text-decoration: none;}
-div.insert-service a:link, div.content-box a:visited{ border: none; font-size: 100%; font-weight: bold;
-    font-family: Arial, Tahoma, Helvetica, sans-serif; text-decoration: none;}
+div.insert-service a:link, div.content-box a:visited{
+    border: none; font-size: 100%; font-weight: bold;
+    font-family: Arial, Tahoma, Helvetica, sans-serif; text-decoration: none;
+}
 div.insert-service a:hover{ border: none; font-size: 100%; font-family: Arial, Tahoma, Helvetica, sans-serif;   text-decoration: underline;}
 div.insert-service h3 a:link, div.content-box h3 a:visited{ font-weight: bold;}
-div.insert-service input.button{ display:inline; border: 1px solid #444; background-color: #F7F2B0;
-    font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%; color: #444 ; cursor: pointer; text-align: center;}
+div.insert-service input.button{
+    display:inline;
+    border: 1px solid #444;
+    background-color: #F7F2B0;
+    font-family: Arial, Tahoma, Helvetica, sans-serif;
+    font-size: 100%;
+    color: #444 ;
+    cursor: pointer;
+    text-align: center;
+}
 div.insert-service input{ border: 1px solid #55B4E5; font-family: Arial, Tahoma, Helvetica, sans-serif;   font-size: 100%;}
 div.insert-service select{ border: 1px solid #55B4E5; font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%; color:#444;cursor: pointer;}
 div.insert-service label{ font-weight:bold; color:#444; margin:0; padding-right:5px; display:block; width:30%; text-align: right; float: left;}
-a.info{ position:relative; /*this is the key*/ z-index:24; background: url(../images/admin/skin/bullet.gif) no-repeat left;
-padding: 0 0 1px 12px;  cursor: pointer;}
+
+/********************************
+******** Tooltips
+*********************************/
+a.info{ 
+    position:relative; /*this is the key*/
+    z-index:24; background: url(../images/admin/skin/bullet.gif) no-repeat left;
+    padding: 0 0 1px 12px;  cursor: pointer;
+}
 a.info:hover{ z-index:25; color: #EE9C00; background-color: #DEE8F1;text-decoration: none;}
 a.info span{ display:none;}
-a.info:hover span{ /*the span will display just on :hover state*/
-display:block; position:absolute; top:-10em; right:10em; border:1px solid #395E7D; background: #DEE8F1; color:#000; text-decoration: none;
+a.info:hover span{
+    /*the span will display just on :hover state*/
+    display:block; position:absolute;
+    top:-10em;
+    right:10em;
+    border:1px solid #395E7D;
+    background: #DEE8F1;
+    color:#000; text-decoration: none;
 }
 a.bullet-link-blue{ background: url(../images/admin/skin/bullet_blue.gif) no-repeat left; padding: 0 0 1px 12px;}
 
 /********************************
 ******** Formulaire
 *********************************/
-
 form  div.form-element{ margin-bottom: 10px; margin-top: 10px; clear: both;}
 form  span.form-field-column  ul li label{ float:none; text-align: left;}
 form  span.form-field-ligne  ul li label{float:none; text-align: left; display : inline; }
@@ -349,14 +343,14 @@ form input.button-image{border:0;vertical-align: bottom;}
 /********************************
 ******** Paginator
 *********************************/
-
 #lutece-paginator div{width: 100%;}
 #lutece-paginator p{text-align: right; color:#888888;}
 #lutece-paginator span {float: left;width: 50%;}
 #lutece-paginator ul{border:0; margin:0; padding:0;}
 #lutece-paginator li{ border:0; margin:0; padding:0; list-style:none; margin-right:2px;}
 #lutece-paginator a{ border:solid 1px #9aafe5; margin-right:2px; text-decoration: none; font-weight: normal;}
-#lutece-paginator .previous-off,#lutece-paginator .next-off{ border:solid 1px #DEDEDE;
+#lutece-paginator .previous-off,#lutece-paginator .next-off{
+    border:solid 1px #DEDEDE;
     color:#888888;
     display:block;
     float:left;
@@ -364,7 +358,6 @@ form input.button-image{border:0;vertical-align: bottom;}
     padding:1px 3px;
 }
 #lutece-paginator .next a,#lutece-paginator .previous a {}
-
 #lutece-paginator .active{
     border:solid 1px #DEDEDE;
     background:#55B4E5;
@@ -374,12 +367,7 @@ form input.button-image{border:0;vertical-align: bottom;}
     padding:1px 3px;
 }
 #lutece-paginator a:link,
-#lutece-paginator a:visited {
-    color: #888888;
-    display:block;
-    float:left;
-    padding:1px 3px;
-}
+#lutece-paginator a:visited { color: #888888; display:block; float:left; padding:1px 3px;}
 #lutece-paginator a:hover{border:solid 1px #444;}
 #lutece-paginator .refresh {
     background:url(../images/admin/skin/refresh.png);
@@ -392,10 +380,7 @@ form input.button-image{border:0;vertical-align: bottom;}
 /********************************
 ******** Item Navigation
 *********************************/
-#item-navigator {
-	float: right;
-	padding-top: 8px;
-}
+#item-navigator { float: right; padding-top: 8px;}
 
 /********************************
 ******** Dashboard
@@ -405,54 +390,11 @@ div.dashboard-item{margin: 0 0 10px 10px;}
 /********************************
 ******** Administration du site
 *********************************/
-
-/* Menu onglet de l'interface d'Administration des pages */
-/*
-#admin-site-menu {
-    float:left;
-    width:100%;
-    background:#FFFFFF url("../images/admin/skin/bg.gif") repeat-x bottom;
-    font-size:93%;
-    line-height:normal;
-}
-#admin-site-menu ul { margin:0; padding:10px 10px 0; list-style:none;}
-#admin-site-menu li { float:left; background:url("../images/admin/skin/left.gif") no-repeat left top;
-    margin:0;
-    padding:0 0 0 9px;
-}
-
-#admin-site-menu a, #admin-site-menu strong, #admin-site-menu span  {
-    display:block;
-    background:url("../images/admin/skin/right.gif") no-repeat right top;
-    padding:5px 15px 4px 6px;
-    text-decoration:none;
-    font-weight:bold;
-    color:#444;
-}
-
-#admin-site-menu #current {
-    background-image:url("../images/admin/skin/left_on.gif");
-}
-
-#admin-site-menu #current a {
-    background-image:url("../images/admin/skin/right_on.gif");
-    padding-bottom:5px;
-    color: #EE9C00;
-    text-decoration: none;
-}
-*/
-/* Ajout toggle 
-.admin-site { float: left; border: none; width: 30%;}
-*/
-/* Style menu admin v2*/
-/*#admin-site { clear: both; min-width: 800px; width: auto;}*/
-#content-admin-site-page { clear: left; float:left; padding-left:3px; width: 320px;}
+#content-admin-site-page { clear: left; float:left; margin:-20px 0 0; width: 320px;}
 #content-admin-site-toolbar {float:left; width: 80%; margin: 0 0 0 15px;}
 #content-admin-site-toolbar form.toolbar{display: inline;}
 #content-admin-site-toolbar h2.toolbar{display: inline;}
 #content-admin-site-page content-box-actions p {margin:5px;}
-p.admin-page-title{font-size: 120%;font-weight: bold;color:#55B4E5;/*border: #55B4E5 1px dashed;*/ padding:5px;}
-
 #admin-site-preview table tr th {
     font-family: Arial, Tahoma, Helvetica, sans-serif;
     font-size: 120%;
@@ -462,29 +404,9 @@ p.admin-page-title{font-size: 120%;font-weight: bold;color:#55B4E5;/*border: #55
     font-weight: bold;
     text-align: left;
 }
+div.admin-site-page label{ padding-top: 5px; text-align:left; width:100%; float: left;}
+div.admin-site-page input{ clear: both; text-align:left; font-weight: normal;}
+div.admin-site-page select{ text-align:left; font-weight: normal;}
 
-div.admin-site-page label{
-    padding-top: 5px;
-    text-align:left;
-    width:100%;
-    float: left;
-}
-
-div.admin-site-page input{
-    clear: both;
-    text-align:left;
-    font-weight: normal;
-}
-
-div.admin-site-page select{
-    text-align:left;
-    font-weight: normal;
-}
-
-/* Show / Hide AdminPage */
 .preview{ border: none; margin: 0 33px 0 330px; }
-/*.preview-ext{ border: none; margin-left: 5%; width: 92%;}
-
-.admin-site-page-hidden{display: none;}
-div.toggle_admin{ height: 16px; margin:0;}
-.toggle_admin_off{display: none;}*/
+.togl{float:right;margin:0;}
