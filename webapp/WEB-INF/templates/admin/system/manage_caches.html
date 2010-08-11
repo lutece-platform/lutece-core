@@ -1,44 +1,36 @@
 <div class="content-box">
-    
-    <h2>#i18n{portal.system.manage_caches.titleCacheList}</h2>
-    
-        <table>
-            <tr>
-                <th>#i18n{portal.system.manage_caches.columnTitleName}</th>
-                <th>#i18n{portal.system.manage_caches.columnTitleCacheEnable}</th>
-                <th>#i18n{portal.system.manage_caches.columnTitleCacheSize}</th>
-            </tr>
-            <#list services_list as service>
-            <tr>
-                <td>${service.name}</td>
-                <td>
-                    <#if service.cacheEnable >
-                    	<img src="images/admin/skin/enable.png" alt="#i18n{portal.system.manage_caches.imgAltEnable}" width="24" height="24" valign="center" />
-                    <#else>
-                    	<img src="images/admin/skin/disable.png" alt="#i18n{portal.system.manage_caches.imgAltDisable}" width="24" height="24" valign="center" />
-                    </#if>
-                </td>
-                <td>${service.cacheSize}</td>
-            </tr>
-            </#list>
-        </table>
-        
+    <h2  class="content-box-header">#i18n{portal.system.manage_caches.titleCacheList}</h2>
+    <table>
+        <tr>
+            <th>#i18n{portal.system.manage_caches.columnTitleName}</th>
+            <th>#i18n{portal.system.manage_caches.columnTitleCacheEnable}</th>
+            <th>#i18n{portal.system.manage_caches.columnTitleCacheSize}</th>
+        </tr>
+        <#list services_list as service>
+        <tr>
+            <td>${service.name}</td>
+            <td>
+                <#if service.cacheEnable >
+                <img src="images/admin/skin/enable.png" alt="#i18n{portal.system.manage_caches.imgAltEnable}" width="24" height="24" valign="center" />
+                <#else>
+                <img src="images/admin/skin/disable.png" alt="#i18n{portal.system.manage_caches.imgAltDisable}" width="24" height="24" valign="center" />
+                </#if>
+            </td>
+            <td>${service.cacheSize}</td>
+        </tr>
+        </#list>
+    </table>
     <form method="post"  action="jsp/admin/system/DoResetCaches.jsp">
-    	<p>
-        	<input class="button" type="submit" value="#i18n{portal.system.manage_caches.buttonFlush}" />
+        <p>
+            <input class="button" type="submit" value="#i18n{portal.system.manage_caches.buttonFlush}" />
         </p>
     </form>
-
 </div>
-
 <div class="content-box">
-
-		<h2>#i18n{portal.system.manage_caches.titleReloadProperties}</h2>
-		
-        <form method="post"  action="jsp/admin/system/DoReloadProperties.jsp">
-            <p>
-            	#i18n{portal.system.manage_caches.labelReloadProperties}
-            	<input class="button" type="submit" value="#i18n{portal.system.manage_caches.buttonReload}" />
-        	</p>
-        </form>
+    <h2  class="content-box-header">#i18n{portal.system.manage_caches.titleReloadProperties}</h2>
+    <form method="post"  action="jsp/admin/system/DoReloadProperties.jsp">
+        <p>#i18n{portal.system.manage_caches.labelReloadProperties}
+            <input class="button" type="submit" value="#i18n{portal.system.manage_caches.buttonReload}" />
+        </p>
+    </form>
 </div>

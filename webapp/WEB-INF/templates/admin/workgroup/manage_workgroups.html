@@ -1,5 +1,10 @@
+<div id="content-box-actions">
+    <form method="post"  action="jsp/admin/workgroup/CreateWorkgroup.jsp">
+        <p><input type="submit" value="#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}"  class="button bt-toolbar" /></p>
+    </form>
+</div>
 <div class="content-box">
-    <h2>#i18n{portal.workgroup.manage_workgroups.pageTitle}</h2>
+    <h2 class="content-box-header">#i18n{portal.workgroup.manage_workgroups.pageTitle}</h2>
     <div class="highlight-box">
 		<div id="search-wokgroups">
 			<form method="post" name="search_workgroups" action="jsp/admin/workgroup/ManageWorkgroups.jsp"  >
@@ -17,15 +22,12 @@
 			</form>
     	</div>
     </div>
-    <form method="post"  action="jsp/admin/workgroup/CreateWorkgroup.jsp">
-        <p><input type="submit" value="#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}"  class="button" /></p>
-    </form>
     <form method="post" action="jsp/admin/workgroup/ManageWorkgroups.jsp">
         <@paginationAdmin paginator=paginator combo=1 form=0 />
         <#if search_is_search >
    			<input type="hidden" name="search_is_search" value="true"/>
    			<input type="hidden" name="search_key" value="${search_admin_workgroup_filter.key}"/>
-   			<input type="hidden" name="search_description" value="${search_admin_workgroup_filter.description}"/>
+   			<input type="hidden" name="description" value="${search_admin_workgroup_filter.description}"/>
         </#if>
     </form>
 	<table>

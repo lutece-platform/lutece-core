@@ -1,7 +1,5 @@
 <div class="content-box" style="z-index:0;">
-    
-    <h2>#i18n{portal.system.manage_daemons.titleCacheList}</h2>
-    
+    <h2 class="content-box-header">#i18n{portal.system.manage_daemons.titleCacheList}</h2>
     <table>
         <tr>
             <th>#i18n{portal.system.manage_daemons.columnTitleId}</th>
@@ -26,14 +24,14 @@
             <td>
                 <a class="info" href="javascript:void;">
                     ${daemon.lastRunDate}
-                <span>
-                    <br />
-                    <b style="margin-left:10px;">Logs ${daemon.id} ( ${daemon.pluginName} )</b>
-                    <br />
-                    <pre> 
+                    <span>
+                        <br />
+                        <b style="margin-left:10px;">Logs ${daemon.id} ( ${daemon.pluginName} )</b>
+                        <br />
+                        <pre>
                         ${daemon.lastRunLogs}
-                    </pre>
-                </span>
+                        </pre>
+                    </span>
             </td>         
             <td>
                 <form method="post" action="jsp/admin/system/DoDaemonAction.jsp" >
@@ -52,4 +50,3 @@
         </#list>
     </table>
 </div>
-

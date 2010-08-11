@@ -1,7 +1,4 @@
 
-
-
-
 function displayId(baliseId)
   {
   if (document.getElementById && document.getElementById(baliseId) != null)

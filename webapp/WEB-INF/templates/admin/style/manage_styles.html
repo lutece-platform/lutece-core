@@ -1,5 +1,10 @@
-<div class="content-box" >       
-    <h2>#i18n{portal.style.manage_styles.title}</h2>
+<div id="content-box-actions">
+<form method="post"  action="jsp/admin/style/CreateStyle.jsp">
+    <input type="submit" value="#i18n{portal.style.manage_styles.buttonCreate}" class="button bt-toolbar" />
+</form>
+</div>
+<div class="content-box" >
+    <h2 class="content-box-header">#i18n{portal.style.manage_styles.title}</h2>
     <@paginationAdmin paginator=paginator combo=1 />
     <table>
         <tr>			
@@ -35,8 +40,4 @@
         </#list>	
     </table>
     <@paginationAdmin paginator=paginator />
-
-    <form method="post"  action="jsp/admin/style/CreateStyle.jsp">
-        <p><input type="submit" value="#i18n{portal.style.manage_styles.buttonCreate}" class="button" /></p>
-    </form>
 </div>

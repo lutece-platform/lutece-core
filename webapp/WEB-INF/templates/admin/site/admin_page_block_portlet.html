@@ -1,26 +1,22 @@
 <div id="content-admin-site-page" class="admin-site-page">
-
+    <div id="content-box-actions"><img src="images/admin/skin/toggle.png" alt="Fermer" title="Fermer" class="togl" /></div>
     <#if portlet_types_list?has_content>
     <div class="content-box" >
+        <h2>#i18n{portal.site.admin_page.titlePortletProperties}</h2>
         <form method="post"  action="jsp/admin/DoCreatePortlet.jsp" target="preview">
             <input type="hidden" name="page_id" value="${page.id}" />
-            <p>
-                <h2>
-                    #i18n{portal.site.admin_page.titlePortletProperties}
-                </h2>
-            </p>
-			<div id="page_portlet" class="admin-site-page">
-				<p>
-					<strong>#i18n{portal.site.admin_page.labelPortletType}</strong>
-						<select name="portlet_type_id">
-							<#list portlet_types_list as portlet_type>
-								<option value="${portlet_type.id}">${portlet_type.name}</option>
-							</#list>
-						</select>
-					<input type="submit" value="#i18n{portal.site.admin_page.buttonAdd}" class="button"/>
-				</p>
-			 </div>
-	    </form>
+            <div id="page_portlet" class="admin-site-page">
+                <p>
+                    <strong>#i18n{portal.site.admin_page.labelPortletType}</strong>
+                    <select name="portlet_type_id">
+                        <#list portlet_types_list as portlet_type>
+                        <option value="${portlet_type.id}">${portlet_type.name}</option>
+                        </#list>
+                    </select>
+                    <input type="submit" value="#i18n{portal.site.admin_page.buttonAdd}" class="button"/>
+                </p>
+            </div>
+        </form>
     </div>
-	</#if>
+    </#if>
 </div>

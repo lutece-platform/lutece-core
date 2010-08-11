@@ -1,54 +1,51 @@
 <div class="content-box">	
-    
-	<h2>#i18n{portal.style.modify_mode.boxTitle} ${mode.description}</h2>
-        
-	<form method="post" action="jsp/admin/style/DoModifyMode.jsp" name="modify_mode">
-            <p>
-                <label>#i18n{portal.style.modify_mode.labelId}&nbsp;*&nbsp;:</label>
-                <input type="hidden" name="mode_id" value="${mode.id}" /> ${mode.id}			
-            </p>						
-            <p>
-		<label for="mode_description" >#i18n{portal.style.modify_mode.labelDescription}</label>
-                <input type="text" name="mode_description" value="${mode.description}" tabindex="1" size="60" maxlength="50" />			
-            </p>
-            <p>
-		<label>#i18n{portal.style.modify_mode.labelXslPath}</label>
-                ${mode.path}
-            </p>
-            <p style="padding-left:15%">
-                <strong>#i18n{portal.style.modify_mode.xslParameterValues}</strong>
-            </p>
-            <p>
-		<label for="mode_output_xsl_method" >#i18n{portal.style.modify_mode.labelMethod}</label>
-                <input type="text" name="mode_output_xsl_method" value="${mode.outputXslPropertyMethod}" tabindex="2" size="60" maxlength="50" />                
-            </p>
-            <p>
-		<label for="mode_output_xsl_version" >#i18n{portal.style.modify_mode.labelVersion}</label>
-                <input type="text" name="mode_output_xsl_version" value="${mode.outputXslPropertyVersion}" tabindex="3" size="60" maxlength="50" />                
-            </p>
-            <p>
-		<label for="mode_output_xsl_mediatype" >#i18n{portal.style.modify_mode.labelMediaType}</label>
-                <input type="text" name="mode_output_xsl_mediatype" value="${mode.outputXslPropertyMediaType}" tabindex="4" size="60" maxlength="50" />                
-            </p>
-            <p>
-		<label for="mode_output_xsl_encoding" >#i18n{portal.style.modify_mode.labelEncoding}</label>
-                <input type="text" name="mode_output_xsl_encoding" value="${mode.outputXslPropertyEncoding}" tabindex="5" size="60" maxlength="50" />                
-            </p>
-            <p>
-		<label for="mode_output_xsl_indent" >#i18n{portal.style.modify_mode.labelIndent}</label>
-                <input type="text" name="mode_output_xsl_indent" value="${mode.outputXslPropertyIndent}" tabindex="6" size="60" maxlength="50" />                
-            </p>
-            <p>
-		<label for="mode_output_xsl_omitxmldeclaration" >#i18n{portal.style.modify_mode.labelOmitXmlDeclaration}</label>
-                <input type="text" name="mode_output_xsl_omitxmldeclaration" value="${mode.outputXslPropertyOmitXmlDeclaration}" tabindex="7" size="60" maxlength="50" />                
-            </p>
-            <p>
-		<label for="mode_output_xsl_standalone" >#i18n{portal.style.modify_mode.labelStandalone}</label>
-                <input type="text" name="mode_output_xsl_standalone" value="${mode.outputXslPropertyStandalone}" tabindex="8" size="60" maxlength="50" />                
-            </p>            
-            <p>
-            	<input type="submit" value="#i18n{portal.style.modify_mode.buttonLabelValidate}" tabindex="9" class="button" />
-            </p>							 
-	</form>				      	
+    <h2 class="content-box-header">#i18n{portal.style.modify_mode.boxTitle} ${mode.description}</h2>
+    <form method="post" action="jsp/admin/style/DoModifyMode.jsp" name="modify_mode">
+        <p>
+            <label>#i18n{portal.style.modify_mode.labelId}&nbsp;*&nbsp;:</label>
+            <input type="hidden" name="mode_id" value="${mode.id}" /> ${mode.id}
+        </p>
+        <p>
+            <label for="mode_description" >#i18n{portal.style.modify_mode.labelDescription}</label>
+            <input type="text" name="mode_description" value="${mode.description}" tabindex="1" size="60" maxlength="50" />
+        </p>
+        <p>
+            <label>#i18n{portal.style.modify_mode.labelXslPath}</label>
+            ${mode.path}
+        </p>
+        <p style="padding-left:15%">
+            <strong>#i18n{portal.style.modify_mode.xslParameterValues}</strong>
+        </p>
+        <p>
+            <label for="mode_output_xsl_method" >#i18n{portal.style.modify_mode.labelMethod}</label>
+            <input type="text" name="mode_output_xsl_method" value="${mode.outputXslPropertyMethod}" tabindex="2" size="60" maxlength="50" />
+        </p>
+        <p>
+            <label for="mode_output_xsl_version" >#i18n{portal.style.modify_mode.labelVersion}</label>
+            <input type="text" name="mode_output_xsl_version" value="${mode.outputXslPropertyVersion}" tabindex="3" size="60" maxlength="50" />
+        </p>
+        <p>
+            <label for="mode_output_xsl_mediatype" >#i18n{portal.style.modify_mode.labelMediaType}</label>
+            <input type="text" name="mode_output_xsl_mediatype" value="${mode.outputXslPropertyMediaType}" tabindex="4" size="60" maxlength="50" />
+        </p>
+        <p>
+            <label for="mode_output_xsl_encoding" >#i18n{portal.style.modify_mode.labelEncoding}</label>
+            <input type="text" name="mode_output_xsl_encoding" value="${mode.outputXslPropertyEncoding}" tabindex="5" size="60" maxlength="50" />
+        </p>
+        <p>
+            <label for="mode_output_xsl_indent" >#i18n{portal.style.modify_mode.labelIndent}</label>
+            <input type="text" name="mode_output_xsl_indent" value="${mode.outputXslPropertyIndent}" tabindex="6" size="60" maxlength="50" />
+        </p>
+        <p>
+            <label for="mode_output_xsl_omitxmldeclaration" >#i18n{portal.style.modify_mode.labelOmitXmlDeclaration}</label>
+            <input type="text" name="mode_output_xsl_omitxmldeclaration" value="${mode.outputXslPropertyOmitXmlDeclaration}" tabindex="7" size="60" maxlength="50" />
+        </p>
+        <p>
+            <label for="mode_output_xsl_standalone" >#i18n{portal.style.modify_mode.labelStandalone}</label>
+            <input type="text" name="mode_output_xsl_standalone" value="${mode.outputXslPropertyStandalone}" tabindex="8" size="60" maxlength="50" />
+        </p>
+        <p>
+            <input type="submit" value="#i18n{portal.style.modify_mode.buttonLabelValidate}" tabindex="9" class="button" />
+        </p>
+    </form>
 </div>
-

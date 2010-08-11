@@ -1,19 +1,17 @@
 <div class="content-box">
-
-	<h2>#i18n{portal.role.create_role.boxTitle}</h2>
-
-	<form method="post" action="jsp/admin/role/DoCreatePageRole.jsp" name="create_page_role">
-           <p>
-                <label>#i18n{portal.role.create_role.labelName} * :</label>
-                <input type="text" name="role"  size="78" maxlength="50" />
-            </p>
-           <p>
-                <label>#i18n{portal.role.create_role.labelDescription} * :</label>
-                <input type="text" name="role_description"  size="78" maxlength="50" />
-            </p>
-            <p>
-            	<input type="submit" value="#i18n{portal.role.modify_role.buttonLabelValidate}" class="button" />
-			    <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
-            </p>
-	</form>
+    <h2 class="content-box-header">#i18n{portal.role.create_role.boxTitle}</h2>
+    <form method="post" action="jsp/admin/role/DoCreatePageRole.jsp" name="create_page_role">
+        <p>
+            <label>#i18n{portal.role.create_role.labelName} * :</label>
+            <input type="text" name="role"  size="78" maxlength="50" />
+        </p>
+        <p>
+            <label>#i18n{portal.role.create_role.labelDescription} * :</label>
+            <input type="text" name="role_description"  size="78" maxlength="50" />
+        </p>
+        <p>
+            <input type="submit" value="#i18n{portal.role.modify_role.buttonLabelValidate}" class="button" />
+            <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
+        </p>
+    </form>
 </div>

@@ -1,28 +1,24 @@
 <div id="content-admin-site-page" class="admin-site-page">
-
+    <div id="content-box-actions"><img src="images/admin/skin/toggle.png" alt="Fermer" title="Fermer" class="togl" /></div>
     <div class="content-box">
+        <h2>#i18n{portal.site.admin_page.titlePictureProperties}</h2>
         <form method="post" enctype="multipart/form-data" action="jsp/admin/site/DoDefineImage.jsp" >
             <input type="hidden" name="page_id" value="${page.id}" />
-            <p>
-                <h2>
-                    #i18n{portal.site.admin_page.titlePictureProperties}
-                </h2>
-            </p>
             <div id="page_image" class="admin-site-page">
-				<p>
+                <p>
             		#i18n{portal.site.admin_page.labelCurrentPicture} <a href="javascript:history.go(0)">  #i18n{portal.site.admin_page.labelRefreshPicture}</a>
-				</p>
-				<p>
+                </p>
+                <p>
                     <img src="${image_url}" width="80" height="80" border="1" alt="#i18n{portal.site.admin_page.labelAltImgDefinition}" />
-				</p>
-				<p>
-    	             <label for="image_content">#i18n{portal.site.admin_page.labelNewPicture}
-	                 	<input type="file" id="image_content" name="image_content" size="32" />
-					 </label>
-				</p>
-				<p>
-    	             <input type="submit" value="#i18n{portal.site.admin_page.buttonAssociate}" class="button" />
-				</p>
+                </p>
+                <p>
+                    <label for="image_content">#i18n{portal.site.admin_page.labelNewPicture}
+                        <input type="file" id="image_content" name="image_content" size="32" />
+                    </label>
+                </p>
+                <p>
+                    <input type="submit" value="#i18n{portal.site.admin_page.buttonAssociate}" class="button" />
+                </p>
             </div>
         </form>
     </div>

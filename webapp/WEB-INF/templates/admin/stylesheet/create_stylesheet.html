@@ -1,13 +1,10 @@
 <div class="content-box" >
-    
-    <h2>#i18n{portal.style.create_stylesheet.title}</h2>
-    
+    <h2 class="content-box-header">#i18n{portal.style.create_stylesheet.title}</h2>
     <form method="post" action="jsp/admin/style/DoCreateStyleSheet.jsp" enctype="multipart/form-data" name="create_stylesheet">
-        
         <p>
             <label for="stylesheet_name" >#i18n{portal.style.create_stylesheet.labelName}&nbsp;:&nbsp;*</label>
             <input type="text" size="60" id="stylesheet_name" name="stylesheet_name" maxlength="255"/>
-        </p>		
+        </p>
         <p>
             <label for="stylesheet_source" >#i18n{portal.style.create_stylesheet.labelFilename}&nbsp;:&nbsp;*</label>
             <input type="file" id="stylesheet_source" name="stylesheet_source" size="60" maxlength="100" class="button" />
@@ -15,7 +12,6 @@
         <p>
             <label for="styles" >#i18n{portal.style.create_stylesheet.labelStyle}&nbsp;:&nbsp;*</label>
             <@combo name="styles" default_value="0" items=style_list />
-            
         </p>
         <p>
             <label for="mode_stylesheet">#i18n{portal.style.create_stylesheet.labelMode}&nbsp;:&nbsp;*</label>
@@ -23,12 +19,9 @@
         </p>
         <p>
             <input type="hidden" name="mode_id" value="${mode_id}" />
-            <input type="submit" value="#i18n{portal.style.create_stylesheet.buttonCreate}" class="button" />
         </p>
-        
         <script language="JavaScript">
             window.onload = create_stylesheet.stylesheet_name.focus
         </script>
     </form>
-    
 </div>

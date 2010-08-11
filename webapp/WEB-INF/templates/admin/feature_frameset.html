@@ -1,18 +1,15 @@
-<div id="feature-title" >
-    <h2>
-	<#if feature_documentation?has_content >
-	<a target="_blank" href="${feature_documentation}" alt="#i18n{portal.features.documentation.help}" title="#i18n{portal.features.documentation.help}">
-	</#if>	
-    	<img src="${feature_icon}"  class="icon"/>
-    <#if feature_documentation?exists>
+<div id="content" >
+    <h2 id="content-header">
+        <#if feature_documentation?has_content >
+        <a target="_blank" href="${feature_documentation}" alt="#i18n{portal.features.documentation.help}" title="#i18n{portal.features.documentation.help}">
+            </#if>
+            <img src="${feature_icon}"/>
+            <#if feature_documentation?exists>
         </a>
-    </#if>
-    <a href="${feature_url}">${feature_title}</a>
-    	<#if page_title?has_content>
-    		&nbsp;>&nbsp;${page_title}
-    	</#if>		
+        </#if>
+        <a href="${feature_url}">${feature_title}</a>
+        <#if page_title?has_content>
+        &nbsp;>&nbsp;${page_title}
+        </#if>
     </h2>
-</div>	
-<div id="feature-content" >
-	${page_content}
-</div>
+    ${page_content}

@@ -1,27 +1,22 @@
-
 <div class="content-box" >
-
-	<h2>#i18n{portal.rbac.modify_role.titleModifyRole}</h2>
-
-	<form method="post"  action="jsp/admin/rbac/DoModifyRole.jsp" name="modify_role">
-		<p>
-			<label for="role_key" >#i18n{portal.rbac.modify_role.labelKey}&nbsp;*&nbsp;:</label>
-			<input type="hidden" id="role_key" name="role_key" value="${role.key}" />
+    <h2 class="content-box-header">#i18n{portal.rbac.modify_role.titleModifyRole}</h2>
+    <form method="post"  action="jsp/admin/rbac/DoModifyRole.jsp" name="modify_role">
+        <p>
+            <label for="role_key" >#i18n{portal.rbac.modify_role.labelKey}&nbsp;*&nbsp;:</label>
+            <input type="hidden" id="role_key" name="role_key" value="${role.key}" />
 			${role.key}
-		</p>
-		<p>
-			<label for="role_description" >#i18n{portal.rbac.modify_role.labelDescription}&nbsp;*&nbsp;:</label>
-			<input type="text" id="role_description" name="role_description"  value="${role.description}" size="100" maxlength="255" />
-		</p>
-		<p>
-			<input type="hidden" name="role_key_previous" value="${role.key}" />
-			<input type="submit" value="#i18n{portal.rbac.modify_role.buttonLabelModify}" class="button" />
-		</p>
+        </p>
+        <p>
+            <label for="role_description" >#i18n{portal.rbac.modify_role.labelDescription}&nbsp;*&nbsp;:</label>
+            <input type="text" id="role_description" name="role_description"  value="${role.description}" size="100" maxlength="255" />
+        </p>
+        <p>
+            <input type="hidden" name="role_key_previous" value="${role.key}" />
+            <input type="submit" value="#i18n{portal.rbac.modify_role.buttonLabelModify}" class="button" />
+        </p>
 
-	</form>
-
-	<script language="JavaScript">
-		window.onload = modify_role.role_key.focus
-	</script>
-
+    </form>
+    <script language="JavaScript">
+        window.onload = modify_role.role_key.focus
+    </script>
 </div>

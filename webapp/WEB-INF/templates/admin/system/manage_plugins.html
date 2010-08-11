@@ -1,18 +1,14 @@
 <div class="content-box">
-    
-    
     <div class="highlight-box">
-            <form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp">
-                <p>
-                    <label for="plugin_type" >#i18n{portal.system.manage_plugins.labelComboFilter} :</label> 
-                    <@combo name="plugin_type" default_value="${current_filter}" items=filter_list />
-                    <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonFilter}" />
-                </p>
-            </form>
+        <form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp">
+            <p>
+                <label for="plugin_type" >#i18n{portal.system.manage_plugins.labelComboFilter} :</label>
+                <@combo name="plugin_type" default_value="${current_filter}" items=filter_list />
+                <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonFilter}" />
+            </p>
+        </form>
     </div>
-   
     <#if plugins_list?has_content >
-    
     <table>
         <tr>
             <th colspan="2">#i18n{portal.system.manage_plugins.columnTitleName}</th>
@@ -37,20 +33,20 @@
                     #i18n{portal.system.manage_plugins.labelAuthorUrl} : <a href="${plugin.providerUrl}" target="_blank">${plugin.providerUrl}</a>
                 </em>
             </td>
-            
+
             <td >
                 <#if plugin.installed >  
                 <form method="post" action="jsp/admin/system/ConfirmUninstallPlugin.jsp" valign="center">
-                <img src="images/admin/skin/enable.png" width="24" height="24" valign="center" />  
-                <input type="hidden" name="plugin_name" value="${plugin.name}" />
+                    <img src="images/admin/skin/enable.png" width="24" height="24" valign="center" />
+                    <input type="hidden" name="plugin_name" value="${plugin.name}" />
             </td>
             <td >
                 <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonDisable}" />
                 </form>
                 <#else>
                 <form method="post" action="jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}">
-                <img src="images/admin/skin/disable.png" width="24" height="24"  valign="center" />
-                <input type="hidden" name="plugin_name" value="${plugin.name}" />
+                    <img src="images/admin/skin/disable.png" width="24" height="24"  valign="center" />
+                    <input type="hidden" name="plugin_name" value="${plugin.name}" />
             </td>
             <td >
                 <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonEnable}" />
@@ -60,18 +56,16 @@
             <td width="30%">
                 <#if plugin.installed & plugin.dbPoolRequired >
                 <form method="post" action="jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}">
-                <@combo name="db_pool_name" default_value="${plugin.dbPoolName}" items=pools_list />
-                <input type="hidden" name="plugin_name" value="${plugin.name}" />
-                <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonModifyDbPool}" />
+                    <@combo name="db_pool_name" default_value="${plugin.dbPoolName}" items=pools_list />
+                    <input type="hidden" name="plugin_name" value="${plugin.name}" />
+                    <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonModifyDbPool}" />
                 </form>
                 </#if>          
             </td>
         </tr>    
         </#list>  
     </table>
-
     <#else>
-        <p>#i18n{portal.system.manage_plugins.filterNoResult}</p>
+    <p>#i18n{portal.system.manage_plugins.filterNoResult}</p>
     </#if>   
 </div>
-

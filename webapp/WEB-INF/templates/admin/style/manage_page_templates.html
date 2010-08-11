@@ -1,7 +1,10 @@
+<div id="content-box-actions">
+    <form method="post"  action="jsp/admin/style/CreatePageTemplate.jsp">
+        <input type="submit" tabindex="1" value="#i18n{portal.style.manage_page_templates.buttonLabelCreate}" class="button bt-toolbar" />
+    </form>
+</div>
 <div class="content-box" >
-
-    <h2>#i18n{portal.style.manage_page_templates.boxTitle}</h2>
-
+    <h2 class="content-box-header">#i18n{portal.style.manage_page_templates.boxTitle}</h2>
     <table>
         <tr>            
             <th width="20%">#i18n{portal.style.manage_page_templates.columnTitleDescription}</th>
@@ -9,7 +12,6 @@
             <th width="30%">#i18n{portal.style.manage_page_templates.columnTitlePicture}</th>            
             <th width="20%">#i18n{portal.style.manage_page_templates.columnTitleActions}</th>    
         </tr>
-       
         <#list page_templates_list as page_templates >
         <tr>
             <td width="20%">
@@ -24,10 +26,5 @@
             </td>            
         </tr>			
         </#list>
-    </table>
-    
-    <form method="post"  action="jsp/admin/style/CreatePageTemplate.jsp">
-        <p><input type="submit" tabindex="1" value="#i18n{portal.style.manage_page_templates.buttonLabelCreate}" class="button" /></p>
-    </form>
-        
+    </table> 
 </div>

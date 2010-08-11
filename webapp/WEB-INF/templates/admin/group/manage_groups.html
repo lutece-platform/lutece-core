@@ -1,37 +1,31 @@
+<div id="content-box-actions">
+    <form method="post" action="jsp/admin/group/CreateGroup.jsp">
+        <input type="submit" tabindex="1" value="#i18n{portal.group.manage_groups.buttonLabelCreate}" class="button bt-toolbar" />
+    </form>
+</div>
 <div class="content-box" >
-
-    <h2>#i18n{portal.group.manage_groups.boxTitle}</h2>
-
+    <h2 class="content-box-header">#i18n{portal.group.manage_groups.boxTitle}</h2>
     <table>
         <tr>
             <th>#i18n{portal.group.manage_groups.columnTitleId}</th>
             <th>#i18n{portal.group.manage_groups.columnTitleDescription}</th>
             <th>#i18n{portal.group.manage_groups.columnTitleActions}</th>
         </tr>
-
         <#list groups_list as group >
-	        <tr>
-	            <td>
-	                <a href="jsp/admin/group/ModifyGroup.jsp?group_key=${group.groupKey}" class="bullet-link">${group.groupKey}</a>
-	            </td>
-	            <td>${group.groupDescription}</td>
-	            <td>
-	            	<a href="jsp/admin/group/ManageRolesGroup.jsp?group_key=${group.groupKey}">
-		                <img src="images/admin/skin/actions/roles.png" class="icon" alt="#i18n{portal.group.manage_groups.linkLabelManageRoles}" title="#i18n{portal.group.manage_groups.linkLabelManageRoles}" />
-		            </a>
-		            <a href="jsp/admin/group/RemoveGroup.jsp?group_key=${group.groupKey}">
-		                <img src="images/admin/skin/actions/delete.png" class="icon" alt="#i18n{portal.group.manage_groups.linkLabelRemove}" title="#i18n{portal.group.manage_groups.linkLabelRemove}" />
-		            </a>
-		        </td>
-	        </tr>
+        <tr>
+            <td>
+                <a href="jsp/admin/group/ModifyGroup.jsp?group_key=${group.groupKey}" class="bullet-link">${group.groupKey}</a>
+            </td>
+            <td>${group.groupDescription}</td>
+            <td>
+                <a href="jsp/admin/group/ManageRolesGroup.jsp?group_key=${group.groupKey}">
+                    <img src="images/admin/skin/actions/roles.png" class="icon" alt="#i18n{portal.group.manage_groups.linkLabelManageRoles}" title="#i18n{portal.group.manage_groups.linkLabelManageRoles}" />
+                </a>
+                <a href="jsp/admin/group/RemoveGroup.jsp?group_key=${group.groupKey}">
+                    <img src="images/admin/skin/actions/delete.png" class="icon" alt="#i18n{portal.group.manage_groups.linkLabelRemove}" title="#i18n{portal.group.manage_groups.linkLabelRemove}" />
+                </a>
+            </td>
+        </tr>
         </#list>
     </table>
-
-    <form method="post" action="jsp/admin/group/CreateGroup.jsp">
-        <p>
-        	<input type="submit" tabindex="1" value="#i18n{portal.group.manage_groups.buttonLabelCreate}" class="button" />
-       	</p>
-    </form>
-
 </div>
-

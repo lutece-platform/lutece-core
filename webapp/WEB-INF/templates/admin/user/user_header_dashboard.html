@@ -1,6 +1,7 @@
 <span id="user-connected">
-<img src="images/admin/skin/user.png" alt="${user}" title="${user}" /><a href="jsp/admin/user/ModifyUser.jsp?id_user={user_id}" alt="" title="Voir son profil">${user}</a>
-</span>
+<img src="images/admin/skin/user.png" alt="${user}" title="${user}" />&nbsp;${user}
 <#if admin_logout_url?has_content>
     <a href="${admin_logout_url}"><img src="images/admin/skin/logout.png" alt="#i18n{portal.users.admin_header.deconnectionLink}" title="#i18n{portal.users.admin_header.deconnectionLink}" /></a>
 </#if>
+</span>
+

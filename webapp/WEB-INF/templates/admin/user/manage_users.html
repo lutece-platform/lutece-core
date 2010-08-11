@@ -1,5 +1,10 @@
+<div id="content-box-actions"
+<form method="post"  action="${url_user_creation}">
+      <input type="submit" value="#i18n{portal.users.manage_users.buttonLabelAddUser}" class="button bt-toolbar" />
+ </form>
+</div>
 <div class="content-box">
-    <div class="content-box-header">#i18n{portal.users.manage_users.titleUserList}</div>
+    <h2 class="content-box-header">#i18n{portal.users.manage_users.titleUserList}</h2>
     <div class="content-box-content">
     <div class="highlight-box">
 		<div id="search-users">
@@ -77,13 +82,6 @@
 	        </div>  
     	</div>
     </div>
-    <div>
-        <p>
-            <form method="post"  action="${url_user_creation}">
-                <input type="submit" value="#i18n{portal.users.manage_users.buttonLabelAddUser}" class="button" />
-            </form>
-        </p>
-    </div>
     <form method="post" action="jsp/admin/user/ManageUsers.jsp">
         <@paginationAdmin paginator=paginator combo=1 form=0/>
         <#if search_is_search >
@@ -148,13 +146,5 @@
         </#list>		
     </table>
 	<@paginationAdmin paginator=paginator />
-    <div>
-        <p>
-            <form method="post"  action="${url_user_creation}">
-                <input type="submit" value="#i18n{portal.users.manage_users.buttonLabelAddUser}" class="button" />
-            </form>
-        </p>
-    </div>  
-    <br /><br />
 </div>
 </div>

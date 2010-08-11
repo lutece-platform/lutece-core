@@ -1,7 +1,10 @@
+<div id="content-box-actions">
+    <form method="post"  action="jsp/admin/features/CreateGroup.jsp">
+        <p><input class="button bt-toolbar" type="submit" value="#i18n{portal.features.manage_groups.buttonCreate}" /></p>
+    </form>
+</div>
 <div class="content-box" >
-
-    <h2>#i18n{portal.features.manage_groups.title}</h2>
-    
+    <h2 class="content-box-header">#i18n{portal.features.manage_groups.title}</h2>
     <table>
         <tr>
             <th>#i18n{portal.features.manage_groups.labelId}</th>
@@ -23,26 +26,20 @@
             <td>
                 ${group.descriptionKey}
             </td>
-			<td>
-		  		<form method="post" action="jsp/admin/features/DoDispatchFeatureGroup.jsp">
-		       		<@combo name="order_id" default_value=group.order items=order_list />
-		          	<input type="hidden" name="group_id" value="${group.id}" />
-		          	<input class="button" type="submit" value="#i18n{portal.features.manage_groups.buttonChangeOrder}" />
-		       	</form>
-			</td>
             <td>
-            	<form method="post"  action="jsp/admin/features/RemoveGroup.jsp">
-                	<input type="hidden" name="group_id" value="${group.id}">
-                	 <input class="button" type="submit" value="#i18n{portal.features.manage_groups.buttonDelete}">
+                <form method="post" action="jsp/admin/features/DoDispatchFeatureGroup.jsp">
+                    <@combo name="order_id" default_value=group.order items=order_list />
+                    <input type="hidden" name="group_id" value="${group.id}" />
+                    <input class="button" type="submit" value="#i18n{portal.features.manage_groups.buttonChangeOrder}" />
+                </form>
+            </td>
+            <td>
+                <form method="post"  action="jsp/admin/features/RemoveGroup.jsp">
+                    <input type="hidden" name="group_id" value="${group.id}">
+                    <input class="button" type="submit" value="#i18n{portal.features.manage_groups.buttonDelete}">
                 </form> 
             </td>
-           
         </tr>
         </#list>
     </table>
-    
-    <form method="post"  action="jsp/admin/features/CreateGroup.jsp">
-        <p><input class="button" type="submit" value="#i18n{portal.features.manage_groups.buttonCreate}" /></p>
-    </form>
-    
 </div>

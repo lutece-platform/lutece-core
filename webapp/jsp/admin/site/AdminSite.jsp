@@ -2,16 +2,11 @@
 <%@ page import="java.util.Enumeration" %>
 
 <jsp:include page="../AdminHeader.jsp" />
-
-
 <jsp:useBean id="admin" scope="session" class="fr.paris.lutece.portal.web.admin.AdminPageJspBean" />
 
 <% admin.init( request , admin.RIGHT_MANAGE_ADMIN_SITE ); %>
 
-<div id="admin-site">
-
-    <jsp:include page="AdminPage.jsp" />
-
+<jsp:include page="AdminPage.jsp" />
 
 <%
 	String strParams = "";
@@ -51,11 +46,9 @@
             break;
     }
 %>
-    <div id="admin-site-preview" class=<%= strClassPreview %> >
-        <iframe name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="100%" height="750" scrolling="auto">
-        </iframe>
-    </div>
+<div id="admin-site">
+<div id="admin-site-preview" class=<%= strClassPreview %> >
+    <iframe name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="98%" height="750" scrolling="auto">Pr&eacute;visualisation du site</iframe>
 </div>
-
-
+</div>
 <%@ include file="../AdminFooter.jsp"%>

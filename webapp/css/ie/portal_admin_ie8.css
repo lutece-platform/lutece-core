@@ -1,0 +1,12 @@
+/* OLD ID HACK IN PORTAL_ADMIN CSS */
+/*
+div.content-box li h3{ margin-top: 0; margin-bottom: 5px;}
+div.content-box li p{ margin: 0; margin-bottom: 20px;}
+div.button-left {width: 49%;}
+div.button-right { width: 49%;}
+div.button-left input.button { width: 100%;}
+div.button-right input.button { width:110%;}
+*/
+#menu-main li ul { display: none; }
+#menu-main li:hover ul, #menu-main li.over ul {display: block; }
+#menu-main li ul li { height: 30px; line-height: 30px; }

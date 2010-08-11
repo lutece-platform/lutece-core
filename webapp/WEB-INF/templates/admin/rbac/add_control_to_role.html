@@ -1,10 +1,7 @@
-
 <div class="content-box" >
-
-	<h2>#i18n{portal.rbac.add_control_to_role.titleAddControl}</h2>
-		       
-	<form method="post" action="jsp/admin/rbac/DoSelectResources.jsp" name="add_control">
-            <#if resource_list_available = true >
+<h2 class="content-box-header">#i18n{portal.rbac.add_control_to_role.titleAddControl}</h2>
+<form method="post" action="jsp/admin/rbac/DoSelectResources.jsp" name="add_control">
+    <#if resource_list_available = true >
 		<p>
 			<label>#i18n{portal.rbac.add_control_to_role.labelSelectAllResources} :</label>
 			<input class="radio" type="radio" name="select_resources" value="all" checked="checked" />
@@ -26,9 +23,7 @@
 	        <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}" />
 	    </p>
 	</form>
-	
 	<script language="JavaScript">
 		window.onload = add_control.select_resources.focus
 	</script>
-
 </div>

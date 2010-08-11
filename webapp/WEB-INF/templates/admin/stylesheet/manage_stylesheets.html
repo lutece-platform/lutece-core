@@ -1,17 +1,21 @@
+<div id="content-box-actions">
+<form method="post"  action="jsp/admin/style/CreateStyleSheet.jsp" >
+<input type="hidden" name="mode_id" value="${mode_id}" />
+<input type="submit" class="button bt-toolbar" value="#i18n{portal.style.manage_stylesheets.buttonAdd}" />
+</form>
+</div>
 <div class="content-box" >
-
-    <h2>#i18n{portal.style.manage_stylesheets.title}</h2>
+<h2 class="content-box-header">#i18n{portal.style.manage_stylesheets.title}</h2>
 <div class="highlight-box">
-        <form method="post" >
-            <p>
+<form method="post" >
+         <p>
                 <label for="mode_id" >#i18n{portal.style.manage_stylesheets.labelSortByMode} :</label>
                 <@combo name="mode_id" default_value="${mode_id}" items=mode_list />
                 <input type="submit" class="button" value="#i18n{portal.style.manage_stylesheets.buttonApplyCriterias}" />
             </p>
         </form>
     </div>
-    <@paginationAdmin paginator=paginator combo=1 />
-    
+    <@paginationAdmin paginator=paginator combo=1 />   
     <table>
         <tr>
             <th width="40%" >
@@ -30,15 +34,8 @@
             </td>
             <td width="60%">${stylesheet.file}</td>
         </tr>
-        </#list>
-        
+        </#list>       
     </table>
     <@paginationAdmin paginator=paginator />
-  
-    <form method="post"  action="jsp/admin/style/CreateStyleSheet.jsp" >
-        <p>
-            <input type="hidden" name="mode_id" value="${mode_id}" />
-            <input type="submit" class="button" value="#i18n{portal.style.manage_stylesheets.buttonAdd}" />
-        </p>
-    </form>
+
 </div>

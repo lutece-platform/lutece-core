@@ -1,7 +1,5 @@
 <div class="content-box" >
-
-    <h2>#i18n{portal.style.create_style.title}</h2>
-		        
+    <h2 class="content-box-header">#i18n{portal.style.create_style.title}</h2>
     <form method="post"  name="create_style" action="jsp/admin/style/DoCreateStyle.jsp">
         <p>
             <label>#i18n{portal.style.create_style.labelId} * : </label>
@@ -25,16 +23,14 @@
             <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
         </p>
     </form>
-    
     <script language="javascript">
-    if( document.create_style.portal_component.value == '0' )
-    {
-        document.create_style.portlet_type.disabled=false;
-    }
-    else
-    {
-        document.create_style.portlet_type.disabled=true;
-    }
+        if( document.create_style.portal_component.value == '0' )
+        {
+            document.create_style.portlet_type.disabled=false;
+        }
+        else
+        {
+            document.create_style.portlet_type.disabled=true;
+        }
     </script>
-
 </div>

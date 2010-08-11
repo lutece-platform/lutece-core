@@ -1,112 +1,108 @@
 <div id="content-admin-site-page" class="admin-site-page">
-
-	<#if authorization != "1">
+    <div id="content-box-actions"><img src="images/admin/skin/toggle.png" alt="Fermer" title="Fermer" class="togl" /></div>
+    <#if authorization != "1">
     <div class="content-box" >
+        <h2>#i18n{portal.site.admin_page.titlePageProperties}</h2>
         <form method="post"  action="jsp/admin/site/DoModifyPage.jsp">
             <input type="hidden" name="page_id" value="${page.id}" />
-            <p>
-                <h2>
-                    #i18n{portal.site.admin_page.titlePageProperties}
-                </h2>
-            </p>
             <div id="page_admin" class="admin-site-page">
                 <p>
-                   	<label for="page_name" >#i18n{portal.site.admin_page.labelName}
-	                    <input type="text" name="page_name" value="${page.name}" size="40" maxlength="50" />
-					</label>
-				</p>
-				<p>
-		            <label for="page_description">#i18n{portal.site.admin_page.labelDescription}
-   		            	<textarea name="page_description" rows="3" cols="34" >${page.description}</textarea>
-					</label>
-				</p>
-				<p >
-   		            <label for="parent_id">#i18n{portal.site.admin_page.labelParentPageId}<br />
-	                <#if page.id = 1>
-     			        <input type="hidden" name="parent_id" size="10" maxlength="10" value="${page.parentPageId}" />
-						<span style="font-weight:normal;">#i18n{portal.site.admin_page.labelParentPageIdMessage}</span>
-   			        <#else>
-                    <input type="text" name="parent_id" size="10" maxlength="10" value="${page.parentPageId}" />
-       			    </#if>
-					</label>
-				</p>
-				<p>
-    		        <label for="page_order_list">#i18n{portal.site.admin_page.labelOrderPage}<br />
-            			<@combo name="order" default_value="${page.order}" items=page_order_list />
-					</label>
-				</p>
-				<p>
-		            <label for="roles_list">#i18n{portal.site.admin_page.labelRole}<br />
-	        		     <@combo name="role" default_value="${page.role}" items=page_roles_list />
-					</label>
-				</p>
-				<p>
-		    		<label for="workgroup_list">#i18n{portal.site.admin_page.labelWorkgroup}
-		     			<#if page.workgroup?exists>
-		     				<@combo name="workgroup_key"  items=user_workgroup_list default_value=page.workgroup />
-		     			<#else>
-		     					<@combo name="workgroup_key"  items=user_workgroup_list default_value="" />
-		     			</#if>
-		     		</label>
-				</p>
-				<p>
-		            <label for="roles_list">#i18n{portal.site.admin_page.labelNodeStatus}<br />
-						<#if page.nodeStatus = 0>
-						<select name="node_status">
-							<option value="0" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus0}</option>
-							<option value="1">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
-						</select>
-						<#else>
-						<select name="node_status">
-							<option value="0" >#i18n{portal.site.admin_page.labelNodeStatus0}</option>
-							<option value="1" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
-						</select>
-						</#if>
-					</label>
-				</p>
-				<p>
-    		         <label for="themes_list">#i18n{portal.site.admin_page.labelTheme}<br />
-		        	     <@combo name="theme" default_value="${page.codeTheme}" items=page_themes_list />
-					 </label>
-				</p>
-				<p>
-		             <strong>#i18n{portal.site.admin_page.labelPageTemplateList}</strong>
-				</p>
-				<table>
-					<tr>
-						${page_templates_list}
-					</tr>
-				</table>
-				<p>
-		            <strong>#i18n{portal.site.admin_page.labelMetadata}</strong>
-					<br/>
-                   	<label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords}
-	                    <br/>
-	                    <input type="text" name="meta_keywords" size="40" maxlength="250"
-	                    	<#if page.metaKeywords?exists && page.metaKeywords?has_content>
+                    <label for="page_name" >#i18n{portal.site.admin_page.labelName}
+                        <input type="text" name="page_name" value="${page.name}" size="40" maxlength="50" />
+                    </label>
+                </p>
+                <p>
+                    <label for="page_description">#i18n{portal.site.admin_page.labelDescription}
+                        <textarea name="page_description" rows="3" cols="34" >${page.description}</textarea>
+                    </label>
+                </p>
+                <p >
+                    <label for="parent_id">#i18n{portal.site.admin_page.labelParentPageId}<br />
+                        <#if page.id = 1>
+                        <input type="hidden" name="parent_id" size="10" maxlength="10" value="${page.parentPageId}" />
+                        <span style="font-weight:normal;">#i18n{portal.site.admin_page.labelParentPageIdMessage}</span>
+                        <#else>
+                        <input type="text" name="parent_id" size="10" maxlength="10" value="${page.parentPageId}" />
+                        </#if>
+                    </label>
+                </p>
+                <p>
+                    <label for="page_order_list">#i18n{portal.site.admin_page.labelOrderPage}<br />
+                        <@combo name="order" default_value="${page.order}" items=page_order_list />
+                    </label>
+                </p>
+                <p>
+                    <label for="roles_list">#i18n{portal.site.admin_page.labelRole}<br />
+                        <@combo name="role" default_value="${page.role}" items=page_roles_list />
+                    </label>
+                </p>
+                <p>
+                    <label for="workgroup_list">#i18n{portal.site.admin_page.labelWorkgroup}
+                        <#if page.workgroup?exists>
+                        <@combo name="workgroup_key"  items=user_workgroup_list default_value=page.workgroup />
+                        <#else>
+                        <@combo name="workgroup_key"  items=user_workgroup_list default_value="" />
+                        </#if>
+                    </label>
+                </p>
+                <p>
+                    <label for="roles_list">#i18n{portal.site.admin_page.labelNodeStatus}<br />
+                        <#if page.nodeStatus = 0>
+                        <select name="node_status">
+                            <option value="0" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus0}</option>
+                            <option value="1">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
+                        </select>
+                        <#else>
+                        <select name="node_status">
+                            <option value="0" >#i18n{portal.site.admin_page.labelNodeStatus0}</option>
+                            <option value="1" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
+                        </select>
+                        </#if>
+                    </label>
+                </p>
+                <p>
+                    <label for="themes_list">#i18n{portal.site.admin_page.labelTheme}<br />
+                        <@combo name="theme" default_value="${page.codeTheme}" items=page_themes_list />
+                    </label>
+                </p>
+                <p>
+                    <strong>#i18n{portal.site.admin_page.labelPageTemplateList}</strong>
+                </p>
+                <table>
+                    <tr>
+			${page_templates_list}
+                    </tr>
+                </table>
+                <p>
+                    <strong>#i18n{portal.site.admin_page.labelMetadata}</strong>
+                    <br/>
+                    <label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords}
+                        <br/>
+                        <input type="text" name="meta_keywords" size="40" maxlength="250"
+                               <#if page.metaKeywords?exists && page.metaKeywords?has_content>
 	                    		value="${page.metaKeywords}"
-	                    	<#else>
+                               <#else>
 	                    		value=""
-	                    	</#if>
+                               </#if>
 	                    />
-					</label>
-				</p>
-				<p>
-                   	<label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}
-	                    <br/>
-	                    <input type="text" name="meta_description" size="40" maxlength="250"
-	                    	<#if page.metaDescription?exists && page.metaDescription?has_content>
+                    </label>
+                </p>
+                <p>
+                    <label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}
+                        <br/>
+                        <input type="text" name="meta_description" size="40" maxlength="250"
+                               <#if page.metaDescription?exists && page.metaDescription?has_content>
 	                    		value="${page.metaDescription}"
-	                    	<#else>
+                               <#else>
 	                    		value=""
-	                    	</#if>
+                               </#if>
 	                    />
-					</label>
+                    </label>
                     #i18n{portal.site.admin_page.labelMetaDescriptionInfo}
-				</p>
-				<p>
-		             <input type="submit" value="#i18n{portal.site.admin_page.buttonModify}" class="button"/>
-				</p>
+                </p>
+                <p>
+                    <input type="submit" value="#i18n{portal.site.admin_page.buttonModify}" class="button"/>
+                </p>
             </div>
         </form>
     </div>
@@ -117,21 +113,21 @@
     <div class="content-box" style="background-color:#FFFFFF;margin:0;">
         <div class="button-left" style="float:left">
             <p>
-                <form method="post"  action="jsp/admin/site/RemovePage.jsp">
-                    <input type="hidden" name="page_id" value="${page.id}" />
-                    <input type="submit" value="#i18n{portal.site.admin_page.buttonDeletePage}" class="button" />
-                </form>
+            <form method="post"  action="jsp/admin/site/RemovePage.jsp">
+                <input type="hidden" name="page_id" value="${page.id}" />
+                <input type="submit" value="#i18n{portal.site.admin_page.buttonDeletePage}" class="button" />
+            </form>
             </p>
         </div>
         <div  class="button-right" style="float:right">
             <p>
-                <form method="post"  action="jsp/admin/site/AdminSite.jsp">
-                    <input type="hidden" name="page_id" value="${page.parentPageId}" />
-                    <input type="submit" value="#i18n{portal.site.admin_page.buttonUpToParentPage}" class="button" />
-                </form>
+            <form method="post"  action="jsp/admin/site/AdminSite.jsp">
+                <input type="hidden" name="page_id" value="${page.parentPageId}" />
+                <input type="submit" value="#i18n{portal.site.admin_page.buttonUpToParentPage}" class="button" />
+            </form>
             </p>
         </div>
     </div>
     </#if>
 
-    </div>
+</div>
