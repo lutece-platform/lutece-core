@@ -25,34 +25,38 @@ BODY, TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH, H1, H2, H3, H4, TEXTARE
 p{line-height: 1.5;}
 img { border: none;}
 /*links */
-a {color: #364C5E;font-weight: bold; text-decoration: none}
+/*a {color: #444;font-weight: bold; text-decoration: none}*/
+a {color: #444;font-weight: bold; text-decoration: none}
 a:hover{text-decoration: underline;}
 /* links of menu hover */
 a.top {float: right;padding:2px 5px;}
 a.bullet-link{background: url(../images/admin/skin/bullet.gif) no-repeat left; padding: 0 0 1px 12px;}
 /* title level 1 */
-h1 {color: #364C5E; font-size: 140%; font-weight: bold;}
+/*h1 {color: #444; font-size: 140%; font-weight: bold;}*/
+h1 {color: #444; font-size: 140%; font-weight: bold;}
 /* title level 2 */
-h2 { color: #364C5E; font-size: 120%; font-weight: bold;}
+h2 { color: #444; font-size: 120%; font-weight: bold;}
 /* title level 3 */
-h3 { color: #364C5E; font-weight: bold;}
+h3 { color: #444; font-weight: bold;}
 .alert { color:red;  font-weight: bold; text-align:center;}
 
 #wrapper{
-    min-height:640px;
+    min-height:2640px;
     padding-bottom: 20px;
-    background: #e3e2df; /* for non-css3 browsers */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e3e2df'); /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e3e2df)); /* for webkit browsers */
-    background: -moz-linear-gradient(top,  #fff,  #e3e2df); /* for firefox 3.6+ */
+    background: #DEDEDE; /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#DEDEDE'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#DEDEDE)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #fff,  #DEDEDE); /* for firefox 3.6+ */
 }
 
 #admin-header{margin:0 15px;}
 
 /* Toolbar above menu */
 #admin-header-toolbar {
-background:none #3B5A76;
-border-bottom:1px solid /*#1E4262*/ #E2EDF7;
+/*background:none #444;*/
+/*border-bottom:1px solid /*#444 #E2EDF7;*/
+background:none #444;
+border-bottom:1px solid /*#444*/ #666;
 font-family:verdana;
 font-size:80%;
 padding:8px 4px 4px 0;
@@ -63,10 +67,14 @@ text-align:right;
 
 #admin-header-main {
 height:50px;
-background: #3B5A76; /* for non-css3 browsers */
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3B5A76', endColorstr='#1D507D'); /* for IE */
-background: -webkit-gradient(linear, left top, left bottom, from(#3B5A76), to(#1D507D)); /* for webkit browsers */
-background: -moz-linear-gradient(top,  #3B5A76,#1D507D ); /* for firefox 3.6+ */
+/*background: #444; */
+background: #444;/* for non-css3 browsers */
+/*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444', endColorstr='#1D507D'); /* for IE */
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444', endColorstr='#666'); /* for IE */
+/*background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#1D507D)); /* for webkit browsers */
+background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#666)); /* for webkit browsers */
+/*background: -moz-linear-gradient(top,  #444,#1D507D ); /* for firefox 3.6+ */
+background: -moz-linear-gradient(top,  #444,#666 ); /* for firefox 3.6+ */
 -moz-border-radius-bottomleft:10px; -webkit-border-bottom-left-radius:10px;
 -moz-border-radius-bottomright:10px; -webkit-border-bottom-right-radius:10px;
 }
@@ -80,22 +88,23 @@ background: #fff;
 #user-connected a{color:#000;}
 .user{color:#fff;}
 
-#admin-header-menu-main{ float:right; margin: 0 160px 0 0; padding:0; color: #fff; font-size: 120%;}
+#admin-header-menu-main{ right : 160px ; padding:0; color: #fff; font-size: 120%; position: absolute;}
 
 /********************************
 ******** Main Menu
 *********************************/
 #menu-main { list-style-type: none; height: 40px; padding: 0; margin: 10px 0; }
-#menu-main li { float: left; position: relative; padding: 0; line-height: 40px; background: /*#3B5A76 url(nav-bg.png) repeat-x 0 0;*/ transparent; }
+#menu-main li { float: left; position: relative; padding: 0; line-height: 40px; background: /*#444 url(nav-bg.png) repeat-x 0 0;*/ transparent; }
 #menu-main li:hover { background-position: 0 -40px; }
-#menu-main li a { display: block; padding: 0 15px; color: #fff; text-decoration: none; font-size: 120%; }
-#menu-main li a:hover { background: #50ABE6;color: #fff; }
-#menu-main li ul { z-index:999; opacity: 0; position: absolute; left: 0; width: 24em; background: #50ABE6; list-style-type: none; padding: 0; margin: 0; }
+#menu-main li a { display: block; padding: 0 15px; color: #fff; text-decoration: none; font-size: 100%; }
+#menu-main li a:hover { background: #55B4E5;color: #fff; text-decoration: none; }
+#menu-main li ul { z-index:999; opacity: 0; position: absolute; left: 0; width: 24em; background: #55B4E5; list-style-type: none; padding: 0; margin: 0; }
 #menu-main li:hover ul { opacity: 1; }
 #menu-main li ul li { float: none; position: static; height: 0; line-height: 0; background: none; }
 #menu-main li:hover ul li { height: 30px; line-height: 30px; }
-#menu-main li ul li a { background: #3B5A76; font-weight: normal; }
-#menu-main li ul li a:hover { background: #50ABE6; color:#fff;text-decoration: underline; }
+/*#menu-main li ul li a { background: #444; font-weight: normal; }*/
+#menu-main li ul li a { background: #444; font-weight: normal; }
+#menu-main li ul li a:hover { background: #55B4E5; color:#fff;text-decoration: none; }
 #menu-main li { -webkit-transition: all 0.2s; }
 #menu-main li a { -webkit-transition: all 0.5s; }
 #menu-main li ul { -webkit-transition: all 1s; }
@@ -117,7 +126,8 @@ background: #fff;
 *********************************/
 div#content{margin:0 3%;clear: both;}
 h2#content-header{margin: 0 0 15px 0; padding: 12px 0;float:left;width:50%;}
-h2#content-header a{text-decoration: underline; font-size: 120%; color:#3B5A76; }
+/*h2#content-header a{text-decoration: none; font-size: 120%; color:#444; }*/
+h2#content-header a{text-decoration: none; font-size: 120%; color:#444; }
 h2#content-header img {border: none;width:24px;height:24px;}
 
 /********************************
@@ -125,18 +135,19 @@ h2#content-header img {border: none;width:24px;height:24px;}
 *********************************/
 div.content-box{
     background: #fff;
-    border: 1px #1E4262 outset;
+    border: 1px #444 outset;
     text-align: left;
     clear: both;
     margin: 10px 4px;
+	 margin-top : 20px;
     -moz-border-radius:10px; -webkit-border-radius:10px;
 }
 
 div#content-box-actions{float:right;}
 div.content-box h2 {
-    background: #E3E0DE;
+    background: #DEDEDE;
     padding: 5px 0 6px 12px;
-    color: #3B5A76;
+    color: #444;
     -moz-border-radius-topleft:10px; -webkit-border-top-left-radius:10px;
     -moz-border-radius-topright:10px; -webkit-border-top-right-radius:10px;
     font-family: Arial, Tahoma, Helvetica, sans-serif;
@@ -144,9 +155,9 @@ div.content-box h2 {
     margin: 0 0 5px 0;}
 
 div.content-box-header {
-    background: #E3E0DE;
+    background: #DEDEDE;
     padding: 5px 0 6px 12px;
-    color: #3B5A76;
+    color: #444;
     -moz-border-radius-topleft:10px; -webkit-border-top-left-radius:10px;
     -moz-border-radius-topright:10px; -webkit-border-top-right-radius:10px;
     font-family: Arial, Tahoma, Helvetica, sans-serif;
@@ -167,7 +178,7 @@ div.content-box li { list-style: none; }
 div.content-box form { margin: 10px; }
 div.content-box td form { margin: 0px; }
 div.content-box form p.login { clear: both; position: relative; }
-div.content-box label{ font-weight: bold; color: #364C5E; margin: 0; padding-right: 5px; display: block; width: 30%; text-align: right;  float: left;}
+div.content-box label{ font-weight: bold; color: #444; margin: 0; padding-right: 5px; display: block; width: 30%; text-align: right;  float: left;}
 div.content-box input {
     border: 1px solid #8EAABF;
     font-family: Arial, Tahoma, Helvetica, sans-serif;
@@ -178,11 +189,11 @@ div.content-box input {
 div.content-box input.radio { border: none; }
 div.content-box input.checkbox { border: none; }
 
-/*.button { display:inline; font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%; color: #364C5E; cursor: pointer;    text-align: center;}*/
+/*.button { display:inline; font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%; color: #444; cursor: pointer;    text-align: center;}*/
 .bt-toolbar{margin:10px 0 2px 2px;}
 
 input.button{
-background:#50ABE6;
+background:#55B4E5;
 border-color:#55B4E5;
 color:#fff;
 font-weight:bold;
@@ -203,13 +214,13 @@ div.content-box select {
     border: 1px solid #8EAABF;
     font-family: Arial, Tahoma, Helvetica, sans-serif;
     font-size: 100%;
-    color: #364C5E;
+    color: #444;
     cursor: pointer;
     margin: 2px 0;
 }
 
 div.content-box table{ border: none; border-collapse:collapse; margin-left: 10px; width: 98%;}
-div.content-box table tr th{ color: #364C5E; border-bottom: 1px solid #364C5E; padding: 5px;font-weight: bold; text-align:left;}
+div.content-box table tr th{ color: #444; border-bottom: 1px solid #444; padding: 5px;font-weight: bold; text-align:left;}
 div.content-box table tr td{ border-bottom: 1px solid #8EAABF;padding: 3px; padding-right: 15px;}
 div.content-box table tr td.cell-indent{padding-left:30px;}
 div.content-box pre{ padding:10px; background-color: white;}
@@ -218,7 +229,7 @@ div.content-box pre{ padding:10px; background-color: white;}
 ******** Multibox structure
 *********************************/
 div.multibox table{ background-color:#DEE8F1;border: none; margin-left: 10px; width: 98%;}
-div.multibox table tr th{ font-size: 120%; border: none; color: #364C5E; padding: 5px; font-weight: bold; text-align: left;}
+div.multibox table tr th{ font-size: 120%; border: none; color: #444; padding: 5px; font-weight: bold; text-align: left;}
 div.multibox table tr td{ border: none;padding: 3px; padding-right: 15px;}
 
 /********************************
@@ -277,7 +288,7 @@ div.admin-site-highlight-box input {
 div.admin-site-highlight-box label
 {
     font-weight: bold;
-    color: #364C5E;
+    color: #444;
     margin: 0;
     padding-right: 5px;
     display: block;
@@ -294,19 +305,19 @@ body.insert-service { background: #DEE8F1;}
 div.insert-service { margin: 20px;}
 
 div.insert-service table{ background-color:#DEE8F1; border: none; border-collapse:collapse; margin-left: 20px; margin-right: 20px; margin-top: 5px; margin-bottom: 5px; width: 98%;}
-div.insert-service table tr th{ font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 120%; color: #364C5E; border-bottom: 1px solid #8EAABF; padding: 5px; font-weight: bold;text-align: left;}
+div.insert-service table tr th{ font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 120%; color: #444; border-bottom: 1px solid #8EAABF; padding: 5px; font-weight: bold;text-align: left;}
 div.insert-service table tr td{ padding: 3px; padding-right: 15px;}
-div.insert-service h2 { border: none; font-size: 150%;font-family: Arial, Tahoma, Helvetica, sans-serif; margin-left: 0; border-bottom: 1px solid #364C5E;}
+div.insert-service h2 { border: none; font-size: 150%;font-family: Arial, Tahoma, Helvetica, sans-serif; margin-left: 0; border-bottom: 1px solid #444;}
 div.insert-service a{ border: none; font-weight: normal; font-size: 100%; font-family: Arial, Tahoma, Helvetica, sans-serif; text-decoration: none;}
 div.insert-service a:link, div.content-box a:visited{ border: none; font-size: 100%; font-weight: normal;
     font-family: Arial, Tahoma, Helvetica, sans-serif; text-decoration: none;}
 div.insert-service a:hover{ border: none; font-size: 100%; font-family: Arial, Tahoma, Helvetica, sans-serif;   text-decoration: underline;}
 div.insert-service h3 a:link, div.content-box h3 a:visited{ font-weight: bold;}
-div.insert-service input.button{ display:inline; border: 1px solid #364C5E; background-color: #F7F2B0;
-    font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%; color: #364C5E ; cursor: pointer; text-align: center;}
+div.insert-service input.button{ display:inline; border: 1px solid #444; background-color: #F7F2B0;
+    font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%; color: #444 ; cursor: pointer; text-align: center;}
 div.insert-service input{ border: 1px solid #8EAABF; font-family: Arial, Tahoma, Helvetica, sans-serif;   font-size: 100%;}
-div.insert-service select{ border: 1px solid #8EAABF; font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%; color:#364C5E;cursor: pointer;}
-div.insert-service label{ font-weight:bold; color:#364C5E; margin:0; padding-right:5px; display:block; width:30%; text-align: right; float: left;}
+div.insert-service select{ border: 1px solid #8EAABF; font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%; color:#444;cursor: pointer;}
+div.insert-service label{ font-weight:bold; color:#444; margin:0; padding-right:5px; display:block; width:30%; text-align: right; float: left;}
 a.info{ position:relative; /*this is the key*/ z-index:24; background: url(../images/admin/skin/bullet.gif) no-repeat left;
 padding: 0 0 1px 12px;  cursor: pointer;}
 a.info:hover{ z-index:25; color: #EE9C00; background-color: #DEE8F1;text-decoration: none;}
@@ -352,7 +363,7 @@ form input.button-image{border:0;vertical-align: bottom;}
 
 #lutece-paginator .active{
     border:solid 1px #DEDEDE;
-    background:#50ABE6;
+    background:#55B4E5;
     color:#FFFFFF;
     display:block;
     float:left;
@@ -365,7 +376,7 @@ form input.button-image{border:0;vertical-align: bottom;}
     float:left;
     padding:1px 3px;
 }
-#lutece-paginator a:hover{border:solid 1px #364C5E;}
+#lutece-paginator a:hover{border:solid 1px #444;}
 #lutece-paginator .refresh {
     background:url(../images/admin/skin/refresh.png);
     border:none;
@@ -412,7 +423,7 @@ div.dashboard-item{margin: 0 0 0 10px;}
     padding:5px 15px 4px 6px;
     text-decoration:none;
     font-weight:bold;
-    color:#364C5E;
+    color:#444;
 }
 
 #admin-site-menu #current {
@@ -436,12 +447,12 @@ div.dashboard-item{margin: 0 0 0 10px;}
 #content-admin-site-toolbar form.toolbar{display: inline;}
 #content-admin-site-toolbar h2.toolbar{display: inline;}
 #content-admin-site-page content-box-actions p {margin:5px;}
-p.admin-page-title{font-size: 120%;font-weight: bold;color:#50ABE6;/*border: #50ABE6 1px dashed;*/ padding:5px;}
+p.admin-page-title{font-size: 120%;font-weight: bold;color:#55B4E5;/*border: #55B4E5 1px dashed;*/ padding:5px;}
 
 #admin-site-preview table tr th {
     font-family: Arial, Tahoma, Helvetica, sans-serif;
     font-size: 120%;
-    color: #364C5E;
+    color: #444;
     border-bottom: 1px solid #8EAABF;
     padding: 5px;
     font-weight: bold;
