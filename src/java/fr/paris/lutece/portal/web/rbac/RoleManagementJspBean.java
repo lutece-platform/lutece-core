@@ -158,8 +158,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_SELECT_SPECIFIC_IDS = "SelectSpecificIds.jsp";
     private static final String JSP_URL_REMOVE_ROLE = "jsp/admin/rbac/DoRemoveRole.jsp";
     private static final String JSP_URL_REMOVE_CONTROL_FROM_ROLE = "jsp/admin/rbac/DoRemoveControlFromRole.jsp";
-    private static final String JSP_URL_ASSIGN_USERS_TO_ROLE = "AssignUsersRole.jsp";
-    private static final String JSP_URL_ASSIGN_USERS_TO_ROLE_COMPLETE = "jsp/admin/rbac/AssignUsersRole.jsp";
+    private static final String JSP_ASSIGN_USERS_TO_ROLE = "AssignUsersRole.jsp";
+    private static final String JSP_URL_ASSIGN_USERS_TO_ROLE = "jsp/admin/rbac/AssignUsersRole.jsp";
     
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
@@ -841,7 +841,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
 
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_ROLE_COMPLETE;
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_ROLE;
         UrlItem url = new UrlItem( strBaseUrl );
         
         if ( strSortedAttributeName != null )
@@ -866,10 +866,10 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         Collection<AdminRole> listAllRole = AdminRoleHome.findAll(  );
         int nMapKey = 1;
         int nCurrentItemId = 1;
-        for( AdminRole AllRole : listAllRole )
+        for( AdminRole allRole : listAllRole )
         {
-        	listItem.put( nMapKey, AllRole.getKey(  ) );
-        	if( AllRole.getKey(  ).equals( role.getKey(  ) ) )
+        	listItem.put( nMapKey, allRole.getKey(  ) );
+        	if( allRole.getKey(  ).equals( role.getKey(  ) ) )
         	{
         		nCurrentItemId = nMapKey;
         	}
@@ -946,7 +946,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 }
             }
 
-            strReturn = JSP_URL_ASSIGN_USERS_TO_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
+            strReturn = JSP_ASSIGN_USERS_TO_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
         }
 
         return strReturn;
@@ -970,7 +970,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         	AdminUserHome.removeRoleForUser( nIdUser, strRoleKey );
         }
 
-        return JSP_URL_ASSIGN_USERS_TO_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey
+        return JSP_ASSIGN_USERS_TO_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey
         		+ "#" + strAnchor;
     }
     

@@ -251,7 +251,7 @@
 	<div id="item-navigator">
 		<#if (item_navigator.currentItemId > 1)>
 			<a href="${item_navigator.previousPageLink?xhtml}">
-	            <img src="images/admin/skin/prev.png" alt="&lt;" style="vertical-align: baseline;" />
+	            <img src="images/admin/skin/prev.png" alt="#i18n{portal.util.labelPrevious}" title="#i18n{portal.util.labelPrevious}" style="vertical-align: baseline;" />
 	            #i18n{portal.util.labelPrevious}
 	        </a>
 	    <#else>
@@ -260,7 +260,7 @@
 		<#if (item_navigator.currentItemId < item_navigator.listItemSize) >
 	         <a href="${item_navigator.nextPageLink?xhtml}">
 	         	#i18n{portal.util.labelNext}
-	            <img src="images/admin/skin/next.png" alt="&gt;" style="vertical-align: baseline;" />
+	            <img src="images/admin/skin/next.png" alt="#i18n{portal.util.labelNext}" title="#i18n{portal.util.labelNext}" style="vertical-align: baseline;" />
 	        </a>
 	    <#else>
 	    	&nbsp;&nbsp;

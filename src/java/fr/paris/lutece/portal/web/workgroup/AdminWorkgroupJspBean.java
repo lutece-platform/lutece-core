@@ -120,7 +120,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_MANAGE_WORKGROUPS = "ManageWorkgroups.jsp";
     private static final String JSP_ASSIGN_USERS_TO_WORKGROUPS = "AssignUsersWorkgroup.jsp";
     private static final String JSP_URL_REMOVE_WORKGROUP = "jsp/admin/workgroup/DoRemoveWorkgroup.jsp";
-    private static final String JSP_ASSIGN_USERS_TO_WORKGROUPS_COMPLETE = "jsp/admin/workgroup/AssignUsersWorkgroup.jsp";
+    private static final String JSP_URL_ASSIGN_USERS_TO_WORKGROUPS = "jsp/admin/workgroup/AssignUsersWorkgroup.jsp";
 
     // Messages
     private static final String MESSAGE_WORKGROUP_ALREADY_EXIST = "portal.workgroup.message.workgroupAlreadyExist";
@@ -467,7 +467,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
 
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_ASSIGN_USERS_TO_WORKGROUPS_COMPLETE;
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_WORKGROUPS;
         UrlItem url = new UrlItem( strBaseUrl );
         
         if ( strSortedAttributeName != null )
@@ -492,10 +492,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         Collection<AdminWorkgroup> listAllWorkgroups = AdminWorkgroupHome.findAll(  );
         int nMapKey = 1;
         int nCurrentItemId = 1;
-        for( AdminWorkgroup AllWorkgroup : listAllWorkgroups )
+        for( AdminWorkgroup allWorkgroup : listAllWorkgroups )
         {
-        	listItem.put( nMapKey, AllWorkgroup.getKey(  ) );
-        	if( AllWorkgroup.getKey(  ).equals( adminWorkgroup.getKey(  ) ) )
+        	listItem.put( nMapKey, allWorkgroup.getKey(  ) );
+        	if( allWorkgroup.getKey(  ).equals( adminWorkgroup.getKey(  ) ) )
         	{
         		nCurrentItemId = nMapKey;
         	}

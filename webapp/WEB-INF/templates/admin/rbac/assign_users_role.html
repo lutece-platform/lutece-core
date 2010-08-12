@@ -29,13 +29,13 @@
             </tr>
             <tr>
                 <td>
+                	<@item_navigation item_navigator=item_navigator />
                     <a href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}">
                         <img title="#i18n{portal.rbac.modify_role.buttonLabelModify}" alt="#i18n{portal.rbac.modify_role.buttonLabelModify}" src="images/admin/skin/actions/modify.png" />
                     </a>
                     <a href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}">
                         <img title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" alt="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" src="images/admin/skin/actions/delete.png" />
                     </a>
-                    <@item_navigation item_navigator=item_navigator />
                 </td>
             </tr>
         </table>

@@ -67,6 +67,7 @@ import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.html.ItemNavigator;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
@@ -183,6 +184,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_IMPORT_USER = "jsp/admin/user/ImportUser.jsp";
     private static final String JSP_URL_MANAGE_ADVANCED_PARAMETERS = "jsp/admin/user/ManageAdvancedParameters.jsp";
     private static final String JSP_URL_MODIFY_PASSWORD_ENCRYPTION = "jsp/admin/user/DoModifyPasswordEncryption.jsp";
+    private static final String JSP_URL_MODIFY_USER = "jsp/admin/user/ModifyUser.jsp";
+    private static final String JSP_URL_MANAGE_USER_RIGHTS = "jsp/admin/user/ManageUserRights.jsp";
+    private static final String JSP_URL_MANAGE_USER_ROLES = "jsp/admin/user/ManageUserRoles.jsp";
+    private static final String JSP_URL_MANAGE_USER_WORKGROUPS = "jsp/admin/user/ManageUserWorkgroups.jsp";
 
     // Markers
     private static final String MARK_USER_LIST = "user_list";
@@ -224,6 +229,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_DEFAULT_USER_LANGUAGE = "default_user_language";
     private static final String MARK_DEFAULT_USER_STATUS = "default_user_status";
     private static final String MARK_PERMISSION_ADVANCED_PARAMETER = "permission_advanced_parameter";
+    private static final String MARK_ITEM_NAVIGATOR = "item_navigator";
     
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
@@ -625,30 +631,47 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         HtmlTemplate template;
 
         AdminUser user = null;
-
+        String strTemplateUrl = "";
+        
         // creation in no-module mode : load form with password modification field and login modification field
         if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
         {
-            user = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( nUserId );
-
-            Level level = LevelHome.findByPrimaryKey( user.getUserLevel(  ) );
-            model.put( MARK_USER, user );
-            model.put( MARK_LEVEL, level );
-            model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale(  ) ) );
-            model.put( MARK_CURRENT_LANGUAGE, user.getLocale(  ).getLanguage(  ) );
-            template = AppTemplateService.getTemplate( TEMPLATE_DEFAULT_MODIFY_USER, getLocale(  ), model );
+        	user = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( nUserId );
+        	strTemplateUrl = TEMPLATE_DEFAULT_MODIFY_USER;
         }
         else
         {
-            user = AdminUserHome.findByPrimaryKey( nUserId );
-
-            Level level = LevelHome.findByPrimaryKey( user.getUserLevel(  ) );
-            model.put( MARK_USER, user );
-            model.put( MARK_LEVEL, level );
-            model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale(  ) ) );
-            model.put( MARK_CURRENT_LANGUAGE, user.getLocale(  ).getLanguage(  ) );
-            template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER, getLocale(  ), model );
+        	user = AdminUserHome.findByPrimaryKey( nUserId );
+        	strTemplateUrl = TEMPLATE_MODIFY_USER;
         }
+        
+        Level level = LevelHome.findByPrimaryKey( user.getUserLevel(  ) );
+        
+        // ITEM NAVIGATION
+        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
+        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
+        int nMapKey = 1;
+        int nCurrentItemId = 1;
+        for( AdminUser allUser : listAllUsers )
+        {
+        	listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
+        	if( allUser.getUserId(  ) == user.getUserId(  ) )
+        	{
+        		nCurrentItemId = nMapKey;
+        	}
+        	nMapKey++;
+        }
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_USER;
+        UrlItem url = new UrlItem( strBaseUrl );
+        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+
+        model.put( MARK_USER, user );
+        model.put( MARK_LEVEL, level );
+        model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale(  ) ) );
+        model.put( MARK_CURRENT_LANGUAGE, user.getLocale(  ).getLanguage(  ) );
+        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
+        
+        template = AppTemplateService.getTemplate( strTemplateUrl, getLocale(  ), model );
 
         return getAdminPage( template.getHtml(  ) );
     }
@@ -878,11 +901,30 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AdminUser selectedUser = AdminUserHome.findByPrimaryKey( nUserId );
         Collection<Right> rightList = AdminUserHome.getRightsListForUser( nUserId ).values(  );
 
+        // ITEM NAVIGATION
+        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
+        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
+        int nMapKey = 1;
+        int nCurrentItemId = 1;
+        for( AdminUser allUser : listAllUsers )
+        {
+        	listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
+        	if( allUser.getUserId(  ) == nUserId )
+        	{
+        		nCurrentItemId = nMapKey;
+        	}
+        	nMapKey++;
+        }
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_RIGHTS;
+        UrlItem url = new UrlItem( strBaseUrl );
+        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+        
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_CAN_MODIFY, getUser(  ).isParent( selectedUser ) || getUser(  ).isAdmin(  ) );
         model.put( MARK_CAN_DELEGATE, getUser(  ).getUserId(  ) != nUserId );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_RIGHT_LIST, I18nService.localizeCollection( rightList, getLocale(  ) ) );
+        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USER_RIGHTS, getLocale(  ), model );
 
@@ -905,12 +947,31 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AdminUser selectedUser = AdminUserHome.findByPrimaryKey( nUserId );
         ReferenceList workgroupsList = AdminWorkgroupHome.getUserWorkgroups( selectedUser );
 
+        // ITEM NAVIGATION
+        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
+        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
+        int nMapKey = 1;
+        int nCurrentItemId = 1;
+        for( AdminUser allUser : listAllUsers )
+        {
+        	listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
+        	if( allUser.getUserId(  ) == nUserId )
+        	{
+        		nCurrentItemId = nMapKey;
+        	}
+        	nMapKey++;
+        }
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_WORKGROUPS;
+        UrlItem url = new UrlItem( strBaseUrl );
+        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+        
         //  ReferenceList assignableWorkgroupsList = AdminWorkgroupHome.getUserWorkgroups( selectedUser );
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_CAN_MODIFY, getUser(  ).isParent( selectedUser ) || getUser(  ).isAdmin(  ) );
         model.put( MARK_CAN_DELEGATE, getUser(  ).getUserId(  ) != nUserId );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_WORKGROUP_LIST, workgroupsList );
+        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USER_WORKGROUPS, getLocale(  ), model );
 
@@ -949,10 +1010,29 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         assignableWorkspaces.checkItems( checkedValues.toArray( new String[] {  } ) );
 
+        // ITEM NAVIGATION
+        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
+        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
+        int nMapKey = 1;
+        int nCurrentItemId = 1;
+        for( AdminUser allUser : listAllUsers )
+        {
+        	listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
+        	if( allUser.getUserId(  ) == nUserId )
+        	{
+        		nCurrentItemId = nMapKey;
+        	}
+        	nMapKey++;
+        }
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_WORKGROUPS;
+        UrlItem url = new UrlItem( strBaseUrl );
+        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+        
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_ALL_WORKSGROUP_LIST, assignableWorkspaces );
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateWorkgroups ) );
+        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_WORKGROUPS, getLocale(  ), model );
 
@@ -1004,12 +1084,31 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             rightList = AdminUserHome.getRightsListForUser( nUserId ).values(  );
         }
 
+        // ITEM NAVIGATION
+        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
+        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
+        int nMapKey = 1;
+        int nCurrentItemId = 1;
+        for( AdminUser allUser : listAllUsers )
+        {
+        	listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
+        	if( allUser.getUserId(  ) == nUserId )
+        	{
+        		nCurrentItemId = nMapKey;
+        	}
+        	nMapKey++;
+        }
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_RIGHTS;
+        UrlItem url = new UrlItem( strBaseUrl );
+        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+        
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_RIGHT_LIST, I18nService.localizeCollection( rightList, getLocale(  ) ) );
         model.put( MARK_ALL_RIGHT_LIST, I18nService.localizeCollection( allRightList, getLocale(  ) ) );
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateRights ) );
         model.put( MARK_SELECT_ALL, bSelectAll );
+        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_RIGHTS, getLocale(  ), model );
 
@@ -1059,11 +1158,30 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AdminUser selectedUser = AdminUserHome.findByPrimaryKey( nUserId );
         Collection<AdminRole> roleList = AdminUserHome.getRolesListForUser( nUserId ).values(  );
 
+        // ITEM NAVIGATION
+        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
+        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
+        int nMapKey = 1;
+        int nCurrentItemId = 1;
+        for( AdminUser allUser : listAllUsers )
+        {
+        	listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
+        	if( allUser.getUserId(  ) == nUserId )
+        	{
+        		nCurrentItemId = nMapKey;
+        	}
+        	nMapKey++;
+        }
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_ROLES;
+        UrlItem url = new UrlItem( strBaseUrl );
+        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+        
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_CAN_MODIFY, getUser(  ).isParent( selectedUser ) || getUser(  ).isAdmin(  ) );
         model.put( MARK_CAN_DELEGATE, getUser(  ).getUserId(  ) != nUserId );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_ROLE_LIST, roleList );
+        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USER_ROLES, getLocale(  ), model );
 
@@ -1108,10 +1226,29 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             assignableRoleList = AdminRoleHome.findAll(  );
         }
 
+        // ITEM NAVIGATION
+        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
+        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
+        int nMapKey = 1;
+        int nCurrentItemId = 1;
+        for( AdminUser allUser : listAllUsers )
+        {
+        	listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
+        	if( allUser.getUserId(  ) == nUserId )
+        	{
+        		nCurrentItemId = nMapKey;
+        	}
+        	nMapKey++;
+        }
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_ROLES;
+        UrlItem url = new UrlItem( strBaseUrl );
+        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+        
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_ROLE_LIST, roleList );
         model.put( MARK_ALL_ROLE_LIST, assignableRoleList );
+        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_ROLES, getLocale(  ), model );
 

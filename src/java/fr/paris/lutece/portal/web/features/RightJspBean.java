@@ -105,8 +105,8 @@ public class RightJspBean  extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_ASSIGN_USERS = "admin/features/assign_users_right.html";
     
     // JSP
-    private static final String JSP_URL_ASSIGN_USERS_TO_RIGHT_COMPLETE = "jsp/admin/features/AssignUsersRight.jsp";
-    private static final String JSP_URL_ASSIGN_USERS_TO_RIGHT = "AssignUsersRight.jsp";
+    private static final String JSP_URL_ASSIGN_USERS_TO_RIGHT = "jsp/admin/features/AssignUsersRight.jsp";
+    private static final String JSP_ASSIGN_USERS_TO_RIGHT = "AssignUsersRight.jsp";
     private static final String JSP_URL_RIGHTS_MANAGEMENT = "ManageRights.jsp";
     
     private int _nItemsPerPage;
@@ -232,7 +232,7 @@ public class RightJspBean  extends AdminFeaturesPageJspBean
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
 
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_RIGHT_COMPLETE;
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_RIGHT;
         UrlItem url = new UrlItem( strBaseUrl );
         
         if ( strSortedAttributeName != null )
@@ -345,7 +345,7 @@ public class RightJspBean  extends AdminFeaturesPageJspBean
                 }
             }
 
-            strReturn = JSP_URL_ASSIGN_USERS_TO_RIGHT + "?" + PARAMETER_ID_RIGHT + "=" + strIdRight;
+            strReturn = JSP_ASSIGN_USERS_TO_RIGHT + "?" + PARAMETER_ID_RIGHT + "=" + strIdRight;
         }
 
         return strReturn;
@@ -369,7 +369,7 @@ public class RightJspBean  extends AdminFeaturesPageJspBean
         	AdminUserHome.removeRightForUser( nIdUser, strIdRight );
         }
 
-        return JSP_URL_ASSIGN_USERS_TO_RIGHT + "?" + PARAMETER_ID_RIGHT + "=" + strIdRight
+        return JSP_ASSIGN_USERS_TO_RIGHT + "?" + PARAMETER_ID_RIGHT + "=" + strIdRight
         		+ "#" + strAnchor;
     }
 }
