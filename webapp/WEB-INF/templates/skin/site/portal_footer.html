@@ -1,5 +1,7 @@
 <div id="footer1" class="span-24 last">
-	<div id="footer1-subelement" class="-lutece-border-radius" >${page_main_menu}</div>
+    <#assign menu=page_main_menu>
+	<div id="footer1-subelement" class="-lutece-border-radius" >${page_main_menu_html!menu}</div>
+
 </div>
 <div id="footer2" class="span-24 last -lutece-border-radius-bottom">
 	<div id="footer-logo" class="span-2 prepend-1 prepend-top append-bottom">

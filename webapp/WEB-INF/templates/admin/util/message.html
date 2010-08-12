@@ -1,8 +1,13 @@
- <div id="wrapper">
-        <p id="admin-header-toolbar"></p>
-        <div id="admin-header-main">
-            <div id="admin-header-sitename">&nbsp;</div>
-        </div>
+<div id="wrapper">
+<div id="admin-header">
+<p id="admin-header-toolbar">
+    <img  id="logo" src="images/logo-header.png" alt="" title="" />
+    <a href="jsp/admin/AdminLogin.jsp" title=""><img src="images/admin/skin/login.png" alt="" title="" />&nbsp;</a>
+  </p>
+   <div id="admin-header-main">
+       <div id="admin-header-sitename">&nbsp; <!-- Add Sitename --></div>
+    </div>
+</div>
 <div id="message-box">
     <div class="content-box">
         <#if message.type = 0 >
@@ -19,10 +24,7 @@
         <img src="images/admin/skin/messages/stop.png" class="icon" alt="" />
         </#if>
         <h2>${title}</h2>
-        <p>
-	        ${text}
-        </p>
-
+        <p>${text}</p>
         <#if url?has_content>
         <form method="post" action="${url}"  target="${target}">
             <#if list_parameters?exists>

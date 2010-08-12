@@ -7,7 +7,7 @@
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr" class="insert-service">
 
 <head>
     <title><%= I18nService.getLocalizedString( "portal.insert.insertService.windowTitle" , AdminUserService.getLocale( request )) %></title>
@@ -22,3 +22,5 @@
 
 </head>
 <body class="insert-service">
+<div id="wrapper">
+<input type="button" class="button-right" onclick="javascript:history.go(-1)" value="Retour">

@@ -1,4 +1,5 @@
 <!-- XINHA -->
+<#macro initEditor>
 <script type="text/javascript">
 var _editor_url  = "${webapp_url}js/editors/xinha/";
 var _editor_lang = "${locale}";
@@ -20,10 +21,7 @@ function getRichText()
       }
     return richTextAreas;
     }
-
 </script>
-<#macro initEditor>
-
 <!-- Load up the actual editor core -->
 <script type="text/javascript" src="${webapp_url}js/editors/xinha/XinhaCore.js" charset="UTF-8"></script>
 <script type="text/javascript">

@@ -29,7 +29,6 @@
 <link rel="stylesheet" type="text/css" href="js/jquery/plugins/ui/datepicker/ui.datepicker.css"/>
 <link rel="stylesheet" type="text/css" href="js/jquery/plugins/jpassword/jpassword.css"/>
 <script type="text/javascript" src="js/tools.js"></script>
-<!-- script type="text/javascript" src="js/selectbox.js"></script -->
 <script src="js/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/treeview/jquery.cookie.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/treeview/jquery.treeview.pack.js" type="text/javascript"></script>
@@ -38,6 +37,28 @@
 <script src="js/jquery/plugins/jpassword/jquery.jpassword.pack.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/autocomplete/jquery.autocomplete.pack.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/generatepassword/jquery.password.min.js" type="text/javascript"></script>
+<!--[if IE 6]>
+<!-- Hack for menu -->
+    <script type="text/javascript">
+        startList = function() {
+            if (document.all && document.getElementById) {
+                var navRoot = document.getElementById("menu-main");
+                for (i=0; i<navRoot.childNodes.length; i++) {
+                    var node = navRoot.childNodes[i];
+                    if (node.nodeName=="LI") {
+                        node.onmouseover=function() {
+                            this.className+=" over";
+                        }
+                        node.onmouseout=function() {
+                            this.className=this.className.replace(" over", "");
+                        }
+                    }
+                }
+            }
+        }
+        window.onload=startList;
+   </script>
+<![endif]-->
 </head>
 <body>
 <%-- Display the admin menu --%>
