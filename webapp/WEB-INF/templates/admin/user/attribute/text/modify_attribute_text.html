@@ -1,0 +1,50 @@
+<div class="content-box">
+	<h2>#i18n{portal.users.modify_attribute.pageTitleAttributeText}</h2>
+ 	<form action="jsp/admin/user/attribute/DoModifyAttribute.jsp" method="post" />
+		<p>
+	    	<label for="title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
+	    	<input type="text" name="title" id="title" size="80" value="${attribute.title}"  maxlength="255" />
+	    	<br/>
+			<label>&nbsp;</label>#i18n{portal.users.modify_attribute.labelTitleComment}
+	 	</p>
+	 	<p>
+			<label for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage} : </label>
+	      
+			<textarea  name="help_message" id="help_message"  cols="80" rows="5">${attribute.helpMessage}</textarea>
+	    
+			<br/>
+			<label>&nbsp;</label> #i18n{portal.users.modify_attribute.labelHelpMessageComment}
+		</p>
+	    <p>
+			<label for="">#i18n{portal.users.modify_attribute.labelType} : </label>
+			${attribute.attributeType.name}
+		</p>
+	  
+	 	<p>
+	    	<label for="mandatory">#i18n{portal.users.modify_attribute.labelMandatory} : </label>
+	    	<#if attribute.mandatory = false>
+	   		 	<input name="mandatory" value="1" type="checkbox" >
+	   		<#else>
+	   			<input name="mandatory" value="0" type="checkbox" checked="checked">
+	   		</#if>
+	   </p>	
+	   <p>
+			<label for="width">#i18n{portal.users.modify_attribute.labelWidth} * : </label>
+			<#list attribute_fields_list as attribute_field>
+				<input type="text" name="width" id="width" size="5" value="${attribute_field.width}" />
+			</#list>
+	   </p>
+	    <p>
+			<label for="max_size_enter">#i18n{portal.users.modify_attribute.labelMaxSizeEnter}  : </label>
+			<#list attribute_fields_list as attribute_field>
+				<input type="text" name="max_size_enter" id="max_size_enter" size="5" value="${attribute_field.maxSizeEnter}" />
+			</#list>
+	   </p>
+		<p>
+			<input type="hidden" name="attribute_type_class_name" value="${attribute.attributeType.className}" />
+	 		<input type="hidden" name="id_attribute" value="${attribute.idAttribute}" />
+			<input type="submit" name="validate" value="#i18n{portal.users.modify_attribute.buttonValidate}" class="button"/>
+			<input type="submit" name="cancel" value="#i18n{portal.admin.message.buttonCancel}" class="button"/>
+	   </p>
+	</form>
+ </div> 
