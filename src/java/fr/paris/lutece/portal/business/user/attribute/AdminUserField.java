@@ -92,6 +92,7 @@ public class AdminUserField
 	{
 		return _attribute;
 	}
+	
 	/**
 	 * Set attribute
 	 * @param attribute attribute

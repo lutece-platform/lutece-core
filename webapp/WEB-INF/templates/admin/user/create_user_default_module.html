@@ -64,6 +64,9 @@
 			                	</#if>
                             </select>
 			</p>
+			<#list attributes_list as attribute>
+				${attribute.getHtmlFormAttribute( locale )}
+			</#list>
 			<p>
                             <input type="submit" value="#i18n{portal.users.create_user.buttonLabelCreate}" tabindex="11" class="button" />
                         </p>

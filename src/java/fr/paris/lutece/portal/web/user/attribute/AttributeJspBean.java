@@ -65,6 +65,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 	// PARAMETERS
 	private static final String PARAMETER_ATTRIBUTE_TYPE_CLASS_NAME = "attribute_type_class_name";
 	private static final String PARAMETER_CANCEL = "cancel";
+	private static final String PARAMETER_APPLY = "apply";
 	private static final String PARAMETER_ID_ATTRIBUTE = "id_attribute";
 	
 	// MARKS
@@ -84,6 +85,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 	// JSP
 	private static final String JSP_URL_REMOVE_ATTRIBUTE = "jsp/admin/user/attribute/DoRemoveAttribute.jsp";
 	private static final String JSP_MANAGE_ATTRIBUTES = "ManageAttributes.jsp";
+	private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
 	
 	/**
 	 * Get list of user attributes
@@ -168,6 +170,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 	{
 		String strAttributeTypeClassName = request.getParameter( PARAMETER_ATTRIBUTE_TYPE_CLASS_NAME );
 		String strActionCancel = request.getParameter( PARAMETER_CANCEL );
+		String strActionApply = request.getParameter( PARAMETER_APPLY );
 		
 		if( strActionCancel == null )
 		{
@@ -211,6 +214,10 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
                     AttributeFieldHome.create( attributeField );
                 }
             }
+	        if ( strActionApply != null )
+			{
+				return JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + attribute.getIdAttribute(  );
+			}
 		}
 		
 		return JSP_MANAGE_ATTRIBUTES;
@@ -230,7 +237,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 		
 		setPageTitleProperty( attribute.getPropertyModifyPageTitle(  ) );
 		
-		List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldByIdAttribute( nIdAttribute );
+		List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( nIdAttribute );
 		
 		HtmlTemplate template;
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -249,42 +256,22 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 	 */
 	public String doModifyAttribute( HttpServletRequest request )
 	{
-		String strAttributeTypeClassName = request.getParameter( PARAMETER_ATTRIBUTE_TYPE_CLASS_NAME );
 		String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
 		int nIdAttribute = Integer.parseInt( strIdAttribute );
 		String strActionCancel = request.getParameter( PARAMETER_CANCEL );
+		String strActionApply = request.getParameter( PARAMETER_APPLY );
 		
 		if( strActionCancel == null )
 		{
-			AbstractAttribute attribute = null;
+			AbstractAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
+			List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( nIdAttribute );
+			attribute.setListAttributeFields( listAttributeFields );
 			
-	      	try
-	        {
-	      		attribute = (AbstractAttribute) Class.forName( strAttributeTypeClassName ).newInstance(  );
-	        }
-	        catch ( ClassNotFoundException e )
-	        {
-	            // class doesn't exist
-	            AppLogService.error( e );
-	        }
-	        catch ( InstantiationException e )
-	        {
-	            // Class is abstract or is an interface or haven't accessible
-	            // builder
-	            AppLogService.error( e );
-	        }
-	        catch ( IllegalAccessException e )
-	        {
-	            // can't access to the class
-	            AppLogService.error( e );
-	        }
-	        
-	        String strError = attribute.setAttributeData( request );
+			String strError = attribute.setAttributeData( request );
 	        if ( strError != null )
 	        {
 	        	return strError;
 	        }
-	        attribute.setIdAttribute( nIdAttribute );
 	        
 	        AttributeHome.update( attribute );
 	        
@@ -296,6 +283,10 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
                     AttributeFieldHome.update( attributeField );
                 }
             }
+	        if ( strActionApply != null )
+			{
+				return JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + attribute.getIdAttribute(  );
+			}
 		}
 		
 		return JSP_MANAGE_ATTRIBUTES;

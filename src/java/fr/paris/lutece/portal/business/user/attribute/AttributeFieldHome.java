@@ -61,9 +61,9 @@ public class AttributeFieldHome
 	 * @param nIdAttribute the ID attribute
 	 * @return the list of attribute fields
 	 */
-	public static List<AttributeField> selectAttributeFieldByIdAttribute( int nIdAttribute )
+	public static List<AttributeField> selectAttributeFieldsByIdAttribute( int nIdAttribute )
 	{
-		return _dao.selectAttributeFieldByIdAttribute( nIdAttribute );
+		return _dao.selectAttributeFieldsByIdAttribute( nIdAttribute );
 	}
 	
 	/**

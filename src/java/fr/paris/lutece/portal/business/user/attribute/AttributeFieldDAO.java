@@ -204,7 +204,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
 	 * @param nIdAttribute the ID attribute
 	 * @return the list of attribute fields
 	 */
-	public List<AttributeField> selectAttributeFieldByIdAttribute( int nIdAttribute )
+	public List<AttributeField> selectAttributeFieldsByIdAttribute( int nIdAttribute )
 	{
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ATTRIBUTE_FIELDS_BY_ID_ATTRIBUTE );
         daoUtil.setInt( 1, nIdAttribute );

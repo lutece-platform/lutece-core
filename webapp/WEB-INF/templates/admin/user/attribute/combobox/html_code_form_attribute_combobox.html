@@ -1,0 +1,57 @@
+<#function isSelected nIdField default_values_list >
+	<#if default_values_list?has_content>
+		<#list default_values_list as default_value>
+			<#if default_value.attributeField?exists && default_value.attributeField.idField=nIdField && default_value.value != "">  		
+  				<#return true>
+  			</#if>
+  		</#list>
+	</#if>
+	<#return false>
+</#function>
+<#function isEmptyString default_values_list>
+	<#if default_values_list?has_content>
+		<#list default_values_list as default_value>
+			<#if default_value.value == "">  		
+  				<#return true>
+  			</#if>
+  		</#list>
+	</#if>
+	<#return false>
+</#function>
+
+<p>
+	<label  for="${attribute.idAttribute}">
+		${attribute.title}
+	<#if attribute.mandatory>
+		*
+	</#if>
+		: 
+	</label>
+	<select name="${attribute.idAttribute}" id="${attribute.idAttribute}">
+		<#if !attribute.mandatory>
+			<option value=""
+				<#if default_values_list?has_content && isEmptyString( default_values_list ) >
+					selected="selected"  
+				</#if>
+			>
+				#i18n{portal.users.attribute.comboBox.labelNone}
+			</option>
+		</#if>
+		<#list attribute.listAttributeFields as attributeField>
+			<#if attributeField.value != "">
+				<option value="${attributeField.idField}"
+					<#if ( attributeField.defaultValue && !default_values_list?has_content ) || ( default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) )>
+						selected="selected"  
+					</#if>
+					>
+						${attributeField.title}
+				</option>
+			</#if>
+		</#list>
+	</select>
+	<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
+		<br />
+		<label>&nbsp;</label>
+		${attribute.helpMessage}
+	</#if>
+</p>

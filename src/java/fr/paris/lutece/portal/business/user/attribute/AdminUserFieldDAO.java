@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -55,13 +57,18 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 			" a.type_class_name, a.title, a.help_message, a.is_mandatory, a.attribute_position, " +
 			" af.title, af.DEFAULT_value, af.is_DEFAULT_value, af.field_position " +
 			" FROM core_admin_user_field auf " +
-			" INNER JOIN core_admin_user au au ON auf.id_user = au.id_user " +
+			" INNER JOIN core_admin_user au ON auf.id_user = au.id_user " +
 			" INNER JOIN core_attribute a ON auf.id_attribute = a.id_attribute " +
 			" INNER JOIN core_attribute_field af ON auf.id_field = af.id_field " +
 			" WHERE auf.id_user_field = ? ";
+	private static final String SQL_QUERY_SELECT_USER_FIELDS_BY_ID_USER_ID_ATTRIBUTE = " SELECT auf.id_user_field, auf.id_user, auf.id_attribute, auf.id_field, auf.user_field_value, " +
+			" a.type_class_name, a.title, a.help_message, a.is_mandatory, a.attribute_position " +
+			" FROM core_admin_user_field auf " +
+			" INNER JOIN core_attribute a ON a.id_attribute = auf.id_attribute " +
+			" WHERE auf.id_user = ? AND auf.id_attribute = ? ";
 	
 	// INSERT
-	private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_user_field (id_user_field, id_user, id_attribute, id_field, user_field_value " +
+	private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_user_field (id_user_field, id_user, id_attribute, id_field, user_field_value) " +
 			" VALUES (?,?,?,?,?) ";
 	
 	// UPDATE
@@ -110,6 +117,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
         if ( daoUtil.next(  ) )
         {
         	userField = new AdminUserField(  );
+        	userField.setIdUserField( daoUtil.getInt( 1 ) );
         	userField.setValue( daoUtil.getString( 5 ) );
         	
         	// USER
@@ -143,7 +151,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             }
             catch ( IllegalAccessException e )
             {
-                // can't access to rhe class
+                // can't access to the class
                 AppLogService.error( e );
             }
             attribute.setIdAttribute( daoUtil.getInt( 3 ) );
@@ -156,6 +164,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             
             // ATTRIBUTEFIELD
             AttributeField attributeField = new AttributeField(  );
+            attributeField.setIdField( daoUtil.getInt( 4 ) );
             attributeField.setTitle( daoUtil.getString( 18 ) );
             attributeField.setValue( daoUtil.getString( 19 ) );
             attributeField.setDefaultValue( daoUtil.getBoolean( 20 ) );
@@ -180,6 +189,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 		daoUtil.setInt( 2, userField.getUser(  ).getUserId(  ) );
 		daoUtil.setInt( 3, userField.getAttribute(  ).getIdAttribute(  ) );
 		daoUtil.setInt( 4, userField.getAttributeField(  ).getIdField(  ) );
+		daoUtil.setString( 5, userField.getValue(  ) );
 		
 		daoUtil.executeUpdate(  );
 		daoUtil.free(  );
@@ -249,5 +259,72 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 		
 		daoUtil.executeUpdate(  );
 		daoUtil.free(  );
+	}
+
+	/**
+	 * Load all the user field by a given ID user
+	 * @param nIdUser the ID user
+	 * @param nIdAttribute the ID attribute
+	 * @return a list of adminuserfield
+	 */
+	public List<AdminUserField> selectUserFieldsByIdUserIdAttribute( int nIdUser, int nIdAttribute )
+	{
+		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FIELDS_BY_ID_USER_ID_ATTRIBUTE );
+        daoUtil.setInt( 1, nIdUser );
+        daoUtil.setInt( 2, nIdAttribute );
+        daoUtil.executeQuery(  );
+        
+        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
+        while ( daoUtil.next(  ) )
+        {
+        	AdminUserField userField = new AdminUserField(  );
+        	userField.setIdUserField( daoUtil.getInt( 1 ) );
+        	userField.setValue( daoUtil.getString( 5 ) );
+        	
+        	// USER
+        	AdminUser user = new AdminUser(  );
+        	user.setUserId( nIdUser );
+        	userField.setUser( user );
+        	
+        	// ATTRIBUTE
+        	AbstractAttribute attribute = null;
+        	try
+            {
+        		attribute = (AbstractAttribute) Class.forName( daoUtil.getString( 6 ) ).newInstance(  );
+            }
+            catch ( ClassNotFoundException e )
+            {
+                // class doesn't exist
+                AppLogService.error( e );
+            }
+            catch ( InstantiationException e )
+            {
+                // Class is abstract or is an interface or haven't accessible
+                // builder
+                AppLogService.error( e );
+            }
+            catch ( IllegalAccessException e )
+            {
+                // can't access to the class
+                AppLogService.error( e );
+            }
+            attribute.setIdAttribute( nIdAttribute );
+            attribute.setTitle( daoUtil.getString( 7 ) );
+            attribute.setHelpMessage( daoUtil.getString( 8 ) );
+            attribute.setMandatory( daoUtil.getBoolean( 9 ) );
+            attribute.setPosition( daoUtil.getInt( 10 ) );
+            userField.setAttribute( attribute );
+            
+            // ATTRIBUTEFIELD
+            AttributeField attributeField = new AttributeField(  );
+            attributeField.setIdField( daoUtil.getInt( 4 ) );
+            userField.setAttributeField( attributeField );
+            
+            listUserFields.add( userField );
+        }
+        
+        daoUtil.free(  );
+        
+        return listUserFields;
 	}
 }

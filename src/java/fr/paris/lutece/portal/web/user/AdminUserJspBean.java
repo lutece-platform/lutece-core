@@ -43,7 +43,12 @@ import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserFilter;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.business.user.attribute.AbstractAttribute;
+import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
+import fr.paris.lutece.portal.business.user.attribute.AttributeField;
+import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
+import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameter;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
@@ -231,6 +236,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_DEFAULT_USER_STATUS = "default_user_status";
     private static final String MARK_PERMISSION_ADVANCED_PARAMETER = "permission_advanced_parameter";
     private static final String MARK_ITEM_NAVIGATOR = "item_navigator";
+    private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
+    private static final String MARK_LOCALE = "locale";
+    private static final String MARL_MAP_LIST_ATTRIBUTE_DEFAULT_VALUES = "map_list_attribute_defalt_values";
     
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
@@ -444,6 +452,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strDefaultUserLanguage = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LANGUAGE ).getParameterValue(  );
         int nDefaultUserStatus = Integer.parseInt( 
         		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_STATUS ).getParameterValue(  ) );
+        
+        // Specific attributes
+        List<AbstractAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
+        for ( AbstractAttribute attribute : listAttributes )
+        {
+        	List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
+        	attribute.setListAttributeFields( listAttributeFields );
+        }
 
         // creation in no-module mode : load empty form
         if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
@@ -457,6 +473,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             model.put( MARK_DEFAULT_USER_NOTIFICATION, nDefaultUserNotification );
             model.put( MARK_DEFAULT_USER_LANGUAGE, strDefaultUserLanguage );
             model.put( MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
+            model.put( MARK_ATTRIBUTES_LIST, listAttributes );
+            model.put( MARK_LOCALE, getLocale(  ) );
             template = AppTemplateService.getTemplate( TEMPLATE_DEFAULT_CREATE_USER, getLocale(  ), model );
         }
         else // creation in module mode : populate the form with the data from the user selected for import
@@ -482,6 +500,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 model.put( MARK_DEFAULT_USER_NOTIFICATION, nDefaultUserNotification );
                 model.put( MARK_DEFAULT_USER_LANGUAGE, strDefaultUserLanguage );
                 model.put( MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
+                model.put( MARK_ATTRIBUTES_LIST, listAttributes );
+                model.put( MARK_LOCALE, getLocale(  ) );
             }
 
             template = AppTemplateService.getTemplate( TEMPLATE_CREATE_USER, getLocale(  ), model );
@@ -561,7 +581,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
             String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
 
-            if ( ( strFirstPassword == null ) || ( strFirstPassword.equals( "" ) ) )
+            if ( ( strFirstPassword == null ) || ( strFirstPassword.equals( CONSTANT_EMPTY_STRING ) ) )
             {
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
@@ -589,7 +609,31 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
 
             user.setUserLevel( nNewUserLevel );
+            
+            // Specific attributes
+            List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
+            List<AbstractAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
+            for ( AbstractAttribute attribute : listAttributes )
+            {
+            	String value = request.getParameter( String.valueOf( attribute.getIdAttribute(  ) ) );
+            	if ( attribute.isMandatory(  ) && ( value == null || value.equals( CONSTANT_EMPTY_STRING ) ) )
+            	{
+            		return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            	}
+            	
+            	AdminUserField userField = attribute.getUserFieldData( request, user );
+            	if ( userField != null )
+            	{
+            		listUserFields.add( userField );
+            	}
+            }
+            
             AdminUserHome.create( user );
+            
+            for ( AdminUserField userField : listUserFields )
+            {
+            	AdminUserFieldHome.create( userField );
+            }
 
             if ( ( strNotifyUser != null ) && strNotifyUser.equals( CONSTANTE_UN ) )
             {
@@ -608,7 +652,30 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
 
             user.setUserLevel( nNewUserLevel );
+            
+            // Specific attributes
+            List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
+            List<AbstractAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
+            for ( AbstractAttribute attribute : listAttributes )
+            {
+            	String value = request.getParameter( String.valueOf( attribute.getIdAttribute(  ) ) );
+            	if ( attribute.isMandatory(  ) && ( value == null || value.equals( CONSTANT_EMPTY_STRING ) ) )
+            	{
+            		return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            	}
+            	
+            	AdminUserField userField = attribute.getUserFieldData( request, user );
+            	if ( userField != null )
+            	{
+            		listUserFields.add( userField );
+            	}
+            }
+            
             AdminUserHome.create( user );
+            for ( AdminUserField userField : listUserFields )
+            {
+            	AdminUserFieldHome.create( userField );
+            }
         }
 
         return JSP_MANAGE_USER;
@@ -666,11 +733,25 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         UrlItem url = new UrlItem( strBaseUrl );
         ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
 
+        // Specific attributes
+        List<AbstractAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
+        Map<String, List<AdminUserField>> map = new HashMap<String, List<AdminUserField>>(  );
+        for ( AbstractAttribute attribute : listAttributes )
+        {
+        	List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
+        	attribute.setListAttributeFields( listAttributeFields );
+        	List<AdminUserField> listUserFields = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( user.getUserId(  ), attribute.getIdAttribute(  ) );
+        	map.put( String.valueOf( attribute.getIdAttribute(  ) ), listUserFields );
+        }
+        
         model.put( MARK_USER, user );
         model.put( MARK_LEVEL, level );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale(  ) ) );
         model.put( MARK_CURRENT_LANGUAGE, user.getLocale(  ).getLanguage(  ) );
         model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
+        model.put( MARK_ATTRIBUTES_LIST, listAttributes );
+        model.put( MARK_LOCALE, getLocale(  ) );
+        model.put( MARL_MAP_LIST_ATTRIBUTE_DEFAULT_VALUES, map );
         
         template = AppTemplateService.getTemplate( strTemplateUrl, getLocale(  ), model );
 
@@ -794,7 +875,32 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
 
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
+            
+            // Specific attributes
+            List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
+            List<AbstractAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
+            for ( AbstractAttribute attribute : listAttributes )
+            {
+            	String value = request.getParameter( String.valueOf( attribute.getIdAttribute(  ) ) );
+            	if ( attribute.isMandatory(  ) && ( value == null || value.equals( CONSTANT_EMPTY_STRING ) ) )
+            	{
+            		return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            	}
+            	
+            	AdminUserField userField = attribute.getUserFieldData( request, user );
+            	if ( userField != null )
+            	{
+            		listUserFields.add( userField );
+            	}
+            }
+            
             AdminUserHome.update( user );
+            
+            AdminUserFieldHome.removeUserFieldsFromIdUser( user.getUserId(  ) );
+            for ( AdminUserField userField : listUserFields )
+            {
+            	AdminUserFieldHome.create( userField );
+            }
         }
         else
         {
@@ -806,8 +912,31 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setEmail( strEmail );
             user.setStatus( Integer.parseInt( strStatus ) );
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
+            // Specific attributes
+            List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
+            List<AbstractAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
+            for ( AbstractAttribute attribute : listAttributes )
+            {
+            	String value = request.getParameter( String.valueOf( attribute.getIdAttribute(  ) ) );
+            	if ( attribute.isMandatory(  ) && ( value == null || value.equals( CONSTANT_EMPTY_STRING ) ) )
+            	{
+            		return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            	}
+            	
+            	AdminUserField userField = attribute.getUserFieldData( request, user );
+            	if ( userField != null )
+            	{
+            		listUserFields.add( userField );
+            	}
+            }
 
             AdminUserHome.update( user );
+            
+            AdminUserFieldHome.removeUserFieldsFromIdUser( user.getUserId(  ) );
+            for ( AdminUserField userField : listUserFields )
+            {
+            	AdminUserFieldHome.create( userField );
+            }
         }
 
         return JSP_MANAGE_USER;

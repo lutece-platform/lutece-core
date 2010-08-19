@@ -76,7 +76,10 @@
                     </#if> 
                 </select>
             </p>
-                     
+			<#list attributes_list as attribute>
+            	<#assign idAttribute = "" + attribute.idAttribute>
+				${attribute.getHtmlFormAttribute( locale, map_list_attribute_defalt_values[idAttribute] )}
+			</#list>
             <p>
                 <input type="hidden" name="id_user" value="${user.userId}" />
                 <input type="submit" value="#i18n{portal.users.modify_user.buttonLabelModify}" tabindex="8" class="button" />

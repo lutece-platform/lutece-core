@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
+import java.util.List;
+
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 /**
@@ -106,5 +108,16 @@ public class AdminUserFieldHome
 	public static void removeUserFieldsFromIdAttribute( int nIdAttribute )
 	{
 		_dao.deleteUserFieldsFromIdAttribute( nIdAttribute );
+	}
+
+	/**
+	 * Load all the user field by a given ID user and a given ID attribute
+	 * @param nIdUser the ID user
+	 * @param nIdAttribute
+	 * @return a list of adminuserfield
+	 */
+	public static List<AdminUserField> selectUserFieldsByIdUserIdAttribute( int nIdUser, int nIdAttribute )
+	{
+		return _dao.selectUserFieldsByIdUserIdAttribute( nIdUser, nIdAttribute );
 	}
 }

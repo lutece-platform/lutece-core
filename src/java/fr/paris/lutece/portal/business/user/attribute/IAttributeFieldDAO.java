@@ -62,7 +62,7 @@ public interface IAttributeFieldDAO
 	 * @param nIdAttribute the ID attribute
 	 * @return the list of attribute fields
 	 */
-	List<AttributeField> selectAttributeFieldByIdAttribute( int nIdAttribute );
+	List<AttributeField> selectAttributeFieldsByIdAttribute( int nIdAttribute );
 	
 	/**
 	 * Insert a new attribute field

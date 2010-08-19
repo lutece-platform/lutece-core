@@ -268,7 +268,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 		String strIdField = request.getParameter( PARAMETER_ID_FIELD );
 		int nIdField = Integer.parseInt( strIdField );
 		
-		List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldByIdAttribute( nIdAttribute );
+		List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( nIdAttribute );
 		AttributeField previousField = null;
 		AttributeField currentField = null;
 		
@@ -305,7 +305,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 		String strIdField = request.getParameter( PARAMETER_ID_FIELD );
 		int nIdField = Integer.parseInt( strIdField );
 		
-		List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldByIdAttribute( nIdAttribute );
+		List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( nIdAttribute );
 		AttributeField currentField = null;
 		AttributeField nextField = null;
 		

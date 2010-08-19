@@ -1,8 +1,6 @@
 <div class="content-box">
 	<h2>#i18n{portal.users.modify_attribute.pageTitleAttributeComboBox}</h2>
 	<form action="jsp/admin/user/attribute/DoModifyAttribute.jsp" method="post" />
-		<input type="hidden" name="id_attribute" value="${attribute.idAttribute}" />
-		<input type="hidden" name="attribute_type_class_name" value="${attribute.attributeType.className}" />
 		<p>
 	    	<label for="title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
 	    	<input type="text" name="title" id="title" size="80" value="${attribute.title}"  maxlength="255" />
@@ -31,7 +29,9 @@
 	   		</#if>
 	   </p>	
 		<p>
+			<input type="hidden" name="id_attribute" value="${attribute.idAttribute}" />
 	  		<input type="submit" name="validate" value="#i18n{portal.users.modify_attribute.buttonValidate}" class="button"/>
+	  		<input type="submit" name="apply" value="#i18n{portal.users.create_attribute.buttonValidate}" class="button" />
 	  		<input type="submit" name="cancel" value="#i18n{portal.admin.message.buttonCancel}" class="button"/>
 	   </p>
 	</form>

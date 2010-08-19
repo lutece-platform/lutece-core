@@ -37,6 +37,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -64,7 +65,8 @@ public class AttributeComboBox extends AbstractAttribute
 	// TEMPLATES
 	private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/combobox/create_attribute_combobox.html";
 	private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/combobox/modify_attribute_combobox.html";
-
+	private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/combobox/html_code_form_attribute_combobox.html";
+	
 	/**
 	 * Constructor
 	 * @param locale locale
@@ -89,6 +91,15 @@ public class AttributeComboBox extends AbstractAttribute
 	public String getTemplateModifyAttribute(  )
 	{
 		return TEMPLATE_MODIFY_ATTRIBUTE;
+	}
+	
+	/**
+	 * Get the template html form attribute
+	 * @return the template
+	 */
+	public String getTemplateHtmlFormAttribute(  )
+	{
+		return TEMPLATE_HTML_FORM_ATTRIBUTE;
 	}
 	
 	/**
@@ -144,5 +155,38 @@ public class AttributeComboBox extends AbstractAttribute
 		attributeType.setClassName( this.getClass(  ).getName(  ) );
 		attributeType.setLabelType( PROPERTY_TYPE_COMBOBOX );
 		setAttributeType( attributeType );
+	}
+
+	/**
+	 * Get the data of the user fields
+	 * @param request HttpServletRequest
+	 * @return user field data
+	 */
+	public AdminUserField getUserFieldData( HttpServletRequest request, AdminUser user )
+	{
+		String strValue = request.getParameter( EMPTY_STRING + _nIdAttribute );
+		AdminUserField userField = new AdminUserField(  );
+		AttributeField attributeField;
+		
+		if ( strValue == null || strValue.equals( EMPTY_STRING ) )
+		{
+			strValue = EMPTY_STRING;
+			attributeField = new AttributeField(  );
+			attributeField.setAttribute( this );
+			attributeField.setTitle( EMPTY_STRING );
+			attributeField.setValue( EMPTY_STRING );
+		}
+		else
+		{
+			int nIdField = Integer.parseInt( strValue );
+			attributeField = AttributeFieldHome.findByPrimaryKey( nIdField );
+		}
+		
+		userField.setUser( user );
+		userField.setAttribute( this );
+		userField.setAttributeField( attributeField );
+		userField.setValue( strValue );
+		
+		return userField;
 	}
 }

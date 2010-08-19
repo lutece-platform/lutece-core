@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
+import java.util.List;
+
 /**
  * 
  * IAdminUserFieldDAO
@@ -82,4 +84,12 @@ public interface IAdminUserFieldDAO
 	 * @param nIdAttribute id attribute
 	 */
 	void deleteUserFieldsFromIdAttribute( int nIdAttribute );
+
+	/**
+	 * Load all the user field by a given ID user
+	 * @param nIdUser the ID user
+	 * @param nIdAttribute the ID attribute
+	 * @return a list of adminuserfield
+	 */
+	List<AdminUserField> selectUserFieldsByIdUserIdAttribute( int nIdUser, int nIdAttribute );
 }

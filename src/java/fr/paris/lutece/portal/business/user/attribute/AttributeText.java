@@ -39,6 +39,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -59,15 +60,20 @@ public class AttributeText extends AbstractAttribute
 	private static final String PARAMETER_MANDATORY = "mandatory";
 	private static final String PARAMETER_WIDTH = "width";
 	private static final String PARAMETER_MAX_SIZE_ENTER = "max_size_enter";
+	private static final String PARAMETER_VALUE = "value";
 	
 	// PROPERTY
 	private static final String PROPERTY_TYPE_TEXT = "portal.users.attribute.type.text";
 	private static final String PROPERTY_CREATE_TEXT_PAGETITLE = "portal.users.create_attribute.pageTitleAttributeText";
 	private static final String PROPERTY_MODIFY_TEXT_PAGETITLE = "portal.users.modify_attribute.pageTitleAttributeText";
+	private static final String PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS = "portal.users.message.noArithmeticalCharacters";
 	
 	// TEMPLATES
 	private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/text/create_attribute_text.html";
 	private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/text/modify_attribute_text.html";
+	private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/text/html_code_form_attribute_text.html";
+	
+	private static final String REGEX_ID = "[0-9]+";
 	
 	/**
 	 * Constructor
@@ -95,6 +101,15 @@ public class AttributeText extends AbstractAttribute
 		return TEMPLATE_MODIFY_ATTRIBUTE;
 	}
 
+	/**
+	 * Get the template html form attribute
+	 * @return the template
+	 */
+	public String getTemplateHtmlFormAttribute(  )
+	{
+		return TEMPLATE_HTML_FORM_ATTRIBUTE;
+	}
+	
 	/**
 	 * Get the page title for create page
 	 * @return page title
@@ -126,6 +141,7 @@ public class AttributeText extends AbstractAttribute
         String strMandatory = request.getParameter( PARAMETER_MANDATORY );
         String strWidth = request.getParameter( PARAMETER_WIDTH );
         String strMaxSizeEnter = request.getParameter( PARAMETER_MAX_SIZE_ENTER );
+        String strValue = request.getParameter( PARAMETER_VALUE );
         
 		
         if ( ( strTitle == null ) || ( strTitle.equals( EMPTY_STRING ) ) )
@@ -138,9 +154,22 @@ public class AttributeText extends AbstractAttribute
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 		
+		if ( strWidth != null && !strWidth.equals( EMPTY_STRING ) && !strWidth.matches( REGEX_ID ) )
+		{
+			return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS, AdminMessage.TYPE_STOP );
+		}
 		int nWidth = Integer.parseInt( strWidth );
-		int nMaxSizeEnter = 0;
-		if ( strMaxSizeEnter != null && !strMaxSizeEnter.equals( EMPTY_STRING ) )
+		
+		int nMaxSizeEnter;
+		if ( strMaxSizeEnter != null && !strMaxSizeEnter.equals( EMPTY_STRING ) && !strMaxSizeEnter.matches( REGEX_ID ) )
+		{
+			return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS, AdminMessage.TYPE_STOP );
+		}
+		else if ( strMaxSizeEnter != null && strMaxSizeEnter.equals( EMPTY_STRING ) )
+		{
+			nMaxSizeEnter = -1;
+		}
+		else
 		{
 			nMaxSizeEnter = Integer.parseInt( strMaxSizeEnter );
 		}
@@ -157,6 +186,7 @@ public class AttributeText extends AbstractAttribute
             setListAttributeFields( listAttributeFields );
         }
 		
+		getListAttributeFields(  ).get( 0 ).setValue( strValue );
 		getListAttributeFields(  ).get( 0 ).setWidth( nWidth );
 		getListAttributeFields(  ).get( 0 ).setMaxSizeEnter( nMaxSizeEnter );
 		
@@ -174,5 +204,24 @@ public class AttributeText extends AbstractAttribute
 		attributeType.setClassName( this.getClass(  ).getName(  ) );
 		attributeType.setLabelType( PROPERTY_TYPE_TEXT );
 		setAttributeType( attributeType );
+	}
+
+	/**
+	 * Get the data of the user fields
+	 * @param request HttpServletRequest
+	 * @return user field data
+	 */
+	public AdminUserField getUserFieldData( HttpServletRequest request, AdminUser user )
+	{
+		AdminUserField userField = new AdminUserField(  );
+		List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( _nIdAttribute );
+		String strValue = request.getParameter( EMPTY_STRING + _nIdAttribute );
+		
+		userField.setUser( user );
+		userField.setAttribute( this );
+		userField.setAttributeField( listAttributeFields.get( 0 ) );
+		userField.setValue( strValue );
+		
+		return userField;
 	}
 }
