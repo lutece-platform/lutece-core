@@ -44,6 +44,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
+import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 
 /**
@@ -64,7 +65,8 @@ public abstract class AbstractAttribute implements IAttribute
 	protected int _nPosition;
 	protected AttributeType _attributeType;
 	protected List<AttributeField> _listAttributeFields;
-	
+	protected Plugin _plugin;
+		
 	/* ----------------------- */
     /* Abstract functions	   */
     /* ----------------------- */
@@ -83,7 +85,7 @@ public abstract class AbstractAttribute implements IAttribute
 	
 	public abstract void setAttributeType( Locale locale );
 	
-	public abstract AdminUserField getUserFieldData( HttpServletRequest request, AdminUser user );
+	public abstract List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user );
 	
 	/* ----------------------- */
     /* Concrete functions	   */
@@ -251,5 +253,23 @@ public abstract class AbstractAttribute implements IAttribute
                 model );
 
         return template.getHtml(  );
+	}
+	
+	/**
+	 * Get plugin
+	 * @return plugin
+	 */
+	public Plugin getPlugin(  )
+	{
+		return _plugin;
+	}
+	
+	/**
+	 * Set plugin
+	 * @param plugin plugin
+	 */
+	public void setPlugin( Plugin plugin )
+	{
+		_plugin = plugin;
 	}
 }

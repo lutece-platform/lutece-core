@@ -73,7 +73,7 @@ public class AttributeText extends AbstractAttribute
 	private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/text/modify_attribute_text.html";
 	private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/text/html_code_form_attribute_text.html";
 	
-	private static final String REGEX_ID = "[0-9]+";
+	private static final String REGEX_ID = "-?[0-9]+";
 	
 	/**
 	 * Constructor
@@ -142,7 +142,6 @@ public class AttributeText extends AbstractAttribute
         String strWidth = request.getParameter( PARAMETER_WIDTH );
         String strMaxSizeEnter = request.getParameter( PARAMETER_MAX_SIZE_ENTER );
         String strValue = request.getParameter( PARAMETER_VALUE );
-        
 		
         if ( ( strTitle == null ) || ( strTitle.equals( EMPTY_STRING ) ) )
         {
@@ -211,8 +210,9 @@ public class AttributeText extends AbstractAttribute
 	 * @param request HttpServletRequest
 	 * @return user field data
 	 */
-	public AdminUserField getUserFieldData( HttpServletRequest request, AdminUser user )
+	public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
 	{
+		List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
 		AdminUserField userField = new AdminUserField(  );
 		List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( _nIdAttribute );
 		String strValue = request.getParameter( EMPTY_STRING + _nIdAttribute );
@@ -222,6 +222,8 @@ public class AttributeText extends AbstractAttribute
 		userField.setAttributeField( listAttributeFields.get( 0 ) );
 		userField.setValue( strValue );
 		
-		return userField;
+		listUserFields.add( userField );
+		
+		return listUserFields;
 	}
 }

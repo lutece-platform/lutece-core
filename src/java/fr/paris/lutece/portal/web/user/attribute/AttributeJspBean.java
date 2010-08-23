@@ -96,7 +96,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 	{
 		setPageTitleProperty( PROPERTY_MANAGE_ATTRIBUTES_PAGETITLE );
 		
-		List<AbstractAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
+		List<AbstractAttribute> listAttributes = AttributeHome.findCoreAttributes( getLocale(  ) );
 		
 		// ATTRIBUTE TYPES
         List<AttributeType> listAttributeTypes = new ArrayList<AttributeType>(  );

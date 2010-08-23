@@ -32,54 +32,86 @@
     <div class="content-box">
      	<h2>#i18n{portal.users.modify_user.titleModificationForm}</h2>
             <form method="post" name="modify_user" action="jsp/admin/user/DoModifyUser.jsp" >
-             <p>
-                <label for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>                         
-                ${level.name}
-            </p>                     
-            <p>
-                <label for="access_code" >#i18n{portal.users.modify_user.labelAccessCode} * :</label>
-                <input type="text"  id="access_code" name="access_code" maxlength="100" size="35" tabindex="1" value="${user.accessCode}" />
-            </p>
-            <p>
-                <label for="first_password" >#i18n{portal.users.modify_user.labelFirstPassword} :</label>
-                <input type="password"  id="password" name="first_password" maxlength="100" size="35" tabindex="2" value="" />
-            </p>
-			<p>
-                <label for="second_password" >#i18n{portal.users.modify_user.labelSecondPassword} :</label>
-                <input type="password"  id="password" name="second_password" maxlength="100" size="35" tabindex="3" value="" />
-            </p>            
-            <p>
-                <label for="last_name" >#i18n{portal.users.modify_user.labelLastName} * :</label>
-                <input type="text"  id="last_name" name="last_name" maxlength="100" size="35" tabindex="4" value="${user.lastName}" />
-            </p>
-            <p>
-                <label for="first_name">#i18n{portal.users.modify_user.labelFirstName} * :</label>
-                <input type="text" id="first_name" name="first_name" maxlength="100" size="35" tabindex="5" value="${user.firstName}" />
-            </p>
-            <p>
-                <label for="email">#i18n{portal.users.modify_user.labelEmail} * :</label>
-                <input type="text" id="email" name="email" maxlength="100" size="35" tabindex="6" value="${user.email}" />
-            </p>
-            <p>
-                 <label for="language">#i18n{portal.users.modify_user.labelLanguage} :</label>
-                <@combo name="language" default_value="${current_language}" items=languages_list />
-            </p>
-            <p>
-                <label for="status">#i18n{portal.users.modify_user.labelStatus} :</label>
-                <select id="status" name="status" tabindex="7">
-                    <#if user.status == 0 >
-                    <option value="0" selected="selected" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
-                    <option value="1" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
-                    <#else>
-                    <option value="0" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
-                    <option value="1" selected="selected" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
-                    </#if> 
-                </select>
-            </p>
-			<#list attributes_list as attribute>
-            	<#assign idAttribute = "" + attribute.idAttribute>
-				${attribute.getHtmlFormAttribute( locale, map_list_attribute_defalt_values[idAttribute] )}
-			</#list>
+            <div class="highlight-box">
+            	<div class="highlight-box-content">
+            		<p>
+						#i18n{portal.users.modify_user.labelAdministration}
+					</p>
+		            <p>
+		                <label for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>                         
+		                ${level.name}
+		            </p>
+		            <#list attributes_list as attribute>
+						<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
+							<#assign idAttribute = "" + attribute.idAttribute>
+							${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+							<#break>
+						</#if>
+					</#list>
+				</div>
+			</div>
+			<div class="highlight-box">
+				<div class="highlight-box-content">
+					<p>
+						#i18n{portal.users.modify_user.labelIdentity}
+					</p>
+		            <p>
+		                <label for="access_code" >#i18n{portal.users.modify_user.labelAccessCode} * :</label>
+		                <input type="text"  id="access_code" name="access_code" maxlength="100" size="35" tabindex="1" value="${user.accessCode}" />
+		            </p>
+		            <p>
+		                <label for="first_password" >#i18n{portal.users.modify_user.labelFirstPassword} :</label>
+		                <input type="password"  id="password" name="first_password" maxlength="100" size="35" tabindex="2" value="" />
+		            </p>
+					<p>
+		                <label for="second_password" >#i18n{portal.users.modify_user.labelSecondPassword} :</label>
+		                <input type="password"  id="password" name="second_password" maxlength="100" size="35" tabindex="3" value="" />
+		            </p>            
+		            <p>
+		                <label for="last_name" >#i18n{portal.users.modify_user.labelLastName} * :</label>
+		                <input type="text"  id="last_name" name="last_name" maxlength="100" size="35" tabindex="4" value="${user.lastName}" />
+		            </p>
+		            <p>
+		                <label for="first_name">#i18n{portal.users.modify_user.labelFirstName} * :</label>
+		                <input type="text" id="first_name" name="first_name" maxlength="100" size="35" tabindex="5" value="${user.firstName}" />
+		            </p>
+		            <p>
+		                <label for="email">#i18n{portal.users.modify_user.labelEmail} * :</label>
+		                <input type="text" id="email" name="email" maxlength="100" size="35" tabindex="6" value="${user.email}" />
+		            </p>
+		            <p>
+		                 <label for="language">#i18n{portal.users.modify_user.labelLanguage} :</label>
+		                <@combo name="language" default_value="${current_language}" items=languages_list />
+		            </p>
+		            <p>
+		                <label for="status">#i18n{portal.users.modify_user.labelStatus} :</label>
+		                <select id="status" name="status" tabindex="7">
+		                    <#if user.status == 0 >
+		                    <option value="0" selected="selected" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
+		                    <option value="1" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
+		                    <#else>
+		                    <option value="0" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
+		                    <option value="1" selected="selected" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
+		                    </#if> 
+		                </select>
+		            </p>
+				</div>
+			</div>
+			<#if attributes_list?has_content>
+				<div class="highlight-box">
+					<div class="highlight-box-content">
+						<p>
+							#i18n{portal.users.modify_user.labelComplementaryAttributes}
+						</p>
+						<#list attributes_list as attribute>
+							<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+			            		<#assign idAttribute = "" + attribute.idAttribute>
+								${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+							</#if>
+						</#list>
+					</div>
+				</div>
+			</#if>
             <p>
                 <input type="hidden" name="id_user" value="${user.userId}" />
                 <input type="submit" value="#i18n{portal.users.modify_user.buttonLabelModify}" tabindex="8" class="button" />

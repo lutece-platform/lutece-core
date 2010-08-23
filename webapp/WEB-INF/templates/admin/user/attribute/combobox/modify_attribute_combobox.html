@@ -19,19 +19,31 @@
 			<label for="">#i18n{portal.users.modify_attribute.labelType} : </label>
 			${attribute.attributeType.name}
 		</p>
-	  
 	 	<p>
 	    	<label for="mandatory">#i18n{portal.users.modify_attribute.labelMandatory} : </label>
 	    	<#if attribute.mandatory = false>
-	   		 	<input name="mandatory" value="1" type="checkbox" >
+	   		 	<input name="mandatory" value="1" type="checkbox" />
 	   		<#else>
-	   			<input name="mandatory" value="0" type="checkbox" checked="checked">
+	   			<input name="mandatory" value="0" type="checkbox" checked="checked" />
 	   		</#if>
-	   </p>	
+	   	</p>
+	   	<p>
+			<label for="multiple">#i18n{portal.users.create_attribute.labelMultiple} : </label>
+			<#list attribute_fields_list as attribute_field>
+				<#if attribute_field.multiple = false>
+					<input name="multiple" value="1" type="checkbox" />
+				<#else>
+					<input name="multiple" value="0" type="checkbox" checked="checked" />
+				</#if>
+				<#break>
+			</#list>
+			<br/>
+			<label>&nbsp;</label>#i18n{portal.users.create_attribute.labelMultipleComment}
+		</p>
 		<p>
 			<input type="hidden" name="id_attribute" value="${attribute.idAttribute}" />
 	  		<input type="submit" name="validate" value="#i18n{portal.users.modify_attribute.buttonValidate}" class="button"/>
-	  		<input type="submit" name="apply" value="#i18n{portal.users.create_attribute.buttonValidate}" class="button" />
+	  		<input type="submit" name="apply" value="#i18n{portal.users.modify_attribute.buttonApply}" class="button" />
 	  		<input type="submit" name="cancel" value="#i18n{portal.admin.message.buttonCancel}" class="button"/>
 	   </p>
 	</form>
@@ -50,35 +62,37 @@
  		</tr>
  		<#assign cpt = 0>
  		<#list attribute_fields_list as attribute_field>
- 		<#assign cpt = cpt + 1>
- 			<tr>
- 				<td>${attribute_field.title}</td>
- 				<td>${attribute_field.value}</td>
- 				<td>
- 					<#if attribute_field.defaultValue>
- 						<img src="images/admin/skin/enable.png" alt="#i18n{portal.users.modify_attribute.defaultValue}" title="#i18n{portal.users.modify_attribute.defaultValue}" />
- 					</#if>
- 				</td>
- 				<td>${attribute_field.idField}</td>
- 				<td>
- 					<a href="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}">
-	            		<img src="images/admin/skin/actions/modify.png" alt="#i18n{portal.users.modify_attribute.buttonLabelModify}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}" />
-	            	</a>
-	            	<#if cpt != 1>
-	              		<a href="jsp/admin/user/attribute/DoMoveUpAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list">
-	                 	 <img src="images/admin/skin/actions/up.png"  alt="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
-	               	  </a>
-	                </#if>
-	               <#if attribute_field_has_next>
-	               	 <a href="jsp/admin/user/attribute/DoMoveDownAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list">
-	                 	 <img src="images/admin/skin/actions/down.png" alt="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
-	                 </a>
-	               </#if>
- 					<a href="jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}">
- 						<img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.users.modify_attribute.buttonLabelDelete}" title="#i18n{portal.users.modify_attribute.buttonLabelDelete}" />
- 					</a>
-				</td>
- 			</tr>
+ 			<#if attribute_field.title?exists>
+		 		<#assign cpt = cpt + 1>
+	 			<tr>
+	 				<td>${attribute_field.title}</td>
+	 				<td>${attribute_field.value}</td>
+	 				<td>
+	 					<#if attribute_field.defaultValue>
+	 						<img src="images/admin/skin/enable.png" alt="#i18n{portal.users.modify_attribute.defaultValue}" title="#i18n{portal.users.modify_attribute.defaultValue}" />
+	 					</#if>
+	 				</td>
+	 				<td>${attribute_field.idField}</td>
+	 				<td>
+	 					<a href="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}">
+		            		<img src="images/admin/skin/actions/modify.png" alt="#i18n{portal.users.modify_attribute.buttonLabelModify}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}" />
+		            	</a>
+		            	<#if cpt != 1>
+		              		<a href="jsp/admin/user/attribute/DoMoveUpAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list">
+		                 	 <img src="images/admin/skin/actions/up.png"  alt="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
+		               	  </a>
+		                </#if>
+		               <#if attribute_field_has_next>
+		               	 <a href="jsp/admin/user/attribute/DoMoveDownAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list">
+		                 	 <img src="images/admin/skin/actions/down.png" alt="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
+		                 </a>
+		               </#if>
+	 					<a href="jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}">
+	 						<img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.users.modify_attribute.buttonLabelDelete}" title="#i18n{portal.users.modify_attribute.buttonLabelDelete}" />
+	 					</a>
+					</td>
+	 			</tr>
+	 		</#if>
  		</#list>
  	</table>
  	<form method="post" action="jsp/admin/user/attribute/CreateAttributeField.jsp">

@@ -1,80 +1,127 @@
+<#function displayFieldset user_levels attributes_list>
+	<#assign var = false>
+	<#list attributes_list as attribute>
+		<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
+			<#assign var = true>
+			<#break>
+		</#if>
+	</#list>
+	<#if user_levels?has_content || var = true>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+
 <div class="content-box">
 	<h2>#i18n{portal.users.create_user.titleCreationForm}</h2>	
-		<form method="post" name="create_user" action="jsp/admin/user/DoCreateUser.jsp"  >
-			<#if (user_levels?has_content)>
+	<form method="post" name="create_user" action="jsp/admin/user/DoCreateUser.jsp"  >
+		<#if displayFieldset( user_levels attributes_list )>
+			<div class="highlight-box">
+				<div class="highlight-box-content">
+					<p>
+						#i18n{portal.users.create_user.labelAdministration}
+					</p>
+					<#if (user_levels?has_content)>
+						<p>
+							<label for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>
+							<select id="user_level" name="user_level">
+								<#list user_levels as user_level>
+									<#if user_level.id = default_user_level.id>
+										<option value="${user_level.id}" selected="selected">${user_level.name}</option>
+									<#else>
+										<option value="${user_level.id}">${user_level.name}</option>
+									</#if>
+								</#list>
+							</select>
+						</p>
+					</#if>
+					<#list attributes_list as attribute>
+						<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
+							${attribute.getHtmlFormAttribute( locale )}
+							<#break>
+						</#if>
+					</#list>
+				</div>
+			</div>
+		</#if>
+		<div class="highlight-box">
+			<div class="highlight-box-content">
 				<p>
-					<label for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>
-					<select id="user_level" name="user_level">
-						<#list user_levels as user_level>
-							<#if user_level.id = default_user_level.id>
-								<option value="${user_level.id}" selected="selected">${user_level.name}</option>
-							<#else>
-								<option value="${user_level.id}">${user_level.name}</option>
-							</#if>
-						</#list>
+					#i18n{portal.users.create_user.labelIdentity}
+				</p>
+				<p>
+					<label for="access_code" >#i18n{portal.users.create_user.labelAccessCode} * :</label>
+					<input type="text"  id="access_code" name="access_code" value="" maxlength="100" size="35" tabindex="1" />				
+				</p>
+				<p>
+	                   <label for="first_password" >#i18n{portal.users.create_user.labelFirstPassword} * :</label>
+	                   <input type="password" id="first_password" name="first_password" maxlength="100" size="35" tabindex="2" value=""/>
+	                   <input type="button" onClick="generatePwd()" id="generate_password" value="#i18n{portal.users.create_user.buttonLabelGeneratePassword}" tabindex="3" class="button" />
+				</p>
+				<p>
+	                   <label for="second_password" >#i18n{portal.users.create_user.labelSecondPassword} * :</label>
+	                  	<input type="password" id="second_password" name="second_password" maxlength="100" size="35" tabindex="4" value=""/>
+				</p>                        
+				<p>
+					<label for="last_name" >#i18n{portal.users.create_user.labelLastName} * :</label>
+					<input type="text"  id="last_name" name="last_name" value="" maxlength="100" size="35" tabindex="5" />
+				</p>
+				<p>
+					<label for="first_name">#i18n{portal.users.create_user.labelFirstName} * :</label>
+					<input type="text" id="first_name" name="first_name" value="" maxlength="100" size="35" tabindex="6" />
+				</p>
+				<p>
+					<label for="email">#i18n{portal.users.create_user.labelEmail} * :</label>
+					<input type="text" id="email" name="email" value="" maxlength="100" size="35" tabindex="7" />
+					&nbsp;&nbsp;&nbsp;&nbsp;#i18n{portal.users.create_user.labelNotify} :
+					<#if default_user_notification = 1>
+						<input type="radio" name="notify_user" value="1" checked="checked" tabindex="8" />#i18n{portal.util.labelYes}
+						<input type="radio" name="notify_user" value="0" tabindex="9" />#i18n{portal.util.labelNo}
+					<#else>
+						<input type="radio" name="notify_user" value="1" tabindex="8" />#i18n{portal.util.labelYes}
+						<input type="radio" name="notify_user" value="0" checked="checked" tabindex="9" />#i18n{portal.util.labelNo}
+					</#if>
+				</p>
+	            <p>
+					<label for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
+					<@combo name="language" default_value="${default_user_language}" items=languages_list />
+	            </p>
+				<p>
+					<label for="status">#i18n{portal.users.create_user.labelStatus} :</label>
+					<select id="status" name="status" tabindex="10">
+						<#if default_user_status = 1>
+							<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
+	                    	<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+	                	<#else>
+	                		<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+	                    	<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
+						</#if>
 					</select>
 				</p>
-			</#if>
-			<p>
-                            <label for="access_code" >#i18n{portal.users.create_user.labelAccessCode} * :</label>
-                            <input type="text"  id="access_code" name="access_code" value="" maxlength="100" size="35" tabindex="1" />				
-			</p>
-			<p>
-                            <label for="first_password" >#i18n{portal.users.create_user.labelFirstPassword} * :</label>
-                            <input type="password" id="first_password" name="first_password" maxlength="100" size="35" tabindex="2" value=""/>
-                             <input type="button" onClick="generatePwd()" id="generate_password" value="#i18n{portal.users.create_user.buttonLabelGeneratePassword}" tabindex="3" class="button" />
-			</p>
-			<p>
-                            <label for="second_password" >#i18n{portal.users.create_user.labelSecondPassword} * :</label>
-                            <input type="password" id="second_password" name="second_password" maxlength="100" size="35" tabindex="4" value=""/>
-			</p>                        
-			<p>
-                            <label for="last_name" >#i18n{portal.users.create_user.labelLastName} * :</label>
-                            <input type="text"  id="last_name" name="last_name" value="" maxlength="100" size="35" tabindex="5" />
-			</p>
-			<p>
-                            <label for="first_name">#i18n{portal.users.create_user.labelFirstName} * :</label>
-                            <input type="text" id="first_name" name="first_name" value="" maxlength="100" size="35" tabindex="6" />
-			</p>
-			<p>
-                            <label for="email">#i18n{portal.users.create_user.labelEmail} * :</label>
-                            <input type="text" id="email" name="email" value="" maxlength="100" size="35" tabindex="7" />
-                            &nbsp;&nbsp;&nbsp;&nbsp;#i18n{portal.users.create_user.labelNotify} :
-                            <#if default_user_notification = 1>
-			    				<input type="radio" name="notify_user" value="1" checked="checked" tabindex="8" />#i18n{portal.util.labelYes}
-								<input type="radio" name="notify_user" value="0" tabindex="9" />#i18n{portal.util.labelNo}
-			    			<#else>
-			    				<input type="radio" name="notify_user" value="1" tabindex="8" />#i18n{portal.util.labelYes}
-								<input type="radio" name="notify_user" value="0" checked="checked" tabindex="9" />#i18n{portal.util.labelNo}
-			    			</#if>
-			</p>
-            <p>
-                            <label for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
-                            <@combo name="language" default_value="${default_user_language}" items=languages_list />
-            </p>
-			<p>
-                            <label for="status">#i18n{portal.users.create_user.labelStatus} :</label>
-                            <select id="status" name="status" tabindex="10">
-                                <#if default_user_status = 1>
-			                		<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-			                    	<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-			                	<#else>
-			                		<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-			                    	<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-			                	</#if>
-                            </select>
-			</p>
-			<#list attributes_list as attribute>
-				${attribute.getHtmlFormAttribute( locale )}
-			</#list>
-			<p>
-                            <input type="submit" value="#i18n{portal.users.create_user.buttonLabelCreate}" tabindex="11" class="button" />
-                        </p>
-	    
-			<script language="JavaScript">
-				window.onload = document.create_user.access_code.focus();
-			</script>			
-		</form>	
+			</div>
+		</div>
+		<#if attributes_list?has_content>
+			<div class="highlight-box">
+				<div class="highlight-box-content">
+					<p>
+						#i18n{portal.users.create_user.labelComplementaryAttributes}
+					</p>
+					<#list attributes_list as attribute>
+						<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+							${attribute.getHtmlFormAttribute( locale )}
+						</#if>
+					</#list>
+				</div>
+			</div>
+		</#if>
+		<p>
+			<input type="submit" value="#i18n{portal.users.create_user.buttonLabelCreate}" tabindex="11" class="button" />
+		</p>
+    
+		<script language="JavaScript">
+			window.onload = document.create_user.access_code.focus();
+		</script>			
+	</form>	
 </div>
 
 <script type="text/javascript">

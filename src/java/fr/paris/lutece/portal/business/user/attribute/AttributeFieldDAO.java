@@ -53,20 +53,20 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     private static final String SQL_QUERY_NEW_POSITION = "SELECT MAX(field_position)" + " FROM core_attribute_field ";
     
     // SELECT
-    private static final String SQL_QUERY_SELECT = " SELECT id_field, id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, field_position " +
+    private static final String SQL_QUERY_SELECT = " SELECT id_field, id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, is_multiple, field_position " +
     		" FROM core_attribute_field WHERE id_field = ? ";
     private static final String SQL_QUERY_SELECT_ATTRIBUTE_BY_ID_FIELD = " SELECT a.type_class_name, a.id_attribute, a.title, a.help_message, a.is_mandatory, a.attribute_position " +
     		" FROM core_attribute a INNER JOIN core_attribute_field af ON a.id_attribute = af.id_attribute " +
     		" WHERE af.id_field = ? ";
-    private static final String SQL_QUERY_SELECT_ATTRIBUTE_FIELDS_BY_ID_ATTRIBUTE = " SELECT id_field, id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, field_position " +
+    private static final String SQL_QUERY_SELECT_ATTRIBUTE_FIELDS_BY_ID_ATTRIBUTE = " SELECT id_field, id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, is_multiple, field_position " +
 			" FROM core_attribute_field WHERE id_attribute = ? ORDER BY field_position ";
 	
     // INSERT
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute_field (id_field, id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, field_position) " +
-    		" VALUES(?,?,?,?,?,?,?,?,?) ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute_field (id_field, id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, is_multiple, field_position) " +
+    		" VALUES(?,?,?,?,?,?,?,?,?,?) ";
     
     // UPDATE
-    private static final String SQL_QUERY_UPDATE = " UPDATE core_attribute_field SET title = ?, DEFAULT_value = ?, is_DEFAULT_value = ?, height = ?, width = ?, max_size_enter = ?, field_position = ? " +
+    private static final String SQL_QUERY_UPDATE = " UPDATE core_attribute_field SET title = ?, DEFAULT_value = ?, is_DEFAULT_value = ?, height = ?, width = ?, max_size_enter = ?, is_multiple = ?, field_position = ? " +
     		" WHERE id_field = ? ";
     
     // DELETE
@@ -144,7 +144,8 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
         	attributeField.setHeight( daoUtil.getInt( 6 ) );
         	attributeField.setWidth( daoUtil.getInt( 7 ) );
         	attributeField.setMaxSizeEnter( daoUtil.getInt( 8 ) );
-        	attributeField.setPosition( daoUtil.getInt( 9 ) );
+        	attributeField.setMultiple( daoUtil.getBoolean( 9 ) );
+        	attributeField.setPosition( daoUtil.getInt( 10 ) );
         }
 
         daoUtil.free(  );
@@ -225,7 +226,8 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
         	attributeField.setHeight( daoUtil.getInt( 6 ) );
         	attributeField.setWidth( daoUtil.getInt( 7 ) );
         	attributeField.setMaxSizeEnter( daoUtil.getInt( 8 ) );
-        	attributeField.setPosition( daoUtil.getInt( 9 ) );
+        	attributeField.setMultiple( daoUtil.getBoolean( 9 ) );
+        	attributeField.setPosition( daoUtil.getInt( 10 ) );
             listAttributeFields.add( attributeField );
         }
 
@@ -251,7 +253,8 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
 		daoUtil.setInt( 6, attributeField.getHeight(  ) );
 		daoUtil.setInt( 7, attributeField.getWidth(  ) );
 		daoUtil.setInt( 8, attributeField.getMaxSizeEnter(  ) );
-		daoUtil.setInt( 9, newPosition(  ) );
+		daoUtil.setBoolean( 9, attributeField.isMultiple(  ) );
+		daoUtil.setInt( 10, newPosition(  ) );
 		
 		daoUtil.executeUpdate(  );
 		daoUtil.free(  );
@@ -272,8 +275,9 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
 		daoUtil.setInt( 4, attributeField.getHeight(  ) );
 		daoUtil.setInt( 5, attributeField.getWidth(  ) );
 		daoUtil.setInt( 6, attributeField.getMaxSizeEnter(  ) );
-		daoUtil.setInt( 7, attributeField.getPosition(  ) );
-		daoUtil.setInt( 8, attributeField.getIdField(  ) );
+		daoUtil.setBoolean( 7, attributeField.isMultiple(  ) );
+		daoUtil.setInt( 8, attributeField.getPosition(  ) );
+		daoUtil.setInt( 9, attributeField.getIdField(  ) );
 		
 		daoUtil.executeUpdate(  );
 		daoUtil.free(  );

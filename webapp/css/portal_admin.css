@@ -265,6 +265,7 @@ div.thumbnail-element{ float: left; width: 170px; height: 300px; padding: 5px;}
 ******** Highlight box
 *********************************/
 div.highlight-box{margin: 5px 5px 10px 5px; border: 1px solid #55B4E5; padding-:0 5px; -moz-border-radius: 10px; -webkit-border-radius: 10px;}
+div.highlight-box div.highlight-box-content{margin: 10px;}
 div.admin-site-highlight-box input {border: 1px solid #55B4E5; font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%;}
 div.admin-site-highlight-box label{
     font-weight: bold;

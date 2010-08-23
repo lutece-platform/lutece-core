@@ -44,7 +44,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
  */
 public class AdminUserFieldHome 
 {
-	private static IAdminUserFieldDAO _dao = (IAdminUserFieldDAO) SpringContextService.getBean( "adminUserFieldDAO" );;;
+	private static IAdminUserFieldDAO _dao = (IAdminUserFieldDAO) SpringContextService.getBean( "adminUserFieldDAO" );
 
 	/**
 	 * Load the user field

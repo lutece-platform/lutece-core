@@ -1,4 +1,4 @@
-<#function isSelected nIdField default_values_list >
+<#function isSelected nIdField default_values_list>
 	<#if default_values_list?has_content>
 		<#list default_values_list as default_value>
 			<#if default_value.attributeField?exists && default_value.attributeField.idField=nIdField && default_value.value != "">  		
@@ -18,7 +18,15 @@
 	</#if>
 	<#return false>
 </#function>
-
+<#function isMultiple listAttributeFields>
+	<#list listAttributeFields as attributeField>
+		<#if attributeField.multiple = true>
+			<#return true>
+		</#if>
+		<#break>
+	</#list>
+	<#return false>
+</#function>
 <p>
 	<label  for="${attribute.idAttribute}">
 		${attribute.title}
@@ -27,8 +35,12 @@
 	</#if>
 		: 
 	</label>
-	<select name="${attribute.idAttribute}" id="${attribute.idAttribute}">
-		<#if !attribute.mandatory>
+	<select name="${attribute.idAttribute}" id="${attribute.idAttribute}"
+		<#if isMultiple( attribute.listAttributeFields ) >
+				multiple="multiple" size="10"
+		</#if>
+	>
+		<#if !attribute.mandatory && !isMultiple( attribute.listAttributeFields )>
 			<option value=""
 				<#if default_values_list?has_content && isEmptyString( default_values_list ) >
 					selected="selected"  
@@ -38,7 +50,7 @@
 			</option>
 		</#if>
 		<#list attribute.listAttributeFields as attributeField>
-			<#if attributeField.value != "">
+			<#if attributeField.title?exists && attributeField.value != "">
 				<option value="${attributeField.idField}"
 					<#if ( attributeField.defaultValue && !default_values_list?has_content ) || ( default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) )>
 						selected="selected"  

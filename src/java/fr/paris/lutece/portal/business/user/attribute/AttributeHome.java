@@ -95,4 +95,26 @@ public class AttributeHome
 	{
 		return _dao.selectAll( locale );
 	}
+
+	/**
+	 * Load every attributes associated to a plugin
+	 * @param strPluginName plugin name
+	 * @param locale locale
+	 * @return list of attributes
+	 */
+	public static List<AbstractAttribute> findPluginAttributes(
+			String strPluginName, Locale locale ) 
+	{
+		return _dao.selectPluginAttributes( strPluginName, locale );
+	}
+	
+	/**
+	 * Load every attributes that do not come from a plugin
+	 * @param locale locale
+	 * @return list of attributes
+	 */
+	public static List<AbstractAttribute> findCoreAttributes( Locale locale ) 
+	{
+		return _dao.selectCoreAttributes( locale );
+	}
 }

@@ -10,7 +10,7 @@
 	 	<p>
 	       <label for="help_message"> #i18n{portal.users.create_attribute.labelHelpMessage} : </label>
 	      
-	     	<textarea name="help_message" id="help_message"  cols="80" rows="5"></textarea>
+	     	<textarea name="help_message" id="help_message" cols="80" rows="5"></textarea>
 	    
 		 <br/>
 		 <label>&nbsp;</label> #i18n{portal.users.create_attribute.labelHelpMessageComment}
@@ -19,15 +19,20 @@
 	     <label for="">#i18n{portal.users.create_attribute.labelType} : </label>
 	     ${attribute_type.name}
 		</p>
-	  
 	 	<p>
 	    	<label for="mandatory">#i18n{portal.users.create_attribute.labelMandatory} : </label>
-	   		 <input name="mandatory" value="1" type="checkbox" >
-	   </p>
+			<input name="mandatory" value="1" type="checkbox" />
+		</p>
+		<p>
+			<label for="multiple">#i18n{portal.users.create_attribute.labelMultiple} : </label>
+			<input name="multiple" value="1" type="checkbox" />
+			<br/>
+			<label>&nbsp;</label>#i18n{portal.users.create_attribute.labelMultipleComment}
+		</p>
 		<p>
 			<input name="attribute_type_class_name" value="${attribute_type.className}" type="hidden" /> 
 	  		<input type="submit" name="validate" value="#i18n{portal.users.create_attribute.buttonValidate}" class="button"/>
-	  		<input type="submit" name="apply" value="#i18n{portal.users.create_attribute.buttonValidate}" class="button" />
+	  		<input type="submit" name="apply" value="#i18n{portal.users.create_attribute.buttonApply}" class="button" />
 	  		<input type="submit" name="cancel" value="#i18n{portal.admin.message.buttonCancel}" class="button"/>
 	   </p>
 	</form>

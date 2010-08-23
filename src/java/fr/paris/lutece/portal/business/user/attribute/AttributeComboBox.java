@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +58,7 @@ public class AttributeComboBox extends AbstractAttribute
 	private static final String PARAMETER_TITLE = "title";
 	private static final String PARAMETER_HELP_MESSAGE = "help_message";
 	private static final String PARAMETER_MANDATORY = "mandatory";
+	private static final String PARAMETER_MULTIPLE = "multiple";
 	
 	// PROPERTY
 	private static final String PROPERTY_TYPE_COMBOBOX = "portal.users.attribute.type.comboBox";
@@ -131,15 +134,25 @@ public class AttributeComboBox extends AbstractAttribute
         String strHelpMessage = ( request.getParameter( PARAMETER_HELP_MESSAGE ) != null )
             ? request.getParameter( PARAMETER_HELP_MESSAGE ).trim(  ) : null;
         String strMandatory = request.getParameter( PARAMETER_MANDATORY );
+        String strMultiple = request.getParameter( PARAMETER_MULTIPLE );
         
         if ( ( strTitle == null ) || ( strTitle.equals( EMPTY_STRING ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-		
+        	
 		setTitle( strTitle );
 		setHelpMessage( strHelpMessage );
 		setMandatory( strMandatory != null );
+		
+		if ( getListAttributeFields(  ) == null )
+        {
+            List<AttributeField> listAttributeFields = new ArrayList<AttributeField>(  );
+            AttributeField attributeField = new AttributeField(  );
+            listAttributeFields.add( attributeField );
+            setListAttributeFields( listAttributeFields );
+        }
+		getListAttributeFields(  ).get( 0 ).setMultiple( strMultiple != null );
 		
 		return null;
 	}
@@ -162,31 +175,40 @@ public class AttributeComboBox extends AbstractAttribute
 	 * @param request HttpServletRequest
 	 * @return user field data
 	 */
-	public AdminUserField getUserFieldData( HttpServletRequest request, AdminUser user )
+	public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
 	{
-		String strValue = request.getParameter( EMPTY_STRING + _nIdAttribute );
-		AdminUserField userField = new AdminUserField(  );
-		AttributeField attributeField;
-		
-		if ( strValue == null || strValue.equals( EMPTY_STRING ) )
+		String[] values = request.getParameterValues( String.valueOf( _nIdAttribute ) );
+		List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
+		if ( values != null )
 		{
-			strValue = EMPTY_STRING;
-			attributeField = new AttributeField(  );
-			attributeField.setAttribute( this );
-			attributeField.setTitle( EMPTY_STRING );
-			attributeField.setValue( EMPTY_STRING );
-		}
-		else
-		{
-			int nIdField = Integer.parseInt( strValue );
-			attributeField = AttributeFieldHome.findByPrimaryKey( nIdField );
+			for ( String strValue : values )
+			{
+				AdminUserField userField = new AdminUserField(  );
+				AttributeField attributeField;
+				
+				if ( strValue == null || strValue.equals( EMPTY_STRING ) )
+				{
+					strValue = EMPTY_STRING;
+					attributeField = new AttributeField(  );
+					attributeField.setAttribute( this );
+					attributeField.setTitle( EMPTY_STRING );
+					attributeField.setValue( EMPTY_STRING );
+				}
+				else
+				{
+					int nIdField = Integer.parseInt( strValue );
+					attributeField = AttributeFieldHome.findByPrimaryKey( nIdField );
+				}
+				
+				userField.setUser( user );
+				userField.setAttribute( this );
+				userField.setAttributeField( attributeField );
+				userField.setValue( strValue );
+				
+				listUserFields.add( userField );
+			}
 		}
 		
-		userField.setUser( user );
-		userField.setAttribute( this );
-		userField.setAttributeField( attributeField );
-		userField.setValue( strValue );
-		
-		return userField;
+		return listUserFields;
 	}
 }

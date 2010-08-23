@@ -49,6 +49,7 @@ public class AttributeField
 	private int _nHeight;
 	private int _nWidth;
 	private int _nMaxSizeEnter;
+	private boolean _bMultiple;
 
     /**
      * Set ID field
@@ -210,5 +211,23 @@ public class AttributeField
 	public void setMaxSizeEnter( int nMaxSizeEnter )
 	{
 		_nMaxSizeEnter = nMaxSizeEnter;
+	}
+	
+	/**
+	 * Check if the attribute is multiple
+	 * @return true if it is multiple, false otherwise
+	 */
+	public boolean isMultiple(  )
+	{
+		return _bMultiple;
+	}
+	
+	/**
+	 * Set the multiple
+	 * @param bMultiple mutiple
+	 */
+	public void setMultiple( boolean bMultiple )
+	{
+		_bMultiple = bMultiple;
 	}
 }

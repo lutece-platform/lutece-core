@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
 
@@ -56,9 +58,13 @@ public class AttributeDAO implements IAttributeDAO
     // SELECT
 	private static final String SQL_QUERY_SELECT = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, attribute_position " +
     		" FROM core_attribute WHERE id_attribute = ? ";
-	private static final String SQL_QUERY_SELECT_ALL = " SELECT id_attribute, type_class_name, title, help_message, is_mandatory, attribute_position " +
+	private static final String SQL_QUERY_SELECT_ALL = " SELECT id_attribute, type_class_name, title, help_message, is_mandatory, attribute_position, plugin_name " +
 			" FROM core_attribute ORDER BY attribute_position ";
-    
+    private static final String SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES = " SELECT id_attribute, type_class_name, title, help_message, is_mandatory, attribute_position " +
+		" FROM core_attribute WHERE plugin_name = ? ORDER BY attribute_position ";
+    private static final String SQL_QUERY_SELECT_CORE_ATTRIBUTES = " SELECT id_attribute, type_class_name, title, help_message, is_mandatory, attribute_position " +
+		" FROM core_attribute WHERE plugin_name IS NULL OR plugin_name = '' ORDER BY attribute_position ";
+	
     // INSERT
 	private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute (id_attribute, type_class_name, title, help_message, is_mandatory, attribute_position)" +
     		" VALUES (?,?,?,?,?,?) ";
@@ -226,6 +232,115 @@ public class AttributeDAO implements IAttributeDAO
 	{
 		List<AbstractAttribute> listAttributes = new ArrayList<AbstractAttribute>(  );
 		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
+        daoUtil.executeQuery(  );
+        
+        while ( daoUtil.next(  ) )
+        {
+        	AbstractAttribute attribute = null;
+        	
+        	try
+            {
+        		attribute = (AbstractAttribute) Class.forName( daoUtil.getString( 2 ) ).newInstance(  );
+            }
+            catch ( ClassNotFoundException e )
+            {
+                // class doesn't exist
+                AppLogService.error( e );
+            }
+            catch ( InstantiationException e )
+            {
+                // Class is abstract or is an interface or haven't accessible
+                // builder
+                AppLogService.error( e );
+            }
+            catch ( IllegalAccessException e )
+            {
+                // can't access to rhe class
+                AppLogService.error( e );
+            }
+            
+            attribute.setIdAttribute( daoUtil.getInt( 1 ) );
+            attribute.setTitle( daoUtil.getString( 3 ) );
+            attribute.setHelpMessage( daoUtil.getString( 4 ) );
+            attribute.setMandatory( daoUtil.getBoolean( 5 ) );
+            attribute.setPosition( daoUtil.getInt( 6 ) );
+            attribute.setAttributeType( locale );
+            Plugin plugin = PluginService.getPlugin( daoUtil.getString( 7 ) );
+            attribute.setPlugin( plugin );
+            
+            listAttributes.add( attribute );
+        }
+        
+        daoUtil.free(  );
+        
+        return listAttributes;
+	}
+
+	/**
+	 * Load every attributes from plugin name
+	 * @param strPluginName plugin name
+	 * @param locale locale
+	 * @return list of attributes
+	 */
+	public List<AbstractAttribute> selectPluginAttributes(
+			String strPluginName, Locale locale)
+	{
+		List<AbstractAttribute> listAttributes = new ArrayList<AbstractAttribute>(  );
+		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES );
+		daoUtil.setString( 1, strPluginName );
+        daoUtil.executeQuery(  );
+        
+        while ( daoUtil.next(  ) )
+        {
+        	AbstractAttribute attribute = null;
+        	
+        	try
+            {
+        		attribute = (AbstractAttribute) Class.forName( daoUtil.getString( 2 ) ).newInstance(  );
+            }
+            catch ( ClassNotFoundException e )
+            {
+                // class doesn't exist
+                AppLogService.error( e );
+            }
+            catch ( InstantiationException e )
+            {
+                // Class is abstract or is an interface or haven't accessible
+                // builder
+                AppLogService.error( e );
+            }
+            catch ( IllegalAccessException e )
+            {
+                // can't access to rhe class
+                AppLogService.error( e );
+            }
+            
+            attribute.setIdAttribute( daoUtil.getInt( 1 ) );
+            attribute.setTitle( daoUtil.getString( 3 ) );
+            attribute.setHelpMessage( daoUtil.getString( 4 ) );
+            attribute.setMandatory( daoUtil.getBoolean( 5 ) );
+            attribute.setPosition( daoUtil.getInt( 6 ) );
+            attribute.setAttributeType( locale );
+            Plugin plugin = PluginService.getPlugin( strPluginName );
+            attribute.setPlugin( plugin );
+            
+            listAttributes.add( attribute );
+        }
+        
+        daoUtil.free(  );
+        
+        return listAttributes;
+	}
+	
+	/**
+	 * Load every attributes that do not come from a plugin
+	 * @param locale locale
+	 * @return list of attributes
+	 */
+	public List<AbstractAttribute> selectCoreAttributes( Locale locale)
+	{
+		List<AbstractAttribute> listAttributes = new ArrayList<AbstractAttribute>(  );
+		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CORE_ATTRIBUTES );
         daoUtil.executeQuery(  );
         
         while ( daoUtil.next(  ) )

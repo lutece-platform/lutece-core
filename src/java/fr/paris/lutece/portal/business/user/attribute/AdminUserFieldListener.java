@@ -33,63 +33,41 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
-import java.util.List;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+
+import fr.paris.lutece.portal.business.user.AdminUser;
 
 /**
  * 
- * IAttributeDAO
+ * AdminUserFieldListener
  *
  */
-public interface IAttributeDAO 
+public interface AdminUserFieldListener 
 {
 	/**
-	 * Load attribute
-	 * @param nIdAttribute ID
-	 * @param locale Locale
-	 * @return Attribute
-	 */
-	AbstractAttribute load( int nIdAttribute, Locale locale );
-		
-	/**
-	 * Insert a new attribute
-	 * @param attribute the attribute
-	 * @return new PK
-	 */
-	int insert( AbstractAttribute attribute );
-	
-	/**
-	 * Update an attribute 
-	 * @param attribute the attribute
-	 */
-	void store( AbstractAttribute attribute );
-	
-	/**
-	 * Delete an attribute
-	 * @param nIdAttribute the ID of the attribute
-	 */
-	void delete( int nIdAttribute );
-	
-	/**
-	 * Load every attributes
+	 * Create user fields
+	 * @param user Adminuser
+	 * @param request HttpServletRequest
 	 * @param locale locale
-	 * @return list of attributes
 	 */
-	List<AbstractAttribute> selectAll( Locale locale );
-
-	/**
-	 * Load every attributes from plugin name
-	 * @param strPluginName plugin name
-	 * @param locale locale
-	 * @return list of attributes
-	 */
-	List<AbstractAttribute> selectPluginAttributes(
-			String strPluginName, Locale locale);
+	void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale );
 	
 	/**
-	 * Load every attributes that do not come from a plugin
+	 * Modify user fields
+	 * @param user Adminuser
+	 * @param request HttpServletRequest
 	 * @param locale locale
-	 * @return list of attributes
+	 * @param currentUser current user
 	 */
-	List<AbstractAttribute> selectCoreAttributes( Locale locale);
+	void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale, AdminUser currentUser );
+	
+	/**
+	 * Remove user fields
+	 * @param user Adminuser
+	 * @param request HttpServletRequest
+	 * @param locale locale
+	 */
+	void doRemoveUserFields( AdminUser user, HttpServletRequest request, Locale locale );
 }
