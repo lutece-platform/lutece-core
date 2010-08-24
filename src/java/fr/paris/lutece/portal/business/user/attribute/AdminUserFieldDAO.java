@@ -48,6 +48,11 @@ import fr.paris.lutece.util.sql.DAOUtil;
  */
 public class AdminUserFieldDAO implements IAdminUserFieldDAO
 {
+	// CONSTANTS
+	private static final String CONSTANT_PERCENT = "%";
+	private static final String CONSTANT_OPEN_BRACKET = "(";
+	private static final String CONSTANT_CLOSED_BRACKET = ")";
+	
 	// NEW PK
 	private static final String SQL_QUERY_NEW_PK = " SELECT max(id_user_field) FROM core_admin_user_field ";
 	
@@ -66,6 +71,9 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 			" FROM core_admin_user_field auf " +
 			" INNER JOIN core_attribute a ON a.id_attribute = auf.id_attribute " +
 			" WHERE auf.id_user = ? AND auf.id_attribute = ? ";
+	private static final String SQL_QUERY_SELECT_USERS_BY_FILTER = " SELECT DISTINCT u.id_user, u.access_code, u.last_name, u.first_name, u.email, u.status, u.locale, u.level_user " +
+			" FROM core_admin_user u INNER JOIN core_admin_user_field uf ON u.id_user = uf.id_user ";
+	private static final String SQL_QUERY_SELECT_ID_USER = " SELECT id_user FROM core_admin_user_field WHERE id_attribute = ? AND user_field_value LIKE ? ";
 	
 	// INSERT
 	private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_user_field (id_user_field, id_user, id_attribute, id_field, user_field_value) " +
@@ -79,6 +87,10 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 	private static final String SQL_QUERY_DELETE_FROM_ID_FIELD = " DELETE FROM core_admin_user_field WHERE id_field = ? ";
 	private static final String SQL_QUERY_DELETE_FROM_ID_USER = " DELETE FROM core_admin_user_field WHERE id_user = ? ";
 	private static final String SQL_QUERY_DELETE_FROM_ID_ATTRIBUTE = " DELETE FROM core_admin_user_field WHERE id_attribute = ? ";
+	
+	private static final String SQL_ID_ATTRIBUTE_AND_USER_FIELD_VALUE = " WHERE id_attribute = ? AND user_field_value LIKE ? ";
+	private static final String SQL_AND_ID_USER_IN = " AND id_user IN ";
+	private static final String SQL_AND_ID_USER_IN_FIRST = " AND uf.id_user IN ";
 	
 	/**
      * Generate a new PK 
@@ -327,4 +339,75 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
         
         return listUserFields;
 	}
+
+	/**
+	 * Load users by a given filter
+	 * @param auFieldFilter the filter
+	 * @return a list of users
+	 */
+	public List<AdminUser> selectUsersByFilter( AdminUserFieldFilter auFieldFilter )
+	{
+		List<AdminUserField> listUserFields = auFieldFilter.getListUserFields(  );
+		if ( listUserFields == null || ( listUserFields != null && listUserFields.size(  ) == 0 ) ) 
+		{
+			return null;
+		}
+		
+		List<AdminUser> listUsers = new ArrayList<AdminUser>(  );
+		StringBuilder sbSQL = new StringBuilder( SQL_QUERY_SELECT_USERS_BY_FILTER );
+		for ( int i = 1; i <= listUserFields.size(  ); i++ )
+		{
+			if ( i == 1 )
+			{
+				sbSQL.append( SQL_ID_ATTRIBUTE_AND_USER_FIELD_VALUE );
+			}
+			else
+			{
+				sbSQL.append( CONSTANT_OPEN_BRACKET + SQL_QUERY_SELECT_ID_USER );
+			}
+			
+			if ( i != listUserFields.size(  ) && i != 1)
+			{
+				sbSQL.append( SQL_AND_ID_USER_IN );
+			}
+			else if ( i != listUserFields.size() && i == 1 )
+			{
+				sbSQL.append( SQL_AND_ID_USER_IN_FIRST );
+			}
+		}
+		
+		for ( int i = 2; i <= listUserFields.size(  ); i++ )
+		{
+			sbSQL.append( CONSTANT_CLOSED_BRACKET );
+		}
+		
+		DAOUtil daoUtil = new DAOUtil( sbSQL.toString(  ) );
+		
+		int nbCount = 1;
+		for ( AdminUserField userField : listUserFields )
+		{
+			daoUtil.setInt( nbCount++, userField.getAttribute(  ).getIdAttribute(  ) );
+			daoUtil.setString( nbCount++, CONSTANT_PERCENT + userField.getValue(  ) + CONSTANT_PERCENT );
+		}
+		
+		daoUtil.executeQuery(  );
+		
+		while( daoUtil.next(  ) )
+		{
+			AdminUser user = new AdminUser(  );
+			user.setUserId( daoUtil.getInt( 1 ) );
+			user.setAccessCode( daoUtil.getString( 2 ) );
+			user.setLastName( daoUtil.getString( 3 ) );
+			user.setFirstName( daoUtil.getString( 4 ) );
+			user.setEmail( daoUtil.getString( 5 ) );
+			user.setStatus( daoUtil.getInt( 6 ) );
+			Locale locale = new Locale( daoUtil.getString( 7 ) );
+			user.setLocale( locale );
+			listUsers.add( user );
+		}
+		
+		daoUtil.free(  );
+		
+		return listUsers;
+	} 
 }

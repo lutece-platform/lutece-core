@@ -9,9 +9,7 @@
 	 	</p>
 	 	<p>
 			<label for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage} : </label>
-	      
 			<textarea  name="help_message" id="help_message"  cols="80" rows="5">${attribute.helpMessage}</textarea>
-	    
 			<br/>
 			<label>&nbsp;</label> #i18n{portal.users.modify_attribute.labelHelpMessageComment}
 		</p>
@@ -19,12 +17,20 @@
 			<label for="">#i18n{portal.users.modify_attribute.labelType} : </label>
 			${attribute.attributeType.name}
 		</p>
+		<p>
+			<label for="is_shown_in_search">#i18n{portal.users.modify_attribute.labelIsShownInSearch} : </label>
+			<#if attribute.shownInSearch = false>
+				<input name="is_shown_in_search" value="1" type="checkbox" />
+			<#else>
+				<input name="is_shown_in_search" value="1" type="checkbox" checked="checked" />
+			</#if>
+		</p>
 	 	<p>
 	    	<label for="mandatory">#i18n{portal.users.modify_attribute.labelMandatory} : </label>
 	    	<#if attribute.mandatory = false>
 	   		 	<input name="mandatory" value="1" type="checkbox" />
 	   		<#else>
-	   			<input name="mandatory" value="0" type="checkbox" checked="checked" />
+	   			<input name="mandatory" value="1" type="checkbox" checked="checked" />
 	   		</#if>
 	   	</p>
 	   	<p>
@@ -33,7 +39,7 @@
 				<#if attribute_field.multiple = false>
 					<input name="multiple" value="1" type="checkbox" />
 				<#else>
-					<input name="multiple" value="0" type="checkbox" checked="checked" />
+					<input name="multiple" value="1" type="checkbox" checked="checked" />
 				</#if>
 				<#break>
 			</#list>
@@ -77,16 +83,16 @@
 	 					<a href="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}">
 		            		<img src="images/admin/skin/actions/modify.png" alt="#i18n{portal.users.modify_attribute.buttonLabelModify}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}" />
 		            	</a>
-		            	<#if cpt != 1>
-		              		<a href="jsp/admin/user/attribute/DoMoveUpAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list">
-		                 	 <img src="images/admin/skin/actions/up.png"  alt="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
-		               	  </a>
-		                </#if>
-		               <#if attribute_field_has_next>
-		               	 <a href="jsp/admin/user/attribute/DoMoveDownAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list">
-		                 	 <img src="images/admin/skin/actions/down.png" alt="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
-		                 </a>
-		               </#if>
+						<#if cpt != 1>
+							<a href="jsp/admin/user/attribute/DoMoveUpAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list">
+								<img src="images/admin/skin/actions/up.png"  alt="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
+							</a>
+						</#if>
+						<#if attribute_field_has_next>
+							<a href="jsp/admin/user/attribute/DoMoveDownAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list">
+								<img src="images/admin/skin/actions/down.png" alt="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
+							</a>
+						</#if>
 	 					<a href="jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}">
 	 						<img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.users.modify_attribute.buttonLabelDelete}" title="#i18n{portal.users.modify_attribute.buttonLabelDelete}" />
 	 					</a>

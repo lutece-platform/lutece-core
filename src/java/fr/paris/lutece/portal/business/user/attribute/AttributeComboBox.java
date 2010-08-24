@@ -59,6 +59,8 @@ public class AttributeComboBox extends AbstractAttribute
 	private static final String PARAMETER_HELP_MESSAGE = "help_message";
 	private static final String PARAMETER_MANDATORY = "mandatory";
 	private static final String PARAMETER_MULTIPLE = "multiple";
+	private static final String PARAMETER_IS_SHOWN_IN_SEARCH = "is_shown_in_search";
+	private static final String PARAMETER_ATTRIBUTE = "attribute_"; 
 	
 	// PROPERTY
 	private static final String PROPERTY_TYPE_COMBOBOX = "portal.users.attribute.type.comboBox";
@@ -69,6 +71,7 @@ public class AttributeComboBox extends AbstractAttribute
 	private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/combobox/create_attribute_combobox.html";
 	private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/combobox/modify_attribute_combobox.html";
 	private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/combobox/html_code_form_attribute_combobox.html";
+	private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/combobox/html_code_form_search_attribute_combobox.html";
 	
 	/**
 	 * Constructor
@@ -106,6 +109,15 @@ public class AttributeComboBox extends AbstractAttribute
 	}
 	
 	/**
+	 * Get the template html form search attribute
+	 * @return the template
+	 */
+	public String getTemplateHtmlFormSearchAttribute(  )
+	{
+		return TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE;
+	}
+	
+	/**
 	 * Get page title for create page
 	 * @return page title
 	 */
@@ -133,6 +145,7 @@ public class AttributeComboBox extends AbstractAttribute
 		String strTitle = request.getParameter( PARAMETER_TITLE );
         String strHelpMessage = ( request.getParameter( PARAMETER_HELP_MESSAGE ) != null )
             ? request.getParameter( PARAMETER_HELP_MESSAGE ).trim(  ) : null;
+        String strIsShownInSearch = request.getParameter( PARAMETER_IS_SHOWN_IN_SEARCH );
         String strMandatory = request.getParameter( PARAMETER_MANDATORY );
         String strMultiple = request.getParameter( PARAMETER_MULTIPLE );
         
@@ -144,6 +157,7 @@ public class AttributeComboBox extends AbstractAttribute
 		setTitle( strTitle );
 		setHelpMessage( strHelpMessage );
 		setMandatory( strMandatory != null );
+		setShownInSearch( strIsShownInSearch != null );
 		
 		if ( getListAttributeFields(  ) == null )
         {
@@ -173,11 +187,12 @@ public class AttributeComboBox extends AbstractAttribute
 	/**
 	 * Get the data of the user fields
 	 * @param request HttpServletRequest
+	 * @param user user
 	 * @return user field data
 	 */
 	public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
 	{
-		String[] values = request.getParameterValues( String.valueOf( _nIdAttribute ) );
+		String[] values = request.getParameterValues( PARAMETER_ATTRIBUTE + _nIdAttribute );
 		List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
 		if ( values != null )
 		{

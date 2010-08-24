@@ -25,12 +25,20 @@
 			<label for="">#i18n{portal.users.modify_attribute.labelType} : </label>
 			${attribute.attributeType.name}
 		</p>
+		<p>
+			<label for="is_shown_in_search">#i18n{portal.users.modify_attribute.labelIsShownInSearch} : </label>
+			<#if attribute.shownInSearch = false>
+				<input name="is_shown_in_search" value="1" type="checkbox" />
+			<#else>
+				<input name="is_shown_in_search" value="1" type="checkbox" checked="checked" />
+			</#if>
+		</p>
 	 	<p>
 	    	<label for="mandatory">#i18n{portal.users.modify_attribute.labelMandatory} : </label>
 	    	<#if attribute.mandatory = false>
 	   		 	<input name="mandatory" value="1" type="checkbox" />
 	   		<#else>
-	   			<input name="mandatory" value="0" type="checkbox" checked="checked" />
+	   			<input name="mandatory" value="1" type="checkbox" checked="checked" />
 	   		</#if>
 	   </p>	
 	   <p>

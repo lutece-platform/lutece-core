@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -66,25 +67,66 @@ public abstract class AbstractAttribute implements IAttribute
 	protected AttributeType _attributeType;
 	protected List<AttributeField> _listAttributeFields;
 	protected Plugin _plugin;
+	protected boolean _bIsShownInSearch;
 		
 	/* ----------------------- */
     /* Abstract functions	   */
     /* ----------------------- */
-	
+	/**
+	 * Get the template create an attribute
+	 * @return The URL of the template
+	 */
 	public abstract String getTemplateCreateAttribute(  );
 	
+	/**
+	 * Get the template modify an attribute
+	 * @return The URL of the template
+	 */
 	public abstract String getTemplateModifyAttribute(  );
 	
+	/**
+	 * Get the template html form attribute
+	 * @return the template
+	 */
 	public abstract String getTemplateHtmlFormAttribute(  );
 	
+	/**
+	 * Get the template html form search attribute
+	 * @return the template
+	 */
+	public abstract String getTemplateHtmlFormSearchAttribute(  );
+	
+	/**
+	 * Get page title for create page
+	 * @return page title
+	 */
 	public abstract String getPropertyCreatePageTitle(  );
 	
+	/**
+	 * Get page title for modify page
+	 * @return page title
+	 */
 	public abstract String getPropertyModifyPageTitle(  );
 	
+	/**
+	 * Set the data of the attribute
+	 * @param request HttpServletRequest
+	 * @return null if there are no errors
+	 */
 	public abstract String setAttributeData( HttpServletRequest request );
 	
+	/**
+	 * Set attribute type
+	 * @param locale locale
+	 */
 	public abstract void setAttributeType( Locale locale );
 	
+	/**
+	 * Get the data of the user fields
+	 * @param request HttpServletRequest
+	 * @param user user
+	 * @return user field data
+	 */
 	public abstract List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user );
 	
 	/* ----------------------- */
@@ -256,6 +298,37 @@ public abstract class AbstractAttribute implements IAttribute
 	}
 	
 	/**
+	 * Get Html form
+	 * @param locale locale
+	 * @return html form
+	 */
+	public String getHtmlFormSearchAttribute( AdminUserFieldFilter auFieldFilter, Locale locale )
+	{
+		Map<String, Object> model = new HashMap<String, Object>(  );
+		List<AdminUserField> listUserFields = auFieldFilter.getListUserFields(  );
+		List<AdminUserField> selectedUserFields = null;
+		if ( listUserFields != null && listUserFields.size(  ) != 0 )
+		{
+			selectedUserFields = new ArrayList<AdminUserField>(  );
+			for ( AdminUserField userField : listUserFields )
+			{
+				if ( userField.getAttribute(  ).getIdAttribute(  ) == _nIdAttribute )
+				{
+					selectedUserFields.add( userField );
+				}
+			}
+		}
+		
+		model.put( MARK_DEFAULT_VALUES_LIST, selectedUserFields );
+        model.put( MARK_ATTRIBUTE, this );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( getTemplateHtmlFormSearchAttribute(  ), locale,
+                model );
+
+        return template.getHtml(  );
+	}
+	
+	/**
 	 * Get plugin
 	 * @return plugin
 	 */
@@ -271,5 +344,23 @@ public abstract class AbstractAttribute implements IAttribute
 	public void setPlugin( Plugin plugin )
 	{
 		_plugin = plugin;
+	}
+	
+	/**
+	 * Check if the attribute is shown in search
+	 * @return true if it is, false otherwise
+	 */
+	public boolean isShownInSearch(  )
+	{
+		return _bIsShownInSearch;
+	}
+	
+	/**
+	 * Set isShownInSearch
+	 * @param bIsShownInSearch shown in search
+	 */
+	public void setShownInSearch( boolean bIsShownInSearch )
+	{
+		_bIsShownInSearch = bIsShownInSearch; 
 	}
 }

@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.business.user.attribute;
 
 import java.util.List;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
+
 /**
  * 
  * IAdminUserFieldDAO
@@ -92,4 +94,11 @@ public interface IAdminUserFieldDAO
 	 * @return a list of adminuserfield
 	 */
 	List<AdminUserField> selectUserFieldsByIdUserIdAttribute( int nIdUser, int nIdAttribute );
+
+	/**
+	 * Load users by a given filter
+	 * @param auFieldFilter the filter
+	 * @return a list of users
+	 */
+	List<AdminUser> selectUsersByFilter( AdminUserFieldFilter auFieldFilter );
 }

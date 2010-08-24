@@ -1,0 +1,44 @@
+<#function isMultiple listAttributeFields>
+	<#list listAttributeFields as attributeField>
+		<#if attributeField.multiple = true>
+			<#return true>
+		</#if>
+		<#break>
+	</#list>
+	<#return false>
+</#function>
+<#function isSelected nIdField default_values_list>
+	<#list default_values_list as default_value>
+		<#if default_value.attributeField?exists && default_value.attributeField.idField = nIdField && default_value.value != "">  		
+			<#return true>
+		</#if>
+	</#list>
+	<#return false>
+</#function>
+<p>
+	<label for="attribute_${attribute.idAttribute}">
+		${attribute.title} : 
+	</label>
+	<select name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}"
+		<#if isMultiple( attribute.listAttributeFields ) >
+				multiple="multiple" size="10"
+		</#if>
+	>
+		<#if !isMultiple( attribute.listAttributeFields )>
+			<option value="">
+				#i18n{portal.users.attribute.comboBox.labelAll}
+			</option>
+		</#if>
+		<#list attribute.listAttributeFields as attributeField>
+			<#if attributeField.title?exists && attributeField.value != "">
+				<option value="${attributeField.idField}"
+					<#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >
+						selected="selected"
+					</#if>
+				>
+						${attributeField.title}
+				</option>
+			</#if>
+		</#list>
+	</select>
+</p>

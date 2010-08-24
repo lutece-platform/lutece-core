@@ -1,5 +1,5 @@
 <p>
-	<label for="${attribute.idAttribute}">	
+	<label for="attribute_${attribute.idAttribute}">	
 			${attribute.title}
 			<#if attribute.mandatory>
 				*
@@ -7,7 +7,7 @@
 			 : 
 	</label>
 	<#list attribute.listAttributeFields as attributeField>
-		<input type="text" name="${attribute.idAttribute}" id="${attribute.idAttribute}" size="${attributeField.width}" 
+		<input type="text" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}" size="${attributeField.width}" 
 			<#if attributeField.value?exists && !default_values_list?has_content>
 				value="${attributeField.value}"
 			<#elseif default_values_list?has_content>

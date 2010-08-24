@@ -1,7 +1,7 @@
 <#function isSelected nIdField default_values_list>
 	<#if default_values_list?has_content>
 		<#list default_values_list as default_value>
-			<#if default_value.attributeField?exists && default_value.attributeField.idField=nIdField && default_value.value != "">  		
+			<#if default_value.attributeField?exists && default_value.attributeField.idField = nIdField && default_value.value != "">  		
   				<#return true>
   			</#if>
   		</#list>
@@ -28,14 +28,14 @@
 	<#return false>
 </#function>
 <p>
-	<label  for="${attribute.idAttribute}">
+	<label for="attribute_${attribute.idAttribute}">
 		${attribute.title}
 	<#if attribute.mandatory>
 		*
 	</#if>
 		: 
 	</label>
-	<select name="${attribute.idAttribute}" id="${attribute.idAttribute}"
+	<select name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}"
 		<#if isMultiple( attribute.listAttributeFields ) >
 				multiple="multiple" size="10"
 		</#if>

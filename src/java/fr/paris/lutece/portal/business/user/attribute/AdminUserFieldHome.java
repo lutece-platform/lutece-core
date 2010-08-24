@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.user.attribute;
 
 import java.util.List;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 /**
@@ -119,5 +120,15 @@ public class AdminUserFieldHome
 	public static List<AdminUserField> selectUserFieldsByIdUserIdAttribute( int nIdUser, int nIdAttribute )
 	{
 		return _dao.selectUserFieldsByIdUserIdAttribute( nIdUser, nIdAttribute );
+	}
+
+	/**
+	 * Load users by a given filter
+	 * @param auFieldFilter the filter
+	 * @return a list of users
+	 */
+	public static List<AdminUser> findUsersByFilter( AdminUserFieldFilter auFieldFilter )
+	{
+		return _dao.selectUsersByFilter( auFieldFilter );
 	}
 }

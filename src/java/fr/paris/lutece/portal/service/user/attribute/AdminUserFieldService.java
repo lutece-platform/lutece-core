@@ -91,8 +91,8 @@ public class AdminUserFieldService
 		List<AbstractAttribute> listAttributes = AttributeHome.findCoreAttributes( locale );
         for ( AbstractAttribute attribute : listAttributes )
         {
-        	List<AdminUserField> listUserField = attribute.getUserFieldsData( request, user );
-        	for ( AdminUserField userField : listUserField )
+        	List<AdminUserField> listUserFields = attribute.getUserFieldsData( request, user );
+        	for ( AdminUserField userField : listUserFields )
         	{
         		if ( userField != null )
         		{
