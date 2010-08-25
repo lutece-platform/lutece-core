@@ -136,7 +136,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_PERMISSION_LIST_EMPTY = "portal.rbac.message.permissionListEmpty";
     private static final String MESSAGE_ROLE_SPECIAL_CHARACTER = "portal.rbac.message.specialCharacters";
     private static final String PROPERTY_ROLES_PER_PAGE = "paginator.roles.itemsPerPage";
-    private static final String PROPERTY_ASSIGN_USERS_PAGE_TITLE = "portal.rbac.assign_users.pageTitle";
+    private static final String PROPERTY_ASSIGN_USERS_PAGETITLE = "portal.rbac.assign_users.pageTitle";
+    private static final String PROPERTY_MANAGE_ROLES_PAGETITLE = "portal.rbac.manage_roles.pageTitle";
 
     // templates
     private static final String TEMPLATE_MANAGE_ROLES = "admin/rbac/manage_roles.html";
@@ -170,6 +171,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageRoles( HttpServletRequest request )
     {
+    	setPageTitleProperty( PROPERTY_MANAGE_ROLES_PAGETITLE );
+    	
         List<AdminRole> listRole = (List<AdminRole>) AdminRoleHome.findAll(  );
         
         // SORT
@@ -749,7 +752,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     public String getAssignUsers( HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
-        setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGE_TITLE );
+        setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGETITLE );
         
         String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_ROLE;
         UrlItem url = new UrlItem( strBaseUrl );

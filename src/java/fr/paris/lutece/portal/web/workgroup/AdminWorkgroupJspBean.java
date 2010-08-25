@@ -103,7 +103,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     // Properties
     private static final String PROPERTY_CREATE_WORKGROUP_PAGETITLE = "portal.workgroup.create_workgroup.pageTitle";
     private static final String PROPERTY_MODIFY_WORKGROUP_PAGETITLE = "portal.workgroup.modify_workgroup.pageTitle";
-    private static final String PROPERTY_ASSIGN_USERS_PAGE_TITLE = "portal.workgroup.assign_users.pageTitle";
+    private static final String PROPERTY_ASSIGN_USERS_PAGETITLE = "portal.workgroup.assign_users.pageTitle";
     private static final String PROPERTY_MANAGE_WORKGROUPS_PAGETITLE = "portal.workgroup.manage_workgroups.pageTitle";
     private static final String PROPERTY_USERS_PER_PAGE = "paginator.user.itemsPerPage";
     
@@ -377,7 +377,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     public String getAssignUsers( HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
-        setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGE_TITLE );
+        setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGETITLE );
 
         String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_WORKGROUPS;
         UrlItem url = new UrlItem( strBaseUrl );

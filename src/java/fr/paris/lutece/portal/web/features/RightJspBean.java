@@ -75,8 +75,8 @@ public class RightJspBean  extends AdminFeaturesPageJspBean
     public static final String RIGHT_MANAGE_RIGHTS = "CORE_RIGHT_MANAGEMENT";
     
     // Properties
-    private static final String PROPERTY_PAGE_TITLE_RIGHT_LIST = "portal.features.manage_rights.pageTitle";
-    private static final String PROPERTY_ASSIGN_USERS_PAGE_TITLE = "portal.features.assign_users.pageTitle";
+    private static final String PROPERTY_MANAGE_RIGHTS_PAGETITLE = "portal.features.manage_rights.pageTitle";
+    private static final String PROPERTY_ASSIGN_USERS_PAGETITLE = "portal.features.assign_users.pageTitle";
     private static final String PROPERTY_USERS_PER_PAGE = "paginator.user.itemsPerPage";
     
     // Markers            
@@ -118,7 +118,7 @@ public class RightJspBean  extends AdminFeaturesPageJspBean
      */
     public String getManageRights( HttpServletRequest request )
     {
-    	setPageTitleProperty( PROPERTY_PAGE_TITLE_RIGHT_LIST );
+    	setPageTitleProperty( PROPERTY_MANAGE_RIGHTS_PAGETITLE );
     	
     	HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_RIGHTS_LIST, I18nService.localizeCollection( RightHome.getRightsList(  ), getLocale(  ) ) );
@@ -137,7 +137,7 @@ public class RightJspBean  extends AdminFeaturesPageJspBean
     public String getAssignUsers( HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
-        setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGE_TITLE );
+        setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGETITLE );
         
         String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_RIGHT;
         UrlItem url = new UrlItem( strBaseUrl );

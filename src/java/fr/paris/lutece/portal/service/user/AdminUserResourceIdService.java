@@ -50,7 +50,7 @@ public class AdminUserResourceIdService extends ResourceIdService
 {
     public static final String PERMISSION_MANAGE = "MANAGE";
     private static final String PROPERTY_LABEL_RESOURCE_TYPE = "portal.users.userService.ressourceType";
-    private static final String PROPERTY_LABEL_MANAGE = "portal.users.userService.permission.manage";
+    private static final String PROPERTY_LABEL_MANAGE = "portal.users.userService.permission.manageEncryptedPassword";
 
     /**
      * Initializes the service
