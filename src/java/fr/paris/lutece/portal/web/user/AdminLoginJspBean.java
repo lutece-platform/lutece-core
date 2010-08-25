@@ -85,6 +85,7 @@ public class AdminLoginJspBean
 
     // Jsp
     private static final String JSP_URL_ADMIN_MENU = "jsp/admin/AdminMenu.jsp";
+    private static final String JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD = "jsp/admin/user/ModifyDefaultUserPassword.jsp";
     private static final String JSP_URL_FORM_CONTACT = "AdminFormContact.jsp";
 
     // Templates
@@ -271,8 +272,18 @@ public class AdminLoginJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_AUTH_FAILURE, strLoginUrl,
                 AdminMessage.TYPE_STOP );
         }
-
-        UrlItem url = AppPathService.resolveRedirectUrl( request, JSP_URL_ADMIN_MENU );
+        
+        UrlItem url;
+        
+        AdminUser user = AdminUserHome.findUserByLogin( strAccessCode );
+        if ( user.isPasswordReset(  ) )
+        {
+        	url = AppPathService.resolveRedirectUrl( request, JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD );
+        }
+        else
+        {
+        	url = AppPathService.resolveRedirectUrl( request, JSP_URL_ADMIN_MENU );
+        }
 
         return url.getUrl(  );
     }
@@ -324,6 +335,7 @@ public class AdminLoginJspBean
         	}
             LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
             userStored.setPassword( strEncryptedPassword );
+            userStored.setPasswordReset( Boolean.TRUE );
             AdminUserHome.update( userStored );
         }
 

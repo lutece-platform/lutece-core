@@ -1564,6 +1564,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             	}
                 LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
                 userStored.setPassword( strEncryptedPassword );
+                userStored.setPasswordReset( Boolean.TRUE );
                 AdminUserHome.update( userStored );
             }
 

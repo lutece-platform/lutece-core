@@ -79,6 +79,7 @@ CREATE TABLE core_admin_user (
 	password varchar(100) default NULL,
 	locale varchar(10) default 'fr' NOT NULL,
 	level_user smallint default 0 NOT NULL,
+	reset_password smallint default 0 NOT NULL,
 	PRIMARY KEY (id_user)
 );
 

@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
+import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
@@ -51,6 +52,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.CryptoService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -96,6 +98,7 @@ public class AdminMenuJspBean
 
     // Parameter
     private static final String PARAMETER_LANGUAGE = "language";
+    private static final String PARAMETER_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
 
     // Properties
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
@@ -384,6 +387,14 @@ public class AdminMenuJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_CONTROL_PASSWORD_NO_CORRESPONDING,
                 AdminMessage.TYPE_STOP );
         }
+        
+        // Encryption passwords
+        if ( Boolean.valueOf( 
+        		DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
+    	{
+        	strCurrentPassword = CryptoService.encrypt( strCurrentPassword );
+        	strNewPassword = CryptoService.encrypt( strNewPassword );
+    	}
 
         // Test of the value of the current password
         if ( !strCurrentPassword.equals( strPassword ) )
@@ -407,6 +418,7 @@ public class AdminMenuJspBean
 
         // Successful tests
         userStored.setPassword( strNewPassword );
+        userStored.setPasswordReset( Boolean.FALSE );
         AdminUserHome.update( userStored );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_PASSWORD_REDIRECT, "jsp/admin/DoAdminLogout.jsp",

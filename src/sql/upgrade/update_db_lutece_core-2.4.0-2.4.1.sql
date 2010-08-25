@@ -44,3 +44,5 @@ CREATE TABLE core_admin_user_field (
 	user_field_value LONG VARCHAR DEFAULT NULL,
 	PRIMARY KEY (id_user_field)
 );
+
+ALTER TABLE core_admin_user ADD COLUMN reset_password SMALLINT DEFAULT 0 NOT NULL;

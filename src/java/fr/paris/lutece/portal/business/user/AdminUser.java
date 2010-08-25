@@ -60,6 +60,7 @@ public class AdminUser implements Serializable
     private String _strEmail;
     private int _nStatus;
     private int _nUserLevel;
+    private boolean _bIsPasswordReset;
 
     /** User's rights */
     private Map<String, Right> _rights = new HashMap<String, Right>(  );
@@ -387,5 +388,23 @@ public class AdminUser implements Serializable
         Map<String, AdminRole> roles = AdminUserHome.getRolesListForUser( getUserId(  ) );
 
         return roles.containsKey( strRole );
+    }
+    
+    /**
+     * Check if the password has been reinitialized
+     * @return true if it has been reinitialized, false otherwise
+     */
+    public boolean isPasswordReset(  )
+    {
+    	return _bIsPasswordReset;
+    }
+    
+    /**
+     * Set pwd reseted
+     * @param bIsPwdReseted true if it has been reinitialized, false otherwise
+     */
+    public void setPasswordReset( boolean bIsPasswordReset )
+    {
+    	_bIsPasswordReset = bIsPasswordReset;
     }
 }
