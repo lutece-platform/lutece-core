@@ -231,6 +231,10 @@ public class AttributeText extends AbstractAttribute
 		AdminUserField userField = new AdminUserField(  );
 		List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( _nIdAttribute );
 		String strValue = request.getParameter( PARAMETER_ATTRIBUTE + _nIdAttribute );
+		if ( strValue == null )
+		{
+			strValue = EMPTY_STRING;
+		}
 		
 		userField.setUser( user );
 		userField.setAttribute( this );

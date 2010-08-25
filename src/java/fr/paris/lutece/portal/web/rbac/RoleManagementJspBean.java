@@ -40,8 +40,8 @@ import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.business.user.AdminUserFilter;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
@@ -117,10 +117,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_AVAILABLE_USERS_LIST = "available_users_list";
     private static final String MARK_ASSIGNED_USERS_NUMBER = "assigned_users_number";
     private static final String MARK_ITEM_NAVIGATOR = "item_navigator";
-	private static final String MARK_SEARCH_IS_SEARCH = "search_is_search";
-    private static final String MARK_SEARCH_ADMIN_USER_FILTER = "search_admin_user_filter";
     private static final String MARK_USER_LEVELS_LIST = "user_levels";
-    private static final String MARK_SORT_SEARCH_ATTRIBUTE = "sort_search_attribute";
 
     // properties
     private static final String PROPERTY_CONFIRM_DELETE_ROLE = "portal.rbac.message.confirmDeleteRole";
@@ -753,6 +750,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
         setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGE_TITLE );
+        
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_ROLE;
+        UrlItem url = new UrlItem( strBaseUrl );
 
         // ROLE
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );       
@@ -769,31 +769,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             }
         }
         
-        // FILTER
-        AdminUserFilter auFilter = new AdminUserFilter(  );
-        List<AdminUser> listFilteredUsers = new ArrayList<AdminUser>(  );
-        boolean bIsSearch = auFilter.setAdminUserFilter( request );
-        boolean bIsFiltered;
-        
-        for ( AdminUser userFiltered : AdminUserHome.findUserByFilter( auFilter ) )
-        {
-        	bIsFiltered = Boolean.FALSE;
-        	
-        	for( AdminUser assignedUser : listAssignedUsers )
-        	{
-        		if ( assignedUser.getUserId(  ) == userFiltered.getUserId(  ) )
-                {
-            		bIsFiltered = Boolean.TRUE;
-            		break;
-                }
-        	}
-        	
-        	if ( bIsFiltered &&
-                    ( ( userFiltered.getUserLevel(  ) > getUser(  ).getUserLevel(  ) ) || ( getUser(  ).isAdmin(  ) ) ) )
-            {
-        		listFilteredUsers.add( userFiltered );
-            }
-        }
+        List<AdminUser> listFilteredUsers = AdminUserService.getFilteredUsersInterface( listAssignedUsers, request, model, url );
         
         // AVAILABLE USERS
         ReferenceList listAvailableUsers = new ReferenceList(  );
@@ -840,9 +816,6 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_ROLES_PER_PAGE, 50 );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
-
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_ROLE;
-        UrlItem url = new UrlItem( strBaseUrl );
         
         if ( strSortedAttributeName != null )
         {
@@ -852,13 +825,6 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         if ( strAscSort != null )
         {
         	url.addParameter( Parameters.SORTED_ASC, strAscSort );
-        }
-        
-        String strSortSearchAttribute = "";
-        if( bIsSearch )
-        {
-        	auFilter.setUrlAttributes( url );
-        	strSortSearchAttribute = "&" + auFilter.getUrlAttributes(  );
         }
         
         // ITEM NAVIGATION
@@ -898,11 +864,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ASSIGNED_USERS_LIST, paginator.getPageItems(  ) );
         model.put( MARK_ASSIGNED_USERS_NUMBER, listAssignedUsers.size(  ) );
         model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
-        model.put( MARK_SEARCH_ADMIN_USER_FILTER, auFilter );
-        model.put( MARK_SEARCH_IS_SEARCH, bIsSearch );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-        model.put( MARK_SORT_SEARCH_ATTRIBUTE, strSortSearchAttribute );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale(  ), model );
 

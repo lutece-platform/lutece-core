@@ -41,11 +41,9 @@ import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.business.user.AdminUserFilter;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.attribute.AbstractAttribute;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
-import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldFilter;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
@@ -56,6 +54,7 @@ import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.advancedparameter.AdvancedParameterResourceIdService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mail.MailService;
@@ -225,9 +224,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_SELECT_ALL = "select_all";
     private static final String MARK_SITE_NAME = "site_name";
     private static final String MARK_LOGIN_URL = "login_url";
-	private static final String MARK_SEARCH_IS_SEARCH = "search_is_search";
-    private static final String MARK_SEARCH_ADMIN_USER_FILTER = "search_admin_user_filter";
-    private static final String MARK_SORT_SEARCH_ATTRIBUTE = "sort_search_attribute";
     private static final String MARK_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
     private static final String MARK_ENCRYPTION_ALGORITHM = "encryption_algorithm";
     private static final String MARK_ENCRYPTION_ALGORITHMS_LIST = "encryption_algorithms_list";
@@ -241,7 +237,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
     private static final String MARK_LOCALE = "locale";
     private static final String MARK_MAP_LIST_ATTRIBUTE_DEFAULT_VALUES = "map_list_attribute_default_values";
-    private static final String MARK_SEARCH_ADMIN_USER_FIELD_FILTER = "search_admin_user_field_filter";
     
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
@@ -259,6 +254,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         String strCreateUrl;
         AdminUser currentUser = getUser(  );
+        
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         // creation in no-module mode : no import
         if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
@@ -270,47 +267,22 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             strCreateUrl = JSP_URL_IMPORT_USER;
         }
         
-        // FILTER
-        AdminUserFilter auFilter = new AdminUserFilter(  );
-        boolean bIsSearch = auFilter.setAdminUserFilter( request );
+        String strURL = getHomeUrl( request );
+        UrlItem url = new UrlItem( strURL );
         
-        Collection<AdminUser> listUsers = AdminUserHome.findUserByFilter( auFilter );
-        List<AdminUser> listFilteredUsers = new ArrayList<AdminUser>(  );
-
-        for ( AdminUser user : listUsers )
+        List<AdminUser> listUsers = (List<AdminUser>) AdminUserHome.findUserList(  );
+        List<AdminUser> availableUsers = AdminUserService.getFilteredUsersInterface( listUsers, request, model, url );
+        listUsers = new ArrayList<AdminUser>(  );
+        for ( AdminUser user : availableUsers )
         {
-            if ( currentUser.isAdmin(  ) ||
+        	if ( currentUser.isAdmin(  ) ||
                     ( currentUser.isParent( user ) &&
                     ( ( haveCommonWorkgroups( currentUser, user ) ) ||
                     ( !AdminWorkgroupHome.checkUserHasWorkgroup( user.getUserId(  ) ) ) ) ) )
             {
-            	listFilteredUsers.add( user );
+        		listUsers.add( user );
             }
         }
-        List<AdminUser> availableUsers = new ArrayList<AdminUser>(  );
-        
-    	AdminUserFieldFilter auFieldFilter= new AdminUserFieldFilter(  );
-        auFieldFilter.setAdminUserFieldFilter( request, getLocale(  ) );
-        List<AdminUser> listFilteredUsersByUserFields = AdminUserFieldHome.findUsersByFilter( auFieldFilter );
-        
-        if ( listFilteredUsersByUserFields != null )
-        {
-        	for ( AdminUser filteredUser : listFilteredUsers )
-            {
-            	for ( AdminUser filteredUserByUserField : listFilteredUsersByUserFields )
-            	{
-            		if ( filteredUser.getUserId(  ) == filteredUserByUserField.getUserId(  ) )
-            		{
-            			availableUsers.add( filteredUser );
-            		}
-            	}
-            }
-        }
-        else
-        {
-        	availableUsers = listFilteredUsers;
-        }
-        
         
         // SORT
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
@@ -322,16 +294,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
 
-            Collections.sort( availableUsers, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
+            Collections.sort( listUsers, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_USERS_PER_PAGE, 50 );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
-
-        String strURL = getHomeUrl( request );
-        UrlItem url = new UrlItem( strURL );
 
         if ( strSortedAttributeName != null )
         {
@@ -342,18 +311,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
         	url.addParameter( Parameters.SORTED_ASC, strAscSort );
         }
-        
-        String strSortSearchAttribute = "";
-        if( bIsSearch )
-        {
-        	auFilter.setUrlAttributes( url );
-        	strSortSearchAttribute = "&" + auFilter.getUrlAttributes(  );
-        	auFieldFilter.setUrlAttributes( url );
-        	strSortSearchAttribute = auFieldFilter.getUrlAttributes(  );
-        }
 
         // PAGINATOR
-        LocalizedPaginator paginator = new LocalizedPaginator( availableUsers, _nItemsPerPage, url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX,
+        LocalizedPaginator paginator = new LocalizedPaginator( listUsers, _nItemsPerPage, url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale(  ) );
         
         // USER LEVEL
@@ -369,27 +329,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         
         boolean bPermissionAdvancedParameter = RBACService.isAuthorized( AdvancedParameterResourceIdService.RESOURCE_TYPE, 
         		RBAC.WILDCARD_RESOURCES_ID,	AdvancedParameterResourceIdService.PERMISSION_MANAGE, getUser(  ) );
-        
-        List<AbstractAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
-        for ( AbstractAttribute attribute : listAttributes )
-        {
-        	List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
-        	attribute.setListAttributeFields( listAttributeFields );
-        }
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_USER_LEVELS_LIST, filteredLevels );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_USER_LIST, paginator.getPageItems(  ) );
         model.put( MARK_USER_CREATION_URL, strCreateUrl );
-        model.put( MARK_SEARCH_ADMIN_USER_FILTER, auFilter );
-        model.put( MARK_SEARCH_IS_SEARCH, bIsSearch );
-        model.put( MARK_SORT_SEARCH_ATTRIBUTE, strSortSearchAttribute );
         model.put( MARK_PERMISSION_ADVANCED_PARAMETER, bPermissionAdvancedParameter );
-        model.put( MARK_LOCALE, getLocale(  ) );
-        model.put( MARK_ATTRIBUTES_LIST, listAttributes );
-        model.put( MARK_SEARCH_ADMIN_USER_FIELD_FILTER, auFieldFilter );
         
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USERS, getLocale(  ), model );
 

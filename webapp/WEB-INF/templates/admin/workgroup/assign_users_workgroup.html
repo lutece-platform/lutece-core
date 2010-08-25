@@ -143,6 +143,11 @@
 		                		</#switch>
 				            </select>
 						</p>
+						<#list attributes_list as attribute>
+							<#if attribute.shownInSearch>
+								${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
+							</#if>
+						</#list>
 						<p>
 							<input type="hidden" name="workgroup_key" value="${workgroup.key}" />
 				           	<input type="submit" value="#i18n{portal.users.manage_users.search_users.buttonSearch}" tabindex="6" class="button" name="search_is_search"/>   
@@ -161,6 +166,11 @@
 		   			<input type="hidden" name="search_email" value="${search_admin_user_filter.email}"/>
 		   			<input type="hidden" name="search_status" value="${search_admin_user_filter.status}"/>
 		        </#if>
+		        <#if search_admin_user_field_filter.listUserFields?exists && search_admin_user_field_filter.listUserFields?has_content>
+	   				<#list search_admin_user_field_filter.listUserFields as user_field>
+	   					<input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.value}" />
+	   				</#list>
+	   			</#if>
 		        <input type="hidden" name="workgroup_key" value="${workgroup.key}" />
 		    </form>
 	    	<table width="80%">
