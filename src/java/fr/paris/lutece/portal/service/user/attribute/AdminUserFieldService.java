@@ -55,7 +55,11 @@ import fr.paris.lutece.portal.web.constants.Messages;
  */
 public class AdminUserFieldService 
 {
+	// CONSTANTS
 	private static final String CONSTANT_EMPTY_STRING = "";
+	
+	// PARAMETERS
+	private static final String PARAMETER_ATTRIBUTE = "attribute_";
 	
 	/**
 	 * Check if the user fields are correctly filled
@@ -69,7 +73,7 @@ public class AdminUserFieldService
         List<AbstractAttribute> listAttributes = AttributeHome.findAll( locale );
         for ( AbstractAttribute attribute : listAttributes )
         {
-        	String value = request.getParameter( String.valueOf( attribute.getIdAttribute(  ) ) );
+        	String value = request.getParameter( PARAMETER_ATTRIBUTE +  attribute.getIdAttribute(  ) );
         	if ( attribute.isMandatory(  ) && ( value == null || value.equals( CONSTANT_EMPTY_STRING ) ) )
         	{
         		return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
