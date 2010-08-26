@@ -22,10 +22,11 @@ public class AdminUserFieldFilter
 	private static final String EMPTY_STRING = "";
 	private static final String CONSTANT_ESPERLUETTE = "&";
 	private static final String CONSTANT_EQUAL = "=";
+	private static final String CONSTANT_UNDERSCORE = "_";
 	
 	// PARAMETERS
 	private static final String PARAMETER_SEARCH_IS_SEARCH = "search_is_search";
-	private static final String PARAMETER_ATTRIBUTE = "attribute_";
+	private static final String PARAMETER_ATTRIBUTE = "attribute";
 	
 	// PROPERTIES
 	private static final String PROPERTY_ENCODING_URL = "lutece.encoding.url";
@@ -62,8 +63,7 @@ public class AdminUserFieldFilter
 		
 		if ( strIsSearch != null )
 		{
-			// Attributes created in the Back-Office
-			List<AbstractAttribute> listAttributes = AttributeHome.findCoreAttributes( locale );
+			List<AbstractAttribute> listAttributes = AttributeHome.findAll( locale );
 	        for ( AbstractAttribute attribute : listAttributes )
 	        {
 	        	for ( AdminUserField userField : attribute.getUserFieldsData( request, null ) )
@@ -88,7 +88,7 @@ public class AdminUserFieldFilter
     	{
     		try
         	{
-        		url.addParameter( PARAMETER_ATTRIBUTE + userField.getAttribute(  ).getIdAttribute(  ), 
+        		url.addParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + userField.getAttribute(  ).getIdAttribute(  ), 
         				URLEncoder.encode( userField.getValue(  ), AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
         	}
         	catch( UnsupportedEncodingException e )
@@ -110,7 +110,7 @@ public class AdminUserFieldFilter
     	{
     		try
         	{
-        		sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_ATTRIBUTE + userField.getAttribute(  ).getIdAttribute(  ) + CONSTANT_EQUAL +
+        		sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + userField.getAttribute(  ).getIdAttribute(  ) + CONSTANT_EQUAL +
         				URLEncoder.encode( userField.getValue(  ), AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
         	}
         	catch( UnsupportedEncodingException e )

@@ -53,6 +53,7 @@ public class AttributeComboBox extends AbstractAttribute
 {
 	// CONSTANTS
 	private static final String EMPTY_STRING = "";
+	private static final String CONSTANT_UNDERSCORE = "_";
 	
 	// PARAMETERS 
 	private static final String PARAMETER_TITLE = "title";
@@ -60,7 +61,7 @@ public class AttributeComboBox extends AbstractAttribute
 	private static final String PARAMETER_MANDATORY = "mandatory";
 	private static final String PARAMETER_MULTIPLE = "multiple";
 	private static final String PARAMETER_IS_SHOWN_IN_SEARCH = "is_shown_in_search";
-	private static final String PARAMETER_ATTRIBUTE = "attribute_"; 
+	private static final String PARAMETER_ATTRIBUTE = "attribute"; 
 	
 	// PROPERTY
 	private static final String PROPERTY_TYPE_COMBOBOX = "portal.users.attribute.type.comboBox";
@@ -192,7 +193,7 @@ public class AttributeComboBox extends AbstractAttribute
 	 */
 	public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
 	{
-		String[] values = request.getParameterValues( PARAMETER_ATTRIBUTE + _nIdAttribute );
+		String[] values = request.getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
 		List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
 		if ( values != null )
 		{
@@ -218,7 +219,7 @@ public class AttributeComboBox extends AbstractAttribute
 				userField.setUser( user );
 				userField.setAttribute( this );
 				userField.setAttributeField( attributeField );
-				userField.setValue( strValue );
+				userField.setValue( attributeField.getTitle(  ) );
 				
 				listUserFields.add( userField );
 			}

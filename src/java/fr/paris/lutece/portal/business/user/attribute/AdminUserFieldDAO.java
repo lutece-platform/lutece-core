@@ -73,7 +73,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 			" WHERE auf.id_user = ? AND auf.id_attribute = ? ";
 	private static final String SQL_QUERY_SELECT_USERS_BY_FILTER = " SELECT DISTINCT u.id_user, u.access_code, u.last_name, u.first_name, u.email, u.status, u.locale, u.level_user " +
 			" FROM core_admin_user u INNER JOIN core_admin_user_field uf ON u.id_user = uf.id_user ";
-	private static final String SQL_QUERY_SELECT_ID_USER = " SELECT id_user FROM core_admin_user_field WHERE id_attribute = ? AND user_field_value LIKE ? ";
+	private static final String SQL_QUERY_SELECT_ID_USER = " SELECT id_user FROM core_admin_user_field WHERE id_attribute = ? AND id_field = ? AND user_field_value LIKE ? ";
 	
 	// INSERT
 	private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_user_field (id_user_field, id_user, id_attribute, id_field, user_field_value) " +
@@ -88,7 +88,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 	private static final String SQL_QUERY_DELETE_FROM_ID_USER = " DELETE FROM core_admin_user_field WHERE id_user = ? ";
 	private static final String SQL_QUERY_DELETE_FROM_ID_ATTRIBUTE = " DELETE FROM core_admin_user_field WHERE id_attribute = ? ";
 	
-	private static final String SQL_ID_ATTRIBUTE_AND_USER_FIELD_VALUE = " WHERE id_attribute = ? AND user_field_value LIKE ? ";
+	private static final String SQL_ID_ATTRIBUTE_AND_USER_FIELD_VALUE = " WHERE id_attribute = ? AND id_field = ? AND user_field_value LIKE ? ";
 	private static final String SQL_AND_ID_USER_IN = " AND id_user IN ";
 	private static final String SQL_AND_ID_USER_IN_FIRST = " AND uf.id_user IN ";
 	
@@ -387,6 +387,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 		for ( AdminUserField userField : listUserFields )
 		{
 			daoUtil.setInt( nbCount++, userField.getAttribute(  ).getIdAttribute(  ) );
+			daoUtil.setInt( nbCount++, userField.getAttributeField(  ).getIdField(  ) );
 			daoUtil.setString( nbCount++, CONSTANT_PERCENT + userField.getValue(  ) + CONSTANT_PERCENT );
 		}
 		

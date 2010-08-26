@@ -57,9 +57,10 @@ public class AdminUserFieldService
 {
 	// CONSTANTS
 	private static final String CONSTANT_EMPTY_STRING = "";
+	private static final String CONSTANT_UNDERSCORE = "_";
 	
 	// PARAMETERS
-	private static final String PARAMETER_ATTRIBUTE = "attribute_";
+	private static final String PARAMETER_ATTRIBUTE = "attribute";
 	
 	/**
 	 * Check if the user fields are correctly filled
@@ -73,7 +74,7 @@ public class AdminUserFieldService
         List<AbstractAttribute> listAttributes = AttributeHome.findAll( locale );
         for ( AbstractAttribute attribute : listAttributes )
         {
-        	String value = request.getParameter( PARAMETER_ATTRIBUTE +  attribute.getIdAttribute(  ) );
+        	String value = request.getParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + attribute.getIdAttribute(  ) );
         	if ( attribute.isMandatory(  ) && ( value == null || value.equals( CONSTANT_EMPTY_STRING ) ) )
         	{
         		return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
