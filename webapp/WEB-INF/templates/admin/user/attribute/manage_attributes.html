@@ -18,6 +18,7 @@
         <tr>
             <th>#i18n{portal.users.manage_attributes.columnTitle}</th>
             <th>#i18n{portal.users.manage_attributes.columnType}</th>
+            <th>#i18n{portal.users.manage_attributes.columnOriginalComponent}</th>
             <th>#i18n{portal.users.manage_attributes.columnTitleActions}</th>
         </tr>
         <#assign cpt = 0>
@@ -26,6 +27,13 @@
 	        <tr>
 	            <td>${attribute.title}</td>
 	            <td>${attribute.attributeType.name}</td>
+	            <td>
+	            	<#if attribute.plugin?exists && attribute.plugin.name?has_content>
+	            		${attribute.plugin.name}
+	            	<#else>
+	            		#i18n{portal.users.manage_attributes.labelCore}
+	            	</#if>
+	            </td>
 	            <td>
 	            	<#if attribute.plugin?exists && attribute.plugin.name != "">
 	            		<#if cpt != 1>
