@@ -696,6 +696,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         	List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
         	attribute.setListAttributeFields( listAttributeFields );
         	List<AdminUserField> listUserFields = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( user.getUserId(  ), attribute.getIdAttribute(  ) );
+        	if ( listUserFields.size(  ) == 0 )
+        	{
+        		AdminUserField userField = new AdminUserField(  );
+        		userField.setValue( CONSTANT_EMPTY_STRING );
+        		listUserFields.add( userField );
+        	}
         	map.put( String.valueOf( attribute.getIdAttribute(  ) ), listUserFields );
         }
         
