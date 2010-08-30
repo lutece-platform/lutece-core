@@ -33,13 +33,13 @@
  */
 package fr.paris.lutece.util.string;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.text.Collator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 /**
  * This class provides String utils.
@@ -246,4 +246,25 @@ public final class StringUtil
     {
         return ( strCodeKey == null ) ? false : strCodeKey.matches( STRING_CODE_PATTERN );
     }
+    
+    /**
+     * Converts <code>strValue</code> to an int value.
+     * @param strValue the value to convert
+     * @param nDefaultValue the default returned value
+     * @return <code>strValue</code> int value, <code>nDefaultValue</code> if strValue is not an Integer.
+     */
+    public static int getIntValue( String strValue, int nDefaultValue )
+    {
+    	try
+    	{
+    		return Integer.parseInt( strValue );
+    	}
+    	catch ( NumberFormatException nfe )
+    	{
+    		AppLogService.error( nfe.getMessage(  ), nfe );
+    	}
+    	
+    	return nDefaultValue;
+    }
+	
 }

@@ -143,6 +143,14 @@
             <dashboard-zone-order>1</dashboard-zone-order>
         </dashboard-component>
     </dashboard-components>
+    
+    <!-- Admin Dashboard  components -->
+    <admindashboard-components>
+    	<admindashboard-component>
+            <dashboard-component-name>usersAdminDashboardComponent</dashboard-component-name>
+            <dashboard-component-class>fr.paris.lutece.portal.web.user.UsersAdminDashboardComponent</dashboard-component-class>
+        </admindashboard-component>
+    </admindashboard-components>
         
     
     

@@ -81,10 +81,13 @@
     
     <!-- package default user parameters -->
     <bean id="defaultUserParameterDAO"  class="fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterDAO" />
-    
+
     <!-- package attribute -->
     <bean id="attributeDAO"  class="fr.paris.lutece.portal.business.user.attribute.AttributeDAO" />
     <bean id="attributeFieldDAO"  class="fr.paris.lutece.portal.business.user.attribute.AttributeFieldDAO" />
     <bean id="adminUserFieldDAO"  class="fr.paris.lutece.portal.business.user.attribute.AdminUserFieldDAO" />
     
+    <!-- admin dashboards -->
+    <bean id="adminDashboardDAO" class="fr.paris.lutece.portal.business.dashboard.AdminDashboardDAO"/>    
+
 </beans>

@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
+import fr.paris.lutece.portal.business.rbac.RBAC;
+import fr.paris.lutece.portal.business.right.Level;
+import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserFilter;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
@@ -42,10 +45,16 @@ import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
+import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.rbac.RBACService;
+import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -68,6 +77,31 @@ public final class AdminUserService
     private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
     private static final String MARK_LOCALE = "locale";
     private static final String MARK_SORT_SEARCH_ATTRIBUTE = "sort_search_attribute";
+    
+    public static final String MARK_DEFAULT_USER_LEVEL = "default_user_level";
+    public static final String MARK_DEFAULT_USER_NOTIFICATION = "default_user_notification";
+    public static final String MARK_DEFAULT_USER_LANGUAGE = "default_user_language";
+    public static final String MARK_DEFAULT_USER_STATUS = "default_user_status";
+    public static final String MARK_LANGUAGES_LIST = "languages_list";
+    public static final String MARK_USER_LEVELS_LIST = "user_levels";
+    public static final String MARK_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
+    public static final String MARK_ENCRYPTION_ALGORITHM = "encryption_algorithm";
+    public static final String MARK_ENCRYPTION_ALGORITHMS_LIST = "encryption_algorithms_list";
+    
+    // PARAMETER
+    public static final String PARAMETER_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
+    public static final String PARAMETER_ENCRYPTION_ALGORITHM = "encryption_algorithm";
+    public static final String PARAMETER_DEFAULT_USER_LEVEL = "default_user_level";
+    public static final String PARAMETER_DEFAULT_USER_NOTIFICATION = "default_user_notification";
+    public static final String PARAMETER_DEFAULT_USER_LANGUAGE = "default_user_language";
+    public static final String PARAMETER_DEFAULT_USER_STATUS = "default_user_status";
+    
+    private static final String PROPERTY_ENCRYPTION_ALGORITHMS_LIST = "encryption.algorithmsList";
+    
+    
+    private static final String CONSTANT_VIRGULE = ",";
+
+    
 
     /** Private constructor */
     private AdminUserService(  )
@@ -216,5 +250,57 @@ public final class AdminUserService
         model.put( MARK_SORT_SEARCH_ATTRIBUTE, strSortSearchAttribute );
         
         return filteredUsers;
+    }
+    
+    
+    /**
+     * Build the advanced parameters management
+     * @param request HttpServletRequest
+     * @return The model for the advanced parameters
+     */
+    public static Map<String, Object> getManageAdvancedParameters( AdminUser user )
+    {   	
+    	Map<String, Object> model = new HashMap<String, Object>(  );
+    	
+    	// Encryption Password
+    	if ( RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, 
+    			AdminUserResourceIdService.PERMISSION_MANAGE, user ) )
+    	{
+    		model.put( MARK_ENABLE_PASSWORD_ENCRYPTION, 
+    				DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) );
+        	model.put( MARK_ENCRYPTION_ALGORITHM, 
+        			DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  ) );
+        	String[] listAlgorithms = AppPropertiesService.getProperty( PROPERTY_ENCRYPTION_ALGORITHMS_LIST ).split( CONSTANT_VIRGULE );
+        	for ( String strAlgorithm : listAlgorithms )
+        	{
+        		strAlgorithm.trim(  );
+        	}
+        	model.put( MARK_ENCRYPTION_ALGORITHMS_LIST, listAlgorithms );
+    	}
+    	
+    	// USER LEVEL 
+        String strDefaultLevel = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LEVEL ).getParameterValue(  );
+        Level defaultLevel = LevelHome.findByPrimaryKey( Integer.parseInt( strDefaultLevel ) );
+        
+        // USER NOTIFICATION
+        int nDefaultUserNotification = Integer.parseInt( 
+        		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_NOTIFICATION ).getParameterValue(  ) );
+    	
+        // USER LANGUAGE
+        ReferenceList listLanguages = I18nService.getAdminLocales( user.getLocale(  ) );
+        String strDefaultUserLanguage = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LANGUAGE ).getParameterValue(  );
+        
+        // USER STATUS
+        int nDefaultUserStatus = Integer.parseInt( 
+        		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_STATUS ).getParameterValue(  ) );
+        
+        model.put( MARK_USER_LEVELS_LIST, LevelHome.getLevelsList(  ) );
+        model.put( MARK_DEFAULT_USER_LEVEL, defaultLevel );
+        model.put( MARK_DEFAULT_USER_NOTIFICATION, nDefaultUserNotification );
+        model.put( MARK_LANGUAGES_LIST, listLanguages );
+        model.put( MARK_DEFAULT_USER_LANGUAGE, strDefaultUserLanguage );
+        model.put( MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
+
+        return model;
     }
 }

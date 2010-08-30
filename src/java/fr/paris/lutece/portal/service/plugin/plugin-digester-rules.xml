@@ -134,6 +134,13 @@
             <bean-property-setter-rule pattern="dashboard-zone-order" propertyname="order" />
             <set-next-rule methodname="addDashboardComponent" />
         </pattern>
+        <pattern value="admindashboard-components/admindashboard-component">
+            <object-create-rule classname="fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry" />
+            <set-properties-rule />
+            <bean-property-setter-rule pattern="dashboard-component-name" propertyname="name" />
+            <bean-property-setter-rule pattern="dashboard-component-class" propertyname="componentClass" />
+            <set-next-rule methodname="addAdminDashboardComponent" />
+        </pattern>
     </pattern>
 </digester-rules>
 

@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.DaemonEntry;
 import fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
+import fr.paris.lutece.portal.service.dashboard.admin.AdminDashboardService;
 import fr.paris.lutece.portal.service.database.PluginConnectionService;
 import fr.paris.lutece.portal.service.filter.FilterEntry;
 import fr.paris.lutece.portal.service.filter.FilterService;
@@ -114,6 +115,7 @@ public abstract class Plugin implements Comparable<Plugin>
     private List<InsertService> _listInsertServices;
     private List<PageIncludeEntry> _listPageIncludes;
     private List<DashboardComponentEntry> _listDashboardComponents;
+    private List<DashboardComponentEntry> _listAdminDashboardComponents;
     private List<RBACResourceTypeEntry> _listRBACResourceTypes;
     private List<DaemonEntry> _listDaemons;
 
@@ -159,6 +161,7 @@ public abstract class Plugin implements Comparable<Plugin>
             _listSearchIndexers = pluginFile.getSearchIndexers(  );
             _listPageIncludes = pluginFile.getPageIncludes(  );
             _listDashboardComponents = pluginFile.getDashboardComponents(  );
+            _listAdminDashboardComponents = pluginFile.getAdminDashboardComponents(  );
             _listRBACResourceTypes = pluginFile.getRBACResourceTypes(  );
             _listDaemons = pluginFile.getDaemons(  );
             _mapParams = pluginFile.getParams(  );
@@ -175,6 +178,7 @@ public abstract class Plugin implements Comparable<Plugin>
             registerSearchIndexers(  );
             registerPageIncludes(  );
             registerDashboardComponents(  );
+            registerAdminDashboardComponents(  );
             registerRBACResourceTypes(  );
             registerDaemons(  );
         }
@@ -446,6 +450,14 @@ public abstract class Plugin implements Comparable<Plugin>
         for ( DashboardComponentEntry entry : _listDashboardComponents )
         {
             DashboardService.getInstance(  ).registerDashboardComponent( entry, this );
+        }
+    }
+    
+    protected void registerAdminDashboardComponents(  ) throws LuteceInitException
+    {
+    	for ( DashboardComponentEntry entry : _listAdminDashboardComponents )
+        {
+            AdminDashboardService.getInstance(  ).registerDashboardComponent( entry, this );
         }
     }
 

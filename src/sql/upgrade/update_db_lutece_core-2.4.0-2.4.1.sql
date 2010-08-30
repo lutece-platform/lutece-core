@@ -1,4 +1,20 @@
 --
+-- Table structure for table core_user_parameters
+--
+DROP TABLE IF EXISTS core_admin_dashboard;
+CREATE TABLE core_admin_dashboard (
+	dashboard_name varchar(100) NOT NULL,
+	dashboard_column int NOT NULL,
+	dashboard_order int NOT NULL,
+	PRIMARY KEY (dashboard_name)
+);
+
+INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('usersAdminDashboardComponent', 1, 1);
+
+INSERT INTO core_admin_right VALUES ('CORE_ADMINDASHBOARD_MANAGEMENT', 'portal.admindashboard.adminFeature.right_management.name', 0, 'jsp/admin/admindashboard/ManageAdminDashboards.jsp', 'portal.admindashboard.adminFeature.right_management.description', 0, NULL, 'SYSTEM', 'images/admin/skin/features/manage_admindashboards.png', NULL, 7);
+INSERT INTO core_user_right VALUES ('CORE_ADMINDASHBOARD_MANAGEMENT', 1);
+
+--
 -- Table structure for table core_attribute
 --
 DROP TABLE IF EXISTS core_attribute;

@@ -100,7 +100,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     ////////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String CONSTANTE_UN = "1";
-    private static final String CONSTANT_VIRGULE = ",";
     private static final String CONSTANT_DEFAULT_ALGORITHM = "noValue";
     private static final String CONSTANT_EMPTY_STRING = "";
 
@@ -122,9 +121,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_MODIFY_USER_WORKGROUPS = "admin/user/modify_user_workgroups.html";
     private static final String TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS = "admin/user/user_email_change_status.html";
     private static final String TEMPLATE_NOTIFY_USER = "admin/user/notify_user.html";
-    private static final String TEMPLATE_MANAGE_PASSWORD_ENCRYPTION = "admin/user/manage_advanced_parameters.html";
+    private static final String TEMPLATE_MANAGE_ADVANCED_PARAMETERS = "admin/user/manage_advanced_parameters.html";
     private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD = "admin/admin_email_forgot_password.html";
-
+    
     // Messages
     private static final String PROPERTY_MANAGE_USERS_PAGETITLE = "portal.users.manage_users.pageTitle";
     private static final String PROPERTY_MODIFY_USER_PAGETITLE = "portal.users.modify_user.pageTitle";
@@ -146,7 +145,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT_CHANGE_STATUS = "portal.users.user_change_status.email.subject";
     private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER = "portal.users.notify_user.email.subject";
     private static final String PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE = "portal.users.manage_advanced_parameters.pageTitle";
-    private static final String PROPERTY_ENCRYPTION_ALGORITHMS_LIST = "encryption.algorithmsList";
     private static final String PROPERTY_MESSAGE_CONFIRM_MODIFY_PASSWORD_ENCRYPTION = "portal.users.manage_advanced_parameters.message.confirmModifyPasswordEncryption";
     private static final String PROPERTY_MESSAGE_NO_CHANGE_PASSWORD_ENCRYPTION = "portal.users.manage_advanced_parameters.message.noChangePasswordEncryption";
     private static final String PROPERTY_MESSAGE_INVALID_ENCRYPTION_ALGORITHM = "portal.users.manage_advanced_parameters.message.invalidEncryptionAlgorithm";
@@ -173,12 +171,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_WORKGROUP = "workgroup";
     private static final String PARAMETER_SELECT = "select";
     private static final String PARAMETER_SELECT_ALL = "all";
-    private static final String PARAMETER_ENCRYPTION_ALGORITHM = "encryption_algorithm";
-    private static final String PARAMETER_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
-    private static final String PARAMETER_DEFAULT_USER_LEVEL = "default_user_level";
-    private static final String PARAMETER_DEFAULT_USER_NOTIFICATION = "default_user_notification";
-    private static final String PARAMETER_DEFAULT_USER_LANGUAGE = "default_user_language";
-    private static final String PARAMETER_DEFAULT_USER_STATUS = "default_user_status";
     
     // Jsp url
     private static final String JSP_MANAGE_USER_RIGHTS = "ManageUserRights.jsp";
@@ -224,14 +216,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_SELECT_ALL = "select_all";
     private static final String MARK_SITE_NAME = "site_name";
     private static final String MARK_LOGIN_URL = "login_url";
-    private static final String MARK_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
-    private static final String MARK_ENCRYPTION_ALGORITHM = "encryption_algorithm";
-    private static final String MARK_ENCRYPTION_ALGORITHMS_LIST = "encryption_algorithms_list";
     private static final String MARK_NEW_PASSWORD = "new_password";
-    private static final String MARK_DEFAULT_USER_LEVEL = "default_user_level";
-    private static final String MARK_DEFAULT_USER_NOTIFICATION = "default_user_notification";
-    private static final String MARK_DEFAULT_USER_LANGUAGE = "default_user_language";
-    private static final String MARK_DEFAULT_USER_STATUS = "default_user_status";
     private static final String MARK_PERMISSION_ADVANCED_PARAMETER = "permission_advanced_parameter";
     private static final String MARK_ITEM_NAVIGATOR = "item_navigator";
     private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
@@ -431,13 +416,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
         
         // Default user parameter values
-        String strDefaultLevel = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LEVEL ).getParameterValue(  );
+        String strDefaultLevel = DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_DEFAULT_USER_LEVEL ).getParameterValue(  );
         Level defaultLevel = LevelHome.findByPrimaryKey( Integer.parseInt( strDefaultLevel ) );
         int nDefaultUserNotification = Integer.parseInt( 
-        		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_NOTIFICATION ).getParameterValue(  ) );
-        String strDefaultUserLanguage = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LANGUAGE ).getParameterValue(  );
+        		DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_DEFAULT_USER_NOTIFICATION ).getParameterValue(  ) );
+        String strDefaultUserLanguage = DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_DEFAULT_USER_LANGUAGE ).getParameterValue(  );
         int nDefaultUserStatus = Integer.parseInt( 
-        		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_STATUS ).getParameterValue(  ) );
+        		DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_DEFAULT_USER_STATUS ).getParameterValue(  ) );
         
         // Specific attributes
         List<IAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
@@ -454,11 +439,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             model.put( MARK_USER_LEVELS_LIST, filteredLevels );
             model.put( MARK_CURRENT_USER, currentUser );
-            model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( getLocale(  ) ) );
-            model.put( MARK_DEFAULT_USER_LEVEL, defaultLevel );
-            model.put( MARK_DEFAULT_USER_NOTIFICATION, nDefaultUserNotification );
-            model.put( MARK_DEFAULT_USER_LANGUAGE, strDefaultUserLanguage );
-            model.put( MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
+            model.put( AdminUserService.MARK_LANGUAGES_LIST, I18nService.getAdminLocales( getLocale(  ) ) );
+            model.put( AdminUserService.MARK_DEFAULT_USER_LEVEL, defaultLevel );
+            model.put( AdminUserService.MARK_DEFAULT_USER_NOTIFICATION, nDefaultUserNotification );
+            model.put( AdminUserService.MARK_DEFAULT_USER_LANGUAGE, strDefaultUserLanguage );
+            model.put( AdminUserService.MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
             model.put( MARK_ATTRIBUTES_LIST, listAttributes );
             model.put( MARK_LOCALE, getLocale(  ) );
             template = AppTemplateService.getTemplate( TEMPLATE_DEFAULT_CREATE_USER, getLocale(  ), model );
@@ -482,10 +467,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 model.put( MARK_CURRENT_USER, currentUser );
                 model.put( MARK_IMPORT_USER, user );
                 model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale(  ) ) );
-                model.put( MARK_DEFAULT_USER_LEVEL, defaultLevel );
-                model.put( MARK_DEFAULT_USER_NOTIFICATION, nDefaultUserNotification );
-                model.put( MARK_DEFAULT_USER_LANGUAGE, strDefaultUserLanguage );
-                model.put( MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
+                model.put( AdminUserService.MARK_DEFAULT_USER_LEVEL, defaultLevel );
+                model.put( AdminUserService.MARK_DEFAULT_USER_NOTIFICATION, nDefaultUserNotification );
+                model.put( AdminUserService.MARK_DEFAULT_USER_LANGUAGE, strDefaultUserLanguage );
+                model.put( AdminUserService.MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
                 model.put( MARK_ATTRIBUTES_LIST, listAttributes );
                 model.put( MARK_LOCALE, getLocale(  ) );
             }
@@ -580,7 +565,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             
             // Encryption password
             if ( Boolean.valueOf( 
-            		DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
+            		DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
         	{
             	strFirstPassword = CryptoService.encrypt( strFirstPassword );
         	}
@@ -812,7 +797,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             {
             	// Encryption password
                 if ( Boolean.valueOf( 
-                		DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
+                		DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
             	{
                 	strFirstPassword = CryptoService.encrypt( strFirstPassword );
             	}
@@ -1414,50 +1399,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     	
     	setPageTitleProperty( PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE );
     	
-    	Map<String, Object> model = new HashMap<String, Object>(  );
-    	
-    	// Encryption Password
-    	if ( RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, 
-    			AdminUserResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
-    	{
-    		model.put( MARK_ENABLE_PASSWORD_ENCRYPTION, 
-    				DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) );
-        	model.put( MARK_ENCRYPTION_ALGORITHM, 
-        			DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  ) );
-        	String[] listAlgorithms = AppPropertiesService.getProperty( PROPERTY_ENCRYPTION_ALGORITHMS_LIST ).split( CONSTANT_VIRGULE );
-        	for ( String strAlgorithm : listAlgorithms )
-        	{
-        		strAlgorithm.trim(  );
-        	}
-        	model.put( MARK_ENCRYPTION_ALGORITHMS_LIST, listAlgorithms );
-    	}
-    	
-    	// USER LEVEL 
-        String strDefaultLevel = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LEVEL ).getParameterValue(  );
-        Level defaultLevel = LevelHome.findByPrimaryKey( Integer.parseInt( strDefaultLevel ) );
-        
-        // USER NOTIFICATION
-        int nDefaultUserNotification = Integer.parseInt( 
-        		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_NOTIFICATION ).getParameterValue(  ) );
-    	
-        // USER LANGUAGE
-        ReferenceList listLanguages = I18nService.getAdminLocales( getLocale(  ) );
-        String strDefaultUserLanguage = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LANGUAGE ).getParameterValue(  );
-        
-        // USER STATUS
-        int nDefaultUserStatus = Integer.parseInt( 
-        		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_STATUS ).getParameterValue(  ) );
-        
-        model.put( MARK_USER_LEVELS_LIST, LevelHome.getLevelsList(  ) );
-        model.put( MARK_DEFAULT_USER_LEVEL, defaultLevel );
-        model.put( MARK_DEFAULT_USER_NOTIFICATION, nDefaultUserNotification );
-        model.put( MARK_LANGUAGES_LIST, listLanguages );
-        model.put( MARK_DEFAULT_USER_LANGUAGE, strDefaultUserLanguage );
-        model.put( MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
-        
-    	HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_PASSWORD_ENCRYPTION, getLocale(  ), model );
+    	Map<String, Object> model = AdminUserService.getManageAdvancedParameters( getUser(  ) );
 
-        return getAdminPage( template.getHtml(  ) );
+    	HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ADVANCED_PARAMETERS, getUser(  ).getLocale(  ), model );
+    	
+    	return getAdminPage( template.getHtml(  ) );
     }
     
     /**
@@ -1469,16 +1415,16 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doConfirmModifyPasswordEncryption( HttpServletRequest request )
     {
-    	String strEnablePasswordEncryption = request.getParameter( PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
-    	String strEncryptionAlgorithm = request.getParameter( PARAMETER_ENCRYPTION_ALGORITHM );
+    	String strEnablePasswordEncryption = request.getParameter( AdminUserService.PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
+    	String strEncryptionAlgorithm = request.getParameter( AdminUserService.PARAMETER_ENCRYPTION_ALGORITHM );
     	
     	if ( strEncryptionAlgorithm.equals( CONSTANT_DEFAULT_ALGORITHM ) )
     	{
     		strEncryptionAlgorithm = CONSTANT_EMPTY_STRING;
     	}
     	
-    	String strCurrentPasswordEnableEncryption = DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  );
-    	String strCurrentEncryptionAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  );
+    	String strCurrentPasswordEnableEncryption = DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  );
+    	String strCurrentEncryptionAlgorithm = DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  );
     	
     	String strUrl = "";
     	if ( strEnablePasswordEncryption.equals( strCurrentPasswordEnableEncryption ) 
@@ -1499,8 +1445,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     		{
     			strEncryptionAlgorithm = "";
     		}
-    		String strUrlModify = JSP_URL_MODIFY_PASSWORD_ENCRYPTION + "?" + PARAMETER_ENABLE_PASSWORD_ENCRYPTION + "=" + strEnablePasswordEncryption +
-    				"&" + PARAMETER_ENCRYPTION_ALGORITHM + "=" + strEncryptionAlgorithm;
+    		String strUrlModify = JSP_URL_MODIFY_PASSWORD_ENCRYPTION + "?" + AdminUserService.PARAMETER_ENABLE_PASSWORD_ENCRYPTION + "=" + strEnablePasswordEncryption +
+    				"&" + AdminUserService.PARAMETER_ENCRYPTION_ALGORITHM + "=" + strEncryptionAlgorithm;
 
     		strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_MODIFY_PASSWORD_ENCRYPTION, strUrlModify,
     				AdminMessage.TYPE_CONFIRMATION );
@@ -1524,11 +1470,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     		throw new AccessDeniedException(  );
     	}
     	
-    	String strEnablePasswordEncryption = request.getParameter( PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
-    	String strEncryptionAlgorithm = request.getParameter( PARAMETER_ENCRYPTION_ALGORITHM );
+    	String strEnablePasswordEncryption = request.getParameter( AdminUserService.PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
+    	String strEncryptionAlgorithm = request.getParameter( AdminUserService.PARAMETER_ENCRYPTION_ALGORITHM );
     	
-    	String strCurrentPasswordEnableEncryption = DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  );
-    	String strCurrentEncryptionAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  );
+    	String strCurrentPasswordEnableEncryption = DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  );
+    	String strCurrentEncryptionAlgorithm = DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  );
     	
     	if ( strEnablePasswordEncryption.equals( strCurrentPasswordEnableEncryption ) 
     			&& strEncryptionAlgorithm.equals( strCurrentEncryptionAlgorithm ) )
@@ -1537,9 +1483,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     	}
     	
     	DefaultUserParameter userParamEnablePwdEncryption = 
-    		new DefaultUserParameter( PARAMETER_ENABLE_PASSWORD_ENCRYPTION, strEnablePasswordEncryption );
+    		new DefaultUserParameter( AdminUserService.PARAMETER_ENABLE_PASSWORD_ENCRYPTION, strEnablePasswordEncryption );
     	DefaultUserParameter userParamEncryptionAlgorithm = 
-        		new DefaultUserParameter( PARAMETER_ENCRYPTION_ALGORITHM, strEncryptionAlgorithm );
+        		new DefaultUserParameter( AdminUserService.PARAMETER_ENCRYPTION_ALGORITHM, strEncryptionAlgorithm );
         	
     	DefaultUserParameterHome.update( userParamEnablePwdEncryption );
     	DefaultUserParameterHome.update( userParamEncryptionAlgorithm );
@@ -1564,7 +1510,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             	// Encrypted password
             	String strEncryptedPassword = strPassword;
             	if ( Boolean.valueOf( 
-                		DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
+                		DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
             	{
                 	strEncryptedPassword = CryptoService.encrypt( strPassword );
             	}
@@ -1609,19 +1555,19 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     	}
     	
         DefaultUserParameter userParamStatus = 
-    		new DefaultUserParameter( PARAMETER_DEFAULT_USER_STATUS, request.getParameter( PARAMETER_STATUS ) );
+    		new DefaultUserParameter( AdminUserService.PARAMETER_DEFAULT_USER_STATUS, request.getParameter( PARAMETER_STATUS ) );
         DefaultUserParameterHome.update( userParamStatus );
         
         DefaultUserParameter userParamUserLevel = 
-    		new DefaultUserParameter( PARAMETER_DEFAULT_USER_LEVEL, request.getParameter( PARAMETER_USER_LEVEL ) );
+    		new DefaultUserParameter( AdminUserService.PARAMETER_DEFAULT_USER_LEVEL, request.getParameter( PARAMETER_USER_LEVEL ) );
         DefaultUserParameterHome.update( userParamUserLevel );
         
         DefaultUserParameter userParamNotifyUser = 
-    		new DefaultUserParameter( PARAMETER_DEFAULT_USER_NOTIFICATION, request.getParameter( PARAMETER_NOTIFY_USER ) );
+    		new DefaultUserParameter( AdminUserService.PARAMETER_DEFAULT_USER_NOTIFICATION, request.getParameter( PARAMETER_NOTIFY_USER ) );
         DefaultUserParameterHome.update( userParamNotifyUser );
         
         DefaultUserParameter userParamLanguage = 
-    		new DefaultUserParameter( PARAMETER_DEFAULT_USER_LANGUAGE, request.getParameter( PARAMETER_LANGUAGE ) );
+    		new DefaultUserParameter( AdminUserService.PARAMETER_DEFAULT_USER_LANGUAGE, request.getParameter( PARAMETER_LANGUAGE ) );
         DefaultUserParameterHome.update( userParamLanguage );
         
         return JSP_MANAGE_ADVANCED_PARAMETERS;

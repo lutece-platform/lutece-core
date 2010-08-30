@@ -1,4 +1,15 @@
 --
+-- Table structure for table core_admin_dashboard
+--
+DROP TABLE IF EXISTS core_admin_dashboard;
+CREATE TABLE core_admin_dashboard (
+	dashboard_name varchar(100) NOT NULL,
+	dashboard_column int NOT NULL,
+	dashboard_order int NOT NULL,
+	PRIMARY KEY (dashboard_name)
+);
+
+--
 -- Table structure for table core_admin_mailinglist
 --
 DROP TABLE IF EXISTS core_admin_mailinglist;

@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.service.content.ContentServiceEntry;
 import fr.paris.lutece.portal.service.daemon.DaemonEntry;
 import fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry;
+import fr.paris.lutece.portal.service.dashboard.admin.IAdminDashboardComponent;
 import fr.paris.lutece.portal.service.filter.FilterEntry;
 import fr.paris.lutece.portal.service.includes.PageIncludeEntry;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
@@ -98,6 +99,7 @@ public class PluginFile
     private List<RBACResourceTypeEntry> _listRBACResourceTypes = new ArrayList<RBACResourceTypeEntry>(  );
     private List<PageIncludeEntry> _listPageIncludes = new ArrayList<PageIncludeEntry>(  );
     private List<DashboardComponentEntry> _listDashboardComponents = new ArrayList<DashboardComponentEntry>(  );
+    private List<DashboardComponentEntry> _listAdminDashboardComponents = new ArrayList<DashboardComponentEntry>(  );
     private Map<String, String> _mapParams = new HashMap<String, String>(  );
     private String _strSearchIndexerClass;
 
@@ -586,6 +588,24 @@ public class PluginFile
     public List<DashboardComponentEntry> getDashboardComponents(  )
     {
         return _listDashboardComponents;
+    }
+    
+    /**
+     * Add a {@link DashboardComponentEntry} to the plugin definition
+     * @param dashboardComponent the admin dashboard component
+     */
+    public void addAdminDashboardComponent( DashboardComponentEntry dashboardComponent )
+    {
+    	_listAdminDashboardComponents.add( dashboardComponent );
+    }
+    
+    /**
+     * Returns all admin dashbaord compopents of the plugin
+     * @return the list of admin dashbaord components
+     */
+    public List<DashboardComponentEntry> getAdminDashboardComponents(  )
+    {
+    	return _listAdminDashboardComponents;
     }
 
     /**

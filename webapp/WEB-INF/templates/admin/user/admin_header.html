@@ -7,6 +7,10 @@
    <#if admin_summary_documentation_url?exists>
    <a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}"><img src="images/admin/skin/document-library.png" /> #i18n{portal.users.admin_header.documentation}</a>
   </#if>
+  <#if user.userLevel == 0>
+	<a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.users.admin_header.title.technicalMenu}"><img src="images/admin/skin/home.png" /> #i18n{portal.users.admin_header.technicalMenu}</a>
+  </#if>
+  
   ${dashboard_zone_4}
 </p>
 <div id="admin-header-main">
