@@ -1,6 +1,7 @@
-<%@ page errorPage="ErrorPage.jsp" %>
 <%@ page import="fr.paris.lutece.portal.service.util.AppPathService" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page buffer="1024kb" %>
+<%@ page autoFlush="false" %>
 
 <jsp:useBean id="adminMenu" scope="session" class="fr.paris.lutece.portal.web.admin.AdminMenuJspBean" />
 <!DOCTYPE html >
