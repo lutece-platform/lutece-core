@@ -55,7 +55,7 @@ public interface IAttributeFieldDAO
 	 * @param nIdField id field
 	 * @return user attribute
 	 */
-	AbstractAttribute selectAttributeByIdField( int nIdField );
+	IAttribute selectAttributeByIdField( int nIdField );
 	
 	/**
 	 * Load the lists of attribute field associated to an attribute

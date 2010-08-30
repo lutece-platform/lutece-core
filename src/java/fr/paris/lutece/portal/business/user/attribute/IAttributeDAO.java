@@ -49,20 +49,20 @@ public interface IAttributeDAO
 	 * @param locale Locale
 	 * @return Attribute
 	 */
-	AbstractAttribute load( int nIdAttribute, Locale locale );
+	IAttribute load( int nIdAttribute, Locale locale );
 		
 	/**
 	 * Insert a new attribute
 	 * @param attribute the attribute
 	 * @return new PK
 	 */
-	int insert( AbstractAttribute attribute );
+	int insert( IAttribute attribute );
 	
 	/**
 	 * Update an attribute 
 	 * @param attribute the attribute
 	 */
-	void store( AbstractAttribute attribute );
+	void store( IAttribute attribute );
 	
 	/**
 	 * Delete an attribute
@@ -75,7 +75,7 @@ public interface IAttributeDAO
 	 * @param locale locale
 	 * @return list of attributes
 	 */
-	List<AbstractAttribute> selectAll( Locale locale );
+	List<IAttribute> selectAll( Locale locale );
 
 	/**
 	 * Load every attributes from plugin name
@@ -83,7 +83,7 @@ public interface IAttributeDAO
 	 * @param locale locale
 	 * @return list of attributes
 	 */
-	List<AbstractAttribute> selectPluginAttributes(
+	List<IAttribute> selectPluginAttributes(
 			String strPluginName, Locale locale);
 	
 	/**
@@ -91,5 +91,5 @@ public interface IAttributeDAO
 	 * @param locale locale
 	 * @return list of attributes
 	 */
-	List<AbstractAttribute> selectCoreAttributes( Locale locale);
+	List<IAttribute> selectCoreAttributes( Locale locale);
 }

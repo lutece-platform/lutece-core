@@ -36,12 +36,12 @@ package fr.paris.lutece.portal.service.admin;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserFilter;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
-import fr.paris.lutece.portal.business.user.attribute.AbstractAttribute;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldFilter;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
+import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -192,8 +192,8 @@ public final class AdminUserService
         	filteredUsers = listFilteredUsers;
         }
         
-        List<AbstractAttribute> listAttributes = AttributeHome.findAll( currentUser.getLocale(  ) );
-        for ( AbstractAttribute attribute : listAttributes )
+        List<IAttribute> listAttributes = AttributeHome.findAll( currentUser.getLocale(  ) );
+        for ( IAttribute attribute : listAttributes )
         {
         	List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
         	attribute.setListAttributeFields( listAttributeFields );

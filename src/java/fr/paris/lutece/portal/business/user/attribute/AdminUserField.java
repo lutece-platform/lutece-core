@@ -44,7 +44,7 @@ public class AdminUserField
 {
 	private AdminUser _user;
 	private AttributeField _attributeField;
-	private AbstractAttribute _attribute;
+	private IAttribute _attribute;
 	private String _value;
 	private int _nIdUserField;
 	
@@ -88,7 +88,7 @@ public class AdminUserField
 	 * Get attribute
 	 * @return attribute
 	 */
-	public AbstractAttribute getAttribute(  )
+	public IAttribute getAttribute(  )
 	{
 		return _attribute;
 	}
@@ -97,7 +97,7 @@ public class AdminUserField
 	 * Set attribute
 	 * @param attribute attribute
 	 */
-	public void setAttribute( AbstractAttribute attribute )
+	public void setAttribute( IAttribute attribute )
 	{
 		_attribute = attribute;
 	}

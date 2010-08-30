@@ -145,10 +145,10 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
         	userField.setUser( user );
         	
         	// ATTRIBUTE
-        	AbstractAttribute attribute = null;
+        	IAttribute attribute = null;
         	try
             {
-        		attribute = (AbstractAttribute) Class.forName( daoUtil.getString( 13 ) ).newInstance(  );
+        		attribute = (IAttribute) Class.forName( daoUtil.getString( 13 ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -299,10 +299,10 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
         	userField.setUser( user );
         	
         	// ATTRIBUTE
-        	AbstractAttribute attribute = null;
+        	IAttribute attribute = null;
         	try
             {
-        		attribute = (AbstractAttribute) Class.forName( daoUtil.getString( 6 ) ).newInstance(  );
+        		attribute = (IAttribute) Class.forName( daoUtil.getString( 6 ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {

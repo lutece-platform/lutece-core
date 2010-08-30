@@ -41,7 +41,7 @@ package fr.paris.lutece.portal.business.user.attribute;
 public class AttributeField 
 {
 	private int _nIdField;
-	private AbstractAttribute _attribute;
+	private IAttribute _attribute;
 	private String _strTitle;
 	private String _strValue;
 	private boolean _bDefaultValue;
@@ -73,7 +73,7 @@ public class AttributeField
      * Set attribute
      * @param attribute attribute
      */
-	public void setAttribute( AbstractAttribute attribute )
+	public void setAttribute( IAttribute attribute )
 	{
 		_attribute = attribute;
 	}
@@ -82,7 +82,7 @@ public class AttributeField
 	 * Get attribute
 	 * @return attribute
 	 */
-	public AbstractAttribute getAttribute(  ) 
+	public IAttribute getAttribute(  ) 
 	{
 		return _attribute;
 	}

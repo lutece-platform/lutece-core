@@ -39,12 +39,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import fr.paris.lutece.portal.business.user.attribute.AbstractAttribute;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeType;
+import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -96,11 +96,11 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 	{
 		setPageTitleProperty( PROPERTY_MANAGE_ATTRIBUTES_PAGETITLE );
 		
-		List<AbstractAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
+		List<IAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
 		
 		// ATTRIBUTE TYPES
         List<AttributeType> listAttributeTypes = new ArrayList<AttributeType>(  );
-        for ( AbstractAttribute attribute : SpringContextService.getBeansOfType( AbstractAttribute.class ) )
+        for ( IAttribute attribute : SpringContextService.getBeansOfType( IAttribute.class ) )
         {
         	attribute.setAttributeType( getLocale(  ) );
         	listAttributeTypes.add( attribute.getAttributeType(  ) );
@@ -125,11 +125,11 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 	{
 		String strAttributeTypeClassName = request.getParameter( PARAMETER_ATTRIBUTE_TYPE_CLASS_NAME );
 		
-		AbstractAttribute attribute = null;
+		IAttribute attribute = null;
 		
       	try
         {
-      		attribute = (AbstractAttribute) Class.forName( strAttributeTypeClassName ).newInstance(  );
+      		attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).newInstance(  );
         }
         catch ( ClassNotFoundException e )
         {
@@ -174,11 +174,11 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 		
 		if( strActionCancel == null )
 		{
-			AbstractAttribute attribute = null;
+			IAttribute attribute = null;
 			
 	      	try
 	        {
-	      		attribute = (AbstractAttribute) Class.forName( strAttributeTypeClassName ).newInstance(  );
+	      		attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).newInstance(  );
 	        }
 	        catch ( ClassNotFoundException e )
 	        {
@@ -233,7 +233,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 		String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
 		int nIdAttribute = Integer.parseInt( strIdAttribute );
 		
-		AbstractAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
+		IAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
 		
 		setPageTitleProperty( attribute.getPropertyModifyPageTitle(  ) );
 		
@@ -263,7 +263,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 		
 		if( strActionCancel == null )
 		{
-			AbstractAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
+			IAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
 			List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( nIdAttribute );
 			attribute.setListAttributeFields( listAttributeFields );
 			
@@ -335,11 +335,11 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 		String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
 		int nIdAttribute = Integer.parseInt( strIdAttribute );
 		
-		List<AbstractAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
-		AbstractAttribute previousAttribute = null;
-		AbstractAttribute currentAttribute = null;
+		List<IAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
+		IAttribute previousAttribute = null;
+		IAttribute currentAttribute = null;
 		
-		Iterator<AbstractAttribute> it = listAttributes.iterator(  );
+		Iterator<IAttribute> it = listAttributes.iterator(  );
 		previousAttribute = it.next(  );
 		currentAttribute = it.next(  );
 		while( it.hasNext(  ) && currentAttribute.getIdAttribute(  ) != nIdAttribute )
@@ -368,11 +368,11 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 		String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
 		int nIdAttribute = Integer.parseInt( strIdAttribute );
 		
-		List<AbstractAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
-		AbstractAttribute nextAttribute = null;
-		AbstractAttribute currentAttribute = null;
+		List<IAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
+		IAttribute nextAttribute = null;
+		IAttribute currentAttribute = null;
 		
-		Iterator<AbstractAttribute> it = listAttributes.iterator(  );
+		Iterator<IAttribute> it = listAttributes.iterator(  );
 		currentAttribute = it.next(  );
 		nextAttribute = it.next(  );
 		while( it.hasNext(  ) && currentAttribute.getIdAttribute(  ) != nIdAttribute )

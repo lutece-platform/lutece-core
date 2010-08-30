@@ -71,7 +71,7 @@ public class AttributeFieldHome
 	 * @param nIdField the id field
 	 * @return attribute
 	 */
-	public static AbstractAttribute selectAttributeByIdField( int nIdField )
+	public static IAttribute selectAttributeByIdField( int nIdField )
 	{
 		return _dao.selectAttributeByIdField( nIdField );
 	}

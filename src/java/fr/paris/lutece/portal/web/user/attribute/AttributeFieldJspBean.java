@@ -40,11 +40,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.paris.lutece.portal.business.user.attribute.AbstractAttribute;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
+import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -99,7 +99,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 		String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
 		int nIdAttribute = Integer.parseInt( strIdAttribute );
 		
-		AbstractAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
+		IAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
 		
 		HtmlTemplate template;
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -139,7 +139,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 			attributeField.setTitle( strTitle );
 			attributeField.setValue( strValue );
 			attributeField.setDefaultValue( strDefaultValue != null );
-			AbstractAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
+			IAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
 			attributeField.setAttribute( attribute );
 			
 			AttributeFieldHome.create( attributeField );
@@ -164,7 +164,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 		String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
 		int nIdAttribute = Integer.parseInt( strIdAttribute );
 		
-		AbstractAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
+		IAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
 		
 		AttributeField attributeField = AttributeFieldHome.findByPrimaryKey( nIdField );
 		

@@ -39,11 +39,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -69,69 +66,6 @@ public abstract class AbstractAttribute implements IAttribute
 	protected Plugin _plugin;
 	protected boolean _bIsShownInSearch;
 		
-	/* ----------------------- */
-    /* Abstract functions	   */
-    /* ----------------------- */
-	/**
-	 * Get the template create an attribute
-	 * @return The URL of the template
-	 */
-	public abstract String getTemplateCreateAttribute(  );
-	
-	/**
-	 * Get the template modify an attribute
-	 * @return The URL of the template
-	 */
-	public abstract String getTemplateModifyAttribute(  );
-	
-	/**
-	 * Get the template html form attribute
-	 * @return the template
-	 */
-	public abstract String getTemplateHtmlFormAttribute(  );
-	
-	/**
-	 * Get the template html form search attribute
-	 * @return the template
-	 */
-	public abstract String getTemplateHtmlFormSearchAttribute(  );
-	
-	/**
-	 * Get page title for create page
-	 * @return page title
-	 */
-	public abstract String getPropertyCreatePageTitle(  );
-	
-	/**
-	 * Get page title for modify page
-	 * @return page title
-	 */
-	public abstract String getPropertyModifyPageTitle(  );
-	
-	/**
-	 * Set the data of the attribute
-	 * @param request HttpServletRequest
-	 * @return null if there are no errors
-	 */
-	public abstract String setAttributeData( HttpServletRequest request );
-	
-	/**
-	 * Set attribute type
-	 * @param locale locale
-	 */
-	public abstract void setAttributeType( Locale locale );
-	
-	/**
-	 * Get the data of the user fields
-	 * @param request HttpServletRequest
-	 * @param user user
-	 * @return user field data
-	 */
-	public abstract List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user );
-	
-	/* ----------------------- */
-    /* Concrete functions	   */
-    /* ----------------------- */
 	/**
 	 * Constructor
 	 */

@@ -39,10 +39,10 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.business.user.attribute.AbstractAttribute;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
+import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -71,8 +71,8 @@ public class AdminUserFieldService
 	public static String checkUserFields( HttpServletRequest request, Locale locale )
 	{
 		// Specific attributes
-        List<AbstractAttribute> listAttributes = AttributeHome.findAll( locale );
-        for ( AbstractAttribute attribute : listAttributes )
+        List<IAttribute> listAttributes = AttributeHome.findAll( locale );
+        for ( IAttribute attribute : listAttributes )
         {
         	String value = request.getParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + attribute.getIdAttribute(  ) );
         	if ( attribute.isMandatory(  ) && ( value == null || value.equals( CONSTANT_EMPTY_STRING ) ) )
@@ -93,8 +93,8 @@ public class AdminUserFieldService
 	public static void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale )
     {
 		// Attributes created in the Back-Office
-		List<AbstractAttribute> listAttributes = AttributeHome.findCoreAttributes( locale );
-        for ( AbstractAttribute attribute : listAttributes )
+		List<IAttribute> listAttributes = AttributeHome.findCoreAttributes( locale );
+        for ( IAttribute attribute : listAttributes )
         {
         	List<AdminUserField> listUserFields = attribute.getUserFieldsData( request, user );
         	for ( AdminUserField userField : listUserFields )
@@ -126,8 +126,8 @@ public class AdminUserFieldService
 		AdminUserFieldHome.removeUserFieldsFromIdUser( user.getUserId(  ) );
 		
 		// Attributes created in the Back-Office
-		List<AbstractAttribute> listAttributes = AttributeHome.findCoreAttributes( locale );
-        for ( AbstractAttribute attribute : listAttributes )
+		List<IAttribute> listAttributes = AttributeHome.findCoreAttributes( locale );
+        for ( IAttribute attribute : listAttributes )
         {
         	List<AdminUserField> listUserFields = attribute.getUserFieldsData( request, user );
         	for ( AdminUserField userField : listUserFields )

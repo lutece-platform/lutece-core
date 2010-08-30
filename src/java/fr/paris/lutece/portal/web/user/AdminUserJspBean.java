@@ -42,12 +42,12 @@ import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
-import fr.paris.lutece.portal.business.user.attribute.AbstractAttribute;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
+import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameter;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
@@ -440,8 +440,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_STATUS ).getParameterValue(  ) );
         
         // Specific attributes
-        List<AbstractAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
-        for ( AbstractAttribute attribute : listAttributes )
+        List<IAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
+        for ( IAttribute attribute : listAttributes )
         {
         	List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
         	attribute.setListAttributeFields( listAttributeFields );
@@ -689,9 +689,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
 
         // Specific attributes
-        List<AbstractAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
+        List<IAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
         Map<String, List<AdminUserField>> map = new HashMap<String, List<AdminUserField>>(  );
-        for ( AbstractAttribute attribute : listAttributes )
+        for ( IAttribute attribute : listAttributes )
         {
         	List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
         	attribute.setListAttributeFields( listAttributeFields );

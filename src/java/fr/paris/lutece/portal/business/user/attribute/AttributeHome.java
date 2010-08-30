@@ -53,7 +53,7 @@ public class AttributeHome
 	 * @param locale Locale
 	 * @return Attribute 
 	 */
-	public static AbstractAttribute findByPrimaryKey( int nIdAttribute, Locale locale )
+	public static IAttribute findByPrimaryKey( int nIdAttribute, Locale locale )
 	{
 		return _dao.load( nIdAttribute, locale );
 	}
@@ -63,7 +63,7 @@ public class AttributeHome
 	 * @param attribute attribute
 	 * @return new PK
 	 */
-	public static int create( AbstractAttribute attribute )
+	public static int create( IAttribute attribute )
 	{
 		return _dao.insert( attribute );
 	}
@@ -72,7 +72,7 @@ public class AttributeHome
 	 * Update an attribute
 	 * @param attribute the attribute
 	 */
-	public static void update( AbstractAttribute attribute )
+	public static void update( IAttribute attribute )
 	{
 		_dao.store( attribute );
 	}
@@ -91,7 +91,7 @@ public class AttributeHome
 	 * @param locale locale
 	 * @return list of attributes
 	 */
-	public static List<AbstractAttribute> findAll( Locale locale )
+	public static List<IAttribute> findAll( Locale locale )
 	{
 		return _dao.selectAll( locale );
 	}
@@ -102,7 +102,7 @@ public class AttributeHome
 	 * @param locale locale
 	 * @return list of attributes
 	 */
-	public static List<AbstractAttribute> findPluginAttributes(
+	public static List<IAttribute> findPluginAttributes(
 			String strPluginName, Locale locale ) 
 	{
 		return _dao.selectPluginAttributes( strPluginName, locale );
@@ -113,7 +113,7 @@ public class AttributeHome
 	 * @param locale locale
 	 * @return list of attributes
 	 */
-	public static List<AbstractAttribute> findCoreAttributes( Locale locale ) 
+	public static List<IAttribute> findCoreAttributes( Locale locale ) 
 	{
 		return _dao.selectCoreAttributes( locale );
 	}

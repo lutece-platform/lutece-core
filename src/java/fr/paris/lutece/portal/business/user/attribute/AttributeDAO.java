@@ -128,19 +128,19 @@ public class AttributeDAO implements IAttributeDAO
 	 * @param locale Locale
 	 * @return Attribute
 	 */
-	public AbstractAttribute load( int nIdAttribute, Locale locale )
+	public IAttribute load( int nIdAttribute, Locale locale )
 	{
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setInt( 1, nIdAttribute );
         daoUtil.executeQuery(  );
 
-        AbstractAttribute attribute = null;
+        IAttribute attribute = null;
         
         if ( daoUtil.next(  ) )
         {
         	try
             {
-        		attribute = (AbstractAttribute) Class.forName( daoUtil.getString( 1 ) ).newInstance(  );
+        		attribute = (IAttribute) Class.forName( daoUtil.getString( 1 ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -179,7 +179,7 @@ public class AttributeDAO implements IAttributeDAO
 	 * @param attribute the attribute
 	 * @return new PK
 	 */
-	public int insert( AbstractAttribute attribute )
+	public int insert( IAttribute attribute )
 	{
 		int nNewPrimaryKey = newPrimaryKey(  );
 		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
@@ -201,7 +201,7 @@ public class AttributeDAO implements IAttributeDAO
 	 * Update an attribute 
 	 * @param attribute the attribute
 	 */
-	public void store( AbstractAttribute attribute )
+	public void store( IAttribute attribute )
 	{
 		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
 		daoUtil.setString( 1, attribute.getTitle(  ) );
@@ -233,19 +233,19 @@ public class AttributeDAO implements IAttributeDAO
 	 * @param locale locale
 	 * @return list of attributes
 	 */
-	public List<AbstractAttribute> selectAll( Locale locale )
+	public List<IAttribute> selectAll( Locale locale )
 	{
-		List<AbstractAttribute> listAttributes = new ArrayList<AbstractAttribute>(  );
+		List<IAttribute> listAttributes = new ArrayList<IAttribute>(  );
 		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
         daoUtil.executeQuery(  );
         
         while ( daoUtil.next(  ) )
         {
-        	AbstractAttribute attribute = null;
+        	IAttribute attribute = null;
         	
         	try
             {
-        		attribute = (AbstractAttribute) Class.forName( daoUtil.getString( 2 ) ).newInstance(  );
+        		attribute = (IAttribute) Class.forName( daoUtil.getString( 2 ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -288,21 +288,21 @@ public class AttributeDAO implements IAttributeDAO
 	 * @param locale locale
 	 * @return list of attributes
 	 */
-	public List<AbstractAttribute> selectPluginAttributes(
+	public List<IAttribute> selectPluginAttributes(
 			String strPluginName, Locale locale)
 	{
-		List<AbstractAttribute> listAttributes = new ArrayList<AbstractAttribute>(  );
+		List<IAttribute> listAttributes = new ArrayList<IAttribute>(  );
 		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES );
 		daoUtil.setString( 1, strPluginName );
         daoUtil.executeQuery(  );
         
         while ( daoUtil.next(  ) )
         {
-        	AbstractAttribute attribute = null;
+        	IAttribute attribute = null;
         	
         	try
             {
-        		attribute = (AbstractAttribute) Class.forName( daoUtil.getString( 2 ) ).newInstance(  );
+        		attribute = (IAttribute) Class.forName( daoUtil.getString( 2 ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -344,19 +344,19 @@ public class AttributeDAO implements IAttributeDAO
 	 * @param locale locale
 	 * @return list of attributes
 	 */
-	public List<AbstractAttribute> selectCoreAttributes( Locale locale)
+	public List<IAttribute> selectCoreAttributes( Locale locale)
 	{
-		List<AbstractAttribute> listAttributes = new ArrayList<AbstractAttribute>(  );
+		List<IAttribute> listAttributes = new ArrayList<IAttribute>(  );
 		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CORE_ATTRIBUTES );
         daoUtil.executeQuery(  );
         
         while ( daoUtil.next(  ) )
         {
-        	AbstractAttribute attribute = null;
+        	IAttribute attribute = null;
         	
         	try
             {
-        		attribute = (AbstractAttribute) Class.forName( daoUtil.getString( 2 ) ).newInstance(  );
+        		attribute = (IAttribute) Class.forName( daoUtil.getString( 2 ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {

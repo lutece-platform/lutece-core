@@ -136,7 +136,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
         {
         	attributeField = new AttributeField(  );
         	attributeField.setIdField( daoUtil.getInt( 1 ) );
-        	AbstractAttribute attribute = selectAttributeByIdField( nIdField );
+        	IAttribute attribute = selectAttributeByIdField( nIdField );
         	attributeField.setAttribute( attribute );
         	attributeField.setTitle( daoUtil.getString( 3 ) );
         	attributeField.setValue( daoUtil.getString( 4 ) );
@@ -158,19 +158,19 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
 	 * @param nIdField id field
 	 * @return user attribute
 	 */
-	public AbstractAttribute selectAttributeByIdField( int nIdField )
+	public IAttribute selectAttributeByIdField( int nIdField )
 	{
 		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ATTRIBUTE_BY_ID_FIELD );
 		daoUtil.setInt( 1, nIdField );
 		daoUtil.executeQuery(  );
 		
-		AbstractAttribute attribute = null;
+		IAttribute attribute = null;
 		
 		if ( daoUtil.next(  ) )
 		{
 			try
             {
-				attribute = (AbstractAttribute) Class.forName( daoUtil.getString( 1 ) ).newInstance(  );
+				attribute = (IAttribute) Class.forName( daoUtil.getString( 1 ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -218,7 +218,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
         	AttributeField attributeField = new AttributeField(  );
         	attributeField = new AttributeField(  );
         	attributeField.setIdField( daoUtil.getInt( 1 ) );
-        	AbstractAttribute attribute = selectAttributeByIdField( attributeField.getIdField(  ) );
+        	IAttribute attribute = selectAttributeByIdField( attributeField.getIdField(  ) );
         	attributeField.setAttribute( attribute );
         	attributeField.setTitle( daoUtil.getString( 3 ) );
         	attributeField.setValue( daoUtil.getString( 4 ) );

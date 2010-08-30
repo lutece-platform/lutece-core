@@ -63,8 +63,8 @@ public class AdminUserFieldFilter
 		
 		if ( strIsSearch != null )
 		{
-			List<AbstractAttribute> listAttributes = AttributeHome.findAll( locale );
-	        for ( AbstractAttribute attribute : listAttributes )
+			List<IAttribute> listAttributes = AttributeHome.findAll( locale );
+	        for ( IAttribute attribute : listAttributes )
 	        {
 	        	for ( AdminUserField userField : attribute.getUserFieldsData( request, null ) )
 	        	{
