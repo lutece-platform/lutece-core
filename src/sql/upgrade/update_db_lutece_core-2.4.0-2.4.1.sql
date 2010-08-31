@@ -62,3 +62,6 @@ CREATE TABLE core_admin_user_field (
 );
 
 ALTER TABLE core_admin_user ADD COLUMN reset_password SMALLINT DEFAULT 0 NOT NULL;
+
+-- core_connection_logs
+ALTER TABLE core_connections_log MODIFY COLUMN ip_address varchar(63) default NULL;

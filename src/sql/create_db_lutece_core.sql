@@ -121,7 +121,7 @@ CREATE TABLE core_admin_workgroup_user (
 DROP TABLE IF EXISTS core_connections_log;
 CREATE TABLE core_connections_log (
 	access_code varchar(100) default NULL,
-	ip_address varchar(16) default NULL,
+	ip_address varchar(63) default NULL,
 	date_login timestamp default CURRENT_TIMESTAMP NOT NULL,
 	login_status int default NULL
 );
