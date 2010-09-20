@@ -223,7 +223,7 @@ div.content-box pre{ padding:10px; background-color: white;}
 /********************************
 ******** Multibox structure
 *********************************/
-div.multibox table{ background-color:#DEE8F1;border: none; margin-left: 10px; width: 98%;}
+div.multibox table{ border: none; margin-left: 10px; width: 98%;}
 div.multibox table tr th{ font-size: 120%; border: none; color: #444444; padding: 5px; font-weight: bold; text-align: left;}
 div.multibox table tr td{ border: none;padding: 3px; padding-right: 15px;}
 
@@ -393,7 +393,7 @@ a.info{
     z-index:24; background: url(../images/admin/skin/bullet.gif) no-repeat left;
     padding: 0 0 1px 12px;  cursor: pointer;
 }
-a.info:hover{ z-index:25; color: #EE9C00; background-color: #DEE8F1;text-decoration: none;}
+a.info:hover{ z-index:25; color: #EE9C00; text-decoration: none;}
 a.info span{ display:none;}
 a.info:hover span{
     /*the span will display just on :hover state*/
@@ -401,7 +401,6 @@ a.info:hover span{
     top:-10em;
     right:10em;
     border:1px solid #395E7D;
-    background: #DEE8F1;
     color:#000; text-decoration: none;
 }
 a.bullet-link-blue{ background: url(../images/admin/skin/bullet_blue.gif) no-repeat left; padding: 0 0 1px 12px;}
