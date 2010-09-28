@@ -171,6 +171,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_WORKGROUP = "workgroup";
     private static final String PARAMETER_SELECT = "select";
     private static final String PARAMETER_SELECT_ALL = "all";
+    private static final String PARAMETER_ENCRYPTION_ALGORITHM = "encryption_algorithm";
     
     // Jsp url
     private static final String JSP_MANAGE_USER_RIGHTS = "ManageUserRights.jsp";
@@ -567,7 +568,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( Boolean.valueOf( 
             		DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
         	{
-            	strFirstPassword = CryptoService.encrypt( strFirstPassword );
+            	String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  );
+            	strFirstPassword = CryptoService.encrypt( strFirstPassword, strAlgorithm );
         	}
 
             user.setPassword( strFirstPassword );
@@ -799,7 +801,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 if ( Boolean.valueOf( 
                 		DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
             	{
-                	strFirstPassword = CryptoService.encrypt( strFirstPassword );
+                	String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  );
+                	strFirstPassword = CryptoService.encrypt( strFirstPassword, strAlgorithm );
             	}
                 
                 user.setPassword( strFirstPassword );
@@ -1512,7 +1515,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             	if ( Boolean.valueOf( 
                 		DefaultUserParameterHome.findByKey( AdminUserService.PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
             	{
-                	strEncryptedPassword = CryptoService.encrypt( strPassword );
+            		String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  );
+                	strEncryptedPassword = CryptoService.encrypt( strPassword, strAlgorithm );
             	}
                 LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
                 userStored.setPassword( strEncryptedPassword );

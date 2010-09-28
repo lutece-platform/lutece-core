@@ -9,25 +9,21 @@ import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
 public class CryptoService 
 {
 	// Properties
-    private static final String PROPERTY_ENCODING = "lutece.encoding";
-
-    // Parameters
-    private static final String PARAMETER_ENCRYPTION_ALGORITHM = "encryption_algorithm";
+    private static final String PROPERTY_ENCODING = "lutece.encoding"; 
 	
 	/**
      * Encrypt a data using an algorithm defined in lutece.properties 
      * @param strDataToEncrypt The data to encrypt
      * @return The encrypted string
      */
-    public static String encrypt( String strDataToEncrypt )
+    public static String encrypt( String strDataToEncrypt, String strAlgorithm )
     {
         String hash = null;
         MessageDigest md = null;
 
         try
         {
-            md = MessageDigest.getInstance( 
-            		DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  ) );
+            md = MessageDigest.getInstance( strAlgorithm );
         }
         catch ( NoSuchAlgorithmException e )
         {

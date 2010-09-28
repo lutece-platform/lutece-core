@@ -99,6 +99,7 @@ public class AdminMenuJspBean
     // Parameter
     private static final String PARAMETER_LANGUAGE = "language";
     private static final String PARAMETER_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
+    private static final String PARAMETER_ENCRYPTION_ALGORITHM = "encryption_algorithm";
 
     // Properties
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
@@ -393,8 +394,9 @@ public class AdminMenuJspBean
         if ( Boolean.valueOf( 
         		DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
     	{
-        	strCurrentPassword = CryptoService.encrypt( strCurrentPassword );
-        	strNewPassword = CryptoService.encrypt( strNewPassword );
+        	String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  );
+        	strCurrentPassword = CryptoService.encrypt( strCurrentPassword, strAlgorithm );
+        	strNewPassword = CryptoService.encrypt( strNewPassword, strAlgorithm );
     	}
 
         // Test of the value of the current password

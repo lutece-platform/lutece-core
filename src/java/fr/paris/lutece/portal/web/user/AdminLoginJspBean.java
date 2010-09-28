@@ -106,6 +106,7 @@ public class AdminLoginJspBean
     // parameters
     private static final String PARAMETER_MESSAGE = "message_contact";
     private static final String PARAMETER_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
+    private static final String PARAMETER_ENCRYPTION_ALGORITHM = "encryption_algorithm";
 
     // I18n message keys
     private static final String MESSAGE_SENDING_SUCCESS = "portal.admin.message.admin_forgot_password.sendingSuccess";
@@ -243,7 +244,8 @@ public class AdminLoginJspBean
         if ( Boolean.valueOf( 
         		DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
     	{
-    		strPassword = CryptoService.encrypt( strPassword );
+        	String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  );
+    		strPassword = CryptoService.encrypt( strPassword, strAlgorithm );
     	}
     	
         String strLoginUrl = AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  );
@@ -331,7 +333,8 @@ public class AdminLoginJspBean
         	if ( Boolean.valueOf( 
             		DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
         	{
-            	strEncryptedPassword = CryptoService.encrypt( strPassword );
+        		String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  );
+            	strEncryptedPassword = CryptoService.encrypt( strPassword, strAlgorithm );
         	}
             LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
             userStored.setPassword( strEncryptedPassword );
