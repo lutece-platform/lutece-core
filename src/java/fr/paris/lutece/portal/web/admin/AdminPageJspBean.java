@@ -436,7 +436,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PAGE, page );
         model.put( MARK_PAGE_INIT_ID, page.getId(  ) );
         model.put( MARK_PAGE_ORDER_LIST, getOrdersList(  ) );
-        model.put( MARK_PAGE_ROLES_LIST, RoleHome.getRolesList(  ) );
+        model.put( MARK_PAGE_ROLES_LIST, RoleHome.getRolesList( getUser(  ) ) );
         model.put( MARK_PAGE_THEMES_LIST, ThemesService.getPageThemes( getLocale(  ) ) );
 
         int nIndexRow = 1;

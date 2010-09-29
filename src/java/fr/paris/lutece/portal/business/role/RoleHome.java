@@ -33,8 +33,10 @@
  */
 package fr.paris.lutece.portal.business.role;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
@@ -178,5 +180,23 @@ public final class RoleHome
         role.setRoleDescription( AppPropertiesService.getProperty( PROPERTY_DEFAULT_ROLE_DESCRIPTION ) );
 
         return role;
+    }
+    
+    /**
+     * Return the list of all roles
+     *
+     * @return A ReferenceList of roles
+     */
+    public static ReferenceList getRolesList( AdminUser user )
+    {
+    	Collection<Role> listRoles = RoleHome.findAll(  );
+    	listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, user );
+        ReferenceList roleList = new ReferenceList(  );
+        for ( Role role : listRoles )
+        {
+        	roleList.addItem( role.getRole(  ), role.getRoleDescription(  ) );
+        }
+
+        return roleList;
     }
 }
