@@ -46,11 +46,11 @@ import java.util.Collection;
 public final class RoleDAO implements IRoleDAO
 {
     // Constants
-    private static final String SQL_QUERY_SELECT = " SELECT role, role_description FROM core_role WHERE role = ?";
-    private static final String SQL_QUERY_SELECTALL = " SELECT role , role_description FROM core_role ORDER BY role";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_role ( role, role_description ) VALUES ( ?, ? )";
+    private static final String SQL_QUERY_SELECT = " SELECT role, role_description, workgroup_key FROM core_role WHERE role = ?";
+    private static final String SQL_QUERY_SELECTALL = " SELECT role , role_description, workgroup_key FROM core_role ORDER BY role";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_role ( role, role_description, workgroup_key ) VALUES ( ?, ?, ? )";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_role WHERE role = ? ";
-    private static final String SQL_QUERY_UPDATE = " UPDATE core_role SET role_description = ? WHERE role = ?";
+    private static final String SQL_QUERY_UPDATE = " UPDATE core_role SET role_description = ?, workgroup_key = ? WHERE role = ?";
 
     ///////////////////////////////////////////////////////////////////////////////////////
     //Access methods to data
@@ -65,6 +65,7 @@ public final class RoleDAO implements IRoleDAO
 
         daoUtil.setString( 1, role.getRole(  ) );
         daoUtil.setString( 2, role.getRoleDescription(  ) );
+        daoUtil.setString( 3, role.getWorkgroup(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -88,6 +89,7 @@ public final class RoleDAO implements IRoleDAO
             role = new Role(  );
             role.setRole( daoUtil.getString( 1 ) );
             role.setRoleDescription( daoUtil.getString( 2 ) );
+            role.setWorkgroup( daoUtil.getString( 3 ) );
         }
 
         daoUtil.free(  );
@@ -116,7 +118,8 @@ public final class RoleDAO implements IRoleDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
 
         daoUtil.setString( 1, role.getRoleDescription(  ) );
-        daoUtil.setString( 2, role.getRole(  ) );
+        daoUtil.setString( 2, role.getWorkgroup(  ) );
+        daoUtil.setString( 3, role.getRole(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -137,6 +140,7 @@ public final class RoleDAO implements IRoleDAO
             Role role = new Role(  );
             role.setRole( daoUtil.getString( 1 ) );
             role.setRoleDescription( daoUtil.getString( 2 ) );
+            
             roleList.addItem( role.getRole(  ), role.getRoleDescription(  ) );
         }
 
@@ -160,6 +164,7 @@ public final class RoleDAO implements IRoleDAO
             Role role = new Role(  );
             role.setRole( daoUtil.getString( 1 ) );
             role.setRoleDescription( daoUtil.getString( 2 ) );
+            role.setWorkgroup( daoUtil.getString( 3 ) );
 
             listRoles.add( role );
         }

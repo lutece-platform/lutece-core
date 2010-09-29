@@ -10,6 +10,10 @@
             <input type="text" name="role_description"  size="78" maxlength="50" />
         </p>
         <p>
+            <label>#i18n{portal.role.create_role.labelWorkgroupKey} * :</label>
+			<@combo name="workgroup_key" default_value="${workgroup_key_default_value}" items=workgroup_key_list />
+		</p>
+        <p>
             <input type="submit" value="#i18n{portal.role.modify_role.buttonLabelValidate}" class="button" />
             <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
         </p>

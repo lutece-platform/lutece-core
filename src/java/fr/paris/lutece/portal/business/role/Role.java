@@ -34,16 +34,18 @@
 package fr.paris.lutece.portal.business.role;
 
 import fr.paris.lutece.portal.service.rbac.RBACResource;
+import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 
 
 /**
  * This class represents business objects role
  */
-public class Role implements RBACResource
+public class Role implements RBACResource, AdminWorkgroupResource
 {
     public static final String RESOURCE_TYPE = "ROLE_TYPE";
     private String _strRole;
     private String _strRoleDescription;
+    private String _strWorkgroupKey;
 
     /**
      * Gets the role name
@@ -97,5 +99,23 @@ public class Role implements RBACResource
     public String getResourceId(  )
     {
         return _strRole;
+    }
+    
+    /**
+     * Get workgroup key
+     * @return workgroup key
+     */
+    public String getWorkgroup(  )
+    {
+    	return _strWorkgroupKey;
+    }
+    
+    /**
+     * Set workgroup key
+     * @param strWorkgroupKey workgroup key
+     */
+    public void setWorkgroup( String strWorkgroupKey )
+    {
+    	_strWorkgroupKey = strWorkgroupKey;
     }
 }

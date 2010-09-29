@@ -35,10 +35,12 @@ package fr.paris.lutece.portal.web.role;
 
 import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
+import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.role.RoleRemovalListenerService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -46,6 +48,7 @@ import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,10 +69,13 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     // Markers
     private static final String MARK_ROLES_LIST = "roles_list";
     private static final String MARK_ROLE = "role";
+    private static final String MARK_DEFAULT_VALUE_WORKGROUP_KEY = "workgroup_key_default_value";
+    private static final String MARK_WORKGROUP_KEY_LIST = "workgroup_key_list";
 
     // Parameters
     private static final String PARAMETER_PAGE_ROLE = "role";
     private static final String PARAMETER_PAGE_ROLE_DESCRIPTION = "role_description";
+    private static final String PARAMETER_PAGE_WORKGROUP = "workgroup_key";
 
     // Templates
     private static final String TEMPLATE_MANAGE_ROLES = "admin/role/manage_roles.html";
@@ -107,7 +113,9 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( null );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_ROLES_LIST, RoleHome.findAll(  ) );
+        Collection<Role> listRoles = RoleHome.findAll(  );
+        listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, getUser(  ) );
+        model.put( MARK_ROLES_LIST, listRoles );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ROLES, getLocale(  ), model );
 
@@ -122,8 +130,13 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     public String getCreatePageRole( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_ROLE );
+        
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        
+        model.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
+        model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_ROLE, getLocale(  ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_ROLE, getLocale(  ), model );
 
         return getAdminPage( template.getHtml(  ) );
     }
@@ -137,9 +150,11 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
         String strPageRoleDescription = request.getParameter( PARAMETER_PAGE_ROLE_DESCRIPTION );
+        String strPageWorkgroup = request.getParameter( PARAMETER_PAGE_WORKGROUP );
 
         // Mandatory field
-        if ( strPageRole.equals( "" ) || strPageRoleDescription.equals( "" ) )
+        if ( strPageRole == null || strPageRole.equals( "" ) || 
+        		strPageRoleDescription == null || strPageRoleDescription.equals( "" ) || strPageWorkgroup == null )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -159,6 +174,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         Role role = new Role(  );
         role.setRole( strPageRole );
         role.setRoleDescription( strPageRoleDescription );
+        role.setWorkgroup( strPageWorkgroup );
         RoleHome.create( role );
 
         return getHomeUrl( request );
@@ -177,6 +193,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
         String strPageRole = (String) request.getParameter( PARAMETER_PAGE_ROLE );
         model.put( MARK_ROLE, RoleHome.findByPrimaryKey( strPageRole ) );
+        model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ROLE_MODIFY, getLocale(  ), model );
 
@@ -192,9 +209,10 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
         String strPageRoleDescription = request.getParameter( PARAMETER_PAGE_ROLE_DESCRIPTION );
+        String strPageWorkgroup = request.getParameter( PARAMETER_PAGE_WORKGROUP );
 
         // Mandatory field
-        if ( strPageRoleDescription.equals( "" ) )
+        if ( strPageRoleDescription == null || strPageRoleDescription.equals( "" ) || strPageWorkgroup == null )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -202,6 +220,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         Role role = new Role(  );
         role.setRole( strPageRole );
         role.setRoleDescription( strPageRoleDescription );
+        role.setWorkgroup( strPageWorkgroup );
         RoleHome.update( role );
 
         return getHomeUrl( request );

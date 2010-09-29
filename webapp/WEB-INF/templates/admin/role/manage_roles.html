@@ -7,9 +7,10 @@
 <h2 class="content-box-header">#i18n{portal.role.manage_roles.boxTitle}</h2>
       <table>
         <tr>
-            <th >#i18n{portal.role.manage_roles.columnTitleId}</th>
-            <th >#i18n{portal.role.manage_roles.columnTitleDescription}</th>
-            <th >#i18n{portal.role.manage_roles.columnTitleActions}</th>
+            <th>#i18n{portal.role.manage_roles.columnTitleId}</th>
+            <th>#i18n{portal.role.manage_roles.columnTitleDescription}</th>
+            <th>#i18n{portal.role.manage_roles.columnTitleWorkgroup}</th>
+            <th>#i18n{portal.role.manage_roles.columnTitleActions}</th>
         </tr>
 
         <#list roles_list as role >
@@ -19,6 +20,7 @@
 		                <a href="jsp/admin/role/ModifyPageRole.jsp?role=${role.role}" class="bullet-link">${role.role}</a>
 		            </td>
 		            <td>${role.roleDescription}</td>
+		            <td>${role.workgroup}</td>
    		            <td>
 			            <a href="jsp/admin/role/RemovePageRole.jsp?role=${role.role}">
 			            	<img src="images/admin/skin/actions/delete.png" class="icon" alt="#i18n{portal.role.manage_roles.linkLabelRemove}" title="#i18n{portal.role.manage_roles.linkLabelRemove}" />							

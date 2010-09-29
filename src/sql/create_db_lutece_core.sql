@@ -307,6 +307,7 @@ DROP TABLE IF EXISTS core_role;
 CREATE TABLE core_role (
 	role varchar(50) default '' NOT NULL,
 	role_description varchar(255) default NULL,
+	workgroup_key varchar(50) DEFAULT '' NOT NULL,
 	PRIMARY KEY (role)
 );
 

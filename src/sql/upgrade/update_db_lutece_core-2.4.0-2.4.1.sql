@@ -65,3 +65,6 @@ ALTER TABLE core_admin_user ADD COLUMN reset_password SMALLINT DEFAULT 0 NOT NUL
 
 -- core_connection_logs
 ALTER TABLE core_connections_log MODIFY COLUMN ip_address varchar(63) default NULL;
+
+-- core_role
+ALTER TABLE core_role ADD COLUMN workgroup_key varchar(50) DEFAULT '' NOT NULL;
