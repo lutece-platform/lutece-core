@@ -1,0 +1,1 @@
+INSERT INTO core_admin_right VALUES ('CORE_THEMES_MANAGEMENT','portal.style.adminFeature.themes_management.name',0,'jsp/admin/style/ManageThemes.jsp','portal.style.adminFeature.themes_management.description',1,NULL,'STYLE','images/admin/skin/features/manage_styles.png',NULL,4);
