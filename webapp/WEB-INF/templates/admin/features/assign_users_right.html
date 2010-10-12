@@ -172,7 +172,11 @@
 		        </#if>
 		        <#if search_admin_user_field_filter.listUserFields?exists && search_admin_user_field_filter.listUserFields?has_content>
 	   				<#list search_admin_user_field_filter.listUserFields as user_field>
-	   					<input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.value}" />
+	   					<#if user_field.attribute.attributeType.className == "fr.paris.lutece.portal.business.user.attribute.AttributeComboBox">
+	   						<input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.attributeField.idField}"/>
+	   					<#else>
+	   						<input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.value}" />
+	   					</#if>
 	   				</#list>
 	   			</#if>
 		        <input type="hidden" name="id_right" value="${right.id}" />
