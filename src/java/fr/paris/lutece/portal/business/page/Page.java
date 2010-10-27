@@ -365,7 +365,7 @@ public class Page implements RBACResource, AdminWorkgroupResource
     public String getXml( HttpServletRequest request )
         throws SiteMessageException
     {
-        StringBuffer strXml = new StringBuffer(  );
+        StringBuilder strXml = new StringBuilder(  );
         strXml.append( "<page>\n" );
 
         for ( Portlet portlet : _listPortlets )
@@ -418,14 +418,6 @@ public class Page implements RBACResource, AdminWorkgroupResource
      */
     public void setCodeTheme( String strCodeTheme )
     {
-        /* if ( ( strCodeTheme == null ) || ( strCodeTheme.equals( "" ) ) )
-         {
-             _strCodeTheme = THEME_DEFAULT;
-         }
-         else
-         {
-             _strCodeTheme = strCodeTheme;
-         }*/
         _strCodeTheme = ( ( strCodeTheme == null ) || ( strCodeTheme.equals( "" ) ) ) ? THEME_DEFAULT : strCodeTheme;
     }
 
@@ -436,14 +428,6 @@ public class Page implements RBACResource, AdminWorkgroupResource
      */
     public void setRole( String strRole )
     {
-        /*if ( ( strRole == null ) || ( strRole.equals( "" ) ) )
-        {
-            _strRole = ROLE_NONE;
-        }
-        else
-        {
-            _strRole = strRole;
-        }*/
         _strRole = ( ( strRole == null ) || ( strRole.equals( "" ) ) ) ? ROLE_NONE : strRole;
     }
 
