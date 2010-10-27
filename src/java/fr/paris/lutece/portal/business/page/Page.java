@@ -34,13 +34,11 @@
 package fr.paris.lutece.portal.business.page;
 
 import fr.paris.lutece.portal.business.portlet.Portlet;
-import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.rbac.RBACResource;
 import fr.paris.lutece.portal.service.role.RoleRemovalListenerService;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
-import fr.paris.lutece.util.xml.XmlUtil;
 
 import java.sql.Timestamp;
 
@@ -353,42 +351,6 @@ public class Page implements RBACResource, AdminWorkgroupResource
     public Timestamp getDateUpdate(  )
     {
         return _dateUpdate;
-    }
-
-    /**
-     * Generates the XML code of the page from the portlets list content
-     *
-     * @param request The HTTP Servlet request
-     * @return the page XML code
-     * @throws SiteMessageException occurs when a site message need to be displayed
-     */
-    public String getXml( HttpServletRequest request )
-        throws SiteMessageException
-    {
-        StringBuilder strXml = new StringBuilder(  );
-        strXml.append( "<page>\n" );
-
-        for ( Portlet portlet : _listPortlets )
-        {
-            strXml.append( portlet.getXml( request ) );
-        }
-
-        strXml.append( "</page>\n" );
-
-        return strXml.toString(  );
-    }
-
-    /**
-     * Returns the page XML code with the header code
-     *
-     * @param request The HTTP Servlet request
-     * @return the page XML code built well
-     * @throws SiteMessageException occurs when a site message need to be displayed
-     */
-    public String getXmlDocument( HttpServletRequest request )
-        throws SiteMessageException
-    {
-        return XmlUtil.getXmlHeader(  ) + getXml( request );
     }
 
     /**
