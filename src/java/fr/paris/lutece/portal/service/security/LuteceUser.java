@@ -161,6 +161,7 @@ public abstract class LuteceUser implements Principal, Serializable
     {
         _strUserName = strUserName;
         _strAuthenticationService = authenticationService.getAuthServiceName(  );
+        _luteceAuthenticationService = authenticationService;
     }
 
     /**
