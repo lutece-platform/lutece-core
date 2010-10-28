@@ -77,6 +77,7 @@ public final class SecurityService
 
     /**
      * Initialize service
+     * @throws LuteceInitException if an error occurs
      */
     public static synchronized void init(  ) throws LuteceInitException
     {
@@ -127,9 +128,14 @@ public final class SecurityService
         if ( user == null )
         {
             // User is not registered by Lutece, but it may be authenticated by another system
-            if ( _authenticationService.isExternalAuthentication(  ) )
+            if ( _authenticationService.isExternalAuthentication(  ) 
+            		|| _authenticationService.isMultiAuthenticationSupported(  ) )
             {
                 user = _authenticationService.getHttpAuthenticatedUser( request );
+                if ( user == null && isPortalAuthenticationRequired(  ) )
+                {
+                	throw new UserNotSignedException(  );
+                }
                 registerUser( request, user );
             }
             else
@@ -194,6 +200,7 @@ public final class SecurityService
      * @param strUserName The user's login
      * @param strPassword The user's password
      * @throws LoginException The LoginException
+     * @throws LoginRedirectException if redirect exception
      */
     public void loginUser( HttpServletRequest request, final String strUserName, final String strPassword )
         throws LoginException, LoginRedirectException
@@ -402,6 +409,7 @@ public final class SecurityService
      * @param strPassword The user's password
      * @return user's informations
      * @throws LoginException The LoginException
+     * @throws LoginRedirectException The redirect exception
      */
     public LuteceUser remoteLoginUser( final HttpServletRequest request, final String strUserName,
         final String strPassword ) throws LoginException, LoginRedirectException
@@ -480,5 +488,23 @@ public final class SecurityService
     public LuteceUser getUser( String strUserLogin )
     {
         return _authenticationService.getUser( strUserLogin );
+    }
+    
+    /**
+     * <b>true</b> when the service provides multi authentication support
+     * @return <code>true</code> if multi authentication is supported, <code>false</code> otherwise.
+     */
+    public boolean isMultiAuthenticationSupported(  )
+    {
+    	return _authenticationService.isMultiAuthenticationSupported(  );
+    }
+    
+    /**
+     * Gets the actual authentication implementatation
+     * @return {@link LuteceAuthentication} implementation
+     */
+    public LuteceAuthentication getAuthenticationService(  )
+    {
+    	return _authenticationService;
     }
 }

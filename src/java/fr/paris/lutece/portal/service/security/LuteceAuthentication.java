@@ -39,7 +39,6 @@ import javax.security.auth.login.LoginException;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This Interface defines all methods required by an authentication service password is not valid
  */
@@ -110,6 +109,13 @@ public interface LuteceAuthentication
      * is provided by the Lutece portal.
      */
     boolean isExternalAuthentication(  );
+    
+    /**
+     * Authentication is done by remote system (like OAuth)
+     * @return <code>true</code> if part of the authentication if done by external website, 
+     * <code>false</code> otherwise.
+     */
+    boolean isDelegatedAuthentication(  );
 
     /**
      * Returns a Lutece user object if the user is already authenticated in the Http request.
@@ -187,4 +193,30 @@ public interface LuteceAuthentication
      * @return A Lutece user or null if the service doesn't provide LuteceUser
      */
     LuteceUser getUser( String strUserLogin );
+    
+    /**
+     * <b>true</b> when the service provides multi authentication support
+     * @return <code>true</code> if multi authentication is supported, <code>false</code> otherwise.
+     */
+    boolean isMultiAuthenticationSupported(  );
+    
+    /**
+	 * Icon url
+	 * @return icon url
+	 */
+	String getIconUrl(  );
+	
+	/**
+	 * Used as Identifier. <b>MUST </b>be unique.
+	 * @return the identifier
+	 */
+	String getName(  );
+	
+	/**
+	 * Returns the plugin name. 
+	 * <br>
+	 * Used to show (or not) this authentication depending on the plugin status .
+	 * @return the plugin name
+	 */
+	String getPluginName(  );
 }

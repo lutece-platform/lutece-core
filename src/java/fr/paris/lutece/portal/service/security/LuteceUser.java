@@ -41,6 +41,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.ObjectUtils;
+
 
 /**
  * This Interface defines all methods required for a Lutece user implementation
@@ -143,6 +145,9 @@ public abstract class LuteceUser implements Principal, Serializable
 
     /** Authentication Service */
     private String _strAuthenticationService;
+    
+    /** Authentication Service impl  */
+    private LuteceAuthentication _luteceAuthenticationService;
 
     /** Authentication Service */
     private String _strAuthenticationType;
@@ -199,7 +204,8 @@ public abstract class LuteceUser implements Principal, Serializable
      */
     public boolean equals( Object object )
     {
-        return ( _strUserName.equals( object.toString(  ) ) );
+    	// FIXME : use LuteceUser property instead of object.toString()
+    	return ObjectUtils.equals( this.toString(), ObjectUtils.toString( object ) );
     }
 
     /**
@@ -388,4 +394,22 @@ public abstract class LuteceUser implements Principal, Serializable
     {
         return _strAuthenticationType;
     }
+
+	/**
+	 * "Getter method" for {@link #_luteceAuthenticationService}
+	 * @return value of {@link #_luteceAuthenticationService}
+	 */
+	public LuteceAuthentication getLuteceAuthenticationService()
+	{
+		return _luteceAuthenticationService;
+	}
+
+	/**
+	 * "Setter method" for {@link #_luteceAuthenticationService}.
+	 * @param authenticationService new value of {@link #_luteceAuthenticationService}
+	 */
+	public void setLuteceAuthenticationService( LuteceAuthentication authenticationService )
+	{
+		_luteceAuthenticationService = authenticationService;
+	}
 }
