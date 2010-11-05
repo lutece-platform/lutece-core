@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.service.content.ContentServiceEntry;
 import fr.paris.lutece.portal.service.daemon.DaemonEntry;
 import fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry;
-import fr.paris.lutece.portal.service.dashboard.admin.IAdminDashboardComponent;
 import fr.paris.lutece.portal.service.filter.FilterEntry;
 import fr.paris.lutece.portal.service.includes.PageIncludeEntry;
 import fr.paris.lutece.portal.service.init.LuteceInitException;

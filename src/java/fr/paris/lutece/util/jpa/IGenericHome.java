@@ -39,6 +39,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Interface IGenericLuteceHome
+ * @param <K> key class
+ * @param <E> entity class
  */
 public interface IGenericHome<K, E>
 {
@@ -47,7 +49,6 @@ public interface IGenericHome<K, E>
 	 * @param entity object
 	 */
 	void create( E entity );
-
 
 	/**
 	 * Merges the entity
@@ -66,14 +67,14 @@ public interface IGenericHome<K, E>
 	 * @param pKey primary key
 	 * @return the found entity, <code>null</code> otherwise.
 	 */
-	@Transactional( readOnly=true )
-    E findByPrimaryKey( K pKey );
+	@Transactional( readOnly = true )
+	E findByPrimaryKey( K pKey );
 
 	/**
 	 * Finds all
 	 * @return the list
 	 */
-	@Transactional( readOnly=true )
+	@Transactional( readOnly = true )
 	List<E> findAll();
 
 }

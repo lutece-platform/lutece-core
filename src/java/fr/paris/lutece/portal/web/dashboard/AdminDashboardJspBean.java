@@ -58,38 +58,47 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 
 /**
- * Provides technical admin dashboard managements and display.
- * Display is NOT managed as an admin feature (no right required).
- *
+ * Provides technical admin dashboard managements and display. Display is NOT managed as an admin feature (no right required).
+ * 
  */
-public class AdminDashboardJspBean extends AdminFeaturesPageJspBean 
+public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 {
 	private static final String PARAMETER_DASHBOARD_NAME = "dashboard_name";
+
 	private static final String PARAMETER_DASHBOARD_COLUMN = "dashboard_column";
+
 	private static final String PARAMETER_DASHBOARD_ORDER = "dashboard_order";
+
 	private static final String PARAMETER_COLUMN = "column";
-	
+
 	private static final String MESSAGE_DASHBOARD_NOT_FOUND = "portal.admindashboard.message.dashboardNotFound";
-	
+
 	private static final String MARK_COLUMN_CONTENT_PREFIX = "column_content_";
+
 	private static final String MARK_MAP_DASHBOARDS = "map_dashboards";
+
 	private static final String MARK_NOT_SET_DASHBOARDS = "not_set_dashboards";
+
 	private static final String MARK_COLUMN_COUNT = "column_count";
+
 	private static final String MARK_LIST_AVAILABLE_COLUMNS = "list_available_columns";
+
 	private static final String MARK_MAP_AVAILABLE_ORDERS = "map_available_orders";
+
 	private static final String MARK_MAP_COLUMN_ORDER_STATUS = "map_column_order_status";
-	
+
 	private static final String TEMPLATE_VIEW_DASHBOARDS = "/admin/admindashboard/view_dashboards.html";
+
 	private static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/admindashboard/manage_dashboards.html";
-	
+
 	private static final String JSP_MANAGE_DASHBOARDS = "ManageAdminDashboards.jsp";
-	
+
 	public static final String RIGHT_MANAGE_ADMINDASHBOARD = "CORE_ADMINDASHBOARD_MANAGEMENT";
-	
+
 	private static final String EMPTY_STRING = "";
-	
-	private AdminDashboardService _service = AdminDashboardService.getInstance(  );
-	
+
+	private AdminDashboardService _service = AdminDashboardService.getInstance();
+
 	/**
 	 * Displays admin dashboards
 	 * @param request the request
@@ -98,19 +107,19 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 	public String getAdminDashboards( HttpServletRequest request )
 	{
 		AdminUser user = AdminUserService.getAdminUser( request );
-		Map<String, Object> model = new HashMap<String, Object>(  );
-		
+		Map<String, Object> model = new HashMap<String, Object>();
+
 		// put each column data
-		for ( int nColumn = 1; nColumn <= _service.getColumnCount(  ); nColumn++ )
+		for ( int nColumn = 1; nColumn <= _service.getColumnCount(); nColumn++ )
 		{
 			String strColumnData = _service.getDashboardData( user, nColumn );
-			
+
 			model.put( MARK_COLUMN_CONTENT_PREFIX + nColumn, strColumnData );
 		}
-		
-		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_DASHBOARDS, user.getLocale(  ) ,model );
-		
-		return template.getHtml(  );
+
+		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_DASHBOARDS, user.getLocale(), model );
+
+		return template.getHtml();
 	}
 
 	/**
@@ -121,25 +130,25 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 	public String getManageDashboards( HttpServletRequest request )
 	{
 		AdminUser user = AdminUserService.getAdminUser( request );
-		
-		Map<String, Object> model = new HashMap<String, Object>(  );
-		
-		Map<String, List<IAdminDashboardComponent>> mapAdminDashboards = _service.getAllSetDashboards(  );
+
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		Map<String, List<IAdminDashboardComponent>> mapAdminDashboards = _service.getAllSetDashboards();
 		model.put( MARK_MAP_DASHBOARDS, mapAdminDashboards );
-		
-		List<IAdminDashboardComponent> listNotSetDashboards = _service.getNotSetDashboards(  );
+
+		List<IAdminDashboardComponent> listNotSetDashboards = _service.getNotSetDashboards();
 		model.put( MARK_NOT_SET_DASHBOARDS, listNotSetDashboards );
-		
-		model.put( MARK_COLUMN_COUNT, _service.getColumnCount(  ) );
-		model.put( MARK_MAP_AVAILABLE_ORDERS, getMapAvailableOrders(  ) );
-		model.put( MARK_LIST_AVAILABLE_COLUMNS, getListAvailableColumns(  ) );
-		model.put( MARK_MAP_COLUMN_ORDER_STATUS, _service.getOrderedColumnsStatus(  ) );
-		
-		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale(  ), model );
-		
-		return getAdminPage( template.getHtml(  ) );
+
+		model.put( MARK_COLUMN_COUNT, _service.getColumnCount() );
+		model.put( MARK_MAP_AVAILABLE_ORDERS, getMapAvailableOrders() );
+		model.put( MARK_LIST_AVAILABLE_COLUMNS, getListAvailableColumns() );
+		model.put( MARK_MAP_COLUMN_ORDER_STATUS, _service.getOrderedColumnsStatus() );
+
+		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale(), model );
+
+		return getAdminPage( template.getHtml() );
 	}
-	
+
 	/**
 	 * Reorders columns
 	 * @param request the request
@@ -150,9 +159,9 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 		String strColumnName = request.getParameter( PARAMETER_COLUMN );
 		if ( StringUtils.isBlank( strColumnName ) )
 		{
-			return AdminMessageService.getMessageUrl(request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+			return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
 		}
-		
+
 		int nColumn = 0;
 		try
 		{
@@ -160,15 +169,15 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 		}
 		catch ( NumberFormatException nfe )
 		{
-			AppLogService.error( "AdminDashboardJspBean.doReorderColumn : " + nfe.getMessage(  ), nfe );
-			return AdminMessageService.getMessageUrl(request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+			AppLogService.error( "AdminDashboardJspBean.doReorderColumn : " + nfe.getMessage(), nfe );
+			return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
 		}
-		
+
 		_service.doReorderColumn( nColumn );
-		
+
 		return JSP_MANAGE_DASHBOARDS;
 	}
-	
+
 	/**
 	 * Moves the dashboard
 	 * @param request the request
@@ -179,96 +188,96 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 		String strDashboardName = request.getParameter( PARAMETER_DASHBOARD_NAME );
 		if ( StringUtils.isBlank( strDashboardName ) )
 		{
-			return AdminMessageService.getMessageUrl(request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
+			return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
 		}
-		
+
 		// retrieve dashboard from database. If not found, will use Spring.
 		IAdminDashboardComponent dashboard = AdminDashboardHome.findByPrimaryKey( strDashboardName );
 		int nOldOrder = 0;
 		int nOldColumn = 0;
 		boolean bCreate = false;
-		
+
 		if ( dashboard == null )
 		{
 			bCreate = true;
-			if ( AppLogService.isDebugEnabled(  ) )
+			if ( AppLogService.isDebugEnabled() )
 			{
 				AppLogService.debug( "Dashboard " + strDashboardName + " has no property set. Retrieving from SpringContext" );
 			}
 			dashboard = AdminDashboardFactory.getDashboardComponent( strDashboardName );
-			
+
 			if ( dashboard == null )
 			{
-				return AdminMessageService.getMessageUrl(request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
+				return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
 			}
 		}
 		else
 		{
-			nOldOrder = dashboard.getOrder(  );
-			nOldColumn = dashboard.getZone(  );
+			nOldOrder = dashboard.getOrder();
+			nOldColumn = dashboard.getZone();
 		}
-		
+
 		// set order and column
 		String strOrder = request.getParameter( PARAMETER_DASHBOARD_ORDER );
 		String strColumn = request.getParameter( PARAMETER_DASHBOARD_COLUMN );
-		
+
 		if ( StringUtils.isBlank( strOrder ) && StringUtils.isBlank( strColumn ) )
 		{
-			return AdminMessageService.getMessageUrl(request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+			return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
 		}
-		
+
 		int nOrder = StringUtil.getIntValue( strOrder, -1 );
 		int nColumn = StringUtil.getIntValue( strColumn, -1 );
-		
+
 		if ( nOrder == -1 || nColumn == -1 )
 		{
-			return AdminMessageService.getMessageUrl(request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+			return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
 		}
-		
+
 		dashboard.setOrder( nOrder );
 		dashboard.setZone( nColumn );
-		
+
 		_service.doMoveDashboard( dashboard, nOldColumn, nOldOrder, bCreate );
-		
+
 		return JSP_MANAGE_DASHBOARDS;
 	}
-	
+
 	/**
 	 * Returns list with available column
 	 * @return all available columns
 	 */
-	private ReferenceList getListAvailableColumns(  )
+	private ReferenceList getListAvailableColumns()
 	{
-		ReferenceList refList = new ReferenceList(  );
-		
+		ReferenceList refList = new ReferenceList();
+
 		// add empty item
 		refList.addItem( EMPTY_STRING, EMPTY_STRING );
-		
-		for ( int nColumnIndex = 1; nColumnIndex <= _service.getColumnCount(  ); nColumnIndex++ )
+
+		for ( int nColumnIndex = 1; nColumnIndex <= _service.getColumnCount(); nColumnIndex++ )
 		{
 			refList.addItem( nColumnIndex, Integer.toString( nColumnIndex ) );
 		}
-		
+
 		return refList;
 	}
-	
+
 	/**
 	 * Builds all refList order for all columns
 	 * @return the map with column id as key
 	 */
-	private Map<String, ReferenceList> getMapAvailableOrders(  )
+	private Map<String, ReferenceList> getMapAvailableOrders()
 	{
-		Map<String, ReferenceList> mapAvailableOrders = new HashMap<String, ReferenceList>(  );
+		Map<String, ReferenceList> mapAvailableOrders = new HashMap<String, ReferenceList>();
 		// get columns
-		for ( Integer nColumn : AdminDashboardHome.findColumns(  ) )
+		for ( Integer nColumn : AdminDashboardHome.findColumns() )
 		{
 			// get orders
-			mapAvailableOrders.put( nColumn.toString(  ) , getListAvailableOrders( nColumn ) );
+			mapAvailableOrders.put( nColumn.toString(), getListAvailableOrders( nColumn ) );
 		}
-		
+
 		return mapAvailableOrders;
 	}
-	
+
 	/**
 	 * Orders reference list for the given column
 	 * @param nColumn column
@@ -276,18 +285,18 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 	 */
 	private ReferenceList getListAvailableOrders( int nColumn )
 	{
-		ReferenceList refList = new ReferenceList(  );
-		
+		ReferenceList refList = new ReferenceList();
+
 		// add empty item
 		refList.addItem( EMPTY_STRING, EMPTY_STRING );
-		
-		int nMaxOrder  = AdminDashboardHome.findMaxOrder( nColumn );
-		
+
+		int nMaxOrder = AdminDashboardHome.findMaxOrder( nColumn );
+
 		for ( int nOrder = 1; nOrder <= nMaxOrder; nOrder++ )
 		{
-			refList.addItem( nOrder, Integer.toString( nOrder ) );	
+			refList.addItem( nOrder, Integer.toString( nOrder ) );
 		}
-		
+
 		return refList;
 	}
 }

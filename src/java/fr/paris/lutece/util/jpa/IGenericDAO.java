@@ -43,44 +43,34 @@ import java.util.List;
 public interface IGenericDAO<K, E>
 {
 
-    /**
-     * Create an entity
-     * @param entity The entity to create
-     */
-    void create(E entity);
+	/**
+	 * Create an entity
+	 * @param entity The entity to create
+	 */
+	void create( E entity );
 
-    /**
-     * Update an entity
-     * @param entity An entity that contains new values
-     */
-    void update(E entity );
+	/**
+	 * Update an entity
+	 * @param entity An entity that contains new values
+	 */
+	void update( E entity );
 
-    /**
-     * Update an entity
-     * @param entity An entity that contains new values
-     * @param key The key of the entity to update
-     */
-//    void update(E entity , K key );
+	/**
+	 * Remove an entity
+	 * @param key The key of the entity to remove
+	 */
+	void remove( K key );
 
-    /**
-     * Remove an entity
-     * @param key The key of the entity to remove
-     */
-    void remove(K key);
+	/**
+	 * Find an entity by its Id
+	 * @param key The entity key
+	 * @return The entity object
+	 */
+	E findById( K key );
 
-    /**
-     * Find an entity by its Id
-     * @param key The entity key
-     * @return The entity object
-     */
-    E findById(K key);
-
-
-    /**
-     * Find all entities
-     * @return A list of entities
-     */
-    List<E> findAll();
+	/**
+	 * Find all entities
+	 * @return A list of entities
+	 */
+	List<E> findAll();
 }
-
-
