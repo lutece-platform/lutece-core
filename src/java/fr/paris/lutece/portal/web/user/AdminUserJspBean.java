@@ -33,6 +33,16 @@
  */
 package fr.paris.lutece.portal.web.user;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -55,7 +65,6 @@ import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
-import fr.paris.lutece.portal.service.advancedparameter.AdvancedParameterResourceIdService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -80,16 +89,6 @@ import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -313,8 +312,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
         }
         
-        boolean bPermissionAdvancedParameter = RBACService.isAuthorized( AdvancedParameterResourceIdService.RESOURCE_TYPE, 
-        		RBAC.WILDCARD_RESOURCES_ID,	AdvancedParameterResourceIdService.PERMISSION_MANAGE, getUser(  ) );
+        boolean bPermissionAdvancedParameter = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, 
+        		RBAC.WILDCARD_RESOURCES_ID,	AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) );
 
         
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
@@ -1394,8 +1393,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageAdvancedParameters( HttpServletRequest request )
     {
-    	if ( !RBACService.isAuthorized( AdvancedParameterResourceIdService.RESOURCE_TYPE, 
-        		RBAC.WILDCARD_RESOURCES_ID,	AdvancedParameterResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+    	if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, 
+        		RBAC.WILDCARD_RESOURCES_ID,	AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
     	{
             return getManageAdminUsers( request );
     	}
@@ -1468,7 +1467,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     	throws AccessDeniedException
     {
     	if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, 
-    			AdminUserResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+    			AdminUserResourceIdService.PERMISSION_MANAGE_ENCRYPTED_PASSWORD, getUser(  ) ) )
     	{
     		throw new AccessDeniedException(  );
     	}
@@ -1552,8 +1551,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public String doModifyDefaultUserParameterValues( HttpServletRequest request )
     	throws AccessDeniedException
     {
-    	if ( !RBACService.isAuthorized( AdvancedParameterResourceIdService.RESOURCE_TYPE, 
-        		RBAC.WILDCARD_RESOURCES_ID,	AdvancedParameterResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+    	if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, 
+        		RBAC.WILDCARD_RESOURCES_ID,	AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
     	{
     		throw new AccessDeniedException(  );
     	}

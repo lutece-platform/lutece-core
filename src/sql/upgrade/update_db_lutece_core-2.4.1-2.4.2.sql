@@ -16,3 +16,8 @@ INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VA
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_USERS', 1, 1);
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_USER', 4, 1);
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_PAGES', 1, 2);
+
+--
+-- Update core_admin_resource
+--
+DELETE FROM core_admin_role_resource WHERE resource_type LIKE 'ADVANCED_PARAMETER';

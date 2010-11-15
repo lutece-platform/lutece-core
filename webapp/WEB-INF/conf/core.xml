@@ -107,9 +107,6 @@
         <rbac-resource-type>
             <rbac-resource-type-class>fr.paris.lutece.portal.service.user.AdminUserResourceIdService</rbac-resource-type-class>
         </rbac-resource-type>
-        <rbac-resource-type>
-            <rbac-resource-type-class>fr.paris.lutece.portal.service.advancedparameter.AdvancedParameterResourceIdService</rbac-resource-type-class>
-        </rbac-resource-type>
     </rbac-resource-types>
     
     <!-- Dashboard  components -->

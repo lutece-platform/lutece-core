@@ -48,9 +48,11 @@ import java.util.Locale;
  */
 public class AdminUserResourceIdService extends ResourceIdService
 {
-    public static final String PERMISSION_MANAGE = "MANAGE";
+    public static final String PERMISSION_MANAGE_ENCRYPTED_PASSWORD = "MANAGE_ENCRYPTED_PASSWORD";
+    public static final String PERMISSION_MANAGE_ADVANCED_PARAMETERS = "MANAGE_ADVANCED_PARAMETERS";
     private static final String PROPERTY_LABEL_RESOURCE_TYPE = "portal.users.userService.ressourceType";
-    private static final String PROPERTY_LABEL_MANAGE = "portal.users.userService.permission.manageEncryptedPassword";
+    private static final String PROPERTY_LABEL_MANAGE_ENCRYPTED_PASSWORD = "portal.users.userService.permission.manageEncryptedPassword";
+    private static final String PROPERTY_LABEL_MANAGE_ADVANCED_PARAMETERS = "portal.users.userService.permission.manageAdvancedParameters";
 
     /**
      * Initializes the service
@@ -63,8 +65,13 @@ public class AdminUserResourceIdService extends ResourceIdService
         rt.setResourceTypeLabelKey( PROPERTY_LABEL_RESOURCE_TYPE );
 
         Permission p = new Permission(  );
-        p.setPermissionKey( PERMISSION_MANAGE );
-        p.setPermissionTitleKey( PROPERTY_LABEL_MANAGE );
+        p.setPermissionKey( PERMISSION_MANAGE_ENCRYPTED_PASSWORD );
+        p.setPermissionTitleKey( PROPERTY_LABEL_MANAGE_ENCRYPTED_PASSWORD );
+        rt.registerPermission( p );
+        
+        p = new Permission(  );
+        p.setPermissionKey( PERMISSION_MANAGE_ADVANCED_PARAMETERS );
+        p.setPermissionTitleKey( PROPERTY_LABEL_MANAGE_ADVANCED_PARAMETERS );
         rt.registerPermission( p );
 
         ResourceTypeManager.registerResourceType( rt );

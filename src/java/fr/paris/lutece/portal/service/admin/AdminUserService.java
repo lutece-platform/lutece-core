@@ -33,6 +33,14 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
@@ -52,14 +60,6 @@ import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -262,44 +262,50 @@ public final class AdminUserService
     {   	
     	Map<String, Object> model = new HashMap<String, Object>(  );
     	
-    	// Encryption Password
-    	if ( RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, 
-    			AdminUserResourceIdService.PERMISSION_MANAGE, user ) )
+    	boolean bPermissionManageAdvancedParameters = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, 
+    			AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user );
+    	boolean bPermissionManageEncryptedPassword = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, 
+    			AdminUserResourceIdService.PERMISSION_MANAGE_ENCRYPTED_PASSWORD, user );
+    	
+    	if ( bPermissionManageAdvancedParameters )
     	{
-    		model.put( MARK_ENABLE_PASSWORD_ENCRYPTION, 
-    				DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) );
-        	model.put( MARK_ENCRYPTION_ALGORITHM, 
-        			DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  ) );
-        	String[] listAlgorithms = AppPropertiesService.getProperty( PROPERTY_ENCRYPTION_ALGORITHMS_LIST ).split( CONSTANT_VIRGULE );
-        	for ( String strAlgorithm : listAlgorithms )
-        	{
-        		strAlgorithm.trim(  );
-        	}
-        	model.put( MARK_ENCRYPTION_ALGORITHMS_LIST, listAlgorithms );
+    		// Encryption Password
+    		if ( bPermissionManageEncryptedPassword )
+    		{
+    			model.put( MARK_ENABLE_PASSWORD_ENCRYPTION, 
+        				DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) );
+            	model.put( MARK_ENCRYPTION_ALGORITHM, 
+            			DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  ) );
+            	String[] listAlgorithms = AppPropertiesService.getProperty( PROPERTY_ENCRYPTION_ALGORITHMS_LIST ).split( CONSTANT_VIRGULE );
+            	for ( String strAlgorithm : listAlgorithms )
+            	{
+            		strAlgorithm.trim(  );
+            	}
+            	model.put( MARK_ENCRYPTION_ALGORITHMS_LIST, listAlgorithms );
+    		}
+    		// USER LEVEL 
+            String strDefaultLevel = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LEVEL ).getParameterValue(  );
+            Level defaultLevel = LevelHome.findByPrimaryKey( Integer.parseInt( strDefaultLevel ) );
+            
+            // USER NOTIFICATION
+            int nDefaultUserNotification = Integer.parseInt( 
+            		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_NOTIFICATION ).getParameterValue(  ) );
+        	
+            // USER LANGUAGE
+            ReferenceList listLanguages = I18nService.getAdminLocales( user.getLocale(  ) );
+            String strDefaultUserLanguage = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LANGUAGE ).getParameterValue(  );
+            
+            // USER STATUS
+            int nDefaultUserStatus = Integer.parseInt( 
+            		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_STATUS ).getParameterValue(  ) );
+            
+            model.put( MARK_USER_LEVELS_LIST, LevelHome.getLevelsList(  ) );
+            model.put( MARK_DEFAULT_USER_LEVEL, defaultLevel );
+            model.put( MARK_DEFAULT_USER_NOTIFICATION, nDefaultUserNotification );
+            model.put( MARK_LANGUAGES_LIST, listLanguages );
+            model.put( MARK_DEFAULT_USER_LANGUAGE, strDefaultUserLanguage );
+            model.put( MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
     	}
-    	
-    	// USER LEVEL 
-        String strDefaultLevel = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LEVEL ).getParameterValue(  );
-        Level defaultLevel = LevelHome.findByPrimaryKey( Integer.parseInt( strDefaultLevel ) );
-        
-        // USER NOTIFICATION
-        int nDefaultUserNotification = Integer.parseInt( 
-        		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_NOTIFICATION ).getParameterValue(  ) );
-    	
-        // USER LANGUAGE
-        ReferenceList listLanguages = I18nService.getAdminLocales( user.getLocale(  ) );
-        String strDefaultUserLanguage = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LANGUAGE ).getParameterValue(  );
-        
-        // USER STATUS
-        int nDefaultUserStatus = Integer.parseInt( 
-        		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_STATUS ).getParameterValue(  ) );
-        
-        model.put( MARK_USER_LEVELS_LIST, LevelHome.getLevelsList(  ) );
-        model.put( MARK_DEFAULT_USER_LEVEL, defaultLevel );
-        model.put( MARK_DEFAULT_USER_NOTIFICATION, nDefaultUserNotification );
-        model.put( MARK_LANGUAGES_LIST, listLanguages );
-        model.put( MARK_DEFAULT_USER_LANGUAGE, strDefaultUserLanguage );
-        model.put( MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
 
         return model;
     }
