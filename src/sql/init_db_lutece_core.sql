@@ -22,6 +22,7 @@ INSERT INTO core_admin_right VALUES ('CORE_THEMES_MANAGEMENT','portal.style.admi
 INSERT INTO core_admin_right VALUES ('CORE_LINK_SERVICE_MANAGEMENT','portal.insert.adminFeature.linkService_management.name',2,NULL,'portal.insert.adminFeature.linkService_management.description',0,NULL,NULL,NULL,NULL,1);
 INSERT INTO core_admin_right VALUES ('CORE_RIGHT_MANAGEMENT', 'portal.users.adminFeature.right_management.name', 0, 'jsp/admin/features/ManageRights.jsp', 'portal.users.adminFeature.right_management.description', 0, NULL, 'MANAGERS', 'images/admin/skin/features/manage_rights_levels.png', NULL, 5);
 INSERT INTO core_admin_right VALUES ('CORE_ADMINDASHBOARD_MANAGEMENT', 'portal.admindashboard.adminFeature.right_management.name', 0, 'jsp/admin/admindashboard/ManageAdminDashboards.jsp', 'portal.admindashboard.adminFeature.right_management.description', 0, NULL, 'SYSTEM', 'images/admin/skin/features/manage_admindashboards.png', NULL, 7);
+INSERT INTO core_admin_right VALUES ('CORE_DASHBOARD_MANAGEMENT', 'portal.dashboard.adminFeature.dashboard_management.name', 0, 'jsp/admin/dashboard/ManageDashboards.jsp', 'portal.dashboard.adminFeature.dashboard_management.description', 0, NULL, 'SYSTEM', 'images/admin/skin/features/manage_dashboards.png', NULL, 8);
 
 INSERT INTO core_admin_role VALUES ('all_site_manager','Site Manager');
 INSERT INTO core_admin_role VALUES ('super_admin','Super Administrateur');
@@ -37,6 +38,11 @@ INSERT INTO core_admin_user VALUES (1,'admin','Admin','admin','admin@lutece.fr',
 INSERT INTO core_admin_user VALUES (2,'lutece','Lutèce','lutece','lutece@lutece.fr',0,'adminadmin','fr',1,0);
 INSERT INTO core_admin_user VALUES (3,'redac','redac','redac','redac@lutece.fr',0,'adminadmin','fr',2,0);
 INSERT INTO core_admin_user VALUES (4,'valid','valid','valid','valid@lutece.fr',0,'adminadmin','fr',3,0);
+
+INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_SYSTEM', 1, 3);
+INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_USERS', 1, 1);
+INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_USER', 4, 1);
+INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_PAGES', 1, 2);
 
 INSERT INTO core_feature_group VALUES ('CONTENT','portal.features.group.content.description','portal.features.group.content.label',1);
 INSERT INTO core_feature_group VALUES ('APPLICATIONS','portal.features.group.applications.description','portal.features.group.applications.label',3);
@@ -141,6 +147,7 @@ INSERT INTO core_user_right VALUES ('CORE_WORKGROUPS_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_WORKGROUPS_MANAGEMENT',2);
 INSERT INTO core_user_right VALUES ('CORE_RIGHT_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_ADMINDASHBOARD_MANAGEMENT', 1);
+INSERT INTO core_user_right VALUES ('CORE_DASHBOARD_MANAGEMENT', 1);
 
 INSERT INTO core_user_role VALUES ('all_site_manager',1);
 INSERT INTO core_user_role VALUES ('super_admin',1);

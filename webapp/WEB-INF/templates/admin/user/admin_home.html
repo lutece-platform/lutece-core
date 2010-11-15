@@ -36,33 +36,45 @@
                 </tr>
             </table>
         </div>
-        <div class="content-box">
-            <h2>#i18n{portal.admin.admin_home.dashboard}</h2>
-            ${dashboard_zone_1}
-        </div>
+        <#if dashboard_zone_1?has_content>
+	        <div class="content-box">
+	            <h2>#i18n{portal.admin.admin_home.dashboard}</h2>
+	            ${dashboard_zone_1}
+	        </div>
+		</#if>
+		<#if dashboard_zone_2?has_content>
+			${dashboard_zone_2}
+		</#if>
     </div>
-    <div id="welcome-content-zone">
-        <#list feature_group_list as feature_group >
-        <div class="content-box" id="${feature_group.id}" >
-            <a href="jsp/admin/AdminMenu.jsp#top" class="top">
-                <img src="images/admin/skin/sign-up.png" alt="Retour vers le haut" />
-            </a>
-            <h2>${feature_group.label}</h2>
-            <ul>
-                <#list feature_group.features as feature >
-                <li>
-                    <a href="${feature.url}?plugin_name=${feature.pluginName}">
-                        <img src="${feature.iconUrl}" alt="" align="left" hspace="15" />
-                    </a>
-
-                    <h3><a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a></h3>
-                    <p>
-                        ${feature.description}
-                    </p>
-                </li>
-                </#list>
-            </ul>
-        </div>
-        </#list>
-    </div>
+    
+    <#if dashboard_zone_3?has_content>
+    	<div id="welcome-content-zone">
+    		${dashboard_zone_3}
+    	</div>
+    <#else>
+	    <div id="welcome-content-zone">
+	        <#list feature_group_list as feature_group >
+	        <div class="content-box" id="${feature_group.id}" >
+	            <a href="jsp/admin/AdminMenu.jsp#top" class="top">
+	                <img src="images/admin/skin/sign-up.png" alt="Retour vers le haut" />
+	            </a>
+	            <h2>${feature_group.label}</h2>
+	            <ul>
+	                <#list feature_group.features as feature >
+	                <li>
+	                    <a href="${feature.url}?plugin_name=${feature.pluginName}">
+	                        <img src="${feature.iconUrl}" alt="" align="left" hspace="15" />
+	                    </a>
+	
+	                    <h3><a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a></h3>
+	                    <p>
+	                        ${feature.description}
+	                    </p>
+	                </li>
+	                </#list>
+	            </ul>
+	        </div>
+	        </#list>
+	    </div>
+	</#if>
 </div>

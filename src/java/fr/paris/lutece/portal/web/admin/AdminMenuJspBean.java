@@ -211,7 +211,7 @@ public class AdminMenuJspBean
                 i < AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
                 i++ )
         {
-            model.put( MARK_DASHBOARD_ZONE + ( i + 1 ), DashboardService.getInstance(  ).getDashboardData( user, i ) );
+            model.put( MARK_DASHBOARD_ZONE + ( i + 1 ), DashboardService.getInstance(  ).getDashboardData( user, i + 1 ) );
         }
     }
 

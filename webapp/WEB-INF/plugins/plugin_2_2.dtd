@@ -82,5 +82,3 @@
 <!ELEMENT dashboard-component-name ( #PCDATA ) >
 <!ELEMENT dashboard-component-class ( #PCDATA ) >
 <!ELEMENT dashboard-feature-right ( #PCDATA ) >
-<!ELEMENT dashboard-zone ( #PCDATA ) >
-<!ELEMENT dashboard-zone-order ( #PCDATA ) >

@@ -90,4 +90,6 @@
     <!-- admin dashboards -->
     <bean id="adminDashboardDAO" class="fr.paris.lutece.portal.business.dashboard.AdminDashboardDAO"/>    
 
+	<!-- dashboards -->
+    <bean id="dashboardDAO" class="fr.paris.lutece.portal.business.dashboard.DashboardDAO"/>
 </beans>

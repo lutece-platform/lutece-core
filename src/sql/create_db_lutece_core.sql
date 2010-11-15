@@ -129,6 +129,17 @@ CREATE TABLE core_connections_log (
 CREATE INDEX index_connections_log ON core_connections_log (ip_address,date_login);
 
 --
+-- Table structure for table core_admin_dashboard
+--
+DROP TABLE IF EXISTS core_dashboard;
+CREATE TABLE core_dashboard (
+	dashboard_name varchar(100) NOT NULL,
+	dashboard_column int NOT NULL,
+	dashboard_order int NOT NULL,
+	PRIMARY KEY (dashboard_name)
+);
+
+--
 -- Table structure for table core_feature_group
 --
 DROP TABLE IF EXISTS core_feature_group;

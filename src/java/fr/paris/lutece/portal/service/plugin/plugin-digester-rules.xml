@@ -130,8 +130,6 @@
             <bean-property-setter-rule pattern="dashboard-component-name" propertyname="name" />
             <bean-property-setter-rule pattern="dashboard-component-class" propertyname="componentClass" />
             <bean-property-setter-rule pattern="dashboard-feature-right" propertyname="right" />
-            <bean-property-setter-rule pattern="dashboard-zone" propertyname="zone" />
-            <bean-property-setter-rule pattern="dashboard-zone-order" propertyname="order" />
             <set-next-rule methodname="addDashboardComponent" />
         </pattern>
         <pattern value="admindashboard-components/admindashboard-component">
