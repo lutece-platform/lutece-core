@@ -33,6 +33,15 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -43,6 +52,7 @@ import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
+import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.init.AppInfo;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -58,15 +68,6 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -207,12 +208,30 @@ public class AdminMenuJspBean
      */
     private void setDashboardData( HashMap<String, Object> model, AdminUser user )
     {
-        for ( int i = 0;
-                i < AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
-                i++ )
-        {
-            model.put( MARK_DASHBOARD_ZONE + ( i + 1 ), DashboardService.getInstance(  ).getDashboardData( user, i + 1 ) );
-        }
+    	List<IDashboardComponent> listDashboards = DashboardService.getInstance(  ).getDashboards( user );
+    	int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
+    	if ( listDashboards != null && listDashboards.size(  ) > 0 )
+    	{
+    		int nColumnCount = DashboardService.getInstance(  ).getColumnCount(  );
+    		// Personnalized dashboards for the nColumnCount first zones
+    		for ( int i = 1; i <= nColumnCount; i++ )
+		    {
+    			model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance(  ).getDashboardData( listDashboards, user, i ) );
+		    }
+    		// Default dashboards for the nColumnCount to nZoneMax zones
+    		for ( int i = nColumnCount + 1; i <= nZoneMax; i++ )
+    		{
+    			model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance(  ).getDashboardData( user, i ) );
+    		}
+    		
+    	}
+    	else
+    	{
+    		for ( int i = 1; i <= nZoneMax; i++ )
+		    {
+		        model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance(  ).getDashboardData( user, i ) );
+		    }
+    	}
     }
 
     /**

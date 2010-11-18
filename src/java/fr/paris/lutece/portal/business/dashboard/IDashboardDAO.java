@@ -105,7 +105,6 @@ public interface IDashboardDAO
      */
     int selectMaxOrder( int nColumn );
     
-    
     /**
      * Returns the columns list
      * @return the columns list

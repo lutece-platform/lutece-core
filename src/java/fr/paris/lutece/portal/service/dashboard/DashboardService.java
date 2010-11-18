@@ -44,8 +44,11 @@ import fr.paris.lutece.portal.business.dashboard.DashboardFilter;
 import fr.paris.lutece.portal.business.dashboard.DashboardHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.sort.AttributeComparator;
 
 
 /**
@@ -58,6 +61,8 @@ public final class DashboardService
 
 	// Constants
 	private static final String ALL = "ALL";
+	private static final String EMPTY_STRING = "";
+	private static final String ORDER = "order";
 	private static final int CONSTANTE_FIRST_ORDER = 1;
 	private static final int CONSTANTE_DEFAULT_COLUMN_COUNT = 3;
 	
@@ -262,6 +267,7 @@ public final class DashboardService
 
 	/**
 	 * Finds all dashboard with column and order set.
+	 * @param user the current user
 	 * @return a map where key is the column id, and value is the column's dashboard list.
 	 */
 	public Map<String, List<IDashboardComponent>> getAllSetDashboards( AdminUser user )
@@ -322,6 +328,51 @@ public final class DashboardService
     }
     
     /**
+     * Get the list of dashboard from plugins
+     * @param user the current user
+     * @return the list of dashboards
+     */
+    public List<IDashboardComponent> getDashboards( AdminUser user )
+    {
+    	List<IDashboardComponent> listDashboards = new ArrayList<IDashboardComponent>(  );
+    	// Attributes associated to the plugins
+        for ( DashboardListenerService dashboardListenerService : SpringContextService.getBeansOfType( DashboardListenerService.class ) )
+        {
+        	dashboardListenerService.getDashboardComponents( listDashboards, user );
+        }
+        
+        return listDashboards;
+    }
+    
+    /**
+     * Gets Data from all components of the zone
+     * @param listDashboards the list of dashboards
+     * @param user The user
+     * @param nZone The dasboard zone
+     * @return Data of all components of the zone
+     */
+    public String getDashboardData( List<IDashboardComponent> listDashboards, AdminUser user, int nZone )
+    {
+        List<IDashboardComponent> listDashboardComponents = new ArrayList<IDashboardComponent>(  );
+        for ( IDashboardComponent dc : listDashboards )
+        {
+        	if ( dc.getZone(  ) == nZone )
+        	{
+        		listDashboardComponents.add( dc );
+        	}
+        }
+        Collections.sort( listDashboardComponents, new AttributeComparator( ORDER, true ) );
+
+        StringBuffer sbDashboardData = new StringBuffer(  );
+        for ( IDashboardComponent dc : listDashboardComponents )
+        {
+        	sbDashboardData.append( dc.getDashboardData( user ) );
+        }
+        
+        return sbDashboardData.toString(  );
+    }
+    
+    /**
 	 * Reorders column's dashboard
 	 * @param nColumn the column to reorder
 	 */
@@ -370,5 +421,63 @@ public final class DashboardService
 		}
 
 		return true;
+	}
+
+	/**
+	 * Returns list with available column
+	 * @return all available columns
+	 */
+	public ReferenceList getListAvailableColumns(  )
+	{
+		ReferenceList refList = new ReferenceList(  );
+
+		// add empty item
+		refList.addItem( EMPTY_STRING, EMPTY_STRING );
+
+		for ( int nColumnIndex = 1; nColumnIndex <= getColumnCount(  ); nColumnIndex++ )
+		{
+			refList.addItem( nColumnIndex, Integer.toString( nColumnIndex ) );
+		}
+
+		return refList;
+	}
+	
+	/**
+	 * Builds all refList order for all columns
+	 * @return the map with column id as key
+	 */
+	public Map<String, ReferenceList> getMapAvailableOrders(  )
+	{
+		Map<String, ReferenceList> mapAvailableOrders = new HashMap<String, ReferenceList>(  );
+		// get columns
+		for ( Integer nColumn : DashboardHome.findColumns(  ) )
+		{
+			// get orders
+			mapAvailableOrders.put( nColumn.toString(  ), getListAvailableOrders( nColumn ) );
+		}
+
+		return mapAvailableOrders;
+	}
+
+	/**
+	 * Orders reference list for the given column
+	 * @param nColumn column
+	 * @return the refList
+	 */
+	public ReferenceList getListAvailableOrders( int nColumn )
+	{
+		ReferenceList refList = new ReferenceList(  );
+
+		// add empty item
+		refList.addItem( EMPTY_STRING, EMPTY_STRING );
+
+		int nMaxOrder = DashboardHome.findMaxOrder( nColumn );
+
+		for ( int nOrder = 1; nOrder <= nMaxOrder; nOrder++ )
+		{
+			refList.addItem( nOrder, Integer.toString( nOrder ) );
+		}
+
+		return refList;
 	}
 }

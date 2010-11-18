@@ -65,7 +65,7 @@ public abstract class DashboardComponent implements IDashboardComponent
 	 * Returns the Name
 	 * @return The Name
 	 */
-	public String getName()
+	public String getName(  )
 	{
 		return _strName;
 	}
@@ -89,7 +89,7 @@ public abstract class DashboardComponent implements IDashboardComponent
 	 * Returns the Right
 	 * @return The Right
 	 */
-	public String getRight()
+	public String getRight(  )
 	{
 		return _strRight;
 	}
@@ -107,7 +107,7 @@ public abstract class DashboardComponent implements IDashboardComponent
 	 * Returns the Zone
 	 * @return The Zone
 	 */
-	public int getZone()
+	public int getZone(  )
 	{
 		return _nZone;
 	}
@@ -125,7 +125,7 @@ public abstract class DashboardComponent implements IDashboardComponent
 	 * Returns the Order
 	 * @return The Order
 	 */
-	public int getOrder()
+	public int getOrder(  )
 	{
 		return _nOrder;
 	}
@@ -143,7 +143,7 @@ public abstract class DashboardComponent implements IDashboardComponent
 	 * Returns the Plugin
 	 * @return The Plugin
 	 */
-	public Plugin getPlugin()
+	public Plugin getPlugin(  )
 	{
 		return _plugin;
 	}
@@ -164,16 +164,16 @@ public abstract class DashboardComponent implements IDashboardComponent
 	 */
 	public int compareTo( IDashboardComponent o )
 	{
-		return getOrder() - o.getOrder();
+		return getOrder(  ) - o.getOrder(  );
 	}
 
 	/**
 	 * Tells if the component is enabled
 	 * @return true if enabled
 	 */
-	public boolean isEnabled()
+	public boolean isEnabled(  )
 	{
-		return PluginService.isPluginEnable( _plugin.getName() );
+		return PluginService.isPluginEnable( _plugin.getName(  ) );
 	}
 
 	/**
@@ -187,7 +187,7 @@ public abstract class DashboardComponent implements IDashboardComponent
 		{
 			IDashboardComponent other = ( IDashboardComponent ) obj;
 
-			return ObjectUtils.equals( this.getName(), other.getName() );
+			return ObjectUtils.equals( this.getName(  ), other.getName(  ) );
 		}
 
 		return false;
@@ -198,9 +198,9 @@ public abstract class DashboardComponent implements IDashboardComponent
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int hashCode()
+	public int hashCode(  )
 	{
-		return ObjectUtils.hashCode( this.getName() );
+		return ObjectUtils.hashCode( this.getName(  ) );
 	}
 
 	/**
@@ -208,8 +208,8 @@ public abstract class DashboardComponent implements IDashboardComponent
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String toString()
+	public String toString(  )
 	{
-		return getClass().getName() + "[name=" + this.getName() + ", zone=" + this.getZone() + ", order=" + this.getOrder() + "]";
+		return getClass(  ).getName(  ) + "[name=" + this.getName(  ) + ", zone=" + this.getZone(  ) + ", order=" + this.getOrder(  ) + "]";
 	}
 }

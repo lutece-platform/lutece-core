@@ -246,7 +246,7 @@ public class DashboardDAO implements IDashboardDAO
 
 		List<IDashboardComponent> listDashboards = new ArrayList<IDashboardComponent>(  );
 
-		while (daoUtil.next(  ))
+		while ( daoUtil.next(  ) )
 		{
 			IDashboardComponent dashboardComponent = null;
 
@@ -296,7 +296,7 @@ public class DashboardDAO implements IDashboardDAO
 
 		daoUtil.executeQuery(  );
 
-		while (daoUtil.next(  ))
+		while ( daoUtil.next(  ) )
 		{
 			listColumns.add( daoUtil.getInt( 1 ) );
 		}

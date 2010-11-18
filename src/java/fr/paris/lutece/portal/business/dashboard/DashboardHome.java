@@ -58,7 +58,7 @@ public final class DashboardHome
 	/**
 	 * Creation of an instance of DashboardComponent
 	 * 
-	 * @param DashboardComponent The instance of the DashboardComponent which contains the informations to store
+	 * @param dashboardComponent The instance of the DashboardComponent which contains the informations to store
 	 * 
 	 */
 	public static void create( IDashboardComponent dashboardComponent )
@@ -69,7 +69,7 @@ public final class DashboardHome
 	/**
 	 * Update of the DashboardComponent which is specified in parameter
 	 * 
-	 * @param DashboardComponent The instance of the DashboardComponent which contains the informations to update
+	 * @param dashboardComponent The instance of the DashboardComponent which contains the informations to update
 	 * 
 	 */
 	public static void update( IDashboardComponent dashboardComponent )
@@ -122,7 +122,7 @@ public final class DashboardHome
 
 	/**
 	 * Loads the data of all the IDashboardComponent
-	 * 
+	 * @param filter the filter
 	 * @return the list which contains the data of all the IDashboardComponent
 	 */
 	public static List<IDashboardComponent> findByFilter( DashboardFilter filter )

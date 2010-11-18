@@ -31,75 +31,42 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.user.attribute;
+package fr.paris.lutece.portal.service.dashboard;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
-
+import fr.paris.lutece.portal.business.dashboard.DashboardListener;
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldListener;
 
 /**
  * 
- * AdminUserFieldListenerService
+ * DashboardListenerService
  *
  */
-public class AdminUserFieldListenerService 
+public class DashboardListenerService 
 {
-	private List<AdminUserFieldListener> _listRegisteredListeners = new ArrayList<AdminUserFieldListener>(  );
+	private List<DashboardListener> _listRegisteredListeners = new ArrayList<DashboardListener>(  );
 	
     /**
-     * Register a new Removal listener
+     * Register a new dashboard listener
      * @param listener The listener to register
      */
-    public void registerListener( AdminUserFieldListener listener )
+    public void registerListener( DashboardListener listener )
     {
         _listRegisteredListeners.add( listener );
     }
     
     /**
-     * Create user fields
+     * get the list of dashboards
+     * @param listDashboards the list of dashboards
      * @param user AdminUser
-     * @param request HttpServletRequest
-     * @param locale locale
      */
-    public void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale )
+    public void getDashboardComponents( List<IDashboardComponent> listDashboards, AdminUser user )
     {
-    	for ( AdminUserFieldListener listener : _listRegisteredListeners )
+    	for ( DashboardListener listener : _listRegisteredListeners )
     	{
-    		listener.doCreateUserFields( user, request, locale );
-    	}
-    }
-    
-    /**
-     * Modify user fields
-     * @param user AdminUser
-     * @param request HttpServletRequest
-     * @param locale locale
-     * @param currentUser current user
-     */
-    public void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale, AdminUser currentUser )
-    {
-    	for ( AdminUserFieldListener listener : _listRegisteredListeners )
-    	{
-    		listener.doModifyUserFields( user, request, locale, currentUser );
-    	}
-    }
-    
-    /**
-     * Remove user fields
-     * @param user Adminuser
-	 * @param request HttpServletRequest
-	 * @param locale locale
-     */
-    public void doRemoveUserFields( AdminUser user, HttpServletRequest request, Locale locale )
-    {
-    	for ( AdminUserFieldListener listener : _listRegisteredListeners )
-    	{
-    		listener.doRemoveUserFields( user, request, locale );
+    		listDashboards.addAll( listener.getDashboardComponents( user ) );
     	}
     }
 }

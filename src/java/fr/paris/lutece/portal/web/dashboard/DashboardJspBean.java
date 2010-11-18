@@ -53,7 +53,6 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
-import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 
@@ -63,6 +62,9 @@ import fr.paris.lutece.util.string.StringUtil;
  */
 public class DashboardJspBean extends AdminFeaturesPageJspBean
 {
+	// Right
+	public static final String RIGHT_MANAGE_DASHBOARD = "CORE_DASHBOARD_MANAGEMENT";
+	
 	// Parameters
 	private static final String PARAMETER_DASHBOARD_NAME = "dashboard_name";
 	private static final String PARAMETER_DASHBOARD_COLUMN = "dashboard_column";
@@ -86,12 +88,6 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 	// JSP
 	private static final String JSP_MANAGE_DASHBOARDS = "ManageDashboards.jsp";
 
-	// Right
-	public static final String RIGHT_MANAGE_DASHBOARD = "CORE_DASHBOARD_MANAGEMENT";
-
-	// Constants
-	private static final String EMPTY_STRING = "";
-
 	private DashboardService _service = DashboardService.getInstance(  );
 
 	/**
@@ -112,8 +108,8 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 		model.put( MARK_NOT_SET_DASHBOARDS, listNotSetDashboards );
 
 		model.put( MARK_COLUMN_COUNT, _service.getColumnCount(  ) );
-		model.put( MARK_MAP_AVAILABLE_ORDERS, getMapAvailableOrders(  ) );
-		model.put( MARK_LIST_AVAILABLE_COLUMNS, getListAvailableColumns(  ) );
+		model.put( MARK_MAP_AVAILABLE_ORDERS, _service.getMapAvailableOrders(  ) );
+		model.put( MARK_LIST_AVAILABLE_COLUMNS, _service.getListAvailableColumns(  ) );
 		model.put( MARK_MAP_COLUMN_ORDER_STATUS, _service.getOrderedColumnsStatus(  ) );
 
 		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale(  ), model );
@@ -212,63 +208,5 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 		_service.doMoveDashboard( dashboard, nOldColumn, nOldOrder, bCreate );
 
 		return JSP_MANAGE_DASHBOARDS;
-	}
-
-	/**
-	 * Returns list with available column
-	 * @return all available columns
-	 */
-	private ReferenceList getListAvailableColumns(  )
-	{
-		ReferenceList refList = new ReferenceList(  );
-
-		// add empty item
-		refList.addItem( EMPTY_STRING, EMPTY_STRING );
-
-		for ( int nColumnIndex = 1; nColumnIndex <= _service.getColumnCount(  ); nColumnIndex++ )
-		{
-			refList.addItem( nColumnIndex, Integer.toString( nColumnIndex ) );
-		}
-
-		return refList;
-	}
-
-	/**
-	 * Builds all refList order for all columns
-	 * @return the map with column id as key
-	 */
-	private Map<String, ReferenceList> getMapAvailableOrders(  )
-	{
-		Map<String, ReferenceList> mapAvailableOrders = new HashMap<String, ReferenceList>(  );
-		// get columns
-		for ( Integer nColumn : DashboardHome.findColumns(  ) )
-		{
-			// get orders
-			mapAvailableOrders.put( nColumn.toString(  ), getListAvailableOrders( nColumn ) );
-		}
-
-		return mapAvailableOrders;
-	}
-
-	/**
-	 * Orders reference list for the given column
-	 * @param nColumn column
-	 * @return the refList
-	 */
-	private ReferenceList getListAvailableOrders( int nColumn )
-	{
-		ReferenceList refList = new ReferenceList(  );
-
-		// add empty item
-		refList.addItem( EMPTY_STRING, EMPTY_STRING );
-
-		int nMaxOrder = DashboardHome.findMaxOrder( nColumn );
-
-		for ( int nOrder = 1; nOrder <= nMaxOrder; nOrder++ )
-		{
-			refList.addItem( nOrder, Integer.toString( nOrder ) );
-		}
-
-		return refList;
 	}
 }
