@@ -47,6 +47,7 @@ import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppHTTPSService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -81,12 +82,16 @@ public class AdminLoginJspBean
     // Constants
     private static final String CONSTANT_EMAIL_DELIMITER = ";";
     private static final String CONSTANT_EMPTY_STRING = "";
+    private static final String CONSTANT_SLASH = "/";
+    private static final String CONSTANT_HTTP = "http";
     private static final String REGEX_ID = "^[\\d]+$";
 
     // Jsp
     private static final String JSP_URL_ADMIN_MENU = "jsp/admin/AdminMenu.jsp";
     private static final String JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD = "jsp/admin/user/ModifyDefaultUserPassword.jsp";
     private static final String JSP_URL_FORM_CONTACT = "AdminFormContact.jsp";
+    private static final String JSP_URL_DO_ADMIN_LOGIN = "jsp/admin/DoAdminLogin.jsp";
+    private static final String JSP_URL_ADMIN_LOGIN = "jsp/admin/AdminLogin.jsp";
 
     // Templates
     private static final String TEMPLATE_ADMIN_LOGIN = "admin/admin_login.html";
@@ -101,6 +106,7 @@ public class AdminLoginJspBean
     private static final String MARK_SITE_NAME = "site_name";
     private static final String MARK_NEW_PASSWORD = "new_password";
     private static final String MARK_LOGIN_URL = "login_url";
+    private static final String MARK_DO_ADMIN_LOGIN_URL = "do_admin_login_url";
     private static final String SESSION_ATTRIBUTE_USER = "lutece_admin_user"; // Used by all JSP
 
     // parameters
@@ -135,6 +141,8 @@ public class AdminLoginJspBean
         if ( session != null )
         {
             session.removeAttribute( SESSION_ATTRIBUTE_USER );
+            //Put real base url in session
+            request.getSession(  ).setAttribute( AppPathService.SESSION_BASE_URL, AppPathService.getBaseUrl( request ) );
         }
 
         Locale locale = AdminUserService.getLocale( request );
@@ -150,11 +158,27 @@ public class AdminLoginJspBean
             String strParamValue = request.getParameter( strParamName );
             listParams.addItem( strParamName, strParamValue );
         }
+        
+        StringBuilder sbUrl = new StringBuilder(  );
+        if ( AppHTTPSService.isHTTPSSupportEnabled(  ) )
+        {
+        	sbUrl.append( AppHTTPSService.getHTTPSUrl( request ) );
+        }
+        else
+        {
+        	sbUrl.append( AppPathService.getBaseUrl( request ) );
+        }
+        if ( !sbUrl.toString(  ).endsWith( CONSTANT_SLASH ) )
+    	{
+    		sbUrl.append( CONSTANT_SLASH );
+    	}
+        sbUrl.append( JSP_URL_DO_ADMIN_LOGIN );
 
         model.put( MARK_PARAM_VERSION, AppInfo.getVersion(  ) );
         model.put( MARK_SITE_NAME, AppPropertiesService.getProperty( PROPERTY_SITE_NAME ) );
         model.put( MARK_PARAMS_LIST, listParams );
         model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance(  ).getLostPasswordPageUrl(  ) );
+        model.put( MARK_DO_ADMIN_LOGIN_URL, sbUrl.toString(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_LOGIN, locale, model );
 
@@ -240,6 +264,12 @@ public class AdminLoginJspBean
         //recovery of the login attributes
         String strAccessCode = request.getParameter( Parameters.ACCESS_CODE );
         String strPassword = request.getParameter( Parameters.PASSWORD );
+        
+        if ( request.getScheme(  ).equals( CONSTANT_HTTP ) && AppHTTPSService.isHTTPSSupportEnabled(  ) )
+        {
+        	return JSP_URL_ADMIN_LOGIN;
+        }
+        
         // Encryption password
         if ( Boolean.valueOf( 
         		DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
