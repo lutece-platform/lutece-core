@@ -33,23 +33,29 @@
  */
 package fr.paris.lutece.util.pool.service;
 
-import fr.paris.lutece.portal.service.util.AppException;
 import java.io.PrintWriter;
-
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.sql.DataSource;
+
+import org.apache.log4j.Logger;
+
+import fr.paris.lutece.portal.service.util.AppException;
 
 
 /**
  * This class manages a database connection pool.
+ * <br>
+ * Connections are wrapped by a {@link LuteceConnectionWrapper} 
+ * to avoid explicit calls to {@link Connection#close()}. Connections
+ * are released to this pool when {@link Connection#close()} is called, and
+ * are not actually closed until {@link #release()} call.
+ * @see LuteceConnectionWrapper
  */
 public class ConnectionPool implements DataSource
 {
@@ -269,7 +275,9 @@ public class ConnectionPool implements DataSource
     }
 
     /**
-     * Creates a new connection
+     * Creates a new connection.
+     * <br>
+     * The connection is wrapped by {@link LuteceConnectionWrapper}
      *
      * @return The new created connection
      * @throws SQLException The SQL exception
@@ -286,6 +294,9 @@ public class ConnectionPool implements DataSource
         {
             conn = DriverManager.getConnection( _strUrl, _strUser, _strPassword );
         }
+        
+        // wrap connection so this connection pool is used when conn.close() is called
+        conn = new LuteceConnectionWrapper( conn, this );
 
         _logger.info( "New connection created. Connections count is : " + ( getConnectionCount(  ) + 1 ) );
 
@@ -316,7 +327,14 @@ public class ConnectionPool implements DataSource
         {
             try
             {
-                connection.close(  );
+            	if ( connection instanceof LuteceConnectionWrapper )
+            	{
+            		( (LuteceConnectionWrapper) connection ).getWrappee().close();
+            	}
+            	else
+            	{
+            		connection.close(  );
+            	}
                 _logger.debug( "Closed connection" );
             }
             catch ( SQLException e )
@@ -411,6 +429,5 @@ public class ConnectionPool implements DataSource
     {
         return false;
     }
-
 
 }
