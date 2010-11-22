@@ -58,7 +58,8 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
     /**
      * Constructor
      */
-    public JPAGenericDAO()
+    @SuppressWarnings( "unchecked" )
+	public JPAGenericDAO()
     {
         _entityClass = ( Class<E> ) ( ( ParameterizedType ) getClass().getGenericSuperclass() ).getActualTypeArguments()[1];
     }
@@ -76,6 +77,15 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
     public String getEntityClassName()
     {
         return _entityClass.getName();
+    }
+    
+    /**
+     * Gets the entity class
+     * @return the entity class
+     */
+    public Class<E> getEntityClass()
+    {
+    	return _entityClass;
     }
 
     /**
