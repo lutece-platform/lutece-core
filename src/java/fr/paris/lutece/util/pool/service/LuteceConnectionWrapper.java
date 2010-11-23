@@ -33,23 +33,15 @@
  */
 package fr.paris.lutece.util.pool.service;
 
-import java.sql.Array;
-import java.sql.Blob;
 import java.sql.CallableStatement;
-import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.NClob;
 import java.sql.PreparedStatement;
-import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
-import java.sql.SQLXML;
 import java.sql.Savepoint;
 import java.sql.Statement;
-import java.sql.Struct;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Wraps a connection to use {@link ConnectionPool} when closing connection.
@@ -90,65 +82,10 @@ public class LuteceConnectionWrapper implements Connection
 	{
 		_pool.freeConnection( this );
 	}
-
+	
 	/**
-	 * {@inheritDoc}
-	 */
-	public void clearWarnings() throws SQLException
-	{
-		_wrappee.clearWarnings();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void commit() throws SQLException
-	{
-		_wrappee.commit();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Array createArrayOf( String typeName, Object[] elements ) throws SQLException
-	{
-		return _wrappee.createArrayOf( typeName, elements );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Blob createBlob() throws SQLException
-	{
-		return _wrappee.createBlob();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Clob createClob() throws SQLException
-	{
-		return _wrappee.createClob();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public NClob createNClob() throws SQLException
-	{
-		return _wrappee.createNClob();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public SQLXML createSQLXML() throws SQLException
-	{
-		return _wrappee.createSQLXML();
-	}
-
-	/**
-	 * {@inheritDoc}
+	 * 
+	 *{@inheritDoc}
 	 */
 	public Statement createStatement() throws SQLException
 	{
@@ -156,204 +93,8 @@ public class LuteceConnectionWrapper implements Connection
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public Statement createStatement( int resultSetType, int resultSetConcurrency, int resultSetHoldability ) throws SQLException
-	{
-		return _wrappee.createStatement( resultSetType, resultSetConcurrency, resultSetHoldability );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Statement createStatement( int resultSetType, int resultSetConcurrency ) throws SQLException
-	{
-		return _wrappee.createStatement( resultSetType, resultSetConcurrency );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Struct createStruct( String typeName, Object[] attributes ) throws SQLException
-	{
-		return _wrappee.createStruct( typeName, attributes );
-	}
-
-	public boolean getAutoCommit() throws SQLException
-	{
-		return _wrappee.getAutoCommit();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getCatalog() throws SQLException
-	{
-		return _wrappee.getCatalog();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Properties getClientInfo() throws SQLException
-	{
-		return _wrappee.getClientInfo();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getClientInfo( String name ) throws SQLException
-	{
-		return _wrappee.getClientInfo( name );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public int getHoldability() throws SQLException
-	{
-		return _wrappee.getHoldability();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public DatabaseMetaData getMetaData() throws SQLException
-	{
-		return _wrappee.getMetaData();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public int getTransactionIsolation() throws SQLException
-	{
-		return _wrappee.getTransactionIsolation();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Map<String, Class<?>> getTypeMap() throws SQLException
-	{
-		return _wrappee.getTypeMap();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public SQLWarning getWarnings() throws SQLException
-	{
-		return _wrappee.getWarnings();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isClosed() throws SQLException
-	{
-		return _wrappee.isClosed();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isReadOnly() throws SQLException
-	{
-		return _wrappee.isReadOnly();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isValid( int timeout ) throws SQLException
-	{
-		return _wrappee.isValid( timeout );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isWrapperFor( Class<?> iface ) throws SQLException
-	{
-		return _wrappee.isWrapperFor( iface );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String nativeSQL( String sql ) throws SQLException
-	{
-		return _wrappee.nativeSQL( sql );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public CallableStatement prepareCall( String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability ) throws SQLException
-	{
-		return _wrappee.prepareCall( sql, resultSetType, resultSetConcurrency, resultSetHoldability );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public CallableStatement prepareCall( String sql, int resultSetType, int resultSetConcurrency ) throws SQLException
-	{
-		return _wrappee.prepareCall( sql, resultSetType, resultSetConcurrency );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public CallableStatement prepareCall( String sql ) throws SQLException
-	{
-		return _wrappee.prepareCall( sql );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public PreparedStatement prepareStatement( String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability ) throws SQLException
-	{
-		return _wrappee.prepareStatement( sql, resultSetType, resultSetConcurrency, resultSetHoldability );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public PreparedStatement prepareStatement( String sql, int resultSetType, int resultSetConcurrency ) throws SQLException
-	{
-		return _wrappee.prepareStatement( sql, resultSetType, resultSetConcurrency );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public PreparedStatement prepareStatement( String sql, int autoGeneratedKeys ) throws SQLException
-	{
-		return _wrappee.prepareStatement( sql, autoGeneratedKeys );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public PreparedStatement prepareStatement( String sql, int[] columnIndexes ) throws SQLException
-	{
-		return _wrappee.prepareStatement( sql, columnIndexes );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public PreparedStatement prepareStatement( String sql, String[] columnNames ) throws SQLException
-	{
-		return _wrappee.prepareStatement( sql, columnNames );
-	}
-
-	/**
-	 * {@inheritDoc}
+	 * 
+	 *{@inheritDoc}
 	 */
 	public PreparedStatement prepareStatement( String sql ) throws SQLException
 	{
@@ -361,31 +102,23 @@ public class LuteceConnectionWrapper implements Connection
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *{@inheritDoc}
 	 */
-	public void releaseSavepoint( Savepoint savepoint ) throws SQLException
+	public CallableStatement prepareCall( String sql ) throws SQLException
 	{
-		_wrappee.releaseSavepoint( savepoint );
+		return _wrappee.prepareCall( sql );
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *{@inheritDoc}
 	 */
-	public void rollback() throws SQLException
+	public String nativeSQL( String sql ) throws SQLException
 	{
-		_wrappee.rollback();
+		return _wrappee.nativeSQL( sql );
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public void rollback( Savepoint savepoint ) throws SQLException
-	{
-		_wrappee.rollback( savepoint );
-	}
-
-	/**
-	 * {@inheritDoc}
+	 *{@inheritDoc}
 	 */
 	public void setAutoCommit( boolean autoCommit ) throws SQLException
 	{
@@ -393,39 +126,47 @@ public class LuteceConnectionWrapper implements Connection
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *{@inheritDoc}
 	 */
-	public void setCatalog( String catalog ) throws SQLException
+	public boolean getAutoCommit() throws SQLException
 	{
-		_wrappee.setCatalog( catalog );
+		return _wrappee.getAutoCommit();
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *{@inheritDoc}
 	 */
-	public void setClientInfo( Properties properties ) throws SQLClientInfoException
+	public void commit() throws SQLException
 	{
-		_wrappee.setClientInfo( properties );
+		_wrappee.commit();
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *{@inheritDoc}
 	 */
-	public void setClientInfo( String name, String value ) throws SQLClientInfoException
+	public void rollback() throws SQLException
 	{
-		_wrappee.setClientInfo( name, value );
+		_wrappee.rollback();
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *{@inheritDoc}
 	 */
-	public void setHoldability( int holdability ) throws SQLException
+	public boolean isClosed() throws SQLException
 	{
-		_wrappee.setHoldability( holdability );
+		return _wrappee.isClosed();
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *{@inheritDoc}
+	 */
+	public DatabaseMetaData getMetaData() throws SQLException
+	{
+		return _wrappee.getMetaData();
+	}
+
+	/**
+	 *{@inheritDoc}
 	 */
 	public void setReadOnly( boolean readOnly ) throws SQLException
 	{
@@ -433,23 +174,31 @@ public class LuteceConnectionWrapper implements Connection
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *{@inheritDoc}
 	 */
-	public Savepoint setSavepoint() throws SQLException
+	public boolean isReadOnly() throws SQLException
 	{
-		return _wrappee.setSavepoint();
+		return _wrappee.isReadOnly();
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *{@inheritDoc}
 	 */
-	public Savepoint setSavepoint( String name ) throws SQLException
+	public void setCatalog( String catalog ) throws SQLException
 	{
-		return _wrappee.setSavepoint( name );
+		_wrappee.setCatalog( catalog );
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *{@inheritDoc}
+	 */
+	public String getCatalog() throws SQLException
+	{
+		return _wrappee.getCatalog();
+	}
+
+	/**
+	 *{@inheritDoc}
 	 */
 	public void setTransactionIsolation( int level ) throws SQLException
 	{
@@ -457,7 +206,63 @@ public class LuteceConnectionWrapper implements Connection
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *{@inheritDoc}
+	 */
+	public int getTransactionIsolation() throws SQLException
+	{
+		return _wrappee.getTransactionIsolation();
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public SQLWarning getWarnings() throws SQLException
+	{
+		return _wrappee.getWarnings();
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public void clearWarnings() throws SQLException
+	{
+		_wrappee.clearWarnings();
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public Statement createStatement( int resultSetType, int resultSetConcurrency ) throws SQLException
+	{
+		return _wrappee.createStatement( resultSetType, resultSetConcurrency );
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public PreparedStatement prepareStatement( String sql, int resultSetType, int resultSetConcurrency ) throws SQLException
+	{
+		return _wrappee.prepareStatement( sql, resultSetType, resultSetConcurrency );
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public CallableStatement prepareCall( String sql, int resultSetType, int resultSetConcurrency ) throws SQLException
+	{
+		return _wrappee.prepareCall( sql, resultSetType, resultSetConcurrency );
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public Map<String, Class<?>> getTypeMap() throws SQLException
+	{
+		return _wrappee.getTypeMap();
+	}
+
+	/**
+	 *{@inheritDoc}
 	 */
 	public void setTypeMap( Map<String, Class<?>> map ) throws SQLException
 	{
@@ -465,11 +270,98 @@ public class LuteceConnectionWrapper implements Connection
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *{@inheritDoc}
 	 */
-	public <T> T unwrap( Class<T> iface ) throws SQLException
+	public void setHoldability( int holdability ) throws SQLException
 	{
-		return _wrappee.unwrap( iface );
+		_wrappee.setHoldability( holdability );
 	}
 
+	/**
+	 *{@inheritDoc}
+	 */
+	public int getHoldability() throws SQLException
+	{
+		return _wrappee.getHoldability();
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public Savepoint setSavepoint() throws SQLException
+	{
+		return _wrappee.setSavepoint();
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public Savepoint setSavepoint( String name ) throws SQLException
+	{
+		return _wrappee.setSavepoint( name );
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public void rollback( Savepoint savepoint ) throws SQLException
+	{
+		_wrappee.rollback( savepoint );
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public void releaseSavepoint( Savepoint savepoint ) throws SQLException
+	{
+		_wrappee.releaseSavepoint( savepoint );
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public Statement createStatement( int resultSetType, int resultSetConcurrency, int resultSetHoldability ) throws SQLException
+	{
+		return _wrappee.createStatement( resultSetType, resultSetConcurrency, resultSetHoldability );
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public PreparedStatement prepareStatement( String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability ) throws SQLException
+	{
+		return _wrappee.prepareStatement( sql, resultSetType, resultSetConcurrency, resultSetHoldability );
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public CallableStatement prepareCall( String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability ) throws SQLException
+	{
+		return _wrappee.prepareCall( sql, resultSetType, resultSetConcurrency, resultSetHoldability );
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public PreparedStatement prepareStatement( String sql, int autoGeneratedKeys ) throws SQLException
+	{
+		return _wrappee.prepareStatement( sql, autoGeneratedKeys );
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public PreparedStatement prepareStatement( String sql, int[] columnIndexes ) throws SQLException
+	{
+		return _wrappee.prepareStatement( sql, columnIndexes );
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	public PreparedStatement prepareStatement( String sql, String[] columnNames ) throws SQLException
+	{
+		return _wrappee.prepareStatement( sql, columnNames );
+	}
 }
