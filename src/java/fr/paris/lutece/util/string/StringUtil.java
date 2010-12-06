@@ -41,6 +41,7 @@ import java.text.Collator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 /**
  * This class provides String utils.
  */
@@ -246,7 +247,7 @@ public final class StringUtil
     {
         return ( strCodeKey == null ) ? false : strCodeKey.matches( STRING_CODE_PATTERN );
     }
-    
+
     /**
      * Converts <code>strValue</code> to an int value.
      * @param strValue the value to convert
@@ -255,16 +256,15 @@ public final class StringUtil
      */
     public static int getIntValue( String strValue, int nDefaultValue )
     {
-    	try
-    	{
-    		return Integer.parseInt( strValue );
-    	}
-    	catch ( NumberFormatException nfe )
-    	{
-    		AppLogService.error( nfe.getMessage(  ), nfe );
-    	}
-    	
-    	return nDefaultValue;
+        try
+        {
+            return Integer.parseInt( strValue );
+        }
+        catch ( NumberFormatException nfe )
+        {
+            AppLogService.error( nfe.getMessage(  ), nfe );
+        }
+
+        return nDefaultValue;
     }
-	
 }

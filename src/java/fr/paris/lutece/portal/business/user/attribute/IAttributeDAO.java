@@ -36,60 +36,60 @@ package fr.paris.lutece.portal.business.user.attribute;
 import java.util.List;
 import java.util.Locale;
 
+
 /**
- * 
+ *
  * IAttributeDAO
  *
  */
-public interface IAttributeDAO 
+public interface IAttributeDAO
 {
-	/**
-	 * Load attribute
-	 * @param nIdAttribute ID
-	 * @param locale Locale
-	 * @return Attribute
-	 */
-	IAttribute load( int nIdAttribute, Locale locale );
-		
-	/**
-	 * Insert a new attribute
-	 * @param attribute the attribute
-	 * @return new PK
-	 */
-	int insert( IAttribute attribute );
-	
-	/**
-	 * Update an attribute 
-	 * @param attribute the attribute
-	 */
-	void store( IAttribute attribute );
-	
-	/**
-	 * Delete an attribute
-	 * @param nIdAttribute the ID of the attribute
-	 */
-	void delete( int nIdAttribute );
-	
-	/**
-	 * Load every attributes
-	 * @param locale locale
-	 * @return list of attributes
-	 */
-	List<IAttribute> selectAll( Locale locale );
+    /**
+     * Load attribute
+     * @param nIdAttribute ID
+     * @param locale Locale
+     * @return Attribute
+     */
+    IAttribute load( int nIdAttribute, Locale locale );
 
-	/**
-	 * Load every attributes from plugin name
-	 * @param strPluginName plugin name
-	 * @param locale locale
-	 * @return list of attributes
-	 */
-	List<IAttribute> selectPluginAttributes(
-			String strPluginName, Locale locale);
-	
-	/**
-	 * Load every attributes that do not come from a plugin
-	 * @param locale locale
-	 * @return list of attributes
-	 */
-	List<IAttribute> selectCoreAttributes( Locale locale);
+    /**
+     * Insert a new attribute
+     * @param attribute the attribute
+     * @return new PK
+     */
+    int insert( IAttribute attribute );
+
+    /**
+     * Update an attribute
+     * @param attribute the attribute
+     */
+    void store( IAttribute attribute );
+
+    /**
+     * Delete an attribute
+     * @param nIdAttribute the ID of the attribute
+     */
+    void delete( int nIdAttribute );
+
+    /**
+     * Load every attributes
+     * @param locale locale
+     * @return list of attributes
+     */
+    List<IAttribute> selectAll( Locale locale );
+
+    /**
+     * Load every attributes from plugin name
+     * @param strPluginName plugin name
+     * @param locale locale
+     * @return list of attributes
+     */
+    List<IAttribute> selectPluginAttributes( String strPluginName, Locale locale );
+
+    /**
+     * Load every attributes that do not come from a plugin
+     * @param locale locale
+     * @return list of attributes
+     */
+    List<IAttribute> selectCoreAttributes( Locale locale );
 }

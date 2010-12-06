@@ -130,7 +130,7 @@ public class State implements IReferenceItem, RBACResource
     {
         _strDescription = strDescription;
     }
-    
+
     /**
      * Returns the action icon
      *
@@ -150,7 +150,6 @@ public class State implements IReferenceItem, RBACResource
     {
         _icon = icon;
     }
-
 
     /**
      *return the list of all actions associated to the state

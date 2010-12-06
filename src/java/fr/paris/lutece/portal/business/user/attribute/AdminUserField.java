@@ -35,106 +35,107 @@ package fr.paris.lutece.portal.business.user.attribute;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 
+
 /**
- * 
+ *
  * AdminUserField
  *
  */
-public class AdminUserField 
+public class AdminUserField
 {
-	private AdminUser _user;
-	private AttributeField _attributeField;
-	private IAttribute _attribute;
-	private String _value;
-	private int _nIdUserField;
-	
-	/**
-	 * Get user
-	 * @return user
-	 */
-	public AdminUser getUser(  )
-	{
-		return _user;
-	}
-	
-	/**
-	 * Set user
-	 * @param user user
-	 */
-	public void setUser( AdminUser user )
-	{
-		_user = user;
-	}
-	
-	/**
-	 * Get attribute field
-	 * @return attribute field
-	 */
-	public AttributeField getAttributeField(  )
-	{
-		return _attributeField;
-	}
-	
-	/**
-	 * Set attribute field
-	 * @param attributeField attribute field
-	 */
-	public void setAttributeField( AttributeField attributeField )
-	{
-		_attributeField = attributeField;
-	}
+    private AdminUser _user;
+    private AttributeField _attributeField;
+    private IAttribute _attribute;
+    private String _value;
+    private int _nIdUserField;
 
-	/**
-	 * Get attribute
-	 * @return attribute
-	 */
-	public IAttribute getAttribute(  )
-	{
-		return _attribute;
-	}
-	
-	/**
-	 * Set attribute
-	 * @param attribute attribute
-	 */
-	public void setAttribute( IAttribute attribute )
-	{
-		_attribute = attribute;
-	}
+    /**
+     * Get user
+     * @return user
+     */
+    public AdminUser getUser(  )
+    {
+        return _user;
+    }
 
-	/**
-	 * Get value
-	 * @return value
-	 */
-	public String getValue(  )
-	{
-		return _value;
-	}
-	
-	/**
-	 * Set value
-	 * @param value value
-	 */
-	public void setValue( String value )
-	{
-		_value = value;
-	}
+    /**
+     * Set user
+     * @param user user
+     */
+    public void setUser( AdminUser user )
+    {
+        _user = user;
+    }
 
-	/**
-	 * Get Id user field
-	 * @return id user field
-	 */
-	public int getIdUserField(  )
-	{
-		return _nIdUserField;
-	}
-	
-	/**
-	 * Set id user field
-	 * @param nIdUserField id user field
-	 */
-	public void setIdUserField( int nIdUserField )
-	{
-		_nIdUserField = nIdUserField;
-	}
+    /**
+     * Get attribute field
+     * @return attribute field
+     */
+    public AttributeField getAttributeField(  )
+    {
+        return _attributeField;
+    }
+
+    /**
+     * Set attribute field
+     * @param attributeField attribute field
+     */
+    public void setAttributeField( AttributeField attributeField )
+    {
+        _attributeField = attributeField;
+    }
+
+    /**
+     * Get attribute
+     * @return attribute
+     */
+    public IAttribute getAttribute(  )
+    {
+        return _attribute;
+    }
+
+    /**
+     * Set attribute
+     * @param attribute attribute
+     */
+    public void setAttribute( IAttribute attribute )
+    {
+        _attribute = attribute;
+    }
+
+    /**
+     * Get value
+     * @return value
+     */
+    public String getValue(  )
+    {
+        return _value;
+    }
+
+    /**
+     * Set value
+     * @param value value
+     */
+    public void setValue( String value )
+    {
+        _value = value;
+    }
+
+    /**
+     * Get Id user field
+     * @return id user field
+     */
+    public int getIdUserField(  )
+    {
+        return _nIdUserField;
+    }
+
+    /**
+     * Set id user field
+     * @param nIdUserField id user field
+     */
+    public void setIdUserField( int nIdUserField )
+    {
+        _nIdUserField = nIdUserField;
+    }
 }

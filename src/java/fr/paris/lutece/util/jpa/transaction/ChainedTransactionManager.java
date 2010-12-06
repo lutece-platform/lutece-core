@@ -34,8 +34,7 @@
 package fr.paris.lutece.util.jpa.transaction;
 
 import fr.paris.lutece.util.jpa.JPAConstants;
-import java.util.Collections;
-import java.util.List;
+
 import org.apache.log4j.Logger;
 
 import org.springframework.transaction.PlatformTransactionManager;
@@ -44,140 +43,146 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import java.util.Collections;
+import java.util.List;
+
+
 /**
- * 
+ *
  * Manages multi transaction
  * @see {@link http://www.javaworld.com/javaworld/jw-01-2009/jw-01-spring-transactions.html?page=6}
- * 
+ *
  */
 public class ChainedTransactionManager implements PlatformTransactionManager
 {
+    private static final Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
+    private List<PlatformTransactionManager> _transactionManagers;
 
-	private static final Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
+    /**
+     * Builds a new ChainedTransactionManager
+     */
+    public ChainedTransactionManager(  )
+    {
+    }
 
-	private List<PlatformTransactionManager> _transactionManagers;
+    /**
+     * Begin a transaction for all transaction managers {@inheritDoc}
+     */
+    public TransactionStatus getTransaction( TransactionDefinition definition )
+        throws TransactionException
+    {
+        if ( _transactionManagers.isEmpty(  ) )
+        {
+            return null;
+        }
 
-	/**
-	 * Builds a new ChainedTransactionManager
-	 */
-	public ChainedTransactionManager()
-	{
-	}
+        MultiTransactionStatus mts = new MultiTransactionStatus( _transactionManagers.get( 0 ) );
 
-	/**
-	 * Begin a transaction for all transaction managers {@inheritDoc}
-	 */
-	public TransactionStatus getTransaction( TransactionDefinition definition ) throws TransactionException
-	{
-		if ( _transactionManagers.isEmpty() )
-		{
-			return null;
-		}
+        if ( !TransactionSynchronizationManager.isSynchronizationActive(  ) )
+        {
+            TransactionSynchronizationManager.initSynchronization(  );
+            mts.setNewSynchonization(  );
 
-		MultiTransactionStatus mts = new MultiTransactionStatus( _transactionManagers.get( 0 ) );
+            if ( _log.isDebugEnabled(  ) )
+            {
+                _log.debug( "Begin transaction : " + mts.toString(  ) );
+            }
+        }
 
-		if ( !TransactionSynchronizationManager.isSynchronizationActive() )
-		{
-			TransactionSynchronizationManager.initSynchronization();
-			mts.setNewSynchonization();
-			if ( _log.isDebugEnabled() )
-			{
-				_log.debug( "Begin transaction : " + mts.toString() );
-			}
-		}
+        for ( PlatformTransactionManager transactionManager : _transactionManagers )
+        {
+            mts.getTransactionStatuses(  ).put( transactionManager, transactionManager.getTransaction( definition ) );
+        }
 
-		for ( PlatformTransactionManager transactionManager : _transactionManagers )
-		{
-			mts.getTransactionStatuses().put( transactionManager, transactionManager.getTransaction( definition ) );
-		}
+        return mts;
+    }
 
-		return mts;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void commit( TransactionStatus status ) throws TransactionException
+    {
+        for ( PlatformTransactionManager transactionManager : _transactionManagers )
+        {
+            TransactionStatus transactionStatus = null;
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void commit( TransactionStatus status ) throws TransactionException
-	{
-		for ( PlatformTransactionManager transactionManager : _transactionManagers )
-		{
-			TransactionStatus transactionStatus = null;
-			try
-			{
-				transactionStatus = ( ( MultiTransactionStatus ) status ).getTransactionStatus( transactionManager );
-				transactionManager.commit( transactionStatus );
-			}
-			catch ( Exception e )
-			{
-				_log.error( e.getMessage(), e );
-				// transactionManager.rollback( transactionStatus );
-			}
-		}
+            try
+            {
+                transactionStatus = ( (MultiTransactionStatus) status ).getTransactionStatus( transactionManager );
+                transactionManager.commit( transactionStatus );
+            }
+            catch ( Exception e )
+            {
+                _log.error( e.getMessage(  ), e );
 
-		if ( _log.isDebugEnabled() )
-		{
-			_log.debug( "Ending transaction : " + status.toString() );
-		}
+                // transactionManager.rollback( transactionStatus );
+            }
+        }
 
-		if ( ( ( MultiTransactionStatus ) status ).isNewSynchonization() )
-		{
-			TransactionSynchronizationManager.clear();
-		}
+        if ( _log.isDebugEnabled(  ) )
+        {
+            _log.debug( "Ending transaction : " + status.toString(  ) );
+        }
 
-	}
+        if ( ( (MultiTransactionStatus) status ).isNewSynchonization(  ) )
+        {
+            TransactionSynchronizationManager.clear(  );
+        }
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void rollback( TransactionStatus status ) throws TransactionException
-	{
-		for ( PlatformTransactionManager dataSourceManager : _transactionManagers )
-		{
-			try
-			{
-				dataSourceManager.rollback( ( ( ( MultiTransactionStatus ) status ).getTransactionStatus( dataSourceManager ) ) );
-			}
-			catch ( Exception ex )
-			{
-				_log.error( ex.getMessage(), ex );
-			}
-		}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void rollback( TransactionStatus status ) throws TransactionException
+    {
+        for ( PlatformTransactionManager dataSourceManager : _transactionManagers )
+        {
+            try
+            {
+                dataSourceManager.rollback( ( ( (MultiTransactionStatus) status ).getTransactionStatus( 
+                        dataSourceManager ) ) );
+            }
+            catch ( Exception ex )
+            {
+                _log.error( ex.getMessage(  ), ex );
+            }
+        }
 
-		if ( ( ( MultiTransactionStatus ) status ).isNewSynchonization() )
-		{
-			TransactionSynchronizationManager.clear();
-		}
+        if ( ( (MultiTransactionStatus) status ).isNewSynchonization(  ) )
+        {
+            TransactionSynchronizationManager.clear(  );
+        }
+    }
 
-	}
+    /**
+     * "Getter method" pour la variable {@link #_transactionManagers}
+     * @return La variable {@link #_transactionManagers}
+     */
+    public List<PlatformTransactionManager> getTransactionManagers(  )
+    {
+        return _transactionManagers;
+    }
 
-	/**
-	 * "Getter method" pour la variable {@link #_transactionManagers}
-	 * @return La variable {@link #_transactionManagers}
-	 */
-	public List<PlatformTransactionManager> getTransactionManagers()
-	{
-		return _transactionManagers;
-	}
+    /**
+     * "Setter method" pour la variable {@link #_transactionManagers}
+     * @param managers La nouvelle valeur de la variable {@link #_transactionManagers}
+     */
+    public void setTransactionManagers( List<PlatformTransactionManager> managers )
+    {
+        if ( ( managers == null ) || managers.isEmpty(  ) )
+        {
+            _transactionManagers = Collections.emptyList(  );
+        }
+        else
+        {
+            _transactionManagers = managers;
 
-	/**
-	 * "Setter method" pour la variable {@link #_transactionManagers}
-	 * @param managers La nouvelle valeur de la variable {@link #_transactionManagers}
-	 */
-	public void setTransactionManagers( List<PlatformTransactionManager> managers )
-	{
-		if ( managers == null || managers.isEmpty() )
-		{
-			_transactionManagers = Collections.emptyList();
-		}
-		else
-		{
-			_transactionManagers = managers;
-			if ( _log.isDebugEnabled() )
-			{
-				_log.debug( "Transaction Managers : " + _transactionManagers.toString() );
-			}
-		}
-	}
+            if ( _log.isDebugEnabled(  ) )
+            {
+                _log.debug( "Transaction Managers : " + _transactionManagers.toString(  ) );
+            }
+        }
+    }
 }

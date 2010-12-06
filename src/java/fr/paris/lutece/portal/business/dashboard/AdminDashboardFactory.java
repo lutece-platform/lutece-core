@@ -33,68 +33,70 @@
  */
 package fr.paris.lutece.portal.business.dashboard;
 
+import fr.paris.lutece.portal.service.dashboard.admin.IAdminDashboardComponent;
+import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.paris.lutece.portal.service.dashboard.admin.IAdminDashboardComponent;
-import fr.paris.lutece.portal.service.util.AppLogService;
 
 /**
  * Factory for {@link IAdminDashboardComponent}
- * 
+ *
  */
 public final class AdminDashboardFactory
 {
-	private static Map<String, IAdminDashboardComponent> _mapAdminDashboardComponents = new HashMap<String, IAdminDashboardComponent>();
+    private static Map<String, IAdminDashboardComponent> _mapAdminDashboardComponents = new HashMap<String, IAdminDashboardComponent>(  );
 
-	/**
-	 * Empty constructor
-	 */
-	private AdminDashboardFactory()
-	{
-		// nothing
-	}
+    /**
+     * Empty constructor
+     */
+    private AdminDashboardFactory(  )
+    {
+        // nothing
+    }
 
-	/**
-	 * Registers the new component. Name must be unique
-	 * @param adminDashboardComponent the component to register
-	 * @return <code>true</code> if registered, <code>false</code> otherwise.
-	 */
-	public static boolean registerDashboardComponent( IAdminDashboardComponent adminDashboardComponent )
-	{
-		String strName = adminDashboardComponent.getName();
+    /**
+     * Registers the new component. Name must be unique
+     * @param adminDashboardComponent the component to register
+     * @return <code>true</code> if registered, <code>false</code> otherwise.
+     */
+    public static boolean registerDashboardComponent( IAdminDashboardComponent adminDashboardComponent )
+    {
+        String strName = adminDashboardComponent.getName(  );
 
-		if ( _mapAdminDashboardComponents.containsKey( strName ) )
-		{
-			AppLogService.error( "Error while registering admin dashboard for " + strName + " class=" + adminDashboardComponent.getClass() + ", factory already contains class="
-					+ _mapAdminDashboardComponents.get( strName ) );
+        if ( _mapAdminDashboardComponents.containsKey( strName ) )
+        {
+            AppLogService.error( "Error while registering admin dashboard for " + strName + " class=" +
+                adminDashboardComponent.getClass(  ) + ", factory already contains class=" +
+                _mapAdminDashboardComponents.get( strName ) );
 
-			return false;
-		}
+            return false;
+        }
 
-		_mapAdminDashboardComponents.put( strName, adminDashboardComponent );
+        _mapAdminDashboardComponents.put( strName, adminDashboardComponent );
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Gets the {@link IAdminDashboardComponent} for the given name
-	 * @param strName the name
-	 * @return The component found, <code>null</code> otherwise.
-	 */
-	public static IAdminDashboardComponent getDashboardComponent( String strName )
-	{
-		return _mapAdminDashboardComponents.get( strName );
-	}
+    /**
+     * Gets the {@link IAdminDashboardComponent} for the given name
+     * @param strName the name
+     * @return The component found, <code>null</code> otherwise.
+     */
+    public static IAdminDashboardComponent getDashboardComponent( String strName )
+    {
+        return _mapAdminDashboardComponents.get( strName );
+    }
 
-	/**
-	 * Finds all registered admin dashboards
-	 * @return the list
-	 */
-	public static List<IAdminDashboardComponent> getAllAdminDashboardComponents()
-	{
-		return new ArrayList<IAdminDashboardComponent>( _mapAdminDashboardComponents.values() );
-	}
+    /**
+     * Finds all registered admin dashboards
+     * @return the list
+     */
+    public static List<IAdminDashboardComponent> getAllAdminDashboardComponents(  )
+    {
+        return new ArrayList<IAdminDashboardComponent>( _mapAdminDashboardComponents.values(  ) );
+    }
 }

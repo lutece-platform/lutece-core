@@ -31,11 +31,12 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.util.jpa;
 
-import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
 
 /**
  * Interface IGenericLuteceHome
@@ -44,37 +45,36 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface IGenericHome<K, E>
 {
-	/**
-	 * Creates the entity
-	 * @param entity object
-	 */
-	void create( E entity );
+    /**
+     * Creates the entity
+     * @param entity object
+     */
+    void create( E entity );
 
-	/**
-	 * Merges the entity
-	 * @param entity object
-	 */
-	void update( E entity );
+    /**
+     * Merges the entity
+     * @param entity object
+     */
+    void update( E entity );
 
-	/**
-	 * Removes the entity if exists
-	 * @param key The entity key
-	 */
-	void remove( K key );
+    /**
+     * Removes the entity if exists
+     * @param key The entity key
+     */
+    void remove( K key );
 
-	/**
-	 * Loads an entity by its key
-	 * @param pKey primary key
-	 * @return the found entity, <code>null</code> otherwise.
-	 */
-	@Transactional( readOnly = true )
-	E findByPrimaryKey( K pKey );
+    /**
+     * Loads an entity by its key
+     * @param pKey primary key
+     * @return the found entity, <code>null</code> otherwise.
+     */
+    @Transactional( readOnly = true )
+    E findByPrimaryKey( K pKey );
 
-	/**
-	 * Finds all
-	 * @return the list
-	 */
-	@Transactional( readOnly = true )
-	List<E> findAll();
-
+    /**
+     * Finds all
+     * @return the list
+     */
+    @Transactional( readOnly = true )
+    List<E> findAll(  );
 }

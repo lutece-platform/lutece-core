@@ -100,22 +100,22 @@ public class Role implements RBACResource, AdminWorkgroupResource
     {
         return _strRole;
     }
-    
+
     /**
      * Get workgroup key
      * @return workgroup key
      */
     public String getWorkgroup(  )
     {
-    	return _strWorkgroupKey;
+        return _strWorkgroupKey;
     }
-    
+
     /**
      * Set workgroup key
      * @param strWorkgroupKey workgroup key
      */
     public void setWorkgroup( String strWorkgroupKey )
     {
-    	_strWorkgroupKey = strWorkgroupKey;
+        _strWorkgroupKey = strWorkgroupKey;
     }
 }

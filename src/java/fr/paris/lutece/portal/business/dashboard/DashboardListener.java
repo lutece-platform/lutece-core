@@ -33,22 +33,23 @@
  */
 package fr.paris.lutece.portal.business.dashboard;
 
-import java.util.List;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 
+import java.util.List;
+
+
 /**
- * 
+ *
  * DashboardListener
  *
  */
-public interface DashboardListener 
+public interface DashboardListener
 {
-	/**
-	 * Get the dashboard components
-	 * @param user the current user
-	 * @return the list of dashboards
-	 */
-	List<IDashboardComponent> getDashboardComponents( AdminUser user );
+    /**
+     * Get the dashboard components
+     * @param user the current user
+     * @return the list of dashboards
+     */
+    List<IDashboardComponent> getDashboardComponents( AdminUser user );
 }

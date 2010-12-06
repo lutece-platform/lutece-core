@@ -38,20 +38,24 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.net.URL;
-import java.util.ArrayList;
 
 import org.apache.commons.beanutils.ContextClassLoaderLocal;
+
 import org.springframework.beans.factory.BeanFactoryUtils;
+
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import java.io.File;
+import java.io.FilenameFilter;
+
+import java.net.URL;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 /**
@@ -84,8 +88,7 @@ public final class SpringContextService
      */
     public static Object getBean( String strName )
     {
-//        ApplicationContext context = getContext( CORE );
-
+        //        ApplicationContext context = getContext( CORE );
         return _context.getBean( strName );
     }
 
@@ -105,7 +108,7 @@ public final class SpringContextService
      * Gets a Spring Application context from a given name
      * @param strContextName The context's name
      * @return The context
-     * @deprecated 
+     * @deprecated
      */
     private static ApplicationContext getContext( String strContextName )
     {
@@ -143,7 +146,6 @@ public final class SpringContextService
         return context;
     }
 
-
     //// 2.4 Features  // comment to be removed
 
     /**
@@ -151,46 +153,45 @@ public final class SpringContextService
      * @throws LuteceInitException
      * @since 2.4
      */
-    public static void init() throws LuteceInitException
+    public static void init(  ) throws LuteceInitException
     {
         try
         {
             // Load the core context file : core_context.xml
-            String strConfPath = AppPathService.getAbsolutePathFromRelativePath(PATH_CONF);
+            String strConfPath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
             String strContextFile = "file:" + strConfPath + FILE_CORE_CONTEXT;
             _context = new ClassPathXmlApplicationContext( strContextFile );
-            AppLogService.info("Context file loaded : " + FILE_CORE_CONTEXT);
+            AppLogService.info( "Context file loaded : " + FILE_CORE_CONTEXT );
 
             // Load all context files found in the conf/plugins directory
             // Files are loaded separatly with an individual try/catch block
             // to avoid stopping the process in case of a failure
             String strConfPluginsPath = strConfPath + DIR_PLUGINS;
-            File dirConfPlugins = new File(strConfPluginsPath);
-            FilenameFilter filterContext = new ContextFileFilter();
-            String[] filesContext = dirConfPlugins.list(filterContext);
-            for (String fileContext : filesContext)
-            {
+            File dirConfPlugins = new File( strConfPluginsPath );
+            FilenameFilter filterContext = new ContextFileFilter(  );
+            String[] filesContext = dirConfPlugins.list( filterContext );
 
-                String[] file =
-                {
-                    "file:" + strConfPluginsPath + fileContext
-                };
+            for ( String fileContext : filesContext )
+            {
+                String[] file = { "file:" + strConfPluginsPath + fileContext };
+
                 // Safe loading of plugin context file
                 try
                 {
-                    _context = new ClassPathXmlApplicationContext(file, _context);
-                    AppLogService.info("Context file loaded : " + fileContext);
+                    _context = new ClassPathXmlApplicationContext( file, _context );
+                    AppLogService.info( "Context file loaded : " + fileContext );
                 }
-                catch (Exception e)
+                catch ( Exception e )
                 {
-                    AppLogService.error("Unable to load Spring context file : " + fileContext + " - cause : " + e.getMessage(), e);
+                    AppLogService.error( "Unable to load Spring context file : " + fileContext + " - cause : " +
+                        e.getMessage(  ), e );
                 }
             }
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
-            AppLogService.error("Error initializing Spring Context Service", e);
-            throw new LuteceInitException("Error initializing Spring Context Service", e);
+            AppLogService.error( "Error initializing Spring Context Service", e );
+            throw new LuteceInitException( "Error initializing Spring Context Service", e );
         }
     }
 
@@ -199,11 +200,10 @@ public final class SpringContextService
      *
      * @return The application context
      */
-    public static ApplicationContext getContext()
+    public static ApplicationContext getContext(  )
     {
         return _context;
     }
-
 
     /**
      * Returns a list of bean among all that implements a given interface or extends a given class
@@ -213,17 +213,20 @@ public final class SpringContextService
      */
     public static <T> List<T> getBeansOfType( Class<T> classDef )
     {
-        List<T> list = new ArrayList<T>();
-        Map<String , T> map = BeanFactoryUtils.beansOfTypeIncludingAncestors( _context, classDef );
-        String[] sBeanNames = map.keySet().toArray( new String[0] );
-        for( String strBeanName : sBeanNames )
+        List<T> list = new ArrayList<T>(  );
+        Map<String, T> map = BeanFactoryUtils.beansOfTypeIncludingAncestors( _context, classDef );
+        String[] sBeanNames = map.keySet(  ).toArray( new String[0] );
+
+        for ( String strBeanName : sBeanNames )
         {
             String strPluginPrefix = getPrefix( strBeanName );
-            if( (strPluginPrefix == null) || ((strPluginPrefix != null ) && isEnabled( strPluginPrefix )))
+
+            if ( ( strPluginPrefix == null ) || ( ( strPluginPrefix != null ) && isEnabled( strPluginPrefix ) ) )
             {
-                list.add(map.get( strBeanName ));
+                list.add( map.get( strBeanName ) );
             }
         }
+
         return list;
     }
 
@@ -234,11 +237,13 @@ public final class SpringContextService
      */
     private static String getPrefix( String strBeanName )
     {
-        int nPos = strBeanName.indexOf(".");
-        if( nPos > 0 )
+        int nPos = strBeanName.indexOf( "." );
+
+        if ( nPos > 0 )
         {
             return strBeanName.substring( 0, nPos );
         }
+
         return null;
     }
 
@@ -250,10 +255,12 @@ public final class SpringContextService
     private static boolean isEnabled( String strPrefix )
     {
         Plugin plugin = PluginService.getPlugin( strPrefix );
-        if( (plugin != null) && plugin.isInstalled() )
+
+        if ( ( plugin != null ) && plugin.isInstalled(  ) )
         {
             return true;
         }
+
         return false;
     }
 
@@ -268,11 +275,9 @@ public final class SpringContextService
          * @param strName The file name
          * @return true if the file is a context file otherwise false
          */
-        public boolean accept(File file, String strName)
+        public boolean accept( File file, String strName )
         {
             return strName.endsWith( SUFFIX_CONTEXT_FILE );
         }
     }
-
-
 }

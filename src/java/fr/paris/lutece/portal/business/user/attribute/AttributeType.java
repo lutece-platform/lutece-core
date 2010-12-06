@@ -33,81 +33,82 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
-import java.util.Locale;
-
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
+import java.util.Locale;
+
+
 /**
- * 
+ *
  * AttributeType
  *
  */
-public class AttributeType 
+public class AttributeType
 {
-	private String _strLabelType;
-	private String _strClassName;
-	private Locale _locale;
-	
-	/**
-	 * Get label type
-	 * @return label type
-	 */
-	public String getLabelType(  )
-	{
-		return _strLabelType;
-	}
-	
-	/**
-	 * Set label type
-	 * @param strLabelType label type
-	 */
-	public void setLabelType( String strLabelType )
-	{
-		_strLabelType = strLabelType;
-	}
-	
-	/**
-	 * Get the label type
-	 * @return
-	 */
-	public String getName(  )
-	{
-		return I18nService.getLocalizedString( _strLabelType, _locale );
-	}
-	
-	/**
-	 * Get class name
-	 * @return class name
-	 */
-	public String getClassName(  )
-	{
-		return _strClassName;
-	}
-	
-	/**
-	 * Set class name
-	 * @param strClassName class name
-	 */
-	public void setClassName( String strClassName )
-	{
-		_strClassName = strClassName;
-	}
-	
-	/**
-	 * Set locale
-	 * @param locale Locale
-	 */
-	public void setLocale( Locale locale )
-	{
-		_locale = locale;
-	}
-	
-	/**
-	 * Get locale 
-	 * @return Locale
-	 */
-	public Locale getLocale(  )
-	{
-		return _locale;
-	}
+    private String _strLabelType;
+    private String _strClassName;
+    private Locale _locale;
+
+    /**
+     * Get label type
+     * @return label type
+     */
+    public String getLabelType(  )
+    {
+        return _strLabelType;
+    }
+
+    /**
+     * Set label type
+     * @param strLabelType label type
+     */
+    public void setLabelType( String strLabelType )
+    {
+        _strLabelType = strLabelType;
+    }
+
+    /**
+     * Get the label type
+     * @return
+     */
+    public String getName(  )
+    {
+        return I18nService.getLocalizedString( _strLabelType, _locale );
+    }
+
+    /**
+     * Get class name
+     * @return class name
+     */
+    public String getClassName(  )
+    {
+        return _strClassName;
+    }
+
+    /**
+     * Set class name
+     * @param strClassName class name
+     */
+    public void setClassName( String strClassName )
+    {
+        _strClassName = strClassName;
+    }
+
+    /**
+     * Set locale
+     * @param locale Locale
+     */
+    public void setLocale( Locale locale )
+    {
+        _locale = locale;
+    }
+
+    /**
+     * Get locale
+     * @return Locale
+     */
+    public Locale getLocale(  )
+    {
+        return _locale;
+    }
 }

@@ -35,12 +35,12 @@ package fr.paris.lutece.portal.service.dashboard.admin;
 
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 
+
 /**
- * 
+ *
  * IAdminDashboardComponent
  *
  */
 public interface IAdminDashboardComponent extends IDashboardComponent
 {
-
 }

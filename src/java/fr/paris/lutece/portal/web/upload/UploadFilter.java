@@ -57,6 +57,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
  * Upload filter
  */
@@ -64,7 +65,6 @@ public abstract class UploadFilter implements Filter
 {
     private static final String SIZE_THRESHOLD = "sizeThreshold";
     private static final String REQUEST_SIZE_MAX = "requestSizeMax";
-
     private FilterConfig _filterConfig;
     private int _nSizeThreshold = -1;
     private long _nRequestSizeMax = -1;
@@ -103,8 +103,8 @@ public abstract class UploadFilter implements Filter
         }
         catch ( NumberFormatException ex )
         {
-            AppLogService.error( ex.getMessage() , ex  );
-            throw new ServletException( ex.getMessage() , ex );
+            AppLogService.error( ex.getMessage(  ), ex );
+            throw new ServletException( ex.getMessage(  ), ex );
         }
     }
 
@@ -118,9 +118,9 @@ public abstract class UploadFilter implements Filter
      * @throws ServletException The SerletException
      */
     public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
-            throws IOException, ServletException
+        throws IOException, ServletException
     {
-        HttpServletRequest httpRequest = ( HttpServletRequest ) request;
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
         boolean isMultipartContent = ServletFileUpload.isMultipartContent( httpRequest );
 
         if ( !isMultipartContent )
@@ -130,7 +130,7 @@ public abstract class UploadFilter implements Filter
         else
         {
             // Create a factory for disk-based file items
-            DiskFileItemFactory factory = new DiskFileItemFactory();
+            DiskFileItemFactory factory = new DiskFileItemFactory(  );
 
             // Set factory constraints
             factory.setSizeThreshold( _nSizeThreshold );
@@ -142,15 +142,15 @@ public abstract class UploadFilter implements Filter
             upload.setSizeMax( _nRequestSizeMax );
 
             // get encoding to be used
-            String strEncoding = httpRequest.getCharacterEncoding();
+            String strEncoding = httpRequest.getCharacterEncoding(  );
 
             if ( strEncoding == null )
             {
-                strEncoding = EncodingService.getEncoding();
+                strEncoding = EncodingService.getEncoding(  );
             }
 
-            Map<String, FileItem> mapFiles = new HashMap<String, FileItem>();
-            Map<String, String[]> mapParameters = new HashMap<String, String[]>();
+            Map<String, FileItem> mapFiles = new HashMap<String, FileItem>(  );
+            Map<String, String[]> mapParameters = new HashMap<String, String[]>(  );
 
             try
             {
@@ -159,50 +159,47 @@ public abstract class UploadFilter implements Filter
                 // Process the uploaded items
                 for ( FileItem item : listItems )
                 {
-                    if ( item.isFormField() )
+                    if ( item.isFormField(  ) )
                     {
                         String strValue = "";
 
                         try
                         {
-                            if ( item.getSize() > 0 )
+                            if ( item.getSize(  ) > 0 )
                             {
                                 strValue = item.getString( strEncoding );
                             }
                         }
                         catch ( UnsupportedEncodingException ex )
                         {
-                            if ( item.getSize() > 0 )
+                            if ( item.getSize(  ) > 0 )
                             {
                                 // if encoding problem, try with system encoding
-                                strValue = item.getString();
+                                strValue = item.getString(  );
                             }
                         }
 
                         // check if item of same name already in map
-                        String[] curParam = mapParameters.get( item.getFieldName() );
+                        String[] curParam = mapParameters.get( item.getFieldName(  ) );
 
                         if ( curParam == null )
                         {
                             // simple form field
-                            mapParameters.put( item.getFieldName(), new String[]
-                                    {
-                                        strValue
-                                    } );
+                            mapParameters.put( item.getFieldName(  ), new String[] { strValue } );
                         }
                         else
                         {
                             // array of simple form fields
-                            String[] newArray = new String[ curParam.length + 1 ];
+                            String[] newArray = new String[curParam.length + 1];
                             System.arraycopy( curParam, 0, newArray, 0, curParam.length );
                             newArray[curParam.length] = strValue;
-                            mapParameters.put( item.getFieldName(), newArray );
+                            mapParameters.put( item.getFieldName(  ), newArray );
                         }
                     }
                     else
                     {
                         // multipart file field
-                        mapFiles.put( item.getFieldName(), item );
+                        mapFiles.put( item.getFieldName(  ), item );
                     }
                 }
 
@@ -212,13 +209,13 @@ public abstract class UploadFilter implements Filter
             }
             catch ( SizeLimitExceededException e )
             {
-                AppLogService.error( e.getMessage() , e );
+                AppLogService.error( e.getMessage(  ), e );
                 request.getRequestDispatcher( "/" + getMessageRelativeUrl( httpRequest ) ).forward( request, response );
             }
             catch ( FileUploadException e )
             {
-                AppLogService.error( e.getMessage() , e );
-                throw new ServletException( "Unkown error occured during the upload" , e );
+                AppLogService.error( e.getMessage(  ), e );
+                throw new ServletException( "Unkown error occured during the upload", e );
             }
         }
     }
@@ -227,7 +224,7 @@ public abstract class UploadFilter implements Filter
      * Get the max size of upload file
      * @return The max size
      */
-    public long getRequestSizeMax()
+    public long getRequestSizeMax(  )
     {
         return _nRequestSizeMax;
     }
@@ -235,8 +232,7 @@ public abstract class UploadFilter implements Filter
     /**
      * Default implementation for subclasses
      */
-    public void destroy()
+    public void destroy(  )
     {
     }
-
 }

@@ -33,181 +33,179 @@
  */
 package fr.paris.lutece.util.jpa.transaction;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * This transaction status wraps several {@link TransactionStatus}
  */
 public class MultiTransactionStatus implements TransactionStatus
 {
+    private Map<PlatformTransactionManager, TransactionStatus> _transactionStatuses;
+    private PlatformTransactionManager _mainPTM;
+    private boolean _bNewSynchonization;
 
-	private Map<PlatformTransactionManager, TransactionStatus> _transactionStatuses;
+    /**
+     * Creates a TransactionStatus that handles several TransactionStatus
+     * @param transactionStatuses all TransactionStatuts to manage
+     * @param mainPTM will be default {@link PlatformTransactionManager} for status informations (is*, has* methods)
+     */
+    public MultiTransactionStatus( PlatformTransactionManager mainPTM )
+    {
+        _mainPTM = mainPTM;
+        _transactionStatuses = new HashMap<PlatformTransactionManager, TransactionStatus>(  );
+    }
 
-	private PlatformTransactionManager _mainPTM;
+    /**
+     * Sets new synchronization to true
+     */
+    public void setNewSynchonization(  )
+    {
+        this._bNewSynchonization = true;
+    }
 
-	private boolean _bNewSynchonization;
+    /**
+     * true if new synchronization
+     * @return true if new synchronization
+     */
+    public boolean isNewSynchonization(  )
+    {
+        return this._bNewSynchonization;
+    }
 
-	/**
-	 * Creates a TransactionStatus that handles several TransactionStatus
-	 * @param transactionStatuses all TransactionStatuts to manage
-	 * @param mainPTM will be default {@link PlatformTransactionManager} for status informations (is*, has* methods)
-	 */
-	public MultiTransactionStatus( PlatformTransactionManager mainPTM )
-	{
-		_mainPTM = mainPTM;
-		_transactionStatuses = new HashMap<PlatformTransactionManager, TransactionStatus>();
-	}
+    /**
+     * Gets the transaction status for the ptm
+     * @param ptm the {@link PlatformTransactionManager}
+     * @return transaction status found
+     */
+    public TransactionStatus getTransactionStatus( PlatformTransactionManager ptm )
+    {
+        return _transactionStatuses.get( ptm );
+    }
 
-	/**
-	 * Sets new synchronization to true
-	 */
-	public void setNewSynchonization()
-	{
-		this._bNewSynchonization = true;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void flush(  )
+    {
+        for ( TransactionStatus ts : _transactionStatuses.values(  ) )
+        {
+            ts.flush(  );
+        }
+    }
 
-	/**
-	 * true if new synchronization
-	 * @return true if new synchronization
-	 */
-	public boolean isNewSynchonization()
-	{
-		return this._bNewSynchonization;
-	}
+    /**
+     * Gets the main transaction status
+     * @return the transaction status
+     */
+    private TransactionStatus getMainTransactionStatus(  )
+    {
+        return _transactionStatuses.get( _mainPTM );
+    }
 
-	/**
-	 * Gets the transaction status for the ptm
-	 * @param ptm the {@link PlatformTransactionManager}
-	 * @return transaction status found
-	 */
-	public TransactionStatus getTransactionStatus( PlatformTransactionManager ptm )
-	{
-		return _transactionStatuses.get( ptm );
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public boolean hasSavepoint(  )
+    {
+        return getMainTransactionStatus(  ).hasSavepoint(  );
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void flush()
-	{
-		for ( TransactionStatus ts : _transactionStatuses.values() )
-		{
-			ts.flush();
-		}
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public boolean isCompleted(  )
+    {
+        return getMainTransactionStatus(  ).isCompleted(  );
+    }
 
-	/**
-	 * Gets the main transaction status
-	 * @return the transaction status
-	 */
-	private TransactionStatus getMainTransactionStatus()
-	{
-		return _transactionStatuses.get( _mainPTM );
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public boolean isNewTransaction(  )
+    {
+        return getMainTransactionStatus(  ).isNewTransaction(  );
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public boolean hasSavepoint()
-	{
-		return getMainTransactionStatus().hasSavepoint();
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public boolean isRollbackOnly(  )
+    {
+        return getMainTransactionStatus(  ).isRollbackOnly(  );
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public boolean isCompleted()
-	{
-		return getMainTransactionStatus().isCompleted();
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void setRollbackOnly(  )
+    {
+        for ( TransactionStatus ts : _transactionStatuses.values(  ) )
+        {
+            ts.setRollbackOnly(  );
+        }
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public boolean isNewTransaction()
-	{
-		return getMainTransactionStatus().isNewTransaction();
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public Object createSavepoint(  ) throws TransactionException
+    {
+        return null;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public boolean isRollbackOnly()
-	{
-		return getMainTransactionStatus().isRollbackOnly();
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void releaseSavepoint( Object savepoint ) throws TransactionException
+    {
+        for ( TransactionStatus ts : _transactionStatuses.values(  ) )
+        {
+            ts.releaseSavepoint( savepoint );
+        }
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void setRollbackOnly()
-	{
-		for ( TransactionStatus ts : _transactionStatuses.values() )
-		{
-			ts.setRollbackOnly();
-		}
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void rollbackToSavepoint( Object savepoint )
+        throws TransactionException
+    {
+        for ( TransactionStatus ts : _transactionStatuses.values(  ) )
+        {
+            ts.rollbackToSavepoint( savepoint );
+        }
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public Object createSavepoint() throws TransactionException
-	{
-		return null;
-	}
+    /**
+     * "Getter method" for {@link #_transactionStatuses}
+     * @return value of {@link #_transactionStatuses}
+     */
+    public Map<PlatformTransactionManager, TransactionStatus> getTransactionStatuses(  )
+    {
+        return _transactionStatuses;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void releaseSavepoint( Object savepoint ) throws TransactionException
-	{
-		for ( TransactionStatus ts : _transactionStatuses.values() )
-		{
-			ts.releaseSavepoint( savepoint );
-		}
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void rollbackToSavepoint( Object savepoint ) throws TransactionException
-	{
-		for ( TransactionStatus ts : _transactionStatuses.values() )
-		{
-			ts.rollbackToSavepoint( savepoint );
-		}
-
-	}
-
-	/**
-	 * "Getter method" for {@link #_transactionStatuses}
-	 * @return value of {@link #_transactionStatuses}
-	 */
-	public Map<PlatformTransactionManager, TransactionStatus> getTransactionStatuses()
-	{
-		return _transactionStatuses;
-	}
-
-	/**
-	 * "Setter method" for {@link #_transactionStatuses}
-	 * @param statuses value of {@link #_transactionStatuses}
-	 */
-	public void setTransactionStatuses( Map<PlatformTransactionManager, TransactionStatus> statuses )
-	{
-		_transactionStatuses = statuses;
-	}
+    /**
+     * "Setter method" for {@link #_transactionStatuses}
+     * @param statuses value of {@link #_transactionStatuses}
+     */
+    public void setTransactionStatuses( Map<PlatformTransactionManager, TransactionStatus> statuses )
+    {
+        _transactionStatuses = statuses;
+    }
 }

@@ -46,11 +46,11 @@ import java.net.URLEncoder;
  */
 public final class EncodingService
 {
-	/**
-	 * <b>lutece.encoding.url</b>
-	 */
+    /**
+     * <b>lutece.encoding.url</b>
+     */
     private static final String PROPERTY_URL_ENCODING = "lutece.encoding.url";
-    
+
     /**
      * Default encoding (UTF-8)
      */
@@ -68,9 +68,9 @@ public final class EncodingService
      */
     public static String encodeUrl( String strSource )
     {
-    	return encodeUrl( strSource, PROPERTY_URL_ENCODING, DEFAULT_URI_ENCODING );
+        return encodeUrl( strSource, PROPERTY_URL_ENCODING, DEFAULT_URI_ENCODING );
     }
-    
+
     /**
      * Encode an url string. Uses {@link #DEFAULT_URI_ENCODING} as default.
      * @param strSource The string to encode
@@ -81,7 +81,7 @@ public final class EncodingService
     {
         return encodeUrl( strSource, strProperty, DEFAULT_URI_ENCODING );
     }
-    
+
     /**
      * Encode an url string
      * @param strSource The string to encode
@@ -105,8 +105,6 @@ public final class EncodingService
 
         return strEncoded;
     }
-    
-    
 
     /**
      * Returns the current encoding

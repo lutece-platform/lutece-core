@@ -49,8 +49,7 @@ import java.util.Map;
  */
 public class AdminUser implements Serializable
 {
-	public static String RESOURCE_TYPE = "ADMIN_USER";
-	
+    public static String RESOURCE_TYPE = "ADMIN_USER";
     private static final String EMPTY_STRING = "";
     private static final int ACTIVE_CODE = 0;
     private int _nUserId;
@@ -389,22 +388,22 @@ public class AdminUser implements Serializable
 
         return roles.containsKey( strRole );
     }
-    
+
     /**
      * Check if the password has been reinitialized
      * @return true if it has been reinitialized, false otherwise
      */
     public boolean isPasswordReset(  )
     {
-    	return _bIsPasswordReset;
+        return _bIsPasswordReset;
     }
-    
+
     /**
      * Set pwd reseted
      * @param bIsPwdReseted true if it has been reinitialized, false otherwise
      */
     public void setPasswordReset( boolean bIsPasswordReset )
     {
-    	_bIsPasswordReset = bIsPasswordReset;
+        _bIsPasswordReset = bIsPasswordReset;
     }
 }

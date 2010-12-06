@@ -67,11 +67,10 @@ public final class StartUpServiceManager
                 AppLogService.info( "Processing StartUp service : " + service.getName(  ) );
                 service.process(  );
             }
-            catch( Exception e )
+            catch ( Exception e )
             {
-                AppLogService.error( "Error while processing StartUp service : " + service.getName(  ) , e );
+                AppLogService.error( "Error while processing StartUp service : " + service.getName(  ), e );
             }
         }
     }
-
 }

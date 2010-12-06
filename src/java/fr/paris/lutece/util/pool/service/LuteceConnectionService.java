@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util.pool.service;
 
-import javax.sql.DataSource;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -42,6 +41,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import java.util.Hashtable;
+
+import javax.sql.DataSource;
 
 
 /**
@@ -225,7 +226,7 @@ public class LuteceConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
-    public DataSource getDataSource()
+    public DataSource getDataSource(  )
     {
         return _connPool;
     }

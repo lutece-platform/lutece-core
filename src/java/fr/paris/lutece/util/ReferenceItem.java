@@ -103,13 +103,14 @@ public class ReferenceItem
     {
         _bChecked = bChecked;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public String toString() 
+    public String toString(  )
     {
-    	return "RefItem[Name=" + this.getName(  ) + ", Code=" + this.getCode(  ) + ", Checked=" + this.isChecked(  ) + "]" ;
+        return "RefItem[Name=" + this.getName(  ) + ", Code=" + this.getCode(  ) + ", Checked=" + this.isChecked(  ) +
+        "]";
     }
 }

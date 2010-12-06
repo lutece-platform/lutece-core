@@ -140,7 +140,7 @@ public final class RoleDAO implements IRoleDAO
             Role role = new Role(  );
             role.setRole( daoUtil.getString( 1 ) );
             role.setRoleDescription( daoUtil.getString( 2 ) );
-            
+
             roleList.addItem( role.getRole(  ), role.getRoleDescription(  ) );
         }
 

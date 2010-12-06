@@ -101,7 +101,6 @@ public abstract class Plugin implements Comparable<Plugin>
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
     private ContentService _contentService;
-    
 
     // Lists of rights and portlets of the plugin
     private List<XPageApplicationEntry> _listXPageApplications;
@@ -143,7 +142,7 @@ public abstract class Plugin implements Comparable<Plugin>
             _strVersion = pluginFile.getVersion(  );
             _strDescription = pluginFile.getDescription(  );
             _strProvider = pluginFile.getProvider(  );
-            _strProviderUrl = pluginFile.getProviderUrl(  );           
+            _strProviderUrl = pluginFile.getProviderUrl(  );
 
             String strDefaultIconUrl = AppPropertiesService.getProperty( PROPERTY_DEFAULT_ICON_URL );
             _strIconUrl = pluginFile.getIconUrl(  ).equals( "" ) ? strDefaultIconUrl : pluginFile.getIconUrl(  );
@@ -452,10 +451,11 @@ public abstract class Plugin implements Comparable<Plugin>
             DashboardService.getInstance(  ).registerDashboardComponent( entry, this );
         }
     }
-    
-    protected void registerAdminDashboardComponents(  ) throws LuteceInitException
+
+    protected void registerAdminDashboardComponents(  )
+        throws LuteceInitException
     {
-    	for ( DashboardComponentEntry entry : _listAdminDashboardComponents )
+        for ( DashboardComponentEntry entry : _listAdminDashboardComponents )
         {
             AdminDashboardService.getInstance(  ).registerDashboardComponent( entry, this );
         }
@@ -1001,7 +1001,7 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         return _listCssStyleSheets;
     }
-    
+
     /**
      * Returns the theme the plugin use for rendering a Xpage
      * @return The theme

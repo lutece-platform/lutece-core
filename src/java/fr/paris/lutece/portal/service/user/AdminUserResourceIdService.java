@@ -68,7 +68,7 @@ public class AdminUserResourceIdService extends ResourceIdService
         p.setPermissionKey( PERMISSION_MANAGE_ENCRYPTED_PASSWORD );
         p.setPermissionTitleKey( PROPERTY_LABEL_MANAGE_ENCRYPTED_PASSWORD );
         rt.registerPermission( p );
-        
+
         p = new Permission(  );
         p.setPermissionKey( PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         p.setPermissionTitleKey( PROPERTY_LABEL_MANAGE_ADVANCED_PARAMETERS );

@@ -54,6 +54,8 @@ import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.UnsupportedEncodingException;
 
 import java.net.URLEncoder;
@@ -64,8 +66,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -186,16 +186,16 @@ public class SearchApp implements XPageApplication
     public static String encodeUrl( HttpServletRequest request, String strSource )
         throws SiteMessageException
     {
-    	if ( strSource == null )
-    	{
-    		SiteMessageService.setMessage( request, MESSAGE_QUERY_NULL, SiteMessage.TYPE_ERROR );
-    	}
-    	
+        if ( strSource == null )
+        {
+            SiteMessageService.setMessage( request, MESSAGE_QUERY_NULL, SiteMessage.TYPE_ERROR );
+        }
+
         String strEncoded = EncodingService.encodeUrl( strSource, PROPERTY_ENCODE_URI_ENCODING, DEFAULT_URI_ENCODING );
-        
+
         if ( StringUtils.isBlank( strEncoded ) )
         {
-        	SiteMessageService.setMessage( request, MESSAGE_ENCODING_ERROR, SiteMessage.TYPE_ERROR );
+            SiteMessageService.setMessage( request, MESSAGE_ENCODING_ERROR, SiteMessage.TYPE_ERROR );
         }
 
         return strEncoded;

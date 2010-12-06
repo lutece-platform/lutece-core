@@ -33,128 +33,129 @@
  */
 package fr.paris.lutece.portal.business.dashboard;
 
-import java.util.List;
-
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+import java.util.List;
+
+
 /**
- * 
+ *
  * DashboardHome
- * 
+ *
  */
 public final class DashboardHome
 {
-	// Static variable pointed at the DAO instance
-	private static IDashboardDAO _dao = ( IDashboardDAO ) SpringContextService.getBean( "dashboardDAO" );
+    // Static variable pointed at the DAO instance
+    private static IDashboardDAO _dao = (IDashboardDAO) SpringContextService.getBean( "dashboardDAO" );
 
-	/**
-	 * Private constructor - this class need not be instantiated
-	 */
-	private DashboardHome(  )
-	{
-	}
+    /**
+     * Private constructor - this class need not be instantiated
+     */
+    private DashboardHome(  )
+    {
+    }
 
-	/**
-	 * Creation of an instance of DashboardComponent
-	 * 
-	 * @param dashboardComponent The instance of the DashboardComponent which contains the informations to store
-	 * 
-	 */
-	public static void create( IDashboardComponent dashboardComponent )
-	{
-		_dao.insert( dashboardComponent );
-	}
+    /**
+     * Creation of an instance of DashboardComponent
+     *
+     * @param dashboardComponent The instance of the DashboardComponent which contains the informations to store
+     *
+     */
+    public static void create( IDashboardComponent dashboardComponent )
+    {
+        _dao.insert( dashboardComponent );
+    }
 
-	/**
-	 * Update of the DashboardComponent which is specified in parameter
-	 * 
-	 * @param dashboardComponent The instance of the DashboardComponent which contains the informations to update
-	 * 
-	 */
-	public static void update( IDashboardComponent dashboardComponent )
-	{
-		_dao.store( dashboardComponent );
-	}
+    /**
+     * Update of the DashboardComponent which is specified in parameter
+     *
+     * @param dashboardComponent The instance of the DashboardComponent which contains the informations to update
+     *
+     */
+    public static void update( IDashboardComponent dashboardComponent )
+    {
+        _dao.store( dashboardComponent );
+    }
 
-	/**
-	 * Remove the DashboardComponent whose identifier is specified in parameter
-	 * 
-	 * @param strBeanName The DashboardComponent id
-	 */
-	public static void remove( String strBeanName )
-	{
-		_dao.delete( strBeanName );
-	}
+    /**
+     * Remove the DashboardComponent whose identifier is specified in parameter
+     *
+     * @param strBeanName The DashboardComponent id
+     */
+    public static void remove( String strBeanName )
+    {
+        _dao.delete( strBeanName );
+    }
 
-	/**
-	 * Remove the DashboardComponent whose identifier is specified in parameter
-	 * 
-	 */
-	public static void removeAll(  )
-	{
-		_dao.deleteAll(  );
-	}
+    /**
+     * Remove the DashboardComponent whose identifier is specified in parameter
+     *
+     */
+    public static void removeAll(  )
+    {
+        _dao.deleteAll(  );
+    }
 
-	// /////////////////////////////////////////////////////////////////////////
-	// Finders
+    // /////////////////////////////////////////////////////////////////////////
+    // Finders
 
-	/**
-	 * Returns an instance of a DashboardComponent whose identifier is specified in parameter
-	 * 
-	 * @param strBeanName The DashboardComponent primary key
-	 * @return an instance of DashboardComponent
-	 */
-	public static IDashboardComponent findByPrimaryKey( String strBeanName )
-	{
-		return _dao.load( strBeanName );
-	}
+    /**
+     * Returns an instance of a DashboardComponent whose identifier is specified in parameter
+     *
+     * @param strBeanName The DashboardComponent primary key
+     * @return an instance of DashboardComponent
+     */
+    public static IDashboardComponent findByPrimaryKey( String strBeanName )
+    {
+        return _dao.load( strBeanName );
+    }
 
-	/**
-	 * Loads the data of all the IDashboardComponent
-	 * 
-	 * @return the list which contains the data of all the IDashboardComponent
-	 */
-	public static List<IDashboardComponent> findAll(  )
-	{
-		return _dao.selectAllDashboardComponents(  );
-	}
+    /**
+     * Loads the data of all the IDashboardComponent
+     *
+     * @return the list which contains the data of all the IDashboardComponent
+     */
+    public static List<IDashboardComponent> findAll(  )
+    {
+        return _dao.selectAllDashboardComponents(  );
+    }
 
-	/**
-	 * Loads the data of all the IDashboardComponent
-	 * @param filter the filter
-	 * @return the list which contains the data of all the IDashboardComponent
-	 */
-	public static List<IDashboardComponent> findByFilter( DashboardFilter filter )
-	{
-		return _dao.selectDashboardComponents( filter );
-	}
+    /**
+     * Loads the data of all the IDashboardComponent
+     * @param filter the filter
+     * @return the list which contains the data of all the IDashboardComponent
+     */
+    public static List<IDashboardComponent> findByFilter( DashboardFilter filter )
+    {
+        return _dao.selectDashboardComponents( filter );
+    }
 
-	/**
-	 * Finds the max order for all columns.
-	 * @return the max order
-	 */
-	public static int findMaxOrder(  )
-	{
-		return _dao.selectMaxOrder(  );
-	}
+    /**
+     * Finds the max order for all columns.
+     * @return the max order
+     */
+    public static int findMaxOrder(  )
+    {
+        return _dao.selectMaxOrder(  );
+    }
 
-	/**
-	 * Finds the max order for the column.
-	 * @param nColumn the column
-	 * @return the max order
-	 */
-	public static int findMaxOrder( int nColumn )
-	{
-		return _dao.selectMaxOrder( nColumn );
-	}
+    /**
+     * Finds the max order for the column.
+     * @param nColumn the column
+     * @return the max order
+     */
+    public static int findMaxOrder( int nColumn )
+    {
+        return _dao.selectMaxOrder( nColumn );
+    }
 
-	/**
-	 * Finds all columns
-	 * @return the list of columns
-	 */
-	public static List<Integer> findColumns(  )
-	{
-		return _dao.selectColumns(  );
-	}
+    /**
+     * Finds all columns
+     * @return the list of columns
+     */
+    public static List<Integer> findColumns(  )
+    {
+        return _dao.selectColumns(  );
+    }
 }

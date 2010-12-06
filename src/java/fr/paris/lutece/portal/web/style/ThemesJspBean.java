@@ -240,6 +240,6 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     {
         return request.getParameter( CODE_THEME ).equals( "" ) ||
         request.getParameter( THEME_DESCRIPTION ).equals( "" ) || request.getParameter( PATH_IMAGES ).equals( "" ) ||
-        request.getParameter( PATH_CSS ).equals( "" )|| request.getParameter( PATH_JS ).equals( "" );
+        request.getParameter( PATH_CSS ).equals( "" ) || request.getParameter( PATH_JS ).equals( "" );
     }
 }

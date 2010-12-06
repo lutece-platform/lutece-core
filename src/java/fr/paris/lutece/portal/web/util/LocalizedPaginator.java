@@ -30,12 +30,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */package fr.paris.lutece.portal.web.util;
+ */
+package fr.paris.lutece.portal.web.util;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.util.html.Paginator;
+
 import java.util.List;
 import java.util.Locale;
+
 
 /**
  * Localized Paginator
@@ -49,6 +52,7 @@ public class LocalizedPaginator<E> extends Paginator<E>
     private static final String KEY_ITEM_COUNT = "portal.util.labelItemCount";
     private static final String KEY_ITEM_COUNT_PER_PAGE = "portal.util.labelItemCountPerPage";
     private Locale _locale;
+
     /**
      * Creates a new instance of Paginator
      * @param list The collection to paginate
@@ -58,9 +62,9 @@ public class LocalizedPaginator<E> extends Paginator<E>
      * @param strPageIndex The current page index
      */
     public LocalizedPaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
-        String strPageIndex , Locale locale )
+        String strPageIndex, Locale locale )
     {
-        super( list , nItemPerPage , strBaseUrl , strPageIndexParameterName , strPageIndex );
+        super( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex );
         _locale = locale;
     }
 
@@ -68,54 +72,53 @@ public class LocalizedPaginator<E> extends Paginator<E>
      * {@inheritDoc }
      */
     @Override
-    public String getLabelFirst()
+    public String getLabelFirst(  )
     {
-        return I18nService.getLocalizedString( KEY_FIRST, _locale);
+        return I18nService.getLocalizedString( KEY_FIRST, _locale );
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String getLabelPrevious()
+    public String getLabelPrevious(  )
     {
-        return I18nService.getLocalizedString( KEY_PREVIOUS, _locale);
+        return I18nService.getLocalizedString( KEY_PREVIOUS, _locale );
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String getLabelNext()
+    public String getLabelNext(  )
     {
-        return I18nService.getLocalizedString( KEY_NEXT, _locale);
+        return I18nService.getLocalizedString( KEY_NEXT, _locale );
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String getLabelLast()
+    public String getLabelLast(  )
     {
-        return I18nService.getLocalizedString( KEY_LAST, _locale);
+        return I18nService.getLocalizedString( KEY_LAST, _locale );
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String getLabelItemCount()
+    public String getLabelItemCount(  )
     {
-        return I18nService.getLocalizedString( KEY_ITEM_COUNT, _locale);
+        return I18nService.getLocalizedString( KEY_ITEM_COUNT, _locale );
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String getLabelItemCountPerPage()
+    public String getLabelItemCountPerPage(  )
     {
-        return I18nService.getLocalizedString( KEY_ITEM_COUNT_PER_PAGE, _locale);
+        return I18nService.getLocalizedString( KEY_ITEM_COUNT_PER_PAGE, _locale );
     }
-
 }

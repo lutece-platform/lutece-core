@@ -33,88 +33,88 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+
 import java.util.List;
 import java.util.Locale;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 /**
- * 
+ *
  * AttributeHome
  *
  */
 public class AttributeHome
 {
-	private static IAttributeDAO _dao = (IAttributeDAO) SpringContextService.getBean( "attributeDAO" );;
-	
-	/**
-	 * Load attribute
-	 * @param nIdAttribute ID Attribute
-	 * @param locale Locale
-	 * @return Attribute 
-	 */
-	public static IAttribute findByPrimaryKey( int nIdAttribute, Locale locale )
-	{
-		return _dao.load( nIdAttribute, locale );
-	}
-		
-	/**
-	 * Insert an new attribute
-	 * @param attribute attribute
-	 * @return new PK
-	 */
-	public static int create( IAttribute attribute )
-	{
-		return _dao.insert( attribute );
-	}
-	
-	/**
-	 * Update an attribute
-	 * @param attribute the attribute
-	 */
-	public static void update( IAttribute attribute )
-	{
-		_dao.store( attribute );
-	}
-	
-	/**
-	 * Delete an attribute
-	 * @param nIdAttribute The id of the attribute
-	 */
-	public static void remove( int nIdAttribute )
-	{
-		_dao.delete( nIdAttribute );
-	}
+    private static IAttributeDAO _dao = (IAttributeDAO) SpringContextService.getBean( "attributeDAO" );
 
-	/**
-	 * Load every attributes
-	 * @param locale locale
-	 * @return list of attributes
-	 */
-	public static List<IAttribute> findAll( Locale locale )
-	{
-		return _dao.selectAll( locale );
-	}
+    /**
+     * Load attribute
+     * @param nIdAttribute ID Attribute
+     * @param locale Locale
+     * @return Attribute
+     */
+    public static IAttribute findByPrimaryKey( int nIdAttribute, Locale locale )
+    {
+        return _dao.load( nIdAttribute, locale );
+    }
 
-	/**
-	 * Load every attributes associated to a plugin
-	 * @param strPluginName plugin name
-	 * @param locale locale
-	 * @return list of attributes
-	 */
-	public static List<IAttribute> findPluginAttributes(
-			String strPluginName, Locale locale ) 
-	{
-		return _dao.selectPluginAttributes( strPluginName, locale );
-	}
-	
-	/**
-	 * Load every attributes that do not come from a plugin
-	 * @param locale locale
-	 * @return list of attributes
-	 */
-	public static List<IAttribute> findCoreAttributes( Locale locale ) 
-	{
-		return _dao.selectCoreAttributes( locale );
-	}
+    /**
+     * Insert an new attribute
+     * @param attribute attribute
+     * @return new PK
+     */
+    public static int create( IAttribute attribute )
+    {
+        return _dao.insert( attribute );
+    }
+
+    /**
+     * Update an attribute
+     * @param attribute the attribute
+     */
+    public static void update( IAttribute attribute )
+    {
+        _dao.store( attribute );
+    }
+
+    /**
+     * Delete an attribute
+     * @param nIdAttribute The id of the attribute
+     */
+    public static void remove( int nIdAttribute )
+    {
+        _dao.delete( nIdAttribute );
+    }
+
+    /**
+     * Load every attributes
+     * @param locale locale
+     * @return list of attributes
+     */
+    public static List<IAttribute> findAll( Locale locale )
+    {
+        return _dao.selectAll( locale );
+    }
+
+    /**
+     * Load every attributes associated to a plugin
+     * @param strPluginName plugin name
+     * @param locale locale
+     * @return list of attributes
+     */
+    public static List<IAttribute> findPluginAttributes( String strPluginName, Locale locale )
+    {
+        return _dao.selectPluginAttributes( strPluginName, locale );
+    }
+
+    /**
+     * Load every attributes that do not come from a plugin
+     * @param locale locale
+     * @return list of attributes
+     */
+    public static List<IAttribute> findCoreAttributes( Locale locale )
+    {
+        return _dao.selectCoreAttributes( locale );
+    }
 }

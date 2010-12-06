@@ -33,23 +33,24 @@
  */
 package fr.paris.lutece.portal.business.user.parameter;
 
+
 /**
- * 
+ *
  * IDefaultUserParameterDAO
  *
  */
-public interface IDefaultUserParameterDAO 
+public interface IDefaultUserParameterDAO
 {
-	/**
-     * Load the parameter value
-     * @param strParameterKey the parameter key
-     * @return The parameter value
-     */
+    /**
+    * Load the parameter value
+    * @param strParameterKey the parameter key
+    * @return The parameter value
+    */
     DefaultUserParameter load( String strParameterKey );
-    
+
     /**
      * Update the parameter value
-     * @param strParameterValue The parameter value 
+     * @param strParameterValue The parameter value
      * @param strParameterKey The parameter key
      */
     void store( DefaultUserParameter userParam );

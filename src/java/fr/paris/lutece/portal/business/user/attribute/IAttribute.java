@@ -33,181 +33,182 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.plugin.Plugin;
 
 /**
  * IAttribute
  */
 public interface IAttribute
 {
-	 /** 
-	  * Get ID Attribute
-	  * @return ID attribute
-	  */
-	int getIdAttribute(  );
-	
-	/**
-	 * Set ID Attribute
-	 * @param nIdAttribute ID Attribute
-	 */
-	void setIdAttribute( int nIdAttribute );
-	
-	/**
-	 * Get Mandatory
-	 * @return true if it's mandatory, false otherwise
-	 */
-	boolean isMandatory(  );
-	
-	/**
-	 * Set mandatory
-	 * @param mandatory true if it's mandatory, false otherwise
-	 */
-	void setMandatory( boolean bMandatory );
-	
-	/**
-	 * Get list fields
-	 * @return list fields
-	 */
-	List<AttributeField> getListAttributeFields(  );
-	
-	/**
-	 * Set list fields
-	 * @param listAttributeField list fields
-	 */
-	void setListAttributeFields( List<AttributeField> listAttributeFields );
-	
-	/**
-	 * Get title
-	 * @return title
-	 */
-	String getTitle(  );
-	
-	/**
-	 * Set title
-	 * @param strTitle title
-	 */
-	void setTitle( String strTitle );
-	
-	/**
-	 * Get help Message
-	 * @return help message
-	 */
-	String getHelpMessage(  );
-	
-	/**
-	 * Set help message
-	 * @param strHelpMessage help message
-	 */
-	void setHelpMessage( String strHelpMessage );
-	
-	/**
-	 * Get position
-	 * @return position
-	 */
-	int getPosition(  );
-	
-	/**
-	 * Set position
-	 * @param nPosition position
-	 */
-	void setPosition( int nPosition );
-	
-	/**
-	 * Get attribute type
-	 * @return attribute type
-	 */
-	AttributeType getAttributeType(  );
-	
-	/**
-	 * Set attribute Type
-	 * @param attributeType attribute type
-	 */
-	void setAttributeType( AttributeType attributeType );
+    /**
+     * Get ID Attribute
+     * @return ID attribute
+     */
+    int getIdAttribute(  );
 
-	/**
-	 * Get plugin
-	 * @return plugin
-	 */
-	Plugin getPlugin(  );
-	
-	/**
-	 * Set plugin
-	 * @param plugin plugin
-	 */
-	void setPlugin( Plugin plugin );
-	
-	/**
-	 * Check if the attribute is shown in search
-	 * @return true if it is, false otherwise
-	 */
-	boolean isShownInSearch(  );
-	
-	/**
-	 * Set isShownInSearch
-	 * @param bIsShownInSearch shown in search
-	 */
-	void setShownInSearch( boolean bIsShownInSearch );
+    /**
+     * Set ID Attribute
+     * @param nIdAttribute ID Attribute
+     */
+    void setIdAttribute( int nIdAttribute );
 
-	/**
-	 * Get the data of the user fields
-	 * @param request HttpServletRequest
-	 * @param user user
-	 * @return user field data
-	 */
-	List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user );
-	
-	/**
-	 * Set attribute type
-	 * @param locale locale
-	 */
-	void setAttributeType( Locale locale );
+    /**
+     * Get Mandatory
+     * @return true if it's mandatory, false otherwise
+     */
+    boolean isMandatory(  );
 
-	/**
-	 * Get page title for create page
-	 * @return page title
-	 */
-	String getPropertyCreatePageTitle(  );
-	
-	/**
-	 * Get page title for modify page
-	 * @return page title
-	 */
-	String getPropertyModifyPageTitle(  );
-	
-	/**
-	 * Get the template create an attribute
-	 * @return The URL of the template
-	 */
-	String getTemplateCreateAttribute(  );
-	
-	/**
-	 * Get the template modify an attribute
-	 * @return The URL of the template
-	 */
-	String getTemplateModifyAttribute(  );
-	
-	/**
-	 * Get the template html form attribute
-	 * @return the template
-	 */
-	String getTemplateHtmlFormAttribute(  );
-	
-	/**
-	 * Get the template html form search attribute
-	 * @return the template
-	 */
-	String getTemplateHtmlFormSearchAttribute(  );
-	
-	/**
-	 * Set the data of the attribute
-	 * @param request HttpServletRequest
-	 * @return null if there are no errors
-	 */
-	String setAttributeData( HttpServletRequest request );
+    /**
+     * Set mandatory
+     * @param mandatory true if it's mandatory, false otherwise
+     */
+    void setMandatory( boolean bMandatory );
+
+    /**
+     * Get list fields
+     * @return list fields
+     */
+    List<AttributeField> getListAttributeFields(  );
+
+    /**
+     * Set list fields
+     * @param listAttributeField list fields
+     */
+    void setListAttributeFields( List<AttributeField> listAttributeFields );
+
+    /**
+     * Get title
+     * @return title
+     */
+    String getTitle(  );
+
+    /**
+     * Set title
+     * @param strTitle title
+     */
+    void setTitle( String strTitle );
+
+    /**
+     * Get help Message
+     * @return help message
+     */
+    String getHelpMessage(  );
+
+    /**
+     * Set help message
+     * @param strHelpMessage help message
+     */
+    void setHelpMessage( String strHelpMessage );
+
+    /**
+     * Get position
+     * @return position
+     */
+    int getPosition(  );
+
+    /**
+     * Set position
+     * @param nPosition position
+     */
+    void setPosition( int nPosition );
+
+    /**
+     * Get attribute type
+     * @return attribute type
+     */
+    AttributeType getAttributeType(  );
+
+    /**
+     * Set attribute Type
+     * @param attributeType attribute type
+     */
+    void setAttributeType( AttributeType attributeType );
+
+    /**
+     * Get plugin
+     * @return plugin
+     */
+    Plugin getPlugin(  );
+
+    /**
+     * Set plugin
+     * @param plugin plugin
+     */
+    void setPlugin( Plugin plugin );
+
+    /**
+     * Check if the attribute is shown in search
+     * @return true if it is, false otherwise
+     */
+    boolean isShownInSearch(  );
+
+    /**
+     * Set isShownInSearch
+     * @param bIsShownInSearch shown in search
+     */
+    void setShownInSearch( boolean bIsShownInSearch );
+
+    /**
+     * Get the data of the user fields
+     * @param request HttpServletRequest
+     * @param user user
+     * @return user field data
+     */
+    List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user );
+
+    /**
+     * Set attribute type
+     * @param locale locale
+     */
+    void setAttributeType( Locale locale );
+
+    /**
+     * Get page title for create page
+     * @return page title
+     */
+    String getPropertyCreatePageTitle(  );
+
+    /**
+     * Get page title for modify page
+     * @return page title
+     */
+    String getPropertyModifyPageTitle(  );
+
+    /**
+     * Get the template create an attribute
+     * @return The URL of the template
+     */
+    String getTemplateCreateAttribute(  );
+
+    /**
+     * Get the template modify an attribute
+     * @return The URL of the template
+     */
+    String getTemplateModifyAttribute(  );
+
+    /**
+     * Get the template html form attribute
+     * @return the template
+     */
+    String getTemplateHtmlFormAttribute(  );
+
+    /**
+     * Get the template html form search attribute
+     * @return the template
+     */
+    String getTemplateHtmlFormSearchAttribute(  );
+
+    /**
+     * Set the data of the attribute
+     * @param request HttpServletRequest
+     * @return null if there are no errors
+     */
+    String setAttributeData( HttpServletRequest request );
 }

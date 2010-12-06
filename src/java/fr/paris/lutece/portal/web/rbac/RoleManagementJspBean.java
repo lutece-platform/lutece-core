@@ -158,7 +158,6 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_REMOVE_CONTROL_FROM_ROLE = "jsp/admin/rbac/DoRemoveControlFromRole.jsp";
     private static final String JSP_ASSIGN_USERS_TO_ROLE = "AssignUsersRole.jsp";
     private static final String JSP_URL_ASSIGN_USERS_TO_ROLE = "jsp/admin/rbac/AssignUsersRole.jsp";
-    
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -171,10 +170,10 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageRoles( HttpServletRequest request )
     {
-    	setPageTitleProperty( PROPERTY_MANAGE_ROLES_PAGETITLE );
-    	
+        setPageTitleProperty( PROPERTY_MANAGE_ROLES_PAGETITLE );
+
         List<AdminRole> listRole = (List<AdminRole>) AdminRoleHome.findAll(  );
-        
+
         // SORT
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
         String strAscSort = null;
@@ -198,14 +197,14 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         if ( strSortedAttributeName != null )
         {
-        	url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
+            url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
         }
 
         if ( strAscSort != null )
         {
-        	url.addParameter( Parameters.SORTED_ASC, strAscSort );
+            url.addParameter( Parameters.SORTED_ASC, strAscSort );
         }
-        
+
         // PAGINATOR
         LocalizedPaginator paginator = new LocalizedPaginator( listRole, _nItemsPerPage, url.getUrl(  ),
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
@@ -742,7 +741,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
     }
-    
+
     /**
      * Returns the users assignation form
      *
@@ -753,16 +752,17 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
         setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGETITLE );
-        
+
         String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_ROLE;
         UrlItem url = new UrlItem( strBaseUrl );
 
         // ROLE
-        String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );       
+        String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         AdminRole role = AdminRoleHome.findByPrimaryKey( strRoleKey );
-        
+
         // ASSIGNED USERS
         List<AdminUser> listAssignedUsers = new ArrayList<AdminUser>(  );
+
         for ( AdminUser user : AdminUserHome.findByRole( strRoleKey ) )
         {
             //Add users with higher level then connected user or add all users if connected user is administrator
@@ -771,13 +771,15 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 listAssignedUsers.add( user );
             }
         }
-        
-        List<AdminUser> listFilteredUsers = AdminUserService.getFilteredUsersInterface( listAssignedUsers, request, model, url );
-        
+
+        List<AdminUser> listFilteredUsers = AdminUserService.getFilteredUsersInterface( listAssignedUsers, request,
+                model, url );
+
         // AVAILABLE USERS
         ReferenceList listAvailableUsers = new ReferenceList(  );
         ReferenceItem itemUser = null;
         boolean bAssigned;
+
         for ( AdminUser user : AdminUserHome.findUserList(  ) )
         {
             itemUser = new ReferenceItem(  );
@@ -790,6 +792,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 if ( Integer.toString( assignedUser.getUserId(  ) ).equals( itemUser.getCode(  ) ) )
                 {
                     bAssigned = Boolean.TRUE;
+
                     break;
                 }
             }
@@ -798,10 +801,10 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             if ( !bAssigned &&
                     ( ( user.getUserLevel(  ) > getUser(  ).getUserLevel(  ) ) || ( getUser(  ).isAdmin(  ) ) ) )
             {
-            	listAvailableUsers.add( itemUser );
+                listAvailableUsers.add( itemUser );
             }
         }
-        
+
         // SORT
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
         String strAscSort = null;
@@ -819,40 +822,46 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_ROLES_PER_PAGE, 50 );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
-        
+
         if ( strSortedAttributeName != null )
         {
-        	url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
+            url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
         }
 
         if ( strAscSort != null )
         {
-        	url.addParameter( Parameters.SORTED_ASC, strAscSort );
+            url.addParameter( Parameters.SORTED_ASC, strAscSort );
         }
-        
+
         // ITEM NAVIGATION
         Map<Integer, String> listItem = new HashMap<Integer, String>(  );
         Collection<AdminRole> listAllRole = AdminRoleHome.findAll(  );
         int nMapKey = 1;
         int nCurrentItemId = 1;
-        for( AdminRole allRole : listAllRole )
+
+        for ( AdminRole allRole : listAllRole )
         {
-        	listItem.put( nMapKey, allRole.getKey(  ) );
-        	if( allRole.getKey(  ).equals( role.getKey(  ) ) )
-        	{
-        		nCurrentItemId = nMapKey;
-        	}
-        	nMapKey++;
+            listItem.put( nMapKey, allRole.getKey(  ) );
+
+            if ( allRole.getKey(  ).equals( role.getKey(  ) ) )
+            {
+                nCurrentItemId = nMapKey;
+            }
+
+            nMapKey++;
         }
+
         ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_ROLE_KEY );
-        
+
         // PAGINATOR
         url.addParameter( PARAMETER_ROLE_KEY, role.getKey(  ) );
-        LocalizedPaginator paginator = new LocalizedPaginator( listFilteredUsers, _nItemsPerPage, url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX,
-                    _strCurrentPageIndex, getLocale(  ) );
-        
+
+        LocalizedPaginator paginator = new LocalizedPaginator( listFilteredUsers, _nItemsPerPage, url.getUrl(  ),
+                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
+
         // USER LEVEL
         Collection<Level> filteredLevels = new ArrayList<Level>(  );
+
         for ( Level level : LevelHome.getLevelsList(  ) )
         {
             if ( getUser(  ).isAdmin(  ) || getUser(  ).hasRights( level.getId(  ) ) )
@@ -860,7 +869,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 filteredLevels.add( level );
             }
         }
-        
+
         model.put( MARK_ROLE, role );
         model.put( MARK_USER_LEVELS_LIST, filteredLevels );
         model.put( MARK_AVAILABLE_USERS_LIST, listAvailableUsers );
@@ -907,7 +916,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
                     if ( !AdminUserHome.hasRole( user, strRoleKey ) )
                     {
-                    	AdminUserHome.createRoleForUser( user.getUserId(  ), strRoleKey );
+                        AdminUserHome.createRoleForUser( user.getUserId(  ), strRoleKey );
                     }
                 }
             }
@@ -933,11 +942,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         if ( adminUser != null )
         {
-        	AdminUserHome.removeRoleForUser( nIdUser, strRoleKey );
+            AdminUserHome.removeRoleForUser( nIdUser, strRoleKey );
         }
 
-        return JSP_ASSIGN_USERS_TO_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey
-        		+ "#" + strAnchor;
+        return JSP_ASSIGN_USERS_TO_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey + "#" + strAnchor;
     }
-    
 }

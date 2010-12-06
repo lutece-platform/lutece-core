@@ -158,20 +158,23 @@ public class AdminLoginJspBean
             String strParamValue = request.getParameter( strParamName );
             listParams.addItem( strParamName, strParamValue );
         }
-        
+
         StringBuilder sbUrl = new StringBuilder(  );
+
         if ( AppHTTPSService.isHTTPSSupportEnabled(  ) )
         {
-        	sbUrl.append( AppHTTPSService.getHTTPSUrl( request ) );
+            sbUrl.append( AppHTTPSService.getHTTPSUrl( request ) );
         }
         else
         {
-        	sbUrl.append( AppPathService.getBaseUrl( request ) );
+            sbUrl.append( AppPathService.getBaseUrl( request ) );
         }
+
         if ( !sbUrl.toString(  ).endsWith( CONSTANT_SLASH ) )
-    	{
-    		sbUrl.append( CONSTANT_SLASH );
-    	}
+        {
+            sbUrl.append( CONSTANT_SLASH );
+        }
+
         sbUrl.append( JSP_URL_DO_ADMIN_LOGIN );
 
         model.put( MARK_PARAM_VERSION, AppInfo.getVersion(  ) );
@@ -264,20 +267,21 @@ public class AdminLoginJspBean
         //recovery of the login attributes
         String strAccessCode = request.getParameter( Parameters.ACCESS_CODE );
         String strPassword = request.getParameter( Parameters.PASSWORD );
-        
+
         if ( request.getScheme(  ).equals( CONSTANT_HTTP ) && AppHTTPSService.isHTTPSSupportEnabled(  ) )
         {
-        	return JSP_URL_ADMIN_LOGIN;
+            return JSP_URL_ADMIN_LOGIN;
         }
-        
+
         // Encryption password
-        if ( Boolean.valueOf( 
-        		DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
-    	{
-        	String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  );
-    		strPassword = CryptoService.encrypt( strPassword, strAlgorithm );
-    	}
-    	
+        if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION )
+                                                          .getParameterValue(  ) ) )
+        {
+            String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM )
+                                                          .getParameterValue(  );
+            strPassword = CryptoService.encrypt( strPassword, strAlgorithm );
+        }
+
         String strLoginUrl = AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  );
 
         try
@@ -304,17 +308,18 @@ public class AdminLoginJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_AUTH_FAILURE, strLoginUrl,
                 AdminMessage.TYPE_STOP );
         }
-        
+
         UrlItem url;
-        
+
         AdminUser user = AdminUserHome.findUserByLogin( strAccessCode );
+
         if ( user.isPasswordReset(  ) )
         {
-        	url = AppPathService.resolveRedirectUrl( request, JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD );
+            url = AppPathService.resolveRedirectUrl( request, JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD );
         }
         else
         {
-        	url = AppPathService.resolveRedirectUrl( request, JSP_URL_ADMIN_MENU );
+            url = AppPathService.resolveRedirectUrl( request, JSP_URL_ADMIN_MENU );
         }
 
         return url.getUrl(  );
@@ -354,18 +359,21 @@ public class AdminLoginJspBean
 
         // make password
         String strPassword = PasswordUtil.makePassword(  );
-        
+
         // update password
         if ( ( strPassword != null ) && !strPassword.equals( CONSTANT_EMPTY_STRING ) )
         {
-        	// Encrypted password
-        	String strEncryptedPassword = strPassword;
-        	if ( Boolean.valueOf( 
-            		DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
-        	{
-        		String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  );
-            	strEncryptedPassword = CryptoService.encrypt( strPassword, strAlgorithm );
-        	}
+            // Encrypted password
+            String strEncryptedPassword = strPassword;
+
+            if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION )
+                                                              .getParameterValue(  ) ) )
+            {
+                String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM )
+                                                              .getParameterValue(  );
+                strEncryptedPassword = CryptoService.encrypt( strPassword, strAlgorithm );
+            }
+
             LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
             userStored.setPassword( strEncryptedPassword );
             userStored.setPasswordReset( Boolean.TRUE );

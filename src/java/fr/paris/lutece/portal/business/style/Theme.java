@@ -131,7 +131,7 @@ public class Theme implements Serializable
     {
         _strPathCss = strPathCss;
     }
-    
+
     /**
      * Returns the _strPathJs
      *
@@ -149,7 +149,7 @@ public class Theme implements Serializable
      */
     public void setPathJs( String strPathJs )
     {
-    	_strPathJs = strPathJs;
+        _strPathJs = strPathJs;
     }
 
     /**

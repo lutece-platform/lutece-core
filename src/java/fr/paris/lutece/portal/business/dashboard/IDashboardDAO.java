@@ -33,16 +33,17 @@
  */
 package fr.paris.lutece.portal.business.dashboard;
 
-import java.util.List;
-
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 
+import java.util.List;
+
+
 /**
- * 
+ *
  * IDashboardDAO
  *
  */
-public interface IDashboardDAO 
+public interface IDashboardDAO
 {
     /**
      * Insert a new record in the table.
@@ -78,37 +79,36 @@ public interface IDashboardDAO
      * @param dashboardComponent instance of the IDashboardComponent object to update
      */
     void store( IDashboardComponent dashboardComponent );
-    
+
     /**
      * Finds all DashboardComponent
      * @return all DashboardComponent
      */
     List<IDashboardComponent> selectAllDashboardComponents(  );
-    
+
     /**
      * Finds all dashboard components matching filter
      * @param filter the filter
      * @return all dashboard components matching filter
      */
     List<IDashboardComponent> selectDashboardComponents( DashboardFilter filter );
-    
+
     /**
      * Returns the max order value, for all columns
      * @return the max order
      */
     int selectMaxOrder(  );
-    
+
     /**
      * Returns the max order value, for the given column
      * @param nColumn the column
      * @return the max order
      */
     int selectMaxOrder( int nColumn );
-    
+
     /**
      * Returns the columns list
      * @return the columns list
      */
     List<Integer> selectColumns(  );
-
 }

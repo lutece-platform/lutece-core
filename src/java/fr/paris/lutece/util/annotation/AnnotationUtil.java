@@ -33,111 +33,116 @@
  */
 package fr.paris.lutece.util.annotation;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+
+import org.scannotation.AnnotationDB;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.scannotation.AnnotationDB;
-
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
 
 /**
- * 
+ *
  * Allow classpath scanning for annotations
- * 
+ *
  */
 public final class AnnotationUtil
 {
-	private static final String CONSTANT_WEB_INF_LIB = "/WEB-INF/lib/";
+    private static final String CONSTANT_WEB_INF_LIB = "/WEB-INF/lib/";
+    private static final String CONSTANT_WEB_INF_CLASS = "/WEB-INF/classes/";
+    private static final AnnotationDB db = new AnnotationDB(  );
 
-	private static final String CONSTANT_WEB_INF_CLASS = "/WEB-INF/classes/";
+    static
+    {
+        AppLogService.info( "AnnotationUtil Scanning classpath..." );
 
-	private static final AnnotationDB db = new AnnotationDB();
+        Date start = new Date(  );
+        File libDirectory = new File( AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_LIB );
 
-	static
-	{
-		AppLogService.info( "AnnotationUtil Scanning classpath..." );
-		Date start = new Date();
-		File libDirectory = new File( AppPathService.getWebAppPath() + CONSTANT_WEB_INF_LIB );
+        String[] allJars = libDirectory.list( new FilenameFilter(  )
+                {
+                    public boolean accept( File dir, String name )
+                    {
+                        // TODO black list?
+                        return name.endsWith( ".jar" );
+                    }
+                } );
 
-		String[] allJars = libDirectory.list( new FilenameFilter()
-		{
-			public boolean accept( File dir, String name )
-			{
-				// TODO black list?
-				return name.endsWith( ".jar" );
-			}
-		} );
+        for ( String strJar : allJars )
+        {
+            try
+            {
+                if ( AppLogService.isDebugEnabled(  ) )
+                {
+                    AppLogService.debug( "Scanning " + strJar );
+                }
 
-		for ( String strJar : allJars )
-		{
-			try
-			{
-				if ( AppLogService.isDebugEnabled() )
-				{
-					AppLogService.debug( "Scanning " + strJar );
-				}
+                db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_LIB +
+                        strJar ) );
+            }
+            catch ( MalformedURLException e )
+            {
+                AppLogService.error( e.getMessage(  ), e );
+            }
+            catch ( IOException e )
+            {
+                AppLogService.error( e.getMessage(  ), e );
+            }
+        }
 
-				db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath() + CONSTANT_WEB_INF_LIB + strJar ) );
-			}
-			catch ( MalformedURLException e )
-			{
-				AppLogService.error( e.getMessage(), e );
-			}
-			catch ( IOException e )
-			{
-				AppLogService.error( e.getMessage(), e );
-			}
-		}
+        AppLogService.info( "AnnotationUtil WEB-INF/lib scanned" );
 
-		AppLogService.info( "AnnotationUtil WEB-INF/lib scanned" );
+        try
+        {
+            db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_CLASS ) );
+        }
+        catch ( MalformedURLException e )
+        {
+            AppLogService.error( e.getMessage(  ), e );
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( e.getMessage(  ), e );
+        }
 
-		try
-		{
-			db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath() + CONSTANT_WEB_INF_CLASS ) );
-		}
-		catch ( MalformedURLException e )
-		{
-			AppLogService.error( e.getMessage(), e );
-		}
-		catch ( IOException e )
-		{
-			AppLogService.error( e.getMessage(), e );
-		}
-		AppLogService.info( "AnnotationUtil Classpath scanned in " + ( new Date().getTime() - start.getTime() ) + "ms" );
-	}
+        AppLogService.info( "AnnotationUtil Classpath scanned in " + ( new Date(  ).getTime(  ) - start.getTime(  ) ) +
+            "ms" );
+    }
 
-	/**
-	 * Empty constructor
-	 */
-	private AnnotationUtil()
-	{
-		// nothing
-	}
+    /**
+     * Empty constructor
+     */
+    private AnnotationUtil(  )
+    {
+        // nothing
+    }
 
-	/**
-	 * Finds all classes with the given annotation
-	 * @param strAnnotation the annotation class name
-	 * @return all classes founds
-	 */
-	public static Set<String> find( String strAnnotation )
-	{
-		Map<String, Set<String>> index = db.getAnnotationIndex();
+    /**
+     * Finds all classes with the given annotation
+     * @param strAnnotation the annotation class name
+     * @return all classes founds
+     */
+    public static Set<String> find( String strAnnotation )
+    {
+        Map<String, Set<String>> index = db.getAnnotationIndex(  );
 
-		Set<String> setClasses = index.get( strAnnotation );
+        Set<String> setClasses = index.get( strAnnotation );
 
-		if ( setClasses == null )
-		{
-			setClasses = new HashSet<String>();
-		}
+        if ( setClasses == null )
+        {
+            setClasses = new HashSet<String>(  );
+        }
 
-		return setClasses;
-	}
+        return setClasses;
+    }
 }

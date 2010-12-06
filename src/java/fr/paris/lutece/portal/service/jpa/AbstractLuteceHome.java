@@ -31,75 +31,76 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.jpa;
-
-import java.util.List;
 
 import fr.paris.lutece.util.jpa.IGenericDAO;
 import fr.paris.lutece.util.jpa.IGenericHome;
+
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
 
 public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> implements IGenericHome<K, E>
 {
-        private DAO _dao;
+    private DAO _dao;
 
-	/**
-	 *{@inheritDoc}
-	 */
-	public void setDao( DAO dao )
-        {
-            _dao = dao;
-        }
+    /**
+     *{@inheritDoc}
+     */
+    public void setDao( DAO dao )
+    {
+        _dao = dao;
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	public DAO getDao(  )
-        {
-            return _dao;
-        }
+    /**
+     *{@inheritDoc}
+     */
+    public DAO getDao(  )
+    {
+        return _dao;
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-        @Transactional
-	public void create( E entityBean )
-	{
-		getDao(  ).create( entityBean );
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Transactional
+    public void create( E entityBean )
+    {
+        getDao(  ).create( entityBean );
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-        @Transactional
-	public void remove( K key )
-	{
-		getDao(  ).remove( key );
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Transactional
+    public void remove( K key )
+    {
+        getDao(  ).remove( key );
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	public E findByPrimaryKey( K key  )
-	{
-		return getDao(  ).findById( key );
-	}
+    /**
+     *{@inheritDoc}
+     */
+    public E findByPrimaryKey( K key )
+    {
+        return getDao(  ).findById( key );
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-        @Transactional
-	public void update( E entityBean )
-	{
-		getDao(  ).update(entityBean);
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Transactional
+    public void update( E entityBean )
+    {
+        getDao(  ).update( entityBean );
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	public List<E> findAll( )
-	{
-		return getDao(  ).findAll();
-	}
+    /**
+     *{@inheritDoc}
+     */
+    public List<E> findAll(  )
+    {
+        return getDao(  ).findAll(  );
+    }
 }

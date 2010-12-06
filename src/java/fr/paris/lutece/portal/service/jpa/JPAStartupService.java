@@ -41,20 +41,27 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.jpa.JPAConstants;
 import fr.paris.lutece.util.jpa.JPAPersistenceUnitPostProcessor;
 import fr.paris.lutece.util.jpa.transaction.ChainedTransactionManager;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
+
 import org.apache.log4j.Logger;
+
 import org.springframework.orm.jpa.JpaDialect;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager;
 import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;
+
 import org.springframework.transaction.PlatformTransactionManager;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManagerFactory;
+
+import javax.sql.DataSource;
+
 
 /**
  * JPAStartupService
@@ -62,68 +69,73 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class JPAStartupService implements StartUpService
 {
     private static Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
+
     /**
      * Initialize JPA objects (Datasource, Persistence Unit Manager, Entity Manager Factory,
      * Transaction Manager) for each pool.
      */
-    public void process()
+    public void process(  )
     {
-        ReferenceList list = new ReferenceList();
+        ReferenceList list = new ReferenceList(  );
         AppConnectionService.getPoolList( list );
-        HashMap<String , EntityManagerFactory> mapFactories = new HashMap();
-        List<PlatformTransactionManager> listTransactionManagers = new ArrayList<PlatformTransactionManager>();
+
+        HashMap<String, EntityManagerFactory> mapFactories = new HashMap(  );
+        List<PlatformTransactionManager> listTransactionManagers = new ArrayList<PlatformTransactionManager>(  );
         _log.info( "JPA Startup Service : Initializing JPA objects ..." );
+
         for ( ReferenceItem poolItem : list )
         {
-            String strPoolname = poolItem.getCode();
+            String strPoolname = poolItem.getCode(  );
 
-            DataSource ds = AppConnectionService.getPoolManager().getDataSource( strPoolname );
+            DataSource ds = AppConnectionService.getPoolManager(  ).getDataSource( strPoolname );
             _log.info( "JPA Startup Service : DataSource retrieved for pool : " + strPoolname );
-            _log.debug( "> DS : " + ds.toString() );
+            _log.debug( "> DS : " + ds.toString(  ) );
 
-            DefaultPersistenceUnitManager pum = new DefaultPersistenceUnitManager();
+            DefaultPersistenceUnitManager pum = new DefaultPersistenceUnitManager(  );
             pum.setDefaultDataSource( ds );
-            
-            PersistenceUnitPostProcessor[] postProcessors = { new JPAPersistenceUnitPostProcessor() };
-            pum.setPersistenceUnitPostProcessors( postProcessors );
-            
-            pum.afterPropertiesSet();
-            
-            _log.info( "JPA Startup Service : Persistence Unit Manager for pool : " + strPoolname );
-            _log.debug( "> PUM : " + pum.toString() );
 
-            LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
+            PersistenceUnitPostProcessor[] postProcessors = { new JPAPersistenceUnitPostProcessor(  ) };
+            pum.setPersistenceUnitPostProcessors( postProcessors );
+
+            pum.afterPropertiesSet(  );
+
+            _log.info( "JPA Startup Service : Persistence Unit Manager for pool : " + strPoolname );
+            _log.debug( "> PUM : " + pum.toString(  ) );
+
+            LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean(  );
             lcemfb.setDataSource( ds );
             lcemfb.setPersistenceUnitManager( pum );
             lcemfb.setPersistenceUnitName( "jpaLuteceUnit" );
-            JpaDialect jpaDialect = ( JpaDialect ) SpringContextService.getBean( "jpaDialect" );
+
+            JpaDialect jpaDialect = (JpaDialect) SpringContextService.getBean( "jpaDialect" );
             lcemfb.setJpaDialect( jpaDialect );
-            Map mapJpaProperties = ( Map ) SpringContextService.getBean( "jpaPropertiesMap" );
+
+            Map mapJpaProperties = (Map) SpringContextService.getBean( "jpaPropertiesMap" );
             lcemfb.setJpaPropertyMap( mapJpaProperties );
-            JpaVendorAdapter jpaVendorAdapter = (JpaVendorAdapter) SpringContextService.getBean( "jpaVendorAdapter");
+
+            JpaVendorAdapter jpaVendorAdapter = (JpaVendorAdapter) SpringContextService.getBean( "jpaVendorAdapter" );
             lcemfb.setJpaVendorAdapter( jpaVendorAdapter );
-            
-            lcemfb.afterPropertiesSet();
 
-            EntityManagerFactory emf = lcemfb.getNativeEntityManagerFactory();
+            lcemfb.afterPropertiesSet(  );
+
+            EntityManagerFactory emf = lcemfb.getNativeEntityManagerFactory(  );
             _log.info( "JPA Startup Service : EntityManagerFactory created for pool : " + strPoolname );
-            _log.debug( "> EMF : " + emf.toString() );
+            _log.debug( "> EMF : " + emf.toString(  ) );
 
-            JpaTransactionManager tm = new JpaTransactionManager();
+            JpaTransactionManager tm = new JpaTransactionManager(  );
             tm.setEntityManagerFactory( emf );
-            tm.afterPropertiesSet();
+            tm.afterPropertiesSet(  );
             _log.info( "JPA Startup Service : JPA TransactionManager created for pool : " + strPoolname );
-            _log.debug( "> TM : " + tm.toString() );
+            _log.debug( "> TM : " + tm.toString(  ) );
 
             mapFactories.put( strPoolname, emf );
             listTransactionManagers.add( tm );
-
-
         }
-        EntityManagerService ems = ( EntityManagerService ) SpringContextService.getBean( "entityManagerService" );
+
+        EntityManagerService ems = (EntityManagerService) SpringContextService.getBean( "entityManagerService" );
         ems.setMapFactories( mapFactories );
 
-        ChainedTransactionManager ctm = ( ChainedTransactionManager ) SpringContextService.getBean( "transactionManager" );
+        ChainedTransactionManager ctm = (ChainedTransactionManager) SpringContextService.getBean( "transactionManager" );
         ctm.setTransactionManagers( listTransactionManagers );
         _log.info( "JPA Startup Service : completed successfully" );
     }
@@ -132,7 +144,7 @@ public class JPAStartupService implements StartUpService
      * {@inheritDoc }
      * @return
      */
-    public String getName()
+    public String getName(  )
     {
         return ( "JPA Startup Service" );
     }

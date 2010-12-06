@@ -38,6 +38,7 @@ import org.apache.log4j.Logger;
 import java.sql.Connection;
 
 import java.util.Hashtable;
+
 import javax.sql.DataSource;
 
 
@@ -117,5 +118,5 @@ public interface ConnectionService
      * Get datasource
      * @return A data source object
      */
-    DataSource getDataSource();
+    DataSource getDataSource(  );
 }

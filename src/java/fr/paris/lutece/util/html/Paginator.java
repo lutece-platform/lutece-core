@@ -51,7 +51,6 @@ public class Paginator<E>
 
     /** Default value for Items Per Page Parameter */
     public static final String PARAMETER_ITEMS_PER_PAGE = "items_per_page";
-
     public static final String LABEL_FIRST = "|&lt;";
     public static final String LABEL_PREVIOUS = "&lt;";
     public static final String LABEL_NEXT = "&gt;";
@@ -264,7 +263,7 @@ public class Paginator<E>
      */
     public int getRangeMin(  )
     {
-        return ( !_list.isEmpty() ) ? ( ( _nItemPerPage * ( _nPageCurrent - 1 ) ) + 1 ) : 0;
+        return ( !_list.isEmpty(  ) ) ? ( ( _nItemPerPage * ( _nPageCurrent - 1 ) ) + 1 ) : 0;
     }
 
     /**
@@ -337,37 +336,34 @@ public class Paginator<E>
      * Get First label
      * @return The Label
      */
-    public String getLabelFirst()
+    public String getLabelFirst(  )
     {
         return LABEL_FIRST;
     }
-
 
     /**
      * Get Previous label
      * @return The Label
      */
-    public String getLabelPrevious()
+    public String getLabelPrevious(  )
     {
         return LABEL_PREVIOUS;
     }
-
 
     /**
      * Get Next label
      * @return The Label
      */
-    public String getLabelNext()
+    public String getLabelNext(  )
     {
         return LABEL_NEXT;
     }
-
 
     /**
      * Get First label
      * @return The Label
      */
-    public String getLabelLast()
+    public String getLabelLast(  )
     {
         return LABEL_LAST;
     }
@@ -376,7 +372,7 @@ public class Paginator<E>
      * Get Item Count label
      * @return The Label
      */
-    public String getLabelItemCount()
+    public String getLabelItemCount(  )
     {
         return "";
     }
@@ -385,9 +381,8 @@ public class Paginator<E>
      * Get Item Count per page label
      * @return The Label
      */
-    public String getLabelItemCountPerPage()
+    public String getLabelItemCountPerPage(  )
     {
         return "";
     }
-
 }

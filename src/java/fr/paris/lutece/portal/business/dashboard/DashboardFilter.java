@@ -33,77 +33,78 @@
  */
 package fr.paris.lutece.portal.business.dashboard;
 
+
 /**
  * Dashboard filter
- * 
+ *
  */
 public class DashboardFilter
 {
-	private Integer _nFilterColumn;
+    private Integer _nFilterColumn;
+    private Integer _nFilterOrder;
 
-	private Integer _nFilterOrder;
+    /**
+     * Filter column
+     * @return Filter column
+     */
+    public Integer getFilterColumn(  )
+    {
+        return _nFilterColumn;
+    }
 
-	/**
-	 * Filter column
-	 * @return Filter column
-	 */
-	public Integer getFilterColumn(  )
-	{
-		return _nFilterColumn;
-	}
+    /**
+     * Filter column
+     * @param nFilterColumn the Filter column
+     */
+    public void setFilterColumn( Integer nFilterColumn )
+    {
+        _nFilterColumn = nFilterColumn;
+    }
 
-	/**
-	 * Filter column
-	 * @param nFilterColumn the Filter column
-	 */
-	public void setFilterColumn( Integer nFilterColumn )
-	{
-		_nFilterColumn = nFilterColumn;
-	}
+    /**
+     * Filter order
+     * @return Filter order
+     */
+    public Integer getFilterOrder(  )
+    {
+        return _nFilterOrder;
+    }
 
-	/**
-	 * Filter order
-	 * @return Filter order
-	 */
-	public Integer getFilterOrder(  )
-	{
-		return _nFilterOrder;
-	}
+    /**
+     * Filter order
+     * @param nFilterOrder the Filter order
+     */
+    public void setFilterOrder( Integer nFilterOrder )
+    {
+        _nFilterOrder = nFilterOrder;
+    }
 
-	/**
-	 * Filter order
-	 * @param nFilterOrder the Filter order
-	 */
-	public void setFilterOrder( Integer nFilterOrder )
-	{
-		_nFilterOrder = nFilterOrder;
-	}
+    /**
+     * true if {@link #getFilterOrder(  )} != null
+     * @return <code>true</code> if {@link #getFilterOrder()} != null, <code>false</code> otherwise.
+     */
+    public boolean containsFilterOrder(  )
+    {
+        return _nFilterOrder != null;
+    }
 
-	/**
-	 * true if {@link #getFilterOrder(  )} != null
-	 * @return <code>true</code> if {@link #getFilterOrder()} != null, <code>false</code> otherwise.
-	 */
-	public boolean containsFilterOrder(  )
-	{
-		return _nFilterOrder != null;
-	}
+    /**
+     * true if {@link #getFilterColumn(  )} != null
+     * @return <code>true</code> if {@link #getFilterColumn()} != null, <code>false</code> otherwise
+     */
+    public boolean containsFilterColumn(  )
+    {
+        return _nFilterColumn != null;
+    }
 
-	/**
-	 * true if {@link #getFilterColumn(  )} != null
-	 * @return <code>true</code> if {@link #getFilterColumn()} != null, <code>false</code> otherwise
-	 */
-	public boolean containsFilterColumn(  )
-	{
-		return _nFilterColumn != null;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString(  )
-	{
-		return this.getClass().getName() + "[column=" + this.getFilterColumn(  ) + ", order=" + this.getFilterOrder() + "]";
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString(  )
+    {
+        return this.getClass(  ).getName(  ) + "[column=" + this.getFilterColumn(  ) + ", order=" +
+        this.getFilterOrder(  ) + "]";
+    }
 }

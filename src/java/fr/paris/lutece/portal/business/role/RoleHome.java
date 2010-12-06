@@ -181,7 +181,7 @@ public final class RoleHome
 
         return role;
     }
-    
+
     /**
      * Return the list of all roles
      *
@@ -189,12 +189,14 @@ public final class RoleHome
      */
     public static ReferenceList getRolesList( AdminUser user )
     {
-    	Collection<Role> listRoles = RoleHome.findAll(  );
-    	listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, user );
+        Collection<Role> listRoles = RoleHome.findAll(  );
+        listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, user );
+
         ReferenceList roleList = new ReferenceList(  );
+
         for ( Role role : listRoles )
         {
-        	roleList.addItem( role.getRole(  ), role.getRoleDescription(  ) );
+            roleList.addItem( role.getRole(  ), role.getRoleDescription(  ) );
         }
 
         return roleList;

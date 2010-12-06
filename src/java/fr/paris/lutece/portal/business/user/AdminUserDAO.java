@@ -51,7 +51,7 @@ import java.util.Map;
 public class AdminUserDAO implements IAdminUserDAO
 {
     // Constants
-	private static final String CONSTANT_AND_STATUS = " AND status = ?";
+    private static final String CONSTANT_AND_STATUS = " AND status = ?";
     private static final String CONSTANT_AND_USER_LEVEL = " AND level_user = ?";
     private static final String CONSTANT_ORDER_BY_LAST_NAME = " ORDER BY last_name ";
     private static final String CONSTANT_PERCENT = "%";
@@ -89,10 +89,10 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_DELETE_ROLE_FOR_USER = " DELETE FROM core_user_role WHERE id_user = ? AND role_key = ? ";
     private static final String SQL_QUERY_SELECT_USER_FROM_SEARCH = " SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user " +
         " FROM core_admin_user WHERE access_code LIKE ? AND last_name LIKE ? AND first_name LIKE ? AND email LIKE ? ";
-	private static final String SQL_QUERY_SELECT_USERS_BY_RIGHT = " SELECT  u.id_user , u.access_code, u.last_name , u.first_name, u.email, u.status, u.locale, u.level_user " +
-		" FROM core_admin_user u INNER JOIN core_user_right r ON u.id_user = r.id_user WHERE r.id_right = ? ";
-	private static final String SQL_QUERY_SELECT_USER_RIGHT = " SELECT id_user FROM core_user_right WHERE id_user = ? AND id_right = ? ";
-	
+    private static final String SQL_QUERY_SELECT_USERS_BY_RIGHT = " SELECT  u.id_user , u.access_code, u.last_name , u.first_name, u.email, u.status, u.locale, u.level_user " +
+        " FROM core_admin_user u INNER JOIN core_user_right r ON u.id_user = r.id_user WHERE r.id_right = ? ";
+    private static final String SQL_QUERY_SELECT_USER_RIGHT = " SELECT id_user FROM core_user_right WHERE id_user = ? AND id_right = ? ";
+
     /**
      * @param nUserId th user id
      * @return user
@@ -666,7 +666,7 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
-    
+
     /**
      * Check if the user has the role
      * @param nUserId The ID of the user
@@ -675,7 +675,7 @@ public class AdminUserDAO implements IAdminUserDAO
      */
     public boolean hasRole( int nUserId, String strRoleKey )
     {
-    	boolean bHasRole = false;
+        boolean bHasRole = false;
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ROLE );
         daoUtil.setInt( 1, nUserId );
         daoUtil.setString( 2, strRoleKey );
@@ -683,14 +683,14 @@ public class AdminUserDAO implements IAdminUserDAO
 
         if ( daoUtil.next(  ) )
         {
-        	bHasRole = true;
+            bHasRole = true;
         }
 
         daoUtil.free(  );
 
         return bHasRole;
     }
-    
+
     /**
      * Remove role for an user
      * @param nUserId The ID of the user
@@ -698,23 +698,23 @@ public class AdminUserDAO implements IAdminUserDAO
      */
     public void deleteRoleForUser( int nUserId, String strRoleKey )
     {
-    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ROLE_FOR_USER );
-    	daoUtil.setInt( 1, nUserId );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ROLE_FOR_USER );
+        daoUtil.setInt( 1, nUserId );
         daoUtil.setString( 2, strRoleKey );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
-	
-	/**
-     * Gets a collection of AdminUser by using a filter.
-     * @param auFilter The filter
-     * @return The user List
-     */
+
+    /**
+    * Gets a collection of AdminUser by using a filter.
+    * @param auFilter The filter
+    * @return The user List
+    */
     public Collection<AdminUser> selectUsersByFilter( AdminUserFilter auFilter )
     {
         Collection<AdminUser> userList = new ArrayList<AdminUser>(  );
         DAOUtil daoUtil;
-        
+
         String query = SQL_QUERY_SELECT_USER_FROM_SEARCH;
 
         if ( auFilter.getStatus(  ) != -1 )
@@ -726,7 +726,7 @@ public class AdminUserDAO implements IAdminUserDAO
         {
             query += CONSTANT_AND_USER_LEVEL;
         }
-        
+
         query += CONSTANT_ORDER_BY_LAST_NAME;
 
         daoUtil = new DAOUtil( query );
@@ -751,7 +751,7 @@ public class AdminUserDAO implements IAdminUserDAO
                 daoUtil.setInt( 5, auFilter.getUserLevel(  ) );
             }
         }
-            
+
         daoUtil.executeQuery(  );
 
         while ( daoUtil.next(  ) )
@@ -778,9 +778,9 @@ public class AdminUserDAO implements IAdminUserDAO
      * @param strIdRight The ID right
      * @return A collection of AdminUser
      */
-	public Collection<AdminUser> selectUsersByRight( String strIdRight )
-	{
-		Collection<AdminUser> userList = new ArrayList<AdminUser>(  );
+    public Collection<AdminUser> selectUsersByRight( String strIdRight )
+    {
+        Collection<AdminUser> userList = new ArrayList<AdminUser>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_BY_RIGHT );
         daoUtil.setString( 1, strIdRight );
         daoUtil.executeQuery(  );
@@ -801,17 +801,17 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.free(  );
 
         return userList;
-	}
+    }
 
-	/**
-     * Check if the user has the given right
-     * @param nUserId The ID of the user
-     * @param strIdRight The ID right
-     * @return true if the user has the right
-     */
+    /**
+    * Check if the user has the given right
+    * @param nUserId The ID of the user
+    * @param strIdRight The ID right
+    * @return true if the user has the right
+    */
     public boolean hasRight( int nUserId, String strIdRight )
     {
-    	boolean bHasRight = false;
+        boolean bHasRight = false;
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_RIGHT );
         daoUtil.setInt( 1, nUserId );
         daoUtil.setString( 2, strIdRight );
@@ -819,14 +819,14 @@ public class AdminUserDAO implements IAdminUserDAO
 
         if ( daoUtil.next(  ) )
         {
-        	bHasRight = true;
+            bHasRight = true;
         }
 
         daoUtil.free(  );
 
         return bHasRight;
     }
-    
+
     /**
      * Remove a right for an user
      * @param nUserId The user ID
@@ -834,8 +834,8 @@ public class AdminUserDAO implements IAdminUserDAO
      */
     public void deleteRightForUser( int nUserId, String strIdRight )
     {
-    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_RIGHTS );
-    	daoUtil.setInt( 1, nUserId );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_RIGHTS );
+        daoUtil.setInt( 1, nUserId );
         daoUtil.setString( 2, strIdRight );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );

@@ -33,21 +33,22 @@
  */
 package fr.paris.lutece.portal.service.dashboard;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.paris.lutece.portal.business.dashboard.DashboardListener;
 import fr.paris.lutece.portal.business.user.AdminUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 /**
- * 
+ *
  * DashboardListenerService
  *
  */
-public class DashboardListenerService 
+public class DashboardListenerService
 {
-	private List<DashboardListener> _listRegisteredListeners = new ArrayList<DashboardListener>(  );
-	
+    private List<DashboardListener> _listRegisteredListeners = new ArrayList<DashboardListener>(  );
+
     /**
      * Register a new dashboard listener
      * @param listener The listener to register
@@ -56,7 +57,7 @@ public class DashboardListenerService
     {
         _listRegisteredListeners.add( listener );
     }
-    
+
     /**
      * get the list of dashboards
      * @param listDashboards the list of dashboards
@@ -64,9 +65,9 @@ public class DashboardListenerService
      */
     public void getDashboardComponents( List<IDashboardComponent> listDashboards, AdminUser user )
     {
-    	for ( DashboardListener listener : _listRegisteredListeners )
-    	{
-    		listDashboards.addAll( listener.getDashboardComponents( user ) );
-    	}
+        for ( DashboardListener listener : _listRegisteredListeners )
+        {
+            listDashboards.addAll( listener.getDashboardComponents( user ) );
+        }
     }
 }

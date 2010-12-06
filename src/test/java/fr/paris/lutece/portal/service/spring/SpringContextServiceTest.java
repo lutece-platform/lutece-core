@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAut
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.search.SearchEngine;
 import fr.paris.lutece.test.LuteceTestCase;
+
 import java.util.List;
 
 
@@ -58,25 +59,26 @@ public class SpringContextServiceTest extends LuteceTestCase
         assertTrue( LuteceDefaultAdminAuthentication.class.isInstance( result ) );
     }
 
-    public void testInit() throws LuteceInitException
+    public void testInit(  ) throws LuteceInitException
     {
         System.out.println( "init" );
-        SpringContextService.init();
-        for( String name : SpringContextService.getContext().getBeanDefinitionNames() )
+        SpringContextService.init(  );
+
+        for ( String name : SpringContextService.getContext(  ).getBeanDefinitionNames(  ) )
         {
             System.out.println( name );
         }
-
     }
 
-    public void testGetBeanOfType()
+    public void testGetBeanOfType(  )
     {
         System.out.println( "getBeanOfType" );
-        List<SearchEngine> list = SpringContextService.getBeansOfType( SearchEngine.class);
-        for( SearchEngine engine : list )
-        {
-            System.out.println( engine.getClass() );
-        }
 
+        List<SearchEngine> list = SpringContextService.getBeansOfType( SearchEngine.class );
+
+        for ( SearchEngine engine : list )
+        {
+            System.out.println( engine.getClass(  ) );
+        }
     }
 }

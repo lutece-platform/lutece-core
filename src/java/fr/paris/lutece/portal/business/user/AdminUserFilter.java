@@ -33,13 +33,14 @@
  */
 package fr.paris.lutece.portal.business.user;
 
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.url.UrlItem;
+
 import java.io.UnsupportedEncodingException;
+
 import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
-
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.url.UrlItem;
 
 
 /**
@@ -47,12 +48,12 @@ import fr.paris.lutece.util.url.UrlItem;
  */
 public class AdminUserFilter
 {
-	// Constants
+    // Constants
     private static final String CONSTANT_MOINS_UN = "-1";
     private static final String CONSTANT_DEFAULT_LEVEL = "noValue";
     private static final String CONSTANT_EQUAL = "=";
     private static final String CONSTANT_ESPERLUETTE = "&";
-    
+
     // Parameteres
     private static final String PARAMETER_SEARCH_ACCESS_CODE = "search_access_code";
     private static final String PARAMETER_SEARCH_LAST_NAME = "search_last_name";
@@ -61,10 +62,9 @@ public class AdminUserFilter
     private static final String PARAMETER_SEARCH_STATUS = "search_status";
     private static final String PARAMETER_SEARCH_USER_LEVEL = "search_user_level";
     private static final String PARAMETER_SEARCH_IS_SEARCH = "search_is_search";
-    
+
     // Properties
     private static final String PROPERTY_ENCODING_URL = "lutece.encoding.url";
-    
     private String _strAccessCode;
     private String _strLastName;
     private String _strFirstName;
@@ -199,7 +199,7 @@ public class AdminUserFilter
     {
         _nUserLevel = nUserLevel;
     }
-    
+
     /**
      * Set the value of the AdminUserFilter
      * @param request HttpServletRequest
@@ -207,20 +207,20 @@ public class AdminUserFilter
      */
     public boolean setAdminUserFilter( HttpServletRequest request )
     {
-    	boolean bIsSearch = false;
-    	String strIsSearch = request.getParameter( PARAMETER_SEARCH_IS_SEARCH );
-        
-    	if ( strIsSearch != null )
+        boolean bIsSearch = false;
+        String strIsSearch = request.getParameter( PARAMETER_SEARCH_IS_SEARCH );
+
+        if ( strIsSearch != null )
         {
-        	bIsSearch = true;
-        	_strAccessCode = request.getParameter( PARAMETER_SEARCH_ACCESS_CODE );
-        	_strLastName = request.getParameter( PARAMETER_SEARCH_LAST_NAME );
-        	_strFirstName = request.getParameter( PARAMETER_SEARCH_FIRST_NAME );
-        	_strEmail = request.getParameter( PARAMETER_SEARCH_EMAIL );
-        	
+            bIsSearch = true;
+            _strAccessCode = request.getParameter( PARAMETER_SEARCH_ACCESS_CODE );
+            _strLastName = request.getParameter( PARAMETER_SEARCH_LAST_NAME );
+            _strFirstName = request.getParameter( PARAMETER_SEARCH_FIRST_NAME );
+            _strEmail = request.getParameter( PARAMETER_SEARCH_EMAIL );
+
             String strStatus = request.getParameter( PARAMETER_SEARCH_STATUS );
             String strUserLevel = request.getParameter( PARAMETER_SEARCH_USER_LEVEL );
-            
+
             if ( strStatus.equals( CONSTANT_DEFAULT_LEVEL ) || strStatus.equals( CONSTANT_MOINS_UN ) )
             {
                 setStatus( -1 );
@@ -243,64 +243,64 @@ public class AdminUserFilter
         {
             init(  );
         }
-    	
-    	return bIsSearch;
+
+        return bIsSearch;
     }
-    
+
     /**
      * Build url attributes
      * @param the url
      */
     public void setUrlAttributes( UrlItem url )
     {
-    	url.addParameter( PARAMETER_SEARCH_IS_SEARCH, Boolean.TRUE.toString(  ) );
-    	url.addParameter( PARAMETER_SEARCH_USER_LEVEL, _nUserLevel );
-    	url.addParameter( PARAMETER_SEARCH_STATUS, _nStatus );
-    	
-    	try
-    	{
-    		url.addParameter( PARAMETER_SEARCH_ACCESS_CODE, 
-    				URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-    		url.addParameter( PARAMETER_SEARCH_LAST_NAME, 
-    				URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-    		url.addParameter( PARAMETER_SEARCH_FIRST_NAME,  
-        			URLEncoder.encode( _strFirstName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-    		url.addParameter( PARAMETER_SEARCH_EMAIL,  
-        			URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-    	}
-    	catch( UnsupportedEncodingException e )
-    	{
-    		e.printStackTrace(  );
-    	}
+        url.addParameter( PARAMETER_SEARCH_IS_SEARCH, Boolean.TRUE.toString(  ) );
+        url.addParameter( PARAMETER_SEARCH_USER_LEVEL, _nUserLevel );
+        url.addParameter( PARAMETER_SEARCH_STATUS, _nStatus );
+
+        try
+        {
+            url.addParameter( PARAMETER_SEARCH_ACCESS_CODE,
+                URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            url.addParameter( PARAMETER_SEARCH_LAST_NAME,
+                URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            url.addParameter( PARAMETER_SEARCH_FIRST_NAME,
+                URLEncoder.encode( _strFirstName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            url.addParameter( PARAMETER_SEARCH_EMAIL,
+                URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+        }
+        catch ( UnsupportedEncodingException e )
+        {
+            e.printStackTrace(  );
+        }
     }
-    
+
     /**
      * Build url attributes
      * @return the url attributes
      */
     public String getUrlAttributes(  )
     {
-    	StringBuilder sbUrlAttributes = new StringBuilder(  );
-    	sbUrlAttributes.append( PARAMETER_SEARCH_IS_SEARCH + CONSTANT_EQUAL + Boolean.TRUE );
-    	sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_USER_LEVEL + CONSTANT_EQUAL + _nUserLevel );
-    	sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_STATUS + CONSTANT_EQUAL + _nStatus );
-    	
-    	try
-    	{
-    		sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_ACCESS_CODE + CONSTANT_EQUAL +
-    				URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-    		sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_LAST_NAME + CONSTANT_EQUAL +
-    				URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-    		sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_FIRST_NAME + CONSTANT_EQUAL +
-    				URLEncoder.encode( _strFirstName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-    		sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_EMAIL + CONSTANT_EQUAL +
-    				URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-    	}
-    	catch( UnsupportedEncodingException e )
-    	{
-    		e.printStackTrace(  );
-    	}
-    	
-    	return sbUrlAttributes.toString(  );
+        StringBuilder sbUrlAttributes = new StringBuilder(  );
+        sbUrlAttributes.append( PARAMETER_SEARCH_IS_SEARCH + CONSTANT_EQUAL + Boolean.TRUE );
+        sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_USER_LEVEL + CONSTANT_EQUAL + _nUserLevel );
+        sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_STATUS + CONSTANT_EQUAL + _nStatus );
+
+        try
+        {
+            sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_ACCESS_CODE + CONSTANT_EQUAL +
+                URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_LAST_NAME + CONSTANT_EQUAL +
+                URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_FIRST_NAME + CONSTANT_EQUAL +
+                URLEncoder.encode( _strFirstName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_EMAIL + CONSTANT_EQUAL +
+                URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+        }
+        catch ( UnsupportedEncodingException e )
+        {
+            e.printStackTrace(  );
+        }
+
+        return sbUrlAttributes.toString(  );
     }
 }

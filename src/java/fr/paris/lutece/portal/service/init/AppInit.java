@@ -124,7 +124,7 @@ public final class AppInit
             AppLogService.info( "Creating connexions pool 'portal'." );
 
             // Spring ApplicationContext initialization
-            SpringContextService.init();
+            SpringContextService.init(  );
 
             // Initialize and run StartUp services
             StartUpServiceManager.init(  );

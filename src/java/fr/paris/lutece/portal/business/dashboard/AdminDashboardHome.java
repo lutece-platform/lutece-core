@@ -33,124 +33,125 @@
  */
 package fr.paris.lutece.portal.business.dashboard;
 
-import java.util.List;
-
 import fr.paris.lutece.portal.service.dashboard.admin.IAdminDashboardComponent;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+import java.util.List;
+
+
 /**
- * 
+ *
  * AdminDashboardHome
- * 
+ *
  */
 public final class AdminDashboardHome
 {
-	// Static variable pointed at the DAO instance
-	private static IAdminDashboardDAO _dao = ( IAdminDashboardDAO ) SpringContextService.getBean( "adminDashboardDAO" );
+    // Static variable pointed at the DAO instance
+    private static IAdminDashboardDAO _dao = (IAdminDashboardDAO) SpringContextService.getBean( "adminDashboardDAO" );
 
-	/**
-	 * Private constructor - this class need not be instantiated
-	 */
-	private AdminDashboardHome()
-	{
-	}
+    /**
+     * Private constructor - this class need not be instantiated
+     */
+    private AdminDashboardHome(  )
+    {
+    }
 
-	/**
-	 * Creation of an instance of adminDashboardComponent
-	 * 
-	 * @param adminDashboardComponent The instance of the adminDashboardComponent which contains the informations to store
-	 * 
-	 */
-	public static void create( IAdminDashboardComponent adminDashboardComponent )
-	{
-		_dao.insert( adminDashboardComponent );
-	}
+    /**
+     * Creation of an instance of adminDashboardComponent
+     *
+     * @param adminDashboardComponent The instance of the adminDashboardComponent which contains the informations to store
+     *
+     */
+    public static void create( IAdminDashboardComponent adminDashboardComponent )
+    {
+        _dao.insert( adminDashboardComponent );
+    }
 
-	/**
-	 * Update of the adminDashboardComponent which is specified in parameter
-	 * 
-	 * @param adminDashboardComponent The instance of the adminDashboardComponent which contains the informations to update
-	 * 
-	 */
-	public static void update( IAdminDashboardComponent adminDashboardComponent )
-	{
-		_dao.store( adminDashboardComponent );
-	}
+    /**
+     * Update of the adminDashboardComponent which is specified in parameter
+     *
+     * @param adminDashboardComponent The instance of the adminDashboardComponent which contains the informations to update
+     *
+     */
+    public static void update( IAdminDashboardComponent adminDashboardComponent )
+    {
+        _dao.store( adminDashboardComponent );
+    }
 
-	/**
-	 * Remove the adminDashboardComponent whose identifier is specified in parameter
-	 * 
-	 * @param strBeanName The adminDashboardComponent id
-	 */
-	public static void remove( String strBeanName )
-	{
-		_dao.delete( strBeanName );
-	}
+    /**
+     * Remove the adminDashboardComponent whose identifier is specified in parameter
+     *
+     * @param strBeanName The adminDashboardComponent id
+     */
+    public static void remove( String strBeanName )
+    {
+        _dao.delete( strBeanName );
+    }
 
-	/**
-	 * Remove the adminDashboardComponent whose identifier is specified in parameter
-	 * 
-	 */
-	public static void removeAll()
-	{
-		_dao.deleteAll();
-	}
+    /**
+     * Remove the adminDashboardComponent whose identifier is specified in parameter
+     *
+     */
+    public static void removeAll(  )
+    {
+        _dao.deleteAll(  );
+    }
 
-	// /////////////////////////////////////////////////////////////////////////
-	// Finders
+    // /////////////////////////////////////////////////////////////////////////
+    // Finders
 
-	/**
-	 * Returns an instance of a adminDashboardComponent whose identifier is specified in parameter
-	 * 
-	 * @param strBeanName The adminDashboardComponent primary key
-	 * @return an instance of adminDashboardComponent
-	 */
-	public static IAdminDashboardComponent findByPrimaryKey( String strBeanName )
-	{
-		return _dao.load( strBeanName );
-	}
+    /**
+     * Returns an instance of a adminDashboardComponent whose identifier is specified in parameter
+     *
+     * @param strBeanName The adminDashboardComponent primary key
+     * @return an instance of adminDashboardComponent
+     */
+    public static IAdminDashboardComponent findByPrimaryKey( String strBeanName )
+    {
+        return _dao.load( strBeanName );
+    }
 
-	/**
-	 * Loads the data of all the IAdminDashboardComponent
-	 * 
-	 * @return the list which contains the data of all the IAdminDashboardComponent
-	 */
-	public static List<IAdminDashboardComponent> findAll()
-	{
-		return _dao.selectAllDashboardComponents();
-	}
+    /**
+     * Loads the data of all the IAdminDashboardComponent
+     *
+     * @return the list which contains the data of all the IAdminDashboardComponent
+     */
+    public static List<IAdminDashboardComponent> findAll(  )
+    {
+        return _dao.selectAllDashboardComponents(  );
+    }
 
-	/**
-	 * Loads the data of all the IAdminDashboardComponent
-	 * 
-	 * @return the list which contains the data of all the IAdminDashboardComponent
-	 */
-	public static List<IAdminDashboardComponent> findByFilter( AdminDashboardFilter filter )
-	{
-		return _dao.selectDashboardComponents( filter );
-	}
+    /**
+     * Loads the data of all the IAdminDashboardComponent
+     *
+     * @return the list which contains the data of all the IAdminDashboardComponent
+     */
+    public static List<IAdminDashboardComponent> findByFilter( AdminDashboardFilter filter )
+    {
+        return _dao.selectDashboardComponents( filter );
+    }
 
-	/**
-	 * Finds the max order for all columns.
-	 * @return the max order
-	 */
-	public static int findMaxOrder()
-	{
-		return _dao.selectMaxOrder();
-	}
+    /**
+     * Finds the max order for all columns.
+     * @return the max order
+     */
+    public static int findMaxOrder(  )
+    {
+        return _dao.selectMaxOrder(  );
+    }
 
-	/**
-	 * Finds the max order for the column.
-	 * @param nColumn the column
-	 * @return the max order
-	 */
-	public static int findMaxOrder( int nColumn )
-	{
-		return _dao.selectMaxOrder( nColumn );
-	}
+    /**
+     * Finds the max order for the column.
+     * @param nColumn the column
+     * @return the max order
+     */
+    public static int findMaxOrder( int nColumn )
+    {
+        return _dao.selectMaxOrder( nColumn );
+    }
 
-	public static List<Integer> findColumns()
-	{
-		return _dao.selectColumns();
-	}
+    public static List<Integer> findColumns(  )
+    {
+        return _dao.selectColumns(  );
+    }
 }

@@ -31,13 +31,16 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.jpa;
 
 import fr.paris.lutece.util.jpa.JPAConstants;
-import java.util.Map;
-import javax.persistence.EntityManagerFactory;
+
 import org.apache.log4j.Logger;
+
+import java.util.Map;
+
+import javax.persistence.EntityManagerFactory;
+
 
 /**
  * Class EntityManagerService
@@ -45,24 +48,24 @@ import org.apache.log4j.Logger;
 public class EntityManagerService
 {
     private static Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
-    private static Map<String ,  EntityManagerFactory> _mapFactories;
+    private static Map<String, EntityManagerFactory> _mapFactories;
 
     /**
      * Sets the map of factories (injected in core_context.xml)
      * @param mapFactories The factories map
      */
-    public void setMapFactories( Map<String ,  EntityManagerFactory> mapFactories )
+    public void setMapFactories( Map<String, EntityManagerFactory> mapFactories )
     {
         _mapFactories = mapFactories;
     }
-    
+
     /**
      * Returns all factories
      * @return all factories
      */
     public Map<String, EntityManagerFactory> getEntityManagerFactories(  )
     {
-    	return _mapFactories;
+        return _mapFactories;
     }
 
     /**
@@ -73,11 +76,12 @@ public class EntityManagerService
     public EntityManagerFactory getEntityManagerFactory( String strPoolName )
     {
         EntityManagerFactory emf = _mapFactories.get( strPoolName );
-        if( emf == null )
+
+        if ( emf == null )
         {
             _log.error( "EntityManagerService Error - No factory was found for pool : " + strPoolName );
         }
+
         return emf;
     }
-
 }

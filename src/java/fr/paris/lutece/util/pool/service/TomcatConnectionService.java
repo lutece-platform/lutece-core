@@ -194,7 +194,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
-    public DataSource getDataSource()
+    public DataSource getDataSource(  )
     {
         return _ds;
     }

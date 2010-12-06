@@ -130,9 +130,9 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     public String getCreatePageRole( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_ROLE );
-        
+
         Map<String, Object> model = new HashMap<String, Object>(  );
-        
+
         model.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
         model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
 
@@ -153,8 +153,8 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         String strPageWorkgroup = request.getParameter( PARAMETER_PAGE_WORKGROUP );
 
         // Mandatory field
-        if ( strPageRole == null || strPageRole.equals( "" ) || 
-        		strPageRoleDescription == null || strPageRoleDescription.equals( "" ) || strPageWorkgroup == null )
+        if ( ( strPageRole == null ) || strPageRole.equals( "" ) || ( strPageRoleDescription == null ) ||
+                strPageRoleDescription.equals( "" ) || ( strPageWorkgroup == null ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -212,7 +212,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         String strPageWorkgroup = request.getParameter( PARAMETER_PAGE_WORKGROUP );
 
         // Mandatory field
-        if ( strPageRoleDescription == null || strPageRoleDescription.equals( "" ) || strPageWorkgroup == null )
+        if ( ( strPageRoleDescription == null ) || strPageRoleDescription.equals( "" ) || ( strPageWorkgroup == null ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }

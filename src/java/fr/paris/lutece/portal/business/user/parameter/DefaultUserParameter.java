@@ -33,68 +33,70 @@
  */
 package fr.paris.lutece.portal.business.user.parameter;
 
+
 /**
- * 
+ *
  * Default parameters for AdminUsers
  *
  */
-public class DefaultUserParameter {
-	private String _strParameterKey;
-	private String _strParameterValue;
-	
-	/**
-	 * Constructor
-	 */
-	public DefaultUserParameter(  )
-	{
-		_strParameterKey = "";
-		_strParameterValue = "";
-	}
-	
-	/**
-	 * Constructor
-	 * @param strParameterKey Key
-	 * @param strParameterValue Value
-	 */
-	public DefaultUserParameter( String strParameterKey, String strParameterValue )
-	{
-		_strParameterKey = strParameterKey;
-		_strParameterValue = strParameterValue;
-	}
-	
-	/**
-	 * Getter
-	 * @return key
-	 */
-	public String getParameterKey(  )
-	{
-		return _strParameterKey;
-	}
-	
-	/**
-	 * Setter
-	 * @param strParameterKey Key
-	 */
-	public void setParameterKey( String strParameterKey )
-	{
-		_strParameterKey = strParameterKey;
-	}
-	
-	/**
-	 * Getter 
-	 * @return Value
-	 */
-	public String getParameterValue(  )
-	{
-		return _strParameterValue;
-	}
-	
-	/**
-	 * Setter
-	 * @param strParameterValue Value
-	 */
-	public void setParameterValue( String strParameterValue )
-	{
-		_strParameterValue = strParameterValue;
-	}
+public class DefaultUserParameter
+{
+    private String _strParameterKey;
+    private String _strParameterValue;
+
+    /**
+     * Constructor
+     */
+    public DefaultUserParameter(  )
+    {
+        _strParameterKey = "";
+        _strParameterValue = "";
+    }
+
+    /**
+     * Constructor
+     * @param strParameterKey Key
+     * @param strParameterValue Value
+     */
+    public DefaultUserParameter( String strParameterKey, String strParameterValue )
+    {
+        _strParameterKey = strParameterKey;
+        _strParameterValue = strParameterValue;
+    }
+
+    /**
+     * Getter
+     * @return key
+     */
+    public String getParameterKey(  )
+    {
+        return _strParameterKey;
+    }
+
+    /**
+     * Setter
+     * @param strParameterKey Key
+     */
+    public void setParameterKey( String strParameterKey )
+    {
+        _strParameterKey = strParameterKey;
+    }
+
+    /**
+     * Getter
+     * @return Value
+     */
+    public String getParameterValue(  )
+    {
+        return _strParameterValue;
+    }
+
+    /**
+     * Setter
+     * @param strParameterValue Value
+     */
+    public void setParameterValue( String strParameterValue )
+    {
+        _strParameterValue = strParameterValue;
+    }
 }

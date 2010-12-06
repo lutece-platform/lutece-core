@@ -33,11 +33,6 @@
  */
 package fr.paris.lutece.portal.service.user.attribute;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
@@ -48,118 +43,135 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
+import java.util.List;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+
+
 /**
- * 
+ *
  * AdminUserFieldService
  *
  */
-public class AdminUserFieldService 
+public class AdminUserFieldService
 {
-	// CONSTANTS
-	private static final String CONSTANT_EMPTY_STRING = "";
-	private static final String CONSTANT_UNDERSCORE = "_";
-	
-	// PARAMETERS
-	private static final String PARAMETER_ATTRIBUTE = "attribute";
-	
-	/**
-	 * Check if the user fields are correctly filled
-	 * @param request HttpServletRequest
-	 * @param locale locale
-	 * @return null if there are no problem
-	 */
-	public static String checkUserFields( HttpServletRequest request, Locale locale )
-	{
-		// Specific attributes
-        List<IAttribute> listAttributes = AttributeHome.findAll( locale );
-        for ( IAttribute attribute : listAttributes )
-        {
-        	String value = request.getParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + attribute.getIdAttribute(  ) );
-        	if ( attribute.isMandatory(  ) && ( value == null || value.equals( CONSTANT_EMPTY_STRING ) ) )
-        	{
-        		return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-        	}
-        }
-        
-        return null;
-	}
-	
-	/**
-	 * Create the user fields
-	 * @param user Adminuser
-	 * @param request HttpServletRequest
-	 * @param locale locale
-	 */
-	public static void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale )
+    // CONSTANTS
+    private static final String CONSTANT_EMPTY_STRING = "";
+    private static final String CONSTANT_UNDERSCORE = "_";
+
+    // PARAMETERS
+    private static final String PARAMETER_ATTRIBUTE = "attribute";
+
+    /**
+     * Check if the user fields are correctly filled
+     * @param request HttpServletRequest
+     * @param locale locale
+     * @return null if there are no problem
+     */
+    public static String checkUserFields( HttpServletRequest request, Locale locale )
     {
-		// Attributes created in the Back-Office
-		List<IAttribute> listAttributes = AttributeHome.findCoreAttributes( locale );
+        // Specific attributes
+        List<IAttribute> listAttributes = AttributeHome.findAll( locale );
+
         for ( IAttribute attribute : listAttributes )
         {
-        	List<AdminUserField> listUserFields = attribute.getUserFieldsData( request, user );
-        	for ( AdminUserField userField : listUserFields )
-        	{
-        		if ( userField != null )
-        		{
-        			AdminUserFieldHome.create( userField );
-        		}
-        	}
+            String value = request.getParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE +
+                    attribute.getIdAttribute(  ) );
+
+            if ( attribute.isMandatory(  ) && ( ( value == null ) || value.equals( CONSTANT_EMPTY_STRING ) ) )
+            {
+                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            }
         }
-        
-        // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( AdminUserFieldListenerService.class ) )
+
+        return null;
+    }
+
+    /**
+     * Create the user fields
+     * @param user Adminuser
+     * @param request HttpServletRequest
+     * @param locale locale
+     */
+    public static void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale )
+    {
+        // Attributes created in the Back-Office
+        List<IAttribute> listAttributes = AttributeHome.findCoreAttributes( locale );
+
+        for ( IAttribute attribute : listAttributes )
         {
-        	adminUserFieldListenerService.doCreateUserFields( user, request, locale );
+            List<AdminUserField> listUserFields = attribute.getUserFieldsData( request, user );
+
+            for ( AdminUserField userField : listUserFields )
+            {
+                if ( userField != null )
+                {
+                    AdminUserFieldHome.create( userField );
+                }
+            }
+        }
+
+        // Attributes associated to the plugins
+        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 
+                AdminUserFieldListenerService.class ) )
+        {
+            adminUserFieldListenerService.doCreateUserFields( user, request, locale );
         }
     }
 
-	/**
-	 * Modify the user fields
-	 * @param user AdminUser
-	 * @param request HttpServletRequest
-	 * @param locale locale
-	 * @param currentUser current user
-	 */
-	public static void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale, AdminUser currentUser )
-	{
-		// Remove all user fields
-		AdminUserFieldHome.removeUserFieldsFromIdUser( user.getUserId(  ) );
-		
-		// Attributes created in the Back-Office
-		List<IAttribute> listAttributes = AttributeHome.findCoreAttributes( locale );
+    /**
+     * Modify the user fields
+     * @param user AdminUser
+     * @param request HttpServletRequest
+     * @param locale locale
+     * @param currentUser current user
+     */
+    public static void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale,
+        AdminUser currentUser )
+    {
+        // Remove all user fields
+        AdminUserFieldHome.removeUserFieldsFromIdUser( user.getUserId(  ) );
+
+        // Attributes created in the Back-Office
+        List<IAttribute> listAttributes = AttributeHome.findCoreAttributes( locale );
+
         for ( IAttribute attribute : listAttributes )
         {
-        	List<AdminUserField> listUserFields = attribute.getUserFieldsData( request, user );
-        	for ( AdminUserField userField : listUserFields )
-        	{
-        		if ( userField != null )
-            	{
-            		AdminUserFieldHome.create( userField );
-            	}
-        	}
-        }
-        
-        // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( AdminUserFieldListenerService.class ) )
-        {
-        	adminUserFieldListenerService.doModifyUserFields( user, request, locale, currentUser );
-        }
-	}
+            List<AdminUserField> listUserFields = attribute.getUserFieldsData( request, user );
 
-	/**
-	 * Remove the user fields
-	 * @param user Adminuser
-	 * @param request HttpServletRequest
-	 * @param locale locale
-	 */
-	public static void doRemoveUserFields( AdminUser user, HttpServletRequest request, Locale locale )
-	{
-		AdminUserFieldHome.removeUserFieldsFromIdUser( user.getUserId(  ) );
-		
-		// Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( AdminUserFieldListenerService.class ) )
-        {
-        	adminUserFieldListenerService.doRemoveUserFields( user, request, locale );
+            for ( AdminUserField userField : listUserFields )
+            {
+                if ( userField != null )
+                {
+                    AdminUserFieldHome.create( userField );
+                }
+            }
         }
-	}
+
+        // Attributes associated to the plugins
+        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 
+                AdminUserFieldListenerService.class ) )
+        {
+            adminUserFieldListenerService.doModifyUserFields( user, request, locale, currentUser );
+        }
+    }
+
+    /**
+     * Remove the user fields
+     * @param user Adminuser
+     * @param request HttpServletRequest
+     * @param locale locale
+     */
+    public static void doRemoveUserFields( AdminUser user, HttpServletRequest request, Locale locale )
+    {
+        AdminUserFieldHome.removeUserFieldsFromIdUser( user.getUserId(  ) );
+
+        // Attributes associated to the plugins
+        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 
+                AdminUserFieldListenerService.class ) )
+        {
+            adminUserFieldListenerService.doRemoveUserFields( user, request, locale );
+        }
+    }
 }

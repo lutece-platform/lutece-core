@@ -37,15 +37,16 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.jpa.JPAGenericDAO;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+
 
 /**
  * Generic JPA DAO for Lutece components
  */
 public abstract class JPALuteceDAO<K, E> extends JPAGenericDAO<K, E>
 {
-
     private static final String BEAN_ENTITY_MANAGER_SERVICE = "entityManagerService";
     private static final String DEFAULT_PERSISTENCE_UNIT = "portal";
 
@@ -54,27 +55,29 @@ public abstract class JPALuteceDAO<K, E> extends JPAGenericDAO<K, E>
      * Override this method to define the plugin associated to this DAO
      * @return The plugin name
      */
-    public abstract String getPluginName();
+    public abstract String getPluginName(  );
 
     /**
      * Gets the entity manager to use with this DAO
      * @return The appropriate entity manager delivered by the EntityManagerService
      */
-    public EntityManagerFactory getEntityManagerFactory()
+    public EntityManagerFactory getEntityManagerFactory(  )
     {
         String strPersistenceUnit = DEFAULT_PERSISTENCE_UNIT;
         Plugin plugin = PluginService.getPlugin( getPluginName(  ) );
+
         if ( plugin != null )
         {
             strPersistenceUnit = plugin.getDbPoolName(  );
         }
-        EntityManagerService ems = (EntityManagerService) SpringContextService.getBean(BEAN_ENTITY_MANAGER_SERVICE);
-        return ems.getEntityManagerFactory(strPersistenceUnit);
+
+        EntityManagerService ems = (EntityManagerService) SpringContextService.getBean( BEAN_ENTITY_MANAGER_SERVICE );
+
+        return ems.getEntityManagerFactory( strPersistenceUnit );
     }
 
     protected Query createNativeQuery( String strSQL )
     {
-        return getEM(  ).createNativeQuery(strSQL);
+        return getEM(  ).createNativeQuery( strSQL );
     }
-
 }

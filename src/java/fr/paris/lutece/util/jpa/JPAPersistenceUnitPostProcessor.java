@@ -33,25 +33,26 @@
  */
 package fr.paris.lutece.util.jpa;
 
+import fr.paris.lutece.util.annotation.AnnotationUtil;
+
+import org.apache.log4j.Logger;
+
+import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
+import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;
+
 import java.util.Set;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
 
-import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
-import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;
-
-import fr.paris.lutece.util.annotation.AnnotationUtil;
-import org.apache.log4j.Logger;
 
 /**
- * 
+ *
  * JPAPersistenceUnitPostProcessor : adds classpath entities to the PersistenceUnitInfo
  */
 public class JPAPersistenceUnitPostProcessor implements PersistenceUnitPostProcessor
 {
-
     private static Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
 
     /**
@@ -60,22 +61,23 @@ public class JPAPersistenceUnitPostProcessor implements PersistenceUnitPostProce
      */
     public void postProcessPersistenceUnitInfo( MutablePersistenceUnitInfo pui )
     {
-    	_log.info( "Scanning for JPA entities..." );
+        _log.info( "Scanning for JPA entities..." );
 
-        Set<String> entityClasses = AnnotationUtil.find( Entity.class.getName() );
-        entityClasses.addAll( AnnotationUtil.find( Embeddable.class.getName() ) );
-        entityClasses.addAll( AnnotationUtil.find( MappedSuperclass.class.getName() ) );
+        Set<String> entityClasses = AnnotationUtil.find( Entity.class.getName(  ) );
+        entityClasses.addAll( AnnotationUtil.find( Embeddable.class.getName(  ) ) );
+        entityClasses.addAll( AnnotationUtil.find( MappedSuperclass.class.getName(  ) ) );
 
         for ( String strClass : entityClasses )
         {
             _log.info( "Found entity class : " + strClass );
-            if ( !pui.getManagedClassNames().contains( strClass ) )
+
+            if ( !pui.getManagedClassNames(  ).contains( strClass ) )
             {
                 pui.addManagedClassName( strClass );
             }
         }
 
-        if ( _log.isDebugEnabled() )
+        if ( _log.isDebugEnabled(  ) )
         {
             dumpPersistenceUnitInfo( pui );
         }
@@ -87,18 +89,18 @@ public class JPAPersistenceUnitPostProcessor implements PersistenceUnitPostProce
      */
     private void dumpPersistenceUnitInfo( MutablePersistenceUnitInfo pui )
     {
-        _log.debug( "Dumping content for PersistenceUnitInfo of " + pui.getPersistenceUnitName() );
+        _log.debug( "Dumping content for PersistenceUnitInfo of " + pui.getPersistenceUnitName(  ) );
 
-        _log.debug( "** getTransactionType : " + pui.getTransactionType() );
-        _log.debug( "** getPersistenceProviderClassName : " + pui.getPersistenceProviderClassName() );
-        _log.debug( "** getPersistenceProviderPackageName : " + pui.getPersistenceProviderPackageName() );
-        _log.debug( "** getPersistenceUnitName : " + pui.getPersistenceUnitName() );
-        _log.debug( "** getPersistenceXMLSchemaVersion : " + pui.getPersistenceXMLSchemaVersion() );
-        _log.debug( "** getJtaDataSource : " + pui.getJtaDataSource() );
-        _log.debug( "** getManagedClassNames : " + pui.getManagedClassNames() );
-        _log.debug( "** getMappingFileNames : " + pui.getMappingFileNames() );
-        _log.debug( "** getNonJtaDataSource : " + pui.getNonJtaDataSource() );
-        _log.debug( "** getPersistenceUnitRootUrl :" + pui.getPersistenceUnitRootUrl() );
-        _log.debug( "** getProperties : " + pui.getProperties() );
+        _log.debug( "** getTransactionType : " + pui.getTransactionType(  ) );
+        _log.debug( "** getPersistenceProviderClassName : " + pui.getPersistenceProviderClassName(  ) );
+        _log.debug( "** getPersistenceProviderPackageName : " + pui.getPersistenceProviderPackageName(  ) );
+        _log.debug( "** getPersistenceUnitName : " + pui.getPersistenceUnitName(  ) );
+        _log.debug( "** getPersistenceXMLSchemaVersion : " + pui.getPersistenceXMLSchemaVersion(  ) );
+        _log.debug( "** getJtaDataSource : " + pui.getJtaDataSource(  ) );
+        _log.debug( "** getManagedClassNames : " + pui.getManagedClassNames(  ) );
+        _log.debug( "** getMappingFileNames : " + pui.getMappingFileNames(  ) );
+        _log.debug( "** getNonJtaDataSource : " + pui.getNonJtaDataSource(  ) );
+        _log.debug( "** getPersistenceUnitRootUrl :" + pui.getPersistenceUnitRootUrl(  ) );
+        _log.debug( "** getProperties : " + pui.getProperties(  ) );
     }
 }

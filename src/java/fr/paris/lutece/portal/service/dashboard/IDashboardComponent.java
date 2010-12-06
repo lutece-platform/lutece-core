@@ -36,8 +36,9 @@ package fr.paris.lutece.portal.service.dashboard;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
+
 /**
- * 
+ *
  * IDashboardComponent
  *
  */
@@ -84,7 +85,7 @@ public interface IDashboardComponent extends Comparable<IDashboardComponent>
      * Sets the Zone
      * @param nZone The Zone
      */
-     void setZone( int nZone );
+    void setZone( int nZone );
 
     /**
      * Returns the Order

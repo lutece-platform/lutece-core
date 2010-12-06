@@ -37,6 +37,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
 *
 *Interface IResourceManager : enhance model and process additionnal actions
@@ -48,46 +49,45 @@ public interface IResourceManager
      * Add datas to the create document model use in the template
      * @param model the map use in the template
      */
-	void getCreateResourceModelAddOn( Map<String, Object> model );
+    void getCreateResourceModelAddOn( Map<String, Object> model );
 
-	/**
-     * Perform actions associated to the document creation
-     * @param request The HTTP request
-     * @param strResourceType the resource type
-     * @param nResourceId the resource id
-     */
-	void doCreateResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId );
-	
-	 /**
-     * Add datas to the modify document model use in the template
-     * @param model the map use in the template
-     * @param strResourceType the resource type
-     * @param nResourceId the resource id
-     */
-	void getModifyResourceModelAddOn( Map<String, Object> model, String strResourceType, int nResourceId );
+    /**
+    * Perform actions associated to the document creation
+    * @param request The HTTP request
+    * @param strResourceType the resource type
+    * @param nResourceId the resource id
+    */
+    void doCreateResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId );
 
-	/**
-     * Perform actions associated to the document modification
-     * @param request The HTTP request
-     * @param strResourceType the resource type
-     * @param nResourceId the resource id
-     */
-	void doModifyResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId );
-	
-	/**
-     * Perform actions associated to the document deletion
-     * @param request The HTTP request
-     * @param strResourceType the resource type
-     * @param nResourceId the resource id
-     */
-	void doDeleteResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId );
-	
-	/**
-     * Perform actions associated to the document download
-     * @param request The HTTP request
-     * @param strResourceType the resource type
-     * @param nResourceId the resource id
-     */
-	void doDownloadResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId );
-	
+    /**
+    * Add datas to the modify document model use in the template
+    * @param model the map use in the template
+    * @param strResourceType the resource type
+    * @param nResourceId the resource id
+    */
+    void getModifyResourceModelAddOn( Map<String, Object> model, String strResourceType, int nResourceId );
+
+    /**
+    * Perform actions associated to the document modification
+    * @param request The HTTP request
+    * @param strResourceType the resource type
+    * @param nResourceId the resource id
+    */
+    void doModifyResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId );
+
+    /**
+    * Perform actions associated to the document deletion
+    * @param request The HTTP request
+    * @param strResourceType the resource type
+    * @param nResourceId the resource id
+    */
+    void doDeleteResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId );
+
+    /**
+    * Perform actions associated to the document download
+    * @param request The HTTP request
+    * @param strResourceType the resource type
+    * @param nResourceId the resource id
+    */
+    void doDownloadResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId );
 }

@@ -128,14 +128,16 @@ public final class SecurityService
         if ( user == null )
         {
             // User is not registered by Lutece, but it may be authenticated by another system
-            if ( _authenticationService.isExternalAuthentication(  ) 
-            		|| _authenticationService.isMultiAuthenticationSupported(  ) )
+            if ( _authenticationService.isExternalAuthentication(  ) ||
+                    _authenticationService.isMultiAuthenticationSupported(  ) )
             {
                 user = _authenticationService.getHttpAuthenticatedUser( request );
-                if ( user == null && isPortalAuthenticationRequired(  ) )
+
+                if ( ( user == null ) && isPortalAuthenticationRequired(  ) )
                 {
-                	throw new UserNotSignedException(  );
+                    throw new UserNotSignedException(  );
                 }
+
                 registerUser( request, user );
             }
             else
@@ -489,22 +491,22 @@ public final class SecurityService
     {
         return _authenticationService.getUser( strUserLogin );
     }
-    
+
     /**
      * <b>true</b> when the service provides multi authentication support
      * @return <code>true</code> if multi authentication is supported, <code>false</code> otherwise.
      */
     public boolean isMultiAuthenticationSupported(  )
     {
-    	return _authenticationService.isMultiAuthenticationSupported(  );
+        return _authenticationService.isMultiAuthenticationSupported(  );
     }
-    
+
     /**
      * Gets the actual authentication implementatation
      * @return {@link LuteceAuthentication} implementation
      */
     public LuteceAuthentication getAuthenticationService(  )
     {
-    	return _authenticationService;
+        return _authenticationService;
     }
 }

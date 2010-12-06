@@ -217,9 +217,9 @@ public final class AdminUserHome
      */
     public static boolean hasRole( AdminUser user, String strRoleKey )
     {
-    	return _dao.hasRole( user.getUserId(  ), strRoleKey );
+        return _dao.hasRole( user.getUserId(  ), strRoleKey );
     }
-    
+
     /**
      * Remove role for an user
      * @param nUserId The ID of the user
@@ -227,8 +227,9 @@ public final class AdminUserHome
      */
     public static void removeRoleForUser( int nUserId, String strRoleKey )
     {
-    	_dao.deleteRoleForUser( nUserId, strRoleKey );
+        _dao.deleteRoleForUser( nUserId, strRoleKey );
     }
+
     //////////////////////////////////////////////////////////////////
     /// for no-module mode
 
@@ -287,7 +288,7 @@ public final class AdminUserHome
     {
         _dao.storeUsersRole( strOldRoleKey, role );
     }
-	
+
     /**
      * Get all users by using a filter.
      * @param auFilter The filter
@@ -305,9 +306,9 @@ public final class AdminUserHome
      */
     public static Collection<AdminUser> findByRight( String strIdRight )
     {
-    	return _dao.selectUsersByRight( strIdRight );
+        return _dao.selectUsersByRight( strIdRight );
     }
-    
+
     /**
      * Check if the user has the given right
      * @param user The Admin User
@@ -316,9 +317,9 @@ public final class AdminUserHome
      */
     public static boolean hasRight( AdminUser user, String strIdRight )
     {
-    	return _dao.hasRight( user.getUserId(  ), strIdRight );
+        return _dao.hasRight( user.getUserId(  ), strIdRight );
     }
-    
+
     /**
      * Remove a right for an user
      * @param nUserId The user ID
@@ -326,6 +327,6 @@ public final class AdminUserHome
      */
     public static void removeRightForUser( int nUserId, String strIdRight )
     {
-    	_dao.deleteRightForUser( nUserId, strIdRight );
+        _dao.deleteRightForUser( nUserId, strIdRight );
     }
 }

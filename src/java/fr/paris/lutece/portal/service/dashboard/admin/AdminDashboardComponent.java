@@ -35,12 +35,12 @@ package fr.paris.lutece.portal.service.dashboard.admin;
 
 import fr.paris.lutece.portal.service.dashboard.DashboardComponent;
 
+
 /**
- * 
+ *
  * Abstract implementation of {@link IAdminDashboardComponent}
  *
  */
-public abstract class AdminDashboardComponent extends DashboardComponent implements
-		IAdminDashboardComponent 
+public abstract class AdminDashboardComponent extends DashboardComponent implements IAdminDashboardComponent
 {
 }

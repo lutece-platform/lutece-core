@@ -84,6 +84,7 @@ public final class MailService
         item.setSenderEmail( strSenderEmail );
         item.setSubject( strSubject );
         item.setMessage( strMessage );
+
         IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
         queue.send( item );
     }
@@ -130,6 +131,7 @@ public final class MailService
         item.setSubject( strSubject );
         item.setMessage( strMessage );
         item.setFormat( MailItem.FORMAT_HTML );
+
         IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
         queue.send( item );
     }
@@ -183,6 +185,7 @@ public final class MailService
         item.setFormat( MailItem.FORMAT_MULTIPART_HTML );
         item.setUrlsAttachement( urlsAttachement );
         item.setFilesAttachement( filesAttachement );
+
         IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
         queue.send( item );
     }
@@ -228,6 +231,7 @@ public final class MailService
         item.setSubject( strSubject );
         item.setMessage( strMessage );
         item.setFormat( MailItem.FORMAT_TEXT );
+
         IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
         queue.send( item );
     }
@@ -278,6 +282,7 @@ public final class MailService
         item.setMessage( strMessage );
         item.setFormat( MailItem.FORMAT_MULTIPART_TEXT );
         item.setFilesAttachement( filesAttachement );
+
         IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
         queue.send( item );
     }
@@ -312,6 +317,7 @@ public final class MailService
     public static IMailQueue getQueue(  )
     {
         IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
+
         return queue;
     }
 
@@ -329,8 +335,8 @@ public final class MailService
 
         if ( queue.size(  ) != 0 )
         {
-            sbLogs.append("\r\nLast mails sent ");
-            sbLogs.append(new Date().toString());
+            sbLogs.append( "\r\nLast mails sent " );
+            sbLogs.append( new Date(  ).toString(  ) );
 
             Session session = MailUtil.getMailSession( strHost );
             Transport transportSmtp = null;
@@ -359,9 +365,9 @@ public final class MailService
                             sbLogs.append( "\r\n - To " );
                             sbLogs.append( ( ( mail.getRecipientsTo(  ) != null ) ? mail.getRecipientsTo(  ) : "" ) );
                             sbLogs.append( " - Cc " );
-                            sbLogs.append( ( mail.getRecipientsCc(  ) != null ) ? mail.getRecipientsCc(  ) : ""  );
+                            sbLogs.append( ( mail.getRecipientsCc(  ) != null ) ? mail.getRecipientsCc(  ) : "" );
                             sbLogs.append( " - Bcc " );
-                            sbLogs.append    ( ( mail.getRecipientsBcc(  ) != null ) ? mail.getRecipientsBcc(  ) : "" );
+                            sbLogs.append( ( mail.getRecipientsBcc(  ) != null ) ? mail.getRecipientsBcc(  ) : "" );
                             sbLogs.append( " - Subject : " );
                             sbLogs.append( mail.getSubject(  ) );
 

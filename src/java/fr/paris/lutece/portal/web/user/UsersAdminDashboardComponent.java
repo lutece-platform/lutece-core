@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.web.user;
 
-import java.util.Map;
-
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -44,31 +42,34 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import java.util.Map;
+
+
 /**
- * 
+ *
  * UsersAdminDashboardComponent.
  */
 public class UsersAdminDashboardComponent extends AdminDashboardComponent
 {
-	private static final String EMPTY_STRING = "";
-	private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/user/user_admindashboard.html";
+    private static final String EMPTY_STRING = "";
+    private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/user/user_admindashboard.html";
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getDashboardData( AdminUser user )
-	{
-		if ( RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, 
-        		RBAC.WILDCARD_RESOURCES_ID,	AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user ) )
-		{
-			Map<String, Object> model = AdminUserService.getManageAdvancedParameters( user );
-			HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_DASHBOARD, user.getLocale(), model );
+    /**
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDashboardData( AdminUser user )
+    {
+        if ( RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user ) )
+        {
+            Map<String, Object> model = AdminUserService.getManageAdvancedParameters( user );
+            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_DASHBOARD, user.getLocale(  ), model );
 
-			return template.getHtml(  );
-		}
-		return EMPTY_STRING;
-	}
+            return template.getHtml(  );
+        }
 
+        return EMPTY_STRING;
+    }
 }

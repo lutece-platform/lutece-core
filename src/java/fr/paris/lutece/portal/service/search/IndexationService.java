@@ -209,11 +209,13 @@ public final class IndexationService
                         _sbLogs.append( indexer.getName(  ) );
                         _sbLogs.append( " - ERROR : " );
                         _sbLogs.append( e.getMessage(  ) );
+
                         if ( e.getCause(  ) != null )
                         {
-                        	 _sbLogs.append( " : " );
-                        	 _sbLogs.append(  e.getCause(  ).getMessage(  ) );
+                            _sbLogs.append( " : " );
+                            _sbLogs.append( e.getCause(  ).getMessage(  ) );
                         }
+
                         _sbLogs.append( "</strong>\r\n" );
                     }
                 }

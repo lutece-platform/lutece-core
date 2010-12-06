@@ -31,19 +31,19 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.jpa;
+
 
 /**
  * Generic JPA DAO for Lutece core components
  */
 public abstract class JPALuteceCoreDAO<K, E> extends JPALuteceDAO<K, E>
 {
-    @Override
     /**
      * Overridden method for core components
      */
-    public String getPluginName()
+    @Override
+    public String getPluginName(  )
     {
         return "core";
     }

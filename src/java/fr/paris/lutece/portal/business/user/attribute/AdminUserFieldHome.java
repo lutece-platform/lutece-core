@@ -33,102 +33,103 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
-import java.util.List;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+import java.util.List;
+
+
 /**
- * 
+ *
  * AdminUserFieldHome
  *
  */
-public class AdminUserFieldHome 
+public class AdminUserFieldHome
 {
-	private static IAdminUserFieldDAO _dao = (IAdminUserFieldDAO) SpringContextService.getBean( "adminUserFieldDAO" );
+    private static IAdminUserFieldDAO _dao = (IAdminUserFieldDAO) SpringContextService.getBean( "adminUserFieldDAO" );
 
-	/**
-	 * Load the user field
-	 * @param nIdUserField ID
-	 * @return AdminUserField
-	 */
-	public static AdminUserField findByPrimaryKey( int nIdUserField )
-	{
-		return _dao.load( nIdUserField );
-	}
-		
-	/**
-	 * Insert a new user field
-	 * @param userField the user field
-	 */
-	public static void create( AdminUserField userField )
-	{
-		_dao.insert( userField );
-	}
-	
-	/**
-	 * Update an user field 
-	 * @param attribute the attribute
-	 */
-	public static void update( AdminUserField userField )
-	{
-		_dao.store( userField );
-	}
-	
-	/**
-	 * Delete an attribute
-	 * @param nIdUserField the ID of the user field
-	 */
-	public static void remove( int nIdUserField )
-	{
-		_dao.delete( nIdUserField );
-	}
-	
-	/**
-	 * Delete all user fields from given id field
-	 * @param nIdField id field
-	 */
-	public static void removeUserFieldsFromIdField( int nIdField )
-	{
-		_dao.deleteUserFieldsFromIdField( nIdField );
-	}
-	
-	/**
-	 * Delete all user fields from given id user
-	 * @param nIdUser id user
-	 */
-	public static void removeUserFieldsFromIdUser( int nIdUser )
-	{
-		_dao.deleteUserFieldsFromIdUser( nIdUser );
-	}
-	
-	/**
-	 * Delete all user fields from given id attribute
-	 * @param nIdAttribute id attribute
-	 */
-	public static void removeUserFieldsFromIdAttribute( int nIdAttribute )
-	{
-		_dao.deleteUserFieldsFromIdAttribute( nIdAttribute );
-	}
+    /**
+     * Load the user field
+     * @param nIdUserField ID
+     * @return AdminUserField
+     */
+    public static AdminUserField findByPrimaryKey( int nIdUserField )
+    {
+        return _dao.load( nIdUserField );
+    }
 
-	/**
-	 * Load all the user field by a given ID user and a given ID attribute
-	 * @param nIdUser the ID user
-	 * @param nIdAttribute
-	 * @return a list of adminuserfield
-	 */
-	public static List<AdminUserField> selectUserFieldsByIdUserIdAttribute( int nIdUser, int nIdAttribute )
-	{
-		return _dao.selectUserFieldsByIdUserIdAttribute( nIdUser, nIdAttribute );
-	}
+    /**
+     * Insert a new user field
+     * @param userField the user field
+     */
+    public static void create( AdminUserField userField )
+    {
+        _dao.insert( userField );
+    }
 
-	/**
-	 * Load users by a given filter
-	 * @param auFieldFilter the filter
-	 * @return a list of users
-	 */
-	public static List<AdminUser> findUsersByFilter( AdminUserFieldFilter auFieldFilter )
-	{
-		return _dao.selectUsersByFilter( auFieldFilter );
-	}
+    /**
+     * Update an user field
+     * @param attribute the attribute
+     */
+    public static void update( AdminUserField userField )
+    {
+        _dao.store( userField );
+    }
+
+    /**
+     * Delete an attribute
+     * @param nIdUserField the ID of the user field
+     */
+    public static void remove( int nIdUserField )
+    {
+        _dao.delete( nIdUserField );
+    }
+
+    /**
+     * Delete all user fields from given id field
+     * @param nIdField id field
+     */
+    public static void removeUserFieldsFromIdField( int nIdField )
+    {
+        _dao.deleteUserFieldsFromIdField( nIdField );
+    }
+
+    /**
+     * Delete all user fields from given id user
+     * @param nIdUser id user
+     */
+    public static void removeUserFieldsFromIdUser( int nIdUser )
+    {
+        _dao.deleteUserFieldsFromIdUser( nIdUser );
+    }
+
+    /**
+     * Delete all user fields from given id attribute
+     * @param nIdAttribute id attribute
+     */
+    public static void removeUserFieldsFromIdAttribute( int nIdAttribute )
+    {
+        _dao.deleteUserFieldsFromIdAttribute( nIdAttribute );
+    }
+
+    /**
+     * Load all the user field by a given ID user and a given ID attribute
+     * @param nIdUser the ID user
+     * @param nIdAttribute
+     * @return a list of adminuserfield
+     */
+    public static List<AdminUserField> selectUserFieldsByIdUserIdAttribute( int nIdUser, int nIdAttribute )
+    {
+        return _dao.selectUserFieldsByIdUserIdAttribute( nIdUser, nIdAttribute );
+    }
+
+    /**
+     * Load users by a given filter
+     * @param auFieldFilter the filter
+     * @return a list of users
+     */
+    public static List<AdminUser> findUsersByFilter( AdminUserFieldFilter auFieldFilter )
+    {
+        return _dao.selectUsersByFilter( auFieldFilter );
+    }
 }

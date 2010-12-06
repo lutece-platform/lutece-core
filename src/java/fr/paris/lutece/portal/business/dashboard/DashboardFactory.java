@@ -33,69 +33,70 @@
  */
 package fr.paris.lutece.portal.business.dashboard;
 
+import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
+import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
-import fr.paris.lutece.portal.service.util.AppLogService;
 
 /**
  * Factory for {@link IDashboardComponent}
- * 
+ *
  */
 public final class DashboardFactory
 {
-	private static Map<String, IDashboardComponent> _mapDashboardComponents = new HashMap<String, IDashboardComponent>();
+    private static Map<String, IDashboardComponent> _mapDashboardComponents = new HashMap<String, IDashboardComponent>(  );
 
-	/**
-	 * Empty constructor
-	 */
-	private DashboardFactory()
-	{
-		// nothing
-	}
+    /**
+     * Empty constructor
+     */
+    private DashboardFactory(  )
+    {
+        // nothing
+    }
 
-	/**
-	 * Registers the new component. Name must be unique
-	 * @param dashboardComponent the component to register
-	 * @return <code>true</code> if registered, <code>false</code> otherwise.
-	 */
-	public static boolean registerDashboardComponent( IDashboardComponent dashboardComponent )
-	{
-		String strName = dashboardComponent.getName(  );
+    /**
+     * Registers the new component. Name must be unique
+     * @param dashboardComponent the component to register
+     * @return <code>true</code> if registered, <code>false</code> otherwise.
+     */
+    public static boolean registerDashboardComponent( IDashboardComponent dashboardComponent )
+    {
+        String strName = dashboardComponent.getName(  );
 
-		if ( _mapDashboardComponents.containsKey( strName ) )
-		{
-			AppLogService.error( "Error while registering  dashboard for " + strName + " class=" + 
-					dashboardComponent.getClass(  ) + ", factory already contains class="
-					+ _mapDashboardComponents.get( strName ) );
+        if ( _mapDashboardComponents.containsKey( strName ) )
+        {
+            AppLogService.error( "Error while registering  dashboard for " + strName + " class=" +
+                dashboardComponent.getClass(  ) + ", factory already contains class=" +
+                _mapDashboardComponents.get( strName ) );
 
-			return false;
-		}
+            return false;
+        }
 
-		_mapDashboardComponents.put( strName, dashboardComponent );
+        _mapDashboardComponents.put( strName, dashboardComponent );
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Gets the {@link IDashboardComponent} for the given name
-	 * @param strName the name
-	 * @return The component found, <code>null</code> otherwise.
-	 */
-	public static IDashboardComponent getDashboardComponent( String strName )
-	{
-		return _mapDashboardComponents.get( strName );
-	}
+    /**
+     * Gets the {@link IDashboardComponent} for the given name
+     * @param strName the name
+     * @return The component found, <code>null</code> otherwise.
+     */
+    public static IDashboardComponent getDashboardComponent( String strName )
+    {
+        return _mapDashboardComponents.get( strName );
+    }
 
-	/**
-	 * Finds all registered dashboards
-	 * @return the list
-	 */
-	public static List<IDashboardComponent> getAllDashboardComponents(  )
-	{
-		return new ArrayList<IDashboardComponent>( _mapDashboardComponents.values() );
-	}
+    /**
+     * Finds all registered dashboards
+     * @return the list
+     */
+    public static List<IDashboardComponent> getAllDashboardComponents(  )
+    {
+        return new ArrayList<IDashboardComponent>( _mapDashboardComponents.values(  ) );
+    }
 }

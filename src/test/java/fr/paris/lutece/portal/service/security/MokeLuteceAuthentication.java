@@ -150,23 +150,28 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
         return null;
     }
 
-	public boolean isDelegatedAuthentication() {
-		return false;
-	}
+    public boolean isDelegatedAuthentication(  )
+    {
+        return false;
+    }
 
-	public boolean isMultiAuthenticationSupported() {
-		return false;
-	}
+    public boolean isMultiAuthenticationSupported(  )
+    {
+        return false;
+    }
 
-	public String getIconUrl() {
-		return null;
-	}
+    public String getIconUrl(  )
+    {
+        return null;
+    }
 
-	public String getName() {
-		return null;
-	}
+    public String getName(  )
+    {
+        return null;
+    }
 
-	public String getPluginName() {
-		return null;
-	}
+    public String getPluginName(  )
+    {
+        return null;
+    }
 }

@@ -37,6 +37,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
 *
 *Interface IResourceDisplayManager : enhance portlet XML or model with additionnel info
@@ -50,9 +51,8 @@ public interface IResourceDisplayManager
      * @param strResourceType the resource type
      * @param nResourceId The resource Id
      */
-	void getXmlAddOn( StringBuffer strXml, String strResourceType, int nResourceId );
-	
-	
+    void getXmlAddOn( StringBuffer strXml, String strResourceType, int nResourceId );
+
     /**
      * Add datas to the model use by document template
      *
@@ -61,6 +61,6 @@ public interface IResourceDisplayManager
      * @param strPortletId The portlet ID
      * @param request The HTTP Request
      */
-	void  buildPageAddOn( Map<String, Object> model, String strResourceType ,int nIdResource, String strPortletId, HttpServletRequest request ); 
-	
+    void buildPageAddOn( Map<String, Object> model, String strResourceType, int nIdResource, String strPortletId,
+        HttpServletRequest request );
 }

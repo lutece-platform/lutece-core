@@ -33,41 +33,42 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
+
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
 
 /**
- * 
+ *
  * AdminUserFieldListener
  *
  */
-public interface AdminUserFieldListener 
+public interface AdminUserFieldListener
 {
-	/**
-	 * Create user fields
-	 * @param user Adminuser
-	 * @param request HttpServletRequest
-	 * @param locale locale
-	 */
-	void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale );
-	
-	/**
-	 * Modify user fields
-	 * @param user Adminuser
-	 * @param request HttpServletRequest
-	 * @param locale locale
-	 * @param currentUser current user
-	 */
-	void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale, AdminUser currentUser );
-	
-	/**
-	 * Remove user fields
-	 * @param user Adminuser
-	 * @param request HttpServletRequest
-	 * @param locale locale
-	 */
-	void doRemoveUserFields( AdminUser user, HttpServletRequest request, Locale locale );
+    /**
+     * Create user fields
+     * @param user Adminuser
+     * @param request HttpServletRequest
+     * @param locale locale
+     */
+    void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale );
+
+    /**
+     * Modify user fields
+     * @param user Adminuser
+     * @param request HttpServletRequest
+     * @param locale locale
+     * @param currentUser current user
+     */
+    void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale, AdminUser currentUser );
+
+    /**
+     * Remove user fields
+     * @param user Adminuser
+     * @param request HttpServletRequest
+     * @param locale locale
+     */
+    void doRemoveUserFields( AdminUser user, HttpServletRequest request, Locale locale );
 }

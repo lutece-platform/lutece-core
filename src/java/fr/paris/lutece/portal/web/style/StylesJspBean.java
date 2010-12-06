@@ -146,8 +146,8 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
 
-        LocalizedPaginator paginator = new LocalizedPaginator( listStyles, _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX,
-                _strCurrentPageIndex , getLocale() );
+        LocalizedPaginator paginator = new LocalizedPaginator( listStyles, _nItemsPerPage, strURL,
+                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );

@@ -33,25 +33,27 @@
  */
 package fr.paris.lutece.util.pool.service;
 
+import fr.paris.lutece.portal.service.util.AppException;
+
+import org.apache.log4j.Logger;
+
 import java.io.PrintWriter;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
-
-import fr.paris.lutece.portal.service.util.AppException;
-
 
 /**
  * This class manages a database connection pool.
  * <br>
- * Connections are wrapped by a {@link LuteceConnectionWrapper} 
+ * Connections are wrapped by a {@link LuteceConnectionWrapper}
  * to avoid explicit calls to {@link Connection#close()}. Connections
  * are released to this pool when {@link Connection#close()} is called, and
  * are not actually closed until {@link #release()} call.
@@ -294,7 +296,7 @@ public class ConnectionPool implements DataSource
         {
             conn = DriverManager.getConnection( _strUrl, _strUser, _strPassword );
         }
-        
+
         // wrap connection so this connection pool is used when conn.close() is called
         conn = new LuteceConnectionWrapper( conn, this );
 
@@ -327,14 +329,15 @@ public class ConnectionPool implements DataSource
         {
             try
             {
-            	if ( connection instanceof LuteceConnectionWrapper )
-            	{
-            		( (LuteceConnectionWrapper) connection ).getWrappee().close();
-            	}
-            	else
-            	{
-            		connection.close(  );
-            	}
+                if ( connection instanceof LuteceConnectionWrapper )
+                {
+                    ( (LuteceConnectionWrapper) connection ).getWrappee(  ).close(  );
+                }
+                else
+                {
+                    connection.close(  );
+                }
+
                 _logger.debug( "Closed connection" );
             }
             catch ( SQLException e )
@@ -393,14 +396,16 @@ public class ConnectionPool implements DataSource
         return _nMaxConns;
     }
 
-    public Connection getConnection( String username, String password ) throws SQLException
+    public Connection getConnection( String username, String password )
+        throws SQLException
     {
-        return getConnection();
+        return getConnection(  );
     }
 
-    public PrintWriter getLogWriter() throws SQLException
+    public PrintWriter getLogWriter(  ) throws SQLException
     {
         _logger.debug( "ConnectionPool : DataSource getLogWriter called" );
+
         return _logWriter;
     }
 
@@ -412,10 +417,9 @@ public class ConnectionPool implements DataSource
 
     public void setLoginTimeout( int seconds ) throws SQLException
     {
-
     }
 
-    public int getLoginTimeout() throws SQLException
+    public int getLoginTimeout(  ) throws SQLException
     {
         return _nTimeOut;
     }
@@ -429,5 +433,4 @@ public class ConnectionPool implements DataSource
     {
         return false;
     }
-
 }

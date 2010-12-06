@@ -197,7 +197,7 @@ public final class XmlUtil
 
         strXmlBuffer.append( TAG_CLOSE_END );
     }
-    
+
     /**
      * Add an element to an XML document buffer with attributes
      *
@@ -210,6 +210,7 @@ public final class XmlUtil
     {
         strXmlBuffer.append( TAG_BEGIN );
         strXmlBuffer.append( strTag );
+
         if ( attrList != null )
         {
             Iterator<?> iterator = attrList.keySet(  ).iterator(  );
@@ -221,6 +222,7 @@ public final class XmlUtil
                     TAG_ENCLOSED );
             }
         }
+
         strXmlBuffer.append( ">" );
         strXmlBuffer.append( strValue );
         strXmlBuffer.append( TAG_CLOSE_BEGIN );
@@ -257,7 +259,7 @@ public final class XmlUtil
         strXmlBuffer.append( strTag );
         strXmlBuffer.append( TAG_END );
     }
-    
+
     /**
      * Add a CDATA type element to XML document buffer.
      *
@@ -270,7 +272,7 @@ public final class XmlUtil
     {
         strXmlBuffer.append( TAG_BEGIN );
         strXmlBuffer.append( strTag );
-        
+
         if ( attrList != null )
         {
             Iterator<?> iterator = attrList.keySet(  ).iterator(  );
@@ -282,7 +284,7 @@ public final class XmlUtil
                     TAG_ENCLOSED );
             }
         }
-        
+
         strXmlBuffer.append( "><![CDATA[" );
         strXmlBuffer.append( strValue );
         strXmlBuffer.append( "]]></" );

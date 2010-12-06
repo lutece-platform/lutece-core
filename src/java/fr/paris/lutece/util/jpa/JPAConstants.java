@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.util.jpa;
 
+
 /**
  * JPAConstants
  */
 public final class JPAConstants
 {
-	public static final String JPA_LOGGER = "lutece.jpa";
-
+    public static final String JPA_LOGGER = "lutece.jpa";
 }

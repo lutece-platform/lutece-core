@@ -33,14 +33,6 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
@@ -61,15 +53,23 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.url.UrlItem;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * This service provides features concerning the administration users
  */
 public final class AdminUserService
 {
-	// PROPERTIES
+    // PROPERTIES
     private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
-    
+
     // MARKS
     private static final String MARK_SEARCH_IS_SEARCH = "search_is_search";
     private static final String MARK_SEARCH_ADMIN_USER_FILTER = "search_admin_user_filter";
@@ -77,7 +77,6 @@ public final class AdminUserService
     private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
     private static final String MARK_LOCALE = "locale";
     private static final String MARK_SORT_SEARCH_ATTRIBUTE = "sort_search_attribute";
-    
     public static final String MARK_DEFAULT_USER_LEVEL = "default_user_level";
     public static final String MARK_DEFAULT_USER_NOTIFICATION = "default_user_notification";
     public static final String MARK_DEFAULT_USER_LANGUAGE = "default_user_language";
@@ -87,7 +86,7 @@ public final class AdminUserService
     public static final String MARK_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
     public static final String MARK_ENCRYPTION_ALGORITHM = "encryption_algorithm";
     public static final String MARK_ENCRYPTION_ALGORITHMS_LIST = "encryption_algorithms_list";
-    
+
     // PARAMETER
     public static final String PARAMETER_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
     public static final String PARAMETER_ENCRYPTION_ALGORITHM = "encryption_algorithm";
@@ -95,13 +94,8 @@ public final class AdminUserService
     public static final String PARAMETER_DEFAULT_USER_NOTIFICATION = "default_user_notification";
     public static final String PARAMETER_DEFAULT_USER_LANGUAGE = "default_user_language";
     public static final String PARAMETER_DEFAULT_USER_STATUS = "default_user_status";
-    
     private static final String PROPERTY_ENCRYPTION_ALGORITHMS_LIST = "encryption.algorithmsList";
-    
-    
     private static final String CONSTANT_VIRGULE = ",";
-
-    
 
     /** Private constructor */
     private AdminUserService(  )
@@ -162,7 +156,7 @@ public final class AdminUserService
 
         return bLevelRight;
     }
-    
+
     /**
      * Get the filtered list of admin users
      * @param listUsers the initial list of users
@@ -171,141 +165,150 @@ public final class AdminUserService
      * @param url URL of the current interface
      * @return The filtered list of admin users
      */
-    public static List<AdminUser> getFilteredUsersInterface
-    	( List<AdminUser> listUsers, HttpServletRequest request, Map<String, Object> model, UrlItem url )
+    public static List<AdminUser> getFilteredUsersInterface( List<AdminUser> listUsers, HttpServletRequest request,
+        Map<String, Object> model, UrlItem url )
     {
-    	AdminUser currentUser = getAdminUser( request );
-    	
-    	// FILTER
+        AdminUser currentUser = getAdminUser( request );
+
+        // FILTER
         AdminUserFilter auFilter = new AdminUserFilter(  );
         List<AdminUser> listFilteredUsers = new ArrayList<AdminUser>(  );
         boolean bIsSearch = auFilter.setAdminUserFilter( request );
         boolean bIsFiltered;
-        
+
         for ( AdminUser filteredUser : AdminUserHome.findUserByFilter( auFilter ) )
         {
-        	bIsFiltered = Boolean.FALSE;
-        	
-        	for( AdminUser user : listUsers )
-        	{
-        		if ( user.getUserId(  ) == filteredUser.getUserId(  ) )
-                {
-            		bIsFiltered = Boolean.TRUE;
-            		break;
-                }
-        	}
-        	
-        	if ( bIsFiltered &&
-                    ( ( currentUser.isParent( filteredUser ) || ( currentUser.isAdmin(  ) ) ) ) )
+            bIsFiltered = Boolean.FALSE;
+
+            for ( AdminUser user : listUsers )
             {
-        		listFilteredUsers.add( filteredUser );
+                if ( user.getUserId(  ) == filteredUser.getUserId(  ) )
+                {
+                    bIsFiltered = Boolean.TRUE;
+
+                    break;
+                }
+            }
+
+            if ( bIsFiltered && ( currentUser.isParent( filteredUser ) || ( currentUser.isAdmin(  ) ) ) )
+            {
+                listFilteredUsers.add( filteredUser );
             }
         }
-        
+
         List<AdminUser> filteredUsers = new ArrayList<AdminUser>(  );
-        
-    	AdminUserFieldFilter auFieldFilter= new AdminUserFieldFilter(  );
+
+        AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
         auFieldFilter.setAdminUserFieldFilter( request, currentUser.getLocale(  ) );
+
         List<AdminUser> listFilteredUsersByUserFields = AdminUserFieldHome.findUsersByFilter( auFieldFilter );
-        
+
         if ( listFilteredUsersByUserFields != null )
         {
-        	for ( AdminUser filteredUser : listFilteredUsers )
+            for ( AdminUser filteredUser : listFilteredUsers )
             {
-            	for ( AdminUser filteredUserByUserField : listFilteredUsersByUserFields )
-            	{
-            		if ( filteredUser.getUserId(  ) == filteredUserByUserField.getUserId(  ) )
-            		{
-            			filteredUsers.add( filteredUser );
-            		}
-            	}
+                for ( AdminUser filteredUserByUserField : listFilteredUsersByUserFields )
+                {
+                    if ( filteredUser.getUserId(  ) == filteredUserByUserField.getUserId(  ) )
+                    {
+                        filteredUsers.add( filteredUser );
+                    }
+                }
             }
         }
         else
         {
-        	filteredUsers = listFilteredUsers;
+            filteredUsers = listFilteredUsers;
         }
-        
+
         List<IAttribute> listAttributes = AttributeHome.findAll( currentUser.getLocale(  ) );
+
         for ( IAttribute attribute : listAttributes )
         {
-        	List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
-        	attribute.setListAttributeFields( listAttributeFields );
+            List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
+            attribute.setListAttributeFields( listAttributeFields );
         }
-        
+
         String strSortSearchAttribute = "";
-        if( bIsSearch )
+
+        if ( bIsSearch )
         {
-        	auFilter.setUrlAttributes( url );
-        	strSortSearchAttribute = "&" + auFilter.getUrlAttributes(  );
-        	auFieldFilter.setUrlAttributes( url );
-        	strSortSearchAttribute = auFieldFilter.getUrlAttributes(  );
+            auFilter.setUrlAttributes( url );
+            strSortSearchAttribute = "&" + auFilter.getUrlAttributes(  );
+            auFieldFilter.setUrlAttributes( url );
+            strSortSearchAttribute = auFieldFilter.getUrlAttributes(  );
         }
-        
+
         model.put( MARK_SEARCH_ADMIN_USER_FILTER, auFilter );
         model.put( MARK_SEARCH_IS_SEARCH, bIsSearch );
         model.put( MARK_SEARCH_ADMIN_USER_FIELD_FILTER, auFieldFilter );
         model.put( MARK_LOCALE, currentUser.getLocale(  ) );
         model.put( MARK_ATTRIBUTES_LIST, listAttributes );
         model.put( MARK_SORT_SEARCH_ATTRIBUTE, strSortSearchAttribute );
-        
+
         return filteredUsers;
     }
-    
-    
+
     /**
      * Build the advanced parameters management
      * @param request HttpServletRequest
      * @return The model for the advanced parameters
      */
     public static Map<String, Object> getManageAdvancedParameters( AdminUser user )
-    {   	
-    	Map<String, Object> model = new HashMap<String, Object>(  );
-    	
-    	boolean bPermissionManageAdvancedParameters = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, 
-    			AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user );
-    	boolean bPermissionManageEncryptedPassword = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, 
-    			AdminUserResourceIdService.PERMISSION_MANAGE_ENCRYPTED_PASSWORD, user );
-    	
-    	if ( bPermissionManageAdvancedParameters )
-    	{
-    		// Encryption Password
-    		if ( bPermissionManageEncryptedPassword )
-    		{
-    			model.put( MARK_ENABLE_PASSWORD_ENCRYPTION, 
-        				DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) );
-            	model.put( MARK_ENCRYPTION_ALGORITHM, 
-            			DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  ) );
-            	String[] listAlgorithms = AppPropertiesService.getProperty( PROPERTY_ENCRYPTION_ALGORITHMS_LIST ).split( CONSTANT_VIRGULE );
-            	for ( String strAlgorithm : listAlgorithms )
-            	{
-            		strAlgorithm.trim(  );
-            	}
-            	model.put( MARK_ENCRYPTION_ALGORITHMS_LIST, listAlgorithms );
-    		}
-    		// USER LEVEL 
-            String strDefaultLevel = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LEVEL ).getParameterValue(  );
+    {
+        Map<String, Object> model = new HashMap<String, Object>(  );
+
+        boolean bPermissionManageAdvancedParameters = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE,
+                RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user );
+        boolean bPermissionManageEncryptedPassword = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE,
+                RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ENCRYPTED_PASSWORD, user );
+
+        if ( bPermissionManageAdvancedParameters )
+        {
+            // Encryption Password
+            if ( bPermissionManageEncryptedPassword )
+            {
+                model.put( MARK_ENABLE_PASSWORD_ENCRYPTION,
+                    DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) );
+                model.put( MARK_ENCRYPTION_ALGORITHM,
+                    DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  ) );
+
+                String[] listAlgorithms = AppPropertiesService.getProperty( PROPERTY_ENCRYPTION_ALGORITHMS_LIST )
+                                                              .split( CONSTANT_VIRGULE );
+
+                for ( String strAlgorithm : listAlgorithms )
+                {
+                    strAlgorithm.trim(  );
+                }
+
+                model.put( MARK_ENCRYPTION_ALGORITHMS_LIST, listAlgorithms );
+            }
+
+            // USER LEVEL 
+            String strDefaultLevel = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LEVEL )
+                                                             .getParameterValue(  );
             Level defaultLevel = LevelHome.findByPrimaryKey( Integer.parseInt( strDefaultLevel ) );
-            
+
             // USER NOTIFICATION
-            int nDefaultUserNotification = Integer.parseInt( 
-            		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_NOTIFICATION ).getParameterValue(  ) );
-        	
+            int nDefaultUserNotification = Integer.parseInt( DefaultUserParameterHome.findByKey( 
+                        PARAMETER_DEFAULT_USER_NOTIFICATION ).getParameterValue(  ) );
+
             // USER LANGUAGE
             ReferenceList listLanguages = I18nService.getAdminLocales( user.getLocale(  ) );
-            String strDefaultUserLanguage = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LANGUAGE ).getParameterValue(  );
-            
+            String strDefaultUserLanguage = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LANGUAGE )
+                                                                    .getParameterValue(  );
+
             // USER STATUS
-            int nDefaultUserStatus = Integer.parseInt( 
-            		DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_STATUS ).getParameterValue(  ) );
-            
+            int nDefaultUserStatus = Integer.parseInt( DefaultUserParameterHome.findByKey( 
+                        PARAMETER_DEFAULT_USER_STATUS ).getParameterValue(  ) );
+
             model.put( MARK_USER_LEVELS_LIST, LevelHome.getLevelsList(  ) );
             model.put( MARK_DEFAULT_USER_LEVEL, defaultLevel );
             model.put( MARK_DEFAULT_USER_NOTIFICATION, nDefaultUserNotification );
             model.put( MARK_LANGUAGES_LIST, listLanguages );
             model.put( MARK_DEFAULT_USER_LANGUAGE, strDefaultUserLanguage );
             model.put( MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
-    	}
+        }
 
         return model;
     }

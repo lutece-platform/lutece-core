@@ -50,6 +50,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
+
 import javax.sql.DataSource;
 
 
@@ -296,6 +297,6 @@ public final class PoolManager
      */
     public DataSource getDataSource( String strPoolName )
     {
-        return _pools.get( strPoolName ).getDataSource();
+        return _pools.get( strPoolName ).getDataSource(  );
     }
 }

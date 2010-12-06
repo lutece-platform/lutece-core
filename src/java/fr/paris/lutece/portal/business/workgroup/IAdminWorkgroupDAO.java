@@ -142,7 +142,7 @@ public interface IAdminWorkgroupDAO
      * @param strWorkgroupKey The workgroup key
      */
     void deleteUserFromWorkgroup( int userId, String strWorkgroupKey );
-    
+
     /**
      * Find workgroups from a filter
      * @param awFilter the filter

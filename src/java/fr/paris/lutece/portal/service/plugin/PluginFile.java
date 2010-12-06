@@ -588,23 +588,23 @@ public class PluginFile
     {
         return _listDashboardComponents;
     }
-    
+
     /**
      * Add a {@link DashboardComponentEntry} to the plugin definition
      * @param dashboardComponent the admin dashboard component
      */
     public void addAdminDashboardComponent( DashboardComponentEntry dashboardComponent )
     {
-    	_listAdminDashboardComponents.add( dashboardComponent );
+        _listAdminDashboardComponents.add( dashboardComponent );
     }
-    
+
     /**
      * Returns all admin dashbaord compopents of the plugin
      * @return the list of admin dashbaord components
      */
     public List<DashboardComponentEntry> getAdminDashboardComponents(  )
     {
-    	return _listAdminDashboardComponents;
+        return _listAdminDashboardComponents;
     }
 
     /**

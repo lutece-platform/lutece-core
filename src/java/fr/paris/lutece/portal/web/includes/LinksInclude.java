@@ -57,8 +57,7 @@ import javax.servlet.http.HttpServletRequest;
 public class LinksInclude implements PageInclude
 {
     private static final String PROPERTY_FAVOURITE = "lutece.favourite";
-    
-    private static final String PARAMETER_PAGE = "page";    
+    private static final String PARAMETER_PAGE = "page";
     private static final String MARK_FAVOURITE = "favourite";
     private static final String MARK_PLUGIN_THEME_CSS = "plugin_theme";
     private static final String MARK_PLUGINS_CSS_LINKS = "plugins_css_links";
@@ -66,7 +65,7 @@ public class LinksInclude implements PageInclude
     private static final String MARK_PLUGIN_CSS_STYLESHEET = "plugin_css_stylesheet";
     private static final String MARK_PLUGIN_JAVASCRIPT_FILE = "plugin_javascript_file";
     private static final String MARK_CSS_PREFIX = "css_prefix";
-    private static final String TEMPLATE_PLUGIN_CSS_LINK = "skin/site/plugin_css_link.html"; 
+    private static final String TEMPLATE_PLUGIN_CSS_LINK = "skin/site/plugin_css_link.html";
     private static final String TEMPLATE_PLUGIN_JAVASCRIPT_LINK = "skin/site/plugin_javascript_link.html";
     private static final String PREFIX_PLUGINS_CSS = "css/plugins/";
     private static final String ABSOLUTE_URL = "http://";
@@ -80,70 +79,70 @@ public class LinksInclude implements PageInclude
      */
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
-		if ( request != null )
+        if ( request != null )
         {
-			// Add links coming from the data object
-			String strFavourite = ( data.getFavourite(  ) != null ) ? data.getFavourite(  )
-                                                                : AppPropertiesService.getProperty( PROPERTY_FAVOURITE );
-			rootModel.put( MARK_FAVOURITE, strFavourite );
+            // Add links coming from the data object
+            String strFavourite = ( data.getFavourite(  ) != null ) ? data.getFavourite(  )
+                                                                    : AppPropertiesService.getProperty( PROPERTY_FAVOURITE );
+            rootModel.put( MARK_FAVOURITE, strFavourite );
 
-			Locale locale = ( request == null ) ? Locale.getDefault(  ) : request.getLocale(  );
+            Locale locale = ( request == null ) ? Locale.getDefault(  ) : request.getLocale(  );
 
-			// Add CSS links coming from plugins
-			Collection<Plugin> listPlugins = PluginService.getPluginList(  );
-			StringBuffer sbCssLinks = new StringBuffer(  );
-			StringBuffer sbJsLinks = new StringBuffer(  );
+            // Add CSS links coming from plugins
+            Collection<Plugin> listPlugins = PluginService.getPluginList(  );
+            StringBuffer sbCssLinks = new StringBuffer(  );
+            StringBuffer sbJsLinks = new StringBuffer(  );
 
-			for ( Plugin plugin : listPlugins )
-			{
-				if ( plugin.isInstalled(  ) )
-				{
-					if ( plugin.getCssStyleSheets(  ).size(  ) > 0 )
-					{
-						for ( String strCssStyleSheet : plugin.getCssStyleSheets(  ) )
-						{
-							String strPrefix = ( strCssStyleSheet.startsWith( ABSOLUTE_URL ) ) ? "" : PREFIX_PLUGINS_CSS;
-	
-							Map<String, String> model = new HashMap<String, String>(  );
-							model.put( MARK_PLUGIN_CSS_STYLESHEET, strCssStyleSheet );
-							model.put( MARK_CSS_PREFIX, strPrefix );
+            for ( Plugin plugin : listPlugins )
+            {
+                if ( plugin.isInstalled(  ) )
+                {
+                    if ( plugin.getCssStyleSheets(  ).size(  ) > 0 )
+                    {
+                        for ( String strCssStyleSheet : plugin.getCssStyleSheets(  ) )
+                        {
+                            String strPrefix = ( strCssStyleSheet.startsWith( ABSOLUTE_URL ) ) ? "" : PREFIX_PLUGINS_CSS;
 
-							HtmlTemplate tCss = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_CSS_LINK, locale, model );
-							sbCssLinks.append( tCss.getHtml(  ) );
-						}
-					}
-	
-					if ( plugin.getJavascriptFiles(  ).size(  ) > 0 )
-					{
-						for ( String strJavascriptFile : plugin.getJavascriptFiles(  ) )
-						{
-							Map<String, String> model = new HashMap<String, String>(  );
-							model.put( MARK_PLUGIN_JAVASCRIPT_FILE, strJavascriptFile );
+                            Map<String, String> model = new HashMap<String, String>(  );
+                            model.put( MARK_PLUGIN_CSS_STYLESHEET, strCssStyleSheet );
+                            model.put( MARK_CSS_PREFIX, strPrefix );
 
-							HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale,
-                        		model );
-							sbJsLinks.append( tJs.getHtml(  ) );
-						}
-					}
+                            HtmlTemplate tCss = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_CSS_LINK, locale, model );
+                            sbCssLinks.append( tCss.getHtml(  ) );
+                        }
+                    }
 
-					String strPage = request.getParameter( PARAMETER_PAGE );
-					Theme xpageTheme = plugin.getXPageTheme( request );
-					if( ( strPage != null ) && ( xpageTheme != null ) )
-					{                	
-						for( XPageApplicationEntry entry : plugin.getApplications( ))
-						{
-                		
-							if( strPage.equals( entry.getId( ) ) )
-							{
-								rootModel.put(MARK_PLUGIN_THEME_CSS, xpageTheme );
-							}                		
-						}                	                   
-					}
-				}
-			}
+                    if ( plugin.getJavascriptFiles(  ).size(  ) > 0 )
+                    {
+                        for ( String strJavascriptFile : plugin.getJavascriptFiles(  ) )
+                        {
+                            Map<String, String> model = new HashMap<String, String>(  );
+                            model.put( MARK_PLUGIN_JAVASCRIPT_FILE, strJavascriptFile );
 
-			rootModel.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString(  ) );
-			rootModel.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString(  ) );
-		}
-	}
+                            HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale,
+                                    model );
+                            sbJsLinks.append( tJs.getHtml(  ) );
+                        }
+                    }
+
+                    String strPage = request.getParameter( PARAMETER_PAGE );
+                    Theme xpageTheme = plugin.getXPageTheme( request );
+
+                    if ( ( strPage != null ) && ( xpageTheme != null ) )
+                    {
+                        for ( XPageApplicationEntry entry : plugin.getApplications(  ) )
+                        {
+                            if ( strPage.equals( entry.getId(  ) ) )
+                            {
+                                rootModel.put( MARK_PLUGIN_THEME_CSS, xpageTheme );
+                            }
+                        }
+                    }
+                }
+            }
+
+            rootModel.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString(  ) );
+            rootModel.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString(  ) );
+        }
+    }
 }

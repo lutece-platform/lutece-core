@@ -33,183 +33,181 @@
  */
 package fr.paris.lutece.portal.service.dashboard;
 
-import org.apache.commons.lang.ObjectUtils;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+
+import org.apache.commons.lang.ObjectUtils;
+
 
 /**
  * Dashboard Component
  */
 public abstract class DashboardComponent implements IDashboardComponent
 {
-	private String _strName;
+    private String _strName;
+    private String _strRight;
+    private int _nZone;
+    private int _nOrder;
+    private Plugin _plugin;
 
-	private String _strRight;
+    /**
+     * Gets dashboard data for a given user
+     * @param user The user
+     * @return HTML content to insert into a dashboard zone
+     */
+    public abstract String getDashboardData( AdminUser user );
 
-	private int _nZone;
+    /**
+     * Returns the Name
+     * @return The Name
+     */
+    public String getName(  )
+    {
+        return _strName;
+    }
 
-	private int _nOrder;
+    /**
+     * Sets the Name
+     * @param strName The Name
+     */
+    public void setName( String strName )
+    {
+        _strName = strName;
+    }
 
-	private Plugin _plugin;
+    /**
+     * Returns the PluginName
+     *
+     * @return The PluginName
+     */
 
-	/**
-	 * Gets dashboard data for a given user
-	 * @param user The user
-	 * @return HTML content to insert into a dashboard zone
-	 */
-	public abstract String getDashboardData( AdminUser user );
+    /**
+     * Returns the Right
+     * @return The Right
+     */
+    public String getRight(  )
+    {
+        return _strRight;
+    }
 
-	/**
-	 * Returns the Name
-	 * @return The Name
-	 */
-	public String getName(  )
-	{
-		return _strName;
-	}
+    /**
+     * Sets the Right
+     * @param strRight The Right
+     */
+    public void setRight( String strRight )
+    {
+        _strRight = strRight;
+    }
 
-	/**
-	 * Sets the Name
-	 * @param strName The Name
-	 */
-	public void setName( String strName )
-	{
-		_strName = strName;
-	}
+    /**
+     * Returns the Zone
+     * @return The Zone
+     */
+    public int getZone(  )
+    {
+        return _nZone;
+    }
 
-	/**
-	 * Returns the PluginName
-	 * 
-	 * @return The PluginName
-	 */
+    /**
+     * Sets the Zone
+     * @param nZone The Zone
+     */
+    public void setZone( int nZone )
+    {
+        _nZone = nZone;
+    }
 
-	/**
-	 * Returns the Right
-	 * @return The Right
-	 */
-	public String getRight(  )
-	{
-		return _strRight;
-	}
+    /**
+     * Returns the Order
+     * @return The Order
+     */
+    public int getOrder(  )
+    {
+        return _nOrder;
+    }
 
-	/**
-	 * Sets the Right
-	 * @param strRight The Right
-	 */
-	public void setRight( String strRight )
-	{
-		_strRight = strRight;
-	}
+    /**
+     * Sets the Order
+     * @param nOrder The Order
+     */
+    public void setOrder( int nOrder )
+    {
+        _nOrder = nOrder;
+    }
 
-	/**
-	 * Returns the Zone
-	 * @return The Zone
-	 */
-	public int getZone(  )
-	{
-		return _nZone;
-	}
+    /**
+     * Returns the Plugin
+     * @return The Plugin
+     */
+    public Plugin getPlugin(  )
+    {
+        return _plugin;
+    }
 
-	/**
-	 * Sets the Zone
-	 * @param nZone The Zone
-	 */
-	public void setZone( int nZone )
-	{
-		_nZone = nZone;
-	}
+    /**
+     * Sets the Plugin
+     * @param plugin The plugin
+     */
+    public void setPlugin( Plugin plugin )
+    {
+        _plugin = plugin;
+    }
 
-	/**
-	 * Returns the Order
-	 * @return The Order
-	 */
-	public int getOrder(  )
-	{
-		return _nOrder;
-	}
+    /**
+     * Compare component order
+     * @param o The component to compare to
+     * @return less than 0 if the order is lower, 0 if equals and greater than 0 if higher
+     */
+    public int compareTo( IDashboardComponent o )
+    {
+        return getOrder(  ) - o.getOrder(  );
+    }
 
-	/**
-	 * Sets the Order
-	 * @param nOrder The Order
-	 */
-	public void setOrder( int nOrder )
-	{
-		_nOrder = nOrder;
-	}
+    /**
+     * Tells if the component is enabled
+     * @return true if enabled
+     */
+    public boolean isEnabled(  )
+    {
+        return PluginService.isPluginEnable( _plugin.getName(  ) );
+    }
 
-	/**
-	 * Returns the Plugin
-	 * @return The Plugin
-	 */
-	public Plugin getPlugin(  )
-	{
-		return _plugin;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals( Object obj )
+    {
+        if ( obj instanceof IDashboardComponent )
+        {
+            IDashboardComponent other = (IDashboardComponent) obj;
 
-	/**
-	 * Sets the Plugin
-	 * @param plugin The plugin
-	 */
-	public void setPlugin( Plugin plugin )
-	{
-		_plugin = plugin;
-	}
+            return ObjectUtils.equals( this.getName(  ), other.getName(  ) );
+        }
 
-	/**
-	 * Compare component order
-	 * @param o The component to compare to
-	 * @return less than 0 if the order is lower, 0 if equals and greater than 0 if higher
-	 */
-	public int compareTo( IDashboardComponent o )
-	{
-		return getOrder(  ) - o.getOrder(  );
-	}
+        return false;
+    }
 
-	/**
-	 * Tells if the component is enabled
-	 * @return true if enabled
-	 */
-	public boolean isEnabled(  )
-	{
-		return PluginService.isPluginEnable( _plugin.getName(  ) );
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode(  )
+    {
+        return ObjectUtils.hashCode( this.getName(  ) );
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals( Object obj )
-	{
-		if ( obj instanceof IDashboardComponent )
-		{
-			IDashboardComponent other = ( IDashboardComponent ) obj;
-
-			return ObjectUtils.equals( this.getName(  ), other.getName(  ) );
-		}
-
-		return false;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode(  )
-	{
-		return ObjectUtils.hashCode( this.getName(  ) );
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString(  )
-	{
-		return getClass(  ).getName(  ) + "[name=" + this.getName(  ) + ", zone=" + this.getZone(  ) + ", order=" + this.getOrder(  ) + "]";
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString(  )
+    {
+        return getClass(  ).getName(  ) + "[name=" + this.getName(  ) + ", zone=" + this.getZone(  ) + ", order=" +
+        this.getOrder(  ) + "]";
+    }
 }
