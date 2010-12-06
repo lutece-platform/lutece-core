@@ -192,7 +192,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         {
             awFilter.setUrlAttributes( url );
 
-            if ( awFilter.getUrlAttributes(  ) != "" )
+            if ( ! awFilter.getUrlAttributes(  ).equals( "" ) )
             {
                 strSortSearchAttribute = "&" + awFilter.getUrlAttributes(  );
             }

@@ -67,16 +67,16 @@ import javax.servlet.http.HttpServletRequest;
  */
 public final class AdminUserService
 {
-    // PROPERTIES
-    private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
+    // Parameter
+    public static final String PARAMETER_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
+    public static final String PARAMETER_ENCRYPTION_ALGORITHM = "encryption_algorithm";
+    public static final String PARAMETER_DEFAULT_USER_LEVEL = "default_user_level";
+    public static final String PARAMETER_DEFAULT_USER_NOTIFICATION = "default_user_notification";
+    public static final String PARAMETER_DEFAULT_USER_LANGUAGE = "default_user_language";
+    public static final String PARAMETER_DEFAULT_USER_STATUS = "default_user_status";
 
-    // MARKS
-    private static final String MARK_SEARCH_IS_SEARCH = "search_is_search";
-    private static final String MARK_SEARCH_ADMIN_USER_FILTER = "search_admin_user_filter";
-    private static final String MARK_SEARCH_ADMIN_USER_FIELD_FILTER = "search_admin_user_field_filter";
-    private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
-    private static final String MARK_LOCALE = "locale";
-    private static final String MARK_SORT_SEARCH_ATTRIBUTE = "sort_search_attribute";
+
+    // Markers
     public static final String MARK_DEFAULT_USER_LEVEL = "default_user_level";
     public static final String MARK_DEFAULT_USER_NOTIFICATION = "default_user_notification";
     public static final String MARK_DEFAULT_USER_LANGUAGE = "default_user_language";
@@ -86,16 +86,18 @@ public final class AdminUserService
     public static final String MARK_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
     public static final String MARK_ENCRYPTION_ALGORITHM = "encryption_algorithm";
     public static final String MARK_ENCRYPTION_ALGORITHMS_LIST = "encryption_algorithms_list";
+    private static final String MARK_SEARCH_IS_SEARCH = "search_is_search";
+    private static final String MARK_SEARCH_ADMIN_USER_FILTER = "search_admin_user_filter";
+    private static final String MARK_SEARCH_ADMIN_USER_FIELD_FILTER = "search_admin_user_field_filter";
+    private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
+    private static final String MARK_LOCALE = "locale";
+    private static final String MARK_SORT_SEARCH_ATTRIBUTE = "sort_search_attribute";
 
-    // PARAMETER
-    public static final String PARAMETER_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
-    public static final String PARAMETER_ENCRYPTION_ALGORITHM = "encryption_algorithm";
-    public static final String PARAMETER_DEFAULT_USER_LEVEL = "default_user_level";
-    public static final String PARAMETER_DEFAULT_USER_NOTIFICATION = "default_user_notification";
-    public static final String PARAMETER_DEFAULT_USER_LANGUAGE = "default_user_language";
-    public static final String PARAMETER_DEFAULT_USER_STATUS = "default_user_status";
+    // Properties
+    private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
     private static final String PROPERTY_ENCRYPTION_ALGORITHMS_LIST = "encryption.algorithmsList";
-    private static final String CONSTANT_VIRGULE = ",";
+
+    private static final String CONSTANT_COMMA = ",";
 
     /** Private constructor */
     private AdminUserService(  )
@@ -251,7 +253,7 @@ public final class AdminUserService
 
     /**
      * Build the advanced parameters management
-     * @param request HttpServletRequest
+     * @param user The AdminUser object
      * @return The model for the advanced parameters
      */
     public static Map<String, Object> getManageAdvancedParameters( AdminUser user )
@@ -274,7 +276,7 @@ public final class AdminUserService
                     DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ).getParameterValue(  ) );
 
                 String[] listAlgorithms = AppPropertiesService.getProperty( PROPERTY_ENCRYPTION_ALGORITHMS_LIST )
-                                                              .split( CONSTANT_VIRGULE );
+                                                              .split( CONSTANT_COMMA );
 
                 for ( String strAlgorithm : listAlgorithms )
                 {

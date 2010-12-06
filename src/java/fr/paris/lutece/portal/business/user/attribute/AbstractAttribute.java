@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
-import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -101,7 +100,7 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Set mandatory
-     * @param mandatory true if it's mandatory, false otherwise
+     * @param bMandatory true if it's mandatory, false otherwise
      */
     public void setMandatory( boolean bMandatory )
     {
@@ -119,7 +118,7 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Set list fields
-     * @param listAttributeField list fields
+     * @param listAttributeFields list fields
      */
     public void setListAttributeFields( List<AttributeField> listAttributeFields )
     {
@@ -216,6 +215,7 @@ public abstract class AbstractAttribute implements IAttribute
     /**
      * Get Html form
      * @param locale locale
+     * @param listDefaultValues the list of default values
      * @return html form
      */
     public String getHtmlFormAttribute( Locale locale, List<AdminUserField> listDefaultValues )
@@ -231,6 +231,7 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Get Html form
+     * @param auFieldFilter The admin user field filter
      * @param locale locale
      * @return html form
      */

@@ -49,6 +49,13 @@ public class AdminUserFieldHome
     private static IAdminUserFieldDAO _dao = (IAdminUserFieldDAO) SpringContextService.getBean( "adminUserFieldDAO" );
 
     /**
+     * Private constructor
+     */
+    private AdminUserFieldHome(  )
+    {
+    }
+
+    /**
      * Load the user field
      * @param nIdUserField ID
      * @return AdminUserField
@@ -69,7 +76,7 @@ public class AdminUserFieldHome
 
     /**
      * Update an user field
-     * @param attribute the attribute
+     * @param userField the user field
      */
     public static void update( AdminUserField userField )
     {
@@ -115,7 +122,7 @@ public class AdminUserFieldHome
     /**
      * Load all the user field by a given ID user and a given ID attribute
      * @param nIdUser the ID user
-     * @param nIdAttribute
+     * @param nIdAttribute the attribute identifier
      * @return a list of adminuserfield
      */
     public static List<AdminUserField> selectUserFieldsByIdUserIdAttribute( int nIdUser, int nIdAttribute )

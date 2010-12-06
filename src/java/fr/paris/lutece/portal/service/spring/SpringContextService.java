@@ -39,8 +39,6 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
-import org.apache.commons.beanutils.ContextClassLoaderLocal;
-
 import org.springframework.beans.factory.BeanFactoryUtils;
 
 import org.springframework.context.ApplicationContext;
@@ -49,8 +47,6 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import java.io.File;
 import java.io.FilenameFilter;
-
-import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -150,7 +146,7 @@ public final class SpringContextService
 
     /**
      * Initialize a global Application Context containing all beans (core + plugins)
-     * @throws LuteceInitException
+     * @throws LuteceInitException The lutece init exception
      * @since 2.4
      */
     public static void init(  ) throws LuteceInitException

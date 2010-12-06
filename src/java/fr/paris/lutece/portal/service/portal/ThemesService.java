@@ -72,8 +72,8 @@ public final class ThemesService
      * <li>the page theme : a theme specified for a page</li>
      * </ol>
      *
-     * @param data
-     * @param request
+     * @param data The PageData object
+     * @param request The HttpServletRequest
      * @return
      */
     public static Theme getTheme( PageData data, HttpServletRequest request )
@@ -178,7 +178,7 @@ public final class ThemesService
     /**
      * Sets the global theme
      *
-     * @param strTheme The global theme
+     * @param strGlobalTheme The global theme
      */
     public static void setGlobalTheme( String strGlobalTheme )
     {
@@ -187,7 +187,7 @@ public final class ThemesService
 
     /**
      * Returns a reference list which contains all the themes
-     *
+     * @param locale The Locale
      * @return a reference list
      */
     public static ReferenceList getPageThemes( Locale locale )

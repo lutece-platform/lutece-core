@@ -63,6 +63,13 @@ public class AdminUserFieldService
     // PARAMETERS
     private static final String PARAMETER_ATTRIBUTE = "attribute";
 
+    /*
+     * Private constructor
+     */
+    private AdminUserFieldService()
+    {
+    }
+
     /**
      * Check if the user fields are correctly filled
      * @param request HttpServletRequest

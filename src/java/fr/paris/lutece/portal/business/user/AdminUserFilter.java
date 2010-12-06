@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -249,7 +250,7 @@ public class AdminUserFilter
 
     /**
      * Build url attributes
-     * @param the url
+     * @param the url The url item
      */
     public void setUrlAttributes( UrlItem url )
     {
@@ -270,7 +271,7 @@ public class AdminUserFilter
         }
         catch ( UnsupportedEncodingException e )
         {
-            e.printStackTrace(  );
+            AppLogService.error( e.getMessage(  ), e );
         }
     }
 
@@ -298,7 +299,7 @@ public class AdminUserFilter
         }
         catch ( UnsupportedEncodingException e )
         {
-            e.printStackTrace(  );
+            AppLogService.error( e.getMessage(  ), e );
         }
 
         return sbUrlAttributes.toString(  );

@@ -59,6 +59,8 @@ public final class RedirectionResponseWrapper extends HttpServletResponseWrapper
 
     /**
      * @see javax.servlet.http.HttpServletResponseWrapper#sendRedirect(java.lang.String)
+     * @param location The redirection location
+     * @throws IOException the exception
      */
     @Override
     public void sendRedirect( String location ) throws IOException

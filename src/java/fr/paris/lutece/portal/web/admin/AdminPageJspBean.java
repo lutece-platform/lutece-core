@@ -426,7 +426,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
-     * @param strPageId The identifier of the page
+     * @param page The page object
      * @param nParamBlock The id parameter to display
      * @param model The HashMap
      * @return The management page of a page

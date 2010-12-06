@@ -112,7 +112,6 @@ public interface IResourceRss
     /**
      * returns the informations which must  be displayed in the modification resourceRss configuration
      * @param request request
-     * @param int idResourceRss
      * @param locale locale
      * @return the information which must  be displayed in the modification resourceRss configuration
      */

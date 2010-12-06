@@ -38,6 +38,9 @@ import fr.paris.lutece.util.ReferenceList;
 import java.util.Collection;
 
 
+/*
+ * This class provides Data Access methods for Theme objects
+ */
 public interface IThemeDAO
 {
     /**

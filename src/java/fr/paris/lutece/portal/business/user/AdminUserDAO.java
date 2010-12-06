@@ -654,7 +654,7 @@ public class AdminUserDAO implements IAdminUserDAO
 
     /**
      * Update role key if role key name has change
-     * @param strRoleKey The old role key name
+     * @param strOldRoleKey The old role key name
      * @param role The new role key
      */
     public void storeUsersRole( String strOldRoleKey, AdminRole role )

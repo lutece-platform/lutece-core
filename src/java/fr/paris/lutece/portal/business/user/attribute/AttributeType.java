@@ -69,7 +69,6 @@ public class AttributeType
 
     /**
      * Get the label type
-     * @return
      */
     public String getName(  )
     {

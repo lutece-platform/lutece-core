@@ -44,6 +44,8 @@ import javax.persistence.Query;
 
 /**
  * Generic JPA DAO for Lutece components
+ * @param <K> Type of the entity's key
+ * @param <E> Type of the entity
  */
 public abstract class JPALuteceDAO<K, E> extends JPAGenericDAO<K, E>
 {
@@ -76,6 +78,11 @@ public abstract class JPALuteceDAO<K, E> extends JPAGenericDAO<K, E>
         return ems.getEntityManagerFactory( strPersistenceUnit );
     }
 
+    /**
+     *
+     * @param strSQL The SQL query
+     * @return query
+     */
     protected Query createNativeQuery( String strSQL )
     {
         return getEM(  ).createNativeQuery( strSQL );

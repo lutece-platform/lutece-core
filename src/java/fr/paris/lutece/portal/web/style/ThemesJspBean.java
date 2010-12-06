@@ -139,7 +139,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
 
     /**
      *
-     * @param request
+     * @param request The HttpServletRequest
      * @return the html code to create a theme
      */
     public String getCreateTheme( HttpServletRequest request )
@@ -154,7 +154,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
 
     /**
      *
-     * @param request
+     * @param request The HttpServletRequest
      * @return the html page to modifiy a theme
      */
     public String getModifyTheme( HttpServletRequest request )
@@ -172,7 +172,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
 
     /**
      *
-     * @param request
+     * @param request The HttpServletRequest
      * @return the html code for the theme list
      */
     public String doModifyTheme( HttpServletRequest request )
@@ -192,7 +192,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
 
     /**
      *
-     * @param request
+     * @param request The HttpServletRequest
      * @return the html code for the theme list
      */
     public String doCreateTheme( HttpServletRequest request )
@@ -212,7 +212,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
 
     /**
      *
-     * @param request
+     * @param request The HttpServletRequest
      * @return the theme object from request parameter
      */
     private Theme getThemeFromRequest( HttpServletRequest request )
@@ -233,7 +233,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * @param request
+     * @param request The HttpServletRequest
      * @return true if 1 field is missing
      */
     private boolean isMissingFields( HttpServletRequest request )

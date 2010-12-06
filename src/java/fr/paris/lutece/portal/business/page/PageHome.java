@@ -162,8 +162,8 @@ public final class PageHome
     /**
      * Returns the list of the child pages from the current parent page identifier
      *
-     * @param nParentPageId
-     * @return
+     * @param nParentPageId the ParentPageId identifier
+     * @return page collection
      */
     public static Collection<Page> getChildPagesMinimalData( int nParentPageId )
     {

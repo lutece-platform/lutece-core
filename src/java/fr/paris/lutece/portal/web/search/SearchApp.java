@@ -45,7 +45,6 @@ import fr.paris.lutece.portal.service.search.SearchEngine;
 import fr.paris.lutece.portal.service.search.SearchResult;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
@@ -55,10 +54,6 @@ import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.lang.StringUtils;
-
-import java.io.UnsupportedEncodingException;
-
-import java.net.URLEncoder;
 
 import java.util.HashMap;
 import java.util.List;

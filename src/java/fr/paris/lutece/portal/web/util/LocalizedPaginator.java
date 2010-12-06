@@ -60,6 +60,7 @@ public class LocalizedPaginator<E> extends Paginator<E>
      * @param strBaseUrl The base Url for build links on each page link
      * @param strPageIndexParameterName The parameter name for the page index
      * @param strPageIndex The current page index
+     * @param locale The Locale
      */
     public LocalizedPaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
         String strPageIndex, Locale locale )

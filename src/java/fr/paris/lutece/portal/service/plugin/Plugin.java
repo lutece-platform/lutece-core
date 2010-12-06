@@ -1004,6 +1004,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Returns the theme the plugin use for rendering a Xpage
+     * @param request The HttpServletRequest
      * @return The theme
      */
     public Theme getXPageTheme( HttpServletRequest request )

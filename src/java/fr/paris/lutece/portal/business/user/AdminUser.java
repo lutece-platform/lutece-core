@@ -400,7 +400,7 @@ public class AdminUser implements Serializable
 
     /**
      * Set pwd reseted
-     * @param bIsPwdReseted true if it has been reinitialized, false otherwise
+     * @param bIsPasswordReset true if it has been reinitialized, false otherwise
      */
     public void setPasswordReset( boolean bIsPasswordReset )
     {

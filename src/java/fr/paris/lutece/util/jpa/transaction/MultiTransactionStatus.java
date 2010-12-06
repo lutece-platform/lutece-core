@@ -52,7 +52,6 @@ public class MultiTransactionStatus implements TransactionStatus
 
     /**
      * Creates a TransactionStatus that handles several TransactionStatus
-     * @param transactionStatuses all TransactionStatuts to manage
      * @param mainPTM will be default {@link PlatformTransactionManager} for status informations (is*, has* methods)
      */
     public MultiTransactionStatus( PlatformTransactionManager mainPTM )

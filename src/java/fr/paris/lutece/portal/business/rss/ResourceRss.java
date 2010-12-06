@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.business.rss;
 
 
 /*
- * ResourceRss
+ * ResourceRss that provides the resources rss
  */
 public abstract class ResourceRss implements IResourceRss
 {
@@ -44,75 +44,75 @@ public abstract class ResourceRss implements IResourceRss
     private String _strName;
     private String _strDescription;
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.rss.IResourceRss#getId()
+    /**
+     * Get the rss id
+     * @return the rss Id
      */
     public int getId(  )
     {
         return _nId;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.rss.IResourceRss#setId(int)
+    /**
+     * Set the rss id
+     * @param nId the rss id
      */
     public void setId( int nId )
     {
         _nId = nId;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.rss.IResourceRss#getResourceRssType()
-     */
-    public IResourceRssType getResourceRssType(  )
-    {
-        return _taskType;
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.rss.IResourceRss#setResourceRssType(fr.paris.lutece.portal.business.rss.IResourceRssType)
-     */
-    public void setResourceRssType( IResourceRssType taskType )
-    {
-        _taskType = taskType;
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.rss.IResourceRss#getDescription()
-     */
+    /**
+    * Get Rss resource Description
+    * @return the description
+    */
     public String getDescription(  )
     {
         return _strDescription;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.rss.IResourceRss#setName(String)
-     */
-    public void setName( String strName )
-    {
-        _strName = strName;
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.rss.IResourceRss#setDescription(String)
+    /**
+     * Set the RSS resource description
+     * @param strDescription the description
      */
     public void setDescription( String strDescription )
     {
         _strDescription = strDescription;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.rss.IResourceRss#getName()
-     */
+    /**
+    * Get The RSS resource name
+    * @return the name
+    */
     public String getName(  )
     {
         return _strName;
+    }
+
+    /**
+     * Set the RSS resource name
+     * @param strName the name
+     */
+    public void setName( String strName )
+    {
+        _strName = strName;
+    }
+
+    /**
+     * Get the RSS Resource Type
+     * @return the ResourceRssType Object
+     */
+    public IResourceRssType getResourceRssType(  )
+    {
+        return _taskType;
+    }
+
+    /**
+     * Set the ResourceRssType object
+     * @param resourceRssType the ResourceRsstype object
+     */
+    public void setResourceRssType( IResourceRssType taskType )
+    {
+        _taskType = taskType;
     }
 }

@@ -50,8 +50,7 @@ public interface IDefaultUserParameterDAO
 
     /**
      * Update the parameter value
-     * @param strParameterValue The parameter value
-     * @param strParameterKey The parameter key
+     * @param userParam The user parameters
      */
     void store( DefaultUserParameter userParam );
 }

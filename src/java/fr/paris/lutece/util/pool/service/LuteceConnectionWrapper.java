@@ -77,6 +77,7 @@ public class LuteceConnectionWrapper implements Connection
     /**
      * DOES NOT ACTUALLY CLOSES CONNECTION, BUT CALLS _pool.freeConnection
      * @see ConnectionPool#freeConnection(Connection)
+     * @throws SQLException the sql exception
      */
     public void close(  ) throws SQLException
     {
@@ -84,8 +85,8 @@ public class LuteceConnectionWrapper implements Connection
     }
 
     /**
-     *
      *{@inheritDoc}
+     * @throws SQLException the sql exception
      */
     public Statement createStatement(  ) throws SQLException
     {

@@ -42,7 +42,7 @@ package fr.paris.lutece.portal.business.rss;
 public interface IResourceRssType
 {
     /**
-     *
+     * Get resource rss type
      * @return  key of the resourceRss type
      */
     String getKey(  );

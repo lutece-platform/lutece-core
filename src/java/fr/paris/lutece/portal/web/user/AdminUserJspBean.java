@@ -1602,8 +1602,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Modify the default user parameter values.
-     * @param request HttpServletRequest
+     * @param request HttpServletRequest     
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException If the user does not have the permission
      */
     public String doModifyDefaultUserParameterValues( HttpServletRequest request )
         throws AccessDeniedException

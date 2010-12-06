@@ -48,6 +48,14 @@ public class AttributeFieldHome
     private static IAttributeFieldDAO _dao = (IAttributeFieldDAO) SpringContextService.getBean( "attributeFieldDAO" );
 
     /**
+     * Private constructor
+     */
+    private AttributeFieldHome(  )
+    {
+    }
+
+
+    /**
      * Load attribute field
      * @param nIdField ID Field
      * @return Attribute Field

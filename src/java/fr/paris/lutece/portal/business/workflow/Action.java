@@ -214,7 +214,7 @@ public class Action implements RBACResource, IReferenceItem
 
     /**
      * set true return true if the resources of this state is automatic
-     * @param requireUserAssociated true return true if the state is automatic
+     * @param automaticState true return true if the state is automatic
      */
     public void setAutomaticState( Boolean automaticState )
     {

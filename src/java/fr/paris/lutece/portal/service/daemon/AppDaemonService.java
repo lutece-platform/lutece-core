@@ -176,7 +176,7 @@ public final class AppDaemonService
      */
     public static void unregisterDaemon( String strDaemonKey )
     {
-        UnScheduleThread( _mapDaemonEntries.get( strDaemonKey ) );
+        unScheduleThread( _mapDaemonEntries.get( strDaemonKey ) );
         _mapDaemonEntries.remove( strDaemonKey );
     }
 
@@ -195,7 +195,7 @@ public final class AppDaemonService
      */
     public static void stopDaemon( String strDaemonKey )
     {
-        UnScheduleThread( _mapDaemonEntries.get( strDaemonKey ) );
+        unScheduleThread( _mapDaemonEntries.get( strDaemonKey ) );
     }
 
     /**
@@ -232,7 +232,7 @@ public final class AppDaemonService
      * Remove daemon from schedule's queue
      * @param entry The DaemonEntry
      */
-    private static void UnScheduleThread( DaemonEntry entry )
+    private static void unScheduleThread( DaemonEntry entry )
     {
         cancelScheduledThread( entry.getId(  ) );
         entry.setIsRunning( false );

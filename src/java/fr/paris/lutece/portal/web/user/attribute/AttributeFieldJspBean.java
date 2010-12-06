@@ -113,8 +113,8 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
     /**
      *
-     * @param request
-     * @return
+     * @param request the HttpServletRequest
+     * @return Url
      */
     public String doCreateAttributeField( HttpServletRequest request )
     {

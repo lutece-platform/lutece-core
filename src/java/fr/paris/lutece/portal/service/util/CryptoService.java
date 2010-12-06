@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2008, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,22 +33,31 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
-
 import java.io.UnsupportedEncodingException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-
+/*
+ *  This class provide encrypted services
+ */
 public class CryptoService
 {
     // Properties
     private static final String PROPERTY_ENCODING = "lutece.encoding";
 
     /**
+     * Private constructor
+     */
+    private CryptoService()
+    {
+        
+    }
+
+    /**
     * Encrypt a data using an algorithm defined in lutece.properties
     * @param strDataToEncrypt The data to encrypt
+    * @param strAlgorithm the algorithm
     * @return The encrypted string
     */
     public static String encrypt( String strDataToEncrypt, String strAlgorithm )
@@ -62,7 +71,7 @@ public class CryptoService
         }
         catch ( NoSuchAlgorithmException e )
         {
-            e.printStackTrace(  );
+            AppLogService.error( e.getMessage(), e );
         }
 
         try
@@ -71,7 +80,7 @@ public class CryptoService
         }
         catch ( UnsupportedEncodingException e )
         {
-            e.printStackTrace(  );
+            AppLogService.error( e.getMessage(), e );
         }
 
         return hash;

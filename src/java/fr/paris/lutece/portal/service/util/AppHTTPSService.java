@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2008, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,9 @@ package fr.paris.lutece.portal.service.util;
 
 import javax.servlet.http.HttpServletRequest;
 
-
+/*
+ * This class provide https protocol 
+ */
 public class AppHTTPSService
 {
     private static final String PROPERTY_HTTPS = "lutece.https.";

@@ -65,10 +65,11 @@ public interface IWorkflowService
     /**
      * returns a list of actions possible for a given document based on the status
      * of the document in the workflow and the user role
-     * @param listIdResssource the list of resource id
+     * @param listIdResource the list of resource id
      * @param strResourceType the document type
-     * @param user the adminUser
+     * @param nIdExternalParentId the external parent identifier
      * @param nIdWorkflow the workflow id
+     * @param user the adminUser
      * @return a list of Action
      */
     HashMap<Integer, List<Action>> getActions( List<Integer> listIdResource, String strResourceType,
@@ -79,8 +80,8 @@ public interface IWorkflowService
      * of the document in the workflow and the user role
      * @param nIdResource the document id
      * @param strResourceType the document type
-     * @param user the adminUser
      * @param nIdWorkflow the workflow id
+     * @param user the adminUser
      * @return the state of a given document
      */
     @Deprecated
@@ -111,8 +112,8 @@ public interface IWorkflowService
      * Proceed action given in parameter
      * @param nIdResource the resource id
      * @param strResourceType the resource type
-     * @param request the request
      * @param nIdAction the action id
+     * @param request the request
      * @param locale locale
      * @param isAutomatic true if action is automatic
      */
@@ -124,9 +125,9 @@ public interface IWorkflowService
      * Proceed action given in parameter
      * @param nIdResource the resource id
      * @param strResourceType the resource type
-     * @param request the request
      * @param nIdAction the action id
-     * @param nIdExternalParentId the external parent id
+     * @param nExternalParentId the external parent id*
+     * @param request the request
      * @param locale locale
      * @param isAutomatic true if action is automatic
      */
@@ -137,8 +138,8 @@ public interface IWorkflowService
      * returns the  actions history performed on a resource
      * @param nIdResource the resource id
      * @param strResourceType the resource type
-     * @param request the request
      * @param nIdWorkflow the workflow id
+     * @param request the request
      * @param locale the locale
      * @return the history of actions performed on a resource
      */
@@ -149,8 +150,8 @@ public interface IWorkflowService
      * returns a xml wich contains the  actions history performed on a resource
      * @param nIdResource the resource id
      * @param strResourceType the resource type
-     * @param request the request
      * @param nIdWorkflow the workflow id
+     * @param request the request
      * @param locale the locale
      * @return a xml wich contains  the history of actions performed on a resource
      */
@@ -161,8 +162,8 @@ public interface IWorkflowService
      * Perform the information on the various tasks associated with the given action specified in parameter
      * @param nIdResource the resource id
      * @param strResourceType the resource type
-     * @param request the request
      * @param nIdAction the action id
+     * @param request the request
      * @param locale the locale
      * @return null if there is no error in the task form
      *                    else return the error message url
@@ -175,9 +176,9 @@ public interface IWorkflowService
      * Perform the information on the various tasks associated with the given action specified in parameter
      * @param nIdResource the resource id
      * @param strResourceType the resource type
-     * @param request the request
      * @param nIdAction the action id
      * @param nExternalParentId the external parent id
+     * @param request the request
      * @param locale the locale
      * @return null if there is no error in the task form
      *                    else return the error message url
@@ -204,8 +205,8 @@ public interface IWorkflowService
      * returns the tasks form
      * @param nIdResource the document id
      * @param strResourceType the document type
-     * @param request the request
      * @param nIdAction the action id
+     * @param request the request
      * @param locale the locale
      * @return the tasks form associated to the action
      */
@@ -216,8 +217,8 @@ public interface IWorkflowService
      * Check that a given user is allowed to view a resource depending the state of the resource
      * @param nIdResource the document id
      * @param strResourceType the document type
+     * @param nIdWorkflow the workflow id*
      * @param  user the AdminUser
-     * @param nIdWorkflow the workflow id
      * @return a list of Action
      */
     boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user );
@@ -268,8 +269,8 @@ public interface IWorkflowService
 
     /**
      * returns all state of a  given workflow
-     * @param user the adminUser
      * @param nIdWorkflow the workflow id
+     * @param user the adminUser
      * @return the state of a given document
      */
     Collection<State> getAllStateByWorkflow( int nIdWorkflow, AdminUser user );

@@ -55,7 +55,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * WorkflowService
  */
-public class WorkflowService
+public final class WorkflowService
 {
     private static final String PLUGIN_WORKFLOW_NAME = "workflow";
     private static WorkflowService _singleton;
@@ -128,8 +128,9 @@ public class WorkflowService
      * of the document in the workflow and the user role
      * @param listIdResssource the list of resource id
      * @param strResourceType the document type
-     * @param user the adminUser
+     * @param nIdExternalParentId the external parent identifier
      * @param nIdWorkflow the workflow id
+     * @param user the adminUser
      * @return a list of Action
      */
     public HashMap<Integer, List<Action>> getActions( List<Integer> listIdResssource, String strResourceType,
@@ -158,6 +159,7 @@ public class WorkflowService
      * @param request the request
      * @param nIdAction the action id
      * @param locale locale
+     * @param isAutomatic the boolean
      */
     @Deprecated
     public void doProcessAction( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
@@ -347,7 +349,7 @@ public class WorkflowService
      * @param strResourceType the resource type
      * @param nIdWorkflow the workflow id
      * @param lListIdWorkflowState The workflow state <b>id or null</b> for all workflow states
-     * @param nExternalParentId
+     * @param nExternalParentId the externbal parent identifier
      * @param user the AdminUser
      * @return a list resource id
      */
@@ -415,9 +417,9 @@ public class WorkflowService
      * of the document in the workflow and the user role
      * @param nIdResource the document id
      * @param strResourceType the document type
-     * @param nExternalParentId the external parent id
-     * @param user the adminUser
      * @param nIdWorkflow the workflow id
+     * @param nIdExternalParentId the external parent id
+     * @param user the adminUser
      * @return the state of a given document
      */
     public State getState( int nIdResource, String strResourceType, int nIdWorkflow, Integer nIdExternalParentId,

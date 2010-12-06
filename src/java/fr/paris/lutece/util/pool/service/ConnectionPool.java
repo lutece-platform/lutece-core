@@ -396,12 +396,20 @@ public class ConnectionPool implements DataSource
         return _nMaxConns;
     }
 
+    /**
+     * Returns the connection of the pool
+     * @return A connection
+     */
     public Connection getConnection( String username, String password )
         throws SQLException
     {
         return getConnection(  );
     }
 
+    /**
+     * Get the log
+     * @return A log writer
+     */
     public PrintWriter getLogWriter(  ) throws SQLException
     {
         _logger.debug( "ConnectionPool : DataSource getLogWriter called" );
@@ -409,26 +417,44 @@ public class ConnectionPool implements DataSource
         return _logWriter;
     }
 
+    /**
+     * Set the log
+     */
     public void setLogWriter( PrintWriter out ) throws SQLException
     {
         _logger.debug( "ConnectionPool : DataSource setLogWriter called" );
         _logWriter = out;
     }
 
+    /**
+     * Set Login Timeout
+     */
     public void setLoginTimeout( int seconds ) throws SQLException
     {
     }
 
+    /**
+     * Get loging timeout
+     * @return A time out
+     */
     public int getLoginTimeout(  ) throws SQLException
     {
         return _nTimeOut;
     }
 
+    /**
+     * Get the unwrap
+     * @return null
+     */
     public <T> T unwrap( Class<T> iface ) throws SQLException
     {
         return null;
     }
 
+    /**
+     * Get the wrapper
+     * @return false
+     */
     public boolean isWrapperFor( Class<?> iface ) throws SQLException
     {
         return false;

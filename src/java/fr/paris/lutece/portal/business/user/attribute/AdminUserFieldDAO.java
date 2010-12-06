@@ -192,7 +192,6 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     /**
      * Insert a new user field
      * @param userField the user field
-     * @return new PK
      */
     public void insert( AdminUserField userField )
     {
@@ -209,7 +208,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 
     /**
      * Update an user field
-     * @param attribute the attribute
+     * @param userField the adminuser field
      */
     public void store( AdminUserField userField )
     {
@@ -262,7 +261,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 
     /**
      * Delete all user fields from given id attribute
-     * @param nIdUser id user
+     * @param nIdAttribute the id attribute
      */
     public void deleteUserFieldsFromIdAttribute( int nIdAttribute )
     {

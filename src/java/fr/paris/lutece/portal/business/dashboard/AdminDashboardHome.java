@@ -123,7 +123,7 @@ public final class AdminDashboardHome
 
     /**
      * Loads the data of all the IAdminDashboardComponent
-     *
+     * @param filter a search by criteria
      * @return the list which contains the data of all the IAdminDashboardComponent
      */
     public static List<IAdminDashboardComponent> findByFilter( AdminDashboardFilter filter )
@@ -150,6 +150,9 @@ public final class AdminDashboardHome
         return _dao.selectMaxOrder( nColumn );
     }
 
+    /*
+     * Find the columns list
+     */
     public static List<Integer> findColumns(  )
     {
         return _dao.selectColumns(  );

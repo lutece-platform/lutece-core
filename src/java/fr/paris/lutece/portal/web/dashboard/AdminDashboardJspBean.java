@@ -64,11 +64,19 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 {
+    // Constants
+    public static final String RIGHT_MANAGE_ADMINDASHBOARD = "CORE_ADMINDASHBOARD_MANAGEMENT";
+
+    // Parameters
     private static final String PARAMETER_DASHBOARD_NAME = "dashboard_name";
     private static final String PARAMETER_DASHBOARD_COLUMN = "dashboard_column";
     private static final String PARAMETER_DASHBOARD_ORDER = "dashboard_order";
     private static final String PARAMETER_COLUMN = "column";
+
+    // Messages
     private static final String MESSAGE_DASHBOARD_NOT_FOUND = "portal.admindashboard.message.dashboardNotFound";
+
+    // Markers
     private static final String MARK_COLUMN_CONTENT_PREFIX = "column_content_";
     private static final String MARK_MAP_DASHBOARDS = "map_dashboards";
     private static final String MARK_NOT_SET_DASHBOARDS = "not_set_dashboards";
@@ -76,10 +84,14 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_LIST_AVAILABLE_COLUMNS = "list_available_columns";
     private static final String MARK_MAP_AVAILABLE_ORDERS = "map_available_orders";
     private static final String MARK_MAP_COLUMN_ORDER_STATUS = "map_column_order_status";
+
+    // Templates
     private static final String TEMPLATE_VIEW_DASHBOARDS = "/admin/dashboard/admin/view_dashboards.html";
     private static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/admin/manage_dashboards.html";
+
+    // Jsp
     private static final String JSP_MANAGE_DASHBOARDS = "ManageAdminDashboards.jsp";
-    public static final String RIGHT_MANAGE_ADMINDASHBOARD = "CORE_ADMINDASHBOARD_MANAGEMENT";
+    
     private static final String EMPTY_STRING = "";
     private AdminDashboardService _service = AdminDashboardService.getInstance(  );
 

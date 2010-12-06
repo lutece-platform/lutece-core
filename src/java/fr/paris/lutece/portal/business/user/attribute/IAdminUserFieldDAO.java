@@ -60,7 +60,7 @@ public interface IAdminUserFieldDAO
 
     /**
      * Update an user field
-     * @param attribute the attribute
+     * @param userField the user field
      */
     void store( AdminUserField userField );
 

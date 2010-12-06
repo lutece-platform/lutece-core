@@ -97,7 +97,7 @@ public interface IPageDAO
     /**
      * Select all child pages for a page which is specified in parameter
      * For each pages, only select : Id, pageParentId, name and description
-     * @param nParentPageId
+     * @param nParentPageId the ParentPageId identifier
      * @return The list of objects Page
      */
     Collection<Page> selectChildPagesMinimalData( int nParentPageId );

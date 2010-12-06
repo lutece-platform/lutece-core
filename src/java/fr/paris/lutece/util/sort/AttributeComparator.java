@@ -42,7 +42,9 @@ import java.sql.Timestamp;
 
 import java.util.Comparator;
 
-
+/**
+ * This class provide Attribute Comparator
+ */
 public class AttributeComparator implements Comparator<Object>
 {
     private String _strSortedAttribute;
@@ -51,7 +53,7 @@ public class AttributeComparator implements Comparator<Object>
     /**
      * Constructor
      * @param strSortedAttribute the name of the attribute on which the sort will be made
-     * @param bIsAsc true for the ASC order, false for the DESC order
+     * @param bIsASC true for the ASC order, false for the DESC order
      */
     public AttributeComparator( String strSortedAttribute, boolean bIsASC )
     {
@@ -62,7 +64,6 @@ public class AttributeComparator implements Comparator<Object>
     /**
      * Constructor
      * @param strSortedAttribute the name of the attribute on which the sort will be made
-     * @param bIsAsc true for the ASC order, false for the DESC order
      */
     public AttributeComparator( String strSortedAttribute )
     {

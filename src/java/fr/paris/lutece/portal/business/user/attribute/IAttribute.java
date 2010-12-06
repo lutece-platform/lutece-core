@@ -67,7 +67,7 @@ public interface IAttribute
 
     /**
      * Set mandatory
-     * @param mandatory true if it's mandatory, false otherwise
+     * @param bMandatory true if it's mandatory, false otherwise
      */
     void setMandatory( boolean bMandatory );
 
@@ -79,7 +79,7 @@ public interface IAttribute
 
     /**
      * Set list fields
-     * @param listAttributeField list fields
+     * @param listAttributeFields list fields
      */
     void setListAttributeFields( List<AttributeField> listAttributeFields );
 

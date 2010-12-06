@@ -900,6 +900,8 @@ public class PageService extends ContentService implements ImageResourceProvider
     /**
     * @see net.sf.ehcache.event.CacheEventListener#notifyElementEvicted(net.sf.ehcache.Ehcache,
     *      net.sf.ehcache.Element)
+    * @param cache The Ehcache object
+    * @param element The Element object
     */
     public void notifyElementEvicted( Ehcache cache, Element element )
     {
@@ -909,6 +911,8 @@ public class PageService extends ContentService implements ImageResourceProvider
     /**
      * @see net.sf.ehcache.event.CacheEventListener#notifyElementExpired(net.sf.ehcache.Ehcache,
      *      net.sf.ehcache.Element)
+     * @param cache The Ehcache object
+     * @param element The Element object
      */
     public void notifyElementExpired( Ehcache cache, Element element )
     {
@@ -918,6 +922,8 @@ public class PageService extends ContentService implements ImageResourceProvider
     /**
      * @see net.sf.ehcache.event.CacheEventListener#notifyElementPut(net.sf.ehcache.Ehcache,
      *      net.sf.ehcache.Element)
+     * @param cache The Ehcache object
+     * @param element The Element object
      */
     public void notifyElementPut( Ehcache cache, Element element )
     {
@@ -926,6 +932,8 @@ public class PageService extends ContentService implements ImageResourceProvider
     /**
      * @see net.sf.ehcache.event.CacheEventListener#notifyElementRemoved(net.sf.ehcache.Ehcache,
      *      net.sf.ehcache.Element)
+     * @param cache The Ehcache object
+     * @param element The Element object
      */
     public void notifyElementRemoved( Ehcache cache, Element element )
     {
@@ -935,6 +943,8 @@ public class PageService extends ContentService implements ImageResourceProvider
     /**
      * @see net.sf.ehcache.event.CacheEventListener#notifyElementUpdated(net.sf.ehcache.Ehcache,
      *      net.sf.ehcache.Element)
+     * @param cache The Ehcache object
+     * @param element The Element object
      */
     public void notifyElementUpdated( Ehcache cache, Element element )
     {
@@ -943,6 +953,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     /**
      * @see net.sf.ehcache.event.CacheEventListener#notifyRemoveAll(net.sf.ehcache.Ehcache)
      * @param cache .
+     * @param cache The Ehcache object
      */
     public void notifyRemoveAll( Ehcache cache )
     {
@@ -950,7 +961,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     }
 
     /**
-     * @param element .
+     * @param element The Element object
      */
     public void removeKeyFromMap( Element element )
     {
@@ -959,7 +970,7 @@ public class PageService extends ContentService implements ImageResourceProvider
 
     /**
      * @see java.lang.Object#clone()
-     * @return .
+     * @return the instance
      */
     @Override
     public Object clone(  )

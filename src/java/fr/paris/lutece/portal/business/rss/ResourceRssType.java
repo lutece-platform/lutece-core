@@ -36,7 +36,7 @@ package fr.paris.lutece.portal.business.rss;
 
 /**
  *
- * class ResourceRssType
+ * Class ResourceRssType that provides the resources type for rss
  *
  */
 public class ResourceRssType implements IResourceRssType
@@ -46,67 +46,73 @@ public class ResourceRssType implements IResourceRssType
     private String _strClassName;
     private String _strKey;
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.rss.IResourceRssType#getKey()
+    /**
+     * Get resource rss type
+     * @return  key of the resourceRss type
      */
     public String getKey(  )
     {
         return _strKey;
     }
 
-    /* (non-Javadoc)
-    * @see fr.paris.lutece.portal.business.rss.IResourceRssType#setKey(java.lang.String)
-    */
+    /**
+     * Set the  key  of the resourceRss type
+     * @param key title the key of the text type
+     */
     public void setKey( String key )
     {
         _strKey = key;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.rss.IResourceRssType#getTitleI18nKey()
+    /**
+     * Get title key of the resourceRss type
+     * @return the I18n title key of the resourceRss type
      */
     public String getTitleI18nKey(  )
     {
         return _strTitleI18nKey;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.rss.IResourceRssType#setTitleI18nKey(java.lang.String)
+    /**
+     * Set the I18n title key  of the resourceRss type
+     * @param title the title of the resourceRss type
      */
     public void setTitleI18nKey( String title )
     {
         _strTitleI18nKey = title;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.rss.IResourceRssType#getClassName()
-         */
+    /**
+     * Get the path for acces to the Class resourceRss
+     * @return the path for acces to the Classe resourceRss
+     */
     public String getClassName(  )
     {
         return _strClassName;
     }
 
-    /* (non-Javadoc)
-         * @see fr.paris.lutece.portal.business.rss.IResourceRssType#setClassName(java.lang.String)
-         */
+    /**
+     * set the path for acces to the Class resourceRss
+     * @param className the path for acces to the Class resourceRss
+     */
     public void setClassName( String className )
     {
         _strClassName = className;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.rss.IResourceRssType#getTitle()
-     */
+    /**
+    * Get the  title of the resourceRss type
+    * @return the title of the resourceRss type
+    */
     public String getTitle(  )
     {
         // TODO Auto-generated method stub
         return _strTitle;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.rss.IResourceRssType#setTitle(java.lang.String)
+    /**
+     * Set the  title of the resourceRss type
+     * @param title the title of the resourceRss type
      */
     public void setTitle( String title )
     {

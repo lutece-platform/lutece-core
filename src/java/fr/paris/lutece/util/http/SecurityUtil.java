@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2009, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.util.string.StringUtil;
 import org.apache.log4j.Logger;
 
 import java.util.Enumeration;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -100,7 +99,7 @@ public final class SecurityUtil
      * cross-site scripting attack.
      *
      * @param request The HTTP request
-     * @param strValue a character String
+     * @param strString a character String
      * @return true if the String contains illegal characters
      */
     public static boolean containsXssCharacters( HttpServletRequest request, String strString )

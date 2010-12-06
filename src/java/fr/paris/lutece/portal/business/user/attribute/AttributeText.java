@@ -81,7 +81,6 @@ public class AttributeText extends AbstractAttribute
 
     /**
      * Constructor
-     * @param locale locale
      */
     public AttributeText(  )
     {

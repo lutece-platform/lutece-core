@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.workgroup;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -152,7 +153,7 @@ public class AdminWorkgroupFilter
 
     /**
      * Build url attributes
-     * @param the url
+     * @param url The url item
      */
     public void setUrlAttributes( UrlItem url )
     {
@@ -167,7 +168,7 @@ public class AdminWorkgroupFilter
         }
         catch ( UnsupportedEncodingException e )
         {
-            e.printStackTrace(  );
+            AppLogService.error( e.getMessage() , e );
         }
     }
 
@@ -189,7 +190,7 @@ public class AdminWorkgroupFilter
         }
         catch ( UnsupportedEncodingException e )
         {
-            e.printStackTrace(  );
+            AppLogService.error( e.getMessage() , e );
         }
 
         return sbUrlAttributes.toString(  );

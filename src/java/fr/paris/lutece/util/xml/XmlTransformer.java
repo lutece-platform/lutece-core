@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2008, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -80,7 +80,7 @@ public final class XmlTransformer
      * @param stylesheet The XML document content
      * @param strStyleSheetId The StyleSheet Id
      * @return XmlTransformer object
-     * @throws Exception
+     * @throws Exception the exception
      */
     private Transformer getTransformer( Source stylesheet, String strStyleSheetId )
         throws Exception
@@ -192,7 +192,7 @@ public final class XmlTransformer
      * @param params Parameters that can be used by the XSL StyleSheet
      * @param outputProperties Properties to use for the XSL transform. Will overload the XSL output definition.
      * @return The output document
-     * @throws Exception
+     * @throws Exception The exception
      */
     public String transform( Source source, Source stylesheet, String strStyleSheetId, Map<String, String> params,
         Properties outputProperties ) throws Exception

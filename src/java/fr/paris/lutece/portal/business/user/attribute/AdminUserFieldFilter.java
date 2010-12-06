@@ -1,5 +1,4 @@
-/*
- * Copyright (c) 2002-2008, Mairie de Paris
+/* Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +32,7 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -116,7 +116,7 @@ public class AdminUserFieldFilter
 
     /**
     * Build url attributes
-    * @param the url
+    * @param url The url item
     */
     public void setUrlAttributes( UrlItem url )
     {
@@ -130,7 +130,7 @@ public class AdminUserFieldFilter
             }
             catch ( UnsupportedEncodingException e )
             {
-                e.printStackTrace(  );
+                AppLogService.error( e.getMessage(), e );
             }
         }
     }
@@ -153,7 +153,7 @@ public class AdminUserFieldFilter
             }
             catch ( UnsupportedEncodingException e )
             {
-                e.printStackTrace(  );
+                AppLogService.error( e.getMessage(), e );
             }
         }
 

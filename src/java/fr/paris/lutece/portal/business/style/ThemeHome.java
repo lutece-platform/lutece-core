@@ -47,6 +47,9 @@ public final class ThemeHome
     // Static variable pointed at the DAO instance
     private static IThemeDAO _dao = (IThemeDAO) SpringContextService.getBean( "coreThemeDAO" );
 
+    /**
+     * Creates a new ThemeHome object.
+     */
     private ThemeHome(  )
     {
     }
@@ -80,7 +83,7 @@ public final class ThemeHome
     /**
      * Remove the theme whose identifier is specified in parameter
      *
-     * @param nId The identifier of the theme to remove
+     * @param strCodeTheme The identifier of the theme to remove
      */
     public static void remove( String strCodeTheme )
     {
@@ -90,7 +93,7 @@ public final class ThemeHome
     /**
      * Returns an instance of an theme whose identifier is specified in parameter
      *
-     * @param nKey The theme primary key
+     * @param strCodeTheme The theme primary key
      * @return an instance of a theme
      */
     public static Theme findByPrimaryKey( String strCodeTheme )
@@ -121,7 +124,7 @@ public final class ThemeHome
     /**
      * Checks if the theme is among existing themes
      *
-     * @param strTheme The theme to check
+     * @param strCodeTheme The theme to check
      * @return True if the theme is valid
      */
     public static boolean isValidTheme( String strCodeTheme )

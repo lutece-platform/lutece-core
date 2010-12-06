@@ -72,8 +72,7 @@ public class DefaultUserParameterDAO implements IDefaultUserParameterDAO
 
     /**
      * Update the parameter value
-     * @param strParameterValue The parameter value
-     * @param strParameterKey The parameter key
+     * @param userParam The user parameter
      */
     public void store( DefaultUserParameter userParam )
     {

@@ -52,11 +52,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AttributeComboBox extends AbstractAttribute
 {
-    // CONSTANTS
+    // Constants
     private static final String EMPTY_STRING = "";
     private static final String CONSTANT_UNDERSCORE = "_";
 
-    // PARAMETERS 
+    // Parameters
     private static final String PARAMETER_TITLE = "title";
     private static final String PARAMETER_HELP_MESSAGE = "help_message";
     private static final String PARAMETER_MANDATORY = "mandatory";
@@ -64,12 +64,12 @@ public class AttributeComboBox extends AbstractAttribute
     private static final String PARAMETER_IS_SHOWN_IN_SEARCH = "is_shown_in_search";
     private static final String PARAMETER_ATTRIBUTE = "attribute";
 
-    // PROPERTY
+    // Properties
     private static final String PROPERTY_TYPE_COMBOBOX = "portal.users.attribute.type.comboBox";
     private static final String PROPERTY_CREATE_COMBOBOX_PAGETITLE = "portal.users.create_attribute.pageTitleAttributeComboBox";
     private static final String PROPERTY_MODIFY_COMBOBOX_PAGETITLE = "portal.users.modify_attribute.pageTitleAttributeComboBox";
 
-    // TEMPLATES
+    // Templates
     private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/combobox/create_attribute_combobox.html";
     private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/combobox/modify_attribute_combobox.html";
     private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/combobox/html_code_form_attribute_combobox.html";
@@ -77,7 +77,6 @@ public class AttributeComboBox extends AbstractAttribute
 
     /**
      * Constructor
-     * @param locale locale
      */
     public AttributeComboBox(  )
     {

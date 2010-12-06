@@ -99,7 +99,7 @@ public final class XmlTransformerService
      * @return The output document
      */
     @Deprecated
-    public synchronized static String transformBySource( String strXml, Source sourceStyleSheet,
+    public static synchronized  String transformBySource( String strXml, Source sourceStyleSheet,
         Map<String, String> params, Properties outputProperties )
     {
         StringReader srInputXml = new StringReader( strXml );
@@ -126,7 +126,7 @@ public final class XmlTransformerService
      * @param strXml The XML document content
      * @param xslSource The XSL source
      * @param params Parameters that can be used by the XSL StyleSheet
-     * @return
+     * @return the output html
      */
     public String transformBySourceWithXslCache( String strXml, StyleSheet xslSource, Map<String, String> params )
     {
@@ -140,7 +140,7 @@ public final class XmlTransformerService
      * @param xslSource The XSL source
      * @param params Parameters that can be used by the XSL StyleSheet
      * @param outputProperties Properties to use for the XSL transform. Will overload the XSL output definition.
-     * @return
+     * @return the output html
      */
     public String transformBySourceWithXslCache( String strXml, StyleSheet xslSource, Map<String, String> params,
         Properties outputProperties )
@@ -186,7 +186,7 @@ public final class XmlTransformerService
      * @param sourceStyleSheet The XSL source
      * @param strStyleSheetId The StyleSheet Id
      * @param params Parameters that can be used by the XSL StyleSheet
-     * @param outputProperties
+     * @param outputProperties the output parameter
      * @return The output document
      */
     public String transformBySourceWithXslCache( String strXml, Source sourceStyleSheet, String strStyleSheetId,
@@ -222,7 +222,7 @@ public final class XmlTransformerService
      * @param sourceStyleSheet The XSL source
      * @param strStyleSheetId The StyleSheet Id
      * @param params Parameters that can be used by the XSL StyleSheet
-     * @param outputProperties
+     * @param outputProperties the output parameter
      * @return The output document
      */
     public String transformBySourceWithXslCache( Source sourceXml, Source sourceStyleSheet, String strStyleSheetId,

@@ -46,8 +46,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.xml.XmlTransformer;
-import fr.paris.lutece.util.xml.XmlUtil;
+
 
 import java.io.File;
 

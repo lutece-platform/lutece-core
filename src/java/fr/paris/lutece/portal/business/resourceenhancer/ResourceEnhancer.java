@@ -76,6 +76,7 @@ public final class ResourceEnhancer
      * Add datas to the model use by document template
      *
      * @param model The model use by document template
+     * @param strResourceType the ressource Type
      * @param nIdResource The resource id
      * @param strPortletId The portlet ID
      * @param request The HTTP Request

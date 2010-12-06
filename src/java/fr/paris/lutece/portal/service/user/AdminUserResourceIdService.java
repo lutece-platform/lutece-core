@@ -89,7 +89,7 @@ public class AdminUserResourceIdService extends ResourceIdService
 
     /**
      * Returns the Title of a given resource
-     * @param strAdminUserServiceId The Id of the resource
+     * @param strAdminUserId The Id of the resource
      * @param locale The current locale
      * @return The Title of a given resource
      */

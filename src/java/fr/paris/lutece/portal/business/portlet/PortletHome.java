@@ -286,7 +286,7 @@ public abstract class PortletHome implements PortletHomeInterface
     /**
      * Returns the collection of the StyleSheet objects associated to the Style
      *
-     * @param nStyleId identifier of the style
+     * @param nPortletId identifier of the portlet
      * @return A collection of styles
      */
     public static Collection<Portlet> getAliasList( int nPortletId )

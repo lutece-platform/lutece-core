@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.service.jpa;
 
 /**
  * Generic JPA DAO for Lutece core components
+ * @param <K> Type of the entity's key
+ * @param <E> Type of the entity
  */
 public abstract class JPALuteceCoreDAO<K, E> extends JPALuteceDAO<K, E>
 {

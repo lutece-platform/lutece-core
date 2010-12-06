@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2008, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
+/*
+ * AbstractLuteceHome
+ */
 public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> implements IGenericHome<K, E>
 {
     private DAO _dao;
