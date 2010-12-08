@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.filter;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -92,6 +93,6 @@ public class LuteceFilterConfig implements FilterConfig
      */
     public Enumeration<String> getInitParameterNames(  )
     {
-        return (Enumeration<String>) _mapInitParameters.keySet(  );
+    	return Collections.enumeration( _mapInitParameters.keySet(  ) );
     }
 }
