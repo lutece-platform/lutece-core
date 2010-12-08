@@ -36,54 +36,29 @@ package fr.paris.lutece.util.annotation;
 import java.lang.annotation.Annotation;
 import java.util.Set;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.service.util.AppException;
-
 /**
  * 
- * Allow classpath scanning for annotations
+ * IAnnotationDB is used to find annotation.
  * 
  */
-public final class AnnotationUtil
+public interface IAnnotationDB
 {
-	private static final IAnnotationDB ANNOTATION_DB = ( IAnnotationDB ) SpringContextService.getBean( "annotationDB" );
-
-	static
-	{
-		// check annotation db
-		if ( ANNOTATION_DB == null )
-		{
-			throw new AppException( "Bean annotationDB is not correctly set. Please check you core_context.xml configuration." );
-		}
-		
-		ANNOTATION_DB.init();
-	}
+	/**
+	 * Initializes the database
+	 */
+	void init();
 
 	/**
-	 * Empty constructor
+	 * Finds the class having the given annotation
+	 * @param annotationType the annotation
+	 * @return classes found.
 	 */
-	private AnnotationUtil()
-	{
-		// nothing
-	}
+	Set<String> getClassesName( Class<? extends Annotation> annotationType );
 
 	/**
-	 * Finds all classes with the given annotation
-	 * @param annotationType the annotation class
-	 * @return all classes founds
+	 * Finds classes having the given annotation
+	 * @param strAnnotationType the annotation type name
+	 * @return classes found.
 	 */
-	public static Set<String> find( Class<? extends Annotation> annotationType )
-	{
-		return ANNOTATION_DB.getClassesName( annotationType );
-	}
-
-	/**
-	 * Finds all classes with the given annotation
-	 * @param strAnnotation the annotation class name
-	 * @return all classes founds
-	 */
-	public static Set<String> find( String strAnnotation )
-	{
-		return ANNOTATION_DB.getClassesName( strAnnotation );
-	}
+	Set<String> getClassesName( String strAnnotationType );
 }

@@ -92,4 +92,17 @@
 
 	<!-- dashboards -->
     <bean id="dashboardDAO" class="fr.paris.lutece.portal.business.dashboard.DashboardDAO"/>
+    
+    <!-- annotation db -->
+    <!-- scans WEB-INF/lib for classes within jars, and web-inf/classes for .class -->
+    <bean id="annotationDB" class="fr.paris.lutece.util.annotation.ScannotationDB">
+    	<!-- 
+    		Uncomment the following lines and set your own regexp to filter scannable jar. 
+    		If not set, annotation db will use a default property that matches 
+    		lutece jars only.
+    		For example, (sample\.jar)|(another-.*\.jar) will match
+    		sample.jar and another-randomtext.jar.    		
+    	-->
+    	<!-- <property name="fileFilter">(sample\.jar)|(another-.*\.jar)</property> -->
+    </bean>
 </beans>
