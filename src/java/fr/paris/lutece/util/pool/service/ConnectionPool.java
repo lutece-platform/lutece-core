@@ -53,11 +53,11 @@ import javax.sql.DataSource;
 /**
  * This class manages a database connection pool.
  * <br>
- * Connections are wrapped by a {@link LuteceConnectionWrapper}
+ * Connections are wrapped by a {@link LuteceConnection}
  * to avoid explicit calls to {@link Connection#close()}. Connections
  * are released to this pool when {@link Connection#close()} is called, and
  * are not actually closed until {@link #release()} call.
- * @see LuteceConnectionWrapper
+ * @see LuteceConnection
  */
 public class ConnectionPool implements DataSource
 {
@@ -279,7 +279,7 @@ public class ConnectionPool implements DataSource
     /**
      * Creates a new connection.
      * <br>
-     * The connection is wrapped by {@link LuteceConnectionWrapper}
+     * The connection is wrapped by {@link LuteceConnection}
      *
      * @return The new created connection
      * @throws SQLException The SQL exception
@@ -298,7 +298,7 @@ public class ConnectionPool implements DataSource
         }
 
         // wrap connection so this connection pool is used when conn.close() is called
-        conn = new LuteceConnectionWrapper( conn, this );
+        conn = LuteceConnectionFactory.newInstance( this, conn );
 
         _logger.info( "New connection created. Connections count is : " + ( getConnectionCount(  ) + 1 ) );
 
@@ -329,9 +329,9 @@ public class ConnectionPool implements DataSource
         {
             try
             {
-                if ( connection instanceof LuteceConnectionWrapper )
+                if ( connection instanceof LuteceConnection )
                 {
-                    ( (LuteceConnectionWrapper) connection ).getWrappee(  ).close(  );
+                    ( (LuteceConnection) connection ).closeConnection();
                 }
                 else
                 {
