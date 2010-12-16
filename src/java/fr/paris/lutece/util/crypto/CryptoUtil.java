@@ -50,6 +50,7 @@ import javax.crypto.spec.SecretKeySpec;
  *
  * @since 1.2.1
  */
+@Deprecated
 public final class CryptoUtil
 {
     private static final String ALGORITHM_DES = "DES";
