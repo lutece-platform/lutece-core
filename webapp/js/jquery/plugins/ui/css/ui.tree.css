@@ -1,0 +1,121 @@
+﻿.ui-tree .ui-tree-root,
+.ui-tree .ui-tree-node-children {
+	display: block; 
+	
+	padding: 0px; 
+	margin: 0px 0px 0px 2px; 
+
+	white-space: nowrap; 
+	list-style-type: none;
+}
+.ui-tree .ui-tree-node-children .ui-tree-node-children {
+	margin-left: 18px;
+}
+.ui-tree .ui-tree-node {
+	display: block;
+	padding: 0px; 
+	margin: 0px;
+
+	white-space: nowrap; 
+	list-style-type: none;
+	
+	background: transparent url("images/ui.tree-structure-vertical-line.gif") repeat-y left 2px;
+}
+.ui-tree .ui-tree-node.ui-tree-node-loading .ui-tree-node-children {
+	display: none;
+}
+.ui-tree .ui-tree-node.ui-tree-node-last-visible {
+	background: none;
+}
+.ui-tree .ui-tree-node-header {
+    display: block;
+    height: 20px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	background: transparent url("images/ui.tree-structure-states.gif") no-repeat left 0px;
+}
+.ui-tree .ui-tree-node-header.ui-tree-node-first-visible {
+	background-position: left -96px;
+}
+.ui-tree .ui-tree-node-header.ui-tree-node-last-visible {
+	background-position: left 0px;
+}
+.ui-tree .ui-tree-node-header.ui-tree-node-empty {
+	background-position: left 0px;
+}
+.ui-tree .ui-tree-node-header.ui-tree-node-empty.ui-tree-node-last-visible {
+	background-position: left 0px;
+}
+.ui-tree .ui-tree-node-header a {
+	display: block;
+	/*min-height: 20px;
+	line-height: 18px;*/
+	padding-left: 20px;
+	
+    background: transparent url("images/ui.tree-handle-states.gif") no-repeat left -2px; /* 0 - node-header.padding-top */
+	
+	color: black;
+	cursor: default;
+	text-decoration: none;
+	outline: none;
+	-moz-outline: none;
+}
+.ui-tree .ui-tree-node-header.ui-tree-node-collapsed a {
+    background-position: left -26px; /* -24 - node-header.padding-top */
+}
+.ui-tree .ui-tree-node-header.ui-tree-node-empty a, .ui-tree .ui-tree-node-header.ui-tree-node-disabled a {
+    background-position: left -50px; /* -48 - node-header.padding-top */
+}
+.ui-tree .ui-tree-node-header.ui-tree-node-loading a {
+	background-image: url("images/ui.tree-node-loading.gif");
+	background-position: left -2px; /* 0 - node-header.padding-top */
+}
+.ui-tree .ui-tree-node-header a:focus {
+	outline: none;
+	-moz-outline: none;
+}
+.ui-tree .ui-tree-node-header a:hover span, .ui-tree .ui-tree-node-header a.ui-state-hover span,
+.ui-tree .ui-tree-node-header a:focus span {
+}
+.ui-tree .ui-tree-node-header a:focus span {
+}
+.ui-tree .ui-tree-node-header a span,
+.ui-tree .ui-tree-node-header.ui-tree-node-disabled a span,
+.ui-tree .ui-tree-node-header.ui-tree-node-disabled a:hover span, .ui-tree .ui-tree-node-header.ui-tree-node-disabled a.ui-state-hover span, 
+.ui-tree .ui-tree-node-header.ui-tree-node-disabled a:focus span {
+	display: block;
+	min-height: 20px;
+	line-height: 18px;
+	/*background: transparent none no-repeat 2px center; conflicts with ThemeRoller background*/
+	
+	cursor: default;
+	text-decoration: none;
+}
+.ui-tree .ui-tree-node-header a[href] span {
+	text-decoration: underline;
+}
+.ui-tree .ui-tree-node-header a[href|='javascript:'] span {
+	text-decoration: none;
+}
+.ui-tree .ui-tree-node.ui-tree-node-collapsed ul, .ui-tree .ui-tree-node.ui-tree-node-empty ul {
+	display: none;
+}
+.ui-tree .ui-tree-node-header.ui-tree-node-loading a span {
+}
+.ui-tree .ui-tree-node-header.ui-tree-node-selected a span {
+}
+.ui-tree .ui-tree-node-header.ui-tree-node-disabled a span {
+}
+.ui-tree .ui-tree-node-header.ui-tree-node-error a span, .ui-tree .ui-tree-node-header.ui-tree-node-error a span {
+}
+.ui-tree .ui-tree-header {
+	display: block;
+	min-height: 20px;
+	line-height: 18px;
+	/*background: transparent none;*/
+}
+/*.ui-tree .ui-tree-header.ui-tree-node-loading {
+	padding-left: 20px;
+	background-image: url("images/ui.tree-node-loading.gif");
+	background-position: left 3px;
+}*/

@@ -32,14 +32,15 @@
 <![endif]-->
 <link rel="stylesheet" type="text/css" href="css/print_admin.css" media="print" />
 <link rel="stylesheet" type="text/css" href="js/jquery/plugins/autocomplete/jquery.autocomplete.css" />
-<link rel="stylesheet" type="text/css" href="/js/jscalendar/calendar-lutece.css" />
-<link rel="stylesheet" type="text/css" href="js/jquery/plugins/treeview/jquery.treeview.css"/>
+<link rel="stylesheet" type="text/css" href="js/jscalendar/calendar-lutece.css" />
+<link rel="stylesheet" type="text/css" href="js/jquery/plugins/ui/jstree/themes/style.css" />
 <link rel="stylesheet" type="text/css" href="js/jquery/plugins/ui/datepicker/ui.datepicker.css"/>
 <link rel="stylesheet" type="text/css" href="js/jquery/plugins/jpassword/jpassword.css"/>
 <script type="text/javascript" src="js/tools.js"></script>
 <script src="js/jquery/jquery-1.4.3.min.js" type="text/javascript"></script>
-<script src="js/jquery/plugins/treeview/jquery.cookie.js" type="text/javascript"></script>
-<script src="js/jquery/plugins/treeview/jquery.treeview.pack.js" type="text/javascript"></script>
+<script src="js/jquery/plugins/ui/jstree/jquery.cookie.js" type="text/javascript"></script>
+<script src="js/jquery/plugins/ui/jstree/jquery.jstree.js" type="text/javascript"></script>
+<script src="js/jquery/plugins/ui/jstree/jquery.hotkeys.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/ui/datepicker/ui.datepicker.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/ui/datepicker/ui.datepicker-fr.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/jpassword/jquery.jpassword.pack.js" type="text/javascript"></script>
@@ -47,11 +48,11 @@
 <script src="js/jquery/plugins/generatepassword/jquery.password.min.js" type="text/javascript"></script>
 <!--[if IE 6]>
 <!-- Hack for menu -->
-    <script type="text/javascript">
-        startList = function() {
-            if (document.all && document.getElementById) {
-                var navRoot = document.getElementById("menu-main");
-                for (i=0; i<navRoot.childNodes.length; i++) {
+<script type="text/javascript">
+startList = function() {
+if (document.all && document.getElementById) {
+   var navRoot = document.getElementById("menu-main");
+    for (i=0; i<navRoot.childNodes.length; i++) {
                     var node = navRoot.childNodes[i];
                     if (node.nodeName=="LI") {
                         node.onmouseover=function() {

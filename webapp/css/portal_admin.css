@@ -171,6 +171,7 @@ div.content-box li p{ margin: 0; margin-bottom: 20px;}
 div.content-box p { margin: 0 0 0 10px; }
 div.content-box p.title { margin:2px 10px; padding: 2px 0; border-bottom:1px dotted #55B4E5; font-weight: bold;  }
 div.content-box ul { margin: 15px 0 15px 20px; padding: 0px; }
+div.content-box div#tree ul { margin: 0 0 0 15px; padding: 0px; }
 div.content-box li { list-style: none; }
 div.content-box form { margin: 10px; }
 div.content-box td form { margin: 0px; }
@@ -489,3 +490,5 @@ div.admin-site-page select{ text-align:left; font-weight: normal;}
 
 .preview{ border: none; margin: 0 33px 0 330px; }
 .togl{float:right;margin:0;}
+
+@import "ui.all.css";

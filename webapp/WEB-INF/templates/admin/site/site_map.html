@@ -1,14 +1,8 @@
-<script type="text/javascript">
-$(document).ready(function(){
-$("#tree").treeview({
-animated: "fast",
-collapsed: true,
-unique: true,
-persist: "cookie"
-});
-});
-</script>
 <div id="content-admin-site-page" class="admin-site-page">
     ${map_site}
 </div>
-    
+<script type="text/javascript">
+     jQuery(function($) {
+	$("#tree").jstree({"plugins" : [ "themes", "html_data", "cookies" ]});
+    });
+</script>
