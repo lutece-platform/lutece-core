@@ -21,3 +21,8 @@ INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VA
 -- Update core_admin_resource
 --
 DELETE FROM core_admin_role_resource WHERE resource_type LIKE 'ADVANCED_PARAMETER';
+
+--
+-- Update core_admin_right
+--
+INSERT INTO core_admin_right VALUES ('CORE_DASHBOARD_MANAGEMENT', 'portal.dashboard.adminFeature.dashboard_management.name', 0, 'jsp/admin/dashboard/ManageDashboards.jsp', 'portal.dashboard.adminFeature.dashboard_management.description', 0, NULL, 'SYSTEM', 'images/admin/skin/features/manage_dashboards.png', NULL, 8);
