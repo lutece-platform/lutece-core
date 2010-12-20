@@ -50,7 +50,13 @@
 	    <p>
 			<label for="max_size_enter">#i18n{portal.users.modify_attribute.labelMaxSizeEnter}  : </label>
 			<#list attribute_fields_list as attribute_field>
-				<input type="text" name="max_size_enter" id="max_size_enter" size="5" value="${attribute_field.maxSizeEnter}" />
+				<input type="text" name="max_size_enter" id="max_size_enter" size="5" 
+					<#if attribute_field.maxSizeEnter?? && ( attribute_field.maxSizeEnter >= 0 )>
+						value="${attribute_field.maxSizeEnter}"
+					<#else>
+						value=""
+					</#if>
+				 />
 			</#list>
 	   </p>
 		<p>

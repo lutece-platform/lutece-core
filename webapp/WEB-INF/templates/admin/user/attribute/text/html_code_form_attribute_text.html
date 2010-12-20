@@ -17,7 +17,7 @@
 		 	<#else>
 				 value="" 
 			</#if>
-			<#if attributeField.maxSizeEnter!=-1>
+			<#if ( attributeField.maxSizeEnter >= 0 )>
 				maxlength="${attributeField.maxSizeEnter}"
 			</#if>
 			/>

@@ -10,20 +10,12 @@
 	<label for="attribute_${attribute.idAttribute}">
 		${attribute.title} : 
 	</label>
-	<input type="radio" name="attribute_${attribute.idAttribute}" value="" 
-		<#if !default_values_list?has_content>
-			checked="checked"
-		</#if>
-	/> #i18n{portal.users.attribute.labelAll}
-	<#if !attribute.fieldInLine>
-		<br />
-	</#if>
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.title?exists && attributeField.value != "">
-			<#if !attribute.fieldInLine>
+			<#if !attribute.fieldInLine && attributeField_index != 0>
 				<label>&nbsp;</label>
 			</#if>
-			<input type="radio" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}"
+			<input type="checkbox" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}"
 				<#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >
 					checked="checked"
 				</#if>
