@@ -29,6 +29,7 @@
 	<!-- 					  User Attributes 						 -->
 	<bean id="attributeText" class="fr.paris.lutece.portal.business.user.attribute.AttributeText" />
 	<bean id="attributeComboBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeComboBox" />
+	<bean id="attributeRadioButton" class="fr.paris.lutece.portal.business.user.attribute.AttributeRadioButton" />
 	
 
     <!--                       Data Access Objects                             -->

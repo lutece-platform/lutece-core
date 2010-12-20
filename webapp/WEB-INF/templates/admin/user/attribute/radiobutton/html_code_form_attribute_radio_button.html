@@ -1,0 +1,61 @@
+<#function isSelected nIdField default_values_list>
+	<#if default_values_list?has_content>
+		<#list default_values_list as default_value>
+			<#if default_value.attributeField?exists && default_value.attributeField.idField = nIdField && default_value.value != "">  		
+  				<#return true>
+  			</#if>
+  		</#list>
+	</#if>
+	<#return false>
+</#function>
+<#function hasElement default_values_list>
+	<#if default_values_list?has_content>
+		<#list default_values_list as default_value>
+			<#if default_value.idUserField != 0>
+				<#return true>
+			</#if>
+		</#list>
+	</#if>
+	<#return false>
+</#function>
+<p>
+	<label for="attribute_${attribute.idAttribute}">
+		${attribute.title}
+	<#if attribute.mandatory>
+		*
+	</#if>
+		: 
+	</label>
+	<#if !attribute.mandatory>
+		<input type="radio" name="attribute_${attribute.idAttribute}" value="" 
+			<#if !hasElement( default_values_list )>
+				checked="checked"
+			</#if>
+		/>#i18n{portal.users.attribute.labelNone}
+		<br />
+	</#if>
+	<#list attribute.listAttributeFields as attributeField>
+		<#if attributeField.title?exists && attributeField.value != "">
+			<#if !attribute.fieldInLine>
+				<#if ( attribute.mandatory && attributeField_index != 0 ) || !attribute.mandatory>
+					<label>&nbsp;</label>
+				</#if>
+			</#if>
+			<input type="radio" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}" 
+				<#if ( attributeField.defaultValue && !default_values_list?has_content ) || isSelected( attributeField.idField,default_values_list )>
+					checked="checked"
+				</#if>
+			/>${attributeField.title}
+			<#if !attribute.fieldInLine>
+				<br />
+			</#if>
+		</#if>
+	</#list>
+	<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
+		<#if attribute.fieldInLine>
+			<br />
+		</#if>
+		<label>&nbsp;</label>
+		${attribute.helpMessage}
+	</#if>
+</p>

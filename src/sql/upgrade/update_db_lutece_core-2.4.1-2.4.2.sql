@@ -26,3 +26,8 @@ DELETE FROM core_admin_role_resource WHERE resource_type LIKE 'ADVANCED_PARAMETE
 -- Update core_admin_right
 --
 INSERT INTO core_admin_right VALUES ('CORE_DASHBOARD_MANAGEMENT', 'portal.dashboard.adminFeature.dashboard_management.name', 0, 'jsp/admin/dashboard/ManageDashboards.jsp', 'portal.dashboard.adminFeature.dashboard_management.description', 0, NULL, 'SYSTEM', 'images/admin/skin/features/manage_dashboards.png', NULL, 8);
+
+--
+-- Update core_attribute
+--
+ALTER TABLE core_attribute ADD is_field_in_line SMALLINT DEFAULT 0 AFTER is_shown_in_search;

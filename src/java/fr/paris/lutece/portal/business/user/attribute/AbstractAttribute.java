@@ -63,6 +63,7 @@ public abstract class AbstractAttribute implements IAttribute
     protected List<AttributeField> _listAttributeFields;
     protected Plugin _plugin;
     protected boolean _bIsShownInSearch;
+    protected boolean _bIsFieldInLine;
 
     /**
      * Constructor
@@ -296,5 +297,23 @@ public abstract class AbstractAttribute implements IAttribute
     public void setShownInSearch( boolean bIsShownInSearch )
     {
         _bIsShownInSearch = bIsShownInSearch;
+    }
+    
+    /**
+     * Check if the attribute is to be shown in line
+     * @return true if it is shown in line, false otherwise
+     */
+    public boolean isFieldInLine(  )
+    {
+    	return _bIsFieldInLine;
+    }
+    
+    /**
+     * Set isFieldInLine
+     * @param bIsFieldInLine shown in line
+     */
+    public void setFieldInLine( boolean bIsFieldInLine )
+    {
+    	_bIsFieldInLine = bIsFieldInLine;
     }
 }

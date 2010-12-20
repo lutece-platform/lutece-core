@@ -154,6 +154,18 @@ public interface IAttribute
      * @param bIsShownInSearch shown in search
      */
     void setShownInSearch( boolean bIsShownInSearch );
+    
+    /**
+     * Check if the attribute is to be shown in line
+     * @return true if it is shown in line, false otherwise
+     */
+    boolean isFieldInLine(  );
+    
+    /**
+     * Set isFieldInLine
+     * @param bIsFieldInLine shown in line
+     */
+    void setFieldInLine( boolean bIsFieldInLine );
 
     /**
      * Get the data of the user fields
@@ -211,4 +223,5 @@ public interface IAttribute
      * @return null if there are no errors
      */
     String setAttributeData( HttpServletRequest request );
+    
 }

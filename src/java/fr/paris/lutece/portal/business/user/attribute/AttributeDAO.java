@@ -57,21 +57,21 @@ public class AttributeDAO implements IAttributeDAO
     private static final String SQL_QUERY_NEW_POSITION = "SELECT MAX(attribute_position)" + " FROM core_attribute ";
 
     // SELECT
-    private static final String SQL_QUERY_SELECT = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, attribute_position, plugin_name " +
+    private static final String SQL_QUERY_SELECT = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_field_in_line, attribute_position, plugin_name " +
         " FROM core_attribute WHERE id_attribute = ? ";
-    private static final String SQL_QUERY_SELECT_ALL = " SELECT id_attribute, type_class_name, title, help_message, is_mandatory, is_shown_in_search, attribute_position, plugin_name " +
-        " FROM core_attribute ORDER BY attribute_position ";
-    private static final String SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES = " SELECT id_attribute, type_class_name, title, help_message, is_mandatory, is_shown_in_search, attribute_position " +
-        " FROM core_attribute WHERE plugin_name = ? ORDER BY attribute_position ";
-    private static final String SQL_QUERY_SELECT_CORE_ATTRIBUTES = " SELECT id_attribute, type_class_name, title, help_message, is_mandatory, is_shown_in_search, attribute_position " +
-        " FROM core_attribute WHERE plugin_name IS NULL OR plugin_name = '' ORDER BY attribute_position ";
+    private static final String SQL_QUERY_SELECT_ALL = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_field_in_line, attribute_position, plugin_name " +
+        " FROM core_attribute ORDER BY attribute_position ASC ";
+    private static final String SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_field_in_line, attribute_position " +
+        " FROM core_attribute WHERE plugin_name = ? ORDER BY attribute_position ASC ";
+    private static final String SQL_QUERY_SELECT_CORE_ATTRIBUTES = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_field_in_line, attribute_position " +
+        " FROM core_attribute WHERE plugin_name IS NULL OR plugin_name = '' ORDER BY attribute_position ASC ";
 
     // INSERT
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute (id_attribute, type_class_name, title, help_message, is_mandatory, is_shown_in_search, attribute_position)" +
-        " VALUES (?,?,?,?,?,?,?) ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute (id_attribute, type_class_name, title, help_message, is_mandatory, is_shown_in_search, is_field_in_line, attribute_position)" +
+        " VALUES (?,?,?,?,?,?,?,?) ";
 
     // UPDATE
-    private static final String SQL_QUERY_UPDATE = " UPDATE core_attribute SET title = ?, help_message = ?, is_mandatory = ?, is_shown_in_search = ?, attribute_position = ? " +
+    private static final String SQL_QUERY_UPDATE = " UPDATE core_attribute SET title = ?, help_message = ?, is_mandatory = ?, is_shown_in_search = ?, is_field_in_line = ?, attribute_position = ? " +
         " WHERE id_attribute = ? ";
 
     // DELETE
@@ -139,9 +139,10 @@ public class AttributeDAO implements IAttributeDAO
 
         if ( daoUtil.next(  ) )
         {
+        	int nIndex = 1;
             try
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( 1 ) ).newInstance(  );
+                attribute = ( IAttribute ) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -160,15 +161,16 @@ public class AttributeDAO implements IAttributeDAO
                 AppLogService.error( e );
             }
 
-            attribute.setIdAttribute( daoUtil.getInt( 2 ) );
-            attribute.setTitle( daoUtil.getString( 3 ) );
-            attribute.setHelpMessage( daoUtil.getString( 4 ) );
-            attribute.setMandatory( daoUtil.getBoolean( 5 ) );
-            attribute.setShownInSearch( daoUtil.getBoolean( 6 ) );
-            attribute.setPosition( daoUtil.getInt( 7 ) );
+            attribute.setIdAttribute( daoUtil.getInt( nIndex++ ) );
+            attribute.setTitle( daoUtil.getString( nIndex++ ) );
+            attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
+            attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setPosition( daoUtil.getInt( nIndex++ ) );
             attribute.setAttributeType( locale );
 
-            Plugin plugin = PluginService.getPlugin( daoUtil.getString( 8 ) );
+            Plugin plugin = PluginService.getPlugin( daoUtil.getString( nIndex++ ) );
             attribute.setPlugin( plugin );
         }
 
@@ -184,15 +186,17 @@ public class AttributeDAO implements IAttributeDAO
      */
     public int insert( IAttribute attribute )
     {
+    	int nIndex = 1;
         int nNewPrimaryKey = newPrimaryKey(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setInt( 1, nNewPrimaryKey );
-        daoUtil.setString( 2, attribute.getClass(  ).getName(  ) );
-        daoUtil.setString( 3, attribute.getTitle(  ) );
-        daoUtil.setString( 4, attribute.getHelpMessage(  ) );
-        daoUtil.setBoolean( 5, attribute.isMandatory(  ) );
-        daoUtil.setBoolean( 6, attribute.isShownInSearch(  ) );
-        daoUtil.setInt( 7, newPosition(  ) );
+        daoUtil.setInt( nIndex++, nNewPrimaryKey );
+        daoUtil.setString( nIndex++, attribute.getClass(  ).getName(  ) );
+        daoUtil.setString( nIndex++, attribute.getTitle(  ) );
+        daoUtil.setString( nIndex++, attribute.getHelpMessage(  ) );
+        daoUtil.setBoolean( nIndex++, attribute.isMandatory(  ) );
+        daoUtil.setBoolean( nIndex++, attribute.isShownInSearch(  ) );
+        daoUtil.setBoolean( nIndex++, attribute.isFieldInLine(  ) );
+        daoUtil.setInt( nIndex++, newPosition(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -206,13 +210,15 @@ public class AttributeDAO implements IAttributeDAO
      */
     public void store( IAttribute attribute )
     {
+    	int nIndex = 1;
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setString( 1, attribute.getTitle(  ) );
-        daoUtil.setString( 2, attribute.getHelpMessage(  ) );
-        daoUtil.setBoolean( 3, attribute.isMandatory(  ) );
-        daoUtil.setBoolean( 4, attribute.isShownInSearch(  ) );
-        daoUtil.setInt( 5, attribute.getPosition(  ) );
-        daoUtil.setInt( 6, attribute.getIdAttribute(  ) );
+        daoUtil.setString( nIndex++, attribute.getTitle(  ) );
+        daoUtil.setString( nIndex++, attribute.getHelpMessage(  ) );
+        daoUtil.setBoolean( nIndex++, attribute.isMandatory(  ) );
+        daoUtil.setBoolean( nIndex++, attribute.isShownInSearch(  ) );
+        daoUtil.setBoolean( nIndex++, attribute.isFieldInLine(  ) );
+        daoUtil.setInt( nIndex++, attribute.getPosition(  ) );
+        daoUtil.setInt( nIndex++, attribute.getIdAttribute(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -244,11 +250,12 @@ public class AttributeDAO implements IAttributeDAO
 
         while ( daoUtil.next(  ) )
         {
+        	int nIndex = 1;
             IAttribute attribute = null;
 
             try
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( 2 ) ).newInstance(  );
+                attribute = ( IAttribute ) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -263,19 +270,20 @@ public class AttributeDAO implements IAttributeDAO
             }
             catch ( IllegalAccessException e )
             {
-                // can't access to rhe class
+                // can't access to the class
                 AppLogService.error( e );
             }
 
-            attribute.setIdAttribute( daoUtil.getInt( 1 ) );
-            attribute.setTitle( daoUtil.getString( 3 ) );
-            attribute.setHelpMessage( daoUtil.getString( 4 ) );
-            attribute.setMandatory( daoUtil.getBoolean( 5 ) );
-            attribute.setShownInSearch( daoUtil.getBoolean( 6 ) );
-            attribute.setPosition( daoUtil.getInt( 7 ) );
+            attribute.setIdAttribute( daoUtil.getInt( nIndex++ ) );
+            attribute.setTitle( daoUtil.getString( nIndex++ ) );
+            attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
+            attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setPosition( daoUtil.getInt( nIndex++ ) );
             attribute.setAttributeType( locale );
 
-            Plugin plugin = PluginService.getPlugin( daoUtil.getString( 8 ) );
+            Plugin plugin = PluginService.getPlugin( daoUtil.getString( nIndex++ ) );
             attribute.setPlugin( plugin );
 
             listAttributes.add( attribute );
@@ -294,6 +302,7 @@ public class AttributeDAO implements IAttributeDAO
      */
     public List<IAttribute> selectPluginAttributes( String strPluginName, Locale locale )
     {
+    	int nIndex = 1;
         List<IAttribute> listAttributes = new ArrayList<IAttribute>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES );
         daoUtil.setString( 1, strPluginName );
@@ -305,7 +314,7 @@ public class AttributeDAO implements IAttributeDAO
 
             try
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( 2 ) ).newInstance(  );
+                attribute = ( IAttribute ) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -324,12 +333,13 @@ public class AttributeDAO implements IAttributeDAO
                 AppLogService.error( e );
             }
 
-            attribute.setIdAttribute( daoUtil.getInt( 1 ) );
-            attribute.setTitle( daoUtil.getString( 3 ) );
-            attribute.setHelpMessage( daoUtil.getString( 4 ) );
-            attribute.setMandatory( daoUtil.getBoolean( 5 ) );
-            attribute.setShownInSearch( daoUtil.getBoolean( 6 ) );
-            attribute.setPosition( daoUtil.getInt( 7 ) );
+            attribute.setIdAttribute( daoUtil.getInt( nIndex++ ) );
+            attribute.setTitle( daoUtil.getString( nIndex++ ) );
+            attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
+            attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setPosition( daoUtil.getInt( nIndex++ ) );
             attribute.setAttributeType( locale );
 
             Plugin plugin = PluginService.getPlugin( strPluginName );
@@ -356,11 +366,12 @@ public class AttributeDAO implements IAttributeDAO
 
         while ( daoUtil.next(  ) )
         {
+        	int nIndex = 1;
             IAttribute attribute = null;
 
             try
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( 2 ) ).newInstance(  );
+                attribute = ( IAttribute ) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -379,12 +390,13 @@ public class AttributeDAO implements IAttributeDAO
                 AppLogService.error( e );
             }
 
-            attribute.setIdAttribute( daoUtil.getInt( 1 ) );
-            attribute.setTitle( daoUtil.getString( 3 ) );
-            attribute.setHelpMessage( daoUtil.getString( 4 ) );
-            attribute.setMandatory( daoUtil.getBoolean( 5 ) );
-            attribute.setShownInSearch( daoUtil.getBoolean( 6 ) );
-            attribute.setPosition( daoUtil.getInt( 7 ) );
+            attribute.setIdAttribute( daoUtil.getInt( nIndex++ ) );
+            attribute.setTitle( daoUtil.getString( nIndex++ ) );
+            attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
+            attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setPosition( daoUtil.getInt( nIndex++ ) );
             attribute.setAttributeType( locale );
 
             listAttributes.add( attribute );
