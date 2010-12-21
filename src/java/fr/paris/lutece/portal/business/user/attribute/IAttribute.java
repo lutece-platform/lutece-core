@@ -224,4 +224,15 @@ public interface IAttribute
      */
     String setAttributeData( HttpServletRequest request );
     
+    /**
+     * Check if it is an attribute image
+     * @return true if it is, false otherwise
+     */
+    boolean isAttributeImage(  );
+    
+    /**
+     * Set the attribute as an attribute image
+     * @param bIsAttributeImage true if it is an image, false otherwise
+     */
+    void setAttributeImage( boolean bIsAttributeImage );
 }

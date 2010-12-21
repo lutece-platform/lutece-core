@@ -1,5 +1,5 @@
 --
--- Table structure for table core_admin_dashboard
+-- Table structure for table core_dashboard
 --
 DROP TABLE IF EXISTS core_dashboard;
 CREATE TABLE core_dashboard (
@@ -31,3 +31,31 @@ INSERT INTO core_admin_right VALUES ('CORE_DASHBOARD_MANAGEMENT', 'portal.dashbo
 -- Update core_attribute
 --
 ALTER TABLE core_attribute ADD is_field_in_line SMALLINT DEFAULT 0 AFTER is_shown_in_search;
+
+--
+-- Table structure for table core_file
+--
+DROP TABLE IF EXISTS core_file;
+CREATE TABLE core_file (
+	id_file INT DEFAULT 0 NOT NULL,
+	title LONG VARCHAR DEFAULT NULL, 
+	id_physical_file INT DEFAULT NULL,  
+	file_size  INT DEFAULT NULL,
+	mime_type VARCHAR(255) DEFAULT NULL,
+	PRIMARY KEY (id_file)
+);
+
+--
+-- Table structure for table core_physical_file
+--
+DROP TABLE IF EXISTS core_physical_file;
+CREATE TABLE core_physical_file (
+	id_physical_file INT DEFAULT 0 NOT NULL,
+	file_value LONG VARBINARY,  
+	PRIMARY KEY (id_physical_file)
+);
+
+--
+-- Update core_admin_user_field
+--
+ALTER TABLE core_admin_user_field ADD id_file INT DEFAULT NULL AFTER id_field;

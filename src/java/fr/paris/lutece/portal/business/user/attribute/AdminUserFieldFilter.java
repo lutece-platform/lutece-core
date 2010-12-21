@@ -59,6 +59,7 @@ public class AdminUserFieldFilter
     private static final String CONSTANT_ESPERLUETTE = "&";
     private static final String CONSTANT_EQUAL = "=";
     private static final String CONSTANT_UNDERSCORE = "_";
+    private static final int ALL_INT = -1;
 
     // PARAMETERS
     private static final String PARAMETER_SEARCH_IS_SEARCH = "search_is_search";
@@ -66,7 +67,11 @@ public class AdminUserFieldFilter
 
     // PROPERTIES
     private static final String PROPERTY_ENCODING_URL = "lutece.encoding.url";
+    
     private List<AdminUserField> _listUserFields;
+    private int _nIdUser = ALL_INT;
+    private int _nIdAttribute = ALL_INT;
+    private int _nIdField = ALL_INT;   
 
     /**
      * Get list user fields
@@ -84,6 +89,87 @@ public class AdminUserFieldFilter
     public void setListUserFields( List<AdminUserField> listUserFields )
     {
         _listUserFields = listUserFields;
+    }
+    
+    /**
+     * Get id user
+     * @return id user
+     */
+    public int getIdUser(  )
+    {
+    	return _nIdUser;
+    }
+    
+    /**
+     * Set id user
+     * @param nIdUser id User
+     */
+    public void setIdUser( int nIdUser )
+    {
+    	_nIdUser = nIdUser;
+    }
+    
+    /**
+     * Get id attribute
+     * @return id attribute
+     */
+    public int getIdAttribute(  )
+    {
+    	return _nIdAttribute;
+    }
+    
+    /**
+     * Set id attirbute
+     * @param nIdAttribute id attribute
+     */
+    public void setIdAttribute( int nIdAttribute )
+    {
+    	_nIdAttribute = nIdAttribute;
+    }
+    
+    /**
+     * Get id field
+     * @return id field
+     */
+    public int getIdField(  )
+    {
+    	return _nIdField;
+    }
+    
+    /**
+     * Set id field
+     * @param nIdField id field
+     */
+    public void setIdField( int nIdField )
+    {
+    	_nIdField = nIdField;
+    }
+    
+    /**
+     * Check if the filter contains an id attribute
+     * @return true if it contains, false otherwise
+     */
+    public boolean containsIdAttribute(  )
+    {
+    	return ( _nIdAttribute != ALL_INT );
+    }
+    
+    /**
+     * Check if the filter contains an id user
+     * @return true if it contains, false otherwise
+     */
+    public boolean containsIdUser(  )
+    {
+    	return ( _nIdUser != ALL_INT );
+    }
+    
+    /**
+     * Check if the filter contains an id field
+     * @return true if it contains, false otherwise
+     */
+    public boolean containsIdField(  )
+    {
+    	return ( _nIdField != ALL_INT );
     }
 
     /**

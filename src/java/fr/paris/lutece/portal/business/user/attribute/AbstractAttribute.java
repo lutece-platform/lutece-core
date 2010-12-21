@@ -64,6 +64,7 @@ public abstract class AbstractAttribute implements IAttribute
     protected Plugin _plugin;
     protected boolean _bIsShownInSearch;
     protected boolean _bIsFieldInLine;
+    protected boolean _bIsAttributeImage = false;
 
     /**
      * Constructor
@@ -219,7 +220,7 @@ public abstract class AbstractAttribute implements IAttribute
      * @param listDefaultValues the list of default values
      * @return html form
      */
-    public String getHtmlFormAttribute( Locale locale, List<AdminUserField> listDefaultValues )
+    public String getHtmlFormAttribute( Locale locale, Object listDefaultValues )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ATTRIBUTE, this );
@@ -315,5 +316,23 @@ public abstract class AbstractAttribute implements IAttribute
     public void setFieldInLine( boolean bIsFieldInLine )
     {
     	_bIsFieldInLine = bIsFieldInLine;
+    }
+    
+    /**
+     * Check if it is an attribute image
+     * @return true if it is, false otherwise
+     */
+    public boolean isAttributeImage(  )
+    {
+    	return _bIsAttributeImage;
+    }
+    
+    /**
+     * Set the attribute as an attribute image
+     * @param bIsAttributeImage true if it is an image, false otherwise
+     */
+    public void setAttributeImage( boolean bIsAttributeImage )
+    {
+    	_bIsAttributeImage = bIsAttributeImage;
     }
 }

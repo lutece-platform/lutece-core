@@ -102,4 +102,10 @@ public interface IAdminUserFieldDAO
      * @return a list of users
      */
     List<AdminUser> selectUsersByFilter( AdminUserFieldFilter auFieldFilter );
+    
+    /**
+     * Select by filter
+     * @param auFieldFilter the filter
+     */
+    List<AdminUserField> selectByFilter( AdminUserFieldFilter auFieldFilter );
 }

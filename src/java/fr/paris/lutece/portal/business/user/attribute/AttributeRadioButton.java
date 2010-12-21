@@ -55,7 +55,6 @@ import fr.paris.lutece.portal.web.constants.Messages;
 public class AttributeRadioButton extends AbstractAttribute
 {
 	// Constants
-    private static final String EMPTY_STRING = "";
     private static final String CONSTANT_UNDERSCORE = "_";
 
     // Parameters
@@ -151,18 +150,18 @@ public class AttributeRadioButton extends AbstractAttribute
         String strMandatory = request.getParameter( PARAMETER_MANDATORY );
         String strFieldInLine = request.getParameter( PARAMETER_IS_FIELD_IN_LINE );
 
-        if ( ( strTitle == null ) || ( strTitle.equals( EMPTY_STRING ) ) )
+        if ( StringUtils.isNotBlank( strTitle ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        	setTitle( strTitle );
+            setHelpMessage( strHelpMessage );
+            setMandatory( strMandatory != null );
+            setShownInSearch( strIsShownInSearch != null );
+            setFieldInLine( strFieldInLine != null );
+
+            return null;
         }
 
-        setTitle( strTitle );
-        setHelpMessage( strHelpMessage );
-        setMandatory( strMandatory != null );
-        setShownInSearch( strIsShownInSearch != null );
-        setFieldInLine( strFieldInLine != null );
-
-        return null;
+        return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
     }
 
     /**

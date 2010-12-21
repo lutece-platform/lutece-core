@@ -33,6 +33,17 @@
  */
 package fr.paris.lutece.portal.web.user.attribute;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldFilter;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
@@ -46,14 +57,6 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -322,12 +325,17 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     public String doRemoveAttribute( HttpServletRequest request )
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
-        int nIdAttribute = Integer.parseInt( strIdAttribute );
+        if ( StringUtils.isNotBlank( strIdAttribute ) )
+        {
+        	int nIdAttribute = Integer.parseInt( strIdAttribute );
 
-        AttributeHome.remove( nIdAttribute );
-        AttributeFieldHome.removeAttributeFieldsFromIdAttribute( nIdAttribute );
-        AdminUserFieldHome.removeUserFieldsFromIdAttribute( nIdAttribute );
-
+            AttributeHome.remove( nIdAttribute );
+            AttributeFieldHome.removeAttributeFieldsFromIdAttribute( nIdAttribute );
+            AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
+            auFieldFilter.setIdAttribute( nIdAttribute );
+            AdminUserFieldHome.removeByFilter( auFieldFilter );
+        }
+        
         return JSP_MANAGE_ATTRIBUTES;
     }
 

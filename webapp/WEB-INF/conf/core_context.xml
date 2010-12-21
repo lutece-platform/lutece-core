@@ -26,13 +26,6 @@
     <bean id="roleRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="workflowRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
 
-	<!-- 					  User Attributes 						 -->
-	<bean id="attributeText" class="fr.paris.lutece.portal.business.user.attribute.AttributeText" />
-	<bean id="attributeComboBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeComboBox" />
-	<bean id="attributeRadioButton" class="fr.paris.lutece.portal.business.user.attribute.AttributeRadioButton" />
-	<bean id="attributeCheckBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeCheckBox" />
-	
-
     <!--                       Data Access Objects                             -->
   <!-- package features -->
     <bean id="levelDAO"  class="fr.paris.lutece.portal.business.right.LevelDAO" />
@@ -88,6 +81,17 @@
     <bean id="attributeDAO"  class="fr.paris.lutece.portal.business.user.attribute.AttributeDAO" />
     <bean id="attributeFieldDAO"  class="fr.paris.lutece.portal.business.user.attribute.AttributeFieldDAO" />
     <bean id="adminUserFieldDAO"  class="fr.paris.lutece.portal.business.user.attribute.AdminUserFieldDAO" />
+    <bean id="attributeText" class="fr.paris.lutece.portal.business.user.attribute.AttributeText" />
+	<bean id="attributeComboBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeComboBox" />
+	<bean id="attributeRadioButton" class="fr.paris.lutece.portal.business.user.attribute.AttributeRadioButton" />
+	<bean id="attributeCheckBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeCheckBox" />
+	<bean id="attributeImage" class="fr.paris.lutece.portal.business.user.attribute.AttributeImage" />
+	
+	<!-- package file -->
+	<bean id="fileDAO"  class="fr.paris.lutece.portal.business.file.FileDAO" />
+	
+	<!-- package physicalfile -->
+	<bean id="physicalFileDAO"  class="fr.paris.lutece.portal.business.physicalfile.PhysicalFileDAO" />
     
     <!-- admin dashboards -->
     <bean id="adminDashboardDAO" class="fr.paris.lutece.portal.business.dashboard.AdminDashboardDAO"/>    

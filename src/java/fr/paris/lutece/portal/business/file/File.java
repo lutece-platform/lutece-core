@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2010, Mairie de Paris
+ * Copyright (c) 2002-2009, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,131 +31,130 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.user.attribute;
+package fr.paris.lutece.portal.business.file;
 
-import fr.paris.lutece.portal.business.file.File;
-import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 
 
 /**
  *
- * AdminUserField
+ * class File
  *
  */
-public class AdminUserField
+public class File
 {
-    private AdminUser _user;
-    private AttributeField _attributeField;
-    private IAttribute _attribute;
-    private String _value;
-    private int _nIdUserField;
-    private File _file;
+    private int _nIdFile;
+    private PhysicalFile _physicalFile;
+    private String _strTitle;
+    private int _nSize;
+    private String _strExtension;
+    private String _strMimeType;
 
     /**
-     * Get user
-     * @return user
+     *
+     * @return the id of the file
      */
-    public AdminUser getUser(  )
+    public int getIdFile(  )
     {
-        return _user;
-    }
-
-    /**
-     * Set user
-     * @param user user
-     */
-    public void setUser( AdminUser user )
-    {
-        _user = user;
+        return _nIdFile;
     }
 
     /**
-     * Get attribute field
-     * @return attribute field
+     * set the id of the file
+     * @param idFile id of the file
      */
-    public AttributeField getAttributeField(  )
+    public void setIdFile( int idFile )
     {
-        return _attributeField;
+        _nIdFile = idFile;
     }
 
     /**
-     * Set attribute field
-     * @param attributeField attribute field
+     *
+     * @return the title of the file
      */
-    public void setAttributeField( AttributeField attributeField )
+    public String getTitle(  )
     {
-        _attributeField = attributeField;
+        return _strTitle;
     }
 
     /**
-     * Get attribute
-     * @return attribute
+     * set the title of the file
+     * @param title the title of the file
      */
-    public IAttribute getAttribute(  )
+    public void setTitle( String title )
     {
-        return _attribute;
+        _strTitle = title;
     }
 
     /**
-     * Set attribute
-     * @param attribute attribute
+     *
+     * @return the size of the file
      */
-    public void setAttribute( IAttribute attribute )
+    public int getSize(  )
     {
-        _attribute = attribute;
+        return _nSize;
     }
 
     /**
-     * Get value
-     * @return value
+     * set the size of the file
+     * @param size the size of the file
      */
-    public String getValue(  )
+    public void setSize( int size )
     {
-        return _value;
+        _nSize = size;
     }
 
     /**
-     * Set value
-     * @param value value
+     *
+     * @return the extension of the file
      */
-    public void setValue( String value )
+    public String getExtension(  )
     {
-        _value = value;
+        return _strExtension;
     }
 
     /**
-     * Get Id user field
-     * @return id user field
+     * set the extension of the file
+     * @param extension the title of the file
      */
-    public int getIdUserField(  )
+    public void setExtension( String extension )
     {
-        return _nIdUserField;
+        _strExtension = extension;
     }
 
     /**
-     * Set id user field
-     * @param nIdUserField id user field
+     *
+     * @return the extension of the file
      */
-    public void setIdUserField( int nIdUserField )
+    public String getMimeType(  )
     {
-        _nIdUserField = nIdUserField;
+        return _strMimeType;
     }
-    
+
     /**
-     * Get file
-     * @return file
+     * set the mime type of the file
+     * @param mimeType the mime type of the file
      */
-    public File getFile(  )
+    public void setMimeType( String mimeType )
     {
-    	return _file;
+        _strMimeType = mimeType;
     }
-    
+
     /**
-     * Set file
-     * @param file file
+     *
+     * @return the PhysicalFile associate to the file
      */
-    public void setFile( File file )
+    public PhysicalFile getPhysicalFile(  )
     {
-    	_file = file;
+        return _physicalFile;
+    }
+
+    /**
+     * set the PhysicalFile associate to the file
+     * @param file PhysicalFile
+     */
+    public void setPhysicalFile( PhysicalFile file )
+    {
+        _physicalFile = file;
     }
 }

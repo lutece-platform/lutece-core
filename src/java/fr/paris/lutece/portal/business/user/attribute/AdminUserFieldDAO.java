@@ -33,13 +33,14 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.util.sql.DAOUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import fr.paris.lutece.portal.business.file.File;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.sql.DAOUtil;
 
 
 /**
@@ -58,24 +59,26 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     private static final String SQL_QUERY_NEW_PK = " SELECT max(id_user_field) FROM core_admin_user_field ";
 
     // SELECT
-    private static final String SQL_QUERY_SELECT = " SELECT auf.id_user_field, auf.id_user, auf.id_attribute, auf.id_field, auf.user_field_value, " +
+    private static final String SQL_QUERY_SELECT = " SELECT auf.id_user_field, auf.id_user, auf.id_attribute, auf.id_field, auf.id_file, auf.user_field_value, " +
         " au.access_code, au.last_name, au.first_name, au.email, au.status, au.locale, au.level_user, " +
         " a.type_class_name, a.title, a.help_message, a.is_mandatory, a.attribute_position, " +
-        " af.title, af.DEFAULT_value, af.is_DEFAULT_value, af.field_position " + " FROM core_admin_user_field auf " +
+        " af.title, af.DEFAULT_value, af.is_DEFAULT_value, af.field_position " +
+        " FROM core_admin_user_field auf " +
         " INNER JOIN core_admin_user au ON auf.id_user = au.id_user " +
         " INNER JOIN core_attribute a ON auf.id_attribute = a.id_attribute " +
-        " INNER JOIN core_attribute_field af ON auf.id_field = af.id_field " + " WHERE auf.id_user_field = ? ";
-    private static final String SQL_QUERY_SELECT_USER_FIELDS_BY_ID_USER_ID_ATTRIBUTE = " SELECT auf.id_user_field, auf.id_user, auf.id_attribute, auf.id_field, auf.user_field_value, " +
+        " INNER JOIN core_attribute_field af ON auf.id_field = af.id_field ";
+    private static final String SQL_QUERY_SELECT_USER_FIELDS_BY_ID_USER_ID_ATTRIBUTE = " SELECT auf.id_user_field, auf.id_user, auf.id_attribute, auf.id_field, auf.id_file, auf.user_field_value, " +
         " a.type_class_name, a.title, a.help_message, a.is_mandatory, a.attribute_position " +
-        " FROM core_admin_user_field auf " + " INNER JOIN core_attribute a ON a.id_attribute = auf.id_attribute " +
+        " FROM core_admin_user_field auf " + 
+        " INNER JOIN core_attribute a ON a.id_attribute = auf.id_attribute " +
         " WHERE auf.id_user = ? AND auf.id_attribute = ? ";
     private static final String SQL_QUERY_SELECT_USERS_BY_FILTER = " SELECT DISTINCT u.id_user, u.access_code, u.last_name, u.first_name, u.email, u.status, u.locale, u.level_user " +
         " FROM core_admin_user u INNER JOIN core_admin_user_field uf ON u.id_user = uf.id_user ";
     private static final String SQL_QUERY_SELECT_ID_USER = " SELECT id_user FROM core_admin_user_field WHERE id_attribute = ? AND id_field = ? AND user_field_value LIKE ? ";
 
     // INSERT
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_user_field (id_user_field, id_user, id_attribute, id_field, user_field_value) " +
-        " VALUES (?,?,?,?,?) ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_user_field (id_user_field, id_user, id_attribute, id_field, id_file, user_field_value) " +
+        " VALUES (?,?,?,?,?,?) ";
 
     // UPDATE
     private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_user_field SET user_field_value = ? WHERE id_user_field = ? ";
@@ -85,9 +88,16 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     private static final String SQL_QUERY_DELETE_FROM_ID_FIELD = " DELETE FROM core_admin_user_field WHERE id_field = ? ";
     private static final String SQL_QUERY_DELETE_FROM_ID_USER = " DELETE FROM core_admin_user_field WHERE id_user = ? ";
     private static final String SQL_QUERY_DELETE_FROM_ID_ATTRIBUTE = " DELETE FROM core_admin_user_field WHERE id_attribute = ? ";
+    
+    // FILTER
     private static final String SQL_ID_ATTRIBUTE_AND_USER_FIELD_VALUE = " WHERE id_attribute = ? AND id_field = ? AND user_field_value LIKE ? ";
     private static final String SQL_AND_ID_USER_IN = " AND id_user IN ";
     private static final String SQL_AND_ID_USER_IN_FIRST = " AND uf.id_user IN ";
+    private static final String SQL_WHERE = " WHERE ";
+    private static final String SQL_FILTER_ID_USER_FIELD = " WHERE auf.id_user_field = ? ";
+    private static final String SQL_FILTER_ID_USER = " auf.id_user = ? ";
+    private static final String SQL_FILTER_ID_ATTRIBUTE = " auf.id_attribute = ? ";
+    private static final String SQL_FILTER_ID_FIELD = " auf.id_field = ? ";
 
     /**
     * Generate a new PK
@@ -118,7 +128,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
      */
     public AdminUserField load( int nIdUserField )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT + SQL_WHERE + SQL_FILTER_ID_USER_FIELD );
         daoUtil.setInt( 1, nIdUserField );
         daoUtil.executeQuery(  );
 
@@ -128,18 +138,18 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
         {
             userField = new AdminUserField(  );
             userField.setIdUserField( daoUtil.getInt( 1 ) );
-            userField.setValue( daoUtil.getString( 5 ) );
+            userField.setValue( daoUtil.getString( 6 ) );
 
             // USER
             AdminUser user = new AdminUser(  );
             user.setUserId( daoUtil.getInt( 2 ) );
-            user.setAccessCode( daoUtil.getString( 6 ) );
-            user.setLastName( daoUtil.getString( 7 ) );
-            user.setFirstName( daoUtil.getString( 8 ) );
-            user.setEmail( daoUtil.getString( 9 ) );
-            user.setStatus( daoUtil.getInt( 10 ) );
-            user.setLocale( new Locale( daoUtil.getString( 11 ) ) );
-            user.setUserLevel( daoUtil.getInt( 12 ) );
+            user.setAccessCode( daoUtil.getString( 7 ) );
+            user.setLastName( daoUtil.getString( 8 ) );
+            user.setFirstName( daoUtil.getString( 9 ) );
+            user.setEmail( daoUtil.getString( 10 ) );
+            user.setStatus( daoUtil.getInt( 11 ) );
+            user.setLocale( new Locale( daoUtil.getString( 12 ) ) );
+            user.setUserLevel( daoUtil.getInt( 13 ) );
             userField.setUser( user );
 
             // ATTRIBUTE
@@ -147,7 +157,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 
             try
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( 13 ) ).newInstance(  );
+                attribute = (IAttribute) Class.forName( daoUtil.getString( 14 ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -167,21 +177,29 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             }
 
             attribute.setIdAttribute( daoUtil.getInt( 3 ) );
-            attribute.setTitle( daoUtil.getString( 14 ) );
-            attribute.setHelpMessage( daoUtil.getString( 15 ) );
-            attribute.setMandatory( daoUtil.getBoolean( 16 ) );
-            attribute.setPosition( daoUtil.getInt( 17 ) );
-            attribute.setAttributeType( new Locale( daoUtil.getString( 11 ) ) );
+            attribute.setTitle( daoUtil.getString( 15 ) );
+            attribute.setHelpMessage( daoUtil.getString( 16 ) );
+            attribute.setMandatory( daoUtil.getBoolean( 17 ) );
+            attribute.setPosition( daoUtil.getInt( 18 ) );
+            attribute.setAttributeType( new Locale( daoUtil.getString( 12 ) ) );
             userField.setAttribute( attribute );
 
             // ATTRIBUTEFIELD
             AttributeField attributeField = new AttributeField(  );
             attributeField.setIdField( daoUtil.getInt( 4 ) );
-            attributeField.setTitle( daoUtil.getString( 18 ) );
-            attributeField.setValue( daoUtil.getString( 19 ) );
-            attributeField.setDefaultValue( daoUtil.getBoolean( 20 ) );
-            attributeField.setPosition( daoUtil.getInt( 21 ) );
+            attributeField.setTitle( daoUtil.getString( 19 ) );
+            attributeField.setValue( daoUtil.getString( 20 ) );
+            attributeField.setDefaultValue( daoUtil.getBoolean( 21 ) );
+            attributeField.setPosition( daoUtil.getInt( 22 ) );
             userField.setAttributeField( attributeField );
+            
+            // FILE
+            if ( daoUtil.getObject( 5 ) != null ) // f.id_file
+            {
+            	File file = new File(  );
+                file.setIdFile( daoUtil.getInt( 5 ) ); // f.id_file
+                userField.setFile( file );
+            }
         }
 
         daoUtil.free(  );
@@ -200,7 +218,15 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
         daoUtil.setInt( 2, userField.getUser(  ).getUserId(  ) );
         daoUtil.setInt( 3, userField.getAttribute(  ).getIdAttribute(  ) );
         daoUtil.setInt( 4, userField.getAttributeField(  ).getIdField(  ) );
-        daoUtil.setString( 5, userField.getValue(  ) );
+        if ( userField.getFile(  ) != null )
+        {
+        	daoUtil.setInt( 5, userField.getFile(  ).getIdFile(  ) );
+        }
+        else
+        {
+        	daoUtil.setIntNull( 5 );
+        }
+        daoUtil.setString( 6, userField.getValue(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -291,7 +317,15 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
         {
             AdminUserField userField = new AdminUserField(  );
             userField.setIdUserField( daoUtil.getInt( 1 ) );
-            userField.setValue( daoUtil.getString( 5 ) );
+            userField.setValue( daoUtil.getString( 6 ) );
+            
+            // FILE
+            if ( daoUtil.getObject( 5 ) != null ) // f.id_file
+            {
+            	File file = new File(  );
+                file.setIdFile( daoUtil.getInt( 5 ) ); // f.id_file
+                userField.setFile( file );
+            }
 
             // USER
             AdminUser user = new AdminUser(  );
@@ -303,7 +337,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 
             try
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( 6 ) ).newInstance(  );
+                attribute = (IAttribute) Class.forName( daoUtil.getString( 7 ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -323,10 +357,10 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             }
 
             attribute.setIdAttribute( nIdAttribute );
-            attribute.setTitle( daoUtil.getString( 7 ) );
-            attribute.setHelpMessage( daoUtil.getString( 8 ) );
-            attribute.setMandatory( daoUtil.getBoolean( 9 ) );
-            attribute.setPosition( daoUtil.getInt( 10 ) );
+            attribute.setTitle( daoUtil.getString( 8 ) );
+            attribute.setHelpMessage( daoUtil.getString( 9 ) );
+            attribute.setMandatory( daoUtil.getBoolean( 10 ) );
+            attribute.setPosition( daoUtil.getInt( 11 ) );
             userField.setAttribute( attribute );
 
             // ATTRIBUTEFIELD
@@ -416,5 +450,131 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
         daoUtil.free(  );
 
         return listUsers;
+    }
+
+    /**
+     * select by filter
+     * @param auFieldFilter the filter
+     */
+    public List<AdminUserField> selectByFilter( AdminUserFieldFilter auFieldFilter )
+    {
+    	List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
+    	List<String> listFilter = new ArrayList<String>(  );
+    	
+    	if ( auFieldFilter.containsIdAttribute(  ) )
+    	{
+    		listFilter.add( SQL_FILTER_ID_ATTRIBUTE );
+    	}
+    	
+    	if ( auFieldFilter.containsIdUser(  ) )
+    	{
+    		listFilter.add( SQL_FILTER_ID_USER );
+    	}
+    	
+    	if ( auFieldFilter.containsIdField(  ) )
+    	{
+    		listFilter.add( SQL_FILTER_ID_FIELD );
+    	}
+    	
+    	StringBuilder sbSQL = new StringBuilder( SQL_QUERY_SELECT );
+    	if ( listFilter.size(  ) > 0 )
+    	{
+    		sbSQL.append( SQL_WHERE );
+    		for ( String filter : listFilter )
+    		{
+    			sbSQL.append( filter );
+    		}
+    	}
+    	
+    	DAOUtil daoUtil = new DAOUtil( sbSQL.toString(  ) );
+    	int nIndex = 1;
+    	if ( auFieldFilter.containsIdAttribute(  ) )
+    	{
+    		daoUtil.setInt( nIndex++, auFieldFilter.getIdAttribute(  ) );
+    	}
+    	
+    	if ( auFieldFilter.containsIdUser(  ) )
+    	{
+    		daoUtil.setInt( nIndex++, auFieldFilter.getIdUser(  ) );
+    	}
+    	
+    	if ( auFieldFilter.containsIdField(  ) )
+    	{
+    		daoUtil.setInt( nIndex++, auFieldFilter.getIdField(  ) );
+    	}
+    	daoUtil.executeQuery(  );
+    	while ( daoUtil.next(  ) )
+        {
+    		AdminUserField userField = new AdminUserField(  );
+            userField.setIdUserField( daoUtil.getInt( 1 ) );
+            userField.setValue( daoUtil.getString( 6 ) );
+
+            // USER
+            AdminUser user = new AdminUser(  );
+            user.setUserId( daoUtil.getInt( 2 ) );
+            user.setAccessCode( daoUtil.getString( 7 ) );
+            user.setLastName( daoUtil.getString( 8 ) );
+            user.setFirstName( daoUtil.getString( 9 ) );
+            user.setEmail( daoUtil.getString( 10 ) );
+            user.setStatus( daoUtil.getInt( 11 ) );
+            user.setLocale( new Locale( daoUtil.getString( 12 ) ) );
+            user.setUserLevel( daoUtil.getInt( 13 ) );
+            userField.setUser( user );
+
+            // ATTRIBUTE
+            IAttribute attribute = null;
+
+            try
+            {
+                attribute = (IAttribute) Class.forName( daoUtil.getString( 14 ) ).newInstance(  );
+            }
+            catch ( ClassNotFoundException e )
+            {
+                // class doesn't exist
+                AppLogService.error( e );
+            }
+            catch ( InstantiationException e )
+            {
+                // Class is abstract or is an interface or haven't accessible
+                // builder
+                AppLogService.error( e );
+            }
+            catch ( IllegalAccessException e )
+            {
+                // can't access to the class
+                AppLogService.error( e );
+            }
+
+            attribute.setIdAttribute( daoUtil.getInt( 3 ) );
+            attribute.setTitle( daoUtil.getString( 15 ) );
+            attribute.setHelpMessage( daoUtil.getString( 16 ) );
+            attribute.setMandatory( daoUtil.getBoolean( 17 ) );
+            attribute.setPosition( daoUtil.getInt( 18 ) );
+            attribute.setAttributeType( new Locale( daoUtil.getString( 12 ) ) );
+            userField.setAttribute( attribute );
+
+            // ATTRIBUTEFIELD
+            AttributeField attributeField = new AttributeField(  );
+            attributeField.setIdField( daoUtil.getInt( 4 ) );
+            attributeField.setTitle( daoUtil.getString( 19 ) );
+            attributeField.setValue( daoUtil.getString( 20 ) );
+            attributeField.setDefaultValue( daoUtil.getBoolean( 21 ) );
+            attributeField.setPosition( daoUtil.getInt( 22 ) );
+            userField.setAttributeField( attributeField );
+            
+            // FILE
+            if ( daoUtil.getObject( 5 ) != null ) // f.id_file
+            {
+            	File file = new File(  );
+                file.setIdFile( daoUtil.getInt( 5 ) ); // f.id_file
+                userField.setFile( file );
+            }
+            
+            listUserFields.add( userField );
+        }
+    	
+    	daoUtil.free(  );
+    	
+    	return listUserFields;
     }
 }

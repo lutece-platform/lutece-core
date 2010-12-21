@@ -44,6 +44,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  *
@@ -150,18 +152,18 @@ public class AttributeCheckBox extends AbstractAttribute
         String strMandatory = request.getParameter( PARAMETER_MANDATORY );
         String strFieldInLine = request.getParameter( PARAMETER_IS_FIELD_IN_LINE );
 
-        if ( ( strTitle == null ) || ( strTitle.equals( EMPTY_STRING ) ) )
+        if ( StringUtils.isNotBlank( strTitle ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        	setTitle( strTitle );
+            setHelpMessage( strHelpMessage );
+            setMandatory( strMandatory != null );
+            setShownInSearch( strIsShownInSearch != null );
+            setFieldInLine( strFieldInLine != null );
+
+            return null;
         }
-
-        setTitle( strTitle );
-        setHelpMessage( strHelpMessage );
-        setMandatory( strMandatory != null );
-        setShownInSearch( strIsShownInSearch != null );
-        setFieldInLine( strFieldInLine != null );
-
-        return null;
+        
+        return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
     }
 
     /**

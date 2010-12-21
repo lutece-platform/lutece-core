@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
+import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
@@ -71,6 +72,10 @@ public class AdminUserFieldHome
      */
     public static void create( AdminUserField userField )
     {
+    	if ( userField.getFile(  ) != null )
+        {
+    		userField.getFile(  ).setIdFile( FileHome.create( userField.getFile(  ) ) );
+        }
         _dao.insert( userField );
     }
 
@@ -80,6 +85,10 @@ public class AdminUserFieldHome
      */
     public static void update( AdminUserField userField )
     {
+    	if ( userField.getFile(  ) != null )
+        {
+            FileHome.update( userField.getFile(  ) );
+        }
         _dao.store( userField );
     }
 
@@ -87,9 +96,13 @@ public class AdminUserFieldHome
      * Delete an attribute
      * @param nIdUserField the ID of the user field
      */
-    public static void remove( int nIdUserField )
+    public static void remove( AdminUserField userField )
     {
-        _dao.delete( nIdUserField );
+    	if ( userField != null && userField.getFile(  ) != null )
+    	{
+    		FileHome.remove( userField.getFile(  ).getIdFile(  ) );
+    	}
+    	_dao.delete( userField.getIdUserField(  ) );
     }
 
     /**
@@ -138,5 +151,28 @@ public class AdminUserFieldHome
     public static List<AdminUser> findUsersByFilter( AdminUserFieldFilter auFieldFilter )
     {
         return _dao.selectUsersByFilter( auFieldFilter );
+    }
+    
+    /**
+     * Select by filter
+     * @param auFieldFilter the filter
+     * @return a list of admin user field
+     */
+    public static List<AdminUserField> findByFilter( AdminUserFieldFilter auFieldFilter )
+    {
+    	return _dao.selectByFilter( auFieldFilter );
+    }
+    
+    /**
+     * Remove by filter
+     * @param auFieldFilter the filter
+     */
+    public static void removeByFilter( AdminUserFieldFilter auFieldFilter )
+    {
+    	List<AdminUserField> listUserFields = findByFilter( auFieldFilter );
+    	for ( AdminUserField userField : listUserFields )
+    	{
+    		remove( userField );
+    	}
     }
 }

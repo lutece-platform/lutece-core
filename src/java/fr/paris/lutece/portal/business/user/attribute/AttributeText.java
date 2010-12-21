@@ -44,6 +44,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  *
@@ -155,60 +157,62 @@ public class AttributeText extends AbstractAttribute
         String strWidth = request.getParameter( PARAMETER_WIDTH );
         String strMaxSizeEnter = request.getParameter( PARAMETER_MAX_SIZE_ENTER );
         String strValue = request.getParameter( PARAMETER_VALUE );
+        
+        String strError = EMPTY_STRING;
 
-        if ( ( strTitle == null ) || ( strTitle.equals( EMPTY_STRING ) ) )
+        if ( StringUtils.isNotBlank( strTitle ) && StringUtils.isNotBlank( strWidth ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-        }
+        	if ( strWidth.matches( REGEX_ID ) )
+        	{
+        		int nWidth = Integer.parseInt( strWidth );
 
-        if ( ( strWidth == null ) || ( strWidth.equals( EMPTY_STRING ) ) )
-        {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-        }
+                int nMaxSizeEnter;
 
-        if ( ( strWidth != null ) && !strWidth.equals( EMPTY_STRING ) && !strWidth.matches( REGEX_ID ) )
-        {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS,
-                AdminMessage.TYPE_STOP );
-        }
+                if ( ( strMaxSizeEnter != null ) && !strMaxSizeEnter.equals( EMPTY_STRING ) &&
+                        !strMaxSizeEnter.matches( REGEX_ID ) )
+                {
+                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS,
+                        AdminMessage.TYPE_STOP );
+                }
+                else if ( ( strMaxSizeEnter != null ) && strMaxSizeEnter.equals( EMPTY_STRING ) )
+                {
+                    nMaxSizeEnter = -1;
+                }
+                else
+                {
+                    nMaxSizeEnter = Integer.parseInt( strMaxSizeEnter );
+                }
 
-        int nWidth = Integer.parseInt( strWidth );
+                setTitle( strTitle );
+                setHelpMessage( strHelpMessage );
+                setMandatory( strMandatory != null );
+                setShownInSearch( strIsShownInSearch != null );
 
-        int nMaxSizeEnter;
+                if ( getListAttributeFields(  ) == null )
+                {
+                    List<AttributeField> listAttributeFields = new ArrayList<AttributeField>(  );
+                    AttributeField attributeField = new AttributeField(  );
+                    listAttributeFields.add( attributeField );
+                    setListAttributeFields( listAttributeFields );
+                }
 
-        if ( ( strMaxSizeEnter != null ) && !strMaxSizeEnter.equals( EMPTY_STRING ) &&
-                !strMaxSizeEnter.matches( REGEX_ID ) )
-        {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS,
-                AdminMessage.TYPE_STOP );
-        }
-        else if ( ( strMaxSizeEnter != null ) && strMaxSizeEnter.equals( EMPTY_STRING ) )
-        {
-            nMaxSizeEnter = -1;
+                getListAttributeFields(  ).get( 0 ).setValue( strValue );
+                getListAttributeFields(  ).get( 0 ).setWidth( nWidth );
+                getListAttributeFields(  ).get( 0 ).setMaxSizeEnter( nMaxSizeEnter );
+
+                return null;
+        	}
+        	else
+        	{
+        		strError = PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS;
+        	}
         }
         else
         {
-            nMaxSizeEnter = Integer.parseInt( strMaxSizeEnter );
+        	strError = Messages.MANDATORY_FIELDS;
         }
-
-        setTitle( strTitle );
-        setHelpMessage( strHelpMessage );
-        setMandatory( strMandatory != null );
-        setShownInSearch( strIsShownInSearch != null );
-
-        if ( getListAttributeFields(  ) == null )
-        {
-            List<AttributeField> listAttributeFields = new ArrayList<AttributeField>(  );
-            AttributeField attributeField = new AttributeField(  );
-            listAttributeFields.add( attributeField );
-            setListAttributeFields( listAttributeFields );
-        }
-
-        getListAttributeFields(  ).get( 0 ).setValue( strValue );
-        getListAttributeFields(  ).get( 0 ).setWidth( nWidth );
-        getListAttributeFields(  ).get( 0 ).setMaxSizeEnter( nMaxSizeEnter );
-
-        return null;
+        
+        return AdminMessageService.getMessageUrl( request, strError, AdminMessage.TYPE_STOP );       
     }
 
     /**

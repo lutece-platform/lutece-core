@@ -16,7 +16,7 @@
 	<h2>#i18n{portal.users.create_user.titleCreationForm}</h2>
 	
 	<#if import_user?has_content>
-		<form method="post" name="create_user" action="jsp/admin/user/DoCreateUser.jsp"  >
+		<form method="post" name="create_user" action="jsp/admin/user/DoCreateUser.jsp" enctype="multipart/form-data" >
 			<#if displayFieldset( user_levels attributes_list )>
 				<div class="highlight-box">
 					<div class="highlight-box-content">

@@ -33,8 +33,18 @@
  */
 package fr.paris.lutece.portal.service.user.attribute;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
+import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldFilter;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
@@ -42,11 +52,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.constants.Messages;
-
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
+import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 
 
 /**
@@ -62,6 +68,7 @@ public class AdminUserFieldService
 
     // PARAMETERS
     private static final String PARAMETER_ATTRIBUTE = "attribute";
+    private static final String PARAMETER_UPDATE_ATTRIBUTE = "update_attribute";
 
     /*
      * Private constructor
@@ -83,13 +90,28 @@ public class AdminUserFieldService
 
         for ( IAttribute attribute : listAttributes )
         {
-            String value = request.getParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE +
-                    attribute.getIdAttribute(  ) );
+        	if ( attribute.isAttributeImage(  ) )
+        	{
+        		MultipartHttpServletRequest multipartRequest = ( MultipartHttpServletRequest ) request;
+        		FileItem fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + attribute.getIdAttribute(  ) );
+        		String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE + 
+        				attribute.getIdAttribute(  ) );
+        		if ( attribute.isMandatory(  ) && strUpdateAttribute != null &&
+        				( fileItem == null || fileItem != null && fileItem.getSize(  ) == 0 ) )
+        		{
+        			return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        		}
+        	}
+        	else
+        	{
+        		String value = request.getParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE +
+                        attribute.getIdAttribute(  ) );
 
-            if ( attribute.isMandatory(  ) && ( ( value == null ) || value.equals( CONSTANT_EMPTY_STRING ) ) )
-            {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-            }
+                if ( attribute.isMandatory(  ) && ( ( value == null ) || value.equals( CONSTANT_EMPTY_STRING ) ) )
+                {
+                    return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                }
+        	}
         }
 
         return null;
@@ -137,17 +159,24 @@ public class AdminUserFieldService
     public static void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale,
         AdminUser currentUser )
     {
-        // Remove all user fields
-        AdminUserFieldHome.removeUserFieldsFromIdUser( user.getUserId(  ) );
-
-        // Attributes created in the Back-Office
+    	// Attributes created in the Back-Office
         List<IAttribute> listAttributes = AttributeHome.findCoreAttributes( locale );
-
+        Map<Integer, List<AdminUserField>> map = new HashMap<Integer, List<AdminUserField>>(  );
         for ( IAttribute attribute : listAttributes )
         {
             List<AdminUserField> listUserFields = attribute.getUserFieldsData( request, user );
 
-            for ( AdminUserField userField : listUserFields )
+            map.put( attribute.getIdAttribute(  ), listUserFields );
+        }
+    	
+        // Remove all user fields
+    	AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
+    	auFieldFilter.setIdUser( user.getUserId(  ) );
+    	AdminUserFieldHome.removeByFilter( auFieldFilter );
+
+        for ( int nIdAttribute : map.keySet(  ) )
+        {
+            for ( AdminUserField userField : map.get( nIdAttribute ) )
             {
                 if ( userField != null )
                 {
@@ -172,7 +201,9 @@ public class AdminUserFieldService
      */
     public static void doRemoveUserFields( AdminUser user, HttpServletRequest request, Locale locale )
     {
-        AdminUserFieldHome.removeUserFieldsFromIdUser( user.getUserId(  ) );
+    	AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
+    	auFieldFilter.setIdUser( user.getUserId(  ) );
+        AdminUserFieldHome.removeByFilter( auFieldFilter );
 
         // Attributes associated to the plugins
         for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 

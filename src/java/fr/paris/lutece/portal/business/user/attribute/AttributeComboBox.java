@@ -44,6 +44,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  *
@@ -150,27 +152,27 @@ public class AttributeComboBox extends AbstractAttribute
         String strMandatory = request.getParameter( PARAMETER_MANDATORY );
         String strMultiple = request.getParameter( PARAMETER_MULTIPLE );
 
-        if ( ( strTitle == null ) || ( strTitle.equals( EMPTY_STRING ) ) )
+        if ( StringUtils.isNotBlank( strTitle ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        	setTitle( strTitle );
+            setHelpMessage( strHelpMessage );
+            setMandatory( strMandatory != null );
+            setShownInSearch( strIsShownInSearch != null );
+
+            if ( getListAttributeFields(  ) == null )
+            {
+                List<AttributeField> listAttributeFields = new ArrayList<AttributeField>(  );
+                AttributeField attributeField = new AttributeField(  );
+                listAttributeFields.add( attributeField );
+                setListAttributeFields( listAttributeFields );
+            }
+
+            getListAttributeFields(  ).get( 0 ).setMultiple( strMultiple != null );
+
+            return null;
         }
-
-        setTitle( strTitle );
-        setHelpMessage( strHelpMessage );
-        setMandatory( strMandatory != null );
-        setShownInSearch( strIsShownInSearch != null );
-
-        if ( getListAttributeFields(  ) == null )
-        {
-            List<AttributeField> listAttributeFields = new ArrayList<AttributeField>(  );
-            AttributeField attributeField = new AttributeField(  );
-            listAttributeFields.add( attributeField );
-            setListAttributeFields( listAttributeFields );
-        }
-
-        getListAttributeFields(  ).get( 0 ).setMultiple( strMultiple != null );
-
-        return null;
+        
+        return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
     }
 
     /**

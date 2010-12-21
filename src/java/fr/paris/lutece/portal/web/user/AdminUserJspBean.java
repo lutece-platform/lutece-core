@@ -33,6 +33,16 @@
  */
 package fr.paris.lutece.portal.web.user;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -79,16 +89,6 @@ import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -686,24 +686,37 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         // Specific attributes
         List<IAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
-        Map<String, List<AdminUserField>> map = new HashMap<String, List<AdminUserField>>(  );
+        Map<String, Object> map = new HashMap<String, Object>(  );
 
         for ( IAttribute attribute : listAttributes )
         {
-            List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
-            attribute.setListAttributeFields( listAttributeFields );
-
-            List<AdminUserField> listUserFields = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( user.getUserId(  ),
+        	List<AdminUserField> listUserFields = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( user.getUserId(  ),
                     attribute.getIdAttribute(  ) );
-
-            if ( listUserFields.size(  ) == 0 )
+        	
+            if ( attribute.isAttributeImage(  ) )
             {
-                AdminUserField userField = new AdminUserField(  );
-                userField.setValue( CONSTANT_EMPTY_STRING );
-                listUserFields.add( userField );
+            	if ( listUserFields.size(  ) > 0 )
+            	{
+            		AdminUserField userField = listUserFields.get( 0 );
+            		if ( userField.getFile(  ) != null )
+            		{
+            			map.put( String.valueOf( attribute.getIdAttribute(  ) ), userField.getFile(  ) );
+            		}
+            	}
             }
+            else
+            {
+            	List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
+                attribute.setListAttributeFields( listAttributeFields );
 
-            map.put( String.valueOf( attribute.getIdAttribute(  ) ), listUserFields );
+                if ( listUserFields.size(  ) == 0 )
+                {
+                    AdminUserField userField = new AdminUserField(  );
+                    userField.setValue( CONSTANT_EMPTY_STRING );
+                    listUserFields.add( userField );
+                }
+            	map.put( String.valueOf( attribute.getIdAttribute(  ) ), listUserFields );
+            }
         }
 
         model.put( MARK_USER, user );
@@ -944,10 +957,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
         AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
-        AdminUserHome.remove( nUserId );
+        AdminUserFieldService.doRemoveUserFields( user, request, getLocale(  ) );
         AdminUserHome.removeAllRightsForUser( nUserId );
         AdminUserHome.removeAllRolesForUser( nUserId );
-        AdminUserFieldService.doRemoveUserFields( user, request, getLocale(  ) );
+        AdminUserHome.remove( nUserId );
 
         return JSP_MANAGE_USER;
     }

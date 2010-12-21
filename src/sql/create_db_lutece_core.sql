@@ -151,7 +151,18 @@ CREATE TABLE core_feature_group (
 	PRIMARY KEY (id_feature_group)
 );
 
-
+--
+-- Table structure for table core_file
+--
+DROP TABLE IF EXISTS core_file;
+CREATE TABLE core_file (
+	id_file INT DEFAULT 0 NOT NULL,
+	title LONG VARCHAR DEFAULT NULL, 
+	id_physical_file INT DEFAULT NULL,  
+	file_size  INT DEFAULT NULL,
+	mime_type VARCHAR(255) DEFAULT NULL,
+	PRIMARY KEY (id_file)
+);
 
 --
 -- Table structure for table core_indexer_action
@@ -245,6 +256,16 @@ CREATE TABLE core_page_template (
 	file_name varchar(100) default NULL,
 	picture varchar(50) default NULL,
 	PRIMARY KEY (id_template)
+);
+
+--
+-- Table structure for table core_physical_file
+--
+DROP TABLE IF EXISTS core_physical_file;
+CREATE TABLE core_physical_file (
+	id_physical_file INT DEFAULT 0 NOT NULL,
+	file_value LONG VARBINARY,  
+	PRIMARY KEY (id_physical_file)
 );
 
 --
@@ -475,6 +496,7 @@ CREATE TABLE core_admin_user_field (
 	id_user INT DEFAULT NULL,
 	id_attribute INT DEFAULT NULL,
 	id_field INT DEFAULT NULL,
+	id_file INT DEFAULT NULL,
 	user_field_value LONG VARCHAR DEFAULT NULL,
 	PRIMARY KEY (id_user_field)
 );
