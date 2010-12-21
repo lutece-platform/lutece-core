@@ -30,7 +30,8 @@ INSERT INTO core_admin_right VALUES ('CORE_DASHBOARD_MANAGEMENT', 'portal.dashbo
 --
 -- Update core_attribute
 --
-ALTER TABLE core_attribute ADD is_field_in_line SMALLINT DEFAULT 0 AFTER is_shown_in_search;
+ALTER TABLE core_attribute ADD is_shown_in_result_list SMALLINT DEFAULT 0 AFTER is_shown_in_search;
+ALTER TABLE core_attribute ADD is_field_in_line SMALLINT DEFAULT 0 AFTER is_shown_in_result_list;
 
 --
 -- Table structure for table core_file

@@ -54,6 +54,7 @@ public abstract class AbstractAttribute implements IAttribute
     // MARKS
     private static final String MARK_ATTRIBUTE = "attribute";
     private static final String MARK_DEFAULT_VALUES_LIST = "default_values_list";
+    private static final String MARK_USER_FIELD = "user_field";
     protected int _nIdAttribute;
     protected boolean _bMandatory;
     protected String _strTitle;
@@ -65,6 +66,7 @@ public abstract class AbstractAttribute implements IAttribute
     protected boolean _bIsShownInSearch;
     protected boolean _bIsFieldInLine;
     protected boolean _bIsAttributeImage = false;
+    protected boolean _bIsShownInResultList;
 
     /**
      * Constructor
@@ -265,6 +267,23 @@ public abstract class AbstractAttribute implements IAttribute
     }
 
     /**
+     * Get Html value
+     * @param locale Locale
+     * @param userField User field
+     * @return the html
+     */
+    public String getHtmlValue( Locale locale, AdminUserField userField )
+    {
+    	Map<String, Object> model = new HashMap<String, Object>(  );
+    	
+    	model.put( MARK_ATTRIBUTE, this );
+    	model.put( MARK_USER_FIELD, userField );
+    	HtmlTemplate template = AppTemplateService.getTemplate( getTemplateHtmlValue(  ), locale, model );
+
+        return template.getHtml(  );
+    }
+    
+    /**
      * Get plugin
      * @return plugin
      */
@@ -334,5 +353,23 @@ public abstract class AbstractAttribute implements IAttribute
     public void setAttributeImage( boolean bIsAttributeImage )
     {
     	_bIsAttributeImage = bIsAttributeImage;
+    }
+
+    /**
+     * Check if the attribute is shown in result list
+     * @return true if it is, false otherwise
+     */
+    public boolean isShownInResultList(  )
+    {
+        return _bIsShownInResultList;
+    }
+
+    /**
+     * Set isShownInResultList
+     * @param bIsShownInResultList shown in result list
+     */
+    public void setShownInResultList( boolean bIsShownInResultList )
+    {
+        _bIsShownInResultList = bIsShownInResultList;
     }
 }

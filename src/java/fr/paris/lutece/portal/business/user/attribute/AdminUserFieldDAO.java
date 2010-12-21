@@ -62,7 +62,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     private static final String SQL_QUERY_SELECT = " SELECT auf.id_user_field, auf.id_user, auf.id_attribute, auf.id_field, auf.id_file, auf.user_field_value, " +
         " au.access_code, au.last_name, au.first_name, au.email, au.status, au.locale, au.level_user, " +
         " a.type_class_name, a.title, a.help_message, a.is_mandatory, a.attribute_position, " +
-        " af.title, af.DEFAULT_value, af.is_DEFAULT_value, af.field_position " +
+        " af.title, af.DEFAULT_value, af.is_DEFAULT_value, af.height, af.width, af.max_size_enter, af.is_multiple, af.field_position " +
         " FROM core_admin_user_field auf " +
         " INNER JOIN core_admin_user au ON auf.id_user = au.id_user " +
         " INNER JOIN core_attribute a ON auf.id_attribute = a.id_attribute " +
@@ -190,7 +190,11 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             attributeField.setTitle( daoUtil.getString( 19 ) );
             attributeField.setValue( daoUtil.getString( 20 ) );
             attributeField.setDefaultValue( daoUtil.getBoolean( 21 ) );
-            attributeField.setPosition( daoUtil.getInt( 22 ) );
+            attributeField.setHeight( daoUtil.getInt( 22 ) );
+            attributeField.setWidth( daoUtil.getInt( 23 ) );
+            attributeField.setMaxSizeEnter( daoUtil.getInt( 24 ) );
+            attributeField.setMultiple( daoUtil.getBoolean( 25 ) );
+            attributeField.setPosition( daoUtil.getInt( 26 ) );
             userField.setAttributeField( attributeField );
             
             // FILE
@@ -559,7 +563,11 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             attributeField.setTitle( daoUtil.getString( 19 ) );
             attributeField.setValue( daoUtil.getString( 20 ) );
             attributeField.setDefaultValue( daoUtil.getBoolean( 21 ) );
-            attributeField.setPosition( daoUtil.getInt( 22 ) );
+            attributeField.setHeight( daoUtil.getInt( 22 ) );
+            attributeField.setWidth( daoUtil.getInt( 23 ) );
+            attributeField.setMaxSizeEnter( daoUtil.getInt( 24 ) );
+            attributeField.setMultiple( daoUtil.getBoolean( 25 ) );
+            attributeField.setPosition( daoUtil.getInt( 26 ) );
             userField.setAttributeField( attributeField );
             
             // FILE

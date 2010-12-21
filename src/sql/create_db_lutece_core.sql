@@ -463,6 +463,7 @@ CREATE TABLE core_attribute (
 	help_message LONG VARCHAR DEFAULT NULL,
 	is_mandatory SMALLINT DEFAULT 0,
 	is_shown_in_search SMALLINT DEFAULT 0,
+	is_shown_in_result_list SMALLINT DEFAULT 0,
 	is_field_in_line SMALLINT DEFAULT 0,
 	attribute_position INT DEFAULT 0,
 	plugin_name VARCHAR(255) DEFAULT NULL,

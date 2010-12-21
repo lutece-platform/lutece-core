@@ -156,6 +156,18 @@ public interface IAttribute
     void setShownInSearch( boolean bIsShownInSearch );
     
     /**
+     * Check if the attribute is shown in result list
+     * @return true if it is, false otherwise
+     */
+    boolean isShownInResultList(  );
+
+    /**
+     * Set isShownInResultList
+     * @param bIsShownInResultList shown in result list
+     */
+    void setShownInResultList( boolean bIsShownInResultList );
+    
+    /**
      * Check if the attribute is to be shown in line
      * @return true if it is shown in line, false otherwise
      */
@@ -217,6 +229,12 @@ public interface IAttribute
      */
     String getTemplateHtmlFormSearchAttribute(  );
 
+    /**
+     * Get the template html for the value of the attribute
+     * @return the template
+     */
+    String getTemplateHtmlValue(  );
+    
     /**
      * Set the data of the attribute
      * @param request HttpServletRequest

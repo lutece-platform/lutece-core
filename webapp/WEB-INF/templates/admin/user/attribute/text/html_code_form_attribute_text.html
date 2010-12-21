@@ -7,7 +7,10 @@
 			 : 
 	</label>
 	<#list attribute.listAttributeFields as attributeField>
-		<input type="text" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}" size="${attributeField.width}" 
+		<input type="text" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}" 
+			<#if attributeField.width?? && ( attributeField.width > 0 )>
+				size="${attributeField.width}"
+			</#if> 
 			<#if attributeField.value?exists && !default_values_list?has_content>
 				value="${attributeField.value}"
 			<#elseif default_values_list?has_content>

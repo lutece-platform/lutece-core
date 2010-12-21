@@ -33,12 +33,21 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserFilter;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldFilter;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
@@ -52,14 +61,6 @@ import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -92,6 +93,7 @@ public final class AdminUserService
     private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
     private static final String MARK_LOCALE = "locale";
     private static final String MARK_SORT_SEARCH_ATTRIBUTE = "sort_search_attribute";
+    private static final String MARK_MAP_ID_USER_LIST_USER_FIELDS = "map_id_user_list_user_fields";
 
     // Properties
     private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
@@ -222,6 +224,14 @@ public final class AdminUserService
         {
             filteredUsers = listFilteredUsers;
         }
+        
+        Map<String, List<AdminUserField>> map = new HashMap<String,List<AdminUserField>>(  );
+        for ( AdminUser user : filteredUsers )
+        {
+        	auFieldFilter.setIdUser( user.getUserId(  ) );
+        	List<AdminUserField> listAdminUserFields = AdminUserFieldHome.findByFilter( auFieldFilter );
+        	map.put( String.valueOf( user.getUserId(  ) ), listAdminUserFields );
+        }
 
         List<IAttribute> listAttributes = AttributeHome.findAll( currentUser.getLocale(  ) );
 
@@ -247,6 +257,7 @@ public final class AdminUserService
         model.put( MARK_LOCALE, currentUser.getLocale(  ) );
         model.put( MARK_ATTRIBUTES_LIST, listAttributes );
         model.put( MARK_SORT_SEARCH_ATTRIBUTE, strSortSearchAttribute );
+        model.put( MARK_MAP_ID_USER_LIST_USER_FIELDS, map );
 
         return filteredUsers;
     }

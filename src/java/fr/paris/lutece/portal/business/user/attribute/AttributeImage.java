@@ -78,6 +78,7 @@ public class AttributeImage extends AbstractAttribute
     private static final String PARAMETER_WIDTH = "width";
     private static final String PARAMETER_HEIGHT = "height";
     private static final String PARAMETER_UPDATE_ATTRIBUTE = "update_attribute";
+    private static final String PARAMETER_IS_SHOWN_IN_RESULT_LIST = "is_shown_in_result_list";
 
     // Properties
     private static final String PROPERTY_TYPE_IMAGE = "portal.users.attribute.type.image";
@@ -89,6 +90,7 @@ public class AttributeImage extends AbstractAttribute
     private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/image/create_attribute_image.html";
     private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/image/modify_attribute_image.html";
     private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/image/html_code_form_attribute_image.html";
+    private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/image/html_code_value_attribute_image.html";
 
     private static final String REGEX_ID = "-?[0-9]+";
     
@@ -135,6 +137,15 @@ public class AttributeImage extends AbstractAttribute
     {
         return EMPTY_STRING;
     }
+    
+    /**
+     * Get the template html for the value of the attribute
+     * @return the template
+     */
+    public String getTemplateHtmlValue(  )
+    {
+        return TEMPLATE_HTML_VALUE;
+    }
 
     /**
      * Get page title for create page
@@ -167,6 +178,7 @@ public class AttributeImage extends AbstractAttribute
         String strMandatory = request.getParameter( PARAMETER_MANDATORY );
         String strWidth = request.getParameter( PARAMETER_WIDTH );
         String strHeight = request.getParameter( PARAMETER_HEIGHT );
+        String strShownInResultList = request.getParameter( PARAMETER_IS_SHOWN_IN_RESULT_LIST );
         
         String strError = EMPTY_STRING;
 
@@ -175,6 +187,7 @@ public class AttributeImage extends AbstractAttribute
         	setTitle( strTitle );
             setHelpMessage( strHelpMessage );
             setMandatory( strMandatory != null );
+            setShownInResultList( strShownInResultList != null );
             // Never show an image in the search box
             setShownInSearch( false );
 
@@ -186,27 +199,35 @@ public class AttributeImage extends AbstractAttribute
                 setListAttributeFields( listAttributeFields );
             }
             
-        	if ( StringUtils.isNotBlank( strWidth ) && strWidth.matches( REGEX_ID ) )
-            {
-        		int nWidth = Integer.parseInt( strWidth );
-        		getListAttributeFields(  ).get( 0 ).setWidth( nWidth );
-            }
-        	
-        	if ( StringUtils.isNotBlank( strHeight ) && strHeight.matches( REGEX_ID ) )
-            {
-        		int nHeight = Integer.parseInt( strHeight );
-        		getListAttributeFields(  ).get( 0 ).setHeight( nHeight );
-            }
-        	
-        	if ( StringUtils.isNotBlank( strWidth ) && !strWidth.matches( REGEX_ID ) ||
+            if ( StringUtils.isNotBlank( strWidth ) && !strWidth.matches( REGEX_ID ) ||
         			StringUtils.isNotBlank( strHeight ) && !strHeight.matches( REGEX_ID ) )
         	{
         		strError = PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS;
         	}
-        	if ( EMPTY_STRING.equals( strError ) )
+            
+            if ( EMPTY_STRING.equals( strError ) )
         	{
+            	if ( StringUtils.isNotBlank( strWidth ) && strWidth.matches( REGEX_ID ) )
+                {
+            		int nWidth = Integer.parseInt( strWidth );
+            		getListAttributeFields(  ).get( 0 ).setWidth( nWidth );
+                }
+            	else
+            	{
+            		getListAttributeFields(  ).get( 0 ).setWidth( -1 );
+            	}
+            	
+            	if ( StringUtils.isNotBlank( strHeight ) && strHeight.matches( REGEX_ID ) )
+                {
+            		int nHeight = Integer.parseInt( strHeight );
+            		getListAttributeFields(  ).get( 0 ).setHeight( nHeight );            		
+                }
+            	else
+            	{
+            		getListAttributeFields(  ).get( 0 ).setHeight( -1 );
+            	}
         		return null;
-        	}
+        	}        	
         }
         else
         {

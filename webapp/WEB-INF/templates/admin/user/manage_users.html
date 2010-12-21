@@ -125,7 +125,12 @@
             	#i18n{portal.users.manage_users.columnTitleEmail}
             	<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="email${sort_search_attribute}" />
             </th>
-            <th>#i18n{portal.users.manage_users.columnTitleStatus}</th>		
+            <th>#i18n{portal.users.manage_users.columnTitleStatus}</th>
+            <#list attributes_list as attribute>
+            	<#if attribute.shownInResultList>
+            		<th>${attribute.title}</th>
+            	</#if>
+            </#list>	
             <th>#i18n{portal.users.manage_users.columnTitleActions}</th>
         </tr>
         <#list user_list as user>
@@ -141,6 +146,23 @@
                 <img src="images/admin/skin/disable.png" alt="#i18n{portal.users.manage_users.statusLabelDisabled}" />
                 </#if>				
             </td>
+            <#assign list_user_fields = map_id_user_list_user_fields["" + user.userId]>
+            <#list attributes_list as attribute>
+            	<#if attribute.shownInResultList>
+           			<td>
+           				<#assign index_user_field = 0>
+           				<#list list_user_fields as user_field>
+           					<#if user_field.attribute.idAttribute == attribute.idAttribute>
+           						<#if index_user_field != 0>
+           							<br />
+           						</#if>
+           						<#assign index_user_field = index_user_field + 1>
+           						${attribute.getHtmlValue( locale, user_field )}
+           					</#if>
+           				</#list>
+           			</td>
+            	</#if>
+            </#list>
             <td>
                 <a href="jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}" >
                     <img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.users.actions.labelDelete}" title="#i18n{portal.users.actions.labelDelete}" />

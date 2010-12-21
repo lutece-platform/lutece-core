@@ -57,21 +57,21 @@ public class AttributeDAO implements IAttributeDAO
     private static final String SQL_QUERY_NEW_POSITION = "SELECT MAX(attribute_position)" + " FROM core_attribute ";
 
     // SELECT
-    private static final String SQL_QUERY_SELECT = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_field_in_line, attribute_position, plugin_name " +
+    private static final String SQL_QUERY_SELECT = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position, plugin_name " +
         " FROM core_attribute WHERE id_attribute = ? ";
-    private static final String SQL_QUERY_SELECT_ALL = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_field_in_line, attribute_position, plugin_name " +
+    private static final String SQL_QUERY_SELECT_ALL = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position, plugin_name " +
         " FROM core_attribute ORDER BY attribute_position ASC ";
-    private static final String SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_field_in_line, attribute_position " +
+    private static final String SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position " +
         " FROM core_attribute WHERE plugin_name = ? ORDER BY attribute_position ASC ";
-    private static final String SQL_QUERY_SELECT_CORE_ATTRIBUTES = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_field_in_line, attribute_position " +
+    private static final String SQL_QUERY_SELECT_CORE_ATTRIBUTES = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position " +
         " FROM core_attribute WHERE plugin_name IS NULL OR plugin_name = '' ORDER BY attribute_position ASC ";
 
     // INSERT
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute (id_attribute, type_class_name, title, help_message, is_mandatory, is_shown_in_search, is_field_in_line, attribute_position)" +
-        " VALUES (?,?,?,?,?,?,?,?) ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute (id_attribute, type_class_name, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position)" +
+        " VALUES (?,?,?,?,?,?,?,?,?) ";
 
     // UPDATE
-    private static final String SQL_QUERY_UPDATE = " UPDATE core_attribute SET title = ?, help_message = ?, is_mandatory = ?, is_shown_in_search = ?, is_field_in_line = ?, attribute_position = ? " +
+    private static final String SQL_QUERY_UPDATE = " UPDATE core_attribute SET title = ?, help_message = ?, is_mandatory = ?, is_shown_in_search = ?, is_shown_in_result_list = ?, is_field_in_line = ?, attribute_position = ? " +
         " WHERE id_attribute = ? ";
 
     // DELETE
@@ -166,6 +166,7 @@ public class AttributeDAO implements IAttributeDAO
             attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
             attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
             attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setShownInResultList( daoUtil.getBoolean( nIndex++ ) );
             attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
             attribute.setPosition( daoUtil.getInt( nIndex++ ) );
             attribute.setAttributeType( locale );
@@ -195,6 +196,7 @@ public class AttributeDAO implements IAttributeDAO
         daoUtil.setString( nIndex++, attribute.getHelpMessage(  ) );
         daoUtil.setBoolean( nIndex++, attribute.isMandatory(  ) );
         daoUtil.setBoolean( nIndex++, attribute.isShownInSearch(  ) );
+        daoUtil.setBoolean( nIndex++, attribute.isShownInResultList(  ) );
         daoUtil.setBoolean( nIndex++, attribute.isFieldInLine(  ) );
         daoUtil.setInt( nIndex++, newPosition(  ) );
 
@@ -216,6 +218,7 @@ public class AttributeDAO implements IAttributeDAO
         daoUtil.setString( nIndex++, attribute.getHelpMessage(  ) );
         daoUtil.setBoolean( nIndex++, attribute.isMandatory(  ) );
         daoUtil.setBoolean( nIndex++, attribute.isShownInSearch(  ) );
+        daoUtil.setBoolean( nIndex++, attribute.isShownInResultList(  ) );
         daoUtil.setBoolean( nIndex++, attribute.isFieldInLine(  ) );
         daoUtil.setInt( nIndex++, attribute.getPosition(  ) );
         daoUtil.setInt( nIndex++, attribute.getIdAttribute(  ) );
@@ -279,6 +282,7 @@ public class AttributeDAO implements IAttributeDAO
             attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
             attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
             attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setShownInResultList( daoUtil.getBoolean( nIndex++ ) );
             attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
             attribute.setPosition( daoUtil.getInt( nIndex++ ) );
             attribute.setAttributeType( locale );
@@ -338,6 +342,7 @@ public class AttributeDAO implements IAttributeDAO
             attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
             attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
             attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setShownInResultList( daoUtil.getBoolean( nIndex++ ) );
             attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
             attribute.setPosition( daoUtil.getInt( nIndex++ ) );
             attribute.setAttributeType( locale );
@@ -395,6 +400,7 @@ public class AttributeDAO implements IAttributeDAO
             attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
             attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
             attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
+            attribute.setShownInResultList( daoUtil.getBoolean( nIndex++ ) );
             attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
             attribute.setPosition( daoUtil.getInt( nIndex++ ) );
             attribute.setAttributeType( locale );

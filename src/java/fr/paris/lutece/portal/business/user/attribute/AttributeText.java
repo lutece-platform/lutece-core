@@ -66,6 +66,7 @@ public class AttributeText extends AbstractAttribute
     private static final String PARAMETER_MAX_SIZE_ENTER = "max_size_enter";
     private static final String PARAMETER_VALUE = "value";
     private static final String PARAMETER_IS_SHOWN_IN_SEARCH = "is_shown_in_search";
+    private static final String PARAMETER_IS_SHOWN_IN_RESULT_LIST = "is_shown_in_result_list";
     private static final String PARAMETER_ATTRIBUTE = "attribute";
 
     // PROPERTY
@@ -79,6 +80,7 @@ public class AttributeText extends AbstractAttribute
     private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/text/modify_attribute_text.html";
     private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/text/html_code_form_attribute_text.html";
     private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/text/html_code_form_search_attribute_text.html";
+    private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/text/html_code_value_attribute_text.html";
     private static final String REGEX_ID = "-?[0-9]+";
 
     /**
@@ -123,6 +125,15 @@ public class AttributeText extends AbstractAttribute
     {
         return TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE;
     }
+    
+    /**
+     * Get the template html for the value of the attribute
+     * @return the template
+     */
+    public String getTemplateHtmlValue(  )
+    {
+        return TEMPLATE_HTML_VALUE;
+    }
 
     /**
      * Get the page title for create page
@@ -153,6 +164,7 @@ public class AttributeText extends AbstractAttribute
         String strHelpMessage = ( request.getParameter( PARAMETER_HELP_MESSAGE ) != null )
             ? request.getParameter( PARAMETER_HELP_MESSAGE ).trim(  ) : null;
         String strIsShownInSearch = request.getParameter( PARAMETER_IS_SHOWN_IN_SEARCH );
+        String strIsShownInResultList = request.getParameter( PARAMETER_IS_SHOWN_IN_RESULT_LIST );
         String strMandatory = request.getParameter( PARAMETER_MANDATORY );
         String strWidth = request.getParameter( PARAMETER_WIDTH );
         String strMaxSizeEnter = request.getParameter( PARAMETER_MAX_SIZE_ENTER );
@@ -168,8 +180,7 @@ public class AttributeText extends AbstractAttribute
 
                 int nMaxSizeEnter;
 
-                if ( ( strMaxSizeEnter != null ) && !strMaxSizeEnter.equals( EMPTY_STRING ) &&
-                        !strMaxSizeEnter.matches( REGEX_ID ) )
+                if ( StringUtils.isNotBlank( strMaxSizeEnter ) && !strMaxSizeEnter.matches( REGEX_ID ) )
                 {
                     return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS,
                         AdminMessage.TYPE_STOP );
@@ -187,6 +198,7 @@ public class AttributeText extends AbstractAttribute
                 setHelpMessage( strHelpMessage );
                 setMandatory( strMandatory != null );
                 setShownInSearch( strIsShownInSearch != null );
+                setShownInResultList( strIsShownInResultList != null );
 
                 if ( getListAttributeFields(  ) == null )
                 {

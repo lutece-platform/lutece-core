@@ -63,6 +63,7 @@ public class AttributeCheckBox extends AbstractAttribute
     private static final String PARAMETER_HELP_MESSAGE = "help_message";
     private static final String PARAMETER_MANDATORY = "mandatory";
     private static final String PARAMETER_IS_SHOWN_IN_SEARCH = "is_shown_in_search";
+    private static final String PARAMETER_IS_SHOWN_IN_RESULT_LIST = "is_shown_in_result_list";
     private static final String PARAMETER_ATTRIBUTE = "attribute";
     private static final String PARAMETER_IS_FIELD_IN_LINE = "is_field_in_line";
 
@@ -76,6 +77,7 @@ public class AttributeCheckBox extends AbstractAttribute
     private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/checkbox/modify_attribute_checkbox.html";
     private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/checkbox/html_code_form_attribute_checkbox.html";
     private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/checkbox/html_code_form_search_attribute_checkbox.html";
+    private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/checkbox/html_code_value_attribute_checkbox.html";
 
     /**
      * Constructor
@@ -121,6 +123,15 @@ public class AttributeCheckBox extends AbstractAttribute
     }
 
     /**
+     * Get the template html for the value of the attribute
+     * @return the template
+     */
+    public String getTemplateHtmlValue(  )
+    {
+        return TEMPLATE_HTML_VALUE;
+    }
+
+    /**
      * Get page title for create page
      * @return page title
      */
@@ -149,6 +160,7 @@ public class AttributeCheckBox extends AbstractAttribute
         String strHelpMessage = ( request.getParameter( PARAMETER_HELP_MESSAGE ) != null )
             ? request.getParameter( PARAMETER_HELP_MESSAGE ).trim(  ) : null;
         String strIsShownInSearch = request.getParameter( PARAMETER_IS_SHOWN_IN_SEARCH );
+        String strIsShownInResultList = request.getParameter( PARAMETER_IS_SHOWN_IN_RESULT_LIST );
         String strMandatory = request.getParameter( PARAMETER_MANDATORY );
         String strFieldInLine = request.getParameter( PARAMETER_IS_FIELD_IN_LINE );
 
@@ -158,6 +170,7 @@ public class AttributeCheckBox extends AbstractAttribute
             setHelpMessage( strHelpMessage );
             setMandatory( strMandatory != null );
             setShownInSearch( strIsShownInSearch != null );
+            setShownInResultList( strIsShownInResultList != null );
             setFieldInLine( strFieldInLine != null );
 
             return null;
