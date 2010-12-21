@@ -220,7 +220,7 @@ public class PageIndexer implements SearchIndexer
             doc.add( new Field( SearchItem.FIELD_SUMMARY, page.getDescription(  ), Field.Store.YES, Field.Index.NO ) );
         }
 
-        doc.add( new Field( SearchItem.FIELD_TYPE, "Page", Field.Store.YES, Field.Index.UN_TOKENIZED ) );
+        doc.add( new Field( SearchItem.FIELD_TYPE, "Page", Field.Store.YES, Field.Index.ANALYZED ) );
         doc.add( new Field( SearchItem.FIELD_ROLE, page.getRole(  ), Field.Store.YES, Field.Index.UN_TOKENIZED ) );
 
         // return the document
