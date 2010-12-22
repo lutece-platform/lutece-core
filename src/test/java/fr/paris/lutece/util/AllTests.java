@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util;
 
-import fr.paris.lutece.util.crypto.CryptoUtilTest;
 import fr.paris.lutece.util.date.DateUtilTest;
 import fr.paris.lutece.util.filesystem.FileSystemUtilTest;
 import fr.paris.lutece.util.filesystem.UploadUtilTest;
@@ -68,7 +67,6 @@ public final class AllTests
 
         //$JUnit-BEGIN$
         suite.addTest( new TestSuite( DateUtilTest.class ) );
-        suite.addTest( new TestSuite( CryptoUtilTest.class ) );
         suite.addTest( new TestSuite( StringUtilTest.class ) );
         suite.addTest( new TestSuite( FileSystemUtilTest.class ) );
         suite.addTest( new TestSuite( UploadUtilTest.class ) );
