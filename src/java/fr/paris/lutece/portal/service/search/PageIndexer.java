@@ -158,19 +158,19 @@ public class PageIndexer implements SearchIndexer
 
         // Add the url as a field named "url".  Use an UnIndexed field, so
         // that the url is just stored with the document, but is not searchable.
-        doc.add( new Field( SearchItem.FIELD_URL, strUrl, Field.Store.YES, Field.Index.UN_TOKENIZED ) );
+        doc.add( new Field( SearchItem.FIELD_URL, strUrl, Field.Store.YES, Field.Index.NOT_ANALYZED ) );
 
         // Add the last modified date of the file a field named "modified".
         // Use a field that is indexed (i.e. searchable), but don't tokenize
         // the field into words.
         String strDate = DateTools.dateToString( page.getDateUpdate(  ), DateTools.Resolution.DAY );
-        doc.add( new Field( SearchItem.FIELD_DATE, strDate, Field.Store.YES, Field.Index.UN_TOKENIZED ) );
+        doc.add( new Field( SearchItem.FIELD_DATE, strDate, Field.Store.YES, Field.Index.NOT_ANALYZED ) );
 
         // Add the uid as a field, so that index can be incrementally maintained.
         // This field is not stored with document, it is indexed, but it is not
         // tokenized prior to indexing.
         String strIdPage = String.valueOf( page.getId(  ) );
-        doc.add( new Field( SearchItem.FIELD_UID, strIdPage, Field.Store.NO, Field.Index.UN_TOKENIZED ) );
+        doc.add( new Field( SearchItem.FIELD_UID, strIdPage, Field.Store.NO, Field.Index.NOT_ANALYZED ) );
 
         String strPageContent = PageService.getInstance(  ).getPageContent( page.getId(  ), 0, null );
         StringReader readerPage = new StringReader( strPageContent );
@@ -206,8 +206,7 @@ public class PageIndexer implements SearchIndexer
             sbFieldContent.append( " " + page.getMetaKeywords(  ) );
         }
 
-        doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString(  ), Field.Store.NO,
-                Field.Index.TOKENIZED ) );
+        doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString(  ), Field.Store.NO, Field.Index.ANALYZED ) );
 
         // Add the title as a separate Text field, so that it can be searched
         // separately.
@@ -221,7 +220,7 @@ public class PageIndexer implements SearchIndexer
         }
 
         doc.add( new Field( SearchItem.FIELD_TYPE, "Page", Field.Store.YES, Field.Index.ANALYZED ) );
-        doc.add( new Field( SearchItem.FIELD_ROLE, page.getRole(  ), Field.Store.YES, Field.Index.UN_TOKENIZED ) );
+        doc.add( new Field( SearchItem.FIELD_ROLE, page.getRole(  ), Field.Store.YES, Field.Index.NOT_ANALYZED ) );
 
         // return the document
         return doc;

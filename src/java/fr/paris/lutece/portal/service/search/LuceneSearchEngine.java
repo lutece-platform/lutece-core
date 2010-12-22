@@ -45,18 +45,17 @@ import org.apache.lucene.misc.ChainedFilter;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.CachingWrapperFilter;
 import org.apache.lucene.search.Filter;
-import org.apache.lucene.search.Hit;
-import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.QueryWrapperFilter;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
 
 import java.text.ParseException;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,13 +66,15 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class LuceneSearchEngine implements SearchEngine
 {
+    public static final int MAX_RESPONSES = 1000000;
+
     /**
-     * Return search results
-     *
-     * @param strQuery The search query
-     * @param request The HTTP request
-     * @return Results as a collection of SearchResult
-     */
+    * Return search results
+    *
+    * @param strQuery The search query
+    * @param request The HTTP request
+    * @return Results as a collection of SearchResult
+    */
     public List<SearchResult> getSearchResults( String strQuery, HttpServletRequest request )
     {
         ArrayList<SearchItem> listResults = new ArrayList<SearchItem>(  );
@@ -122,20 +123,21 @@ public class LuceneSearchEngine implements SearchEngine
 
         try
         {
-            searcher = new IndexSearcher( IndexationService.getIndex(  ) );
+            searcher = new IndexSearcher( IndexationService.getDirectoryIndex(  ), true );
 
             Query query = null;
-            QueryParser parser = new QueryParser( SearchItem.FIELD_CONTENTS, IndexationService.getAnalyser(  ) );
+            QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_CONTENTS,
+                    IndexationService.getAnalyser(  ) );
             query = parser.parse( ( strQuery != null ) ? strQuery : "" );
 
             // Get results documents
-            Hits hits = searcher.search( query, filterRole );
-            Iterator i = hits.iterator(  );
+            TopDocs topDocs = searcher.search( query, filterRole, MAX_RESPONSES );
+            ScoreDoc[] hits = topDocs.scoreDocs;
 
-            while ( i.hasNext(  ) )
+            for ( int i = 0; i < hits.length; i++ )
             {
-                Hit hit = (Hit) i.next(  );
-                Document document = hit.getDocument(  );
+                int docId = hits[i].doc;
+                Document document = searcher.doc( docId );
                 SearchItem si = new SearchItem( document );
 
                 if ( ( !bFilterResult ) || ( bFilterResult && si.getRole(  ).equals( Page.ROLE_NONE ) ) ||

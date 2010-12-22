@@ -47,8 +47,11 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.NIOFSDirectory;
+import org.apache.lucene.util.Version;
 
-//import org.xml.sax.XMLReader;
+import java.io.File;
 import java.io.IOException;
 
 import java.util.Collection;
@@ -67,6 +70,7 @@ public final class IndexationService
     public static final String PATH_INDEX = "search.lucene.indexPath";
     public static final String PARAM_FORCING = "forcing";
     public static final int ALL_DOCUMENT = -1;
+    public static Version LUCENE_INDEX_VERSION = Version.LUCENE_29;
     private static final String PARAM_TYPE_PAGE = "Page";
     private static final String PROPERTY_WRITER_MERGE_FACTOR = "search.lucene.writer.mergeFactor";
     private static final String PROPERTY_WRITER_MAX_FIELD_LENGTH = "search.lucene.writer.maxFieldLength";
@@ -172,13 +176,15 @@ public final class IndexationService
 
         try
         {
-            if ( !IndexReader.indexExists( _strIndex ) )
+            Directory dir =  IndexationService.getDirectoryIndex(  );
+
+            if ( !IndexReader.indexExists( dir ) )
             { //init index
                 bCreateIndex = true;
             }
 
             Date start = new Date(  );
-            _writer = new IndexWriter( _strIndex, _analyzer, bCreateIndex );
+            _writer = new IndexWriter( dir, _analyzer, bCreateIndex, IndexWriter.MaxFieldLength.UNLIMITED );
             _writer.setMergeFactor( _nWriterMergeFactor );
             _writer.setMaxFieldLength( _nWriterMaxFieldLength );
 
@@ -382,10 +388,22 @@ public final class IndexationService
     /**
      * Gets the current index
      * @return The index
+     * @deprecated use getDirectoryIndex(  ) instead
      */
+    @Deprecated
     public static String getIndex(  )
     {
         return _strIndex;
+    }
+
+    /**
+     * Gets the current IndexSearcher
+     * @return IndexSearcher
+     * @throws IOException
+     */
+    public static Directory getDirectoryIndex(  ) throws IOException
+    {
+    	return NIOFSDirectory.open( new File( _strIndex ) );
     }
 
     /**
