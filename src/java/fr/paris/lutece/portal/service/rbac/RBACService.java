@@ -126,12 +126,12 @@ public final class RBACService
      * @param user The user
      * @return A filtered collection of resources
      */
-    public static Collection getAuthorizedCollection( Collection<?extends RBACResource> collection,
+    public static <E extends RBACResource> Collection<E> getAuthorizedCollection( Collection<E> collection,
         String strPermission, AdminUser user )
     {
-        ArrayList<RBACResource> list = new ArrayList<RBACResource>(  );
+        Collection<E> list = new ArrayList<E>(  );
 
-        for ( RBACResource resource : collection )
+        for ( E resource : collection )
         {
             if ( isAuthorized( resource, strPermission, user ) )
             {
@@ -173,12 +173,12 @@ public final class RBACService
      * @param user The user
      * @return The filtered collection
      */
-    public static Collection getAuthorizedActionsCollection( Collection<?extends RBACAction> collection,
+    public static <E extends RBACAction> Collection<E> getAuthorizedActionsCollection( Collection<E> collection,
         RBACResource resource, AdminUser user )
     {
-        Collection<RBACAction> list = new ArrayList<RBACAction>(  );
+        Collection<E> list = new ArrayList<E>(  );
 
-        for ( RBACAction action : collection )
+        for ( E action : collection )
         {
             if ( isAuthorized( resource, action.getPermission(  ), user ) )
             {
