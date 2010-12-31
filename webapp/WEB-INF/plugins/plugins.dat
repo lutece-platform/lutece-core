@@ -1,3 +1,2 @@
-#Plugins status file
-#Tue Oct 10 12:08:18 CEST 2006
 core_extensions.installed=1
+lucene.installed=1
