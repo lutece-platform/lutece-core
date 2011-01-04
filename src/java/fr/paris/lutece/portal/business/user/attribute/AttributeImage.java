@@ -57,6 +57,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.filesystem.FileSystemUtil;
+import fr.paris.lutece.util.string.StringUtil;
 
 
 /**
@@ -79,6 +80,7 @@ public class AttributeImage extends AbstractAttribute
     private static final String PARAMETER_HEIGHT = "height";
     private static final String PARAMETER_UPDATE_ATTRIBUTE = "update_attribute";
     private static final String PARAMETER_IS_SHOWN_IN_RESULT_LIST = "is_shown_in_result_list";
+    private static final String PARAMETER_ID_USER = "id_user";
 
     // Properties
     private static final String PROPERTY_TYPE_IMAGE = "portal.users.attribute.type.image";
@@ -297,6 +299,11 @@ public class AttributeImage extends AbstractAttribute
         	{
         		AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
         		auFieldFilter.setIdAttribute( getIdAttribute(  ) );
+        		String strIdUser = request.getParameter( PARAMETER_ID_USER );
+        		if ( StringUtils.isNotBlank( strIdUser ) )
+        		{
+        			auFieldFilter.setIdUser( StringUtil.getIntValue( strIdUser, 0 ) );
+        		}
         		listUserFields = AdminUserFieldHome.findByFilter( auFieldFilter );
         		for ( AdminUserField userField : listUserFields )
         		{

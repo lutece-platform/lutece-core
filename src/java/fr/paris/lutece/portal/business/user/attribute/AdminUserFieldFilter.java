@@ -46,6 +46,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  *
@@ -55,7 +57,6 @@ import javax.servlet.http.HttpServletRequest;
 public class AdminUserFieldFilter
 {
     // CONSTANTS
-    private static final String EMPTY_STRING = "";
     private static final String CONSTANT_ESPERLUETTE = "&";
     private static final String CONSTANT_EQUAL = "=";
     private static final String CONSTANT_UNDERSCORE = "_";
@@ -191,7 +192,7 @@ public class AdminUserFieldFilter
             {
                 for ( AdminUserField userField : attribute.getUserFieldsData( request, null ) )
                 {
-                    if ( ( userField != null ) && !userField.getValue(  ).equals( EMPTY_STRING ) )
+                    if ( ( userField != null ) && StringUtils.isNotBlank( userField.getValue(  ) ) )
                     {
                         _listUserFields.add( userField );
                     }

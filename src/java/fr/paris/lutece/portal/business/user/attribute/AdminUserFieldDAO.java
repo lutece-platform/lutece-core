@@ -94,6 +94,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     private static final String SQL_AND_ID_USER_IN = " AND id_user IN ";
     private static final String SQL_AND_ID_USER_IN_FIRST = " AND uf.id_user IN ";
     private static final String SQL_WHERE = " WHERE ";
+    private static final String SQL_AND = " AND ";
     private static final String SQL_FILTER_ID_USER_FIELD = " WHERE auf.id_user_field = ? ";
     private static final String SQL_FILTER_ID_USER = " auf.id_user = ? ";
     private static final String SQL_FILTER_ID_ATTRIBUTE = " auf.id_attribute = ? ";
@@ -483,9 +484,18 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     	StringBuilder sbSQL = new StringBuilder( SQL_QUERY_SELECT );
     	if ( listFilter.size(  ) > 0 )
     	{
-    		sbSQL.append( SQL_WHERE );
+    		boolean bIsFirst = true;
     		for ( String filter : listFilter )
     		{
+    			if ( bIsFirst )
+    			{
+    				sbSQL.append( SQL_WHERE );
+    				bIsFirst = false;
+    			}
+    			else
+    			{
+    				sbSQL.append( SQL_AND );
+    			}
     			sbSQL.append( filter );
     		}
     	}

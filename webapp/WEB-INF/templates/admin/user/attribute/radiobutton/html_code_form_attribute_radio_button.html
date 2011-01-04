@@ -32,7 +32,9 @@
 				checked="checked"
 			</#if>
 		/> #i18n{portal.users.attribute.labelNone}
-		<br />
+		<#if !attribute.fieldInLine>
+			<br />
+		</#if>
 	</#if>
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.title?exists && attributeField.value != "">
