@@ -44,7 +44,8 @@
 		// user to be authenticated (Added in v1.1)
 		// The user should be redirected to the Lutece login page
 
-		if( SecurityService.getInstance().isExternalAuthentication() )
+		if( SecurityService.getInstance(  ).isExternalAuthentication(  ) && 
+				!SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
 		{
 %>
 			<center>
