@@ -427,7 +427,7 @@ form input.button-image{border:0;vertical-align: bottom;}
 #lutece-paginator p{text-align: right; color:#888888;}
 #lutece-paginator span {float: left;width: 50%;}
 #lutece-paginator ul{border:0; margin:0; padding:0;}
-#lutece-paginator li{ border:0; margin:0; padding:0; list-style:none; margin-right:2px;}
+#lutece-paginator li{ border:0; margin:0; padding:0; list-style:none; margin-right:2px;float:left;}
 #lutece-paginator a{ border:solid 1px #9aafe5; margin-right:2px; text-decoration: none; font-weight: normal;}
 #lutece-paginator .previous-off,#lutece-paginator .next-off{
     border:solid 1px #DEDEDE;

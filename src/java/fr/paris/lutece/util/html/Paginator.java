@@ -210,7 +210,7 @@ public class Paginator<E>
         int nOffsetPrev = nbLinkPages / 2;
         int nOffsetNext = nbLinkPages / 2;
 
-        if ( _nPageCurrent < ( nbLinkPages - nOffsetPrev ) )
+        if ( _nPageCurrent <= ( nbLinkPages - nOffsetPrev ) )
         {
             nOffsetPrev = nbLinkPages - _nPageCurrent;
             nOffsetNext = nbLinkPages - nOffsetPrev;
