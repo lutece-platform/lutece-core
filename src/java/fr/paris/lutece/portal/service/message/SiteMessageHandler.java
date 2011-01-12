@@ -33,11 +33,9 @@
  */
 package fr.paris.lutece.portal.service.message;
 
-import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
-import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.constants.Markers;
@@ -52,15 +50,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * Site message pages provider service.
  *
  */
-public class SiteMessageContentService extends ContentService
+public class SiteMessageHandler implements ISiteMessageHandler
 {
-    private static final String CONTENT_SERVICE_NAME = "Site Message Content Service";
     private static final String TEMPLATE_MESSAGE = "skin/site/site_message.html";
     private static final String MARK_TITLE = "title";
     private static final String MARK_TEXT = "text";
@@ -74,16 +70,24 @@ public class SiteMessageContentService extends ContentService
     private static final String BOOKMARK_BASE_URL = "@base_url@";
 
     /**
-     * Returns the content of a page according to the parameters found in the http request. One distinguishes article,
-     * page and xpage and the mode.
-     *
-     * @param request The http request
-     * @param nMode The mode
-     * @return the html code for the display of a page of a site
-     * @throws UserNotSignedException The UserNotSignedException
+     * {@inheritDoc }
+     */
+    public boolean hasMessage( HttpServletRequest request )
+    {
+        SiteMessage message = SiteMessageService.getMessage( request );
+
+        if ( message != null )
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritDoc }
      */
     public String getPage( HttpServletRequest request, int nMode )
-        throws UserNotSignedException
     {
         Locale locale = request.getLocale(  );
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -161,31 +165,5 @@ public class SiteMessageContentService extends ContentService
         return template.getHtml(  );
     }
 
-    /**
-     * Analyzes request parameters to see if the request should be handled by the current Content Service
-     *
-     * @param request The HTTP request
-     * @return true if this ContentService should handle this request
-     */
-    public boolean isInvoked( HttpServletRequest request )
-    {
-        SiteMessage message = SiteMessageService.getMessage( request );
 
-        if ( message != null )
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns the Content Service name
-     *
-     * @return The name as a String
-     */
-    public String getName(  )
-    {
-        return CONTENT_SERVICE_NAME;
-    }
 }

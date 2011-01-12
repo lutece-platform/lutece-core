@@ -25,9 +25,6 @@
         <content-service>
             <content-service-class>fr.paris.lutece.portal.service.content.XPageAppService</content-service-class>
         </content-service>
-		<content-service>
-			<content-service-class>fr.paris.lutece.portal.service.message.SiteMessageContentService</content-service-class>
-		</content-service>
     </content-services>
     
     <!-- Search indexers -->

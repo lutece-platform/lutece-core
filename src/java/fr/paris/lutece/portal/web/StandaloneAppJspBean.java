@@ -35,11 +35,13 @@ package fr.paris.lutece.portal.web;
 
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.XPageAppService;
-import fr.paris.lutece.portal.service.message.SiteMessageContentService;
+import fr.paris.lutece.portal.service.message.ISiteMessageHandler;
+import fr.paris.lutece.portal.service.message.SiteMessageHandler;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.portal.StandaloneAppService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
@@ -64,6 +66,7 @@ public class StandaloneAppJspBean
     private static final String TEMPLATE_STANDALONE = "skin/site/standalone_app.html";
     private static final String MARK_PLUGINS_LIST = "plugins_list";
     private static final String MARK_BASE_URL = "base_url";
+    private static final String BEAN_SITE_MESSAGE_HANDLER = "siteMessageHandler";
 
     /**
      * Returns the content of a page according to the parameters found in the http request. One distinguishes article,
@@ -93,26 +96,22 @@ public class StandaloneAppJspBean
     public String getContent( HttpServletRequest request, int nMode )
         throws UserNotSignedException, SiteMessageException
     {
-        // Get the SiteMessageContentService
-        ContentService cs = new SiteMessageContentService(  );
-
-        // Check if the service is invoked, set the standalone content service else
-        if ( ( cs == null ) || !cs.isInvoked( request ) )
+        // Handle site messages first
+        ISiteMessageHandler handlerSiteMessage = ( ISiteMessageHandler ) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
+        if( handlerSiteMessage.hasMessage( request ))
         {
-            cs = new StandaloneAppService(  );
+            return handlerSiteMessage.getPage( request, nMode );
         }
 
-        String htmlPage = cs.getPage( request, nMode );
+        ContentService csStandalone = new StandaloneAppService(  );
+        String htmlPage = csStandalone.getPage( request, nMode );
 
         if ( htmlPage == null )
         {
             // Return the welcome page
             return getPluginList( request );
         }
-        else
-        {
-            return htmlPage;
-        }
+        return htmlPage;
     }
 
     /**

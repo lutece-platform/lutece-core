@@ -36,10 +36,12 @@ package fr.paris.lutece.portal.web;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.init.AppInfo;
 import fr.paris.lutece.portal.service.init.AppInit;
+import fr.paris.lutece.portal.service.message.ISiteMessageHandler;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -70,6 +72,7 @@ public class PortalJspBean
     private static final String ATTRIBUTE_LOGIN_NEXT_URL = "luteceLoginNextUrl";
     private static final String MARK_FAILURE_MESSAGE = "failure_message";
     private static final String MARK_FAILURE_DETAILS = "failure_details";
+    private static final String BEAN_SITE_MESSAGE_HANDLER = "siteMessageHandler";
 
     /**
      * Returns the content of a page according to the parameters found in the http request. One distinguishes article,
@@ -133,6 +136,12 @@ public class PortalJspBean
                     throw new UserNotSignedException(  );
                 }
             }
+        }
+
+        ISiteMessageHandler handler = ( ISiteMessageHandler ) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
+        if( handler.hasMessage( request ))
+        {
+            return handler.getPage( request, nMode );
         }
 
         // Search the content service invoked and call its getPage method

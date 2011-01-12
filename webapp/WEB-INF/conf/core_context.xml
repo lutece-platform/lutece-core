@@ -3,7 +3,8 @@
 <beans>
     <import resource="jpa_context.xml"/>
 
-    
+    <bean id="siteMessageHandler" class="fr.paris.lutece.portal.service.message.SiteMessageHandler"/>
+
     <!--                      Search Engine                                   -->
     <bean id="searchEngine" class="fr.paris.lutece.portal.service.search.LuceneSearchEngine" />
     <bean id="indexerActionDAO" class="fr.paris.lutece.portal.business.indexeraction.IndexerActionDAO" />
