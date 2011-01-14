@@ -40,16 +40,16 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
 import org.springframework.beans.factory.BeanFactoryUtils;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 
 import java.io.File;
 import java.io.FilenameFilter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -61,8 +61,8 @@ import java.util.Map;
  */
 public final class SpringContextService
 {
-    private static final String CORE = "core";
-    private static Map<String, ApplicationContext> _mapContext = new HashMap<String, ApplicationContext>(  );
+    //private static final String CORE = "core";
+    //private static Map<String, ApplicationContext> _mapContext = new HashMap<String, ApplicationContext>(  );
     private static final String PATH_CONF = "/WEB-INF/conf/";
     private static final String DIR_PLUGINS = "plugins/";
     private static final String SUFFIX_CONTEXT_FILE = "_context.xml";
@@ -106,7 +106,7 @@ public final class SpringContextService
      * @return The context
      * @deprecated
      */
-    private static ApplicationContext getContext( String strContextName )
+    /*private static ApplicationContext getContext( String strContextName )
     {
         // Try to get the context from the cache
         ApplicationContext context = (ApplicationContext) _mapContext.get( strContextName );
@@ -140,12 +140,13 @@ public final class SpringContextService
         }
 
         return context;
-    }
-
-    //// 2.4 Features  // comment to be removed
+    }*/
 
     /**
      * Initialize a global Application Context containing all beans (core + plugins)
+     * Now uses GenericApplicationContext for better performances. A wrong formatted file
+     * will not block block context to be built (without the file), but a wrong bean (i.e. cannot
+     * be instantiated) will cause a full context failure. Context is less "failure-friendly"
      * @throws LuteceInitException The lutece init exception
      * @since 2.4
      */
@@ -153,20 +154,29 @@ public final class SpringContextService
     {
         try
         {
+        	// timing
+        	Date dateBegin = new Date();
             // Load the core context file : core_context.xml
             String strConfPath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
             String strContextFile = "file:" + strConfPath + FILE_CORE_CONTEXT;
-            _context = new ClassPathXmlApplicationContext( strContextFile );
+            
+            GenericApplicationContext gap = new GenericApplicationContext();
+            XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader( gap );
+            
+            xmlReader.loadBeanDefinitions( strContextFile );
+            
+            // _context = new ClassPathXmlApplicationContext( strContextFile );
             AppLogService.info( "Context file loaded : " + FILE_CORE_CONTEXT );
 
             // Load all context files found in the conf/plugins directory
             // Files are loaded separatly with an individual try/catch block
             // to avoid stopping the process in case of a failure
+            // The global context generation will fail if a bean in any file cannot be built.
             String strConfPluginsPath = strConfPath + DIR_PLUGINS;
             File dirConfPlugins = new File( strConfPluginsPath );
             FilenameFilter filterContext = new ContextFileFilter(  );
             String[] filesContext = dirConfPlugins.list( filterContext );
-
+            
             for ( String fileContext : filesContext )
             {
                 String[] file = { "file:" + strConfPluginsPath + fileContext };
@@ -174,7 +184,8 @@ public final class SpringContextService
                 // Safe loading of plugin context file
                 try
                 {
-                    _context = new ClassPathXmlApplicationContext( file, _context );
+                	//_context = new ClassPathXmlApplicationContext( file, _context );
+                	xmlReader.loadBeanDefinitions( file );
                     AppLogService.info( "Context file loaded : " + fileContext );
                 }
                 catch ( Exception e )
@@ -183,6 +194,12 @@ public final class SpringContextService
                         e.getMessage(  ), e );
                 }
             }
+            
+            gap.refresh();
+            
+            _context = gap;
+            
+            AppLogService.info( "Spring context loaded in " + ( new Date().getTime() - dateBegin.getTime() ) + "ms");
         }
         catch ( Exception e )
         {
