@@ -68,6 +68,23 @@ public class LocalizedPaginator<E> extends Paginator<E>
         super( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex );
         _locale = locale;
     }
+    
+    /**
+     * Creates a new instance of Paginator
+     * @param list The collection to paginate
+     * @param nItemPerPage Number of items to display per page
+     * @param strBaseUrl The base Url for build links on each page link
+     * @param strPageIndexParameterName The parameter name for the page index
+     * @param strPageIndex The current page index
+	 * @param strItemsPerPageParameterName The parameter name of the number items per page
+     * @param locale The Locale
+     */
+    public LocalizedPaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
+        String strPageIndex, String strItemsPerPageParameterName, Locale locale )
+    {
+        this( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex, locale );
+        setItemsPerPageParameterName( strItemsPerPageParameterName );
+    }
 
     /**
      * {@inheritDoc }
