@@ -91,7 +91,6 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 
     // Jsp
     private static final String JSP_MANAGE_DASHBOARDS = "ManageAdminDashboards.jsp";
-    
     private static final String EMPTY_STRING = "";
     private AdminDashboardService _service = AdminDashboardService.getInstance(  );
 

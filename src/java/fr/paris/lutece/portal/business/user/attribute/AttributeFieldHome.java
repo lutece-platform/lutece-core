@@ -54,7 +54,6 @@ public class AttributeFieldHome
     {
     }
 
-
     /**
      * Load attribute field
      * @param nIdField ID Field

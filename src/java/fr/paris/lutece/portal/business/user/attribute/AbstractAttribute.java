@@ -274,15 +274,16 @@ public abstract class AbstractAttribute implements IAttribute
      */
     public String getHtmlValue( Locale locale, AdminUserField userField )
     {
-    	Map<String, Object> model = new HashMap<String, Object>(  );
-    	
-    	model.put( MARK_ATTRIBUTE, this );
-    	model.put( MARK_USER_FIELD, userField );
-    	HtmlTemplate template = AppTemplateService.getTemplate( getTemplateHtmlValue(  ), locale, model );
+        Map<String, Object> model = new HashMap<String, Object>(  );
+
+        model.put( MARK_ATTRIBUTE, this );
+        model.put( MARK_USER_FIELD, userField );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( getTemplateHtmlValue(  ), locale, model );
 
         return template.getHtml(  );
     }
-    
+
     /**
      * Get plugin
      * @return plugin
@@ -318,41 +319,41 @@ public abstract class AbstractAttribute implements IAttribute
     {
         _bIsShownInSearch = bIsShownInSearch;
     }
-    
+
     /**
      * Check if the attribute is to be shown in line
      * @return true if it is shown in line, false otherwise
      */
     public boolean isFieldInLine(  )
     {
-    	return _bIsFieldInLine;
+        return _bIsFieldInLine;
     }
-    
+
     /**
      * Set isFieldInLine
      * @param bIsFieldInLine shown in line
      */
     public void setFieldInLine( boolean bIsFieldInLine )
     {
-    	_bIsFieldInLine = bIsFieldInLine;
+        _bIsFieldInLine = bIsFieldInLine;
     }
-    
+
     /**
      * Check if it is an attribute image
      * @return true if it is, false otherwise
      */
     public boolean isAttributeImage(  )
     {
-    	return _bIsAttributeImage;
+        return _bIsAttributeImage;
     }
-    
+
     /**
      * Set the attribute as an attribute image
      * @param bIsAttributeImage true if it is an image, false otherwise
      */
     public void setAttributeImage( boolean bIsAttributeImage )
     {
-    	_bIsAttributeImage = bIsAttributeImage;
+        _bIsAttributeImage = bIsAttributeImage;
     }
 
     /**

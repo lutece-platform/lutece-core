@@ -36,8 +36,8 @@ package fr.paris.lutece.portal.web;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.XPageAppService;
 import fr.paris.lutece.portal.service.message.ISiteMessageHandler;
-import fr.paris.lutece.portal.service.message.SiteMessageHandler;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.message.SiteMessageHandler;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.portal.StandaloneAppService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
@@ -97,8 +97,9 @@ public class StandaloneAppJspBean
         throws UserNotSignedException, SiteMessageException
     {
         // Handle site messages first
-        ISiteMessageHandler handlerSiteMessage = ( ISiteMessageHandler ) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
-        if( handlerSiteMessage.hasMessage( request ))
+        ISiteMessageHandler handlerSiteMessage = (ISiteMessageHandler) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
+
+        if ( handlerSiteMessage.hasMessage( request ) )
         {
             return handlerSiteMessage.getPage( request, nMode );
         }
@@ -111,6 +112,7 @@ public class StandaloneAppJspBean
             // Return the welcome page
             return getPluginList( request );
         }
+
         return htmlPage;
     }
 

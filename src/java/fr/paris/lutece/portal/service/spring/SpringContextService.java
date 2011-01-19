@@ -106,23 +106,24 @@ public final class SpringContextService
      * @return The context
      * @deprecated
      */
+
     /*private static ApplicationContext getContext( String strContextName )
     {
         // Try to get the context from the cache
         ApplicationContext context = (ApplicationContext) _mapContext.get( strContextName );
-
+    
         if ( context == null )
         {
             // If not found then load the context from the XML file
             String strContextFilePath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
-
+    
             if ( !strContextName.equals( CORE ) )
             {
                 strContextFilePath += DIR_PLUGINS;
             }
-
+    
             String strContextFile = strContextFilePath + strContextName + SUFFIX_CONTEXT_FILE;
-
+    
             try
             {
                 context = new FileSystemXmlApplicationContext( "file:" + strContextFile );
@@ -135,10 +136,10 @@ public final class SpringContextService
             {
                 _mapContext.put( strContextName, context );
             }
-
+    
             _mapContext.put( strContextName, context );
         }
-
+    
         return context;
     }*/
 
@@ -154,17 +155,18 @@ public final class SpringContextService
     {
         try
         {
-        	// timing
-        	Date dateBegin = new Date();
+            // timing
+            Date dateBegin = new Date(  );
+
             // Load the core context file : core_context.xml
             String strConfPath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
             String strContextFile = "file:" + strConfPath + FILE_CORE_CONTEXT;
-            
-            GenericApplicationContext gap = new GenericApplicationContext();
+
+            GenericApplicationContext gap = new GenericApplicationContext(  );
             XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader( gap );
-            
+
             xmlReader.loadBeanDefinitions( strContextFile );
-            
+
             // _context = new ClassPathXmlApplicationContext( strContextFile );
             AppLogService.info( "Context file loaded : " + FILE_CORE_CONTEXT );
 
@@ -176,7 +178,7 @@ public final class SpringContextService
             File dirConfPlugins = new File( strConfPluginsPath );
             FilenameFilter filterContext = new ContextFileFilter(  );
             String[] filesContext = dirConfPlugins.list( filterContext );
-            
+
             for ( String fileContext : filesContext )
             {
                 String[] file = { "file:" + strConfPluginsPath + fileContext };
@@ -184,8 +186,8 @@ public final class SpringContextService
                 // Safe loading of plugin context file
                 try
                 {
-                	//_context = new ClassPathXmlApplicationContext( file, _context );
-                	xmlReader.loadBeanDefinitions( file );
+                    //_context = new ClassPathXmlApplicationContext( file, _context );
+                    xmlReader.loadBeanDefinitions( file );
                     AppLogService.info( "Context file loaded : " + fileContext );
                 }
                 catch ( Exception e )
@@ -194,12 +196,13 @@ public final class SpringContextService
                         e.getMessage(  ), e );
                 }
             }
-            
-            gap.refresh();
-            
+
+            gap.refresh(  );
+
             _context = gap;
-            
-            AppLogService.info( "Spring context loaded in " + ( new Date().getTime() - dateBegin.getTime() ) + "ms");
+
+            AppLogService.info( "Spring context loaded in " + ( new Date(  ).getTime(  ) - dateBegin.getTime(  ) ) +
+                "ms" );
         }
         catch ( Exception e )
         {

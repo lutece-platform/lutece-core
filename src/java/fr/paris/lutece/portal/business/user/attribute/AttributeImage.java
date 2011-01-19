@@ -33,18 +33,6 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
@@ -58,6 +46,20 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.filesystem.FileSystemUtil;
 import fr.paris.lutece.util.string.StringUtil;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import javax.imageio.ImageIO;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -93,15 +95,14 @@ public class AttributeImage extends AbstractAttribute
     private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/image/modify_attribute_image.html";
     private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/image/html_code_form_attribute_image.html";
     private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/image/html_code_value_attribute_image.html";
-
     private static final String REGEX_ID = "-?[0-9]+";
-    
+
     /**
      * Constructor
      */
     public AttributeImage(  )
     {
-    	setAttributeImage( true );
+        setAttributeImage( true );
     }
 
     /**
@@ -139,7 +140,7 @@ public class AttributeImage extends AbstractAttribute
     {
         return EMPTY_STRING;
     }
-    
+
     /**
      * Get the template html for the value of the attribute
      * @return the template
@@ -181,12 +182,12 @@ public class AttributeImage extends AbstractAttribute
         String strWidth = request.getParameter( PARAMETER_WIDTH );
         String strHeight = request.getParameter( PARAMETER_HEIGHT );
         String strShownInResultList = request.getParameter( PARAMETER_IS_SHOWN_IN_RESULT_LIST );
-        
+
         String strError = EMPTY_STRING;
 
         if ( StringUtils.isNotBlank( strTitle ) )
         {
-        	setTitle( strTitle );
+            setTitle( strTitle );
             setHelpMessage( strHelpMessage );
             setMandatory( strMandatory != null );
             setShownInResultList( strShownInResultList != null );
@@ -200,42 +201,43 @@ public class AttributeImage extends AbstractAttribute
                 listAttributeFields.add( attributeField );
                 setListAttributeFields( listAttributeFields );
             }
-            
-            if ( StringUtils.isNotBlank( strWidth ) && !strWidth.matches( REGEX_ID ) ||
-        			StringUtils.isNotBlank( strHeight ) && !strHeight.matches( REGEX_ID ) )
-        	{
-        		strError = PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS;
-        	}
-            
+
+            if ( ( StringUtils.isNotBlank( strWidth ) && !strWidth.matches( REGEX_ID ) ) ||
+                    ( StringUtils.isNotBlank( strHeight ) && !strHeight.matches( REGEX_ID ) ) )
+            {
+                strError = PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS;
+            }
+
             if ( EMPTY_STRING.equals( strError ) )
-        	{
-            	if ( StringUtils.isNotBlank( strWidth ) && strWidth.matches( REGEX_ID ) )
+            {
+                if ( StringUtils.isNotBlank( strWidth ) && strWidth.matches( REGEX_ID ) )
                 {
-            		int nWidth = Integer.parseInt( strWidth );
-            		getListAttributeFields(  ).get( 0 ).setWidth( nWidth );
+                    int nWidth = Integer.parseInt( strWidth );
+                    getListAttributeFields(  ).get( 0 ).setWidth( nWidth );
                 }
-            	else
-            	{
-            		getListAttributeFields(  ).get( 0 ).setWidth( -1 );
-            	}
-            	
-            	if ( StringUtils.isNotBlank( strHeight ) && strHeight.matches( REGEX_ID ) )
+                else
                 {
-            		int nHeight = Integer.parseInt( strHeight );
-            		getListAttributeFields(  ).get( 0 ).setHeight( nHeight );            		
+                    getListAttributeFields(  ).get( 0 ).setWidth( -1 );
                 }
-            	else
-            	{
-            		getListAttributeFields(  ).get( 0 ).setHeight( -1 );
-            	}
-        		return null;
-        	}        	
+
+                if ( StringUtils.isNotBlank( strHeight ) && strHeight.matches( REGEX_ID ) )
+                {
+                    int nHeight = Integer.parseInt( strHeight );
+                    getListAttributeFields(  ).get( 0 ).setHeight( nHeight );
+                }
+                else
+                {
+                    getListAttributeFields(  ).get( 0 ).setHeight( -1 );
+                }
+
+                return null;
+            }
         }
         else
         {
-        	strError = Messages.MANDATORY_FIELDS;
+            strError = Messages.MANDATORY_FIELDS;
         }
-        
+
         return AdminMessageService.getMessageUrl( request, strError, AdminMessage.TYPE_STOP );
     }
 
@@ -260,69 +262,79 @@ public class AttributeImage extends AbstractAttribute
      */
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
-    	String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
+        String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE +
+                _nIdAttribute );
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
 
-        try 
+        try
         {
-        	if ( StringUtils.isNotBlank( strUpdateAttribute ) )
+            if ( StringUtils.isNotBlank( strUpdateAttribute ) )
             {
-            	MultipartHttpServletRequest multipartRequest = ( MultipartHttpServletRequest ) request;
-                FileItem fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
+                MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+                FileItem fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE +
+                        _nIdAttribute );
 
-                if ( ( fileItem != null ) && ( fileItem.getName(  ) != null ) && !EMPTY_STRING.equals( fileItem.getName(  ) ) )
+                if ( ( fileItem != null ) && ( fileItem.getName(  ) != null ) &&
+                        !EMPTY_STRING.equals( fileItem.getName(  ) ) )
                 {
                     File file = new File(  );
                     PhysicalFile physicalFile = new PhysicalFile(  );
                     physicalFile.setValue( fileItem.get(  ) );
                     file.setTitle( FileUploadService.getFileNameOnly( fileItem ) );
-                    file.setSize( ( int ) fileItem.getSize(  ) );
+                    file.setSize( (int) fileItem.getSize(  ) );
                     file.setPhysicalFile( physicalFile );
                     file.setMimeType( FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) ) );
-                    
+
                     if ( file != null )
                     {
-                    	//verify that the file is an image
-                    	ImageIO.read( new ByteArrayInputStream( file.getPhysicalFile(  ).getValue(  ) ) );
+                        //verify that the file is an image
+                        ImageIO.read( new ByteArrayInputStream( file.getPhysicalFile(  ).getValue(  ) ) );
                     }
+
                     AdminUserField userField = new AdminUserField(  );
                     userField.setUser( user );
                     userField.setAttribute( this );
+
                     List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( getIdAttribute(  ) );
                     userField.setAttributeField( listAttributeFields.get( 0 ) );
                     userField.setFile( file );
-                    
+
                     listUserFields.add( userField );
                 }
             }
-        	else
-        	{
-        		AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
-        		auFieldFilter.setIdAttribute( getIdAttribute(  ) );
-        		String strIdUser = request.getParameter( PARAMETER_ID_USER );
-        		if ( StringUtils.isNotBlank( strIdUser ) )
-        		{
-        			auFieldFilter.setIdUser( StringUtil.getIntValue( strIdUser, 0 ) );
-        		}
-        		listUserFields = AdminUserFieldHome.findByFilter( auFieldFilter );
-        		for ( AdminUserField userField : listUserFields )
-        		{
-        			if ( userField.getFile(  ) != null )
-        			{
-        				File file = FileHome.findByPrimaryKey( userField.getFile(  ).getIdFile(  ) );
-        				userField.setFile( file );
-        				int nIdPhysicalFile = file.getPhysicalFile(  ).getIdPhysicalFile(  );
-        				PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( nIdPhysicalFile );
-        				userField.getFile(  ).setPhysicalFile( physicalFile );
-        			}
-        		}
-        	}
+            else
+            {
+                AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
+                auFieldFilter.setIdAttribute( getIdAttribute(  ) );
+
+                String strIdUser = request.getParameter( PARAMETER_ID_USER );
+
+                if ( StringUtils.isNotBlank( strIdUser ) )
+                {
+                    auFieldFilter.setIdUser( StringUtil.getIntValue( strIdUser, 0 ) );
+                }
+
+                listUserFields = AdminUserFieldHome.findByFilter( auFieldFilter );
+
+                for ( AdminUserField userField : listUserFields )
+                {
+                    if ( userField.getFile(  ) != null )
+                    {
+                        File file = FileHome.findByPrimaryKey( userField.getFile(  ).getIdFile(  ) );
+                        userField.setFile( file );
+
+                        int nIdPhysicalFile = file.getPhysicalFile(  ).getIdPhysicalFile(  );
+                        PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( nIdPhysicalFile );
+                        userField.getFile(  ).setPhysicalFile( physicalFile );
+                    }
+                }
+            }
         }
         catch ( IOException e )
-		{
-			AppLogService.error( e );
-		}
-        
+        {
+            AppLogService.error( e );
+        }
+
         return listUserFields;
     }
 }

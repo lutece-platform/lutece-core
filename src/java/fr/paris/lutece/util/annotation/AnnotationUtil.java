@@ -33,57 +33,60 @@
  */
 package fr.paris.lutece.util.annotation;
 
-import java.lang.annotation.Annotation;
-import java.util.Set;
-
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppException;
 
+import java.lang.annotation.Annotation;
+
+import java.util.Set;
+
+
 /**
- * 
+ *
  * Allow classpath scanning for annotations
- * 
+ *
  */
 public final class AnnotationUtil
 {
-	private static final IAnnotationDB ANNOTATION_DB = ( IAnnotationDB ) SpringContextService.getBean( "annotationDB" );
+    private static final IAnnotationDB ANNOTATION_DB = (IAnnotationDB) SpringContextService.getBean( "annotationDB" );
 
-	static
-	{
-		// check annotation db
-		if ( ANNOTATION_DB == null )
-		{
-			throw new AppException( "Bean annotationDB is not correctly set. Please check you core_context.xml configuration." );
-		}
-		
-		ANNOTATION_DB.init();
-	}
+    static
+    {
+        // check annotation db
+        if ( ANNOTATION_DB == null )
+        {
+            throw new AppException( 
+                "Bean annotationDB is not correctly set. Please check you core_context.xml configuration." );
+        }
 
-	/**
-	 * Empty constructor
-	 */
-	private AnnotationUtil()
-	{
-		// nothing
-	}
+        ANNOTATION_DB.init(  );
+    }
 
-	/**
-	 * Finds all classes with the given annotation
-	 * @param annotationType the annotation class
-	 * @return all classes founds
-	 */
-	public static Set<String> find( Class<? extends Annotation> annotationType )
-	{
-		return ANNOTATION_DB.getClassesName( annotationType );
-	}
+    /**
+     * Empty constructor
+     */
+    private AnnotationUtil(  )
+    {
+        // nothing
+    }
 
-	/**
-	 * Finds all classes with the given annotation
-	 * @param strAnnotation the annotation class name
-	 * @return all classes founds
-	 */
-	public static Set<String> find( String strAnnotation )
-	{
-		return ANNOTATION_DB.getClassesName( strAnnotation );
-	}
+    /**
+     * Finds all classes with the given annotation
+     * @param annotationType the annotation class
+     * @return all classes founds
+     */
+    public static Set<String> find( Class<?extends Annotation> annotationType )
+    {
+        return ANNOTATION_DB.getClassesName( annotationType );
+    }
+
+    /**
+     * Finds all classes with the given annotation
+     * @param strAnnotation the annotation class name
+     * @return all classes founds
+     */
+    public static Set<String> find( String strAnnotation )
+    {
+        return ANNOTATION_DB.getClassesName( strAnnotation );
+    }
 }

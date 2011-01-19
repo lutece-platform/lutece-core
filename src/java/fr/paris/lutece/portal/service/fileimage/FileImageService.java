@@ -65,9 +65,9 @@ public class FileImageService implements ImageResourceProvider
      */
     public static synchronized void init(  ) throws LuteceInitException
     {
-    	getInstance(  ).register(  );
+        getInstance(  ).register(  );
     }
-    
+
     /**
      * Initializes the service
      */
@@ -83,10 +83,11 @@ public class FileImageService implements ImageResourceProvider
      */
     public static FileImageService getInstance(  )
     {
-    	if ( _singleton == null )
+        if ( _singleton == null )
         {
-    		_singleton = new FileImageService(  );
+            _singleton = new FileImageService(  );
         }
+
         return _singleton;
     }
 

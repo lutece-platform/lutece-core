@@ -50,6 +50,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
  *
  * Site message pages provider service.
@@ -164,6 +165,4 @@ public class SiteMessageHandler implements ISiteMessageHandler
 
         return template.getHtml(  );
     }
-
-
 }

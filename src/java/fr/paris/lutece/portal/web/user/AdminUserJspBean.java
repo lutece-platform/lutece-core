@@ -33,16 +33,6 @@
  */
 package fr.paris.lutece.portal.web.user;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -89,6 +79,16 @@ import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -690,23 +690,24 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         for ( IAttribute attribute : listAttributes )
         {
-        	List<AdminUserField> listUserFields = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( user.getUserId(  ),
+            List<AdminUserField> listUserFields = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( user.getUserId(  ),
                     attribute.getIdAttribute(  ) );
-        	
+
             if ( attribute.isAttributeImage(  ) )
             {
-            	if ( listUserFields.size(  ) > 0 )
-            	{
-            		AdminUserField userField = listUserFields.get( 0 );
-            		if ( userField.getFile(  ) != null )
-            		{
-            			map.put( String.valueOf( attribute.getIdAttribute(  ) ), userField.getFile(  ) );
-            		}
-            	}
+                if ( listUserFields.size(  ) > 0 )
+                {
+                    AdminUserField userField = listUserFields.get( 0 );
+
+                    if ( userField.getFile(  ) != null )
+                    {
+                        map.put( String.valueOf( attribute.getIdAttribute(  ) ), userField.getFile(  ) );
+                    }
+                }
             }
             else
             {
-            	List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
+                List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
                 attribute.setListAttributeFields( listAttributeFields );
 
                 if ( listUserFields.size(  ) == 0 )
@@ -715,7 +716,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                     userField.setValue( CONSTANT_EMPTY_STRING );
                     listUserFields.add( userField );
                 }
-            	map.put( String.valueOf( attribute.getIdAttribute(  ) ), listUserFields );
+
+                map.put( String.valueOf( attribute.getIdAttribute(  ) ), listUserFields );
             }
         }
 
@@ -1615,7 +1617,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Modify the default user parameter values.
-     * @param request HttpServletRequest     
+     * @param request HttpServletRequest
      * @return The Jsp URL of the process result
      * @throws AccessDeniedException If the user does not have the permission
      */

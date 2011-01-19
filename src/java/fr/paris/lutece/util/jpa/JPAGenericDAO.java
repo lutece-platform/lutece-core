@@ -57,8 +57,8 @@ import javax.persistence.Query;
  */
 public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
 {
-    private Class<E> _entityClass;
     private static final Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
+    private Class<E> _entityClass;
 
     /**
      * Constructor

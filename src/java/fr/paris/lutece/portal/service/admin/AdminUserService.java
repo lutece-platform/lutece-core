@@ -33,14 +33,6 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
@@ -62,6 +54,14 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.url.UrlItem;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * This service provides features concerning the administration users
@@ -75,7 +75,6 @@ public final class AdminUserService
     public static final String PARAMETER_DEFAULT_USER_NOTIFICATION = "default_user_notification";
     public static final String PARAMETER_DEFAULT_USER_LANGUAGE = "default_user_language";
     public static final String PARAMETER_DEFAULT_USER_STATUS = "default_user_status";
-
 
     // Markers
     public static final String MARK_DEFAULT_USER_LEVEL = "default_user_level";
@@ -98,7 +97,6 @@ public final class AdminUserService
     // Properties
     private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
     private static final String PROPERTY_ENCRYPTION_ALGORITHMS_LIST = "encryption.algorithmsList";
-
     private static final String CONSTANT_COMMA = ",";
 
     /** Private constructor */
@@ -224,13 +222,15 @@ public final class AdminUserService
         {
             filteredUsers = listFilteredUsers;
         }
-        
-        Map<String, List<AdminUserField>> map = new HashMap<String,List<AdminUserField>>(  );
+
+        Map<String, List<AdminUserField>> map = new HashMap<String, List<AdminUserField>>(  );
+
         for ( AdminUser user : filteredUsers )
         {
-        	auFieldFilter.setIdUser( user.getUserId(  ) );
-        	List<AdminUserField> listAdminUserFields = AdminUserFieldHome.findByFilter( auFieldFilter );
-        	map.put( String.valueOf( user.getUserId(  ) ), listAdminUserFields );
+            auFieldFilter.setIdUser( user.getUserId(  ) );
+
+            List<AdminUserField> listAdminUserFields = AdminUserFieldHome.findByFilter( auFieldFilter );
+            map.put( String.valueOf( user.getUserId(  ) ), listAdminUserFields );
         }
 
         List<IAttribute> listAttributes = AttributeHome.findAll( currentUser.getLocale(  ) );

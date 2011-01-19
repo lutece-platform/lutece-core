@@ -139,10 +139,11 @@ public class AttributeDAO implements IAttributeDAO
 
         if ( daoUtil.next(  ) )
         {
-        	int nIndex = 1;
+            int nIndex = 1;
+
             try
             {
-                attribute = ( IAttribute ) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
+                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -187,7 +188,7 @@ public class AttributeDAO implements IAttributeDAO
      */
     public int insert( IAttribute attribute )
     {
-    	int nIndex = 1;
+        int nIndex = 1;
         int nNewPrimaryKey = newPrimaryKey(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         daoUtil.setInt( nIndex++, nNewPrimaryKey );
@@ -212,7 +213,7 @@ public class AttributeDAO implements IAttributeDAO
      */
     public void store( IAttribute attribute )
     {
-    	int nIndex = 1;
+        int nIndex = 1;
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
         daoUtil.setString( nIndex++, attribute.getTitle(  ) );
         daoUtil.setString( nIndex++, attribute.getHelpMessage(  ) );
@@ -253,12 +254,12 @@ public class AttributeDAO implements IAttributeDAO
 
         while ( daoUtil.next(  ) )
         {
-        	int nIndex = 1;
+            int nIndex = 1;
             IAttribute attribute = null;
 
             try
             {
-                attribute = ( IAttribute ) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
+                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -306,7 +307,7 @@ public class AttributeDAO implements IAttributeDAO
      */
     public List<IAttribute> selectPluginAttributes( String strPluginName, Locale locale )
     {
-    	int nIndex = 1;
+        int nIndex = 1;
         List<IAttribute> listAttributes = new ArrayList<IAttribute>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES );
         daoUtil.setString( 1, strPluginName );
@@ -318,7 +319,7 @@ public class AttributeDAO implements IAttributeDAO
 
             try
             {
-                attribute = ( IAttribute ) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
+                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {
@@ -371,12 +372,12 @@ public class AttributeDAO implements IAttributeDAO
 
         while ( daoUtil.next(  ) )
         {
-        	int nIndex = 1;
+            int nIndex = 1;
             IAttribute attribute = null;
 
             try
             {
-                attribute = ( IAttribute ) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
+                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
             }
             catch ( ClassNotFoundException e )
             {

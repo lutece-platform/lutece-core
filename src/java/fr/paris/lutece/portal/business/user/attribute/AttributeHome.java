@@ -48,7 +48,6 @@ public class AttributeHome
 {
     private static IAttributeDAO _dao = (IAttributeDAO) SpringContextService.getBean( "attributeDAO" );
 
-
     /**
      * Private constructor
      */

@@ -113,7 +113,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
 
         if ( daoUtil.next(  ) )
         {
-        	int nIndex = 1;
+            int nIndex = 1;
             physicalFile = new PhysicalFile(  );
             physicalFile.setIdPhysicalFile( daoUtil.getInt( nIndex++ ) );
             physicalFile.setValue( daoUtil.getBytes( nIndex++ ) );
@@ -146,7 +146,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
      */
     public void store( PhysicalFile physicalFile )
     {
-    	int nIndex = 1;
+        int nIndex = 1;
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
         daoUtil.setInt( nIndex++, physicalFile.getIdPhysicalFile(  ) );
         daoUtil.setBytes( nIndex++, physicalFile.getValue(  ) );

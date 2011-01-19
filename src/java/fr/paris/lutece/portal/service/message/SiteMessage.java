@@ -59,7 +59,6 @@ public class SiteMessage implements Serializable
     public static final int TYPE_BUTTON_HIDDEN = 0;
     public static final int TYPE_BUTTON_BACK = 1;
     public static final int TYPE_BUTTON_CANCEL = 2;
- 
     private static final long serialVersionUID = -34775038853250525L;
     private String _strTextKey;
     private String _strTitleKey;

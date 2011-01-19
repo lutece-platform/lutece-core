@@ -80,7 +80,7 @@ public class Paginator<E>
         _strBaseUrl = strBaseUrl;
         _strPageIndexParameterName = strPageIndexParameterName;
         _strItemsPerPageParameterName = PARAMETER_ITEMS_PER_PAGE;
-        
+
         try
         {
             _nPageCurrent = Integer.parseInt( strPageIndex );
@@ -96,7 +96,7 @@ public class Paginator<E>
             _nPageCurrent = 1;
         }
     }
-    
+
     /**
      * Creates a new instance of Paginator
      * @param list The collection to paginate
@@ -104,19 +104,19 @@ public class Paginator<E>
      * @param strBaseUrl The base Url for build links on each page link
      * @param strPageIndexParameterName The parameter name for the page index
      * @param strPageIndex The current page index
-	 * @param strItemsPerPageParameterName The parameter name of the number items per page
+         * @param strItemsPerPageParameterName The parameter name of the number items per page
      */
     public Paginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
         String strPageIndex, String strItemsPerPageParameterName )
     {
-    	this( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex );
-    	_strItemsPerPageParameterName = strItemsPerPageParameterName;
+        this( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex );
+        _strItemsPerPageParameterName = strItemsPerPageParameterName;
     }
 
-	/**
-     * Gets the number of pages
-     * @return the number of pages
-     */
+    /**
+    * Gets the number of pages
+    * @return the number of pages
+    */
 
     // Declared as final because used by the constructor (PMD issue)
     public final int getPagesCount(  )
@@ -403,23 +403,22 @@ public class Paginator<E>
     {
         return "";
     }
-    
+
     /**
      * Get the parameter name of the <code>items_per_page</code>
      * @return the parameter name
      */
     public String getItemsPerPageParameterName(  )
     {
-    	return _strItemsPerPageParameterName;
+        return _strItemsPerPageParameterName;
     }
-    
+
     /**
      * Set the parameter name of the <code>items_per_page</code>
      * @param strItemsPerPageParameterName the parameter name
      */
     public void setItemsPerPageParameterName( String strItemsPerPageParameterName )
     {
-    	_strItemsPerPageParameterName = strItemsPerPageParameterName;
+        _strItemsPerPageParameterName = strItemsPerPageParameterName;
     }
-    
 }

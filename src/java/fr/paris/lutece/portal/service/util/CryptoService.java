@@ -38,6 +38,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+
 /*
  *  This class provide encrypted services
  */
@@ -49,9 +50,8 @@ public class CryptoService
     /**
      * Private constructor
      */
-    private CryptoService()
+    private CryptoService(  )
     {
-        
     }
 
     /**
@@ -71,7 +71,7 @@ public class CryptoService
         }
         catch ( NoSuchAlgorithmException e )
         {
-            AppLogService.error( e.getMessage(), e );
+            AppLogService.error( e.getMessage(  ), e );
         }
 
         try
@@ -80,7 +80,7 @@ public class CryptoService
         }
         catch ( UnsupportedEncodingException e )
         {
-            AppLogService.error( e.getMessage(), e );
+            AppLogService.error( e.getMessage(  ), e );
         }
 
         return hash;

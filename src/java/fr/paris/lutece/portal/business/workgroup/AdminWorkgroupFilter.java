@@ -168,7 +168,7 @@ public class AdminWorkgroupFilter
         }
         catch ( UnsupportedEncodingException e )
         {
-            AppLogService.error( e.getMessage() , e );
+            AppLogService.error( e.getMessage(  ), e );
         }
     }
 
@@ -190,7 +190,7 @@ public class AdminWorkgroupFilter
         }
         catch ( UnsupportedEncodingException e )
         {
-            AppLogService.error( e.getMessage() , e );
+            AppLogService.error( e.getMessage(  ), e );
         }
 
         return sbUrlAttributes.toString(  );

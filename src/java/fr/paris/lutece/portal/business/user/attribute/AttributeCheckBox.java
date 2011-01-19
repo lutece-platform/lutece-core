@@ -38,13 +38,13 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -166,7 +166,7 @@ public class AttributeCheckBox extends AbstractAttribute
 
         if ( StringUtils.isNotBlank( strTitle ) )
         {
-        	setTitle( strTitle );
+            setTitle( strTitle );
             setHelpMessage( strHelpMessage );
             setMandatory( strMandatory != null );
             setShownInSearch( strIsShownInSearch != null );
@@ -175,7 +175,7 @@ public class AttributeCheckBox extends AbstractAttribute
 
             return null;
         }
-        
+
         return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
     }
 

@@ -35,8 +35,9 @@ package fr.paris.lutece.portal.service.util;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 /*
- * This class provide https protocol 
+ * This class provide https protocol
  */
 public class AppHTTPSService
 {

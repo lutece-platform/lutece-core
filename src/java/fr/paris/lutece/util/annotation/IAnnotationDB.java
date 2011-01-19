@@ -34,31 +34,33 @@
 package fr.paris.lutece.util.annotation;
 
 import java.lang.annotation.Annotation;
+
 import java.util.Set;
 
+
 /**
- * 
+ *
  * IAnnotationDB is used to find annotation.
- * 
+ *
  */
 public interface IAnnotationDB
 {
-	/**
-	 * Initializes the database
-	 */
-	void init();
+    /**
+     * Initializes the database
+     */
+    void init(  );
 
-	/**
-	 * Finds the class having the given annotation
-	 * @param annotationType the annotation
-	 * @return classes found.
-	 */
-	Set<String> getClassesName( Class<? extends Annotation> annotationType );
+    /**
+     * Finds the class having the given annotation
+     * @param annotationType the annotation
+     * @return classes found.
+     */
+    Set<String> getClassesName( Class<?extends Annotation> annotationType );
 
-	/**
-	 * Finds classes having the given annotation
-	 * @param strAnnotationType the annotation type name
-	 * @return classes found.
-	 */
-	Set<String> getClassesName( String strAnnotationType );
+    /**
+     * Finds classes having the given annotation
+     * @param strAnnotationType the annotation type name
+     * @return classes found.
+     */
+    Set<String> getClassesName( String strAnnotationType );
 }

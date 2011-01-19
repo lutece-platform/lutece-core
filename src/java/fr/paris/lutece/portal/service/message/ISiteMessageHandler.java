@@ -31,10 +31,10 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.message;
 
 import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * ISiteMessageHandler
@@ -58,6 +58,4 @@ public interface ISiteMessageHandler
      * @return true if it should handle this request
      */
     public boolean hasMessage( HttpServletRequest request );
-
-
 }

@@ -38,13 +38,13 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -121,14 +121,14 @@ public class AttributeComboBox extends AbstractAttribute
     {
         return TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE;
     }
-    
+
     /**
      * Get the template html for the value of the attribute
      * @return the template
      */
     public String getTemplateHtmlValue(  )
     {
-    	return TEMPLATE_HTML_VALUE;
+        return TEMPLATE_HTML_VALUE;
     }
 
     /**
@@ -166,7 +166,7 @@ public class AttributeComboBox extends AbstractAttribute
 
         if ( StringUtils.isNotBlank( strTitle ) )
         {
-        	setTitle( strTitle );
+            setTitle( strTitle );
             setHelpMessage( strHelpMessage );
             setMandatory( strMandatory != null );
             setShownInSearch( strIsShownInSearch != null );
@@ -184,7 +184,7 @@ public class AttributeComboBox extends AbstractAttribute
 
             return null;
         }
-        
+
         return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
     }
 

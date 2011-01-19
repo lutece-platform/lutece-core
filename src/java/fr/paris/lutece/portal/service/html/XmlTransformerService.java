@@ -99,7 +99,7 @@ public final class XmlTransformerService
      * @return The output document
      */
     @Deprecated
-    public static synchronized  String transformBySource( String strXml, Source sourceStyleSheet,
+    public static synchronized String transformBySource( String strXml, Source sourceStyleSheet,
         Map<String, String> params, Properties outputProperties )
     {
         StringReader srInputXml = new StringReader( strXml );

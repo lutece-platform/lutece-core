@@ -35,11 +35,12 @@ package fr.paris.lutece.util.pool.service;
 
 import java.sql.Connection;
 
+
 /**
  * Wraps a connection to use {@link ConnectionPool} when closing with ({@link #close()}).
  * The actual close is done by {@link #closeConnection()}. <br>
  * Lutece needs the {@link #close()} method to return the connection to the pool.
- * Lutece classes (like DAOUtil uses {@link LuteceConnectionService#freeConnection(Connection)} ), 
+ * Lutece classes (like DAOUtil uses {@link LuteceConnectionService#freeConnection(Connection)} ),
  * but external libraries (such as hibernate) closes connection directly.
  * This interface is a workaround for Connection incompatibilities from java5 to java6.
  * It should be remove as soon as Lutece drop java5 compatibility.
@@ -51,8 +52,8 @@ import java.sql.Connection;
  */
 public interface LuteceConnection extends Connection
 {
-	/**
-	 * Actual connection close.
-	 */
-	void closeConnection();
+    /**
+     * Actual connection close.
+     */
+    void closeConnection(  );
 }

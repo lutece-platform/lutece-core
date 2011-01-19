@@ -152,7 +152,7 @@ public final class AppInit
 
             // Initializes the admin authentication module
             AdminAuthenticationService.init(  );
-            
+
             // Initialize FileImageService
             FileImageService.init(  );
 

@@ -154,7 +154,7 @@ public interface IAttribute
      * @param bIsShownInSearch shown in search
      */
     void setShownInSearch( boolean bIsShownInSearch );
-    
+
     /**
      * Check if the attribute is shown in result list
      * @return true if it is, false otherwise
@@ -166,13 +166,13 @@ public interface IAttribute
      * @param bIsShownInResultList shown in result list
      */
     void setShownInResultList( boolean bIsShownInResultList );
-    
+
     /**
      * Check if the attribute is to be shown in line
      * @return true if it is shown in line, false otherwise
      */
     boolean isFieldInLine(  );
-    
+
     /**
      * Set isFieldInLine
      * @param bIsFieldInLine shown in line
@@ -234,20 +234,20 @@ public interface IAttribute
      * @return the template
      */
     String getTemplateHtmlValue(  );
-    
+
     /**
      * Set the data of the attribute
      * @param request HttpServletRequest
      * @return null if there are no errors
      */
     String setAttributeData( HttpServletRequest request );
-    
+
     /**
      * Check if it is an attribute image
      * @return true if it is, false otherwise
      */
     boolean isAttributeImage(  );
-    
+
     /**
      * Set the attribute as an attribute image
      * @param bIsAttributeImage true if it is an image, false otherwise

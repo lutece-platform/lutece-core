@@ -36,6 +36,8 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.UnsupportedEncodingException;
 
 import java.net.URLEncoder;
@@ -45,8 +47,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -68,11 +68,10 @@ public class AdminUserFieldFilter
 
     // PROPERTIES
     private static final String PROPERTY_ENCODING_URL = "lutece.encoding.url";
-    
     private List<AdminUserField> _listUserFields;
     private int _nIdUser = ALL_INT;
     private int _nIdAttribute = ALL_INT;
-    private int _nIdField = ALL_INT;   
+    private int _nIdField = ALL_INT;
 
     /**
      * Get list user fields
@@ -91,86 +90,86 @@ public class AdminUserFieldFilter
     {
         _listUserFields = listUserFields;
     }
-    
+
     /**
      * Get id user
      * @return id user
      */
     public int getIdUser(  )
     {
-    	return _nIdUser;
+        return _nIdUser;
     }
-    
+
     /**
      * Set id user
      * @param nIdUser id User
      */
     public void setIdUser( int nIdUser )
     {
-    	_nIdUser = nIdUser;
+        _nIdUser = nIdUser;
     }
-    
+
     /**
      * Get id attribute
      * @return id attribute
      */
     public int getIdAttribute(  )
     {
-    	return _nIdAttribute;
+        return _nIdAttribute;
     }
-    
+
     /**
      * Set id attirbute
      * @param nIdAttribute id attribute
      */
     public void setIdAttribute( int nIdAttribute )
     {
-    	_nIdAttribute = nIdAttribute;
+        _nIdAttribute = nIdAttribute;
     }
-    
+
     /**
      * Get id field
      * @return id field
      */
     public int getIdField(  )
     {
-    	return _nIdField;
+        return _nIdField;
     }
-    
+
     /**
      * Set id field
      * @param nIdField id field
      */
     public void setIdField( int nIdField )
     {
-    	_nIdField = nIdField;
+        _nIdField = nIdField;
     }
-    
+
     /**
      * Check if the filter contains an id attribute
      * @return true if it contains, false otherwise
      */
     public boolean containsIdAttribute(  )
     {
-    	return ( _nIdAttribute != ALL_INT );
+        return ( _nIdAttribute != ALL_INT );
     }
-    
+
     /**
      * Check if the filter contains an id user
      * @return true if it contains, false otherwise
      */
     public boolean containsIdUser(  )
     {
-    	return ( _nIdUser != ALL_INT );
+        return ( _nIdUser != ALL_INT );
     }
-    
+
     /**
      * Check if the filter contains an id field
      * @return true if it contains, false otherwise
      */
     public boolean containsIdField(  )
     {
-    	return ( _nIdField != ALL_INT );
+        return ( _nIdField != ALL_INT );
     }
 
     /**
@@ -217,7 +216,7 @@ public class AdminUserFieldFilter
             }
             catch ( UnsupportedEncodingException e )
             {
-                AppLogService.error( e.getMessage(), e );
+                AppLogService.error( e.getMessage(  ), e );
             }
         }
     }
@@ -240,7 +239,7 @@ public class AdminUserFieldFilter
             }
             catch ( UnsupportedEncodingException e )
             {
-                AppLogService.error( e.getMessage(), e );
+                AppLogService.error( e.getMessage(  ), e );
             }
         }
 

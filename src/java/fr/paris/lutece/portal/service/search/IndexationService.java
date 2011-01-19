@@ -176,7 +176,7 @@ public final class IndexationService
 
         try
         {
-            Directory dir =  IndexationService.getDirectoryIndex(  );
+            Directory dir = IndexationService.getDirectoryIndex(  );
 
             if ( !IndexReader.indexExists( dir ) )
             { //init index
@@ -403,7 +403,7 @@ public final class IndexationService
      */
     public static Directory getDirectoryIndex(  ) throws IOException
     {
-    	return NIOFSDirectory.open( new File( _strIndex ) );
+        return NIOFSDirectory.open( new File( _strIndex ) );
     }
 
     /**

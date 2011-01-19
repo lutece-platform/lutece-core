@@ -33,18 +33,18 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.web.constants.Messages;
+
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.message.AdminMessage;
-import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.web.constants.Messages;
 
 
 /**
@@ -54,7 +54,7 @@ import fr.paris.lutece.portal.web.constants.Messages;
  */
 public class AttributeRadioButton extends AbstractAttribute
 {
-	// Constants
+    // Constants
     private static final String CONSTANT_UNDERSCORE = "_";
 
     // Parameters
@@ -65,26 +65,26 @@ public class AttributeRadioButton extends AbstractAttribute
     private static final String PARAMETER_IS_SHOWN_IN_RESULT_LIST = "is_shown_in_result_list";
     private static final String PARAMETER_ATTRIBUTE = "attribute";
     private static final String PARAMETER_IS_FIELD_IN_LINE = "is_field_in_line";
-    
-	// Properties
+
+    // Properties
     private static final String PROPERTY_TYPE_RADIO_BUTTON = "portal.users.attribute.type.radioButton";
     private static final String PROPERTY_CREATE_RADIO_BUTTON_PAGETITLE = "portal.users.create_attribute.pageTitleAttributeRadioButton";
     private static final String PROPERTY_MODIFY_RADIO_BUTTON_PAGETITLE = "portal.users.modify_attribute.pageTitleAttributeRadioButton";
-	
-	// Templates
-	private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/radiobutton/create_attribute_radio_button.html";
+
+    // Templates
+    private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/radiobutton/create_attribute_radio_button.html";
     private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/radiobutton/modify_attribute_radio_button.html";
     private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/radiobutton/html_code_form_attribute_radio_button.html";
     private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/radiobutton/html_code_form_search_attribute_radio_button.html";
     private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/radiobutton/html_code_value_attribute_radio_button.html";
-    
+
     /**
      * Constructor
      */
     public AttributeRadioButton(  )
     {
     }
-    
+
     /**
      * Get the template create an attribute
      * @return The URL of the template
@@ -120,7 +120,7 @@ public class AttributeRadioButton extends AbstractAttribute
     {
         return TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE;
     }
-    
+
     /**
      * Get the template html for the value of the attribute
      * @return the template
@@ -165,7 +165,7 @@ public class AttributeRadioButton extends AbstractAttribute
 
         if ( StringUtils.isNotBlank( strTitle ) )
         {
-        	setTitle( strTitle );
+            setTitle( strTitle );
             setHelpMessage( strHelpMessage );
             setMandatory( strMandatory != null );
             setShownInSearch( strIsShownInSearch != null );
@@ -206,18 +206,19 @@ public class AttributeRadioButton extends AbstractAttribute
 
         if ( StringUtils.isNotBlank( value ) )
         {
-        	int nIdField = Integer.parseInt( value );
+            int nIdField = Integer.parseInt( value );
             attributeField = AttributeFieldHome.findByPrimaryKey( nIdField );
+
             if ( attributeField != null )
             {
-            	userField.setUser( user );
+                userField.setUser( user );
                 userField.setAttribute( this );
                 userField.setAttributeField( attributeField );
                 userField.setValue( attributeField.getTitle(  ) );
                 listUserFields.add( userField );
             }
         }
-        
+
         return listUserFields;
     }
 }

@@ -43,7 +43,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class FileHome
 {
     // Static variable pointed at the DAO instance
-    private static IFileDAO _dao = ( IFileDAO ) SpringContextService.getBean( "fileDAO" );
+    private static IFileDAO _dao = (IFileDAO) SpringContextService.getBean( "fileDAO" );
 
     /**
      * Private constructor - this class need not be instantiated

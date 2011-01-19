@@ -138,8 +138,9 @@ public class PortalJspBean
             }
         }
 
-        ISiteMessageHandler handler = ( ISiteMessageHandler ) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
-        if( handler.hasMessage( request ))
+        ISiteMessageHandler handler = (ISiteMessageHandler) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
+
+        if ( handler.hasMessage( request ) )
         {
             return handler.getPage( request, nMode );
         }

@@ -331,7 +331,7 @@ public class ConnectionPool implements DataSource
             {
                 if ( connection instanceof LuteceConnection )
                 {
-                    ( (LuteceConnection) connection ).closeConnection();
+                    ( (LuteceConnection) connection ).closeConnection(  );
                 }
                 else
                 {

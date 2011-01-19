@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.user.parameter;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+
 /*
  * This class provide the default user parameters
  */
@@ -47,11 +48,10 @@ public final class DefaultUserParameterHome
     /*
      * private constructor
      */
-    private DefaultUserParameterHome()
+    private DefaultUserParameterHome(  )
     {
-
     }
-    
+
     /**
     * Load the parameter value
     * @param strParameterKey the parameter key

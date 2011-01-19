@@ -33,21 +33,25 @@
  */
 package fr.paris.lutece.util.annotation;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+
+import org.scannotation.AnnotationDB;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+
 import java.lang.annotation.Annotation;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.scannotation.AnnotationDB;
-
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
 
 /**
  * Uses {@link AnnotationDB} from scannotation.
@@ -55,135 +59,134 @@ import fr.paris.lutece.portal.service.util.AppPathService;
  */
 public class ScannotationDB implements IAnnotationDB
 {
-	private static final String CONSTANT_WEB_INF_LIB = "/WEB-INF/lib/";
+    private static final String CONSTANT_WEB_INF_LIB = "/WEB-INF/lib/";
+    private static final String CONSTANT_WEB_INF_CLASS = "/WEB-INF/classes/";
 
-	private static final String CONSTANT_WEB_INF_CLASS = "/WEB-INF/classes/";
+    /**
+     * Default filename filter matches <strong>ONLY</strong> lutece jars.
+     */
+    private static final String CONSTANT_DEFAULT_FILENAME_FILTER = "(plugin-.*\\.jar)|(module-.*\\.jar)|(lutece-core-.*\\.jar)|(library-.*\\.jar)";
+    private final AnnotationDB db;
+    private String _strFileFilter;
 
-	/**
-	 * Default filename filter matches <strong>ONLY</strong> lutece jars.
-	 */
-	private static final String CONSTANT_DEFAULT_FILENAME_FILTER = "(plugin-.*\\.jar)|(module-.*\\.jar)|(lutece-core-.*\\.jar)|(library-.*\\.jar)";
+    /**
+     * Constructor.
+     */
+    public ScannotationDB(  )
+    {
+        db = new AnnotationDB(  );
+    }
 
-	private final AnnotationDB db;
+    /**
+     * Gets the filename filter
+     * @return the filename filter
+     */
+    public String getFileFilter(  )
+    {
+        return _strFileFilter;
+    }
 
-	private String _strFileFilter;
+    /**
+     * Sets the filename filter
+     * @param strFileFilter the filename filter
+     */
+    public void setFileFilter( String strFileFilter )
+    {
+        _strFileFilter = strFileFilter;
+    }
 
-	/**
-	 * Constructor.
-	 */
-	public ScannotationDB()
-	{
-		db = new AnnotationDB();
-	}
+    /**
+     * Scans the WEB-INF/classes and WEB-INF/lib using {@link #getFileFilter()} to filter jars.
+     */
+    public void init(  )
+    {
+        AppLogService.info( "ScannotationDB Scanning classpath..." );
 
-	/**
-	 * Gets the filename filter
-	 * @return the filename filter
-	 */
-	public String getFileFilter()
-	{
-		return _strFileFilter;
-	}
+        if ( getFileFilter(  ) == null )
+        {
+            setFileFilter( CONSTANT_DEFAULT_FILENAME_FILTER );
+            AppLogService.info( "Using default filename filter" );
+        }
+        else
+        {
+            AppLogService.info( "Using " + getFileFilter(  ) + " as filename filter" );
+        }
 
-	/**
-	 * Sets the filename filter
-	 * @param strFileFilter the filename filter
-	 */
-	public void setFileFilter( String strFileFilter )
-	{
-		_strFileFilter = strFileFilter;
-	}
+        Date start = new Date(  );
+        File libDirectory = new File( AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_LIB );
 
-	/**
-	 * Scans the WEB-INF/classes and WEB-INF/lib using {@link #getFileFilter()} to filter jars.
-	 */
-	public void init()
-	{
-		AppLogService.info( "ScannotationDB Scanning classpath..." );
+        String[] allJars = libDirectory.list( new FilenameFilter(  )
+                {
+                    public boolean accept( File dir, String name )
+                    {
+                        return name.matches( _strFileFilter );
+                    }
+                } );
 
-		if ( getFileFilter() == null )
-		{
-			setFileFilter( CONSTANT_DEFAULT_FILENAME_FILTER );
-			AppLogService.info( "Using default filename filter" );
-		}
-		else
-		{
-			AppLogService.info( "Using " + getFileFilter() + " as filename filter" );
-		}
+        for ( String strJar : allJars )
+        {
+            try
+            {
+                if ( AppLogService.isDebugEnabled(  ) )
+                {
+                    AppLogService.debug( "Scanning " + strJar );
+                }
 
-		Date start = new Date();
-		File libDirectory = new File( AppPathService.getWebAppPath() + CONSTANT_WEB_INF_LIB );
+                db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_LIB +
+                        strJar ) );
+            }
+            catch ( MalformedURLException e )
+            {
+                AppLogService.error( e.getMessage(  ), e );
+            }
+            catch ( IOException e )
+            {
+                AppLogService.error( e.getMessage(  ), e );
+            }
+        }
 
-		String[] allJars = libDirectory.list( new FilenameFilter()
-		{
-			public boolean accept( File dir, String name )
-			{
-				return name.matches( _strFileFilter );
-			}
-		} );
+        AppLogService.info( "ScannotationDB WEB-INF/lib scanned" );
 
-		for ( String strJar : allJars )
-		{
-			try
-			{
-				if ( AppLogService.isDebugEnabled() )
-				{
-					AppLogService.debug( "Scanning " + strJar );
-				}
+        try
+        {
+            db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_CLASS ) );
+        }
+        catch ( MalformedURLException e )
+        {
+            AppLogService.error( e.getMessage(  ), e );
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( e.getMessage(  ), e );
+        }
 
-				db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath() + CONSTANT_WEB_INF_LIB + strJar ) );
-			}
-			catch ( MalformedURLException e )
-			{
-				AppLogService.error( e.getMessage(), e );
-			}
-			catch ( IOException e )
-			{
-				AppLogService.error( e.getMessage(), e );
-			}
-		}
+        AppLogService.info( "ScannotationDB Classpath scanned in " + ( new Date(  ).getTime(  ) - start.getTime(  ) ) +
+            "ms" );
+    }
 
-		AppLogService.info( "ScannotationDB WEB-INF/lib scanned" );
+    /**
+     * {@inheritDoc}
+     */
+    public Set<String> getClassesName( Class<?extends Annotation> annotationType )
+    {
+        return getClassesName( annotationType.getName(  ) );
+    }
 
-		try
-		{
-			db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath() + CONSTANT_WEB_INF_CLASS ) );
-		}
-		catch ( MalformedURLException e )
-		{
-			AppLogService.error( e.getMessage(), e );
-		}
-		catch ( IOException e )
-		{
-			AppLogService.error( e.getMessage(), e );
-		}
-		AppLogService.info( "ScannotationDB Classpath scanned in " + ( new Date().getTime() - start.getTime() ) + "ms" );
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public Set<String> getClassesName( String strAnnotationType )
+    {
+        Map<String, Set<String>> index = db.getAnnotationIndex(  );
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Set<String> getClassesName( Class<? extends Annotation> annotationType )
-	{
-		return getClassesName( annotationType.getName() );
-	}
+        Set<String> setClasses = index.get( strAnnotationType );
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public Set<String> getClassesName( String strAnnotationType )
-	{
-		Map<String, Set<String>> index = db.getAnnotationIndex();
+        if ( setClasses == null )
+        {
+            setClasses = new HashSet<String>(  );
+        }
 
-		Set<String> setClasses = index.get( strAnnotationType );
-
-		if ( setClasses == null )
-		{
-			setClasses = new HashSet<String>();
-		}
-
-		return setClasses;
-	}
-
+        return setClasses;
+    }
 }

@@ -42,7 +42,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class PhysicalFileHome
 {
     // Static variable pointed at the DAO instance
-    private static IPhysicalFileDAO _dao = ( IPhysicalFileDAO ) SpringContextService.getBean( "physicalFileDAO" );
+    private static IPhysicalFileDAO _dao = (IPhysicalFileDAO) SpringContextService.getBean( "physicalFileDAO" );
 
     /**
      * Private constructor - this class need not be instantiated

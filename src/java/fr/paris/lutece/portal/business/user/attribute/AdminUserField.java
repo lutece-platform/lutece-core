@@ -140,22 +140,22 @@ public class AdminUserField
     {
         _nIdUserField = nIdUserField;
     }
-    
+
     /**
      * Get file
      * @return file
      */
     public File getFile(  )
     {
-    	return _file;
+        return _file;
     }
-    
+
     /**
      * Set file
      * @param file file
      */
     public void setFile( File file )
     {
-    	_file = file;
+        _file = file;
     }
 }

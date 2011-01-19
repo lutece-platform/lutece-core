@@ -72,10 +72,11 @@ public class AdminUserFieldHome
      */
     public static void create( AdminUserField userField )
     {
-    	if ( userField.getFile(  ) != null )
+        if ( userField.getFile(  ) != null )
         {
-    		userField.getFile(  ).setIdFile( FileHome.create( userField.getFile(  ) ) );
+            userField.getFile(  ).setIdFile( FileHome.create( userField.getFile(  ) ) );
         }
+
         _dao.insert( userField );
     }
 
@@ -85,10 +86,11 @@ public class AdminUserFieldHome
      */
     public static void update( AdminUserField userField )
     {
-    	if ( userField.getFile(  ) != null )
+        if ( userField.getFile(  ) != null )
         {
             FileHome.update( userField.getFile(  ) );
         }
+
         _dao.store( userField );
     }
 
@@ -98,11 +100,12 @@ public class AdminUserFieldHome
      */
     public static void remove( AdminUserField userField )
     {
-    	if ( userField != null && userField.getFile(  ) != null )
-    	{
-    		FileHome.remove( userField.getFile(  ).getIdFile(  ) );
-    	}
-    	_dao.delete( userField.getIdUserField(  ) );
+        if ( ( userField != null ) && ( userField.getFile(  ) != null ) )
+        {
+            FileHome.remove( userField.getFile(  ).getIdFile(  ) );
+        }
+
+        _dao.delete( userField.getIdUserField(  ) );
     }
 
     /**
@@ -152,7 +155,7 @@ public class AdminUserFieldHome
     {
         return _dao.selectUsersByFilter( auFieldFilter );
     }
-    
+
     /**
      * Select by filter
      * @param auFieldFilter the filter
@@ -160,19 +163,20 @@ public class AdminUserFieldHome
      */
     public static List<AdminUserField> findByFilter( AdminUserFieldFilter auFieldFilter )
     {
-    	return _dao.selectByFilter( auFieldFilter );
+        return _dao.selectByFilter( auFieldFilter );
     }
-    
+
     /**
      * Remove by filter
      * @param auFieldFilter the filter
      */
     public static void removeByFilter( AdminUserFieldFilter auFieldFilter )
     {
-    	List<AdminUserField> listUserFields = findByFilter( auFieldFilter );
-    	for ( AdminUserField userField : listUserFields )
-    	{
-    		remove( userField );
-    	}
+        List<AdminUserField> listUserFields = findByFilter( auFieldFilter );
+
+        for ( AdminUserField userField : listUserFields )
+        {
+            remove( userField );
+        }
     }
 }

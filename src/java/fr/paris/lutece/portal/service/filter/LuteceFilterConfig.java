@@ -93,6 +93,6 @@ public class LuteceFilterConfig implements FilterConfig
      */
     public Enumeration<String> getInitParameterNames(  )
     {
-    	return Collections.enumeration( _mapInitParameters.keySet(  ) );
+        return Collections.enumeration( _mapInitParameters.keySet(  ) );
     }
 }

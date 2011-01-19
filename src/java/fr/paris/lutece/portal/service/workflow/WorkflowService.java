@@ -380,14 +380,14 @@ public final class WorkflowService
      */
     public Collection<State> getAllStateByWorkflow( int nListIdWorkflow, AdminUser user )
     {
-    	if( isAvailable(  ) && _service != null )
-    	{
-    		return _service.getAllStateByWorkflow( nListIdWorkflow, user );
-    	}
-    	else
-    	{
-    		return null;
-    	}
+        if ( isAvailable(  ) && ( _service != null ) )
+        {
+            return _service.getAllStateByWorkflow( nListIdWorkflow, user );
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /**

@@ -38,13 +38,13 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -125,7 +125,7 @@ public class AttributeText extends AbstractAttribute
     {
         return TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE;
     }
-    
+
     /**
      * Get the template html for the value of the attribute
      * @return the template
@@ -169,14 +169,14 @@ public class AttributeText extends AbstractAttribute
         String strWidth = request.getParameter( PARAMETER_WIDTH );
         String strMaxSizeEnter = request.getParameter( PARAMETER_MAX_SIZE_ENTER );
         String strValue = request.getParameter( PARAMETER_VALUE );
-        
+
         String strError = EMPTY_STRING;
 
         if ( StringUtils.isNotBlank( strTitle ) && StringUtils.isNotBlank( strWidth ) )
         {
-        	if ( strWidth.matches( REGEX_ID ) )
-        	{
-        		int nWidth = Integer.parseInt( strWidth );
+            if ( strWidth.matches( REGEX_ID ) )
+            {
+                int nWidth = Integer.parseInt( strWidth );
 
                 int nMaxSizeEnter;
 
@@ -213,18 +213,18 @@ public class AttributeText extends AbstractAttribute
                 getListAttributeFields(  ).get( 0 ).setMaxSizeEnter( nMaxSizeEnter );
 
                 return null;
-        	}
-        	else
-        	{
-        		strError = PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS;
-        	}
+            }
+            else
+            {
+                strError = PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS;
+            }
         }
         else
         {
-        	strError = Messages.MANDATORY_FIELDS;
+            strError = Messages.MANDATORY_FIELDS;
         }
-        
-        return AdminMessageService.getMessageUrl( request, strError, AdminMessage.TYPE_STOP );       
+
+        return AdminMessageService.getMessageUrl( request, strError, AdminMessage.TYPE_STOP );
     }
 
     /**
