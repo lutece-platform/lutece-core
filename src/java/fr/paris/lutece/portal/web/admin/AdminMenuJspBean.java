@@ -144,7 +144,7 @@ public class AdminMenuJspBean
         String strDocumentationUrl = AppPropertiesService.getProperty( PROPERTY_DOCUMENTATION_SUMMARY_URL );
         model.put( MARK_ADMIN_SUMMARY_DOCUMENTATION_URL, ( strDocumentationUrl == null ) ? null : strDocumentationUrl );
 
-        setDashboardData( model, user );
+        setDashboardData( model, user, request );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_HEADER, user.getLocale(  ), model );
 
@@ -194,7 +194,7 @@ public class AdminMenuJspBean
         model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage(  ) );
         model.put( MARK_MODIFY_PASSWORD_URL, AdminAuthenticationService.getInstance(  ).getChangePasswordPageUrl(  ) );
 
-        setDashboardData( model, user );
+        setDashboardData( model, user, request );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_HOME, locale, model );
 
@@ -205,10 +205,11 @@ public class AdminMenuJspBean
      * Add dashboard data to the template's model
      * @param model The template's model
      * @param user The Admin User
+     * @param request HttpServletRequest
      */
-    private void setDashboardData( HashMap<String, Object> model, AdminUser user )
+    private void setDashboardData( HashMap<String, Object> model, AdminUser user, HttpServletRequest request )
     {
-        List<IDashboardComponent> listDashboards = DashboardService.getInstance(  ).getDashboards( user );
+        List<IDashboardComponent> listDashboards = DashboardService.getInstance(  ).getDashboards( user, request );
         int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
 
         if ( ( listDashboards != null ) && ( listDashboards.size(  ) > 0 ) )
@@ -219,20 +220,20 @@ public class AdminMenuJspBean
             for ( int i = 1; i <= nColumnCount; i++ )
             {
                 model.put( MARK_DASHBOARD_ZONE + i,
-                    DashboardService.getInstance(  ).getDashboardData( listDashboards, user, i ) );
+                    DashboardService.getInstance(  ).getDashboardData( listDashboards, user, i, request ) );
             }
 
             // Default dashboards for the nColumnCount to nZoneMax zones
             for ( int i = nColumnCount + 1; i <= nZoneMax; i++ )
             {
-                model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance(  ).getDashboardData( user, i ) );
+                model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance(  ).getDashboardData( user, i, request ) );
             }
         }
         else
         {
             for ( int i = 1; i <= nZoneMax; i++ )
             {
-                model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance(  ).getDashboardData( user, i ) );
+                model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance(  ).getDashboardData( user, i, request ) );
             }
         }
     }

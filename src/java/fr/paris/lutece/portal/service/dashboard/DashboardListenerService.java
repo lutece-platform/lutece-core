@@ -33,11 +33,13 @@
  */
 package fr.paris.lutece.portal.service.dashboard;
 
-import fr.paris.lutece.portal.business.dashboard.DashboardListener;
-import fr.paris.lutece.portal.business.user.AdminUser;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import fr.paris.lutece.portal.business.dashboard.DashboardListener;
+import fr.paris.lutece.portal.business.user.AdminUser;
 
 
 /**
@@ -61,13 +63,14 @@ public class DashboardListenerService
     /**
      * get the list of dashboards
      * @param listDashboards the list of dashboards
+     * @param request HttpServletRequest
      * @param user AdminUser
      */
-    public void getDashboardComponents( List<IDashboardComponent> listDashboards, AdminUser user )
+    public void getDashboardComponents( List<IDashboardComponent> listDashboards, AdminUser user, HttpServletRequest request )
     {
         for ( DashboardListener listener : _listRegisteredListeners )
         {
-            listDashboards.addAll( listener.getDashboardComponents( user ) );
+            listDashboards.addAll( listener.getDashboardComponents( user, request ) );
         }
     }
 }

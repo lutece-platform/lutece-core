@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.dashboard;
 
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
@@ -47,9 +49,10 @@ public interface IDashboardComponent extends Comparable<IDashboardComponent>
     /**
      * Gets dashboard data for a given user
      * @param user The user
+     * @param request HttpServletRequest
      * @return HTML content to insert into a dashboard zone
      */
-    String getDashboardData( AdminUser user );
+    String getDashboardData( AdminUser user, HttpServletRequest request );
 
     /**
      * Returns the Name

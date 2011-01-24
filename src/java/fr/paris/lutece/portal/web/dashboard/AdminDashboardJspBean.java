@@ -33,6 +33,14 @@
  */
 package fr.paris.lutece.portal.web.dashboard;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardFactory;
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -48,14 +56,6 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -107,7 +107,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         // put each column data
         for ( int nColumn = 1; nColumn <= _service.getColumnCount(  ); nColumn++ )
         {
-            String strColumnData = _service.getDashboardData( user, nColumn );
+            String strColumnData = _service.getDashboardData( user, nColumn, request );
 
             model.put( MARK_COLUMN_CONTENT_PREFIX + nColumn, strColumnData );
         }

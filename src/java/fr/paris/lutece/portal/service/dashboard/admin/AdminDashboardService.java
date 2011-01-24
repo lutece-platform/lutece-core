@@ -33,6 +33,14 @@
  */
 package fr.paris.lutece.portal.service.dashboard.admin;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardFactory;
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardFilter;
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardHome;
@@ -41,12 +49,6 @@ import fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -307,9 +309,10 @@ public class AdminDashboardService
      * Gets Data from all components of the zone
      * @param user The user
      * @param nColumn The dasboard column
+     * @param request HttpServletRequest
      * @return Data of all components of the zone
      */
-    public String getDashboardData( AdminUser user, int nColumn )
+    public String getDashboardData( AdminUser user, int nColumn, HttpServletRequest request )
     {
         StringBuilder sbDashboardData = new StringBuilder(  );
 
@@ -320,7 +323,7 @@ public class AdminDashboardService
 
             if ( dc.isEnabled(  ) && bRight )
             {
-                sbDashboardData.append( dc.getDashboardData( user ) );
+                sbDashboardData.append( dc.getDashboardData( user, request ) );
             }
         }
 

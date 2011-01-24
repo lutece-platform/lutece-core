@@ -33,6 +33,14 @@
  */
 package fr.paris.lutece.portal.service.dashboard;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.dashboard.DashboardFactory;
 import fr.paris.lutece.portal.business.dashboard.DashboardFilter;
 import fr.paris.lutece.portal.business.dashboard.DashboardHome;
@@ -43,12 +51,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sort.AttributeComparator;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -316,9 +318,10 @@ public final class DashboardService
      * Gets Data from all components of the zone
      * @param user The user
      * @param nZone The dasboard zone
+     * @param request HttpServletRequest
      * @return Data of all components of the zone
      */
-    public String getDashboardData( AdminUser user, int nZone )
+    public String getDashboardData( AdminUser user, int nZone, HttpServletRequest request )
     {
         StringBuffer sbDashboardData = new StringBuffer(  );
 
@@ -328,7 +331,7 @@ public final class DashboardService
 
             if ( ( dc.getZone(  ) == nZone ) && dc.isEnabled(  ) && bRight )
             {
-                sbDashboardData.append( dc.getDashboardData( user ) );
+                sbDashboardData.append( dc.getDashboardData( user, request ) );
             }
         }
 
@@ -338,9 +341,10 @@ public final class DashboardService
     /**
      * Get the list of dashboard from plugins
      * @param user the current user
+     * @param request HttpServletRequest
      * @return the list of dashboards
      */
-    public List<IDashboardComponent> getDashboards( AdminUser user )
+    public List<IDashboardComponent> getDashboards( AdminUser user, HttpServletRequest request )
     {
         List<IDashboardComponent> listDashboards = new ArrayList<IDashboardComponent>(  );
 
@@ -348,7 +352,7 @@ public final class DashboardService
         for ( DashboardListenerService dashboardListenerService : SpringContextService.getBeansOfType( 
                 DashboardListenerService.class ) )
         {
-            dashboardListenerService.getDashboardComponents( listDashboards, user );
+            dashboardListenerService.getDashboardComponents( listDashboards, user, request );
         }
 
         return listDashboards;
@@ -359,9 +363,10 @@ public final class DashboardService
      * @param listDashboards the list of dashboards
      * @param user The user
      * @param nZone The dasboard zone
+     * @param request HttpServletRequest
      * @return Data of all components of the zone
      */
-    public String getDashboardData( List<IDashboardComponent> listDashboards, AdminUser user, int nZone )
+    public String getDashboardData( List<IDashboardComponent> listDashboards, AdminUser user, int nZone,HttpServletRequest request )
     {
         List<IDashboardComponent> listDashboardComponents = new ArrayList<IDashboardComponent>(  );
 
@@ -379,7 +384,12 @@ public final class DashboardService
 
         for ( IDashboardComponent dc : listDashboardComponents )
         {
-            sbDashboardData.append( dc.getDashboardData( user ) );
+        	boolean bRight = user.checkRight( dc.getRight(  ) ) || dc.getRight(  ).equalsIgnoreCase( ALL );
+        	
+        	if ( ( dc.getZone(  ) == nZone ) && dc.isEnabled(  ) && bRight )
+            {
+        		sbDashboardData.append( dc.getDashboardData( user, request ) );
+            }
         }
 
         return sbDashboardData.toString(  );
