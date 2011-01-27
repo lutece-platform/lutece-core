@@ -326,8 +326,23 @@ public final class MailService
      *
      * @param strHost The SMTP name or IP address.
      * @return the string buffer use for loging all send Message.
+     * @see MailService#transferQueueMails(String, String, String)
      */
     public static StringBuffer transferQueueMails( String strHost )
+    {
+    	// set username and password to null
+        return transferQueueMails(strHost, null, null );
+    }
+    
+    /**
+     * Send all messages store in the queue to the smtp server.
+     * Will use no credentials if strUsername is null or empty.
+     * @param strHost The SMTP name or IP address.
+     * @param strUsername the SMTP username
+     * @param strPassword the SMTP password
+     * @return the string buffer use for logging all send Message.
+     */
+    public static StringBuffer transferQueueMails( String strHost, String strUsername, String strPassword )
     {
         // Initializes a mail session with the SMTP server
         StringBuffer sbLogs = new StringBuffer(  );
@@ -338,7 +353,7 @@ public final class MailService
             sbLogs.append( "\r\nLast mails sent " );
             sbLogs.append( new Date(  ).toString(  ) );
 
-            Session session = MailUtil.getMailSession( strHost );
+            Session session = MailUtil.getMailSession( strHost, strUsername, strPassword );
             Transport transportSmtp = null;
 
             try

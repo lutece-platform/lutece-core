@@ -45,6 +45,8 @@ import org.apache.log4j.Logger;
 public class MailSenderDaemon extends Daemon
 {
     private static final String PROPERTY_MAIL_HOST = "mail.server";
+    private static final String PROPERTY_MAIL_USERNAME = "mail.username";
+    private static final String PROPERTY_MAIL_PASSWORD = "mail.password";
 
     /**
      * Implements Runable interface
@@ -52,7 +54,10 @@ public class MailSenderDaemon extends Daemon
     public void run(  )
     {
         String strHost = AppPropertiesService.getProperty( PROPERTY_MAIL_HOST );
-        StringBuffer sbLogs = MailService.transferQueueMails( strHost );
+        String strUsername = AppPropertiesService.getProperty( PROPERTY_MAIL_USERNAME, null );
+        String strPassword = AppPropertiesService.getProperty( PROPERTY_MAIL_PASSWORD, null );
+
+        StringBuffer sbLogs = MailService.transferQueueMails( strHost, strUsername, strPassword );
         Logger logger = Logger.getLogger( "lutece.mail" );
         logger.setAdditivity( false );
         logger.info( sbLogs.toString(  ) );

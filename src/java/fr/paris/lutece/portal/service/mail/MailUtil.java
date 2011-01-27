@@ -52,10 +52,12 @@ import java.util.StringTokenizer;
 
 import javax.activation.DataHandler;
 
+import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.SendFailedException;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -65,6 +67,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -427,8 +431,22 @@ final class MailUtil
      * Open mail session with the SMTP server
      * @param strHost The SMTP name or IP address.
      * @return the mails session object
+     * @see #getMailSession(String, String, String)
      */
     protected static Session getMailSession( String strHost )
+    {
+       return getMailSession(strHost, null, null );
+    }
+    
+    /**
+     * Open mail session with the SMTP server using the given credentials.
+     * Will use no authentication if strUsername is null or empty.
+     * @param strHost The SMTP name or IP address.
+     * @param strUsername the username
+     * @param strPassword the password
+     * @return the mails session object
+     */
+    protected static Session getMailSession( String strHost, final String strUsername, final String strPassword )
     {
         boolean sessionDebug = false;
 
@@ -436,8 +454,27 @@ final class MailUtil
         Properties props = System.getProperties(  );
         props.put( MAIL_HOST, strHost );
         props.put( MAIL_TRANSPORT_PROTOCOL, SMTP );
+        
+        Authenticator auth;
+        if ( StringUtils.isEmpty( strUsername ) )
+        {
+        	// using authenticator class that return a PasswordAuthentication
+        	auth = new Authenticator()
+        	{
+        		@Override
+        		protected PasswordAuthentication getPasswordAuthentication()
+        		{
+        			return new PasswordAuthentication( strUsername, strPassword );
+        		}
+			};
+        }
+        else
+        {
+        	// no authentication data provided, no authenticator
+        	auth = null;
+        }
 
-        Session mailSession = Session.getDefaultInstance( props, null );
+        Session mailSession = Session.getDefaultInstance( props, auth );
         // Activate debugging
         mailSession.setDebug( sessionDebug );
 
