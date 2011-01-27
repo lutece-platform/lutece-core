@@ -151,7 +151,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         if ( !getUser(  ).isAdmin(  ) )
         {
-            listFilteredWorkgroups = (List<AdminWorkgroup>) AdminWorkgroupService.getAuthorizedCollection( (Collection<?extends AdminWorkgroupResource>) listFilteredWorkgroups,
+            listFilteredWorkgroups = (List<AdminWorkgroup>) AdminWorkgroupService.getAuthorizedCollection( listFilteredWorkgroups,
                     getUser(  ) );
         }
 

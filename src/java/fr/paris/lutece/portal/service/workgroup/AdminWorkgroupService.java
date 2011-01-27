@@ -83,12 +83,12 @@ public final class AdminWorkgroupService
      * @param collection The collection to filter
      * @param user The user
      */
-    public static Collection getAuthorizedCollection( Collection<?extends AdminWorkgroupResource> collection,
+    public static <E extends AdminWorkgroupResource> Collection<E> getAuthorizedCollection( Collection<E> collection,
         AdminUser user )
     {
-        ArrayList<AdminWorkgroupResource> list = new ArrayList<AdminWorkgroupResource>(  );
+        ArrayList<E> list = new ArrayList<E>(  );
 
-        for ( AdminWorkgroupResource resource : collection )
+        for ( E resource : collection )
         {
             if ( isAuthorized( resource, user ) )
             {
