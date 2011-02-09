@@ -115,7 +115,7 @@ h3 { color: #444444; font-weight: bold;}
 ******** Page content
 *********************************/
 div#content{margin:0 3%;clear: both; overflow: hidden;}
-h2#content-header{margin: 5px 0; padding: 12px 0;float:left;width:50%;}
+h2#content-header{margin: 5px 0; padding: 12px 0;float:left;width:65%;}
 h2#content-header a{float:left;text-decoration: none; font-size: 120%; color:#444444; margin:8px 0; }
 h2#content-header img{float:left;padding:5px;width:24px;height:24px;}
 h2#content-header a img{margin:-8px 0;}
