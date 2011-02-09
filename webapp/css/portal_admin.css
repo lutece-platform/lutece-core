@@ -89,8 +89,8 @@ h3 { color: #444444; font-weight: bold;}
 #menu-main li:hover { background-position: 0 -40px; }
 #menu-main li a { display: block; padding: 0 15px; color: #fff; text-decoration: none; font-size: 100%; }
 #menu-main li a:hover { background: #55B4E5;color: #fff; text-decoration: none; }
-#menu-main li ul { z-index:999; opacity: 0; position: absolute; left: 0; width: 24em; background: #55B4E5; list-style-type: none; padding: 0; margin: 0; }
-#menu-main li:hover ul { opacity: 1; }
+#menu-main li ul { z-index:999; display: none; opacity: 0; position: absolute; left: 0; width: 24em; background: #55B4E5; list-style-type: none; padding: 0; margin: 0; }
+#menu-main li:hover ul { opacity: 1; display: block; }
 #menu-main li ul li { float: none; position: static; line-height: 15px; background: none; }
 #menu-main li ul li a { background: #444444; font-weight: normal; padding-top: 7.5px; padding-bottom: 7.5px }
 #menu-main li ul li a:hover { background: #55B4E5; color:#fff;text-decoration: none; }
