@@ -21,8 +21,10 @@
             <input class="button" type="button" value="#i18n{portal.util.labelCancel}" onClick="javascript:history.go(-1);" />
         </p>
     </form>
+</div>
 
-    <p>
+<div class="content-box" >
+	<br />
     <table>
         <tr>
             <th>#i18n{portal.mailinglist.modify_mailinglist.columnWorkgroup}</th>
@@ -34,39 +36,24 @@
             <td>${filter.workgroup}</td>
             <td>${filter.role}</td>
             <td>
-                <a href="jsp/admin/mailinglist/ViewUsers.jsp?workgroup=${filter.workgroup}&role=${filter.role}">
+                <a href="jsp/admin/mailinglist/ViewUsers.jsp?workgroup=${filter.workgroup}&amp;role=${filter.role}">
                     <img src="images/admin/skin/actions/group.png" class="icon" alt="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}" />
                 </a>
-                <a href="jsp/admin/mailinglist/DoDeleteFilter.jsp?id_mailinglist=${mailinglist.id}&workgroup=${filter.workgroup}&role=${filter.role}">
+                <a href="jsp/admin/mailinglist/DoDeleteFilter.jsp?id_mailinglist=${mailinglist.id}&amp;workgroup=${filter.workgroup}&amp;role=${filter.role}">
                     <img src="images/admin/skin/actions/delete.png" class="icon" alt="#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}" />
                 </a>
             </td>
         </tr>
         </#list>
     </table>
+    <br />
     <p>
-        <div class="content-box" style="margin:0;width:300px;">
-            <div class="button-left" style="float:left">
-                <p>
-
-                    <form method="post" name="addUsers" action="jsp/admin/mailinglist/AddUsers.jsp">
-
-                        <input type="hidden" name="id_mailinglist" value="${mailinglist.id}" />
-                        <input type="submit" class="button" value="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}"/>
-                    </form>
-                </p>
-            </div>
-            <div  class="button-right" style="float:right">
-                <p>
-                    <form method="post" name="viewUsers" action="jsp/admin/mailinglist/ViewUsers.jsp">
-
-                        <input type="hidden" name="id_mailinglist" value="${mailinglist.id}" />
-                        <input type="submit" class="button" value="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}" title=#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}/>
-
-                    </form>
-                </p>
-            </div>
-        </div>
+    	<a href="jsp/admin/mailinglist/AddUsers.jsp?id_mailinglist=${mailinglist.id}">
+    		<input type="button" class="button" value="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}"/>
+    	</a>
+    	<a href="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}">
+    		<input type="button" class="button" value="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}"/>
+    	</a>
     </p>
-
+    <br />
 </div>
