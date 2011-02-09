@@ -37,7 +37,7 @@ CREATE TABLE core_admin_mailinglist_filter (
 --
 DROP TABLE IF EXISTS core_admin_right;
 CREATE TABLE core_admin_right (
-	id_right varchar(50) default '' NOT NULL,
+	id_right varchar(255) default '' NOT NULL,
 	name varchar(255) default NULL,
 	level_right smallint default NULL,
 	admin_url varchar(255) default NULL,
@@ -415,7 +415,7 @@ CREATE TABLE core_theme_global (
 --
 DROP TABLE IF EXISTS core_user_right;
 CREATE TABLE core_user_right (
-	id_right varchar(50) default '' NOT NULL,
+	id_right varchar(255) default '' NOT NULL,
 	id_user int default 0 NOT NULL,
 	PRIMARY KEY (id_right,id_user)
 );
