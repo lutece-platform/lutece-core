@@ -42,6 +42,7 @@ import java.util.Collection;
 
 /**
  * This class provides Data Access methods for Theme objects
+ * @deprecated Use the plugin-theme instead
  */
 public final class ThemeDAO implements IThemeDAO
 {

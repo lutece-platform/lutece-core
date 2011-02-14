@@ -18,7 +18,6 @@ INSERT INTO core_admin_right VALUES ('CORE_WORKGROUPS_MANAGEMENT','portal.workgr
 INSERT INTO core_admin_right VALUES ('CORE_ROLES_MANAGEMENT','portal.role.adminFeature.roles_management.name',2,'jsp/admin/role/ManagePageRole.jsp','portal.role.adminFeature.roles_management.description',0,NULL,'USERS','images/admin/skin/features/manage_roles.png',NULL,1);
 INSERT INTO core_admin_right VALUES ('CORE_MAILINGLISTS_MANAGEMENT','portal.mailinglist.adminFeature.mailinglists_management.name',2,'jsp/admin/mailinglist/ManageMailingLists.jsp','portal.mailinglist.adminFeature.mailinglists_management.description',0,NULL,'MANAGERS','images/admin/skin/features/manage_mailinglists.png',NULL,4);
 INSERT INTO core_admin_right VALUES ('CORE_LEVEL_RIGHT_MANAGEMENT','portal.users.adminFeature.level_right_management.name',2,'jsp/admin/features/ManageLevels.jsp','portal.users.adminFeature.level_right_management.description',0,NULL,'MANAGERS','images/admin/skin/features/manage_rights_levels.png',NULL,5);
-INSERT INTO core_admin_right VALUES ('CORE_THEMES_MANAGEMENT','portal.style.adminFeature.themes_management.name',0,'jsp/admin/style/ManageThemes.jsp','portal.style.adminFeature.themes_management.description',1,NULL,'STYLE','images/admin/skin/features/manage_styles.png',NULL,4);
 INSERT INTO core_admin_right VALUES ('CORE_LINK_SERVICE_MANAGEMENT','portal.insert.adminFeature.linkService_management.name',2,NULL,'portal.insert.adminFeature.linkService_management.description',0,NULL,NULL,NULL,NULL,1);
 INSERT INTO core_admin_right VALUES ('CORE_RIGHT_MANAGEMENT', 'portal.users.adminFeature.right_management.name', 0, 'jsp/admin/features/ManageRights.jsp', 'portal.users.adminFeature.right_management.description', 0, NULL, 'MANAGERS', 'images/admin/skin/features/manage_rights_levels.png', NULL, 5);
 INSERT INTO core_admin_right VALUES ('CORE_ADMINDASHBOARD_MANAGEMENT', 'portal.admindashboard.adminFeature.right_management.name', 0, 'jsp/admin/admindashboard/ManageAdminDashboards.jsp', 'portal.admindashboard.adminFeature.right_management.description', 0, NULL, 'SYSTEM', 'images/admin/skin/features/manage_admindashboards.png', NULL, 7);
@@ -109,11 +108,6 @@ INSERT INTO core_style_mode_stylesheet VALUES (6,0,217);
 INSERT INTO core_style_mode_stylesheet VALUES (7,0,253);
 INSERT INTO core_style_mode_stylesheet VALUES (8,1,279);
 
-INSERT INTO core_theme VALUES ('black','Thème Noir','themes/black/images/','themes/black/css','Mairie de Paris','http://fr.lutece.paris.fr','1.0','Creative-Commons', 'themes/black/js');
-INSERT INTO core_theme VALUES ('blue','Thème Bleu','images/','css','Mairie de Paris','http://fr.lutece.paris.fr','1.0','Creative-Commons', 'js');
-
-INSERT INTO core_theme_global VALUES ('blue');
-
 INSERT INTO core_user_right VALUES ('CORE_ADMIN_SITE',1);
 INSERT INTO core_user_right VALUES ('CORE_ADMIN_SITE',2);
 INSERT INTO core_user_right VALUES ('CORE_LINK_SERVICE_MANAGEMENT',1);
@@ -139,7 +133,6 @@ INSERT INTO core_user_right VALUES ('CORE_SEARCH_INDEXATION',1);
 INSERT INTO core_user_right VALUES ('CORE_SEARCH_INDEXATION',2);
 INSERT INTO core_user_right VALUES ('CORE_STYLES_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_STYLESHEET_MANAGEMENT',1);
-INSERT INTO core_user_right VALUES ('CORE_THEMES_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_USERS_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_USERS_MANAGEMENT',2);
 INSERT INTO core_user_right VALUES ('CORE_WORKGROUPS_MANAGEMENT',1);

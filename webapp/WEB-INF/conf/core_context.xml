@@ -60,7 +60,6 @@
     <bean id="modeDAO"  class="fr.paris.lutece.portal.business.style.ModeDAO" />
     <bean id="pageTemplateDAO"  class="fr.paris.lutece.portal.business.style.PageTemplateDAO" />
     <bean id="styleDAO"  class="fr.paris.lutece.portal.business.style.StyleDAO" />
-    <bean id="coreThemeDAO"  class="fr.paris.lutece.portal.business.style.ThemeDAO" />
 
     <!-- package stylesheet -->
     <bean id="styleSheetDAO"  class="fr.paris.lutece.portal.business.stylesheet.StyleSheetDAO" />

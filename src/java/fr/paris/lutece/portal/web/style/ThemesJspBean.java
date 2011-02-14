@@ -52,7 +52,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- *
+ * @deprecated As of 2.4.3. Use plugin-theme instead.
  */
 public class ThemesJspBean extends AdminFeaturesPageJspBean
 {

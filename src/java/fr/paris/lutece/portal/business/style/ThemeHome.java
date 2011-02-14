@@ -33,19 +33,20 @@
  */
 package fr.paris.lutece.portal.business.style;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.util.ReferenceList;
-
 import java.util.Collection;
+
+import fr.paris.lutece.portal.service.portal.ThemesService;
+import fr.paris.lutece.util.ReferenceList;
 
 
 /**
  * This class provides instances management methods (create, find, ...) for Theme objects
+ * @deprecated As of 2.4.3. Use the plugin-theme instead
  */
 public final class ThemeHome
 {
     // Static variable pointed at the DAO instance
-    private static IThemeDAO _dao = (IThemeDAO) SpringContextService.getBean( "coreThemeDAO" );
+    //private static IThemeDAO _dao = (IThemeDAO) SpringContextService.getBean( "coreThemeDAO" );
 
     /**
      * Creates a new ThemeHome object.
@@ -62,9 +63,11 @@ public final class ThemeHome
      */
     public static Theme create( Theme theme )
     {
-        _dao.insert( theme );
+		return ThemesService.create( theme );
+    	
+        /*_dao.insert( theme );
 
-        return theme;
+        return theme;*/
     }
 
     /**
@@ -75,9 +78,11 @@ public final class ThemeHome
      */
     public static Theme update( Theme theme )
     {
-        _dao.store( theme );
+    	return ThemesService.update( theme );
+    	
+        /*_dao.store( theme );
 
-        return theme;
+        return theme;*/
     }
 
     /**
@@ -87,7 +92,9 @@ public final class ThemeHome
      */
     public static void remove( String strCodeTheme )
     {
-        _dao.delete( strCodeTheme );
+    	ThemesService.remove( strCodeTheme );
+    	
+        //_dao.delete( strCodeTheme );
     }
 
     /**
@@ -98,7 +105,9 @@ public final class ThemeHome
      */
     public static Theme findByPrimaryKey( String strCodeTheme )
     {
-        return _dao.load( strCodeTheme );
+    	return ThemesService.getGlobalTheme( strCodeTheme );
+    	
+        //return _dao.load( strCodeTheme );
     }
 
     /**
@@ -108,7 +117,9 @@ public final class ThemeHome
      */
     public static Collection<Theme> getThemesList(  )
     {
-        return _dao.selectThemesList(  );
+    	return ThemesService.getThemesList(  );
+    	
+        //return _dao.selectThemesList(  );
     }
 
     /**
@@ -118,7 +129,9 @@ public final class ThemeHome
      */
     public static ReferenceList getThemes(  )
     {
-        return _dao.getThemesList(  );
+    	return ThemesService.getThemes(  );
+    	
+        //return _dao.getThemesList(  );
     }
 
     /**
@@ -129,14 +142,16 @@ public final class ThemeHome
      */
     public static boolean isValidTheme( String strCodeTheme )
     {
-        Theme theme = ThemeHome.findByPrimaryKey( strCodeTheme );
+    	return ThemesService.isValidTheme( strCodeTheme );
+    	
+    	/*Theme theme = ThemeHome.findByPrimaryKey( strCodeTheme );
 
         if ( theme != null )
         {
             return true;
         }
 
-        return false;
+        return false;*/
     }
 
     /**
@@ -145,7 +160,9 @@ public final class ThemeHome
      */
     public static void setGlobalTheme( String strGlobalTheme )
     {
-        _dao.setGlobalTheme( strGlobalTheme );
+    	ThemesService.setGlobalTheme( strGlobalTheme );
+    	
+        //_dao.setGlobalTheme( strGlobalTheme );
     }
 
     /**
@@ -154,6 +171,8 @@ public final class ThemeHome
      */
     public static String getGlobalTheme(  )
     {
-        return _dao.getGlobalTheme(  );
+    	return ThemesService.getGlobalTheme(  );
+    	
+        //return _dao.getGlobalTheme(  );
     }
 }

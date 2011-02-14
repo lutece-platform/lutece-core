@@ -31,71 +31,20 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.style;
-
-import fr.paris.lutece.util.ReferenceList;
-
-import java.util.Collection;
+package fr.paris.lutece.portal.service.portal;
 
 
 /**
- * This class provides Data Access methods for Theme objects
- * @deprecated Use the plugin-theme instead
+ * 
+ * This Exception should be thrown when the using plugin theme 
+ * functionnalities.
+ * 
  */
-public interface IThemeDAO
+public class ThemeNotAvailableException extends Exception
 {
-    /**
-     * Insert a new record in the table.
-     *
-     * @param mode The mode object
-     */
-    void insert( Theme mode );
 
-    /**
-     * load the data of Level from the table
-     *
-     * @param strCodeTheme The indentifier of the object Theme
-     * @return The Instance of the object Theme
-     */
-    Theme load( String strCodeTheme );
-
-    /**
-     * Delete a record from the table
-     *
-     * @param strCodeTheme The indentifier of the object Theme
-     */
-    void delete( String strCodeTheme );
-
-    /**
-     * Update the record in the table
-     *
-     * @param theme The instance of the Theme to update
-     */
-    void store( Theme theme );
-
-    /**
-     * Returns a list of all the themes
-     *
-     * @return A collection of themes objects
-     */
-    Collection<Theme> selectThemesList(  );
-
-    /**
-     * Returns the list of the themes in form of a reference list
-     *
-     * @return the themes list in form of a ReferenceList object
-     */
-    ReferenceList getThemesList(  );
-
-    /**
-     * Sets the global theme
-     * @param strGlobalTheme The Global Theme
-     */
-    void setGlobalTheme( String strGlobalTheme );
-
-    /**
-     * Returns the global theme
-     * @return The Global Theme
-     */
-    String getGlobalTheme(  );
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7659481744229591993L;
 }
