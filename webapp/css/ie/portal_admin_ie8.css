@@ -8,8 +8,9 @@ div.button-left input.button { width: 100%;}
 div.button-right input.button { width:110%;}
 
 #wrapper { height: 100%;}
-
+/*
 #menu-main li { line-height: 50px; }
 #menu-main li ul { display: none; }
 #menu-main li:hover ul, #menu-main li.over ul {display: block; }
 #menu-main li ul li { height: 30px; line-height: 30px; }
+*/

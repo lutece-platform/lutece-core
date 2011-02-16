@@ -4,7 +4,7 @@
 
 
 ul#admin-header-menu ul li {
-    display:inline;
+    /*display:inline;*/
 }
 
 ul#admin-header-menu ul li a span {
@@ -12,7 +12,7 @@ ul#admin-header-menu ul li a span {
 }
 
 #admin-header {
-	height: 46px;		
+	/*height: 46px;*/
 }
 
 #admin-main-menu {

@@ -1,46 +1,47 @@
 <a name="top"></a>
 <div id="wrapper">
-<div id="admin-header">
-<p id="admin-header-toolbar">
-<img src="images/logo-header.png" alt="" title="" style="float:left;margin: 0 0 0 20px;" />
-  <a href="jsp/admin/AdminMenu.jsp" title="#i18n{portal.users.admin_header.title.homePage}"><img src="images/admin/skin/home.png" /> #i18n{portal.users.admin_header.homePage}</a>
-   <a href="jsp/site/Portal.jsp" target="_blank" title="#i18n{portal.users.admin_header.title.viewSite}"><img src="images/admin/skin/world.png" /> #i18n{portal.users.admin_header.viewSite}</a>
-   <#if admin_summary_documentation_url?exists>
-   <a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}"><img src="images/admin/skin/document-library.png" /> #i18n{portal.users.admin_header.documentation}</a>
-  </#if>
-  <#if user.userLevel == 0>
-	<a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.users.admin_header.title.technicalMenu}"><img src="images/admin/skin/home.png" /> #i18n{portal.users.admin_header.technicalMenu}</a>
-  </#if>
-  
-  <#if dashboard_zone_4?has_content>
-  	${dashboard_zone_4}
-  </#if>
-</p>
-<div id="admin-header-main">
-<div id="admin-header-sitename">${site_name}</div>
-<!-- p>${dashboard_zone_4}</p -->
-<div id="admin-header-menu-main">
-        <ul id="menu-main">
-            <#list feature_group_list as feature_group >
-            <li>
-                <a href="${admin_url}#${feature_group.id}">${feature_group.label}</a>
-                <ul>
-                    <#list feature_group.features as feature >
-                    <#if feature_index = 0 >
-                    <li class="admin-header-first">
-                        <#else>
-                    <li>
-                        </#if>
-                        <a href="${feature.url}?plugin_name=${feature.pluginName}">
-                           ${feature.name}
-                        </a>
-                    </li>
-                    </#list>
-                </ul>
-            </li>
-            </#list>
-        </ul>
-    </div>
-</div>
-</div>
-
+	<div id="admin-header">
+		<p id="admin-header-toolbar">
+			<img src="images/logo-header.png" alt="" title="" id="logo" />
+			<a href="jsp/admin/AdminMenu.jsp" title="#i18n{portal.users.admin_header.title.homePage}"><img src="images/admin/skin/home.png" /> #i18n{portal.users.admin_header.homePage}</a>
+			<a href="jsp/site/Portal.jsp" target="_blank" title="#i18n{portal.users.admin_header.title.viewSite}"><img src="images/admin/skin/world.png" /> #i18n{portal.users.admin_header.viewSite}</a>
+			<#if admin_summary_documentation_url?exists>
+				<a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}"><img src="images/admin/skin/document-library.png" /> #i18n{portal.users.admin_header.documentation}</a>
+			</#if>
+			<#if user.userLevel == 0>
+				<a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.users.admin_header.title.technicalMenu}"><img src="images/admin/skin/home.png" /> #i18n{portal.users.admin_header.technicalMenu}</a>
+			</#if>
+			<#if dashboard_zone_4?has_content>
+				${dashboard_zone_4}
+			</#if>
+		</p>
+		<div id="admin-header-main">
+		<div id="admin-header-sitename">${site_name}</div>
+		<!-- p>${dashboard_zone_4}</p -->
+		<div id="admin-header-menu-main">
+		        <ul id="menu-main">
+		        	<#assign z_index = 100>
+		        	<#list feature_group_list as feature_group>
+						<#assign z_index = z_index - 1>
+						<li style="z-index:${z_index};">
+							<a href="${admin_url}#${feature_group.id}">${feature_group.label}</a>
+							<ul>
+								<#list feature_group.features as feature >
+									<#if feature_index = 0 >
+										<li class="admin-header-first">
+									<#else>
+										<li>
+									</#if>
+									<a href="${feature.url}?plugin_name=${feature.pluginName}">
+										${feature.name}
+									</a>
+									</li>
+								</#list>
+							</ul>
+						</li>
+					</#list>
+		        </ul>
+		    </div>
+		    <div class="clear"></div>
+		</div>
+	</div>

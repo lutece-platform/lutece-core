@@ -14,13 +14,6 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Cache-Control" content="no-cache" />
 <link rel="stylesheet" type="text/css" href="css/portal_admin.css" title="lutece_admin" />
-<!--[if IE]>
-<style>
-    #menu-main li ul { display: none; }
-    #menu-main li:hover ul, #menu-main li.over ul {display: block; }
-    #menu-main li ul li { height: 30px; line-height: 30px; }
-</style>
-<![endif]-->
 <!--[if IE 6]>
     <link rel="stylesheet" type="text/css" href="css/ie/portal_admin_ie6.css" title="lutece_admin_ie8" />
 <![endif]-->
