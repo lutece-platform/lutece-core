@@ -84,7 +84,7 @@ h3 { color: #444444; font-weight: bold;}
 /********************************
 ******** Main Menu
 *********************************/
-#admin-header-menu-main{ padding:9px 160px 0 0; color: #fff; font-size: 120%; float: right; width: 65%;}
+#admin-header-menu-main{ padding:16px 160px 0 0; color: #fff; font-size: 120%; float: right; width: 65%;}
 #menu-main { list-style-type: none; padding: 0; float: right;}
 #menu-main li { float: left; position: relative; padding: 0; line-height: 40px; background: transparent;z-index:auto; }
 #menu-main li:hover { background-position: 0 -40px; }
