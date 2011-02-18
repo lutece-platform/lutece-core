@@ -194,7 +194,7 @@
     <scm>
         <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/core</connection>
         <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/core</developerConnection>
-        <url>http://dev.lutece.paris.fr/viewvc/portal/trunk/core/</url>
+        <url>http://dev.lutece.paris.fr/viewvc/lutece/portal/trunk/core/</url>
     </scm>
 
 	<distributionManagement>
