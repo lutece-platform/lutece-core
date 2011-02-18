@@ -440,7 +440,7 @@ final class MailUtil
     
     /**
      * Open mail session with the SMTP server using the given credentials.
-     * Will use no authentication if strUsername is null or empty.
+     * Will use no authentication if strUsername is null or blank.
      * @param strHost The SMTP name or IP address.
      * @param strUsername the username
      * @param strPassword the password
@@ -456,7 +456,7 @@ final class MailUtil
         props.put( MAIL_TRANSPORT_PROTOCOL, SMTP );
         
         Authenticator auth;
-        if ( StringUtils.isEmpty( strUsername ) )
+        if ( StringUtils.isNotBlank( strUsername ) )
         {
         	// using authenticator class that return a PasswordAuthentication
         	auth = new Authenticator()
