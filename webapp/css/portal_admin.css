@@ -70,7 +70,7 @@ h3 { color: #444444; font-weight: bold;}
     -webkit-border-bottom-right-radius:10px;
     padding-bottom:1px;
 }
-#admin-header-sitename{color:#fff;font-weight: bold;font-size: 180%;float: left;margin:1% 2%;}
+#admin-header-sitename{color:#fff;font-weight: bold;font-size: 180%;float: left;margin:1% 2%;padding-bottom:7px;}
 
 /* Toolbar Menu User*/
 #user-connected{
@@ -84,7 +84,7 @@ h3 { color: #444444; font-weight: bold;}
 /********************************
 ******** Main Menu
 *********************************/
-#admin-header-menu-main{ padding:16px 160px 0 0; color: #fff; font-size: 120%; float: right; width: 65%;}
+#admin-header-menu-main{ padding:15px 160px 0 0; color: #fff; font-size: 120%; float: right; width: 65%;}
 #menu-main { list-style-type: none; padding: 0; float: right;}
 #menu-main li { float: left; position: relative; padding: 0; line-height: 40px; background: transparent;z-index:auto; }
 #menu-main li:hover { background-position: 0 -40px; }
