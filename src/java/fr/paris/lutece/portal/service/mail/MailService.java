@@ -36,20 +36,12 @@ package fr.paris.lutece.portal.service.mail;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.mail.FileAttachment;
 import fr.paris.lutece.util.mail.UrlAttachment;
 
-import java.util.Date;
 import java.util.List;
 
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
-import javax.mail.SendFailedException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 
 
 /**
@@ -321,165 +313,7 @@ public final class MailService
         return queue;
     }
 
-    /**
-     * Send all messages store in the queue to the smtp server
-     *
-     * @param strHost The SMTP name or IP address.
-     * @return the string buffer use for loging all send Message.
-     * @see MailService#transferQueueMails(String, String, String)
-     */
-    public static StringBuffer transferQueueMails( String strHost )
-    {
-    	// set username and password to null
-        return transferQueueMails(strHost, null, null );
-    }
-    
-    /**
-     * Send all messages store in the queue to the smtp server.
-     * Will use no credentials if strUsername is null or empty.
-     * @param strHost The SMTP name or IP address.
-     * @param strUsername the SMTP username
-     * @param strPassword the SMTP password
-     * @return the string buffer use for logging all send Message.
-     */
-    public static StringBuffer transferQueueMails( String strHost, String strUsername, String strPassword )
-    {
-        // Initializes a mail session with the SMTP server
-        StringBuffer sbLogs = new StringBuffer(  );
-        IMailQueue queue = getQueue(  );
 
-        if ( queue.size(  ) != 0 )
-        {
-            sbLogs.append( "\r\nLast mails sent " );
-            sbLogs.append( new Date(  ).toString(  ) );
-
-            Session session = MailUtil.getMailSession( strHost, strUsername, strPassword );
-            Transport transportSmtp = null;
-
-            try
-            {
-                transportSmtp = MailUtil.getTransport( session );
-            }
-            catch ( NoSuchProviderException e )
-            {
-                AppLogService.error( e );
-            }
-
-            if ( transportSmtp != null )
-            {
-                try
-                {
-                    transportSmtp.connect(  );
-
-                    MailItem mail = queue.consume(  );
-
-                    while ( mail != null )
-                    {
-                        try
-                        {
-                            sbLogs.append( "\r\n - To " );
-                            sbLogs.append( ( ( mail.getRecipientsTo(  ) != null ) ? mail.getRecipientsTo(  ) : "" ) );
-                            sbLogs.append( " - Cc " );
-                            sbLogs.append( ( mail.getRecipientsCc(  ) != null ) ? mail.getRecipientsCc(  ) : "" );
-                            sbLogs.append( " - Bcc " );
-                            sbLogs.append( ( mail.getRecipientsBcc(  ) != null ) ? mail.getRecipientsBcc(  ) : "" );
-                            sbLogs.append( " - Subject : " );
-                            sbLogs.append( mail.getSubject(  ) );
-
-                            switch ( mail.getFormat(  ) )
-                            {
-                                case MailItem.FORMAT_HTML:
-                                    MailUtil.sendMessageHtml( strHost, mail.getRecipientsTo(  ),
-                                        mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
-                                        mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
-                                        transportSmtp, session );
-
-                                    break;
-
-                                case MailItem.FORMAT_TEXT:
-                                    MailUtil.sendMessageText( strHost, mail.getRecipientsTo(  ),
-                                        mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
-                                        mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
-                                        transportSmtp, session );
-
-                                    break;
-
-                                case MailItem.FORMAT_MULTIPART_HTML:
-                                    MailUtil.sendMultipartMessageHtml( strHost, mail.getRecipientsTo(  ),
-                                        mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
-                                        mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
-                                        mail.getUrlsAttachement(  ), mail.getFilesAttachement(  ), transportSmtp,
-                                        session );
-
-                                    break;
-
-                                case MailItem.FORMAT_MULTIPART_TEXT:
-                                    MailUtil.sendMultipartMessageText( strHost, mail.getRecipientsTo(  ),
-                                        mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
-                                        mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
-                                        mail.getFilesAttachement(  ), transportSmtp, session );
-
-                                    break;
-
-                                default:
-                                    break;
-                            }
-
-                            sbLogs.append( " - Status [ OK ]" );
-                        }
-                        catch ( AddressException e )
-                        {
-                            //a wrongly formatted address is encountered in the list of recipients
-                            sbLogs.append( " - Status [ Failed ] : " );
-                            sbLogs.append( e.getMessage(  ) );
-                            AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
-                        }
-                        catch ( SendFailedException e )
-                        {
-                            //the send failed because of invalid addresses.
-                            sbLogs.append( " - Status [ Failed ] : " );
-                            sbLogs.append( e.getMessage(  ) );
-                            AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
-                        }
-                        catch ( MessagingException e )
-                        {
-                            //if the connection is dead or not in the connected state 
-                            //we put the mail in the queue before end process 
-                            sbLogs.append( " - Status [ Failed ] : " );
-                            sbLogs.append( e.getMessage(  ) );
-                            AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
-                            queue.send( mail );
-
-                            break;
-                        }
-
-                        mail = queue.consume(  );
-                    }
-
-                    transportSmtp.close(  );
-                }
-                catch ( MessagingException e )
-                {
-                    sbLogs.append( "MailService - Error sending mail (MessagingException): " );
-                    sbLogs.append( e.getMessage(  ) );
-                    AppLogService.error( "MailService - Error sending mail (MessagingException): " + e.getMessage(  ), e );
-                }
-                catch ( Exception e )
-                {
-                    sbLogs.append( "MailService - Error sending mail : " );
-                    sbLogs.append( e.getMessage(  ) );
-                    AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
-                }
-            }
-        }
-        else
-        {
-            sbLogs.append( "\r\nNo mail to send " );
-            sbLogs.append( new Date(  ).toString(  ) );
-        }
-
-        return sbLogs;
-    }
 
     /**
      * Extract a collection of elements to be attached to a mail from an HTML string.
