@@ -13,7 +13,7 @@
 <meta http-equiv="Expires" content="0" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Cache-Control" content="no-cache" />
-<link rel="stylesheet" type="text/css" href="css/portal_admin.css" title="lutece_admin" />
+<link rel="stylesheet" type="text/css" href="css/portal_admin.css" media="screen, projection" />
 <!--[if IE 6]>
     <link rel="stylesheet" type="text/css" href="css/ie/portal_admin_ie6.css" title="lutece_admin_ie8" />
 <![endif]-->

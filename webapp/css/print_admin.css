@@ -21,18 +21,10 @@ content-box {
 	page-break-before: always;
 }
 
-/* hide menu */
-.header-box {
+#admin-header, #content-header, #main-footer{
 	display: none;
 }
 
-ul#admin-header-menu {
-	display:none;
-}
-
-div#welcome-zone {
-	margin-left:0px;
-	margin-right:0px;
-	margin-top:0px;
-	text-align:center;
+label {
+	font-weight: bold;
 }
