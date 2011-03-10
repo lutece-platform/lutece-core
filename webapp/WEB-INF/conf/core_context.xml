@@ -3,7 +3,13 @@
 <beans>
     <import resource="jpa_context.xml"/>
 
-    <bean id="pageCacheKeyService" class="fr.paris.lutece.portal.service.cache.DefaultCacheKeyService" />
+    <bean id="pageCacheKeyService" class="fr.paris.lutece.portal.service.cache.DefaultCacheKeyService" >
+        <property name="allowedParametersList" >
+            <list>
+                <value>page_id</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="siteMessageHandler" class="fr.paris.lutece.portal.service.message.SiteMessageHandler"/>
 

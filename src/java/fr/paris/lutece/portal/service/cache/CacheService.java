@@ -41,6 +41,9 @@ import net.sf.ehcache.CacheManager;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -52,6 +55,9 @@ public final class CacheService
     private static final String PATH_CONF = "/WEB-INF/conf/";
     private static final String FILE_EHCACHE_CONFIG = "ehcache.xml";
     private static CacheManager _manager;
+
+    // Cacheable Services registry
+    private static Map<String, CacheableService> _mapCacheableServicesRegistry = new HashMap<String, CacheableService>(  );
 
     /** Creates a new instance of CacheService */
     private CacheService(  )
@@ -109,4 +115,26 @@ public final class CacheService
     {
         _manager.shutdown(  );
     }
+
+        /**
+     * Registers a new CacheableService
+     * @param strName The name
+     * @param cs The CacheableService
+     */
+    public static void registerCacheableService( String strName, CacheableService cs )
+    {
+        _mapCacheableServicesRegistry.put( strName, cs );
+    }
+
+    /**
+     * Returns all registered Cacheable services
+     *
+     * @return A collection containing all registered Cacheable services
+     */
+    public static Collection<CacheableService> getCacheableServicesList(  )
+    {
+        return _mapCacheableServicesRegistry.values(  );
+    }
+
+
 }

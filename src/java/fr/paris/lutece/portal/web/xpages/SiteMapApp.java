@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
+import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -83,7 +84,7 @@ public class SiteMapApp implements XPageApplication, CacheableService
     {
         if ( !_bRegister )
         {
-            PortalService.registerCacheableService( getName(  ), this );
+            CacheService.registerCacheableService( getName(  ), this );
             _bRegister = true;
         }
     }

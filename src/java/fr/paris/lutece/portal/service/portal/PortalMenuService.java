@@ -39,7 +39,7 @@ import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.service.cache.CacheableService;
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
@@ -56,7 +56,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This Service build the portal menu
  */
-public final class PortalMenuService implements CacheableService
+public final class PortalMenuService extends AbstractCacheableService
 {
     public static final int MENU_INIT = 0;
     public static final int MENU_MAIN = 1;
@@ -68,11 +68,11 @@ public final class PortalMenuService implements CacheableService
 
     // Menus cache
     private static PortalMenuService _singleton;
-    private static Map<String, String> _mapMenusCache = new HashMap<String, String>(  );
 
     /** Creates a new instance of PortalMenuService */
     private PortalMenuService(  )
     {
+        initCache( getName() );
     }
 
     /**
@@ -84,37 +84,9 @@ public final class PortalMenuService implements CacheableService
         if ( _singleton == null )
         {
             _singleton = new PortalMenuService(  );
-            // Register this service as cacheable service
-            PortalService.registerCacheableService( _singleton.getName(  ), _singleton );
         }
 
         return _singleton;
-    }
-
-    /**
-     * Returns the cache status : enable or disable
-     * @return True if the cache is enable, otherwise false
-     */
-    public boolean isCacheEnable(  )
-    {
-        return true;
-    }
-
-    /**
-     * Returns the number of objects handled by the cache
-     * @return the number of objects handled by the cache
-     */
-    public int getCacheSize(  )
-    {
-        return _mapMenusCache.size(  );
-    }
-
-    /**
-     * Clear the cache
-     */
-    public void resetCache(  )
-    {
-        _mapMenusCache.clear(  );
     }
 
     /**
@@ -137,21 +109,22 @@ public final class PortalMenuService implements CacheableService
     public String getMenuContent( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
     {
         String strKey = getKey( nMode, nPart, request );
+        String strMenu = ( String ) getFromCache( strKey );
 
         // Seek for the key in the cache
-        if ( !_mapMenusCache.containsKey( strKey ) )
+        if ( strMenu == null )
         {
             // Builds the HTML document
-            String strMenu = buildMenuContent( nCurrentPageId, nMode, nPart, request );
+            strMenu = buildMenuContent( nCurrentPageId, nMode, nPart, request );
 
             // Add it in the cache
-            _mapMenusCache.put( strKey, strMenu );
+            putInCache( strKey, strMenu );
 
             return strMenu;
         }
 
         // The document exist in the cache
-        return _mapMenusCache.get( strKey );
+        return strMenu;
     }
 
     /**

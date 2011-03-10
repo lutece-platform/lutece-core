@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.portal.PortalService;
@@ -271,7 +272,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     public String getManageCaches( HttpServletRequest request )
     {
         HashMap<String, Collection<CacheableService>> model = new HashMap<String, Collection<CacheableService>>(  );
-        model.put( MARK_SERVICES_LIST, PortalService.getCacheableServicesList(  ) );
+        model.put( MARK_SERVICES_LIST, CacheService.getCacheableServicesList(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CACHES, getLocale(  ), model );
 
@@ -427,7 +428,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      */
     private static String getFileData( String strFilePath )
     {
-        StringBuffer sbData = new StringBuffer(  );
+        StringBuilder sbData = new StringBuilder(  );
 
         try
         {
@@ -445,7 +446,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         }
         catch ( FileNotFoundException e )
         {
-            sbData.append( "File " + strFilePath + " not found" );
+            sbData.append( "File " ).append( strFilePath ).append( " not found");
         }
         catch ( IOException e )
         {

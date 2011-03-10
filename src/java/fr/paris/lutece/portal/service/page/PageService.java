@@ -40,6 +40,7 @@ import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.ICacheKeyService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
@@ -170,6 +171,10 @@ public class PageService extends ContentService implements ImageResourceProvider
         if ( strCachePages.equalsIgnoreCase( "true" ) )
         {
             initCache( getName(  ) );
+        }
+        else
+        {
+            CacheService.registerCacheableService( getName() , this );
         }
 
         ImageResourceManager.registerProvider( this );

@@ -35,6 +35,7 @@
 package fr.paris.lutece.portal.service.cache;
 
 import fr.paris.lutece.portal.service.security.LuteceUser;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,14 +44,19 @@ import java.util.Map;
  */
 public class DefaultCacheKeyService implements ICacheKeyService
 {
+    private List _listAllowedParameters;
 
     public String getKey(Map<String, String> mapParams, int nMode, LuteceUser user)
     {
         StringBuilder sbKey = new StringBuilder(  );
 
+
         for ( String strHtKey : mapParams.keySet(  ) )
         {
-            sbKey.append( strHtKey ).append("'").append( mapParams.get( strHtKey )).append("'" );
+            if(  _listAllowedParameters.contains( strHtKey ))
+            {
+                sbKey.append( strHtKey ).append("'").append( mapParams.get( strHtKey )).append("'" );
+            }
         }
 
         String strUserName = ( user != null ) ? user.getName(  ) : "";
@@ -60,6 +66,11 @@ public class DefaultCacheKeyService implements ICacheKeyService
 
         return sbKey.toString();
 
+    }
+
+    public void setAllowedParametersList( List<String> list )
+    {
+        _listAllowedParameters = list;
     }
 
 }

@@ -40,6 +40,7 @@ import net.sf.ehcache.CacheException;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.event.CacheEventListener;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -49,6 +50,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
 {
     private Cache _cache;
     private boolean _bEnable;
+    private Logger _logger = Logger.getLogger( "lutece.cache" );
 
     /**
      * Init the cache. Should be called by the service at its initialization.
@@ -59,6 +61,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
         _cache = CacheService.getInstance(  ).createCache( strCacheName );
         _bEnable = true;
         _cache.getCacheEventNotificationService().registerListener(this);
+        CacheService.registerCacheableService( getName(), this );
 
     }
 
@@ -167,6 +170,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     {
         // Remove the element from the cache
         _cache.remove( element.getKey() );
+        _logger.debug( "Object removed from the cache : " + cache.getName() + " - key : " + element.getKey() );
     }
 
     /**

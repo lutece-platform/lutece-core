@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
+import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
@@ -100,8 +101,6 @@ public final class PortalService
     // Content Service registry
     private static Map<String, ContentService> _mapContentServicesRegistry = new HashMap<String, ContentService>(  );
 
-    // Cacheable Services registry
-    private static Map<String, CacheableService> _mapCacheableServicesRegistry = new HashMap<String, CacheableService>(  );
 
     /**
      * Private Constructor
@@ -150,8 +149,6 @@ public final class PortalService
     {
         _mapContentServicesRegistry.put( strName, cs );
 
-        // Register also the service as a Cacheable service
-        registerCacheableService( strName, cs );
     }
 
     /**
@@ -166,22 +163,24 @@ public final class PortalService
 
     /**
      * Registers a new CacheableService
+     * @deprecated Use CacheService.registerCacheableService( String strName, CacheableService cs ) instead
      * @param strName The name
      * @param cs The CacheableService
      */
     public static void registerCacheableService( String strName, CacheableService cs )
     {
-        _mapCacheableServicesRegistry.put( strName, cs );
+        CacheService.registerCacheableService( strName, cs );
     }
 
     /**
      * Returns all registered Cacheable services
+     * @deprecated Use CacheService.getCacheableServicesList() instead
      *
      * @return A collection containing all registered Cacheable services
      */
     public static Collection<CacheableService> getCacheableServicesList(  )
     {
-        return _mapCacheableServicesRegistry.values(  );
+        return CacheService.getCacheableServicesList();
     }
 
     /**

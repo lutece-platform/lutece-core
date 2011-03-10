@@ -35,6 +35,7 @@
 package fr.paris.lutece.portal.service.cache;
 
 import fr.paris.lutece.portal.service.security.LuteceUser;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,4 +54,9 @@ public interface ICacheKeyService
     String getKey( Map<String, String> mapParams, int nMode, LuteceUser user );
 
 
+    /**
+     * Sets the list of allowed parameters to include into the cache key
+     * @param list The list
+     */
+    void setAllowedParametersList( List<String> list );
 }

@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.service.resource;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
-import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
@@ -70,13 +69,12 @@ public abstract class ResourceService extends AbstractCacheableService
         if ( ( strLoadersProperty != null ) && ( !strLoadersProperty.equals( "" ) ) )
         {
             initLoaders( strLoadersProperty );
+            initCache( getName() );
         }
         else
         {
             AppLogService.error( "Resource service : Loaders property key is missing" );
         }
-
-        PortalService.registerCacheableService( this.getClass(  ).getName(  ), this );
     }
 
     // Methods to overide
