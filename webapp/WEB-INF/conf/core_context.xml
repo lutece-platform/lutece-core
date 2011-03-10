@@ -3,6 +3,8 @@
 <beans>
     <import resource="jpa_context.xml"/>
 
+    <bean id="pageCacheKeyService" class="fr.paris.lutece.portal.service.cache.DefaultCacheKeyService" />
+
     <bean id="siteMessageHandler" class="fr.paris.lutece.portal.service.message.SiteMessageHandler"/>
 
     <!--                      Search Engine                                   -->

@@ -54,6 +54,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import net.sf.ehcache.CacheException;
+import net.sf.ehcache.Ehcache;
+import net.sf.ehcache.Element;
 
 
 /**
@@ -275,4 +278,5 @@ public class XPageAppService extends ContentService
     {
         return _mapApplications.values(  );
     }
+
 }

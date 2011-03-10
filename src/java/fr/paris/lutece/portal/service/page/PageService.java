@@ -40,6 +40,7 @@ import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.cache.ICacheKeyService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
@@ -56,6 +57,7 @@ import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -90,7 +92,7 @@ import javax.servlet.http.HttpServletRequest;
  * HTML and provides a cache feature in order to reduce the number of
  * tranformations.
  */
-public class PageService extends ContentService implements ImageResourceProvider, PageEventListener, CacheEventListener
+public class PageService extends ContentService implements ImageResourceProvider, PageEventListener
 {
     ////////////////////////////////////////////////////////////////////////////
     // Variables
@@ -146,6 +148,8 @@ public class PageService extends ContentService implements ImageResourceProvider
     private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<String, String>(  );
     private ArrayList<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
 
+    private ICacheKeyService _cacheKeyService = (ICacheKeyService) SpringContextService.getBean("pageCacheKeyService");
+
     /**
      * Creates a new PageService object.
      */
@@ -166,7 +170,6 @@ public class PageService extends ContentService implements ImageResourceProvider
         if ( strCachePages.equalsIgnoreCase( "true" ) )
         {
             initCache( getName(  ) );
-            getCache(  ).getCacheEventNotificationService(  ).registerListener( this );
         }
 
         ImageResourceManager.registerProvider( this );
@@ -684,20 +687,8 @@ public class PageService extends ContentService implements ImageResourceProvider
      */
     private String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
-        StringBuilder strKey = new StringBuilder(  );
-        String strUserName = "";
 
-        for ( String strHtKey : mapParams.keySet(  ) )
-        {
-            strKey.append( strHtKey + "'" + mapParams.get( strHtKey ) + "'" );
-        }
-
-        if ( user != null )
-        {
-            strUserName = user.getName(  );
-        }
-
-        String key = strKey + strUserName + PARAMETER_MODE + nMode;
+        String key = _cacheKeyService.getKey(mapParams, nMode, user);
 
         String keyInMemory = _keyMemory.putIfAbsent( key, key );
 
@@ -920,16 +911,6 @@ public class PageService extends ContentService implements ImageResourceProvider
     }
 
     /**
-     * @see net.sf.ehcache.event.CacheEventListener#notifyElementPut(net.sf.ehcache.Ehcache,
-     *      net.sf.ehcache.Element)
-     * @param cache The Ehcache object
-     * @param element The Element object
-     */
-    public void notifyElementPut( Ehcache cache, Element element )
-    {
-    }
-
-    /**
      * @see net.sf.ehcache.event.CacheEventListener#notifyElementRemoved(net.sf.ehcache.Ehcache,
      *      net.sf.ehcache.Element)
      * @param cache The Ehcache object
@@ -938,16 +919,6 @@ public class PageService extends ContentService implements ImageResourceProvider
     public void notifyElementRemoved( Ehcache cache, Element element )
     {
         removeKeyFromMap( element );
-    }
-
-    /**
-     * @see net.sf.ehcache.event.CacheEventListener#notifyElementUpdated(net.sf.ehcache.Ehcache,
-     *      net.sf.ehcache.Element)
-     * @param cache The Ehcache object
-     * @param element The Element object
-     */
-    public void notifyElementUpdated( Ehcache cache, Element element )
-    {
     }
 
     /**
@@ -978,12 +949,7 @@ public class PageService extends ContentService implements ImageResourceProvider
         return getInstance(  );
     }
 
-    /**
-     * @see net.sf.ehcache.event.CacheEventListener#dispose()
-     */
-    public void dispose(  )
-    {
-    }
+
 
     /**
      * CustomAction define a customized action for portlet types

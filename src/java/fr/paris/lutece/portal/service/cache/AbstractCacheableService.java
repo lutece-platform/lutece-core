@@ -37,13 +37,15 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
+import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
+import net.sf.ehcache.event.CacheEventListener;
 
 
 /**
  * Base implementation for a cacheable service
  */
-public abstract class AbstractCacheableService implements CacheableService
+public abstract class AbstractCacheableService implements CacheableService, CacheEventListener
 {
     private Cache _cache;
     private boolean _bEnable;
@@ -56,6 +58,8 @@ public abstract class AbstractCacheableService implements CacheableService
     {
         _cache = CacheService.getInstance(  ).createCache( strCacheName );
         _bEnable = true;
+        _cache.getCacheEventNotificationService().registerListener(this);
+
     }
 
     /**
@@ -145,4 +149,74 @@ public abstract class AbstractCacheableService implements CacheableService
     {
         return _cache;
     }
+
+    /**
+     * @see java.lang.Object#clone()
+     * @return the instance
+     */
+    @Override
+    public Object clone(  )
+    {
+        return this;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public void notifyElementExpired( Ehcache cache, Element element )
+    {
+        // Remove the element from the cache
+        _cache.remove( element.getKey() );
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public void notifyElementRemoved(Ehcache ehch, Element elmnt) throws CacheException
+    {
+        // Do nothing
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public void notifyElementEvicted(Ehcache ehch, Element elmnt)
+    {
+        // Do nothing
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public void notifyRemoveAll(Ehcache ehch)
+    {
+        // Do nothing
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public void notifyElementPut(Ehcache ehch, Element elmnt) throws CacheException
+    {
+        // Do nothing
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public void notifyElementUpdated(Ehcache ehch, Element elmnt) throws CacheException
+    {
+        // Do nothing
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public void dispose()
+    {
+        // Do nothing
+    }
+
+
+
 }
