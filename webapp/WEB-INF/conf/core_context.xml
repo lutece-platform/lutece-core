@@ -11,6 +11,10 @@
         </property>
     </bean>
 
+    <bean id="pageService" class="fr.paris.lutece.portal.service.page.OldPageService">
+        <property name="cacheKeyService" ref="pageCacheKeyService" />
+    </bean>
+
     <bean id="siteMessageHandler" class="fr.paris.lutece.portal.service.message.SiteMessageHandler"/>
 
     <!--                      Search Engine                                   -->

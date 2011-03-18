@@ -36,7 +36,8 @@ package fr.paris.lutece.portal.service.search;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
-import fr.paris.lutece.portal.service.page.PageService;
+import fr.paris.lutece.portal.service.page.IPageService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -64,6 +65,8 @@ public class PageIndexer implements SearchIndexer
     private static final String PROPERTY_PAGE_BASE_URL = "search.pageIndexer.baseUrl";
     private static final String PROPERTY_INDEXER_ENABLE = "search.pageIndexer.enable";
     private static final String PARAMETER_PAGE_ID = "page_id";
+
+    private static IPageService _pageService = (IPageService) SpringContextService.getBean("pageService");
 
     /**
      * {@inheritDoc}
@@ -172,7 +175,7 @@ public class PageIndexer implements SearchIndexer
         String strIdPage = String.valueOf( page.getId(  ) );
         doc.add( new Field( SearchItem.FIELD_UID, strIdPage, Field.Store.NO, Field.Index.NOT_ANALYZED ) );
 
-        String strPageContent = PageService.getInstance(  ).getPageContent( page.getId(  ), 0, null );
+        String strPageContent = _pageService.getPageContent( page.getId(  ), 0, null );
         StringReader readerPage = new StringReader( strPageContent );
         HTMLParser parser = new HTMLParser( readerPage );
 
@@ -180,7 +183,7 @@ public class PageIndexer implements SearchIndexer
         //had replaced the encoded caracters (as &eacute;) by the corresponding special caracter (as ?)
         Reader reader = parser.getReader(  );
         int c;
-        StringBuffer sb = new StringBuffer(  );
+        StringBuilder sb = new StringBuilder(  );
 
         while ( ( c = reader.read(  ) ) != -1 )
         {
@@ -191,19 +194,19 @@ public class PageIndexer implements SearchIndexer
 
         // Add the tag-stripped contents as a Reader-valued Text field so it will
         // get tokenized and indexed.        
-        StringBuffer sbFieldContent = new StringBuffer(  );
-        sbFieldContent.append( page.getName(  ) + " " + sb.toString(  ) );
+        StringBuilder sbFieldContent = new StringBuilder(  );
+        sbFieldContent.append(page.getName()).append(" ").append( sb.toString());
 
         // Add the metadata description of the page if it exists
         if ( page.getMetaDescription(  ) != null )
         {
-            sbFieldContent.append( " " + page.getMetaDescription(  ) );
+            sbFieldContent.append(" ").append( page.getMetaDescription());
         }
 
         // Add the metadata keywords of the page if it exists
         if ( page.getMetaKeywords(  ) != null )
         {
-            sbFieldContent.append( " " + page.getMetaKeywords(  ) );
+            sbFieldContent.append(" ").append( page.getMetaKeywords());
         }
 
         doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString(  ), Field.Store.NO, Field.Index.ANALYZED ) );

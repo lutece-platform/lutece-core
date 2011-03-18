@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.page;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.rbac.RBACResource;
-import fr.paris.lutece.portal.service.role.RoleRemovalListenerService;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 
@@ -83,6 +82,7 @@ public class Page implements RBACResource, AdminWorkgroupResource
     /**
      * Initialize the Page
      */
+/* FIXME PageRoleRemovalListener should not be registered here
     public static void init(  )
     {
         // Create removal listeners and register them
@@ -92,7 +92,7 @@ public class Page implements RBACResource, AdminWorkgroupResource
             RoleRemovalListenerService.getService(  ).registerListener( _listenerRole );
         }
     }
-
+*/
     /**
      * Sets the identifier of the page
      *

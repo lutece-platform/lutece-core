@@ -34,7 +34,7 @@
 package fr.paris.lutece.portal.business.portlet;
 
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.service.page.PageService;
+import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -54,7 +54,7 @@ public abstract class PortletHome implements PortletHomeInterface
 
     // Static variable pointed at the DAO instance
     private static IPortletDAO _dao = (IPortletDAO) SpringContextService.getBean( "portletDAO" );
-
+    private static IPageService _pageService = (IPageService) SpringContextService.getBean("pageService");
     ///////////////////////////////////////////////////////////////////////////
     // Finders
 
@@ -213,14 +213,14 @@ public abstract class PortletHome implements PortletHomeInterface
      */
     public static void invalidate( Portlet portlet )
     {
-        PageService.getInstance(  ).invalidateContent( portlet.getPageId(  ) );
+        _pageService.invalidateContent( portlet.getPageId(  ) );
 
         // invalidate aliases
         Collection<Portlet> listAliases = getAliasList( portlet.getId(  ) );
 
         for ( Portlet alias : listAliases )
         {
-            PageService.getInstance(  ).invalidateContent( alias.getPageId(  ) );
+            _pageService.invalidateContent( alias.getPageId(  ) );
         }
     }
 

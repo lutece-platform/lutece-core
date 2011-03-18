@@ -37,8 +37,9 @@ import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.page.PageResourceIdService;
-import fr.paris.lutece.portal.service.page.PageService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,6 +51,8 @@ import java.util.Collection;
 public final class PortletService
 {
     private static PortletService _singleton;
+    private static IPageService _pageService = (IPageService) SpringContextService.getBean("pageService");
+
 
     /**
      * Constructor for class PortletService
@@ -89,8 +92,7 @@ public final class PortletService
         {
             page = PageHome.findByPrimaryKey( portlet.getPageId(  ) );
 
-            if ( PageService.getInstance(  )
-                                .isAuthorizedAdminPage( page.getId(  ), PageResourceIdService.PERMISSION_VIEW, user ) )
+            if ( _pageService.isAuthorizedAdminPage( page.getId(  ), PageResourceIdService.PERMISSION_VIEW, user ) )
             {
                 collectionPortletAuthorized.add( portlet );
             }
@@ -109,8 +111,7 @@ public final class PortletService
     {
         Page page = PageHome.getPageByIdPortlet( idPortlet );
 
-        return PageService.getInstance(  )
-                          .isAuthorizedAdminPage( page.getId(  ), PageResourceIdService.PERMISSION_VIEW, user );
+        return _pageService.isAuthorizedAdminPage( page.getId(  ), PageResourceIdService.PERMISSION_VIEW, user );
     }
 
     /**
@@ -123,7 +124,6 @@ public final class PortletService
     {
         Page page = PageHome.findByPrimaryKey( portlet.getPageId(  ) );
 
-        return PageService.getInstance(  )
-                          .isAuthorizedAdminPage( page.getId(  ), PageResourceIdService.PERMISSION_VIEW, user );
+        return _pageService.isAuthorizedAdminPage( page.getId(  ), PageResourceIdService.PERMISSION_VIEW, user );
     }
 }

@@ -20,7 +20,7 @@
     <!-- Contents Service -->
     <content-services>
         <content-service>
-            <content-service-class>fr.paris.lutece.portal.service.page.PageService</content-service-class>
+            <content-service-class>fr.paris.lutece.portal.service.page.OldPageService</content-service-class>
         </content-service>
         <content-service>
             <content-service-class>fr.paris.lutece.portal.service.content.XPageAppService</content-service-class>

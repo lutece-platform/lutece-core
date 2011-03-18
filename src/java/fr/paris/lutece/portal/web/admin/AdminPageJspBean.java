@@ -47,12 +47,13 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.page.PageResourceIdService;
-import fr.paris.lutece.portal.service.page.PageService;
+import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
@@ -144,6 +145,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_PAGE_ID_CHILDPAGE = "portal.site.message.pageIdChildPage";
     private static final String MESSAGE_SAME_PAGE_ID = "portal.site.message.pageSameId";
 
+    private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
@@ -218,7 +220,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         }
 
         // Updates the page
-        PageService.getInstance(  ).updatePage( page );
+        _pageService.updatePage( page );
 
         // Displays again the current page with the modifications
         return getUrlPage( nPageId );
@@ -263,7 +265,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         int nParentPageId = PageHome.getPage( nPageId ).getParentPageId(  );
 
         // Delete the page
-        PageService.getInstance(  ).removePage( nPageId );
+        _pageService.removePage( nPageId );
 
         return getUrlPage( nParentPageId );
     }
@@ -290,7 +292,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         }
 
         // Create the page
-        PageService.getInstance(  ).createPage( page );
+        _pageService.createPage( page );
 
         // Displays again the current page with the modifications
         return getUrlPage( page.getId(  ) );
@@ -317,7 +319,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         page.setImageContent( bytes );
         page.setMimeType( strMimeType );
-        PageService.getInstance(  ).updatePage( page );
+        _pageService.updatePage( page );
 
         // Displays again the current page
         return getUrlPage( nPageId );
@@ -331,7 +333,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      */
     public String getResourceImagePage( Page page, String strPageId )
     {
-        String strResourceType = PageService.getInstance(  ).getResourceTypeId(  );
+        String strResourceType = _pageService.getResourceTypeId(  );
         UrlItem url = new UrlItem( Parameters.IMAGE_SERVLET );
         url.addParameter( Parameters.RESOURCE_TYPE, strResourceType );
         url.addParameter( Parameters.RESOURCE_ID, strPageId );
@@ -454,8 +456,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         // Add in v2.0
         int nManageAuthorization = 1;
 
-        if ( PageService.getInstance(  )
-                            .isAuthorizedAdminPage( page.getId(  ), PageResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+        if ( _pageService.isAuthorizedAdminPage( page.getId(  ), PageResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
         {
             nManageAuthorization = 0;
         }

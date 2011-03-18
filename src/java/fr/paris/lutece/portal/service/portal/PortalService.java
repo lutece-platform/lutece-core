@@ -47,7 +47,8 @@ import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
-import fr.paris.lutece.portal.service.page.PageService;
+import fr.paris.lutece.portal.service.page.IPageService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -100,6 +101,7 @@ public final class PortalService
 
     // Content Service registry
     private static Map<String, ContentService> _mapContentServicesRegistry = new HashMap<String, ContentService>(  );
+    private static IPageService _pageService = (IPageService) SpringContextService.getBean("pageService");
 
 
     /**
@@ -203,7 +205,7 @@ public final class PortalService
     public static String getDefaultPage( HttpServletRequest request, int nMode )
         throws SiteMessageException
     {
-        return PageService.getInstance(  ).getPage( String.valueOf( getRootPageId(  ) ), nMode, request );
+        return _pageService.getPage( String.valueOf( getRootPageId(  ) ), nMode, request );
     }
 
     /**
