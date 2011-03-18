@@ -1,0 +1,8 @@
+<#list services_list as service>
+<div class="content-box">
+    <h2 class="content-box-header" >${service.name}</h2>
+    <blockquote>
+        <#list service.keys as key >${key}<br/></#list>
+    </blockquote>
+</div>
+</#list>

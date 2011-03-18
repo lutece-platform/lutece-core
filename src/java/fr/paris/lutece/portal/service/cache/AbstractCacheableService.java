@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.cache;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+import java.util.List;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
@@ -169,6 +170,14 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     public Cache getCache(  )
     {
         return _cache;
+    }
+    
+    /**
+     * {@inheritDoc }
+     */
+    public List<String> getKeys()
+    {
+        return _cache.getKeys();
     }
 
     /**

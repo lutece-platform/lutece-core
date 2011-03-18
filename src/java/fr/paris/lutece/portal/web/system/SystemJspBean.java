@@ -33,10 +33,7 @@
  */
 package fr.paris.lutece.portal.web.system;
 
-import fr.paris.lutece.portal.service.cache.CacheService;
-import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -72,15 +69,12 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
 {
     // Right
     public static final String RIGHT_PROPERTIES_MANAGEMENT = "CORE_PROPERTIES_MANAGEMENT";
-    public static final String RIGHT_CACHE_MANAGEMENT = "CORE_CACHE_MANAGEMENT";
     public static final String RIGHT_LOGS_VISUALISATION = "CORE_LOGS_VISUALISATION";
 
     // Jsp definition
-    public static final String JSP_MANAGE_CACHES = "ManageCaches.jsp";
     public static final String JSP_MANAGE_PROPERTIES = "ManageProperties.jsp";
 
     // Markers
-    private static final String MARK_SERVICES_LIST = "services_list";
     private static final String MARK_FILES_LIST = "files_list";
     private static final String MARK_FILES_SYSTEM_DIRECTORY = "files_system_directory";
     private static final String MARK_FILES_SYSTEM_NAME = "file_system_name";
@@ -92,7 +86,6 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_MANAGE_FILES_SYSTEM = "admin/system/manage_files_system.html";
     private static final String TEMPLATE_VIEW_FILES_SYSTEM = "admin/system/view_files_system.html";
     private static final String TEMPLATE_VIEW_FILE = "admin/system/view_file.html";
-    private static final String TEMPLATE_MANAGE_CACHES = "admin/system/manage_caches.html";
     private static final String TEMPLATE_MANAGE_PROPERTIES = "admin/system/manage_properties.html";
     private static final String TEMPLATE_MODIFY_PROPERTIES = "admin/system/modify_properties.html";
 
@@ -264,45 +257,6 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
-    /**
-     * Returns the page to manage caches
-     * @param request The HttpServletRequest
-     * @return The HTML code.
-     */
-    public String getManageCaches( HttpServletRequest request )
-    {
-        HashMap<String, Collection<CacheableService>> model = new HashMap<String, Collection<CacheableService>>(  );
-        model.put( MARK_SERVICES_LIST, CacheService.getCacheableServicesList(  ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CACHES, getLocale(  ), model );
-
-        return getAdminPage( template.getHtml(  ) );
-    }
-
-    /**
-     * Process cache resetting
-     *
-     * @return The URL to display when the process is done.
-     */
-    public static String doResetCaches(  )
-    {
-        PortalService.resetCache(  );
-        AppTemplateService.resetCache(  );
-
-        return JSP_MANAGE_CACHES;
-    }
-
-    /**
-     * Reload all properties files of the application
-     *
-     * @return The URL to display when the process is done.
-     */
-    public String doReloadProperties(  )
-    {
-        AppPropertiesService.reloadAll(  );
-
-        return JSP_MANAGE_CACHES;
-    }
 
     /**
      * Returns the page to manage webmaster.properties

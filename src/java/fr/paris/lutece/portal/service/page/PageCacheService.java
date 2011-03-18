@@ -118,7 +118,7 @@ public class PageCacheService extends AbstractCacheableService
      */
     public void removeKeyFromMap(Element element)
     {
-        _keyMemory.remove(element.getKey());
+        _keyMemory.remove( (String) element.getKey());
     }
 
     /**

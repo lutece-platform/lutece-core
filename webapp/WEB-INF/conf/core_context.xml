@@ -12,6 +12,12 @@
     </bean>
 
     <bean id="portletCacheKeyService" class="fr.paris.lutece.portal.service.cache.DefaultCacheKeyService" >
+        <property name="ignoredParametersList" >
+            <list>
+                <value>page-id</value>
+                <value>site-path</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="pageService" class="fr.paris.lutece.portal.service.page.PageService">

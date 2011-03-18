@@ -111,6 +111,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String PARAMETER_PAGE_ID = "page-id";
     private static final String PARAMETER_USER_SELECTED_LOCALE = "user-selected-language";
     private static final String PARAMETER_PLUGIN_NAME = "plugin-name";
+    private static final String PARAMETER_PORTLET = "portlet";
     // Properties
     private static final String PROPERTY_PAGE_SERVICE_CACHE = "service.pages.cache.enable";
     private static final String PROPERTY_MESSAGE_PAGE_ACCESS_DENIED = "portal.site.message.pageAccessDenied";
@@ -130,6 +131,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String DOCUMENT_ACTION_URL = "jsp/admin/plugins/document/ManagePublishing.jsp";
     private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
     private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
+
 
     private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_MAX, DEFAULT_COLUMN_MAX );
 
@@ -518,7 +520,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             {
                 user = SecurityService.getInstance().getRegisteredUser(request);
             }
-            mapParams.put( Parameters.PORTLET_ID, String.valueOf(portlet.getId()));
+            mapParams.put( PARAMETER_PORTLET , String.valueOf(portlet.getId()));
             strKey = _cksPortlet.getKey(mapParams, nMode, user );
             String strPortlet = (String) _cachePortlets.getFromCache(strKey);
             if( strPortlet != null )

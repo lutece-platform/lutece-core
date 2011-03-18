@@ -59,4 +59,10 @@ public interface ICacheKeyService
      * @param list The list
      */
     void setAllowedParametersList( List<String> list );
+
+    /**
+     * Sets the list of ignored parameters not to include into the cache key
+     * @param list The list
+     */
+    void setIgnoredParametersList( List<String> list );
 }

@@ -39,8 +39,7 @@ import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.service.cache.CacheService;
-import fr.paris.lutece.portal.service.cache.CacheableService;
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -62,7 +61,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This class provides the map of the pages on the site
  */
-public class SiteMapApp implements XPageApplication, CacheableService
+public class SiteMapApp extends AbstractCacheableService implements XPageApplication
 {
     private static final int PORTAL_COMPONENT_SITE_MAP_ID = 6;
     private static final int MODE_NORMAL = 0;
@@ -74,19 +73,32 @@ public class SiteMapApp implements XPageApplication, CacheableService
     private static final String PROPERTY_PATH_LABEL = "portal.site.site_map.pathLabel";
     private static final String PROPERTY_PAGE_TITLE = "portal.site.site_map.pageTitle";
     private static final String SERVICE_NAME = "SiteMapService";
-    private static Map<String, String> _mapSiteMapCache = new HashMap<String, String>(  );
-    private static boolean _bRegister;
 
     /**
      * Creates a new SiteMapPage object
      */
     public SiteMapApp(  )
     {
-        if ( !_bRegister )
-        {
-            CacheService.registerCacheableService( getName(  ), this );
-            _bRegister = true;
-        }
+        initCache();
+    }
+
+    /**
+     * Returns the service name
+     * @return The service name
+     */
+    public String getName(  )
+    {
+        return SERVICE_NAME;
+    }
+
+    /**
+     * Returns the localized service name
+     * @param locale The locale
+     * @return The localized service name
+     */
+    public String getName( Locale locale )
+    {
+        return I18nService.getLocalizedString( PROPERTY_SERVICE_NAME, locale );
     }
 
     /**
@@ -105,13 +117,14 @@ public class SiteMapApp implements XPageApplication, CacheableService
         Locale locale = request.getLocale(  );
 
         // Check the key in the cache
-        if ( !_mapSiteMapCache.containsKey( strKey ) )
+        String strCachedPage = (String) getFromCache(strKey);
+        if (  strCachedPage == null )
         {
             // Build the HTML document
             String strPage = buildPageContent( nMode, request );
 
             // Add it to the cache
-            _mapSiteMapCache.put( strKey, strPage );
+            putInCache( strKey, strPage );
 
             page.setPathLabel( I18nService.getLocalizedString( PROPERTY_PATH_LABEL, locale ) );
             page.setTitle( I18nService.getLocalizedString( PROPERTY_PAGE_TITLE, locale ) );
@@ -123,7 +136,7 @@ public class SiteMapApp implements XPageApplication, CacheableService
         // The document exist in the cache
         page.setPathLabel( I18nService.getLocalizedString( PROPERTY_PATH_LABEL, locale ) );
         page.setTitle( I18nService.getLocalizedString( PROPERTY_PAGE_TITLE, locale ) );
-        page.setContent( (String) _mapSiteMapCache.get( strKey ) );
+        page.setContent( (String) getFromCache( strKey ) );
 
         return page;
     }
@@ -136,7 +149,7 @@ public class SiteMapApp implements XPageApplication, CacheableService
      */
     private String getKey( int nMode, HttpServletRequest request )
     {
-        String strUser = "";
+        String strUser = "-";
 
         if ( SecurityService.isAuthenticationEnable(  ) )
         {
@@ -148,7 +161,7 @@ public class SiteMapApp implements XPageApplication, CacheableService
             }
         }
 
-        return "" + nMode + strUser;
+        return "[m:" + nMode + "][user:" + strUser + "]";
     }
 
     /**
@@ -251,67 +264,4 @@ public class SiteMapApp implements XPageApplication, CacheableService
         }
     }
 
-    /**
-     * Returns the number of objects stored in the cache
-     *
-     * @return The number objects in the cache
-     */
-    public int getCacheSize(  )
-    {
-        return _mapSiteMapCache.size(  );
-    }
-
-    /**
-     * Invalidate the cache of the site map
-     */
-
-    /*
-    public static void invalidate(  )
-    {
-     // Invalidate the map site in all the modes
-     Enumeration eKeys = _mapSiteMapCache.keys(  );
-    
-     while ( eKeys.hasMoreElements(  ) )
-     {
-         String strKey = (String) eKeys.nextElement(  );
-         _mapSiteMapCache.remove( strKey );
-     }
-    }
-    */
-
-    /**
-     * Tells if the cache is enabled
-     * @return true if enable, otherwise false
-     */
-    public boolean isCacheEnable(  )
-    {
-        return true;
-    }
-
-    /**
-     * Clear the cache
-     */
-    public void resetCache(  )
-    {
-        _mapSiteMapCache.clear(  );
-    }
-
-    /**
-     * Returns the service name
-     * @return The service name
-     */
-    public String getName(  )
-    {
-        return SERVICE_NAME;
-    }
-
-    /**
-     * Returns the localized service name
-     * @param locale The locale
-     * @return The localized service name
-     */
-    public String getName( Locale locale )
-    {
-        return I18nService.getLocalizedString( PROPERTY_SERVICE_NAME, locale );
-    }
 }

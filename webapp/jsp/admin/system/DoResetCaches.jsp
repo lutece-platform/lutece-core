@@ -1,9 +1,9 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="system" scope="session" class="fr.paris.lutece.portal.web.system.SystemJspBean" />
+<jsp:useBean id="cache" scope="session" class="fr.paris.lutece.portal.web.system.CacheJspBean" />
 
 <%
-    system.init( request, system.RIGHT_CACHE_MANAGEMENT );
-    response.sendRedirect( system.doResetCaches());
+    cache.init( request, cache.RIGHT_CACHE_MANAGEMENT );
+    response.sendRedirect( cache.doResetCaches());
 %>
 
