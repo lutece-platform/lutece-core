@@ -58,7 +58,6 @@ import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -71,7 +70,6 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
-import net.sf.ehcache.event.CacheEventListener;
 
 import java.io.IOException;
 
@@ -93,7 +91,7 @@ import javax.servlet.http.HttpServletRequest;
  * HTML and provides a cache feature in order to reduce the number of
  * tranformations.
  */
-public class PageService extends ContentService implements ImageResourceProvider, PageEventListener
+public class PageService extends ContentService implements IPageService, ImageResourceProvider, PageEventListener
 {
     ////////////////////////////////////////////////////////////////////////////
     // Variables
@@ -136,7 +134,6 @@ public class PageService extends ContentService implements ImageResourceProvider
     private static final String WELCOME_PAGE_CACHE_KEY = "mode0";
     private static final int MODE_ADMIN = 1;
     private static final String XSL_UNIQUE_PREFIX = "page-";
-    private static PageService _singleton;
 
     // Specific for plugin-document
     private static final String DOCUMENT_LIST_PORTLET = "DOCUMENT_LIST_PORTLET";
@@ -149,7 +146,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<String, String>(  );
     private ArrayList<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
 
-    private ICacheKeyService _cacheKeyService = (ICacheKeyService) SpringContextService.getBean("pageCacheKeyService");
+    private ICacheKeyService _cacheKeyService;
 
     /**
      * Creates a new PageService object.
@@ -158,7 +155,6 @@ public class PageService extends ContentService implements ImageResourceProvider
     {
         super(  );
         init(  );
-        _singleton = this;
     }
 
     /**
@@ -179,22 +175,6 @@ public class PageService extends ContentService implements ImageResourceProvider
 
         ImageResourceManager.registerProvider( this );
         addPageEventListener( this );
-
-        Page.init(  );
-    }
-
-    /**
-     * Gets the service instance
-     * @return The unique Instance
-     */
-    public static synchronized PageService getInstance(  )
-    {
-        if ( _singleton == null )
-        {
-            _singleton = new PageService(  );
-        }
-
-        return _singleton;
     }
 
     /**
@@ -693,7 +673,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     private String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
 
-        String key = _cacheKeyService.getKey(mapParams, nMode, user);
+        String key = getCacheKeyService().getKey(mapParams, nMode, user);
 
         String keyInMemory = _keyMemory.putIfAbsent( key, key );
 
@@ -717,11 +697,22 @@ public class PageService extends ContentService implements ImageResourceProvider
     }
 
     /**
+     * @param cacheKeyService the _cacheKeyService to set
+     */
+    public void setCacheKeyService(ICacheKeyService cacheKeyService)
+    {
+        _cacheKeyService = cacheKeyService;
+    }
+
+    private ICacheKeyService getCacheKeyService()
+    {
+        return _cacheKeyService;
+    }
+    /**
      * Remove a page from the cache
      *
      * @param strIdPage The page ID
      */
-    @SuppressWarnings( "unchecked" )
     private void invalidatePage( String strIdPage )
     {
         String strKey = Parameters.PAGE_ID + "'" + strIdPage + "'";
@@ -899,6 +890,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     * @param cache The Ehcache object
     * @param element The Element object
     */
+    @Override
     public void notifyElementEvicted( Ehcache cache, Element element )
     {
         removeKeyFromMap( element );
@@ -910,6 +902,7 @@ public class PageService extends ContentService implements ImageResourceProvider
      * @param cache The Ehcache object
      * @param element The Element object
      */
+    @Override
     public void notifyElementExpired( Ehcache cache, Element element )
     {
         removeKeyFromMap( element );
@@ -921,6 +914,7 @@ public class PageService extends ContentService implements ImageResourceProvider
      * @param cache The Ehcache object
      * @param element The Element object
      */
+    @Override
     public void notifyElementRemoved( Ehcache cache, Element element )
     {
         removeKeyFromMap( element );
@@ -931,6 +925,7 @@ public class PageService extends ContentService implements ImageResourceProvider
      * @param cache .
      * @param cache The Ehcache object
      */
+    @Override
     public void notifyRemoveAll( Ehcache cache )
     {
         _keyMemory.clear(  );
@@ -941,7 +936,7 @@ public class PageService extends ContentService implements ImageResourceProvider
      */
     public void removeKeyFromMap( Element element )
     {
-        _keyMemory.remove( element.getKey(  ) );
+        _keyMemory.remove(element.getKey());
     }
 
     /**
@@ -951,7 +946,7 @@ public class PageService extends ContentService implements ImageResourceProvider
     @Override
     public Object clone(  )
     {
-        return getInstance(  );
+        return this;
     }
 
 
