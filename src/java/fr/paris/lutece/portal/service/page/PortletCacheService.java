@@ -32,46 +32,21 @@
  * License 1.0
  */
 
-package fr.paris.lutece.portal.service.cache;
+package fr.paris.lutece.portal.service.page;
 
-import fr.paris.lutece.portal.service.security.LuteceUser;
-import java.util.List;
-import java.util.Map;
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 
 /**
- * Default cache key service
- * 
+ *
+ * @author pierre
  */
-public class DefaultCacheKeyService implements ICacheKeyService
+public class PortletCacheService extends AbstractCacheableService
 {
-    private List _listAllowedParameters;
+    private static final String SERVICE_NAME = "Portlet Cache Service";
 
-    public String getKey(Map<String, String> mapParams, int nMode, LuteceUser user)
+    public String getName()
     {
-        StringBuilder sbKey = new StringBuilder(  );
-
-
-        for ( String strHtKey : mapParams.keySet(  ) )
-        {
-
-            if(  (_listAllowedParameters == null) || _listAllowedParameters.contains( strHtKey ))
-            {
-                sbKey.append( strHtKey ).append("'").append( mapParams.get( strHtKey )).append("'" );
-            }
-        }
-
-        String strUserName = ( user != null ) ? user.getName(  ) : "";
-
-        sbKey.append( strUserName );
-        sbKey.append( "'" ).append( nMode );
-
-        return sbKey.toString();
-
-    }
-
-    public void setAllowedParametersList( List<String> list )
-    {
-        _listAllowedParameters = list;
+        return SERVICE_NAME;
     }
 
 }

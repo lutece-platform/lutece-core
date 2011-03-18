@@ -11,8 +11,12 @@
         </property>
     </bean>
 
-    <bean id="pageService" class="fr.paris.lutece.portal.service.page.OldPageService">
-        <property name="cacheKeyService" ref="pageCacheKeyService" />
+    <bean id="portletCacheKeyService" class="fr.paris.lutece.portal.service.cache.DefaultCacheKeyService" >
+    </bean>
+
+    <bean id="pageService" class="fr.paris.lutece.portal.service.page.PageService">
+        <property name="pageCacheKeyService" ref="pageCacheKeyService" />
+        <property name="portletCacheKeyService" ref="portletCacheKeyService" />
     </bean>
 
     <bean id="siteMessageHandler" class="fr.paris.lutece.portal.service.message.SiteMessageHandler"/>

@@ -31,47 +31,65 @@
  *
  * License 1.0
  */
-
-package fr.paris.lutece.portal.service.cache;
-
-import fr.paris.lutece.portal.service.security.LuteceUser;
-import java.util.List;
-import java.util.Map;
+package fr.paris.lutece.portal.service.page;
 
 /**
- * Default cache key service
- * 
+ * CustomAction define a customized action for portlet types
+ *
  */
-public class DefaultCacheKeyService implements ICacheKeyService
+public class PortletCustomAdminAction
 {
-    private List _listAllowedParameters;
 
-    public String getKey(Map<String, String> mapParams, int nMode, LuteceUser user)
+    private String _strActionUrl;
+    private String _strImageUrl;
+    private String _strTitle;
+
+    /**
+     * @return the _actionUrl
+     */
+    public String getActionUrl()
     {
-        StringBuilder sbKey = new StringBuilder(  );
-
-
-        for ( String strHtKey : mapParams.keySet(  ) )
-        {
-
-            if(  (_listAllowedParameters == null) || _listAllowedParameters.contains( strHtKey ))
-            {
-                sbKey.append( strHtKey ).append("'").append( mapParams.get( strHtKey )).append("'" );
-            }
-        }
-
-        String strUserName = ( user != null ) ? user.getName(  ) : "";
-
-        sbKey.append( strUserName );
-        sbKey.append( "'" ).append( nMode );
-
-        return sbKey.toString();
-
+        return _strActionUrl;
     }
 
-    public void setAllowedParametersList( List<String> list )
+    /**
+     * @param strActionUrl the _actionUrl to set
+     */
+    public void setActionUrl(String strActionUrl)
     {
-        _listAllowedParameters = list;
+        _strActionUrl = strActionUrl;
     }
 
+    /**
+     * @return the _imageUrl
+     */
+    public String getImageUrl()
+    {
+        return _strImageUrl;
+    }
+
+    /**
+     * @param strImageUrl the _imageUrl to set
+     */
+    public void setImageUrl(String strImageUrl)
+    {
+        _strImageUrl = strImageUrl;
+    }
+
+    /**
+     * @return the _strTitle
+     */
+    public String getTitle()
+    {
+        return _strTitle;
+    }
+
+    /**
+     * @param strTitle the _strTitle to set
+     */
+    public void setTitle(String strTitle)
+    {
+        _strTitle = strTitle;
+    }
 }
+

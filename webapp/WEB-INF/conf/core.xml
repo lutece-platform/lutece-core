@@ -14,13 +14,13 @@
     <provider>portal.system.core_components.provider</provider>
     <provider-url>http://fr.lutece.paris.fr</provider-url>
     <icon-url>images/admin/skin/core.png</icon-url>
-    <copyright>Copyright (c) 2001-2009 Mairie de Paris</copyright>
+    <copyright>Copyright (c) 2001-2011 Mairie de Paris</copyright>
     <db-pool-required>1</db-pool-required>
     
     <!-- Contents Service -->
     <content-services>
         <content-service>
-            <content-service-class>fr.paris.lutece.portal.service.page.OldPageService</content-service-class>
+            <content-service-class>fr.paris.lutece.portal.service.page.PageContentService</content-service-class>
         </content-service>
         <content-service>
             <content-service-class>fr.paris.lutece.portal.service.content.XPageAppService</content-service-class>

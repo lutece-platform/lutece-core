@@ -59,4 +59,10 @@ public interface CacheableService extends LuteceService
      * Reset the cache.
      */
     void resetCache(  );
+
+    /**
+     * Enable the cache
+     * @param bEnable
+     */
+    void enableCache( boolean bEnable );
 }

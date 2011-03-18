@@ -67,19 +67,23 @@ public interface IPageService
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
      String getPage( String strIdPage, int nMode, HttpServletRequest request ) throws SiteMessageException;
+
     /**
+     * Returns the page for a given ID. The page is built using XML data of each
+     * portlet or retrieved from the cache if it's enable.
+     *
+     * @param request The page ID
+     * @param nMode The current mode.
+     * @return The HTML code of the page as a String.
+     * @throws SiteMessageException If a message shouldbe displayed
+     */
+    public String getPage(HttpServletRequest request, int nMode) throws SiteMessageException;
+
+     /**
      * Invalidate Page Content
      * @param nPageId The Page ID
      */
     void invalidateContent(int nPageId);
-
-    /**
-     * Analyzes request's parameters to see if the request should be handled by the current Content Service
-     *
-     * @param request The HTTP request
-     * @return true if this ContentService should handle this request
-     */
-    boolean isInvoked(HttpServletRequest request);
 
     /**
      * Update the page

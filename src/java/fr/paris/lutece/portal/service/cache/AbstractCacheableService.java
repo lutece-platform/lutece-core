@@ -52,11 +52,16 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     private boolean _bEnable;
     private Logger _logger = Logger.getLogger( "lutece.cache" );
 
+
+    public void initCache()
+    {
+        initCache( getName() );
+    }
     /**
      * Init the cache. Should be called by the service at its initialization.
      * @param strCacheName The cache name
      */
-    protected void initCache( String strCacheName )
+    public void initCache( String strCacheName )
     {
         _cache = CacheService.getInstance(  ).createCache( strCacheName );
         _bEnable = true;
@@ -70,7 +75,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      * @param strKey The key of the object to put into the cache
      * @param object The object to put into the cache
      */
-    protected void putInCache( String strKey, Object object )
+    public void putInCache( String strKey, Object object )
     {
         Element element = new Element( strKey, object );
 
@@ -85,7 +90,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      * @param strKey The key of the object to retrieve from the cache
      * @return The object from the cache
      */
-    protected Object getFromCache( String strKey )
+    public Object getFromCache( String strKey )
     {
         Object object = null;
 
@@ -110,6 +115,19 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     public boolean isCacheEnable(  )
     {
         return _bEnable;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    public void enableCache( boolean bEnable )
+    {
+        _bEnable = bEnable;
+        if( ! _bEnable)
+        {
+            _cache.removeAll();
+        }
+
     }
 
     /**
@@ -220,6 +238,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     {
         // Do nothing
     }
+
 
 
 
