@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.cache;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.ehcache.Cache;
@@ -177,7 +178,12 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      */
     public List<String> getKeys()
     {
-        return _cache.getKeys();
+        if( _cache != null )
+        {
+            return _cache.getKeys();
+
+        }
+        return new ArrayList<String>();
     }
 
     /**
