@@ -52,18 +52,18 @@ public final class PortletDAO implements IPortletDAO
     // queries
     private static final String SQL_QUERY_NEW_PK = "SELECT max(id_portlet) FROM core_portlet ";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_portlet SET name = ?, date_update = ?, column_no = ?, " +
-        " portlet_order = ? , id_style = ? , accept_alias = ? , display_portlet_title = ? " + " WHERE id_portlet = ?";
+        " portlet_order = ? , id_style = ? , accept_alias = ? , display_portlet_title = ?, role = ? " + " WHERE id_portlet = ?";
     private static final String SQL_QUERY_SELECT = " SELECT b.id_portlet_type, a.id_page, a.id_style, a.name , b.name, " +
         " b.url_creation, b.url_update, a.date_update, a.column_no, a.portlet_order, " +
-        " b.home_class, a.accept_alias , b.plugin_name , a.display_portlet_title, a.status " +
+        " b.home_class, a.accept_alias , a.role , b.plugin_name , a.display_portlet_title, a.status " +
         " FROM core_portlet a , core_portlet_type b WHERE a.id_portlet_type = b.id_portlet_type AND a.id_portlet = ?";
     private static final String SQL_QUERY_SELECT_ALIAS = " SELECT a.id_portlet FROM core_portlet a, core_portlet_alias b " +
         " WHERE a.id_portlet = b.id_portlet AND b.id_alias= ? ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_portlet WHERE id_portlet = ?";
     private static final String SQL_QUERY_UPDATE_STATUS = " UPDATE core_portlet SET status = ?, date_update = ? WHERE id_portlet = ? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_portlet ( id_portlet, id_portlet_type, id_page, id_style, name, " +
-        " date_creation, date_update, status, column_no, portlet_order, accept_alias, display_portlet_title ) " +
-        " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)";
+        " date_creation, date_update, status, column_no, portlet_order, accept_alias, display_portlet_title, role ) " +
+        " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?)";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_STYLE = "SELECT id_portlet, name, id_page FROM core_portlet WHERE id_style=?";
     private static final String SQL_QUERY_SELECT_XSL_FILE = " SELECT a.id_stylesheet , a.description , a.file_name, a.source " +
         " FROM core_stylesheet a, core_portlet b, core_style_mode_stylesheet c " +
@@ -80,7 +80,7 @@ public final class PortletDAO implements IPortletDAO
         "FROM core_portlet_alias a JOIN core_portlet p ON p.id_portlet = a.id_portlet WHERE a.id_alias = ? ";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_NAME = " SELECT id_portlet , id_page , name FROM core_portlet WHERE name LIKE ? ";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_TYPE = " SELECT a.id_portlet, a.id_portlet_type, a.id_page, a.name, " +
-        "a.date_update, a.status, a.portlet_order, a.column_no, a.id_style, a.accept_alias, a.date_creation, a.display_portlet_title" +
+        "a.date_update, a.status, a.portlet_order, a.column_no, a.id_style, a.accept_alias, a.date_creation, a.display_portlet_title, a.role " +
         " FROM core_portlet a, core_page b  WHERE a.id_page = b.id_page " + " AND a.id_portlet_type = ? ";
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -105,6 +105,7 @@ public final class PortletDAO implements IPortletDAO
         daoUtil.setInt( 10, portlet.getOrder(  ) );
         daoUtil.setInt( 11, portlet.getAcceptAlias(  ) );
         daoUtil.setInt( 12, portlet.getDisplayPortletTitle(  ) );
+        daoUtil.setString(13, portlet.getRole() );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -161,9 +162,10 @@ public final class PortletDAO implements IPortletDAO
             portlet.setOrder( daoUtil.getInt( 10 ) );
             portlet.setHomeClassName( daoUtil.getString( 11 ) );
             portlet.setAcceptAlias( daoUtil.getInt( 12 ) );
-            portlet.setPluginName( daoUtil.getString( 13 ) );
-            portlet.setDisplayPortletTitle( daoUtil.getInt( 14 ) );
-            portlet.setStatus( daoUtil.getInt( 15 ) );
+            portlet.setRole( daoUtil.getString( 13 ) );
+            portlet.setPluginName( daoUtil.getString( 14 ) );
+            portlet.setDisplayPortletTitle( daoUtil.getInt( 15 ) );
+            portlet.setStatus( daoUtil.getInt( 16 ) );
         }
 
         daoUtil.free(  );
@@ -185,7 +187,8 @@ public final class PortletDAO implements IPortletDAO
         daoUtil.setInt( 5, portlet.getStyleId(  ) );
         daoUtil.setInt( 6, portlet.getAcceptAlias(  ) );
         daoUtil.setInt( 7, portlet.getDisplayPortletTitle(  ) );
-        daoUtil.setInt( 8, portlet.getId(  ) );
+        daoUtil.setString( 8, portlet.getRole() );
+        daoUtil.setInt( 9, portlet.getId(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -331,8 +334,9 @@ public final class PortletDAO implements IPortletDAO
             portlet.setColumn( daoUtil.getInt( 8 ) );
             portlet.setStyleId( daoUtil.getInt( 9 ) );
             portlet.setAcceptAlias( daoUtil.getInt( 10 ) );
-            //FIXME date_creation ??
+            portlet.setDateUpdate( daoUtil.getTimestamp( 11 ) );
             portlet.setDisplayPortletTitle( daoUtil.getInt( 12 ) );
+            portlet.setRole( daoUtil.getString( 13 ));
 
             //FIXME Theses attributes concerns PortletType :
             //            portlet.setHomeClassName(daoUtil.getString( 1 ));

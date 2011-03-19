@@ -1,20 +1,20 @@
 <div id="feature-content" >
-    
+
     <#if portletType.modifyScriptTemplate != "" >
-        <#include portletType.modifyScriptTemplate />
+    <#include portletType.modifyScriptTemplate />
     </#if>
-    
+
     <br /><br />
     <div class="content-box" >
         <h2>#i18n{portal.site.portletType.labelModify} ${portletType.name}</h2>
     </div>
-    
+
     <div class="content-box" >
         <form method="post" name="form" action="${portletType.doModifyUrl}"  target="_top">
-            
+
             <input type="hidden" name="portlet_id" value="${portlet.id}" />
             <input type="hidden" name="portlet_type_id" value="${portletType.id}" />
-            
+
             <p>
                 <label>#i18n{portal.site.modify_portlet.labelPortletTitle}</label>
                 <input type="text" name="portlet_name" value="${portlet.name}" size="40" maxlength="40" />
@@ -29,16 +29,20 @@
                 </#if>
             </p>
             <p>
-                <label>#i18n{portal.site.modify_portlet.labelOrder}</label>
+                <label for="order">#i18n{portal.site.modify_portlet.labelOrder}</label>
                 <@combo name="order" default_value="${portlet.order}" items=portlet_order_combo />
             </p>
             <p>
-                <label>#i18n{portal.site.modify_portlet.labelColumn}</label>
+                <label for="column">#i18n{portal.site.modify_portlet.labelColumn}</label>
                 <@combo name="column" default_value="${portlet.column}" items=portlet_columns_combo />
             </p>
             <p>
-                <label>#i18n{portal.site.modify_portlet.labelStyle}</label>
+                <label for="style">#i18n{portal.site.modify_portlet.labelStyle}</label>
                 <@combo name="style" default_value="${portlet.styleId}" items=portlet_style_combo />
+            </p>
+            <p>
+                <label for="role">#i18n{portal.site.modify_portlet.labelRole}<br /></label>
+                <@combo name="role" default_value="${portlet.role}" items=portlet_role_combo />
             </p>
             <p >
                 <label>#i18n{portal.site.modify_portlet.labelAlias}</label>
@@ -52,18 +56,18 @@
             </p>
             <p>
                 <#if portletType.modifySpecificTemplate != "" >
-                    <#include portletType.modifySpecificTemplate />
+                <#include portletType.modifySpecificTemplate />
                 </#if>
             </p>
             <p>
                 <input type="submit" value="#i18n{portal.site.modify_portlet.buttonValidate}" class="button" />&nbsp;
                 <input type="button" value="#i18n{portal.site.modify_portlet.buttonBack}" onclick="javascript:history.go(-1)"  class="button" />
             </p>
-            
+
             <#if portletType.modifySpecificFormTemplate != "" >
-                <#include portletType.modifySpecificFormTemplate />
+            <#include portletType.modifySpecificFormTemplate />
             </#if>
-            
+
         </form>
     </div>
 </div>

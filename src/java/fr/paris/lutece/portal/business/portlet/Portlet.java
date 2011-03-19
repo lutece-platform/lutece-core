@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.business.portlet;
 
 import fr.paris.lutece.portal.business.XmlContent;
+import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.util.xml.XmlUtil;
@@ -73,6 +74,7 @@ public abstract class Portlet implements XmlContent
     private String _strUrlUpdate;
     private String _strPluginName;
     private String _strHomeClassName;
+    private String _strRole;
     private Timestamp _dateUpdate;
 
     ////////////////////////////////////////////////////////////////////////////
@@ -397,6 +399,29 @@ public abstract class Portlet implements XmlContent
     {
         _strPluginName = strPluginName;
     }
+
+        /**
+     * Gets the page role
+     * @return page's role as a String
+     * @since v1.1
+     */
+    public String getRole(  )
+    {
+        _strRole = ( _strRole == null ) ? Page.ROLE_NONE : _strRole;
+        return _strRole;
+    }
+
+    /**
+     * Sets the page's role
+     * @param strRole The role
+     * @since v1.1
+     */
+    public void setRole( String strRole )
+    {
+        _strRole = ( ( strRole == null ) || ( strRole.equals( "" ) ) ) ? Page.ROLE_NONE : strRole;
+    }
+
+
 
     ////////////////////////////////////////////////////////////////////////////
     // Operations

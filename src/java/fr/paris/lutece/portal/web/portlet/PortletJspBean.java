@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
+import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -75,7 +76,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PORTLET_ORDER_COMBO = "portlet_order_combo";
     private static final String MARK_PORTLET_COLUMNS_COMBO = "portlet_columns_combo";
     private static final String MARK_PORTLET_STYLES_COMBO = "portlet_style_combo";
-
+    private static final String MARK_PORTLET_ROLES_COMBO = "portlet_role_combo";
     // Templates
     private static final String TEMPLATE_CREATE_PORTLET = "admin/portlet/create_portlet.html";
     private static final String TEMPLATE_MODIFY_PORTLET = "admin/portlet/modify_portlet.html";
@@ -173,6 +174,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         String strAcceptAlias = request.getParameter( Parameters.ACCEPT_ALIAS );
         String strAcceptPortletTitle = request.getParameter( Parameters.DISPLAY_PORTLET_TITLE );
         String strPortletTypeId = request.getParameter( Parameters.PORTLET_TYPE_ID );
+        String strRole = request.getParameter(Parameters.ROLE);
 
         strName = strName.replaceAll( "\"", "" );
 
@@ -197,6 +199,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         portlet.setAcceptAlias( nAcceptAlias );
         portlet.setDisplayPortletTitle( nAcceptPortletTitle );
         portlet.setPortletTypeId( strPortletTypeId );
+        portlet.setRole( strRole );
 
         return strErrorKey;
     }
@@ -232,6 +235,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PORTLET_ORDER_COMBO, getOrdersList(  ) );
         model.put( MARK_PORTLET_COLUMNS_COMBO, getColumnsList(  ) );
         model.put( MARK_PORTLET_STYLES_COMBO, PortletHome.getStylesList( strPortletTypeId ) );
+        model.put( MARK_PORTLET_ROLES_COMBO, RoleHome.getRolesList( getUser(  ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PORTLET, locale, model );
 
@@ -265,6 +269,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PORTLET_ORDER_COMBO, getOrdersList(  ) );
         model.put( MARK_PORTLET_COLUMNS_COMBO, getColumnsList(  ) );
         model.put( MARK_PORTLET_STYLES_COMBO, PortletHome.getStylesList( portlet.getPortletTypeId(  ) ) );
+        model.put( MARK_PORTLET_ROLES_COMBO, RoleHome.getRolesList( getUser(  ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PORTLET, getLocale(  ), model );
 

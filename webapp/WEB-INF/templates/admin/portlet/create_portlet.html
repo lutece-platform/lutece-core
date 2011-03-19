@@ -39,6 +39,10 @@
             </p>
             </#if>
             <p>
+                <label>#i18n{portal.site.create_portlet.labelRole}<br /></label>
+                <@combo name="role" default_value="none" items=portlet_role_combo />
+            </p>
+            <p>
                 <label>#i18n{portal.site.create_portlet.labelAlias}</label>
                 <input class="radio" type="radio" name="accept_alias" value="1" > #i18n{portal.site.create_portlet.radioButtonAcceptAliasYes}
                 <input class="radio" type="radio" name="accept_alias" value="0" checked > #i18n{portal.site.create_portlet.radioButtonAcceptAliasNo}

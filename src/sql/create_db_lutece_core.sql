@@ -295,6 +295,7 @@ CREATE TABLE core_portlet (
 	accept_alias smallint default NULL,
 	date_creation timestamp default '0000-00-00 00:00:00' NOT NULL,
 	display_portlet_title int default 0 NOT NULL,
+	role varchar(50) default NULL,
 	PRIMARY KEY (id_portlet)
 );
 

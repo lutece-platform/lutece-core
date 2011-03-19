@@ -364,6 +364,16 @@ public class Page implements RBACResource, AdminWorkgroupResource
     }
 
     /**
+     * Sets the page's role
+     * @param strRole The role
+     * @since v1.1
+     */
+    public void setRole( String strRole )
+    {
+        _strRole = ( ( strRole == null ) || ( strRole.equals( "" ) ) ) ? ROLE_NONE : strRole;
+    }
+
+    /**
      * Returns the theme of the page
      *
      * @return The theme of the page as a string.
@@ -381,16 +391,6 @@ public class Page implements RBACResource, AdminWorkgroupResource
     public void setCodeTheme( String strCodeTheme )
     {
         _strCodeTheme = ( ( strCodeTheme == null ) || ( strCodeTheme.equals( "" ) ) ) ? THEME_DEFAULT : strCodeTheme;
-    }
-
-    /**
-     * Sets the page's role
-     * @param strRole The role
-     * @since v1.1
-     */
-    public void setRole( String strRole )
-    {
-        _strRole = ( ( strRole == null ) || ( strRole.equals( "" ) ) ) ? ROLE_NONE : strRole;
     }
 
     /**

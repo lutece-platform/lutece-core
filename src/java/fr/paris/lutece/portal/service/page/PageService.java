@@ -131,10 +131,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String DOCUMENT_ACTION_URL = "jsp/admin/plugins/document/ManagePublishing.jsp";
     private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
     private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
-
-
-    private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_MAX, DEFAULT_COLUMN_MAX );
-
+    private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt(PROPERTY_COLUMN_MAX, DEFAULT_COLUMN_MAX);
     private ArrayList<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>();
     private ICacheKeyService _cksPage;
     private ICacheKeyService _cksPortlet;
@@ -162,8 +159,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             _cachePortlets.initCache();
         } else
         {
-            CacheService.registerCacheableService( _cachePages.getName(), _cachePages);
-            CacheService.registerCacheableService( _cachePortlets.getName(), _cachePortlets);
+            CacheService.registerCacheableService(_cachePages);
+            CacheService.registerCacheableService(_cachePortlets);
         }
 
         ImageResourceManager.registerProvider(this);
@@ -310,7 +307,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 strPage = buildPageContent(strIdPage, nMode, request, bCanBeCached);
             }
 
-            strPage = setPageBaseUrl( request , strPage );
+            strPage = setPageBaseUrl(request, strPage);
 
 
             return strPage;
@@ -362,38 +359,35 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         // Checks the page role (v1.1)
         String strRole = page.getRole();
 
-        if (!strRole.equals(Page.ROLE_NONE) && SecurityService.isAuthenticationEnable())
+        if (!strRole.equals(Page.ROLE_NONE) && (SecurityService.isAuthenticationEnable()) && (nMode != MODE_ADMIN))
         {
-            if (nMode != MODE_ADMIN)
+            LuteceUser user = SecurityService.getInstance().getRegisteredUser(request);
+
+            if ((user == null) && (!SecurityService.getInstance().isExternalAuthentication()))
             {
-                LuteceUser user = SecurityService.getInstance().getRegisteredUser(request);
+                // The user is not registered and identify itself with the Portal authentication
+                String strAccessControledTemplate = SecurityService.getInstance().getAccessControledTemplate();
+                HashMap<String, Object> model = new HashMap<String, Object>();
+                String strLoginUrl = SecurityService.getInstance().getLoginPageUrl();
+                model.put(MARK_URL_LOGIN, strLoginUrl);
 
-                if ((user == null) && (!SecurityService.getInstance().isExternalAuthentication()))
-                {
-                    // The user is not registered and identify itself with the Portal authentication
-                    String strAccessControledTemplate = SecurityService.getInstance().getAccessControledTemplate();
-                    HashMap<String, Object> model = new HashMap<String, Object>();
-                    String strLoginUrl = SecurityService.getInstance().getLoginPageUrl();
-                    model.put(MARK_URL_LOGIN, strLoginUrl);
+                HtmlTemplate tAccessControled = AppTemplateService.getTemplate(strAccessControledTemplate,
+                        request.getLocale(), model);
 
-                    HtmlTemplate tAccessControled = AppTemplateService.getTemplate(strAccessControledTemplate,
-                            request.getLocale(), model);
+                data.setContent(tAccessControled.getHtml());
 
-                    data.setContent(tAccessControled.getHtml());
+                return PortalService.buildPageContent(nIdPage, data, nMode, request);
+            }
 
-                    return PortalService.buildPageContent(nIdPage, data, nMode, request);
-                }
+            if (!SecurityService.getInstance().isUserInRole(request, strRole))
+            {
+                // The user doesn't have the correct role
+                String strAccessDeniedTemplate = SecurityService.getInstance().getAccessDeniedTemplate();
+                HtmlTemplate tAccessDenied = AppTemplateService.getTemplate(strAccessDeniedTemplate,
+                        request.getLocale());
+                data.setContent(tAccessDenied.getHtml());
 
-                if (!SecurityService.getInstance().isUserInRole(request, strRole))
-                {
-                    // The user doesn't have the correct role
-                    String strAccessDeniedTemplate = SecurityService.getInstance().getAccessDeniedTemplate();
-                    HtmlTemplate tAccessDenied = AppTemplateService.getTemplate(strAccessDeniedTemplate,
-                            request.getLocale());
-                    data.setContent(tAccessDenied.getHtml());
-
-                    return PortalService.buildPageContent(nIdPage, data, nMode, request);
-                }
+                return PortalService.buildPageContent(nIdPage, data, nMode, request);
             }
         }
 
@@ -486,6 +480,14 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             return "";
         }
 
+        String strRole = portlet.getRole();
+        if (!strRole.equals(Page.ROLE_NONE) && (SecurityService.isAuthenticationEnable()) && (nMode != MODE_ADMIN))
+        {
+            if( ! SecurityService.getInstance().isUserInRole(request, strRole))
+            {
+                return "";
+            }
+        }
 
         Map<String, String> mapXslParams = portlet.getXslParams();
 
@@ -513,17 +515,17 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         String strXslUniqueId = XSL_UNIQUE_PREFIX + String.valueOf(portlet.getStyleId());
 
         String strKey = "";
-        if( ((nMode != MODE_ADMIN ) && _cachePortlets.isCacheEnable() ))
+        if (((nMode != MODE_ADMIN) && _cachePortlets.isCacheEnable()))
         {
             LuteceUser user = null;
-            if( SecurityService.isAuthenticationEnable())
+            if (SecurityService.isAuthenticationEnable())
             {
                 user = SecurityService.getInstance().getRegisteredUser(request);
             }
-            mapParams.put( PARAMETER_PORTLET , String.valueOf(portlet.getId()));
-            strKey = _cksPortlet.getKey(mapParams, nMode, user );
+            mapParams.put(PARAMETER_PORTLET, String.valueOf(portlet.getId()));
+            strKey = _cksPortlet.getKey(mapParams, nMode, user);
             String strPortlet = (String) _cachePortlets.getFromCache(strKey);
-            if( strPortlet != null )
+            if (strPortlet != null)
             {
                 return strPortlet;
             }
@@ -535,9 +537,9 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         String strPortletContent = xmlTransformerService.transformBySourceWithXslCache(strPortletXmlContent,
                 portlet.getXslSource(nMode), strXslUniqueId, mapParams, outputProperties);
 
-        if( _cachePortlets.isCacheEnable() )
+        if (_cachePortlets.isCacheEnable())
         {
-            _cachePortlets.putInCache( strKey, strPortletContent );
+            _cachePortlets.putInCache(strKey, strPortletContent);
         }
 
         // Add the admin buttons for portlet management on admin mode
@@ -547,7 +549,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         }
         return strPortletContent;
     }
-
 
     /**
      * Build the Cache HashMap key for pages Goal is to be able to have a
@@ -585,7 +586,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         _cksPage = cacheKeyService;
     }
 
-
     /**
      * @param cacheKeyService the _cacheKeyService to set
      */
@@ -593,7 +593,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     {
         _cksPortlet = cacheKeyService;
     }
-
 
     /**
      * Remove a page from the cache
@@ -770,7 +769,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 && isAuthorizedAdminPageByWorkGroup(nIdPage, user));
     }
 
-
     private String addAdminButtons(HttpServletRequest request, Portlet portlet)
     {
 
@@ -843,19 +841,18 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         return mapModifyParam;
     }
 
-    private String setPageBaseUrl(HttpServletRequest request, String strPage )
+    private String setPageBaseUrl(HttpServletRequest request, String strPage)
     {
-            String strBase = AppPathService.getBaseUrl(request);
-            boolean bBefore = strPage.contains(strBase);
+        String strBase = AppPathService.getBaseUrl(request);
+        boolean bBefore = strPage.contains(strBase);
 
-            strPage = strPage.replaceFirst("<base href=\".*\" >", "<base href=\"" + strBase + "\" >");
+        strPage = strPage.replaceFirst("<base href=\".*\" >", "<base href=\"" + strBase + "\" >");
 
-            boolean bAfter = strPage.contains(strBase);
+        boolean bAfter = strPage.contains(strBase);
 
-            AppLogService.debug("Replacement of <base href=\"***\"> : base=" + strBase + ", before=" + bBefore
-                    + ", after=" + bAfter);
+        AppLogService.debug("Replacement of <base href=\"***\"> : base=" + strBase + ", before=" + bBefore
+                + ", after=" + bAfter);
 
-            return strPage;
+        return strPage;
     }
-
 }

@@ -99,46 +99,6 @@ public class SystemJspBeanTest extends LuteceTestCase
         instance.getFileView( request );
     }
 
-    /**
-     * Test of getManageCaches method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
-     */
-    public void testGetManageCaches(  ) throws AccessDeniedException
-    {
-        System.out.println( "getManageCaches" );
-
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_CACHE_MANAGEMENT );
-
-        SystemJspBean instance = new SystemJspBean(  );
-        instance.init( request, SystemJspBean.RIGHT_CACHE_MANAGEMENT );
-        instance.getManageCaches( request );
-    }
-
-    /**
-     * Test of doResetCaches method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
-     */
-    public void testDoResetCaches(  )
-    {
-        System.out.println( "doResetCaches" );
-
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_CACHE_MANAGEMENT );
-        SystemJspBean.doResetCaches(  );
-    }
-
-    /**
-     * Test of doReloadProperties method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
-     */
-    public void testDoReloadProperties(  )
-    {
-        System.out.println( "doReloadProperties" );
-
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_CACHE_MANAGEMENT );
-
-        SystemJspBean instance = new SystemJspBean(  );
-        instance.doReloadProperties(  );
-    }
 
     /**
      * Test of getManageProperties method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
