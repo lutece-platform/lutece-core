@@ -5,7 +5,9 @@
             <th>#i18n{portal.system.manage_caches.columnTitleName}</th>
             <th>#i18n{portal.system.manage_caches.columnTitleCacheEnable}</th>
             <th>#i18n{portal.system.manage_caches.columnTitleCacheSize}</th>
+            <th>#i18n{portal.system.manage_caches.columnTitleActions}</th>
         </tr>
+        <#assign id = 0>
         <#list services_list as service>
         <tr>
             <td>${service.name}</td>
@@ -17,7 +19,19 @@
                 </#if>
             </td>
             <td>${service.cacheSize}</td>
+            <td>
+                <a href="jsp/admin/system/DoResetCaches.jsp?id_cache=${id}">
+                    <img src="images/admin/skin/actions/clear.png" alt="#i18n{portal.system.manage_caches.actionClear}" title="#i18n{portal.system.manage_caches.actionClear}">
+                </a>
+                <a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}">
+                    <img src="images/admin/skin/actions/toggle_on_off.png" alt="#i18n{portal.system.manage_caches.actionToggle}" title="#i18n{portal.system.manage_caches.actionToggle}">
+                </a>
+                <a href="jsp/admin/system/CacheInfos.jsp?id_cache=${id}">
+                    <img src="images/admin/skin/actions/key.png" alt="#i18n{portal.system.manage_caches.actionViewKeys}" title="#i18n{portal.system.manage_caches.actionViewKeys}">
+                </a>
+            </td>
         </tr>
+        <#assign id = id + 1>
         </#list>
     </table>
     <form method="post"  action="jsp/admin/system/DoResetCaches.jsp">

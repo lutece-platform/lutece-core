@@ -4,6 +4,6 @@
 
 <%
     cache.init( request, cache.RIGHT_CACHE_MANAGEMENT );
-    response.sendRedirect( cache.doResetCaches());
+    response.sendRedirect( cache.doResetCaches( request ));
 %>
 

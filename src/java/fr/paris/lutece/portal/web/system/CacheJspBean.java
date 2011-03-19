@@ -40,10 +40,12 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import java.util.ArrayList;
 
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -65,6 +67,8 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     // Template Files path
     private static final String TEMPLATE_MANAGE_CACHES = "admin/system/manage_caches.html";
     private static final String TEMPLATE_CACHE_INFOS = "admin/system/cache_infos.html";
+
+    private static final String PARAMETER_ID_CACHE = "id_cache";
     /**
      * Returns the page to manage caches
      * @param request The HttpServletRequest
@@ -85,10 +89,20 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      *
      * @return The URL to display when the process is done.
      */
-    public static String doResetCaches(  )
+    public static String doResetCaches( HttpServletRequest request )
     {
-        PortalService.resetCache(  );
-        AppTemplateService.resetCache(  );
+        String strCacheIndex = request.getParameter(PARAMETER_ID_CACHE);
+        if( strCacheIndex != null )
+        {
+            int nCacheIndex = Integer.parseInt(strCacheIndex);
+            CacheableService cs = CacheService.getCacheableServicesList(  ).get(nCacheIndex);
+            cs.resetCache();
+        }
+        else
+        {
+            PortalService.resetCache(  );
+            AppTemplateService.resetCache(  );
+        }
 
         return JSP_MANAGE_CACHES;
     }
@@ -112,12 +126,43 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      */
     public String getCacheInfos( HttpServletRequest request )
     {
+        List<CacheableService> list;
+        String strCacheIndex = request.getParameter(PARAMETER_ID_CACHE);
+        if( strCacheIndex != null )
+        {
+            int nCacheIndex = Integer.parseInt(strCacheIndex);
+            CacheableService cs = CacheService.getCacheableServicesList(  ).get(nCacheIndex);
+            list = new ArrayList<CacheableService>();
+            list.add(cs);
+        }
+        else
+        {
+            list = CacheService.getCacheableServicesList(  );
+        }
         HashMap<String, Collection<CacheableService>> model = new HashMap<String, Collection<CacheableService>>(  );
-        model.put( MARK_SERVICES_LIST, CacheService.getCacheableServicesList(  ) );
+        model.put( MARK_SERVICES_LIST, list );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CACHE_INFOS, getLocale(  ), model );
 
         return getAdminPage( template.getHtml(  ) );
     }
+
+    /**
+     * Process cache toggle on/off
+     *
+     * @return The URL to display when the process is done.
+     */
+    public static String doToggleCache( HttpServletRequest request )
+    {
+        String strCacheIndex = request.getParameter(PARAMETER_ID_CACHE);
+        if( strCacheIndex != null )
+        {
+            int nCacheIndex = Integer.parseInt(strCacheIndex);
+            CacheableService cs = CacheService.getCacheableServicesList(  ).get(nCacheIndex);
+            cs.enableCache( ! cs.isCacheEnable() );
+        }
+        return JSP_MANAGE_CACHES;
+    }
+
 
 }

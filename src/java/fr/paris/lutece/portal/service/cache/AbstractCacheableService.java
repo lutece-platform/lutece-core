@@ -55,21 +55,34 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     private Logger _logger = Logger.getLogger( "lutece.cache" );
 
 
+    /**
+     * Init the cache. Should be called by the service at its initialization.
+     */
     public void initCache()
     {
         initCache( getName() );
     }
+
     /**
      * Init the cache. Should be called by the service at its initialization.
      * @param strCacheName The cache name
      */
     public void initCache( String strCacheName )
     {
-        _cache = CacheService.getInstance(  ).createCache( strCacheName );
+        createCache( strCacheName );
         _bEnable = true;
-        _cache.getCacheEventNotificationService().registerListener(this);
-        CacheService.registerCacheableService( getName(), this );
+        CacheService.registerCacheableService( this );
 
+    }
+
+    /**
+     * Create a cache
+     * @param strCacheName The cache name
+     */
+    private void createCache( String strCacheName )
+    {
+        _cache = CacheService.getInstance(  ).createCache( strCacheName );
+        _cache.getCacheEventNotificationService().registerListener(this);
     }
 
     /**
@@ -125,11 +138,14 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     public void enableCache( boolean bEnable )
     {
         _bEnable = bEnable;
-        if( ! _bEnable)
+        if( (! _bEnable) && (_cache != null ))
         {
             _cache.removeAll();
         }
-
+        if( ( _bEnable ) && ( _cache == null ))
+        {
+            createCache( getName());
+        }
     }
 
     /**

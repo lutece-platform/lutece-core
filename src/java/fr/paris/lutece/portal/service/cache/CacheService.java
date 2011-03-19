@@ -41,9 +41,8 @@ import net.sf.ehcache.CacheManager;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -57,7 +56,7 @@ public final class CacheService
     private static CacheManager _manager;
 
     // Cacheable Services registry
-    private static Map<String, CacheableService> _mapCacheableServicesRegistry = new HashMap<String, CacheableService>(  );
+    private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<CacheableService>();
 
     /** Creates a new instance of CacheService */
     private CacheService(  )
@@ -116,14 +115,24 @@ public final class CacheService
         _manager.shutdown(  );
     }
 
-        /**
+    /**
      * Registers a new CacheableService
+     * @deprecated ated
      * @param strName The name
      * @param cs The CacheableService
      */
     public static void registerCacheableService( String strName, CacheableService cs )
     {
-        _mapCacheableServicesRegistry.put( strName, cs );
+        registerCacheableService( cs );
+    }
+
+    /**
+     * Registers a new CacheableService
+     * @param cs The CacheableService
+     */
+    public static void registerCacheableService( CacheableService cs )
+    {
+        _listCacheableServicesRegistry.add( cs );
     }
 
     /**
@@ -131,9 +140,9 @@ public final class CacheService
      *
      * @return A collection containing all registered Cacheable services
      */
-    public static Collection<CacheableService> getCacheableServicesList(  )
+    public static List<CacheableService> getCacheableServicesList(  )
     {
-        return _mapCacheableServicesRegistry.values(  );
+        return _listCacheableServicesRegistry;
     }
 
 
