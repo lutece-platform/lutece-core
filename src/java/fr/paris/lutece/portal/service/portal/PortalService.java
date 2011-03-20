@@ -113,14 +113,12 @@ public final class PortalService
 
     /**
      * Reset the cache
+     * @deprecated use CacheService.resetCaches()
      */
+    @Deprecated
     public static void resetCache(  )
     {
-        // Reset cache
-        for ( CacheableService cs : getCacheableServicesList(  ) )
-        {
-            cs.resetCache(  );
-        }
+        CacheService.resetCaches();
     }
 
     /**
@@ -169,6 +167,7 @@ public final class PortalService
      * @param strName The name
      * @param cs The CacheableService
      */
+    @Deprecated
     public static void registerCacheableService( String strName, CacheableService cs )
     {
         CacheService.registerCacheableService( strName, cs );
@@ -180,6 +179,7 @@ public final class PortalService
      *
      * @return A collection containing all registered Cacheable services
      */
+    @Deprecated
     public static Collection<CacheableService> getCacheableServicesList(  )
     {
         return CacheService.getCacheableServicesList();

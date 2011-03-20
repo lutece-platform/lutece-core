@@ -108,6 +108,18 @@ public final class CacheService
     }
 
     /**
+     * Reset all caches
+     */
+    public static void resetCaches()
+    {
+        // Reset cache
+        for ( CacheableService cs : _listCacheableServicesRegistry )
+        {
+            cs.resetCache(  );
+        }
+    }
+
+    /**
      * Shutdown the cache service and the cache manager. Should be called when the webapp is stopped.
      */
     public void shutdown(  )
@@ -117,10 +129,11 @@ public final class CacheService
 
     /**
      * Registers a new CacheableService
-     * @deprecated ated
+     * @deprecated use registerCacheableService( CacheableService cs )
      * @param strName The name
      * @param cs The CacheableService
      */
+    @Deprecated
     public static void registerCacheableService( String strName, CacheableService cs )
     {
         registerCacheableService( cs );
