@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.cache;
 
 import fr.paris.lutece.portal.service.util.LuteceService;
+
 import java.util.List;
 
 
@@ -67,10 +68,9 @@ public interface CacheableService extends LuteceService
      */
     void enableCache( boolean bEnable );
 
-
     /**
      * Gets all keys in the cache
      * @return The List
      */
-    List<String> getKeys();
+    List<String> getKeys(  );
 }

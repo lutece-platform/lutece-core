@@ -49,7 +49,7 @@ public class UploadUtilTest extends LuteceTestCase
     {
         System.out.println( "cleanFileName" );
 
-        String strName = "~héllo&#'\"()[]$*/wôrld.file";
+        String strName = "~hï¿½llo&#'\"()[]$*/wï¿½rld.file";
 
         String expResult = "_hello___________world.file";
         String result = UploadUtil.cleanFileName( strName );
@@ -63,7 +63,7 @@ public class UploadUtilTest extends LuteceTestCase
     {
         System.out.println( "cleanFilePath" );
 
-        String strPath = "~héllo&#'\"()[]$*/wôrld.file";
+        String strPath = "~hï¿½llo&#'\"()[]$*/wï¿½rld.file";
 
         String expResult = "_hello__________/world.file";
         String result = UploadUtil.cleanFilePath( strPath );

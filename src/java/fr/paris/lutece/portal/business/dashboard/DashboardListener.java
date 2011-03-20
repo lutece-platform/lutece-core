@@ -33,12 +33,12 @@
  */
 package fr.paris.lutece.portal.business.dashboard;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 
 
 /**

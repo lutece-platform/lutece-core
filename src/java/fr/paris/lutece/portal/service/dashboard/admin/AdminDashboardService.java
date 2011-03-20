@@ -33,14 +33,6 @@
  */
 package fr.paris.lutece.portal.service.dashboard.admin;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardFactory;
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardFilter;
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardHome;
@@ -49,6 +41,14 @@ import fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

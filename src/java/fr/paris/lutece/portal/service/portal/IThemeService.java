@@ -33,55 +33,56 @@
  */
 package fr.paris.lutece.portal.service.portal;
 
+import fr.paris.lutece.portal.business.style.Theme;
+import fr.paris.lutece.portal.business.style.ThemeHome;
+import fr.paris.lutece.util.ReferenceList;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.paris.lutece.portal.business.style.Theme;
-import fr.paris.lutece.portal.business.style.ThemeHome;
-import fr.paris.lutece.util.ReferenceList;
 
 /**
- * 
+ *
  * IThemeService
  *
  */
 public interface IThemeService
 {
-	/**
-	 * Get the global theme
-	 * @return the default theme
-	 */
-	Theme getGlobalTheme(  );
-	
-	/**
-	 * Set the global theme
-	 * @param strGlobalTheme the global theme
-	 */
-	void setGlobalTheme( String strGlobalTheme );
-	
-	/**
-	 * Get the theme given the <code>code_theme</code>
-	 * @param strTheme the <code>code_theme</code>
-	 * @return the theme
-	 */
-	Theme getTheme( String strTheme );
-	
-	/**
-	 * Get all themes
-	 * @return a list of Theme
-	 */
-	ReferenceList getThemes(  );
-	
-	/**
-     * Gets the theme selected by the user
-     *
-     * @param request The HTTP request
-     * @return The theme if available otherwise null
+    /**
+     * Get the global theme
+     * @return the default theme
      */
+    Theme getGlobalTheme(  );
+
+    /**
+     * Set the global theme
+     * @param strGlobalTheme the global theme
+     */
+    void setGlobalTheme( String strGlobalTheme );
+
+    /**
+     * Get the theme given the <code>code_theme</code>
+     * @param strTheme the <code>code_theme</code>
+     * @return the theme
+     */
+    Theme getTheme( String strTheme );
+
+    /**
+     * Get all themes
+     * @return a list of Theme
+     */
+    ReferenceList getThemes(  );
+
+    /**
+    * Gets the theme selected by the user
+    *
+    * @param request The HTTP request
+    * @return The theme if available otherwise null
+    */
     String getUserTheme( HttpServletRequest request );
-    
+
     /**
      * Creation of an instance of a theme
      *

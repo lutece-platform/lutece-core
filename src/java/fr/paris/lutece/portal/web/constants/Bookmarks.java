@@ -88,14 +88,14 @@ public class Bookmarks
      public static final String PORTLETS_LIST = "@portlets_list@";
      public static final String PAGE_INEXISTENT_MESSAGE = "@page_message@";
      public static final String PAGE_ID_OLD = "@page_id_old@";
-    
+
      // Added in v1.3
      public static final String CHECKED_DISPLAY_PORTLET_TITLE_YES = "@checked_display_portlet_title_yes@";
      public static final String CHECKED_DISPLAY_PORTLET_TITLE_NO = "@checked_display_portlet_title_no@";
-    
+
      // to retrieve the webapp url when using linkservice
      public static final String WEBAPP_PATH_FOR_LINKSERVICE = "@webapp_path_for_linkservice@";
-    
+
      // Portlets
      public static final String FORM_PORTLET_SPECIFIC_FORM = "@portlet_specific_form_form@";
      public static final String FORM_PORTLET_SPECIFIC = "@portlet_specific_form@";
@@ -109,10 +109,10 @@ public class Bookmarks
      public static final String PORTAL_NAME = "@portal_name@";
      public static final String PORTALS_LIST = "@portals_list@";
      public static final String BUTTON_CREATE_ENTITY = "@button_create_entity@";
-    
+
      // Level
      public static final String RIGHT_DESCRIPTION = "@right_description@";
-    
+
      //User
      public static final String USERS_LIST = "@users_list@";
      public static final String USER_ID = "@user_id@";
@@ -139,18 +139,18 @@ public class Bookmarks
     //Messages
     /*   public static final String MESSAGE_TEXT = "@text@";
        public static final String MESSAGE_URL = "@url@";
-    
+
        // Stylesheets
        public static final String STYLESHEET_ID = "@stylesheet_id@";
        public static final String STYLESHEET_NAME = "@stylesheet_name@";
        public static final String STYLESHEET_FILE = "@stylesheet_file@";
        public static final String STYLESHEET_LIST = "@stylesheets_list@";
-    
+
        //Styles
        public static final String STYLE_ID = "@style_id@";
        public static final String DELETE_MESSAGE_PORTLET = "@message_portlet@";
        public static final String DELETE_MESSAGE_STYLESHEET = "@message_stylesheet@";
-    
+
        //Modes
        public static final String MODE_ID = "@mode_id@";
        public static final String MODE_DESCRIPTION = "@mode_description@";

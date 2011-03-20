@@ -82,17 +82,19 @@ public class Page implements RBACResource, AdminWorkgroupResource
     /**
      * Initialize the Page
      */
-/* FIXME PageRoleRemovalListener should not be registered here
-    public static void init(  )
-    {
-        // Create removal listeners and register them
-        if ( _listenerRole == null )
+
+    /* FIXME PageRoleRemovalListener should not be registered here
+        public static void init(  )
         {
-            _listenerRole = new PageRoleRemovalListener(  );
-            RoleRemovalListenerService.getService(  ).registerListener( _listenerRole );
+            // Create removal listeners and register them
+            if ( _listenerRole == null )
+            {
+                _listenerRole = new PageRoleRemovalListener(  );
+                RoleRemovalListenerService.getService(  ).registerListener( _listenerRole );
+            }
         }
-    }
-*/
+    */
+
     /**
      * Sets the identifier of the page
      *

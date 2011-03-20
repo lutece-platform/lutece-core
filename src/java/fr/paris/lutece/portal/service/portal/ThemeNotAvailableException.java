@@ -35,16 +35,15 @@ package fr.paris.lutece.portal.service.portal;
 
 
 /**
- * 
- * This Exception should be thrown when the using plugin theme 
+ *
+ * This Exception should be thrown when the using plugin theme
  * functionnalities.
- * 
+ *
  */
 public class ThemeNotAvailableException extends Exception
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7659481744229591993L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -7659481744229591993L;
 }

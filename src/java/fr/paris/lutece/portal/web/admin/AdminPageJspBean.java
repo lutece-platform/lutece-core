@@ -46,8 +46,8 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
-import fr.paris.lutece.portal.service.page.PageResourceIdService;
 import fr.paris.lutece.portal.service.page.IPageService;
+import fr.paris.lutece.portal.service.page.PageResourceIdService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
@@ -144,8 +144,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_INVALID_PAGE_ID = "portal.site.message.pageIdInvalid";
     private static final String MESSAGE_PAGE_ID_CHILDPAGE = "portal.site.message.pageIdChildPage";
     private static final String MESSAGE_SAME_PAGE_ID = "portal.site.message.pageSameId";
-
     private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
+
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *

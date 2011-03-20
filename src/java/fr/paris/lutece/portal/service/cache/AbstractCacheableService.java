@@ -34,15 +34,17 @@
 package fr.paris.lutece.portal.service.cache;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
-import java.util.ArrayList;
-import java.util.List;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.event.CacheEventListener;
+
 import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -54,13 +56,12 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     private boolean _bEnable;
     private Logger _logger = Logger.getLogger( "lutece.cache" );
 
-
     /**
      * Init the cache. Should be called by the service at its initialization.
      */
-    public void initCache()
+    public void initCache(  )
     {
-        initCache( getName() );
+        initCache( getName(  ) );
     }
 
     /**
@@ -72,7 +73,6 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
         createCache( strCacheName );
         _bEnable = true;
         CacheService.registerCacheableService( this );
-
     }
 
     /**
@@ -82,7 +82,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     private void createCache( String strCacheName )
     {
         _cache = CacheService.getInstance(  ).createCache( strCacheName );
-        _cache.getCacheEventNotificationService().registerListener(this);
+        _cache.getCacheEventNotificationService(  ).registerListener( this );
     }
 
     /**
@@ -138,13 +138,15 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     public void enableCache( boolean bEnable )
     {
         _bEnable = bEnable;
-        if( (! _bEnable) && (_cache != null ))
+
+        if ( ( !_bEnable ) && ( _cache != null ) )
         {
-            _cache.removeAll();
+            _cache.removeAll(  );
         }
-        if( ( _bEnable ) && ( _cache == null ))
+
+        if ( ( _bEnable ) && ( _cache == null ) )
         {
-            createCache( getName());
+            createCache( getName(  ) );
         }
     }
 
@@ -188,18 +190,18 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     {
         return _cache;
     }
-    
+
     /**
      * {@inheritDoc }
      */
-    public List<String> getKeys()
+    public List<String> getKeys(  )
     {
-        if( _cache != null )
+        if ( _cache != null )
         {
-            return _cache.getKeys();
-
+            return _cache.getKeys(  );
         }
-        return new ArrayList<String>();
+
+        return new ArrayList<String>(  );
     }
 
     /**
@@ -218,14 +220,15 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     public void notifyElementExpired( Ehcache cache, Element element )
     {
         // Remove the element from the cache
-        _cache.remove( element.getKey() );
-        _logger.debug( "Object removed from the cache : " + cache.getName() + " - key : " + element.getKey() );
+        _cache.remove( element.getKey(  ) );
+        _logger.debug( "Object removed from the cache : " + cache.getName(  ) + " - key : " + element.getKey(  ) );
     }
 
     /**
      * {@inheritDoc }
      */
-    public void notifyElementRemoved(Ehcache ehch, Element elmnt) throws CacheException
+    public void notifyElementRemoved( Ehcache ehch, Element elmnt )
+        throws CacheException
     {
         // Do nothing
     }
@@ -233,7 +236,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
-    public void notifyElementEvicted(Ehcache ehch, Element elmnt)
+    public void notifyElementEvicted( Ehcache ehch, Element elmnt )
     {
         // Do nothing
     }
@@ -241,7 +244,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
-    public void notifyRemoveAll(Ehcache ehch)
+    public void notifyRemoveAll( Ehcache ehch )
     {
         // Do nothing
     }
@@ -249,7 +252,8 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
-    public void notifyElementPut(Ehcache ehch, Element elmnt) throws CacheException
+    public void notifyElementPut( Ehcache ehch, Element elmnt )
+        throws CacheException
     {
         // Do nothing
     }
@@ -257,7 +261,8 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
-    public void notifyElementUpdated(Ehcache ehch, Element elmnt) throws CacheException
+    public void notifyElementUpdated( Ehcache ehch, Element elmnt )
+        throws CacheException
     {
         // Do nothing
     }
@@ -265,12 +270,8 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
-    public void dispose()
+    public void dispose(  )
     {
         // Do nothing
     }
-
-
-
-
 }

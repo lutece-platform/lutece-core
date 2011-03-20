@@ -31,20 +31,20 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.page;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
+
 import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * Page Service Interface
  */
 public interface IPageService
 {
-
     /**
      * Build the page content.
      *
@@ -54,7 +54,8 @@ public interface IPageService
      * @return The HTML code of the page as a String.
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    String getPageContent(int nIdPage, int nMode, HttpServletRequest request) throws SiteMessageException;
+    String getPageContent( int nIdPage, int nMode, HttpServletRequest request )
+        throws SiteMessageException;
 
     /**
      * Returns the page for a given ID. The page is built using XML data of each
@@ -66,7 +67,8 @@ public interface IPageService
      * @return The HTML code of the page as a String.
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-     String getPage( String strIdPage, int nMode, HttpServletRequest request ) throws SiteMessageException;
+    String getPage( String strIdPage, int nMode, HttpServletRequest request )
+        throws SiteMessageException;
 
     /**
      * Returns the page for a given ID. The page is built using XML data of each
@@ -77,31 +79,32 @@ public interface IPageService
      * @return The HTML code of the page as a String.
      * @throws SiteMessageException If a message shouldbe displayed
      */
-    public String getPage(HttpServletRequest request, int nMode) throws SiteMessageException;
+    public String getPage( HttpServletRequest request, int nMode )
+        throws SiteMessageException;
 
-     /**
-     * Invalidate Page Content
-     * @param nPageId The Page ID
-     */
-    void invalidateContent(int nPageId);
+    /**
+    * Invalidate Page Content
+    * @param nPageId The Page ID
+    */
+    void invalidateContent( int nPageId );
 
     /**
      * Update the page
      * @param page The page
      */
-    void updatePage(Page page);
+    void updatePage( Page page );
 
     /**
      * Remove the page
      * @param nPageId The page's id
      */
-    void removePage(int nPageId);
+    void removePage( int nPageId );
 
     /**
      * Create a page
      * @param page The page to create
      */
-    void createPage(Page page);
+    void createPage( Page page );
 
     /**
      * Check if authorized
@@ -110,12 +113,11 @@ public interface IPageService
      * @param user The user
      * @return True if authorized, otherwise false
      */
-    boolean isAuthorizedAdminPage(int nId, String strPermission, AdminUser user);
+    boolean isAuthorizedAdminPage( int nId, String strPermission, AdminUser user );
 
     /**
      * Return the ressource id type
      * @return
      */
-    String getResourceTypeId();
-
+    String getResourceTypeId(  );
 }

@@ -111,19 +111,19 @@ public final class SpringContextService
     {
         // Try to get the context from the cache
         ApplicationContext context = (ApplicationContext) _mapContext.get( strContextName );
-    
+
         if ( context == null )
         {
             // If not found then load the context from the XML file
             String strContextFilePath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
-    
+
             if ( !strContextName.equals( CORE ) )
             {
                 strContextFilePath += DIR_PLUGINS;
             }
-    
+
             String strContextFile = strContextFilePath + strContextName + SUFFIX_CONTEXT_FILE;
-    
+
             try
             {
                 context = new FileSystemXmlApplicationContext( "file:" + strContextFile );
@@ -136,10 +136,10 @@ public final class SpringContextService
             {
                 _mapContext.put( strContextName, context );
             }
-    
+
             _mapContext.put( strContextName, context );
         }
-    
+
         return context;
     }*/
 

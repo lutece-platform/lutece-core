@@ -40,9 +40,8 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.util.ArrayList;
-
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -67,8 +66,8 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     // Template Files path
     private static final String TEMPLATE_MANAGE_CACHES = "admin/system/manage_caches.html";
     private static final String TEMPLATE_CACHE_INFOS = "admin/system/cache_infos.html";
-
     private static final String PARAMETER_ID_CACHE = "id_cache";
+
     /**
      * Returns the page to manage caches
      * @param request The HttpServletRequest
@@ -91,12 +90,13 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      */
     public static String doResetCaches( HttpServletRequest request )
     {
-        String strCacheIndex = request.getParameter(PARAMETER_ID_CACHE);
-        if( strCacheIndex != null )
+        String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
+
+        if ( strCacheIndex != null )
         {
-            int nCacheIndex = Integer.parseInt(strCacheIndex);
-            CacheableService cs = CacheService.getCacheableServicesList(  ).get(nCacheIndex);
-            cs.resetCache();
+            int nCacheIndex = Integer.parseInt( strCacheIndex );
+            CacheableService cs = CacheService.getCacheableServicesList(  ).get( nCacheIndex );
+            cs.resetCache(  );
         }
         else
         {
@@ -120,25 +120,27 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * 
+     *
      * @param request
      * @return
      */
     public String getCacheInfos( HttpServletRequest request )
     {
         List<CacheableService> list;
-        String strCacheIndex = request.getParameter(PARAMETER_ID_CACHE);
-        if( strCacheIndex != null )
+        String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
+
+        if ( strCacheIndex != null )
         {
-            int nCacheIndex = Integer.parseInt(strCacheIndex);
-            CacheableService cs = CacheService.getCacheableServicesList(  ).get(nCacheIndex);
-            list = new ArrayList<CacheableService>();
-            list.add(cs);
+            int nCacheIndex = Integer.parseInt( strCacheIndex );
+            CacheableService cs = CacheService.getCacheableServicesList(  ).get( nCacheIndex );
+            list = new ArrayList<CacheableService>(  );
+            list.add( cs );
         }
         else
         {
             list = CacheService.getCacheableServicesList(  );
         }
+
         HashMap<String, Collection<CacheableService>> model = new HashMap<String, Collection<CacheableService>>(  );
         model.put( MARK_SERVICES_LIST, list );
 
@@ -154,15 +156,15 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      */
     public static String doToggleCache( HttpServletRequest request )
     {
-        String strCacheIndex = request.getParameter(PARAMETER_ID_CACHE);
-        if( strCacheIndex != null )
+        String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
+
+        if ( strCacheIndex != null )
         {
-            int nCacheIndex = Integer.parseInt(strCacheIndex);
-            CacheableService cs = CacheService.getCacheableServicesList(  ).get(nCacheIndex);
-            cs.enableCache( ! cs.isCacheEnable() );
+            int nCacheIndex = Integer.parseInt( strCacheIndex );
+            CacheableService cs = CacheService.getCacheableServicesList(  ).get( nCacheIndex );
+            cs.enableCache( !cs.isCacheEnable(  ) );
         }
+
         return JSP_MANAGE_CACHES;
     }
-
-
 }

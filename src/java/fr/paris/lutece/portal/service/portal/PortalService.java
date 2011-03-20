@@ -101,8 +101,7 @@ public final class PortalService
 
     // Content Service registry
     private static Map<String, ContentService> _mapContentServicesRegistry = new HashMap<String, ContentService>(  );
-    private static IPageService _pageService = (IPageService) SpringContextService.getBean("pageService");
-
+    private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
 
     /**
      * Private Constructor
@@ -118,7 +117,7 @@ public final class PortalService
     @Deprecated
     public static void resetCache(  )
     {
-        CacheService.resetCaches();
+        CacheService.resetCaches(  );
     }
 
     /**
@@ -148,7 +147,6 @@ public final class PortalService
     public static void registerContentService( String strName, ContentService cs )
     {
         _mapContentServicesRegistry.put( strName, cs );
-
     }
 
     /**
@@ -182,7 +180,7 @@ public final class PortalService
     @Deprecated
     public static Collection<CacheableService> getCacheableServicesList(  )
     {
-        return CacheService.getCacheableServicesList();
+        return CacheService.getCacheableServicesList(  );
     }
 
     /**

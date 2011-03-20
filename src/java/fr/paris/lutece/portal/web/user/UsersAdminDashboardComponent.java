@@ -33,10 +33,6 @@
  */
 package fr.paris.lutece.portal.web.user;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -45,6 +41,10 @@ import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

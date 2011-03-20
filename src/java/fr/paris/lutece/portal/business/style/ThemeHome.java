@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.business.style;
 
-import java.util.Collection;
-
 import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.util.ReferenceList;
+
+import java.util.Collection;
 
 
 /**
@@ -63,8 +63,8 @@ public final class ThemeHome
      */
     public static Theme create( Theme theme )
     {
-		return ThemesService.create( theme );
-    	
+        return ThemesService.create( theme );
+
         /*_dao.insert( theme );
 
         return theme;*/
@@ -78,8 +78,8 @@ public final class ThemeHome
      */
     public static Theme update( Theme theme )
     {
-    	return ThemesService.update( theme );
-    	
+        return ThemesService.update( theme );
+
         /*_dao.store( theme );
 
         return theme;*/
@@ -92,8 +92,8 @@ public final class ThemeHome
      */
     public static void remove( String strCodeTheme )
     {
-    	ThemesService.remove( strCodeTheme );
-    	
+        ThemesService.remove( strCodeTheme );
+
         //_dao.delete( strCodeTheme );
     }
 
@@ -105,8 +105,8 @@ public final class ThemeHome
      */
     public static Theme findByPrimaryKey( String strCodeTheme )
     {
-    	return ThemesService.getGlobalTheme( strCodeTheme );
-    	
+        return ThemesService.getGlobalTheme( strCodeTheme );
+
         //return _dao.load( strCodeTheme );
     }
 
@@ -117,8 +117,8 @@ public final class ThemeHome
      */
     public static Collection<Theme> getThemesList(  )
     {
-    	return ThemesService.getThemesList(  );
-    	
+        return ThemesService.getThemesList(  );
+
         //return _dao.selectThemesList(  );
     }
 
@@ -129,8 +129,8 @@ public final class ThemeHome
      */
     public static ReferenceList getThemes(  )
     {
-    	return ThemesService.getThemes(  );
-    	
+        return ThemesService.getThemes(  );
+
         //return _dao.getThemesList(  );
     }
 
@@ -142,9 +142,9 @@ public final class ThemeHome
      */
     public static boolean isValidTheme( String strCodeTheme )
     {
-    	return ThemesService.isValidTheme( strCodeTheme );
-    	
-    	/*Theme theme = ThemeHome.findByPrimaryKey( strCodeTheme );
+        return ThemesService.isValidTheme( strCodeTheme );
+
+        /*Theme theme = ThemeHome.findByPrimaryKey( strCodeTheme );
 
         if ( theme != null )
         {
@@ -160,8 +160,8 @@ public final class ThemeHome
      */
     public static void setGlobalTheme( String strGlobalTheme )
     {
-    	ThemesService.setGlobalTheme( strGlobalTheme );
-    	
+        ThemesService.setGlobalTheme( strGlobalTheme );
+
         //_dao.setGlobalTheme( strGlobalTheme );
     }
 
@@ -171,8 +171,8 @@ public final class ThemeHome
      */
     public static String getGlobalTheme(  )
     {
-    	return ThemesService.getGlobalTheme(  );
-    	
+        return ThemesService.getGlobalTheme(  );
+
         //return _dao.getGlobalTheme(  );
     }
 }

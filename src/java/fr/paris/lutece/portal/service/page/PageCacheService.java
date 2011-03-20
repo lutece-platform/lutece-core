@@ -31,13 +31,15 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.page;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
-import java.util.concurrent.ConcurrentHashMap;
+
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
+
+import java.util.concurrent.ConcurrentHashMap;
+
 
 /**
  * Page Cache Service
@@ -47,18 +49,18 @@ public class PageCacheService extends AbstractCacheableService
     private static final String SERVICE_NAME = "Page Cache Service";
 
     // Performance patch
-    private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<String, String>();
+    private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<String, String>(  );
 
-    public String getName()
+    public String getName(  )
     {
         return SERVICE_NAME;
     }
 
     String getKey( String strKey )
     {
-        String keyInMemory = _keyMemory.putIfAbsent(strKey, strKey);
+        String keyInMemory = _keyMemory.putIfAbsent( strKey, strKey );
 
-        if (keyInMemory != null)
+        if ( keyInMemory != null )
         {
             return keyInMemory;
         }
@@ -73,9 +75,9 @@ public class PageCacheService extends AbstractCacheableService
      * @param element The Element object
      */
     @Override
-    public void notifyElementEvicted(Ehcache cache, Element element)
+    public void notifyElementEvicted( Ehcache cache, Element element )
     {
-        removeKeyFromMap(element);
+        removeKeyFromMap( element );
     }
 
     /**
@@ -85,9 +87,9 @@ public class PageCacheService extends AbstractCacheableService
      * @param element The Element object
      */
     @Override
-    public void notifyElementExpired(Ehcache cache, Element element)
+    public void notifyElementExpired( Ehcache cache, Element element )
     {
-        removeKeyFromMap(element);
+        removeKeyFromMap( element );
     }
 
     /**
@@ -97,9 +99,9 @@ public class PageCacheService extends AbstractCacheableService
      * @param element The Element object
      */
     @Override
-    public void notifyElementRemoved(Ehcache cache, Element element)
+    public void notifyElementRemoved( Ehcache cache, Element element )
     {
-        removeKeyFromMap(element);
+        removeKeyFromMap( element );
     }
 
     /**
@@ -108,17 +110,17 @@ public class PageCacheService extends AbstractCacheableService
      * @param cache The Ehcache object
      */
     @Override
-    public void notifyRemoveAll(Ehcache cache)
+    public void notifyRemoveAll( Ehcache cache )
     {
-        _keyMemory.clear();
+        _keyMemory.clear(  );
     }
 
     /**
      * @param element The Element object
      */
-    public void removeKeyFromMap(Element element)
+    public void removeKeyFromMap( Element element )
     {
-        _keyMemory.remove( (String) element.getKey());
+        _keyMemory.remove( (String) element.getKey(  ) );
     }
 
     /**
@@ -126,9 +128,8 @@ public class PageCacheService extends AbstractCacheableService
      * @return the instance
      */
     @Override
-    public Object clone()
+    public Object clone(  )
     {
         throw new RuntimeException( "This class shouldn't be cloned" );
     }
-
 }

@@ -257,7 +257,6 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
-
     /**
      * Returns the page to manage webmaster.properties
      *
@@ -400,7 +399,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         }
         catch ( FileNotFoundException e )
         {
-            sbData.append( "File " ).append( strFilePath ).append( " not found");
+            sbData.append( "File " ).append( strFilePath ).append( " not found" );
         }
         catch ( IOException e )
         {

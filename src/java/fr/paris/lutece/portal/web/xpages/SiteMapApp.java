@@ -79,7 +79,7 @@ public class SiteMapApp extends AbstractCacheableService implements XPageApplica
      */
     public SiteMapApp(  )
     {
-        initCache();
+        initCache(  );
     }
 
     /**
@@ -117,8 +117,9 @@ public class SiteMapApp extends AbstractCacheableService implements XPageApplica
         Locale locale = request.getLocale(  );
 
         // Check the key in the cache
-        String strCachedPage = (String) getFromCache(strKey);
-        if (  strCachedPage == null )
+        String strCachedPage = (String) getFromCache( strKey );
+
+        if ( strCachedPage == null )
         {
             // Build the HTML document
             String strPage = buildPageContent( nMode, request );
@@ -263,5 +264,4 @@ public class SiteMapApp extends AbstractCacheableService implements XPageApplica
             XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_PAGE );
         }
     }
-
 }

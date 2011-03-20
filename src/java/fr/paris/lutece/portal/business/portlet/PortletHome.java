@@ -54,7 +54,8 @@ public abstract class PortletHome implements PortletHomeInterface
 
     // Static variable pointed at the DAO instance
     private static IPortletDAO _dao = (IPortletDAO) SpringContextService.getBean( "portletDAO" );
-    private static IPageService _pageService = (IPageService) SpringContextService.getBean("pageService");
+    private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
+
     ///////////////////////////////////////////////////////////////////////////
     // Finders
 

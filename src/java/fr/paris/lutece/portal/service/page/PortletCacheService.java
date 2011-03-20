@@ -31,10 +31,10 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.page;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+
 
 /**
  *
@@ -44,9 +44,8 @@ public class PortletCacheService extends AbstractCacheableService
 {
     private static final String SERVICE_NAME = "Portlet Cache Service";
 
-    public String getName()
+    public String getName(  )
     {
         return SERVICE_NAME;
     }
-
 }

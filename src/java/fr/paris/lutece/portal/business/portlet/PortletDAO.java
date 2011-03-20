@@ -52,7 +52,8 @@ public final class PortletDAO implements IPortletDAO
     // queries
     private static final String SQL_QUERY_NEW_PK = "SELECT max(id_portlet) FROM core_portlet ";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_portlet SET name = ?, date_update = ?, column_no = ?, " +
-        " portlet_order = ? , id_style = ? , accept_alias = ? , display_portlet_title = ?, role = ? " + " WHERE id_portlet = ?";
+        " portlet_order = ? , id_style = ? , accept_alias = ? , display_portlet_title = ?, role = ? " +
+        " WHERE id_portlet = ?";
     private static final String SQL_QUERY_SELECT = " SELECT b.id_portlet_type, a.id_page, a.id_style, a.name , b.name, " +
         " b.url_creation, b.url_update, a.date_update, a.column_no, a.portlet_order, " +
         " b.home_class, a.accept_alias , a.role , b.plugin_name , a.display_portlet_title, a.status " +
@@ -105,7 +106,7 @@ public final class PortletDAO implements IPortletDAO
         daoUtil.setInt( 10, portlet.getOrder(  ) );
         daoUtil.setInt( 11, portlet.getAcceptAlias(  ) );
         daoUtil.setInt( 12, portlet.getDisplayPortletTitle(  ) );
-        daoUtil.setString(13, portlet.getRole() );
+        daoUtil.setString( 13, portlet.getRole(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -187,7 +188,7 @@ public final class PortletDAO implements IPortletDAO
         daoUtil.setInt( 5, portlet.getStyleId(  ) );
         daoUtil.setInt( 6, portlet.getAcceptAlias(  ) );
         daoUtil.setInt( 7, portlet.getDisplayPortletTitle(  ) );
-        daoUtil.setString( 8, portlet.getRole() );
+        daoUtil.setString( 8, portlet.getRole(  ) );
         daoUtil.setInt( 9, portlet.getId(  ) );
 
         daoUtil.executeUpdate(  );
@@ -336,7 +337,7 @@ public final class PortletDAO implements IPortletDAO
             portlet.setAcceptAlias( daoUtil.getInt( 10 ) );
             portlet.setDateUpdate( daoUtil.getTimestamp( 11 ) );
             portlet.setDisplayPortletTitle( daoUtil.getInt( 12 ) );
-            portlet.setRole( daoUtil.getString( 13 ));
+            portlet.setRole( daoUtil.getString( 13 ) );
 
             //FIXME Theses attributes concerns PortletType :
             //            portlet.setHomeClassName(daoUtil.getString( 1 ));

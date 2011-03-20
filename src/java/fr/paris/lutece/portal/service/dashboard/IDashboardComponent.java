@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.service.dashboard;
 
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.Plugin;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

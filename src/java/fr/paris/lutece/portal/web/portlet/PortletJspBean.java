@@ -77,6 +77,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PORTLET_COLUMNS_COMBO = "portlet_columns_combo";
     private static final String MARK_PORTLET_STYLES_COMBO = "portlet_style_combo";
     private static final String MARK_PORTLET_ROLES_COMBO = "portlet_role_combo";
+
     // Templates
     private static final String TEMPLATE_CREATE_PORTLET = "admin/portlet/create_portlet.html";
     private static final String TEMPLATE_MODIFY_PORTLET = "admin/portlet/modify_portlet.html";
@@ -174,7 +175,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         String strAcceptAlias = request.getParameter( Parameters.ACCEPT_ALIAS );
         String strAcceptPortletTitle = request.getParameter( Parameters.DISPLAY_PORTLET_TITLE );
         String strPortletTypeId = request.getParameter( Parameters.PORTLET_TYPE_ID );
-        String strRole = request.getParameter(Parameters.ROLE);
+        String strRole = request.getParameter( Parameters.ROLE );
 
         strName = strName.replaceAll( "\"", "" );
 

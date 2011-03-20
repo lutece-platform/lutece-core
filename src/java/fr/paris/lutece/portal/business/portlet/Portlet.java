@@ -400,14 +400,15 @@ public abstract class Portlet implements XmlContent
         _strPluginName = strPluginName;
     }
 
-        /**
-     * Gets the page role
-     * @return page's role as a String
-     * @since v1.1
-     */
+    /**
+    * Gets the page role
+    * @return page's role as a String
+    * @since v1.1
+    */
     public String getRole(  )
     {
         _strRole = ( _strRole == null ) ? Page.ROLE_NONE : _strRole;
+
         return _strRole;
     }
 
@@ -420,8 +421,6 @@ public abstract class Portlet implements XmlContent
     {
         _strRole = ( ( strRole == null ) || ( strRole.equals( "" ) ) ) ? Page.ROLE_NONE : strRole;
     }
-
-
 
     ////////////////////////////////////////////////////////////////////////////
     // Operations

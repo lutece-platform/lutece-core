@@ -33,16 +33,16 @@
  */
 package fr.paris.lutece.portal.web.user;
 
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.dashboard.DashboardComponent;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminMenuJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

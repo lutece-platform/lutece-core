@@ -33,14 +33,6 @@
  */
 package fr.paris.lutece.portal.service.dashboard;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.dashboard.DashboardFactory;
 import fr.paris.lutece.portal.business.dashboard.DashboardFilter;
 import fr.paris.lutece.portal.business.dashboard.DashboardHome;
@@ -51,6 +43,14 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sort.AttributeComparator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -366,7 +366,8 @@ public final class DashboardService
      * @param request HttpServletRequest
      * @return Data of all components of the zone
      */
-    public String getDashboardData( List<IDashboardComponent> listDashboards, AdminUser user, int nZone,HttpServletRequest request )
+    public String getDashboardData( List<IDashboardComponent> listDashboards, AdminUser user, int nZone,
+        HttpServletRequest request )
     {
         List<IDashboardComponent> listDashboardComponents = new ArrayList<IDashboardComponent>(  );
 
@@ -384,11 +385,11 @@ public final class DashboardService
 
         for ( IDashboardComponent dc : listDashboardComponents )
         {
-        	boolean bRight = user.checkRight( dc.getRight(  ) ) || dc.getRight(  ).equalsIgnoreCase( ALL );
-        	
-        	if ( ( dc.getZone(  ) == nZone ) && dc.isEnabled(  ) && bRight )
+            boolean bRight = user.checkRight( dc.getRight(  ) ) || dc.getRight(  ).equalsIgnoreCase( ALL );
+
+            if ( ( dc.getZone(  ) == nZone ) && dc.isEnabled(  ) && bRight )
             {
-        		sbDashboardData.append( dc.getDashboardData( user, request ) );
+                sbDashboardData.append( dc.getDashboardData( user, request ) );
             }
         }
 

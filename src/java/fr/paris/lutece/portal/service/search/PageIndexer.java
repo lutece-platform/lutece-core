@@ -65,8 +65,7 @@ public class PageIndexer implements SearchIndexer
     private static final String PROPERTY_PAGE_BASE_URL = "search.pageIndexer.baseUrl";
     private static final String PROPERTY_INDEXER_ENABLE = "search.pageIndexer.enable";
     private static final String PARAMETER_PAGE_ID = "page_id";
-
-    private static IPageService _pageService = (IPageService) SpringContextService.getBean("pageService");
+    private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
 
     /**
      * {@inheritDoc}
@@ -195,18 +194,18 @@ public class PageIndexer implements SearchIndexer
         // Add the tag-stripped contents as a Reader-valued Text field so it will
         // get tokenized and indexed.        
         StringBuilder sbFieldContent = new StringBuilder(  );
-        sbFieldContent.append(page.getName()).append(" ").append( sb.toString());
+        sbFieldContent.append( page.getName(  ) ).append( " " ).append( sb.toString(  ) );
 
         // Add the metadata description of the page if it exists
         if ( page.getMetaDescription(  ) != null )
         {
-            sbFieldContent.append(" ").append( page.getMetaDescription());
+            sbFieldContent.append( " " ).append( page.getMetaDescription(  ) );
         }
 
         // Add the metadata keywords of the page if it exists
         if ( page.getMetaKeywords(  ) != null )
         {
-            sbFieldContent.append(" ").append( page.getMetaKeywords());
+            sbFieldContent.append( " " ).append( page.getMetaKeywords(  ) );
         }
 
         doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString(  ), Field.Store.NO, Field.Index.ANALYZED ) );

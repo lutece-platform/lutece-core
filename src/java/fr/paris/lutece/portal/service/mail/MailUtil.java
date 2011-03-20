@@ -41,6 +41,8 @@ import fr.paris.lutece.util.mail.FileAttachment;
 import fr.paris.lutece.util.mail.HtmlDocument;
 import fr.paris.lutece.util.mail.UrlAttachment;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -51,8 +53,8 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.activation.DataHandler;
-import javax.mail.Authenticator;
 
+import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -67,14 +69,13 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
-import org.apache.commons.lang.StringUtils;
+
 
 /**
  * This class provides mail utils.
  */
 final class MailUtil
 {
-
     private static final String PROPERTY_CHARSET = "mail.charset";
     private static final String PROPERTY_MAIL_LIST_SEPARATOR = "mail.list.separator";
     private static final String PROPERTY_MAIL_TYPE_HTML = "mail.type.html";
@@ -93,7 +94,7 @@ final class MailUtil
     /**
      * Creates a new MailUtil object
      */
-    private MailUtil()
+    private MailUtil(  )
     {
     }
 
@@ -117,15 +118,15 @@ final class MailUtil
      * @throws MessagingException If a messaging error occured
      */
     protected static void sendMessageText( String strHost, String strRecipientsTo, String strRecipientsCc,
-            String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
-            Transport transport, Session session ) throws MessagingException, AddressException, SendFailedException
+        String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
+        Transport transport, Session session ) throws MessagingException, AddressException, SendFailedException
     {
         Message msg = prepareMessage( strHost, strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName,
                 strSenderEmail, strSubject, session );
-        msg.setDataHandler( new DataHandler(
+        msg.setDataHandler( new DataHandler( 
                 new ByteArrayDataSource( strMessage,
-                AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN )
-                + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
+                    AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN ) +
+                    AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
 
         sendMessage( msg, transport );
     }
@@ -150,18 +151,18 @@ final class MailUtil
      * @throws MessagingException If a messaging error occured
      */
     protected static void sendMessageHtml( String strHost, String strRecipientsTo, String strRecipientsCc,
-            String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
-            Transport transport, Session session ) throws MessagingException, AddressException, SendFailedException
+        String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
+        Transport transport, Session session ) throws MessagingException, AddressException, SendFailedException
     {
         Message msg = prepareMessage( strHost, strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName,
                 strSenderEmail, strSubject, session );
 
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
         // Message body formated in HTML
-        msg.setDataHandler( new DataHandler(
+        msg.setDataHandler( new DataHandler( 
                 new ByteArrayDataSource( strMessage,
-                AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML )
-                + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
+                    AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML ) +
+                    AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
 
         sendMessage( msg, transport );
     }
@@ -188,9 +189,9 @@ final class MailUtil
      * @throws MessagingException If a messaging error occured
      */
     protected static void sendMultipartMessageHtml( String strHost, String strRecipientsTo, String strRecipientsCc,
-            String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
-            List<UrlAttachment> urlAttachements, List<FileAttachment> fileAttachements, Transport transport, Session session )
-            throws MessagingException, AddressException, SendFailedException
+        String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
+        List<UrlAttachment> urlAttachements, List<FileAttachment> fileAttachements, Transport transport, Session session )
+        throws MessagingException, AddressException, SendFailedException
     {
         Message msg = prepareMessage( strHost, strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName,
                 strSenderEmail, strSubject, session );
@@ -200,37 +201,37 @@ final class MailUtil
         MimeMultipart multipart = new MimeMultipart( MULTIPART_RELATED );
 
         // Creation of the html part, the "core" of the message
-        BodyPart msgBodyPart = new MimeBodyPart();
+        BodyPart msgBodyPart = new MimeBodyPart(  );
         //msgBodyPart.setContent( strMessage, BODY_PART_MIME_TYPE );
-        msgBodyPart.setDataHandler( new DataHandler(
+        msgBodyPart.setDataHandler( new DataHandler( 
                 new ByteArrayDataSource( strMessage,
-                AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML )
-                + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
+                    AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML ) +
+                    AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
         multipart.addBodyPart( msgBodyPart );
 
         if ( urlAttachements != null )
         {
             for ( UrlAttachment urlAttachement : urlAttachements )
             {
-                msgBodyPart = new MimeBodyPart();
+                msgBodyPart = new MimeBodyPart(  );
 
-                DataHandler handler = new DataHandler( urlAttachement.getUrlData() );
+                DataHandler handler = new DataHandler( urlAttachement.getUrlData(  ) );
 
                 try
                 {
-                    handler.getContent();
+                    handler.getContent(  );
                 }
                 catch ( IOException e )
                 {
                     // Document is ignored
-                    AppLogService.info( urlAttachement.getContentLocation() + MSG_ATTACHMENT_NOT_FOUND );
+                    AppLogService.info( urlAttachement.getContentLocation(  ) + MSG_ATTACHMENT_NOT_FOUND );
 
                     continue;
                 }
 
                 // Fill this part, then add it to the root part with the good headers
                 msgBodyPart.setDataHandler( handler );
-                msgBodyPart.setHeader( HEADER_CONTENT_LOCATION, urlAttachement.getContentLocation() );
+                msgBodyPart.setHeader( HEADER_CONTENT_LOCATION, urlAttachement.getContentLocation(  ) );
                 multipart.addBodyPart( msgBodyPart );
             }
         }
@@ -240,11 +241,11 @@ final class MailUtil
         {
             for ( FileAttachment fileAttachement : fileAttachements )
             {
-                String strFileName = fileAttachement.getFileName();
-                byte[] bContentFile = ( byte[] ) fileAttachement.getData();
-                String strContentType = fileAttachement.getType();
+                String strFileName = fileAttachement.getFileName(  );
+                byte[] bContentFile = (byte[]) fileAttachement.getData(  );
+                String strContentType = fileAttachement.getType(  );
                 ByteArrayDataSource dataSource = new ByteArrayDataSource( bContentFile, strContentType );
-                msgBodyPart = new MimeBodyPart();
+                msgBodyPart = new MimeBodyPart(  );
                 msgBodyPart.setDataHandler( new DataHandler( dataSource ) );
                 msgBodyPart.setFileName( strFileName );
                 msgBodyPart.setDisposition( "attachment" );
@@ -278,24 +279,24 @@ final class MailUtil
      * @throws MessagingException If a messaging error occured
      */
     protected static void sendMultipartMessageText( String strHost, String strRecipientsTo, String strRecipientsCc,
-            String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
-            List<FileAttachment> fileAttachements, Transport transport, Session session )
-            throws MessagingException, AddressException, SendFailedException
+        String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
+        List<FileAttachment> fileAttachements, Transport transport, Session session )
+        throws MessagingException, AddressException, SendFailedException
     {
         Message msg = prepareMessage( strHost, strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName,
                 strSenderEmail, strSubject, session );
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
 
         // Creation of the root part containing all the elements of the message 
-        MimeMultipart multipart = new MimeMultipart();
+        MimeMultipart multipart = new MimeMultipart(  );
 
         // Creation of the html part, the "core" of the message
-        BodyPart msgBodyPart = new MimeBodyPart();
+        BodyPart msgBodyPart = new MimeBodyPart(  );
         //msgBodyPart.setContent( strMessage, BODY_PART_MIME_TYPE );
-        msgBodyPart.setDataHandler( new DataHandler(
+        msgBodyPart.setDataHandler( new DataHandler( 
                 new ByteArrayDataSource( strMessage,
-                AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN )
-                + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
+                    AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN ) +
+                    AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
         multipart.addBodyPart( msgBodyPart );
 
         //add File Attachement
@@ -304,11 +305,11 @@ final class MailUtil
         {
             for ( FileAttachment fileAttachement : fileAttachements )
             {
-                String strFileName = fileAttachement.getFileName();
-                byte[] bContentFile = ( byte[] ) fileAttachement.getData();
-                String strContentType = fileAttachement.getType();
+                String strFileName = fileAttachement.getFileName(  );
+                byte[] bContentFile = (byte[]) fileAttachement.getData(  );
+                String strContentType = fileAttachement.getType(  );
                 ByteArrayDataSource dataSource = new ByteArrayDataSource( bContentFile, strContentType );
-                msgBodyPart = new MimeBodyPart();
+                msgBodyPart = new MimeBodyPart(  );
                 msgBodyPart.setDataHandler( new DataHandler( dataSource ) );
                 msgBodyPart.setFileName( strFileName );
                 msgBodyPart.setDisposition( "attachment" );
@@ -329,12 +330,12 @@ final class MailUtil
      * @throws AddressException If invalid address
      */
     private static void sendMessage( Message msg, Transport transport )
-            throws MessagingException, AddressException
+        throws MessagingException, AddressException
     {
-        if ( msg.getAllRecipients() != null )
+        if ( msg.getAllRecipients(  ) != null )
         {
             // Send the message
-            transport.sendMessage( msg, msg.getAllRecipients() );
+            transport.sendMessage( msg, msg.getAllRecipients(  ) );
         }
         else
         {
@@ -355,7 +356,7 @@ final class MailUtil
      */
     protected static List<UrlAttachment> getUrlAttachmentList( String strHtml, String strBaseUrl, boolean useAbsoluteUrl )
     {
-        List<UrlAttachment> listUrlAttachement = new ArrayList<UrlAttachment>();
+        List<UrlAttachment> listUrlAttachement = new ArrayList<UrlAttachment>(  );
         HtmlDocument doc = new HtmlDocument( strHtml, strBaseUrl, useAbsoluteUrl );
         listUrlAttachement.addAll( doc.getAllUrlsAttachement( HtmlDocument.ELEMENT_IMG ) );
         listUrlAttachement.addAll( doc.getAllUrlsAttachement( HtmlDocument.ELEMENT_CSS ) );
@@ -389,12 +390,12 @@ final class MailUtil
      * @throws MessagingException If a messaging error occured
      */
     protected static Message prepareMessage( String strHost, String strRecipientsTo, String strRecipientsCc,
-            String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, Session session )
-            throws MessagingException, AddressException
+        String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, Session session )
+        throws MessagingException, AddressException
     {
         // Instanciate and initialize a mime message
         Message msg = new MimeMessage( session );
-        msg.setSentDate( new Date() );
+        msg.setSentDate( new Date(  ) );
 
         try
         {
@@ -405,7 +406,7 @@ final class MailUtil
         }
         catch ( UnsupportedEncodingException e )
         {
-            throw new AppException( e.toString() );
+            throw new AppException( e.toString(  ) );
         }
 
         // Instanciation of the list of address
@@ -451,23 +452,23 @@ final class MailUtil
         boolean bSessionDebug = ( strDebug.equalsIgnoreCase( "true" ) ) ? true : false;
 
         // Initializes a mail session with the SMTP server
-        Properties props = System.getProperties();
+        Properties props = System.getProperties(  );
         props.put( MAIL_HOST, strHost );
         props.put( MAIL_TRANSPORT_PROTOCOL, SMTP );
 
         Authenticator auth;
+
         if ( StringUtils.isNotBlank( strUsername ) )
         {
             // using authenticator class that return a PasswordAuthentication
-            auth = new Authenticator()
-            {
-
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication()
-                {
-                    return new PasswordAuthentication( strUsername, strPassword );
-                }
-            };
+            auth = new Authenticator(  )
+                    {
+                        @Override
+                        protected PasswordAuthentication getPasswordAuthentication(  )
+                        {
+                            return new PasswordAuthentication( strUsername, strPassword );
+                        }
+                    };
         }
         else
         {
@@ -490,7 +491,7 @@ final class MailUtil
      * @throws NoSuchProviderException If the provider is not found
      */
     protected static Transport getTransport( Session session )
-            throws NoSuchProviderException
+        throws NoSuchProviderException
     {
         return session.getTransport( SMTP );
     }
@@ -503,21 +504,21 @@ final class MailUtil
      * @throws AddressException If invalid address
      */
     private static InternetAddress[] getAllAdressOfRecipients( String strRecipients )
-            throws AddressException
+        throws AddressException
     {
         StringTokenizer st = new StringTokenizer( strRecipients,
                 AppPropertiesService.getProperty( PROPERTY_MAIL_LIST_SEPARATOR, ";" ) );
-        List<String> listRecipients = new ArrayList<String>();
+        List<String> listRecipients = new ArrayList<String>(  );
 
-        while ( st.hasMoreTokens() )
+        while ( st.hasMoreTokens(  ) )
         {
-            listRecipients.add( st.nextToken() );
+            listRecipients.add( st.nextToken(  ) );
         }
 
-        InternetAddress[] address = new InternetAddress[ listRecipients.size() ];
+        InternetAddress[] address = new InternetAddress[listRecipients.size(  )];
 
         // Initialization of the address array
-        for ( int i = 0; i < listRecipients.size(); i++ )
+        for ( int i = 0; i < listRecipients.size(  ); i++ )
         {
             address[i] = new InternetAddress( listRecipients.get( i ) );
         }

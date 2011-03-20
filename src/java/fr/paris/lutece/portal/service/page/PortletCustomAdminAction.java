@@ -33,13 +33,13 @@
  */
 package fr.paris.lutece.portal.service.page;
 
+
 /**
  * CustomAction define a customized action for portlet types
  *
  */
 public class PortletCustomAdminAction
 {
-
     private String _strActionUrl;
     private String _strImageUrl;
     private String _strTitle;
@@ -47,7 +47,7 @@ public class PortletCustomAdminAction
     /**
      * @return the _actionUrl
      */
-    public String getActionUrl()
+    public String getActionUrl(  )
     {
         return _strActionUrl;
     }
@@ -55,7 +55,7 @@ public class PortletCustomAdminAction
     /**
      * @param strActionUrl the _actionUrl to set
      */
-    public void setActionUrl(String strActionUrl)
+    public void setActionUrl( String strActionUrl )
     {
         _strActionUrl = strActionUrl;
     }
@@ -63,7 +63,7 @@ public class PortletCustomAdminAction
     /**
      * @return the _imageUrl
      */
-    public String getImageUrl()
+    public String getImageUrl(  )
     {
         return _strImageUrl;
     }
@@ -71,7 +71,7 @@ public class PortletCustomAdminAction
     /**
      * @param strImageUrl the _imageUrl to set
      */
-    public void setImageUrl(String strImageUrl)
+    public void setImageUrl( String strImageUrl )
     {
         _strImageUrl = strImageUrl;
     }
@@ -79,7 +79,7 @@ public class PortletCustomAdminAction
     /**
      * @return the _strTitle
      */
-    public String getTitle()
+    public String getTitle(  )
     {
         return _strTitle;
     }
@@ -87,9 +87,8 @@ public class PortletCustomAdminAction
     /**
      * @param strTitle the _strTitle to set
      */
-    public void setTitle(String strTitle)
+    public void setTitle( String strTitle )
     {
         _strTitle = strTitle;
     }
 }
-

@@ -33,14 +33,14 @@
  */
 package fr.paris.lutece.portal.service.dashboard;
 
-import javax.servlet.http.HttpServletRequest;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -62,7 +62,7 @@ public abstract class DashboardComponent implements IDashboardComponent
      */
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
-    	return getDashboardData( user );
+        return getDashboardData( user );
     }
 
     /**
@@ -72,9 +72,9 @@ public abstract class DashboardComponent implements IDashboardComponent
      */
     public String getDashboardData( AdminUser user )
     {
-    	return StringUtils.EMPTY;
+        return StringUtils.EMPTY;
     }
-    
+
     /**
      * Returns the Name
      * @return The Name

@@ -33,19 +33,6 @@
  */
 package fr.paris.lutece.portal.service.portal;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Locale;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.CannotLoadBeanClassException;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
 import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
@@ -57,6 +44,20 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 
+import org.apache.commons.lang.StringUtils;
+
+import org.springframework.beans.factory.BeanDefinitionStoreException;
+import org.springframework.beans.factory.CannotLoadBeanClassException;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Locale;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * ThemesService
@@ -64,12 +65,11 @@ import fr.paris.lutece.util.ReferenceList;
 public final class ThemesService
 {
     public static final String GLOBAL_THEME = "default";
-    
     private static final String THEME_PLUGIN_NAME = "theme";
     private static final String BEAN_THEME_SERVICE = "theme.themeService";
     private static final String COOKIE_NAME = "theme";
     private static final String THEME_TEST = "theme_test";
-    
+
     // PROPERTIES
     private static final String PROPERTY_USE_GLOBAL_THEME = "portal.style.label.useGlobalTheme";
     private static final String PROPERTY_DEFAULT_CODE_THEME = "themes.default.code";
@@ -81,17 +81,17 @@ public final class ThemesService
     private static final String PROPERTY_DEFAULT_LICENCE = "themes.default.licence";
     private static final String PROPERTY_DEFAULT_DESCRIPTION = "themes.default.name";
     private static final String PROPERTY_DEFAULT_VERSION = "themes.default.version";
-    
+
     // MESSAGES
     private static final String MESSAGE_THEME_NOT_AVAILABLE = "Theme service not available.";
-    
+
     /**
      * Private constructor
      */
     private ThemesService(  )
     {
     }
-        
+
     /**
      * Get the theme code depending of the different priorities. The priorities are :
      * <ol>
@@ -146,15 +146,16 @@ public final class ThemesService
      */
     public static String getUserTheme( HttpServletRequest request )
     {
-    	try
-    	{
-    		IThemeService themeService = getThemeService(  );
-    		return themeService.getUserTheme( request );
-    	}
-    	catch ( ThemeNotAvailableException e )
-    	{
-    		return null;
-    	}
+        try
+        {
+            IThemeService themeService = getThemeService(  );
+
+            return themeService.getUserTheme( request );
+        }
+        catch ( ThemeNotAvailableException e )
+        {
+            return null;
+        }
     }
 
     /**
@@ -176,11 +177,11 @@ public final class ThemesService
      */
     public static String getGlobalTheme(  )
     {
-    	Theme theme = getGlobalTheme( StringUtils.EMPTY );
-    	
+        Theme theme = getGlobalTheme( StringUtils.EMPTY );
+
         return theme.getCodeTheme(  );
     }
-    
+
     /**
      * Returns the global theme Object
      *
@@ -190,7 +191,7 @@ public final class ThemesService
     {
         return getGlobalTheme( StringUtils.EMPTY );
     }
-    
+
     /**
      * Returns the global theme
      *
@@ -198,24 +199,26 @@ public final class ThemesService
      */
     public static Theme getGlobalTheme( String strTheme )
     {
-    	Theme theme = null;
-    	try
-    	{
-    		IThemeService themeService = getThemeService(  );
-    		if ( StringUtils.isBlank( strTheme ) )
-    		{
-    			theme = themeService.getGlobalTheme(  );
-    		}
-    		else
-    		{
-    			theme = themeService.getTheme( strTheme );
-    		}
-    	}
-    	catch ( ThemeNotAvailableException e )
-    	{
-    		theme = getDefaultTheme(  );
-    	}
-    	    	
+        Theme theme = null;
+
+        try
+        {
+            IThemeService themeService = getThemeService(  );
+
+            if ( StringUtils.isBlank( strTheme ) )
+            {
+                theme = themeService.getGlobalTheme(  );
+            }
+            else
+            {
+                theme = themeService.getTheme( strTheme );
+            }
+        }
+        catch ( ThemeNotAvailableException e )
+        {
+            theme = getDefaultTheme(  );
+        }
+
         return theme;
     }
 
@@ -226,16 +229,17 @@ public final class ThemesService
      */
     public static void setGlobalTheme( String strGlobalTheme )
     {
-    	IThemeService themeService;
-		try
-		{
-			themeService = getThemeService(  );
-			themeService.setGlobalTheme( strGlobalTheme );
-		}
-		catch ( ThemeNotAvailableException e )
-		{
-			AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
-		}
+        IThemeService themeService;
+
+        try
+        {
+            themeService = getThemeService(  );
+            themeService.setGlobalTheme( strGlobalTheme );
+        }
+        catch ( ThemeNotAvailableException e )
+        {
+            AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
+        }
     }
 
     /**
@@ -245,16 +249,18 @@ public final class ThemesService
      */
     public static ReferenceList getPageThemes( Locale locale )
     {
-    	ReferenceList listThemes = new ReferenceList(  );
-    	try
-    	{
-    		IThemeService themeService = getThemeService(  );
-    		listThemes = themeService.getThemes(  );
-    	}
-    	catch ( ThemeNotAvailableException e )
-    	{
-    		AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
-    	}
+        ReferenceList listThemes = new ReferenceList(  );
+
+        try
+        {
+            IThemeService themeService = getThemeService(  );
+            listThemes = themeService.getThemes(  );
+        }
+        catch ( ThemeNotAvailableException e )
+        {
+            AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
+        }
+
         String strGlobalTheme = I18nService.getLocalizedString( PROPERTY_USE_GLOBAL_THEME, locale );
         listThemes.addItem( GLOBAL_THEME, strGlobalTheme );
 
@@ -266,19 +272,18 @@ public final class ThemesService
      * @return the theme service
      * @throws ThemeNotAvailableException
      */
-    private static IThemeService getThemeService(  )
-    	throws ThemeNotAvailableException
+    private static IThemeService getThemeService(  ) throws ThemeNotAvailableException
     {
-    	IThemeService themeService = null;
-    	if ( !isAvailable(  ) )
-    	{
-    		throw new ThemeNotAvailableException(  );
-    	}
-    	
-    	try
+        IThemeService themeService = null;
+
+        if ( !isAvailable(  ) )
         {
-             themeService = (IThemeService) SpringContextService.getPluginBean( THEME_PLUGIN_NAME,
-                    BEAN_THEME_SERVICE );
+            throw new ThemeNotAvailableException(  );
+        }
+
+        try
+        {
+            themeService = (IThemeService) SpringContextService.getPluginBean( THEME_PLUGIN_NAME, BEAN_THEME_SERVICE );
         }
         catch ( BeanDefinitionStoreException e )
         {
@@ -290,171 +295,181 @@ public final class ThemesService
         }
         catch ( CannotLoadBeanClassException e )
         {
-        	throw new ThemeNotAvailableException(  );
+            throw new ThemeNotAvailableException(  );
         }
-        
+
         return themeService;
     }
-    
+
     /**
      * Return the default theme in properties
      * @return the default theme
      */
-	private static Theme getDefaultTheme(  )
+    private static Theme getDefaultTheme(  )
     {
-	    Theme theme = new Theme(  );
-	    String strCodeTheme = AppPropertiesService.getProperty( PROPERTY_DEFAULT_CODE_THEME );
-	    String strPathCss = AppPropertiesService.getProperty( PROPERTY_DEFAULT_PATH_CSS );
-	    String strPathImages = AppPropertiesService.getProperty( PROPERTY_DEFAULT_PATH_IMAGE );
-	    String strPathJs = AppPropertiesService.getProperty( PROPERTY_DEFAULT_PATH_JS );
-	    String strThemeAuthor = AppPropertiesService.getProperty( PROPERTY_DEFAULT_AUTHOR );
-	    String strThemeAuthorUrl = AppPropertiesService.getProperty( PROPERTY_DEFAULT_AUTHOR_URL );
-	    String strThemeDescription = AppPropertiesService.getProperty( PROPERTY_DEFAULT_DESCRIPTION );
-	    String strThemeLicence = AppPropertiesService.getProperty( PROPERTY_DEFAULT_LICENCE );
-	    String strThemeVersion = AppPropertiesService.getProperty( PROPERTY_DEFAULT_VERSION );
-	    
-	    theme.setCodeTheme( strCodeTheme );
-	    theme.setPathCss( strPathCss );
-	    theme.setPathImages( strPathImages );
-	    theme.setPathJs( strPathJs );
-	    theme.setThemeAuthor( strThemeAuthor );
-	    theme.setThemeAuthorUrl( strThemeAuthorUrl );
-	    theme.setThemeDescription( strThemeDescription );
-	    theme.setThemeLicence( strThemeLicence );
-	    theme.setThemeVersion( strThemeVersion );   
-	    return theme;
+        Theme theme = new Theme(  );
+        String strCodeTheme = AppPropertiesService.getProperty( PROPERTY_DEFAULT_CODE_THEME );
+        String strPathCss = AppPropertiesService.getProperty( PROPERTY_DEFAULT_PATH_CSS );
+        String strPathImages = AppPropertiesService.getProperty( PROPERTY_DEFAULT_PATH_IMAGE );
+        String strPathJs = AppPropertiesService.getProperty( PROPERTY_DEFAULT_PATH_JS );
+        String strThemeAuthor = AppPropertiesService.getProperty( PROPERTY_DEFAULT_AUTHOR );
+        String strThemeAuthorUrl = AppPropertiesService.getProperty( PROPERTY_DEFAULT_AUTHOR_URL );
+        String strThemeDescription = AppPropertiesService.getProperty( PROPERTY_DEFAULT_DESCRIPTION );
+        String strThemeLicence = AppPropertiesService.getProperty( PROPERTY_DEFAULT_LICENCE );
+        String strThemeVersion = AppPropertiesService.getProperty( PROPERTY_DEFAULT_VERSION );
+
+        theme.setCodeTheme( strCodeTheme );
+        theme.setPathCss( strPathCss );
+        theme.setPathImages( strPathImages );
+        theme.setPathJs( strPathJs );
+        theme.setThemeAuthor( strThemeAuthor );
+        theme.setThemeAuthorUrl( strThemeAuthorUrl );
+        theme.setThemeDescription( strThemeDescription );
+        theme.setThemeLicence( strThemeLicence );
+        theme.setThemeVersion( strThemeVersion );
+
+        return theme;
     }
 
-	/**
-	 * Check if the theme service is available. It must have the following requirement to be
-	 * available :
-	 * <ul>
-	 * <li>The <code>plugin-theme</code> is activated</li>
-	 * <li>The pool of the <code>plugin-theme</code> is defined</li>
-	 * </ul>
-	 * @return true if it is available, false otherwise
-	 */
-	public static boolean isAvailable(  )
-	{
-		Plugin pluginTheme = PluginService.getPlugin( THEME_PLUGIN_NAME );
-		return PluginService.isPluginEnable( THEME_PLUGIN_NAME ) && pluginTheme.getDbPoolName(  ) != null &&
-                !AppConnectionService.NO_POOL_DEFINED.equals( pluginTheme.getDbPoolName(  ) );
-	}
-	
-	/**
-	 * Create a new theme
-	 * @param theme the theme
-	 */
-	public static Theme create( Theme theme )
-	{
-		try
-    	{
-    		IThemeService themeService = getThemeService(  );
-    		return themeService.create( theme );
-    	}
-    	catch ( ThemeNotAvailableException e )
-    	{
-    		AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
-    		return null;
-    	}
-	}
-	
-	/**
-	 * Update a theme
-	 * @param theme the theme to update
-	 * @return The updated theme
-	 */
-	public static Theme update( Theme theme )
-	{
-		try
-    	{
-    		IThemeService themeService = getThemeService(  );
-    		return themeService.update( theme );
-    	}
-    	catch ( ThemeNotAvailableException e )
-    	{
-    		AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
-    		return null;
-    	}
-	}
-	
-	/**
-	 * Remove a theme
-	 * @param strCodeTheme the code theme
-	 */
-	public static void remove( String strCodeTheme )
-	{
-		try
-    	{
-    		IThemeService themeService = getThemeService(  );
-    		themeService.remove( strCodeTheme );
-    	}
-    	catch ( ThemeNotAvailableException e )
-    	{
-    		AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
-    	}
-	}
+    /**
+     * Check if the theme service is available. It must have the following requirement to be
+     * available :
+     * <ul>
+     * <li>The <code>plugin-theme</code> is activated</li>
+     * <li>The pool of the <code>plugin-theme</code> is defined</li>
+     * </ul>
+     * @return true if it is available, false otherwise
+     */
+    public static boolean isAvailable(  )
+    {
+        Plugin pluginTheme = PluginService.getPlugin( THEME_PLUGIN_NAME );
 
-	/**
-	 * Get a collection of themes
-	 * @return a collection of themes
-	 */
-	public static Collection<Theme> getThemesList(  )
-	{
-		Collection<Theme> listThemes = new ArrayList<Theme>(  );
-    	
-		try
-    	{
-    		IThemeService themeService = getThemeService(  );
-    		listThemes = themeService.getThemesList(  );
-    	}
-    	catch ( ThemeNotAvailableException e )
-    	{
-    		Theme theme = getDefaultTheme(  );
-    		listThemes.add( theme );
-    	}
-    	
-    	return listThemes;
-	}
-	
-	/**
-	 * Get the list of themes as a {@link ReferenceList}
-	 * @return a {@link ReferenceList}
-	 */
-	public static ReferenceList getThemes(  )
-	{
-		ReferenceList listThemes = new ReferenceList(  );
-    	try
-    	{
-    		IThemeService themeService = getThemeService(  );
-    		listThemes = themeService.getThemes(  );
-    	}
-    	catch ( ThemeNotAvailableException e )
-    	{
-    		Theme theme = getDefaultTheme(  );
-    		listThemes.addItem( theme.getCodeTheme(  ), theme.getThemeDescription(  ) );
-    	}
-    	return listThemes;
-	}
-	
-	/**
-	 * Check if the theme is valid
-	 * @param strCodeTheme the code theme
-	 * @return true if it is valid, false otherwise
-	 */
-	public static boolean isValidTheme( String strCodeTheme )
-	{
-		boolean bIsValidTheme = false;
-		try
-    	{
-    		IThemeService themeService = getThemeService(  );
-    		bIsValidTheme = themeService.isValidTheme( strCodeTheme );
-    	}
-    	catch ( ThemeNotAvailableException e )
-    	{
-    		Theme theme = getDefaultTheme(  );
-    		bIsValidTheme = theme.getCodeTheme(  ).equals( strCodeTheme );
-    	}
-    	return bIsValidTheme;
-	}
+        return PluginService.isPluginEnable( THEME_PLUGIN_NAME ) && ( pluginTheme.getDbPoolName(  ) != null ) &&
+        !AppConnectionService.NO_POOL_DEFINED.equals( pluginTheme.getDbPoolName(  ) );
+    }
+
+    /**
+     * Create a new theme
+     * @param theme the theme
+     */
+    public static Theme create( Theme theme )
+    {
+        try
+        {
+            IThemeService themeService = getThemeService(  );
+
+            return themeService.create( theme );
+        }
+        catch ( ThemeNotAvailableException e )
+        {
+            AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
+
+            return null;
+        }
+    }
+
+    /**
+     * Update a theme
+     * @param theme the theme to update
+     * @return The updated theme
+     */
+    public static Theme update( Theme theme )
+    {
+        try
+        {
+            IThemeService themeService = getThemeService(  );
+
+            return themeService.update( theme );
+        }
+        catch ( ThemeNotAvailableException e )
+        {
+            AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
+
+            return null;
+        }
+    }
+
+    /**
+     * Remove a theme
+     * @param strCodeTheme the code theme
+     */
+    public static void remove( String strCodeTheme )
+    {
+        try
+        {
+            IThemeService themeService = getThemeService(  );
+            themeService.remove( strCodeTheme );
+        }
+        catch ( ThemeNotAvailableException e )
+        {
+            AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
+        }
+    }
+
+    /**
+     * Get a collection of themes
+     * @return a collection of themes
+     */
+    public static Collection<Theme> getThemesList(  )
+    {
+        Collection<Theme> listThemes = new ArrayList<Theme>(  );
+
+        try
+        {
+            IThemeService themeService = getThemeService(  );
+            listThemes = themeService.getThemesList(  );
+        }
+        catch ( ThemeNotAvailableException e )
+        {
+            Theme theme = getDefaultTheme(  );
+            listThemes.add( theme );
+        }
+
+        return listThemes;
+    }
+
+    /**
+     * Get the list of themes as a {@link ReferenceList}
+     * @return a {@link ReferenceList}
+     */
+    public static ReferenceList getThemes(  )
+    {
+        ReferenceList listThemes = new ReferenceList(  );
+
+        try
+        {
+            IThemeService themeService = getThemeService(  );
+            listThemes = themeService.getThemes(  );
+        }
+        catch ( ThemeNotAvailableException e )
+        {
+            Theme theme = getDefaultTheme(  );
+            listThemes.addItem( theme.getCodeTheme(  ), theme.getThemeDescription(  ) );
+        }
+
+        return listThemes;
+    }
+
+    /**
+     * Check if the theme is valid
+     * @param strCodeTheme the code theme
+     * @return true if it is valid, false otherwise
+     */
+    public static boolean isValidTheme( String strCodeTheme )
+    {
+        boolean bIsValidTheme = false;
+
+        try
+        {
+            IThemeService themeService = getThemeService(  );
+            bIsValidTheme = themeService.isValidTheme( strCodeTheme );
+        }
+        catch ( ThemeNotAvailableException e )
+        {
+            Theme theme = getDefaultTheme(  );
+            bIsValidTheme = theme.getCodeTheme(  ).equals( strCodeTheme );
+        }
+
+        return bIsValidTheme;
+    }
 }

@@ -41,6 +41,7 @@ import net.sf.ehcache.CacheManager;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public final class CacheService
     private static CacheManager _manager;
 
     // Cacheable Services registry
-    private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<CacheableService>();
+    private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<CacheableService>(  );
 
     /** Creates a new instance of CacheService */
     private CacheService(  )
@@ -110,7 +111,7 @@ public final class CacheService
     /**
      * Reset all caches
      */
-    public static void resetCaches()
+    public static void resetCaches(  )
     {
         // Reset cache
         for ( CacheableService cs : _listCacheableServicesRegistry )
@@ -157,6 +158,4 @@ public final class CacheService
     {
         return _listCacheableServicesRegistry;
     }
-
-
 }

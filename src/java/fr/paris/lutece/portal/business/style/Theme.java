@@ -41,7 +41,7 @@ import java.io.Serializable;
  */
 public class Theme implements Serializable
 {
-	public static final String RESOURCE_TYPE = "THEME";
+    public static final String RESOURCE_TYPE = "THEME";
     private static final long serialVersionUID = -1423380460541137444L;
     private String _strCodeTheme;
     private String _strThemeDescription;

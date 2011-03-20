@@ -69,7 +69,8 @@ public abstract class ResourceService extends AbstractCacheableService
         if ( ( strLoadersProperty != null ) && ( !strLoadersProperty.equals( "" ) ) )
         {
             initLoaders( strLoadersProperty );
-//            initCache( getName() );
+
+            //            initCache( getName() );
         }
         else
         {

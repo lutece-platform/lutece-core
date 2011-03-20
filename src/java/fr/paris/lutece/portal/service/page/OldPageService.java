@@ -145,8 +145,7 @@ public class OldPageService extends ContentService implements IPageService, Imag
     // Performance patch
     private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<String, String>(  );
     private ArrayList<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
-
-    private ICacheKeyService _cacheKeyService;  
+    private ICacheKeyService _cacheKeyService;
 
     /**
      * Creates a new PageService object.
@@ -170,7 +169,7 @@ public class OldPageService extends ContentService implements IPageService, Imag
         }
         else
         {
-            CacheService.registerCacheableService( getName() , this );
+            CacheService.registerCacheableService( getName(  ), this );
         }
 
         ImageResourceManager.registerProvider( this );
@@ -672,8 +671,7 @@ public class OldPageService extends ContentService implements IPageService, Imag
      */
     private String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
-
-        String key = getCacheKeyService().getKey(mapParams, nMode, user);
+        String key = getCacheKeyService(  ).getKey( mapParams, nMode, user );
 
         String keyInMemory = _keyMemory.putIfAbsent( key, key );
 
@@ -699,15 +697,16 @@ public class OldPageService extends ContentService implements IPageService, Imag
     /**
      * @param cacheKeyService the _cacheKeyService to set
      */
-    public void setCacheKeyService(ICacheKeyService cacheKeyService)
+    public void setCacheKeyService( ICacheKeyService cacheKeyService )
     {
         _cacheKeyService = cacheKeyService;
     }
 
-    private ICacheKeyService getCacheKeyService()
+    private ICacheKeyService getCacheKeyService(  )
     {
         return _cacheKeyService;
     }
+
     /**
      * Remove a page from the cache
      *
@@ -936,7 +935,7 @@ public class OldPageService extends ContentService implements IPageService, Imag
      */
     public void removeKeyFromMap( Element element )
     {
-        _keyMemory.remove(element.getKey());
+        _keyMemory.remove( element.getKey(  ) );
     }
 
     /**
@@ -948,8 +947,6 @@ public class OldPageService extends ContentService implements IPageService, Imag
     {
         return this;
     }
-
-
 
     /**
      * CustomAction define a customized action for portlet types

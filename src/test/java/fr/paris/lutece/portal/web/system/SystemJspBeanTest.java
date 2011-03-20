@@ -99,7 +99,6 @@ public class SystemJspBeanTest extends LuteceTestCase
         instance.getFileView( request );
     }
 
-
     /**
      * Test of getManageProperties method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */

@@ -226,14 +226,16 @@ public class AdminMenuJspBean
             // Default dashboards for the nColumnCount to nZoneMax zones
             for ( int i = nColumnCount + 1; i <= nZoneMax; i++ )
             {
-                model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance(  ).getDashboardData( user, i, request ) );
+                model.put( MARK_DASHBOARD_ZONE + i,
+                    DashboardService.getInstance(  ).getDashboardData( user, i, request ) );
             }
         }
         else
         {
             for ( int i = 1; i <= nZoneMax; i++ )
             {
-                model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance(  ).getDashboardData( user, i, request ) );
+                model.put( MARK_DASHBOARD_ZONE + i,
+                    DashboardService.getInstance(  ).getDashboardData( user, i, request ) );
             }
         }
     }

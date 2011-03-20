@@ -45,7 +45,6 @@ import fr.paris.lutece.test.MokeHttpServletRequest;
  */
 public class CacheJspBeanTest extends LuteceTestCase
 {
-
     /**
      * Test of getManageCaches method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
@@ -86,5 +85,4 @@ public class CacheJspBeanTest extends LuteceTestCase
         CacheJspBean instance = new CacheJspBean(  );
         instance.doReloadProperties(  );
     }
-
 }

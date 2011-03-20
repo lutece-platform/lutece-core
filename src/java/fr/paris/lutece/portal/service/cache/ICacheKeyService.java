@@ -31,19 +31,19 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.cache;
 
 import fr.paris.lutece.portal.service.security.LuteceUser;
+
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * Interface for cache key builders
  */
 public interface ICacheKeyService
 {
-
     /**
      * Build a key from input parameters
      * @param mapParams The Map params
@@ -52,7 +52,6 @@ public interface ICacheKeyService
      * @return The key
      */
     String getKey( Map<String, String> mapParams, int nMode, LuteceUser user );
-
 
     /**
      * Sets the list of allowed parameters to include into the cache key

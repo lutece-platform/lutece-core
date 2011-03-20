@@ -43,7 +43,6 @@ import fr.paris.lutece.util.mail.UrlAttachment;
 import java.util.List;
 
 
-
 /**
  * Application Mail Service
  */
@@ -312,8 +311,6 @@ public final class MailService
 
         return queue;
     }
-
-
 
     /**
      * Extract a collection of elements to be attached to a mail from an HTML string.

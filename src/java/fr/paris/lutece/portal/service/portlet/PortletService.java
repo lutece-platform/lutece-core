@@ -51,8 +51,7 @@ import java.util.Collection;
 public final class PortletService
 {
     private static PortletService _singleton;
-    private static IPageService _pageService = (IPageService) SpringContextService.getBean("pageService");
-
+    private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
 
     /**
      * Constructor for class PortletService

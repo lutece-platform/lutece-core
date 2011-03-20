@@ -34,47 +34,45 @@
 package fr.paris.lutece.portal.service.cache;
 
 import fr.paris.lutece.portal.service.security.LuteceUser;
+
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Default cache key service
- * 
+ *
  */
 public class DefaultCacheKeyService implements ICacheKeyService
 {
-
     private List _listAllowedParameters;
     private List _listIgnoredParameters;
 
-    public String getKey(Map<String, String> mapParams, int nMode, LuteceUser user)
+    public String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
-        StringBuilder sbKey = new StringBuilder();
+        StringBuilder sbKey = new StringBuilder(  );
 
-
-        for (String strHtKey : mapParams.keySet())
+        for ( String strHtKey : mapParams.keySet(  ) )
         {
-
-            if (((_listAllowedParameters == null) || _listAllowedParameters.contains(strHtKey))
-                    && ((_listIgnoredParameters == null) || (!_listIgnoredParameters.contains(strHtKey))))
+            if ( ( ( _listAllowedParameters == null ) || _listAllowedParameters.contains( strHtKey ) ) &&
+                    ( ( _listIgnoredParameters == null ) || ( !_listIgnoredParameters.contains( strHtKey ) ) ) )
             {
-                sbKey.append("[").append(strHtKey).append(":").append(mapParams.get(strHtKey)).append("]");
+                sbKey.append( "[" ).append( strHtKey ).append( ":" ).append( mapParams.get( strHtKey ) ).append( "]" );
             }
         }
 
-        String strUserName = (user != null) ? user.getName() : "-";
+        String strUserName = ( user != null ) ? user.getName(  ) : "-";
 
-        sbKey.append("[m:").append(nMode).append("]");
-        sbKey.append("[user:").append(strUserName).append("]");
+        sbKey.append( "[m:" ).append( nMode ).append( "]" );
+        sbKey.append( "[user:" ).append( strUserName ).append( "]" );
 
-        return sbKey.toString();
-
+        return sbKey.toString(  );
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setAllowedParametersList(List<String> list)
+    public void setAllowedParametersList( List<String> list )
     {
         _listAllowedParameters = list;
     }
@@ -82,7 +80,7 @@ public class DefaultCacheKeyService implements ICacheKeyService
     /**
      * {@inheritDoc}
      */
-    public void setIgnoredParametersList(List<String> list)
+    public void setIgnoredParametersList( List<String> list )
     {
         _listIgnoredParameters = list;
     }
