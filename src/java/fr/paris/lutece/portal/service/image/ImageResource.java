@@ -33,12 +33,14 @@
  */
 package fr.paris.lutece.portal.service.image;
 
+import java.io.Serializable;
+
 
 /**
  * @author lenaini
  *
  */
-public class ImageResource
+public class ImageResource implements Serializable
 {
     // Variables declarations 
     private byte[] _strImage;
