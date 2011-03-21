@@ -33,13 +33,13 @@
  */
 package fr.paris.lutece.portal.service.search;
 
-import java.util.Locale;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import java.util.Locale;
 
 
 /**
@@ -47,60 +47,60 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
  */
 public class SponsoredLinksSearchService implements ISponsoredLinksSearchService
 {
-	private static final String EMPTY_STRING = "";
-	private static final String SPRING_CONTEXT_NAME = "sponsoredlinks";
+    private static final String EMPTY_STRING = "";
+    private static final String SPRING_CONTEXT_NAME = "sponsoredlinks";
     private boolean _bAvailable;
     private ISponsoredLinksService _sponsoredLinksService;
 
     /**
      * Default constructor.
-     * 
+     *
      * Gets the sponsoredLinksService from the sponsoredlinks plugin
      * If the service is missing, sets available to false
      */
     public SponsoredLinksSearchService(  )
     {
-    	try
-    	{
-    		//first check if the sponsoredlinks service bean is available
-    		_sponsoredLinksService = (ISponsoredLinksService) SpringContextService.getPluginBean(SPRING_CONTEXT_NAME, "sponsoredlinks.sponsoredLinksService" );
-    		_bAvailable = _sponsoredLinksService != null;
-    	}
-    	catch( BeanDefinitionStoreException e )
-    	{
-    		_bAvailable = false;
-    	}
-    	catch( NoSuchBeanDefinitionException e )
-    	{
-    		_bAvailable = false;
-    	}
-    	catch( CannotLoadBeanClassException e )
-    	{
-    		_bAvailable = false;
-    	}
+        try
+        {
+            //first check if the sponsoredlinks service bean is available
+            _sponsoredLinksService = (ISponsoredLinksService) SpringContextService.getPluginBean( SPRING_CONTEXT_NAME,
+                    "sponsoredlinks.sponsoredLinksService" );
+            _bAvailable = _sponsoredLinksService != null;
+        }
+        catch ( BeanDefinitionStoreException e )
+        {
+            _bAvailable = false;
+        }
+        catch ( NoSuchBeanDefinitionException e )
+        {
+            _bAvailable = false;
+        }
+        catch ( CannotLoadBeanClassException e )
+        {
+            _bAvailable = false;
+        }
     }
-    
-	/**
-     * {@inheritDoc}
-     */
-	public String getHtmlCode( String strRequest, Locale locale )
-	{
-		if( _bAvailable )
-		{
-			return _sponsoredLinksService.getHtmlCode( strRequest, locale );
-		}
-		else
-		{
-			return EMPTY_STRING;
-		}
-	}
 
-	/**
-     * {@inheritDoc}
-     */
-	public boolean isAvailable(  )
-	{
-		return _bAvailable;
-	}
+    /**
+    * {@inheritDoc}
+    */
+    public String getHtmlCode( String strRequest, Locale locale )
+    {
+        if ( _bAvailable )
+        {
+            return _sponsoredLinksService.getHtmlCode( strRequest, locale );
+        }
+        else
+        {
+            return EMPTY_STRING;
+        }
+    }
 
+    /**
+    * {@inheritDoc}
+    */
+    public boolean isAvailable(  )
+    {
+        return _bAvailable;
+    }
 }

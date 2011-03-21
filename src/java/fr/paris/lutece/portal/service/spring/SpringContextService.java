@@ -66,9 +66,8 @@ public final class SpringContextService
     private static final String DIR_PLUGINS = "plugins/";
     private static final String SUFFIX_CONTEXT_FILE = "_context.xml";
     private static final String FILE_CORE_CONTEXT = "core_context.xml";
-
     private static ApplicationContext _context;
-    private static Map<Class, List> _mapBeansOfType = new HashMap<Class, List>();
+    private static Map<Class, List> _mapBeansOfType = new HashMap<Class, List>(  );
 
     /** Creates a new instance of SpringContextService */
     private SpringContextService(  )
@@ -100,7 +99,6 @@ public final class SpringContextService
     {
         return _context.getBean( strName );
     }
-
 
     /**
      * Initialize a global Application Context containing all beans (core + plugins)
@@ -189,14 +187,16 @@ public final class SpringContextService
     public static <T> List<T> getBeansOfType( Class<T> classDef )
     {
         // Search the list in the cache
-        List<T> list = _mapBeansOfType.get(classDef);
-        if( list != null )
+        List<T> list = _mapBeansOfType.get( classDef );
+
+        if ( list != null )
         {
             return list;
         }
 
         // The list is not in the cache, so we have to build it
         list = new ArrayList<T>(  );
+
         Map<String, T> map = BeanFactoryUtils.beansOfTypeIncludingAncestors( _context, classDef );
         String[] sBeanNames = map.keySet(  ).toArray( new String[0] );
 
@@ -209,7 +209,9 @@ public final class SpringContextService
                 list.add( map.get( strBeanName ) );
             }
         }
-        _mapBeansOfType.put(classDef, list);
+
+        _mapBeansOfType.put( classDef, list );
+
         return list;
     }
 

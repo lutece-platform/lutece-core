@@ -35,15 +35,16 @@ package fr.paris.lutece.portal.service.search;
 
 import java.util.Locale;
 
+
 /**
  * Interface sponsored links service
  */
 public interface ISponsoredLinksService
 {
-	/**
-	 * Computes a set of sponsored links from the request and translates it to html code.
-	 * @param strRequest the request to search sponsored links from
-	 * @return the html code of the computed set
-	 */
-	String getHtmlCode( String strRequest, Locale locale );
+    /**
+     * Computes a set of sponsored links from the request and translates it to html code.
+     * @param strRequest the request to search sponsored links from
+     * @return the html code of the computed set
+     */
+    String getHtmlCode( String strRequest, Locale locale );
 }

@@ -79,6 +79,9 @@ public class HeadersPageCachingFilter extends SimplePageCachingFilter implements
         // through the init method below
     }
 
+    /**
+     * Initialization of the filter
+     */
     private void init(  )
     {
         // Execute the doInit
@@ -126,6 +129,9 @@ public class HeadersPageCachingFilter extends SimplePageCachingFilter implements
      * Reads the filterConfig for the parameter "blockingTimeoutMillis", and if
      * found, set the blocking timeout. If there is a parsing exception, no
      * timeout is set.
+     *
+     * @param filterConfig The filter config
+     * @return The timeout value
      */
     private Integer parseBlockingCacheTimeoutMillis( FilterConfig filterConfig )
     {

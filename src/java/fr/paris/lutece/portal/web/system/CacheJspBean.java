@@ -86,6 +86,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     /**
      * Process cache resetting
      *
+     * @param request The HTTP request
      * @return The URL to display when the process is done.
      */
     public static String doResetCaches( HttpServletRequest request )
@@ -152,6 +153,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     /**
      * Process cache toggle on/off
      *
+     * @param request The HTTP request
      * @return The URL to display when the process is done.
      */
     public static String doToggleCache( HttpServletRequest request )

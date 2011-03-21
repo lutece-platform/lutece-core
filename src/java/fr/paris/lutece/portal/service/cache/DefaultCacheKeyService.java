@@ -48,6 +48,13 @@ public class DefaultCacheKeyService implements ICacheKeyService
     private List _listAllowedParameters;
     private List _listIgnoredParameters;
 
+    /**
+     * Calculate the cache key
+     * @param mapParams A map of key/value
+     * @param nMode The mode
+     * @param user The LuteceUser
+     * @return The calculated key
+     */
     public String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
         StringBuilder sbKey = new StringBuilder(  );

@@ -48,10 +48,6 @@ import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-import net.sf.ehcache.CacheException;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -149,6 +145,7 @@ public class XPageAppService extends ContentService
      *
      * @return true if enable, otherwise false
      */
+    @Override
     public boolean isCacheEnable(  )
     {
         return false;
@@ -157,6 +154,7 @@ public class XPageAppService extends ContentService
     /**
      * Reset the cache.
      */
+    @Override
     public void resetCache(  )
     {
     }
@@ -166,6 +164,7 @@ public class XPageAppService extends ContentService
      *
      * @return the number of item currently in the cache.
      */
+    @Override
     public int getCacheSize(  )
     {
         return 0;

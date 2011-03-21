@@ -34,10 +34,8 @@
 package fr.paris.lutece.portal.service.portal;
 
 import fr.paris.lutece.portal.business.style.Theme;
-import fr.paris.lutece.portal.business.style.ThemeHome;
 import fr.paris.lutece.util.ReferenceList;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;

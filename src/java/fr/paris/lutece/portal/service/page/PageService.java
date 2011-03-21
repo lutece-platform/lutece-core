@@ -138,7 +138,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
     private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
     private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_MAX, DEFAULT_COLUMN_MAX );
-    private ArrayList<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
+    private List<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
     private ICacheKeyService _cksPage;
     private ICacheKeyService _cksPortlet;
     private PageCacheService _cachePages = new PageCacheService(  );
@@ -482,13 +482,23 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         }
 
         HtmlTemplate t = AppTemplateService.getTemplate( page.getTemplate(  ),
-                ( request == null ) ? null : request.getLocale(  ), rootModel );
+                ( request == null ) ? Locale.getDefault(  ) : request.getLocale(  ), rootModel );
 
         return t.getHtml(  );
     }
 
-    private String getPortletContent( HttpServletRequest request, Portlet portlet, Map<String, String> mapParams,
-        int nMode ) throws SiteMessageException
+    /**
+     * Get the portlet content
+     * @param request The HTTP request
+     * @param portlet The portlet
+     * @param mapRequestParams request parameters
+     * @param nMode The mode
+     * @return The content
+     * @throws SiteMessageException If an error occurs
+     */
+    private String getPortletContent( HttpServletRequest request, Portlet portlet,
+        Map<String, String> mapRequestParams, int nMode )
+        throws SiteMessageException
     {
         if ( ( nMode != MODE_ADMIN ) && ( portlet.getStatus(  ) == Portlet.STATUS_UNPUBLISHED ) )
         {
@@ -506,6 +516,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             }
         }
 
+        Map<String, String> mapParams = mapRequestParams;
         Map<String, String> mapXslParams = portlet.getXslParams(  );
 
         if ( mapParams != null )
@@ -794,6 +805,12 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         isAuthorizedAdminPageByWorkGroup( nIdPage, user ) );
     }
 
+    /**
+     * Add the HTML code to display admin buttons under each portlet
+     * @param request The Http request
+     * @param portlet The portlet
+     * @return The buttons code
+     */
     private String addAdminButtons( HttpServletRequest request, Portlet portlet )
     {
         AdminUser user = AdminUserService.getAdminUser( request );
@@ -830,6 +847,13 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         return "";
     }
 
+    /**
+     * Gets the params map
+     * @param request The HTTP request
+     * @param nMode The mode
+     * @param nIdPage The page ID
+     * @return the map
+     */
     private Map<String, String> getParams( HttpServletRequest request, int nMode, int nIdPage )
     {
         Map<String, String> mapModifyParam = new HashMap<String, String>(  );
@@ -869,18 +893,17 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         return mapModifyParam;
     }
 
+    /**
+     * Replace the current base url into the page
+     * @param request The HTTP request
+     * @param strPage The page's code
+     * @return The new page's code
+     */
     private String setPageBaseUrl( HttpServletRequest request, String strPage )
     {
         String strBase = AppPathService.getBaseUrl( request );
         boolean bBefore = strPage.contains( strBase );
 
-        strPage = strPage.replaceFirst( "<base href=\".*\" >", "<base href=\"" + strBase + "\" >" );
-
-        boolean bAfter = strPage.contains( strBase );
-
-        AppLogService.debug( "Replacement of <base href=\"***\"> : base=" + strBase + ", before=" + bBefore +
-            ", after=" + bAfter );
-
-        return strPage;
+        return strPage.replaceFirst( "<base href=\".*\" >", "<base href=\"" + strBase + "\" >" );
     }
 }

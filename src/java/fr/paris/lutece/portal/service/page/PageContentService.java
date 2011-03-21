@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2008, Mairie de Paris
+ * Copyright (c) 2002-2010, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,6 +51,9 @@ public class PageContentService extends ContentService
     private static final String SERVICE_NAME = "Page Content Service";
     private IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
     public String getPage( HttpServletRequest request, int nMode )
         throws UserNotSignedException, SiteMessageException
@@ -59,10 +62,7 @@ public class PageContentService extends ContentService
     }
 
     /**
-     * Analyzes request's parameters to see if the request should be handled by the current Content Service
-     *
-     * @param request The HTTP request
-     * @return true if this ContentService should handle this request
+     * {@inheritDoc }
      */
     public boolean isInvoked( HttpServletRequest request )
     {
@@ -76,6 +76,9 @@ public class PageContentService extends ContentService
         return false;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     public String getName(  )
     {
         return SERVICE_NAME;

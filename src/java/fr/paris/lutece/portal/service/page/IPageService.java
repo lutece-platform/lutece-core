@@ -79,7 +79,7 @@ public interface IPageService
      * @return The HTML code of the page as a String.
      * @throws SiteMessageException If a message shouldbe displayed
      */
-    public String getPage( HttpServletRequest request, int nMode )
+    String getPage( HttpServletRequest request, int nMode )
         throws SiteMessageException;
 
     /**
@@ -117,7 +117,7 @@ public interface IPageService
 
     /**
      * Return the ressource id type
-     * @return
+     * @return the resource type id
      */
     String getResourceTypeId(  );
 }

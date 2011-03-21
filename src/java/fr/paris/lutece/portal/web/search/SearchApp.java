@@ -155,8 +155,8 @@ public class SearchApp implements XPageApplication
         url.addParameter( PARAMETER_QUERY, strQueryForPaginator );
         url.addParameter( PARAMETER_NB_ITEMS_PER_PAGE, nNbItemsPerPage );
 
-        Paginator<SearchResult> paginator = new Paginator<SearchResult>( listResults, nNbItemsPerPage, url.getUrl(  ), PARAMETER_PAGE_INDEX,
-                strCurrentPageIndex );
+        Paginator<SearchResult> paginator = new Paginator<SearchResult>( listResults, nNbItemsPerPage, url.getUrl(  ),
+                PARAMETER_PAGE_INDEX, strCurrentPageIndex );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_RESULTS_LIST, paginator.getPageItems(  ) );
@@ -166,9 +166,10 @@ public class SearchApp implements XPageApplication
         model.put( MARK_ERROR, strError );
 
         ISponsoredLinksSearchService sponsoredLinksService = new SponsoredLinksSearchService(  );
-        if( sponsoredLinksService.isAvailable() )
+
+        if ( sponsoredLinksService.isAvailable(  ) )
         {
-        	model.put( MARK_SPONSOREDLINKS_SET,  sponsoredLinksService.getHtmlCode( strQuery, locale ) );
+            model.put( MARK_SPONSOREDLINKS_SET, sponsoredLinksService.getHtmlCode( strQuery, locale ) );
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESULTS, locale, model );

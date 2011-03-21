@@ -43,6 +43,7 @@ public abstract class JPALuteceCoreDAO<K, E> extends JPALuteceDAO<K, E>
 {
     /**
      * Overridden method for core components
+     * {@inheritDoc }
      */
     @Override
     public String getPluginName(  )

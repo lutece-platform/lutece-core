@@ -204,6 +204,8 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
         return new ArrayList<String>(  );
     }
 
+    // CacheEventListener implementation
+
     /**
      * @see java.lang.Object#clone()
      * @return the instance
@@ -211,7 +213,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     @Override
     public Object clone(  )
     {
-        return this;
+        throw new RuntimeException( "This class shouldn't be cloned" );
     }
 
     /**
