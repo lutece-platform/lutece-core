@@ -33,128 +33,156 @@
  */
 package fr.paris.lutece.util.sort;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import java.sql.Timestamp;
-
 import java.util.Comparator;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 
 /**
  * This class provide Attribute Comparator
  */
 public class AttributeComparator implements Comparator<Object>
 {
-    private String _strSortedAttribute;
-    private boolean _bIsASC;
+	private String _strSortedAttribute;
 
-    /**
-     * Constructor
-     * @param strSortedAttribute the name of the attribute on which the sort will be made
-     * @param bIsASC true for the ASC order, false for the DESC order
-     */
-    public AttributeComparator( String strSortedAttribute, boolean bIsASC )
-    {
-        this._strSortedAttribute = strSortedAttribute;
-        this._bIsASC = bIsASC;
-    }
+	private boolean _bIsASC;
 
-    /**
-     * Constructor
-     * @param strSortedAttribute the name of the attribute on which the sort will be made
-     */
-    public AttributeComparator( String strSortedAttribute )
-    {
-        this._strSortedAttribute = strSortedAttribute;
-        this._bIsASC = true;
-    }
+	/**
+	 * Constructor
+	 * @param strSortedAttribute the name of the attribute on which the sort will be made
+	 * @param bIsASC true for the ASC order, false for the DESC order
+	 */
+	public AttributeComparator( String strSortedAttribute, boolean bIsASC )
+	{
+		this._strSortedAttribute = strSortedAttribute;
+		this._bIsASC = bIsASC;
+	}
 
-    /**
-     * Compare two objects o1 and o2.
-     * @param o1 Object
-     * @param o2 Object
-     * @return < 0 if o1 is before o2 in the alphabetical order
-     *           0 if o1 equals o2
-     *         > 0 if o1 is after o2
-     */
-    public int compare( Object o1, Object o2 )
-    {
-        int nStatus = 0;
+	/**
+	 * Constructor
+	 * @param strSortedAttribute the name of the attribute on which the sort will be made
+	 */
+	public AttributeComparator( String strSortedAttribute )
+	{
+		this._strSortedAttribute = strSortedAttribute;
+		this._bIsASC = true;
+	}
 
-        Method method1 = getMethod( o1 );
-        Method method2 = getMethod( o2 );
+	/**
+	 * Compare two objects o1 and o2.
+	 * @param o1 Object
+	 * @param o2 Object
+	 * @return < 0 if o1 is before o2 in the alphabetical order 0 if o1 equals o2 > 0 if o1 is after o2
+	 */
+	public int compare( Object o1, Object o2 )
+	{
+		int nStatus = 0;
 
-        if ( ( method1 != null ) && ( method2 != null ) && ( method1.getReturnType(  ) == method2.getReturnType(  ) ) )
-        {
-            try
-            {
-                String strReturnType = method1.getReturnType(  ).getName(  ).toString(  );
+		Method method1 = getMethod( o1 );
+		Method method2 = getMethod( o2 );
 
-                if ( strReturnType.equals( "java.lang.String" ) )
-                {
-                    nStatus = ( (String) method1.invoke( o1 ) ).toLowerCase(  )
-                                .compareTo( ( (String) method2.invoke( o2 ) ).toLowerCase(  ) );
-                }
-                else if ( strReturnType.equals( "int" ) )
-                {
-                    nStatus = ( (Integer) method1.invoke( o1 ) ).compareTo( (Integer) method2.invoke( o2 ) );
-                }
-                else if ( strReturnType.equals( "boolean" ) )
-                {
-                    nStatus = ( (Boolean) method1.invoke( o1 ) ).compareTo( (Boolean) method2.invoke( o2 ) );
-                }
-                else if ( strReturnType.equals( "java.sql.Timestamp" ) )
-                {
-                    nStatus = ( (Timestamp) method1.invoke( o1 ) ).compareTo( (Timestamp) method2.invoke( o2 ) );
-                }
-            }
-            catch ( IllegalArgumentException e )
-            {
-                AppLogService.error( e );
-            }
-            catch ( IllegalAccessException e )
-            {
-                AppLogService.error( e );
-            }
-            catch ( InvocationTargetException e )
-            {
-                AppLogService.error( e );
-            }
-        }
+		if ( ( method1 != null ) && ( method2 != null ) && ( method1.getReturnType() == method2.getReturnType() ) )
+		{
+			try
+			{
 
-        if ( !_bIsASC )
-        {
-            nStatus = nStatus * ( -1 );
-        }
+				Object oRet1 = method1.invoke( o1 );
+				Object oRet2 = method2.invoke( o2 );
 
-        return nStatus;
-    }
+				String strReturnType = method1.getReturnType().getName().toString();
+				Class<?> returnType = method1.getReturnType();
+				if ( oRet1 == null )
+				{
+					if ( oRet2 == null )
+					{
+						nStatus = 0;
+					}
+					else
+					{
+						nStatus = -1;
+					}
+				}
+				else
+				{
+					if ( oRet2 == null )
+					{
+						nStatus = 1;
+					}
+					else
+					{
+						if ( strReturnType.equals( "java.lang.String" ) )
+						{
+							nStatus = ( ( String ) oRet1 ).toLowerCase().compareTo( ( ( String ) oRet2 ).toLowerCase() );
+						}
+						else if ( returnType.isPrimitive() || isComparable( returnType ) )
+						{
+							nStatus = ( ( Comparable ) oRet1 ).compareTo( ( Comparable ) oRet2 );
+						}
+					}
+				}
+			}
+			catch ( IllegalArgumentException e )
+			{
+				AppLogService.error( e );
+			}
+			catch ( IllegalAccessException e )
+			{
+				AppLogService.error( e );
+			}
+			catch ( InvocationTargetException e )
+			{
+				AppLogService.error( e );
+			}
+		}
 
-    /**
-     * Return the getter method of the object obj for the attribute _strSortedAttribute
-     * @param obj the object
-     * @return method Method of the object obj for the attribute _strSortedAttribute
-     */
-    private Method getMethod( Object obj )
-    {
-        Method method = null;
-        String strFirstLetter = _strSortedAttribute.substring( 0, 1 ).toUpperCase(  );
+		if ( !_bIsASC )
+		{
+			nStatus = nStatus * ( -1 );
+		}
 
-        String strMethodName = "get" + strFirstLetter +
-            _strSortedAttribute.substring( 1, _strSortedAttribute.length(  ) );
+		return nStatus;
+	}
 
-        try
-        {
-            method = obj.getClass(  ).getMethod( strMethodName );
-        }
-        catch ( Exception e )
-        {
-            AppLogService.error( e );
-        }
+	/**
+	 * Return the getter method of the object obj for the attribute _strSortedAttribute
+	 * @param obj the object
+	 * @return method Method of the object obj for the attribute _strSortedAttribute
+	 */
+	private Method getMethod( Object obj )
+	{
+		Method method = null;
+		String strFirstLetter = _strSortedAttribute.substring( 0, 1 ).toUpperCase();
 
-        return method;
-    }
+		String strMethodName = "get" + strFirstLetter + _strSortedAttribute.substring( 1, _strSortedAttribute.length() );
+
+		try
+		{
+			method = obj.getClass().getMethod( strMethodName );
+		}
+		catch ( Exception e )
+		{
+			AppLogService.error( e );
+		}
+
+		return method;
+	}
+
+	/**
+	 * Returns <code>true</code> if the class implements {@link Comparable}, <code>false</code> otherwise.
+	 * @param clazz the class
+	 * @return <code>true</code> if the class implements {@link Comparable}, <code>false</code> otherwise.
+	 */
+	private boolean isComparable( Class<?> clazz )
+	{
+		for ( Class<?> interfac : clazz.getInterfaces() )
+		{
+			if ( interfac.equals( Comparable.class ) )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
