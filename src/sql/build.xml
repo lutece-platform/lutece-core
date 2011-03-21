@@ -30,7 +30,7 @@
                                    replace="${replace.index}" byline="true" flags="gi" />
                 </sequential>
             </for>
-
+        	
             <sql driver="@{sql.driver}"
                  url="@{sql.url}"
                  userid="@{sql.userid}" 
@@ -61,6 +61,8 @@
     <regexp id="regexp.mysql.url" pattern="(.*)/([^?]*)\??" />
 
 	<regexp id="regexp.hsqldb.url" pattern=".*[:|/]([^;]*);?" />
+
+    <regexp id="regexp.postgresql.url" pattern="(.*)/([^?]*)\??" />
     
     <target name="init" description="Prepare the database by creating it and inserting data">
         <echo message="Preparing the database(s) by creating it and inserting data" />
@@ -81,12 +83,15 @@
             <case value="hsqldb">
                 <property name="hsqldb" value="hsqldb" />
             </case>
-						<case value="oracle">
-								<property name="oracle" value="oracle" />
-						</case>
+			<case value="oracle">
+				<property name="oracle" value="oracle" />
+			</case>
             <default>
                 <property name="mysql" value="mysql" />
             </default>
+			<case value="postgresql">
+				<property name="postgresql" value="postgresql" />
+			</case>
         </switch>
         
     </target>
@@ -153,6 +158,29 @@
             <regexp refid="regexp.hsqldb.url"/>
         </propertyregex>
     </target>
+
+    <target name="init_postgresql" if="postgresql">
+        <echo message="=> POSTGRESQL" />
+        
+        <!-- Path to the jar that contain database connector driver -->
+        <property name="db.connector.path" value="${postgresql.connector.jar.path}" />
+        
+        <!-- Define the baseUrl and baseName (drop and create DB) -->
+        <property file="${db.properties.path}" />
+        <propertyregex property="baseUrl"
+                       input="${portal.url}"
+                       select="\1/\2"
+                       casesensitive="false">
+            <regexp refid="regexp.postgresql.url"/>
+        </propertyregex>
+        <propertyregex property="baseName"
+                       input="${portal.url}"
+                       select="\2"
+                       casesensitive="false">
+            <regexp refid="regexp.postgresql.url"/>
+        </propertyregex>
+        <property name="baseOwner" value="${portal.user}" />
+    </target>
     
     <!-- For import lib ant-contrib -->
     <taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -189,7 +217,7 @@
     <target name="update" if="contrib.jar.present" depends="contrib_not_found,db_plugins_specific_database_update"/>
     
     <!-- Target that create db -->	
-    <target name="drop_and_create_db" depends="init, init_mysql, init_hsqldb, init_oracle">
+    <target name="drop_and_create_db" depends="init, init_mysql, init_hsqldb, init_oracle, init_postgresql">
         <echo message="Create the core database ${baseName} on host ${baseUrl}" />	
         <property file="${db.properties.path}" />
         
