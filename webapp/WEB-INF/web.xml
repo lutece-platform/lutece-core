@@ -63,6 +63,8 @@
         <url-pattern>/images/*</url-pattern>
         <url-pattern>/css/*</url-pattern>
         <url-pattern>/js/*</url-pattern>
+        <url-pattern>/document/*</url-pattern>
+        <url-pattern>/rest/*</url-pattern>
     </filter-mapping>
 
     <filter-mapping>

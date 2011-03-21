@@ -143,11 +143,11 @@
     <defaultCache
             maxElementsInMemory="10000"
             eternal="false"
-            timeToIdleSeconds="120"
-            timeToLiveSeconds="120"
+            timeToIdleSeconds="300"
+            timeToLiveSeconds="300"
             overflowToDisk="true"
             diskPersistent="true"
-            diskExpiryThreadIntervalSeconds="120"
+            diskExpiryThreadIntervalSeconds="300"
             memoryStoreEvictionPolicy="LRU"
             />
 
