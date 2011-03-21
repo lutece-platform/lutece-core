@@ -4,6 +4,8 @@
         <#if error?has_content>
         <div class="error">${error}</div>
         </#if>
+        <#-- included sponsored links if available - might be null -->
+        ${sponsoredlinks_set!}
         <div>#i18n{portal.search.search_results.labelResultsCount} : <strong>${paginator.itemsCount}</strong></div>
         <div>#i18n{portal.search.search_results.labelResultsRange} : <strong>${paginator.rangeMin} - ${paginator.rangeMax}</strong></div>
         <div>&nbsp;</div>

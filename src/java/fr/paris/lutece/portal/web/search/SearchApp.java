@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2010, Mairie de Paris
+ * Copyright (c) 2002-2011, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,10 +39,12 @@ import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.search.ISponsoredLinksSearchService;
 import fr.paris.lutece.portal.service.search.QueryEvent;
 import fr.paris.lutece.portal.service.search.QueryListenersService;
 import fr.paris.lutece.portal.service.search.SearchEngine;
 import fr.paris.lutece.portal.service.search.SearchResult;
+import fr.paris.lutece.portal.service.search.SponsoredLinksSearchService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -89,6 +91,7 @@ public class SearchApp implements XPageApplication
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_ERROR = "error";
+    private static final String MARK_SPONSOREDLINKS_SET = "sponsoredlinks_set";
     private static final String PROPERTY_ENCODE_URI = "search.encode.uri";
     private static final String PROPERTY_ENCODE_URI_ENCODING = "search.encode.uri.encoding";
     private static final String DEFAULT_URI_ENCODING = "ISO-8859-1";
@@ -152,7 +155,7 @@ public class SearchApp implements XPageApplication
         url.addParameter( PARAMETER_QUERY, strQueryForPaginator );
         url.addParameter( PARAMETER_NB_ITEMS_PER_PAGE, nNbItemsPerPage );
 
-        Paginator paginator = new Paginator( listResults, nNbItemsPerPage, url.getUrl(  ), PARAMETER_PAGE_INDEX,
+        Paginator<SearchResult> paginator = new Paginator<SearchResult>( listResults, nNbItemsPerPage, url.getUrl(  ), PARAMETER_PAGE_INDEX,
                 strCurrentPageIndex );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -161,6 +164,12 @@ public class SearchApp implements XPageApplication
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_NB_ITEMS_PER_PAGE, strNbItemPerPage );
         model.put( MARK_ERROR, strError );
+
+        ISponsoredLinksSearchService sponsoredLinksService = new SponsoredLinksSearchService(  );
+        if( sponsoredLinksService.isAvailable() )
+        {
+        	model.put( MARK_SPONSOREDLINKS_SET,  sponsoredLinksService.getHtmlCode( strQuery, locale ) );
+        }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESULTS, locale, model );
 
@@ -188,7 +197,7 @@ public class SearchApp implements XPageApplication
 
         String strEncoded = EncodingService.encodeUrl( strSource, PROPERTY_ENCODE_URI_ENCODING, DEFAULT_URI_ENCODING );
 
-        if ( StringUtils.isBlank( strEncoded ) )
+        if ( StringUtils.isBlank( strEncoded ) && StringUtils.isNotBlank( strSource ) )
         {
             SiteMessageService.setMessage( request, MESSAGE_ENCODING_ERROR, SiteMessage.TYPE_ERROR );
         }
