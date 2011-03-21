@@ -50,6 +50,7 @@ import java.io.FilenameFilter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,13 +62,13 @@ import java.util.Map;
  */
 public final class SpringContextService
 {
-    //private static final String CORE = "core";
-    //private static Map<String, ApplicationContext> _mapContext = new HashMap<String, ApplicationContext>(  );
     private static final String PATH_CONF = "/WEB-INF/conf/";
     private static final String DIR_PLUGINS = "plugins/";
     private static final String SUFFIX_CONTEXT_FILE = "_context.xml";
     private static final String FILE_CORE_CONTEXT = "core_context.xml";
+
     private static ApplicationContext _context;
+    private static Map<Class, List> _mapBeansOfType = new HashMap<Class, List>();
 
     /** Creates a new instance of SpringContextService */
     private SpringContextService(  )
@@ -100,48 +101,6 @@ public final class SpringContextService
         return _context.getBean( strName );
     }
 
-    /**
-     * Gets a Spring Application context from a given name
-     * @param strContextName The context's name
-     * @return The context
-     * @deprecated
-     */
-
-    /*private static ApplicationContext getContext( String strContextName )
-    {
-        // Try to get the context from the cache
-        ApplicationContext context = (ApplicationContext) _mapContext.get( strContextName );
-
-        if ( context == null )
-        {
-            // If not found then load the context from the XML file
-            String strContextFilePath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
-
-            if ( !strContextName.equals( CORE ) )
-            {
-                strContextFilePath += DIR_PLUGINS;
-            }
-
-            String strContextFile = strContextFilePath + strContextName + SUFFIX_CONTEXT_FILE;
-
-            try
-            {
-                context = new FileSystemXmlApplicationContext( "file:" + strContextFile );
-            }
-            catch ( Exception e )
-            {
-                AppLogService.debug( "Error retrieving context file : " + e.getMessage(  ) );
-            }
-            finally
-            {
-                _mapContext.put( strContextName, context );
-            }
-
-            _mapContext.put( strContextName, context );
-        }
-
-        return context;
-    }*/
 
     /**
      * Initialize a global Application Context containing all beans (core + plugins)
@@ -229,7 +188,15 @@ public final class SpringContextService
      */
     public static <T> List<T> getBeansOfType( Class<T> classDef )
     {
-        List<T> list = new ArrayList<T>(  );
+        // Search the list in the cache
+        List<T> list = _mapBeansOfType.get(classDef);
+        if( list != null )
+        {
+            return list;
+        }
+
+        // The list is not in the cache, so we have to build it
+        list = new ArrayList<T>(  );
         Map<String, T> map = BeanFactoryUtils.beansOfTypeIncludingAncestors( _context, classDef );
         String[] sBeanNames = map.keySet(  ).toArray( new String[0] );
 
@@ -242,7 +209,7 @@ public final class SpringContextService
                 list.add( map.get( strBeanName ) );
             }
         }
-
+        _mapBeansOfType.put(classDef, list);
         return list;
     }
 
