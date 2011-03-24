@@ -42,7 +42,7 @@ import net.sf.ehcache.constructs.blocking.LockTimeoutException;
 import net.sf.ehcache.constructs.web.AlreadyCommittedException;
 import net.sf.ehcache.constructs.web.AlreadyGzippedException;
 import net.sf.ehcache.constructs.web.filter.FilterNonReentrantException;
-import net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter;
+import net.sf.ehcache.constructs.web.filter.SimpleCachingHeadersPageCachingFilter;
 
 import org.apache.log4j.Logger;
 
@@ -58,7 +58,7 @@ import javax.servlet.http.HttpServletResponse;
  * Headers Page Caching Filter
  * based on EHCACHE WEB
  */
-public class HeadersPageCachingFilter extends SimplePageCachingFilter implements CacheableService
+public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFilter implements CacheableService
 {
     private static final String SERVICE_NAME = "Headers and Page Caching Filter";
     private static final String CACHE_NAME = "HeadersPageCachingFilterCache";
