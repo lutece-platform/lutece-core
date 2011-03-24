@@ -35,15 +35,19 @@ package fr.paris.lutece.portal.service.cache;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import java.io.File;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 
 /**
@@ -53,7 +57,10 @@ public final class CacheService
 {
     private static CacheService _singleton;
     private static final String PATH_CONF = "/WEB-INF/conf/";
+    private static final String PROPERTY_PATH_CONF = "path.conf";
     private static final String FILE_EHCACHE_CONFIG = "ehcache.xml";
+    private static final String PROPERTY_IS_ENABLED = ".enabled";
+    private static final String FILE_CACHES_STATUS = "caches.dat";
     private static CacheManager _manager;
 
     // Cacheable Services registry
@@ -125,6 +132,7 @@ public final class CacheService
      */
     public void shutdown(  )
     {
+        CacheService.storeCachesStatus();
         _manager.shutdown(  );
     }
 
@@ -147,6 +155,9 @@ public final class CacheService
     public static void registerCacheableService( CacheableService cs )
     {
         _listCacheableServicesRegistry.add( cs );
+        
+        // read cache status from file "caches.dat"
+        cs.enableCache( getStatus( cs ));
     }
 
     /**
@@ -158,4 +169,74 @@ public final class CacheService
     {
         return _listCacheableServicesRegistry;
     }
+
+
+    /**
+     * Stores cache status
+     */
+    public static void storeCachesStatus(  )
+    {
+        Properties properties = new Properties();
+        for ( CacheableService cs : _listCacheableServicesRegistry )
+        {
+            properties.setProperty( normalizeName( cs.getName(  ) ) + PROPERTY_IS_ENABLED,
+                cs.isCacheEnable() ? "1" : "0" );
+        }
+
+        try
+        {
+            String strCachesStatusFile = AppPathService.getPath( PROPERTY_PATH_CONF, FILE_CACHES_STATUS );
+            File file = new File( strCachesStatusFile );
+            FileOutputStream fos = new FileOutputStream( file );
+            properties.store( fos, "Caches status file" );
+        }
+        catch ( Exception e )
+        {
+            AppLogService.error( "Error storing caches status file : " + e.getMessage(  ), e );
+        }
+    }
+
+    /**
+     * Load caches status
+     */
+    private static Properties loadCachesStatus(  )
+    {
+        String strCachesStatusFile = AppPathService.getPath( PROPERTY_PATH_CONF, FILE_CACHES_STATUS );
+        File file = new File( strCachesStatusFile );
+        Properties properties = new Properties();
+
+        try
+        {
+            FileInputStream fis = new FileInputStream( file );
+            properties.load( fis );
+            return properties;
+        }
+        catch( FileNotFoundException e )
+        {
+            return properties;
+        }
+        catch ( Exception e )
+        {
+            AppLogService.error( "Error loading caches status defined in file : " + file.getAbsolutePath(  ), e );
+        }
+        return null;
+    }
+    
+    private static boolean getStatus( CacheableService cs )
+    {
+        Properties properties = loadCachesStatus();
+        String strEnabled = "1";
+        if( properties != null )
+        {
+            String prop = normalizeName( cs.getName()) + PROPERTY_IS_ENABLED;
+            strEnabled = properties.getProperty( prop , "1");
+        }
+        return strEnabled.equals("1");
+    }
+
+    private static String normalizeName( String strName )
+    {
+        return strName.replace(" ", "");
+    }
+
 }
