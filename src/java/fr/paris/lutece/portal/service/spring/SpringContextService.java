@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
-import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 
 import org.springframework.context.ApplicationContext;
@@ -197,7 +196,7 @@ public final class SpringContextService
         // The list is not in the cache, so we have to build it
         list = new ArrayList<T>(  );
 
-        Map<String, T> map = BeanFactoryUtils.beansOfTypeIncludingAncestors( _context, classDef );
+        Map<String, T> map = _context.getBeansOfType( classDef );
         String[] sBeanNames = map.keySet(  ).toArray( new String[0] );
 
         for ( String strBeanName : sBeanNames )
