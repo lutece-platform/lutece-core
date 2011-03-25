@@ -1,0 +1,1 @@
+ALTER TABLE core_portlet ADD role varchar(50) default NULL;
