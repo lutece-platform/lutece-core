@@ -44,7 +44,6 @@ import net.sf.ehcache.CacheManager;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
 import java.util.ArrayList;
@@ -60,9 +59,7 @@ import net.sf.ehcache.management.ManagementService;
 public final class CacheService
 {
 
-    private static final String PATH_CONF = "/WEB-INF/conf/";
     private static final String PROPERTY_PATH_CONF = "path.conf";
-    private static final String FILE_EHCACHE_CONFIG = "ehcache.xml";
     private static final String PROPERTY_IS_ENABLED = ".enabled";
     private static final String FILE_CACHES_STATUS = "caches.dat";
     // Cache configuration properties
@@ -82,6 +79,15 @@ public final class CacheService
     private static final String PROPERTY_MONITOR_CACHE_STATISTICS = "lutece.cache.jmx.monitorCacheStatistics";
     private static final String FALSE = "false";
     private static final String TRUE = "true";
+    private static final String PREFIX_DEFAULT = "lutece.cache.default";
+    private int nDefaultMaxElementsInMemory;
+    private boolean bDefaultEternal;
+    private long lDefaultTimeToIdle;
+    private long lDefaultTimeToLive;
+    private boolean bDefaultOverflowToDisk;
+    private boolean bDefaultDiskPersistent;
+    private long lDefaultDiskExpiry;
+    private int nDefaultMaxElementsOnDisk;
     private static CacheService _singleton;
     private static CacheManager _manager;
     private static Properties _propertiesCacheConfig;
@@ -113,21 +119,13 @@ public final class CacheService
      */
     private void init()
     {
-        try
+        _manager = CacheManager.create();
+        loadDefaults();
+        loadCachesConfig();
+        boolean bJmxMonitoring = AppPropertiesService.getProperty(PROPERTY_JMX_MONITORING, FALSE).equals(TRUE);
+        if (bJmxMonitoring)
         {
-            FileInputStream fis = AppPathService.getResourceAsStream(PATH_CONF, FILE_EHCACHE_CONFIG);
-            loadCachesConfig();
-            _manager = CacheManager.create(fis);
-            fis.close();
-            boolean bJmxMonitoring = AppPropertiesService.getProperty(PROPERTY_JMX_MONITORING, FALSE).equals(TRUE);
-            if (bJmxMonitoring)
-            {
-                initJmxMonitoring();
-            }
-
-        } catch (IOException e)
-        {
-            AppLogService.error(e.getMessage(), e);
+            initJmxMonitoring();
         }
     }
 
@@ -254,6 +252,21 @@ public final class CacheService
     }
 
     /**
+     * Load defaults configuration parameters
+     */
+    private void loadDefaults()
+    {
+        nDefaultMaxElementsInMemory = AppPropertiesService.getPropertyInt(PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS, 10000);
+        bDefaultEternal = AppPropertiesService.getPropertyBoolean(PREFIX_DEFAULT + PROPERTY_ETERNAL, false);
+        lDefaultTimeToIdle = AppPropertiesService.getPropertyLong(PREFIX_DEFAULT + PROPERTY_TIME_TO_IDLE, 10000L);
+        lDefaultTimeToLive = AppPropertiesService.getPropertyLong(PREFIX_DEFAULT + PROPERTY_TIME_TO_LIVE, 10000L);
+        bDefaultOverflowToDisk = AppPropertiesService.getPropertyBoolean(PREFIX_DEFAULT + PROPERTY_OVERFLOW_TO_DISK, true);
+        bDefaultDiskPersistent = AppPropertiesService.getPropertyBoolean(PREFIX_DEFAULT + PROPERTY_DISK_PERSISTENT, true);
+        lDefaultDiskExpiry = AppPropertiesService.getPropertyLong(PREFIX_DEFAULT + PROPERTY_DISK_EXPIRY, 120L);
+        nDefaultMaxElementsOnDisk = AppPropertiesService.getPropertyInt( PREFIX_DEFAULT+ PROPERTY_MAX_ELEMENTS_DISK, 10000);
+    }
+
+    /**
      * Load caches status
      */
     private void loadCachesConfig()
@@ -311,26 +324,27 @@ public final class CacheService
         CacheConfiguration config = new CacheConfiguration();
         config.setName(strCacheName);
         String strPrefix = normalizeName(strCacheName);
-        config.setMaxElementsInMemory(getIntProperty(strPrefix + PROPERTY_MAX_ELEMENTS, 10000));
-        config.setEternal(getBooleanProperty(strPrefix + PROPERTY_ETERNAL, false));
-        config.setTimeToIdleSeconds(getLongProperty(strPrefix + PROPERTY_TIME_TO_IDLE, 10000L));
-        config.setTimeToLiveSeconds(getLongProperty(strPrefix + PROPERTY_TIME_TO_LIVE, 10000L));
-        config.setOverflowToDisk(getBooleanProperty(strPrefix + PROPERTY_OVERFLOW_TO_DISK, true));
-        config.setDiskPersistent(getBooleanProperty(strPrefix + PROPERTY_DISK_PERSISTENT, true));
-        config.setDiskExpiryThreadIntervalSeconds(getLongProperty(strPrefix + PROPERTY_DISK_EXPIRY, 120L));
-        config.setMaxElementsOnDisk(getIntProperty(strPrefix + PROPERTY_MAX_ELEMENTS_DISK, 10000));
+        config.setMaxElementsInMemory(getIntProperty(strPrefix, PROPERTY_MAX_ELEMENTS, nDefaultMaxElementsInMemory));
+        config.setEternal(getBooleanProperty(strPrefix, PROPERTY_ETERNAL, bDefaultEternal));
+        config.setTimeToIdleSeconds(getLongProperty(strPrefix, PROPERTY_TIME_TO_IDLE, lDefaultTimeToIdle));
+        config.setTimeToLiveSeconds(getLongProperty(strPrefix, PROPERTY_TIME_TO_LIVE, lDefaultTimeToLive));
+        config.setOverflowToDisk(getBooleanProperty(strPrefix, PROPERTY_OVERFLOW_TO_DISK, bDefaultOverflowToDisk));
+        config.setDiskPersistent(getBooleanProperty(strPrefix, PROPERTY_DISK_PERSISTENT, bDefaultDiskPersistent));
+        config.setDiskExpiryThreadIntervalSeconds(getLongProperty(strPrefix, PROPERTY_DISK_EXPIRY, lDefaultDiskExpiry));
+        config.setMaxElementsOnDisk(getIntProperty(strPrefix, PROPERTY_MAX_ELEMENTS_DISK, nDefaultMaxElementsOnDisk));
         return config;
     }
 
     /**
      * Read an Integer property
+     * @param strPrefix Property's prefix
      * @param strKey the key
      * @param nDefault the default value
      * @return The property's value
      */
-    private int getIntProperty(String strKey, int nDefault)
+    private int getIntProperty(String strPrefix, String strKey, int nDefault)
     {
-        String strValue = _propertiesCacheConfig.getProperty(strKey);
+        String strValue = _propertiesCacheConfig.getProperty(strPrefix + strKey);
         if (strValue != null)
         {
             try
@@ -346,13 +360,14 @@ public final class CacheService
 
     /**
      * Read a Long property
+     * @param strPrefix Property's prefix
      * @param strKey the key
      * @param lDefault the default value
      * @return The property's value
      */
-    private long getLongProperty(String strKey, long lDefault)
+    private long getLongProperty(String strPrefix, String strKey, long lDefault)
     {
-        String strValue = _propertiesCacheConfig.getProperty(strKey);
+        String strValue = _propertiesCacheConfig.getProperty(strPrefix + strKey);
         if (strValue != null)
         {
             try
@@ -368,13 +383,14 @@ public final class CacheService
 
     /**
      * Read a Boolean property
+     * @param strPrefix Property's prefix
      * @param strKey the key
      * @param bDefault the default value
      * @return The property's value
      */
-    private boolean getBooleanProperty(String strKey, boolean bDefault)
+    private boolean getBooleanProperty(String strPrefix, String strKey, boolean bDefault)
     {
-        String strValue = _propertiesCacheConfig.getProperty(strKey);
+        String strValue = _propertiesCacheConfig.getProperty(strPrefix, strKey);
         if (strValue != null)
         {
             return (strValue.equalsIgnoreCase("true"));

@@ -132,6 +132,32 @@ public final class AppPropertiesService
     }
 
     /**
+     * Returns the value of a variable defined in the .properties file of the application as an long
+     *
+     * @param strProperty The variable name
+     * @param nDefault The default value which is returned if no value is found for the variable in the le downloadFile
+     *        .properties. .properties file.
+     * @return The variable value read in the properties file
+     */
+    public static long getPropertyLong( String strProperty, long lDefault )
+    {
+        return _propertiesService.getPropertyLong( strProperty, lDefault );
+    }
+
+    /**
+     * Returns the value of a variable defined in the .properties file of the application as a boolean
+     *
+     * @param strProperty The variable name
+     * @param bDefault The default value which is returned if no value is found for the variable in the le downloadFile
+     *        .properties. .properties file.
+     * @return The variable value read in the properties file
+     */
+    public static boolean getPropertyBoolean( String strProperty, boolean bDefault )
+    {
+        return _propertiesService.getPropertyBoolean( strProperty, bDefault );
+    }
+
+    /**
      * Reloads all the properties files
      */
     public static void reloadAll(  )
