@@ -401,9 +401,9 @@ public abstract class Portlet implements XmlContent
     }
 
     /**
-    * Gets the page role
+    * Gets the portlet's role
     * @return page's role as a String
-    * @since v1.1
+    * @since v2.5
     */
     public String getRole(  )
     {
@@ -413,9 +413,9 @@ public abstract class Portlet implements XmlContent
     }
 
     /**
-     * Sets the page's role
+     * Sets the portlet's role
      * @param strRole The role
-     * @since v1.1
+     * @since v2.5
      */
     public void setRole( String strRole )
     {
@@ -447,6 +447,7 @@ public abstract class Portlet implements XmlContent
         setPluginName( portlet.getPluginName(  ) );
         setDisplayPortletTitle( portlet.getDisplayPortletTitle(  ) );
         setStatus( portlet.getStatus(  ) );
+        setRole( portlet.getRole() );
     }
 
     /**
