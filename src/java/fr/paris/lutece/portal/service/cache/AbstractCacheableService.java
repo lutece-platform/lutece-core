@@ -83,6 +83,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     {
         _cache = CacheService.getInstance(  ).createCache( strCacheName );
         _cache.getCacheEventNotificationService(  ).registerListener( this );
+
     }
 
     /**

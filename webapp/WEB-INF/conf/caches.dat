@@ -1,0 +1,13 @@
+#Caches status file
+#Sun Mar 27 03:06:48 CEST 2011
+SiteMapService.enabled=1
+MyPortalWidgetService.enabled=1
+PortalMenuService.enabled=1
+DocumentResourceServletCache.enabled=1
+PageCacheService.enabled=1
+PortletCacheService.enabled=1
+MyPortalWidgetContentService.enabled=1
+PageCachingFilter.enabled=1
+StaticFilesCachingFilter.enabled=1
+StaticFilesCachingFilter.timeToLiveSeconds=1000000
+

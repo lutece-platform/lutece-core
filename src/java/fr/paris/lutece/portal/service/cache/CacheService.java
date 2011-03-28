@@ -48,26 +48,37 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
+import net.sf.ehcache.config.CacheConfiguration;
 
 /**
  * Provides cache object for cacheable services
  */
 public final class CacheService
 {
-    private static CacheService _singleton;
+
     private static final String PATH_CONF = "/WEB-INF/conf/";
     private static final String PROPERTY_PATH_CONF = "path.conf";
     private static final String FILE_EHCACHE_CONFIG = "ehcache.xml";
     private static final String PROPERTY_IS_ENABLED = ".enabled";
     private static final String FILE_CACHES_STATUS = "caches.dat";
-    private static CacheManager _manager;
+    private static final String PROPERTY_MAX_ELEMENTS = ".maxElementsInMemory";
+    private static final String PROPERTY_ETERNAL = ".eternal";
+    private static final String PROPERTY_TIME_TO_IDLE = ".timeToIdleSeconds";
+    private static final String PROPERTY_TIME_TO_LIVE = ".timeToLiveSeconds";
+    private static final String PROPERTY_OVERFLOW_TO_DISK = ".overflowToDisk";
+    private static final String PROPERTY_DISK_PERSISTENT = ".diskPersistent";
+    private static final String PROPERTY_DISK_EXPIRY = ".diskExpiryThreadIntervalSeconds";
+    private static final String PROPERTY_MAX_ELEMENTS_DISK = ".maxElementsOnDisk";
 
+
+    private static CacheService _singleton;
+    private static CacheManager _manager;
+    private static Properties _propertiesCacheConfig;
     // Cacheable Services registry
-    private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<CacheableService>(  );
+    private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<CacheableService>();
 
     /** Creates a new instance of CacheService */
-    private CacheService(  )
+    private CacheService()
     {
     }
 
@@ -75,12 +86,12 @@ public final class CacheService
      * Gets the unique instance of the CacheService
      * @return The unique instance of the CacheService
      */
-    public static synchronized CacheService getInstance(  )
+    public static synchronized CacheService getInstance()
     {
-        if ( _singleton == null )
+        if (_singleton == null)
         {
-            _singleton = new CacheService(  );
-            _singleton.init(  );
+            _singleton = new CacheService();
+            _singleton.init();
         }
 
         return _singleton;
@@ -89,17 +100,18 @@ public final class CacheService
     /**
      * Itializes the service by creating a manager object with a given configuration file.
      */
-    private void init(  )
+    private void init()
     {
         try
         {
-            FileInputStream fis = AppPathService.getResourceAsStream( PATH_CONF, FILE_EHCACHE_CONFIG );
-            _manager = CacheManager.create( fis );
-            fis.close(  );
-        }
-        catch ( IOException e )
+            FileInputStream fis = AppPathService.getResourceAsStream(PATH_CONF, FILE_EHCACHE_CONFIG);
+            loadCachesConfig();
+            _manager = CacheManager.create(fis);
+
+            fis.close();
+        } catch (IOException e)
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error(e.getMessage(), e);
         }
     }
 
@@ -108,32 +120,33 @@ public final class CacheService
      * @param strCacheName The Cache/Service name
      * @return A cache object
      */
-    public Cache createCache( String strCacheName )
+    public Cache createCache(String strCacheName)
     {
-        _manager.addCache( strCacheName );
+        Cache cache = new Cache(getCacheConfiguration(strCacheName));
+        _manager.addCache(cache);
 
-        return _manager.getCache( strCacheName );
+        return _manager.getCache(strCacheName);
     }
 
     /**
      * Reset all caches
      */
-    public static void resetCaches(  )
+    public static void resetCaches()
     {
         // Reset cache
-        for ( CacheableService cs : _listCacheableServicesRegistry )
+        for (CacheableService cs : _listCacheableServicesRegistry)
         {
-            cs.resetCache(  );
+            cs.resetCache();
         }
     }
 
     /**
      * Shutdown the cache service and the cache manager. Should be called when the webapp is stopped.
      */
-    public void shutdown(  )
+    public void shutdown()
     {
         CacheService.storeCachesStatus();
-        _manager.shutdown(  );
+        _manager.shutdown();
     }
 
     /**
@@ -143,21 +156,22 @@ public final class CacheService
      * @param cs The CacheableService
      */
     @Deprecated
-    public static void registerCacheableService( String strName, CacheableService cs )
+    public static void registerCacheableService(String strName, CacheableService cs)
     {
-        registerCacheableService( cs );
+        registerCacheableService(cs);
     }
 
     /**
      * Registers a new CacheableService
      * @param cs The CacheableService
      */
-    public static void registerCacheableService( CacheableService cs )
+    public static void registerCacheableService(CacheableService cs)
     {
-        _listCacheableServicesRegistry.add( cs );
-        
+        _listCacheableServicesRegistry.add(cs);
+
         // read cache status from file "caches.dat"
-        cs.enableCache( getStatus( cs ));
+        cs.enableCache(getStatus(cs));
+
     }
 
     /**
@@ -165,78 +179,128 @@ public final class CacheService
      *
      * @return A collection containing all registered Cacheable services
      */
-    public static List<CacheableService> getCacheableServicesList(  )
+    public static List<CacheableService> getCacheableServicesList()
     {
         return _listCacheableServicesRegistry;
     }
 
-
     /**
      * Stores cache status
      */
-    public static void storeCachesStatus(  )
+    public static void storeCachesStatus()
     {
-        Properties properties = new Properties();
-        for ( CacheableService cs : _listCacheableServicesRegistry )
+        for (CacheableService cs : _listCacheableServicesRegistry)
         {
-            properties.setProperty( normalizeName( cs.getName(  ) ) + PROPERTY_IS_ENABLED,
-                cs.isCacheEnable() ? "1" : "0" );
+            _propertiesCacheConfig.setProperty(normalizeName(cs.getName()) + PROPERTY_IS_ENABLED,
+                    cs.isCacheEnable() ? "1" : "0");
         }
 
         try
         {
-            String strCachesStatusFile = AppPathService.getPath( PROPERTY_PATH_CONF, FILE_CACHES_STATUS );
-            File file = new File( strCachesStatusFile );
-            FileOutputStream fos = new FileOutputStream( file );
-            properties.store( fos, "Caches status file" );
-        }
-        catch ( Exception e )
+            String strCachesStatusFile = AppPathService.getPath(PROPERTY_PATH_CONF, FILE_CACHES_STATUS);
+            File file = new File(strCachesStatusFile);
+            FileOutputStream fos = new FileOutputStream(file);
+            _propertiesCacheConfig.store(fos, "Caches status file");
+        } catch (Exception e)
         {
-            AppLogService.error( "Error storing caches status file : " + e.getMessage(  ), e );
+            AppLogService.error("Error storing caches status file : " + e.getMessage(), e);
         }
     }
 
     /**
      * Load caches status
      */
-    private static Properties loadCachesStatus(  )
+    private void loadCachesConfig()
     {
-        String strCachesStatusFile = AppPathService.getPath( PROPERTY_PATH_CONF, FILE_CACHES_STATUS );
-        File file = new File( strCachesStatusFile );
-        Properties properties = new Properties();
+        String strCachesStatusFile = AppPathService.getPath(PROPERTY_PATH_CONF, FILE_CACHES_STATUS);
+        File file = new File(strCachesStatusFile);
 
         try
         {
-            FileInputStream fis = new FileInputStream( file );
-            properties.load( fis );
-            return properties;
-        }
-        catch( FileNotFoundException e )
+            _propertiesCacheConfig = new Properties();
+            FileInputStream fis = new FileInputStream(file);
+            _propertiesCacheConfig.load(fis);
+        } catch (FileNotFoundException e)
         {
-            return properties;
-        }
-        catch ( Exception e )
+            AppLogService.error("No cache.dat file. Should be created at shutdown.");
+        } catch (Exception e)
         {
-            AppLogService.error( "Error loading caches status defined in file : " + file.getAbsolutePath(  ), e );
+            AppLogService.error("Error loading caches status defined in file : " + file.getAbsolutePath(), e);
         }
-        return null;
     }
-    
-    private static boolean getStatus( CacheableService cs )
+
+    private static boolean getStatus(CacheableService cs)
     {
-        Properties properties = loadCachesStatus();
         String strEnabled = "1";
-        if( properties != null )
+        if (_propertiesCacheConfig != null)
         {
-            String prop = normalizeName( cs.getName()) + PROPERTY_IS_ENABLED;
-            strEnabled = properties.getProperty( prop , "1");
+            String prop = normalizeName(cs.getName()) + PROPERTY_IS_ENABLED;
+            strEnabled = _propertiesCacheConfig.getProperty(prop, "1");
         }
         return strEnabled.equals("1");
     }
 
-    private static String normalizeName( String strName )
+    private static String normalizeName(String strName)
     {
         return strName.replace(" ", "");
+    }
+
+    private CacheConfiguration getCacheConfiguration(String strCacheName)
+    {
+        CacheConfiguration config = new CacheConfiguration();
+        config.setName(strCacheName);
+        String strPrefix = normalizeName(strCacheName);
+        config.setMaxElementsInMemory(getIntProperty(strPrefix + PROPERTY_MAX_ELEMENTS, 10000));
+        config.setEternal( getBooleanProperty(strPrefix + PROPERTY_ETERNAL, false));
+        config.setTimeToIdleSeconds( getLongProperty(strPrefix + PROPERTY_TIME_TO_IDLE, 10000L));
+        config.setTimeToLiveSeconds(getLongProperty(strPrefix + PROPERTY_TIME_TO_LIVE, 10000L));
+        config.setOverflowToDisk( getBooleanProperty(strPrefix + PROPERTY_OVERFLOW_TO_DISK, true ));
+        config.setDiskPersistent( getBooleanProperty( strPrefix + PROPERTY_DISK_PERSISTENT , true ));
+        config.setDiskExpiryThreadIntervalSeconds(getLongProperty(strPrefix + PROPERTY_DISK_EXPIRY, 120L));
+        config.setMaxElementsOnDisk(getIntProperty(strPrefix+PROPERTY_MAX_ELEMENTS_DISK, 10000 ));
+        return config;
+    }
+
+    private int getIntProperty(String strKey, int nDefault)
+    {
+        String strValue = _propertiesCacheConfig.getProperty(strKey);
+        if (strValue != null)
+        {
+            try
+            {
+                int nValue = Integer.parseInt(strValue);
+                return nValue;
+            } catch (NumberFormatException e)
+            {
+            }
+        }
+        return nDefault;
+    }
+
+    private long getLongProperty(String strKey, long lDefault)
+    {
+        String strValue = _propertiesCacheConfig.getProperty(strKey);
+        if (strValue != null)
+        {
+            try
+            {
+                long lValue = Integer.parseInt(strValue);
+                return lValue;
+            } catch (NumberFormatException e)
+            {
+            }
+        }
+        return lDefault;
+    }
+
+    private boolean getBooleanProperty(String strKey, boolean bDefault)
+    {
+        String strValue = _propertiesCacheConfig.getProperty(strKey);
+        if (strValue != null)
+        {
+            return ( strValue.equalsIgnoreCase("true"));
+        }
+        return bDefault;
     }
 
 }

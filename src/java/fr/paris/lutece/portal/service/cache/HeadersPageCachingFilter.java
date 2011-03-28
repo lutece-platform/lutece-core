@@ -60,13 +60,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFilter implements CacheableService
 {
-    private static final String SERVICE_NAME = "Headers and Page Caching Filter";
-    private static final String CACHE_NAME = "HeadersPageCachingFilterCache";
     private static final String BLOCKING_TIMEOUT_MILLIS = "blockingTimeoutMillis";
+    private static final String INIT_PARAM_CACHE_NAME = "cacheName";
+
     private Cache _cache;
     private Logger _logger = Logger.getLogger( "lutece.cache" );
     private boolean _bInit;
     private boolean _bEnable = true;
+    private String _strCacheName;
 
     /**
      *  {@inheritDoc }
@@ -89,10 +90,11 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
         {
             if ( blockingCache == null )
             {
-                CacheService.getInstance(  ).createCache( CACHE_NAME );
-                _cache = CacheManager.getInstance(  ).getCache( CACHE_NAME );
+                _strCacheName = filterConfig.getInitParameter(INIT_PARAM_CACHE_NAME);
+                CacheService.getInstance(  ).createCache( _strCacheName );
+                _cache = CacheManager.getInstance(  ).getCache( _strCacheName );
                 CacheService.registerCacheableService( this );
-                _logger.debug( "Initializing cache : " + CACHE_NAME );
+                _logger.debug( "Initializing cache : " + _strCacheName );
 
                 setCacheNameIfAnyConfigured( filterConfig );
 
@@ -154,7 +156,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     @Override
     protected String getCacheName(  )
     {
-        return CACHE_NAME;
+        return _strCacheName;
     }
 
     /**
@@ -211,7 +213,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
      */
     public String getName(  )
     {
-        return SERVICE_NAME;
+        return _strCacheName;
     }
 
     /**
