@@ -208,6 +208,25 @@ public final class CacheService
     }
 
     /**
+     * Returns cache config
+     * @param _cache The cache
+     * @return Cache infos
+     */
+    static String getInfos(Cache _cache)
+    {
+        StringBuilder sbInfos = new StringBuilder();
+        sbInfos.append(PROPERTY_MAX_ELEMENTS).append("=").append(_cache.getCacheConfiguration().getMaxElementsInMemory()).append("\n");
+        sbInfos.append(PROPERTY_ETERNAL).append("=").append(_cache.getCacheConfiguration().isEternal()).append("\n");
+        sbInfos.append(PROPERTY_TIME_TO_IDLE).append("=").append(_cache.getCacheConfiguration().getTimeToIdleSeconds()).append("\n");
+        sbInfos.append(PROPERTY_TIME_TO_LIVE).append("=").append(_cache.getCacheConfiguration().getTimeToLiveSeconds()).append("\n");
+        sbInfos.append(PROPERTY_OVERFLOW_TO_DISK).append("=").append(_cache.getCacheConfiguration().isOverflowToDisk()).append("\n");
+        sbInfos.append(PROPERTY_DISK_PERSISTENT).append("=").append(_cache.getCacheConfiguration().isDiskPersistent()).append("\n");
+        sbInfos.append(PROPERTY_DISK_EXPIRY).append("=").append(_cache.getCacheConfiguration().getDiskExpiryThreadIntervalSeconds()).append("\n");
+        sbInfos.append(PROPERTY_MAX_ELEMENTS_DISK).append("=").append(_cache.getCacheConfiguration().getMaxElementsOnDisk()).append("\n");
+        return sbInfos.toString();
+    }
+
+    /**
      * Load caches status
      */
     private void loadCachesConfig()
@@ -229,6 +248,11 @@ public final class CacheService
         }
     }
 
+    /**
+     * Returns the cache status
+     * @param cs The cacheable service
+     * @return The status
+     */
     private static boolean getStatus(CacheableService cs)
     {
         String strEnabled = "1";
@@ -240,11 +264,21 @@ public final class CacheService
         return strEnabled.equals("1");
     }
 
+    /**
+     * Normalize name (remove spaces)
+     * @param strName The name to normalize
+     * @return The normalized name
+     */
     private static String normalizeName(String strName)
     {
         return strName.replace(" ", "");
     }
 
+    /**
+     * Read cache config from the file caches.dat
+     * @param strCacheName The cache name
+     * @return The config
+     */
     private CacheConfiguration getCacheConfiguration(String strCacheName)
     {
         CacheConfiguration config = new CacheConfiguration();
@@ -261,6 +295,12 @@ public final class CacheService
         return config;
     }
 
+    /**
+     * Read an Integer property
+     * @param strKey the key
+     * @param nDefault the default value
+     * @return The property's value
+     */
     private int getIntProperty(String strKey, int nDefault)
     {
         String strValue = _propertiesCacheConfig.getProperty(strKey);
@@ -277,6 +317,12 @@ public final class CacheService
         return nDefault;
     }
 
+    /**
+     * Read a Long property
+     * @param strKey the key
+     * @param lDefault the default value
+     * @return The property's value
+     */
     private long getLongProperty(String strKey, long lDefault)
     {
         String strValue = _propertiesCacheConfig.getProperty(strKey);
@@ -293,6 +339,12 @@ public final class CacheService
         return lDefault;
     }
 
+    /**
+     * Read a Boolean property
+     * @param strKey the key
+     * @param bDefault the default value
+     * @return The property's value
+     */
     private boolean getBooleanProperty(String strKey, boolean bDefault)
     {
         String strValue = _propertiesCacheConfig.getProperty(strKey);

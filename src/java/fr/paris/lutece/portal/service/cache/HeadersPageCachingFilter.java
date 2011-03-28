@@ -236,4 +236,37 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     {
         return _cache.getKeys(  );
     }
+
+    /**
+     *  {@inheritDoc }
+     */
+    public int getMaxElements()
+    {
+        return _cache.getCacheConfiguration().getMaxElementsInMemory();
+    }
+
+    /**
+     *  {@inheritDoc }
+     */
+    public long getTimeToLive()
+    {
+        return _cache.getCacheConfiguration().getTimeToLiveSeconds();
+    }
+
+    /**
+     *  {@inheritDoc }
+     */
+    public long getMemorySize()
+    {
+        return _cache.calculateInMemorySize();
+    }
+
+    /**
+     *  {@inheritDoc }
+     */
+    public String getInfos()
+    {
+        return CacheService.getInfos( _cache );
+    }
+
 }

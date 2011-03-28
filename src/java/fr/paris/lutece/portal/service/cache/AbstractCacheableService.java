@@ -205,7 +205,39 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
         return new ArrayList<String>(  );
     }
 
-    // CacheEventListener implementation
+     /**
+     *  {@inheritDoc }
+     */
+    public int getMaxElements()
+    {
+        return _cache.getCacheConfiguration().getMaxElementsInMemory();
+    }
+
+    /**
+     *  {@inheritDoc }
+     */
+    public long getTimeToLive()
+    {
+        return _cache.getCacheConfiguration().getTimeToLiveSeconds();
+    }
+
+    /**
+     *  {@inheritDoc }
+     */
+    public long getMemorySize()
+    {
+        return _cache.calculateInMemorySize();
+    }
+
+    /**
+     *  {@inheritDoc }
+     */
+    public String getInfos()
+    {
+        return CacheService.getInfos( _cache );
+    }
+
+   // CacheEventListener implementation
 
     /**
      * @see java.lang.Object#clone()

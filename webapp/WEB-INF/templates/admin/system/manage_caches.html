@@ -4,7 +4,10 @@
         <tr>
             <th>#i18n{portal.system.manage_caches.columnTitleName}</th>
             <th>#i18n{portal.system.manage_caches.columnTitleCacheEnable}</th>
+            <th>#i18n{portal.system.manage_caches.columnTitleMaxElements}</th>
+            <th>#i18n{portal.system.manage_caches.columnTitleTimeToLive}</th>
             <th>#i18n{portal.system.manage_caches.columnTitleCacheSize}</th>
+            <th>#i18n{portal.system.manage_caches.columnTitleMemorySize}</th>
             <th>#i18n{portal.system.manage_caches.columnTitleActions}</th>
         </tr>
         <#assign id = 0>
@@ -18,7 +21,10 @@
                 <img src="images/admin/skin/disable.png" alt="#i18n{portal.system.manage_caches.imgAltDisable}" width="24" height="24" valign="center" />
                 </#if>
             </td>
+            <td>${service.maxElements}</td>
+            <td>${service.timeToLive}</td>
             <td>${service.cacheSize}</td>
+            <td>${service.memorySize}</td>
             <td>
                 <a href="jsp/admin/system/DoResetCaches.jsp?id_cache=${id}">
                     <img src="images/admin/skin/actions/clear.png" alt="#i18n{portal.system.manage_caches.actionClear}" title="#i18n{portal.system.manage_caches.actionClear}">
