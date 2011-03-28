@@ -16,7 +16,7 @@
     </filter>
     <filter-mapping>
         <filter-name>StaticFilesCachingFilter</filter-name>
-        <url-pattern>/*.ico</url-pattern>
+        <url-pattern>*.ico</url-pattern>
         <url-pattern>/images/*</url-pattern>
         <url-pattern>/css/*</url-pattern>
         <url-pattern>/js/*</url-pattern>
