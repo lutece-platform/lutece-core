@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.cache;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import java.io.File;
 
 import net.sf.ehcache.Cache;
@@ -44,11 +45,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import javax.management.MBeanServer;
 import net.sf.ehcache.config.CacheConfiguration;
+import net.sf.ehcache.management.ManagementService;
 
 /**
  * Provides cache object for cacheable services
@@ -61,6 +65,7 @@ public final class CacheService
     private static final String FILE_EHCACHE_CONFIG = "ehcache.xml";
     private static final String PROPERTY_IS_ENABLED = ".enabled";
     private static final String FILE_CACHES_STATUS = "caches.dat";
+    // Cache configuration properties
     private static final String PROPERTY_MAX_ELEMENTS = ".maxElementsInMemory";
     private static final String PROPERTY_ETERNAL = ".eternal";
     private static final String PROPERTY_TIME_TO_IDLE = ".timeToIdleSeconds";
@@ -69,8 +74,14 @@ public final class CacheService
     private static final String PROPERTY_DISK_PERSISTENT = ".diskPersistent";
     private static final String PROPERTY_DISK_EXPIRY = ".diskExpiryThreadIntervalSeconds";
     private static final String PROPERTY_MAX_ELEMENTS_DISK = ".maxElementsOnDisk";
-
-
+    // JMX monitoring properties
+    private static final String PROPERTY_JMX_MONITORING = "lutece.cache.jmx.monitoring.enabled";
+    private static final String PROPERTY_MONITOR_CACHE_MANAGER = "lutece.cache.jmx.monitorCacheManager";
+    private static final String PROPERTY_MONITOR_CACHES = "lutece.cache.jmx.monitorCaches";
+    private static final String PROPERTY_MONITOR_CACHE_CONFIGURATIONS = "lutece.cache.jmx.monitorCacheConfiguration";
+    private static final String PROPERTY_MONITOR_CACHE_STATISTICS = "lutece.cache.jmx.monitorCacheStatistics";
+    private static final String FALSE = "false";
+    private static final String TRUE = "true";
     private static CacheService _singleton;
     private static CacheManager _manager;
     private static Properties _propertiesCacheConfig;
@@ -107,12 +118,28 @@ public final class CacheService
             FileInputStream fis = AppPathService.getResourceAsStream(PATH_CONF, FILE_EHCACHE_CONFIG);
             loadCachesConfig();
             _manager = CacheManager.create(fis);
-
             fis.close();
+            boolean bJmxMonitoring = AppPropertiesService.getProperty(PROPERTY_JMX_MONITORING, FALSE).equals(TRUE);
+            if (bJmxMonitoring)
+            {
+                initJmxMonitoring();
+            }
+
         } catch (IOException e)
         {
             AppLogService.error(e.getMessage(), e);
         }
+    }
+
+    private void initJmxMonitoring()
+    {
+        MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+
+        boolean bRegisterCacheManager = AppPropertiesService.getProperty(PROPERTY_MONITOR_CACHE_MANAGER, FALSE).equals(TRUE);
+        boolean bRegisterCaches = AppPropertiesService.getProperty(PROPERTY_MONITOR_CACHES, FALSE).equals(TRUE);
+        boolean bRegisterCacheConfigurations = AppPropertiesService.getProperty(PROPERTY_MONITOR_CACHE_CONFIGURATIONS, FALSE).equals(TRUE);
+        boolean bRegisterCacheStatistics = AppPropertiesService.getProperty(PROPERTY_MONITOR_CACHE_STATISTICS, FALSE).equals(TRUE);
+        ManagementService.registerMBeans(_manager, mBeanServer, bRegisterCacheManager, bRegisterCaches, bRegisterCacheConfigurations, bRegisterCacheStatistics);
     }
 
     /**
@@ -285,13 +312,13 @@ public final class CacheService
         config.setName(strCacheName);
         String strPrefix = normalizeName(strCacheName);
         config.setMaxElementsInMemory(getIntProperty(strPrefix + PROPERTY_MAX_ELEMENTS, 10000));
-        config.setEternal( getBooleanProperty(strPrefix + PROPERTY_ETERNAL, false));
-        config.setTimeToIdleSeconds( getLongProperty(strPrefix + PROPERTY_TIME_TO_IDLE, 10000L));
+        config.setEternal(getBooleanProperty(strPrefix + PROPERTY_ETERNAL, false));
+        config.setTimeToIdleSeconds(getLongProperty(strPrefix + PROPERTY_TIME_TO_IDLE, 10000L));
         config.setTimeToLiveSeconds(getLongProperty(strPrefix + PROPERTY_TIME_TO_LIVE, 10000L));
-        config.setOverflowToDisk( getBooleanProperty(strPrefix + PROPERTY_OVERFLOW_TO_DISK, true ));
-        config.setDiskPersistent( getBooleanProperty( strPrefix + PROPERTY_DISK_PERSISTENT , true ));
+        config.setOverflowToDisk(getBooleanProperty(strPrefix + PROPERTY_OVERFLOW_TO_DISK, true));
+        config.setDiskPersistent(getBooleanProperty(strPrefix + PROPERTY_DISK_PERSISTENT, true));
         config.setDiskExpiryThreadIntervalSeconds(getLongProperty(strPrefix + PROPERTY_DISK_EXPIRY, 120L));
-        config.setMaxElementsOnDisk(getIntProperty(strPrefix+PROPERTY_MAX_ELEMENTS_DISK, 10000 ));
+        config.setMaxElementsOnDisk(getIntProperty(strPrefix + PROPERTY_MAX_ELEMENTS_DISK, 10000));
         return config;
     }
 
@@ -350,9 +377,8 @@ public final class CacheService
         String strValue = _propertiesCacheConfig.getProperty(strKey);
         if (strValue != null)
         {
-            return ( strValue.equalsIgnoreCase("true"));
+            return (strValue.equalsIgnoreCase("true"));
         }
         return bDefault;
     }
-
 }
