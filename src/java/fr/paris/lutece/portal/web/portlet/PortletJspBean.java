@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.portlet;
 
+import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
@@ -40,7 +41,9 @@ import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -64,10 +67,12 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     ////////////////////////////////////////////////////////////////////////////
     // Constants
     public static final String RIGHT_MANAGE_ADMIN_SITE = "CORE_ADMIN_SITE";
+
+    // Parameters
     protected static final String PARAMETER_PAGE_ID = "page_id";
     protected static final String PARAMETER_PORTLET_ID = "portlet_id";
     protected static final String PARAMETER_PORTLET_TYPE_ID = "portlet_type_id";
-    private static final String JSP_ADMIN_SITE = "../../site/AdminSite.jsp";
+    protected static final String PARAMETER_PORTLET_PAGE_ID = "portlet_page_id";
 
     // Markers
     private static final String MARK_PORTLET = "portlet";
@@ -81,8 +86,17 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     // Templates
     private static final String TEMPLATE_CREATE_PORTLET = "admin/portlet/create_portlet.html";
     private static final String TEMPLATE_MODIFY_PORTLET = "admin/portlet/modify_portlet.html";
+
+    // Properties
     private static final String PROPERTY_LIST_ORDER_MAX = "list.order.max";
     private static final String PROPERTY_COLUMN_NUM_MAX = "nb.columns";
+
+    // Messages
+    private static final String MESSAGE_INVALID_PAGE_ID = "portal.site.message.pageIdInvalid";
+
+    // Jsp
+    private static final String JSP_ADMIN_SITE = "../../site/AdminSite.jsp";
+
 
     /**
      * Displays the portlet's creation form
@@ -187,6 +201,26 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
+
+        String strPageId = request.getParameter( PARAMETER_PORTLET_PAGE_ID );            
+        int nPageId = PortalService.getRootPageId();
+
+        // Test format of the id and the existence of the page
+        try
+        {
+            nPageId = Integer.parseInt( strPageId );
+            if ( ! PageHome.checkPageExist( nPageId ) )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
+            }
+        }
+        catch (NumberFormatException e)
+        {
+            AppLogService.error( e.getMessage(), e);
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
+        }
+        
+
         int nOrder = Integer.parseInt( strOrder );
         int nColumn = Integer.parseInt( strColumn );
         int nStyleId = Integer.parseInt( strStyleId );
@@ -197,6 +231,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         portlet.setOrder( nOrder );
         portlet.setColumn( nColumn );
         portlet.setStyleId( nStyleId );
+        portlet.setPageId( nPageId );
         portlet.setAcceptAlias( nAcceptAlias );
         portlet.setDisplayPortletTitle( nAcceptPortletTitle );
         portlet.setPortletTypeId( strPortletTypeId );

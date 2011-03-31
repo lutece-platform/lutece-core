@@ -19,7 +19,8 @@
                 <label>#i18n{portal.site.modify_portlet.labelPortletTitle}</label>
                 <input type="text" name="portlet_name" value="${portlet.name}" size="40" maxlength="40" />
             </p>
-            <p align="center">
+            <p>
+                <label>#i18n{portal.site.modify_portlet.labelDisplayPortletTitle}</label>
                 <#if portlet.displayPortletTitle = 0 >
                 <input type="radio" class="radio" name="display_portlet_title" value="0" checked="checked"/>#i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleYes}
                 <input type="radio" class="radio" name="display_portlet_title" value="1"/> #i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleNo}
@@ -27,6 +28,10 @@
                 <input type="radio" class="radio" name="display_portlet_title" value="0"/>#i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleYes}
                 <input type="radio" class="radio" name="display_portlet_title" value="1" checked="checked"/> #i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleNo}
                 </#if>
+            </p>
+             <p>
+                <label>#i18n{portal.site.modify_portlet.labelPortletPageId}</label>
+                <input type="text" name="portlet_page_id" value="${portlet.pageId}" size="5" maxlength="5" />
             </p>
             <p>
                 <label for="order">#i18n{portal.site.modify_portlet.labelOrder}</label>
