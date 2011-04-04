@@ -72,7 +72,6 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     protected static final String PARAMETER_PAGE_ID = "page_id";
     protected static final String PARAMETER_PORTLET_ID = "portlet_id";
     protected static final String PARAMETER_PORTLET_TYPE_ID = "portlet_type_id";
-    protected static final String PARAMETER_PORTLET_PAGE_ID = "portlet_page_id";
 
     // Markers
     private static final String MARK_PORTLET = "portlet";
@@ -202,7 +201,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         }
 
 
-        String strPageId = request.getParameter( PARAMETER_PORTLET_PAGE_ID );            
+        String strPageId = request.getParameter( PARAMETER_PAGE_ID );            
         int nPageId = PortalService.getRootPageId();
 
         // Test format of the id and the existence of the page
