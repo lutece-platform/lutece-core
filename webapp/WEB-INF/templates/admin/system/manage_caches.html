@@ -1,3 +1,11 @@
+<div id="content-box-actions">
+    <form method="post"  action="jsp/admin/system/DoResetCaches.jsp">
+        <input class="button bt-toolbar" type="submit" value="#i18n{portal.system.manage_caches.buttonFlush}" />
+   </form>
+    <form method="post"  action="jsp/admin/system/CacheInfos.jsp">
+       <input class="button bt-toolbar" type="submit" value="#i18n{portal.system.manage_caches.buttonViewKeys}" />
+    </form>
+</div>	
 <div class="content-box">
     <h2  class="content-box-header">#i18n{portal.system.manage_caches.titleCacheList}</h2>
     <table>
@@ -40,16 +48,6 @@
         <#assign id = id + 1>
         </#list>
     </table>
-    <form method="post"  action="jsp/admin/system/DoResetCaches.jsp">
-        <p>
-            <input class="button" type="submit" value="#i18n{portal.system.manage_caches.buttonFlush}" />
-        </p>
-    </form>
-    <form method="post"  action="jsp/admin/system/CacheInfos.jsp">
-        <p>
-            <input class="button" type="submit" value="#i18n{portal.system.manage_caches.buttonViewKeys}" />
-        </p>
-    </form>
 </div>
 <div class="content-box">
     <h2  class="content-box-header">#i18n{portal.system.manage_caches.titleReloadProperties}</h2>
