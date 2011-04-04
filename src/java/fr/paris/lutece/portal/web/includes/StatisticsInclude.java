@@ -69,13 +69,14 @@ public class StatisticsInclude implements PageInclude
      */
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
+    	String strStatisticalIncludeHead;
+        String strStatisticalInclude;
+        
     	if ( request != null )
     	{
 	        String strStatisticalSiteId = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_SITE_ID, "1" );
 	        String strStatisticalIncludeEnable = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_ENABLE );
 	        String strStatisticalServerUrl = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_SERVER_URL );
-	        String strStatisticalIncludeHead = "";
-	        String strStatisticalInclude = "";
 	
 	        if ( ( strStatisticalIncludeEnable != null ) && ( strStatisticalIncludeEnable.equalsIgnoreCase( "true" ) ) )
 	        {
@@ -93,9 +94,21 @@ public class StatisticsInclude implements PageInclude
 	            HtmlTemplate t = AppTemplateService.getTemplate( strStatisticalIncludeTemplate, request.getLocale(  ), model );
 	            strStatisticalInclude = t.getHtml(  );
 	        }
-	
-	        rootModel.put( MARK_STATISTICAL_INCLUDE_HEAD, strStatisticalIncludeHead );
-	        rootModel.put( MARK_STATISTICAL_INCLUDE, strStatisticalInclude );
+	        else
+	        {
+	        	// markers are defaulted to empty string to avoid freemarker errors
+	    		strStatisticalIncludeHead = "";
+	    		strStatisticalInclude = "";
+	        }
     	}
+    	else
+    	{
+    		// markers are defaulted to empty string to avoid freemarker errors
+    		strStatisticalIncludeHead = "";
+    		strStatisticalInclude = "";    		
+    	}
+    	
+    	rootModel.put( MARK_STATISTICAL_INCLUDE_HEAD, strStatisticalIncludeHead );
+        rootModel.put( MARK_STATISTICAL_INCLUDE, strStatisticalInclude );
     }
 }
