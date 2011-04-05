@@ -49,6 +49,8 @@ import javax.servlet.ServletResponse;
 public class LuteceFilterChain implements FilterChain
 {
     private boolean _bFollowChain;
+    private ServletRequest request;
+    private ServletResponse response;
 
     /**
      * Initialize the follow chain flag (does the filter called "chain.doFilter")
@@ -69,6 +71,46 @@ public class LuteceFilterChain implements FilterChain
     }
 
     /**
+     * Returns the request used by {@link #doFilter(ServletRequest, ServletResponse)}
+     * @return the request
+     * @since 2.5
+     */
+    public ServletRequest getRequest()
+	{
+		return request;
+	}
+
+    /**
+     * Sets the request used by {@link #doFilter(ServletRequest, ServletResponse)}
+     * @param request the request
+     * @since 2.5
+     */
+	public void setRequest( ServletRequest request )
+	{
+		this.request = request;
+	}
+
+	/**
+	 * Returns the response used by {@link #doFilter(ServletRequest, ServletResponse)}
+	 * @return the response
+	 * @since 2.5
+	 */
+	public ServletResponse getResponse()
+	{
+		return response;
+	}
+
+	/**
+	 * Sets the response used by {@link #doFilter(ServletRequest, ServletResponse)}
+	 * @param response the response
+	 * @since 2.5
+	 */
+	public void setResponse( ServletResponse response )
+	{
+		this.response = response;
+	}
+
+	/**
      * {@inheritDoc }
      */
     public void doFilter( ServletRequest request, ServletResponse response )
@@ -76,5 +118,8 @@ public class LuteceFilterChain implements FilterChain
     {
         // Do nothing and set the follow chain flag to true
         setFollowChain( true );
+        // Set request and response, eventually wrapped during filter process.
+        setRequest( request );
+        setResponse( response );
     }
 }

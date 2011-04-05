@@ -68,6 +68,16 @@
         </init-param>
     </filter>
     <filter>
+        <filter-name>pluginsFilters</filter-name>
+        <filter-class>fr.paris.lutece.portal.service.filter.MainFilter</filter-class>
+    </filter>
+    <!-- 
+    	Many plugins cast request to MultipartHttpRequestServlet 
+    	and request can be wrapped in any plugin's filter.
+    	So upload filters are processed after plugins'.
+    	See LUTECE-1323.
+    -->
+    <filter>
         <filter-name>uploadFilterSite</filter-name>
         <filter-class>fr.paris.lutece.portal.web.upload.UploadFilterSite</filter-class>
         <init-param>
@@ -82,10 +92,6 @@
             <param-name>requestSizeMax</param-name>
             <param-value>2097152</param-value>
         </init-param>
-    </filter>
-    <filter>
-        <filter-name>pluginsFilters</filter-name>
-        <filter-class>fr.paris.lutece.portal.service.filter.MainFilter</filter-class>
     </filter>
 
 
@@ -102,16 +108,16 @@
         <url-pattern>/jsp/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
+        <filter-name>pluginsFilters</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
         <filter-name>uploadFilterSite</filter-name>
         <url-pattern>/jsp/site/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>uploadFilterAdmin</filter-name>
         <url-pattern>/jsp/admin/*</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>pluginsFilters</filter-name>
-        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     
