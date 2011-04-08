@@ -7,7 +7,8 @@ DocumentResourceServletCache.enabled=1
 PageCacheService.enabled=1
 PortletCacheService.enabled=1
 MyPortalWidgetContentService.enabled=1
-PageCachingFilter.enabled=1
+PageCachingFilter.enabled=0
 StaticFilesCachingFilter.enabled=1
-StaticFilesCachingFilter.timeToLiveSeconds=1000000
+StaticFilesCachingFilter.timeToLiveSeconds=60480
+
 
