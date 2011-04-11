@@ -152,4 +152,11 @@ public interface IPortletDAO
      * @return the list of alais portlets.
      */
     Collection<Portlet> selectAliasesForPortlet( int nPortletId );
+
+    /**
+     * Gets a collection of portlets associated to a given role
+     * @param strRole The role
+     * @return The collection
+     */
+    Collection<Portlet> selectPortletsByRole( String strRole );
 }

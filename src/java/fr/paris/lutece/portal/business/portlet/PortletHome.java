@@ -139,6 +139,16 @@ public abstract class PortletHome implements PortletHomeInterface
     }
 
     /**
+     * Gets a collection of portlets associated to a given role
+     * @param strRole The role
+     * @return The collection
+     */
+    public static Collection<Portlet> getPortletsByRoleKey(String strRole )
+    {
+        return _dao.selectPortletsByRole(strRole);
+    }
+
+    /**
      * Creates a new portlet in the database
      *
      * @param portlet An instance of the portlet to create

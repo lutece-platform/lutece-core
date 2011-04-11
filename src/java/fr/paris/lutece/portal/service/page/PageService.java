@@ -35,7 +35,9 @@ package fr.paris.lutece.portal.service.page;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
+import fr.paris.lutece.portal.business.page.PageRoleRemovalListener;
 import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.business.portlet.PortletRoleRemovalListener;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -61,6 +63,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -172,6 +175,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
         ImageResourceManager.registerProvider( this );
         addPageEventListener( this );
+
+
     }
 
     /**
@@ -629,6 +634,17 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     {
         _cksPortlet = cacheKeyService;
     }
+
+    /**
+     * @param cacheKeyService the _cacheKeyService to set
+     */
+    public void setRoleRemovalService( RemovalListenerService removalService )
+    {
+        removalService.registerListener( new PageRoleRemovalListener());
+        removalService.registerListener( new PortletRoleRemovalListener());
+    }
+
+
 
     /**
      * Remove a page from the cache

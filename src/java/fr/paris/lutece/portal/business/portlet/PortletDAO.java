@@ -66,6 +66,7 @@ public final class PortletDAO implements IPortletDAO
         " date_creation, date_update, status, column_no, portlet_order, accept_alias, display_portlet_title, role ) " +
         " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?)";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_STYLE = "SELECT id_portlet, name, id_page FROM core_portlet WHERE id_style=?";
+    private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_ROLE = "SELECT id_portlet, name, id_page FROM core_portlet WHERE role=?";
     private static final String SQL_QUERY_SELECT_XSL_FILE = " SELECT a.id_stylesheet , a.description , a.file_name, a.source " +
         " FROM core_stylesheet a, core_portlet b, core_style_mode_stylesheet c " +
         " WHERE a.id_stylesheet = c.id_stylesheet " +
@@ -448,4 +449,31 @@ public final class PortletDAO implements IPortletDAO
 
         return portletList;
     }
+
+    /**
+     * {@inheritDoc }
+     */
+    public Collection<Portlet> selectPortletsByRole(String strRole)
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_LIST_BY_ROLE );
+        daoUtil.setString( 1, strRole );
+        daoUtil.executeQuery(  );
+
+        List<Portlet> list = new ArrayList<Portlet>(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            PortletImpl portlet = new PortletImpl(  );
+            portlet.setId( daoUtil.getInt( 1 ) );
+            portlet.setPortletTypeId( daoUtil.getString( 2 ) );
+            portlet.setPageId( daoUtil.getInt( 3 ) );
+     
+            list.add( portlet );
+        }
+
+        daoUtil.free(  );
+
+        return list;
+    }
+
 }
