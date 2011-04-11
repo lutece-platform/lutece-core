@@ -727,33 +727,6 @@ CATALINA_OPTS="-Xms128m -Xmx512m"
                     <table>
                         <tr>
                             <th>
-                                Activez ou non la gestion du cache pour les templates, le
-                                contenu des pages ou les articles.
-                                En production, il est recommandé de mettre ces valeurs à <strong><code>true</code></strong>
-                            </th>                            
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>
-                                    <code># Caches management</code>
-                                </p>
-                                <p>
-                                    <code>service.templates.cache.enable=false</code>
-                                </p>
-                                <p>
-                                    <code>service.pages.cache.enable=false</code>
-                                </p>
-                                <p>
-                                    <code>service.articles.cache.enable=false</code>
-                                </p>
-                            </td>
-                        </tr>
-                    </table>
-                </p>
-                <p>                    
-                    <table>
-                        <tr>
-                            <th>
                                 Configurer ici les paramètres d'indexation pour le moteur
                                 de recherche Lucene. Il faut renseigner dans <code>lucene.page.jsp</code>
                                 l'url de la JSP <code>Portal.jsp</code>.
