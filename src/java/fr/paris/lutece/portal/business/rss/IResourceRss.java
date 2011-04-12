@@ -174,13 +174,13 @@ public interface IResourceRss
      * Gets the feed type
      * @return the feed type
      */
-    FeedType getFeedType();
+    String getFeedType();
     
     /**
      * Sets the feed type
-     * @param feedType the feed type
+     * @param strFeedType the feed type
      */
-    void setFeedType( FeedType feedType );
+    void setFeedType( String strFeedType );
     
     /**
      * Gets the encoding

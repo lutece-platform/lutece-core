@@ -44,7 +44,7 @@ public abstract class ResourceRss implements IResourceRss
     private IResourceRssType _taskType;
     private String _strName;
     private String _strDescription;
-    private FeedType _feedType;
+    private String _strFeedType;
     private int _nMaxItems;
 
 	/**
@@ -123,18 +123,18 @@ public abstract class ResourceRss implements IResourceRss
      * 
      *{@inheritDoc}
      */
-    public FeedType getFeedType()
+    public String getFeedType()
 	{
-		return _feedType;
+		return _strFeedType;
 	}
 
     /**
      * 
      *{@inheritDoc}
      */
-	public void setFeedType( FeedType feedType )
+	public void setFeedType( String strFeedType )
 	{
-		this._feedType = feedType;
+		this._strFeedType = strFeedType;
 	}
 	
 	/**
