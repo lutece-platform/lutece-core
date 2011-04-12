@@ -33,18 +33,21 @@
  */
 package fr.paris.lutece.portal.business.rss;
 
-
-/*
- * ResourceRss that provides the resources rss
+/**
+ * ResourceRss that provides the resources rss.
+ * Implementations should override {@link #getFeed()}.
  */
 public abstract class ResourceRss implements IResourceRss
 {
     private int _nId;
+    private String _strEncoding;
     private IResourceRssType _taskType;
     private String _strName;
     private String _strDescription;
+    private FeedType _feedType;
+    private int _nMaxItems;
 
-    /**
+	/**
      * Get the rss id
      * @return the rss Id
      */
@@ -115,4 +118,77 @@ public abstract class ResourceRss implements IResourceRss
     {
         _taskType = taskType;
     }
+    
+    /**
+     * 
+     *{@inheritDoc}
+     */
+    public FeedType getFeedType()
+	{
+		return _feedType;
+	}
+
+    /**
+     * 
+     *{@inheritDoc}
+     */
+	public void setFeedType( FeedType feedType )
+	{
+		this._feedType = feedType;
+	}
+	
+	/**
+     * 
+     *{@inheritDoc}
+     */
+	public String getEncoding()
+	{
+		return _strEncoding;
+	}
+
+	/**
+     * 
+     *{@inheritDoc}
+     */
+	public void setEncoding( String strEncoding )
+	{
+		this._strEncoding = strEncoding;
+	}
+	
+    /**
+     * 
+     *{@inheritDoc}
+     */
+	public int getMaxItems()
+	{
+		return _nMaxItems;
+	}
+
+	/**
+	 * 
+	 *{@inheritDoc}
+	 */
+	public void setMaxItems( int nMaxItems )
+	{
+		this._nMaxItems = nMaxItems;
+	}
+
+	
+	/**
+     * Returns <code>null</code>. This method should be overriden.
+     */
+    public IFeedResource getFeed(  )
+    {
+    	return null;
+    }
+    
+    /**
+     * Always returns <code>null</code> and should be removed as soon as every plugin implement {@link #getFeed()}.
+     */
+    @Deprecated
+    public String createHtmlRss()
+    {
+    	return null;
+    }
+
 }
