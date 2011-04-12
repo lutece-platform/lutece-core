@@ -109,7 +109,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String MARKER_TARGET = "target";
     // Parameters
     private static final String PARAMETER_SITE_PATH = "site-path";
-    private static final String PARAMETER_PAGE_ID = "page-id";
     private static final String PARAMETER_USER_SELECTED_LOCALE = "user-selected-language";
     private static final String PARAMETER_PLUGIN_NAME = "plugin-name";
     private static final String PARAMETER_PORTLET = "portlet";
@@ -203,28 +202,34 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         {
             String strPage = "";
 
-            // Get request paramaters and store them in a HashMap
-            Enumeration<?> enumParam = request.getParameterNames();
-            HashMap<String, String> htParamRequest = new HashMap<String, String>();
-            String paramName = "";
-
-            while (enumParam.hasMoreElements())
-            {
-                paramName = (String) enumParam.nextElement();
-                htParamRequest.put(paramName, request.getParameter(paramName));
-            }
-
-            LuteceUser user = SecurityService.getInstance().getRegisteredUser(request);
-            String strUserTheme = ThemesService.getUserTheme(request);
-
-            if (strUserTheme != null)
-            {
-                htParamRequest.put(KEY_THEME, strUserTheme);
-            }
-
             // The cache is enable !
             if (_cachePages.isCacheEnable())
             {
+
+                // Get request paramaters and store them in a HashMap
+                Enumeration<?> enumParam = request.getParameterNames();
+                HashMap<String, String> htParamRequest = new HashMap<String, String>();
+                String paramName = "";
+
+                while (enumParam.hasMoreElements())
+                {
+                    paramName = (String) enumParam.nextElement();
+                    htParamRequest.put(paramName, request.getParameter(paramName));
+                }
+
+                if (!htParamRequest.containsKey(Parameters.PAGE_ID))
+                {
+                    htParamRequest.put(Parameters.PAGE_ID, strIdPage);
+                }
+
+                LuteceUser user = SecurityService.getInstance().getRegisteredUser(request);
+                String strUserTheme = ThemesService.getUserTheme(request);
+
+                if (strUserTheme != null)
+                {
+                    htParamRequest.put(KEY_THEME, strUserTheme);
+                }
+
                 // we add the key in the memory key only if cache is enable
                 String strKey = getKey(htParamRequest, nMode, user);
 
@@ -236,8 +241,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                     // only one thread can evaluate the page
                     synchronized (strKey)
                     {
-                        // can be useful if an other thread had evaluate the
-                        // page
+                        // can be useful if an other thread had evaluate the page
                         strPage = (String) _cachePages.getFromCache(strKey);
 
                         // ignore checkstyle, this double verification is useful
@@ -266,7 +270,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
                             // Add the page to the cache if the page can be
                             // cached
-                            if (bCanBeCached.booleanValue())
+                            if (bCanBeCached.booleanValue() && nMode != MODE_ADMIN)
                             {
                                 _cachePages.putInCache(strKey, strPage);
                             }
@@ -622,13 +626,12 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      */
     private void invalidatePage(String strIdPage)
     {
-        String strKey = "[" + Parameters.PAGE_ID + ":" + strIdPage + "]";
 
         if (_cachePages.isCacheEnable())
         {
+            String strKey = "[" + Parameters.PAGE_ID + ":" + strIdPage + "]";
             for (String strKeyTemp : (List<String>) _cachePages.getCache().getKeys())
             {
-                // FIXME Portal.jsp (welcome page) is cached as "mode0", and is actually page_id = 1.
                 if ((strKeyTemp.indexOf(strKey) != -1)
                         || (WELCOME_PAGE_ID.equals(strIdPage) && WELCOME_PAGE_CACHE_KEY.equals(strKeyTemp)))
                 {
@@ -871,8 +874,10 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             mapModifyParam.put(MARKER_TARGET, TARGET_TOP);
         }
 
-        // Add current page id
-        mapModifyParam.put(PARAMETER_PAGE_ID, Integer.toString(nIdPage));
+        if (!mapModifyParam.containsKey(Parameters.PAGE_ID))
+        {
+            mapModifyParam.put(Parameters.PAGE_ID, Integer.toString(PortalService.getRootPageId()));
+        }
 
         return mapModifyParam;
     }
