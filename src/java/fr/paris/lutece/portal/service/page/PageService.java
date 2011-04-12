@@ -622,7 +622,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      */
     private void invalidatePage(String strIdPage)
     {
-        String strKey = Parameters.PAGE_ID + "'" + strIdPage + "'";
+        String strKey = "[" + Parameters.PAGE_ID + ":" + strIdPage + "]";
 
         if (_cachePages.isCacheEnable())
         {
