@@ -101,7 +101,8 @@ public class PluginFile
     private List<DashboardComponentEntry> _listAdminDashboardComponents = new ArrayList<DashboardComponentEntry>(  );
     private Map<String, String> _mapParams = new HashMap<String, String>(  );
     private String _strSearchIndexerClass;
-    private String _strCssStylesheetScope;
+    private String _strCssStylesheetsScope;
+    private String _strJavascriptFilesScope;
 
     /**
      * Load plugin data from the XML file using Jakarta Commons Digester
@@ -710,9 +711,9 @@ public class PluginFile
      * @return the scope
      * @since 3.0.0
      */
-    public String getCssStylesheetScope(  )
+    public String getCssStylesheetsScope(  )
     {
-        return _strCssStylesheetScope;
+        return _strCssStylesheetsScope;
     }
 
     /**
@@ -720,9 +721,31 @@ public class PluginFile
      * @since 3.0.0
      * @param strCssStylesheetScope The scope
      */
-    public void setCssStylesheetScope( String strCssStylesheetScope )
+    public void setCssStylesheetsScope( String strCssStylesheetScope )
     {
-        _strCssStylesheetScope = strCssStylesheetScope;
+        _strCssStylesheetsScope = strCssStylesheetScope;
     }
+
+    /**
+     * Returns the javascripts Scope
+     *
+     * @return the scope
+     * @since 3.0.0
+     */
+    public String getJavascriptFilesScope(  )
+    {
+        return _strJavascriptFilesScope;
+    }
+
+    /**
+     * Sets the javascripts scope
+     * @since 3.0.0
+     * @param strJavascriptFilescope The scope
+     */
+    public void setJavascriptFilesScope( String strJavascriptFilescope )
+    {
+        _strJavascriptFilesScope = strJavascriptFilescope;
+    }
+
 
 }

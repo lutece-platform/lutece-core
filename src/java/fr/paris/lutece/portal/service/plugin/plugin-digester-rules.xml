@@ -24,6 +24,7 @@
             <call-param-rule pattern="css-stylesheet" paramnumber="0"/>
         </pattern>
         <pattern value="javascript-files">
+            <bean-property-setter-rule pattern="javascript-files-scope" propertyname="javascriptFilesScope"/>
             <call-method-rule pattern="javascript-file" methodname="addJavascriptFile" paramcount="1" />
             <call-param-rule pattern="javascript-file" paramnumber="0"/>
         </pattern>

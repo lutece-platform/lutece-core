@@ -103,7 +103,8 @@ public abstract class Plugin implements Comparable<Plugin>
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
     private ContentService _contentService;
-    private String _strCssStylesheetScope;
+    private String _strCssStylesheetsScope;
+    private String _strJavascriptFilesScope;
 
     // Lists of rights and portlets of the plugin
     private List<XPageApplicationEntry> _listXPageApplications;
@@ -170,8 +171,9 @@ public abstract class Plugin implements Comparable<Plugin>
             _bDbPoolRequired = pluginFile.isDbPoolRequired(  );
 
             _listCssStyleSheets = pluginFile.getCssStyleSheets(  );
-            _strCssStylesheetScope = pluginFile.getCssStylesheetScope();
+            _strCssStylesheetsScope = ( pluginFile.getCssStylesheetsScope() != null )? pluginFile.getCssStylesheetsScope() : SCOPE_XPAGE;
             _listJavascriptFiles = pluginFile.getJavascriptFiles(  );
+            _strJavascriptFilesScope = ( pluginFile.getJavascriptFilesScope() != null )? pluginFile.getJavascriptFilesScope() : SCOPE_XPAGE;
 
             // Register plugin components
             registerXPageApplications(  );
@@ -1040,7 +1042,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public boolean isCssStylesheetsScopePortal(   )
     {
-        return ( _strCssStylesheetScope != null && _strCssStylesheetScope.equalsIgnoreCase( SCOPE_PORTAL ));
+        return ( _strCssStylesheetsScope != null && _strCssStylesheetsScope.equalsIgnoreCase( SCOPE_PORTAL ));
     }
 
     /**
@@ -1049,7 +1051,25 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public boolean isCssStylesheetsScopeXPage(   )
     {
-        return ( _strCssStylesheetScope != null && _strCssStylesheetScope.equalsIgnoreCase( SCOPE_XPAGE ));
+        return ( _strCssStylesheetsScope != null && _strCssStylesheetsScope.equalsIgnoreCase( SCOPE_XPAGE ));
+    }
+
+    /**
+     * Give the scope of javascripts
+     * @return true if scope is portal otherwise false
+     */
+    public boolean isJavascriptFilesScopePortal(   )
+    {
+        return ( _strJavascriptFilesScope != null && _strJavascriptFilesScope.equalsIgnoreCase( SCOPE_PORTAL ));
+    }
+
+    /**
+     * Give the scope of javascripts
+     * @return true if scope is portal otherwise false
+     */
+    public boolean isJavascriptFilesScopeXPage(   )
+    {
+        return ( _strJavascriptFilesScope != null && _strJavascriptFilesScope.equalsIgnoreCase( SCOPE_XPAGE ));
     }
 
     /**
