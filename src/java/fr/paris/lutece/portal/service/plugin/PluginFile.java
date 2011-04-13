@@ -101,6 +101,7 @@ public class PluginFile
     private List<DashboardComponentEntry> _listAdminDashboardComponents = new ArrayList<DashboardComponentEntry>(  );
     private Map<String, String> _mapParams = new HashMap<String, String>(  );
     private String _strSearchIndexerClass;
+    private String _strCssStylesheetScope;
 
     /**
      * Load plugin data from the XML file using Jakarta Commons Digester
@@ -696,10 +697,32 @@ public class PluginFile
     /**
      * Sets the class service of plugin
      * @since 2.0.0
-     * @param strSearchIndexerClass The PageInclude Class name
+     * @param strSearchIndexerClass The Class name
      */
     public void setSearchIndexerClass( String strSearchIndexerClass )
     {
         _strSearchIndexerClass = strSearchIndexerClass;
     }
+
+    /**
+     * Returns the Css Stylesheet Scope
+     *
+     * @return the scope
+     * @since 3.0.0
+     */
+    public String getCssStylesheetScope(  )
+    {
+        return _strCssStylesheetScope;
+    }
+
+    /**
+     * Sets the css stylesheets scope
+     * @since 3.0.0
+     * @param strCssStylesheetScope The scope
+     */
+    public void setCssStylesheetScope( String strCssStylesheetScope )
+    {
+        _strCssStylesheetScope = strCssStylesheetScope;
+    }
+
 }

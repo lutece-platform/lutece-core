@@ -19,6 +19,7 @@
             <bean-property-setter-rule pattern="max-core-version" propertyname="maxCoreVersion" />
          </pattern>
         <pattern value="css-stylesheets">
+            <bean-property-setter-rule pattern="css-stylesheets-scope" propertyname="cssStylesheetsScope"/>
             <call-method-rule pattern="css-stylesheet" methodname="addCssStyleSheet" paramcount="1" />
             <call-param-rule pattern="css-stylesheet" paramnumber="0"/>
         </pattern>

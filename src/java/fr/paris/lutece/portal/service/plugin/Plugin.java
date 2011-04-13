@@ -84,6 +84,8 @@ public abstract class Plugin implements Comparable<Plugin>
     public static final int PLUGIN_TYPE_CONTENTSERVICE = 0x10;
     public static final int PLUGIN_TYPE_DAEMON = 0x20;
     private static final String PROPERTY_DEFAULT_ICON_URL = "plugin.image.defaultIconUrl";
+    private static final String SCOPE_PORTAL = "portal";
+    private static final String SCOPE_XPAGE = "xpage";
 
     // Variables
     private String _strName;
@@ -101,6 +103,7 @@ public abstract class Plugin implements Comparable<Plugin>
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
     private ContentService _contentService;
+    private String _strCssStylesheetScope;
 
     // Lists of rights and portlets of the plugin
     private List<XPageApplicationEntry> _listXPageApplications;
@@ -167,6 +170,7 @@ public abstract class Plugin implements Comparable<Plugin>
             _bDbPoolRequired = pluginFile.isDbPoolRequired(  );
 
             _listCssStyleSheets = pluginFile.getCssStyleSheets(  );
+            _strCssStylesheetScope = pluginFile.getCssStylesheetScope();
             _listJavascriptFiles = pluginFile.getJavascriptFiles(  );
 
             // Register plugin components
@@ -569,7 +573,7 @@ public abstract class Plugin implements Comparable<Plugin>
             nPluginTypeFlags |= PLUGIN_TYPE_CONTENTSERVICE;
         }
 
-        if ( ( _listDaemons != null ) && ( _listDaemons.size(  ) != 0 ) )
+        if ( ( _listDaemons != null ) && ( !_listDaemons.isEmpty() ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_DAEMON;
         }
@@ -1031,10 +1035,29 @@ public abstract class Plugin implements Comparable<Plugin>
     }
 
     /**
+     * Give the scope of css stylesheets
+     * @return true if scope is portal otherwise false
+     */
+    public boolean isCssStylesheetsScopePortal(   )
+    {
+        return ( _strCssStylesheetScope != null && _strCssStylesheetScope.equalsIgnoreCase( SCOPE_PORTAL ));
+    }
+
+    /**
+     * Give the scope of css stylesheets
+     * @return true if scope is portal otherwise false
+     */
+    public boolean isCssStylesheetsScopeXPage(   )
+    {
+        return ( _strCssStylesheetScope != null && _strCssStylesheetScope.equalsIgnoreCase( SCOPE_XPAGE ));
+    }
+
+    /**
      * Useful for debugging
      *
      * @return The plugin object in String format
      */
+    @Override
     public String toString(  )
     {
         return getName(  );
