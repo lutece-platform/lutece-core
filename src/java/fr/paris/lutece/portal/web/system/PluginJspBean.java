@@ -421,32 +421,18 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      */
     private boolean checkCoreMinCompatibility( String[] minCoreVersion, String[] coreVersion )
     {
-        boolean b = false;
-        boolean bSplit1 = false;
-        boolean bSplit2 = false;
-
-        // test the split of string : split2 is the third number, split1 the second
-        if ( ( Integer.parseInt( minCoreVersion[2] ) ) <= ( Integer.parseInt( coreVersion[2] ) ) )
-        {
-            bSplit2 = true;
-        }
-
-        if ( ( ( Integer.parseInt( minCoreVersion[1] ) ) <= ( Integer.parseInt( coreVersion[1] ) ) ) )
-        {
-            bSplit1 = true;
-        }
-
-        if ( ( bSplit2 && bSplit1 ) ||
-                ( ( !bSplit2 && bSplit1 ) &&
-                ( ( Integer.parseInt( minCoreVersion[1] ) ) <= ( Integer.parseInt( coreVersion[1] ) ) ) ) )
-        {
-            if ( ( Integer.parseInt( minCoreVersion[0] ) ) <= ( Integer.parseInt( coreVersion[0] ) ) )
-            {
-                b = true;
-            }
-        }
-
-        return b;
+    	for( int i = 0; i < Math.min( minCoreVersion.length, coreVersion.length ); ++i )
+    	{
+    		if ( ( Integer.parseInt( minCoreVersion[i] ) ) < ( Integer.parseInt( coreVersion[i] ) ) )
+	        {
+	            return true;
+	        }
+    		if ( ( Integer.parseInt( minCoreVersion[i] ) ) > ( Integer.parseInt( coreVersion[i] ) ) )
+	        {
+	            return false;
+	        }
+    	}
+    	return true; //inclusive
     }
 
     /**
@@ -457,30 +443,17 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      */
     private boolean checkCoreMaxCompatibility( String[] maxCoreVersion, String[] coreVersion )
     {
-        boolean b = false;
-        boolean bSplit1 = false;
-        boolean bSplit2 = false;
-
-        if ( ( Integer.parseInt( maxCoreVersion[2] ) ) >= ( Integer.parseInt( coreVersion[2] ) ) )
-        {
-            bSplit2 = true;
-        }
-
-        if ( ( ( Integer.parseInt( maxCoreVersion[1] ) ) >= ( Integer.parseInt( coreVersion[1] ) ) ) )
-        {
-            bSplit1 = true;
-        }
-
-        if ( ( bSplit2 && bSplit1 ) ||
-                ( ( !bSplit2 && bSplit1 ) &&
-                ( ( Integer.parseInt( maxCoreVersion[1] ) ) >= ( Integer.parseInt( coreVersion[1] ) ) ) ) )
-        {
-            if ( ( Integer.parseInt( maxCoreVersion[0] ) ) >= ( Integer.parseInt( coreVersion[0] ) ) )
-            {
-                b = true;
-            }
-        }
-
-        return b;
+    	for( int i = 0; i < Math.min( maxCoreVersion.length, coreVersion.length ); ++i)
+    	{
+    		if ( ( Integer.parseInt( maxCoreVersion[i] ) ) > ( Integer.parseInt( coreVersion[i] ) ) )
+	        {
+	            return true;
+	        }
+    		if ( ( Integer.parseInt( maxCoreVersion[i] ) ) < ( Integer.parseInt( coreVersion[i] ) ) )
+	        {
+	            return false;
+	        }
+    	}
+    	return false; //exclusive
     }
 }
