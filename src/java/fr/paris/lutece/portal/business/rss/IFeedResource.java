@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.rss;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +43,7 @@ import java.util.List;
  * <li>link
  * <li>description
  * <li>language
+ * <li>date
  * <li>image
  * <li>items
  * </ul>
@@ -119,4 +121,16 @@ public interface IFeedResource
 	 * @param image the image
 	 */
 	void setImage( IFeedResourceImage image );
+	
+	/**
+	 * Gets the item publishing date
+	 * @return the date
+	 */
+	Date getDate();
+
+	/**
+	 * Set the item publishing date
+	 * @param date the date
+	 */
+	void setDate( Date date );
 }

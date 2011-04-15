@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.rss;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,6 +53,8 @@ public class FeedResource implements IFeedResource
 	private String _strDescription;
 
 	private String _strTitle;
+	
+	private Date _date;
 
 	/**
 	 * 
@@ -159,5 +162,24 @@ public class FeedResource implements IFeedResource
 	public void setLink( String strLink )
 	{
 		this._strLink = strLink;
+	}
+	
+	/**
+	 * 
+	 * {@inheritDoc}
+	 */
+	public Date getDate()
+	{
+		return _date;
+	}
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 */
+
+	public void setDate( Date date )
+	{
+		this._date = date;
 	}
 }
