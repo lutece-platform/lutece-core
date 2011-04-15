@@ -1,0 +1,28 @@
+<div class="content-box" >
+    
+    <h2 class="content-box-header">#i18n{portal.search.modify_taglist.tableLabel}</h2>
+    
+    <form method="post" action="jsp/admin/search/DoModifyTagList.jsp" enctype="multipart/form-data" name="modify_taglist">
+        
+        <p>
+            <label for="taglist" >#i18n{portal.search.modify_taglist.labelName}&nbsp;:&nbsp;</label>
+            <input type="text" value="${taglist!}" size="60" id="taglist" name="taglist" maxlength="255"/>
+        </p>
+        <#if tag_filter = "0">
+        <p>
+            <label>&nbsp;</label>
+            <em>#i18n{portal.search.modify_taglist.unactiveFilter}</em>
+        </p>
+        <p>
+            <input type="submit" name="cancel" value="#i18n{portal.search.modify_taglist.buttonCancel}" class="button" />
+        </p>
+        <#else>
+        <p>
+            <input type="submit" name="submit" value="#i18n{portal.search.modify_taglist.buttonValidate}" class="button" />
+            <input type="submit" name="cancel" value="#i18n{portal.search.modify_taglist.buttonCancel}" class="button" />
+        </p>
+        </#if>
+        
+    </form>
+    
+</div>

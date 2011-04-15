@@ -79,6 +79,9 @@
 
     <!-- package role -->
     <bean id="roleDAO"  class="fr.paris.lutece.portal.business.role.RoleDAO" />
+    
+    <!-- package search -->
+    <bean id="searchParameterDAO"  class="fr.paris.lutece.portal.business.search.SearchParameterDAO" />
 
     <!-- package style -->
     <bean id="modeDAO"  class="fr.paris.lutece.portal.business.style.ModeDAO" />

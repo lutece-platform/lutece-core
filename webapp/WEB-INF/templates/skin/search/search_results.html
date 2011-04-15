@@ -69,7 +69,72 @@
                 <#-- Number of documents per page selector -->
 				#i18n{portal.search.search_results.labelNbDocsPerPage}<br />
                 <@NbItemsPerPageSelectorRadioList nb_items_per_page />
+            </div><br />
+            <#if type_filter != "none">
+            <div>
+            	<#-- type_filter -->
+            	#i18n{portal.search.search_results.typeFilter} :<br />
+            	<#if type_filter == "option">
+            	<select name="type_filter">
+            		<#list list_type_and_link as map>
+						<option value="${map.type}"><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></option>
+					</#list>
+				</select>
+				<#else>
+					<#list list_type_and_link as map>
+						<span style="white-space: nowrap;">
+						<#if type_filter != "checkbox" || map_index != 0>
+							<input type=${type_filter} name="type_filter" value="${map.type}">
+							<#if map.link?exists && map.link != "">
+            					<A href="${map.link!}"  ><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></A>
+            				<#else>
+            					<#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if>
+            				</#if>
+            			</#if>
+            			</span>
+            		</#list>
+				</#if>
+            </div><br />
+            </#if>
+            <div>
+            	<#-- default_operator and/or -->
+            	#i18n{portal.search.search_results.operator} :
+            	<select name="default_operator">
+            		<#list ["OR","AND"] as operator>
+            		<option value="${operator}" <#if operator = default_operator> selected="selected"</#if> >
+            			#i18n{portal.search.search_results.operator.${operator}}
+            		</option>
+            		</#list>
+				</select>
+            </div><br />
+            <#if help_message!="">
+            <div>
+            	<#-- help_message text -->
+            		#i18n{portal.search.search_results.helpMessage} : ${help_message}
+            </div><br />
+            </#if>
+            <#if date_filter == "1">
+            <div>
+            	<#-- date_filter 0/1 -->
+           		#i18n{portal.search.search_results.dateFilter} :<br />
+           		#i18n{portal.search.search_results.dateFilterAfter}
+       			<input type=text id="date_after" name="date_after" size="10"/>
+       			<@getDatePicker idField="date_after" language="fr" /><br />
+           		#i18n{portal.search.search_results.dateFilterBefore}
+           		<input type=text id="date_before" name="date_before" size="10"/>
+           		<@getDatePicker idField="date_before" language="fr" />
+            </div><br />
+            </#if>
+            <#if tag_filter == "1" && taglist?trim != "">
+            <div>
+            	<#-- tag_filter -->
+            	<#list taglist?split(" ") as tag>
+            		<#if tag?exists && tag?trim !="">
+            			<input type="submit" name="tag_filter" value="${tag}" />
+            		</#if>
+            	</#list>
             </div>
+            </#if>
         </form>
     </div>
 </div>

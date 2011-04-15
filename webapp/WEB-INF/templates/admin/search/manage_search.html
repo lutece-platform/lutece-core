@@ -1,0 +1,22 @@
+<div id="content-box-actions">
+    <#if permission_manage_advanced_parameters>
+        <form method="post" action="jsp/admin/search/ManageAdvancedParameters.jsp">
+            <input type="submit" value="#i18n{portal.search.manage_search.button_manage_advanced_parameters}" class="button bt-toolbar" />
+        </form>
+    </#if>
+</div>
+<div class="content-box" >
+
+    <h2>#i18n{portal.search.manage_search.tableLabel}</h2>
+
+    <table>
+        <tr>
+            <td width="40%">
+                <a href="jsp/admin/search/ModifyTagList.jsp" class="bullet-link">#i18n{portal.search.manage_search.tagsManagment.label}</a>
+            </td>
+            <td width="60%">
+                #i18n{portal.search.manage_search.tagsManagement.description}<#if tag_filter = "0"> <em>(#i18n{portal.search.manage_search.tagsManagement.unactiveFilter})</em></#if>
+            </td>
+        </tr>     
+    </table>       
+</div>

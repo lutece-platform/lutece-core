@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.demo.html.HTMLParser;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
@@ -59,10 +60,12 @@ import java.util.List;
  */
 public class PageIndexer implements SearchIndexer
 {
+	public static final String INDEX_TYPE_PAGE = "Page";
     public static final String INDEXER_NAME = "PageIndexer";
     private static final String INDEXER_DESCRIPTION = "Indexer service for pages";
     private static final String INDEXER_VERSION = "1.0.0";
     private static final String PROPERTY_PAGE_BASE_URL = "search.pageIndexer.baseUrl";
+    private static final String PROPERTY_SEARCH_PAGE_URL = "search.pageSearch.baseUrl";
     private static final String PROPERTY_INDEXER_ENABLE = "search.pageIndexer.enable";
     private static final String PARAMETER_PAGE_ID = "page_id";
     private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
@@ -194,21 +197,38 @@ public class PageIndexer implements SearchIndexer
         // Add the tag-stripped contents as a Reader-valued Text field so it will
         // get tokenized and indexed.        
         StringBuilder sbFieldContent = new StringBuilder(  );
+        StringBuilder sbFieldMetadata = new StringBuilder(  );
         sbFieldContent.append( page.getName(  ) ).append( " " ).append( sb.toString(  ) );
 
         // Add the metadata description of the page if it exists
-        if ( page.getMetaDescription(  ) != null )
+        if ( page.getDescription(  ) != null )
         {
-            sbFieldContent.append( " " ).append( page.getMetaDescription(  ) );
+            sbFieldContent.append( " " ).append( page.getDescription(  ) );
         }
 
         // Add the metadata keywords of the page if it exists
-        if ( page.getMetaKeywords(  ) != null )
+        String strMetaKeywords = page.getMetaKeywords(  );
+        if ( StringUtils.isNotBlank( strMetaKeywords ) )
         {
-            sbFieldContent.append( " " ).append( page.getMetaKeywords(  ) );
+            sbFieldContent.append( " " ).append( strMetaKeywords );
+            sbFieldMetadata.append( strMetaKeywords );
         }
 
         doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString(  ), Field.Store.NO, Field.Index.ANALYZED ) );
+        
+        if( StringUtils.isNotBlank( page.getMetaDescription( ) ) )
+        {
+        	if( sbFieldMetadata.length(  ) > 0 )
+        	{
+        		sbFieldMetadata.append( " " );
+        	}
+        	sbFieldMetadata.append( page.getMetaDescription(  ) );
+        }
+        
+        if( sbFieldMetadata.length(  ) > 0 )
+        {
+        	doc.add( new Field( SearchItem.FIELD_METADATA, sbFieldMetadata.toString(  ), Field.Store.NO, Field.Index.ANALYZED ) );
+        }
 
         // Add the title as a separate Text field, so that it can be searched
         // separately.
@@ -218,13 +238,31 @@ public class PageIndexer implements SearchIndexer
         {
             // Add the summary as an UnIndexed field, so that it is stored and returned
             // with hit documents for display.
-            doc.add( new Field( SearchItem.FIELD_SUMMARY, page.getDescription(  ), Field.Store.YES, Field.Index.NO ) );
+            doc.add( new Field( SearchItem.FIELD_SUMMARY, page.getDescription(  ), Field.Store.YES, Field.Index.ANALYZED ) );
         }
 
-        doc.add( new Field( SearchItem.FIELD_TYPE, "Page", Field.Store.YES, Field.Index.ANALYZED ) );
+        doc.add( new Field( SearchItem.FIELD_TYPE, INDEX_TYPE_PAGE, Field.Store.YES, Field.Index.NOT_ANALYZED ) );
         doc.add( new Field( SearchItem.FIELD_ROLE, page.getRole(  ), Field.Store.YES, Field.Index.NOT_ANALYZED ) );
 
         // return the document
         return doc;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+	public List<String> getListType(  )
+	{
+		List<String> listType = new ArrayList<String>(  );
+		listType.add( INDEX_TYPE_PAGE );
+		return listType;
+	}
+
+	/**
+     * {@inheritDoc}
+     */
+	public String getSpecificSearchAppUrl(  )
+	{
+		return AppPropertiesService.getProperty( PROPERTY_SEARCH_PAGE_URL );
+	}
 }

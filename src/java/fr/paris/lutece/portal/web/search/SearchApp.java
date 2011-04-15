@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.search;
 
+import fr.paris.lutece.portal.business.search.SearchParameterHome;
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessage;
@@ -44,6 +45,7 @@ import fr.paris.lutece.portal.service.search.QueryEvent;
 import fr.paris.lutece.portal.service.search.QueryListenersService;
 import fr.paris.lutece.portal.service.search.SearchEngine;
 import fr.paris.lutece.portal.service.search.SearchResult;
+import fr.paris.lutece.portal.service.search.SearchService;
 import fr.paris.lutece.portal.service.search.SponsoredLinksSearchService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -86,12 +88,14 @@ public class SearchApp implements XPageApplication
     private static final String PARAMETER_PAGE_INDEX = "page_index";
     private static final String PARAMETER_NB_ITEMS_PER_PAGE = "items_per_page";
     private static final String PARAMETER_QUERY = "query";
+    private static final String PARAMETER_TAG_FILTER = "tag_filter";
     private static final String MARK_RESULTS_LIST = "results_list";
     private static final String MARK_QUERY = "query";
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_ERROR = "error";
     private static final String MARK_SPONSOREDLINKS_SET = "sponsoredlinks_set";
+    private static final String MARK_LIST_TYPE_AND_LINK = "list_type_and_link";
     private static final String PROPERTY_ENCODE_URI = "search.encode.uri";
     private static final String PROPERTY_ENCODE_URI_ENCODING = "search.encode.uri.encoding";
     private static final String DEFAULT_URI_ENCODING = "ISO-8859-1";
@@ -113,6 +117,11 @@ public class SearchApp implements XPageApplication
     {
         XPage page = new XPage(  );
         String strQuery = request.getParameter( PARAMETER_QUERY );
+        String strTagFilter = request.getParameter( PARAMETER_TAG_FILTER );
+        if( StringUtils.isNotEmpty( strTagFilter ) )
+        {
+        	strQuery = strTagFilter;
+        }
         boolean bEncodeUri = Boolean.parseBoolean( AppPropertiesService.getProperty( PROPERTY_ENCODE_URI,
                     Boolean.toString( DEFAULT_ENCODE_URI ) ) );
 
@@ -151,6 +160,11 @@ public class SearchApp implements XPageApplication
         {
             strQueryForPaginator = encodeUrl( request, strQuery );
         }
+        
+        if( StringUtils.isNotBlank( strTagFilter ) );
+        {
+        	strQuery = "";
+        }
 
         url.addParameter( PARAMETER_QUERY, strQueryForPaginator );
         url.addParameter( PARAMETER_NB_ITEMS_PER_PAGE, nNbItemsPerPage );
@@ -171,6 +185,9 @@ public class SearchApp implements XPageApplication
         {
             model.put( MARK_SPONSOREDLINKS_SET, sponsoredLinksService.getHtmlCode( strQuery, locale ) );
         }
+        
+        model.put( MARK_LIST_TYPE_AND_LINK, SearchService.getSearchTypesAndLinks(  ) );
+        model.putAll( SearchParameterHome.findAll(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESULTS, locale, model );
 

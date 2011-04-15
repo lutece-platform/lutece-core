@@ -45,6 +45,7 @@ public class SearchItem
     public static final String FIELD_CONTENTS = "contents";
     public static final String FIELD_TITLE = "title";
     public static final String FIELD_SUMMARY = "summary";
+    public static final String FIELD_METADATA = "metadata";
     public static final String FIELD_URL = "url";
     public static final String FIELD_DATE = "date";
     public static final String FIELD_TYPE = "type";
@@ -56,6 +57,7 @@ public class SearchItem
     private String _strId;
     private String _strTitle;
     private String _strSummary;
+    private String _strMetadata;
     private String _strUrl;
     private String _strLastModifiedDate;
     private String _strType;
@@ -73,6 +75,7 @@ public class SearchItem
         _strTitle = document.get( FIELD_TITLE );
         _strUrl = document.get( FIELD_URL );
         _strSummary = document.get( FIELD_SUMMARY );
+        _strMetadata = document.get( FIELD_METADATA );
         _strLastModifiedDate = document.get( FIELD_DATE );
         _strType = document.get( FIELD_TYPE );
         _strDocPortletId = document.get( FIELD_DOCUMENT_PORTLET_ID );
@@ -157,6 +160,26 @@ public class SearchItem
     public void setSummary( String strSummary )
     {
         _strSummary = strSummary;
+    }
+    
+    /**
+     * Returns the meta data
+     *
+     * @return The meta data
+     */
+    public String getMetadata(  )
+    {
+        return ( _strMetadata != null ) ? _strMetadata : "";
+    }
+
+    /**
+     * Sets the meta data
+     *
+     * @param strSummary The meta data
+     */
+    public void setMetadata( String strMetadata )
+    {
+        _strSummary = strMetadata;
     }
 
     /**

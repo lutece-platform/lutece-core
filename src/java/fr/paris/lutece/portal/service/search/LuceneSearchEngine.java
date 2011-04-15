@@ -37,12 +37,17 @@ import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.date.DateUtil;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.DateTools.Resolution;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.misc.ChainedFilter;
 import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.CachingWrapperFilter;
 import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.IndexSearcher;
@@ -51,11 +56,13 @@ import org.apache.lucene.search.QueryWrapperFilter;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
 
 import java.text.ParseException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,6 +75,12 @@ public class LuceneSearchEngine implements SearchEngine
 {
     public static final int MAX_RESPONSES = 1000000;
 
+    private static final String PARAMETER_TYPE_FILTER = "type_filter";
+	private static final String PARAMETER_DATE_AFTER = "date_after";
+	private static final String PARAMETER_DATE_BEFORE = "date_before";
+	private static final String PARAMETER_TAG_FILTER = "tag_filter";
+	private static final String PARAMETER_DEFAULT_OPERATOR = "default_operator";
+	private static final String PARAMETER_OPERATOR_AND = "AND";
     /**
     * Return search results
     *
@@ -78,10 +91,17 @@ public class LuceneSearchEngine implements SearchEngine
     public List<SearchResult> getSearchResults( String strQuery, HttpServletRequest request )
     {
         ArrayList<SearchItem> listResults = new ArrayList<SearchItem>(  );
+        ArrayList<Filter> listFilter = new ArrayList<Filter>(  );
         Searcher searcher = null;
-        Filter filterRole = null;
         boolean bFilterResult = false;
         LuteceUser user = null;
+        String[] typeFilter = request.getParameterValues( PARAMETER_TYPE_FILTER );
+        String strDateAfter = request.getParameter( PARAMETER_DATE_AFTER );
+        String strDateBefore = request.getParameter( PARAMETER_DATE_BEFORE );
+        boolean bDateAfter = false;
+        boolean bDateBefore = false;
+        Filter allFilter = null;
+        String strTagFilter = request.getParameter( PARAMETER_TAG_FILTER );
 
         if ( SecurityService.isAuthenticationEnable(  ) )
         {
@@ -115,23 +135,91 @@ public class LuceneSearchEngine implements SearchEngine
 
             if ( !bFilterResult )
             {
-                Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, Page.ROLE_NONE ) );
+            	Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, Page.ROLE_NONE ) );
                 filtersRole[filtersRole.length - 1] = new CachingWrapperFilter( new QueryWrapperFilter( queryRole ) );
-                filterRole = new ChainedFilter( filtersRole, ChainedFilter.OR );
+                listFilter.add( new ChainedFilter( filtersRole, ChainedFilter.OR ) );
             }
         }
-
+        
+        if( StringUtils.isNotBlank( strDateAfter ) || StringUtils.isNotBlank( strDateBefore ) )
+        {
+        	String strAfter = null;
+        	String strBefore = null;
+        	
+            if(  StringUtils.isNotBlank( strDateAfter ) )
+            {
+            	Date dateAfter = DateUtil.formatDate( strDateAfter, request.getLocale(  ) );
+            	strAfter = DateTools.dateToString( dateAfter, Resolution.DAY );
+            	bDateAfter = true;
+            }
+            if(  StringUtils.isNotBlank( strDateBefore ) )
+            {
+            	Date dateBefore = DateUtil.formatDate( strDateBefore, request.getLocale(  ) );
+            	strBefore = DateTools.dateToString( dateBefore, Resolution.DAY );
+            	bDateBefore = true;
+            }
+                        
+        	Query queryDate = new TermRangeQuery( SearchItem.FIELD_DATE, strAfter, strBefore, bDateAfter, bDateBefore );
+            listFilter.add( new CachingWrapperFilter( new QueryWrapperFilter( queryDate ) ) );
+        }
+        
+        if( typeFilter != null && typeFilter.length > 0 && !typeFilter[0].equals( SearchService.TYPE_FILTER_NONE ) )
+        {
+    		Filter[] filtersType = new Filter[typeFilter.length];
+    	
+    		for( int i=0; i<typeFilter.length; i++ )
+    		{
+    			Query queryType = new TermQuery( new Term( SearchItem.FIELD_TYPE, typeFilter[i] ) );
+    			filtersType[i] = new CachingWrapperFilter( new QueryWrapperFilter( queryType ) );
+    		}
+    	
+    		listFilter.add( new ChainedFilter( filtersType, ChainedFilter.OR ) );
+        }
+        
+        if( !listFilter.isEmpty(  ) )
+        {
+        	allFilter = new ChainedFilter( (Filter[]) listFilter.toArray( new Filter[1] ), ChainedFilter.AND );
+        }
+        
         try
         {
             searcher = new IndexSearcher( IndexationService.getDirectoryIndex(  ), true );
 
             Query query = null;
-            QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_CONTENTS,
-                    IndexationService.getAnalyser(  ) );
-            query = parser.parse( ( strQuery != null ) ? strQuery : "" );
-
+            
+            if( StringUtils.isNotBlank( strTagFilter ) )
+            {
+            	BooleanQuery bQuery = new BooleanQuery(  );
+            	QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_METADATA,
+                        IndexationService.getAnalyser(  ) );
+            	
+            	Query queryMetaData = parser.parse( ( strQuery != null ) ? strQuery : "" );
+            	bQuery.add( queryMetaData, BooleanClause.Occur.SHOULD );
+            	
+            	parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_SUMMARY,
+                        IndexationService.getAnalyser(  ) );
+            	
+            	Query querySummary = parser.parse( ( strQuery != null ) ? strQuery : "" );
+            	bQuery.add( querySummary, BooleanClause.Occur.SHOULD );
+            	query = bQuery;
+            }
+            else
+            {
+            	QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_CONTENTS,
+                        IndexationService.getAnalyser(  ) );
+                
+    	        String operator = request.getParameter( PARAMETER_DEFAULT_OPERATOR );
+    	            
+    	        if( StringUtils.isNotEmpty( operator ) && operator.equals( PARAMETER_OPERATOR_AND ) )
+    	        {
+    	        	parser.setDefaultOperator( QueryParser.AND_OPERATOR );
+    	        }
+    	            
+    	        query = parser.parse( ( strQuery != null ) ? strQuery : "" );
+            }
+            
             // Get results documents
-            TopDocs topDocs = searcher.search( query, filterRole, MAX_RESPONSES );
+            TopDocs topDocs = searcher.search( query, allFilter, MAX_RESPONSES );
             ScoreDoc[] hits = topDocs.scoreDocs;
 
             for ( int i = 0; i < hits.length; i++ )

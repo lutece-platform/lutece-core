@@ -474,3 +474,14 @@ CREATE TABLE core_admin_user_field (
 	user_field_value LONG VARCHAR DEFAULT NULL,
 	PRIMARY KEY (id_user_field)
 );
+
+
+--
+-- Table structure for table core_search_parameter
+--
+DROP TABLE IF EXISTS core_search_parameter;
+CREATE TABLE core_search_parameter (
+    parameter_key VARCHAR(100) NOT NULL,
+    parameter_value LONG VARCHAR,
+    PRIMARY KEY (parameter_key) 
+);
