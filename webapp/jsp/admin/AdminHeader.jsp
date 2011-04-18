@@ -30,7 +30,7 @@
 <link rel="stylesheet" type="text/css" href="js/jquery/plugins/ui/datepicker/ui.datepicker.css"/>
 <link rel="stylesheet" type="text/css" href="js/jquery/plugins/jpassword/jpassword.css"/>
 <script type="text/javascript" src="js/tools.js"></script>
-<script src="js/jquery/jquery-1.5.min.js" type="text/javascript"></script>
+<script src="js/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/ui/jstree/jquery.cookie.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/ui/jstree/jquery.jstree.js" type="text/javascript"></script>
 <script src="js/jquery/plugins/ui/jstree/jquery.hotkeys.js" type="text/javascript"></script>
