@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
     <head>
 
         <title>${favourite} - ${page_name}</title>
@@ -7,7 +7,6 @@
         <base href="${base_url}" />
 
         <meta http-equiv="Content-Type" content="text/html;charset=${encoding}" />
-        <meta http-equiv="Content-Language" content="fr" />
         <meta name="author" content="${meta_author}" />
         <meta name="copyright" content="${meta_copyright}" />
         <meta name="keywords" content="${meta_keywords}" />
@@ -55,12 +54,16 @@
 		${statistical_include}
         </div>
 
+        <script type="text/javascript">
+        $("#menu-auth-label").click(function(){$('#header-menu').toggle()});
+        </script>
         <script src="js/jquery/plugins/treeview/jquery.cookie.js" type="text/javascript"></script>
         <script src="js/jquery/plugins/treeview/jquery.treeview.pack.js" type="text/javascript"></script>
         <script src="js/jquery/plugins/ui/datepicker/ui.datepicker.js" type="text/javascript"></script>
         <script src="js/jquery/plugins/ui/datepicker/ui.datepicker-fr.js" type="text/javascript"></script>
         <script src="js/jquery/plugins/autocomplete/jquery.autocomplete.pack.js" type="text/javascript"></script>
-	${plugins_javascript_links}
+        ${plugins_javascript_links}
+
 
     </body>
 </html>

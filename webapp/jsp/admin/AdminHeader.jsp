@@ -4,8 +4,8 @@
 <%@ page autoFlush="false" %>
 
 <jsp:useBean id="adminMenu" scope="session" class="fr.paris.lutece.portal.web.admin.AdminMenuJspBean" />
-<!DOCTYPE html >
-<html lang="fr" xml:lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
 <title>LUTECE - Administration</title>
 <base href="<%= AppPathService.getBaseUrl( request ) %>"></base>

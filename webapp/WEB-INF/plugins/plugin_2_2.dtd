@@ -20,9 +20,11 @@
 
 <!-- Links Includes : specific stylesheet -->
 <!ELEMENT css-stylesheet ( #PCDATA ) >
+<!ELEMENT css-stylesheets-scope ( #PCDATA ) >
    
 <!-- Links Include : specific plugin Javascript -->
 <!ELEMENT javascript-file ( #PCDATA ) >
+<!ELEMENT javascript-files-scope ( #PCDATA ) >
 
 <!-- Page Include Service -->
 <!ELEMENT page-include-service ( page-include-service-name, page-include-service-class )>
