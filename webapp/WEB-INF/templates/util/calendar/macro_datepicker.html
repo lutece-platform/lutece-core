@@ -16,9 +16,11 @@
 -->
 <#macro getDatePicker idField language >
 	<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
 		<@setDefaultsDatePicker />
 		$('#${idField}').datepicker($.extend({showStatus: true}, $.datepicker.regional['<@getRegional language=language />'])); 
 	</script>
+	});
 </#macro>
 
 <#-- getDatePickerRange
@@ -35,6 +37,7 @@
 -->
 <#macro getDatePickerRange idFieldFrom idFieldTo language >
 	<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
 		<@setDefaultsDatePicker />
 		$('#${idFieldFrom}').datepicker({beforeShow: customRange}, $.extend({showStatus: true})); 
 		$('#${idFieldTo}').datepicker({beforeShow: customRange}, $.extend({showStatus: true})); 
@@ -43,7 +46,8 @@
 			$.datepicker.setDefaults($.datepicker.regional['<@getRegional language=language />']);
 		    return {minDate: (input.id == '${idFieldTo}' ? $('#${idFieldFrom}').datepicker('getDate') : null), 
 	        maxDate: (input.id == '${idFieldFrom}' ? $('#${idFieldTo}').datepicker('getDate') : null)}; 
-		} 	
+		}
+	});
 	</script>
 </#macro>
 
