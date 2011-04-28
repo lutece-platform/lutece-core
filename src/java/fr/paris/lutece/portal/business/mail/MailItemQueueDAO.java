@@ -50,12 +50,12 @@ import java.io.ObjectOutputStream;
 public class MailItemQueueDAO implements IMailItemQueueDAO
 {
     private static final String SQL_QUERY_NEW_PK = "SELECT max(id_mail_queue) FROM core_mail_queue";
-    private static final String SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID = "SELECT min(id_mail_queue) FROM core_mail_queue WHERE is_locked=false";
+    private static final String SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID = "SELECT min(id_mail_queue) FROM core_mail_queue WHERE is_locked=0";
     private static final String SQL_QUERY_SELECT_COUNT = "SELECT COUNT(id_mail_queue) FROM core_mail_queue";
     private static final String SQL_QUERY_LOAD = "SELECT id_mail_queue,mail_item FROM core_mail_queue WHERE id_mail_queue=? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_mail_queue( id_mail_queue ,mail_item) " +
         " VALUES ( ?, ?)";
-    private static final String SQL_QUERY_LOCK_MAIL_ITEM = " UPDATE core_mail_queue SET is_locked=true WHERE id_mail_queue= ? ";
+    private static final String SQL_QUERY_LOCK_MAIL_ITEM = " UPDATE core_mail_queue SET is_locked=1 WHERE id_mail_queue= ? ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_mail_queue WHERE id_mail_queue = ?";
 
     /**
