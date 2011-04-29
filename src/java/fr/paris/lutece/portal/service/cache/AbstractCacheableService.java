@@ -95,7 +95,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     {
         Element element = new Element( strKey, object );
 
-        if ( _cache != null )
+        if ( ( _cache != null ) && isCacheEnable() )
         {
             _cache.put( element );
         }
@@ -110,7 +110,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     {
         Object object = null;
 
-        if ( _cache != null )
+        if ( ( _cache != null ) && isCacheEnable() )
         {
             Element element = _cache.get( strKey );
 
