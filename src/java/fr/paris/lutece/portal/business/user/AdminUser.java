@@ -60,6 +60,7 @@ public class AdminUser implements Serializable
     private int _nStatus;
     private int _nUserLevel;
     private boolean _bIsPasswordReset;
+    private boolean _bAccessibilityMode;
 
     /** User's rights */
     private Map<String, Right> _rights = new HashMap<String, Right>(  );
@@ -406,4 +407,22 @@ public class AdminUser implements Serializable
     {
         _bIsPasswordReset = bIsPasswordReset;
     }
+
+    /**
+     * Set the accessibility mode
+     * @param bAccessibilityMode true if the mode is accessible, false otherwise
+     */
+	public void setAccessibilityMode( boolean bAccessibilityMode )
+	{
+		_bAccessibilityMode = bAccessibilityMode;
+	}
+
+	/**
+	 * Return the accessibility mode
+	 * @return true if the mode is accessible, false otherwise
+	 */
+	public boolean getAccessibilityMode(  )
+	{
+		return _bAccessibilityMode;
+	}
 }

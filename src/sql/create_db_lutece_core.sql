@@ -91,6 +91,7 @@ CREATE TABLE core_admin_user (
 	locale varchar(10) default 'fr' NOT NULL,
 	level_user smallint default 0 NOT NULL,
 	reset_password smallint default 0 NOT NULL,
+	accessibility_mode smallint default 0 NOT NULL,
 	PRIMARY KEY (id_user)
 );
 

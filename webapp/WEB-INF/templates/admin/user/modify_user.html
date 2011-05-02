@@ -90,6 +90,21 @@
 	            </p>
             </div>
 		</div>
+		<div class="highlight-box">
+			<div class="highlight-box-content">
+				<p>
+					#i18n{portal.users.create_user.labelTheme}
+				</p>
+				<p>
+					<label for="accessibility_mode">#i18n{portal.users.create_user.labelAccessibilityMode} :</label>
+					<input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" 
+						<#if user.accessibilityMode>
+							checked="checked"
+						</#if>
+					/>
+				</p>
+			</div>
+		</div>
 		<#if attributes_list?has_content>
 			<div class="highlight-box">
 				<div class="highlight-box-content">

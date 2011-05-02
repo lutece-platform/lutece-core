@@ -34,10 +34,10 @@ INSERT INTO core_admin_role_resource VALUES (77,'super_admin','INSERT_SERVICE','
 INSERT INTO core_admin_role_resource VALUES (101,'all_site_manager','PORTLET_TYPE','*','*');
 INSERT INTO core_admin_role_resource VALUES (111, 'all_site_manager', 'ADMIN_USER', '*', '*');
 
-INSERT INTO core_admin_user VALUES (1,'admin','Admin','admin','admin@lutece.fr',0,'adminadmin','fr',0,0);
-INSERT INTO core_admin_user VALUES (2,'lutece','Lutèce','lutece','lutece@lutece.fr',0,'adminadmin','fr',1,0);
-INSERT INTO core_admin_user VALUES (3,'redac','redac','redac','redac@lutece.fr',0,'adminadmin','fr',2,0);
-INSERT INTO core_admin_user VALUES (4,'valid','valid','valid','valid@lutece.fr',0,'adminadmin','fr',3,0);
+INSERT INTO core_admin_user VALUES (1,'admin','Admin','admin','admin@lutece.fr',0,'adminadmin','fr',0,0,0);
+INSERT INTO core_admin_user VALUES (2,'lutece','Lutèce','lutece','lutece@lutece.fr',0,'adminadmin','fr',1,0,0);
+INSERT INTO core_admin_user VALUES (3,'redac','redac','redac','redac@lutece.fr',0,'adminadmin','fr',2,0,0);
+INSERT INTO core_admin_user VALUES (4,'valid','valid','valid','valid@lutece.fr',0,'adminadmin','fr',3,0,0);
 
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_SYSTEM', 1, 3);
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_USERS', 1, 1);

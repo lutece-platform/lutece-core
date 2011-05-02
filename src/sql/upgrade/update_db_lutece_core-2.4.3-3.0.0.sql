@@ -20,3 +20,5 @@ INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('help
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('date_filter', '0');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('tag_filter', '0');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('taglist', '');
+
+ALTER TABLE core_admin_user ADD COLUMN accessibility_mode smallint default 0 NOT NULL;

@@ -453,4 +453,22 @@ public class AdminMenuJspBean
         return AdminMessageService.getMessageUrl( request, MESSAGE_PASSWORD_REDIRECT, "jsp/admin/DoAdminLogout.jsp",
             AdminMessage.TYPE_INFO );
     }
+
+    /**
+     * Change the mode accessibility
+     * @param request {@link HttpServletRequest}
+     * @return The forward Url
+     */
+    public String doModifyAccessibilityMode( HttpServletRequest request )
+    {
+    	AdminUser user = AdminUserService.getAdminUser( request );
+    	if ( user != null )
+    	{
+    		boolean bIsAccessible = !user.getAccessibilityMode(  );
+    		user.setAccessibilityMode( bIsAccessible );
+    		AdminUserHome.update( user );
+    	}
+    	
+    	return AppPathService.getBaseUrl( request ) + JSP_URL_ADMIN_MENU;
+    }
 }

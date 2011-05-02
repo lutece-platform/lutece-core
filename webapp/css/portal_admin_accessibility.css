@@ -1,0 +1,2 @@
+input.button { background-color: #444444 !important; border: #444444 !important; }
+input[disabled], input[disabled="disabled"], select[disabled="disabled"] { background-color: #FFFFFF !important; color: #444444 !important; }

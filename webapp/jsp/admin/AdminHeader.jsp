@@ -1,4 +1,5 @@
 <%@ page import="fr.paris.lutece.portal.service.util.AppPathService" %>
+<%@ page import="fr.paris.lutece.portal.service.admin.AdminThemeService" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ page buffer="1024kb" %>
 <%@ page autoFlush="false" %>
@@ -14,6 +15,14 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Cache-Control" content="no-cache" />
 <link rel="stylesheet" type="text/css" href="css/portal_admin.css" media="screen, projection" />
+<%
+	if ( AdminThemeService.isModeAccessible( request ) )
+	{
+%>
+<link rel="stylesheet" type="text/css" href="css/portal_admin_accessibility.css" media="screen, projection" />
+<%
+	}
+%>
 <!--[if IE 6]>
     <link rel="stylesheet" type="text/css" href="css/ie/portal_admin_ie6.css" title="lutece_admin_ie8" />
 <![endif]-->

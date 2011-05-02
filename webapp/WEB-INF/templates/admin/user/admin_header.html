@@ -3,6 +3,11 @@
 	<div id="admin-header">
 		<p id="admin-header-toolbar">
 			<img src="images/logo-header.png" alt="" title="" id="logo" />
+			<#if user.accessibilityMode>
+				<a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}"><img src="images/admin/skin/accessibility.png" alt="#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}" /></a>
+			<#else>
+				<a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelActivateAccessibilityMode}"><img src="images/admin/skin/accessibility.png" alt="#i18n{portal.users.admin_header.labelActivateAccessibilityMode}" /></a>
+			</#if>
 			<a href="jsp/admin/AdminMenu.jsp" title="#i18n{portal.users.admin_header.title.homePage}"><img src="images/admin/skin/home.png" /> #i18n{portal.users.admin_header.homePage}</a>
 			<a href="jsp/site/Portal.jsp" target="_blank" title="#i18n{portal.users.admin_header.title.viewSite}"><img src="images/admin/skin/world.png" /> #i18n{portal.users.admin_header.viewSite}</a>
 			<#if admin_summary_documentation_url?exists>

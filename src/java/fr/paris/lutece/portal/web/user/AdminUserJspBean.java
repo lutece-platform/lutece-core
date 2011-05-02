@@ -171,6 +171,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_SELECT = "select";
     private static final String PARAMETER_SELECT_ALL = "all";
     private static final String PARAMETER_ENCRYPTION_ALGORITHM = "encryption_algorithm";
+    private static final String PARAMETER_ACCESSIBILITY_MODE = "accessibility_mode";
 
     // Jsp url
     private static final String JSP_MANAGE_USER_RIGHTS = "ManageUserRights.jsp";
@@ -499,7 +500,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strStatus = request.getParameter( PARAMETER_STATUS );
         String strUserLevel = request.getParameter( PARAMETER_USER_LEVEL );
         String strNotifyUser = request.getParameter( PARAMETER_NOTIFY_USER );
-
+        String strAccessibilityMode = request.getParameter( PARAMETER_ACCESSIBILITY_MODE );
+        
         if ( ( strAccessCode == null ) || ( strAccessCode.equals( "" ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
@@ -585,6 +587,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
 
             user.setUserLevel( nNewUserLevel );
+            user.setAccessibilityMode( strAccessibilityMode != null );
 
             String strError = AdminUserFieldService.checkUserFields( request, getLocale(  ) );
 
@@ -613,6 +616,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
 
             user.setUserLevel( nNewUserLevel );
+            user.setAccessibilityMode( strAccessibilityMode != null );
 
             String strError = AdminUserFieldService.checkUserFields( request, getLocale(  ) );
 
@@ -749,6 +753,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strFirstName = request.getParameter( PARAMETER_FIRST_NAME );
         String strEmail = request.getParameter( PARAMETER_EMAIL );
         String strStatus = request.getParameter( PARAMETER_STATUS );
+        String strAccessibilityMode = request.getParameter( PARAMETER_ACCESSIBILITY_MODE );
 
         if ( ( strAccessCode == null ) || ( strAccessCode.equals( "" ) ) )
         {
@@ -854,6 +859,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
 
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
+            user.setAccessibilityMode( strAccessibilityMode != null );
 
             String strError = AdminUserFieldService.checkUserFields( request, getLocale(  ) );
 
@@ -876,6 +882,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setEmail( strEmail );
             user.setStatus( Integer.parseInt( strStatus ) );
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
+            user.setAccessibilityMode( strAccessibilityMode != null );
 
             String strError = AdminUserFieldService.checkUserFields( request, getLocale(  ) );
 

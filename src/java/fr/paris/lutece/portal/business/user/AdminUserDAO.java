@@ -56,14 +56,14 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String CONSTANT_ORDER_BY_LAST_NAME = " ORDER BY last_name ";
     private static final String CONSTANT_PERCENT = "%";
     private static final String SQL_QUERY_NEWPK = "SELECT max( id_user ) FROM core_admin_user ";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, locale, level_user )  VALUES ( ? , ? , ? , ? , ? ,? , ?, ? ) ";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user FROM core_admin_user ORDER BY last_name ";
-    private static final String SQL_QUERY_SELECT_USER_FROM_USER_ID = "SELECT id_user , access_code, last_name , first_name, email, status, password, locale, level_user, reset_password FROM core_admin_user  WHERE id_user = ? ORDER BY last_name";
-    private static final String SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user, reset_password FROM core_admin_user  WHERE access_code = ? ";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, locale, level_user, accessibility_mode )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user, accessibility_mode FROM core_admin_user ORDER BY last_name ";
+    private static final String SQL_QUERY_SELECT_USER_FROM_USER_ID = "SELECT id_user , access_code, last_name , first_name, email, status, password, locale, level_user, reset_password, accessibility_mode FROM core_admin_user  WHERE id_user = ? ORDER BY last_name";
+    private static final String SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE = "SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, reset_password, accessibility_mode FROM core_admin_user  WHERE access_code = ? ";
     private static final String SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID = " SELECT a.id_right , a.name, a.admin_url , a.description , a.plugin_name, a.id_feature_group, a.icon_url, a.level_right, a.documentation_url, a.id_order " +
         " FROM core_admin_right a , core_user_right b " + " WHERE a.id_right = b.id_right " + " AND b.id_user = ? " +
         " ORDER BY a.id_order ASC, a.id_right ASC ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, locale = ?, reset_password = ? WHERE id_user = ?  ";
+    private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, locale = ?, reset_password = ?, accessibility_mode = ? WHERE id_user = ?  ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_admin_user WHERE id_user = ? ";
     private static final String SQL_QUERY_INSERT_USER_RIGHT = "INSERT INTO core_user_right ( id_right, id_user )  VALUES ( ? , ? ) ";
     private static final String SQL_QUERY_DELETE_ALL_USER_RIGHTS = "DELETE FROM core_user_right WHERE id_user = ? ";
@@ -75,21 +75,21 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_CHECK_ROLE_ATTRIBUTED = " SELECT id_user FROM core_user_role WHERE role_key = ?";
     private static final String SQL_CHECK_ACCESS_CODE_IN_USE = " SELECT id_user FROM core_admin_user WHERE access_code = ?";
     private static final String SQL_CHECK_EMAIL_IN_USE = " SELECT id_user FROM core_admin_user WHERE email = ?";
-    private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, password, locale, level_user )  VALUES ( ? , ? , ? , ? , ? ,? ,? ,?, ? ) ";
-    private static final String SQL_QUERY_UPDATE_DEFAULT_USER = " UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, password = ?, locale = ?, reset_password = ? WHERE id_user = ?  ";
-    private static final String SQL_QUERY_SELECT_USERS_ID_BY_ROLES = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale " +
+    private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( id_user, access_code, last_name, first_name, email, status, password, locale, level_user, accessibility_mode )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_UPDATE_DEFAULT_USER = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, password = ?, locale = ?, reset_password = ?, accessibility_mode = ? WHERE id_user = ?  ";
+    private static final String SQL_QUERY_SELECT_USERS_ID_BY_ROLES = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale, a.accessibility_mode " +
         " FROM core_admin_user a, core_user_role b WHERE a.id_user = b.id_user AND b.role_key = ? ";
     private static final String SQL_QUERY_SELECT_USER_RIGHTS_OWN = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level_right >= ?";
     private static final String SQL_QUERY_SELECT_USER_RIGHTS_DELEGATED = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level_right < ?";
     private static final String SQL_QUERY_DELETE_USER_RIGHTS = " DELETE FROM core_user_right WHERE id_user = ? and id_right = ?";
-    private static final String SQL_QUERY_SELECT_USERS_BY_LEVEL = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale " +
+    private static final String SQL_QUERY_SELECT_USERS_BY_LEVEL = " SELECT a.id_user, a.access_code, a.last_name, a.first_name, a.email, a.status, a.locale, a.accessibility_mode " +
         " FROM core_admin_user a WHERE a.level_user = ? ";
     private static final String SQL_QUERY_UPDATE_USERS_ROLE = "UPDATE core_user_role SET role_key = ? WHERE role_key = ?";
     private static final String SQL_QUERY_SELECT_USER_ROLE = " SELECT id_user FROM core_user_role WHERE id_user = ? AND role_key = ? ";
     private static final String SQL_QUERY_DELETE_ROLE_FOR_USER = " DELETE FROM core_user_role WHERE id_user = ? AND role_key = ? ";
-    private static final String SQL_QUERY_SELECT_USER_FROM_SEARCH = " SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user " +
+    private static final String SQL_QUERY_SELECT_USER_FROM_SEARCH = " SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, accessibility_mode " +
         " FROM core_admin_user WHERE access_code LIKE ? AND last_name LIKE ? AND first_name LIKE ? AND email LIKE ? ";
-    private static final String SQL_QUERY_SELECT_USERS_BY_RIGHT = " SELECT  u.id_user , u.access_code, u.last_name , u.first_name, u.email, u.status, u.locale, u.level_user " +
+    private static final String SQL_QUERY_SELECT_USERS_BY_RIGHT = " SELECT  u.id_user , u.access_code, u.last_name , u.first_name, u.email, u.status, u.locale, u.level_user, u.accessibility_mode " +
         " FROM core_admin_user u INNER JOIN core_user_right r ON u.id_user = r.id_user WHERE r.id_right = ? ";
     private static final String SQL_QUERY_SELECT_USER_RIGHT = " SELECT id_user FROM core_user_right WHERE id_user = ? AND id_right = ? ";
 
@@ -116,6 +116,7 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setLocale( new Locale( daoUtil.getString( 8 ) ) );
             user.setUserLevel( daoUtil.getInt( 9 ) );
             user.setPasswordReset( daoUtil.getBoolean( 10 ) );
+            user.setAccessibilityMode( daoUtil.getBoolean( 11 ) );
         }
 
         daoUtil.free(  );
@@ -146,6 +147,7 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
             user.setUserLevel( daoUtil.getInt( 8 ) );
             user.setPasswordReset( daoUtil.getBoolean( 9 ) );
+            user.setAccessibilityMode( daoUtil.getBoolean( 10 ) );
         }
 
         daoUtil.free(  );
@@ -174,6 +176,7 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setStatus( daoUtil.getInt( 6 ) );
             user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
             user.setUserLevel( daoUtil.getInt( 8 ) );
+            user.setAccessibilityMode( daoUtil.getBoolean( 9 ) );
             userList.add( user );
         }
 
@@ -223,6 +226,7 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setInt( 6, user.getStatus(  ) );
         daoUtil.setString( 7, user.getLocale(  ).toString(  ) );
         daoUtil.setInt( 8, user.getUserLevel(  ) );
+        daoUtil.setBoolean( 9, user.getAccessibilityMode(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -243,8 +247,9 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setInt( 5, user.getStatus(  ) );
         daoUtil.setString( 6, user.getLocale(  ).toString(  ) );
         daoUtil.setBoolean( 7, user.isPasswordReset(  ) );
+        daoUtil.setBoolean( 8, user.getAccessibilityMode(  ) );
 
-        daoUtil.setInt( 8, user.getUserId(  ) );
+        daoUtil.setInt( 9, user.getUserId(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -463,6 +468,7 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setString( 7, user.getPassword(  ) );
         daoUtil.setString( 8, user.getLocale(  ).toString(  ) );
         daoUtil.setInt( 9, user.getUserLevel(  ) );
+        daoUtil.setBoolean( 10, user.getAccessibilityMode(  ) );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
@@ -483,8 +489,9 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setString( 6, user.getPassword(  ) );
         daoUtil.setString( 7, user.getLocale(  ).toString(  ) );
         daoUtil.setBoolean( 8, user.isPasswordReset(  ) );
+        daoUtil.setBoolean( 9, user.getAccessibilityMode(  ) );
 
-        daoUtil.setInt( 9, user.getUserId(  ) );
+        daoUtil.setInt( 10, user.getUserId(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -516,6 +523,7 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setLocale( locale );
             user.setUserLevel( daoUtil.getInt( 9 ) );
             user.setPasswordReset( daoUtil.getBoolean( 10 ) );
+            user.setAccessibilityMode( daoUtil.getBoolean( 11 ) );
         }
 
         daoUtil.free(  );
@@ -545,6 +553,7 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setEmail( daoUtil.getString( 5 ) );
             user.setStatus( daoUtil.getInt( 6 ) );
             user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+            user.setAccessibilityMode( daoUtil.getBoolean( 8 ) );
             userList.add( user );
         }
 
@@ -575,6 +584,7 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setEmail( daoUtil.getString( 5 ) );
             user.setStatus( daoUtil.getInt( 6 ) );
             user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+            user.setAccessibilityMode( daoUtil.getBoolean( 8 ) );
             userList.add( user );
         }
 
@@ -765,6 +775,7 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setStatus( daoUtil.getInt( 6 ) );
             user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
             user.setUserLevel( daoUtil.getInt( 8 ) );
+            user.setAccessibilityMode( daoUtil.getBoolean( 9 ) );
             userList.add( user );
         }
 
@@ -795,6 +806,8 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setEmail( daoUtil.getString( 5 ) );
             user.setStatus( daoUtil.getInt( 6 ) );
             user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+            user.setUserLevel( daoUtil.getInt( 8 ) );
+            user.setAccessibilityMode( daoUtil.getBoolean( 9 ) );
             userList.add( user );
         }
 
