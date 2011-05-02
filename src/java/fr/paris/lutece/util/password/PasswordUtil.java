@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
 
 /**
  * Utility class used to generate random passwords
@@ -44,7 +46,7 @@ import java.util.Random;
  */
 public final class PasswordUtil
 {
-    private static final int CONSTANT_PASSWORD_SIZE = 8;
+	private static final String PROPERTY_PASSWORD_SIZE = "randomPassword.size";
     private static final int CONSTANT_NUMBER_LETTERS = 26;
     private static final int CONSTANT_NUMBER_NUMBERS_BASE10 = 10;
     private static final int CONSTANT_ASCII_CODE_A_UPPERCASE = 65;
@@ -65,17 +67,18 @@ public final class PasswordUtil
         //		reinitialize password
         Random r = new Random(  );
         String strPassword = "";
+        int nPasswordSize = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_SIZE, 8 );
 
         ArrayList<Character> listCharacters = new ArrayList<Character>(  );
 
         //No of Big letters
-        int nNumCapitalLetters = r.nextInt( CONSTANT_PASSWORD_SIZE - 2 ) + 1; //choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE -1
+        int nNumCapitalLetters = r.nextInt( nPasswordSize - 2 ) + 1; //choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE -1
 
         //No of small
-        int nNumSmallLetters = r.nextInt( CONSTANT_PASSWORD_SIZE - 1 - nNumCapitalLetters ) + 1; //choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE - a1
+        int nNumSmallLetters = r.nextInt( nPasswordSize - 1 - nNumCapitalLetters ) + 1; //choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE - a1
 
         //no on nos
-        int nNumNumbers = CONSTANT_PASSWORD_SIZE - nNumCapitalLetters - nNumSmallLetters; //choose a number to complete list of CONSTANT_PASSWORD_SIZE characters
+        int nNumNumbers = nPasswordSize - nNumCapitalLetters - nNumSmallLetters; //choose a number to complete list of CONSTANT_PASSWORD_SIZE characters
 
         for ( int j = 0; j < nNumCapitalLetters; j++ )
         {
