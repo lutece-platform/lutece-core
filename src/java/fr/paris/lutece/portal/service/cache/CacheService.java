@@ -390,7 +390,7 @@ public final class CacheService
      */
     private boolean getBooleanProperty(String strPrefix, String strKey, boolean bDefault)
     {
-        String strValue = _propertiesCacheConfig.getProperty(strPrefix, strKey);
+        String strValue = _propertiesCacheConfig.getProperty(strPrefix + strKey);
         if (strValue != null)
         {
             return (strValue.equalsIgnoreCase("true"));
