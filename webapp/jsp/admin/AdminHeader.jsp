@@ -26,7 +26,7 @@
 <link rel="stylesheet" type="text/css" href="css/print_admin.css" media="print" />
 <link rel="stylesheet" type="text/css" href="js/jquery/plugins/autocomplete/jquery.autocomplete.css" />
 <link rel="stylesheet" type="text/css" href="js/jscalendar/calendar-lutece.css" />
-<link rel="stylesheet" type="text/css" href="js/jquery/plugins/ui/jstree/themes/style.css" />
+<link rel="stylesheet" type="text/css" href="js/jquery/plugins/ui/jstree/themes/default/style.css" />
 <link rel="stylesheet" type="text/css" href="js/jquery/plugins/ui/datepicker/ui.datepicker.css"/>
 <link rel="stylesheet" type="text/css" href="js/jquery/plugins/jpassword/jpassword.css"/>
 <script type="text/javascript" src="js/tools.js"></script>
