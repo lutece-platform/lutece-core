@@ -304,4 +304,13 @@ public abstract class PortletHome implements PortletHomeInterface
     {
         return _dao.selectAliasesForPortlet( nPortletId );
     }
+    
+    /**
+     * Get the last modified portlet
+     * @return the last modified portlet
+     */
+    public static Portlet getLastModifiedPortlet(  )
+    {
+    	return _dao.loadLastModifiedPortlet(  );
+    }
 }

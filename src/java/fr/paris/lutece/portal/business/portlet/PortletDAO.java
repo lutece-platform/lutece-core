@@ -84,6 +84,10 @@ public final class PortletDAO implements IPortletDAO
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_TYPE = " SELECT a.id_portlet, a.id_portlet_type, a.id_page, a.name, " +
         "a.date_update, a.status, a.portlet_order, a.column_no, a.id_style, a.accept_alias, a.date_creation, a.display_portlet_title, a.role " +
         " FROM core_portlet a, core_page b  WHERE a.id_page = b.id_page " + " AND a.id_portlet_type = ? ";
+    private static final String SQL_QUERY_SELECT_LAST_MODIFIED_PORTLET = " SELECT a.id_portlet, b.id_portlet_type, a.id_page, a.id_style, a.name , b.name, " +
+	    " b.url_creation, b.url_update, a.date_update, a.column_no, a.portlet_order, " +
+	    " b.home_class, a.accept_alias , a.role , b.plugin_name , a.display_portlet_title, a.status " +
+	    " FROM core_portlet a , core_portlet_type b WHERE a.id_portlet_type = b.id_portlet_type ORDER BY a.date_update DESC LIMIT 1 ";
 
     ///////////////////////////////////////////////////////////////////////////////////////
     //Access methods to data
@@ -476,4 +480,42 @@ public final class PortletDAO implements IPortletDAO
         return list;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public Portlet loadLastModifiedPortlet(  )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LAST_MODIFIED_PORTLET );
+        daoUtil.executeQuery(  );
+
+        PortletImpl portlet = null;
+
+        if ( daoUtil.next(  ) )
+        {
+            portlet = new PortletImpl(  );
+
+            int nIndex = 1;
+            portlet.setId( daoUtil.getInt( nIndex++ ) );
+            portlet.setPortletTypeId( daoUtil.getString( nIndex++ ) );
+            portlet.setPageId( daoUtil.getInt( nIndex++ ) );
+            portlet.setStyleId( daoUtil.getInt( nIndex++ ) );
+            portlet.setName( daoUtil.getString( nIndex++ ) );
+            portlet.setPortletTypeName( daoUtil.getString( nIndex++ ) );
+            portlet.setUrlCreation( daoUtil.getString( nIndex++ ) );
+            portlet.setUrlUpdate( daoUtil.getString( nIndex++ ) );
+            portlet.setDateUpdate( daoUtil.getTimestamp( nIndex++ ) );
+            portlet.setColumn( daoUtil.getInt( nIndex++ ) );
+            portlet.setOrder( daoUtil.getInt( nIndex++ ) );
+            portlet.setHomeClassName( daoUtil.getString( nIndex++ ) );
+            portlet.setAcceptAlias( daoUtil.getInt( nIndex++ ) );
+            portlet.setRole( daoUtil.getString( nIndex++ ) );
+            portlet.setPluginName( daoUtil.getString( nIndex++ ) );
+            portlet.setDisplayPortletTitle( daoUtil.getInt( nIndex++ ) );
+            portlet.setStatus( daoUtil.getInt( nIndex++ ) );
+        }
+
+        daoUtil.free(  );
+
+        return portlet;
+    }
 }

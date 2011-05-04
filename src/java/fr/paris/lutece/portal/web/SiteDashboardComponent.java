@@ -33,18 +33,22 @@
  */
 package fr.paris.lutece.portal.web;
 
-import fr.paris.lutece.portal.business.page.PageHome;
-import fr.paris.lutece.portal.business.right.Right;
-import fr.paris.lutece.portal.business.right.RightHome;
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.dashboard.DashboardComponent;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.util.html.HtmlTemplate;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import fr.paris.lutece.portal.business.page.Page;
+import fr.paris.lutece.portal.business.page.PageHome;
+import fr.paris.lutece.portal.business.portlet.PortletHome;
+import fr.paris.lutece.portal.business.right.Right;
+import fr.paris.lutece.portal.business.right.RightHome;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.dashboard.DashboardComponent;
+import fr.paris.lutece.portal.service.page.PageService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.util.html.HtmlTemplate;
 
 
 /**
@@ -52,10 +56,21 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SiteDashboardComponent extends DashboardComponent
 {
-    private static final String TEMPLATE_DASHBOARD = "/admin/site/site_dashboard.html";
+	// CONSTANTS
+    private static final int ZONE_1 = 1;
+    private static final String BEAN_PAGE_SERVICE = "pageService";
+
+    // MARKS
     private static final String MARK_PAGES_COUNT = "pages_count";
     private static final String MARK_URL = "url";
     private static final String MARK_ICON = "icon";
+    private static final String MARK_LAST_MODIFIED_PAGE = "last_modified_page";
+    private static final String MARK_LAST_MODIFIED_PORTLET = "last_modified_portlet";
+    private static final String MARK_IMAGE_THUMBNAIL_PAGE_URL = "image_thumbnail_page_url";
+
+    // TEMPLATES
+    private static final String TEMPLATE_DASHBOARD_ZONE_1 = "/admin/site/site_dashboard_zone_1.html";
+    private static final String TEMPLATE_DASHBOARD_OTHER_ZONE = "/admin/site/site_dashboard_other_zone.html";
 
     /**
      * The HTML code of the component
@@ -67,12 +82,43 @@ public class SiteDashboardComponent extends DashboardComponent
     {
         Right right = RightHome.findByPrimaryKey( getRight(  ) );
         Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_PAGES_COUNT, PageHome.getAllPages(  ).size(  ) );
         model.put( MARK_URL, right.getUrl(  ) );
         model.put( MARK_ICON, right.getIconUrl(  ) );
 
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale(  ), model );
+        if ( getZone(  ) == ZONE_1 )
+        {
+            model.put( MARK_PAGES_COUNT, PageHome.getAllPages(  ).size(  ) );
+        }
+        else
+        {
+            PageService pageService = (PageService) SpringContextService.getBean( BEAN_PAGE_SERVICE );
+            Page page = PageHome.getLastModifiedPage(  );
+            model.put( MARK_LAST_MODIFIED_PAGE, page );
+            model.put( MARK_LAST_MODIFIED_PORTLET, PortletHome.getLastModifiedPortlet(  ) );
+
+            if ( page != null )
+            {
+                model.put( MARK_IMAGE_THUMBNAIL_PAGE_URL,
+                    pageService.getResourceImagePage( String.valueOf( page.getId(  ) ) ) );
+            }
+        }
+
+        HtmlTemplate t = AppTemplateService.getTemplate( getTemplateDashboard(  ), user.getLocale(  ), model );
 
         return t.getHtml(  );
+    }
+    
+    /**
+     * Get the template
+     * @return the template
+     */
+    private String getTemplateDashboard(  )
+    {
+        if ( getZone(  ) == ZONE_1 )
+        {
+            return TEMPLATE_DASHBOARD_ZONE_1;
+        }
+
+        return TEMPLATE_DASHBOARD_OTHER_ZONE;
     }
 }

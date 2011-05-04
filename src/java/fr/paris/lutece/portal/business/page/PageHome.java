@@ -230,4 +230,13 @@ public final class PageHome
     {
         return _dao.checkPageExist( nPageId );
     }
+    
+    /**
+     * Get the last modified page
+     * @return the last modified {@link Page}
+     */
+    public static Page getLastModifiedPage(  )
+    {
+    	return _dao.loadLastModifiedPage(  );
+    }
 }

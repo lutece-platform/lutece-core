@@ -151,4 +151,10 @@ public interface IPageDAO
      * @return true if the page existed, false otherwise
      */
     boolean checkPageExist( int nPageId );
+    
+    /**
+     * Load the last modified page
+     * @return the last modified {@link Page}
+     */
+    Page loadLastModifiedPage(  );
 }

@@ -68,6 +68,7 @@ import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.url.UrlItem;
 
 import java.io.IOException;
 
@@ -894,5 +895,21 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         boolean bBefore = strPage.contains(strBase);
 
         return strPage.replaceFirst("<base href=\".*\" >", "<base href=\"" + strBase + "\" >");
+    }
+    
+    /**
+     * Management of the image associated to the page
+     * @param page The Page Object
+     * @param strPageId The page identifier
+     * @return The url
+     */
+    public String getResourceImagePage( String strPageId )
+    {
+        String strResourceType = getResourceTypeId(  );
+        UrlItem url = new UrlItem( Parameters.IMAGE_SERVLET );
+        url.addParameter( Parameters.RESOURCE_TYPE, strResourceType );
+        url.addParameter( Parameters.RESOURCE_ID, strPageId );
+
+        return url.getUrlWithEntity(  );
     }
 }
