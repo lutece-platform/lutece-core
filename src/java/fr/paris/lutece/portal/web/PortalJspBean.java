@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.init.AppInit;
 import fr.paris.lutece.portal.service.message.ISiteMessageHandler;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -110,7 +111,7 @@ public class PortalJspBean
         // Try to register the user in case of external authentication
         if ( SecurityService.isAuthenticationEnable(  ) )
         {
-            if ( SecurityService.getInstance(  ).isExternalAuthentication(  ) )
+            if ( SecurityService.getInstance(  ).isExternalAuthentication(  ) && !SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
             {
                 // The authentication is external
                 // Should register the user if it's not already done
@@ -126,15 +127,34 @@ public class PortalJspBean
             }
             else
             {
-                //If portal authentication is enabled and user is null and the requested URL 
-                //is not the login URL, user cannot access to Portal
-                if ( ( SecurityService.getInstance(  ).isPortalAuthenticationRequired(  ) ) &&
-                        ( SecurityService.getInstance(  ).getRegisteredUser( request ) == null ) &&
-                        !SecurityService.getInstance(  ).isLoginUrl( request ) )
-                {
-                    // Authentication is required to access to the portal
-                    throw new UserNotSignedException(  );
-                }
+            	LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
+            	// no checks are needed if the user is already registered
+            	if ( user == null )
+            	{
+            		// if multiauthentication is supported, then when have to check remote user before other check
+            		if ( SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
+            		{
+	            		// getRemoteUser needs to be checked before any check so the user is registered
+	            		// getRemoteUser throws an exception if no user found, but here we have to bypass this exception to display login page.
+                        try
+                        {
+		           			user = SecurityService.getInstance(  ).getRemoteUser( request );
+		           		}
+		           		catch ( UserNotSignedException unse )
+		           		{
+		           			// nothing to do, there might be another authentication provider or login page to display
+		           		}
+            		}
+            		
+	                //If portal authentication is enabled and user is null and the requested URL 
+	                //is not the login URL, user cannot access to Portal
+	                if ( SecurityService.getInstance(  ).isPortalAuthenticationRequired(  ) &&
+	                        ( user == null ) && !SecurityService.getInstance(  ).isLoginUrl( request ) )
+	                {
+	                    // Authentication is required to access to the portal
+	                    throw new UserNotSignedException(  );
+	                }
+            	}
             }
         }
 
