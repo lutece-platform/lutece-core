@@ -104,6 +104,9 @@
         <rbac-resource-type>
             <rbac-resource-type-class>fr.paris.lutece.portal.service.user.AdminUserResourceIdService</rbac-resource-type-class>
         </rbac-resource-type>
+        <rbac-resource-type>
+            <rbac-resource-type-class>fr.paris.lutece.portal.service.search.SearchResourceIdService</rbac-resource-type-class>
+        </rbac-resource-type>
     </rbac-resource-types>
     
     <!-- Dashboard  components -->
@@ -135,6 +138,10 @@
     	<admindashboard-component>
             <dashboard-component-name>usersAdminDashboardComponent</dashboard-component-name>
             <dashboard-component-class>fr.paris.lutece.portal.web.user.UsersAdminDashboardComponent</dashboard-component-class>
+        </admindashboard-component>
+        <admindashboard-component>
+            <dashboard-component-name>searchAdminDashboardComponent</dashboard-component-name>
+            <dashboard-component-class>fr.paris.lutece.portal.web.search.SearchAdminDashboardComponent</dashboard-component-class>
         </admindashboard-component>
     </admindashboard-components>
         
