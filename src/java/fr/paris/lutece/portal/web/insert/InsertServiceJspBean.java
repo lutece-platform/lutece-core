@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.insert;
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -122,5 +123,14 @@ public abstract class InsertServiceJspBean implements Serializable
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_LINK, Locale.getDefault(  ), model );
 
         return template.getHtml(  );
+    }
+    
+    /**
+     * List of supported sub categories that may be used to filter resources.
+     * @return the list. Default is an empty list.
+     */
+    public ReferenceList getSubCategories()
+    {
+    	return new ReferenceList();
     }
 }
