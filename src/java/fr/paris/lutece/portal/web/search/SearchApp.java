@@ -161,7 +161,7 @@ public class SearchApp implements XPageApplication
             strQueryForPaginator = encodeUrl( request, strQuery );
         }
         
-        if( StringUtils.isNotBlank( strTagFilter ) );
+        if( StringUtils.isNotBlank( strTagFilter ) )
         {
         	strQuery = "";
         }
