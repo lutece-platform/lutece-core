@@ -221,28 +221,39 @@ public class Paginator<E>
      */
     public List<PaginatorPage> getPagesLinks(  )
     {
-        ArrayList<PaginatorPage> list = new ArrayList<PaginatorPage>(  );
+        List<PaginatorPage> list = new ArrayList<PaginatorPage>(  );
 
-        int nMax = getPagesCount(  );
-        int nbLinkPages = 10;
-        int nOffsetPrev = nbLinkPages / 2;
-        int nOffsetNext = nbLinkPages / 2;
+        // Number of link pages in total
+        int nNbLinkPages = getPagesCount(  );
+        // Max number of link pages displayed
+        int nNbLinkPagesToDisplay = 10;
+        // Number of previous link pages to display 
+        int nOffsetPrev = nNbLinkPagesToDisplay / 2;
+        // Number of next link pages to display
+        int nOffsetNext = nNbLinkPagesToDisplay / 2;
 
-        if ( _nPageCurrent <= ( nbLinkPages - nOffsetPrev ) )
+        // Set the offsets
+        if ( _nPageCurrent <= ( nNbLinkPagesToDisplay - nOffsetPrev ) )
         {
-            nOffsetPrev = nbLinkPages - _nPageCurrent;
-            nOffsetNext = nbLinkPages - nOffsetPrev;
+        	// If the current page is within the first 5 pages
+            nOffsetPrev = _nPageCurrent - 1;
+            nOffsetNext = nNbLinkPagesToDisplay - nOffsetPrev;
         }
-        else if ( _nPageCurrent > ( this.getPagesCount(  ) - ( nbLinkPages - nOffsetNext ) ) )
+        else if ( _nPageCurrent + nOffsetNext > nNbLinkPages )
         {
-            nOffsetPrev = nbLinkPages - ( this.getPagesCount(  ) - _nPageCurrent );
-            nOffsetNext = nbLinkPages - nOffsetPrev;
+        	// If the current page is within the last 5 pages
+        	nOffsetNext = nNbLinkPages - _nPageCurrent;
+        	nOffsetPrev = nNbLinkPagesToDisplay - nOffsetNext;
         }
 
+        // Index of the last number of the link page to display
+        int nMax = nNbLinkPages;
+        // Index of the first number of the link page to display
         int nMin = 1;
-        int nTmpMin = ( _nPageCurrent - ( nbLinkPages - nOffsetPrev ) ) + 1;
-        int nTmpMax = ( _nPageCurrent + ( nbLinkPages - nOffsetNext ) );
-
+        
+        int nTmpMin = _nPageCurrent - nOffsetPrev;
+        int nTmpMax = _nPageCurrent + nOffsetNext;
+        
         if ( nTmpMax < nMax )
         {
             nMax = nTmpMax;
@@ -251,13 +262,6 @@ public class Paginator<E>
         if ( nTmpMin > 0 )
         {
             nMin = nTmpMin;
-
-            int nTmp = ( getPagesCount(  ) - nbLinkPages );
-
-            if ( ( nMin > nTmp ) && ( nTmp > 0 ) )
-            {
-                nMin = nTmp;
-            }
         }
 
         for ( int i = nMin; i <= nMax; i++ )
