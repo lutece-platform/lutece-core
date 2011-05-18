@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.plugin;
 
+
 /**
  * PluginEventListener
  */
@@ -43,5 +44,4 @@ public interface PluginEventListener
      * @param event The event to process
      */
     void processPluginEvent( PluginEvent event );
-    
 }

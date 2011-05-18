@@ -461,14 +461,15 @@ public class AdminMenuJspBean
      */
     public String doModifyAccessibilityMode( HttpServletRequest request )
     {
-    	AdminUser user = AdminUserService.getAdminUser( request );
-    	if ( user != null )
-    	{
-    		boolean bIsAccessible = !user.getAccessibilityMode(  );
-    		user.setAccessibilityMode( bIsAccessible );
-    		AdminUserHome.update( user );
-    	}
-    	
-    	return AppPathService.getBaseUrl( request ) + JSP_URL_ADMIN_MENU;
+        AdminUser user = AdminUserService.getAdminUser( request );
+
+        if ( user != null )
+        {
+            boolean bIsAccessible = !user.getAccessibilityMode(  );
+            user.setAccessibilityMode( bIsAccessible );
+            AdminUserHome.update( user );
+        }
+
+        return AppPathService.getBaseUrl( request ) + JSP_URL_ADMIN_MENU;
     }
 }

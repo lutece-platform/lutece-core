@@ -87,9 +87,9 @@ public final class PageDAO implements IPageDAO
     private static final String SQL_QUERY_NEW_CHILD_PAGE_ORDER = "SELECT max(page_order) FROM core_page WHERE id_parent = ?";
     private static final String SQL_QUERY_CHECK_PAGE_EXIST = "SELECT id_page FROM core_page " + " WHERE id_page = ? ";
     private static final String SQL_QUERY_SELECT_LAST_MODIFIED_PAGE = "SELECT id_page, id_parent, name, description, id_template, " +
-	    " page_order, status, role , code_theme , node_status , mime_type, " +
-	    " workgroup_key, date_update, meta_keywords, meta_description FROM core_page " +
-	    " ORDER BY date_update DESC LIMIT 1";
+        " page_order, status, role , code_theme , node_status , mime_type, " +
+        " workgroup_key, date_update, meta_keywords, meta_description FROM core_page " +
+        " ORDER BY date_update DESC LIMIT 1";
 
     // ImageResource queries
     private static final String SQL_QUERY_SELECT_RESOURCE_IMAGE = " SELECT image_content , mime_type FROM core_page " +
@@ -660,7 +660,7 @@ public final class PageDAO implements IPageDAO
 
         return bPageExisted;
     }
-    
+
     /**
      * {@inheritDoc}
      */

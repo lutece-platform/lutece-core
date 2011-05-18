@@ -447,7 +447,7 @@ public abstract class Portlet implements XmlContent
         setPluginName( portlet.getPluginName(  ) );
         setDisplayPortletTitle( portlet.getDisplayPortletTitle(  ) );
         setStatus( portlet.getStatus(  ) );
-        setRole( portlet.getRole() );
+        setRole( portlet.getRole(  ) );
     }
 
     /**

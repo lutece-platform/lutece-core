@@ -33,6 +33,11 @@
  */
 package fr.paris.lutece.portal.service.search;
 
+import fr.paris.lutece.portal.business.search.SearchParameterHome;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,70 +45,65 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.paris.lutece.portal.business.search.SearchParameterHome;
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
 
 public class SearchService
 {
-	public static final String RESOURCE_TYPE = "SEARCH_SERVICE";
-	public static final String TYPE_FILTER_NONE = "none";
-	
-	private static final String MARK_LOCALE = "locale";
-	private static final String MARK_WEBAPP_URL = "webapp_url"; 
-	private static final String MARK_TYPE = "type";
-	private static final String MARK_LINK = "link";
-	
-	
-	/*
-	 * private constructor
-	 */
-	private SearchService(  )
-	{
-	}
-	
-	/**
-	 * Build the advanced parameters management
-	 * @param user the current admin user
-	 * @return the model for the advanced parameters
-	 */
-	public static Map<String, Object> getManageAdvancedParameters( AdminUser user, HttpServletRequest request )
-	{
-		Map<String, Object> model = new HashMap<String, Object>(  );
-		model.putAll( SearchParameterHome.findAll(  ) );
-		model.put( MARK_LOCALE, user.getLocale(  ) );
-		model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
-		
-		return model;
-	}
-	
-	/**
-	 * Find types managed by each registered indexer and the link to their specific search page
-	 * @return the model for this list of types and links
-	 */
-	public static List<Map<String, Object>> getSearchTypesAndLinks(  )
-	{
-		List<Map<String, Object>> listTypesAndLinks = new ArrayList<Map<String, Object>>(  );
-		Map<String, Object> model = new HashMap<String, Object>(  );
-		model.put( MARK_TYPE, TYPE_FILTER_NONE );
-		model.put( MARK_LINK, null );
-		listTypesAndLinks.add( model );
-		
-		List<SearchIndexer> listIndexer = new ArrayList<SearchIndexer>( IndexationService.getIndexers(  ) );
-		for( SearchIndexer indexer : listIndexer )
-		{
-			String strLink = indexer.getSpecificSearchAppUrl(  );
-			for( String strType : indexer.getListType(  ) )
-			{
-				model= new HashMap<String, Object>(  );
-				model.put( MARK_TYPE, strType );
-				model.put( MARK_LINK, strLink );
-				listTypesAndLinks.add( model );
-			}
-		}
-		
-		return listTypesAndLinks;
-	}
+    public static final String RESOURCE_TYPE = "SEARCH_SERVICE";
+    public static final String TYPE_FILTER_NONE = "none";
+    private static final String MARK_LOCALE = "locale";
+    private static final String MARK_WEBAPP_URL = "webapp_url";
+    private static final String MARK_TYPE = "type";
+    private static final String MARK_LINK = "link";
 
+    /*
+     * private constructor
+     */
+    private SearchService(  )
+    {
+    }
+
+    /**
+     * Build the advanced parameters management
+     * @param user the current admin user
+     * @return the model for the advanced parameters
+     */
+    public static Map<String, Object> getManageAdvancedParameters( AdminUser user, HttpServletRequest request )
+    {
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        model.putAll( SearchParameterHome.findAll(  ) );
+        model.put( MARK_LOCALE, user.getLocale(  ) );
+        model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
+
+        return model;
+    }
+
+    /**
+     * Find types managed by each registered indexer and the link to their specific search page
+     * @return the model for this list of types and links
+     */
+    public static List<Map<String, Object>> getSearchTypesAndLinks(  )
+    {
+        List<Map<String, Object>> listTypesAndLinks = new ArrayList<Map<String, Object>>(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        model.put( MARK_TYPE, TYPE_FILTER_NONE );
+        model.put( MARK_LINK, null );
+        listTypesAndLinks.add( model );
+
+        List<SearchIndexer> listIndexer = new ArrayList<SearchIndexer>( IndexationService.getIndexers(  ) );
+
+        for ( SearchIndexer indexer : listIndexer )
+        {
+            String strLink = indexer.getSpecificSearchAppUrl(  );
+
+            for ( String strType : indexer.getListType(  ) )
+            {
+                model = new HashMap<String, Object>(  );
+                model.put( MARK_TYPE, strType );
+                model.put( MARK_LINK, strLink );
+                listTypesAndLinks.add( model );
+            }
+        }
+
+        return listTypesAndLinks;
+    }
 }

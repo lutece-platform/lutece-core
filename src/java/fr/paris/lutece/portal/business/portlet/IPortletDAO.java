@@ -159,7 +159,7 @@ public interface IPortletDAO
      * @return The collection
      */
     Collection<Portlet> selectPortletsByRole( String strRole );
-    
+
     /**
      * Load the last modified portlet
      * @return the last modified {@link Portlet}

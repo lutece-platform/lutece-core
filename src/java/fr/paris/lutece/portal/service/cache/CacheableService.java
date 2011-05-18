@@ -78,24 +78,23 @@ public interface CacheableService extends LuteceService
      * Returns maximum elements accepted into the cache
      * @return The max elements
      */
-    int getMaxElements();
+    int getMaxElements(  );
 
     /**
      * Returns the time to live for objects in the cache
      * @return The time to live in seconds
      */
-    long getTimeToLive();
+    long getTimeToLive(  );
 
     /**
      * Return the memory size
      * @return the memory size
      */
-    public long getMemorySize();
+    public long getMemorySize(  );
 
     /**
      * Returns cache infos
      * @return cache infos
      */
-    public String getInfos();
-
+    public String getInfos(  );
 }

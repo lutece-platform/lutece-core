@@ -33,72 +33,73 @@
  */
 package fr.paris.lutece.portal.service.event;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.paris.lutece.portal.business.event.EventRessourceListener;
 import fr.paris.lutece.portal.business.event.ResourceEvent;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 /**
- * 
+ *
  * ResourceEventManager
  *
  */
 public final class ResourceEventManager
 {
-	private static List<EventRessourceListener> _lstListeners = new ArrayList<EventRessourceListener>();
-	
-	/**
-	 * Subscribe to this listener
-	 * @param listener
-	 */
-	public static void register( EventRessourceListener listener )
-	{
-		_lstListeners.add( listener );
-		AppLogService.info( "New resource evnt listener registered : " + listener.getName(  ) );
-	}
-	
-	/**
-	 * Warn subscribers that a resource has been created
-	 * @param event the event for the created resource
-	 */
-	public static void fireAddedResource( ResourceEvent event )
-	{
-		for( EventRessourceListener listener : _lstListeners )
-		{
-			listener.addedResource( event );
-		}
-	}
-	
-	/**
-	 * Warn subscribers that a resource has been updated
-	 * @param event the event for the updated resource
-	 */
-	public static void fireUpdatedResource( ResourceEvent event )
-	{
-		for( EventRessourceListener listener : _lstListeners )
-		{
-			listener.updatedResource( event );
-		}	
-	}
-	
-	/**
-	 * Warn subscribers that a resource has been deleted
-	 * @param event the event for the deleted resource
-	 */
-	public static void fireDeletedResource( ResourceEvent event )
-	{
-		for( EventRessourceListener listener : _lstListeners )
-		{
-			listener.deletedResource( event );
-		}
-	}
-	
-	/**
-     * Private constructor - this class need not be instantiated
+    private static List<EventRessourceListener> _lstListeners = new ArrayList<EventRessourceListener>(  );
+
+    /**
+    * Private constructor - this class need not be instantiated
+    */
+    private ResourceEventManager(  )
+    {
+    }
+
+    /**
+     * Subscribe to this listener
+     * @param listener
      */
-	private ResourceEventManager()
-	{
-	}
+    public static void register( EventRessourceListener listener )
+    {
+        _lstListeners.add( listener );
+        AppLogService.info( "New resource evnt listener registered : " + listener.getName(  ) );
+    }
+
+    /**
+     * Warn subscribers that a resource has been created
+     * @param event the event for the created resource
+     */
+    public static void fireAddedResource( ResourceEvent event )
+    {
+        for ( EventRessourceListener listener : _lstListeners )
+        {
+            listener.addedResource( event );
+        }
+    }
+
+    /**
+     * Warn subscribers that a resource has been updated
+     * @param event the event for the updated resource
+     */
+    public static void fireUpdatedResource( ResourceEvent event )
+    {
+        for ( EventRessourceListener listener : _lstListeners )
+        {
+            listener.updatedResource( event );
+        }
+    }
+
+    /**
+     * Warn subscribers that a resource has been deleted
+     * @param event the event for the deleted resource
+     */
+    public static void fireDeletedResource( ResourceEvent event )
+    {
+        for ( EventRessourceListener listener : _lstListeners )
+        {
+            listener.deletedResource( event );
+        }
+    }
 }

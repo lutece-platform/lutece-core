@@ -95,7 +95,7 @@ public class AppPathServiceTest extends LuteceTestCase
     /*public void testGetWebAppPath(  )
     {
         System.out.println( "getWebAppPath" );
-
+    
         String expResult = WEBAPP_PATH;
         String result = AppPathService.getWebAppPath(  );
         assertNotNull( result );
@@ -129,9 +129,9 @@ public class AppPathServiceTest extends LuteceTestCase
     /*public void testGetAbsolutePathFromRelativePath(  )
     {
         System.out.println( "getAbsolutePathFromRelativePath" );
-
+    
         String strDirectory = FRAGMENT_END_PATH_TEMPLATES;
-
+    
         String expResult = strDirectory;
         String result = AppPathService.getAbsolutePathFromRelativePath( strDirectory );
         assertNotNull( result );

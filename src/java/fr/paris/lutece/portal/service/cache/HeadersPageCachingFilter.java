@@ -62,7 +62,6 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
 {
     private static final String BLOCKING_TIMEOUT_MILLIS = "blockingTimeoutMillis";
     private static final String INIT_PARAM_CACHE_NAME = "cacheName";
-
     private Cache _cache;
     private Logger _logger = Logger.getLogger( "lutece.cache" );
     private boolean _bInit;
@@ -90,7 +89,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
         {
             if ( blockingCache == null )
             {
-                _strCacheName = filterConfig.getInitParameter(INIT_PARAM_CACHE_NAME);
+                _strCacheName = filterConfig.getInitParameter( INIT_PARAM_CACHE_NAME );
                 CacheService.getInstance(  ).createCache( _strCacheName );
                 _cache = CacheManager.getInstance(  ).getCache( _strCacheName );
                 CacheService.registerCacheableService( this );
@@ -240,33 +239,32 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      *  {@inheritDoc }
      */
-    public int getMaxElements()
+    public int getMaxElements(  )
     {
-        return _cache.getCacheConfiguration().getMaxElementsInMemory();
+        return _cache.getCacheConfiguration(  ).getMaxElementsInMemory(  );
     }
 
     /**
      *  {@inheritDoc }
      */
-    public long getTimeToLive()
+    public long getTimeToLive(  )
     {
-        return _cache.getCacheConfiguration().getTimeToLiveSeconds();
+        return _cache.getCacheConfiguration(  ).getTimeToLiveSeconds(  );
     }
 
     /**
      *  {@inheritDoc }
      */
-    public long getMemorySize()
+    public long getMemorySize(  )
     {
-        return _cache.calculateInMemorySize();
+        return _cache.calculateInMemorySize(  );
     }
 
     /**
      *  {@inheritDoc }
      */
-    public String getInfos()
+    public String getInfos(  )
     {
         return CacheService.getInfos( _cache );
     }
-
 }

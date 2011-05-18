@@ -35,8 +35,9 @@ package fr.paris.lutece.portal.business.rss;
 
 import java.util.Date;
 
+
 /**
- * 
+ *
  * An feed Item used by Rss resources.
  * <ul>
  * <li>title
@@ -48,63 +49,63 @@ import java.util.Date;
  */
 public interface IFeedResourceItem
 {
-	/**
-	 * Gets the item title
-	 * @return the item title
-	 */
-	String getTitle();
+    /**
+     * Gets the item title
+     * @return the item title
+     */
+    String getTitle(  );
 
-	/**
-	 * Sets the item title
-	 * @param strTitle the item title
-	 */
-	void setTitle( String strTitle );
+    /**
+     * Sets the item title
+     * @param strTitle the item title
+     */
+    void setTitle( String strTitle );
 
-	/**
-	 * Gets the item link
-	 * @return the link
-	 */
-	String getLink();
+    /**
+     * Gets the item link
+     * @return the link
+     */
+    String getLink(  );
 
-	/**
-	 * Sets the item link
-	 * @param strLink the item link
-	 */
-	void setLink( String strLink );
+    /**
+     * Sets the item link
+     * @param strLink the item link
+     */
+    void setLink( String strLink );
 
-	/**
-	 * Gets the item description
-	 * @return the description
-	 */
-	String getDescription();
+    /**
+     * Gets the item description
+     * @return the description
+     */
+    String getDescription(  );
 
-	/**
-	 * Sets the description
-	 * @param strDescription the description
-	 */
-	void setDescription( String strDescription );
+    /**
+     * Sets the description
+     * @param strDescription the description
+     */
+    void setDescription( String strDescription );
 
-	/**
-	 * Gets the item id
-	 * @return the item id
-	 */
-	String getGUID();
+    /**
+     * Gets the item id
+     * @return the item id
+     */
+    String getGUID(  );
 
-	/**
-	 * Sets the item guid
-	 * @param strGUID the item guid
-	 */
-	void setGUID( String strGUID );
+    /**
+     * Sets the item guid
+     * @param strGUID the item guid
+     */
+    void setGUID( String strGUID );
 
-	/**
-	 * Gets the item publishing date
-	 * @return the date
-	 */
-	Date getDate();
+    /**
+     * Gets the item publishing date
+     * @return the date
+     */
+    Date getDate(  );
 
-	/**
-	 * Set the item publishing date
-	 * @param date the date
-	 */
-	void setDate( Date date );
+    /**
+     * Set the item publishing date
+     * @param date the date
+     */
+    void setDate( Date date );
 }

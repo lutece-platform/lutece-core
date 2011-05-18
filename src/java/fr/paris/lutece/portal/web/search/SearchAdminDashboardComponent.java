@@ -33,10 +33,6 @@
  */
 package fr.paris.lutece.portal.web.search;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.dashboard.admin.AdminDashboardComponent;
@@ -46,30 +42,34 @@ import fr.paris.lutece.portal.service.search.SearchService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+
 /**
  * SearchAdminDashboardComponent
  */
 public class SearchAdminDashboardComponent extends AdminDashboardComponent
 {
-	private static final String EMPTY_STRING = "";
-	private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/search/search_admindashboard.html";
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getDashboardData( AdminUser user, HttpServletRequest request )
-	{
-		if( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, 
-				SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user ) )
-		{
-			return EMPTY_STRING;
-		}
+    private static final String EMPTY_STRING = "";
+    private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/search/search_admindashboard.html";
 
-		Map<String, Object> model = SearchService.getManageAdvancedParameters( user, request );
-		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_DASHBOARD, user.getLocale(  ), model );
-		
-		return template.getHtml(  );
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDashboardData( AdminUser user, HttpServletRequest request )
+    {
+        if ( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                    SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user ) )
+        {
+            return EMPTY_STRING;
+        }
 
+        Map<String, Object> model = SearchService.getManageAdvancedParameters( user, request );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_DASHBOARD, user.getLocale(  ), model );
+
+        return template.getHtml(  );
+    }
 }

@@ -33,11 +33,6 @@
  */
 package fr.paris.lutece.portal.web;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
@@ -50,13 +45,18 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * SiteDashboardComponent
  */
 public class SiteDashboardComponent extends DashboardComponent
 {
-	// CONSTANTS
+    // CONSTANTS
     private static final int ZONE_1 = 1;
     private static final String BEAN_PAGE_SERVICE = "pageService";
 
@@ -107,7 +107,7 @@ public class SiteDashboardComponent extends DashboardComponent
 
         return t.getHtml(  );
     }
-    
+
     /**
      * Get the template
      * @return the template

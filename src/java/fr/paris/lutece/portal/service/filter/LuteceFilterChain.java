@@ -75,44 +75,44 @@ public class LuteceFilterChain implements FilterChain
      * @return the request
      * @since 2.5
      */
-    public ServletRequest getRequest()
-	{
-		return request;
-	}
+    public ServletRequest getRequest(  )
+    {
+        return request;
+    }
 
     /**
      * Sets the request used by {@link #doFilter(ServletRequest, ServletResponse)}
      * @param request the request
      * @since 2.5
      */
-	public void setRequest( ServletRequest request )
-	{
-		this.request = request;
-	}
+    public void setRequest( ServletRequest request )
+    {
+        this.request = request;
+    }
 
-	/**
-	 * Returns the response used by {@link #doFilter(ServletRequest, ServletResponse)}
-	 * @return the response
-	 * @since 2.5
-	 */
-	public ServletResponse getResponse()
-	{
-		return response;
-	}
-
-	/**
-	 * Sets the response used by {@link #doFilter(ServletRequest, ServletResponse)}
-	 * @param response the response
-	 * @since 2.5
-	 */
-	public void setResponse( ServletResponse response )
-	{
-		this.response = response;
-	}
-
-	/**
-     * {@inheritDoc }
+    /**
+     * Returns the response used by {@link #doFilter(ServletRequest, ServletResponse)}
+     * @return the response
+     * @since 2.5
      */
+    public ServletResponse getResponse(  )
+    {
+        return response;
+    }
+
+    /**
+     * Sets the response used by {@link #doFilter(ServletRequest, ServletResponse)}
+     * @param response the response
+     * @since 2.5
+     */
+    public void setResponse( ServletResponse response )
+    {
+        this.response = response;
+    }
+
+    /**
+    * {@inheritDoc }
+    */
     public void doFilter( ServletRequest request, ServletResponse response )
         throws IOException, ServletException
     {

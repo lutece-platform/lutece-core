@@ -111,7 +111,8 @@ public class PortalJspBean
         // Try to register the user in case of external authentication
         if ( SecurityService.isAuthenticationEnable(  ) )
         {
-            if ( SecurityService.getInstance(  ).isExternalAuthentication(  ) && !SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
+            if ( SecurityService.getInstance(  ).isExternalAuthentication(  ) &&
+                    !SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
             {
                 // The authentication is external
                 // Should register the user if it's not already done
@@ -127,34 +128,35 @@ public class PortalJspBean
             }
             else
             {
-            	LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
-            	// no checks are needed if the user is already registered
-            	if ( user == null )
-            	{
-            		// if multiauthentication is supported, then when have to check remote user before other check
-            		if ( SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
-            		{
-	            		// getRemoteUser needs to be checked before any check so the user is registered
-	            		// getRemoteUser throws an exception if no user found, but here we have to bypass this exception to display login page.
+                LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
+
+                // no checks are needed if the user is already registered
+                if ( user == null )
+                {
+                    // if multiauthentication is supported, then when have to check remote user before other check
+                    if ( SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
+                    {
+                        // getRemoteUser needs to be checked before any check so the user is registered
+                        // getRemoteUser throws an exception if no user found, but here we have to bypass this exception to display login page.
                         try
                         {
-		           			user = SecurityService.getInstance(  ).getRemoteUser( request );
-		           		}
-		           		catch ( UserNotSignedException unse )
-		           		{
-		           			// nothing to do, there might be another authentication provider or login page to display
-		           		}
-            		}
-            		
-	                //If portal authentication is enabled and user is null and the requested URL 
-	                //is not the login URL, user cannot access to Portal
-	                if ( SecurityService.getInstance(  ).isPortalAuthenticationRequired(  ) &&
-	                        ( user == null ) && !SecurityService.getInstance(  ).isLoginUrl( request ) )
-	                {
-	                    // Authentication is required to access to the portal
-	                    throw new UserNotSignedException(  );
-	                }
-            	}
+                            user = SecurityService.getInstance(  ).getRemoteUser( request );
+                        }
+                        catch ( UserNotSignedException unse )
+                        {
+                            // nothing to do, there might be another authentication provider or login page to display
+                        }
+                    }
+
+                    //If portal authentication is enabled and user is null and the requested URL 
+                    //is not the login URL, user cannot access to Portal
+                    if ( SecurityService.getInstance(  ).isPortalAuthenticationRequired(  ) && ( user == null ) &&
+                            !SecurityService.getInstance(  ).isLoginUrl( request ) )
+                    {
+                        // Authentication is required to access to the portal
+                        throw new UserNotSignedException(  );
+                    }
+                }
             }
         }
 

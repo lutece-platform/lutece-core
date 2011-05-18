@@ -96,7 +96,6 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     // Jsp
     private static final String JSP_ADMIN_SITE = "../../site/AdminSite.jsp";
 
-
     /**
      * Displays the portlet's creation form
      *
@@ -200,25 +199,25 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-
-        String strPageId = request.getParameter( PARAMETER_PAGE_ID );            
-        int nPageId = PortalService.getRootPageId();
+        String strPageId = request.getParameter( PARAMETER_PAGE_ID );
+        int nPageId = PortalService.getRootPageId(  );
 
         // Test format of the id and the existence of the page
         try
         {
             nPageId = Integer.parseInt( strPageId );
-            if ( ! PageHome.checkPageExist( nPageId ) )
+
+            if ( !PageHome.checkPageExist( nPageId ) )
             {
                 return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
             }
         }
-        catch (NumberFormatException e)
+        catch ( NumberFormatException e )
         {
-            AppLogService.error( e.getMessage(), e);
+            AppLogService.error( e.getMessage(  ), e );
+
             return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
         }
-        
 
         int nOrder = Integer.parseInt( strOrder );
         int nColumn = Integer.parseInt( strColumn );

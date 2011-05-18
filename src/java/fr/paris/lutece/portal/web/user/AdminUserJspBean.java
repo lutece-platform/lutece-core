@@ -33,18 +33,6 @@
  */
 package fr.paris.lutece.portal.web.user;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -90,6 +78,18 @@ import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -148,7 +148,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_NO_CHANGE_PASSWORD_ENCRYPTION = "portal.users.manage_advanced_parameters.message.noChangePasswordEncryption";
     private static final String PROPERTY_MESSAGE_INVALID_ENCRYPTION_ALGORITHM = "portal.users.manage_advanced_parameters.message.invalidEncryptionAlgorithm";
     private static final String PROPERTY_MESSAGE_ERROR_EMAIL_PATTERN = "portal.users.manage_advanced_parameters.message.errorEmailPattern";
-    
+
     // Properties
     private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
     private static final String PROPERTY_SITE_NAME = "lutece.name";
@@ -430,15 +430,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         // Default user parameter values
-        String strDefaultLevel = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LEVEL )
-                                                         .getParameterValue(  );
+        String strDefaultLevel = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LEVEL ).getParameterValue(  );
         Level defaultLevel = LevelHome.findByPrimaryKey( Integer.parseInt( strDefaultLevel ) );
         int nDefaultUserNotification = Integer.parseInt( DefaultUserParameterHome.findByKey( 
                     PARAMETER_DEFAULT_USER_NOTIFICATION ).getParameterValue(  ) );
         String strDefaultUserLanguage = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LANGUAGE )
                                                                 .getParameterValue(  );
-        int nDefaultUserStatus = Integer.parseInt( DefaultUserParameterHome.findByKey( 
-                    PARAMETER_DEFAULT_USER_STATUS ).getParameterValue(  ) );
+        int nDefaultUserStatus = Integer.parseInt( DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_STATUS )
+                                                                           .getParameterValue(  ) );
 
         // Specific attributes
         List<IAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
@@ -514,7 +513,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strUserLevel = request.getParameter( PARAMETER_USER_LEVEL );
         String strNotifyUser = request.getParameter( PARAMETER_NOTIFY_USER );
         String strAccessibilityMode = request.getParameter( PARAMETER_ACCESSIBILITY_MODE );
-        
+
         if ( ( strAccessCode == null ) || ( strAccessCode.equals( "" ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
@@ -537,7 +536,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( !AdminUserService.checkEmail( strEmail ) )
         {
-        	return AdminUserService.getEmailErrorMessageUrl( request );
+            return AdminUserService.getEmailErrorMessageUrl( request );
         }
 
         // check again that access code is not in use
@@ -582,8 +581,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
 
             // Encryption password
-            if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( 
-                            PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
+            if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION )
+                                                              .getParameterValue(  ) ) )
             {
                 String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM )
                                                               .getParameterValue(  );
@@ -790,7 +789,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( !AdminUserService.checkEmail( strEmail ) )
         {
-        	return AdminUserService.getEmailErrorMessageUrl( request );
+            return AdminUserService.getEmailErrorMessageUrl( request );
         }
 
         int nUserId = Integer.parseInt( strUserId );
@@ -845,8 +844,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( ( strFirstPassword != null ) && !strFirstPassword.equals( "" ) )
             {
                 // Encryption password
-                if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( 
-                                PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
+                if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION )
+                                                                  .getParameterValue(  ) ) )
                 {
                     String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM )
                                                                   .getParameterValue(  );
@@ -1530,9 +1529,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 strEncryptionAlgorithm = "";
             }
 
-            String strUrlModify = JSP_URL_MODIFY_PASSWORD_ENCRYPTION + "?" +
-                PARAMETER_ENABLE_PASSWORD_ENCRYPTION + "=" + strEnablePasswordEncryption + "&" +
-                PARAMETER_ENCRYPTION_ALGORITHM + "=" + strEncryptionAlgorithm;
+            String strUrlModify = JSP_URL_MODIFY_PASSWORD_ENCRYPTION + "?" + PARAMETER_ENABLE_PASSWORD_ENCRYPTION +
+                "=" + strEnablePasswordEncryption + "&" + PARAMETER_ENCRYPTION_ALGORITHM + "=" +
+                strEncryptionAlgorithm;
 
             strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_MODIFY_PASSWORD_ENCRYPTION,
                     strUrlModify, AdminMessage.TYPE_CONFIRMATION );
@@ -1599,8 +1598,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 // Encrypted password
                 String strEncryptedPassword = strPassword;
 
-                if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( 
-                                PARAMETER_ENABLE_PASSWORD_ENCRYPTION ).getParameterValue(  ) ) )
+                if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION )
+                                                                  .getParameterValue(  ) ) )
                 {
                     String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM )
                                                                   .getParameterValue(  );
@@ -1668,7 +1667,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;
     }
-    
+
     /**
      * Modify the email pattern
      * @param request HttpServletRequest
@@ -1683,17 +1682,20 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException(  );
         }
+
         String strJsp = StringUtils.EMPTY;
         String strSetManually = request.getParameter( PARAMETER_IS_EMAIL_PATTERN_SET_MANUALLY );
         String strEmailPattern = request.getParameter( PARAMETER_EMAIL_PATTERN );
-    	if ( StringUtils.isNotBlank( strEmailPattern ) )
+
+        if ( StringUtils.isNotBlank( strEmailPattern ) )
         {
-        	AdminUserService.doModifyEmailPattern( strEmailPattern, strSetManually != null );
+            AdminUserService.doModifyEmailPattern( strEmailPattern, strSetManually != null );
             strJsp = JSP_MANAGE_ADVANCED_PARAMETERS;
         }
         else
         {
-        	strJsp = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ERROR_EMAIL_PATTERN, AdminMessage.TYPE_STOP );
+            strJsp = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ERROR_EMAIL_PATTERN,
+                    AdminMessage.TYPE_STOP );
         }
 
         return strJsp;
@@ -1706,17 +1708,17 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException access denied if the AdminUser does not have the permission
      */
     public String doResetEmailPattern( HttpServletRequest request )
-    	throws AccessDeniedException
+        throws AccessDeniedException
     {
-    	if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
-	    {
-	        throw new AccessDeniedException(  );
-	    }
-    	
-    	AdminUserService.doResetEmailPattern(  );
-	
-	    return JSP_MANAGE_ADVANCED_PARAMETERS;
+        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
+        {
+            throw new AccessDeniedException(  );
+        }
+
+        AdminUserService.doResetEmailPattern(  );
+
+        return JSP_MANAGE_ADVANCED_PARAMETERS;
     }
 
     /**
@@ -1726,24 +1728,25 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException access denied if the AdminUser does not have the permission
      */
     public String doInsertRegularExpression( HttpServletRequest request )
-    	throws AccessDeniedException
+        throws AccessDeniedException
     {
-    	if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
-	    {
-	        throw new AccessDeniedException(  );
-	    }
-    	
-    	String strRegularExpressionId = request.getParameter( PARAMETER_ID_EXPRESSION );
-    	if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
-    	{
-    		int nRegularExpressionId = Integer.parseInt( strRegularExpressionId );
-    		AdminUserService.doInsertRegularExpression( nRegularExpressionId );
-    	}
-	
-	    return JSP_MANAGE_ADVANCED_PARAMETERS;
+        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
+        {
+            throw new AccessDeniedException(  );
+        }
+
+        String strRegularExpressionId = request.getParameter( PARAMETER_ID_EXPRESSION );
+
+        if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
+        {
+            int nRegularExpressionId = Integer.parseInt( strRegularExpressionId );
+            AdminUserService.doInsertRegularExpression( nRegularExpressionId );
+        }
+
+        return JSP_MANAGE_ADVANCED_PARAMETERS;
     }
-    
+
     /**
      * Do remove a regular expression
      * @param request {@link HttpServletRequest}
@@ -1751,21 +1754,22 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException access denied if the AdminUser does not have the permission
      */
     public String doRemoveRegularExpression( HttpServletRequest request )
-	throws AccessDeniedException
-	{
-		if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-	            AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
-	    {
-	        throw new AccessDeniedException(  );
-	    }
-		
-		String strRegularExpressionId = request.getParameter( PARAMETER_ID_EXPRESSION );
-    	if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
-    	{
-    		int nRegularExpressionId = Integer.parseInt( strRegularExpressionId );
-    		AdminUserService.doRemoveRegularExpression( nRegularExpressionId );
-    	}
-	
-	    return JSP_MANAGE_ADVANCED_PARAMETERS;
-	}
+        throws AccessDeniedException
+    {
+        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
+        {
+            throw new AccessDeniedException(  );
+        }
+
+        String strRegularExpressionId = request.getParameter( PARAMETER_ID_EXPRESSION );
+
+        if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
+        {
+            int nRegularExpressionId = Integer.parseInt( strRegularExpressionId );
+            AdminUserService.doRemoveRegularExpression( nRegularExpressionId );
+        }
+
+        return JSP_MANAGE_ADVANCED_PARAMETERS;
+    }
 }

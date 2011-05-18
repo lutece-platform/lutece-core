@@ -33,70 +33,68 @@
  */
 package fr.paris.lutece.portal.business.rss;
 
+
 /**
- * 
+ *
  * FeedResourceImage - {@link IFeedResourceImage} implementation.
  */
 public class FeedResourceImage implements IFeedResourceImage
 {
-	private String _strUrl;
+    private String _strUrl;
+    private String _strTitle;
+    private String _strLink;
 
-	private String _strTitle;
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public String getUrl(  )
+    {
+        return _strUrl;
+    }
 
-	private String _strLink;
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void setUrl( String strUrl )
+    {
+        this._strUrl = strUrl;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public String getUrl()
-	{
-		return _strUrl;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public String getTitle(  )
+    {
+        return _strTitle;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void setUrl( String strUrl )
-	{
-		this._strUrl = strUrl;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void setTitle( String strTitle )
+    {
+        this._strTitle = strTitle;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public String getTitle()
-	{
-		return _strTitle;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public String getLink(  )
+    {
+        return _strLink;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void setTitle( String strTitle )
-	{
-		this._strTitle = strTitle;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public String getLink()
-	{
-		return _strLink;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void setLink( String strLink )
-	{
-		this._strLink = strLink;
-	}
-
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void setLink( String strLink )
+    {
+        this._strLink = strLink;
+    }
 }

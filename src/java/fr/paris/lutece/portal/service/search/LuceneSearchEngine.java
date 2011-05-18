@@ -40,9 +40,10 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.date.DateUtil;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.apache.lucene.document.DateTools;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.document.DateTools.Resolution;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.misc.ChainedFilter;
 import org.apache.lucene.queryParser.QueryParser;
@@ -74,13 +75,13 @@ import javax.servlet.http.HttpServletRequest;
 public class LuceneSearchEngine implements SearchEngine
 {
     public static final int MAX_RESPONSES = 1000000;
-
     private static final String PARAMETER_TYPE_FILTER = "type_filter";
-	private static final String PARAMETER_DATE_AFTER = "date_after";
-	private static final String PARAMETER_DATE_BEFORE = "date_before";
-	private static final String PARAMETER_TAG_FILTER = "tag_filter";
-	private static final String PARAMETER_DEFAULT_OPERATOR = "default_operator";
-	private static final String PARAMETER_OPERATOR_AND = "AND";
+    private static final String PARAMETER_DATE_AFTER = "date_after";
+    private static final String PARAMETER_DATE_BEFORE = "date_before";
+    private static final String PARAMETER_TAG_FILTER = "tag_filter";
+    private static final String PARAMETER_DEFAULT_OPERATOR = "default_operator";
+    private static final String PARAMETER_OPERATOR_AND = "AND";
+
     /**
     * Return search results
     *
@@ -135,89 +136,91 @@ public class LuceneSearchEngine implements SearchEngine
 
             if ( !bFilterResult )
             {
-            	Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, Page.ROLE_NONE ) );
+                Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, Page.ROLE_NONE ) );
                 filtersRole[filtersRole.length - 1] = new CachingWrapperFilter( new QueryWrapperFilter( queryRole ) );
                 listFilter.add( new ChainedFilter( filtersRole, ChainedFilter.OR ) );
             }
         }
-        
-        if( StringUtils.isNotBlank( strDateAfter ) || StringUtils.isNotBlank( strDateBefore ) )
+
+        if ( StringUtils.isNotBlank( strDateAfter ) || StringUtils.isNotBlank( strDateBefore ) )
         {
-        	String strAfter = null;
-        	String strBefore = null;
-        	
-            if(  StringUtils.isNotBlank( strDateAfter ) )
+            String strAfter = null;
+            String strBefore = null;
+
+            if ( StringUtils.isNotBlank( strDateAfter ) )
             {
-            	Date dateAfter = DateUtil.formatDate( strDateAfter, request.getLocale(  ) );
-            	strAfter = DateTools.dateToString( dateAfter, Resolution.DAY );
-            	bDateAfter = true;
+                Date dateAfter = DateUtil.formatDate( strDateAfter, request.getLocale(  ) );
+                strAfter = DateTools.dateToString( dateAfter, Resolution.DAY );
+                bDateAfter = true;
             }
-            if(  StringUtils.isNotBlank( strDateBefore ) )
+
+            if ( StringUtils.isNotBlank( strDateBefore ) )
             {
-            	Date dateBefore = DateUtil.formatDate( strDateBefore, request.getLocale(  ) );
-            	strBefore = DateTools.dateToString( dateBefore, Resolution.DAY );
-            	bDateBefore = true;
+                Date dateBefore = DateUtil.formatDate( strDateBefore, request.getLocale(  ) );
+                strBefore = DateTools.dateToString( dateBefore, Resolution.DAY );
+                bDateBefore = true;
             }
-                        
-        	Query queryDate = new TermRangeQuery( SearchItem.FIELD_DATE, strAfter, strBefore, bDateAfter, bDateBefore );
+
+            Query queryDate = new TermRangeQuery( SearchItem.FIELD_DATE, strAfter, strBefore, bDateAfter, bDateBefore );
             listFilter.add( new CachingWrapperFilter( new QueryWrapperFilter( queryDate ) ) );
         }
-        
-        if( typeFilter != null && typeFilter.length > 0 && !typeFilter[0].equals( SearchService.TYPE_FILTER_NONE ) )
+
+        if ( ( typeFilter != null ) && ( typeFilter.length > 0 ) &&
+                !typeFilter[0].equals( SearchService.TYPE_FILTER_NONE ) )
         {
-    		Filter[] filtersType = new Filter[typeFilter.length];
-    	
-    		for( int i=0; i<typeFilter.length; i++ )
-    		{
-    			Query queryType = new TermQuery( new Term( SearchItem.FIELD_TYPE, typeFilter[i] ) );
-    			filtersType[i] = new CachingWrapperFilter( new QueryWrapperFilter( queryType ) );
-    		}
-    	
-    		listFilter.add( new ChainedFilter( filtersType, ChainedFilter.OR ) );
+            Filter[] filtersType = new Filter[typeFilter.length];
+
+            for ( int i = 0; i < typeFilter.length; i++ )
+            {
+                Query queryType = new TermQuery( new Term( SearchItem.FIELD_TYPE, typeFilter[i] ) );
+                filtersType[i] = new CachingWrapperFilter( new QueryWrapperFilter( queryType ) );
+            }
+
+            listFilter.add( new ChainedFilter( filtersType, ChainedFilter.OR ) );
         }
-        
-        if( !listFilter.isEmpty(  ) )
+
+        if ( !listFilter.isEmpty(  ) )
         {
-        	allFilter = new ChainedFilter( (Filter[]) listFilter.toArray( new Filter[1] ), ChainedFilter.AND );
+            allFilter = new ChainedFilter( (Filter[]) listFilter.toArray( new Filter[1] ), ChainedFilter.AND );
         }
-        
+
         try
         {
             searcher = new IndexSearcher( IndexationService.getDirectoryIndex(  ), true );
 
             Query query = null;
-            
-            if( StringUtils.isNotBlank( strTagFilter ) )
+
+            if ( StringUtils.isNotBlank( strTagFilter ) )
             {
-            	BooleanQuery bQuery = new BooleanQuery(  );
-            	QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_METADATA,
+                BooleanQuery bQuery = new BooleanQuery(  );
+                QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION,
+                        SearchItem.FIELD_METADATA, IndexationService.getAnalyser(  ) );
+
+                Query queryMetaData = parser.parse( ( strQuery != null ) ? strQuery : "" );
+                bQuery.add( queryMetaData, BooleanClause.Occur.SHOULD );
+
+                parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_SUMMARY,
                         IndexationService.getAnalyser(  ) );
-            	
-            	Query queryMetaData = parser.parse( ( strQuery != null ) ? strQuery : "" );
-            	bQuery.add( queryMetaData, BooleanClause.Occur.SHOULD );
-            	
-            	parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_SUMMARY,
-                        IndexationService.getAnalyser(  ) );
-            	
-            	Query querySummary = parser.parse( ( strQuery != null ) ? strQuery : "" );
-            	bQuery.add( querySummary, BooleanClause.Occur.SHOULD );
-            	query = bQuery;
+
+                Query querySummary = parser.parse( ( strQuery != null ) ? strQuery : "" );
+                bQuery.add( querySummary, BooleanClause.Occur.SHOULD );
+                query = bQuery;
             }
             else
             {
-            	QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_CONTENTS,
-                        IndexationService.getAnalyser(  ) );
-                
-    	        String operator = request.getParameter( PARAMETER_DEFAULT_OPERATOR );
-    	            
-    	        if( StringUtils.isNotEmpty( operator ) && operator.equals( PARAMETER_OPERATOR_AND ) )
-    	        {
-    	        	parser.setDefaultOperator( QueryParser.AND_OPERATOR );
-    	        }
-    	            
-    	        query = parser.parse( ( strQuery != null ) ? strQuery : "" );
+                QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION,
+                        SearchItem.FIELD_CONTENTS, IndexationService.getAnalyser(  ) );
+
+                String operator = request.getParameter( PARAMETER_DEFAULT_OPERATOR );
+
+                if ( StringUtils.isNotEmpty( operator ) && operator.equals( PARAMETER_OPERATOR_AND ) )
+                {
+                    parser.setDefaultOperator( QueryParser.AND_OPERATOR );
+                }
+
+                query = parser.parse( ( strQuery != null ) ? strQuery : "" );
             }
-            
+
             // Get results documents
             TopDocs topDocs = searcher.search( query, allFilter, MAX_RESPONSES );
             ScoreDoc[] hits = topDocs.scoreDocs;

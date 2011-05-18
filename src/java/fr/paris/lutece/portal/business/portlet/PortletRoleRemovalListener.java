@@ -61,7 +61,7 @@ public class PortletRoleRemovalListener implements RemovalListener
 
         Collection<Portlet> listPortlets = PortletHome.getPortletsByRoleKey( strId );
 
-        if ( ( listPortlets != null ) && ( ! listPortlets.isEmpty()) )
+        if ( ( listPortlets != null ) && ( !listPortlets.isEmpty(  ) ) )
         {
             return false;
         }

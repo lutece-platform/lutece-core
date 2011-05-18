@@ -156,7 +156,7 @@ public final class AppInit
 
             // Initialize FileImageService
             FileImageService.init(  );
-            
+
             // Initialize AdminUserService
             AdminUserService.init(  );
 

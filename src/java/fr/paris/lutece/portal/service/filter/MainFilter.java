@@ -89,10 +89,10 @@ public class MainFilter implements Filter
                         // The filter didn't call chain.doFilter so the chain should be interrupted
                         return;
                     }
-                    
+
                     // the filter may have changed (wrapped) the request [like CAS filter] or the response
-                    request = ( HttpServletRequest ) chainPluginsFilters.getRequest();
-                    response = chainPluginsFilters.getResponse();
+                    request = (HttpServletRequest) chainPluginsFilters.getRequest(  );
+                    response = chainPluginsFilters.getResponse(  );
                 }
             }
             catch ( Exception e )

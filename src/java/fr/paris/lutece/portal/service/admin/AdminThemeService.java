@@ -33,38 +33,40 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 
+import javax.servlet.http.HttpServletRequest;
+
+
 /**
- * 
+ *
  * AdminThemeService
  *
  */
 public final class AdminThemeService
 {
-	/**
-	 * Private constructor
-	 */
-	private AdminThemeService(  )
-	{
-	}
-	
-	/**
-	 * Check if the user is in accessible mode or not
-	 * @param request {@link HttpServletRequest}
-	 * @return true if the user is in mode accessible, false otherwise
-	 */
-	public static boolean isModeAccessible( HttpServletRequest request )
-	{
-		boolean bIsAccessible = false;
-		AdminUser user = AdminUserService.getAdminUser( request );
-		if ( user != null )
-		{
-			bIsAccessible = user.getAccessibilityMode(  );
-		}
-		
-		return bIsAccessible;
-	}
+    /**
+     * Private constructor
+     */
+    private AdminThemeService(  )
+    {
+    }
+
+    /**
+     * Check if the user is in accessible mode or not
+     * @param request {@link HttpServletRequest}
+     * @return true if the user is in mode accessible, false otherwise
+     */
+    public static boolean isModeAccessible( HttpServletRequest request )
+    {
+        boolean bIsAccessible = false;
+        AdminUser user = AdminUserService.getAdminUser( request );
+
+        if ( user != null )
+        {
+            bIsAccessible = user.getAccessibilityMode(  );
+        }
+
+        return bIsAccessible;
+    }
 }

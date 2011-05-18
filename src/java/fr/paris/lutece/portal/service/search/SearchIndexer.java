@@ -89,7 +89,7 @@ public interface SearchIndexer
      * @return true if enable, otherwise false
      */
     boolean isEnable(  );
-    
+
     /**
      * Returns all the {@link fr.paris.lutece.portal.service.search.SearchItem#FIELD_TYPE types}
      *  of document the service may index.
@@ -97,7 +97,7 @@ public interface SearchIndexer
      * @return
      */
     List<String> getListType(  );
-    
+
     /**
      * Returns the search app dedicated to the documents indexed by the service
      * @return the url of the app page

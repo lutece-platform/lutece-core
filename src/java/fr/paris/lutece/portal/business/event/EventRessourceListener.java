@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.event;
 
 import java.util.EventListener;
 
+
 /**
 *
 * EventRessourceListener
@@ -42,27 +43,27 @@ import java.util.EventListener;
 */
 public interface EventRessourceListener extends EventListener
 {
-	/**
-	 * Return the listener service name 
-	 * @return
-	 */
-	String getName();
-	
-	/**
-	 * Warn subscriber that a resource has been added
-	 * @param event the event for the added resource
-	 */
-	void addedResource( ResourceEvent event );
-	
-	/**
-	 * Warn subscriber that a resource has been deleted
-	 * @param event the event for the deleted resource
-	 */
-	void deletedResource( ResourceEvent event );
-	
-	/**
-	 * Warn subscriber that a resource has been updated
-	 * @param event the event for the updated resource
-	 */
-	void updatedResource( ResourceEvent event );
+    /**
+     * Return the listener service name
+     * @return
+     */
+    String getName(  );
+
+    /**
+     * Warn subscriber that a resource has been added
+     * @param event the event for the added resource
+     */
+    void addedResource( ResourceEvent event );
+
+    /**
+     * Warn subscriber that a resource has been deleted
+     * @param event the event for the deleted resource
+     */
+    void deletedResource( ResourceEvent event );
+
+    /**
+     * Warn subscriber that a resource has been updated
+     * @param event the event for the updated resource
+     */
+    void updatedResource( ResourceEvent event );
 }

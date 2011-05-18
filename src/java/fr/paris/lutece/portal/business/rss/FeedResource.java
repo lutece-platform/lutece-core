@@ -36,150 +36,144 @@ package fr.paris.lutece.portal.business.rss;
 import java.util.Date;
 import java.util.List;
 
+
 /**
- * 
+ *
  * FeedResource - {@link IFeedResource} implementation.
  */
 public class FeedResource implements IFeedResource
 {
-	private IFeedResourceImage _image;
+    private IFeedResourceImage _image;
+    private List<IFeedResourceItem> _listItems;
+    private String _strLanguage;
+    private String _strLink;
+    private String _strDescription;
+    private String _strTitle;
+    private Date _date;
 
-	private List<IFeedResourceItem> _listItems;
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public String getDescription(  )
+    {
+        return _strDescription;
+    }
 
-	private String _strLanguage;
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void setDescription( String description )
+    {
+        this._strDescription = description;
+    }
 
-	private String _strLink;
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public String getTitle(  )
+    {
+        return _strTitle;
+    }
 
-	private String _strDescription;
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void setTitle( String title )
+    {
+        this._strTitle = title;
+    }
 
-	private String _strTitle;
-	
-	private Date _date;
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public IFeedResourceImage getImage(  )
+    {
+        return _image;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public String getDescription()
-	{
-		return _strDescription;
-	}
+    /**
+     * Sets the image
+     * @param image the image
+     */
+    public void setImage( IFeedResourceImage image )
+    {
+        this._image = image;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void setDescription( String description )
-	{
-		this._strDescription = description;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public List<IFeedResourceItem> getItems(  )
+    {
+        return _listItems;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public String getTitle()
-	{
-		return _strTitle;
-	}
+    /**
+     * Sets the items
+     * @param listItems the items
+     */
+    public void setItems( List<IFeedResourceItem> listItems )
+    {
+        this._listItems = listItems;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void setTitle( String title )
-	{
-		this._strTitle = title;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public String getLanguage(  )
+    {
+        return _strLanguage;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public IFeedResourceImage getImage()
-	{
-		return _image;
-	}
+    /**
+     * Sets the language
+     * @param strLanguage the language
+     */
+    public void setLanguage( String strLanguage )
+    {
+        this._strLanguage = strLanguage;
+    }
 
-	/**
-	 * Sets the image
-	 * @param image the image
-	 */
-	public void setImage( IFeedResourceImage image )
-	{
-		this._image = image;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public String getLink(  )
+    {
+        return _strLink;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public List<IFeedResourceItem> getItems()
-	{
-		return _listItems;
-	}
+    /**
+     * Sets the link
+     * @param strLink the link
+     */
+    public void setLink( String strLink )
+    {
+        this._strLink = strLink;
+    }
 
-	/**
-	 * Sets the items
-	 * @param listItems the items
-	 */
-	public void setItems( List<IFeedResourceItem> listItems )
-	{
-		this._listItems = listItems;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public Date getDate(  )
+    {
+        return _date;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public String getLanguage()
-	{
-		return _strLanguage;
-	}
-
-	/**
-	 * Sets the language
-	 * @param strLanguage the language
-	 */
-	public void setLanguage( String strLanguage )
-	{
-		this._strLanguage = strLanguage;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public String getLink()
-	{
-		return _strLink;
-	}
-
-	/**
-	 * Sets the link
-	 * @param strLink the link
-	 */
-	public void setLink( String strLink )
-	{
-		this._strLink = strLink;
-	}
-	
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public Date getDate()
-	{
-		return _date;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-
-	public void setDate( Date date )
-	{
-		this._date = date;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void setDate( Date date )
+    {
+        this._date = date;
+    }
 }

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.rss;
 
+
 /**
  * ResourceRss that provides the resources rss.
  * Implementations should override {@link #getFeed()}.
@@ -47,10 +48,10 @@ public abstract class ResourceRss implements IResourceRss
     private String _strFeedType;
     private int _nMaxItems;
 
-	/**
-     * Get the rss id
-     * @return the rss Id
-     */
+    /**
+    * Get the rss id
+    * @return the rss Id
+    */
     public int getId(  )
     {
         return _nId;
@@ -118,77 +119,75 @@ public abstract class ResourceRss implements IResourceRss
     {
         _taskType = taskType;
     }
-    
-    /**
-     * 
-     *{@inheritDoc}
-     */
-    public String getFeedType()
-	{
-		return _strFeedType;
-	}
 
     /**
-     * 
+     *
      *{@inheritDoc}
      */
-	public void setFeedType( String strFeedType )
-	{
-		this._strFeedType = strFeedType;
-	}
-	
-	/**
-     * 
-     *{@inheritDoc}
-     */
-	public String getEncoding()
-	{
-		return _strEncoding;
-	}
+    public String getFeedType(  )
+    {
+        return _strFeedType;
+    }
 
-	/**
-     * 
-     *{@inheritDoc}
-     */
-	public void setEncoding( String strEncoding )
-	{
-		this._strEncoding = strEncoding;
-	}
-	
     /**
-     * 
+     *
      *{@inheritDoc}
      */
-	public int getMaxItems()
-	{
-		return _nMaxItems;
-	}
+    public void setFeedType( String strFeedType )
+    {
+        this._strFeedType = strFeedType;
+    }
 
-	/**
-	 * 
-	 *{@inheritDoc}
-	 */
-	public void setMaxItems( int nMaxItems )
-	{
-		this._nMaxItems = nMaxItems;
-	}
+    /**
+    *
+    *{@inheritDoc}
+    */
+    public String getEncoding(  )
+    {
+        return _strEncoding;
+    }
 
-	
-	/**
-     * Returns <code>null</code>. This method should be overriden.
+    /**
+    *
+    *{@inheritDoc}
+    */
+    public void setEncoding( String strEncoding )
+    {
+        this._strEncoding = strEncoding;
+    }
+
+    /**
+     *
+     *{@inheritDoc}
      */
+    public int getMaxItems(  )
+    {
+        return _nMaxItems;
+    }
+
+    /**
+     *
+     *{@inheritDoc}
+     */
+    public void setMaxItems( int nMaxItems )
+    {
+        this._nMaxItems = nMaxItems;
+    }
+
+    /**
+    * Returns <code>null</code>. This method should be overriden.
+    */
     public IFeedResource getFeed(  )
     {
-    	return null;
+        return null;
     }
-    
+
     /**
      * Always returns <code>null</code> and should be removed as soon as every plugin implement {@link #getFeed()}.
      */
     @Deprecated
-    public String createHtmlRss()
+    public String createHtmlRss(  )
     {
-    	return null;
+        return null;
     }
-
 }

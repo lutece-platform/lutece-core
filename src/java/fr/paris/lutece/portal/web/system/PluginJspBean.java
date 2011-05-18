@@ -421,18 +421,20 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      */
     private boolean checkCoreMinCompatibility( String[] minCoreVersion, String[] coreVersion )
     {
-    	for( int i = 0; i < Math.min( minCoreVersion.length, coreVersion.length ); ++i )
-    	{
-    		if ( ( Integer.parseInt( minCoreVersion[i] ) ) < ( Integer.parseInt( coreVersion[i] ) ) )
-	        {
-	            return true;
-	        }
-    		if ( ( Integer.parseInt( minCoreVersion[i] ) ) > ( Integer.parseInt( coreVersion[i] ) ) )
-	        {
-	            return false;
-	        }
-    	}
-    	return true; //inclusive
+        for ( int i = 0; i < Math.min( minCoreVersion.length, coreVersion.length ); ++i )
+        {
+            if ( ( Integer.parseInt( minCoreVersion[i] ) ) < ( Integer.parseInt( coreVersion[i] ) ) )
+            {
+                return true;
+            }
+
+            if ( ( Integer.parseInt( minCoreVersion[i] ) ) > ( Integer.parseInt( coreVersion[i] ) ) )
+            {
+                return false;
+            }
+        }
+
+        return true; //inclusive
     }
 
     /**
@@ -443,17 +445,19 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      */
     private boolean checkCoreMaxCompatibility( String[] maxCoreVersion, String[] coreVersion )
     {
-    	for( int i = 0; i < Math.min( maxCoreVersion.length, coreVersion.length ); ++i)
-    	{
-    		if ( ( Integer.parseInt( maxCoreVersion[i] ) ) > ( Integer.parseInt( coreVersion[i] ) ) )
-	        {
-	            return true;
-	        }
-    		if ( ( Integer.parseInt( maxCoreVersion[i] ) ) < ( Integer.parseInt( coreVersion[i] ) ) )
-	        {
-	            return false;
-	        }
-    	}
-    	return false; //exclusive
+        for ( int i = 0; i < Math.min( maxCoreVersion.length, coreVersion.length ); ++i )
+        {
+            if ( ( Integer.parseInt( maxCoreVersion[i] ) ) > ( Integer.parseInt( coreVersion[i] ) ) )
+            {
+                return true;
+            }
+
+            if ( ( Integer.parseInt( maxCoreVersion[i] ) ) < ( Integer.parseInt( coreVersion[i] ) ) )
+            {
+                return false;
+            }
+        }
+
+        return false; //exclusive
     }
 }

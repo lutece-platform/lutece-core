@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.event;
 
 import fr.paris.lutece.portal.service.search.IndexationService;
 
+
 /**
 *
 * ResourceEvent
@@ -42,81 +43,81 @@ import fr.paris.lutece.portal.service.search.IndexationService;
 */
 public class ResourceEvent
 {
-	private String _strIdResource;
-	private String _strTypeResource;
-	private int _nIdPortlet = IndexationService.ALL_DOCUMENT;
-	
-	/**
-	 * default constructor
-	 */
-	public ResourceEvent()
-	{
-	}
-	
-	/**
-	 * Constructor with fields
-	 * @param strIdDocument the resource identifier 
-	 * @param strTypeResource the type of the resource
-	 * @param nIdPortlet the portlet identifier of the resource
-	 */
-	public ResourceEvent( String strIdDocument, String strTypeResource, int nIdPortlet )
-	{
-		_strIdResource = strIdDocument;
-		_strTypeResource = strTypeResource;
-		_nIdPortlet = nIdPortlet;
-	}
+    private String _strIdResource;
+    private String _strTypeResource;
+    private int _nIdPortlet = IndexationService.ALL_DOCUMENT;
 
-	/**
-	 * Gets the resource identifier 
-	 * @return the resource identifier
-	 */
-	public String getIdResource()
-	{
-		return _strIdResource;
-	}
+    /**
+     * default constructor
+     */
+    public ResourceEvent(  )
+    {
+    }
 
-	/**
-	 * Sets the resource identifier
-	 * @param strIdDocument the resource identifier
-	 */
-	public void setIdResource( String strIdDocument )
-	{
-		_strIdResource = strIdDocument;
-	}
+    /**
+     * Constructor with fields
+     * @param strIdDocument the resource identifier
+     * @param strTypeResource the type of the resource
+     * @param nIdPortlet the portlet identifier of the resource
+     */
+    public ResourceEvent( String strIdDocument, String strTypeResource, int nIdPortlet )
+    {
+        _strIdResource = strIdDocument;
+        _strTypeResource = strTypeResource;
+        _nIdPortlet = nIdPortlet;
+    }
 
-	/**
-	 * Gets the type of the resource
-	 * @return the type of the resource
-	 */
-	public String getTypeResource()
-	{
-		return _strTypeResource;
-	}
+    /**
+     * Gets the resource identifier
+     * @return the resource identifier
+     */
+    public String getIdResource(  )
+    {
+        return _strIdResource;
+    }
 
-	/**
-	 * Sets the type of the resource
-	 * @param indexerName the type of the resource
-	 */
-	public void setTypeResource( String indexerName )
-	{
-		_strTypeResource = indexerName;
-	}
+    /**
+     * Sets the resource identifier
+     * @param strIdDocument the resource identifier
+     */
+    public void setIdResource( String strIdDocument )
+    {
+        _strIdResource = strIdDocument;
+    }
 
-	/**
-	 * Gets the portlet identifier of the resource
-	 * @return the portlet identifier of the resource
-	 */
-	public int getIdPortlet()
-	{
-		return _nIdPortlet;
-	}
+    /**
+     * Gets the type of the resource
+     * @return the type of the resource
+     */
+    public String getTypeResource(  )
+    {
+        return _strTypeResource;
+    }
 
-	/**
-	 * Sets the portlet identifier of the resource
-	 * @param nIdPortlet the portlet identifier of the resource
-	 */
-	public void setIdPortlet( int nIdPortlet )
-	{
-		_nIdPortlet = nIdPortlet;
-	}
+    /**
+     * Sets the type of the resource
+     * @param indexerName the type of the resource
+     */
+    public void setTypeResource( String indexerName )
+    {
+        _strTypeResource = indexerName;
+    }
+
+    /**
+     * Gets the portlet identifier of the resource
+     * @return the portlet identifier of the resource
+     */
+    public int getIdPortlet(  )
+    {
+        return _nIdPortlet;
+    }
+
+    /**
+     * Sets the portlet identifier of the resource
+     * @param nIdPortlet the portlet identifier of the resource
+     */
+    public void setIdPortlet( int nIdPortlet )
+    {
+        _nIdPortlet = nIdPortlet;
+    }
 }

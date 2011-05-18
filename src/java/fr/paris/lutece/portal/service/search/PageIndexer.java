@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.apache.lucene.demo.html.HTMLParser;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
@@ -60,7 +61,7 @@ import java.util.List;
  */
 public class PageIndexer implements SearchIndexer
 {
-	public static final String INDEX_TYPE_PAGE = "Page";
+    public static final String INDEX_TYPE_PAGE = "Page";
     public static final String INDEXER_NAME = "PageIndexer";
     private static final String INDEXER_DESCRIPTION = "Indexer service for pages";
     private static final String INDEXER_VERSION = "1.0.0";
@@ -208,6 +209,7 @@ public class PageIndexer implements SearchIndexer
 
         // Add the metadata keywords of the page if it exists
         String strMetaKeywords = page.getMetaKeywords(  );
+
         if ( StringUtils.isNotBlank( strMetaKeywords ) )
         {
             sbFieldContent.append( " " ).append( strMetaKeywords );
@@ -215,19 +217,21 @@ public class PageIndexer implements SearchIndexer
         }
 
         doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString(  ), Field.Store.NO, Field.Index.ANALYZED ) );
-        
-        if( StringUtils.isNotBlank( page.getMetaDescription( ) ) )
+
+        if ( StringUtils.isNotBlank( page.getMetaDescription(  ) ) )
         {
-        	if( sbFieldMetadata.length(  ) > 0 )
-        	{
-        		sbFieldMetadata.append( " " );
-        	}
-        	sbFieldMetadata.append( page.getMetaDescription(  ) );
+            if ( sbFieldMetadata.length(  ) > 0 )
+            {
+                sbFieldMetadata.append( " " );
+            }
+
+            sbFieldMetadata.append( page.getMetaDescription(  ) );
         }
-        
-        if( sbFieldMetadata.length(  ) > 0 )
+
+        if ( sbFieldMetadata.length(  ) > 0 )
         {
-        	doc.add( new Field( SearchItem.FIELD_METADATA, sbFieldMetadata.toString(  ), Field.Store.NO, Field.Index.ANALYZED ) );
+            doc.add( new Field( SearchItem.FIELD_METADATA, sbFieldMetadata.toString(  ), Field.Store.NO,
+                    Field.Index.ANALYZED ) );
         }
 
         // Add the title as a separate Text field, so that it can be searched
@@ -251,18 +255,19 @@ public class PageIndexer implements SearchIndexer
     /**
      * {@inheritDoc}
      */
-	public List<String> getListType(  )
-	{
-		List<String> listType = new ArrayList<String>(  );
-		listType.add( INDEX_TYPE_PAGE );
-		return listType;
-	}
+    public List<String> getListType(  )
+    {
+        List<String> listType = new ArrayList<String>(  );
+        listType.add( INDEX_TYPE_PAGE );
 
-	/**
-     * {@inheritDoc}
-     */
-	public String getSpecificSearchAppUrl(  )
-	{
-		return AppPropertiesService.getProperty( PROPERTY_SEARCH_PAGE_URL );
-	}
+        return listType;
+    }
+
+    /**
+    * {@inheritDoc}
+    */
+    public String getSpecificSearchAppUrl(  )
+    {
+        return AppPropertiesService.getProperty( PROPERTY_SEARCH_PAGE_URL );
+    }
 }

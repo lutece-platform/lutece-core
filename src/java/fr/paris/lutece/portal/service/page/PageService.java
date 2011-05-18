@@ -83,6 +83,7 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
  * This class delivers pages to web componants. It handles XML tranformation to
  * HTML and provides a cache feature in order to reduce the number of
@@ -95,12 +96,15 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
     // Redirection
     public static final String REDIRECTION_KEY = "redirect:";
+
     // Templates
     /** Access denied template */
     public static final String TEMPLATE_PAGE_ACCESS_DENIED = "/skin/site/page_access_denied.html";
+
     /** Access Controled template */
     public static final String TEMPLATE_PAGE_ACCESS_CONTROLED = "/skin/site/page_access_controled.html";
     private static final String TEMPLATE_ADMIN_BUTTONS = "/admin/admin_buttons.html";
+
     // Markers
     private static final String MARK_PORTLET = "portlet";
     private static final String MARK_STATUS_PUBLISHED = "portlet_status_published";
@@ -108,11 +112,13 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String MARK_CUSTOM_ACTIONS = "custom_action_list";
     private static final String MARK_URL_LOGIN = "url_login";
     private static final String MARKER_TARGET = "target";
+
     // Parameters
     private static final String PARAMETER_SITE_PATH = "site-path";
     private static final String PARAMETER_USER_SELECTED_LOCALE = "user-selected-language";
     private static final String PARAMETER_PLUGIN_NAME = "plugin-name";
     private static final String PARAMETER_PORTLET = "portlet";
+
     // Properties
     private static final String PROPERTY_MESSAGE_PAGE_ACCESS_DENIED = "portal.site.message.pageAccessDenied";
     private static final String CONTENT_SERVICE_NAME = "PageService";
@@ -125,38 +131,37 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String WELCOME_PAGE_CACHE_KEY = "mode0";
     private static final int MODE_ADMIN = 1;
     private static final String XSL_UNIQUE_PREFIX = "page-";
+
     // Specific for plugin-document
     private static final String DOCUMENT_LIST_PORTLET = "DOCUMENT_LIST_PORTLET";
     private static final String DOCUMENT_PORTLET = "DOCUMENT_PORTLET";
     private static final String DOCUMENT_ACTION_URL = "jsp/admin/plugins/document/ManagePublishing.jsp";
     private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
     private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
-    private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt(PROPERTY_COLUMN_MAX, DEFAULT_COLUMN_MAX);
-    private List<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>();
+    private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_MAX, DEFAULT_COLUMN_MAX );
+    private List<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
     private ICacheKeyService _cksPage;
     private ICacheKeyService _cksPortlet;
-    private PageCacheService _cachePages = new PageCacheService();
-    private PortletCacheService _cachePortlets = new PortletCacheService();
+    private PageCacheService _cachePages = new PageCacheService(  );
+    private PortletCacheService _cachePortlets = new PortletCacheService(  );
 
     /**
      * Creates a new PageService object.
      */
-    public PageService()
+    public PageService(  )
     {
-        init();
+        init(  );
     }
 
     /**
      * Initializes the service
      */
-    private void init()
+    private void init(  )
     {
-        _cachePages.initCache();
-        _cachePortlets.initCache();
-        ImageResourceManager.registerProvider(this);
-        addPageEventListener(this);
-
-
+        _cachePages.initCache(  );
+        _cachePortlets.initCache(  );
+        ImageResourceManager.registerProvider( this );
+        addPageEventListener( this );
     }
 
     /**
@@ -164,7 +169,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *
      * @return The name as a String
      */
-    public String getName()
+    public String getName(  )
     {
         return CONTENT_SERVICE_NAME;
     }
@@ -178,12 +183,12 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @return The HTML code of the page as a String.
      * @throws SiteMessageException If a message shouldbe displayed
      */
-    public String getPage(HttpServletRequest request, int nMode)
-            throws SiteMessageException
+    public String getPage( HttpServletRequest request, int nMode )
+        throws SiteMessageException
     {
-        String strPageId = request.getParameter(Parameters.PAGE_ID);
+        String strPageId = request.getParameter( Parameters.PAGE_ID );
 
-        return getPage(strPageId, nMode, request);
+        return getPage( strPageId, nMode, request );
     }
 
     /**
@@ -196,122 +201,126 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @return The HTML code of the page as a String.
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    public String getPage(String strIdPage, int nMode, HttpServletRequest request)
-            throws SiteMessageException
+    public String getPage( String strIdPage, int nMode, HttpServletRequest request )
+        throws SiteMessageException
     {
         try
         {
             String strPage = "";
 
             // The cache is enable !
-            if (_cachePages.isCacheEnable())
+            if ( _cachePages.isCacheEnable(  ) )
             {
-
                 // Get request paramaters and store them in a HashMap
-                Enumeration<?> enumParam = request.getParameterNames();
-                HashMap<String, String> htParamRequest = new HashMap<String, String>();
+                Enumeration<?> enumParam = request.getParameterNames(  );
+                HashMap<String, String> htParamRequest = new HashMap<String, String>(  );
                 String paramName = "";
 
-                while (enumParam.hasMoreElements())
+                while ( enumParam.hasMoreElements(  ) )
                 {
-                    paramName = (String) enumParam.nextElement();
-                    htParamRequest.put(paramName, request.getParameter(paramName));
+                    paramName = (String) enumParam.nextElement(  );
+                    htParamRequest.put( paramName, request.getParameter( paramName ) );
                 }
 
-                if (!htParamRequest.containsKey(Parameters.PAGE_ID))
+                if ( !htParamRequest.containsKey( Parameters.PAGE_ID ) )
                 {
-                    htParamRequest.put(Parameters.PAGE_ID, strIdPage);
+                    htParamRequest.put( Parameters.PAGE_ID, strIdPage );
                 }
 
-                LuteceUser user = SecurityService.getInstance().getRegisteredUser(request);
-                String strUserTheme = ThemesService.getUserTheme(request);
+                LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
+                String strUserTheme = ThemesService.getUserTheme( request );
 
-                if (strUserTheme != null)
+                if ( strUserTheme != null )
                 {
-                    htParamRequest.put(KEY_THEME, strUserTheme);
+                    htParamRequest.put( KEY_THEME, strUserTheme );
                 }
 
                 // we add the key in the memory key only if cache is enable
-                String strKey = getKey(htParamRequest, nMode, user);
+                String strKey = getKey( htParamRequest, nMode, user );
 
                 // get page from cache
-                strPage = (String) _cachePages.getFromCache(strKey);
+                strPage = (String) _cachePages.getFromCache( strKey );
 
-                if (strPage == null)
+                if ( strPage == null )
                 {
                     // only one thread can evaluate the page
-                    synchronized (strKey)
+                    synchronized ( strKey )
                     {
                         // can be useful if an other thread had evaluate the page
-                        strPage = (String) _cachePages.getFromCache(strKey);
+                        strPage = (String) _cachePages.getFromCache( strKey );
 
                         // ignore checkstyle, this double verification is useful
                         // when page cache has been created when thread is
                         // blocked on synchronized
-                        if (strPage == null)
+                        if ( strPage == null )
                         {
                             Boolean bCanBeCached = Boolean.TRUE;
 
-                            AppLogService.debug("Page generation " + strKey);
+                            AppLogService.debug( "Page generation " + strKey );
 
-                            RedirectionResponseWrapper response = new RedirectionResponseWrapper(LocalVariables.getResponse());
+                            RedirectionResponseWrapper response = new RedirectionResponseWrapper( LocalVariables.getResponse(  ) );
 
-                            LocalVariables.setLocal(LocalVariables.getConfig(), LocalVariables.getRequest(),
-                                    response);
+                            LocalVariables.setLocal( LocalVariables.getConfig(  ), LocalVariables.getRequest(  ),
+                                response );
 
                             // The key is not in the cache, so we have to build
                             // the page
-                            strPage = buildPageContent(strIdPage, nMode, request, bCanBeCached);
+                            strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
 
-                            if (response.getRedirectLocation() != null)
+                            if ( response.getRedirectLocation(  ) != null )
                             {
-                                AppLogService.debug("Redirection found " + response.getRedirectLocation());
-                                strPage = REDIRECTION_KEY + response.getRedirectLocation();
+                                AppLogService.debug( "Redirection found " + response.getRedirectLocation(  ) );
+                                strPage = REDIRECTION_KEY + response.getRedirectLocation(  );
                             }
 
                             // Add the page to the cache if the page can be
                             // cached
-                            if (bCanBeCached.booleanValue() && nMode != MODE_ADMIN)
+                            if ( bCanBeCached.booleanValue(  ) && ( nMode != MODE_ADMIN ) )
                             {
-                                _cachePages.putInCache(strKey, strPage);
+                                _cachePages.putInCache( strKey, strPage );
                             }
-                        } else
+                        }
+                        else
                         {
-                            AppLogService.debug("Page read from cache after synchronisation " + strKey);
+                            AppLogService.debug( "Page read from cache after synchronisation " + strKey );
                         }
                     }
-                } else
+                }
+                else
                 {
-                    AppLogService.debug("Page read from cache " + strKey);
+                    AppLogService.debug( "Page read from cache " + strKey );
                 }
 
                 // redirection handling
-                if (strPage.startsWith(REDIRECTION_KEY))
+                if ( strPage.startsWith( REDIRECTION_KEY ) )
                 {
-                    strPage = strPage.replaceFirst(REDIRECTION_KEY, "");
+                    strPage = strPage.replaceFirst( REDIRECTION_KEY, "" );
 
                     try
                     {
-                        LocalVariables.getResponse().sendRedirect(strPage);
-                    } catch (IOException e)
+                        LocalVariables.getResponse(  ).sendRedirect( strPage );
+                    }
+                    catch ( IOException e )
                     {
-                        AppLogService.error("Error on sendRedirect for " + strPage);
+                        AppLogService.error( "Error on sendRedirect for " + strPage );
                     }
                 }
-            } else
+            }
+            else
             {
                 Boolean bCanBeCached = Boolean.FALSE;
-                strPage = buildPageContent(strIdPage, nMode, request, bCanBeCached);
+                strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
             }
 
-            strPage = setPageBaseUrl(request, strPage);
+            strPage = setPageBaseUrl( request, strPage );
 
             return strPage;
-        } catch (NumberFormatException nfe)
+        }
+        catch ( NumberFormatException nfe )
         {
-            AppLogService.error("PageService.getPage() : " + nfe.getLocalizedMessage(), nfe);
+            AppLogService.error( "PageService.getPage() : " + nfe.getLocalizedMessage(  ), nfe );
 
-            throw new PageNotFoundException();
+            throw new PageNotFoundException(  );
         }
     }
 
@@ -325,95 +334,98 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @return The HTML code of the page as a String.
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    public String buildPageContent(String strIdPage, int nMode, HttpServletRequest request, Boolean bCanBeCached)
-            throws SiteMessageException
+    public String buildPageContent( String strIdPage, int nMode, HttpServletRequest request, Boolean bCanBeCached )
+        throws SiteMessageException
     {
         int nIdPage = 0;
         Page page = null;
 
-        nIdPage = Integer.parseInt(strIdPage);
+        nIdPage = Integer.parseInt( strIdPage );
 
-        boolean bPageExist = PageHome.checkPageExist(nIdPage);
+        boolean bPageExist = PageHome.checkPageExist( nIdPage );
 
-        if (bPageExist)
+        if ( bPageExist )
         {
-            page = PageHome.getPage(nIdPage);
-        } else
+            page = PageHome.getPage( nIdPage );
+        }
+        else
         {
             // If there is a problem finding the page, returns the home page
-            nIdPage = PortalService.getRootPageId();
-            page = PageHome.getPage(nIdPage);
+            nIdPage = PortalService.getRootPageId(  );
+            page = PageHome.getPage( nIdPage );
         }
 
-        PageData data = new PageData();
-        data.setName(page.getName());
-        data.setPagePath(PortalService.getPagePathContent(nIdPage, nMode, request));
-        data.setTheme(page.getCodeTheme());
-        data.setMetaKeywords(page.getMetaKeywords());
-        data.setMetaDescription(page.getMetaDescription());
+        PageData data = new PageData(  );
+        data.setName( page.getName(  ) );
+        data.setPagePath( PortalService.getPagePathContent( nIdPage, nMode, request ) );
+        data.setTheme( page.getCodeTheme(  ) );
+        data.setMetaKeywords( page.getMetaKeywords(  ) );
+        data.setMetaDescription( page.getMetaDescription(  ) );
 
         // Checks the page role (v1.1)
-        String strRole = page.getRole();
+        String strRole = page.getRole(  );
 
-        if (!strRole.equals(Page.ROLE_NONE) && (SecurityService.isAuthenticationEnable())
-                && (nMode != MODE_ADMIN))
+        if ( !strRole.equals( Page.ROLE_NONE ) && ( SecurityService.isAuthenticationEnable(  ) ) &&
+                ( nMode != MODE_ADMIN ) )
         {
-            LuteceUser user = SecurityService.getInstance().getRegisteredUser(request);
+            LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
 
-            if ((user == null) && (!SecurityService.getInstance().isExternalAuthentication()))
+            if ( ( user == null ) && ( !SecurityService.getInstance(  ).isExternalAuthentication(  ) ) )
             {
                 // The user is not registered and identify itself with the Portal authentication
-                String strAccessControledTemplate = SecurityService.getInstance().getAccessControledTemplate();
-                HashMap<String, Object> model = new HashMap<String, Object>();
-                String strLoginUrl = SecurityService.getInstance().getLoginPageUrl();
-                model.put(MARK_URL_LOGIN, strLoginUrl);
+                String strAccessControledTemplate = SecurityService.getInstance(  ).getAccessControledTemplate(  );
+                HashMap<String, Object> model = new HashMap<String, Object>(  );
+                String strLoginUrl = SecurityService.getInstance(  ).getLoginPageUrl(  );
+                model.put( MARK_URL_LOGIN, strLoginUrl );
 
-                HtmlTemplate tAccessControled = AppTemplateService.getTemplate(strAccessControledTemplate,
-                        request.getLocale(), model);
+                HtmlTemplate tAccessControled = AppTemplateService.getTemplate( strAccessControledTemplate,
+                        request.getLocale(  ), model );
 
-                data.setContent(tAccessControled.getHtml());
+                data.setContent( tAccessControled.getHtml(  ) );
 
-                return PortalService.buildPageContent(nIdPage, data, nMode, request);
+                return PortalService.buildPageContent( nIdPage, data, nMode, request );
             }
 
-            if (!SecurityService.getInstance().isUserInRole(request, strRole))
+            if ( !SecurityService.getInstance(  ).isUserInRole( request, strRole ) )
             {
                 // The user doesn't have the correct role
-                String strAccessDeniedTemplate = SecurityService.getInstance().getAccessDeniedTemplate();
-                HtmlTemplate tAccessDenied = AppTemplateService.getTemplate(strAccessDeniedTemplate,
-                        request.getLocale());
-                data.setContent(tAccessDenied.getHtml());
+                String strAccessDeniedTemplate = SecurityService.getInstance(  ).getAccessDeniedTemplate(  );
+                HtmlTemplate tAccessDenied = AppTemplateService.getTemplate( strAccessDeniedTemplate,
+                        request.getLocale(  ) );
+                data.setContent( tAccessDenied.getHtml(  ) );
 
-                return PortalService.buildPageContent(nIdPage, data, nMode, request);
+                return PortalService.buildPageContent( nIdPage, data, nMode, request );
             }
         }
 
         // Added in v2.0
         // Add the page authorization
-        if (nMode == MODE_ADMIN)
+        if ( nMode == MODE_ADMIN )
         {
-            AdminUser user = AdminUserService.getAdminUser(request);
+            AdminUser user = AdminUserService.getAdminUser( request );
 
-            if (isAuthorizedAdminPage(nIdPage, PageResourceIdService.PERMISSION_VIEW, user))
+            if ( isAuthorizedAdminPage( nIdPage, PageResourceIdService.PERMISSION_VIEW, user ) )
             {
                 // Fill a PageData structure for those elements
-                data.setContent(getPageContent(nIdPage, nMode, request));
-            } else
-            {
-                data.setContent(I18nService.getLocalizedString(PROPERTY_MESSAGE_PAGE_ACCESS_DENIED, user.getLocale()));
+                data.setContent( getPageContent( nIdPage, nMode, request ) );
             }
-        } else
+            else
+            {
+                data.setContent( I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_ACCESS_DENIED, user.getLocale(  ) ) );
+            }
+        }
+        else
         {
-            data.setContent(getPageContent(nIdPage, nMode, request));
+            data.setContent( getPageContent( nIdPage, nMode, request ) );
         }
 
-        if (nIdPage == PortalService.getRootPageId())
+        if ( nIdPage == PortalService.getRootPageId(  ) )
         {
             // This page is the home page.
-            data.setHomePage(true);
+            data.setHomePage( true );
         }
 
-        return PortalService.buildPageContent(nIdPage, data, nMode, request);
+        return PortalService.buildPageContent( nIdPage, data, nMode, request );
     }
 
     /**
@@ -425,48 +437,48 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @return The HTML code of the page as a String.
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    public String getPageContent(int nIdPage, int nMode, HttpServletRequest request)
-            throws SiteMessageException
+    public String getPageContent( int nIdPage, int nMode, HttpServletRequest request )
+        throws SiteMessageException
     {
         String[] arrayContent = new String[MAX_COLUMNS];
 
-        for (int i = 0; i < MAX_COLUMNS; i++)
+        for ( int i = 0; i < MAX_COLUMNS; i++ )
         {
             arrayContent[i] = "";
         }
 
-        Page page = PageHome.findByPrimaryKey(nIdPage);
-        Map<String, String> mapParams = getParams(request, nMode, nIdPage);
+        Page page = PageHome.findByPrimaryKey( nIdPage );
+        Map<String, String> mapParams = getParams( request, nMode, nIdPage );
 
-        for (Portlet portlet : page.getPortlets())
+        for ( Portlet portlet : page.getPortlets(  ) )
         {
-            int nCol = portlet.getColumn() - 1;
+            int nCol = portlet.getColumn(  ) - 1;
 
-            if (nCol < MAX_COLUMNS)
+            if ( nCol < MAX_COLUMNS )
             {
-                arrayContent[nCol] += getPortletContent(request, portlet, mapParams, nMode);
+                arrayContent[nCol] += getPortletContent( request, portlet, mapParams, nMode );
             }
         }
 
-        HashMap<String, Object> rootModel = new HashMap<String, Object>();
+        HashMap<String, Object> rootModel = new HashMap<String, Object>(  );
 
-        for (int j = 0; j < MAX_COLUMNS; j++)
+        for ( int j = 0; j < MAX_COLUMNS; j++ )
         {
-            rootModel.put("page_content_col" + (j + 1), arrayContent[j]);
+            rootModel.put( "page_content_col" + ( j + 1 ), arrayContent[j] );
         }
 
-        List<PageInclude> listIncludes = PageIncludeService.getIncludes();
-        PageData data = new PageData();
+        List<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
+        PageData data = new PageData(  );
 
-        for (PageInclude pic : listIncludes)
+        for ( PageInclude pic : listIncludes )
         {
-            pic.fillTemplate(rootModel, data, nMode, request);
+            pic.fillTemplate( rootModel, data, nMode, request );
         }
 
-        HtmlTemplate t = AppTemplateService.getTemplate(page.getTemplate(),
-                (request == null) ? Locale.getDefault() : request.getLocale(), rootModel);
+        HtmlTemplate t = AppTemplateService.getTemplate( page.getTemplate(  ),
+                ( request == null ) ? Locale.getDefault(  ) : request.getLocale(  ), rootModel );
 
-        return t.getHtml();
+        return t.getHtml(  );
     }
 
     /**
@@ -478,89 +490,90 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @return The content
      * @throws SiteMessageException If an error occurs
      */
-    private String getPortletContent(HttpServletRequest request, Portlet portlet,
-            Map<String, String> mapRequestParams, int nMode)
-            throws SiteMessageException
+    private String getPortletContent( HttpServletRequest request, Portlet portlet,
+        Map<String, String> mapRequestParams, int nMode )
+        throws SiteMessageException
     {
-        if ((nMode != MODE_ADMIN) && (portlet.getStatus() == Portlet.STATUS_UNPUBLISHED))
+        if ( ( nMode != MODE_ADMIN ) && ( portlet.getStatus(  ) == Portlet.STATUS_UNPUBLISHED ) )
         {
             return "";
         }
 
-        String strRole = portlet.getRole();
+        String strRole = portlet.getRole(  );
 
-        if (!strRole.equals(Page.ROLE_NONE) && (SecurityService.isAuthenticationEnable())
-                && (nMode != MODE_ADMIN))
+        if ( !strRole.equals( Page.ROLE_NONE ) && ( SecurityService.isAuthenticationEnable(  ) ) &&
+                ( nMode != MODE_ADMIN ) )
         {
-            if (!SecurityService.getInstance().isUserInRole(request, strRole))
+            if ( !SecurityService.getInstance(  ).isUserInRole( request, strRole ) )
             {
                 return "";
             }
         }
 
         Map<String, String> mapParams = mapRequestParams;
-        Map<String, String> mapXslParams = portlet.getXslParams();
+        Map<String, String> mapXslParams = portlet.getXslParams(  );
 
-        if (mapParams != null)
+        if ( mapParams != null )
         {
-            if (mapXslParams != null)
+            if ( mapXslParams != null )
             {
-                for (String strKey : mapXslParams.keySet())
+                for ( String strKey : mapXslParams.keySet(  ) )
                 {
-                    mapParams.put(strKey, mapXslParams.get(strKey));
+                    mapParams.put( strKey, mapXslParams.get( strKey ) );
                 }
             }
-        } else
+        }
+        else
         {
             mapParams = mapXslParams;
         }
 
-        Properties outputProperties = ModeHome.getOuputXslProperties(nMode);
+        Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
 
-        if (request != null)
+        if ( request != null )
         {
-            String strPluginName = portlet.getPluginName();
-            request.setAttribute(PARAMETER_PLUGIN_NAME, strPluginName);
+            String strPluginName = portlet.getPluginName(  );
+            request.setAttribute( PARAMETER_PLUGIN_NAME, strPluginName );
         }
 
-        String strXslUniqueId = XSL_UNIQUE_PREFIX + String.valueOf(portlet.getStyleId());
+        String strXslUniqueId = XSL_UNIQUE_PREFIX + String.valueOf( portlet.getStyleId(  ) );
 
         String strKey = "";
 
-        if (((nMode != MODE_ADMIN) && _cachePortlets.isCacheEnable()))
+        if ( ( ( nMode != MODE_ADMIN ) && _cachePortlets.isCacheEnable(  ) ) )
         {
             LuteceUser user = null;
 
-            if (SecurityService.isAuthenticationEnable())
+            if ( SecurityService.isAuthenticationEnable(  ) )
             {
-                user = SecurityService.getInstance().getRegisteredUser(request);
+                user = SecurityService.getInstance(  ).getRegisteredUser( request );
             }
 
-            mapParams.put(PARAMETER_PORTLET, String.valueOf(portlet.getId()));
-            strKey = _cksPortlet.getKey(mapParams, nMode, user);
+            mapParams.put( PARAMETER_PORTLET, String.valueOf( portlet.getId(  ) ) );
+            strKey = _cksPortlet.getKey( mapParams, nMode, user );
 
-            String strPortlet = (String) _cachePortlets.getFromCache(strKey);
+            String strPortlet = (String) _cachePortlets.getFromCache( strKey );
 
-            if (strPortlet != null)
+            if ( strPortlet != null )
             {
                 return strPortlet;
             }
         }
 
-        XmlTransformerService xmlTransformerService = new XmlTransformerService();
-        String strPortletXmlContent = portlet.getXml(request);
-        String strPortletContent = xmlTransformerService.transformBySourceWithXslCache(strPortletXmlContent,
-                portlet.getXslSource(nMode), strXslUniqueId, mapParams, outputProperties);
+        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+        String strPortletXmlContent = portlet.getXml( request );
+        String strPortletContent = xmlTransformerService.transformBySourceWithXslCache( strPortletXmlContent,
+                portlet.getXslSource( nMode ), strXslUniqueId, mapParams, outputProperties );
 
-        if (_cachePortlets.isCacheEnable())
+        if ( _cachePortlets.isCacheEnable(  ) )
         {
-            _cachePortlets.putInCache(strKey, strPortletContent);
+            _cachePortlets.putInCache( strKey, strPortletContent );
         }
 
         // Add the admin buttons for portlet management on admin mode
-        if (nMode == MODE_ADMIN)
+        if ( nMode == MODE_ADMIN )
         {
-            strPortletContent += addAdminButtons(request, portlet);
+            strPortletContent += addAdminButtons( request, portlet );
         }
 
         return strPortletContent;
@@ -577,11 +590,11 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param user Current Lutece user
      * @return The HashMap key for articles pages as a String.
      */
-    private String getKey(Map<String, String> mapParams, int nMode, LuteceUser user)
+    private String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
-        String strKey = _cksPage.getKey(mapParams, nMode, user);
+        String strKey = _cksPage.getKey( mapParams, nMode, user );
 
-        return _cachePages.getKey(strKey);
+        return _cachePages.getKey( strKey );
     }
 
     /**
@@ -589,16 +602,16 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *
      * @param nIdPage The page ID
      */
-    private void invalidatePage(int nIdPage)
+    private void invalidatePage( int nIdPage )
     {
-        String strIdPage = String.valueOf(nIdPage);
-        invalidatePage(strIdPage);
+        String strIdPage = String.valueOf( nIdPage );
+        invalidatePage( strIdPage );
     }
 
     /**
      * @param cacheKeyService the _cacheKeyService to set
      */
-    public void setPageCacheKeyService(ICacheKeyService cacheKeyService)
+    public void setPageCacheKeyService( ICacheKeyService cacheKeyService )
     {
         _cksPage = cacheKeyService;
     }
@@ -606,7 +619,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * @param cacheKeyService the _cacheKeyService to set
      */
-    public void setPortletCacheKeyService(ICacheKeyService cacheKeyService)
+    public void setPortletCacheKeyService( ICacheKeyService cacheKeyService )
     {
         _cksPortlet = cacheKeyService;
     }
@@ -614,10 +627,10 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * @param cacheKeyService the _cacheKeyService to set
      */
-    public void setRoleRemovalService(RemovalListenerService removalService)
+    public void setRoleRemovalService( RemovalListenerService removalService )
     {
-        removalService.registerListener(new PageRoleRemovalListener());
-        removalService.registerListener(new PortletRoleRemovalListener());
+        removalService.registerListener( new PageRoleRemovalListener(  ) );
+        removalService.registerListener( new PortletRoleRemovalListener(  ) );
     }
 
     /**
@@ -625,22 +638,22 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *
      * @param strIdPage The page ID
      */
-    private void invalidatePage(String strIdPage)
+    private void invalidatePage( String strIdPage )
     {
-
-        if (_cachePages.isCacheEnable())
+        if ( _cachePages.isCacheEnable(  ) )
         {
             String strKey = "[" + Parameters.PAGE_ID + ":" + strIdPage + "]";
-            for (String strKeyTemp : (List<String>) _cachePages.getCache().getKeys())
-            {
-                if ((strKeyTemp.indexOf(strKey) != -1)
-                        || (WELCOME_PAGE_ID.equals(strIdPage) && WELCOME_PAGE_CACHE_KEY.equals(strKeyTemp)))
-                {
-                    _cachePages.getCache().remove(strKeyTemp);
 
-                    if (AppLogService.isDebugEnabled())
+            for ( String strKeyTemp : (List<String>) _cachePages.getCache(  ).getKeys(  ) )
+            {
+                if ( ( strKeyTemp.indexOf( strKey ) != -1 ) ||
+                        ( WELCOME_PAGE_ID.equals( strIdPage ) && WELCOME_PAGE_CACHE_KEY.equals( strKeyTemp ) ) )
+                {
+                    _cachePages.getCache(  ).remove( strKeyTemp );
+
+                    if ( AppLogService.isDebugEnabled(  ) )
                     {
-                        AppLogService.debug("Page (cache key : " + strKeyTemp + ") removed from the cache.");
+                        AppLogService.debug( "Page (cache key : " + strKeyTemp + ") removed from the cache." );
                     }
                 }
             }
@@ -654,10 +667,10 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *
      * @param listener An event listener to add
      */
-    public void addPageEventListener(PageEventListener listener)
+    public void addPageEventListener( PageEventListener listener )
     {
-        _listEventListeners.add(listener);
-        AppLogService.info("New Page Event Listener registered : " + listener.getClass().getName());
+        _listEventListeners.add( listener );
+        AppLogService.info( "New Page Event Listener registered : " + listener.getClass(  ).getName(  ) );
     }
 
     /**
@@ -665,11 +678,11 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *
      * @param event A page Event
      */
-    private void notifyListeners(PageEvent event)
+    private void notifyListeners( PageEvent event )
     {
-        for (PageEventListener listener : _listEventListeners)
+        for ( PageEventListener listener : _listEventListeners )
         {
-            listener.processPageEvent(event);
+            listener.processPageEvent( event );
         }
     }
 
@@ -677,7 +690,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * Returns the resource type Id
      * @return The resource type Id
      */
-    public String getResourceTypeId()
+    public String getResourceTypeId(  )
     {
         return IMAGE_RESOURCE_TYPE_ID;
     }
@@ -688,55 +701,55 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param nIdResource The Resource id
      * @return The image resource
      */
-    public ImageResource getImageResource(int nIdResource)
+    public ImageResource getImageResource( int nIdResource )
     {
-        return PageHome.getImageResource(nIdResource);
+        return PageHome.getImageResource( nIdResource );
     }
 
     /**
      * Create a page
      * @param page The page to create
      */
-    public void createPage(Page page)
+    public void createPage( Page page )
     {
-        PageHome.create(page);
+        PageHome.create( page );
 
-        PageEvent event = new PageEvent(page, PageEvent.PAGE_CREATED);
-        notifyListeners(event);
+        PageEvent event = new PageEvent( page, PageEvent.PAGE_CREATED );
+        notifyListeners( event );
     }
 
     /**
      * Update a given page
      * @param page The page to update
      */
-    public void updatePage(Page page)
+    public void updatePage( Page page )
     {
-        PageHome.update(page);
+        PageHome.update( page );
 
-        PageEvent event = new PageEvent(page, PageEvent.PAGE_CONTENT_MODIFIED);
-        notifyListeners(event);
+        PageEvent event = new PageEvent( page, PageEvent.PAGE_CONTENT_MODIFIED );
+        notifyListeners( event );
     }
 
     /**
      * Remove a given page
      * @param nPageId The page Id
      */
-    public void removePage(int nPageId)
+    public void removePage( int nPageId )
     {
-        Page page = PageHome.findByPrimaryKey(nPageId);
-        PageEvent event = new PageEvent(page, PageEvent.PAGE_DELETED);
-        PageHome.remove(nPageId);
-        notifyListeners(event);
+        Page page = PageHome.findByPrimaryKey( nPageId );
+        PageEvent event = new PageEvent( page, PageEvent.PAGE_DELETED );
+        PageHome.remove( nPageId );
+        notifyListeners( event );
     }
 
     /**
      * Process a page event
      * @param event The event to process
      */
-    public void processPageEvent(PageEvent event)
+    public void processPageEvent( PageEvent event )
     {
-        Page page = event.getPage();
-        invalidatePage(page.getId());
+        Page page = event.getPage(  );
+        invalidatePage( page.getId(  ) );
 
         // Clearing ALL cache is not needed anymore
         //PortalService.resetCache(  );
@@ -746,11 +759,11 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * Invalidate Page Content
      * @param nPageId The Page ID
      */
-    public void invalidateContent(int nPageId)
+    public void invalidateContent( int nPageId )
     {
-        Page page = PageHome.findByPrimaryKey(nPageId);
-        PageEvent event = new PageEvent(page, PageEvent.PAGE_CONTENT_MODIFIED);
-        notifyListeners(event);
+        Page page = PageHome.findByPrimaryKey( nPageId );
+        PageEvent event = new PageEvent( page, PageEvent.PAGE_CONTENT_MODIFIED );
+        notifyListeners( event );
     }
 
     /**
@@ -760,15 +773,15 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param user The current user
      * @return true if authorized, otherwise false
      */
-    private boolean isAuthorizedAdminPageByWorkGroup(int nIdPage, AdminUser user)
+    private boolean isAuthorizedAdminPageByWorkGroup( int nIdPage, AdminUser user )
     {
-        Page page = PageHome.findByPrimaryKey(nIdPage);
+        Page page = PageHome.findByPrimaryKey( nIdPage );
 
-        if (AdminWorkgroupService.isAuthorized(page, user))
+        if ( AdminWorkgroupService.isAuthorized( page, user ) )
         {
-            if (page.getId() != PortalService.getRootPageId())
+            if ( page.getId(  ) != PortalService.getRootPageId(  ) )
             {
-                return isAuthorizedAdminPageByWorkGroup(page.getParentPageId(), user);
+                return isAuthorizedAdminPageByWorkGroup( page.getParentPageId(  ), user );
             }
 
             return true;
@@ -786,12 +799,12 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param user The current user
      * @return true if authorized, otherwise false
      */
-    public boolean isAuthorizedAdminPage(int nIdPage, String strPermission, AdminUser user)
+    public boolean isAuthorizedAdminPage( int nIdPage, String strPermission, AdminUser user )
     {
-        String strAuthorizationNode = Integer.toString(Page.getAuthorizationNode(nIdPage));
+        String strAuthorizationNode = Integer.toString( Page.getAuthorizationNode( nIdPage ) );
 
-        return (RBACService.isAuthorized(Page.RESOURCE_TYPE, strAuthorizationNode, strPermission, user)
-                && isAuthorizedAdminPageByWorkGroup(nIdPage, user));
+        return ( RBACService.isAuthorized( Page.RESOURCE_TYPE, strAuthorizationNode, strPermission, user ) &&
+        isAuthorizedAdminPageByWorkGroup( nIdPage, user ) );
     }
 
     /**
@@ -800,37 +813,37 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param portlet The portlet
      * @return The buttons code
      */
-    private String addAdminButtons(HttpServletRequest request, Portlet portlet)
+    private String addAdminButtons( HttpServletRequest request, Portlet portlet )
     {
-        AdminUser user = AdminUserService.getAdminUser(request);
+        AdminUser user = AdminUserService.getAdminUser( request );
 
-        if (RBACService.isAuthorized(PortletType.RESOURCE_TYPE, portlet.getPortletTypeId(),
-                PortletResourceIdService.PERMISSION_MANAGE, user))
+        if ( RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId(  ),
+                    PortletResourceIdService.PERMISSION_MANAGE, user ) )
         {
-            Locale locale = user.getLocale();
-            Collection<PortletCustomAdminAction> listCustomActions = new ArrayList<PortletCustomAdminAction>();
+            Locale locale = user.getLocale(  );
+            Collection<PortletCustomAdminAction> listCustomActions = new ArrayList<PortletCustomAdminAction>(  );
 
             // TODO : listCustomActions should be provided by PortletType
             // FIXME : Delete plugin-document specifics
-            if (portlet.getPortletTypeId().equals(DOCUMENT_LIST_PORTLET)
-                    || portlet.getPortletTypeId().equals(DOCUMENT_PORTLET))
+            if ( portlet.getPortletTypeId(  ).equals( DOCUMENT_LIST_PORTLET ) ||
+                    portlet.getPortletTypeId(  ).equals( DOCUMENT_PORTLET ) )
             {
-                PortletCustomAdminAction customAction = new PortletCustomAdminAction();
-                customAction.setActionUrl(DOCUMENT_ACTION_URL);
-                customAction.setImageUrl(DOCUMENT_IMAGE_URL);
-                customAction.setTitle(DOCUMENT_TITLE);
-                listCustomActions.add(customAction);
+                PortletCustomAdminAction customAction = new PortletCustomAdminAction(  );
+                customAction.setActionUrl( DOCUMENT_ACTION_URL );
+                customAction.setImageUrl( DOCUMENT_IMAGE_URL );
+                customAction.setTitle( DOCUMENT_TITLE );
+                listCustomActions.add( customAction );
             }
 
-            Map<String, Object> model = new HashMap<String, Object>();
-            model.put(MARK_PORTLET, portlet);
-            model.put(MARK_STATUS_PUBLISHED, Portlet.STATUS_PUBLISHED);
-            model.put(MARK_STATUS_UNPUBLISHED, Portlet.STATUS_UNPUBLISHED);
-            model.put(MARK_CUSTOM_ACTIONS, listCustomActions);
+            Map<String, Object> model = new HashMap<String, Object>(  );
+            model.put( MARK_PORTLET, portlet );
+            model.put( MARK_STATUS_PUBLISHED, Portlet.STATUS_PUBLISHED );
+            model.put( MARK_STATUS_UNPUBLISHED, Portlet.STATUS_UNPUBLISHED );
+            model.put( MARK_CUSTOM_ACTIONS, listCustomActions );
 
-            HtmlTemplate template = AppTemplateService.getTemplate(TEMPLATE_ADMIN_BUTTONS, locale, model);
+            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_BUTTONS, locale, model );
 
-            return template.getHtml();
+            return template.getHtml(  );
         }
 
         return "";
@@ -843,41 +856,42 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param nIdPage The page ID
      * @return the map
      */
-    private Map<String, String> getParams(HttpServletRequest request, int nMode, int nIdPage)
+    private Map<String, String> getParams( HttpServletRequest request, int nMode, int nIdPage )
     {
-        Map<String, String> mapModifyParam = new HashMap<String, String>();
+        Map<String, String> mapModifyParam = new HashMap<String, String>(  );
         String paramName = "";
 
         // Get request paramaters and store them in a HashMap
-        if (request != null)
+        if ( request != null )
         {
-            Enumeration<?> enumParam = request.getParameterNames();
+            Enumeration<?> enumParam = request.getParameterNames(  );
 
-            while (enumParam.hasMoreElements())
+            while ( enumParam.hasMoreElements(  ) )
             {
-                paramName = (String) enumParam.nextElement();
-                mapModifyParam.put(paramName, request.getParameter(paramName));
+                paramName = (String) enumParam.nextElement(  );
+                mapModifyParam.put( paramName, request.getParameter( paramName ) );
             }
 
             // Add selected locale
-            mapModifyParam.put(PARAMETER_USER_SELECTED_LOCALE,
-                    LocaleService.getUserSelectedLocale(request).getLanguage());
+            mapModifyParam.put( PARAMETER_USER_SELECTED_LOCALE,
+                LocaleService.getUserSelectedLocale( request ).getLanguage(  ) );
         }
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        if (nMode != MODE_ADMIN)
+        if ( nMode != MODE_ADMIN )
         {
-            mapModifyParam.put(PARAMETER_SITE_PATH, AppPathService.getPortalUrl());
-        } else
+            mapModifyParam.put( PARAMETER_SITE_PATH, AppPathService.getPortalUrl(  ) );
+        }
+        else
         {
-            mapModifyParam.put(PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl());
-            mapModifyParam.put(MARKER_TARGET, TARGET_TOP);
+            mapModifyParam.put( PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl(  ) );
+            mapModifyParam.put( MARKER_TARGET, TARGET_TOP );
         }
 
-        if (!mapModifyParam.containsKey(Parameters.PAGE_ID))
+        if ( !mapModifyParam.containsKey( Parameters.PAGE_ID ) )
         {
-            mapModifyParam.put(Parameters.PAGE_ID, Integer.toString(PortalService.getRootPageId()));
+            mapModifyParam.put( Parameters.PAGE_ID, Integer.toString( PortalService.getRootPageId(  ) ) );
         }
 
         return mapModifyParam;
@@ -889,14 +903,14 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param strPage The page's code
      * @return The new page's code
      */
-    private String setPageBaseUrl(HttpServletRequest request, String strPage)
+    private String setPageBaseUrl( HttpServletRequest request, String strPage )
     {
-        String strBase = AppPathService.getBaseUrl(request);
-        boolean bBefore = strPage.contains(strBase);
+        String strBase = AppPathService.getBaseUrl( request );
+        boolean bBefore = strPage.contains( strBase );
 
-        return strPage.replaceFirst("<base href=\".*\" >", "<base href=\"" + strBase + "\" >");
+        return strPage.replaceFirst( "<base href=\".*\" >", "<base href=\"" + strBase + "\" >" );
     }
-    
+
     /**
      * Management of the image associated to the page
      * @param page The Page Object

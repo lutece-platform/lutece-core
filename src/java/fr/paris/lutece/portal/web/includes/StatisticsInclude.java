@@ -69,46 +69,47 @@ public class StatisticsInclude implements PageInclude
      */
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
-    	String strStatisticalIncludeHead;
+        String strStatisticalIncludeHead;
         String strStatisticalInclude;
-        
-    	if ( request != null )
-    	{
-	        String strStatisticalSiteId = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_SITE_ID, "1" );
-	        String strStatisticalIncludeEnable = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_ENABLE );
-	        String strStatisticalServerUrl = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_SERVER_URL );
-	
-	        if ( ( strStatisticalIncludeEnable != null ) && ( strStatisticalIncludeEnable.equalsIgnoreCase( "true" ) ) )
-	        {
-	            String strStatisticalIncludeTemplateHead = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_HEAD_TEMPLATE );
-	
-	            Map<String, String> model = new HashMap<String, String>(  );
-	            model.put( MARK_STATISTICAL_SITE_ID, strStatisticalSiteId );
-	            model.put( MARK_STATISTICAL_SERVER_URL, strStatisticalServerUrl );
-	
-	            HtmlTemplate tHead = AppTemplateService.getTemplate( strStatisticalIncludeTemplateHead,
-	                    request.getLocale(  ), model );
-	            strStatisticalIncludeHead = tHead.getHtml(  );
-	
-	            String strStatisticalIncludeTemplate = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_TEMPLATE );
-	            HtmlTemplate t = AppTemplateService.getTemplate( strStatisticalIncludeTemplate, request.getLocale(  ), model );
-	            strStatisticalInclude = t.getHtml(  );
-	        }
-	        else
-	        {
-	        	// markers are defaulted to empty string to avoid freemarker errors
-	    		strStatisticalIncludeHead = "";
-	    		strStatisticalInclude = "";
-	        }
-    	}
-    	else
-    	{
-    		// markers are defaulted to empty string to avoid freemarker errors
-    		strStatisticalIncludeHead = "";
-    		strStatisticalInclude = "";    		
-    	}
-    	
-    	rootModel.put( MARK_STATISTICAL_INCLUDE_HEAD, strStatisticalIncludeHead );
+
+        if ( request != null )
+        {
+            String strStatisticalSiteId = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_SITE_ID, "1" );
+            String strStatisticalIncludeEnable = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_ENABLE );
+            String strStatisticalServerUrl = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_SERVER_URL );
+
+            if ( ( strStatisticalIncludeEnable != null ) && ( strStatisticalIncludeEnable.equalsIgnoreCase( "true" ) ) )
+            {
+                String strStatisticalIncludeTemplateHead = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_HEAD_TEMPLATE );
+
+                Map<String, String> model = new HashMap<String, String>(  );
+                model.put( MARK_STATISTICAL_SITE_ID, strStatisticalSiteId );
+                model.put( MARK_STATISTICAL_SERVER_URL, strStatisticalServerUrl );
+
+                HtmlTemplate tHead = AppTemplateService.getTemplate( strStatisticalIncludeTemplateHead,
+                        request.getLocale(  ), model );
+                strStatisticalIncludeHead = tHead.getHtml(  );
+
+                String strStatisticalIncludeTemplate = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_TEMPLATE );
+                HtmlTemplate t = AppTemplateService.getTemplate( strStatisticalIncludeTemplate, request.getLocale(  ),
+                        model );
+                strStatisticalInclude = t.getHtml(  );
+            }
+            else
+            {
+                // markers are defaulted to empty string to avoid freemarker errors
+                strStatisticalIncludeHead = "";
+                strStatisticalInclude = "";
+            }
+        }
+        else
+        {
+            // markers are defaulted to empty string to avoid freemarker errors
+            strStatisticalIncludeHead = "";
+            strStatisticalInclude = "";
+        }
+
+        rootModel.put( MARK_STATISTICAL_INCLUDE_HEAD, strStatisticalIncludeHead );
         rootModel.put( MARK_STATISTICAL_INCLUDE, strStatisticalInclude );
     }
 }

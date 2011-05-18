@@ -118,10 +118,12 @@ public class SearchApp implements XPageApplication
         XPage page = new XPage(  );
         String strQuery = request.getParameter( PARAMETER_QUERY );
         String strTagFilter = request.getParameter( PARAMETER_TAG_FILTER );
-        if( StringUtils.isNotEmpty( strTagFilter ) )
+
+        if ( StringUtils.isNotEmpty( strTagFilter ) )
         {
-        	strQuery = strTagFilter;
+            strQuery = strTagFilter;
         }
+
         boolean bEncodeUri = Boolean.parseBoolean( AppPropertiesService.getProperty( PROPERTY_ENCODE_URI,
                     Boolean.toString( DEFAULT_ENCODE_URI ) ) );
 
@@ -160,10 +162,10 @@ public class SearchApp implements XPageApplication
         {
             strQueryForPaginator = encodeUrl( request, strQuery );
         }
-        
-        if( StringUtils.isNotBlank( strTagFilter ) )
+
+        if ( StringUtils.isNotBlank( strTagFilter ) )
         {
-        	strQuery = "";
+            strQuery = "";
         }
 
         url.addParameter( PARAMETER_QUERY, strQueryForPaginator );
@@ -185,7 +187,7 @@ public class SearchApp implements XPageApplication
         {
             model.put( MARK_SPONSOREDLINKS_SET, sponsoredLinksService.getHtmlCode( strQuery, locale ) );
         }
-        
+
         model.put( MARK_LIST_TYPE_AND_LINK, SearchService.getSearchTypesAndLinks(  ) );
         model.putAll( SearchParameterHome.findAll(  ) );
 

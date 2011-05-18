@@ -33,15 +33,15 @@
  */
 package fr.paris.lutece.portal.business.user.parameter;
 
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.util.RemovalListener;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -49,8 +49,7 @@ import fr.paris.lutece.portal.service.util.RemovalListener;
  */
 public class EmailPatternRegularExpressionRemovalListener implements RemovalListener
 {
-    private static final String PROPERTY_REGULAR_EXPRESSION_CANNOT_BE_REMOVED = 
-    	"portal.users.message.emailPattern.regularExpressionCanNotBeRemoved";
+    private static final String PROPERTY_REGULAR_EXPRESSION_CANNOT_BE_REMOVED = "portal.users.message.emailPattern.regularExpressionCanNotBeRemoved";
 
     /**
     * Check if the object can be safely removed
@@ -59,21 +58,24 @@ public class EmailPatternRegularExpressionRemovalListener implements RemovalList
     */
     public boolean canBeRemoved( String strId )
     {
-    	boolean bCanBeRemoved = true;
-    	if ( StringUtils.isNotBlank( strId ) && StringUtils.isNumeric( strId ) )
-    	{
-    		int nId = Integer.parseInt( strId );
-    		List<RegularExpression> listRegularExpressions = AdminUserService.getSelectedRegularExpressions(  );
-    		for ( RegularExpression regularExpression : listRegularExpressions )
-    		{
-    			if ( nId == regularExpression.getIdExpression(  ) )
-    			{
-    				bCanBeRemoved = false;
-    				break;
-    			}
-    		}
-    	}
-        
+        boolean bCanBeRemoved = true;
+
+        if ( StringUtils.isNotBlank( strId ) && StringUtils.isNumeric( strId ) )
+        {
+            int nId = Integer.parseInt( strId );
+            List<RegularExpression> listRegularExpressions = AdminUserService.getSelectedRegularExpressions(  );
+
+            for ( RegularExpression regularExpression : listRegularExpressions )
+            {
+                if ( nId == regularExpression.getIdExpression(  ) )
+                {
+                    bCanBeRemoved = false;
+
+                    break;
+                }
+            }
+        }
+
         return bCanBeRemoved;
     }
 

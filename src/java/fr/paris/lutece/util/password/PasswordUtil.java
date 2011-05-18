@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.util.password;
 
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 
 /**
@@ -46,7 +46,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
  */
 public final class PasswordUtil
 {
-	private static final String PROPERTY_PASSWORD_SIZE = "randomPassword.size";
+    private static final String PROPERTY_PASSWORD_SIZE = "randomPassword.size";
     private static final int CONSTANT_NUMBER_LETTERS = 26;
     private static final int CONSTANT_NUMBER_NUMBERS_BASE10 = 10;
     private static final int CONSTANT_ASCII_CODE_A_UPPERCASE = 65;

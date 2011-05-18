@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.rss;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * A feed resource.
  * <ul>
@@ -50,87 +51,87 @@ import java.util.List;
  */
 public interface IFeedResource
 {
-	/**
-	 * Gets the feed title
-	 * @return the title
-	 */
-	String getTitle();
-	
-	/**
-	 * Sets the feed title
-	 * @param strTitle the title
-	 */
-	void setTitle( String strTitle );
+    /**
+     * Gets the feed title
+     * @return the title
+     */
+    String getTitle(  );
 
-	/**
-	 * Gets the feed link - usually the site url.
-	 * @return the link
-	 */
-	String getLink();
-	
-	/**
-	 * Sets the feed link
-	 * @param strLink the link -  usually the site url.
-	 */
-	void setLink( String strLink );
+    /**
+     * Sets the feed title
+     * @param strTitle the title
+     */
+    void setTitle( String strTitle );
 
-	/**
-	 * Gets the feed description
-	 * @return the description
-	 */
-	String getDescription();
-	
-	/**
-	 * Sets the description
-	 * @param strDescription the description
-	 */
-	void setDescription( String strDescription );
+    /**
+     * Gets the feed link - usually the site url.
+     * @return the link
+     */
+    String getLink(  );
 
-	/**
-	 * Gets the feed language
-	 * @return the language
-	 */
-	String getLanguage();
+    /**
+     * Sets the feed link
+     * @param strLink the link -  usually the site url.
+     */
+    void setLink( String strLink );
 
-	/**
-	 * Sets the language
-	 * @param strLanguage the language
-	 */
-	void setLanguage( String strLanguage );
+    /**
+     * Gets the feed description
+     * @return the description
+     */
+    String getDescription(  );
 
-	/**
-	 * Gets the feed items
-	 * @return the items
-	 */
-	List<IFeedResourceItem> getItems();
-	
-	/**
-	 * Sets the feed items
-	 * @param listItems the items
-	 */
-	void setItems( List<IFeedResourceItem> listItems );
-	
-	/**
-	 * Gets the image
-	 * @return the image
-	 */
-	IFeedResourceImage getImage();
-	
-	/**
-	 * Sets the image
-	 * @param image the image
-	 */
-	void setImage( IFeedResourceImage image );
-	
-	/**
-	 * Gets the item publishing date
-	 * @return the date
-	 */
-	Date getDate();
+    /**
+     * Sets the description
+     * @param strDescription the description
+     */
+    void setDescription( String strDescription );
 
-	/**
-	 * Set the item publishing date
-	 * @param date the date
-	 */
-	void setDate( Date date );
+    /**
+     * Gets the feed language
+     * @return the language
+     */
+    String getLanguage(  );
+
+    /**
+     * Sets the language
+     * @param strLanguage the language
+     */
+    void setLanguage( String strLanguage );
+
+    /**
+     * Gets the feed items
+     * @return the items
+     */
+    List<IFeedResourceItem> getItems(  );
+
+    /**
+     * Sets the feed items
+     * @param listItems the items
+     */
+    void setItems( List<IFeedResourceItem> listItems );
+
+    /**
+     * Gets the image
+     * @return the image
+     */
+    IFeedResourceImage getImage(  );
+
+    /**
+     * Sets the image
+     * @param image the image
+     */
+    void setImage( IFeedResourceImage image );
+
+    /**
+     * Gets the item publishing date
+     * @return the date
+     */
+    Date getDate(  );
+
+    /**
+     * Set the item publishing date
+     * @param date the date
+     */
+    void setDate( Date date );
 }

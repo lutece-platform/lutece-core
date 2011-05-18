@@ -161,7 +161,7 @@ public class SearchItem
     {
         _strSummary = strSummary;
     }
-    
+
     /**
      * Returns the meta data
      *

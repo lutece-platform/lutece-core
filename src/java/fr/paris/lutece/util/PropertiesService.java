@@ -45,6 +45,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+
 /**
  * This class provides utility methods to read values of the properties stored in the .properties file of the
  * application.
@@ -52,18 +53,17 @@ import java.util.Properties;
 public class PropertiesService
 {
     // Static variables
-
     private static String _strRootPath;
-    private static Properties _properties = new Properties();
-    private static Map<String, String> _mapPropertiesFiles = new HashMap<String, String>();
+    private static Properties _properties = new Properties(  );
+    private static Map<String, String> _mapPropertiesFiles = new HashMap<String, String>(  );
 
     /**
      * Constructor should define the base root path for properties files
      * @param strRootPath The root path
      */
-    public PropertiesService(String strRootPath)
+    public PropertiesService( String strRootPath )
     {
-        _strRootPath = (strRootPath.endsWith("/")) ? strRootPath : (strRootPath + "/");
+        _strRootPath = ( strRootPath.endsWith( "/" ) ) ? strRootPath : ( strRootPath + "/" );
     }
 
     /**
@@ -73,13 +73,13 @@ public class PropertiesService
      * @throws java.io.FileNotFoundException If the file is not found
      * @throws java.io.IOException If an error occurs reading the file
      */
-    public void addPropertiesFile(String strRelativePath, String strFilename)
-            throws FileNotFoundException, IOException
+    public void addPropertiesFile( String strRelativePath, String strFilename )
+        throws FileNotFoundException, IOException
     {
-        String strFullPath = _strRootPath
-                + ((strRelativePath.endsWith("/")) ? strRelativePath : (strRelativePath + "/")) + strFilename;
-        _mapPropertiesFiles.put(strFilename, strFullPath);
-        loadFile(strFullPath);
+        String strFullPath = _strRootPath +
+            ( ( strRelativePath.endsWith( "/" ) ) ? strRelativePath : ( strRelativePath + "/" ) ) + strFilename;
+        _mapPropertiesFiles.put( strFilename, strFullPath );
+        loadFile( strFullPath );
     }
 
     /**
@@ -87,24 +87,24 @@ public class PropertiesService
      * @param strRelativePath Relative path from the root path
      * @throws IOException If an error occurs reading the file
      */
-    public void addPropertiesDirectory(String strRelativePath)
-            throws IOException
+    public void addPropertiesDirectory( String strRelativePath )
+        throws IOException
     {
-        File directory = new File(_strRootPath + strRelativePath);
+        File directory = new File( _strRootPath + strRelativePath );
 
-        if ((directory != null) && directory.exists())
+        if ( ( directory != null ) && directory.exists(  ) )
         {
-            File[] listFile = directory.listFiles();
+            File[] listFile = directory.listFiles(  );
 
-            for (int i = 0; i < listFile.length; i++)
+            for ( int i = 0; i < listFile.length; i++ )
             {
                 File file = (File) listFile[i];
 
-                if (file.getName().endsWith(".properties"))
+                if ( file.getName(  ).endsWith( ".properties" ) )
                 {
-                    String strFullPath = file.getAbsolutePath();
-                    _mapPropertiesFiles.put(file.getName(), strFullPath);
-                    loadFile(strFullPath);
+                    String strFullPath = file.getAbsolutePath(  );
+                    _mapPropertiesFiles.put( file.getName(  ), strFullPath );
+                    loadFile( strFullPath );
                 }
             }
         }
@@ -116,11 +116,11 @@ public class PropertiesService
      * @throws java.io.IOException If an error occurs reading the file
      * @throws java.io.FileNotFoundException If the file is not found
      */
-    private void loadFile(String strFullPath) throws FileNotFoundException, IOException
+    private void loadFile( String strFullPath ) throws FileNotFoundException, IOException
     {
-        File file = new File(strFullPath);
-        FileInputStream fis = new FileInputStream(file);
-        _properties.load(fis);
+        File file = new File( strFullPath );
+        FileInputStream fis = new FileInputStream( file );
+        _properties.load( fis );
     }
 
     /**
@@ -128,21 +128,21 @@ public class PropertiesService
      * @param strFilename The filename of the properties file
      * @throws IOException If an error occurs reading the file
      */
-    public void reload(String strFilename) throws IOException
+    public void reload( String strFilename ) throws IOException
     {
-        String strFullPath = _mapPropertiesFiles.get(strFilename);
-        loadFile(strFullPath);
+        String strFullPath = _mapPropertiesFiles.get( strFilename );
+        loadFile( strFullPath );
     }
 
     /**
      * Reload all properties files
      * @throws IOException If an error occurs reading the file
      */
-    public void reloadAll() throws IOException
+    public void reloadAll(  ) throws IOException
     {
-        for (String strFullPath : _mapPropertiesFiles.values())
+        for ( String strFullPath : _mapPropertiesFiles.values(  ) )
         {
-            loadFile(strFullPath);
+            loadFile( strFullPath );
         }
     }
 
@@ -152,9 +152,9 @@ public class PropertiesService
      * @param strProperty The variable name
      * @return The variable value read in the properties file
      */
-    public String getProperty(String strProperty)
+    public String getProperty( String strProperty )
     {
-        return _properties.getProperty(strProperty);
+        return _properties.getProperty( strProperty );
     }
 
     /**
@@ -165,9 +165,9 @@ public class PropertiesService
      *        file.
      * @return The variable value read in the properties file
      */
-    public String getProperty(String strProperty, String strDefault)
+    public String getProperty( String strProperty, String strDefault )
     {
-        return _properties.getProperty(strProperty, strDefault);
+        return _properties.getProperty( strProperty, strDefault );
     }
 
     /**
@@ -178,20 +178,21 @@ public class PropertiesService
      *        .properties. .properties file.
      * @return The variable value read in the properties file
      */
-    public int getPropertyInt(String strProperty, int nDefault)
+    public int getPropertyInt( String strProperty, int nDefault )
     {
-        String strValue = AppPropertiesService.getProperty(strProperty);
+        String strValue = AppPropertiesService.getProperty( strProperty );
         int nValue = nDefault;
 
         try
         {
-            if ((strValue != null) && strValue.matches("^[\\d]+$"))
+            if ( ( strValue != null ) && strValue.matches( "^[\\d]+$" ) )
             {
-                nValue = Integer.parseInt(strValue);
+                nValue = Integer.parseInt( strValue );
             }
-        } catch (NumberFormatException e)
+        }
+        catch ( NumberFormatException e )
         {
-            AppLogService.info(e);
+            AppLogService.info( e );
         }
 
         return nValue;
@@ -205,20 +206,21 @@ public class PropertiesService
      *        .properties. .properties file.
      * @return The variable value read in the properties file
      */
-    public long getPropertyLong(String strProperty, long lDefault)
+    public long getPropertyLong( String strProperty, long lDefault )
     {
-        String strValue = AppPropertiesService.getProperty(strProperty);
+        String strValue = AppPropertiesService.getProperty( strProperty );
         long lValue = lDefault;
 
         try
         {
-            if (strValue != null)
+            if ( strValue != null )
             {
-                lValue = Long.parseLong(strValue);
+                lValue = Long.parseLong( strValue );
             }
-        } catch (NumberFormatException e)
+        }
+        catch ( NumberFormatException e )
         {
-            AppLogService.info(e);
+            AppLogService.info( e );
         }
 
         return lValue;
@@ -232,15 +234,16 @@ public class PropertiesService
      *        .properties. .properties file.
      * @return The variable value read in the properties file
      */
-    public boolean getPropertyBoolean(String strProperty, boolean bDefault)
+    public boolean getPropertyBoolean( String strProperty, boolean bDefault )
     {
-        String strValue = AppPropertiesService.getProperty(strProperty);
+        String strValue = AppPropertiesService.getProperty( strProperty );
         boolean bValue = bDefault;
 
-        if (strValue != null)
+        if ( strValue != null )
         {
-            bValue = strValue.equalsIgnoreCase("true");
+            bValue = strValue.equalsIgnoreCase( "true" );
         }
+
         return bValue;
     }
 }

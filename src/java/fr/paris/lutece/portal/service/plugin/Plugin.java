@@ -171,9 +171,11 @@ public abstract class Plugin implements Comparable<Plugin>
             _bDbPoolRequired = pluginFile.isDbPoolRequired(  );
 
             _listCssStyleSheets = pluginFile.getCssStyleSheets(  );
-            _strCssStylesheetsScope = ( pluginFile.getCssStylesheetsScope() != null )? pluginFile.getCssStylesheetsScope() : SCOPE_XPAGE;
+            _strCssStylesheetsScope = ( pluginFile.getCssStylesheetsScope(  ) != null )
+                ? pluginFile.getCssStylesheetsScope(  ) : SCOPE_XPAGE;
             _listJavascriptFiles = pluginFile.getJavascriptFiles(  );
-            _strJavascriptFilesScope = ( pluginFile.getJavascriptFilesScope() != null )? pluginFile.getJavascriptFilesScope() : SCOPE_XPAGE;
+            _strJavascriptFilesScope = ( pluginFile.getJavascriptFilesScope(  ) != null )
+                ? pluginFile.getJavascriptFilesScope(  ) : SCOPE_XPAGE;
 
             // Register plugin components
             registerXPageApplications(  );
@@ -524,7 +526,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
         _bIsInstalled = true;
         update(  );
-        
+
         notifyListeners( PluginEvent.PLUGIN_INSTALLED );
     }
 
@@ -543,14 +545,14 @@ public abstract class Plugin implements Comparable<Plugin>
 
         notifyListeners( PluginEvent.PLUGIN_UNINSTALLED );
     }
-    
+
     /**
      * Notifiy Listner
-     * @param nEventType 
+     * @param nEventType
      */
     private void notifyListeners( int nEventType )
     {
-        PluginEvent event = new PluginEvent( this , nEventType );
+        PluginEvent event = new PluginEvent( this, nEventType );
         PluginService.notifyListeners( event );
     }
 
@@ -589,7 +591,7 @@ public abstract class Plugin implements Comparable<Plugin>
             nPluginTypeFlags |= PLUGIN_TYPE_CONTENTSERVICE;
         }
 
-        if ( ( _listDaemons != null ) && ( !_listDaemons.isEmpty() ) )
+        if ( ( _listDaemons != null ) && ( !_listDaemons.isEmpty(  ) ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_DAEMON;
         }
@@ -1054,36 +1056,36 @@ public abstract class Plugin implements Comparable<Plugin>
      * Give the scope of css stylesheets
      * @return true if scope is portal otherwise false
      */
-    public boolean isCssStylesheetsScopePortal(   )
+    public boolean isCssStylesheetsScopePortal(  )
     {
-        return ( _strCssStylesheetsScope != null && _strCssStylesheetsScope.equalsIgnoreCase( SCOPE_PORTAL ));
+        return ( ( _strCssStylesheetsScope != null ) && _strCssStylesheetsScope.equalsIgnoreCase( SCOPE_PORTAL ) );
     }
 
     /**
      * Give the scope of css stylesheets
      * @return true if scope is portal otherwise false
      */
-    public boolean isCssStylesheetsScopeXPage(   )
+    public boolean isCssStylesheetsScopeXPage(  )
     {
-        return ( _strCssStylesheetsScope != null && _strCssStylesheetsScope.equalsIgnoreCase( SCOPE_XPAGE ));
+        return ( ( _strCssStylesheetsScope != null ) && _strCssStylesheetsScope.equalsIgnoreCase( SCOPE_XPAGE ) );
     }
 
     /**
      * Give the scope of javascripts
      * @return true if scope is portal otherwise false
      */
-    public boolean isJavascriptFilesScopePortal(   )
+    public boolean isJavascriptFilesScopePortal(  )
     {
-        return ( _strJavascriptFilesScope != null && _strJavascriptFilesScope.equalsIgnoreCase( SCOPE_PORTAL ));
+        return ( ( _strJavascriptFilesScope != null ) && _strJavascriptFilesScope.equalsIgnoreCase( SCOPE_PORTAL ) );
     }
 
     /**
      * Give the scope of javascripts
      * @return true if scope is portal otherwise false
      */
-    public boolean isJavascriptFilesScopeXPage(   )
+    public boolean isJavascriptFilesScopeXPage(  )
     {
-        return ( _strJavascriptFilesScope != null && _strJavascriptFilesScope.equalsIgnoreCase( SCOPE_XPAGE ));
+        return ( ( _strJavascriptFilesScope != null ) && _strJavascriptFilesScope.equalsIgnoreCase( SCOPE_XPAGE ) );
     }
 
     /**

@@ -746,6 +746,4 @@ public class PluginFile
     {
         _strJavascriptFilesScope = strJavascriptFilescope;
     }
-
-
 }

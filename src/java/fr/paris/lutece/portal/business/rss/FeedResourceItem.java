@@ -35,111 +35,106 @@ package fr.paris.lutece.portal.business.rss;
 
 import java.util.Date;
 
+
 /**
- * 
+ *
  * FeedResourceItem - {@link IFeedResourceItem} implementation.
  */
 public class FeedResourceItem implements IFeedResourceItem
 {
-	private String _strTitle;
+    private String _strTitle;
+    private String _strLink;
+    private String _strDescription;
+    private String _strGUID;
+    private Date _date;
 
-	private String _strLink;
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public String getTitle(  )
+    {
+        return _strTitle;
+    }
 
-	private String _strDescription;
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void setTitle( String strTitle )
+    {
+        this._strTitle = strTitle;
+    }
 
-	private String _strGUID;
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public String getLink(  )
+    {
+        return _strLink;
+    }
 
-	private Date _date;
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void setLink( String strLink )
+    {
+        this._strLink = strLink;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public String getTitle()
-	{
-		return _strTitle;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public String getDescription(  )
+    {
+        return _strDescription;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void setTitle( String strTitle )
-	{
-		this._strTitle = strTitle;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void setDescription( String strDescription )
+    {
+        this._strDescription = strDescription;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public String getLink()
-	{
-		return _strLink;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public String getGUID(  )
+    {
+        return _strGUID;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void setLink( String strLink )
-	{
-		this._strLink = strLink;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void setGUID( String strGUID )
+    {
+        _strGUID = strGUID;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public String getDescription()
-	{
-		return _strDescription;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public Date getDate(  )
+    {
+        return _date;
+    }
 
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void setDescription( String strDescription )
-	{
-		this._strDescription = strDescription;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public String getGUID()
-	{
-		return _strGUID;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public void setGUID( String strGUID )
-	{
-		_strGUID = strGUID;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-	public Date getDate()
-	{
-		return _date;
-	}
-
-	/**
-	 * 
-	 * {@inheritDoc}
-	 */
-
-	public void setDate( Date date )
-	{
-		this._date = date;
-	}
-
+    /**
+     *
+     * {@inheritDoc}
+     */
+    public void setDate( Date date )
+    {
+        this._date = date;
+    }
 }

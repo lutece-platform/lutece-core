@@ -143,9 +143,9 @@ public abstract class PortletHome implements PortletHomeInterface
      * @param strRole The role
      * @return The collection
      */
-    public static Collection<Portlet> getPortletsByRoleKey(String strRole )
+    public static Collection<Portlet> getPortletsByRoleKey( String strRole )
     {
-        return _dao.selectPortletsByRole(strRole);
+        return _dao.selectPortletsByRole( strRole );
     }
 
     /**
@@ -304,13 +304,13 @@ public abstract class PortletHome implements PortletHomeInterface
     {
         return _dao.selectAliasesForPortlet( nPortletId );
     }
-    
+
     /**
      * Get the last modified portlet
      * @return the last modified portlet
      */
     public static Portlet getLastModifiedPortlet(  )
     {
-    	return _dao.loadLastModifiedPortlet(  );
+        return _dao.loadLastModifiedPortlet(  );
     }
 }

@@ -83,7 +83,6 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     {
         _cache = CacheService.getInstance(  ).createCache( strCacheName );
         _cache.getCacheEventNotificationService(  ).registerListener( this );
-
     }
 
     /**
@@ -95,7 +94,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     {
         Element element = new Element( strKey, object );
 
-        if ( ( _cache != null ) && isCacheEnable() )
+        if ( ( _cache != null ) && isCacheEnable(  ) )
         {
             _cache.put( element );
         }
@@ -110,7 +109,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     {
         Object object = null;
 
-        if ( ( _cache != null ) && isCacheEnable() )
+        if ( ( _cache != null ) && isCacheEnable(  ) )
         {
             Element element = _cache.get( strKey );
 
@@ -205,39 +204,39 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
         return new ArrayList<String>(  );
     }
 
-     /**
-     *  {@inheritDoc }
-     */
-    public int getMaxElements()
+    /**
+    *  {@inheritDoc }
+    */
+    public int getMaxElements(  )
     {
-        return _cache.getCacheConfiguration().getMaxElementsInMemory();
+        return _cache.getCacheConfiguration(  ).getMaxElementsInMemory(  );
     }
 
     /**
      *  {@inheritDoc }
      */
-    public long getTimeToLive()
+    public long getTimeToLive(  )
     {
-        return _cache.getCacheConfiguration().getTimeToLiveSeconds();
+        return _cache.getCacheConfiguration(  ).getTimeToLiveSeconds(  );
     }
 
     /**
      *  {@inheritDoc }
      */
-    public long getMemorySize()
+    public long getMemorySize(  )
     {
-        return _cache.calculateInMemorySize();
+        return _cache.calculateInMemorySize(  );
     }
 
     /**
      *  {@inheritDoc }
      */
-    public String getInfos()
+    public String getInfos(  )
     {
         return CacheService.getInfos( _cache );
     }
 
-   // CacheEventListener implementation
+    // CacheEventListener implementation
 
     /**
      * @see java.lang.Object#clone()

@@ -144,7 +144,7 @@ public interface IResourceRss
      */
     @Deprecated
     String createHtmlRss(  );
-    
+
     /**
      * Gets the feed with items
      * @return the {@link IFeedResource}
@@ -169,37 +169,37 @@ public interface IResourceRss
      * @return true if resource exist
      */
     boolean checkResource(  );
-    
+
     /**
      * Gets the feed type
      * @return the feed type
      */
-    String getFeedType();
-    
+    String getFeedType(  );
+
     /**
      * Sets the feed type
      * @param strFeedType the feed type
      */
     void setFeedType( String strFeedType );
-    
+
     /**
      * Gets the encoding
      * @return the encoding
      */
-    String getEncoding();
-    
+    String getEncoding(  );
+
     /**
      * Sets the encoding
      * @param strEncoding the encoding
      */
     void setEncoding( String strEncoding );
-    
+
     /**
-     * The number of displayed item. 
+     * The number of displayed item.
      * @return the number of displayed item
      */
-    int getMaxItems();
-    
+    int getMaxItems(  );
+
     /**
      * Sets the number of displayed item
      * @param nMaxItems number of displayed item

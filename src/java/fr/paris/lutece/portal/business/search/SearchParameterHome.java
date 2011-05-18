@@ -33,63 +33,62 @@
  */
 package fr.paris.lutece.portal.business.search;
 
-import java.util.Map;
-
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
+
+import java.util.Map;
+
 
 /**
  * This class provides instances management methods (update, find, ...) for search parameters
  */
 public final class SearchParameterHome
 {
-	//Static variable pointed at the DAO instance
-	private static ISearchParameterDAO _dao = 
-		( ISearchParameterDAO ) SpringContextService.getBean( "searchParameterDAO" );
-	
-	/*
-	 * private constructor
-	 */
-	private SearchParameterHome(  )
-	{
-	}
-	
-	/**
-	 * Loads a search parameter
-	 * @param strParameterKey the parameter key
-	 * @return the found parameter
-	 */
-	public static ReferenceItem findByKey( String strParameterKey )
-	{
-		return _dao.load( strParameterKey );
-	}
-	
-	/**
-	 * Updates a search parameter
-	 * @param param the parameter to update
-	 */
-	public static void update( ReferenceItem param )
-	{
-		_dao.store( param );
-	}
-	
-	/**
-	 * Finds all search parameters
-	 * @return all the parameter as a Map
-	 */
-	public static Map<String, String> findAll(  )
-	{
-		return _dao.findAll(  );
-	}
-	
-	/**
-	 * Finds all search parameters
-	 * @return all the parameter as a ReferenceList
-	 */
-	public static ReferenceList findParametersList(  )
-	{
-		return _dao.selectParametersList(  );
-	}
+    //Static variable pointed at the DAO instance
+    private static ISearchParameterDAO _dao = (ISearchParameterDAO) SpringContextService.getBean( "searchParameterDAO" );
 
+    /*
+     * private constructor
+     */
+    private SearchParameterHome(  )
+    {
+    }
+
+    /**
+     * Loads a search parameter
+     * @param strParameterKey the parameter key
+     * @return the found parameter
+     */
+    public static ReferenceItem findByKey( String strParameterKey )
+    {
+        return _dao.load( strParameterKey );
+    }
+
+    /**
+     * Updates a search parameter
+     * @param param the parameter to update
+     */
+    public static void update( ReferenceItem param )
+    {
+        _dao.store( param );
+    }
+
+    /**
+     * Finds all search parameters
+     * @return all the parameter as a Map
+     */
+    public static Map<String, String> findAll(  )
+    {
+        return _dao.findAll(  );
+    }
+
+    /**
+     * Finds all search parameters
+     * @return all the parameter as a ReferenceList
+     */
+    public static ReferenceList findParametersList(  )
+    {
+        return _dao.selectParametersList(  );
+    }
 }

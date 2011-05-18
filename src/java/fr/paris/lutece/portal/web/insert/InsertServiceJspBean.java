@@ -124,13 +124,13 @@ public abstract class InsertServiceJspBean implements Serializable
 
         return template.getHtml(  );
     }
-    
+
     /**
      * List of supported sub categories that may be used to filter resources.
      * @return the list. Default is an empty list.
      */
-    public ReferenceList getSubCategories()
+    public ReferenceList getSubCategories(  )
     {
-    	return new ReferenceList();
+        return new ReferenceList(  );
     }
 }

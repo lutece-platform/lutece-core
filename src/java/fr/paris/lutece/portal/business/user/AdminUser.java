@@ -81,18 +81,6 @@ public class AdminUser implements Serializable
     private Locale _locale;
 
     /**
-     * Init
-     */
-    public static void init(  )
-    {
-    	if ( _listenerRegularExpression == null )
-    	{
-    		_listenerRegularExpression = new EmailPatternRegularExpressionRemovalListener(  );
-    		RegularExpressionRemovalListenerService.getService(  ).registerListener( _listenerRegularExpression );
-    	}
-    }
-    
-    /**
      * Constructor
      */
     public AdminUser(  )
@@ -108,6 +96,18 @@ public class AdminUser implements Serializable
     {
         _strAccessCode = stAccessCode;
         _strAuthenticationService = authenticationService.getAuthServiceName(  );
+    }
+
+    /**
+     * Init
+     */
+    public static void init(  )
+    {
+        if ( _listenerRegularExpression == null )
+        {
+            _listenerRegularExpression = new EmailPatternRegularExpressionRemovalListener(  );
+            RegularExpressionRemovalListenerService.getService(  ).registerListener( _listenerRegularExpression );
+        }
     }
 
     /**
@@ -427,17 +427,17 @@ public class AdminUser implements Serializable
      * Set the accessibility mode
      * @param bAccessibilityMode true if the mode is accessible, false otherwise
      */
-	public void setAccessibilityMode( boolean bAccessibilityMode )
-	{
-		_bAccessibilityMode = bAccessibilityMode;
-	}
+    public void setAccessibilityMode( boolean bAccessibilityMode )
+    {
+        _bAccessibilityMode = bAccessibilityMode;
+    }
 
-	/**
-	 * Return the accessibility mode
-	 * @return true if the mode is accessible, false otherwise
-	 */
-	public boolean getAccessibilityMode(  )
-	{
-		return _bAccessibilityMode;
-	}
+    /**
+     * Return the accessibility mode
+     * @return true if the mode is accessible, false otherwise
+     */
+    public boolean getAccessibilityMode(  )
+    {
+        return _bAccessibilityMode;
+    }
 }

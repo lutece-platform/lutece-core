@@ -33,42 +33,42 @@
  */
 package fr.paris.lutece.portal.business.search;
 
-import java.util.Map;
-
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 
+import java.util.Map;
+
+
 /**
- * 
+ *
  * Interface ISearchParameterDAO
- * Defines data access providers for search parameters 
+ * Defines data access providers for search parameters
  *
  */
-public interface ISearchParameterDAO {
+public interface ISearchParameterDAO
+{
+    /**
+     * Gets the parameters defined by the specified key
+     * @param strParameterKey
+     * @return the found parameter
+     */
+    ReferenceItem load( String strParameterKey );
 
-	/**
-	 * Gets the parameters defined by the specified key
-	 * @param strParameterKey
-	 * @return the found parameter
-	 */
-	ReferenceItem load( String strParameterKey );
+    /**
+     * Updates the value of an existing parameter
+     * @param param the parameter to store
+     */
+    void store( ReferenceItem param );
 
-	/**
-	 * Updates the value of an existing parameter
-	 * @param param the parameter to store
-	 */
-	void store( ReferenceItem param );
+    /**
+     * Gets a list of all search parameters
+     * @return all search parameters as a Map
+     */
+    Map<String, String> findAll(  );
 
-	/**
-	 * Gets a list of all search parameters
-	 * @return all search parameters as a Map
-	 */
-	Map<String, String> findAll(  );
-	
-	/**
-	 * Gets a list of all search parameters
-	 * @return all search parameters as a ReferenceList
-	 */
-	ReferenceList selectParametersList(  );
-
+    /**
+     * Gets a list of all search parameters
+     * @return all search parameters as a ReferenceList
+     */
+    ReferenceList selectParametersList(  );
 }
