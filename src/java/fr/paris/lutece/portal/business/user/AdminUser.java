@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.business.user;
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
+import fr.paris.lutece.portal.business.user.parameter.EmailPatternRegularExpressionRemovalListener;
+import fr.paris.lutece.portal.service.regularexpression.RegularExpressionRemovalListenerService;
 
 import java.io.Serializable;
 
@@ -50,6 +52,7 @@ import java.util.Map;
 public class AdminUser implements Serializable
 {
     public static String RESOURCE_TYPE = "ADMIN_USER";
+    private static EmailPatternRegularExpressionRemovalListener _listenerRegularExpression;
     private static final String EMPTY_STRING = "";
     private static final int ACTIVE_CODE = 0;
     private int _nUserId;
@@ -77,6 +80,18 @@ public class AdminUser implements Serializable
     /** the user's locale */
     private Locale _locale;
 
+    /**
+     * Init
+     */
+    public static void init(  )
+    {
+    	if ( _listenerRegularExpression == null )
+    	{
+    		_listenerRegularExpression = new EmailPatternRegularExpressionRemovalListener(  );
+    		RegularExpressionRemovalListenerService.getService(  ).registerListener( _listenerRegularExpression );
+    	}
+    }
+    
     /**
      * Constructor
      */

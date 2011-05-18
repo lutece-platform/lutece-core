@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.init;
 
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
@@ -155,6 +156,9 @@ public final class AppInit
 
             // Initialize FileImageService
             FileImageService.init(  );
+            
+            // Initialize AdminUserService
+            AdminUserService.init(  );
 
             _bInitSuccessfull = true;
         }

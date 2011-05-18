@@ -66,7 +66,6 @@ import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.regularexpression.RegularExpressionService;
 import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -123,6 +122,14 @@ public final class AdminUserService
     /** Private constructor */
     private AdminUserService(  )
     {
+    }
+    
+    /**
+     * Init
+     */
+    public static void init(  )
+    {
+    	AdminUser.init(  );
     }
 
     /**
@@ -575,7 +582,7 @@ public final class AdminUserService
      * Get the available rugalar expressions
      * @return a list of {@link ReferenceList}
      */
-    private static ReferenceList getAvailableRegularExpressions(  )
+    public static ReferenceList getAvailableRegularExpressions(  )
     {
     	ReferenceList regularExpressionsList = new ReferenceList(  );
         if ( !isEmailPatternSetManually(  ) )
@@ -616,7 +623,7 @@ public final class AdminUserService
      * Get the list of selected regular expression
      * @return a list of {@link RegularExpression}
      */
-    private static List<RegularExpression> getSelectedRegularExpressions(  )
+    public static List<RegularExpression> getSelectedRegularExpressions(  )
     {
     	List<RegularExpression> listRegularExpressions = new ArrayList<RegularExpression>(  );
     	if ( !isEmailPatternSetManually(  ) )

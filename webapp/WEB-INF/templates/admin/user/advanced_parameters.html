@@ -126,43 +126,45 @@
 	    		</p>
 	    	</form>
     		<#if plugin_regularexpression && !is_email_pattern_set_manually>
-    			<form method="post" action="jsp/admin/user/DoInsertRegularExpression.jsp#list-regularexpressions">
-    				<p>
-    					<label for="id_expression">#i18n{portal.users.manage_advanced_parameters.labelRegularExpression} :</label>
-    					<@combo name="id_expression" items=available_regularexpressions default_value=-1 />
-    					<input value="#i18n{portal.users.manage_advanced_parameters.buttonInsert}" class="button" type="submit">
-    					<br />
-    					<label>&nbsp;</label>
-    					#i18n{portal.users.manage_advanced_parameters.labelInsertComment}
-    				</p>
-    			</form>
-				<a name="list-regularexpressions" id="list-regularexpressions"></a>
-				<table width="100%">
-					<tr> 
-						<th>#i18n{portal.users.manage_advanced_parameters.rowTitle}</th>
-						<th>#i18n{portal.users.manage_advanced_parameters.rowInformationMessage}</th>
-						<th>#i18n{portal.users.manage_advanced_parameters.rowValidExample}</th>
-						<th>#i18n{portal.users.manage_advanced_parameters.rowActions}</th>
-					</tr>
-					<#list selected_regularexpressions as expression>
-						<tr>
-							<td>
-								${expression.title}
-							</td>
-							<td>
-								${expression.informationMessage}
-							</td>
-							<td>
-								${expression.validExemple}  	
-							</td>
-							<td>
-								<a href="jsp/admin/user/DoRemoveRegularExpression.jsp?id_expression=${expression.idExpression}#list-regularexpressions">
-									<img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.users.manage_advanced_parameters.buttonDelete}" title="#i18n{portal.users.manage_advanced_parameters.buttonDelete}" />
-								</a>
-							</td>
+    			<div class="highlight-box">
+	    			<form method="post" action="jsp/admin/user/DoInsertRegularExpression.jsp#list-regularexpressions">
+	    				<p>
+	    					<label for="id_expression">#i18n{portal.users.manage_advanced_parameters.labelRegularExpression} :</label>
+	    					<@combo name="id_expression" items=available_regularexpressions default_value=-1 />
+	    					<input value="#i18n{portal.users.manage_advanced_parameters.buttonInsert}" class="button" type="submit">
+	    					<br />
+	    					<label>&nbsp;</label>
+	    					#i18n{portal.users.manage_advanced_parameters.labelInsertComment}
+	    				</p>
+	    			</form>
+					<a name="list-regularexpressions" id="list-regularexpressions"></a>
+					<table width="100%">
+						<tr> 
+							<th>#i18n{portal.users.manage_advanced_parameters.rowTitle}</th>
+							<th>#i18n{portal.users.manage_advanced_parameters.rowInformationMessage}</th>
+							<th>#i18n{portal.users.manage_advanced_parameters.rowValidExample}</th>
+							<th>#i18n{portal.users.manage_advanced_parameters.rowActions}</th>
 						</tr>
-					</#list> 
-				</table>
+						<#list selected_regularexpressions as expression>
+							<tr>
+								<td>
+									${expression.title}
+								</td>
+								<td>
+									${expression.informationMessage}
+								</td>
+								<td>
+									${expression.validExemple}  	
+								</td>
+								<td>
+									<a href="jsp/admin/user/DoRemoveRegularExpression.jsp?id_expression=${expression.idExpression}#list-regularexpressions">
+										<img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.users.manage_advanced_parameters.buttonDelete}" title="#i18n{portal.users.manage_advanced_parameters.buttonDelete}" />
+									</a>
+								</td>
+							</tr>
+						</#list> 
+					</table>
+				</div>
 			</#if>
 	    </div>
     </#if>
