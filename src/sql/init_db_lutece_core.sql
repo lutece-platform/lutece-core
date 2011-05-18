@@ -158,6 +158,8 @@ INSERT INTO core_user_parameter VALUES ('default_user_level', '0');
 INSERT INTO core_user_parameter VALUES ('default_user_notification', '1');
 INSERT INTO core_user_parameter VALUES ('default_user_language', 'fr');
 INSERT INTO core_user_parameter VALUES ('default_user_status', '0');
+INSERT INTO core_user_parameter VALUES ('email_pattern', '^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$');
+INSERT INTO core_user_parameter VALUES ('email_pattern_verify_by', '');
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');
