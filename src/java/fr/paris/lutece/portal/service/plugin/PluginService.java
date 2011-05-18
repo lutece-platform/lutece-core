@@ -43,9 +43,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeSet;
@@ -69,6 +71,7 @@ public final class PluginService
     // Variables
     private static Map<String, Plugin> _mapPlugins = new HashMap<String, Plugin>(  );
     private static Properties _propPluginsStatus = new Properties(  );
+    private static List<PluginEventListener> _listPluginEventListeners = new ArrayList<PluginEventListener>();
 
     /**
      * Creates a new PluginService object.
@@ -312,5 +315,26 @@ public final class PluginService
         Plugin plugin = getPlugin( strPluginName );
 
         return ( ( plugin != null ) && ( plugin.isInstalled(  ) ) );
+    }
+    
+    /**
+     * Register a Plugin Event Listener
+     * @param listener The listener
+     */
+    public static void registerPluginEventListener( PluginEventListener listener )
+    {
+        _listPluginEventListeners.add( listener );
+    }
+    
+    /**
+     * Notify an event to all Plugin Event Listeners 
+     * @param event The event
+     */
+    public static void notifyListeners( PluginEvent event )
+    {
+        for( PluginEventListener listener : _listPluginEventListeners )
+        {
+            listener.processPluginEvent( event );
+        }
     }
 }

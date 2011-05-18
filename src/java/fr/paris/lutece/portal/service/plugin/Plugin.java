@@ -524,6 +524,8 @@ public abstract class Plugin implements Comparable<Plugin>
 
         _bIsInstalled = true;
         update(  );
+        
+        notifyListeners( PluginEvent.PLUGIN_INSTALLED );
     }
 
     /**
@@ -538,6 +540,18 @@ public abstract class Plugin implements Comparable<Plugin>
         unregisterPortlets(  );
         _bIsInstalled = false;
         update(  );
+
+        notifyListeners( PluginEvent.PLUGIN_UNINSTALLED );
+    }
+    
+    /**
+     * Notifiy Listner
+     * @param nEventType 
+     */
+    private void notifyListeners( int nEventType )
+    {
+        PluginEvent event = new PluginEvent( this , nEventType );
+        PluginService.notifyListeners( event );
     }
 
     /**
