@@ -56,17 +56,28 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class LinksInclude implements PageInclude
 {
+    // Properties
     private static final String PROPERTY_FAVOURITE = "lutece.favourite";
+    private static final String PROPERTY_PORTAL_NAME = "lutece.name";
+
+    // Parameters
     private static final String PARAMETER_PAGE = "page";
+
+    // Markers
     private static final String MARK_FAVOURITE = "favourite";
+    private static final String MARK_PORTAL_NAME= "lutece_name";
     private static final String MARK_PLUGIN_THEME_CSS = "plugin_theme";
     private static final String MARK_PLUGINS_CSS_LINKS = "plugins_css_links";
     private static final String MARK_PLUGINS_JAVASCRIPT_LINKS = "plugins_javascript_links";
     private static final String MARK_PLUGIN_CSS_STYLESHEET = "plugin_css_stylesheet";
     private static final String MARK_PLUGIN_JAVASCRIPT_FILE = "plugin_javascript_file";
     private static final String MARK_CSS_PREFIX = "css_prefix";
+    
+    // Templates
     private static final String TEMPLATE_PLUGIN_CSS_LINK = "skin/site/plugin_css_link.html";
     private static final String TEMPLATE_PLUGIN_JAVASCRIPT_LINK = "skin/site/plugin_javascript_link.html";
+
+
     private static final String PREFIX_PLUGINS_CSS = "css/plugins/";
     private static final String ABSOLUTE_URL = "http://";
 
@@ -84,7 +95,9 @@ public class LinksInclude implements PageInclude
             // Add links coming from the data object
             String strFavourite = ( data.getFavourite(  ) != null ) ? data.getFavourite(  )
                                                                     : AppPropertiesService.getProperty( PROPERTY_FAVOURITE );
+            String strPortalName = AppPropertiesService.getProperty( PROPERTY_PORTAL_NAME );
             rootModel.put( MARK_FAVOURITE, strFavourite );
+            rootModel.put( MARK_PORTAL_NAME, strPortalName );
 
             Locale locale = ( request == null ) ? Locale.getDefault(  ) : request.getLocale(  );
 
