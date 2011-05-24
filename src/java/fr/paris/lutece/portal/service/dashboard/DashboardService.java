@@ -77,18 +77,18 @@ public final class DashboardService
     }
 
     /**
-    * Return the unique instance
-    * @return The instance
-    */
+     * Return the unique instance
+     * @return The instance
+     */
     public static DashboardService getInstance(  )
     {
         return _singleton;
     }
 
     /**
-         * Returns the column count, with {@link DashboardService#PROPERTY_COLUMN_COUNT}. Default is {@link DashboardService#CONSTANTE_DEFAULT_COLUMN_COUNT}
-         * @return the column count
-         */
+	 * Returns the column count, with {@link DashboardService#PROPERTY_COLUMN_COUNT}. Default is {@link DashboardService#CONSTANTE_DEFAULT_COLUMN_COUNT}
+	 * @return the column count
+	 */
     public int getColumnCount(  )
     {
         return AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_COUNT, CONSTANTE_DEFAULT_COLUMN_COUNT );

@@ -124,7 +124,7 @@ public class AdminMenuJspBean
      */
     public String getAdminMenuHeader( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         String strVersion = AppInfo.getVersion(  );
         String strSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
         AdminUser user = AdminUserService.getAdminUser( request );
@@ -144,7 +144,8 @@ public class AdminMenuJspBean
         String strDocumentationUrl = AppPropertiesService.getProperty( PROPERTY_DOCUMENTATION_SUMMARY_URL );
         model.put( MARK_ADMIN_SUMMARY_DOCUMENTATION_URL, ( strDocumentationUrl == null ) ? null : strDocumentationUrl );
 
-        setDashboardData( model, user, request );
+        int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
+        setDashboardData( model, user, request, nZoneMax );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_HEADER, user.getLocale(  ), model );
 
@@ -159,7 +160,7 @@ public class AdminMenuJspBean
      */
     public String getAdminMenuFooter( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         String strFooterVersion = AppInfo.getVersion(  );
         String strFooterSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
         AdminUser user = AdminUserService.getAdminUser( request );
@@ -186,7 +187,7 @@ public class AdminMenuJspBean
         // Displays the menus according to the users rights
         List<FeatureGroup> listFeatureGroups = getFeatureGroupsList( user );
 
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         model.put( MARK_FEATURE_GROUP_LIST, listFeatureGroups );
         model.put( MARK_USER, user );
@@ -207,7 +208,7 @@ public class AdminMenuJspBean
      * @param user The Admin User
      * @param request HttpServletRequest
      */
-    private void setDashboardData( HashMap<String, Object> model, AdminUser user, HttpServletRequest request )
+    private void setDashboardData( Map<String, Object> model, AdminUser user, HttpServletRequest request )
     {
         List<IDashboardComponent> listDashboards = DashboardService.getInstance(  ).getDashboards( user, request );
         int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
@@ -224,7 +225,7 @@ public class AdminMenuJspBean
             }
 
             // Default dashboards for the nColumnCount to nZoneMax zones
-            for ( int i = nColumnCount + 1; i <= nZoneMax; i++ )
+            for ( int i = nColumnCount + 1; i < nZoneMax; i++ )
             {
                 model.put( MARK_DASHBOARD_ZONE + i,
                     DashboardService.getInstance(  ).getDashboardData( user, i, request ) );
@@ -232,12 +233,25 @@ public class AdminMenuJspBean
         }
         else
         {
-            for ( int i = 1; i <= nZoneMax; i++ )
+            for ( int i = 1; i < nZoneMax; i++ )
             {
                 model.put( MARK_DASHBOARD_ZONE + i,
                     DashboardService.getInstance(  ).getDashboardData( user, i, request ) );
             }
         }
+    }
+    
+    /**
+     * Add a specific dashboard data to the template's model 
+     * @param model The template's model
+     * @param user The Admin User
+     * @param request HttpServletRequest
+     * @param nDashboardZone the dashboard zone
+     */
+    private void setDashboardData( Map<String, Object> model, AdminUser user, HttpServletRequest request, int nDashboardZone )
+    {
+    	model.put( MARK_DASHBOARD_ZONE + nDashboardZone,
+                DashboardService.getInstance(  ).getDashboardData( user, nDashboardZone, request ) );
     }
 
     /**
