@@ -779,7 +779,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
         if ( AdminWorkgroupService.isAuthorized( page, user ) )
         {
-            if ( page.getId(  ) != PortalService.getRootPageId(  ) )
+            if ( page.getId(  ) != PortalService.getRootPageId(  ) && page.getId(  ) > 0 )
             {
                 return isAuthorizedAdminPageByWorkGroup( page.getParentPageId(  ), user );
             }
