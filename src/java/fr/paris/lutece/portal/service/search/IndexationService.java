@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
@@ -211,18 +212,7 @@ public final class IndexationService
                     }
                     catch ( Exception e )
                     {
-                        _sbLogs.append( "\r\n<strong>Indexer : " );
-                        _sbLogs.append( indexer.getName(  ) );
-                        _sbLogs.append( " - ERROR : " );
-                        _sbLogs.append( e.getMessage(  ) );
-
-                        if ( e.getCause(  ) != null )
-                        {
-                            _sbLogs.append( " : " );
-                            _sbLogs.append( e.getCause(  ).getMessage(  ) );
-                        }
-
-                        _sbLogs.append( "</strong>\r\n" );
+                        error( indexer, e, StringUtils.EMPTY );
                     }
                 }
 
@@ -317,13 +307,7 @@ public final class IndexationService
                     }
                     catch ( Exception e )
                     {
-                        _sbLogs.append( "\r\n<strong>Action from indexer : " );
-                        _sbLogs.append( action.getIndexerName(  ) );
-                        _sbLogs.append( " Action ID : " + action.getIdAction(  ) + " - Document ID : " +
-                            action.getIdDocument(  ) );
-                        _sbLogs.append( " - ERROR : " );
-                        _sbLogs.append( e.getMessage(  ) + " : " + e.getCause(  ).getMessage(  ) );
-                        _sbLogs.append( "</strong>\r\n" );
+                        error( action, e, StringUtils.EMPTY );
                     }
                 }
 
@@ -383,6 +367,56 @@ public final class IndexationService
         _sbLogs.append( " - " );
         _sbLogs.append( doc.get( SearchItem.FIELD_TITLE ) );
         _sbLogs.append( "\r\n" );
+    }
+    
+    /**
+     * Log the error for the search indexer
+     * @param indexer the {@link SearchIndexer}
+     * @param e the exception
+     */
+    public static void error( SearchIndexer indexer, Exception e, String strMessage )
+    {
+    	_sbLogs.append( "<strong class=\"alert\">Indexer : " );
+    	_sbLogs.append( indexer.getName(  ) );
+    	_sbLogs.append( " - ERROR : " );
+    	_sbLogs.append( e.getMessage(  ) );
+    	if ( e.getCause(  ) != null )
+    	{
+    		_sbLogs.append( " : " );
+    		_sbLogs.append( e.getCause(  ).getMessage(  ) );
+    	}
+    	if ( StringUtils.isNotBlank( strMessage ) )
+    	{
+    		_sbLogs.append( " - " + strMessage );
+    	}
+    	_sbLogs.append( "</strong>\r\n" );
+    	AppLogService.error( "Indexing error : " + e.getMessage(  ), e );
+    }
+    
+    /**
+     * Log the error for the indexer action
+     * @param action the {@link IndexerAction}
+     * @param e the exception
+     */
+    public static void error( IndexerAction action, Exception e, String strMessage )
+    {
+    	_sbLogs.append( "<strong class=\"alert\">Action from indexer : " );
+        _sbLogs.append( action.getIndexerName(  ) );
+        _sbLogs.append( " Action ID : " + action.getIdAction(  ) + " - Document ID : " +
+            action.getIdDocument(  ) );
+        _sbLogs.append( " - ERROR : " );
+        _sbLogs.append( e.getMessage(  ) );
+        if ( e.getCause(  ) != null )
+    	{
+    		_sbLogs.append( " : " );
+    		_sbLogs.append( e.getCause(  ).getMessage(  ) );
+    	}
+        if ( StringUtils.isNotBlank( strMessage ) )
+    	{
+    		_sbLogs.append( " - " + strMessage );
+    	}
+        _sbLogs.append( "</strong>\r\n" );
+        AppLogService.error( "Indexing error : " + e.getMessage(  ), e );
     }
 
     /**

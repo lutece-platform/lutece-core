@@ -84,8 +84,20 @@ public class PageIndexer implements SearchIndexer
             UrlItem url = new UrlItem( strPageBaseUrl );
             url.addParameter( PARAMETER_PAGE_ID, page.getId(  ) );
 
-            Document doc = getDocument( page, url.getUrl(  ) );
-            IndexationService.write( doc );
+            Document doc = null;
+            try
+            {
+            	doc = getDocument( page, url.getUrl(  ) );
+            }
+            catch ( Exception e )
+            {
+            	String strMessage = "Page ID : " + page.getId(  );
+            	IndexationService.error( this, e, strMessage );
+            }
+            if ( doc != null )
+            { 
+            	IndexationService.write( doc );
+            }
         }
     }
 
