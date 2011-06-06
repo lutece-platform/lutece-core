@@ -199,15 +199,11 @@ public class AdminDashboardService
                 {
                     for ( IAdminDashboardComponent dc : listColumnDashboards )
                     {
-                        if ( !dc.equals( dashboard ) )
+                    	int nCurrentOrder = dc.getOrder(  );
+                        if ( !dc.equals( dashboard ) && ( nCurrentOrder >= nOrder ) && ( nCurrentOrder < nOldOrder ) )
                         {
-                            int nCurrentOrder = dc.getOrder(  );
-
-                            if ( ( nCurrentOrder >= nOrder ) && ( nCurrentOrder < nOldOrder ) )
-                            {
-                                dc.setOrder( nCurrentOrder + 1 );
-                                AdminDashboardHome.update( dc );
-                            }
+                            dc.setOrder( nCurrentOrder + 1 );
+                            AdminDashboardHome.update( dc );
                         }
                     }
                 }
@@ -215,15 +211,11 @@ public class AdminDashboardService
                 {
                     for ( IAdminDashboardComponent dc : listColumnDashboards )
                     {
-                        if ( !dc.equals( dashboard ) )
+                    	int nCurrentOrder = dc.getOrder(  );
+                        if ( !dc.equals( dashboard ) && ( nCurrentOrder <= nOrder ) && ( nCurrentOrder > nOldOrder ) )
                         {
-                            int nCurrentOrder = dc.getOrder(  );
-
-                            if ( ( nCurrentOrder <= nOrder ) && ( nCurrentOrder > nOldOrder ) )
-                            {
-                                dc.setOrder( nCurrentOrder - 1 );
-                                AdminDashboardHome.update( dc );
-                            }
+                            dc.setOrder( nCurrentOrder - 1 );
+                            AdminDashboardHome.update( dc );
                         }
                     }
                 }
