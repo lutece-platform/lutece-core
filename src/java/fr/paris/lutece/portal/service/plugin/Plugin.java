@@ -460,6 +460,10 @@ public abstract class Plugin implements Comparable<Plugin>
         }
     }
 
+    /**
+     * Register Admin Dashboard Components
+     * @throws LuteceInitException If an error occured
+     */
     protected void registerAdminDashboardComponents(  )
         throws LuteceInitException
     {
@@ -547,8 +551,8 @@ public abstract class Plugin implements Comparable<Plugin>
     }
 
     /**
-     * Notifiy Listner
-     * @param nEventType
+     * Notifiy Listener
+     * @param nEventType The event type
      */
     private void notifyListeners( int nEventType )
     {

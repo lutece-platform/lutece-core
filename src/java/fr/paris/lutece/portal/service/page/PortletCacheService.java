@@ -37,13 +37,15 @@ import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 
 
 /**
- *
- * @author pierre
+ * Portlet cache service
  */
 public class PortletCacheService extends AbstractCacheableService
 {
     private static final String SERVICE_NAME = "Portlet Cache Service";
 
+    /**
+     * {@inheritDoc } 
+     */
     public String getName(  )
     {
         return SERVICE_NAME;

@@ -37,7 +37,7 @@ package fr.paris.lutece.portal.web.constants;
 /**
  * This class provides the Markers interface which contains the common Freemarker markers
  */
-public class Markers
+public final class Markers
 {
     public static final String BASE_URL = "base_url";
     public static final String VERSION = "version";
@@ -56,4 +56,11 @@ public class Markers
 
     // to retrieve the webapp url when using linkservice
     public static final String WEBAPP_PATH_FOR_LINKSERVICE = "webapp_path_for_linkservice";
+    
+    
+    /** Private constructor */
+    private Markers()
+    {
+    }
+    
 }

@@ -51,11 +51,19 @@ public class PageCacheService extends AbstractCacheableService
     // Performance patch
     private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<String, String>(  );
 
+    /**
+     * {@inheritDoc } 
+     */
     public String getName(  )
     {
         return SERVICE_NAME;
     }
 
+    /**
+     * Get a memory key
+     * @param strKey The key
+     * @return The key
+     */
     String getKey( String strKey )
     {
         String keyInMemory = _keyMemory.putIfAbsent( strKey, strKey );
@@ -106,7 +114,6 @@ public class PageCacheService extends AbstractCacheableService
 
     /**
      * @see net.sf.ehcache.event.CacheEventListener#notifyRemoveAll(net.sf.ehcache.Ehcache)
-     * @param cache .
      * @param cache The Ehcache object
      */
     @Override

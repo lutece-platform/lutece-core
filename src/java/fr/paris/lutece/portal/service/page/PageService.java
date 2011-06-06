@@ -625,7 +625,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     }
 
     /**
-     * @param cacheKeyService the _cacheKeyService to set
+     * @param removalService the removal listener service
      */
     public void setRoleRemovalService( RemovalListenerService removalService )
     {
@@ -913,7 +913,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
     /**
      * Management of the image associated to the page
-     * @param page The Page Object
      * @param strPageId The page identifier
      * @return The url
      */
