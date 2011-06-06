@@ -47,9 +47,8 @@ public interface ISiteMessageHandler
      * @param request The http request
      * @param nMode The mode
      * @return the html code for the display of a page of a site
-     * @throws UserNotSignedException The UserNotSignedException
      */
-    public String getPage( HttpServletRequest request, int nMode );
+    String getPage( HttpServletRequest request, int nMode );
 
     /**
      * Analyzes request parameters to see if the request should be handled
@@ -57,5 +56,5 @@ public interface ISiteMessageHandler
      * @param request The HTTP request
      * @return true if it should handle this request
      */
-    public boolean hasMessage( HttpServletRequest request );
+    boolean hasMessage( HttpServletRequest request );
 }

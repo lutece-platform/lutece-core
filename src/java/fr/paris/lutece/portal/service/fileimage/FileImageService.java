@@ -47,7 +47,7 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
  * Service for Url entry types. Provide ImageResource managemenent
  *
  */
-public class FileImageService implements ImageResourceProvider
+public final class FileImageService implements ImageResourceProvider
 {
     private static FileImageService _singleton = new FileImageService(  );
     private static final String IMAGE_RESOURCE_TYPE_ID = "core_attribute_img";
@@ -61,7 +61,7 @@ public class FileImageService implements ImageResourceProvider
 
     /**
      * Init
-     * @throws LuteceInitException
+     * @throws LuteceInitException if an error occurs
      */
     public static synchronized void init(  ) throws LuteceInitException
     {

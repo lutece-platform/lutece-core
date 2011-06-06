@@ -90,14 +90,14 @@ public final class CacheService
 
     // Cacheable Services registry
     private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<CacheableService>(  );
-    private int nDefaultMaxElementsInMemory;
-    private boolean bDefaultEternal;
-    private long lDefaultTimeToIdle;
-    private long lDefaultTimeToLive;
-    private boolean bDefaultOverflowToDisk;
-    private boolean bDefaultDiskPersistent;
-    private long lDefaultDiskExpiry;
-    private int nDefaultMaxElementsOnDisk;
+    private int _nDefaultMaxElementsInMemory;
+    private boolean _bDefaultEternal;
+    private long _lDefaultTimeToIdle;
+    private long _lDefaultTimeToLive;
+    private boolean _bDefaultOverflowToDisk;
+    private boolean _bDefaultDiskPersistent;
+    private long _lDefaultDiskExpiry;
+    private int _nDefaultMaxElementsOnDisk;
 
     /** Creates a new instance of CacheService */
     private CacheService(  )
@@ -136,6 +136,9 @@ public final class CacheService
         }
     }
 
+    /**
+     * Init JMX monitoring configuration
+     */
     private void initJmxMonitoring(  )
     {
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer(  );
@@ -245,28 +248,28 @@ public final class CacheService
 
     /**
      * Returns cache config
-     * @param _cache The cache
+     * @param cache The cache
      * @return Cache infos
      */
-    static String getInfos( Cache _cache )
+    static String getInfos( Cache cache )
     {
         StringBuilder sbInfos = new StringBuilder(  );
         sbInfos.append( PROPERTY_MAX_ELEMENTS ).append( "=" )
-               .append( _cache.getCacheConfiguration(  ).getMaxElementsInMemory(  ) ).append( "\n" );
-        sbInfos.append( PROPERTY_ETERNAL ).append( "=" ).append( _cache.getCacheConfiguration(  ).isEternal(  ) )
+               .append( cache.getCacheConfiguration(  ).getMaxElementsInMemory(  ) ).append( "\n" );
+        sbInfos.append( PROPERTY_ETERNAL ).append( "=" ).append( cache.getCacheConfiguration(  ).isEternal(  ) )
                .append( "\n" );
         sbInfos.append( PROPERTY_TIME_TO_IDLE ).append( "=" )
-               .append( _cache.getCacheConfiguration(  ).getTimeToIdleSeconds(  ) ).append( "\n" );
+               .append( cache.getCacheConfiguration(  ).getTimeToIdleSeconds(  ) ).append( "\n" );
         sbInfos.append( PROPERTY_TIME_TO_LIVE ).append( "=" )
-               .append( _cache.getCacheConfiguration(  ).getTimeToLiveSeconds(  ) ).append( "\n" );
+               .append( cache.getCacheConfiguration(  ).getTimeToLiveSeconds(  ) ).append( "\n" );
         sbInfos.append( PROPERTY_OVERFLOW_TO_DISK ).append( "=" )
-               .append( _cache.getCacheConfiguration(  ).isOverflowToDisk(  ) ).append( "\n" );
+               .append( cache.getCacheConfiguration(  ).isOverflowToDisk(  ) ).append( "\n" );
         sbInfos.append( PROPERTY_DISK_PERSISTENT ).append( "=" )
-               .append( _cache.getCacheConfiguration(  ).isDiskPersistent(  ) ).append( "\n" );
+               .append( cache.getCacheConfiguration(  ).isDiskPersistent(  ) ).append( "\n" );
         sbInfos.append( PROPERTY_DISK_EXPIRY ).append( "=" )
-               .append( _cache.getCacheConfiguration(  ).getDiskExpiryThreadIntervalSeconds(  ) ).append( "\n" );
+               .append( cache.getCacheConfiguration(  ).getDiskExpiryThreadIntervalSeconds(  ) ).append( "\n" );
         sbInfos.append( PROPERTY_MAX_ELEMENTS_DISK ).append( "=" )
-               .append( _cache.getCacheConfiguration(  ).getMaxElementsOnDisk(  ) ).append( "\n" );
+               .append( cache.getCacheConfiguration(  ).getMaxElementsOnDisk(  ) ).append( "\n" );
 
         return sbInfos.toString(  );
     }
@@ -276,16 +279,16 @@ public final class CacheService
      */
     private void loadDefaults(  )
     {
-        nDefaultMaxElementsInMemory = AppPropertiesService.getPropertyInt( PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS, 10000 );
-        bDefaultEternal = AppPropertiesService.getPropertyBoolean( PREFIX_DEFAULT + PROPERTY_ETERNAL, false );
-        lDefaultTimeToIdle = AppPropertiesService.getPropertyLong( PREFIX_DEFAULT + PROPERTY_TIME_TO_IDLE, 10000L );
-        lDefaultTimeToLive = AppPropertiesService.getPropertyLong( PREFIX_DEFAULT + PROPERTY_TIME_TO_LIVE, 10000L );
-        bDefaultOverflowToDisk = AppPropertiesService.getPropertyBoolean( PREFIX_DEFAULT + PROPERTY_OVERFLOW_TO_DISK,
+        _nDefaultMaxElementsInMemory = AppPropertiesService.getPropertyInt( PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS, 10000 );
+        _bDefaultEternal = AppPropertiesService.getPropertyBoolean( PREFIX_DEFAULT + PROPERTY_ETERNAL, false );
+        _lDefaultTimeToIdle = AppPropertiesService.getPropertyLong( PREFIX_DEFAULT + PROPERTY_TIME_TO_IDLE, 10000L );
+        _lDefaultTimeToLive = AppPropertiesService.getPropertyLong( PREFIX_DEFAULT + PROPERTY_TIME_TO_LIVE, 10000L );
+        _bDefaultOverflowToDisk = AppPropertiesService.getPropertyBoolean( PREFIX_DEFAULT + PROPERTY_OVERFLOW_TO_DISK,
                 true );
-        bDefaultDiskPersistent = AppPropertiesService.getPropertyBoolean( PREFIX_DEFAULT + PROPERTY_DISK_PERSISTENT,
+        _bDefaultDiskPersistent = AppPropertiesService.getPropertyBoolean( PREFIX_DEFAULT + PROPERTY_DISK_PERSISTENT,
                 true );
-        lDefaultDiskExpiry = AppPropertiesService.getPropertyLong( PREFIX_DEFAULT + PROPERTY_DISK_EXPIRY, 120L );
-        nDefaultMaxElementsOnDisk = AppPropertiesService.getPropertyInt( PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS_DISK,
+        _lDefaultDiskExpiry = AppPropertiesService.getPropertyLong( PREFIX_DEFAULT + PROPERTY_DISK_EXPIRY, 120L );
+        _nDefaultMaxElementsOnDisk = AppPropertiesService.getPropertyInt( PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS_DISK,
                 10000 );
     }
 
@@ -353,14 +356,14 @@ public final class CacheService
         config.setName( strCacheName );
 
         String strPrefix = normalizeName( strCacheName );
-        config.setMaxElementsInMemory( getIntProperty( strPrefix, PROPERTY_MAX_ELEMENTS, nDefaultMaxElementsInMemory ) );
-        config.setEternal( getBooleanProperty( strPrefix, PROPERTY_ETERNAL, bDefaultEternal ) );
-        config.setTimeToIdleSeconds( getLongProperty( strPrefix, PROPERTY_TIME_TO_IDLE, lDefaultTimeToIdle ) );
-        config.setTimeToLiveSeconds( getLongProperty( strPrefix, PROPERTY_TIME_TO_LIVE, lDefaultTimeToLive ) );
-        config.setOverflowToDisk( getBooleanProperty( strPrefix, PROPERTY_OVERFLOW_TO_DISK, bDefaultOverflowToDisk ) );
-        config.setDiskPersistent( getBooleanProperty( strPrefix, PROPERTY_DISK_PERSISTENT, bDefaultDiskPersistent ) );
-        config.setDiskExpiryThreadIntervalSeconds( getLongProperty( strPrefix, PROPERTY_DISK_EXPIRY, lDefaultDiskExpiry ) );
-        config.setMaxElementsOnDisk( getIntProperty( strPrefix, PROPERTY_MAX_ELEMENTS_DISK, nDefaultMaxElementsOnDisk ) );
+        config.setMaxElementsInMemory( getIntProperty( strPrefix, PROPERTY_MAX_ELEMENTS, _nDefaultMaxElementsInMemory ) );
+        config.setEternal( getBooleanProperty( strPrefix, PROPERTY_ETERNAL, _bDefaultEternal ) );
+        config.setTimeToIdleSeconds( getLongProperty( strPrefix, PROPERTY_TIME_TO_IDLE, _lDefaultTimeToIdle ) );
+        config.setTimeToLiveSeconds( getLongProperty( strPrefix, PROPERTY_TIME_TO_LIVE, _lDefaultTimeToLive ) );
+        config.setOverflowToDisk( getBooleanProperty( strPrefix, PROPERTY_OVERFLOW_TO_DISK, _bDefaultOverflowToDisk ) );
+        config.setDiskPersistent( getBooleanProperty( strPrefix, PROPERTY_DISK_PERSISTENT, _bDefaultDiskPersistent ) );
+        config.setDiskExpiryThreadIntervalSeconds( getLongProperty( strPrefix, PROPERTY_DISK_EXPIRY, _lDefaultDiskExpiry ) );
+        config.setMaxElementsOnDisk( getIntProperty( strPrefix, PROPERTY_MAX_ELEMENTS_DISK, _nDefaultMaxElementsOnDisk ) );
 
         return config;
     }
@@ -386,6 +389,7 @@ public final class CacheService
             }
             catch ( NumberFormatException e )
             {
+                AppLogService.error( "Invalid numeric property : " + strPrefix + strKey + "=" + strValue , e);
             }
         }
 
@@ -413,6 +417,7 @@ public final class CacheService
             }
             catch ( NumberFormatException e )
             {
+                AppLogService.error( "Invalid numeric property : " + strPrefix + strKey + "=" + strValue , e);
             }
         }
 

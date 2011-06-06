@@ -44,6 +44,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -62,12 +63,13 @@ public class MainFilter implements Filter
     /**
      * {@inheritDoc}
      */
-    public void doFilter( ServletRequest requestServlet, ServletResponse response, FilterChain chain )
+    public void doFilter( ServletRequest requestServlet, ServletResponse responseServlet, FilterChain chain )
         throws IOException, ServletException
     {
         AppLogService.debug( "MainFilter : doFilter()" );
 
         HttpServletRequest request = (HttpServletRequest) requestServlet;
+        HttpServletResponse response = ( HttpServletResponse ) responseServlet;
         LuteceFilterChain chainPluginsFilters = new LuteceFilterChain(  );
 
         for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
@@ -92,7 +94,7 @@ public class MainFilter implements Filter
 
                     // the filter may have changed (wrapped) the request [like CAS filter] or the response
                     request = (HttpServletRequest) chainPluginsFilters.getRequest(  );
-                    response = chainPluginsFilters.getResponse(  );
+                    response = ( HttpServletResponse ) chainPluginsFilters.getResponse(  );
                 }
             }
             catch ( Exception e )

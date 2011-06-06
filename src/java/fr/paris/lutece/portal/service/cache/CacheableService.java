@@ -90,11 +90,11 @@ public interface CacheableService extends LuteceService
      * Return the memory size
      * @return the memory size
      */
-    public long getMemorySize(  );
+    long getMemorySize(  );
 
     /**
      * Returns cache infos
      * @return cache infos
      */
-    public String getInfos(  );
+    String getInfos(  );
 }
