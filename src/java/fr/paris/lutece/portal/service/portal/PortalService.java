@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2010, Mairie de Paris
+ * Copyright (c) 2002-2011, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,6 +76,8 @@ public final class PortalService
     ////////////////////////////////////////////////////////////////////////////
     // Constants
     private static final int PORTAL_COMPONENT_PAGE_PATH_ID = 5;
+
+    // Properties
     private static final String PROPERTY_HOME_PAGE_HEADER = "home.page.header.mode";
     private static final String PROPERTY_INTERNAL_PAGE_HEADER = "internal.page.header.mode";
     private static final String PROPERTY_PAGE_TOOLS_MENU = "page.tools.menu.mode";
@@ -84,13 +86,19 @@ public final class PortalService
     private static final String PROPERTY_PATH_ON_ROOT = "lutece.root.path";
     private static final String PROPERTY_ENCODING = "lutece.encoding";
     private static final String PROPERTY_ENCODING_DEFAULT = "UTF-8";
+
+    // Templates
     private static final String TEMPLATE_PAGE_FRAMESET = "skin/site/page_frameset.html";
     private static final String TEMPLATE_HOME_PAGE_HEADER = "skin/site/page_header_home.html";
     private static final String TEMPLATE_INTERNAL_PAGE_HEADER = "skin/site/page_header_internal.html";
     private static final String TEMPLATE_PAGE_TOOLS_MENU = "skin/site/page_menu_tools.html";
     private static final String TEMPLATE_PAGE_PATH = "skin/site/page_path.html";
     private static final String TEMPLATE_PORTAL_FOOTER = "skin/site/portal_footer.html";
+
+    // Markers
     private static final String MARKER_TARGET = "target";
+    private static final String MARKER_PAGE_DATA = "data";
+
     private static final String TARGET_TOP = "target='_top'";
     private static final String BOOKMARK_BASE_URL = "@base_url@";
 
@@ -286,6 +294,7 @@ public final class PortalService
 
         HtmlTemplate tToolsMenu = AppTemplateService.getTemplate( strToolsMenu, locale, model );
         model.put( Markers.PAGE_HEADER, tHeader.getHtml(  ) );
+        model.put( MARKER_PAGE_DATA, data );
         model.put( Markers.PAGE_NAME, ( data.getName(  ) == null ) ? "" : data.getName(  ) );
         model.put( Markers.PAGE_CONTENT, ( data.getContent(  ) == null ) ? "" : data.getContent(  ) );
         model.put( Markers.PAGE_PATH, ( data.getPagePath(  ) == null ) ? "" : data.getPagePath(  ) );
