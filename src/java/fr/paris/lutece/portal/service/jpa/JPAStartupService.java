@@ -36,11 +36,14 @@ package fr.paris.lutece.portal.service.jpa;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.init.StartUpService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.jpa.JPAConstants;
 import fr.paris.lutece.util.jpa.JPAPersistenceUnitPostProcessor;
 import fr.paris.lutece.util.jpa.transaction.ChainedTransactionManager;
+
+import org.apache.commons.lang.StringUtils;
 
 import org.apache.log4j.Logger;
 
@@ -68,6 +71,8 @@ import javax.sql.DataSource;
  */
 public class JPAStartupService implements StartUpService
 {
+    /** The name of the property used by the JPA provider to specify the dialect */
+    private static final String JPA_DIALECT_PROPERTY = "jpa.dialect.property";
     private static Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
 
     /**
@@ -79,9 +84,11 @@ public class JPAStartupService implements StartUpService
         ReferenceList list = new ReferenceList(  );
         AppConnectionService.getPoolList( list );
 
-        HashMap<String, EntityManagerFactory> mapFactories = new HashMap(  );
+        Map<String, EntityManagerFactory> mapFactories = new HashMap<String, EntityManagerFactory>(  );
         List<PlatformTransactionManager> listTransactionManagers = new ArrayList<PlatformTransactionManager>(  );
         _log.info( "JPA Startup Service : Initializing JPA objects ..." );
+
+        String strDialectProperty = AppPropertiesService.getProperty( JPA_DIALECT_PROPERTY );
 
         for ( ReferenceItem poolItem : list )
         {
@@ -112,6 +119,17 @@ public class JPAStartupService implements StartUpService
 
             Map mapJpaProperties = (Map) SpringContextService.getBean( "jpaPropertiesMap" );
             lcemfb.setJpaPropertyMap( mapJpaProperties );
+
+            String strDialect = AppPropertiesService.getProperty( poolItem.getName(  ) + ".dialect" );
+
+            // replace default dialect if <poolname>.dialect is specified
+            if ( StringUtils.isNotBlank( strDialect ) )
+            {
+                mapJpaProperties.put( strDialectProperty, strDialect );
+            }
+
+            _log.debug( "Using dialect " + mapJpaProperties.get( strDialectProperty ) + " for pool " +
+                poolItem.getName(  ) );
 
             JpaVendorAdapter jpaVendorAdapter = (JpaVendorAdapter) SpringContextService.getBean( "jpaVendorAdapter" );
             lcemfb.setJpaVendorAdapter( jpaVendorAdapter );
