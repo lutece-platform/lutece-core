@@ -161,21 +161,25 @@ public class LinksInclude implements PageInclude
         }
     }
 
+    /**
+     * Check if the page is a valid plugin's page
+     * @param strPage The page
+     * @param plugin The plugin
+     * @return true if valid otherwise false
+     */
     private boolean isPluginXPage( String strPage, Plugin plugin )
     {
-        boolean bXPage = false;
-
         if ( ( strPage != null ) )
         {
             for ( XPageApplicationEntry app : plugin.getApplications(  ) )
             {
                 if ( strPage.equals( app.getId(  ) ) )
                 {
-                    bXPage = true;
+                    return true;
                 }
             }
         }
 
-        return bXPage;
+        return false;
     }
 }

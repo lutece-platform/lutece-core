@@ -121,9 +121,9 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     *
-     * @param request
-     * @return
+     * Gets cache infos for all caches
+     * @param request The HTTP request
+     * @return HTML formated cache infos 
      */
     public String getCacheInfos( HttpServletRequest request )
     {

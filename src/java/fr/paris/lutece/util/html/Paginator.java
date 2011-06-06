@@ -43,6 +43,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * Paginator provides a way to display a collection of items on severals pages.
+ * @param <E> Item of the list
  */
 public class Paginator<E>
 {

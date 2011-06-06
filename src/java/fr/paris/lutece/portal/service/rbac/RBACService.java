@@ -121,6 +121,7 @@ public final class RBACService
 
     /**
      * Filter a collection of resources for a given user
+     * @param <E> The RBAC resource
      * @param collection The collection to filter
      * @param strPermission Permission to check
      * @param user The user
@@ -168,6 +169,7 @@ public final class RBACService
 
     /**
      * Filter a collection of RBACAction for a given user
+     * @param <E> The RBAC resource
      * @param collection The collection to filter
      * @param resource The resource
      * @param user The user

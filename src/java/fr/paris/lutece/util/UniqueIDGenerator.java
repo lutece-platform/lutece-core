@@ -40,7 +40,12 @@ package fr.paris.lutece.util;
  */
 public final class UniqueIDGenerator
 {
-    private static long nId = 1L;
+    private static long _nId = 1L;
+    
+    /** Private constructor */
+    private UniqueIDGenerator()
+    {
+    }
 
     /**
      * Return a new unique Id as long
@@ -48,7 +53,7 @@ public final class UniqueIDGenerator
      */
     public static long getNewIdAsLong(  )
     {
-        return nId++;
+        return _nId++;
     }
 
     /**
@@ -57,6 +62,6 @@ public final class UniqueIDGenerator
      */
     public static String getNewId(  )
     {
-        return String.valueOf( nId++ ) + "-";
+        return String.valueOf( _nId++ ) + "-";
     }
 }

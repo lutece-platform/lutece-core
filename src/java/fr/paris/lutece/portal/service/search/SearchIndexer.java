@@ -94,7 +94,7 @@ public interface SearchIndexer
      * Returns all the {@link fr.paris.lutece.portal.service.search.SearchItem#FIELD_TYPE types}
      *  of document the service may index.
      * (See {@link fr.paris.lutece.portal.service.search.SearchItem#getType()})
-     * @return
+     * @return The list
      */
     List<String> getListType(  );
 

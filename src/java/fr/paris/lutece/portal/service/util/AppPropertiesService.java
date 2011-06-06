@@ -135,7 +135,7 @@ public final class AppPropertiesService
      * Returns the value of a variable defined in the .properties file of the application as an long
      *
      * @param strProperty The variable name
-     * @param nDefault The default value which is returned if no value is found for the variable in the le downloadFile
+     * @param lDefault The default value which is returned if no value is found for the variable in the le downloadFile
      *        .properties. .properties file.
      * @return The variable value read in the properties file
      */

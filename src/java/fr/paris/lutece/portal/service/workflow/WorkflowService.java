@@ -176,6 +176,7 @@ public final class WorkflowService
      * @param nExternalParentId the external parent id
      * @param request the request
      * @param locale locale
+     * @param isAutomatic Is automatic
      */
     public void doProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
         HttpServletRequest request, Locale locale, boolean isAutomatic )

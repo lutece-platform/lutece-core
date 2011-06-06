@@ -194,7 +194,7 @@ public final class ThemesService
 
     /**
      * Returns the global theme
-     *
+     * @param strTheme The theme
      * @return the global theme
      */
     public static Theme getGlobalTheme( String strTheme )
@@ -270,7 +270,7 @@ public final class ThemesService
     /**
      * Get the theme service
      * @return the theme service
-     * @throws ThemeNotAvailableException
+     * @throws ThemeNotAvailableException If the theme is not available 
      */
     private static IThemeService getThemeService(  ) throws ThemeNotAvailableException
     {
@@ -351,6 +351,7 @@ public final class ThemesService
     /**
      * Create a new theme
      * @param theme the theme
+     * @return The theme
      */
     public static Theme create( Theme theme )
     {

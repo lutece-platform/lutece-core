@@ -42,6 +42,7 @@ import java.util.Locale;
 
 /**
  * Localized Paginator
+ * @param <E> Item of the list
  */
 public class LocalizedPaginator<E> extends Paginator<E>
 {

@@ -242,7 +242,7 @@ public interface IWorkflowService
      * @param nIdWorkflowState The workflow state id
      * @param nExternalParentId The external parent id
      * @param user the AdminUser
-     * @return
+     * @return The list
      */
     List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState,
         Integer nExternalParentId, AdminUser user );
@@ -254,7 +254,7 @@ public interface IWorkflowService
      * @param lListIdWorkflowState The list workflow state id
      * @param nExternalParentId he external parent id
      * @param user the AdminUser
-     * @return
+     * @return The list
      */
     List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow,
         List<Integer> lListIdWorkflowState, Integer nExternalParentId, AdminUser user );

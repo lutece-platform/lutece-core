@@ -91,6 +91,13 @@ public abstract class InsertServiceJspBean implements Serializable
         return urlDoInsert.getUrl(  );
     }
 
+    /**
+     * Build the Url to insert HTML code into the current rich text editor
+     * @param request The HTTP request
+     * @param strInput The rich text input field
+     * @param strInsert The code to insert
+     * @return The Url that will provide the insertion
+     */
     protected String insertUrlWithoutEscape( HttpServletRequest request, String strInput, String strInsert )
     {
         strInsert = EncodingService.encodeUrl( strInsert );

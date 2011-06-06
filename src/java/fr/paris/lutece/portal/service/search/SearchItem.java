@@ -79,7 +79,7 @@ public class SearchItem
         _strLastModifiedDate = document.get( FIELD_DATE );
         _strType = document.get( FIELD_TYPE );
         _strDocPortletId = document.get( FIELD_DOCUMENT_PORTLET_ID );
-        setRole( document.get( FIELD_ROLE ) );
+        _strRole = document.get( FIELD_ROLE );
     }
 
     /**
@@ -175,7 +175,7 @@ public class SearchItem
     /**
      * Sets the meta data
      *
-     * @param strSummary The meta data
+     * @param strMetadata The meta data
      */
     public void setMetadata( String strMetadata )
     {

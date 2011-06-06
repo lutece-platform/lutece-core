@@ -80,6 +80,7 @@ public final class AdminWorkgroupService
      * Filter a collection of resources for a given user
      *
      * @return A filtered collection of resources
+     * @param <E> The workgroup resource
      * @param collection The collection to filter
      * @param user The user
      */

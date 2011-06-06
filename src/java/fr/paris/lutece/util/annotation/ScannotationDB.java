@@ -66,7 +66,7 @@ public class ScannotationDB implements IAnnotationDB
      * Default filename filter matches <strong>ONLY</strong> lutece jars.
      */
     private static final String CONSTANT_DEFAULT_FILENAME_FILTER = "(plugin-.*\\.jar)|(module-.*\\.jar)|(lutece-core-.*\\.jar)|(library-.*\\.jar)";
-    private final AnnotationDB db;
+    private final AnnotationDB _db;
     private String _strFileFilter;
 
     /**
@@ -74,7 +74,7 @@ public class ScannotationDB implements IAnnotationDB
      */
     public ScannotationDB(  )
     {
-        db = new AnnotationDB(  );
+        _db = new AnnotationDB(  );
     }
 
     /**
@@ -132,7 +132,7 @@ public class ScannotationDB implements IAnnotationDB
                     AppLogService.debug( "Scanning " + strJar );
                 }
 
-                db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_LIB +
+                _db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_LIB +
                         strJar ) );
             }
             catch ( MalformedURLException e )
@@ -149,7 +149,7 @@ public class ScannotationDB implements IAnnotationDB
 
         try
         {
-            db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_CLASS ) );
+            _db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_CLASS ) );
         }
         catch ( MalformedURLException e )
         {
@@ -178,7 +178,7 @@ public class ScannotationDB implements IAnnotationDB
      */
     public Set<String> getClassesName( String strAnnotationType )
     {
-        Map<String, Set<String>> index = db.getAnnotationIndex(  );
+        Map<String, Set<String>> index = _db.getAnnotationIndex(  );
 
         Set<String> setClasses = index.get( strAnnotationType );
 
