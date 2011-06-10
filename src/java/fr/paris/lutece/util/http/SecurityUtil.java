@@ -110,8 +110,6 @@ public final class SecurityUtil
         {
             Logger logger = Logger.getLogger( LOGGER_NAME );
             logger.warn( "SECURITY WARNING : XSS CHARACTERS DETECTED" + dumpRequest( request ) );
-
-            return false;
         }
 
         return bContains;
