@@ -65,11 +65,11 @@ public class PageIndexer implements SearchIndexer
     public static final String INDEXER_NAME = "PageIndexer";
     private static final String INDEXER_DESCRIPTION = "Indexer service for pages";
     private static final String INDEXER_VERSION = "1.0.0";
-    private static final String PROPERTY_PAGE_BASE_URL = "search.pageIndexer.baseUrl";
-    private static final String PROPERTY_SEARCH_PAGE_URL = "search.pageSearch.baseUrl";
-    private static final String PROPERTY_INDEXER_ENABLE = "search.pageIndexer.enable";
-    private static final String PARAMETER_PAGE_ID = "page_id";
-    private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
+    protected static final String PROPERTY_PAGE_BASE_URL = "search.pageIndexer.baseUrl";
+    protected static final String PROPERTY_SEARCH_PAGE_URL = "search.pageSearch.baseUrl";
+    protected static final String PROPERTY_INDEXER_ENABLE = "search.pageIndexer.enable";
+    protected static final String PARAMETER_PAGE_ID = "page_id";
+    protected static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
 
     /**
      * {@inheritDoc}
@@ -168,7 +168,7 @@ public class PageIndexer implements SearchIndexer
      * @throws InterruptedException The InterruptedException
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    private Document getDocument( Page page, String strUrl )
+    protected Document getDocument( Page page, String strUrl )
         throws IOException, InterruptedException, SiteMessageException
     {
         // make a new, empty document
