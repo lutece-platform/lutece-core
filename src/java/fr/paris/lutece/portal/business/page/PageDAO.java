@@ -73,7 +73,7 @@ public final class PageDAO implements IPageDAO
         " WHERE id_page = ?";
     private static final String SQL_QUERY_CHECKPK = "SELECT id_page FROM core_page WHERE id_page = ?";
     private static final String SQL_QUERY_CHILDPAGE = "SELECT id_page , id_parent, name, description, " +
-        " page_order , status , role, code_theme, image_content, mime_type , workgroup_key, meta_keywords, meta_description " +
+        " page_order , status , role, code_theme, image_content, mime_type , workgroup_key, meta_keywords, meta_description, date_update " +
         " FROM core_page WHERE id_parent = ? ORDER BY page_order";
     private static final String SQL_QUERY_CHILDPAGE_MINIMAL_DATA = "SELECT id_page ,id_parent, name, description, role FROM core_page " +
         " WHERE id_parent = ? ORDER BY page_order";
@@ -445,6 +445,7 @@ public final class PageDAO implements IPageDAO
             page.setWorkgroup( daoUtil.getString( 11 ) );
             page.setMetaKeywords( daoUtil.getString( 12 ) );
             page.setMetaDescription( daoUtil.getString( 13 ) );
+            page.setDateUpdate( daoUtil.getTimestamp( 14 ) );
             pageList.add( page );
         }
 
