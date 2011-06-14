@@ -14,6 +14,7 @@
 <meta http-equiv="Expires" content="0" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <link rel="stylesheet" type="text/css" href="css/portal_admin.css" media="screen, projection" />
 <%
 	if ( AdminThemeService.isModeAccessible( request ) )
