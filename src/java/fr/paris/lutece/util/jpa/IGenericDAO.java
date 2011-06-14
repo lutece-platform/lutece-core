@@ -73,4 +73,15 @@ public interface IGenericDAO<K, E>
      * @return A list of entities
      */
     List<E> findAll(  );
+    
+    /**
+     * Synchronize the persistence context to the underlying database. 
+     */
+    void flush(  );
+    
+    /**
+     * Remove the given entity from the persistence context, causing a managed entity to become detached.
+     * @param entity the entity
+     */
+    void detach( E entity );
 }
