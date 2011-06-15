@@ -33,10 +33,24 @@
  */
 package fr.paris.lutece.portal.service.portal;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.XmlContent;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
+import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.cache.CacheService;
@@ -53,19 +67,10 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
+import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -410,7 +415,31 @@ public final class PortalService
                 break;
         }
 
-        String strXml = getXmlPagesList( getXPagePath( strXPageName ) );
+        String strXml = StringUtils.EMPTY;
+        String strPageId = request.getParameter( Parameters.PAGE_ID );
+    	if ( StringUtils.isNotBlank( strPageId ) && StringUtils.isNumeric( strPageId ) )
+    	{
+    		int nPageId = Integer.parseInt( strPageId );
+    		strXml = getXmlPagesList( getXPagePath( strXPageName, nPageId ) );
+    	}
+    	else
+    	{
+    		String strPortletId = request.getParameter( Parameters.PORTLET_ID );
+    		if ( StringUtils.isNotBlank( strPortletId ) && StringUtils.isNumeric( strPortletId ) )
+    		{
+	    		int nPortletId = Integer.parseInt( strPortletId );
+	    		Portlet portlet = PortletHome.findByPrimaryKey( nPortletId );
+	    		if ( portlet != null )
+	    		{
+	    			int nPageId = portlet.getPageId(  );
+	    			strXml = getXmlPagesList( getXPagePath( strXPageName, nPageId ) );
+	    		}
+    		}
+    	}
+    	if ( StringUtils.isBlank( strXml ) )
+    	{
+    		strXml = getXmlPagesList( getXPagePath( strXPageName ) );
+    	}
 
         Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
 
@@ -470,6 +499,48 @@ public final class PortalService
         return list;
     }
 
+    /**
+     * Builds a collection of pages corresponding to the path of a xpage
+     *
+     * @param strXPageName The xpage name
+     * @param request HttpServletRequest
+     * @return A collection of pages made by the home page and the xpage
+     */
+    private static Collection<Page> getXPagePath( String strXPageName, int nPageId )
+    {
+    	List<Page> list = new ArrayList<Page>(  );
+		Page page = PageHome.getPage( nPageId );
+		if ( page != null )
+		{
+			int nParentPageId = page.getParentPageId(  );
+			while ( nParentPageId > 0 && nParentPageId != getRootPageId(  ) )
+			{
+				Page parentPage = PageHome.getPage( nParentPageId );
+				if ( parentPage != null )
+				{
+					// Insert the page at the beginning of the list
+					list.add( 0, parentPage );
+					nParentPageId = parentPage.getParentPageId(  );
+				}
+			}
+			if ( nPageId != getRootPageId(  ) )
+			{
+				list.add( page );
+			}
+		}
+		// Insert the home page at the beginning of the list
+		Page homePage = PageHome.getPage( getRootPageId(  ) );
+    	list.add( 0, homePage );
+    	
+    	// Insert the XPage at the end of the list
+    	Page xPage = new Page(  );
+    	xPage.setName( strXPageName );
+    	xPage.setId( nPageId );
+    	list.add( xPage );
+		
+    	return list;
+    }
+    
     ////////////////////////////////////////////////////////////////////////////
 
     /**
