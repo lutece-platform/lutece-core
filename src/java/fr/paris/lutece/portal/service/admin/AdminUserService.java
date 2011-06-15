@@ -33,6 +33,16 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
 import fr.paris.lutece.portal.business.right.Level;
@@ -43,9 +53,6 @@ import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldFilter;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
-import fr.paris.lutece.portal.business.user.attribute.AttributeField;
-import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
-import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameter;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
@@ -55,19 +62,10 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.regularexpression.RegularExpressionService;
 import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
+import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -261,13 +259,7 @@ public final class AdminUserService
             map.put( String.valueOf( user.getUserId(  ) ), listAdminUserFields );
         }
 
-        List<IAttribute> listAttributes = AttributeHome.findAll( currentUser.getLocale(  ) );
-
-        for ( IAttribute attribute : listAttributes )
-        {
-            List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
-            attribute.setListAttributeFields( listAttributeFields );
-        }
+        List<IAttribute> listAttributes = AttributeService.getInstance(  ).getAllAttributesWithFields( currentUser.getLocale(  ) );
 
         String strSortSearchAttribute = StringUtils.EMPTY;
 

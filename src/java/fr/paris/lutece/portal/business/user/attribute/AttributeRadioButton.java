@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.user.attribute;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
 import org.apache.commons.lang.StringUtils;
@@ -199,15 +200,15 @@ public class AttributeRadioButton extends AbstractAttribute
      */
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
-        String value = request.getParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
+        String strValue = request.getParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
         AdminUserField userField = new AdminUserField(  );
         AttributeField attributeField;
 
-        if ( StringUtils.isNotBlank( value ) )
+        if ( StringUtils.isNotBlank( strValue ) && StringUtils.isNumeric( strValue ))
         {
-            int nIdField = Integer.parseInt( value );
-            attributeField = AttributeFieldHome.findByPrimaryKey( nIdField );
+            int nIdField = Integer.parseInt( strValue );
+            attributeField = AttributeFieldService.getInstance(  ).getAttributeField( nIdField );
 
             if ( attributeField != null )
             {

@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
@@ -294,10 +295,13 @@ public class AttributeImage extends AbstractAttribute
                     AdminUserField userField = new AdminUserField(  );
                     userField.setUser( user );
                     userField.setAttribute( this );
-
-                    List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( getIdAttribute(  ) );
-                    userField.setAttributeField( listAttributeFields.get( 0 ) );
-                    userField.setFile( file );
+                    
+                    AttributeService.getInstance(  ).setAttributeField( this );
+                    if ( getListAttributeFields(  ) != null && getListAttributeFields(  ).size(  ) > 0 )
+                    {
+                        userField.setAttributeField( getListAttributeFields(  ).get( 0 ) );
+                        userField.setFile( file );
+                    }
 
                     listUserFields.add( userField );
                 }

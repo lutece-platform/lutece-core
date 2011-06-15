@@ -33,18 +33,19 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.message.AdminMessage;
-import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.web.constants.Messages;
-
-import org.apache.commons.lang.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
+import fr.paris.lutece.portal.web.constants.Messages;
 
 
 /**
@@ -55,7 +56,6 @@ import javax.servlet.http.HttpServletRequest;
 public class AttributeComboBox extends AbstractAttribute
 {
     // Constants
-    private static final String EMPTY_STRING = "";
     private static final String CONSTANT_UNDERSCORE = "_";
 
     // Parameters
@@ -219,18 +219,17 @@ public class AttributeComboBox extends AbstractAttribute
                 AdminUserField userField = new AdminUserField(  );
                 AttributeField attributeField;
 
-                if ( ( strValue == null ) || strValue.equals( EMPTY_STRING ) )
+                if ( StringUtils.isNotBlank( strValue ) && StringUtils.isNumeric( strValue ) )
                 {
-                    strValue = EMPTY_STRING;
-                    attributeField = new AttributeField(  );
-                    attributeField.setAttribute( this );
-                    attributeField.setTitle( EMPTY_STRING );
-                    attributeField.setValue( EMPTY_STRING );
+                	int nIdField = Integer.parseInt( strValue );
+                    attributeField = AttributeFieldService.getInstance(  ).getAttributeField( nIdField );
                 }
                 else
                 {
-                    int nIdField = Integer.parseInt( strValue );
-                    attributeField = AttributeFieldHome.findByPrimaryKey( nIdField );
+                    attributeField = new AttributeField(  );
+                    attributeField.setAttribute( this );
+                    attributeField.setTitle( StringUtils.EMPTY );
+                    attributeField.setValue( StringUtils.EMPTY );
                 }
 
                 userField.setUser( user );

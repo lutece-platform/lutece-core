@@ -32,6 +32,7 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
+import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
@@ -185,7 +186,7 @@ public class AdminUserFieldFilter
 
         if ( strIsSearch != null )
         {
-            List<IAttribute> listAttributes = AttributeHome.findAll( locale );
+            List<IAttribute> listAttributes = AttributeService.getInstance(  ).getAllAttributesWithoutFields( locale );
 
             for ( IAttribute attribute : listAttributes )
             {

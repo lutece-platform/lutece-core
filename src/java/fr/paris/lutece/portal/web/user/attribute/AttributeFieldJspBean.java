@@ -33,24 +33,26 @@
  */
 package fr.paris.lutece.portal.web.user.attribute;
 
-import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
-import fr.paris.lutece.portal.business.user.attribute.AttributeField;
-import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
-import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
-import fr.paris.lutece.portal.business.user.attribute.IAttribute;
-import fr.paris.lutece.portal.service.message.AdminMessage;
-import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
-import fr.paris.lutece.portal.web.constants.Messages;
-import fr.paris.lutece.util.html.HtmlTemplate;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.portal.business.user.attribute.AttributeField;
+import fr.paris.lutece.portal.business.user.attribute.IAttribute;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldService;
+import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
+import fr.paris.lutece.portal.service.user.attribute.AttributeService;
+import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.util.html.HtmlTemplate;
 
 
 /**
@@ -60,9 +62,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 {
-    // CONSTANTS
-    private static final String EMPTY_STRING = "";
-
+	// CONSTANTS
+	private static final String QUESTION_MARK = "?";
+	private static final String EQUAL = "=";
+	private static final String AMPERSAND = "&";
+	
     // PROPERTIES
     private static final String PROPERTY_CREATE_ATTRIBUTE_FIELDS_PAGETITLE = "portal.users.create_attribute_field.pageTitle";
     private static final String PROPERTY_MODIFY_ATTRIBUTE_FIELDS_PAGETITLE = "portal.users.modify_attribute_field.pageTitle";
@@ -87,6 +91,9 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     // JSP
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
     private static final String JSP_URL_REMOVE_ATTRIBUTE_FIELD = "jsp/admin/user/attribute/DoRemoveAttributeField.jsp";
+    
+    private static final AttributeService _attributeService = AttributeService.getInstance(  );
+    private static final AttributeFieldService _attributeFieldService = AttributeFieldService.getInstance(  );
 
     /**
      * Create attribute field
@@ -100,7 +107,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         int nIdAttribute = Integer.parseInt( strIdAttribute );
 
-        IAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
+        IAttribute attribute = _attributeService.getAttributeWithoutFields( nIdAttribute, getLocale(  ) );
 
         HtmlTemplate template;
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -125,14 +132,14 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         String strDefaultValue = request.getParameter( PARAMETER_DEFAULT_VALUE );
         String strCancel = request.getParameter( PARAMETER_CANCEL );
 
-        if ( strCancel == null )
+        if ( StringUtils.isEmpty( strCancel ) )
         {
-            if ( ( strTitle == null ) || strTitle.equals( EMPTY_STRING ) )
+            if ( StringUtils.isBlank( strTitle ) )
             {
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
 
-            if ( ( strValue == null ) || strValue.equals( EMPTY_STRING ) )
+            if ( StringUtils.isBlank( strValue ) )
             {
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
@@ -142,13 +149,12 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             attributeField.setValue( strValue );
             attributeField.setDefaultValue( strDefaultValue != null );
 
-            IAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
+            IAttribute attribute = _attributeService.getAttributeWithoutFields( nIdAttribute, getLocale(  ) );
             attributeField.setAttribute( attribute );
-
-            AttributeFieldHome.create( attributeField );
+            _attributeFieldService.createAttributeField( attributeField );
         }
 
-        String strUrl = JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + nIdAttribute;
+        String strUrl = JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + nIdAttribute;
 
         return strUrl;
     }
@@ -167,9 +173,9 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         int nIdAttribute = Integer.parseInt( strIdAttribute );
 
-        IAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
+        IAttribute attribute = _attributeService.getAttributeWithoutFields( nIdAttribute, getLocale(  ) );
 
-        AttributeField attributeField = AttributeFieldHome.findByPrimaryKey( nIdField );
+        AttributeField attributeField = _attributeFieldService.getAttributeField( nIdField );
 
         HtmlTemplate template;
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -196,14 +202,14 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strCancel = request.getParameter( PARAMETER_CANCEL );
 
-        if ( strCancel == null )
+        if ( StringUtils.isEmpty( strCancel ) )
         {
-            if ( ( strTitle == null ) || strTitle.equals( EMPTY_STRING ) )
+            if ( StringUtils.isBlank( strTitle ) )
             {
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
 
-            if ( ( strValue == null ) || strValue.equals( EMPTY_STRING ) )
+            if ( StringUtils.isBlank( strValue ) )
             {
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
@@ -213,13 +219,10 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             attributeField.setTitle( strTitle );
             attributeField.setValue( strValue );
             attributeField.setDefaultValue( strDefaultValue != null );
-
-            AttributeFieldHome.update( attributeField );
+            _attributeFieldService.updateAttributeField( attributeField );
         }
 
-        String strUrl = JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + strIdAttribute;
-
-        return strUrl;
+        return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + strIdAttribute;
     }
 
     /**
@@ -231,8 +234,8 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
-        String strUrlRemove = JSP_URL_REMOVE_ATTRIBUTE_FIELD + "?" + PARAMETER_ID_ATTRIBUTE + "=" + strIdAttribute +
-            "&" + PARAMETER_ID_FIELD + "=" + strIdField;
+        String strUrlRemove = JSP_URL_REMOVE_ATTRIBUTE_FIELD + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + strIdAttribute +
+            AMPERSAND + PARAMETER_ID_FIELD + EQUAL + strIdField;
 
         String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE_FIELD,
                 strUrlRemove, AdminMessage.TYPE_CONFIRMATION );
@@ -249,14 +252,15 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
-        int nIdField = Integer.parseInt( strIdField );
+        if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) )
+        {
+        	int nIdField = Integer.parseInt( strIdField );
 
-        AttributeFieldHome.remove( nIdField );
-        AdminUserFieldHome.removeUserFieldsFromIdField( nIdField );
+            _attributeFieldService.removeAttributeFieldFromIdField( nIdField );
+            AdminUserFieldService.doRemoveUserFieldsByIdField( nIdField );
+        }
 
-        String strUrl = JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + strIdAttribute;
-
-        return strUrl;
+        return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + strIdAttribute;
     }
 
     /**
@@ -267,35 +271,40 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     public String doMoveUpAttributeField( HttpServletRequest request )
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
-        int nIdAttribute = Integer.parseInt( strIdAttribute );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
-        int nIdField = Integer.parseInt( strIdField );
-
-        List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( nIdAttribute );
-        AttributeField previousField = null;
-        AttributeField currentField = null;
-
-        Iterator<AttributeField> it = listAttributeFields.iterator(  );
-        previousField = it.next(  );
-        currentField = it.next(  );
-
-        while ( it.hasNext(  ) && ( currentField.getIdField(  ) != nIdField ) )
+        if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) && 
+        		StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
-            previousField = currentField;
-            currentField = it.next(  );
+        	int nIdAttribute = Integer.parseInt( strIdAttribute );
+            int nIdField = Integer.parseInt( strIdField );
+
+            IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale(  ) );
+            List<AttributeField> listAttributeFields = attribute.getListAttributeFields(  );
+            if ( listAttributeFields.size(  ) > 0 )
+            {
+            	AttributeField previousField = null;
+                AttributeField currentField = null;
+
+                Iterator<AttributeField> it = listAttributeFields.iterator(  );
+                previousField = it.next(  );
+                currentField = it.next(  );
+
+                while ( it.hasNext(  ) && ( currentField.getIdField(  ) != nIdField ) )
+                {
+                    previousField = currentField;
+                    currentField = it.next(  );
+                }
+
+                int previousFieldPosition = previousField.getPosition(  );
+                int currentFieldPosition = currentField.getPosition(  );
+                previousField.setPosition( currentFieldPosition );
+                currentField.setPosition( previousFieldPosition );
+                _attributeFieldService.updateAttributeField( previousField );
+                _attributeFieldService.updateAttributeField( currentField );
+            }
         }
 
-        int previousFieldPosition = previousField.getPosition(  );
-        int currentFieldPosition = currentField.getPosition(  );
-        previousField.setPosition( currentFieldPosition );
-        currentField.setPosition( previousFieldPosition );
-
-        AttributeFieldHome.update( previousField );
-        AttributeFieldHome.update( currentField );
-
-        String strUrl = JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + strIdAttribute;
-
-        return strUrl;
+        return JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + strIdAttribute;
     }
 
     /**
@@ -306,34 +315,43 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     public String doMoveDownAttributeField( HttpServletRequest request )
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
-        int nIdAttribute = Integer.parseInt( strIdAttribute );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
-        int nIdField = Integer.parseInt( strIdField );
-
-        List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( nIdAttribute );
-        AttributeField currentField = null;
-        AttributeField nextField = null;
-
-        Iterator<AttributeField> it = listAttributeFields.iterator(  );
-        currentField = it.next(  );
-        nextField = it.next(  );
-
-        while ( it.hasNext(  ) && ( currentField.getIdField(  ) != nIdField ) )
+        
+        if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) && 
+        		StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
-            currentField = nextField;
-            nextField = it.next(  );
+        	int nIdAttribute = Integer.parseInt( strIdAttribute );
+        	int nIdField = Integer.parseInt( strIdField );
+
+        	IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale(  ) );
+            List<AttributeField> listAttributeFields = attribute.getListAttributeFields(  );
+            if ( listAttributeFields.size(  ) > 0 )
+            {
+            	AttributeField currentField = null;
+                AttributeField nextField = null;
+
+                Iterator<AttributeField> it = listAttributeFields.iterator(  );
+                currentField = it.next(  );
+                nextField = it.next(  );
+
+                while ( it.hasNext(  ) && ( currentField.getIdField(  ) != nIdField ) )
+                {
+                    currentField = nextField;
+                    nextField = it.next(  );
+                }
+
+                int nextFieldPosition = nextField.getPosition(  );
+                int currentFieldPosition = currentField.getPosition(  );
+                nextField.setPosition( currentFieldPosition );
+                currentField.setPosition( nextFieldPosition );
+
+                _attributeFieldService.updateAttributeField( nextField );
+                _attributeFieldService.updateAttributeField( currentField );
+            }
         }
 
-        int nextFieldPosition = nextField.getPosition(  );
-        int currentFieldPosition = currentField.getPosition(  );
-        nextField.setPosition( currentFieldPosition );
-        currentField.setPosition( nextFieldPosition );
+        
 
-        AttributeFieldHome.update( nextField );
-        AttributeFieldHome.update( currentField );
-
-        String strUrl = JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + strIdAttribute;
-
-        return strUrl;
+        return JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + strIdAttribute;
     }
 }

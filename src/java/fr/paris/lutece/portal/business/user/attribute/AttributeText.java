@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.user.attribute;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
 import org.apache.commons.lang.StringUtils;
@@ -250,7 +251,7 @@ public class AttributeText extends AbstractAttribute
     {
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
         AdminUserField userField = new AdminUserField(  );
-        List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( _nIdAttribute );
+        AttributeService.getInstance(  ).setAttributeField( this );
         String strValue = request.getParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
 
         if ( strValue == null )
@@ -260,7 +261,10 @@ public class AttributeText extends AbstractAttribute
 
         userField.setUser( user );
         userField.setAttribute( this );
-        userField.setAttributeField( listAttributeFields.get( 0 ) );
+        if ( getListAttributeFields(  ) != null && getListAttributeFields(  ).size(  ) > 0 )
+        {
+        	userField.setAttributeField( getListAttributeFields(  ).get( 0 ) );
+        }
         userField.setValue( strValue );
 
         listUserFields.add( userField );

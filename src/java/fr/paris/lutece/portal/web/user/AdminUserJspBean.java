@@ -63,6 +63,7 @@ import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldService;
+import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.CryptoService;
@@ -440,13 +441,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                                                                            .getParameterValue(  ) );
 
         // Specific attributes
-        List<IAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
-
-        for ( IAttribute attribute : listAttributes )
-        {
-            List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
-            attribute.setListAttributeFields( listAttributeFields );
-        }
+        List<IAttribute> listAttributes = AttributeService.getInstance(  ).getAllAttributesWithFields( getLocale(  ) );
 
         // creation in no-module mode : load empty form
         if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
@@ -700,43 +695,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         UrlItem url = new UrlItem( strBaseUrl );
         ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
 
-        // Specific attributes
-        List<IAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
-        Map<String, Object> map = new HashMap<String, Object>(  );
-
-        for ( IAttribute attribute : listAttributes )
-        {
-            List<AdminUserField> listUserFields = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( user.getUserId(  ),
-                    attribute.getIdAttribute(  ) );
-
-            if ( attribute.isAttributeImage(  ) )
-            {
-                if ( listUserFields.size(  ) > 0 )
-                {
-                    AdminUserField userField = listUserFields.get( 0 );
-
-                    if ( userField.getFile(  ) != null )
-                    {
-                        map.put( String.valueOf( attribute.getIdAttribute(  ) ), userField.getFile(  ) );
-                    }
-                }
-            }
-            else
-            {
-                List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
-                attribute.setListAttributeFields( listAttributeFields );
-
-                if ( listUserFields.size(  ) == 0 )
-                {
-                    AdminUserField userField = new AdminUserField(  );
-                    userField.setValue( CONSTANT_EMPTY_STRING );
-                    listUserFields.add( userField );
-                }
-
-                map.put( String.valueOf( attribute.getIdAttribute(  ) ), listUserFields );
-            }
-        }
-
+        List<IAttribute> listAttributes = AttributeService.getInstance(  ).getAllAttributesWithFields( getLocale(  ) );
+        Map<String, Object> map = AdminUserFieldService.getAdminUserFields( listAttributes, nUserId, getLocale(  ) );
+        
         model.put( MARK_USER, user );
         model.put( MARK_LEVEL, level );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale(  ) ) );

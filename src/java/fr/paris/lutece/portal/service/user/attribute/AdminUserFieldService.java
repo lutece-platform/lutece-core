@@ -33,26 +33,27 @@
  */
 package fr.paris.lutece.portal.service.user.attribute;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
-import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldFilter;
-import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
-import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
-import fr.paris.lutece.portal.business.user.attribute.IAttribute;
-import fr.paris.lutece.portal.service.message.AdminMessage;
-import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.web.constants.Messages;
-import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
-
-import org.apache.commons.fileupload.FileItem;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.portal.business.file.File;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
+import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldFilter;
+import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
+import fr.paris.lutece.portal.business.user.attribute.IAttribute;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 
 
 /**
@@ -69,6 +70,7 @@ public class AdminUserFieldService
     // PARAMETERS
     private static final String PARAMETER_ATTRIBUTE = "attribute";
     private static final String PARAMETER_UPDATE_ATTRIBUTE = "update_attribute";
+    private static final AttributeService _attributeService = AttributeService.getInstance(  );
 
     /*
      * Private constructor
@@ -86,7 +88,7 @@ public class AdminUserFieldService
     public static String checkUserFields( HttpServletRequest request, Locale locale )
     {
         // Specific attributes
-        List<IAttribute> listAttributes = AttributeHome.findAll( locale );
+        List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( locale );
 
         for ( IAttribute attribute : listAttributes )
         {
@@ -128,7 +130,7 @@ public class AdminUserFieldService
     public static void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale )
     {
         // Attributes created in the Back-Office
-        List<IAttribute> listAttributes = AttributeHome.findCoreAttributes( locale );
+        List<IAttribute> listAttributes = _attributeService.getCoreAttributesWithoutFields( locale );
 
         for ( IAttribute attribute : listAttributes )
         {
@@ -162,7 +164,7 @@ public class AdminUserFieldService
         AdminUser currentUser )
     {
         // Attributes created in the Back-Office
-        List<IAttribute> listAttributes = AttributeHome.findCoreAttributes( locale );
+        List<IAttribute> listAttributes = _attributeService.getCoreAttributesWithoutFields( locale );
         Map<Integer, List<AdminUserField>> map = new HashMap<Integer, List<AdminUserField>>(  );
 
         for ( IAttribute attribute : listAttributes )
@@ -214,5 +216,119 @@ public class AdminUserFieldService
         {
             adminUserFieldListenerService.doRemoveUserFields( user, request, locale );
         }
+    }
+    
+    /**
+     * Remove the user fields from a given ID attribute
+     * @param nIdAttribute the ID attribute
+     */
+    public static void doRemoveUserFieldsByIdAttribute( int nIdAttribute )
+    {
+    	AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
+        auFieldFilter.setIdAttribute( nIdAttribute );
+        AdminUserFieldHome.removeByFilter( auFieldFilter );
+    }
+    
+    /**
+     * Remove the user fields from a given ID attribute field
+     * @param nIdAttributeField the attribute field ID
+     */
+    public static void doRemoveUserFieldsByIdField( int nIdAttributeField )
+    {
+    	AdminUserFieldHome.removeUserFieldsFromIdField( nIdAttributeField );
+    }
+   
+    /**
+     * Get the user attribute fields
+     * @param nUserId the user ID
+     * @param locale the {@link Locale}
+     * @return a Map of (ID Attribute, Object). The object could be either a {@link File} or a list of {@link AdminUserField}
+     */
+    public static Map<String,Object> getAdminUserFields( int nUserId, Locale locale )
+    {
+        List<IAttribute> listAttributes = _attributeService.getAllAttributesWithFields( locale );
+        return getAdminUserFields( listAttributes, nUserId, locale );
+    }
+    
+    /**
+     * Get the user attribute fields
+     * @param listAttributes the list of attributes
+     * @param nUserId the user ID
+     * @param locale the {@link Locale}
+     * @return a Map of (ID Attribute, Object). The object could be either a {@link File} or a list of {@link AdminUserField}
+     */
+    public static Map<String, Object> getAdminUserFields( List<IAttribute> listAttributes, int nUserId, Locale locale )
+    {
+        Map<String, Object> map = new HashMap<String, Object>(  );
+
+        for ( IAttribute attribute : listAttributes )
+        {
+            List<AdminUserField> listUserFields = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( 
+            		nUserId, attribute.getIdAttribute(  ) );
+
+            if ( attribute.isAttributeImage(  ) )
+            {
+                if ( listUserFields.size(  ) > 0 )
+                {
+                    AdminUserField userField = listUserFields.get( 0 );
+
+                    if ( userField.getFile(  ) != null )
+                    {
+                        map.put( String.valueOf( attribute.getIdAttribute(  ) ), userField.getFile(  ) );
+                    }
+                }
+            }
+            else
+            {
+                if ( listUserFields.size(  ) == 0 )
+                {
+                    AdminUserField userField = new AdminUserField(  );
+                    userField.setValue( StringUtils.EMPTY );
+                    listUserFields.add( userField );
+                }
+
+                map.put( String.valueOf( attribute.getIdAttribute(  ) ), listUserFields );
+            }
+        }
+        
+        return map;
+    }
+    
+    /**
+     * Get the admin user field from a given attribute and a given user ID
+     * @param attribute a {@link IAttribute}
+     * @param nUserId the user ID
+     * @param locale the {@link Locale}
+     * @return either a {@link File} (if the attribute is a type img) or a list of {@link AdminUserField}
+     */
+    public Object getAdminUserField( IAttribute attribute, int nUserId, Locale locale )
+    {
+    	List<AdminUserField> listUserFields = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( 
+        		nUserId, attribute.getIdAttribute(  ) );
+
+        if ( attribute.isAttributeImage(  ) )
+        {
+            if ( listUserFields.size(  ) > 0 )
+            {
+                AdminUserField userField = listUserFields.get( 0 );
+
+                if ( userField.getFile(  ) != null )
+                {
+                    return userField.getFile(  );
+                }
+            }
+        }
+        else
+        {
+            if ( listUserFields.size(  ) == 0 )
+            {
+                AdminUserField userField = new AdminUserField(  );
+                userField.setValue( StringUtils.EMPTY );
+                listUserFields.add( userField );
+            }
+
+            return listUserFields;
+        }
+        return null;
     }
 }

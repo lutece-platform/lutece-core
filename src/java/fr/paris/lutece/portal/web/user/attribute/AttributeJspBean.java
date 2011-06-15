@@ -33,30 +33,25 @@
  */
 package fr.paris.lutece.portal.web.user.attribute;
 
-import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldFilter;
-import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
-import fr.paris.lutece.portal.business.user.attribute.AttributeField;
-import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
-import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
-import fr.paris.lutece.portal.business.user.attribute.AttributeType;
-import fr.paris.lutece.portal.business.user.attribute.IAttribute;
-import fr.paris.lutece.portal.service.message.AdminMessage;
-import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
-import fr.paris.lutece.util.html.HtmlTemplate;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.portal.business.user.attribute.AttributeType;
+import fr.paris.lutece.portal.business.user.attribute.IAttribute;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.user.attribute.AttributeService;
+import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.util.html.HtmlTemplate;
 
 
 /**
@@ -66,6 +61,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AttributeJspBean extends AdminFeaturesPageJspBean
 {
+	// CONSTANTS
+	private static final String QUESTION_MARK = "?";
+	private static final String EQUAL = "=";
+	
     // PARAMETERS
     private static final String PARAMETER_ATTRIBUTE_TYPE_CLASS_NAME = "attribute_type_class_name";
     private static final String PARAMETER_CANCEL = "cancel";
@@ -90,6 +89,9 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_REMOVE_ATTRIBUTE = "jsp/admin/user/attribute/DoRemoveAttribute.jsp";
     private static final String JSP_MANAGE_ATTRIBUTES = "ManageAttributes.jsp";
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
+    
+    private static final AttributeService _attributeService = AttributeService.getInstance(  );
+    private static final AttributeTypeService _attributeTypeService = AttributeTypeService.getInstance(  );
 
     /**
      * Get list of user attributes
@@ -100,16 +102,10 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_MANAGE_ATTRIBUTES_PAGETITLE );
 
-        List<IAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
+        List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale(  ) );
 
         // ATTRIBUTE TYPES
-        List<AttributeType> listAttributeTypes = new ArrayList<AttributeType>(  );
-
-        for ( IAttribute attribute : SpringContextService.getBeansOfType( IAttribute.class ) )
-        {
-            attribute.setAttributeType( getLocale(  ) );
-            listAttributeTypes.add( attribute.getAttributeType(  ) );
-        }
+        List<AttributeType> listAttributeTypes = _attributeTypeService.getAttributeTypes( getLocale(  ) );
 
         HtmlTemplate template;
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -177,7 +173,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         String strActionCancel = request.getParameter( PARAMETER_CANCEL );
         String strActionApply = request.getParameter( PARAMETER_APPLY );
 
-        if ( strActionCancel == null )
+        if ( StringUtils.isEmpty( strActionCancel ) )
         {
             IAttribute attribute = null;
 
@@ -204,26 +200,17 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
             String strError = attribute.setAttributeData( request );
 
-            if ( strError != null )
+            if ( StringUtils.isNotBlank( strError ) )
             {
                 return strError;
             }
 
-            int nIdAttribute = AttributeHome.create( attribute );
-            attribute.setIdAttribute( nIdAttribute );
-
-            if ( attribute.getListAttributeFields(  ) != null )
-            {
-                for ( AttributeField attributeField : attribute.getListAttributeFields(  ) )
-                {
-                    attributeField.setAttribute( attribute );
-                    AttributeFieldHome.create( attributeField );
-                }
-            }
+            _attributeService.createAttribute( attribute );
 
             if ( strActionApply != null )
             {
-                return JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + attribute.getIdAttribute(  );
+                return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + 
+                		EQUAL + attribute.getIdAttribute(  );
             }
         }
 
@@ -238,22 +225,27 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     public String getModifyAttribute( HttpServletRequest request )
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
-        int nIdAttribute = Integer.parseInt( strIdAttribute );
+        if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
+        {
+        	// Check if the ID attribute is correct
+        	int nIdAttribute = Integer.parseInt( strIdAttribute );
 
-        IAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
+            IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale(  ) );
 
-        setPageTitleProperty( attribute.getPropertyModifyPageTitle(  ) );
+            setPageTitleProperty( attribute.getPropertyModifyPageTitle(  ) );
 
-        List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( nIdAttribute );
+            HtmlTemplate template;
+            Map<String, Object> model = new HashMap<String, Object>(  );
+            model.put( MARK_ATTRIBUTE, attribute );
+            model.put( MARK_ATTRIBUTE_FIELDS_LIST, attribute.getListAttributeFields(  ) );
 
-        HtmlTemplate template;
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_ATTRIBUTE, attribute );
-        model.put( MARK_ATTRIBUTE_FIELDS_LIST, listAttributeFields );
+            template = AppTemplateService.getTemplate( attribute.getTemplateModifyAttribute(  ), getLocale(  ), model );
 
-        template = AppTemplateService.getTemplate( attribute.getTemplateModifyAttribute(  ), getLocale(  ), model );
-
-        return getAdminPage( template.getHtml(  ) );
+            return getAdminPage( template.getHtml(  ) );
+        }
+        
+        // Otherwise, we redirect the user to the attribute management interface
+        return getManageAttributes( request );
     }
 
     /**
@@ -268,33 +260,25 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         String strActionCancel = request.getParameter( PARAMETER_CANCEL );
         String strActionApply = request.getParameter( PARAMETER_APPLY );
 
-        if ( strActionCancel == null )
+        if ( StringUtils.isEmpty( strActionCancel ) )
         {
-            IAttribute attribute = AttributeHome.findByPrimaryKey( nIdAttribute, getLocale(  ) );
-            List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( nIdAttribute );
-            attribute.setListAttributeFields( listAttributeFields );
-
-            String strError = attribute.setAttributeData( request );
-
-            if ( strError != null )
+            IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale(  ) );
+            if ( attribute != null )
             {
-                return strError;
-            }
+            	String strError = attribute.setAttributeData( request );
 
-            AttributeHome.update( attribute );
-
-            if ( attribute.getListAttributeFields(  ) != null )
-            {
-                for ( AttributeField attributeField : attribute.getListAttributeFields(  ) )
+                if ( strError != null )
                 {
-                    attributeField.setAttribute( attribute );
-                    AttributeFieldHome.update( attributeField );
+                    return strError;
                 }
-            }
 
-            if ( strActionApply != null )
-            {
-                return JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + attribute.getIdAttribute(  );
+                _attributeService.updateAttribute( attribute );
+
+                if ( strActionApply != null )
+                {
+                    return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + 
+                    		EQUAL + attribute.getIdAttribute(  );
+                }
             }
         }
 
@@ -309,7 +293,8 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     public String doConfirmRemoveAttribute( HttpServletRequest request )
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
-        String strUrlRemove = JSP_URL_REMOVE_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + strIdAttribute;
+        String strUrlRemove = JSP_URL_REMOVE_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + 
+        		EQUAL + strIdAttribute;
 
         String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE,
                 strUrlRemove, AdminMessage.TYPE_CONFIRMATION );
@@ -326,16 +311,10 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
 
-        if ( StringUtils.isNotBlank( strIdAttribute ) )
+        if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
             int nIdAttribute = Integer.parseInt( strIdAttribute );
-
-            AttributeHome.remove( nIdAttribute );
-            AttributeFieldHome.removeAttributeFieldsFromIdAttribute( nIdAttribute );
-
-            AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
-            auFieldFilter.setIdAttribute( nIdAttribute );
-            AdminUserFieldHome.removeByFilter( auFieldFilter );
+            _attributeService.removeAttribute( nIdAttribute );
         }
 
         return JSP_MANAGE_ATTRIBUTES;
@@ -349,29 +328,32 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     public String doMoveUpAttribute( HttpServletRequest request )
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
-        int nIdAttribute = Integer.parseInt( strIdAttribute );
-
-        List<IAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
-        IAttribute previousAttribute = null;
-        IAttribute currentAttribute = null;
-
-        Iterator<IAttribute> it = listAttributes.iterator(  );
-        previousAttribute = it.next(  );
-        currentAttribute = it.next(  );
-
-        while ( it.hasNext(  ) && ( currentAttribute.getIdAttribute(  ) != nIdAttribute ) )
+        if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
-            previousAttribute = currentAttribute;
+        	int nIdAttribute = Integer.parseInt( strIdAttribute );
+
+            List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale(  ) );
+            IAttribute previousAttribute = null;
+            IAttribute currentAttribute = null;
+
+            Iterator<IAttribute> it = listAttributes.iterator(  );
+            previousAttribute = it.next(  );
             currentAttribute = it.next(  );
+
+            while ( it.hasNext(  ) && ( currentAttribute.getIdAttribute(  ) != nIdAttribute ) )
+            {
+                previousAttribute = currentAttribute;
+                currentAttribute = it.next(  );
+            }
+
+            int previousAttributePosition = previousAttribute.getPosition(  );
+            int currentAttributePosition = currentAttribute.getPosition(  );
+            previousAttribute.setPosition( currentAttributePosition );
+            currentAttribute.setPosition( previousAttributePosition );
+
+            _attributeService.updateAttribute( previousAttribute );
+            _attributeService.updateAttribute( currentAttribute );
         }
-
-        int previousAttributePosition = previousAttribute.getPosition(  );
-        int currentAttributePosition = currentAttribute.getPosition(  );
-        previousAttribute.setPosition( currentAttributePosition );
-        currentAttribute.setPosition( previousAttributePosition );
-
-        AttributeHome.update( previousAttribute );
-        AttributeHome.update( currentAttribute );
 
         return JSP_MANAGE_ATTRIBUTES;
     }
@@ -384,29 +366,32 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     public String doMoveDownAttribute( HttpServletRequest request )
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
-        int nIdAttribute = Integer.parseInt( strIdAttribute );
-
-        List<IAttribute> listAttributes = AttributeHome.findAll( getLocale(  ) );
-        IAttribute nextAttribute = null;
-        IAttribute currentAttribute = null;
-
-        Iterator<IAttribute> it = listAttributes.iterator(  );
-        currentAttribute = it.next(  );
-        nextAttribute = it.next(  );
-
-        while ( it.hasNext(  ) && ( currentAttribute.getIdAttribute(  ) != nIdAttribute ) )
+        if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
-            currentAttribute = nextAttribute;
+        	int nIdAttribute = Integer.parseInt( strIdAttribute );
+
+            List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale(  ) );
+            IAttribute nextAttribute = null;
+            IAttribute currentAttribute = null;
+
+            Iterator<IAttribute> it = listAttributes.iterator(  );
+            currentAttribute = it.next(  );
             nextAttribute = it.next(  );
+
+            while ( it.hasNext(  ) && ( currentAttribute.getIdAttribute(  ) != nIdAttribute ) )
+            {
+                currentAttribute = nextAttribute;
+                nextAttribute = it.next(  );
+            }
+
+            int nextAttributePosition = nextAttribute.getPosition(  );
+            int currentAttributePosition = currentAttribute.getPosition(  );
+            nextAttribute.setPosition( currentAttributePosition );
+            currentAttribute.setPosition( nextAttributePosition );
+
+            _attributeService.updateAttribute( nextAttribute );
+            _attributeService.updateAttribute( currentAttribute );
         }
-
-        int nextAttributePosition = nextAttribute.getPosition(  );
-        int currentAttributePosition = currentAttribute.getPosition(  );
-        nextAttribute.setPosition( currentAttributePosition );
-        currentAttribute.setPosition( nextAttributePosition );
-
-        AttributeHome.update( nextAttribute );
-        AttributeHome.update( currentAttribute );
 
         return JSP_MANAGE_ATTRIBUTES;
     }
