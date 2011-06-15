@@ -86,6 +86,7 @@ public final class PortalService
     private static final String PROPERTY_PATH_ON_ROOT = "lutece.root.path";
     private static final String PROPERTY_ENCODING = "lutece.encoding";
     private static final String PROPERTY_ENCODING_DEFAULT = "UTF-8";
+    private static final String PROPERTY_LUTECE_FAVOURITE = "lutece.favourite";
 
     // Templates
     private static final String TEMPLATE_PAGE_FRAMESET = "skin/site/page_frameset.html";
@@ -586,5 +587,14 @@ public final class PortalService
             mapParameters.put( PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl(  ) );
             mapParameters.put( MARKER_TARGET, TARGET_TOP );
         }
+    }
+    
+    /**
+     * Get the <b>lutece.favourite</b> from the <b>webmaster.properties</b>
+     * @return the lutece.favourite value
+     */
+    public static String getLuteceFavourite(  )
+    {
+    	return AppPropertiesService.getProperty( PROPERTY_LUTECE_FAVOURITE );
     }
 }

@@ -1,4 +1,5 @@
 <%@ page import="fr.paris.lutece.portal.service.util.AppPathService" %>
+<%@ page import="fr.paris.lutece.portal.service.portal.PortalService" %>
 <%@ page import="fr.paris.lutece.portal.service.admin.AdminThemeService" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ page buffer="1024kb" %>
@@ -8,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<title>LUTECE - Administration</title>
+<title><%= PortalService.getLuteceFavourite(  ) %> - Administration</title>
 <base href="<%= AppPathService.getBaseUrl( request ) %>"></base>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <meta http-equiv="Expires" content="0" />

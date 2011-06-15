@@ -1,5 +1,6 @@
 <%@ page errorPage="ErrorPage.jsp" %>
 <%@ page import="fr.paris.lutece.portal.service.util.AppPathService" %>
+<%@ page import="fr.paris.lutece.portal.service.portal.PortalService" %>
 <%@ page pageEncoding="UTF-8" %>
 
 <%
@@ -11,7 +12,7 @@
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-	<title>LUTECE - Administration</title>
+	<title><%= PortalService.getLuteceFavourite(  ) %> - Administration</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<base href="<%= strBase %>"></base>
