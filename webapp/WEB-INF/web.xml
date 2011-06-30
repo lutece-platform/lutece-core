@@ -160,9 +160,12 @@
         <location>/jsp/site/404.jsp</location>
     </error-page>
   
+	<!-- uncomment the following lines if you use plugin-jsr168 -->
+	<!--
     <taglib>
         <taglib-uri>http://java.sun.com/portlet</taglib-uri>
         <taglib-location>taglibs/plugins/jsr168/portlet.tld</taglib-location>
     </taglib>
+	-->
   
 </web-app>
