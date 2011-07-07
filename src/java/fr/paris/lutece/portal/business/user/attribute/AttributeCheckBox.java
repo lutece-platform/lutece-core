@@ -212,7 +212,7 @@ public class AttributeCheckBox extends AbstractAttribute
 
                 if ( StringUtils.isNotBlank( strValue ) && StringUtils.isNumeric( strValue ) )
                 {
-                	int nIdField = Integer.parseInt( strValue );
+                    int nIdField = Integer.parseInt( strValue );
                     attributeField = AttributeFieldService.getInstance(  ).getAttributeField( nIdField );
                 }
                 else

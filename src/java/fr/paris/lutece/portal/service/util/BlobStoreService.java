@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+
 /**
  * Blob Store Service Interface
  */
@@ -44,25 +45,24 @@ public interface BlobStoreService
      * @return The key of the blob
      */
     String store( byte[] blob );
-    
+
     /**
      * Get a blob
      * @param strKey The key of the blob
      * @return  The blob
      */
     byte[] getBlob( String strKey );
-    
+
     /**
      * Update a blob
      * @param strKey The key of the blob
-     * @param blob The new blob 
+     * @param blob The new blob
      */
-    void update( String strKey , byte[] blob);
-    
+    void update( String strKey, byte[] blob );
+
     /**
      * Delete a blob
-     * @param strKey The key of the blob 
+     * @param strKey The key of the blob
      */
     void delete( String strKey );
-    
 }

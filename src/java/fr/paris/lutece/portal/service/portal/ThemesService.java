@@ -270,7 +270,7 @@ public final class ThemesService
     /**
      * Get the theme service
      * @return the theme service
-     * @throws ThemeNotAvailableException If the theme is not available 
+     * @throws ThemeNotAvailableException If the theme is not available
      */
     private static IThemeService getThemeService(  ) throws ThemeNotAvailableException
     {

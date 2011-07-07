@@ -44,7 +44,7 @@ public class PortletCacheService extends AbstractCacheableService
     private static final String SERVICE_NAME = "Portlet Cache Service";
 
     /**
-     * {@inheritDoc } 
+     * {@inheritDoc }
      */
     public String getName(  )
     {

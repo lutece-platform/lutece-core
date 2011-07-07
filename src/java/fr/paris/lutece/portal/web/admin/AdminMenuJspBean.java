@@ -240,18 +240,19 @@ public class AdminMenuJspBean
             }
         }
     }
-    
+
     /**
-     * Add a specific dashboard data to the template's model 
+     * Add a specific dashboard data to the template's model
      * @param model The template's model
      * @param user The Admin User
      * @param request HttpServletRequest
      * @param nDashboardZone the dashboard zone
      */
-    private void setDashboardData( Map<String, Object> model, AdminUser user, HttpServletRequest request, int nDashboardZone )
+    private void setDashboardData( Map<String, Object> model, AdminUser user, HttpServletRequest request,
+        int nDashboardZone )
     {
-    	model.put( MARK_DASHBOARD_ZONE + nDashboardZone,
-                DashboardService.getInstance(  ).getDashboardData( user, nDashboardZone, request ) );
+        model.put( MARK_DASHBOARD_ZONE + nDashboardZone,
+            DashboardService.getInstance(  ).getDashboardData( user, nDashboardZone, request ) );
     }
 
     /**

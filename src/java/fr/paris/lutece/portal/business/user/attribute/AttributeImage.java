@@ -295,9 +295,10 @@ public class AttributeImage extends AbstractAttribute
                     AdminUserField userField = new AdminUserField(  );
                     userField.setUser( user );
                     userField.setAttribute( this );
-                    
+
                     AttributeService.getInstance(  ).setAttributeField( this );
-                    if ( getListAttributeFields(  ) != null && getListAttributeFields(  ).size(  ) > 0 )
+
+                    if ( ( getListAttributeFields(  ) != null ) && ( getListAttributeFields(  ).size(  ) > 0 ) )
                     {
                         userField.setAttributeField( getListAttributeFields(  ).get( 0 ) );
                         userField.setFile( file );

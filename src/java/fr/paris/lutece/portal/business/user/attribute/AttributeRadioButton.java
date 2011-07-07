@@ -205,7 +205,7 @@ public class AttributeRadioButton extends AbstractAttribute
         AdminUserField userField = new AdminUserField(  );
         AttributeField attributeField;
 
-        if ( StringUtils.isNotBlank( strValue ) && StringUtils.isNumeric( strValue ))
+        if ( StringUtils.isNotBlank( strValue ) && StringUtils.isNumeric( strValue ) )
         {
             int nIdField = Integer.parseInt( strValue );
             attributeField = AttributeFieldService.getInstance(  ).getAttributeField( nIdField );

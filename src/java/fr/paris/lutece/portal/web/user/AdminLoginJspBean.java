@@ -460,9 +460,10 @@ public class AdminLoginJspBean
     {
         // Invalidation of the session
         HttpSession session = request.getSession(  );
+
         if ( session != null )
         {
-        	session.invalidate(  );
+            session.invalidate(  );
         }
 
         String strLoginUrl = AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  );

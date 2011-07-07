@@ -33,6 +33,12 @@
  */
 package fr.paris.lutece.portal.service.mail;
 
+import fr.paris.lutece.portal.service.daemon.Daemon;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
+import org.apache.log4j.Logger;
+
 import java.util.Date;
 import java.util.List;
 
@@ -42,12 +48,6 @@ import javax.mail.SendFailedException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
-
-import org.apache.log4j.Logger;
-
-import fr.paris.lutece.portal.service.daemon.Daemon;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 
 /**
@@ -66,9 +66,10 @@ public class MailSenderDaemon extends Daemon
      */
     public synchronized void run(  )
     {
-    	Logger logger = Logger.getLogger( "lutece.mail" );
+        Logger logger = Logger.getLogger( "lutece.mail" );
         logger.setAdditivity( false );
-    	String strHost = AppPropertiesService.getProperty( PROPERTY_MAIL_HOST );
+
+        String strHost = AppPropertiesService.getProperty( PROPERTY_MAIL_HOST );
         String strUsername = AppPropertiesService.getProperty( PROPERTY_MAIL_USERNAME, null );
         String strPassword = AppPropertiesService.getProperty( PROPERTY_MAIL_PASSWORD, null );
         int nWaitTime = AppPropertiesService.getPropertyInt( PROPERTY_MAIL_DEAMON_WAITTIME, 1 );
@@ -106,46 +107,41 @@ public class MailSenderDaemon extends Daemon
 
                     while ( mail != null )
                     {
-                    		
-                    	
                         try
                         {
-                        	
-                        	if(mail.isUniqueRecipientTo())
-                        	{
-                        	 List<String> listAdressTo=MailUtil.getAllStringAdressOfRecipients(mail.getRecipientsTo());
-                        	 for( String strAdressTo : listAdressTo )
-                        	 {
-                        		 sbLogsLine=new StringBuilder();
-                        		 //just one recipient by mail
-                        		 mail.setRecipientsTo(strAdressTo);
-                        		 sendMail(mail, strHost, transportSmtp, session, sbLogsLine);
-                        		 logger.info( sbLogsLine.toString());
-                        		 sbLogs.append( "\r\n" );
-                        		 sbLogs.append(sbLogsLine);
-                        		
-                        	 }
-                        	}
-                        	else
-                        	{
-                        		sbLogsLine=new StringBuilder();
-                        		sendMail(mail, strHost, transportSmtp, session, sbLogsLine);
-                        		logger.info( sbLogsLine.toString());
-                        		sbLogs.append( "\r\n" );
-                        		sbLogs.append(sbLogsLine);
-                        	}
-                                                                       	
+                            if ( mail.isUniqueRecipientTo(  ) )
+                            {
+                                List<String> listAdressTo = MailUtil.getAllStringAdressOfRecipients( mail.getRecipientsTo(  ) );
+
+                                for ( String strAdressTo : listAdressTo )
+                                {
+                                    sbLogsLine = new StringBuilder(  );
+                                    //just one recipient by mail
+                                    mail.setRecipientsTo( strAdressTo );
+                                    sendMail( mail, strHost, transportSmtp, session, sbLogsLine );
+                                    logger.info( sbLogsLine.toString(  ) );
+                                    sbLogs.append( "\r\n" );
+                                    sbLogs.append( sbLogsLine );
+                                }
+                            }
+                            else
+                            {
+                                sbLogsLine = new StringBuilder(  );
+                                sendMail( mail, strHost, transportSmtp, session, sbLogsLine );
+                                logger.info( sbLogsLine.toString(  ) );
+                                sbLogs.append( "\r\n" );
+                                sbLogs.append( sbLogsLine );
+                            }
                         }
                         catch ( MessagingException e )
                         {
                             //if the connection is dead or not in the connected state
                             //we put the mail in the queue before end process
                             queue.send( mail );
+
                             break;
                         }
 
-                        
-                        
                         mail = queue.consume(  );
 
                         // Tempo
@@ -157,7 +153,6 @@ public class MailSenderDaemon extends Daemon
                             wait( nWaitTime );
                             transportSmtp.connect(  );
                         }
-                        
                     }
 
                     transportSmtp.close(  );
@@ -180,101 +175,94 @@ public class MailSenderDaemon extends Daemon
         {
             sbLogs.append( "\r\nNo mail to send " );
             sbLogs.append( new Date(  ).toString(  ) );
-            logger.info( sbLogs.toString());
+            logger.info( sbLogs.toString(  ) );
         }
+
         setLastRunLogs( sbLogs.toString(  ) );
     }
-    
-    
+
     /**
      * send mail
      * @param mail the mail item
-     * @param strHost the host 
+     * @param strHost the host
      * @param transportSmtp the smtp transport
      * @param session the session smtp
      * @param sbLogsLine the log line
      * @throws MessagingException  @see MessagingException
      */
-    private void sendMail(MailItem mail,String strHost,Transport transportSmtp,Session session,StringBuilder sbLogsLine)throws MessagingException
+    private void sendMail( MailItem mail, String strHost, Transport transportSmtp, Session session,
+        StringBuilder sbLogsLine ) throws MessagingException
     {
-    	
-    	 try
-         {
-         	
-         	sbLogsLine.append( " - To " );
-         	sbLogsLine.append( ( ( mail.getRecipientsTo(  ) != null ) ? mail.getRecipientsTo(  ) : "" ) );
-         	sbLogsLine.append( " - Cc " );
-         	sbLogsLine.append( ( mail.getRecipientsCc(  ) != null ) ? mail.getRecipientsCc(  ) : "" );
-         	sbLogsLine.append( " - Bcc " );
-         	sbLogsLine.append( ( mail.getRecipientsBcc(  ) != null ) ? mail.getRecipientsBcc(  ) : "" );
-         	sbLogsLine.append( " - Subject : " );
-         	sbLogsLine.append( mail.getSubject(  ) );
+        try
+        {
+            sbLogsLine.append( " - To " );
+            sbLogsLine.append( ( ( mail.getRecipientsTo(  ) != null ) ? mail.getRecipientsTo(  ) : "" ) );
+            sbLogsLine.append( " - Cc " );
+            sbLogsLine.append( ( mail.getRecipientsCc(  ) != null ) ? mail.getRecipientsCc(  ) : "" );
+            sbLogsLine.append( " - Bcc " );
+            sbLogsLine.append( ( mail.getRecipientsBcc(  ) != null ) ? mail.getRecipientsBcc(  ) : "" );
+            sbLogsLine.append( " - Subject : " );
+            sbLogsLine.append( mail.getSubject(  ) );
 
-             switch ( mail.getFormat(  ) )
-             {
-                 case MailItem.FORMAT_HTML:
-                     MailUtil.sendMessageHtml( strHost, mail.getRecipientsTo(  ),
-                         mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
-                         mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
-                         transportSmtp, session );
+            switch ( mail.getFormat(  ) )
+            {
+                case MailItem.FORMAT_HTML:
+                    MailUtil.sendMessageHtml( strHost, mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                        mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
+                        mail.getSubject(  ), mail.getMessage(  ), transportSmtp, session );
 
-                     break;
+                    break;
 
-                 case MailItem.FORMAT_TEXT:
-                     MailUtil.sendMessageText( strHost, mail.getRecipientsTo(  ),
-                         mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
-                         mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
-                         transportSmtp, session );
+                case MailItem.FORMAT_TEXT:
+                    MailUtil.sendMessageText( strHost, mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                        mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
+                        mail.getSubject(  ), mail.getMessage(  ), transportSmtp, session );
 
-                     break;
+                    break;
 
-                 case MailItem.FORMAT_MULTIPART_HTML:
-                     MailUtil.sendMultipartMessageHtml( strHost, mail.getRecipientsTo(  ),
-                         mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
-                         mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
-                         mail.getUrlsAttachement(  ), mail.getFilesAttachement(  ), transportSmtp,
-                         session );
+                case MailItem.FORMAT_MULTIPART_HTML:
+                    MailUtil.sendMultipartMessageHtml( strHost, mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                        mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
+                        mail.getSubject(  ), mail.getMessage(  ), mail.getUrlsAttachement(  ),
+                        mail.getFilesAttachement(  ), transportSmtp, session );
 
-                     break;
+                    break;
 
-                 case MailItem.FORMAT_MULTIPART_TEXT:
-                     MailUtil.sendMultipartMessageText( strHost, mail.getRecipientsTo(  ),
-                         mail.getRecipientsCc(  ), mail.getRecipientsBcc(  ), mail.getSenderName(  ),
-                         mail.getSenderEmail(  ), mail.getSubject(  ), mail.getMessage(  ),
-                         mail.getFilesAttachement(  ), transportSmtp, session );
+                case MailItem.FORMAT_MULTIPART_TEXT:
+                    MailUtil.sendMultipartMessageText( strHost, mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                        mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
+                        mail.getSubject(  ), mail.getMessage(  ), mail.getFilesAttachement(  ), transportSmtp, session );
 
-                     break;
+                    break;
 
-                 default:
-                     break;
-             }
+                default:
+                    break;
+            }
 
-             sbLogsLine.append( " - Status [ OK ]" );
-         }
-         catch ( AddressException e )
-         {
-             //a wrongly formatted address is encountered in the list of recipients
-         	sbLogsLine.append( " - Status [ Failed ] : " );
-         	sbLogsLine.append( e.getMessage(  ) );
-             AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
-         }
-         catch ( SendFailedException e )
-         {
-             //the send failed because of invalid addresses.
-         	sbLogsLine.append( " - Status [ Failed ] : " );
-         	sbLogsLine.append( e.getMessage(  ) );
-             AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
-         }
-         catch ( MessagingException e )
-         {
-             //if the connection is dead or not in the connected state
-             //we put the mail in the queue before end process
-         	sbLogsLine.append( " - Status [ Failed ] : " );
-         	sbLogsLine.append( e.getMessage(  ) );
+            sbLogsLine.append( " - Status [ OK ]" );
+        }
+        catch ( AddressException e )
+        {
+            //a wrongly formatted address is encountered in the list of recipients
+            sbLogsLine.append( " - Status [ Failed ] : " );
+            sbLogsLine.append( e.getMessage(  ) );
             AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
-             throw e; 
-         }
-        
+        }
+        catch ( SendFailedException e )
+        {
+            //the send failed because of invalid addresses.
+            sbLogsLine.append( " - Status [ Failed ] : " );
+            sbLogsLine.append( e.getMessage(  ) );
+            AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
+        }
+        catch ( MessagingException e )
+        {
+            //if the connection is dead or not in the connected state
+            //we put the mail in the queue before end process
+            sbLogsLine.append( " - Status [ Failed ] : " );
+            sbLogsLine.append( e.getMessage(  ) );
+            AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
+            throw e;
+        }
     }
-    
 }

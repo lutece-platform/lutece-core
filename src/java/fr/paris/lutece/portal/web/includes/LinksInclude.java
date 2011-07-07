@@ -65,19 +65,17 @@ public class LinksInclude implements PageInclude
 
     // Markers
     private static final String MARK_FAVOURITE = "favourite";
-    private static final String MARK_PORTAL_NAME= "lutece_name";
+    private static final String MARK_PORTAL_NAME = "lutece_name";
     private static final String MARK_PLUGIN_THEME_CSS = "plugin_theme";
     private static final String MARK_PLUGINS_CSS_LINKS = "plugins_css_links";
     private static final String MARK_PLUGINS_JAVASCRIPT_LINKS = "plugins_javascript_links";
     private static final String MARK_PLUGIN_CSS_STYLESHEET = "plugin_css_stylesheet";
     private static final String MARK_PLUGIN_JAVASCRIPT_FILE = "plugin_javascript_file";
     private static final String MARK_CSS_PREFIX = "css_prefix";
-    
+
     // Templates
     private static final String TEMPLATE_PLUGIN_CSS_LINK = "skin/site/plugin_css_link.html";
     private static final String TEMPLATE_PLUGIN_JAVASCRIPT_LINK = "skin/site/plugin_javascript_link.html";
-
-
     private static final String PREFIX_PLUGINS_CSS = "css/plugins/";
     private static final String ABSOLUTE_URL = "http://";
 

@@ -33,15 +33,6 @@
  */
 package fr.paris.lutece.portal.web.user.attribute;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -54,6 +45,15 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import org.apache.commons.lang.StringUtils;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  *
@@ -62,11 +62,11 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  */
 public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 {
-	// CONSTANTS
-	private static final String QUESTION_MARK = "?";
-	private static final String EQUAL = "=";
-	private static final String AMPERSAND = "&";
-	
+    // CONSTANTS
+    private static final String QUESTION_MARK = "?";
+    private static final String EQUAL = "=";
+    private static final String AMPERSAND = "&";
+
     // PROPERTIES
     private static final String PROPERTY_CREATE_ATTRIBUTE_FIELDS_PAGETITLE = "portal.users.create_attribute_field.pageTitle";
     private static final String PROPERTY_MODIFY_ATTRIBUTE_FIELDS_PAGETITLE = "portal.users.modify_attribute_field.pageTitle";
@@ -91,7 +91,6 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     // JSP
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
     private static final String JSP_URL_REMOVE_ATTRIBUTE_FIELD = "jsp/admin/user/attribute/DoRemoveAttributeField.jsp";
-    
     private static final AttributeService _attributeService = AttributeService.getInstance(  );
     private static final AttributeFieldService _attributeFieldService = AttributeFieldService.getInstance(  );
 
@@ -234,8 +233,8 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
-        String strUrlRemove = JSP_URL_REMOVE_ATTRIBUTE_FIELD + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + strIdAttribute +
-            AMPERSAND + PARAMETER_ID_FIELD + EQUAL + strIdField;
+        String strUrlRemove = JSP_URL_REMOVE_ATTRIBUTE_FIELD + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL +
+            strIdAttribute + AMPERSAND + PARAMETER_ID_FIELD + EQUAL + strIdField;
 
         String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE_FIELD,
                 strUrlRemove, AdminMessage.TYPE_CONFIRMATION );
@@ -252,9 +251,10 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
+
         if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) )
         {
-        	int nIdField = Integer.parseInt( strIdField );
+            int nIdField = Integer.parseInt( strIdField );
 
             _attributeFieldService.removeAttributeFieldFromIdField( nIdField );
             AdminUserFieldService.doRemoveUserFieldsByIdField( nIdField );
@@ -272,17 +272,19 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
-        if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) && 
-        		StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
+
+        if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) &&
+                StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
-        	int nIdAttribute = Integer.parseInt( strIdAttribute );
+            int nIdAttribute = Integer.parseInt( strIdAttribute );
             int nIdField = Integer.parseInt( strIdField );
 
             IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale(  ) );
             List<AttributeField> listAttributeFields = attribute.getListAttributeFields(  );
+
             if ( listAttributeFields.size(  ) > 0 )
             {
-            	AttributeField previousField = null;
+                AttributeField previousField = null;
                 AttributeField currentField = null;
 
                 Iterator<AttributeField> it = listAttributeFields.iterator(  );
@@ -316,18 +318,19 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
-        
-        if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) && 
-        		StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
-        {
-        	int nIdAttribute = Integer.parseInt( strIdAttribute );
-        	int nIdField = Integer.parseInt( strIdField );
 
-        	IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale(  ) );
+        if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) &&
+                StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
+        {
+            int nIdAttribute = Integer.parseInt( strIdAttribute );
+            int nIdField = Integer.parseInt( strIdField );
+
+            IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale(  ) );
             List<AttributeField> listAttributeFields = attribute.getListAttributeFields(  );
+
             if ( listAttributeFields.size(  ) > 0 )
             {
-            	AttributeField currentField = null;
+                AttributeField currentField = null;
                 AttributeField nextField = null;
 
                 Iterator<AttributeField> it = listAttributeFields.iterator(  );
@@ -349,8 +352,6 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
                 _attributeFieldService.updateAttributeField( currentField );
             }
         }
-
-        
 
         return JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + strIdAttribute;
     }

@@ -279,7 +279,8 @@ public final class CacheService
      */
     private void loadDefaults(  )
     {
-        _nDefaultMaxElementsInMemory = AppPropertiesService.getPropertyInt( PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS, 10000 );
+        _nDefaultMaxElementsInMemory = AppPropertiesService.getPropertyInt( PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS,
+                10000 );
         _bDefaultEternal = AppPropertiesService.getPropertyBoolean( PREFIX_DEFAULT + PROPERTY_ETERNAL, false );
         _lDefaultTimeToIdle = AppPropertiesService.getPropertyLong( PREFIX_DEFAULT + PROPERTY_TIME_TO_IDLE, 10000L );
         _lDefaultTimeToLive = AppPropertiesService.getPropertyLong( PREFIX_DEFAULT + PROPERTY_TIME_TO_LIVE, 10000L );
@@ -389,7 +390,7 @@ public final class CacheService
             }
             catch ( NumberFormatException e )
             {
-                AppLogService.error( "Invalid numeric property : " + strPrefix + strKey + "=" + strValue , e);
+                AppLogService.error( "Invalid numeric property : " + strPrefix + strKey + "=" + strValue, e );
             }
         }
 
@@ -417,7 +418,7 @@ public final class CacheService
             }
             catch ( NumberFormatException e )
             {
-                AppLogService.error( "Invalid numeric property : " + strPrefix + strKey + "=" + strValue , e);
+                AppLogService.error( "Invalid numeric property : " + strPrefix + strKey + "=" + strValue, e );
             }
         }
 

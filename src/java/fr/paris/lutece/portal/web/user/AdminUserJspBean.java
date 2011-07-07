@@ -697,7 +697,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         List<IAttribute> listAttributes = AttributeService.getInstance(  ).getAllAttributesWithFields( getLocale(  ) );
         Map<String, Object> map = AdminUserFieldService.getAdminUserFields( listAttributes, nUserId, getLocale(  ) );
-        
+
         model.put( MARK_USER, user );
         model.put( MARK_LEVEL, level );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale(  ) ) );

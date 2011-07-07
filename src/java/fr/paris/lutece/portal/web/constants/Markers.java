@@ -56,11 +56,9 @@ public final class Markers
 
     // to retrieve the webapp url when using linkservice
     public static final String WEBAPP_PATH_FOR_LINKSERVICE = "webapp_path_for_linkservice";
-    
-    
+
     /** Private constructor */
-    private Markers()
+    private Markers(  )
     {
     }
-    
 }

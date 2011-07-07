@@ -123,7 +123,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     /**
      * Gets cache infos for all caches
      * @param request The HTTP request
-     * @return HTML formated cache infos 
+     * @return HTML formated cache infos
      */
     public String getCacheInfos( HttpServletRequest request )
     {

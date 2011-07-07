@@ -262,21 +262,22 @@ public class MailItem implements Serializable
     {
         _listUrlsAttachement = urlsAttachement;
     }
-    
+
     /**
      * set if the mail must be send unitarily for each recipient
      * @param _bUniqueRecipients
      */
-	public void setUniqueRecipientTo( boolean bUniqueRecipient ) 
-	{
-		this._bUniqueRecipientTo = bUniqueRecipient;
-	}
-	/**
-	 * 
-	 * @return if the mail must be send unitarily for each recipient
-	 */
-	public boolean isUniqueRecipientTo(  ) 
-	{
-		return _bUniqueRecipientTo;
-	}
+    public void setUniqueRecipientTo( boolean bUniqueRecipient )
+    {
+        this._bUniqueRecipientTo = bUniqueRecipient;
+    }
+
+    /**
+     *
+     * @return if the mail must be send unitarily for each recipient
+     */
+    public boolean isUniqueRecipientTo(  )
+    {
+        return _bUniqueRecipientTo;
+    }
 }

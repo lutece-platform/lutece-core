@@ -43,6 +43,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
 import java.sql.SQLException;
 
 
@@ -55,11 +56,8 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     private static final String SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID = "SELECT min(id_mail_queue) FROM core_mail_queue WHERE is_locked=0";
     private static final String SQL_QUERY_SELECT_COUNT = "SELECT COUNT(id_mail_queue) FROM core_mail_queue";
     private static final String SQL_QUERY_LOAD_MAIL_ITEM = "SELECT id_mail_queue,mail_item FROM core_mail_item WHERE id_mail_queue=? ";
-    
-    
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_mail_queue( id_mail_queue ) VALUES(?) ";
-    
-    private static final String SQL_QUERY_INSERT_MAIL_ITEM=" INSERT INTO core_mail_item(id_mail_queue,mail_item) VALUES(?,?) ";
+    private static final String SQL_QUERY_INSERT_MAIL_ITEM = " INSERT INTO core_mail_item(id_mail_queue,mail_item) VALUES(?,?) ";
     private static final String SQL_QUERY_LOCK_MAIL_ITEM = " UPDATE core_mail_queue SET is_locked=1 WHERE id_mail_queue= ? ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_mail_queue WHERE id_mail_queue = ?";
     private static final String SQL_QUERY_DELETE_MAIL_ITEM = " DELETE FROM core_mail_item WHERE id_mail_queue = ?";
@@ -87,7 +85,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
 
         return nKey;
     }
-    
+
     /**
      * return the next mail item queue id
      * @return the next mail item queue id
@@ -128,47 +126,43 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      */
     public synchronized void insert( MailItemQueue mailItemQueue )
     {
-        
-    	
-    	try
-    	
-    	{
-    	
-    	ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(  );
-        ObjectOutputStream objectOutputStream;
-        objectOutputStream = new ObjectOutputStream( byteArrayOutputStream );
-        objectOutputStream.writeObject( mailItemQueue.getMailItem(  ) );
-        objectOutputStream.close(  );
-        byteArrayOutputStream.close(  );
-         
-    	
-    	Transaction transaction = new Transaction(  );
-
         try
         {
-        	
-            int nNewPrimaryKey = newPrimaryKey(  );
-            mailItemQueue.setIdMailItemQueue( nNewPrimaryKey );
-            transaction.prepareStatement( SQL_QUERY_INSERT );
-            transaction.getStatement(  ).setInt( 1, nNewPrimaryKey );
-            transaction.executeStatement(  );
-            transaction.prepareStatement( SQL_QUERY_INSERT_MAIL_ITEM );
-            transaction.getStatement(  ).setInt( 1, nNewPrimaryKey );
-            transaction.getStatement(  ).setBytes( 2, byteArrayOutputStream.toByteArray(  ) );
-            transaction.executeStatement(  );
-            
-            transaction.commit(  );
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(  );
+            ObjectOutputStream objectOutputStream;
+            objectOutputStream = new ObjectOutputStream( byteArrayOutputStream );
+            objectOutputStream.writeObject( mailItemQueue.getMailItem(  ) );
+            objectOutputStream.close(  );
+            byteArrayOutputStream.close(  );
+
+            Transaction transaction = new Transaction(  );
+
+            try
+            {
+                int nNewPrimaryKey = newPrimaryKey(  );
+                mailItemQueue.setIdMailItemQueue( nNewPrimaryKey );
+                transaction.prepareStatement( SQL_QUERY_INSERT );
+                transaction.getStatement(  ).setInt( 1, nNewPrimaryKey );
+                transaction.executeStatement(  );
+                transaction.prepareStatement( SQL_QUERY_INSERT_MAIL_ITEM );
+                transaction.getStatement(  ).setInt( 1, nNewPrimaryKey );
+                transaction.getStatement(  ).setBytes( 2, byteArrayOutputStream.toByteArray(  ) );
+                transaction.executeStatement(  );
+
+                transaction.commit(  );
+            }
+
+            catch ( Exception e )
+            {
+                transaction.rollback( e );
+                AppLogService.error( e );
+            }
         }
-        
-        catch (Exception e) {
-        	transaction.rollback( e );
-			AppLogService.error(e);
-		}
-        
-    	}catch (Exception e) {
-    		AppLogService.error(e);
-		}
-     }
+        catch ( Exception e )
+        {
+            AppLogService.error( e );
+        }
+    }
 
     /**
      * return the first mail item  in the table
@@ -215,24 +209,18 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
 
         return mailItemQueue;
     }
-    
-    
-      
-   
+
     /**
      * Delete  the mail item record in the table
      * @param nIdMailItemQueue The indentifier of the mail item to remove
      */
     public void delete( int nIdMailItemQueue )
     {
-        
-    	
-    	Transaction transaction = new Transaction(  );
+        Transaction transaction = new Transaction(  );
 
         try
         {
-        	
-            transaction.prepareStatement( SQL_QUERY_DELETE_MAIL_ITEM);
+            transaction.prepareStatement( SQL_QUERY_DELETE_MAIL_ITEM );
             transaction.getStatement(  ).setInt( 1, nIdMailItemQueue );
             transaction.executeStatement(  );
             transaction.prepareStatement( SQL_QUERY_DELETE );
@@ -240,13 +228,13 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
             transaction.executeStatement(  );
             transaction.commit(  );
         }
-        
-        catch (Exception e) {
-        	transaction.rollback( e );
-			AppLogService.error(e);
-		}
-    	
-  }
+
+        catch ( Exception e )
+        {
+            transaction.rollback( e );
+            AppLogService.error( e );
+        }
+    }
 
     /**
      *@return the number of mail item present in the core_mail_queue

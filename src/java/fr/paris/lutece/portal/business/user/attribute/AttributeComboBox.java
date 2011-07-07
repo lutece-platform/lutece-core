@@ -33,19 +33,19 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
 import fr.paris.lutece.portal.web.constants.Messages;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -221,7 +221,7 @@ public class AttributeComboBox extends AbstractAttribute
 
                 if ( StringUtils.isNotBlank( strValue ) && StringUtils.isNumeric( strValue ) )
                 {
-                	int nIdField = Integer.parseInt( strValue );
+                    int nIdField = Integer.parseInt( strValue );
                     attributeField = AttributeFieldService.getInstance(  ).getAttributeField( nIdField );
                 }
                 else

@@ -252,6 +252,7 @@ public class AttributeText extends AbstractAttribute
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
         AdminUserField userField = new AdminUserField(  );
         AttributeService.getInstance(  ).setAttributeField( this );
+
         String strValue = request.getParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
 
         if ( strValue == null )
@@ -261,10 +262,12 @@ public class AttributeText extends AbstractAttribute
 
         userField.setUser( user );
         userField.setAttribute( this );
-        if ( getListAttributeFields(  ) != null && getListAttributeFields(  ).size(  ) > 0 )
+
+        if ( ( getListAttributeFields(  ) != null ) && ( getListAttributeFields(  ).size(  ) > 0 ) )
         {
-        	userField.setAttributeField( getListAttributeFields(  ).get( 0 ) );
+            userField.setAttributeField( getListAttributeFields(  ).get( 0 ) );
         }
+
         userField.setValue( strValue );
 
         listUserFields.add( userField );

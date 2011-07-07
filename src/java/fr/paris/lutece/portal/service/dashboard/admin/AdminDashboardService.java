@@ -199,7 +199,8 @@ public class AdminDashboardService
                 {
                     for ( IAdminDashboardComponent dc : listColumnDashboards )
                     {
-                    	int nCurrentOrder = dc.getOrder(  );
+                        int nCurrentOrder = dc.getOrder(  );
+
                         if ( !dc.equals( dashboard ) && ( nCurrentOrder >= nOrder ) && ( nCurrentOrder < nOldOrder ) )
                         {
                             dc.setOrder( nCurrentOrder + 1 );
@@ -211,7 +212,8 @@ public class AdminDashboardService
                 {
                     for ( IAdminDashboardComponent dc : listColumnDashboards )
                     {
-                    	int nCurrentOrder = dc.getOrder(  );
+                        int nCurrentOrder = dc.getOrder(  );
+
                         if ( !dc.equals( dashboard ) && ( nCurrentOrder <= nOrder ) && ( nCurrentOrder > nOldOrder ) )
                         {
                             dc.setOrder( nCurrentOrder - 1 );

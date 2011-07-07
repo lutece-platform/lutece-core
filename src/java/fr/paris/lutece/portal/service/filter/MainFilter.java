@@ -69,7 +69,7 @@ public class MainFilter implements Filter
         AppLogService.debug( "MainFilter : doFilter()" );
 
         HttpServletRequest request = (HttpServletRequest) requestServlet;
-        HttpServletResponse response = ( HttpServletResponse ) responseServlet;
+        HttpServletResponse response = (HttpServletResponse) responseServlet;
         LuteceFilterChain chainPluginsFilters = new LuteceFilterChain(  );
 
         for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
@@ -94,7 +94,7 @@ public class MainFilter implements Filter
 
                     // the filter may have changed (wrapped) the request [like CAS filter] or the response
                     request = (HttpServletRequest) chainPluginsFilters.getRequest(  );
-                    response = ( HttpServletResponse ) chainPluginsFilters.getResponse(  );
+                    response = (HttpServletResponse) chainPluginsFilters.getResponse(  );
                 }
             }
             catch ( Exception e )

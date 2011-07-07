@@ -52,7 +52,7 @@ public class PageCacheService extends AbstractCacheableService
     private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<String, String>(  );
 
     /**
-     * {@inheritDoc } 
+     * {@inheritDoc }
      */
     public String getName(  )
     {

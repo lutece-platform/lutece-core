@@ -41,9 +41,9 @@ package fr.paris.lutece.util;
 public final class UniqueIDGenerator
 {
     private static long _nId = 1L;
-    
+
     /** Private constructor */
-    private UniqueIDGenerator()
+    private UniqueIDGenerator(  )
     {
     }
 

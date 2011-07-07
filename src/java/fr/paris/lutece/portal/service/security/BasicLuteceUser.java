@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+
 /**
  * Basic Lutece User
  */
@@ -45,7 +46,6 @@ public class BasicLuteceUser extends LuteceUser
      */
     public BasicLuteceUser( String strUserName, LuteceAuthentication authenticationService )
     {
-        super( strUserName , authenticationService );
+        super( strUserName, authenticationService );
     }
- 
 }

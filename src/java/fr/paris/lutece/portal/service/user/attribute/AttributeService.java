@@ -33,111 +33,114 @@
  */
 package fr.paris.lutece.portal.service.user.attribute;
 
-import java.util.List;
-import java.util.Locale;
-
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 
+import java.util.List;
+import java.util.Locale;
+
+
 /**
- * 
+ *
  * AttributeService
  *
  */
 public class AttributeService
 {
-	private static AttributeService _singleton;
-	
-	/**
-	 * Private constructor
-	 */
-	private AttributeService(  )
-	{
-	}
-	
-	/**
-	 * Get the instance of {@link AttributeService}
-	 * @return an instance of {@link AttributeService}
-	 */
-	public static synchronized AttributeService getInstance(  )
-	{
-		if ( _singleton == null )
-		{
-			_singleton = new AttributeService(  );
-		}
-		return _singleton;
-	}
-	
-	/**
-	 * Get an attribute without its attribute fields
-	 * @param nIdAttribute the id attribute
-	 * @param locale {@link Locale}
-	 * @return a {@link IAttribute}
-	 */
-	public IAttribute getAttributeWithoutFields( int nIdAttribute, Locale locale )
-	{
-		return AttributeHome.findByPrimaryKey( nIdAttribute, locale );
-	}
-	
-	/**
-	 * Get the attribute with its attribute fields
-	 * @param nIdAttribute the id attribute
-	 * @param locale the {@link Locale}
-	 * @return a {@link IAttribute}
-	 */
-	public IAttribute getAttributeWithFields( int nIdAttribute, Locale locale )
-	{
-		IAttribute attribute = getAttributeWithoutFields( nIdAttribute, locale );
-		setAttributeField( attribute );
-		return attribute;
-	}
-	
-	/**
-	 * Get all user attribute without its attribute fields
-	 * @param locale the {@link Locale}
-	 * @return a list of {@link IAttibute}
-	 */
-	public List<IAttribute> getAllAttributesWithoutFields( Locale locale )
-	{
-		return AttributeHome.findAll( locale );
-	}
-	
-	/**
-	 * Get core user attribute without its attribute fields
-	 * @param locale the {@link Locale}
-	 * @return a list of {@link IAttibute}
-	 */
-	public List<IAttribute> getCoreAttributesWithoutFields( Locale locale )
-	{
-		return AttributeHome.findCoreAttributes( locale );
-	}
-	
-	/**
-	 * Get plugin user attribute without its attribute fields
-	 * @param strPluginName the plugin name
-	 * @param locale the {@link Locale}
-	 * @return a list of {@link IAttibute}
-	 */
-	public List<IAttribute> getPluginAttributesWithoutFields( String strPluginName, Locale locale )
-	{
-		return AttributeHome.findPluginAttributes( strPluginName, locale );
-	}
-	
-	/**
-     * Get all user attributes with its attribute fields
-     * @param locale the {@link Locale}
-     * @return a list of {@link IAttribute}
+    private static AttributeService _singleton;
+
+    /**
+     * Private constructor
      */
+    private AttributeService(  )
+    {
+    }
+
+    /**
+     * Get the instance of {@link AttributeService}
+     * @return an instance of {@link AttributeService}
+     */
+    public static synchronized AttributeService getInstance(  )
+    {
+        if ( _singleton == null )
+        {
+            _singleton = new AttributeService(  );
+        }
+
+        return _singleton;
+    }
+
+    /**
+     * Get an attribute without its attribute fields
+     * @param nIdAttribute the id attribute
+     * @param locale {@link Locale}
+     * @return a {@link IAttribute}
+     */
+    public IAttribute getAttributeWithoutFields( int nIdAttribute, Locale locale )
+    {
+        return AttributeHome.findByPrimaryKey( nIdAttribute, locale );
+    }
+
+    /**
+     * Get the attribute with its attribute fields
+     * @param nIdAttribute the id attribute
+     * @param locale the {@link Locale}
+     * @return a {@link IAttribute}
+     */
+    public IAttribute getAttributeWithFields( int nIdAttribute, Locale locale )
+    {
+        IAttribute attribute = getAttributeWithoutFields( nIdAttribute, locale );
+        setAttributeField( attribute );
+
+        return attribute;
+    }
+
+    /**
+     * Get all user attribute without its attribute fields
+     * @param locale the {@link Locale}
+     * @return a list of {@link IAttibute}
+     */
+    public List<IAttribute> getAllAttributesWithoutFields( Locale locale )
+    {
+        return AttributeHome.findAll( locale );
+    }
+
+    /**
+     * Get core user attribute without its attribute fields
+     * @param locale the {@link Locale}
+     * @return a list of {@link IAttibute}
+     */
+    public List<IAttribute> getCoreAttributesWithoutFields( Locale locale )
+    {
+        return AttributeHome.findCoreAttributes( locale );
+    }
+
+    /**
+     * Get plugin user attribute without its attribute fields
+     * @param strPluginName the plugin name
+     * @param locale the {@link Locale}
+     * @return a list of {@link IAttibute}
+     */
+    public List<IAttribute> getPluginAttributesWithoutFields( String strPluginName, Locale locale )
+    {
+        return AttributeHome.findPluginAttributes( strPluginName, locale );
+    }
+
+    /**
+    * Get all user attributes with its attribute fields
+    * @param locale the {@link Locale}
+    * @return a list of {@link IAttribute}
+    */
     public List<IAttribute> getAllAttributesWithFields( Locale locale )
     {
         List<IAttribute> listAttributes = getAllAttributesWithoutFields( locale );
         setAttributeFields( listAttributes );
-        
+
         return listAttributes;
     }
-    
+
     /**
      * Get core user attributes with its attribute fields
      * @param locale the {@link Locale}
@@ -147,10 +150,10 @@ public class AttributeService
     {
         List<IAttribute> listAttributes = getCoreAttributesWithoutFields( locale );
         setAttributeFields( listAttributes );
-        
+
         return listAttributes;
     }
-    
+
     /**
      * Get plugin user attributes with its attribute fields
      * @param strPluginName the plugin name
@@ -161,91 +164,90 @@ public class AttributeService
     {
         List<IAttribute> listAttributes = getPluginAttributesWithoutFields( strPluginName, locale );
         setAttributeFields( listAttributes );
-        
+
         return listAttributes;
     }
-    
+
     /**
-	 * Set the attribute fields from a given list of {@link IAttribute}
-	 * @param listAttributes the list of {@link IAttribute}
-	 */
-	public void setAttributeFields( List<IAttribute> listAttributes )
-	{
-		for ( IAttribute attribute : listAttributes )
+         * Set the attribute fields from a given list of {@link IAttribute}
+         * @param listAttributes the list of {@link IAttribute}
+         */
+    public void setAttributeFields( List<IAttribute> listAttributes )
+    {
+        for ( IAttribute attribute : listAttributes )
         {
             setAttributeField( attribute );
         }
-	}
-	
-	/**
-	 * Set the attribute field from a given {@link IAttribute}
-	 * @param attribute the {@link IAttribute}
-	 */
-	public void setAttributeField( IAttribute attribute )
-	{
-		if ( attribute != null )
-		{
-			List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( 
-	        		attribute.getIdAttribute(  ) );
-	        attribute.setListAttributeFields( listAttributeFields );
-		}
-	}
-	
-	/**
-	 * Create a new attribute and its attribute field
-	 * @param attribute the {@link IAttribute} to create
-	 * @return the newly created attribute id
-	 */
-	public void createAttribute( IAttribute attribute )
-	{
-		if ( attribute != null )
-		{
-			int nIdAttribute = AttributeHome.create( attribute );
-			attribute.setIdAttribute( nIdAttribute );
+    }
 
-	        if ( attribute.getListAttributeFields(  ) != null )
-	        {
-	            for ( AttributeField attributeField : attribute.getListAttributeFields(  ) )
-	            {
-	                attributeField.setAttribute( attribute );
-	                AttributeFieldService.getInstance(  ).createAttributeField( attributeField );
-	            }
-	        }
-		}
-	}
-	
-	/**
-	 * Update the attribute
-	 * @param attribute the {@link IAttribute} to update
-	 */
-	public void updateAttribute( IAttribute attribute )
-	{
-		if ( attribute != null )
-		{
-			AttributeHome.update( attribute );
+    /**
+     * Set the attribute field from a given {@link IAttribute}
+     * @param attribute the {@link IAttribute}
+     */
+    public void setAttributeField( IAttribute attribute )
+    {
+        if ( attribute != null )
+        {
+            List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
+            attribute.setListAttributeFields( listAttributeFields );
+        }
+    }
 
-	        if ( attribute.getListAttributeFields(  ) != null )
-	        {
-	            for ( AttributeField attributeField : attribute.getListAttributeFields(  ) )
-	            {
-	                attributeField.setAttribute( attribute );
-	                AttributeFieldService.getInstance(  ).updateAttributeField( attributeField );
-	            }
-	        }
-		}
-	}
-	
-	/**
-	 * Remove the attribute from a given attribute ID
-	 * @param nIdAttribute the ID attribute
-	 */
-	public void removeAttribute( int nIdAttribute )
-	{
-		// Remove the AdminUserField associated to the attribute
-		AdminUserFieldService.doRemoveUserFieldsByIdAttribute( nIdAttribute );
-		// Remove the AttributeField associated to the attribute
-		AttributeFieldService.getInstance( ).removeAttributeFieldsFromIdAttribute( nIdAttribute );
-		// Remove the Attribute
-		AttributeHome.remove( nIdAttribute );
-	}
+    /**
+     * Create a new attribute and its attribute field
+     * @param attribute the {@link IAttribute} to create
+     * @return the newly created attribute id
+     */
+    public void createAttribute( IAttribute attribute )
+    {
+        if ( attribute != null )
+        {
+            int nIdAttribute = AttributeHome.create( attribute );
+            attribute.setIdAttribute( nIdAttribute );
+
+            if ( attribute.getListAttributeFields(  ) != null )
+            {
+                for ( AttributeField attributeField : attribute.getListAttributeFields(  ) )
+                {
+                    attributeField.setAttribute( attribute );
+                    AttributeFieldService.getInstance(  ).createAttributeField( attributeField );
+                }
+            }
+        }
+    }
+
+    /**
+     * Update the attribute
+     * @param attribute the {@link IAttribute} to update
+     */
+    public void updateAttribute( IAttribute attribute )
+    {
+        if ( attribute != null )
+        {
+            AttributeHome.update( attribute );
+
+            if ( attribute.getListAttributeFields(  ) != null )
+            {
+                for ( AttributeField attributeField : attribute.getListAttributeFields(  ) )
+                {
+                    attributeField.setAttribute( attribute );
+                    AttributeFieldService.getInstance(  ).updateAttributeField( attributeField );
+                }
+            }
+        }
+    }
+
+    /**
+     * Remove the attribute from a given attribute ID
+     * @param nIdAttribute the ID attribute
+     */
+    public void removeAttribute( int nIdAttribute )
+    {
+        // Remove the AdminUserField associated to the attribute
+        AdminUserFieldService.doRemoveUserFieldsByIdAttribute( nIdAttribute );
+        // Remove the AttributeField associated to the attribute
+        AttributeFieldService.getInstance(  ).removeAttributeFieldsFromIdAttribute( nIdAttribute );
+        // Remove the Attribute
+        AttributeHome.remove( nIdAttribute );
+    }
 }

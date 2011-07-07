@@ -33,61 +33,64 @@
  */
 package fr.paris.lutece.portal.service.user.attribute;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import fr.paris.lutece.portal.business.user.attribute.AttributeType;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+
 /**
- * 
+ *
  * AttributeTypeService
  *
  */
 public class AttributeTypeService
 {
-	private static AttributeTypeService _singleton;
-	private static List<AttributeType> _listAttributeTypes;
-	
-	/**
-	 * Private constructor
-	 */
-	private AttributeTypeService(  )
-	{
-	}
-	
-	/**
-	 * Get an instance of {@link AttributeTypeService}
-	 * @return the instance of {@link AttributeTypeService}
-	 */
-	public static synchronized AttributeTypeService getInstance(  )
-	{
-		if ( _singleton == null )
-		{
-			_singleton = new AttributeTypeService(  );
-		}
-		return _singleton;
-	}
-	
-	/**
-	 * Get the list of attribute types defined the core_context.xml
-	 * @param locale the {@link Locale}
-	 * @return a list of {@link AttributeType}
-	 */
-	public List<AttributeType> getAttributeTypes( Locale locale )
-	{
-		if ( _listAttributeTypes == null )
-		{
-			_listAttributeTypes = new ArrayList<AttributeType>(  );
+    private static AttributeTypeService _singleton;
+    private static List<AttributeType> _listAttributeTypes;
 
-	        for ( IAttribute attribute : SpringContextService.getBeansOfType( IAttribute.class ) )
-	        {
-	            attribute.setAttributeType( locale );
-	            _listAttributeTypes.add( attribute.getAttributeType(  ) );
-	        }
-		}
-		return _listAttributeTypes;
-	}
+    /**
+     * Private constructor
+     */
+    private AttributeTypeService(  )
+    {
+    }
+
+    /**
+     * Get an instance of {@link AttributeTypeService}
+     * @return the instance of {@link AttributeTypeService}
+     */
+    public static synchronized AttributeTypeService getInstance(  )
+    {
+        if ( _singleton == null )
+        {
+            _singleton = new AttributeTypeService(  );
+        }
+
+        return _singleton;
+    }
+
+    /**
+     * Get the list of attribute types defined the core_context.xml
+     * @param locale the {@link Locale}
+     * @return a list of {@link AttributeType}
+     */
+    public List<AttributeType> getAttributeTypes( Locale locale )
+    {
+        if ( _listAttributeTypes == null )
+        {
+            _listAttributeTypes = new ArrayList<AttributeType>(  );
+
+            for ( IAttribute attribute : SpringContextService.getBeansOfType( IAttribute.class ) )
+            {
+                attribute.setAttributeType( locale );
+                _listAttributeTypes.add( attribute.getAttributeType(  ) );
+            }
+        }
+
+        return _listAttributeTypes;
+    }
 }

@@ -190,22 +190,22 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
 
         return query.getResultList(  );
     }
-    
+
     /**
-     * 
+     *
      *{@inheritDoc}
      */
     public void flush(  )
     {
-    	getEM(  ).flush(  );
+        getEM(  ).flush(  );
     }
-    
+
     /**
-     * 
+     *
      *{@inheritDoc}
      */
     public void detach( E entity )
     {
-    	getEM(  ).detach( entity );
+        getEM(  ).detach( entity );
     }
 }

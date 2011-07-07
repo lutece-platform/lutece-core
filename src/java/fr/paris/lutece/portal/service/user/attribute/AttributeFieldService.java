@@ -36,84 +36,86 @@ package fr.paris.lutece.portal.service.user.attribute;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
 
+
 /**
- * 
+ *
  * AttributeFieldService
  *
  */
 public class AttributeFieldService
 {
-	private static AttributeFieldService _singleton;
-	
-	/**
-	 * Private constructor
-	 */
-	private AttributeFieldService(  )
-	{
-	}
-	
-	/**
-	 * Get an instance of {@link AttributeFieldService}
-	 * @return the instance of {@link AttributeFieldService}
-	 */
-	public static synchronized AttributeFieldService getInstance(  )
-	{
-		if ( _singleton == null )
-		{
-			_singleton = new AttributeFieldService(  );
-		}
-		return _singleton;
-	}
-	
-	/**
-	 * Get the attribute field from a given atribute field ID
-	 * @param nIdAttributeField the attribute field ID
-	 * @return the {@link AttributeField}
-	 */
-	public AttributeField getAttributeField( int nIdAttributeField )
-	{
-		return AttributeFieldHome.findByPrimaryKey( nIdAttributeField );
-	}
-	
-	/**
-	 * Create a new attribute field
-	 * @param attributeField the attribute field
-	 */
-	public void createAttributeField( AttributeField attributeField )
-	{
-		if ( attributeField != null && attributeField.getAttribute(  ) != null )
-		{
-			AttributeFieldHome.create( attributeField );
-		}
-	}
-	
-	/**
-	 * Update an attribute field
-	 * @param attributeField the attribute field
-	 */
-	public void updateAttributeField( AttributeField attributeField )
-	{
-		if ( attributeField != null )
-		{
-			AttributeFieldHome.update( attributeField );
-		}
-	}
-	
-	/**
-	 * Remove the attribute field from a given attribute field
-	 * @param nIdAttribuetField the id attribute field
-	 */
-	public void removeAttributeFieldFromIdField( int nIdAttributeField )
-	{
-		AttributeFieldHome.remove( nIdAttributeField );
-	}
-	
-	/**
-	 * Remove the attribute fields from a given id attribute
-	 * @param nIdAttribute the ID attribute
-	 */
-	public void removeAttributeFieldsFromIdAttribute( int nIdAttribute )
-	{
-		AttributeFieldHome.removeAttributeFieldsFromIdAttribute( nIdAttribute );
-	}
+    private static AttributeFieldService _singleton;
+
+    /**
+     * Private constructor
+     */
+    private AttributeFieldService(  )
+    {
+    }
+
+    /**
+     * Get an instance of {@link AttributeFieldService}
+     * @return the instance of {@link AttributeFieldService}
+     */
+    public static synchronized AttributeFieldService getInstance(  )
+    {
+        if ( _singleton == null )
+        {
+            _singleton = new AttributeFieldService(  );
+        }
+
+        return _singleton;
+    }
+
+    /**
+     * Get the attribute field from a given atribute field ID
+     * @param nIdAttributeField the attribute field ID
+     * @return the {@link AttributeField}
+     */
+    public AttributeField getAttributeField( int nIdAttributeField )
+    {
+        return AttributeFieldHome.findByPrimaryKey( nIdAttributeField );
+    }
+
+    /**
+     * Create a new attribute field
+     * @param attributeField the attribute field
+     */
+    public void createAttributeField( AttributeField attributeField )
+    {
+        if ( ( attributeField != null ) && ( attributeField.getAttribute(  ) != null ) )
+        {
+            AttributeFieldHome.create( attributeField );
+        }
+    }
+
+    /**
+     * Update an attribute field
+     * @param attributeField the attribute field
+     */
+    public void updateAttributeField( AttributeField attributeField )
+    {
+        if ( attributeField != null )
+        {
+            AttributeFieldHome.update( attributeField );
+        }
+    }
+
+    /**
+     * Remove the attribute field from a given attribute field
+     * @param nIdAttribuetField the id attribute field
+     */
+    public void removeAttributeFieldFromIdField( int nIdAttributeField )
+    {
+        AttributeFieldHome.remove( nIdAttributeField );
+    }
+
+    /**
+     * Remove the attribute fields from a given id attribute
+     * @param nIdAttribute the ID attribute
+     */
+    public void removeAttributeFieldsFromIdAttribute( int nIdAttribute )
+    {
+        AttributeFieldHome.removeAttributeFieldsFromIdAttribute( nIdAttribute );
+    }
 }
