@@ -506,17 +506,9 @@ final class MailUtil
     private static InternetAddress[] getAllAdressOfRecipients( String strRecipients )
         throws AddressException
     {
-        StringTokenizer st = new StringTokenizer( strRecipients,
-                AppPropertiesService.getProperty( PROPERTY_MAIL_LIST_SEPARATOR, ";" ) );
-        List<String> listRecipients = new ArrayList<String>(  );
-
-        while ( st.hasMoreTokens(  ) )
-        {
-            listRecipients.add( st.nextToken(  ) );
-        }
-
+    	List<String> listRecipients=getAllStringAdressOfRecipients(strRecipients);
         InternetAddress[] address = new InternetAddress[listRecipients.size(  )];
-
+        
         // Initialization of the address array
         for ( int i = 0; i < listRecipients.size(  ); i++ )
         {
@@ -525,4 +517,59 @@ final class MailUtil
 
         return address;
     }
+    
+    /**
+     * extract The list of String Adress content in the string strRecipients
+     *
+     * @return The list of String Adress content in the string strRecipients
+     * @param strRecipients The list of recipient separated by the mail separator defined in config.properties
+     * 
+     */
+    public static List<String> getAllStringAdressOfRecipients( String strRecipients )
+    {
+    	
+    	StringTokenizer st = new StringTokenizer( strRecipients,
+                AppPropertiesService.getProperty( PROPERTY_MAIL_LIST_SEPARATOR, ";" ) );
+        List<String> listRecipients = new ArrayList<String>(  );
+
+        while ( st.hasMoreTokens(  ) )
+        {
+            listRecipients.add( st.nextToken(  ) );
+        }
+        
+        return listRecipients;
+    }
+    
+    
+   /**
+    * Return a String that contains a list of recipients separated with mail separator 
+    * @param listRecipients a list of string recipients
+    * @return  a String that contains a list of recipients separated with mail separator  
+    */ 
+    protected static String getStrRecipients(List<String> listRecipients)
+   {
+	   String strMailListSeparator=AppPropertiesService.getProperty( PROPERTY_MAIL_LIST_SEPARATOR, ";" );
+	   StringBuilder strRecipients=new StringBuilder();
+	   int ncpt=0;
+	   if(listRecipients!=null)
+	   {
+		   
+		   for(String strRecipient: listRecipients)
+		   {
+			   strRecipients.append(strRecipient);
+		 
+			   if (++ncpt < listRecipients.size())
+			   {
+				   strRecipients.append(strMailListSeparator);
+			   }
+		   }
+		   
+	   }
+	   return strRecipients.toString();
+   }
+	   
+	   
+   
+   
+    
 }

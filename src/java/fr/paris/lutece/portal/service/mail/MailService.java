@@ -113,6 +113,28 @@ public final class MailService
     public static void sendMailHtml( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
         String strSenderName, String strSenderEmail, String strSubject, String strMessage )
     {
+       sendMailHtml(strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail, strSubject, strMessage, false);
+    }
+    
+    
+    
+    /**
+     * Send a HTML message asynchronously. The message is queued until a daemon
+     * thread send all awaiting messages
+     *
+     * @param strRecipientsTo The list of the main recipients email.Every recipient
+     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsCc The recipients list of the carbon copies .
+     * @param strRecipientsBcc The recipients list of the blind carbon copies .
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The message.
+     * @param bUniqueRecipientTo true if the mail must be send unitarily for each recipient
+     */
+    public static void sendMailHtml( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
+        String strSenderName, String strSenderEmail, String strSubject, String strMessage, boolean bUniqueRecipientTo)
+    {
         MailItem item = new MailItem(  );
         item.setRecipientsTo( strRecipientsTo );
         item.setRecipientsCc( strRecipientsCc );
@@ -122,10 +144,15 @@ public final class MailService
         item.setSubject( strSubject );
         item.setMessage( strMessage );
         item.setFormat( MailItem.FORMAT_HTML );
+        item.setUniqueRecipientTo(bUniqueRecipientTo);
 
         IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
         queue.send( item );
     }
+    
+    
+    
+    
 
     /**
      * Send a HTML message asynchronously with the attachements associated to the message . The message is queued until a daemon
@@ -145,7 +172,9 @@ public final class MailService
         sendMailMultipartHtml( strRecipientsTo, null, null, strSenderName, strSenderEmail, strSubject, strMessage,
             urlsAttachement, null );
     }
-
+    
+    
+    
     /**
      * Send a HTML message asynchronously with the attachements associated to the message and attached files . The message is queued until a daemon
      * thread send all awaiting messages
@@ -165,6 +194,29 @@ public final class MailService
         String strSenderName, String strSenderEmail, String strSubject, String strMessage,
         List<UrlAttachment> urlsAttachement, List<FileAttachment> filesAttachement )
     {
+       sendMailMultipartHtml(strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail, strSubject, strMessage, urlsAttachement, filesAttachement,false);
+    }
+
+    /**
+     * Send a HTML message asynchronously with the attachements associated to the message and attached files . The message is queued until a daemon
+     * thread send all awaiting messages
+     *
+     * @param strRecipientsTo The list of the main recipients email.Every recipient
+     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsCc The recipients list of the carbon copies .
+     * @param strRecipientsBcc The recipients list of the blind carbon copies .
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The message.
+     * @param urlsAttachement The List of UrlAttachement Object, containing the URL of attachments associated with their content-location
+     * @param filesAttachement The list of attached files.
+     * @param bUniqueRecipientTo true if the mail must be send unitarily for each recipient
+     */
+    public static void sendMailMultipartHtml( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
+        String strSenderName, String strSenderEmail, String strSubject, String strMessage,
+        List<UrlAttachment> urlsAttachement, List<FileAttachment> filesAttachement , boolean bUniqueRecipientTo )
+    {
         MailItem item = new MailItem(  );
         item.setRecipientsTo( strRecipientsTo );
         item.setRecipientsCc( strRecipientsCc );
@@ -176,10 +228,16 @@ public final class MailService
         item.setFormat( MailItem.FORMAT_MULTIPART_HTML );
         item.setUrlsAttachement( urlsAttachement );
         item.setFilesAttachement( filesAttachement );
-
+        item.setUniqueRecipientTo(bUniqueRecipientTo);
+        
         IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
         queue.send( item );
     }
+    
+ 
+    
+    
+    
 
     /**
      * Send a text message asynchronously. The message is queued until a daemon
@@ -213,6 +271,26 @@ public final class MailService
     public static void sendMailText( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
         String strSenderName, String strSenderEmail, String strSubject, String strMessage )
     {
+        sendMailText(strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail, strSubject, strMessage, false);
+    }
+    
+    
+    /**
+     * Send a text message asynchronously. The message is queued until a daemon
+     * thread send all awaiting messages
+     *@param strRecipientsTo The list of the main recipients email.Every recipient
+     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsCc The recipients list of the carbon copies .
+     * @param strRecipientsBcc The recipients list of the blind carbon copies .
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The message.
+     * @param bUniqueRecipientTo true if the mail must be send unitarily for each recipient
+     */
+    public static void sendMailText( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
+        String strSenderName, String strSenderEmail, String strSubject, String strMessage, boolean bUniqueRecipientTo  )
+    {
         MailItem item = new MailItem(  );
         item.setRecipientsTo( strRecipientsTo );
         item.setRecipientsCc( strRecipientsCc );
@@ -222,10 +300,13 @@ public final class MailService
         item.setSubject( strSubject );
         item.setMessage( strMessage );
         item.setFormat( MailItem.FORMAT_TEXT );
+        item.setUniqueRecipientTo(bUniqueRecipientTo);
 
         IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
         queue.send( item );
     }
+    
+    
 
     /**
      * Send a text message asynchronously with attached files. The message is queued until a daemon
@@ -245,7 +326,8 @@ public final class MailService
         sendMailMultipartText( strRecipientsTo, null, null, strSenderName, strSenderEmail, strSubject, strMessage,
             filesAttachement );
     }
-
+    
+    
     /**
      * Send a text message asynchronously with attached files. The message is queued until a daemon
      * thread send all awaiting messages
@@ -263,6 +345,28 @@ public final class MailService
         String strSenderName, String strSenderEmail, String strSubject, String strMessage,
         List<FileAttachment> filesAttachement )
     {
+       sendMailMultipartText(strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail, strSubject, strMessage, filesAttachement,false);
+    }
+    
+
+    /**
+     * Send a text message asynchronously with attached files. The message is queued until a daemon
+     * thread send all awaiting messages
+     *@param strRecipientsTo The list of the main recipients email.Every recipient
+     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsCc The recipients list of the carbon copies .
+     * @param strRecipientsBcc The recipients list of the blind carbon copies .
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The message.
+     * @param filesAttachement The list of attached files.
+     * @param bUniqueRecipientTo true if the mail must be send unitarily for each recipient
+     */
+    public static void sendMailMultipartText( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
+        String strSenderName, String strSenderEmail, String strSubject, String strMessage,
+        List<FileAttachment> filesAttachement, boolean bUniqueRecipientTo )
+    {
         MailItem item = new MailItem(  );
         item.setRecipientsTo( strRecipientsTo );
         item.setRecipientsCc( strRecipientsCc );
@@ -273,10 +377,13 @@ public final class MailService
         item.setMessage( strMessage );
         item.setFormat( MailItem.FORMAT_MULTIPART_TEXT );
         item.setFilesAttachement( filesAttachement );
+        item.setUniqueRecipientTo(bUniqueRecipientTo);
 
         IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
         queue.send( item );
     }
+    
+   
 
     /**
      * Shutdown the service
@@ -327,4 +434,15 @@ public final class MailService
     {
         return MailUtil.getUrlAttachmentList( strHtml, strBaseUrl, useAbsoluteUrl );
     }
+    
+    /**
+     * Return a String that contains a list of recipients separated with mail separator 
+     * @param listRecipients a list of string recipients
+     * @return  a String that contains a list of recipients separated with mail separator  
+     */ 
+     public static String getStrRecipients(List<String> listRecipients)
+    {
+    	 return MailUtil.getStrRecipients(listRecipients);
+    }
+    
 }

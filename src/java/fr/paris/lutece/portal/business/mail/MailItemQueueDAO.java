@@ -36,12 +36,14 @@ package fr.paris.lutece.portal.business.mail;
 import fr.paris.lutece.portal.service.mail.MailItem;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
+import fr.paris.lutece.util.sql.Transaction;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.SQLException;
 
 
 /**
@@ -52,11 +54,15 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     private static final String SQL_QUERY_NEW_PK = "SELECT max(id_mail_queue) FROM core_mail_queue";
     private static final String SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID = "SELECT min(id_mail_queue) FROM core_mail_queue WHERE is_locked=0";
     private static final String SQL_QUERY_SELECT_COUNT = "SELECT COUNT(id_mail_queue) FROM core_mail_queue";
-    private static final String SQL_QUERY_LOAD = "SELECT id_mail_queue,mail_item FROM core_mail_queue WHERE id_mail_queue=? ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_mail_queue( id_mail_queue ,mail_item) " +
-        " VALUES ( ?, ?)";
+    private static final String SQL_QUERY_LOAD_MAIL_ITEM = "SELECT id_mail_queue,mail_item FROM core_mail_item WHERE id_mail_queue=? ";
+    
+    
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_mail_queue( id_mail_queue ) VALUES(?) ";
+    
+    private static final String SQL_QUERY_INSERT_MAIL_ITEM=" INSERT INTO core_mail_item(id_mail_queue,mail_item) VALUES(?,?) ";
     private static final String SQL_QUERY_LOCK_MAIL_ITEM = " UPDATE core_mail_queue SET is_locked=1 WHERE id_mail_queue= ? ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_mail_queue WHERE id_mail_queue = ?";
+    private static final String SQL_QUERY_DELETE_MAIL_ITEM = " DELETE FROM core_mail_item WHERE id_mail_queue = ?";
 
     /**
      * Generates a new primary key
@@ -81,7 +87,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
 
         return nKey;
     }
-
+    
     /**
      * return the next mail item queue id
      * @return the next mail item queue id
@@ -122,30 +128,47 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      */
     public synchronized void insert( MailItemQueue mailItemQueue )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        int nNewPrimaryKey = newPrimaryKey(  );
-        mailItemQueue.setIdMailItemQueue( nNewPrimaryKey );
-        daoUtil.setInt( 1, mailItemQueue.getIdMailItemQueue(  ) );
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(  );
+        
+    	
+    	try
+    	
+    	{
+    	
+    	ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(  );
         ObjectOutputStream objectOutputStream;
+        objectOutputStream = new ObjectOutputStream( byteArrayOutputStream );
+        objectOutputStream.writeObject( mailItemQueue.getMailItem(  ) );
+        objectOutputStream.close(  );
+        byteArrayOutputStream.close(  );
+         
+    	
+    	Transaction transaction = new Transaction(  );
 
         try
         {
-            objectOutputStream = new ObjectOutputStream( byteArrayOutputStream );
-            objectOutputStream.writeObject( mailItemQueue.getMailItem(  ) );
-            objectOutputStream.close(  );
-            byteArrayOutputStream.close(  );
-            daoUtil.setBytes( 2, byteArrayOutputStream.toByteArray(  ) );
-            daoUtil.executeUpdate(  );
+        	
+            int nNewPrimaryKey = newPrimaryKey(  );
+            mailItemQueue.setIdMailItemQueue( nNewPrimaryKey );
+            transaction.prepareStatement( SQL_QUERY_INSERT );
+            transaction.getStatement(  ).setInt( 1, nNewPrimaryKey );
+            transaction.executeStatement(  );
+            transaction.prepareStatement( SQL_QUERY_INSERT_MAIL_ITEM );
+            transaction.getStatement(  ).setInt( 1, nNewPrimaryKey );
+            transaction.getStatement(  ).setBytes( 2, byteArrayOutputStream.toByteArray(  ) );
+            transaction.executeStatement(  );
+            
+            transaction.commit(  );
         }
-        catch ( IOException e )
-        {
-            AppLogService.error( e );
-        }
-
-        daoUtil.free(  );
-    }
+        
+        catch (Exception e) {
+        	transaction.rollback( e );
+			AppLogService.error(e);
+		}
+        
+    	}catch (Exception e) {
+    		AppLogService.error(e);
+		}
+     }
 
     /**
      * return the first mail item  in the table
@@ -157,7 +180,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
         MailItemQueue mailItemQueue = null;
         MailItem mailItem = null;
         InputStream inputStream;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_MAIL_ITEM );
         daoUtil.setInt( 1, nIdMailItemQueue );
         daoUtil.executeQuery(  );
 
@@ -192,18 +215,38 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
 
         return mailItemQueue;
     }
-
+    
+    
+      
+   
     /**
      * Delete  the mail item record in the table
      * @param nIdMailItemQueue The indentifier of the mail item to remove
      */
     public void delete( int nIdMailItemQueue )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nIdMailItemQueue );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
-    }
+        
+    	
+    	Transaction transaction = new Transaction(  );
+
+        try
+        {
+        	
+            transaction.prepareStatement( SQL_QUERY_DELETE_MAIL_ITEM);
+            transaction.getStatement(  ).setInt( 1, nIdMailItemQueue );
+            transaction.executeStatement(  );
+            transaction.prepareStatement( SQL_QUERY_DELETE );
+            transaction.getStatement(  ).setInt( 1, nIdMailItemQueue );
+            transaction.executeStatement(  );
+            transaction.commit(  );
+        }
+        
+        catch (Exception e) {
+        	transaction.rollback( e );
+			AppLogService.error(e);
+		}
+    	
+  }
 
     /**
      *@return the number of mail item present in the core_mail_queue
