@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2008, Mairie de Paris
+ * Copyright (c) 2002-2011, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,10 +33,26 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import java.util.Map;
+
 /**
- * UserAttributesService
+ * User Attributes Service Interface
  */
-public class UserAttributesService
+public interface UserAttributesService
 {
+    /**
+     * Get an attribute for a given user
+     * @param strUserId The User ID
+     * @param strAttribute The attribute name
+     * @return The attribute value
+     */
+    String getAttribute( String strUserId , String strAttribute );
+    
+    /**
+     * Get a map of attributes for a given user
+     * @param strUserId The User ID
+     * @return The map of attributes
+     */
+    Map getAttributes( String strUserId );
     
 }
