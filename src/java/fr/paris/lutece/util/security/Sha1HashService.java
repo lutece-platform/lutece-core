@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2011, Mairie de Paris
+ * Copyright (c) 2002-2008, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,29 +39,17 @@ import java.security.NoSuchAlgorithmException;
 import org.apache.log4j.Logger;
 
 /**
- * Security Utils
- * @since v3.0
+ * Sha1HashService
  */
-public final class SecurityUtil
+public class Sha1HashService implements HashService
 {
-
     private static final String HEX_DIGITS = "0123456789abcdef";
     private static Logger _logger = Logger.getLogger("lutece.security");
 
     /**
-     * Private constructor
+     * {@inheritDoc }
      */
-    private SecurityUtil()
-    {
-    }
-
-    
-    /**
-     * Create a hash using SHA-1 algorithm 
-     * @param strSource The source
-     * @return The hash
-     */
-    public static String sha1(String strSource)
+    public String getHash( String strSource )
     {
         MessageDigest md1 = null;
         try
@@ -98,3 +86,5 @@ public final class SecurityUtil
         return sb.toString();
     }
 }
+ 
+
