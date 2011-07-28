@@ -1,0 +1,93 @@
+/*
+ * Copyright (c) 2002-2011, Mairie de Paris
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice
+ *     and the following disclaimer.
+ *
+ *  2. Redistributions in binary form must reproduce the above copyright notice
+ *     and the following disclaimer in the documentation and/or other materials
+ *     provided with the distribution.
+ *
+ *  3. Neither the name of 'Mairie de Paris' nor 'Lutece' nor the names of its
+ *     contributors may be used to endorse or promote products derived from
+ *     this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * License 1.0
+ */
+package fr.paris.lutece.portal.service.sessionlistener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpSessionListener;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+
+/**
+ * Listener service : provides registered listener access.
+ *
+ */
+public class HttpSessionListenerService
+{
+	private static final List<HttpSessionListener> LIST_LISTENERS = new ArrayList<HttpSessionListener>();
+	/**
+	 * Private constructor
+	 */
+	private HttpSessionListenerService(  )
+	{
+		// nothing
+	}
+	
+	/**
+	 * Registers a listener
+	 * @param strListenerClass the listener class name
+	 */
+	public static void registerListener( HttpSessionListenerEntry entry )
+	{
+		String strListenerClass = entry.getListenerClass(  );
+		
+		try {
+			HttpSessionListener listener = (HttpSessionListener) Class.forName( strListenerClass ).newInstance(  );
+			LIST_LISTENERS.add( listener );
+			AppLogService.info( "New Listener registered : " + strListenerClass );
+		}
+		catch ( InstantiationException e )
+		{
+			 AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage(  ), e );
+		}
+		catch ( IllegalAccessException e )
+		{
+			 AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage(  ), e );
+		}
+		catch ( ClassNotFoundException e ) 
+		{
+			 AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage(  ), e );
+		}	
+	}
+	
+	/**
+	 * Get all registered listeners
+	 * @return all registered listeners
+	 */
+	public static List<HttpSessionListener> getListeners(  )
+	{
+		return LIST_LISTENERS;
+	}
+}

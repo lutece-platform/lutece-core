@@ -68,6 +68,12 @@
             <call-param-rule pattern="init-param/param-value" paramnumber="1"/>
             <set-next-rule methodname="addFilter" />
         </pattern>
+        <pattern value="listeners/listener">
+            <object-create-rule classname="fr.paris.lutece.portal.service.sessionlistener.ListenerEntry" />
+            <set-properties-rule />
+            <bean-property-setter-rule pattern="listener-class" propertyname="listenerClass" />
+            <set-next-rule methodname="addListener" />
+        </pattern>
         <pattern value="admin-features/admin-feature">
             <object-create-rule classname="fr.paris.lutece.portal.business.right.Right" />
             <set-properties-rule />

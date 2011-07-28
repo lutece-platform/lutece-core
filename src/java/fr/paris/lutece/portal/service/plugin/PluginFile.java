@@ -44,6 +44,7 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.insert.InsertService;
 import fr.paris.lutece.portal.service.rbac.RBACResourceTypeEntry;
 import fr.paris.lutece.portal.service.search.SearchIndexerEntry;
+import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 
 import org.apache.commons.digester.Digester;
@@ -92,6 +93,7 @@ public class PluginFile
     private List<DaemonEntry> _listDaemons = new ArrayList<DaemonEntry>(  );
     private List<XPageApplicationEntry> _listApplications = new ArrayList<XPageApplicationEntry>(  );
     private List<FilterEntry> _listFilters = new ArrayList<FilterEntry>(  );
+    private List<HttpSessionListenerEntry> _listListeners = new ArrayList<HttpSessionListenerEntry>();
     private List<ContentServiceEntry> _listContentServices = new ArrayList<ContentServiceEntry>(  );
     private List<SearchIndexerEntry> _listSearchIndexers = new ArrayList<SearchIndexerEntry>(  );
     private List<InsertService> _listInsertServices = new ArrayList<InsertService>(  );
@@ -475,6 +477,24 @@ public class PluginFile
     public List<FilterEntry> getFilters(  )
     {
         return _listFilters;
+    }
+
+    /**
+     * Add a listener to the plugin definition
+     * @param entry The listener entry
+     */
+    public void addListener( HttpSessionListenerEntry entry )
+    {
+    	_listListeners.add( entry );
+    }
+    
+    /**
+     * Returns listener list of the plugin
+     * @return the list of listeners
+     */
+    public List<HttpSessionListenerEntry> getListeners(  )
+    {
+    	return _listListeners;
     }
 
     /**

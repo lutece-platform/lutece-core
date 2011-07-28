@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- Lutece plugins DTD. Copyright (c) 2006 Mairie de Paris -->
-<!ELEMENT plug-in ( name, class, version, description, documentation, installation, changes, user-guide, provider, provider-url, icon-url?, copyright?, db-pool-required, css-stylesheets?, javascript-file?, page-include-service*, applications*, link-service*, html-service*, content-service*, admin-features*, portlets*, params*, dashboard-components? ) >
+<!ELEMENT plug-in ( name, class, version, description, documentation, installation, changes, user-guide, provider, provider-url, icon-url?, copyright?, db-pool-required, css-stylesheets?, javascript-file?, page-include-service*, applications*, link-service*, html-service*, content-service*, admin-features*, portlets*, params*, dashboard-components?, listeners? ) >
 
 
 <!-- Plugin Informations -->
@@ -84,3 +84,8 @@
 <!ELEMENT dashboard-component-name ( #PCDATA ) >
 <!ELEMENT dashboard-component-class ( #PCDATA ) >
 <!ELEMENT dashboard-feature-right ( #PCDATA ) >
+
+<!-- Session Listeners-->
+<!ELEMENT listeners ( listener* )>
+<!ELEMENT listener ( listener-class ) >
+<!ELEMENT listener-class ( #PCDATA ) >

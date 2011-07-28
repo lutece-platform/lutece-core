@@ -4,6 +4,11 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     version="2.5">
 
+	<listener>
+		<display-name>Lutece Main Listener</display-name>
+		<listener-class>fr.paris.lutece.portal.service.sessionlistener.MainHttpSessionListener</listener-class>
+	</listener>
+
     <filter>
         <filter-name>StaticFilesCachingFilter</filter-name>
         <filter-class>fr.paris.lutece.portal.service.cache.HeadersPageCachingFilter</filter-class>

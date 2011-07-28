@@ -60,6 +60,8 @@ import fr.paris.lutece.portal.service.rbac.ResourceIdService;
 import fr.paris.lutece.portal.service.search.IndexationService;
 import fr.paris.lutece.portal.service.search.SearchIndexer;
 import fr.paris.lutece.portal.service.search.SearchIndexerEntry;
+import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry;
+import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 
@@ -109,6 +111,7 @@ public abstract class Plugin implements Comparable<Plugin>
     // Lists of rights and portlets of the plugin
     private List<XPageApplicationEntry> _listXPageApplications;
     private List<FilterEntry> _listFilters;
+    private List<HttpSessionListenerEntry> _listListeners;
     private List<String> _listCssStyleSheets;
     private List<String> _listJavascriptFiles;
     private List<Right> _listRights;
@@ -157,6 +160,7 @@ public abstract class Plugin implements Comparable<Plugin>
             _strMaxCoreVersion = pluginFile.getMaxCoreVersion(  );
             _listXPageApplications = pluginFile.getXPageApplications(  );
             _listFilters = pluginFile.getFilters(  );
+            _listListeners = pluginFile.getListeners();
             _listRights = pluginFile.getRights(  );
             _listPortletTypes = pluginFile.getPortletTypes(  );
             _listContentServices = pluginFile.getContentServices(  );
@@ -180,6 +184,7 @@ public abstract class Plugin implements Comparable<Plugin>
             // Register plugin components
             registerXPageApplications(  );
             registerFilters(  );
+            registerListeners(  );
             registerContentServices(  );
             registerInsertServices(  );
             registerSearchIndexers(  );
@@ -361,6 +366,18 @@ public abstract class Plugin implements Comparable<Plugin>
         {
             FilterService.getInstance(  ).registerFilter( entry, this );
         }
+    }
+
+    /**
+     * Register listeners
+     * @throws LuteceInitException if an error occurs
+     */
+    protected void registerListeners(  ) throws LuteceInitException
+    {
+    	for ( HttpSessionListenerEntry entry : _listListeners )
+    	{
+    		HttpSessionListenerService.registerListener( entry );
+    	}
     }
 
     /**
