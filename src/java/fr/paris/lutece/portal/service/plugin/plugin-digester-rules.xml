@@ -69,7 +69,7 @@
             <set-next-rule methodname="addFilter" />
         </pattern>
         <pattern value="listeners/listener">
-            <object-create-rule classname="fr.paris.lutece.portal.service.sessionlistener.ListenerEntry" />
+            <object-create-rule classname="fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry" />
             <set-properties-rule />
             <bean-property-setter-rule pattern="listener-class" propertyname="listenerClass" />
             <set-next-rule methodname="addListener" />
