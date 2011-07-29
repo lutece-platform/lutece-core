@@ -149,6 +149,10 @@
         <servlet-name>StyleSheetServlet</servlet-name>
         <servlet-class>fr.paris.lutece.portal.web.stylesheet.StyleSheetFileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SiteUploadServlet</servlet-name>
+        <servlet-class>fr.paris.lutece.portal.web.upload.UploadServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ImageServlet</servlet-name>
         <url-pattern>/image</url-pattern>
@@ -160,6 +164,10 @@
     <servlet-mapping>
         <servlet-name>StyleSheetServlet</servlet-name>
         <url-pattern>/ViewStyleSheetFile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SiteUploadServlet</servlet-name>
+        <url-pattern>/jsp/site/upload</url-pattern>
     </servlet-mapping>
   
     <error-page>
