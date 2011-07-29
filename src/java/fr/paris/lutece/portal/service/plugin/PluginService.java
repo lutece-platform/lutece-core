@@ -187,6 +187,10 @@ public final class PluginService
                 }
 
                 plugin.init(  );
+
+                // plugin installed event
+                PluginEvent event = new PluginEvent( plugin, PluginEvent.PLUGIN_INSTALLED );
+                notifyListeners( event );
             }
             catch ( Exception e )
             {
