@@ -159,6 +159,9 @@ public final class AppInit
 
             // Initialize AdminUserService
             AdminUserService.init(  );
+            
+            // Process post startup services
+            PostStartUpServiceManager.init(  );
 
             _bInitSuccessfull = true;
         }
