@@ -205,7 +205,7 @@ public final class AppPropertiesService
      * @return All properties
      * @since version 3.0
      */
-    public Properties getProperties()
+    public static Properties getProperties()
     {
         // Return a copy of all properties
         return new Properties (_propertiesService.getProperties() );
@@ -217,7 +217,7 @@ public final class AppPropertiesService
      * @return A list of keys that match the prefix
      * @since version 3.0
      */
-    public List<String> getKeys( String strPrefix )
+    public static List<String> getKeys( String strPrefix )
     {
         List<String> listKeys = new ArrayList<String>();
         Enumeration eList = _propertiesService.getProperties().keys();
