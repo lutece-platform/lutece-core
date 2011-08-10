@@ -246,4 +246,13 @@ public class PropertiesService
 
         return bValue;
     }
+
+    /**
+     * Gets properties
+     * @return All properties
+     */
+    public Properties getProperties()
+    {
+        return _properties;
+    }
 }
