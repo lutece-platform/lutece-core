@@ -31,62 +31,23 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.util;
-
-import java.io.InputStream;
-
+package fr.paris.lutece.portal.service.blobstore;
 
 /**
- * Blob Store Service Interface. <i>*InputStream</i> methods should be used for very large blobs.
+ * NoSuchBlobException.
+ * @see BlobStoreFileItem
+ *
  */
-public interface BlobStoreService
+public class NoSuchBlobException extends Exception
 {
-    /**
-     * Store a blob
-     * @param blob The blob
-     * @return The key of the blob
-     */
-    String store( byte[] blob );
-    
-    /**
-     * Stores an input stream
-     * @param inputStream the input stream
-     * @return The key of the blob
-     */
-    String storeInputStream( InputStream inputStream );
-    
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * Get a blob
-     * @param strKey The key of the blob
-     * @return  The blob
-     */
-    byte[] getBlob( String strKey );
-    
-    /**
-     * Gets a blob as {@link InputStream}
-     * @param strKey the key
-     * @return the {@link InputStream}
-     */
-    InputStream getBlobInputStream( String strKey );
-
-    /**
-     * Update a blob
-     * @param strKey The key of the blob
-     * @param blob The new blob
-     */
-    void update( String strKey, byte[] blob );
-
-    /**
-     * Updates a blob key with the inputstream
-     * @param strKey the blob key
-     * @param inputStream the input stream
-     */
-    void updateInputStream( String strKey, InputStream inputStream );
-
-    /**
-     * Delete a blob
-     * @param strKey The key of the blob
-     */
-    void delete( String strKey );
+	/**
+	 * NoSuchBlobException
+	 * @param strMessage the message
+	 */
+	public NoSuchBlobException( String strMessage )
+	{
+		super( strMessage );
+	}
 }
