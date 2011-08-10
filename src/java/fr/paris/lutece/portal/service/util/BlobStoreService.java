@@ -33,9 +33,11 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+import java.io.InputStream;
+
 
 /**
- * Blob Store Service Interface
+ * Blob Store Service Interface. <i>*InputStream</i> methods should be used for very large blobs.
  */
 public interface BlobStoreService
 {
@@ -45,6 +47,14 @@ public interface BlobStoreService
      * @return The key of the blob
      */
     String store( byte[] blob );
+    
+    /**
+     * Stores an input stream
+     * @param inputStream the input stream
+     * @return The key of the blob
+     */
+    String storeInputStream( InputStream inputStream );
+    
 
     /**
      * Get a blob
@@ -52,6 +62,13 @@ public interface BlobStoreService
      * @return  The blob
      */
     byte[] getBlob( String strKey );
+    
+    /**
+     * Gets a blob as {@link InputStream}
+     * @param strKey the key
+     * @return the {@link InputStream}
+     */
+    InputStream getBlobInputStream( String strKey );
 
     /**
      * Update a blob
@@ -59,6 +76,13 @@ public interface BlobStoreService
      * @param blob The new blob
      */
     void update( String strKey, byte[] blob );
+
+    /**
+     * Updates a blob key with the inputstream
+     * @param strKey the blob key
+     * @param inputStream the input stream
+     */
+    void updateInputStream( String strKey, InputStream inputStream );
 
     /**
      * Delete a blob
