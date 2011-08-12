@@ -90,4 +90,30 @@ public interface BlobStoreService extends Serializable
      * @param strKey The key of the blob
      */
     void delete( String strKey );
+    
+    /**
+     * Gets the blob URL
+     * @param strKey
+     * @return the blob url
+     */
+    String getBlobUrl( String strKey );
+    
+    /**
+     * Gets the file download url (for {@link BlobStoreFileItem})
+     * @param strKey the
+     * @return the download link
+     */
+    String getFileUrl( String strKey );
+    
+    /**
+     * Gets the blobstore name
+     * @return the blobstore name
+     */
+    String getName(  );
+    
+    /**
+     * Sets the blobstore name
+     * @param strName the name
+     */
+    void setName( String strName );
 }

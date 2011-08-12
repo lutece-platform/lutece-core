@@ -59,6 +59,7 @@ public class BlobStoreFileItem implements FileItem
 {	
     public static final String JSON_KEY_FILE_SIZE = "fileSize";
     public static final String JSON_KEY_FILE_NAME = "fileName";
+    public static final String JSON_KEY_FILE_CONTENT_TYPE = "fileContentType";
     public static final String JSON_KEY_FILE_BLOB_ID = "fileBlobId";
     public static final String JSON_KEY_FILE_METADATA_BLOB_ID = "fileMetadata";
 
@@ -291,14 +292,16 @@ public class BlobStoreFileItem implements FileItem
 	 * @param strFileName filename
 	 * @param lSize size
 	 * @param strFileBlobId the blob id
+	 * @param strContentType the content type
 	 * @return the json of the fileMetadata to store in BlobStore
 	 */
-    public static final String buildFileMetadata( String strFileName, long lSize, String strFileBlobId )
+    public static final String buildFileMetadata( String strFileName, long lSize, String strFileBlobId, String strContentType )
     {
     	JSONObject json = new JSONObject(  );
     	json.accumulate( BlobStoreFileItem.JSON_KEY_FILE_SIZE, Long.toString( lSize ) );
     	json.accumulate( BlobStoreFileItem.JSON_KEY_FILE_NAME, strFileName );
     	json.accumulate( BlobStoreFileItem.JSON_KEY_FILE_BLOB_ID, strFileBlobId );
+    	json.accumulate( BlobStoreFileItem.JSON_KEY_FILE_CONTENT_TYPE, strContentType );
     	
     	return json.toString(  );
     }
