@@ -142,6 +142,8 @@ public class JPAStartupService implements StartUpService
 
             JpaTransactionManager tm = new JpaTransactionManager(  );
             tm.setEntityManagerFactory( emf );
+            tm.setJpaDialect( jpaDialect );
+            _log.debug( "> JpaDialect " + jpaDialect );
             tm.afterPropertiesSet(  );
             _log.info( "JPA Startup Service : JPA TransactionManager created for pool : " + strPoolname );
             _log.debug( "> TM : " + tm.toString(  ) );
