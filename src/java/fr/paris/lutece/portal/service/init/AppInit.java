@@ -131,9 +131,9 @@ public final class AppInit
 
             // Initialize and run StartUp services
             StartUpServiceManager.init(  );
-            
+
             // XmlTransformer service cache manager
-            XmlTransformerCacheService.init();
+            XmlTransformerCacheService.init(  );
 
             AdminMailingListService.init(  );
 
@@ -163,7 +163,7 @@ public final class AppInit
 
             // Initialize AdminUserService
             AdminUserService.init(  );
-            
+
             // Process post startup services
             PostStartUpServiceManager.init(  );
 

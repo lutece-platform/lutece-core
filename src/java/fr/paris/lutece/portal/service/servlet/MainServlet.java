@@ -34,7 +34,9 @@
 package fr.paris.lutece.portal.service.servlet;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.io.IOException;
+
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -42,6 +44,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * MainServlet
@@ -53,20 +56,21 @@ public class MainServlet implements Servlet
      */
     public void init( ServletConfig config ) throws ServletException
     {
-        ServletService.setServletContext( config.getServletContext() );
+        ServletService.setServletContext( config.getServletContext(  ) );
     }
 
     /**
      * {@inheritDoc}
      */
-    public void service( ServletRequest requestServlet, ServletResponse responseServlet ) throws ServletException, IOException
+    public void service( ServletRequest requestServlet, ServletResponse responseServlet )
+        throws ServletException, IOException
     {
         AppLogService.debug( "MainServlet : service()" );
 
         HttpServletRequest request = (HttpServletRequest) requestServlet;
         HttpServletResponse response = (HttpServletResponse) responseServlet;
 
-        for ( LuteceServlet servlet : ServletService.getInstance(  ).getServlets( ) )
+        for ( LuteceServlet servlet : ServletService.getInstance(  ).getServlets(  ) )
         {
             AppLogService.debug( "PluginServlet : " + servlet.getName(  ) + " - url pattern : " +
                 servlet.getMappingUrlPattern(  ) );
@@ -76,7 +80,7 @@ public class MainServlet implements Servlet
                 // Checks mapping and plugin status
                 if ( matchMapping( servlet, request ) && servlet.getPlugin(  ).isInstalled(  ) )
                 {
-                    servlet.getServlet().service( request, response);
+                    servlet.getServlet(  ).service( request, response );
                 }
             }
             catch ( Exception e )
@@ -84,7 +88,6 @@ public class MainServlet implements Servlet
                 AppLogService.error( "Error execution 'service' method - Servlet " + servlet.getName(  ), e );
             }
         }
-
     }
 
     /**
@@ -92,7 +95,7 @@ public class MainServlet implements Servlet
      */
     public void destroy(  )
     {
-        for ( LuteceServlet servlet : ServletService.getInstance(  ).getServlets() )
+        for ( LuteceServlet servlet : ServletService.getInstance(  ).getServlets(  ) )
         {
             // Catch exception for each servlet to execute all chain
             try
@@ -135,12 +138,12 @@ public class MainServlet implements Servlet
         return strRequestUrl.startsWith( strUrlPattern );
     }
 
-    public ServletConfig getServletConfig()
+    public ServletConfig getServletConfig(  )
     {
         throw new UnsupportedOperationException( "Not supported yet." );
     }
 
-    public String getServletInfo()
+    public String getServletInfo(  )
     {
         throw new UnsupportedOperationException( "Not supported yet." );
     }

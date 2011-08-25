@@ -33,30 +33,31 @@
  */
 package fr.paris.lutece.portal.service.sessionlistener;
 
+
 /**
- * 
+ *
  * ListenerEntry Entry used to load httpsessionlistener from the plugin XML file
  *
  */
-public class HttpSessionListenerEntry {
+public class HttpSessionListenerEntry
+{
     private String _strListenerClass;
-    
+
     /**
      * The listener class
      * @return The listener class
      */
     public String getListenerClass(  )
     {
-    	return _strListenerClass;
+        return _strListenerClass;
     }
-    
+
     /**
      * The listener class
      * @param strListenerClass The listener class
      */
     public void setListenerClass( String strListenerClass )
     {
-    	_strListenerClass = strListenerClass;
+        _strListenerClass = strListenerClass;
     }
-
 }

@@ -36,33 +36,32 @@ package fr.paris.lutece.portal.service.sessionlistener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+
 /**
  * Delegates all operations to all registered plugin-listeners.
  * @see {@link HttpSessionListenerService#getListeners}.
  */
 public class MainHttpSessionListener implements HttpSessionListener
 {
+    /**
+     * {@inheritDoc}
+     */
+    public void sessionCreated( HttpSessionEvent se )
+    {
+        for ( HttpSessionListener listener : HttpSessionListenerService.getListeners(  ) )
+        {
+            listener.sessionCreated( se );
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void sessionCreated( HttpSessionEvent se )
-	{
-		for ( HttpSessionListener listener : HttpSessionListenerService.getListeners(  ) )
-		{
-			listener.sessionCreated( se );
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void sessionDestroyed( HttpSessionEvent se )
-	{
-		for ( HttpSessionListener listener : HttpSessionListenerService.getListeners(  ) )
-		{
-			listener.sessionDestroyed( se );
-		}
-	}
-
+    /**
+     * {@inheritDoc}
+     */
+    public void sessionDestroyed( HttpSessionEvent se )
+    {
+        for ( HttpSessionListener listener : HttpSessionListenerService.getListeners(  ) )
+        {
+            listener.sessionDestroyed( se );
+        }
+    }
 }

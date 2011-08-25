@@ -33,18 +33,19 @@
  */
 package fr.paris.lutece.portal.service.blobstore;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
+
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
+
+import org.apache.commons.fileupload.FileItem;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.fileupload.FileItem;
-
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
-
-import fr.paris.lutece.portal.service.util.AppLogService;
 
 /**
  * Builds a fileItem from blobstore implementing {@link FileItem}. <br>
@@ -56,213 +57,215 @@ import fr.paris.lutece.portal.service.util.AppLogService;
  *
  */
 public class BlobStoreFileItem implements FileItem
-{	
+{
     public static final String JSON_KEY_FILE_SIZE = "fileSize";
     public static final String JSON_KEY_FILE_NAME = "fileName";
     public static final String JSON_KEY_FILE_CONTENT_TYPE = "fileContentType";
     public static final String JSON_KEY_FILE_BLOB_ID = "fileBlobId";
     public static final String JSON_KEY_FILE_METADATA_BLOB_ID = "fileMetadata";
+    private static final long serialVersionUID = 1L;
+    private BlobStoreService _blobstoreService;
+    private String _strBlobId;
+    private String _strFileName;
+    private long _lFileSize;
+    private String _strFileBlobId;
 
-	private static final long serialVersionUID = 1L;
-    
-	private BlobStoreService _blobstoreService;
-	private String _strBlobId;
-	private String _strFileName;
-	private long _lFileSize;
-	private String _strFileBlobId;
-	
-	/**
-	 * Builds a fileItem from blobstore. get() method is lazy. 
-	 * The {@link BlobStoreService} is here to prevent specific usage for the fileItem so it can be used as any other FileItem.
-	 * @param strBlobId the blob id
-	 * @param blobstoreService the blob service
-	 * @throws NoSuchBlobException if blob cannot be parsed
-	 */
-	public BlobStoreFileItem( String strBlobId, BlobStoreService blobstoreService ) throws NoSuchBlobException
-	{
-		_strBlobId = strBlobId;
-		_blobstoreService = blobstoreService;
-		// first, get the metadata
-		byte[] blob = _blobstoreService.getBlob( _strBlobId );
-		if ( blob == null )
-		{
-			throw new NoSuchBlobException( "No blob found for id " +  strBlobId );
-		}
-		JSONObject jsonObject = parseBlob( blob );
-		if ( jsonObject != null )
-		{
-			String strSize = (String) jsonObject.get( JSON_KEY_FILE_SIZE );
-			_lFileSize = Long.parseLong( strSize );
-			_strFileName = (String) jsonObject.get( JSON_KEY_FILE_NAME );
-			// store the real blob id - file will be fetch on demand (#get)
-			_strFileBlobId = (String) jsonObject.get( JSON_KEY_FILE_BLOB_ID );
-		}
-		else
-		{
-			throw new NoSuchBlobException( strBlobId );
-		}
-	}
-	
-	/**
-	 * Gets the metadata blob id
-	 * @return the metadata blob id
-	 */
-	public String getBlobId(  )
-	{
-		return _strBlobId;
-	}
-	
-	/**
-	 * Gets the file blob id
-	 * @return the file blob id
-	 */
-	public String getFileBlobId(  )
-	{
-		return _strFileBlobId;
-	}
+    /**
+     * Builds a fileItem from blobstore. get() method is lazy.
+     * The {@link BlobStoreService} is here to prevent specific usage for the fileItem so it can be used as any other FileItem.
+     * @param strBlobId the blob id
+     * @param blobstoreService the blob service
+     * @throws NoSuchBlobException if blob cannot be parsed
+     */
+    public BlobStoreFileItem( String strBlobId, BlobStoreService blobstoreService )
+        throws NoSuchBlobException
+    {
+        _strBlobId = strBlobId;
+        _blobstoreService = blobstoreService;
 
-	/**
-	 * Deletes both blobs : metadata <strong>AND</strong> content.
-	 */
-	public void delete(  ) 
-	{
-		_blobstoreService.delete( _strFileBlobId );
-		_blobstoreService.delete( _strBlobId );
-	}
+        // first, get the metadata
+        byte[] blob = _blobstoreService.getBlob( _strBlobId );
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public byte[] get(  )
-	{
-		return _blobstoreService.getBlob( _strFileBlobId );
-	}
+        if ( blob == null )
+        {
+            throw new NoSuchBlobException( "No blob found for id " + strBlobId );
+        }
 
-	/**
-	 * Not supported
-	 * @return null
-	 */
-	public String getContentType(  )
-	{
-		return null;
-	}
+        JSONObject jsonObject = parseBlob( blob );
 
-	/**
-	 * Not supported
-	 * @return null
-	 */
-	public String getFieldName(  )
-	{
-		return null;
-	}
+        if ( jsonObject != null )
+        {
+            String strSize = (String) jsonObject.get( JSON_KEY_FILE_SIZE );
+            _lFileSize = Long.parseLong( strSize );
+            _strFileName = (String) jsonObject.get( JSON_KEY_FILE_NAME );
+            // store the real blob id - file will be fetch on demand (#get)
+            _strFileBlobId = (String) jsonObject.get( JSON_KEY_FILE_BLOB_ID );
+        }
+        else
+        {
+            throw new NoSuchBlobException( strBlobId );
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * @throws IOException ioexception
-	 */
-	public InputStream getInputStream() throws IOException
-	{
-		return _blobstoreService.getBlobInputStream( _strFileBlobId );
-	}
+    /**
+     * Gets the metadata blob id
+     * @return the metadata blob id
+     */
+    public String getBlobId(  )
+    {
+        return _strBlobId;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getName(  )
-	{
-		return _strFileName;
-	}
+    /**
+     * Gets the file blob id
+     * @return the file blob id
+     */
+    public String getFileBlobId(  )
+    {
+        return _strFileBlobId;
+    }
 
-	/**
-	 * Not supported - throws UnsupportedOperationException exception
-	 * @return nothing
-	 * @throws IOException ioe
-	 */
-	public OutputStream getOutputStream(  ) throws IOException
-	{
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * Deletes both blobs : metadata <strong>AND</strong> content.
+     */
+    public void delete(  )
+    {
+        _blobstoreService.delete( _strFileBlobId );
+        _blobstoreService.delete( _strBlobId );
+    }
 
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getSize(  )
-	{
-		return _lFileSize;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public byte[] get(  )
+    {
+        return _blobstoreService.getBlob( _strFileBlobId );
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getString(  )
-	{
-		return new String( get(  ) );
-	}
+    /**
+     * Not supported
+     * @return null
+     */
+    public String getContentType(  )
+    {
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getString( String encoding ) throws UnsupportedEncodingException 
-	{
-		return new String( get(  ), encoding );
-	}
+    /**
+     * Not supported
+     * @return null
+     */
+    public String getFieldName(  )
+    {
+        return null;
+    }
 
-	/**
-	 * Not supported
-	 * @return false
-	 */
-	public boolean isFormField(  )
-	{
-		return false;
-	}
+    /**
+     * {@inheritDoc}
+     * @throws IOException ioexception
+     */
+    public InputStream getInputStream(  ) throws IOException
+    {
+        return _blobstoreService.getBlobInputStream( _strFileBlobId );
+    }
 
-	/**
-	 * Always false.
-	 * @return false
-	 */
-	public boolean isInMemory(  )
-	{
-		return false;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public String getName(  )
+    {
+        return _strFileName;
+    }
 
-	/**
-	 * Not supported
-	 * @param name -
-	 */
-	public void setFieldName( String name )
-	{
-		// nothing
-	}
+    /**
+     * Not supported - throws UnsupportedOperationException exception
+     * @return nothing
+     * @throws IOException ioe
+     */
+    public OutputStream getOutputStream(  ) throws IOException
+    {
+        throw new UnsupportedOperationException(  );
+    }
 
-	/**
-	 * Not supported
-	 * @param state -
-	 */
-	public void setFormField( boolean state )
-	{
-		// nothing
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public long getSize(  )
+    {
+        return _lFileSize;
+    }
 
-	/**
-	 * Not supported
-	 * @param file -
-	 * @throws Exception ex
-	 */
-	public void write( File file ) throws Exception 
-	{
-		throw new UnsupportedOperationException(  );
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString(  )
-	{
-		return "BlobId:" + _strBlobId + " FileBlobId:" + _strFileBlobId + " FileName:" + _strFileName;
-	}
-    
+    /**
+     * {@inheritDoc}
+     */
+    public String getString(  )
+    {
+        return new String( get(  ) );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getString( String encoding ) throws UnsupportedEncodingException
+    {
+        return new String( get(  ), encoding );
+    }
+
+    /**
+     * Not supported
+     * @return false
+     */
+    public boolean isFormField(  )
+    {
+        return false;
+    }
+
+    /**
+     * Always false.
+     * @return false
+     */
+    public boolean isInMemory(  )
+    {
+        return false;
+    }
+
+    /**
+     * Not supported
+     * @param name -
+     */
+    public void setFieldName( String name )
+    {
+        // nothing
+    }
+
+    /**
+     * Not supported
+     * @param state -
+     */
+    public void setFormField( boolean state )
+    {
+        // nothing
+    }
+
+    /**
+     * Not supported
+     * @param file -
+     * @throws Exception ex
+     */
+    public void write( File file ) throws Exception
+    {
+        throw new UnsupportedOperationException(  );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString(  )
+    {
+        return "BlobId:" + _strBlobId + " FileBlobId:" + _strFileBlobId + " FileName:" + _strFileName;
+    }
+
     /**
      * Parses a blob to a JSONObject
      * @param blob the blob
@@ -270,40 +273,40 @@ public class BlobStoreFileItem implements FileItem
      */
     private static JSONObject parseBlob( byte[] blob )
     {
-    	if ( blob == null )
-    	{
-    		return null;
-    	}
-    	try
-    	{
-    		
-    		return JSONObject.fromObject( new String( blob ) );
-    	}
-    	catch ( JSONException je )
-    	{
-    		AppLogService.error( je.getMessage(), je );
-    	}
-    	
-    	return null;
-    }
-    
-    /**
-	 * Builds the json value of a file metadata.
-	 * @param strFileName filename
-	 * @param lSize size
-	 * @param strFileBlobId the blob id
-	 * @param strContentType the content type
-	 * @return the json of the fileMetadata to store in BlobStore
-	 */
-    public static final String buildFileMetadata( String strFileName, long lSize, String strFileBlobId, String strContentType )
-    {
-    	JSONObject json = new JSONObject(  );
-    	json.accumulate( BlobStoreFileItem.JSON_KEY_FILE_SIZE, Long.toString( lSize ) );
-    	json.accumulate( BlobStoreFileItem.JSON_KEY_FILE_NAME, strFileName );
-    	json.accumulate( BlobStoreFileItem.JSON_KEY_FILE_BLOB_ID, strFileBlobId );
-    	json.accumulate( BlobStoreFileItem.JSON_KEY_FILE_CONTENT_TYPE, strContentType );
-    	
-    	return json.toString(  );
+        if ( blob == null )
+        {
+            return null;
+        }
+
+        try
+        {
+            return JSONObject.fromObject( new String( blob ) );
+        }
+        catch ( JSONException je )
+        {
+            AppLogService.error( je.getMessage(  ), je );
+        }
+
+        return null;
     }
 
+    /**
+         * Builds the json value of a file metadata.
+         * @param strFileName filename
+         * @param lSize size
+         * @param strFileBlobId the blob id
+         * @param strContentType the content type
+         * @return the json of the fileMetadata to store in BlobStore
+         */
+    public static final String buildFileMetadata( String strFileName, long lSize, String strFileBlobId,
+        String strContentType )
+    {
+        JSONObject json = new JSONObject(  );
+        json.accumulate( BlobStoreFileItem.JSON_KEY_FILE_SIZE, Long.toString( lSize ) );
+        json.accumulate( BlobStoreFileItem.JSON_KEY_FILE_NAME, strFileName );
+        json.accumulate( BlobStoreFileItem.JSON_KEY_FILE_BLOB_ID, strFileBlobId );
+        json.accumulate( BlobStoreFileItem.JSON_KEY_FILE_CONTENT_TYPE, strContentType );
+
+        return json.toString(  );
+    }
 }

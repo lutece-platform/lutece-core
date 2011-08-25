@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.blobstore;
 
+
 /**
  * NoSuchBlobException.
  * @see BlobStoreFileItem
@@ -40,14 +41,14 @@ package fr.paris.lutece.portal.service.blobstore;
  */
 public class NoSuchBlobException extends Exception
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * NoSuchBlobException
-	 * @param strMessage the message
-	 */
-	public NoSuchBlobException( String strMessage )
-	{
-		super( strMessage );
-	}
+    /**
+     * NoSuchBlobException
+     * @param strMessage the message
+     */
+    public NoSuchBlobException( String strMessage )
+    {
+        super( strMessage );
+    }
 }

@@ -251,7 +251,7 @@ public class PropertiesService
      * Gets properties
      * @return All properties
      */
-    public Properties getProperties()
+    public Properties getProperties(  )
     {
         return _properties;
     }

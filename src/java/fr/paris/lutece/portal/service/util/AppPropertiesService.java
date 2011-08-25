@@ -38,6 +38,7 @@ import fr.paris.lutece.util.PropertiesService;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -199,18 +200,18 @@ public final class AppPropertiesService
             AppLogService.error( e.getMessage(  ), e );
         }
     }
-    
+
     /**
      * Gets properties
      * @return All properties
      * @since version 3.0
      */
-    public static Properties getProperties()
+    public static Properties getProperties(  )
     {
         // Return a copy of all properties
-        return new Properties (_propertiesService.getProperties() );
+        return new Properties( _propertiesService.getProperties(  ) );
     }
-    
+
     /**
      * Returns a list of keys that match a given prefix
      * @param strPrefix
@@ -219,16 +220,19 @@ public final class AppPropertiesService
      */
     public static List<String> getKeys( String strPrefix )
     {
-        List<String> listKeys = new ArrayList<String>();
-        Enumeration eList = _propertiesService.getProperties().keys();
-        while( eList.hasMoreElements() )
+        List<String> listKeys = new ArrayList<String>(  );
+        Enumeration eList = _propertiesService.getProperties(  ).keys(  );
+
+        while ( eList.hasMoreElements(  ) )
         {
-            String strKey = (String) eList.nextElement();
-            if( strKey.startsWith( strPrefix ) )
+            String strKey = (String) eList.nextElement(  );
+
+            if ( strKey.startsWith( strPrefix ) )
             {
                 listKeys.add( strKey );
             }
         }
+
         return listKeys;
     }
 }

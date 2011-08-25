@@ -48,14 +48,13 @@ public interface BlobStoreService extends Serializable
      * @return The key of the blob
      */
     String store( byte[] blob );
-    
+
     /**
      * Stores an input stream
      * @param inputStream the input stream
      * @return The key of the blob
      */
     String storeInputStream( InputStream inputStream );
-    
 
     /**
      * Get a blob
@@ -63,7 +62,7 @@ public interface BlobStoreService extends Serializable
      * @return  The blob
      */
     byte[] getBlob( String strKey );
-    
+
     /**
      * Gets a blob as {@link InputStream}
      * @param strKey the key
@@ -90,27 +89,27 @@ public interface BlobStoreService extends Serializable
      * @param strKey The key of the blob
      */
     void delete( String strKey );
-    
+
     /**
      * Gets the blob URL
      * @param strKey
      * @return the blob url
      */
     String getBlobUrl( String strKey );
-    
+
     /**
      * Gets the file download url (for {@link BlobStoreFileItem})
      * @param strKey the
      * @return the download link
      */
     String getFileUrl( String strKey );
-    
+
     /**
      * Gets the blobstore name
      * @return the blobstore name
      */
     String getName(  );
-    
+
     /**
      * Sets the blobstore name
      * @param strName the name

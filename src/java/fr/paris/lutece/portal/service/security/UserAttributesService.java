@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.security;
 
 import java.util.Map;
 
+
 /**
  * User Attributes Service Interface
  */
@@ -46,13 +47,12 @@ public interface UserAttributesService
      * @param strAttribute The attribute name
      * @return The attribute value
      */
-    String getAttribute( String strUserId , String strAttribute );
-    
+    String getAttribute( String strUserId, String strAttribute );
+
     /**
      * Get a map of attributes for a given user
      * @param strUserId The User ID
      * @return The map of attributes
      */
     Map getAttributes( String strUserId );
-    
 }

@@ -263,12 +263,12 @@ public final class SpringContextService implements PluginEventListener
         if ( ( event.getEventType(  ) == PluginEvent.PLUGIN_INSTALLED ) ||
                 ( event.getEventType(  ) == PluginEvent.PLUGIN_UNINSTALLED ) )
         {
-        	if ( !_mapBeansOfType.isEmpty(  ) )
-        	{
-	            _mapBeansOfType.clear(  );
-	            AppLogService.info( "SpringService cache cleared due to a plugin installation change - Plugin : " +
-	                event.getPlugin(  ).getName(  ) );
-        	}
+            if ( !_mapBeansOfType.isEmpty(  ) )
+            {
+                _mapBeansOfType.clear(  );
+                AppLogService.info( "SpringService cache cleared due to a plugin installation change - Plugin : " +
+                    event.getPlugin(  ).getName(  ) );
+            }
         }
     }
 

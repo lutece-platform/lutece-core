@@ -164,7 +164,7 @@ public abstract class Plugin implements Comparable<Plugin>
             _listXPageApplications = pluginFile.getXPageApplications(  );
             _listFilters = pluginFile.getFilters(  );
             _listServlets = pluginFile.getServlets(  );
-            _listListeners = pluginFile.getListeners();
+            _listListeners = pluginFile.getListeners(  );
             _listRights = pluginFile.getRights(  );
             _listPortletTypes = pluginFile.getPortletTypes(  );
             _listContentServices = pluginFile.getContentServices(  );
@@ -391,10 +391,10 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     protected void registerListeners(  ) throws LuteceInitException
     {
-    	for ( HttpSessionListenerEntry entry : _listListeners )
-    	{
-    		HttpSessionListenerService.registerListener( entry );
-    	}
+        for ( HttpSessionListenerEntry entry : _listListeners )
+        {
+            HttpSessionListenerService.registerListener( entry );
+        }
     }
 
     /**

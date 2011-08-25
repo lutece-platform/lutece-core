@@ -33,23 +33,26 @@
  */
 package fr.paris.lutece.util.jpa;
 
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.util.annotation.AnnotationUtil;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
+
+import org.apache.log4j.Logger;
+
+import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
+import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;
+
 import java.io.File;
+
 import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.apache.log4j.Logger;
-import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
-import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;
-
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.util.annotation.AnnotationUtil;
 
 
 /**
@@ -59,11 +62,9 @@ import fr.paris.lutece.util.annotation.AnnotationUtil;
 public class JPAPersistenceUnitPostProcessor implements PersistenceUnitPostProcessor
 {
     private static final Logger _Log = Logger.getLogger( JPAConstants.JPA_LOGGER );
-    
     private static final String PATH_CONF = "/WEB-INF/classes/";
     private static final String SUFFIX_ORM_XML = ".orm.xml";
     private static final String CLASSPATH_PATH_IDENTIFIER = "fr" + File.separator + "paris";
-    
 
     /**
      *
@@ -71,19 +72,21 @@ public class JPAPersistenceUnitPostProcessor implements PersistenceUnitPostProce
      */
     public void postProcessPersistenceUnitInfo( MutablePersistenceUnitInfo pui )
     {
-    	_Log.info( "Scanning for JPA orm.xml files" );
-        for ( File ormFile : getListORMFiles() )
+        _Log.info( "Scanning for JPA orm.xml files" );
+
+        for ( File ormFile : getListORMFiles(  ) )
         {
-            String ormAbsolutePath = ormFile.getAbsolutePath();
+            String ormAbsolutePath = ormFile.getAbsolutePath(  );
             _Log.info( "Found ORM file : " + ormAbsolutePath );
-            pui.addMappingFileName( ormAbsolutePath.substring(ormAbsolutePath.indexOf( CLASSPATH_PATH_IDENTIFIER ) ) );
+            pui.addMappingFileName( ormAbsolutePath.substring( ormAbsolutePath.indexOf( CLASSPATH_PATH_IDENTIFIER ) ) );
         }
-    	
+
         _Log.info( "Scanning for JPA entities..." );
-        
+
         Set<String> entityClasses = AnnotationUtil.find( Entity.class.getName(  ) );
         entityClasses.addAll( AnnotationUtil.find( Embeddable.class.getName(  ) ) );
         entityClasses.addAll( AnnotationUtil.find( MappedSuperclass.class.getName(  ) ) );
+
         for ( String strClass : entityClasses )
         {
             _Log.info( "Found entity class : " + strClass );
@@ -99,16 +102,18 @@ public class JPAPersistenceUnitPostProcessor implements PersistenceUnitPostProce
             dumpPersistenceUnitInfo( pui );
         }
     }
-    
+
     /**
      * Search for <code>WEB-INF/conf/plugins/*.orm.xml</code>.
      * @return list of files found
      */
-    private Collection<File> getListORMFiles()
+    private Collection<File> getListORMFiles(  )
     {
-    	String strConfPath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
-    	File dirConfPlugins = new File( strConfPath );
-    	return FileUtils.listFiles(dirConfPlugins, FileFilterUtils.suffixFileFilter(SUFFIX_ORM_XML), TrueFileFilter.INSTANCE);
+        String strConfPath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
+        File dirConfPlugins = new File( strConfPath );
+
+        return FileUtils.listFiles( dirConfPlugins, FileFilterUtils.suffixFileFilter( SUFFIX_ORM_XML ),
+            TrueFileFilter.INSTANCE );
     }
 
     /**

@@ -33,7 +33,16 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.apache.commons.fileupload.FileItem;
+
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,88 +54,85 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
-import org.apache.commons.fileupload.FileItem;
-
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.service.util.AppLogService;
 
 /**
  * Handles asynchronous uploads.
  */
 public class UploadServlet extends HttpServlet
 {
-	private static final long serialVersionUID = 1L;
-	private static final String JSON_FILE_SIZE = "fileSize";
-	private static final String JSON_FILE_NAME = "fileName";
-	private static final String JSON_FILES = "files";
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doPost( HttpServletRequest req, HttpServletResponse response ) throws ServletException, IOException 
-	{
-		MultipartHttpServletRequest request = (MultipartHttpServletRequest) req;
-				
-		List<FileItem> listFileItems = new ArrayList<FileItem>();
-		JSONObject json = new JSONObject();
-		json.element( JSON_FILES, new JSONArray() );
-		
-		for ( Entry<String, FileItem> entry : ((Map<String, FileItem>)request.getFileMap(  )).entrySet(  ) )
-		{
-			FileItem fileItem = entry.getValue();
-			
-			JSONObject jsonFile = new JSONObject(  );
-			jsonFile.element( JSON_FILE_NAME, fileItem.getName() );
-			jsonFile.element( JSON_FILE_SIZE, fileItem.getSize() );
-			
-			// add to existing array
-			json.accumulate( JSON_FILES, jsonFile );
-			
-			listFileItems.add( fileItem );
-		}
-		
-		IAsynchronousUploadHandler handler = getHandler( request );
-		if ( handler == null )
-		{
-			AppLogService.error( "No handler found, removing temporary files");
-			for ( FileItem fileItem : listFileItems )
-			{
-				fileItem.delete();
-			}
-		}
-		else
-		{
-			handler.process(request, response, json, listFileItems );
-		}
-		
-		if ( AppLogService.isDebugEnabled() )
-		{
-			AppLogService.debug( "Aysnchronous upload : " + json.toString() );
-		}
-		
-		response.getOutputStream().print( json.toString() );
-	}
-	
-	/**
-	 * Gets the handler
-	 * @param request the reques
-	 * @return the handler found, <code>null</code> otherwise.
-	 * @see IAsynchronousUploadHandler#isInvoked(HttpServletRequest)
-	 */
-	private IAsynchronousUploadHandler getHandler( HttpServletRequest request )
-	{
-		for ( IAsynchronousUploadHandler handler : SpringContextService.getBeansOfType( IAsynchronousUploadHandler.class ) )
-		{
-			if ( handler.isInvoked( request ) )
-			{
-				return handler;
-			}
-		}
-		
-		return null;
-	}
+    private static final long serialVersionUID = 1L;
+    private static final String JSON_FILE_SIZE = "fileSize";
+    private static final String JSON_FILE_NAME = "fileName";
+    private static final String JSON_FILES = "files";
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doPost( HttpServletRequest req, HttpServletResponse response )
+        throws ServletException, IOException
+    {
+        MultipartHttpServletRequest request = (MultipartHttpServletRequest) req;
+
+        List<FileItem> listFileItems = new ArrayList<FileItem>(  );
+        JSONObject json = new JSONObject(  );
+        json.element( JSON_FILES, new JSONArray(  ) );
+
+        for ( Entry<String, FileItem> entry : ( (Map<String, FileItem>) request.getFileMap(  ) ).entrySet(  ) )
+        {
+            FileItem fileItem = entry.getValue(  );
+
+            JSONObject jsonFile = new JSONObject(  );
+            jsonFile.element( JSON_FILE_NAME, fileItem.getName(  ) );
+            jsonFile.element( JSON_FILE_SIZE, fileItem.getSize(  ) );
+
+            // add to existing array
+            json.accumulate( JSON_FILES, jsonFile );
+
+            listFileItems.add( fileItem );
+        }
+
+        IAsynchronousUploadHandler handler = getHandler( request );
+
+        if ( handler == null )
+        {
+            AppLogService.error( "No handler found, removing temporary files" );
+
+            for ( FileItem fileItem : listFileItems )
+            {
+                fileItem.delete(  );
+            }
+        }
+        else
+        {
+            handler.process( request, response, json, listFileItems );
+        }
+
+        if ( AppLogService.isDebugEnabled(  ) )
+        {
+            AppLogService.debug( "Aysnchronous upload : " + json.toString(  ) );
+        }
+
+        response.getOutputStream(  ).print( json.toString(  ) );
+    }
+
+    /**
+     * Gets the handler
+     * @param request the reques
+     * @return the handler found, <code>null</code> otherwise.
+     * @see IAsynchronousUploadHandler#isInvoked(HttpServletRequest)
+     */
+    private IAsynchronousUploadHandler getHandler( HttpServletRequest request )
+    {
+        for ( IAsynchronousUploadHandler handler : SpringContextService.getBeansOfType( 
+                IAsynchronousUploadHandler.class ) )
+        {
+            if ( handler.isInvoked( request ) )
+            {
+                return handler;
+            }
+        }
+
+        return null;
+    }
 }

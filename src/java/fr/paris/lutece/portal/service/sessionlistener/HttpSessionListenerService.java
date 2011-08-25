@@ -33,12 +33,13 @@
  */
 package fr.paris.lutece.portal.service.sessionlistener;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSessionListener;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
 
 /**
  * Listener service : provides registered listener access.
@@ -46,48 +47,50 @@ import fr.paris.lutece.portal.service.util.AppLogService;
  */
 public class HttpSessionListenerService
 {
-	private static final List<HttpSessionListener> LIST_LISTENERS = new ArrayList<HttpSessionListener>();
-	/**
-	 * Private constructor
-	 */
-	private HttpSessionListenerService(  )
-	{
-		// nothing
-	}
-	
-	/**
-	 * Registers a listener
-	 * @param strListenerClass the listener class name
-	 */
-	public static void registerListener( HttpSessionListenerEntry entry )
-	{
-		String strListenerClass = entry.getListenerClass(  );
-		
-		try {
-			HttpSessionListener listener = (HttpSessionListener) Class.forName( strListenerClass ).newInstance(  );
-			LIST_LISTENERS.add( listener );
-			AppLogService.info( "New Listener registered : " + strListenerClass );
-		}
-		catch ( InstantiationException e )
-		{
-			 AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage(  ), e );
-		}
-		catch ( IllegalAccessException e )
-		{
-			 AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage(  ), e );
-		}
-		catch ( ClassNotFoundException e ) 
-		{
-			 AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage(  ), e );
-		}	
-	}
-	
-	/**
-	 * Get all registered listeners
-	 * @return all registered listeners
-	 */
-	public static List<HttpSessionListener> getListeners(  )
-	{
-		return LIST_LISTENERS;
-	}
+    private static final List<HttpSessionListener> LIST_LISTENERS = new ArrayList<HttpSessionListener>(  );
+
+    /**
+     * Private constructor
+     */
+    private HttpSessionListenerService(  )
+    {
+        // nothing
+    }
+
+    /**
+     * Registers a listener
+     * @param strListenerClass the listener class name
+     */
+    public static void registerListener( HttpSessionListenerEntry entry )
+    {
+        String strListenerClass = entry.getListenerClass(  );
+
+        try
+        {
+            HttpSessionListener listener = (HttpSessionListener) Class.forName( strListenerClass ).newInstance(  );
+            LIST_LISTENERS.add( listener );
+            AppLogService.info( "New Listener registered : " + strListenerClass );
+        }
+        catch ( InstantiationException e )
+        {
+            AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage(  ), e );
+        }
+        catch ( IllegalAccessException e )
+        {
+            AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage(  ), e );
+        }
+        catch ( ClassNotFoundException e )
+        {
+            AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage(  ), e );
+        }
+    }
+
+    /**
+     * Get all registered listeners
+     * @return all registered listeners
+     */
+    public static List<HttpSessionListener> getListeners(  )
+    {
+        return LIST_LISTENERS;
+    }
 }

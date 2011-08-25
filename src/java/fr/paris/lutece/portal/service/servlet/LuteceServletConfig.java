@@ -66,7 +66,7 @@ public class LuteceServletConfig implements ServletConfig
     /**
      * {@inheritDoc}
      */
-    public String getServletName()
+    public String getServletName(  )
     {
         return _strName;
     }
@@ -95,5 +95,4 @@ public class LuteceServletConfig implements ServletConfig
     {
         return Collections.enumeration( _mapInitParameters.keySet(  ) );
     }
-
 }

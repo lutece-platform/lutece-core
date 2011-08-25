@@ -95,7 +95,7 @@ public class PluginFile
     private List<XPageApplicationEntry> _listApplications = new ArrayList<XPageApplicationEntry>(  );
     private List<FilterEntry> _listFilters = new ArrayList<FilterEntry>(  );
     private List<ServletEntry> _listServlets = new ArrayList<ServletEntry>(  );
-    private List<HttpSessionListenerEntry> _listListeners = new ArrayList<HttpSessionListenerEntry>();
+    private List<HttpSessionListenerEntry> _listListeners = new ArrayList<HttpSessionListenerEntry>(  );
     private List<ContentServiceEntry> _listContentServices = new ArrayList<ContentServiceEntry>(  );
     private List<SearchIndexerEntry> _listSearchIndexers = new ArrayList<SearchIndexerEntry>(  );
     private List<InsertService> _listInsertServices = new ArrayList<InsertService>(  );
@@ -506,16 +506,16 @@ public class PluginFile
      */
     public void addListener( HttpSessionListenerEntry entry )
     {
-    	_listListeners.add( entry );
+        _listListeners.add( entry );
     }
-    
+
     /**
      * Returns listener list of the plugin
      * @return the list of listeners
      */
     public List<HttpSessionListenerEntry> getListeners(  )
     {
-    	return _listListeners;
+        return _listListeners;
     }
 
     /**

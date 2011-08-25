@@ -62,9 +62,9 @@ import javax.xml.transform.stream.StreamResult;
 public final class XmlTransformer
 {
     public static final String PROPERTY_TRANSFORMER_POOL_SIZE = "service.xmlTransformer.transformerPoolSize";
-    public static final int TRANSFORMER_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_TRANSFORMER_POOL_SIZE, 2 );
+    public static final int TRANSFORMER_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_TRANSFORMER_POOL_SIZE,
+            2 );
     public static final int MAX_TRANSFORMER_SIZE = 1000;
-            
     private static final List<ConcurrentMap<String, Transformer>> transformerPoolList = new ArrayList<ConcurrentMap<String, Transformer>>( TRANSFORMER_POOL_SIZE );
 
     static
@@ -143,18 +143,20 @@ public final class XmlTransformer
             transformerList.clear(  );
         }
     }
-    
+
     /**
      * Gets the number of transformers
-     * @return the transformers count 
+     * @return the transformers count
      */
-    public static int getTransformersCount()
+    public static int getTransformersCount(  )
     {
         int nCount = 0;
+
         for ( ConcurrentMap<String, Transformer> transformerList : transformerPoolList )
         {
-            nCount += transformerList.size();
+            nCount += transformerList.size(  );
         }
+
         return nCount;
     }
 
