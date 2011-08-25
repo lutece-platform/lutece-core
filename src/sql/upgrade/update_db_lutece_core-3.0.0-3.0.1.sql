@@ -19,3 +19,5 @@ CREATE TABLE core_mail_item (
 	mail_item long varbinary,
 	PRIMARY KEY (id_mail_queue)
 );
+
+DELETE FROM core_admin_right WHERE id_right = 'CORE_GROUPS_MANAGEMENT';
