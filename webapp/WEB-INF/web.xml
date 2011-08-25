@@ -4,10 +4,10 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     version="2.5">
 
-	<listener>
-		<display-name>Lutece Main Listener</display-name>
-		<listener-class>fr.paris.lutece.portal.service.sessionlistener.MainHttpSessionListener</listener-class>
-	</listener>
+    <listener>
+        <display-name>Lutece Main Listener</display-name>
+        <listener-class>fr.paris.lutece.portal.service.sessionlistener.MainHttpSessionListener</listener-class>
+    </listener>
 
     <filter>
         <filter-name>StaticFilesCachingFilter</filter-name>
@@ -52,7 +52,7 @@
 
 
 
-   <filter>
+    <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>fr.paris.lutece.portal.web.encoding.EncodingFilter</filter-class>
     </filter>
@@ -144,7 +144,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>PluginsServlets</servlet-name>
-        <url-pattern>/plugins</url-pattern>
+        <url-pattern>/servlet/plugins</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>ImageServlet</servlet-name>
