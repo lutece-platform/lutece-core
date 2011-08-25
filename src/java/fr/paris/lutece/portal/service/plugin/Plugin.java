@@ -60,6 +60,8 @@ import fr.paris.lutece.portal.service.rbac.ResourceIdService;
 import fr.paris.lutece.portal.service.search.IndexationService;
 import fr.paris.lutece.portal.service.search.SearchIndexer;
 import fr.paris.lutece.portal.service.search.SearchIndexerEntry;
+import fr.paris.lutece.portal.service.servlet.ServletEntry;
+import fr.paris.lutece.portal.service.servlet.ServletService;
 import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry;
 import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -111,6 +113,7 @@ public abstract class Plugin implements Comparable<Plugin>
     // Lists of rights and portlets of the plugin
     private List<XPageApplicationEntry> _listXPageApplications;
     private List<FilterEntry> _listFilters;
+    private List<ServletEntry> _listServlets;
     private List<HttpSessionListenerEntry> _listListeners;
     private List<String> _listCssStyleSheets;
     private List<String> _listJavascriptFiles;
@@ -160,6 +163,7 @@ public abstract class Plugin implements Comparable<Plugin>
             _strMaxCoreVersion = pluginFile.getMaxCoreVersion(  );
             _listXPageApplications = pluginFile.getXPageApplications(  );
             _listFilters = pluginFile.getFilters(  );
+            _listServlets = pluginFile.getServlets(  );
             _listListeners = pluginFile.getListeners();
             _listRights = pluginFile.getRights(  );
             _listPortletTypes = pluginFile.getPortletTypes(  );
@@ -184,6 +188,7 @@ public abstract class Plugin implements Comparable<Plugin>
             // Register plugin components
             registerXPageApplications(  );
             registerFilters(  );
+            registerServlets(  );
             registerListeners(  );
             registerContentServices(  );
             registerInsertServices(  );
@@ -365,6 +370,18 @@ public abstract class Plugin implements Comparable<Plugin>
         for ( FilterEntry entry : _listFilters )
         {
             FilterService.getInstance(  ).registerFilter( entry, this );
+        }
+    }
+
+    /**
+     * Register Servlets
+     * @throws LuteceInitException If an error occurs
+     */
+    protected void registerServlets(  ) throws LuteceInitException
+    {
+        for ( ServletEntry entry : _listServlets )
+        {
+            ServletService.getInstance(  ).registerServlet( entry, this );
         }
     }
 

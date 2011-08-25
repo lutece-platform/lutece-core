@@ -44,6 +44,7 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.insert.InsertService;
 import fr.paris.lutece.portal.service.rbac.RBACResourceTypeEntry;
 import fr.paris.lutece.portal.service.search.SearchIndexerEntry;
+import fr.paris.lutece.portal.service.servlet.ServletEntry;
 import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 
@@ -93,6 +94,7 @@ public class PluginFile
     private List<DaemonEntry> _listDaemons = new ArrayList<DaemonEntry>(  );
     private List<XPageApplicationEntry> _listApplications = new ArrayList<XPageApplicationEntry>(  );
     private List<FilterEntry> _listFilters = new ArrayList<FilterEntry>(  );
+    private List<ServletEntry> _listServlets = new ArrayList<ServletEntry>(  );
     private List<HttpSessionListenerEntry> _listListeners = new ArrayList<HttpSessionListenerEntry>();
     private List<ContentServiceEntry> _listContentServices = new ArrayList<ContentServiceEntry>(  );
     private List<SearchIndexerEntry> _listSearchIndexers = new ArrayList<SearchIndexerEntry>(  );
@@ -477,6 +479,25 @@ public class PluginFile
     public List<FilterEntry> getFilters(  )
     {
         return _listFilters;
+    }
+
+    /**
+     * Add a servlet to the plugin definition
+     * @param entry The servlet entry
+     */
+    public void addServlet( ServletEntry entry )
+    {
+        _listServlets.add( entry );
+    }
+
+    /**
+     * Returns servlet list of the plugin
+     *
+     * @return the list of servlets
+     */
+    public List<ServletEntry> getServlets(  )
+    {
+        return _listServlets;
     }
 
     /**

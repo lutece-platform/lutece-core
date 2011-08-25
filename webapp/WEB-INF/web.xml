@@ -138,6 +138,15 @@
         <url-pattern>/InitApp</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>PluginsServlets</servlet-name>
+        <servlet-class>fr.paris.lutece.portal.service.servlet.MainServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PluginsServlets</servlet-name>
+        <url-pattern>/plugins</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>ImageServlet</servlet-name>
         <servlet-class>fr.paris.lutece.portal.service.image.ImageServlet</servlet-class>
     </servlet>

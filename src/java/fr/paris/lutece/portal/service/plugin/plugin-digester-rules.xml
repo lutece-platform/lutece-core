@@ -68,6 +68,17 @@
             <call-param-rule pattern="init-param/param-value" paramnumber="1"/>
             <set-next-rule methodname="addFilter" />
         </pattern>
+        <pattern value="servlets/servlet">
+            <object-create-rule classname="fr.paris.lutece.portal.service.servlet.ServletEntry" />
+            <set-properties-rule />
+            <bean-property-setter-rule pattern="servlet-name" propertyname="name" />
+            <bean-property-setter-rule pattern="servlet-class" propertyname="servletClass" />
+            <bean-property-setter-rule pattern="url-pattern" propertyname="mappingUrlPattern" />
+            <call-method-rule pattern="init-param" methodname="addParameter" paramcount="2" />
+            <call-param-rule pattern="init-param/param-name" paramnumber="0"/>
+            <call-param-rule pattern="init-param/param-value" paramnumber="1"/>
+            <set-next-rule methodname="addServlet" />
+        </pattern>
         <pattern value="listeners/listener">
             <object-create-rule classname="fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry" />
             <set-properties-rule />
