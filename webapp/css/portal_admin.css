@@ -187,6 +187,32 @@ div.content-box input {
 div.content-box input.radio { border: none; }
 div.content-box input.checkbox { border: none; }
 .bt-toolbar{margin:10px 0 2px 2px;}
+input.bt-toolbar{ margin: 0; }
+input[type="image"].bt-toolbar {
+	border: 1px outset #000000;
+	border-radius: 10px 10px 10px 10px;
+	padding: 5px;
+	width: 24px;
+	height: 24px;
+}
+input[type="image"].bt-toolbar:hover {
+	border: 1px inset #000000;
+}
+span.form-toolbar {
+	border: 1px outset #000000;
+	border-radius: 10px 10px 10px 10px;
+	padding: 4px;
+	margin: 0 5px;
+	float: right;
+}
+span.form-toolbar select {
+	float: left;
+	margin-top: 3px;
+	margin-right: 5px;
+}
+span.form-toolbar input[type="image"] {
+	height: 24px;
+}
 
 input.button{
     background:#55B4E5;
