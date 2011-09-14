@@ -36,16 +36,7 @@
                         <@combo name="role" default_value="${page.role}" items=page_roles_list />
                     </label>
                 </p>
-                <p>
-                    <label for="workgroup_list">#i18n{portal.site.admin_page.labelWorkgroup}
-                        <#if page.workgroup?exists>
-                        <@combo name="workgroup_key"  items=user_workgroup_list default_value=page.workgroup />
-                        <#else>
-                        <@combo name="workgroup_key"  items=user_workgroup_list default_value="" />
-                        </#if>
-                    </label>
-                </p>
-                <p>
+               <p>
                     <label for="roles_list">#i18n{portal.site.admin_page.labelNodeStatus}<br />
                         <#if page.nodeStatus = 0>
                         <select name="node_status">

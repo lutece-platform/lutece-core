@@ -171,8 +171,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
                     PageResourceIdService.PERMISSION_VIEW, user );
         }
 
-        if ( AdminWorkgroupService.isAuthorized( page, getUser(  ) ) )
-        {
+        
             XmlUtil.beginElement( strXmlArborescence, XmlContent.TAG_PAGE );
 
             if ( bAuthorizationPage )
@@ -216,6 +215,6 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
             }
 
             XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_PAGE );
-        }
+        
     }
 }

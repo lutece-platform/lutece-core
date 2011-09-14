@@ -250,9 +250,9 @@ CREATE TABLE core_page (
 	node_status smallint default 1 NOT NULL,
 	image_content long varbinary,
 	mime_type varchar(255) default 'NULL',
-	workgroup_key varchar(50) default NULL,
 	meta_keywords varchar(255) default NULL,
 	meta_description varchar(255) default NULL,
+	id_authorization_node int default NULL,
 	PRIMARY KEY (id_page)
 );
 

@@ -60,8 +60,7 @@
 
     <!-- package page -->
     <bean id="pageDAO"  class="fr.paris.lutece.portal.business.page.PageDAO" />
-
-    <!-- package portalcomponent -->
+	<!-- package portalcomponent -->
     <bean id="portalComponentDAO"  class="fr.paris.lutece.portal.business.portalcomponent.PortalComponentDAO" />
 
     <!-- package portlet -->

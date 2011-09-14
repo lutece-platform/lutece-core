@@ -21,15 +21,6 @@
                     </label>
                 </p>
                 <p>
-                    <label for="workgroup_list">#i18n{portal.site.admin_page.labelWorkgroup}
-                        <#if page.workgroup?exists>
-                        <@combo name="workgroup_key"  items=user_workgroup_list default_value=page.workgroup />
-                        <#else>
-                        <@combo name="workgroup_key"  items=user_workgroup_list default_value="all" />
-                        </#if>
-                    </label>
-                </p>
-                <p>
                     <label for="themes_list">#i18n{portal.site.admin_page.labelTheme}<br />
                         <@combo name="theme" default_value="${page.codeTheme}" items=page_themes_list />
                     </label>

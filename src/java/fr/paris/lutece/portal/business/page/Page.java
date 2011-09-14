@@ -50,7 +50,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This class reprsents business objects Page
  */
-public class Page implements RBACResource, AdminWorkgroupResource
+public class Page implements RBACResource
 {
     /////////////////////////////////////////////////////////////////////////////////
     // Constants
@@ -75,9 +75,9 @@ public class Page implements RBACResource, AdminWorkgroupResource
     private byte[] _strImageContent;
     private Timestamp _dateUpdate;
     private List<Portlet> _listPortlets = new ArrayList<Portlet>(  );
-    private String _strWorkgroup;
     private String _strMetaKeywords;
     private String _strMetaDescription;
+    private Integer _nIdAuthorizationNode;  
 
     /**
      * Initialize the Page
@@ -414,24 +414,6 @@ public class Page implements RBACResource, AdminWorkgroupResource
         return true;
     }
 
-    /**
-     * Return the page id of the node authorization page
-     *
-     * @param nPageId the page identifier
-     * @return strPageId the page identifier with node_status to 0
-     */
-    public static int getAuthorizationNode( int nPageId )
-    {
-        Page page = PageHome.findByPrimaryKey( nPageId );
-
-        if ( ( nPageId != PortalService.getRootPageId(  ) ) && ( page.getNodeStatus(  ) != 0 ) )
-        {
-            return getAuthorizationNode( page.getParentPageId(  ) );
-        }
-
-        return nPageId;
-    }
-
     ////////////////////////////////////////////////////////////////////////////
     // RBAC Resource implementation
 
@@ -452,25 +434,6 @@ public class Page implements RBACResource, AdminWorkgroupResource
     {
         return "" + getId(  );
     }
-
-    /**
-    *
-    * @return the work group associate to the page
-    */
-    public String getWorkgroup(  )
-    {
-        return _strWorkgroup;
-    }
-
-    /**
-     * set  the work group associate to the page
-     * @param workGroup  the work group associate to the page
-     */
-    public void setWorkgroup( String workGroup )
-    {
-        _strWorkgroup = workGroup;
-    }
-
     /**
     *
     * @return the META Name associate to the page
@@ -506,4 +469,22 @@ public class Page implements RBACResource, AdminWorkgroupResource
     {
         _strMetaDescription = strMetaDescription;
     }
+
+
+	
+	/**
+	 * set the id of the authorization node
+	 * @param nIdAutorizationNode
+	 */
+	public void setIdAuthorizationNode(Integer nIdAutorizationNode) {
+		this._nIdAuthorizationNode = nIdAutorizationNode;
+	}
+	
+	/**
+	 * get the id of the authorization node
+	 * @return the authorization node id
+	 */
+	public Integer getIdAuthorizationNode() {
+		return _nIdAuthorizationNode;
+	}
 }

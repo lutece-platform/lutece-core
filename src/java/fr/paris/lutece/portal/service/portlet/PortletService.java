@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.portal.service.portlet;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
@@ -40,9 +43,6 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.page.PageResourceIdService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 
 /**
@@ -85,13 +85,11 @@ public final class PortletService
     public Collection<Portlet> getAuthorizedPortletCollection( Collection<Portlet> collectionPortlet, AdminUser user )
     {
         Collection<Portlet> collectionPortletAuthorized = new ArrayList<Portlet>(  );
-        Page page;
-
+       
         for ( Portlet portlet : collectionPortlet )
         {
-            page = PageHome.findByPrimaryKey( portlet.getPageId(  ) );
-
-            if ( _pageService.isAuthorizedAdminPage( page.getId(  ), PageResourceIdService.PERMISSION_VIEW, user ) )
+          
+            if ( _pageService.isAuthorizedAdminPage( portlet.getPageId(  ), PageResourceIdService.PERMISSION_VIEW, user ) )
             {
                 collectionPortletAuthorized.add( portlet );
             }
