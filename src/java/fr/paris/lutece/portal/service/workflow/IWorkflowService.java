@@ -310,4 +310,17 @@ public interface IWorkflowService
      * @return a list of actions
      */
     List<Action> getMassActions( int nIdWorkflow );
+    
+    /**
+     * Check if the action can be proceed for the given resource
+     * @param nIdResource the id resource
+     * @param strResourceType the resource type
+     * @param nIdAction the id action
+     * @param nExternalParentId the external parent id 
+     * @param request the HTTP request
+     * @param bIsAutomatic is automatic action
+     * @return true if the action can proceed, false otherwise
+     */
+    boolean canProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId, 
+    		HttpServletRequest request, boolean bIsAutomatic );
 }

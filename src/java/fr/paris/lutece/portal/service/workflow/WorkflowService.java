@@ -478,4 +478,28 @@ public final class WorkflowService
             return null;
         }
     }
+    
+    /**
+     * Check if the action can be proceed for the given resource
+     * @param nIdResource the id resource
+     * @param strResourceType the resource type
+     * @param nIdAction the id action
+     * @param nExternalParentId the external parent id 
+     * @param request the HTTP request
+     * @param bIsAutomatic is automatic action
+     * @return true if the action can proceed, false otherwise
+     */
+    public boolean canProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId, 
+    		HttpServletRequest request, boolean bIsAutomatic )
+    {
+    	if ( isAvailable(  ) && ( _service != null ) )
+        {
+            return _service.canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, 
+            		request, bIsAutomatic );
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
