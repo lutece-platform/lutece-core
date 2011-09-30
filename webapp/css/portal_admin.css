@@ -138,7 +138,7 @@ div.content-box{
     margin: 20px 4px 10px 4px;  -moz-border-radius:10px; -webkit-border-radius:10px;
 }
 
-div#content-box-actions{float:right; margin: 20px 0 0; }
+div#content-box-actions{float:right; margin: 20px 0 10px; width: 45%; }
 div#content-box-actions form{float:right; }
 
 /*div.content-box h2 div.content-box-actions form{margin:0;padding:2.5px 5px;}
@@ -194,6 +194,7 @@ input[type="image"].bt-toolbar {
 	padding: 5px;
 	width: 24px;
 	height: 24px;
+	float: right;
 }
 input[type="image"].bt-toolbar:hover {
 	border: 1px inset #000000;

@@ -461,4 +461,21 @@ public final class WorkflowService
     {
         this.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, null );
     }
+    
+    /**
+     * Get the list of mass actions from a given id workflow
+     * @param nIdWorkflow the id workflow
+     * @return the list of mass actions
+     */
+    public List<Action> getMassActions( int nIdWorkflow )
+    {
+    	if ( isAvailable(  ) && ( _service != null ) )
+        {
+            return _service.getMassActions( nIdWorkflow );
+        }
+        else
+        {
+            return null;
+        }
+    }
 }

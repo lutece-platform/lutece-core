@@ -303,4 +303,11 @@ public interface IWorkflowService
      * @param nExternalParentId the external parent id
      */
     void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow, Integer nExternalParentId );
+
+    /**
+     * Get the list of mass actions from a given id workflow
+     * @param nIdWorkflow the id workflow
+     * @return a list of actions
+     */
+    List<Action> getMassActions( int nIdWorkflow );
 }
