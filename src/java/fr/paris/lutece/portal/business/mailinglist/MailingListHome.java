@@ -142,4 +142,15 @@ public final class MailingListHome
     {
         _dao.deleteFilter( filter, nId );
     }
+
+    /**
+     * Check if the filter already exists or not in a mailing list
+     * @param filter the filter
+     * @param nId the id mailing list
+     * @return true if it already exists, false otherwise
+     */
+    public static boolean checkFilter( MailingListUsersFilter filter, int nId )
+    {
+    	return _dao.checkFilter( filter, nId );
+    }
 }

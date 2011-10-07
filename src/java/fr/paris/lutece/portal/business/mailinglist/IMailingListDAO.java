@@ -100,4 +100,12 @@ public interface IMailingListDAO
      * @param nId The Id of the mailing list
      */
     void deleteFilter( MailingListUsersFilter filter, int nId );
+
+    /**
+     * Check if the filter already exists or not in the mailing list
+     * @param filter the filter
+     * @param nId the id mailing list
+     * @return true if it already exists, false otherwise
+     */
+    boolean checkFilter( MailingListUsersFilter filter, int nId );
 }

@@ -88,6 +88,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_ADD_USERS_PAGETITLE = "portal.mailinglist.add_users.pageTitle";
     private static final String MESSAGE_CONFIRM_REMOVE = "portal.mailinglist.message.confirmRemoveMailingList";
     private static final String MESSAGE_CANNOT_REMOVE = "portal.mailinglist.message.cannotRemoveMailingList";
+    private static final String MESSAGE_FILTER_ALREADY_EXISTS = "portal.mailinglist.message.filterAlreadyExists";
 
     // Parameters
     private static final String PARAMETER_WORKGROUP = "workgroup";
@@ -356,13 +357,17 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         MailingListUsersFilter filter = new MailingListUsersFilter(  );
         filter.setWorkgroup( strWorkgroup );
         filter.setRole( strRole );
-        MailingListHome.addFilterToMailingList( filter, nId );
+        if ( !AdminMailingListService.checkFilter( filter, nId ) )
+        {
+        	MailingListHome.addFilterToMailingList( filter, nId );
 
-        // Forward to modify page to enter users filters
-        UrlItem urlModify = new UrlItem( JSP_MODIFY_MAILINGLIST );
-        urlModify.addParameter( PARAMETER_MAILINGLIST_ID, nId );
+        	// Forward to modify page to enter users filters
+        	UrlItem urlModify = new UrlItem( JSP_MODIFY_MAILINGLIST );
+        	urlModify.addParameter( PARAMETER_MAILINGLIST_ID, nId );
 
-        return urlModify.getUrl(  );
+        	return urlModify.getUrl(  );
+        }
+        return AdminMessageService.getMessageUrl( request, MESSAGE_FILTER_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
     }
 
     /**

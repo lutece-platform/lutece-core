@@ -58,6 +58,7 @@ public final class MailingListDAO implements IMailingListDAO
     private static final String SQL_QUERY_FILTERS_DELETE = "DELETE FROM core_admin_mailinglist_filter WHERE id_mailinglist = ? ";
     private static final String SQL_QUERY_FILTERS_DELETE_FILTER = "DELETE FROM core_admin_mailinglist_filter WHERE id_mailinglist = ? AND workgroup = ? AND role = ? ";
     private static final String SQL_QUERY_FILTERS_SELECTALL = "SELECT id_mailinglist, workgroup, role FROM core_admin_mailinglist_filter WHERE id_mailinglist = ?";
+    private static final String SQL_QUERY_FILTERS_SELECT = "SELECT id_mailinglist, workgroup, role FROM core_admin_mailinglist_filter WHERE id_mailinglist = ? AND workgroup = ? AND role = ?";
 
     /**
      * Generates a new primary key
@@ -300,4 +301,26 @@ public final class MailingListDAO implements IMailingListDAO
             daoUtil.free(  );
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+	public boolean checkFilter( MailingListUsersFilter filter, int nId )
+	{
+		boolean bExists = false;
+		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_SELECT );
+        daoUtil.setInt( 1, nId );
+        daoUtil.setString( 2, filter.getWorkgroup(  ) );
+        daoUtil.setString( 3, filter.getRole(  ) );
+        daoUtil.executeQuery(  );
+
+        if ( daoUtil.next(  ) )
+        {
+        	bExists = true;
+        }
+
+        daoUtil.free(  );
+        
+        return bExists;
+	}
 }
