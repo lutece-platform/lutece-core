@@ -33,6 +33,18 @@
  */
 package fr.paris.lutece.portal.web.user;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -42,11 +54,6 @@ import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
-import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
-import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
-import fr.paris.lutece.portal.business.user.attribute.AttributeField;
-import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
-import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameter;
@@ -79,18 +86,6 @@ import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -240,6 +235,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
+    private ItemNavigator _itemNavigator;
 
     /**
      * Build the User list
@@ -250,6 +246,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public String getManageAdminUsers( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MANAGE_USERS_PAGETITLE );
+
+        // Reinit session
+        reinitItemNavigator(  );
 
         String strCreateUrl;
         AdminUser currentUser = getUser(  );
@@ -313,7 +312,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         // PAGINATOR
-        LocalizedPaginator paginator = new LocalizedPaginator( listUsers, _nItemsPerPage, url.getUrl(  ),
+        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listUsers, _nItemsPerPage, url.getUrl(  ),
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         // USER LEVEL
@@ -674,26 +673,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         Level level = LevelHome.findByPrimaryKey( user.getUserLevel(  ) );
 
         // ITEM NAVIGATION
-        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
-        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
-        int nMapKey = 1;
-        int nCurrentItemId = 1;
-
-        for ( AdminUser allUser : listAllUsers )
-        {
-            listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
-
-            if ( allUser.getUserId(  ) == user.getUserId(  ) )
-            {
-                nCurrentItemId = nMapKey;
-            }
-
-            nMapKey++;
-        }
-
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_USER;
-        UrlItem url = new UrlItem( strBaseUrl );
-        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+        setItemNavigator( user.getUserId(  ), AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_USER );
 
         List<IAttribute> listAttributes = AttributeService.getInstance(  ).getAllAttributesWithFields( getLocale(  ) );
         Map<String, Object> map = AdminUserFieldService.getAdminUserFields( listAttributes, nUserId, getLocale(  ) );
@@ -702,7 +682,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_LEVEL, level );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale(  ) ) );
         model.put( MARK_CURRENT_LANGUAGE, user.getLocale(  ).getLanguage(  ) );
-        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
+        model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_ATTRIBUTES_LIST, listAttributes );
         model.put( MARK_LOCALE, getLocale(  ) );
         model.put( MARK_MAP_LIST_ATTRIBUTE_DEFAULT_VALUES, map );
@@ -964,33 +944,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         Collection<Right> rightList = AdminUserHome.getRightsListForUser( nUserId ).values(  );
 
         // ITEM NAVIGATION
-        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
-        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
-        int nMapKey = 1;
-        int nCurrentItemId = 1;
-
-        for ( AdminUser allUser : listAllUsers )
-        {
-            listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
-
-            if ( allUser.getUserId(  ) == nUserId )
-            {
-                nCurrentItemId = nMapKey;
-            }
-
-            nMapKey++;
-        }
-
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_RIGHTS;
-        UrlItem url = new UrlItem( strBaseUrl );
-        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+        setItemNavigator( selectedUser.getUserId(  ), AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_RIGHTS );
 
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_CAN_MODIFY, getUser(  ).isParent( selectedUser ) || getUser(  ).isAdmin(  ) );
         model.put( MARK_CAN_DELEGATE, getUser(  ).getUserId(  ) != nUserId );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_RIGHT_LIST, I18nService.localizeCollection( rightList, getLocale(  ) ) );
-        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
+        model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USER_RIGHTS, getLocale(  ), model );
 
@@ -1014,26 +975,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         ReferenceList workgroupsList = AdminWorkgroupHome.getUserWorkgroups( selectedUser );
 
         // ITEM NAVIGATION
-        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
-        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
-        int nMapKey = 1;
-        int nCurrentItemId = 1;
-
-        for ( AdminUser allUser : listAllUsers )
-        {
-            listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
-
-            if ( allUser.getUserId(  ) == nUserId )
-            {
-                nCurrentItemId = nMapKey;
-            }
-
-            nMapKey++;
-        }
-
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_WORKGROUPS;
-        UrlItem url = new UrlItem( strBaseUrl );
-        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+        setItemNavigator( nUserId, AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_WORKGROUPS );
 
         //  ReferenceList assignableWorkgroupsList = AdminWorkgroupHome.getUserWorkgroups( selectedUser );
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -1041,7 +983,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_CAN_DELEGATE, getUser(  ).getUserId(  ) != nUserId );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_WORKGROUP_LIST, workgroupsList );
-        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
+        model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USER_WORKGROUPS, getLocale(  ), model );
 
@@ -1081,32 +1023,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         assignableWorkspaces.checkItems( checkedValues.toArray( new String[] {  } ) );
 
         // ITEM NAVIGATION
-        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
-        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
-        int nMapKey = 1;
-        int nCurrentItemId = 1;
-
-        for ( AdminUser allUser : listAllUsers )
-        {
-            listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
-
-            if ( allUser.getUserId(  ) == nUserId )
-            {
-                nCurrentItemId = nMapKey;
-            }
-
-            nMapKey++;
-        }
-
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_WORKGROUPS;
-        UrlItem url = new UrlItem( strBaseUrl );
-        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+        setItemNavigator( nUserId, AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_WORKGROUPS );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_ALL_WORKSGROUP_LIST, assignableWorkspaces );
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateWorkgroups ) );
-        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
+        model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_WORKGROUPS, getLocale(  ), model );
 
@@ -1159,26 +1082,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         // ITEM NAVIGATION
-        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
-        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
-        int nMapKey = 1;
-        int nCurrentItemId = 1;
-
-        for ( AdminUser allUser : listAllUsers )
-        {
-            listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
-
-            if ( allUser.getUserId(  ) == nUserId )
-            {
-                nCurrentItemId = nMapKey;
-            }
-
-            nMapKey++;
-        }
-
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_RIGHTS;
-        UrlItem url = new UrlItem( strBaseUrl );
-        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+        setItemNavigator( nUserId, AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_RIGHTS );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
@@ -1186,7 +1090,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ALL_RIGHT_LIST, I18nService.localizeCollection( allRightList, getLocale(  ) ) );
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateRights ) );
         model.put( MARK_SELECT_ALL, bSelectAll );
-        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
+        model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_RIGHTS, getLocale(  ), model );
 
@@ -1237,33 +1141,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         Collection<AdminRole> roleList = AdminUserHome.getRolesListForUser( nUserId ).values(  );
 
         // ITEM NAVIGATION
-        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
-        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
-        int nMapKey = 1;
-        int nCurrentItemId = 1;
-
-        for ( AdminUser allUser : listAllUsers )
-        {
-            listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
-
-            if ( allUser.getUserId(  ) == nUserId )
-            {
-                nCurrentItemId = nMapKey;
-            }
-
-            nMapKey++;
-        }
-
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_ROLES;
-        UrlItem url = new UrlItem( strBaseUrl );
-        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+        setItemNavigator( nUserId, AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_ROLES );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_CAN_MODIFY, getUser(  ).isParent( selectedUser ) || getUser(  ).isAdmin(  ) );
         model.put( MARK_CAN_DELEGATE, getUser(  ).getUserId(  ) != nUserId );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_ROLE_LIST, roleList );
-        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
+        model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USER_ROLES, getLocale(  ), model );
 
@@ -1309,32 +1194,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         // ITEM NAVIGATION
-        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
-        Collection<AdminUser> listAllUsers = AdminUserHome.findUserList(  );
-        int nMapKey = 1;
-        int nCurrentItemId = 1;
-
-        for ( AdminUser allUser : listAllUsers )
-        {
-            listItem.put( nMapKey, Integer.toString( allUser.getUserId(  ) ) );
-
-            if ( allUser.getUserId(  ) == nUserId )
-            {
-                nCurrentItemId = nMapKey;
-            }
-
-            nMapKey++;
-        }
-
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_ROLES;
-        UrlItem url = new UrlItem( strBaseUrl );
-        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_USER_ID );
+        setItemNavigator( nUserId, AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_ROLES );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_ROLE_LIST, roleList );
         model.put( MARK_ALL_ROLE_LIST, assignableRoleList );
-        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
+        model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_ROLES, getLocale(  ), model );
 
@@ -1732,5 +1598,46 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;
+    }
+
+    /**
+     * Get the item navigator
+     * @param nIdAdminUser the admin user id
+     * @param strUrl the url
+     */
+    private void setItemNavigator( int nIdAdminUser, String strUrl )
+    {
+    	if ( _itemNavigator == null )
+    	{
+    		List<String> listIdsRight = new ArrayList<String>(  );
+    		int nCurrentItemId = 0;
+    		int nIndex = 0;
+            for ( AdminUser adminUser : AdminUserHome.findUserList(  ) )
+            {
+            	if ( adminUser != null )
+            	{
+            		listIdsRight.add( Integer.toString( adminUser.getUserId(  ) ) );
+            		if ( adminUser.getUserId(  ) == nIdAdminUser )
+            		{
+            			nCurrentItemId = nIndex;
+            		}
+            		nIndex++;
+            	}
+            }
+
+            _itemNavigator = new ItemNavigator( listIdsRight, nCurrentItemId, strUrl, PARAMETER_USER_ID );
+    	}
+    	else
+    	{
+    		_itemNavigator.setCurrentItemId( Integer.toString( nIdAdminUser ) );
+    	}
+    }
+    
+    /**
+     * Reinit the item navigator
+     */
+    private void reinitItemNavigator(  )
+    {
+    	_itemNavigator = null;
     }
 }

@@ -33,9 +33,11 @@
  */
 package fr.paris.lutece.util.html;
 
-import fr.paris.lutece.util.url.UrlItem;
+import java.util.List;
 
-import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.util.url.UrlItem;
 
 
 /**
@@ -45,24 +47,64 @@ import java.util.Map;
  */
 public class ItemNavigator
 {
-    private Map<Integer, String> _listItem;
+    private List<String> _listItems;
     private int _nCurrentItemId;
     private String _strBaseUrl;
     private String _strParameterName;
 
     /**
      * Create a new instance of ItemNavigator
-     * @param listItem the list of item
+     * @param listItems the list of item
      * @param nCurrentItemId The current map key
      * @param strBaseUrl The base url
      * @param strParameterName The parameter name
      */
-    public ItemNavigator( Map<Integer, String> listItem, int nCurrentItemId, String strBaseUrl, String strParameterName )
+    public ItemNavigator( List<String> listItems, int nCurrentItemId, String strBaseUrl, String strParameterName )
     {
-        _listItem = listItem;
+        _listItems = listItems;
         _nCurrentItemId = nCurrentItemId;
         _strBaseUrl = strBaseUrl;
         _strParameterName = strParameterName;
+    }
+
+    /**
+     * Set the current item id given the content of the item
+     * @param strItem the item
+     */
+    public void setCurrentItemId( String strItem )
+    {
+    	int nCurrentItemId = _nCurrentItemId;
+    	
+    	if ( strItem != null && _listItems != null && !_listItems.isEmpty(  ) && 
+    			!strItem.equals( _listItems.get( _nCurrentItemId ) ) )
+    	{
+			int nPreviousItemId = _nCurrentItemId - 1;
+			int nNextItemId = _nCurrentItemId + 1;
+			if ( nPreviousItemId >= 0 && strItem.equals( _listItems.get( nPreviousItemId ) ) )
+			{
+				// Check if it is the previous item
+				nCurrentItemId = nPreviousItemId;
+			}
+			else if ( nNextItemId < _listItems.size(  ) && strItem.equals( _listItems.get( nNextItemId ) ) )
+			{
+				// Check if it is the next item
+				nCurrentItemId = nNextItemId;
+			}
+			else
+			{
+				// No choice, have to check every items
+				for ( int nIndex = 0; nIndex < _listItems.size(  ); nIndex++ )
+				{
+					if ( strItem.equals( _listItems.get( nIndex ) ) )
+					{
+						nCurrentItemId = nIndex;
+						break;
+					}
+				}
+			}
+    	}
+    	
+    	_nCurrentItemId = nCurrentItemId;
     }
 
     /**
@@ -71,11 +113,14 @@ public class ItemNavigator
      */
     public String getPreviousPageLink(  )
     {
-        int nPreviousItemId = _nCurrentItemId - 1;
-        UrlItem url = new UrlItem( _strBaseUrl );
-        url.addParameter( _strParameterName, "" + _listItem.get( nPreviousItemId ) );
-
-        return url.getUrl(  );
+    	int nPreviousItemId = _nCurrentItemId - 1;
+    	if ( _listItems != null && !_listItems.isEmpty(  ) && nPreviousItemId >= 0 )
+    	{
+    		UrlItem url = new UrlItem( _strBaseUrl );
+    		url.addParameter( _strParameterName, _listItems.get( nPreviousItemId ) );
+    		return url.getUrl(  );
+    	}
+    	return StringUtils.EMPTY;
     }
 
     /**
@@ -84,11 +129,15 @@ public class ItemNavigator
      */
     public String getNextPageLink(  )
     {
-        int nNextItemId = _nCurrentItemId + 1;
-        UrlItem url = new UrlItem( _strBaseUrl );
-        url.addParameter( _strParameterName, "" + _listItem.get( nNextItemId ) );
-
-        return url.getUrl(  );
+    	int nNextItemId = _nCurrentItemId + 1;
+    	if ( _listItems != null && !_listItems.isEmpty(  ) && nNextItemId < _listItems.size(  ) )
+    	{
+    		UrlItem url = new UrlItem( _strBaseUrl );
+    		url.addParameter( _strParameterName, _listItems.get( nNextItemId ) );
+    		
+    		return url.getUrl(  );
+    	}
+    	return StringUtils.EMPTY;
     }
 
     /**
@@ -97,7 +146,11 @@ public class ItemNavigator
      */
     public int getListItemSize(  )
     {
-        return _listItem.size(  );
+    	if ( _listItems != null )
+    	{
+    		return _listItems.size(  );
+    	}
+    	return 0;
     }
 
     /**

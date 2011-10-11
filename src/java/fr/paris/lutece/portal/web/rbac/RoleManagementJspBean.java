@@ -33,6 +33,17 @@
  */
 package fr.paris.lutece.portal.web.rbac;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -62,15 +73,6 @@ import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -161,6 +163,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
+    private ItemNavigator _itemNavigator;
 
     /**
      * Get the roles management page.
@@ -171,6 +174,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     public String getManageRoles( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MANAGE_ROLES_PAGETITLE );
+
+        // Reinit session
+        reinitItemNavigator(  );
 
         List<AdminRole> listRole = (List<AdminRole>) AdminRoleHome.findAll(  );
 
@@ -834,29 +840,12 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         }
 
         // ITEM NAVIGATION
-        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
-        Collection<AdminRole> listAllRole = AdminRoleHome.findAll(  );
-        int nMapKey = 1;
-        int nCurrentItemId = 1;
-
-        for ( AdminRole allRole : listAllRole )
-        {
-            listItem.put( nMapKey, allRole.getKey(  ) );
-
-            if ( allRole.getKey(  ).equals( role.getKey(  ) ) )
-            {
-                nCurrentItemId = nMapKey;
-            }
-
-            nMapKey++;
-        }
-
-        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_ROLE_KEY );
+        setItemNavigator( role.getKey(  ), url.getUrl(  ) );
 
         // PAGINATOR
         url.addParameter( PARAMETER_ROLE_KEY, role.getKey(  ) );
 
-        LocalizedPaginator paginator = new LocalizedPaginator( listFilteredUsers, _nItemsPerPage, url.getUrl(  ),
+        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listFilteredUsers, _nItemsPerPage, url.getUrl(  ),
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         // USER LEVEL
@@ -875,9 +864,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_AVAILABLE_USERS_LIST, listAvailableUsers );
         model.put( MARK_ASSIGNED_USERS_LIST, paginator.getPageItems(  ) );
         model.put( MARK_ASSIGNED_USERS_NUMBER, listAssignedUsers.size(  ) );
-        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
+        model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
+        model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale(  ), model );
 
@@ -946,5 +935,46 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         }
 
         return JSP_ASSIGN_USERS_TO_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey + "#" + strAnchor;
+    }
+
+    /**
+     * Get the item navigator
+     * @param strRoleKey the role key
+     * @param strUrl the url
+     */
+    private void setItemNavigator( String strRoleKey, String strUrl )
+    {
+    	if ( _itemNavigator == null )
+    	{
+    		List<String> listIdsRight = new ArrayList<String>(  );
+    		int nCurrentItemId = 0;
+    		int nIndex = 0;
+            for ( AdminRole role : AdminRoleHome.findAll(  ) )
+            {
+            	if ( role != null && StringUtils.isNotBlank( role.getKey(  ) ) )
+            	{
+            		listIdsRight.add( role.getKey(  ) );
+            		if ( role.getKey(  ).equals( strRoleKey ) )
+            		{
+            			nCurrentItemId = nIndex;
+            		}
+            		nIndex++;
+            	}
+            }
+
+            _itemNavigator = new ItemNavigator( listIdsRight, nCurrentItemId, strUrl, PARAMETER_ROLE_KEY );
+    	}
+    	else
+    	{
+    		_itemNavigator.setCurrentItemId( strRoleKey );
+    	}
+    }
+
+    /**
+     * Reinit the item navigator
+     */
+    private void reinitItemNavigator(  )
+    {
+    	_itemNavigator = null;
     }
 }

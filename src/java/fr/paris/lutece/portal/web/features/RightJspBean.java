@@ -33,6 +33,17 @@
  */
 package fr.paris.lutece.portal.web.features;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -54,17 +65,6 @@ import fr.paris.lutece.util.html.ItemNavigator;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -109,6 +109,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
+    private ItemNavigator _itemNavigator;
 
     /**
      * Returns the list of rights
@@ -119,8 +120,11 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     public String getManageRights( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MANAGE_RIGHTS_PAGETITLE );
+        
+        // Reinit session
+        reinitItemNavigator(  );
 
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_RIGHTS_LIST, I18nService.localizeCollection( RightHome.getRightsList(  ), getLocale(  ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_RIGHTS, getLocale(  ), model );
@@ -221,41 +225,13 @@ public class RightJspBean extends AdminFeaturesPageJspBean
             url.addParameter( Parameters.SORTED_ASC, strAscSort );
         }
 
-        // ITEM NAVIGATION
-        Map<Integer, String> listItem = new HashMap<Integer, String>(  );
-        Collection<Right> listAllRight = RightHome.getRightsList(  );
-
-        // Sort by name
-        Map<String, String> listRightNames = new TreeMap<String, String>(  );
-
-        for ( Right allRight : listAllRight )
-        {
-            allRight.setLocale( getLocale(  ) );
-            listRightNames.put( allRight.getName(  ), allRight.getId(  ) );
-        }
-
-        int nMapKey = 1;
-        int nCurrentItemId = 1;
-
-        for ( Iterator<String> it = listRightNames.values(  ).iterator(  ); it.hasNext(  ); )
-        {
-            String strRightId = it.next(  );
-            listItem.put( nMapKey, strRightId );
-
-            if ( strRightId.equals( right.getId(  ) ) )
-            {
-                nCurrentItemId = nMapKey;
-            }
-
-            nMapKey++;
-        }
-
-        ItemNavigator itemNavigator = new ItemNavigator( listItem, nCurrentItemId, url.getUrl(  ), PARAMETER_ID_RIGHT );
+        // ITEM NAVITATOR
+        setItemNavigator( strIdRight, url.getUrl(  ) );
 
         // PAGINATOR
         url.addParameter( PARAMETER_ID_RIGHT, right.getId(  ) );
 
-        LocalizedPaginator paginator = new LocalizedPaginator( listFilteredUsers, _nItemsPerPage, url.getUrl(  ),
+        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listFilteredUsers, _nItemsPerPage, url.getUrl(  ),
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         // USER LEVEL
@@ -274,9 +250,9 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_AVAILABLE_USERS_LIST, listAvailableUsers );
         model.put( MARK_ASSIGNED_USERS_LIST, paginator.getPageItems(  ) );
         model.put( MARK_ASSIGNED_USERS_NUMBER, listAssignedUsers.size(  ) );
-        model.put( MARK_ITEM_NAVIGATOR, itemNavigator );
+        model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
+        model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale(  ), model );
 
@@ -345,5 +321,46 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         }
 
         return JSP_ASSIGN_USERS_TO_RIGHT + "?" + PARAMETER_ID_RIGHT + "=" + strIdRight + "#" + strAnchor;
+    }
+
+    /**
+     * Get the item navigator
+     * @param strIdRight the id right
+     * @param strUrl the url
+     */
+    private void setItemNavigator( String strIdRight, String strUrl )
+    {
+    	if ( _itemNavigator == null )
+    	{
+    		List<String> listIdsRight = new ArrayList<String>(  );
+    		int nCurrentItemId = 0;
+    		int nIndex = 0;
+            for ( Right right : RightHome.getRightsList(  ) )
+            {
+            	if ( right != null && StringUtils.isNotBlank( right.getId(  ) ))
+            	{
+            		listIdsRight.add( right.getId(  ) );
+            		if ( right.getId(  ).equals( strIdRight ) )
+            		{
+            			nCurrentItemId = nIndex;
+            		}
+            		nIndex++;
+            	}
+            }
+
+            _itemNavigator = new ItemNavigator( listIdsRight, nCurrentItemId, strUrl, PARAMETER_ID_RIGHT );
+    	}
+    	else
+    	{
+    		_itemNavigator.setCurrentItemId( strIdRight );
+    	}
+    }
+
+    /**
+     * Reinit the item navigator
+     */
+    private void reinitItemNavigator(  )
+    {
+    	_itemNavigator = null;
     }
 }
