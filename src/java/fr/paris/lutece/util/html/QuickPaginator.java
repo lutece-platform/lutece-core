@@ -33,17 +33,15 @@
  */
 package fr.paris.lutece.util.html;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Paginator provides a way to display a collection of items on severals pages.
- * <strong>This implementation requires all items</strong>
- * @param <E> Item of the list
+ * This paginator should be used with already paged list, and the items count.
+ * <strong>This implementation requires the items count and the page items</strong>  
+ * @param <E> the type
  */
-public class Paginator<E> extends AbstractPaginator<E>
+public class QuickPaginator<E> extends AbstractPaginator<E>
 {
-
     /**
      * Creates a new instance of Paginator
      * @param list The collection to paginate
@@ -51,12 +49,14 @@ public class Paginator<E> extends AbstractPaginator<E>
      * @param strBaseUrl The base Url for build links on each page link
      * @param strPageIndexParameterName The parameter name for the page index
      * @param strPageIndex The current page index
+     * @param nItemsCount the item count
+     * @param nCount the total items
      */
-    public Paginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
-        String strPageIndex )
+    public QuickPaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
+        String strPageIndex, int nItemsCount )
     {
+    	_nItemsCount = nItemsCount;
         _list = list;
-        _nItemsCount = _list.size();
         _nItemPerPage = nItemPerPage;
         _strBaseUrl = strBaseUrl;
         _strPageIndexParameterName = strPageIndexParameterName;
@@ -77,7 +77,7 @@ public class Paginator<E> extends AbstractPaginator<E>
             _nPageCurrent = 1;
         }
     }
-
+    
     /**
      * Creates a new instance of Paginator
      * @param list The collection to paginate
@@ -85,36 +85,24 @@ public class Paginator<E> extends AbstractPaginator<E>
      * @param strBaseUrl The base Url for build links on each page link
      * @param strPageIndexParameterName The parameter name for the page index
      * @param strPageIndex The current page index
-         * @param strItemsPerPageParameterName The parameter name of the number items per page
+     * @param nItemsCount the item count
+     * @param strItemsPerPageParameterName The parameter name of the number items per page
      */
-    public Paginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
-        String strPageIndex, String strItemsPerPageParameterName )
+    public QuickPaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
+        String strPageIndex, int nItemsCount, String strItemsPerPageParameterName )
     {
-        this( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex );
+        this( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex, nItemsCount );
         _strItemsPerPageParameterName = strItemsPerPageParameterName;
     }
-    
+
     /**
-	 *{@inheritDoc}
-	 */
+     * Returns the List
+     *
+     * @return The List
+     */
     public List<E> getPageItems(  )
     {
-        int nStartIndex = ( _nPageCurrent - 1 ) * _nItemPerPage;
-        int nMax = _nItemsCount;
-        int nMaxPage = nStartIndex + _nItemPerPage;
-
-        if ( nMaxPage < nMax )
-        {
-            nMax = nMaxPage;
-        }
-
-        List<E> list = new ArrayList<E>(  );
-
-        for ( int i = nStartIndex; i < nMax; i++ )
-        {
-            list.add( _list.get( i ) );
-        }
-
-        return list;
+        return _list;
     }
+
 }
