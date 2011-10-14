@@ -33,13 +33,12 @@
  */
 package fr.paris.lutece.util.string;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-
 import java.text.Collator;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 
 /**
@@ -155,14 +154,50 @@ public final class StringUtil
             _aXssCharacters = AppPropertiesService.getProperty( PROPERTY_XSS_CHARACTERS ).toCharArray(  );
         }
 
+        return containsXssCharacters( strValue, _aXssCharacters );
+    }
+
+    /**
+     * Checks if a String contains characters that could be used for a
+     * cross-site scripting attack.
+     *
+     * @param strValue a character String
+     * @param aXssCharacters a Xss characters tab to check in strValue
+     * @return true if the String contains illegal characters
+     */
+    public static synchronized boolean containsXssCharacters( String strValue, char[] aXssCharacters )
+    {
+        // Read XSS characters from properties file if not already initialized
         boolean bContains = false;
 
-        for ( int nIndex = 0; !bContains && ( nIndex < _aXssCharacters.length ); nIndex++ )
+        if ( aXssCharacters != null )
         {
-            bContains = strValue.lastIndexOf( _aXssCharacters[nIndex] ) >= 0;
+            for ( int nIndex = 0; !bContains && ( nIndex < aXssCharacters.length ); nIndex++ )
+            {
+                bContains = strValue.lastIndexOf( aXssCharacters[nIndex] ) >= 0;
+            }
         }
 
         return bContains;
+    }
+
+    /**
+     * Checks if a String contains characters that could be used for a
+     * cross-site scripting attack.
+     *
+     * @param strValue a character String
+     * @param strXssCharacters a String wich contain a list of Xss characters to check in strValue
+     * @return true if the String contains illegal characters
+     */
+    public static synchronized boolean containsXssCharacters( String strValue, String strXssCharacters )
+    {
+        // Read XSS characters from properties file if not already initialized
+        if ( strXssCharacters != null )
+        {
+            return containsXssCharacters( strValue, strXssCharacters.toCharArray(  ) );
+        }
+
+        return false;
     }
 
     /**

@@ -47,12 +47,7 @@
         <url-pattern>/jsp/site/*</url-pattern>
         <url-pattern>/rest/*</url-pattern>
     </filter-mapping>
-
-
-
-
-
-    <filter>
+	<filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>fr.paris.lutece.portal.web.encoding.EncodingFilter</filter-class>
     </filter>
@@ -78,11 +73,44 @@
         <filter-name>pluginsFilters</filter-name>
         <filter-class>fr.paris.lutece.portal.service.filter.MainFilter</filter-class>
     </filter>
+    
+    <!-- 
+    	This filter display error message in case of request parameters contains Xss characters.
+    	-- activateXssFilter -- true for activation this filter
+    	-- xssCharacters -- a list of forbidden characters 
+     -->
+    <filter>
+        <filter-name>safeRequestFilterSite</filter-name>
+        <filter-class>fr.paris.lutece.portal.web.xss.SafeRequestFilterSite</filter-class>
+        <init-param>
+            <param-name>activateXssFilter</param-name>
+            <param-value>true</param-value>
+        </init-param>
+         <init-param>
+            <param-name>xssCharacters</param-name>
+            <param-value><![CDATA[<>#"&]]></param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>safeRequestFilterAdmin</filter-name>
+        <filter-class>fr.paris.lutece.portal.web.xss.SafeRequestFilterAdmin</filter-class>
+        <init-param>
+            <param-name>activateXssFilter</param-name>
+            <param-value>false</param-value>
+        </init-param>
+         <init-param>
+            <param-name>xssCharacters</param-name>
+            <param-value><![CDATA[<>#"&]]></param-value>
+        </init-param>
+    </filter>
     <!-- 
     	Many plugins cast request to MultipartHttpRequestServlet 
     	and request can be wrapped in any plugin's filter.
     	So upload filters are processed after plugins'.
     	See LUTECE-1323.
+    	-- requestSizeMax = the request size max
+    	-- activateNormalizeFileName = true if you want that the name of the files uploaded will be normalize
+    	
     -->
     <filter>
         <filter-name>uploadFilterSite</filter-name>
@@ -91,6 +119,11 @@
             <param-name>requestSizeMax</param-name>
             <param-value>2097152</param-value>
         </init-param>
+         <init-param>
+            <param-name>activateNormalizeFileName</param-name>
+            <param-value>true</param-value>
+        </init-param>
+           
     </filter>
     <filter>
         <filter-name>uploadFilterAdmin</filter-name>
@@ -98,6 +131,10 @@
         <init-param>
             <param-name>requestSizeMax</param-name>
             <param-value>2097152</param-value>
+        </init-param>
+        <init-param>
+            <param-name>activateNormalizeFileName</param-name>
+            <param-value>true</param-value>
         </init-param>
     </filter>
 
@@ -118,6 +155,7 @@
         <filter-name>pluginsFilters</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    
     <filter-mapping>
         <filter-name>uploadFilterSite</filter-name>
         <url-pattern>/jsp/site/*</url-pattern>
@@ -126,7 +164,14 @@
         <filter-name>uploadFilterAdmin</filter-name>
         <url-pattern>/jsp/admin/*</url-pattern>
     </filter-mapping>
-
+ 	<filter-mapping>
+        <filter-name>safeRequestFilterSite</filter-name>
+        <url-pattern>/jsp/site/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>safeRequestFilterAdmin</filter-name>
+        <url-pattern>/jsp/admin/*</url-pattern>
+    </filter-mapping>
     
     <servlet>
         <servlet-name>InitApp</servlet-name>

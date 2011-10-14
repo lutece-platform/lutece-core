@@ -63,9 +63,23 @@ public final class SecurityUtil
     /**
      * Scan request parameters to see if there no malicious code
      * @param request The HTTP request
+     * @param strXssCharacters a String wich contain a list of Xss characters to check in strValue
      * @return true if all parameters don't contains any special characters
      */
     public static boolean containsCleanParameters( HttpServletRequest request )
+    {
+        return containsCleanParameters( request, null );
+    }
+
+    /**
+     * Scan request parameters to see if there no malicious code
+     * @param request The HTTP request
+     * @param strXssCharacters a String wich contain a list of Xss characters to check in strValue
+     * @param strParameterError a String wich contains strParameterError
+     *
+     * @return true if all parameters don't contains any special characters
+     */
+    public static boolean containsCleanParameters( HttpServletRequest request, String strXssCharacters )
     {
         String key;
         String[] values;
@@ -81,7 +95,7 @@ public final class SecurityUtil
 
             for ( int i = 0; i < length; i++ )
             {
-                if ( SecurityUtil.containsXssCharacters( request, values[i] ) )
+                if ( SecurityUtil.containsXssCharacters( request, values[i], strXssCharacters ) )
                 {
                     Logger logger = Logger.getLogger( LOGGER_NAME );
                     logger.warn( "SECURITY WARNING : INVALID REQUEST PARAMETERS" + dumpRequest( request ) );
@@ -104,7 +118,22 @@ public final class SecurityUtil
      */
     public static boolean containsXssCharacters( HttpServletRequest request, String strString )
     {
-        boolean bContains = StringUtil.containsXssCharacters( strString );
+        return containsXssCharacters( request, strString, null );
+    }
+
+    /**
+     * Checks if a String contains characters that could be used for a
+     * cross-site scripting attack.
+     *
+     * @param request The HTTP request
+     * @param strValue a character String
+     * @param strXssCharacters a String wich contain a list of Xss characters to check in strValue
+     * @return true if the String contains illegal characters
+     */
+    public static boolean containsXssCharacters( HttpServletRequest request, String strValue, String strXssCharacters )
+    {
+        boolean bContains = ( strXssCharacters == null ) ? StringUtil.containsXssCharacters( strValue )
+                                                         : StringUtil.containsXssCharacters( strValue, strXssCharacters );
 
         if ( bContains )
         {
