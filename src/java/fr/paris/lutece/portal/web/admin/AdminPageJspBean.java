@@ -33,15 +33,6 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.FileItem;
-
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
@@ -74,6 +65,15 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.commons.fileupload.FileItem;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -197,17 +197,17 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     public String doModifyPage( HttpServletRequest request )
     {
         int nPageId = Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
-        
+
         Page page = PageHome.getPage( nPageId );
-        Integer bOldAutorisationNode=page.getIdAuthorizationNode();
-        
+        Integer bOldAutorisationNode = page.getIdAuthorizationNode(  );
+
         String strErrorUrl = getPageData( request, page );
 
         if ( strErrorUrl != null )
         {
             return strErrorUrl;
         }
-        
+
         int nParentPageId = Integer.parseInt( request.getParameter( Parameters.PARENT_ID ) );
 
         if ( nParentPageId != page.getParentPageId(  ) )
@@ -218,29 +218,27 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             {
                 return strErrorUrl;
             }
-          
-         }
-       
-        //set the authorization node
-        if(page.getNodeStatus()!= 0 )
-    	{
-    	    Page parentPage=PageHome.getPage(page.getParentPageId());
-    	    page.setIdAuthorizationNode(parentPage.getIdAuthorizationNode());	
-    	}
-    	else
-    	{
-    		page.setIdAuthorizationNode(page.getId());
-    		
-    	}
-        if( bOldAutorisationNode != page.getIdAuthorizationNode())
-        {
-        	PageService.updateChildrenAuthorizationNode(page.getId(),page.getIdAuthorizationNode());            
         }
-       
+
+        //set the authorization node
+        if ( page.getNodeStatus(  ) != 0 )
+        {
+            Page parentPage = PageHome.getPage( page.getParentPageId(  ) );
+            page.setIdAuthorizationNode( parentPage.getIdAuthorizationNode(  ) );
+        }
+        else
+        {
+            page.setIdAuthorizationNode( page.getId(  ) );
+        }
+
+        if ( bOldAutorisationNode != page.getIdAuthorizationNode(  ) )
+        {
+            PageService.updateChildrenAuthorizationNode( page.getId(  ), page.getIdAuthorizationNode(  ) );
+        }
+
         // Updates the page
         _pageService.updatePage( page );
 
-        
         // Displays again the current page with the modifications
         return getUrlPage( nPageId );
     }
@@ -305,7 +303,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         String strErrorUrl = getPageData( request, page );
 
-        	
         if ( strErrorUrl != null )
         {
             return strErrorUrl;
@@ -313,18 +310,19 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         // Create the page
         _pageService.createPage( page );
-      //set the authorization node
-        if(page.getNodeStatus()!= 0 )
-    	{
-    	    Page parentPage=PageHome.getPage(page.getParentPageId());
-    	    page.setIdAuthorizationNode(parentPage.getIdAuthorizationNode());	
-    	}
-    	else
-    	{
-    		page.setIdAuthorizationNode(page.getId());
-    		
-    	}
-        _pageService.updatePage(page);
+
+        //set the authorization node
+        if ( page.getNodeStatus(  ) != 0 )
+        {
+            Page parentPage = PageHome.getPage( page.getParentPageId(  ) );
+            page.setIdAuthorizationNode( parentPage.getIdAuthorizationNode(  ) );
+        }
+        else
+        {
+            page.setIdAuthorizationNode( page.getId(  ) );
+        }
+
+        _pageService.updatePage( page );
 
         // Displays again the current page with the modifications
         return getUrlPage( page.getId(  ) );
@@ -494,7 +492,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         }
 
         model.put( MARK_AUTORIZATION, Integer.toString( nManageAuthorization ) );
-    
+
         String strTemplate = TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY;
 
         if ( nParamBlock == BLOCK_CHILDPAGE )
@@ -636,10 +634,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         page.setNodeStatus( nNodeStatus );
         page.setMetaKeywords( strMetaKeywords );
         page.setMetaDescription( strMetaDescription );
-        
-    	
-   
-        
+
         return strErrorUrl;
     }
 

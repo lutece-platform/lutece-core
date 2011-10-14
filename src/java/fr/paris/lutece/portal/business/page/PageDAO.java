@@ -65,7 +65,8 @@ public final class PageDAO implements IPageDAO
         "  a.meta_keywords, a.meta_description,a.id_authorization_node FROM core_page a,core_portlet b WHERE a.id_page = b.id_page AND b.id_portlet = ? ";
     private static final String SQL_QUERY_INSERT = "INSERT INTO core_page ( id_page , id_parent , name , description, date_update, " +
         " id_template,  page_order, status, role, date_creation, code_theme , node_status, image_content , mime_type ,  " +
-        " meta_keywords, meta_description,id_authorization_node ) " + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+        " meta_keywords, meta_description,id_authorization_node ) " +
+        " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_page WHERE id_page = ?";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_page SET id_parent = ?,  name = ?, description = ? , date_update = ? , " +
         " id_template = ? , page_order = ? , status = ? , role = ? , code_theme = ? , node_status = ? , " +
@@ -94,16 +95,10 @@ public final class PageDAO implements IPageDAO
     // ImageResource queries
     private static final String SQL_QUERY_SELECT_RESOURCE_IMAGE = " SELECT image_content , mime_type FROM core_page " +
         " WHERE id_page = ? ";
-    
-    
-   
-    private static final String SQL_QUERY_SELECT_CHILD_PAGE_FOR_MODIFY_AUTORISATION_NODE= "  SELECT id_page FROM core_page  " +
-    		"WHERE id_parent=? AND( id_authorization_node IS NULL OR id_page != id_authorization_node ) "; 
-    
-    private static final String SQL_QUERY_UPDATE_AUTORISATION_NODE= " UPDATE core_page SET id_authorization_node = ? WHERE id_page=? "; 
-    
-    
-    
+    private static final String SQL_QUERY_SELECT_CHILD_PAGE_FOR_MODIFY_AUTORISATION_NODE = "  SELECT id_page FROM core_page  " +
+        "WHERE id_parent=? AND( id_authorization_node IS NULL OR id_page != id_authorization_node ) ";
+    private static final String SQL_QUERY_UPDATE_AUTORISATION_NODE = " UPDATE core_page SET id_authorization_node = ? WHERE id_page=? ";
+
     ///////////////////////////////////////////////////////////////////////////////////////
     //Access methods to data
 
@@ -158,7 +153,7 @@ public final class PageDAO implements IPageDAO
         daoUtil.setInt( 12, page.getNodeStatus(  ) );
         daoUtil.setBytes( 13, page.getImageContent(  ) );
         daoUtil.setString( 14, page.getMimeType(  ) );
-       
+
         if ( ( page.getMetaKeywords(  ) != null ) && ( page.getMetaKeywords(  ).length(  ) > 0 ) )
         {
             daoUtil.setString( 15, page.getMetaKeywords(  ) );
@@ -176,17 +171,15 @@ public final class PageDAO implements IPageDAO
         {
             daoUtil.setString( 16, null );
         }
-        
-        if(page.getIdAuthorizationNode()!=null)
+
+        if ( page.getIdAuthorizationNode(  ) != null )
         {
-        	daoUtil.setInt(17,page.getIdAuthorizationNode());
+            daoUtil.setInt( 17, page.getIdAuthorizationNode(  ) );
         }
         else
         {
-        	daoUtil.setIntNull(17);
+            daoUtil.setIntNull( 17 );
         }
-        
-        
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -222,10 +215,12 @@ public final class PageDAO implements IPageDAO
             page.setDateUpdate( daoUtil.getTimestamp( 13 ) );
             page.setMetaKeywords( daoUtil.getString( 14 ) );
             page.setMetaDescription( daoUtil.getString( 15 ) );
-            if(daoUtil.getObject(16)!=null)
+
+            if ( daoUtil.getObject( 16 ) != null )
             {
-            	page.setIdAuthorizationNode(daoUtil.getInt( 16 ));
+                page.setIdAuthorizationNode( daoUtil.getInt( 16 ) );
             }
+
             // Patch perfs : close connection before loadPortlets
             daoUtil.free(  );
 
@@ -270,10 +265,12 @@ public final class PageDAO implements IPageDAO
             page.setDateUpdate( daoUtil.getTimestamp( 12 ) );
             page.setMetaKeywords( daoUtil.getString( 13 ) );
             page.setMetaDescription( daoUtil.getString( 14 ) );
-            if(daoUtil.getObject(15)!=null)
+
+            if ( daoUtil.getObject( 15 ) != null )
             {
-            	page.setIdAuthorizationNode(daoUtil.getInt( 15 ));
+                page.setIdAuthorizationNode( daoUtil.getInt( 15 ) );
             }
+
             // Patch perfs : close connection before loadPortlets
             daoUtil.free(  );
 
@@ -317,7 +314,7 @@ public final class PageDAO implements IPageDAO
             page.setMimeType( daoUtil.getString( 12 ) );
             page.setMetaKeywords( daoUtil.getString( 13 ) );
             page.setMetaDescription( daoUtil.getString( 14 ) );
-            page.setIdAuthorizationNode(daoUtil.getInt( 15 ));
+            page.setIdAuthorizationNode( daoUtil.getInt( 15 ) );
         }
 
         daoUtil.free(  );
@@ -357,7 +354,7 @@ public final class PageDAO implements IPageDAO
         daoUtil.setInt( 10, page.getNodeStatus(  ) );
         daoUtil.setBytes( 11, page.getImageContent(  ) );
         daoUtil.setString( 12, page.getMimeType(  ) );
-       
+
         if ( ( page.getMetaKeywords(  ) != null ) && ( page.getMetaKeywords(  ).length(  ) > 0 ) )
         {
             daoUtil.setString( 13, page.getMetaKeywords(  ) );
@@ -375,13 +372,14 @@ public final class PageDAO implements IPageDAO
         {
             daoUtil.setString( 14, null );
         }
-        if(page.getIdAuthorizationNode()!=null)
+
+        if ( page.getIdAuthorizationNode(  ) != null )
         {
-        	daoUtil.setInt(15,page.getIdAuthorizationNode());
+            daoUtil.setInt( 15, page.getIdAuthorizationNode(  ) );
         }
         else
         {
-        	daoUtil.setIntNull(15);
+            daoUtil.setIntNull( 15 );
         }
 
         daoUtil.setInt( 16, page.getId(  ) );
@@ -475,10 +473,12 @@ public final class PageDAO implements IPageDAO
             page.setMetaKeywords( daoUtil.getString( 11 ) );
             page.setMetaDescription( daoUtil.getString( 12 ) );
             page.setDateUpdate( daoUtil.getTimestamp( 13 ) );
-            if(daoUtil.getObject(14)!=null)
+
+            if ( daoUtil.getObject( 14 ) != null )
             {
-            	page.setIdAuthorizationNode(daoUtil.getInt( 14 ));
+                page.setIdAuthorizationNode( daoUtil.getInt( 14 ) );
             }
+
             pageList.add( page );
         }
 
@@ -540,10 +540,12 @@ public final class PageDAO implements IPageDAO
             page.setMimeType( daoUtil.getString( 11 ) );
             page.setMetaKeywords( daoUtil.getString( 12 ) );
             page.setMetaDescription( daoUtil.getString( 13 ) );
-            if(daoUtil.getObject(14)!=null)
+
+            if ( daoUtil.getObject( 14 ) != null )
             {
-            	page.setIdAuthorizationNode(daoUtil.getInt( 14 ));
+                page.setIdAuthorizationNode( daoUtil.getInt( 14 ) );
             }
+
             pageList.add( page );
         }
 
@@ -618,10 +620,12 @@ public final class PageDAO implements IPageDAO
             page.setMimeType( daoUtil.getString( 10 ) );
             page.setMetaKeywords( daoUtil.getString( 11 ) );
             page.setMetaDescription( daoUtil.getString( 12 ) );
-            if(daoUtil.getObject(13)!=null)
+
+            if ( daoUtil.getObject( 13 ) != null )
             {
-            	page.setIdAuthorizationNode(daoUtil.getInt( 13 ));
+                page.setIdAuthorizationNode( daoUtil.getInt( 13 ) );
             }
+
             pageList.add( page );
         }
 
@@ -731,9 +735,10 @@ public final class PageDAO implements IPageDAO
             page.setDateUpdate( daoUtil.getTimestamp( nIndex++ ) );
             page.setMetaKeywords( daoUtil.getString( nIndex++ ) );
             page.setMetaDescription( daoUtil.getString( nIndex++ ) );
-            if(daoUtil.getObject(nIndex++)!=null)
+
+            if ( daoUtil.getObject( nIndex++ ) != null )
             {
-            	page.setIdAuthorizationNode(daoUtil.getInt( nIndex ));
+                page.setIdAuthorizationNode( daoUtil.getInt( nIndex ) );
             }
         }
 
@@ -741,56 +746,53 @@ public final class PageDAO implements IPageDAO
 
         return page;
     }
-    
-   /*
-    * (non-Javadoc)
-    * @see fr.paris.lutece.portal.business.page.IPageDAO#updateAutorisationNode(int, java.lang.Integer)
-    */
-    public void updateAutorisationNode(int nIdPage,Integer  nIdAutorisationNode)
+
+    /*
+     * (non-Javadoc)
+     * @see fr.paris.lutece.portal.business.page.IPageDAO#updateAutorisationNode(int, java.lang.Integer)
+     */
+    public void updateAutorisationNode( int nIdPage, Integer nIdAutorisationNode )
     {
-    	
-    	StringBuilder strSQl = new StringBuilder(  );
-    	strSQl.append( SQL_QUERY_UPDATE_AUTORISATION_NODE );
-    	DAOUtil daoUtil = new DAOUtil( strSQl.toString( ) );
-    	if(nIdAutorisationNode!=null)
-    	{
-    		daoUtil.setInt( 1, nIdAutorisationNode );
-    	}
-    	else
-    	{
-    		daoUtil.setIntNull( 1);
-    	}
-    	daoUtil.setInt( 2, nIdPage );
-         
-         daoUtil.executeUpdate(  );
-         daoUtil.free(  );
-    
+        StringBuilder strSQl = new StringBuilder(  );
+        strSQl.append( SQL_QUERY_UPDATE_AUTORISATION_NODE );
+
+        DAOUtil daoUtil = new DAOUtil( strSQl.toString(  ) );
+
+        if ( nIdAutorisationNode != null )
+        {
+            daoUtil.setInt( 1, nIdAutorisationNode );
+        }
+        else
+        {
+            daoUtil.setIntNull( 1 );
+        }
+
+        daoUtil.setInt( 2, nIdPage );
+
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
     }
+
     /*
      * (non-Javadoc)
      * @see fr.paris.lutece.portal.business.page.IPageDAO#selectPageForChangeAutorisationNode(int)
      */
-    public List<Integer> selectPageForChangeAutorisationNode(int nIdParentPage)
+    public List<Integer> selectPageForChangeAutorisationNode( int nIdParentPage )
     {
-    	List<Integer> listIdPage=new ArrayList<Integer>();
-    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CHILD_PAGE_FOR_MODIFY_AUTORISATION_NODE ); 
-    	
-    	daoUtil.setInt( 1, nIdParentPage );
+        List<Integer> listIdPage = new ArrayList<Integer>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CHILD_PAGE_FOR_MODIFY_AUTORISATION_NODE );
 
-         daoUtil.executeQuery(  );
+        daoUtil.setInt( 1, nIdParentPage );
 
-         while ( daoUtil.next(  ) )
-         {
-            
-        	 listIdPage.add( daoUtil.getInt( 1 ) );
+        daoUtil.executeQuery(  );
 
-         }
+        while ( daoUtil.next(  ) )
+        {
+            listIdPage.add( daoUtil.getInt( 1 ) );
+        }
 
-         daoUtil.free(  );
-         return listIdPage;
-    	
+        daoUtil.free(  );
+
+        return listIdPage;
     }
-
-  
-
 }

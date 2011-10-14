@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.pluginaction;
 
+
 /**
  * Result of an action. <br>
  * Use :
@@ -45,61 +46,61 @@ package fr.paris.lutece.portal.web.pluginaction;
  */
 public class DefaultPluginActionResult implements IPluginActionResult
 {
-	private String _strRedirect;
+    private String _strRedirect;
     private boolean _bNoop;
     private String _strHtmlContent;
-    
+
     /**
      * Returns the redirect url, <code>null</code> otherwise.
      * @return the redirect url, <code>null</code> otherwise
      */
     public String getRedirect(  )
     {
-    	return _strRedirect;
+        return _strRedirect;
     }
-    
+
     /**
      * Sets the redirect url, <code>null</code> otherwise.
      * @param strRedirect the redirect url, <code>null</code> otherwise.
      */
     public void setRedirect( String strRedirect )
     {
-    	_strRedirect = strRedirect;
+        _strRedirect = strRedirect;
     }
-    
+
     /**
      * Returns <code>true</code> if no operation needed, <code>false</code> otherwise.
      * @return <code>true</code> if no operation needed, <code>false</code> otherwise.
      */
     public boolean isNoop(  )
     {
-    	return _bNoop;
+        return _bNoop;
     }
-    
+
     /**
      * Set to <code>true</code> if no operation needed, <code>false</code> otherwise.
      * @param bNoop <code>true</code> if no operation needed, <code>false</code> otherwise.
      */
     public void setNoop( boolean bNoop )
     {
-    	_bNoop = bNoop;
+        _bNoop = bNoop;
     }
-    
+
     /**
      * Returns the html content if any, <code>null</code> otherwise
      * @return the html content if any, <code>null</code> otherwise
      */
     public String getHtmlContent(  )
     {
-    	return _strHtmlContent;
+        return _strHtmlContent;
     }
-    
+
     /**
      * Sets the html content if any, <code>null</code> otherwise
      * @param strHtmlContent the html content if any, <code>null</code> otherwise
      */
     public void setHtmlContent( String strHtmlContent )
     {
-    	_strHtmlContent = strHtmlContent;
+        _strHtmlContent = strHtmlContent;
     }
 }

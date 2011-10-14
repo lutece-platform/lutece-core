@@ -33,18 +33,15 @@
  */
 package fr.paris.lutece.portal.business.page;
 
-import fr.paris.lutece.portal.business.portlet.Portlet;
-import fr.paris.lutece.portal.service.portal.PortalService;
-import fr.paris.lutece.portal.service.rbac.RBACResource;
-import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
-
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
+import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.service.rbac.RBACResource;
+import fr.paris.lutece.portal.service.security.SecurityService;
 
 
 /**
@@ -77,7 +74,7 @@ public class Page implements RBACResource
     private List<Portlet> _listPortlets = new ArrayList<Portlet>(  );
     private String _strMetaKeywords;
     private String _strMetaDescription;
-    private Integer _nIdAuthorizationNode;  
+    private Integer _nIdAuthorizationNode;
 
     /**
      * Initialize the Page
@@ -434,6 +431,7 @@ public class Page implements RBACResource
     {
         return "" + getId(  );
     }
+
     /**
     *
     * @return the META Name associate to the page
@@ -470,21 +468,21 @@ public class Page implements RBACResource
         _strMetaDescription = strMetaDescription;
     }
 
+    /**
+     * set the id of the authorization node
+     * @param nIdAutorizationNode
+     */
+    public void setIdAuthorizationNode( Integer nIdAutorizationNode )
+    {
+        this._nIdAuthorizationNode = nIdAutorizationNode;
+    }
 
-	
-	/**
-	 * set the id of the authorization node
-	 * @param nIdAutorizationNode
-	 */
-	public void setIdAuthorizationNode(Integer nIdAutorizationNode) {
-		this._nIdAuthorizationNode = nIdAutorizationNode;
-	}
-	
-	/**
-	 * get the id of the authorization node
-	 * @return the authorization node id
-	 */
-	public Integer getIdAuthorizationNode() {
-		return _nIdAuthorizationNode;
-	}
+    /**
+     * get the id of the authorization node
+     * @return the authorization node id
+     */
+    public Integer getIdAuthorizationNode(  )
+    {
+        return _nIdAuthorizationNode;
+    }
 }

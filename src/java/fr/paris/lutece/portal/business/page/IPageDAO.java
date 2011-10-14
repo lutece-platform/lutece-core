@@ -157,18 +157,18 @@ public interface IPageDAO
      * @return the last modified {@link Page}
      */
     Page loadLastModifiedPage(  );
-    
+
     /**
-     * Update the authorization node of the  page 
+     * Update the authorization node of the  page
      * @param nIdPage the page id
      * @param nIdAuthorizationNode  the authorization node id
      */
-    void updateAutorisationNode(int nIdPage,Integer  nIdAuthorizationNode);
-    
+    void updateAutorisationNode( int nIdPage, Integer nIdAuthorizationNode );
+
     /**
      * select list of children Pages Which Must Change  their authorization node
      * @param nIdParentPage the id of the parent page
      * @return an id list
      */
-    List<Integer> selectPageForChangeAutorisationNode(int nIdParentPage);
+    List<Integer> selectPageForChangeAutorisationNode( int nIdParentPage );
 }

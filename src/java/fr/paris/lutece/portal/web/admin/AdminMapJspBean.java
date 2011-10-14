@@ -171,50 +171,48 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
                     PageResourceIdService.PERMISSION_VIEW, user );
         }
 
-        
-            XmlUtil.beginElement( strXmlArborescence, XmlContent.TAG_PAGE );
+        XmlUtil.beginElement( strXmlArborescence, XmlContent.TAG_PAGE );
 
-            if ( bAuthorizationPage )
+        if ( bAuthorizationPage )
+        {
+            XmlUtil.addElementHtml( strXmlArborescence, XmlContent.TAG_CURRENT_PAGE_ID, strCurrentPageId );
+            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_ID, page.getId(  ) );
+            XmlUtil.addElementHtml( strXmlArborescence, XmlContent.TAG_PAGE_NAME, page.getName(  ) );
+            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_DESCRIPTION, page.getDescription(  ) );
+            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_LEVEL, nLevel );
+            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PARENT_PAGE_ID, page.getParentPageId(  ) );
+            XmlUtil.addElement( strXmlArborescence, TAG_PAGE_ROLE, page.getRole(  ) );
+
+            AdminPageJspBean adminPage = new AdminPageJspBean(  );
+
+            if ( page.getImageContent(  ) != null )
             {
-                XmlUtil.addElementHtml( strXmlArborescence, XmlContent.TAG_CURRENT_PAGE_ID, strCurrentPageId );
-                XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_ID, page.getId(  ) );
-                XmlUtil.addElementHtml( strXmlArborescence, XmlContent.TAG_PAGE_NAME, page.getName(  ) );
-                XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_DESCRIPTION, page.getDescription(  ) );
-                XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_LEVEL, nLevel );
-                XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PARENT_PAGE_ID, page.getParentPageId(  ) );
-                XmlUtil.addElement( strXmlArborescence, TAG_PAGE_ROLE, page.getRole(  ) );
+                int nImageLength = page.getImageContent(  ).length;
 
-                AdminPageJspBean adminPage = new AdminPageJspBean(  );
-
-                if ( page.getImageContent(  ) != null )
+                if ( nImageLength >= 1 )
                 {
-                    int nImageLength = page.getImageContent(  ).length;
-
-                    if ( nImageLength >= 1 )
-                    {
-                        XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_IMAGE,
-                            adminPage.getResourceImagePage( page, strPageId ) );
-                    }
+                    XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_IMAGE,
+                        adminPage.getResourceImagePage( page, strPageId ) );
                 }
             }
+        }
 
-            XmlUtil.beginElement( strXmlArborescence, XmlContent.TAG_CHILD_PAGES_LIST );
+        XmlUtil.beginElement( strXmlArborescence, XmlContent.TAG_CHILD_PAGES_LIST );
 
-            for ( Page pageChild : PageHome.getChildPagesMinimalData( nPageId ) )
-            {
-                findPages( request, strXmlArborescence, pageChild.getId(  ), nLevel + 1, strCurrentPageId, strCssId );
-                strCssId.append( "initializeMenu('menu" + pageChild.getId(  ) + "' , 'actuator" + pageChild.getId(  ) +
-                    "');\n" );
-            }
+        for ( Page pageChild : PageHome.getChildPagesMinimalData( nPageId ) )
+        {
+            findPages( request, strXmlArborescence, pageChild.getId(  ), nLevel + 1, strCurrentPageId, strCssId );
+            strCssId.append( "initializeMenu('menu" + pageChild.getId(  ) + "' , 'actuator" + pageChild.getId(  ) +
+                "');\n" );
+        }
 
-            XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_CHILD_PAGES_LIST );
+        XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_CHILD_PAGES_LIST );
 
-            if ( bAuthorizationPage )
-            {
-                XmlUtil.addElementHtml( strXmlArborescence, TAG_CSS_ID, strCssId.toString(  ) );
-            }
+        if ( bAuthorizationPage )
+        {
+            XmlUtil.addElementHtml( strXmlArborescence, TAG_CSS_ID, strCssId.toString(  ) );
+        }
 
-            XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_PAGE );
-        
+        XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_PAGE );
     }
 }

@@ -461,7 +461,7 @@ public final class WorkflowService
     {
         this.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, null );
     }
-    
+
     /**
      * Get the list of mass actions from a given id workflow
      * @param nIdWorkflow the id workflow
@@ -469,7 +469,7 @@ public final class WorkflowService
      */
     public List<Action> getMassActions( int nIdWorkflow )
     {
-    	if ( isAvailable(  ) && ( _service != null ) )
+        if ( isAvailable(  ) && ( _service != null ) )
         {
             return _service.getMassActions( nIdWorkflow );
         }
@@ -478,24 +478,24 @@ public final class WorkflowService
             return null;
         }
     }
-    
+
     /**
      * Check if the action can be proceed for the given resource
      * @param nIdResource the id resource
      * @param strResourceType the resource type
      * @param nIdAction the id action
-     * @param nExternalParentId the external parent id 
+     * @param nExternalParentId the external parent id
      * @param request the HTTP request
      * @param bIsAutomatic is automatic action
      * @return true if the action can proceed, false otherwise
      */
-    public boolean canProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId, 
-    		HttpServletRequest request, boolean bIsAutomatic )
+    public boolean canProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
+        HttpServletRequest request, boolean bIsAutomatic )
     {
-    	if ( isAvailable(  ) && ( _service != null ) )
+        if ( isAvailable(  ) && ( _service != null ) )
         {
-            return _service.canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, 
-            		request, bIsAutomatic );
+            return _service.canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request,
+                bIsAutomatic );
         }
         else
         {

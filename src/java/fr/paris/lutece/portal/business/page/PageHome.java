@@ -50,7 +50,7 @@ public final class PageHome
 {
     // Static variable pointed at the DAO instance
     private static IPageDAO _dao = (IPageDAO) SpringContextService.getBean( "pageDAO" );
-   
+
     /**
      * Creates a new PageHome object.
      */
@@ -91,7 +91,6 @@ public final class PageHome
 
         PortalService.resetCache(  );
     }
-   
 
     /**
      * update of the page which is specified in parameter
@@ -240,31 +239,24 @@ public final class PageHome
     {
         return _dao.loadLastModifiedPage(  );
     }
-    
-    
+
     /**
      * get list of children Pages Which Must Change  their authorization node
      * @param nIdParentPage the id of the parent page
      * @return an id list
      */
-    public static List<Integer> getPagesWhichMustChangeAuthorizationNode(int nIdParentPage)
+    public static List<Integer> getPagesWhichMustChangeAuthorizationNode( int nIdParentPage )
     {
-    	return _dao.selectPageForChangeAutorisationNode(nIdParentPage);
+        return _dao.selectPageForChangeAutorisationNode( nIdParentPage );
     }
-    
+
     /**
-     * Update the authorization node of the  page 
+     * Update the authorization node of the  page
      * @param nIdPage the page id
      * @param nIdAuthorizationNode  the authorization node id
      */
-    public static void updateAuthorizationNode(int nIdPage,Integer nIdAuthorizationNode)
-    
-    {	
-    	_dao.updateAutorisationNode(nIdPage, nIdAuthorizationNode);
+    public static void updateAuthorizationNode( int nIdPage, Integer nIdAuthorizationNode )
+    {
+        _dao.updateAutorisationNode( nIdPage, nIdAuthorizationNode );
     }
-    
-    
-   
-    
-    
-    }
+}

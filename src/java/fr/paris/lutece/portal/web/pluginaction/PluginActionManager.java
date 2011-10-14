@@ -33,16 +33,17 @@
  */
 package fr.paris.lutece.portal.web.pluginaction;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 /**
- * 
+ *
  * PluginActionManager.
  * <ul>
  * <li>
@@ -57,60 +58,60 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
  */
 public final class PluginActionManager
 {
-	/**
-	 * Empty constructor
-	 */
-	private PluginActionManager(  )
-	{
-		// nothing
-	}
-	
-	/**
-	 * Gets the list of {@link IDirectoryAction}
-	 * @return the list
-	 */
-	public static <A extends IPluginAction<?>> List<A> getListPluginAction( Class<A> pluginActionClass )
-	{
-		return SpringContextService.getBeansOfType( pluginActionClass );
-	}
-	
-	/**
-	 * Gets the {@link IPluginAction} for the request.
-	 * @param request the request
-	 * @return the invoked {@link IPluginAction}, <code>null</code> otherwise.
-	 * @see IPluginAction#isInvoked(HttpServletRequest)
-	 */
-	public static <A extends IPluginAction<?>> A getPluginAction( HttpServletRequest request, Class<A> pluginActionClass )
-	{
-		for ( A action : getListPluginAction( pluginActionClass ) )
-		{
-			if ( action.isInvoked( request ) )
-			{
-				return action;
-			}
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * Fills the model with all actions and adds the list to the given marker
-	 * @param request the request
-	 * @param adminUser the admin user
-	 * @param model the model
-	 * @param pluginActionClass the action class (usually the interface)
-	 * @param strMark the marker to put for the actions list
-	 * @param <A> the action type (usually the interface)
-	 */
-	public static <A extends IPluginAction<?>> void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model, Class<A> pluginActionClass, String strMark )
-	{
-		for ( A action : SpringContextService.getBeansOfType( pluginActionClass ) )
-		{
-			action.fillModel( request, adminUser, model );
-		}
-		
-		// add the action list
-		model.put( strMark, getListPluginAction( pluginActionClass ) );
-	}
+    /**
+     * Empty constructor
+     */
+    private PluginActionManager(  )
+    {
+        // nothing
+    }
 
+    /**
+     * Gets the list of {@link IDirectoryAction}
+     * @return the list
+     */
+    public static <A extends IPluginAction<?>> List<A> getListPluginAction( Class<A> pluginActionClass )
+    {
+        return SpringContextService.getBeansOfType( pluginActionClass );
+    }
+
+    /**
+     * Gets the {@link IPluginAction} for the request.
+     * @param request the request
+     * @return the invoked {@link IPluginAction}, <code>null</code> otherwise.
+     * @see IPluginAction#isInvoked(HttpServletRequest)
+     */
+    public static <A extends IPluginAction<?>> A getPluginAction( HttpServletRequest request, Class<A> pluginActionClass )
+    {
+        for ( A action : getListPluginAction( pluginActionClass ) )
+        {
+            if ( action.isInvoked( request ) )
+            {
+                return action;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Fills the model with all actions and adds the list to the given marker
+     * @param request the request
+     * @param adminUser the admin user
+     * @param model the model
+     * @param pluginActionClass the action class (usually the interface)
+     * @param strMark the marker to put for the actions list
+     * @param <A> the action type (usually the interface)
+     */
+    public static <A extends IPluginAction<?>> void fillModel( HttpServletRequest request, AdminUser adminUser,
+        Map<String, Object> model, Class<A> pluginActionClass, String strMark )
+    {
+        for ( A action : SpringContextService.getBeansOfType( pluginActionClass ) )
+        {
+            action.fillModel( request, adminUser, model );
+        }
+
+        // add the action list
+        model.put( strMark, getListPluginAction( pluginActionClass ) );
+    }
 }

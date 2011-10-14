@@ -226,17 +226,17 @@ public class Action implements RBACResource, IReferenceItem
      * Set the attribute mass action
      * @param bIsMassAction true if the action is a mass action, false otherwise
      */
-	public void setMassAction( boolean bIsMassAction )
-	{
-		_bIsMassAction = bIsMassAction;
-	}
+    public void setMassAction( boolean bIsMassAction )
+    {
+        _bIsMassAction = bIsMassAction;
+    }
 
-	/**
-	 * Check if the action is a mass action
-	 * @return true if it is a mass action, false otherwise
-	 */
-	public boolean isMassAction(  )
-	{
-		return _bIsMassAction;
-	}
+    /**
+     * Check if the action is a mass action
+     * @return true if it is a mass action, false otherwise
+     */
+    public boolean isMassAction(  )
+    {
+        return _bIsMassAction;
+    }
 }
