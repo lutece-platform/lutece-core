@@ -170,6 +170,10 @@ public class MailSenderDaemon extends Daemon
                     AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
                 }
             }
+
+            //reset all ressource stored in MailAttachmentCacheService
+            MailAttachmentCacheService.getInstance(  ).resetCache(  );
+            setLastRunLogs( sbLogs.toString(  ) );
         }
         else
         {
@@ -177,8 +181,6 @@ public class MailSenderDaemon extends Daemon
             sbLogs.append( new Date(  ).toString(  ) );
             logger.info( sbLogs.toString(  ) );
         }
-
-        setLastRunLogs( sbLogs.toString(  ) );
     }
 
     /**

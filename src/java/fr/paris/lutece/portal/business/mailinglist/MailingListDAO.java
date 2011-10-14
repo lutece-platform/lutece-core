@@ -305,10 +305,10 @@ public final class MailingListDAO implements IMailingListDAO
     /**
      * {@inheritDoc}
      */
-	public boolean checkFilter( MailingListUsersFilter filter, int nId )
-	{
-		boolean bExists = false;
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_SELECT );
+    public boolean checkFilter( MailingListUsersFilter filter, int nId )
+    {
+        boolean bExists = false;
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_SELECT );
         daoUtil.setInt( 1, nId );
         daoUtil.setString( 2, filter.getWorkgroup(  ) );
         daoUtil.setString( 3, filter.getRole(  ) );
@@ -316,11 +316,11 @@ public final class MailingListDAO implements IMailingListDAO
 
         if ( daoUtil.next(  ) )
         {
-        	bExists = true;
+            bExists = true;
         }
 
         daoUtil.free(  );
-        
+
         return bExists;
-	}
+    }
 }

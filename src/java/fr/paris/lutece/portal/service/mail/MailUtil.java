@@ -43,7 +43,9 @@ import fr.paris.lutece.util.mail.UrlAttachment;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 import java.util.ArrayList;
@@ -90,6 +92,7 @@ final class MailUtil
     private static final String HEADER_CONTENT_LOCATION = "Content-Location";
     private static final String MULTIPART_RELATED = "related";
     private static final String MSG_ATTACHMENT_NOT_FOUND = " not found, document ignored.";
+    private static final int CONSTANTE_FILE_ATTACHMET_BUFFER = 4096;
 
     /**
      * Creates a new MailUtil object
@@ -102,20 +105,33 @@ final class MailUtil
      * Send a text message.
      *
      *
-     * @param strHost The SMTP name or IP address.
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
-     * @param strRecipientsCc The recipients list of the carbon copies .
-     * @param strRecipientsBcc The recipients list of the blind carbon copies .
-     * @param strSenderName The sender name.
-     * @param strSenderEmail The sender email address.
-     * @param strSubject The message subject.
-     * @param strMessage The message.
-     * @param transport the smtp transport object
-     * @param session the smtp session object
-     * @throws AddressException If invalid address
-     * @throws SendFailedException If an error occured during sending
-     * @throws MessagingException If a messaging error occured
+     * @param strHost
+     *            The SMTP name or IP address.
+     * @param strRecipientsTo
+     *            The list of the main recipients email.Every recipient must be
+     *            separated by the mail separator defined in config.properties
+     * @param strRecipientsCc
+     *            The recipients list of the carbon copies .
+     * @param strRecipientsBcc
+     *            The recipients list of the blind carbon copies .
+     * @param strSenderName
+     *            The sender name.
+     * @param strSenderEmail
+     *            The sender email address.
+     * @param strSubject
+     *            The message subject.
+     * @param strMessage
+     *            The message.
+     * @param transport
+     *            the smtp transport object
+     * @param session
+     *            the smtp session object
+     * @throws AddressException
+     *             If invalid address
+     * @throws SendFailedException
+     *             If an error occured during sending
+     * @throws MessagingException
+     *             If a messaging error occured
      */
     protected static void sendMessageText( String strHost, String strRecipientsTo, String strRecipientsCc,
         String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
@@ -135,20 +151,33 @@ final class MailUtil
      * Send a HTML formated message.
      *
      *
-     * @param strHost The SMTP name or IP address.
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
-     * @param strRecipientsCc The recipients list of the carbon copies .
-     * @param strRecipientsBcc The recipients list of the blind carbon copies .
-     * @param strSenderName The sender name.
-     * @param strSenderEmail The sender email address.
-     * @param strSubject The message subject.
-     * @param strMessage The message.
-     * @param transport the smtp transport object
-     * @param session the smtp session object
-     * @throws AddressException If invalid address
-     * @throws SendFailedException If an error occured during sending
-     * @throws MessagingException If a messaging error occured
+     * @param strHost
+     *            The SMTP name or IP address.
+     * @param strRecipientsTo
+     *            The list of the main recipients email.Every recipient must be
+     *            separated by the mail separator defined in config.properties
+     * @param strRecipientsCc
+     *            The recipients list of the carbon copies .
+     * @param strRecipientsBcc
+     *            The recipients list of the blind carbon copies .
+     * @param strSenderName
+     *            The sender name.
+     * @param strSenderEmail
+     *            The sender email address.
+     * @param strSubject
+     *            The message subject.
+     * @param strMessage
+     *            The message.
+     * @param transport
+     *            the smtp transport object
+     * @param session
+     *            the smtp session object
+     * @throws AddressException
+     *             If invalid address
+     * @throws SendFailedException
+     *             If an error occured during sending
+     * @throws MessagingException
+     *             If a messaging error occured
      */
     protected static void sendMessageHtml( String strHost, String strRecipientsTo, String strRecipientsCc,
         String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
@@ -168,25 +197,41 @@ final class MailUtil
     }
 
     /**
-     * Send a Multipart HTML message with the attachements associated to the message and attached files.
-     * FIXME: use prepareMessage method
+     * Send a Multipart HTML message with the attachements associated to the
+     * message and attached files. FIXME: use prepareMessage method
      *
-     * @param strHost The SMTP name or IP address.
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
-     * @param strRecipientsCc The recipients list of the carbon copies .
-     * @param strRecipientsBcc The recipients list of the blind carbon copies .
-     * @param strSenderName The sender name.
-     * @param strSenderEmail The sender email address.
-     * @param strSubject The message subject.
-     * @param strMessage The message.
-     * @param urlAttachements The List of UrlAttachement Object, containing the URL of attachments associated with their content-location.
-     * @param fileAttachements The list of files attached
-     * @param transport the smtp transport object
-     * @param session the smtp session object
-     * @throws AddressException If invalid address
-     * @throws SendFailedException If an error occured during sending
-     * @throws MessagingException If a messaging error occured
+     * @param strHost
+     *            The SMTP name or IP address.
+     * @param strRecipientsTo
+     *            The list of the main recipients email.Every recipient must be
+     *            separated by the mail separator defined in config.properties
+     * @param strRecipientsCc
+     *            The recipients list of the carbon copies .
+     * @param strRecipientsBcc
+     *            The recipients list of the blind carbon copies .
+     * @param strSenderName
+     *            The sender name.
+     * @param strSenderEmail
+     *            The sender email address.
+     * @param strSubject
+     *            The message subject.
+     * @param strMessage
+     *            The message.
+     * @param urlAttachements
+     *            The List of UrlAttachement Object, containing the URL of
+     *            attachments associated with their content-location.
+     * @param fileAttachements
+     *            The list of files attached
+     * @param transport
+     *            the smtp transport object
+     * @param session
+     *            the smtp session object
+     * @throws AddressException
+     *             If invalid address
+     * @throws SendFailedException
+     *             If an error occured during sending
+     * @throws MessagingException
+     *             If a messaging error occured
      */
     protected static void sendMultipartMessageHtml( String strHost, String strRecipientsTo, String strRecipientsCc,
         String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
@@ -197,12 +242,12 @@ final class MailUtil
                 strSenderEmail, strSubject, session );
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
 
-        // Creation of the root part containing all the elements of the message 
+        // Creation of the root part containing all the elements of the message
         MimeMultipart multipart = new MimeMultipart( MULTIPART_RELATED );
 
         // Creation of the html part, the "core" of the message
         BodyPart msgBodyPart = new MimeBodyPart(  );
-        //msgBodyPart.setContent( strMessage, BODY_PART_MIME_TYPE );
+        // msgBodyPart.setContent( strMessage, BODY_PART_MIME_TYPE );
         msgBodyPart.setDataHandler( new DataHandler( 
                 new ByteArrayDataSource( strMessage,
                     AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML ) +
@@ -211,32 +256,25 @@ final class MailUtil
 
         if ( urlAttachements != null )
         {
+            ByteArrayDataSource UrlByteArrayDataSource = null;
+
             for ( UrlAttachment urlAttachement : urlAttachements )
             {
-                msgBodyPart = new MimeBodyPart(  );
+                UrlByteArrayDataSource = convertUrlAttachmentDataSourceToByteArrayDataSource( urlAttachement );
 
-                DataHandler handler = new DataHandler( urlAttachement.getUrlData(  ) );
-
-                try
+                if ( UrlByteArrayDataSource != null )
                 {
-                    handler.getContent(  );
+                    msgBodyPart = new MimeBodyPart(  );
+                    // Fill this part, then add it to the root part with the
+                    // good headers
+                    msgBodyPart.setDataHandler( new DataHandler( UrlByteArrayDataSource ) );
+                    msgBodyPart.setHeader( HEADER_CONTENT_LOCATION, urlAttachement.getContentLocation(  ) );
+                    multipart.addBodyPart( msgBodyPart );
                 }
-                catch ( IOException e )
-                {
-                    // Document is ignored
-                    AppLogService.info( urlAttachement.getContentLocation(  ) + MSG_ATTACHMENT_NOT_FOUND );
-
-                    continue;
-                }
-
-                // Fill this part, then add it to the root part with the good headers
-                msgBodyPart.setDataHandler( handler );
-                msgBodyPart.setHeader( HEADER_CONTENT_LOCATION, urlAttachement.getContentLocation(  ) );
-                multipart.addBodyPart( msgBodyPart );
             }
         }
 
-        //add File Attachement
+        // add File Attachement
         if ( fileAttachements != null )
         {
             for ( FileAttachment fileAttachement : fileAttachements )
@@ -259,24 +297,38 @@ final class MailUtil
     }
 
     /**
-     * Send a Multipart text message with attached files.
-     * FIXME: use prepareMessage method
+     * Send a Multipart text message with attached files. FIXME: use
+     * prepareMessage method
      *
-     * @param strHost The SMTP name or IP address.
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
-     * @param strRecipientsCc The recipients list of the carbon copies .
-     * @param strRecipientsBcc The recipients list of the blind carbon copies .
-     * @param strSenderName The sender name.
-     * @param strSenderEmail The sender email address.
-     * @param strSubject The message subject.
-     * @param strMessage The message.
-     * @param fileAttachements The list of attached files
-     * @param transport the smtp transport object
-     * @param session the smtp session object
-     * @throws AddressException If invalid address
-     * @throws SendFailedException If an error occured during sending
-     * @throws MessagingException If a messaging error occured
+     * @param strHost
+     *            The SMTP name or IP address.
+     * @param strRecipientsTo
+     *            The list of the main recipients email.Every recipient must be
+     *            separated by the mail separator defined in config.properties
+     * @param strRecipientsCc
+     *            The recipients list of the carbon copies .
+     * @param strRecipientsBcc
+     *            The recipients list of the blind carbon copies .
+     * @param strSenderName
+     *            The sender name.
+     * @param strSenderEmail
+     *            The sender email address.
+     * @param strSubject
+     *            The message subject.
+     * @param strMessage
+     *            The message.
+     * @param fileAttachements
+     *            The list of attached files
+     * @param transport
+     *            the smtp transport object
+     * @param session
+     *            the smtp session object
+     * @throws AddressException
+     *             If invalid address
+     * @throws SendFailedException
+     *             If an error occured during sending
+     * @throws MessagingException
+     *             If a messaging error occured
      */
     protected static void sendMultipartMessageText( String strHost, String strRecipientsTo, String strRecipientsCc,
         String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
@@ -287,20 +339,20 @@ final class MailUtil
                 strSenderEmail, strSubject, session );
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
 
-        // Creation of the root part containing all the elements of the message 
+        // Creation of the root part containing all the elements of the message
         MimeMultipart multipart = new MimeMultipart(  );
 
         // Creation of the html part, the "core" of the message
         BodyPart msgBodyPart = new MimeBodyPart(  );
-        //msgBodyPart.setContent( strMessage, BODY_PART_MIME_TYPE );
+        // msgBodyPart.setContent( strMessage, BODY_PART_MIME_TYPE );
         msgBodyPart.setDataHandler( new DataHandler( 
                 new ByteArrayDataSource( strMessage,
                     AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN ) +
                     AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
         multipart.addBodyPart( msgBodyPart );
 
-        //add File Attachement
-        //add File Attachement
+        // add File Attachement
+        // add File Attachement
         if ( fileAttachements != null )
         {
             for ( FileAttachment fileAttachement : fileAttachements )
@@ -324,10 +376,15 @@ final class MailUtil
 
     /**
      * Send the message
-     * @param msg the message to send
-     * @param transport the transport used to send the message
-     * @throws MessagingException If a messaging error occured
-     * @throws AddressException If invalid address
+     *
+     * @param msg
+     *            the message to send
+     * @param transport
+     *            the transport used to send the message
+     * @throws MessagingException
+     *             If a messaging error occured
+     * @throws AddressException
+     *             If invalid address
      */
     private static void sendMessage( Message msg, Transport transport )
         throws MessagingException, AddressException
@@ -344,15 +401,22 @@ final class MailUtil
     }
 
     /**
-     * Extract a collection of elements to be attached to a mail from an HTML string.
+     * Extract a collection of elements to be attached to a mail from an HTML
+     * string.
      *
-     * The collection contains the Url used for created DataHandler  for each url associated with
-     * an HTML tag img, script or link. Those urls must start with the url strBaseUrl.
+     * The collection contains the Url used for created DataHandler for each url
+     * associated with an HTML tag img, script or link. Those urls must start
+     * with the url strBaseUrl.
      *
-     * @param strHtml The HTML code.
-     * @param strBaseUrl The base url, can be null in order to extract all urls.
-     * @param useAbsoluteUrl Determine if we use absolute or relative url for attachement content-location
-     * @return a collection of UrlAttachment Object  for created  DataHandler associated with attachment urls.
+     * @param strHtml
+     *            The HTML code.
+     * @param strBaseUrl
+     *            The base url, can be null in order to extract all urls.
+     * @param useAbsoluteUrl
+     *            Determine if we use absolute or relative url for attachement
+     *            content-location
+     * @return a collection of UrlAttachment Object for created DataHandler
+     *         associated with attachment urls.
      */
     protected static List<UrlAttachment> getUrlAttachmentList( String strHtml, String strBaseUrl, boolean useAbsoluteUrl )
     {
@@ -368,26 +432,36 @@ final class MailUtil
     /**
      * Common part for sending message process :
      * <ul>
-     *         <li>initializes a mail session with the smtp server</li>
-     *         <li>activates debugging</li>
-     *         <li>instanciates and initializes a mime message</li>
-     *  <li>sets the sent date, the from field, the subject field</li>
-     *  <li>sets the recipients</li>
+     * <li>initializes a mail session with the smtp server</li>
+     * <li>activates debugging</li>
+     * <li>instanciates and initializes a mime message</li>
+     * <li>sets the sent date, the from field, the subject field</li>
+     * <li>sets the recipients</li>
      * </ul>
      *
      *
      * @return the message object initialised with the common settings
-     * @param strHost The SMTP name or IP address.
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
-     * @param strRecipientsCc The recipients list of the carbon copies .
-     * @param strRecipientsBcc The recipients list of the blind carbon copies .
-     * @param strSenderName The sender name.
-     * @param strSenderEmail The sender email address.
-     * @param strSubject The message subject.
-     * @param session the smtp session object
-     * @throws AddressException If invalid address
-     * @throws MessagingException If a messaging error occured
+     * @param strHost
+     *            The SMTP name or IP address.
+     * @param strRecipientsTo
+     *            The list of the main recipients email.Every recipient must be
+     *            separated by the mail separator defined in config.properties
+     * @param strRecipientsCc
+     *            The recipients list of the carbon copies .
+     * @param strRecipientsBcc
+     *            The recipients list of the blind carbon copies .
+     * @param strSenderName
+     *            The sender name.
+     * @param strSenderEmail
+     *            The sender email address.
+     * @param strSubject
+     *            The message subject.
+     * @param session
+     *            the smtp session object
+     * @throws AddressException
+     *             If invalid address
+     * @throws MessagingException
+     *             If a messaging error occured
      */
     protected static Message prepareMessage( String strHost, String strRecipientsTo, String strRecipientsCc,
         String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, Session session )
@@ -430,7 +504,9 @@ final class MailUtil
 
     /**
      * Open mail session with the SMTP server
-     * @param strHost The SMTP name or IP address.
+     *
+     * @param strHost
+     *            The SMTP name or IP address.
      * @return the mails session object
      */
     protected static Session getMailSession( String strHost )
@@ -439,11 +515,15 @@ final class MailUtil
     }
 
     /**
-     * Open mail session with the SMTP server using the given credentials.
-     * Will use no authentication if strUsername is null or blank.
-     * @param strHost The SMTP name or IP address.
-     * @param strUsername the username
-     * @param strPassword the password
+     * Open mail session with the SMTP server using the given credentials. Will
+     * use no authentication if strUsername is null or blank.
+     *
+     * @param strHost
+     *            The SMTP name or IP address.
+     * @param strUsername
+     *            the username
+     * @param strPassword
+     *            the password
      * @return the mails session object
      */
     protected static Session getMailSession( String strHost, final String strUsername, final String strPassword )
@@ -487,8 +567,10 @@ final class MailUtil
      * return the transport object of the smtp session
      *
      * @return the transport object of the smtp session
-     * @param session the smtp session
-     * @throws NoSuchProviderException If the provider is not found
+     * @param session
+     *            the smtp session
+     * @throws NoSuchProviderException
+     *             If the provider is not found
      */
     protected static Transport getTransport( Session session )
         throws NoSuchProviderException
@@ -500,8 +582,11 @@ final class MailUtil
      * extract The list of Internet Adress content in the string strRecipients
      *
      * @return The list of Internet Adress content in the string strRecipients
-     * @param strRecipients The list of recipient separated by the mail separator defined in config.properties
-     * @throws AddressException If invalid address
+     * @param strRecipients
+     *            The list of recipient separated by the mail separator defined
+     *            in config.properties
+     * @throws AddressException
+     *             If invalid address
      */
     private static InternetAddress[] getAllAdressOfRecipients( String strRecipients )
         throws AddressException
@@ -522,7 +607,9 @@ final class MailUtil
      * extract The list of String Adress content in the string strRecipients
      *
      * @return The list of String Adress content in the string strRecipients
-     * @param strRecipients The list of recipient separated by the mail separator defined in config.properties
+     * @param strRecipients
+     *            The list of recipient separated by the mail separator defined
+     *            in config.properties
      *
      */
     public static List<String> getAllStringAdressOfRecipients( String strRecipients )
@@ -540,9 +627,13 @@ final class MailUtil
     }
 
     /**
-     * Return a String that contains a list of recipients separated with mail separator
-     * @param listRecipients a list of string recipients
-     * @return  a String that contains a list of recipients separated with mail separator
+     * Return a String that contains a list of recipients separated with mail
+     * separator
+     *
+     * @param listRecipients
+     *            a list of string recipients
+     * @return a String that contains a list of recipients separated with mail
+     *         separator
      */
     protected static String getStrRecipients( List<String> listRecipients )
     {
@@ -564,5 +655,97 @@ final class MailUtil
         }
 
         return strRecipients.toString(  );
+    }
+
+    /**
+     * This Method convert a UrlAttachmentDataSource to a ByteArrayDataSource and
+     * used MailAttachmentCacheService for caching resource.
+     *
+     * @param urlAttachement  {@link UrlAttachment}
+     * @return a {@link ByteArrayDataSource}
+     */
+    private static ByteArrayDataSource convertUrlAttachmentDataSourceToByteArrayDataSource( 
+        UrlAttachment urlAttachement )
+    {
+        String strKey = MailAttachmentCacheService.getInstance(  ).getKey( urlAttachement.getUrlData(  ).toString(  ) );
+        ByteArrayDataSource urlAttachmentDataSource = null;
+
+        if ( !MailAttachmentCacheService.getInstance(  ).isCacheEnable(  ) ||
+                ( MailAttachmentCacheService.getInstance(  ).getFromCache( strKey ) == null ) )
+        {
+            DataHandler handler = new DataHandler( urlAttachement.getUrlData(  ) );
+            ByteArrayOutputStream bo = null;
+            InputStream input = null;
+            String strType = null;
+
+            try
+            {
+                Object o = handler.getContent(  );
+                strType = handler.getContentType(  );
+
+                if ( o != null )
+                {
+                    if ( o instanceof InputStream )
+                    {
+                        input = (InputStream) o;
+                        bo = new ByteArrayOutputStream(  );
+
+                        int read = -1;
+                        byte[] tab = new byte[CONSTANTE_FILE_ATTACHMET_BUFFER];
+
+                        do
+                        {
+                            read = input.read( tab );
+
+                            if ( read > 0 )
+                            {
+                                bo.write( tab, 0, read );
+                            }
+                        }
+                        while ( read > 0 );
+                    }
+                }
+            }
+            catch ( IOException e )
+            {
+                // Document is ignored
+                AppLogService.info( urlAttachement.getContentLocation(  ) + MSG_ATTACHMENT_NOT_FOUND );
+            }
+            finally
+            {
+                //closed inputstream and outputstream 
+                try
+                {
+                    if ( input != null )
+                    {
+                        input.close(  );
+                    }
+
+                    if ( bo != null )
+                    {
+                        bo.close(  );
+                        urlAttachmentDataSource = new ByteArrayDataSource( bo.toByteArray(  ), strType );
+                    }
+                }
+                catch ( IOException e )
+                {
+                    AppLogService.error( e );
+                }
+            }
+
+            if ( MailAttachmentCacheService.getInstance(  ).isCacheEnable(  ) )
+            {
+                //add resource in cache
+                MailAttachmentCacheService.getInstance(  ).putInCache( strKey, urlAttachmentDataSource );
+            }
+        }
+        else
+        {
+            //used the resource store in cache
+            urlAttachmentDataSource = (ByteArrayDataSource) MailAttachmentCacheService.getInstance(  )
+                                                                                      .getFromCache( strKey );
+        }
+
+        return urlAttachmentDataSource;
     }
 }

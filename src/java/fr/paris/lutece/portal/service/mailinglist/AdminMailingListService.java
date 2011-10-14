@@ -180,6 +180,6 @@ public final class AdminMailingListService
      */
     public static boolean checkFilter( MailingListUsersFilter filter, int nIdMailingList )
     {
-    	return MailingListHome.checkFilter( filter, nIdMailingList );
+        return MailingListHome.checkFilter( filter, nIdMailingList );
     }
 }

@@ -151,6 +151,6 @@ public final class MailingListHome
      */
     public static boolean checkFilter( MailingListUsersFilter filter, int nId )
     {
-    	return _dao.checkFilter( filter, nId );
+        return _dao.checkFilter( filter, nId );
     }
 }

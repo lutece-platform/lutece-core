@@ -357,16 +357,18 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         MailingListUsersFilter filter = new MailingListUsersFilter(  );
         filter.setWorkgroup( strWorkgroup );
         filter.setRole( strRole );
+
         if ( !AdminMailingListService.checkFilter( filter, nId ) )
         {
-        	MailingListHome.addFilterToMailingList( filter, nId );
+            MailingListHome.addFilterToMailingList( filter, nId );
 
-        	// Forward to modify page to enter users filters
-        	UrlItem urlModify = new UrlItem( JSP_MODIFY_MAILINGLIST );
-        	urlModify.addParameter( PARAMETER_MAILINGLIST_ID, nId );
+            // Forward to modify page to enter users filters
+            UrlItem urlModify = new UrlItem( JSP_MODIFY_MAILINGLIST );
+            urlModify.addParameter( PARAMETER_MAILINGLIST_ID, nId );
 
-        	return urlModify.getUrl(  );
+            return urlModify.getUrl(  );
         }
+
         return AdminMessageService.getMessageUrl( request, MESSAGE_FILTER_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
     }
 

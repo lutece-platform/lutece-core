@@ -10,5 +10,8 @@ MyPortalWidgetContentService.enabled=1
 PageCachingFilter.enabled=0
 StaticFilesCachingFilter.enabled=1
 StaticFilesCachingFilter.timeToLiveSeconds=604800
-
-
+MailAttachmentCacheService.enabled=1
+MailAttachmentCacheService.maxElementsInMemory=10
+MailAttachmentCacheService.overflowToDisk=true
+MailAttachmentCacheService.diskPersistent=true
+MailAttachmentCacheService.timeToLiveSeconds=7200
