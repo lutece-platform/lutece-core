@@ -33,14 +33,12 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
-import java.text.DecimalFormat;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -51,29 +49,14 @@ import fr.paris.lutece.portal.service.util.AppPathService;
  */
 public class UploadFilterSite extends UploadFilter
 {
-    private static final String PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED = "portal.util.message.titleDefault";
-    private static final String PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED = "portal.util.message.fileSizeLimitExceeded";
-    private static final int KILO_BYTE = 1024;
-
-    /**
-     * Get the error message url when file is bigger than the max size authorized
-     * @param request The http request
-     * @return The Message URL
-     */
-    protected String getMessageRelativeUrl( HttpServletRequest request )
+    @Override
+    protected String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
+        String strTitleKey )
     {
-        long lSizeMax = getRequestSizeMax(  );
-
         try
         {
-            DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance(  );
-            decimalFormat.applyPattern( "#" );
-
-            String strMessage = ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) )
-                                                          : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
-            Object[] args = { strMessage };
-            SiteMessageService.setMessage( request, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args,
-                PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED, null, "", SiteMessage.TYPE_STOP );
+            SiteMessageService.setMessage( request, strMessageKey, messageArgs, strTitleKey, null, "",
+                SiteMessage.TYPE_STOP );
         }
         catch ( SiteMessageException lme )
         {

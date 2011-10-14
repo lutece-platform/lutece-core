@@ -33,12 +33,10 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-
-import java.text.DecimalFormat;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -49,25 +47,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class UploadFilterAdmin extends UploadFilter
 {
-    private static final String PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED = "portal.util.message.fileSizeLimitExceeded";
-    private static final int KILO_BYTE = 1024;
-
-    /**
-     * Get the error message url when file is bigger than the max size authorized
-     * @param request The http request
-     * @return The error message URL
-     */
-    protected String getMessageRelativeUrl( HttpServletRequest request )
+    @Override
+    protected String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
+        String strTitleKey )
     {
-        long lSizeMax = getRequestSizeMax(  );
-        DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance(  );
-        decimalFormat.applyPattern( "#" );
-
-        String strMessage = ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) )
-                                                      : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
-        Object[] args = { strMessage };
-        AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args,
-            AdminMessage.TYPE_STOP );
+        AdminMessageService.getMessageUrl( request, strMessageKey, messageArgs, AdminMessage.TYPE_STOP );
 
         return AdminMessageService.getMessageRelativeUrl(  );
     }

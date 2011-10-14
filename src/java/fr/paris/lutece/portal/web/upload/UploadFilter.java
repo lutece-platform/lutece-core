@@ -45,6 +45,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import java.text.DecimalFormat;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,23 +65,32 @@ import javax.servlet.http.HttpServletRequest;
  */
 public abstract class UploadFilter implements Filter
 {
+    private static final String PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED = "portal.util.message.titleDefault";
+    private static final String PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED = "portal.util.message.fileSizeLimitExceeded";
+    private static final int KILO_BYTE = 1024;
     private static final String SIZE_THRESHOLD = "sizeThreshold";
     private static final String REQUEST_SIZE_MAX = "requestSizeMax";
+    private static final String ACTIVATE_NORMALIZE_FILE_NAME = "activateNormalizeFileName";
     private FilterConfig _filterConfig;
     private int _nSizeThreshold = -1;
     private long _nRequestSizeMax = -1;
+    private boolean _bActivateNormalizeFileName = false;
 
     /**
-     * Forward the error message url when file is bigger than the max size authorized
+     * Forward the error message url depends site or admin implementation
+     *
      * @param request The http request
      * @return Message
      */
-    protected abstract String getMessageRelativeUrl( HttpServletRequest request );
+    protected abstract String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey,
+        Object[] messageArgs, String strTitleKey );
 
     /**
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
-     * @param config The FilterConfig
-     * @throws ServletException The ServletException
+     * @param config
+     *            The FilterConfig
+     * @throws ServletException
+     *             The ServletException
      */
     public void init( FilterConfig config ) throws ServletException
     {
@@ -100,6 +111,13 @@ public abstract class UploadFilter implements Filter
             {
                 _nRequestSizeMax = Long.parseLong( paramValue );
             }
+
+            paramValue = _filterConfig.getInitParameter( ACTIVATE_NORMALIZE_FILE_NAME );
+
+            if ( paramValue != null )
+            {
+                _bActivateNormalizeFileName = new Boolean( paramValue );
+            }
         }
         catch ( NumberFormatException ex )
         {
@@ -110,12 +128,17 @@ public abstract class UploadFilter implements Filter
 
     /**
      * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
-     * javax.servlet.ServletResponse, javax.servlet.FilterChain)
-     * @param request The ServletRequest
-     * @param response The ServletResponse
-     * @param chain The FilterChain
-     * @throws IOException The IOException
-     * @throws ServletException The SerletException
+     *      javax.servlet.ServletResponse, javax.servlet.FilterChain)
+     * @param request
+     *            The ServletRequest
+     * @param response
+     *            The ServletResponse
+     * @param chain
+     *            The FilterChain
+     * @throws IOException
+     *             The IOException
+     * @throws ServletException
+     *             The SerletException
      */
     public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
         throws IOException, ServletException
@@ -198,8 +221,10 @@ public abstract class UploadFilter implements Filter
                     }
                     else
                     {
-                        // multipart file field
-                        mapFiles.put( item.getFieldName(  ), item );
+                        // multipart file field, if the parameter filter ActivateNormalizeFileName is set to true
+                        //all file name will be normalize
+                        mapFiles.put( item.getFieldName(  ),
+                            _bActivateNormalizeFileName ? new NormalizeFileItem( item ) : item );
                     }
                 }
 
@@ -210,7 +235,11 @@ public abstract class UploadFilter implements Filter
             catch ( SizeLimitExceededException e )
             {
                 AppLogService.error( e.getMessage(  ), e );
-                request.getRequestDispatcher( "/" + getMessageRelativeUrl( httpRequest ) ).forward( request, response );
+
+                Object[] args = { getDisplaySize(  ) };
+                request.getRequestDispatcher( "/" +
+                    getMessageRelativeUrl( httpRequest, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args,
+                        PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED ) ).forward( request, response );
             }
             catch ( FileUploadException e )
             {
@@ -222,6 +251,7 @@ public abstract class UploadFilter implements Filter
 
     /**
      * Get the max size of upload file
+     *
      * @return The max size
      */
     public long getRequestSizeMax(  )
@@ -234,5 +264,21 @@ public abstract class UploadFilter implements Filter
      */
     public void destroy(  )
     {
+    }
+
+    /**
+     *
+     * @return the size of the request to display in the error message
+     */
+    private String getDisplaySize(  )
+    {
+        long lSizeMax = getRequestSizeMax(  );
+        DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance(  );
+        decimalFormat.applyPattern( "#" );
+
+        String strMessage = ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) )
+                                                      : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
+
+        return strMessage;
     }
 }
