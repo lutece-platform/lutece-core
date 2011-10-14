@@ -40,6 +40,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 import javax.activation.DataSource;
@@ -48,8 +49,12 @@ import javax.activation.DataSource;
 /**
  * This class is used by MailUtil.
  */
-public class ByteArrayDataSource implements DataSource
+public class ByteArrayDataSource implements DataSource, Serializable
 {
+    /**
+         *
+         */
+    private static final long serialVersionUID = 3706343218798831522L;
     private static final String PROPERTY_CHARSET = "mail.charset";
     private byte[] _data; // data
     private String _type; // content-type
