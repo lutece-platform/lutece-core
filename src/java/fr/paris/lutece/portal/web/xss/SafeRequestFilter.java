@@ -93,7 +93,7 @@ public abstract class SafeRequestFilter implements Filter
     {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        if ( _bActivateXssFilter && ( _strXssCharacters != null ) && !_strXssCharacters.isEmpty(  ) &&
+        if ( _bActivateXssFilter && ( _strXssCharacters != null ) && !_strXssCharacters.trim( ).equals( "" ) &&
                 !SecurityUtil.containsCleanParameters( httpRequest, _strXssCharacters ) )
         {
             request.getRequestDispatcher( "/" +
