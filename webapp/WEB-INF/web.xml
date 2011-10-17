@@ -76,8 +76,8 @@
     
     <!-- 
     	This filter display error message in case of request parameters contains Xss characters.
-    	-- activateXssFilter -- true for activation this filter
-    	-- xssCharacters -- a list of forbidden characters 
+    		activateXssFilter = true for activation this filter
+    		xssCharacters = a list of forbidden characters 
      -->
     <filter>
         <filter-name>safeRequestFilterSite</filter-name>
@@ -108,8 +108,8 @@
     	and request can be wrapped in any plugin's filter.
     	So upload filters are processed after plugins'.
     	See LUTECE-1323.
-    	-- requestSizeMax = the request size max
-    	-- activateNormalizeFileName = true if you want that the name of the files uploaded will be normalize
+    	requestSizeMax = the request size max
+        activateNormalizeFileName = true if you want that the name of the files uploaded will be normalize
     	
     -->
     <filter>
