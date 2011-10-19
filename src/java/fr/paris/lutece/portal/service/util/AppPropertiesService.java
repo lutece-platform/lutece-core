@@ -58,6 +58,8 @@ public final class AppPropertiesService
     private static final String FILE_PROPERTIES_DAEMONS = "daemons.properties";
     private static final String FILE_PROPERTIES_CACHES = "caches.properties";
     private static final String PATH_PLUGINS = "plugins/";
+    private static final String PATH_OVERRIDE_CORE = "override/";
+    private static final String PATH_OVERRIDE_PLUGINS = "override/plugins";
     private static PropertiesService _propertiesService;
     private static String _strConfPath;
 
@@ -88,6 +90,8 @@ public final class AppPropertiesService
             _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_DAEMONS );
             _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_CACHES );
             _propertiesService.addPropertiesDirectory( _strConfPath + PATH_PLUGINS );
+            _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_CORE );
+            _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_PLUGINS );
         }
         catch ( FileNotFoundException e )
         {
