@@ -60,6 +60,7 @@ public class AdminMessageJspBean
     private static final String MARK_TARGET = "target";
     private static final String MARK_MESSAGE = "message";
     private static final String MARK_REQUEST_PARAMETERS = "list_parameters";
+    private static final String MARK_BACK_URL = "back_url";
     private static final String PROPERTY_TITLE_ERROR = "portal.util.message.titleError";
 
     /**
@@ -86,6 +87,7 @@ public class AdminMessageJspBean
         model.put( MARK_URL, message.getUrl(  ) );
         model.put( MARK_TARGET, message.getTarget(  ) );
         model.put( MARK_REQUEST_PARAMETERS, message.getRequestParameters(  ) );
+        model.put( MARK_BACK_URL, message.getBackUrl(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MESSAGE, locale, model );
 

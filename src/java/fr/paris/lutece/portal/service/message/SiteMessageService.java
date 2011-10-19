@@ -238,9 +238,31 @@ public final class SiteMessageService
         String strTitleKey, String strUrl, String strTarget, int nMessageType, Map requestParameters )
         throws SiteMessageException
     {
+        setMessage( request, strMessageKey, messageArgs, strTitleKey, strUrl, strTarget, nMessageType,
+            requestParameters, null );
+    }
+
+    /**
+     * Set the message, store it in session and throw a LuteceSiteMessageException
+     *
+     * @param request The HttpRequest
+     * @param strMessageKey The message key
+     * @param messageArgs Message Arguments
+     * @param strTitleKey The title key
+     * @param strUrl The Url of the Ok button
+     * @param strTarget The url target if not "_self"
+     * @param nMessageType The message type
+     * @param requestParameters The request parameters
+     * @param strBackUrl The Url of back button
+     * @throws SiteMessageException occurs when a site message need to be displayed
+     */
+    public static void setMessage( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
+        String strTitleKey, String strUrl, String strTarget, int nMessageType, Map requestParameters, String strBackUrl )
+        throws SiteMessageException
+    {
         String strTitle = ( strTitleKey != null ) ? strTitleKey : getDefaultTitle( nMessageType );
         SiteMessage message = new SiteMessage( strMessageKey, messageArgs, strTitle, strUrl, strTarget, nMessageType,
-                getTypeButton( nMessageType, strUrl ), requestParameters );
+                getTypeButton( nMessageType, strUrl ), requestParameters, strBackUrl );
         setMessage( request, message );
 
         throw new SiteMessageException(  );

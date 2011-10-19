@@ -69,6 +69,7 @@ public class SiteMessageHandler implements ISiteMessageHandler
     private static final String PROPERTY_TITLE_ERROR = "portal.util.message.titleError";
     private static final String TEMPLATE_PAGE_SITE_MESSAGE = "skin/site/page_site_message.html";
     private static final String BOOKMARK_BASE_URL = "@base_url@";
+    private static final String MARK_BACK_URL = "back_url";
 
     /**
      * {@inheritDoc }
@@ -100,7 +101,7 @@ public class SiteMessageHandler implements ISiteMessageHandler
         if ( message == null )
         {
             message = new SiteMessage( Messages.MESSAGE_ERROR_SESSION, null, PROPERTY_TITLE_ERROR, url.getUrl(  ), "",
-                    SiteMessage.TYPE_ERROR, SiteMessage.TYPE_BUTTON_HIDDEN, null );
+                    SiteMessage.TYPE_ERROR, SiteMessage.TYPE_BUTTON_HIDDEN, null, null );
         }
 
         model.put( MARK_MESSAGE, message );
@@ -110,6 +111,7 @@ public class SiteMessageHandler implements ISiteMessageHandler
         model.put( MARK_TARGET, message.getTarget(  ) );
         model.put( MARK_CANCEL_BUTTON, message.getTypeButton(  ) );
         model.put( MARK_REQUEST_PARAMETERS, message.getRequestParameters(  ) );
+        model.put( MARK_BACK_URL, message.getBackUrl(  ) );
 
         // Delete message in session
         SiteMessageService.cleanMessageSession( request );

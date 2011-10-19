@@ -517,5 +517,8 @@ div.admin-site-page select{ text-align:left; font-weight: normal;}
 
 .preview{ border: none; margin: 0 3px 0 330px; }
 .togl{float:right;margin:0;}
+.lutece-inline-button {
+	display: inline;
+	}
 
 @import "ui.all.css";

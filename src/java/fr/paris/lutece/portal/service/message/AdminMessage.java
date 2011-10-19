@@ -60,6 +60,7 @@ public class AdminMessage
     private boolean _bCancel;
     private Object[] _messageArgs;
     private Map<String, Object> _requestParameters;
+    private String _strBackUrl;
 
     /** Creates a new instance of AppMessage
      * @param strTextKey The message Key
@@ -73,7 +74,7 @@ public class AdminMessage
     public AdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
         int nType, boolean bCancelButton )
     {
-        buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, null );
+        buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, null, null );
     }
 
     /** Creates a new instance of AppMessage with request parameters
@@ -90,7 +91,25 @@ public class AdminMessage
         int nType, boolean bCancelButton, Map<String, Object> requestParameters )
     {
         buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton,
-            requestParameters );
+            requestParameters, null );
+    }
+
+    /** Creates a new instance of AppMessage with request parameters
+     * @param strTextKey The message Key
+     * @param strUrl The default Button URL
+     * @param messageArgs The message arguments
+     * @param strTitleKey The Title key
+     * @param strTarget The target
+     * @param nType The message Type
+     * @param bCancelButton Add a Cancel Button
+     * @param requestParameters The Request parameters in a map
+     * @param strBackUrl the back url
+     */
+    public AdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
+        int nType, boolean bCancelButton, Map<String, Object> requestParameters, String strBackUrl )
+    {
+        buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton,
+            requestParameters, null );
     }
 
     /**
@@ -104,9 +123,10 @@ public class AdminMessage
      * @param nType The message Type
      * @param bCancelButton Add a Cancel Button
      * @param requestParameters The Request parameters in a map
+     * @param strBackUrl the back url
      */
     private void buildAdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl,
-        String strTarget, int nType, boolean bCancelButton, Map<String, Object> requestParameters )
+        String strTarget, int nType, boolean bCancelButton, Map<String, Object> requestParameters, String strBackUrl )
     {
         _strTextKey = strTextKey;
         _strTitleKey = strTitleKey;
@@ -116,6 +136,7 @@ public class AdminMessage
         _bCancel = bCancelButton;
         _messageArgs = messageArgs;
         _requestParameters = requestParameters;
+        _strBackUrl = strBackUrl;
     }
 
     /**
@@ -197,5 +218,23 @@ public class AdminMessage
     public Map<String, Object> getRequestParameters(  )
     {
         return _requestParameters;
+    }
+
+    /**
+     * set the back url
+     * @param _strBackUrl the back url
+     */
+    public void setBackUrl( String _strBackUrl )
+    {
+        this._strBackUrl = _strBackUrl;
+    }
+
+    /**
+     *
+     * @return back url
+     */
+    public String getBackUrl(  )
+    {
+        return _strBackUrl;
     }
 }

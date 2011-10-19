@@ -213,10 +213,31 @@ public final class AdminMessageService
     public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
         String strTitleKey, String strUrl, String strTarget, int nMessageType, Map<String, Object> requestParameters )
     {
+        return getMessageUrl( request, strMessageKey, messageArgs, strTitleKey, strUrl, strTarget, nMessageType,
+            requestParameters, null );
+    }
+
+    /**
+     * Returns the Url that display the given message
+     * @return The Url of the JSP that display the message
+     * @param messageArgs Message Arguments
+     * @param strTarget The url target if not "_self"
+     * @param strTitleKey The title key
+     * @param nMessageType The message type
+     * @param request The HttpRequest
+     * @param strMessageKey The message key
+     * @param strUrl The Url of the Ok button
+     * @param requestParameters a collection of parameters
+     * @param the back url
+     */
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
+        String strTitleKey, String strUrl, String strTarget, int nMessageType, Map<String, Object> requestParameters,
+        String strBackUrl )
+    {
         String strTitle = ( strTitleKey != null ) ? strTitleKey : getDefaultTitle( nMessageType );
         boolean bCancelButton = getCancelButton( nMessageType );
         AdminMessage message = new AdminMessage( strMessageKey, messageArgs, strTitle, strUrl, strTarget, nMessageType,
-                bCancelButton, requestParameters );
+                bCancelButton, requestParameters, strBackUrl );
         setMessage( request, message );
 
         return getUrl( request );

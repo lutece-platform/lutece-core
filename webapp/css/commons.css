@@ -53,6 +53,11 @@
 	width: 40px;
 	display: inline;
 }
+.-lutece-inline-button {
+	display: inline;
+	}
+	
+	
 
 /* to overwrite bluecss behavior */
 h3 {

@@ -27,22 +27,31 @@
         <h2>${title}</h2>
         <p>${text}</p>
         <#if url?has_content>
-        <form method="post" action="${url}"  target="${target}">
+        <form method="post" action="${url}"  target="${target}" class="lutece-inline-button">
             <#if list_parameters?exists>
             <#assign keys = list_parameters?keys>
             <#list keys as key>
             <input type="hidden" name="${key}" value="${list_parameters[key]}" />
             </#list>
             </#if>
-            <p>
-                <input class="button" type="submit" value="#i18n{portal.admin.message.buttonValidate}" />
-                <#if message.cancel >
-                <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
-                </#if>
-            </p>
+             <input class="button" type="submit" value="#i18n{portal.admin.message.buttonValidate}" class="-lutece-inline-button"/>
+         
         </form>
-        </#if>
-
+        <#if message.cancel>
+           <#if back_url?has_content>
+			<form method="post" action="${back_url}" class="-lutece-inline-button" >
+				<#if list_parameters?exists>
+					<#list keys as key>
+		  				<input type="hidden" name="${key}" value="${list_parameters[key]}" />
+		  			</#list>	
+				</#if>
+				<input type="submit" value="#i18n{portal.admin.message.buttonCancel}" />
+			</form>		
+		 <#else>		
+		 	<input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" class="lutece-inline-button"/>
+        </#if>	
+       </#if>
+      </#if>
     </div>
 
 </div>

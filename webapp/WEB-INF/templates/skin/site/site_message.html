@@ -31,7 +31,7 @@
 	</div>
     <div class="message-content">			
 		<p>${text}</p>
-		<form method="post" action="${url!}" target="${target!}">
+		<form method="post" action="${url!}" target="${target!}" class="-lutece-inline-button">
 			<#if list_parameters?exists>
 				<#assign keys = list_parameters?keys>
 				<#list keys as key>
@@ -44,13 +44,28 @@
 					value="#i18n{portal.util.labelValidate}" class="-lutece-input -lutece-border-radius-mini" /> 
 			</#if>
 
+		</form>	
+		 <#if back_url?has_content>
+			<form method="post" action="${back_url}" class="-lutece-inline-button" >
+				<#if list_parameters?exists>
+					<#list keys as key>
+		  				<input type="hidden" name="${key}" value="${list_parameters[key]}" />
+		  			</#list>	
+				</#if>
+				<#if cancel_button = 1> 
+					<input type="submit" value="#i18n{portal.util.labelBack}" class="-lutece-input -lutece-border-radius-mini" />
+				<#elseif cancel_button = 2>
+					<input type="submit" value="#i18n{portal.util.labelCancel}" class="-lutece-input -lutece-border-radius-mini" />
+				</#if>
+			</form>		
+		 <#else>		
 			<#if cancel_button = 1> 
-				<input type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.util.labelBack}" class="-lutece-input -lutece-border-radius-mini" />
+				<input type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.util.labelBack}" class="-lutece-input -lutece-border-radius-mini -lutece-inline-button" />
 			<#elseif cancel_button = 2>
-				<input type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.util.labelCancel}" class="-lutece-input -lutece-border-radius-mini" />
+				<input type="button" onclick="javascript:history.go(-1)"  value="#i18n{portal.util.labelCancel}" class="-lutece-input -lutece-border-radius-mini -lutece-inline-button" />
 			</#if>
-
-		</form>
+		</#if>	
+					
 	</div>
   </div>
 </div>

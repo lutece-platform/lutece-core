@@ -68,6 +68,7 @@ public class SiteMessage implements Serializable
     private int _nType;
     private String[] _messageArgs;
     private HashMap<String, String> _requestParameters;
+    private String _strBackUrl;
 
     /**
     *
@@ -79,9 +80,10 @@ public class SiteMessage implements Serializable
     * @param nType Message type (TYPE_INFO, TYPE_QUESTION, ...)
     * @param nTypeButton Type of Cancel button
     * @param requestParameters Request parameters as a Map
+    * @param strBackUrl the back url
     */
     public SiteMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
-        int nType, int nTypeButton, Map<String, Object> requestParameters )
+        int nType, int nTypeButton, Map<String, Object> requestParameters, String strBackUrl )
     {
         _strTextKey = strTextKey;
         _strTitleKey = strTitleKey;
@@ -89,6 +91,7 @@ public class SiteMessage implements Serializable
         _strTarget = strTarget;
         _nType = nType;
         _nTypeButton = nTypeButton;
+        _strBackUrl = strBackUrl;
 
         // Object message conversion into String values
         if ( messageArgs != null )
@@ -128,7 +131,7 @@ public class SiteMessage implements Serializable
     public SiteMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
         int nType, boolean bCancelButton )
     {
-        this( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, ( bCancelButton ) ? 1 : 0, null );
+        this( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, ( bCancelButton ) ? 1 : 0, null, null );
     }
 
     /**
@@ -239,5 +242,23 @@ public class SiteMessage implements Serializable
     public Map<String, String> getRequestParameters(  )
     {
         return _requestParameters;
+    }
+
+    /**
+     * set the back url
+     * @param _strBackUrl the back url
+     */
+    public void setBackUrl( String _strBackUrl )
+    {
+        this._strBackUrl = _strBackUrl;
+    }
+
+    /**
+     *
+     * @return back url
+     */
+    public String getBackUrl(  )
+    {
+        return _strBackUrl;
     }
 }
