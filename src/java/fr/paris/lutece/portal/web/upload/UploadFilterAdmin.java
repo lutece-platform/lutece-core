@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

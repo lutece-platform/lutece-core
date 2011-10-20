@@ -33,17 +33,6 @@
  */
 package fr.paris.lutece.portal.web.features;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -65,6 +54,17 @@ import fr.paris.lutece.util.html.ItemNavigator;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -120,7 +120,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     public String getManageRights( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MANAGE_RIGHTS_PAGETITLE );
-        
+
         // Reinit session
         reinitItemNavigator(  );
 
@@ -231,8 +231,8 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         // PAGINATOR
         url.addParameter( PARAMETER_ID_RIGHT, right.getId(  ) );
 
-        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listFilteredUsers, _nItemsPerPage, url.getUrl(  ),
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
+        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listFilteredUsers, _nItemsPerPage,
+                url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         // USER LEVEL
         Collection<Level> filteredLevels = new ArrayList<Level>(  );
@@ -330,30 +330,33 @@ public class RightJspBean extends AdminFeaturesPageJspBean
      */
     private void setItemNavigator( String strIdRight, String strUrl )
     {
-    	if ( _itemNavigator == null )
-    	{
-    		List<String> listIdsRight = new ArrayList<String>(  );
-    		int nCurrentItemId = 0;
-    		int nIndex = 0;
+        if ( _itemNavigator == null )
+        {
+            List<String> listIdsRight = new ArrayList<String>(  );
+            int nCurrentItemId = 0;
+            int nIndex = 0;
+
             for ( Right right : RightHome.getRightsList(  ) )
             {
-            	if ( right != null && StringUtils.isNotBlank( right.getId(  ) ))
-            	{
-            		listIdsRight.add( right.getId(  ) );
-            		if ( right.getId(  ).equals( strIdRight ) )
-            		{
-            			nCurrentItemId = nIndex;
-            		}
-            		nIndex++;
-            	}
+                if ( ( right != null ) && StringUtils.isNotBlank( right.getId(  ) ) )
+                {
+                    listIdsRight.add( right.getId(  ) );
+
+                    if ( right.getId(  ).equals( strIdRight ) )
+                    {
+                        nCurrentItemId = nIndex;
+                    }
+
+                    nIndex++;
+                }
             }
 
             _itemNavigator = new ItemNavigator( listIdsRight, nCurrentItemId, strUrl, PARAMETER_ID_RIGHT );
-    	}
-    	else
-    	{
-    		_itemNavigator.setCurrentItemId( strIdRight );
-    	}
+        }
+        else
+        {
+            _itemNavigator.setCurrentItemId( strIdRight );
+        }
     }
 
     /**
@@ -361,6 +364,6 @@ public class RightJspBean extends AdminFeaturesPageJspBean
      */
     private void reinitItemNavigator(  )
     {
-    	_itemNavigator = null;
+        _itemNavigator = null;
     }
 }

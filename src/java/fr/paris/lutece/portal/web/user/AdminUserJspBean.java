@@ -33,18 +33,6 @@
  */
 package fr.paris.lutece.portal.web.user;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -86,6 +74,18 @@ import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -312,8 +312,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         // PAGINATOR
-        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listUsers, _nItemsPerPage, url.getUrl(  ),
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
+        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listUsers, _nItemsPerPage,
+                url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         // USER LEVEL
         Collection<Level> filteredLevels = new ArrayList<Level>(  );
@@ -944,7 +944,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         Collection<Right> rightList = AdminUserHome.getRightsListForUser( nUserId ).values(  );
 
         // ITEM NAVIGATION
-        setItemNavigator( selectedUser.getUserId(  ), AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_RIGHTS );
+        setItemNavigator( selectedUser.getUserId(  ), AppPathService.getBaseUrl( request ) +
+            JSP_URL_MANAGE_USER_RIGHTS );
 
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_CAN_MODIFY, getUser(  ).isParent( selectedUser ) || getUser(  ).isAdmin(  ) );
@@ -1607,37 +1608,40 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     private void setItemNavigator( int nIdAdminUser, String strUrl )
     {
-    	if ( _itemNavigator == null )
-    	{
-    		List<String> listIdsRight = new ArrayList<String>(  );
-    		int nCurrentItemId = 0;
-    		int nIndex = 0;
+        if ( _itemNavigator == null )
+        {
+            List<String> listIdsRight = new ArrayList<String>(  );
+            int nCurrentItemId = 0;
+            int nIndex = 0;
+
             for ( AdminUser adminUser : AdminUserHome.findUserList(  ) )
             {
-            	if ( adminUser != null )
-            	{
-            		listIdsRight.add( Integer.toString( adminUser.getUserId(  ) ) );
-            		if ( adminUser.getUserId(  ) == nIdAdminUser )
-            		{
-            			nCurrentItemId = nIndex;
-            		}
-            		nIndex++;
-            	}
+                if ( adminUser != null )
+                {
+                    listIdsRight.add( Integer.toString( adminUser.getUserId(  ) ) );
+
+                    if ( adminUser.getUserId(  ) == nIdAdminUser )
+                    {
+                        nCurrentItemId = nIndex;
+                    }
+
+                    nIndex++;
+                }
             }
 
             _itemNavigator = new ItemNavigator( listIdsRight, nCurrentItemId, strUrl, PARAMETER_USER_ID );
-    	}
-    	else
-    	{
-    		_itemNavigator.setCurrentItemId( Integer.toString( nIdAdminUser ) );
-    	}
+        }
+        else
+        {
+            _itemNavigator.setCurrentItemId( Integer.toString( nIdAdminUser ) );
+        }
     }
-    
+
     /**
      * Reinit the item navigator
      */
     private void reinitItemNavigator(  )
     {
-    	_itemNavigator = null;
+        _itemNavigator = null;
     }
 }

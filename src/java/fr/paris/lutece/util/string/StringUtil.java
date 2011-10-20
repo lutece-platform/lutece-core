@@ -33,12 +33,13 @@
  */
 package fr.paris.lutece.util.string;
 
-import java.text.Collator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
+import java.text.Collator;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**

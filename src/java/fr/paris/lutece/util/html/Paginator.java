@@ -36,6 +36,7 @@ package fr.paris.lutece.util.html;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Paginator provides a way to display a collection of items on severals pages.
  * <strong>This implementation requires all items</strong>
@@ -43,7 +44,6 @@ import java.util.List;
  */
 public class Paginator<E> extends AbstractPaginator<E>
 {
-
     /**
      * Creates a new instance of Paginator
      * @param list The collection to paginate
@@ -56,7 +56,7 @@ public class Paginator<E> extends AbstractPaginator<E>
         String strPageIndex )
     {
         _list = list;
-        _nItemsCount = _list.size();
+        _nItemsCount = _list.size(  );
         _nItemPerPage = nItemPerPage;
         _strBaseUrl = strBaseUrl;
         _strPageIndexParameterName = strPageIndexParameterName;
@@ -93,10 +93,10 @@ public class Paginator<E> extends AbstractPaginator<E>
         this( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex );
         _strItemsPerPageParameterName = strItemsPerPageParameterName;
     }
-    
+
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public List<E> getPageItems(  )
     {
         int nStartIndex = ( _nPageCurrent - 1 ) * _nItemPerPage;

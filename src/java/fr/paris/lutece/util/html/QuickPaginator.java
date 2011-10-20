@@ -35,9 +35,10 @@ package fr.paris.lutece.util.html;
 
 import java.util.List;
 
+
 /**
  * This paginator should be used with already paged list, and the items count.
- * <strong>This implementation requires the items count and the page items</strong>  
+ * <strong>This implementation requires the items count and the page items</strong>
  * @param <E> the type
  */
 public class QuickPaginator<E> extends AbstractPaginator<E>
@@ -55,7 +56,7 @@ public class QuickPaginator<E> extends AbstractPaginator<E>
     public QuickPaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
         String strPageIndex, int nItemsCount )
     {
-    	_nItemsCount = nItemsCount;
+        _nItemsCount = nItemsCount;
         _list = list;
         _nItemPerPage = nItemPerPage;
         _strBaseUrl = strBaseUrl;
@@ -77,7 +78,7 @@ public class QuickPaginator<E> extends AbstractPaginator<E>
             _nPageCurrent = 1;
         }
     }
-    
+
     /**
      * Creates a new instance of Paginator
      * @param list The collection to paginate
@@ -104,5 +105,4 @@ public class QuickPaginator<E> extends AbstractPaginator<E>
     {
         return _list;
     }
-
 }

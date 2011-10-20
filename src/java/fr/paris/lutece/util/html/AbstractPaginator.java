@@ -33,20 +33,21 @@
  */
 package fr.paris.lutece.util.html;
 
+import fr.paris.lutece.util.url.UrlItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.paris.lutece.util.url.UrlItem;
 
 /**
  * Abstract Paginator
  * @param <E> the type
  */
-public abstract class AbstractPaginator<E> implements IPaginator<E> 
+public abstract class AbstractPaginator<E> implements IPaginator<E>
 {
-	/** Default value for Page Index Parameter */
+    /** Default value for Page Index Parameter */
     public static final String PARAMETER_PAGE_INDEX = "page_index";
 
     /** Default value for Items Per Page Parameter */
@@ -57,33 +58,38 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     public static final String LABEL_LAST = "&gt;|";
 
     // Variables declarations
-	/** page index parameter name */
+    /** page index parameter name */
     protected String _strPageIndexParameterName;
+
     /** imtes per page */
     protected int _nItemPerPage;
+
     /** base url */
     protected String _strBaseUrl;
+
     /** the actual list */
     protected List<E> _list;
+
     /** the current page */
     protected int _nPageCurrent;
+
     /** items per page parameter name */
     protected String _strItemsPerPageParameterName;
+
     /** element count */
     protected int _nItemsCount;
-    
-    
+
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public int getPageCurrent(  )
     {
         return _nPageCurrent;
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public String getFirstPageLink(  )
     {
         UrlItem url = new UrlItem( _strBaseUrl );
@@ -93,8 +99,8 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public String getPreviousPageLink(  )
     {
         int nPreviousIndex = _nPageCurrent - 1;
@@ -105,8 +111,8 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public String getLastPageLink(  )
     {
         UrlItem url = new UrlItem( _strBaseUrl );
@@ -116,8 +122,8 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public String getNextPageLink(  )
     {
         int nNextIndex = _nPageCurrent + 1;
@@ -128,8 +134,8 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public List<PaginatorPage> getPagesLinks(  )
     {
         List<PaginatorPage> list = new ArrayList<PaginatorPage>(  );
@@ -195,98 +201,96 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public String getLabelFirst(  )
     {
         return LABEL_FIRST;
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public String getLabelPrevious(  )
     {
         return LABEL_PREVIOUS;
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public String getLabelNext(  )
     {
         return LABEL_NEXT;
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public String getLabelLast(  )
     {
         return LABEL_LAST;
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public String getLabelItemCount(  )
     {
         return "";
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public String getLabelItemCountPerPage(  )
     {
         return "";
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public String getItemsPerPageParameterName(  )
     {
         return _strItemsPerPageParameterName;
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public void setItemsPerPageParameterName( String strItemsPerPageParameterName )
     {
         _strItemsPerPageParameterName = strItemsPerPageParameterName;
     }
-    
+
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public int getPagesCount(  )
     {
         return ( ( _nItemsCount - 1 ) / _nItemPerPage ) + 1;
     }
 
-
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public int getRangeMin(  )
     {
         return ( !_list.isEmpty(  ) ) ? ( ( _nItemPerPage * ( _nPageCurrent - 1 ) ) + 1 ) : 0;
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public int getRangeMax(  )
     {
-        return ( _nItemsCount < ( ( _nItemPerPage * _nPageCurrent ) - 1 ) ) ? _nItemsCount
-                                                                              : ( _nItemPerPage * _nPageCurrent );
+        return ( _nItemsCount < ( ( _nItemPerPage * _nPageCurrent ) - 1 ) ) ? _nItemsCount : ( _nItemPerPage * _nPageCurrent );
     }
 
     /**
-	 *{@inheritDoc}
-	 */
+         *{@inheritDoc}
+         */
     public int getItemsCount(  )
     {
         return _nItemsCount;

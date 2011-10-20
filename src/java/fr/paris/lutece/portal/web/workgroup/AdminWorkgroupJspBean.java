@@ -33,17 +33,6 @@
  */
 package fr.paris.lutece.portal.web.workgroup;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -71,6 +60,17 @@ import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -204,8 +204,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         }
 
         // PAGINATOR
-        LocalizedPaginator<AdminWorkgroup> paginator = new LocalizedPaginator<AdminWorkgroup>( listFilteredWorkgroups, 
-        		_nItemsPerPage, url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
+        LocalizedPaginator<AdminWorkgroup> paginator = new LocalizedPaginator<AdminWorkgroup>( listFilteredWorkgroups,
+                _nItemsPerPage, url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
@@ -469,8 +469,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         // PAGINATOR
         url.addParameter( PARAMETER_WORKGROUP_KEY, adminWorkgroup.getKey(  ) );
 
-        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listFilteredUsers, _nItemsPerPage, url.getUrl(  ),
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
+        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listFilteredUsers, _nItemsPerPage,
+                url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         // USER LEVEL
         Collection<Level> filteredLevels = new ArrayList<Level>(  );
@@ -569,37 +569,40 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      */
     private void setItemNavigator( String strWorkgroupKey, String strUrl )
     {
-    	if ( _itemNavigator == null )
-    	{
-    		List<String> listWorkgroupKeys = new ArrayList<String>(  );
-    		int nCurrentItemId = 0;
-    		int nIndex = 0;
+        if ( _itemNavigator == null )
+        {
+            List<String> listWorkgroupKeys = new ArrayList<String>(  );
+            int nCurrentItemId = 0;
+            int nIndex = 0;
+
             for ( AdminWorkgroup workgroup : AdminWorkgroupHome.findAll(  ) )
             {
-            	if ( workgroup != null && StringUtils.isNotBlank( workgroup.getKey(  ) ) )
-            	{
-            		listWorkgroupKeys.add( workgroup.getKey(  ) );
-            		if ( workgroup.getKey(  ).equals( strWorkgroupKey ) )
-            		{
-            			nCurrentItemId = nIndex;
-            		}
-            		nIndex++;
-            	}
+                if ( ( workgroup != null ) && StringUtils.isNotBlank( workgroup.getKey(  ) ) )
+                {
+                    listWorkgroupKeys.add( workgroup.getKey(  ) );
+
+                    if ( workgroup.getKey(  ).equals( strWorkgroupKey ) )
+                    {
+                        nCurrentItemId = nIndex;
+                    }
+
+                    nIndex++;
+                }
             }
 
             _itemNavigator = new ItemNavigator( listWorkgroupKeys, nCurrentItemId, strUrl, PARAMETER_WORKGROUP_KEY );
-    	}
-    	else
-    	{
-    		_itemNavigator.setCurrentItemId( strWorkgroupKey );
-    	}
+        }
+        else
+        {
+            _itemNavigator.setCurrentItemId( strWorkgroupKey );
+        }
     }
-    
+
     /**
      * Reinit the item navigator
      */
     private void reinitItemNavigator(  )
     {
-    	_itemNavigator = null;
+        _itemNavigator = null;
     }
 }

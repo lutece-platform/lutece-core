@@ -35,147 +35,141 @@ package fr.paris.lutece.util.html;
 
 import java.util.List;
 
+
 /**
  * Handles paging
  * @param <E> the type
  */
 public interface IPaginator<E>
 {
+    /** Default value for Page Index Parameter */
+    public static final String PARAMETER_PAGE_INDEX = "page_index";
 
-	/** Default value for Page Index Parameter */
-	public static final String PARAMETER_PAGE_INDEX = "page_index";
+    /** Default value for Items Per Page Parameter */
+    public static final String PARAMETER_ITEMS_PER_PAGE = "items_per_page";
+    public static final String LABEL_FIRST = "|&lt;";
+    public static final String LABEL_PREVIOUS = "&lt;";
+    public static final String LABEL_NEXT = "&gt;";
+    public static final String LABEL_LAST = "&gt;|";
 
-	/** Default value for Items Per Page Parameter */
-	public static final String PARAMETER_ITEMS_PER_PAGE = "items_per_page";
+    /**
+     * Gets the number of pages
+     * @return the number of pages
+     */
+    int getPagesCount(  );
 
-	public static final String LABEL_FIRST = "|&lt;";
+    /**
+     * Returns the List
+     *
+     * @return The List
+     */
+    List<E> getPageItems(  );
 
-	public static final String LABEL_PREVIOUS = "&lt;";
+    /**
+     * Returns the current page index
+     *
+     * @return The current page index
+     */
+    int getPageCurrent(  );
 
-	public static final String LABEL_NEXT = "&gt;";
+    /**
+     * Returns the previous page link
+     *
+     * @return The previous page link
+     */
+    String getFirstPageLink(  );
 
-	public static final String LABEL_LAST = "&gt;|";
+    /**
+     * Returns the previous page link
+     *
+     * @return The previous page link
+     */
+    String getPreviousPageLink(  );
 
-	/**
-	 * Gets the number of pages
-	 * @return the number of pages
-	 */
+    /**
+     * Returns the previous page link
+     *
+     * @return The previous page link
+     */
+    String getLastPageLink(  );
 
-	int getPagesCount();
+    /**
+     * Returns the previous page link
+     *
+     * @return The previous page link
+     */
+    String getNextPageLink(  );
 
-	/**
-	 * Returns the List
-	 *
-	 * @return The List
-	 */
-	List<E> getPageItems();
+    /**
+     * Returns Pages Links
+     *
+     * @return Pages Links
+     */
+    List<PaginatorPage> getPagesLinks(  );
 
-	/**
-	 * Returns the current page index
-	 *
-	 * @return The current page index
-	 */
-	int getPageCurrent();
+    /**
+     * Returns the index of the first item of the current page range
+     * @return The index of the first item of the current page range
+     */
+    int getRangeMin(  );
 
-	/**
-	 * Returns the previous page link
-	 *
-	 * @return The previous page link
-	 */
-	String getFirstPageLink();
+    /**
+     * Returns the index of the last item of the current page range
+     * @return The index of the last item of the current page range
+     */
+    int getRangeMax(  );
 
-	/**
-	 * Returns the previous page link
-	 *
-	 * @return The previous page link
-	 */
-	String getPreviousPageLink();
+    /**
+     * Returns the number of items in the collection
+     * @return The number of items in the collection
+     */
+    int getItemsCount(  );
 
-	/**
-	 * Returns the previous page link
-	 *
-	 * @return The previous page link
-	 */
-	String getLastPageLink();
+    /**
+     * Get First label
+     * @return The Label
+     */
+    String getLabelFirst(  );
 
-	/**
-	 * Returns the previous page link
-	 *
-	 * @return The previous page link
-	 */
-	String getNextPageLink();
+    /**
+     * Get Previous label
+     * @return The Label
+     */
+    String getLabelPrevious(  );
 
-	/**
-	 * Returns Pages Links
-	 *
-	 * @return Pages Links
-	 */
-	List<PaginatorPage> getPagesLinks();
+    /**
+     * Get Next label
+     * @return The Label
+     */
+    String getLabelNext(  );
 
-	/**
-	 * Returns the index of the first item of the current page range
-	 * @return The index of the first item of the current page range
-	 */
-	int getRangeMin();
+    /**
+     * Get First label
+     * @return The Label
+     */
+    String getLabelLast(  );
 
-	/**
-	 * Returns the index of the last item of the current page range
-	 * @return The index of the last item of the current page range
-	 */
-	int getRangeMax();
+    /**
+     * Get Item Count label
+     * @return The Label
+     */
+    String getLabelItemCount(  );
 
-	/**
-	 * Returns the number of items in the collection
-	 * @return The number of items in the collection
-	 */
-	int getItemsCount();
+    /**
+     * Get Item Count per page label
+     * @return The Label
+     */
+    String getLabelItemCountPerPage(  );
 
-	/**
-	 * Get First label
-	 * @return The Label
-	 */
-	String getLabelFirst();
+    /**
+     * Get the parameter name of the <code>items_per_page</code>
+     * @return the parameter name
+     */
+    String getItemsPerPageParameterName(  );
 
-	/**
-	 * Get Previous label
-	 * @return The Label
-	 */
-	String getLabelPrevious();
-
-	/**
-	 * Get Next label
-	 * @return The Label
-	 */
-	String getLabelNext();
-
-	/**
-	 * Get First label
-	 * @return The Label
-	 */
-	String getLabelLast();
-
-	/**
-	 * Get Item Count label
-	 * @return The Label
-	 */
-	String getLabelItemCount();
-
-	/**
-	 * Get Item Count per page label
-	 * @return The Label
-	 */
-	String getLabelItemCountPerPage();
-
-	/**
-	 * Get the parameter name of the <code>items_per_page</code>
-	 * @return the parameter name
-	 */
-	String getItemsPerPageParameterName();
-
-	/**
-	 * Set the parameter name of the <code>items_per_page</code>
-	 * @param strItemsPerPageParameterName the parameter name
-	 */
-	void setItemsPerPageParameterName( String strItemsPerPageParameterName );
-
+    /**
+     * Set the parameter name of the <code>items_per_page</code>
+     * @param strItemsPerPageParameterName the parameter name
+     */
+    void setItemsPerPageParameterName( String strItemsPerPageParameterName );
 }
