@@ -317,7 +317,8 @@ body.insert-service {
     min-height:100%;    
     padding-bottom: 20px;
     background: #DEDEDE; /* for non-css3 browsers */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#DEDEDE'); /* for IE */
+    /* LUTECE-1415 : Insert service pop up is not well fitted with Internet Explorer */
+    /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#DEDEDE'); */ /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#DEDEDE)); /* for webkit browsers */
     background: -moz-linear-gradient(top,  #fff,  #DEDEDE); /* for firefox 3.6+ */
 }
