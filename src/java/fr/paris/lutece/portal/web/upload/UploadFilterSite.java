@@ -37,6 +37,9 @@ import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.web.PortalJspBean;
+
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,14 +52,31 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class UploadFilterSite extends UploadFilter
 {
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
         String strTitleKey )
     {
+        // Fetch the upload filter site next url
+        String strNextUrl = PortalJspBean.getUploadFilterSiteNextUrl( request );
+
         try
         {
-            SiteMessageService.setMessage( request, strMessageKey, messageArgs, strTitleKey, null, "",
-                SiteMessage.TYPE_STOP );
+            if ( StringUtils.isNotBlank( strNextUrl ) )
+            {
+                // If there is a next url from the session, then use this site message
+                PortalJspBean.removeUploadFilterSiteNextUrl( request );
+                SiteMessageService.setMessage( request, strMessageKey, messageArgs, strTitleKey, null, "",
+                    SiteMessage.TYPE_STOP, null, strNextUrl );
+            }
+            else
+            {
+                // Otherwise, use the old site message
+                SiteMessageService.setMessage( request, strMessageKey, messageArgs, strTitleKey, null, "",
+                    SiteMessage.TYPE_STOP );
+            }
         }
         catch ( SiteMessageException lme )
         {

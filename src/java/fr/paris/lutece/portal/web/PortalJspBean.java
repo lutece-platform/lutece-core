@@ -71,6 +71,7 @@ public class PortalJspBean
     private static final String PROPERTY_INFOS_CNIL = "lutece.legal.infos";
     private static final String PROPERTY_PORTAL_DOMAIN = "lutece.name";
     private static final String ATTRIBUTE_LOGIN_NEXT_URL = "luteceLoginNextUrl";
+    private static final String ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL = "uploadFilterSiteNextUrl";
     private static final String MARK_FAILURE_MESSAGE = "failure_message";
     private static final String MARK_FAILURE_DETAILS = "failure_details";
     private static final String BEAN_SITE_MESSAGE_HANDLER = "siteMessageHandler";
@@ -267,5 +268,48 @@ public class PortalJspBean
         String strNextUrl = (String) session.getAttribute( ATTRIBUTE_LOGIN_NEXT_URL );
 
         return strNextUrl;
+    }
+
+    /**
+     * Set the upload filter site next url
+     * @param request the HTTP request
+     */
+    public static void setUploadFilterSiteNextUrl( HttpServletRequest request )
+    {
+        String strNextUrl = request.getRequestURI(  );
+        UrlItem url = new UrlItem( strNextUrl );
+        Enumeration enumParams = request.getParameterNames(  );
+
+        while ( enumParams.hasMoreElements(  ) )
+        {
+            String strParamName = (String) enumParams.nextElement(  );
+            url.addParameter( strParamName, request.getParameter( strParamName ) );
+        }
+
+        HttpSession session = request.getSession( true );
+        session.setAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL, url.getUrl(  ) );
+    }
+
+    /**
+     * Get the upload filter site next url
+     * @param request the HTTP request
+     * @return the next url
+     */
+    public static String getUploadFilterSiteNextUrl( HttpServletRequest request )
+    {
+        HttpSession session = request.getSession(  );
+        String strNextUrl = (String) session.getAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL );
+
+        return strNextUrl;
+    }
+
+    /**
+     * Remove the upload filter next url from the session
+     * @param request the HTTP request
+     */
+    public static void removeUploadFilterSiteNextUrl( HttpServletRequest request )
+    {
+        HttpSession session = request.getSession(  );
+        session.removeAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL );
     }
 }

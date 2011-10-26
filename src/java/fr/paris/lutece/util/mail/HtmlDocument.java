@@ -201,7 +201,7 @@ public class HtmlDocument
             // Retrieve the url, then test if it matches the base url
             String strSrc = attributes.getNamedItem( elementType.getAttributeName(  ) ).getNodeValue(  );
 
-            if ( strSrc!=null && strSrc.startsWith( _strBaseUrl ) )
+            if ( ( strSrc != null ) && strSrc.startsWith( _strBaseUrl ) )
             {
                 try
                 {
