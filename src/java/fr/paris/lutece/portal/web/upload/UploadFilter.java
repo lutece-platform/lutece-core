@@ -33,23 +33,15 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
-import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.http.MultipartUtil;
 
-import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import java.text.DecimalFormat;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -144,92 +136,17 @@ public abstract class UploadFilter implements Filter
         throws IOException, ServletException
     {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        boolean isMultipartContent = ServletFileUpload.isMultipartContent( httpRequest );
 
-        if ( !isMultipartContent )
+        if ( !MultipartUtil.isMultipart( httpRequest ) )
         {
             chain.doFilter( request, response );
         }
         else
         {
-            // Create a factory for disk-based file items
-            DiskFileItemFactory factory = new DiskFileItemFactory(  );
-
-            // Set factory constraints
-            factory.setSizeThreshold( _nSizeThreshold );
-
-            // Create a new file upload handler
-            ServletFileUpload upload = new ServletFileUpload( factory );
-
-            // Set overall request size constraint
-            upload.setSizeMax( _nRequestSizeMax );
-
-            // get encoding to be used
-            String strEncoding = httpRequest.getCharacterEncoding(  );
-
-            if ( strEncoding == null )
-            {
-                strEncoding = EncodingService.getEncoding(  );
-            }
-
-            Map<String, FileItem> mapFiles = new HashMap<String, FileItem>(  );
-            Map<String, String[]> mapParameters = new HashMap<String, String[]>(  );
-
             try
             {
-                List<FileItem> listItems = upload.parseRequest( httpRequest );
-
-                // Process the uploaded items
-                for ( FileItem item : listItems )
-                {
-                    if ( item.isFormField(  ) )
-                    {
-                        String strValue = "";
-
-                        try
-                        {
-                            if ( item.getSize(  ) > 0 )
-                            {
-                                strValue = item.getString( strEncoding );
-                            }
-                        }
-                        catch ( UnsupportedEncodingException ex )
-                        {
-                            if ( item.getSize(  ) > 0 )
-                            {
-                                // if encoding problem, try with system encoding
-                                strValue = item.getString(  );
-                            }
-                        }
-
-                        // check if item of same name already in map
-                        String[] curParam = mapParameters.get( item.getFieldName(  ) );
-
-                        if ( curParam == null )
-                        {
-                            // simple form field
-                            mapParameters.put( item.getFieldName(  ), new String[] { strValue } );
-                        }
-                        else
-                        {
-                            // array of simple form fields
-                            String[] newArray = new String[curParam.length + 1];
-                            System.arraycopy( curParam, 0, newArray, 0, curParam.length );
-                            newArray[curParam.length] = strValue;
-                            mapParameters.put( item.getFieldName(  ), newArray );
-                        }
-                    }
-                    else
-                    {
-                        // multipart file field, if the parameter filter ActivateNormalizeFileName is set to true
-                        //all file name will be normalize
-                        mapFiles.put( item.getFieldName(  ),
-                            _bActivateNormalizeFileName ? new NormalizeFileItem( item ) : item );
-                    }
-                }
-
-                MultipartHttpServletRequest multiHtppRequest = new MultipartHttpServletRequest( httpRequest, mapFiles,
-                        mapParameters );
+                MultipartHttpServletRequest multiHtppRequest = MultipartUtil.convert( _nSizeThreshold,
+                        _nRequestSizeMax, _bActivateNormalizeFileName, httpRequest );
                 chain.doFilter( multiHtppRequest, response );
             }
             catch ( SizeLimitExceededException e )
