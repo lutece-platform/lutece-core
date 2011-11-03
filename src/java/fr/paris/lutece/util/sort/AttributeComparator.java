@@ -120,6 +120,10 @@ public class AttributeComparator implements Comparator<Object>
                         {
                             nStatus = ( (Comparable) oRet1 ).compareTo( (Comparable) oRet2 );
                         }
+                        else if ( returnType.isEnum(  ) )
+                        {
+                        	nStatus = oRet1.toString(  ).compareTo( oRet2.toString(  ) );
+                        }
                     }
                 }
             }
