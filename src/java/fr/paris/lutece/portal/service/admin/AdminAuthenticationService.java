@@ -41,8 +41,12 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Collection;
+import java.util.Enumeration;
 
 import javax.security.auth.login.LoginException;
 
@@ -59,6 +63,7 @@ public final class AdminAuthenticationService
      * Session attribute that stores the AdminUser object attached to the session
      */
     private static final String ATTRIBUTE_ADMIN_USER = "lutece_admin_user";
+    private static final String ATTRIBUTE_ADMIN_LOGIN_NEXT_URL = "luteceAdminLoginNextUrl";
     private static final String BEAN_ADMIN_AUTHENTICATION_MODULE = "adminAuthenticationModule";
     private static AdminAuthenticationService _singleton = new AdminAuthenticationService(  );
     private static AdminAuthentication _authentication;
@@ -380,5 +385,43 @@ public final class AdminAuthenticationService
     public AdminUser getUserPublicDataFromModule( String strAccessCode )
     {
         return _authentication.getUserPublicData( strAccessCode );
+    }
+
+    /**
+     * Set the admin login next url
+     * @param request the HTTP request
+     */
+    public void setLoginNextUrl( HttpServletRequest request )
+    {
+        String strNextUrl = request.getRequestURI(  );
+        UrlItem url = new UrlItem( strNextUrl );
+        Enumeration enumParams = request.getParameterNames(  );
+
+        while ( enumParams.hasMoreElements(  ) )
+        {
+            String strParamName = (String) enumParams.nextElement(  );
+            url.addParameter( strParamName, request.getParameter( strParamName ) );
+        }
+
+        HttpSession session = request.getSession( true );
+        session.setAttribute( ATTRIBUTE_ADMIN_LOGIN_NEXT_URL, url.getUrl(  ) );
+    }
+
+    /**
+     * Returns the url (asked before login) to redirect after login
+     * @param request The Http request
+     * @return The url asked before login
+     */
+    public String getLoginNextUrl( HttpServletRequest request )
+    {
+        String strNextUrl = StringUtils.EMPTY;
+        HttpSession session = request.getSession( false );
+
+        if ( session != null )
+        {
+            strNextUrl = (String) session.getAttribute( ATTRIBUTE_ADMIN_LOGIN_NEXT_URL );
+        }
+
+        return strNextUrl;
     }
 }

@@ -104,6 +104,8 @@ public class AuthenticationFilter implements Filter
             }
             catch ( UserNotSignedException e )
             {
+                AdminAuthenticationService.getInstance(  ).setLoginNextUrl( req );
+
                 String strRedirectUrl = null;
 
                 if ( AdminAuthenticationService.getInstance(  ).isExternalAuthentication(  ) )

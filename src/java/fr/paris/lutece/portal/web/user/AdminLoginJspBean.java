@@ -60,6 +60,8 @@ import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -319,7 +321,16 @@ public class AdminLoginJspBean
         }
         else
         {
-            url = AppPathService.resolveRedirectUrl( request, JSP_URL_ADMIN_MENU );
+            String strNextUrl = AdminAuthenticationService.getInstance(  ).getLoginNextUrl( request );
+
+            if ( StringUtils.isNotBlank( strNextUrl ) )
+            {
+                url = new UrlItem( strNextUrl );
+            }
+            else
+            {
+                url = AppPathService.resolveRedirectUrl( request, JSP_URL_ADMIN_MENU );
+            }
         }
 
         return url.getUrl(  );
