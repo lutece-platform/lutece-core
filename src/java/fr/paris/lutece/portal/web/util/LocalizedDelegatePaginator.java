@@ -37,14 +37,14 @@ import java.util.List;
 import java.util.Locale;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.util.html.QuickPaginator;
+import fr.paris.lutece.util.html.DelegatePaginator;
 
 /**
  * 
- * Localized Quick Paginator
+ * Localized Delegate Paginator
  * @see LocalizedPaginator
  */
-public class LocalizedQuickPaginator<E> extends QuickPaginator<E>
+public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
 {
 
 	private static final String KEY_FIRST = "portal.util.labelFirst";
@@ -66,7 +66,7 @@ public class LocalizedQuickPaginator<E> extends QuickPaginator<E>
 	 * @param nItemsCount total items
 	 * @param locale The Locale
 	 */
-	public LocalizedQuickPaginator(List<E> list, int nItemPerPage,
+	public LocalizedDelegatePaginator(List<E> list, int nItemPerPage,
 			String strBaseUrl, String strPageIndexParameterName,
 			String strPageIndex, int nItemsCount, Locale locale) {
 		super(list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex,

@@ -41,7 +41,7 @@ import java.util.List;
  * <strong>This implementation requires the items count and the page items</strong>
  * @param <E> the type
  */
-public class QuickPaginator<E> extends AbstractPaginator<E>
+public class DelegatePaginator<E> extends AbstractPaginator<E>
 {
     /**
      * Creates a new instance of Paginator
@@ -53,7 +53,7 @@ public class QuickPaginator<E> extends AbstractPaginator<E>
      * @param nItemsCount the item count
      * @param nCount the total items
      */
-    public QuickPaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
+    public DelegatePaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
         String strPageIndex, int nItemsCount )
     {
         _nItemsCount = nItemsCount;
@@ -89,7 +89,7 @@ public class QuickPaginator<E> extends AbstractPaginator<E>
      * @param nItemsCount the item count
      * @param strItemsPerPageParameterName The parameter name of the number items per page
      */
-    public QuickPaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
+    public DelegatePaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
         String strPageIndex, int nItemsCount, String strItemsPerPageParameterName )
     {
         this( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex, nItemsCount );
