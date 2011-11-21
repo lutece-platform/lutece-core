@@ -69,6 +69,7 @@ public class BlobStoreFileItem implements FileItem
     private String _strFileName;
     private long _lFileSize;
     private String _strFileBlobId;
+    private String _strContentType;
 
     /**
      * Builds a fileItem from blobstore. get() method is lazy.
@@ -100,6 +101,7 @@ public class BlobStoreFileItem implements FileItem
             _strFileName = (String) jsonObject.get( JSON_KEY_FILE_NAME );
             // store the real blob id - file will be fetch on demand (#get)
             _strFileBlobId = (String) jsonObject.get( JSON_KEY_FILE_BLOB_ID );
+            _strContentType = (String) jsonObject.getString( JSON_KEY_FILE_CONTENT_TYPE );
         }
         else
         {
@@ -143,12 +145,11 @@ public class BlobStoreFileItem implements FileItem
     }
 
     /**
-     * Not supported
-     * @return null
+     * {@inheritDoc}
      */
     public String getContentType(  )
     {
-        return null;
+        return _strContentType;
     }
 
     /**
