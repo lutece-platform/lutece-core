@@ -243,7 +243,8 @@ final class MailUtil
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
 
         // Creation of the root part containing all the elements of the message
-        MimeMultipart multipart = new MimeMultipart( MULTIPART_RELATED );
+        MimeMultipart multipart = ( ( fileAttachements == null ) || ( fileAttachements.size(  ) == 0 ) )
+            ? new MimeMultipart( MULTIPART_RELATED ) : new MimeMultipart(  );
 
         // Creation of the html part, the "core" of the message
         BodyPart msgBodyPart = new MimeBodyPart(  );
