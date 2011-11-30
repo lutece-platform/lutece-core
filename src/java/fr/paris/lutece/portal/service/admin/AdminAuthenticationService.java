@@ -420,6 +420,7 @@ public final class AdminAuthenticationService
         if ( session != null )
         {
             strNextUrl = (String) session.getAttribute( ATTRIBUTE_ADMIN_LOGIN_NEXT_URL );
+            session.removeAttribute( ATTRIBUTE_ADMIN_LOGIN_NEXT_URL );
         }
 
         return strNextUrl;
