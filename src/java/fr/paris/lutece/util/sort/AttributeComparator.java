@@ -122,7 +122,7 @@ public class AttributeComparator implements Comparator<Object>
                         }
                         else if ( returnType.isEnum(  ) )
                         {
-                        	nStatus = oRet1.toString(  ).compareTo( oRet2.toString(  ) );
+                            nStatus = oRet1.toString(  ).compareTo( oRet2.toString(  ) );
                         }
                     }
                 }

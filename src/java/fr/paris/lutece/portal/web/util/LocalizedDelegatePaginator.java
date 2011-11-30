@@ -33,51 +33,50 @@
  */
 package fr.paris.lutece.portal.web.util;
 
-import java.util.List;
-import java.util.Locale;
-
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.util.html.DelegatePaginator;
 
+import java.util.List;
+import java.util.Locale;
+
+
 /**
- * 
+ *
  * Localized Delegate Paginator
  * @see LocalizedPaginator
  */
 public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
 {
+    private static final String KEY_FIRST = "portal.util.labelFirst";
+    private static final String KEY_PREVIOUS = "portal.util.labelPrevious";
+    private static final String KEY_NEXT = "portal.util.labelNext";
+    private static final String KEY_LAST = "portal.util.labelLast";
+    private static final String KEY_ITEM_COUNT = "portal.util.labelItemCount";
+    private static final String KEY_ITEM_COUNT_PER_PAGE = "portal.util.labelItemCountPerPage";
+    private Locale _locale;
 
-	private static final String KEY_FIRST = "portal.util.labelFirst";
-	private static final String KEY_PREVIOUS = "portal.util.labelPrevious";
-	private static final String KEY_NEXT = "portal.util.labelNext";
-	private static final String KEY_LAST = "portal.util.labelLast";
-	private static final String KEY_ITEM_COUNT = "portal.util.labelItemCount";
-	private static final String KEY_ITEM_COUNT_PER_PAGE = "portal.util.labelItemCountPerPage";
-	private Locale _locale;
-	 
-	/**
-	 * 
-	 * @param list the list
-     * @param list The collection to paginate
-     * @param nItemPerPage Number of items to display per page
-     * @param strBaseUrl The base Url for build links on each page link
-     * @param strPageIndexParameterName The parameter name for the page index
-     * @param strPageIndex The current page index
-	 * @param nItemsCount total items
-	 * @param locale The Locale
-	 */
-	public LocalizedDelegatePaginator(List<E> list, int nItemPerPage,
-			String strBaseUrl, String strPageIndexParameterName,
-			String strPageIndex, int nItemsCount, Locale locale) {
-		super(list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex,
-				nItemsCount);
-		_locale = locale;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getLabelFirst(  )
+    /**
+     *
+     * @param list the list
+    * @param list The collection to paginate
+    * @param nItemPerPage Number of items to display per page
+    * @param strBaseUrl The base Url for build links on each page link
+    * @param strPageIndexParameterName The parameter name for the page index
+    * @param strPageIndex The current page index
+     * @param nItemsCount total items
+     * @param locale The Locale
+     */
+    public LocalizedDelegatePaginator( List<E> list, int nItemPerPage, String strBaseUrl,
+        String strPageIndexParameterName, String strPageIndex, int nItemsCount, Locale locale )
+    {
+        super( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex, nItemsCount );
+        _locale = locale;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getLabelFirst(  )
     {
         return I18nService.getLocalizedString( KEY_FIRST, _locale );
     }

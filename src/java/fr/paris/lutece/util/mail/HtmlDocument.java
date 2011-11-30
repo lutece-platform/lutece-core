@@ -200,28 +200,30 @@ public class HtmlDocument
 
             // Retrieve the url, then test if it matches the base url
             String strAttributeName = elementType.getAttributeName(  );
-            if ( strAttributeName != null && attributes != null )
+
+            if ( ( strAttributeName != null ) && ( attributes != null ) )
             {
-            	Node attributeNode = attributes.getNamedItem( strAttributeName );
-            	if ( attributeNode != null )
-            	{
-            		String strSrc = attributeNode.getNodeValue(  );
-	
-		            if ( ( strSrc != null ) && strSrc.startsWith( _strBaseUrl ) )
-		            {
-		                try
-		                {
-		                    URL url = new URL( strSrc );
-		                    urlAttachement = new UrlAttachment( getUrlName( url ), url );
-		                    listUrlAttachement.add( urlAttachement );
-		                }
-		                catch ( MalformedURLException e )
-		                {
-		                    // ignored document
-		                    AppLogService.info( strSrc + " not found, location ignored." );
-		                }
-		            }
-            	}
+                Node attributeNode = attributes.getNamedItem( strAttributeName );
+
+                if ( attributeNode != null )
+                {
+                    String strSrc = attributeNode.getNodeValue(  );
+
+                    if ( ( strSrc != null ) && strSrc.startsWith( _strBaseUrl ) )
+                    {
+                        try
+                        {
+                            URL url = new URL( strSrc );
+                            urlAttachement = new UrlAttachment( getUrlName( url ), url );
+                            listUrlAttachement.add( urlAttachement );
+                        }
+                        catch ( MalformedURLException e )
+                        {
+                            // ignored document
+                            AppLogService.info( strSrc + " not found, location ignored." );
+                        }
+                    }
+                }
             }
         }
 
