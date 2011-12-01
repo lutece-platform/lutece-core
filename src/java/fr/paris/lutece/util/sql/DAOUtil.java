@@ -950,6 +950,77 @@ public class DAOUtil
             throw new AppException( getErrorMessage( e ), e );
         }
     }
+    
+    /**
+     * Sets null value for a "long" column
+     * @param nIndex the index
+     */
+    public void setLongNull( int nIndex )
+    {
+    	try
+        {
+            _statement.setNull( nIndex, Types.BIGINT );
+        }
+        catch ( SQLException e )
+        {
+            free(  );
+            throw new AppException( getErrorMessage( e ), e );
+        }
+    }
+    
+    /**
+     * Sets a long value
+     * @param nIndex the index
+     * @param lValue the value
+     */
+    public void setLong( int nIndex, long lValue )
+    {
+    	try
+        {
+            _statement.setLong( nIndex, lValue );
+        }
+        catch ( SQLException e )
+        {
+            free(  );
+            throw new AppException( getErrorMessage( e ), e );
+        }
+    }
+    
+    /**
+     * Gets the long value
+     * @param nIndex the index
+     * @return the long value
+     */
+    public long getLong( int nIndex )
+    {
+    	try
+        {
+            return _resultSet.getLong( nIndex );
+        }
+        catch ( SQLException e )
+        {
+            free(  );
+            throw new AppException( getErrorMessage( e ), e );
+        }
+    }
+    
+    /**
+     * Gets the long value
+     * @param strColumnName the column name
+     * @return the long value
+     */
+    public long getLong( String strColumnName )
+    {
+    	try
+        {
+            return _resultSet.getLong( strColumnName );
+        }
+        catch ( SQLException e )
+        {
+            free(  );
+            throw new AppException( getErrorMessage( e ), e );
+        }
+    }
 
     /**
      * finalize implementation
