@@ -286,7 +286,7 @@ public class ConnectionPool implements DataSource
      */
     private Connection newConnection(  ) throws SQLException
     {
-        Connection conn = null;
+        Connection conn;
 
         if ( _strUser == null )
         {
@@ -459,4 +459,14 @@ public class ConnectionPool implements DataSource
     {
         return false;
     }
+    
+
+    /**
+     * Implementation of JDBC 4.1's getParentLogger method (Java 7)
+     */ 
+    public java.util.logging.Logger getParentLogger() 
+    {
+	return java.util.logging.Logger.getLogger(java.util.logging.Logger.GLOBAL_LOGGER_NAME);
+    }
+
 }
