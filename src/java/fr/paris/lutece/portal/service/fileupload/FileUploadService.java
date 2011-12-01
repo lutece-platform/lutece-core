@@ -56,12 +56,20 @@ public final class FileUploadService
      */
     public static String getFileNameOnly( FileItem fileItem )
     {
-        String strFileName = fileItem.getName(  );
+    	String strFileName;
+    	if ( fileItem != null )
+    	{
+    		strFileName = fileItem.getName(  );
 
-        if ( strFileName != null )
-        {
-            strFileName = FilenameUtils.getName( strFileName );
-        }
+	        if ( strFileName != null )
+	        {
+	            strFileName = FilenameUtils.getName( strFileName );
+	        }
+    	}
+    	else
+    	{
+    		strFileName = null;
+    	}
 
         return strFileName;
     }
