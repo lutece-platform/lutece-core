@@ -116,7 +116,6 @@
         </dependency>
 -->
 
-        <!-- Tests 2.5 -->
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
@@ -206,6 +205,13 @@
             <version>2.4</version>
             <classifier>jdk15</classifier>
         </dependency>
+        
+        <!-- @Inject API -->
+        <dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
 
     </dependencies>
 	
