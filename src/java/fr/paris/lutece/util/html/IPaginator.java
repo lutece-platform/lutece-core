@@ -172,4 +172,10 @@ public interface IPaginator<E>
      * @param strItemsPerPageParameterName the parameter name
      */
     void setItemsPerPageParameterName( String strItemsPerPageParameterName );
+    
+    /**
+     * Gets the items count per page.
+     * @return items count per page.
+     */
+    int getItemsPerPage(  );
 }

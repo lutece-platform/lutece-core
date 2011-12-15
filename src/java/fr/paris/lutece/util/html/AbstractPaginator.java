@@ -120,6 +120,15 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
 
         return url.getUrl(  );
     }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     */
+    public int getItemsPerPage(  )
+    {
+    	return _nItemPerPage;
+    }
 
     /**
          *{@inheritDoc}
