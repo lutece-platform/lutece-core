@@ -45,12 +45,12 @@ import javax.validation.ValidatorFactory;
  * BeanValidationUtils validates beans using JSR303 annotations.
  * @see #validate(Object)
  */
-public final class BeanValidationUtils
+public final class BeanValidationUtil
 {
 	/**
 	 * Utility class
 	 */
-	private BeanValidationUtils(  )
+	private BeanValidationUtil(  )
 	{
 		// nothing
 	}
