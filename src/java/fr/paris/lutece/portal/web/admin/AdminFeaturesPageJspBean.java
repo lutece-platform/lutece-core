@@ -40,15 +40,19 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.beanutils.BeanUtils;
 
 
 /**
@@ -205,5 +209,26 @@ public abstract class AdminFeaturesPageJspBean
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MAIN, getLocale(  ), rootModel );
 
         return template.getHtml(  );
+    }
+    
+    /**
+     * Populate a bean using parameters in http request
+     * @param bean bean to populate
+     * @param request http request
+     */
+    protected static void populate( Object bean, HttpServletRequest request )
+    {
+        try
+        {
+            BeanUtils.populate( bean, request.getParameterMap( ) );
+        }
+        catch ( IllegalAccessException e )
+        {
+            AppLogService.error( "Unable to fetch data from request", e );
+        }
+        catch ( InvocationTargetException e )
+        {
+        	AppLogService.error( "Unable to fetch data from request", e );
+        }
     }
 }
