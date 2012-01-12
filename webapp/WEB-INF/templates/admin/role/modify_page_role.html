@@ -8,7 +8,7 @@
         </p>
         <p>
             <label>#i18n{portal.role.modify_role.labelWorkgroupKey} * :</label>
-			<@combo name="workgroup_key" default_value="${role.workgroup}" items=workgroup_key_list />
+			<@comboSorted name="workgroup_key" default_value="${role.workgroup}" items=workgroup_key_list />
 		</p>
         <p>
             <input type="submit" value="#i18n{portal.role.modify_role.buttonLabelValidate}" class="button" style="float:left;margin-right:5px;" />

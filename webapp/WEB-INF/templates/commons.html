@@ -40,7 +40,11 @@
 	<@comboWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
 </#macro>
 	
-	
+
+<#macro comboSorted name default_value items >
+	<@combo name="${name}" default_value="${default_value}" items=items?sort_by("name") />
+</#macro>
+
 <#macro radioImageList name default_value items >
         <#list items as item>
             <#if default_value="${item.code}"> 			

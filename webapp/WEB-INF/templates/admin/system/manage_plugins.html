@@ -3,7 +3,7 @@
         <form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp">
             <p>
                 <label for="plugin_type" >#i18n{portal.system.manage_plugins.labelComboFilter} :</label>
-                <@combo name="plugin_type" default_value="${current_filter}" items=filter_list />
+                <@comboSorted name="plugin_type" default_value="${current_filter}" items=filter_list />
                 <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonFilter}" />
             </p>
         </form>
@@ -56,7 +56,7 @@
             <td width="30%">
                 <#if plugin.installed & plugin.dbPoolRequired >
                 <form method="post" action="jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}">
-                    <@combo name="db_pool_name" default_value="${plugin.dbPoolName}" items=pools_list />
+                    <@comboSorted name="db_pool_name" default_value="${plugin.dbPoolName}" items=pools_list />
                     <input type="hidden" name="plugin_name" value="${plugin.name}" />
                     <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonModifyDbPool}" />
                 </form>

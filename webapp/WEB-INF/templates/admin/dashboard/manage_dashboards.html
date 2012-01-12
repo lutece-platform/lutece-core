@@ -18,7 +18,7 @@
 							<#assign dashboard_order=dashboard.order/>
 						</#if>
 						<input type="hidden" name="dashboard_order" value="${dashboard_order}"/>
-						<@combo name="dashboard_column" default_value="${dashboard.zone!}" items=list_available_columns />
+						<@comboSorted name="dashboard_column" default_value="${dashboard.zone!}" items=list_available_columns />
 						<input type="submit" value="#i18n{portal.dashboard.table.action.setColumn}" class="button"/>
 						</form>
 					</td> <#-- /column -->
@@ -32,7 +32,7 @@
 							<#assign dashboard_column=dashboard.zone />
 						</#if>
 						<input type="hidden" name="dashboard_column" value="${dashboard_column}"/>
-						<@combo name="dashboard_order" default_value="${dashboard.order!}" items=list_available_orders_column />
+						<@comboSorted name="dashboard_order" default_value="${dashboard.order!}" items=list_available_orders_column />
 						
 						<input type="submit" value="#i18n{portal.dashboard.table.action.move}" class="button"/>
 						

@@ -10,7 +10,7 @@
 <form method="post" >
          <p>
                 <label for="mode_id" >#i18n{portal.style.manage_stylesheets.labelSortByMode} :</label>
-                <@combo name="mode_id" default_value="${mode_id}" items=mode_list />
+                <@comboSorted name="mode_id" default_value="${mode_id}" items=mode_list />
                 <input type="submit" class="button" value="#i18n{portal.style.manage_stylesheets.buttonApplyCriterias}" />
             </p>
         </form>

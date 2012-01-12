@@ -24,21 +24,21 @@
             </p>
             <p>
                 <label>#i18n{portal.site.create_portlet.labelOrder} </label>
-                <@combo name="order" default_value="1" items=portlet_order_combo />
+                <@comboSorted name="order" default_value="1" items=portlet_order_combo />
             </p>
             <p>
                 <label>#i18n{portal.site.create_portlet.labelColumn}</label>
-                <@combo name="column" default_value="1" items=portlet_columns_combo />
+                <@comboSorted name="column" default_value="1" items=portlet_columns_combo />
             </p>
             <#if portletType.id != "ALIAS_PORTLET">
             <p>
                 <label>#i18n{portal.site.create_portlet.labelStyle} </label>
-                <@combo name="style" default_value="0" items=portlet_style_combo />
+                <@comboSorted name="style" default_value="0" items=portlet_style_combo />
             </p>
             </#if>
             <p>
                 <label>#i18n{portal.site.create_portlet.labelRole}<br /></label>
-                <@combo name="role" default_value="none" items=portlet_role_combo />
+                <@comboSorted name="role" default_value="none" items=portlet_role_combo />
             </p>
             <p>
                 <label>#i18n{portal.site.create_portlet.labelAlias}</label>

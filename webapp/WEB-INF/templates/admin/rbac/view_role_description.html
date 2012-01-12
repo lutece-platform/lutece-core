@@ -56,7 +56,7 @@
         <p>
             <select name="resource_type" >
                 <!--<option value =""></option>-->
-                <#list resource_type_list as resource_type >
+                <#list resource_type_list?sort_by("resourceTypeLabel") as resource_type >
                 <option value ="${resource_type.resourceTypeKey}">${resource_type.resourceTypeLabel}</option>
                 </#list>
             </select>

@@ -14,7 +14,7 @@
         </p>
         <p>
             <label for="workgroup" >#i18n{portal.mailinglist.modify_mailinglist.labelWorkgroup}* : </label>
-            <@combo name="workgroup" default_value="${mailinglist.workgroup}" items=workgroups_list />
+            <@comboSorted name="workgroup" default_value="${mailinglist.workgroup}" items=workgroups_list />
         </p>
         <p>
             <input class="button" type="submit" value="#i18n{portal.mailinglist.modify_mailinglist.buttonModify}" />

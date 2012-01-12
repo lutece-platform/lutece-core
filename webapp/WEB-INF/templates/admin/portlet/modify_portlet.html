@@ -35,19 +35,19 @@
             </p>
             <p>
                 <label for="order">#i18n{portal.site.modify_portlet.labelOrder}</label>
-                <@combo name="order" default_value="${portlet.order}" items=portlet_order_combo />
+                <@comboSorted name="order" default_value="${portlet.order}" items=portlet_order_combo />
             </p>
             <p>
                 <label for="column">#i18n{portal.site.modify_portlet.labelColumn}</label>
-                <@combo name="column" default_value="${portlet.column}" items=portlet_columns_combo />
+                <@comboSorted name="column" default_value="${portlet.column}" items=portlet_columns_combo />
             </p>
             <p>
                 <label for="style">#i18n{portal.site.modify_portlet.labelStyle}</label>
-                <@combo name="style" default_value="${portlet.styleId}" items=portlet_style_combo />
+                <@comboSorted name="style" default_value="${portlet.styleId}" items=portlet_style_combo />
             </p>
             <p>
                 <label for="role">#i18n{portal.site.modify_portlet.labelRole}<br /></label>
-                <@combo name="role" default_value="${portlet.role}" items=portlet_role_combo />
+                <@comboSorted name="role" default_value="${portlet.role}" items=portlet_role_combo />
             </p>
             <p >
                 <label>#i18n{portal.site.modify_portlet.labelAlias}</label>

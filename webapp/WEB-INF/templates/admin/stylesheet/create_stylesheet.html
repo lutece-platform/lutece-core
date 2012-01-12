@@ -11,11 +11,11 @@
         </p>
         <p>
             <label for="styles" >#i18n{portal.style.create_stylesheet.labelStyle}&nbsp;:&nbsp;*</label>
-            <@combo name="styles" default_value="0" items=style_list />
+            <@comboSorted name="styles" default_value="0" items=style_list />
         </p>
         <p>
             <label for="mode_stylesheet">#i18n{portal.style.create_stylesheet.labelMode}&nbsp;:&nbsp;*</label>
-            <@combo name="mode_stylesheet" default_value="${mode_id}" items=mode_list />
+            <@comboSorted name="mode_stylesheet" default_value="${mode_id}" items=mode_list />
         </p>
         <p>
             <input type="hidden" name="mode_id" value="${mode_id}" />

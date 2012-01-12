@@ -6,11 +6,11 @@
         
         <p>
             <label for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelWorkgroup}* : </label>
-            <@combo name="workgroup" default_value="all" items=workgroups_list />
+            <@comboSorted name="workgroup" default_value="all" items=workgroups_list />
         </p>
         <p>
             <label for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelRole}* : </label>
-            <@combo name="role" default_value="none" items=roles_list />
+            <@comboSorted name="role" default_value="none" items=roles_list />
         </p>
         <p>
             <input class="button" type="submit" value="#i18n{portal.mailinglist.add_users.buttonAdd}" />

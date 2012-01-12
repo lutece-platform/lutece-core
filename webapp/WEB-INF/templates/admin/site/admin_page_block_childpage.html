@@ -17,12 +17,12 @@
                 </p>
                 <p>
                     <label for="roles_list">#i18n{portal.site.admin_page.labelRole}<br />
-                        <@combo name="role" default_value="${page.role}" items=page_roles_list />
+                        <@comboSorted name="role" default_value="${page.role}" items=page_roles_list />
                     </label>
                 </p>
                 <p>
                     <label for="themes_list">#i18n{portal.site.admin_page.labelTheme}<br />
-                        <@combo name="theme" default_value="${page.codeTheme}" items=page_themes_list />
+                        <@comboSorted name="theme" default_value="${page.codeTheme}" items=page_themes_list />
                     </label>
                 </p>
                 <p>

@@ -18,7 +18,7 @@
             </p>
             <p>
                 <label for="group_order" >#i18n{portal.features.modify_group.labelOrder}</label>
-                <@combo name="group_order" default_value="${feature_group.order}" items=order_list />
+                <@comboSorted name="group_order" default_value="${feature_group.order}" items=order_list />
             </p>
             <p>
         	<input class="button" type="submit" value="#i18n{portal.features.modify_group.buttonModify}" />

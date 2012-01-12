@@ -28,7 +28,7 @@
 
                         <form method="post"  action="jsp/admin/DoChangeLanguage.jsp">
                             <p>
-                                <@combo name="language" default_value="${current_language}" items=languages_list />
+                                <@comboSorted name="language" default_value="${current_language}" items=languages_list />
                                 <input type="submit" class="button" value="#i18n{portal.admin.admin_home.button.changeLanguage}" />
                             </p>
                         </form>

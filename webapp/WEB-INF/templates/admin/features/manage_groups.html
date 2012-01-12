@@ -28,7 +28,7 @@
             </td>
             <td>
                 <form method="post" action="jsp/admin/features/DoDispatchFeatureGroup.jsp">
-                    <@combo name="order_id" default_value=group.order items=order_list />
+                    <@comboSorted name="order_id" default_value=group.order items=order_list />
                     <input type="hidden" name="group_id" value="${group.id}" />
                     <input class="button" type="submit" value="#i18n{portal.features.manage_groups.buttonChangeOrder}" />
                 </form>

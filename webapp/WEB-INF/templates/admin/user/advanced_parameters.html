@@ -70,7 +70,7 @@
     		<!-- USER LANGUAGE -->
     		<p>
 				<label for="language">#i18n{portal.users.manage_advanced_parameters.labelLanguage} :</label>
-				<@combo name="language" default_value="${default_user_language}" items=languages_list />
+				<@comboSorted name="language" default_value="${default_user_language}" items=languages_list />
     		</p>
     		<!-- USER STATUS -->
     		<p>
@@ -130,7 +130,7 @@
 	    			<form method="post" action="jsp/admin/user/DoInsertRegularExpression.jsp#list-regularexpressions">
 	    				<p>
 	    					<label for="id_expression">#i18n{portal.users.manage_advanced_parameters.labelRegularExpression} :</label>
-	    					<@combo name="id_expression" items=available_regularexpressions default_value=-1 />
+	    					<@comboSorted name="id_expression" items=available_regularexpressions default_value=-1 />
 	    					<input value="#i18n{portal.users.manage_advanced_parameters.buttonInsert}" class="button" type="submit">
 	    					<br />
 	    					<label>&nbsp;</label>

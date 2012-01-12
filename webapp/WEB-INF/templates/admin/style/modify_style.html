@@ -16,7 +16,7 @@
         </p>
         <p>
             <label for="portlet_type" >#i18n{portal.style.modify_style.labelPortletType} :</label>
-            <@combo name="portlet_type" default_value="${style.portletTypeId}"  items=portlet_type_list />
+            <@comboSorted name="portlet_type" default_value="${style.portletTypeId}"  items=portlet_type_list />
         </p>
         <p>
             <input type="submit" value="#i18n{portal.style.modify_style.buttonModify}" class="button" />

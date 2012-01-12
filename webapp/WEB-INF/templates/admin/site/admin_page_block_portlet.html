@@ -9,7 +9,7 @@
                 <p>
                     <strong>#i18n{portal.site.admin_page.labelPortletType}</strong>
                     <select name="portlet_type_id">
-                        <#list portlet_types_list as portlet_type>
+                        <#list portlet_types_list?sort_by("name") as portlet_type>
                         <option value="${portlet_type.id}">${portlet_type.name}</option>
                         </#list>
                     </select>
