@@ -189,7 +189,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>PluginsServlets</servlet-name>
-        <url-pattern>/servlet/plugins</url-pattern>
+        <url-pattern>/servlet/plugins/*</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>ImageServlet</servlet-name>
