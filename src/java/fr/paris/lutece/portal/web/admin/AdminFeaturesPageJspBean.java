@@ -97,7 +97,7 @@ public abstract class AdminFeaturesPageJspBean
 
         if ( !_user.checkRight( strRight ) )
         {
-            throw new AccessDeniedException(  );
+            throw new AccessDeniedException( "User " + _user.getAccessCode() + " does not have " + strRight + " right." );
         }
 
         // get the locale
@@ -231,4 +231,6 @@ public abstract class AdminFeaturesPageJspBean
         	AppLogService.error( "Unable to fetch data from request", e );
         }
     }
+    
+    
 }

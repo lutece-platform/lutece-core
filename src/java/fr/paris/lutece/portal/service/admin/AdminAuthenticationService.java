@@ -140,7 +140,7 @@ public final class AdminAuthenticationService
 
                 if ( newUser == null )
                 {
-                    throw new AccessDeniedException(  );
+                    throw new AccessDeniedException( "User not found while retrieving from external authentication" );
                 }
                 else if ( !newUser.getAccessCode(  ).equals( user.getAccessCode(  ) ) )
                 {
@@ -238,7 +238,7 @@ public final class AdminAuthenticationService
         // only allow a user that is marked active
         if ( ( bindUser == null ) || ( !bindUser.isStatusActive(  ) ) )
         {
-            throw new AccessDeniedException(  );
+            throw new AccessDeniedException( "User " + bindUser + " is null or not active" );
         }
 
         // set the rights for this user

@@ -1380,7 +1380,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
                     AdminUserResourceIdService.PERMISSION_MANAGE_ENCRYPTED_PASSWORD, getUser(  ) ) )
         {
-            throw new AccessDeniedException(  );
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " + AdminUserResourceIdService.PERMISSION_MANAGE_ENCRYPTED_PASSWORD );
         }
 
         String strEnablePasswordEncryption = request.getParameter( PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
@@ -1474,7 +1474,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
                     AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
-            throw new AccessDeniedException(  );
+            throw new AccessDeniedException( "User " + getUser() + " is not authorized to permission " + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
 
         DefaultUserParameter userParamStatus = new DefaultUserParameter( PARAMETER_DEFAULT_USER_STATUS,
@@ -1508,7 +1508,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
                     AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
-            throw new AccessDeniedException(  );
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
 
         String strJsp = StringUtils.EMPTY;
@@ -1541,7 +1541,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
                     AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
-            throw new AccessDeniedException(  );
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
 
         AdminUserService.doResetEmailPattern(  );
@@ -1561,7 +1561,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
                     AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
-            throw new AccessDeniedException(  );
+            throw new AccessDeniedException( "User " + getUser() + " is not authorized to permission " + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
 
         String strRegularExpressionId = request.getParameter( PARAMETER_ID_EXPRESSION );
@@ -1587,7 +1587,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
                     AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
-            throw new AccessDeniedException(  );
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
 
         String strRegularExpressionId = request.getParameter( PARAMETER_ID_EXPRESSION );

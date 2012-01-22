@@ -17,8 +17,14 @@
 <%
     if( exception instanceof fr.paris.lutece.portal.service.admin.AccessDeniedException )
     {
+    	if ( exception.getMessage(  ) != null )
+    	{
+    		AppLogService.error( "AccessDeniedException : " + exception.getMessage() );
+    	}
         response.sendRedirect( AdminMessageService.getMessageUrl( request , Messages.USER_ACCESS_DENIED , AdminMessage.TYPE_STOP ) );
     }
+    else
+    {
 %>
 
 
@@ -88,3 +94,6 @@
 </tr>
 </table>
 </center>
+<%
+	} // end else access denied
+%>
