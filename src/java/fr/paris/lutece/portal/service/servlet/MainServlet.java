@@ -121,7 +121,7 @@ public class MainServlet implements Servlet
      */
     private boolean matchMapping( LuteceServlet servlet, HttpServletRequest request )
     {
-        return matchUrl( servlet.getMappingUrlPattern(  ), request.getServletPath(  ) );
+        return matchUrl( servlet.getMappingUrlPattern(  ), request.getServletPath(  ) + request.getPathInfo(  ) );
     }
 
     /**
