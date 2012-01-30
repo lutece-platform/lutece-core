@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.rbac.RBACRemovalListenerService;
 import fr.paris.lutece.portal.service.rbac.ResourceType;
 import fr.paris.lutece.portal.service.rbac.ResourceTypeManager;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -140,6 +141,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_ROLES_PER_PAGE = "paginator.roles.itemsPerPage";
     private static final String PROPERTY_ASSIGN_USERS_PAGETITLE = "portal.rbac.assign_users.pageTitle";
     private static final String PROPERTY_MANAGE_ROLES_PAGETITLE = "portal.rbac.manage_roles.pageTitle";
+    private static final String MESSAGE_CANNOT_REMOVE_ROLE = "portal.rbac.message.cannotRemoveRole";
 
     // templates
     private static final String TEMPLATE_MANAGE_ROLES = "admin/rbac/manage_roles.html";
@@ -377,11 +379,19 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     public String doRemoveRole( HttpServletRequest request )
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
+        List<String> listErrors = new ArrayList<String>(  );
 
         // check that no user has this role
         if ( AdminUserHome.checkRoleAttributed( strRoleKey ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ATTRIBUTED, AdminMessage.TYPE_STOP );
+        }
+        else if ( !RBACRemovalListenerService.getService(  ).checkForRemoval( strRoleKey, listErrors, getLocale(  ) ) )
+        {
+            String strCause = AdminMessageService.getFormattedList( listErrors, getLocale(  ) );
+            Object[] args = { strCause };
+
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
         }
         else
         {

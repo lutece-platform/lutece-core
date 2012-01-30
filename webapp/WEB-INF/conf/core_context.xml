@@ -46,6 +46,7 @@
     <!--                      Removal Services                            -->
     <bean id="mailinglistRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="workgroupRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
+    <bean id="rbacRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="portletRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="regularExpressionRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="workflowRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
