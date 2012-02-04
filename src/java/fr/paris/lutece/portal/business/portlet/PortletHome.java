@@ -54,7 +54,6 @@ public abstract class PortletHome implements PortletHomeInterface
 
     // Static variable pointed at the DAO instance
     private static IPortletDAO _dao = (IPortletDAO) SpringContextService.getBean( "portletDAO" );
-    private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
 
     ///////////////////////////////////////////////////////////////////////////
     // Finders
@@ -227,8 +226,6 @@ public abstract class PortletHome implements PortletHomeInterface
     	PortletEvent event = new PortletEvent( PortletEvent.INVALIDATE,  portlet.getId(  ),  portlet.getPageId(  ) );
     	notifyListeners( event );
     	
-        _pageService.invalidateContent( portlet.getPageId(  ) );
-
         // invalidate aliases
         Collection<Portlet> listAliases = getAliasList( portlet.getId(  ) );
 
@@ -236,7 +233,6 @@ public abstract class PortletHome implements PortletHomeInterface
         {
         	PortletEvent eventAlias = new PortletEvent( PortletEvent.INVALIDATE,  alias.getId(  ),  alias.getPageId(  ) );
         	notifyListeners( eventAlias );
-            _pageService.invalidateContent( alias.getPageId(  ) );
         }
     }
 

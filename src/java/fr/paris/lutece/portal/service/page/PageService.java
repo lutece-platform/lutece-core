@@ -37,6 +37,8 @@ import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.page.PageRoleRemovalListener;
 import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.business.portlet.PortletEvent;
+import fr.paris.lutece.portal.business.portlet.PortletEventListener;
 import fr.paris.lutece.portal.business.portlet.PortletRoleRemovalListener;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.style.ModeHome;
@@ -89,7 +91,7 @@ import javax.servlet.http.HttpServletRequest;
  * HTML and provides a cache feature in order to reduce the number of
  * tranformations.
  */
-public class PageService implements IPageService, ImageResourceProvider, PageEventListener
+public class PageService implements IPageService, ImageResourceProvider, PageEventListener, PortletEventListener
 {
     // //////////////////////////////////////////////////////////////////////////
     // Variables
@@ -812,6 +814,14 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
         // Clearing ALL cache is not needed anymore
         // PortalService.resetCache( );
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public void processPageEvent( PortletEvent event )
+    {
+    	invalidateContent( event.getPageId(  ) );
     }
 
     /**
