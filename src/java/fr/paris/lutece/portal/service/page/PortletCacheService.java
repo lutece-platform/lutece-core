@@ -33,14 +33,21 @@
  */
 package fr.paris.lutece.portal.service.page;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.portal.business.portlet.PortletEvent;
+import fr.paris.lutece.portal.business.portlet.PortletEventListener;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 
 
 /**
  * Portlet cache service
  */
-public class PortletCacheService extends AbstractCacheableService
+public class PortletCacheService extends AbstractCacheableService implements PortletEventListener
 {
+	private static final String CACHE_PORTLET_PREFIX = "portlet:";
     private static final String SERVICE_NAME = "Portlet Cache Service";
 
     /**
@@ -49,5 +56,20 @@ public class PortletCacheService extends AbstractCacheableService
     public String getName(  )
     {
         return SERVICE_NAME;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public void processPageEvent( PortletEvent event )
+    {
+    	String strKey = "[" + CACHE_PORTLET_PREFIX + event.getPortletId(  ) + "]";
+    	for ( String strKeyTemp : (List<String>) getCache().getKeys() )
+    	{
+    		if ( StringUtils.indexOf( strKeyTemp, strKey ) != -1 )
+    		{
+    			getCache().remove( strKeyTemp );
+    		}
+    	}
     }
 }
