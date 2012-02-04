@@ -20,8 +20,11 @@
         </property>
     </bean>
 
+	<bean id="pageCacheService" class="fr.paris.lutece.portal.service.page.PageCacheService" />
+    <bean id="portletCacheService" class="fr.paris.lutece.portal.service.page.PortletCacheService" />
 
-    <bean id="pageService" class="fr.paris.lutece.portal.service.page.PageService">
+	<!-- since the PageService constructor initializes the two above caches, we choose to inject them through the constructor -->
+    <bean id="pageService" class="fr.paris.lutece.portal.service.page.PageService" autowire="constructor">
         <property name="pageCacheKeyService" ref="pageCacheKeyService" />
         <property name="portletCacheKeyService" ref="portletCacheKeyService" />
         <property name="roleRemovalService" ref="roleRemovalService" />

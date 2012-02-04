@@ -63,15 +63,11 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
-import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
-import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.poi.hssf.record.SSTRecord;
 
 import java.io.IOException;
 
@@ -84,6 +80,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -145,14 +142,29 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private List<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
     private ICacheKeyService _cksPage;
     private ICacheKeyService _cksPortlet;
-    private PageCacheService _cachePages = new PageCacheService(  );
-    private PortletCacheService _cachePortlets = new PortletCacheService(  );
+    private PageCacheService _cachePages;
+    private PortletCacheService _cachePortlets;
 
     /**
      * Creates a new PageService object.
+     * @deprecated use {@link #PageService(PageCacheService, PortletCacheService)} instead.
      */
+    @Deprecated
     public PageService(  )
     {
+        init(  );
+    }
+    
+    /**
+     * Creates a new PageService object.
+     * @param pageCacheService the page cache service
+     * @param portletCacheService the portlet cache service
+     */
+    @Inject
+    public PageService( PageCacheService pageCacheService, PortletCacheService portletCacheService )
+    {
+    	_cachePages = pageCacheService;
+    	_cachePortlets = portletCacheService;
         init(  );
     }
 
@@ -970,6 +982,42 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         url.addParameter( Parameters.RESOURCE_ID, strPageId );
 
         return url.getUrlWithEntity(  );
+    }
+    
+    /**
+     * Gets the page cache service.
+     * @return the page cache service
+     */
+    public PageCacheService getPageCacheService(  )
+    {
+    	return _cachePages;
+    }
+    
+    /**
+     * Sets the cache page service
+     * @param pageCacheService the page cache service
+     */
+    public void setPageCacheService( PageCacheService pageCacheService )
+    {
+    	_cachePages = pageCacheService;
+    }
+    
+    /**
+     * Gets the portlet cache service
+     * @return the porlet cache service
+     */
+    public PortletCacheService getPortletCacheService(  )
+    {
+    	return _cachePortlets;
+    }
+    
+    /**
+     * Gets the portlet cache service
+     * @param portletCacheService the portlet cache service
+     */
+    public void setPortletCacheService( PortletCacheService portletCacheService )
+    {
+    	_cachePortlets = portletCacheService;
     }
 
     /**
