@@ -224,6 +224,9 @@ public abstract class PortletHome implements PortletHomeInterface
      */
     public static void invalidate( Portlet portlet )
     {
+    	PortletEvent event = new PortletEvent( PortletEvent.INVALIDATE,  portlet.getId(  ),  portlet.getPageId(  ) );
+    	notifyListeners( event );
+    	
         _pageService.invalidateContent( portlet.getPageId(  ) );
 
         // invalidate aliases
@@ -231,6 +234,8 @@ public abstract class PortletHome implements PortletHomeInterface
 
         for ( Portlet alias : listAliases )
         {
+        	PortletEvent eventAlias = new PortletEvent( PortletEvent.INVALIDATE,  alias.getId(  ),  alias.getPageId(  ) );
+        	notifyListeners( eventAlias );
             _pageService.invalidateContent( alias.getPageId(  ) );
         }
     }
@@ -312,5 +317,17 @@ public abstract class PortletHome implements PortletHomeInterface
     public static Portlet getLastModifiedPortlet(  )
     {
         return _dao.loadLastModifiedPortlet(  );
+    }
+    
+    /**
+     * Notifies listeners
+     * @param event the event
+     */
+    public static void notifyListeners( PortletEvent event )
+    {
+    	for ( PortletEventListener listener : SpringContextService.getBeansOfType( PortletEventListener.class ) )
+    	{
+    		listener.processPageEvent( event );
+    	}
     }
 }
