@@ -88,10 +88,7 @@ public final class AppTemplateService
     {
     	for ( String strFileName : plugin.getFreeMarkerMacrosFiles(  ) )
 		{
-			if ( AppLogService.isDebugEnabled(  ) )
-			{
-				AppLogService.info( "New freemarker autoinclude : " + strFileName + " from " + plugin.getName());
-			}
+			AppLogService.info( "New freemarker autoinclude : " + strFileName + " from " + plugin.getName());
 			FreeMarkerTemplateService.addPluginMacros( strFileName );
 		}
     }
