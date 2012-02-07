@@ -1,16 +1,14 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-
-<plug-in>
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><plug-in>
     
     <!-- Plugin Informations -->
     <name>core</name>
     <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
     <version>3.0.8</version>
     <description>portal.system.core_components.description</description>
-    <documentation></documentation>
-    <installation></installation>
-    <changes></changes>
-    <user-guide></user-guide>
+    <documentation/>
+    <installation/>
+    <changes/>
+    <user-guide/>
     <provider>portal.system.core_components.provider</provider>
     <provider-url>http://fr.lutece.paris.fr</provider-url>
     <icon-url>images/admin/skin/core.png</icon-url>
