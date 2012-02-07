@@ -127,6 +127,7 @@ public abstract class Plugin implements Comparable<Plugin>
     private List<DashboardComponentEntry> _listAdminDashboardComponents;
     private List<RBACResourceTypeEntry> _listRBACResourceTypes;
     private List<DaemonEntry> _listDaemons;
+    private List<String> _listFreemarkerMacrosFiles;
 
     //hashtable which contains all the params described in the xml plugin file
     private Map<String, String> _mapParams = new HashMap<String, String>(  );
@@ -184,7 +185,7 @@ public abstract class Plugin implements Comparable<Plugin>
             _listJavascriptFiles = pluginFile.getJavascriptFiles(  );
             _strJavascriptFilesScope = ( pluginFile.getJavascriptFilesScope(  ) != null )
                 ? pluginFile.getJavascriptFilesScope(  ) : SCOPE_XPAGE;
-
+            _listFreemarkerMacrosFiles = pluginFile.getFreemarkerMacrosFiles(  );
             // Register plugin components
             registerXPageApplications(  );
             registerFilters(  );
@@ -1124,6 +1125,20 @@ public abstract class Plugin implements Comparable<Plugin>
     public boolean isJavascriptFilesScopeXPage(  )
     {
         return ( ( _strJavascriptFilesScope != null ) && _strJavascriptFilesScope.equalsIgnoreCase( SCOPE_XPAGE ) );
+    }
+    
+    /**
+     * Adds a that file that will be autoincluded in freemarker templates
+     * @param strMacroFileName the file name
+     */
+    public void addFreemarkerMacrosFile( String strMacroFileName )
+    {
+    	_listFreemarkerMacrosFiles.add( strMacroFileName );
+    }
+    
+    public List<String> getFreeMarkerMacrosFiles(  )
+    {
+    	return _listFreemarkerMacrosFiles;
     }
 
     /**

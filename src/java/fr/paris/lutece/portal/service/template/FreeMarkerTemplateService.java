@@ -53,7 +53,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -67,15 +69,25 @@ public final class FreeMarkerTemplateService
     private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY,
             5 );
     private static final String STRING_TEMPLATE_LOADER_NAME = "stringTemplate";
-    private static final String PATH_AUTO_INCLUDE_COMMONS = "*/commons.html";
     private static final String NUMBER_FORMAT_PATTERN = "0.######";
     private static final String SETTING_DATE_FORMAT = "date_format";
+    /** the list contains plugins specific macros */
+    private static final List<String> _listPluginsMacros = new ArrayList<String>(  );
     private static Map<String, Configuration> _mapConfigurations = new HashMap<String, Configuration>(  );
     private static String _strDefaultPath;
 
     /** Creates a new instance of FreeMarkerTemplateService */
     private FreeMarkerTemplateService(  )
     {
+    }
+    
+    /**
+     * Adds a macro file (like the main commons.html) brought by a plugin. This file will be included for every template (autoinclude).
+     * @param strFileName the filename
+     */
+    public static void addPluginMacros( String strFileName )
+    {
+    	_listPluginsMacros.add( strFileName );
     }
 
     /**
@@ -125,7 +137,12 @@ public final class FreeMarkerTemplateService
                 if ( ( strPath != null ) && ( strPath.equals( _strDefaultPath ) ) )
                 {
                     // add the macros auto inclusion
-                    cfg.addAutoInclude( PATH_AUTO_INCLUDE_COMMONS );
+                    // cfg.addAutoInclude( PATH_AUTO_INCLUDE_COMMONS );
+                    // add the plugins macros auto inclusion
+                    for ( String strFileName : _listPluginsMacros )
+                    {
+                    	cfg.addAutoInclude( strFileName );
+                    }
                 }
 
                 // disable the localized look-up process to find a template
@@ -190,7 +207,11 @@ public final class FreeMarkerTemplateService
             cfg.setTemplateLoader( mtl );
 
             // add the macros auto inclusion
-            cfg.addAutoInclude( PATH_AUTO_INCLUDE_COMMONS );
+            // cfg.addAutoInclude( PATH_AUTO_INCLUDE_COMMONS );
+            for ( String strFileName : _listPluginsMacros )
+            {
+            	cfg.addAutoInclude( strFileName );
+            }
 
             // disable the localized look-up process to find a template
             cfg.setLocalizedLookup( false );

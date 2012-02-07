@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- Lutece plugins DTD. Copyright (c) 2011 Mairie de Paris -->
-<!ELEMENT plug-in ( name, class, version, description, documentation, installation, changes, user-guide, provider, provider-url, icon-url?, copyright?, db-pool-required, css-stylesheets?, javascript-files?, page-include-service*, applications*, link-service*, html-service*, content-service*, admin-features*, portlets*, params*, dashboard-components?, listeners?, servlets*, search-indexers*, insert-services*, filters*,daemons*,rbac-resource-types*,page-include-services*,admindashboard-components* ) >
+<!ELEMENT plug-in ( name, class, version, description, documentation, installation, changes, user-guide, provider, provider-url, icon-url?, copyright?, db-pool-required, css-stylesheets?, javascript-files?, page-include-service*, applications*, link-service*, html-service*, content-service*, admin-features*, portlets*, params*, dashboard-components?, listeners?, servlets*, search-indexers*, insert-services*, filters*,daemons*,rbac-resource-types*,page-include-services*,admindashboard-components*, freemarker-macro-files? ) >
 
 
 <!-- Plugin Informations -->
@@ -152,3 +152,7 @@
 <!-- admin dashboards -->
 <!ELEMENT admindashboard-components ( admindashboard-component* )>
 <!ELEMENT admindashboard-component (dashboard-component-name, dashboard-component-class) >
+
+<!-- macros freemarker -->
+<!ELEMENT freemarker-macro-files ( freemarker-macro-file* )>
+<!ELEMENT freemarker-macro-file ( #PCDATA ) > 

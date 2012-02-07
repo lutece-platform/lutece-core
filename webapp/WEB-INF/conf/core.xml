@@ -145,6 +145,9 @@
         </admindashboard-component>
     </admindashboard-components>
         
+    <freemarker-macro-files>
+    	<freemarker-macro-file>*/commons.html</freemarker-macro-file>
+    </freemarker-macro-files>
     
     
 </plug-in>

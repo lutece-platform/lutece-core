@@ -34,6 +34,9 @@
 package fr.paris.lutece.portal.service.template;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.Locale;
@@ -63,6 +66,34 @@ public final class AppTemplateService
     {
         _strTemplateDefaultPath = strTemplatePath;
         FreeMarkerTemplateService.init( strTemplatePath );
+    }
+    
+    /**
+     * Initializes autoincludes for plugins.
+     */
+    public static void initAutoIncludes(  )
+    {
+    	// register core
+    	Plugin corePlugin = PluginService.getCore();
+    	addPluginMacros( corePlugin );
+    	
+    	// register plugins
+    	for ( Plugin plugin : PluginService.getPluginList(  ) )
+    	{
+    		addPluginMacros( plugin );
+    	}
+    }
+    
+    private static void addPluginMacros( Plugin plugin )
+    {
+    	for ( String strFileName : plugin.getFreeMarkerMacrosFiles(  ) )
+		{
+			if ( AppLogService.isDebugEnabled(  ) )
+			{
+				AppLogService.info( "New freemarker autoinclude : " + strFileName + " from " + plugin.getName());
+			}
+			FreeMarkerTemplateService.addPluginMacros( strFileName );
+		}
     }
 
     /**

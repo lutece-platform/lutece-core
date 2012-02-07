@@ -62,6 +62,7 @@ public final class PluginService
     private static final String PATH_CONF = "path.conf";
     private static final String CORE_XML = "core.xml";
     private static final String CORE = "core";
+    private static Plugin _corePlugin;
     private static final String PATH_PLUGIN = "path.plugins";
     private static final String FILE_PLUGINS_STATUS = "plugins.dat";
     private static final String EXTENSION_FILE = "xml";
@@ -176,6 +177,10 @@ public final class PluginService
                 {
                     registerPlugin( plugin );
                 }
+                else
+                {
+                	registerCore( plugin );
+                }
 
                 // If the plugin requires a database connection pool then
                 // get the pool name and initialize its ConnectionService
@@ -213,6 +218,20 @@ public final class PluginService
     {
         _mapPlugins.put( plugin.getName(  ), plugin );
         AppLogService.info( "New Plugin registered : " + plugin.getName(  ) );
+    }
+    
+    /**
+     * Gets the core plugin
+     * @param plugin the plugin
+     */
+    private static synchronized void registerCore( Plugin plugin )
+    {
+    	_corePlugin = plugin;
+    }
+    
+    public static Plugin getCore(  )
+    {
+    	return _corePlugin;
     }
 
     /**

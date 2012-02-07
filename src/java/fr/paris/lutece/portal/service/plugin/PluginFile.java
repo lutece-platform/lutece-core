@@ -89,6 +89,7 @@ public class PluginFile
     private boolean _bDbPoolRequired;
     private List<String> _listCssStyleSheets = new ArrayList<String>(  );
     private List<String> _listJavascriptFiles = new ArrayList<String>(  );
+    private List<String> _listFreemarkerMacrosFiles = new ArrayList<String>(  );
     private List<Right> _listRights = new ArrayList<Right>(  );
     private List<PortletType> _listPortletTypes = new ArrayList<PortletType>(  );
     private List<DaemonEntry> _listDaemons = new ArrayList<DaemonEntry>(  );
@@ -416,6 +417,20 @@ public class PluginFile
     public List<String> getJavascriptFiles(  )
     {
         return _listJavascriptFiles;
+    }
+    
+    /**
+     * Adds the file to freemarker autoinclude configuration
+     * @param strFileName the file
+     */
+    public void addFreemarkerMacrosFile( String strFileName )
+    {
+    	_listFreemarkerMacrosFiles.add( strFileName );
+    }
+    
+    public List<String> getFreemarkerMacrosFiles(  )
+    {
+    	return _listFreemarkerMacrosFiles;
     }
 
     /**
