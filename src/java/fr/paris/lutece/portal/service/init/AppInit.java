@@ -252,6 +252,8 @@ public final class AppInit
             model.put( MARK_AUTOINIT, "false" );
 
             HtmlTemplate configTemplate = AppTemplateService.getTemplate( CONFIG_PROPERTIES_TEMPLATE, null, model );
+            // reset configuration cache to avoid configuration caching before macros are set. See LUTECE-1460
+            AppTemplateService.resetConfiguration(  );
 
             try
             {

@@ -100,6 +100,14 @@ public final class AppTemplateService
     {
         FreeMarkerTemplateService.resetCache(  );
     }
+    
+    /**
+     * Resets the configuration cache
+     */
+    public static void resetConfiguration(  )
+    {
+    	FreeMarkerTemplateService.resetConfiguration(  );
+    }
 
     /**
      * Returns a reference on a template object (load the template or get it from the cache if present.)

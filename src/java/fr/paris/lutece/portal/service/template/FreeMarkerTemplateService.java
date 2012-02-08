@@ -282,6 +282,14 @@ public final class FreeMarkerTemplateService
     }
 
     /**
+     * Clears the configuration cache
+     */
+    public static void resetConfiguration(  )
+    {
+    	_mapConfigurations = new HashMap<String, Configuration>(  );
+    }
+    
+    /**
      * Reset the cache
      *
      */
