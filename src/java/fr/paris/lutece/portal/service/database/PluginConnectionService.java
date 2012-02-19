@@ -88,4 +88,13 @@ public class PluginConnectionService
         PoolManager poolManager = AppConnectionService.getPoolManager(  );
         poolManager.freeConnection( _strPoolName, conn );
     }
+    
+    /**
+     * Gets the pool name
+     * @return the pool name
+     */
+    public String getPoolName(  )
+    {
+    	return _strPoolName;
+    }
 }
