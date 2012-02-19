@@ -1,0 +1,153 @@
+/*
+ * Copyright (c) 2002-2011, Mairie de Paris
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice
+ *     and the following disclaimer.
+ *
+ *  2. Redistributions in binary form must reproduce the above copyright notice
+ *     and the following disclaimer in the documentation and/or other materials
+ *     provided with the distribution.
+ *
+ *  3. Neither the name of 'Mairie de Paris' nor 'Lutece' nor the names of its
+ *     contributors may be used to endorse or promote products derived from
+ *     this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * License 1.0
+ */
+package fr.paris.lutece.portal.service.database;
+
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+
+import javax.sql.DataSource;
+
+import org.apache.log4j.Logger;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+
+import fr.paris.lutece.portal.service.plugin.PluginEvent;
+import fr.paris.lutece.portal.service.plugin.PluginEventListener;
+import fr.paris.lutece.portal.service.plugin.PluginService;
+
+/**
+ * DataSource transaction manager.
+ * 
+ */
+public class DAOUtilTransactionManager extends DataSourceTransactionManager implements PluginEventListener
+{
+	private static final long serialVersionUID = -654531540978261621L;
+	private Logger logger = Logger.getLogger( "lutece.debug.sql.tx" );
+	private String _strPluginName;
+	private boolean _init = false;
+	
+	/**
+	 * Registers the listener to {@link PluginService}.
+	 */
+	public DAOUtilTransactionManager() {
+		PluginService.registerPluginEventListener( this );
+	}
+	
+	/**
+	 * Gets the plugin name
+	 * @return the plugin name
+	 */
+	public String getPluginName()
+	{
+		return _strPluginName;
+	}
+	
+	/**
+	 * Sets the plugin name
+	 * @param strPluginName the plugin name
+	 */
+	public void setPluginName( String strPluginName )
+	{
+		_strPluginName = strPluginName;
+	}
+
+	/**
+	 * Changes datasource if needed.
+	 */
+	public void processPluginEvent( PluginEvent event ) 
+	{
+		if ( getPluginName().equals( event.getPlugin().getName(  ) ) )
+		{
+			_init = true;
+			logger.debug( "DAOUtilTransactionManager changed datasource status..." );
+			setDataSource( AppConnectionService.getPoolManager().getDataSource( event.getPlugin(  ).getDbPoolName(  ) ) );
+		}
+	}
+	
+	/**
+	 * Returns a "fake" datasource to avoid spring checks failure when pool are not initialized.
+	 * Returns the current datasource otherwise.
+	 */
+	@Override
+	public DataSource getDataSource() {
+		if ( _init )
+		{
+			return super.getDataSource();
+		}
+		
+		/**
+		 * Empty datasource
+		 */
+		return new DataSource() {
+			
+			public <T> T unwrap(Class<T> iface) throws SQLException {
+				return null;
+			}
+			
+			public boolean isWrapperFor(Class<?> iface) throws SQLException {
+				return false;
+			}
+			
+			public void setLoginTimeout(int seconds) throws SQLException {
+			}
+			
+			public void setLogWriter(PrintWriter out) throws SQLException {
+			}
+			
+			public java.util.logging.Logger getParentLogger()
+					throws SQLFeatureNotSupportedException {
+				return null;
+			}
+			
+			public int getLoginTimeout() throws SQLException {
+				return 0;
+			}
+			
+			public PrintWriter getLogWriter() throws SQLException {
+				return null;
+			}
+			
+			public Connection getConnection(String username, String password)
+					throws SQLException {
+				return null;
+			}
+			
+			public Connection getConnection() throws SQLException {
+				return null;
+			}
+		};
+	}
+	
+}

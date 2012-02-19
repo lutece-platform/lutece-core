@@ -40,6 +40,9 @@ import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import org.apache.log4j.Logger;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.transaction.support.TransactionSynchronizationUtils;
 
 import java.io.InputStream;
 
@@ -54,6 +57,8 @@ import java.sql.Timestamp;
 import java.sql.Types;
 
 import java.text.MessageFormat;
+
+import javax.sql.DataSource;
 
 
 /**
@@ -86,6 +91,8 @@ public class DAOUtil
     private boolean _bReleased;
     private String _strSQL;
 
+    private boolean _bTransactionnal;
+    
     /** The debug logger */
     private Logger _logger;
     private StringBuffer _sbLogs = new StringBuffer(  );
@@ -133,9 +140,21 @@ public class DAOUtil
 
         try
         {
-            _connection = _connectionService.getConnection(  );
-
-            if ( _connection != null )
+        	// first, we check if there is a managed transaction to get the transactionnal connection
+        	_bTransactionnal = TransactionSynchronizationManager.isSynchronizationActive();
+        	if ( _bTransactionnal )
+        	{
+        		DataSource ds = AppConnectionService.getPoolManager(  ).getDataSource( _connectionService.getPoolName(  ) );
+        		_connection = DataSourceUtils.getConnection( ds );
+        		_logger.debug( "Transactionnal context is used for pool " + _connectionService.getPoolName(  ) );
+        	}
+        	else
+        	{
+	        	// no transaction found, use the connection service directly
+	            _connection = _connectionService.getConnection(  );
+        	}
+        	
+        	if ( _connection != null )
             {
                 _statement = _connection.prepareStatement( strSQL );
             }
@@ -257,8 +276,8 @@ public class DAOUtil
         }
         finally
         {
-            // Free the connection
-            if ( _connectionService != null )
+            // Free the connection - the connection is freed some other way in transactionnal context.
+            if ( _connectionService != null && !_bTransactionnal )
             {
                 _connectionService.freeConnection( _connection );
                 _connectionService = null;
