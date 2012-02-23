@@ -736,7 +736,7 @@ public final class PageDAO implements IPageDAO
             page.setMetaKeywords( daoUtil.getString( nIndex++ ) );
             page.setMetaDescription( daoUtil.getString( nIndex++ ) );
 
-            if ( daoUtil.getObject( nIndex++ ) != null )
+            if ( daoUtil.getObject( nIndex ) != null )
             {
                 page.setIdAuthorizationNode( daoUtil.getInt( nIndex ) );
             }
