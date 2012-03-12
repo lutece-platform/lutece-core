@@ -40,6 +40,7 @@ import java.sql.SQLFeatureNotSupportedException;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
@@ -56,7 +57,7 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
 	private static final long serialVersionUID = -654531540978261621L;
 	private Logger logger = Logger.getLogger( "lutece.debug.sql.tx" );
 	private String _strPluginName;
-	private boolean _init = false;
+	private boolean _bInit = false;
 	
 	/**
 	 * Registers the listener to {@link PluginService}.
@@ -90,9 +91,35 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
 	{
 		if ( getPluginName().equals( event.getPlugin().getName(  ) ) )
 		{
-			_init = true;
-			logger.debug( "DAOUtilTransactionManager changed datasource status..." );
-			setDataSource( AppConnectionService.getPoolManager().getDataSource( event.getPlugin(  ).getDbPoolName(  ) ) );
+			if ( event.getEventType() == PluginEvent.PLUGIN_INSTALLED )
+			{
+				if ( StringUtils.isNotBlank( event.getPlugin().getDbPoolName(  ) ) && !AppConnectionService.NO_POOL_DEFINED.equals( event.getPlugin().getDbPoolName() ) )
+				{
+					try
+					{
+						logger.debug( "DAOUtilTransactionManager changed datasource status..." );
+						setDataSource( AppConnectionService.getPoolManager(  ).getDataSource( event.getPlugin(  ).getDbPoolName(  ) ) );
+						_bInit = true;
+					}
+					catch ( Exception ex )
+					{
+						_bInit = false;
+						logger.error( "An error occured getting pool for DAOUtilTransactionManager for plugin " + event.getPlugin(  ).getName(  ) + 
+								", please check plugin is activated and pool is correctly set : " + ex.getMessage(  ), ex );
+					}
+				}
+				else
+				{
+					logger.debug( "Pool for plugin " + event.getPlugin(  ).getName(  ) + " is set to null, clearing transaction manager");
+					setDataSource( null );
+					_bInit = false;
+				}
+			}
+			else if ( event.getEventType() == PluginEvent.PLUGIN_UNINSTALLED )
+			{
+				setDataSource( null );
+				_bInit = false;
+			}
 		}
 	}
 	
@@ -102,7 +129,7 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
 	 */
 	@Override
 	public DataSource getDataSource() {
-		if ( _init )
+		if ( _bInit )
 		{
 			return super.getDataSource();
 		}
