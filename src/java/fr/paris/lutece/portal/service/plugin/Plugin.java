@@ -272,6 +272,8 @@ public abstract class Plugin implements Comparable<Plugin>
         _strDbPoolName = strPoolName;
         _connectionService.setPool( strPoolName );
         update(  );
+        
+        notifyListeners( PluginEvent.PLUGIN_POOL_CHANGED );
     }
 
     /**

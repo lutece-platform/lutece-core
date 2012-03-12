@@ -41,6 +41,7 @@ public class PluginEvent
 {
     public static final int PLUGIN_INSTALLED = 1;
     public static final int PLUGIN_UNINSTALLED = 2;
+    public static final int PLUGIN_POOL_CHANGED = 3;
 
     // Variables declarations
     private Plugin _plugin;
