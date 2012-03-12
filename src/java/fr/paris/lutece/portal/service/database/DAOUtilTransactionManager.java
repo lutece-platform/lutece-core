@@ -91,7 +91,7 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
 	{
 		if ( getPluginName().equals( event.getPlugin().getName(  ) ) )
 		{
-			if ( event.getEventType() == PluginEvent.PLUGIN_INSTALLED )
+			if ( event.getEventType() == PluginEvent.PLUGIN_INSTALLED || event.getEventType() == PluginEvent.PLUGIN_POOL_CHANGED )
 			{
 				if ( StringUtils.isNotBlank( event.getPlugin().getDbPoolName(  ) ) && !AppConnectionService.NO_POOL_DEFINED.equals( event.getPlugin().getDbPoolName() ) )
 				{
