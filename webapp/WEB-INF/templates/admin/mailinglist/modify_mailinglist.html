@@ -47,13 +47,12 @@
         </#list>
     </table>
     <br />
-    <p>
-    	<a href="jsp/admin/mailinglist/AddUsers.jsp?id_mailinglist=${mailinglist.id}">
-    		<input type="button" class="button" value="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}"/>
-    	</a>
-    	<a href="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}">
-    		<input type="button" class="button" value="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}"/>
-    	</a>
-    </p>
-    <br />
+   	<form method="get" action="jsp/admin/mailinglist/AddUsers.jsp">
+   		<input type="hidden" name="id_mailinglist" value="${mailinglist.id!}" />
+   		<input type="submit" class="button" value="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}"/>
+   	</form>
+   	<form method="get" action="jsp/admin/mailinglist/ViewUsers.jsp">
+   		<input type="hidden" name="id_mailinglist" value="${mailinglist.id!}" />
+   		<input type="submit" class="button" value="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}"/>
+   	</form>
 </div>
