@@ -84,10 +84,9 @@ public final class SpringContextService implements PluginEventListener
      * @param strName The bean's name
      * @return The instance of the bean
      */
-    public static Object getBean( String strName )
+    public static <T> T getBean( String strName )
     {
-        //        ApplicationContext context = getContext( CORE );
-        return _context.getBean( strName );
+        return (T) _context.getBean( strName );
     }
 
     /**
@@ -96,7 +95,9 @@ public final class SpringContextService implements PluginEventListener
      * @param strPluginName The Plugin's name
      * @param strName The bean's name
      * @return The instance of the bean
+     * @deprecated use {@link #getBean(String)} instead
      */
+    @Deprecated
     public static Object getPluginBean( String strPluginName, String strName )
     {
         return _context.getBean( strName );
