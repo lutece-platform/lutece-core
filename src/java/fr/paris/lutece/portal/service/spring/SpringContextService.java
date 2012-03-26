@@ -65,6 +65,8 @@ public final class SpringContextService implements PluginEventListener
 {
     private static final String PATH_CONF = "/WEB-INF/conf/";
     private static final String DIR_PLUGINS = "plugins/";
+    private static final String DIR_OVERRIDE = "override/";
+    private static final String DIR_OVERRIDE_PLUGINS = DIR_OVERRIDE + DIR_PLUGINS;
     private static final String SUFFIX_CONTEXT_FILE = "_context.xml";
     private static final String FILE_CORE_CONTEXT = "core_context.xml";
     private static ApplicationContext _context;
@@ -142,22 +144,30 @@ public final class SpringContextService implements PluginEventListener
             FilenameFilter filterContext = new ContextFileFilter(  );
             String[] filesContext = dirConfPlugins.list( filterContext );
 
-            for ( String fileContext : filesContext )
-            {
-                String[] file = { "file:" + strConfPluginsPath + fileContext };
+            loadContexts( filesContext, strConfPluginsPath, xmlReader );
 
-                // Safe loading of plugin context file
-                try
-                {
-                    //_context = new ClassPathXmlApplicationContext( file, _context );
-                    xmlReader.loadBeanDefinitions( file );
-                    AppLogService.info( "Context file loaded : " + fileContext );
-                }
-                catch ( Exception e )
-                {
-                    AppLogService.error( "Unable to load Spring context file : " + fileContext + " - cause : " +
-                        e.getMessage(  ), e );
-                }
+            // we now load overriding beans
+            AppLogService.info( "Loading plugins context overrides" );
+            
+            String strCoreContextOverrideFile = strConfPath + DIR_OVERRIDE + FILE_CORE_CONTEXT;
+            File fileCoreContextOverride = new File( strCoreContextOverrideFile );
+            if ( fileCoreContextOverride.exists(  ) )
+            {
+                AppLogService.debug( "Context file loaded : core_context" );
+                xmlReader.loadBeanDefinitions( "file:" + strCoreContextOverrideFile );
+            }
+            else
+            {
+                AppLogService.debug( "No core_context override found" );
+            }
+            
+            // load plugins overrides
+            String strConfPluginsOverridePath = strConfPath + DIR_OVERRIDE_PLUGINS;
+            File dirConfOverridePlugins = new File( strConfPluginsOverridePath );
+            if ( dirConfOverridePlugins.exists(  ) )
+            {
+                String[] filesOverrideContext = dirConfOverridePlugins.list( filterContext );
+                loadContexts( filesOverrideContext, strConfPluginsOverridePath, xmlReader );
             }
 
             gap.refresh(  );
@@ -171,6 +181,33 @@ public final class SpringContextService implements PluginEventListener
         {
             AppLogService.error( "Error initializing Spring Context Service", e );
             throw new LuteceInitException( "Error initializing Spring Context Service", e );
+        }
+    }
+    
+    /**
+     * Loads plugins contexts.
+     * @param filesContext context files names
+     * @param strConfPluginsPath full path
+     * @param xmlReader the xml reader
+     */
+    private static void loadContexts( String[] filesContext, String strConfPluginsPath, XmlBeanDefinitionReader xmlReader )
+    {
+        for ( String fileContext : filesContext )
+        {
+            String[] file = { "file:" + strConfPluginsPath + fileContext };
+
+            // Safe loading of plugin context file
+            try
+            {
+                //_context = new ClassPathXmlApplicationContext( file, _context );
+                xmlReader.loadBeanDefinitions( file );
+                AppLogService.info( "Context file loaded : " + fileContext );
+            }
+            catch ( Exception e )
+            {
+                AppLogService.error( "Unable to load Spring context file : " + fileContext + " - cause : " +
+                    e.getMessage(  ), e );
+            }
         }
     }
 
