@@ -175,7 +175,8 @@ public class AttributeComparator implements Comparator<Object>
     }
 
     /**
-     * Returns <code>true</code> if the class implements {@link Comparable}, <code>false</code> otherwise.
+     * Returns <code>true</code> if the class implements {@link Comparable} or extends a super class that
+     * implements {@link Comparable}, <code>false</code> otherwise.
      * @param clazz the class
      * @return <code>true</code> if the class implements {@link Comparable}, <code>false</code> otherwise.
      */
@@ -187,6 +188,14 @@ public class AttributeComparator implements Comparator<Object>
             {
                 return true;
             }
+        }
+
+        // The class might be extending a super class that implements {@link Comparable}
+        Class<?> superClass = clazz.getSuperclass(  );
+
+        if ( superClass != null )
+        {
+            return isComparable( superClass );
         }
 
         return false;
