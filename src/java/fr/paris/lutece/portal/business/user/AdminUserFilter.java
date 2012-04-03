@@ -37,23 +37,27 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * This class provides a filter for users search function
  */
-public class AdminUserFilter
+public class AdminUserFilter implements Serializable
 {
-    // Constants
-    private static final String CONSTANT_MOINS_UN = "-1";
+	private static final long serialVersionUID = 4791880812924591795L;
+	// Constants
+    private static final String CONSTANT_LEAST_ONE = "-1";
     private static final String CONSTANT_DEFAULT_LEVEL = "noValue";
     private static final String CONSTANT_EQUAL = "=";
-    private static final String CONSTANT_ESPERLUETTE = "&";
+    private static final String CONSTANT_AMPERSAND = "&";
 
     // Parameteres
     private static final String PARAMETER_SEARCH_ACCESS_CODE = "search_access_code";
@@ -85,10 +89,10 @@ public class AdminUserFilter
      */
     public void init(  )
     {
-        _strAccessCode = "";
-        _strLastName = "";
-        _strFirstName = "";
-        _strEmail = "";
+        _strAccessCode = StringUtils.EMPTY;
+        _strLastName = StringUtils.EMPTY;
+        _strFirstName = StringUtils.EMPTY;
+        _strEmail = StringUtils.EMPTY;
         _nStatus = -1;
         _nUserLevel = -1;
     }
@@ -222,7 +226,7 @@ public class AdminUserFilter
             String strStatus = request.getParameter( PARAMETER_SEARCH_STATUS );
             String strUserLevel = request.getParameter( PARAMETER_SEARCH_USER_LEVEL );
 
-            if ( strStatus.equals( CONSTANT_DEFAULT_LEVEL ) || strStatus.equals( CONSTANT_MOINS_UN ) )
+            if ( CONSTANT_DEFAULT_LEVEL.equals( strStatus ) || CONSTANT_LEAST_ONE.equals( strStatus ) )
             {
                 setStatus( -1 );
             }
@@ -231,7 +235,7 @@ public class AdminUserFilter
                 setStatus( Integer.valueOf( strStatus ) );
             }
 
-            if ( strUserLevel.equals( CONSTANT_DEFAULT_LEVEL ) || strUserLevel.equals( CONSTANT_MOINS_UN ) )
+            if ( CONSTANT_DEFAULT_LEVEL.equals( strUserLevel ) || CONSTANT_LEAST_ONE.equals( strUserLevel ) )
             {
                 setUserLevel( -1 );
             }
@@ -283,18 +287,18 @@ public class AdminUserFilter
     {
         StringBuilder sbUrlAttributes = new StringBuilder(  );
         sbUrlAttributes.append( PARAMETER_SEARCH_IS_SEARCH + CONSTANT_EQUAL + Boolean.TRUE );
-        sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_USER_LEVEL + CONSTANT_EQUAL + _nUserLevel );
-        sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_STATUS + CONSTANT_EQUAL + _nStatus );
+        sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_USER_LEVEL + CONSTANT_EQUAL + _nUserLevel );
+        sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_STATUS + CONSTANT_EQUAL + _nStatus );
 
         try
         {
-            sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_ACCESS_CODE + CONSTANT_EQUAL +
+            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_ACCESS_CODE + CONSTANT_EQUAL +
                 URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-            sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_LAST_NAME + CONSTANT_EQUAL +
+            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_LAST_NAME + CONSTANT_EQUAL +
                 URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-            sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_FIRST_NAME + CONSTANT_EQUAL +
+            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_FIRST_NAME + CONSTANT_EQUAL +
                 URLEncoder.encode( _strFirstName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-            sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_EMAIL + CONSTANT_EQUAL +
+            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_EMAIL + CONSTANT_EQUAL +
                 URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
         }
         catch ( UnsupportedEncodingException e )
