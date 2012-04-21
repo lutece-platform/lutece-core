@@ -44,7 +44,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.web.context.support.GenericWebApplicationContext;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -127,9 +127,8 @@ public final class SpringContextService implements PluginEventListener
             String strConfPath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
             String strContextFile = "file:" + strConfPath + FILE_CORE_CONTEXT;
 
-            GenericApplicationContext gap = new GenericApplicationContext(  );
-            XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader( gap );
-
+            GenericWebApplicationContext gwac = new GenericWebApplicationContext(  );
+            XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader( gwac );
             xmlReader.loadBeanDefinitions( strContextFile );
 
             // _context = new ClassPathXmlApplicationContext( strContextFile );
@@ -170,16 +169,16 @@ public final class SpringContextService implements PluginEventListener
                 loadContexts( filesOverrideContext, strConfPluginsOverridePath, xmlReader );
             }
 
-            gap.refresh(  );
+            gwac.refresh(  );
 
-            _context = gap;
+            _context = gwac;
 
             AppLogService.info( "Spring context loaded in " + ( new Date(  ).getTime(  ) - dateBegin.getTime(  ) ) +
                 "ms" );
         }
         catch ( Exception e )
         {
-            AppLogService.error( "Error initializing Spring Context Service", e );
+            AppLogService.error( "Error initializing Spring Context Service " + e.getMessage(  ), e );
             throw new LuteceInitException( "Error initializing Spring Context Service", e );
         }
     }

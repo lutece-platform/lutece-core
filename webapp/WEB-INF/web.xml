@@ -8,6 +8,11 @@
         <display-name>Lutece Main Listener</display-name>
         <listener-class>fr.paris.lutece.portal.service.sessionlistener.MainHttpSessionListener</listener-class>
     </listener>
+    
+    <listener>
+    	<display-name>Spring Context Listener</display-name>
+    	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
 
     <filter>
         <filter-name>StaticFilesCachingFilter</filter-name>
