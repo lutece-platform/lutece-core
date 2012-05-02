@@ -64,9 +64,9 @@ h3 { color: #444444; font-weight: bold;}
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444444', endColorstr='#666666666'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#444444), to(#666666)); /* for webkit browsers */
     background: -moz-linear-gradient(top,  #444444,#666666 ); /* for firefox 3.6+ */
-    -moz-border-radius-bottomleft:10px;
+    -moz-border-radius-bottomleft:10px;border-bottom-left-radius:10px;
     -webkit-border-bottom-left-radius:10px;
-    -moz-border-radius-bottomright:10px;
+    -moz-border-radius-bottomright:10px;border-bottom-right-radius:10px;
     -webkit-border-bottom-right-radius:10px;
     padding-bottom:1px;
 }
@@ -76,8 +76,8 @@ h3 { color: #444444; font-weight: bold;}
 #user-connected{
     padding:15px 8px 2px; opacity:0.8; border: #fff 1px outset;
     background: #fff;
-    -moz-border-radius-bottomleft:10px; -webkit-border-bottom-left-radius:10px;
-    -moz-border-radius-bottomright:10px; -webkit-border-bottom-right-radius:10px;}
+    -moz-border-radius-bottomleft:10px;border-bottom-left-radius:10px; -webkit-border-bottom-left-radius:10px;
+    -moz-border-radius-bottomright:10px;border-bottom-right-radius:10px; -webkit-border-bottom-right-radius:10px;}
 #user-connected a{color:#000;}
 .user{color:#fff;}
 
@@ -122,10 +122,10 @@ h2#content-header img{float:left;padding:5px;width:24px;height:24px;}
 h2#content-header a img{margin:-8px 0;}
 h2#content-header div#content-title{margin:10px 5px;font-size: 110%; color:#444444;}
 div#content div#content-actions{float:right;margin: 10px 0 0; padding: 5px 10px;}
-div#content div#content-actions img{padding:5px;width:24px;height:24px;border: 1px outset #000;-moz-border-radius:10px;-webkit-border-radius:10px;padding:5px;}
+div#content div#content-actions img{padding:5px;width:24px;height:24px;border: 1px outset #000;-moz-border-radius:10px;border-radius:10px;-webkit-border-radius:10px;padding:5px;}
 div#content div#content-actions img:hover{border: 1px inset #000;}
 
-div#content div#content-actions form{float:right; display:inline; margin:0 5px; border: 1px outset #000;-moz-border-radius:10px;-webkit-border-radius:10px;padding:5px;}
+div#content div#content-actions form{float:right; display:inline; margin:0 5px; border: 1px outset #000;-moz-border-radius:10px;border-radius:10px;-webkit-border-radius:10px;padding:5px;}
 
 /********************************
 ******** Page content box
@@ -135,7 +135,7 @@ div.content-box{
     border: 1px #444444 outset;
     text-align: left;
     clear: both;
-    margin: 20px 4px 10px 4px;  -moz-border-radius:10px; -webkit-border-radius:10px;
+    margin: 20px 4px 10px 4px;  -moz-border-radius:10px;border-radius:10px; -webkit-border-radius:10px;
 }
 
 div#content-box-actions{float:right; margin: 20px 0 10px; width: 45%; }
@@ -148,8 +148,8 @@ div.content-box h2 {
     background: #DEDEDE;
     padding: 5px 0 6px 12px;
     color: #444444;
-    -moz-border-radius-topleft:10px; -webkit-border-top-left-radius:10px;
-    -moz-border-radius-topright:10px; -webkit-border-top-right-radius:10px;
+    -moz-border-radius-topleft:10px;border-top-left-radius:10px; -webkit-border-top-left-radius:10px;
+    -moz-border-radius-topright:10px;border-top-right-radius:10px; -webkit-border-top-right-radius:10px;
     font-family: Arial, Tahoma, Helvetica, sans-serif;
     font-weight: bold;
     margin: 0 0 5px 0;}
@@ -158,8 +158,8 @@ div.content-box-header {
     background: #DEDEDE;
     padding: 5px 0 6px 12px;
     color: #444444;
-    -moz-border-radius-topleft:10px; -webkit-border-top-left-radius:10px;
-    -moz-border-radius-topright:10px; -webkit-border-top-right-radius:10px;
+    -moz-border-radius-topleft:10px;border-top-left-radius:10px; -webkit-border-top-left-radius:10px;
+    -moz-border-radius-topright:10px;border-top-right-radius:10px; -webkit-border-top-right-radius:10px;
     font-family: Arial, Tahoma, Helvetica, sans-serif;
     font-weight: bold;
     margin: 0 0 5px 0;
@@ -221,7 +221,7 @@ input.button{
     color:#fff;
     font-weight:bold;
     text-shadow:0 -1px 0 rgba(0, 0, 0, 0.3);
-    -moz-border-radius:11px 11px 11px 11px;
+    -moz-border-radius:11px 11px 11px 11px;border-radius:11px 11px 11px 11px;
     -webkit-border-radius:11px 11px 11px 11px;
     -moz-box-sizing:content-box;
     border-style:solid;
@@ -292,7 +292,7 @@ div.thumbnail-element{ float: left; width: 170px; height: 300px; padding: 5px;}
 /********************************
 ******** Highlight box
 *********************************/
-div.highlight-box{margin: 5px 5px 10px 5px; border: 1px solid #55B4E5; padding-:0 5px; -moz-border-radius: 10px; -webkit-border-radius: 10px;}
+div.highlight-box{margin: 5px 5px 10px 5px; border: 1px solid #55B4E5; padding-:0 5px; -moz-border-radius:10px;border-radius:10px; -webkit-border-radius: 10px;}
 div.highlight-box div.highlight-box-content{margin: 10px;}
 div.admin-site-highlight-box input {border: 1px solid #55B4E5; font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 100%;}
 div.admin-site-highlight-box label{
@@ -327,15 +327,15 @@ div.insert-service{
     border: 1px #444444 outset;
     text-align: left;
     clear: both;
-    margin: 20px 4px 10px 4px;  -moz-border-radius:10px; -webkit-border-radius:10px;
+    margin: 20px 4px 10px 4px;  -moz-border-radius:10px;border-radius:10px; -webkit-border-radius:10px;
 }
 
 div.insert-service h2 {
     background: #DEDEDE;
     padding: 5px 0 6px 12px;
     color: #444444;
-    -moz-border-radius-topleft:10px; -webkit-border-top-left-radius:10px;
-    -moz-border-radius-topright:10px; -webkit-border-top-right-radius:10px;
+    -moz-border-radius-topleft:10px;border-top-left-radius:10px; -webkit-border-top-left-radius:10px;
+    -moz-border-radius-topright:10px;border-top-right-radius:10px; -webkit-border-top-right-radius:10px;
     font-family: Arial, Tahoma, Helvetica, sans-serif;
     font-weight: bold;
     margin: 0 0 5px 0;
@@ -367,7 +367,7 @@ div.insert-service input.button{
     color:#fff;
     font-weight:bold;
     text-shadow:0 -1px 0 rgba(0, 0, 0, 0.3);
-    -moz-border-radius:11px 11px 11px 11px;
+    -moz-border-radius:11px 11px 11px 11px;border-radius:11px 11px 11px 11px;
     -webkit-border-radius:11px 11px 11px 11px;
     -moz-box-sizing:content-box;
     border-style:solid;
@@ -385,7 +385,7 @@ input.button-right{
     color:#fff;
     font-weight:bold;
     text-shadow:0 -1px 0 rgba(0, 0, 0, 0.3);
-    -moz-border-radius:11px 11px 11px 11px;
+    -moz-border-radius:11px 11px 11px 11px;border-radius:11px 11px 11px 11px;
     -webkit-border-radius:11px 11px 11px 11px;
     -moz-box-sizing:content-box;
     border-style:solid;
