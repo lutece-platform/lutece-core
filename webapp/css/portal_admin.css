@@ -469,7 +469,7 @@ form input.button-image{border:0;vertical-align: bottom;}
 #lutece-paginator .active{
     border:solid 1px #DEDEDE;
     background:#55B4E5;
-    color:#FFFFFF;
+    color:#fff;
     display:block;
     float:left;
     padding:1px 3px;
@@ -503,23 +503,11 @@ div.dashboard-item{margin: 0 0 10px 10px;}
 #content-admin-site-toolbar form.toolbar{display: inline;}
 #content-admin-site-toolbar h2.toolbar{display: inline;}
 #content-admin-site-page content-box-actions p {margin:5px;}
-#admin-site-preview table tr th {
-    font-family: Arial, Tahoma, Helvetica, sans-serif;
-    font-size: 120%;
-    color: #444444;
-    border-bottom: 1px solid #55B4E5;
-    padding: 5px;
-    font-weight: bold;
-    text-align: left;
-}
+#admin-site-preview table tr th {font-family: Arial, Tahoma, Helvetica, sans-serif;font-size: 120%;color: #444444;border-bottom: 1px solid #55B4E5;    padding: 5px;font-weight: bold;text-align: left;}
 div.admin-site-page label{ padding-top: 5px; text-align:left; width:100%; float: left;}
 div.admin-site-page input{ clear: both; text-align:left; font-weight: normal;}
 div.admin-site-page select{ text-align:left; font-weight: normal;}
 
 .preview{ border: none; margin: 0 3px 0 330px; }
 .togl{float:right;margin:0;}
-.lutece-inline-button {
-	display: inline;
-	}
-
-@import "ui.all.css";
+.lutece-inline-button {display: inline;}
