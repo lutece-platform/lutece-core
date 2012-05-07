@@ -229,6 +229,13 @@
             <artifactId>hibernate-validator</artifactId>
             <version>4.2.0.Final</version>
         </dependency>
+        
+        <!-- Dozer - Java Bean to Java Bean -->
+		<dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>5.3.2</version>
+        </dependency>
 
     </dependencies>
 	
