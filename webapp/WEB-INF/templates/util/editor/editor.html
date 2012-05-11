@@ -1,0 +1,47 @@
+<!-- markitup -->
+<#macro initEditor type skin="simple">
+<!-- Load up the actual editor core -->
+<!-- markItUp! -->
+<script type="text/javascript" src="js/editors/markitup/jquery.markitup.js"></script>
+<!-- markItUp! toolbar settings -->
+<script type="text/javascript" src="js/editors/markitup/sets/${type}/set.js"></script>
+<!-- markItUp! Init -->
+<script type="text/javascript">
+$(document).ready(function(){
+	<!-- markItUp! add css head skin -->
+	$("head").append("<link>");
+    var css = $("head").children(":last");
+		css.attr({
+		rel:  "stylesheet",
+		type: "text/css",
+		href: "js/editors/markitup/skins/${skin}/style.css"
+    });
+	<!--  markItUp! add css head  toolbar skin -->
+	$("head").append("<link>");
+		var css = $("head").children(":last");
+		css.attr({
+		rel:  "stylesheet",
+		type: "text/css",
+		href: "js/editors/markitup/sets/${type}/style.css"
+		}); 
+
+	// Add markItUp! to your textarea in one line
+	// $('textarea').markItUp( { Settings }, { OptionalExtraSettings } );
+	$(".markitup").markItUp(mySettings);
+	
+	// And you can add/remove markItUp! whenever you want
+	//$("textarea").markItUpRemove();
+	$('.toggle').click(function() {
+		if ($('.markitup.markItUpEditor').length === 1) {
+ 			$('.markitup').markItUpRemove();
+			$("span", this).text("Affiche l'éditeur");
+		} else {
+			$('.markitup').markItUp(mySettings);
+			$("span", this).text("Supprimer l'éditeur");
+		}
+ 		return false;
+	});
+});
+</script>
+<p><a href="#" class="toggle"><span>Supprimer l'éditeur</span></a></p>
+</#macro>
