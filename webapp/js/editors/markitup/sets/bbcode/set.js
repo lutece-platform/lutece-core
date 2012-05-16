@@ -19,6 +19,7 @@ mySettings = {
       /\[img\](.*?)\[\/img\]/,
       /\[url\="?(.*?)"?\](.*?)\[\/url\]/,
       /\[quote](.*?)\[\/quote\]/,
+      /\[code](.*?)\[\/code\]/,
       /\[list\=(.*?)\](.*?)\[\/list\]/i,
       /\[color\="?(.*?)"?\](.*?)\[\/color\]/,
       /\[list\]([\s\S]*?)\[\/list\]/i,
@@ -30,6 +31,7 @@ mySettings = {
       "<img src=\"$1\" alt=\"image\">",
       "<a href=\"$1\">$2</a>",
       "<blockquote>$1</blockquote>",
+      "<pre>$1</pre>",
       "<ol>$2</ol>",
       "<span style=\"color:$1;\">$2</span>",
       "<li>$1</li>");
