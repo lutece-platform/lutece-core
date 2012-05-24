@@ -205,7 +205,7 @@
 		<!-- Workflow -->
 		<dependency>
 			<groupId>fr.paris.lutece.plugins</groupId>
-			<artifactId>library-workflowcore</artifactId>
+			<artifactId>library-workflow-core</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
         
