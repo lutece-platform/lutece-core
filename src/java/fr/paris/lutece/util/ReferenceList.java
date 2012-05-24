@@ -35,6 +35,9 @@ package fr.paris.lutece.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 
 /**
@@ -124,6 +127,45 @@ public class ReferenceList extends ArrayList<ReferenceItem>
         }
 
         return list;
+    }
+
+    /**
+     * Convert a Map<String, String> into a ReferenceList
+     * @param map the map to convert
+     * @return the converted ReferenceList
+     */
+    public static ReferenceList convert( Map<String, String> map )
+    {
+        if ( map != null )
+        {
+            ReferenceList list = new ReferenceList(  );
+
+            for ( Entry<String, String> param : map.entrySet(  ) )
+            {
+                list.addItem( param.getKey(  ), param.getValue(  ) );
+            }
+
+            return list;
+        }
+
+        return null;
+    }
+    
+    /**
+     * Convert the ReferenceList into a map
+     * @return the converted map
+     */
+    public Map<String, String> toMap(  )
+    {
+    	Map<String, String> map = new HashMap<String, String>(  );
+    	if ( !this.isEmpty(  ) )
+    	{
+    		for ( ReferenceItem item : this )
+    		{
+    			map.put( item.getCode(  ), item.getName(  ) );
+    		}
+    	}
+    	return map;
     }
 
     /**

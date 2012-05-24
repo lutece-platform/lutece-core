@@ -33,34 +33,40 @@
  */
 package fr.paris.lutece.portal.service.workflow;
 
+import fr.paris.lutece.plugins.workflowcore.business.action.Action;
+import fr.paris.lutece.plugins.workflowcore.business.state.State;
+import fr.paris.lutece.plugins.workflowcore.service.workflow.IWorkflowService;
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.business.workflow.Action;
-import fr.paris.lutece.portal.business.workflow.State;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 
 /**
+ *
  * WorkflowService
+ *
  */
 public final class WorkflowService
 {
     private static final String PLUGIN_WORKFLOW_NAME = "workflow";
+    private static final String BEAN_WORKFLOW_PROVIDER = "workflow.workflowProvider";
     private static WorkflowService _singleton;
     private boolean _bServiceAvailable = true;
     private IWorkflowService _service;
+    private IWorkflowProvider _provider;
 
     /**
      * Private constructor
@@ -69,8 +75,9 @@ public final class WorkflowService
     {
         try
         {
-            _service = (IWorkflowService) SpringContextService.getPluginBean( PLUGIN_WORKFLOW_NAME, "workflowService" );
-            _bServiceAvailable = _service != null;
+            _service = SpringContextService.getBean( fr.paris.lutece.plugins.workflowcore.service.workflow.WorkflowService.BEAN_SERVICE );
+            _provider = SpringContextService.getBean( BEAN_WORKFLOW_PROVIDER );
+            _bServiceAvailable = ( _service != null ) && ( _provider != null );
         }
         catch ( BeanDefinitionStoreException e )
         {
@@ -101,12 +108,19 @@ public final class WorkflowService
     }
 
     /**
-    *
-    * @return true if the workflow service is available
-    */
+     * Check if the workflow service is available.
+     * To be available, the following conditions must be verified :
+     * <ul>
+     * <li>the Bean service is not null</li>
+     * <li>the plugin-workflow must be enable</li>
+     * </ul>
+     * @return true if the workflow service is available
+     */
     public boolean isAvailable(  )
     {
-        return _bServiceAvailable && PluginService.isPluginEnable( PLUGIN_WORKFLOW_NAME );
+        // LUTECE-1273 : Condition ( _service != null && _provider != null ) in case the plugin-workflow is removed from a webapp  
+        return _bServiceAvailable && ( _service != null ) && ( _provider != null ) &&
+        PluginService.isPluginEnable( PLUGIN_WORKFLOW_NAME );
     }
 
     /**
@@ -120,24 +134,38 @@ public final class WorkflowService
      */
     public Collection<Action> getActions( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
     {
-        return isAvailable(  ) ? _service.getActions( nIdResource, strResourceType, nIdWorkflow, user ) : null;
+        if ( isAvailable(  ) )
+        {
+            Collection<Action> listActions = _service.getActions( nIdResource, strResourceType, nIdWorkflow );
+
+            return _provider.getActions( listActions, user );
+        }
+
+        return null;
     }
 
     /**
      * returns a list of actions possible for a given document based on the status
      * of the document in the workflow and the user role
-     * @param listIdResssource the list of resource id
+     * @param listIdResource the list of resource id
      * @param strResourceType the document type
      * @param nIdExternalParentId the external parent identifier
      * @param nIdWorkflow the workflow id
      * @param user the adminUser
      * @return a list of Action
      */
-    public HashMap<Integer, List<Action>> getActions( List<Integer> listIdResssource, String strResourceType,
+    public Map<Integer, List<Action>> getActions( List<Integer> listIdResource, String strResourceType,
         Integer nIdExternalParentId, int nIdWorkflow, AdminUser user )
     {
-        return isAvailable(  )
-        ? _service.getActions( listIdResssource, strResourceType, nIdExternalParentId, nIdWorkflow, user ) : null;
+        if ( isAvailable(  ) )
+        {
+            Map<Integer, List<Action>> mapActions = _service.getActions( listIdResource, strResourceType,
+                    nIdExternalParentId, nIdWorkflow );
+
+            return _provider.getActions( mapActions, user );
+        }
+
+        return null;
     }
 
     /**
@@ -156,35 +184,20 @@ public final class WorkflowService
      * Proceed action given in parameter
      * @param nIdResource the resource id
      * @param strResourceType the resource type
-     * @param request the request
-     * @param nIdAction the action id
-     * @param locale locale
-     * @param isAutomatic the boolean
-     */
-    @Deprecated
-    public void doProcessAction( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
-        Locale locale, boolean isAutomatic )
-    {
-        this.doProcessAction( nIdResource, strResourceType, nIdAction, null, request, locale, isAutomatic );
-    }
-
-    /**
-     * Proceed action given in parameter
-     * @param nIdResource the resource id
-     * @param strResourceType the resource type
      * @param nIdAction the action id
      * @param nExternalParentId the external parent id
      * @param request the request
      * @param locale locale
-     * @param isAutomatic Is automatic
+     * @param bIsAutomatic Is automatic
      */
     public void doProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
-        HttpServletRequest request, Locale locale, boolean isAutomatic )
+        HttpServletRequest request, Locale locale, boolean bIsAutomatic )
     {
-        if ( isAvailable(  ) )
+        if ( isAvailable(  ) && canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, bIsAutomatic ) )
         {
-            _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale,
-                isAutomatic );
+        	String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request );
+        	_service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale,
+        			bIsAutomatic, strUserAccessCode );
         }
     }
 
@@ -201,7 +214,7 @@ public final class WorkflowService
         HttpServletRequest request, Locale locale )
     {
         return isAvailable(  )
-        ? _service.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale ) : null;
+        ? _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale ) : null;
     }
 
     /**
@@ -217,24 +230,7 @@ public final class WorkflowService
         HttpServletRequest request, Locale locale )
     {
         return isAvailable(  )
-        ? _service.getDocumentHistoryXml( nIdResource, strResourceType, nIdWorkflow, request, locale ) : null;
-    }
-
-    /**
-     * Perform the information on the various tasks associated with the given action specified in parameter
-     * @param nIdResource the resource id
-     * @param strResourceType the resource type
-     * @param request the request
-     * @param nIdAction the action id
-     * @param locale the locale
-     * @return null if there is no error in the task form
-     *                    else return the error message url
-     */
-    @Deprecated
-    public String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request,
-        Locale locale )
-    {
-        return this.doSaveTasksForm( nIdResource, strResourceType, nIdAction, null, request, locale );
+        ? _provider.getDocumentHistoryXml( nIdResource, strResourceType, nIdWorkflow, request, locale ) : null;
     }
 
     /**
@@ -251,8 +247,20 @@ public final class WorkflowService
     public String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
         HttpServletRequest request, Locale locale )
     {
-        return isAvailable(  )
-        ? _service.doSaveTasksForm( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale ) : null;
+    	if ( isAvailable(  ) )
+    	{
+    		String strError = _provider.doValidateTasksForm( nIdResource, strResourceType, nIdAction, request, locale );
+    		if ( StringUtils.isNotBlank( strError ) )
+    		{
+    			return strError;
+    		}
+    		if ( canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, false ) )
+    		{
+    			String strUserAccessCode = _provider.getUserAccessCode( request );
+    			_provider.doSaveTasksForm( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, strUserAccessCode );
+    		}
+    	}
+    	return null;
     }
 
     /**
@@ -297,7 +305,7 @@ public final class WorkflowService
         HttpServletRequest request, Locale locale )
     {
         return isAvailable(  )
-        ? _service.getDisplayTasksForm( nIdResource, strResourceType, nIdAction, request, locale ) : null;
+        ? _provider.getDisplayTasksForm( nIdResource, strResourceType, nIdAction, request, locale ) : null;
     }
 
     /**
@@ -310,22 +318,7 @@ public final class WorkflowService
      */
     public boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
     {
-        return _bServiceAvailable && _service.isAuthorized( nIdResource, strResourceType, nIdWorkflow, user );
-    }
-
-    /**
-     * Get all authorized resource Id
-     * @param strResourceType the resource type
-     * @param nIdWorkflow the workflow id
-     * @param nIdWorkflowState The workflow state id or -1 for all workflow states
-     * @param user the AdminUser
-     * @return a list resource id
-     */
-    @Deprecated
-    public List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState,
-        AdminUser user )
-    {
-        return this.getAuthorizedResourceList( strResourceType, nIdWorkflow, nIdWorkflowState, null, user );
+        return isAvailable(  ) && _provider.isAuthorized( nIdResource, strResourceType, nIdWorkflow, user );
     }
 
     /**
@@ -341,7 +334,7 @@ public final class WorkflowService
         Integer nExternalParentId, AdminUser user )
     {
         return isAvailable(  )
-        ? _service.getAuthorizedResourceList( strResourceType, nIdWorkflow, nIdWorkflowState, nExternalParentId, user )
+        ? _provider.getAuthorizedResourceList( strResourceType, nIdWorkflow, nIdWorkflowState, nExternalParentId, user )
         : null;
     }
 
@@ -358,7 +351,7 @@ public final class WorkflowService
         List<Integer> lListIdWorkflowState, Integer nExternalParentId, AdminUser user )
     {
         return isAvailable(  )
-        ? _service.getAuthorizedResourceList( strResourceType, nIdWorkflow, lListIdWorkflowState, nExternalParentId,
+        ? _provider.getAuthorizedResourceList( strResourceType, nIdWorkflow, lListIdWorkflowState, nExternalParentId,
             user ) : null;
     }
 
@@ -370,54 +363,25 @@ public final class WorkflowService
      */
     public ReferenceList getWorkflowsEnabled( AdminUser user, Locale locale )
     {
-        return isAvailable(  ) ? _service.getWorkflowsEnabled( user, locale ) : null;
+        return isAvailable(  ) ? _provider.getWorkflowsEnabled( user, locale ) : null;
     }
 
     /**
      * returns all state of a  given workflow
      * @param user the adminUser
-     * @param nListIdWorkflow the workflow id
-     * @return the state of a given document
-     */
-    public Collection<State> getAllStateByWorkflow( int nListIdWorkflow, AdminUser user )
-    {
-        if ( isAvailable(  ) && ( _service != null ) )
-        {
-            return _service.getAllStateByWorkflow( nListIdWorkflow, user );
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    /**
-     * <b> WRONG : need to filter on workflow id</b>
-     * Returns a list which contains idResource for a given filter
-     * @param nIdState the id State
-     * @param strResource the name of resource
-     * @param user the AdminUser
-     * @return a list which contains idRessource
-     */
-    @Deprecated
-    public Collection<Integer> getListIdRessourceByState( int nIdState, String strResource, AdminUser user )
-    {
-        return isAvailable(  ) ? _service.getListIdRessourceByState( nIdState, strResource, user ) : null;
-    }
-
-    /**
-     * returns the state of a  given document
-     * of the document in the workflow and the user role
-     * @param nIdResource the document id
-     * @param strResourceType the document type
-     * @param user the adminUser
      * @param nIdWorkflow the workflow id
      * @return the state of a given document
      */
-    @Deprecated
-    public State getState( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
+    public Collection<State> getAllStateByWorkflow( int nIdWorkflow, AdminUser user )
     {
-        return this.getState( nIdResource, strResourceType, nIdWorkflow, null, user );
+        if ( isAvailable(  ) )
+        {
+            Collection<State> listStates = _service.getAllStateByWorkflow( nIdWorkflow );
+
+            return _provider.getAllStateByWorkflow( listStates, user );
+        }
+
+        return null;
     }
 
     /**
@@ -427,14 +391,12 @@ public final class WorkflowService
      * @param strResourceType the document type
      * @param nIdWorkflow the workflow id
      * @param nIdExternalParentId the external parent id
-     * @param user the adminUser
      * @return the state of a given document
      */
-    public State getState( int nIdResource, String strResourceType, int nIdWorkflow, Integer nIdExternalParentId,
-        AdminUser user )
+    public State getState( int nIdResource, String strResourceType, int nIdWorkflow, Integer nIdExternalParentId )
     {
-        return isAvailable(  )
-        ? _service.getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId, user ) : null;
+        return isAvailable(  ) ? _service.getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId )
+                               : null;
     }
 
     /**
@@ -447,19 +409,10 @@ public final class WorkflowService
     public void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow,
         Integer nExternalParentId )
     {
-        _service.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId );
-    }
-
-    /**
-     * Execute action automatic
-     * @param nIdResource the document id
-     * @param strResourceType the document type
-     * @param nIdWorkflow the workflow id
-     */
-    @Deprecated
-    public void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow )
-    {
-        this.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, null );
+        if ( isAvailable(  ) )
+    	{
+        	_service.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId );
+    	}
     }
 
     /**
@@ -469,14 +422,7 @@ public final class WorkflowService
      */
     public List<Action> getMassActions( int nIdWorkflow )
     {
-        if ( isAvailable(  ) && ( _service != null ) )
-        {
-            return _service.getMassActions( nIdWorkflow );
-        }
-        else
-        {
-            return null;
-        }
+        return isAvailable(  ) ? _service.getMassActions( nIdWorkflow ) : null;
     }
 
     /**
@@ -492,14 +438,19 @@ public final class WorkflowService
     public boolean canProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
         HttpServletRequest request, boolean bIsAutomatic )
     {
-        if ( isAvailable(  ) && ( _service != null ) )
+        if ( isAvailable(  ) )
         {
-            return _service.canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request,
-                bIsAutomatic );
+            if ( _service.canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId ) )
+            {
+                if ( bIsAutomatic )
+                {
+                    return true;
+                }
+
+                return _provider.canProcessAction( nIdAction, request );
+            }
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 }
