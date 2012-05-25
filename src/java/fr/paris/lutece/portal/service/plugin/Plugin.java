@@ -272,7 +272,7 @@ public abstract class Plugin implements Comparable<Plugin>
         _strDbPoolName = strPoolName;
         _connectionService.setPool( strPoolName );
         update(  );
-        
+
         notifyListeners( PluginEvent.PLUGIN_POOL_CHANGED );
     }
 
@@ -1128,19 +1128,19 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         return ( ( _strJavascriptFilesScope != null ) && _strJavascriptFilesScope.equalsIgnoreCase( SCOPE_XPAGE ) );
     }
-    
+
     /**
      * Adds a that file that will be autoincluded in freemarker templates
      * @param strMacroFileName the file name
      */
     public void addFreemarkerMacrosFile( String strMacroFileName )
     {
-    	_listFreemarkerMacrosFiles.add( strMacroFileName );
+        _listFreemarkerMacrosFiles.add( strMacroFileName );
     }
-    
+
     public List<String> getFreeMarkerMacrosFiles(  )
     {
-    	return _listFreemarkerMacrosFiles;
+        return _listFreemarkerMacrosFiles;
     }
 
     /**

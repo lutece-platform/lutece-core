@@ -160,7 +160,7 @@ public interface IWorkflowProvider
      * @return the user access code
      */
     String getUserAccessCode( HttpServletRequest request );
-    
+
     // CHECK
 
     /**
@@ -184,9 +184,9 @@ public interface IWorkflowProvider
      * @return true if the action can proceed, false otherwise
      */
     boolean canProcessAction( int nIdAction, HttpServletRequest request );
-    
+
     // DO
-    
+
     /**
      * Test if the information relating to various tasks associated with action are validated
      * @param nIdResource the resource id

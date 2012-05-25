@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -193,11 +194,12 @@ public final class WorkflowService
     public void doProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
         HttpServletRequest request, Locale locale, boolean bIsAutomatic )
     {
-        if ( isAvailable(  ) && canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, bIsAutomatic ) )
+        if ( isAvailable(  ) &&
+                canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, bIsAutomatic ) )
         {
-        	String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request );
-        	_service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale,
-        			bIsAutomatic, strUserAccessCode );
+            String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request );
+            _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale,
+                bIsAutomatic, strUserAccessCode );
         }
     }
 
@@ -247,20 +249,24 @@ public final class WorkflowService
     public String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
         HttpServletRequest request, Locale locale )
     {
-    	if ( isAvailable(  ) )
-    	{
-    		String strError = _provider.doValidateTasksForm( nIdResource, strResourceType, nIdAction, request, locale );
-    		if ( StringUtils.isNotBlank( strError ) )
-    		{
-    			return strError;
-    		}
-    		if ( canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, false ) )
-    		{
-    			String strUserAccessCode = _provider.getUserAccessCode( request );
-    			_provider.doSaveTasksForm( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, strUserAccessCode );
-    		}
-    	}
-    	return null;
+        if ( isAvailable(  ) )
+        {
+            String strError = _provider.doValidateTasksForm( nIdResource, strResourceType, nIdAction, request, locale );
+
+            if ( StringUtils.isNotBlank( strError ) )
+            {
+                return strError;
+            }
+
+            if ( canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, false ) )
+            {
+                String strUserAccessCode = _provider.getUserAccessCode( request );
+                _provider.doSaveTasksForm( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale,
+                    strUserAccessCode );
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -410,9 +416,9 @@ public final class WorkflowService
         Integer nExternalParentId )
     {
         if ( isAvailable(  ) )
-    	{
-        	_service.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId );
-    	}
+        {
+            _service.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId );
+        }
     }
 
     /**

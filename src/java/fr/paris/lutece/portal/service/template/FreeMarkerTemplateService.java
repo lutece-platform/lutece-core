@@ -71,6 +71,7 @@ public final class FreeMarkerTemplateService
     private static final String STRING_TEMPLATE_LOADER_NAME = "stringTemplate";
     private static final String NUMBER_FORMAT_PATTERN = "0.######";
     private static final String SETTING_DATE_FORMAT = "date_format";
+
     /** the list contains plugins specific macros */
     private static final List<String> _listPluginsMacros = new ArrayList<String>(  );
     private static Map<String, Configuration> _mapConfigurations = new HashMap<String, Configuration>(  );
@@ -80,14 +81,14 @@ public final class FreeMarkerTemplateService
     private FreeMarkerTemplateService(  )
     {
     }
-    
+
     /**
      * Adds a macro file (like the main commons.html) brought by a plugin. This file will be included for every template (autoinclude).
      * @param strFileName the filename
      */
     public static void addPluginMacros( String strFileName )
     {
-    	_listPluginsMacros.add( strFileName );
+        _listPluginsMacros.add( strFileName );
     }
 
     /**
@@ -141,7 +142,7 @@ public final class FreeMarkerTemplateService
                     // add the plugins macros auto inclusion
                     for ( String strFileName : _listPluginsMacros )
                     {
-                    	cfg.addAutoInclude( strFileName );
+                        cfg.addAutoInclude( strFileName );
                     }
                 }
 
@@ -210,7 +211,7 @@ public final class FreeMarkerTemplateService
             // cfg.addAutoInclude( PATH_AUTO_INCLUDE_COMMONS );
             for ( String strFileName : _listPluginsMacros )
             {
-            	cfg.addAutoInclude( strFileName );
+                cfg.addAutoInclude( strFileName );
             }
 
             // disable the localized look-up process to find a template
@@ -286,9 +287,9 @@ public final class FreeMarkerTemplateService
      */
     public static void resetConfiguration(  )
     {
-    	_mapConfigurations = new HashMap<String, Configuration>(  );
+        _mapConfigurations = new HashMap<String, Configuration>(  );
     }
-    
+
     /**
      * Reset the cache
      *

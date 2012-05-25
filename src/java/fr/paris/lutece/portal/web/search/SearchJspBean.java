@@ -191,7 +191,8 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
         if ( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
                     SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
-            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " + SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
+                SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
 
         if ( request.getParameter( PARAMETER_CANCEL ) == null )

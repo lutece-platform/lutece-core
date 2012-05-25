@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.editor;
 
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -41,25 +43,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-
 
 /**
  * Servlet using for BBCODE parsing
  */
 public class ParserBbcodeServlet extends HttpServlet
 {
- 
-	private static final long serialVersionUID = -6564244054015195801L;
-	//Properties
+    private static final long serialVersionUID = -6564244054015195801L;
+
+    //Properties
     private static final String PROPERTY_ENCODING = "lutece.encoding";
-	//Parameter
-    private static final String PARAMETER_DATA= "data";
-    
-    public ParserBbcodeServlet()
+
+    //Parameter
+    private static final String PARAMETER_DATA = "data";
+
+    public ParserBbcodeServlet(  )
     {
-    	super();
+        super(  );
     }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -70,13 +72,12 @@ public class ParserBbcodeServlet extends HttpServlet
     protected void processRequest( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
     {
-        String strValue= request.getParameter( PARAMETER_DATA);
-        String strValueReturn=strValue!=null?EditorBbcodeService.getInstance().parse(strValue):"";
-    	OutputStream out = response.getOutputStream(  );
+        String strValue = request.getParameter( PARAMETER_DATA );
+        String strValueReturn = ( strValue != null ) ? EditorBbcodeService.getInstance(  ).parse( strValue ) : "";
+        OutputStream out = response.getOutputStream(  );
         out.write( strValueReturn.getBytes( AppPropertiesService.getProperty( PROPERTY_ENCODING ) ) );
         out.flush(  );
         out.close(  );
-           
     }
 
     /** Handles the HTTP <code>GET</code> method.
@@ -110,7 +111,4 @@ public class ParserBbcodeServlet extends HttpServlet
     {
         return "Servlet parsing content";
     }
-
-  
-
 }

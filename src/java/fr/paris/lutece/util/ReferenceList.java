@@ -150,22 +150,24 @@ public class ReferenceList extends ArrayList<ReferenceItem>
 
         return null;
     }
-    
+
     /**
      * Convert the ReferenceList into a map
      * @return the converted map
      */
     public Map<String, String> toMap(  )
     {
-    	Map<String, String> map = new HashMap<String, String>(  );
-    	if ( !this.isEmpty(  ) )
-    	{
-    		for ( ReferenceItem item : this )
-    		{
-    			map.put( item.getCode(  ), item.getName(  ) );
-    		}
-    	}
-    	return map;
+        Map<String, String> map = new HashMap<String, String>(  );
+
+        if ( !this.isEmpty(  ) )
+        {
+            for ( ReferenceItem item : this )
+            {
+                map.put( item.getCode(  ), item.getName(  ) );
+            }
+        }
+
+        return map;
     }
 
     /**

@@ -41,49 +41,50 @@ import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+
 /**
  * BeanValidationUtils validates beans using JSR303 annotations.
  * @see #validate(Object)
  */
 public final class BeanValidationUtil
 {
-	/**
-	 * Utility class
-	 */
-	private BeanValidationUtil(  )
-	{
-		// nothing
-	}
-	
-	/**
-     * Validator (JSR 303) is thread safe.
-     */
+    /**
+    * Validator (JSR 303) is thread safe.
+    */
     private static final Validator VALIDATOR;
-    
-    static 
+
+    static
     {
-    	// initialize the validator
-    	ValidatorFactory factory = Validation.buildDefaultValidatorFactory( );
-    	VALIDATOR = factory.getValidator( );
+        // initialize the validator
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory(  );
+        VALIDATOR = factory.getValidator(  );
     }
 
-	/**
-	 * Validates a bean.
-	 * @param <T> the bean type
-	 * @param bean the bean to validate
-	 * @throws ValidationException if an error occurs. All violation are reported.
-	 */
-	public static <T> Set<ConstraintViolation<T>> validate( T bean )
-	{
-		return VALIDATOR.validate( bean );
-	}
-	
-	/**
-	 * Use this in case you need more than a global validation 
-	 * @return the validator
-	 */
-	public static Validator getValidator(  )
-	{
-		return VALIDATOR;
-	}
+    /**
+     * Utility class
+     */
+    private BeanValidationUtil(  )
+    {
+        // nothing
+    }
+
+    /**
+     * Validates a bean.
+     * @param <T> the bean type
+     * @param bean the bean to validate
+     * @throws ValidationException if an error occurs. All violation are reported.
+     */
+    public static <T> Set<ConstraintViolation<T>> validate( T bean )
+    {
+        return VALIDATOR.validate( bean );
+    }
+
+    /**
+     * Use this in case you need more than a global validation
+     * @return the validator
+     */
+    public static Validator getValidator(  )
+    {
+        return VALIDATOR;
+    }
 }

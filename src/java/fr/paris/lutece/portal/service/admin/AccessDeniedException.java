@@ -35,32 +35,31 @@ package fr.paris.lutece.portal.service.admin;
 
 
 /**
- *	Exception thrown when the user can't access a feature.
+ *        Exception thrown when the user can't access a feature.
  */
 public class AccessDeniedException extends Exception
 {
-    
     /**
      *
-	 */
-	private static final long serialVersionUID = 323303358249337792L;
+         */
+    private static final long serialVersionUID = 323303358249337792L;
 
-	/**
-     * Builds a AccessDeniedException without message
-     * @deprecated use {@link #AccessDeniedException(String)} to provide an explicit message
-     */
+    /**
+    * Builds a AccessDeniedException without message
+    * @deprecated use {@link #AccessDeniedException(String)} to provide an explicit message
+    */
     @Deprecated
-    public AccessDeniedException()
+    public AccessDeniedException(  )
     {
-    	// nothing
+        // nothing
     }
-    
+
     /**
      * Builds a AccessDeniedException with the message
      * @param strMessage the message
      */
     public AccessDeniedException( String strMessage )
     {
-    	super( strMessage );
+        super( strMessage );
     }
 }

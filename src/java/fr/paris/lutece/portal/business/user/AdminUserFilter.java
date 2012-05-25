@@ -37,6 +37,8 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
@@ -44,16 +46,15 @@ import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
-
 
 /**
  * This class provides a filter for users search function
  */
 public class AdminUserFilter implements Serializable
 {
-	private static final long serialVersionUID = 4791880812924591795L;
-	// Constants
+    private static final long serialVersionUID = 4791880812924591795L;
+
+    // Constants
     private static final String CONSTANT_LEAST_ONE = "-1";
     private static final String CONSTANT_DEFAULT_LEVEL = "noValue";
     private static final String CONSTANT_EQUAL = "=";

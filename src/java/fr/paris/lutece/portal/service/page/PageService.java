@@ -83,6 +83,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.inject.Inject;
+
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -156,7 +157,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     {
         init(  );
     }
-    
+
     /**
      * Creates a new PageService object.
      * @param pageCacheService the page cache service
@@ -165,8 +166,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     @Inject
     public PageService( PageCacheService pageCacheService, PortletCacheService portletCacheService )
     {
-    	_cachePages = pageCacheService;
-    	_cachePortlets = portletCacheService;
+        _cachePages = pageCacheService;
+        _cachePortlets = portletCacheService;
         init(  );
     }
 
@@ -815,13 +816,13 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         // Clearing ALL cache is not needed anymore
         // PortalService.resetCache( );
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public void processPageEvent( PortletEvent event )
     {
-    	invalidateContent( event.getPageId(  ) );
+        invalidateContent( event.getPageId(  ) );
     }
 
     /**
@@ -993,41 +994,41 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
         return url.getUrlWithEntity(  );
     }
-    
+
     /**
      * Gets the page cache service.
      * @return the page cache service
      */
     public PageCacheService getPageCacheService(  )
     {
-    	return _cachePages;
+        return _cachePages;
     }
-    
+
     /**
      * Sets the cache page service
      * @param pageCacheService the page cache service
      */
     public void setPageCacheService( PageCacheService pageCacheService )
     {
-    	_cachePages = pageCacheService;
+        _cachePages = pageCacheService;
     }
-    
+
     /**
      * Gets the portlet cache service
      * @return the porlet cache service
      */
     public PortletCacheService getPortletCacheService(  )
     {
-    	return _cachePortlets;
+        return _cachePortlets;
     }
-    
+
     /**
      * Gets the portlet cache service
      * @param portletCacheService the portlet cache service
      */
     public void setPortletCacheService( PortletCacheService portletCacheService )
     {
-    	_cachePortlets = portletCacheService;
+        _cachePortlets = portletCacheService;
     }
 
     /**

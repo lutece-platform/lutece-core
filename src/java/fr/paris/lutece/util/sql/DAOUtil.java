@@ -40,7 +40,9 @@ import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import org.apache.log4j.Logger;
+
 import org.springframework.jdbc.datasource.DataSourceUtils;
+
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.transaction.support.TransactionSynchronizationUtils;
 
@@ -90,9 +92,8 @@ public class DAOUtil
     /** True if SQL request are logged */
     private boolean _bReleased;
     private String _strSQL;
-
     private boolean _bTransactionnal;
-    
+
     /** The debug logger */
     private Logger _logger;
     private StringBuffer _sbLogs = new StringBuffer(  );
@@ -140,21 +141,22 @@ public class DAOUtil
 
         try
         {
-        	// first, we check if there is a managed transaction to get the transactionnal connection
-        	_bTransactionnal = TransactionSynchronizationManager.isSynchronizationActive();
-        	if ( _bTransactionnal )
-        	{
-        		DataSource ds = AppConnectionService.getPoolManager(  ).getDataSource( _connectionService.getPoolName(  ) );
-        		_connection = DataSourceUtils.getConnection( ds );
-        		_logger.debug( "Transactionnal context is used for pool " + _connectionService.getPoolName(  ) );
-        	}
-        	else
-        	{
-	        	// no transaction found, use the connection service directly
-	            _connection = _connectionService.getConnection(  );
-        	}
-        	
-        	if ( _connection != null )
+            // first, we check if there is a managed transaction to get the transactionnal connection
+            _bTransactionnal = TransactionSynchronizationManager.isSynchronizationActive(  );
+
+            if ( _bTransactionnal )
+            {
+                DataSource ds = AppConnectionService.getPoolManager(  ).getDataSource( _connectionService.getPoolName(  ) );
+                _connection = DataSourceUtils.getConnection( ds );
+                _logger.debug( "Transactionnal context is used for pool " + _connectionService.getPoolName(  ) );
+            }
+            else
+            {
+                // no transaction found, use the connection service directly
+                _connection = _connectionService.getConnection(  );
+            }
+
+            if ( _connection != null )
             {
                 _statement = _connection.prepareStatement( strSQL );
             }
@@ -277,7 +279,7 @@ public class DAOUtil
         finally
         {
             // Free the connection - the connection is freed some other way in transactionnal context.
-            if ( _connectionService != null && !_bTransactionnal )
+            if ( ( _connectionService != null ) && !_bTransactionnal )
             {
                 _connectionService.freeConnection( _connection );
                 _connectionService = null;
@@ -969,14 +971,14 @@ public class DAOUtil
             throw new AppException( getErrorMessage( e ), e );
         }
     }
-    
+
     /**
      * Sets null value for a "long" column
      * @param nIndex the index
      */
     public void setLongNull( int nIndex )
     {
-    	try
+        try
         {
             _statement.setNull( nIndex, Types.BIGINT );
         }
@@ -986,7 +988,7 @@ public class DAOUtil
             throw new AppException( getErrorMessage( e ), e );
         }
     }
-    
+
     /**
      * Sets a long value
      * @param nIndex the index
@@ -994,7 +996,7 @@ public class DAOUtil
      */
     public void setLong( int nIndex, long lValue )
     {
-    	try
+        try
         {
             _statement.setLong( nIndex, lValue );
         }
@@ -1004,7 +1006,7 @@ public class DAOUtil
             throw new AppException( getErrorMessage( e ), e );
         }
     }
-    
+
     /**
      * Gets the long value
      * @param nIndex the index
@@ -1012,7 +1014,7 @@ public class DAOUtil
      */
     public long getLong( int nIndex )
     {
-    	try
+        try
         {
             return _resultSet.getLong( nIndex );
         }
@@ -1022,7 +1024,7 @@ public class DAOUtil
             throw new AppException( getErrorMessage( e ), e );
         }
     }
-    
+
     /**
      * Gets the long value
      * @param strColumnName the column name
@@ -1030,7 +1032,7 @@ public class DAOUtil
      */
     public long getLong( String strColumnName )
     {
-    	try
+        try
         {
             return _resultSet.getLong( strColumnName );
         }

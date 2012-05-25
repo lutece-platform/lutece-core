@@ -151,7 +151,7 @@ public final class AppInit
 
             // Initializes the SecurityService
             SecurityService.init(  );
-            
+
             // Initializes plugins autoincludes - needs to be launched before the daemons (indexer could fail)
             AppTemplateService.initAutoIncludes(  );
 

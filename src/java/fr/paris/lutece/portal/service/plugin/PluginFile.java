@@ -418,19 +418,19 @@ public class PluginFile
     {
         return _listJavascriptFiles;
     }
-    
+
     /**
      * Adds the file to freemarker autoinclude configuration
      * @param strFileName the file
      */
     public void addFreemarkerMacrosFile( String strFileName )
     {
-    	_listFreemarkerMacrosFiles.add( strFileName );
+        _listFreemarkerMacrosFiles.add( strFileName );
     }
-    
+
     public List<String> getFreemarkerMacrosFiles(  )
     {
-    	return _listFreemarkerMacrosFiles;
+        return _listFreemarkerMacrosFiles;
     }
 
     /**

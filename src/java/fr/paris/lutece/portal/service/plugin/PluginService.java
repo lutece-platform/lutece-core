@@ -179,7 +179,7 @@ public final class PluginService
                 }
                 else
                 {
-                	registerCore( plugin );
+                    registerCore( plugin );
                 }
 
                 // If the plugin requires a database connection pool then
@@ -219,19 +219,19 @@ public final class PluginService
         _mapPlugins.put( plugin.getName(  ), plugin );
         AppLogService.info( "New Plugin registered : " + plugin.getName(  ) );
     }
-    
+
     /**
      * Gets the core plugin
      * @param plugin the plugin
      */
     private static synchronized void registerCore( Plugin plugin )
     {
-    	_corePlugin = plugin;
+        _corePlugin = plugin;
     }
-    
+
     public static Plugin getCore(  )
     {
-    	return _corePlugin;
+        return _corePlugin;
     }
 
     /**

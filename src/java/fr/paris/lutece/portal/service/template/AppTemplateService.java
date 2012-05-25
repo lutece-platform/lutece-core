@@ -67,30 +67,30 @@ public final class AppTemplateService
         _strTemplateDefaultPath = strTemplatePath;
         FreeMarkerTemplateService.init( strTemplatePath );
     }
-    
+
     /**
      * Initializes autoincludes for plugins.
      */
     public static void initAutoIncludes(  )
     {
-    	// register core
-    	Plugin corePlugin = PluginService.getCore();
-    	addPluginMacros( corePlugin );
-    	
-    	// register plugins
-    	for ( Plugin plugin : PluginService.getPluginList(  ) )
-    	{
-    		addPluginMacros( plugin );
-    	}
+        // register core
+        Plugin corePlugin = PluginService.getCore(  );
+        addPluginMacros( corePlugin );
+
+        // register plugins
+        for ( Plugin plugin : PluginService.getPluginList(  ) )
+        {
+            addPluginMacros( plugin );
+        }
     }
-    
+
     private static void addPluginMacros( Plugin plugin )
     {
-    	for ( String strFileName : plugin.getFreeMarkerMacrosFiles(  ) )
-		{
-			AppLogService.info( "New freemarker autoinclude : " + strFileName + " from " + plugin.getName());
-			FreeMarkerTemplateService.addPluginMacros( strFileName );
-		}
+        for ( String strFileName : plugin.getFreeMarkerMacrosFiles(  ) )
+        {
+            AppLogService.info( "New freemarker autoinclude : " + strFileName + " from " + plugin.getName(  ) );
+            FreeMarkerTemplateService.addPluginMacros( strFileName );
+        }
     }
 
     /**
@@ -100,13 +100,13 @@ public final class AppTemplateService
     {
         FreeMarkerTemplateService.resetCache(  );
     }
-    
+
     /**
      * Resets the configuration cache
      */
     public static void resetConfiguration(  )
     {
-    	FreeMarkerTemplateService.resetConfiguration(  );
+        FreeMarkerTemplateService.resetConfiguration(  );
     }
 
     /**

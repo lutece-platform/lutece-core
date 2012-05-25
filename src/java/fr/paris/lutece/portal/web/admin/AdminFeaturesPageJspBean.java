@@ -45,14 +45,15 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import org.apache.commons.beanutils.BeanUtils;
+
 import java.lang.reflect.InvocationTargetException;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.beanutils.BeanUtils;
 
 
 /**
@@ -97,7 +98,8 @@ public abstract class AdminFeaturesPageJspBean
 
         if ( !_user.checkRight( strRight ) )
         {
-            throw new AccessDeniedException( "User " + _user.getAccessCode() + " does not have " + strRight + " right." );
+            throw new AccessDeniedException( "User " + _user.getAccessCode(  ) + " does not have " + strRight +
+                " right." );
         }
 
         // get the locale
@@ -210,7 +212,7 @@ public abstract class AdminFeaturesPageJspBean
 
         return template.getHtml(  );
     }
-    
+
     /**
      * Populate a bean using parameters in http request
      * @param bean bean to populate
@@ -220,7 +222,7 @@ public abstract class AdminFeaturesPageJspBean
     {
         try
         {
-            BeanUtils.populate( bean, request.getParameterMap( ) );
+            BeanUtils.populate( bean, request.getParameterMap(  ) );
         }
         catch ( IllegalAccessException e )
         {
@@ -228,9 +230,7 @@ public abstract class AdminFeaturesPageJspBean
         }
         catch ( InvocationTargetException e )
         {
-        	AppLogService.error( "Unable to fetch data from request", e );
+            AppLogService.error( "Unable to fetch data from request", e );
         }
     }
-    
-    
 }

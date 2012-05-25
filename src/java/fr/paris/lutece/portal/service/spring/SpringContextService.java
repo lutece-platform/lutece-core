@@ -44,6 +44,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 
 import org.springframework.context.ApplicationContext;
+
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 import java.io.File;
@@ -147,9 +148,10 @@ public final class SpringContextService implements PluginEventListener
 
             // we now load overriding beans
             AppLogService.info( "Loading plugins context overrides" );
-            
+
             String strCoreContextOverrideFile = strConfPath + DIR_OVERRIDE + FILE_CORE_CONTEXT;
             File fileCoreContextOverride = new File( strCoreContextOverrideFile );
+
             if ( fileCoreContextOverride.exists(  ) )
             {
                 AppLogService.debug( "Context file loaded : core_context" );
@@ -159,10 +161,11 @@ public final class SpringContextService implements PluginEventListener
             {
                 AppLogService.debug( "No core_context override found" );
             }
-            
+
             // load plugins overrides
             String strConfPluginsOverridePath = strConfPath + DIR_OVERRIDE_PLUGINS;
             File dirConfOverridePlugins = new File( strConfPluginsOverridePath );
+
             if ( dirConfOverridePlugins.exists(  ) )
             {
                 String[] filesOverrideContext = dirConfOverridePlugins.list( filterContext );
@@ -182,14 +185,15 @@ public final class SpringContextService implements PluginEventListener
             throw new LuteceInitException( "Error initializing Spring Context Service", e );
         }
     }
-    
+
     /**
      * Loads plugins contexts.
      * @param filesContext context files names
      * @param strConfPluginsPath full path
      * @param xmlReader the xml reader
      */
-    private static void loadContexts( String[] filesContext, String strConfPluginsPath, XmlBeanDefinitionReader xmlReader )
+    private static void loadContexts( String[] filesContext, String strConfPluginsPath,
+        XmlBeanDefinitionReader xmlReader )
     {
         for ( String fileContext : filesContext )
         {

@@ -52,6 +52,7 @@ public final class AppLogService
     private static final String LOGGER_DEBUG = "lutece.debug";
     private static final String LOGGER_ERRORS = "lutece.error";
     private static final String SYSTEM_PROPERTY_LOG4J_CONFIGURATION = "log4j.configuration";
+
     /** alternate log4j property file */
     private static final String ALTERNATE_LOG_OVERRIDE_PATH = "override";
     private static final String ALTERNATE_LOG_FILE = "log.properties";
@@ -86,35 +87,34 @@ public final class AppLogService
             // Get a logger for debug and trace
             _loggerDebug = Logger.getLogger( LOGGER_DEBUG );
             _loggerDebug.setAdditivity( false );
-            
+
             String strAbsoluteConfigDirectoryPath = AppPathService.getAbsolutePathFromRelativePath( strConfigPath );
 
-            String strAlternateFilePath = strAbsoluteConfigDirectoryPath + ( strAbsoluteConfigDirectoryPath.endsWith( "/" ) ? "" : "/" ) 
-                    + ALTERNATE_LOG_OVERRIDE_PATH;
-            
-            File alternateLogFile = new File( strAlternateFilePath + File.separator
-                    + ALTERNATE_LOG_FILE );
-            
+            String strAlternateFilePath = strAbsoluteConfigDirectoryPath +
+                ( strAbsoluteConfigDirectoryPath.endsWith( "/" ) ? "" : "/" ) + ALTERNATE_LOG_OVERRIDE_PATH;
+
+            File alternateLogFile = new File( strAlternateFilePath + File.separator + ALTERNATE_LOG_FILE );
+
             boolean bAlternateConfigFile = alternateLogFile.exists(  );
-            
+
             InputStream is;
             String strLog4jConfigFile;
-            
+
             if ( bAlternateConfigFile )
             {
-             // Load loggers configuration from the log.properties
-                is = AppPathService.getResourceAsStream( strConfigPath + ( strConfigPath.endsWith( "/" ) ? "" : "/" ) 
-                        + ALTERNATE_LOG_OVERRIDE_PATH + "/", ALTERNATE_LOG_FILE );
-                strLog4jConfigFile = alternateLogFile.getAbsolutePath( );
+                // Load loggers configuration from the log.properties
+                is = AppPathService.getResourceAsStream( strConfigPath + ( strConfigPath.endsWith( "/" ) ? "" : "/" ) +
+                        ALTERNATE_LOG_OVERRIDE_PATH + "/", ALTERNATE_LOG_FILE );
+                strLog4jConfigFile = alternateLogFile.getAbsolutePath(  );
             }
             else
             {
                 // Load loggers configuration from the config.properties
                 is = AppPathService.getResourceAsStream( strConfigPath, strConfigFile );
                 strLog4jConfigFile = strAbsoluteConfigDirectoryPath +
-                        ( ( strAbsoluteConfigDirectoryPath.endsWith( "/" ) ) ? "" : "/" ) + strConfigFile;
+                    ( ( strAbsoluteConfigDirectoryPath.endsWith( "/" ) ) ? "" : "/" ) + strConfigFile;
             }
-            
+
             Properties props = new Properties(  );
             props.load( is );
             PropertyConfigurator.configure( props );
@@ -123,7 +123,7 @@ public final class AppLogService
             // Define the config.properties as log4j configuration file for other libraries using
             // the System property "log4j.configuration"
             System.setProperty( SYSTEM_PROPERTY_LOG4J_CONFIGURATION, strLog4jConfigFile );
-            
+
             if ( bAlternateConfigFile )
             {
                 debug( "Loaded log properties from alternate log.properties file " );

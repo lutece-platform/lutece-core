@@ -33,148 +33,170 @@
  */
 package fr.paris.lutece.portal.service.database;
 
+import fr.paris.lutece.portal.service.plugin.PluginEvent;
+import fr.paris.lutece.portal.service.plugin.PluginEventListener;
+import fr.paris.lutece.portal.service.plugin.PluginService;
+
+import org.apache.commons.lang.StringUtils;
+
+import org.apache.log4j.Logger;
+
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+
 import java.io.PrintWriter;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-
-import fr.paris.lutece.portal.service.plugin.PluginEvent;
-import fr.paris.lutece.portal.service.plugin.PluginEventListener;
-import fr.paris.lutece.portal.service.plugin.PluginService;
 
 /**
  * DataSource transaction manager.
- * 
+ *
  */
 public class DAOUtilTransactionManager extends DataSourceTransactionManager implements PluginEventListener
 {
-	private static final long serialVersionUID = -654531540978261621L;
-	private Logger logger = Logger.getLogger( "lutece.debug.sql.tx" );
-	private String _strPluginName;
-	private boolean _bInit = false;
-	
-	/**
-	 * Registers the listener to {@link PluginService}.
-	 */
-	public DAOUtilTransactionManager() {
-		PluginService.registerPluginEventListener( this );
-	}
-	
-	/**
-	 * Gets the plugin name
-	 * @return the plugin name
-	 */
-	public String getPluginName()
-	{
-		return _strPluginName;
-	}
-	
-	/**
-	 * Sets the plugin name
-	 * @param strPluginName the plugin name
-	 */
-	public void setPluginName( String strPluginName )
-	{
-		_strPluginName = strPluginName;
-	}
+    private static final long serialVersionUID = -654531540978261621L;
+    private Logger logger = Logger.getLogger( "lutece.debug.sql.tx" );
+    private String _strPluginName;
+    private boolean _bInit = false;
 
-	/**
-	 * Changes datasource if needed.
-	 */
-	public void processPluginEvent( PluginEvent event ) 
-	{
-		if ( getPluginName().equals( event.getPlugin().getName(  ) ) )
-		{
-			if ( event.getEventType() == PluginEvent.PLUGIN_INSTALLED || event.getEventType() == PluginEvent.PLUGIN_POOL_CHANGED )
-			{
-				if ( StringUtils.isNotBlank( event.getPlugin().getDbPoolName(  ) ) && !AppConnectionService.NO_POOL_DEFINED.equals( event.getPlugin().getDbPoolName() ) )
-				{
-					try
-					{
-						logger.debug( "DAOUtilTransactionManager changed datasource status..." );
-						setDataSource( AppConnectionService.getPoolManager(  ).getDataSource( event.getPlugin(  ).getDbPoolName(  ) ) );
-						_bInit = true;
-					}
-					catch ( Exception ex )
-					{
-						_bInit = false;
-						logger.error( "An error occured getting pool for DAOUtilTransactionManager for plugin " + event.getPlugin(  ).getName(  ) + 
-								", please check plugin is activated and pool is correctly set : " + ex.getMessage(  ), ex );
-					}
-				}
-				else
-				{
-					logger.debug( "Pool for plugin " + event.getPlugin(  ).getName(  ) + " is set to null, clearing transaction manager");
-					setDataSource( null );
-					_bInit = false;
-				}
-			}
-			else if ( event.getEventType() == PluginEvent.PLUGIN_UNINSTALLED )
-			{
-				setDataSource( null );
-				_bInit = false;
-			}
-		}
-	}
-	
-	/**
-	 * Returns a "fake" datasource to avoid spring checks failure when pool are not initialized.
-	 * Returns the current datasource otherwise.
-	 */
-	@Override
-	public DataSource getDataSource() {
-		if ( _bInit )
-		{
-			return super.getDataSource();
-		}
-		
-		/**
-		 * Empty datasource
-		 */
-		return new DataSource() {
-			
-			public <T> T unwrap(Class<T> iface) throws SQLException {
-				return null;
-			}
-			
-			public boolean isWrapperFor(Class<?> iface) throws SQLException {
-				return false;
-			}
-			
-			public void setLoginTimeout(int seconds) throws SQLException {
-			}
-			
-			public void setLogWriter(PrintWriter out) throws SQLException {
-			}
-			
-			public java.util.logging.Logger getParentLogger()
-					throws SQLFeatureNotSupportedException {
-				return null;
-			}
-			
-			public int getLoginTimeout() throws SQLException {
-				return 0;
-			}
-			
-			public PrintWriter getLogWriter() throws SQLException {
-				return null;
-			}
-			
-			public Connection getConnection(String username, String password)
-					throws SQLException {
-				return null;
-			}
-			
-			public Connection getConnection() throws SQLException {
-				return null;
-			}
-		};
-	}
-	
+    /**
+     * Registers the listener to {@link PluginService}.
+     */
+    public DAOUtilTransactionManager(  )
+    {
+        PluginService.registerPluginEventListener( this );
+    }
+
+    /**
+     * Gets the plugin name
+     * @return the plugin name
+     */
+    public String getPluginName(  )
+    {
+        return _strPluginName;
+    }
+
+    /**
+     * Sets the plugin name
+     * @param strPluginName the plugin name
+     */
+    public void setPluginName( String strPluginName )
+    {
+        _strPluginName = strPluginName;
+    }
+
+    /**
+     * Changes datasource if needed.
+     */
+    public void processPluginEvent( PluginEvent event )
+    {
+        if ( getPluginName(  ).equals( event.getPlugin(  ).getName(  ) ) )
+        {
+            if ( ( event.getEventType(  ) == PluginEvent.PLUGIN_INSTALLED ) ||
+                    ( event.getEventType(  ) == PluginEvent.PLUGIN_POOL_CHANGED ) )
+            {
+                if ( StringUtils.isNotBlank( event.getPlugin(  ).getDbPoolName(  ) ) &&
+                        !AppConnectionService.NO_POOL_DEFINED.equals( event.getPlugin(  ).getDbPoolName(  ) ) )
+                {
+                    try
+                    {
+                        logger.debug( "DAOUtilTransactionManager changed datasource status..." );
+                        setDataSource( AppConnectionService.getPoolManager(  )
+                                                           .getDataSource( event.getPlugin(  ).getDbPoolName(  ) ) );
+                        _bInit = true;
+                    }
+                    catch ( Exception ex )
+                    {
+                        _bInit = false;
+                        logger.error( "An error occured getting pool for DAOUtilTransactionManager for plugin " +
+                            event.getPlugin(  ).getName(  ) +
+                            ", please check plugin is activated and pool is correctly set : " + ex.getMessage(  ), ex );
+                    }
+                }
+                else
+                {
+                    logger.debug( "Pool for plugin " + event.getPlugin(  ).getName(  ) +
+                        " is set to null, clearing transaction manager" );
+                    setDataSource( null );
+                    _bInit = false;
+                }
+            }
+            else if ( event.getEventType(  ) == PluginEvent.PLUGIN_UNINSTALLED )
+            {
+                setDataSource( null );
+                _bInit = false;
+            }
+        }
+    }
+
+    /**
+     * Returns a "fake" datasource to avoid spring checks failure when pool are not initialized.
+     * Returns the current datasource otherwise.
+     */
+    @Override
+    public DataSource getDataSource(  )
+    {
+        if ( _bInit )
+        {
+            return super.getDataSource(  );
+        }
+
+        /**
+         * Empty datasource
+         */
+        return new DataSource(  )
+            {
+                public <T> T unwrap( Class<T> iface ) throws SQLException
+                {
+                    return null;
+                }
+
+                public boolean isWrapperFor( Class<?> iface )
+                    throws SQLException
+                {
+                    return false;
+                }
+
+                public void setLoginTimeout( int seconds )
+                    throws SQLException
+                {
+                }
+
+                public void setLogWriter( PrintWriter out )
+                    throws SQLException
+                {
+                }
+
+                public java.util.logging.Logger getParentLogger(  )
+                    throws SQLFeatureNotSupportedException
+                {
+                    return null;
+                }
+
+                public int getLoginTimeout(  ) throws SQLException
+                {
+                    return 0;
+                }
+
+                public PrintWriter getLogWriter(  ) throws SQLException
+                {
+                    return null;
+                }
+
+                public Connection getConnection( String username, String password )
+                    throws SQLException
+                {
+                    return null;
+                }
+
+                public Connection getConnection(  ) throws SQLException
+                {
+                    return null;
+                }
+            };
+    }
 }
