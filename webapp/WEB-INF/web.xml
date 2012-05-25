@@ -214,7 +214,7 @@
     </servlet>
      <servlet>
         <servlet-name>ParserBbCodeServlet</servlet-name>
-        <servlet-class>fr.paris.lutece.portal.service.editor.ParserBbCodeServlet</servlet-class>
+        <servlet-class>fr.paris.lutece.portal.service.editor.ParserBbcodeServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ImageServlet</servlet-name>
@@ -234,7 +234,7 @@
     </servlet-mapping>
 	<servlet-mapping>
         <servlet-name>ParserBbCodeServlet</servlet-name>
-        <url-pattern>/parser/parserBbCode</url-pattern>
+        <url-pattern>/parser/parserBbcode</url-pattern>
     </servlet-mapping>
 
     <error-page>
