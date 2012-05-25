@@ -57,6 +57,7 @@ public final class AppPropertiesService
     private static final String FILE_PROPERTIES_SEARCH = "search.properties";
     private static final String FILE_PROPERTIES_DAEMONS = "daemons.properties";
     private static final String FILE_PROPERTIES_CACHES = "caches.properties";
+    private static final String FILE_PROPERTIES_EDITORS = "editors.properties";
     private static final String PATH_PLUGINS = "plugins/";
     private static final String PATH_OVERRIDE_CORE = "override/";
     private static final String PATH_OVERRIDE_PLUGINS = "override/plugins";
@@ -89,6 +90,7 @@ public final class AppPropertiesService
             _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_SEARCH );
             _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_DAEMONS );
             _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_CACHES );
+            _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_EDITORS );
             _propertiesService.addPropertiesDirectory( _strConfPath + PATH_PLUGINS );
             _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_CORE );
             _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_PLUGINS );

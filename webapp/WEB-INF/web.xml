@@ -212,6 +212,10 @@
         <servlet-name>SiteUploadServlet</servlet-name>
         <servlet-class>fr.paris.lutece.portal.web.upload.UploadServlet</servlet-class>
     </servlet>
+     <servlet>
+        <servlet-name>ParserBbCodeServlet</servlet-name>
+        <servlet-class>fr.paris.lutece.portal.service.editor.ParserBbCodeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ImageServlet</servlet-name>
         <url-pattern>/image</url-pattern>
@@ -228,7 +232,11 @@
         <servlet-name>SiteUploadServlet</servlet-name>
         <url-pattern>/jsp/site/upload</url-pattern>
     </servlet-mapping>
-  
+	<servlet-mapping>
+        <servlet-name>ParserBbCodeServlet</servlet-name>
+        <url-pattern>/parser/parserBbCode</url-pattern>
+    </servlet-mapping>
+
     <error-page>
         <error-code>404</error-code>
         <location>/jsp/site/404.jsp</location>

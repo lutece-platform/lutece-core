@@ -10,35 +10,8 @@
 // Feel free to add more tags
 // ----------------------------------------------------------------------------
 mySettings = {
-	previewParserPath:	'', // path to your BBCode parser
-	previewParser: function(content){
-	search = new Array(
-      /\[b\](.*?)\[\/b\]/,  
-	  /\[u\](.*?)\[\/u\]/,  
-      /\[i\](.*?)\[\/i\]/,
-      /\[img\](.*?)\[\/img\]/,
-      /\[url\="?(.*?)"?\](.*?)\[\/url\]/,
-      /\[quote](.*?)\[\/quote\]/,
-      /\[code](.*?)\[\/code\]/,
-      /\[list\=(.*?)\](.*?)\[\/list\]/i,
-      /\[color\="?(.*?)"?\](.*?)\[\/color\]/,
-      /\[list\]([\s\S]*?)\[\/list\]/i,
-      /\[\*\]\s?(.*?)\n/);
-	replace = new Array(
-      "<strong>$1</strong>",
-      "<u>$1</u>",
-      "<em>$1</em>",
-      "<img src=\"$1\" alt=\"image\">",
-      "<a href=\"$1\">$2</a>",
-      "<blockquote>$1</blockquote>",
-      "<pre>$1</pre>",
-      "<ol>$2</ol>",
-      "<span style=\"color:$1;\">$2</span>",
-      "<li>$1</li>");
-	for (i = 0; i < search.length; i++) {
-		content = content.replace(search[i], replace[i]);
-	}
-	return content;}, 
+	previewParserPath:	'~/../../../parser/parserBbcode', // path to your BBCode parser
+	previewParser:false, 
 	markupSet: [
 		{name:'Bold', key:'B', openWith:'[b]', closeWith:'[/b]'},
 		{name:'Italic', key:'I', openWith:'[i]', closeWith:'[/i]'},
