@@ -79,7 +79,7 @@ public final class ServletService
         try
         {
             HttpServlet servlet = (HttpServlet) Class.forName( entry.getServletClass(  ) ).newInstance(  );
-            LuteceServlet s = new LuteceServlet( entry.getName(  ), servlet, entry.getMappingUrlPattern(  ), plugin,
+            LuteceServlet s = new LuteceServlet( entry.getName(  ), servlet , entry.getMappingUrlPattern(  ), plugin,
                     entry.getInitParameters(  ) );
             _listServlets.add( s );
             AppLogService.info( "New Servlet registered : " + entry.getName(  ) );

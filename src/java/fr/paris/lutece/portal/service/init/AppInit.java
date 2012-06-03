@@ -46,6 +46,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.search.IndexationService;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.servlet.ServletService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -143,8 +144,9 @@ public final class AppInit
             // Initializes PluginService
             PluginService.init(  );
 
-            // Initializes FilterService
+            // Initializes FilterService and ServletService
             FilterService.init(  );
+            ServletService.init();
 
             // Trace Contents services loading
             traceContentServicesLoading(  );
