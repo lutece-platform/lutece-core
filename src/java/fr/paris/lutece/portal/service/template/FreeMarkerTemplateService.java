@@ -33,272 +33,56 @@
  */
 package fr.paris.lutece.portal.service.template;
 
-import fr.paris.lutece.portal.service.util.AppException;
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.date.DateUtil;
-import fr.paris.lutece.util.html.HtmlTemplate;
 
-import freemarker.cache.FileTemplateLoader;
-import freemarker.cache.MultiTemplateLoader;
-import freemarker.cache.StringTemplateLoader;
-import freemarker.cache.TemplateLoader;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 
 /**
+ *
  * Template service based on the Freemarker template engine
+ *
  */
-public final class FreeMarkerTemplateService
+public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
 {
+    public static final String BEAN_SERVICE = "freeMarkerTemplateService";
     private static final String PROPERTY_TEMPLATE_UPDATE_DELAY = "service.freemarker.templateUpdateDelay";
     private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY,
             5 );
-    private static final String STRING_TEMPLATE_LOADER_NAME = "stringTemplate";
-    private static final String NUMBER_FORMAT_PATTERN = "0.######";
-    private static final String SETTING_DATE_FORMAT = "date_format";
+    private static IFreeMarkerTemplateService _singleton;
 
-    /** the list contains plugins specific macros */
-    private static final List<String> _listPluginsMacros = new ArrayList<String>(  );
-    private static Map<String, Configuration> _mapConfigurations = new HashMap<String, Configuration>(  );
-    private static String _strDefaultPath;
-
-    /** Creates a new instance of FreeMarkerTemplateService */
-    private FreeMarkerTemplateService(  )
+    /**
+     * Get the instance of the freemarker template service
+     * @return the instance of the freemarker template service
+     */
+    public static IFreeMarkerTemplateService getInstance(  )
     {
+        if ( _singleton == null )
+        {
+            _singleton = new FreeMarkerTemplateService(  );
+            _singleton.setTemplateUpdateDelay( TEMPLATE_UPDATE_DELAY );
+        }
+
+        return _singleton;
     }
 
     /**
-     * Adds a macro file (like the main commons.html) brought by a plugin. This file will be included for every template (autoinclude).
-     * @param strFileName the filename
+     * {@inheritDoc}
      */
-    public static void addPluginMacros( String strFileName )
+    @Override
+    public String getAbsolutePathFromRelativePath( String strPath )
     {
-        _listPluginsMacros.add( strFileName );
+        return AppPathService.getAbsolutePathFromRelativePath( strPath );
     }
 
     /**
-     * Initializes the service with the templates's path
-     * @param strTemplatePath The template path
+     * {@inheritDoc}
      */
-    public static void init( String strTemplatePath )
+    @Override
+    public String getDefaultPattern( Locale locale )
     {
-        _strDefaultPath = strTemplatePath;
-    }
-
-    /**
-     * Load a template
-     * @param strPath the root path
-     * @param strTemplate the path of the template from the root path
-     * @return the html template
-     */
-    public static HtmlTemplate loadTemplate( String strPath, String strTemplate )
-    {
-        return loadTemplate( strPath, strTemplate, null, null );
-    }
-
-    /**
-     * Load a template and process a model
-     * @param strPath the root path
-     * @param strTemplate the path of the template from the root path
-     * @param locale The locale
-     * @param rootMap the model root
-     * @return the processed html template
-     */
-    public static HtmlTemplate loadTemplate( String strPath, String strTemplate, Locale locale, Object rootMap )
-    {
-        Configuration cfg = null;
-
-        try
-        {
-            cfg = (Configuration) _mapConfigurations.get( strPath );
-
-            if ( cfg == null )
-            {
-                cfg = new Configuration(  );
-
-                // set the root directory for template loading
-                File directory = new File( AppPathService.getAbsolutePathFromRelativePath( strPath ) );
-                cfg.setDirectoryForTemplateLoading( directory );
-
-                if ( ( strPath != null ) && ( strPath.equals( _strDefaultPath ) ) )
-                {
-                    // add the macros auto inclusion
-                    // cfg.addAutoInclude( PATH_AUTO_INCLUDE_COMMONS );
-                    // add the plugins macros auto inclusion
-                    for ( String strFileName : _listPluginsMacros )
-                    {
-                        cfg.addAutoInclude( strFileName );
-                    }
-                }
-
-                // disable the localized look-up process to find a template
-                cfg.setLocalizedLookup( false );
-
-                // keep control localized number formating (can cause pb on ids, and we don't want to use the ?c directive all the time)
-                cfg.setNumberFormat( NUMBER_FORMAT_PATTERN );
-
-                _mapConfigurations.put( strPath, cfg );
-
-                //Used to set the default format to display a date and datetime
-                cfg.setSetting( SETTING_DATE_FORMAT, DateUtil.getDefaultPattern( locale ) );
-
-                //WARNING : the Datetime format is defined as the date format, i.e. the hours and minutes will not be displayed
-                //        	cfg.setSetting( SETTING_DATETIME_FORMAT, DateUtil.getDefaultPattern( locale ) );
-
-                // Time in seconds that must elapse before checking whether there is a newer version of a template file
-                cfg.setTemplateUpdateDelay( TEMPLATE_UPDATE_DELAY );
-            }
-        }
-        catch ( IOException e )
-        {
-            AppLogService.error( e.getMessage(  ), e );
-        }
-        catch ( TemplateException e )
-        {
-            throw new AppException( e.getMessage(  ) );
-        }
-
-        return processTemplate( cfg, strTemplate, rootMap, locale );
-    }
-
-    /**
-     * Load a template from a String and process a model
-     * WARNING : This method must not be used in front office (no cache management available).
-     *
-     * <br /><b>Deprecated</b> Using Freemarker without cache is huge CPU consuming
-     *
-     * @param strTemplateData The template as a string
-     * @param locale The {@link Locale}
-     * @param rootMap the model root
-     * @return the processed html template
-     */
-    @Deprecated
-    public static HtmlTemplate loadTemplate( String strTemplateData, Locale locale, Object rootMap )
-    {
-        Configuration cfg = null;
-
-        try
-        {
-            cfg = new Configuration(  );
-
-            // set the root directory for template loading
-            File directory = new File( AppPathService.getAbsolutePathFromRelativePath( _strDefaultPath ) );
-            FileTemplateLoader ftl1 = new FileTemplateLoader( directory );
-            StringTemplateLoader stringLoader = new StringTemplateLoader(  );
-            stringLoader.putTemplate( STRING_TEMPLATE_LOADER_NAME, strTemplateData );
-
-            TemplateLoader[] loaders = new TemplateLoader[] { ftl1, stringLoader };
-            MultiTemplateLoader mtl = new MultiTemplateLoader( loaders );
-
-            cfg.setTemplateLoader( mtl );
-
-            // add the macros auto inclusion
-            // cfg.addAutoInclude( PATH_AUTO_INCLUDE_COMMONS );
-            for ( String strFileName : _listPluginsMacros )
-            {
-                cfg.addAutoInclude( strFileName );
-            }
-
-            // disable the localized look-up process to find a template
-            cfg.setLocalizedLookup( false );
-
-            // keep control localized number formating (can cause pb on ids, and we don't want to use the ?c directive all the time)
-            cfg.setNumberFormat( NUMBER_FORMAT_PATTERN );
-
-            //Used to set the default format to display a date and datetime
-            cfg.setSetting( SETTING_DATE_FORMAT, DateUtil.getDefaultPattern( locale ) );
-
-            // Time in seconds that must elapse before checking whether there is a newer version of a template file
-            cfg.setTemplateUpdateDelay( TEMPLATE_UPDATE_DELAY );
-        }
-        catch ( IOException e )
-        {
-            AppLogService.error( e.getMessage(  ), e );
-        }
-        catch ( TemplateException e )
-        {
-            throw new AppException( e.getMessage(  ) );
-        }
-
-        return processTemplate( cfg, STRING_TEMPLATE_LOADER_NAME, rootMap, locale );
-    }
-
-    /**
-     * Process the template transformation and return the {@link HtmlTemplate}
-     * @param cfg The Freemarker configuration to use
-     * @param strTemplate The template name to call
-     * @param rootMap The HashMap model
-     * @param locale The {@link Locale}
-     * @return The {@link HtmlTemplate}
-     */
-    private static HtmlTemplate processTemplate( Configuration cfg, String strTemplate, Object rootMap, Locale locale )
-    {
-        HtmlTemplate template = null;
-
-        try
-        {
-            Template ftl;
-
-            if ( locale == null )
-            {
-                ftl = cfg.getTemplate( strTemplate );
-            }
-            else
-            {
-                ftl = cfg.getTemplate( strTemplate, locale );
-            }
-
-            StringWriter writer = new StringWriter( 1024 );
-            //Used to set the default format to display a date and datetime
-            ftl.setDateFormat( DateUtil.getDefaultPattern( locale ) );
-
-            ftl.process( rootMap, writer );
-            template = new HtmlTemplate( writer.toString(  ) );
-        }
-        catch ( IOException e )
-        {
-            AppLogService.error( e.getMessage(  ), e );
-        }
-        catch ( TemplateException e )
-        {
-            throw new AppException( e.getMessage(  ) );
-        }
-
-        return template;
-    }
-
-    /**
-     * Clears the configuration cache
-     */
-    public static void resetConfiguration(  )
-    {
-        _mapConfigurations = new HashMap<String, Configuration>(  );
-    }
-
-    /**
-     * Reset the cache
-     *
-     */
-    public static void resetCache(  )
-    {
-        for ( Configuration cfg : _mapConfigurations.values(  ) )
-        {
-            cfg.clearTemplateCache(  );
-        }
+        return DateUtil.getDefaultPattern( locale );
     }
 }

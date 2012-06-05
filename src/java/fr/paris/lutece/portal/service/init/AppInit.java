@@ -146,7 +146,7 @@ public final class AppInit
 
             // Initializes FilterService and ServletService
             FilterService.init(  );
-            ServletService.init();
+            ServletService.init(  );
 
             // Trace Contents services loading
             traceContentServicesLoading(  );

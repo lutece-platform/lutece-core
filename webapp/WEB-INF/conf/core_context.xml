@@ -151,4 +151,7 @@
     	-->
     	<!-- <property name="fileFilter">(sample\.jar)|(another-.*\.jar)</property> -->
     </bean>
+    
+    <!-- Freemarker -->
+    <bean id="freeMarkerTemplateService" class="fr.paris.lutece.portal.service.template.FreeMarkerTemplateService" factory-method="getInstance" />
 </beans>

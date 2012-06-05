@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.editor;
 
+
 /**
  *
  * ParserElement Class

@@ -50,6 +50,7 @@ public final class AppTemplateService
 {
     // Variables
     private static String _strTemplateDefaultPath;
+    private static IFreeMarkerTemplateService _freeMarkerTemplateService;
 
     /**
      * Protected constructor
@@ -65,7 +66,6 @@ public final class AppTemplateService
     public static void init( String strTemplatePath )
     {
         _strTemplateDefaultPath = strTemplatePath;
-        FreeMarkerTemplateService.init( strTemplatePath );
     }
 
     /**
@@ -89,7 +89,7 @@ public final class AppTemplateService
         for ( String strFileName : plugin.getFreeMarkerMacrosFiles(  ) )
         {
             AppLogService.info( "New freemarker autoinclude : " + strFileName + " from " + plugin.getName(  ) );
-            FreeMarkerTemplateService.addPluginMacros( strFileName );
+            getFreeMarkerTemplateService(  ).addPluginMacros( strFileName );
         }
     }
 
@@ -98,7 +98,7 @@ public final class AppTemplateService
      */
     public static void resetCache(  )
     {
-        FreeMarkerTemplateService.resetCache(  );
+        getFreeMarkerTemplateService(  ).resetCache(  );
     }
 
     /**
@@ -106,7 +106,7 @@ public final class AppTemplateService
      */
     public static void resetConfiguration(  )
     {
-        FreeMarkerTemplateService.resetConfiguration(  );
+        getFreeMarkerTemplateService(  ).resetConfiguration(  );
     }
 
     /**
@@ -219,7 +219,7 @@ public final class AppTemplateService
     private static HtmlTemplate loadTemplate( String strPath, String strTemplate, Locale locale, Object model )
     {
         HtmlTemplate template = null;
-        template = FreeMarkerTemplateService.loadTemplate( strPath, strTemplate, locale, model );
+        template = getFreeMarkerTemplateService(  ).loadTemplate( strPath, strTemplate, locale, model );
 
         if ( locale != null )
         {
@@ -245,7 +245,7 @@ public final class AppTemplateService
     private static HtmlTemplate loadTemplate( String strTemplateData, Locale locale, Object model )
     {
         HtmlTemplate template = null;
-        template = FreeMarkerTemplateService.loadTemplate( strTemplateData, locale, model );
+        template = getFreeMarkerTemplateService(  ).loadTemplate( strTemplateData, locale, model );
 
         if ( locale != null )
         {
@@ -254,5 +254,20 @@ public final class AppTemplateService
         }
 
         return template;
+    }
+
+    /**
+     * Get the instance of free marker template service
+     * @return the instance of free marker template service
+     */
+    private static IFreeMarkerTemplateService getFreeMarkerTemplateService(  )
+    {
+        if ( _freeMarkerTemplateService == null )
+        {
+            _freeMarkerTemplateService = FreeMarkerTemplateService.getInstance(  );
+            _freeMarkerTemplateService.init( _strTemplateDefaultPath );
+        }
+
+        return _freeMarkerTemplateService;
     }
 }
