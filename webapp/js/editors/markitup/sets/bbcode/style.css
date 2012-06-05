@@ -41,6 +41,9 @@
 .markItUp .preview a {
 	background-image:url(images/preview.png);
 }
+.markItUp .hidepreview a {
+	background-image:url(images/cancel.png);
+}
 
 /* -------------------------------------------------------------------
 // markItUp!

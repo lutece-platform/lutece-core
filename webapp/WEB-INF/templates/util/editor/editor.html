@@ -1,5 +1,5 @@
 <!-- markitup -->
-<#macro initEditor type skin="simple">
+<#macro initEditor type skin="simple" emo="true" teditor="true">
 <!-- Load up the actual editor core -->
 <!-- markItUp! -->
 <script type="text/javascript" src="js/editors/markitup/jquery.markitup.js"></script>
@@ -8,6 +8,7 @@
 <!-- markItUp! Init -->
 <script type="text/javascript">
 $(document).ready(function(){
+	
 	<!-- markItUp! add css head skin -->
 	$("head").append("<link>");
     var css = $("head").children(":last");
@@ -29,10 +30,20 @@ $(document).ready(function(){
 	// $('textarea').markItUp( { Settings }, { OptionalExtraSettings } );
 	$(".markitup").markItUp(mySettings);
 	
+	if ( "${emo}" === "true"){
+	$("li.markItUpSeparator:last").after('<li class="emoticon markItUpButton"><img src="js/editors/markitup/skins/${skin}/images/emoticon-happy.png"  title=":p"/></li><li class="emoticon markItUpButton"><img src="js/editors/markitup/skins/${skin}/images/emoticon-unhappy.png" title=":("/></li><li class="emoticon markItUpButton"><img src="js/editors/markitup/skins/${skin}/images/emoticon-surprised.png" title=":o"/></li><li class="emoticon markItUpButton"><img src="js/editors/markitup/skins/${skin}/images/emoticon-tongue.png" title=":p"/></li><li class="emoticon markItUpButton"><img src="js/editors/markitup/skins/${skin}/images/emoticon-wink.png" title=";)"/></li><li class="emoticon markItUpButton"><img src="js/editors/markitup/skins/${skin}/images/emoticon-smile.png" title=":D"/></li>');
+
+	$('.emoticon img').click(function() {
+        emoticon = $(this).attr("title");
+        $.markItUp( { replaceWith:emoticon } );
+    });
+	}
+	
 	// And you can add/remove markItUp! whenever you want
-	//$("textarea").markItUpRemove();
-	$('.toggle').click(function() {
-		if ($('.markitup.markItUpEditor').length === 1) {
+	if ( "${teditor}" === "true" ){
+		$(".markitup").after('<p class="editor-toggle"><a href="#" class="toggle button"><span>Supprimer l\'éditeur</span></a></p>');
+		$('.toggle').click(function() {
+		if ($('.markitup.markItUpEditor').length >= 1) {
  			$('.markitup').markItUpRemove();
 			$("span", this).text("Affiche l'éditeur");
 		} else {
@@ -41,7 +52,8 @@ $(document).ready(function(){
 		}
  		return false;
 	});
+	} 
 });
 </script>
-<p><a href="#" class="toggle"><span>Supprimer l'éditeur</span></a></p>
+
 </#macro>
