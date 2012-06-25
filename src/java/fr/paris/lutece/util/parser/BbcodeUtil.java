@@ -66,8 +66,6 @@ public class BbcodeUtil
     public static String parse( String value, List<ParserElement> listParserElement,
         List<ParserComplexElement> listParserComplexElement )
     {
-        value = value.replaceAll( "(\r\n|\n\r|\n|\r)", "<br>" );
-
         StringBuffer buffer = new StringBuffer( value );
 
         // complex Element
@@ -166,7 +164,7 @@ public class BbcodeUtil
             {
                 if ( acceptParam && ( matcher.group( paramGroup ) != null ) )
                 {
-                    matchedSeq.param = matcher.group( paramGroup );
+                    matchedSeq._strParam = matcher.group( paramGroup );
                 }
 
                 openStack.push( matchedSeq );
@@ -179,7 +177,7 @@ public class BbcodeUtil
 
                 if ( acceptParam )
                 {
-                    matchedSeq.param = openSeq.param;
+                    matchedSeq._strParam = openSeq._strParam;
                 }
 
                 subsOpen.add( openSeq );
@@ -191,10 +189,7 @@ public class BbcodeUtil
             {
                 subsInternal.add( matchedSeq );
             }
-            else
-            {
-                // assert (false);
-            }
+           
         }
 
         LinkedList subst = new LinkedList(  );
@@ -210,7 +205,7 @@ public class BbcodeUtil
                     MutableCharSequence s1 = (MutableCharSequence) o1;
                     MutableCharSequence s2 = (MutableCharSequence) o2;
 
-                    return -( s1.start - s2.start );
+                    return -( s1._nStart - s2._nStart );
                 }
             } );
 
@@ -221,11 +216,11 @@ public class BbcodeUtil
         while ( !subst.isEmpty(  ) )
         {
             MutableCharSequence seq = (MutableCharSequence) subst.removeLast(  );
-            buffer.append( str.substring( start, seq.start ) );
+            buffer.append( str.substring( start, seq._nStart ) );
 
             if ( subsClose.contains( seq ) )
             {
-                if ( seq.param != null )
+                if ( seq._strParam != null )
                 {
                     buffer.append( closeSubstWithParam );
                 }
@@ -240,14 +235,14 @@ public class BbcodeUtil
             }
             else if ( subsOpen.contains( seq ) )
             {
-                Matcher m = Pattern.compile( openTag ).matcher( str.substring( seq.start, seq.start + seq.length ) );
+                Matcher m = Pattern.compile( openTag ).matcher( str.substring( seq._nStart, seq._nStart + seq._bLength ) );
 
                 if ( m.matches(  ) )
                 {
-                    if ( acceptParam && ( seq.param != null ) )
+                    if ( acceptParam && ( seq._strParam != null ) )
                     {
                         buffer.append(  //
-                            openSubstWithParam.replaceAll( "\\{BBCODE_PARAM\\}", seq.param ) );
+                            openSubstWithParam.replaceAll( "\\{BBCODE_PARAM\\}", seq._strParam ) );
                     }
                     else
                     {
@@ -256,7 +251,7 @@ public class BbcodeUtil
                 }
             }
 
-            start = seq.start + seq.length;
+            start = seq._nStart + seq._bLength;
         }
 
         buffer.append( str.substring( start ) );
@@ -269,29 +264,30 @@ public class BbcodeUtil
      */
     static class MutableCharSequence implements CharSequence
     {
-        /** */
-        public CharSequence base;
+        /** _cBase*/
+        private CharSequence _cBase;
+
+        /** _nStart */
+        private int _nStart;
+
+        /** _bLength*/
+        private int _bLength;
 
         /** */
-        public int start;
-
-        /** */
-        public int length;
-
-        /** */
-        public String param = null;
+        private String _strParam;
 
         /**
+         * MutableCharSequence
          */
         public MutableCharSequence(  )
         {
-            //
+            
         }
 
         /**
-         * @param base
-         * @param start
-         * @param length
+         * @param base base
+         * @param start start 
+         * @param length length
          */
         public MutableCharSequence( CharSequence base, int start, int length )
         {
@@ -299,54 +295,59 @@ public class BbcodeUtil
         }
 
         /**
-         * @see java.lang.CharSequence#length()
+         * @return @see java.lang.CharSequence#length()
          */
         public int length(  )
         {
-            return this.length;
+            return this._bLength;
         }
 
         /**
-         * @see java.lang.CharSequence#charAt(int)
+         * @param index index
+         * @return @see java.lang.CharSequence#charAt(int)
          */
         public char charAt( int index )
         {
-            return this.base.charAt( this.start + index );
+            return this._cBase.charAt( this._nStart + index );
         }
 
         /**
-         * @see java.lang.CharSequence#subSequence(int, int)
+         * @param pStart pStart
+         * @param end end
+         * @return @see java.lang.CharSequence#subSequence(int, int)
          */
         public CharSequence subSequence( int pStart, int end )
         {
-            return new MutableCharSequence( this.base, this.start + pStart, this.start + ( end - pStart ) );
+            return new MutableCharSequence( this._cBase, this._nStart + pStart, this._nStart + ( end - pStart ) );
         }
 
-        /**
-         * @param pBase
-         * @param pStart
-         * @param pLength
-         * @return -
+        /** 
+         * return CharSequence
+         * @param pBase pBase
+         * @param pStart pStart
+         * @param pLength pLength
+         * @return  CharSequence
          */
         public CharSequence reset( CharSequence pBase, int pStart, int pLength )
         {
-            this.base = pBase;
-            this.start = pStart;
-            this.length = pLength;
+            this._cBase = pBase;
+            this._nStart = pStart;
+            this._bLength = pLength;
 
             return this;
         }
 
         /**
-         * @see java.lang.Object#toString()
+         * 
+         * @return @see java.lang.Object#toString()
          */
         public String toString(  )
         {
             StringBuffer sb = new StringBuffer(  );
 
-            for ( int i = this.start; i < ( this.start + this.length ); i++ )
+            for ( int i = this._nStart; i < ( this._nStart + this._bLength ); i++ )
             {
-                sb.append( this.base.charAt( i ) );
+                sb.append( this._cBase.charAt( i ) );
             }
 
             return sb.toString(  );

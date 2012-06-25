@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2011, Mairie de Paris
+ * Copyright (c) 2002-2012, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,6 +74,7 @@ public class EditorBbcodeService implements IEditorBbcodeService
     private static List<ParserElement> _listParserElement;
     private static List<ParserComplexElement> _listParserComplexElement;
 
+   
     /*
      * (non-Javadoc)
      * @see fr.paris.lutece.portal.service.editor.IEditorBbcodeService#parse(java.lang.String)
@@ -98,6 +99,9 @@ public class EditorBbcodeService implements IEditorBbcodeService
         return _singleton;
     }
 
+    /**
+     * Init service
+     */
     public void init(  )
     {
         _listParserElement = new ArrayList<ParserElement>(  );

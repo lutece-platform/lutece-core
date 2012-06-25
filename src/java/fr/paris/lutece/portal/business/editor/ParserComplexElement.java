@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2011, Mairie de Paris
+ * Copyright (c) 2002-2012, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,15 +53,15 @@ public class ParserComplexElement
 
     /**
      *
-     * @param strTagName
-     * @param strOpenSubstWithParam
-     * @param strCloseSubstWithParam
-     * @param strOpenSubstWithoutParam
-     * @param strCloseSubstWithoutParam
-     * @param strInternalSubst
-     * @param bProcessInternalTags
-     * @param bAcceptParam
-     * @param bRequiresQuotedParam
+     * @param strTagName strTagName
+     * @param strOpenSubstWithParam strOpenSubstWithParam
+     * @param strCloseSubstWithParam strCloseSubstWithParam
+     * @param strOpenSubstWithoutParam strOpenSubstWithoutParam
+     * @param strCloseSubstWithoutParam strCloseSubstWithoutParam
+     * @param strInternalSubst strInternalSubst
+     * @param bProcessInternalTags bProcessInternalTags
+     * @param bAcceptParam bAcceptParam
+     * @param bRequiresQuotedParam bRequiresQuotedParam
      */
     public ParserComplexElement( String strTagName, String strOpenSubstWithParam, String strCloseSubstWithParam,
         String strOpenSubstWithoutParam, String strCloseSubstWithoutParam, String strInternalSubst,
@@ -80,7 +80,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @return
+     * @return return tag name
      */
     public String getTagName(  )
     {
@@ -88,8 +88,8 @@ public class ParserComplexElement
     }
 
     /**
-     *
-     * @param strTagName
+     * set tag name
+     * @param strTagName strTagName
      */
     public void setTagName( String strTagName )
     {
@@ -97,8 +97,8 @@ public class ParserComplexElement
     }
 
     /**
-     *
-     * @return
+     *OpenSubstWithParam(
+     * @return OpenSubstWithParam(
      */
     public String getOpenSubstWithParam(  )
     {
@@ -107,7 +107,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @param strOpenSubstWithParam
+     * @param strOpenSubstWithParam strOpenSubstWithParam
      */
     public void setOpenSubstWithParam( String strOpenSubstWithParam )
     {
@@ -116,7 +116,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @return
+     * @return CloseSubstWithParam
      */
     public String getCloseSubstWithParam(  )
     {
@@ -125,7 +125,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @param strCloseSubstWithParam
+     * @param strCloseSubstWithParam trCloseSubstWithParam
      */
     public void setCloseSubstWithParam( String strCloseSubstWithParam )
     {
@@ -134,7 +134,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @return
+     * @return OpenSubstWithoutParam
      */
     public String getOpenSubstWithoutParam(  )
     {
@@ -142,8 +142,8 @@ public class ParserComplexElement
     }
 
     /**
-     *
-     * @param strOpenSubstWithoutParam
+     * 
+     * @param strOpenSubstWithoutParam strOpenSubstWithoutParam
      */
     public void setOpenSubstWithoutParam( String strOpenSubstWithoutParam )
     {
@@ -152,7 +152,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @return
+     * @return CloseSubstWithoutParam
      */
     public String getCloseSubstWithoutParam(  )
     {
@@ -161,7 +161,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @param strCloseSubstWithoutParam
+     * @param strCloseSubstWithoutParam strCloseSubstWithoutParam
      */
     public void setCloseSubstWithoutParam( String strCloseSubstWithoutParam )
     {
@@ -170,7 +170,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @return
+     * @return InternalSubst
      */
     public String getInternalSubst(  )
     {
@@ -179,7 +179,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @param strInternalSubst
+     * @param strInternalSubst strInternalSubst
      */
     public void setInternalSubst( String strInternalSubst )
     {
@@ -188,7 +188,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @return
+     * @return isProcessInternalTags
      */
     public boolean isProcessInternalTags(  )
     {
@@ -197,7 +197,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @param bProcessInternalTags
+     * @param bProcessInternalTags bProcessInternalTags
      */
     public void setProcessInternalTags( boolean bProcessInternalTags )
     {
@@ -206,7 +206,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @return
+     * @return isAcceptParam
      */
     public boolean isAcceptParam(  )
     {
@@ -215,7 +215,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @param bAcceptParam
+     * @param bAcceptParam bAcceptParam
      */
     public void setAcceptParam( boolean bAcceptParam )
     {
@@ -224,7 +224,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @return
+     * @return RequiresQuotedParam
      */
     public boolean isRequiresQuotedParam(  )
     {
@@ -233,7 +233,7 @@ public class ParserComplexElement
 
     /**
      *
-     * @param bRequiresQuotedParam
+     * @param bRequiresQuotedParam bRequiresQuotedParam
      */
     public void setRequiresQuotedParam( boolean bRequiresQuotedParam )
     {

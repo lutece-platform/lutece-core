@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2011, Mairie de Paris
+ * Copyright (c) 2002-2012, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,8 +49,8 @@ public class ParserElement
 
     /**
      *
-     * @param strCode
-     * @param strValue
+     * @param strCode the code of the element
+     * @param strValue the value of the element
      */
     public ParserElement( String strCode, String strValue )
     {
@@ -60,7 +60,7 @@ public class ParserElement
 
     /**
      *
-     * @return code
+     * @return code the code of the element
      */
     public String getCode(  )
     {
@@ -69,7 +69,7 @@ public class ParserElement
 
     /**
      *
-     * @param strCode the code
+     * @param strCode the code of the element
      */
     public void setCode( String strCode )
     {
@@ -78,7 +78,7 @@ public class ParserElement
 
     /**
      *
-     * @return the value
+     * @return the value the value of the element
      */
     public String getValue(  )
     {
@@ -87,7 +87,7 @@ public class ParserElement
 
     /**
      *
-     * @param strValue the value
+     * @param strValue the value the value of the element
      */
     public void setValue( String strValue )
     {
