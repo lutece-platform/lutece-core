@@ -81,6 +81,15 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PORTLET_COLUMNS_COMBO = "portlet_columns_combo";
     private static final String MARK_PORTLET_STYLES_COMBO = "portlet_style_combo";
     private static final String MARK_PORTLET_ROLES_COMBO = "portlet_role_combo";
+    private static final String MARK_SMALL_CHECKED = "small_checked";
+    private static final String MARK_NORMAL_CHECKED = "normal_checked";
+    private static final String MARK_LARGE_CHECKED = "large_checked";
+    private static final String MARK_XLARGE_CHECKED = "xlarge_checked";
+    
+    private static final String VALUE_TRUE = "1";
+    private static final String VALUE_FALSE = "0";
+    private static final String VALUE_CHECKED = "checked=\"checked\"";
+    private static final String VALUE_UNCHECKED = "";
 
     // Templates
     private static final String TEMPLATE_CREATE_PORTLET = "admin/portlet/create_portlet.html";
@@ -188,6 +197,10 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         String strAcceptPortletTitle = request.getParameter( Parameters.DISPLAY_PORTLET_TITLE );
         String strPortletTypeId = request.getParameter( Parameters.PORTLET_TYPE_ID );
         String strRole = request.getParameter( Parameters.ROLE );
+        String strDisplaySmall = request.getParameter(Parameters.DISPLAY_ON_SMALL_DEVICE);
+        String strDisplayNormal = request.getParameter(Parameters.DISPLAY_ON_NORMAL_DEVICE);
+        String strDisplayLarge = request.getParameter(Parameters.DISPLAY_ON_LARGE_DEVICE);
+        String strDisplayXLarge = request.getParameter(Parameters.DISPLAY_ON_XLARGE_DEVICE);
 
         strName = strName.replaceAll( "\"", "" );
 
@@ -224,6 +237,24 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         int nStyleId = Integer.parseInt( strStyleId );
         int nAcceptAlias = Integer.parseInt( strAcceptAlias );
         int nAcceptPortletTitle = Integer.parseInt( strAcceptPortletTitle );
+        
+        int nDeviceDisplayFlags = 0;
+        if( strDisplaySmall != null )
+        {
+            nDeviceDisplayFlags |= Portlet.FLAG_DISPLAY_ON_SMALL_DEVICE;
+        }
+        if( strDisplayNormal != null )
+        {
+            nDeviceDisplayFlags |= Portlet.FLAG_DISPLAY_ON_NORMAL_DEVICE;
+        }
+        if( strDisplayLarge != null )
+        {
+            nDeviceDisplayFlags |= Portlet.FLAG_DISPLAY_ON_LARGE_DEVICE;
+        }
+        if( strDisplayXLarge != null )
+        {
+            nDeviceDisplayFlags |= Portlet.FLAG_DISPLAY_ON_XLARGE_DEVICE;
+        }
 
         portlet.setName( strName );
         portlet.setOrder( nOrder );
@@ -234,6 +265,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         portlet.setDisplayPortletTitle( nAcceptPortletTitle );
         portlet.setPortletTypeId( strPortletTypeId );
         portlet.setRole( strRole );
+        portlet.setDeviceDisplayFlags( nDeviceDisplayFlags );
 
         return strErrorKey;
     }
@@ -304,10 +336,20 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PORTLET_COLUMNS_COMBO, getColumnsList(  ) );
         model.put( MARK_PORTLET_STYLES_COMBO, PortletHome.getStylesList( portlet.getPortletTypeId(  ) ) );
         model.put( MARK_PORTLET_ROLES_COMBO, RoleHome.getRolesList( getUser(  ) ) );
+        putCheckBox( model , MARK_SMALL_CHECKED , portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_SMALL_DEVICE ));
+        putCheckBox( model , MARK_NORMAL_CHECKED , portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_NORMAL_DEVICE ));
+        putCheckBox( model , MARK_LARGE_CHECKED , portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_LARGE_DEVICE ));
+        putCheckBox( model , MARK_XLARGE_CHECKED , portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_XLARGE_DEVICE ));
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PORTLET, getLocale(  ), model );
 
         return template;
+    }
+    
+    protected void putCheckBox( Map<String, Object> model, String strMarkerChecked, boolean bChecked )
+    {
+        String strChecked = ( bChecked ) ? VALUE_CHECKED : VALUE_UNCHECKED;
+        model.put( strMarkerChecked, strChecked );
     }
 
     /**

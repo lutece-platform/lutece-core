@@ -23,6 +23,16 @@
                 <input class="radio" type="radio" name="display_portlet_title" value="1"  >#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleNo}
             </p>
             <p>
+                <label>#i18n{portal.site.create_portlet.labelDisplayOnDevice}</label>
+            </p>
+            <p>
+                <input class="checkbox" type="checkbox" name="display_on_small_device" value="1" checked="checked"> #i18n{portal.site.create_portlet.checkboxSmallDevice} &nbsp;
+                <input class="checkbox" type="checkbox" name="display_on_normal_device" value="1" checked="checked"> #i18n{portal.site.create_portlet.checkboxNormalDevice} &nbsp;
+                <input class="checkbox" type="checkbox" name="display_on_large_device" value="1" checked="checked"> #i18n{portal.site.create_portlet.checkboxLargeDevice} &nbsp;
+                <input class="checkbox" type="checkbox" name="display_on_xlarge_device" value="1" checked="checked"> #i18n{portal.site.create_portlet.checkboxXLargeDevice} &nbsp;
+            </p>
+            
+            <p>
                 <label>#i18n{portal.site.create_portlet.labelOrder} </label>
                 <@comboSorted name="order" default_value="1" items=portlet_order_combo />
             </p>

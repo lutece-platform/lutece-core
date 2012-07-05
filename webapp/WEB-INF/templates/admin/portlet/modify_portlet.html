@@ -29,6 +29,15 @@
                 <input type="radio" class="radio" name="display_portlet_title" value="1" checked="checked"/> #i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleNo}
                 </#if>
             </p>
+            <p>
+                <label>#i18n{portal.site.create_portlet.labelDisplayOnDevice}</label>
+            </p>
+            <p>
+                <input class="checkbox" type="checkbox" name="display_on_small_device" value="1" ${small_checked} > #i18n{portal.site.create_portlet.checkboxSmallDevice} &nbsp;
+                <input class="checkbox" type="checkbox" name="display_on_normal_device" value="1" ${normal_checked} > #i18n{portal.site.create_portlet.checkboxNormalDevice} &nbsp;
+                <input class="checkbox" type="checkbox" name="display_on_large_device" value="1" ${large_checked}> #i18n{portal.site.create_portlet.checkboxLargeDevice} &nbsp;
+                <input class="checkbox" type="checkbox" name="display_on_xlarge_device" value="1" ${xlarge_checked}> #i18n{portal.site.create_portlet.checkboxXLargeDevice} &nbsp;
+            </p>
              <p>
                 <label>#i18n{portal.site.modify_portlet.labelPortletPageId}</label>
                 <input type="text" name="page_id" value="${portlet.pageId}" size="5" maxlength="5" />

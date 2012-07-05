@@ -30,7 +30,7 @@
         </property>
     </bean>
 
-	<bean id="pageCacheService" class="fr.paris.lutece.portal.service.page.PageCacheService" />
+    <bean id="pageCacheService" class="fr.paris.lutece.portal.service.page.PageCacheService" />
     <bean id="portletCacheService" class="fr.paris.lutece.portal.service.page.PortletCacheService" />
 
 	<!-- since the PageService constructor initializes the two above caches, we choose to inject them through the constructor -->
@@ -122,16 +122,16 @@
     <bean id="attributeFieldDAO"  class="fr.paris.lutece.portal.business.user.attribute.AttributeFieldDAO" />
     <bean id="adminUserFieldDAO"  class="fr.paris.lutece.portal.business.user.attribute.AdminUserFieldDAO" />
     <bean id="attributeText" class="fr.paris.lutece.portal.business.user.attribute.AttributeText" />
-	<bean id="attributeComboBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeComboBox" />
-	<bean id="attributeRadioButton" class="fr.paris.lutece.portal.business.user.attribute.AttributeRadioButton" />
-	<bean id="attributeCheckBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeCheckBox" />
-	<bean id="attributeImage" class="fr.paris.lutece.portal.business.user.attribute.AttributeImage" />
+    <bean id="attributeComboBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeComboBox" />
+    <bean id="attributeRadioButton" class="fr.paris.lutece.portal.business.user.attribute.AttributeRadioButton" />
+    <bean id="attributeCheckBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeCheckBox" />
+    <bean id="attributeImage" class="fr.paris.lutece.portal.business.user.attribute.AttributeImage" />
 	
 	<!-- package file -->
-	<bean id="fileDAO"  class="fr.paris.lutece.portal.business.file.FileDAO" />
+    <bean id="fileDAO"  class="fr.paris.lutece.portal.business.file.FileDAO" />
 	
 	<!-- package physicalfile -->
-	<bean id="physicalFileDAO"  class="fr.paris.lutece.portal.business.physicalfile.PhysicalFileDAO" />
+    <bean id="physicalFileDAO"  class="fr.paris.lutece.portal.business.physicalfile.PhysicalFileDAO" />
     
     <!-- admin dashboards -->
     <bean id="adminDashboardDAO" class="fr.paris.lutece.portal.business.dashboard.AdminDashboardDAO"/>    

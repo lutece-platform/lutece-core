@@ -309,6 +309,7 @@ CREATE TABLE core_portlet (
 	date_creation timestamp default '0000-00-00 00:00:00' NOT NULL,
 	display_portlet_title int default 0 NOT NULL,
 	role varchar(50) default NULL,
+        device_display_flags int default 15 NOT NULL,
 	PRIMARY KEY (id_portlet)
 );
 

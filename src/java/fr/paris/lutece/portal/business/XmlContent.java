@@ -63,6 +63,10 @@ public interface XmlContent
     String TAG_PORTLET_ID = "portlet-id";
     String TAG_PORTLET_NAME = "portlet-name";
     String TAG_DISPLAY_PORTLET_TITLE = "display-portlet-title";
+    String TAG_DISPLAY_ON_SMALL_DEVICE = "display-on-small-device";
+    String TAG_DISPLAY_ON_NORMAL_DEVICE = "display-on-normal-device";
+    String TAG_DISPLAY_ON_LARGE_DEVICE = "display-on-large-device";
+    String TAG_DISPLAY_ON_XLARGE_DEVICE = "display-on-xlarge-device";
 
     // Pages
     String TAG_PAGE = "page";

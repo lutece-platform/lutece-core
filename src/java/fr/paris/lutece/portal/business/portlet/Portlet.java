@@ -55,6 +55,14 @@ public abstract class Portlet implements XmlContent
     public static final int STATUS_PUBLISHED = 0;
     public static final int STATUS_UNPUBLISHED = 1;
 
+    public static final int FLAG_DISPLAY_ON_SMALL_DEVICE =  0x00000001;
+    public static final int FLAG_DISPLAY_ON_NORMAL_DEVICE = 0x00000010;
+    public static final int FLAG_DISPLAY_ON_LARGE_DEVICE =  0x00000100;
+    public static final int FLAG_DISPLAY_ON_XLARGE_DEVICE = 0x00001000;
+    
+    private static final String VALUE_TRUE = "1";
+    private static final String VALUE_FALSE = "0";
+    
     ////////////////////////////////////////////////////////////////////////////
     // Privates variables common to all the portlets
     private static final int MODE_NORMAL = 0;
@@ -76,6 +84,7 @@ public abstract class Portlet implements XmlContent
     private String _strHomeClassName;
     private String _strRole;
     private Timestamp _dateUpdate;
+    private int _nDeviceFlags;
 
     ////////////////////////////////////////////////////////////////////////////
     // Accessors
@@ -319,6 +328,34 @@ public abstract class Portlet implements XmlContent
     {
         _nOrder = nType;
     }
+    
+    /**
+     * Gets device display flags
+     * @return Flags 
+     */
+    public int getDeviceDisplayFlags()
+    {
+        return _nDeviceFlags;
+    }
+    
+    /**
+     * Check if a flag is setted 
+     * @param nFlag The flag to check
+     * @return true if the flag is set, otherwise false
+     */
+    public boolean hasDeviceDisplayFlag( int nFlag )
+    {
+        return ( _nDeviceFlags & nFlag ) != 0;
+    }
+    
+    /**
+     * Set device display flags
+     * @param nFlags Flags
+     */
+    public void setDeviceDisplayFlags( int nFlags )
+    {
+        _nDeviceFlags = nFlags;
+    }
 
     /**
      * Returns the name of the java class which manages this type of portlet.
@@ -446,6 +483,7 @@ public abstract class Portlet implements XmlContent
         setAcceptAlias( portlet.getAcceptAlias(  ) );
         setPluginName( portlet.getPluginName(  ) );
         setDisplayPortletTitle( portlet.getDisplayPortletTitle(  ) );
+        setDeviceDisplayFlags( portlet.getDeviceDisplayFlags(  ) );
         setStatus( portlet.getStatus(  ) );
         setRole( portlet.getRole(  ) );
     }
@@ -465,6 +503,15 @@ public abstract class Portlet implements XmlContent
         XmlUtil.addElement( strXml, TAG_PAGE_ID, getPageId(  ) );
         XmlUtil.addElement( strXml, TAG_PLUGIN_NAME, getPluginName(  ) );
         XmlUtil.addElement( strXml, TAG_DISPLAY_PORTLET_TITLE, getDisplayPortletTitle(  ) );
+        String strDisplayOnSmallDevice = ( (getDeviceDisplayFlags() & FLAG_DISPLAY_ON_SMALL_DEVICE) != 0 ) ? VALUE_TRUE : VALUE_FALSE;
+        XmlUtil.addElement( strXml, TAG_DISPLAY_ON_SMALL_DEVICE, strDisplayOnSmallDevice );
+        String strDisplayOnNormalDevice = ( (getDeviceDisplayFlags() & FLAG_DISPLAY_ON_NORMAL_DEVICE) != 0 ) ? VALUE_TRUE : VALUE_FALSE;
+        XmlUtil.addElement( strXml, TAG_DISPLAY_ON_NORMAL_DEVICE, strDisplayOnNormalDevice );
+        String strDisplayOnLargeDevice = ( (getDeviceDisplayFlags() & FLAG_DISPLAY_ON_LARGE_DEVICE) != 0 ) ? VALUE_TRUE : VALUE_FALSE;
+        XmlUtil.addElement( strXml, TAG_DISPLAY_ON_LARGE_DEVICE, strDisplayOnLargeDevice );
+        String strDisplayOnXLargeDevice = ( (getDeviceDisplayFlags() & FLAG_DISPLAY_ON_XLARGE_DEVICE) != 0 ) ? VALUE_TRUE : VALUE_FALSE;
+        XmlUtil.addElement( strXml, TAG_DISPLAY_ON_XLARGE_DEVICE, strDisplayOnXLargeDevice );
+
         strXml.append( strPortlet.toString(  ) );
         XmlUtil.endElement( strXml, TAG_PORTLET );
 

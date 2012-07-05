@@ -64,6 +64,10 @@ public final class Parameters
     public static final String THEME = "theme"; /* since v1.1 */
     public static final String META_KEYWORDS = "meta_keywords";
     public static final String META_DESCRIPTION = "meta_description";
+    public static final String DISPLAY_ON_SMALL_DEVICE = "display_on_small_device";
+    public static final String DISPLAY_ON_NORMAL_DEVICE = "display_on_normal_device";
+    public static final String DISPLAY_ON_LARGE_DEVICE = "display_on_large_device";
+    public static final String DISPLAY_ON_XLARGE_DEVICE = "display_on_xlarge_device";
 
     // url parameter for redirection after admin
     public static final String REDIRECT_URL = "redirectUrl";
