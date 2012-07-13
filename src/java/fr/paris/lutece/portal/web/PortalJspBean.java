@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web;
 
+import fr.paris.lutece.portal.service.content.ContentPostProcessorService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.init.AppInfo;
 import fr.paris.lutece.portal.service.init.AppInit;
@@ -171,12 +172,14 @@ public class PortalJspBean
         // Search the content service invoked and call its getPage method
         ContentService cs = PortalService.getInvokedContentService( request );
 
-        if ( cs != null )
-        {
-            return cs.getPage( request, nMode );
+        String strContent = ( cs != null ) ? cs.getPage( request, nMode ) : PortalService.getDefaultPage( request, nMode );
+        
+        if( ContentPostProcessorService.hasProcessor() )
+        {    
+            strContent = ContentPostProcessorService.process( strContent );
         }
-
-        return PortalService.getDefaultPage( request, nMode );
+        
+        return strContent;
     }
 
     /**
