@@ -189,7 +189,6 @@ public class BbcodeUtil
             {
                 subsInternal.add( matchedSeq );
             }
-           
         }
 
         LinkedList subst = new LinkedList(  );
@@ -281,12 +280,11 @@ public class BbcodeUtil
          */
         public MutableCharSequence(  )
         {
-            
         }
 
         /**
          * @param base base
-         * @param start start 
+         * @param start start
          * @param length length
          */
         public MutableCharSequence( CharSequence base, int start, int length )
@@ -321,7 +319,7 @@ public class BbcodeUtil
             return new MutableCharSequence( this._cBase, this._nStart + pStart, this._nStart + ( end - pStart ) );
         }
 
-        /** 
+        /**
          * return CharSequence
          * @param pBase pBase
          * @param pStart pStart
@@ -338,7 +336,7 @@ public class BbcodeUtil
         }
 
         /**
-         * 
+         *
          * @return @see java.lang.Object#toString()
          */
         public String toString(  )

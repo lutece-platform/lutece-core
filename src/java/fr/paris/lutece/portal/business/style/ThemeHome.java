@@ -66,7 +66,7 @@ public final class ThemeHome
         return ThemesService.create( theme );
 
         /*_dao.insert( theme );
-        
+
         return theme;*/
     }
 
@@ -81,7 +81,7 @@ public final class ThemeHome
         return ThemesService.update( theme );
 
         /*_dao.store( theme );
-        
+
         return theme;*/
     }
 
@@ -145,12 +145,12 @@ public final class ThemeHome
         return ThemesService.isValidTheme( strCodeTheme );
 
         /*Theme theme = ThemeHome.findByPrimaryKey( strCodeTheme );
-        
+
         if ( theme != null )
         {
             return true;
         }
-        
+
         return false;*/
     }
 

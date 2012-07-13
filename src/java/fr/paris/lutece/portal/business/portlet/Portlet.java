@@ -54,15 +54,13 @@ public abstract class Portlet implements XmlContent
     // Publics variables common to all the portlets
     public static final int STATUS_PUBLISHED = 0;
     public static final int STATUS_UNPUBLISHED = 1;
-
-    public static final int FLAG_DISPLAY_ON_SMALL_DEVICE =  0x00000001;
+    public static final int FLAG_DISPLAY_ON_SMALL_DEVICE = 0x00000001;
     public static final int FLAG_DISPLAY_ON_NORMAL_DEVICE = 0x00000010;
-    public static final int FLAG_DISPLAY_ON_LARGE_DEVICE =  0x00000100;
+    public static final int FLAG_DISPLAY_ON_LARGE_DEVICE = 0x00000100;
     public static final int FLAG_DISPLAY_ON_XLARGE_DEVICE = 0x00001000;
-    
     private static final String VALUE_TRUE = "1";
     private static final String VALUE_FALSE = "0";
-    
+
     ////////////////////////////////////////////////////////////////////////////
     // Privates variables common to all the portlets
     private static final int MODE_NORMAL = 0;
@@ -328,18 +326,18 @@ public abstract class Portlet implements XmlContent
     {
         _nOrder = nType;
     }
-    
+
     /**
      * Gets device display flags
-     * @return Flags 
+     * @return Flags
      */
-    public int getDeviceDisplayFlags()
+    public int getDeviceDisplayFlags(  )
     {
         return _nDeviceFlags;
     }
-    
+
     /**
-     * Check if a flag is setted 
+     * Check if a flag is setted
      * @param nFlag The flag to check
      * @return true if the flag is set, otherwise false
      */
@@ -347,7 +345,7 @@ public abstract class Portlet implements XmlContent
     {
         return ( _nDeviceFlags & nFlag ) != 0;
     }
-    
+
     /**
      * Set device display flags
      * @param nFlags Flags
@@ -503,13 +501,21 @@ public abstract class Portlet implements XmlContent
         XmlUtil.addElement( strXml, TAG_PAGE_ID, getPageId(  ) );
         XmlUtil.addElement( strXml, TAG_PLUGIN_NAME, getPluginName(  ) );
         XmlUtil.addElement( strXml, TAG_DISPLAY_PORTLET_TITLE, getDisplayPortletTitle(  ) );
-        String strDisplayOnSmallDevice = ( (getDeviceDisplayFlags() & FLAG_DISPLAY_ON_SMALL_DEVICE) != 0 ) ? VALUE_TRUE : VALUE_FALSE;
+
+        String strDisplayOnSmallDevice = ( ( getDeviceDisplayFlags(  ) & FLAG_DISPLAY_ON_SMALL_DEVICE ) != 0 )
+            ? VALUE_TRUE : VALUE_FALSE;
         XmlUtil.addElement( strXml, TAG_DISPLAY_ON_SMALL_DEVICE, strDisplayOnSmallDevice );
-        String strDisplayOnNormalDevice = ( (getDeviceDisplayFlags() & FLAG_DISPLAY_ON_NORMAL_DEVICE) != 0 ) ? VALUE_TRUE : VALUE_FALSE;
+
+        String strDisplayOnNormalDevice = ( ( getDeviceDisplayFlags(  ) & FLAG_DISPLAY_ON_NORMAL_DEVICE ) != 0 )
+            ? VALUE_TRUE : VALUE_FALSE;
         XmlUtil.addElement( strXml, TAG_DISPLAY_ON_NORMAL_DEVICE, strDisplayOnNormalDevice );
-        String strDisplayOnLargeDevice = ( (getDeviceDisplayFlags() & FLAG_DISPLAY_ON_LARGE_DEVICE) != 0 ) ? VALUE_TRUE : VALUE_FALSE;
+
+        String strDisplayOnLargeDevice = ( ( getDeviceDisplayFlags(  ) & FLAG_DISPLAY_ON_LARGE_DEVICE ) != 0 )
+            ? VALUE_TRUE : VALUE_FALSE;
         XmlUtil.addElement( strXml, TAG_DISPLAY_ON_LARGE_DEVICE, strDisplayOnLargeDevice );
-        String strDisplayOnXLargeDevice = ( (getDeviceDisplayFlags() & FLAG_DISPLAY_ON_XLARGE_DEVICE) != 0 ) ? VALUE_TRUE : VALUE_FALSE;
+
+        String strDisplayOnXLargeDevice = ( ( getDeviceDisplayFlags(  ) & FLAG_DISPLAY_ON_XLARGE_DEVICE ) != 0 )
+            ? VALUE_TRUE : VALUE_FALSE;
         XmlUtil.addElement( strXml, TAG_DISPLAY_ON_XLARGE_DEVICE, strDisplayOnXLargeDevice );
 
         strXml.append( strPortlet.toString(  ) );

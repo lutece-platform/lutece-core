@@ -142,7 +142,7 @@ public class ParserComplexElement
     }
 
     /**
-     * 
+     *
      * @param strOpenSubstWithoutParam strOpenSubstWithoutParam
      */
     public void setOpenSubstWithoutParam( String strOpenSubstWithoutParam )

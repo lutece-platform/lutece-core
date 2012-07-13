@@ -174,8 +174,8 @@ public final class AppInit
             PostStartUpServiceManager.init(  );
 
             // Initialize Content Post Processor Service 
-            ContentPostProcessorService.init();
-            
+            ContentPostProcessorService.init(  );
+
             _bInitSuccessfull = true;
         }
         catch ( LuteceInitException e )

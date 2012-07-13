@@ -173,12 +173,12 @@ public class PortalJspBean
         ContentService cs = PortalService.getInvokedContentService( request );
 
         String strContent = ( cs != null ) ? cs.getPage( request, nMode ) : PortalService.getDefaultPage( request, nMode );
-        
-        if( ContentPostProcessorService.hasProcessor() )
-        {    
+
+        if ( ContentPostProcessorService.hasProcessor(  ) )
+        {
             strContent = ContentPostProcessorService.process( strContent );
         }
-        
+
         return strContent;
     }
 

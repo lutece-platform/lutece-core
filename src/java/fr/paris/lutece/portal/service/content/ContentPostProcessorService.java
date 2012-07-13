@@ -31,12 +31,13 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.content;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.util.List;
+
 
 /**
  * Content Post Processor Service
@@ -45,16 +46,17 @@ public class ContentPostProcessorService
 {
     private static boolean _bInit;
     private static List<ContentPostProcessor> _listProcessors;
-    
+
     /**
-     * Initialize the service 
+     * Initialize the service
      */
-    public static void init()
+    public static void init(  )
     {
-         _listProcessors = SpringContextService.getBeansOfType(ContentPostProcessor.class);
-        for( ContentPostProcessor processor : _listProcessors )
+        _listProcessors = SpringContextService.getBeansOfType( ContentPostProcessor.class );
+
+        for ( ContentPostProcessor processor : _listProcessors )
         {
-            AppLogService.info( "New Content Post Processor registered : " + processor.getName() );
+            AppLogService.info( "New Content Post Processor registered : " + processor.getName(  ) );
         }
     }
 
@@ -62,9 +64,9 @@ public class ContentPostProcessorService
      * Has processor registered. Use this method before processing for performance issue.
      * @return True if there at least one processor registered
      */
-    public static boolean hasProcessor()
+    public static boolean hasProcessor(  )
     {
-        return ! _listProcessors.isEmpty();
+        return !_listProcessors.isEmpty(  );
     }
 
     /**
@@ -72,14 +74,15 @@ public class ContentPostProcessorService
      * @param strContent The content to process
      * @return The processed content
      */
-    public static String process(String strContent)
+    public static String process( String strContent )
     {
         String strProcessed = strContent;
-        for( ContentPostProcessor processor : _listProcessors )
+
+        for ( ContentPostProcessor processor : _listProcessors )
         {
-            strProcessed = processor.process(strProcessed);
+            strProcessed = processor.process( strProcessed );
         }
+
         return strProcessed;
     }
-    
 }

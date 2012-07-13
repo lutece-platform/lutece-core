@@ -56,6 +56,7 @@ public class ParserBbcodeServlet extends HttpServlet
 
     //Parameter
     private static final String PARAMETER_DATA = "data";
+
     /**
      *  ParserBbcodeServlet
      */

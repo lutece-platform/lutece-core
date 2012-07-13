@@ -74,7 +74,6 @@ public class EditorBbcodeService implements IEditorBbcodeService
     private static List<ParserElement> _listParserElement;
     private static List<ParserComplexElement> _listParserComplexElement;
 
-   
     /*
      * (non-Javadoc)
      * @see fr.paris.lutece.portal.service.editor.IEditorBbcodeService#parse(java.lang.String)

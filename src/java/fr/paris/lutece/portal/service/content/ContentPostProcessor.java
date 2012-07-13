@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.content;
 
+
 /**
  * Content Post Processor
  */
@@ -42,8 +43,8 @@ public interface ContentPostProcessor
      * Return the processor's name
      * @return The name
      */
-    String getName();
-    
+    String getName(  );
+
     /**
      * Process a content
      * @param strContent The content to process

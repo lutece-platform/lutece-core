@@ -112,7 +112,7 @@ public final class PortletDAO implements IPortletDAO
         daoUtil.setInt( 11, portlet.getAcceptAlias(  ) );
         daoUtil.setInt( 12, portlet.getDisplayPortletTitle(  ) );
         daoUtil.setString( 13, portlet.getRole(  ) );
-        daoUtil.setInt( 14, portlet.getDeviceDisplayFlags() );
+        daoUtil.setInt( 14, portlet.getDeviceDisplayFlags(  ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -197,7 +197,7 @@ public final class PortletDAO implements IPortletDAO
         daoUtil.setInt( 7, portlet.getAcceptAlias(  ) );
         daoUtil.setInt( 8, portlet.getDisplayPortletTitle(  ) );
         daoUtil.setString( 9, portlet.getRole(  ) );
-        daoUtil.setInt( 10, portlet.getDeviceDisplayFlags() );
+        daoUtil.setInt( 10, portlet.getDeviceDisplayFlags(  ) );
         daoUtil.setInt( 11, portlet.getId(  ) );
 
         daoUtil.executeUpdate(  );
