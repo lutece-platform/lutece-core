@@ -176,7 +176,7 @@ public class PortalJspBean
 
         if ( ContentPostProcessorService.hasProcessor(  ) )
         {
-            strContent = ContentPostProcessorService.process( strContent );
+            strContent = ContentPostProcessorService.process( request , strContent );
         }
 
         return strContent;

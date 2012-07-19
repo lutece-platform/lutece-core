@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.content;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * Content Post Processor
@@ -47,8 +49,9 @@ public interface ContentPostProcessor
 
     /**
      * Process a content
+     * @param request The HTTP request
      * @param strContent The content to process
      * @return The processed content
      */
-    String process( String strContent );
+    String process( HttpServletRequest request , String strContent );
 }

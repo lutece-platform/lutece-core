@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -44,7 +45,6 @@ import java.util.List;
  */
 public class ContentPostProcessorService
 {
-    private static boolean _bInit;
     private static List<ContentPostProcessor> _listProcessors;
 
     /**
@@ -71,16 +71,17 @@ public class ContentPostProcessorService
 
     /**
      * Process a content
+     * @param request The HTTP Request
      * @param strContent The content to process
      * @return The processed content
      */
-    public static String process( String strContent )
+    public static String process( HttpServletRequest request , String strContent )
     {
         String strProcessed = strContent;
 
         for ( ContentPostProcessor processor : _listProcessors )
         {
-            strProcessed = processor.process( strProcessed );
+            strProcessed = processor.process( request , strProcessed );
         }
 
         return strProcessed;
