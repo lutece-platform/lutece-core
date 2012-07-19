@@ -140,6 +140,14 @@ CREATE TABLE core_dashboard (
 	PRIMARY KEY (dashboard_name)
 );
 
+DROP TABLE IF EXISTS core_datastore;
+CREATE TABLE core_datastore (		
+        entity_key VARCHAR(255) NOT NULL,
+        entity_value LONG VARCHAR,
+        PRIMARY KEY (entity_key)  
+);
+
+
 --
 -- Table structure for table core_feature_group
 --

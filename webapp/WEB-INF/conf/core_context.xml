@@ -66,7 +66,10 @@
     <bean id="roleRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
 
     <!--                       Data Access Objects                             -->
-  <!-- package features -->
+    <!-- package datastore -->
+    <bean id="dataEntityDAO"  class="fr.paris.lutece.portal.business.datastore.DataEntityDAO" />
+    
+    <!-- package features -->
     <bean id="levelDAO"  class="fr.paris.lutece.portal.business.right.LevelDAO" />
 
     <!-- package mailinglist -->
