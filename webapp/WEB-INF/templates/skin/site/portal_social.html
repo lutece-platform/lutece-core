@@ -1,0 +1,8 @@
+<#if listHtmlSocial?? && listHtmlSocial?has_content>
+	<div id="social" class="span-24 last">
+		<#list listHtmlSocial as htmlSocial>
+			${htmlSocial!}
+			<br />
+		</#list>
+	</div>
+</#if>

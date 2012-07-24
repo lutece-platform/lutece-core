@@ -199,6 +199,9 @@ input[type="image"].bt-toolbar {
 input[type="image"].bt-toolbar:hover {
 	border: 1px inset #000000;
 }
+select.bt-toolbar {
+	float: right;
+}
 span.form-toolbar {
 	border: 1px outset #000000;
 	border-radius: 10px 10px 10px 10px;

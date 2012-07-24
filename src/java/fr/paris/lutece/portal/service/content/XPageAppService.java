@@ -38,11 +38,13 @@ import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.resource.ResourceTypeEnum;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.web.resource.ResourceComponentManager;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
@@ -108,7 +110,8 @@ public class XPageAppService extends ContentService
      *
      * @return The name as a String
      */
-    public String getName(  )
+    @Override
+	public String getName(  )
     {
         return CONTENT_SERVICE_NAME;
     }
@@ -119,7 +122,8 @@ public class XPageAppService extends ContentService
      * @param request The HTTP request
      * @return true if this ContentService should handle this request
      */
-    public boolean isInvoked( HttpServletRequest request )
+    @Override
+	public boolean isInvoked( HttpServletRequest request )
     {
         String strXPage = request.getParameter( PARAM_XPAGE_APP );
 
@@ -179,7 +183,8 @@ public class XPageAppService extends ContentService
      * @throws UserNotSignedException The User Not Signed Exception
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    public String getPage( HttpServletRequest request, int nMode )
+    @Override
+	public String getPage( HttpServletRequest request, int nMode )
         throws UserNotSignedException, SiteMessageException
     {
         // Gets XPage info from the lutece.properties
@@ -249,6 +254,9 @@ public class XPageAppService extends ContentService
             {
                 data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel(  ), 0, strXml, request ) );
             }
+
+            // ResourceComponentManager
+            ResourceComponentManager.doProcess( ResourceTypeEnum.XPAGE.toString( ), request, request.getParameterMap(  ), nMode );
         }
         else
         {

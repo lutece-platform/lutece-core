@@ -58,6 +58,7 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
+import fr.paris.lutece.portal.service.resource.ResourceTypeEnum;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -68,11 +69,11 @@ import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
+import fr.paris.lutece.portal.web.resource.ResourceComponentManager;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -83,7 +84,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.inject.Inject;
-
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -204,7 +204,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @throws SiteMessageException
      *             If a message shouldbe displayed
      */
-    public String getPage( HttpServletRequest request, int nMode )
+    @Override
+	public String getPage( HttpServletRequest request, int nMode )
         throws SiteMessageException
     {
         String strPageId = request.getParameter( Parameters.PAGE_ID );
@@ -226,12 +227,16 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @throws SiteMessageException
      *             occurs when a site message need to be displayed
      */
-    public String getPage( String strIdPage, int nMode, HttpServletRequest request )
+    @Override
+	public String getPage( String strIdPage, int nMode, HttpServletRequest request )
         throws SiteMessageException
     {
         try
         {
             String strPage = "";
+
+            // ResourceComponentManager
+            ResourceComponentManager.doProcess( ResourceTypeEnum.PAGE.toString( ), request, request.getParameterMap(  ), nMode );
 
             // The cache is enable !
             if ( _cachePages.isCacheEnable(  ) )
@@ -473,7 +478,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @throws SiteMessageException
      *             occurs when a site message need to be displayed
      */
-    public String getPageContent( int nIdPage, int nMode, HttpServletRequest request )
+    @Override
+	public String getPageContent( int nIdPage, int nMode, HttpServletRequest request )
         throws SiteMessageException
     {
         String[] arrayContent = new String[MAX_COLUMNS];
@@ -496,7 +502,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             }
         }
 
-        HashMap<String, Object> rootModel = new HashMap<String, Object>(  );
+        Map<String, Object> rootModel = new HashMap<String, Object>(  );
 
         for ( int j = 0; j < MAX_COLUMNS; j++ )
         {
@@ -743,7 +749,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *
      * @return The resource type Id
      */
-    public String getResourceTypeId(  )
+    @Override
+	public String getResourceTypeId(  )
     {
         return IMAGE_RESOURCE_TYPE_ID;
     }
@@ -755,7 +762,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *            The Resource id
      * @return The image resource
      */
-    public ImageResource getImageResource( int nIdResource )
+    @Override
+	public ImageResource getImageResource( int nIdResource )
     {
         return PageHome.getImageResource( nIdResource );
     }
@@ -766,7 +774,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param page
      *            The page to create
      */
-    public void createPage( Page page )
+    @Override
+	public void createPage( Page page )
     {
         PageHome.create( page );
 
@@ -780,7 +789,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param page
      *            The page to update
      */
-    public void updatePage( Page page )
+    @Override
+	public void updatePage( Page page )
     {
         PageHome.update( page );
 
@@ -794,7 +804,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param nPageId
      *            The page Id
      */
-    public void removePage( int nPageId )
+    @Override
+	public void removePage( int nPageId )
     {
         Page page = PageHome.findByPrimaryKey( nPageId );
         PageEvent event = new PageEvent( page, PageEvent.PAGE_DELETED );
@@ -808,7 +819,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param event
      *            The event to process
      */
-    public void processPageEvent( PageEvent event )
+    @Override
+	public void processPageEvent( PageEvent event )
     {
         Page page = event.getPage(  );
         invalidatePage( page.getId(  ) );
@@ -820,7 +832,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * {@inheritDoc}
      */
-    public void processPageEvent( PortletEvent event )
+    @Override
+	public void processPageEvent( PortletEvent event )
     {
         invalidateContent( event.getPageId(  ) );
     }
@@ -831,7 +844,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param nPageId
      *            The Page ID
      */
-    public void invalidateContent( int nPageId )
+    @Override
+	public void invalidateContent( int nPageId )
     {
         Page page = PageHome.findByPrimaryKey( nPageId );
         PageEvent event = new PageEvent( page, PageEvent.PAGE_CONTENT_MODIFIED );
@@ -850,7 +864,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *            The current user
      * @return true if authorized, otherwise false
      */
-    public boolean isAuthorizedAdminPage( int nIdPage, String strPermission, AdminUser user )
+    @Override
+	public boolean isAuthorizedAdminPage( int nIdPage, String strPermission, AdminUser user )
     {
         Page page = PageHome.findByPrimaryKey( nIdPage );
 
