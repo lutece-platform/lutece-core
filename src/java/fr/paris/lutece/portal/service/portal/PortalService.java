@@ -219,6 +219,9 @@ public final class PortalService
         throws SiteMessageException
     {
     	Map<String, String[]> mapParameters = new HashMap<String, String[]>(  );
+    	mapParameters.putAll( request.getParameterMap( ) );
+    	// No need to check if the request.getParameterMap has the page_id or not
+    	// since the checking was done at higher level (otherwise, it will not be the default page)
     	mapParameters.put( Parameters.PAGE_ID, new String[]{ Integer.toString( PortalService.getRootPageId( ) )} );
     	// ResourceComponentManager
         ResourceComponentManager.doProcess( ResourceTypeEnum.PAGE.toString( ), request, mapParameters, nMode );

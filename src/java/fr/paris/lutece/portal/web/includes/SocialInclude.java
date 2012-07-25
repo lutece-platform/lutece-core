@@ -81,6 +81,7 @@ public class SocialInclude implements PageInclude
 			if ( cs == null )
 			{
 				mapParameters = new HashMap<String, String[]>(  );
+				mapParameters.putAll( request.getParameterMap( ) );
 				mapParameters.put( Parameters.PAGE_ID, new String[]{ Integer.toString( PortalService.getRootPageId( ) ) } );
 			}
 			ResourceComponentManager.buildPageAddOn( getResourceType( cs ), model, mapParameters, request );
