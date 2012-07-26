@@ -186,6 +186,7 @@ div.content-box input {
 }
 div.content-box input.radio { border: none; }
 div.content-box input.checkbox { border: none; }
+
 .bt-toolbar{margin:10px 0 2px 2px;}
 input.bt-toolbar{ margin: 0; }
 input[type="image"].bt-toolbar {
@@ -234,6 +235,7 @@ input.button{
     line-height:13px;
     padding:3px 8px;
     text-decoration:none;
+    margin: 0px 3px;
 }
 
 div.content-box select {
@@ -514,3 +516,7 @@ div.admin-site-page select{ text-align:left; font-weight: normal;}
 .preview{ border: none; margin: 0 3px 0 330px; }
 .togl{float:right;margin:0;}
 .lutece-inline-button {display: inline;}
+
+img.text-icon { vertical-align:text-bottom; width: 20px; height: 20px }
+
+
