@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.upload;
 import fr.paris.lutece.util.filesystem.UploadUtil;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +45,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 
-/*
+/**
  * This class is used to normalize the file names.
  * This class  override the method getName () of FileItem
  */
@@ -109,7 +110,7 @@ public class NormalizeFileItem implements FileItem
      */
     public String getName(  )
     {
-        return UploadUtil.cleanFileName( _item.getName(  ) );
+        return UploadUtil.cleanFileName( FilenameUtils.getName( _item.getName(  ) ) );
     }
 
     /*
