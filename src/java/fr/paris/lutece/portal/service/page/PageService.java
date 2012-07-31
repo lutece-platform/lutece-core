@@ -58,7 +58,6 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
-import fr.paris.lutece.portal.service.resource.ResourceTypeEnum;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -69,7 +68,6 @@ import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
-import fr.paris.lutece.portal.web.resource.ResourceComponentManager;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -234,9 +232,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         try
         {
             String strPage = "";
-
-            // ResourceComponentManager
-            ResourceComponentManager.doProcess( ResourceTypeEnum.PAGE.toString( ), request, request.getParameterMap(  ), nMode );
 
             // The cache is enable !
             if ( _cachePages.isCacheEnable(  ) )

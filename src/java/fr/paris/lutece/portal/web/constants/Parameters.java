@@ -68,7 +68,6 @@ public final class Parameters
     public static final String DISPLAY_ON_NORMAL_DEVICE = "display_on_normal_device";
     public static final String DISPLAY_ON_LARGE_DEVICE = "display_on_large_device";
     public static final String DISPLAY_ON_XLARGE_DEVICE = "display_on_xlarge_device";
-    public static final String LIST_HTML_SOCIAL = "listHtmlSocial";
 
     // url parameter for redirection after admin
     public static final String REDIRECT_URL = "redirectUrl";

@@ -50,7 +50,6 @@ import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.page.IPageService;
-import fr.paris.lutece.portal.service.resource.ResourceTypeEnum;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -58,7 +57,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
-import fr.paris.lutece.portal.web.resource.ResourceComponentManager;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
 
@@ -218,13 +216,6 @@ public final class PortalService
     public static String getDefaultPage( HttpServletRequest request, int nMode )
         throws SiteMessageException
     {
-    	Map<String, String[]> mapParameters = new HashMap<String, String[]>(  );
-    	mapParameters.putAll( request.getParameterMap( ) );
-    	// No need to check if the request.getParameterMap has the page_id or not
-    	// since the checking was done at higher level (otherwise, it will not be the default page)
-    	mapParameters.put( Parameters.PAGE_ID, new String[]{ Integer.toString( PortalService.getRootPageId( ) )} );
-    	// ResourceComponentManager
-        ResourceComponentManager.doProcess( ResourceTypeEnum.PAGE.toString( ), request, mapParameters, nMode );
         return _pageService.getPage( String.valueOf( getRootPageId(  ) ), nMode, request );
     }
 

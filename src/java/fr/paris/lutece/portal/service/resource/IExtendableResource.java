@@ -31,39 +31,34 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.content;
-
-import fr.paris.lutece.portal.service.message.SiteMessageException;
-import fr.paris.lutece.portal.service.security.UserNotSignedException;
-
-import javax.servlet.http.HttpServletRequest;
+package fr.paris.lutece.portal.service.resource;
 
 /**
  *
- * ResourceContentService
+ * This interface represents the resource that are eligible to
+ * the social hub functionalities.
  *
  */
-public abstract class ResourceContentService extends ContentService
+public interface IExtendableResource
 {
-
 	/**
-	 * Gets the page content.
+	 * Gets the id.
 	 *
-	 * @param request the request
-	 * @param nMode the n mode
-	 * @return the page content
-	 * @throws UserNotSignedException the user not signed exception
-	 * @throws SiteMessageException the site message exception
+	 * @return the id
 	 */
-	public abstract String getPageContent( HttpServletRequest request, int nMode )
-			throws UserNotSignedException, SiteMessageException;
+	String getIdExtendableResource(  );
 
 	/**
-	 * {@inheritDoc}
+	 * Gets the resource type.
+	 *
+	 * @return the resource type
 	 */
-	@Override
-	public String getPage( HttpServletRequest request, int nMode ) throws UserNotSignedException, SiteMessageException
-	{
-		return getPageContent( request, nMode );
-	}
+	String getExtendableResourceType(  );
+
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	String getExtendableResourceName(  );
 }

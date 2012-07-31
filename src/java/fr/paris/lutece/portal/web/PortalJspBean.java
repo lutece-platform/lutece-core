@@ -40,14 +40,12 @@ import fr.paris.lutece.portal.service.init.AppInit;
 import fr.paris.lutece.portal.service.message.ISiteMessageHandler;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.portal.PortalService;
-import fr.paris.lutece.portal.service.resource.ResourceTypeEnum;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.web.resource.ResourceComponentManager;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -173,9 +171,6 @@ public class PortalJspBean
 
         // Search the content service invoked and call its getPage method
         ContentService cs = PortalService.getInvokedContentService( request );
-
-        // ResourceComponentManager
-        ResourceComponentManager.doProcess( ResourceTypeEnum.CONTENT_SERVICE.toString( ), request, request.getParameterMap(  ), nMode );
 
         String strContent = ( cs != null ) ? cs.getPage( request, nMode ) : PortalService.getDefaultPage( request, nMode );
 

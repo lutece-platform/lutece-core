@@ -70,10 +70,6 @@
             <page-include-service-id>themes</page-include-service-id>
             <page-include-service-class>fr.paris.lutece.portal.web.includes.ThemesInclude</page-include-service-class>
         </page-include-service>
-        <page-include-service>
-            <page-include-service-id>social</page-include-service-id>
-            <page-include-service-class>fr.paris.lutece.portal.web.includes.SocialInclude</page-include-service-class>
-        </page-include-service>
     </page-include-services>
     
     <!-- Daemons -->
