@@ -1,69 +1,102 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
+<head>
+<title>${favourite} - ${page_name}</title>
+<base href="${base_url}" />
+<meta charset="${encoding}" />
+<meta http-equiv="Content-Type" content="text/html;charset=${encoding}" />
+<meta http-equiv="Content-Language" content="fr" />
+<meta name="author" content="${meta_author}" />
+<meta name="copyright" content="${meta_copyright}" />
+<meta name="keywords" content="${meta_keywords}" />
+<meta name="description" content="${meta_description}" />
+<!-- Dublin Core metadatas -->
+<meta name="DC.Creator" content="${meta_author}" />
+<meta name="DC.Rights" content="${meta_copyright}" />
+<meta name="DC.Subject" content="${meta_keywords}" />
+<meta name="DC.Description" content="${meta_description}" />
+<!-- Set the viewport width to device width for mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Le styles -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- style type="text/css">
+body {padding-top: 60px;padding-bottom: 40px;}
+.sidebar-nav {padding: 9px 0; }
+</style -->
+<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!-- Le fav and touch icons -->
+<link rel="shortcut icon" href="favicon.ico">
+<!-- 
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
+-->
+${document_meta?default("<!-- no document_meta -->")}
+${rss?default("<!-- no RSS feed -->")}
+<link rel="stylesheet" href="js/jquery/plugins/treeview/jquery.treeview.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="js/jquery/plugins/ui/datepicker/ui.datepicker.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="js/jquery/plugins/autocomplete/jquery.autocomplete.css" type="text/css" media="screen, projection" />
+${plugins_css_links}
 
-        <title>${favourite} - ${page_name}</title>
+<#if plugin_theme?? >
+<link rel="stylesheet"  href="${plugin_theme.pathCss}/page_template_styles.css" type="text/css"  media="screen" />
+<#else>
+<link rel="stylesheet" href="${theme.pathCss}/page_template_styles.css" type="text/css" media="screen, projection" />
+</#if>
 
-        <base href="${base_url}" />
+${statistical_include_head}
+</head>
+<body>
 
-        <meta http-equiv="Content-Type" content="text/html;charset=${encoding}" />
-        <meta name="author" content="${meta_author}" />
-        <meta name="copyright" content="${meta_copyright}" />
-        <meta name="keywords" content="${meta_keywords}" />
-        <meta name="description" content="${meta_description}" />
-        <!-- Dublin Core metadatas -->
-        <meta name="DC.Creator" content="${meta_author}" />
-        <meta name="DC.Rights" content="${meta_copyright}" />
-        <meta name="DC.Subject" content="${meta_keywords}" />
-        <meta name="DC.Description" content="${meta_description}" />
-        ${document_meta?default("<!-- no document_meta -->")}
-
-        ${rss?default("<!-- no RSS feed -->")}
-
-        <link rel="stylesheet" href="js/jquery/plugins/treeview/jquery.treeview.css" type="text/css" media="screen, projection" />
-        <link rel="stylesheet" href="js/jquery/plugins/ui/datepicker/ui.datepicker.css" type="text/css" media="screen, projection" />
-        <link rel="stylesheet" href="js/jquery/plugins/autocomplete/jquery.autocomplete.css" type="text/css" media="screen, projection" />
-
-        ${plugins_css_links}
-
-        <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection" />
-        <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print" />
-        <!--[if IE]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
-        <link rel="stylesheet" href="css/commons.css" type="text/css" media="screen, projection" />
-
-        <#if plugin_theme?? >
-        <link rel="stylesheet"  href="${plugin_theme.pathCss}/page_template_styles.css" type="text/css"  media="screen" />
-        <#else>
-        <link rel="stylesheet" href="${theme.pathCss}/page_template_styles.css" type="text/css" media="screen, projection" />
-        </#if>
-
-        <link rel="shortcut icon" href="favicon.ico" />
-
-        ${statistical_include_head}
-        <script src="js/jquery/jquery.min.js" type="text/javascript"></script>
-
-    </head>
-    <body>
-        <div class="container">
-		${page_header}
-            <div id="page" class="span-24 last">
-			${page_path}
-			${page_content}
-            </div>
-		${page_footer}
-		${statistical_include}
-        </div>
-
-        <script type="text/javascript">
-        $("#menu-auth-label").click(function(){$('#header-menu').toggle()});
-        </script>
-        <script src="js/jquery/plugins/treeview/jquery.cookie.js" type="text/javascript"></script>
-        <script src="js/jquery/plugins/treeview/jquery.treeview.pack.js" type="text/javascript"></script>
-        <script src="js/jquery/plugins/ui/datepicker/ui.datepicker.js" type="text/javascript"></script>
-        <script src="js/jquery/plugins/ui/datepicker/ui.datepicker-fr.js" type="text/javascript"></script>
-        <script src="js/jquery/plugins/autocomplete/jquery.autocomplete.pack.js" type="text/javascript"></script>
-        ${plugins_javascript_links}
-
-
-    </body>
+ <!-- header -->
+<header role="banner">
+<div id="header">
+<div class="container">
+${page_header}
+</div>
+</div>
+</header>
+<!-- end header -->
+<!-- container -->
+<div class="container">
+<div id="page">
+${social!}
+${contextinclude!}
+${contextinclude_1!}
+${page_path}
+${page_content}
+${contextinclude_2!}
+</div>
+</div>
+<div id="footer">
+<div class="container">
+${page_footer}
+</div>
+</div>
+<!-- container -->
+<!-- Included JS Files -->
+<script src="js/jquery/jquery.min.js"></script>
+<!-- Le javascript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/bootstrap.min.js"></script>
+${plugins_javascript_links}
+${statistical_include}
+<!-- Google Analytics -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-5582030-3");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+<!-- End Google Analytics -->
+</body>
 </html>

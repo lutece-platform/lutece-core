@@ -1,71 +1,59 @@
-<div class="container">
-		<div class="span-24 prepend-top last">
-
-	<div class="message-header">
- 		<#if message.type = 0 > <img
-			src="images/local/skin/messages/info.png" class="message" 
-			title="#i18n{portal.util.message.titleDefault}" 
-			alt="#i18n{portal.util.message.titleDefault}" />
-		<#elseif message.type = 1 > <img
-			src="images/local/skin/messages/question.png" class="message" 
-			title="#i18n{portal.util.message.titleQuestion}" 
-			alt="#i18n{portal.util.message.titleQuestion}" />
-		<#elseif message.type = 2 > <img
-			src="images/local/skin/messages/error.png" class="message" 
-			title="#i18n{portal.util.message.titleError}" 
-			alt="#i18n{portal.util.message.titleError}" />
-		<#elseif message.type = 3 > <img
-			src="images/local/skin/messages/warning.png" class="message" 
-			title="#i18n{portal.util.message.titleWarning}" 
-			alt="#i18n{portal.util.message.titleWarning}" />
-		<#elseif message.type = 4 > <img
-			src="images/local/skin/messages/confirmation.png" class="message" 
-			title="#i18n{portal.util.message.titleConfirmation}" 
-			alt="#i18n{portal.util.message.titleConfirmation}" />
-		<#elseif message.type = 5 > <img
-			src="images/local/skin/messages/stop.png" class="message" 
-			title="#i18n{portal.util.message.titleStop}" 
-			alt="#i18n{portal.util.message.titleStop}" />
-		</#if>
-		${title}
-	</div>
-    <div class="message-content">			
-		<p>${text}</p>
-		<form method="post" action="${url!}" target="${target!}" class="-lutece-inline-button">
-			<#if list_parameters?exists>
-				<#assign keys = list_parameters?keys>
-				<#list keys as key>
-				  	<input type="hidden" name="${key}" value="${list_parameters[key]}" />
-				</#list>
-			</#if>
-
-			<#if url?has_content> 
-				<input type="submit"
-					value="#i18n{portal.util.labelValidate}" class="-lutece-input -lutece-border-radius-mini" /> 
-			</#if>
-
-		</form>	
-		 <#if back_url?has_content>
-			<form method="post" action="${back_url}" class="-lutece-inline-button" >
-				<#if list_parameters?exists>
-					<#list keys as key>
-		  				<input type="hidden" name="${key}" value="${list_parameters[key]}" />
-		  			</#list>	
-				</#if>
-				<#if cancel_button = 1> 
-					<input type="submit" value="#i18n{portal.util.labelBack}" class="-lutece-input -lutece-border-radius-mini" />
-				<#elseif cancel_button = 2>
-					<input type="submit" value="#i18n{portal.util.labelCancel}" class="-lutece-input -lutece-border-radius-mini" />
-				</#if>
-			</form>		
-		 <#else>		
-			<#if cancel_button = 1> 
-				<input type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.util.labelBack}" class="-lutece-input -lutece-border-radius-mini -lutece-inline-button" />
-			<#elseif cancel_button = 2>
-				<input type="button" onclick="javascript:history.go(-1)"  value="#i18n{portal.util.labelCancel}" class="-lutece-input -lutece-border-radius-mini -lutece-inline-button" />
-			</#if>
-		</#if>	
-					
-	</div>
-  </div>
+<div class="row">
+<div class="fourteen colummns portlet -lutece-border-radius  end">
+<div class="row">
+<div class="eleven columns push-three">
+<h3>
+<#if message.type = 0 >
+	<img src="images/local/skin/messages/info.png" class="message" title="#i18n{portal.util.message.titleDefault}" alt="#i18n{portal.util.message.titleDefault}" />
+<#elseif message.type = 1 > 
+	<img src="images/local/skin/messages/question.png" class="message" title="#i18n{portal.util.message.titleQuestion}" alt="#i18n{portal.util.message.titleQuestion}" />
+<#elseif message.type = 2 > 
+	<img src="images/local/skin/messages/error.png" class="message" title="#i18n{portal.util.message.titleError}" alt="#i18n{portal.util.message.titleError}" />
+<#elseif message.type = 3 > 
+	<img src="images/local/skin/messages/warning.png" class="message" title="#i18n{portal.util.message.titleWarning}" alt="#i18n{portal.util.message.titleWarning}" />
+<#elseif message.type = 4 > 
+	<img src="images/local/skin/messages/confirmation.png" class="message" title="#i18n{portal.util.message.titleConfirmation}" alt="#i18n{portal.util.message.titleConfirmation}" />
+<#elseif message.type = 5 > 
+	<img src="images/local/skin/messages/stop.png" class="message" title="#i18n{portal.util.message.titleStop}"	alt="#i18n{portal.util.message.titleStop}" />
+</#if>
+${title}</h3>
+</div>
+</div>
+<div class="row">
+<div class="eleven columns push-three">			
+<div class="alert-box alert">${text}</div>
+<form method="post" action="${url!}" target="${target!}">
+<#if list_parameters?exists>
+<#assign keys = list_parameters?keys>
+<#list keys as key>
+<input type="hidden" name="${key}" value="${list_parameters[key]}" />
+</#list>
+</#if>
+<#if url?has_content> 
+<input type="submit" value="#i18n{portal.util.labelValidate}" class="button" /> 
+</#if>
+</form>	
+<#if back_url?has_content>
+<form method="post" action="${back_url}" class="-lutece-inline-button" >
+<#if list_parameters?exists>
+<#list keys as key>
+<input type="hidden" name="${key}" value="${list_parameters[key]}" />
+</#list>	
+</#if>
+<#if cancel_button = 1> 
+<input type="submit" value="#i18n{portal.util.labelBack}" class="button" />
+<#elseif cancel_button = 2>
+<input type="submit" value="#i18n{portal.util.labelCancel}" class="button" />
+</#if>
+</form>		
+ <#else>		
+<#if cancel_button = 1> 
+<input type="button" value="#i18n{portal.util.labelBack}" class="button js" />
+<#elseif cancel_button = 2>
+<input type="button" value="#i18n{portal.util.labelCancel}" class="button js" />
+</#if>
+</#if>	
+</div>
+</div>
+</div>
 </div>

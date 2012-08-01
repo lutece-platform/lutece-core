@@ -1,61 +1,81 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+<!DOCTYPE html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="fr"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="fr"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="fr"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="fr"> <!--<![endif]-->
 <head>
-
-<title>${favourite} - ${page_name}</title>
-
-<base href="${base_url}" />
-
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<meta http-equiv="Content-Language" content="fr" />
-
-<link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection" />
-<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print" />
-<!--[if IE]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
-<link rel="stylesheet" href="css/commons.css" type="text/css" media="screen, projection" />
-
-<#if plugin_theme?? >
-	<link rel="stylesheet"  href="${plugin_theme.pathCss}/page_template_styles.css" type="text/css"  media="screen" />
-<#else>
-	<link rel="stylesheet" href="${theme.pathCss}/page_template_styles.css" type="text/css" media="screen, projection" />
-</#if>
-
-<link rel="shortcut icon" href="favicon.ico" />
-
+    <title>${favourite} - ${page_name}</title>
+	<base href="${base_url}" />
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<meta http-equiv="Content-Language" content="fr" />
+	<!-- Set the viewport width to device width for mobile -->
+	<meta name="viewport" content="width=device-width" />
+	<!-- Included CSS Files -->
+	<link rel="stylesheet" href="css/foundation.css">
+	<!--[if lt IE 9]>
+		<link rel="stylesheet" href="css/ie/ie.css">
+	<![endif]-->
+	<script src="js/jquery/modernizr.foundation.js"></script>
+	<!-- IE Fix for HTML5 Tags -->
+	<!--[if lt IE 9]>
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+     <#if plugin_theme?? >
+        <link rel="stylesheet"  href="${plugin_theme.pathCss}/page_template_styles.css" type="text/css"  media="screen" />
+        <#else>
+        <link rel="stylesheet" href="${theme.pathCss}/page_template_styles.css" type="text/css" media="screen, projection" />
+    </#if>
+	<link rel="shortcut icon" href="favicon.ico" />
 </head>
 <body>
-	<div class="container">
-		<div id="banner" class="span-24 append-bottom last -lutece-border-radius-top">
-			<div id="logo" class="span-4 prepend-1 prepend-top">
-				<a href="jsp/site/Portal.jsp"><img class="png" src="images/logo.png" title="Home" alt="Home"/></a>
-			</div>
-		</div>
-		<div id="page" class="span-24 last">
-			<div class="portlet -lutece-border-radius span-17 push-3 append-bottom">
-				<p>
-					${page_content}
-				</p>
-			</div>
-		</div>
-		<div id="footer2" class="span-24 last -lutece-border-radius-bottom">
-			<div id="footer-logo" class="span-2 prepend-1 prepend-top append-bottom">
-				<a href="http://fr.lutece.paris.fr" title="#i18n{portal.site.portal_footer.labelPortal}">
-					<img src="images/local/skin/poweredby.jpg" width="55" height="22" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
-				</a>
-			</div>
-			<div id="footer-links" class="span-18">
-				<a href="jsp/site/Portal.jsp?page=map" accesskey="3" >#i18n{portal.site.site_map.pathLabel}</a><br />
-				<a href="jsp/site/Portal.jsp?page=contact" accesskey="7" >#i18n{portal.site.page_menu_tools.xpage.contact}</a><br />
-				<a href="jsp/site/PopupCredits.jsp" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelCredits}" target="info_comp">#i18n{portal.site.portal_footer.labelCredits}</a><br />
-			</div>
-			<div id="footer-rss" class="span-2 append-1 prepend-top append-bottom last">
-				<a href="http://fr.lutece.paris.fr/fr/plugins/rss/lutece.xml" title="RSS">
-					<img src="images/local/skin/feed.png" alt="RSS" title="RSS" />
-				</a>
-			</div>
-		</div>
-	</div>
+<!-- container -->
+<div class="container">
+<div id="banner" class="row -lutece-border-radius-top">
+<div class="fourteen columns">
+<div id="logo" class="three columns">
+<a href="jsp/site/Portal.jsp">
+	<img src="${theme.pathImages}logo.png" title="Home" alt="Home"/>
+</a>
+</div>
+</div>
+</div>
+<div class="row" id="page">
+<div class="fourteen columns">
+${page_content}
+</div>
+</div>
+<div class="row -lutece-border-radius-bottom" id="footer2">
+<div class="four columns">
+	<a id="footer-logo" href="http://fr.lutece.paris.fr" title="Lutece">
+		<img src="images/local/skin/poweredby.jpg" width="55" height="22" alt="Lutece" />
+	</a>
+</div>
+<div class="six columns">
+	<ul class="link-list">
+	<li>
+		<a href="jsp/site/Portal.jsp?page=map" accesskey="3" >#i18n{portal.site.site_map.pathLabel}</a>
+	</li>
+	<li>
+		<a href="jsp/site/Portal.jsp?page=contact" accesskey="7" >#i18n{portal.site.page_menu_tools.xpage.contact}</a>
+	</li>
+	<li>
+		<a href="jsp/site/PopupCredits.jsp" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelCredits}" target="info_comp">#i18n{portal.site.portal_footer.labelCredits}</a>
+	</li>
+	</ul>
+</div>
+<div class="four columns push-two">
+	<a id="footer-rss" href="http://fr.lutece.paris.fr/fr/plugins/rss/lutece.xml" title="RSS">
+		<img src="images/local/skin/feed.png" alt="RSS" title="RSS" />
+	</a>
+</div>
+</div>
+</div>
+<!-- Included JS Files -->
+<script src="js/jquery/jquery.min.js"></script>
+<script src="js/jquery/foundation.js"></script>
+<script type="text/javascript">
+  $(".js").click(function(){window.history.back();});
+</script>
 </body>
 </html>
-
-

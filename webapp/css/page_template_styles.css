@@ -1,144 +1,68 @@
-body {
-	background-color: #fff;
-	color: #000;
-}
+body {background-color: #fff;color: #000;}
 
-#banner {
-	background-color: #2178B3;
-	height: 7em;
-	background-image: url("../images/local/skin/header_background.png");
-}
+/**************************************************/
+/* Banner styles                                  */
+/**************************************************/
+#banner {background-color: #2178B3;height: 7em;background-image: url("../images/local/skin/header_background.png");}
+#search {text-align: right;}
+#header-link {text-align: right;display: inline;}
+#header-menu {background-color:#757779;padding: 30px 0px;}
+#menu-auth-label {text-decoration:underline;cursor: pointer;color: #ddd;}
+#menu-auth-label-logged a, #menu-auth-label-logged {text-transform: capitalize;color: #ddd;}
+#logo{margin:10px;}
 
-#search {
-	text-align: right;
-}
 
-#header-link {
-	text-align: right;
-	display: inline;
-}
+/* breadcrumb */
+ul.breadcrumbs { background-color:#fff;border:none; }
+ul.breadcrumbs li:last-child{padding-left:5px;}
 
-#header-menu {
-	background-color:#757779;
-	padding: 30px 0px;
-}
-#menu-auth-label {
-	text-decoration: underline;
-	cursor: pointer;
-	color: #ddd;
-}
-#menu-auth-label-logged a, #menu-auth-label-logged {
-	text-transform: capitalize;
-	color: #ddd;
-}
-/***************************************************/
-#page {
-	background-color: #ededed;
-	padding-top: 1.4em;
-}
-
-#page a {
-	color: #000;
-}
-
-.portlet {
-	background-color: #fff;
-	padding:1em;
-	border:1px solid #ced0d0;
-}
-
-.portlet-background-content {
-	background-color: #fff;
-	padding:1em;
-}
-
-.portlet-header{
-	font-size:1.4em;
-	font-weight:bold;
-}
-
-.portlet-background-header, .portlet-background-colored-header {
-	background-image: url("../images/local/skin/title_background.png");
-	background-color:#2178B3;
-	font-size:1.4em;
-	font-weight:bold;
-	color:#EEEEEE;
-	padding:0.28em 1em;
-	border-bottom: 1px solid #efefef;
-}
-
-.portlet-background-colored-content {
-	background-image: url("../images/local/skin/portlet_background.png");
-	background-repeat: repeat-x;
-	background-color: #fdfdff;
-	padding:1em;
-}
-
-#footer1 {
-	background-color: #757779;
-}
-
-#footer1-subelement {
-	background-color: #f1f1f1;
-	color: #1F4772;
-	height:20em;
-	margin:1.5%;
-	width:97%;
-}
-
-.footer1-column {
-	margin-top: 1em;
-	width: 33%;
-	float: right;
-}
-
-a.first-level {
-	color: #1F4772;
-	font-size:1.4em;
-	font-weight:bold;
-	text-decoration:none;
-}
-
-a.last-level {
-	color: #1F4772;
-	font-size:0.9em;
-	text-decoration:none;
-	padding-left: 2em;
-}
+/*************************************************/
+/* Pages styles                                  */
+/*************************************************/
+#page {background-color: #ededed;padding-top: 1.4em;}
+#page a {color: #000;}
 
 /***************************************************/
-#footer2 {
-	background-color: #444444;
-	height: 5em;
-	margin-bottom: 2px;
-}
+/* Portlets styles                                 */
+/***************************************************/
+.portlet {background-color: #fff;padding:1em;border:1px solid #ced0d0;margin:5px 0;}
+.portlet-background-content {background-color: #fff;padding:1em;}
+.portlet-background, .portlet-background-colored{margin:5px 0;}
+.portlet-header{font-size:1.4em;font-weight:bold;}
+.portlet-background-header, .portlet-background-colored-header {	background: url("../images/local/skin/title_background.png") #2178B3;font-size:1.4em;font-weight:bold;color:#EEE;padding:0.28em 1em;border-bottom: 1px solid #efefef;}
+h1.portlet-background-header, h1.portlet-header, h3.portlet-background-colored-header {margin:0;}
+h3.portlet-background-header, h3.portlet-header, h3.portlet-background-colored-header {margin:0;}
+.portlet-background-colored-content {background: url("../images/local/skin/portlet_background.png") repeat-x #fdfdff;padding:1em;}
 
-#footer-links {
-	text-align: right;
-}
+/***************************************************/
+/* Footer                                          */
+/***************************************************/
+#footer1 {background-color: #D0D4D7;padding:0.2em;}
+#footer1-subelement {background-color: #f1f1f1;color: #1F4772;height:20em;margin:1.5%;width:97%;}
+a.first-level {color: #1F4772;font-size:1.0em;font-weight:bold;text-decoration:none;}
+#footer2 {background-color: #444444;height: 5em;padding:10px 0;}
+#footer-logo {}
+#footer-links {}
+#footer-rss {}
+#footer2 a{color: #ddd;}
+/*
+em {background-color: #F3ECDC;}
+*/
+/**************************************************/
+/* Lutece common styles                           */
+/**************************************************/
 
-#footer-rss {
-	text-align: right;
-}
-
-#footer2 a {
-	color: #ddd;
-}
-
-.-lutece-framed {
-	border: 1px solid #000;
-	padding:0.8em;
-}
-
-input[type="submit"], input[type="reset"], input[type="button"] {
-	border:1px solid #81ADD7;
-	color:#5693C0;
-	background-color: #ECE9D8;
-}
-input[type="submit"]:hover, input[type="reset"]:hover, input[type="button"]:hover {
-	background-color: #fff;
-}
-
-em {
-	background-color: #F3ECDC;
-}
+.-lutece-framed {border: 1px solid #000;	padding:0.8em;}
+.-lutece-border-radius-top {-moz-border-radius-topleft:7px;-moz-border-radius-topright:7px;-webkit-border-top-left-radius:7px;-webkit-border-top-right-radius:7px;border-top-left-radius:7px;border-top-right-radius:7px;}
+.-lutece-border-radius-bottom {-moz-border-radius-bottomleft:7px;-moz-border-radius-bottomright:7px;-webkit-border-bottom-left-radius:7px;-webkit-border-bottom-right-radius:7px;border-bottom-left-radius:7px;border-bottom-right-radius:7px;}
+.-lutece-border-radius {-moz-border-radius:7px;-webkit-border-radius:7px;border-radius:7px;}
+.-lutece-border-radius-mini {-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.-lutece-center {margin-left: auto;margin-right: auto;}
+.-lutece-text-center {text-align: center;}
+.-lutece-full-width {width: 100%;}
+.-lutece-800px-width {/* useful for insert-album gallery view panel only */ 	width: 100%;}
+.-lutece-padding-1em {padding: 1em;}
+.-lutece-float-right {float: right;}
+.-lutece-control {	border-left: 1px solid #000;	border-bottom: 1px solid #000;	height: 30px;}
+.-lutece-control-element {float: left;width: 40px;display: inline;}
+.-lutece-inline-button {display: inline;	}
