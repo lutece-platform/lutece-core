@@ -1,61 +1,14 @@
-<div id="welcome-zone">
-    <div id="welcome-user-zone">
-        <div class="content-box">
-            <h2>#i18n{portal.admin.admin_home.connectedUser}</h2>
-            <p>${user.firstName} ${user.lastName} </p>
-            <table>
-                <#if url_modify_password?has_content >
-                <tr>
-                    <td>
-                        <h3>
-                            <img src="images/admin/skin/change_password.png" alt="#i18n{portal.admin.admin_home.changePassword}" align="middle" />
-	                            #i18n{portal.admin.admin_home.password}
-                        </h3>
-                        <form method="post"  action="${url_modify_password}">
-                            <p>
-                                <input type="submit" class="button" value="#i18n{portal.admin.admin_home.changePassword}" />
-                            </p>
-                        </form>
-                    </td>
-                </tr>
-                </#if>
-                <tr>
-                    <td>
-                        <h3>
-                            <img src="images/admin/skin/change_language.png" alt="#i18n{portal.admin.admin_home.language}"  align="middle"/>
-                            #i18n{portal.admin.admin_home.language} 
-                        </h3>
-
-                        <form method="post"  action="jsp/admin/DoChangeLanguage.jsp">
-                            <p>
-                                <@comboSorted name="language" default_value="${current_language}" items=languages_list />
-                                <input type="submit" class="button" value="#i18n{portal.admin.admin_home.button.changeLanguage}" />
-                            </p>
-                        </form>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <#if dashboard_zone_1?has_content>
-	        <div class="content-box">
-	            <h2>#i18n{portal.admin.admin_home.dashboard}</h2>
-	            ${dashboard_zone_1}
-	        </div>
-		</#if>
-		<#if dashboard_zone_2?has_content>
-			${dashboard_zone_2}
-		</#if>
-    </div>
-    
-    <#if dashboard_zone_3?has_content>
-    	<div id="welcome-content-zone">
-    		${dashboard_zone_3}
-    	</div>
-    <#else>
-	    <div id="welcome-content-zone">
-	        <#list feature_group_list as feature_group >
-	        <div class="content-box" id="${feature_group.id}" >
-	            <a href="jsp/admin/AdminMenu.jsp#top" class="top">
+<div class="container">
+<div class="row">
+<#if dashboard_zone_3?has_content>
+<div class="span9">
+${dashboard_zone_3}
+</div>
+<#else>
+ <div class="span9">
+<#list feature_group_list as feature_group >
+<div class="well" id="${feature_group.id}" >
+   <a href="jsp/admin/AdminMenu.jsp#top" class="top">
 	                <img src="images/admin/skin/sign-up.png" alt="Retour vers le haut" />
 	            </a>
 	            <h2>${feature_group.label}</h2>
@@ -75,6 +28,43 @@
 	            </ul>
 	        </div>
 	        </#list>
-	    </div>
-	</#if>
+  </div>
+</#if>
+<!--
+<div class="span4">
+<#if url_modify_password?has_content >
+<h3>
+<img src="images/admin/skin/change_password.png" alt="#i18n{portal.admin.admin_home.changePassword}" align="middle" />                           #i18n{portal.admin.admin_home.password}</h3>
+<form method="post"  action="${url_modify_password}">
+<input type="submit" class="button" value="#i18n{portal.admin.admin_home.changePassword}" />
+</form>
+</#if>
+-->
+<#if dashboard_zone_1?has_content>
+<!--
+
+
+<h3><img src="images/admin/skin/change_language.png" alt="#i18n{portal.admin.admin_home.language}"  align="middle"/>#i18n{portal.admin.admin_home.language}</h3>
+<form method="post"  action="jsp/admin/DoChangeLanguage.jsp">
+<@comboSorted name="language" default_value="${current_language}" items=languages_list />
+<input type="submit" class="button" value="#i18n{portal.admin.admin_home.button.changeLanguage}" />
+</form>
 </div>
+-->
+<div class="span3">
+<div class="content-box">
+<h2>#i18n{portal.admin.admin_home.dashboard}</h2>
+<div class="content-box">
+${dashboard_zone_1}
+</div>
+
+</#if>
+<#if dashboard_zone_2?has_content>
+<div class="content-box">
+${dashboard_zone_2}
+</#if>
+</div>
+</div>
+</div>
+</div>
+
