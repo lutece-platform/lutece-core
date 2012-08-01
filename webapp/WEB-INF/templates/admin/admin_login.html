@@ -3,7 +3,7 @@
 	<div class="span2">
     <img  id="logo" src="images/logo-header.png" alt="" title="" />
 	</div>
-	<div class="span10">
+	<div class="span12">
     <a href="jsp/admin/AdminLogin.jsp" title=""><img src="images/admin/skin/login.png" />&nbsp;</a>
 	</div>
 </div>
@@ -11,19 +11,27 @@
 	<div class="span8"><h2 id="admin-header-sitename">${site_name}</h2></div>
 </div>
 <div class="row">
-<div class="span8 offset2">
+<div class="span6 offset2">
 <h3>#i18n{portal.admin.admin_login.welcome}</h3>
 <div class="well">#i18n{portal.admin.admin_login.helpText}</div>
-<form method="post" name="login" id="login" action="${do_admin_login_url}" >
+<form method="post" name="login" id="login" action="${do_admin_login_url}" class="well">
+<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
 <fieldset>
 <legend>#i18n{portal.admin.admin_login.boxTitle}</legend>
 <label for="access_code" >#i18n{portal.admin.admin_login.loginLabel} :</label>
-<input type="text" name="access_code" id="access_code" autocomplete="off" required="required" placeholder="#i18n{portal.admin.admin_login.loginLabel}" tabindex="1" />
+<div class="input-prepend">
+	<span class="add-on"><i class="icon-user"></i></span><input type="text" name="access_code" id="access_code" autocomplete="off" required="required" placeholder="#i18n{portal.admin.admin_login.loginLabel}" tabindex="1" />
+</div>
 <label for="password" >#i18n{portal.admin.admin_login.passwordLabel} :</label>
-<input type="password" name="password" id="password"autocomplete="off" required="required" placeholder="#i18n{portal.admin.admin_login.passwordLabel}"  tabindex="2" />
-<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
-<input class="btn" type="submit" value="#i18n{portal.admin.admin_login.buttonConnect}" tabindx="3"> 
-<p><a href="${forgot_password_url?if_exists}">#i18n{portal.admin.admin_login.forgotPassword}</a></p>
+<div class="input-prepend">
+	<span class="add-on"><i class="icon-lock"></i></span><input type="password" name="password" id="password"autocomplete="off" required="required" placeholder="#i18n{portal.admin.admin_login.passwordLabel}"  tabindex="2" />
+</div>
+<div class="form-actions">
+	<span class="span1">
+		<input class="btn btn-primary" type="submit" value="#i18n{portal.admin.admin_login.buttonConnect}" tabindx="3"> 
+	</span>
+<span class="span2 offset1 pull-right"><i class="icon-exclamation-sign">&nbsp;</i>&nbsp;<a href="${forgot_password_url?if_exists}">#i18n{portal.admin.admin_login.forgotPassword}</a></span>
+</div>
 </div>
 </fieldset>
 </form>
