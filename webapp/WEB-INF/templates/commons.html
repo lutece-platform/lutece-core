@@ -95,16 +95,22 @@
 		<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
 		<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
 	</#if>
+        <div class="pagination">
+            <ul>
     <#if ( paginator.pagesCount > 1 )>
         <#if ( paginator.pageCurrent - offsetPrev > 1 )>
+        <li class="previous-off">
         <a href="${paginator.firstPageLink?xhtml}">
-            <img src="images/admin/skin/first.png" alt="&lt;" style="vertical-align: baseline;" />
+            <img src="images/admin/skin/first.png" alt="&lt;" />
         </a>
+        </li>
         </#if>
         <#if ( paginator.pageCurrent > 1 )>
+        <li class="previous">
         <a href="${paginator.previousPageLink?xhtml}">
-            <img src="images/admin/skin/prev.png" alt="&lt;" style="vertical-align: baseline;" />
+            <img src="images/admin/skin/prev.png" alt="&lt;" />
         </a>
+        </li>
         <#else>
             &nbsp;&nbsp;
         </#if>
@@ -113,27 +119,33 @@
         </#if>
         <#list paginator.pagesLinks as link>
 			<#if link.index == paginator.pageCurrent>
-				<strong>${link.name}</strong>
+			<li class="active"><a href="${link.url?xhtml}">${link.name}</a></li>
 			<#else>
-				<a href="${link.url?xhtml}">${link.name}</a>
+                        <li><a href="${link.url?xhtml}">${link.name}</a></li>
 			</#if>
         </#list>
         <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
         	<strong>...</strong>
         </#if>
-        <#if ( paginator.pageCurrent < paginator.pagesCount )> 
+        <#if ( paginator.pageCurrent < paginator.pagesCount )>
+        <li class="next">
         <a href="${paginator.nextPageLink?xhtml}">
-            <img src="images/admin/skin/next.png" alt="&gt;" style="vertical-align: baseline;" />
+            <img src="images/admin/skin/next.png" alt="&gt;" />
         </a>
+        </li>
         <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
+        <li class="next-off">
         <a href="${paginator.lastPageLink?xhtml}">
-            <img src="images/admin/skin/last.png" alt="&lt;" style="vertical-align: baseline;" />
+            <img src="images/admin/skin/last.png" alt="&lt;" />
         </a>
+        </li>
         </#if>
         <#else>
             &nbsp;&nbsp;
         </#if>
     </#if>
+            </ul>
+        </div>
 </#macro>
 
 
@@ -167,6 +179,7 @@
 		<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
 		<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
 	</#if>
+        <div class="pagination">
          <ul>
         <#if ( paginator.pageCurrent - offsetPrev > 1 )>
         <li>
@@ -182,8 +195,8 @@
         </a>
         </li>
         <#else>
-        <li class="previous-off">
-            ${paginator.labelPrevious}
+        <li class="disabled">
+            <a href="">${paginator.labelPrevious}</a>
         </li>
         </#if>
         <#if ( paginator.pageCurrent - offsetPrev > 1 )>
@@ -194,7 +207,7 @@
         <#list paginator.pagesLinks as link>
 			<#if ( link.index == paginator.pageCurrent )>
                         <li class="active">
-				<strong>${link.name}</strong>
+				<a href="${link.url?xhtml}">${link.name}</a>
                         </li>
 			<#else>
                         <li>
@@ -221,11 +234,12 @@
         </li>
         </#if>
         <#else>
-        <li class="next-off">
-            ${paginator.labelNext}
+        <li class="disabled">
+            <a href="">${paginator.labelNext}</a>
         </li>
         </#if>
         </ul>
+        </div>
  </#macro>
  
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page>
