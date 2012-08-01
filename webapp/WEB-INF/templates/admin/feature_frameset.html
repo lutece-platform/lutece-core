@@ -1,5 +1,5 @@
-<div id="content" >
-    <h2 id="content-header">
+<div class="container" >
+    <h2>
         <img src="${feature_icon}" alt="" title=""/>
         <a href="${feature_url}">${feature_title}</a>
         <#if feature_documentation?has_content >
@@ -10,7 +10,7 @@
         </#if>
         </#if>
         <#if page_title?has_content>
-        <div id="content-title">&nbsp;>&nbsp;${page_title}</div>
+        ${page_title}
         </#if>
     </h2>
     ${page_content}
