@@ -1,12 +1,19 @@
 /********************************
+/* Body 						*
+********************************/
+/* Fix for fixed-nav-bar*/
+body{padding-top:60px;}
+
+/********************************
 ******** Header
 **********************************/
 
 /* Toolbar above menu */
-#admin-header-toolbar{background:none #444; border-bottom:1px solid #666; font-family:verdana;font-size:80%;padding:8px 4px 4px 0;text-align:right;}
+#admin-header-toolbar{background:none #444; border-bottom:1px solid #666; font-family:verdana;font-size:80%;padding:8px 4px 4px 0;text-align:right;margin-top:-60px;}
 #admin-header-toolbar a{color:#fff; margin:0 5px; font-weight:normal;text-decoration: none;}
 #admin-header-toolbar img#logo{float:left;margin: 0 0 0 20px;}
 
+#admin-header-message{background:none #444; border-bottom:1px solid #666; font-family:verdana;font-size:80%;padding:8px 4px 5px 0;text-align:right;margin-top:-60px;margin-bottom:50px;}
 /* Menu */
 #admin-header-main {
     background: #444;/* for non-css3 browsers */
@@ -25,19 +32,8 @@
 /********************************
 ******** Page content box
 *********************************/
-div.content-box{
-background-color: #EEE;
-border-radius: 6px 6px 6px 6px;
-margin-bottom: 10px;
-padding: 10px;
-}
-
-div.content-box h2 {
-    padding: 5px 0 6px 12px;
-    color: #444;
-    font-size:small;
-}
-
+div.content-box{background-color: #EEE;border-radius: 6px 6px 6px 6px;margin:0 0 10px 0;padding:0;}
+div.content-box h2 {padding:0 0 0 10px;color:#444;font-size:small;line-height:10px;background-color:#DEDEDE;border-radius:6px 6px 6px 6px;padding:5px;}
 
 /********************************
 ******** Highlight box

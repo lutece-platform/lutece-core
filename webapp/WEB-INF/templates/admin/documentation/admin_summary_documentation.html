@@ -1,20 +1,20 @@
-<div id="content" >
-    <h2 id="content-header">
-        <img src="${help_icon}"  class="icon"  alt="" title=""  /><a href="jsp/admin/documentation/AdminSummaryDocumentation.jsp">#i18n{portal.features.documentation.summary.feature.title}</a>
-    </h2>
-    <div id="feature-content">
-  <div class="content-box">
-        <h2>#i18n{portal.features.documentation.summary.title}</h2>
-        <#if feature_group_list?has_content>
+<div class="container">
+<div class="row">
+<h2><img src="${help_icon}"  class="icon"  alt="" title=""  />
+<a href="jsp/admin/documentation/AdminSummaryDocumentation.jsp">#i18n{portal.features.documentation.summary.feature.title}</a>
+</h2>
+<div class="content-box">
+<h2 class="clearfix"><i class="icon-book"></i>&nbsp;#i18n{portal.features.documentation.summary.title}</h2>
+<#if feature_group_list?has_content>
         <ul>
             <#list feature_group_list as feature_group >
             <li>
-                <h1>${feature_group.label}</h1>
+                <h3>${feature_group.label}</h3>
                 <ul>
                 <#list feature_group.features as feature >
                     <#if feature.documentationUrl?exists>
                     <li>
-                        <h3><a href="${feature.documentationUrl}" target="_blank" class="bullet-link" >${feature.name}</a></h3>
+                        <h4><a href="${feature.documentationUrl}" target="_blank" class="bullet-link" >${feature.name}</a></h4>
                         <p>${feature.description}</p>
                     </li>
                     </#if>

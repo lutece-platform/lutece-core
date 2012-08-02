@@ -1,6 +1,6 @@
 <div class="container">
 <a name="top"></a>
-<div class="navbar">
+<div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
         <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
@@ -9,9 +9,8 @@
           <span class="icon-bar"></span>
         </a>
         <a href="jsp/site/Portal.jsp"   title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
-		<img src="images/logo-header.png" alt="logo" title="" /> &nbsp;${site_name}
-		
-		</a>
+		<img src="images/logo-header.png" alt="logo" title="" /> &nbsp;<i class="icon-globe icon-white"></i>&nbsp;${site_name}
+			</a>
         <div class="nav-collapse">
 			<ul class="nav">
 			<#list feature_group_list as feature_group>

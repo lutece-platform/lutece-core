@@ -1,40 +1,37 @@
-<html>
-	<head>
-    	<title>#i18n{portal.admin.admin_form_contact.title}</title>
-    </head>
-
-	<body>
-		<div id="admin-header" class="header-box">
-			<div id="admin-main-menu" >       
-				<div class="admin-main-menu-text">
-		            version : ${version}
-				</div>  
-		    </div> 
+<div class="clearfix">
+<div class="row" id="admin-header-message" >
+	<div class="span2">
+    <img  id="logo" src="images/logo-header.png" alt="" title="" /> #i18n{portal.admin.admin_form_contact.title}
+	</div>
+</div>
+</div>
+<div class="container">
+<div class="span10 offset1">
+<h2>#i18n{portal.admin.admin_form_contact.boxTitle}</h2>
+<div class="row">
+	<div class="container">
+		<div class="alert alert-info span8">
+		#i18n{portal.admin.message.admin_form_contact.sendingError}
 		</div>
-	    <div id="login-zone">
-	        <div class="content-box">
-	            <h2>#i18n{portal.admin.admin_form_contact.boxTitle}</h2>
-                <p>
-					<img src="images/admin/skin/messages/warning.png" hspace="3" vspace="5" align="left" />
-				</p>
-				<p>
-					#i18n{portal.admin.message.admin_form_contact.sendingError}
-				</p>
-	    		<form method="post" name="form_contact" id="form_contact" action="jsp/admin/DoAdminFormContact.jsp" >
-	            	<p class="login">
-	                	<label for="message_contact" >#i18n{portal.admin.admin_form_contact.messageContactLabel} * :</label>
-	                	<textarea rows="5" cols="50" name="message_contact" id="message_contact"></textarea>
-	                </p>
-					<p>
-		            	<input class="button" type="submit" value="#i18n{portal.admin.admin_form_contact.buttonSubmit}" tabindex="2" />
-					</p>
-	            </form>
-			</div>
-		</div>
-	
-		<script language="JavaScript">
-	        window.onload = document.forms['message_contact'].access_code.focus;
-	    </script>
-
-    </body>
-</html>
+	</div>
+</div>
+<div class="row">
+<div class="container">
+<form method="post" name="form_contact" id="form_contact" action="jsp/admin/DoAdminFormContact.jsp" class="form-horizontal" >
+<fieldset>
+	<legend><i class="icon-lock"></i> #i18n{portal.admin.admin_forgot_password.text}</legend>
+	<div class="control-group">
+	<label for="message_contact" class="control-label">#i18n{portal.admin.admin_form_contact.messageContactLabel} * :</label>
+	<div class="controls">
+	<textarea rows="5" class="input-xlarge" name="message_contact" id="message_contact" tabindex="1" required="required"></textarea>
+	</div>
+	<div class="form-actions">
+	<input class="btn btn-primary" type="submit" value="#i18n{portal.admin.admin_form_contact.buttonSubmit}" tabindex="2" />
+	</div>
+	</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+</div>
