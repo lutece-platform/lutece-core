@@ -64,7 +64,7 @@ public final class DefaultUserParameterHome
 
     /**
      * Update the parameter value
-     * @param userParam The User parameteres
+     * @param userParam The User parameters
      */
     public static void update( DefaultUserParameter userParam )
     {

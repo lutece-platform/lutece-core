@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.business.user.authentication;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Timestamp;
+
 
 /**
  * This class provides Data Access methods for LuteceDefaultAdminUser objects
@@ -46,7 +48,8 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
     public static final int INVALID_PASSWORD = -2;
     public static final int USER_OK = 0;
     private static final String SQL_QUERY_CHECK_PASSWORD = "SELECT password FROM core_admin_user WHERE  access_code = ? ";
-    private static final String SQL_QUERY_LOAD_USER = " SELECT access_code FROM core_admin_user WHERE access_code = ? ";
+    private static final String SQL_QUERY_LOAD_USER = " SELECT access_code, id_user, password_max_valid_date, account_max_valid_date FROM core_admin_user WHERE access_code = ? ";
+    private static final String SQL_QUERY_UPDATE_PASSWORD_RESET = "UPDATE core_admin_user set reset_password = ? WHERE id_user = ? ";
 
     ///////////////////////////////////////////////////////////////////////////////////////
     //Access methods to data
@@ -105,10 +108,29 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
 
         String strUserName = daoUtil.getString( 1 );
         LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( strUserName, authenticationService );
-        /*user.setDateValidityPassword( daoUtil.getDate( 3 ) );
-        user.setLastPassword( daoUtil.getString( 4 ) );*/
+        user.setUserId( daoUtil.getInt( 2 ) );
+        user.setPasswordMaxValidDate( daoUtil.getTimestamp( 3 ) );
+        long accountMaxValidDate = daoUtil.getLong( 4 );
+        if ( accountMaxValidDate > 0 )
+        {
+            user.setAccountMaxValidDate( new Timestamp( accountMaxValidDate ) );
+        }
         daoUtil.free(  );
 
         return user;
+    }
+
+    /**
+     * Set the reset password attribute of the user
+     * @param user User to update
+     * @param bIsPasswordReset New value of the reset password attribute
+     */
+    public void updateResetPassword( LuteceDefaultAdminUser user, boolean bIsPasswordReset )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD_RESET );
+        daoUtil.setBoolean( 1, bIsPasswordReset );
+        daoUtil.setInt( 2, user.getUserId( ) );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 }

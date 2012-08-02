@@ -156,6 +156,7 @@
 	function generatePwd()
 	{
 		var pwd = $.password(8, true);
+		pwd = pwd.concat(Math.floor(Math.random()*10));
 		document.getElementById("first_password").value = pwd;
 		document.getElementById("second_password").value = document.getElementById("first_password").value;
 	}

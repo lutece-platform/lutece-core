@@ -36,13 +36,12 @@ package fr.paris.lutece.portal.business.user.authentication;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.log.UserLog;
 import fr.paris.lutece.portal.business.user.log.UserLogHome;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 
 import java.util.Collection;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
-
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -52,8 +51,8 @@ import javax.servlet.http.HttpServletRequest;
 public class LuteceDefaultAdminAuthentication implements AdminAuthentication
 {
     private static final String CONSTANT_LOST_PASSWORD_URL = "jsp/admin/AdminForgotPassword.jsp";
-    private static final String PROPERTY_MAX_ACCESS_FAILED = "access.failures.max";
-    private static final String PROPERTY_INTERVAL_MINUTES = "access.failures.interval.minutes";
+    private static final String PROPERTY_MAX_ACCESS_FAILED = "access_failures_max";
+    private static final String PROPERTY_INTERVAL_MINUTES = "access_failures_interval";
     private ILuteceDefaultAdminUserDAO _dao;
 
     /**
@@ -94,15 +93,18 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
         userLog.setDateLogin( new java.sql.Timestamp( new java.util.Date(  ).getTime(  ) ) );
 
         //      Test the number of errors during an interval of minutes
-        int nMaxFailed = AppPropertiesService.getPropertyInt( PROPERTY_MAX_ACCESS_FAILED, 3 );
-        int nIntervalMinutes = AppPropertiesService.getPropertyInt( PROPERTY_INTERVAL_MINUTES, 10 );
-        int nNbFailed = UserLogHome.getLoginErrors( userLog, nIntervalMinutes );
+        int nMaxFailed = AdminUserService.getIntegerSecurityParameter( PROPERTY_MAX_ACCESS_FAILED );
+        int nIntervalMinutes = AdminUserService.getIntegerSecurityParameter( PROPERTY_INTERVAL_MINUTES );
 
-        if ( nNbFailed > nMaxFailed )
+        if ( nMaxFailed > 0 && nIntervalMinutes > 0 )
         {
-            throw new FailedLoginException(  );
-        }
+            int nNbFailed = UserLogHome.getLoginErrors( userLog, nIntervalMinutes );
 
+            if ( nNbFailed > nMaxFailed )
+            {
+                throw new FailedLoginException( );
+            }
+        }
         int nUserCode = _dao.checkPassword( strAccessCode, strUserPassword );
 
         if ( nUserCode != LuteceDefaultAdminUserDAO.USER_OK )
@@ -110,7 +112,14 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
             throw new FailedLoginException(  );
         }
 
-        AdminUser user = _dao.load( strAccessCode, this );
+        LuteceDefaultAdminUser user = _dao.load( strAccessCode, this );
+
+        if ( user.getPasswordMaxValidDate( ) != null
+                && user.getPasswordMaxValidDate( ).getTime( ) < new java.util.Date( ).getTime( ) )
+        {
+            _dao.updateResetPassword( user, Boolean.TRUE );
+        }
+        AdminUserService.updateUserExpirationDate( user );
 
         return user;
     }

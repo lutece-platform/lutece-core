@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.service.security;
 import java.util.Collection;
 
 import javax.security.auth.login.LoginException;
-
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -78,8 +77,16 @@ public interface LuteceAuthentication
     void logout( LuteceUser user );
 
     /**
-     * This method create an anonymous user
-     *
+     * Checks if a user's password has been reset
+     * @param request The request
+     * @param strLogin the login
+     * @return True if the password has been reset, false otherwise
+     */
+    boolean findResetPassword( HttpServletRequest request, String strLogin );
+
+    /**
+     * This method creates an anonymous user
+     * 
      * @return A LuteceUser object corresponding to an anonymous user
      */
     LuteceUser getAnonymousUser(  );
@@ -162,6 +169,13 @@ public interface LuteceAuthentication
      * @return The URL
      */
     String getLostPasswordPageUrl(  );
+
+    /**
+     * Returns the reset password URL of the Authentication Service
+     * @param request the HTTP request
+     * @return The URL
+     */
+    String getResetPasswordPageUrl( HttpServletRequest request );
 
     /**
      * Returns the template that contains the Access Denied message.

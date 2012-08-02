@@ -70,6 +70,11 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
     {
     }
 
+    public boolean findResetPassword( HttpServletRequest request, String strLogin )
+    {
+        return false;
+    }
+
     public LuteceUser getAnonymousUser(  )
     {
         return null;
@@ -121,6 +126,11 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
     }
 
     public String getLostPasswordPageUrl(  )
+    {
+        return null;
+    }
+
+    public String getResetPasswordPageUrl( HttpServletRequest request )
     {
         return null;
     }

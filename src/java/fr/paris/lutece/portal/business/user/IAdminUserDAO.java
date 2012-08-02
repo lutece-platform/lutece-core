@@ -37,7 +37,9 @@ import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 
@@ -248,4 +250,100 @@ public interface IAdminUserDAO
      * @param strIdRight The right ID
      */
     void deleteRightForUser( int nUserId, String strIdRight );
+
+    /**
+     * Gets the history of password of the given user
+     * @param nUserID Id of the user
+     * @return The collection of recent passwords used by the user.
+     */
+    List<String> selectUserPasswordHistory( int nUserID );
+
+    /**
+     * Get the number of password change done by a user since the given date.
+     * @param minDate Minimum date to consider.
+     * @param nUserId Id of the user
+     * @return The number of password change done by the user since the given
+     *         date.
+     */
+    int countUserPasswordHistoryFromDate( Timestamp minDate, int nUserId );
+    
+    /**
+     * Log a password change in the password history
+     * @param strPassword New password of the user
+     * @param nUserId Id of the user
+     */
+    void insertNewPasswordInHistory( String strPassword, int nUserId );
+
+    /**
+     * Remove every password saved in the password history for a user.
+     * @param nUserId Id of the user
+     */
+    void removeAllPasswordHistoryForUser( int nUserId );
+
+    /**
+     * Get a map of anonymization status of a user field.
+     * @return A map containing the associations of user field name and a
+     *         boolean describing whether the field should be anonymized.
+     */
+    Map<String, Boolean> selectAnonymizationStatusUserStaticField( );
+
+    /**
+     * Update the anonymization status of a user field.
+     * @param strFieldName Name of the field to update
+     * @param bAnonymizeFiled True if the field should be anonymize, false
+     *            otherwise
+     */
+    void updateAnonymizationStatusUserStaticField( String strFieldName, boolean bAnonymizeFiled );
+
+    /**
+     * Get the list of id of user with the expired status.
+     * @return The list of if of user with the expired status.
+     */
+    List<Integer> findAllExpiredUserId( );
+
+    /**
+     * Get the list of id of users that have an expired time life but not the
+     * expired status
+     * @param currentTimestamp Timestamp describing the current time.
+     * @return the list of id of users with expired time life
+     */
+    List<Integer> getIdUsersWithExpiredLifeTimeList( Timestamp currentTimestamp );
+
+    /**
+     * Get the list of id of users that need to receive their first alert
+     * @param alertMaxDate The maximum date to send alerts.
+     * @return the list of id of users that need to receive their first alert
+     */
+    List<Integer> getIdUsersToSendFirstAlert( Timestamp alertMaxDate );
+
+    /**
+     * Get the list of id of users that need to receive their first alert
+     * @param alertMaxDate The maximum date to send alerts.
+     * @param timeBetweenAlerts Timestamp describing the time between two
+     *            alerts.
+     * @param maxNumberAlerts Maximum number of alerts to send to a user
+     * @return the list of id of users that need to receive their first alert
+     */
+    List<Integer> getIdUsersToSendOtherAlert( Timestamp alertMaxDate, Timestamp timeBetweenAlerts, int maxNumberAlerts );
+
+    /**
+     * Update status of a list of user accounts
+     * @param listIdUser List of user accounts to update
+     * @param nNewStatus New status of the user
+     */
+    void updateUserStatus( List<Integer> listIdUser, int nNewStatus );
+
+    /**
+     * Increment the number of alert send to users by 1
+     * @param listIdUser The list of users to update
+     */
+    void updateNbAlert( List<Integer> listIdUser );
+
+    /**
+     * Update the admin user expiration date with the new values. Also update
+     * his alert account to 0
+     * @param nIdUser Id of the admin user to update
+     * @param newExpirationDate Id of the user to update
+     */
+    void updateUserExpirationDate( int nIdUser, Timestamp newExpirationDate );
 }

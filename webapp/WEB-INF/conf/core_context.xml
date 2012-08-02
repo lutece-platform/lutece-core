@@ -107,6 +107,9 @@
     <!-- package stylesheet -->
     <bean id="styleSheetDAO"  class="fr.paris.lutece.portal.business.stylesheet.StyleSheetDAO" />
 
+	<!--  package template -->
+	<bean id="databaseTemplateDAO" class="fr.paris.lutece.portal.business.template.DatabaseTemplateDAO" />
+
     <!-- package user -->
     <bean id="adminUserDAO"  class="fr.paris.lutece.portal.business.user.AdminUserDAO" />
     <bean id="luteceDefaultAdminUserDAO"  class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUserDAO" />

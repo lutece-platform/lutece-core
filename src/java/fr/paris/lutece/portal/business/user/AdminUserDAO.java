@@ -38,9 +38,11 @@ import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -56,14 +58,14 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String CONSTANT_ORDER_BY_LAST_NAME = " ORDER BY last_name ";
     private static final String CONSTANT_PERCENT = "%";
     private static final String SQL_QUERY_NEWPK = "SELECT max( id_user ) FROM core_admin_user ";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, locale, level_user, accessibility_mode )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, locale, level_user, accessibility_mode, password_max_valid_date, account_max_valid_date )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user, accessibility_mode FROM core_admin_user ORDER BY last_name ";
-    private static final String SQL_QUERY_SELECT_USER_FROM_USER_ID = "SELECT id_user , access_code, last_name , first_name, email, status, password, locale, level_user, reset_password, accessibility_mode FROM core_admin_user  WHERE id_user = ? ORDER BY last_name";
-    private static final String SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE = "SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, reset_password, accessibility_mode FROM core_admin_user  WHERE access_code = ? ";
+    private static final String SQL_QUERY_SELECT_USER_FROM_USER_ID = "SELECT id_user , access_code, last_name , first_name, email, status, password, locale, level_user, reset_password, accessibility_mode, password_max_valid_date, account_max_valid_date FROM core_admin_user  WHERE id_user = ? ORDER BY last_name";
+    private static final String SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE = "SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, reset_password, accessibility_mode, password_max_valid_date FROM core_admin_user  WHERE access_code = ? ";
     private static final String SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID = " SELECT a.id_right , a.name, a.admin_url , a.description , a.plugin_name, a.id_feature_group, a.icon_url, a.level_right, a.documentation_url, a.id_order " +
         " FROM core_admin_right a , core_user_right b " + " WHERE a.id_right = b.id_right " + " AND b.id_user = ? " +
         " ORDER BY a.id_order ASC, a.id_right ASC ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, locale = ?, reset_password = ?, accessibility_mode = ? WHERE id_user = ?  ";
+    private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ? WHERE id_user = ?  ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_admin_user WHERE id_user = ? ";
     private static final String SQL_QUERY_INSERT_USER_RIGHT = "INSERT INTO core_user_right ( id_right, id_user )  VALUES ( ? , ? ) ";
     private static final String SQL_QUERY_DELETE_ALL_USER_RIGHTS = "DELETE FROM core_user_right WHERE id_user = ? ";
@@ -75,9 +77,10 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_CHECK_ROLE_ATTRIBUTED = " SELECT id_user FROM core_user_role WHERE role_key = ?";
     private static final String SQL_CHECK_ACCESS_CODE_IN_USE = " SELECT id_user FROM core_admin_user WHERE access_code = ?";
     private static final String SQL_CHECK_EMAIL_IN_USE = " SELECT id_user FROM core_admin_user WHERE email = ?";
-    private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( id_user, access_code, last_name, first_name, email, status, password, locale, level_user, accessibility_mode )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
-    private static final String SQL_QUERY_UPDATE_DEFAULT_USER = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, password = ?, locale = ?, reset_password = ?, accessibility_mode = ? WHERE id_user = ?  ";
-    private static final String SQL_QUERY_SELECT_USERS_ID_BY_ROLES = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale, a.accessibility_mode " +
+    private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( id_user, access_code, last_name, first_name, email, status, password, locale, level_user, accessibility_mode, reset_password, password_max_valid_date )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_UPDATE_DEFAULT_USER = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, password = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ? WHERE id_user = ?  ";
+    private static final String SQL_QUERY_SELECT_USERS_ID_BY_ROLES = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale, a.accessibility_mode, a.password_max_valid_date "
+            +
         " FROM core_admin_user a, core_user_role b WHERE a.id_user = b.id_user AND b.role_key = ? ";
     private static final String SQL_QUERY_SELECT_USER_RIGHTS_OWN = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level_right >= ?";
     private static final String SQL_QUERY_SELECT_USER_RIGHTS_DELEGATED = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level_right < ?";
@@ -92,6 +95,27 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_SELECT_USERS_BY_RIGHT = " SELECT  u.id_user , u.access_code, u.last_name , u.first_name, u.email, u.status, u.locale, u.level_user, u.accessibility_mode " +
         " FROM core_admin_user u INNER JOIN core_user_right r ON u.id_user = r.id_user WHERE r.id_right = ? ";
     private static final String SQL_QUERY_SELECT_USER_RIGHT = " SELECT id_user FROM core_user_right WHERE id_user = ? AND id_right = ? ";
+    private static final String SQL_SELECT_USER_PASSWORD_HISTORY = "SELECT password FROM core_user_password_history WHERE id_user = ? ORDER BY date_password_change desc";
+    private static final String SQL_COUNT_USER_PASSWORD_HISTORY = "SELECT COUNT(*) FROM core_user_password_history WHERE id_user = ? AND date_password_change > ?";
+    private static final String SQL_INSERT_PASSWORD_HISTORY = "INSERT INTO core_user_password_history (id_user, password) VALUES ( ?, ? ) ";
+    private static final String SQL_DELETE_PASSWORD_HISTORY = "DELETE FROM core_user_password_history WHERE id_user = ?";
+    private static final String SQL_SELECT_ANONYMIZATION_STATUS_USER_FILED = "SELECT field_name, anonymize from core_admin_user_anonymize_field";
+    private static final String SQL_UPDATE_ANONYMIZATION_STATUS_USER_FILED = "UPDATE core_admin_user_anonymize_field  SET anonymize = ? WHERE field_name = ? ";
+    private static final String SQL_QUERY_SELECT_EXPIRED_USER_ID = "SELECT id_user FROM core_admin_user WHERE status = ?";
+
+    private static final String SQL_QUERY_SELECT_EXPIRED_LIFE_TIME_USER_ID = "SELECT id_user FROM core_admin_user WHERE account_max_valid_date < ? and status < ? ";
+
+    private static final String SQL_QUERY_SELECT_USER_ID_FIRST_ALERT = "SELECT id_user FROM core_admin_user WHERE nb_alerts_sent = 0 and status < ? and account_max_valid_date < ? ";
+    private static final String SQL_QUERY_SELECT_USER_ID_OTHER_ALERT = "SELECT id_user FROM core_admin_user "
+            + "WHERE nb_alerts_sent > 0 and nb_alerts_sent <= ? and status < ? and (account_max_valid_date + nb_alerts_sent * ?) < ? ";
+
+    private static final String SQL_QUERY_UPDATE_STATUS = " UPDATE core_admin_user SET status = ? WHERE id_user IN ( ";
+    private static final String SQL_QUERY_UPDATE_NB_ALERT = " UPDATE core_admin_user SET nb_alerts_sent = nb_alerts_sent + 1 WHERE id_user IN ( ";
+
+    private static final String SQL_QUERY_UPDATE_REACTIVATE_ACCOUNT = " UPDATE core_admin_user SET nb_alerts_sent = 0, account_max_valid_date = ? WHERE id_user = ? ";
+
+    private static final String CONSTANT_CLOSE_PARENTHESIS = " ) ";
+    private static final String CONSTANT_COMMA = ", ";
 
     /**
      * @param nUserId th user id
@@ -117,6 +141,12 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setUserLevel( daoUtil.getInt( 9 ) );
             user.setPasswordReset( daoUtil.getBoolean( 10 ) );
             user.setAccessibilityMode( daoUtil.getBoolean( 11 ) );
+            user.setPasswordMaxValidDate( daoUtil.getTimestamp( 12 ) );
+            long accountTime = daoUtil.getLong( 13 );
+            if ( accountTime > 0 )
+            {
+                user.setAccountMaxValidDate( new Timestamp( accountTime ) );
+            }
         }
 
         daoUtil.free(  );
@@ -148,6 +178,7 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setUserLevel( daoUtil.getInt( 8 ) );
             user.setPasswordReset( daoUtil.getBoolean( 9 ) );
             user.setAccessibilityMode( daoUtil.getBoolean( 10 ) );
+            user.setPasswordMaxValidDate( daoUtil.getTimestamp( 11 ) );
         }
 
         daoUtil.free(  );
@@ -227,6 +258,15 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setString( 7, user.getLocale(  ).toString(  ) );
         daoUtil.setInt( 8, user.getUserLevel(  ) );
         daoUtil.setBoolean( 9, user.getAccessibilityMode(  ) );
+        daoUtil.setTimestamp( 10, user.getPasswordMaxValidDate( ) );
+        if ( user.getAccountMaxValidDate( ) == null )
+        {
+            daoUtil.setLongNull( 11 );
+        }
+        else
+        {
+            daoUtil.setLong( 11, user.getAccountMaxValidDate( ).getTime( ) );
+        }
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -248,8 +288,9 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setString( 6, user.getLocale(  ).toString(  ) );
         daoUtil.setBoolean( 7, user.isPasswordReset(  ) );
         daoUtil.setBoolean( 8, user.getAccessibilityMode(  ) );
+        daoUtil.setTimestamp( 9, user.getPasswordMaxValidDate( ) );
 
-        daoUtil.setInt( 9, user.getUserId(  ) );
+        daoUtil.setInt( 10, user.getUserId( ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -469,6 +510,8 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setString( 8, user.getLocale(  ).toString(  ) );
         daoUtil.setInt( 9, user.getUserLevel(  ) );
         daoUtil.setBoolean( 10, user.getAccessibilityMode(  ) );
+        daoUtil.setBoolean( 11, user.isPasswordReset( ) );
+        daoUtil.setTimestamp( 12, user.getPasswordMaxValidDate( ) );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
@@ -490,8 +533,9 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setString( 7, user.getLocale(  ).toString(  ) );
         daoUtil.setBoolean( 8, user.isPasswordReset(  ) );
         daoUtil.setBoolean( 9, user.getAccessibilityMode(  ) );
+        daoUtil.setTimestamp( 10, user.getPasswordMaxValidDate( ) );
 
-        daoUtil.setInt( 10, user.getUserId(  ) );
+        daoUtil.setInt( 11, user.getUserId( ) );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
@@ -554,6 +598,7 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setStatus( daoUtil.getInt( 6 ) );
             user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
             user.setAccessibilityMode( daoUtil.getBoolean( 8 ) );
+            user.setPasswordMaxValidDate( daoUtil.getTimestamp( 9 ) );
             userList.add( user );
         }
 
@@ -852,5 +897,275 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setString( 2, strIdRight );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
+    }
+
+    /**
+     * Gets the history of password of the given user
+     * @param nUserID Id of the user
+     * @return The collection of recent passwords used by the user.
+     */
+    public List<String> selectUserPasswordHistory( int nUserID )
+    {
+        List<String> listPasswordHistory = new ArrayList<String>( );
+
+        DAOUtil daoUtil = new DAOUtil( SQL_SELECT_USER_PASSWORD_HISTORY );
+        daoUtil.setInt( 1, nUserID );
+        daoUtil.executeQuery( );
+
+        while ( daoUtil.next( ) )
+        {
+            listPasswordHistory.add( daoUtil.getString( 1 ) );
+        }
+
+        daoUtil.free( );
+        return listPasswordHistory;
+    }
+
+    /**
+     * Get the number of password change done by a user since the given date.
+     * @param minDate Minimum date to consider.
+     * @param nUserId Id of the user
+     * @return The number of password change done by the user since the given
+     *         date.
+     */
+    public int countUserPasswordHistoryFromDate( Timestamp minDate, int nUserId )
+    {
+        int nNbRes = 0;
+
+        DAOUtil daoUtil = new DAOUtil( SQL_COUNT_USER_PASSWORD_HISTORY );
+        daoUtil.setInt( 1, nUserId );
+        daoUtil.setTimestamp( 2, minDate );
+        daoUtil.executeQuery( );
+
+        if ( daoUtil.next( ) )
+        {
+            nNbRes = daoUtil.getInt( 1 );
+        }
+
+        daoUtil.free( );
+        return nNbRes;
+    }
+
+    /**
+     * Log a password change in the password history
+     * @param strPassword New password of the user
+     * @param nUserId Id of the user
+     */
+    public void insertNewPasswordInHistory( String strPassword, int nUserId )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_INSERT_PASSWORD_HISTORY );
+        daoUtil.setInt( 1, nUserId );
+        daoUtil.setString( 2, strPassword );
+
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
+    }
+
+    /**
+     * Remove every password saved in the password history for a user.
+     * @param nUserId Id of the user
+     */
+    public void removeAllPasswordHistoryForUser( int nUserId )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_DELETE_PASSWORD_HISTORY );
+        daoUtil.setInt( 1, nUserId );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
+    }
+
+    /**
+     * Get the anonymization status of a user field.
+     * @return A map containing the associations of user field name and a
+     *         boolean describing whether the field should be anonymized.
+     */
+    public Map<String, Boolean> selectAnonymizationStatusUserStaticField( )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_SELECT_ANONYMIZATION_STATUS_USER_FILED );
+        daoUtil.executeQuery( );
+
+        Map<String, Boolean> resultMap = new HashMap<String, Boolean>( );
+
+        while ( daoUtil.next( ) )
+        {
+            resultMap.put( daoUtil.getString( 1 ), daoUtil.getBoolean( 2 ) );
+        }
+
+        daoUtil.free( );
+
+        return resultMap;
+    }
+
+    /**
+     * Update the anonymization status of a user field.
+     * @param strFieldName Name of the field to update
+     * @param bAnonymizeFiled True if the field should be anonymize, false
+     *            otherwise
+     */
+    public void updateAnonymizationStatusUserStaticField( String strFieldName, boolean bAnonymizeFiled )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_UPDATE_ANONYMIZATION_STATUS_USER_FILED );
+        daoUtil.setBoolean( 1, bAnonymizeFiled );
+        daoUtil.setString( 2, strFieldName );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
+    }
+
+    /**
+     * Get the list of id of user with the expired status.
+     * @return The list of if of user with the expired status.
+     */
+    public List<Integer> findAllExpiredUserId( )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_EXPIRED_USER_ID );
+        daoUtil.setInt( 1, AdminUser.EXPIRED_CODE );
+        List<Integer> listIdExpiredUser = new ArrayList<Integer>( );
+        daoUtil.executeQuery( );
+        while ( daoUtil.next( ) )
+        {
+            listIdExpiredUser.add( daoUtil.getInt( 1 ) );
+        }
+
+        daoUtil.free( );
+        return listIdExpiredUser;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Integer> getIdUsersWithExpiredLifeTimeList( Timestamp currentTimestamp )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_EXPIRED_LIFE_TIME_USER_ID );
+        daoUtil.setLong( 1, currentTimestamp.getTime( ) );
+        daoUtil.setInt( 2, AdminUser.EXPIRED_CODE );
+        List<Integer> listIdExpiredUser = new ArrayList<Integer>( );
+        daoUtil.executeQuery( );
+        while ( daoUtil.next( ) )
+        {
+            listIdExpiredUser.add( daoUtil.getInt( 1 ) );
+        }
+
+        daoUtil.free( );
+        return listIdExpiredUser;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Integer> getIdUsersToSendFirstAlert( Timestamp alertMaxDate )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_FIRST_ALERT );
+        daoUtil.setInt( 1, AdminUser.EXPIRED_CODE );
+        daoUtil.setLong( 2, alertMaxDate.getTime( ) );
+        List<Integer> listIdUserFirstAlert = new ArrayList<Integer>( );
+        daoUtil.executeQuery( );
+        while ( daoUtil.next( ) )
+        {
+            listIdUserFirstAlert.add( daoUtil.getInt( 1 ) );
+        }
+
+        daoUtil.free( );
+        return listIdUserFirstAlert;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Integer> getIdUsersToSendOtherAlert( Timestamp alertMaxDate, Timestamp timeBetweenAlerts,
+            int maxNumberAlerts )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_OTHER_ALERT );
+        daoUtil.setInt( 1, maxNumberAlerts );
+        daoUtil.setInt( 2, AdminUser.EXPIRED_CODE );
+        daoUtil.setLong( 3, timeBetweenAlerts.getTime( ) );
+        daoUtil.setLong( 4, alertMaxDate.getTime( ) );
+        List<Integer> listIdUserFirstAlert = new ArrayList<Integer>( );
+        daoUtil.executeQuery( );
+        while ( daoUtil.next( ) )
+        {
+            listIdUserFirstAlert.add( daoUtil.getInt( 1 ) );
+        }
+
+        daoUtil.free( );
+        return listIdUserFirstAlert;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateUserStatus( List<Integer> listIdUser, int nNewStatus )
+    {
+        if ( listIdUser != null && listIdUser.size( ) > 0 )
+        {
+            StringBuilder sbSQL = new StringBuilder( );
+            sbSQL.append( SQL_QUERY_UPDATE_STATUS );
+
+            for ( int i = 0; i < listIdUser.size( ); i++ )
+            {
+                if ( i > 0 )
+                {
+                    sbSQL.append( CONSTANT_COMMA );
+                }
+                sbSQL.append( listIdUser.get( i ) );
+            }
+            sbSQL.append( CONSTANT_CLOSE_PARENTHESIS );
+
+            DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) );
+            daoUtil.setInt( 1, nNewStatus );
+            daoUtil.executeUpdate( );
+            daoUtil.free( );
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateNbAlert( List<Integer> listIdUser )
+    {
+        if ( listIdUser != null && listIdUser.size( ) > 0 )
+        {
+            StringBuilder sbSQL = new StringBuilder( );
+            sbSQL.append( SQL_QUERY_UPDATE_NB_ALERT );
+
+            for ( int i = 0; i < listIdUser.size( ); i++ )
+            {
+                if ( i > 0 )
+                {
+                    sbSQL.append( CONSTANT_COMMA );
+                }
+                sbSQL.append( listIdUser.get( i ) );
+            }
+            sbSQL.append( CONSTANT_CLOSE_PARENTHESIS );
+
+            DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) );
+            daoUtil.executeUpdate( );
+            daoUtil.free( );
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateUserExpirationDate( int nIdUser, Timestamp newExpirationDate )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_REACTIVATE_ACCOUNT );
+        if ( newExpirationDate == null )
+        {
+            daoUtil.setLongNull( 1 );
+        }
+        else
+        {
+            daoUtil.setLong( 1, newExpirationDate.getTime( ) );
+        }
+        daoUtil.setInt( 2, nIdUser );
+
+        daoUtil.executeUpdate( );
+
+        daoUtil.free( );
     }
 }

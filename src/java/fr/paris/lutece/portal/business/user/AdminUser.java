@@ -40,7 +40,7 @@ import fr.paris.lutece.portal.business.user.parameter.EmailPatternRegularExpress
 import fr.paris.lutece.portal.service.regularexpression.RegularExpressionRemovalListenerService;
 
 import java.io.Serializable;
-
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -54,7 +54,10 @@ public class AdminUser implements Serializable
     public static String RESOURCE_TYPE = "ADMIN_USER";
     private static EmailPatternRegularExpressionRemovalListener _listenerRegularExpression;
     private static final String EMPTY_STRING = "";
-    private static final int ACTIVE_CODE = 0;
+    public static final int ACTIVE_CODE = 0;
+    public static final int NOT_ACTIVE_CODE = 1;
+    public static final int EXPIRED_CODE = 5;
+    public static final int ANONYMIZED_CODE = 10;
     private int _nUserId;
     private String _strAccessCode;
     private String _strLastName;
@@ -64,6 +67,8 @@ public class AdminUser implements Serializable
     private int _nUserLevel;
     private boolean _bIsPasswordReset;
     private boolean _bAccessibilityMode;
+    private Timestamp _passwordMaxValidDate;
+    private Timestamp _accountMaxValidDate;
 
     /** User's rights */
     private Map<String, Right> _rights = new HashMap<String, Right>(  );
@@ -147,9 +152,28 @@ public class AdminUser implements Serializable
     }
 
     /**
-     * @return Returns the _nStatus.
+     * @return Returns the status. Only ACTIVE_CODE, NOT_ACTIVE_CODE or ANONYMIZED_CODE are returned. 
+     *      If the status in an other status, then its equivalent is returned 
      */
     public int getStatus(  )
+    {
+        switch ( _nStatus )
+        {
+        case ACTIVE_CODE:
+        case ANONYMIZED_CODE:
+        case NOT_ACTIVE_CODE:
+            return _nStatus;
+        case EXPIRED_CODE:
+            return ANONYMIZED_CODE;
+        default:
+            return ACTIVE_CODE;
+        }
+    }
+
+    /**
+     * @return Returns the real status of the user.
+     */
+    public int getRealStatus(  )
     {
         return _nStatus;
     }
@@ -169,6 +193,15 @@ public class AdminUser implements Serializable
     public boolean isStatusActive(  )
     {
         return ( _nStatus == ACTIVE_CODE );
+    }
+
+    /**
+     * Tells whether the current user is anonymized
+     * @return true if anonymized, false otherwise
+     */
+    public boolean isStatusAnonymized( )
+    {
+        return ( _nStatus == ANONYMIZED_CODE );
     }
 
     /**
@@ -245,6 +278,44 @@ public class AdminUser implements Serializable
     public void setAccessCode( String strAccessCode )
     {
         _strAccessCode = strAccessCode;
+    }
+
+    /**
+     * Get the maximum valid date of the password of the user
+     * @return The maximum valid date of the password of the user
+     */
+    public Timestamp getPasswordMaxValidDate( )
+    {
+        return _passwordMaxValidDate;
+    }
+
+    /**
+     * Set the maximum valid date of the password of the user
+     * @param passwordMaxValidDate The new maximum valid date of the password of
+     *            the user, or null if it doesn't have any.
+     */
+    public void setPasswordMaxValidDate( Timestamp passwordMaxValidDate )
+    {
+        this._passwordMaxValidDate = passwordMaxValidDate;
+    }
+
+    /**
+     * Get the expiration date of the user account.
+     * @return The expiration date of the user account, or null if it doesn't
+     *         have any.
+     */
+    public Timestamp getAccountMaxValidDate( )
+    {
+        return _accountMaxValidDate;
+    }
+
+    /**
+     * Set the expiration date of the user account.
+     * @param accountMaxValidDate The new expiration date of the user account.
+     */
+    public void setAccountMaxValidDate( Timestamp accountMaxValidDate )
+    {
+        this._accountMaxValidDate = accountMaxValidDate;
     }
 
     /**

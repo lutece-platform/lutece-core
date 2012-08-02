@@ -16,7 +16,7 @@
 		<div id="search-users">
 			<form method="post" name="search_users" action="jsp/admin/user/ManageUsers.jsp"  >
 				<#if (user_levels?has_content)>
-				<p>
+					<p>
 		                <label for="user_level">#i18n{portal.users.manage_users.search_users.userLevelLabel} :</label>
 						<select id="user_level" name="search_user_level">
 							<#if (search_admin_user_filter.userLevel > -1) >
@@ -61,16 +61,25 @@
 	                			<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
 				               	<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
 								<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+								<option value="10" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
 	                			<#break>
 	                		<#case 1 >
 	                			<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
 				               	<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
 								<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+								<option value="10" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
+	                			<#break>
+	                		<#case 10 >
+	                			<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+				               	<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+								<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+								<option value="10" selected="selected" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
 	                			<#break>
 	                		<#default>
 	                			<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
 				               	<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
 								<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+								<option value="10" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
 								<#break>
                 		</#switch>
 		            </select>
@@ -135,10 +144,10 @@
         </tr>
         <#list user_list as user>
         <tr>
-            <td><a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" class="bullet-link" >${user.lastName}</a></td>
-            <td>${user.firstName}</td>
-            <td><em>${user.accessCode}</em></td>            
-            <td><a href="mailto:${user.email}">${user.email}</a></td>
+            <td><a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" class="bullet-link" ><#if user.status = 2 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if></a></td>
+            <td><#if user.status = 2 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if></td>
+            <td><em><#if user.status = 2 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></em></td>            
+            <td><#if user.status = 2 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else><a href="mailto:${user.email}">${user.email}</a></#if></td>
             <td>
                 <#if user.status == 0 >
                 <img src="images/admin/skin/enable.png" alt="#i18n{portal.users.manage_users.statusLabelEnabled}" />
@@ -157,7 +166,7 @@
            							<br />
            						</#if>
            						<#assign index_user_field = index_user_field + 1>
-           						${attribute.getHtmlValue( locale, user_field )}
+           						<#if user.status != 2 >${attribute.getHtmlValue( locale, user_field )}</#if>
            					</#if>
            				</#list>
            			</td>
@@ -176,6 +185,11 @@
                 <a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}" >
                     <img src="images/admin/skin/actions/group.png" alt="#i18n{portal.users.actions.labelWorkgroups}" title="#i18n{portal.users.actions.labelWorkgroups}" />
                 </a>
+                <#if !user.statusAnonymized>
+                <a href="jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}" >
+                    <img src="images/admin/skin/actions/anonymize.png" alt="#i18n{portal.users.actions.labelAnonymize}" title="#i18n{portal.users.actions.labelAnonymize}" />
+                </a>
+                </#if>
             </td>
         </tr>
         </#list>		

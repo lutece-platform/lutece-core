@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -45,15 +46,14 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-import org.apache.commons.beanutils.BeanUtils;
-
 import java.lang.reflect.InvocationTargetException;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.beanutils.BeanUtils;
 
 
 /**
@@ -74,6 +74,7 @@ public abstract class AdminFeaturesPageJspBean
 
     // Properties
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
+    private static final String PROPERTY_RESET_EXCEPTION_MESSAGE = "User must reset his password.";
 
     // private fields
     private String _strFeatureLabel;
@@ -90,9 +91,10 @@ public abstract class AdminFeaturesPageJspBean
      * @param request the HTTP request
      * @param strRight The right
      * @throws AccessDeniedException Access denied exception
+     * @throws PasswordResetException Password reset exception
      */
-    public void init( HttpServletRequest request, String strRight )
-        throws AccessDeniedException
+    public void init( HttpServletRequest request, String strRight ) throws AccessDeniedException,
+            PasswordResetException
     {
         _user = AdminUserService.getAdminUser( request );
 
@@ -100,6 +102,10 @@ public abstract class AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( "User " + _user.getAccessCode(  ) + " does not have " + strRight +
                 " right." );
+        }
+        if ( _user.isPasswordReset( ) )
+        {
+            throw new PasswordResetException( PROPERTY_RESET_EXCEPTION_MESSAGE );
         }
 
         // get the locale

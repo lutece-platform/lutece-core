@@ -33,8 +33,11 @@
  */
 package fr.paris.lutece.util.password;
 
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.date.DateUtil;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -52,6 +55,14 @@ public final class PasswordUtil
     private static final int CONSTANT_ASCII_CODE_A_UPPERCASE = 65;
     private static final int CONSTANT_ASCII_CODE_A_LOWERCASE = 97;
     private static final int CONSTANT_ASCII_CODE_ZERO = 48;
+    private static final char[] CONSTANT_SPECIAL_CHARACTERS = { '!', ',', ';', ':', '?', '$', '-', '@', '}', '{', '(',
+            ')', '*', '+', '=', '[', ']', '%', '.' };
+    private static final String CONSTANT_PASSWORD_BEGIN_REGEX = "^";
+    private static final String CONSTANT_PASSWORD_REGEX_NUM = "(?=.*[0-9])";
+    private static final String CONSTANT_PASSWORD_REGEX_SPECIAL = "(?=.*[^a-zA-Z0-9])";
+    private static final String CONSTANT_PASSWORD_REGEX_UPPER_LOWER = "(?=.*[a-z])(?=.*[A-Z])";
+    private static final String CONSTANT_PASSWORD_END_REGEX = "(.*)$";
+    private static final String PARAMETER_PASSWORD_MINIMUM_LENGTH = "password_minimum_length";
 
     /** Private Constructor */
     private PasswordUtil(  )
@@ -68,18 +79,27 @@ public final class PasswordUtil
         Random r = new Random(  );
         String strPassword = "";
         int nPasswordSize = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_SIZE, 8 );
+        int nMinPasswordSize = AdminUserService.getIntegerSecurityParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH );
+        if ( nMinPasswordSize > nPasswordSize )
+        {
+            nPasswordSize = nMinPasswordSize;
+        }
 
         ArrayList<Character> listCharacters = new ArrayList<Character>(  );
 
         //No of Big letters
-        int nNumCapitalLetters = r.nextInt( nPasswordSize - 2 ) + 1; //choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE -1
+        int nNumCapitalLetters = r.nextInt( nPasswordSize - 3 ) + 1; //choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE -1
 
         //No of small
-        int nNumSmallLetters = r.nextInt( nPasswordSize - 1 - nNumCapitalLetters ) + 1; //choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE - a1
+        int nNumSmallLetters = r.nextInt( nPasswordSize - 2 - nNumCapitalLetters ) + 1; //choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE - a1
 
-        //no on nos
-        int nNumNumbers = nPasswordSize - nNumCapitalLetters - nNumSmallLetters; //choose a number to complete list of CONSTANT_PASSWORD_SIZE characters
+        //no of nos
+        int nNumNumbers = r.nextInt( nPasswordSize - 1 - nNumCapitalLetters - nNumSmallLetters ) + 1; //choose a number to complete list of CONSTANT_PASSWORD_SIZE characters
 
+        //no on special characters
+        int nNumSpecial = nPasswordSize - nNumCapitalLetters - nNumSmallLetters - nNumNumbers; //choose a number to complete list of CONSTANT_PASSWORD_SIZE characters
+
+        
         for ( int j = 0; j < nNumCapitalLetters; j++ )
         {
             char c1 = (char) ( r.nextInt( CONSTANT_NUMBER_LETTERS ) + CONSTANT_ASCII_CODE_A_UPPERCASE );
@@ -98,6 +118,12 @@ public final class PasswordUtil
             listCharacters.add( new Character( c1 ) );
         }
 
+        for ( int j = 0; j < nNumSpecial; j++ )
+        {
+            char c1 = CONSTANT_SPECIAL_CHARACTERS[r.nextInt( CONSTANT_SPECIAL_CHARACTERS.length )];
+            listCharacters.add( new Character( c1 ) );
+        }
+
         Collections.shuffle( listCharacters );
 
         for ( Character myChar : listCharacters )
@@ -106,5 +132,43 @@ public final class PasswordUtil
         }
 
         return strPassword;
+    }
+
+    /**
+     * Check whether a password contains upper and lower case letters, special
+     * characters and numbers.
+     * @param strPassword The password to check
+     * @return True if the password format is correct, false otherwise
+     */
+    public static boolean checkPasswordFormat( String strPassword )
+    {
+        if ( strPassword == null || strPassword.isEmpty( ) )
+        {
+            return false;
+        }
+
+        StringBuilder sbRegex = new StringBuilder( CONSTANT_PASSWORD_BEGIN_REGEX );
+        sbRegex.append( CONSTANT_PASSWORD_REGEX_UPPER_LOWER );
+        sbRegex.append( CONSTANT_PASSWORD_REGEX_NUM );
+        sbRegex.append( CONSTANT_PASSWORD_REGEX_SPECIAL );
+        sbRegex.append( CONSTANT_PASSWORD_END_REGEX );
+        return strPassword.matches( sbRegex.toString( ) );
+    }
+
+    /**
+     * Get the maximum valid date of a password starting from now with the given
+     * number of days.
+     * @param nNumberDay The number of days the password is valid
+     * @return The maximum valid date of a password
+     */
+    public static Timestamp getPasswordMaxValidDate( int nNumberDay )
+    {
+        if ( nNumberDay <= 0 )
+        {
+            return null;
+        }
+        long nMilliSeconds = DateUtil.convertDaysInMiliseconds( nNumberDay );
+        Timestamp maxValidDate = new Timestamp( new java.util.Date( ).getTime( ) + nMilliSeconds );
+        return maxValidDate;
     }
 }

@@ -48,19 +48,17 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.filesystem.FileSystemUtil;
 import fr.paris.lutece.util.string.StringUtil;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
-
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -341,5 +339,14 @@ public class AttributeImage extends AbstractAttribute
         }
 
         return listUserFields;
+    }
+
+    /**
+     * Get whether the attribute is anonymizable.
+     * @return True if the attribute can be anonymized, false otherwise.
+     */
+    public boolean isAnonymizable( )
+    {
+        return false;
     }
 }

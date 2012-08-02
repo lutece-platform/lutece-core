@@ -36,13 +36,11 @@ package fr.paris.lutece.util.date;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
 import java.sql.Timestamp;
-
 import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
 import java.util.Locale;
 
@@ -57,6 +55,7 @@ public final class DateUtil
     @Deprecated
     private static SimpleDateFormat _formatterDateTime = new SimpleDateFormat( "dd'/'MM'/'yyyy' 'HH':'mm", Locale.FRANCE );
     private static final String CONSTANTE_PATTERN_DATE = "dd/MM/yyyy";
+    private static final long CONSTANT_NUMBER_MILISECONDS_IN_DAY = 86400000;
 
     /**
      * Creates a new DateUtil object
@@ -430,5 +429,15 @@ public final class DateUtil
         }
 
         return null;
+    }
+
+    /**
+     * Get the number of milliseconds in a given number of days
+     * @param lDays The number of days
+     * @return The number of milliseconds in the given number of days
+     */
+    public static long convertDaysInMiliseconds( long lDays )
+    {
+        return CONSTANT_NUMBER_MILISECONDS_IN_DAY * lDays;
     }
 }

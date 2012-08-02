@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
-import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
@@ -53,7 +52,6 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.service.util.CryptoService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -68,6 +66,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -99,8 +99,6 @@ public class AdminMenuJspBean
 
     // Parameter
     private static final String PARAMETER_LANGUAGE = "language";
-    private static final String PARAMETER_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
-    private static final String PARAMETER_ENCRYPTION_ALGORITHM = "encryption_algorithm";
 
     // Properties
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
@@ -110,7 +108,9 @@ public class AdminMenuJspBean
     private static final int PROPERTY_DASHBOARD_ZONES_DEFAULT = 4;
 
     // Jsp
-    private static final String JSP_URL_ADMIN_MENU = "jsp/admin/AdminMenu.jsp";
+    private static final String PROPERTY_JSP_URL_ADMIN_MENU = "lutece.admin.menu.url";
+    private static final String PROPERTY_JSP_URL_ADMIN_LOGOUT = "lutece.admin.logout.url";
+
     private static final String MESSAGE_CONTROL_PASSWORD_NO_CORRESPONDING = "portal.users.message.password.confirm.error";
     private static final String PASSWORD_ERROR = "portal.users.message.password.wrong.current";
     private static final String PASSWORD_CURRENT_ERROR = "portal.users.message.password.new.equals.current";
@@ -135,7 +135,8 @@ public class AdminMenuJspBean
         model.put( Markers.VERSION, strVersion );
         model.put( MARK_SITE_NAME, strSiteName );
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
-        model.put( MARK_ADMIN_URL, AppPathService.getBaseUrl( request ) + JSP_URL_ADMIN_MENU );
+        model.put( MARK_ADMIN_URL,
+                AppPathService.getBaseUrl( request ) + AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_MENU ) );
         model.put( MARK_USER, user );
 
         String strLogoutUrl = AppPropertiesService.getProperty( PROPERTY_LOGOUT_URL );
@@ -346,7 +347,7 @@ public class AdminMenuJspBean
         user.setLocale( locale );
         AppPathService.getBaseUrl( request );
 
-        return AppPathService.getBaseUrl( request ) + JSP_URL_ADMIN_MENU;
+        return AppPathService.getBaseUrl( request ) + AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_MENU );
     }
 
     /**
@@ -430,15 +431,15 @@ public class AdminMenuJspBean
                 AdminMessage.TYPE_STOP );
         }
 
-        // Encryption passwords
-        if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION )
-                                                          .getParameterValue(  ) ) )
+        String strUrl = AdminUserService.checkPassword( request, strNewPassword, user.getUserId( ) );
+        if ( strUrl != null && !StringUtils.isEmpty( strUrl ) )
         {
-            String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM )
-                                                          .getParameterValue(  );
-            strCurrentPassword = CryptoService.encrypt( strCurrentPassword, strAlgorithm );
-            strNewPassword = CryptoService.encrypt( strNewPassword, strAlgorithm );
+            return strUrl;
         }
+
+        // Encryption password
+        strNewPassword = AdminUserService.encryptPassword( strNewPassword );
+        strCurrentPassword = AdminUserService.encryptPassword( strCurrentPassword );
 
         // Test of the value of the current password
         if ( !strCurrentPassword.equals( strPassword ) )
@@ -452,20 +453,15 @@ public class AdminMenuJspBean
             return AdminMessageService.getMessageUrl( request, PASSWORD_CURRENT_ERROR, AdminMessage.TYPE_STOP );
         }
 
-        // Test of control length of the password value
-        /*if ( strNewPassword.length(  ) < nNbMinChar )
-        {
-            return PASSWORD_TOO_SMALL_ERROR;
-        }*/
-
-        // TODO : test size of new password
-
         // Successful tests
         userStored.setPassword( strNewPassword );
         userStored.setPasswordReset( Boolean.FALSE );
+        userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
         AdminUserHome.update( userStored );
+        AdminUserHome.insertNewPasswordInHistory( strNewPassword, userStored.getUserId( ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_PASSWORD_REDIRECT, "jsp/admin/DoAdminLogout.jsp",
+        return AdminMessageService.getMessageUrl( request, MESSAGE_PASSWORD_REDIRECT,
+                AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_LOGOUT ),
             AdminMessage.TYPE_INFO );
     }
 
@@ -485,6 +481,6 @@ public class AdminMenuJspBean
             AdminUserHome.update( user );
         }
 
-        return AppPathService.getBaseUrl( request ) + JSP_URL_ADMIN_MENU;
+        return AppPathService.getBaseUrl( request ) + AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_MENU );
     }
 }

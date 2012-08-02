@@ -67,6 +67,7 @@ public abstract class AbstractAttribute implements IAttribute
     protected boolean _bIsFieldInLine;
     protected boolean _bIsAttributeImage = false;
     protected boolean _bIsShownInResultList;
+    protected boolean _bAnonymize = false;
 
     /**
      * Constructor
@@ -199,6 +200,25 @@ public abstract class AbstractAttribute implements IAttribute
     public void setAttributeType( AttributeType attributeType )
     {
         _attributeType = attributeType;
+    }
+
+    /**
+     * Get the anonymize status of the attribute
+     * @return True if the attribute should be anonymize, false otherwise.
+     */
+    public boolean getAnonymize( )
+    {
+        return _bAnonymize;
+    }
+
+    /**
+     * Set the anonymize status of the attribute
+     * @param bAnonymize New anonymize status. True if the attribute should be
+     *            anonymize, false otherwise.
+     */
+    public void setAnonymize( boolean bAnonymize )
+    {
+        _bAnonymize = bAnonymize;
     }
 
     /**

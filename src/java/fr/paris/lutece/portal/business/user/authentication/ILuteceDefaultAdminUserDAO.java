@@ -56,4 +56,11 @@ public interface ILuteceDefaultAdminUserDAO
      * @return user The instance of an LuteceDefaultAdminUser's object
      */
     LuteceDefaultAdminUser load( String strAccessCode, AdminAuthentication authenticationService );
+
+    /**
+     * Set the reset password attribute of the user
+     * @param user User to update
+     * @param bIsPasswordReset New value of the reset password attribute
+     */
+    void updateResetPassword( LuteceDefaultAdminUser user, boolean bIsPasswordReset );
 }

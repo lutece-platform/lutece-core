@@ -1,3 +1,4 @@
+<%@page import="fr.paris.lutece.portal.service.admin.PasswordResetException"%>
 <%@ page isErrorPage="true" %>
 <%@ page import="fr.paris.lutece.portal.web.constants.Messages" %>
 <%@ page import="fr.paris.lutece.portal.service.util.*" %>
@@ -9,6 +10,8 @@
 <%@ page autoFlush="false"%>
 
 <%!
+	private final static String JSP_URL_MODIFY_DEFAULT_USER_PASSWORD = "jsp/admin/user/ModifyDefaultUserPassword.jsp";
+
 	private final static String PROPERTY_DEBUG = "error.page.debug";
 	private final static String PROPERTY_DEBUG_DEFAULT = "true";
 	private final static String PROPERTY_MESSAGE = "portal.util.error.page.message";
@@ -22,6 +25,10 @@
     		AppLogService.error( "AccessDeniedException : " + exception.getMessage() );
     	}
         response.sendRedirect( AdminMessageService.getMessageUrl( request , Messages.USER_ACCESS_DENIED , AdminMessage.TYPE_STOP ) );
+    }
+    else if ( exception instanceof fr.paris.lutece.portal.service.admin.PasswordResetException )
+    {
+        response.sendRedirect( AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_DEFAULT_USER_PASSWORD );
     }
     else
     {

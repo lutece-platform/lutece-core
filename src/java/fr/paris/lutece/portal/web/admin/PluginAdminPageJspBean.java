@@ -58,8 +58,7 @@ public abstract class PluginAdminPageJspBean extends AdminFeaturesPageJspBean
      * @param strRight The right
      * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException Access denied exception
      */
-    public void init( HttpServletRequest request, String strRight )
-        throws AccessDeniedException
+    public void init( HttpServletRequest request, String strRight ) throws AccessDeniedException
     {
         super.init( request, strRight );
 

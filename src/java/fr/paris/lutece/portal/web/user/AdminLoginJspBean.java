@@ -51,7 +51,6 @@ import fr.paris.lutece.portal.service.util.AppHTTPSService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.service.util.CryptoService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
@@ -59,8 +58,6 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringUtils;
 
 import java.util.Collection;
 import java.util.Enumeration;
@@ -70,9 +67,10 @@ import java.util.Map;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -113,8 +111,7 @@ public class AdminLoginJspBean
 
     // parameters
     private static final String PARAMETER_MESSAGE = "message_contact";
-    private static final String PARAMETER_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
-    private static final String PARAMETER_ENCRYPTION_ALGORITHM = "encryption_algorithm";
+    private static final String PARAMETER_FORCE_CHANGE_PASSWORD_REINIT = "force_change_password_reinit";
 
     // I18n message keys
     private static final String MESSAGE_SENDING_SUCCESS = "portal.admin.message.admin_forgot_password.sendingSuccess";
@@ -276,13 +273,7 @@ public class AdminLoginJspBean
         }
 
         // Encryption password
-        if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION )
-                                                          .getParameterValue(  ) ) )
-        {
-            String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM )
-                                                          .getParameterValue(  );
-            strPassword = CryptoService.encrypt( strPassword, strAlgorithm );
-        }
+        strPassword = AdminUserService.encryptPassword( strPassword );
 
         String strLoginUrl = AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  );
 
@@ -377,18 +368,19 @@ public class AdminLoginJspBean
             // Encrypted password
             String strEncryptedPassword = strPassword;
 
-            if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION )
-                                                              .getParameterValue(  ) ) )
-            {
-                String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM )
-                                                              .getParameterValue(  );
-                strEncryptedPassword = CryptoService.encrypt( strPassword, strAlgorithm );
-            }
+            strEncryptedPassword = AdminUserService.encryptPassword( strPassword );
 
             LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
+            userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
             userStored.setPassword( strEncryptedPassword );
-            userStored.setPasswordReset( Boolean.TRUE );
+
+            if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( PARAMETER_FORCE_CHANGE_PASSWORD_REINIT )
+                    .getParameterValue( ) ) )
+            {
+                userStored.setPasswordReset( Boolean.TRUE );
+            }
             AdminUserHome.update( userStored );
+            //AdminUserHome.insertNewPasswordInHistory( strEncryptedPassword, userStored.getUserId( ) );
         }
 
         //send password by e-mail

@@ -250,4 +250,15 @@ public class AttributeService
         // Remove the Attribute
         AttributeHome.remove( nIdAttribute );
     }
+
+    /**
+     * Update the anonymization status of the attribute.
+     * @param nIdAttribute Id of the attribute
+     * @param bAnonymize New value of the anonymization status. True means the
+     *            attribute should be anonymize, false means it doesn't.
+     */
+    public void updateAnonymizationStatusUserField( int nIdAttribute, boolean bAnonymize )
+    {
+        AttributeHome.updateAttributeAnonymization( nIdAttribute, bAnonymize );
+    }
 }

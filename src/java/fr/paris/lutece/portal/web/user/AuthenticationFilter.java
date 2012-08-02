@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.web.user;
 
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
@@ -46,7 +48,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.io.IOException;
-
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 
@@ -69,6 +70,8 @@ public class AuthenticationFilter implements Filter
     private static final String PROPERTY_URL_SUFFIX_LIST = "list";
     private static final String CONSTANT_LIST_SEPARATOR = ",";
     private static final String LOGGER_NAME = "lutece.authentication";
+    private static final String PROPERTY_RESET_EXCEPTION_MESSAGE = "User must reset his password.";
+    private static final String PROPERTY_JSP_URL_ADMIN_LOGOUT = "lutece.admin.logout.url";
 
     /**
      * {@inheritDoc}
@@ -134,6 +137,17 @@ public class AuthenticationFilter implements Filter
                         getRedirectUrl( req ), AdminMessage.TYPE_ERROR );
                 resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
             }
+            catch ( PasswordResetException e )
+            {
+                if ( !getResquestedUrl( req ).equals( getChangePasswordUrl( req ) )
+                        && !getResquestedUrl( req ).equals( getLoginUrl( req ) ) )
+                {
+                    String strRedirectUrl = AdminMessageService.getMessageUrl( req,
+                            Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, getChangePasswordUrl( req ),
+                            AdminMessage.TYPE_ERROR );
+                    resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
+                }
+            }
         }
 
         chain.doFilter( request, response );
@@ -180,6 +194,25 @@ public class AuthenticationFilter implements Filter
         return getAbsoluteUrl( request, strLoginUrl );
     }
 
+    private String getLogoutUrl( HttpServletRequest request )
+    {
+        return getAbsoluteUrl( request, AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_LOGOUT ) );
+    }
+
+    /**
+     * Get the absolute login url
+     * 
+     * @param request the http request
+     * @return the login url, in its absolute form
+     * 
+     * */
+    private String getChangePasswordUrl( HttpServletRequest request )
+    {
+        String strChangePasswordUrl = AdminAuthenticationService.getInstance( ).getChangePasswordPageUrl( );
+
+        return getAbsoluteUrl( request, strChangePasswordUrl );
+    }
+
     /**
      * Check wether a given url is to be considered as private (ie that
      * needs a successful authentication to be accessed) or public (ie that
@@ -193,7 +226,7 @@ public class AuthenticationFilter implements Filter
         boolean bIsRestricted = true;
         String strUrl = getResquestedUrl( request );
 
-        if ( strUrl.equals( getLoginUrl( request ) ) )
+        if ( strUrl.equals( getLoginUrl( request ) ) || strUrl.equals( getLogoutUrl( request ) ) )
         {
             bIsRestricted = false;
         }
@@ -227,6 +260,10 @@ public class AuthenticationFilter implements Filter
             {
                 // Authentication is required to access to the admin
                 throw new UserNotSignedException(  );
+            }
+            if ( AdminUserService.getAdminUser( request ).isPasswordReset( ) )
+            {
+                throw new PasswordResetException( PROPERTY_RESET_EXCEPTION_MESSAGE );
             }
         }
     }

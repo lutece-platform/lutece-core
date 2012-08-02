@@ -205,9 +205,16 @@ public final class SecurityService
      * @throws LoginRedirectException if redirect exception
      */
     public void loginUser( HttpServletRequest request, final String strUserName, final String strPassword )
-        throws LoginException, LoginRedirectException
+            throws LoginException, LoginRedirectException
     {
         LuteceUser user = _authenticationService.login( strUserName, strPassword, request );
+
+        if ( _authenticationService.findResetPassword( request, strUserName ) )
+        {
+            String redirect = _authenticationService.getResetPasswordPageUrl( request );
+            registerUser( request, user );
+            throw new LoginRedirectException( redirect );
+        }
         registerUser( request, user );
     }
 

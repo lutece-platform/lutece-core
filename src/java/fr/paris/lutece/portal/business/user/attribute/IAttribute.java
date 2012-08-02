@@ -180,6 +180,19 @@ public interface IAttribute
     void setFieldInLine( boolean bIsFieldInLine );
 
     /**
+     * Get the anonymize status of the attribute
+     * @return True if the attribute should be anonymize, false otherwise.
+     */
+    boolean getAnonymize( );
+
+    /**
+     * Set the anonymize status of the attribute
+     * @param bAnonymize New anonymize status. True if the attribute should be
+     *            anonymize, false otherwise.
+     */
+    void setAnonymize( boolean bAnonymize );
+
+    /**
      * Get the data of the user fields
      * @param request HttpServletRequest
      * @param user user
@@ -253,4 +266,10 @@ public interface IAttribute
      * @param bIsAttributeImage true if it is an image, false otherwise
      */
     void setAttributeImage( boolean bIsAttributeImage );
+
+    /**
+     * Get whether the attribute is anonymizable.
+     * @return True if the attribute can be anonymized, false otherwise.
+     */
+    boolean isAnonymizable( );
 }

@@ -92,6 +92,9 @@ CREATE TABLE core_admin_user (
 	level_user smallint default 0 NOT NULL,
 	reset_password smallint default 0 NOT NULL,
 	accessibility_mode smallint default 0 NOT NULL,
+	password_max_valid_date timestamp NULL,
+	account_max_valid_date bigint NULL,
+	nb_alerts_sent INTEGER DEFAULT 0 NOT NULL,
 	PRIMARY KEY (id_user)
 );
 
@@ -462,6 +465,7 @@ CREATE TABLE core_attribute (
 	is_field_in_line SMALLINT DEFAULT 0,
 	attribute_position INT DEFAULT 0,
 	plugin_name VARCHAR(255) DEFAULT NULL,
+	anonymize SMALLINT DEFAULT NULL,
 	PRIMARY KEY (id_attribute)
 );
 
@@ -507,3 +511,25 @@ CREATE TABLE core_search_parameter (
     parameter_value LONG VARCHAR,
     PRIMARY KEY (parameter_key) 
 );
+
+DROP TABLE IF EXISTS core_user_password_history;
+CREATE  TABLE core_user_password_history (
+  id_user INT NOT NULL ,
+  password VARCHAR(100) NOT NULL ,
+  date_password_change TIMESTAMP NOT NULL DEFAULT NOW() ,
+  PRIMARY KEY (id_user, date_password_change)
+  );
+  
+DROP TABLE IF EXISTS core_admin_user_anonymize_field;
+CREATE  TABLE core_admin_user_anonymize_field (
+  field_name VARCHAR(100) NOT NULL ,
+  anonymize BIT NOT NULL ,
+  PRIMARY KEY (field_name)
+  );
+  
+DROP TABLE IF EXISTS core_template;
+CREATE TABLE core_template (
+  template_name VARCHAR(100) NOT NULL,
+  template_value LONG VARCHAR NULL,
+  PRIMARY KEY (template_name)
+  );

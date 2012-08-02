@@ -39,13 +39,13 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -242,5 +242,14 @@ public class AttributeComboBox extends AbstractAttribute
         }
 
         return listUserFields;
+    }
+
+    /**
+     * Get whether the attribute is anonymizable.
+     * @return True if the attribute can be anonymized, false otherwise.
+     */
+    public boolean isAnonymizable( )
+    {
+        return false;
     }
 }

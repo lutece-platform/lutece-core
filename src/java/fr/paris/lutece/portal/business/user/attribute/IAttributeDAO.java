@@ -92,4 +92,12 @@ public interface IAttributeDAO
      * @return list of attributes
      */
     List<IAttribute> selectCoreAttributes( Locale locale );
+
+    /**
+     * Update the anonymization status of the attribute.
+     * @param nIdAttribute Id of the attribute
+     * @param bAnonymize New value of the anonymization status. True means the
+     *            attribute should be anonymize, false means it doesn't.
+     */
+    void updateAttributeAnonymization( int nIdAttribute, boolean bAnonymize );
 }
