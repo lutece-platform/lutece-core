@@ -1,16 +1,13 @@
-<div id="wrapper">
-<div id="admin-header">
-<p id="admin-header-toolbar">
+<div class="clearfix">
+<div class="row" id="admin-header-message" >
+	<div class="span2">
     <img  id="logo" src="images/logo-header.png" alt="" title="" />
-    <a href="jsp/admin/AdminLogin.jsp" title=""><img src="images/admin/skin/login.png" alt="" title="" />&nbsp;</a>
-  </p>
-   <div id="admin-header-main">
-       <div id="admin-header-sitename">&nbsp; <!-- Add Sitename --></div>
-       <div class="clear"></div>
-    </div>
+	</div>
 </div>
-<div id="message-box">
-    <div class="content-box">
+<div class="container">
+<div class="row">
+<div class="span1 offset2">
+	<div class="container">
         <#if message.type = 0 >
         <img src="images/admin/skin/messages/info.png" class="icon" alt="" />
         <#elseif message.type = 1 >
@@ -24,18 +21,20 @@
         <#elseif message.type = 5 >
         <img src="images/admin/skin/messages/stop.png" class="icon" alt="" />
         </#if>
+	</div>
+</div>
+<div class="span8">
         <h2>${title}</h2>
         <p>${text}</p>
         <#if url?has_content>
-        <form method="post" action="${url}"  target="${target}" class="lutece-inline-button">
+        <form method="post" action="${url}"  target="${target}">
             <#if list_parameters?exists>
             <#assign keys = list_parameters?keys>
             <#list keys as key>
             <input type="hidden" name="${key}" value="${list_parameters[key]}" />
             </#list>
             </#if>
-             <input class="button" type="submit" value="#i18n{portal.admin.message.buttonValidate}" class="-lutece-inline-button"/>
-         
+             <input class="btn" type="submit" value="#i18n{portal.admin.message.buttonValidate}" />
         </form>
         <#if message.cancel>
            <#if back_url?has_content>
@@ -52,6 +51,7 @@
         </#if>	
        </#if>
       </#if>
+    </div>
     </div>
 
 </div>
