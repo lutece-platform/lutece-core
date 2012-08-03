@@ -28,7 +28,11 @@
     }
     else if ( exception instanceof fr.paris.lutece.portal.service.admin.PasswordResetException )
     {
-        response.sendRedirect( AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_DEFAULT_USER_PASSWORD );
+        String strRedirectUrl = AdminMessageService.getMessageUrl( request,
+                Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, JSP_URL_MODIFY_DEFAULT_USER_PASSWORD,
+                AdminMessage.TYPE_ERROR );
+        response.sendRedirect( strRedirectUrl );
+        //response.sendRedirect( AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_DEFAULT_USER_PASSWORD );
     }
     else
     {

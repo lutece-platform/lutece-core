@@ -307,8 +307,11 @@ public class AdminLoginJspBean
         AdminUser user = AdminUserHome.findUserByLogin( strAccessCode );
 
         if ( user.isPasswordReset(  ) )
-        {
-            url = AppPathService.resolveRedirectUrl( request, JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD );
+        {   
+            String strRedirectUrl = AdminMessageService.getMessageUrl( request,
+                    Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD,
+                    AdminMessage.TYPE_ERROR );
+            url = new UrlItem( strRedirectUrl );
         }
         else
         {
