@@ -67,6 +67,7 @@
             <bean-property-setter-rule pattern="filter-name" propertyname="name" />
             <bean-property-setter-rule pattern="filter-class" propertyname="filterClass" />
             <bean-property-setter-rule pattern="url-pattern" propertyname="mappingUrlPattern" />
+            <bean-property-setter-rule pattern="filter-order" propertyname="order" />
             <call-method-rule pattern="init-param" methodname="addParameter" paramcount="2" />
             <call-param-rule pattern="init-param/param-name" paramnumber="0"/>
             <call-param-rule pattern="init-param/param-value" paramnumber="1"/>

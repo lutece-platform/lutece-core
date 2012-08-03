@@ -38,11 +38,11 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
-
 
 /**
  * FilterService
@@ -81,6 +81,7 @@ public final class FilterService
             Filter filter = (Filter) Class.forName( entry.getFilterClass(  ) ).newInstance(  );
             LuteceFilter f = new LuteceFilter( entry.getName(  ), filter, entry.getMappingUrlPattern(  ), plugin,
                     entry.getInitParameters(  ) );
+            f.setOrder( entry.getOrder(  ) );
             _listFilters.add( f );
             AppLogService.info( "New Filter registered : " + entry.getName(  ) );
 
@@ -140,6 +141,23 @@ public final class FilterService
                 throw new LuteceInitException( "Error execution init() method - Filter " + filter.getName(  ), e );
             }
         }
+        
+        sortFilters( );
+        
+        if ( AppLogService.isDebugEnabled(  ) )
+        {
+            AppLogService.debug( "Displaying filters order" );
+            for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
+            {
+                AppLogService.debug( filter.getName(  )  + " - order = " + filter.getOrder( ));
+            }
+        }
+    }
+    
+    public static void sortFilters(  )
+    {
+        // sort the filter's list
+        Collections.sort( FilterService.getInstance(  ).getFilters(  ) );
     }
 
     /**

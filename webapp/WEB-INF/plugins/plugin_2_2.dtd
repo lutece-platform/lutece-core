@@ -125,10 +125,11 @@
 
 <!-- Filters -->
 <!ELEMENT filters ( filter* )>
-<!ELEMENT filter ( filter-name?,filter-class,url-pattern)>
+<!ELEMENT filter ( filter-name?,filter-class,url-pattern, filter-order*, init-param*)>
 <!ELEMENT filter-name ( #PCDATA ) >
 <!ELEMENT filter-class ( #PCDATA ) >
 <!ELEMENT url-pattern ( #PCDATA ) >
+<!ELEMENT filter-order ( #PCDATA ) >
 
 <!--daemons -->
 <!ELEMENT daemons ( daemon* )>

@@ -43,12 +43,15 @@ import javax.servlet.Filter;
 /**
  * LuteceFilter
  */
-public class LuteceFilter
+public class LuteceFilter implements Comparable<LuteceFilter>
 {
+    public static final int ORDER_NOT_DEFINED = -1;
+
     private String _strName;
     private Filter _filter;
     private String _strMapping;
     private Plugin _plugin;
+    private int _nOrder = ORDER_NOT_DEFINED;
     private Map<String, String> _mapInitParameters;
 
     /**
@@ -165,5 +168,41 @@ public class LuteceFilter
     public String toString(  )
     {
         return getName(  );
+    }
+    
+    /**
+     * 
+     * Returns the order.
+     * {@link #getOrder()} == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
+     * @return the order
+     */
+    public int getOrder(  )
+    {
+        return _nOrder;
+    }
+    
+    /**
+     * nOrder ==  == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
+     * @param nOrder the order
+     */
+    public void setOrder( int nOrder )
+    {
+        _nOrder = nOrder;
+    }
+
+    /**
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public int compareTo( LuteceFilter luteceFilter )
+    {
+        if ( luteceFilter == null )
+        {
+            return 1;
+        }
+        
+        return luteceFilter.getOrder(  ) - this.getOrder(  );
+        
     }
 }

@@ -42,10 +42,13 @@ import java.util.Map;
  */
 public class FilterEntry
 {
+    public static final int ORDER_NOT_DEFINED = -1;
+    
     private String _strName;
     private String _strFilterClass;
     private String _strMapping;
     private Map<String, String> _mapInitParameters = new HashMap<String, String>(  );
+    private int _nOrder = ORDER_NOT_DEFINED;
 
     /**
      * Returns the Name
@@ -124,5 +127,25 @@ public class FilterEntry
     public Map<String, String> getInitParameters(  )
     {
         return _mapInitParameters;
+    }
+    
+    /**
+     * 
+     * Returns the order.
+     * {@link #getOrder()} == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
+     * @return the order
+     */
+    public int getOrder(  )
+    {
+        return _nOrder;
+    }
+    
+    /**
+     * nOrder ==  == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
+     * @param nOrder the order
+     */
+    public void setOrder( int nOrder )
+    {
+        _nOrder = nOrder;
     }
 }
