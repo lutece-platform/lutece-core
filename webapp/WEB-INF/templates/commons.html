@@ -150,18 +150,16 @@
 
 
 <#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page>
-    <div id="lutece-paginator">
-    <#if form == 1 >
-    <form method="post" action="">
-    </#if>
-        <p>
+    <div class="row">
     <#if (paginator.pagesCount > 1) >
-        <span>
         <@paginationPageLinks paginator=paginator />
-        </span>
     </#if>
-        <@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
-        </p>
+    <#if form == 1 >
+    <form class="form-inline pull-right" method="post" action="">
+    </#if>
+        
+    <@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
+        
     <#if form == 1 >
     </form>
     </#if>
@@ -179,7 +177,7 @@
 		<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
 		<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
 	</#if>
-        <div class="pagination">
+        <div class="pagination offset4">
          <ul>
         <#if ( paginator.pageCurrent - offsetPrev > 1 )>
         <li>
@@ -244,7 +242,7 @@
  
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page>
         ${paginator.labelItemCountPerPage} :
-        <select name="${paginator.itemsPerPageParameterName}">
+        <select class="span1" name="${paginator.itemsPerPageParameterName}">
             <#list [ "10" , "20" , "50" , "100" ] as nb>
              <#if nb_items_per_page = nb >
              	<option selected="selected" value="${nb}">${nb}</option>
@@ -253,7 +251,9 @@
              </#if>
             </#list>
         </select>
-        <input type="submit" class="refresh" value="" title="#i18n{portal.util.labelRefresh}"/>
+        <button class="btn btn-mini" type="submit" title="#i18n{portal.util.labelRefresh}"/>
+        <i class="icon-repeat"></i>
+        </button>
         &nbsp;-&nbsp;
 </#macro>
 
