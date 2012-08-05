@@ -1,11 +1,16 @@
-<div id="content-box-actions">
-    <form method="post"  action="jsp/admin/style/CreatePageTemplate.jsp">
-        <input type="submit" tabindex="1" value="#i18n{portal.style.manage_page_templates.buttonLabelCreate}" class="button bt-toolbar" />
+<div class="row" >
+    
+    <form class="form-horizontal" method="post"  action="jsp/admin/style/CreatePageTemplate.jsp">
+        <fieldset>
+            <button class="btn btn-primary pull-right" type="submit" >
+                <i class="icon-plus icon-white" ></i>
+                <span class="hidden-phone" >#i18n{portal.style.manage_page_templates.buttonLabelCreate}</span>
+            </button>
+        </fieldset>
     </form>
-</div>
-<div class="content-box" >
-    <h2 class="content-box-header">#i18n{portal.style.manage_page_templates.boxTitle}</h2>
-    <table>
+    
+    <legend>#i18n{portal.style.manage_page_templates.boxTitle}</legend>
+    <table class="table table-striped table-condensed">
         <tr>            
             <th width="20%">#i18n{portal.style.manage_page_templates.columnTitleDescription}</th>
             <th width="30%">#i18n{portal.style.manage_page_templates.columnTitleFile}</th>
@@ -14,15 +19,17 @@
         </tr>
         <#list page_templates_list as page_templates >
         <tr>
-            <td width="20%">
-                <a href="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}" class="bullet-link">${page_templates.description}</a>
-            </td>
+            <td width="20%">${page_templates.description}</td>
             <td width="30%">${page_templates.file}</td>
             <td width="30%"><img src="images/admin/page_templates/${page_templates.picture}" align="middle" /></td>
             <td width="20%" >
-                <a href="jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}">
-                    <img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.style.manage_styles.actionDelete}" title="#i18n{portal.style.manage_styles.actionDelete}" />
+                <a class="btn btn-primary btn-mini" href="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}"  title="#i18n{portal.util.labelModify}" >
+                    <i class="icon-edit icon-white"></i>
                 </a>
+                <a class="btn btn-danger btn-mini" href="jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}"  title="#i18n{portal.style.manage_styles.actionDelete}" >
+                    <i class="icon-trash icon-white"></i>
+                </a>
+
             </td>            
         </tr>			
         </#list>

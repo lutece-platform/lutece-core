@@ -1,27 +1,46 @@
-<div class="content-box" >
-    <h2 class="content-box-header">#i18n{portal.style.create_style.title}</h2>
-    <form method="post"  name="create_style" action="jsp/admin/style/DoCreateStyle.jsp">
-        <p>
-            <label>#i18n{portal.style.create_style.labelId} * : </label>
-            <input type="text" name="style_id" size="5" maxlength="10" />
-        </p>
-        <p>
-            <label>#i18n{portal.style.create_style.labelName} * : </label>
-            <input type="text" name="style_name" size="60" maxlength="100" />
-        </p>
-        <p>	
-            <label>#i18n{portal.style.create_style.labelComponentType} :</label>
-            <#assign javascriptComboParams>onChange="javascript:if( document.create_style.portal_component.value == '0' ) {document.create_style.portlet_type.disabled=false;} else {document.create_style.portlet_type.disabled=true;}"</#assign>
-            <@comboWithParams name="portal_component" default_value="0" additionalParameters="${javascriptComboParams}" items=portal_component_list />
-        </p>
-        <p>
-            <label>#i18n{portal.style.create_style.labelPortletType} :</label>
-            <@comboSorted name="portlet_type" default_value="0"  items=portlet_type_list />
-        </p>		
-        <p>
-            <input type="submit" value="#i18n{portal.style.create_style.buttonCreate}" class="button" />
-            <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
-        </p>
+<div class="row" >
+    <legend>#i18n{portal.style.create_style.title}</legend>
+    <form class="form-horizontal" method="post"  name="create_style" action="jsp/admin/style/DoCreateStyle.jsp">
+        <fieldset>
+
+            <div class="control-group">
+                <label class="control-label" > #i18n{portal.style.create_style.labelId} * : </label>
+                <div class="controls">
+                    <input type="text" name="style_id" size="5" maxlength="10" />
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" > #i18n{portal.style.create_style.labelName} * : </label>
+                <div class="controls">
+                    <input type="text" name="style_name" size="60" maxlength="100" />
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" > #i18n{portal.style.create_style.labelComponentType} :</label>
+                <#assign javascriptComboParams>onChange="javascript:if( document.create_style.portal_component.value == '0' ) {document.create_style.portlet_type.disabled=false;} else {document.create_style.portlet_type.disabled=true;}"</#assign>
+                <div class="controls">
+                    <@comboWithParams name="portal_component" default_value="0" additionalParameters="${javascriptComboParams}" items=portal_component_list />
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" > #i18n{portal.style.create_style.labelPortletType} :</label>
+                    <div class="controls">
+                        <@comboSorted name="portlet_type" default_value="0"  items=portlet_type_list />
+                    </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" >#i18n{portal.style.create_style.buttonCreate}</button>
+                <button class="btn" onclick="javascript:history.go(-1)" >#i18n{portal.admin.message.buttonCancel}</button>
+            </div>
+
+        </fieldset>
     </form>
     <script language="javascript">
         if( document.create_style.portal_component.value == '0' )

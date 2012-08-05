@@ -1,27 +1,48 @@
-<div class="content-box" >
-<h2  class="content-box-header">#i18n{portal.style.modify_style.title}</h2>
- <form method="post" name="modify_style" action="jsp/admin/style/DoModifyStyle.jsp" >
-        <p>
-            <label for="style_id" >#i18n{portal.style.modify_style.labelId} * : </label>
-            <input type="text" id="style_id" name="style_id" readonly="readonly" value="${style.id}" />
-        </p>
-        <p>
-            <label for="style_name" >#i18n{portal.style.modify_style.labelName} * : </label>
-            <input type="text" id="style_name" name="style_name" value="${style.description}" size="60" maxlength="100" />
-        </p>
-        <p>
-            <label for="portal_component" >#i18n{portal.style.modify_style.labelComponentType} :</label>
-            <#assign javascriptComboParams>onChange="javascript:if( document.modify_style.portal_component.value == '0' ) {document.modify_style.portlet_type.disabled=false;} else {document.modify_style.portlet_type.disabled=true;}"</#assign>
-            <@comboWithParams name="portal_component" default_value="${style.portalComponentId}" additionalParameters="${javascriptComboParams}" items=portal_component_list />
-        </p>
-        <p>
-            <label for="portlet_type" >#i18n{portal.style.modify_style.labelPortletType} :</label>
-            <@comboSorted name="portlet_type" default_value="${style.portletTypeId}"  items=portlet_type_list />
-        </p>
-        <p>
-            <input type="submit" value="#i18n{portal.style.modify_style.buttonModify}" class="button" />
-            <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
-        </p>
+<div class="row" >
+    <legend>#i18n{portal.style.modify_style.title}</legend>
+    <form class="form-horizontal" method="post" name="modify_style" action="jsp/admin/style/DoModifyStyle.jsp" >
+        <fieldset>
+
+            <div class="control-group">
+                <label class="control-label" for="style_id" >#i18n{portal.style.modify_style.labelId} * : </label>
+                <div class="controls">
+                    <input type="text" id="style_id" name="style_id" readonly="readonly" value="${style.id}" />
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" for="style_name" >#i18n{portal.style.modify_style.labelName} * : </label>
+                <div class="controls">
+                    <input type="text" id="style_name" name="style_name" value="${style.description}" size="60" maxlength="100" />
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" for="portal_component" >#i18n{portal.style.modify_style.labelComponentType} :</label>
+                <#assign javascriptComboParams>onChange="javascript:if( document.modify_style.portal_component.value == '0' ) {document.modify_style.portlet_type.disabled=false;} else {document.modify_style.portlet_type.disabled=true;}"</#assign>
+                <div class="controls">
+                    <@comboWithParams name="portal_component" default_value="${style.portalComponentId}" additionalParameters="${javascriptComboParams}" items=portal_component_list />
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" for="portlet_type" >#i18n{portal.style.modify_style.labelPortletType} :</label>
+                <div class="controls">
+                    <@comboSorted name="portlet_type" default_value="${style.portletTypeId}"  items=portlet_type_list />
+                </div>
+            </div>
+
+
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" >#i18n{portal.style.modify_style.buttonModify}</button>
+
+                <button class="btn" onClick="javascript:history.go(-1)" >#i18n{portal.admin.message.buttonCancel}</button>
+            </div>
+
+        </fieldset>
     </form>
 
     <script language="JavaScript">

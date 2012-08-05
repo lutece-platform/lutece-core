@@ -1,20 +1,23 @@
-<div class="content-box">
-    <h2  class="content-box-header">#i18n{portal.style.view_mode.boxTitle} ${mode.description}</h2>
-    <p><strong>#i18n{portal.style.view_mode.labelId}</strong> ${mode.id}</p>
-    <p><strong>#i18n{portal.style.view_mode.labelDescription}</strong>  ${mode.description}</p>
-    <p><strong>#i18n{portal.style.view_mode.labelXslPath}</strong> ${mode.path}</p>
-    <p><strong>#i18n{portal.style.view_mode.xslParameterValues}</strong></p>        
-    <p><strong>#i18n{portal.style.view_mode.labelMethod}</strong>  ${mode.outputXslPropertyMethod}</p>
-    <p><strong>#i18n{portal.style.view_mode.labelVersion}</strong>  ${mode.outputXslPropertyVersion}</p>
-    <p><strong>#i18n{portal.style.view_mode.labelMediaType}</strong>  ${mode.outputXslPropertyMediaType}</p>
-    <p><strong>#i18n{portal.style.view_mode.labelEncoding}</strong>  ${mode.outputXslPropertyEncoding}</p>
-    <p><strong>#i18n{portal.style.view_mode.labelIndent}</strong>  ${mode.outputXslPropertyIndent}</p>
-    <p><strong>#i18n{portal.style.view_mode.labelOmitXmlDeclaration}</strong>  ${mode.outputXslPropertyOmitXmlDeclaration}</p>
-    <p><strong>#i18n{portal.style.view_mode.labelStandalone}</strong>  ${mode.outputXslPropertyStandalone}</p>
-<form method="post" name="view_mode" action="jsp/admin/style/ModifyMode.jsp" >
-        <p>
+<div class="row">
+    <legend>#i18n{portal.style.view_mode.boxTitle} ${mode.description}</legend>
+    <strong>#i18n{portal.style.view_mode.labelId}</strong> ${mode.id}
+    <strong>#i18n{portal.style.view_mode.labelDescription}</strong>  ${mode.description}
+    <strong>#i18n{portal.style.view_mode.labelXslPath}</strong> ${mode.path}
+    <strong>#i18n{portal.style.view_mode.xslParameterValues}</strong>        
+    <strong>#i18n{portal.style.view_mode.labelMethod}</strong>  ${mode.outputXslPropertyMethod}
+    <strong>#i18n{portal.style.view_mode.labelVersion}</strong>  ${mode.outputXslPropertyVersion}
+    <strong>#i18n{portal.style.view_mode.labelMediaType}</strong>  ${mode.outputXslPropertyMediaType}
+    <strong>#i18n{portal.style.view_mode.labelEncoding}</strong>  ${mode.outputXslPropertyEncoding}
+    <strong>#i18n{portal.style.view_mode.labelIndent}</strong>  ${mode.outputXslPropertyIndent}
+    <strong>#i18n{portal.style.view_mode.labelOmitXmlDeclaration}</strong>  ${mode.outputXslPropertyOmitXmlDeclaration}
+    <strong>#i18n{portal.style.view_mode.labelStandalone}</strong>  ${mode.outputXslPropertyStandalone}
+<form class="form-horizontal" method="post" name="view_mode" action="jsp/admin/style/ModifyMode.jsp" >
+	<fieldset>
+        
             <input type="hidden" name="mode_id" value="${mode.id}" />
-            <input type="submit" tabindex="1" value="#i18n{portal.style.view_mode.buttonLabelModify}" class="button" />
-        </p>
-    </form>
+            <button class="btn btn-primary" type="submit" >#i18n{portal.style.view_mode.buttonLabelModify}</button>
+	
+        
+    </fieldset>
+</form>
 </div>
