@@ -1,20 +1,31 @@
-<div class="content-box" >
+<div class="row" >
 
-    <h2>#i18n{portal.workgroup.create_workgroup.titleCreationForm}</h2>
-		      
-    <form method="post" action="jsp/admin/workgroup/DoCreateWorkgroup.jsp" >
-       <p>
-       		<label for="workgroup_key">#i18n{portal.workgroup.create_workgroup.labelKey} * :</label>
-            <input type="text" id="workgroup_key" name="workgroup_key" value="" size="20" maxlength="50" />
-       </p>
-       <p>
-            <label for="workgroup_description">#i18n{portal.workgroup.create_workgroup.labelDescription} * :</label>
-            <input type="text" id="workgroup_description" name="workgroup_description" value="" size="50" maxlength="250" />
-       </p>
-       <p>
-	       	<input class="button" type="submit" value="#i18n{portal.workgroup.create_workgroup.buttonLabelCreate}" />
-		    <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
-       </p>
-    </form>
+    <legend>#i18n{portal.workgroup.create_workgroup.titleCreationForm}</legend>
+
+        <form class="form-horizontal" method="post" action="jsp/admin/workgroup/DoCreateWorkgroup.jsp" >
+            <fieldset>
+
+                <div class="control-group">
+                    <label class="control-label" for="workgroup_key">#i18n{portal.workgroup.create_workgroup.labelKey} * :</label>
+                    <div class="controls">
+                        <input type="text" id="workgroup_key" name="workgroup_key" value="" size="20" maxlength="50" />
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+                    <label class="control-label" for="workgroup_description">#i18n{portal.workgroup.create_workgroup.labelDescription} * :</label>
+                    <div class="controls">
+                        <input type="text" id="workgroup_description" name="workgroup_description" value="" size="50" maxlength="250" />
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-primary" type="submit" >#i18n{portal.workgroup.create_workgroup.buttonLabelCreate}</button>
+                    <button class="btn" onclick="javascript:history.go(-1)" >#i18n{portal.admin.message.buttonCancel}</button>
+                </div>
+
+            </fieldset>
+        </form>
 </div>
 
