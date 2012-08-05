@@ -1,30 +1,46 @@
-<div id="content-box-actions">
-<form method="post"  action="jsp/admin/style/CreateStyleSheet.jsp" >
-<input type="hidden" name="mode_id" value="${mode_id}" />
-<input type="submit" class="button bt-toolbar" value="#i18n{portal.style.manage_stylesheets.buttonAdd}" />
-</form>
+<div class="btn-group pull-right">
+    <form class="form-inline" method="post"  action="jsp/admin/style/CreateStyleSheet.jsp" >
+        <fieldset>
+            <input type="hidden" name="mode_id" value="${mode_id}" />
+            <button class="btn btn-primary" type="submit" >
+                <i class="icon-plus icon-white"></i>
+                <span class="hidden-phone">#i18n{portal.style.manage_stylesheets.buttonAdd}</span>
+            </button>
+        </fieldset>
+    </form>
 </div>
-<div class="content-box" >
-<h2 class="content-box-header">#i18n{portal.style.manage_stylesheets.title}</h2>
-<div class="highlight-box">
-<form method="post" >
-         <p>
-                <label for="mode_id" >#i18n{portal.style.manage_stylesheets.labelSortByMode} :</label>
-                <@comboSorted name="mode_id" default_value="${mode_id}" items=mode_list />
-                <input type="submit" class="button" value="#i18n{portal.style.manage_stylesheets.buttonApplyCriterias}" />
-            </p>
+
+<div class="row" >
+    <legend>#i18n{portal.style.manage_stylesheets.title}</legend>
+    <div class="well">
+        <form class="form-horizontal" method="post" >
+            <fieldset>
+
+                <div class="control-group">
+                    <label class="control-label" for="mode_id" >#i18n{portal.style.manage_stylesheets.labelSortByMode} :</label>
+                    <div class="controls">
+                        <div class="controls">
+                            <@comboSorted name="mode_id" default_value="${mode_id}" items=mode_list />
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" type="submit" >#i18n{portal.style.manage_stylesheets.buttonApplyCriterias}</button>
+
+
+            </fieldset>
         </form>
     </div>
     <@paginationAdmin paginator=paginator combo=1 />   
-    <table>
+    <table class="table table-striped table-condensed">
         <tr>
             <th width="40%" >
-            	#i18n{portal.style.manage_stylesheets.columnName}
-            	<@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="description" />
+                #i18n{portal.style.manage_stylesheets.columnName}
+                <@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="description" />
             </th>
             <th width="60%" >
-            	#i18n{portal.style.manage_stylesheets.columnFilename}
-            	<@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="file" />
+                #i18n{portal.style.manage_stylesheets.columnFilename}
+                <@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="file" />
             </th>
         </tr>            
         <#list stylesheet_list as stylesheet >
