@@ -1,7 +1,6 @@
-<div id="content-admin-site-page" class="admin-site-page">
-  <img src="images/admin/skin/toggle.png" alt="Fermer" title="Fermer" class="togl" />
-    <div class="content-box" >
-        <h2>#i18n{portal.site.admin_page.titleAddChildPage}</h2>
+<div class="container span3">
+	<div class="row">
+        <legend>#i18n{portal.site.admin_page.titleAddChildPage}</legend>
         <form method="post"  action="jsp/admin/site/DoCreateChildPage.jsp">
             <input type="hidden" name="page_id" value="${page.id}" />
             <div id="page_create" class="admin-site-page">
