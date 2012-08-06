@@ -46,9 +46,9 @@
             break;
     }
 %>
-<div id="admin-site">
-<div id="admin-site-preview" class=<%= strClassPreview %> >
-    <iframe name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="98%" height="750" scrolling="auto">Pr&eacute;visualisation du site</iframe>
-</div>
+<div id="container">
+	<div class=<%= strClassPreview %> >
+		<iframe name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="98%" height="750" scrolling="auto">Pr&eacute;visualisation du site</iframe>
+	</div>
 </div>
 <%@ include file="../AdminFooter.jsp"%>

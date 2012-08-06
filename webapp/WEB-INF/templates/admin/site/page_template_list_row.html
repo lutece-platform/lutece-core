@@ -1,7 +1,8 @@
-<#assign x = index_row>
-<#if x = "4" || x = "7" || x = "10" || x = "13"></tr><tr></#if>
-<td valign="top" align="center" style="border:0;">
- <input class="radio" type="radio" name="page_template_id" value="${page_template.id}" ${checked} style="border:0;float:left;"/>
- <img src="images/admin/page_templates/${page_template.picture}" style="border:0;" align="left" alt="${page_template.description}"/>
- <detail>${page_template.description}</detail>
-</td>
+<!--<#assign x = index_row>-->
+<!--<#if x = "4" || x = "7" || x = "10" || x = "13"></tr><tr></#if>-->
+<!--<#if x = "3" || x = "5" || x = "8" || x = "11"></tr><tr></#if>-->
+<!--<td valign="top" align="center" style="border:0;">-->
+ <label>${page_template.description}</label>
+ <input class="radio" type="radio" name="page_template_id" value="${page_template.id}" ${checked} />
+ <img src="images/admin/page_templates/${page_template.picture}" alt="${page_template.description}"/>
+ <!--</td>-->

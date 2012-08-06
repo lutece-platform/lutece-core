@@ -1,43 +1,47 @@
-<div id="content-admin-site-page" class="admin-site-page">
-    <img src="images/admin/skin/toggle.png" alt="Fermer" title="Fermer" class="togl" />
+<div class="container span3">
+<!--    <img src="images/admin/skin/toggle.png" alt="Fermer" title="Fermer" class="togl" />-->
     <#if authorization != "1">
-    <div class="content-box" >
-        <h2>#i18n{portal.site.admin_page.titlePageProperties}</h2>
-        <form method="post"  action="jsp/admin/site/DoModifyPage.jsp">
-            <input type="hidden" name="page_id" value="${page.id}" />
-            <div id="page_admin" class="admin-site-page">
-                <p>
-                    <label for="page_name" >#i18n{portal.site.admin_page.labelName}
-                        <input type="text" name="page_name" value="${page.name}" size="40" maxlength="50" />
-                    </label>
-                </p>
-                <p>
-                    <label for="page_description">#i18n{portal.site.admin_page.labelDescription}
-                        <textarea name="page_description" rows="3" cols="34" >${page.description}</textarea>
-                    </label>
-                </p>
-                <p >
-                    <label for="parent_id">#i18n{portal.site.admin_page.labelParentPageId}<br />
+	
+    <div class="row">
+        <legend>#i18n{portal.site.admin_page.titlePageProperties}</legend>
+        <form method="post"  action="jsp/admin/site/DoModifyPage.jsp" class="form-vertical" >            
+				<input type="hidden" name="page_id" value="${page.id}" />
+				<fieldset>
+					<div class="control-group">
+					<label class="control-label" for="page_name" >#i18n{portal.site.admin_page.labelName}</label>
+					<div class="controls">
+                        <input type="text" name="page_name" value="${page.name}" class="input-large" />
+					</div>	
+                </div>
+				<div class="control-group">
+                    <label for="page_description">#i18n{portal.site.admin_page.labelDescription}</label>
+                    <div class="controls">
+						<textarea name="page_description" rows="3" cols="34" >${page.description}</textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="parent_id">#i18n{portal.site.admin_page.labelParentPageId}</label>
+					<div class="controls">
                         <#if page.id = 1>
                         <input type="hidden" name="parent_id" size="10" maxlength="10" value="${page.parentPageId}" />
                         <span style="font-weight:normal;">#i18n{portal.site.admin_page.labelParentPageIdMessage}</span>
                         <#else>
                         <input type="text" name="parent_id" size="10" maxlength="10" value="${page.parentPageId}" />
                         </#if>
-                    </label>
-                </p>
-                <p>
-                    <label for="page_order_list">#i18n{portal.site.admin_page.labelOrderPage}<br />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="page_order_list">#i18n{portal.site.admin_page.labelOrderPage}</label>
                         <@comboSorted name="order" default_value="${page.order}" items=page_order_list />
-                    </label>
-                </p>
-                <p>
-                    <label for="roles_list">#i18n{portal.site.admin_page.labelRole}<br />
+                    
+                </div>
+                <div class="control-group">
+                    <label for="roles_list">#i18n{portal.site.admin_page.labelRole}</label>
                         <@comboSorted name="role" default_value="${page.role}" items=page_roles_list />
-                    </label>
-                </p>
-               <p>
-                    <label for="roles_list">#i18n{portal.site.admin_page.labelNodeStatus}<br />
+                
+                </div>                   
+				<div class="control-group">
+                    <label for="roles_list">#i18n{portal.site.admin_page.labelNodeStatus}</label>
                         <#if page.nodeStatus = 0>
                         <select name="node_status">
                             <option value="0" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus0}</option>
@@ -48,23 +52,23 @@
                             <option value="0" >#i18n{portal.site.admin_page.labelNodeStatus0}</option>
                             <option value="1" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
                         </select>
-                        </#if>
-                    </label>
-                </p>
-                <p>
-                    <label for="themes_list">#i18n{portal.site.admin_page.labelTheme}<br />
-                        <@comboSorted name="theme" default_value="${page.codeTheme}" items=page_themes_list />
-                    </label>
-                </p>
-                <p>
+                        </#if>                    
+                </div>
+                 <div class="control-group">
+                    <label for="themes_list">#i18n{portal.site.admin_page.labelTheme}</label>
+                        <@comboSorted name="theme" default_value="${page.codeTheme}" items=page_themes_list />                    
+                </div>
+                <div class="control-group">
                     <strong>#i18n{portal.site.admin_page.labelPageTemplateList}</strong>
-                </p>
-                <table>
-                    <tr>
-			${page_templates_list}
-                    </tr>
-                </table>
-                <p>
+                </div>
+				 <div class="control-group">
+               <!-- <table>
+                    <tr>-->
+						${page_templates_list}
+                    <!--</tr>
+                </table>-->
+				</div>
+                <div class="control-group">
                     <strong>#i18n{portal.site.admin_page.labelMetadata}</strong>
                     <br/>
                     <label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords}
@@ -77,8 +81,8 @@
                                </#if>
 	                    />
                     </label>
-                </p>
-                <p>
+                </div>
+                <div class="control-group">
                     <label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}
                         <br/>
                         <input type="text" name="meta_description" size="40" maxlength="250"
@@ -90,11 +94,11 @@
 	                    />
                     </label>
                     #i18n{portal.site.admin_page.labelMetaDescriptionInfo}
-                </p>
-                <p>
+                </div>
+                <div class="control-group">
                     <input type="submit" value="#i18n{portal.site.admin_page.buttonModify}" class="button"/>
-                </p>
-            </div>
+                </div>
+            
         </form>
     </div>
     </#if>

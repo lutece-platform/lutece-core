@@ -1,24 +1,54 @@
-<div id="content-actions">
-    <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2"><img src="images/admin/skin/config.png" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}" /></a>
-     <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=3"><img src="images/admin/skin/image.png"  alt="#i18n{portal.site.admin_page.labelImagePage}" title="#i18n{portal.site.admin_page.labelImagePage}" /></a>
-    <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=4"><img src="images/admin/skin/portlet.png" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}" /></a>
-    <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5"><img src="images/admin/skin/childpage.png"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" /></a>
-    <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}"><img src="images/admin/skin/sitemap.png" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" /></a>
-    <form method="post"  action="jsp/admin/site/AdminSite.jsp">
-     Page ${page.name} - Id ${page.id}
-     <input type="text" name="page_id" size="3" maxlength="10" value="" />
-        <input type="submit" value="#i18n{portal.site.admin_page.buttonSearchPage}" class="button" />
-        <div class="alert">${page_message}</div>
-    </form>
+<div id="well-actions">
+
+
+<span class="pull-right" >
+    <form method="post"  action="jsp/admin/site/AdminSite.jsp" class="form-search">
+     <input type="text" name="page_id" class="input-small" value="" />
+	<button type="submit" class="btn btn-primary">
+		<i class="icon-filter icon-white"></i>
+		<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonSearchPage}</span>
+	</button>	 
+     <p class="help-block">Page ${page.name} - Id ${page.id}</p>
+	<div>${page_message}</div>
+    </form>	
+</span>	
+
+<span class="pull-right">
+    <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary">
+		<i class="icon-map-marker icon-white" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>&nbsp
+		<span class="hidden-phone" >#i18n{portal.site.admin_page.tabAdminMapSite}</span>
+	</a>
+</span>	
+
+<span class="pull-right">
+    <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary">
+		<i class="icon-plus-sign icon-white"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>&nbsp
+		<span class="hidden-phone" >#i18n{portal.site.admin_page.labelChildPagePage}</span>
+	</a>
+</span>	
 </div>
+
+<span class="pull-right">
+    <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=4" class="btn btn-primary">
+		<i class="icon-th-large icon-white" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}"  ></i>&nbsp	
+		<span class="hidden-phone" >#i18n{portal.site.admin_page.labelPortletPage}</span>
+	</a>	
+</span>	
+
+<span class="pull-right">
+     <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=3" class="btn btn-primary">
+		<i class="icon-picture icon-white" alt="#i18n{portal.site.admin_page.labelImagePage}" title="#i18n{portal.site.admin_page.labelImagePage}"  ></i>&nbsp
+	<span class="hidden-phone" >#i18n{portal.site.admin_page.labelImagePage}</span>
+	</a>
+</span>	
+
+
+<span class="pull-right">
+	<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="btn btn-primary">
+		<i class="icon-wrench icon-white" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>&nbsp
+		<span class="hidden-phone" >#i18n{portal.site.admin_page.labelPageProperty}</span>
+	</a>
+</span>	
+</div>
+
 ${page_block}
-<script type="text/javascript">
-$(document).ready( function(){
-   if ( $("div#admin-site-preview").hasClass("preview-toolbar") ){$("img.togl").hide();};
-   $("img.togl").click( function(){
-        $("div#content-admin-site-page").hide();
-        $("div#admin-site-preview").removeClass("preview");
-        $(this).hide();
-     })
-});
-</script>
