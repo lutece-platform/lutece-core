@@ -1,8 +1,12 @@
 <#macro featuresGroupDisplay groupDisplay >
+<div class="clearfix">
+<div class="row">
+<div class="span12">
 <div class="content-box" >
-	
-	<#if groupDisplay.feature_group.order != 0>
-	    <h2>#i18n{${groupDisplay.feature_group.labelKey}}<a name="${groupDisplay.feature_group.id?if_exists}" >&nbsp;</a></h2>
+<#if groupDisplay.feature_group.order != 0>
+	    <h2 class="clearfix">
+<img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">
+#i18n{${groupDisplay.feature_group.labelKey}}<a name="${groupDisplay.feature_group.id?if_exists}" >&nbsp;</a></h2>
 	    <#if groupDisplay.order_list_state == false>
 	    <p>
 	    	<a class="alert" href="jsp/admin/features/DoReinitFeatures.jsp?group_id=${groupDisplay.feature_group.id?if_exists}">#i18n{portal.features.dispatch_features.reinitFeatureOrders}</a>

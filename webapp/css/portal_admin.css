@@ -7,15 +7,4 @@ body{padding-top:60px;}
 /********************************
 ******** Features
 **********************************/
-img.feature-logo{with:24px;height24px;}
-
-
-/********************************
-******** Page content box
-*********************************/
-.preview{ border: none; margin: 0 3px 0 330px; }
-.togl{float:right;margin:0;}
-.lutece-inline-button {display: inline;}
-
-img.text-icon { vertical-align:text-bottom; width: 20px; height: 20px }
-
+#feature-logo{width:24px;}

@@ -1,5 +1,5 @@
 <div id="left">
-<div class="content-box">
+<div class="well">
 <h2>#i18n{portal.users.modify_user.titleUser}</h2>
     <p class="title">
      #i18n{portal.users.modify_user.labelLastName} - #i18n{portal.users.modify_user.labelFirstName}
@@ -30,7 +30,7 @@
 </div>
 <div id="right">
 <form method="post"  action="jsp/admin/user/DoModifyUserRoles.jsp" >	
-    <div class="content-box">
+    <div class="well">
          <h2>#i18n{portal.users.modify_user_roles.titleRoleModificationForm}</h2>              
                 <#list all_role_list?sort_by('key') as role>
                 <p>

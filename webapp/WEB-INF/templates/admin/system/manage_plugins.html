@@ -1,7 +1,7 @@
 <div class="row">
 <div class="container">
 <div class="span12">
-<div class="content-box">
+<div class="well">
 <form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp" class="well form-search">
 <label for="plugin_type" class="select">#i18n{portal.system.manage_plugins.labelComboFilter} :</label><@comboSorted name="plugin_type" default_value="${current_filter}" items=filter_list /><button type="submit" class="btn btn-primary"><i class="icon-filter icon-white"></i>&nbsp;#i18n{portal.system.manage_plugins.buttonFilter}</button>
 </form>
@@ -12,10 +12,14 @@
 <#if plugins_list?has_content >
 <div class="container">
 <#list plugins_list as plugin >
-<div class="row well">
+<div class="clearfix well">
 <div class="container">
 	<div class="span1">
-	<img src="${plugin.iconUrl}" alt="" title="${plugin.name}"/>
+        <#if plugin.iconUrl!="" >
+            <img src="${plugin.iconUrl}" alt="" title="${plugin.name}"/>
+        <#else>
+            <img src="images/admin/skin/blank.gif" width="24px" height="24px" alt="" title="${plugin.name}"/>
+        </#if>
 	</div>
 	<div class="span2">
 	<h3 class="clearfix">

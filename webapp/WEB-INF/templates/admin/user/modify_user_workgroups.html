@@ -1,5 +1,5 @@
 <div id="left">
-<div class="content-box">
+<div class="well">
 <h2>#i18n{portal.users.modify_user.titleUser}</h2>
     <p class="title">
      #i18n{portal.users.modify_user.labelLastName} - #i18n{portal.users.modify_user.labelFirstName}
@@ -31,7 +31,7 @@
 <div id="right">
     <form method="post"  action="jsp/admin/user/DoModifyUserWorkgroups.jsp" >    
     	<input type="hidden" name="delegate_rights" value="${can_delegate}" />
-        <div class="content-box">    
+        <div class="well">    
             <h2>#i18n{portal.users.modify_user_workgroups.titleRightModificationForm}</h2>
             <#list all_workgroup_list?sort_by('code') as workgroup>
             <p>
