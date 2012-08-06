@@ -1,15 +1,17 @@
 <div class="container">
-<div class="row" id="admin-header-toolbar" >
-	<div class="span2">
-    <img  id="logo" src="images/logo-header.png" alt="" title="" />
-	</div>
-	<div class="span12">
-    <a href="jsp/admin/AdminLogin.jsp" title=""><img src="images/admin/skin/login.png" />&nbsp;</a>
-	</div>
-</div>
-<div class="row" id="admin-header-main">
-	<div class="span8"><h2 id="admin-header-sitename">${site_name}</h2></div>
-</div>
+<div class="row">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a href="jsp/site/Portal.jsp"   title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
+		<img src="images/logo-header.png" alt="logo" title="" /> &nbsp;<i class="icon-globe icon-white"></i>&nbsp;${site_name}
+		</a>
+        <div class="nav-collapse">
+        </div><!-- /.nav-collapse -->
+      </div>
+    </div><!-- /navbar-inner -->
+ </div>
+ </div>
 <div class="row">
 <div class="span6 offset2">
 <h3>#i18n{portal.admin.admin_login.welcome}</h3>

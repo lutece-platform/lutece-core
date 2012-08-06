@@ -1,7 +1,8 @@
-    
+<div class="clearfix">
+<div class="row">
+<div class="span12">    
 <div class="content-box">
-	
-	<h2>#i18n{portal.system.view_plugin.boxTitlePluginDetail} "${name}"</h2>
+	<h2 class="clearfix">#i18n{portal.system.view_plugin.boxTitlePluginDetail} "${name}"</h2>
     <img src="${iconUrl}" alt="" align="right"/>
     <p>#i18n{portal.system.view_plugin.labelVersion} ${version}</p>
     <p>#i18n{portal.system.view_plugin.labelDescription} #i18n{${description}}</p>
@@ -9,8 +10,14 @@
     <p>#i18n{portal.system.view_plugin.labelProvider} <a href="${providerUrl}" target="_blank">${providerUrl}</a></p>
     <p>#i18n{portal.system.view_plugin.labelCoreCompatibility} min : ${minCoreVersion?default("")} - max : ${maxCoreVersion?default("")}</p>
 </div>
+</div>
+</div>
+</div>
 
 <#if rights?has_content>
+<div class="clearfix">
+<div class="row">
+<div class="span12">
 	<div class="content-box">
 		<h2>#i18n{portal.system.view_plugin.boxTitleAdministrationFunctionnalities}</h2>
 		<ul>
@@ -25,9 +32,15 @@
 		</#list>
 		</ul>
 	</div>
+	</div>
+	</div>
+	</div>
 </#if>
 
 <#if portletTypes?has_content>
+<div class="clearfix">
+<div class="row">
+<div class="span12">
 	<div class="content-box">
 		<h2>#i18n{portal.system.view_plugin.boxTitlePortletsType}</h2>
 		<ul>
@@ -38,9 +51,15 @@
 		</#list>
 		</ul>
 	</div>      
+	</div>      
+	</div>      
+	</div>      
 </#if> 
 
 <#if applications?has_content>
+<div class="clearfix">
+<div class="row">
+<div class="span12">
 	<div class="content-box">
 		<h2>#i18n{portal.system.view_plugin.boxTitleXpageApplications}</h2>
 		<ul>
@@ -52,9 +71,16 @@
 		</#list>
 		</ul>
 	</div>      
+	</div>      
+	</div>      
+	</div>      
+	
 </#if> 
 
 <#if contentServices?has_content>
+<div class="clearfix">
+<div class="row">
+<div class="span12">
 	<div class="content-box">
 		<h2>#i18n{portal.system.view_plugin.boxTitleContentServices}</h2>
 		<ul>
@@ -65,9 +91,15 @@
 		</#list>
 		</ul>
 	</div>      
+	</div>      
+	</div>      
+	</div>      
 </#if> 
 
 <#if insertServices?has_content>
+<div class="clearfix">
+<div class="row">
+<div class="span12">
 	<div class="content-box">
 		<h2>#i18n{portal.system.view_plugin.boxTitleInsertServices}</h2>
 		<ul>
@@ -77,5 +109,8 @@
 			</li>		
 		</#list>
 		</ul>
+	</div>      
+	</div>      
+	</div>      
 	</div>      
 </#if>       

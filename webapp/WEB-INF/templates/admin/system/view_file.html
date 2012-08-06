@@ -1,11 +1,15 @@
+<div class="clearfix">
+<div class="row">
+<div class="span12">
 <div class="content-box" >
-
-	<h2>#i18n{portal.system.view_file.boxTitle} <em>${files_system_directory}</em></h2>
-	
-	<p><strong>#i18n{portal.system.view_file.labelFile} </strong>&nbsp;&nbsp;${file_system_name}</p>
-				    
-	<p>
-		<pre>${file_system_data}</pre>
-	</p>
-					    
+<h2 class="clearfix">
+<img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">
+#i18n{portal.system.view_file.boxTitle} <em>${files_system_directory}</em></h2>
+<p><strong>#i18n{portal.system.view_file.labelFile} </strong>&nbsp;&nbsp;${file_system_name}</p>
+<p>
+<pre>${file_system_data?html}</pre>
+</p>
+</div>
+</div>
+</div>
 </div>

@@ -1,71 +1,64 @@
+<div class="row">
+<div class="container">
+<div class="span12">
 <div class="content-box">
-    <div class="highlight-box">
-        <form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp">
-            <p>
-                <label for="plugin_type" >#i18n{portal.system.manage_plugins.labelComboFilter} :</label>
-                <@comboSorted name="plugin_type" default_value="${current_filter}" items=filter_list />
-                <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonFilter}" />
-            </p>
-        </form>
-    </div>
-    <#if plugins_list?has_content >
-    <table>
-        <tr>
-            <th colspan="2">#i18n{portal.system.manage_plugins.columnTitleName}</th>
-            <th>#i18n{portal.system.manage_plugins.columnTitleVersion}</th>
-            <th>#i18n{portal.system.manage_plugins.columnTitleDescription}</th>
-            <th colspan="2">#i18n{portal.system.manage_plugins.columnTitleInstallation}</th>
-            <th>#i18n{portal.system.manage_plugins.columnTitleDatabase}</th>
-        </tr>
-        <#list plugins_list as plugin >
-        <tr id="plugin_${plugin.name}_${plugin.version}">
-            <td >
-                <a href="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" >
-                    <img src="${plugin.iconUrl}" alt="" />
-                </a>
-            </td>
-            <td ><a href="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" >${plugin.name}</a></td>
-            <td >${plugin.version}</td>
-            <td width="30%">
-                #i18n{${plugin.description}} <br />
-                <em>
-                    #i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}} <br/>
-                    #i18n{portal.system.manage_plugins.labelAuthorUrl} : <a href="${plugin.providerUrl}" target="_blank">${plugin.providerUrl}</a>
-                </em>
-            </td>
-
-            <td >
-                <#if plugin.installed >  
-                <form method="post" action="jsp/admin/system/ConfirmUninstallPlugin.jsp" valign="center">
-                    <img src="images/admin/skin/enable.png" width="24" height="24" valign="center" />
-                    <input type="hidden" name="plugin_name" value="${plugin.name}" />
-            </td>
-            <td >
-                <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonDisable}" />
-                </form>
-                <#else>
-                <form method="post" action="jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}">
-                    <img src="images/admin/skin/disable.png" width="24" height="24"  valign="center" />
-                    <input type="hidden" name="plugin_name" value="${plugin.name}" />
-            </td>
-            <td >
-                <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonEnable}" />
-                </form>
-                </#if>
-            </td>
-            <td width="30%">
-                <#if plugin.installed & plugin.dbPoolRequired >
-                <form method="post" action="jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}">
-                    <@comboSorted name="db_pool_name" default_value="${plugin.dbPoolName}" items=pools_list />
-                    <input type="hidden" name="plugin_name" value="${plugin.name}" />
-                    <input type="submit" class="button" value="#i18n{portal.system.manage_plugins.buttonModifyDbPool}" />
-                </form>
-                </#if>          
-            </td>
-        </tr>    
-        </#list>  
-    </table>
-    <#else>
+<form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp" class="well form-search">
+<label for="plugin_type" class="select">#i18n{portal.system.manage_plugins.labelComboFilter} :</label><@comboSorted name="plugin_type" default_value="${current_filter}" items=filter_list /><button type="submit" class="btn btn-primary"><i class="icon-filter icon-white"></i>&nbsp;#i18n{portal.system.manage_plugins.buttonFilter}</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+<#if plugins_list?has_content >
+<div class="container">
+<#list plugins_list as plugin >
+<div class="row well">
+<div class="container">
+	<div class="span1">
+	<img src="${plugin.iconUrl}" alt="" title="${plugin.name}"/>
+	</div>
+	<div class="span2">
+	<h3 class="clearfix">
+		<a href="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" >${plugin.name}</a><br />
+		<small>&nbsp;#i18n{portal.system.manage_plugins.columnTitleVersion}: ${plugin.version}</small>
+	</h3>
+	
+	<#if plugin.installed >
+		<span class="label label-success" title="#i18n{portal.system.manage_caches.imgAltEnable}"><i class=" icon-ok-sign icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltEnable}</span>			
+	<#else>
+		<span class="label label-important" title="#i18n{portal.system.manage_caches.imgAltDisable}"><i class="icon-remove-sign icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltDisable}</span>	
+	</#if>
+	</div>
+	<div class="span5">#i18n{${plugin.description}} 
+    <em>
+    #i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}} <br/>
+    #i18n{portal.system.manage_plugins.labelAuthorUrl} : <a href="${plugin.providerUrl}" target="_blank">${plugin.providerUrl}</a>
+    </em>
+	</div>
+	<div class="span3">
+	<#if plugin.installed >
+	<form method="post" action="jsp/admin/system/ConfirmUninstallPlugin.jsp">
+        <input type="hidden" name="plugin_name" value="${plugin.name}" />
+        <button type="submit" class="btn btn-danger" title="#i18n{portal.system.manage_plugins.buttonDisable}"><i class="icon-stop icon-white"></i>&nbsp;#i18n{portal.system.manage_plugins.buttonDisable}</button>
+	</form>
+	<#if plugin.dbPoolRequired >
+	<form method="post" action="jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}">
+    <@comboSorted name="db_pool_name" default_value="${plugin.dbPoolName}" items=pools_list />
+    <input type="hidden" name="plugin_name" value="${plugin.name}" />
+    <button type="button" class="btn btn-primary" title="#i18n{portal.system.manage_plugins.buttonModifyDbPool}" ><i class="icon-edit icon-white"></i></button>
+	</form>
+	</#if>   
+	<#else>
+		<form method="post" action="jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}" class="form-inline">
+		<input type="hidden" name="plugin_name" value="${plugin.name}" />
+		<button type="submit" class="btn btn-success" title="#i18n{portal.system.manage_plugins.buttonEnable}"><i class="icon-play icon-white"></i>&nbsp;#i18n{portal.system.manage_plugins.buttonEnable}</button>
+		</form>
+	</#if>
+	</div>
+	</div>
+	</div>
+    </#list>  
+<#else>
     <p>#i18n{portal.system.manage_plugins.filterNoResult}</p>
-    </#if>   
+</#if>   
 </div>

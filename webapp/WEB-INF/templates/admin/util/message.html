@@ -1,58 +1,65 @@
+<#assign alerttype="info" />
+<#assign icontype="icon-info-sign" />
+<#if message.type == 2 >
+	<#assign alerttype="error" />
+	<#assign icontype="icon-question-sign" />
+<#elseif message.type == 3 >
+	<#assign alerttype="block" />
+	<#assign icontype="icon-exclamation-sign" />
+<#elseif message.type == 5 >
+    <#assign alerttype="error" />
+	<#assign icontype="icon-minus-sign" />
+</#if>
 <div class="clearfix">
-<div class="row" id="admin-header-message" >
-	<div class="span2">
-    <img  id="logo" src="images/logo-header.png" alt="" title="" />
-	</div>
-</div>
-<div class="container">
 <div class="row">
-<div class="span1 offset2">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite}" target="_blank" class="brand">
+		<img src="images/logo-header.png" alt="logo" title="" /> &nbsp;<i class="icon-globe icon-white"></i>&nbsp;<!-- site_name --->
+		</a>
+        <div class="nav-collapse">
+        </div><!-- /.nav-collapse -->
+      </div>
+    </div><!-- /navbar-inner -->
+ </div>
+ </div>
+ <br />
+ <br />
+<div class="row">
+<div class="span5 offset3">
 	<div class="container">
-        <#if message.type = 0 >
-        <img src="images/admin/skin/messages/info.png" class="icon" alt="" />
-        <#elseif message.type = 1 >
-        <img src="images/admin/skin/messages/question.png" class="icon" alt="" />
-        <#elseif message.type = 2 >
-        <img src="images/admin/skin/messages/error.png" class="icon" alt="" />
-        <#elseif message.type = 3 >
-        <img src="images/admin/skin/messages/warning.png" class="icon" alt="" />
-        <#elseif message.type = 4 >
-        <img src="images/admin/skin/messages/confirmation.png" class="icon" alt="" />
-        <#elseif message.type = 5 >
-        <img src="images/admin/skin/messages/stop.png" class="icon" alt="" />
-        </#if>
-	</div>
-</div>
-<div class="span8">
-        <h2>${title}</h2>
-        <p>${text}</p>
-        <#if url?has_content>
-        <form method="post" action="${url}"  target="${target}">
-            <#if list_parameters?exists>
-            <#assign keys = list_parameters?keys>
-            <#list keys as key>
-            <input type="hidden" name="${key}" value="${list_parameters[key]}" />
-            </#list>
-            </#if>
-             <input class="btn" type="submit" value="#i18n{portal.admin.message.buttonValidate}" />
-        </form>
-        <#if message.cancel>
-           <#if back_url?has_content>
-			<form method="post" action="${back_url}" class="-lutece-inline-button" >
-				<#if list_parameters?exists>
-					<#list keys as key>
-		  				<input type="hidden" name="${key}" value="${list_parameters[key]}" />
-		  			</#list>	
-				</#if>
-				<input type="submit" value="#i18n{portal.admin.message.buttonCancel}" />
-			</form>		
-		 <#else>		
-		 	<input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" class="lutece-inline-button"/>
-        </#if>	
-       </#if>
+	<div class="alert alert-${alerttype} span4">
+	<h3 class="alert-heading">${title}<span class="pull-right"><i class="${icontype}"></i></span></h3>
+    <p>${text}</p>
+	<br />
+    <#if url?has_content>
+    <form method="post" action="${url}" target="${target}" class="form-inline"> 
+    <#if list_parameters?exists>
+    <#assign keys = list_parameters?keys>
+    <#list keys as key>
+    <input type="hidden" name="${key}" value="${list_parameters[key]}" />
+    </#list>
+    </#if>
+	<input class="btn" type="submit" value="#i18n{portal.admin.message.buttonValidate}" />
+    </form>
+    <#if message.cancel>
+    <#if back_url?has_content>
+		<form method="post" action="${back_url}" class="form-inline" >
+		<#if list_parameters?exists>
+		<#list keys as key>
+	  		<input type="hidden" name="${key}" value="${list_parameters[key]}" />
+	  	</#list>	
+		</#if>
+		<input class="btn" type="submit" value="#i18n{portal.admin.message.buttonCancel}" />
+		</form>		
+	<#else>		
+	 	<input class="btn" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
+       </#if>	
       </#if>
+    </#if>
     </div>
-    </div>
-
+   </div>
+</div>
 </div>
 </div>

@@ -1,7 +1,22 @@
-<div class="content-box">
-    <h2 class="content-box-header">#i18n{portal.system.manage_properties.boxTitle}</h2>
-    <form method="post" action="jsp/admin/ModifyProperties.jsp">
-        <pre>${webmaster_properties}</pre>
-        <input class="button" type="submit" value="#i18n{portal.system.manage_properties.buttonLabel}" />
-    </form>
+<div class="clearfix">
+<div class="row">
+<div class="span12">
+<div class="content-box" >
+<h2 class="clearfix">
+<img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">
+#i18n{portal.system.manage_properties.boxTitle}</h2>
+<form method="post" action="jsp/admin/ModifyProperties.jsp" class="well form-horizontal">
+<fieldset>
+<legend>#i18n{portal.system.modify_properties.boxTitle}</legend>
+<div class="control-group">
+<pre>${webmaster_properties}</pre>
+</div>
+<div class="form-actions">
+<input class="btn btn-primary" type="submit" value="#i18n{portal.system.manage_properties.buttonLabel}" />
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
 </div>

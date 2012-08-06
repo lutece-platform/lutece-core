@@ -5,34 +5,14 @@
 body{padding-top:60px;}
 
 /********************************
-******** Header
+******** Features
 **********************************/
+img.feature-logo{with:24px;height24px;}
+
 
 /********************************
 ******** Page content box
 *********************************/
-div.content-box{background-color: #EEE;border-radius: 6px 6px 6px 6px;margin:0 0 10px 0;padding:0;}
-div.content-box h2 {padding:0 0 0 10px;color:#444;font-size:small;line-height:10px;background-color:#DEDEDE;border-radius:6px 6px 6px 6px;padding:5px;}
-
-/********************************
-******** Highlight box
-*********************************/
-div.highlight-box{margin: 5px 5px 10px 5px; border: 1px solid #55B4E5; padding-:0 5px; -moz-border-radius:10px;border-radius:10px; -webkit-border-radius: 10px;}
-div.highlight-box div.highlight-box-content{margin: 10px;}
-
-/********************************
-******** Administration du site
-*********************************/
-#content-admin-site-page { clear: left; float:left; margin:-20px 0 0; width: 320px;}
-#content-admin-site-toolbar {float:left; width: 80%; margin: 0 0 0 15px;}
-#content-admin-site-toolbar form.toolbar{display: inline;}
-#content-admin-site-toolbar h2.toolbar{display: inline;}
-#content-admin-site-page content-box-actions p {margin:5px;}
-#admin-site-preview table tr th {font-family: Arial, Tahoma, Helvetica, sans-serif;font-size: 120%;color: #444444;border-bottom: 1px solid #55B4E5;    padding: 5px;font-weight: bold;text-align: left;}
-div.admin-site-page label{ padding-top: 5px; text-align:left; width:100%; float: left;}
-div.admin-site-page input{ clear: both; text-align:left; font-weight: normal;}
-div.admin-site-page select{ text-align:left; font-weight: normal;}
-
 .preview{ border: none; margin: 0 3px 0 330px; }
 .togl{float:right;margin:0;}
 .lutece-inline-button {display: inline;}
