@@ -1,12 +1,3 @@
-    <div class="highlight-box">
-		<form action="jsp/admin/user/GetChangeUseAdvancedSecurityParameters.jsp">
-			<#if use_advanced_security_parameters>
-				<input type="submit" class="button" value="#i18n{portal.users.manage_advanced_parameters.removeAdvancedParameters}" />
-			<#else>
-				<input type="submit" class="button" value="#i18n{portal.users.manage_advanced_parameters.useAdvancedParameters}" />
-			</#if>
-		</form>
-	</div>
     <!-- PASSWORD ENCRYPTION -->
     <#if enable_password_encryption?exists>
     	<div class="highlight-box">
@@ -15,20 +6,17 @@
 	    			<p>
 	    				<label for="enable_password_encryption">#i18n{portal.users.manage_advanced_parameters.labelEnablePasswordEncryption} :</label>
 	    				<#if enable_password_encryption = "false">
-	    					<input type="radio" name="enable_password_encryption" value="false" <#if use_advanced_security_parameters>disabled="disabled"</#if> checked="checked" /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
-	    					<input type="radio" name="enable_password_encryption" value="true" <#if use_advanced_security_parameters>disabled="disabled"</#if> /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
+	    					<input type="radio" name="enable_password_encryption" value="false" checked="checked" /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
+	    					<input type="radio" name="enable_password_encryption" value="true" /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
 	    				<#else>
-	    					<input type="radio" name="enable_password_encryption" value="false" <#if use_advanced_security_parameters>disabled="disabled"</#if> /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
-	    					<input type="radio" name="enable_password_encryption" value="true" <#if use_advanced_security_parameters>disabled="disabled"</#if> checked="checked"/> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
+	    					<input type="radio" name="enable_password_encryption" value="false" /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
+	    					<input type="radio" name="enable_password_encryption" value="true" checked="checked"/> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
 	    				</#if>
-	    				<#if use_advanced_security_parameters>
-							<input type="hidden" name="enable_password_encryption" value="<#if enable_password_encryption?? && enable_password_encryption! = 'true'>true<#else>false</#if>"/>
-						</#if>
 	    				<br />
 	    				<br />
 	    				<span id="password-encryption-algorithm">
 	    					<label for="encryption_algorithm">#i18n{portal.users.manage_advanced_parameters.labelEncryptionAlgorithm} :</label>
-	    					<select name="encryption_algorithm" <#if use_advanced_security_parameters>disabled="disabled"</#if>>
+	    					<select name="encryption_algorithm">
 	    						<#if !encryption_algorithm?has_content>
 	    							<option value="noValue" selected="selected">#i18n{portal.users.manage_advanced_parameters.labelNoAlgorithm}</option>
 	    						<#else>
@@ -42,9 +30,6 @@
 		    						</#if>
 		    					</#list>
 	    					</select>
-	    					<#if use_advanced_security_parameters>
-								<input type="hidden" name="encryption_algorithm" value="${encryption_algorithm!}"/>
-							</#if>
 	    				</span>
 	    				<br />
 	    				<input type="submit" class="button" value="#i18n{portal.users.manage_advanced_parameters.buttonModify}" />
@@ -183,5 +168,3 @@
 			</#if>
 	    </div>
     </#if>
-    <!--  SECURITY PARAMETERS -->
-    <#include "advanced_security_parameters.html" />

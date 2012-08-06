@@ -7,28 +7,28 @@ ${dashboard_zone_3}
 <#else>
  <div class="span9">
 <#list feature_group_list as feature_group >
-<div class="well" id="${feature_group.id}" >
-   <a href="jsp/admin/AdminMenu.jsp#top" class="top">
-	                <img src="images/admin/skin/sign-up.png" alt="Retour vers le haut" />
-	            </a>
-	            <h2>${feature_group.label}</h2>
-	            <ul>
-	                <#list feature_group.features as feature >
-	                <li>
-	                    <a href="${feature.url}?plugin_name=${feature.pluginName}">
-	                        <img src="${feature.iconUrl}" alt="" align="left" hspace="15" />
-	                    </a>
-	
-	                    <h3><a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a></h3>
-	                    <p>
-	                        ${feature.description}
-	                    </p>
-	                </li>
-	                </#list>
-	            </ul>
-	        </div>
-	        </#list>
-  </div>
+<div class="content-box">
+<h2 class="clearfix">
+<img src="images/admin/skin/plugin_link.png" alt="Retour vers le haut" />
+${feature_group.label}
+<span class="pull-right">
+<a href="jsp/admin/AdminMenu.jsp#top" class="top"><i class="icon-arrow-up icon-white"></i></a>
+</span>
+</h2>
+<ul >
+	<#list feature_group.features as feature >
+	<li>
+	<a href="${feature.url}?plugin_name=${feature.pluginName}">
+	<img src="${feature.iconUrl}" alt="" align="left" hspace="15" />
+	</a>
+	<h3><a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a></h3>
+	<p> ${feature.description} </p>
+	</li>
+	</#list>
+</ul>
+</div>
+</#list>
+</div>
 </#if>
 <!--
 <div class="span4">

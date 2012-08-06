@@ -19,10 +19,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Le styles -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<!-- style type="text/css">
-body {padding-top: 60px;padding-bottom: 40px;}
-.sidebar-nav {padding: 9px 0; }
-</style -->
 <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -45,29 +41,6 @@ body {padding-top: 60px;padding-bottom: 40px;}
 	}
 %>
 <link rel="stylesheet" type="text/css" href="css/print_admin.css" media="print" />
-<!--[if IE 6]>
-<!-- Hack for menu 
-<script type="text/javascript">
-startList = function() {
-if (document.all && document.getElementById) {
-   var navRoot = document.getElementById("menu-main");
-    for (i=0; i<navRoot.childNodes.length; i++) {
-                    var node = navRoot.childNodes[i];
-                    if (node.nodeName=="LI") {
-                        node.onmouseover=function() {
-                            this.className+=" over";
-                        }
-                        node.onmouseout=function() {
-                            this.className=this.className.replace(" over", "");
-                        }
-                    }
-                }
-            }
-        }
-        window.onload=startList;
-   </script>
--->
-<![endif]-->
 </head>
 <body>
 <%-- Display the admin menu --%>

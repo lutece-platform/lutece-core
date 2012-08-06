@@ -1,28 +1,24 @@
-<div class="content-box">
-	<h2>
-	    <img src="${icon}" width="24" height="24" align="middle"/>
-	    <a href="${url}" >
-	        #i18n{portal.site.dashboard.siteAdministration}
-	    </a>
-	    <a class="top" href="jsp/admin/AdminMenu.jsp#top">
-            <img alt="#i18n{portal.site.dashboard.top}" title="#i18n{portal.site.dashboard.top}" src="images/admin/skin/sign-up.png">
-        </a>
-	</h2>
-	
-	<!-- LAST MODIFIED PAGE -->
-	<table>
-	   	<tr>
-	   		<th>#i18n{portal.site.dashboard.columnLastModifiedPage}</th>
-	   		<th>#i18n{portal.site.dashboard.columnActions}</th>
-	   	</tr>
-	   	<#if last_modified_page??>
-	    	<tr>
-				<td width="65%">
-					<#if image_thumbnail_page_url?? && image_thumbnail_page_url != ''>
-						<img src="${image_thumbnail_page_url}" alt="${last_modified_page.name}" width="40" height="40" align="left" hspace="15" />
-					</#if>
-					${last_modified_page.id} - <a href="jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}">${last_modified_page.name}</a>
-					<br />
+<h2>
+<img src="${icon}"/>
+<a href="${url}" >#i18n{portal.site.dashboard.siteAdministration}</a>
+<a class="top" href="jsp/admin/AdminMenu.jsp#top">
+<img alt="#i18n{portal.site.dashboard.top}" title="#i18n{portal.site.dashboard.top}" src="images/admin/skin/sign-up.png">
+</a>
+</h2>
+<!-- LAST MODIFIED PAGE -->
+<table>
+<tr>
+<th>#i18n{portal.site.dashboard.columnLastModifiedPage}</th>
+<th>#i18n{portal.site.dashboard.columnActions}</th>
+</tr>
+<#if last_modified_page??>
+<tr>
+    <td width="65%">
+    <#if image_thumbnail_page_url?? && image_thumbnail_page_url != ''>
+    <img src="${image_thumbnail_page_url}" alt="${last_modified_page.name}" width="40" height="40" align="left" hspace="15" />
+    </#if>
+    ${last_modified_page.id} - <a href="jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}">${last_modified_page.name}</a>
+    <br />
 					<strong>#i18n{portal.site.dashboard.labelDateModification} : </strong>${last_modified_page.dateUpdate}
 				</td>
 	            <td width="35%">
