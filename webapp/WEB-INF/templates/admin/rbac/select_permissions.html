@@ -1,26 +1,43 @@
-<div class="content-box" >
-    <h2 class="content-box-header">#i18n{portal.rbac.select_permissions.titleSelectPermissions}</h2>
-    <form method="post"  action="jsp/admin/rbac/DoSelectPermissions.jsp" name="add_control">
-        <p>
-            <label>#i18n{portal.rbac.select_permissions.labelSelectAllPermissions} :</label>
-            <input class="radio" type="radio" name="select_permissions" value="all" checked="checked" />
-        </p>
-        <p>
-            <label>#i18n{portal.rbac.select_permissions.labelSelectPermissionsFromList} :</label>
-            <input class="radio" type="radio" name="select_permissions" value="choose" />
+<div class="row" >
+    <legend>#i18n{portal.rbac.select_permissions.titleSelectPermissions}</legend>
+    <form class="form-horizontal" method="post"  action="jsp/admin/rbac/DoSelectPermissions.jsp" name="add_control">
+	<fieldset>
+        
+            <div class="control-group">
+		<label class="control-label" > #i18n{portal.rbac.select_permissions.labelSelectAllPermissions} :</label>
+            <div class="controls">
+	<input class="radio" type="radio" name="select_permissions" value="all" checked="checked" />
+		</div>
+	</div>
+        
+        
+            <div class="control-group">
+		<label class="control-label" > #i18n{portal.rbac.select_permissions.labelSelectPermissionsFromList} :</label>
+            <div class="controls">
+	<input class="radio" type="radio" name="select_permissions" value="choose" />
+		</div>
+	</div>
             <#list permissions_list as item>
-        <p>
+        
             <#if item.checked >
-            <label for="document_type"> &nbsp;</label>
-            <input checked class="checkbox" onclick="document.add_control.select_permissions[1].checked=true;" type="checkbox" name="permission_key" value="${item.code}" /> ${item.name}
+            <div class="control-group">
+		<label class="control-label" for="document_type"> &nbsp;</label>
+            <div class="controls">
+	<input checked class="checkbox" onclick="document.add_control.select_permissions[1].checked=true;" type="checkbox" name="permission_key" value="${item.code}" />
+		</div>
+	</div> ${item.name}
             <#else>
-            <label for="document_type"> &nbsp;</label>
-            <input class="checkbox" onclick="document.add_control.select_permissions[1].checked=true;" type="checkbox" name="permission_key" value="${item.code}" /> ${item.name}
+            <div class="control-group">
+		<label class="control-label" for="document_type"> &nbsp;</label>
+            <div class="controls">
+	<input class="checkbox" onclick="document.add_control.select_permissions[1].checked=true;" type="checkbox" name="permission_key" value="${item.code}" />
+		</div>
+	</div> ${item.name}
             </#if>
-        </p>
+        
         </#list>
-        </p>
-        <p>
+        
+        
             <input type="hidden" name="role_key" value="${role_key}" />
             <input type="hidden" name="resource_type" value="${resource_type}" />
             <input type="hidden" name="select_resources" value="${select_resources}" />
@@ -30,10 +47,13 @@
             <input type="hidden" name="resource_id" value="${resource_id}" />
             </#list>
             </#if>
-            <input type="submit" value="#i18n{portal.rbac.select_permissions.buttonLabelValidate}" class="button" />
-            <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.rbac.select_permissions.buttonLabelCancel}" />
-        </p>
-    </form>
+            <button class="btn btn-primary" type="submit" >#i18n{portal.rbac.select_permissions.buttonLabelValidate}</button>
+	
+            <button class="btn btn-primary" onclick="javascript:history.go(-1)" >#i18n{portal.rbac.select_permissions.buttonLabelCancel}</button>
+	
+        
+    </fieldset>
+</form>
     <script language="JavaScript">
         window.onload = add_control.select_permissions.focus
     </script>

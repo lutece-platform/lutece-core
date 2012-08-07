@@ -1,17 +1,15 @@
-<div class="row" >
-
-    <form class="form-horizontal" method="post"  action="jsp/admin/style/CreateMode.jsp">
-        <fieldset>
-            <button class="btn btn-primary pull-right" type="submit" >
-                <i class="icon-plus icon-white" ></i>
-                <span class="hidden-phone" >#i18n{portal.style.manage_modes.buttonLabelCreate}</span>
-            </button>
-        </fieldset>
-    </form>
-
-    <legend>#i18n{portal.style.manage_modes.boxTitle}</legend>
-
-    <table class="table table-striped table-condensed">
+<div class="row">
+<div class="container">
+<div class="span12">
+<fieldset>
+<legend class="clearfix">#i18n{portal.style.manage_modes.title}
+<span class="pull-right">
+<form class="form-inline" method="post"  action="jsp/admin/style/CreateMode.jsp" >
+<button class="btn btn-primary" type="submit" ><i class="icon-plus icon-white"></i><span class="hidden-phone">#i18n{portal.style.manage_modes.buttonLabelCreate}</span></button>
+</form>
+</span>
+</legend>
+<table class="table table-striped table-condensed">
         <tr>            
             <th>#i18n{portal.style.manage_modes.columnTitleId}</th>
             <th>#i18n{portal.style.manage_modes.columnTitleDescription}</th>
@@ -32,5 +30,7 @@
         </tr>			
         </#list>
     </table>
-
+</fieldset>
+</div>
+</div>
 </div>

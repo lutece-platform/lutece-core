@@ -1,31 +1,46 @@
 <div class="well">
-	<h2>#i18n{portal.users.import_module_user.searchBoxTitle}</h2>
+	<legend>#i18n{portal.users.import_module_user.searchBoxTitle}</legend>
 	
 	      
-		<form method="post"  name="searchUsers" action="jsp/admin/user/ImportUser.jsp">
-			<p>
-				<label for="last_name" >#i18n{portal.users.import_module_user.searchBoxLabelLastName} :</label>
-				<input type="text" id="last_name"  name="last_name" value="${last_name?if_exists}" maxlength="100" size="35" tabindex="1" />
-			</p>
-			<p>
-				<label for="first_name" >#i18n{portal.users.import_module_user.searchBoxLabelFirstName} :</label>
-				<input type="text" id="first_name"  name="first_name" value="${first_name?if_exists}" maxlength="100" size="35" tabindex="1" />
-			</p>
-			<p>
-				<label for="email" >#i18n{portal.users.import_module_user.searchBoxLabelEmail} :</label>
-				<input type="text" id="email"  name="email" value="${email?if_exists}" maxlength="100" size="100" tabindex="1" />
-			</p>
-			<p><input type="submit" value="#i18n{portal.users.import_module_user.searchBoxbuttonLabelSearch}" tabindex="2" class="button" /></p>
-		</form>
+		<form class="form-horizontal" method="post"  name="searchUsers" action="jsp/admin/user/ImportUser.jsp">
+	<fieldset>
+			
+				<div class="control-group">
+		<label class="control-label" for="last_name" >#i18n{portal.users.import_module_user.searchBoxLabelLastName} :</label>
+				<div class="controls">
+	<input type="text" id="last_name"  name="last_name" value="${last_name?if_exists}" maxlength="100" size="35" tabindex="1" />
+		</div>
+	</div>
+			
+			
+				<div class="control-group">
+		<label class="control-label" for="first_name" >#i18n{portal.users.import_module_user.searchBoxLabelFirstName} :</label>
+				<div class="controls">
+	<input type="text" id="first_name"  name="first_name" value="${first_name?if_exists}" maxlength="100" size="35" tabindex="1" />
+		</div>
+	</div>
+			
+			
+				<div class="control-group">
+		<label class="control-label" for="email" >#i18n{portal.users.import_module_user.searchBoxLabelEmail} :</label>
+				<div class="controls">
+	<input type="text" id="email"  name="email" value="${email?if_exists}" maxlength="100" size="100" tabindex="1" />
+		</div>
+	</div>
+			
+			<button class="btn btn-primary" type="submit" >#i18n{portal.users.import_module_user.searchBoxbuttonLabelSearch}</button>
+	
+		</fieldset>
+</form>
 
 </div>
 
 
 <#if import_user_list?has_content>
 <div class="well">
-	<h2>#i18n{portal.users.import_module_user.resultBoxTitle}</h2>	
+	<legend>#i18n{portal.users.import_module_user.resultBoxTitle}</legend>	
 	
-	<table>
+	<table class="table table-striped table-condensed">
 		<tr>
 			<th>#i18n{portal.users.import_module_user.resultColumnTitleLastName}</th>
 			<th>#i18n{portal.users.import_module_user.resultColumnTitleFirstName}</th>
@@ -38,10 +53,13 @@
 				<td>${user.firstName?if_exists}</td>
 				<td>${user.email?if_exists}</td>
 				<td>
-					<form method="post"  name="importUsers" action="jsp/admin/user/DoSelectImportUser.jsp">
+					<form class="form-horizontal" method="post"  name="importUsers" action="jsp/admin/user/DoSelectImportUser.jsp">
+	<fieldset>
 						<input type="hidden" name="access_code" value="${user.accessCode}" />
-						<input type="submit" value="#i18n{portal.users.import_module_user.resultButtonLabelImportUser}" class="button" />
-					</form>
+						<button class="btn btn-primary" type="submit" >#i18n{portal.users.import_module_user.resultButtonLabelImportUser}</button>
+	
+					</fieldset>
+</form>
 				
 				</td>
 			<th>

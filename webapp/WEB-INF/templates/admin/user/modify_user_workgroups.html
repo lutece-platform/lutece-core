@@ -1,53 +1,42 @@
-<div id="left">
-<div class="well">
-<h2>#i18n{portal.users.modify_user.titleUser}</h2>
-    <p class="title">
-     #i18n{portal.users.modify_user.labelLastName} - #i18n{portal.users.modify_user.labelFirstName}
-    </p>
-    <p>${user.lastName} ${user.firstName}</p>
-    <p class="title">#i18n{portal.users.modify_user.labelAccessCode}</p>
-   <p><#assign userCode = user.accessCode>
-      <#if userCode?length <= 20 >
-     ${userCode?right_pad(20, " ")}
-     <#else>
-     ${userCode[0..17]}...
-     </#if>
-    </p>
-    <p class="title">#i18n{portal.users.modify_user.actions}</p>
-    <@item_navigation item_navigator=item_navigator />
-    <p>
-       <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >
-        <img src="images/admin/skin/actions/user.png" alt="#i18n{portal.users.actions.labelUser}" title="#i18n{portal.users.actions.labelUser}" />
-       </a>
-        <a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}" >
-           <img src="images/admin/skin/actions/right.png" alt="#i18n{portal.users.actions.labelRights}" title="#i18n{portal.users.actions.labelRights}" />
-        </a>                    
-        <a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}" >
-          <img src="images/admin/skin/actions/rbac.png" alt="#i18n{portal.users.actions.labelRoles}" title="#i18n{portal.users.actions.labelRoles}" />
-        </a>
-      </p>
-   </div>
+<div class="row">
+<div class="container">
+<div class="span12">
+<h2> <small>#i18n{portal.users.modify_user.titleUser}</small>&nbsp;${user.lastName} ${user.firstName}
+<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
+</h2>
+<ul class="nav nav-tabs">
+  <li>
+    <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
+  </li>
+  <li class="active"><a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
+  <li><a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
+  <li><a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+</ul> 
+<div class="span8 offset4">
+<form class="form-horizontal" method="post"  action="jsp/admin/user/DoModifyUserWorkgroups.jsp" >
+<fieldset>    
+<input type="hidden" name="delegate_rights" value="${can_delegate}" />
+<div class="well">    
+<legend>#i18n{portal.users.modify_user_workgroups.titleRightModificationForm}</legend>
+<#list all_workgroup_list?sort_by('code') as workgroup>
+<#if workgroup.checked>
+<#assign checked = "checked='checked'"/>
+<#else>
+<#assign checked = ""/>
+</#if>
+<div class="controls">
+<label class="checkbox">
+<input class="checkbox" type="checkbox" name="workgroup" value="${workgroup.code}" ${checked}/>
+${workgroup.name}
+</label>
+</#list>
+<input type="hidden" name="id_user" value="${user.userId}" />
+ <div class="form-actions">
+ <button class="btn btn-primary" type="submit" >#i18n{portal.users.modify_user_workgroups.buttonLabelModifyWorkgroups}</button>
+ </div>
 </div>
-<div id="right">
-    <form method="post"  action="jsp/admin/user/DoModifyUserWorkgroups.jsp" >    
-    	<input type="hidden" name="delegate_rights" value="${can_delegate}" />
-        <div class="well">    
-            <h2>#i18n{portal.users.modify_user_workgroups.titleRightModificationForm}</h2>
-            <#list all_workgroup_list?sort_by('code') as workgroup>
-            <p>
-            	<#if workgroup.checked>
-            	<#assign checked = "checked='checked'"/>
-            	<#else>
-            	<#assign checked = ""/>
-            	</#if>
-                <input class="checkbox" type="checkbox" name="workgroup" value="${workgroup.code}" ${checked}/>
-                <strong>${workgroup.name}</strong> 		
-            </p>
-            </#list>        
-            <p>
-                <input type="hidden" name="id_user" value="${user.userId}" />
-                <input type="submit"  value="#i18n{portal.users.modify_user_workgroups.buttonLabelModifyWorkgroups}"  class="button" />
-            </p>        
-        </div>
-    </form>
+   </fieldset>
+</form>
+</div>
+</div>
 </div>

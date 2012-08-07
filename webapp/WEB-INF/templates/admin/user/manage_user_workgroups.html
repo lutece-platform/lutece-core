@@ -1,54 +1,43 @@
-<div id="left">
-<div class="well">
-<h2>#i18n{portal.users.modify_user.titleUser}</h2>
-    <p class="title">
-     #i18n{portal.users.modify_user.labelLastName} - #i18n{portal.users.modify_user.labelFirstName}
-    </p>
-    <p>${user.lastName} ${user.firstName}</p>
-    <p class="title">#i18n{portal.users.modify_user.labelAccessCode}</p>
-   <p><#assign userCode = user.accessCode>
-      <#if userCode?length <= 20 >
-     ${userCode?right_pad(20, " ")}
-     <#else>
-     ${userCode[0..17]}...
-     </#if>
-    </p>
-    <p class="title">#i18n{portal.users.modify_user.actions}</p>
-    <@item_navigation item_navigator=item_navigator />
-    <p>
-                    <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >
-                        <img src="images/admin/skin/actions/user.png" alt="#i18n{portal.users.actions.labelUser}" title="#i18n{portal.users.actions.labelUser}" />
-                    </a>
-                    <a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}" >
-                        <img src="images/admin/skin/actions/right.png" alt="#i18n{portal.users.actions.labelRights}" title="#i18n{portal.users.actions.labelRights}" />
-                    </a>                    
-                    <a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}" >
-                        <img src="images/admin/skin/actions/rbac.png" alt="#i18n{portal.users.actions.labelRoles}" title="#i18n{portal.users.actions.labelRoles}" />
-                    </a>
-                </p>
-    </div>
+<div class="row">
+<div class="container">
+<div class="span12">
+<h2> <small>#i18n{portal.users.modify_user.titleUser}</small>&nbsp;${user.lastName} ${user.firstName}
+<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
+</h2>
+<ul class="nav nav-tabs">
+  <li>
+    <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
+  </li>
+  <li><a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
+  <li><a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
+  <li class="active"><a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+</ul>
+<#if can_delegate && can_modify>
+<form method="post" name="modifyform" action="jsp/admin/user/ModifyUserWorkgroups.jsp" class="form-inline pull-right">            
+<input type="hidden" name="id_user" value="${user.userId}" />
+<input type="hidden" name="delegate_rights" value="false"/>
+<button type="submit"  class="btn btn-primary" /><i class="icon-share icon-white"></i>&nbsp;#i18n{portal.users.manage_user_workgroups.buttonLabelDelegate} </button>         
+</form>
+</#if>
 </div>
-<div id="right">
-    <div class="well">
-        <h2>#i18n{portal.users.manage_user_workgroups.titleRightList}</h2>        	
-        <table>
-            <tr>
-                <th>#i18n{portal.users.manage_user_workgroups.columnTitleName}</th>
-                <th>#i18n{portal.users.manage_user_workgroups.columnTitleDescription}</th>
-            </tr>
-            <#list user_workgroup_list?sort_by('code') as workgroup>
-            <tr>
-                <td>${workgroup.code}</td>
-                <td>${workgroup.name}</td>			
-            </tr>
-            </#list>		
-        </table>        
-        <form method="post" name="modifyform" action="jsp/admin/user/ModifyUserWorkgroups.jsp">            
-            <input type="hidden" name="id_user" value="${user.userId}" />
-            <input type="hidden" name="delegate_rights" value="false"/>
-	        <#if can_delegate && can_modify>
-            <input onclick="document.modifyform.delegate_rights.value='true';document.modifyform.submit()" type="submit" value="#i18n{portal.users.manage_user_workgroups.buttonLabelDelegate}" class="button" />            
-	        </#if>
-        </form>
-    </div>
+<div class="row">
+<div class="container">
+<div class="span10 offset1">
+<h3>#i18n{portal.users.manage_user_workgroups.titleRightList}</h3>        	
+<table class="table table-striped table-condensed">
+<tr>
+	<th>#i18n{portal.users.manage_user_workgroups.columnTitleName}</th>
+    <th>#i18n{portal.users.manage_user_workgroups.columnTitleDescription}</th>
+</tr>
+<#list user_workgroup_list?sort_by('code') as workgroup>
+<tr>
+	<td>${workgroup.code}</td>
+    <td>${workgroup.name}</td>			
+</tr>
+</#list>		
+</table>        
+</div>
+</div>
+</div>
+</div>
 </div>

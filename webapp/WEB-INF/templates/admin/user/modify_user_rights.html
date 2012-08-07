@@ -1,21 +1,21 @@
-<div id="left">
+<div class="well span3">
 <div class="well">
-<h2>#i18n{portal.users.modify_user.titleUser}</h2>
+<legend>#i18n{portal.users.modify_user.titleUser}</legend>
     <p class="title">
      #i18n{portal.users.modify_user.labelLastName} - #i18n{portal.users.modify_user.labelFirstName}
-    </p>
-    <p>${user.lastName} ${user.firstName}</p>
-    <p class="title">#i18n{portal.users.modify_user.labelAccessCode}</p>
-   <p><#assign userCode = user.accessCode>
+    
+    ${user.lastName} ${user.firstName}
+    <p class="title">#i18n{portal.users.modify_user.labelAccessCode}
+   <#assign userCode = user.accessCode>
       <#if userCode?length <= 20 >
      ${userCode?right_pad(20, " ")}
      <#else>
      ${userCode[0..17]}...
      </#if>
-    </p>
-    <p class="title">#i18n{portal.users.modify_user.actions}</p>
+    
+    <p class="title">#i18n{portal.users.modify_user.actions}
     <@item_navigation item_navigator=item_navigator />
-    <p>
+    
         <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >
           <img src="images/admin/skin/actions/user.png" alt="#i18n{portal.users.actions.labelUser}" title="#i18n{portal.users.actions.labelUser}" />
          </a>
@@ -25,27 +25,31 @@
          <a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}" >
     	    <img src="images/admin/skin/actions/group.png" alt="#i18n{portal.users.actions.labelWorkgroups}" title="#i18n{portal.users.actions.labelWorkgroups}" />
 	</a>
-     </p>
+     
     </div>
 </div>
-<div id="right">
+<div class="well span8 offset4">
     
 <div class="well">    
-    <h2>#i18n{portal.users.modify_user_rights.titleRightModificationForm}</h2>
+    <legend>#i18n{portal.users.modify_user_rights.titleRightModificationForm}</legend>
     <#if can_delegate = 'true'>
-	    <p>#i18n{portal.users.modify_user_rights.informationRightModification}
-	    </p>
+	    #i18n{portal.users.modify_user_rights.informationRightModification}
+	    
     </#if>
-    <form method="post"  action="jsp/admin/user/ModifyUserRights.jsp" >    
+    <form class="form-horizontal" method="post"  action="jsp/admin/user/ModifyUserRights.jsp" >
+	<fieldset>    
     	<input type="hidden" name="delegate_rights" value="${can_delegate}" />
         <input type="hidden" name="id_user" value="${user.userId}" />
         <input type="hidden" name="select" value="all" />
-        <input type="submit"  value="#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}"  class="button" />
-    </form>
-    <form method="post"  action="jsp/admin/user/DoModifyUserRights.jsp" >    
+        <button class="btn btn-primary" type="submit" >#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}</button>
+	
+    </fieldset>
+</form>
+    <form class="form-horizontal" method="post"  action="jsp/admin/user/DoModifyUserRights.jsp" >
+	<fieldset>    
     	<input type="hidden" name="delegate_rights" value="${can_delegate}" />
             <#list all_right_list?sort_by('name') as right>
-            <p>
+            
                 <#if select_all = true >
                         <#assign checked >checked="checked"</#assign>
                 <#else>
@@ -58,14 +62,19 @@
                     </#list>
                 </#if>
 				
-                <input class="checkbox" type="checkbox" name="right" value="${right.id}" ${checked} />
+                <div class="controls">
+	<input class="checkbox" type="checkbox" name="right" value="${right.id}" ${checked} />
+		</div>
+	</div>
                 <strong>${right.name}</strong> (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}	
-            </p>
+            
             </#list>        
-            <p>
+            
                 <input type="hidden" name="id_user" value="${user.userId}" />
-                <input type="submit"  value="#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}" class="button" />
-            </p>        
+                <button class="btn btn-primary" type="submit" >#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}</button>
+	
+                    
         </div>
-    </form>
+    </fieldset>
+</form>
 </div>

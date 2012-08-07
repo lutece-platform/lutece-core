@@ -1,58 +1,49 @@
-<div id="left">
-<div class="well">
-<h2>#i18n{portal.users.modify_user.titleUser}</h2>
-    <p class="title">
-     #i18n{portal.users.modify_user.labelLastName} - #i18n{portal.users.modify_user.labelFirstName}
-    </p>
-    <p>${user.lastName} ${user.firstName}</p>
-    <p class="title">#i18n{portal.users.modify_user.labelAccessCode}</p>
-   <p><#assign userCode = user.accessCode>
-      <#if userCode?length <= 20 >
-     ${userCode?right_pad(20, " ")}
-     <#else>
-     ${userCode[0..17]}...
-     </#if>
-    </p>
-    <p class="title">#i18n{portal.users.modify_user.actions}</p>
-    <@item_navigation item_navigator=item_navigator />
-    <p>
-                    <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >
-                        <img src="images/admin/skin/actions/user.png" alt="#i18n{portal.users.actions.labelUser}" title="#i18n{portal.users.actions.labelUser}" />
-                    </a>                    
-                    <a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}" >
-                        <img src="images/admin/skin/actions/right.png" alt="#i18n{portal.users.actions.labelRights}" title="#i18n{portal.users.actions.labelRights}" />
-                    </a>          
-                    <a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}" >
-    	                <img src="images/admin/skin/actions/group.png" alt="#i18n{portal.users.actions.labelWorkgroups}" title="#i18n{portal.users.actions.labelWorkgroups}" />
-	                </a>
-                </p>
-    </div>
-</div>
-<div id="right">
-    <div class="well">
-        <h2>#i18n{portal.users.manage_user_roles.titleRoleList}</h2>         
-            <table>
-                <tr>
-                    <th>#i18n{portal.users.manage_user_roles.columnTitleKey}</th>
-                    <th>#i18n{portal.users.manage_user_roles.columnTitleDescription}</th>
-                </tr>
-                <#list user_role_list?sort_by('key') as role>
-                <tr>
-                    <td>${role.key}</td>
-                    <td>${role.description}</td>			
-                </tr>
-                </#list>		
-            </table>
+<div class="clearfix">
+<div class="row">
+<div class="container">
+<div class="span12">
+<h2> <small>#i18n{portal.users.modify_user.titleUser}</small>&nbsp;${user.lastName} ${user.firstName}
+<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
+</h2>
+<ul class="nav nav-tabs">
+  <li>
+    <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
+  </li>
+  <li><a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
+  <li  class="active"><a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
+  <li><a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+</ul>
+<form method="post" name="modifyform" action="jsp/admin/user/ModifyUserRoles.jsp" class="form-inline pull-right">               
+<input type="hidden" name="id_user" value="${user.userId}" />
+<input type="hidden" name="delegate_rights" value="false"/>
+<#if can_modify>
+<button type="submit"class="btn btn-primary" ><i class="icon-edit icon-white"></i>&nbsp;#i18n{portal.users.manage_user_roles.buttonLabelModifyRoles}</button>
+</#if>
+<#if can_delegate>
+<button type="submit" class="btn btn-primary" ><i class="icon-share icon-white"></i>&nbsp;#i18n{portal.users.manage_user_roles.buttonLabelDelegateRoles}</button>      
+</#if>
+</form>
 
-	    <form method="post" name="modifyform" action="jsp/admin/user/ModifyUserRoles.jsp">               
-            <input type="hidden" name="id_user" value="${user.userId}" />
-            <input type="hidden" name="delegate_rights" value="false"/>
-	        <#if can_modify>
-            <input onclick="document.modifyform.delegate_rights.value='false';document.modifyform.submit()" type="submit" value="#i18n{portal.users.manage_user_roles.buttonLabelModifyRoles}" class="button" />
-            </#if>
-	        <#if can_delegate>
-            <input onclick="document.modifyform.delegate_rights.value='true';document.modifyform.submit()" type="submit" value="#i18n{portal.users.manage_user_roles.buttonLabelDelegateRoles}" class="button" />            
-            </#if>
-        </form>
-    </div>
+</div>
+<div class="row">
+<div class="container">
+<div class="span10 offset1">
+<h3>#i18n{portal.users.manage_user_roles.titleRoleList}</h3>         
+ <table class="table table-striped table-condensed">
+<tr>
+   <th>#i18n{portal.users.manage_user_roles.columnTitleKey}</th>
+    <th>#i18n{portal.users.manage_user_roles.columnTitleDescription}</th>
+</tr>
+<#list user_role_list?sort_by('key') as role>
+<tr>
+    <td>${role.key}</td>
+    <td>${role.description}</td>			
+</tr>
+</#list>		
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>

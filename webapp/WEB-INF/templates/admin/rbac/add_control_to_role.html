@@ -1,28 +1,40 @@
-<div class="content-box" >
-<h2 class="content-box-header">#i18n{portal.rbac.add_control_to_role.titleAddControl}</h2>
-<form method="post" action="jsp/admin/rbac/DoSelectResources.jsp" name="add_control">
+<div class="row" >
+<legend>#i18n{portal.rbac.add_control_to_role.titleAddControl}</legend>
+<form class="form-horizontal" method="post" action="jsp/admin/rbac/DoSelectResources.jsp" name="add_control">
+	<fieldset>
     <#if resource_list_available = true >
-		<p>
-			<label>#i18n{portal.rbac.add_control_to_role.labelSelectAllResources} :</label>
-			<input class="radio" type="radio" name="select_resources" value="all" checked="checked" />
-		</p>
-		<p>
-			<label>#i18n{portal.rbac.add_control_to_role.labelSelectResourcesInList} :</label>
-			<input class="radio" type="radio" name="select_resources" value="choose" />
-		</p>
+		
+			<div class="control-group">
+		<label class="control-label" > #i18n{portal.rbac.add_control_to_role.labelSelectAllResources} :</label>
+			<div class="controls">
+	<input class="radio" type="radio" name="select_resources" value="all" checked="checked" />
+		</div>
+	</div>
+		
+		
+			<div class="control-group">
+		<label class="control-label" > #i18n{portal.rbac.add_control_to_role.labelSelectResourcesInList} :</label>
+			<div class="controls">
+	<input class="radio" type="radio" name="select_resources" value="choose" />
+		</div>
+	</div>
+		
             <#else>
 	        <input type="hidden" name="select_resources" value="all" />
-                <p>
+                
                     #i18n{portal.rbac.add_control_to_role.labelNoResourcesList}
-                </p>
+                
             </#if>
-		<p>
+		
 	        <input type="hidden" name="role_key" value="${role_key}" />
 	        <input type="hidden" name="resource_type" value="${resource_type}" /> 
-	        <input type="submit" value="#i18n{portal.rbac.add_control_to_role.buttonLabelValidate}" class="button">
-	        <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}" />
-	    </p>
-	</form>
+	        <button class="btn btn-primary" type="submit" >#i18n{portal.rbac.add_control_to_role.buttonLabelValidate}</button>
+	
+	        <button class="btn btn-primary" onclick="javascript:history.go(-1)" >#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}</button>
+	
+	    
+	</fieldset>
+</form>
 	<script language="JavaScript">
 		window.onload = add_control.select_resources.focus
 	</script>

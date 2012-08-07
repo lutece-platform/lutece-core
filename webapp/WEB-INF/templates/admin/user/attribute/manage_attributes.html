@@ -1,20 +1,30 @@
-<div id="well-actions">
-	<form method="post" action="jsp/admin/user/attribute/CreateAttribute.jsp">
-    		<p>
-    			<label for="attribute_type_class_name">#i18n{portal.users.manage_attributes.addNewAttributes} :</label>
-    			<select id="attribute_type_class_name" name="attribute_type_class_name">
-    				<#list attribute_types_list as attribute_type>
-    					<option value="${attribute_type.className}">${attribute_type.name}</option>
-    				</#list>
-    			</select>
-    			<input type="submit" class="button" value="#i18n{portal.users.manage_attributes.buttonAdd}" /> 
-    		</p>
-	</form>
-</div>
+<div class="row">
+<div class="container">
 <div class="well">
-    <h2 class="well-header">#i18n{portal.users.manage_attributes.pageTitle}</h2>
-    <a name="list" id="list"></a>
-	<table>
+<form class="form-inline" method="post" action="jsp/admin/user/attribute/CreateAttribute.jsp">
+<fieldset>
+<div class="control-group">
+<label class="control-label" for="attribute_type_class_name">#i18n{portal.users.manage_attributes.addNewAttributes} :</label>
+<select id="attribute_type_class_name" name="attribute_type_class_name">
+<#list attribute_types_list as attribute_type>
+<option value="${attribute_type.className}">${attribute_type.name}</option>
+</#list>
+</select>
+<button class="btn btn-primary" type="submit" >
+	<i class="icon-plus icon-white" ></i><span class="hidden-phone" >#i18n{portal.users.manage_attributes.buttonAdd}</span>
+</button>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="container">
+<fieldset>
+<legend>#i18n{portal.users.manage_attributes.pageTitle}</legend>
+<a name="list" id="list"></a>
+<table class="table table-striped table-condensed">
         <tr>
             <th>#i18n{portal.users.manage_attributes.columnTitle}</th>
             <th>#i18n{portal.users.manage_attributes.columnType}</th>
@@ -37,35 +47,42 @@
 	            <td>
 	            	<#if attribute.plugin?exists && attribute.plugin.name != "">
 	            		<#if cpt != 1>
-		              		<a href="jsp/admin/user/attribute/DoMoveUpAttribute.jsp?id_attribute=${attribute.idAttribute}#list">
-		                 	 <img src="images/admin/skin/actions/up.png"  alt="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
-		               	  </a>
+		              		<a class="btn btn-primary btn-mini" href="jsp/admin/user/attribute/DoMoveUpAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" >
+	<i class="icon-question-sign icon-white"></i>
+	</a>
+
 		                </#if>
 		               <#if attribute_has_next>
-		               	 <a href="jsp/admin/user/attribute/DoMoveDownAttribute.jsp?id_attribute=${attribute.idAttribute}#list">
-		                 	 <img src="images/admin/skin/actions/down.png" alt="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
-		                 </a>
+		               	 <a class="btn btn-primary btn-mini" href="jsp/admin/user/attribute/DoMoveDownAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" >
+	<i class="icon-question-sign icon-white"></i>
+	</a>
+
 		               </#if>
 	            	<#else>
-	            		<a href="jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=${attribute.idAttribute}">
-	            			<img src="images/admin/skin/actions/modify.png" alt="#i18n{portal.users.manage_attributes.buttonLabelModify}" title="#i18n{portal.users.manage_attributes.buttonLabelModify}" />
-		            	</a>
+	            		<a class="btn btn-primary btn-mini" href="jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=${attribute.idAttribute}"  title="#i18n{portal.users.manage_attributes.buttonLabelModify}" >
+	<i class="icon-edit icon-white"></i>
+	</a>
+
 		            	<#if cpt != 1>
-		              		<a href="jsp/admin/user/attribute/DoMoveUpAttribute.jsp?id_attribute=${attribute.idAttribute}#list">
-		                 	 <img src="images/admin/skin/actions/up.png"  alt="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
-		               	  </a>
+		              		<a class="btn btn-primary btn-mini" href="jsp/admin/user/attribute/DoMoveUpAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" >
+	<i class="icon-question-sign icon-white"></i>
+	</a>
+
 		                </#if>
 		               <#if attribute_has_next>
-		               	 <a href="jsp/admin/user/attribute/DoMoveDownAttribute.jsp?id_attribute=${attribute.idAttribute}#list">
-		                 	 <img src="images/admin/skin/actions/down.png" alt="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
-		                 </a>
+		               	 <a class="btn btn-primary btn-mini" href="jsp/admin/user/attribute/DoMoveDownAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" >
+	<i class="icon-question-sign icon-white"></i>
+	</a>
+
 		               </#if>
-		            	<a href="jsp/admin/user/attribute/RemoveAttribute.jsp?id_attribute=${attribute.idAttribute}">
-		            		<img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.users.manage_attributes.buttonLabelDelete}" title="#i18n{portal.users.manage_attributes.buttonLabelDelete}" />
-		            	</a>
+		            	<a class="btn btn-danger btn-mini" href="jsp/admin/user/attribute/RemoveAttribute.jsp?id_attribute=${attribute.idAttribute}"  title="#i18n{portal.users.manage_attributes.buttonLabelDelete}" >
+	<i class="icon-trash icon-white"></i>
+	</a>
+
 	            	</#if>
 	            </td>
 	        </tr>
         </#list>
     </table>
+</div>
 </div>

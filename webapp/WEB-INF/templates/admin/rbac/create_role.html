@@ -1,20 +1,32 @@
-<div class="content-box" >
-    <h2 class="content-box-header">#i18n{portal.rbac.create_role.titleCreateRole}</h2>
-    <form method="post" action="jsp/admin/rbac/DoCreateRole.jsp" name="create_role">
-        <p>
-            <label for="role_key" >#i18n{portal.rbac.create_role.labelKey}&nbsp;*&nbsp;:</label>
-            <input type="text" size="20" id="role_key" name="role_key" maxlength="255" />
-        </p>
+<div class="row" >
+    <legend>#i18n{portal.rbac.create_role.titleCreateRole}</legend>
+    <form class="form-horizontal" method="post" action="jsp/admin/rbac/DoCreateRole.jsp" name="create_role">
+	<fieldset>
+        
+            <div class="control-group">
+		<label class="control-label" for="role_key" >#i18n{portal.rbac.create_role.labelKey}&nbsp;*&nbsp;:</label>
+            <div class="controls">
+	<input type="text" size="20" id="role_key" name="role_key" maxlength="255" />
+		</div>
+	</div>
+        
 
-        <p>
-            <label for="role_description" >#i18n{portal.rbac.create_role.labelDescription}&nbsp;*&nbsp;:</label>
-            <input type="text" id="role_description" name="role_description" size="100" maxlength="255" />
-        </p>
-        <p>
-            <input type="submit" value="#i18n{portal.rbac.create_role.buttonLabelCreate}" class="button" />
-            <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
-        </p>
-    </form>
+        
+            <div class="control-group">
+		<label class="control-label" for="role_description" >#i18n{portal.rbac.create_role.labelDescription}&nbsp;*&nbsp;:</label>
+            <div class="controls">
+	<input type="text" id="role_description" name="role_description" size="100" maxlength="255" />
+		</div>
+	</div>
+        
+        
+            <button class="btn btn-primary" type="submit" >#i18n{portal.rbac.create_role.buttonLabelCreate}</button>
+	
+            <button class="btn btn-primary" onclick="javascript:history.go(-1)" >#i18n{portal.admin.message.buttonCancel}</button>
+	
+        
+    </fieldset>
+</form>
     <script language="JavaScript">
         window.onload = create_role.role_key.focus
     </script>

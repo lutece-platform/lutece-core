@@ -1,19 +1,26 @@
-<div class="content-box" >
-    <h2 class="content-box-header">#i18n{portal.rbac.select_resource_ids.titleSelectIds}</h2>
-    <form method="post"  action="jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp" name="ids">
-        <p>#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList} :</p>
-        <p>
+<div class="row" >
+    <legend>#i18n{portal.rbac.select_resource_ids.titleSelectIds}</legend>
+    <form class="form-horizontal" method="post"  action="jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp" name="ids">
+	<fieldset>
+        #i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList} :
+        
             <#list resource_id_list as item>
-            <input class="checkbox" type="checkbox" name="resource_id" value="${item.code}" />${item.name}<br/>
+            <div class="controls">
+	<input class="checkbox" type="checkbox" name="resource_id" value="${item.code}" />
+		</div>
+	</div>${item.name}<br/>
             </#list>
-        </p>
-        <p>
+        
+        
             <input type="hidden" name="role_key" value="${role_key}" />
             <input type="hidden" name="resource_type" value="${resource_type}" />
             <input type="hidden" name="select_resources" value="${select_resources}" />
 
-            <input type="submit" value="#i18n{portal.rbac.select_resource_ids.buttonLabelValidate}" class="button" />
-            <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.rbac.select_resource_ids.buttonLabelCancel}" />
-        </p>
-    </form>
+            <button class="btn btn-primary" type="submit" >#i18n{portal.rbac.select_resource_ids.buttonLabelValidate}</button>
+	
+            <button class="btn btn-primary" onclick="javascript:history.go(-1)" >#i18n{portal.rbac.select_resource_ids.buttonLabelCancel}</button>
+	
+        
+    </fieldset>
+</form>
 </div>

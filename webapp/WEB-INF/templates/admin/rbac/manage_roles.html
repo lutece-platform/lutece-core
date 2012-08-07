@@ -1,12 +1,21 @@
-<div id="content-box-actions">
-    <form method="post" action="jsp/admin/rbac/CreateRole.jsp">
-        <p><input type="submit" value="#i18n{portal.rbac.manage_roles.buttonLabelNewRole}"  class="button bt-toolbar" /></p>
-    </form>
+<div class="clearfix">
+<div class="btn-group pull-right">
+<form class="form-horizontal" method="post" action="jsp/admin/rbac/CreateRole.jsp">
+<fieldset>
+<button class="btn btn-primary pull-right" type="submit" >
+<i class="icon-plus icon-white" ></i>
+<span class="hidden-phone" >#i18n{portal.rbac.manage_roles.buttonLabelNewRole}</span>
+</button>
+</fieldset>
+</form>
 </div>
-<div class="content-box">
-    <h2 class="content-box-header">#i18n{portal.rbac.manage_roles.pageTitle}</h2>
-    <@paginationAdmin paginator=paginator combo=1 />
-    <table>
+</div>
+<div class="row">
+<div class="container">
+<fieldset>
+<legend>#i18n{portal.rbac.manage_roles.pageTitle}</legend>
+ <@paginationAdmin paginator=paginator combo=1 />
+    <table class="table table-striped table-condensed">
         <tr>
             <th>
             	#i18n{portal.rbac.manage_roles.columnTitleKey}
@@ -20,19 +29,27 @@
         </tr>
         <#list role_list as role >
         <tr>
-            <td><a href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" class="bullet-link" >${role.key}</a></td>
+            <td>${role.key}
+</td>
             <td>${role.description}</td>
-            <td>
-                <a href="jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}">
-                    <img title="#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers}" alt="#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers}"src="images/admin/skin/actions/group.png" />
-                </a>
-                <a href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}">
-                    <img title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" alt="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" src="images/admin/skin/actions/delete.png" />
-                </a>
+        <td>
+                <a class="btn btn-primary btn-mini" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}"  title="null" >
+	<i class="icon-eye-open icon-white"></i>
+	</a>
+	<a class="btn btn-primary btn-mini" href="jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}"  title="#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers}" >
+	<i class="icon-question-sign icon-white"></i>
+	</a>
+
+                <a class="btn btn-danger btn-mini" href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}"  title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" >
+	<i class="icon-trash icon-white"></i>
+	</a>
+
             </td>
         </tr>
         </#list>
     </table>
     <@paginationAdmin paginator=paginator />
-
+</fieldset>
 </div>
+</div>
+
