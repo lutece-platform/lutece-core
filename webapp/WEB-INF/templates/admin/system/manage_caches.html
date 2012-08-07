@@ -3,64 +3,62 @@
         <div class="span12">
             <div class="clearfix">
                 <div class="pull-right">
-                <a class="btn btn-primary" href="jsp/admin/system/DoResetCaches.jsp"> <i class="icon-trash  icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.buttonFlush}</a>
-                <a class="btn btn-primary" href="jsp/admin/system/CacheInfos.jsp"> <i class="icon-eye-open icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.buttonViewKeys}</a>
+                    <a class="btn btn-primary" href="jsp/admin/system/DoResetCaches.jsp"> <i class="icon-trash  icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.buttonFlush}</a>
+                    <a class="btn btn-primary" href="jsp/admin/system/CacheInfos.jsp"> <i class="icon-eye-open icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.buttonViewKeys}</a>
+                </div>
             </div>
-            </div>
-            <div class="well">
-                <fieldset>
-                    <legend>
-                        #i18n{portal.system.manage_caches.titleCacheList}
-                    </legend>
+            <fieldset>
+                <legend>
+                    #i18n{portal.system.manage_caches.titleCacheList}
+                </legend>
 
-                    <table class="table table-striped table-bordered table-condensed">
-                        <tr>
-                            <th>#i18n{portal.system.manage_caches.columnTitleName}</th>
-                            <th><i class="icon-info-sign" title="#i18n{portal.system.manage_caches.columnTitleCacheEnable}"></i></th>
-                            <th>#i18n{portal.system.manage_caches.columnTitleMaxElements}</th>
-                            <th>#i18n{portal.system.manage_caches.columnTitleTimeToLive}</th>
-                            <th>#i18n{portal.system.manage_caches.columnTitleCacheSize}</th>
-                            <th>#i18n{portal.system.manage_caches.columnTitleMemorySize}</th>
-                            <th>#i18n{portal.system.manage_caches.columnTitleActions}</th>
-                        </tr>
-                        <#assign id = 0>
-                        <#list services_list as service>
-                        <tr>
-                            <td>${service.name}</td>
-                            <td>
+                <table class="table table-striped table-bordered table-condensed">
+                    <tr>
+                        <th>#i18n{portal.system.manage_caches.columnTitleName}</th>
+                        <th><i class="icon-info-sign" title="#i18n{portal.system.manage_caches.columnTitleCacheEnable}"></i></th>
+                        <th>#i18n{portal.system.manage_caches.columnTitleMaxElements}</th>
+                        <th>#i18n{portal.system.manage_caches.columnTitleTimeToLive}</th>
+                        <th>#i18n{portal.system.manage_caches.columnTitleCacheSize}</th>
+                        <th>#i18n{portal.system.manage_caches.columnTitleMemorySize}</th>
+                        <th>#i18n{portal.system.manage_caches.columnTitleActions}</th>
+                    </tr>
+                    <#assign id = 0>
+                    <#list services_list as service>
+                    <tr>
+                        <td>${service.name}</td>
+                        <td>
+                            <#if service.cacheEnable >
+                            <span class="label label-success" title="#i18n{portal.system.manage_caches.imgAltEnable}"><i class=" icon-ok-sign icon-white"></i>#i18n{portal.system.manage_caches.imgAltEnable}</span>
+                            <#else>
+                            <span class="label label-important" title="#i18n{portal.system.manage_caches.imgAltDisable}"><i class=" icon-remove-sign icon-white"></i>#i18n{portal.system.manage_caches.imgAltDisable}</span>
+                            </#if>
+                        </td>
+                        <td>${service.maxElements}</td>
+                        <td>${service.timeToLive}</td>
+                        <td>${service.cacheSize}</td>
+                        <td>${service.memorySize}</td>
+                        <td class="span2" >
+
+                            <a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-primary btn-mini" title="#i18n{portal.system.manage_caches.actionToggle}">
                                 <#if service.cacheEnable >
-                                <span class="label label-success" title="#i18n{portal.system.manage_caches.imgAltEnable}"><i class=" icon-ok-sign icon-white"></i>#i18n{portal.system.manage_caches.imgAltEnable}</span>
+                                <i class="icon-stop icon-white"></i>
                                 <#else>
-                                <span class="label label-important" title="#i18n{portal.system.manage_caches.imgAltDisable}"><i class=" icon-remove-sign icon-white"></i>#i18n{portal.system.manage_caches.imgAltDisable}</span>
+                                <i class="icon-play icon-white"></i>
                                 </#if>
-                            </td>
-                            <td>${service.maxElements}</td>
-                            <td>${service.timeToLive}</td>
-                            <td>${service.cacheSize}</td>
-                            <td>${service.memorySize}</td>
-                            <td class="span2" >
-                                <div class="btn-group">
-                                <a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-primary btn-mini" title="#i18n{portal.system.manage_caches.actionToggle}">
-                                  <#if service.cacheEnable >
-                                        <i class="icon-stop icon-white"></i>
-                                        <#else>
-                                        <i class="icon-play icon-white"></i>
-                                        </#if>
-                                    </a>
-                                    <a href="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" class="btn btn-primary btn-mini" title="#i18n{portal.system.manage_caches.actionViewKeys}">
-                                        <i class="icon-eye-open icon-white"></i>
-                                    </a>
-                                    <a class="btn btn-danger btn-mini" href="jsp/admin/system/DoResetCaches.jsp?id_cache=${id}" title="#i18n{portal.system.manage_caches.actionClear}">
-                                        <i class="icon-trash icon-white"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <#assign id = id + 1>
-                        </#list>
-                    </table>
-                </fieldset>
-            </div>
+                            </a>
+                            <a href="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" class="btn btn-primary btn-mini" title="#i18n{portal.system.manage_caches.actionViewKeys}">
+                                <i class="icon-eye-open icon-white"></i>
+                            </a>
+                            <a class="btn btn-danger btn-mini" href="jsp/admin/system/DoResetCaches.jsp?id_cache=${id}" title="#i18n{portal.system.manage_caches.actionClear}">
+                                <i class="icon-trash icon-white"></i>
+                            </a>
+
+                        </td>
+                    </tr>
+                    <#assign id = id + 1>
+                    </#list>
+                </table>
+            </fieldset>
         </div>
     </div>
 </div>
