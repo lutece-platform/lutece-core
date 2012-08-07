@@ -1,40 +1,57 @@
-<div class="container span3">
-<!--    <img src="images/admin/skin/toggle.png" alt="Fermer" title="Fermer" class="togl" />-->
-    <#if authorization != "1">
-	
+<div class="container span11">
+    <#if page.id != 1>
     <div class="row">
-        <legend>#i18n{portal.site.admin_page.titlePageProperties}</legend>
-        <form method="post"  action="jsp/admin/site/DoModifyPage.jsp" class="form-vertical" >            
+        <span class="pull-right" >
+			<a href="jsp/admin/site/RemovePage.jsp?page_id=${page.id}" class="btn btn-danger btn-mini">
+				<i class="icon-remove-sign icon-white"  alt="#i18n{portal.site.admin_page.buttonDeletePage}" title="#i18n{portal.site.admin_page.buttonDeletePage}" ></i>
+				<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonDeletePage}</span>
+			</a>	
+		</span>	
+		<span class="pull-right" >
+			<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}" class="btn btn-success btn-mini">
+				<i class="icon-arrow-up icon-white"  alt="#i18n{portal.site.admin_page.buttonUpToParentPage}" title="#i18n{portal.site.admin_page.buttonUpToParentPage}" ></i>
+				<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonUpToParentPage}</span>
+			</a>	
+		</span>
+	</div>
+    </#if>
+    <#if authorization != "1">
+    <div class="row">        
+        <form method="post"  action="jsp/admin/site/DoModifyPage.jsp" class="well form-horizontal" >            
 				<input type="hidden" name="page_id" value="${page.id}" />
 				<fieldset>
-					<div class="control-group">
-					<label class="control-label" for="page_name" >#i18n{portal.site.admin_page.labelName}</label>
-					<div class="controls">
-                        <input type="text" name="page_name" value="${page.name}" class="input-large" />
-					</div>	
+					<!--<div class="control-group">-->
+					<label for="page_name" >#i18n{portal.site.admin_page.labelName}</label>
+					<!--<div class="controls">-->
+					
+					    <input type="text" name="page_name" value="${page.name}" class="input-large"  />
+						
+					<!--</div>	
                 </div>
-				<div class="control-group">
+				<div class="control-group">-->
                     <label for="page_description">#i18n{portal.site.admin_page.labelDescription}</label>
-                    <div class="controls">
-						<textarea name="page_description" rows="3" cols="34" >${page.description}</textarea>
-                    </div>
+                    <!--<div class="controls">-->
+						
+						<textarea name="page_description" class="input-large" >${page.description}</textarea>
+						
+                    <!--</div>
                 </div>
-                <div class="control-group">
+                <div class="control-group">-->
                     <label for="parent_id">#i18n{portal.site.admin_page.labelParentPageId}</label>
-					<div class="controls">
+					<!--<div class="controls">-->
                         <#if page.id = 1>
                         <input type="hidden" name="parent_id" size="10" maxlength="10" value="${page.parentPageId}" />
                         <span style="font-weight:normal;">#i18n{portal.site.admin_page.labelParentPageIdMessage}</span>
                         <#else>
                         <input type="text" name="parent_id" size="10" maxlength="10" value="${page.parentPageId}" />
                         </#if>
-                    </div>
+                    <!--</div>
                 </div>
-                <div class="control-group">
+                <div class="control-group">-->
                     <label for="page_order_list">#i18n{portal.site.admin_page.labelOrderPage}</label>
                         <@comboSorted name="order" default_value="${page.order}" items=page_order_list />
                     
-                </div>
+               <!-- </div>-->
                 <div class="control-group">
                     <label for="roles_list">#i18n{portal.site.admin_page.labelRole}</label>
                         <@comboSorted name="role" default_value="${page.role}" items=page_roles_list />
@@ -102,27 +119,4 @@
         </form>
     </div>
     </#if>
-
-
-    <#if page.id != 1>
-    <div class="content-box" style="background-color:#FFFFFF;margin:0;">
-        <div class="button-left" style="float:left">
-            <p>
-            <form method="post"  action="jsp/admin/site/RemovePage.jsp">
-                <input type="hidden" name="page_id" value="${page.id}" />
-                <input type="submit" value="#i18n{portal.site.admin_page.buttonDeletePage}" class="button" />
-            </form>
-            </p>
-        </div>
-        <div  class="button-right" style="float:right">
-            <p>
-            <form method="post"  action="jsp/admin/site/AdminSite.jsp">
-                <input type="hidden" name="page_id" value="${page.parentPageId}" />
-                <input type="submit" value="#i18n{portal.site.admin_page.buttonUpToParentPage}" class="button" />
-            </form>
-            </p>
-        </div>
-    </div>
-    </#if>
-
 </div>

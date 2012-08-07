@@ -1,59 +1,60 @@
-<div class="navbar">
-  <div class="navbar-inner">
-    <div class="container ">
-	<a class="brand" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">Page ${page.name} - Id ${page.id} </a>
-	<form method="post"  action="jsp/admin/site/AdminSite.jsp" class="form-search pull-right">
-		<input class="search-query span1" name="page_id" id="page_id" type="text">
-		<button class="btn" type="submit"><i class="icon-search"></i></button>
-              <#if page_message!=""><br /><span class="label label-important">${page_message}</span><#else/></#if>
+<div id="well-actions">
+        <a class="brand" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">Page ${page.name} - Id ${page.id} </a>
+	<span class="pull-right" >
+    <form method="post"  action="jsp/admin/site/AdminSite.jsp" class="form-search">
+	     <input type="text" name="page_id" class="input-small" value="" />
+	        <button type="submit" class="btn btn-primary">
+				<i class="icon-filter icon-white"></i>
+				<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonSearchPage}</span>
+	        </button>        
+        <#if page_message!=""><br /><span class="label label-important">${page_message}</span><#else/></#if>
 	</form>	
-	<ul class="nav pull-right ">
-	<li>
-    <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="link">
-		<i class="icon-map-marker icon-white" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>&nbsp;#i18n{portal.site.admin_page.tabAdminMapSite} 
+</span> 
+
+
+<span class="pull-right">
+    <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary">
+		<i class="icon-map-marker icon-white" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>#i18n{portal.site.admin_page.tabAdminMapSite} 
 		
 	</a>
-	</li>
-	<li>
-    <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="link">
-		<i class="icon-plus-sign icon-white"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>&nbsp;
-		#i18n{portal.site.admin_page.labelChildPagePage}
+</span> 
+<span class="pull-right">
+    <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary">
+		<i class="icon-plus-sign icon-white"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
+		<span class="hidden-phone" >#i18n{portal.site.admin_page.labelChildPagePage}</span>
 	</a>
-	</li>
-	<li>
-    <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=4" class="link">
-		<i class="icon-th-large icon-white" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}"  ></i>&nbsp;	
-		#i18n{portal.site.admin_page.labelPortletPage}
-	</a>	
-	</li>
-	<li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-th-large icon-white" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}"  ></i>&nbsp;#i18n{portal.site.admin_page.labelPortletPage}<b class="caret"></b> </a>
+</span> 
+<span class="pull-right">
+
+    <div class="btn-group">
+    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=">
+		<i class="icon-th-large icon-white" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}" ></i>#i18n{portal.site.admin_page.labelPortletPage}		
+    <span class="caret"></span>
+    </a>
     <ul class="dropdown-menu">
-	<li>
-		<a href="jsp/admin/DoCreatePortlet.jsp?page_id=1&portlet_type_id=MYLUTECE_PORTLET" class="link" target="preview">Authentification MyLutece</a>
-	</li>
-	<li>
-		<a href="jsp/admin/DoCreatePortlet.jsp?page_id=1&portlet_type_id=DOCUMENT_LIST_PORTLET" class="link" target="preview">Liste de document</a>
-	</li>
-     <li>
-		<a href="jsp/admin/DoCreatePortlet.jsp?page_id=1&portlet_type_id=HTML_PORTLET" class="link" target="preview">Html Texte Libre</a>
-	</li>
+    <#if portlet_types_list?has_content>		
+ 		<li><#list portlet_types_list?sort_by("name") as portlet_type>
+                <a href="jsp/admin/DoCreatePortlet.jsp?page_id=1&portlet_type_id=${portlet_type.id}&page_id=${page.id}" class="link" target="preview">${portlet_type.name}</a>			  
+            </#list>
+		</li>
+    </#if>
     </ul>
-  </li>
-	<li>
-     <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=3" class="link">
-		<i class="icon-picture icon-white" alt="#i18n{portal.site.admin_page.labelImagePage}" title="#i18n{portal.site.admin_page.labelImagePage}"  ></i>&nbsp;
+    </div>
+    
+</span> 
+<span class="pull-right">
+     <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=3" class="btn btn-primary">
+		<i class="icon-picture icon-white" alt="#i18n{portal.site.admin_page.labelImagePage}" title="#i18n{portal.site.admin_page.labelImagePage}"  ></i>
 	#i18n{portal.site.admin_page.labelImagePage}
 	</a>
-	</li>
-	<li>
-	<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="link">
-		<i class="icon-wrench icon-white" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>&nbsp;
+</span> 
+<span class="pull-right">
+	<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="btn btn-primary">
+		<i class="icon-wrench icon-white" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>
 		#i18n{portal.site.admin_page.labelPageProperty}
 	</a>
-	</li>
-</div>
-</div>
+</span> 
+
 </div>
 
     
