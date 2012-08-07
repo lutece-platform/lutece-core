@@ -18,9 +18,9 @@
             <td>#i18n{${daemon.nameKey}}<br />#i18n{${daemon.descriptionKey}}</td>
             <td>
                 <#if daemon.running>
-                <span class="label label-success"><i class=" icon-ok-sign icon-white"></i></span>
+                <span class="label label-success"><i class=" icon-ok-sign icon-white"></i>#i18n{portal.util.labelEnabled}</span>
                 <#else>
-                <span class="label label-important"><i class=" icon-remove-sign icon-white"></i></span>
+                <span class="label label-important"><i class=" icon-remove-sign icon-white"></i>#i18n{portal.util.labelDisabled}</span>
                 </#if>
             </td>
             <td>${daemon.interval}</td>
@@ -34,14 +34,14 @@
                     <#if daemon.running>
                     <input type="hidden" name="daemon" value="${daemon.id}" />
                     <input type="hidden" name="action" value="STOP" />
-					 <button class="btn btn-danger pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStop}">
+					 <button class="btn btn-danger btn-mini pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStop}">
 						<i class="icon-stop icon-white"></i>
 					</button>
                     
                     <#else>
                     <input type="hidden" name="daemon" value="${daemon.id}" />
                     <input type="hidden" name="action" value="START" />
-					 <button class="btn btn-success pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStart}" >
+					 <button class="btn btn-success btn-mini pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStart}" >
 						<i class="icon-play icon-white"></i>
 						
 					</button>
