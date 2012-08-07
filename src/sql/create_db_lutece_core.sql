@@ -523,7 +523,7 @@ CREATE  TABLE core_user_password_history (
 DROP TABLE IF EXISTS core_admin_user_anonymize_field;
 CREATE  TABLE core_admin_user_anonymize_field (
   field_name VARCHAR(100) NOT NULL ,
-  anonymize BIT NOT NULL ,
+  anonymize SMALLINT NOT NULL ,
   PRIMARY KEY (field_name)
   );
   
