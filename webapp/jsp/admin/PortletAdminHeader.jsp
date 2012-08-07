@@ -1,23 +1,21 @@
 <%@ page errorPage="ErrorPage.jsp" %>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-
-<html>
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-<meta http-equiv="Expires" content="0" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Cache-Control" content="no-cache" />
-<link rel="stylesheet" type="text/css" href="../../css/portal_admin.css" title="lutece_admin" />
-
-<!--[if IE 6]>
-		<link rel="stylesheet" type="text/css" href="../../css/ie/portal_admin_ie6.css" 			title="lutece_admin_ie6" />
+<title>Administration</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<!-- Set the viewport width to device width for mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Le styles -->
+<link href="../../css/bootstrap.min.css" rel="stylesheet">
+<link href="../../css/bootstrap-responsive.min.css" rel="stylesheet">
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-
-<!--[if IE 7]>
-		<link rel="stylesheet" type="text/css" href="../../css/ie/portal_admin_ie7.css" 			title="lutece_admin_ie7" />
-<![endif]-->
-
+<!-- Le fav and touch icons -->
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="stylesheet" href="../../css/portal_admin.css" />
 </head>
 <body>
