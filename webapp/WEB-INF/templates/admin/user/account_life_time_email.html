@@ -1,36 +1,48 @@
 <#include "/admin/util/editor/editor.html" />
-<div class="well">
-	<h2>#i18n{${emailLabel}}</h2>
-			<form method="post" action="jsp/admin/user/DoModifyAccountLifeTimeEmails.jsp">
-				<input type="hidden" name="email_type" value="${email_type}" />
-				<p>
-					<label for="email_sender"> #i18n{portal.users.accountLifeTime.labelSenderEmail} : </label>
-					<input type="text" name="email_sender" value="${email_sender!}" size="100" />
-					<br />
-					
-					<label for="email_subject"> #i18n{portal.users.accountLifeTime.labelSubjectEmail} : </label>
-					<input type="text" name="email_subject" value="${email_subject!}" size="100" />
-					<br />
-					
-					<label for="email_body"> #i18n{portal.users.accountLifeTime.labelBodyEmail} : </label>
-					<div class="editor">
-						<textarea class="richtext" rows="30" cols="100" id="email_body" name="email_body" >${email_body!}</textarea>
-					</div>
-					<br />
-					<p>
-						#i18n{portal.users.accountLifeTime.labelParameters} : 
-						<ul>
-						<#if email_type != "reactivated" && email_type != "expired">
-						 <li>${r"${url}"} : #i18n{portal.users.accountLifeTime.labelUrl}</li>
-						</#if>
-						 <li>${r"${first_name}"} : #i18n{portal.users.accountLifeTime.labelFirstName}</li>
-						 <li>${r"${last_name}"} : #i18n{portal.users.accountLifeTime.labelLastName}</li>
-						 <li>${r"${date_valid}"} : #i18n{portal.users.accountLifeTime.labelDateValid}</li>
-						</ul>
-					</p>
-					
-					<input type="submit" class="button" value="#i18n{portal.util.labelModify}" />
-				</p>
-			</form>
+<div class="row">
+    <legend>#i18n{${emailLabel}}</legend>
+    <form class="form-horizontal" method="post" action="jsp/admin/user/DoModifyAccountLifeTimeEmails.jsp">
+        <fieldset>
+            <input type="hidden" name="email_type" value="${email_type}" />
+
+            <div class="control-group">
+                <label class="control-label" for="email_sender"> #i18n{portal.users.accountLifeTime.labelSenderEmail} : </label>
+                <div class="controls">
+                    <input type="text" name="email_sender" value="${email_sender!}" size="100" />
+                </div>
+            </div>
+            <br />
+
+            <div class="control-group">
+                <label class="control-label" for="email_subject"> #i18n{portal.users.accountLifeTime.labelSubjectEmail} : </label>
+                <div class="controls">
+                    <input type="text" name="email_subject" value="${email_subject!}" size="100" />
+                </div>
+            </div>
+            <br />
+
+            <div class="control-group">
+                <label class="control-label" for="email_body"> #i18n{portal.users.accountLifeTime.labelBodyEmail} : </label>
+                <div class="editor">
+                    <textarea class="richtext" rows="30" cols="100" id="email_body" name="email_body" >${email_body!}</textarea>
+                </div>
+                <br />
+
+                #i18n{portal.users.accountLifeTime.labelParameters} : 
+                <ul>
+                    <#if email_type != "reactivated" && email_type != "expired">
+                    <li>${r"${url}"} : #i18n{portal.users.accountLifeTime.labelUrl}</li>
+                    </#if>
+                    <li>${r"${first_name}"} : #i18n{portal.users.accountLifeTime.labelFirstName}</li>
+                    <li>${r"${last_name}"} : #i18n{portal.users.accountLifeTime.labelLastName}</li>
+                    <li>${r"${date_valid}"} : #i18n{portal.users.accountLifeTime.labelDateValid}</li>
+                </ul>
+
+
+                <button class="btn btn-primary" type="submit" >#i18n{portal.util.labelModify}</button>
+
+
+        </fieldset>
+    </form>
 </div>
 <@initEditor />

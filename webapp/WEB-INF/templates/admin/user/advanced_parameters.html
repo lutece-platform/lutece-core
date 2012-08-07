@@ -1,170 +1,257 @@
-    <!-- PASSWORD ENCRYPTION -->
-    <#if enable_password_encryption?exists>
-    	<div class="highlight-box">
-	    	<div id="password-encryption">
-	    		<form method="post" name="password_encryption" action="jsp/admin/user/ModifyPasswordEncryption.jsp">
-	    			<p>
-	    				<label for="enable_password_encryption">#i18n{portal.users.manage_advanced_parameters.labelEnablePasswordEncryption} :</label>
-	    				<#if enable_password_encryption = "false">
-	    					<input type="radio" name="enable_password_encryption" value="false" checked="checked" /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
-	    					<input type="radio" name="enable_password_encryption" value="true" /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
-	    				<#else>
-	    					<input type="radio" name="enable_password_encryption" value="false" /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
-	    					<input type="radio" name="enable_password_encryption" value="true" checked="checked"/> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
-	    				</#if>
-	    				<br />
-	    				<br />
-	    				<span id="password-encryption-algorithm">
-	    					<label for="encryption_algorithm">#i18n{portal.users.manage_advanced_parameters.labelEncryptionAlgorithm} :</label>
-	    					<select name="encryption_algorithm">
-	    						<#if !encryption_algorithm?has_content>
-	    							<option value="noValue" selected="selected">#i18n{portal.users.manage_advanced_parameters.labelNoAlgorithm}</option>
-	    						<#else>
-	    							<option value="noValue">#i18n{portal.users.manage_advanced_parameters.labelNoAlgorithm}</option>
-	    						</#if>
-		    					<#list encryption_algorithms_list as algorithm>
-		    						<#if algorithm = encryption_algorithm>
-		    							<option value="${algorithm}" selected="selected">${algorithm}</option>
-		    						<#else>
-		    							<option value=${algorithm}>${algorithm}</option>
-		    						</#if>
-		    					</#list>
-	    					</select>
-	    				</span>
-	    				<br />
-	    				<input type="submit" class="button" value="#i18n{portal.users.manage_advanced_parameters.buttonModify}" />
-	    			</p>
-	    		</form>
-	    	</div>
-    	</div>
-    </#if>
-    
-    <!-- DEFAULT USER PARAMETERS -->
-    <div class="highlight-box">
-    	<p>#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}</p>
-    	<form method="post" name="default_user_parameters" action="jsp/admin/user/DoModifyDefaultUserParameterValues.jsp">
-    		<!-- USER LEVEL -->
-    		<p>
-    			<label for="user_level">#i18n{portal.users.manage_advanced_parameters.userLevelLabel} :</label>
-				<select id="user_level" name="user_level">
-	                <#list user_levels as user_level>
-	                	<#if user_level.id = default_user_level.id>
-	                    	<option value="${user_level.id}" selected="selected">${user_level.name}</option>
-	                    <#else>
-	                    	<option value="${user_level.id}">${user_level.name}</option>
-	                    </#if>
-	                </#list>
-                </select>
-    		</p>
-    		<!-- USER NOTIFICATION -->
-    		<p>
-    			<label for="notify_user">#i18n{portal.users.manage_advanced_parameters.labelNotify} :</label>
-    			<#if default_user_notification = 1>
-    				<input type="radio" name="notify_user" value="1" checked="checked" tabindex="8" />#i18n{portal.util.labelYes}
-					<input type="radio" name="notify_user" value="0" tabindex="9" />#i18n{portal.util.labelNo}
-    			<#else>
-    				<input type="radio" name="notify_user" value="1" tabindex="8" />#i18n{portal.util.labelYes}
-					<input type="radio" name="notify_user" value="0" checked="checked" tabindex="9" />#i18n{portal.util.labelNo}
-    			</#if>
-    		</p>
-    		<!-- USER LANGUAGE -->
-    		<p>
-				<label for="language">#i18n{portal.users.manage_advanced_parameters.labelLanguage} :</label>
-				<@comboSorted name="language" default_value="${default_user_language}" items=languages_list />
-    		</p>
-    		<!-- USER STATUS -->
-    		<p>
-                <label for="status">#i18n{portal.users.manage_advanced_parameters.labelStatus} :</label>
-                <select id="status" name="status" tabindex="10">
-                	<#if default_user_status = 1>
-                		<option value="0">#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
-                    	<option value="1" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
-                	<#else>
-                		<option value="0" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
-                    	<option value="1">#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
-                	</#if>
-                </select>
-			</p>
-			<p>
-				<input type="submit" class="button" value="#i18n{portal.users.manage_advanced_parameters.buttonModify}" /> 
-			</p>
-    	</form>
+<div class="pull-right">
+    <form class="form-horizontal" action="jsp/admin/user/GetChangeUseAdvancedSecurityParameters.jsp">
+        <fieldset>
+            <#if use_advanced_security_parameters>
+            <button class="btn btn-primary" type="submit" >#i18n{portal.users.manage_advanced_parameters.removeAdvancedParameters}</button>
+
+            <#else>
+            <button class="btn btn-primary" type="submit" >#i18n{portal.users.manage_advanced_parameters.useAdvancedParameters}</button>
+
+            </#if>
+        </fieldset>
+    </form>
+</div>
+<!-- PASSWORD ENCRYPTION -->
+<#if enable_password_encryption?exists>
+<div class="well">
+    <div id="password-encryption">
+        <form class="form-horizontal" method="post" name="password_encryption" action="jsp/admin/user/ModifyPasswordEncryption.jsp">
+            <fieldset>
+
+                <div class="control-group">
+                    <label class="control-label" for="enable_password_encryption">#i18n{portal.users.manage_advanced_parameters.labelEnablePasswordEncryption} :</label>
+                    <#if enable_password_encryption = "false">
+                    <div class="controls">
+                        <input type="radio" name="enable_password_encryption" value="false" <#if use_advanced_security_parameters>disabled="disabled"</#if> checked="checked" /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
+                    </div>
+                </div>
+                <div class="controls">
+                    <input type="radio" name="enable_password_encryption" value="true" <#if use_advanced_security_parameters>disabled="disabled"</#if> /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
+                </div>
+                </div>
+                <#else>
+                <div class="controls">
+                    <input type="radio" name="enable_password_encryption" value="false" <#if use_advanced_security_parameters>disabled="disabled"</#if> /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
+                </div>
+                </div>
+                <div class="controls">
+                    <input type="radio" name="enable_password_encryption" value="true" <#if use_advanced_security_parameters>disabled="disabled"</#if> checked="checked"/> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
+                </div>
+                </div>
+                </#if>
+                <#if use_advanced_security_parameters>
+                <input type="hidden" name="enable_password_encryption" value="<#if enable_password_encryption?? && enable_password_encryption! = 'true'>true<#else>false</#if>"/>
+                </#if>
+                <br />
+                <br />
+                <span id="password-encryption-algorithm">
+                    <div class="control-group">
+                        <label class="control-label" for="encryption_algorithm">#i18n{portal.users.manage_advanced_parameters.labelEncryptionAlgorithm} :</label>
+                        <select name="encryption_algorithm" <#if use_advanced_security_parameters>disabled="disabled"</#if>>
+                                <#if !encryption_algorithm?has_content>
+                                <option value="noValue" selected="selected">#i18n{portal.users.manage_advanced_parameters.labelNoAlgorithm}</option>
+                            <#else>
+                            <option value="noValue">#i18n{portal.users.manage_advanced_parameters.labelNoAlgorithm}</option>
+                            </#if>
+                            <#list encryption_algorithms_list as algorithm>
+                            <#if algorithm = encryption_algorithm>
+                            <option value="${algorithm}" selected="selected">${algorithm}</option>
+                            <#else>
+                            <option value=${algorithm}>${algorithm}</option>
+                            </#if>
+                            </#list>
+                        </select>
+                        <#if use_advanced_security_parameters>
+                        <input type="hidden" name="encryption_algorithm" value="${encryption_algorithm!}"/>
+                        </#if>
+                </span>
+                <br />
+                <button class="btn btn-primary" type="submit" >#i18n{portal.users.manage_advanced_parameters.buttonModify}</button>
+
+
+            </fieldset>
+        </form>
     </div>
-    <!-- EMAIL PATTERN -->
-    <#if email_pattern??>
-	    <div class="highlight-box">
-	    	<p>#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}</p>
-	    	<form method="post" name="email_pattern_form" action="jsp/admin/user/DoModifyEmailPattern.jsp">
-	    		<#if plugin_regularexpression>
-	    			<p>
-	    				<label for="is_email_pattern_set_manually">#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManually} :</label>
-	    				<input type="checkbox" name="is_email_pattern_set_manually" value="1"
-	    					<#if is_email_pattern_set_manually>
-	    						checked="checked"
-	    					</#if>
-	    				/>
-	    				<br />
-	    				<label>&nbsp;</label>
-	    				#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManuallyComment}
-	    			</p>
-	    		<#else>
-	    			<input type="hidden" name="is_email_pattern_set_manually" value="1" />
-	    		</#if>
-	    		<#if is_email_pattern_set_manually>
-		    		<p>
-		    			<label for="email_pattern">#i18n{portal.users.manage_advanced_parameters.labelEmailPattern} :</label>
-		    			<input type="text" size="40" name="email_pattern" value="${email_pattern}" />
-		    			<a href="jsp/admin/user/DoResetEmailPattern.jsp">
-		    				<input type="button" class="button" value="#i18n{portal.users.manage_advanced_parameters.buttonResetEmailPattern}" />
-		    			</a>
-		    		</p>
-		    	<#else>
-		    		<input type="hidden" name="email_pattern" value="${email_pattern}" />
-	    		</#if>
-	    		<p>
-	    			<input type="submit" class="button" value="#i18n{portal.users.manage_advanced_parameters.buttonModify}" />
-	    		</p>
-	    	</form>
-    		<#if plugin_regularexpression && !is_email_pattern_set_manually>
-    			<div class="highlight-box">
-	    			<form method="post" action="jsp/admin/user/DoInsertRegularExpression.jsp#list-regularexpressions">
-	    				<p>
-	    					<label for="id_expression">#i18n{portal.users.manage_advanced_parameters.labelRegularExpression} :</label>
-	    					<@comboSorted name="id_expression" items=available_regularexpressions default_value=-1 />
-	    					<input value="#i18n{portal.users.manage_advanced_parameters.buttonInsert}" class="button" type="submit">
-	    					<br />
-	    					<label>&nbsp;</label>
-	    					#i18n{portal.users.manage_advanced_parameters.labelInsertComment}
-	    				</p>
-	    			</form>
-					<a name="list-regularexpressions" id="list-regularexpressions"></a>
-					<table width="100%">
-						<tr> 
-							<th>#i18n{portal.users.manage_advanced_parameters.rowTitle}</th>
-							<th>#i18n{portal.users.manage_advanced_parameters.rowInformationMessage}</th>
-							<th>#i18n{portal.users.manage_advanced_parameters.rowValidExample}</th>
-							<th>#i18n{portal.users.manage_advanced_parameters.rowActions}</th>
-						</tr>
-						<#list selected_regularexpressions as expression>
-							<tr>
-								<td>
-									${expression.title}
-								</td>
-								<td>
-									${expression.informationMessage}
-								</td>
-								<td>
-									${expression.validExemple}  	
-								</td>
-								<td>
-									<a href="jsp/admin/user/DoRemoveRegularExpression.jsp?id_expression=${expression.idExpression}#list-regularexpressions">
-										<img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.users.manage_advanced_parameters.buttonDelete}" title="#i18n{portal.users.manage_advanced_parameters.buttonDelete}" />
-									</a>
-								</td>
-							</tr>
-						</#list> 
-					</table>
-				</div>
-			</#if>
-	    </div>
+</div>
+</#if>
+
+<!-- DEFAULT USER PARAMETERS -->
+<div class="well">
+    #i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}
+    <form class="form-horizontal" method="post" name="default_user_parameters" action="jsp/admin/user/DoModifyDefaultUserParameterValues.jsp">
+        <fieldset>
+            <!-- USER LEVEL -->
+
+            <div class="control-group">
+                <label class="control-label" for="user_level">#i18n{portal.users.manage_advanced_parameters.userLevelLabel} :</label>
+                <select id="user_level" name="user_level">
+                    <#list user_levels as user_level>
+                    <#if user_level.id = default_user_level.id>
+                    <option value="${user_level.id}" selected="selected">${user_level.name}</option>
+                    <#else>
+                    <option value="${user_level.id}">${user_level.name}</option>
+                    </#if>
+                    </#list>
+                </select>
+
+                <!-- USER NOTIFICATION -->
+
+                <div class="control-group">
+                    <label class="control-label" for="notify_user">#i18n{portal.users.manage_advanced_parameters.labelNotify} :</label>
+                    <#if default_user_notification = 1>
+                    <div class="controls">
+                        <input type="radio" name="notify_user" value="1" checked="checked" tabindex="8" />
+                    </div>
+                </div>#i18n{portal.util.labelYes}
+                <div class="controls">
+                    <input type="radio" name="notify_user" value="0" tabindex="9" />
+                </div>
+            </div>#i18n{portal.util.labelNo}
+            <#else>
+            <div class="controls">
+                <input type="radio" name="notify_user" value="1" tabindex="8" />
+            </div>
+            </div>#i18n{portal.util.labelYes}
+            <div class="controls">
+                <input type="radio" name="notify_user" value="0" checked="checked" tabindex="9" />
+            </div>
+            </div>#i18n{portal.util.labelNo}
+            </#if>
+
+            <!-- USER LANGUAGE -->
+
+            <div class="control-group">
+                <label class="control-label" for="language">#i18n{portal.users.manage_advanced_parameters.labelLanguage} :</label>
+                <div class="controls">
+                    <div class="controls">
+                        <@comboSorted name="language" default_value="${default_user_language}" items=languages_list />
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <!-- USER STATUS -->
+
+            <div class="control-group">
+                <label class="control-label" for="status">#i18n{portal.users.manage_advanced_parameters.labelStatus} :</label>
+                <select id="status" name="status" tabindex="10">
+                    <#if default_user_status = 1>
+                    <option value="0">#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
+                    <option value="1" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
+                    <#else>
+                    <option value="0" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
+                    <option value="1">#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
+                    </#if>
+                </select>
+
+
+                <button class="btn btn-primary" type="submit" >#i18n{portal.users.manage_advanced_parameters.buttonModify}</button>
+
+
+        </fieldset>
+    </form>
+</div>
+<!-- EMAIL PATTERN -->
+<#if email_pattern??>
+<div class="well">
+    #i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}
+    <form class="form-horizontal" method="post" name="email_pattern_form" action="jsp/admin/user/DoModifyEmailPattern.jsp">
+        <fieldset>
+            <#if plugin_regularexpression>
+
+            <div class="control-group">
+                <label class="control-label" for="is_email_pattern_set_manually">#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManually} :</label>
+                <div class="controls">
+                    <input type="checkbox" name="is_email_pattern_set_manually" value="1"
+                           <#if is_email_pattern_set_manually>
+                </div>
+            </div>
+            checked="checked"
+            </#if>
+            />
+            <br />
+            <div class="control-group">
+                <label class="control-label" > &nbsp;</label>
+                #i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManuallyComment}
+
+                <#else>
+                <input type="hidden" name="is_email_pattern_set_manually" value="1" />
+                </#if>
+                <#if is_email_pattern_set_manually>
+
+                <div class="control-group">
+                    <label class="control-label" for="email_pattern">#i18n{portal.users.manage_advanced_parameters.labelEmailPattern} :</label>
+                    <div class="controls">
+                        <input type="text" size="40" name="email_pattern" value="${email_pattern}" />
+                    </div>
+                </div>
+                <a href="jsp/admin/user/DoResetEmailPattern.jsp">
+                    <button class="btn btn-primary" onclick="null" >#i18n{portal.users.manage_advanced_parameters.buttonResetEmailPattern}</button>
+
+                </a>
+
+                <#else>
+                <input type="hidden" name="email_pattern" value="${email_pattern}" />
+                </#if>
+
+                <button class="btn btn-primary" type="submit" >#i18n{portal.users.manage_advanced_parameters.buttonModify}</button>
+
+
+        </fieldset>
+    </form>
+    <#if plugin_regularexpression && !is_email_pattern_set_manually>
+    <div class="well">
+        <form class="form-horizontal" method="post" action="jsp/admin/user/DoInsertRegularExpression.jsp#list-regularexpressions">
+            <fieldset>
+
+                <div class="control-group">
+                    <label class="control-label" for="id_expression">#i18n{portal.users.manage_advanced_parameters.labelRegularExpression} :</label>
+                    <div class="controls">
+                        <div class="controls">
+                            <@comboSorted name="id_expression" items=available_regularexpressions default_value=-1 />
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <button class="btn btn-primary" type="submit" >#i18n{portal.users.manage_advanced_parameters.buttonInsert}</button>
+
+                <div class="control-group">
+                    <label class="control-label" > &nbsp;</label>
+                    #i18n{portal.users.manage_advanced_parameters.labelInsertComment}
+
+            </fieldset>
+        </form>
+        <a name="list-regularexpressions" id="list-regularexpressions"></a>
+        <table width="100%">
+            <tr> 
+                <th>#i18n{portal.users.manage_advanced_parameters.rowTitle}</th>
+                <th>#i18n{portal.users.manage_advanced_parameters.rowInformationMessage}</th>
+                <th>#i18n{portal.users.manage_advanced_parameters.rowValidExample}</th>
+                <th>#i18n{portal.users.manage_advanced_parameters.rowActions}</th>
+            </tr>
+            <#list selected_regularexpressions as expression>
+            <tr>
+                <td>
+                    ${expression.title}
+                </td>
+                <td>
+                    ${expression.informationMessage}
+                </td>
+                <td>
+                    ${expression.validExemple}  	
+                </td>
+                <td>
+                    <a class="btn btn-danger btn-mini" href="jsp/admin/user/DoRemoveRegularExpression.jsp?id_expression=${expression.idExpression}#list-regularexpressions"  title="#i18n{portal.users.manage_advanced_parameters.buttonDelete}" >
+                        <i class="icon-trash icon-white"></i>
+                    </a>
+
+                </td>
+            </tr>
+            </#list> 
+        </table>
+    </div>
     </#if>
+</div>
+</#if>
+<!--  SECURITY PARAMETERS -->
+<#include "advanced_security_parameters.html" />
