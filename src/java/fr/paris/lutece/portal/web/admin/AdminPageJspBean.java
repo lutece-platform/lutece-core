@@ -437,7 +437,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
                 break;
 
             case BLOCK_PORTLET:
-                model.put( MARK_PAGE_BLOCK, getAdminPageBlockPortlet( page, model ) );
+         /*       model.put( MARK_PAGE_BLOCK, getAdminPageBlockPortlet( page, model ) );*/            
 
                 break;
 
@@ -446,7 +446,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
                 break;
         }
-
+        
+        model.put( MARK_PORTLET_TYPES_LIST, getPortletTypeList( getUser(  ) ) );
         model.put( MARK_PAGE, page );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale(  ), model );
