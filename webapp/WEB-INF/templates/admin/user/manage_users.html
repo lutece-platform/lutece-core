@@ -162,10 +162,10 @@
                             </tr>
                             <#list user_list as user>
                             <tr>
-                                <td><#if user.status = 2 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if></td>
-                                <td><#if user.status = 2 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if></td>
-                                <td><em><#if user.status = 2 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></em></td>            
-                                <td><#if user.status = 2 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else><a href="mailto:${user.email}" title="${user.email}" >${user.email}</a>
+                                <td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if></td>
+                                <td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if></td>
+                                <td><em><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></em></td>            
+                                <td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else><a href="mailto:${user.email}" title="${user.email}" >${user.email}</a>
                                     </#if></td>
                                 <td>
                                     <#if user.status == 0 >
@@ -185,7 +185,7 @@
                                     <br />
                                     </#if>
                                     <#assign index_user_field = index_user_field + 1>
-                                    <#if user.status != 2 >${attribute.getHtmlValue( locale, user_field )}</#if>
+                                    <#if user.status != 10 >${attribute.getHtmlValue( locale, user_field )}</#if>
                                     </#if>
                                     </#list>
                                 </td>

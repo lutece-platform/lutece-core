@@ -1096,18 +1096,17 @@ public final class AdminUserService
     @SuppressWarnings( "deprecation" )
     public static void updateUserExpirationDate( AdminUser user )
     {
-        // We update the user account
         Timestamp newExpirationDate = getAccountMaxValidDate( );
-        AdminUserHome.updateUserExpirationDate( user.getUserId( ), newExpirationDate );
 
         // We notify the user
         String strUserMail = user.getEmail( );
         int nbDaysBeforeFirstAlert = AdminUserService.getIntegerSecurityParameter( PARAMETER_TIME_BEFORE_ALERT_ACCOUNT );
         Timestamp firstAlertMaxDate = new Timestamp( new java.util.Date( ).getTime( )
                 + DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
+        Timestamp currentTimestamp = new Timestamp( new java.util.Date( ).getTime( ) );
 
         if ( user.getAccountMaxValidDate( ) != null
-                && user.getAccountMaxValidDate( ).getTime( ) < firstAlertMaxDate.getTime( )
+                && currentTimestamp.getTime( ) > firstAlertMaxDate.getTime( )
                 && StringUtils.isNotBlank( strUserMail ) )
         {
             String strBody = DatabaseTemplateService.getTemplateFromKey( PARAMETER_ACCOUNT_REACTIVATED_MAIL_BODY );
@@ -1134,5 +1133,8 @@ public final class AdminUserService
             HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, Locale.getDefault( ), model );
             MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject, template.getHtml( ) );
         }
+
+        // We update the user account
+        AdminUserHome.updateUserExpirationDate( user.getUserId( ), newExpirationDate );
     }
 }

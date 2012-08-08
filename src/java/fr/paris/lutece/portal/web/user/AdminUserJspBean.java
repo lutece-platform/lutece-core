@@ -219,6 +219,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_OTHER_ALERT_MAIL = "core_other_alert_mail";
     private static final String PARAMETER_EXPIRATION_MAIL = "core_expiration_mail";
     private static final String PARAMETER_ACCOUNT_REACTIVATED = "core_account_reactivated_mail";
+    private static final String PARAMETER_CANCEL = "cancel";
 
     // Jsp url
     private static final String JSP_MANAGE_USER_RIGHTS = "ManageUserRights.jsp";
@@ -675,7 +676,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( ( strNotifyUser != null ) && strNotifyUser.equals( CONSTANTE_UN ) )
             {
                 //Notify user for the creation of this account
+                // We set the password not encrypted for the email
+                user.setPassword( strSecondPassword );
                 notifyUser( request, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
+                user.setPassword( strFirstPassword );
             }
         }
         else
@@ -1796,6 +1800,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doChangeFieldAnonymizeAdminUsers( HttpServletRequest request )
     {
+        if ( request.getParameter( PARAMETER_CANCEL ) != null )
+        {
+            return JSP_MANAGE_ADVANCED_PARAMETERS;
+        }
         AdminUserHome.updateAnonymizationStatusUserStaticField( PARAMETER_ACCESS_CODE,
                 Boolean.valueOf( request.getParameter( PARAMETER_ACCESS_CODE ) ) );
         AdminUserHome.updateAnonymizationStatusUserStaticField( PARAMETER_FIRST_NAME,
