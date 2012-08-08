@@ -68,7 +68,8 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
 
     // Markers
     private static final String MARKER_MAP_SITE = "map_site";
-
+    private static final String MARK_PAGE = "page";
+    
     // Templates
     private static final String TEMPLATE_MAP_SITE = "admin/site/site_map.html";
 
@@ -99,6 +100,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
         int nLevel = 0;
 
         String strCurrentPageId = request.getParameter( PARAMETER_PAGE_ID );
+        
         findPages( request, strArborescenceXml, PortalService.getRootPageId(  ), nLevel, strCurrentPageId, strCssId );
 
         StyleSheet xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_SITE_MAP_ID, MODE_ADMIN );
@@ -115,6 +117,12 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
         String map = xmlTransformerService.transformBySourceWithXslCache( strArborescenceXml.toString(  ), xslSource,
                 mapParamRequest, outputProperties );
 
+                
+        String strPageId = request.getParameter(PARAMETER_PAGE_ID);
+        int nPageId = ( strPageId != null ) ? Integer.parseInt( strPageId ) : 1;
+        Page page = PageHome.getPage( nPageId );             
+        
+        model.put( MARK_PAGE, page );                
         model.put( MARKER_MAP_SITE, map );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MAP_SITE, getLocale(  ), model );

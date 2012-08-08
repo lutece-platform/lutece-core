@@ -1,4 +1,24 @@
-<div id="content-admin-site-page" class="admin-site-page">
+<div id="well-actions">
+    <a class="brand" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">Page ${page.name} - Id ${page.id} </a>
+    <span class="pull-right" >
+        <form method="post"  action="jsp/admin/site/AdminSite.jsp" class="form-search">
+            <input type="text" name="page_id" class="input-small" value="" />
+            <button type="submit" class="btn btn-primary">
+                <i class="icon-filter icon-white"></i>
+                <span class="hidden-phone" >#i18n{portal.site.admin_page.buttonSearchPage}</span>
+            </button>        
+        </form>	
+    </span> 
+    <span class="pull-right">
+        <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary">
+            <i class="icon-map-marker icon-white" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>
+            <span class="hidden-phone" >#i18n{portal.site.admin_page.tabAdminMapSite}</span>
+
+        </a>
+    </span> 
+</div>
+
+<div class="container">
     ${map_site}
 </div>
 <script type="text/javascript">
