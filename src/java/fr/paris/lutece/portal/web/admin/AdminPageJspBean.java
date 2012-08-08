@@ -246,9 +246,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         
         // Updates the page
         _pageService.updatePage( page );
-        
-        //Updates the image
-        //doDefineImage( request );
 
         // Displays again the current page with the modifications
         return getUrlPage( nPageId );
@@ -306,19 +303,21 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      */
     public String doCreateChildPage( HttpServletRequest request )
     {
-        String strParentPageId = request.getParameter( Parameters.PAGE_ID );
+        MultipartHttpServletRequest mRequest = ( MultipartHttpServletRequest) request;
+         
+        String strParentPageId = mRequest.getParameter( Parameters.PAGE_ID );
         int nParentPageId = Integer.parseInt( strParentPageId );
 
         Page page = new Page(  );
         page.setParentPageId( nParentPageId );
 
-        String strErrorUrl = getPageData( request, page );
+        String strErrorUrl = getPageData( mRequest, page );
 
         if ( strErrorUrl != null )
         {
             return strErrorUrl;
         }
-
+                       
         // Create the page
         _pageService.createPage( page );
 
@@ -333,14 +332,21 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             page.setIdAuthorizationNode( page.getId(  ) );
         }
 
-        _pageService.updatePage( page );
+        FileItem item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
+
+        byte[] bytes = item.get(  );
+        String strMimeType = item.getContentType(  );
+
+        page.setImageContent( bytes );
+        page.setMimeType( strMimeType );
+        
+        _pageService.updatePage( page );        
 
         // Displays again the current page with the modifications
         return getUrlPage( page.getId(  ) );
     }
 
-
-
+    
     /**
      * Management of the image associated to the page
      * @param page The Page Object

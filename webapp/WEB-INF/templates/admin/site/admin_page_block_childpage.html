@@ -1,57 +1,42 @@
-<div class="container span3">
-	<div class="row">
-        <legend>#i18n{portal.site.admin_page.titleAddChildPage}</legend>
-        <form method="post"  action="jsp/admin/site/DoCreateChildPage.jsp">
-            <input type="hidden" name="page_id" value="${page.id}" />
-            <div id="page_create" class="admin-site-page">
-                <p>
-                    <label for="child_page_name">#i18n{portal.site.admin_page.labelChildPageName}
-                        <input type="text" name="page_name" size="40" maxlength="50" />
-                    </label>
-                </p>
-                <p>
-                    <label for="child_page_description">#i18n{portal.site.admin_page.labelDescription}
-                        <textarea name="page_description" rows="3" cols="34"></textarea>
-                    </label>
-                </p>
-                <p>
-                    <label for="roles_list">#i18n{portal.site.admin_page.labelRole}<br />
-                        <@comboSorted name="role" default_value="${page.role}" items=page_roles_list />
-                    </label>
-                </p>
-                <p>
-                    <label for="themes_list">#i18n{portal.site.admin_page.labelTheme}<br />
-                        <@comboSorted name="theme" default_value="${page.codeTheme}" items=page_themes_list />
-                    </label>
-                </p>
-                <p>
-                    <br /><strong>#i18n{portal.site.admin_page.labelPageTemplateList}</strong>
-                <table>
-                    <tr>
-            	            ${page_templates_list}
-                    </tr>
-                </table>
-                </p>
-                <p>
-                    <strong>#i18n{portal.site.admin_page.labelMetadata}</strong>
-                    <br />
-                    <label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords}
-                        <br />
-                        <input type="text" name="meta_keywords" size="40" maxlength="250" />
-                    </label>
-                </p>
-                <p>
-                    <label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}
-                        <br />
-                        <input type="text" name="meta_description" size="40" maxlength="250" />
-                    </label>
-                    #i18n{portal.site.admin_page.labelMetaDescriptionInfo}
-                </p>
-                <p>
-                    <input type="hidden" name="node_status" value="1" />
-                    <input type="submit" value="#i18n{portal.site.admin_page.buttonCreate}" class="button"/>
-                </p>
+<div class="row span11">
+    <form method="post"  action="jsp/admin/site/DoCreateChildPage.jsp" class="form-vertical" enctype="multipart/form-data">
+        <input type="hidden" name="page_id" value="${page.id}" />
+        <div class="span11">
+            <div class="span3 well">
+                <h3>#i18n{portal.site.admin_page.titleAddChildPage}</h3>
+                <label for="child_page_name">#i18n{portal.site.admin_page.labelChildPageName} </label>
+                <input type="text" name="page_name" class="input-large" />
+                <label for="child_page_description">#i18n{portal.site.admin_page.labelDescription} </label>
+                <textarea name="page_description" class="input-large"></textarea>
+                <label for="roles_list">#i18n{portal.site.admin_page.labelRole}</label>
+                <@comboSorted name="role" default_value="${page.role}" items=page_roles_list />
             </div>
-        </form>
-    </div>
+            <div class="span3 well">				
+                <h3>#i18n{portal.site.admin_page.labelTheme}</h3>
+                <@comboSorted name="theme" default_value="${page.codeTheme}" items=page_themes_list />
+
+                <h3>#i18n{portal.site.admin_page.labelMetadata}</h3>
+                <label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords}</label>  
+                <input type="text" name="meta_keywords" size="40" maxlength="250" />               
+                <label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}</label>
+                <input type="text" name="meta_description" size="40" maxlength="250" />
+                <p class="help-block"> #i18n{portal.site.admin_page.labelMetaDescriptionInfo}</p>
+
+                <h3>#i18n{portal.site.admin_page.labelPageTemplateList}</h3>
+                <dl class="unstyled">
+                    ${page_templates_list}							        
+                </dl>	
+            </div>
+            <div class="well span3">
+                <h3>#i18n{portal.site.admin_page.titlePictureProperties}</h3>
+                <label for="image_content">#i18n{portal.site.admin_page.labelNewPicture} </label>
+                <input class="input-file" id="image_content" name="image_content" type="file">
+
+            </div>
+            <span class="pull-right">
+                <input type="hidden" name="node_status" value="1" />
+                <input type="submit" value="#i18n{portal.site.admin_page.buttonCreate}" class="btn btn-primary"/>
+            </span>
+        </div>
+    </form>
 </div>

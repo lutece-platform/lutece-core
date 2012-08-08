@@ -11,10 +11,10 @@
                 <textarea name="page_description" class="input-large" >${page.description}</textarea>
                 <label for="parent_id">#i18n{portal.site.admin_page.labelParentPageId}</label>	
                 <#if page.id = 1>
-                <input type="hidden" name="parent_id" size="10" maxlength="10" value="${page.parentPageId}" />
+                <input type="hidden" name="parent_id" value="${page.parentPageId}" />
                 <span style="font-weight:normal;">#i18n{portal.site.admin_page.labelParentPageIdMessage}</span>
                 <#else>
-                <input type="text" name="parent_id" size="10" maxlength="10" value="${page.parentPageId}" />
+                <input type="text" name="parent_id" class="input-large" value="${page.parentPageId}" />
                 </#if>
                 <label for="page_order_list">#i18n{portal.site.admin_page.labelOrderPage}</label>
                 <@comboSorted name="order" default_value="${page.order}" items=page_order_list />
@@ -41,7 +41,7 @@
                 <h3>#i18n{portal.site.admin_page.labelMetadata}</h3>
 
                 <label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords} </label>
-                <input type="text" name="meta_keywords" size="40" maxlength="250"
+                <input type="text" name="meta_keywords" class="input-large"
                        <#if page.metaKeywords?exists && page.metaKeywords?has_content>
                        value="${page.metaKeywords}"
                        <#else>
@@ -49,17 +49,17 @@
                        </#if>
                        />
 
-                       <label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}</label> 
-                <input type="text" name="meta_description" size="40" maxlength="250"
+                <label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}</label> 
+                <input type="text" name="meta_description" class="input-large"
                        <#if page.metaDescription?exists && page.metaDescription?has_content>
                        value="${page.metaDescription}"
                        <#else>
                        value=""
                        </#if>
                        />
-
-                       <h3>#i18n{portal.site.admin_page.labelPageTemplateList}</h3>
-
+                 <p class="help-block"> #i18n{portal.site.admin_page.labelMetaDescriptionInfo}</p>
+                 
+                <h3>#i18n{portal.site.admin_page.labelPageTemplateList}</h3>
                 <dl class="unstyled">
                     ${page_templates_list}
                 </dl>	
@@ -67,9 +67,9 @@
             <div class="well span3">
                 <h3>#i18n{portal.site.admin_page.titlePictureProperties}</h3>
                 <img src="${image_url}"  class="responsive-image" border="1" alt="#i18n{portal.site.admin_page.labelAltImgDefinition}" />
-                <label for="image_content">#i18n{portal.site.admin_page.labelNewPicture}
-                    <input class="input-file" id="image_content" name="image_content" type="file">
-                </label>
+                <label for="image_content">#i18n{portal.site.admin_page.labelNewPicture} </label>
+                <input class="input-file" id="image_content" name="image_content" type="file">
+               
             </div>
             <span class="pull-right">
                 <input type="submit" value="#i18n{portal.site.admin_page.buttonModify}" class="btn btn-primary"/>
