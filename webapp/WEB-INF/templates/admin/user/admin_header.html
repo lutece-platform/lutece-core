@@ -1,133 +1,75 @@
 <div class="container">
-<a name="top"></a>
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-        <a href="jsp/site/Portal.jsp"   title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
-		<img src="images/logo-header.png" alt="logo" title="" /> &nbsp;<i class="icon-globe icon-white"></i>&nbsp;${site_name}
-			</a>
-        <div class="nav-collapse">
-			<ul class="nav">
-			<#list feature_group_list as feature_group>
-			<li class="dropdown">
-				<a data-toggle="dropdown" class="dropdown-toggle" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
-				<ul class="dropdown-menu">
-					<#list feature_group.features as feature >
-					<li>
-					<a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
-					</li>
-					</#list>
-				</ul>
-			</li>
-			</#list>
-		</ul>
-		<ul class="nav pull-right">
-		<li>
-		<div class="btn-group">
-        <a href="jsp/admin/AdminMenu.jsp" class="btn btn-info" title="#i18n{portal.users.admin_header.title.homePage}"><i class="icon-home icon-white"></i>&nbsp;#i18n{portal.users.admin_header.homePage}</a>
-		<!-- a href="jsp/site/Portal.jsp" class="btn btn-info" target="_blank" title="#i18n{portal.users.admin_header.title.viewSite}">
-		<i class="icon-globe icon-white"></i>&nbsp;#i18n{portal.users.admin_header.viewSite}</a -->
-		</div>
-		</li>
-        <li>
-        <div class="btn-group">
-        <a href="#" class="btn btn-primary"><i class="icon-user icon-white"></i>&nbsp;<#if dashboard_zone_4?has_content>${dashboard_zone_4}</#if></a>
-        <a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle"><span class="caret"></span></a>
-        <ul class="dropdown-menu">
-		<li><a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="icon-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a></li>
-		
-		<#if user.accessibilityMode>
-		    <li><a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}"><i class="icon-eye-open"></i>&nbsp;#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}</a>
-			</li>
-		<#else>
-			<li><a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelActivateAccessibilityMode}"><i class="icon-eye-close"></i>&nbsp;#i18n{portal.users.admin_header.labelActivateAccessibilityMode}</a>
-			</li>
-		</#if>
-        <#if user.userLevel == 0>
-			<li><a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.users.admin_header.title.technicalMenu}">
-			<i class="icon-wrench"></i>&nbsp;#i18n{portal.users.admin_header.technicalMenu}</a>
-			</li>
-		</#if>
-		<#if admin_summary_documentation_url?exists>
-		<li>
-		<a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">
-		<i class="icon-question-sign"></i>&nbsp;#i18n{portal.users.admin_header.documentation}</a>
-		</li>
-		</#if>
-        <li class="divider"></li>
-        <li><#if admin_logout_url?has_content>
-			<a href="${admin_logout_url}"><i class="icon-off"></i>&nbsp;#i18n{portal.users.admin_header.deconnectionLink}</a>
-			</#if>
-		</li>
-    </ul>
+    <a name="top"></a>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a href="jsp/site/Portal.jsp"   title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
+                    <img src="images/logo-header.png" alt="logo" title="" /> &nbsp;<i class="icon-globe icon-white"></i>&nbsp;${site_name}
+                </a>
+                <div class="nav-collapse">
+                    <ul class="nav">
+                        <#list feature_group_list as feature_group>
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <#list feature_group.features as feature >
+                                <li>
+                                    <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
+                                </li>
+                                </#list>
+                            </ul>
+                        </li>
+                        </#list>
+                    </ul>
+                    <ul class="nav pull-right">
+                        <li>
+                            <div class="btn-group">
+                                <a href="jsp/admin/AdminMenu.jsp" class="btn btn-info" title="#i18n{portal.users.admin_header.title.homePage}"><i class="icon-home icon-white"></i>&nbsp;#i18n{portal.users.admin_header.homePage}</a>
+                                <!-- a href="jsp/site/Portal.jsp" class="btn btn-info" target="_blank" title="#i18n{portal.users.admin_header.title.viewSite}">
+                                <i class="icon-globe icon-white"></i>&nbsp;#i18n{portal.users.admin_header.viewSite}</a -->
+                            </div>
+                        </li>
+                        <li>
+                            <div class="btn-group">
+                                <a href="#" class="btn btn-primary"><i class="icon-user icon-white"></i>&nbsp;<#if dashboard_zone_4?has_content>${dashboard_zone_4}</#if></a>
+                                <a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle"><span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="icon-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a></li>
+
+                                    <#if user.accessibilityMode>
+                                    <li><a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}"><i class="icon-eye-open"></i>&nbsp;#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}</a>
+                                    </li>
+                                    <#else>
+                                    <li><a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelActivateAccessibilityMode}"><i class="icon-eye-close"></i>&nbsp;#i18n{portal.users.admin_header.labelActivateAccessibilityMode}</a>
+                                    </li>
+                                    </#if>
+                                    <#if user.userLevel == 0>
+                                    <li><a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.users.admin_header.title.technicalMenu}">
+                                            <i class="icon-wrench"></i>&nbsp;#i18n{portal.users.admin_header.technicalMenu}</a>
+                                    </li>
+                                    </#if>
+                                    <#if admin_summary_documentation_url?exists>
+                                    <li>
+                                        <a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">
+                                            <i class="icon-question-sign"></i>&nbsp;#i18n{portal.users.admin_header.documentation}</a>
+                                    </li>
+                                    </#if>
+                                    <li class="divider"></li>
+                                    <li><#if admin_logout_url?has_content>
+                                        <a href="${admin_logout_url}"><i class="icon-off"></i>&nbsp;#i18n{portal.users.admin_header.deconnectionLink}</a>
+                                        </#if>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul> 
+                </div><!-- /.nav-collapse -->
+            </div>
+        </div><!-- /navbar-inner -->
     </div>
-		</li>
-      </ul> 
-        </div><!-- /.nav-collapse -->
-      </div>
-    </div><!-- /navbar-inner -->
- </div>
- </div>
-
-
-<!-- 
-<div tabindex="-1" aria-label="Main menu" role="navigation">
-	<ul role="menubar" class="menubar root-level" id="nav">
-		<li title="About Menu" aria-haspopup="true" tabindex="0" role="menuitem" class="menu-parent">
-			About
-			<ul aria-hidden="true" class="menu" role="menu" id="about">
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">News</a></li>
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">Governance</a></li>
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">Diversity</a></li>
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">ContactUs</a></li>
-			</ul>
-		</li>
-		<li title="Academics Menu" aria-haspopup="true" tabindex="0" role="menuitem" class="menu-parent">
-			Academics
-			<ul aria-hidden="true" class="menu" role="menu">
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">Degree Programs</a></li>
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">Faculty</a></li>
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">Distance Learning</a></li>
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">Libraries</a></li>
-			</ul>
-		</li>
-		<li title="Admissions Menu" aria-haspopup="true" tabindex="0" role="menuitem" class="menu-parent">
-			Admissions
-			<ul aria-hidden="true" class="menu" role="menu">
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">Undergraduate</a></li>
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">Tuition</a></li>
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">Financial Aid</a></li>
-			</ul>
-		</li>
-		<li title="Visitors Menu" aria-haspopup="true" tabindex="0" role="menuitem" class="menu-parent">
-			Visitors
-			<ul aria-hidden="true" class="menu" role="menu">
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">Events</a></li>
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">Campus Map</a></li>
-				<li tabindex="-1" class="menu-item" role="menuitem">
-					<a href="../generic.html">Parking</a></li>
-			</ul>
-		</li>
-	</ul>	
 </div>
- -->
-
-
