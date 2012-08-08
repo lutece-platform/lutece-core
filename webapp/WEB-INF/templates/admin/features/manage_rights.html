@@ -1,6 +1,9 @@
-<div class="well" >
-    <h2 class="well-header">#i18n{portal.features.manage_rights.boxTitle}</h2>
-    <table>
+<div class="row">
+<div class="container">
+<div class="span12">
+<fieldset>
+<legend>#i18n{portal.features.manage_rights.boxTitle}</legend>
+ <table class="table table-striped table-condensed">
         <tr>            
             <th>#i18n{portal.features.manage_rights.columnTitleName}</th>
             <th>#i18n{portal.features.manage_rights.columnTitleDescription}</th>
@@ -14,12 +17,15 @@
 	            <td>${right.description}</td>
 	            <td>${right.level}</td>
 	            <td>
-	            	<a href="jsp/admin/features/AssignUsersRight.jsp?id_right=${right.id}">
-	            		<img title="#i18n{portal.features.manage_rights.buttonLabelAssignUsers}" alt="#i18n{portal.features.manage_rights.buttonLabelAssignUsers}"src="images/admin/skin/actions/group.png" />
-	            	</a>
+	            	<a class="btn btn-primary btn-mini" href="jsp/admin/features/AssignUsersRight.jsp?id_right=${right.id}"  title="#i18n{portal.features.manage_rights.buttonLabelAssignUsers}" >
+	<i class="icon-user icon-white"></i>
+	</a>
+
 	            </td>
 	        </tr>
         </#list>
     </table>
+</div>
+</div>
 </div>
 

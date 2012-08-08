@@ -1,26 +1,25 @@
-<div class="row" >
-    <legend>#i18n{portal.rbac.select_resource_ids.titleSelectIds}</legend>
-    <form class="form-horizontal" method="post"  action="jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp" name="ids">
-	<fieldset>
-        #i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList} :
-        
-            <#list resource_id_list as item>
-            <div class="controls">
-	<input class="checkbox" type="checkbox" name="resource_id" value="${item.code}" />
-		</div>
-	</div>${item.name}<br/>
-            </#list>
-        
-        
-            <input type="hidden" name="role_key" value="${role_key}" />
-            <input type="hidden" name="resource_type" value="${resource_type}" />
-            <input type="hidden" name="select_resources" value="${select_resources}" />
-
-            <button class="btn btn-primary" type="submit" >#i18n{portal.rbac.select_resource_ids.buttonLabelValidate}</button>
-	
-            <button class="btn btn-primary" onclick="javascript:history.go(-1)" >#i18n{portal.rbac.select_resource_ids.buttonLabelCancel}</button>
-	
-        
-    </fieldset>
+<div class="row">
+<div class="container">
+<div class="span6 offset2">
+<fieldset>
+<legend>#i18n{portal.rbac.select_resource_ids.titleSelectIds}</legend>
+<form class="form-horizontal" method="post"  action="jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp" name="ids">
+#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList} :
+<#list resource_id_list as item>
+<div class="controls">
+<input class="checkbox" type="checkbox" name="resource_id" value="${item.code}" />
+</div>
+</div>${item.name}</div>
+</#list>
+<input type="hidden" name="role_key" value="${role_key}" />
+<input type="hidden" name="resource_type" value="${resource_type}" />
+<input type="hidden" name="select_resources" value="${select_resources}" />
+<div class="form-actions">
+<button class="btn btn-primary" type="submit" >#i18n{portal.rbac.select_permissions.buttonLabelValidate}</button>
+<button class="btn btn-primary" onclick="javascript:history.go(-1)" >#i18n{portal.rbac.select_permissions.buttonLabelCancel}</button>
+</div>
+</fieldset>
 </form>
+</div>
+</div>
 </div>

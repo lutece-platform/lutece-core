@@ -1,21 +1,30 @@
-<div class="content-box" >
-    <h2 class="content-box-header">#i18n{portal.mailinglist.add_users.title}</h2>
-    
-    <form method="post"  action="jsp/admin/mailinglist/DoAddUsers.jsp">
-        <input type="hidden" name="id_mailinglist" value="${mailinglist.id}" />
-        
-        <p>
-            <label for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelWorkgroup}* : </label>
-            <@comboSorted name="workgroup" default_value="all" items=workgroups_list />
-        </p>
-        <p>
-            <label for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelRole}* : </label>
-            <@comboSorted name="role" default_value="none" items=roles_list />
-        </p>
-        <p>
-            <input class="button" type="submit" value="#i18n{portal.mailinglist.add_users.buttonAdd}" />
-            <input class="button" type="button" value="#i18n{portal.util.labelCancel}" onClick="javascript:history.go(-1);" />
-        </p>
-    </form>
-    
+<div class="row">
+<div class="container">
+<div class="span6 offset2">
+<fieldset>
+<legend>#i18n{portal.mailinglist.add_users.title}</legend>
+<form class="form-horizontal" method="post"  action="jsp/admin/mailinglist/DoAddUsers.jsp">
+<input type="hidden" name="id_mailinglist" value="${mailinglist.id}" />
+<div class="control-group">
+<label class="control-label" for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelWorkgroup}* : </label>
+<div class="controls">
+<div class="controls">
+<@comboSorted name="workgroup" default_value="all" items=workgroups_list />
+</div>
+</div>
+<div class="control-group">
+<label class="control-label" for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelRole}* : </label>
+<div class="controls">
+<div class="controls">
+<@comboSorted name="role" default_value="none" items=roles_list />
+</div>
+</div>
+<div class="form-actions">
+<button class="btn btn-primary" type="submit" >#i18n{portal.mailinglist.add_users.buttonAdd}</button>
+<button class="btn btn-primary" onclick="null" >#i18n{portal.util.labelCancel}</button>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
 </div>

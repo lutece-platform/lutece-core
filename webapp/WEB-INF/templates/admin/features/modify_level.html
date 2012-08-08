@@ -1,17 +1,19 @@
-<div class="well">	
-	<h2 class="well-header">#i18n{portal.features.modify_level.boxTitle} ${level.id}</h2>
-	<form method="post" action="jsp/admin/features/DoModifyLevel.jsp" name="modify_level">
-            <p>
-            	<#-- LUTECE-1107: label seems useless before hidden field. -->
-                <#-- <label>#i18n{portal.features.modify_level.labelId}</label> -->
-                <input type="hidden" name="level_id" value="${level.id}" />		
-            </p>						
-            <p>
-		<label for="level_name" >#i18n{portal.features.modify_level.labelName}</label>
-                <input type="text" name="level_name" value="${level.name}" tabindex="1" size="60" maxlength="80" />			
-            </p>
-            <p>
-            	<input type="submit" value="#i18n{portal.features.modify_level.buttonLabelModify}" tabindex="2" class="button" />
-            </p>							 
-	</form>				      	
+<div class="row">
+<div class="container">
+<div class="span12">
+<fieldset>
+<legend>#i18n{portal.features.modify_level.boxTitle} ${level.id}</legend>
+<form method="post" class="form-horizontal" action="jsp/admin/features/DoModifyLevel.jsp" name="modify_level">
+<#-- LUTECE-1107: label seems useless before hidden field. -->
+<#-- <label>#i18n{portal.features.modify_level.labelId}</label> -->
+<input type="hidden" name="level_id" value="${level.id}" />		
+<label for="level_name" >#i18n{portal.features.modify_level.labelName}</label>
+<input type="text" name="level_name" value="${level.name}" tabindex="1" size="60" maxlength="80" />			
+<div class="form-actions">
+<input type="submit" value="#i18n{portal.features.modify_level.buttonLabelModify}" tabindex="2" class="btn btn-primary" />
+</div>
+</form>
+</fieldset>						 
+</div>
+</div>
 </div>

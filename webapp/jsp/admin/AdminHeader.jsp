@@ -45,7 +45,7 @@ body {padding-top: 60px;padding-bottom: 40px;}
 	}
 %>
 <link rel="stylesheet" type="text/css" href="css/print_admin.css" media="print" />
-
+<script src="js/jquery/jquery.min.js"></script>
 </head>
 <body>
 <%-- Display the admin menu --%>

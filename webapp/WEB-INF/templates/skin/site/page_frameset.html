@@ -42,17 +42,14 @@ ${rss?default("<!-- no RSS feed -->")}
 <link rel="stylesheet" href="js/jquery/plugins/ui/datepicker/ui.datepicker.css" type="text/css" media="screen, projection" />
 <link rel="stylesheet" href="js/jquery/plugins/autocomplete/jquery.autocomplete.css" type="text/css" media="screen, projection" />
 ${plugins_css_links}
-
 <#if plugin_theme?? >
 <link rel="stylesheet"  href="${plugin_theme.pathCss}/page_template_styles.css" type="text/css"  media="screen" />
 <#else>
 <link rel="stylesheet" href="${theme.pathCss}/page_template_styles.css" type="text/css" media="screen, projection" />
 </#if>
-
 ${statistical_include_head}
 </head>
 <body>
-
  <!-- header -->
 <header role="banner">
 <div id="header">

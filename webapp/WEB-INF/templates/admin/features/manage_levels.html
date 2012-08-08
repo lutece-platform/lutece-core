@@ -1,22 +1,28 @@
-<div id="content-box-actions">
-<form method="post"  action="jsp/admin/features/CreateLevel.jsp">
-        <p><input type="submit" tabindex="1" value="#i18n{portal.features.manage_levels.buttonLabelCreate}" class="btn" /></p>
-    </form>
-</div>
-<div class="content-box" >
-    <h2 class="content-box-header">#i18n{portal.features.manage_levels.boxTitle}</h2>
-    <table class="table table-striped table-bordered table-condensed">
+<div class="row">
+<div class="container">
+<div class="span12">
+<fieldset>
+<legend class="clearfix">#i18n{portal.features.manage_levels.boxTitle}
+<span class="pull-right">
+<form method="post"  action="jsp/admin/features/CreateLevel.jsp" class="form-inline">
+<button type="submit" tabindex="1" class="btn btn-primary"><i class="icon-plus icon-white"></i>&nbsp;#i18n{portal.features.manage_levels.buttonLabelCreate}</button>
+ </form>
+ </span>
+</legend>
+<table class="table table-striped table-bordered table-condensed">
         <tr>            
             <th >#i18n{portal.features.manage_levels.columnTitleId}</th>
             <th >#i18n{portal.features.manage_levels.columnTitleName}</th>
+			 <th >#i18n{portal.features.manage_groups.labelActions}</th>
         </tr>
        
         <#list levels_list as level >
         <tr>
             <td>
-                <a href="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" class="bullet-link">${level.id}</a>
+                ${level.id}
             </td>
             <td>${level.name}</td>
+            <td><a href="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" class="btn btn-mini btn-primary"><i class="icon-edit icon-white"></i></a></td>
         </tr>			
         </#list>
     </table>
