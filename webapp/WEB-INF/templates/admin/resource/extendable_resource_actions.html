@@ -1,0 +1,11 @@
+<#if listExtendableResourceActions?? && listExtendableResourceActions?has_content>
+	<form method="post" action="jsp/admin/resource/DoProcessExtendableResourceAction.jsp">
+		<div id="content-box-actions">
+			<#list listExtendableResourceActions as resourceTypeAction>
+				<#if resourceTypeAction.buttonTemplate?has_content>
+					<#include resourceTypeAction.buttonTemplate />
+				</#if>
+			</#list>
+		</div>
+	</form>
+</#if>
