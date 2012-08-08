@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.content.ContentService;
+import fr.paris.lutece.portal.service.fileupload.FileUploadService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
@@ -65,6 +66,7 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
+import java.io.File;
 
 import org.apache.commons.fileupload.FileItem;
 
@@ -109,10 +111,11 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_IMAGE_CONTENT = "image_content";
     private static final String PARAMETER_NODE_STATUS = "node_status";
     private static final String PARAMETER_BLOCK = "param_block";
+    private static final String PARAMETER_PORTLET_TYPE = "portlet_type";
+    private static final String PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE = "update_image";
+    
     private static final int BLOCK_SEARCH = 1;
     private static final int BLOCK_PROPERTY = 2;
-    private static final int BLOCK_IMAGE = 3;
-    private static final int BLOCK_PORTLET = 4;
     private static final int BLOCK_CHILDPAGE = 5;
 
     // Templates
@@ -131,7 +134,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     // Jsp
     private static final String JSP_ADMIN_SITE = "AdminSite.jsp";
     private static final String JSP_REMOVE_PAGE = "jsp/admin/site/DoRemovePage.jsp";
-
+    
     //Messages
     private static final String MESSAGE_TITLE_INVALID_CHARACTERS = "portal.site.message.invalidCharactersInTitleName";
     private static final String MESSAGE_DESCRIPTION_INVALID_CHARACTERS = "portal.site.message.invalidCharactersInDescription";
@@ -159,8 +162,9 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         }
 
         String strParamBlock = request.getParameter( PARAMETER_BLOCK );
+        String strPortletType = request.getParameter( PARAMETER_PORTLET_TYPE );
 
-        return getAdminPageBlock( strPageId, strParamBlock );
+        return getAdminPageBlock( strPageId, strParamBlock, strPortletType );
     }
 
     /**
@@ -235,14 +239,31 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             PageService.updateChildrenAuthorizationNode( page.getId(  ), page.getIdAuthorizationNode(  ) );
         }
 
-        
+        String strUpdatePicture = mRequest.getParameter( PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE );
         FileItem item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
+             
+        boolean bUpdatePicture = false;
+        String strPictureName = FileUploadService.getFileNameOnly( item );        
+        if ( strUpdatePicture != null )
+        {
+            if ( strPictureName.equals( "" ) )
+            {
+                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FILE, AdminMessage.TYPE_STOP );
+            }
+            else
+            {
+                bUpdatePicture = true;
+            }
+        }        
+        
+        if ( bUpdatePicture )
+        {
+            byte[] bytes = item.get(  );
+            String strMimeType = item.getContentType(  );            
+            page.setImageContent( bytes );
+            page.setMimeType( strMimeType );
+        }        
 
-        byte[] bytes = item.get(  );
-        String strMimeType = item.getContentType(  );
-
-        page.setImageContent( bytes );
-        page.setMimeType( strMimeType );
         
         // Updates the page
         _pageService.updatePage( page );
@@ -373,7 +394,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * @param strParamBlock The block parameter to display
      * @return The management page of a page
      */
-    private String getAdminPageBlock( String strPageId, String strParamBlock )
+    private String getAdminPageBlock( String strPageId, String strParamBlock, String strPortletType )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
 
@@ -420,7 +441,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             case BLOCK_PROPERTY:
             case BLOCK_CHILDPAGE:
                 model.put( MARK_PAGE_BLOCK, getAdminPageBlockProperty( page, nParamBlock, model ) );
-
+              
                 break;
 
             default:
@@ -507,6 +528,10 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         return template.getHtml(  );
     }
 
+       
+ 
+
+
     /**
      * Provide page data
      * @param request The HttpServletRequest
@@ -528,7 +553,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strTheme = request.getParameter( Parameters.THEME );
         String strMetaKeywords = request.getParameter( Parameters.META_KEYWORDS ).trim(  );
         String strMetaDescription = request.getParameter( Parameters.META_DESCRIPTION ).trim(  );
-
+         
         /* Added in v2.0 */
         String strNodeStatus = request.getParameter( PARAMETER_NODE_STATUS );
         int nNodeStatus = Integer.parseInt( strNodeStatus );
@@ -578,6 +603,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         int nOrder = ( strOrder != null ) ? Integer.parseInt( strOrder ) : PageHome.getNewChildPageOrder( nPageId );
 
+        
+        
         page.setPageTemplateId( nTemplatePageId );
         page.setDescription( strDescription );
         page.setOrder( nOrder );

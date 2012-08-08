@@ -36,7 +36,7 @@
             <ul class="dropdown-menu">
                 <#if portlet_types_list?has_content>		
                 <li><#list portlet_types_list?sort_by("name") as portlet_type>
-                    <a href="jsp/admin/DoCreatePortlet.jsp?page_id=1&portlet_type_id=${portlet_type.id}&page_id=${page.id}" class="link" target="preview">${portlet_type.name}</a>			  
+                    <a href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&page_id=${page.id}" class="link" target="preview">${portlet_type.name}</a>                    
                     </#list>
                 </li>
                 </#if>
@@ -53,7 +53,7 @@
     <#if page.id != 1>
     <span class="pull-right" >
         <a href="jsp/admin/site/RemovePage.jsp?page_id=${page.id}" class="btn btn-danger">
-            <i class="icon-remove-sign icon-white"  alt="#i18n{portal.site.admin_page.buttonDeletePage}" title="#i18n{portal.site.admin_page.buttonDeletePage}" ></i>            
+            <i class="icon-trash icon-white"  alt="#i18n{portal.site.admin_page.buttonDeletePage}" title="#i18n{portal.site.admin_page.buttonDeletePage}" ></i>            
         </a>	
     </span>	
     <span class="pull-right" >

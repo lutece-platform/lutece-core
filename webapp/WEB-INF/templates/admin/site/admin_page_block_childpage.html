@@ -33,10 +33,22 @@
                 <input class="input-file" id="image_content" name="image_content" type="file">
 
             </div>
-            <span class="pull-right">
-                <input type="hidden" name="node_status" value="1" />
-                <input type="submit" value="#i18n{portal.site.admin_page.buttonCreate}" class="btn btn-primary"/>
-            </span>
+            <div class="span3">
+                <span class="pull-right">                
+                    <input type="hidden" name="node_status" value="1" />
+                    <input type="submit" value="#i18n{portal.site.admin_page.buttonCreate}" class="btn btn-primary"/>
+                </span>
+                </form>
+                <span class="pull-right"> 
+                    &nbsp;
+                </span>
+                <span class="pull-right"> 
+                    <form method="post"   action="jsp/admin/site/AdminSite.jsp" class="form-vertical" >            
+                        <input type="hidden" name="page_id" value="${page.id}" />
+                        <input type="submit" value="#i18n{portal.site.admin_page.buttonClosed}" class="btn"/>
+                    </form>
+                </span>   
+            </div>            
         </div>
     </form>
 </div>
