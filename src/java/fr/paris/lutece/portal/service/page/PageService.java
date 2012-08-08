@@ -602,22 +602,24 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 return strPortlet;
             }
         }
-
+        
+        String strPortletContent = null;
+        // Add the admin buttons for portlet management on admin mode
+        if ( nMode == MODE_ADMIN )
+        {
+            strPortletContent = addAdminButtons( request, portlet );
+        }
+        
         XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
         String strPortletXmlContent = portlet.getXml( request );
-        String strPortletContent = xmlTransformerService.transformBySourceWithXslCache( strPortletXmlContent,
+         strPortletContent += xmlTransformerService.transformBySourceWithXslCache( strPortletXmlContent,
                 portlet.getXslSource( nMode ), strXslUniqueId, mapParams, outputProperties );
 
         if ( _cachePortlets.isCacheEnable(  ) )
         {
             _cachePortlets.putInCache( strKey, strPortletContent );
         }
-
-        // Add the admin buttons for portlet management on admin mode
-        if ( nMode == MODE_ADMIN )
-        {
-            strPortletContent += addAdminButtons( request, portlet );
-        }
+       
 
         return strPortletContent;
     }

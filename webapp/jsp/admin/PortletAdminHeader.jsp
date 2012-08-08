@@ -17,5 +17,6 @@
 <!-- Le fav and touch icons -->
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="stylesheet" href="../../css/portal_admin.css" />
+<style>body{padding-top:0;}</style>
 </head>
 <body>
