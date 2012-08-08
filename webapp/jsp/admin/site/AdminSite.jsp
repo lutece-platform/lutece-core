@@ -31,24 +31,9 @@
 
     int nParamBlock = strParamBlock != null ? Integer.parseInt( strParamBlock ) : 0;
 
-    switch ( nParamBlock )
-    {
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-            strClassPreview = "preview";
-            break;
 
-        default:
-            strClassPreview = "preview-toolbar";
-            break;
-    }
 %>
 <div id="container">
-	<div class=<%= strClassPreview %> >
 		<iframe name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="98%" height="750" scrolling="auto">Pr&eacute;visualisation du site</iframe>
-	</div>
 </div>
 <%@ include file="../AdminFooter.jsp"%>

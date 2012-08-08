@@ -120,8 +120,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_ADMIN_PAGE = "admin/site/admin_page.html";
     private static final String TEMPLATE_ADMIN_PAGE_BLOCK_SEARCH = "admin/site/admin_page_block_search.html";
     private static final String TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY = "admin/site/admin_page_block_property.html";
-    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_IMAGE = "admin/site/admin_page_block_image.html";
-    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_PORTLET = "admin/site/admin_page_block_portlet.html";
     private static final String TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE = "admin/site/admin_page_block_childpage.html";
 
     // Properties definition
@@ -196,23 +194,24 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyPage( HttpServletRequest request )
     {
-        int nPageId = Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
+        MultipartHttpServletRequest mRequest = ( MultipartHttpServletRequest) request;
+        int nPageId = Integer.parseInt( mRequest.getParameter( Parameters.PAGE_ID ) );
 
         Page page = PageHome.getPage( nPageId );
         Integer bOldAutorisationNode = page.getIdAuthorizationNode(  );
 
-        String strErrorUrl = getPageData( request, page );
+        String strErrorUrl = getPageData( mRequest, page );
 
         if ( strErrorUrl != null )
         {
             return strErrorUrl;
         }
 
-        int nParentPageId = Integer.parseInt( request.getParameter( Parameters.PARENT_ID ) );
+        int nParentPageId = Integer.parseInt( mRequest.getParameter( Parameters.PARENT_ID ) );
 
         if ( nParentPageId != page.getParentPageId(  ) )
         {
-            strErrorUrl = getNewParentPageId( request, page, nParentPageId );
+            strErrorUrl = getNewParentPageId( mRequest, page, nParentPageId );
 
             if ( strErrorUrl != null )
             {
@@ -236,8 +235,20 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             PageService.updateChildrenAuthorizationNode( page.getId(  ), page.getIdAuthorizationNode(  ) );
         }
 
+        
+        FileItem item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
+
+        byte[] bytes = item.get(  );
+        String strMimeType = item.getContentType(  );
+
+        page.setImageContent( bytes );
+        page.setMimeType( strMimeType );
+        
         // Updates the page
         _pageService.updatePage( page );
+        
+        //Updates the image
+        //doDefineImage( request );
 
         // Displays again the current page with the modifications
         return getUrlPage( nPageId );
@@ -328,32 +339,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         return getUrlPage( page.getId(  ) );
     }
 
-    /**
-     * Associate an image to the current page
-     *
-     * @param request The http request
-     * @return The Jsp URL of the process result
-     */
-    public String doDefineImage( HttpServletRequest request )
-    {
-        MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
-        String strPageId = mRequest.getParameter( Parameters.PAGE_ID );
-        int nPageId = Integer.parseInt( strPageId );
 
-        Page page = PageHome.getPage( nPageId );
-
-        FileItem item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
-
-        byte[] bytes = item.get(  );
-        String strMimeType = item.getContentType(  );
-
-        page.setImageContent( bytes );
-        page.setMimeType( strMimeType );
-        _pageService.updatePage( page );
-
-        // Displays again the current page
-        return getUrlPage( nPageId );
-    }
 
     /**
      * Management of the image associated to the page
@@ -431,22 +417,14 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
                 break;
 
-            case BLOCK_IMAGE:
-                model.put( MARK_PAGE_BLOCK, getAdminPageBlockImage( page, model ) );
-
-                break;
-
-            case BLOCK_PORTLET:
-         /*       model.put( MARK_PAGE_BLOCK, getAdminPageBlockPortlet( page, model ) );*/            
-
-                break;
-
             default:
                 model.put( MARK_PAGE_BLOCK, "" );
 
                 break;
         }
         
+
+
         model.put( MARK_PORTLET_TYPES_LIST, getPortletTypeList( getUser(  ) ) );
         model.put( MARK_PAGE, page );
 
@@ -470,6 +448,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PAGE_ORDER_LIST, getOrdersList(  ) );
         model.put( MARK_PAGE_ROLES_LIST, RoleHome.getRolesList( getUser(  ) ) );
         model.put( MARK_PAGE_THEMES_LIST, ThemesService.getPageThemes( getLocale(  ) ) );
+        model.put( MARK_IMAGE_URL, getResourceImagePage( page, Integer.toString( page.getId(  ) ) ) );
 
         int nIndexRow = 1;
         StringBuffer strPageTemplatesRow = new StringBuffer(  );
@@ -518,40 +497,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PAGE_INIT_ID, Integer.toString( nPageIdInit ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_SEARCH, getLocale(  ), model );
-
-        return template.getHtml(  );
-    }
-
-    /**
-     * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
-     *
-     * @param page The page object
-     * @param model The HashMap
-     * @return The management page of a page
-     */
-    private String getAdminPageBlockImage( Page page, Map model )
-    {
-        model.put( MARK_PAGE, page );
-        model.put( MARK_IMAGE_URL, getResourceImagePage( page, Integer.toString( page.getId(  ) ) ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_IMAGE, getLocale(  ), model );
-
-        return template.getHtml(  );
-    }
-
-    /**
-     * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
-     *
-     * @param page The page object
-     * @param model The HashMap
-     * @return The management page of a page
-     */
-    private String getAdminPageBlockPortlet( Page page, Map model )
-    {
-        model.put( MARK_PAGE, page );
-        model.put( MARK_PORTLET_TYPES_LIST, getPortletTypeList( getUser(  ) ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_PORTLET, getLocale(  ), model );
 
         return template.getHtml(  );
     }

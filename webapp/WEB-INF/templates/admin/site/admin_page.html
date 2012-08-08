@@ -1,61 +1,71 @@
 <div id="well-actions">
-        <a class="brand" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">Page ${page.name} - Id ${page.id} </a>
-	<span class="pull-right" >
-    <form method="post"  action="jsp/admin/site/AdminSite.jsp" class="form-search">
-	     <input type="text" name="page_id" class="input-small" value="" />
-	        <button type="submit" class="btn btn-primary">
-				<i class="icon-filter icon-white"></i>
-				<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonSearchPage}</span>
-	        </button>        
-        <#if page_message!=""><br /><span class="label label-important">${page_message}</span><#else/></#if>
-	</form>	
-</span> 
+    <a class="brand" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">Page ${page.name} - Id ${page.id} </a>
+    <span class="pull-right" >
+        <form method="post"  action="jsp/admin/site/AdminSite.jsp" class="form-search">
+            <input type="text" name="page_id" class="input-small" value="" />
+            <button type="submit" class="btn btn-primary">
+                <i class="icon-filter icon-white"></i>
+                <span class="hidden-phone" >#i18n{portal.site.admin_page.buttonSearchPage}</span>
+            </button>        
+            <#if page_message!=""><br /><span class="label label-important">${page_message}</span><#else/></#if>
+        </form>	
+    </span> 
 
 
-<span class="pull-right">
-    <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary">
-		<i class="icon-map-marker icon-white" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>#i18n{portal.site.admin_page.tabAdminMapSite} 
-		
-	</a>
-</span> 
-<span class="pull-right">
-    <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary">
-		<i class="icon-plus-sign icon-white"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
-		<span class="hidden-phone" >#i18n{portal.site.admin_page.labelChildPagePage}</span>
-	</a>
-</span> 
-<span class="pull-right">
+    <span class="pull-right">
+        <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary">
+            <i class="icon-map-marker icon-white" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>
+            <span class="hidden-phone" >#i18n{portal.site.admin_page.tabAdminMapSite}</span>
 
-    <div class="btn-group">
-    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=">
-		<i class="icon-th-large icon-white" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}" ></i>#i18n{portal.site.admin_page.labelPortletPage}		
-    <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu">
-    <#if portlet_types_list?has_content>		
- 		<li><#list portlet_types_list?sort_by("name") as portlet_type>
-                <a href="jsp/admin/DoCreatePortlet.jsp?page_id=1&portlet_type_id=${portlet_type.id}&page_id=${page.id}" class="link" target="preview">${portlet_type.name}</a>			  
-            </#list>
-		</li>
+        </a>
+    </span> 
+    <span class="pull-right">
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary">
+            <i class="icon-plus-sign icon-white"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
+            <span class="hidden-phone" >#i18n{portal.site.admin_page.labelChildPagePage}</span>
+        </a>
+    </span> 
+    <span class="pull-right">
+
+        <div class="btn-group">
+            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=">
+                <i class="icon-th-large icon-white" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}" ></i>
+                <span class="hidden-phone" >#i18n{portal.site.admin_page.labelPortletPage}</span>
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <#if portlet_types_list?has_content>		
+                <li><#list portlet_types_list?sort_by("name") as portlet_type>
+                    <a href="jsp/admin/DoCreatePortlet.jsp?page_id=1&portlet_type_id=${portlet_type.id}&page_id=${page.id}" class="link" target="preview">${portlet_type.name}</a>			  
+                    </#list>
+                </li>
+                </#if>
+            </ul>
+        </div>
+
+    </span> 
+    <span class="pull-right">
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="btn btn-primary">
+            <i class="icon-wrench icon-white" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>
+            <span class="hidden-phone" >#i18n{portal.site.admin_page.labelPageProperty}</span>
+        </a>
+    </span> 
+    <#if page.id != 1>
+    <span class="pull-right" >
+        <a href="jsp/admin/site/RemovePage.jsp?page_id=${page.id}" class="btn btn-danger">
+            <i class="icon-remove-sign icon-white"  alt="#i18n{portal.site.admin_page.buttonDeletePage}" title="#i18n{portal.site.admin_page.buttonDeletePage}" ></i>
+            <!--<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonDeletePage}</span>-->
+        </a>	
+    </span>	
+    <span class="pull-right" >
+        <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}" class="btn btn-success">
+            <i class="icon-arrow-up icon-white"  alt="#i18n{portal.site.admin_page.buttonUpToParentPage}" title="#i18n{portal.site.admin_page.buttonUpToParentPage}" ></i>
+            <!--<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonUpToParentPage}</span>-->
+        </a>	
+    </span>
     </#if>
-    </ul>
-    </div>
-    
-</span> 
-<span class="pull-right">
-     <a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=3" class="btn btn-primary">
-		<i class="icon-picture icon-white" alt="#i18n{portal.site.admin_page.labelImagePage}" title="#i18n{portal.site.admin_page.labelImagePage}"  ></i>
-	#i18n{portal.site.admin_page.labelImagePage}
-	</a>
-</span> 
-<span class="pull-right">
-	<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="btn btn-primary">
-		<i class="icon-wrench icon-white" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>
-		#i18n{portal.site.admin_page.labelPageProperty}
-	</a>
-</span> 
-
 </div>
 
-    
-${page_block}
+<div class="container">
+    ${page_block}
+</div>
