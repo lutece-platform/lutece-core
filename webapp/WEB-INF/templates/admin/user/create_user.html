@@ -1,77 +1,80 @@
 <#function displayFieldset user_levels attributes_list>
-	<#assign var = false>
-	<#list attributes_list as attribute>
-		<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
-			<#assign var = true>
-			<#break>
-		</#if>
-	</#list>
-	<#if user_levels?has_content || var = true>
-		<#return true>
-	</#if>
-	<#return false>
+<#assign var = false>
+<#list attributes_list as attribute>
+<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
+<#assign var = true>
+<#break>
+</#if>
+</#list>
+<#if user_levels?has_content || var = true>
+<#return true>
+</#if>
+<#return false>
 </#function>
 <div class="well">
-<h2>#i18n{portal.users.create_user.titleCreationForm}</h2>
-<#if import_user?has_content>
-<form method="post" name="create_user" action="jsp/admin/user/DoCreateUser.jsp" enctype="multipart/form-data" class="well form-horizontal">
-<#if displayFieldset( user_levels attributes_list )>
-#i18n{portal.users.create_user.labelAdministration}
-<#if (user_levels?has_content)>
-<label for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>
-<select id="user_level" name="user_level">
-	<#list user_levels as user_level>
-	<#if user_level.id = default_user_level.id>
-	<option value="${user_level.id}" selected="selected">${user_level.name}</option>
-	<#else>
-	<option value="${user_level.id}">${user_level.name}</option>
-	</#if>
-	</#list>
-</select>
-</#if>
-<#list attributes_list as attribute>
-	<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
-	${attribute.getHtmlFormAttribute( locale )}
-	<#break>
-	</#if>
-</#list>
-</#if>
-#i18n{portal.users.create_user.labelIdentity}
-<label for="access_code" >#i18n{portal.users.create_user.labelAccessCode} * :</label>
-<input type="hidden" id="access_code" name="access_code" value="${import_user.accessCode?if_exists}" />
-<strong>${import_user.accessCode?if_exists}</strong>
-<label for="last_name" >#i18n{portal.users.create_user.labelLastName} * :</label>
-<input type="text"  id="last_name" name="last_name" value="${import_user.lastName?if_exists}" maxlength="100" size="35" tabindex="2" />
-<label for="first_name">#i18n{portal.users.create_user.labelFirstName} * :</label>
-<input type="text" id="first_name" name="first_name" value="${import_user.firstName?if_exists}" maxlength="100" size="35" tabindex="3" />
-<label for="email">#i18n{portal.users.create_user.labelEmail} * :</label>
-<input type="text" id="email" name="email" value="${import_user.email?if_exists}" maxlength="100" size="35" tabindex="4" />
-<label for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
-<@comboSorted name="language" default_value="${default_user_language}" items=languages_list />
-<label for="status">#i18n{portal.users.create_user.labelStatus} :</label>
-<select id="status" name="status" tabindex="5">
-<#if default_user_status = 1>
-    <option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-    <option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-<#else>
-    <option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-    <option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-</#if>
-</select>
-<p>#i18n{portal.users.create_user.labelTheme}</p>
-<label for="accessibility_mode">#i18n{portal.users.create_user.labelAccessibilityMode} :</label>
-<input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" />
-<#if attributes_list?has_content>
-<p>#i18n{portal.users.create_user.labelComplementaryAttributes}</p>
-<#list attributes_list as attribute>
-	<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
-	${attribute.getHtmlFormAttribute( locale )}
-	</#if>
-</#list>
-</#if>
-<input type="submit" value="#i18n{portal.users.create_user.buttonLabelCreate}" tabindex="6" class="button" />   
-</form>
-<#else>
-<p>#i18n{portal.users.create_user.error.accessCodeNotFound}</p>
-</#if>
+    <h2>#i18n{portal.users.create_user.titleCreationForm}</h2>
+    <#if import_user?has_content>
+    <form method="post" name="create_user" action="jsp/admin/user/DoCreateUser.jsp" enctype="multipart/form-data" class="well form-horizontal">
+        <#if displayFieldset( user_levels attributes_list )>
+        #i18n{portal.users.create_user.labelAdministration}
+        <#if (user_levels?has_content)>
+        <label for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>
+        <select id="user_level" name="user_level">
+            <#list user_levels as user_level>
+            <#if user_level.id = default_user_level.id>
+            <option value="${user_level.id}" selected="selected">${user_level.name}</option>
+            <#else>
+            <option value="${user_level.id}">${user_level.name}</option>
+            </#if>
+            </#list>
+        </select>
+        </#if>
+        <#list attributes_list as attribute>
+        <#if attribute.plugin?exists && attribute.plugin.name == "profiles">
+        ${attribute.getHtmlFormAttribute( locale )}
+        <#break>
+        </#if>
+        </#list>
+        </#if>
+        #i18n{portal.users.create_user.labelIdentity}
+        <label for="access_code" >#i18n{portal.users.create_user.labelAccessCode} * :</label>
+        <input type="hidden" id="access_code" name="access_code" value="${import_user.accessCode?if_exists}" />
+        <strong>${import_user.accessCode?if_exists}</strong>
+        <label for="last_name" >#i18n{portal.users.create_user.labelLastName} * :</label>
+        <input type="text"  id="last_name" name="last_name" value="${import_user.lastName?if_exists}" maxlength="100" size="35" tabindex="2" />
+        <label for="first_name">#i18n{portal.users.create_user.labelFirstName} * :</label>
+        <input type="text" id="first_name" name="first_name" value="${import_user.firstName?if_exists}" maxlength="100" size="35" tabindex="3" />
+        <label for="email">#i18n{portal.users.create_user.labelEmail} * :</label>
+        <input type="text" id="email" name="email" value="${import_user.email?if_exists}" maxlength="100" size="35" tabindex="4" />
+        <label for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
+        <@comboSorted name="language" default_value="${default_user_language}" items=languages_list />
+        <label for="status">#i18n{portal.users.create_user.labelStatus} :</label>
+        <select id="status" name="status" tabindex="5">
+            <#if default_user_status = 1>
+            <option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
+            <option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+            <#else>
+            <option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+            <option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
+            </#if>
+        </select>
+        <p>#i18n{portal.users.create_user.labelTheme}</p>
+        <label for="accessibility_mode">#i18n{portal.users.create_user.labelAccessibilityMode} :</label>
+        <input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" />
+        <#if attributes_list?has_content>
+        <p>#i18n{portal.users.create_user.labelComplementaryAttributes}</p>
+        <#list attributes_list as attribute>
+        <#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+        ${attribute.getHtmlFormAttribute( locale )}
+        </#if>
+        </#list>
+        </#if>
+        <button type="submit" class="btn btn-primary" tabindex="6">
+            <i class=" icon-plus-sign icon-white"></i>
+            <span class="hidden-phone" >#i18n{portal.users.create_user.buttonLabelCreate}</span>
+        </button> 
+    </form>
+    <#else>
+    <p>#i18n{portal.users.create_user.error.accessCodeNotFound}</p>
+    </#if>
 </div>
