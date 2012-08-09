@@ -39,6 +39,8 @@ import fr.paris.lutece.portal.service.content.ContentPostProcessorService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
+import fr.paris.lutece.portal.service.datastore.CoreDataKeys;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.fileimage.FileImageService;
 import fr.paris.lutece.portal.service.filter.FilterService;
 import fr.paris.lutece.portal.service.html.XmlTransformerCacheService;
@@ -57,6 +59,9 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import java.util.HashMap;
 import java.util.Properties;
@@ -177,6 +182,8 @@ public final class AppInit
             ContentPostProcessorService.init(  );
 
             _bInitSuccessfull = true;
+            
+            logStartupTime();
         }
         catch ( LuteceInitException e )
         {
@@ -272,5 +279,12 @@ public final class AppInit
                 io.printStackTrace(  );
             }
         }
+    }
+    
+    private static void logStartupTime()
+    {
+        String strStartupTime = SimpleDateFormat.getDateTimeInstance().format( new Date() );
+        DatastoreService.setDataValue( CoreDataKeys.KEY_STARTUP_TIME, strStartupTime);
+    
     }
 }
