@@ -1,62 +1,44 @@
-<div class="well span3">
-<div class="well">
-<legend>#i18n{portal.users.modify_user.titleUser}</legend>
-    <p class="title">
-     #i18n{portal.users.modify_user.labelLastName} - #i18n{portal.users.modify_user.labelFirstName}
-    
-    ${user.lastName} ${user.firstName}
-    <p class="title">#i18n{portal.users.modify_user.labelAccessCode}
-   <#assign userCode = user.accessCode>
-      <#if userCode?length <= 20 >
-     ${userCode?right_pad(20, " ")}
-     <#else>
-     ${userCode[0..17]}...
-     </#if>
-    
-    <p class="title">#i18n{portal.users.modify_user.actions}
-    <@item_navigation item_navigator=item_navigator />
-    
-                    <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >
-                        <img src="images/admin/skin/actions/user.png" alt="#i18n{portal.users.actions.labelUser}" title="#i18n{portal.users.actions.labelUser}" />
-                    </a>                    
-                    <a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}" >
-                        <img src="images/admin/skin/actions/right.png" alt="#i18n{portal.users.actions.labelRights}" title="#i18n{portal.users.actions.labelRights}" />
-                    </a>                    
-                    <a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}" >
-    	                <img src="images/admin/skin/actions/group.png" alt="#i18n{portal.users.actions.labelWorkgroups}" title="#i18n{portal.users.actions.labelWorkgroups}" />
-	                </a>
-                
-    </div>
-</div>
-<div class="well span8 offset4">
+<div class="row">
+<div class="container">
+<div class="span12">
+<h2> <small>#i18n{portal.users.modify_user.titleUser}</small>&nbsp;${user.lastName} ${user.firstName}
+<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
+</h2>
+<ul class="nav nav-tabs">
+  <li>
+    <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
+  </li>
+  <li><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
+  <li  class="active"><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
+  <li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+</ul>
+<h2>#i18n{portal.users.modify_user_role.titleRoleModificationForm}</h2>
 <form class="form-horizontal" method="post"  action="jsp/admin/user/DoModifyUserRoles.jsp" >
-	<fieldset>	
-    <div class="well">
-         <legend>#i18n{portal.users.modify_user_roles.titleRoleModificationForm}</legend>              
-                <#list all_role_list?sort_by('key') as role>
-                
-                    <#assign checked = "" >
-                    <#list user_role_list as user_role>
-                    
-                    <#if user_role.key = role.key >
-                    <#assign checked >checked="checked"</#assign>
-                    <#break>
-                    </#if>
-                    
-                    </#list>
-                    
-                    <div class="controls">
-	<input class="checkbox" type="checkbox" name="roles" value="${role.key}" ${checked} />
+<fieldset>	
+<legend>#i18n{portal.users.modify_user_roles.titleRoleModificationForm}</legend> 
+<ul class="unstyled">
+<#list all_role_list?sort_by('key') as role>
+	<#assign checked = "" >
+    <#list user_role_list as user_role>
+    <#if user_role.key = role.key >
+    <#assign checked >checked="checked"</#assign>
+    <#break>
+	</#if>
+	</#list>
+	<li>
+		<div class="controls">
+			<label class="checkbox">${role.key} - ${role.description}
+			<input class="checkbox" type="checkbox" name="roles" value="${role.key}" ${checked} />
+			</label>
 		</div>
-	</div>
-                           <strong>${role.key}</strong> (${role.description})		
-                
-                </#list>
-                
-                <input type="hidden" name="id_user" value="${user.userId}" />
-                <button class="btn btn-primary" type="submit" >#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}</button>
-	
-    </div>
+	</li>
+</#list>
+</ul>  
+<input type="hidden" name="id_user" value="${user.userId}" />
+<div class="form-actions">
+<button class="btn btn-primary" type="submit" >#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}</button>
 </fieldset>
+</div>
 </form>    
+</div>
 </div>
