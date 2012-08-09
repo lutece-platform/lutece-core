@@ -1,19 +1,25 @@
 <div class="row">
-<div class="container">
-<div class="span12">
-<fieldset>
-<legend>#i18n{portal.features.modify_level.boxTitle} ${level.id}</legend>
-<form method="post" class="form-horizontal" action="jsp/admin/features/DoModifyLevel.jsp" name="modify_level">
-<#-- LUTECE-1107: label seems useless before hidden field. -->
-<#-- <label>#i18n{portal.features.modify_level.labelId}</label> -->
-<input type="hidden" name="level_id" value="${level.id}" />		
-<label for="level_name" >#i18n{portal.features.modify_level.labelName}</label>
-<input type="text" name="level_name" value="${level.name}" tabindex="1" size="60" maxlength="80" />			
-<div class="form-actions">
-<input type="submit" value="#i18n{portal.features.modify_level.buttonLabelModify}" tabindex="2" class="btn btn-primary" />
-</div>
-</form>
-</fieldset>						 
-</div>
-</div>
+    <div class="container">
+        <div class="span12">
+            <fieldset>
+                <legend>#i18n{portal.features.modify_level.boxTitle} ${level.id}</legend>
+                <form method="post" class="form-horizontal" action="jsp/admin/features/DoModifyLevel.jsp" name="modify_level">
+                    <#-- LUTECE-1107: label seems useless before hidden field. -->
+                    <#-- <label>#i18n{portal.features.modify_level.labelId}</label> -->
+                    <input type="hidden" name="level_id" value="${level.id}" />		
+                    <label for="level_name" >#i18n{portal.features.modify_level.labelName}</label>
+                    <input type="text" name="level_name" value="${level.name}" tabindex="1" size="60" maxlength="80" />			
+                    </div>                    
+                    <div class="well span12">
+                        <span class="pull-left">
+                            <button type="submit" class="btn btn-primary" tabindex="2">
+                                <i class=" icon-edit icon-white"></i>
+                                <span class="hidden-phone" >#i18n{portal.features.modify_level.buttonLabelModify}</span>
+                            </button> 
+                        </span>  
+                    </div>                      
+                </form>
+            </fieldset>						 
+        </div>
+    </div>
 </div>

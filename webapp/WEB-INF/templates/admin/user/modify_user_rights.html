@@ -1,58 +1,58 @@
 <div class="row">
-<div class="container">
-<div class="span12">
-<h2> <small>#i18n{portal.users.modify_user.titleUser}</small>&nbsp;${user.lastName} ${user.firstName}
-<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
-</h2>
-<ul class="nav nav-tabs">
-  <li>
-    <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
-  </li>
-  <li class="active"><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
-  <li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
-  <li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
-</ul>
-<#if can_delegate = 'true'><p>#i18n{portal.users.modify_user_rights.informationRightModification}</p></#if>
-<div class="pull-right">
-<form method="post"  action="jsp/admin/user/ModifyUserRights.jsp" class="form-inline pull-right">    
-<input type="hidden" name="delegate_rights" value="${can_delegate}" />
-<input type="hidden" name="id_user" value="${user.userId}" />
-<input type="hidden" name="select" value="all" />
-<button type="submit" class="btn btn-primary" /><i class="icon-filter icon-white"></i>#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}</button>
-</form>
-</div>
-<form method="post"  action="jsp/admin/user/DoModifyUserRights.jsp" class="form-horizontal"> 
-<fieldset>	
-<legend>#i18n{portal.users.modify_user_rights.titleRightModificationForm}</legend>   
-<input type="hidden" name="delegate_rights" value="${can_delegate}" />
-<ul class="unstyled">
-<#list all_right_list?sort_by('name') as right>
-<#if select_all = true >
-<#assign checked >checked="checked"</#assign>
-<#else>
-<#assign checked = "" >
-<#list user_right_list as user_right>
-	<#if user_right.id = right.id >
-	<#assign checked >checked="checked"</#assign>
-    <#break>
-    </#if>
-</#list>
-</#if>
-	<li>
-	<div class="controls">	
-	<label class="checkbox">${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}
-	<input class="checkbox" type="checkbox" name="right" value="${right.id}" ${checked} />
-	</label>
-	</div>
-	</li>
-</#list>        
-</ul>
-<input type="hidden" name="id_user" value="${user.userId}" />
-<div class="form-actions">
-<input type="submit"  value="#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}" class="btn btn-primary" />
-</div>
-<fieldset>
-</form>
-</div>
-</div>
-</div>
+    <div class="container">
+        <div class="span12">
+            <h2> <small>#i18n{portal.users.modify_user.titleUser}</small>&nbsp;${user.lastName} ${user.firstName}
+                <span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
+            </h2>
+            <ul class="nav nav-tabs">
+                <li>
+                    <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
+                </li>
+                <li class="active"><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
+                <li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
+                <li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+            </ul>
+            <#if can_delegate = 'true'><p>#i18n{portal.users.modify_user_rights.informationRightModification}</p></#if>
+            <div class="pull-right">
+                <form method="post"  action="jsp/admin/user/ModifyUserRights.jsp" class="form-inline pull-right">    
+                    <input type="hidden" name="delegate_rights" value="${can_delegate}" />
+                    <input type="hidden" name="id_user" value="${user.userId}" />
+                    <input type="hidden" name="select" value="all" />
+                    <button type="submit" class="btn btn-primary" /><i class="icon-filter icon-white"></i>#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}</button>
+                </form>
+            </div>
+            <form method="post"  action="jsp/admin/user/DoModifyUserRights.jsp" class="form-horizontal"> 
+                <fieldset>	
+                    <legend>#i18n{portal.users.modify_user_rights.titleRightModificationForm}</legend>   
+                    <input type="hidden" name="delegate_rights" value="${can_delegate}" />
+                    <ul class="unstyled">
+                        <#list all_right_list?sort_by('name') as right>
+                        <#if select_all = true >
+                        <#assign checked >checked="checked"</#assign>
+                        <#else>
+                        <#assign checked = "" >
+                        <#list user_right_list as user_right>
+                        <#if user_right.id = right.id >
+                        <#assign checked >checked="checked"</#assign>
+                        <#break>
+                        </#if>
+                        </#list>
+                        </#if>
+                        <li>
+                            <div class="controls">	
+                                <label class="checkbox">${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}
+                                    <input class="checkbox" type="checkbox" name="right" value="${right.id}" ${checked} />
+                                </label>
+                            </div>
+                        </li>
+                        </#list>        
+                    </ul>
+                    <input type="hidden" name="id_user" value="${user.userId}" />
+                    <div class="form-actions">
+                        <input type="submit"  value="#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}" class="btn btn-primary" />
+                    </div>
+                    <fieldset>
+                        </form>
+                        </div>
+                        </div>
+                        </div>

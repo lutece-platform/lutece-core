@@ -1,52 +1,52 @@
 <div class="container">
-<div class="row">
-<div class="container">
-<div class="span12">
-<h2> <small>#i18n{portal.users.modify_user.titleUser}</small>&nbsp;${user.lastName} ${user.firstName}
-<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
-</h2>
-<ul class="nav nav-tabs">
-  <li>
-    <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
-  </li>
-  <li class="active"><a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
-  <li><a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
-  <li><a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
-</ul>
-<form method="post" name="modifyform" action="jsp/admin/user/ModifyUserRights.jsp" class="form-inline pull-right">            
-<input type="hidden" name="id_user" value="${user.userId}" />
-<input type="hidden" name="delegate_rights" value="false"/>
-<#if can_modify>
-<button type="submit" class="btn btn-primary" ><i class="icon-edit icon-white"></i>&nbsp;#i18n{portal.users.manage_user_rights.buttonLabelModifyRights}</button>         
-</#if>
-<#if can_delegate>
-<button type="submit" class="btn btn-primary" ><i class="icon-share icon-white"></i>&nbsp;#i18n{portal.users.manage_user_rights.buttonLabelDelegateRights}</button>
-</#if>
-</form>
-</div>
-<div class="row">
-<div class="container">
-<div class="span10 offset1">
-<h3>#i18n{portal.users.manage_user_rights.titleRightList}</h3>        	
-<table class="table table-striped table-condensed">
-<tr>
-	<th>#i18n{portal.users.manage_user_rights.columnTitleName}</th>
-    <th>#i18n{portal.users.manage_user_rights.columnTitleDescription}</th>
-    <th>#i18n{portal.users.manage_user_rights.columnTitleLevel}</th>
-</tr>
-<#list user_right_list?sort_by('name') as right>
-<tr>
-	<td>${right.name}</td>
-    <td>${right.description}</td>			
-    <td>${right.level}</td>
-</tr>
-</#list>		
-</table>        
+    <div class="row">
+        <div class="container">
+            <div class="span12">
+                <h2> <small>#i18n{portal.users.modify_user.titleUser}</small>&nbsp;${user.lastName} ${user.firstName}
+                    <span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
+                </h2>
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
+                    </li>
+                    <li class="active"><a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
+                    <li><a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
+                    <li><a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+                </ul>
+                <form method="post" name="modifyform" action="jsp/admin/user/ModifyUserRights.jsp" class="form-inline pull-right">            
+                    <input type="hidden" name="id_user" value="${user.userId}" />
+                    <input type="hidden" name="delegate_rights" value="false"/>
+                    <#if can_modify>
+                    <button type="submit" class="btn btn-primary" ><i class="icon-edit icon-white"></i>&nbsp;#i18n{portal.users.manage_user_rights.buttonLabelModifyRights}</button>         
+                    </#if>
+                    <#if can_delegate>
+                    <button type="submit" class="btn btn-primary" ><i class="icon-share icon-white"></i>&nbsp;#i18n{portal.users.manage_user_rights.buttonLabelDelegateRights}</button>
+                    </#if>
+                </form>
+            </div>
+            <div class="row">
+                <div class="container">
+                    <div class="span10 offset1">
+                        <h3>#i18n{portal.users.manage_user_rights.titleRightList}</h3>        	
+                        <table class="table table-striped table-condensed">
+                            <tr>
+                                <th>#i18n{portal.users.manage_user_rights.columnTitleName}</th>
+                                <th>#i18n{portal.users.manage_user_rights.columnTitleDescription}</th>
+                                <th>#i18n{portal.users.manage_user_rights.columnTitleLevel}</th>
+                            </tr>
+                            <#list user_right_list?sort_by('name') as right>
+                            <tr>
+                                <td>${right.name}</td>
+                                <td>${right.description}</td>			
+                                <td>${right.level}</td>
+                            </tr>
+                            </#list>		
+                        </table>        
 
-</div>
-</div>
-</div>
-</div>
-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
