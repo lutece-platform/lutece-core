@@ -37,6 +37,7 @@ body {padding-top: 60px;padding-bottom: 40px;}
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
 -->
 <link rel="stylesheet" href="css/portal_admin.css" />
+<link rel="stylesheet" href="js/jquery/plugins/ui/datepicker/ui.datepicker.css" />
 <%
 	if ( AdminThemeService.isModeAccessible( request ) ){
 %>
