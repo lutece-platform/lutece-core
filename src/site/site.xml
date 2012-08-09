@@ -8,6 +8,7 @@
 
 		<menu name="Lutece : core component">
 			<item name="Introduction" href="index.html" />
+			<item name="Security parameters" href="admin-user-security.html" />
 		</menu>
 
 		<menu name="Developer's Resources">

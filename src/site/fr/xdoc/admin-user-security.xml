@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<properties>
+		<title>
+			Paramètres de sécurité de Lutèce
+		</title>
+	</properties>
+	<body>
+		<section name="1. PARAMETRES DE SECUTITE">
+			<OL type="I">
+				<li>
+					<a href="admin-user-security.html#a1._PARAMETRES_DE_SECUTITE_AVANCES">Paramètres de sécurité avancés</a>
+				</li>
+				<ol>
+					<li>
+						<a href="admin-user-security.html#a1.1_Introduction">Introduction</a>
+					</li>
+					<li>
+						<a href="admin-user-security.html#a1.2_Paramètres_de_sécurité_avancés">Paramètres de sécurité avancés</a>
+					</li>
+					<ol>
+						<li>
+							<a href="admin-user-security.html#parametres_de_securite_avances">Paramètres de sécurité avancés</a>
+						</li>
+						<li>
+							<a
+								href="admin-user-security.html#activation_parametres_de_securite_avances">Activation des paramètres de sécurité avancés</a>
+						</li>
+					</ol>
+					<li>
+						<a href="admin-user-security.html#a1.3_Gestion_des_mots_de_passe">Gestion des mots de passe</a>
+					</li>
+					<ol>
+						<li>
+							<a href="admin-user-security.html#contraintes_mots_de_passe">Contraintes sur les mots de passe</a>
+						</li>
+						<li>
+							<a href="admin-user-security.html#changement_mot_de_passe_obligatoire">Contraindre un changement de mot de passe</a>
+						</li>
+						<li>
+							<a href="admin-user-security.html#changements_mot_de_passe">Changement de mot de passe d'un utilisateur</a>
+						</li>
+					</ol>
+					<li>
+						<a href="admin-user-security.html#a1.4_Gestion_des_comptes_utilisateur">Gestion des comptes utilisateur</a>
+					</li>
+					<ol>
+						<li>
+							<a href="admin-user-security.html#tentatives_connection">Tentatives de connexion au Back Office</a>
+						</li>
+						<li>
+							<a href="admin-user-security.html#duree_de_vie">Durée de vie d'un compte utilisateur</a>
+						</li>
+						<li>
+							<a href="admin-user-security.html#anonymisation">Anonymisation d'un compte utilisateur</a>
+						</li>
+					</ol>
+				</ol>
+			</OL>
+			<subsection name="1.1 Introduction">
+				<p>
+					Depuis la page de Gestion des utilisateurs, l'administrateur
+					technique a la possibilité de définir un certain nombre de
+					paramètres de sécurité de l'application. Ces différents paramètres
+					s'appliquent uniquement aux utilisateurs du back office. 
+				</p>
+				<p>
+					Pour accéder à la gestion des paramètres de sécurité,
+					sélectionner dans le bandeau supérieur "Gestionnaire > Gestion des
+					utilisateurs", puis cliquer sur le bouton "Paramètres avancés" en
+					haut à droite de l'écran. Les paramètres de sécurité sont regroupés
+					dans le cadre intitulé "Modification des paramètres de sécurité"
+				</p>
+				<center>
+					<img alt="Paramètres avancés" src="images/param_secu.gif" />
+				</center>
+			</subsection>
+			<subsection name="1.2 Paramètres de sécurité avancés">
+				<a name="parametres_de_securite_avances" />
+				<h4>1.2.1 Paramètres de sécurité avancés</h4>
+				<p>Les paramètres de sécurités se décomposent en deux catégories :
+				</p>
+				<ul>
+					<li>Les paramètres de sécurité dits "de base"</li>
+					<li>Les paramètres de sécurité avancés</li>
+				</ul>
+				<p>
+					Les paramètres de sécurité dits "de base" sont toujours pris en
+					compte, alors que les paramètres de sécurité avancés peuvent être
+					activés ou désactivés par un administrateur technique. 
+				</p>
+				<p>
+					Les paramètres de sécurité avancés ne sont donc visibles que
+					lorsque cette option est activée.
+				</p>
+
+				<a name="activation_parametres_de_securite_avances" />
+				<h4>1.2.2 Activation des paramètres de sécurité avancés</h4>
+				<p>
+					Pour activer ou désactiver les paramètres de sécurité, il suffit
+					de cliquer sur le bouton correspondant en haut à gauche de l'écran
+					de gestion des paramètres avancés.
+				</p>
+				<p>
+					L'activation des paramètres de sécurité avancés active si besoin
+					le cryptage des mots de passe avec l'algorithme "SHA-256". Lors de
+					l'activation, si cet algorithme n'était pas utilisé, alors les mots
+					de
+					passe de tous les utilisateurs sont réinitialisés et envoyés par
+					mail.
+				</p>
+				<p>
+					Lorsque les paramètres de sécurité avancés sont activés, il
+					devient possible de modifier ces paramètres dans le cadre intitulé
+					"Modification des paramètres de sécurité". En revanche, il n'est
+					alors plus possible de changer l'algorithme de cryptage des mots de
+					passe.
+				</p>
+				<p>
+					Tous les paramètres peuvent être désactivés en supprimant leur
+					valeur ou en la mettant à '0'.
+				</p>
+			</subsection>
+			<subsection name="1.3 Gestion des mots de passe">
+				<a name="contraintes_mots_de_passe" />
+				<h4>1.3.1 Contraintes sur les mots de passe</h4>
+				<p>
+					Il est possible de définir deux contraintes sur les mots de
+					passes des utilisateurs du back office :
+				</p>
+				<ul>
+					<li>Taille minimale d'un mot de passe</li>
+					<li>Utilisation d'au moins une minuscule, une majuscule, un nombre
+						et un caractère spécial (signe de ponctuation)</li>
+				</ul>
+				<p>
+					La taille minimale d'un mot de passe peut être définie via le
+					paramètre "Taille minimale d'un mot de passe". Si la valeur est de
+					0, alors les utilisateurs pourront définir des mots de passe de la
+					taille de leur choix. Si la valeur est supérieure à 0, alors ils
+					devront obligatoirement choisir des mots de passe dont le nombre de
+					caractères est au moins égal à la valeur définie.
+				</p>
+				<p>
+					Si la case "Mots de passe avec majuscules, minuscules, nombres et
+					caractères spéciaux" est cochée, alors les mots de passe des
+					utilisateurs devront obligatoirement contenir au moins une
+					majuscule, une minuscule, un caractère spécial et un nombre.  
+				</p>
+				<p>
+					<strong>Attention, la modification de ces valeurs n'oblige pas les
+						utilisateurs à changer leur mot de passe.</strong>
+				</p>
+				<p></p>
+
+				<a name="changement_mot_de_passe_obligatoire" />
+				<h4>1.3.2 Contraindre un changement de mot de passe</h4>
+				<p>Un utilisateur peut être contraint à changer son mot de passe.
+				</p>
+				<p>
+					Par exemple, si la case "Forcer le changement de mot de passe
+					après une réinitialisation" est cochée, alors un utilisateur devra
+					obligatoirement changer de mot de passe s'il fait une demande de
+					réinitialisation.
+				</p>
+				<p>
+					Si les paramètres de sécurité avancés sont activés, il est
+					également possible de définir une durée de validité d'un mot de
+					passe. Ainsi, un utilisateur devra obligatoirement changer son mot
+					de passe au bout d'une durée définie.
+				</p>
+				<p>
+					La durée de validité d'un mot de passe, en jours, peut être
+					définie par le paramètre "Durée de validité d'un mot de passe".
+				</p>
+
+				<a name="changements_mot_de_passe" />
+				<h4>1.3.2 Changement de mot de passe d'un utilisateur</h4>
+				<p>
+					Il est possible d'empêcher les utilisateurs d'utiliser leurs
+					anciens mots de passe. Pour cela, il suffit de renseigner le
+					paramètre de sécurité avancé intitulé "Nombre des derniers mots de
+					passe enregistrés par l'application".
+				</p>
+				<p></p>
+				<p>
+					Afin d'éviter qu'un utilisateur ne change son mot de passe à
+					répétition afin de pouvoir réutiliser le premier, il est possible
+					de définir un nombre maximum de changement de mots de passe durant
+					une période donnée. Cela peut se définir avec deux paramètres de
+					sécurité avancés :
+				</p>
+				<ul>
+					<li>
+						"Nombre de changements de mot de passe autorisés par unité de
+						temps"
+					</li>
+					<li>"Nombre de jours d'une unité de temps"</li>
+				</ul>
+				<p>
+					Le premier sert à définir le nombre maximum de changements de mot
+					de passe durant une période donnée. Le deuxième sert à définir la
+					durée (en jours) d'une période de temps.
+				</p>
+				<p>
+					Par exemple, si le paramètre "Nombre de changements de mot de
+					passe autorisés par unité de temps" vaut '1' et le paramètre
+					"Nombre de jours d'une unité de temps" vaut '1', alors les
+					utilisateurs pourront au maximum changer leurs mots de passe une
+					fois par jour.
+				</p>
+			</subsection>
+			<subsection name="1.4 Gestion des comptes utilisateur">
+				<a name="tentatives_connection" />
+				<h4>1.4.1 Tentatives de connexion au Back Office</h4>
+				<p>
+					Pour empêcher que les mots de passe soient devinés en essayant un
+					très grand nombre de possibilités, il est possible de définir un
+					nombre maximum de tentatives de connexion. Cela se fait via deux
+					paramètres de sécurité.
+				</p>
+				<p>
+					Le premier paramètre est le "Nombre maximum de tentatives de
+					connexion". Il permet de définir le nombre de tentatives de
+					connexions qu'un utilisateur a le droit d'échouer avant d'être
+					bloqué. Le second paramètre est la "Durée du blocage des
+					connexions". Ce nombre, exprimé en minutes, défini la durée du
+					blocage de la connexion en cas d'échecs répétés.
+				</p>
+
+				<a name="duree_de_vie" />
+				<h4>1.4.2 Durée de vie d'un compte utilisateur</h4>
+				<p>
+					Chaque compte utilisateur possède une durée de vie le faisant
+					expirer en cas de non utilisation prolongée. Lorsqu'un compte
+					arrive à expiration, un mail prévient l'utilisateur afin qu'il
+					puisse le prolonger s'il le souhaite. S'il ne le fait pas dans le
+					délai imparti, alors le compte est définitivement anonymisé, et
+					l'utilisateur ne peut plus l'utiliser.
+				</p>
+				<p>
+					La date de fin de validité d'un compte utilisateur est définie
+					lors de la création de ce compte, puis est mise à jour à chaque
+					connexion de l'utilisateur. Ainsi, seuls les comptes inactifs
+					arrivent à expiration.
+				</p>
+				<p>
+					La durée de vie d'un compte utilisateur, en mois, peut être
+					définie avec le paramètre de sécurité "Durée de vie d'un compte".
+				</p>
+				<p>
+					Avant que leurs comptes n'expirent, les utilisateurs sont alertés
+					avec un email contenant un lien leur permettant de le prolonger. Il
+					est possible de définir le délai entre la première notification et
+					la date d'expiration du compte grâce au paramètre de sécurité
+					"Delai de renouvellement d'un compte".
+				</p>
+				<p>
+					Les utilisateurs reçoivent également par mail un certain nombre
+					de relances. Les paramètres "Nombre de relances" et "Nombre de
+					jours entre chaque relance" permettent d'indiquer leur fréquence.
+				</p>
+				<p>
+					Les notifications envoyées sont paramétrables. Pour les modifier,
+					il suffit de choisir dans la liste déroulante du cadre
+					"Notifications" le mail à éditer, et de cliquer sur le bouton
+					"Modifier l'email". 
+				</p>
+				<p>
+					Il est possible de définir le titre du mail, son expéditeur et son
+					contenu. Dans le contenu, il est possible d'utiliser des balises
+					sous la forme
+					<i>${clé_balise}</i>
+					qui seront remplacées par la valeur correspondant lors de l'envoi.
+					La liste des balises est définie en bas de page en fonction du mail
+					choisi.
+				</p>
+				<a name="anonymisation" />
+				<h4>1.4.3 Anonymisation d'un compte utilisateur</h4>
+				<p>
+					Lorsqu'un compte utilisateur expire, il est anonymisé. Les
+					données d'un compte anonymisé ne sont plus lisibles, et
+					l'utilisateur ne peut plus l'utiliser. L'écran de gestion des
+					attributs d'un utilisateur à anonymiser, accessible depuis l'écran
+					de gestion des utilisateurs ("Gestionnaire > Gestion des
+					utilisateurs"), permet à un administrateur de choisir les
+					informations d'un compte qui doivent être supprimées lors de
+					l'anonymisation.
+				</p>
+				<p>
+					Il est également possible d'anonymiser un compte utilisateur depuis
+					l'écran de gestion des utilisateurs (accessible via le menu
+					"Gestionnaire > Gestion des utilisateurs") en cliquant sur le
+					bouton "Anonymiser".
+				</p>
+			</subsection>
+		</section>
+	</body>
+</document>       
+             

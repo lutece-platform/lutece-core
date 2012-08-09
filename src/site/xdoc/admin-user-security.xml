@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<properties>
+		<title>
+			Security parameters
+		</title>
+	</properties>
+	<body>
+		<section name="1. SECURITY PARAMETERS">
+			<OL type="I">
+				<li>
+					<a href="admin-user-security.html#a1._PARAMETRES_DE_SECUTITE_AVANCES">Security parameters</a>
+				</li>
+				<ol>
+					<li>
+						<a href="admin-user-security.html#a1.1_Introduction">Introduction</a>
+					</li>
+					<li>
+						<a href="admin-user-security.html#a1.2_Paramètres_de_sécurité_avancés">Advanced security parameters</a>
+					</li>
+					<ol>
+						<li>
+							<a href="admin-user-security.html#parametres_de_securite_avances">Advanced security parameters</a>
+						</li>
+						<li>
+							<a
+								href="admin-user-security.html#activation_parametres_de_securite_avances">Use advanced security parameters</a>
+						</li>
+					</ol>
+					<li>
+						<a href="admin-user-security.html#a1.3_Gestion_des_mots_de_passe">Passwords management</a>
+					</li>
+					<ol>
+						<li>
+							<a href="admin-user-security.html#contraintes_mots_de_passe">Passwords format</a>
+						</li>
+						<li>
+							<a
+								href="admin-user-security.html#changements_mot_de_passe_obligatoire">Force a user to change his password</a>
+						</li>
+						<li>
+							<a href="admin-user-security.html#changements_mot_de_passe">Users password change</a>
+						</li>
+					</ol>
+					<li>
+						<a href="admin-user-security.html#a1.4_Gestion_des_comptes_utilisateur">Users account management</a>
+					</li>
+					<ol>
+						<li>
+							<a href="admin-user-security.html#tentatives_connection">Back office connections</a>
+						</li>
+						<li>
+							<a href="admin-user-security.html#duree_de_vie">Account life time</a>
+						</li>
+						<li>
+							<a href="admin-user-security.html#anonymisation">Anonymization of an account</a>
+						</li>
+					</ol>
+				</ol>
+			</OL>
+			<subsection name="1.1 Introduction">
+				<p>
+					From the Users management page, a technical admin user can define
+					some security parameters.
+				</p>
+				<p>
+					The security parameters management page can be accessed from the
+					"Managers > Users management" menu, and by clicking on the
+					"Advanced parameters" button on the upper right of the screen.
+				</p>
+				<p>
+					Security parameters are located in the "Modification of security
+					parameters values" panel.
+				</p>
+				<center>
+					<img alt="Advanced parameters" src="images/param_secu.gif" />
+				</center>
+			</subsection>
+			<subsection name="1.2 Advanced security parameters">
+				<a name="parametres_de_securite_avances" />
+				<h4>1.2.1 Advanced security parameters</h4>
+				<p>Security parameters can be decomposed in 2 groups :
+				</p>
+				<ul>
+					<li>basic security parameters</li>
+					<li>advanced security parameters</li>
+				</ul>
+				<p>
+					Advanced security parameters can be activated or deactivated from
+					the "Advanced Parameters" screen. They can only be modified when
+					they are activated.
+				</p>
+				<p>
+					Basic security parameters can be modified at any time.
+				</p>
+
+				<a name="activation_parametres_de_securite_avances" />
+				<h4>1.2.2 Use advanced security parameters</h4>
+				<p>
+					On the "Advanced Parameters" screen, an admin user can turn on or
+					off the advanced security parameters by clicking the upper left
+					button.
+				</p>
+				<p>
+					When advanced security parameters are turned on, password
+					encryption is set on, and the encryption algorithm is set to
+					"SHA-256". If the algorithm was not "SHA-256", then every user's
+					password is reinitialized and sent by email.
+				</p>
+				<p>
+					While advanced security parameters are on, the encryption
+					algorithm can not be changed, nor the password encryption can be
+					disabled. Although, it is possible to modify advanced security
+					parameters in the "Modification of security parameters values"
+					panel. 
+				</p>
+				<p>
+					Security parameters can be deactivated by deleting their value,
+					or by setting it to '0'.
+				</p>
+			</subsection>
+			<subsection name="1.3 Passwords management">
+				<a name="contraintes_mots_de_passe" />
+				<h4>1.3.1 Passwords format</h4>
+				<p>
+					To prevent users from using low security level passwords, two
+					constraints can be applied :
+				</p>
+				<ul>
+					<li>Password minimum length</li>
+					<li>Usage of upper and lower case letters, of numbers and special
+						characters</li>
+				</ul>
+				<p>
+					The minimum length of a password can be set with the parameter
+					"Minimum length of a password". If the value is null or '0', then
+					users can use passwords with any length. If it is greater than '0',
+					users will have to choose passwords longer than the given number.
+				</p>
+				<p>
+					If the check box "Passwords must contain upper and lower case
+					letters, numbers and special characters" is checked, user's
+					passwords will have to contain at least an upper and a lower case
+					letter, a number and a special character. 
+				</p>
+				<p>
+					<strong>Warning, the modification of this values will not force
+						users to reinitialize their passwords.</strong>
+				</p>
+				<p></p>
+
+				<a name="changements_mot_de_passe_obligatoire" />
+				<h4>1.3.2 Force a user to change his password</h4>
+				<p>A user can be forced to change his password
+				</p>
+				<p>
+					For example, if the check box "Force user's password modification
+					after a password reset" is checked, then users will have to change
+					their password when they reset it.
+				</p>
+				<p>
+					If advanced security parameters are activated, an admin user can
+					also set a password life time. It will force users to frequently
+					change their password. 
+				</p>
+				<p>
+					Passwords life time, in days, can be set with the parameter "Days
+					before a user must change his password".
+				</p>
+
+				<a name="changements_mot_de_passe" />
+				<h4>1.3.2 Users password change</h4>
+				<p>
+					Users can be forced to use new passwords when they change it. The
+					parameter "Number of old passwords remembered" contains the number
+					of different passwords users have to use before they can choose a
+					password twice.
+				</p>
+				<p></p>
+				<p>
+					To prevent users from changing their passwords many times to be
+					allowed to use the first one again, their is a maximum number of
+					password change in a given time. This can be set with two
+					parameters : 
+				</p>
+				<ul>
+					<li>"Maximum number of password change in a given time"</li>
+					<li>"Number of days considered for password change"</li>
+				</ul>
+				<p>
+					The first parameter is used to define the maximum number of
+					password change in a given time. The second parameter is used to
+					define the numbers of days users have to wait before they can
+					change their passwords when they change it too many times.
+				</p>
+				<p>
+					For example, if the parameter "Maximum number of password change
+					in a given time" is set to '1', and the parameter "Number of days
+					considered for password change" is set to '1', users will only be
+					allowed to change their passwords once a day.
+				</p>
+			</subsection>
+			<subsection name="1.4 Gestion des comptes utilisateur">
+				<a name="tentatives_connection" />
+				<h4>1.4.1 Back office connections</h4>
+				<p>
+					To protect passwords from being discovered by attempting a huge
+					number of possibilities, a maximum number of login trial can be
+					set. It will use two parameters.
+				</p>
+				<p>
+					The first parameter is the "Maximum number of login attempt". It
+					defines the maximum number of attempts someone can make before
+					being blocked. The second parameter is the "Login attempt
+					interval". It defines the duration, in minutes, a user is blocked
+					when his login attempts failed too many times.
+				</p>
+
+				<a name="duree_de_vie" />
+				<h4>1.4.2 Account life time</h4>
+				<p>
+					Each user account has a life time. If an account is not used
+					during a given time, it expires. When an account expires, an email
+					is send to the user so that he can update it. If he does not in the
+					given time, then the account is definitively anonymized, and can
+					not be used anymore.
+				</p>
+				<p>
+					The life end date of an account is computed when the account is
+					created, and is updated at each login of the user. Thus, only
+					inactive accounts expires.
+				</p>
+				<p>
+					Account life time, in months, can be set with the security
+					parameter "Account life time".
+				</p>
+				<p></p>
+				<p>
+					Before an account expires, users are warned by an email
+					containing a link to update it. It is possible to define the time
+					between the expiration of an account and the first alert sent with
+					the parameter "Time before first alert when an account expires".
+				</p>
+				<p>
+					Other alerts are also sent to users by email. Parameters "Number
+					of alerts" and "Time between alerts" define their frequency.
+				</p>
+				<p>
+					To edit emails sent, choose in the drop down list of the
+					"Notifications" panel the email to edit, and click the "Edit email"
+					button.
+				</p>
+				<p>
+					It is possible to define the title of emails, the sender and the
+					body. In the body, some tags are replaced with values when the
+					email is sent. Tags are like "
+					<i>${tag_key}</i>
+					". The list of available tags is on the left bottom of the page.
+				</p>
+				<a name="anonymisation" />
+				<h4>1.4.3 Anonymization of an account</h4>
+				<p>
+					When an account expires, it is anonymized. Data of an anonymized
+					account are encrypted, and it can not be used anymore. Attributes
+					to anonymized can be chosen from the the anonymization management
+					page, accessible from the user management page ("Managers > Users
+					management").
+				</p>
+				<p>
+					It is also possible to anonymize an account from the user management
+					screen ("Managers > Users management") by clicking the "anonymize"
+					button. 
+				</p>
+			</subsection>
+		</section>
+	</body>
+</document>       
+             
