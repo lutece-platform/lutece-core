@@ -70,21 +70,27 @@
                 <label for="image_content">#i18n{portal.site.admin_page.labelNewPicture} </label>
                 <input class="input-file" id="image_content" name="image_content" type="file">
                 <br />
-                Mettre à jour l'image
+                #i18n{portal.site.admin_page.checkedUpdateImage}
                 <input class="checkbox" type="checkbox" name="update_image">
             </div>
-            <div class="span3">
-                <span class="pull-right">                
-                    <input type="submit" value="#i18n{portal.site.admin_page.buttonModify}" class="btn btn-primary"/>
+            <div class=" well span10">
+                <span class="pull-left">   
+                    <button type="submit" class="btn btn-primary">
+                        <i class="icon-edit icon-white"></i>
+                        <span class="hidden-phone" >#i18n{portal.site.admin_page.buttonModify}</span>
+                    </button>                       
                 </span>
                 </form>
-                <span class="pull-right"> 
+                <span class="pull-left"> 
                     &nbsp;
                 </span>
-                <span class="pull-right"> 
+                <span class="pull-left"> 
                     <form method="post"   action="jsp/admin/site/AdminSite.jsp" class="form-vertical" >            
                         <input type="hidden" name="page_id" value="${page.id}" />
-                        <input type="submit" value="#i18n{portal.site.admin_page.buttonClosed}" class="btn"/>
+                        <button type="submit" class="btn">
+                            <i class="icon-remove-circle"></i>
+                            <span class="hidden-phone" >#i18n{portal.site.admin_page.buttonClosed}</span>
+                        </button>                          
                     </form>
                 </span>   
             </div>
