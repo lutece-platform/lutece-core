@@ -603,7 +603,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             }
         }
         
-        String strPortletContent = null;
+        String strPortletContent = "";
         // Add the admin buttons for portlet management on admin mode
         if ( nMode == MODE_ADMIN )
         {
