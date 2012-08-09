@@ -48,7 +48,7 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
     public static final int INVALID_PASSWORD = -2;
     public static final int USER_OK = 0;
     private static final String SQL_QUERY_CHECK_PASSWORD = "SELECT password FROM core_admin_user WHERE  access_code = ? ";
-    private static final String SQL_QUERY_LOAD_USER = " SELECT access_code, id_user, password_max_valid_date, account_max_valid_date FROM core_admin_user WHERE access_code = ? ";
+    private static final String SQL_QUERY_LOAD_USER = " SELECT access_code, id_user, password_max_valid_date, account_max_valid_date, email FROM core_admin_user WHERE access_code = ? ";
     private static final String SQL_QUERY_UPDATE_PASSWORD_RESET = "UPDATE core_admin_user set reset_password = ? WHERE id_user = ? ";
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -115,6 +115,7 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
         {
             user.setAccountMaxValidDate( new Timestamp( accountMaxValidDate ) );
         }
+        user.setEmail( daoUtil.getString( 5 ) );
         daoUtil.free(  );
 
         return user;

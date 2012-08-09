@@ -1096,45 +1096,53 @@ public final class AdminUserService
     @SuppressWarnings( "deprecation" )
     public static void updateUserExpirationDate( AdminUser user )
     {
+        if ( user == null )
+        {
+            return;
+        }
         Timestamp newExpirationDate = getAccountMaxValidDate( );
+        Timestamp maxValidDate = user.getAccountMaxValidDate( );
+        // We update the user account
+        AdminUserHome.updateUserExpirationDate( user.getUserId( ), newExpirationDate );
 
         // We notify the user
         String strUserMail = user.getEmail( );
         int nbDaysBeforeFirstAlert = AdminUserService.getIntegerSecurityParameter( PARAMETER_TIME_BEFORE_ALERT_ACCOUNT );
-        Timestamp firstAlertMaxDate = new Timestamp( new java.util.Date( ).getTime( )
-                + DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
-        Timestamp currentTimestamp = new Timestamp( new java.util.Date( ).getTime( ) );
 
-        if ( user.getAccountMaxValidDate( ) != null
-                && currentTimestamp.getTime( ) > firstAlertMaxDate.getTime( )
-                && StringUtils.isNotBlank( strUserMail ) )
+        if ( maxValidDate != null )
         {
-            String strBody = DatabaseTemplateService.getTemplateFromKey( PARAMETER_ACCOUNT_REACTIVATED_MAIL_BODY );
+            Timestamp firstAlertMaxDate = new Timestamp( maxValidDate.getTime( )
+                    - DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
+            Timestamp currentTimestamp = new Timestamp( new java.util.Date( ).getTime( ) );
 
-            DefaultUserParameter defaultUserParameter = DefaultUserParameterHome
-                    .findByKey( PARAMETER_ACCOUNT_REACTIVATED_MAIL_SENDER );
-            String strSender = defaultUserParameter == null ? StringUtils.EMPTY : defaultUserParameter
-                    .getParameterValue( );
+            if ( currentTimestamp.getTime( ) > firstAlertMaxDate.getTime( ) && StringUtils.isNotBlank( strUserMail ) )
+            {
+                AdminUser completeUser = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+                String strBody = DatabaseTemplateService.getTemplateFromKey( PARAMETER_ACCOUNT_REACTIVATED_MAIL_BODY );
 
-            defaultUserParameter = DefaultUserParameterHome.findByKey( PARAMETER_ACCOUNT_REACTIVATED_MAIL_SUBJECT );
-            String strSubject = defaultUserParameter == null ? StringUtils.EMPTY : defaultUserParameter
-                    .getParameterValue( );
+                DefaultUserParameter defaultUserParameter = DefaultUserParameterHome
+                        .findByKey( PARAMETER_ACCOUNT_REACTIVATED_MAIL_SENDER );
+                String strSender = defaultUserParameter == null ? StringUtils.EMPTY : defaultUserParameter
+                        .getParameterValue( );
 
-            Map<String, String> model = new HashMap<String, String>( );
+                defaultUserParameter = DefaultUserParameterHome.findByKey( PARAMETER_ACCOUNT_REACTIVATED_MAIL_SUBJECT );
+                String strSubject = defaultUserParameter == null ? StringUtils.EMPTY : defaultUserParameter
+                        .getParameterValue( );
 
-            DateFormat dateFormat = SimpleDateFormat.getDateInstance( DateFormat.SHORT, Locale.getDefault( ) );
+                Map<String, String> model = new HashMap<String, String>( );
 
-            String accountMaxValidDate = dateFormat.format( new Date( newExpirationDate.getTime( ) ) );
+                DateFormat dateFormat = SimpleDateFormat.getDateInstance( DateFormat.SHORT, Locale.getDefault( ) );
 
-            model.put( MARK_DATE_VALID, accountMaxValidDate );
-            model.put( MARK_NAME, user.getLastName( ) );
-            model.put( MARK_FIRST_NAME, user.getFirstName( ) );
+                String accountMaxValidDate = dateFormat.format( new Date( newExpirationDate.getTime( ) ) );
 
-            HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, Locale.getDefault( ), model );
-            MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject, template.getHtml( ) );
+                model.put( MARK_DATE_VALID, accountMaxValidDate );
+                model.put( MARK_NAME, completeUser.getLastName( ) );
+                model.put( MARK_FIRST_NAME, completeUser.getFirstName( ) );
+
+                HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, Locale.getDefault( ),
+                        model );
+                MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject, template.getHtml( ) );
+            }
         }
-
-        // We update the user account
-        AdminUserHome.updateUserExpirationDate( user.getUserId( ), newExpirationDate );
     }
 }

@@ -105,7 +105,7 @@ public class AccountLifeTimeDaemon extends Daemon
             AdminUserHome.updateUserStatus( accountsToSetAsExpired, AdminUser.EXPIRED_CODE );
 
             sbLogs = new StringBuilder( );
-            sbLogs.append( "MyluteceAccountLifeTimeDaemon - " );
+            sbLogs.append( "AccountLifeTimeDaemon - " );
             sbLogs.append( Integer.toString( nbAccountToExpire ) );
             sbLogs.append( " account(s) have expired" );
             AppLogService.info( sbLogs.toString( ) );
@@ -233,7 +233,7 @@ public class AccountLifeTimeDaemon extends Daemon
                 AdminUserHome.updateNbAlert( userIdListToSendNextAlert );
 
                 sbLogs = new StringBuilder( );
-                sbLogs.append( "MyluteceAccountLifeTimeDaemon - " );
+                sbLogs.append( "AccountLifeTimeDaemon - " );
                 sbLogs.append( Integer.toString( nbOtherAlertSent ) );
                 sbLogs.append( " next alert(s) have been sent" );
                 AppLogService.info( sbLogs.toString( ) );
