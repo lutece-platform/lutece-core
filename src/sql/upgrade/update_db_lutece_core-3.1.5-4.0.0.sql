@@ -57,3 +57,7 @@ INSERT INTO core_template VALUES ('core_first_alert_mail', 'Bonjour ${first_name
 INSERT INTO core_template VALUES ('core_expiration_mail', 'Bonjour ${first_name} ! Votre compte a expiré. Vous ne pourrez plus vous connecter avec, et les données vous concernant ont été anonymisées');
 INSERT INTO core_template VALUES ('core_other_alert_mail', 'Bonjour ${first_name} ! Votre compte utilisateur arrive à expiration. Pour prolonger sa validité, veuillez <a href="${url}">cliquer ici</a>.</br>Si vous ne le faites pas avant le ${date_valid}, il sera désactivé.');
 INSERT INTO core_template VALUES ('core_account_reactivated_mail', 'Bonjour ${first_name} ! Votre compte utilisateur a bien été réactivé. Il est désormais valable jusqu''au ${date_valid}.');
+--
+-- UPDATE of email size to 256 for respecting WSSO constraints 
+--
+ALTER TABLE core_admin_user MODIFY email  VARCHAR(256) default '' NOT NULL; 

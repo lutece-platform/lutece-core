@@ -85,7 +85,7 @@ CREATE TABLE core_admin_user (
 	access_code varchar(100) default '' NOT NULL,
 	last_name varchar(100) default '' NOT NULL,
 	first_name varchar(100) default '' NOT NULL,
-	email varchar(100) default '0' NOT NULL,
+	email varchar(256) default '0' NOT NULL,
 	status smallint default 0 NOT NULL,
 	password varchar(100) default NULL,
 	locale varchar(10) default 'fr' NOT NULL,
