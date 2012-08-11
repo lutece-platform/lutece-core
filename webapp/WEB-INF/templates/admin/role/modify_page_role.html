@@ -1,18 +1,29 @@
-<div class="content-box">
-    <h2 class="content-box-header">#i18n{portal.role.modify_role.boxTitle} ${role.role}</h2>
-    <form method="post" action="jsp/admin/role/DoModifyPageRole.jsp" name="modify_page_role">
-        <p>
-            <label>#i18n{portal.role.modify_role.labelDescription} * :</label>
-            <input type="text" name="role_description" value="${role.roleDescription}" size="78" maxlength="50" />
+<div class="row">
+    <legend>#i18n{portal.role.modify_role.boxTitle} ${role.role}</legend>
+    <form class="form-horizontal" method="post" action="jsp/admin/role/DoModifyPageRole.jsp" name="modify_page_role">
+        <fieldset>
+
+            <div class="control-group">
+                <label class="control-label" > #i18n{portal.role.modify_role.labelDescription} * :</label>
+                <div class="controls">
+                    <input type="text" name="role_description" value="${role.roleDescription}" size="78" maxlength="50" />
+                </div>
+            </div>
             <input type="hidden" name="role" value="${role.role}" />
-        </p>
-        <p>
-            <label>#i18n{portal.role.modify_role.labelWorkgroupKey} * :</label>
-			<@comboSorted name="workgroup_key" default_value="${role.workgroup}" items=workgroup_key_list />
-		</p>
-        <p>
-            <input type="submit" value="#i18n{portal.role.modify_role.buttonLabelValidate}" class="button" style="float:left;margin-right:5px;" />
-            <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
-        </p>
+
+
+            <div class="control-group">
+                <label class="control-label" > #i18n{portal.role.modify_role.labelWorkgroupKey} * :</label>
+                <div class="controls">
+                    <@comboSorted name="workgroup_key" default_value="${role.workgroup}" items=workgroup_key_list />
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" >#i18n{portal.role.modify_role.buttonLabelValidate}</button>
+                <button class="btn" onclick="javascript:history.go(-1)" >#i18n{portal.admin.message.buttonCancel}</button>
+            </div>
+
+        </fieldset>
     </form>
 </div>

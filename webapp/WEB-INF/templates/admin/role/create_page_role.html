@@ -1,21 +1,36 @@
-<div class="content-box">
-    <h2 class="content-box-header">#i18n{portal.role.create_role.boxTitle}</h2>
-    <form method="post" action="jsp/admin/role/DoCreatePageRole.jsp" name="create_page_role">
-        <p>
-            <label>#i18n{portal.role.create_role.labelName} * :</label>
-            <input type="text" name="role"  size="78" maxlength="50" />
-        </p>
-        <p>
-            <label>#i18n{portal.role.create_role.labelDescription} * :</label>
-            <input type="text" name="role_description"  size="78" maxlength="50" />
-        </p>
-        <p>
-            <label>#i18n{portal.role.create_role.labelWorkgroupKey} * :</label>
-			<@comboSorted name="workgroup_key" default_value="${workgroup_key_default_value}" items=workgroup_key_list />
-		</p>
-        <p>
-            <input type="submit" value="#i18n{portal.role.modify_role.buttonLabelValidate}" class="button" />
-            <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
-        </p>
+<div class="row">
+    <legend>#i18n{portal.role.create_role.boxTitle}</legend>
+    <form class="form-horizontal" method="post" action="jsp/admin/role/DoCreatePageRole.jsp" name="create_page_role">
+        <fieldset>
+
+            <div class="control-group">
+                <label class="control-label" > #i18n{portal.role.create_role.labelName} * :</label>
+                <div class="controls">
+                    <input type="text" name="role"  size="78" maxlength="50" />
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" > #i18n{portal.role.create_role.labelDescription} * :</label>
+                <div class="controls">
+                    <input type="text" name="role_description"  size="78" maxlength="50" />
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" > #i18n{portal.role.create_role.labelWorkgroupKey} * :</label>
+                <div class="controls">
+                    <@comboSorted name="workgroup_key" default_value="${workgroup_key_default_value}" items=workgroup_key_list />
+                </div>
+            </div>
+            
+
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" >#i18n{portal.role.modify_role.buttonLabelValidate}</button>
+                <button class="btn" onclick="javascript:history.go(-1)" >#i18n{portal.admin.message.buttonCancel}</button>
+            </div>
+        </fieldset>
     </form>
 </div>
