@@ -1,47 +1,47 @@
 <div class="well">
-	<h2>#i18n{portal.users.create_attribute.pageTitleAttributeCheckBox}</h2>
-	<form action="jsp/admin/user/attribute/DoCreateAttribute.jsp" method="post" name="" id=""  >
-		<p>
-	    	<label for="title">#i18n{portal.users.create_attribute.labelTitle} * : </label>
-	    	<input type="text" name="title" id="title" size="80" value=""  maxlength="255" />
-	    	<br/>
-			<label>&nbsp;</label>#i18n{portal.users.create_attribute.labelTitleComment}
-	 	</p>
-	 	<p>
-	       <label for="help_message"> #i18n{portal.users.create_attribute.labelHelpMessage} : </label>
-	      
-	     	<textarea name="help_message" id="help_message" cols="80" rows="5"></textarea>
-	    
-		 <br/>
-		 <label>&nbsp;</label> #i18n{portal.users.create_attribute.labelHelpMessageComment}
-		</p>
-	    <p>
-	     <label for="">#i18n{portal.users.create_attribute.labelType} : </label>
-	     ${attribute_type.name}
-		</p>
-		<p>
-			<label for="is_shown_in_search">#i18n{portal.users.create_attribute.labelIsShownInSearch} : </label>
-			<input name="is_shown_in_search" value="1" type="checkbox" />
-		</p>
-		<p>
-			<label for="is_shown_in_result_list">#i18n{portal.users.create_attribute.labelIsShownInResultList} : </label>
-			<input name="is_shown_in_result_list" value="1" type="checkbox" />
-		</p>
-	 	<p>
-	    	<label for="mandatory">#i18n{portal.users.create_attribute.labelMandatory} : </label>
-			<input name="mandatory" value="1" type="checkbox" />
-		</p>
-		<p>
-			<label for="is_field_in_line">#i18n{portal.users.create_attribute.labelIsFieldInLine} : </label>
-			<input name="is_field_in_line" value="1" type="checkbox" />
-			<br/>
-			<label>&nbsp;</label>#i18n{portal.users.create_attribute.labelIsFieldInLineComment}
-		</p>
-		<p>
-			<input name="attribute_type_class_name" value="${attribute_type.className}" type="hidden" /> 
-	  		<input type="submit" name="validate" value="#i18n{portal.users.create_attribute.buttonValidate}" class="button"/>
-	  		<input type="submit" name="apply" value="#i18n{portal.users.create_attribute.buttonApply}" class="button" />
-	  		<input type="submit" name="cancel" value="#i18n{portal.admin.message.buttonCancel}" class="button"/>
-	   </p>
-	</form>
+    <h2>#i18n{portal.users.create_attribute.pageTitleAttributeCheckBox}</h2>
+    <form action="jsp/admin/user/attribute/DoCreateAttribute.jsp" method="post" name="" id=""  >
+        <p>
+            <label for="title">#i18n{portal.users.create_attribute.labelTitle} * : </label>
+            <input type="text" name="title" id="title" size="80" value=""  maxlength="255" />
+            <br/>
+            <label>&nbsp;</label>#i18n{portal.users.create_attribute.labelTitleComment}
+        </p>
+        <p>
+            <label for="help_message"> #i18n{portal.users.create_attribute.labelHelpMessage} : </label>
+
+            <textarea name="help_message" id="help_message" cols="80" rows="5"></textarea>
+
+            <br/>
+            <label>&nbsp;</label> #i18n{portal.users.create_attribute.labelHelpMessageComment}
+        </p>
+        <p>
+            <label for="">#i18n{portal.users.create_attribute.labelType} : </label>
+            ${attribute_type.name}
+        </p>
+        <p>
+            <label for="is_shown_in_search">#i18n{portal.users.create_attribute.labelIsShownInSearch} : </label>
+            <input name="is_shown_in_search" value="1" type="checkbox" />
+        </p>
+        <p>
+            <label for="is_shown_in_result_list">#i18n{portal.users.create_attribute.labelIsShownInResultList} : </label>
+            <input name="is_shown_in_result_list" value="1" type="checkbox" />
+        </p>
+        <p>
+            <label for="mandatory">#i18n{portal.users.create_attribute.labelMandatory} : </label>
+            <input name="mandatory" value="1" type="checkbox" />
+        </p>
+        <p>
+            <label for="is_field_in_line">#i18n{portal.users.create_attribute.labelIsFieldInLine} : </label>
+            <input name="is_field_in_line" value="1" type="checkbox" />
+            <br/>
+            <label>&nbsp;</label>#i18n{portal.users.create_attribute.labelIsFieldInLineComment}
+        </p>
+        <p>
+            <input name="attribute_type_class_name" value="${attribute_type.className}" type="hidden" /> 
+            <input type="submit" name="validate" value="#i18n{portal.users.create_attribute.buttonValidate}" class="button"/>
+            <input type="submit" name="apply" value="#i18n{portal.users.create_attribute.buttonApply}" class="button" />
+            <input type="submit" name="cancel" value="#i18n{portal.admin.message.buttonCancel}" class="button"/>
+        </p>
+    </form>
 </div> 

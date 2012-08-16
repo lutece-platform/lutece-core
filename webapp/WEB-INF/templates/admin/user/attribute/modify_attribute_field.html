@@ -1,27 +1,27 @@
 <div class="well">
-	<h2>#i18n{portal.users.modify_attribute_field.pageTitle} :'${attribute.title}'</h2>
-	<form action="jsp/admin/user/attribute/DoModifyAttributeField.jsp#list" method="post" name="" id=""  >
-		<p>
-			<label for="title">#i18n{portal.users.modify_attribute_field.labelTitle} * :  </label>
-			<input type="text" name="title" id="title" size="80" value="${attribute_field.title}"  maxlength="255" />
-		</p>
-		<p>
-			<label for="value">#i18n{portal.users.modify_attribute_field.labelValue} * :  </label>
-			<input type="text" name="value" id="value" size="80" value="${attribute_field.value}" />
-		</p>
-		<p>
- 			<label for="default_value">#i18n{portal.users.modify_attribute_field.labelDefaultValue}</label>
- 			<#if attribute_field.defaultValue>
-				<input name="default_value" value="1" type="checkbox" checked="checked" />
-			<#else>
-				<input name="default_value" value="1" type="checkbox" />
-			</#if>
-		</p>
-		<p>
-			<input type="hidden" value="${attribute.idAttribute}" name="id_attribute" />
-			<input type="hidden" value="${attribute_field.idField}" name="id_field" />
-			<input type="submit" value="#i18n{portal.users.modify_attribute_field.buttonSave}" class="button" name="save" />
-			<input type="submit" value="#i18n{portal.admin.message.buttonCancel}" class="button" name="cancel" />
-		</p>
-	</form>
+    <h2>#i18n{portal.users.modify_attribute_field.pageTitle} :'${attribute.title}'</h2>
+    <form action="jsp/admin/user/attribute/DoModifyAttributeField.jsp#list" method="post" name="" id=""  >
+        <p>
+            <label for="title">#i18n{portal.users.modify_attribute_field.labelTitle} * :  </label>
+            <input type="text" name="title" id="title" size="80" value="${attribute_field.title}"  maxlength="255" />
+        </p>
+        <p>
+            <label for="value">#i18n{portal.users.modify_attribute_field.labelValue} * :  </label>
+            <input type="text" name="value" id="value" size="80" value="${attribute_field.value}" />
+        </p>
+        <p>
+            <label for="default_value">#i18n{portal.users.modify_attribute_field.labelDefaultValue}</label>
+            <#if attribute_field.defaultValue>
+            <input name="default_value" value="1" type="checkbox" checked="checked" />
+            <#else>
+            <input name="default_value" value="1" type="checkbox" />
+            </#if>
+        </p>
+        <p>
+            <input type="hidden" value="${attribute.idAttribute}" name="id_attribute" />
+            <input type="hidden" value="${attribute_field.idField}" name="id_field" />
+            <input type="submit" value="#i18n{portal.users.modify_attribute_field.buttonSave}" class="button" name="save" />
+            <input type="submit" value="#i18n{portal.admin.message.buttonCancel}" class="button" name="cancel" />
+        </p>
+    </form>
 </div>

@@ -1,25 +1,25 @@
 <div class="clearfix">
-<div class="row">
-<div class="span12">
-<div class="content-box" >
-<h2 class="clearfix">
-<img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">>#i18n{portal.features.create_group.title}</h2>
-<form method="post" action="jsp/admin/features/DoCreateGroup.jsp" class="well">
-<label for="group_id">#i18n{portal.features.create_group.labelId}</label>
-<input type="text" id="group_id" name="group_id" value="" />
-<label for="group_name">#i18n{portal.features.create_group.labelName}</label>
-<input type="text" id="group_name" name="group_name" value="" size="50" />
-<label for="group_description">#i18n{portal.features.create_group.labelDescription}</label>
-<input type="text" id="group_description" name="group_description" value="" size="100" />
-<label for="group_order">#i18n{portal.features.create_group.labelOrder}</label>
-<@comboSorted name="group_order" default_value="${order_default}" items=order_list />
-<div class="form-actions">
-<input class="btn btn-primary" type="submit" value="#i18n{portal.features.create_group.buttonCreate}" />
-<input class="btn" type="button" value="#i18n{portal.features.create_group.buttonCancel}" onClick="javascript:history.go(-1);" />
-</div>
-</form>
-</div>
-</div>
-</div>
+    <div class="row">
+        <div class="span12">
+            <div class="content-box" >
+                <h2 class="clearfix">
+                    <img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">>#i18n{portal.features.create_group.title}</h2>
+                <form method="post" action="jsp/admin/features/DoCreateGroup.jsp" class="well">
+                    <label for="group_id">#i18n{portal.features.create_group.labelId}</label>
+                    <input type="text" id="group_id" name="group_id" value="" />
+                    <label for="group_name">#i18n{portal.features.create_group.labelName}</label>
+                    <input type="text" id="group_name" name="group_name" value="" size="50" />
+                    <label for="group_description">#i18n{portal.features.create_group.labelDescription}</label>
+                    <input type="text" id="group_description" name="group_description" value="" size="100" />
+                    <label for="group_order">#i18n{portal.features.create_group.labelOrder}</label>
+                    <@comboSorted name="group_order" default_value="${order_default}" items=order_list />
+                    <div class="form-actions">
+                        <input class="btn btn-primary" type="submit" value="#i18n{portal.features.create_group.buttonCreate}" />
+                        <input class="btn" type="button" value="#i18n{portal.features.create_group.buttonCancel}" onClick="javascript:history.go(-1);" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 

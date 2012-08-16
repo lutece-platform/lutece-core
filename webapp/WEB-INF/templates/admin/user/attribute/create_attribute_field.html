@@ -1,32 +1,32 @@
 <div class="row">
-<div class="container">
-<fieldset>
-<legend>#i18n{portal.users.create_attribute_field.pageTitle} :'${attribute.title}'</legend>
-<form class="form-horizontal" action="jsp/admin/user/attribute/DoCreateAttributeField.jsp#list" method="post" name="" id="" >
-<div class="control-group">
-	<label class="control-label" for="title">#i18n{portal.users.create_attribute_field.labelTitle} * :  </label>
-	<div class="controls">
-	<input type="text" name="title" id="title" size="80" value=""  maxlength="255" />
-	</div>
-</div>
-<div class="control-group">
-<label class="control-label" for="value">#i18n{portal.users.create_attribute_field.labelValue} * :  </label>
-<div class="controls">
-<input type="text" name="value" id="value" size="80" value="" />
-</div>
-</div>
-<div class="control-group">
-<label class="control-label" for="default_value">#i18n{portal.users.create_attribute_field.labelDefaultValue}</label>
-<div class="controls">
-<label class="checkbox">
-	<input name="default_value" value="1" type="checkbox" >
-</label>
-</div>
-</div>
-<input type="hidden" value="${attribute.idAttribute}" name="id_attribute" />
-<button class="btn btn-primary" type="submit" >#i18n{portal.users.create_attribute_field.buttonSave}</button>
-<button class="btn btn-primary" type="submit" >#i18n{portal.admin.message.buttonCancel}</button>
-</form>
-</fieldset>
-</div>
+    <div class="container">
+        <fieldset>
+            <legend>#i18n{portal.users.create_attribute_field.pageTitle} :'${attribute.title}'</legend>
+            <form class="form-horizontal" action="jsp/admin/user/attribute/DoCreateAttributeField.jsp#list" method="post" name="" id="" >
+                <div class="control-group">
+                    <label class="control-label" for="title">#i18n{portal.users.create_attribute_field.labelTitle} * :  </label>
+                    <div class="controls">
+                        <input type="text" name="title" id="title" size="80" value=""  maxlength="255" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="value">#i18n{portal.users.create_attribute_field.labelValue} * :  </label>
+                    <div class="controls">
+                        <input type="text" name="value" id="value" size="80" value="" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="default_value">#i18n{portal.users.create_attribute_field.labelDefaultValue}</label>
+                    <div class="controls">
+                        <label class="checkbox">
+                            <input name="default_value" value="1" type="checkbox" >
+                        </label>
+                    </div>
+                </div>
+                <input type="hidden" value="${attribute.idAttribute}" name="id_attribute" />
+                <button class="btn btn-primary" type="submit" >#i18n{portal.users.create_attribute_field.buttonSave}</button>
+                <button class="btn btn-primary" type="submit" >#i18n{portal.admin.message.buttonCancel}</button>
+            </form>
+        </fieldset>
+    </div>
 </div>

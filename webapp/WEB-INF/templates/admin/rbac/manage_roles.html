@@ -1,51 +1,51 @@
 <div class="container">
-<fieldset>
-<legend>#i18n{portal.rbac.manage_roles.pageTitle}
-<div class="pull-right">
-<form class="form-inline" method="post" action="jsp/admin/rbac/CreateRole.jsp">
-<button class="btn btn-primary pull-right" type="submit" >
-<i class="icon-plus icon-white" ></i>
-<span class="hidden-phone" >#i18n{portal.rbac.manage_roles.buttonLabelNewRole}</span>
-</button>
-</form>
-</div>
-</legend>
- <@paginationAdmin paginator=paginator combo=1 />
-<table class="table table-striped table-condensed">
- <tr>
-    <th>
-         	#i18n{portal.rbac.manage_roles.columnTitleKey}
-              <@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="key" />
-        </th>
-            <th>
-            	#i18n{portal.rbac.manage_roles.columnTitleDescription}
-                <@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="description" />
-            </th>
-            <th>#i18n{portal.rbac.manage_roles.columnTitleActions}</th>
-        </tr>
-        <#list role_list as role >
-        <tr>
-            <td>${role.key}
-</td>
-            <td>${role.description}</td>
-        <td>
-                <a class="btn btn-primary btn-mini" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}"  title="#i18n{portal.rbac.view_role_description.labelDescription}" >
-	<i class="icon-eye-open icon-white"></i>
-	</a>
-	<a class="btn btn-primary btn-mini" href="jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}"  title="#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers}" >
-	<i class="icon-share icon-white"></i>
-	</a>
+    <fieldset>
+        <legend>#i18n{portal.rbac.manage_roles.pageTitle}
+            <div class="pull-right">
+                <form class="form-inline" method="post" action="jsp/admin/rbac/CreateRole.jsp">
+                    <button class="btn btn-primary pull-right" type="submit" >
+                        <i class="icon-plus icon-white" ></i>
+                        <span class="hidden-phone" >#i18n{portal.rbac.manage_roles.buttonLabelNewRole}</span>
+                    </button>
+                </form>
+            </div>
+        </legend>
+        <@paginationAdmin paginator=paginator combo=1 />
+        <table class="table table-striped table-condensed">
+            <tr>
+                <th>
+                    #i18n{portal.rbac.manage_roles.columnTitleKey}
+                    <@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="key" />
+                </th>
+                <th>
+                    #i18n{portal.rbac.manage_roles.columnTitleDescription}
+                    <@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="description" />
+                </th>
+                <th>#i18n{portal.rbac.manage_roles.columnTitleActions}</th>
+            </tr>
+            <#list role_list as role >
+            <tr>
+                <td>${role.key}
+                </td>
+                <td>${role.description}</td>
+                <td>
+                    <a class="btn btn-primary btn-mini" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}"  title="#i18n{portal.rbac.view_role_description.labelDescription}" >
+                        <i class="icon-eye-open icon-white"></i>
+                    </a>
+                    <a class="btn btn-primary btn-mini" href="jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}"  title="#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers}" >
+                        <i class="icon-share icon-white"></i>
+                    </a>
 
-                <a class="btn btn-danger btn-mini" href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}"  title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" >
-	<i class="icon-trash icon-white"></i>
-	</a>
+                    <a class="btn btn-danger btn-mini" href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}"  title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" >
+                        <i class="icon-trash icon-white"></i>
+                    </a>
 
-            </td>
-        </tr>
-        </#list>
-    </table>
-    <@paginationAdmin paginator=paginator />
-</fieldset>
+                </td>
+            </tr>
+            </#list>
+        </table>
+        <@paginationAdmin paginator=paginator />
+    </fieldset>
 </div>
 
 

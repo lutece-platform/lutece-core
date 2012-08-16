@@ -1,51 +1,51 @@
 <div class="row">
-<div class="container">
-<div class="span12">
-<fieldset>
-<legend class="clearfix">#i18n{portal.style.manage_styles.title}
-<span class="pull-right">
-<form class="form-inline" method="post"  action="jsp/admin/style/CreateStyle.jsp">
-<button class="btn btn-primary pull-right" type="submit" ><i class="icon-plus icon-white" ></i><span class="hidden-phone" >#i18n{portal.style.manage_styles.buttonCreate}</span></button>
- </form>
-</span>
-</legend>
-<@paginationAdmin paginator=paginator combo=1 />
-<table class="table table-striped table-condensed">
-       <tr>			
-            <th  >
-                #i18n{portal.style.manage_styles.labelId}
-                <@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="id" />
-            </th>
-            <th  >
-                #i18n{portal.style.manage_styles.labelName}
-                <@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="description" />
-            </th>
-            <th  >
-                #i18n{portal.style.manage_styles.labelComponentType}
-                <@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="portalComponentName" />
-            </th>
-            <th  >#i18n{portal.style.manage_styles.labelPortletType}</th>
-            <th  >#i18n{portal.style.manage_styles.labelActions}</th>
-        </tr>				
-        <#list style_list as style >
-        <tr>
-            <td >${style.id}</td>
-            <td>${style.description}</td>
-            <td >${style.portalComponentName}</td>
-            <td >#i18n{${style.portletTypeName}}</td>
-            <td  >
-            <a class="btn btn-primary btn-mini" href="jsp/admin/style/ModifyStyle.jsp?style_id=${style.id}"  title="" >
-                    <i class="icon-edit icon-white"></i>
-                </a>
-                <a class="btn btn-danger btn-mini" href="jsp/admin/style/RemoveStyle.jsp?style_id=${style.id}"  title="#i18n{portal.style.manage_styles.actionDelete}" >
-                    <i class="icon-trash icon-white"></i>
-                </a>
-            </td>
-        </tr>
-        </#list>	
-    </table>
-    <@paginationAdmin paginator=paginator />
-</fieldset>
-</div>
-</div>
+    <div class="container">
+        <div class="span12">
+            <fieldset>
+                <legend class="clearfix">#i18n{portal.style.manage_styles.title}
+                    <span class="pull-right">
+                        <form class="form-inline" method="post"  action="jsp/admin/style/CreateStyle.jsp">
+                            <button class="btn btn-primary pull-right" type="submit" ><i class="icon-plus icon-white" ></i><span class="hidden-phone" >#i18n{portal.style.manage_styles.buttonCreate}</span></button>
+                        </form>
+                    </span>
+                </legend>
+                <@paginationAdmin paginator=paginator combo=1 />
+                <table class="table table-striped table-condensed">
+                    <tr>			
+                        <th  >
+                            #i18n{portal.style.manage_styles.labelId}
+                            <@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="id" />
+                        </th>
+                        <th  >
+                            #i18n{portal.style.manage_styles.labelName}
+                            <@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="description" />
+                        </th>
+                        <th  >
+                            #i18n{portal.style.manage_styles.labelComponentType}
+                            <@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="portalComponentName" />
+                        </th>
+                        <th  >#i18n{portal.style.manage_styles.labelPortletType}</th>
+                        <th  >#i18n{portal.style.manage_styles.labelActions}</th>
+                    </tr>				
+                    <#list style_list as style >
+                    <tr>
+                        <td >${style.id}</td>
+                        <td>${style.description}</td>
+                        <td >${style.portalComponentName}</td>
+                        <td >#i18n{${style.portletTypeName}}</td>
+                        <td  >
+                            <a class="btn btn-primary btn-mini" href="jsp/admin/style/ModifyStyle.jsp?style_id=${style.id}"  title="" >
+                                <i class="icon-edit icon-white"></i>
+                            </a>
+                            <a class="btn btn-danger btn-mini" href="jsp/admin/style/RemoveStyle.jsp?style_id=${style.id}"  title="#i18n{portal.style.manage_styles.actionDelete}" >
+                                <i class="icon-trash icon-white"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </#list>	
+                </table>
+                <@paginationAdmin paginator=paginator />
+            </fieldset>
+        </div>
+    </div>
 </div>

@@ -39,13 +39,15 @@
                         <td>${service.memorySize}</td>
                         <td class="span2" >
 
-                            <a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-primary btn-mini" title="#i18n{portal.system.manage_caches.actionToggle}">
                                 <#if service.cacheEnable >
+                            <a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-danger btn-mini" title="#i18n{portal.system.manage_caches.actionToggle}">
                                 <i class="icon-stop icon-white"></i>
-                                <#else>
-                                <i class="icon-play icon-white"></i>
-                                </#if>
                             </a>
+                                <#else>
+                            <a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-success btn-mini" title="#i18n{portal.system.manage_caches.actionToggle}">
+                                <i class="icon-play icon-white"></i>
+                            </a>
+                                </#if>
                             <a href="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" class="btn btn-primary btn-mini" title="#i18n{portal.system.manage_caches.actionViewKeys}">
                                 <i class="icon-eye-open icon-white"></i>
                             </a>

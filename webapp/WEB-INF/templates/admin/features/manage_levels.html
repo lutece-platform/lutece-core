@@ -1,30 +1,30 @@
 <div class="row">
-<div class="container">
-<div class="span12">
-<fieldset>
-<legend class="clearfix">#i18n{portal.features.manage_levels.boxTitle}
-<span class="pull-right">
-<form method="post"  action="jsp/admin/features/CreateLevel.jsp" class="form-inline">
-<button type="submit" tabindex="1" class="btn btn-primary"><i class="icon-plus icon-white"></i>&nbsp;#i18n{portal.features.manage_levels.buttonLabelCreate}</button>
- </form>
- </span>
-</legend>
-<table class="table table-striped table-condensed">
-        <tr>            
-            <th >#i18n{portal.features.manage_levels.columnTitleId}</th>
-            <th >#i18n{portal.features.manage_levels.columnTitleName}</th>
-			 <th >#i18n{portal.features.manage_groups.labelActions}</th>
-        </tr>
-       
-        <#list levels_list as level >
-        <tr>
-            <td>
-                ${level.id}
-            </td>
-            <td>${level.name}</td>
-            <td><a href="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" class="btn btn-mini btn-primary"><i class="icon-edit icon-white"></i></a></td>
-        </tr>			
-        </#list>
-    </table>
-</div>
+    <div class="container">
+        <div class="span12">
+            <fieldset>
+                <legend class="clearfix">#i18n{portal.features.manage_levels.boxTitle}
+                    <span class="pull-right">
+                        <form method="post"  action="jsp/admin/features/CreateLevel.jsp" class="form-inline">
+                            <button type="submit" tabindex="1" class="btn btn-primary"><i class="icon-plus icon-white"></i>&nbsp;#i18n{portal.features.manage_levels.buttonLabelCreate}</button>
+                        </form>
+                    </span>
+                </legend>
+                <table class="table table-striped table-condensed">
+                    <tr>            
+                        <th >#i18n{portal.features.manage_levels.columnTitleId}</th>
+                        <th >#i18n{portal.features.manage_levels.columnTitleName}</th>
+                        <th >#i18n{portal.features.manage_groups.labelActions}</th>
+                    </tr>
+
+                    <#list levels_list as level >
+                    <tr>
+                        <td>
+                            ${level.id}
+                        </td>
+                        <td>${level.name}</td>
+                        <td><a href="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" class="btn btn-mini btn-primary"><i class="icon-edit icon-white"></i></a></td>
+                    </tr>			
+                    </#list>
+                </table>
+        </div>
 

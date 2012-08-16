@@ -1,26 +1,26 @@
 <div class="clearfix">
-<div class="row">
-<div class="span12">
-<div class="well">
-    <h2><img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">
-	#i18n{portal.system.view_files_system.boxTitle} <em>${files_system_directory}</em></h2>
-    <table class="table">
-    	<tr>
-    		<th>#i18n{portal.system.view_files_system.labelName}</th>
-    		<th>#i18n{portal.system.view_files_system.labelDate}</th>
-    		<th>#i18n{portal.system.view_files_system.labelLenght}</th>
-    	 </tr>
-        <#list files_list as file>
-        <tr>
-            <td>
-                <a href="jsp/admin/system/ViewFile.jsp?directory=${file.directory}&file=${file.name}" >${file.name}</a>
-            </td>
-            <td>${file.date?datetime?string.medium_short}</td>
-            <td>${file.size} Ko</td>
-        </tr>	
-        </#list>			
-    </table>
-</div>
-</div>
-</div>
+    <div class="row">
+        <div class="span12">
+            <div class="well">
+                <h2><img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">
+                    #i18n{portal.system.view_files_system.boxTitle} <em>${files_system_directory}</em></h2>
+                <table class="table">
+                    <tr>
+                        <th>#i18n{portal.system.view_files_system.labelName}</th>
+                        <th>#i18n{portal.system.view_files_system.labelDate}</th>
+                        <th>#i18n{portal.system.view_files_system.labelLenght}</th>
+                    </tr>
+                    <#list files_list as file>
+                    <tr>
+                        <td>
+                            <a href="jsp/admin/system/ViewFile.jsp?directory=${file.directory}&file=${file.name}" >${file.name}</a>
+                        </td>
+                        <td>${file.date?datetime?string.medium_short}</td>
+                        <td>${file.size} Ko</td>
+                    </tr>	
+                    </#list>			
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

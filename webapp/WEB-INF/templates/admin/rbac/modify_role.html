@@ -1,28 +1,28 @@
 <div class="row">
-<div class="container">
-<div class="span6 offset2">
-<fieldset>
-<legend>#i18n{portal.rbac.modify_role.titleModifyRole}</legend>
-<form class="form-horizontal" method="post"  action="jsp/admin/rbac/DoModifyRole.jsp" name="modify_role">
-<div class="control-group">
-<label class="control-label" for="role_key" >#i18n{portal.rbac.modify_role.labelKey}&nbsp;*&nbsp;:</label>
-<div class="controls">
-<input type="text" id="role_key" name="role_key" class="disabled" disabled="disabled" value="${role.key}" />
-</div>
-</div>
-<div class="control-group">
-<label class="control-label" for="role_description" >#i18n{portal.rbac.modify_role.labelDescription}&nbsp;*&nbsp;:</label>
-<div class="controls">
-<input type="text" id="role_description" name="role_description"  value="${role.description}" size="100" maxlength="255" />
-</div>
-</div>
-<input type="hidden" name="role_key_previous" value="${role.key}" />
+    <div class="container">
+        <div class="span6 offset2">
+            <fieldset>
+                <legend>#i18n{portal.rbac.modify_role.titleModifyRole}</legend>
+                <form class="form-horizontal" method="post"  action="jsp/admin/rbac/DoModifyRole.jsp" name="modify_role">
+                    <div class="control-group">
+                        <label class="control-label" for="role_key" >#i18n{portal.rbac.modify_role.labelKey}&nbsp;*&nbsp;:</label>
+                        <div class="controls">
+                            <input type="text" id="role_key" name="role_key" class="disabled" disabled="disabled" value="${role.key}" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="role_description" >#i18n{portal.rbac.modify_role.labelDescription}&nbsp;*&nbsp;:</label>
+                        <div class="controls">
+                            <input type="text" id="role_description" name="role_description"  value="${role.description}" size="100" maxlength="255" />
+                        </div>
+                    </div>
+                    <input type="hidden" name="role_key_previous" value="${role.key}" />
 
-<div class="form-actions">
-<button class="btn btn-primary" type="submit" ><i class="icon-edit icon-white"></i>#i18n{portal.rbac.modify_role.buttonLabelModify}</button>
-</div>
-</fieldset>
-</form>
-</div>
-</div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" type="submit" ><i class="icon-edit icon-white"></i>#i18n{portal.rbac.modify_role.buttonLabelModify}</button>
+                    </div>
+            </fieldset>
+            </form>
+        </div>
+    </div>
 </div>

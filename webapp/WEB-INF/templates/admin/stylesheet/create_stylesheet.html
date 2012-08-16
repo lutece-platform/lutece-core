@@ -1,39 +1,39 @@
 <div class="row">
-<div class="container">
-<div class="span12">
-<fieldset>
-<legend>#i18n{portal.style.create_stylesheet.title}</legend>
-<form class="form-horizontal" method="post" action="jsp/admin/style/DoCreateStyleSheet.jsp" enctype="multipart/form-data" name="create_stylesheet">
-<div class="control-group">
-<label class="control-label" for="stylesheet_name" >#i18n{portal.style.create_stylesheet.labelName}&nbsp;:&nbsp;*</label>
-<div class="controls">
-<input class="focused" type="text" id="stylesheet_name" name="stylesheet_name" maxlength="255" />
-</div>
-</div>
-<div class="control-group">
-<label class="control-label" for="stylesheet_source" >#i18n{portal.style.create_stylesheet.labelFilename}&nbsp;:&nbsp;*</label>
-<div class="controls">
-<input type="file" id="stylesheet_source" name="stylesheet_source" />
-</div>
-</div>
-<div class="control-group">
-<label class="control-label" for="styles" >#i18n{portal.style.create_stylesheet.labelStyle}&nbsp;:&nbsp;*</label>
-<div class="controls">
-<@comboSorted name="styles" default_value="0" items=style_list />
-</div>
-</div>
-<div class="control-group">
-<label class="control-label" for="mode_stylesheet">#i18n{portal.style.create_stylesheet.labelMode}&nbsp;:&nbsp;*</label>
-<div class="controls">
-<@comboSorted name="mode_stylesheet" default_value="${mode_id}" items=mode_list />
-</div>
-</div>
-<div class="form-actions">    
-<input type="hidden" name="mode_id" value="${mode_id}" />
-<button class="btn btn-primary" type="submit" >#i18n{portal.style.create_stylesheet.buttonCreate}</button>
-</div>
-</fieldset>
-</form>
-</div>
-</div>
+    <div class="container">
+        <div class="span12">
+            <fieldset>
+                <legend>#i18n{portal.style.create_stylesheet.title}</legend>
+                <form class="form-horizontal" method="post" action="jsp/admin/style/DoCreateStyleSheet.jsp" enctype="multipart/form-data" name="create_stylesheet">
+                    <div class="control-group">
+                        <label class="control-label" for="stylesheet_name" >#i18n{portal.style.create_stylesheet.labelName}&nbsp;:&nbsp;*</label>
+                        <div class="controls">
+                            <input class="focused" type="text" id="stylesheet_name" name="stylesheet_name" maxlength="255" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="stylesheet_source" >#i18n{portal.style.create_stylesheet.labelFilename}&nbsp;:&nbsp;*</label>
+                        <div class="controls">
+                            <input type="file" id="stylesheet_source" name="stylesheet_source" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="styles" >#i18n{portal.style.create_stylesheet.labelStyle}&nbsp;:&nbsp;*</label>
+                        <div class="controls">
+                            <@comboSorted name="styles" default_value="0" items=style_list />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="mode_stylesheet">#i18n{portal.style.create_stylesheet.labelMode}&nbsp;:&nbsp;*</label>
+                        <div class="controls">
+                            <@comboSorted name="mode_stylesheet" default_value="${mode_id}" items=mode_list />
+                        </div>
+                    </div>
+                    <div class="form-actions">    
+                        <input type="hidden" name="mode_id" value="${mode_id}" />
+                        <button class="btn btn-primary" type="submit" >#i18n{portal.style.create_stylesheet.buttonCreate}</button>
+                    </div>
+            </fieldset>
+            </form>
+        </div>
+    </div>
 </div>
