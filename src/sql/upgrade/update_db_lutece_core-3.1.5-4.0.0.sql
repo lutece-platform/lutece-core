@@ -23,7 +23,7 @@ INSERT INTO core_user_parameter VALUES ('account_reactivated_mail_subject', 'Vot
 DROP TABLE IF EXISTS core_template;
 CREATE TABLE core_template (
   template_name VARCHAR(100) NOT NULL,
-  template_value VARCHAR(4000) NULL,
+  template_value LONG VARCHAR NULL,
   PRIMARY KEY (template_name)
   );
   
