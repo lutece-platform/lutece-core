@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.business.mailinglist;
 
 import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -108,4 +109,12 @@ public interface IMailingListDAO
      * @return true if it already exists, false otherwise
      */
     boolean checkFilter( MailingListUsersFilter filter, int nId );
+
+    /**
+     * Select by filter.
+     *
+     * @param filter the filter
+     * @return the list
+     */
+    List<MailingList> selectByFilter( MailingListFilter filter );
 }

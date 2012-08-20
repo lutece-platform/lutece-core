@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.mailinglist;
 
 import fr.paris.lutece.portal.business.mailinglist.MailingList;
+import fr.paris.lutece.portal.business.mailinglist.MailingListFilter;
 import fr.paris.lutece.portal.business.mailinglist.MailingListHome;
 import fr.paris.lutece.portal.business.mailinglist.MailingListUsersFilter;
 import fr.paris.lutece.portal.business.mailinglist.Recipient;
@@ -46,6 +47,7 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -67,7 +69,7 @@ public final class AdminMailingListService
      */
     public static void init(  )
     {
-        // Initialize mailing list 
+        // Initialize mailing list
         MailingList.init(  );
     }
 
@@ -109,6 +111,33 @@ public final class AdminMailingListService
         }
 
         return listMailinglists;
+    }
+
+    /**
+     * Gets the user mailing lists by filter.
+     *
+     * @param user the user
+     * @param filter the filter
+     * @return the user mailing lists by filter
+     */
+    public static List<MailingList> getUserMailingListsByFilter( AdminUser user, MailingListFilter filter )
+    {
+    	MailingListFilter mailingListFilter = new MailingListFilter( filter );
+    	// First get mailinglist by workgroup 'all'
+    	mailingListFilter.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
+    	List<MailingList> listMailingLists = MailingListHome.findsByFilter( mailingListFilter );
+
+    	// Add mailing list of the user's workgroups
+        ReferenceList listWorkgroups = AdminWorkgroupHome.getUserWorkgroups( user );
+
+        for ( ReferenceItem workgroup : listWorkgroups )
+        {
+        	mailingListFilter = new MailingListFilter( filter );
+        	mailingListFilter.setWorkgroup( workgroup.getCode(  ) );
+        	listMailingLists.addAll( MailingListHome.findsByFilter( mailingListFilter ) );
+        }
+
+    	return listMailingLists;
     }
 
     /**

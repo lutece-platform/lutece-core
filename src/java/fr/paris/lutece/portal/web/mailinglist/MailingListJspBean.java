@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.mailinglist;
 
 import fr.paris.lutece.portal.business.mailinglist.MailingList;
+import fr.paris.lutece.portal.business.mailinglist.MailingListFilter;
 import fr.paris.lutece.portal.business.mailinglist.MailingListHome;
 import fr.paris.lutece.portal.business.mailinglist.MailingListUsersFilter;
 import fr.paris.lutece.portal.business.mailinglist.Recipient;
@@ -43,16 +44,26 @@ import fr.paris.lutece.portal.service.mailinglist.MailingListRemovalListenerServ
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.html.Paginator;
+import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,12 +91,16 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_ROLES_LIST = "roles_list";
     private static final String MARK_RECIPIENTS_LIST = "recipients_list";
     private static final String MARK_MAILINGLIST = "mailinglist";
+    private static final String MARK_MAILINGLIST_FILTER = "mailinglistFilter";
+    private static final String MARK_PAGINATOR = "paginator";
+    private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
 
     // Properties
     private static final String PROPERTY_CREATE_MAILINGLIST_PAGETITLE = "portal.mailinglist.create_mailinglist.pageTitle";
     private static final String PROPERTY_MODIFY_MAILINGLIST_PAGETITLE = "portal.mailinglist.modify_mailinglist.pageTitle";
     private static final String PROPERTY_VIEW_USERS_PAGETITLE = "portal.mailinglist.view_users.pageTitle";
     private static final String PROPERTY_ADD_USERS_PAGETITLE = "portal.mailinglist.add_users.pageTitle";
+    private static final String PROPERTY_MAILINGLIST_PER_PAGE = "paginator.mailinglist.itemsPerPage";
     private static final String MESSAGE_CONFIRM_REMOVE = "portal.mailinglist.message.confirmRemoveMailingList";
     private static final String MESSAGE_CANNOT_REMOVE = "portal.mailinglist.message.cannotRemoveMailingList";
     private static final String MESSAGE_FILTER_ALREADY_EXISTS = "portal.mailinglist.message.filterAlreadyExists";
@@ -96,10 +111,16 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_MAILINGLIST_ID = "id_mailinglist";
     private static final String PARAMETER_NAME = "name";
     private static final String PARAMETER_DESCRIPTION = "description";
+    private static final String PARAMETER_SESSION = "session";
 
     // JSP
     private static final String JSP_MODIFY_MAILINGLIST = "ModifyMailingList.jsp";
     private static final String JSP_URL_REMOVE_MAILINGLIST = "jsp/admin/mailinglist/DoRemoveMailingList.jsp";
+    private static final String JSP_URL_MANAGE_MAILINGLISTS = "jsp/admin/mailinglist/ManageMailingLists.jsp";
+    private MailingListFilter _mailingListFilter;
+    private int _nItemsPerPage;
+    private int _nDefaultItemsPerPage;
+    private String _strCurrentPageIndex;
 
     /**
      * Get the mailinglists management page.
@@ -109,9 +130,52 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageMailinglists( HttpServletRequest request )
     {
-        HashMap<String, Collection<MailingList>> model = new HashMap<String, Collection<MailingList>>(  );
-        Collection<MailingList> listMailinglists = AdminMailingListService.getUserMailingLists( getUser(  ) );
-        model.put( MARK_MAILINGLISTS_LIST, listMailinglists );
+    	Map<String, Object> model = new HashMap<String, Object>(  );
+
+        // Build filter
+        if ( StringUtils.isBlank( request.getParameter( PARAMETER_SESSION ) ) )
+        {
+        	_mailingListFilter = new MailingListFilter(  );
+        	populate( _mailingListFilter, request );
+        }
+
+        List<MailingList> listMailinglists = AdminMailingListService.getUserMailingListsByFilter( getUser(  ), _mailingListFilter );
+
+        // SORT
+        String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
+        String strAscSort = request.getParameter( Parameters.SORTED_ASC );
+        boolean bIsAscSort = true;
+
+        if ( StringUtils.isBlank( strSortedAttributeName ) )
+		{
+        	strSortedAttributeName = PARAMETER_NAME;
+		}
+
+        if ( StringUtils.isNotBlank( strAscSort ) )
+        {
+        	bIsAscSort = Boolean.parseBoolean( strAscSort );
+        }
+
+    	Collections.sort( listMailinglists, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
+
+    	// Paginator
+    	_strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_MAILINGLIST_PER_PAGE, 50 );
+        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
+                _nDefaultItemsPerPage );
+
+        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_MAILINGLISTS );
+        url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
+        url.addParameter( Parameters.SORTED_ASC, Boolean.toString( bIsAscSort ) );
+        url.addParameter( PARAMETER_SESSION, PARAMETER_SESSION );
+
+    	LocalizedPaginator<MailingList> paginator = new LocalizedPaginator<MailingList>( listMailinglists, _nItemsPerPage,
+                url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale(  ) );
+
+        model.put( MARK_MAILINGLISTS_LIST, paginator.getPageItems(  ) );
+        model.put( MARK_PAGINATOR, paginator );
+        model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( paginator.getItemsPerPage(  ) ) );
+        model.put( MARK_MAILINGLIST_FILTER, _mailingListFilter );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_MAILINGLISTS, getLocale(  ), model );
 
@@ -239,7 +303,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         MailingListHome.update( mailinglist );
 
-        return this.getHomeUrl( request );
+        return getHomeUrl( request );
     }
 
     /**
@@ -280,7 +344,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         MailingListHome.remove( nId );
 
-        return this.getHomeUrl( request );
+        return getHomeUrl( request );
     }
 
     /**

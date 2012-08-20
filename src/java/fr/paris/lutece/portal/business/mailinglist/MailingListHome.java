@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.mailinglist;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -152,5 +153,16 @@ public final class MailingListHome
     public static boolean checkFilter( MailingListUsersFilter filter, int nId )
     {
         return _dao.checkFilter( filter, nId );
+    }
+
+    /**
+     * Find by filter.
+     *
+     * @param filter the filter
+     * @return the list
+     */
+    public static List<MailingList> findsByFilter( MailingListFilter filter )
+    {
+    	return _dao.selectByFilter( filter );
     }
 }
