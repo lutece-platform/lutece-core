@@ -17,7 +17,6 @@
 	</select>
 </#macro>
 
-
 <#macro comboWithParamsAndLength name default_value additionalParameters items max_length >
 	<select id="${name}" name="${name}" ${additionalParameters} >			
 		<#list items as item>
@@ -35,40 +34,33 @@
 	</select>
 </#macro>
 
-
 <#macro combo name default_value items >
 	<@comboWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
 </#macro>
-	
 
 <#macro comboSorted name default_value items >
 	<@combo name="${name}" default_value="${default_value}" items=items?sort_by("name") />
 </#macro>
 
 <#macro radioImageList name default_value items >
-        <#list items as item>
-            <#if default_value="${item.code}"> 			
-                <input checked="checked" class="radio" type="radio" name="${name}" value="${item.code}" /><img src="${item.name}" alt="" />
-            <#else>
-                <input class="radio" type="radio" name="${name}" value="${item.code}" /><img src="${item.name}" alt="" />
-            </#if>
-        </#list>
+<#list items as item>
+    <#if default_value="${item.code}"> 			
+        <input checked="checked" class="radio" type="radio" name="${name}" value="${item.code}" /><img src="${item.name}" alt="" />
+    <#else>
+        <input class="radio" type="radio" name="${name}" value="${item.code}" /><img src="${item.name}" alt="" />
+    </#if>
+</#list>
 </#macro>
 
 <#macro checkboxList name default_values items >
-        <#list items as item>
-        <p>
-            <#if item.checked > 			
-                <label for="document_type"> &nbsp;</label>
-                <input checked class="checkbox" type="checkbox" name="${name}" value="${item.code}" /> ${item.name}
-            <#else>
-                <label for="document_type"> &nbsp;</label>
-                <input class="checkbox" type="checkbox" name="${name}" value="${item.code}" /> ${item.name}
-            </#if>
-        </p>
-        </#list>
+<#list items as item>
+	<#if item.checked > 			
+		<label for="document_type"><input checked class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}</label>
+    <#else>
+        <label for="document_type"><input class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}</label>
+	</#if>
+</#list>
 </#macro>                
-
 
 <#macro sort jsp_url attribute >
 	<#if jsp_url?contains("?")>
@@ -76,11 +68,11 @@
 	<#else>
 		<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
 	</#if>
-	<a id="sort" href="${sort_url}true#sort" >
-		<img src="images/admin/skin/actions/sort_asc.gif" style="vertical-align: text-bottom;" alt="#i18n{portal.util.sort.asc}" title="#i18n{portal.util.sort.asc}" />
+	<a id="sort" href="${sort_url}true#sort" title="#i18n{portal.util.sort.asc}" >
+		<i class="icon-chevron-up"></i>
 	</a>
-	<a href="${sort_url}false#sort" >
-    	<img src="images/admin/skin/actions/sort_desc.gif" style="vertical-align: text-bottom;" alt="#i18n{portal.util.sort.desc}" title="#i18n{portal.util.sort.desc}" />
+	<a href="${sort_url}false#sort" title="#i18n{portal.util.sort.desc}">
+    	<i class="icon-chevron-down"></i>
     </a>
 </#macro>
 
@@ -271,17 +263,17 @@
 <#macro item_navigation item_navigator>
 	<div id="item-navigator">
 		<#if (item_navigator.currentItemId > 0)>
-			<a href="${item_navigator.previousPageLink?xhtml}">
-	            <img src="images/admin/skin/prev.png" alt="#i18n{portal.util.labelPrevious}" title="#i18n{portal.util.labelPrevious}" style="vertical-align: baseline;" />
+			<a href="${item_navigator.previousPageLink?xhtml}" title="#i18n{portal.util.labelPrevious}">
+	            <i class="icon-circle-arrow-left"></i>
 	            #i18n{portal.util.labelPrevious}
 	        </a>
 	    <#else>
 	    	&nbsp;&nbsp;
 		</#if>
 		<#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-	         <a href="${item_navigator.nextPageLink?xhtml}">
+	         <a href="${item_navigator.nextPageLink?xhtml}" title="#i18n{portal.util.labelNext}">
 	         	#i18n{portal.util.labelNext}
-	            <img src="images/admin/skin/next.png" alt="#i18n{portal.util.labelNext}" title="#i18n{portal.util.labelNext}" style="vertical-align: baseline;" />
+	           <i class="icon-circle-arrow-right"></i>
 	        </a>
 	    <#else>
 	    	&nbsp;&nbsp;

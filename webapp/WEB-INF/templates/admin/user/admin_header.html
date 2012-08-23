@@ -1,22 +1,20 @@
-<div class="container">
-    <a name="top"></a>
-    <div class="navbar navbar-fixed-top">
+<a name="top"></a>
+<div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
-            <div class="container">
                 <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
                 <a href="jsp/site/Portal.jsp"   title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
-                    <img src="images/logo-header.png" alt="logo" title="" /> &nbsp;<i class="icon-globe icon-white"></i>&nbsp;${site_name}
+                    &nbsp;<img src="images/logo-header.png" alt="logo" title="${site_name}" /> &nbsp;${site_name}
                 </a>
                 <div class="nav-collapse">
                     <ul class="nav">
                         <#list feature_group_list as feature_group>
                         <li class="dropdown">
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
+                            <a data-toggle="dropdown" class="dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
                                 <#list feature_group.features as feature >
                                 <li>
                                     <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
@@ -26,19 +24,20 @@
                         </li>
                         </#list>
                     </ul>
-                    <ul class="nav pull-right">
+                    <ul class="nav">
                         <li>
                             <div class="btn-group">
-                                <a href="jsp/admin/AdminMenu.jsp" class="btn btn-info" title="#i18n{portal.users.admin_header.title.homePage}"><i class="icon-home icon-white"></i>&nbsp;#i18n{portal.users.admin_header.homePage}</a>
-                                <!-- a href="jsp/site/Portal.jsp" class="btn btn-info" target="_blank" title="#i18n{portal.users.admin_header.title.viewSite}">
-                                <i class="icon-globe icon-white"></i>&nbsp;#i18n{portal.users.admin_header.viewSite}</a -->
+                                <a href="jsp/admin/AdminMenu.jsp" class="btn btn-info" title="#i18n{portal.users.admin_header.title.homePage}">
+									<i class="icon-home icon-white"></i>&nbsp;#i18n{portal.users.admin_header.homePage}
+								</a>
                             </div>
                         </li>
-                        <li>
-                            <div class="btn-group">
-                                <a href="jsp/admin/AdminMenu.jsp#" class="btn btn-primary"><i class="icon-user icon-white"></i>&nbsp;<#if dashboard_zone_4?has_content>${dashboard_zone_4}</#if></a>
-                                <a href="jsp/admin/AdminMenu.jsp#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle"><span class="caret"></span></a>
-                                <ul class="dropdown-menu">
+						<li>&nbsp;</li>
+                        <li class="dropdown">
+							<div class="btn-group">
+                            <a href="jsp/admin/AdminMenu.jsp#" class="btn btn-primary" id="dLabelUserHeader" data-toggle="dropdown"><i class="icon-user icon-white"></i>&nbsp;<#if dashboard_zone_4?has_content>${dashboard_zone_4}</#if><b class="caret"></b></a>
+                            
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
                                     <li><a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="icon-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a></li>
 
                                     <#if user.accessibilityMode>
@@ -65,11 +64,11 @@
                                         </#if>
                                     </li>
                                 </ul>
-                            </div>
+							</div>	
+							
                         </li>
                     </ul> 
                 </div><!-- /.nav-collapse -->
             </div>
-        </div><!-- /navbar-inner -->
-    </div>
+	<!-- /navbar-inner -->
 </div>

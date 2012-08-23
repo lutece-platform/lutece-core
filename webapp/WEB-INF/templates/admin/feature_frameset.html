@@ -1,17 +1,18 @@
 <div class="container" >
-    <h2>
-        <img id="feature-logo" src="${feature_icon}" alt="" title=""/>
-        <a href="${feature_url}">${feature_title}</a>
-        <#if feature_documentation?has_content >
-        <#if feature_documentation?exists>
-        <a target="_blank" href="${feature_documentation}" title="#i18n{portal.features.documentation.help}">
-            <img src="images/admin/skin/documentation.png" alt="" title="#i18n{portal.features.documentation.help}" />
-        </a>
-        </#if>
+    <div class="page-header">
+		<h4><img id="feature-logo" src="${feature_icon}" alt="" title=""/>
+		<a href="${feature_url}">${feature_title}</a>
+		<#if feature_documentation?has_content >
+			<#if feature_documentation?exists>
+			<a target="_blank" href="${feature_documentation}" title="#i18n{portal.features.documentation.help}">
+				<img src="images/admin/skin/documentation.png" alt="" title="#i18n{portal.features.documentation.help}" />
+			</a>
+			</#if>
         </#if>
         <#if page_title?has_content>
-        ${page_title}
+			<small>${page_title}</small> 
         </#if>
-    </h2>
+		</h4>
+    </div>
     ${page_content}
 </div>
