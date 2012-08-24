@@ -1,74 +1,80 @@
 <a name="top"></a>
 <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-                <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
-                <a href="jsp/site/Portal.jsp"   title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
-                    &nbsp;<img src="images/logo-header.png" alt="logo" title="${site_name}" /> &nbsp;${site_name}
-                </a>
-                <div class="nav-collapse">
-                    <ul class="nav">
-                        <#list feature_group_list as feature_group>
-                        <li class="dropdown">
-                            <a data-toggle="dropdown" class="dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
-                                <#list feature_group.features as feature >
-                                <li>
-                                    <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
-                                </li>
-                                </#list>
-                            </ul>
+    <div class="navbar-inner">
+        <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <a href="jsp/site/Portal.jsp"   title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
+            &nbsp;<img src="images/logo-header.png" alt="logo" title="${site_name}" /> &nbsp;${site_name}
+        </a>
+        <div class="nav-collapse">
+            <ul class="nav">
+                <#list feature_group_list as feature_group>
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
+                        <#list feature_group.features as feature >
+                        <li>
+                            <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
                         </li>
                         </#list>
                     </ul>
-                    <ul class="nav">
-                        <li>
-                            <div class="btn-group">
-                                <a href="jsp/admin/AdminMenu.jsp" class="btn btn-info" title="#i18n{portal.users.admin_header.title.homePage}">
-									<i class="icon-home icon-white"></i>&nbsp;#i18n{portal.users.admin_header.homePage}
-								</a>
-                            </div>
-                        </li>
-						<li>&nbsp;</li>
-                        <li class="dropdown">
-							<div class="btn-group">
-                            <a href="jsp/admin/AdminMenu.jsp#" class="btn btn-primary" id="dLabelUserHeader" data-toggle="dropdown"><i class="icon-user icon-white"></i>&nbsp;<#if dashboard_zone_4?has_content>${dashboard_zone_4}</#if><b class="caret"></b></a>
-                            
-							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
-                                    <li><a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="icon-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a></li>
+                </li>
+                </#list>
+            </ul>
+            <ul class="nav">
+                <li>
+                    <div class="btn-group">
+                        <a href="jsp/admin/AdminMenu.jsp" class="btn btn-info" title="#i18n{portal.users.admin_header.title.homePage}">
+                            <i class="icon-home icon-white"></i>&nbsp;#i18n{portal.users.admin_header.homePage}
+                        </a>
+                    </div>
+                </li>
+                <li>&nbsp;</li>
+                <li class="dropdown">
+                    <div class="btn-group">
+                        <a href="jsp/admin/AdminMenu.jsp#" class="btn btn-primary" id="dLabelUserHeader" data-toggle="dropdown"><i class="icon-user icon-white"></i>&nbsp;<#if dashboard_zone_4?has_content>${dashboard_zone_4}</#if><b class="caret"></b></a>
 
-                                    <#if user.accessibilityMode>
-                                    <li><a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}"><i class="icon-eye-open"></i>&nbsp;#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}</a>
-                                    </li>
-                                    <#else>
-                                    <li><a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelActivateAccessibilityMode}"><i class="icon-eye-close"></i>&nbsp;#i18n{portal.users.admin_header.labelActivateAccessibilityMode}</a>
-                                    </li>
-                                    </#if>
-                                    <#if user.userLevel == 0>
-                                    <li><a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.users.admin_header.title.technicalMenu}">
-                                            <i class="icon-wrench"></i>&nbsp;#i18n{portal.users.admin_header.technicalMenu}</a>
-                                    </li>
-                                    </#if>
-                                    <#if admin_summary_documentation_url?exists>
-                                    <li>
-                                        <a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">
-                                            <i class="icon-question-sign"></i>&nbsp;#i18n{portal.users.admin_header.documentation}</a>
-                                    </li>
-                                    </#if>
-                                    <li class="divider"></li>
-                                    <li><#if admin_logout_url?has_content>
-                                        <a href="${admin_logout_url}"><i class="icon-off"></i>&nbsp;#i18n{portal.users.admin_header.deconnectionLink}</a>
-                                        </#if>
-                                    </li>
-                                </ul>
-							</div>	
-							
-                        </li>
-                    </ul> 
-                </div><!-- /.nav-collapse -->
-            </div>
-	<!-- /navbar-inner -->
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
+                            <li>
+                                <a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="icon-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a>
+                            </li>
+                            <#if user.accessibilityMode>
+                            <li>
+                                <a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}"><i class="icon-eye-open"></i>&nbsp;#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}</a>
+                            </li>
+                            <#else>
+                            <li>
+                                <a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelActivateAccessibilityMode}"><i class="icon-eye-close"></i>&nbsp;#i18n{portal.users.admin_header.labelActivateAccessibilityMode}</a>
+                            </li>
+                            </#if>
+                            <#if user.userLevel == 0>
+                            <li>
+                                <a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.users.admin_header.title.technicalMenu}">
+                                    <i class="icon-wrench"></i>&nbsp;#i18n{portal.users.admin_header.technicalMenu}
+                                </a>
+                            </li>
+                            </#if>
+                            <#if admin_summary_documentation_url?exists>
+                            <li>
+                                <a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">
+                                    <i class="icon-question-sign"></i>&nbsp;#i18n{portal.users.admin_header.documentation}
+                                </a>
+                            </li>
+                            </#if>
+                            <li class="divider"></li>
+                            <li>
+                                <#if admin_logout_url?has_content>
+                                <a href="${admin_logout_url}"><i class="icon-off"></i>&nbsp;#i18n{portal.users.admin_header.deconnectionLink}</a>
+                                </#if>
+                            </li>
+                        </ul>
+                    </div>	
+                </li>
+            </ul> 
+        </div><!-- /.nav-collapse -->
+    </div>
+    <!-- /navbar-inner -->
 </div>
