@@ -29,10 +29,8 @@
                         <span class="add-on"><i class="icon-lock"></i></span><input type="password" name="password" id="password"autocomplete="off" required="required" placeholder="#i18n{portal.admin.admin_login.passwordLabel}"  tabindex="2" />
                     </div>
                     <div class="form-actions">
-                        <span class="span1">
-                            <input class="btn btn-primary" type="submit" value="#i18n{portal.admin.admin_login.buttonConnect}" tabindx="3"> 
-                        </span>
-                        <span class="span2 offset1 pull-right"><i class="icon-exclamation-sign">&nbsp;</i>&nbsp;<a href="${forgot_password_url?if_exists}">#i18n{portal.admin.admin_login.forgotPassword}</a></span>
+                        <button class="btn btn-primary" tabindex="3" type="submit"><i class="icon-ok-sign icon-white"></i>&nbsp;#i18n{portal.admin.admin_login.buttonConnect}</button>
+                        <span class="pull-right"><i class="icon-exclamation-sign">&nbsp;</i>&nbsp;<a href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}" tabindex="4" >#i18n{portal.admin.admin_login.forgotPassword}</a></span>
                     </div>
                     </div>
                 </fieldset>
