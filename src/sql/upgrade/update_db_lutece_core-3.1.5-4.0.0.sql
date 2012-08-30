@@ -31,6 +31,7 @@ ALTER TABLE core_admin_user ADD COLUMN password_max_valid_date TIMESTAMP NULL ;
 ALTER TABLE core_admin_user ADD COLUMN account_max_valid_date BIGINT NULL ;
 ALTER TABLE core_admin_user ADD COLUMN nb_alerts_sent INTEGER DEFAULT 0 NOT NULL;
 ALTER TABLE core_attribute ADD COLUMN anonymize SMALLINT DEFAULT NULL ;
+ALTER TABLE core_portlet ADD COLUMN device_display_flags int default 15 NOT NULL;
 
 DROP TABLE IF EXISTS core_user_password_history;
 CREATE  TABLE core_user_password_history (
