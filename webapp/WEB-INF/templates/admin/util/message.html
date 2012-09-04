@@ -10,56 +10,55 @@
     <#assign alerttype="error" />
 	<#assign icontype="icon-minus-sign" />
 </#if>
-<div class="clearfix">
-<div class="row">
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite}" target="_blank" class="brand">
-		<img src="images/logo-header.png" alt="logo" title="" /> &nbsp;<i class="icon-globe icon-white"></i>&nbsp;<!-- site_name --->
-		</a>
-        <div class="nav-collapse">
-        </div><!-- /.nav-collapse -->
-      </div>
-    </div><!-- /navbar-inner -->
- </div>
- </div>
- <br />
- <br />
-<div class="row">
-<div class="span5 offset3">
-	<div class="container">
-	<div class="alert alert-${alerttype} span4">
-	<h3 class="alert-heading">${title}<span class="pull-right"><i class="${icontype}"></i></span></h3>
-    <p>${text}</p>
-	<br />
-    <#if url?has_content>
-    <form method="post" action="${url}" target="${target}" class="form-inline"> 
-    <#if list_parameters?exists>
-    <#assign keys = list_parameters?keys>
-    <#list keys as key>
-    <input type="hidden" name="${key}" value="${list_parameters[key]}" />
-    </#list>
-    </#if>
-	<input class="btn" type="submit" value="#i18n{portal.admin.message.buttonValidate}" />
-    </form>
-    <#if message.cancel>
-    <#if back_url?has_content>
-		<form method="post" action="${back_url}" class="form-inline" >
-		<#if list_parameters?exists>
-		<#list keys as key>
-	  		<input type="hidden" name="${key}" value="${list_parameters[key]}" />
-	  	</#list>	
-		</#if>
-		<input class="btn" type="submit" value="#i18n{portal.admin.message.buttonCancel}" />
-		</form>		
-	<#else>		
-	 	<input class="btn" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
-       </#if>	
-      </#if>
-    </#if>
-    </div>
-   </div>
-</div>
-</div>
+<div class="container">
+    <div class="row">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a href="jsp/site/Portal.jsp"   title="#i18n{portal.users.admin_header.title.viewSite}" target="_blank" class="brand">
+                        <img src="images/logo-header.png" alt="logo" title="" /> &nbsp;<i class="icon-globe icon-white"></i>
+                    </a>
+                    <div class="nav-collapse">
+                    </div><!-- /.nav-collapse -->
+                </div>
+            </div><!-- /navbar-inner -->
+        </div>
+	</div>
+	<div class="row span-min-height">
+		<div class="span5 offset3">
+			<br />
+			<br />
+			<br />
+			<br />
+			<div class="alert alert-${alerttype} span4">
+				<h3 class="alert-heading">${title}<span class="pull-right"><i class="${icontype}"></i></span></h3>
+				<p>${text}</p>
+				<#if url?has_content>
+					<form method="post" action="${url}" target="${target}" class="form-inline pull-left spaced"> 
+					<#if list_parameters?exists>
+					<#assign keys = list_parameters?keys>
+					<#list keys as key>
+					<input type="hidden" name="${key}" value="${list_parameters[key]}" />
+					</#list>
+					</#if>
+					<input class="btn" type="submit" value="#i18n{portal.admin.message.buttonValidate}" />
+					</form>
+				<#if message.cancel>
+				<#if back_url?has_content>
+					<form method="post" action="${back_url}" class="form-inline pull-left" >
+					<#if list_parameters?exists>
+					<#list keys as key>
+						<input type="hidden" name="${key}" value="${list_parameters[key]}" />
+					</#list>	
+					</#if>
+					<input class="btn" type="submit" value="#i18n{portal.admin.message.buttonCancel}" />
+					</form>		
+				<#else>		
+					<input class="btn" type="button" onclick="javascript:window.history.back();" value="#i18n{portal.admin.message.buttonCancel}" />
+				   </#if>	
+				  </#if>
+				</#if>
+			</div>
+		</div>
+	</div>
 </div>
