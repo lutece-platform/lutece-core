@@ -304,6 +304,7 @@ public final class PortalService
         model.put( Markers.PAGE_CONTENT, ( data.getContent(  ) == null ) ? "" : data.getContent(  ) );
         model.put( Markers.PAGE_PATH, ( data.getPagePath(  ) == null ) ? "" : data.getPagePath(  ) );
         model.put( Markers.PAGE_TOOLS_MENU, tToolsMenu.getHtml(  ) );
+        model.put( Markers.PAGE_ID, nCurrentPageId );
 
         model.put( Markers.PAGE_FOOTER, tFooter.getHtml(  ) );
 
