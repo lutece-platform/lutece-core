@@ -160,4 +160,7 @@
     
     <!-- Freemarker -->
     <bean id="freeMarkerTemplateService" class="fr.paris.lutece.portal.service.template.FreeMarkerTemplateService" factory-method="getInstance" />
+    
+    <!-- Extendable Resource -->
+    <bean id="pageExtendableResourceService" class="fr.paris.lutece.portal.service.page.PageExtendableResourceService" />
 </beans>

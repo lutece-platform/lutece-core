@@ -35,10 +35,10 @@ package fr.paris.lutece.portal.business.page;
 
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.service.rbac.RBACResource;
+import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.security.SecurityService;
 
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +48,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This class reprsents business objects Page
  */
-public class Page implements RBACResource
+public class Page implements RBACResource, IExtendableResource
 {
     /////////////////////////////////////////////////////////////////////////////////
     // Constants
@@ -57,7 +57,7 @@ public class Page implements RBACResource
     private static final String THEME_DEFAULT = "default";
     private static PageRoleRemovalListener _listenerRole;
 
-    // Variables declarations     
+    // Variables declarations
     private int _nId;
     private int _nParentPageId;
     private int _nOrder;
@@ -419,7 +419,8 @@ public class Page implements RBACResource
      * Returns the Resource Type Code that identify the resource type
      * @return The Resource Type Code
      */
-    public String getResourceTypeCode(  )
+    @Override
+	public String getResourceTypeCode(  )
     {
         return RESOURCE_TYPE;
     }
@@ -428,7 +429,8 @@ public class Page implements RBACResource
      * Returns the resource Id of the current object
      * @return The resource Id of the current object
      */
-    public String getResourceId(  )
+    @Override
+	public String getResourceId(  )
     {
         return "" + getId(  );
     }
@@ -475,7 +477,7 @@ public class Page implements RBACResource
      */
     public void setIdAuthorizationNode( Integer nIdAutorizationNode )
     {
-        this._nIdAuthorizationNode = nIdAutorizationNode;
+        _nIdAuthorizationNode = nIdAutorizationNode;
     }
 
     /**
@@ -486,4 +488,31 @@ public class Page implements RBACResource
     {
         return _nIdAuthorizationNode;
     }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getIdExtendableResource( )
+	{
+		return Integer.toString( _nId );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getExtendableResourceType( )
+	{
+		return RESOURCE_TYPE;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getExtendableResourceName( )
+	{
+		return _strName;
+	}
 }
