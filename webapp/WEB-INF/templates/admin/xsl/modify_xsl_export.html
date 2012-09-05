@@ -1,0 +1,42 @@
+<div class="well" > 
+	<legend>#i18n{portal.xsl.modify_xsl_export.title}</legend>
+	<form class="form-horizontal" method="post" action="jsp/admin/xsl/DoModifyXslExport.jsp" enctype="multipart/form-data" >
+		<fieldset>
+			<input name="id_xsl_export" value="${xsl_export.idXslExport}" type="hidden" />
+			<div class="control-group">
+				<label class="control-label" for="title" >#i18n{portal.xsl.create_xsl_export.label_title} * : </label>
+				<div class="controls">
+					<input type="text" size="20" id="title" name="title" maxlength="255" value="${xsl_export.title}"/>
+				</div>
+			</div>
+			<div class="control-group">
+	            <label class="control-label" for="description" >#i18n{portal.xsl.create_xsl_export.label_description} * : </label>
+	            <div class="controls">
+	            	<input type="text" size="60" id="description" name="description" maxlength="255" value="${xsl_export.description}"/>
+	            </div>
+			</div>
+			<div class="control-group">
+	            <label class="control-label" for="extension" >#i18n{portal.xsl.create_xsl_export.label_extension} (*) : </label>
+	            <div class="controls">
+	            	<input type="text" size="10" id="extension" name="extension" maxlength="10" value="${xsl_export.extension}"/>
+	            </div>
+	        </div>		
+	        <div class="control-group">
+	            <label class="control-label" for="id_file" >#i18n{portal.xsl.create_xsl_export.label_file} * : </label>
+	            <div class="controls">
+		           	<#if xsl_export.file?exists >
+						<a href="jsp/admin/xsl/DoDownloadXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}"/>
+							${xsl_export.file.title}(${xsl_export.file.size} O)
+						</a>
+					</#if>	 
+	            	<input type="file" id="id_file" name="id_file" size="60" maxlength="100"/>
+	            </div>	
+	        </div>	
+	        
+	        <div class="form-actions">
+				<input class="btn btn-primary" type="submit" value="#i18n{portal.xsl.create_xsl_export.button_save}" />
+				<input class="btn" type="button" value="#i18n{portal.xsl.create_xsl_export.button_cancel}" onClick="javascript:history.go(-1);" />
+			</div>
+		</fieldset>
+	</form>
+</div>

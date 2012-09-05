@@ -62,3 +62,17 @@ INSERT INTO core_template VALUES ('core_account_reactivated_mail', 'Bonjour ${fi
 -- UPDATE of email size to 256 for respecting WSSO constraints 
 --
 ALTER TABLE core_admin_user MODIFY email  VARCHAR(256) default '' NOT NULL; 
+
+INSERT INTO core_admin_right VALUES ('CORE_XSL_EXPORT_MANAGEMENT', 'portal.xsl.adminFeature.xsl_export_management.name', 2, 'jsp/admin/xsl/ManageXslExport.jsp', 'portal.xsl.adminFeature.xsl_export_management.description', 1, NULL, 'SYSTEM', NULL, NULL, 10);
+INSERT INTO core_user_right VALUES ('CORE_XSL_EXPORT_MANAGEMENT', 1);
+INSERT INTO core_admin_role_resource VALUES (164,'all_site_manager', 'XSL_EXPORT', '*', '*');
+
+DROP TABLE IF EXISTS core_xsl_export;
+CREATE TABLE core_xsl_export (
+  id_xsl_export INT NOT NULL,
+  title VARCHAR(255) DEFAULT NULL,
+  description VARCHAR(255) DEFAULT NULL ,
+  extension VARCHAR(255) DEFAULT NULL,
+  id_file INT DEFAULT NULL,
+  PRIMARY KEY  (id_xsl_export)
+);

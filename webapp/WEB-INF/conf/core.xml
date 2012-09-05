@@ -117,6 +117,9 @@
         <rbac-resource-type>
             <rbac-resource-type-class>fr.paris.lutece.portal.service.search.SearchResourceIdService</rbac-resource-type-class>
         </rbac-resource-type>
+        <rbac-resource-type>
+            <rbac-resource-type-class>fr.paris.lutece.portal.service.xsl.XslExportResourceIdService</rbac-resource-type-class>
+        </rbac-resource-type>
     </rbac-resource-types>
     
     <!-- Dashboard  components -->

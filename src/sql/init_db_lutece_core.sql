@@ -24,6 +24,7 @@ INSERT INTO core_admin_right VALUES ('CORE_LINK_SERVICE_MANAGEMENT','portal.inse
 INSERT INTO core_admin_right VALUES ('CORE_RIGHT_MANAGEMENT', 'portal.users.adminFeature.right_management.name', 0, 'jsp/admin/features/ManageRights.jsp', 'portal.users.adminFeature.right_management.description', 0, NULL, 'MANAGERS', 'images/admin/skin/features/manage_rights_levels.png', NULL, 5);
 INSERT INTO core_admin_right VALUES ('CORE_ADMINDASHBOARD_MANAGEMENT', 'portal.admindashboard.adminFeature.right_management.name', 0, 'jsp/admin/admindashboard/ManageAdminDashboards.jsp', 'portal.admindashboard.adminFeature.right_management.description', 0, NULL, 'SYSTEM', 'images/admin/skin/features/manage_admindashboards.png', NULL, 8);
 INSERT INTO core_admin_right VALUES ('CORE_DASHBOARD_MANAGEMENT', 'portal.dashboard.adminFeature.dashboard_management.name', 0, 'jsp/admin/dashboard/ManageDashboards.jsp', 'portal.dashboard.adminFeature.dashboard_management.description', 0, NULL, 'SYSTEM', 'images/admin/skin/features/manage_dashboards.png', NULL, 9);
+INSERT INTO core_admin_right VALUES ('CORE_XSL_EXPORT_MANAGEMENT', 'portal.xsl.adminFeature.xsl_export_management.name', 2, 'jsp/admin/xsl/ManageXslExport.jsp', 'portal.xsl.adminFeature.xsl_export_management.description', 1, NULL, 'SYSTEM', NULL, NULL, 10);
 
 INSERT INTO core_admin_role VALUES ('all_site_manager','Site Manager');
 INSERT INTO core_admin_role VALUES ('super_admin','Super Administrateur');
@@ -34,6 +35,7 @@ INSERT INTO core_admin_role_resource VALUES (77,'super_admin','INSERT_SERVICE','
 INSERT INTO core_admin_role_resource VALUES (101,'all_site_manager','PORTLET_TYPE','*','*');
 INSERT INTO core_admin_role_resource VALUES (111,'all_site_manager', 'ADMIN_USER', '*', '*');
 INSERT INTO core_admin_role_resource VALUES (137,'all_site_manager', 'SEARCH_SERVICE', '*', '*');
+INSERT INTO core_admin_role_resource VALUES (164,'all_site_manager', 'XSL_EXPORT', '*', '*');
 
 INSERT INTO core_admin_user VALUES (1,'admin','Admin','admin','admin@lutece.fr',0,'adminadmin','fr',0,0,0,null,null,0);
 INSERT INTO core_admin_user VALUES (2,'lutece','Lutèce','lutece','lutece@lutece.fr',0,'adminadmin','fr',1,0,0,null,null,0);
@@ -143,6 +145,7 @@ INSERT INTO core_user_right VALUES ('CORE_WORKGROUPS_MANAGEMENT',2);
 INSERT INTO core_user_right VALUES ('CORE_RIGHT_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_ADMINDASHBOARD_MANAGEMENT', 1);
 INSERT INTO core_user_right VALUES ('CORE_DASHBOARD_MANAGEMENT', 1);
+INSERT INTO core_user_right VALUES ('CORE_XSL_EXPORT_MANAGEMENT', 1);
 
 INSERT INTO core_user_role VALUES ('all_site_manager',1);
 INSERT INTO core_user_role VALUES ('super_admin',1);

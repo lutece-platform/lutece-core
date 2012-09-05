@@ -145,6 +145,9 @@
 	<!-- dashboards -->
     <bean id="dashboardDAO" class="fr.paris.lutece.portal.business.dashboard.DashboardDAO"/>
     
+    <!--  xsl exports -->
+    <bean id="xslExportDAO" class="fr.paris.lutece.portal.business.xsl.XslExportDAO" />
+    
     <!-- annotation db -->
     <!-- scans WEB-INF/lib for classes within jars, and web-inf/classes for .class -->
     <bean id="annotationDB" class="fr.paris.lutece.util.annotation.ScannotationDB">

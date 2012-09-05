@@ -533,3 +533,14 @@ CREATE TABLE core_template (
   template_value LONG VARCHAR NULL,
   PRIMARY KEY (template_name)
   );
+  
+  
+DROP TABLE IF EXISTS core_xsl_export;
+CREATE TABLE core_xsl_export (
+  id_xsl_export INT NOT NULL,
+  title VARCHAR(255) DEFAULT NULL,
+  description VARCHAR(255) DEFAULT NULL ,
+  extension VARCHAR(255) DEFAULT NULL,
+  id_file INT DEFAULT NULL,
+  PRIMARY KEY  (id_xsl_export)
+);
