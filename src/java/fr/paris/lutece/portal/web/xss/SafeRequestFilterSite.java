@@ -49,7 +49,7 @@ import javax.servlet.http.HttpServletRequest;
 public class SafeRequestFilterSite extends SafeRequestFilter
 {
     @Override
-    public String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
+    public String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
         String strTitleKey )
     {
         try
@@ -59,7 +59,7 @@ public class SafeRequestFilterSite extends SafeRequestFilter
         }
         catch ( SiteMessageException lme )
         {
-            return SiteMessageService.setSiteMessageUrl( AppPathService.getPortalUrl(  ) );
+            return  AppPathService.getSiteMessageUrl( request );
         }
 
         return null;

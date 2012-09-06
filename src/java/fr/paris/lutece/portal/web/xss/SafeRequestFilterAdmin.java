@@ -47,11 +47,9 @@ import javax.servlet.http.HttpServletRequest;
 public class SafeRequestFilterAdmin extends SafeRequestFilter
 {
     @Override
-    protected String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
+    protected String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
         String strTitleKey )
     {
-        AdminMessageService.getMessageUrl( request, strMessageKey, messageArgs, AdminMessage.TYPE_STOP );
-
-        return AdminMessageService.getMessageRelativeUrl(  );
+       return  AdminMessageService.getMessageUrl( request, strMessageKey, messageArgs, AdminMessage.TYPE_STOP );
     }
 }
