@@ -5,16 +5,29 @@
 <#include "util/standard/macro_standard.html" />
 <#include "util/calendar/macro_datepicker.html" />
 <#-- Do not remove this comment -->
+
 <#macro comboWithParams name default_value additionalParameters items >
-	<select id="${name}" name="${name}" ${additionalParameters} >			
-			<#list items as item>	
-				<#if default_value="${item.code}"> 			
-      				<option selected="selected" value="${item.code}" >${item.name}</option>    			    			
-      			<#else>
-      				<option value="${item.code}" >${item.name}</option>
-      			</#if>
-    		</#list>		
-	</select>
+<select id="${name}" name="${name}" ${additionalParameters} >			
+<#list items as item>	
+	<#if default_value="${item.code}"> 			
+		<option selected="selected" value="${item.code}" >${item.name}</option>    			    			
+   	<#else>
+   		<option value="${item.code}" >${item.name}</option>
+   	</#if>
+</#list>		
+</select>
+</#macro>
+
+<#macro comboSortedWithParams name default_value additionalParameters items >
+<select id="${name}" name="${name}" ${additionalParameters} >			
+<#list items?sort_by("name") as item>	
+	<#if default_value="${item.code}"> 			
+		<option selected="selected" value="${item.code}" >${item.name}</option>    			    			
+   	<#else>
+   		<option value="${item.code}" >${item.name}</option>
+   	</#if>
+</#list>		
+</select>
 </#macro>
 
 <#macro comboWithParamsAndLength name default_value additionalParameters items max_length >

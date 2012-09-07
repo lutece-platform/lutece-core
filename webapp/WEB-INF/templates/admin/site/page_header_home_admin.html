@@ -1,18 +1,27 @@
-<div id="banner" class="span-24 append-bottom last -lutece-border-radius-top">
-	<div id="logo" class="span-4 prepend-1 prepend-top">
-		<a href="jsp/site/Portal.jsp"><img class="png" src="${theme.pathImages}logo.png" title="Home" alt="Home"/></a>
-	</div>
-	<div class="span-10 prepend-top" id="header-link">${pageinclude_userlogin_title?default("<!-- no myLutece plugin installed -->")}</div>
-	<div id="search" class="span-8 prepend-top append-1 last">
-		<form action="jsp/site/Portal.jsp" method="get">
-			<div class="hide"><input type="hidden" name="page" value="search" /></div>
-			<div>
-				<label for="query"></label><input class="-lutece-input -lutece-border-radius-mini" type="text" name="query" id="query" value="" title="query" />
-				<input class="-lutece-input -lutece-border-radius-mini" type="submit" value="#i18n{portal.site.page_menu_tools.labelSearch}" />
+<div id="banner">
+	<div class="span12">
+			<div class="row">
+				<div id="logo" class="span2">
+					<a href="jsp/site/Portal.jsp">
+						<img src="${theme.pathImages}logo.png" title="Home" alt="Home"/>
+					</a>
+					<div id="header-link">${pageinclude_userlogin_title?default("<!-- no myLutece plugin installed -->")}</div>
+				</div>
+				<div id="search" class="span4 offset4">
+				<form action="jsp/site/Portal.jsp" method="get" class="form-search">
+					<input type="hidden" name="page" value="search" />
+					<div class="control-group">
+						  <label for="inputIcon">&nbsp;</label>
+						  <div class="controls">
+							<div class="input-prepend">
+							  <span class="add-on"><i class="icon-search"></i></span><input class="input-medium" type="text" name="query" id="query" value="" title="query" placeholder="#i18n{portal.site.page_menu_tools.labelSearch}" />
+							</div>
+							<input class="btn " type="submit" value="#i18n{portal.site.page_menu_tools.labelSearch}" />
+						  </div>
+						</div>
+				</form>
+				</div>
 			</div>
-		</form>
+	${pageinclude_userlogin?default("<!-- no myLutece plugin installed -->")}
 	</div>
-</div>
-<div id="header-menu" class="span-24 last hide">
-	<div class="span-23 prepend-1 last">${pageinclude_userlogin?default("<!-- no myLutece plugin installed -->")}</div>
 </div>
