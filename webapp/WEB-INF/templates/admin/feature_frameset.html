@@ -1,7 +1,7 @@
-<div class="container" >
-    <div class="row">
-        <h4 class="span12">
-            <img id="feature-logo" src="${feature_icon}" alt="" title=""/>
+<div class="row">
+	<div class="container">
+		<!-- h4>
+            <img src="${feature_icon}" alt="Icon ${feature_title}" title="${feature_title}"/>
             <a href="${feature_url}">${feature_title}</a>
             <#if page_title?has_content>
             <small>${page_title}</small> 
@@ -15,7 +15,28 @@
                     </#if>
                 </#if>
             </span>
-        </h4>
+        </h4 -->
+		<fieldset>
+			<legend><img src="${feature_icon}" alt="Icon ${feature_title}" title="${feature_title}"/> 
+             <a href="${feature_url}">${feature_title}</a>
+            <#if page_title?has_content>
+            <small>${page_title}</small> 
+            </#if>
+            <span class="pull-right">
+                <#if feature_documentation?has_content >
+                    <#if feature_documentation?exists>
+                    <a class="btn btn-info" target="_blank" href="${feature_documentation}" title="#i18n{portal.features.documentation.help}">
+                        <i class="icon-book icon-white" ></i>
+                    </a>
+                    </#if>
+                </#if>
+            </span>
+			</legend>
+        </fieldset>
     </div>
-    ${page_content}
+</div>
+<div class="row">
+	<div class="container">
+		${page_content}
+	</div>
 </div>

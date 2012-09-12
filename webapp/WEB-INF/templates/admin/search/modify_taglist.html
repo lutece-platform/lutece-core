@@ -1,28 +1,28 @@
-<div class="clearfix">
-    <div class="row">
+<div class="row">
+	<div class="container">
         <div class="span12">
-            <div class="content-box" >
-                <h2 class="clearfix">
-                    <img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">#i18n{portal.search.modify_taglist.tableLabel}</h2>
-                <form method="post" action="jsp/admin/search/DoModifyTagList.jsp" enctype="multipart/form-data" name="modify_taglist" class="well">
-                    <fieldset>
-                        <legend>#i18n{portal.system.modify_properties.boxTitle}</legend>
-                        <label for="taglist">#i18n{portal.search.modify_taglist.labelName}&nbsp;:&nbsp;</label>
-                        <input type="text" value="${taglist!}" size="60" id="taglist" name="taglist" maxlength="255"/>
-                        <#if tag_filter = "0">
-                        <p><em>#i18n{portal.search.modify_taglist.unactiveFilter}</em></p>
+			<fieldset>
+            <legend><img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">&nbsp;#i18n{portal.search.modify_taglist.tableLabel}</legend>
+            <form method="post" action="jsp/admin/search/DoModifyTagList.jsp" enctype="multipart/form-data" name="modify_taglist" class="well">
+				<fieldset>
+                <legend>#i18n{portal.system.modify_properties.boxTitle}</legend>  
+                    <label for="taglist">#i18n{portal.search.modify_taglist.labelName}&nbsp;:&nbsp;</label>
+					<input type="text" value="${taglist!}" class="input-xlarge" id="taglist" name="taglist" maxlength="255"/>
+                    <#if tag_filter = "0">
+                    <p class="label label-warning"><em>#i18n{portal.search.modify_taglist.unactiveFilter}</em></p>
                         <div class="form-actions">
                             <input type="submit" name="cancel" value="#i18n{portal.search.modify_taglist.buttonCancel}" class="btn" />
                         </div>
-                        <#else>
+                    <#else>
                         <div class="form-actions">
-                            <input type="submit" name="submit" value="#i18n{portal.search.modify_taglist.buttonValidate}" class="btn btn-primary" />
-                            <button type="submit" name="cancel" class="btn">#i18n{portal.search.modify_taglist.buttonCancel}</button>
+                            <button type="submit" name="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.search.modify_taglist.buttonValidate}</button>
+                            <button type="submit" name="cancel" class="btn btn-primary"><i class="icon-remove-circle icon-white"></i>&nbsp;#i18n{portal.search.modify_taglist.buttonCancel}</button>
                         </div>
-                        </#if>
-                        </div>
+                    </#if>
+                    </div>
                     </fieldset>
                 </form>
+			</fieldset>
             </div>
         </div>
     </div>

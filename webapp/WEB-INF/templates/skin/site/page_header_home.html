@@ -1,27 +1,29 @@
-<div id="banner">
-	<div class="span12">
-			<div class="row">
-				<div id="logo" class="span2">
-					<a href="jsp/site/Portal.jsp">
-						<img src="${theme.pathImages}logo.png" title="Home" alt="Home"/>
-					</a>
-					<div id="header-link">${pageinclude_userlogin_title?default("<!-- no myLutece plugin installed -->")}</div>
-				</div>
-				<div id="search" class="span4 offset4">
-				<form action="jsp/site/Portal.jsp" method="get" class="form-search">
-					<input type="hidden" name="page" value="search" />
-					<div class="control-group">
-						  <label for="inputIcon">&nbsp;</label>
-						  <div class="controls">
-							<div class="input-prepend">
-							  <span class="add-on"><i class="icon-search"></i></span><input class="input-medium" type="text" name="query" id="query" value="" title="query" placeholder="#i18n{portal.site.page_menu_tools.labelSearch}" />
-							</div>
-							<input class="btn " type="submit" value="#i18n{portal.site.page_menu_tools.labelSearch}" />
-						  </div>
-						</div>
+<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="jsp/site/Portal.jsp"><img src="images/logo-header.png" title="Home" alt="Home" /></a>
+		<div class="nav-collapse">
+		 <ul class="nav">
+            <#assign menu=page_main_menu>
+			${page_main_menu_html!menu}
+			
+          </ul>
+		  <ul class="nav pull-right">
+		  <li>
+				<form class="navbar-search" action="jsp/site/Portal.jsp" method="get" >
+				<input type="hidden" name="page" value="search" />
+				<input type="text" class="search-query span2" name="query" placeholder="#i18n{portal.site.page_menu_tools.labelSearch}">
+				<!-- button class="btn " type="submit" title="#i18n{portal.site.page_menu_tools.labelSearch}"><i class="icon-search icon-white"></i></button -->
 				</form>
-				</div>
-			</div>
-	${pageinclude_userlogin?default("<!-- no myLutece plugin installed -->")}
-	</div>
-</div>
+			</li>
+			${pageinclude_userlogin?default("<!-- no myLutece plugin installed -->")}
+			</ul>
+          </div>
+        </div>
+      </div>
+    </div>

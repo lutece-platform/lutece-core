@@ -1,0 +1,6 @@
+BODY, TD, FONT, A, SPAN, P, LI, UL, BR, HR, DIV, TD, TH, H1, H2, H3, H4, TEXTAREA { font-size: 98%; }
+
+input.button { background-color: #444444 !important; border: #444444 !important; font-size: 100% !important; }
+input[disabled], input[disabled="disabled"], select[disabled="disabled"] { background-color: #FFFFFF !important; color: #444444 !important; }
+
+#admin-header-menu-main { padding-top: 25px; }

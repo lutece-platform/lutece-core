@@ -1,23 +1,29 @@
-<div class="clearfix">
-    <div class="row">
-        <div class="span12">
-            <div class="well" >
-                <h2 class="clearfix">
-                    <img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">#i18n{portal.system.manage_files_system.boxTitle}</h2>
-                <table class="table table-striped table-condensed">
+<div class="row">
+	<div class="container">
+		<div class="span12">
+			<fieldset>
+                <legend>
+                    <img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">#i18n{portal.system.manage_files_system.boxTitle}
+				</legend>
+				<table class="table table-striped table-condensed">
                     <tr>
                         <th>#i18n{portal.system.manage_files_system.labelCategory}</th>
                         <th>#i18n{portal.system.manage_files_system.labelDescription}</th>
+                        <th></th>
                     </tr>
                     <#list files_list as file >
                     <tr>
-                        <td>
-                            <a href="jsp/admin/system/ManageFilesSytemDir.jsp?dir=${file.directory}" class="bullet-link">${file.name}</a>
-                        </td>
-                        <td>
-                            ${file.description}
-                        </td>
+                        <td>${file.name}</td>
+                        <td>${file.description}</td>
+						<td>
+							<a href="jsp/admin/system/ManageFilesSytemDir.jsp?dir=${file.directory}" class="btn btn-primary" title="${file.name}">
+								<i class="icon-edit icon-white"></i>
+							</a>
+						</td>
                     </tr>
                     </#list>
                 </table>
-            </div>
+			</div>
+        </div>
+    </div>
+</div>

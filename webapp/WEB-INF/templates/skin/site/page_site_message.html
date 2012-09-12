@@ -1,81 +1,88 @@
 <!DOCTYPE html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="fr"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="fr"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="fr"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="fr"> <!--<![endif]-->
+<html lang="fr">
 <head>
-    <title>${favourite} - ${page_name}</title>
-	<base href="${base_url}" />
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-	<meta http-equiv="Content-Language" content="fr" />
-	<!-- Set the viewport width to device width for mobile -->
-	<meta name="viewport" content="width=device-width" />
-	<!-- Included CSS Files -->
-	<link rel="stylesheet" href="css/foundation.css">
-	<!--[if lt IE 9]>
-		<link rel="stylesheet" href="css/ie/ie.css">
-	<![endif]-->
-	<script src="js/jquery/modernizr.foundation.js"></script>
-	<!-- IE Fix for HTML5 Tags -->
-	<!--[if lt IE 9]>
-			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-     <#if plugin_theme?? >
-        <link rel="stylesheet"  href="${plugin_theme.pathCss}/page_template_styles.css" type="text/css"  media="screen" />
-        <#else>
-        <link rel="stylesheet" href="${theme.pathCss}/page_template_styles.css" type="text/css" media="screen, projection" />
-    </#if>
-	<link rel="shortcut icon" href="favicon.ico" />
+<title>${favourite} - ${page_name}</title>
+<base href="${base_url}" />
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<meta http-equiv="Content-Language" content="fr" />
+<!-- Set the viewport width to device width for mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Le styles -->
+<#if plugin_theme?? >
+<link href="${plugin_theme.pathCss}/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet"  href="${plugin_theme.pathCss}/page_template_styles.css" type="text/css"  media="screen" />
+<#else>
+<link href="${theme.pathCss}/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="${theme.pathCss}/page_template_styles.css" type="text/css" media="screen, projection" />
+</#if>
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!-- Le fav and touch icons -->
+<link rel="shortcut icon" href="favicon.ico">
+<!-- 
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
+-->
 </head>
 <body>
-<!-- container -->
+ <!-- header -->
+<header role="banner">
+<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        <a class="brand" href="jsp/site/Portal.jsp"><img src="images/logo-header.png" title="Home" alt="Home"/></a>
+		<div class="nav-collapse">&nbsp;</div>
+        </div>
+    </div>
+</div>
+</header>
+<!-- end header -->
 <div class="container">
-<div id="banner" class="row -lutece-border-radius-top">
-<div class="fourteen columns">
-<div id="logo" class="three columns">
-<a href="jsp/site/Portal.jsp">
-	<img src="${theme.pathImages}logo.png" title="Home" alt="Home"/>
-</a>
-</div>
-</div>
-</div>
-<div class="row" id="page">
-<div class="fourteen columns">
+<!-- container -->
 ${page_content}
+<!-- container -->
+<br>
 </div>
-</div>
-<div class="row -lutece-border-radius-bottom" id="footer2">
-<div class="four columns">
-	<a id="footer-logo" href="http://fr.lutece.paris.fr" title="Lutece">
-		<img src="images/local/skin/poweredby.jpg" width="55" height="22" alt="Lutece" />
-	</a>
-</div>
-<div class="six columns">
-	<ul class="link-list">
-	<li>
-		<a href="jsp/site/Portal.jsp?page=map" accesskey="3" >#i18n{portal.site.site_map.pathLabel}</a>
-	</li>
-	<li>
-		<a href="jsp/site/Portal.jsp?page=contact" accesskey="7" >#i18n{portal.site.page_menu_tools.xpage.contact}</a>
-	</li>
-	<li>
-		<a href="jsp/site/PopupCredits.jsp" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelCredits}" target="info_comp">#i18n{portal.site.portal_footer.labelCredits}</a>
-	</li>
-	</ul>
-</div>
-<div class="four columns push-two">
-	<a id="footer-rss" href="http://fr.lutece.paris.fr/fr/plugins/rss/lutece.xml" title="RSS">
-		<img src="images/local/skin/feed.png" alt="RSS" title="RSS" />
-	</a>
-</div>
-</div>
-</div>
+<footer>
+<div class="navbar navbar-inverse">
+    <div class="navbar-inner">
+      <div class="container" style="width: auto;">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="http://fr.lutece.paris.fr" title="#i18n{portal.site.portal_footer.labelPortal}">
+			<img src="images/local/skin/poweredby.jpg" width="55" height="22" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
+		</a>
+        <div class="nav-collapse">
+		 <ul class="nav">
+            <li class="active"><a href="jsp/site/Portal.jsp">Home</a></li>
+        </ul>
+		</div><!-- /.nav-collapse -->
+      </div>
+    </div><!-- /navbar-inner -->
+  </div>
+</footer>
 <!-- Included JS Files -->
 <script src="js/jquery/jquery.min.js"></script>
-<script src="js/jquery/foundation.js"></script>
-<script type="text/javascript">
-  $(".js").click(function(){window.history.back();});
+<!-- Le javascript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/bootstrap.min.js"></script>
+<script>
+
 </script>
 </body>
 </html>

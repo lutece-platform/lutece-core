@@ -1,37 +1,29 @@
-<div class="clearfix" id="footer1">
-<div class="row">
-<div class="span12">
-    <div class="span5 offset3" >
-		<#assign menu=page_main_menu>
-		${page_main_menu_html!menu}
-	</div>
-</div>
-</div>
-</div>
-<div class="clearfix -lutece-border-radius-bottom" id="footer2">
-<div class="row">
-	<div class="span4 offset1">
-			<a id="footer-logo" href="http://fr.lutece.paris.fr" title="#i18n{portal.site.portal_footer.labelPortal}">
-				<img src="images/local/skin/poweredby.jpg" width="55" height="22" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
-			</a>
-	</div>
-	<div class="span4">
-		<ul class="">
-		<li>
-			<a href="jsp/site/Portal.jsp?page=map" accesskey="3" >#i18n{portal.site.site_map.pathLabel}</a>
-		</li>
-		<li>
-			<a href="jsp/site/Portal.jsp?page=contact" accesskey="7" >#i18n{portal.site.page_menu_tools.xpage.contact}</a>
-		</li>
-		<li>
-			<a href="jsp/site/PopupCredits.jsp" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelCredits}" target="info_comp">#i18n{portal.site.portal_footer.labelCredits}</a>
-		</li>
-		</ul>
-	</div>
-	<div class="span2 offset1">
-		<a id="footer-rss" href="http://fr.lutece.paris.fr/fr/plugins/rss/lutece.xml" title="RSS">
-			<img src="images/local/skin/feed.png" alt="RSS" title="RSS" />
+<div class="navbar navbar-inverse">
+    <div class="navbar-inner">
+      <div class="container" style="width: auto;">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="http://fr.lutece.paris.fr" title="#i18n{portal.site.portal_footer.labelPortal}">
+			<img src="images/local/skin/poweredby.jpg" width="55" height="22" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
 		</a>
-	</div>
-</div>
-</div>
+        <div class="nav-collapse">
+		 <ul class="nav">
+            <li class="active"><a href="jsp/site/Portal.jsp">Home</a></li>
+            <li><a href="jsp/site/Portal.jsp?page=map" accesskey="3" >#i18n{portal.site.site_map.pathLabel}</a></li>
+            <li><a href="jsp/site/Portal.jsp?page=contact" accesskey="7" >#i18n{portal.site.page_menu_tools.xpage.contact}</a></li>
+            <li><a href="jsp/site/PopupCredits.jsp" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelCredits}" target="info_comp">#i18n{portal.site.portal_footer.labelCredits}</a></li>
+          </ul>
+		 <ul class="nav pull-right">
+            <li><a id="footer-rss" href="http://fr.lutece.paris.fr/fr/plugins/rss/lutece.xml" title="RSS">
+				<img src="images/local/skin/feed.png" alt="RSS" title="RSS" />
+			</a>
+			</li>
+           </ul>
+        </div><!-- /.nav-collapse -->
+      </div>
+    </div><!-- /navbar-inner -->
+  </div>
+

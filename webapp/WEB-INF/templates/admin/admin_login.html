@@ -1,5 +1,5 @@
-<div class="container">
-    <div class="row">
+<div class="row">
+	<div class="container">
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
@@ -12,8 +12,9 @@
             </div><!-- /navbar-inner -->
         </div>
     </div>
-    <div class="row">
-        <div class="span6 offset2">
+</div>
+<div class="row">
+   <div class="span6 offset2">
             <h3>#i18n{portal.admin.admin_login.welcome}</h3>
             <div class="well">#i18n{portal.admin.admin_login.helpText}</div>
             <form method="post" name="login" id="login" action="${do_admin_login_url}" class="well">
@@ -30,10 +31,11 @@
                     </div>
                     <div class="form-actions">
                         <button class="btn btn-primary" tabindex="3" type="submit"><i class="icon-ok-sign icon-white"></i>&nbsp;#i18n{portal.admin.admin_login.buttonConnect}</button>
-                        <span class="pull-right"><i class="icon-exclamation-sign">&nbsp;</i>&nbsp;<a href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}" tabindex="4" >#i18n{portal.admin.admin_login.forgotPassword}</a></span>
+                        <span class="pull-right"><a class=" btn btn-link" href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}" tabindex="4" ><i class="icon-exclamation-sign">&nbsp;</i>&nbsp;#i18n{portal.admin.admin_login.forgotPassword}</a></span>
                     </div>
-                    </div>
+                    
                 </fieldset>
             </form>
-        </div>
-    </div>
+	</div>
+ </div>
+

@@ -11,139 +11,147 @@
 </#if>
 <#return false>
 </#function>
-<div class="clearfix">
-    <div class="row">
-        <div class="container">
-            <div class="span12">
-                <form method="post" name="create_user" action="jsp/admin/user/DoCreateUser.jsp" enctype="multipart/form-data" class="form-horizontal">
-                    <div class="row">
-                        <div class="container">
-                            <div class="span10 offset1">
-                                <fieldset class="span3">
-                                    <legend>
-                                        #i18n{portal.users.create_user.labelIdentity}
-                                    </legend>
-                                    <label for="access_code" >#i18n{portal.users.create_user.labelAccessCode} * :</label>
-                                    <input type="text"  id="access_code" name="access_code" value="" maxlength="100" size="35" tabindex="1" />				
-                                    <label for="first_password" >#i18n{portal.users.create_user.labelFirstPassword} * :</label>
-                                    <input type="password" id="first_password" name="first_password" maxlength="100" size="35" tabindex="2" value=""/>
-                                    <button type="button" class="btn btn-primary" tabindex="3" id="generate_password">
-                                        <i class="icon-refresh  icon-white"></i>
-                                        <span class="hidden-phone" >#i18n{portal.users.create_user.buttonLabelGeneratePassword}</span>
-                                    </button>                                     
-                                    <label for="second_password" >#i18n{portal.users.create_user.labelSecondPassword} * :</label>
-                                    <input type="password" id="second_password" name="second_password" maxlength="100" size="35" tabindex="4" value=""/>
-                                    <label for="last_name" >#i18n{portal.users.create_user.labelLastName} * :</label>
-                                    <input type="text"  id="last_name" name="last_name" value="" maxlength="100" tabindex="5" />
-                                    <label for="first_name">#i18n{portal.users.create_user.labelFirstName} * :</label>
-                                    <input type="text" id="first_name" name="first_name" value="" maxlength="100" tabindex="6" />
-                                    <label for="email">#i18n{portal.users.create_user.labelEmail} * :</label>
-                                    <input type="text" id="email" name="email" value="" maxlength="100" size="35" tabindex="7" />
-                                    <div class="control-group">
-                                        <label class="control-label">#i18n{portal.users.create_user.labelNotify} :</label>
-                                        <div class="controls">
-                                            <#if default_user_notification = 1>
-                                            <label class="radio">
-                                                <input type="radio" name="notify_user" value="1" checked="checked" tabindex="8" />#i18n{portal.util.labelYes}
-                                            </label>
-                                            <label class="radio">
-                                                <input type="radio" name="notify_user" value="0" tabindex="9" />#i18n{portal.util.labelNo}
-                                            </label>
-                                            <#else>
-                                            <label class="radio">
-                                                <input type="radio" name="notify_user" value="1" tabindex="8" />#i18n{portal.util.labelYes}
-                                            </label>
-                                            <label class="radio">
-                                                <input type="radio" name="notify_user" value="0" checked="checked" tabindex="9" />#i18n{portal.util.labelNo}
-                                            </label>
-                                            </#if>
-                                        </div>
-                                    </div>
+<form method="post" name="create_user" action="jsp/admin/user/DoCreateUser.jsp" enctype="multipart/form-data" class="form-horizontal">
+	<div class="row">
+        <div class="span4">
+			<fieldset>
+			<legend>#i18n{portal.users.create_user.labelIdentity}</legend>
+				<label for="access_code" >#i18n{portal.users.create_user.labelAccessCode} * :</label>
+				<input type="text"  id="access_code" name="access_code" value="" maxlength="100" size="35" tabindex="1" />				
+				<label for="first_password" >#i18n{portal.users.create_user.labelFirstPassword} * :</label>
+				<input type="password" id="first_password" name="first_password" maxlength="100" size="35" tabindex="2" value=""/>
+				<button type="button" class="btn btn-primary" tabindex="3" id="generate_password" title="#i18n{portal.users.create_user.buttonLabelGeneratePassword}">
+					<i class="icon-refresh  icon-white"></i>
+				</button>                                     
+				<div id="progressbar">
+					<div id="progress"></div>
+				</div>
+				<div id="status">
+					<div id="complexity">0%</div>
+				</div>
+				
+				<label for="second_password" >#i18n{portal.users.create_user.labelSecondPassword} * :</label>
+				<input type="password" id="second_password" name="second_password" maxlength="100" size="35" tabindex="4" value=""/>
+				<label for="last_name" >#i18n{portal.users.create_user.labelLastName} * :</label>
+				<input type="text"  id="last_name" name="last_name" value="" maxlength="100" tabindex="5" />
+				<label for="first_name">#i18n{portal.users.create_user.labelFirstName} * :</label>
+				<input type="text" id="first_name" name="first_name" value="" maxlength="100" tabindex="6" />
+				<label for="email">#i18n{portal.users.create_user.labelEmail} * :</label>
+				<input type="text" id="email" name="email" value="" maxlength="100" size="35" tabindex="7" />
+				<label>#i18n{portal.users.create_user.labelNotify} :</label>
+				<#if default_user_notification = 1>
+					<label class="radio inline">
+						<input type="radio" name="notify_user" value="1" checked="checked" tabindex="8" />#i18n{portal.util.labelYes}
+					</label>
+					<label class="radio inline">
+					<input type="radio" name="notify_user" value="0" tabindex="9" />#i18n{portal.util.labelNo}
+					</label>
+				<#else>
+					<label class="radio inline">
+						<input type="radio" name="notify_user" value="1" tabindex="8" />#i18n{portal.util.labelYes}
+					</label>
+					<label class="radio inline">
+						<input type="radio" name="notify_user" value="0" checked="checked" tabindex="9" />#i18n{portal.util.labelNo}
+					</label>
+				</#if>
+				<label for="status">#i18n{portal.users.create_user.labelStatus} :</label>
+				<select id="status" name="status" tabindex="10">
+					<#if default_user_status = 1>
+					<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
+					<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+					<#else>
+					<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+					<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
+					</#if>
+				</select>
+			</fieldset>
+		</div>
+        <div class="span4">
+			<fieldset>
+			<legend>#i18n{portal.users.create_user.labelComplementaryAttributes}</legend>
+            <#if displayFieldset( user_levels attributes_list )>
+				#i18n{portal.users.create_user.labelAdministration}
+				<#if (user_levels?has_content)>
+				<label for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>
+				<select id="user_level" name="user_level">
+					<#list user_levels as user_level>
+					<#if user_level.id = default_user_level.id>
+					<option value="${user_level.id}" selected="selected">${user_level.name}</option>
+					<#else>
+					<option value="${user_level.id}">${user_level.name}</option>
+					</#if>
+					</#list>
+				</select>
+				<label for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
+				<@comboSorted name="language" default_value="${default_user_language}" items=languages_list />
+				</#if>
+				<#list attributes_list as attribute>
+				<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
+				${attribute.getHtmlFormAttribute( locale )}
+				<#break>
+				</#if>
+				</#list>
+				</#if>
+				<#if attributes_list?has_content>
+				<#list attributes_list as attribute>
+				<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+				${attribute.getHtmlFormAttribute( locale )}
+				</#if>
+				</#list>
+				</#if>
+			</fieldset>
+		</div>
+		<div class="span3">
+			<fieldset>
+			<legend>#i18n{portal.users.create_user.labelTheme}</legend>
+				<label for="accessibility_mode" class="checkbox">#i18n{portal.users.create_user.labelAccessibilityMode}
+					<input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" />
+				</label>
+			</fieldset>
+		</div>
+		<div class="form-actions span12">
+			<button type="submit" class="btn btn-primary" tabindex="11">
+				<i class="icon-ok  icon-white"></i>
+					<span class="hidden-phone" >#i18n{portal.users.create_user.buttonLabelCreate}</span>
+				</button> 
+			</div>
+        </div>
+</form>	
+<script src="js/jquery.complexify.js"></script>
+<script src="js/jquery/plugins/generatepassword/jquery.password.min.js"></script>
+<script>
+$(document).ready(function(){	
+	$("#generate_password").click(function(){
+		var pwd = $.password(8, true);
+		$("#first_password").val(pwd);
+		$("#second_password").val(pwd);
+    });
 
-                                    <label for="status">#i18n{portal.users.create_user.labelStatus} :</label>
-                                    <select id="status" name="status" tabindex="10">
-                                        <#if default_user_status = 1>
-                                        <option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-                                        <option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-                                        <#else>
-                                        <option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-                                        <option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-                                        </#if>
-                                    </select>
-                                </fieldset>
-                                <fieldset class="span4">
-                                    <legend>#i18n{portal.users.create_user.labelComplementaryAttributes}</legend>
-                                    <#if displayFieldset( user_levels attributes_list )>
-                                    #i18n{portal.users.create_user.labelAdministration}
-                                    <#if (user_levels?has_content)>
-                                    <label for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>
-                                    <select id="user_level" name="user_level">
-                                        <#list user_levels as user_level>
-                                        <#if user_level.id = default_user_level.id>
-                                        <option value="${user_level.id}" selected="selected">${user_level.name}</option>
-                                        <#else>
-                                        <option value="${user_level.id}">${user_level.name}</option>
-                                        </#if>
-                                        </#list>
-                                    </select>
-                                    <label for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
-                                    <@comboSorted name="language" default_value="${default_user_language}" items=languages_list />
-                                    </#if>
-                                    <#list attributes_list as attribute>
-                                    <#if attribute.plugin?exists && attribute.plugin.name == "profiles">
-                                    ${attribute.getHtmlFormAttribute( locale )}
-                                    <#break>
-                                    </#if>
-                                    </#list>
-                                    </#if>
-                                    <#if attributes_list?has_content>
-                                    <#list attributes_list as attribute>
-                                    <#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
-                                    ${attribute.getHtmlFormAttribute( locale )}
-                                    </#if>
-                                    </#list>
-                                    </#if>
-                                </fieldset>
-                                <fieldset class="span2">
-                                    <legend>#i18n{portal.users.create_user.labelTheme}</legend>
-                                    <label for="accessibility_mode" class="checkbox">#i18n{portal.users.create_user.labelAccessibilityMode}
-                                        <input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" />
-                                    </label>
-                                </fieldset>
-                                <div class=" well span10">
-                                    <span class="pull-left">
-                                        <button type="submit" class="btn btn-primary" tabindex="11">
-                                            <i class=" icon-plus-sign  icon-white"></i>
-                                            <span class="hidden-phone" >#i18n{portal.users.create_user.buttonLabelCreate}</span>
-                                        </button> 
-                                    </span>                                    
-                                </div>
-                                </form>	
-                                </fieldset>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-            <script type="text/javascript">
-                $(document).ready(function(){	
-                    $("#first_password").jpassword({
-                        lang: {
-                            please: "#i18n{portal.users.create_user.jpassword.please}",
-                            low: "#i18n{portal.users.create_user.jpassword.low}",
-                            correct: "#i18n{portal.users.create_user.jpassword.correct}",
-                            high: "#i18n{portal.users.create_user.jpassword.high}",
-                            length: "#i18n{portal.users.create_user.jpassword.length}",
-                            number: "#i18n{portal.users.create_user.jpassword.number}",
-                            uppercase: "#i18n{portal.users.create_user.jpassword.uppercase}",
-                            lowercase: "#i18n{portal.users.create_user.jpassword.lowercase}",
-                            punctuation: "#i18n{portal.users.create_user.jpassword.punctuation}",
-                            special: "#i18n{portal.users.create_user.jpassword.special}"
-                        }
-                    });
-                    $("#generate_password").click(function(){
-                        var pwd = $.password(8, true);
-                        $("#first_password").value = pwd;
-                        $("#second_password").value = pwd;
-                    });
-                });
-            </script>
+	$("#first_password").complexify({}, function (valid, complexity) {
+		if (!valid) {
+			$('#progress').css({'width':complexity + '%'}).removeClass('progressbarValid').addClass('progressbarInvalid');
+		} else {
+			$('#progress').css({'width':complexity + '%'}).removeClass('progressbarInvalid').addClass('progressbarValid');
+			}
+		$('#complexity').html(Math.round(complexity) + '%');
+	});
+	
+	/*
+	$("#first_password").jpassword({
+        lang: {
+			please: "#i18n{portal.users.create_user.jpassword.please}",
+			low: "#i18n{portal.users.create_user.jpassword.low}",
+			correct: "#i18n{portal.users.create_user.jpassword.correct}",
+			high: "#i18n{portal.users.create_user.jpassword.high}",
+			length: "#i18n{portal.users.create_user.jpassword.length}",
+			number: "#i18n{portal.users.create_user.jpassword.number}",
+			uppercase: "#i18n{portal.users.create_user.jpassword.uppercase}",
+			lowercase: "#i18n{portal.users.create_user.jpassword.lowercase}",
+			punctuation: "#i18n{portal.users.create_user.jpassword.punctuation}",
+			special: "#i18n{portal.users.create_user.jpassword.special}"
+			}
+		});
+	*/
+});
+
+</script>

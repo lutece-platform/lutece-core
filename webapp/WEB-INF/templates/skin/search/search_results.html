@@ -1,28 +1,89 @@
-<div class="span-15 prepend-1 append-1 append-bottom">
-    <div class="portlet -lutece-border-radius">
-        <div class="portlet-header">#i18n{portal.search.search_results.title}</div>
-        <#if error?has_content>
-        <div class="error">${error}</div>
+<div class="row">
+	<div class="span3">
+		<form method="get" action="jsp/site/Portal.jsp" class="form">
+        <input type="hidden" name="page" value="search" />
+        <input type="text" name="query" value="${query?if_exists}" />
+        <button type="submit" title="#i18n{portal.search.search_results.buttonSearch}"><i class="icon-search"></i></button>
+        <#-- Number of documents per page selector -->
+		<p>#i18n{portal.search.search_results.labelNbDocsPerPage}</p>
+        <@NbItemsPerPageSelectorRadioList nb_items_per_page />
+        <#if type_filter != "none">
+			<#-- type_filter -->
+			<p>#i18n{portal.search.search_results.typeFilter} :</p>
+			<#if type_filter == "option">
+				<select name="type_filter">
+					<#list list_type_and_link as map>
+						<option value="${map.type}"><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></option>
+					</#list>
+				</select>
+			<#else>
+				<#list list_type_and_link as map>
+				<#if type_filter != "checkbox" || map_index != 0>
+					<input type=${type_filter} name="type_filter" value="${map.type}">
+					<#if map.link?exists && map.link != "">
+						<a href="${map.link!}"  ><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></a>
+					<#else>
+						<#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if>
+					</#if>
+				</#if>
+				</#list>
+			</#if>
+        </#if>
+		<#-- default_operator and/or -->
+        <p>#i18n{portal.search.search_results.operator}</p>
+        <select name="default_operator">
+			<#list ["OR","AND"] as operator>
+				<option value="${operator}" <#if operator = default_operator> selected="selected"</#if> >
+            	#i18n{portal.search.search_results.operator.${operator}}
+            	</option>
+            </#list>
+		</select>
+        <#if help_message!="">
+        <#-- help_message text -->
+        <p class="help-block">#i18n{portal.search.search_results.helpMessage} : ${help_message}</p>
+        </#if>
+        <#if date_filter == "1">
+        <#-- date_filter 0/1 -->
+        <p>#i18n{portal.search.search_results.dateFilter}</p>
+        #i18n{portal.search.search_results.dateFilterAfter}
+       	<input type="text" id="date_after" name="date_after" size="10"/>
+       	<@getDatePicker idField="date_after" language="fr" /><br />
+        #i18n{portal.search.search_results.dateFilterBefore}
+        <input type="text" id="date_before" name="date_before" size="10"/>
+        <@getDatePicker idField="date_before" language="fr" />
+        </#if>
+        <#if tag_filter == "1" && taglist?trim != "">
+        <#-- tag_filter -->
+            	<#list taglist?split(" ") as tag>
+            		<#if tag?exists && tag?trim !="">
+            			<input type="submit" name="tag_filter" value="${tag}" />
+            		</#if>
+            	</#list>
+           
+            </#if>
+        </form>
+	</div>
+	<div class="span8">
+        <fieldset>
+		<legend>#i18n{portal.search.search_results.title}</legend>
+		<#if error?has_content>
+		<p class="label label-important">${error}</p>
         </#if>
         <#-- included sponsored links if available - might be null -->
         ${sponsoredlinks_set!}
-        <div>#i18n{portal.search.search_results.labelResultsCount} : <strong>${paginator.itemsCount}</strong></div>
-        <div>#i18n{portal.search.search_results.labelResultsRange} : <strong>${paginator.rangeMin} - ${paginator.rangeMax}</strong></div>
-        <div>&nbsp;</div>
-        <@pagination paginator=paginator />
+        <p>#i18n{portal.search.search_results.labelResultsCount} : <strong>${paginator.itemsCount}</strong> #i18n{portal.search.search_results.labelResultsRange} : <strong>${paginator.rangeMin} - ${paginator.rangeMax}</strong><@paginationAdmin paginator=paginator combo=1/></p>
+       <ul class="nav nav-pills nav-stacked">
         <#list results_list as result>
-        <div>
-            <a href="${result.url?xhtml}">${result.title}</a> |
-            <em>#i18n{portal.search.search_results.labelTypeOfDocument} : ${result.type}</em> |
-            <#if result.date?has_content>
-					${result.date?date?string.short}
-            </#if>
-        </div>
-        <#if result.summary?has_content>
-        <div>${result.summary}</div>
-        </#if>
-        <div>&nbsp;</div>
+			<li>
+				<a href="${result.url?xhtml}">
+					[ ${result.type} ] ${result.title}
+					<#if result.summary?has_content><br><strong>${result.summary}</strong></#if>
+					<#if result.date?has_content><em class="pull-right">${result.date?date?string.short}</em></#if>
+				</a>
+			<li>
+        
         </#list>
+		</ul>
     </div>
 </div>
 
@@ -43,98 +104,12 @@
 
 <#-- Number of items per page selector - Radio List implementation -->
 <#macro NbItemsPerPageSelectorRadioList nb_items_per_page>
-<#list [ "5" , "10" , "20" , "50" ] as nb>
-<#if nb = nb_items_per_page > 
-<input value="${nb}" id="items_per_page${nb}" name="items_per_page" class="radio" type="radio" checked="checked" /><label for="items_per_page${nb}">${nb}</label>
-<#else>
-<input value="${nb}" id="items_per_page${nb}" name="items_per_page" class="radio" type="radio" /><label for="items_per_page${nb}">${nb}</label>
-</#if>
-</#list>
+	<#list [ "5" , "10" , "20" , "50" ] as nb>
+	<label class="radio inline">
+		<input value="${nb}" id="items_per_page${nb}" name="items_per_page" class="radio" type="radio" <#if nb = nb_items_per_page > checked="checked"</#if> />
+		${nb}
+	</label>
+	</#list>
 </#macro>
 
-<div class="span-6 append-1 append-bottom last">
-    <div class="portlet -lutece-border-radius">
-        <form method="get" action="jsp/site/Portal.jsp">
-            <div class="hide">
-                <input type="hidden" name="page" value="search" />
-            </div>
-            <div>
-                <input type="text" name="query" size="20" value="${query?if_exists}" />
-                <input type="image"
-                       src="images/local/skin/buttons/b_search.png"
-                       title="#i18n{portal.search.search_results.buttonSearch}"
-                       alt="#i18n{portal.search.search_results.buttonSearch}" />
-            </div>
-            <div>
-                <#-- Number of documents per page selector -->
-				#i18n{portal.search.search_results.labelNbDocsPerPage}<br />
-                <@NbItemsPerPageSelectorRadioList nb_items_per_page />
-            </div><br />
-            <#if type_filter != "none">
-            <div>
-            	<#-- type_filter -->
-            	#i18n{portal.search.search_results.typeFilter} :<br />
-            	<#if type_filter == "option">
-            	<select name="type_filter">
-            		<#list list_type_and_link as map>
-						<option value="${map.type}"><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></option>
-					</#list>
-				</select>
-				<#else>
-					<#list list_type_and_link as map>
-						<span style="white-space: nowrap;">
-						<#if type_filter != "checkbox" || map_index != 0>
-							<input type=${type_filter} name="type_filter" value="${map.type}">
-							<#if map.link?exists && map.link != "">
-            					<A href="${map.link!}"  ><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></A>
-            				<#else>
-            					<#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if>
-            				</#if>
-            			</#if>
-            			</span>
-            		</#list>
-				</#if>
-            </div><br />
-            </#if>
-            <div>
-            	<#-- default_operator and/or -->
-            	#i18n{portal.search.search_results.operator} :
-            	<select name="default_operator">
-            		<#list ["OR","AND"] as operator>
-            		<option value="${operator}" <#if operator = default_operator> selected="selected"</#if> >
-            			#i18n{portal.search.search_results.operator.${operator}}
-            		</option>
-            		</#list>
-				</select>
-            </div><br />
-            <#if help_message!="">
-            <div>
-            	<#-- help_message text -->
-            		#i18n{portal.search.search_results.helpMessage} : ${help_message}
-            </div><br />
-            </#if>
-            <#if date_filter == "1">
-            <div>
-            	<#-- date_filter 0/1 -->
-           		#i18n{portal.search.search_results.dateFilter} :<br />
-           		#i18n{portal.search.search_results.dateFilterAfter}
-       			<input type=text id="date_after" name="date_after" size="10"/>
-       			<@getDatePicker idField="date_after" language="fr" /><br />
-           		#i18n{portal.search.search_results.dateFilterBefore}
-           		<input type=text id="date_before" name="date_before" size="10"/>
-           		<@getDatePicker idField="date_before" language="fr" />
-            </div><br />
-            </#if>
-            <#if tag_filter == "1" && taglist?trim != "">
-            <div>
-            	<#-- tag_filter -->
-            	<#list taglist?split(" ") as tag>
-            		<#if tag?exists && tag?trim !="">
-            			<input type="submit" name="tag_filter" value="${tag}" />
-            		</#if>
-            	</#list>
-            </div>
-            </#if>
-        </form>
-    </div>
-</div>
+

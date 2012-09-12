@@ -1,24 +1,23 @@
-<div class="btn-group pull-right">
-    <form class="form-horizontal" method="post" action="jsp/admin/user/attribute/ManageAttributes.jsp">
-        <fieldset>
-            <button class="btn btn-primary pull-right" type="submit" >
-                <i class="icon-plus icon-white" ></i>
-                <span class="hidden-phone" >#i18n{portal.users.manage_advanced_parameters.buttonLabelAttributeManagement}</span>
-            </button>
-
-        </fieldset>
-    </form>
-    <form class="form-horizontal" method="post" action="jsp/admin/user/ChangeFieldAnonymizeAdminUsers.jsp">
-        <fieldset>
-            <button class="btn btn-primary pull-right" type="submit" >
-                <i class="icon-plus icon-white" ></i>
-                <span class="hidden-phone" >#i18n{portal.users.manage_advanced_parameters.buttonLabelAnonymizationOptions}</span>
-            </button>
-
-        </fieldset>
-    </form>
-</div>
 <div class="row">
-    <legend>#i18n{portal.users.manage_advanced_parameters.pageTitle}</legend> 
+	<div class="container">
+	<fieldset>
+    <legend>#i18n{portal.users.manage_advanced_parameters.pageTitle}
+		<div class="btn-group pull-right">
+			<form class="form-inline" method="post" action="jsp/admin/user/attribute/ManageAttributes.jsp">
+			<button class="btn btn-primary pull-right" type="submit" >
+				<i class="icon-plus icon-white" ></i>
+				<span class="hidden-phone" >#i18n{portal.users.manage_advanced_parameters.buttonLabelAttributeManagement}</span>
+			</button>
+			</form>
+			<form class="form-inline" method="post" action="jsp/admin/user/ChangeFieldAnonymizeAdminUsers.jsp">
+			<button class="btn btn-primary pull-right" type="submit" >
+				<i class="icon-plus icon-white" ></i>
+				<span class="hidden-phone" >&nbsp;#i18n{portal.users.manage_advanced_parameters.buttonLabelAnonymizationOptions}</span>
+			</button>
+			</form>
+		</div>
+	</legend> 
     <#include "advanced_parameters.html" />
+	</fieldset>
+	</div>
 </div>

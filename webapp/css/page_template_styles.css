@@ -1,8 +1,11 @@
-body {background-color: #fff;color: #000;}
-
+/********************************
+/* Body 						*
+********************************/
+/* Fix for fixed-nav-bar*/
+body{padding-top:60px;}
 /**************************************************/
 /* Banner styles                                  */
-/**************************************************/
+/*************************************************
 #banner {
 height:7em;
 padding:4px 0 0 0;
@@ -20,10 +23,11 @@ background-image: -webkit-gradient(
 	color-stop(0.31, #2179B3)
 );
 }
+*/
 
-/***************************************************/
+/*************************************************
 /* Portlets styles                                 */
-/***************************************************/
+/**************************************************
 .portlet {background-color:#fff;padding:1em;border:1px solid #ced0d0;margin:5px 0;}
 .portlet-background-content {background-color: #fff;padding:1em;}
 .portlet-background-header, .portlet-background-colored-header {
@@ -46,12 +50,13 @@ color:#EEE;
 padding:0.28em 1em;
 border-bottom: 1px solid #efefef;
 }
+*/
 
 /***************************************************/
 /* Footer                                          */
-/***************************************************/
+/**************************************************
 #footer1 {background-color: #D0D4D7;padding:0.2em;}
-#footer2 {background-color: #444444;height: 5em;padding:10px 0;}
+#footer2 {background-color: #444444;height: 5em;padding:10px 0;}*/
 
 /**************************************************/
 /* Lutece common styles                           */
@@ -71,6 +76,7 @@ background-color:#DEDEDE;
 -moz-border-radius-bottomleft: 10px;
 border-bottom-right-radius: 10px;
 border-bottom-left-radius: 10px;}
-.btn-group-portlet form{margin-bottom:2px !important;}
-.btn-group-portlet button{opacity:0.6;margin:0 1px;}
-.btn-group-portlet button:hover{opacity:1;}
+.btn-group-portlet form{margin-bottom:2px !important; }
+.btn-group-portlet button{opacity:0.6;margin:0 1px;background-color:#DEDEDE !important;width:10px;height:10px;}
+.btn-group-portlet button.btn-danger{opacity:0.6;margin:0 1px;background-color:#DEDEDE !important;}
+.btn-group-portlet button:hover{opacity:1;background-color:#DEDEDE !important;}
