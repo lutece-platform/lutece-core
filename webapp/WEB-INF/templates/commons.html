@@ -154,21 +154,19 @@
 </#macro>
 
 
-<#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page>
-    <div class="row">
+<#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page label="Nombre de lignes par page :" >
     <#if (paginator.pagesCount > 1) >
         <@paginationPageLinks paginator=paginator />
     </#if>
     <#if form == 1 >
-    <form class="form-inline pull-right" method="post" action="">
+    <form class="form-inline" method="post" action="">
     </#if>
-        
+    <label>${label}</label>   
     <@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
         
     <#if form == 1 >
     </form>
     </#if>
-   </div>
  </#macro>
 
  <#macro paginationPageLinks paginator >
@@ -199,7 +197,7 @@
         </li>
         <#else>
         <li class="disabled">
-            <a href="">${paginator.labelPrevious}</a>
+            <a href="${paginator.firstPageLink?xhtml}">${paginator.labelPrevious}</a>
         </li>
         </#if>
         <#if ( paginator.pageCurrent - offsetPrev > 1 )>
@@ -209,13 +207,13 @@
         </#if>
         <#list paginator.pagesLinks as link>
 			<#if ( link.index == paginator.pageCurrent )>
-                        <li class="active">
-				<a href="${link.url?xhtml}">${link.name}</a>
-                        </li>
+                <li class="active">
+					<a href="${link.url?xhtml}">${link.name}</a>
+                </li>
 			<#else>
-                        <li>
-				<a href="${link.url?xhtml}">${link.name}</a>
-                        </li>
+				<li>
+					<a href="${link.url?xhtml}">${link.name}</a>
+                </li>
 			</#if>
         </#list>
         <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
@@ -225,9 +223,9 @@
         </#if>
         <#if (paginator.pageCurrent < paginator.pagesCount) >
         <li class="next">
-        <a href="${paginator.nextPageLink?xhtml}">
+			<a href="${paginator.nextPageLink?xhtml}">
             ${paginator.labelNext}
-        </a>
+			</a>
         </li>
         <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
         <li class="next">
@@ -238,7 +236,7 @@
         </#if>
         <#else>
         <li class="disabled">
-            <a href="">${paginator.labelNext}</a>
+            <a href="${paginator.lastPageLink?xhtml}">${paginator.labelNext}</a>
         </li>
         </#if>
         </ul>
