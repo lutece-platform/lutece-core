@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Plugin: liststyle</title>
+		<link href="css/screen.css" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+		<div class="header">
+			<h1>
+				Plugin: liststyle
+			</h1>
+		</div>
+
+		<div class="content">
+			<p>
+				The List Style plugin allows you to set the list-style-type CSS property on lists within the TinyMCE editor. This plugin caters for both ordered and unordered lists.
+			</p>
+
+			<h3>
+				Installation Instructions
+			</h3>
+
+			<ul>
+				<li>
+					Copy the liststyle directory to the plugins directory of TinyMCE (/jscripts/tiny_mce/plugins).
+				</li>
+				<li>
+					Add plugin to TinyMCE plugin option list. Example: plugins : "liststyle".
+				</li>
+				<li>
+					Add the liststyle button to the button list. Example: theme_advanced_button3_add : "liststyle"
+				</li>
+			</ul>
+
+			<h3>
+				Initialization Example
+			</h3>
+			<br />
+			<div class="example">
+				<pre>
+tinyMCE.init({
+    theme : "advanced",
+    mode : "textareas",
+    plugins : "liststyle",
+    theme_advanced_button3_add : "liststyle"
+});
+</pre>
+			</div>
+			<br />
+			<h3>
+				Usage Instructions
+			</h3>
+
+			<ul>
+				<li>
+					Position the cursor on an item in the list whose style you
+					wish to alter and click the liststyle button.
+				</li>
+				<li>
+					Select the list style type and click "Update".
+				</li>
+				<li>
+					The plugin supports nested lists - the style of the list at	the level
+					of the item at the cursor position is altered, not the others.
+				</li>
+			</ul>
+
+			<h3>
+				License
+			</h3>
+
+			<blockquote>
+				<a href="http://wiki.moxiecode.com/index.php/TinyMCE:License">LGPL 2.0</a>
+			</blockquote>
+
+			<h3>
+				History
+			</h3>
+
+			<ul>
+				<li>
+					2008-05-07: Version 3.0 released.
+					<ul>
+						<li>
+							Updated for TinyMCE 3.x.
+						</li>
+					</ul>
+				</li>
+				<li>
+					2007-11-28: Version 1.1.3 released.
+					<ul>
+						<li>
+							Tweaked the popup window height to allow for IE7 security address bar.
+						</li>
+					</ul>
+				</li>
+				<li>
+					2006-08-25: Version 1.1.2 released.
+					<ul>
+						<li>
+							Added Usage instructions.
+						</li>
+						<li>
+							Added support for undo and redo.
+						</li>
+					</ul>
+				</li>
+				<li>
+					2006-03-25: Version 1.1.1 released.
+					<ul>
+						<li>
+							Fixed Javascript error under IE.  Thanks to Bryan Costin
+							for highlighting this issue.
+						</li>
+					</ul>
+				</li>
+				<li>
+					2006-03-10: Version 1.1.0 released.
+					<ul>
+						<li>
+							Updated for TinyMCE plugin architecture change introduced in TinyMCE 2.0.3.
+							Use ListStyle 1.0.1 if you are using a TinyMCE 2.0.0 - 2.0.2.
+						</li>
+					</ul>
+				</li>
+				<li>
+					2006-01-30: Version 1.0.2 released.
+					<ul>
+						<li>
+							Fixed error that occurred when invoked on a non-LI element.
+						</li>
+						<li>
+							Consistently use single quotes in plugin.
+						</li>
+						<li>
+							Added compressed plugin file.
+						</li>
+					</ul>
+				</li>
+				<li>
+					2005-10-11: Version 1.0.1 released. Changes made thanks to spocke:
+					<ul>
+						<li>
+							Fixed so it uses inst.getFocusElement instead of the deprecated tinyMCE.selectedElement.
+						</li>
+						<li>
+							Moved the style information to a separate .css file.
+						</li>
+						<li>
+							Made it possible for translation of all labels.
+						</li>
+						<li>
+							Translated the plugin into Swedish.
+						</li>
+					</ul>
+				</li>
+				<li>
+					2005-10-07: Version 1.0 released.
+				</li>
+			</ul>
+		</div>
+
+		<div class="footer">
+			<div class="helpindexlink">
+				<a href="http://wiki.moxiecode.com/index.php/TinyMCE:Index">TinyMCE Documentation</a>
+			</div>
+
+			<div class="copyright">
+				Copyright 2005-2008 PolicyPoint Technologies Pty. Ltd.
+			</div>
+			<br style="clear:both;" />
+		</div>
+	</body>
+</html>

@@ -1,50 +1,53 @@
-<div class="btn-group pull-right">
-	<#if right_create>
-		<form class="form-horizontal" method="post" action="jsp/admin/xsl/CreateXslExport.jsp">
-            <button class="btn btn-primary pull-right" type="submit" >
+<div class="row" >
+	<div class="container" >
+		<div class="span12" >
+		<legend>
+			#i18n{portal.xsl.manage_xsl_export.title}
+			<#if right_create>
+			<form class="form-inline pull-right" method="post" action="jsp/admin/xsl/CreateXslExport.jsp">
+            <button class="btn btn-primary" type="submit" >
                 <i class="icon-plus icon-white" ></i>
                 <span class="hidden-phone" >#i18n{portal.xsl.manage_xsl_export.button_create}</span>
             </button>
-    	</form>
-	</#if>
-</div>
-<div class="row" >
-	<legend>#i18n{portal.xsl.manage_xsl_export.title}</legend>
-	<@paginationAdmin paginator=paginator combo=1 />
-
-	<table class="table table-striped table-condensed">
-		<tr>
-			<th>#i18n{portal.xsl.manage_xsl_export.row_title}</th>
-			<th>#i18n{portal.xsl.manage_xsl_export.row_description}</th>
-			<th>#i18n{portal.xsl.manage_xsl_export.row_extension}</th>
-			<th>#i18n{portal.xsl.manage_xsl_export.row_actions}</th>
-		</tr>
-            
-		<#list xsl_export_list as xsl_export>
+			</form>
+			</#if>
+		</legend>
+		<@paginationAdmin paginator=paginator combo=1 />
+		<table class="table table-striped table-condensed">
 			<tr>
-				<td>
-					${xsl_export.title}
-				</td>
-				<td>
-					${xsl_export.description}
-				</td>
-				<td >
-					${xsl_export.extension}
-				</td>
-				<td >
-					<#if right_modify>
-						<a class="btn btn-primary btn-mini" href="jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_modify}">
-							<i class="icon-lock icon-white"></i>
-	 					</a>
- 					</#if>
- 					<#if right_delete>
-	 					<a class="btn btn-danger btn-mini" href="jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_delete}">
-							<i class="icon-trash icon-white"></i>
-	 					</a>
- 					</#if>
-				</td>
+				<th>#i18n{portal.xsl.manage_xsl_export.row_title}</th>
+				<th>#i18n{portal.xsl.manage_xsl_export.row_description}</th>
+				<th>#i18n{portal.xsl.manage_xsl_export.row_extension}</th>
+				<th>#i18n{portal.xsl.manage_xsl_export.row_actions}</th>
 			</tr>
-		</#list>
-	</table> 
-	<@paginationAdmin paginator=paginator />
+			   
+			<#list xsl_export_list as xsl_export>
+				<tr>
+					<td>
+						${xsl_export.title}
+					</td>
+					<td>
+						${xsl_export.description}
+					</td>
+					<td >
+						${xsl_export.extension}
+					</td>
+					<td >
+						<#if right_modify>
+							<a class="btn btn-primary btn-mini" href="jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_modify}">
+								<i class="icon-lock icon-white"></i>
+							</a>
+						</#if>
+						<#if right_delete>
+							<a class="btn btn-danger btn-mini" href="jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_delete}">
+								<i class="icon-trash icon-white"></i>
+							</a>
+						</#if>
+					</td>
+				</tr>
+			</#list>
+		</table> 
+		<@paginationAdmin paginator=paginator />
+		</div> 
+	</div> 
 </div> 

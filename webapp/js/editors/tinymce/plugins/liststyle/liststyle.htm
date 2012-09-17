@@ -1,0 +1,75 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{#liststyle.desc}</title>
+	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="jscripts/liststyle.js"></script>
+	<link href="css/liststyle.css" rel="stylesheet" type="text/css" />
+	<base target="_self" />
+</head>
+<body onload="tinyMCEPopup.executeOnLoad('init();');" style="display: none">
+	<form onsubmit="styleList();return false;" action="#">
+		<input type="hidden" name="listStyleType" id="listStyleTypeId" />
+		<table border="0" cellpadding="5" cellspacing="0" width="100%">
+			<tr>
+				<td colspan="2" style="text-align:center;vertical-align:middle">
+			</tr>
+			<tr>
+				<td colspan="2" class="title">{#liststyle.listtype}</td>
+			</tr>
+			<tr id="decimalRow">
+				<td style="text-align:right;"><input type="radio" name="typeRadio" id="decimalId" value="decimal" onclick="setListStyleType(this.value)" class="radio" /></td>
+				<td><label for="decimalId">{#liststyle.decimal}</label></td>
+			</tr>
+			<tr id="laRow">
+				<td style="text-align:right;"><input type="radio" name="typeRadio" id="lowerAlphaId" value="lower-alpha" onclick="setListStyleType(this.value)" class="radio" /></td>
+				<td><label for="lowerAlphaId">{#liststyle.lalpha}</label></td>
+			</tr>
+			<tr id="uaRow">
+				<td style="text-align:right;"><input type="radio" name="typeRadio" id="upperAlphaId" value="upper-alpha" onclick="setListStyleType(this.value)" class="radio" /></td>
+				<td><label for="upperAlphaId">{#liststyle.ualpha}</label></td>
+			</tr>
+			<tr id="lrRow">
+				<td style="text-align:right;"><input type="radio" name="typeRadio" id="lowerRomanId" value="lower-roman" onclick="setListStyleType(this.value)" class="radio" /></td>
+				<td><label for="lowerRomanId">{#liststyle.lroman}</label></td>
+			</tr>
+			<tr id="urRow">
+				<td style="text-align:right;"><input type="radio" name="typeRadio" id="upperRomanId" value="upper-roman" onclick="setListStyleType(this.value)" class="radio" /></td>
+				<td><label for="upperRomanId">{#liststyle.uroman}</label></td>
+			</tr>
+			<tr id="discRow">
+				<td style="text-align:right;"><input type="radio" name="typeRadio" id="discId" value="disc" onclick="setListStyleType(this.value)" class="radio" /></td>
+				<td><label for="discId">{#liststyle.disc}</label></td>
+			</tr>
+			<tr id="circleRow">
+				<td style="text-align:right;"><input type="radio" name="typeRadio" id="circleId" value="circle" onclick="setListStyleType(this.value)" class="radio" /></td>
+				<td><label for="circleId">{#liststyle.circle}</label></td>
+			</tr>
+			<tr id="squareRow">
+				<td style="text-align:right;"><input type="radio" name="typeRadio" id="squareId" value="square" onclick="setListStyleType(this.value)" class="radio" /></td>
+				<td><label for="squareId">{#liststyle.square}</label></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;"><input type="radio" name="typeRadio" id="noneId" value="none" class="radio" /></td>
+				<td><label for="noneId">{#liststyle.none}</label></td>
+			</tr>
+			<tr id="listAttrsRow">
+				<td colspan="2" class="title">{#liststyle.listattributes}</td>
+			</tr>
+			<tr id="startRow">
+				<td style="text-align:right;"><label for="startId">{#liststyle.start}</label></td>
+				<td><input name="start" type="text" id="startId" value="" size="4" maxlength="4" /> {#liststyle.startdesc}</td>
+			</tr>
+			<tr id="classNameRow">
+				<td style="text-align:right;"><label for="startId">{#liststyle.classname}</label></td>
+				<td><input name="classAttr" type="text" id="classAttrId" value="" size="20" /></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="button" name="insert" value="{#update}" onclick="styleList();" id="insert" />
+					<input type="button" name="cancel" value="{#cancel}" onclick="cancelAction();" id="cancel" />
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

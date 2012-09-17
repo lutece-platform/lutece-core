@@ -6,8 +6,16 @@
 	}
 	else
 	{
-		var elementInput = opener.document.getElementById("${input}");
-		elementInput.value = '${insert}';
+		// we do no use xinha...
+		// opener.document.forms[0].${input}.value='${insert}';
+		// var elementInput = opener.document.getElementById("${input}");
+		// elementInput.value = '${insert}';
+		var t1 = '${input}';
+ 		if ( t1 !='undefined' ){
+			opener.document.forms[0].${input}.value='${insert}';
+		} else {
+			opener.tinyMCE.activeEditor.selection.setContent('${insert} ');
+		}
 	}
 	self.close();
 </script>

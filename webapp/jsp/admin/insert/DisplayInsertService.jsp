@@ -6,5 +6,5 @@
 <% insertServiceSelector.init( request , insertServiceSelector.RIGHT_MANAGE_LINK_SERVICE ); %>
 <%= insertServiceSelector.displayService( request ) %>
 
-
-<%@ include file="../AdminFooter.jsp" %>
+</body>
+</html>
