@@ -3,68 +3,7 @@
 ********************************/
 /* Fix for fixed-nav-bar*/
 body{padding-top:60px;}
-/**************************************************/
-/* Banner styles                                  */
-/*************************************************
-#banner {
-height:7em;
-padding:4px 0 0 0;
-background-color: #2178B3;
-background-image: linear-gradient(bottom, #FFFFFF 1%, #2179B3 31%);
-background-image: -o-linear-gradient(bottom, #FFFFFF 1%, #2179B3 31%);
-background-image: -moz-linear-gradient(bottom, #FFFFFF 1%, #2179B3 31%);
-background-image: -webkit-linear-gradient(bottom, #FFFFFF 1%, #2179B3 31%);
-background-image: -ms-linear-gradient(bottom, #FFFFFF 1%, #2179B3 31%);
-background-image: -webkit-gradient(
-	linear,
-	left bottom,
-	left top,
-	color-stop(0.01, #FFFFFF),
-	color-stop(0.31, #2179B3)
-);
-}
-*/
 
-/*************************************************
-/* Portlets styles                                 */
-/**************************************************
-.portlet {background-color:#fff;padding:1em;border:1px solid #ced0d0;margin:5px 0;}
-.portlet-background-content {background-color: #fff;padding:1em;}
-.portlet-background-header, .portlet-background-colored-header {
-background-color: #2178B3;
-background-image: linear-gradient(bottom, #FFFFFF 1%, #2179B3 31%);
-background-image: -o-linear-gradient(bottom, #FFFFFF 1%, #2179B3 31%);
-background-image: -moz-linear-gradient(bottom, #FFFFFF 1%, #2179B3 31%);
-background-image: -webkit-linear-gradient(bottom, #FFFFFF 1%, #2179B3 31%);
-background-image: -ms-linear-gradient(bottom, #FFFFFF 1%, #2179B3 31%);
-background-image: -webkit-gradient(
-	linear,
-	left bottom,
-	left top,
-	color-stop(0.01, #FFFFFF),
-	color-stop(0.31, #2179B3)
-);
-font-size:1.4em;
-font-weight:bold;
-color:#EEE;
-padding:0.28em 1em;
-border-bottom: 1px solid #efefef;
-}
-*/
-
-/***************************************************/
-/* Footer                                          */
-/**************************************************
-#footer1 {background-color: #D0D4D7;padding:0.2em;}
-#footer2 {background-color: #444444;height: 5em;padding:10px 0;}*/
-
-/**************************************************/
-/* Lutece common styles                           */
-/**************************************************/
-
-/**************************************************/
-/* 		Mandatory: admin portlet buttons		  */
-/**************************************************/
 .btn-group-portlet{
 float:right;
 margin:5px 0 0 0;
@@ -77,6 +16,6 @@ background-color:#DEDEDE;
 border-bottom-right-radius: 10px;
 border-bottom-left-radius: 10px;}
 .btn-group-portlet form{margin-bottom:2px !important; }
-.btn-group-portlet button{opacity:0.6;margin:0 1px;background-color:#DEDEDE !important;width:10px;height:10px;}
+.btn-group-portlet button{opacity:0.6;margin:0 1px;background-color:#DEDEDE !important;}
 .btn-group-portlet button.btn-danger{opacity:0.6;margin:0 1px;background-color:#DEDEDE !important;}
 .btn-group-portlet button:hover{opacity:1;background-color:#DEDEDE !important;}
