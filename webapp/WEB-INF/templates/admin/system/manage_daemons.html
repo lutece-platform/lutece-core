@@ -24,9 +24,9 @@
                     </td>
                     <td>${daemon.interval}</td>
                     <td>
-                        ${daemon.lastRunDate}
-                        <p>Logs ${daemon.id} ( ${daemon.pluginName} )</p>
-                        <pre class="logs">${daemon.lastRunLogs}</pre>
+                        
+                        <span rel="popover" data-original-title="${daemon.pluginName}" data-content="${daemon.lastRunLogs?html}">${daemon.lastRunDate} - Logs ${daemon.id} - ${daemon.pluginName}...</span>
+						<pre class="logs">${daemon.lastRunLogs}</pre>
                     </td>         
                     <td>
                         <form method="post" action="jsp/admin/system/DoDaemonAction.jsp" class="form-inline">
@@ -53,3 +53,9 @@
         </div>
     </div>
 </div>
+<script>
+$(document).ready( function () {
+	$("pre.logs").toggle();
+    $("span[rel=popover]").popover({trigger:'hover',placement:'left'});
+});
+</script>
