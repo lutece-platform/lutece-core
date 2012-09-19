@@ -245,7 +245,7 @@
  
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page>
         ${paginator.labelItemCountPerPage} :
-        <select class="span1" name="${paginator.itemsPerPageParameterName}">
+        <select class="span1" name="${paginator.itemsPerPageParameterName}" title="${paginator.itemsPerPageParameterName}">
             <#list [ "10" , "20" , "50" , "100" ] as nb>
              <#if nb_items_per_page = nb >
              	<option selected="selected" value="${nb}">${nb}</option>
@@ -292,7 +292,7 @@
 	</div>
 </#macro>
 
-<#macro dataTable dataTableManager actionMacro="" tableClass="table table-striped table-condensed" >
+<#macro dataTable dataTableManager actionMacro="" tableClass="table table-striped table-condensed" caption="&nbsp;" summary="data table" >
 	<#if 0 < dataTableManager.items?size >
 		<#if dataTableManager.enablePaginator>
 			<form class="form-inline" method="post" action="${dataTableManager.sortUrl}">
@@ -304,8 +304,8 @@
 				</div>
 			</form>
 		</#if>
-		<table class="${tableClass}" summary="data table">
-			<caption>&nbsp;</caption>
+		<table class="${tableClass}" summary="${summary}">
+			<caption>${caption}</caption>
 			<tr>
 				<#list dataTableManager.listColumn as column>
 					<th scope="col">
