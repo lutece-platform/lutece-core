@@ -1,48 +1,47 @@
 <div class="row" > 
 	<div class="container" > 
 		<div class="span12" > 
-		<fieldset>
-		<fieldset>
-		<legend>#i18n{portal.xsl.modify_xsl_export.title}</legend>
 			<form class="form-horizontal" method="post" action="jsp/admin/xsl/DoModifyXslExport.jsp" enctype="multipart/form-data" >
-			<input name="id_xsl_export" value="${xsl_export.idXslExport}" type="hidden" />
-			<div class="control-group">
-				<label class="control-label" for="title" >#i18n{portal.xsl.create_xsl_export.label_title} * : </label>
-				<div class="controls">
-					<input type="text" size="20" id="title" name="title" maxlength="255" value="${xsl_export.title}"/>
-				</div>
-			</div>
-			<div class="control-group">
-	            <label class="control-label" for="description" >#i18n{portal.xsl.create_xsl_export.label_description} * : </label>
-	            <div class="controls">
-	            	<input type="text" size="60" id="description" name="description" maxlength="255" value="${xsl_export.description}"/>
-	            </div>
-			</div>
-			<div class="control-group">
-	            <label class="control-label" for="extension" >#i18n{portal.xsl.create_xsl_export.label_extension} (*) : </label>
-	            <div class="controls">
-	            	<input type="text" size="10" id="extension" name="extension" maxlength="10" value="${xsl_export.extension}"/>
-	            </div>
-	        </div>		
-	        <div class="control-group">
-	            <label class="control-label" for="id_file" >#i18n{portal.xsl.create_xsl_export.label_file} * : </label>
-	            <div class="controls">
-	            	<input type="file" id="id_file" name="id_file" size="60" maxlength="100"/>
-		           	<#if xsl_export.file?exists >
-					<p class="label label-inverse">
-						<a  href="jsp/admin/xsl/DoDownloadXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" />
-							<i class="icon-download icon-white"></i>&nbsp;c${xsl_export.file.title}(${xsl_export.file.size} O)
-						</a>
-					</p>
-					</#if>	 
-	            </div>	
-	        </div>	
-	       <div class="form-actions">
-				<button class="btn btn-primary" type="submit"><i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_save}</button>
-				<button class="btn btn-primary" type="button" onclick="javascript:window.history.back();"><i class="icon-remove-circle icon-white"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_cancel}</button>
-			</div>
+				<fieldset>
+					<legend>#i18n{portal.xsl.modify_xsl_export.title}</legend>
+					<input name="id_xsl_export" value="${xsl_export.idXslExport}" type="hidden" />
+					<div class="control-group">
+						<label class="control-label" for="title" >#i18n{portal.xsl.create_xsl_export.label_title} * : </label>
+						<div class="controls">
+							<input type="text" size="20" id="title" name="title" maxlength="255" value="${xsl_export.title}"/>
+						</div>
+					</div>
+					<div class="control-group">
+			            <label class="control-label" for="description" >#i18n{portal.xsl.create_xsl_export.label_description} * : </label>
+			            <div class="controls">
+			            	<input type="text" size="60" id="description" name="description" maxlength="255" value="${xsl_export.description}"/>
+			            </div>
+					</div>
+					<div class="control-group">
+			            <label class="control-label" for="extension" >#i18n{portal.xsl.create_xsl_export.label_extension} (*) : </label>
+			            <div class="controls">
+			            	<input type="text" size="10" id="extension" name="extension" maxlength="10" value="${xsl_export.extension}"/>
+			            </div>
+			        </div>		
+			        <div class="control-group">
+			            <label class="control-label" for="id_file" >#i18n{portal.xsl.create_xsl_export.label_file} * : </label>
+			            <div class="controls">
+			            	<input type="file" id="id_file" name="id_file" size="60" maxlength="100"/>
+				           	<#if xsl_export.file?exists >
+							<p class="label label-inverse">
+								<a  href="jsp/admin/xsl/DoDownloadXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" />
+									<i class="icon-download icon-white"></i>&nbsp;${xsl_export.file.title}(${xsl_export.file.size} O)
+								</a>
+							</p>
+							</#if>	 
+			            </div>	
+			        </div>	
+			       <div class="form-actions">
+						<button class="btn btn-primary" type="submit"><i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_save}</button>
+						<button class="btn btn-primary" type="button" onclick="javascript:window.history.back();"><i class="icon-remove-circle icon-white"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_cancel}</button>
+					</div>
+				</fieldset>
 			</form>
-		</fieldset>
 		</div>
 	</div>
 </div>

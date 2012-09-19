@@ -243,7 +243,7 @@
  
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page>
 <label for="${paginator.itemsPerPageParameterName}">${paginator.labelItemCountPerPage} </label> 
-<select class="span1" name="${paginator.itemsPerPageParameterName}" title="${paginator.itemsPerPageParameterName}">
+<select class="span1" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
 	<#list [ "10" , "20" , "50" , "100" ] as nb>
 		<#if nb_items_per_page = nb >
 			<option selected="selected" value="${nb}">${nb}</option>

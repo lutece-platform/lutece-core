@@ -1,39 +1,39 @@
 <div class="row" > 
 	<div class="container" > 
 		<div class="span12" > 
-		<fieldset>
-		<legend>#i18n{portal.xsl.create_xsl_export.title}</legend>
-		<form class="form-horizontal" method="post" action="jsp/admin/xsl/DoCreateXslExport.jsp" enctype="multipart/form-data">
-	        <div class="control-group">
-	            <label class="control-label" for="title" >#i18n{portal.xsl.create_xsl_export.label_title} * : </label>
-	            <div class="controls">
-	            	<input type="text" class="input-large" id="title" name="title" maxlength="255"/>
-	           	</div>
-	        </div>
-	        <div class="control-group">
-	            <label class="control-label" for="description" >#i18n{portal.xsl.create_xsl_export.label_description} * : </label>
-	            <div class="controls">
-	            	<input type="text" class="input-xlarge" id="description" name="description" maxlength="255" value=""/>
-	            </div>
-	        </div>	
-	        <div class="control-group">
-	            <label class="control-label" for="extension" >#i18n{portal.xsl.create_xsl_export.label_extension} (*) : </label>
-	            <div class="controls">
-	            	<input type="text" class="input-mini" id="extension" name="extension" maxlength="10" value=""/>
-				</div>
-	        </div>		
-	        <div class="control-group">
-	            <label class="control-label" for="id_file" >#i18n{portal.xsl.create_xsl_export.label_file} * : </label>
-	            <div class="controls">
-	            	<input type="file" id="id_file" name="id_file" class="input-large" maxlength="100"/>
-	            </div>
-	        </div>
-			<div class="form-actions">
-				<button class="btn btn-primary" type="submit"><i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_save}</button>
-				<button class="btn btn-primary" type="button" onclick="javascript:window.history.back();"><i class="icon-remove-circle icon-white"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_cancel}</button>
-			</div>
+			<form class="form-horizontal" method="post" action="jsp/admin/xsl/DoCreateXslExport.jsp" enctype="multipart/form-data">
+				<fieldset>
+					<legend>#i18n{portal.xsl.create_xsl_export.title}</legend>
+			        <div class="control-group">
+			            <label class="control-label" for="title" >#i18n{portal.xsl.create_xsl_export.label_title} * : </label>
+			            <div class="controls">
+			            	<input type="text" class="input-large" id="title" name="title" maxlength="255"/>
+			           	</div>
+			        </div>
+			        <div class="control-group">
+			            <label class="control-label" for="description" >#i18n{portal.xsl.create_xsl_export.label_description} * : </label>
+			            <div class="controls">
+			            	<input type="text" class="input-xlarge" id="description" name="description" maxlength="255" value=""/>
+			            </div>
+			        </div>	
+			        <div class="control-group">
+			            <label class="control-label" for="extension" >#i18n{portal.xsl.create_xsl_export.label_extension} (*) : </label>
+			            <div class="controls">
+			            	<input type="text" class="input-mini" id="extension" name="extension" maxlength="10" value=""/>
+						</div>
+			        </div>		
+			        <div class="control-group">
+			            <label class="control-label" for="id_file" >#i18n{portal.xsl.create_xsl_export.label_file} * : </label>
+			            <div class="controls">
+			            	<input type="file" id="id_file" name="id_file" class="input-large" maxlength="100"/>
+			            </div>
+			        </div>
+					<div class="form-actions">
+						<button class="btn btn-primary" type="submit"><i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_save}</button>
+						<button class="btn btn-primary" type="button" onclick="javascript:window.history.back();"><i class="icon-remove-circle icon-white"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_cancel}</button>
+					</div>
+				</fieldset>
 			</form>
-		</fieldset>
 		</div>
 	</div>
 </div>

@@ -39,7 +39,7 @@
 <%
 	if ( AdminThemeService.isModeAccessible( request ) ){
 %>
-<link rel="stylesheet" type="text/css" href="css/portal_admin_accessibility.css" media="screen, projection" />
+<link rel="stylesheet" type="text/css" href="css/admin/portal_admin_accessibility.css" media="screen, projection" />
 <%
 	}
 %>
