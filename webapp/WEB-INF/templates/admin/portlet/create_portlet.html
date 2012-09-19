@@ -1,25 +1,14 @@
 <#if portletType.createScriptTemplate != "" ><#include portletType.createScriptTemplate /></#if>
 	<div class="row">
-		<div class="span11">
+		<div class="span12">
         <fieldset>     
-        <legend>#i18n{portal.site.portletType.labelCreate} ${portletType.name}</legend>
-        <form method="post" name="form"  action="${portletType.doCreateUrl}" target="_top" class="form-horizontal">  
+        <legend>&nbsp;#i18n{portal.site.portletType.labelCreate} ${portletType.name}</legend>
+        <form method="post" name="form"  action="${portletType.doCreateUrl}" target="_top" class="form">  
         <input type="hidden" name="page_id" value="${portlet_page_id}">
         <input type="hidden" name="portlet_type_id" value="${portletType.id}" >
         <div class="span4">
 			<div class="well">
-                <label>#i18n{portal.site.create_portlet.labelPortletTitle}</label>            
-                <input type="text" name="portlet_name" class="input-large"/>  
-                <input class="radio" type="radio" name="display_portlet_title" value="0" checked="checked" />                      
-                 #i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleYes}
-                <input class="radio" type="radio" name="display_portlet_title" value="1"  />
-                #i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleNo}
-                <label>#i18n{portal.site.create_portlet.labelDisplayOnDevice}</label>
-                <input class="checkbox" type="checkbox" name="display_on_small_device" value="1" checked="checked"> #i18n{portal.site.create_portlet.checkboxSmallDevice} &nbsp;
-                <input class="checkbox" type="checkbox" name="display_on_normal_device" value="1" checked="checked"> #i18n{portal.site.create_portlet.checkboxNormalDevice} &nbsp;
-                <input class="checkbox" type="checkbox" name="display_on_large_device" value="1" checked="checked"> #i18n{portal.site.create_portlet.checkboxLargeDevice} &nbsp;
-                <input class="checkbox" type="checkbox" name="display_on_xlarge_device" value="1" checked="checked"> #i18n{portal.site.create_portlet.checkboxXLargeDevice} &nbsp;
-                <label>#i18n{portal.site.create_portlet.labelOrder} </label>
+				<label>#i18n{portal.site.create_portlet.labelOrder} </label>
                 <@comboSorted name="order" default_value="1" items=portlet_order_combo />
                 <label>#i18n{portal.site.create_portlet.labelColumn}</label>
                 <@comboSorted name="column" default_value="1" items=portlet_columns_combo />
@@ -29,21 +18,44 @@
                 </#if>
                 <label>#i18n{portal.site.create_portlet.labelRole}<br /></label>
                 <@comboSorted name="role" default_value="none" items=portlet_role_combo />
-                <label>#i18n{portal.site.create_portlet.labelAlias}</label>
+                <label>#i18n{portal.site.create_portlet.labelAlias}
                 <input class="radio" type="radio" name="accept_alias" value="1" > #i18n{portal.site.create_portlet.radioButtonAcceptAliasYes}
-                <input class="radio" type="radio" name="accept_alias" value="0" checked > #i18n{portal.site.create_portlet.radioButtonAcceptAliasNo}
+                <input class="radio" type="radio" name="accept_alias" value="0" checked > #i18n{portal.site.create_portlet.radioButtonAcceptAliasNo}</label>
+				<label>#i18n{portal.site.create_portlet.labelDisplayOnDevice}</label>
+				<label for="display_on_small_device">
+					<input class="checkbox" type="checkbox" name="display_on_small_device" value="1" checked="checked">
+					&nbsp;#i18n{portal.site.create_portlet.checkboxSmallDevice}
+				</label> 
+                <label for="display_on_normal_device">
+					<input class="checkbox" type="checkbox" name="display_on_normal_device" value="1" checked="checked">
+					&nbsp;#i18n{portal.site.create_portlet.checkboxNormalDevice}
+				</label> 
+                <label for="display_on_large_device">
+					<input class="checkbox" type="checkbox" name="display_on_large_device" value="1" checked="checked">
+					&nbsp;#i18n{portal.site.create_portlet.checkboxLargeDevice} &nbsp;
+				</label>
+                <label for="display_on_xlarge_device">
+					<input class="checkbox" type="checkbox" name="display_on_xlarge_device" value="1" checked="checked">
+					&nbsp;#i18n{portal.site.create_portlet.checkboxXLargeDevice} &nbsp;
+				</label>
             </div>
         </div>
         <div class="span7">
+			<label>#i18n{portal.site.create_portlet.labelPortletTitle}</label> 
+				<input type="text" name="portlet_name" class="input-xxlarge" />
+				<label for="display_portlet_title" >&nbsp;
+					<input class="radio inline" type="radio" name="display_portlet_title" value="0" checked="checked" />&nbsp;#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleYes}                      
+					<input class="radio inline" type="radio" name="display_portlet_title" value="1" />&nbsp;#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleNo}
+				</label>
+				
 			<#if portletType.createSpecificTemplate != "" >
 				<#include portletType.createSpecificTemplate />
             </#if>
             <#if portletType.createSpecificFormTemplate != "" >
 				<#include portletType.createSpecificFormTemplate />
             </#if>
-        </div>	            
-        <div class="span11">
-		<div class="form-actions">
+        
+		<div class="form-actions span7">
 			<button type="submit" class="btn btn-primary">
                 <i class="icon-ok icon-white"></i>
                    <span class="hidden-phone" >#i18n{portal.site.create_portlet.buttonValidate}</span>
