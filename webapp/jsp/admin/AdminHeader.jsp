@@ -19,13 +19,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Le styles -->
 <link href="css/admin/bootstrap.min.css" rel="stylesheet">
-<!-- style type="text/css">
-body {padding-top: 60px;padding-bottom: 40px;}
-.sidebar-nav {padding: 9px 0; }
-</style -->
+<link rel="stylesheet" href="css/admin/portal_admin.css" />
 <link href="css/admin/bootstrap-responsive.min.css" rel="stylesheet">
 <link href="css/bootstrap-wysihtml5-0.0.2.css" rel="stylesheet">
 <link href="css/colorpicker.css" rel="stylesheet">
+<link rel="stylesheet" href="js/jquery/plugins/ui/datepicker/ui.datepicker.css" />
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -38,8 +36,6 @@ body {padding-top: 60px;padding-bottom: 40px;}
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
 -->
-<link rel="stylesheet" href="css/admin/portal_admin.css" />
-<link rel="stylesheet" href="js/jquery/plugins/ui/datepicker/ui.datepicker.css" />
 <%
 	if ( AdminThemeService.isModeAccessible( request ) ){
 %>
