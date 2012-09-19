@@ -1,13 +1,12 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
-		<div class="container">
-         <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+		<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
         <a href="jsp/site/Portal.jsp"   title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
-        <img src="images/logo-header.png" alt="logo" title="${site_name}" />&nbsp;${site_name}
+			&nbsp;<img src="images/logo-header.png" alt="logo" title="${site_name}" />&nbsp;${site_name}
         </a>
         <div class="nav-collapse">
             <ul class="nav">
@@ -24,18 +23,13 @@
                 </li>
                 </#list>
             </ul>
-            <ul class="nav">
-                <li>
-                    <div class="btn-group">
-                        <a href="jsp/admin/AdminMenu.jsp" class="btn btn-info" title="#i18n{portal.users.admin_header.title.homePage}">
-                            <i class="icon-home icon-white">&nbsp;</i>
-                        </a>
-                    </div>
-                </li>
-                <li>&nbsp;</li>
+            <ul class="nav pull-right">
+                
                 <li class="dropdown">
                     <div class="btn-group">
-                        <a href="jsp/admin/AdminMenu.jsp#" class="btn btn-primary" id="dLabelUserHeader" data-toggle="dropdown"><i class="icon-user icon-white"></i>&nbsp;<#if dashboard_zone_4?has_content>${dashboard_zone_4}</#if><b class="caret"></b></a>
+                        <a href="jsp/admin/AdminMenu.jsp#" class="btn btn-primary" id="dLabelUserHeader" data-toggle="dropdown">
+							<i class="icon-user icon-white"></i>&nbsp;<#if dashboard_zone_4?has_content>${dashboard_zone_4}</#if><b class="caret"></b>
+						</a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
                             <li>
                                 <a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="icon-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a>
@@ -70,11 +64,13 @@
                                 </#if>
                             </li>
                         </ul>
-                    </div>	
+                    
+                    <a href="jsp/admin/AdminMenu.jsp" class="btn btn-info" title="#i18n{portal.users.admin_header.title.homePage}">
+                            <i class="icon-home icon-white"></i>&nbsp;#i18n{portal.site.page_home.label}
+                        </a></div>	
                 </li>
             </ul> 
 			</div><!-- /.nav-collapse -->
-		</div>  <!-- /container -->
     </div> <!-- /navbar-inner -->
 </div>
 <h1 class="header"><a name="top">&nbsp;</a></h1>

@@ -1,5 +1,4 @@
-<div class="well">
-    <form class="form-horizontal" method="post" name="password_global_security" action="jsp/admin/user/DoModifyDefaultUserSecurityParameterValues.jsp#footer">
+<form class="form-horizontal" method="post" name="password_global_security" action="jsp/admin/user/DoModifyDefaultUserSecurityParameterValues.jsp#footer">
         <fieldset>
             <legend>#i18n{portal.users.manage_advanced_parameters.securityParameters}</legend>
             <div class="control-group">
@@ -10,9 +9,11 @@
             </div>
             <#if use_advanced_security_parameters>
             <div class="control-group">
-                <label class="control-label" for="password_format">#i18n{portal.users.manage_advanced_parameters.labelPasswordFormat} : </label>
+                <label class="control-label" for="">#i18n{portal.users.manage_advanced_parameters.labelPasswordFormat} : </label>
                 <div class="controls">
+					<label class="checkbox" for="password_format">#i18n{portal.users.manage_advanced_parameters.labelPasswordFormat}
                     <input type="checkbox" name="password_format" value="true" <#if password_format?? && password_format>checked="checked"</#if> />
+					</label>
                 </div>
             </div>
             <div class="control-group">
@@ -88,21 +89,21 @@
             <a id="footer">&nbsp;</a>
         </fieldset>
     </form>
-</div>
-<div class="well">
+
     <form class="form-horizontal" method="post" action="jsp/admin/user/ModifyAccountLifeTimeEmails.jsp">
         <fieldset>
             <legend>#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}</legend>
             <div class="control-group">
                 <label class="control-label" for="email_type">#i18n{portal.users.accountLifeTime.labelSelectEmail} :</label>
+				<div class="controls">
                 <select name="email_type" >
                     <option value="first" selected="selected" >#i18n{portal.users.accountLifeTime.labelFirstEmail}</option>
                     <option value="other" >#i18n{portal.users.accountLifeTime.labelOtherEmail}</option>
                     <option value="expired" >#i18n{portal.users.accountLifeTime.labelAccountDeactivatedEmail}</option>
                     <option value="reactivated" >#i18n{portal.users.accountLifeTime.labelAccountUpdatedEmail}</option>
                 </select>
+				</div>
             </div>
-            <button class="btn btn-primary" type="submit" ><i class="icon-edit icon-white"></i>&nbsp;#i18n{portal.users.accountLifeTime.labelEditEmail}</button>
+            <button class="btn btn-primary" type="submit" >#i18n{portal.users.accountLifeTime.labelEditEmail}</button>
         </fieldset>
     </form>
-</div>

@@ -3,7 +3,7 @@
 ********************************/
 /* Fix for fixed-nav-bar*/
 body{padding-top:60px;}
+a.brand img{height:16px;}
 h1.header{display:none;}
 img.thumblist{width:24px;}
 form.spaced{margin:0 2px;}
-.span-min-height{min-height:600px;}

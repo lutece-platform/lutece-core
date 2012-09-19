@@ -1,16 +1,14 @@
-<div class="row">
-	<div class="container">
-	<fieldset>
+<fieldset>
     <legend>#i18n{portal.users.manage_advanced_parameters.pageTitle}
-		<div class="btn-group pull-right">
-			<form class="form-inline" method="post" action="jsp/admin/user/attribute/ManageAttributes.jsp">
-			<button class="btn btn-primary pull-right" type="submit" >
+		<div class="btn-group">
+			<form class="form-inline  pull-right" method="post" action="jsp/admin/user/attribute/ManageAttributes.jsp">
+			<button class="btn btn-primary" type="submit" >
 				<i class="icon-plus icon-white" ></i>
 				<span class="hidden-phone" >#i18n{portal.users.manage_advanced_parameters.buttonLabelAttributeManagement}</span>
 			</button>
 			</form>
-			<form class="form-inline" method="post" action="jsp/admin/user/ChangeFieldAnonymizeAdminUsers.jsp">
-			<button class="btn btn-primary pull-right" type="submit" >
+			<form class="form-inline  pull-right" method="post" action="jsp/admin/user/ChangeFieldAnonymizeAdminUsers.jsp">
+			<button class="btn btn-primary" type="submit" >
 				<i class="icon-plus icon-white" ></i>
 				<span class="hidden-phone" >&nbsp;#i18n{portal.users.manage_advanced_parameters.buttonLabelAnonymizationOptions}</span>
 			</button>
@@ -19,5 +17,3 @@
 	</legend> 
     <#include "advanced_parameters.html" />
 	</fieldset>
-	</div>
-</div>
