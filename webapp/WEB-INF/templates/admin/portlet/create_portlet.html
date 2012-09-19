@@ -6,7 +6,7 @@
         <form method="post" name="form"  action="${portletType.doCreateUrl}" target="_top" class="form-horizontal">  
         <input type="hidden" name="page_id" value="${portlet_page_id}">
         <input type="hidden" name="portlet_type_id" value="${portletType.id}" >
-        <div class="span3">
+        <div class="span4">
 			<div class="well">
                 <label>#i18n{portal.site.create_portlet.labelPortletTitle}</label>            
                 <input type="text" name="portlet_name" class="input-large"/>  
@@ -34,7 +34,7 @@
                 <input class="radio" type="radio" name="accept_alias" value="0" checked > #i18n{portal.site.create_portlet.radioButtonAcceptAliasNo}
             </div>
         </div>
-        <div class="span8">
+        <div class="span7">
 			<#if portletType.createSpecificTemplate != "" >
 				<#include portletType.createSpecificTemplate />
             </#if>

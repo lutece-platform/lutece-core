@@ -8,7 +8,7 @@
         <form method="post" name="form" action="${portletType.doModifyUrl}"  target="_top" class="form-horizontal">
         <input type="hidden" name="portlet_id" value="${portlet.id}" />
         <input type="hidden" name="portlet_type_id" value="${portletType.id}" />
-        <div class="span3">
+        <div class="span4">
 			<div class="well">
 				<label>#i18n{portal.site.modify_portlet.labelPortletTitle}</label>
 				<input type="text" name="portlet_name" value="${portlet.name}" class="input-large" />
@@ -45,7 +45,7 @@
 				</#if>
 			</div>
         </div>
-        <div class="span8">
+        <div class="span7">
 			<#if portletType.modifySpecificTemplate != "" >
 				<#include portletType.modifySpecificTemplate />
 			</#if>
