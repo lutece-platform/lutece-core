@@ -6,11 +6,15 @@
             <span class="icon-bar"></span>
         </button>
         <a href="jsp/site/Portal.jsp"   title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
-			&nbsp;<img src="images/logo-header.png" alt="logo" title="${site_name}" />&nbsp;${site_name}
+		<#if site_name="Lutece">
+			&nbsp;<img src="images/logo-header.png" title="${site_name}" alt="${site_name}" />
+		<#else>
+			&nbsp;<img src="images/logo-header-icon.png" title="${site_name}" alt="${site_name}" />&nbsp;${site_name}
+		</#if>
         </a>
         <div class="nav-collapse">
             <ul class="nav">
-                <#list feature_group_list as feature_group>
+				<#list feature_group_list as feature_group>
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
@@ -24,10 +28,11 @@
                 </#list>
             </ul>
             <ul class="nav pull-right">
-                
+				<li class="home">
+					<a href="jsp/admin/AdminMenu.jsp" title="&nbsp;#i18n{portal.users.admin_header.homePage}"><i class="icon-home icon-white"></i></a>
+				</li> 
                 <li class="dropdown">
-                    <div class="btn-group">
-                        <a href="jsp/admin/AdminMenu.jsp#" class="btn btn-primary" id="dLabelUserHeader" data-toggle="dropdown">
+						<a href="jsp/admin/AdminMenu.jsp#" id="dLabelUserHeader" data-toggle="dropdown" class="dropdown-toggle">
 							<i class="icon-user icon-white"></i>&nbsp;<#if dashboard_zone_4?has_content>${dashboard_zone_4}</#if><b class="caret"></b>
 						</a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
@@ -64,11 +69,9 @@
                                 </#if>
                             </li>
                         </ul>
-                    
-                    <a href="jsp/admin/AdminMenu.jsp" class="btn btn-info" title="#i18n{portal.users.admin_header.title.homePage}">
-                            <i class="icon-home icon-white"></i>&nbsp;#i18n{portal.site.page_home.label}
-                        </a></div>	
+						
                 </li>
+				
             </ul> 
 			</div><!-- /.nav-collapse -->
     </div> <!-- /navbar-inner -->
