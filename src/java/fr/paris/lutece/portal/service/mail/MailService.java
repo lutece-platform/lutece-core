@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.mail;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.mail.FileAttachment;
 import fr.paris.lutece.util.mail.UrlAttachment;
@@ -48,13 +49,14 @@ import java.util.List;
  */
 public final class MailService
 {
-    private static final String PROPERTY_MAIL_NOREPLY_EMAIL = "mail.noreply.email";
-    private static final String BEAN_MAIL_QUEUE = "mailQueue";
+	private static final String PROPERTY_MAIL_NOREPLY_EMAIL = "mail.noreply.email";
+	private static final String PROPERTY_LUTECE_NAME = "lutece.name";
+	private static final String BEAN_MAIL_QUEUE = "mailQueue";
 
-    /** Creates a new instance of AppMailService */
-    private MailService(  )
-    {
-    }
+	/** Creates a new instance of AppMailService */
+	private MailService( )
+	{
+	}
 
     /**
      * Send a message asynchronously. The message is queued until a daemon
@@ -419,13 +421,49 @@ public final class MailService
         return MailUtil.getUrlAttachmentList( strHtml, strBaseUrl, useAbsoluteUrl );
     }
 
-    /**
-     * Return a String that contains a list of recipients separated with mail separator
-     * @param listRecipients a list of string recipients
-     * @return  a String that contains a list of recipients separated with mail separator
-     */
-    public static String getStrRecipients( List<String> listRecipients )
-    {
-        return MailUtil.getStrRecipients( listRecipients );
-    }
+	/**
+	 * Return a String that contains a list of recipients separated with mail separator
+	 * @param listRecipients a list of string recipients
+	 * @return a String that contains a list of recipients separated with mail separator
+	 */
+	public static String getStrRecipients( List<String> listRecipients )
+	{
+		return MailUtil.getStrRecipients( listRecipients );
+	}
+
+	/**
+	 * Get a string that contains an html link to the site back office or front office.
+	 * @param request The request
+	 * @param linkToFrontOffice True if the link should be directed to the front office, false if it should be directed to the back office.
+	 * @return A string containing an html link.
+	 */
+	public static String getSiteLink( String strBaseUrl, boolean linkToFrontOffice )
+	{
+		StringBuilder sb = new StringBuilder( );
+		String strSiteName = AppPropertiesService.getProperty( PROPERTY_LUTECE_NAME );
+		if ( strSiteName != null )
+		{
+			sb.append( "<a title=\"" );
+			sb.append( strSiteName );
+			sb.append( "\" href=\"" );
+			sb.append( strBaseUrl );
+			String strUrl;
+			if ( linkToFrontOffice )
+			{
+				strUrl = AppPathService.getPortalUrl( );
+			}
+			else
+			{
+				strUrl = AppPathService.getAdminMenuUrl( );
+			}
+			if ( strUrl != null )
+			{
+				sb.append( strUrl );
+			}
+			sb.append( "\" >" );
+			sb.append( strSiteName );
+			sb.append( "</a>" );
+		}
+		return sb.toString( );
+	}
 }

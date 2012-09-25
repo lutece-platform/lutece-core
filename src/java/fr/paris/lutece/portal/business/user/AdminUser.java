@@ -51,99 +51,101 @@ import java.util.Map;
  */
 public class AdminUser implements Serializable
 {
-    public static String RESOURCE_TYPE = "ADMIN_USER";
-    private static EmailPatternRegularExpressionRemovalListener _listenerRegularExpression;
-    private static final String EMPTY_STRING = "";
-    public static final int ACTIVE_CODE = 0;
-    public static final int NOT_ACTIVE_CODE = 1;
-    public static final int EXPIRED_CODE = 5;
-    public static final int ANONYMIZED_CODE = 10;
-    private int _nUserId;
-    private String _strAccessCode;
-    private String _strLastName;
-    private String _strFirstName;
-    private String _strEmail;
-    private int _nStatus;
-    private int _nUserLevel;
-    private boolean _bIsPasswordReset;
-    private boolean _bAccessibilityMode;
-    private Timestamp _passwordMaxValidDate;
-    private Timestamp _accountMaxValidDate;
+	public static String RESOURCE_TYPE = "ADMIN_USER";
+	private static EmailPatternRegularExpressionRemovalListener _listenerRegularExpression;
+	private static final String EMPTY_STRING = "";
+	public static final int ACTIVE_CODE = 0;
+	public static final int NOT_ACTIVE_CODE = 1;
+	public static final int EXPIRED_CODE = 5;
+	public static final int ANONYMIZED_CODE = 10;
+	public static final Timestamp DEFAULT_DATE_LAST_LOGIN = Timestamp.valueOf( "1980-01-01 00:00:00" );
+	private int _nUserId;
+	private String _strAccessCode;
+	private String _strLastName;
+	private String _strFirstName;
+	private String _strEmail;
+	private int _nStatus;
+	private int _nUserLevel;
+	private boolean _bIsPasswordReset;
+	private boolean _bAccessibilityMode;
+	private Timestamp _passwordMaxValidDate;
+	private Timestamp _accountMaxValidDate;
+	private Timestamp _dateLastLogin;
 
-    /** User's rights */
-    private Map<String, Right> _rights = new HashMap<String, Right>(  );
+	/** User's rights */
+	private Map<String, Right> _rights = new HashMap<String, Right>( );
 
-    /** User's roles */
-    private Map<String, AdminRole> _roles = new HashMap<String, AdminRole>(  );
+	/** User's roles */
+	private Map<String, AdminRole> _roles = new HashMap<String, AdminRole>( );
 
-    /** Authentication Service */
-    private String _strAuthenticationService;
+	/** Authentication Service */
+	private String _strAuthenticationService;
 
-    /** Authentication Service */
-    private String _strAuthenticationType;
+	/** Authentication Service */
+	private String _strAuthenticationType;
 
-    /** the user's locale */
-    private Locale _locale;
+	/** the user's locale */
+	private Locale _locale;
 
-    /**
-     * Constructor
-     */
-    public AdminUser(  )
-    {
-    }
+	/**
+	 * Constructor
+	 */
+	public AdminUser( )
+	{
+	}
 
-    /**
-     * Constructor
-     * @param stAccessCode The User Name
-     * @param authenticationService The PortalAuthentication object
-     */
-    public AdminUser( String stAccessCode, AdminAuthentication authenticationService )
-    {
-        _strAccessCode = stAccessCode;
-        _strAuthenticationService = authenticationService.getAuthServiceName(  );
-    }
+	/**
+	 * Constructor
+	 * @param stAccessCode The User Name
+	 * @param authenticationService The PortalAuthentication object
+	 */
+	public AdminUser( String stAccessCode, AdminAuthentication authenticationService )
+	{
+		_strAccessCode = stAccessCode;
+		_strAuthenticationService = authenticationService.getAuthServiceName( );
+	}
 
-    /**
-     * Init
-     */
-    public static void init(  )
-    {
-        if ( _listenerRegularExpression == null )
-        {
-            _listenerRegularExpression = new EmailPatternRegularExpressionRemovalListener(  );
-            RegularExpressionRemovalListenerService.getService(  ).registerListener( _listenerRegularExpression );
-        }
-    }
+	/**
+	 * Init
+	 */
+	public static void init( )
+	{
+		if ( _listenerRegularExpression == null )
+		{
+			_listenerRegularExpression = new EmailPatternRegularExpressionRemovalListener( );
+			RegularExpressionRemovalListenerService.getService( ).registerListener( _listenerRegularExpression );
+		}
+	}
 
-    /**
-     * Get the user's Locale
-     * @return The user's locale
-     */
-    public Locale getLocale(  )
-    {
-        return ( _locale == null ) ? Locale.getDefault(  ) : _locale;
-    }
+	/**
+	 * Get the user's Locale
+	 * @return The user's locale
+	 */
+	public Locale getLocale( )
+	{
+		return ( _locale == null ) ? Locale.getDefault( ) : _locale;
+	}
 
-    /**
-     * Set the user Locale
-     * @param locale The locale
-     */
-    public void setLocale( Locale locale )
-    {
-        _locale = locale;
-    }
+	/**
+	 * Set the user Locale
+	 * @param locale The locale
+	 */
+	public void setLocale( Locale locale )
+	{
+		_locale = locale;
+	}
 
-    /**
-     * Return the user's id
-     * @return The user id
-     */
-    public int getUserId(  )
-    {
-        return _nUserId;
-    }
+	/**
+	 * Return the user's id
+	 * @return The user id
+	 */
+	public int getUserId( )
+	{
+		return _nUserId;
+	}
 
-    /**
-     * Sets the user's id
+	/**
+	 * Sets the user's id
      * @param nUserId The User id
      */
     public void setUserId( int nUserId )
@@ -157,358 +159,374 @@ public class AdminUser implements Serializable
      */
     public int getStatus(  )
     {
-        switch ( _nStatus )
-        {
-        case ACTIVE_CODE:
-        case ANONYMIZED_CODE:
-        case NOT_ACTIVE_CODE:
-            return _nStatus;
-        case EXPIRED_CODE:
-            return ANONYMIZED_CODE;
-        default:
-            return ACTIVE_CODE;
-        }
-    }
+		switch (_nStatus)
+		{
+		case ACTIVE_CODE:
+		case ANONYMIZED_CODE:
+		case NOT_ACTIVE_CODE:
+			return _nStatus;
+		case EXPIRED_CODE:
+			return ANONYMIZED_CODE;
+		default:
+			return ACTIVE_CODE;
+		}
+	}
 
-    /**
-     * @return Returns the real status of the user.
-     */
-    public int getRealStatus(  )
-    {
-        return _nStatus;
-    }
+	/**
+	 * @return Returns the real status of the user.
+	 */
+	public int getRealStatus( )
+	{
+		return _nStatus;
+	}
 
-    /**
-     * @param nStatus The _nStatus to set.
-     */
-    public void setStatus( int nStatus )
-    {
-        _nStatus = nStatus;
-    }
+	/**
+	 * @param nStatus The _nStatus to set.
+	 */
+	public void setStatus( int nStatus )
+	{
+		_nStatus = nStatus;
+	}
 
-    /**
-     * Tells whether the current user is active or not
-     * @return true if active, false otherwise
-     */
-    public boolean isStatusActive(  )
-    {
-        return ( _nStatus == ACTIVE_CODE );
-    }
+	/**
+	 * Tells whether the current user is active or not
+	 * @return true if active, false otherwise
+	 */
+	public boolean isStatusActive( )
+	{
+		return ( _nStatus == ACTIVE_CODE );
+	}
 
-    /**
-     * Tells whether the current user is anonymized
-     * @return true if anonymized, false otherwise
-     */
-    public boolean isStatusAnonymized( )
-    {
-        return ( _nStatus == ANONYMIZED_CODE );
-    }
+	/**
+	 * Tells whether the current user is anonymized
+	 * @return true if anonymized, false otherwise
+	 */
+	public boolean isStatusAnonymized( )
+	{
+		return ( _nStatus == ANONYMIZED_CODE );
+	}
 
-    /**
-     * Returns the last name of this user.
-     *
-     * @return the user last name
-     */
-    public String getLastName(  )
-    {
-        return _strLastName;
-    }
+	/**
+	 * Returns the last name of this user.
+	 * 
+	 * @return the user last name
+	 */
+	public String getLastName( )
+	{
+		return _strLastName;
+	}
 
-    /**
-     * Sets the last name of the user to the specified string.
-     *
-     * @param strLastName the new last name
-     */
-    public void setLastName( String strLastName )
-    {
-        _strLastName = ( strLastName == null ) ? EMPTY_STRING : strLastName;
-    }
+	/**
+	 * Sets the last name of the user to the specified string.
+	 * 
+	 * @param strLastName the new last name
+	 */
+	public void setLastName( String strLastName )
+	{
+		_strLastName = ( strLastName == null ) ? EMPTY_STRING : strLastName;
+	}
 
-    /**
-     * Returns the first name of this user.
-     *
-     * @return the user first name
-     */
-    public String getFirstName(  )
-    {
-        return _strFirstName;
-    }
+	/**
+	 * Returns the first name of this user.
+	 * 
+	 * @return the user first name
+	 */
+	public String getFirstName( )
+	{
+		return _strFirstName;
+	}
 
-    /**
-     * Sets the first name of the user to the specified string.
-     *
-     * @param strFirstName the new first name
-     */
-    public void setFirstName( String strFirstName )
-    {
-        _strFirstName = ( strFirstName == null ) ? EMPTY_STRING : strFirstName;
-    }
+	/**
+	 * Sets the first name of the user to the specified string.
+	 * 
+	 * @param strFirstName the new first name
+	 */
+	public void setFirstName( String strFirstName )
+	{
+		_strFirstName = ( strFirstName == null ) ? EMPTY_STRING : strFirstName;
+	}
 
-    /**
-     * Returns the email of this user.
-     *
-     * @return the user email
-     */
-    public String getEmail(  )
-    {
-        return _strEmail;
-    }
+	/**
+	 * Returns the email of this user.
+	 * 
+	 * @return the user email
+	 */
+	public String getEmail( )
+	{
+		return _strEmail;
+	}
 
-    /**
-     * Sets the email of the user to the specified string.
-     *
-     * @param strEmail the new email
-     */
-    public void setEmail( String strEmail )
-    {
-        _strEmail = ( strEmail == null ) ? EMPTY_STRING : strEmail;
-    }
+	/**
+	 * Sets the email of the user to the specified string.
+	 * 
+	 * @param strEmail the new email
+	 */
+	public void setEmail( String strEmail )
+	{
+		_strEmail = ( strEmail == null ) ? EMPTY_STRING : strEmail;
+	}
 
-    /**
-     * @return Returns the _strAccessCode.
-     */
-    public String getAccessCode(  )
-    {
-        return _strAccessCode;
-    }
+	/**
+	 * @return Returns the _strAccessCode.
+	 */
+	public String getAccessCode( )
+	{
+		return _strAccessCode;
+	}
 
-    /**
-     * @param strAccessCode The _strAccessCode to set.
-     */
-    public void setAccessCode( String strAccessCode )
-    {
-        _strAccessCode = strAccessCode;
-    }
+	/**
+	 * @param strAccessCode The _strAccessCode to set.
+	 */
+	public void setAccessCode( String strAccessCode )
+	{
+		_strAccessCode = strAccessCode;
+	}
 
-    /**
-     * Get the maximum valid date of the password of the user
-     * @return The maximum valid date of the password of the user
-     */
-    public Timestamp getPasswordMaxValidDate( )
-    {
-        return _passwordMaxValidDate;
-    }
+	/**
+	 * Get the maximum valid date of the password of the user
+	 * @return The maximum valid date of the password of the user
+	 */
+	public Timestamp getPasswordMaxValidDate( )
+	{
+		return _passwordMaxValidDate;
+	}
 
-    /**
-     * Set the maximum valid date of the password of the user
-     * @param passwordMaxValidDate The new maximum valid date of the password of
-     *            the user, or null if it doesn't have any.
-     */
-    public void setPasswordMaxValidDate( Timestamp passwordMaxValidDate )
-    {
-        this._passwordMaxValidDate = passwordMaxValidDate;
-    }
+	/**
+	 * Set the maximum valid date of the password of the user
+	 * @param passwordMaxValidDate The new maximum valid date of the password of the user, or null if it doesn't have any.
+	 */
+	public void setPasswordMaxValidDate( Timestamp passwordMaxValidDate )
+	{
+		this._passwordMaxValidDate = passwordMaxValidDate;
+	}
 
-    /**
-     * Get the expiration date of the user account.
-     * @return The expiration date of the user account, or null if it doesn't
-     *         have any.
-     */
-    public Timestamp getAccountMaxValidDate( )
-    {
-        return _accountMaxValidDate;
-    }
+	/**
+	 * Get the expiration date of the user account.
+	 * @return The expiration date of the user account, or null if it doesn't have any.
+	 */
+	public Timestamp getAccountMaxValidDate( )
+	{
+		return _accountMaxValidDate;
+	}
 
-    /**
-     * Set the expiration date of the user account.
-     * @param accountMaxValidDate The new expiration date of the user account.
-     */
-    public void setAccountMaxValidDate( Timestamp accountMaxValidDate )
-    {
-        this._accountMaxValidDate = accountMaxValidDate;
-    }
+	/**
+	 * Set the expiration date of the user account.
+	 * @param accountMaxValidDate The new expiration date of the user account.
+	 */
+	public void setAccountMaxValidDate( Timestamp accountMaxValidDate )
+	{
+		this._accountMaxValidDate = accountMaxValidDate;
+	}
 
-    /**
-     * Returns user's roles
-     * @return Returns user's roles
-     */
-    public Map<String, AdminRole> getRoles(  )
-    {
-        return _roles;
-    }
+	/**
+	 * Returns user's roles
+	 * @return Returns user's roles
+	 */
+	public Map<String, AdminRole> getRoles( )
+	{
+		return _roles;
+	}
 
-    /**
-     * add user's roles
-     * @param roles The User roles
-     */
-    public void addRoles( Map<String, AdminRole> roles )
-    {
-        _roles.putAll( roles );
-    }
+	/**
+	 * add user's roles
+	 * @param roles The User roles
+	 */
+	public void addRoles( Map<String, AdminRole> roles )
+	{
+		_roles.putAll( roles );
+	}
 
-    /**
-     * Defines user's roles
-     * @param roles The User roles
-     */
-    public void setRoles( Map<String, AdminRole> roles )
-    {
-        _roles.clear(  );
-        _roles.putAll( roles );
-    }
+	/**
+	 * Defines user's roles
+	 * @param roles The User roles
+	 */
+	public void setRoles( Map<String, AdminRole> roles )
+	{
+		_roles.clear( );
+		_roles.putAll( roles );
+	}
 
-    /**
-     * Returns user's rights
-     * @return Returns user's rights
-     */
-    public Map<String, Right> getRights(  )
-    {
-        return _rights;
-    }
+	/**
+	 * Returns user's rights
+	 * @return Returns user's rights
+	 */
+	public Map<String, Right> getRights( )
+	{
+		return _rights;
+	}
 
-    /**
-     * Verify user rights on a given functionality
-     *
-     * @param strRightCode right code which corresponding to the functionality
-     * @return true if user have this authorisation and false otherwise
-     */
-    public boolean checkRight( String strRightCode )
-    {
-        return _rights.containsKey( strRightCode );
-    }
+	/**
+	 * Verify user rights on a given functionality
+	 * 
+	 * @param strRightCode right code which corresponding to the functionality
+	 * @return true if user have this authorisation and false otherwise
+	 */
+	public boolean checkRight( String strRightCode )
+	{
+		return _rights.containsKey( strRightCode );
+	}
 
-    /**
-     * Defines user's rights
-     * @param rights The User rights
-     */
-    public void setRights( Map<String, Right> rights )
-    {
-        _rights.clear(  );
-        _rights.putAll( rights );
-    }
+	/**
+	 * Defines user's rights
+	 * @param rights The User rights
+	 */
+	public void setRights( Map<String, Right> rights )
+	{
+		_rights.clear( );
+		_rights.putAll( rights );
+	}
 
-    ////////////////////////////////////////////////////////////////////////////
-    // Authentication infos
+	// //////////////////////////////////////////////////////////////////////////
+	// Authentication infos
 
-    /**
-     * Defines the authentification service that had authentified the user
-     * @param strAuthenticationService The authentification service
-     */
-    public void setAuthenticationService( String strAuthenticationService )
-    {
-        _strAuthenticationService = strAuthenticationService;
-    }
+	/**
+	 * Defines the authentification service that had authentified the user
+	 * @param strAuthenticationService The authentification service
+	 */
+	public void setAuthenticationService( String strAuthenticationService )
+	{
+		_strAuthenticationService = strAuthenticationService;
+	}
 
-    /**
-     * Returns the authentification service that had authentified the user
-     * @return the authentification service that had authentified the user
-     */
-    public String getAuthenticationService(  )
-    {
-        return _strAuthenticationService;
-    }
+	/**
+	 * Returns the authentification service that had authentified the user
+	 * @return the authentification service that had authentified the user
+	 */
+	public String getAuthenticationService( )
+	{
+		return _strAuthenticationService;
+	}
 
-    /**
-     * Defines the authentification type that had authentified the user
-     * @param strAuthenticationType The authentification type
-     */
-    public void setAuthenticationType( String strAuthenticationType )
-    {
-        _strAuthenticationType = strAuthenticationType;
-    }
+	/**
+	 * Defines the authentification type that had authentified the user
+	 * @param strAuthenticationType The authentification type
+	 */
+	public void setAuthenticationType( String strAuthenticationType )
+	{
+		_strAuthenticationType = strAuthenticationType;
+	}
 
-    /**
-     * Returns the authentification type that had authentified the user
-     * @return the authentification type that had authentified the user
-     */
-    public String getAuthenticationType(  )
-    {
-        return _strAuthenticationType;
-    }
+	/**
+	 * Returns the authentification type that had authentified the user
+	 * @return the authentification type that had authentified the user
+	 */
+	public String getAuthenticationType( )
+	{
+		return _strAuthenticationType;
+	}
 
-    /**
-     * Defines the user level
-     * @param nUserLevel the user level
-     */
-    public void setUserLevel( int nUserLevel )
-    {
-        _nUserLevel = nUserLevel;
-    }
+	/**
+	 * Defines the user level
+	 * @param nUserLevel the user level
+	 */
+	public void setUserLevel( int nUserLevel )
+	{
+		_nUserLevel = nUserLevel;
+	}
 
-    /**
-     * Returns the user level
-     * @return the user level
-     */
-    public int getUserLevel(  )
-    {
-        return _nUserLevel;
-    }
+	/**
+	 * Returns the user level
+	 * @return the user level
+	 */
+	public int getUserLevel( )
+	{
+		return _nUserLevel;
+	}
 
-    /**
-     * Check if current user has rights over user
-     * @param user the user to check
-     * @return true if current user has higher level than user
-     */
-    public boolean isParent( AdminUser user )
-    {
-        return _nUserLevel < user.getUserLevel(  );
-    }
+	/**
+	 * Check if current user has rights over user
+	 * @param user the user to check
+	 * @return true if current user has higher level than user
+	 */
+	public boolean isParent( AdminUser user )
+	{
+		return _nUserLevel < user.getUserLevel( );
+	}
 
-    /**
-     * Check if current user has rights depending on level
-     * @param level a level id
-     * @return true if current user has higher level than level
-     */
-    public boolean hasRights( int level )
-    {
-        return _nUserLevel < level;
-    }
+	/**
+	 * Check if current user has rights depending on level
+	 * @param level a level id
+	 * @return true if current user has higher level than level
+	 */
+	public boolean hasRights( int level )
+	{
+		return _nUserLevel < level;
+	}
 
-    /**
-     * Check if this user has admin rights
-     * @return true if user has admin rights
-     */
-    public boolean isAdmin(  )
-    {
-        return _nUserLevel == 0;
-    }
+	/**
+	 * Check if this user has admin rights
+	 * @return true if user has admin rights
+	 */
+	public boolean isAdmin( )
+	{
+		return _nUserLevel == 0;
+	}
 
-    /**
-     * Check if this user has a given role
-     * @param strRole The role key
-     * @return true if user has the role
-     */
-    public boolean isInRole( String strRole )
-    {
-        // Reload roles because roles are only load by the bind and should not be accessible
-        // through users list for security reasons
-        Map<String, AdminRole> roles = AdminUserHome.getRolesListForUser( getUserId(  ) );
+	/**
+	 * Check if this user has a given role
+	 * @param strRole The role key
+	 * @return true if user has the role
+	 */
+	public boolean isInRole( String strRole )
+	{
+		// Reload roles because roles are only load by the bind and should not be accessible
+		// through users list for security reasons
+		Map<String, AdminRole> roles = AdminUserHome.getRolesListForUser( getUserId( ) );
 
-        return roles.containsKey( strRole );
-    }
+		return roles.containsKey( strRole );
+	}
 
-    /**
-     * Check if the password has been reinitialized
-     * @return true if it has been reinitialized, false otherwise
-     */
-    public boolean isPasswordReset(  )
-    {
-        return _bIsPasswordReset;
-    }
+	/**
+	 * Check if the password has been reinitialized
+	 * @return true if it has been reinitialized, false otherwise
+	 */
+	public boolean isPasswordReset( )
+	{
+		return _bIsPasswordReset;
+	}
 
-    /**
-     * Set pwd reseted
-     * @param bIsPasswordReset true if it has been reinitialized, false otherwise
-     */
-    public void setPasswordReset( boolean bIsPasswordReset )
-    {
-        _bIsPasswordReset = bIsPasswordReset;
-    }
+	/**
+	 * Set pwd reseted
+	 * @param bIsPasswordReset true if it has been reinitialized, false otherwise
+	 */
+	public void setPasswordReset( boolean bIsPasswordReset )
+	{
+		_bIsPasswordReset = bIsPasswordReset;
+	}
 
-    /**
-     * Set the accessibility mode
-     * @param bAccessibilityMode true if the mode is accessible, false otherwise
-     */
-    public void setAccessibilityMode( boolean bAccessibilityMode )
-    {
-        _bAccessibilityMode = bAccessibilityMode;
-    }
+	/**
+	 * Set the accessibility mode
+	 * @param bAccessibilityMode true if the mode is accessible, false otherwise
+	 */
+	public void setAccessibilityMode( boolean bAccessibilityMode )
+	{
+		_bAccessibilityMode = bAccessibilityMode;
+	}
 
-    /**
-     * Return the accessibility mode
-     * @return true if the mode is accessible, false otherwise
-     */
-    public boolean getAccessibilityMode(  )
-    {
-        return _bAccessibilityMode;
-    }
+	/**
+	 * Return the accessibility mode
+	 * @return true if the mode is accessible, false otherwise
+	 */
+	public boolean getAccessibilityMode( )
+	{
+		return _bAccessibilityMode;
+	}
+
+	/**
+	 * Get the last login date of the user
+	 * @return The last login date of the user
+	 */
+	public Timestamp getDateLastLogin( )
+	{
+		return _dateLastLogin;
+	}
+
+	/**
+	 * Set the last login date of the user
+	 * @param dateLastLogin The last login date of the user
+	 */
+	public void setDateLastLogin( Timestamp dateLastLogin )
+	{
+		_dateLastLogin = dateLastLogin;
+	}
 }

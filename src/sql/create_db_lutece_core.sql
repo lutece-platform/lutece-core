@@ -95,6 +95,7 @@ CREATE TABLE core_admin_user (
 	password_max_valid_date timestamp NULL,
 	account_max_valid_date bigint NULL,
 	nb_alerts_sent INTEGER DEFAULT 0 NOT NULL,
+	last_login TIMESTAMP DEFAULT '1980-01-01 00:00:00',
 	PRIMARY KEY (id_user)
 );
 

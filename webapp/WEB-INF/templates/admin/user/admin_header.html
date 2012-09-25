@@ -62,10 +62,12 @@
                                 </a>
                             </li>
                             </#if>
-                            <li class="divider"></li>
+                            <li class="divider">&nbsp;</li>
                             <li>
                                 <#if admin_logout_url?has_content>
-                                <a href="${admin_logout_url}"><i class="icon-off"></i>&nbsp;#i18n{portal.users.admin_header.deconnectionLink}</a>
+                                <a href="${admin_logout_url}">
+                                	<i class="i"></i>&nbsp;#i18n{portal.users.admin_header.labelLastLogin} : <#if (user.dateLastLogin)?has_content>${user.dateLastLogin?string.short_medium}<#else>#i18n{portal.users.admin_header.labelNever}</#if><br/>
+                                	<i class="icon-off"></i>&nbsp;#i18n{portal.users.admin_header.deconnectionLink}</a>
                                 </#if>
                             </li>
                         </ul>

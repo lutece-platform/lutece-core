@@ -44,94 +44,93 @@ import java.sql.Timestamp;
  */
 public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
 {
-    public static final int USER_NOTFOUND = -1;
-    public static final int INVALID_PASSWORD = -2;
-    public static final int USER_OK = 0;
-    private static final String SQL_QUERY_CHECK_PASSWORD = "SELECT password FROM core_admin_user WHERE  access_code = ? ";
-    private static final String SQL_QUERY_LOAD_USER = " SELECT access_code, id_user, password_max_valid_date, account_max_valid_date, email FROM core_admin_user WHERE access_code = ? ";
-    private static final String SQL_QUERY_UPDATE_PASSWORD_RESET = "UPDATE core_admin_user set reset_password = ? WHERE id_user = ? ";
+	public static final int USER_NOTFOUND = -1;
+	public static final int INVALID_PASSWORD = -2;
+	public static final int USER_OK = 0;
+	private static final String SQL_QUERY_CHECK_PASSWORD = "SELECT password FROM core_admin_user WHERE  access_code = ? ";
+	private static final String SQL_QUERY_LOAD_USER = " SELECT access_code, id_user, password_max_valid_date, account_max_valid_date, email FROM core_admin_user WHERE access_code = ? ";
+	private static final String SQL_QUERY_UPDATE_PASSWORD_RESET = "UPDATE core_admin_user set reset_password = ? WHERE id_user = ? ";
 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //Access methods to data
+	// /////////////////////////////////////////////////////////////////////////////////////
+	// Access methods to data
 
-    /**
-     * Check the password of a given user into the table provided by the database authentication module
-         * @param strAccessCode The name of the user
-         * @param strPassword the user password
-         * @return the the error number
-     */
-    public int checkPassword( String strAccessCode, String strPassword )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHECK_PASSWORD );
-        daoUtil.setString( 1, strAccessCode );
-        daoUtil.executeQuery(  );
+	/**
+	 * Check the password of a given user into the table provided by the database authentication module
+	 * @param strAccessCode The name of the user
+	 * @param strPassword the user password
+	 * @return the the error number
+	 */
+	public int checkPassword( String strAccessCode, String strPassword )
+	{
+		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHECK_PASSWORD );
+		daoUtil.setString( 1, strAccessCode );
+		daoUtil.executeQuery( );
 
-        if ( !daoUtil.next(  ) )
-        {
-            daoUtil.free(  );
+		if ( !daoUtil.next( ) )
+		{
+			daoUtil.free( );
 
-            return USER_NOTFOUND;
-        }
+			return USER_NOTFOUND;
+		}
 
-        String strStoredPassword = daoUtil.getString( 1 );
-        daoUtil.free(  );
+		String strStoredPassword = daoUtil.getString( 1 );
+		daoUtil.free( );
 
-        if ( !strStoredPassword.equals( strPassword ) )
-        {
-            daoUtil.free(  );
+		if ( !strStoredPassword.equals( strPassword ) )
+		{
+			daoUtil.free( );
 
-            return INVALID_PASSWORD;
-        }
+			return INVALID_PASSWORD;
+		}
 
-        return USER_OK;
-    }
+		return USER_OK;
+	}
 
-    /**
-     * load the data of an user from the table provided by the database authentication module
-     * This only provides data specific to the database authentication module.
-     *
-     * @param strAccessCode The access code of user
-     * @param authenticationService The AdminAuthentication
-     * @return user The instance of an LuteceDefaultAdminUser's object
-     */
-    public LuteceDefaultAdminUser load( String strAccessCode, AdminAuthentication authenticationService )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_USER );
-        daoUtil.setString( 1, strAccessCode );
-        daoUtil.executeQuery(  );
+	/**
+	 * load the data of an user from the table provided by the database authentication module This only provides data specific to the database authentication module.
+	 * 
+	 * @param strAccessCode The access code of user
+	 * @param authenticationService The AdminAuthentication
+	 * @return user The instance of an LuteceDefaultAdminUser's object
+	 */
+	public LuteceDefaultAdminUser load( String strAccessCode, AdminAuthentication authenticationService )
+	{
+		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_USER );
+		daoUtil.setString( 1, strAccessCode );
+		daoUtil.executeQuery( );
 
-        if ( !daoUtil.next(  ) )
-        {
-            daoUtil.free(  );
-            throw new AppException( "The line doesn't exist " );
-        }
+		if ( !daoUtil.next( ) )
+		{
+			daoUtil.free( );
+			throw new AppException( "The line doesn't exist " );
+		}
 
-        String strUserName = daoUtil.getString( 1 );
-        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( strUserName, authenticationService );
-        user.setUserId( daoUtil.getInt( 2 ) );
-        user.setPasswordMaxValidDate( daoUtil.getTimestamp( 3 ) );
-        long accountMaxValidDate = daoUtil.getLong( 4 );
-        if ( accountMaxValidDate > 0 )
-        {
-            user.setAccountMaxValidDate( new Timestamp( accountMaxValidDate ) );
-        }
-        user.setEmail( daoUtil.getString( 5 ) );
-        daoUtil.free(  );
+		String strUserName = daoUtil.getString( 1 );
+		LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( strUserName, authenticationService );
+		user.setUserId( daoUtil.getInt( 2 ) );
+		user.setPasswordMaxValidDate( daoUtil.getTimestamp( 3 ) );
+		long accountMaxValidDate = daoUtil.getLong( 4 );
+		if ( accountMaxValidDate > 0 )
+		{
+			user.setAccountMaxValidDate( new Timestamp( accountMaxValidDate ) );
+		}
+		user.setEmail( daoUtil.getString( 5 ) );
+		daoUtil.free( );
 
-        return user;
-    }
+		return user;
+	}
 
-    /**
-     * Set the reset password attribute of the user
-     * @param user User to update
-     * @param bIsPasswordReset New value of the reset password attribute
-     */
-    public void updateResetPassword( LuteceDefaultAdminUser user, boolean bIsPasswordReset )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD_RESET );
-        daoUtil.setBoolean( 1, bIsPasswordReset );
-        daoUtil.setInt( 2, user.getUserId( ) );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
-    }
+	/**
+	 * Set the reset password attribute of the user
+	 * @param user User to update
+	 * @param bIsPasswordReset New value of the reset password attribute
+	 */
+	public void updateResetPassword( LuteceDefaultAdminUser user, boolean bIsPasswordReset )
+	{
+		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD_RESET );
+		daoUtil.setBoolean( 1, bIsPasswordReset );
+		daoUtil.setInt( 2, user.getUserId( ) );
+		daoUtil.executeUpdate( );
+		daoUtil.free( );
+	}
 }
