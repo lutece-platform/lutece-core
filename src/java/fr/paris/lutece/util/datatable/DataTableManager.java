@@ -43,6 +43,8 @@ public class DataTableManager<T>
 	private int _nDefautlItemsPerPage = 0;
 	private boolean _bEnablePaginator;
 	private Locale _locale;
+	private String _strSortedAttributeName;
+	private boolean _bIsAscSort;
 
 	/**
 	 * Private constructor
@@ -226,15 +228,15 @@ public class DataTableManager<T>
 
 		// SORT
 		String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
-		String strAscSort = null;
-
 		if ( strSortedAttributeName != null )
 		{
-			strAscSort = request.getParameter( Parameters.SORTED_ASC );
-
-			boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
-
-			Collections.sort( filteredSortedPaginatedItems, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
+			// We update sort properties
+			_strSortedAttributeName = strSortedAttributeName;
+			_bIsAscSort = Boolean.parseBoolean( request.getParameter( Parameters.SORTED_ASC ) );
+		}
+		if ( _strSortedAttributeName != null )
+		{
+			Collections.sort( filteredSortedPaginatedItems, new AttributeComparator( _strSortedAttributeName, _bIsAscSort ) );
 		}
 
 		// PAGINATION
@@ -400,14 +402,13 @@ public class DataTableManager<T>
 	public DataTableSort getAndUpdateSort( HttpServletRequest request )
 	{
 		String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
-		String strAscSort = null;
-		boolean bIsAscSort = false;
 		if ( strSortedAttributeName != null )
 		{
-			strAscSort = request.getParameter( Parameters.SORTED_ASC );
-			bIsAscSort = Boolean.parseBoolean( strAscSort );
+			// We update sort properties
+			_strSortedAttributeName = strSortedAttributeName;
+			_bIsAscSort = Boolean.parseBoolean( request.getParameter( Parameters.SORTED_ASC ) );
 		}
-		DataTableSort sort = new DataTableSort( strSortedAttributeName, bIsAscSort );
+		DataTableSort sort = new DataTableSort( _strSortedAttributeName, _bIsAscSort );
 		return sort;
 	}
 
