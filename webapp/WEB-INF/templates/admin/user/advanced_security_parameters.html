@@ -2,6 +2,12 @@
         <fieldset>
             <legend>#i18n{portal.users.manage_advanced_parameters.securityParameters}</legend>
             <div class="control-group">
+            	<label class="control-label" for="banned_domain_names">#i18n{portal.users.manage_advanced_parameters.labelBannedDomainNames} : </label>
+            	<div class="controls">
+            		<input type="text" name="banned_domain_names" id="banned_domain_names" value="${banned_domain_names}" />
+            	</div>
+            </div>
+            <div class="control-group">
                 <label class="control-label" for="password_minimum_length">#i18n{portal.users.manage_advanced_parameters.labelMinimumPasswordLength} * : </label>
                 <div class="controls">
                     <input type="text" name="password_minimum_length" value="${password_minimum_length!}" />

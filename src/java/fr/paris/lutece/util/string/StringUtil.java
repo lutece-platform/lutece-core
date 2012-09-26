@@ -47,17 +47,18 @@ import java.util.regex.Pattern;
  */
 public final class StringUtil
 {
-    private static final String PROPERTY_XSS_CHARACTERS = "input.xss.characters";
-    private static final String EMAIL_PATTERN = "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$";
-    private static final String ACCENTUATED_PATTERN = "[�������������������������]";
-    private static final String STRING_CODE_PATTERN = "^[\\w]+$";
+	private static final String PROPERTY_XSS_CHARACTERS = "input.xss.characters";
+	private static final String EMAIL_PATTERN = "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$";
+	private static final String ACCENTUATED_PATTERN = "[�������������������������]";
+	private static final String STRING_CODE_PATTERN = "^[\\w]+$";
+	private static final String CONSTANT_AT = "@";
 
-    // The characters that are considered dangerous for XSS attacks
-    private static char[] _aXssCharacters;
-    private static String _xssCharactersAsString;
+	// The characters that are considered dangerous for XSS attacks
+	private static char[] _aXssCharacters;
+	private static String _xssCharactersAsString;
 
-    /**
-     * Constructor with no parameter
+	/**
+	 * Constructor with no parameter
      */
     private StringUtil(  )
     {
@@ -242,65 +243,100 @@ public final class StringUtil
      * @param strEmail  The mail to check
      * @return boolean true if strEmail is valid
      */
-    public static synchronized boolean checkEmail( String strEmail )
-    {
-        return strEmail.matches( EMAIL_PATTERN );
-    }
+	public static synchronized boolean checkEmail( String strEmail )
+	{
+		return strEmail.matches( EMAIL_PATTERN );
+	}
 
-    /**
-      * This function checks if an string is in a valid format
-      * Returns true if the string is valid
-      *
-      * @param strString  The string to check
-      * @return boolean true if r is valid
-      */
-    public static synchronized boolean checkAccentuatedCharacter( String strString )
-    {
-        boolean bAccentuatedCharacter = true;
-        Matcher matcher = Pattern.compile( ACCENTUATED_PATTERN ).matcher( strString );
+	/**
+	 * This function checks if an email is in a valid format, and is not in a banned domain names list. Returns true if the email is valid
+	 * 
+	 * @param strEmail The mail to check
+	 * @param strBannedDomainNames The list of banned domain names. Domain names may start with a '@' or not.
+	 * @return boolean true if strEmail is valid, false otherwise
+	 */
+	public static synchronized boolean checkEmail( String strEmail, String[] strBannedDomainNames )
+	{
+		boolean bIsValid = strEmail.matches( EMAIL_PATTERN );
 
-        while ( matcher.find(  ) )
-        {
-            bAccentuatedCharacter = false;
-        }
+		if ( bIsValid && strBannedDomainNames != null && strBannedDomainNames.length > 0 )
+		{
+			int nOffset;
+			if ( strBannedDomainNames[0].contains( CONSTANT_AT ) )
+			{
+				nOffset = 0;
+			}
+			else
+			{
+				nOffset = 1;
+			}
+			String strDomainName = strEmail.substring( strEmail.indexOf( CONSTANT_AT ) + nOffset );
+			for ( String strDomain : strBannedDomainNames )
+			{
+				if ( strDomainName.equals( strDomain ) )
+				{
+					bIsValid = false;
+					break;
+				}
+			}
+		}
 
-        return bAccentuatedCharacter;
-    }
+		return bIsValid;
+	}
 
-    /**
-     * Check a code key.<br />
-     * Return true if each character of String is
-     * <ul>
-     *  <li>number</li>
-     *  <li>lower case</li>
-     *  <li>upper case</li>
-     * </ul>
-     *
-     * @param strCodeKey The code Key
-     * @return True if code key is valid
-     */
-    public static synchronized boolean checkCodeKey( String strCodeKey )
-    {
-        return ( strCodeKey == null ) ? false : strCodeKey.matches( STRING_CODE_PATTERN );
-    }
+	/**
+	 * This function checks if an string is in a valid format Returns true if the string is valid
+	 * 
+	 * @param strString The string to check
+	 * @return boolean true if r is valid
+	 */
+	public static synchronized boolean checkAccentuatedCharacter( String strString )
+	{
+		boolean bAccentuatedCharacter = true;
+		Matcher matcher = Pattern.compile( ACCENTUATED_PATTERN ).matcher( strString );
 
-    /**
-     * Converts <code>strValue</code> to an int value.
-     * @param strValue the value to convert
-     * @param nDefaultValue the default returned value
-     * @return <code>strValue</code> int value, <code>nDefaultValue</code> if strValue is not an Integer.
-     */
-    public static int getIntValue( String strValue, int nDefaultValue )
-    {
-        try
-        {
-            return Integer.parseInt( strValue );
-        }
-        catch ( NumberFormatException nfe )
-        {
-            AppLogService.error( nfe.getMessage(  ), nfe );
-        }
+		while ( matcher.find( ) )
+		{
+			bAccentuatedCharacter = false;
+		}
 
-        return nDefaultValue;
-    }
+		return bAccentuatedCharacter;
+	}
+
+	/**
+	 * Check a code key.<br />
+	 * Return true if each character of String is
+	 * <ul>
+	 * <li>number</li>
+	 * <li>lower case</li>
+	 * <li>upper case</li>
+	 * </ul>
+	 * 
+	 * @param strCodeKey The code Key
+	 * @return True if code key is valid
+	 */
+	public static synchronized boolean checkCodeKey( String strCodeKey )
+	{
+		return ( strCodeKey == null ) ? false : strCodeKey.matches( STRING_CODE_PATTERN );
+	}
+
+	/**
+	 * Converts <code>strValue</code> to an int value.
+	 * @param strValue the value to convert
+	 * @param nDefaultValue the default returned value
+	 * @return <code>strValue</code> int value, <code>nDefaultValue</code> if strValue is not an Integer.
+	 */
+	public static int getIntValue( String strValue, int nDefaultValue )
+	{
+		try
+		{
+			return Integer.parseInt( strValue );
+		}
+		catch ( NumberFormatException nfe )
+		{
+			AppLogService.error( nfe.getMessage( ), nfe );
+		}
+
+		return nDefaultValue;
+	}
 }

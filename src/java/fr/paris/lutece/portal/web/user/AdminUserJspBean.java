@@ -280,6 +280,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 	private static final String MARK_DEFAULT_USER_STATUS = "default_user_status";
 	private static final String MARK_ACCES_FAILURES_MAX = "access_failures_max";
 	private static final String MARK_ACCES_FAILURES_INTERVAL = "access_failures_interval";
+	private static final String MARK_BANNED_DOMAIN_NAMES = "banned_domain_names";
 	private static final String MARK_EMAIL_SENDER = "email_sender";
 	private static final String MARK_EMAIL_SUBJECT = "email_subject";
 	private static final String MARK_EMAIL_BODY = "email_body";
@@ -1520,6 +1521,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
 		// Acces failure interval
 		AdminUserService.updateSecurityParameter( MARK_ACCES_FAILURES_INTERVAL, request.getParameter( MARK_ACCES_FAILURES_INTERVAL ) );
+
+		// Banned domain names
+		AdminUserService.updateSecurityParameter( MARK_BANNED_DOMAIN_NAMES, request.getParameter( MARK_BANNED_DOMAIN_NAMES ) );
 
 		return JSP_MANAGE_ADVANCED_PARAMETERS;
 	}

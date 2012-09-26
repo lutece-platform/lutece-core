@@ -182,6 +182,7 @@ INSERT INTO core_user_parameter VALUES ('other_alert_mail_sender', 'lutece@nowhe
 INSERT INTO core_user_parameter VALUES ('other_alert_mail_subject', 'Votre compte va bientot expirer');
 INSERT INTO core_user_parameter VALUES ('account_reactivated_mail_sender', 'lutece@nowhere.com');
 INSERT INTO core_user_parameter VALUES ('account_reactivated_mail_subject', 'Votre compte a bien été réactivé');
+INSERT INTO core_user_parameter VALUES ('banned_domain_names', 'yopmail.com');
 
 
 

@@ -148,12 +148,14 @@ public final class AdminUserService
 	private static final String MARK_NAME = "name";
 	private static final String MARK_FIRST_NAME = "first_name";
 	private static final String MARK_DATE_VALID = "date_valid";
+	private static final String MARK_BANNED_DOMAIN_NAMES = "banned_domain_names";
 
 	// Properties
 	private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
 	private static final String PROPERTY_ENCRYPTION_ALGORITHMS_LIST = "encryption.algorithmsList";
 	private static final String PROPERTY_EMAIL_PATTERN = "lutece.email.pattern";
 	private static final String PROPERTY_MESSAGE_EMAIL_FORMAT = "portal.users.message.user.emailFormat";
+	private static final String PROPERTY_MESSAGE_EMAIL_FORMAT_BANNED_DOMAIN_NAME = "portal.users.message.user.emailFormatBannedDomainNames";
 	private static final String PROPERTY_MESSAGE_MINIMUM_PASSWORD_LENGTH = "portal.users.message.password.minimumPasswordLength";
 	private static final String PROPERTY_MESSAGE_PASSWORD_FORMAT = "portal.users.message.password.format";
 	private static final String PROPERTY_MESSAGE_PASSWORD_ALREADY_USED = "portal.users.message.password.passwordAlreadyUsed";
@@ -170,8 +172,10 @@ public final class AdminUserService
 	// CONSTANTS
 	private static final String CONSTANT_DEFAULT_ENCRYPT_ALGO = "SHA-256";
 	private static final String COMMA = ",";
+	private static final String SEMICOLON = ";";
 	private static final String AMPERSAND = "&";
 	private static final String ZERO = "0";
+	private static final String CONSTANT_AT = "@";
 
 	/** Private constructor */
 	private AdminUserService( )
@@ -413,6 +417,7 @@ public final class AdminUserService
 				model.put( MARK_MAXIMUM_NUMBER_PASSWORD_CHANGE, getIntegerSecurityParameter( MARK_MAXIMUM_NUMBER_PASSWORD_CHANGE ) );
 				model.put( MARK_TSW_SIZE_PASSWORD_CHANGE, getIntegerSecurityParameter( MARK_TSW_SIZE_PASSWORD_CHANGE ) );
 			}
+			model.put( MARK_BANNED_DOMAIN_NAMES, getSecurityParameter( MARK_BANNED_DOMAIN_NAMES ) );
 			model.put( MARK_ACCOUNT_LIFE_TIME, getIntegerSecurityParameter( MARK_ACCOUNT_LIFE_TIME ) );
 			model.put( MARK_TIME_BEFORE_ALERT_ACCOUNT, getIntegerSecurityParameter( MARK_TIME_BEFORE_ALERT_ACCOUNT ) );
 			model.put( MARK_NB_ALERT_ACCOUNT, getIntegerSecurityParameter( MARK_NB_ALERT_ACCOUNT ) );
@@ -451,6 +456,27 @@ public final class AdminUserService
 					bIsValid = false;
 
 					break;
+				}
+			}
+		}
+		if ( bIsValid )
+		{
+			String strBannedDomainNames = AdminUserService.getSecurityParameter( MARK_BANNED_DOMAIN_NAMES );
+			if ( !StringUtils.isEmpty( strBannedDomainNames ) )
+			{
+				String[] strListBannedDomainNames = strBannedDomainNames.split( SEMICOLON );
+				String strDomainName = strEmail.substring( strEmail.indexOf( CONSTANT_AT ) + 1 );
+
+				if ( strDomainName != null && strListBannedDomainNames != null && strListBannedDomainNames.length > 0 )
+				{
+					for ( String strDomain : strListBannedDomainNames )
+					{
+						if ( strDomainName.equals( strDomain ) )
+						{
+							bIsValid = false;
+							break;
+						}
+					}
 				}
 			}
 		}
@@ -532,11 +558,20 @@ public final class AdminUserService
 			// Get all message except the last character which is a comma
 			strMessage = sbMessage.toString( ).substring( 0, sbMessage.length( ) - 1 );
 		}
-
+		String strBannedDomainNames = getSecurityParameter( MARK_BANNED_DOMAIN_NAMES );
+		String strMessageProperty;
+		if ( !StringUtils.isEmpty( strBannedDomainNames ) )
+		{
+			strMessageProperty = PROPERTY_MESSAGE_EMAIL_FORMAT_BANNED_DOMAIN_NAME;
+		}
+		else
+		{
+			strMessageProperty = PROPERTY_MESSAGE_EMAIL_FORMAT;
+		}
 		Object[] param =
-		{ strMessage };
+		{ strMessage, strBannedDomainNames };
 
-		return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_FORMAT, param, AdminMessage.TYPE_STOP );
+		return AdminMessageService.getMessageUrl( request, strMessageProperty, param, AdminMessage.TYPE_STOP );
 	}
 
 	/**
@@ -788,6 +823,17 @@ public final class AdminUserService
 	{
 		DefaultUserParameter defaultUserParameter = DefaultUserParameterHome.findByKey( strParameterkey );
 		return defaultUserParameter == null ? false : Boolean.parseBoolean( defaultUserParameter.getParameterValue( ) );
+	}
+
+	/**
+	 * Get a user parameter from its key.
+	 * @param strParameterkey Key of the parameter
+	 * @return The value of the user parameter.
+	 */
+	public static String getSecurityParameter( String strParameterkey )
+	{
+		DefaultUserParameter defaultUserParameter = DefaultUserParameterHome.findByKey( strParameterkey );
+		return defaultUserParameter == null ? null : defaultUserParameter.getParameterValue( );
 	}
 
 	/**
