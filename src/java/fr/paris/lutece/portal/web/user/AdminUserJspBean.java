@@ -118,8 +118,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 	private static final String TEMPLATE_MANAGE_USER_WORKGROUPS = "admin/user/manage_user_workgroups.html";
 	private static final String TEMPLATE_MODIFY_USER_WORKGROUPS = "admin/user/modify_user_workgroups.html";
 	private static final String TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS = "admin/user/user_email_change_status.html";
-	private static final String TEMPLATE_NOTIFY_USER_LOGIN = "admin/user/notify_user_login.html";
-	private static final String TEMPLATE_NOTIFY_USER_PASSWORD = "admin/user/notify_user_password.html";
+	private static final String TEMPLATE_NOTIFY_USER = "admin/user/notify_user.html";
 	private static final String TEMPLATE_MANAGE_ADVANCED_PARAMETERS = "admin/user/manage_advanced_parameters.html";
 	private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD = "admin/admin_email_forgot_password.html";
 	private static final String TEMPLATE_FIELD_ANONYMIZE_ADMIN_USER = "admin/user/field_anonymize_admin_user.html";
@@ -659,8 +658,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 				// Notify user for the creation of this account
 				// We set the password not encrypted for the email
 				user.setPassword( strSecondPassword );
-				notifyUser( request, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER_LOGIN );
-				notifyUser( request, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER_PASSWORD );
+				notifyUser( request, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
 				user.setPassword( strFirstPassword );
 			}
 		}

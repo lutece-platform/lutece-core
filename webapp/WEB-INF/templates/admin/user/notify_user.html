@@ -8,10 +8,11 @@
 		</#if>
 		#i18n{portal.users.notify_user.email.hello} ${user.firstName} ${user.lastName},<br /><br />
 		#i18n{portal.users.notify_user.email.textIntro}. #i18n{portal.users.notify_user.email.textInfo} :
-		<br/>----------------------------------------------------------<br />
+		 <br/>----------------------------------------------------------<br />    
+		&nbsp;&nbsp;&nbsp;#i18n{portal.users.notify_user.email.codeAcces} : ${user.accessCode}
+		<br />
 		&nbsp;&nbsp;&nbsp;#i18n{portal.users.notify_user.email.password} : ${user.password}
 		<br/>----------------------------------------------------------<br />
 		#i18n{portal.users.notify_user.email.textLoginUrl} : <a href="${login_url}">${login_url}</a>	
 	</body>
 </html>
-

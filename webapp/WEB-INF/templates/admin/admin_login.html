@@ -31,7 +31,10 @@
                     </div>
                     <div class="form-actions">
                         <button class="btn btn-primary" tabindex="3" type="submit"><i class="icon-ok-sign icon-white"></i>&nbsp;#i18n{portal.admin.admin_login.buttonConnect}</button>
-                        <span class="pull-right"><a class=" btn btn-link" href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}" tabindex="4" ><i class="icon-exclamation-sign">&nbsp;</i>&nbsp;#i18n{portal.admin.admin_login.forgotPassword}</a></span>
+                        <span class="pull-right">
+                        	<a class=" btn btn-link" href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}" tabindex="4" ><i class="icon-exclamation-sign">&nbsp;</i>&nbsp;#i18n{portal.admin.admin_login.forgotPassword}</a>
+                        	<#if forgot_login_url?has_content><br /><a class=" btn btn-link" href="${forgot_login_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotLogin}" tabindex="4" ><i class="icon-exclamation-sign">&nbsp;</i>&nbsp;#i18n{portal.admin.admin_login.forgotLogin}</a></#if>
+                        </span>
                     </div>
                     
                 </fieldset>

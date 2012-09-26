@@ -43,15 +43,14 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.Collection;
 import java.util.Enumeration;
 
 import javax.security.auth.login.LoginException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -114,13 +113,12 @@ public final class AdminAuthenticationService
 	 * 
 	 * @return A valid AdminUser object if found
 	 * @param request The Http request
-     * @throws AccessDeniedException If the user cannot have access
-     * @throws UserNotSignedException If the user is not signed
-     */
-    public AdminUser getRemoteUser( HttpServletRequest request )
-        throws UserNotSignedException, AccessDeniedException
-    {
-        AdminUser user = getRegisteredUser( request );
+	 * @throws AccessDeniedException If the user cannot have access
+	 * @throws UserNotSignedException If the user is not signed
+	 */
+	public AdminUser getRemoteUser( HttpServletRequest request ) throws UserNotSignedException, AccessDeniedException
+	{
+		AdminUser user = getRegisteredUser( request );
 
 		if ( _authentication.isExternalAuthentication( ) )
 		{
@@ -150,10 +148,11 @@ public final class AdminAuthenticationService
 					// Start a new session
 					throw new UserNotSignedException( );
 				}
-            }
-        }
-        else // if not external authentication, just check if user is null or not
-        {
+			}
+		}
+		else
+		// if not external authentication, just check if user is null or not
+		{
 			if ( user == null )
 			{
 				// user is not signed
@@ -168,12 +167,11 @@ public final class AdminAuthenticationService
 	 * Checks user's login with the Authentication service.
 	 * @param request The Http request
 	 * @param strAccessCode The user's login
-     * @param strPassword The user's password
-     * @throws LoginException The LoginException
-     */
-    public void loginUser( HttpServletRequest request, final String strAccessCode, final String strPassword )
-        throws LoginException
-    {
+	 * @param strPassword The user's password
+	 * @throws LoginException The LoginException
+	 */
+	public void loginUser( HttpServletRequest request, final String strAccessCode, final String strPassword ) throws LoginException
+	{
 		AdminUser user = _authentication.login( strAccessCode, strPassword, request );
 
 		try
@@ -254,13 +252,12 @@ public final class AdminAuthenticationService
 	 * Register the user in the Http session
 	 * 
 	 * @param request The Http request
-     * @param user The current user
-     * @throws AccessDeniedException If the user cannot have access
-     * @throws UserNotSignedException If the user is not signed
-     */
-    private void registerUser( HttpServletRequest request, AdminUser user )
-        throws AccessDeniedException, UserNotSignedException
-    {
+	 * @param user The current user
+	 * @throws AccessDeniedException If the user cannot have access
+	 * @throws UserNotSignedException If the user is not signed
+	 */
+	private void registerUser( HttpServletRequest request, AdminUser user ) throws AccessDeniedException, UserNotSignedException
+	{
 		HttpSession session = request.getSession( true );
 		session.setAttribute( ATTRIBUTE_ADMIN_USER, bindUser( user ) );
 	}
@@ -362,6 +359,15 @@ public final class AdminAuthenticationService
 	public String getLostPasswordPageUrl( )
 	{
 		return _authentication.getLostPasswordPageUrl( );
+	}
+
+	/**
+	 * Returns the lost login URL of the Authentication Service
+	 * @return The URL
+	 */
+	public String getLostLoginPageUrl( )
+	{
+		return _authentication.getLostLoginPageUrl( );
 	}
 
 	/**

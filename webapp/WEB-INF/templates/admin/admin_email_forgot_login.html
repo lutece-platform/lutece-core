@@ -1,0 +1,15 @@
+<html>
+    <head>
+    <title>#i18n{portal.admin.admin_forgot_login.email.title}</title>
+    </head>
+    <body>
+    <#if site_link?has_content>
+		<h2>${site_link}</h2>
+	</#if>
+    #i18n{portal.admin.admin_forgot_login.email.textYourLogin} : ${login}<br />
+    ----------------------------------------------------------<br />
+    #i18n{portal.admin.admin_forgot_login.email.textLogin} :<br />
+    <a href="${login_url}">${login_url}</a>
+    </body>
+</html>
+

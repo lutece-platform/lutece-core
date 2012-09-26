@@ -70,6 +70,16 @@ public final class AdminUserHome
 	}
 
 	/**
+	 * Get the user access code from its email.
+	 * @param strEmail The email
+	 * @return The access code of the user with the given email, or null if no user has been found
+	 */
+	public static String findUserByEmail( String strEmail )
+	{
+		return _dao.selectUserByEmail( strEmail );
+	}
+
+	/**
 	 * Get the user infos from user id
 	 * @param nUserId the user identifier
 	 * @return The user

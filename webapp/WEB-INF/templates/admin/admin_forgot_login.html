@@ -15,16 +15,16 @@
 	<div class="container">
 		<div class="span9 offset2">
         <h2><!-- Add Sitename --></h2>
-        <form method="post" name="forgot_password" id="forgot_password" action="jsp/admin/DoAdminForgotPassword.jsp" class="well form-horizontal">
+        <form method="post" name="forgot_login" id="forgot_login" action="jsp/admin/DoAdminForgotLogin.jsp" class="well form-horizontal">
             <fieldset>
-                <legend><i class="icon-lock"></i> #i18n{portal.admin.admin_forgot_password.text}</legend>
+                <legend><i class="icon-lock"></i> #i18n{portal.admin.admin_forgot_login.text}</legend>
 				<#list params_list as param>
 					<input type="hidden" name="${param.code}" value="${param.name}" />
 				</#list>
                 <div class="control-group">
-                    <label for="access_code" class="control-label" >#i18n{portal.admin.admin_forgot_password.loginLabel} * :</label>
+                    <label for="email" class="control-label" >#i18n{portal.admin.admin_forgot_login.emailLabel} * :</label>
                     <div class="controls">
-                        <input type="text" name="access_code" id="access_code" autocomplete="off" required="required" tabindex="1" />
+                        <input type="text" name="email" id="email" autocomplete="off" required="required" tabindex="1" />
                     </div>
                 </div>
                 <div class="form-actions">

@@ -169,6 +169,13 @@ public interface IAdminUserDAO
 	AdminUser selectUserByAccessCode( String strUserAccessCode );
 
 	/**
+	 * Get the user access code from its email.
+	 * @param strEmail The email
+	 * @return The access code of the user with the given email, or null if no user has been found
+	 */
+	String selectUserByEmail( String strEmail );
+
+	/**
 	 * Gets the collection of all AdminUsers
 	 * @return The user list
 	 */

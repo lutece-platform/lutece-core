@@ -96,18 +96,22 @@ public class AdminLoginJspBean
 	// Templates
 	private static final String TEMPLATE_ADMIN_LOGIN = "admin/admin_login.html";
 	private static final String TEMPLATE_ADMIN_FORGOT_PASSWORD = "admin/admin_forgot_password.html";
+	private static final String TEMPLATE_ADMIN_FORGOT_LOGIN = "admin/admin_forgot_login.html";
 	private static final String TEMPLATE_ADMIN_FORM_CONTACT = "admin/admin_form_contact.html";
 	private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD = "admin/admin_email_forgot_password.html";
+	private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_LOGIN = "admin/admin_email_forgot_login.html";
 
 	// Markers
 	private static final String MARK_PARAMS_LIST = "params_list";
 	private static final String MARK_FORGOT_PASSWORD_URL = "forgot_password_url";
+	private static final String MARK_FORGOT_LOGIN_URL = "forgot_login_url";
 	private static final String MARK_PARAM_VERSION = "version";
 	private static final String MARK_SITE_NAME = "site_name";
 	private static final String MARK_NEW_PASSWORD = "new_password";
 	private static final String MARK_LOGIN_URL = "login_url";
 	private static final String MARK_DO_ADMIN_LOGIN_URL = "do_admin_login_url";
 	private static final String MARK_SITE_LINK = "site_link";
+	private static final String MARK_LOGIN = "login";
 	private static final String SESSION_ATTRIBUTE_USER = "lutece_admin_user"; // Used by all JSP
 
 	// parameters
@@ -118,7 +122,10 @@ public class AdminLoginJspBean
 	private static final String MESSAGE_SENDING_SUCCESS = "portal.admin.message.admin_forgot_password.sendingSuccess";
 	private static final String MESSAGE_ADMIN_SENDING_SUCCESS = "portal.admin.message.admin_form_contact.sendingSuccess";
 	private static final String MESSAGE_EMAIL_SUBJECT = "portal.admin.admin_forgot_password.email.subject";
+	private static final String MESSAGE_FORGOT_LOGIN_EMAIL_SUBJECT = "portal.admin.admin_forgot_login.email.subject";
+	private static final String MESSAGE_FORGOT_LOGIN_SENDING_SUCCESS = "portal.admin.message.admin_forgot_login.sendingSuccess";
 	private static final String MESSAGE_EMAIL_ADMIN_SUBJECT = "portal.admin.admin_form_contact.email.subject";
+	private static final String MESSAGE_WRONG_EMAIL_FORMAT = "portal.admin.message.admin_forgot_login.wrongEmailFormat";
 
 	// Properties
 	private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
@@ -181,6 +188,7 @@ public class AdminLoginJspBean
 		model.put( MARK_SITE_NAME, AppPropertiesService.getProperty( PROPERTY_SITE_NAME ) );
 		model.put( MARK_PARAMS_LIST, listParams );
 		model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance( ).getLostPasswordPageUrl( ) );
+		model.put( MARK_FORGOT_LOGIN_URL, AdminAuthenticationService.getInstance( ).getLostLoginPageUrl( ) );
 		model.put( MARK_DO_ADMIN_LOGIN_URL, sbUrl.toString( ) );
 
 		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_LOGIN, locale, model );
@@ -224,6 +232,46 @@ public class AdminLoginJspBean
 		model.put( MARK_PARAMS_LIST, listParams );
 
 		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_FORGOT_PASSWORD, locale, model );
+
+		return template.getHtml( );
+	}
+
+	/**
+	 * Returns the view of forgot password form
+	 * 
+	 * @param request The request
+	 * @return The HTML form
+	 */
+	public String getForgotLogin( HttpServletRequest request )
+	{
+		Map<String, Object> model = new HashMap<String, Object>( );
+
+		// Invalidate a previous session
+		HttpSession session = request.getSession( );
+
+		if ( session != null )
+		{
+			session.removeAttribute( SESSION_ATTRIBUTE_USER );
+		}
+
+		Locale locale = AdminUserService.getLocale( request );
+
+		Enumeration enumParams = request.getParameterNames( );
+		ReferenceList listParams = new ReferenceList( );
+		String strParamName;
+
+		while ( enumParams.hasMoreElements( ) )
+		{
+			strParamName = ( String ) enumParams.nextElement( );
+
+			String strParamValue = request.getParameter( strParamName );
+			listParams.addItem( strParamName, strParamValue );
+		}
+
+		model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
+		model.put( MARK_PARAMS_LIST, listParams );
+
+		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_FORGOT_LOGIN, locale, model );
 
 		return template.getHtml( );
 	}
@@ -393,6 +441,54 @@ public class AdminLoginJspBean
 		MailService.sendMailHtml( user.getEmail( ), strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
 
 		return AdminMessageService.getMessageUrl( request, MESSAGE_SENDING_SUCCESS, AdminMessage.TYPE_INFO );
+	}
+
+	/**
+	 * Process the sending of the login
+	 * @param request The HTTP Request
+	 * @return The Jsp URL of the process result
+	 * @throws Exception The exception
+	 */
+	public String doForgotLogin( HttpServletRequest request ) throws Exception
+	{
+		String strEmail = request.getParameter( Parameters.EMAIL );
+		Locale locale = AdminUserService.getLocale( request );
+
+		if ( ( strEmail == null ) || strEmail.equals( CONSTANT_EMPTY_STRING ) )
+		{
+			return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+		}
+		if ( !AdminUserService.checkEmail( strEmail ) )
+		{
+			return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_EMAIL_FORMAT, AdminMessage.TYPE_STOP );
+		}
+
+		if ( locale == null )
+		{
+			locale = Locale.getDefault( );
+		}
+
+		// if access code not found, send admin message
+		String strAccessCode = AdminUserHome.findUserByEmail( strEmail );
+
+		if ( StringUtils.isEmpty( strAccessCode ) )
+		{
+			return JSP_URL_FORM_CONTACT;
+		}
+
+		// send access code by e-mail
+		String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
+		String strEmailSubject = I18nService.getLocalizedString( MESSAGE_FORGOT_LOGIN_EMAIL_SUBJECT, locale );
+		HashMap<String, Object> model = new HashMap<String, Object>( );
+		model.put( MARK_LOGIN, strAccessCode );
+		model.put( MARK_LOGIN_URL, AppPathService.getBaseUrl( request ) + AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) );
+		model.put( MARK_SITE_LINK, MailService.getSiteLink( AppPathService.getBaseUrl( request ), false ) );
+
+		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_EMAIL_FORGOT_LOGIN, locale, model );
+
+		MailService.sendMailHtml( strEmail, strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
+
+		return AdminMessageService.getMessageUrl( request, MESSAGE_FORGOT_LOGIN_SENDING_SUCCESS, AdminMessage.TYPE_INFO );
 	}
 
 	/**
