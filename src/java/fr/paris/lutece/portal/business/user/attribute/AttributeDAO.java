@@ -319,6 +319,7 @@ public class AttributeDAO implements IAttributeDAO
 
         while ( daoUtil.next(  ) )
         {
+        	nIndex = 1;
             IAttribute attribute = null;
 
             try
