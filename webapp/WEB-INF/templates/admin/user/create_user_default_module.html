@@ -22,12 +22,12 @@
 				<input type="password" id="first_password" name="first_password" maxlength="100" size="35" tabindex="2" value=""/>
 				<button type="button" class="btn btn-primary" tabindex="3" id="generate_password" title="#i18n{portal.users.create_user.buttonLabelGeneratePassword}">
 					<i class="icon-refresh  icon-white"></i>
-				</button>                                     
-				<div id="progressbar">
-					<div id="progress"></div>
-				</div>
+				</button>                                    
 				<div id="status">
-					<div id="complexity">0%</div>
+					#i18n{portal.users.create_user.passwordComplexity} : 
+				</div>
+				<div id="progressbar" class="progress progress-striped" style="width:220px;">
+					<div id="progress" ><div id="complexity">0%</div></div>
 				</div>
 				
 				<label for="second_password" >#i18n{portal.users.create_user.labelSecondPassword} * :</label>
@@ -129,9 +129,9 @@ $(document).ready(function(){
 
 	$("#first_password").complexify({}, function (valid, complexity) {
 		if (!valid) {
-			$('#progress').css({'width':complexity + '%'}).removeClass('progressbarValid').addClass('progressbarInvalid');
+			$('#progress').css({'width':complexity + '%'}).removeClass('bar bar-success').addClass('bar bar-danger');
 		} else {
-			$('#progress').css({'width':complexity + '%'}).removeClass('progressbarInvalid').addClass('progressbarValid');
+			$('#progress').css({'width':complexity + '%'}).removeClass('bar bar-danger').addClass('bar bar-success');
 			}
 		$('#complexity').html(Math.round(complexity) + '%');
 	});

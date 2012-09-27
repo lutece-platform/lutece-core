@@ -186,4 +186,10 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
 	public void updateDateLastLogin( LuteceUser user, HttpServletRequest request )
 	{
 	}
+
+	@Override
+	public String getLostLoginPageUrl( )
+	{
+		return null;
+	}
 }

@@ -171,6 +171,12 @@ public interface LuteceAuthentication
 	String getLostPasswordPageUrl( );
 
 	/**
+	 * Returns the lost login URL of the Authentication Service
+	 * @return The URL
+	 */
+	String getLostLoginPageUrl( );
+
+	/**
 	 * Returns the reset password URL of the Authentication Service
 	 * @param request the HTTP request
 	 * @return The URL
