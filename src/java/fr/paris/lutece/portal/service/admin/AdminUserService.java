@@ -46,10 +46,12 @@ import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameter;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.regularexpression.RegularExpressionService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -176,6 +178,7 @@ public final class AdminUserService
 	private static final String AMPERSAND = "&";
 	private static final String ZERO = "0";
 	private static final String CONSTANT_AT = "@";
+	private static final String CONSTANT_UNDERSCORE = "_";
 
 	/** Private constructor */
 	private AdminUserService( )
@@ -417,7 +420,7 @@ public final class AdminUserService
 				model.put( MARK_MAXIMUM_NUMBER_PASSWORD_CHANGE, getIntegerSecurityParameter( MARK_MAXIMUM_NUMBER_PASSWORD_CHANGE ) );
 				model.put( MARK_TSW_SIZE_PASSWORD_CHANGE, getIntegerSecurityParameter( MARK_TSW_SIZE_PASSWORD_CHANGE ) );
 			}
-			model.put( MARK_BANNED_DOMAIN_NAMES, getSecurityParameter( MARK_BANNED_DOMAIN_NAMES ) );
+			model.put( MARK_BANNED_DOMAIN_NAMES, getLargeSecurityParameter( MARK_BANNED_DOMAIN_NAMES ) );
 			model.put( MARK_ACCOUNT_LIFE_TIME, getIntegerSecurityParameter( MARK_ACCOUNT_LIFE_TIME ) );
 			model.put( MARK_TIME_BEFORE_ALERT_ACCOUNT, getIntegerSecurityParameter( MARK_TIME_BEFORE_ALERT_ACCOUNT ) );
 			model.put( MARK_NB_ALERT_ACCOUNT, getIntegerSecurityParameter( MARK_NB_ALERT_ACCOUNT ) );
@@ -837,6 +840,18 @@ public final class AdminUserService
 	}
 
 	/**
+	 * Get a user parameter from its key.
+	 * @param strParameterKey Key of the parameter
+	 * @return The value of the user parameter.
+	 */
+	public static String getLargeSecurityParameter( String strParameterKey )
+	{
+		return DatastoreService.getDataValue( PluginService.getCore( ).getName( ) + CONSTANT_UNDERSCORE + strParameterKey, StringUtils.EMPTY );
+	}
+
+	
+	
+	/**
 	 * Update a security parameter value.
 	 * @param strParameterKey The key of the parameter
 	 * @param strValue The new value
@@ -846,6 +861,16 @@ public final class AdminUserService
 		strValue = StringUtils.isNotBlank( strValue ) ? strValue : StringUtils.EMPTY;
 		DefaultUserParameter defaultUserParameter = new DefaultUserParameter( strParameterKey, strValue );
 		DefaultUserParameterHome.update( defaultUserParameter );
+	}
+
+	/**
+	 * Update a security parameter value.
+	 * @param strParameterKey The key of the parameter
+	 * @param strValue The new value
+	 */
+	public static void updateLargeSecurityParameter( String strParameterKey, String strValue )
+	{
+		DatastoreService.setDataValue( PluginService.getCore( ).getName( ) + CONSTANT_UNDERSCORE + strParameterKey, strValue );
 	}
 
 	/**

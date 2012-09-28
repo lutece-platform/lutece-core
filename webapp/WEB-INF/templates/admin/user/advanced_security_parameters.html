@@ -4,7 +4,7 @@
             <div class="control-group">
             	<label class="control-label" for="banned_domain_names">#i18n{portal.users.manage_advanced_parameters.labelBannedDomainNames} : </label>
             	<div class="controls">
-            		<input type="text" name="banned_domain_names" id="banned_domain_names" value="${banned_domain_names}" />
+            		<textarea rows="4" cols="20" name="banned_domain_names" id="banned_domain_names" >${banned_domain_names}</textarea>
             	</div>
             </div>
             <div class="control-group">
@@ -91,8 +91,10 @@
                     <input type="text" name="time_between_alerts_account" value="${time_between_alerts_account!}" />
                 </div>
             </div>
-            <button class="btn btn-primary" type="submit" >#i18n{portal.util.labelModify}</button>
-            <a id="footer">&nbsp;</a>
+            <div class="form-actions">
+	            <button class="btn btn-primary" type="submit" >#i18n{portal.util.labelModify}</button>
+	            <a id="footer">&nbsp;</a>
+            </div>
         </fieldset>
     </form>
 

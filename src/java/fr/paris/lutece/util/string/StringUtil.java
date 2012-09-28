@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.text.Collator;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -255,11 +254,21 @@ public final class StringUtil
 	 * @param strBannedDomainNames The list of banned domain names. Domain names may start with a '@' or not.
 	 * @return boolean true if strEmail is valid, false otherwise
 	 */
-	public static synchronized boolean checkEmail( String strEmail, String[] strBannedDomainNames )
+	public static synchronized boolean checkEmailAndDomainName( String strEmail, String[] strBannedDomainNames )
 	{
 		boolean bIsValid = strEmail.matches( EMAIL_PATTERN );
+		return bIsValid && checkEmailDomainName( strEmail, strBannedDomainNames );
+	}
 
-		if ( bIsValid && strBannedDomainNames != null && strBannedDomainNames.length > 0 )
+	/**
+	 * Check if a domain name of an email address is not in a banned domain names list.
+	 * @param strEmail Email addresse to check
+	 * @param strBannedDomainNames List of banned domain names
+	 * @return True if the email address is correct, false otherwise
+	 */
+	public static synchronized boolean checkEmailDomainName( String strEmail, String[] strBannedDomainNames )
+	{
+		if ( strBannedDomainNames != null && strBannedDomainNames.length > 0 )
 		{
 			int nOffset;
 			if ( strBannedDomainNames[0].contains( CONSTANT_AT ) )
@@ -270,18 +279,21 @@ public final class StringUtil
 			{
 				nOffset = 1;
 			}
-			String strDomainName = strEmail.substring( strEmail.indexOf( CONSTANT_AT ) + nOffset );
-			for ( String strDomain : strBannedDomainNames )
+			int nIndex = strEmail.indexOf( CONSTANT_AT );
+			if ( nIndex >= 0 && nIndex + nOffset < strEmail.length( ) )
 			{
-				if ( strDomainName.equals( strDomain ) )
+				String strDomainName = strEmail.substring( nIndex + nOffset );
+				for ( String strDomain : strBannedDomainNames )
 				{
-					bIsValid = false;
-					break;
+					if ( strDomainName.equals( strDomain ) )
+					{
+						return false;
+					}
 				}
 			}
 		}
+		return true;
 
-		return bIsValid;
 	}
 
 	/**

@@ -278,8 +278,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 	private static final String MARK_DEFAULT_USER_NOTIFICATION = "default_user_notification";
 	private static final String MARK_DEFAULT_USER_LANGUAGE = "default_user_language";
 	private static final String MARK_DEFAULT_USER_STATUS = "default_user_status";
-	private static final String MARK_ACCES_FAILURES_MAX = "access_failures_max";
-	private static final String MARK_ACCES_FAILURES_INTERVAL = "access_failures_interval";
+	private static final String MARK_ACCESS_FAILURES_MAX = "access_failures_max";
+	private static final String MARK_ACCESS_FAILURES_INTERVAL = "access_failures_interval";
 	private static final String MARK_BANNED_DOMAIN_NAMES = "banned_domain_names";
 	private static final String MARK_EMAIL_SENDER = "email_sender";
 	private static final String MARK_EMAIL_SUBJECT = "email_subject";
@@ -1516,14 +1516,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 		// Time between alerts
 		AdminUserService.updateSecurityParameter( PARAMETER_TIME_BETWEEN_ALERTS_ACCOUNT, request.getParameter( PARAMETER_TIME_BETWEEN_ALERTS_ACCOUNT ) );
 
-		// Max acces failure
-		AdminUserService.updateSecurityParameter( MARK_ACCES_FAILURES_MAX, request.getParameter( MARK_ACCES_FAILURES_MAX ) );
+		// Max access failure
+		AdminUserService.updateSecurityParameter( MARK_ACCESS_FAILURES_MAX, request.getParameter( MARK_ACCESS_FAILURES_MAX ) );
 
-		// Acces failure interval
-		AdminUserService.updateSecurityParameter( MARK_ACCES_FAILURES_INTERVAL, request.getParameter( MARK_ACCES_FAILURES_INTERVAL ) );
+		// Access failure interval
+		AdminUserService.updateSecurityParameter( MARK_ACCESS_FAILURES_INTERVAL, request.getParameter( MARK_ACCESS_FAILURES_INTERVAL ) );
 
 		// Banned domain names
-		AdminUserService.updateSecurityParameter( MARK_BANNED_DOMAIN_NAMES, request.getParameter( MARK_BANNED_DOMAIN_NAMES ) );
+		AdminUserService.updateLargeSecurityParameter( MARK_BANNED_DOMAIN_NAMES, request.getParameter( MARK_BANNED_DOMAIN_NAMES ) );
 
 		return JSP_MANAGE_ADVANCED_PARAMETERS;
 	}
