@@ -1,5 +1,4 @@
-<div class="row">
-	<div class="container">
+<div class="row-fluid">
         <div class="span12">
             <fieldset>
                 <legend>
@@ -56,13 +55,7 @@
                     <#assign id = id + 1>
                     </#list>
                 </table>
-            </fieldset>
-        </div>
-    </div>
-</div>
-<div class="row">
-	<div class="container">
-		<div class="span12">
+        </fieldset>
         <fieldset>
 			<legend>#i18n{portal.system.manage_caches.titleReloadProperties}</legend>
             <form method="post"  action="jsp/admin/system/DoReloadProperties.jsp" class="well form-inline">
@@ -70,6 +63,5 @@
                     <button class="btn btn-primary" type="submit" id="reload" ><i class="icon-refresh icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.buttonReload}</button>
             </form>
         </fieldset>
-		</div>
     </div>
 </div>

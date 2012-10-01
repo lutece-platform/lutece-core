@@ -8,11 +8,8 @@
 
 <% adminMap.init( request , adminMap.RIGHT_MANAGE_ADMIN_SITE ); %>
  
-   <div id="admin-site">
+<%= adminMap.getMap( request ) %>
 
-           <%= adminMap.getMap( request ) %>
-
- 
   
 <%
 	String strParams = "";
@@ -31,11 +28,5 @@
 
      }   
 %>
-    <div id="admin-site-preview" class="preview" >
-	<iframe name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="100%" height="750">
-	</iframe> 
-    </div>
-</div>
-
 
 <%@ include file="../AdminFooter.jsp"%>

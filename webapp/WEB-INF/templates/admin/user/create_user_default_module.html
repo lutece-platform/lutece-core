@@ -12,7 +12,7 @@
 <#return false>
 </#function>
 <form method="post" name="create_user" action="jsp/admin/user/DoCreateUser.jsp" enctype="multipart/form-data" class="form-horizontal">
-	<div class="row">
+	<div class="row-fluid">
         <div class="span4">
 			<fieldset>
 			<legend>#i18n{portal.users.create_user.labelIdentity}</legend>
@@ -22,7 +22,7 @@
 				<input type="password" id="first_password" name="first_password" maxlength="100" size="35" tabindex="2" value=""/>
 				<button type="button" class="btn btn-primary" tabindex="3" id="generate_password" title="#i18n{portal.users.create_user.buttonLabelGeneratePassword}">
 					<i class="icon-refresh  icon-white"></i>
-				</button>                                    
+				</button>                                     
 				<div id="status">
 					#i18n{portal.users.create_user.passwordComplexity} : 
 				</div>

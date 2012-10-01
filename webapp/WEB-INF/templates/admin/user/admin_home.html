@@ -1,49 +1,43 @@
-<div class="container">
-    <div class="row">
-        <#if dashboard_zone_3?has_content>
-        <div class="span9">
-            ${dashboard_zone_3}
-        </div>
-        <#else>
-        <div class="span9">
-            <#list feature_group_list as feature_group >
-            <div  class="well">
-                <fieldset>
-                    <h3 >${feature_group.label}
-                        <span class="pull-right">
-                            <a href="jsp/admin/AdminMenu.jsp#top" class="top"><i class="icon-arrow-up"></i></a>
-                        </span>
-                    </h3>                   
-                    <ul class="unstyled">
-                        <#list feature_group.features as feature >
-                        <li>
-                            <a href="${feature.url}?plugin_name=${feature.pluginName}">
-                                <img src="${feature.iconUrl}" alt="" align="left" hspace="15" />
-                            </a>
-                            <h3><a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a></h3>
-                            <p> ${feature.description} </p>
-                        </li>
-                        </#list>
-                    </ul>
-                </fieldset>
-            </div>
-            </#list>
-        </div>
-        </#if>
-
-        <#if dashboard_zone_1?has_content>
-
-        <div class="span3">            
-            <h2>#i18n{portal.admin.admin_home.dashboard}</h2>
-            <div>
-                ${dashboard_zone_1}
-            </div>
-            </#if>
-            <#if dashboard_zone_2?has_content>
-            <div>
-                ${dashboard_zone_2}
-                </#if>
-            </div>            
-        </div>
+<div class="row-fluid">
+<#if dashboard_zone_3?has_content>
+<div class="span9">
+	${dashboard_zone_3}
+</div>
+<#else>
+<div class="span9">
+	<#list feature_group_list as feature_group >
+    <div class="well">
+    <fieldset>
+	<legend>${feature_group.label}
+		<span class="pull-right">
+			<a href="jsp/admin/AdminMenu.jsp#top" class="top"><i class="icon-arrow-up"></i></a>
+        </span>
+    </legend>                   
+	<ul class="unstyled">
+		<#list feature_group.features as feature >
+		<li>
+			<a href="${feature.url}?plugin_name=${feature.pluginName}">
+				<img src="${feature.iconUrl}" alt="icon ${feature.name}" title="${feature.name}" />
+                <strong>${feature.name}</strong>
+			</a>
+            <p>${feature.description}</p>
+		</li>
+		</#list>
+    </ul>
+    </fieldset>
     </div>
+    </#list>
+</div>
+</#if>
 
+<#if dashboard_zone_1?has_content>
+<div class="span3">
+<fieldset>
+<legend>#i18n{portal.admin.admin_home.dashboard}</legend>
+${dashboard_zone_1}
+</#if>
+<#if dashboard_zone_2?has_content>
+${dashboard_zone_2}
+</#if>
+</fieldset>            
+</div>

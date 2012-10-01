@@ -1,3 +1,4 @@
+<header>
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
 		<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -5,11 +6,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a href="jsp/site/Portal.jsp"   title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
+        <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
 		<#if site_name="Lutece">
-			&nbsp;<img src="images/logo-header.png" title="${site_name}" alt="${site_name}" />
+			&nbsp;<img src="images/logo-header.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />
 		<#else>
-			&nbsp;<img src="images/logo-header-icon.png" title="${site_name}" alt="${site_name}" />&nbsp;${site_name}
+			&nbsp;<img src="images/logo-header-icon.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />&nbsp;${site_name}
 		</#if>
         </a>
         <div class="nav-collapse">
@@ -62,12 +63,10 @@
                                 </a>
                             </li>
                             </#if>
-                            <li class="divider">&nbsp;</li>
+                            <li class="divider"></li>
                             <li>
                                 <#if admin_logout_url?has_content>
-                                <a href="${admin_logout_url}">
-                                	<i class="i"></i>&nbsp;#i18n{portal.users.admin_header.labelLastLogin} : <#if (user.dateLastLogin)?has_content>${user.dateLastLogin?string.short_medium}<#else>#i18n{portal.users.admin_header.labelNever}</#if><br/>
-                                	<i class="icon-off"></i>&nbsp;#i18n{portal.users.admin_header.deconnectionLink}</a>
+                                <a href="${admin_logout_url}"><i class="icon-off"></i>&nbsp;#i18n{portal.users.admin_header.deconnectionLink}</a>
                                 </#if>
                             </li>
                         </ul>
@@ -79,3 +78,5 @@
     </div> <!-- /navbar-inner -->
 </div>
 <h1 class="header"><a name="top">&nbsp;</a></h1>
+</header>
+<div class="container-fluid">

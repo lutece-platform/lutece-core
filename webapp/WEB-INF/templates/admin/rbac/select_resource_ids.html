@@ -1,25 +1,26 @@
-<div class="row">
-    <div class="container">
-        <div class="span6 offset2">
-            <fieldset>
-                <legend>#i18n{portal.rbac.select_resource_ids.titleSelectIds}</legend>
-                <form class="form-horizontal" method="post"  action="jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp" name="ids">
-                    #i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList} :
-                    <#list resource_id_list as item>
-                    <div class="controls">
-                        <input class="checkbox" type="checkbox" name="resource_id" value="${item.code}" />
-                    </div>
-                    </div>${item.name}</div>
-                    </#list>
-                    <input type="hidden" name="role_key" value="${role_key}" />
-                    <input type="hidden" name="resource_type" value="${resource_type}" />
-                    <input type="hidden" name="select_resources" value="${select_resources}" />
-                    <div class="form-actions">
-                        <button class="btn btn-primary" type="submit" >#i18n{portal.rbac.select_permissions.buttonLabelValidate}</button>
-                        <button class="btn btn-primary" onclick="javascript:history.go(-1)" >#i18n{portal.rbac.select_permissions.buttonLabelCancel}</button>
-                    </div>
-            </fieldset>
+<div class="row-fluid">
+    <div class="span8 offset2">
+		<fieldset>
+        <legend>#i18n{portal.rbac.select_resource_ids.titleSelectIds}</legend>
+			<form class="form-horizontal" method="post"  action="jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp" name="ids">
+                <input type="hidden" name="role_key" value="${role_key}" />
+                <input type="hidden" name="resource_type" value="${resource_type}" />
+                <input type="hidden" name="select_resources" value="${select_resources}" />
+                <div class="control-group">
+					<label class="control-label">#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}</label>
+					<#list resource_id_list as item>
+					<div class="controls">
+						<label class="checkbox">
+							<input class="checkbox" type="checkbox" name="resource_id" value="${item.code}" />${item.name}
+						</label>
+					</div>
+                </div>
+                </#list>
+                <div class="form-actions">
+					<button class="btn btn-primary" type="submit" >#i18n{portal.rbac.select_permissions.buttonLabelValidate}</button>
+                    <button class="btn btn-primary" onclick="javascript:history.go(-1)" >#i18n{portal.rbac.select_permissions.buttonLabelCancel}</button>
+                </div>
             </form>
-        </div>
+        </fieldset>
     </div>
 </div>

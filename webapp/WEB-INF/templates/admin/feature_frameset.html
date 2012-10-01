@@ -1,42 +1,22 @@
-<div class="row">
-	<div class="container">
-		<!-- h4>
-            <img src="${feature_icon}" alt="Icon ${feature_title}" title="${feature_title}"/>
-            <a href="${feature_url}">${feature_title}</a>
-            <#if page_title?has_content>
-            <small>${page_title}</small> 
-            </#if>
-            <span class="pull-right">
-                <#if feature_documentation?has_content >
-                    <#if feature_documentation?exists>
-                    <a class="btn btn-info" target="_blank" href="${feature_documentation}" title="#i18n{portal.features.documentation.help}">
-                        <i class="icon-book icon-white" ></i>
-                    </a>
-                    </#if>
-                </#if>
-            </span>
-        </h4 -->
-		<fieldset>
-			<legend><img src="${feature_icon}" alt="Icon ${feature_title}" title="${feature_title}"/> 
-             <a href="${feature_url}">${feature_title}</a>
-            <#if page_title?has_content>
-            <small>${page_title}</small> 
-            </#if>
-            <span class="pull-right">
-                <#if feature_documentation?has_content >
-                    <#if feature_documentation?exists>
-                    <a class="btn btn-info" target="_blank" href="${feature_documentation}" title="#i18n{portal.features.documentation.help}">
-                        <i class="icon-book icon-white" ></i>
-                    </a>
-                    </#if>
-                </#if>
-            </span>
-			</legend>
-        </fieldset>
-    </div>
-</div>
-<div class="row">
-	<div class="container">
-		${page_content}
+<div class="row-fluid">
+	<div class="span12">
+	<fieldset>
+		<legend><img class="thumblist" src="${feature_icon}" alt="Icon ${feature_title}" title="${feature_title}"/> 
+		<a href="${feature_url}">${feature_title}</a>
+		<#if page_title?has_content>
+			<small>${page_title}</small> 
+		</#if>
+		<#if feature_documentation?has_content >
+			<#if feature_documentation?exists>
+			<span class="pull-right">
+				<a class="btn btn-primary" target="_blank" href="${feature_documentation}" title="#i18n{portal.features.documentation.help}">
+					<i class="icon-book icon-white" ></i>
+				</a>
+			</span>
+			</#if>
+		</#if>
+		</legend>
+    </fieldset>
 	</div>
 </div>
+${page_content}

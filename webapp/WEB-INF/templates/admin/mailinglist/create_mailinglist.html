@@ -1,49 +1,37 @@
-<div class="row">
-    <div class="container">
-        <div class="span11">
-            <fieldset>
-                <legend>#i18n{portal.mailinglist.create_mailinglist.title}</legend>
-                <form class="form-horizontal" method="post"  action="jsp/admin/mailinglist/DoCreateMailingList.jsp">
-                    <div class="control-group">
-                        <label class="control-label" for="name" >#i18n{portal.mailinglist.create_mailinglist.labelName}* : </label>
-                        <div class="controls">
-                            <input type="text"  id="name" name="name" value="" size="50" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="description" >#i18n{portal.mailinglist.create_mailinglist.labelDescription}* : </label>
-                        <div class="controls">
-                            <input type="text" id="description" name="description" value="" size="100" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="workgroup" >#i18n{portal.mailinglist.create_mailinglist.labelWorkgroup}* : </label>
-                        <div class="controls">
-                        	<#-- LUTECE-1500 : Wrong default value when creating mailing list
-				            	<@comboSorted name="workgroup" default_value="${selected_workgroup}" items=workgroups_list />
-				            -->
-				            <@comboSorted name="workgroup" default_value="all" items=workgroups_list />
-                        </div>
-                    </div>
-                    <div class="well span10">
-                        <span class="pull-left">
-                            <button type="submit" class="btn btn-primary" tabindex="1">
-                                <i class="icon-edit icon-white"></i>
-                                <span class="hidden-phone" >#i18n{portal.mailinglist.create_mailinglist.buttonCreate}</span>
-                            </button> 
-                        </span>  
-                        <span class="pull-left">
-                            &nbsp;
-                        </span>                          
-                        <span class="pull-left">
-                            <button type="button" class="btn" tabindex="2">
-                                <i class="icon-remove-circle"></i>
-                                <span class="hidden-phone" >#i18n{portal.util.labelCancel}</span>
-                            </button> 
-                        </span>                          
-                    </div>                      
-                </form>
-            </fieldset>
-        </div>
+<div class="row-fluid">
+    <div class="span11">
+    <fieldset>
+    <legend>#i18n{portal.mailinglist.create_mailinglist.title}</legend>
+		<form class="form-horizontal" method="post"  action="jsp/admin/mailinglist/DoCreateMailingList.jsp">
+			<div class="control-group">
+            <label class="control-label" for="name" >#i18n{portal.mailinglist.create_mailinglist.labelName}* : </label>
+				<div class="controls">
+					<input type="text"  id="name" name="name" value="" size="50" />
+                </div>
+            </div>
+            <div class="control-group">
+            <label class="control-label" for="description" >#i18n{portal.mailinglist.create_mailinglist.labelDescription}* : </label>
+				<div class="controls">
+					<input type="text" id="description" name="description" value="" size="100" />
+                </div>
+            </div>
+            <div class="control-group">
+            <label class="control-label" for="workgroup" >#i18n{portal.mailinglist.create_mailinglist.labelWorkgroup}* : </label>
+                <div class="controls">
+                <@comboSorted name="workgroup" default_value="all" items=workgroups_list />
+				</div>
+             </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" tabindex="1">
+					<i class="icon-ok icon-white"></i>
+                    <span class="hidden-phone" >#i18n{portal.mailinglist.create_mailinglist.buttonCreate}</span>
+                </button> 
+                <button type="button" class="btn btn-primary" onclick="javascript:window.history.go(-1);" name="cancel" tabindex="2">
+					<i class="icon-remove-circle icon-white"></i>
+                    <span class="hidden-phone" >#i18n{portal.util.labelCancel}</span>
+				</button> 
+            </div>                      
+			</form>
+        </fieldset>
     </div>
 </div>

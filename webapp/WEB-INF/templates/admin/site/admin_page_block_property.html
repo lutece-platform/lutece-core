@@ -1,99 +1,84 @@
-<div class="row span11">
-    <form method="post"  enctype="multipart/form-data" action="jsp/admin/site/DoModifyPage.jsp" class="form-vertical" >            
-        <input type="hidden" name="page_id" value="${page.id}" />
-        <div class="span11">
-            <div class="span3 well">
-                <#if authorization != "1">    
-                <h3>#i18n{portal.site.admin_page.titlePageProperties}</h3>
+<div class="row-fluid">
+	<div class="span4">
+		<form method="post"  enctype="multipart/form-data" action="jsp/admin/site/DoModifyPage.jsp" class="form-vertical" >            
+		<input type="hidden" name="page_id" value="${page.id}" />
+        <input type="hidden" name="parent_id" value="${page.parentPageId}" />
+		<#if authorization != "1">    
+			<fieldset>
+			<legend>#i18n{portal.site.admin_page.titlePageProperties}</legend>
                 <label for="page_name" >#i18n{portal.site.admin_page.labelName}</label>
-                <input type="text" name="page_name" value="${page.name}" class="input-large"  />
+                <input type="text" name="page_name" value="${page.name}" class="input-xlarge"  />
                 <label for="page_description">#i18n{portal.site.admin_page.labelDescription}</label>
-                <textarea name="page_description" class="input-large" >${page.description}</textarea>
+                <textarea name="page_description" class="input-xlarge" >${page.description}</textarea>
                 <label for="parent_id">#i18n{portal.site.admin_page.labelParentPageId}</label>	
                 <#if page.id = 1>
-                <input type="hidden" name="parent_id" value="${page.parentPageId}" />
-                <span style="font-weight:normal;">#i18n{portal.site.admin_page.labelParentPageIdMessage}</span>
+					<span class="label label-warning">#i18n{portal.site.admin_page.labelParentPageIdMessage}</span>
                 <#else>
-                <input type="text" name="parent_id" class="input-large" value="${page.parentPageId}" />
+					<input type="text" name="parent_id" class="input-small" value="${page.parentPageId}" />
                 </#if>
                 <label for="page_order_list">#i18n{portal.site.admin_page.labelOrderPage}</label>
-                <@comboSorted name="order" default_value="${page.order}" items=page_order_list />
+                <@comboSortedWithParams name="order" default_value="${page.order}" additionalParameters="class=\"span2\"" items=page_order_list />
                 <label for="roles_list">#i18n{portal.site.admin_page.labelRole}</label>
                 <@comboSorted name="role" default_value="${page.role}" items=page_roles_list />
 
                 <label for="roles_list">#i18n{portal.site.admin_page.labelNodeStatus}</label>
-                <#if page.nodeStatus = 0>
-                <select name="node_status">
+            <#if page.nodeStatus = 0>
+                <select name="node_status" class="span3">
                     <option value="0" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus0}</option>
                     <option value="1">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
                 </select>
-                <#else>
-                <select name="node_status">
+             <#else>
+                <select name="node_status" class="span3">
                     <option value="0" >#i18n{portal.site.admin_page.labelNodeStatus0}</option>
                     <option value="1" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
                 </select>
-                </#if>                    
-            </div>
-            <div class="span3 well">
-                <h3>#i18n{portal.site.admin_page.labelTheme}</h3>
-                <@comboSorted name="theme" default_value="${page.codeTheme}" items=page_themes_list />                    
-
-                <h3>#i18n{portal.site.admin_page.labelMetadata}</h3>
-
-                <label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords} </label>
-                <input type="text" name="meta_keywords" class="input-large"
-                       <#if page.metaKeywords?exists && page.metaKeywords?has_content>
-                       value="${page.metaKeywords}"
-                       <#else>
-                       value=""
-                       </#if>
-                       />
-
-                <label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}</label> 
-                <input type="text" name="meta_description" class="input-large"
-                       <#if page.metaDescription?exists && page.metaDescription?has_content>
-                       value="${page.metaDescription}"
-                       <#else>
-                       value=""
-                       </#if>
-                       />
-                       <p class="help-block"> #i18n{portal.site.admin_page.labelMetaDescriptionInfo}</p>
-
-                <h3>#i18n{portal.site.admin_page.labelPageTemplateList}</h3>
-                <dl class="unstyled">
+             </#if>   
+			</fieldset>			 
+        </div>
+		<div class="span4">
+			<fieldset>
+            <legend>#i18n{portal.site.admin_page.labelPageTemplateList}</legend>
+				<dl class="unstyled">
                     ${page_templates_list}
-                </dl>	
-            </div>
-            <div class="well span3">
-                <h3>#i18n{portal.site.admin_page.titlePictureProperties}</h3>
-                <img src="${image_url}"  class="responsive-image" border="1" alt="#i18n{portal.site.admin_page.labelAltImgDefinition}" />
+                </dl>
+			</fieldset>	
+			<fieldset>
+            <legend>#i18n{portal.site.admin_page.labelMetadata}</legend>
+                <label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords} </label>
+                <input type="text" name="meta_keywords" class="input-large" <#if page.metaKeywords?exists && page.metaKeywords?has_content>value="${page.metaKeywords}"<#else>value=""</#if> />
+                <label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}</label> 
+                <input type="text" name="meta_description" class="input-large" <#if page.metaDescription?exists && page.metaDescription?has_content>value="${page.metaDescription}"<#else>value=""</#if>/>
+                <p class="help-block"> #i18n{portal.site.admin_page.labelMetaDescriptionInfo}</p>
+			</fieldset>
+			
+		</div>
+		<div class="span3">
+			<fieldset>
+            <legend>#i18n{portal.site.admin_page.labelTheme}</legend>
+                <@comboSorted name="theme" default_value="${page.codeTheme}" items=page_themes_list />
+			</fieldset>				
+            <fieldset>
+            <legend>#i18n{portal.site.admin_page.titlePictureProperties}</legend>
+                <img src="${image_url}" class="responsive-image" border="1" alt="#i18n{portal.site.admin_page.labelAltImgDefinition}" />
                 <label for="image_content">#i18n{portal.site.admin_page.labelNewPicture} </label>
                 <input class="input-file" id="image_content" name="image_content" type="file">
                 <br />
                 #i18n{portal.site.admin_page.checkedUpdateImage}
                 <input class="checkbox" type="checkbox" name="update_image">
-            </div>
-            <div class=" well span10">
-                <span class="pull-left">   
-                    <button type="submit" class="btn btn-primary">
-                        <i class="icon-edit icon-white"></i>
+            </fieldset>	
+		</div>
+		<div class="span11">   
+			<div class="form-actions">   
+				<button type="submit" class="btn btn-primary">
+					<i class="icon-edit icon-white"></i>
                         <span class="hidden-phone" >#i18n{portal.site.admin_page.buttonModify}</span>
                     </button>                       
-                </span>
                 </form>
-                <span class="pull-left"> 
-                    &nbsp;
-                </span>
-                <span class="pull-left"> 
-                    <form method="post"   action="jsp/admin/site/AdminSite.jsp" class="form-vertical" >            
-                        <input type="hidden" name="page_id" value="${page.id}" />
-                        <button type="submit" class="btn">
-                            <i class="icon-remove-circle"></i>
-                            <span class="hidden-phone" >#i18n{portal.site.admin_page.buttonClosed}</span>
-                        </button>                          
-                    </form>
-                </span>   
-            </div>
-        </div>
-        </#if>
+				<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" class="btn btn-primary">
+					<i class="icon-remove-circle icon-white"></i>&nbsp;
+					<span class="hidden-phone">#i18n{portal.site.admin_page.buttonClosed}</span>
+                </a>
+			</div>
+		</div>
+    </#if>
 </div>

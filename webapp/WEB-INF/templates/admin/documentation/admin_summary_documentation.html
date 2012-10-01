@@ -1,12 +1,12 @@
-<div class="container">
-    <div class="row">
+<div class="row-fluid">
+    <div class="span12">
         <h2><img src="${help_icon}"  class="icon"  alt="" title=""  />
             <a href="jsp/admin/documentation/AdminSummaryDocumentation.jsp">#i18n{portal.features.documentation.summary.feature.title}</a>
         </h2>
         <div class="well">
             <h2 class="clearfix"><i class="icon-book"></i>&nbsp;#i18n{portal.features.documentation.summary.title}</h2>
             <#if feature_group_list?has_content>
-            <ul>
+            <ul class="unstyled">
                 <#list feature_group_list as feature_group >
                 <li>
                     <h3>${feature_group.label}</h3>

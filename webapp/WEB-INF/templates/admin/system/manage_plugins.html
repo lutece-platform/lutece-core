@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row-fluid">
     <div class="span12">
 		<form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp" class="well well-small form-search">
 			<label for="plugin_type" class="select">#i18n{portal.system.manage_plugins.labelComboFilter} :</label>
@@ -11,7 +11,7 @@
 	<#if plugins_list?has_content >
 	<div class="span12">
 	<#list plugins_list as plugin >
-		<div class="row" >
+		<div class="row-fluid">
 			<div class="span11 well">
 			<div class="span1">
 				<#if plugin.iconUrl!="" >

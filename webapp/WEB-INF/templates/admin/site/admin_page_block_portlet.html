@@ -1,23 +1,17 @@
-<div class="container span3">
-
-<div class="row">
+<div class="span3">
     <#if portlet_types_list?has_content>
+	<fieldset>
     <legend>#i18n{portal.site.admin_page.titlePortletProperties}</legend>
         <form method="post"  action="jsp/admin/DoCreatePortlet.jsp" target="preview">
             <input type="hidden" name="page_id" value="${page.id}" />
-            <div id="page_portlet" class="admin-site-page">
-                <p>
-                    <strong>#i18n{portal.site.admin_page.labelPortletType}</strong>
-                    <select name="portlet_type_id">
-                        <#list portlet_types_list?sort_by("name") as portlet_type>
-                        <option value="${portlet_type.id}">${portlet_type.name}</option>
-                        </#list>
-                    </select>
-                    <input type="submit" value="#i18n{portal.site.admin_page.buttonAdd}" class="button"/>
-                </p>
-            </div>
+            <strong>#i18n{portal.site.admin_page.labelPortletType}</strong>
+            <select name="portlet_type_id">
+				<#list portlet_types_list?sort_by("name") as portlet_type>
+                <option value="${portlet_type.id}">${portlet_type.name}</option>
+            </#list>
+            </select>
+            <button type="submit" class="btn btn-primary"><i class="icon-plus icon-white"></i>&nbsp;#i18n{portal.site.admin_page.buttonAdd}</button>
         </form>
-    
+	</fieldset>
     </#if>
-</div>
 </div>

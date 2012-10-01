@@ -1,33 +1,23 @@
-<div class="row">
-    <div class="container">
-        <div class="span10">
-            <fieldset>
-                <h2 class="clearfix">
-                    <img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">
-                    #i18n{portal.system.modify_properties.boxTitle}
-                </h2>
-                <form method="post" action="jsp/admin/DoModifyProperties.jsp" class="form-horizontal">
-                    <fieldset>
-                        <legend>#i18n{portal.system.modify_properties.boxTitle}</legend>
-                        <div class="control-group">
-                            <#list properties_list as property>
-                            <label class="control-label" for="${property.code}" >${property.code}</label>
-                            <div class="controls">
-                                <input type="text" name="${property.code}" id="${property.code}" value="${property.name}"  class="input-xlarge"/>
-                            </div>
-                            </#list>
-                        </div>
-                        <div class="well span10">
-                            <span class="pull-left">
-                                <button type="submit" class="btn btn-primary" tabindex="1">
-                                    <i class=" icon-edit icon-white"></i>
-                                    <span class="hidden-phone" >#i18n{portal.system.modify_properties.buttonLabel}</span>
-                                </button> 
-                            </span>  
-                        </div>                                
-                    </fieldset>
-                </form>
-        </div>
+<div class="row-fluid">
+    <div class="span10">
+        <fieldset>
+        <legend>#i18n{portal.system.modify_properties.boxTitle}</legend>
+			<form method="post" action="jsp/admin/DoModifyProperties.jsp" class="form-horizontal">
+            <#list properties_list as property>
+			<div class="control-group">
+            <label class="control-label" for="${property.code}" >${property.code}</label>
+				<div class="controls">
+					<input type="text" name="${property.code}" id="${property.code}" value="${property.name}"  class="input-xlarge"/>
+                </div>
+            </div>
+            </#list>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary" tabindex="1">
+					<i class=" icon-edit icon-white"></i>
+						<span class="hidden-phone" >#i18n{portal.system.modify_properties.buttonLabel}</span>
+					</button> 
+            </div>                                
+			</form>
+        </fieldset>
     </div>
-</div>
 </div>

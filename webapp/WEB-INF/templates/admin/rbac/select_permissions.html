@@ -1,8 +1,7 @@
-<div class="row">
-    <div class="container">
-        <div class="span6 offset2">
-            <fieldset>
-                <legend>#i18n{portal.rbac.select_permissions.titleSelectPermissions}</legend>
+<div class="row-fluid">
+    <div class="span6 offset2">
+		<fieldset>
+			<legend>#i18n{portal.rbac.select_permissions.titleSelectPermissions}</legend>
                 <form class="form-horizontal" method="post"  action="jsp/admin/rbac/DoSelectPermissions.jsp" name="add_control">
                     <div class="control-group">
                         <label class="control-label" > #i18n{portal.rbac.select_permissions.labelSelectAllPermissions} :</label>
@@ -41,17 +40,16 @@
                         <input type="hidden" name="role_key" value="${role_key}" />
                         <input type="hidden" name="resource_type" value="${resource_type}" />
                         <input type="hidden" name="select_resources" value="${select_resources}" />
-                        <#if resource_id_list?has_content>
-                        <#list resource_id_list as resource_id>
+                <#if resource_id_list?has_content>
+					<#list resource_id_list as resource_id>
                         <input type="hidden" name="resource_id" value="${resource_id}" />
-                        </#list>
-                        </#if>
-                        <div class="form-actions">
-                            <button class="btn btn-primary" type="submit" >#i18n{portal.rbac.select_permissions.buttonLabelValidate}</button>
-                            <button class="btn btn-primary" onclick="javascript:history.go(-1)" >#i18n{portal.rbac.select_permissions.buttonLabelCancel}</button>
-                        </div>
-                        </fieldset>
-                </form>
-        </div>
+                    </#list>
+                </#if>
+                <div class="form-actions">
+					<button class="btn btn-primary" type="submit" >#i18n{portal.rbac.select_permissions.buttonLabelValidate}</button>
+                    <button class="btn btn-primary" onclick="javascript:history.go(-1)" >#i18n{portal.rbac.select_permissions.buttonLabelCancel}</button>
+				</div>
+			</fieldset>
+        </form>
     </div>
 </div>

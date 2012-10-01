@@ -1,6 +1,5 @@
 <#include "/admin/util/editor/editor.html" />
-<div class="row">
-    <div class="container">
+<div class="row-fluid">
         <form method="post" name="search_advanced_parameters" action="jsp/admin/search/DoModifyAdvancedParameters.jsp" class="form-horizontal">
             <div class="span3">
                     <!-- TYPE FILTER -->
@@ -31,8 +30,8 @@
                         <option value="${operator}" <#if default_operator = operator>selected="selected"</#if> >#i18n{portal.search.advanced_parameters.defaultOperator.${operator}}</option>
                         </#list>
                     </select>
-           </div>
-            <div class="span8">
+        </div>
+        <div class="span8">
                <!-- HELP MESSAGE -->
                 <label for="help_message">#i18n{portal.search.advanced_parameters.helpMessage.label} :</label>
                 <textarea name="help_message" id="help_message" rows="20" class="richtext span8">${help_message!}</textarea>
@@ -40,8 +39,7 @@
                     <button type="submit" name="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.search.advanced_parameters.buttonValidate}</button>
                     <button type="button" name="cancel" class="btn btn-primary" onclick="javascript:window.history.back();"><i class="icon-remove-circle icon-white"></i>&nbsp;#i18n{portal.search.advanced_parameters.buttonCancel}</button> 
                 </div>
-            </div>
-        </form>
-    </div>
+        </div>
+     </form>
 </div>
 <@initEditor />       

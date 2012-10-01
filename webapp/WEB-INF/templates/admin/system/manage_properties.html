@@ -1,27 +1,24 @@
-<div class="row">
-    <div class="container">
-        <div class="span10">
-            <fieldset>
-                <h2 class="clearfix">
-                    <img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">
-                    #i18n{portal.system.manage_properties.boxTitle}               
-                </h2>
-                <form method="post" action="jsp/admin/ModifyProperties.jsp" class="form-horizontal">
-                    <fieldset>
-                        <legend>#i18n{portal.system.modify_properties.boxTitle}</legend>
-                        <div class="control-group">
-                            <pre>${webmaster_properties}</pre>
-                        </div>
-                        <div class="well span10">
-                            <span class="pull-left">
-                                <button type="submit" class="btn btn-primary" tabindex="1">
-                                    <i class=" icon-edit icon-white"></i>
-                                    <span class="hidden-phone" >#i18n{portal.system.manage_properties.buttonLabel}</span>
-                                </button> 
-                            </span>  
-                        </div>                            
-                    </fieldset>
-                </form>
+<div class="row-fluid">
+	<div class="span12">
+        <fieldset>
+        <legend>
+        <img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">
+        #i18n{portal.system.manage_properties.boxTitle}               
+        </legend>
+		<form method="post" action="jsp/admin/ModifyProperties.jsp" class="form-horizontal">
+        <div class="control-group">
+        <label class="label-group" for="" >#i18n{portal.system.modify_properties.boxTitle}</label>
+			<div class="controls">
+				<pre>${webmaster_properties}</pre>
+			</div>
         </div>
+        <div class="form-actions">
+		<button type="submit" class="btn btn-primary" tabindex="1">
+			<i class=" icon-edit icon-white"></i>
+			<span class="hidden-phone" >#i18n{portal.system.manage_properties.buttonLabel}</span>
+        </button> 
+		</div>
+        </form>
+		</fieldset>
     </div>
 </div>

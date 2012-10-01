@@ -1,28 +1,46 @@
-<div id="well-actions">
-    <a class="brand" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">Page ${page.name} - Id ${page.id} </a>
-    <span class="pull-right" >
-        <form method="post"  action="jsp/admin/site/AdminSite.jsp" class="form-search">
-            <input type="text" name="page_id" class="input-small" value="" />
-            <button type="submit" class="btn btn-primary">
-                <i class="icon-filter icon-white"></i>
-                <span class="hidden-phone" >#i18n{portal.site.admin_page.buttonSearchPage}</span>
-            </button>        
-        </form>	
-    </span> 
-    <span class="pull-right">
-        <a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary">
-            <i class="icon-map-marker icon-white" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>
-            <span class="hidden-phone" >#i18n{portal.site.admin_page.tabAdminMapSite}</span>
-
-        </a>
-    </span> 
+<div class="row-fluid">
+	<div class="span12">
+		<fieldset>
+		<legend>
+			<a class="pull-left" href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" title="Page ${page.name}" alt="Page ${page.name}">
+				<span class="badge badge-inverse">${page.id}</span>&nbsp;Page ${page.name}
+			</a>
+			<form action="" class="form-inline pull-right">
+			<label for="page_id">&nbsp;</label>
+			<input type="text" id="tree_search" class="input-mini" tabindex="1" />
+			<button class="btn btn-primary" id="btn-tree_search" type="button" tabindex="2"><i class="icon-search icon-white"></i>&nbsp;#i18n{portal.site.admin_page.buttonSearchPage}</button>
+			</form>
+		</legend>
+		<div class="row-fluid">
+			<div class="span10 offset1">	
+			<i class="icon-map-marker" ></i>
+			${map_site}
+			</div>
+		</div>
+		</fieldset>
+	</div>
 </div>
-
-<div class="container">
-    ${map_site}
-</div>
+<script src="js/jquery/plugins/ui/jstree/jquery.cookie.js"></script>
+<script src="js/jquery/plugins/ui/jstree/jquery.jstree.js"></script>
 <script type="text/javascript">
      jQuery(function($) {
-	$("#tree").jstree({"plugins" : [ "themes", "html_data", "cookies" ]});
+		$("#btn-tree_search").click(function () {
+			$("#tree").jstree(
+				"search" ,  
+				$("#tree_search").val()
+			);
+		});
+
+		$.cookie("jstree_select", "#node-${page.id}" );
+
+		$("#tree").jstree({
+           "themes" : {
+                "theme" : "apple",
+			},
+            "cookies" : {
+                "save_opened" : false,
+            },
+            "plugins" : [ "themes", "html_data", "cookies","search","ui" ]
+        });
     });
 </script>
