@@ -7,12 +7,13 @@
             <span class="icon-bar"></span>
         </button>
         <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
-		<#if site_name="Lutece">
-			&nbsp;<img src="images/logo-header.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />
-		<#else>
-			&nbsp;<img src="images/logo-header-icon.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />&nbsp;${site_name}
-		</#if>
-        </a>
+			<#if site_name="Lutece">
+				&nbsp;<img class="logo" src="images/logo-header.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />
+			<#else>
+				&nbsp;<img class="logo" src="images/logo-header-icon.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />&nbsp;${site_name}
+			</#if>
+			&nbsp;<img src="images/admin/skin/external-link-white.png" alt="External Link" title=" " />
+		</a>
         <div class="nav-collapse">
             <ul class="nav">
 				<#list feature_group_list as feature_group>
