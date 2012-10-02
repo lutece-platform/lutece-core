@@ -32,34 +32,36 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="offset3 span6">
-			<div class="alert alert-${alerttype} msg-admin">
+			<div class="alert alert-${alerttype} msg-admin clearfix">
 				<h5><i class="${icontype}"></i>&nbsp;${title}</h5>
 				<p class="lead">${text}</p>
+				<div class="pull-left">
 				<#if url?has_content>
-					<form method="post" action="${url}" target="${target}" class="form-inline spaced"> 
+					<form method="post" action="${url}" target="${target}" class="form-inline pull-left spaced"> 
 					<#if list_parameters?exists>
 					<#assign keys = list_parameters?keys>
 						<#list keys as key>
 						<input type="hidden" name="${key}" value="${list_parameters[key]}" />
 					</#list>
 					</#if>
-						<button class="btn" type="submit">#i18n{portal.admin.message.buttonValidate}</button> 
+						<button class="btn" type="submit"><i class="icon-ok"></i>&nbsp;#i18n{portal.admin.message.buttonValidate}</button> 
 					</form>
-				<#if message.cancel>
-					<#if back_url?has_content>
-					<form method="post" action="${back_url}" class="form-inline" >
-						<#if list_parameters?exists>
-						<#list keys as key>
-							<input type="hidden" name="${key}" value="${list_parameters[key]}" />
-						</#list>	
+					<#if message.cancel>
+						<#if back_url?has_content>
+							<form method="post" action="${back_url}" class="form-inline pull-left" >
+							<#if list_parameters?exists>
+							<#list keys as key>
+								<input type="hidden" name="${key}" value="${list_parameters[key]}" />
+							</#list>	
+						</#if>
+						<button class="btn" type="submit"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}</button> 
+						</form>		
+						<#else>
+							<button class="btn" type="button" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}</button> 
+						</#if>	
 					</#if>
-						<button class="btn" type="submit">#i18n{portal.admin.message.buttonCancel}</button> 
-					</form>		
-					<#else>		
-						<button class="btn" type="button" onclick="javascript:window.history.back();">#i18n{portal.admin.message.buttonCancel}</button> 
-					</#if>	
 				</#if>
-			</#if>
+				</div>
 			</div>
 		</div>
 	</div>
