@@ -545,3 +545,11 @@ CREATE TABLE core_xsl_export (
   id_file INT DEFAULT NULL,
   PRIMARY KEY  (id_xsl_export)
 );
+
+DROP TABLE IF EXISTS core_text_editor;
+CREATE TABLE core_text_editor (
+  editor_name VARCHAR(255) NOT NULL,
+  editor_description VARCHAR(255) NOT NULL,
+  backOffice SMALLINT DEFAULT NULL ,
+  PRIMARY KEY  (editor_name, backOffice)
+);

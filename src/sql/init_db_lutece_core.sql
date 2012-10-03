@@ -25,6 +25,7 @@ INSERT INTO core_admin_right VALUES ('CORE_RIGHT_MANAGEMENT', 'portal.users.admi
 INSERT INTO core_admin_right VALUES ('CORE_ADMINDASHBOARD_MANAGEMENT', 'portal.admindashboard.adminFeature.right_management.name', 0, 'jsp/admin/admindashboard/ManageAdminDashboards.jsp', 'portal.admindashboard.adminFeature.right_management.description', 0, NULL, 'SYSTEM', 'images/admin/skin/features/manage_admindashboards.png', NULL, 8);
 INSERT INTO core_admin_right VALUES ('CORE_DASHBOARD_MANAGEMENT', 'portal.dashboard.adminFeature.dashboard_management.name', 0, 'jsp/admin/dashboard/ManageDashboards.jsp', 'portal.dashboard.adminFeature.dashboard_management.description', 0, NULL, 'SYSTEM', 'images/admin/skin/features/manage_dashboards.png', NULL, 9);
 INSERT INTO core_admin_right VALUES ('CORE_XSL_EXPORT_MANAGEMENT', 'portal.xsl.adminFeature.xsl_export_management.name', 2, 'jsp/admin/xsl/ManageXslExport.jsp', 'portal.xsl.adminFeature.xsl_export_management.description', 1, NULL, 'SYSTEM', NULL, NULL, 10);
+INSERT INTO core_admin_right VALUES ('CORE_GLOBAL_MANAGEMENT', 'portal.globalmanagement.adminFeature.global_management.name', 2, 'jsp/admin/globalmanagement/GetGlobalManagement.jsp', 'portal.globalmanagement.adminFeature.global_management.description', 1, NULL, 'SYSTEM', NULL, NULL, 10);
 
 INSERT INTO core_admin_role VALUES ('all_site_manager','Site Manager');
 INSERT INTO core_admin_role VALUES ('super_admin','Super Administrateur');
@@ -146,6 +147,7 @@ INSERT INTO core_user_right VALUES ('CORE_RIGHT_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_ADMINDASHBOARD_MANAGEMENT', 1);
 INSERT INTO core_user_right VALUES ('CORE_DASHBOARD_MANAGEMENT', 1);
 INSERT INTO core_user_right VALUES ('CORE_XSL_EXPORT_MANAGEMENT', 1);
+INSERT INTO core_user_right VALUES ('CORE_GLOBAL_MANAGEMENT', 1);
 
 INSERT INTO core_user_role VALUES ('all_site_manager',1);
 INSERT INTO core_user_role VALUES ('super_admin',1);
@@ -183,7 +185,8 @@ INSERT INTO core_user_parameter VALUES ('other_alert_mail_subject', 'Votre compt
 INSERT INTO core_user_parameter VALUES ('account_reactivated_mail_sender', 'lutece@nowhere.com');
 INSERT INTO core_user_parameter VALUES ('account_reactivated_mail_subject', 'Votre compte a bien été réactivé');
 
-INSERT INTO core_datastore VALUES ('core_banned_domain_names', 'yopmail.com');
+INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce');
+INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'markitupbbcode');
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');
@@ -202,3 +205,9 @@ INSERT INTO core_template VALUES ('core_first_alert_mail', 'Bonjour ${first_name
 INSERT INTO core_template VALUES ('core_expiration_mail', 'Bonjour ${first_name} ! Votre compte a expiré. Vous ne pourrez plus vous connecter avec, et les données vous concernant ont été anonymisées');
 INSERT INTO core_template VALUES ('core_other_alert_mail', 'Bonjour ${first_name} ! Votre compte utilisateur arrive à expiration. Pour prolonger sa validité, veuillez <a href="${url}">cliquer ici</a>.</br>Si vous ne le faites pas avant le ${date_valid}, il sera désactivé.');
 INSERT INTO core_template VALUES ('core_account_reactivated_mail', 'Bonjour ${first_name} ! Votre compte utilisateur a bien été réactivé. Il est désormais valable jusqu''au ${date_valid}.');
+
+INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.globalmanagement.editors.labelBackTinyMCE', true );
+INSERT INTO core_text_editor VALUES ( 'markitup', 'portal.globalmanagement.editors.labelBackMarkitup', true );
+INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelBackNoEditor', true );
+INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelFrontNoEditor', false );
+INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.globalmanagement.editors.labelFrontMarkitupBBCode', false );

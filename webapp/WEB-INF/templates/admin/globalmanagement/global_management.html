@@ -1,0 +1,35 @@
+<div class="row">
+	<div class="container">
+		<ul class="nav nav-tabs" id="seoPanels">
+			<#list panels_list as panel>
+			
+			<li <#if panel.panelIndex = 1>class="active" </#if>>
+				<a href="#panel${panel.panelIndex}" data-toggle="tab" >${panel.panelTitle}</a>
+			</li>
+			</#list>
+		</ul>
+		
+		<div class="tab-content">
+			<#list panels_list as panel>
+				<div class="tab-pane<#if panel.panelIndex = 1> active</#if>" id="panel${panel.panelIndex}">
+					${panel.panelContent}
+				</div>
+			</#list>
+		</div>
+	</div>
+</div>
+<script>
+$(document).ready(function() {
+	// Function to activate the tab
+	function activateTab()
+	{
+		var activeTab = $('[href=' + window.location.hash.replace('/', '') + ']');
+		activeTab && activeTab.tab('show');
+	}
+
+	// Trigger when the page loads
+	activateTab();
+
+});
+
+</script>
