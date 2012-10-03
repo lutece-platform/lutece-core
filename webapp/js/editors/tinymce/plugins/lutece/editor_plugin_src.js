@@ -33,7 +33,7 @@
            }
          }
         
-	      window.open( path + "insert/GetAvailableInsertServices.jsp?input=" + ed.name + "&selected_text="+ ed.selection.getContent({format : 'text'}),
+	      window.open( path + "jsp/admin/insert/GetAvailableInsertServices.jsp?input=" + ed.name + "&selected_text="+ ed.selection.getContent({format : 'text'}),
                  "",
                   "toolbar=no, scrollbars=yes, status=yes, location=no, directories=no, menubar=no, width=550, height=450, left=300, top=100"
                 );  
