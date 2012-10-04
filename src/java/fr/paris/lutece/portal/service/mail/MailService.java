@@ -433,7 +433,7 @@ public final class MailService
 
 	/**
 	 * Get a string that contains an html link to the site back office or front office.
-	 * @param request The request
+	 * @param strBaseUrl The base url of the site
 	 * @param linkToFrontOffice True if the link should be directed to the front office, false if it should be directed to the back office.
 	 * @return A string containing an html link.
 	 */
