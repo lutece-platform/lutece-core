@@ -100,7 +100,6 @@ INSERT INTO core_admin_right VALUES ('CORE_GLOBAL_MANAGEMENT', 'portal.globalman
 INSERT INTO core_user_right VALUES ('CORE_GLOBAL_MANAGEMENT', 1);
 
 INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.globalmanagement.editors.labelBackTinyMCE', true );
-INSERT INTO core_text_editor VALUES ( 'markitup', 'portal.globalmanagement.editors.labelBackMarkitup', true );
 INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelBackNoEditor', true );
 INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelFrontNoEditor', false );
 INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.globalmanagement.editors.labelFrontMarkitupBBCode', false );
