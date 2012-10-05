@@ -2,17 +2,19 @@
 </div>
 <!-- footer menu -->
 <footer>
-<div class="navbar navbar-inverse">
-    <div class="navbar-inner">
-        <a class="brand" href="http://fr.lutece.paris.fr" title="#i18n{portal.site.portal_footer.labelPortal}">
-			<img src="images/poweredby.jpg" width="55" height="22" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
+<div id="status" class="navbar navbar-fixed-bottom  hidden-phone">
+    <div class="btn-group pull-left">
+		<a class="brand" href="http://fr.lutece.paris.fr" title="#i18n{portal.site.portal_footer.labelPortal}">
+			<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
+			&nbsp;Lutece version : ${version}
 		</a>
-        <ul class="nav pull-right">
-            <li><a href="http://fr.lutece.paris.fr" class="pull-right" target="lutece">Lutece version : ${version}</a></li>
-           </ul>
-      </div>
-    </div><!-- /navbar-inner -->
- </div>
+	</div>
+	<div class="btn-group pull-right">
+		<a href="http://fr.lutece.paris.fr" class="brand" target="lutece">
+			<small>${site_name}&nbsp;<img src="images/admin/skin/external-link-white.png" alt="External Link" title=" " /></small>
+		</a>
+	</div>
+</div>
 </footer>
 <!-- Included JS Files -->
 <!-- Le javascript

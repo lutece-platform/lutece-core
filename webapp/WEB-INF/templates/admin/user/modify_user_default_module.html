@@ -1,92 +1,90 @@
 <div class="row-fluid">
 	<div class="span12">
-	<h2> <small>#i18n{portal.users.modify_user.titleUser}</small>&nbsp;${user.lastName} ${user.firstName}
-	<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
-    </h2>
-    <ul class="nav nav-tabs">
-		<li  class="active">
-			<a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
-        </li>
-        <li><a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
-        <li><a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
-        <li><a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
-    </ul>
-	<div class="row-fluid">
-		<div class="span3 offset1">
-		<form method="post" name="modify_user" action="jsp/admin/user/DoModifyUser.jsp" enctype="multipart/form-data" class="form-horizontal">
-		<input type="hidden" name="id_user" value="${user.userId}" />    
-        <fieldset>
-        <legend>#i18n{portal.users.modify_user.labelIdentity}</legend>
-        <#list attributes_list as attribute>
-			<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
-				<#assign idAttribute = "" + attribute.idAttribute>
-				${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
-                <#break>
-            </#if>
-        </#list>
-        <label for="access_code" >#i18n{portal.users.modify_user.labelAccessCode} * :</label>
-        <input type="text"  id="access_code" name="access_code" maxlength="100" size="35" tabindex="1" value="${user.accessCode}" />
-        <label for="first_password" >#i18n{portal.users.modify_user.labelFirstPassword} :</label>
-        <input type="password"  id="password" name="first_password" maxlength="100" size="35" tabindex="2" value="" />
-        <label for="second_password" >#i18n{portal.users.modify_user.labelSecondPassword} :</label>
-        <input type="password"  id="password" name="second_password" maxlength="100" size="35" tabindex="3" value="" />
-        <label for="last_name" >#i18n{portal.users.modify_user.labelLastName} * :</label>
-        <input type="text"  id="last_name" name="last_name" maxlength="100" size="35" tabindex="4" value="${user.lastName}" />
-        <label for="first_name">#i18n{portal.users.modify_user.labelFirstName} * :</label>
-        <input type="text" id="first_name" name="first_name" maxlength="100" size="35" tabindex="5" value="${user.firstName}" />
-        <label for="email">#i18n{portal.users.modify_user.labelEmail} * :</label>
-        <input type="text" id="email" name="email" maxlength="100" size="35" tabindex="6" value="${user.email}" />
-        <label for="status">#i18n{portal.users.modify_user.labelStatus} :</label>
-        <select id="status" name="status" tabindex="7">
-			<#if user.status == 0 >
-				<option value="0" selected="selected" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
-                <option value="1" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
-            <#else>
-				<option value="0" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
-                <option value="1" selected="selected" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
-            </#if>
-        </select>
-        </fieldset>
+		<div class="well well-small"><i class="icon-user"></i>&nbsp;${user.lastName} ${user.firstName}
+		<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
 		</div>
-		<div class="span4">
-		<fieldset>
-        <legend>#i18n{portal.users.modify_user.labelComplementaryAttributes} </legend>
-        <p>#i18n{portal.users.create_user.userLevelLabel} :</p>
-		<p><strong>${level.name}</strong></p>
-        <label for="language">#i18n{portal.users.modify_user.labelLanguage} :</label>
-        <@comboSorted name="language" default_value="${current_language}" items=languages_list />
-        <#if attributes_list?has_content>
-			<#list attributes_list as attribute>
-                                <#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
-                                <#assign idAttribute = "" + attribute.idAttribute>
-                                ${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
-                                </#if>
-                                </#list>
-                                </#if>
-        </fieldset>
-		</div>
-        <div class="span3">
-            <fieldset>
-            <legend>#i18n{portal.users.create_user.labelTheme}</legend>
-			<div class="control-groups">
-            <label class="label-groups" for="">#i18n{portal.users.create_user.labelAccessibilityMode}</label>
-				<div class="controls">
-					<label class="checkbox" for="accessibility_mode">#i18n{portal.users.create_user.labelAccessibilityMode}
-						<input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" <#if user.accessibilityMode>checked="checked"</#if>	/>
-					</label>
-				</div>
+		<ul class="nav nav-tabs">
+			<li  class="active">
+				<a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
+			</li>
+			<li><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
+			<li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
+			<li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+		</ul>
+		<div class="row-fluid">
+			<div class="span3 offset1">
+				<form method="post" name="modify_user" action="jsp/admin/user/DoModifyUser.jsp" enctype="multipart/form-data" class="form-horizontal">
+				<input type="hidden" name="id_user" value="${user.userId}" />    
+				<fieldset>
+				<legend>#i18n{portal.users.modify_user.labelIdentity}</legend>
+			   
+				<label for="access_code" >#i18n{portal.users.modify_user.labelAccessCode} * :</label>
+				<input type="text"  id="access_code" name="access_code" maxlength="100" size="35" tabindex="1" value="${user.accessCode}" />
+				<label for="first_password" >#i18n{portal.users.modify_user.labelFirstPassword} :</label>
+				<input type="password"  id="password" name="first_password" maxlength="100" size="35" tabindex="2" value="" />
+				<label for="second_password" >#i18n{portal.users.modify_user.labelSecondPassword} :</label>
+				<input type="password"  id="password" name="second_password" maxlength="100" size="35" tabindex="3" value="" />
+				<label for="last_name" >#i18n{portal.users.modify_user.labelLastName} * :</label>
+				<input type="text"  id="last_name" name="last_name" maxlength="100" size="35" tabindex="4" value="${user.lastName}" />
+				<label for="first_name">#i18n{portal.users.modify_user.labelFirstName} * :</label>
+				<input type="text" id="first_name" name="first_name" maxlength="100" size="35" tabindex="5" value="${user.firstName}" />
+				<label for="email">#i18n{portal.users.modify_user.labelEmail} * :</label>
+				<input type="text" id="email" name="email" maxlength="100" size="35" tabindex="6" value="${user.email}" />
+			   </fieldset>
 			</div>
-            </fieldset>
-		</div>
+			<div class="span4">
+				<fieldset>
+				<legend>#i18n{portal.users.modify_user.labelComplementaryAttributes} </legend>
+				<p>#i18n{portal.users.create_user.userLevelLabel} :</p>
+				<p><strong>${level.name}</strong></p>
+				 <label for="status">#i18n{portal.users.modify_user.labelStatus} :</label>
+				<select id="status" name="status" tabindex="7">
+					<#if user.status == 0 >
+						<option value="0" selected="selected" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
+						<option value="1" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
+					<#else>
+						<option value="0" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
+						<option value="1" selected="selected" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
+					</#if>
+				</select>
+				<label for="language">#i18n{portal.users.modify_user.labelLanguage} :</label>
+				<@comboSorted name="language" default_value="${current_language}" items=languages_list />
+				<#if attributes_list?has_content>
+					<#list attributes_list as attribute>
+						<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+							<#assign idAttribute = "" + attribute.idAttribute>
+							${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+						</#if>
+					</#list>
+				</#if>
+				<#list attributes_list as attribute>
+					<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
+						<#assign idAttribute = "" + attribute.idAttribute>
+						${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+						<#break>
+					</#if>
+				</#list>
+				</fieldset>
+			</div>
+			<div class="span3">
+				<fieldset>
+				<legend>#i18n{portal.users.create_user.labelTheme}</legend>
+				<div class="control-groups">
+				<label class="label-groups" for="">#i18n{portal.users.create_user.labelAccessibilityMode}</label>
+					<div class="controls">
+						<label class="checkbox" for="accessibility_mode">#i18n{portal.users.create_user.labelAccessibilityMode}
+							<input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" <#if user.accessibilityMode>checked="checked"</#if>	/>
+						</label>
+					</div>
+				</div>
+				</fieldset>
+			</div>
 		</div> 
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary" tabindex="8">
-				<i class=" icon-edit icon-white"></i>
-					<span class="hidden-phone" >#i18n{portal.users.modify_user.buttonLabelModify}</span>
-        </button> 
+				<i class="icon-ok icon-white"></i>&nbsp;<span class="hidden-phone" >#i18n{portal.users.modify_user.buttonLabelModify}</span>
+			</button> 
         </div>   
 		</form>
-        </div>
-		</div>
-	</div> 
+    </div>
 </div>

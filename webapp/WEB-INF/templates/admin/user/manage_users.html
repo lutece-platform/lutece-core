@@ -190,14 +190,14 @@
                                     <a class="btn btn-primary btn-mini" href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelUpdate}" >
                                         <i class="icon-edit icon-white"></i>
                                     </a>
-                                    <a class="btn btn-primary btn-mini" href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRights}">
+                                    <a class="btn btn-primary btn-mini" href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRights}">
                                         <i class="icon-lock icon-white"></i>&nbsp;
                                     </a>
-                                    <a class="btn btn-primary btn-mini" href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRoles}">
+                                    <a class="btn btn-primary btn-mini" href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRoles}">
                                         <i class="icon-list-alt icon-white"></i>&nbsp;
                                     </a>
-                                    <a class="btn btn-primary btn-mini" href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelWorkgroups}">
-                                        <i class=" icon-folder-close icon-white"></i>
+                                    <a class="btn btn-primary btn-mini" href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelWorkgroups}">
+                                        <i class="icon-x-group icon-x-white"></i>
                                     </a>
                                     <#if !user.statusAnonymized>
                                     <a class="btn btn-primary btn-mini" href="jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelAnonymize}" >

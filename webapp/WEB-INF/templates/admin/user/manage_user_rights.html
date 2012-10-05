@@ -9,8 +9,8 @@
 				<a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
             </li>
             <li class="active"><a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
-            <li><a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
-            <li><a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+            <li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
+            <li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
         </ul>
         <form method="post" name="modifyform" action="jsp/admin/user/ModifyUserRights.jsp" class="form-inline pull-right">            
         <input type="hidden" name="id_user" value="${user.userId}" />

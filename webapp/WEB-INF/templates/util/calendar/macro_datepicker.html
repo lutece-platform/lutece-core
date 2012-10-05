@@ -17,7 +17,7 @@
 <#macro getDatePicker idField language >
 	<script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		<@setDefaultsDatePicker />
+		<#-- <@setDefaultsDatePicker /> -->
 		$('#${idField}').datepicker($.extend({showStatus: true}, $.datepicker.regional['<@getRegional language=language />']));
 	}); 
 	</script>
@@ -38,7 +38,7 @@
 <#macro getDatePickerRange idFieldFrom idFieldTo language >
 	<script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		<@setDefaultsDatePicker />
+		<#-- <@setDefaultsDatePicker /> -->
 		$('#${idFieldFrom}').datepicker({beforeShow: customRange}, $.extend({showStatus: true})); 
 		$('#${idFieldTo}').datepicker({beforeShow: customRange}, $.extend({showStatus: true})); 
 		// Customize two date pickers to work as a date range 

@@ -7,9 +7,9 @@
                 <li>
                     <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
                 </li>
-                <li><a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
-                <li><a href="jsp/admin/user/ManageUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
-                <li class="active"><a href="jsp/admin/user/ManageUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+                <li><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
+                <li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
+                <li class="active"><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
             </ul>
             <#if can_delegate && can_modify>
             <form method="post" name="modifyform" action="jsp/admin/user/ModifyUserWorkgroups.jsp" class="form-inline pull-right">            
