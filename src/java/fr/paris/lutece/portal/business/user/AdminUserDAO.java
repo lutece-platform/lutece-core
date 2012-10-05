@@ -106,9 +106,11 @@ public class AdminUserDAO implements IAdminUserDAO
 	private static final String SQL_QUERY_SELECT_USER_ID_FIRST_ALERT = "SELECT id_user FROM core_admin_user WHERE nb_alerts_sent = 0 and status < ? and account_max_valid_date < ? ";
 	private static final String SQL_QUERY_SELECT_USER_ID_OTHER_ALERT = "SELECT id_user FROM core_admin_user "
 			+ "WHERE nb_alerts_sent > 0 and nb_alerts_sent <= ? and status < ? and (account_max_valid_date + nb_alerts_sent * ?) < ? ";
+	private static final String SQL_QUERY_SELECT_USER_ID_PASSWORD_EXPIRED = " SELECT id_user FROM core_admin_user WHERE password_max_valid_date < ? AND reset_password = 0 ";
 
 	private static final String SQL_QUERY_UPDATE_STATUS = " UPDATE core_admin_user SET status = ? WHERE id_user IN ( ";
 	private static final String SQL_QUERY_UPDATE_NB_ALERT = " UPDATE core_admin_user SET nb_alerts_sent = nb_alerts_sent + 1 WHERE id_user IN ( ";
+	private static final String SQL_QUERY_UPDATE_RESET_PASSWORD_LIST_ID = " UPDATE core_admin_user SET reset_password = 1 WHERE id_user IN ( ";
 
 	private static final String SQL_QUERY_UPDATE_REACTIVATE_ACCOUNT = " UPDATE core_admin_user SET nb_alerts_sent = 0, account_max_valid_date = ? WHERE id_user = ? ";
 	private static final String SQL_QUERY_UPDATE_DATE_LAST_LOGIN = " UPDATE core_admin_user SET last_login = ? WHERE id_user = ? ";
@@ -1091,6 +1093,25 @@ public class AdminUserDAO implements IAdminUserDAO
 	 * {@inheritDoc}
 	 */
 	@Override
+	public List<Integer> getIdUsersWithExpiredPasswordsList( Timestamp currentTimestamp )
+	{
+		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_PASSWORD_EXPIRED );
+		daoUtil.setTimestamp( 1, currentTimestamp );
+		List<Integer> idUserPasswordExpiredlist = new ArrayList<Integer>( );
+		daoUtil.executeQuery( );
+		while ( daoUtil.next( ) )
+		{
+			idUserPasswordExpiredlist.add( daoUtil.getInt( 1 ) );
+		}
+
+		daoUtil.free( );
+		return idUserPasswordExpiredlist;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void updateUserStatus( List<Integer> listIdUser, int nNewStatus )
 	{
 		if ( listIdUser != null && listIdUser.size( ) > 0 )
@@ -1125,6 +1146,33 @@ public class AdminUserDAO implements IAdminUserDAO
 		{
 			StringBuilder sbSQL = new StringBuilder( );
 			sbSQL.append( SQL_QUERY_UPDATE_NB_ALERT );
+
+			for ( int i = 0; i < listIdUser.size( ); i++ )
+			{
+				if ( i > 0 )
+				{
+					sbSQL.append( CONSTANT_COMMA );
+				}
+				sbSQL.append( listIdUser.get( i ) );
+			}
+			sbSQL.append( CONSTANT_CLOSE_PARENTHESIS );
+
+			DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) );
+			daoUtil.executeUpdate( );
+			daoUtil.free( );
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void updateChangePassword( List<Integer> listIdUser )
+	{
+		if ( listIdUser != null && listIdUser.size( ) > 0 )
+		{
+			StringBuilder sbSQL = new StringBuilder( );
+			sbSQL.append( SQL_QUERY_UPDATE_RESET_PASSWORD_LIST_ID );
 
 			for ( int i = 0; i < listIdUser.size( ); i++ )
 			{

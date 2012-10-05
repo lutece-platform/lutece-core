@@ -443,6 +443,16 @@ public final class AdminUserHome
 	}
 
 	/**
+	 * Get the list of id of users that have an expired password but not the change password flag
+	 * @param currentTimestamp Timestamp describing the current time.
+	 * @return the list of id of users with expired passwords
+	 */
+	public static List<Integer> getIdUsersWithExpiredPasswordsList( Timestamp currentTimestamp )
+	{
+		return _dao.getIdUsersWithExpiredPasswordsList( currentTimestamp );
+	}
+
+	/**
 	 * Update status of a list of user accounts
 	 * @param idUserList List of user accounts to update
 	 * @param nNewStatus New status of the user
@@ -459,6 +469,15 @@ public final class AdminUserHome
 	public static void updateNbAlert( List<Integer> listIdUser )
 	{
 		_dao.updateNbAlert( listIdUser );
+	}
+
+	/**
+	 * Set the "change password" flag of users to true
+	 * @param nIdUserList The list of users to update
+	 */
+	public static void updateChangePassword( List<Integer> idUserList )
+	{
+		_dao.updateChangePassword( idUserList );
 	}
 
 	/**

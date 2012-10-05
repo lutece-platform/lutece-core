@@ -151,6 +151,7 @@ public final class AdminUserService
 	private static final String MARK_FIRST_NAME = "first_name";
 	private static final String MARK_DATE_VALID = "date_valid";
 	private static final String MARK_BANNED_DOMAIN_NAMES = "banned_domain_names";
+	private static final String MARK_NOTIFY_USER_PASSWORD_EXPIRED = "notify_user_password_expired";
 
 	// Properties
 	private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
@@ -419,6 +420,7 @@ public final class AdminUserService
 				model.put( MARK_PASSWORD_HISTORY_SIZE, getIntegerSecurityParameter( MARK_PASSWORD_HISTORY_SIZE ) );
 				model.put( MARK_MAXIMUM_NUMBER_PASSWORD_CHANGE, getIntegerSecurityParameter( MARK_MAXIMUM_NUMBER_PASSWORD_CHANGE ) );
 				model.put( MARK_TSW_SIZE_PASSWORD_CHANGE, getIntegerSecurityParameter( MARK_TSW_SIZE_PASSWORD_CHANGE ) );
+				model.put( MARK_NOTIFY_USER_PASSWORD_EXPIRED, getBooleanSecurityParameter( MARK_NOTIFY_USER_PASSWORD_EXPIRED ) );
 			}
 			model.put( MARK_BANNED_DOMAIN_NAMES, getLargeSecurityParameter( MARK_BANNED_DOMAIN_NAMES ) );
 			model.put( MARK_ACCOUNT_LIFE_TIME, getIntegerSecurityParameter( MARK_ACCOUNT_LIFE_TIME ) );
@@ -993,7 +995,7 @@ public final class AdminUserService
 
 		updateSecurityParameter( MARK_ENABLE_PASSWORD_ENCRYPTION, Boolean.TRUE.toString( ) );
 		updateSecurityParameter( MARK_ENCRYPTION_ALGORITHM, AppPropertiesService.getProperty( PROPERTY_DEFAULT_ENCRYPTION_ALGORITHM ) );
-
+		updateSecurityParameter( MARK_NOTIFY_USER_PASSWORD_EXPIRED, Boolean.TRUE.toString( ) );
 	}
 
 	/**
@@ -1007,6 +1009,7 @@ public final class AdminUserService
 		updateSecurityParameter( MARK_PASSWORD_FORMAT, StringUtils.EMPTY );
 		updateSecurityParameter( MARK_PASSWORD_HISTORY_SIZE, StringUtils.EMPTY );
 		updateSecurityParameter( MARK_TSW_SIZE_PASSWORD_CHANGE, StringUtils.EMPTY );
+		updateSecurityParameter( MARK_NOTIFY_USER_PASSWORD_EXPIRED, StringUtils.EMPTY );
 	}
 
 	/**

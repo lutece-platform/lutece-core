@@ -329,6 +329,13 @@ public interface IAdminUserDAO
 	List<Integer> getIdUsersToSendOtherAlert( Timestamp alertMaxDate, Timestamp timeBetweenAlerts, int maxNumberAlerts );
 
 	/**
+	 * Get the list of id of users that have an expired password but not the change password flag
+	 * @param currentTimestamp Timestamp describing the current time.
+	 * @return the list of id of users with expired passwords
+	 */
+	List<Integer> getIdUsersWithExpiredPasswordsList( Timestamp currentTimestamp );
+
+	/**
 	 * Update status of a list of user accounts
 	 * @param listIdUser List of user accounts to update
 	 * @param nNewStatus New status of the user
@@ -340,6 +347,12 @@ public interface IAdminUserDAO
 	 * @param listIdUser The list of users to update
 	 */
 	void updateNbAlert( List<Integer> listIdUser );
+
+	/**
+	 * Set the "change password" flag of users to true
+	 * @param listIdUser The list of users to update
+	 */
+	void updateChangePassword( List<Integer> listIdUser );
 
 	/**
 	 * Update the admin user expiration date with the new values. Also update his alert account to 0

@@ -30,18 +30,16 @@
 
                 #i18n{portal.users.accountLifeTime.labelParameters} : 
                 <ul>
-                    <#if email_type != "reactivated" && email_type != "expired">
-                    <li>${r"${url}"} : #i18n{portal.users.accountLifeTime.labelUrl}</li>
+                    <#if email_type != "reactivated" && email_type != "expired" && email_type != "password_expired" >
+                    	<li>${r"${url}"} : #i18n{portal.users.accountLifeTime.labelUrl}</li>
                     </#if>
                     <li>${r"${first_name}"} : #i18n{portal.users.accountLifeTime.labelFirstName}</li>
                     <li>${r"${last_name}"} : #i18n{portal.users.accountLifeTime.labelLastName}</li>
-                    <li>${r"${date_valid}"} : #i18n{portal.users.accountLifeTime.labelDateValid}</li>
+                    <#if email_type != "password_expired" >
+                    	<li>${r"${date_valid}"} : #i18n{portal.users.accountLifeTime.labelDateValid}</li>
+                    </#if>
                 </ul>
-
-
-                <button class="btn btn-primary" type="submit" >#i18n{portal.util.labelModify}</button>
-
-
+                <button class="btn btn-primary" type="submit" ><i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.util.labelModify}</button>
         </fieldset>
     </form>
 </div>

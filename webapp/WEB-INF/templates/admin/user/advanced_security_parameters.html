@@ -15,7 +15,7 @@
             </div>
             <#if use_advanced_security_parameters>
             <div class="control-group">
-                <label class="control-label" for="">#i18n{portal.users.manage_advanced_parameters.labelPasswordFormat} : </label>
+                <label class="control-label" for="">#i18n{portal.users.manage_advanced_parameters.labelPasswordFormat} :</label>
                 <div class="controls">
 					<label class="checkbox" for="password_format">#i18n{portal.users.manage_advanced_parameters.labelPasswordFormat}
                     <input type="checkbox" name="password_format" value="true" <#if password_format?? && password_format>checked="checked"</#if> />
@@ -28,6 +28,15 @@
                     <input type="text" name="password_duration" value="${password_duration!}" />
                 </div>
             </div>
+			<div class="control-group">
+				<label class="control-label" for="">#i18n{portal.users.manage_advanced_parameters.labelNotifyUserPasswordExpired} :</label>
+				<div class="controls">
+					<label class="checkbox" for="notify_user_password_expired">
+						<input type="checkbox" name="notify_user_password_expired" value="true" <#if notify_user_password_expired?? && notify_user_password_expired>checked="checked"</#if> />
+						#i18n{portal.users.manage_advanced_parameters.labelNotifyUserPasswordExpired}
+					</label>
+				</div>
+			</div>
             </#if>
             <div class="control-group">
                 <label class="control-label" for="force_change_password_reinit">#i18n{portal.users.manage_advanced_parameters.labelForcePasswordAfterReset} : </label>
@@ -109,9 +118,10 @@
                     <option value="other" >#i18n{portal.users.accountLifeTime.labelOtherEmail}</option>
                     <option value="expired" >#i18n{portal.users.accountLifeTime.labelAccountDeactivatedEmail}</option>
                     <option value="reactivated" >#i18n{portal.users.accountLifeTime.labelAccountUpdatedEmail}</option>
+					<option value="password_expired" >#i18n{portal.users.accountLifeTime.labelPasswordExpired}</option>
                 </select>
 				</div>
             </div>
-            <button class="btn btn-primary" type="submit" >#i18n{portal.users.accountLifeTime.labelEditEmail}</button>
+            <button class="btn btn-primary" type="submit" ><i class="icon-envelope icon-white"></i>&nbsp;#i18n{portal.users.accountLifeTime.labelEditEmail}</button>
         </fieldset>
     </form>

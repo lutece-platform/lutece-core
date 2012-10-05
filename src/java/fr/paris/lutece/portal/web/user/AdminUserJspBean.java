@@ -159,6 +159,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 	private static final String PROPERTY_OTHER_EMAIL = "portal.users.accountLifeTime.labelOtherEmail";
 	private static final String PROPERTY_ACCOUNT_DEACTIVATES_EMAIL = "portal.users.accountLifeTime.labelAccountDeactivatedEmail";
 	private static final String PROPERTY_ACCOUNT_UPDATED_EMAIL = "portal.users.accountLifeTime.labelAccountUpdatedEmail";
+	private static final String PROPERTY_NOTIFY_PASSWORD_EXPIRED = "portal.users.accountLifeTime.labelPasswordExpired";
 
 	// Properties
 	private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
@@ -219,6 +220,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 	private static final String PARAMETER_EXPIRATION_MAIL = "core_expiration_mail";
 	private static final String PARAMETER_ACCOUNT_REACTIVATED = "core_account_reactivated_mail";
 	private static final String PARAMETER_CANCEL = "cancel";
+	private static final String PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED = "notify_user_password_expired";
+	private static final String PARAMETER_PASSWORD_EXPIRED_MAIL_SENDER = "password_expired_mail_sender";
+	private static final String PARAMETER_PASSWORD_EXPIRED_MAIL_SUBJECT = "password_expired_mail_subject";
+	private static final String PARAMETER_NOTIFY_PASSWORD_EXPIRED = "core_password_expired";
 
 	// Jsp url
 	private static final String JSP_MANAGE_USER_RIGHTS = "ManageUserRights.jsp";
@@ -292,6 +297,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 	private static final String CONSTANT_EMAIL_TYPE_OTHER = "other";
 	private static final String CONSTANT_EMAIL_TYPE_EXPIRED = "expired";
 	private static final String CONSTANT_EMAIL_TYPE_REACTIVATED = "reactivated";
+	private static final String CONSTANT_EMAIL_PASSWORD_EXPIRED = "password_expired";
 
 	private int _nItemsPerPage;
 	private int _nDefaultItemsPerPage;
@@ -1502,6 +1508,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
 			// maximum number of password change
 			AdminUserService.updateSecurityParameter( PARAMETER_TSW_SIZE_PASSWORD_CHANGE, request.getParameter( PARAMETER_TSW_SIZE_PASSWORD_CHANGE ) );
+
+			// Notify user when his password expires
+			AdminUserService.updateSecurityParameter( PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED, request.getParameter( PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED ) );
 		}
 
 		// Time of life of accounts
@@ -1847,6 +1856,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 			strBodyKey = PARAMETER_ACCOUNT_REACTIVATED;
 			strTitle = PROPERTY_ACCOUNT_UPDATED_EMAIL;
 		}
+		else if ( CONSTANT_EMAIL_PASSWORD_EXPIRED.equalsIgnoreCase( strEmailType ) )
+		{
+			strSenderKey = PARAMETER_PASSWORD_EXPIRED_MAIL_SENDER;
+			strSubjectKey = PARAMETER_PASSWORD_EXPIRED_MAIL_SUBJECT;
+			strBodyKey = PARAMETER_NOTIFY_PASSWORD_EXPIRED;
+			strTitle = PROPERTY_NOTIFY_PASSWORD_EXPIRED;
+		}
 
 		DefaultUserParameter defaultUserParameter = DefaultUserParameterHome.findByKey( strSenderKey );
 		String strSender = defaultUserParameter == null ? StringUtils.EMPTY : defaultUserParameter.getParameterValue( );
@@ -1903,6 +1919,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 			strSenderKey = PARAMETER_REACTIVATED_ALERT_MAIL_SENDER;
 			strSubjectKey = PARAMETER_REACTIVATED_ALERT_MAIL_SUBJECT;
 			strBodyKey = PARAMETER_ACCOUNT_REACTIVATED;
+		}
+		else if ( CONSTANT_EMAIL_PASSWORD_EXPIRED.equalsIgnoreCase( strEmailType ) )
+		{
+			strSenderKey = PARAMETER_PASSWORD_EXPIRED_MAIL_SENDER;
+			strSubjectKey = PARAMETER_PASSWORD_EXPIRED_MAIL_SUBJECT;
+			strBodyKey = PARAMETER_NOTIFY_PASSWORD_EXPIRED;
 		}
 
 		AdminUserService.updateSecurityParameter( strSenderKey, request.getParameter( MARK_EMAIL_SENDER ) );

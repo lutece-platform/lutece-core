@@ -61,6 +61,8 @@ INSERT INTO core_template VALUES ('core_first_alert_mail', 'Bonjour ${first_name
 INSERT INTO core_template VALUES ('core_expiration_mail', 'Bonjour ${first_name} ! Votre compte a expiré. Vous ne pourrez plus vous connecter avec, et les données vous concernant ont été anonymisées');
 INSERT INTO core_template VALUES ('core_other_alert_mail', 'Bonjour ${first_name} ! Votre compte utilisateur arrive à expiration. Pour prolonger sa validité, veuillez <a href="${url}">cliquer ici</a>.</br>Si vous ne le faites pas avant le ${date_valid}, il sera désactivé.');
 INSERT INTO core_template VALUES ('core_account_reactivated_mail', 'Bonjour ${first_name} ! Votre compte utilisateur a bien été réactivé. Il est désormais valable jusqu''au ${date_valid}.');
+INSERT INTO core_template VALUES ('core_password_expired', 'Bonjour ! Votre mot de passe a éxpiré. Lors de votre prochaine connection, vous pourrez le changer.');
+
 --
 -- UPDATE of email size to 256 for respecting WSSO constraints 
 --
@@ -106,3 +108,8 @@ INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.globalmanagement
 
 INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce');
 INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'markitupbbcode');
+
+INSERT INTO core_user_parameter VALUES ('access_failures_captcha', '1');
+INSERT INTO core_user_parameter VALUES ('notify_user_password_expired', '');
+INSERT INTO core_user_parameter VALUES ('password_expired_mail_sender', 'lutece@nowhere.com');
+INSERT INTO core_user_parameter VALUES ('password_expired_mail_subject', 'Votre mot de passe a expiré');

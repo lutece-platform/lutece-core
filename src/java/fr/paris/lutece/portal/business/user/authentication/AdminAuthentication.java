@@ -63,7 +63,7 @@ public interface AdminAuthentication
 	 * Checks the login
 	 * 
 	 * @param strAccessCode The username
-	 * @param strUserPassword The user's passord
+	 * @param strUserPassword The user's password
 	 * @param request The HttpServletRequest
 	 * @return The login
 	 * @throws LoginException The Login Exception

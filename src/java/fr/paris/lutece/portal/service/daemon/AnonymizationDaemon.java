@@ -22,6 +22,7 @@ public class AnonymizationDaemon extends Daemon
     {
         Locale locale = Locale.getDefault( );
         StringBuilder sbLogs = new StringBuilder( );
+		StringBuilder sbResult = new StringBuilder( );
         List<Integer> expiredUserIdList = AdminUserService.getExpiredUserIdList( );
         if ( expiredUserIdList != null && expiredUserIdList.size( ) > 0 )
         {
@@ -39,12 +40,15 @@ public class AnonymizationDaemon extends Daemon
             sbLogs.append( nbUserFound );
             sbLogs.append( " admin user(s) have been anonymized" );
             AppLogService.info( sbLogs.toString( ) );
+			sbResult.append( sbLogs.toString( ) );
         }
         else
         {
             sbLogs.append( CONSTANT_NO_EXPIRED_USER );
             AppLogService.info( sbLogs.toString( ) );
+			sbResult.append( sbLogs.toString( ) );
         }
+		this.setLastRunLogs( sbLogs.toString( ) );
     }
 
 }
