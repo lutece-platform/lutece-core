@@ -4,18 +4,12 @@
 /* Fix for fixed-nav-bar*/
 body{padding-top:60px;}
 
-.btn-group-portlet{
-float:right;
-margin:5px 0 0 0;
-padding:4px;
-background-color:#DEDEDE; 
--webkit-border-bottom-right-radius: 10px;
--webkit-border-bottom-left-radius: 10px;
--moz-border-radius-bottomright: 10px;
--moz-border-radius-bottomleft: 10px;
-border-bottom-right-radius: 10px;
-border-bottom-left-radius: 10px;}
+/* Lutece admin style do not remove ! */
+.btn-group-portlet{float:right;margin:5px 0 0 0;padding:4px;background-color:#DEDEDE;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;}
 .btn-group-portlet form{margin-bottom:2px !important; }
 .btn-group-portlet button{opacity:0.6;margin:0 1px;background-color:#DEDEDE !important;}
-.btn-group-portlet button.btn-danger{opacity:0.6;margin:0 1px;background-color:#DEDEDE !important;}
 .btn-group-portlet button:hover{opacity:1;background-color:#DEDEDE !important;}
+/*
+div.btn-group-portlet + [class^="portlet"]:hover,div.btn-group-portlet + [class*=" portlet"]:hover  > [class^="btn-group-portlet"]{background-color:#DEDEDE; }
+*/
+/* Lutece admin style do not remove ! */

@@ -6,6 +6,9 @@ body{padding-top:60px;}
 
 /* Fix accessibility issue on links */
 a:hover,a:active { outline:thin dotted;}
+
+/* Fix thumbnail */
+ul.thumbnails li.span4:nth-child(3n + 4) {margin-left : 0px;}
  
 /* Lutece styles */
 a.brand img.logo{height:16px;}
