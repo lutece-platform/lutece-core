@@ -1,79 +1,105 @@
 <div class="row-fluid">
-    <div class="span12">
-		<form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp" class="well well-small form-search">
-			<label for="plugin_type" class="select">#i18n{portal.system.manage_plugins.labelComboFilter} :</label>
-			<@comboSorted name="plugin_type" default_value="${current_filter}" items=filter_list />
-			<button type="submit" class="btn btn-primary">
-				<i class="icon-filter icon-white"></i>&nbsp;#i18n{portal.system.manage_plugins.buttonFilter}
-			</button>
-		</form>
+    <div class="span3">
+        <form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp" class="well well-small">
+            <label for="plugin_type" class="select">#i18n{portal.system.manage_plugins.labelComboFilter} :</label>
+            <@comboSorted name="plugin_type" default_value="${current_filter}" items=filter_list />
+            <br/>
+            <br/>
+            <button type="submit" class="btn btn-primary">
+                <i class="icon-filter icon-white"></i>&nbsp;#i18n{portal.system.manage_plugins.buttonFilter}
+            </button>
+        </form>
     </div>
-	<#if plugins_list?has_content >
-	<div class="span12">
-	<#list plugins_list as plugin >
-		<div class="row-fluid">
-			<div class="span11 well">
-			<div class="span1">
-				<#if plugin.iconUrl!="" >
-					<img src="${plugin.iconUrl}" alt="" title="${plugin.name}"/>
-				<#else>
-					<img src="images/admin/skin/blank.gif" width="24px" height="24px" alt="" title="${plugin.name}"/>
-				</#if>
-			</div>
-			<div class="span2">
-				<h3>
-				<a href="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" >${plugin.name}</a><br />
-				<small>&nbsp;#i18n{portal.system.manage_plugins.columnTitleVersion}: ${plugin.version}</small>
-				</h3>
-				<#if plugin.installed >
-					<span class="label label-success" title="#i18n{portal.system.manage_caches.imgAltEnable}">
-						<i class="icon-ok-sign icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltEnable}
-					</span>			
-				<#else>
-					<span class="label label-important" title="#i18n{portal.system.manage_caches.imgAltDisable}">
-						<i class="icon-remove-sign icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltDisable}
-					</span>	
-				</#if>
-			</div>
-			<div class="span4">
-				<p>#i18n{${plugin.description}}</p> 
-				<p><em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}}</em></p>
-				<p><em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <a href="${plugin.providerUrl}" target="_blank">${plugin.providerUrl}</a></em></p>
-			</div>
-			<div>
-				<#if plugin.installed >
-					<form method="post" class="form-inline pull-left spaced" action="jsp/admin/system/ConfirmUninstallPlugin.jsp">
-						<input type="hidden" name="plugin_name" value="${plugin.name}" />
-						<button type="submit" class="btn btn-danger btn-small" title="#i18n{portal.system.manage_plugins.buttonDisable}">
-							<i class="icon-stop icon-white"></i>&nbsp;#i18n{portal.system.manage_plugins.buttonDisable}
-						</button>
-					</form>
-					<#if plugin.dbPoolRequired >
-					<form method="post" class="form-inline pull-left spaced" action="jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}">
-						<@comboSortedWithParams name="db_pool_name" default_value="${plugin.dbPoolName}" items=pools_list additionalParameters="class=\"span2\"" />
-						<input type="hidden" name="plugin_name" value="${plugin.name}" />
-						<button type="submit" class="btn btn-primary btn-mini" title="#i18n{portal.system.manage_plugins.buttonModifyDbPool}"  >
-							<i class="icon-edit icon-white"></i>
-						</button>
-					</form>
-					</#if>   
-				<#else>
-					<form method="post" class="form-inline pull-left" action="jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}" class="form-inline">
-						<input type="hidden" name="plugin_name" value="${plugin.name}" />
-						<button type="submit" class="btn btn-success" title="#i18n{portal.system.manage_plugins.buttonEnable}">
-							<i class="icon-play icon-white"></i>&nbsp;#i18n{portal.system.manage_plugins.buttonEnable}
-						</button>
-					</form>
-				</#if>
-			</div>
-		</div>	
-		</div>	
-		</#list>
-	</div>
-<#else>
-	<div class="span12">
-		<p class="label label-important">#i18n{portal.system.manage_plugins.filterNoResult}</p>
-	</div>
-</#if>
+    <#if plugins_list?has_content >
+    <div class="span9">
+        <table class="table table-condensed table-striped">
+            <tr>
+                <th>       
+                </th>
+                <th>#i18n{portal.system.manage_plugins.columnTitleName}</th>
+                <th>#i18n{portal.system.manage_plugins.columnTitleStatus}</th>
+                <th>#i18n{portal.system.manage_plugins.columnTitleDescription}</th>
+                <th>#i18n{portal.system.manage_plugins.columnTitleDatabase}</th>
+                <th>#i18n{portal.util.labelActions}</th>
+            </tr>    
+
+            <#list plugins_list as plugin >
+            <tr>
+                <td class="span1">
+                    <#if plugin.iconUrl!="" >
+                    <img src="${plugin.iconUrl}" alt="" title="${plugin.name}"/>
+                    <#else>
+                    <img src="images/admin/skin/blank.gif" width="24px" height="24px" alt="" title="${plugin.name}"/>
+                    </#if>
+                </td>
+                <td class="span2">
+
+                    <h3>
+                        ${plugin.name}<br />
+                        <small>&nbsp;#i18n{portal.system.manage_plugins.labelVersion}: ${plugin.version}</small>
+                    </h3>
+                </td>
+                <td class="span1">
+                    <br/>
+                    <#if plugin.installed >
+                    <span class="label label-success" title="#i18n{portal.system.manage_caches.imgAltEnable}">
+                        <i class="icon-ok-sign icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltEnable}
+                    </span>			
+                    <#else>
+                    <span class="label label-important" title="#i18n{portal.system.manage_caches.imgAltDisable}">
+                        <i class="icon-remove-sign icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltDisable}
+                    </span>	
+                    </#if>
+                </td>
+                <td class="span4">
+                    <p>#i18n{${plugin.description}}</p> 
+                    <p><em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}}</em></p>
+                    <p><em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <a href="${plugin.providerUrl}" target="_blank">${plugin.providerUrl}</a></em></p>
+                </td>
+                <td>
+                    <#if plugin.installed >
+                    <#if plugin.dbPoolRequired >
+                    <form method="post" class="form-inline pull-left spaced" action="jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}">
+                        <@comboSortedWithParams name="db_pool_name" default_value="${plugin.dbPoolName}" items=pools_list  additionalParameters="class=\"input-small\"" />
+                        <input type="hidden" name="plugin_name" value="${plugin.name}" />
+                        <br/>
+                        <br/>
+                        <button type="submit" class="btn btn-primary btn-mini" title="#i18n{portal.system.manage_plugins.buttonModifyDbPool}"  >
+                            <i class="icon-edit icon-white"></i> #i18n{portal.util.labelModify}
+                        </button>
+                    </form>
+                    </#if>   
+                    </#if>
+                </td>
+                <td class="span2">
+                    <br/>
+                    <a class="btn btn-primary btn-mini" href="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" title="#i18n{portal.system.manage_plugins.actionDisplay}">
+                        <i class="icon-info-sign icon-white"></i>
+                    </a>
+                    <#if plugin.installed >
+                    <form method="post" class="form-inline pull-left spaced" action="jsp/admin/system/ConfirmUninstallPlugin.jsp">
+                        <input type="hidden" name="plugin_name" value="${plugin.name}" />
+                        <button type="submit" class="btn btn-danger btn-mini" title="#i18n{portal.system.manage_plugins.buttonDisable}">
+                            <i class="icon-stop icon-white"></i>
+                        </button>
+                    </form>
+                    <#else>
+                    <form method="post" class="form-inline pull-left" action="jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}" class="form-inline">
+                        <input type="hidden" name="plugin_name" value="${plugin.name}" />
+                        <button type="submit" class="btn btn-success btn-mini" title="#i18n{portal.system.manage_plugins.buttonEnable}">
+                            <i class="icon-play icon-white"></i>
+                        </button>
+                    </form>
+                    </#if>
+                </td>
+            </tr>	
+            </#list>
+        </table>
+    </div>
+    <#else>
+    <div class="span12">
+        <p class="label label-important">#i18n{portal.system.manage_plugins.filterNoResult}</p>
+    </div>
+    </#if>
 </div>
 
