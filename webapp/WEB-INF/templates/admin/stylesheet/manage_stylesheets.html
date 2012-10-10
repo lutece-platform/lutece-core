@@ -5,7 +5,7 @@
                     <span class="pull-right">
                         <form class="form-inline" method="post"  action="jsp/admin/style/CreateStyleSheet.jsp" >
                             <input type="hidden" name="mode_id" value="${mode_id}" />
-                            <button class="btn btn-primary" type="submit" ><i class="icon-plus icon-white"></i><span class="hidden-phone">#i18n{portal.style.manage_stylesheets.buttonAdd}</span></button>
+                            <button class="btn btn-primary btn-small" type="submit" ><i class="icon-plus icon-white"></i><span class="hidden-phone">#i18n{portal.style.manage_stylesheets.buttonAdd}</span></button>
                         </form>
                     </span>
                 </legend>
@@ -13,7 +13,7 @@
                     <form class="form-search" method="post" >
                         <label class="control-label" for="mode_id" >#i18n{portal.style.manage_stylesheets.labelSortByMode} :</label>
                         <@comboSorted name="mode_id" default_value="${mode_id}" items=mode_list />
-                        <button class="btn btn-primary" type="submit" ><i class="icon-filter icon-white"></i>#i18n{portal.util.labelFilter}</button>
+                        <button class="btn btn-primary btn-small" type="submit" ><i class="icon-filter icon-white"></i>#i18n{portal.util.labelFilter}</button>
                     </form>
                 </div>
                 <@paginationAdmin paginator=paginator combo=1 />   

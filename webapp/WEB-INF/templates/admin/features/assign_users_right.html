@@ -68,7 +68,7 @@
                     </#if>
                 </#list>
                 <input type="hidden" name="id_right" value="${right.id}" />
-                <button type="submit" class="btn btn-primary" tabindex="2">
+                <button type="submit" class="btn btn-primary btn-small" tabindex="2">
 					<i class=" icon-search icon-white"></i>
 						<span class="hidden-phone" >#i18n{portal.users.manage_users.search_users.buttonSearch}</span>
                 </button>          
@@ -84,11 +84,11 @@
                 <label>#i18n{portal.features.assign_users.labelAvailableUser}</label>			
                 <@comboWithParamsAndLength name="available_users_list" default_value="" additionalParameters="multiple='multiple' size='10' style='width:100%;'" items=available_users_list max_length=175 />
 				<div class="form-actions">
-					<button type="submit" class="btn btn-primary" tabindex="2">
+					<button type="submit" class="btn btn-primary btn-small" tabindex="2">
 						<i class="icon-ok-circle icon-white"></i>
 							<span class="hidden-phone" >#i18n{portal.features.assign_users.labelButtonValidate}</span>
                     </button>  
-                    <button type="submit" class="btn" tabindex="2">
+                    <button type="submit" class="btn btn-small" tabindex="2">
 						<i class="icon-remove-circle"></i>
 							<span class="hidden-phone" >#i18n{portal.admin.message.buttonCancel}</span>
                     </button>  

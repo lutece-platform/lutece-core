@@ -4,28 +4,28 @@
 		<span class="pull-right" >
 			<form method="post"  action="jsp/admin/site/AdminSite.jsp" class="form-search">
 				<input type="text" name="page_id" class="input-small" value="" />
-				<button type="submit" class="btn btn-primary">
-					<i class="icon-filter icon-white"></i>
+				<button type="submit" class="btn btn-primary btn-small">
+					<i class="icon-search icon-white"></i>
 					<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonSearchPage}</span>
 				</button>        
 				<#if page_message!=""><br><span class="label label-important">${page_message}</span><#else/></#if>
 			</form>	
 		</span> 
 		<span class="pull-right">
-			<a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary">
+			<a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary btn-small">
 				<i class="icon-map-marker icon-white" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>
 				<span class="hidden-phone" >#i18n{portal.site.admin_page.tabAdminMapSite}</span>
 			</a>
 		</span> 
 		<span class="pull-right">
-			<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary">
+			<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary btn-small">
 				<i class="icon-plus-sign icon-white"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
 				<span class="hidden-phone" >#i18n{portal.site.admin_page.labelChildPagePage}</span>
 			</a>
 		</span> 
 		<span class="pull-right">
 			<div class="btn-group">
-				<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=">
+				<a class="btn btn-primary btn-small dropdown-toggle" data-toggle="dropdown" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=">
 					<i class="icon-th-large icon-white" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}" ></i>
 					<span class="hidden-phone" >#i18n{portal.site.admin_page.labelPortletPage}</span>
 					<span class="caret"></span>
@@ -41,14 +41,14 @@
 			</div>
 		</span> 
 		<span class="pull-right">
-			<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="btn btn-primary">
+			<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="btn btn-primary btn-small">
 				<i class="icon-wrench icon-white" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>
 				<span class="hidden-phone" >#i18n{portal.site.admin_page.labelPageProperty}</span>
 			</a>
 		</span> 
 		<#if page.id != 1>
 		<span class="pull-right" >
-			<a href="jsp/admin/site/RemovePage.jsp?page_id=${page.id}" class="btn btn-danger">
+			<a href="jsp/admin/site/RemovePage.jsp?page_id=${page.id}" class="btn btn-danger btn-small">
 				<i class="icon-trash icon-white"  alt="#i18n{portal.site.admin_page.buttonDeletePage}" title="#i18n{portal.site.admin_page.buttonDeletePage}" ></i>            
 			</a>	
 		</span>	

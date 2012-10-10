@@ -14,10 +14,10 @@
         <input type="hidden" name="id_user" value="${user.userId}" />
         <input type="hidden" name="delegate_rights" value="false"/>
         <#if can_modify>
-        <button type="submit"class="btn btn-primary" ><i class="icon-edit icon-white"></i>&nbsp;#i18n{portal.users.manage_user_roles.buttonLabelModifyRoles}</button>
+        <button type="submit"class="btn btn-primary btn-small" ><i class="icon-edit icon-white"></i>&nbsp;#i18n{portal.users.manage_user_roles.buttonLabelModifyRoles}</button>
         </#if>
         <#if can_delegate>
-        <button type="submit" class="btn btn-primary" ><i class="icon-share icon-white"></i>&nbsp;#i18n{portal.users.manage_user_roles.buttonLabelDelegateRoles}</button>      
+        <button type="submit" class="btn btn-primary btn-small" ><i class="icon-share icon-white"></i>&nbsp;#i18n{portal.users.manage_user_roles.buttonLabelDelegateRoles}</button>      
         </#if>
         </form>
 		<div class="row-fluid">

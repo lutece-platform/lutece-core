@@ -6,8 +6,8 @@
                 <strong>#i18n{portal.rbac.view_role_description.labelDescription} :</strong> ${role.description}
                 <form class="form-horizontal" method="post"  action="jsp/admin/rbac/ModifyRole.jsp">
                     <input type="hidden" name="role_key" value="${role.key}" />
-                    <button class="btn btn-primary" type="submit" >#i18n{portal.rbac.view_role_description.buttonLabelModify}</button>
-                    <button class="btn btn-primary" onclick="javascript:history.go(-1)" >#i18n{portal.admin.message.buttonCancel}</button>
+                    <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.rbac.view_role_description.buttonLabelModify}</button>
+                    <button class="btn btn-primary btn-small" onclick="javascript:history.go(-1)" >#i18n{portal.admin.message.buttonCancel}</button>
                 </form>
             </fieldset>
             <fieldset>
@@ -36,7 +36,7 @@
                         <td>
                             <form class="form-horizontal" method="post"  action="jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp">
                                 <input type="hidden" name="rbac_id" value="${controled_resource.RBACId}" />
-                                <button class="btn btn-primary" type="submit" >#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}</button>
+                                <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}</button>
                             </form>
                         </td>
                     </tr>
@@ -52,7 +52,7 @@
                             </#list>
                         </select>
                         <input type="hidden" name="role_key" value="${role.key}" />
-                        <button class="btn btn-primary" type="submit" >#i18n{portal.rbac.view_role_description.buttonLabelAddControl}</button>
+                        <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.rbac.view_role_description.buttonLabelAddControl}</button>
                     </form>
             </fieldset>
     </div>

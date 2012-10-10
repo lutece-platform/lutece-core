@@ -5,14 +5,14 @@
     <#if permission_advanced_parameter>
                     <span class="pull-right">
                         <form method="post" action="jsp/admin/user/ManageAdvancedParameters.jsp" class="form-inline spaced">
-                            <button type="submit" class="btn btn-primary"><i class="icon-cog icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}</span></button>
+                            <button type="submit" class="btn btn-primary btn-small"><i class="icon-cog icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}</span></button>
                         </form>
                     </span>&nbsp;		        
                     </#if>  
                     &nbsp;
                     <span class="pull-right">
                         <form method="post"  action="${url_user_creation}" class="form-inline">
-                            <button type="submit" class="btn btn-primary"><i class="icon-plus icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.users.manage_users.buttonLabelAddUser}</span></button>
+                            <button type="submit" class="btn btn-primary btn-small"><i class="icon-plus icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.users.manage_users.buttonLabelAddUser}</span></button>
                         </form>
                     </span>
                 </legend>
@@ -101,7 +101,7 @@
                                 </#if>
                                 </#list>
                             </div>
-                            <button class="btn btn-primary" type="submit" >
+                            <button class="btn btn-primary btn-small" type="submit" >
                                 <i class="icon-search icon-white"></i>
                                 <span class="hidden-phone" >#i18n{portal.users.manage_users.search_users.buttonSearch}</span>
                             </button>

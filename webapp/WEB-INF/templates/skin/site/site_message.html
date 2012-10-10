@@ -26,7 +26,7 @@
 			</#list>
 			</#if>
 			<#if url?has_content> 
-			<button type="submit"class="btn"><i class="icon-ok"></i>&nbsp;#i18n{portal.util.labelValidate}</button>
+			<button type="submit"class="btn btn-small"><i class="icon-ok"></i>&nbsp;#i18n{portal.util.labelValidate}</button>
 			</#if>
 		</form>	
 		<#if back_url?has_content>
@@ -37,16 +37,16 @@
 			</#list>	
 			</#if>
 			<#if cancel_button = 1> 
-				<button type="submit" name="cancel" class="btn"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}</button>
+				<button type="submit" name="cancel" class="btn btn-small"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}</button>
 			<#elseif cancel_button = 2>
-				<button type="submit" name="cancel" class="btn"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}</button>
+				<button type="submit" name="cancel" class="btn btn-small"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}</button>
 			</#if>
 			</form>		
 		<#else>		
 			<#if cancel_button = 1> 
-				<button type="button" class="btn" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}</button>
+				<button type="button" class="btn btn-small" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}</button>
 			<#elseif cancel_button = 2>
-				<button type="button" class="btn" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}</button>
+				<button type="button" class="btn btn-small" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}</button>
 			</#if>
 		</#if>
 		</div>	
