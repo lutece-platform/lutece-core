@@ -1,32 +1,41 @@
 <html>
-<head>
-<title>#i18n{portal.site.popup_legal_info.title}</title>
-
-<link rel="stylesheet"  href="../../css/page_template_styles.css" type="text/css"  />
-
-</head>
-<body class="pop-up">
-
-
- <p><b>${portal_domain}</b></p>
-
- <h2 class="page-title">#i18n{portal.site.popup_legal_info.pageTitle}</h2>
-
-
-    <h3>#i18n{portal.site.popup_legal_info.copyright}</h3>
-
-    <h3>#i18n{portal.site.popup_legal_info.privacy}</h3>
-
-    <p>
-    ${confidentiality_info}
-    </p>
+    <head>
+        <title>#i18n{portal.site.popup_legal_info.title}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Le styles -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet"  href="css/page_template_styles.css" type="text/css"  media="screen" />
+        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <!-- Le fav and touch icons -->
+        <link rel="shortcut icon" href="favicon.ico">
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span8 offset2">
 
 
+                    <h1>${portal_domain}</h1>
 
-    <div align="right">
-		<b><a href="javascript:window.close();">&gt;&gt;#i18n{portal.site.popup_legal_info.close}</a></b>
-  	</div>
+                    <h2>#i18n{portal.site.popup_legal_info.pageTitle}</h2>
 
+                    <h3>#i18n{portal.site.popup_legal_info.copyright}</h3>
+                    <h3>#i18n{portal.site.popup_legal_info.privacy}</h3>
 
-</body>
+                    <p>
+                        ${confidentiality_info}
+                    </p>
+
+                    <div align="right">
+                        <b><a href="javascript:window.close();">&gt;&gt;#i18n{portal.site.popup_legal_info.close}</a></b>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
