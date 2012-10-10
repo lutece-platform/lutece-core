@@ -1,11 +1,27 @@
 <#if listExtendableResourceActions?? && listExtendableResourceActions?has_content>
 	<form method="post" action="jsp/admin/resource/DoProcessExtendableResourceAction.jsp">
-		<div id="content-box-actions">
-			<#list listExtendableResourceActions as resourceTypeAction>
-				<#if resourceTypeAction.buttonTemplate?has_content>
-					<#include resourceTypeAction.buttonTemplate />
-				</#if>
-			</#list>
+		<div class="btn-group">
+			<a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+				<i class="icon-forward icon-white">&nbsp;</i><span class="hidden-phone">&nbsp;#i18n{portal.admin.resource.extend}</span>
+				<span class="caret"></span>
+			</a>
+			<ul class="nav dropdown-menu">
+				<#list listExtendableResourceActions as resourceTypeAction>
+					<#if resourceTypeAction.buttonTemplate?has_content>
+						<li>
+							<#include resourceTypeAction.buttonTemplate />
+						</li>
+					</#if>
+				</#list>
+			</ul>
 		</div>
 	</form>
+	<script type="text/javascript">
+	$('.dropdown input').bind('click', function (e) {
+		  e.stopPropagation()
+		})
+	$('.dropdown select').bind('click', function (e) {
+		  e.stopPropagation()
+		})
+	</script>
 </#if>

@@ -19,7 +19,7 @@
 		</span> 
 		<span class="pull-right">
 			<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary btn-small">
-				<i class="icon-plus-sign icon-white"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
+				<i class="icon-plus icon-white"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
 				<span class="hidden-phone" >#i18n{portal.site.admin_page.labelChildPagePage}</span>
 			</a>
 		</span> 
@@ -45,7 +45,10 @@
 				<i class="icon-wrench icon-white" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>
 				<span class="hidden-phone" >#i18n{portal.site.admin_page.labelPageProperty}</span>
 			</a>
-		</span> 
+		</span>
+		<span class="pull-right ">
+			${extendableResourceActionsHtml!}
+		</span>
 		<#if page.id != 1>
 		<span class="pull-right" >
 			<a href="jsp/admin/site/RemovePage.jsp?page_id=${page.id}" class="btn btn-danger btn-small">

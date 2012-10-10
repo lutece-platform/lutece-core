@@ -159,15 +159,19 @@
         <@paginationPageLinks paginator=paginator />
     </#if>
     <#if form == 1 >
-    <form class="form-inline" method="post" action="">
-    
+    <form method="post" action="">
     </#if>
+    	<div class="row-fluid">
     <div class="pull-right" >
-    	<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
+    	<div class="form-inline">
+    		<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
+    	</div>
+    </div>
     </div>
     <#if form == 1 >
     </form>
     </#if>
+    <div class="table"></div>
  </#macro>
 
  <#macro paginationPageLinks paginator >
@@ -246,7 +250,7 @@
  
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page>
 <span class="add-on">${paginator.labelItemCountPerPage}</span>
-<select class="span2" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
+<select class="input-mini" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
 	<#list [ "10" , "20" , "50" , "100" ] as nb>
 		<#if nb_items_per_page = nb >
 			<option selected="selected" value="${nb}">${nb}</option>
