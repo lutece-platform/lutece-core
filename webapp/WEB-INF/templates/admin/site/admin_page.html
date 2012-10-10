@@ -10,7 +10,7 @@
 				</button>        
 				<#if page_message!=""><br><span class="label label-important">${page_message}</span><#else/></#if>
 			</form>	
-		</span> 
+		</span>
 		<span class="pull-right">
 			<a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary btn-small">
 				<i class="icon-map-marker icon-white" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>
@@ -46,9 +46,11 @@
 				<span class="hidden-phone" >#i18n{portal.site.admin_page.labelPageProperty}</span>
 			</a>
 		</span>
-		<span class="pull-right ">
-			${extendableResourceActionsHtml!}
-		</span>
+		<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
+			<span class="pull-right" >
+				${extendableResourceActionsHtml!}
+			</span>
+		</#if>
 		<#if page.id != 1>
 		<span class="pull-right" >
 			<a href="jsp/admin/site/RemovePage.jsp?page_id=${page.id}" class="btn btn-danger btn-small">
