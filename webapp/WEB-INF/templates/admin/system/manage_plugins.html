@@ -64,7 +64,7 @@
                         <input type="hidden" name="plugin_name" value="${plugin.name}" />
                         <br/>
                         <br/>
-                        <button type="submit" class="btn btn-primary btn-mini" title="#i18n{portal.system.manage_plugins.buttonModifyDbPool}"  >
+                        <button type="submit" class="btn btn-primary btn-small" title="#i18n{portal.system.manage_plugins.buttonModifyDbPool}"  >
                             <i class="icon-edit icon-white"></i> #i18n{portal.util.labelModify}
                         </button>
                     </form>
@@ -73,20 +73,20 @@
                 </td>
                 <td class="span2">
                     <br/>
-                    <a class="btn btn-primary btn-mini" href="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" title="#i18n{portal.system.manage_plugins.actionDisplay}">
+                    <a class="btn btn-primary btn-small" href="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" title="#i18n{portal.system.manage_plugins.actionDisplay}">
                         <i class="icon-info-sign icon-white"></i>
                     </a>
                     <#if plugin.installed >
                     <form method="post" class="form-inline pull-left spaced" action="jsp/admin/system/ConfirmUninstallPlugin.jsp">
                         <input type="hidden" name="plugin_name" value="${plugin.name}" />
-                        <button type="submit" class="btn btn-danger btn-mini" title="#i18n{portal.system.manage_plugins.buttonDisable}">
+                        <button type="submit" class="btn btn-danger btn-small" title="#i18n{portal.system.manage_plugins.buttonDisable}">
                             <i class="icon-stop icon-white"></i>
                         </button>
                     </form>
                     <#else>
                     <form method="post" class="form-inline pull-left" action="jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}" class="form-inline">
                         <input type="hidden" name="plugin_name" value="${plugin.name}" />
-                        <button type="submit" class="btn btn-success btn-mini" title="#i18n{portal.system.manage_plugins.buttonEnable}">
+                        <button type="submit" class="btn btn-success btn-small" title="#i18n{portal.system.manage_plugins.buttonEnable}">
                             <i class="icon-play icon-white"></i>
                         </button>
                     </form>

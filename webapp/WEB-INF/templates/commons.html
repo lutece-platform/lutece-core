@@ -255,7 +255,7 @@
         </#if>
     </#list>
 </select>
-<button class="btn btn-mini" type="submit" title="#i18n{portal.util.labelRefresh}"/>
+<button class="btn btn-small" type="submit" title="#i18n{portal.util.labelRefresh}"/>
 <i class="icon-repeat"></i>
 </button>
 &nbsp;-&nbsp;
@@ -393,7 +393,7 @@
 				</#list>
 				<div class="form-actions">
 					<input type="hidden" name="${dataTableManager.filterPanelPrefix}updateFilters" id="${dataTableManager.filterPanelPrefix}updateFilters" value="true" />
-					<button class="btn btn-primary btn-mini" type="submit" >
+					<button class="btn btn-primary btn-small" type="submit" >
 						<i class="icon-search icon-white"></i>
 						<span class="hidden-phone" >#i18n{portal.util.labelSearch}</span>
 					</button>
@@ -402,7 +402,7 @@
 					<#else>
 						<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "?" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
 					</#if>
-					<a class="btn btn-primary btn-mini" href="${dataTableResetUrl}" title="#i18n{portal.util.labelReset}">
+					<a class="btn btn-primary btn-small" href="${dataTableResetUrl}" title="#i18n{portal.util.labelReset}">
 						<i class="icon-remove-circle icon-white"></i>
 						<span class="hidden-phone" >#i18n{portal.util.labelReset}</span>
 					</a>

@@ -7,7 +7,7 @@
     </form>
 </div>
 
-<div class="row" >
+<div class="row-fluid" >
     <legend>#i18n{portal.role.manage_roles.boxTitle}</legend>
     <table class="table table-striped table-condensed">
         <tr>
@@ -24,10 +24,10 @@
             <td>${role.roleDescription}</td>
             <td>${role.workgroup}</td>
             <td>
-                <a class="btn btn-primary btn-mini" href="jsp/admin/role/ModifyPageRole.jsp?role=${role.role}"  title="null" >
+                <a class="btn btn-primary btn-small" href="jsp/admin/role/ModifyPageRole.jsp?role=${role.role}"  title="null" >
                     <i class="icon-edit icon-white"></i>
                 </a>
-                <a class="btn btn-danger btn-mini" href="jsp/admin/role/RemovePageRole.jsp?role=${role.role}"  title="#i18n{portal.role.manage_roles.linkLabelRemove}" >
+                <a class="btn btn-danger btn-small" href="jsp/admin/role/RemovePageRole.jsp?role=${role.role}"  title="#i18n{portal.role.manage_roles.linkLabelRemove}" >
                     <i class="icon-trash icon-white"></i>
                 </a>
 

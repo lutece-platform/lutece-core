@@ -19,7 +19,7 @@
                 </#if>
                 <input type="hidden" name="dashboard_order" value="${dashboard_order}"/>
                 <@comboSortedWithParams name="dashboard_column" default_value="${dashboard.zone!}" additionalParameters="class=\"span2\"" items=list_available_columns />
-                <button type="submit" class="btn btn-primary btn-mini"><i class="icon-move icon-white"></i>&nbsp;#i18n{portal.dashboard.table.action.setColumn}</button>
+                <button type="submit" class="btn btn-primary btn-small"><i class="icon-move icon-white"></i>&nbsp;#i18n{portal.dashboard.table.action.setColumn}</button>
             </form>
         </td> <#-- /column -->
         <#if order>
@@ -33,7 +33,7 @@
                 </#if>
                 <input type="hidden" name="dashboard_column" value="${dashboard_column}"/>
                 <@comboSortedWithParams name="dashboard_order" default_value="${dashboard.order!}" additionalParameters="class=\"span2\"" items=list_available_orders_column  />
-				<button type="submit" class="btn btn-primary btn-mini"><i class="icon-move icon-white"></i>&nbsp;#i18n{portal.dashboard.table.action.move}</button>
+				<button type="submit" class="btn btn-primary btn-small"><i class="icon-move icon-white"></i>&nbsp;#i18n{portal.dashboard.table.action.move}</button>
             </form>
         </td> <#-- /order -->
         </#if>
@@ -44,7 +44,7 @@
 <p class="label label-warning span6 offset1">#i18n{portal.dashboard.message.emptyGroup}</p>
 </#if>
 </#macro>
-<div class="row">
+<div class="row-fluid">
 	<div class="span12">
     <fieldset>
 	<legend>#i18n{portal.dashboard.title.manage}</legend>

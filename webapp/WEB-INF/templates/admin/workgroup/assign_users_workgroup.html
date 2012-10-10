@@ -4,8 +4,8 @@
                 <legend>#i18n{portal.workgroup.assign_users.pageTitle} "${workgroup.key}" 
 				<small>${workgroup.description} | #i18n{portal.workgroup.assign_users.workgroup.number_user} : ${assigned_users_number}</small>
                 <span class="pull-right">
-					<a class="btn btn-primary btn-mini" href="jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}"  title="#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}" ><i class="icon-edit icon-white"></i></a>
-					<a class="btn btn-danger btn-mini" href="jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}"  title="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}" ><i class="icon-trash icon-white"></i></a>
+					<a class="btn btn-primary btn-small" href="jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}"  title="#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}" ><i class="icon-edit icon-white"></i></a>
+					<a class="btn btn-danger btn-small" href="jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}"  title="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}" ><i class="icon-trash icon-white"></i></a>
 				</span>
 				</legend>
             </fieldset>
@@ -148,11 +148,11 @@
                     <td>${assigned_user.accessCode}</td>
                     <td>${assigned_user.email}</td>	                
                     <td>
-                        <a class="btn btn-primary btn-mini" href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}"  title="#i18n{portal.workgroup.assign_users.actionModify}" >
+                        <a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}"  title="#i18n{portal.workgroup.assign_users.actionModify}" >
                             <i class="icon-edit icon-white"></i>
                         </a>
 
-                        <a class="btn btn-danger btn-mini" href="jsp/admin/workgroup/DoUnassignUser.jsp?id_user=${assigned_user.userId}&workgroup_key=${workgroup.key}&anchor=anchor-${anchor}"  title="#i18n{portal.workgroup.assign_users.actionUnassign}" >
+                        <a class="btn btn-danger btn-small" href="jsp/admin/workgroup/DoUnassignUser.jsp?id_user=${assigned_user.userId}&workgroup_key=${workgroup.key}&anchor=anchor-${anchor}"  title="#i18n{portal.workgroup.assign_users.actionUnassign}" >
                             <i class="icon-trash icon-white"></i>
                         </a>
 

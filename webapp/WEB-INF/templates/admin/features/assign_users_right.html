@@ -142,9 +142,9 @@
                     <td><a href="mailto:${assigned_user.email}"  title="${assigned_user.email}" >${assigned_user.email}</a>
                     </td>
                     <td>
-                        <a class="btn btn-primary btn-mini" href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}"  title="#i18n{portal.features.assign_users.actionModify}" >
+                        <a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}"  title="#i18n{portal.features.assign_users.actionModify}" >
                             <i class="icon-edit icon-white"></i></a>
-                        <a class="btn btn-danger btn-mini" href="jsp/admin/features/DoUnassignUserRight.jsp?id_user=${assigned_user.userId}&amp;id_right=${right.id}&anchor=anchor-${anchor}"  title="#i18n{portal.features.assign_users.actionUnassign}" ><i class="icon-trash icon-white"></i></a>
+                        <a class="btn btn-danger btn-small" href="jsp/admin/features/DoUnassignUserRight.jsp?id_user=${assigned_user.userId}&amp;id_right=${right.id}&anchor=anchor-${anchor}"  title="#i18n{portal.features.assign_users.actionUnassign}" ><i class="icon-trash icon-white"></i></a>
                     </td>
                 </tr>
                 </#list>		

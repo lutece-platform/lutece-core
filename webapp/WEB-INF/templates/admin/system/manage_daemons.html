@@ -32,14 +32,14 @@
                             <#if daemon.running>
                             <input type="hidden" name="daemon" value="${daemon.id}" />
                             <input type="hidden" name="action" value="STOP" />
-                            <button class="btn btn-danger btn-mini pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStop}">
+                            <button class="btn btn-danger btn-small pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStop}">
                                 <i class="icon-stop icon-white"></i>
                             </button>
 
                             <#else>
                             <input type="hidden" name="daemon" value="${daemon.id}" />
                             <input type="hidden" name="action" value="START" />
-                            <button class="btn btn-success btn-mini pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStart}" >
+                            <button class="btn btn-success btn-small pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStart}" >
                                 <i class="icon-play icon-white"></i>
 
                             </button>

@@ -19,7 +19,7 @@
 					</#if>
 					<input type="hidden" name="dashboard_order" value="${dashboard_order}"/>
 					<@comboSorted name="dashboard_column" default_value="${dashboard.zone!}" items=list_available_columns />
-					<button type="submit" class="btn btn-primary btn-mini">
+					<button type="submit" class="btn btn-primary btn-small">
 						<i class="icon-move icon-white"></i>&nbsp;#i18n{portal.dashboard.table.action.setColumn}
 					</button>
 				</form>
@@ -36,7 +36,7 @@
 					</#if>
 					<input type="hidden" name="dashboard_column" value="${dashboard_column}"/>
 					<@comboSorted name="dashboard_order" default_value="${dashboard.order!}" items=list_available_orders_column />
-					<button type="submit" class="btn btn-primary btn-mini">
+					<button type="submit" class="btn btn-primary btn-small">
 						<i class="icon-move icon-white"></i>&nbsp;#i18n{portal.dashboard.table.action.move}
 					</button>
 				</form>
@@ -50,7 +50,7 @@
 </#if>
 </#macro>
 
-<div class="row" >
+<div class="row-fluid" >
 	<div class="span12">
     <fieldset>
     <legend>#i18n{portal.admindashboard.title.manage}</legend>

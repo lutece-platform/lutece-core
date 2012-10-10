@@ -187,24 +187,24 @@
                                 </#if>
                                 </#list>
                                 <td>
-                                    <a class="btn btn-primary btn-mini" href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelUpdate}" >
+                                    <a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelUpdate}" >
                                         <i class="icon-edit icon-white"></i>
                                     </a>
-                                    <a class="btn btn-primary btn-mini" href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRights}">
+                                    <a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRights}">
                                         <i class="icon-lock icon-white"></i>&nbsp;
                                     </a>
-                                    <a class="btn btn-primary btn-mini" href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRoles}">
+                                    <a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRoles}">
                                         <i class="icon-list-alt icon-white"></i>&nbsp;
                                     </a>
-                                    <a class="btn btn-primary btn-mini" href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelWorkgroups}">
+                                    <a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelWorkgroups}">
                                         <i class="icon-x-group icon-x-white"></i>
                                     </a>
                                     <#if !user.statusAnonymized>
-                                    <a class="btn btn-primary btn-mini" href="jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelAnonymize}" >
+                                    <a class="btn btn-primary btn-small" href="jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelAnonymize}" >
                                         <i class="icon-eye-close icon-white"></i>
                                     </a>
                                     </#if>
-                                    <a class="btn btn-danger btn-mini" href="jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelDelete}">
+                                    <a class="btn btn-danger btn-small" href="jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelDelete}">
                                         <i class="icon-trash icon-white"></i>&nbsp;
                         </a>
 						</td>

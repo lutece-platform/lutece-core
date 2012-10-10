@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row-fluid">
     <div class="container">
         <div class="well">
             <form class="form-inline" method="post" action="jsp/admin/user/attribute/CreateAttribute.jsp">
@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row-fluid">
     <div class="container">
         <fieldset>
             <legend>#i18n{portal.users.manage_attributes.pageTitle}</legend>
@@ -47,35 +47,35 @@
                     <td>
                         <#if attribute.plugin?exists && attribute.plugin.name != "">
                         <#if cpt != 1>
-                        <a class="btn btn-primary btn-mini" href="jsp/admin/user/attribute/DoMoveUpAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" >
+                        <a class="btn btn-primary btn-small" href="jsp/admin/user/attribute/DoMoveUpAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" >
                             <i class="icon-question-sign icon-white"></i>
                         </a>
 
                         </#if>
                         <#if attribute_has_next>
-                        <a class="btn btn-primary btn-mini" href="jsp/admin/user/attribute/DoMoveDownAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" >
+                        <a class="btn btn-primary btn-small" href="jsp/admin/user/attribute/DoMoveDownAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" >
                             <i class="icon-question-sign icon-white"></i>
                         </a>
 
                         </#if>
                         <#else>
-                        <a class="btn btn-primary btn-mini" href="jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=${attribute.idAttribute}"  title="#i18n{portal.users.manage_attributes.buttonLabelModify}" >
+                        <a class="btn btn-primary btn-small" href="jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=${attribute.idAttribute}"  title="#i18n{portal.users.manage_attributes.buttonLabelModify}" >
                             <i class="icon-edit icon-white"></i>
                         </a>
 
                         <#if cpt != 1>
-                        <a class="btn btn-primary btn-mini" href="jsp/admin/user/attribute/DoMoveUpAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" >
+                        <a class="btn btn-primary btn-small" href="jsp/admin/user/attribute/DoMoveUpAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" >
                             <i class="icon-question-sign icon-white"></i>
                         </a>
 
                         </#if>
                         <#if attribute_has_next>
-                        <a class="btn btn-primary btn-mini" href="jsp/admin/user/attribute/DoMoveDownAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" >
+                        <a class="btn btn-primary btn-small" href="jsp/admin/user/attribute/DoMoveDownAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" >
                             <i class="icon-question-sign icon-white"></i>
                         </a>
 
                         </#if>
-                        <a class="btn btn-danger btn-mini" href="jsp/admin/user/attribute/RemoveAttribute.jsp?id_attribute=${attribute.idAttribute}"  title="#i18n{portal.users.manage_attributes.buttonLabelDelete}" >
+                        <a class="btn btn-danger btn-small" href="jsp/admin/user/attribute/RemoveAttribute.jsp?id_attribute=${attribute.idAttribute}"  title="#i18n{portal.users.manage_attributes.buttonLabelDelete}" >
                             <i class="icon-trash icon-white"></i>
                         </a>
 

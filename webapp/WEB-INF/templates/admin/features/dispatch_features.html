@@ -1,5 +1,5 @@
 <#macro featuresGroupDisplay groupDisplay >
-<div class="row">
+<div class="row-fluid">
     <div class="span12">
 	<fieldset>
    <#if groupDisplay.feature_group.order != 0>
@@ -32,7 +32,7 @@
                     <form method="post" class="inline" action="jsp/admin/features/DoDispatchFeature.jsp">
                     <input type="hidden" name="right_id" value="${right.id}" />
 						<@comboGroups name="group_name" default_value="${right.featureGroup?if_exists}" />
-						<button class="btn btn-primary  btn-mini" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetGroup}"><i class="icon-magnet icon-white"></i></button>
+						<button class="btn btn-primary  btn-small" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetGroup}"><i class="icon-magnet icon-white"></i></button>
                     </form>
                 </td>
 				<td>
@@ -41,7 +41,7 @@
 						<@comboOrders name="order_id" default_value=right.order max=groupDisplay.feature_list?size />
 						<input type="hidden" name="right_id" value="${right.id}" />
 						<input type="hidden" name="group_name" value="${right.featureGroup?if_exists}" />
-							<button class="btn btn-primary btn-mini" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetOrder}"><i class="icon-list icon-white"></i></button>
+							<button class="btn btn-primary btn-small" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetOrder}"><i class="icon-list icon-white"></i></button>
 						</form>
                     <#else>
                         <em>#i18n{portal.features.dispatch_features.notAvailable}</em>

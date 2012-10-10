@@ -20,10 +20,10 @@
                     </tr>
                     <tr>
                         <td><@item_navigation item_navigator=item_navigator />
-                            <a class="btn btn-primary btn-mini" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}" >
+                            <a class="btn btn-primary btn-small" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}" >
                                 <i class="icon-edit icon-white"></i>
                             </a>
-                            <a class="btn btn-danger btn-mini" href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" >
+                            <a class="btn btn-danger btn-small" href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" >
                                 <i class="icon-trash icon-white"></i>
                             </a>
                         </td>
@@ -183,15 +183,15 @@
                     <td>${assigned_user.lastName}</td>
                     <td>${assigned_user.firstName}</td>
                     <td><em>${assigned_user.accessCode}</em></td>
-                    <td><a class="btn btn-primary btn-mini" href="mailto:${assigned_user.email}"  title="null" >
+                    <td><a class="btn btn-primary btn-small" href="mailto:${assigned_user.email}"  title="null" >
                             <i class="icon-question-sign icon-white"></i>
                         </a>
                     </td>
                     <td>
-                        <a class="btn btn-primary btn-mini" href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}"  title="#i18n{portal.rbac.assign_users.actionModify}" >
+                        <a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}"  title="#i18n{portal.rbac.assign_users.actionModify}" >
                             <i class="icon-edit icon-white"></i>
                         </a>
-                        <a class="btn btn-danger btn-mini" href="jsp/admin/rbac/DoUnassignUserRole.jsp?id_user=${assigned_user.userId}&amp;role_key=${role.key}&anchor=anchor-${anchor}"  title="#i18n{portal.rbac.assign_users.actionUnassign}" >
+                        <a class="btn btn-danger btn-small" href="jsp/admin/rbac/DoUnassignUserRole.jsp?id_user=${assigned_user.userId}&amp;role_key=${role.key}&anchor=anchor-${anchor}"  title="#i18n{portal.rbac.assign_users.actionUnassign}" >
                             <i class="icon-trash icon-white"></i>
                         </a>
                     </td>
