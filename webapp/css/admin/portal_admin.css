@@ -451,3 +451,7 @@ img.thumblist{width:24px;}
 .icon-x-rss { background-position: -1462px -204px }
 .icon-x-skype { background-position: -1496px -204px }
 .icon-x-e-mail { background-position: -1530px -204px }
+
+.extendable-left {
+	left: -270px;
+}
