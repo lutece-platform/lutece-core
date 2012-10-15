@@ -61,14 +61,12 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.resource.ExtendableResourcePluginActionManager;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-import java.io.File;
-
-import org.apache.commons.fileupload.FileItem;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -76,6 +74,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
 
 
 /**
@@ -164,7 +164,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strParamBlock = request.getParameter( PARAMETER_BLOCK );
         String strPortletType = request.getParameter( PARAMETER_PORTLET_TYPE );
 
-        return getAdminPageBlock( strPageId, strParamBlock, strPortletType );
+		return getAdminPageBlock( strPageId, strParamBlock, strPortletType, request );
     }
 
     /**
@@ -387,14 +387,15 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     //////////////////////////////////////////////////////////////////////////////////
     // Private implementation
 
-    /**
-     * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
-     *
-     * @param strPageId The identifier of the page
-     * @param strParamBlock The block parameter to display
-     * @return The management page of a page
-     */
-    private String getAdminPageBlock( String strPageId, String strParamBlock, String strPortletType )
+	/**
+	 * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
+	 * 
+	 * @param strPageId The identifier of the page
+	 * @param strParamBlock The block parameter to display
+	 * @param request The request
+	 * @return The management page of a page
+	 */
+    private String getAdminPageBlock( String strPageId, String strParamBlock, String strPortletType, HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
 
@@ -454,6 +455,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_PORTLET_TYPES_LIST, getPortletTypeList( getUser(  ) ) );
         model.put( MARK_PAGE, page );
+		ExtendableResourcePluginActionManager.fillModel( request, getUser( ), model, strPageId, Page.RESOURCE_TYPE );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale(  ), model );
 

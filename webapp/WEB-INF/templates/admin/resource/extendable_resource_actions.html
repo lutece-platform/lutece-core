@@ -1,4 +1,5 @@
 <#if listExtendableResourceActions?? && listExtendableResourceActions?has_content>
+<span class="pull-right" >
 	<form method="post" action="jsp/admin/resource/DoProcessExtendableResourceAction.jsp">
 		<div class="btn-group">
 			<a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
@@ -16,6 +17,7 @@
 			</ul>
 		</div>
 	</form>
+</span>
 	<script type="text/javascript">
 	$('.dropdown input').bind('click', function (e) {
 		  e.stopPropagation()
