@@ -128,7 +128,7 @@ public class AdminMenuJspBean
         String strVersion = AppInfo.getVersion(  );
         String strSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
         AdminUser user = AdminUserService.getAdminUser( request );
-
+        Locale locale = user.getLocale(  );
         List<FeatureGroup> aFeaturesGroupList = getFeatureGroupsList( user );
 
         // Displays the menus accroding to the rights of the users
@@ -138,7 +138,8 @@ public class AdminMenuJspBean
         model.put( MARK_ADMIN_URL,
                 AppPathService.getBaseUrl( request ) + AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_MENU ) );
         model.put( MARK_USER, user );
-
+        model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
+        model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage(  ) );
         String strLogoutUrl = AppPropertiesService.getProperty( PROPERTY_LOGOUT_URL );
         model.put( MARK_ADMIN_LOGOUT_URL, ( strLogoutUrl == null ) ? "" : strLogoutUrl );
 

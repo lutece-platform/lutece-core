@@ -1,51 +1,62 @@
 <header>
-<div class="navbar navbar-inverse navbar-fixed-top">
-	<div class="navbar-inner">
-		<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
-			<#if site_name="Lutece">
-				&nbsp;<img class="logo" src="images/logo-header.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />
-			<#else>
-				&nbsp;<img class="logo" src="images/logo-header-icon.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />&nbsp;${site_name}
-			</#if>
-			&nbsp;<img src="images/admin/skin/external-link-white.png" alt="External Link" title=" " />
-		</a>
-        <div class="nav-collapse">
-            <ul class="nav">
-				<#list feature_group_list as feature_group>
-                <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
-                        <#list feature_group.features as feature >
-                        <li>
-                            <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
-                        </li>
-                        </#list>
-                    </ul>
-                </li>
-                </#list>
-            </ul>
-            <ul class="nav pull-right">
-				<li class="home">
-					<a href="jsp/admin/AdminMenu.jsp" title="&nbsp;#i18n{portal.users.admin_header.homePage}"><i class="icon-home icon-white"></i></a>
-				</li> 
-				<li>
-					
-				</li>
-                <li class="dropdown">
-						
-						<a href="jsp/admin/AdminMenu.jsp#" id="dLabelUserHeader" data-toggle="dropdown" class="dropdown-toggle">
-							<i class="icon-user icon-white"></i>&nbsp;<#if dashboard_zone_4?has_content>${dashboard_zone_4}</#if><b class="caret"></b>
-						
-						</a>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
+                <#if site_name="Lutece">
+                &nbsp;<img class="logo" src="images/logo-header.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />
+                <#else>
+                &nbsp;<img class="logo" src="images/logo-header-icon.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />&nbsp;${site_name}
+                </#if>
+                &nbsp;<img src="images/admin/skin/external-link-white.png" alt="External Link" title=" " />
+            </a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <#list feature_group_list as feature_group>
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
+                            <#list feature_group.features as feature >
+                            <li>
+                                <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
+                            </li>
+                            </#list>
+                        </ul>
+                    </li>
+                    </#list>
+                </ul>
+                <ul class="nav pull-right">
+                    <li class="home">
+                        <a href="jsp/admin/AdminMenu.jsp" title="&nbsp;#i18n{portal.users.admin_header.homePage}"><i class="icon-home icon-white"></i></a>
+                    </li> 
+                    <li>
+
+                    </li>
+                    <li class="dropdown">
+
+                        <a href="jsp/admin/AdminMenu.jsp#" id="dLabelUserHeader" data-toggle="dropdown" class="dropdown-toggle">
+                            <i class="icon-user icon-white"></i>&nbsp;<#if dashboard_zone_4?has_content>${dashboard_zone_4}</#if><b class="caret"></b>
+
+                        </a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
                             <li>
                                 <a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="icon-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a>
                             </li>
+                            <li>
+                                <form method="post" action="jsp/admin/DoChangeLanguage.jsp">
+                                    <p>
+                                        <@comboSorted name="language" default_value="${current_language}" items=languages_list />
+                                        <button type="submit" class="btn btn-primary btn-small">
+                                            <i class="icon-repeat icon-white"></i>
+                                        </button>        
+
+                                    </p>
+                                </form>
+                            </li>	
                             <#if user.accessibilityMode>
                             <li>
                                 <a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}"><i class="icon-eye-open"></i>&nbsp;#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}</a>
@@ -76,13 +87,13 @@
                                 </#if>
                             </li>
                         </ul>
-						
-                </li>
-				
-            </ul> 
-			</div><!-- /.nav-collapse -->
-    </div> <!-- /navbar-inner -->
-</div>
-<h1 class="header"><a name="top">&nbsp;</a></h1>
+
+                    </li>
+
+                </ul> 
+            </div><!-- /.nav-collapse -->
+        </div> <!-- /navbar-inner -->
+    </div>
+    <h1 class="header"><a name="top">&nbsp;</a></h1>
 </header>
 <div class="container-fluid">
