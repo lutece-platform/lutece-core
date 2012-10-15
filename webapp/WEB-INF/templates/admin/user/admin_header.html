@@ -46,16 +46,21 @@
                             <li>
                                 <a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="icon-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a>
                             </li>
-                            <li>
-                                <form method="post" action="jsp/admin/DoChangeLanguage.jsp">
-                                    <p>
-                                        <@comboSorted name="language" default_value="${current_language}" items=languages_list />
-                                        <button type="submit" class="btn btn-primary btn-small">
-                                            <i class="icon-repeat icon-white"></i>
-                                        </button>        
-
-                                    </p>
-                                </form>
+                            <li class="dropdown-submenu">
+								<a tabindex="-1" href="#"><i class="icon-x-flag"></i>&nbsp;#i18n{portal.admin.admin_home.language}</a>
+                                     <ul class="dropdown-menu">
+									 <#list languages_list as lang>
+										<li>
+											<a href="jsp/admin/DoChangeLanguage.jsp?language=${lang.code}">
+												${lang.name}&nbsp;
+												<#if current_language==lang.code>
+												<i class="icon-ok"></i>
+											</#if>
+											</a>
+										</li>
+									 </#list>
+                                       </ul>
+                              
                             </li>	
                             <#if user.accessibilityMode>
                             <li>
