@@ -1,3 +1,4 @@
+
 <#if portletType.modifyScriptTemplate != "" >
 	<#include portletType.modifyScriptTemplate />
 </#if>
@@ -8,7 +9,7 @@
     <form method="post" name="form" action="${portletType.doModifyUrl}"  target="_top" class="form">
     <input type="hidden" name="portlet_id" value="${portlet.id}" />
     <input type="hidden" name="portlet_type_id" value="${portletType.id}" />
-    <div class="span2">
+    <div id="panel" class="span3">
 		<div class="well">
 			<label>#i18n{portal.site.modify_portlet.labelPortletPageId}</label>
 			<input type="text" name="page_id" value="${portlet.pageId}" class="input-mini" />
@@ -44,7 +45,7 @@
 			</label>
 		</div>
     </div>
-    <div class="span9">
+    <div id="content-portlet" class="span8">
 		<label>#i18n{portal.site.modify_portlet.labelPortletTitle}</label>
 		<input type="text" name="portlet_name" value="${portlet.name}" class="input-xxlarge" />
 		<label>#i18n{portal.site.modify_portlet.labelDisplayPortletTitle}           
@@ -79,6 +80,16 @@
 	</div>
 	</form>			
 	</fieldset>
+	<a id="trigger" href="#" title="#i18n{portal.site.portletType.labelModify}">&nbsp;</a>
 	</div>
 </div>
-
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#panel").hide();
+	$("#trigger").click(function(){
+		$("#panel").toggle("fast");
+		$(this).toggleClass("active");
+		return false;
+	});
+});
+</script>

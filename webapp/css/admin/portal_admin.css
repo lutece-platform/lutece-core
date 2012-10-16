@@ -20,6 +20,40 @@ img.thumblist{width:24px;}
 #footer{background: none repeat scroll 0 0 #000;color: #fff;padding: 1px 5px 1px;height:24px;}
 #footer > a{color: #fff;font-size:80%;}
 
+/* Portlets admin */
+#content-portlet{padding:0 10px;}
+a#trigger{
+position: fixed;
+text-decoration: none;
+top:61px; left: 0;
+padding: 2px 10px;
+background:#F5F5F5 url("../img/glyphicons-halflings.png") 2px -92px no-repeat;
+-webkit-border-top-right-radius: 20px;
+-webkit-border-bottom-right-radius: 20px;
+-moz-border-radius-topright: 20px;
+-moz-border-radius-bottomright: 20px;
+border-top-right-radius: 20px;
+border-bottom-right-radius: 20px;
+border:1px #E4E4E4 solid;
+display: block;
+}
+
+a#trigger.active {
+background:#F5F5F5 url("../img/glyphicons-halflings.png") -22px -92px no-repeat;
+-webkit-border-top-right-radius: 0px;
+-webkit-border-bottom-right-radius: 0px;
+-moz-border-radius-topright: 0px;
+-moz-border-radius-bottomright: 0px;
+border-top-right-radius: 0px;
+border-bottom-right-radius: 0px;
+-webkit-border-top-left-radius: 20px;
+-webkit-border-bottom-left-radius: 20px;
+-moz-border-radius-topleft: 20px;
+-moz-border-radius-bottomleft: 20px;
+border-top-left-radius: 20px;
+border-bottom-left-radius: 20px;
+}
+
 /* Glypicons extra-icons */
 [class^="icon-x-"],[class*=" icon-x-"] {
     display:inline-block;
@@ -451,7 +485,3 @@ img.thumblist{width:24px;}
 .icon-x-rss { background-position: -1462px -204px }
 .icon-x-skype { background-position: -1496px -204px }
 .icon-x-e-mail { background-position: -1530px -204px }
-
-.extendable-left {
-	left: -270px;
-}
