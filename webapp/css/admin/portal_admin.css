@@ -14,6 +14,7 @@ ul.thumbnails li.span4:nth-child(3n + 4) {margin-left : 0px;}
 a.brand img.logo{height:16px;}
 h1.header{display:none;}
 img.thumblist{width:24px;}
+img.thumblist-wide{width:128px;}
 .spaced{margin:0 2px;}
 .navbar-inverse .nav-collapse .nav > li.home{background-color:#3399FF;} 
 .msg-admin{margin:10em 0; }

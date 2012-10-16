@@ -67,12 +67,12 @@
 		</div> 
 		</form>			
 	</fieldset>
-	<a id="trigger" href="#" title="#i18n{portal.site.portletType.labelModify}">&nbsp;</a>
+	<a id="trigger" class="active" href="#" title="#i18n{portal.site.portletType.labelModify}">&nbsp;</a>
 	</div>
 </div>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#panel").hide();
+	/*$("#panel").hide();*/
 	$("#trigger").click(function(){
 		$("#panel").toggle("fast");
 		$(this).toggleClass("active");
