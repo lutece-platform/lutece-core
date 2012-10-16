@@ -486,3 +486,19 @@ border-bottom-left-radius: 20px;
 .icon-x-rss { background-position: -1462px -204px }
 .icon-x-skype { background-position: -1496px -204px }
 .icon-x-e-mail { background-position: -1530px -204px }
+
+.dropdown-menu p
+{
+	padding: 3px 20px;
+}
+
+.form-submenu
+{
+	margin: 0px;
+}
+
+.submenu-left
+{
+	right: 100% !important;
+	left: auto !important;
+}

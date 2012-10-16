@@ -56,12 +56,25 @@ ${page_header}
 <!-- end header -->
 <div class="container">
 <!-- container -->
+
 ${social!}
 ${contextinclude!}
 ${contextinclude_1!}
 ${page_path}
+<#if page_id??>
+	<div class="span3 pull-right">
+		@Extender[${page_id},PAGE,hit,{show:true}]@
+		@Extender[${page_id},PAGE,rating,{show:"all"}]@
+	</div>
+</#if>
+
 ${page_content}
+<#if page_id??>
+	@Extender[${page_id},PAGE,comment]@
+	@Extender[${page_id},PAGE,feedback]@
+</#if>
 ${contextinclude_2!}
+
 <!-- container -->
 <br>
 </div>

@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.content.ContentPostProcessorService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -76,6 +77,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -182,12 +184,21 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         ContentService cs = PortalService.getInvokedContentService( request );
         int nMode = 1;
 
+        String strContent = StringUtils.EMPTY;
         if ( cs != null )
         {
-            return cs.getPage( request, nMode );
+        	strContent = cs.getPage( request, nMode );
+        }
+        else
+        {
+        	strContent = PortalService.getDefaultPage( request, nMode );
         }
 
-        return PortalService.getDefaultPage( request, nMode );
+		if ( ContentPostProcessorService.hasProcessor( ) )
+		{
+			strContent = ContentPostProcessorService.process( request, strContent );
+		}
+        return strContent;
     }
 
     /**
@@ -459,7 +470,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+		return getAdminPage( template.getHtml( ) );
     }
 
     /**

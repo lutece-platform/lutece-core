@@ -56,8 +56,8 @@ public final class ExtendableResourcePluginActionManager
 	// MARKS
 	private static final String MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML = "extendableResourceActionsHtml";
 	private static final String MARK_LIST_EXTENDABLE_RESOURCE_ACTIONS = "listExtendableResourceActions";
-	private static final String MARK_ID_EXTENDABLE_RESOURCE = "idExtendableResource";
-	private static final String MARK_EXTENDABLE_RESOURCE_TYPE = "extendableResourceType";
+	public static final String MARK_ID_EXTENDABLE_RESOURCE = "idExtendableResource";
+	public static final String MARK_EXTENDABLE_RESOURCE_TYPE = "extendableResourceType";
 
 	// TEMPLATES
 	private static final String TEMPLATE_EXTENDABLE_RESOURCE_ACTION = "admin/resource/extendable_resource_actions.html";
