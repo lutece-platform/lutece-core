@@ -3,7 +3,7 @@
 ********************************/
 /* Fix for fixed-nav-bar*/
 body{padding-top:60px;}
-
+textarea{width:100%;}
 /* Fix accessibility issue on links */
 a:hover,a:active { outline:thin dotted;}
 
