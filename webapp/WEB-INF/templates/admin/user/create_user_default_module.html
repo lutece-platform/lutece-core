@@ -1,7 +1,7 @@
 <#function displayFieldset user_levels attributes_list>
 <#assign var = false>
 <#list attributes_list as attribute>
-<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
+<#if attribute.plugin?exists && attribute.plugin.name =="profiles">
 <#assign var = true>
 <#break>
 </#if>
@@ -16,9 +16,9 @@
         <div class="span4">
 			<fieldset>
 			<legend>#i18n{portal.users.create_user.labelIdentity}</legend>
-				<label for="access_code" >#i18n{portal.users.create_user.labelAccessCode} * :</label>
+				<label for="access_code">#i18n{portal.users.create_user.labelAccessCode} * :</label>
 				<input type="text"  id="access_code" name="access_code" value="" maxlength="100" size="35" tabindex="1" />				
-				<label for="first_password" >#i18n{portal.users.create_user.labelFirstPassword} * :</label>
+				<label for="first_password">#i18n{portal.users.create_user.labelFirstPassword} * :</label>
 				<input type="password" id="first_password" name="first_password" maxlength="100" size="35" tabindex="2" value=""/>
 				<button type="button" class="btn btn-primary btn-small" tabindex="3" id="generate_password" title="#i18n{portal.users.create_user.buttonLabelGeneratePassword}">
 					<i class="icon-lock  icon-white"></i>
@@ -27,12 +27,12 @@
 					#i18n{portal.users.create_user.passwordComplexity} : 
 				</div>
 				<div id="progressbar" class="progress progress-striped span10">
-					<div id="progress" ><div id="complexity">0%</div></div>
+					<div id="progress"><div id="complexity">0%</div></div>
 				</div>
 				
-				<label for="second_password" >#i18n{portal.users.create_user.labelSecondPassword} * :</label>
+				<label for="second_password">#i18n{portal.users.create_user.labelSecondPassword} * :</label>
 				<input type="password" id="second_password" name="second_password" maxlength="100" size="35" tabindex="4" value=""/>
-				<label for="last_name" >#i18n{portal.users.create_user.labelLastName} * :</label>
+				<label for="last_name">#i18n{portal.users.create_user.labelLastName} * :</label>
 				<input type="text"  id="last_name" name="last_name" value="" maxlength="100" tabindex="5" />
 				<label for="first_name">#i18n{portal.users.create_user.labelFirstName} * :</label>
 				<input type="text" id="first_name" name="first_name" value="" maxlength="100" tabindex="6" />
@@ -58,9 +58,9 @@
 				<select id="status" name="status" tabindex="10">
 					<#if default_user_status = 1>
 					<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-					<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+					<option value="1" selected="selected">#i18n{portal.users.create_user.statusLabelDisabled}</option>
 					<#else>
-					<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+					<option value="0" selected="selected">#i18n{portal.users.create_user.statusLabelEnabled}</option>
 					<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
 					</#if>
 				</select>
@@ -86,7 +86,7 @@
 				<@comboSorted name="language" default_value="${default_user_language}" items=languages_list />
 				</#if>
 				<#list attributes_list as attribute>
-				<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
+				<#if attribute.plugin?exists && attribute.plugin.name =="profiles">
 				${attribute.getHtmlFormAttribute( locale )}
 				<#break>
 				</#if>
@@ -94,7 +94,7 @@
 				</#if>
 				<#if attributes_list?has_content>
 				<#list attributes_list as attribute>
-				<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+				<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name !="profiles" )>
 				${attribute.getHtmlFormAttribute( locale )}
 				</#if>
 				</#list>
@@ -112,7 +112,7 @@
 		<div class="form-actions span12">
 			<button type="submit" class="btn btn-primary btn-small" tabindex="11">
 				<i class="icon-ok  icon-white"></i>
-					<span class="hidden-phone" >#i18n{portal.users.create_user.buttonLabelCreate}</span>
+					<span class="hidden-phone">#i18n{portal.users.create_user.buttonLabelCreate}</span>
 				</button> 
 			</div>
         </div>
@@ -139,16 +139,16 @@ $(document).ready(function(){
 	/*
 	$("#first_password").jpassword({
         lang: {
-			please: "#i18n{portal.users.create_user.jpassword.please}",
-			low: "#i18n{portal.users.create_user.jpassword.low}",
-			correct: "#i18n{portal.users.create_user.jpassword.correct}",
-			high: "#i18n{portal.users.create_user.jpassword.high}",
-			length: "#i18n{portal.users.create_user.jpassword.length}",
-			number: "#i18n{portal.users.create_user.jpassword.number}",
-			uppercase: "#i18n{portal.users.create_user.jpassword.uppercase}",
-			lowercase: "#i18n{portal.users.create_user.jpassword.lowercase}",
-			punctuation: "#i18n{portal.users.create_user.jpassword.punctuation}",
-			special: "#i18n{portal.users.create_user.jpassword.special}"
+			please:"#i18n{portal.users.create_user.jpassword.please}",
+			low:"#i18n{portal.users.create_user.jpassword.low}",
+			correct:"#i18n{portal.users.create_user.jpassword.correct}",
+			high:"#i18n{portal.users.create_user.jpassword.high}",
+			length:"#i18n{portal.users.create_user.jpassword.length}",
+			number:"#i18n{portal.users.create_user.jpassword.number}",
+			uppercase:"#i18n{portal.users.create_user.jpassword.uppercase}",
+			lowercase:"#i18n{portal.users.create_user.jpassword.lowercase}",
+			punctuation:"#i18n{portal.users.create_user.jpassword.punctuation}",
+			special:"#i18n{portal.users.create_user.jpassword.special}"
 			}
 		});
 	*/

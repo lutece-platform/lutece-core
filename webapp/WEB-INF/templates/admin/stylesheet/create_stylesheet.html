@@ -29,7 +29,12 @@
                     </div>
                     <div class="form-actions">    
                         <input type="hidden" name="mode_id" value="${mode_id}" />
-                        <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.style.create_stylesheet.buttonCreate}</button>
+                        <button class="btn btn-primary btn-small" type="submit" >
+							<i class="icon-plus icon-white"></i>&nbsp;#i18n{portal.style.create_stylesheet.buttonCreate}
+						</button>
+                        <a href="jsp/admin/style/ManageStyleSheets.jsp" class="btn btn-small" type="button" >
+							<i class="icon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+						</a>
                     </div>
             </fieldset>
             </form>

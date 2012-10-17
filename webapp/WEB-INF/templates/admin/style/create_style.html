@@ -2,7 +2,6 @@
     <legend>#i18n{portal.style.create_style.title}</legend>
     <form class="form-horizontal" method="post"  name="create_style" action="jsp/admin/style/DoCreateStyle.jsp">
         <fieldset>
-
             <div class="control-group">
                 <label class="control-label" > #i18n{portal.style.create_style.labelId} * : </label>
                 <div class="controls">
@@ -36,8 +35,12 @@
             </div>
 
             <div class="form-actions">
-                <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.style.create_style.buttonCreate}</button>
-                <button class="btn btn-small" onclick="javascript:history.go(-1)" >#i18n{portal.admin.message.buttonCancel}</button>
+                <button class="btn btn-primary btn-small" type="submit" >
+					<i class="icon-plus icon-white"></i>&nbsp;#i18n{portal.style.create_style.buttonCreate}
+				</button>
+                <a class="btn btn-small" href="jsp/admin/style/ManageStyles.jsp" >
+					<i class="icon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+				</a>
             </div>
 
         </fieldset>

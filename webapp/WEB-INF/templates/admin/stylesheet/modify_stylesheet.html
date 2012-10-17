@@ -2,10 +2,10 @@
     <div class="span12">
             <fieldset>
                 <legend>#i18n{portal.style.modify_stylesheet.title}
-                    <div class="btn-group pull-right">
+                    <div class="pull-right">
                         <form class="form-inline" method="post"  action="ViewStyleSheetFile"  name="modify_stylesheet">
                             <input type="hidden" name="stylesheet_id" value="${stylesheet.id}" />
-                            <button class="btn btn-primary btn-small" type="submit" ><i class="icon-eye-open icon-white"></i><span class="hidden-phone">#i18n{portal.style.modify_stylesheet.buttonView}</span></button>
+                            <button class="btn btn-primary btn-small" type="submit" ><i class="icon-eye-open icon-white"></i>&nbsp;<span class="hidden-phone">#i18n{portal.style.modify_stylesheet.buttonView}</span></button>
                         </form>
                     </div>
                 </legend>
@@ -14,7 +14,7 @@
                         <label class="control-label" for="stylesheet_name">#i18n{portal.style.modify_stylesheet.labelName}&nbsp;*&nbsp;:</label>
                         <input type="hidden" name="stylesheet_id" value="${stylesheet.id}" />
                         <div class="controls">
-                            <input type="text" size="60" id="stylesheet_name" name="stylesheet_name" value="${stylesheet.description}" maxlength="255" />
+                            <input type="text" class="input-xxlarge" id="stylesheet_name" name="stylesheet_name" value="${stylesheet.description}" maxlength="255" />
                         </div>
                     </div>
                     <div class="control-group">
@@ -26,7 +26,7 @@
                     <div class="control-group">
                         <label class="control-label" for="styles" >#i18n{portal.style.modify_stylesheet.labelStyle}&nbsp;*&nbsp;:</label>
                         <div class="controls">
-                            <@comboSorted name="styles" default_value="${stylesheet.styleId}" items=style_list />
+                            <@comboSortedWithParams name="styles" default_value="${stylesheet.styleId}" additionalParameters="class=\"input-xxlarge\"" items=style_list />
                         </div>
                     </div>
                     <div class="control-group">
@@ -36,7 +36,12 @@
                         </div>
                     </div>
                     <div class="form-actions">    
-                        <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.style.modify_stylesheet.buttonModify}</button>
+                        <button class="btn btn-primary btn-small" type="submit" >
+							<i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.style.modify_stylesheet.buttonModify}
+						</button>
+						 <a href="jsp/admin/style/ManageStyleSheets.jsp" class="btn btn-small" type="button" >
+							<i class="icon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+						</a>
                     </div>
             </fieldset>
             </form>

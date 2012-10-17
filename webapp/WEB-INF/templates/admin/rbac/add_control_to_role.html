@@ -1,5 +1,5 @@
 <div class="row-fluid">
-    <div class="span6 offset2">
+    <div class="span12">
             <fieldset>
                 <legend>#i18n{portal.rbac.add_control_to_role.titleAddControl}</legend>
                 <form class="form-horizontal" method="post" action="jsp/admin/rbac/DoSelectResources.jsp" name="add_control">
@@ -23,8 +23,12 @@
                     <input type="hidden" name="role_key" value="${role_key}" />
                     <input type="hidden" name="resource_type" value="${resource_type}" />
                     <div class="form-actions"> 
-                        <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.rbac.add_control_to_role.buttonLabelValidate}</button>
-                        <button class="btn btn-primary btn-small" onclick="javascript:history.go(-1)" >#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}</button>
+                        <button class="btn btn-primary btn-small" type="submit" >
+							<i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.buttonLabelValidate}
+						</button>
+                        <button class="btn btn-primary btn-small" onclick="javascript:history.go(-1)" >
+							<i class="icon-remove-circle"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}
+						</button>
                     </div>
                 </form>
         </fieldset>

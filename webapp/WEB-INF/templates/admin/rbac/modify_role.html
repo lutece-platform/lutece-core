@@ -1,12 +1,13 @@
 <div class="row-fluid">
-    <div class="span8 offset2">
+    <div class="span12">
             <fieldset>
                 <legend>#i18n{portal.rbac.modify_role.titleModifyRole}</legend>
                 <form class="form-horizontal" method="post"  action="jsp/admin/rbac/DoModifyRole.jsp" name="modify_role">
+                <input type="hidden" name="role_key_previous" value="${role.key}" />
                     <div class="control-group">
                         <label class="control-label" for="role_key" >#i18n{portal.rbac.modify_role.labelKey}&nbsp;*&nbsp;:</label>
                         <div class="controls">
-                            <input type="text" id="role_key" name="role_key" class="disabled" disabled="disabled" value="${role.key}" />
+                            <input type="text" id="role_key" name="role_key" class="input-normal uneditable-input" value="${role.key}" />
                         </div>
                     </div>
                     <div class="control-group">
@@ -15,10 +16,10 @@
                             <input type="text" id="role_description" name="role_description"  value="${role.description}" size="100" maxlength="255" />
                         </div>
                     </div>
-                    <input type="hidden" name="role_key_previous" value="${role.key}" />
-
                     <div class="form-actions">
-                        <button class="btn btn-primary btn-small" type="submit" ><i class="icon-edit icon-white"></i>#i18n{portal.rbac.modify_role.buttonLabelModify}</button>
+                        <button class="btn btn-primary btn-small" type="submit" >
+							<i class="icon-edit icon-white"></i>#i18n{portal.rbac.modify_role.buttonLabelModify}
+						</button>
                     </div>
            </fieldset>
            </form>

@@ -19,14 +19,12 @@
 				<fieldset>
 				<legend>#i18n{portal.site.admin_page.labelTheme}</legend>
 					<@comboSorted name="theme" default_value="${page.codeTheme}" items=page_themes_list />
-
 					<h3>#i18n{portal.site.admin_page.labelMetadata}</h3>
 					<label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords}</label>  
 					<input type="text" name="meta_keywords" size="40" maxlength="250" />               
 					<label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}</label>
 					<input type="text" name="meta_description" size="40" maxlength="250" />
 					<p class="help-block"> #i18n{portal.site.admin_page.labelMetaDescriptionInfo}</p>
-
 					<h3>#i18n{portal.site.admin_page.labelPageTemplateList}</h3>
 					<dl class="unstyled">
 						${page_templates_list}							        
@@ -40,16 +38,18 @@
 					<input class="input-file" id="image_content" name="image_content" type="file">
 				</fieldset>
 			</div>
-			<div class="form-actions">
-				<button type="submit" class="btn btn-primary btn-small">
-							<i class="icon-plus icon-white"></i>&nbsp;
-							<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonCreate}</span>
-				</button>  
-				<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" class="btn btn-primary btn-small">
-					<i class="icon-remove-circle icon-white"></i>&nbsp;
-					<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonClosed}</span>
-				</a> 
-			</div>            
+			<div class="span11">   
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary btn-small">
+						<i class="icon-plus icon-white"></i>&nbsp;
+						<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonCreate}</span>
+					</button>  
+					<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" class="btn btn-primary btn-small">
+						<i class="icon-remove-circle icon-white"></i>&nbsp;
+						<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonClosed}</span>
+					</a> 
+				</div>            
+			</div>
 		</div>
         </form>
 	</div>
