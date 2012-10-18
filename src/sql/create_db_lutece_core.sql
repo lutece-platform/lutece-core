@@ -99,6 +99,19 @@ CREATE TABLE core_admin_user (
 	PRIMARY KEY (id_user)
 );
 
+--
+-- Table structure for table core_admin_user_preferences 
+--
+
+DROP TABLE IF EXISTS core_admin_user_preferences;
+CREATE TABLE core_admin_user_preferences (		
+        id_user VARCHAR(100) NOT NULL,
+        pref_key VARCHAR(100) NOT NULL,
+        pref_value LONG VARCHAR,
+        PRIMARY KEY ( id_user , pref_key)  
+);
+
+CREATE INDEX index_admin_user_preferences ON core_admin_user_preferences ( id_user );
 
 --
 -- Table structure for table core_admin_workgroup 
@@ -408,6 +421,21 @@ CREATE TABLE core_stylesheet (
 	source long varbinary,
 	PRIMARY KEY (id_stylesheet)
 );
+
+
+--
+-- Table structure for table core_user_preferences 
+--
+
+DROP TABLE IF EXISTS core_user_preferences;
+CREATE TABLE core_user_preferences (		
+        id_user VARCHAR(100) NOT NULL,
+        pref_key VARCHAR(100) NOT NULL,
+        pref_value LONG VARCHAR,
+        PRIMARY KEY ( id_user , pref_key)  
+);
+
+CREATE INDEX index_user_preferences ON core_user_preferences ( id_user );
 
 --
 -- Table structure for table core_user_right
