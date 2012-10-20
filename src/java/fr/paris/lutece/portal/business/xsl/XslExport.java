@@ -37,107 +37,106 @@ import fr.paris.lutece.portal.business.file.File;
 
 
 /**
- * 
+ *
  * class DirectoryXsl
- * 
+ *
  */
 public class XslExport
 {
-	public static final String RESOURCE_TYPE = "XSL_EXPORT";
-	private int _nIdXslExport;
-	private String _strTitle;
-	private String _strDescription;
-	private String _strExtension;
-	private File _file;
+    public static final String RESOURCE_TYPE = "XSL_EXPORT";
+    private int _nIdXslExport;
+    private String _strTitle;
+    private String _strDescription;
+    private String _strExtension;
+    private File _file;
 
-	/**
-	 * 
-	 * @return the id of the directory xsl
-	 */
-	public int getIdXslExport( )
-	{
-		return _nIdXslExport;
-	}
+    /**
+     *
+     * @return the id of the directory xsl
+     */
+    public int getIdXslExport(  )
+    {
+        return _nIdXslExport;
+    }
 
-	/**
-	 * set the id of the directory xsl
-	 * @param idExport the id of the directory xsl
-	 */
-	public void setIdXslExport( int idExport )
-	{
-		_nIdXslExport = idExport;
-	}
+    /**
+     * set the id of the directory xsl
+     * @param idExport the id of the directory xsl
+     */
+    public void setIdXslExport( int idExport )
+    {
+        _nIdXslExport = idExport;
+    }
 
-	/**
-	 * 
-	 * @return the description of the directory xsl
-	 */
-	public String getDescription( )
-	{
-		return _strDescription;
-	}
+    /**
+     *
+     * @return the description of the directory xsl
+     */
+    public String getDescription(  )
+    {
+        return _strDescription;
+    }
 
-	/**
-	 * set the description of the directory xsl
-	 * @param description the description of the directory xsl
-	 */
-	public void setDescription( String description )
-	{
-		_strDescription = description;
-	}
+    /**
+     * set the description of the directory xsl
+     * @param description the description of the directory xsl
+     */
+    public void setDescription( String description )
+    {
+        _strDescription = description;
+    }
 
-	/**
-	 * 
-	 * @return the title of the directory xsl
-	 */
-	public String getTitle( )
-	{
-		return _strTitle;
-	}
+    /**
+     *
+     * @return the title of the directory xsl
+     */
+    public String getTitle(  )
+    {
+        return _strTitle;
+    }
 
-	/**
-	 * set the title of the directory xsl
-	 * @param title the title of the directory xsl
-	 */
-	public void setTitle( String title )
-	{
-		_strTitle = title;
-	}
+    /**
+     * set the title of the directory xsl
+     * @param title the title of the directory xsl
+     */
+    public void setTitle( String title )
+    {
+        _strTitle = title;
+    }
 
-	/**
-	 * 
-	 * @return the xsl file of the directory xsl
-	 */
-	public File getFile( )
-	{
-		return _file;
-	}
+    /**
+     *
+     * @return the xsl file of the directory xsl
+     */
+    public File getFile(  )
+    {
+        return _file;
+    }
 
-	/**
-	 * set the xsl file of the directory xsl
-	 * @param file the xsl file of the directory xsl
-	 */
-	public void setFile( File file )
-	{
-		_file = file;
-	}
+    /**
+     * set the xsl file of the directory xsl
+     * @param file the xsl file of the directory xsl
+     */
+    public void setFile( File file )
+    {
+        _file = file;
+    }
 
-	/**
-	 * get the extension of the output file generate by the xsl
-	 * @return the extension of the out put file
-	 */
-	public String getExtension( )
-	{
-		return _strExtension;
-	}
+    /**
+     * get the extension of the output file generate by the xsl
+     * @return the extension of the out put file
+     */
+    public String getExtension(  )
+    {
+        return _strExtension;
+    }
 
-	/**
-	 * set the extension of the output file generate by the xsl
-	 * @param extension the extension of the out put file
-	 */
-	public void setExtension( String extension )
-	{
-		_strExtension = extension;
-	}
-
+    /**
+     * set the extension of the output file generate by the xsl
+     * @param extension the extension of the out put file
+     */
+    public void setExtension( String extension )
+    {
+        _strExtension = extension;
+    }
 }

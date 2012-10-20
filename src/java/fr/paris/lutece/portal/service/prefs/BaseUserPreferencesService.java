@@ -34,7 +34,9 @@
 package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.business.prefs.IPreferencesDAO;
+
 import java.util.List;
+
 
 /**
  * Abstract User Preferences Service
@@ -44,9 +46,8 @@ public class BaseUserPreferencesService implements IUserPreferencesService
 {
     private static final String TRUE = "true";
     private static final String FALSE = "false";
-
     private IPreferencesDAO _dao;
-    
+
     /**
      * Constructor
      * @param dao The DAO
@@ -55,7 +56,7 @@ public class BaseUserPreferencesService implements IUserPreferencesService
     {
         _dao = dao;
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -71,7 +72,7 @@ public class BaseUserPreferencesService implements IUserPreferencesService
     @Override
     public int getInt( String strUserId, String strKey, int nDefault )
     {
-        return Integer.parseInt( _dao.load( strUserId, strKey, String.valueOf( nDefault )));
+        return Integer.parseInt( _dao.load( strUserId, strKey, String.valueOf( nDefault ) ) );
     }
 
     /**
@@ -82,6 +83,7 @@ public class BaseUserPreferencesService implements IUserPreferencesService
     {
         String strDefault = bDefault ? TRUE : FALSE;
         String strValue = _dao.load( strUserId, strKey, strDefault );
+
         return strValue.equals( TRUE );
     }
 
@@ -130,5 +132,4 @@ public class BaseUserPreferencesService implements IUserPreferencesService
     {
         _dao.remove( strUserId );
     }
-    
 }

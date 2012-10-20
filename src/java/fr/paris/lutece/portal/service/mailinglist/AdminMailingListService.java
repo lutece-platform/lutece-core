@@ -122,22 +122,23 @@ public final class AdminMailingListService
      */
     public static List<MailingList> getUserMailingListsByFilter( AdminUser user, MailingListFilter filter )
     {
-    	MailingListFilter mailingListFilter = new MailingListFilter( filter );
-    	// First get mailinglist by workgroup 'all'
-    	mailingListFilter.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
-    	List<MailingList> listMailingLists = MailingListHome.findsByFilter( mailingListFilter );
+        MailingListFilter mailingListFilter = new MailingListFilter( filter );
+        // First get mailinglist by workgroup 'all'
+        mailingListFilter.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
 
-    	// Add mailing list of the user's workgroups
+        List<MailingList> listMailingLists = MailingListHome.findsByFilter( mailingListFilter );
+
+        // Add mailing list of the user's workgroups
         ReferenceList listWorkgroups = AdminWorkgroupHome.getUserWorkgroups( user );
 
         for ( ReferenceItem workgroup : listWorkgroups )
         {
-        	mailingListFilter = new MailingListFilter( filter );
-        	mailingListFilter.setWorkgroup( workgroup.getCode(  ) );
-        	listMailingLists.addAll( MailingListHome.findsByFilter( mailingListFilter ) );
+            mailingListFilter = new MailingListFilter( filter );
+            mailingListFilter.setWorkgroup( workgroup.getCode(  ) );
+            listMailingLists.addAll( MailingListHome.findsByFilter( mailingListFilter ) );
         }
 
-    	return listMailingLists;
+        return listMailingLists;
     }
 
     /**

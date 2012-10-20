@@ -46,7 +46,6 @@ import javax.servlet.Filter;
 public class LuteceFilter implements Comparable<LuteceFilter>
 {
     public static final int ORDER_NOT_DEFINED = -1;
-
     private String _strName;
     private Filter _filter;
     private String _strMapping;
@@ -169,9 +168,9 @@ public class LuteceFilter implements Comparable<LuteceFilter>
     {
         return getName(  );
     }
-    
+
     /**
-     * 
+     *
      * Returns the order.
      * {@link #getOrder()} == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
      * @return the order
@@ -180,7 +179,7 @@ public class LuteceFilter implements Comparable<LuteceFilter>
     {
         return _nOrder;
     }
-    
+
     /**
      * nOrder ==  == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
      * @param nOrder the order
@@ -191,7 +190,7 @@ public class LuteceFilter implements Comparable<LuteceFilter>
     }
 
     /**
-     * 
+     *
      * {@inheritDoc}
      */
     @Override
@@ -201,8 +200,7 @@ public class LuteceFilter implements Comparable<LuteceFilter>
         {
             return 1;
         }
-        
+
         return luteceFilter.getOrder(  ) - this.getOrder(  );
-        
     }
 }

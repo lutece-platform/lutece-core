@@ -33,20 +33,20 @@
  */
 package fr.paris.lutece.portal.business.prefs;
 
+
 /**
  * User Preferences DAO
  */
 public class AdminUserPreferencesDAO extends AbstractUserPreferencesDAO
 {
-    private static final String TABLE_PREFERENCES = "core_admin_user_preferences"; 
+    private static final String TABLE_PREFERENCES = "core_admin_user_preferences";
 
     /**
      * {@inheritDoc }
      */
     @Override
-    String getPreferencesTable()
+    String getPreferencesTable(  )
     {
         return TABLE_PREFERENCES;
     }
-    
 }

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.resource;
 
+
 /**
  *
  * This interface represents the resource that are eligible to
@@ -41,24 +42,24 @@ package fr.paris.lutece.portal.service.resource;
  */
 public interface IExtendableResource
 {
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
-	String getIdExtendableResource(  );
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
+    String getIdExtendableResource(  );
 
-	/**
-	 * Gets the resource type.
-	 *
-	 * @return the resource type
-	 */
-	String getExtendableResourceType(  );
+    /**
+     * Gets the resource type.
+     *
+     * @return the resource type
+     */
+    String getExtendableResourceType(  );
 
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	String getExtendableResourceName(  );
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
+    String getExtendableResourceName(  );
 }

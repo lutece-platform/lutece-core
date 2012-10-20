@@ -31,29 +31,25 @@
  *
  * License 1.0
  */
- 
 package fr.paris.lutece.portal.business.datastore;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
-import java.util.List;
 
+import java.util.List;
 
 
 /**
  * This class provides instances management methods (create, find, ...) for Entity objects
  */
-
 public final class DataEntityHome
 {
     // Static variable pointed at the DAO instance
     private static final String BEAN_DAO = "dataEntityDAO";
-    private static IDataEntityDAO _dao = ( IDataEntityDAO ) SpringContextService.getBean( BEAN_DAO );
-
+    private static IDataEntityDAO _dao = (IDataEntityDAO) SpringContextService.getBean( BEAN_DAO );
 
     /**
      * Private constructor - this class need not be instantiated
      */
-
     private DataEntityHome(  )
     {
     }
@@ -63,7 +59,6 @@ public final class DataEntityHome
      * @param entity The instance of the Entity which contains the informations to store
      * @return The  instance of entity which has been created with its primary key.
      */
-
     public static DataEntity create( DataEntity entity )
     {
         _dao.insert( entity );
@@ -71,13 +66,11 @@ public final class DataEntityHome
         return entity;
     }
 
-
     /**
      * Update of the entity data specified in parameter
      * @param entity The instance of the Entity which contains the data to store
      * @return The instance of the  entity which has been updated
      */
-
     public static DataEntity update( DataEntity entity )
     {
         _dao.store( entity );
@@ -85,42 +78,34 @@ public final class DataEntityHome
         return entity;
     }
 
-
     /**
      * Remove the entity whose identifier is specified in parameter
      * @param strKey The entity Id
      */
-
-
     public static void remove( String strKey )
     {
         _dao.delete( strKey );
     }
 
-
     ///////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
-     * Returns an instance of a entity whose identifier is specified in parameter   
+     * Returns an instance of a entity whose identifier is specified in parameter
      * @param strKey The entity primary key
      * @return an instance of Entity
      */
-
     public static DataEntity findByPrimaryKey( String strKey )
     {
         return _dao.load( strKey );
     }
 
-
     /**
      * Load the data of all the entity objects and returns them in form of a collection
      * @return the list which contains the data of all the entity objects
      */
-
-    public static List<DataEntity> findAll()
+    public static List<DataEntity> findAll(  )
     {
-        return _dao.selectEntitiesList( );
+        return _dao.selectEntitiesList(  );
     }
-
 }

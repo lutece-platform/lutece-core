@@ -43,7 +43,6 @@ import java.util.Map;
 public class FilterEntry
 {
     public static final int ORDER_NOT_DEFINED = -1;
-    
     private String _strName;
     private String _strFilterClass;
     private String _strMapping;
@@ -128,9 +127,9 @@ public class FilterEntry
     {
         return _mapInitParameters;
     }
-    
+
     /**
-     * 
+     *
      * Returns the order.
      * {@link #getOrder()} == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
      * @return the order
@@ -139,7 +138,7 @@ public class FilterEntry
     {
         return _nOrder;
     }
-    
+
     /**
      * nOrder ==  == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
      * @param nOrder the order

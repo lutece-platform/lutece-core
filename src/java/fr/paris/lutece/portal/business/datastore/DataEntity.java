@@ -46,22 +46,21 @@ public class DataEntity
     /**
      * Constructor
      */
-    public DataEntity()
+    public DataEntity(  )
     {
-        
     }
-    
+
     /**
      * Constructor
      * @param strKey The key
      * @param strValue The value
      */
-    public DataEntity( String strKey , String strValue )
+    public DataEntity( String strKey, String strValue )
     {
         _strKey = strKey;
         _strValue = strValue;
     }
-    
+
     /**
      * Returns the Key
      * @return The Key

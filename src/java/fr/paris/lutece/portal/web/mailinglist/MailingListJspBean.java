@@ -130,16 +130,17 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageMailinglists( HttpServletRequest request )
     {
-    	Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         // Build filter
         if ( StringUtils.isBlank( request.getParameter( PARAMETER_SESSION ) ) )
         {
-        	_mailingListFilter = new MailingListFilter(  );
-        	populate( _mailingListFilter, request );
+            _mailingListFilter = new MailingListFilter(  );
+            populate( _mailingListFilter, request );
         }
 
-        List<MailingList> listMailinglists = AdminMailingListService.getUserMailingListsByFilter( getUser(  ), _mailingListFilter );
+        List<MailingList> listMailinglists = AdminMailingListService.getUserMailingListsByFilter( getUser(  ),
+                _mailingListFilter );
 
         // SORT
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
@@ -147,19 +148,19 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         boolean bIsAscSort = true;
 
         if ( StringUtils.isBlank( strSortedAttributeName ) )
-		{
-        	strSortedAttributeName = PARAMETER_NAME;
-		}
+        {
+            strSortedAttributeName = PARAMETER_NAME;
+        }
 
         if ( StringUtils.isNotBlank( strAscSort ) )
         {
-        	bIsAscSort = Boolean.parseBoolean( strAscSort );
+            bIsAscSort = Boolean.parseBoolean( strAscSort );
         }
 
-    	Collections.sort( listMailinglists, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
+        Collections.sort( listMailinglists, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
 
-    	// Paginator
-    	_strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        // Paginator
+        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_MAILINGLIST_PER_PAGE, 50 );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
@@ -169,8 +170,9 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         url.addParameter( Parameters.SORTED_ASC, Boolean.toString( bIsAscSort ) );
         url.addParameter( PARAMETER_SESSION, PARAMETER_SESSION );
 
-    	LocalizedPaginator<MailingList> paginator = new LocalizedPaginator<MailingList>( listMailinglists, _nItemsPerPage,
-                url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale(  ) );
+        LocalizedPaginator<MailingList> paginator = new LocalizedPaginator<MailingList>( listMailinglists,
+                _nItemsPerPage, url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex,
+                request.getLocale(  ) );
 
         model.put( MARK_MAILINGLISTS_LIST, paginator.getPageItems(  ) );
         model.put( MARK_PAGINATOR, paginator );

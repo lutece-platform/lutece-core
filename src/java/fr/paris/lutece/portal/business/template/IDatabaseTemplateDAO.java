@@ -33,14 +33,14 @@
  */
 package fr.paris.lutece.portal.business.template;
 
+
 /**
  * Interface of DAO allowing to manage templates stored in the database
  * @author vbroussard
- * 
+ *
  */
 public interface IDatabaseTemplateDAO
 {
-
     /**
      * Get a template in the database from its key
      * @param strKey The key of the template to get
@@ -54,5 +54,4 @@ public interface IDatabaseTemplateDAO
      * @param strValue The new value of the template
      */
     void updateTemplate( String strKey, String strValue );
-
 }

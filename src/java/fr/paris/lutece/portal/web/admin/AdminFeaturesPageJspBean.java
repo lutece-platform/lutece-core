@@ -46,14 +46,15 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import org.apache.commons.beanutils.BeanUtils;
+
 import java.lang.reflect.InvocationTargetException;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.beanutils.BeanUtils;
 
 
 /**
@@ -93,8 +94,8 @@ public abstract class AdminFeaturesPageJspBean
      * @throws AccessDeniedException Access denied exception
      * @throws PasswordResetException Password reset exception
      */
-    public void init( HttpServletRequest request, String strRight ) throws AccessDeniedException,
-            PasswordResetException
+    public void init( HttpServletRequest request, String strRight )
+        throws AccessDeniedException, PasswordResetException
     {
         _user = AdminUserService.getAdminUser( request );
 
@@ -103,7 +104,8 @@ public abstract class AdminFeaturesPageJspBean
             throw new AccessDeniedException( "User " + _user.getAccessCode(  ) + " does not have " + strRight +
                 " right." );
         }
-        if ( _user.isPasswordReset( ) )
+
+        if ( _user.isPasswordReset(  ) )
         {
             throw new PasswordResetException( PROPERTY_RESET_EXCEPTION_MESSAGE );
         }

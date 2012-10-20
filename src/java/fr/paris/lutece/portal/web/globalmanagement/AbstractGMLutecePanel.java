@@ -49,61 +49,59 @@ public abstract class AbstractGMLutecePanel extends PluginAdminPageJspBean imple
 {
     private static final String HASH_PANEL = "#panel";
     private Locale _locale;
-	private HttpServletRequest _request;
-    
+    private HttpServletRequest _request;
 
     /**
-	 * {@inheritDoc }
-	 */
-	@Override
-	public int getPanelIndex( )
-	{
-		return LutecePanelService.instance( AbstractGMLutecePanel.class ).getIndex( getPanelKey( ) );
-	}
+         * {@inheritDoc }
+         */
+    @Override
+    public int getPanelIndex(  )
+    {
+        return LutecePanelService.instance( AbstractGMLutecePanel.class ).getIndex( getPanelKey(  ) );
+    }
 
-	/**
-	 * {@inheritDoc }
-	 */
-	@Override
-	public void setPanelLocale( Locale locale )
-	{
-		_locale = locale;
-	}
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setPanelLocale( Locale locale )
+    {
+        _locale = locale;
+    }
 
-	/**
-	 * {@inheritDoc }
-	 */
-	@Override
-	public Locale getPanelLocale( )
-	{
-		return _locale;
-	}
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Locale getPanelLocale(  )
+    {
+        return _locale;
+    }
 
-	/**
-	 * {@inheritDoc }
-	 */
-	@Override
-	public void setRequest( HttpServletRequest request )
-	{
-		_request = request;
-	}
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setRequest( HttpServletRequest request )
+    {
+        _request = request;
+    }
 
-	/**
-	 * {@inheritDoc }
-	 */
-	@Override
-	public HttpServletRequest getRequest( )
-	{
-		return _request;
-	}
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public HttpServletRequest getRequest(  )
+    {
+        return _request;
+    }
 
-	/**
-	 * {@inheritDoc }
-	 */
-	@Override
-	public String getHomeUrl( HttpServletRequest request )
-	{
-		return super.getHomeUrl( request ) + HASH_PANEL + getPanelIndex( );
-	}
-    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getHomeUrl( HttpServletRequest request )
+    {
+        return super.getHomeUrl( request ) + HASH_PANEL + getPanelIndex(  );
+    }
 }

@@ -72,53 +72,54 @@ public class FilterServiceTest extends LuteceTestCase
         FilterService instance = FilterService.getInstance(  );
         instance.registerFilter( entry, plugin );
     }
-    
+
     public void testOrder(  ) throws LuteceInitException
     {
         System.out.println( "order" );
-        
-        FilterService.getInstance(  ).getFilters( ).clear(  );
-        
+
+        FilterService.getInstance(  ).getFilters(  ).clear(  );
+
         FilterEntry entry2 = new FilterEntry(  );
         entry2.setName( "filter2" );
         entry2.setFilterClass( "fr.paris.lutece.portal.service.filter.MainFilter" );
         entry2.setMappingUrlPattern( "/jsp/" );
         entry2.setOrder( 2 );
-        
+
         FilterEntry entry1 = new FilterEntry(  );
         entry1.setName( "filter1" );
         entry1.setFilterClass( "fr.paris.lutece.portal.service.filter.MainFilter" );
         entry1.setMappingUrlPattern( "/jsp/" );
         entry1.setOrder( 1 );
-        
+
         FilterEntry entry0 = new FilterEntry(  );
         entry0.setName( "filter0" );
         entry0.setFilterClass( "fr.paris.lutece.portal.service.filter.MainFilter" );
         entry0.setMappingUrlPattern( "/jsp/" );
         entry0.setOrder( 0 );
-        
+
         FilterEntry entry = new FilterEntry(  );
         entry.setName( "filter" );
         entry.setFilterClass( "fr.paris.lutece.portal.service.filter.MainFilter" );
         entry.setMappingUrlPattern( "/jsp/" );
         /// default order
-        
         FilterService.getInstance(  ).registerFilter( entry1, null );
         FilterService.getInstance(  ).registerFilter( entry, null );
         FilterService.getInstance(  ).registerFilter( entry2, null );
         FilterService.getInstance(  ).registerFilter( entry0, null );
-        
-        FilterService.sortFilters( );
-        
-        List<LuteceFilter> listFilters = FilterService.getInstance( ).getFilters( );
-        for(  LuteceFilter filter : listFilters )
+
+        FilterService.sortFilters(  );
+
+        List<LuteceFilter> listFilters = FilterService.getInstance(  ).getFilters(  );
+
+        for ( LuteceFilter filter : listFilters )
         {
-            System.out.println(filter.getName( ));
+            System.out.println( filter.getName(  ) );
         }
-        assertTrue( listFilters.get( 0 ).getName( ).equals( "filter2" ) );
-        assertTrue( listFilters.get( 1 ).getName( ).equals( "filter1" ) );
-        assertTrue( listFilters.get( 2 ).getName( ).equals( "filter0" ) );
-        assertTrue( listFilters.get( 3 ).getName( ).equals( "filter" ) );
+
+        assertTrue( listFilters.get( 0 ).getName(  ).equals( "filter2" ) );
+        assertTrue( listFilters.get( 1 ).getName(  ).equals( "filter1" ) );
+        assertTrue( listFilters.get( 2 ).getName(  ).equals( "filter0" ) );
+        assertTrue( listFilters.get( 3 ).getName(  ).equals( "filter" ) );
     }
 
     /**

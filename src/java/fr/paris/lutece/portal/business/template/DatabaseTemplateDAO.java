@@ -41,11 +41,10 @@ import org.apache.commons.lang.StringUtils;
 /**
  * Implementation of interface IDatabaseTemplateDAO
  * @author vbroussard
- * 
+ *
  */
 public class DatabaseTemplateDAO implements IDatabaseTemplateDAO
 {
-
     private static final String SQL_QUERY_SELECT_TEMPLATE_FROM_KEY = "SELECT template_value FROM core_template WHERE template_name = ? ";
     private static final String SQL_UPDATE_TEMPLATE = "UPDATE core_template SET template_value = ?  WHERE template_name = ? ";
 
@@ -57,13 +56,14 @@ public class DatabaseTemplateDAO implements IDatabaseTemplateDAO
 
         String strTemplate = StringUtils.EMPTY;
 
-        daoUtil.executeQuery( );
-        if ( daoUtil.next( ) )
+        daoUtil.executeQuery(  );
+
+        if ( daoUtil.next(  ) )
         {
             strTemplate = daoUtil.getString( 1 );
         }
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return strTemplate;
     }
@@ -75,9 +75,8 @@ public class DatabaseTemplateDAO implements IDatabaseTemplateDAO
         daoUtil.setString( 1, strValue );
         daoUtil.setString( 2, strKey );
 
-        daoUtil.executeUpdate( );
+        daoUtil.executeUpdate(  );
 
-        daoUtil.free( );
+        daoUtil.free(  );
     }
-
 }

@@ -47,89 +47,92 @@ import java.util.List;
  */
 public class LutecePanelService<T extends LutecePanel>
 {
+    private static List<LutecePanelService<?extends LutecePanel>> _listSingletons = new ArrayList<LutecePanelService<?extends LutecePanel>>(  );
+    private List<T> _listPanels;
+    private Class<T> _genericTypeClass;
 
-	private static List<LutecePanelService<? extends LutecePanel>> _listSingletons = new ArrayList<LutecePanelService<? extends LutecePanel>>( );
-	private List<T> _listPanels;
-	private Class<T> _genericTypeClass;
+    private LutecePanelService(  )
+    {
+    }
 
-	private Class<T> getGenericTypeClass( )
-	{
-		return _genericTypeClass;
-	}
+    private LutecePanelService( Class<T> clazz )
+    {
+        _listPanels = SpringContextService.getBeansOfType( clazz );
+        Collections.sort( _listPanels, new PanelComparator(  ) );
+        _genericTypeClass = clazz;
+    }
 
-	private LutecePanelService( )
-	{
-	}
+    private Class<T> getGenericTypeClass(  )
+    {
+        return _genericTypeClass;
+    }
 
-	private LutecePanelService( Class<T> clazz )
-	{
-		_listPanels = SpringContextService.getBeansOfType( clazz );
-		Collections.sort( _listPanels, new PanelComparator( ) );
-		_genericTypeClass = clazz;
-	}
+    /**
+     * Get the instance of a PanelService for a given type.
+     * @param <A> Specialized type of the PanelService
+     * @param clazz Class associated to the type A.
+     * @return The instance of the PanelService with the generic type A. This instance is unique.
+     */
+    @SuppressWarnings( "unchecked" )
+    public static synchronized <A extends LutecePanel> LutecePanelService<A> instance( Class<A> clazz )
+    {
+        for ( LutecePanelService<?extends LutecePanel> storedPanelService : _listSingletons )
+        {
+            if ( storedPanelService.getGenericTypeClass(  ).equals( clazz ) )
+            {
+                return (LutecePanelService<A>) storedPanelService;
+            }
+        }
 
-	/**
-	 * Get the instance of a PanelService for a given type.
-	 * @param <A> Specialized type of the PanelService
-	 * @param clazz Class associated to the type A.
-	 * @return The instance of the PanelService with the generic type A. This instance is unique.
-	 */
-	@SuppressWarnings( "unchecked" )
-	public static synchronized <A extends LutecePanel> LutecePanelService<A> instance( Class<A> clazz )
-	{
-		for ( LutecePanelService<? extends LutecePanel> storedPanelService : _listSingletons )
-		{
-			if ( storedPanelService.getGenericTypeClass( ).equals( clazz ) )
-			{
-				return ( LutecePanelService<A> ) storedPanelService;
-			}
-		}
-		LutecePanelService<A> panelService = new LutecePanelService<A>( clazz );
-		_listSingletons.add( panelService );
-		return panelService;
-	}
+        LutecePanelService<A> panelService = new LutecePanelService<A>( clazz );
+        _listSingletons.add( panelService );
 
-	/**
-	 * PanelComparator
-	 */
-	private class PanelComparator implements Comparator<T>
-	{
+        return panelService;
+    }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public int compare( T p1, T p2 )
-		{
-			return p1.getPanelOrder( ) - p2.getPanelOrder( );
-		}
-	}
+    /**
+     * Get the index of a panel from its key
+     * @param strPanelKey Key of the panel to get the index.
+     * @return The index of the panel with the given key, or -1 if the panel could not be found.
+     */
+    public int getIndex( String strPanelKey )
+    {
+        int nIndex = 1;
 
-	/**
-	 * Get the index of a panel from its key
-	 * @param strPanelKey Key of the panel to get the index.
-	 * @return The index of the panel with the given key, or -1 if the panel could not be found.
-	 */
-	public int getIndex( String strPanelKey )
-	{
-		int nIndex = 1;
-		for ( LutecePanel panel : getPanels( ) )
-		{
-			if ( panel.getPanelKey( ).equals( strPanelKey ) )
-			{
-				return nIndex;
-			}
-			nIndex++;
-		}
-		return -1;
-	}
+        for ( LutecePanel panel : getPanels(  ) )
+        {
+            if ( panel.getPanelKey(  ).equals( strPanelKey ) )
+            {
+                return nIndex;
+            }
 
-	/**
-	 * Get the list of panels associated to this PanelService. One panel is used for every class extending the class T.
-	 * @return The list of panels associated to this PanelService.
-	 */
-	public List<T> getPanels( )
-	{
-		return _listPanels;
-	}
+            nIndex++;
+        }
+
+        return -1;
+    }
+
+    /**
+     * Get the list of panels associated to this PanelService. One panel is used for every class extending the class T.
+     * @return The list of panels associated to this PanelService.
+     */
+    public List<T> getPanels(  )
+    {
+        return _listPanels;
+    }
+
+    /**
+     * PanelComparator
+     */
+    private class PanelComparator implements Comparator<T>
+    {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int compare( T p1, T p2 )
+        {
+            return p1.getPanelOrder(  ) - p2.getPanelOrder(  );
+        }
+    }
 }

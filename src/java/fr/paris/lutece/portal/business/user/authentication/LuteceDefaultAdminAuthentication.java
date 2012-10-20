@@ -42,6 +42,7 @@ import java.util.Collection;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
+
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -50,217 +51,222 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class LuteceDefaultAdminAuthentication implements AdminAuthentication
 {
-	private static final String CONSTANT_LOST_PASSWORD_URL = "jsp/admin/AdminForgotPassword.jsp";
-	private static final String CONSTANT_LOST_LOGIN_URL = "jsp/admin/AdminForgotLogin.jsp";
-	private static final String PROPERTY_MAX_ACCESS_FAILED = "access_failures_max";
-	private static final String PROPERTY_INTERVAL_MINUTES = "access_failures_interval";
-	private ILuteceDefaultAdminUserDAO _dao;
+    private static final String CONSTANT_LOST_PASSWORD_URL = "jsp/admin/AdminForgotPassword.jsp";
+    private static final String CONSTANT_LOST_LOGIN_URL = "jsp/admin/AdminForgotLogin.jsp";
+    private static final String PROPERTY_MAX_ACCESS_FAILED = "access_failures_max";
+    private static final String PROPERTY_INTERVAL_MINUTES = "access_failures_interval";
+    private ILuteceDefaultAdminUserDAO _dao;
 
-	/**
-	 * Setter used by Spring IoC
-	 * @param dao The DAO (defined in the Spring context)
-	 */
-	public void setDao( ILuteceDefaultAdminUserDAO dao )
-	{
-		_dao = dao;
-	}
+    /**
+     * Setter used by Spring IoC
+     * @param dao The DAO (defined in the Spring context)
+     */
+    public void setDao( ILuteceDefaultAdminUserDAO dao )
+    {
+        _dao = dao;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getAuthServiceName( )
-	{
-		return "LUTECE DEFAULT AUTHENTICATION";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getAuthServiceName(  )
+    {
+        return "LUTECE DEFAULT AUTHENTICATION";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getAuthType( HttpServletRequest request )
-	{
-		return HttpServletRequest.BASIC_AUTH;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getAuthType( HttpServletRequest request )
+    {
+        return HttpServletRequest.BASIC_AUTH;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public AdminUser login( String strAccessCode, String strUserPassword, HttpServletRequest request ) throws LoginException
-	{
-		// Creating a record of connections log
-		UserLog userLog = new UserLog( );
-		userLog.setAccessCode( strAccessCode );
-		userLog.setIpAddress( request.getRemoteAddr( ) );
-		userLog.setDateLogin( new java.sql.Timestamp( new java.util.Date( ).getTime( ) ) );
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AdminUser login( String strAccessCode, String strUserPassword, HttpServletRequest request )
+        throws LoginException
+    {
+        // Creating a record of connections log
+        UserLog userLog = new UserLog(  );
+        userLog.setAccessCode( strAccessCode );
+        userLog.setIpAddress( request.getRemoteAddr(  ) );
+        userLog.setDateLogin( new java.sql.Timestamp( new java.util.Date(  ).getTime(  ) ) );
 
-		// Test the number of errors during an interval of minutes
-		int nMaxFailed = AdminUserService.getIntegerSecurityParameter( PROPERTY_MAX_ACCESS_FAILED );
-		int nIntervalMinutes = AdminUserService.getIntegerSecurityParameter( PROPERTY_INTERVAL_MINUTES );
+        // Test the number of errors during an interval of minutes
+        int nMaxFailed = AdminUserService.getIntegerSecurityParameter( PROPERTY_MAX_ACCESS_FAILED );
+        int nIntervalMinutes = AdminUserService.getIntegerSecurityParameter( PROPERTY_INTERVAL_MINUTES );
 
-		if ( nMaxFailed > 0 && nIntervalMinutes > 0 )
-		{
-			int nNbFailed = UserLogHome.getLoginErrors( userLog, nIntervalMinutes );
+        if ( ( nMaxFailed > 0 ) && ( nIntervalMinutes > 0 ) )
+        {
+            int nNbFailed = UserLogHome.getLoginErrors( userLog, nIntervalMinutes );
 
-			if ( nNbFailed > nMaxFailed )
-			{
-				throw new FailedLoginException( );
-			}
-		}
-		int nUserCode = _dao.checkPassword( strAccessCode, strUserPassword );
+            if ( nNbFailed > nMaxFailed )
+            {
+                throw new FailedLoginException(  );
+            }
+        }
 
-		if ( nUserCode != LuteceDefaultAdminUserDAO.USER_OK )
-		{
-			throw new FailedLoginException( );
-		}
+        int nUserCode = _dao.checkPassword( strAccessCode, strUserPassword );
 
-		LuteceDefaultAdminUser user = _dao.load( strAccessCode, this );
+        if ( nUserCode != LuteceDefaultAdminUserDAO.USER_OK )
+        {
+            throw new FailedLoginException(  );
+        }
 
-		if ( user.getPasswordMaxValidDate( ) != null && user.getPasswordMaxValidDate( ).getTime( ) < new java.util.Date( ).getTime( ) )
-		{
-			_dao.updateResetPassword( user, Boolean.TRUE );
-		}
-		AdminUserService.updateUserExpirationDate( user );
-		return user;
-	}
+        LuteceDefaultAdminUser user = _dao.load( strAccessCode, this );
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void logout( AdminUser user )
-	{
-		// TODO Auto-generated method stub
-	}
+        if ( ( user.getPasswordMaxValidDate(  ) != null ) &&
+                ( user.getPasswordMaxValidDate(  ).getTime(  ) < new java.util.Date(  ).getTime(  ) ) )
+        {
+            _dao.updateResetPassword( user, Boolean.TRUE );
+        }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public AdminUser getAnonymousUser( )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+        AdminUserService.updateUserExpirationDate( user );
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean isExternalAuthentication( )
-	{
-		return false;
-	}
+        return user;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public AdminUser getHttpAuthenticatedUser( HttpServletRequest request )
-	{
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void logout( AdminUser user )
+    {
+        // TODO Auto-generated method stub
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getLoginPageUrl( )
-	{
-		return "jsp/admin/AdminLogin.jsp";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AdminUser getAnonymousUser(  )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getChangePasswordPageUrl( )
-	{
-		return "jsp/admin/user/ModifyDefaultUserPassword.jsp";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isExternalAuthentication(  )
+    {
+        return false;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getDoLoginUrl( )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AdminUser getHttpAuthenticatedUser( HttpServletRequest request )
+    {
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getDoLogoutUrl( )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getLoginPageUrl(  )
+    {
+        return "jsp/admin/AdminLogin.jsp";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getNewAccountPageUrl( )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getChangePasswordPageUrl(  )
+    {
+        return "jsp/admin/user/ModifyDefaultUserPassword.jsp";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getViewAccountPageUrl( )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDoLoginUrl(  )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getLostPasswordPageUrl( )
-	{
-		return CONSTANT_LOST_PASSWORD_URL;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDoLogoutUrl(  )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getLostLoginPageUrl( )
-	{
-		return CONSTANT_LOST_LOGIN_URL;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getNewAccountPageUrl(  )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/**
-	 * Not used - Return null always for this module
-	 * @param strLastName The last name
-	 * @param strFirstName The first name
-	 * @param strEmail The email
-	 * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getUserList()
-	 * @return null
-	 */
-	@Override
-	public Collection<AdminUser> getUserList( String strLastName, String strFirstName, String strEmail )
-	{
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getViewAccountPageUrl(  )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/**
-	 * Not used - Return null always for this module
-	 * @param strLogin The login
-	 * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getUserPublicData(java.lang.String)
-	 * @return null
-	 */
-	@Override
-	public AdminUser getUserPublicData( String strLogin )
-	{
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getLostPasswordPageUrl(  )
+    {
+        return CONSTANT_LOST_PASSWORD_URL;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getLostLoginPageUrl(  )
+    {
+        return CONSTANT_LOST_LOGIN_URL;
+    }
+
+    /**
+     * Not used - Return null always for this module
+     * @param strLastName The last name
+     * @param strFirstName The first name
+     * @param strEmail The email
+     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getUserList()
+     * @return null
+     */
+    @Override
+    public Collection<AdminUser> getUserList( String strLastName, String strFirstName, String strEmail )
+    {
+        return null;
+    }
+
+    /**
+     * Not used - Return null always for this module
+     * @param strLogin The login
+     * @see fr.paris.lutece.portal.business.user.authentication.AdminAuthentication#getUserPublicData(java.lang.String)
+     * @return null
+     */
+    @Override
+    public AdminUser getUserPublicData( String strLogin )
+    {
+        return null;
+    }
 }

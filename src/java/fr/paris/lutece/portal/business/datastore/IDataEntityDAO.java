@@ -67,11 +67,11 @@ public interface IDataEntityDAO
      * @param strKey The identifier of the property
      * @return The instance of the property
      */
-    DataEntity load( String strKey);
+    DataEntity load( String strKey );
 
     /**
      * Load the data of all entities and returns them as a List
      * @return The List which contains the data of all the property objects
      */
-    List<DataEntity> selectEntitiesList();
+    List<DataEntity> selectEntitiesList(  );
 }

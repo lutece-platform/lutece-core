@@ -39,9 +39,9 @@ import fr.paris.lutece.portal.service.rbac.ResourceType;
 import fr.paris.lutece.portal.service.rbac.ResourceTypeManager;
 import fr.paris.lutece.util.ReferenceList;
 
-import java.util.Locale;
-
 import org.apache.commons.lang.StringUtils;
+
+import java.util.Locale;
 
 
 /**
@@ -49,9 +49,9 @@ import org.apache.commons.lang.StringUtils;
  */
 public class GlobalManagementResourceIdService extends ResourceIdService
 {
-	public static final String PERMISSION_MANAGE_EDITORS = "MANAGE_EDITORS";
-	private static final String PROPERTY_LABEL_RESOURCE_TYPE = "portal.global_management.globalManagementService.ressourceType";
-	private static final String PROPERTY_LABEL_MANAGE_EDITORS = "portal.global_management.globalManagementService.labelLanageEditors";
+    public static final String PERMISSION_MANAGE_EDITORS = "MANAGE_EDITORS";
+    private static final String PROPERTY_LABEL_RESOURCE_TYPE = "portal.global_management.globalManagementService.ressourceType";
+    private static final String PROPERTY_LABEL_MANAGE_EDITORS = "portal.global_management.globalManagementService.labelLanageEditors";
 
     /**
      * Initializes the service
@@ -60,32 +60,32 @@ public class GlobalManagementResourceIdService extends ResourceIdService
     {
         ResourceType rt = new ResourceType(  );
         rt.setResourceIdServiceClass( GlobalManagementResourceIdService.class.getName(  ) );
-		rt.setResourceTypeKey( GlobalManagementService.RESOURCE_TYPE );
+        rt.setResourceTypeKey( GlobalManagementService.RESOURCE_TYPE );
         rt.setResourceTypeLabelKey( PROPERTY_LABEL_RESOURCE_TYPE );
 
         Permission p = new Permission(  );
-		p.setPermissionKey( PERMISSION_MANAGE_EDITORS );
-		p.setPermissionTitleKey( PROPERTY_LABEL_MANAGE_EDITORS );
+        p.setPermissionKey( PERMISSION_MANAGE_EDITORS );
+        p.setPermissionTitleKey( PROPERTY_LABEL_MANAGE_EDITORS );
         rt.registerPermission( p );
 
         ResourceTypeManager.registerResourceType( rt );
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ReferenceList getResourceIdList( Locale locale )
     {
         return null;
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-	public String getTitle( String strId, Locale locale )
+    public String getTitle( String strId, Locale locale )
     {
-		return StringUtils.EMPTY;
+        return StringUtils.EMPTY;
     }
 }

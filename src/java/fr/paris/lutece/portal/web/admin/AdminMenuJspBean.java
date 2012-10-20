@@ -58,6 +58,8 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -66,8 +68,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -110,7 +110,6 @@ public class AdminMenuJspBean
     // Jsp
     private static final String PROPERTY_JSP_URL_ADMIN_MENU = "lutece.admin.menu.url";
     private static final String PROPERTY_JSP_URL_ADMIN_LOGOUT = "lutece.admin.logout.url";
-
     private static final String MESSAGE_CONTROL_PASSWORD_NO_CORRESPONDING = "portal.users.message.password.confirm.error";
     private static final String PASSWORD_ERROR = "portal.users.message.password.wrong.current";
     private static final String PASSWORD_CURRENT_ERROR = "portal.users.message.password.new.equals.current";
@@ -136,10 +135,11 @@ public class AdminMenuJspBean
         model.put( MARK_SITE_NAME, strSiteName );
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
         model.put( MARK_ADMIN_URL,
-                AppPathService.getBaseUrl( request ) + AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_MENU ) );
+            AppPathService.getBaseUrl( request ) + AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_MENU ) );
         model.put( MARK_USER, user );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
         model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage(  ) );
+
         String strLogoutUrl = AppPropertiesService.getProperty( PROPERTY_LOGOUT_URL );
         model.put( MARK_ADMIN_LOGOUT_URL, ( strLogoutUrl == null ) ? "" : strLogoutUrl );
 
@@ -432,8 +432,9 @@ public class AdminMenuJspBean
                 AdminMessage.TYPE_STOP );
         }
 
-        String strUrl = AdminUserService.checkPassword( request, strNewPassword, user.getUserId( ) );
-        if ( strUrl != null && !StringUtils.isEmpty( strUrl ) )
+        String strUrl = AdminUserService.checkPassword( request, strNewPassword, user.getUserId(  ) );
+
+        if ( ( strUrl != null ) && !StringUtils.isEmpty( strUrl ) )
         {
             return strUrl;
         }
@@ -457,13 +458,12 @@ public class AdminMenuJspBean
         // Successful tests
         userStored.setPassword( strNewPassword );
         userStored.setPasswordReset( Boolean.FALSE );
-        userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
+        userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate(  ) );
         AdminUserHome.update( userStored );
-        AdminUserHome.insertNewPasswordInHistory( strNewPassword, userStored.getUserId( ) );
+        AdminUserHome.insertNewPasswordInHistory( strNewPassword, userStored.getUserId(  ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_PASSWORD_REDIRECT,
-                AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_LOGOUT ),
-            AdminMessage.TYPE_INFO );
+            AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_LOGOUT ), AdminMessage.TYPE_INFO );
     }
 
     /**

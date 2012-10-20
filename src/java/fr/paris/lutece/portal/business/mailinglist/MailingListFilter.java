@@ -39,6 +39,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
 
+
 /**
  *
  * MailingListFilter
@@ -46,16 +47,15 @@ import java.io.Serializable;
  */
 public class MailingListFilter implements Serializable
 {
-	private static final long serialVersionUID = -2176789297248798592L;
-	private static final String SQL_FILTER_NAME = " name LIKE ? ";
+    private static final long serialVersionUID = -2176789297248798592L;
+    private static final String SQL_FILTER_NAME = " name LIKE ? ";
     private static final String SQL_FILTER_DESCRIPTION = " description LIKE ? ";
     private static final String SQL_FILTER_WORKGROUP = " workgroup = ? ";
-	private static final String SQL_WHERE = " WHERE ";
+    private static final String SQL_WHERE = " WHERE ";
     private static final String SQL_AND = " AND ";
     private static final String SQL_OR = " OR ";
     private static final String PERCENT = "%";
-
-	private String _strName;
+    private String _strName;
     private String _strDescription;
     private String _strWorkgroup;
     private boolean _bIsWideSearch;
@@ -74,10 +74,10 @@ public class MailingListFilter implements Serializable
      */
     public MailingListFilter( MailingListFilter filter )
     {
-    	_strName = filter.getName(  );
-    	_strDescription = filter.getDescription(  );
-    	_strWorkgroup = filter.getWorkgroup(  );
-    	_bIsWideSearch = filter.isWideSearch(  );
+        _strName = filter.getName(  );
+        _strDescription = filter.getDescription(  );
+        _strWorkgroup = filter.getWorkgroup(  );
+        _bIsWideSearch = filter.isWideSearch(  );
     }
 
     /**
@@ -107,7 +107,7 @@ public class MailingListFilter implements Serializable
      */
     public boolean containsName(  )
     {
-    	return StringUtils.isNotBlank( _strName );
+        return StringUtils.isNotBlank( _strName );
     }
 
     /**
@@ -137,7 +137,7 @@ public class MailingListFilter implements Serializable
      */
     public boolean containsDescription(  )
     {
-    	return StringUtils.isNotBlank( _strDescription );
+        return StringUtils.isNotBlank( _strDescription );
     }
 
     /**
@@ -167,115 +167,115 @@ public class MailingListFilter implements Serializable
      */
     public boolean containsWorkgroup(  )
     {
-    	return StringUtils.isNotBlank( _strWorkgroup );
+        return StringUtils.isNotBlank( _strWorkgroup );
     }
 
     /**
      * Set true if the search is wide, false otherwise
      * @param isWideSearch true if the search is wide, false otherwise
      */
-     public void setWideSearch( boolean isWideSearch )
-     {
-         _bIsWideSearch = isWideSearch;
-     }
+    public void setWideSearch( boolean isWideSearch )
+    {
+        _bIsWideSearch = isWideSearch;
+    }
 
-     /**
-      * Return true if the search is wide, false otherwise
-      * @return true if the search is wide, false otherwise
-      */
-     public boolean isWideSearch(  )
-     {
-         return _bIsWideSearch;
-     }
+    /**
+     * Return true if the search is wide, false otherwise
+     * @return true if the search is wide, false otherwise
+     */
+    public boolean isWideSearch(  )
+    {
+        return _bIsWideSearch;
+    }
 
-     /**
-      * Builds the sql query.
-      *
-      * @param strSQL the str sql
-      * @return the string
-      */
-     public String buildSQLQuery( String strSQL )
-     {
-         StringBuilder sbSQL = new StringBuilder( strSQL );
-         int nIndex = 1;
+    /**
+     * Builds the sql query.
+     *
+     * @param strSQL the str sql
+     * @return the string
+     */
+    public String buildSQLQuery( String strSQL )
+    {
+        StringBuilder sbSQL = new StringBuilder( strSQL );
+        int nIndex = 1;
 
-         nIndex = buildFilter( sbSQL, containsName(  ), SQL_FILTER_NAME, nIndex );
-         nIndex = buildFilter( sbSQL, containsDescription(  ), SQL_FILTER_DESCRIPTION, nIndex );
-         buildFilter( sbSQL, containsWorkgroup(  ), SQL_FILTER_WORKGROUP, nIndex );
+        nIndex = buildFilter( sbSQL, containsName(  ), SQL_FILTER_NAME, nIndex );
+        nIndex = buildFilter( sbSQL, containsDescription(  ), SQL_FILTER_DESCRIPTION, nIndex );
+        buildFilter( sbSQL, containsWorkgroup(  ), SQL_FILTER_WORKGROUP, nIndex );
 
-         return sbSQL.toString(  );
-     }
+        return sbSQL.toString(  );
+    }
 
-     /**
-      * Sets the filter values.
-      *
-      * @param daoUtil the new filter values
-      */
-     public void setFilterValues( DAOUtil daoUtil )
-     {
-         int nIndex = 1;
+    /**
+     * Sets the filter values.
+     *
+     * @param daoUtil the new filter values
+     */
+    public void setFilterValues( DAOUtil daoUtil )
+    {
+        int nIndex = 1;
 
-         if ( containsName(  ) )
-         {
-             daoUtil.setString( nIndex++, PERCENT + getName(  ) + PERCENT );
-         }
+        if ( containsName(  ) )
+        {
+            daoUtil.setString( nIndex++, PERCENT + getName(  ) + PERCENT );
+        }
 
-         if ( containsDescription(  ) )
-         {
-             daoUtil.setString( nIndex++, PERCENT + getDescription(  ) + PERCENT );
-         }
+        if ( containsDescription(  ) )
+        {
+            daoUtil.setString( nIndex++, PERCENT + getDescription(  ) + PERCENT );
+        }
 
-         if ( containsWorkgroup(  ) )
-         {
-        	 daoUtil.setString( nIndex, getWorkgroup(  ) );
-         }
-     }
+        if ( containsWorkgroup(  ) )
+        {
+            daoUtil.setString( nIndex, getWorkgroup(  ) );
+        }
+    }
 
-     /**
-      * Builds the filter.
-      *
-      * @param sbSQL the sb sql
-      * @param bAddFilter the b add filter
-      * @param strSQL the str sql
-      * @param nIndex the n index
-      * @return the int
-      */
-     private int buildFilter( StringBuilder sbSQL, boolean bAddFilter, String strSQL, int nIndex )
-     {
-         int nIndexTmp = nIndex;
+    /**
+     * Builds the filter.
+     *
+     * @param sbSQL the sb sql
+     * @param bAddFilter the b add filter
+     * @param strSQL the str sql
+     * @param nIndex the n index
+     * @return the int
+     */
+    private int buildFilter( StringBuilder sbSQL, boolean bAddFilter, String strSQL, int nIndex )
+    {
+        int nIndexTmp = nIndex;
 
-         if ( bAddFilter )
-         {
-             nIndexTmp = addSQLWhereOr( isWideSearch(  ), sbSQL, nIndex );
-             sbSQL.append( strSQL );
-         }
+        if ( bAddFilter )
+        {
+            nIndexTmp = addSQLWhereOr( isWideSearch(  ), sbSQL, nIndex );
+            sbSQL.append( strSQL );
+        }
 
-         return nIndexTmp;
-     }
+        return nIndexTmp;
+    }
 
-     /**
-      * Add a <b>WHERE</b> or a <b>OR</b> depending of the index.
-      * <br/>
-      * <ul>
-      * <li>if <code>nIndex</code> == 1, then we add a <b>WHERE</b></li>
-      * <li>if <code>nIndex</code> != 1, then we add a <b>OR</b> or a <b>AND</b> depending of the wide search characteristic</li>
-      * </ul>
-      * @param bIsWideSearch true if it is a wide search, false otherwise
-      * @param sbSQL the SQL query
-      * @param nIndex the index
-      * @return the new index
-      */
-     private int addSQLWhereOr( boolean bIsWideSearch, StringBuilder sbSQL, int nIndex )
-     {
-         if ( nIndex == 1 )
-         {
-             sbSQL.append( SQL_WHERE );
-         }
-         else
-         {
-             sbSQL.append( bIsWideSearch ? SQL_OR : SQL_AND );
-         }
+    /**
+     * Add a <b>WHERE</b> or a <b>OR</b> depending of the index.
+     * <br/>
+     * <ul>
+     * <li>if <code>nIndex</code> == 1, then we add a <b>WHERE</b></li>
+     * <li>if <code>nIndex</code> != 1, then we add a <b>OR</b> or a <b>AND</b> depending of the wide search characteristic</li>
+     * </ul>
+     * @param bIsWideSearch true if it is a wide search, false otherwise
+     * @param sbSQL the SQL query
+     * @param nIndex the index
+     * @return the new index
+     */
+    private int addSQLWhereOr( boolean bIsWideSearch, StringBuilder sbSQL, int nIndex )
+    {
+        if ( nIndex == 1 )
+        {
+            sbSQL.append( SQL_WHERE );
+        }
+        else
+        {
+            sbSQL.append( bIsWideSearch ? SQL_OR : SQL_AND );
+        }
 
-         return nIndex + 1;
-     }
+        return nIndex + 1;
+    }
 }

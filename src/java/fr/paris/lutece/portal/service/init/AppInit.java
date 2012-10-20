@@ -59,10 +59,11 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.io.FileInputStream;
 import java.io.FileWriter;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -182,8 +183,8 @@ public final class AppInit
             ContentPostProcessorService.init(  );
 
             _bInitSuccessfull = true;
-            
-            logStartupTime();
+
+            logStartupTime(  );
         }
         catch ( LuteceInitException e )
         {
@@ -280,11 +281,10 @@ public final class AppInit
             }
         }
     }
-    
-    private static void logStartupTime()
+
+    private static void logStartupTime(  )
     {
-        String strStartupTime = SimpleDateFormat.getDateTimeInstance().format( new Date() );
-        DatastoreService.setDataValue( CoreDataKeys.KEY_STARTUP_TIME, strStartupTime);
-    
+        String strStartupTime = SimpleDateFormat.getDateTimeInstance(  ).format( new Date(  ) );
+        DatastoreService.setDataValue( CoreDataKeys.KEY_STARTUP_TIME, strStartupTime );
     }
 }

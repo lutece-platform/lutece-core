@@ -49,71 +49,73 @@ import java.util.Locale;
  */
 public class XslExportResourceIdService extends ResourceIdService
 {
-	public static final String PERMISSION_CREATE = "CREATE_XSL_EXPORT";
-	public static final String PERMISSION_DELETE = "DELETE_XSL_EXPORT";
-	public static final String PERMISSION_MODIFY = "MODIFY_XSL_EXPORT";
-	private static final String PROPERTY_LABEL_RESOURCE_TYPE = "portal.xsl.permission.label.resource_type_xsl_export";
-	private static final String PROPERTY_LABEL_CREATE = "portal.xsl.permission.label.create_xsl_export";
-	private static final String PROPERTY_LABEL_DELETE = "portal.xsl.permission.label.delete_xsl_export";
-	private static final String PROPERTY_LABEL_MODIFY = "portal.xsl.permission.label.modify_xsl_export";
+    public static final String PERMISSION_CREATE = "CREATE_XSL_EXPORT";
+    public static final String PERMISSION_DELETE = "DELETE_XSL_EXPORT";
+    public static final String PERMISSION_MODIFY = "MODIFY_XSL_EXPORT";
+    private static final String PROPERTY_LABEL_RESOURCE_TYPE = "portal.xsl.permission.label.resource_type_xsl_export";
+    private static final String PROPERTY_LABEL_CREATE = "portal.xsl.permission.label.create_xsl_export";
+    private static final String PROPERTY_LABEL_DELETE = "portal.xsl.permission.label.delete_xsl_export";
+    private static final String PROPERTY_LABEL_MODIFY = "portal.xsl.permission.label.modify_xsl_export";
 
-	/**
-	 * Initializes the service
-	 */
-	public void register( )
-	{
-		ResourceType rt = new ResourceType( );
-		rt.setResourceIdServiceClass( XslExportResourceIdService.class.getName( ) );
-		rt.setResourceTypeKey( XslExport.RESOURCE_TYPE );
-		rt.setResourceTypeLabelKey( PROPERTY_LABEL_RESOURCE_TYPE );
+    /**
+     * Initializes the service
+     */
+    public void register(  )
+    {
+        ResourceType rt = new ResourceType(  );
+        rt.setResourceIdServiceClass( XslExportResourceIdService.class.getName(  ) );
+        rt.setResourceTypeKey( XslExport.RESOURCE_TYPE );
+        rt.setResourceTypeLabelKey( PROPERTY_LABEL_RESOURCE_TYPE );
 
-		Permission p = new Permission( );
-		p.setPermissionKey( PERMISSION_CREATE );
-		p.setPermissionTitleKey( PROPERTY_LABEL_CREATE );
-		rt.registerPermission( p );
+        Permission p = new Permission(  );
+        p.setPermissionKey( PERMISSION_CREATE );
+        p.setPermissionTitleKey( PROPERTY_LABEL_CREATE );
+        rt.registerPermission( p );
 
-		p = new Permission( );
-		p.setPermissionKey( PERMISSION_MODIFY );
-		p.setPermissionTitleKey( PROPERTY_LABEL_MODIFY );
-		rt.registerPermission( p );
+        p = new Permission(  );
+        p.setPermissionKey( PERMISSION_MODIFY );
+        p.setPermissionTitleKey( PROPERTY_LABEL_MODIFY );
+        rt.registerPermission( p );
 
-		p = new Permission( );
-		p.setPermissionKey( PERMISSION_DELETE );
-		p.setPermissionTitleKey( PROPERTY_LABEL_DELETE );
-		rt.registerPermission( p );
+        p = new Permission(  );
+        p.setPermissionKey( PERMISSION_DELETE );
+        p.setPermissionTitleKey( PROPERTY_LABEL_DELETE );
+        rt.registerPermission( p );
 
-		ResourceTypeManager.registerResourceType( rt );
-	}
+        ResourceTypeManager.registerResourceType( rt );
+    }
 
-	/**
-	 * Returns a list of resource ids
-	 * @param locale The current locale
-	 * @return A list of resource ids
-	 */
-	public ReferenceList getResourceIdList( Locale locale )
-	{
-		return null;
-	}
+    /**
+     * Returns a list of resource ids
+     * @param locale The current locale
+     * @return A list of resource ids
+     */
+    public ReferenceList getResourceIdList( Locale locale )
+    {
+        return null;
+    }
 
-	/**
-	 * Returns the Title of a given resource
-	 * @param strId The Id of the resource
-	 * @param locale The current locale
-	 * @return The Title of a given resource
-	 */
-	public String getTitle( String strId, Locale locale )
-	{
-		int nIdExport;
-		try
-		{
-			nIdExport = Integer.parseInt( strId );
-		}
-		catch ( Exception e )
-		{
-			return null;
-		}
-		XslExport export = XslExportHome.findByPrimaryKey( nIdExport );
+    /**
+     * Returns the Title of a given resource
+     * @param strId The Id of the resource
+     * @param locale The current locale
+     * @return The Title of a given resource
+     */
+    public String getTitle( String strId, Locale locale )
+    {
+        int nIdExport;
 
-		return ( export != null ) ? export.getTitle( ) : null;
-	}
+        try
+        {
+            nIdExport = Integer.parseInt( strId );
+        }
+        catch ( Exception e )
+        {
+            return null;
+        }
+
+        XslExport export = XslExportHome.findByPrimaryKey( nIdExport );
+
+        return ( export != null ) ? export.getTitle(  ) : null;
+    }
 }

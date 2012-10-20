@@ -53,5 +53,5 @@ public interface ContentPostProcessor
      * @param strContent The content to process
      * @return The processed content
      */
-    String process( HttpServletRequest request , String strContent );
+    String process( HttpServletRequest request, String strContent );
 }

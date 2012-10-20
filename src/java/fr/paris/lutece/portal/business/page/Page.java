@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.security.SecurityService;
 
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -420,7 +421,7 @@ public class Page implements RBACResource, IExtendableResource
      * @return The Resource Type Code
      */
     @Override
-	public String getResourceTypeCode(  )
+    public String getResourceTypeCode(  )
     {
         return RESOURCE_TYPE;
     }
@@ -430,7 +431,7 @@ public class Page implements RBACResource, IExtendableResource
      * @return The resource Id of the current object
      */
     @Override
-	public String getResourceId(  )
+    public String getResourceId(  )
     {
         return "" + getId(  );
     }
@@ -489,30 +490,30 @@ public class Page implements RBACResource, IExtendableResource
         return _nIdAuthorizationNode;
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getIdExtendableResource( )
-	{
-		return Integer.toString( _nId );
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getIdExtendableResource(  )
+    {
+        return Integer.toString( _nId );
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getExtendableResourceType( )
-	{
-		return RESOURCE_TYPE;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getExtendableResourceType(  )
+    {
+        return RESOURCE_TYPE;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getExtendableResourceName( )
-	{
-		return _strName;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getExtendableResourceName(  )
+    {
+        return _strName;
+    }
 }

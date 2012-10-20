@@ -35,13 +35,12 @@ package fr.paris.lutece.portal.service.admin;
 
 
 /**
- *	Exception thrown when the user can't access a feature.
+ *        Exception thrown when the user can't access a feature.
  */
 public class PasswordResetException extends RuntimeException
 {
-
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -7953371682485839517L;
 
@@ -51,17 +50,17 @@ public class PasswordResetException extends RuntimeException
      *             explicit message
      */
     @Deprecated
-    public PasswordResetException()
+    public PasswordResetException(  )
     {
-    	// nothing
+        // nothing
     }
-    
+
     /**
      * Builds a AccessDeniedException with the message
      * @param strMessage the message
      */
     public PasswordResetException( String strMessage )
     {
-    	super( strMessage );
+        super( strMessage );
     }
 }

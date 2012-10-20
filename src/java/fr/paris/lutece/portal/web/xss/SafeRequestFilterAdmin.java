@@ -50,6 +50,6 @@ public class SafeRequestFilterAdmin extends SafeRequestFilter
     protected String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
         String strTitleKey )
     {
-       return  AdminMessageService.getMessageUrl( request, strMessageKey, messageArgs, AdminMessage.TYPE_STOP );
+        return AdminMessageService.getMessageUrl( request, strMessageKey, messageArgs, AdminMessage.TYPE_STOP );
     }
 }

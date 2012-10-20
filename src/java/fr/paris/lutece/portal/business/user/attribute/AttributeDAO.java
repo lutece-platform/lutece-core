@@ -59,8 +59,8 @@ public class AttributeDAO implements IAttributeDAO
     // SELECT
     private static final String SQL_QUERY_SELECT = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position, plugin_name " +
         " FROM core_attribute WHERE id_attribute = ? ";
-    private static final String SQL_QUERY_SELECT_ALL = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position, anonymize, plugin_name "
-            + " FROM core_attribute ORDER BY attribute_position ASC ";
+    private static final String SQL_QUERY_SELECT_ALL = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position, anonymize, plugin_name " +
+        " FROM core_attribute ORDER BY attribute_position ASC ";
     private static final String SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position " +
         " FROM core_attribute WHERE plugin_name = ? ORDER BY attribute_position ASC ";
     private static final String SQL_QUERY_SELECT_CORE_ATTRIBUTES = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position " +
@@ -73,7 +73,6 @@ public class AttributeDAO implements IAttributeDAO
     // UPDATE
     private static final String SQL_QUERY_UPDATE = " UPDATE core_attribute SET title = ?, help_message = ?, is_mandatory = ?, is_shown_in_search = ?, is_shown_in_result_list = ?, is_field_in_line = ?, attribute_position = ? " +
         " WHERE id_attribute = ? ";
-
     private static final String SQL_QUERY_UPDATE_ANONYMIZATION = " UPDATE core_attribute SET anonymize = ? WHERE id_attribute = ? ";
 
     // DELETE
@@ -294,7 +293,6 @@ public class AttributeDAO implements IAttributeDAO
             Plugin plugin = PluginService.getPlugin( daoUtil.getString( nIndex++ ) );
             attribute.setPlugin( plugin );
 
-
             listAttributes.add( attribute );
         }
 
@@ -319,7 +317,8 @@ public class AttributeDAO implements IAttributeDAO
 
         while ( daoUtil.next(  ) )
         {
-        	nIndex = 1;
+            nIndex = 1;
+
             IAttribute attribute = null;
 
             try
@@ -430,7 +429,7 @@ public class AttributeDAO implements IAttributeDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_ANONYMIZATION );
         daoUtil.setBoolean( 1, bAnonymize );
         daoUtil.setInt( 2, nIdAttribute );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
     }
 }

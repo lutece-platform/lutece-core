@@ -44,6 +44,7 @@ import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 
+
 /**
  * FilterService
  */
@@ -141,19 +142,20 @@ public final class FilterService
                 throw new LuteceInitException( "Error execution init() method - Filter " + filter.getName(  ), e );
             }
         }
-        
-        sortFilters( );
-        
+
+        sortFilters(  );
+
         if ( AppLogService.isDebugEnabled(  ) )
         {
             AppLogService.debug( "Displaying filters order" );
+
             for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
             {
-                AppLogService.debug( filter.getName(  )  + " - order = " + filter.getOrder( ));
+                AppLogService.debug( filter.getName(  ) + " - order = " + filter.getOrder(  ) );
             }
         }
     }
-    
+
     public static void sortFilters(  )
     {
         // sort the filter's list

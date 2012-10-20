@@ -31,11 +31,12 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.business.datastore;
 
 import fr.paris.lutece.test.LuteceTestCase;
+
 import java.util.Collection;
+
 
 /**
  * DataEntity Test
@@ -49,12 +50,12 @@ public class DataEntityTest extends LuteceTestCase
     public void testBusinessDataEntity(  )
     {
         // Initialize an object
-        DataEntity entity = new DataEntity( KEY1 , VALUE1 );
+        DataEntity entity = new DataEntity( KEY1, VALUE1 );
 
         // Create test
         DataEntityHome.create( entity );
 
-        DataEntity entityStored = DataEntityHome.findByPrimaryKey( entity.getKey() );
+        DataEntity entityStored = DataEntityHome.findByPrimaryKey( entity.getKey(  ) );
         assertEquals( entityStored.getValue(  ), entity.getValue(  ) );
 
         // Update test
@@ -65,14 +66,12 @@ public class DataEntityTest extends LuteceTestCase
         assertEquals( entityStored.getValue(  ), entity.getValue(  ) );
 
         // List Test
-        Collection list = DataEntityHome.findAll();
+        Collection list = DataEntityHome.findAll(  );
         assertTrue( list.size(  ) > 0 );
 
         // Delete test
         DataEntityHome.remove( entity.getKey(  ) );
         entityStored = DataEntityHome.findByPrimaryKey( entity.getKey(  ) );
         assertNull( entityStored );
-
     }
 }
-

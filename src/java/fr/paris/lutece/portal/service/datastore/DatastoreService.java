@@ -36,44 +36,46 @@ package fr.paris.lutece.portal.service.datastore;
 import fr.paris.lutece.portal.business.datastore.DataEntity;
 import fr.paris.lutece.portal.business.datastore.DataEntityHome;
 
+
 /**
  * Datastore Service
  */
-public final class DatastoreService 
+public final class DatastoreService
 {
     public static final String VALUE_TRUE = "true";
     public static final String VALUE_FALSE = "false";
-    
+
     /**
      * Private constructor
      */
-    private DatastoreService()
+    private DatastoreService(  )
     {
     }
-    
-    
+
     /**
      * Get entity
      * @param strKey The entity's key
      * @param strDefault The default value
      * @return The value
      */
-    public static String getDataValue( String strKey , String strDefault )
+    public static String getDataValue( String strKey, String strDefault )
     {
-        DataEntity entity = DataEntityHome.findByPrimaryKey(strKey);
-        return ( entity != null ) ? entity.getValue() : strDefault;
+        DataEntity entity = DataEntityHome.findByPrimaryKey( strKey );
+
+        return ( entity != null ) ? entity.getValue(  ) : strDefault;
     }
-    
+
     /**
      * Get entity
      * @param strKey The entity's key
      * @param strValue The value
-     */ 
-    public static void setDataValue( String strKey , String strValue )
+     */
+    public static void setDataValue( String strKey, String strValue )
     {
         DataEntity p = new DataEntity( strKey, strValue );
-        DataEntity entity = DataEntityHome.findByPrimaryKey(strKey);
-        if( entity != null )
+        DataEntity entity = DataEntityHome.findByPrimaryKey( strKey );
+
+        if ( entity != null )
         {
             DataEntityHome.update( p );
         }
@@ -82,5 +84,4 @@ public final class DatastoreService
             DataEntityHome.create( p );
         }
     }
-    
 }

@@ -183,7 +183,7 @@ public interface IAttribute
      * Get the anonymize status of the attribute
      * @return True if the attribute should be anonymize, false otherwise.
      */
-    boolean getAnonymize( );
+    boolean getAnonymize(  );
 
     /**
      * Set the anonymize status of the attribute
@@ -271,5 +271,5 @@ public interface IAttribute
      * Get whether the attribute is anonymizable.
      * @return True if the attribute can be anonymized, false otherwise.
      */
-    boolean isAnonymizable( );
+    boolean isAnonymizable(  );
 }

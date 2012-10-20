@@ -35,12 +35,12 @@ package fr.paris.lutece.portal.service.prefs;
 
 import java.util.List;
 
+
 /**
  * User Preferences Interface
  */
 public interface IUserPreferencesService
 {
-    
     /**
      * Get a preference for a given user
      * @param strUserId The user's ID

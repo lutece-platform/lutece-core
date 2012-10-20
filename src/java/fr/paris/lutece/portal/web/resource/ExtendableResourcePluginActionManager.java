@@ -43,6 +43,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
  *
  * This manager is used to fill the model with the actions
@@ -53,42 +54,44 @@ import javax.servlet.http.HttpServletRequest;
  */
 public final class ExtendableResourcePluginActionManager
 {
-	// MARKS
-	private static final String MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML = "extendableResourceActionsHtml";
-	private static final String MARK_LIST_EXTENDABLE_RESOURCE_ACTIONS = "listExtendableResourceActions";
-	public static final String MARK_ID_EXTENDABLE_RESOURCE = "idExtendableResource";
-	public static final String MARK_EXTENDABLE_RESOURCE_TYPE = "extendableResourceType";
+    // MARKS
+    private static final String MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML = "extendableResourceActionsHtml";
+    private static final String MARK_LIST_EXTENDABLE_RESOURCE_ACTIONS = "listExtendableResourceActions";
+    public static final String MARK_ID_EXTENDABLE_RESOURCE = "idExtendableResource";
+    public static final String MARK_EXTENDABLE_RESOURCE_TYPE = "extendableResourceType";
 
-	// TEMPLATES
-	private static final String TEMPLATE_EXTENDABLE_RESOURCE_ACTION = "admin/resource/extendable_resource_actions.html";
+    // TEMPLATES
+    private static final String TEMPLATE_EXTENDABLE_RESOURCE_ACTION = "admin/resource/extendable_resource_actions.html";
 
-	/**
-	 * Instantiates a new extendable resource plugin action manager.
-	 */
-	private ExtendableResourcePluginActionManager(  )
-	{
-	}
-
-	/**
-	 * Fill the model with all actions and adds the list to the given marker.
-	 * It also add the mapParameter to the model.
-	 *
-	 * @param request the request
-	 * @param adminUser the admin user
-	 * @param model the model
-	 * @param strIdExtendableResource the str id extendable resource
-	 * @param strExtendableResourceType the str extendable resource type
-	 */
-    public static void fillModel( HttpServletRequest request, AdminUser adminUser,
-            Map<String, Object> model, String strIdExtendableResource, String strExtendableResourceType )
+    /**
+     * Instantiates a new extendable resource plugin action manager.
+     */
+    private ExtendableResourcePluginActionManager(  )
     {
-    	Map<String, Object> modelTmp = new HashMap<String, Object>(  );
-    	modelTmp.put( MARK_ID_EXTENDABLE_RESOURCE, strIdExtendableResource );
-    	modelTmp.put( MARK_EXTENDABLE_RESOURCE_TYPE, strExtendableResourceType );
-    	PluginActionManager.fillModel( request, adminUser, modelTmp, IExtendableResourcePluginAction.class, MARK_LIST_EXTENDABLE_RESOURCE_ACTIONS );
+    }
 
-    	HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EXTENDABLE_RESOURCE_ACTION, request.getLocale(  ), modelTmp );
+    /**
+     * Fill the model with all actions and adds the list to the given marker.
+     * It also add the mapParameter to the model.
+     *
+     * @param request the request
+     * @param adminUser the admin user
+     * @param model the model
+     * @param strIdExtendableResource the str id extendable resource
+     * @param strExtendableResourceType the str extendable resource type
+     */
+    public static void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model,
+        String strIdExtendableResource, String strExtendableResourceType )
+    {
+        Map<String, Object> modelTmp = new HashMap<String, Object>(  );
+        modelTmp.put( MARK_ID_EXTENDABLE_RESOURCE, strIdExtendableResource );
+        modelTmp.put( MARK_EXTENDABLE_RESOURCE_TYPE, strExtendableResourceType );
+        PluginActionManager.fillModel( request, adminUser, modelTmp, IExtendableResourcePluginAction.class,
+            MARK_LIST_EXTENDABLE_RESOURCE_ACTIONS );
 
-    	model.put( MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML, template.getHtml( ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EXTENDABLE_RESOURCE_ACTION,
+                request.getLocale(  ), modelTmp );
+
+        model.put( MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML, template.getHtml(  ) );
     }
 }

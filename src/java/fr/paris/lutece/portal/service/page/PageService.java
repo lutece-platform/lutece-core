@@ -72,6 +72,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -82,6 +83,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.inject.Inject;
+
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -203,7 +205,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *             If a message shouldbe displayed
      */
     @Override
-	public String getPage( HttpServletRequest request, int nMode )
+    public String getPage( HttpServletRequest request, int nMode )
         throws SiteMessageException
     {
         String strPageId = request.getParameter( Parameters.PAGE_ID );
@@ -226,7 +228,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *             occurs when a site message need to be displayed
      */
     @Override
-	public String getPage( String strIdPage, int nMode, HttpServletRequest request )
+    public String getPage( String strIdPage, int nMode, HttpServletRequest request )
         throws SiteMessageException
     {
         try
@@ -474,7 +476,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *             occurs when a site message need to be displayed
      */
     @Override
-	public String getPageContent( int nIdPage, int nMode, HttpServletRequest request )
+    public String getPageContent( int nIdPage, int nMode, HttpServletRequest request )
         throws SiteMessageException
     {
         String[] arrayContent = new String[MAX_COLUMNS];
@@ -602,24 +604,24 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 return strPortlet;
             }
         }
-        
+
         String strPortletContent = "";
+
         // Add the admin buttons for portlet management on admin mode
         if ( nMode == MODE_ADMIN )
         {
             strPortletContent = addAdminButtons( request, portlet );
         }
-        
+
         XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
         String strPortletXmlContent = portlet.getXml( request );
-         strPortletContent += xmlTransformerService.transformBySourceWithXslCache( strPortletXmlContent,
-                portlet.getXslSource( nMode ), strXslUniqueId, mapParams, outputProperties );
+        strPortletContent += xmlTransformerService.transformBySourceWithXslCache( strPortletXmlContent,
+            portlet.getXslSource( nMode ), strXslUniqueId, mapParams, outputProperties );
 
         if ( _cachePortlets.isCacheEnable(  ) )
         {
             _cachePortlets.putInCache( strKey, strPortletContent );
         }
-       
 
         return strPortletContent;
     }
@@ -747,7 +749,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @return The resource type Id
      */
     @Override
-	public String getResourceTypeId(  )
+    public String getResourceTypeId(  )
     {
         return IMAGE_RESOURCE_TYPE_ID;
     }
@@ -760,7 +762,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @return The image resource
      */
     @Override
-	public ImageResource getImageResource( int nIdResource )
+    public ImageResource getImageResource( int nIdResource )
     {
         return PageHome.getImageResource( nIdResource );
     }
@@ -772,7 +774,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *            The page to create
      */
     @Override
-	public void createPage( Page page )
+    public void createPage( Page page )
     {
         PageHome.create( page );
 
@@ -787,7 +789,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *            The page to update
      */
     @Override
-	public void updatePage( Page page )
+    public void updatePage( Page page )
     {
         PageHome.update( page );
 
@@ -802,7 +804,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *            The page Id
      */
     @Override
-	public void removePage( int nPageId )
+    public void removePage( int nPageId )
     {
         Page page = PageHome.findByPrimaryKey( nPageId );
         PageEvent event = new PageEvent( page, PageEvent.PAGE_DELETED );
@@ -817,7 +819,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *            The event to process
      */
     @Override
-	public void processPageEvent( PageEvent event )
+    public void processPageEvent( PageEvent event )
     {
         Page page = event.getPage(  );
         invalidatePage( page.getId(  ) );
@@ -830,7 +832,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * {@inheritDoc}
      */
     @Override
-	public void processPageEvent( PortletEvent event )
+    public void processPageEvent( PortletEvent event )
     {
         invalidateContent( event.getPageId(  ) );
     }
@@ -842,7 +844,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *            The Page ID
      */
     @Override
-	public void invalidateContent( int nPageId )
+    public void invalidateContent( int nPageId )
     {
         Page page = PageHome.findByPrimaryKey( nPageId );
         PageEvent event = new PageEvent( page, PageEvent.PAGE_CONTENT_MODIFIED );
@@ -862,7 +864,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @return true if authorized, otherwise false
      */
     @Override
-	public boolean isAuthorizedAdminPage( int nIdPage, String strPermission, AdminUser user )
+    public boolean isAuthorizedAdminPage( int nIdPage, String strPermission, AdminUser user )
     {
         Page page = PageHome.findByPrimaryKey( nIdPage );
 

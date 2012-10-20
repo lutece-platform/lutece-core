@@ -46,94 +46,94 @@ import java.util.List;
  */
 public final class XslExportHome
 {
-	// Static variable pointed at the DAO instance
-	private static IXslExportDAO _dao = SpringContextService.getBean( "xslExportDAO" );
+    // Static variable pointed at the DAO instance
+    private static IXslExportDAO _dao = SpringContextService.getBean( "xslExportDAO" );
 
-	/**
-	 * Private constructor - this class do not need to be instantiated
-	 */
-	private XslExportHome( )
-	{
-	}
+    /**
+     * Private constructor - this class do not need to be instantiated
+     */
+    private XslExportHome(  )
+    {
+    }
 
-	/**
-	 * Creation of an instance of Xsl Export
-	 * 
-	 * @param xslExport The instance of the xslExport which contains the informations to store
-	 * 
-	 */
-	public static void create( XslExport xslExport )
-	{
-		_dao.insert( xslExport );
-	}
+    /**
+     * Creation of an instance of Xsl Export
+     *
+     * @param xslExport The instance of the xslExport which contains the informations to store
+     *
+     */
+    public static void create( XslExport xslExport )
+    {
+        _dao.insert( xslExport );
+    }
 
-	/**
-	 * Update of the XslExport which is specified in parameter
-	 * 
-	 * @param xslExport The instance of the xslExport which contains the informations to update
-	 */
-	public static void update( XslExport xslExport )
-	{
-		_dao.store( xslExport );
-		XmlTransformerService.clearXslCache( );
-	}
+    /**
+     * Update of the XslExport which is specified in parameter
+     *
+     * @param xslExport The instance of the xslExport which contains the informations to update
+     */
+    public static void update( XslExport xslExport )
+    {
+        _dao.store( xslExport );
+        XmlTransformerService.clearXslCache(  );
+    }
 
-	/**
-	 * Remove the XslExport whose identifier is specified in parameter
-	 * 
-	 * @param nIdXslExport The XslExport Id
-	 */
-	public static void remove( int nIdXslExport )
-	{
-		_dao.delete( nIdXslExport );
-		XmlTransformerService.clearXslCache( );
-	}
+    /**
+     * Remove the XslExport whose identifier is specified in parameter
+     *
+     * @param nIdXslExport The XslExport Id
+     */
+    public static void remove( int nIdXslExport )
+    {
+        _dao.delete( nIdXslExport );
+        XmlTransformerService.clearXslCache(  );
+    }
 
-	// /////////////////////////////////////////////////////////////////////////
-	// Finders
+    // /////////////////////////////////////////////////////////////////////////
+    // Finders
 
-	/**
-	 * Returns an instance of a XslExport whose identifier is specified in parameter
-	 * 
-	 * @param nKey The xslExport primary key
-	 * @return an instance of XslExport
-	 */
-	public static XslExport findByPrimaryKey( int nKey )
-	{
-		XslExport xslExport = _dao.load( nKey );
+    /**
+     * Returns an instance of a XslExport whose identifier is specified in parameter
+     *
+     * @param nKey The xslExport primary key
+     * @return an instance of XslExport
+     */
+    public static XslExport findByPrimaryKey( int nKey )
+    {
+        XslExport xslExport = _dao.load( nKey );
 
-		if ( ( xslExport != null ) && ( xslExport.getFile( ) != null ) )
-		{
-			xslExport.setFile( FileHome.findByPrimaryKey( xslExport.getFile( ).getIdFile( ) ) );
-		}
+        if ( ( xslExport != null ) && ( xslExport.getFile(  ) != null ) )
+        {
+            xslExport.setFile( FileHome.findByPrimaryKey( xslExport.getFile(  ).getIdFile(  ) ) );
+        }
 
-		return xslExport;
-	}
+        return xslExport;
+    }
 
-	/**
-	 * Loads the data of all the XslExport who verify the filter and returns them in a list
-	 * @return the list which contains the data of all the Xsl export
-	 */
-	public static List<XslExport> getList( )
-	{
-		return _dao.selectList( );
-	}
+    /**
+     * Loads the data of all the XslExport who verify the filter and returns them in a list
+     * @return the list which contains the data of all the Xsl export
+     */
+    public static List<XslExport> getList(  )
+    {
+        return _dao.selectList(  );
+    }
 
-	/**
-	 * Loads in the reference list the data of all the XslExport who verify the filter and returns them in a list
-	 * @return the list which contains the data of all the Xsl Export
-	 */
-	public static ReferenceList getRefList( )
-	{
-		ReferenceList refList = new ReferenceList( );
+    /**
+     * Loads in the reference list the data of all the XslExport who verify the filter and returns them in a list
+     * @return the list which contains the data of all the Xsl Export
+     */
+    public static ReferenceList getRefList(  )
+    {
+        ReferenceList refList = new ReferenceList(  );
 
-		List<XslExport> xslList = getList( );
+        List<XslExport> xslList = getList(  );
 
-		for ( XslExport xslExport : xslList )
-		{
-			refList.addItem( xslExport.getIdXslExport( ), xslExport.getTitle( ) );
-		}
+        for ( XslExport xslExport : xslList )
+        {
+            refList.addItem( xslExport.getIdXslExport(  ), xslExport.getTitle(  ) );
+        }
 
-		return refList;
-	}
+        return refList;
+    }
 }

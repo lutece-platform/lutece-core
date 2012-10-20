@@ -43,14 +43,15 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Collection;
 import java.util.Enumeration;
 
 import javax.security.auth.login.LoginException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -58,377 +59,380 @@ import org.apache.commons.lang.StringUtils;
  */
 public final class AdminAuthenticationService
 {
-	/**
-	 * Session attribute that stores the AdminUser object attached to the session
-	 */
-	private static final String ATTRIBUTE_ADMIN_USER = "lutece_admin_user";
-	private static final String ATTRIBUTE_ADMIN_LOGIN_NEXT_URL = "luteceAdminLoginNextUrl";
-	private static final String BEAN_ADMIN_AUTHENTICATION_MODULE = "adminAuthenticationModule";
-	private static AdminAuthenticationService _singleton = new AdminAuthenticationService( );
-	private static AdminAuthentication _authentication;
-	private static boolean _bUseDefaultModule;
+    /**
+     * Session attribute that stores the AdminUser object attached to the session
+     */
+    private static final String ATTRIBUTE_ADMIN_USER = "lutece_admin_user";
+    private static final String ATTRIBUTE_ADMIN_LOGIN_NEXT_URL = "luteceAdminLoginNextUrl";
+    private static final String BEAN_ADMIN_AUTHENTICATION_MODULE = "adminAuthenticationModule";
+    private static AdminAuthenticationService _singleton = new AdminAuthenticationService(  );
+    private static AdminAuthentication _authentication;
+    private static boolean _bUseDefaultModule;
 
-	/**
-	 * Private constructor
-	 */
-	private AdminAuthenticationService( )
-	{
-	}
+    /**
+     * Private constructor
+     */
+    private AdminAuthenticationService(  )
+    {
+    }
 
-	/**
-	 * Initialize service
-	 * @throws LuteceInitException If error while initialization
-	 */
-	public static synchronized void init( ) throws LuteceInitException
-	{
-		_authentication = ( AdminAuthentication ) SpringContextService.getBean( BEAN_ADMIN_AUTHENTICATION_MODULE );
-		AppLogService.info( "Authentication module loaded : " + _authentication.getAuthServiceName( ) );
+    /**
+     * Initialize service
+     * @throws LuteceInitException If error while initialization
+     */
+    public static synchronized void init(  ) throws LuteceInitException
+    {
+        _authentication = (AdminAuthentication) SpringContextService.getBean( BEAN_ADMIN_AUTHENTICATION_MODULE );
+        AppLogService.info( "Authentication module loaded : " + _authentication.getAuthServiceName(  ) );
 
-		if ( _authentication.getClass( ).equals( LuteceDefaultAdminAuthentication.class ) )
-		{
-			_bUseDefaultModule = true;
-		}
-	}
+        if ( _authentication.getClass(  ).equals( LuteceDefaultAdminAuthentication.class ) )
+        {
+            _bUseDefaultModule = true;
+        }
+    }
 
-	/**
-	 * Get the unique instance of the Security Service
-	 * @return The instance
-	 */
-	public static AdminAuthenticationService getInstance( )
-	{
-		return _singleton;
-	}
+    /**
+     * Get the unique instance of the Security Service
+     * @return The instance
+     */
+    public static AdminAuthenticationService getInstance(  )
+    {
+        return _singleton;
+    }
 
-	/**
-	 * Check whether the authentication service is configurer on the default module.
-	 * @return true if the default module is in use, false if another module is used
-	 */
-	public boolean isDefaultModuleUsed( )
-	{
-		return _bUseDefaultModule;
-	}
+    /**
+     * Check whether the authentication service is configurer on the default module.
+     * @return true if the default module is in use, false if another module is used
+     */
+    public boolean isDefaultModuleUsed(  )
+    {
+        return _bUseDefaultModule;
+    }
 
-	/**
-	 * Gets the AdminUser attached to the current Http session
-	 * 
-	 * @return A valid AdminUser object if found
-	 * @param request The Http request
-	 * @throws AccessDeniedException If the user cannot have access
-	 * @throws UserNotSignedException If the user is not signed
-	 */
-	public AdminUser getRemoteUser( HttpServletRequest request ) throws UserNotSignedException, AccessDeniedException
-	{
-		AdminUser user = getRegisteredUser( request );
+    /**
+     * Gets the AdminUser attached to the current Http session
+     *
+     * @return A valid AdminUser object if found
+     * @param request The Http request
+     * @throws AccessDeniedException If the user cannot have access
+     * @throws UserNotSignedException If the user is not signed
+     */
+    public AdminUser getRemoteUser( HttpServletRequest request )
+        throws UserNotSignedException, AccessDeniedException
+    {
+        AdminUser user = getRegisteredUser( request );
 
-		if ( _authentication.isExternalAuthentication( ) )
-		{
-			if ( user == null )
-			{
-				// User is not registered by Lutece, but it may be authenticated by another system
-				user = _authentication.getHttpAuthenticatedUser( request );
-				registerUser( request, user );
+        if ( _authentication.isExternalAuthentication(  ) )
+        {
+            if ( user == null )
+            {
+                // User is not registered by Lutece, but it may be authenticated by another system
+                user = _authentication.getHttpAuthenticatedUser( request );
+                registerUser( request, user );
 
-				// Start a new session
-				throw new UserNotSignedException( );
-			}
-			else
-			{
-				// user is already in session. for external auth, we check that the user hasn't changed in the external module .
-				AdminUser newUser = _authentication.getHttpAuthenticatedUser( request );
+                // Start a new session
+                throw new UserNotSignedException(  );
+            }
+            else
+            {
+                // user is already in session. for external auth, we check that the user hasn't changed in the external module .
+                AdminUser newUser = _authentication.getHttpAuthenticatedUser( request );
 
-				if ( newUser == null )
-				{
-					throw new AccessDeniedException( "User not found while retrieving from external authentication" );
-				}
-				else if ( !newUser.getAccessCode( ).equals( user.getAccessCode( ) ) )
-				{
-					unregisterUser( request );
-					registerUser( request, newUser );
+                if ( newUser == null )
+                {
+                    throw new AccessDeniedException( "User not found while retrieving from external authentication" );
+                }
+                else if ( !newUser.getAccessCode(  ).equals( user.getAccessCode(  ) ) )
+                {
+                    unregisterUser( request );
+                    registerUser( request, newUser );
 
-					// Start a new session
-					throw new UserNotSignedException( );
-				}
-			}
-		}
-		else
-		// if not external authentication, just check if user is null or not
-		{
-			if ( user == null )
-			{
-				// user is not signed
-				throw new UserNotSignedException( );
-			}
-		}
+                    // Start a new session
+                    throw new UserNotSignedException(  );
+                }
+            }
+        }
+        else// if not external authentication, just check if user is null or not
+        {
+            if ( user == null )
+            {
+                // user is not signed
+                throw new UserNotSignedException(  );
+            }
+        }
 
-		return user;
-	}
+        return user;
+    }
 
-	/**
-	 * Checks user's login with the Authentication service.
-	 * @param request The Http request
-	 * @param strAccessCode The user's login
-	 * @param strPassword The user's password
-	 * @throws LoginException The LoginException
-	 */
-	public void loginUser( HttpServletRequest request, final String strAccessCode, final String strPassword ) throws LoginException
-	{
-		AdminUser user = _authentication.login( strAccessCode, strPassword, request );
+    /**
+     * Checks user's login with the Authentication service.
+     * @param request The Http request
+     * @param strAccessCode The user's login
+     * @param strPassword The user's password
+     * @throws LoginException The LoginException
+     */
+    public void loginUser( HttpServletRequest request, final String strAccessCode, final String strPassword )
+        throws LoginException
+    {
+        AdminUser user = _authentication.login( strAccessCode, strPassword, request );
 
-		try
-		{
-			registerUser( request, user );
-		}
-		catch ( AccessDeniedException e )
-		{
-			throw new LoginException( );
-		}
-		catch ( UserNotSignedException e )
-		{
-			throw new LoginException( );
-		}
-	}
+        try
+        {
+            registerUser( request, user );
+        }
+        catch ( AccessDeniedException e )
+        {
+            throw new LoginException(  );
+        }
+        catch ( UserNotSignedException e )
+        {
+            throw new LoginException(  );
+        }
+    }
 
-	/**
-	 * Logout the user
-	 * @param request The HTTP request
-	 */
-	public void logoutUser( HttpServletRequest request )
-	{
-		AdminUser user;
+    /**
+     * Logout the user
+     * @param request The HTTP request
+     */
+    public void logoutUser( HttpServletRequest request )
+    {
+        AdminUser user;
 
-		try
-		{
-			user = getRemoteUser( request );
-		}
-		catch ( UserNotSignedException e )
-		{
-			return;
-		}
-		catch ( AccessDeniedException e )
-		{
-			return;
-		}
+        try
+        {
+            user = getRemoteUser( request );
+        }
+        catch ( UserNotSignedException e )
+        {
+            return;
+        }
+        catch ( AccessDeniedException e )
+        {
+            return;
+        }
 
-		_authentication.logout( user );
-		unregisterUser( request );
-	}
+        _authentication.logout( user );
+        unregisterUser( request );
+    }
 
-	/**
-	 * Bind user : complete module user with local settings (roles, etc)
-	 * 
-	 * @param user The current user
-	 * @throws AccessDeniedException If the user cannot have access
-	 * @throws UserNotSignedException If the user is not signed
-	 * @return The AdminUser
-	 */
-	private AdminUser bindUser( AdminUser user ) throws AccessDeniedException, UserNotSignedException
-	{
-		AdminUser bindUser = user;
+    /**
+     * Bind user : complete module user with local settings (roles, etc)
+     *
+     * @param user The current user
+     * @throws AccessDeniedException If the user cannot have access
+     * @throws UserNotSignedException If the user is not signed
+     * @return The AdminUser
+     */
+    private AdminUser bindUser( AdminUser user ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUser bindUser = user;
 
-		if ( user == null )
-		{
-			throw new UserNotSignedException( );
-		}
+        if ( user == null )
+        {
+            throw new UserNotSignedException(  );
+        }
 
-		// retrieve the user in local system from the access code
-		bindUser = AdminUserHome.findUserByLogin( user.getAccessCode( ) );
-		AdminUserService.updateDateLastLogin( bindUser.getUserId( ) );
-		// only allow a user that is marked active
-		if ( ( bindUser == null ) || ( !bindUser.isStatusActive( ) ) )
-		{
-			throw new AccessDeniedException( "User " + bindUser + " is null or not active" );
-		}
+        // retrieve the user in local system from the access code
+        bindUser = AdminUserHome.findUserByLogin( user.getAccessCode(  ) );
+        AdminUserService.updateDateLastLogin( bindUser.getUserId(  ) );
 
-		// set the rights for this user
-		bindUser.setRights( AdminUserHome.getRightsListForUser( bindUser.getUserId( ) ) );
+        // only allow a user that is marked active
+        if ( ( bindUser == null ) || ( !bindUser.isStatusActive(  ) ) )
+        {
+            throw new AccessDeniedException( "User " + bindUser + " is null or not active" );
+        }
 
-		// set the rights for this user
-		bindUser.setRoles( AdminUserHome.getRolesListForUser( bindUser.getUserId( ) ) );
+        // set the rights for this user
+        bindUser.setRights( AdminUserHome.getRightsListForUser( bindUser.getUserId(  ) ) );
 
-		return bindUser;
-	}
+        // set the rights for this user
+        bindUser.setRoles( AdminUserHome.getRolesListForUser( bindUser.getUserId(  ) ) );
 
-	/**
-	 * Register the user in the Http session
-	 * 
-	 * @param request The Http request
-	 * @param user The current user
-	 * @throws AccessDeniedException If the user cannot have access
-	 * @throws UserNotSignedException If the user is not signed
-	 */
-	private void registerUser( HttpServletRequest request, AdminUser user ) throws AccessDeniedException, UserNotSignedException
-	{
-		HttpSession session = request.getSession( true );
-		session.setAttribute( ATTRIBUTE_ADMIN_USER, bindUser( user ) );
-	}
+        return bindUser;
+    }
 
-	/**
-	 * Unregister the user in the Http session
-	 * @param request The Http request
-	 */
-	private void unregisterUser( HttpServletRequest request )
-	{
-		HttpSession session = request.getSession( true );
-		session.removeAttribute( ATTRIBUTE_ADMIN_USER );
-	}
+    /**
+     * Register the user in the Http session
+     *
+     * @param request The Http request
+     * @param user The current user
+     * @throws AccessDeniedException If the user cannot have access
+     * @throws UserNotSignedException If the user is not signed
+     */
+    private void registerUser( HttpServletRequest request, AdminUser user )
+        throws AccessDeniedException, UserNotSignedException
+    {
+        HttpSession session = request.getSession( true );
+        session.setAttribute( ATTRIBUTE_ADMIN_USER, bindUser( user ) );
+    }
 
-	/**
-	 * Gets the Lutece user registered in the Http session
-	 * @param request The HTTP request
-	 * @return The User registered or null if the user has not been registered
-	 */
-	public AdminUser getRegisteredUser( HttpServletRequest request )
-	{
-		HttpSession session = request.getSession( );
+    /**
+     * Unregister the user in the Http session
+     * @param request The Http request
+     */
+    private void unregisterUser( HttpServletRequest request )
+    {
+        HttpSession session = request.getSession( true );
+        session.removeAttribute( ATTRIBUTE_ADMIN_USER );
+    }
 
-		if ( session != null )
-		{
-			return ( AdminUser ) session.getAttribute( ATTRIBUTE_ADMIN_USER );
-		}
+    /**
+     * Gets the Lutece user registered in the Http session
+     * @param request The HTTP request
+     * @return The User registered or null if the user has not been registered
+     */
+    public AdminUser getRegisteredUser( HttpServletRequest request )
+    {
+        HttpSession session = request.getSession(  );
 
-		return null;
-	}
+        if ( session != null )
+        {
+            return (AdminUser) session.getAttribute( ATTRIBUTE_ADMIN_USER );
+        }
 
-	/**
-	 * Returns the authentication type : External or Lutece portal based
-	 * @return true if the user is already authenticated or false if it needs to login.
-	 */
-	public boolean isExternalAuthentication( )
-	{
-		return _authentication.isExternalAuthentication( );
-	}
+        return null;
+    }
 
-	/**
-	 * Returns the Login page URL of the Authentication Service
-	 * @return The URL
-	 */
-	public String getLoginPageUrl( )
-	{
-		return _authentication.getLoginPageUrl( );
-	}
+    /**
+     * Returns the authentication type : External or Lutece portal based
+     * @return true if the user is already authenticated or false if it needs to login.
+     */
+    public boolean isExternalAuthentication(  )
+    {
+        return _authentication.isExternalAuthentication(  );
+    }
 
-	/**
-	 * Returns the modification password page URL of the Authentication Service
-	 * @return The URL
-	 */
-	public String getChangePasswordPageUrl( )
-	{
-		return _authentication.getChangePasswordPageUrl( );
-	}
+    /**
+     * Returns the Login page URL of the Authentication Service
+     * @return The URL
+     */
+    public String getLoginPageUrl(  )
+    {
+        return _authentication.getLoginPageUrl(  );
+    }
 
-	/**
-	 * Returns the DoLogin URL of the Authentication Service
-	 * @return The URL
-	 */
-	public String getDoLoginUrl( )
-	{
-		return _authentication.getDoLoginUrl( );
-	}
+    /**
+     * Returns the modification password page URL of the Authentication Service
+     * @return The URL
+     */
+    public String getChangePasswordPageUrl(  )
+    {
+        return _authentication.getChangePasswordPageUrl(  );
+    }
 
-	/**
-	 * Returns the DoLogout URL of the Authentication Service
-	 * @return The URL
-	 */
-	public String getDoLogoutUrl( )
-	{
-		return _authentication.getDoLogoutUrl( );
-	}
+    /**
+     * Returns the DoLogin URL of the Authentication Service
+     * @return The URL
+     */
+    public String getDoLoginUrl(  )
+    {
+        return _authentication.getDoLoginUrl(  );
+    }
 
-	/**
-	 * Returns the new account page URL of the Authentication Service
-	 * @return The URL
-	 */
-	public String getNewAccountPageUrl( )
-	{
-		return _authentication.getNewAccountPageUrl( );
-	}
+    /**
+     * Returns the DoLogout URL of the Authentication Service
+     * @return The URL
+     */
+    public String getDoLogoutUrl(  )
+    {
+        return _authentication.getDoLogoutUrl(  );
+    }
 
-	/**
-	 * Returns the view account page URL of the Authentication Service
-	 * @return The URL
-	 */
-	public String getViewAccountPageUrl( )
-	{
-		return _authentication.getViewAccountPageUrl( );
-	}
+    /**
+     * Returns the new account page URL of the Authentication Service
+     * @return The URL
+     */
+    public String getNewAccountPageUrl(  )
+    {
+        return _authentication.getNewAccountPageUrl(  );
+    }
 
-	/**
-	 * Returns the lost password URL of the Authentication Service
-	 * @return The URL
-	 */
-	public String getLostPasswordPageUrl( )
-	{
-		return _authentication.getLostPasswordPageUrl( );
-	}
+    /**
+     * Returns the view account page URL of the Authentication Service
+     * @return The URL
+     */
+    public String getViewAccountPageUrl(  )
+    {
+        return _authentication.getViewAccountPageUrl(  );
+    }
 
-	/**
-	 * Returns the lost login URL of the Authentication Service
-	 * @return The URL
-	 */
-	public String getLostLoginPageUrl( )
-	{
-		return _authentication.getLostLoginPageUrl( );
-	}
+    /**
+     * Returns the lost password URL of the Authentication Service
+     * @return The URL
+     */
+    public String getLostPasswordPageUrl(  )
+    {
+        return _authentication.getLostPasswordPageUrl(  );
+    }
 
-	/**
-	 * Returns the user list
-	 * 
-	 * @return the collection of all users from the module
-	 * @param strLastName The last name
-	 * @param strFirstName The first name
-	 * @param strEmail The email
-	 */
-	public Collection<AdminUser> getUserListFromModule( String strLastName, String strFirstName, String strEmail )
-	{
-		return _authentication.getUserList( strLastName, strFirstName, strEmail );
-	}
+    /**
+     * Returns the lost login URL of the Authentication Service
+     * @return The URL
+     */
+    public String getLostLoginPageUrl(  )
+    {
+        return _authentication.getLostLoginPageUrl(  );
+    }
 
-	/**
-	 * 
-	 * @param strAccessCode The login
-	 * @return The AdminUser
-	 */
-	public AdminUser getUserPublicDataFromModule( String strAccessCode )
-	{
-		return _authentication.getUserPublicData( strAccessCode );
-	}
+    /**
+     * Returns the user list
+     *
+     * @return the collection of all users from the module
+     * @param strLastName The last name
+     * @param strFirstName The first name
+     * @param strEmail The email
+     */
+    public Collection<AdminUser> getUserListFromModule( String strLastName, String strFirstName, String strEmail )
+    {
+        return _authentication.getUserList( strLastName, strFirstName, strEmail );
+    }
 
-	/**
-	 * Set the admin login next url
-	 * @param request the HTTP request
-	 */
-	public void setLoginNextUrl( HttpServletRequest request )
-	{
-		String strNextUrl = request.getRequestURI( );
-		UrlItem url = new UrlItem( strNextUrl );
-		Enumeration enumParams = request.getParameterNames( );
+    /**
+     *
+     * @param strAccessCode The login
+     * @return The AdminUser
+     */
+    public AdminUser getUserPublicDataFromModule( String strAccessCode )
+    {
+        return _authentication.getUserPublicData( strAccessCode );
+    }
 
-		while ( enumParams.hasMoreElements( ) )
-		{
-			String strParamName = ( String ) enumParams.nextElement( );
-			url.addParameter( strParamName, request.getParameter( strParamName ) );
-		}
+    /**
+     * Set the admin login next url
+     * @param request the HTTP request
+     */
+    public void setLoginNextUrl( HttpServletRequest request )
+    {
+        String strNextUrl = request.getRequestURI(  );
+        UrlItem url = new UrlItem( strNextUrl );
+        Enumeration enumParams = request.getParameterNames(  );
 
-		HttpSession session = request.getSession( true );
-		session.setAttribute( ATTRIBUTE_ADMIN_LOGIN_NEXT_URL, url.getUrl( ) );
-	}
+        while ( enumParams.hasMoreElements(  ) )
+        {
+            String strParamName = (String) enumParams.nextElement(  );
+            url.addParameter( strParamName, request.getParameter( strParamName ) );
+        }
 
-	/**
-	 * Returns the url (asked before login) to redirect after login
-	 * @param request The Http request
-	 * @return The url asked before login
-	 */
-	public String getLoginNextUrl( HttpServletRequest request )
-	{
-		String strNextUrl = StringUtils.EMPTY;
-		HttpSession session = request.getSession( false );
+        HttpSession session = request.getSession( true );
+        session.setAttribute( ATTRIBUTE_ADMIN_LOGIN_NEXT_URL, url.getUrl(  ) );
+    }
 
-		if ( session != null )
-		{
-			strNextUrl = ( String ) session.getAttribute( ATTRIBUTE_ADMIN_LOGIN_NEXT_URL );
-			session.removeAttribute( ATTRIBUTE_ADMIN_LOGIN_NEXT_URL );
-		}
+    /**
+     * Returns the url (asked before login) to redirect after login
+     * @param request The Http request
+     * @return The url asked before login
+     */
+    public String getLoginNextUrl( HttpServletRequest request )
+    {
+        String strNextUrl = StringUtils.EMPTY;
+        HttpSession session = request.getSession( false );
 
-		return strNextUrl;
-	}
+        if ( session != null )
+        {
+            strNextUrl = (String) session.getAttribute( ATTRIBUTE_ADMIN_LOGIN_NEXT_URL );
+            session.removeAttribute( ATTRIBUTE_ADMIN_LOGIN_NEXT_URL );
+        }
+
+        return strNextUrl;
+    }
 }

@@ -45,6 +45,7 @@ import fr.paris.lutece.util.url.UrlItem;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
  *
  * This JSP bean is used to execute the {@link IExtendableResourcePluginAction}
@@ -52,28 +53,30 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ExtendableResourceJspBean extends AdminFeaturesPageJspBean
 {
-	/**
-	 * Do process extendable resource action.
-	 *
-	 * @param request the request
-	 * @param response the response
-	 * @return the i plugin action result
-	 * @throws AccessDeniedException
-	 */
-	public IPluginActionResult doProcessExtendableResourceAction( HttpServletRequest request,
-	        HttpServletResponse response ) throws AccessDeniedException
+    /**
+     * Do process extendable resource action.
+     *
+     * @param request the request
+     * @param response the response
+     * @return the i plugin action result
+     * @throws AccessDeniedException
+     */
+    public IPluginActionResult doProcessExtendableResourceAction( HttpServletRequest request,
+        HttpServletResponse response ) throws AccessDeniedException
     {
-		IExtendableResourcePluginAction action = PluginActionManager.getPluginAction( request,
-				IExtendableResourcePluginAction.class );
-		if ( action != null )
-		{
-			AppLogService.debug( "Processing resource action " + action.getName(  ) );
-			return action.process( request, response, getUser(  ), null );
-		}
+        IExtendableResourcePluginAction action = PluginActionManager.getPluginAction( request,
+                IExtendableResourcePluginAction.class );
 
-		// If no action, then redirect the user to the home page
-		UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl( ) );
-		DefaultPluginActionResult result = new DefaultPluginActionResult(  );
+        if ( action != null )
+        {
+            AppLogService.debug( "Processing resource action " + action.getName(  ) );
+
+            return action.process( request, response, getUser(  ), null );
+        }
+
+        // If no action, then redirect the user to the home page
+        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl(  ) );
+        DefaultPluginActionResult result = new DefaultPluginActionResult(  );
         result.setRedirect( url.getUrl(  ) );
 
         return result;

@@ -31,9 +31,8 @@
  *
  * License 1.0
  */
-
-
 package fr.paris.lutece.portal.service.datastore;
+
 
 /**
  * Core Data Keys
@@ -41,10 +40,8 @@ package fr.paris.lutece.portal.service.datastore;
 public final class CoreDataKeys
 {
     public static final String KEY_STARTUP_TIME = "core.startup.time";
-    
-    private CoreDataKeys()
+
+    private CoreDataKeys(  )
     {
     }
-    
-    
 }

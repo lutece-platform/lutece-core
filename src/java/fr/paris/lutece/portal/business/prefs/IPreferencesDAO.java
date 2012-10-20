@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.prefs;
 
 import java.util.List;
 
+
 /**
  * Preferences DAO interface
  */
@@ -57,7 +58,6 @@ public interface IPreferencesDAO
      */
     void store( String strUserId, String strKey, String strValue );
 
-
     /**
      * Get all preference keys for a given user
      * @param strUserId The user's ID
@@ -70,5 +70,4 @@ public interface IPreferencesDAO
      * @param strUserId The user's ID
      */
     void remove( String strUserId );
-    
 }

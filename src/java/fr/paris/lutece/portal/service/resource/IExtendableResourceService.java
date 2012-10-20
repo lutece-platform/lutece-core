@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.service.resource;
 
 
-
 /**
  *
  * This interface is used to fetch the {@link IExtendableResource}.

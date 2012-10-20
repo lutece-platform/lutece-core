@@ -37,51 +37,51 @@ import java.util.List;
 
 
 /**
- * 
+ *
  * IXslExportDAO
- * 
+ *
  */
 public interface IXslExportDAO
 {
-	/**
-	 * Generates a new primary key
-	 * 
-	 * @return The new primary key
-	 */
-	int newPrimaryKey( );
+    /**
+     * Generates a new primary key
+     *
+     * @return The new primary key
+     */
+    int newPrimaryKey(  );
 
-	/**
-	 * Insert a new record in the table.
-	 * 
-	 * @param xslExport instance of the XslExport object to insert
-	 */
-	void insert( XslExport xslExport );
+    /**
+     * Insert a new record in the table.
+     *
+     * @param xslExport instance of the XslExport object to insert
+     */
+    void insert( XslExport xslExport );
 
-	/**
-	 * Load the data of the XslExport from the table
-	 * 
-	 * @param nId The identifier of the xsl
-	 * @return the instance of the XslExport
-	 */
-	XslExport load( int nId );
+    /**
+     * Load the data of the XslExport from the table
+     *
+     * @param nId The identifier of the xsl
+     * @return the instance of the XslExport
+     */
+    XslExport load( int nId );
 
-	/**
-	 * Delete a record from the table
-	 * 
-	 * @param nIdXslExport The identifier of the directory xsl
-	 */
-	void delete( int nIdXslExport );
+    /**
+     * Delete a record from the table
+     *
+     * @param nIdXslExport The identifier of the directory xsl
+     */
+    void delete( int nIdXslExport );
 
-	/**
-	 * Update the xslExport in the table
-	 * 
-	 * @param xslExport instance of the XslExport object to update
-	 */
-	void store( XslExport xslExport );
+    /**
+     * Update the xslExport in the table
+     *
+     * @param xslExport instance of the XslExport object to update
+     */
+    void store( XslExport xslExport );
 
-	/**
-	 * Get the list of Xsl Export.
-	 * @return The list of all Xsl Export.
-	 */
-	List<XslExport> selectList( );
+    /**
+     * Get the list of Xsl Export.
+     * @return The list of all Xsl Export.
+     */
+    List<XslExport> selectList(  );
 }

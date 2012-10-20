@@ -45,173 +45,177 @@ import java.util.List;
  */
 public final class XslExportDAO implements IXslExportDAO
 {
-	// Constants
-	private static final String SQL_QUERY_NEW_PK = "SELECT max( id_xsl_export ) FROM core_xsl_export";
-	private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_xsl_export,title,description,extension,id_file" + " FROM core_xsl_export WHERE id_xsl_export = ?";
-	private static final String SQL_QUERY_INSERT = "INSERT INTO core_xsl_export( id_xsl_export,title,description,extension,id_file)" + " VALUES(?,?,?,?,?)";
-	private static final String SQL_QUERY_DELETE = "DELETE FROM core_xsl_export WHERE id_xsl_export = ? ";
-	private static final String SQL_QUERY_UPDATE = "UPDATE core_xsl_export SET id_xsl_export=?,title=?,description=?,extension=?,id_file=? WHERE id_xsl_export = ? ";
-	private static final String SQL_QUERY_SELECT = "SELECT id_xsl_export,title,description,extension,id_file" + " FROM core_xsl_export ";
+    // Constants
+    private static final String SQL_QUERY_NEW_PK = "SELECT max( id_xsl_export ) FROM core_xsl_export";
+    private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_xsl_export,title,description,extension,id_file" +
+        " FROM core_xsl_export WHERE id_xsl_export = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_xsl_export( id_xsl_export,title,description,extension,id_file)" +
+        " VALUES(?,?,?,?,?)";
+    private static final String SQL_QUERY_DELETE = "DELETE FROM core_xsl_export WHERE id_xsl_export = ? ";
+    private static final String SQL_QUERY_UPDATE = "UPDATE core_xsl_export SET id_xsl_export=?,title=?,description=?,extension=?,id_file=? WHERE id_xsl_export = ? ";
+    private static final String SQL_QUERY_SELECT = "SELECT id_xsl_export,title,description,extension,id_file" +
+        " FROM core_xsl_export ";
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int newPrimaryKey( )
-	{
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-		daoUtil.executeQuery( );
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int newPrimaryKey(  )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
+        daoUtil.executeQuery(  );
 
-		int nKey;
+        int nKey;
 
-		if ( !daoUtil.next( ) )
-		{
-			// if the table is empty
-			nKey = 1;
-		}
-		else
-		{
-			nKey = daoUtil.getInt( 1 ) + 1;
-		}
-		daoUtil.free( );
+        if ( !daoUtil.next(  ) )
+        {
+            // if the table is empty
+            nKey = 1;
+        }
+        else
+        {
+            nKey = daoUtil.getInt( 1 ) + 1;
+        }
 
-		return nKey;
-	}
+        daoUtil.free(  );
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public synchronized void insert( XslExport xslExport )
-	{
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-		daoUtil.setString( 2, xslExport.getTitle( ) );
-		daoUtil.setString( 3, xslExport.getDescription( ) );
-		daoUtil.setString( 4, xslExport.getExtension( ) );
+        return nKey;
+    }
 
-		if ( xslExport.getFile( ) != null )
-		{
-			daoUtil.setInt( 5, xslExport.getFile( ).getIdFile( ) );
-		}
-		else
-		{
-			daoUtil.setIntNull( 5 );
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void insert( XslExport xslExport )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        daoUtil.setString( 2, xslExport.getTitle(  ) );
+        daoUtil.setString( 3, xslExport.getDescription(  ) );
+        daoUtil.setString( 4, xslExport.getExtension(  ) );
 
-		xslExport.setIdXslExport( newPrimaryKey( ) );
-		daoUtil.setInt( 1, xslExport.getIdXslExport( ) );
+        if ( xslExport.getFile(  ) != null )
+        {
+            daoUtil.setInt( 5, xslExport.getFile(  ).getIdFile(  ) );
+        }
+        else
+        {
+            daoUtil.setIntNull( 5 );
+        }
 
-		daoUtil.executeUpdate( );
+        xslExport.setIdXslExport( newPrimaryKey(  ) );
+        daoUtil.setInt( 1, xslExport.getIdXslExport(  ) );
 
-		daoUtil.free( );
-	}
+        daoUtil.executeUpdate(  );
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public XslExport load( int nId )
-	{
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY );
-		daoUtil.setInt( 1, nId );
-		daoUtil.executeQuery( );
+        daoUtil.free(  );
+    }
 
-		XslExport xslExport = null;
-		File file = null;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public XslExport load( int nId )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY );
+        daoUtil.setInt( 1, nId );
+        daoUtil.executeQuery(  );
 
-		if ( daoUtil.next( ) )
-		{
-			xslExport = new XslExport( );
-			xslExport.setIdXslExport( daoUtil.getInt( 1 ) );
-			xslExport.setTitle( daoUtil.getString( 2 ) );
-			xslExport.setDescription( daoUtil.getString( 3 ) );
-			xslExport.setExtension( daoUtil.getString( 4 ) );
+        XslExport xslExport = null;
+        File file = null;
 
-			if ( daoUtil.getObject( 5 ) != null )
-			{
-				file = new File( );
-				file.setIdFile( daoUtil.getInt( 5 ) );
-				xslExport.setFile( file );
-			}
-		}
+        if ( daoUtil.next(  ) )
+        {
+            xslExport = new XslExport(  );
+            xslExport.setIdXslExport( daoUtil.getInt( 1 ) );
+            xslExport.setTitle( daoUtil.getString( 2 ) );
+            xslExport.setDescription( daoUtil.getString( 3 ) );
+            xslExport.setExtension( daoUtil.getString( 4 ) );
 
-		daoUtil.free( );
+            if ( daoUtil.getObject( 5 ) != null )
+            {
+                file = new File(  );
+                file.setIdFile( daoUtil.getInt( 5 ) );
+                xslExport.setFile( file );
+            }
+        }
 
-		return xslExport;
-	}
+        daoUtil.free(  );
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void delete( int nIdXslExport )
-	{
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-		daoUtil.setInt( 1, nIdXslExport );
-		daoUtil.executeUpdate( );
-		daoUtil.free( );
-	}
+        return xslExport;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void store( XslExport xslExport )
-	{
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-		daoUtil.setInt( 1, xslExport.getIdXslExport( ) );
-		daoUtil.setString( 2, xslExport.getTitle( ) );
-		daoUtil.setString( 3, xslExport.getDescription( ) );
-		daoUtil.setString( 4, xslExport.getExtension( ) );
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void delete( int nIdXslExport )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
+        daoUtil.setInt( 1, nIdXslExport );
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
+    }
 
-		if ( xslExport.getFile( ) != null )
-		{
-			daoUtil.setInt( 5, xslExport.getFile( ).getIdFile( ) );
-		}
-		else
-		{
-			daoUtil.setIntNull( 5 );
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void store( XslExport xslExport )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        daoUtil.setInt( 1, xslExport.getIdXslExport(  ) );
+        daoUtil.setString( 2, xslExport.getTitle(  ) );
+        daoUtil.setString( 3, xslExport.getDescription(  ) );
+        daoUtil.setString( 4, xslExport.getExtension(  ) );
 
-		daoUtil.setInt( 6, xslExport.getIdXslExport( ) );
-		daoUtil.executeUpdate( );
-		daoUtil.free( );
-	}
+        if ( xslExport.getFile(  ) != null )
+        {
+            daoUtil.setInt( 5, xslExport.getFile(  ).getIdFile(  ) );
+        }
+        else
+        {
+            daoUtil.setIntNull( 5 );
+        }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<XslExport> selectList( )
-	{
-		List<XslExport> listXslExport = new ArrayList<XslExport>( );
-		XslExport xslExport = null;
-		File file = null;
+        daoUtil.setInt( 6, xslExport.getIdXslExport(  ) );
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
+    }
 
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<XslExport> selectList(  )
+    {
+        List<XslExport> listXslExport = new ArrayList<XslExport>(  );
+        XslExport xslExport = null;
+        File file = null;
 
-		daoUtil.executeQuery( );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
 
-		while ( daoUtil.next( ) )
-		{
-			xslExport = new XslExport( );
-			xslExport.setIdXslExport( daoUtil.getInt( 1 ) );
-			xslExport.setTitle( daoUtil.getString( 2 ) );
-			xslExport.setDescription( daoUtil.getString( 3 ) );
-			xslExport.setExtension( daoUtil.getString( 4 ) );
+        daoUtil.executeQuery(  );
 
-			if ( daoUtil.getObject( 5 ) != null )
-			{
-				file = new File( );
-				file.setIdFile( daoUtil.getInt( 5 ) );
-				xslExport.setFile( file );
-			}
+        while ( daoUtil.next(  ) )
+        {
+            xslExport = new XslExport(  );
+            xslExport.setIdXslExport( daoUtil.getInt( 1 ) );
+            xslExport.setTitle( daoUtil.getString( 2 ) );
+            xslExport.setDescription( daoUtil.getString( 3 ) );
+            xslExport.setExtension( daoUtil.getString( 4 ) );
 
-			listXslExport.add( xslExport );
-		}
+            if ( daoUtil.getObject( 5 ) != null )
+            {
+                file = new File(  );
+                file.setIdFile( daoUtil.getInt( 5 ) );
+                xslExport.setFile( file );
+            }
 
-		daoUtil.free( );
+            listXslExport.add( xslExport );
+        }
 
-		return listXslExport;
-	}
+        daoUtil.free(  );
+
+        return listXslExport;
+    }
 }

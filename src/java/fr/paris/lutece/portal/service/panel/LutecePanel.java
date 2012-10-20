@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.panel;
 
 import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -79,11 +80,11 @@ public interface LutecePanel
     public Locale getPanelLocale(  );
 
     /**
-     * Sets the request 
+     * Sets the request
      * @param request The request
      */
     void setRequest( HttpServletRequest request );
-    
+
     /**
      * Gets the request
      * @return The request
@@ -94,5 +95,5 @@ public interface LutecePanel
      * Gets the panel index
      * @return The index
      */
-    public int getPanelIndex();
+    public int getPanelIndex(  );
 }

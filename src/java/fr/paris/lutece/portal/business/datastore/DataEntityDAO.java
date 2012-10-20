@@ -128,7 +128,7 @@ public final class DataEntityDAO implements IDataEntityDAO
      * @return The List which contains the data of all the entitys
      */
     @Override
-    public List<DataEntity> selectEntitiesList( )
+    public List<DataEntity> selectEntitiesList(  )
     {
         List<DataEntity> entityList = new ArrayList<DataEntity>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );

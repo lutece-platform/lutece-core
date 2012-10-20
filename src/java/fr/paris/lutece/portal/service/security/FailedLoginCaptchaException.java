@@ -41,36 +41,36 @@ import javax.security.auth.login.FailedLoginException;
  */
 public class FailedLoginCaptchaException extends FailedLoginException
 {
-	private static final long serialVersionUID = -6833180698556878514L;
-	private boolean _bEnableCaptcha;
+    private static final long serialVersionUID = -6833180698556878514L;
+    private boolean _bEnableCaptcha;
 
-	/**
-	 * Creates a new instance of FailedLoginCaptchaException
-	 * @param bEnableCaptcha True if the captcha should be enabled, false otherwise
-	 */
-	public FailedLoginCaptchaException( boolean bEnableCaptcha )
+    /**
+     * Creates a new instance of FailedLoginCaptchaException
+     * @param bEnableCaptcha True if the captcha should be enabled, false otherwise
+     */
+    public FailedLoginCaptchaException( boolean bEnableCaptcha )
     {
         super(  );
-		_bEnableCaptcha = bEnableCaptcha;
+        _bEnableCaptcha = bEnableCaptcha;
     }
 
-	/**
-	 * Creates a new instance of FailedLoginCaptchaException
-	 * @param strMessage The detail message
-	 * @param bEnableCaptcha True if the captcha should be enabled, false otherwise
-	 */
-	public FailedLoginCaptchaException( String strMessage, boolean bEnableCaptcha )
-	{
-		super( strMessage );
-		_bEnableCaptcha = bEnableCaptcha;
-	}
-
-	/**
-	 * Check if the captcha should be enabled
-	 * @return True if the captcha should be enabled, false otherwise
-	 */
-	public boolean isCaptchaEnabled( )
+    /**
+     * Creates a new instance of FailedLoginCaptchaException
+     * @param strMessage The detail message
+     * @param bEnableCaptcha True if the captcha should be enabled, false otherwise
+     */
+    public FailedLoginCaptchaException( String strMessage, boolean bEnableCaptcha )
     {
-		return _bEnableCaptcha;
+        super( strMessage );
+        _bEnableCaptcha = bEnableCaptcha;
+    }
+
+    /**
+     * Check if the captcha should be enabled
+     * @return True if the captcha should be enabled, false otherwise
+     */
+    public boolean isCaptchaEnabled(  )
+    {
+        return _bEnableCaptcha;
     }
 }

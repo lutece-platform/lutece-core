@@ -59,7 +59,7 @@ public class SafeRequestFilterSite extends SafeRequestFilter
         }
         catch ( SiteMessageException lme )
         {
-            return  AppPathService.getSiteMessageUrl( request );
+            return AppPathService.getSiteMessageUrl( request );
         }
 
         return null;

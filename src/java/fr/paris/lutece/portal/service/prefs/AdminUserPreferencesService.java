@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.prefs;
 import fr.paris.lutece.portal.business.prefs.IPreferencesDAO;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+
 /**
  * AdminUser Preferences Service
  */
@@ -43,19 +44,19 @@ public class AdminUserPreferencesService
 {
     private static final String BEAN_USER_PREFERENCE_SERVICE = "adminUserPreferencesDAO";
     private static IUserPreferencesService _singleton;
-    
-            
+
     /**
      * Return the unique instance
      * @return The instance
-     */        
-    public static synchronized IUserPreferencesService instance()
+     */
+    public static synchronized IUserPreferencesService instance(  )
     {
-        if( _singleton == null )
+        if ( _singleton == null )
         {
             IPreferencesDAO dao = SpringContextService.getBean( BEAN_USER_PREFERENCE_SERVICE );
             _singleton = new BaseUserPreferencesService( dao );
         }
+
         return _singleton;
     }
 }

@@ -109,7 +109,7 @@ public class XPageAppService extends ContentService
      * @return The name as a String
      */
     @Override
-	public String getName(  )
+    public String getName(  )
     {
         return CONTENT_SERVICE_NAME;
     }
@@ -121,7 +121,7 @@ public class XPageAppService extends ContentService
      * @return true if this ContentService should handle this request
      */
     @Override
-	public boolean isInvoked( HttpServletRequest request )
+    public boolean isInvoked( HttpServletRequest request )
     {
         String strXPage = request.getParameter( PARAM_XPAGE_APP );
 
@@ -182,7 +182,7 @@ public class XPageAppService extends ContentService
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
     @Override
-	public String getPage( HttpServletRequest request, int nMode )
+    public String getPage( HttpServletRequest request, int nMode )
         throws UserNotSignedException, SiteMessageException
     {
         // Gets XPage info from the lutece.properties

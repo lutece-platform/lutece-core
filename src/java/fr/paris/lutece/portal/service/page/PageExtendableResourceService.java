@@ -40,6 +40,7 @@ import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
 
 import org.apache.commons.lang.StringUtils;
 
+
 /**
  *
  * PageExtendableResourceService
@@ -47,26 +48,28 @@ import org.apache.commons.lang.StringUtils;
  */
 public class PageExtendableResourceService implements IExtendableResourceService
 {
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean isInvoked( String strResourceType )
-	{
-		return Page.RESOURCE_TYPE.equals( strResourceType );
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isInvoked( String strResourceType )
+    {
+        return Page.RESOURCE_TYPE.equals( strResourceType );
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public IExtendableResource getResource( String strIdResource, String strResourceType )
-	{
-		if ( StringUtils.isNotBlank( strIdResource ) && StringUtils.isNumeric( strIdResource ) )
-		{
-			int nIdPage = Integer.parseInt( strIdResource );
-			return PageHome.getPage( nIdPage );
-		}
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IExtendableResource getResource( String strIdResource, String strResourceType )
+    {
+        if ( StringUtils.isNotBlank( strIdResource ) && StringUtils.isNumeric( strIdResource ) )
+        {
+            int nIdPage = Integer.parseInt( strIdResource );
+
+            return PageHome.getPage( nIdPage );
+        }
+
+        return null;
+    }
 }

@@ -48,6 +48,7 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.io.IOException;
+
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 
@@ -139,8 +140,8 @@ public class AuthenticationFilter implements Filter
             }
             catch ( PasswordResetException e )
             {
-                if ( !getResquestedUrl( req ).equals( getChangePasswordUrl( req ) )
-                        && !getResquestedUrl( req ).equals( getLoginUrl( req ) ) )
+                if ( !getResquestedUrl( req ).equals( getChangePasswordUrl( req ) ) &&
+                        !getResquestedUrl( req ).equals( getLoginUrl( req ) ) )
                 {
                     String strRedirectUrl = AdminMessageService.getMessageUrl( req,
                             Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, getChangePasswordUrl( req ),
@@ -201,14 +202,14 @@ public class AuthenticationFilter implements Filter
 
     /**
      * Get the absolute login url
-     * 
+     *
      * @param request the http request
      * @return the login url, in its absolute form
-     * 
+     *
      * */
     private String getChangePasswordUrl( HttpServletRequest request )
     {
-        String strChangePasswordUrl = AdminAuthenticationService.getInstance( ).getChangePasswordPageUrl( );
+        String strChangePasswordUrl = AdminAuthenticationService.getInstance(  ).getChangePasswordPageUrl(  );
 
         return getAbsoluteUrl( request, strChangePasswordUrl );
     }
@@ -261,7 +262,8 @@ public class AuthenticationFilter implements Filter
                 // Authentication is required to access to the admin
                 throw new UserNotSignedException(  );
             }
-            if ( AdminUserService.getAdminUser( request ).isPasswordReset( ) )
+
+            if ( AdminUserService.getAdminUser( request ).isPasswordReset(  ) )
             {
                 throw new PasswordResetException( PROPERTY_RESET_EXCEPTION_MESSAGE );
             }

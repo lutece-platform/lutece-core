@@ -34,7 +34,9 @@
 package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.test.LuteceTestCase;
+
 import java.util.List;
+
 
 /**
  * User Preferences Service Test
@@ -51,35 +53,33 @@ public class UserPreferencesServiceTest extends LuteceTestCase
     private static final int INT_VALUE = 20;
     private static final boolean BOOL_DEFAULT = true;
     private static final boolean BOOL_VALUE = false;
-    
 
     public void testBusinessLevel(  )
     {
-        IUserPreferencesService service = UserPreferencesService.instance();
-        
+        IUserPreferencesService service = UserPreferencesService.instance(  );
+
         service.clear( USER_ID_1 );
 
         String strValue = service.get( USER_ID_1, KEY1, DEFAULT );
-        assertEquals( strValue , DEFAULT );
+        assertEquals( strValue, DEFAULT );
         service.put( USER_ID_1, KEY1, VALUE1 );
         strValue = service.get( USER_ID_1, KEY1, DEFAULT );
-        assertEquals( strValue , VALUE1 );
+        assertEquals( strValue, VALUE1 );
 
-        
         int nValue = service.getInt( USER_ID_1, KEY2, INT_DEFAULT );
-        assertEquals( nValue , INT_DEFAULT );
+        assertEquals( nValue, INT_DEFAULT );
         service.putInt( USER_ID_1, KEY2, INT_VALUE );
         nValue = service.getInt( USER_ID_1, KEY2, INT_DEFAULT );
-        assertEquals( nValue , INT_VALUE );
+        assertEquals( nValue, INT_VALUE );
 
         boolean bValue = service.getBoolean( USER_ID_1, KEY3, BOOL_DEFAULT );
-        assertEquals( bValue , BOOL_DEFAULT );
+        assertEquals( bValue, BOOL_DEFAULT );
         service.putBoolean( USER_ID_1, KEY3, BOOL_VALUE );
         bValue = service.getBoolean( USER_ID_1, KEY3, BOOL_DEFAULT );
-        assertEquals( bValue , BOOL_VALUE );
+        assertEquals( bValue, BOOL_VALUE );
 
         // List Test
-        List list = service.keys( USER_ID_1);
+        List list = service.keys( USER_ID_1 );
         assertTrue( list.size(  ) > 0 );
     }
 }

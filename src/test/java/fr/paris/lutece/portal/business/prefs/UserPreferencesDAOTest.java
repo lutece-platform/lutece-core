@@ -34,7 +34,9 @@
 package fr.paris.lutece.portal.business.prefs;
 
 import fr.paris.lutece.test.LuteceTestCase;
+
 import java.util.List;
+
 
 /**
  * UserPreferencesDAOTest
@@ -48,19 +50,19 @@ public class UserPreferencesDAOTest extends LuteceTestCase
 
     public void testBusinessLevel(  )
     {
-        UserPreferencesDAO dao = new UserPreferencesDAO();
-        
+        UserPreferencesDAO dao = new UserPreferencesDAO(  );
+
         dao.remove( USER_ID_1 );
 
         String strValue = dao.load( USER_ID_1, KEY1, DEFAULT );
-        assertEquals( strValue , DEFAULT );
-        
+        assertEquals( strValue, DEFAULT );
+
         dao.store( USER_ID_1, KEY1, VALUE1 );
         strValue = dao.load( USER_ID_1, KEY1, DEFAULT );
-        assertEquals( strValue , VALUE1 );
+        assertEquals( strValue, VALUE1 );
 
         // List Test
-        List list = dao.keys( USER_ID_1);
+        List list = dao.keys( USER_ID_1 );
         assertTrue( list.size(  ) > 0 );
     }
 }

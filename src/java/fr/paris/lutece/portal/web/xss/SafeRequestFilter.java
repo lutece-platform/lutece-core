@@ -97,13 +97,14 @@ public abstract class SafeRequestFilter implements Filter
         if ( _bActivateXssFilter && ( _strXssCharacters != null ) && !_strXssCharacters.trim(  ).equals( "" ) &&
                 !SecurityUtil.containsCleanParameters( httpRequest, _strXssCharacters ) )
         {
-        	HttpServletResponse httpServletResponse=(HttpServletResponse)response;
-        	httpServletResponse.sendRedirect(getMessageUrl( httpRequest, PROPERTY_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS, null,
-                    PROPERTY_TITLE_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS ));
+            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+            httpServletResponse.sendRedirect( getMessageUrl( httpRequest,
+                    PROPERTY_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS, null,
+                    PROPERTY_TITLE_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS ) );
         }
         else
         {
-        	chain.doFilter( request, response );
+            chain.doFilter( request, response );
         }
     }
 
@@ -115,6 +116,6 @@ public abstract class SafeRequestFilter implements Filter
      * @param strTitleKey the title of the message
      * @return url
      */
-    protected abstract String getMessageUrl( HttpServletRequest request, String strMessageKey,
-        Object[] messageArgs, String strTitleKey );
+    protected abstract String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
+        String strTitleKey );
 }

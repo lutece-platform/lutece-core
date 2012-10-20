@@ -206,7 +206,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Get the anonymize status of the attribute
      * @return True if the attribute should be anonymize, false otherwise.
      */
-    public boolean getAnonymize( )
+    public boolean getAnonymize(  )
     {
         return _bAnonymize;
     }

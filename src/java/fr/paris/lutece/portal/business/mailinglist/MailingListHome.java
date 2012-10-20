@@ -163,6 +163,6 @@ public final class MailingListHome
      */
     public static List<MailingList> findsByFilter( MailingListFilter filter )
     {
-    	return _dao.selectByFilter( filter );
+        return _dao.selectByFilter( filter );
     }
 }

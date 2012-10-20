@@ -34,22 +34,27 @@
 package fr.paris.lutece.portal.business.prefs;
 
 import fr.paris.lutece.util.sql.DAOUtil;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * User Preferences DAO
  */
 public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
 {
-    
-    abstract String getPreferencesTable();
+    private final String SQL_QUERY_SELECT = "SELECT pref_value FROM " + getPreferencesTable(  ) +
+        " WHERE id_user = ? AND pref_key = ?";
+    private final String SQL_QUERY_INSERT = "INSERT INTO " + getPreferencesTable(  ) +
+        " ( pref_value , id_user, pref_key ) VALUES ( ?, ?, ? ) ";
+    private final String SQL_QUERY_UPDATE = "UPDATE " + getPreferencesTable(  ) +
+        " SET pref_value = ? WHERE id_user = ? AND pref_key = ?";
+    private final String SQL_QUERY_DELETE = "DELETE FROM " + getPreferencesTable(  ) + " WHERE id_user = ? ";
+    private final String SQL_QUERY_SELECTALL = "SELECT pref_key FROM " + getPreferencesTable(  ) +
+        " WHERE id_user = ?";
 
-    private final String SQL_QUERY_SELECT = "SELECT pref_value FROM " + getPreferencesTable() + " WHERE id_user = ? AND pref_key = ?";
-    private final String SQL_QUERY_INSERT = "INSERT INTO " + getPreferencesTable() + " ( pref_value , id_user, pref_key ) VALUES ( ?, ?, ? ) ";
-    private final String SQL_QUERY_UPDATE = "UPDATE " + getPreferencesTable() + " SET pref_value = ? WHERE id_user = ? AND pref_key = ?";
-    private final String SQL_QUERY_DELETE = "DELETE FROM " + getPreferencesTable() + " WHERE id_user = ? ";
-    private final String SQL_QUERY_SELECTALL = "SELECT pref_key FROM " + getPreferencesTable() + " WHERE id_user = ?";
+    abstract String getPreferencesTable(  );
 
     @Override
     public String load( String strUserId, String strKey, String strDefault )
@@ -57,16 +62,17 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setString( 1, strUserId );
         daoUtil.setString( 2, strKey );
-        daoUtil.executeQuery();
+        daoUtil.executeQuery(  );
 
         String strValue = strDefault;
 
-        if (daoUtil.next())
+        if ( daoUtil.next(  ) )
         {
-            strValue = (daoUtil.getString( 1 ));
+            strValue = ( daoUtil.getString( 1 ) );
         }
 
-        daoUtil.free();
+        daoUtil.free(  );
+
         return strValue;
     }
 
@@ -75,7 +81,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     {
         String strSQL = SQL_QUERY_INSERT;
 
-        if (load( strUserId, strKey, null ) != null)
+        if ( load( strUserId, strKey, null ) != null )
         {
             strSQL = SQL_QUERY_UPDATE;
         }
@@ -86,24 +92,25 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         daoUtil.setString( 2, strUserId );
         daoUtil.setString( 3, strKey );
 
-        daoUtil.executeUpdate();
-        daoUtil.free();
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
     }
 
     @Override
     public List<String> keys( String strUserId )
     {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<String>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
         daoUtil.setString( 1, strUserId );
-        daoUtil.executeQuery();
+        daoUtil.executeQuery(  );
 
-        while (daoUtil.next())
+        while ( daoUtil.next(  ) )
         {
             list.add( daoUtil.getString( 1 ) );
         }
 
-        daoUtil.free();
+        daoUtil.free(  );
+
         return list;
     }
 
@@ -112,7 +119,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
         daoUtil.setString( 1, strUserId );
-        daoUtil.executeUpdate();
-        daoUtil.free();
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
     }
 }

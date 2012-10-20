@@ -51,27 +51,27 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class GlobalManagementJspBean extends PluginAdminPageJspBean
 {
-	private static final String MARK_PANELS_LIST = "panels_list";
-	private static final String TEMPLATE_GLOBAL_MANAGEMENT = "/admin/globalmanagement/global_management.html";
+    private static final String MARK_PANELS_LIST = "panels_list";
+    private static final String TEMPLATE_GLOBAL_MANAGEMENT = "/admin/globalmanagement/global_management.html";
 
-	public String getGlobalManagement( HttpServletRequest request )
-	{
-		LutecePanelService<AbstractGMLutecePanel> gmLutecePanel = LutecePanelService.instance( AbstractGMLutecePanel.class );
+    public String getGlobalManagement( HttpServletRequest request )
+    {
+        LutecePanelService<AbstractGMLutecePanel> gmLutecePanel = LutecePanelService.instance( AbstractGMLutecePanel.class );
 
-		List<AbstractGMLutecePanel> listPanels = gmLutecePanel.getPanels( );
+        List<AbstractGMLutecePanel> listPanels = gmLutecePanel.getPanels(  );
 
-		for ( AbstractGMLutecePanel panel : listPanels )
-		{
-			panel.setPanelLocale( AdminUserService.getLocale( request ) );
-			panel.setRequest( request );
-		}
+        for ( AbstractGMLutecePanel panel : listPanels )
+        {
+            panel.setPanelLocale( AdminUserService.getLocale( request ) );
+            panel.setRequest( request );
+        }
 
-		Map<String, Object> model = new HashMap<String, Object>( );
-		model.put( MARK_PANELS_LIST, listPanels );
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        model.put( MARK_PANELS_LIST, listPanels );
 
-		HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_GLOBAL_MANAGEMENT, AdminUserService.getLocale( request ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_GLOBAL_MANAGEMENT,
+                AdminUserService.getLocale( request ), model );
 
-		return getAdminPage( template.getHtml( ) );
-	}
-
+        return getAdminPage( template.getHtml(  ) );
+    }
 }
