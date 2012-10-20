@@ -40,12 +40,21 @@ import java.util.List;
  * Abstract User Preferences Service
  * @since 4.0
  */
-public abstract class AbstractUserPreferencesService implements IUserPreferencesService
+public class BaseUserPreferencesService implements IUserPreferencesService
 {
     private static final String TRUE = "true";
     private static final String FALSE = "false";
 
     private IPreferencesDAO _dao;
+    
+    /**
+     * Constructor
+     * @param dao The DAO
+     */
+    BaseUserPreferencesService( IPreferencesDAO dao )
+    {
+        _dao = dao;
+    }
     
     /**
      * {@inheritDoc }
@@ -89,7 +98,7 @@ public abstract class AbstractUserPreferencesService implements IUserPreferences
      * {@inheritDoc }
      */
     @Override
-    public void puInt( String strUserId, String strKey, int nValue )
+    public void putInt( String strUserId, String strKey, int nValue )
     {
         _dao.store( strUserId, strKey, String.valueOf( nValue ) );
     }

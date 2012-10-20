@@ -170,4 +170,10 @@
     <bean id="pageExtendableResourceService" class="fr.paris.lutece.portal.service.page.PageExtendableResourceService" />
     
     <bean id="editorChoiceLutecePanelJspBean" class="fr.paris.lutece.portal.web.globalmanagement.EditorChoiceLutecePanelJspBean" />
+
+    <!-- Preferences Services -->
+    <bean id="userPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.UserPreferencesDAO" />
+    <bean id="adminUserPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.AdminUserPreferencesDAO" />
+
+
 </beans>

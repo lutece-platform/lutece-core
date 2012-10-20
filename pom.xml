@@ -23,6 +23,14 @@
 
     <repositories>
         <repository>
+            <id>luteceSnapshot</id>
+            <name>luteceSnapshot</name>
+            <url>http://${serverUrl}/snapshot_repository</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>lutece</id>
             <name>luteceRepository</name>
             <url>http://dev.lutece.paris.fr/maven_repository</url>
@@ -186,18 +194,19 @@
         </dependency>
         
         <!-- Lutece API -->
+        
     	<dependency>
 			<groupId>fr.paris.lutece.plugins</groupId>
 			<artifactId>library-rbac-api</artifactId>
 			<version>1.0.0</version>
-			<type>jar</type>
+		<type>jar</type> 
 		</dependency>
 		<dependency>
 			<groupId>fr.paris.lutece.plugins</groupId>
 			<artifactId>library-workgroup-api</artifactId>
 			<version>1.0.0</version>
-			<type>jar</type>
-		</dependency>
+			<type>jar</type> 
+		</dependency> 
 		<dependency>
 			<groupId>fr.paris.lutece.plugins</groupId>
 			<artifactId>library-freemarker</artifactId>

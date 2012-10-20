@@ -82,7 +82,7 @@ public interface IUserPreferencesService
      * @param strKey The preference's key
      * @param nValue The value
      */
-    void puInt( String strUserId, String strKey, int nValue );
+    void putInt( String strUserId, String strKey, int nValue );
 
     /**
      * Put a boolean preference for a given user
