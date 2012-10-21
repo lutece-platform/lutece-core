@@ -44,22 +44,25 @@ import java.util.List;
  */
 public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
 {
-    private final String SQL_QUERY_SELECT = "SELECT pref_value FROM " + getPreferencesTable(  ) +
+    private final String _strSqlSelect = "SELECT pref_value FROM " + getPreferencesTable(  ) +
         " WHERE id_user = ? AND pref_key = ?";
-    private final String SQL_QUERY_INSERT = "INSERT INTO " + getPreferencesTable(  ) +
+    private final String _strSqlInsert = "INSERT INTO " + getPreferencesTable(  ) +
         " ( pref_value , id_user, pref_key ) VALUES ( ?, ?, ? ) ";
-    private final String SQL_QUERY_UPDATE = "UPDATE " + getPreferencesTable(  ) +
+    private final String _strSqlUpdate = "UPDATE " + getPreferencesTable(  ) +
         " SET pref_value = ? WHERE id_user = ? AND pref_key = ?";
-    private final String SQL_QUERY_DELETE = "DELETE FROM " + getPreferencesTable(  ) + " WHERE id_user = ? ";
-    private final String SQL_QUERY_SELECTALL = "SELECT pref_key FROM " + getPreferencesTable(  ) +
+    private final String _strSqlDelete = "DELETE FROM " + getPreferencesTable(  ) + " WHERE id_user = ? ";
+    private final String _strSqlSelectAll = "SELECT pref_key FROM " + getPreferencesTable(  ) +
         " WHERE id_user = ?";
 
     abstract String getPreferencesTable(  );
-
+    
+    /**
+     * {@inheritDoc } 
+     */
     @Override
     public String load( String strUserId, String strKey, String strDefault )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
+        DAOUtil daoUtil = new DAOUtil( _strSqlSelect );
         daoUtil.setString( 1, strUserId );
         daoUtil.setString( 2, strKey );
         daoUtil.executeQuery(  );
@@ -76,14 +79,17 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         return strValue;
     }
 
+    /**
+     * {@inheritDoc } 
+     */
     @Override
     public void store( String strUserId, String strKey, String strValue )
     {
-        String strSQL = SQL_QUERY_INSERT;
+        String strSQL = _strSqlInsert;
 
         if ( load( strUserId, strKey, null ) != null )
         {
-            strSQL = SQL_QUERY_UPDATE;
+            strSQL = _strSqlUpdate;
         }
 
         DAOUtil daoUtil = new DAOUtil( strSQL );
@@ -96,11 +102,14 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         daoUtil.free(  );
     }
 
+    /**
+     * {@inheritDoc } 
+     */
     @Override
     public List<String> keys( String strUserId )
     {
         List<String> list = new ArrayList<String>(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
+        DAOUtil daoUtil = new DAOUtil( _strSqlSelectAll );
         daoUtil.setString( 1, strUserId );
         daoUtil.executeQuery(  );
 
@@ -114,10 +123,13 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         return list;
     }
 
+    /**
+     * {@inheritDoc } 
+     */
     @Override
     public void remove( String strUserId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
+        DAOUtil daoUtil = new DAOUtil( _strSqlDelete );
         daoUtil.setString( 1, strUserId );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );

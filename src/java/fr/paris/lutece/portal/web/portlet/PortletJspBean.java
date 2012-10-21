@@ -85,8 +85,6 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_NORMAL_CHECKED = "normal_checked";
     private static final String MARK_LARGE_CHECKED = "large_checked";
     private static final String MARK_XLARGE_CHECKED = "xlarge_checked";
-    private static final String VALUE_TRUE = "1";
-    private static final String VALUE_FALSE = "0";
     private static final String VALUE_CHECKED = "checked=\"checked\"";
     private static final String VALUE_UNCHECKED = "";
 

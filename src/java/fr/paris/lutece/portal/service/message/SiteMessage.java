@@ -67,7 +67,7 @@ public class SiteMessage implements Serializable
     private int _nTypeButton;
     private int _nType;
     private String[] _messageArgs;
-    private HashMap<String, String> _requestParameters;
+    private Map<String, String> _requestParameters;
     private String _strBackUrl;
 
     /**

@@ -45,6 +45,12 @@ public class UserPreferencesService
     private static final String BEAN_USER_PREFERENCE_SERVICE = "userPreferencesDAO";
     private static IUserPreferencesService _singleton;
 
+    /** private constructor */
+    private UserPreferencesService()
+    {
+        
+    }
+    
     /**
      * Return the unique instance
      * @return The instance

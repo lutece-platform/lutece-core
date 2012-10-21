@@ -56,7 +56,6 @@ public class Page implements RBACResource, IExtendableResource
     public static final String RESOURCE_TYPE = "PAGE";
     public static final String ROLE_NONE = "none";
     private static final String THEME_DEFAULT = "default";
-    private static PageRoleRemovalListener _listenerRole;
 
     // Variables declarations
     private int _nId;
