@@ -210,7 +210,7 @@
 		<dependency>
 			<groupId>fr.paris.lutece.plugins</groupId>
 			<artifactId>library-workflow-core</artifactId>
-			<version>1.0.2</version>
+			<version>1.0.3</version>
 			<type>jar</type>
 		</dependency>
         
