@@ -40,7 +40,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 /**
  * User Preferences Service
  */
-public class UserPreferencesService
+public final class UserPreferencesService
 {
     private static final String BEAN_USER_PREFERENCE_SERVICE = "userPreferencesDAO";
     private static IUserPreferencesService _singleton;

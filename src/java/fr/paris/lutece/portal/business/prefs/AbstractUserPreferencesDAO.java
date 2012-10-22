@@ -54,6 +54,10 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     private final String _strSqlSelectAll = "SELECT pref_key FROM " + getPreferencesTable(  ) +
         " WHERE id_user = ?";
 
+    /**
+     * Gets the preferences table
+     * @return The table name that stores preferences 
+     */
     abstract String getPreferencesTable(  );
     
     /**
