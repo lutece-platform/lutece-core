@@ -264,8 +264,8 @@ public class MailItem implements Serializable
     }
 
     /**
-     * set if the mail must be send unitarily for each recipient
-     * @param _bUniqueRecipients
+     * set true if the mail must be send unitarily for each recipient
+     * @param bUniqueRecipient true if the mail must be send unitarily for each recipient
      */
     public void setUniqueRecipientTo( boolean bUniqueRecipient )
     {

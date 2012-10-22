@@ -67,16 +67,15 @@ public class EditorBbcodeService implements IEditorBbcodeService
     /** Properties**/
     private static final String PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH = "editors.parser.bbcode.complexElement";
     private static final String PROPERTY_EDITOR_BBCODE_ELEMENT_PATH = "editors.parser.bbcode.element";
-    private static String PROPERTY_PARSER_ELEMENTS = "editors.parser.bbcode.elements";
-    private static String PROPERTY_PARSER_COMPLEX_ELEMENTS = "editors.parser.bbcode.complexElements";
+    private static final String PROPERTY_PARSER_ELEMENTS = "editors.parser.bbcode.elements";
+    private static final String PROPERTY_PARSER_COMPLEX_ELEMENTS = "editors.parser.bbcode.complexElements";
     private static final String SEPARATOR = ",";
     private static EditorBbcodeService _singleton;
     private static List<ParserElement> _listParserElement;
     private static List<ParserComplexElement> _listParserComplexElement;
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.service.editor.IEditorBbcodeService#parse(java.lang.String)
+    /**
+     * {@inheritDoc}
      */
     public String parse( String strValue )
     {

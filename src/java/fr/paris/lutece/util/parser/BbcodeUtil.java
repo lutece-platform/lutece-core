@@ -52,10 +52,17 @@ import java.util.regex.Pattern;
  *  This class provides parser utils  for BBCODE parsing
  *
  */
-public class BbcodeUtil
+public final class BbcodeUtil
 {
     private static final String CR_LF = "(?:\r\n|\r|\n)?";
 
+    /**
+     * private constructor
+     */
+    private BbcodeUtil()
+    {
+    	
+    }
     /**
      * Parse BBCODE text and return HTML text
      * @param value the value of the text

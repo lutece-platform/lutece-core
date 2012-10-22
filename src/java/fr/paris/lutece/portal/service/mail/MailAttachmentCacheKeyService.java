@@ -48,9 +48,8 @@ public class MailAttachmentCacheKeyService implements ICacheKeyService
 {
     public static final String MARK_URL = "url";
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.service.cache.ICacheKeyService#getKey(java.util.Map, int, fr.paris.lutece.portal.service.security.LuteceUser)
+    /**
+     * {@inheritDoc}
      */
     public String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
@@ -64,17 +63,15 @@ public class MailAttachmentCacheKeyService implements ICacheKeyService
         return sbKey.toString(  );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.service.cache.ICacheKeyService#setAllowedParametersList(java.util.List)
+    /**
+     * {@inheritDoc}
      */
     public void setAllowedParametersList( List<String> arg0 )
     {
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.service.cache.ICacheKeyService#setIgnoredParametersList(java.util.List)
+    /**
+     * {@inheritDoc}
      */
     public void setIgnoredParametersList( List<String> arg0 )
     {

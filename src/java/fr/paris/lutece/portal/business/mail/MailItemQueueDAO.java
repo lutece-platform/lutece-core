@@ -33,18 +33,16 @@
  */
 package fr.paris.lutece.portal.business.mail;
 
-import fr.paris.lutece.portal.service.mail.MailItem;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.util.sql.DAOUtil;
-import fr.paris.lutece.util.sql.Transaction;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import java.sql.SQLException;
+import fr.paris.lutece.portal.service.mail.MailItem;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.sql.DAOUtil;
+import fr.paris.lutece.util.sql.Transaction;
 
 
 /**

@@ -59,7 +59,7 @@ public abstract class SafeRequestFilter implements Filter
     private static final String ACTIVATE_XSS_FILTER = "activateXssFilter";
     private FilterConfig _filterConfig;
     private String _strXssCharacters;
-    private boolean _bActivateXssFilter = false;
+    private boolean _bActivateXssFilter;
 
     /**
      * {@inheritDoc}

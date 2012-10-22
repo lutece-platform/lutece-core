@@ -42,18 +42,20 @@ import java.util.HashMap;
 /**
  * MailAttachment CacheService
  */
-public class MailAttachmentCacheService extends AbstractCacheableService
+public final class MailAttachmentCacheService extends AbstractCacheableService
 {
     private static MailAttachmentCacheService _singleton;
     private static ICacheKeyService _cksMailAttachment = new MailAttachmentCacheKeyService(  );
     private static final String SERVICE_NAME = "Mail Attachment Cache Service";
-
+    /**
+     * constructor
+     */
     private MailAttachmentCacheService(  )
     {
     }
 
     /**
-     * {@inheritDoc }
+     * {@inheritDoc}
      */
     public String getName(  )
     {

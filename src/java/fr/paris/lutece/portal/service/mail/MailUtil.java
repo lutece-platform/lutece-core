@@ -257,18 +257,18 @@ final class MailUtil
 
         if ( urlAttachements != null )
         {
-            ByteArrayDataSource UrlByteArrayDataSource = null;
+            ByteArrayDataSource urlByteArrayDataSource = null;
 
             for ( UrlAttachment urlAttachement : urlAttachements )
             {
-                UrlByteArrayDataSource = convertUrlAttachmentDataSourceToByteArrayDataSource( urlAttachement );
+                urlByteArrayDataSource = convertUrlAttachmentDataSourceToByteArrayDataSource( urlAttachement );
 
-                if ( UrlByteArrayDataSource != null )
+                if ( urlByteArrayDataSource != null )
                 {
                     msgBodyPart = new MimeBodyPart(  );
                     // Fill this part, then add it to the root part with the
                     // good headers
-                    msgBodyPart.setDataHandler( new DataHandler( UrlByteArrayDataSource ) );
+                    msgBodyPart.setDataHandler( new DataHandler( urlByteArrayDataSource ) );
                     msgBodyPart.setHeader( HEADER_CONTENT_LOCATION, urlAttachement.getContentLocation(  ) );
                     multipart.addBodyPart( msgBodyPart );
                 }

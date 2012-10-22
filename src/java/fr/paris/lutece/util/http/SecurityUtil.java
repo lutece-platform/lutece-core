@@ -63,8 +63,7 @@ public final class SecurityUtil
     /**
      * Scan request parameters to see if there no malicious code
      * @param request The HTTP request
-     * @param strXssCharacters a String wich contain a list of Xss characters to check in strValue
-     * @return true if all parameters don't contains any special characters
+     *  @return true if all parameters don't contains any special characters
      */
     public static boolean containsCleanParameters( HttpServletRequest request )
     {
@@ -75,8 +74,7 @@ public final class SecurityUtil
      * Scan request parameters to see if there no malicious code
      * @param request The HTTP request
      * @param strXssCharacters a String wich contain a list of Xss characters to check in strValue
-     * @param strParameterError a String wich contains strParameterError
-     *
+     * 
      * @return true if all parameters don't contains any special characters
      */
     public static boolean containsCleanParameters( HttpServletRequest request, String strXssCharacters )
