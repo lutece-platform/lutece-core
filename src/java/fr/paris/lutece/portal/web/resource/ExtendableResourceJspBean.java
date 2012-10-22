@@ -55,11 +55,11 @@ public class ExtendableResourceJspBean extends AdminFeaturesPageJspBean
 {
     /**
      * Do process extendable resource action.
-     *
+     * 
      * @param request the request
      * @param response the response
      * @return the i plugin action result
-     * @throws AccessDeniedException
+     * @throws AccessDeniedException Access denied exception
      */
     public IPluginActionResult doProcessExtendableResourceAction( HttpServletRequest request,
         HttpServletResponse response ) throws AccessDeniedException

@@ -48,7 +48,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.io.IOException;
-
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 
@@ -195,6 +194,11 @@ public class AuthenticationFilter implements Filter
         return getAbsoluteUrl( request, strLoginUrl );
     }
 
+    /**
+     * Get the logout url
+     * @param request The request
+     * @return The logout url
+     */
     private String getLogoutUrl( HttpServletRequest request )
     {
         return getAbsoluteUrl( request, AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_LOGOUT ) );

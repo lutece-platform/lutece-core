@@ -55,10 +55,10 @@ import javax.servlet.http.HttpServletRequest;
 public final class ExtendableResourcePluginActionManager
 {
     // MARKS
-    private static final String MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML = "extendableResourceActionsHtml";
-    private static final String MARK_LIST_EXTENDABLE_RESOURCE_ACTIONS = "listExtendableResourceActions";
     public static final String MARK_ID_EXTENDABLE_RESOURCE = "idExtendableResource";
     public static final String MARK_EXTENDABLE_RESOURCE_TYPE = "extendableResourceType";
+    private static final String MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML = "extendableResourceActionsHtml";
+    private static final String MARK_LIST_EXTENDABLE_RESOURCE_ACTIONS = "listExtendableResourceActions";
 
     // TEMPLATES
     private static final String TEMPLATE_EXTENDABLE_RESOURCE_ACTION = "admin/resource/extendable_resource_actions.html";
