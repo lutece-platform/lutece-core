@@ -36,6 +36,9 @@ package fr.paris.lutece.portal.business.globalmanagement;
 import java.util.Collection;
 
 
+/**
+ * Interface of RichTextEditorDAO
+ */
 public interface IRichTextEditorDAO
 {
     public static final String BEAN_NAME = "richTextEditorDAO";

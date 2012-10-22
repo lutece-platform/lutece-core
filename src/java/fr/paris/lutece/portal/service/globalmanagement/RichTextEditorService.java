@@ -43,27 +43,24 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 import java.util.Locale;
-import java.util.Map;
 
 
+/**
+ * Service to manage front office and back office default rich text editor
+ */
 public class RichTextEditorService
 {
+    public static final String MARK_DEFAULT_TEXT_EDITOR = "default_text_editor";
+
     private static final String PARAMETER_DEFAULT_EDITOR_BACK_OFFICE = "core.backOffice.defaultEditor";
     private static final String PARAMETER_DEFAULT_EDITOR_FRONT_OFFICE = "core.frontOffice.defaultEditor";
     private static final String PROPERTY_DEFAULT_EDITOR_BACK_OFFICE = "lutece.backOffice.defaultEditor";
     private static final String PROPERTY_DEFAULT_EDITOR_FRONT_OFFICE = "lutece.frontOffice.defaultEditor";
-    public static final String MARK_DEFAULT_TEXT_EDITOR = "default_text_editor";
 
-    public static void addBackOfficeDefaultEditortToModel( Map<String, Object> model )
-    {
-        model.put( MARK_DEFAULT_TEXT_EDITOR, getBackOfficeDefaultEditor(  ) );
-    }
-
-    public static void addFrontOfficeDefaultEditorToModel( Map<String, Object> model )
-    {
-        model.put( MARK_DEFAULT_TEXT_EDITOR, getFrontOfficeDefaultEditor(  ) );
-    }
-
+    /**
+     * Get the default rich text editor for back office
+     * @return The default rich text editor for back office
+     */
     public static String getBackOfficeDefaultEditor(  )
     {
         String strDefaultEditorName = AppPropertiesService.getProperty( PROPERTY_DEFAULT_EDITOR_BACK_OFFICE );
@@ -71,6 +68,10 @@ public class RichTextEditorService
         return DatastoreService.getDataValue( PARAMETER_DEFAULT_EDITOR_BACK_OFFICE, strDefaultEditorName );
     }
 
+    /**
+     * Get the default rich text editor for front office
+     * @return The default rich text editor for front office
+     */
     public static String getFrontOfficeDefaultEditor(  )
     {
         String strDefaultEditorName = AppPropertiesService.getProperty( PROPERTY_DEFAULT_EDITOR_FRONT_OFFICE );
@@ -78,16 +79,29 @@ public class RichTextEditorService
         return DatastoreService.getDataValue( PARAMETER_DEFAULT_EDITOR_FRONT_OFFICE, strDefaultEditorName );
     }
 
+    /**
+     * Update the default rich text editor for back office
+     * @param strEditorUrl Name of the new rich text editor for back office
+     */
     public static void updateBackOfficeDefaultEditor( String strEditorUrl )
     {
         DatastoreService.setDataValue( PARAMETER_DEFAULT_EDITOR_BACK_OFFICE, strEditorUrl );
     }
 
+    /**
+     * Update the default rich text editor for front office
+     * @param strEditorUrl Name of the new rich text editor for front office
+     */
     public static void updateFrontOfficeDefaultEditor( String strEditorUrl )
     {
         DatastoreService.setDataValue( PARAMETER_DEFAULT_EDITOR_FRONT_OFFICE, strEditorUrl );
     }
 
+    /**
+     * Get the list of rich text editors for back office
+     * @param locale The locale of to use
+     * @return The list of rich text editors for back office
+     */
     public static ReferenceList getListEditorsForBackOffice( Locale locale )
     {
         Collection<RichTextEditor> listRichTextEditor = RichTextEditorHome.findListEditorsForBackOffice(  );
@@ -104,6 +118,11 @@ public class RichTextEditorService
         return refList;
     }
 
+    /**
+     * Get the list of rich text editors for front office
+     * @param locale The locale of to use
+     * @return The list of rich text editors for front office
+     */
     public static ReferenceList getListEditorsForFrontOffice( Locale locale )
     {
         Collection<RichTextEditor> listRichTextEditor = RichTextEditorHome.findListEditorsForFrontOffice(  );

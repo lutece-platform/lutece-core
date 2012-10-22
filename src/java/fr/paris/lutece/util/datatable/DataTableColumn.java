@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.util.datatable;
 
+/**
+ * Data table column
+ */
 public class DataTableColumn
 {
     private String _strTitleKey;
@@ -143,7 +146,7 @@ public class DataTableColumn
 
     /**
      * Set the type of the column
-     * @return columnType The type of the column
+     * @param columnType The type of the column
      */
     public void setTypeColumn( DataTableColumnType columnType )
     {

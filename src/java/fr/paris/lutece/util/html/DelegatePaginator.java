@@ -51,7 +51,6 @@ public class DelegatePaginator<E> extends AbstractPaginator<E>
      * @param strPageIndexParameterName The parameter name for the page index
      * @param strPageIndex The current page index
      * @param nItemsCount the item count
-     * @param nCount the total items
      */
     public DelegatePaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
         String strPageIndex, int nItemsCount )

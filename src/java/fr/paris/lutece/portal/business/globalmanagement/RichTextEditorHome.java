@@ -38,6 +38,9 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import java.util.Collection;
 
 
+/**
+ * Rich text editor home
+ */
 public class RichTextEditorHome
 {
     private static IRichTextEditorDAO _dao = SpringContextService.getBean( IRichTextEditorDAO.BEAN_NAME );

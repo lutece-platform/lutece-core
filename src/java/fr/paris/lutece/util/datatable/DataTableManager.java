@@ -42,12 +42,8 @@ import fr.paris.lutece.util.html.IPaginator;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 
-import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.lang.StringUtils;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -58,9 +54,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * Class to manage data tables with freemarker macros
+ * @param <T> Type of data to display
  */
 public class DataTableManager<T>
 {
@@ -71,8 +71,8 @@ public class DataTableManager<T>
     private FilterPanel _filterPanel;
     private IPaginator<T> _paginator;
     private String _strCurrentPageIndex = StringUtils.EMPTY;
-    private int _nItemsPerPage = 0;
-    private int _nDefautlItemsPerPage = 0;
+    private int _nItemsPerPage;
+    private int _nDefautlItemsPerPage;
     private boolean _bEnablePaginator;
     private Locale _locale;
     private String _strSortedAttributeName;
@@ -478,6 +478,9 @@ public class DataTableManager<T>
     /**
      * Get filter properties updated with values in the request
      * @param request The request
+     * @param <K> Type of the filter to use. This type must have accessors for
+     *            every declared filter.
+     * @param filterObject Filter to apply.
      * @return The filter properties up to date
      */
     public <K> K getAndUpdateFilter( HttpServletRequest request, K filterObject )
@@ -503,9 +506,8 @@ public class DataTableManager<T>
 
             if ( bUpdateFilter )
             {
+                filter.setValue( strFilterValue );
             }
-
-            filter.setValue( strFilterValue );
 
             if ( StringUtils.isNotBlank( strFilterValue ) )
             {

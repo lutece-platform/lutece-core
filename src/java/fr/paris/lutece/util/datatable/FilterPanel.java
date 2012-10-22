@@ -48,7 +48,7 @@ public class FilterPanel
     public static final String PARAM_UPDATE_FILTERS = "updateFilters";
     public static final String PARAM_RESET_FILTERS = "resetFilters";
     private String _strFormUrl;
-    private List<DataTableFilter> listFilter = new ArrayList<DataTableFilter>(  );
+    private List<DataTableFilter> _listFilter = new ArrayList<DataTableFilter>( );
 
     protected FilterPanel(  )
     {
@@ -72,7 +72,7 @@ public class FilterPanel
      */
     public void addFilter( DataTableFilterType filterType, String strParameterName, String strFilterLabel )
     {
-        listFilter.add( new DataTableFilter( filterType, strParameterName, strFilterLabel ) );
+        _listFilter.add( new DataTableFilter( filterType, strParameterName, strFilterLabel ) );
     }
 
     /**
@@ -86,7 +86,7 @@ public class FilterPanel
     {
         DataTableFilter filter = new DataTableFilter( DataTableFilterType.DROPDOWNLIST, strParameterName, strFilterLabel );
         filter.setRefList( refList );
-        listFilter.add( filter );
+        _listFilter.add( filter );
     }
 
     /**
@@ -113,6 +113,6 @@ public class FilterPanel
      */
     public List<DataTableFilter> getListFilter(  )
     {
-        return listFilter;
+        return _listFilter;
     }
 }

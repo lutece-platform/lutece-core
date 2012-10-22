@@ -39,6 +39,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 
+/**
+ * Rich text editor DAO
+ */
 public class RichTextEditorDAO implements IRichTextEditorDAO
 {
     private static final String SQL_QUERY_FIND_EDITORS_BY_TYPE = " select editor_name, editor_description FROM core_text_editor WHERE backOffice = ? ORDER BY editor_name asc ";

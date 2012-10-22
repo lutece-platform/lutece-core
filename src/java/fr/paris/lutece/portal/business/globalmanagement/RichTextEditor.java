@@ -43,21 +43,37 @@ public class RichTextEditor
     private String _strDescription;
     private boolean _bBackOffice;
 
+    /**
+     * Get the name of the editor
+     * @return The name of the editor
+     */
     public String getEditorName(  )
     {
         return _strEditorName;
     }
 
+    /**
+     * Set the name of the editor
+     * @param strEditorName The name of the editor
+     */
     public void setEditorName( String strEditorName )
     {
         _strEditorName = strEditorName;
     }
 
+    /**
+     * Get the description of the editor
+     * @return The description of the editor
+     */
     public String getDescription(  )
     {
         return _strDescription;
     }
 
+    /**
+     * Set the description of the editor
+     * @param strDescription The description of the editor
+     */
     public void setDescription( String strDescription )
     {
         _strDescription = strDescription;
