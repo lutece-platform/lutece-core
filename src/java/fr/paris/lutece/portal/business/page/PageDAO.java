@@ -747,9 +747,8 @@ public final class PageDAO implements IPageDAO
         return page;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.page.IPageDAO#updateAutorisationNode(int, java.lang.Integer)
+    /**
+     * {@inheritDoc }
      */
     public void updateAutorisationNode( int nIdPage, Integer nIdAutorisationNode )
     {
@@ -773,9 +772,8 @@ public final class PageDAO implements IPageDAO
         daoUtil.free(  );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see fr.paris.lutece.portal.business.page.IPageDAO#selectPageForChangeAutorisationNode(int)
+    /**
+     * {@inheritDoc }
      */
     public List<Integer> selectPageForChangeAutorisationNode( int nIdParentPage )
     {

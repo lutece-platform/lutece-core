@@ -507,7 +507,7 @@ public final class PortalService
      * Builds a collection of pages corresponding to the path of a xpage
      *
      * @param strXPageName The xpage name
-     * @param request HttpServletRequest
+     * @param nPageId The Page's ID
      * @return A collection of pages made by the home page and the xpage
      */
     private static Collection<Page> getXPagePath( String strXPageName, int nPageId )

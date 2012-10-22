@@ -473,7 +473,7 @@ public class Page implements RBACResource, IExtendableResource
 
     /**
      * set the id of the authorization node
-     * @param nIdAutorizationNode
+     * @param nIdAutorizationNode The authorization node ID
      */
     public void setIdAuthorizationNode( Integer nIdAutorizationNode )
     {
