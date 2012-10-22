@@ -48,6 +48,9 @@ public class DatabaseTemplateDAO implements IDatabaseTemplateDAO
     private static final String SQL_QUERY_SELECT_TEMPLATE_FROM_KEY = "SELECT template_value FROM core_template WHERE template_name = ? ";
     private static final String SQL_UPDATE_TEMPLATE = "UPDATE core_template SET template_value = ?  WHERE template_name = ? ";
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getTemplateFromKey( String strKey )
     {
@@ -68,6 +71,9 @@ public class DatabaseTemplateDAO implements IDatabaseTemplateDAO
         return strTemplate;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateTemplate( String strKey, String strValue )
     {

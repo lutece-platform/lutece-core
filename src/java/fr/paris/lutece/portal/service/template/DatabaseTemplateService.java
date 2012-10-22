@@ -39,8 +39,16 @@ import fr.paris.lutece.portal.business.template.DatabaseTemplateHome;
 /**
  * This class provides methods to access templates stored in the database.
  */
-public class DatabaseTemplateService
+public final class DatabaseTemplateService
 {
+
+	/**
+	 * Instantiates a new database template service.
+	 */
+	private DatabaseTemplateService(  )
+	{
+	}
+
     /**
      * Get a template in the database from its key
      * @param strKey The key of the template to get

@@ -36,7 +36,6 @@ package fr.paris.lutece.util.xml;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.io.StringWriter;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -64,6 +63,13 @@ public final class XmlUtil
     private static final String TAG_SEPARATOR = " ";
     private static final String TAG_ASSIGNMENT = "=";
     private static final String TAG_ENCLOSED = "\"";
+
+    /**
+     * Instantiates a new xml util.
+     */
+    private XmlUtil(  )
+    {
+    }
 
     /**
      * Gets the header of an XML file
@@ -110,7 +116,7 @@ public final class XmlUtil
                 while ( i.hasNext(  ) )
                 {
                     String name = (String) i.next(  );
-                    String value = (String) params.get( name );
+                    String value = params.get( name );
                     transformer.setParameter( name, value );
                 }
             }

@@ -43,14 +43,14 @@ import java.util.List;
 public interface IPaginator<E>
 {
     /** Default value for Page Index Parameter */
-    public static final String PARAMETER_PAGE_INDEX = "page_index";
+    String PARAMETER_PAGE_INDEX = "page_index";
 
     /** Default value for Items Per Page Parameter */
-    public static final String PARAMETER_ITEMS_PER_PAGE = "items_per_page";
-    public static final String LABEL_FIRST = "|&lt;";
-    public static final String LABEL_PREVIOUS = "&lt;";
-    public static final String LABEL_NEXT = "&gt;";
-    public static final String LABEL_LAST = "&gt;|";
+    String PARAMETER_ITEMS_PER_PAGE = "items_per_page";
+    String LABEL_FIRST = "|&lt;";
+    String LABEL_PREVIOUS = "&lt;";
+    String LABEL_NEXT = "&gt;";
+    String LABEL_LAST = "&gt;|";
 
     /**
      * Gets the number of pages

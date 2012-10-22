@@ -59,10 +59,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.io.FileInputStream;
 import java.io.FileWriter;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
@@ -179,7 +176,7 @@ public final class AppInit
             // Process post startup services
             PostStartUpServiceManager.init(  );
 
-            // Initialize Content Post Processor Service 
+            // Initialize Content Post Processor Service
             ContentPostProcessorService.init(  );
 
             _bInitSuccessfull = true;
@@ -282,6 +279,9 @@ public final class AppInit
         }
     }
 
+    /**
+     * Log startup time.
+     */
     private static void logStartupTime(  )
     {
         String strStartupTime = SimpleDateFormat.getDateTimeInstance(  ).format( new Date(  ) );

@@ -36,14 +36,21 @@ package fr.paris.lutece.portal.service.util;
 import javax.servlet.http.HttpServletRequest;
 
 
-/*
- * This class provide https protocol
+/**
+ * The Class AppHTTPSService.
  */
-public class AppHTTPSService
+public final class AppHTTPSService
 {
     private static final String PROPERTY_HTTPS = "lutece.https.";
     private static final String PROPERTY_HTTPS_SUPPORT = PROPERTY_HTTPS + "support";
     private static final String PROPERTY_HTTPS_URL = PROPERTY_HTTPS + "url";
+
+    /**
+     * Instantiates a new app https service.
+     */
+    private AppHTTPSService(  )
+    {
+    }
 
     /**
      * Returns <b>true</b> if HTTPS is supported, <b>false</b> otherwise.

@@ -33,16 +33,16 @@
  */
 package fr.paris.lutece.portal.business.mail;
 
+import fr.paris.lutece.portal.service.mail.MailItem;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.sql.DAOUtil;
+import fr.paris.lutece.util.sql.Transaction;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
-import fr.paris.lutece.portal.service.mail.MailItem;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.util.sql.DAOUtil;
-import fr.paris.lutece.util.sql.Transaction;
 
 
 /**
@@ -88,7 +88,8 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * return the next mail item queue id
      * @return the next mail item queue id
      */
-    public int nextMailItemQueueId(  )
+    @Override
+	public int nextMailItemQueueId(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID );
 
@@ -110,7 +111,8 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * Lock the  mail item
      * @param nIdMailItemQueue the id of the mail item  to lock
      */
-    public void lockMailItemQueue( int nIdMailItemQueue )
+    @Override
+	public void lockMailItemQueue( int nIdMailItemQueue )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOCK_MAIL_ITEM );
         daoUtil.setInt( 1, nIdMailItemQueue );
@@ -122,7 +124,8 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * Insert a new mail item in the table.
      * @param mailItemQueue the mail item
      */
-    public synchronized void insert( MailItemQueue mailItemQueue )
+    @Override
+	public synchronized void insert( MailItemQueue mailItemQueue )
     {
         try
         {
@@ -167,7 +170,8 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * @param nIdMailItemQueue the id of the mail item
      * @return the first mail item in the table
      */
-    public MailItemQueue load( int nIdMailItemQueue )
+    @Override
+	public MailItemQueue load( int nIdMailItemQueue )
     {
         MailItemQueue mailItemQueue = null;
         MailItem mailItem = null;
@@ -212,7 +216,8 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * Delete  the mail item record in the table
      * @param nIdMailItemQueue The indentifier of the mail item to remove
      */
-    public void delete( int nIdMailItemQueue )
+    @Override
+	public void delete( int nIdMailItemQueue )
     {
         Transaction transaction = new Transaction(  );
 
@@ -237,7 +242,8 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     /**
      *@return the number of mail item present in the core_mail_queue
      */
-    public int getCountMailItem(  )
+    @Override
+	public int getCountMailItem(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_COUNT );
         daoUtil.executeQuery(  );

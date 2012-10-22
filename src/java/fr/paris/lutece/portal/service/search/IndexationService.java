@@ -42,7 +42,6 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
@@ -55,7 +54,6 @@ import org.apache.lucene.util.Version;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -280,7 +278,7 @@ public final class IndexationService
                                             if ( action.getIdPortlet(  ) != ALL_DOCUMENT )
                                             {
                                                 //delete only the index linked to this portlet
-                                                _writer.updateDocument( new Term( 
+                                                _writer.updateDocument( new Term(
                                                         SearchItem.FIELD_DOCUMENT_PORTLET_ID,
                                                         doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) ), doc );
                                                 _sbLogs.append( "Updating " );
@@ -371,9 +369,11 @@ public final class IndexationService
     }
 
     /**
-     * Log the error for the search indexer
+     * Log the error for the search indexer.
+     *
      * @param indexer the {@link SearchIndexer}
      * @param e the exception
+     * @param strMessage the str message
      */
     public static void error( SearchIndexer indexer, Exception e, String strMessage )
     {
@@ -398,9 +398,11 @@ public final class IndexationService
     }
 
     /**
-     * Log the error for the indexer action
+     * Log the error for the indexer action.
+     *
      * @param action the {@link IndexerAction}
      * @param e the exception
+     * @param strMessage the str message
      */
     public static void error( IndexerAction action, Exception e, String strMessage )
     {
@@ -437,9 +439,10 @@ public final class IndexationService
     }
 
     /**
-     * Gets the current IndexSearcher
+     * Gets the current IndexSearcher.
+     *
      * @return IndexSearcher
-     * @throws IOException
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     public static Directory getDirectoryIndex(  ) throws IOException
     {

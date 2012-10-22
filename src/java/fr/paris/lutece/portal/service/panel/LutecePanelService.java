@@ -43,18 +43,26 @@ import java.util.List;
 
 /**
  * PanelService
- * @param T Abstract type of panels to display. Every class extending the class T will create a panel.
+ * @param <T> Abstract type of panels to display. Every class extending the class T will create a panel.
  */
-public class LutecePanelService<T extends LutecePanel>
+public final class LutecePanelService<T extends LutecePanel>
 {
     private static List<LutecePanelService<?extends LutecePanel>> _listSingletons = new ArrayList<LutecePanelService<?extends LutecePanel>>(  );
     private List<T> _listPanels;
     private Class<T> _genericTypeClass;
 
+    /**
+     * Instantiates a new lutece panel service.
+     */
     private LutecePanelService(  )
     {
     }
 
+    /**
+     * Instantiates a new lutece panel service.
+     *
+     * @param clazz the clazz
+     */
     private LutecePanelService( Class<T> clazz )
     {
         _listPanels = SpringContextService.getBeansOfType( clazz );
@@ -62,6 +70,11 @@ public class LutecePanelService<T extends LutecePanel>
         _genericTypeClass = clazz;
     }
 
+    /**
+     * Gets the generic type class.
+     *
+     * @return the generic type class
+     */
     private Class<T> getGenericTypeClass(  )
     {
         return _genericTypeClass;

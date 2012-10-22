@@ -35,7 +35,6 @@ package fr.paris.lutece.util.pool.service;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-
 import java.sql.Connection;
 
 
@@ -73,8 +72,15 @@ public class LuteceConnectionProxy implements InvocationHandler
     /**
      * Catches close() and closeConnection() method.
      * close() calls _pool.freeConnection, and closeConnection() calls _connection.close().
+     *
+     * @param proxy the proxy
+     * @param method the method
+     * @param args the args
+     * @return the object
+     * @throws Throwable the throwable
      */
-    public Object invoke( Object proxy, Method method, Object[] args )
+    @Override
+	public Object invoke( Object proxy, Method method, Object[] args )
         throws Throwable
     {
         Object oReturn;

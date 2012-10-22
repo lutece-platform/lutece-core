@@ -41,6 +41,9 @@ public final class CoreDataKeys
 {
     public static final String KEY_STARTUP_TIME = "core.startup.time";
 
+    /**
+     * Instantiates a new core data keys.
+     */
     private CoreDataKeys(  )
     {
     }

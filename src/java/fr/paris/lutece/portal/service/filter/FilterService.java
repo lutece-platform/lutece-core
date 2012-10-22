@@ -156,6 +156,9 @@ public final class FilterService
         }
     }
 
+    /**
+     * Sort filters.
+     */
     public static void sortFilters(  )
     {
         // sort the filter's list

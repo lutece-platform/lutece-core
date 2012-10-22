@@ -40,7 +40,6 @@ import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.FileUploadException;
 
 import java.io.IOException;
-
 import java.text.DecimalFormat;
 
 import javax.servlet.Filter;
@@ -66,12 +65,15 @@ public abstract class UploadFilter implements Filter
     private FilterConfig _filterConfig;
     private int _nSizeThreshold = -1;
     private long _nRequestSizeMax = -1;
-    private boolean _bActivateNormalizeFileName = false;
+    private boolean _bActivateNormalizeFileName;
 
     /**
-     * Forward the error message url depends site or admin implementation
+     * Forward the error message url depends site or admin implementation.
      *
      * @param request The http request
+     * @param strMessageKey the str message key
+     * @param messageArgs the message args
+     * @param strTitleKey the str title key
      * @return Message
      */
     protected abstract String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey,
@@ -84,7 +86,8 @@ public abstract class UploadFilter implements Filter
      * @throws ServletException
      *             The ServletException
      */
-    public void init( FilterConfig config ) throws ServletException
+    @Override
+	public void init( FilterConfig config ) throws ServletException
     {
         _filterConfig = config;
 
@@ -132,7 +135,8 @@ public abstract class UploadFilter implements Filter
      * @throws ServletException
      *             The SerletException
      */
-    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
+    @Override
+	public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
         throws IOException, ServletException
     {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -179,7 +183,8 @@ public abstract class UploadFilter implements Filter
     /**
      * Default implementation for subclasses
      */
-    public void destroy(  )
+    @Override
+	public void destroy(  )
     {
     }
 

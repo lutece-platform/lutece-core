@@ -218,17 +218,18 @@ public final class AdminMessageService
     }
 
     /**
-     * Returns the Url that display the given message
-     * @return The Url of the JSP that display the message
-     * @param messageArgs Message Arguments
-     * @param strTarget The url target if not "_self"
-     * @param strTitleKey The title key
-     * @param nMessageType The message type
+     * Returns the Url that display the given message.
+     *
      * @param request The HttpRequest
      * @param strMessageKey The message key
+     * @param messageArgs Message Arguments
+     * @param strTitleKey The title key
      * @param strUrl The Url of the Ok button
+     * @param strTarget The url target if not "_self"
+     * @param nMessageType The message type
      * @param requestParameters a collection of parameters
-     * @param the back url
+     * @param strBackUrl the str back url
+     * @return The Url of the JSP that display the message
      */
     public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
         String strTitleKey, String strUrl, String strTarget, int nMessageType, Map<String, Object> requestParameters,

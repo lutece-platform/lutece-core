@@ -38,7 +38,6 @@ import fr.paris.lutece.util.PropertiesService;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -219,8 +218,9 @@ public final class AppPropertiesService
     }
 
     /**
-     * Returns a list of keys that match a given prefix
-     * @param strPrefix
+     * Returns a list of keys that match a given prefix.
+     *
+     * @param strPrefix the str prefix
      * @return A list of keys that match the prefix
      * @since version 3.0
      */

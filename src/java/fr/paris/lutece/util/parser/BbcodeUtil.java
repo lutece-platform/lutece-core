@@ -57,12 +57,12 @@ public final class BbcodeUtil
     private static final String CR_LF = "(?:\r\n|\r|\n)?";
 
     /**
-     * private constructor
+     * Instantiates a new bbcode util.
      */
-    private BbcodeUtil()
+    private BbcodeUtil(  )
     {
-    	
     }
+
     /**
      * Parse BBCODE text and return HTML text
      * @param value the value of the text
@@ -206,7 +206,8 @@ public final class BbcodeUtil
         Collections.sort( subst,
             new Comparator(  )
             {
-                public int compare( Object o1, Object o2 )
+                @Override
+				public int compare( Object o1, Object o2 )
                 {
                     MutableCharSequence s1 = (MutableCharSequence) o1;
                     MutableCharSequence s2 = (MutableCharSequence) o2;
@@ -302,18 +303,20 @@ public final class BbcodeUtil
         /**
          * @return @see java.lang.CharSequence#length()
          */
-        public int length(  )
+        @Override
+		public int length(  )
         {
-            return this._bLength;
+            return _bLength;
         }
 
         /**
          * @param index index
          * @return @see java.lang.CharSequence#charAt(int)
          */
-        public char charAt( int index )
+        @Override
+		public char charAt( int index )
         {
-            return this._cBase.charAt( this._nStart + index );
+            return _cBase.charAt( _nStart + index );
         }
 
         /**
@@ -321,9 +324,10 @@ public final class BbcodeUtil
          * @param end end
          * @return @see java.lang.CharSequence#subSequence(int, int)
          */
-        public CharSequence subSequence( int pStart, int end )
+        @Override
+		public CharSequence subSequence( int pStart, int end )
         {
-            return new MutableCharSequence( this._cBase, this._nStart + pStart, this._nStart + ( end - pStart ) );
+            return new MutableCharSequence( _cBase, _nStart + pStart, _nStart + ( end - pStart ) );
         }
 
         /**
@@ -335,9 +339,9 @@ public final class BbcodeUtil
          */
         public CharSequence reset( CharSequence pBase, int pStart, int pLength )
         {
-            this._cBase = pBase;
-            this._nStart = pStart;
-            this._bLength = pLength;
+            _cBase = pBase;
+            _nStart = pStart;
+            _bLength = pLength;
 
             return this;
         }
@@ -346,13 +350,14 @@ public final class BbcodeUtil
          *
          * @return @see java.lang.Object#toString()
          */
-        public String toString(  )
+        @Override
+		public String toString(  )
         {
             StringBuffer sb = new StringBuffer(  );
 
-            for ( int i = this._nStart; i < ( this._nStart + this._bLength ); i++ )
+            for ( int i = _nStart; i < ( _nStart + _bLength ); i++ )
             {
-                sb.append( this._cBase.charAt( i ) );
+                sb.append( _cBase.charAt( i ) );
             }
 
             return sb.toString(  );

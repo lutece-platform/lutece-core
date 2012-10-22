@@ -77,15 +77,16 @@ public class EditorBbcodeService implements IEditorBbcodeService
     /**
      * {@inheritDoc}
      */
-    public String parse( String strValue )
+    @Override
+	public String parse( String strValue )
     {
         return BbcodeUtil.parse( strValue, _listParserElement, _listParserComplexElement );
     }
 
     /**
-            * Returns the unique instance of the service
-            * @return The instance of the service
-            */
+     * Returns the unique instance of the service
+     * @return The instance of the service
+     */
     public static EditorBbcodeService getInstance(  )
     {
         if ( _singleton == null )

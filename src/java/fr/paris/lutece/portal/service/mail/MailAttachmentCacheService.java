@@ -47,8 +47,9 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
     private static MailAttachmentCacheService _singleton;
     private static ICacheKeyService _cksMailAttachment = new MailAttachmentCacheKeyService(  );
     private static final String SERVICE_NAME = "Mail Attachment Cache Service";
+
     /**
-     * constructor
+     * Instantiates a new mail attachment cache service.
      */
     private MailAttachmentCacheService(  )
     {
@@ -57,7 +58,8 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
     /**
      * {@inheritDoc}
      */
-    public String getName(  )
+    @Override
+	public String getName(  )
     {
         return SERVICE_NAME;
     }

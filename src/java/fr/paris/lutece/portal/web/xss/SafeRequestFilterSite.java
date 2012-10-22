@@ -48,15 +48,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SafeRequestFilterSite extends SafeRequestFilter
 {
-	 /**
-     * Forward the error message url depends site or admin implementation
-     * @param request @HttpServletRequest
-     * @param strMessageKey the message key
-     * @param messageArgs the message args
-     * @param strTitleKey the title of the message
-     * @return url
+
+    /**
+     * {@inheritDoc}
      */
-	@Override
+    @Override
     public String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
         String strTitleKey )
     {

@@ -52,7 +52,8 @@ public abstract class ResourceRss implements IResourceRss
     * Get the rss id
     * @return the rss Id
     */
-    public int getId(  )
+    @Override
+	public int getId(  )
     {
         return _nId;
     }
@@ -61,7 +62,8 @@ public abstract class ResourceRss implements IResourceRss
      * Set the rss id
      * @param nId the rss id
      */
-    public void setId( int nId )
+    @Override
+	public void setId( int nId )
     {
         _nId = nId;
     }
@@ -70,7 +72,8 @@ public abstract class ResourceRss implements IResourceRss
     * Get Rss resource Description
     * @return the description
     */
-    public String getDescription(  )
+    @Override
+	public String getDescription(  )
     {
         return _strDescription;
     }
@@ -79,7 +82,8 @@ public abstract class ResourceRss implements IResourceRss
      * Set the RSS resource description
      * @param strDescription the description
      */
-    public void setDescription( String strDescription )
+    @Override
+	public void setDescription( String strDescription )
     {
         _strDescription = strDescription;
     }
@@ -88,7 +92,8 @@ public abstract class ResourceRss implements IResourceRss
     * Get The RSS resource name
     * @return the name
     */
-    public String getName(  )
+    @Override
+	public String getName(  )
     {
         return _strName;
     }
@@ -97,7 +102,8 @@ public abstract class ResourceRss implements IResourceRss
      * Set the RSS resource name
      * @param strName the name
      */
-    public void setName( String strName )
+    @Override
+	public void setName( String strName )
     {
         _strName = strName;
     }
@@ -106,16 +112,19 @@ public abstract class ResourceRss implements IResourceRss
      * Get the RSS Resource Type
      * @return the ResourceRssType Object
      */
-    public IResourceRssType getResourceRssType(  )
+    @Override
+	public IResourceRssType getResourceRssType(  )
     {
         return _taskType;
     }
 
     /**
-     * Set the ResourceRssType object
-     * @param resourceRssType the ResourceRsstype object
+     * Set the ResourceRssType object.
+     *
+     * @param taskType the new resource rss type
      */
-    public void setResourceRssType( IResourceRssType taskType )
+    @Override
+	public void setResourceRssType( IResourceRssType taskType )
     {
         _taskType = taskType;
     }
@@ -124,7 +133,8 @@ public abstract class ResourceRss implements IResourceRss
      *
      *{@inheritDoc}
      */
-    public String getFeedType(  )
+    @Override
+	public String getFeedType(  )
     {
         return _strFeedType;
     }
@@ -133,16 +143,18 @@ public abstract class ResourceRss implements IResourceRss
      *
      *{@inheritDoc}
      */
-    public void setFeedType( String strFeedType )
+    @Override
+	public void setFeedType( String strFeedType )
     {
-        this._strFeedType = strFeedType;
+        _strFeedType = strFeedType;
     }
 
     /**
     *
     *{@inheritDoc}
     */
-    public String getEncoding(  )
+    @Override
+	public String getEncoding(  )
     {
         return _strEncoding;
     }
@@ -151,16 +163,18 @@ public abstract class ResourceRss implements IResourceRss
     *
     *{@inheritDoc}
     */
-    public void setEncoding( String strEncoding )
+    @Override
+	public void setEncoding( String strEncoding )
     {
-        this._strEncoding = strEncoding;
+        _strEncoding = strEncoding;
     }
 
     /**
      *
      *{@inheritDoc}
      */
-    public int getMaxItems(  )
+    @Override
+	public int getMaxItems(  )
     {
         return _nMaxItems;
     }
@@ -169,23 +183,30 @@ public abstract class ResourceRss implements IResourceRss
      *
      *{@inheritDoc}
      */
-    public void setMaxItems( int nMaxItems )
+    @Override
+	public void setMaxItems( int nMaxItems )
     {
-        this._nMaxItems = nMaxItems;
+        _nMaxItems = nMaxItems;
     }
 
     /**
-    * Returns <code>null</code>. This method should be overriden.
-    */
-    public IFeedResource getFeed(  )
+     * Returns <code>null</code>. This method should be overriden.
+     *
+     * @return the feed
+     */
+    @Override
+	public IFeedResource getFeed(  )
     {
         return null;
     }
 
     /**
      * Always returns <code>null</code> and should be removed as soon as every plugin implement {@link #getFeed()}.
+     *
+     * @return the string
      */
-    @Deprecated
+    @Override
+	@Deprecated
     public String createHtmlRss(  )
     {
         return null;

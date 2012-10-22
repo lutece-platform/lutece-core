@@ -347,6 +347,13 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         return template;
     }
 
+    /**
+     * Put check box.
+     *
+     * @param model the model
+     * @param strMarkerChecked the str marker checked
+     * @param bChecked the b checked
+     */
     protected void putCheckBox( Map<String, Object> model, String strMarkerChecked, boolean bChecked )
     {
         String strChecked = ( bChecked ) ? VALUE_CHECKED : VALUE_UNCHECKED;

@@ -39,10 +39,17 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 /**
  * This class provides methods to access templates stored in the database.
  */
-public class DatabaseTemplateHome
+public final class DatabaseTemplateHome
 {
     // Static variable pointed to the DAO instance
     private static IDatabaseTemplateDAO _dao = SpringContextService.getBean( "databaseTemplateDAO" );
+
+    /**
+     * Instantiates a new database template home.
+     */
+    private DatabaseTemplateHome(  )
+    {
+    }
 
     /**
      * Get a template in the database from its key

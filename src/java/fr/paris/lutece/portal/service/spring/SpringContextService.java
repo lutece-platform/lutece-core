@@ -42,14 +42,11 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-
 import org.springframework.context.ApplicationContext;
-
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 import java.io.File;
 import java.io.FilenameFilter;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -84,6 +81,8 @@ public final class SpringContextService implements PluginEventListener
      * This method allows a Spring BeanFactory to be used as a replacement for
      * the Singleton or Prototype design pattern.<br />
      * The bean is retreived from the main context defined in the WEB-INF/conf/core_context.xml.
+     *
+     * @param <T> the generic type
      * @param strName The bean's name
      * @return The instance of the bean
      */
@@ -298,7 +297,8 @@ public final class SpringContextService implements PluginEventListener
     /**
      * {@inheritDoc }
      */
-    public void processPluginEvent( PluginEvent event )
+    @Override
+	public void processPluginEvent( PluginEvent event )
     {
         // Reset cache of beansOfType if a plugin is installed or uninstalled
         if ( ( event.getEventType(  ) == PluginEvent.PLUGIN_INSTALLED ) ||
@@ -324,7 +324,8 @@ public final class SpringContextService implements PluginEventListener
          * @param strName The file name
          * @return true if the file is a context file otherwise false
          */
-        public boolean accept( File file, String strName )
+        @Override
+		public boolean accept( File file, String strName )
         {
             return strName.endsWith( SUFFIX_CONTEXT_FILE );
         }

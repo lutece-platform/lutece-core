@@ -40,4 +40,11 @@ package fr.paris.lutece.util.jpa;
 public final class JPAConstants
 {
     public static final String JPA_LOGGER = "lutece.jpa";
+
+    /**
+     * Instantiates a new jPA constants.
+     */
+    private JPAConstants(  )
+    {
+    }
 }

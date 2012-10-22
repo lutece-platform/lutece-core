@@ -48,7 +48,7 @@ import java.util.Locale;
 /**
  * Service to manage front office and back office default rich text editor
  */
-public class RichTextEditorService
+public final class RichTextEditorService
 {
     public static final String MARK_DEFAULT_TEXT_EDITOR = "default_text_editor";
 
@@ -56,6 +56,13 @@ public class RichTextEditorService
     private static final String PARAMETER_DEFAULT_EDITOR_FRONT_OFFICE = "core.frontOffice.defaultEditor";
     private static final String PROPERTY_DEFAULT_EDITOR_BACK_OFFICE = "lutece.backOffice.defaultEditor";
     private static final String PROPERTY_DEFAULT_EDITOR_FRONT_OFFICE = "lutece.frontOffice.defaultEditor";
+
+    /**
+     * Instantiates a new rich text editor service.
+     */
+    private RichTextEditorService(  )
+    {
+    }
 
     /**
      * Get the default rich text editor for back office

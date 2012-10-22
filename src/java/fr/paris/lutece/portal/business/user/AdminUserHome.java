@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUse
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.sql.Timestamp;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -456,7 +455,7 @@ public final class AdminUserHome
 
     /**
      * Update status of a list of user accounts
-     * @param idUserList List of user accounts to update
+     * @param listIdUser List of user accounts to update
      * @param nNewStatus New status of the user
      */
     public static void updateUserStatus( List<Integer> listIdUser, int nNewStatus )
@@ -475,11 +474,11 @@ public final class AdminUserHome
 
     /**
      * Set the "change password" flag of users to true
-     * @param nIdUserList The list of users to update
+     * @param listIdUser The list of users to update
      */
-    public static void updateChangePassword( List<Integer> idUserList )
+    public static void updateChangePassword( List<Integer> listIdUser )
     {
-        _dao.updateChangePassword( idUserList );
+        _dao.updateChangePassword( listIdUser );
     }
 
     /**

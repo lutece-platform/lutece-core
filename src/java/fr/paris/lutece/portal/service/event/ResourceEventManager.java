@@ -58,8 +58,9 @@ public final class ResourceEventManager
     }
 
     /**
-     * Subscribe to this listener
-     * @param listener
+     * Subscribe to this listener.
+     *
+     * @param listener the listener
      */
     public static void register( EventRessourceListener listener )
     {

@@ -38,12 +38,10 @@ import fr.paris.lutece.portal.service.util.AppException;
 import org.apache.log4j.Logger;
 
 import java.io.PrintWriter;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +72,7 @@ public class ConnectionPool implements DataSource
     private PrintWriter _logWriter;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param strName Nom du pool
      * @param strUrl JDBC Data source URL
@@ -134,7 +132,8 @@ public class ConnectionPool implements DataSource
      * @return An open connection
      * @throws SQLException The SQL exception
      */
-    public Connection getConnection(  ) throws SQLException
+    @Override
+	public Connection getConnection(  ) throws SQLException
     {
         _logger.debug( "Request for connection received" );
 
@@ -265,7 +264,7 @@ public class ConnectionPool implements DataSource
         {
             // Pick the first Connection in the Vector
             // to get round-robin usage
-            conn = (Connection) _freeConnections.get( 0 );
+            conn = _freeConnections.get( 0 );
             _freeConnections.remove( 0 );
         }
         else if ( ( _nMaxConns == 0 ) || ( _nCheckedOut < _nMaxConns ) )
@@ -397,20 +396,28 @@ public class ConnectionPool implements DataSource
     }
 
     /**
-     * Returns the connection of the pool
+     * Returns the connection of the pool.
+     *
+     * @param username the username
+     * @param password the password
      * @return A connection
+     * @throws SQLException the sQL exception
      */
-    public Connection getConnection( String username, String password )
+    @Override
+	public Connection getConnection( String username, String password )
         throws SQLException
     {
         return getConnection(  );
     }
 
     /**
-     * Get the log
+     * Get the log.
+     *
      * @return A log writer
+     * @throws SQLException the sQL exception
      */
-    public PrintWriter getLogWriter(  ) throws SQLException
+    @Override
+	public PrintWriter getLogWriter(  ) throws SQLException
     {
         _logger.debug( "ConnectionPool : DataSource getLogWriter called" );
 
@@ -418,50 +425,72 @@ public class ConnectionPool implements DataSource
     }
 
     /**
-     * Set the log
+     * Set the log.
+     *
+     * @param out the new log writer
+     * @throws SQLException the sQL exception
      */
-    public void setLogWriter( PrintWriter out ) throws SQLException
+    @Override
+	public void setLogWriter( PrintWriter out ) throws SQLException
     {
         _logger.debug( "ConnectionPool : DataSource setLogWriter called" );
         _logWriter = out;
     }
 
     /**
-     * Set Login Timeout
+     * Set Login Timeout.
+     *
+     * @param seconds the new login timeout
+     * @throws SQLException the sQL exception
      */
-    public void setLoginTimeout( int seconds ) throws SQLException
+    @Override
+	public void setLoginTimeout( int seconds ) throws SQLException
     {
     }
 
     /**
-     * Get loging timeout
+     * Get loging timeout.
+     *
      * @return A time out
+     * @throws SQLException the sQL exception
      */
-    public int getLoginTimeout(  ) throws SQLException
+    @Override
+	public int getLoginTimeout(  ) throws SQLException
     {
         return _nTimeOut;
     }
 
     /**
-     * Get the unwrap
+     * Get the unwrap.
+     *
+     * @param <T> the generic type
+     * @param iface the iface
      * @return null
+     * @throws SQLException the sQL exception
      */
-    public <T> T unwrap( Class<T> iface ) throws SQLException
+    @Override
+	public <T> T unwrap( Class<T> iface ) throws SQLException
     {
         return null;
     }
 
     /**
-     * Get the wrapper
+     * Get the wrapper.
+     *
+     * @param iface the iface
      * @return false
+     * @throws SQLException the sQL exception
      */
-    public boolean isWrapperFor( Class<?> iface ) throws SQLException
+    @Override
+	public boolean isWrapperFor( Class<?> iface ) throws SQLException
     {
         return false;
     }
 
     /**
      * Implementation of JDBC 4.1's getParentLogger method (Java 7)
+     *
+     * @return the parent logger
      */
     public java.util.logging.Logger getParentLogger(  )
     {

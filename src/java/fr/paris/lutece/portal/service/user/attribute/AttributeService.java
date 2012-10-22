@@ -47,7 +47,7 @@ import java.util.Locale;
  * AttributeService
  *
  */
-public class AttributeService
+public final class AttributeService
 {
     private static AttributeService _singleton;
 
@@ -98,9 +98,10 @@ public class AttributeService
     }
 
     /**
-     * Get all user attribute without its attribute fields
+     * Get all user attribute without its attribute fields.
+     *
      * @param locale the {@link Locale}
-     * @return a list of {@link IAttibute}
+     * @return a list of {@link IAttribute}
      */
     public List<IAttribute> getAllAttributesWithoutFields( Locale locale )
     {
@@ -110,7 +111,7 @@ public class AttributeService
     /**
      * Get core user attribute without its attribute fields
      * @param locale the {@link Locale}
-     * @return a list of {@link IAttibute}
+     * @return a list of {@link IAttribute}
      */
     public List<IAttribute> getCoreAttributesWithoutFields( Locale locale )
     {
@@ -121,7 +122,7 @@ public class AttributeService
      * Get plugin user attribute without its attribute fields
      * @param strPluginName the plugin name
      * @param locale the {@link Locale}
-     * @return a list of {@link IAttibute}
+     * @return a list of {@link IAttribute}
      */
     public List<IAttribute> getPluginAttributesWithoutFields( String strPluginName, Locale locale )
     {
@@ -194,9 +195,9 @@ public class AttributeService
     }
 
     /**
-     * Create a new attribute and its attribute field
+     * Create a new attribute and its attribute field.
+     *
      * @param attribute the {@link IAttribute} to create
-     * @return the newly created attribute id
      */
     public void createAttribute( IAttribute attribute )
     {

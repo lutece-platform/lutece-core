@@ -1049,11 +1049,12 @@ public abstract class Plugin implements Comparable<Plugin>
      * @param plugin A plugin Object
      * @return 1, 0 ou -1 according the plugin name
      */
-    public int compareTo( Plugin plugin )
+    @Override
+	public int compareTo( Plugin plugin )
     {
         Comparator<String> comparator = String.CASE_INSENSITIVE_ORDER;
 
-        return comparator.compare( this.getName(  ), plugin.getName(  ) );
+        return comparator.compare( getName(  ), plugin.getName(  ) );
     }
 
     /**
@@ -1138,6 +1139,11 @@ public abstract class Plugin implements Comparable<Plugin>
         _listFreemarkerMacrosFiles.add( strMacroFileName );
     }
 
+    /**
+     * Gets the free marker macros files.
+     *
+     * @return the free marker macros files
+     */
     public List<String> getFreeMarkerMacrosFiles(  )
     {
         return _listFreemarkerMacrosFiles;

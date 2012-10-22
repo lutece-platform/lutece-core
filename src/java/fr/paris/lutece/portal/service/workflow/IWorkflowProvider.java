@@ -47,39 +47,35 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- *
- * IWorkflowProvider
- *
+ * IWorkflowProvider.
  */
 public interface IWorkflowProvider
 {
     // GET
 
     /**
-    * returns a list of actions possible for a given document based on the status
-    * of the document in the workflow and the user role
-    * @param nIdResource the document id
-    * @param strResourceType the document type
-    * @param user the adminUser
-    * @param nIdWorkflow the workflow id
-    * @return a list of Action
-    */
+     * returns a list of actions possible for a given document based on the status
+     * of the document in the workflow and the user role.
+     *
+     * @param listActions the list actions
+     * @param user the adminUser
+     * @return a list of Action
+     */
     Collection<Action> getActions( Collection<Action> listActions, AdminUser user );
 
     /**
      * returns a list of actions possible for a given document based on the status
-     * of the document in the workflow and the user role
-     * @param listIdResource the list of resource id
-     * @param strResourceType the document type
-     * @param nIdExternalParentId the external parent identifier
-     * @param nIdWorkflow the workflow id
+     * of the document in the workflow and the user role.
+     *
+     * @param mapActions the map actions
      * @param user the adminUser
      * @return a list of Action
      */
     Map<Integer, List<Action>> getActions( Map<Integer, List<Action>> mapActions, AdminUser user );
 
     /**
-     * returns the  actions history performed on a resource
+     * returns the  actions history performed on a resource.
+     *
      * @param nIdResource the resource id
      * @param strResourceType the resource type
      * @param nIdWorkflow the workflow id
@@ -91,7 +87,8 @@ public interface IWorkflowProvider
         HttpServletRequest request, Locale locale );
 
     /**
-     * returns a xml wich contains the  actions history performed on a resource
+     * returns a xml wich contains the  actions history performed on a resource.
+     *
      * @param nIdResource the resource id
      * @param strResourceType the resource type
      * @param nIdWorkflow the workflow id
@@ -103,11 +100,12 @@ public interface IWorkflowProvider
         Locale locale );
 
     /**
-     * returns the tasks form
+     * returns the tasks form.
+     *
      * @param nIdResource the resource id
      * @param strResourceType the resource type
-     * @param request the request
      * @param nIdAction the action id
+     * @param request the request
      * @param locale the locale
      * @return the tasks form associated to the action
      */
@@ -115,7 +113,8 @@ public interface IWorkflowProvider
         Locale locale );
 
     /**
-     * Get all authorized resource Id
+     * Get all authorized resource Id.
+     *
      * @param strResourceType the resource type
      * @param nIdWorkflow the workflow id
      * @param nIdWorkflowState The workflow state id
@@ -127,7 +126,8 @@ public interface IWorkflowProvider
         Integer nExternalParentId, AdminUser user );
 
     /**
-     * Get all authorized resource Id
+     * Get all authorized resource Id.
+     *
      * @param strResourceType the resource type
      * @param nIdWorkflow the workflow id
      * @param lListIdWorkflowState The list workflow state id
@@ -139,7 +139,8 @@ public interface IWorkflowProvider
         List<Integer> lListIdWorkflowState, Integer nExternalParentId, AdminUser user );
 
     /**
-     * return a referencelist wich contains a list enabled workflow
+     * return a referencelist wich contains a list enabled workflow.
+     *
      * @param user the AdminUser
      * @param locale the locale
      * @return a referencelist wich contains a list enabled workflow
@@ -147,15 +148,17 @@ public interface IWorkflowProvider
     ReferenceList getWorkflowsEnabled( AdminUser user, Locale locale );
 
     /**
-     * returns all state of a  given workflow
-     * @param nIdWorkflow the workflow id
+     * returns all state of a  given workflow.
+     *
+     * @param listStates the list states
      * @param user the adminUser
      * @return the state of a given document
      */
     Collection<State> getAllStateByWorkflow( Collection<State> listStates, AdminUser user );
 
     /**
-     * The user access code
+     * The user access code.
+     *
      * @param request the HTTP request
      * @return the user access code
      */
@@ -164,23 +167,21 @@ public interface IWorkflowProvider
     // CHECK
 
     /**
-     * Check that a given user is allowed to view a resource depending the state of the resource
+     * Check that a given user is allowed to view a resource depending the state of the resource.
+     *
      * @param nIdResource the document id
      * @param strResourceType the document type
      * @param nIdWorkflow the workflow id*
-     * @param  user the AdminUser
+     * @param user the user
      * @return a list of Action
      */
     boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user );
 
     /**
-     * Check if the action can be proceed for the given resource
-     * @param nIdResource the id resource
-     * @param strResourceType the resource type
+     * Check if the action can be proceed for the given resource.
+     *
      * @param nIdAction the id action
-     * @param nExternalParentId the external parent id
      * @param request the HTTP request
-     * @param bIsAutomatic is automatic action
      * @return true if the action can proceed, false otherwise
      */
     boolean canProcessAction( int nIdAction, HttpServletRequest request );
@@ -188,7 +189,8 @@ public interface IWorkflowProvider
     // DO
 
     /**
-     * Test if the information relating to various tasks associated with action are validated
+     * Test if the information relating to various tasks associated with action are validated.
+     *
      * @param nIdResource the resource id
      * @param strResourceType the resource type
      * @param nIdAction the action id
@@ -200,7 +202,8 @@ public interface IWorkflowProvider
         Locale locale );
 
     /**
-     * Perform the information on the various tasks associated with the given action specified in parameter
+     * Perform the information on the various tasks associated with the given action specified in parameter.
+     *
      * @param nIdResource the resource id
      * @param strResourceType the resource type
      * @param nIdAction the action id

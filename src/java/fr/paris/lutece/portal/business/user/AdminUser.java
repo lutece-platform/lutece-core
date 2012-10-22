@@ -39,10 +39,10 @@ import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
 import fr.paris.lutece.portal.business.user.parameter.EmailPatternRegularExpressionRemovalListener;
 import fr.paris.lutece.portal.service.regularexpression.RegularExpressionRemovalListenerService;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
-
 import java.sql.Timestamp;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -53,14 +53,13 @@ import java.util.Map;
  */
 public class AdminUser implements Serializable
 {
-    public static String RESOURCE_TYPE = "ADMIN_USER";
-    private static EmailPatternRegularExpressionRemovalListener _listenerRegularExpression;
-    private static final String EMPTY_STRING = "";
+    public static final String RESOURCE_TYPE = "ADMIN_USER";
     public static final int ACTIVE_CODE = 0;
     public static final int NOT_ACTIVE_CODE = 1;
     public static final int EXPIRED_CODE = 5;
     public static final int ANONYMIZED_CODE = 10;
     public static final Timestamp DEFAULT_DATE_LAST_LOGIN = Timestamp.valueOf( "1980-01-01 00:00:00" );
+    private static EmailPatternRegularExpressionRemovalListener _listenerRegularExpression;
     private int _nUserId;
     private String _strAccessCode;
     private String _strLastName;
@@ -227,7 +226,7 @@ public class AdminUser implements Serializable
      */
     public void setLastName( String strLastName )
     {
-        _strLastName = ( strLastName == null ) ? EMPTY_STRING : strLastName;
+        _strLastName = ( strLastName == null ) ? StringUtils.EMPTY : strLastName;
     }
 
     /**
@@ -247,7 +246,7 @@ public class AdminUser implements Serializable
      */
     public void setFirstName( String strFirstName )
     {
-        _strFirstName = ( strFirstName == null ) ? EMPTY_STRING : strFirstName;
+        _strFirstName = ( strFirstName == null ) ? StringUtils.EMPTY : strFirstName;
     }
 
     /**
@@ -267,7 +266,7 @@ public class AdminUser implements Serializable
      */
     public void setEmail( String strEmail )
     {
-        _strEmail = ( strEmail == null ) ? EMPTY_STRING : strEmail;
+        _strEmail = ( strEmail == null ) ? StringUtils.EMPTY : strEmail;
     }
 
     /**
@@ -301,7 +300,7 @@ public class AdminUser implements Serializable
      */
     public void setPasswordMaxValidDate( Timestamp passwordMaxValidDate )
     {
-        this._passwordMaxValidDate = passwordMaxValidDate;
+        _passwordMaxValidDate = passwordMaxValidDate;
     }
 
     /**
@@ -319,7 +318,7 @@ public class AdminUser implements Serializable
      */
     public void setAccountMaxValidDate( Timestamp accountMaxValidDate )
     {
-        this._accountMaxValidDate = accountMaxValidDate;
+        _accountMaxValidDate = accountMaxValidDate;
     }
 
     /**

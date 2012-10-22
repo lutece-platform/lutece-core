@@ -39,14 +39,11 @@ import fr.paris.lutece.util.annotation.AnnotationUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
-
 import org.apache.log4j.Logger;
-
 import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
 import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;
 
 import java.io.File;
-
 import java.util.Collection;
 import java.util.Set;
 
@@ -67,10 +64,12 @@ public class JPAPersistenceUnitPostProcessor implements PersistenceUnitPostProce
     private static final String CLASSPATH_PATH_IDENTIFIER = "fr" + File.separator + "paris";
 
     /**
-     *
      * Scans for *.orm.xml and adds Entites from classpath.
+     *
+     * @param pui the pui
      */
-    public void postProcessPersistenceUnitInfo( MutablePersistenceUnitInfo pui )
+    @Override
+	public void postProcessPersistenceUnitInfo( MutablePersistenceUnitInfo pui )
     {
         _Log.info( "Scanning for JPA orm.xml files" );
 

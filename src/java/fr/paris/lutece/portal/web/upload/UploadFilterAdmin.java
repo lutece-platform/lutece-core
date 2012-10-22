@@ -47,6 +47,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class UploadFilterAdmin extends UploadFilter
 {
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
         String strTitleKey )

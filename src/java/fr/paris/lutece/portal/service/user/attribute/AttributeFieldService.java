@@ -42,7 +42,7 @@ import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
  * AttributeFieldService
  *
  */
-public class AttributeFieldService
+public final class AttributeFieldService
 {
     private static AttributeFieldService _singleton;
 
@@ -102,8 +102,9 @@ public class AttributeFieldService
     }
 
     /**
-     * Remove the attribute field from a given attribute field
-     * @param nIdAttribuetField the id attribute field
+     * Remove the attribute field from a given attribute field.
+     *
+     * @param nIdAttributeField the n id attribute field
      */
     public void removeAttributeFieldFromIdField( int nIdAttributeField )
     {

@@ -67,7 +67,10 @@ public final class PluginActionManager
     }
 
     /**
-     * Gets the list of {@link IDirectoryAction}
+     * Gets the list of {@link IDirectoryAction}.
+     *
+     * @param <A> the generic type
+     * @param pluginActionClass the plugin action class
      * @return the list
      */
     public static <A extends IPluginAction<?>> List<A> getListPluginAction( Class<A> pluginActionClass )
@@ -77,7 +80,10 @@ public final class PluginActionManager
 
     /**
      * Gets the {@link IPluginAction} for the request.
+     *
+     * @param <A> the generic type
      * @param request the request
+     * @param pluginActionClass the plugin action class
      * @return the invoked {@link IPluginAction}, <code>null</code> otherwise.
      * @see IPluginAction#isInvoked(HttpServletRequest)
      */

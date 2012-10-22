@@ -34,15 +34,14 @@
 package fr.paris.lutece.portal.service.util;
 
 import java.io.UnsupportedEncodingException;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 
-/*
- *  This class provide encrypted services
+/**
+ * The Class CryptoService.
  */
-public class CryptoService
+public final class CryptoService
 {
     // Properties
     private static final String PROPERTY_ENCODING = "lutece.encoding";

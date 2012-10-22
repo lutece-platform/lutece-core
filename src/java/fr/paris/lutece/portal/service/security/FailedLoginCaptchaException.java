@@ -39,10 +39,10 @@ import javax.security.auth.login.FailedLoginException;
 /**
  * This Exception should be thrown when an IP failed to login several times, and the authentication service wants to enable Captcha.
  */
-public class FailedLoginCaptchaException extends FailedLoginException
+public final class FailedLoginCaptchaException extends FailedLoginException
 {
     private static final long serialVersionUID = -6833180698556878514L;
-    private boolean _bEnableCaptcha;
+    private final boolean _bEnableCaptcha;
 
     /**
      * Creates a new instance of FailedLoginCaptchaException

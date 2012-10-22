@@ -50,6 +50,9 @@ public class FilterPanel
     private String _strFormUrl;
     private List<DataTableFilter> _listFilter = new ArrayList<DataTableFilter>( );
 
+    /**
+     * Instantiates a new filter panel.
+     */
     protected FilterPanel(  )
     {
     }

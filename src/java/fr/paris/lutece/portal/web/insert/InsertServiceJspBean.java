@@ -43,7 +43,6 @@ import fr.paris.lutece.util.url.UrlItem;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.Serializable;
-
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -100,12 +99,12 @@ public abstract class InsertServiceJspBean implements Serializable
      */
     protected String insertUrlWithoutEscape( HttpServletRequest request, String strInput, String strInsert )
     {
-        strInsert = EncodingService.encodeUrl( strInsert );
+        String strInsertTmp = EncodingService.encodeUrl( strInsert );
 
         // Build the url to make the insert
         UrlItem urlDoInsert = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_DO_INSERT );
         urlDoInsert.addParameter( PARAMETER_INPUT, strInput );
-        urlDoInsert.addParameter( PARAMETER_INSERT, strInsert );
+        urlDoInsert.addParameter( PARAMETER_INSERT, strInsertTmp );
         urlDoInsert.addParameter( PARAMETER_MODE, 2 );
 
         return urlDoInsert.getUrl(  );

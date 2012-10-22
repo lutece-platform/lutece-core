@@ -42,7 +42,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.apache.lucene.demo.html.HTMLParser;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
@@ -51,7 +50,6 @@ import org.apache.lucene.document.Field;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,18 +61,19 @@ public class PageIndexer implements SearchIndexer
 {
     public static final String INDEX_TYPE_PAGE = "Page";
     public static final String INDEXER_NAME = "PageIndexer";
-    private static final String INDEXER_DESCRIPTION = "Indexer service for pages";
-    private static final String INDEXER_VERSION = "1.0.0";
     protected static final String PROPERTY_PAGE_BASE_URL = "search.pageIndexer.baseUrl";
     protected static final String PROPERTY_SEARCH_PAGE_URL = "search.pageSearch.baseUrl";
     protected static final String PROPERTY_INDEXER_ENABLE = "search.pageIndexer.enable";
     protected static final String PARAMETER_PAGE_ID = "page_id";
     protected static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
+    private static final String INDEXER_DESCRIPTION = "Indexer service for pages";
+    private static final String INDEXER_VERSION = "1.0.0";
 
     /**
      * {@inheritDoc}
      */
-    public void indexDocuments(  ) throws IOException, InterruptedException, SiteMessageException
+    @Override
+	public void indexDocuments(  ) throws IOException, InterruptedException, SiteMessageException
     {
         String strPageBaseUrl = AppPropertiesService.getProperty( PROPERTY_PAGE_BASE_URL );
         List<Page> listPages = PageHome.getAllPages(  );
@@ -106,7 +105,8 @@ public class PageIndexer implements SearchIndexer
     /**
      * {@inheritDoc}
      */
-    public List<Document> getDocuments( String nIdDocument )
+    @Override
+	public List<Document> getDocuments( String nIdDocument )
         throws IOException, InterruptedException, SiteMessageException
     {
         ArrayList<Document> listDocuments = new ArrayList<Document>(  );
@@ -129,7 +129,8 @@ public class PageIndexer implements SearchIndexer
     /**
      * {@inheritDoc}
      */
-    public String getName(  )
+    @Override
+	public String getName(  )
     {
         return INDEXER_NAME;
     }
@@ -137,7 +138,8 @@ public class PageIndexer implements SearchIndexer
     /**
      * {@inheritDoc}
      */
-    public String getVersion(  )
+    @Override
+	public String getVersion(  )
     {
         return INDEXER_VERSION;
     }
@@ -145,7 +147,8 @@ public class PageIndexer implements SearchIndexer
     /**
      * {@inheritDoc}
      */
-    public String getDescription(  )
+    @Override
+	public String getDescription(  )
     {
         return INDEXER_DESCRIPTION;
     }
@@ -153,7 +156,8 @@ public class PageIndexer implements SearchIndexer
     /**
      * {@inheritDoc}
      */
-    public boolean isEnable(  )
+    @Override
+	public boolean isEnable(  )
     {
         String strEnable = AppPropertiesService.getProperty( PROPERTY_INDEXER_ENABLE, "true" );
 
@@ -210,7 +214,7 @@ public class PageIndexer implements SearchIndexer
         reader.close(  );
 
         // Add the tag-stripped contents as a Reader-valued Text field so it will
-        // get tokenized and indexed.        
+        // get tokenized and indexed.
         StringBuilder sbFieldContent = new StringBuilder(  );
         StringBuilder sbFieldMetadata = new StringBuilder(  );
         sbFieldContent.append( page.getName(  ) ).append( " " ).append( sb.toString(  ) );
@@ -269,7 +273,8 @@ public class PageIndexer implements SearchIndexer
     /**
      * {@inheritDoc}
      */
-    public List<String> getListType(  )
+    @Override
+	public List<String> getListType(  )
     {
         List<String> listType = new ArrayList<String>(  );
         listType.add( INDEX_TYPE_PAGE );
@@ -280,7 +285,8 @@ public class PageIndexer implements SearchIndexer
     /**
     * {@inheritDoc}
     */
-    public String getSpecificSearchAppUrl(  )
+    @Override
+	public String getSpecificSearchAppUrl(  )
     {
         return AppPropertiesService.getProperty( PROPERTY_SEARCH_PAGE_URL );
     }

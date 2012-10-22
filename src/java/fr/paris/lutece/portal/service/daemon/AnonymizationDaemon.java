@@ -48,6 +48,9 @@ public class AnonymizationDaemon extends Daemon
     private static final String CONSTANT_NO_EXPIRED_USER = "There is no expired admin user to anonymize";
     private static final String CONSTANT_FOUND_EXPIRED_USER_ANONYMIZED_START = "AnonymizationService - Expired admin users have been found. Begining anonymization...";
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void run(  )
     {
@@ -81,6 +84,6 @@ public class AnonymizationDaemon extends Daemon
             sbResult.append( sbLogs.toString(  ) );
         }
 
-        this.setLastRunLogs( sbLogs.toString(  ) );
+        setLastRunLogs( sbLogs.toString(  ) );
     }
 }

@@ -37,7 +37,6 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
-import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
@@ -70,9 +69,10 @@ public final class BeanValidationUtil
 
     /**
      * Validates a bean.
+     *
      * @param <T> the bean type
      * @param bean the bean to validate
-     * @throws ValidationException if an error occurs. All violation are reported.
+     * @return the sets the
      */
     public static <T> Set<ConstraintViolation<T>> validate( T bean )
     {

@@ -44,9 +44,16 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Content Post Processor Service
  */
-public class ContentPostProcessorService
+public final class ContentPostProcessorService
 {
     private static List<ContentPostProcessor> _listProcessors;
+
+    /**
+     * Instantiates a new content post processor service.
+     */
+    private ContentPostProcessorService(  )
+    {
+    }
 
     /**
      * Initialize the service

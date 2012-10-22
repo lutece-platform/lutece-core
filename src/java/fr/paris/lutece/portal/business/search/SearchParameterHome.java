@@ -48,8 +48,8 @@ public final class SearchParameterHome
     //Static variable pointed at the DAO instance
     private static ISearchParameterDAO _dao = (ISearchParameterDAO) SpringContextService.getBean( "searchParameterDAO" );
 
-    /*
-     * private constructor
+    /**
+     * Instantiates a new search parameter home.
      */
     private SearchParameterHome(  )
     {

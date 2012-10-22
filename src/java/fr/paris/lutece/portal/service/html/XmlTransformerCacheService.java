@@ -51,6 +51,9 @@ public class XmlTransformerCacheService implements CacheableService
     private static final String MSG_KEYS_NOT_AVAILABLE = "Keys not available";
     private static XmlTransformerCacheService _singleton;
 
+    /**
+     * Inits the.
+     */
     public static void init(  )
     {
         _singleton = new XmlTransformerCacheService(  );
@@ -60,7 +63,8 @@ public class XmlTransformerCacheService implements CacheableService
     /**
      * {@inheritDoc }
      */
-    public String getName(  )
+    @Override
+	public String getName(  )
     {
         return SERVICE_NAME;
     }
@@ -68,7 +72,8 @@ public class XmlTransformerCacheService implements CacheableService
     /**
      * {@inheritDoc }
      */
-    public boolean isCacheEnable(  )
+    @Override
+	public boolean isCacheEnable(  )
     {
         return true;
     }
@@ -76,7 +81,8 @@ public class XmlTransformerCacheService implements CacheableService
     /**
      * {@inheritDoc }
      */
-    public int getCacheSize(  )
+    @Override
+	public int getCacheSize(  )
     {
         return XmlTransformer.getTransformersCount(  );
     }
@@ -84,7 +90,8 @@ public class XmlTransformerCacheService implements CacheableService
     /**
      * {@inheritDoc }
      */
-    public void resetCache(  )
+    @Override
+	public void resetCache(  )
     {
         XmlTransformer.cleanTransformerList(  );
     }
@@ -92,7 +99,8 @@ public class XmlTransformerCacheService implements CacheableService
     /**
      * {@inheritDoc }
      */
-    public void enableCache( boolean bEnable )
+    @Override
+	public void enableCache( boolean bEnable )
     {
         // Always enable
     }
@@ -100,7 +108,8 @@ public class XmlTransformerCacheService implements CacheableService
     /**
      * {@inheritDoc }
      */
-    public List<String> getKeys(  )
+    @Override
+	public List<String> getKeys(  )
     {
         List<String> list = new ArrayList<String>(  );
         list.add( MSG_KEYS_NOT_AVAILABLE );
@@ -111,7 +120,8 @@ public class XmlTransformerCacheService implements CacheableService
     /**
      * {@inheritDoc }
      */
-    public int getMaxElements(  )
+    @Override
+	public int getMaxElements(  )
     {
         return XmlTransformer.TRANSFORMER_POOL_SIZE * XmlTransformer.MAX_TRANSFORMER_SIZE;
     }
@@ -119,7 +129,8 @@ public class XmlTransformerCacheService implements CacheableService
     /**
      * {@inheritDoc }
      */
-    public long getTimeToLive(  )
+    @Override
+	public long getTimeToLive(  )
     {
         return 0L;
     }
@@ -127,7 +138,8 @@ public class XmlTransformerCacheService implements CacheableService
     /**
      * {@inheritDoc }
      */
-    public long getMemorySize(  )
+    @Override
+	public long getMemorySize(  )
     {
         return 0L;
     }
@@ -135,7 +147,8 @@ public class XmlTransformerCacheService implements CacheableService
     /**
      * {@inheritDoc }
      */
-    public String getInfos(  )
+    @Override
+	public String getInfos(  )
     {
         return "This cache can't be disabled - Poolsize = " + XmlTransformer.TRANSFORMER_POOL_SIZE;
     }

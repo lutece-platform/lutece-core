@@ -45,7 +45,7 @@ import javax.servlet.http.HttpSessionListener;
  * Listener service : provides registered listener access.
  *
  */
-public class HttpSessionListenerService
+public final class HttpSessionListenerService
 {
     private static final List<HttpSessionListener> LIST_LISTENERS = new ArrayList<HttpSessionListener>(  );
 
@@ -58,8 +58,9 @@ public class HttpSessionListenerService
     }
 
     /**
-     * Registers a listener
-     * @param strListenerClass the listener class name
+     * Registers a listener.
+     *
+     * @param entry the entry
      */
     public static void registerListener( HttpSessionListenerEntry entry )
     {

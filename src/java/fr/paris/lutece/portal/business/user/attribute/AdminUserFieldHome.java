@@ -45,7 +45,7 @@ import java.util.List;
  * AdminUserFieldHome
  *
  */
-public class AdminUserFieldHome
+public final class AdminUserFieldHome
 {
     private static IAdminUserFieldDAO _dao = (IAdminUserFieldDAO) SpringContextService.getBean( "adminUserFieldDAO" );
 
@@ -95,8 +95,9 @@ public class AdminUserFieldHome
     }
 
     /**
-     * Delete an attribute
-     * @param nIdUserField the ID of the user field
+     * Delete an attribute.
+     *
+     * @param userField the user field
      */
     public static void remove( AdminUserField userField )
     {

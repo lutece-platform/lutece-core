@@ -150,8 +150,10 @@ public final class AdminDashboardHome
         return _dao.selectMaxOrder( nColumn );
     }
 
-    /*
-     * Find the columns list
+    /**
+     * Find columns.
+     *
+     * @return the list
      */
     public static List<Integer> findColumns(  )
     {

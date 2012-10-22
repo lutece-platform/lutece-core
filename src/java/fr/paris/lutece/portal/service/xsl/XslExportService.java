@@ -46,9 +46,16 @@ import fr.paris.lutece.util.UniqueIDGenerator;
  * Class to export XML datas with a Xsl file.
  *
  */
-public class XslExportService
+public final class XslExportService
 {
     private static final String XSL_UNIQUE_PREFIX_ID = UniqueIDGenerator.getNewId(  ) + "core-";
+
+    /**
+     * Instantiates a new xsl export service.
+     */
+    private XslExportService(  )
+    {
+    }
 
     /**
      * Transform an XML with an XSL

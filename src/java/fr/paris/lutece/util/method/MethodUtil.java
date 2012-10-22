@@ -182,6 +182,7 @@ public final class MethodUtil
     /**
      * Gets the setter.
      *
+     * @param <A> the generic type
      * @param instance the instance
      * @param strAttributeName the str attribute name
      * @param clazz the clazz

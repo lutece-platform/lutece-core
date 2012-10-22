@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.util.datatable;
 
+/**
+ * The Class DataTablePaginationProperties.
+ */
 public class DataTablePaginationProperties
 {
     private int _nItemsPerPage;

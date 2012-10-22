@@ -40,14 +40,10 @@ import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import org.apache.log4j.Logger;
-
 import org.springframework.jdbc.datasource.DataSourceUtils;
-
 import org.springframework.transaction.support.TransactionSynchronizationManager;
-import org.springframework.transaction.support.TransactionSynchronizationUtils;
 
 import java.io.InputStream;
-
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
@@ -57,7 +53,6 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
-
 import java.text.MessageFormat;
 
 import javax.sql.DataSource;
@@ -294,7 +289,8 @@ public class DAOUtil
      * @deprecated
      * @return true if the cursor is on a valid row; false if there are no rows in the result set
      */
-    public boolean first(  )
+	@Deprecated
+	public boolean first(  )
     {
         try
         {
@@ -1044,16 +1040,15 @@ public class DAOUtil
     }
 
     /**
-     * finalize implementation
-     * @see java.lang.Object#finalize()
-     * @throws Throwable An exception
+     * {@inheritDoc}
      */
-    protected void finalize(  ) throws Throwable
+    @Override
+	protected void finalize(  ) throws Throwable
     {
         if ( !_bReleased )
         {
             free(  );
-            AppLogService.error( 
+            AppLogService.error(
                 "A call to DAOUtil.free() seems to be missing or an unexpected exception has occured during the use of a DAOUtil object - plugin : " +
                 _strPluginName + " - SQL statement : " + _strSQL );
         }

@@ -47,7 +47,7 @@ import java.util.Locale;
  * AttributeTypeService
  *
  */
-public class AttributeTypeService
+public final class AttributeTypeService
 {
     private static AttributeTypeService _singleton;
     private static List<AttributeType> _listAttributeTypes;

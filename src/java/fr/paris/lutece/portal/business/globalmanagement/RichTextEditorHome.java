@@ -41,9 +41,16 @@ import java.util.Collection;
 /**
  * Rich text editor home
  */
-public class RichTextEditorHome
+public final class RichTextEditorHome
 {
     private static IRichTextEditorDAO _dao = SpringContextService.getBean( IRichTextEditorDAO.BEAN_NAME );
+
+    /**
+     * Instantiates a new rich text editor home.
+     */
+    private RichTextEditorHome(  )
+    {
+    }
 
     /**
      * Get collection of RichTextEditor for back office

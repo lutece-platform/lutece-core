@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.search;
 
 import fr.paris.lutece.portal.business.search.SearchParameterHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
 import java.util.ArrayList;
@@ -46,7 +45,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 
-public class SearchService
+/**
+ * The Class SearchService.
+ */
+public final class SearchService
 {
     public static final String RESOURCE_TYPE = "SEARCH_SERVICE";
     public static final String TYPE_FILTER_NONE = "none";
@@ -55,16 +57,18 @@ public class SearchService
     private static final String MARK_TYPE = "type";
     private static final String MARK_LINK = "link";
 
-    /*
-     * private constructor
+    /**
+     * Instantiates a new search service.
      */
     private SearchService(  )
     {
     }
 
     /**
-     * Build the advanced parameters management
+     * Build the advanced parameters management.
+     *
      * @param user the current admin user
+     * @param request the request
      * @return the model for the advanced parameters
      */
     public static Map<String, Object> getManageAdvancedParameters( AdminUser user, HttpServletRequest request )

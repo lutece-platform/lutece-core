@@ -54,143 +54,147 @@ public class NormalizeFileItem implements FileItem
     private static final long serialVersionUID = 8696893066570050604L;
     private FileItem _item;
 
+    /**
+     * Instantiates a new normalize file item.
+     *
+     * @param item the item
+     */
     public NormalizeFileItem( FileItem item )
     {
         _item = item;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#delete()
+    /**
+     * {@inheritDoc}
      */
-    public void delete(  )
+    @Override
+	public void delete(  )
     {
         _item.delete(  );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#get()
+    /**
+     * {@inheritDoc}
      */
-    public byte[] get(  )
+    @Override
+	public byte[] get(  )
     {
         return _item.get(  );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#getContentType()
+    /**
+     * {@inheritDoc}
      */
-    public String getContentType(  )
+    @Override
+	public String getContentType(  )
     {
         return _item.getContentType(  );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#getFieldName()
+    /**
+     * {@inheritDoc}
      */
-    public String getFieldName(  )
+    @Override
+	public String getFieldName(  )
     {
         return _item.getFieldName(  );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#getInputStream()
+    /**
+     * {@inheritDoc}
      */
-    public InputStream getInputStream(  ) throws IOException
+    @Override
+	public InputStream getInputStream(  ) throws IOException
     {
         return _item.getInputStream(  );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#getName()
+    /**
+     * {@inheritDoc}
      */
-    public String getName(  )
+    @Override
+	public String getName(  )
     {
         return UploadUtil.cleanFileName( FilenameUtils.getName( _item.getName(  ) ) );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#getOutputStream()
+    /**
+     * {@inheritDoc}
      */
-    public OutputStream getOutputStream(  ) throws IOException
+    @Override
+	public OutputStream getOutputStream(  ) throws IOException
     {
         return _item.getOutputStream(  );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#getSize()
+    /**
+     * {@inheritDoc}
      */
-    public long getSize(  )
+    @Override
+	public long getSize(  )
     {
         return _item.getSize(  );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#getOutputStream()
+    /**
+     * {@inheritDoc}
      */
-    public String getString(  )
+    @Override
+	public String getString(  )
     {
         return _item.getString(  );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#getOutputStream()
+    /**
+     * {@inheritDoc}
      */
-    public String getString( String encoding ) throws UnsupportedEncodingException
+    @Override
+	public String getString( String encoding ) throws UnsupportedEncodingException
     {
         return _item.getString( encoding );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#getOutputStream()
+    /**
+     * {@inheritDoc}
      */
-    public boolean isFormField(  )
+    @Override
+	public boolean isFormField(  )
     {
         return _item.isFormField(  );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#getOutputStream()
+    /**
+     * {@inheritDoc}
      */
-    public boolean isInMemory(  )
+    @Override
+	public boolean isInMemory(  )
     {
-        // TODO Auto-generated method stub
         return _item.isInMemory(  );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#getOutputStream()
+    /**
+     * {@inheritDoc}
      */
-    public void setFieldName( String name )
+    @Override
+	public void setFieldName( String name )
     {
         _item.setFieldName( name );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#getOutputStream()
+    /**
+     * {@inheritDoc}
      */
-    public void setFormField( boolean state )
+    @Override
+	public void setFormField( boolean state )
     {
         _item.setFormField( state );
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItem#getOutputStream()
+    /**
+     * {@inheritDoc}
      */
-    public void write( File file ) throws Exception
+    @Override
+	public void write( File file ) throws Exception
     {
         _item.write( file );
     }

@@ -43,7 +43,7 @@ import java.util.List;
  * AttributeFieldHome
  *
  */
-public class AttributeFieldHome
+public final class AttributeFieldHome
 {
     private static IAttributeFieldDAO _dao = (IAttributeFieldDAO) SpringContextService.getBean( "attributeFieldDAO" );
 

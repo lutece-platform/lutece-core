@@ -55,7 +55,6 @@ public final class PhysicalFileHome
      * Creation of an instance of record physical file
      *
      * @param physicalFile The instance of the physical file which contains the informations to store
-     * @param plugin the plugin
      *
      * @return the id of the file after creation
      *
@@ -69,7 +68,6 @@ public final class PhysicalFileHome
      * Update of physical file which is specified in parameter
      *
      * @param  physicalFile The instance of the  record physicalFile which contains the informations to update
-     * @param plugin the Plugin
      *
      */
     public static void update( PhysicalFile physicalFile )
@@ -81,7 +79,6 @@ public final class PhysicalFileHome
      *Delete the physical file whose identifier is specified in parameter
      *
      * @param nIdPhysicalFile The identifier of the record physical file
-     * @param plugin the Plugin
      */
     public static void remove( int nIdPhysicalFile )
     {
@@ -95,7 +92,6 @@ public final class PhysicalFileHome
      * Returns an instance of a physical file whose identifier is specified in parameter
      *
      * @param nKey The file  primary key
-     * @param plugin the Plugin
      * @return an instance of physical file
      */
     public static PhysicalFile findByPrimaryKey( int nKey )

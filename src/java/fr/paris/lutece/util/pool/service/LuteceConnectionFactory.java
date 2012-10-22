@@ -34,7 +34,6 @@
 package fr.paris.lutece.util.pool.service;
 
 import java.lang.reflect.Proxy;
-
 import java.sql.Connection;
 
 
@@ -42,13 +41,20 @@ import java.sql.Connection;
  *
  * Factory to create LuteceConnection
  */
-public class LuteceConnectionFactory
+public final class LuteceConnectionFactory
 {
     /**
      * Supported interfaces for the proxy
      */
     @SuppressWarnings( "rawtypes" )
     private static final Class[] PROXY_INTERFACES = { LuteceConnection.class };
+
+    /**
+     * Instantiates a new lutece connection factory.
+     */
+    private LuteceConnectionFactory(  )
+    {
+    }
 
     /**
      * Builds a new proxied instance of the connection

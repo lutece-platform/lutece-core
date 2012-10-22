@@ -79,9 +79,9 @@ public class ServletEntry
     }
 
     /**
-     * Sets the servlet
+     * Sets the servlet.
      *
-     * @param strservletClass The servlet
+     * @param strServletClass the new servlet class
      */
     public void setServletClass( String strServletClass )
     {

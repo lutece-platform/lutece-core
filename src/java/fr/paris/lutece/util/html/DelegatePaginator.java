@@ -43,8 +43,10 @@ import java.util.List;
  */
 public class DelegatePaginator<E> extends AbstractPaginator<E>
 {
+
     /**
-     * Creates a new instance of Paginator
+     * Creates a new instance of Paginator.
+     *
      * @param list The collection to paginate
      * @param nItemPerPage Number of items to display per page
      * @param strBaseUrl The base Url for build links on each page link
@@ -100,7 +102,8 @@ public class DelegatePaginator<E> extends AbstractPaginator<E>
      *
      * @return The List
      */
-    public List<E> getPageItems(  )
+    @Override
+	public List<E> getPageItems(  )
     {
         return _list;
     }

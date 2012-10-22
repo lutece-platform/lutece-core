@@ -76,14 +76,16 @@ public class AuthenticationFilter implements Filter
     /**
      * {@inheritDoc}
      */
-    public void init( FilterConfig config ) throws ServletException
+    @Override
+	public void init( FilterConfig config ) throws ServletException
     {
     }
 
     /**
      * {@inheritDoc}
      */
-    public void destroy(  )
+    @Override
+	public void destroy(  )
     {
         // Do nothing
     }
@@ -91,7 +93,8 @@ public class AuthenticationFilter implements Filter
     /**
      * {@inheritDoc}
      */
-    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
+    @Override
+	public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
         throws IOException, ServletException
     {
         HttpServletRequest req = (HttpServletRequest) request;
@@ -195,9 +198,10 @@ public class AuthenticationFilter implements Filter
     }
 
     /**
-     * Get the logout url
-     * @param request The request
-     * @return The logout url
+     * Gets the logout url.
+     *
+     * @param request the request
+     * @return the logout url
      */
     private String getLogoutUrl( HttpServletRequest request )
     {

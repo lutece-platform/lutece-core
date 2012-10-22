@@ -77,7 +77,7 @@ public interface LutecePanel
      * Gets the locale
      * @return The locale
      */
-    public Locale getPanelLocale(  );
+    Locale getPanelLocale(  );
 
     /**
      * Sets the request
@@ -89,11 +89,11 @@ public interface LutecePanel
      * Gets the request
      * @return The request
      */
-    public HttpServletRequest getRequest(  );
+    HttpServletRequest getRequest(  );
 
     /**
      * Gets the panel index
      * @return The index
      */
-    public int getPanelIndex(  );
+    int getPanelIndex(  );
 }

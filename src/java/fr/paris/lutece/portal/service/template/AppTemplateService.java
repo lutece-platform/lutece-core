@@ -84,6 +84,11 @@ public final class AppTemplateService
         }
     }
 
+    /**
+     * Adds the plugin macros.
+     *
+     * @param plugin the plugin
+     */
     private static void addPluginMacros( Plugin plugin )
     {
         for ( String strFileName : plugin.getFreeMarkerMacrosFiles(  ) )

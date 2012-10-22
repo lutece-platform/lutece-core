@@ -53,13 +53,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ExtendableResourceJspBean extends AdminFeaturesPageJspBean
 {
+
     /**
      * Do process extendable resource action.
-     * 
+     *
      * @param request the request
      * @param response the response
      * @return the i plugin action result
-     * @throws AccessDeniedException Access denied exception
+     * @throws AccessDeniedException the access denied exception
      */
     public IPluginActionResult doProcessExtendableResourceAction( HttpServletRequest request,
         HttpServletResponse response ) throws AccessDeniedException

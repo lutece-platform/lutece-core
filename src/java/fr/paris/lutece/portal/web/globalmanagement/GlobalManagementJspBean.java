@@ -54,6 +54,12 @@ public class GlobalManagementJspBean extends PluginAdminPageJspBean
     private static final String MARK_PANELS_LIST = "panels_list";
     private static final String TEMPLATE_GLOBAL_MANAGEMENT = "/admin/globalmanagement/global_management.html";
 
+    /**
+     * Gets the global management.
+     *
+     * @param request the request
+     * @return the global management
+     */
     public String getGlobalManagement( HttpServletRequest request )
     {
         LutecePanelService<AbstractGMLutecePanel> gmLutecePanel = LutecePanelService.instance( AbstractGMLutecePanel.class );

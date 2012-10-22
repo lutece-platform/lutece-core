@@ -42,8 +42,8 @@ package fr.paris.lutece.portal.service.util;
 public class AppException extends RuntimeException
 {
     /**
-         * Generated serialVersionUID
-         */
+     * Generated serialVersionUID
+     */
     private static final long serialVersionUID = -742252097057629674L;
     private Exception _exception; // Initial Exception to embed
     private String _strMessage; // Error message
@@ -92,7 +92,8 @@ public class AppException extends RuntimeException
      * Overides getMessage method
      * @return strMessage The error message
      */
-    public String getMessage(  )
+    @Override
+	public String getMessage(  )
     {
         return getAppMessage(  );
     }

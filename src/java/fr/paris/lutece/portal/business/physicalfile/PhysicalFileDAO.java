@@ -54,10 +54,10 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     /**
      * Generates a new primary key
      *
-     * @param plugin the plugin
      * @return The new primary key
      */
-    public int newPrimaryKey(  )
+    @Override
+	public int newPrimaryKey(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
         daoUtil.executeQuery(  );
@@ -80,10 +80,10 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
      * Insert a new record in the table.
      *
      * @param physicalFile  instance of the PhysicalFile object to insert
-     * @param plugin the plugin
      * @return the id of the new physical file
      */
-    public synchronized int insert( PhysicalFile physicalFile )
+    @Override
+	public synchronized int insert( PhysicalFile physicalFile )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         daoUtil.setBytes( 2, physicalFile.getValue(  ) );
@@ -100,10 +100,10 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
      * Load the data of the PhysicalFile from the table
      *
      * @param nId The identifier of the file
-     * @param plugin the plugin
      * @return the instance of the PhysicalFile
      */
-    public PhysicalFile load( int nId )
+    @Override
+	public PhysicalFile load( int nId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY );
         daoUtil.setInt( 1, nId );
@@ -128,9 +128,9 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
      * Delete a record from the table
      *
      * @param nIdPhysicalFile The identifier of the PhyscalFile
-     * @param plugin the plugin
      */
-    public void delete( int nIdPhysicalFile )
+    @Override
+	public void delete( int nIdPhysicalFile )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
         daoUtil.setInt( 1, nIdPhysicalFile );
@@ -142,9 +142,9 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
      * Update the physical file in the table
      *
      * @param physicalFile instance of the physicalFile object to update
-     * @param plugin the plugin
      */
-    public void store( PhysicalFile physicalFile )
+    @Override
+	public void store( PhysicalFile physicalFile )
     {
         int nIndex = 1;
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );

@@ -46,6 +46,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 
+/**
+ * The Class EditorChoiceLutecePanelJspBean.
+ */
 public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
 {
     private static final String LABEL_TITLE_EDITOR_CHOICE = "portal.globalmanagement.editorChoice.labelEditorChoice";
@@ -106,6 +109,12 @@ public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
         return I18nService.getLocalizedString( LABEL_TITLE_EDITOR_CHOICE, AdminUserService.getLocale( getRequest(  ) ) );
     }
 
+    /**
+     * Do update back office editor.
+     *
+     * @param request the request
+     * @return the string
+     */
     public String doUpdateBackOfficeEditor( HttpServletRequest request )
     {
         String strEditorName = request.getParameter( PARAM_EDITOR_BACK_OFFICE );
@@ -114,6 +123,12 @@ public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
         return AppPathService.getBaseUrl( request ) + JSP_URL_GLOBAL_MANAGEMENT;
     }
 
+    /**
+     * Do update front office editor.
+     *
+     * @param request the request
+     * @return the string
+     */
     public String doUpdateFrontOfficeEditor( HttpServletRequest request )
     {
         String strEditorName = request.getParameter( PARAM_EDITOR_FRONT_OFFICE );

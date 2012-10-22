@@ -56,7 +56,7 @@ import javax.servlet.http.HttpServletRequest;
  * AdminDashboardService
  *
  */
-public class AdminDashboardService
+public final class AdminDashboardService
 {
     /**
      * admindashboard.columnCount

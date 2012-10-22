@@ -41,15 +41,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
-/*
- * AbstractLuteceHome
+/**
+ * The Class AbstractLuteceHome.
+ *
+ * @param <K> the key type
+ * @param <E> the element type
+ * @param <DAO> the generic type
  */
 public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> implements IGenericHome<K, E>
 {
     private DAO _dao;
 
     /**
-     *{@inheritDoc}
+     * Sets the dao.
+     *
+     * @param dao the new dao
      */
     public void setDao( DAO dao )
     {
@@ -57,7 +63,9 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
     }
 
     /**
-     *{@inheritDoc}
+     * Gets the dao.
+     *
+     * @return the dao
      */
     public DAO getDao(  )
     {
@@ -67,7 +75,8 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
     /**
      *{@inheritDoc}
      */
-    @Transactional
+    @Override
+	@Transactional
     public void create( E entityBean )
     {
         getDao(  ).create( entityBean );
@@ -76,7 +85,8 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
     /**
      *{@inheritDoc}
      */
-    @Transactional
+    @Override
+	@Transactional
     public void remove( K key )
     {
         getDao(  ).remove( key );
@@ -85,7 +95,8 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
     /**
      *{@inheritDoc}
      */
-    public E findByPrimaryKey( K key )
+    @Override
+	public E findByPrimaryKey( K key )
     {
         return getDao(  ).findById( key );
     }
@@ -93,7 +104,8 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
     /**
      *{@inheritDoc}
      */
-    @Transactional
+    @Override
+	@Transactional
     public void update( E entityBean )
     {
         getDao(  ).update( entityBean );
@@ -102,7 +114,8 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
     /**
      *{@inheritDoc}
      */
-    public List<E> findAll(  )
+    @Override
+	public List<E> findAll(  )
     {
         return getDao(  ).findAll(  );
     }

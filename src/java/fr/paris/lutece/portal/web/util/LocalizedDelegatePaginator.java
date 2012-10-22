@@ -41,8 +41,9 @@ import java.util.Locale;
 
 
 /**
+ * Localized Delegate Paginator.
  *
- * Localized Delegate Paginator
+ * @param <E> the element type
  * @see LocalizedPaginator
  */
 public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
@@ -56,13 +57,13 @@ public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
     private Locale _locale;
 
     /**
+     * Instantiates a new localized delegate paginator.
      *
-     * @param list the list
-    * @param list The collection to paginate
-    * @param nItemPerPage Number of items to display per page
-    * @param strBaseUrl The base Url for build links on each page link
-    * @param strPageIndexParameterName The parameter name for the page index
-    * @param strPageIndex The current page index
+     * @param list The collection to paginate
+     * @param nItemPerPage Number of items to display per page
+     * @param strBaseUrl The base Url for build links on each page link
+     * @param strPageIndexParameterName The parameter name for the page index
+     * @param strPageIndex The current page index
      * @param nItemsCount total items
      * @param locale The Locale
      */
@@ -76,7 +77,8 @@ public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
     /**
      * {@inheritDoc}
      */
-    public String getLabelFirst(  )
+    @Override
+	public String getLabelFirst(  )
     {
         return I18nService.getLocalizedString( KEY_FIRST, _locale );
     }

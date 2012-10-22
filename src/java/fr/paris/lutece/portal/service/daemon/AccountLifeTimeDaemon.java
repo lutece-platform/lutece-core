@@ -49,10 +49,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.Timestamp;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -88,6 +86,9 @@ public class AccountLifeTimeDaemon extends Daemon
     private static final String PROPERTY_PROD_URL = "init.webapp.prod.url";
     private static final String JSP_URL_REACTIVATE_ACCOUNT = "/jsp/admin/user/ReactivateAccount.jsp";
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings( "deprecation" )
     @Override
     public void run(  )
@@ -352,9 +353,15 @@ public class AccountLifeTimeDaemon extends Daemon
             sbResult.append( "AccountLifeTimeDaemon - Expired passwords notification deactivated, skipping" );
         }
 
-        this.setLastRunLogs( sbResult.toString(  ) );
+        setLastRunLogs( sbResult.toString(  ) );
     }
 
+    /**
+     * Adds the parameters to model.
+     *
+     * @param model the model
+     * @param nIdUser the n id user
+     */
     protected void addParametersToModel( Map<String, String> model, Integer nIdUser )
     {
         AdminUser user = AdminUserHome.findByPrimaryKey( nIdUser );

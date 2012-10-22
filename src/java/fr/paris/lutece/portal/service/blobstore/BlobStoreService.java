@@ -91,8 +91,9 @@ public interface BlobStoreService extends Serializable
     void delete( String strKey );
 
     /**
-     * Gets the blob URL
-     * @param strKey
+     * Gets the blob URL.
+     *
+     * @param strKey the str key
      * @return the blob url
      */
     String getBlobUrl( String strKey );

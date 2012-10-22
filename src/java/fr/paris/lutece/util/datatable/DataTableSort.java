@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.util.datatable;
 
+/**
+ * The Class DataTableSort.
+ */
 public class DataTableSort
 {
     private String _strSortKey;

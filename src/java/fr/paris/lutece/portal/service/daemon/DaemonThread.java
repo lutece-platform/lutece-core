@@ -45,7 +45,7 @@ import java.util.Date;
 public final class DaemonThread implements Runnable
 {
     private DaemonEntry _entry;
-    private String _strDaemonName = null;
+    private String _strDaemonName;
 
     /**
      * Constructor Creates the thread of execution from informations contained
@@ -61,7 +61,8 @@ public final class DaemonThread implements Runnable
      * Execution process of the daemon associated with the thread
          * This methods is called for regular interval
      */
-    public void run(  )
+    @Override
+	public void run(  )
     {
         if ( _entry.isRunning(  ) )
         {

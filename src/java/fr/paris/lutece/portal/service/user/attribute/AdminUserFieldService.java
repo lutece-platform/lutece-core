@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.user.attribute;
 
-import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldFilter;
@@ -61,7 +60,7 @@ import javax.servlet.http.HttpServletRequest;
  * AdminUserFieldService
  *
  */
-public class AdminUserFieldService
+public final class AdminUserFieldService
 {
     // CONSTANTS
     private static final String CONSTANT_EMPTY_STRING = "";
@@ -72,8 +71,8 @@ public class AdminUserFieldService
     private static final String PARAMETER_UPDATE_ATTRIBUTE = "update_attribute";
     private static final AttributeService _attributeService = AttributeService.getInstance(  );
 
-    /*
-     * Private constructor
+    /**
+     * Instantiates a new admin user field service.
      */
     private AdminUserFieldService(  )
     {
@@ -146,7 +145,7 @@ public class AdminUserFieldService
         }
 
         // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 
+        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType(
                 AdminUserFieldListenerService.class ) )
         {
             adminUserFieldListenerService.doCreateUserFields( user, request, locale );
@@ -191,7 +190,7 @@ public class AdminUserFieldService
         }
 
         // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 
+        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType(
                 AdminUserFieldListenerService.class ) )
         {
             adminUserFieldListenerService.doModifyUserFields( user, request, locale, currentUser );
@@ -211,7 +210,7 @@ public class AdminUserFieldService
         AdminUserFieldHome.removeByFilter( auFieldFilter );
 
         // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 
+        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType(
                 AdminUserFieldListenerService.class ) )
         {
             adminUserFieldListenerService.doRemoveUserFields( user, request, locale );
@@ -242,7 +241,7 @@ public class AdminUserFieldService
      * Get the user attribute fields
      * @param nUserId the user ID
      * @param locale the {@link Locale}
-     * @return a Map of (ID Attribute, Object). The object could be either a {@link File} or a list of {@link AdminUserField}
+     * @return a Map of (ID Attribute, Object). The object could be either a File or a list of {@link AdminUserField}
      */
     public static Map<String, Object> getAdminUserFields( int nUserId, Locale locale )
     {
@@ -256,7 +255,7 @@ public class AdminUserFieldService
      * @param listAttributes the list of attributes
      * @param nUserId the user ID
      * @param locale the {@link Locale}
-     * @return a Map of (ID Attribute, Object). The object could be either a {@link File} or a list of {@link AdminUserField}
+     * @return a Map of (ID Attribute, Object). The object could be either a File or a list of {@link AdminUserField}
      */
     public static Map<String, Object> getAdminUserFields( List<IAttribute> listAttributes, int nUserId, Locale locale )
     {
@@ -300,7 +299,7 @@ public class AdminUserFieldService
      * @param attribute a {@link IAttribute}
      * @param nUserId the user ID
      * @param locale the {@link Locale}
-     * @return either a {@link File} (if the attribute is a type img) or a list of {@link AdminUserField}
+     * @return either a File (if the attribute is a type img) or a list of {@link AdminUserField}
      */
     public Object getAdminUserField( IAttribute attribute, int nUserId, Locale locale )
     {

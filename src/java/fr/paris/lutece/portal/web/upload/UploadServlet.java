@@ -36,6 +36,11 @@ package fr.paris.lutece.portal.web.upload;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.apache.commons.fileupload.FileItem;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +51,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
-import org.apache.commons.fileupload.FileItem;
 
 
 /**
@@ -122,7 +122,7 @@ public class UploadServlet extends HttpServlet
      */
     private IAsynchronousUploadHandler getHandler( HttpServletRequest request )
     {
-        for ( IAsynchronousUploadHandler handler : SpringContextService.getBeansOfType( 
+        for ( IAsynchronousUploadHandler handler : SpringContextService.getBeansOfType(
                 IAsynchronousUploadHandler.class ) )
         {
             if ( handler.isInvoked( request ) )

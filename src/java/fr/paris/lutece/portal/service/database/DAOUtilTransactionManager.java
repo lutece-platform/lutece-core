@@ -38,13 +38,10 @@ import fr.paris.lutece.portal.service.plugin.PluginEventListener;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.apache.log4j.Logger;
-
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import java.io.PrintWriter;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
@@ -59,9 +56,9 @@ import javax.sql.DataSource;
 public class DAOUtilTransactionManager extends DataSourceTransactionManager implements PluginEventListener
 {
     private static final long serialVersionUID = -654531540978261621L;
-    private Logger logger = Logger.getLogger( "lutece.debug.sql.tx" );
+    private Logger _logger = Logger.getLogger( "lutece.debug.sql.tx" );
     private String _strPluginName;
-    private boolean _bInit = false;
+    private boolean _bInit;
 
     /**
      * Registers the listener to {@link PluginService}.
@@ -90,9 +87,10 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
     }
 
     /**
-     * Changes datasource if needed.
+     * {@inheritDoc}
      */
-    public void processPluginEvent( PluginEvent event )
+    @Override
+	public void processPluginEvent( PluginEvent event )
     {
         if ( getPluginName(  ).equals( event.getPlugin(  ).getName(  ) ) )
         {
@@ -104,7 +102,7 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
                 {
                     try
                     {
-                        logger.debug( "DAOUtilTransactionManager changed datasource status..." );
+                        _logger.debug( "DAOUtilTransactionManager changed datasource status..." );
                         setDataSource( AppConnectionService.getPoolManager(  )
                                                            .getDataSource( event.getPlugin(  ).getDbPoolName(  ) ) );
                         _bInit = true;
@@ -112,14 +110,14 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
                     catch ( Exception ex )
                     {
                         _bInit = false;
-                        logger.error( "An error occured getting pool for DAOUtilTransactionManager for plugin " +
+                        _logger.error( "An error occured getting pool for DAOUtilTransactionManager for plugin " +
                             event.getPlugin(  ).getName(  ) +
                             ", please check plugin is activated and pool is correctly set : " + ex.getMessage(  ), ex );
                     }
                 }
                 else
                 {
-                    logger.debug( "Pool for plugin " + event.getPlugin(  ).getName(  ) +
+                    _logger.debug( "Pool for plugin " + event.getPlugin(  ).getName(  ) +
                         " is set to null, clearing transaction manager" );
                     setDataSource( null );
                     _bInit = false;
@@ -136,6 +134,8 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
     /**
      * Returns a "fake" datasource to avoid spring checks failure when pool are not initialized.
      * Returns the current datasource otherwise.
+     *
+     * @return the data source
      */
     @Override
     public DataSource getDataSource(  )
@@ -150,23 +150,27 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
          */
         return new DataSource(  )
             {
-                public <T> T unwrap( Class<T> iface ) throws SQLException
+                @Override
+				public <T> T unwrap( Class<T> iface ) throws SQLException
                 {
                     return null;
                 }
 
-                public boolean isWrapperFor( Class<?> iface )
+                @Override
+				public boolean isWrapperFor( Class<?> iface )
                     throws SQLException
                 {
                     return false;
                 }
 
-                public void setLoginTimeout( int seconds )
+                @Override
+				public void setLoginTimeout( int seconds )
                     throws SQLException
                 {
                 }
 
-                public void setLogWriter( PrintWriter out )
+                @Override
+				public void setLogWriter( PrintWriter out )
                     throws SQLException
                 {
                 }
@@ -177,23 +181,27 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
                     return null;
                 }
 
-                public int getLoginTimeout(  ) throws SQLException
+                @Override
+				public int getLoginTimeout(  ) throws SQLException
                 {
                     return 0;
                 }
 
-                public PrintWriter getLogWriter(  ) throws SQLException
+                @Override
+				public PrintWriter getLogWriter(  ) throws SQLException
                 {
                     return null;
                 }
 
-                public Connection getConnection( String username, String password )
+                @Override
+				public Connection getConnection( String username, String password )
                     throws SQLException
                 {
                     return null;
                 }
 
-                public Connection getConnection(  ) throws SQLException
+                @Override
+				public Connection getConnection(  ) throws SQLException
                 {
                     return null;
                 }

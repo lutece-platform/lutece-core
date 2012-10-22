@@ -36,34 +36,37 @@ package fr.paris.lutece.portal.business.user.parameter;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 
-/*
- * This class provide the default user parameters
+/**
+ * The Class DefaultUserParameterHome.
  */
 public final class DefaultUserParameterHome
 {
     // Static variable pointed at the DAO instance
-    private static IDefaultUserParameterDAO _dao = (IDefaultUserParameterDAO) SpringContextService.getBean( 
+    /** The _dao. */
+    private static IDefaultUserParameterDAO _dao = (IDefaultUserParameterDAO) SpringContextService.getBean(
             "defaultUserParameterDAO" );
 
-    /*
-     * private constructor
+    /**
+     * Instantiates a new default user parameter home.
      */
     private DefaultUserParameterHome(  )
     {
     }
 
     /**
-    * Load the parameter value
-    * @param strParameterKey the parameter key
-    * @return The parameter value
-    */
+     * Load the parameter value.
+     *
+     * @param strParameterKey the parameter key
+     * @return The parameter value
+     */
     public static DefaultUserParameter findByKey( String strParameterKey )
     {
         return _dao.load( strParameterKey );
     }
 
     /**
-     * Update the parameter value
+     * Update the parameter value.
+     *
      * @param userParam The User parameters
      */
     public static void update( DefaultUserParameter userParam )

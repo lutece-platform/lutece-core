@@ -399,10 +399,11 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     // Private implementation
 
     /**
-     * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
+     * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter.
      *
      * @param strPageId The identifier of the page
      * @param strParamBlock The block parameter to display
+     * @param strPortletType the str portlet type
      * @param request The request
      * @return The management page of a page
      */

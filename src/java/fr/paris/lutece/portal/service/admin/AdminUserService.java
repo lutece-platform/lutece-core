@@ -69,10 +69,8 @@ import fr.paris.lutece.util.url.UrlItem;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.Timestamp;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -389,7 +387,7 @@ public final class AdminUserService
             Level defaultLevel = LevelHome.findByPrimaryKey( Integer.parseInt( strDefaultLevel ) );
 
             // USER NOTIFICATION
-            int nDefaultUserNotification = Integer.parseInt( DefaultUserParameterHome.findByKey( 
+            int nDefaultUserNotification = Integer.parseInt( DefaultUserParameterHome.findByKey(
                         PARAMETER_DEFAULT_USER_NOTIFICATION ).getParameterValue(  ) );
 
             // USER LANGUAGE
@@ -398,7 +396,7 @@ public final class AdminUserService
                                                                     .getParameterValue(  );
 
             // USER STATUS
-            int nDefaultUserStatus = Integer.parseInt( DefaultUserParameterHome.findByKey( 
+            int nDefaultUserStatus = Integer.parseInt( DefaultUserParameterHome.findByKey(
                         PARAMETER_DEFAULT_USER_STATUS ).getParameterValue(  ) );
 
             model.put( MARK_USER_LEVELS_LIST, LevelHome.getLevelsList(  ) );
@@ -451,8 +449,9 @@ public final class AdminUserService
     /**
      * Check if the given email is valid or not. <br />
      * The given email is compared to the value of the parameter <i>'core_user_parameter.email_pattern'</i>.
-     * @param strEmail
-     * @return
+     *
+     * @param strEmail the str email
+     * @return true, if successful
      */
     public static boolean checkEmail( String strEmail )
     {
@@ -546,7 +545,9 @@ public final class AdminUserService
     }
 
     /**
-     * Get the email error message url
+     * Get the email error message url.
+     *
+     * @param request the request
      * @return the error message
      */
     public static String getEmailErrorMessageUrl( HttpServletRequest request )
@@ -897,9 +898,9 @@ public final class AdminUserService
      */
     public static void updateSecurityParameter( String strParameterKey, String strValue )
     {
-        strValue = StringUtils.isNotBlank( strValue ) ? strValue : StringUtils.EMPTY;
+        String strValueTmp = StringUtils.isNotBlank( strValue ) ? strValue : StringUtils.EMPTY;
 
-        DefaultUserParameter defaultUserParameter = new DefaultUserParameter( strParameterKey, strValue );
+        DefaultUserParameter defaultUserParameter = new DefaultUserParameter( strParameterKey, strValueTmp );
         DefaultUserParameterHome.update( defaultUserParameter );
     }
 
@@ -1013,14 +1014,15 @@ public final class AdminUserService
      */
     public static String encryptPassword( String strPassword )
     {
+    	String strPasswordTmp = strPassword;
         if ( getBooleanSecurityParameter( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ) )
         {
             String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM )
                                                           .getParameterValue(  );
-            strPassword = CryptoService.encrypt( strPassword, strAlgorithm );
+            strPasswordTmp = CryptoService.encrypt( strPasswordTmp, strAlgorithm );
         }
 
-        return strPassword;
+        return strPasswordTmp;
     }
 
     /**

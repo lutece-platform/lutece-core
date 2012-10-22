@@ -49,7 +49,7 @@ public interface ISearchParameterDAO
 {
     /**
      * Gets the parameters defined by the specified key
-     * @param strParameterKey
+     * @param strParameterKey the parameter key
      * @return the found parameter
      */
     ReferenceItem load( String strParameterKey );

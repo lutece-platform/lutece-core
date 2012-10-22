@@ -246,11 +246,11 @@ public class SiteMessage implements Serializable
 
     /**
      * set the back url
-     * @param _strBackUrl the back url
+     * @param strBackUrl the back url
      */
-    public void setBackUrl( String _strBackUrl )
+    public void setBackUrl( String strBackUrl )
     {
-        this._strBackUrl = _strBackUrl;
+        this._strBackUrl = strBackUrl;
     }
 
     /**
