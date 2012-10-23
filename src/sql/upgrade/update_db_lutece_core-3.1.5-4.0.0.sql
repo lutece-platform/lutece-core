@@ -113,3 +113,33 @@ INSERT INTO core_user_parameter VALUES ('access_failures_captcha', '1');
 INSERT INTO core_user_parameter VALUES ('notify_user_password_expired', '');
 INSERT INTO core_user_parameter VALUES ('password_expired_mail_sender', 'lutece@nowhere.com');
 INSERT INTO core_user_parameter VALUES ('password_expired_mail_subject', 'Votre mot de passe a expiré');
+
+--
+-- Table structure for table core_admin_user_preferences 
+--
+
+DROP TABLE IF EXISTS core_admin_user_preferences;
+CREATE TABLE core_admin_user_preferences (		
+        id_user VARCHAR(100) NOT NULL,
+        pref_key VARCHAR(100) NOT NULL,
+        pref_value LONG VARCHAR,
+        PRIMARY KEY ( id_user , pref_key)  
+);
+
+CREATE INDEX index_admin_user_preferences ON core_admin_user_preferences ( id_user );
+
+--
+-- Table structure for table core_user_preferences 
+--
+
+DROP TABLE IF EXISTS core_user_preferences;
+CREATE TABLE core_user_preferences (		
+        id_user VARCHAR(100) NOT NULL,
+        pref_key VARCHAR(100) NOT NULL,
+        pref_value LONG VARCHAR,
+        PRIMARY KEY ( id_user , pref_key)  
+);
+
+CREATE INDEX index_user_preferences ON core_user_preferences ( id_user );
+
+
