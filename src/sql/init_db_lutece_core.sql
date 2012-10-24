@@ -215,3 +215,6 @@ INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.globalmanagement.editor
 INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelBackNoEditor', true );
 INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelFrontNoEditor', false );
 INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.globalmanagement.editors.labelFrontMarkitupBBCode', false );
+
+INSERT INTO core_admin_mailinglist VALUES( '1', 'admin', 'admin', 'all' );
+INSERT INTO core_admin_mailinglist_filter VALUES( '1', 'all', 'super_admin' );

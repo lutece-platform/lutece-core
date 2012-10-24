@@ -143,3 +143,5 @@ CREATE TABLE core_user_preferences (
 CREATE INDEX index_user_preferences ON core_user_preferences ( id_user );
 
 
+INSERT INTO core_admin_mailinglist VALUES( '1', 'admin', 'admin', 'all' );
+INSERT INTO core_admin_mailinglist_filter VALUES( '1', 'all', 'super_admin' );
