@@ -35,8 +35,11 @@ package fr.paris.lutece.portal.service.page;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
+
+import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -48,6 +51,8 @@ import org.apache.commons.lang.StringUtils;
  */
 public class PageExtendableResourceService implements IExtendableResourceService
 {
+    private static final String MESSAGE_RESOURCE_TYPE_DESCRIPTION = "portal.admin.resource.page.resourceTypeDescription";
+
     /**
      * {@inheritDoc}
      */
@@ -71,5 +76,23 @@ public class PageExtendableResourceService implements IExtendableResourceService
         }
 
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getResourceType( )
+    {
+        return Page.RESOURCE_TYPE;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getResourceTypeDescription( Locale locale )
+    {
+        return I18nService.getLocalizedString( MESSAGE_RESOURCE_TYPE_DESCRIPTION, locale );
     }
 }

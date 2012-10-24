@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.resource;
 
+import java.util.Locale;
+
 
 /**
  *
@@ -59,4 +61,17 @@ public interface IExtendableResourceService
      * @return the resource
      */
     IExtendableResource getResource( String strIdResource, String strResourceType );
+
+    /**
+     * Gets the resource type.
+     * @return the resource type.
+     */
+    String getResourceType( );
+
+    /**
+     * Gets the description of the resource type.
+     * @param locale The locale to use
+     * @return the description of the resource type.
+     */
+    String getResourceTypeDescription( Locale locale );
 }
