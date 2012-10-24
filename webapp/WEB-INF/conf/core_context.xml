@@ -175,5 +175,6 @@
     <bean id="userPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.UserPreferencesDAO" />
     <bean id="adminUserPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.AdminUserPreferencesDAO" />
 
-
+	<!-- extendable resources -->
+	<bean id="extend.page" class="fr.paris.lutece.portal.business.page.Page" />
 </beans>

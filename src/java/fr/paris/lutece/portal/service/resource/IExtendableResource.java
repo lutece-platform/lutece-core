@@ -33,12 +33,14 @@
  */
 package fr.paris.lutece.portal.service.resource;
 
+import java.util.Locale;
+
 
 /**
- *
- * This interface represents the resource that are eligible to
- * the social hub functionalities.
- *
+ * 
+ * This interface represents resources that are eligible to
+ * the extend functionalities.
+ * 
  */
 public interface IExtendableResource
 {
@@ -62,4 +64,11 @@ public interface IExtendableResource
      * @return the name
      */
     String getExtendableResourceName(  );
+
+    /**
+     * Gets the description of the resource type.
+     * @param locale The locale to use
+     * @return the name
+     */
+    String getExtendableResourceTypeDescription( Locale locale );
 }

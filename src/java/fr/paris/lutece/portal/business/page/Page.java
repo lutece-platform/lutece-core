@@ -34,14 +34,15 @@
 package fr.paris.lutece.portal.business.page;
 
 import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.rbac.RBACResource;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.security.SecurityService;
 
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -56,6 +57,7 @@ public class Page implements RBACResource, IExtendableResource
     public static final String RESOURCE_TYPE = "PAGE";
     public static final String ROLE_NONE = "none";
     private static final String THEME_DEFAULT = "default";
+    private static final String MESSAGE_RESOURCE_TYPE_DESCRIPTION = "portal.admin.resource.page.resourceTypeDescription";
 
     // Variables declarations
     private int _nId;
@@ -514,5 +516,14 @@ public class Page implements RBACResource, IExtendableResource
     public String getExtendableResourceName(  )
     {
         return _strName;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getExtendableResourceTypeDescription( Locale locale )
+    {
+        return I18nService.getLocalizedString( MESSAGE_RESOURCE_TYPE_DESCRIPTION, locale );
     }
 }
