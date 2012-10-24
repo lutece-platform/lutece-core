@@ -50,6 +50,7 @@ import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.page.IPageService;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -60,8 +61,6 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -71,6 +70,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -104,6 +105,8 @@ public final class PortalService
     // Markers
     private static final String MARKER_TARGET = "target";
     private static final String MARKER_PAGE_DATA = "data";
+    private static final String MARK_IS_EXTEND_INSTALLED = "isExtendInstalled";
+    private static final String PLUGIN_EXTEND_NAME = "extend";
     private static final String TARGET_TOP = "target='_top'";
     private static final String BOOKMARK_BASE_URL = "@base_url@";
 
@@ -322,6 +325,8 @@ public final class PortalService
         }
 
         model.put( Markers.ENCODING, strEncoding );
+
+        model.put( MARK_IS_EXTEND_INSTALLED, PluginService.isPluginEnable( PLUGIN_EXTEND_NAME ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_FRAMESET, locale, model );
 

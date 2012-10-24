@@ -61,7 +61,7 @@ ${social!}
 ${contextinclude!}
 ${contextinclude_1!}
 ${page_path}
-<#if page_id??>
+<#if page_id?? && isExtendInstalled?? && isExtendInstalled >
 	<div class="span3 pull-right">
 		@Extender[${page_id},PAGE,hit,{show:true}]@
 		@Extender[${page_id},PAGE,rating,{show:"all"}]@
@@ -69,7 +69,7 @@ ${page_path}
 </#if>
 
 ${page_content}
-<#if page_id??>
+<#if page_id?? && isExtendInstalled?? && isExtendInstalled>
 	@Extender[${page_id},PAGE,comment]@
 	@Extender[${page_id},PAGE,feedback]@
 </#if>

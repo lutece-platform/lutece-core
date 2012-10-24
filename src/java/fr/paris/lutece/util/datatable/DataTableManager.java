@@ -298,7 +298,7 @@ public class DataTableManager<T>
         }
         else
         {
-            _strCurrentPageIndex = Integer.toString( 0 );
+            _strCurrentPageIndex = Integer.toString( 1 );
             _nItemsPerPage = 1;
         }
         _paginator = new LocalizedPaginator<T>( filteredSortedPaginatedItems, _nItemsPerPage, getSortUrl( ),
