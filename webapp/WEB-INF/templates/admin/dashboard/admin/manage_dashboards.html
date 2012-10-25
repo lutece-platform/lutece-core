@@ -46,7 +46,9 @@
 		</#list>
 	</table>
 <#else>
-	<p class="label label-warning span6 ">#i18n{portal.dashboard.message.emptyGroup}</p>
+<div class="alert">
+	#i18n{portal.dashboard.message.emptyGroup}
+</div>
 </#if>
 </#macro>
 
