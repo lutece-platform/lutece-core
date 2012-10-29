@@ -63,4 +63,11 @@ public interface IExtendableResource
      * @return the name
      */
     String getExtendableResourceName(  );
+
+    /**
+     * Gets the name.
+     * 
+     * @return the name
+     */
+    String getExtendableResourceDescription( );
 }
