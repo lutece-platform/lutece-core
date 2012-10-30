@@ -33,43 +33,74 @@
  */
 package fr.paris.lutece.portal.service.html;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
+import org.w3c.tidy.Tidy;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 
 
 /**
- * This class provides management methods for cleaner
+ *
+ * This class is an implementation of IHtmlCleaner using the JTidy library
+ *
  */
-public final class HtmlCleanerService
+public class JTidyHtmlCleaner implements IHtmlCleaner
 {
-    /** html Cleaner */
-    private static IHtmlCleaner _htmlCleaner = SpringContextService.getBean( "htmlCleaner" );
-    private static boolean _bInit;
+    private static final String PROPERTY_JTIDY_FILE_PATH = "file.jtidy.properties";
+    private static String _strContent;
+    private static Tidy _tidy;
 
     /**
-     * Constructor.
-     * Creates a new HtmlCleanerService object.
+     * {@inheritDoc}
      */
-    private HtmlCleanerService(  )
+    public String clean( String strSource ) throws HtmlCleanerException
     {
+        String strCleanedSource = strSource;
+
+        String strOutput = "";
+
+        StringReader sr = new StringReader( strCleanedSource );
+        StringWriter sw = new StringWriter(  );
+        //      Convert to XHTML using Tidy
+        _tidy.parse( sr, sw );
+
+        _strContent = strCleanedSource;
+        strOutput = sw.toString(  );
+
+        // Verify the content of html editor after using tidy
+        if ( _strContent.length(  ) != strOutput.length(  ) )
+        {
+            if ( strOutput.length(  ) == 0 )
+            {
+                throw new HtmlCleanerException(  );
+            }
+        }
+
+        sr.close(  );
+        sw.flush(  );
+
+        try
+        {
+            sw.close(  );
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( e.getMessage(  ), e );
+        }
+
+        return strOutput;
     }
 
     /**
-     * Clean HTML code and converts it to XHTML
-     *
-     * @param strSource The input string to clean
-     * @return The cleaned string
-     * @throws HtmlCleanerException the HtmlCleanerException
+     * {@inheritDoc}
      */
-    public static synchronized String clean( String strSource )
-        throws HtmlCleanerException
+    public void init(  )
     {
-        //init htmlCleaner
-        if ( !_bInit )
-        {
-            _htmlCleaner.init(  );
-            _bInit = true;
-        }
-
-        return _htmlCleaner.clean( strSource );
+        _tidy = new Tidy(  );
+        _tidy.setConfigurationFromFile( AppPropertiesService.getProperty( PROPERTY_JTIDY_FILE_PATH ) );
     }
 }

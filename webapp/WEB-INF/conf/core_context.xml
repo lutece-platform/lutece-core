@@ -174,4 +174,10 @@
     <!-- Preferences Services -->
     <bean id="userPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.UserPreferencesDAO" />
     <bean id="adminUserPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.AdminUserPreferencesDAO" />
+    <!-- Cleaner HTML -->
+    <!-- Cleaner Jtidy HTML -->
+    <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JTidyHtmlCleaner" />
+    <!-- Cleaner Jsoup HTML --> 
+    <!--  <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JSoupHtmlCleaner" /> -->
+    
 </beans>

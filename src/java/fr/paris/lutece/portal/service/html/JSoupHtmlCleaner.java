@@ -33,43 +33,34 @@
  */
 package fr.paris.lutece.portal.service.html;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import org.jsoup.Jsoup;
+
+import org.jsoup.safety.Whitelist;
 
 
 /**
- * This class provides management methods for cleaner
+ *
+ * This class is an implementation of IHtmlCleaner using the JTidy library
+ *
  */
-public final class HtmlCleanerService
+public class JSoupHtmlCleaner implements IHtmlCleaner
 {
-    /** html Cleaner */
-    private static IHtmlCleaner _htmlCleaner = SpringContextService.getBean( "htmlCleaner" );
-    private static boolean _bInit;
-
     /**
-     * Constructor.
-     * Creates a new HtmlCleanerService object.
+     * {@inheritDoc}
      */
-    private HtmlCleanerService(  )
+    @Override
+    public String clean( String strSource ) throws HtmlCleanerException
     {
+        String strSafe = Jsoup.clean( strSource, Whitelist.basicWithImages(  ) );
+
+        return strSafe;
     }
 
     /**
-     * Clean HTML code and converts it to XHTML
-     *
-     * @param strSource The input string to clean
-     * @return The cleaned string
-     * @throws HtmlCleanerException the HtmlCleanerException
+     * {@inheritDoc}
      */
-    public static synchronized String clean( String strSource )
-        throws HtmlCleanerException
+    @Override
+    public void init(  )
     {
-        //init htmlCleaner
-        if ( !_bInit )
-        {
-            _htmlCleaner.init(  );
-            _bInit = true;
-        }
-
-        return _htmlCleaner.clean( strSource );
     }
 }

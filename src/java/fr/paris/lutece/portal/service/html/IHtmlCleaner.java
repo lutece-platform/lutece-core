@@ -33,43 +33,24 @@
  */
 package fr.paris.lutece.portal.service.html;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-
 
 /**
- * This class provides management methods for cleaner
+ * This Interface provides methods for HTML cleaner
  */
-public final class HtmlCleanerService
+public interface IHtmlCleaner
 {
-    /** html Cleaner */
-    private static IHtmlCleaner _htmlCleaner = SpringContextService.getBean( "htmlCleaner" );
-    private static boolean _bInit;
+    /**
+    * Clean HTML code
+    *
+    * @param strSource The input string to clean
+    * @return The cleaned string
+    * @throws HtmlCleanerException the HtmlCleanerException
+    */
+    String clean( String strSource ) throws HtmlCleanerException;
 
     /**
-     * Constructor.
-     * Creates a new HtmlCleanerService object.
-     */
-    private HtmlCleanerService(  )
-    {
-    }
-
-    /**
-     * Clean HTML code and converts it to XHTML
-     *
-     * @param strSource The input string to clean
-     * @return The cleaned string
-     * @throws HtmlCleanerException the HtmlCleanerException
-     */
-    public static synchronized String clean( String strSource )
-        throws HtmlCleanerException
-    {
-        //init htmlCleaner
-        if ( !_bInit )
-        {
-            _htmlCleaner.init(  );
-            _bInit = true;
-        }
-
-        return _htmlCleaner.clean( strSource );
-    }
+    * init HTML cleaner
+    *
+    */
+    void init(  );
 }
