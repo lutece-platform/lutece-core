@@ -76,10 +76,7 @@ import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -89,6 +86,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -1996,7 +1995,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_EMAIL_BODY, DatabaseTemplateService.getTemplateFromKey( strBodyKey ) );
         model.put( MARK_EMAIL_LABEL, strTitle );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
-        model.put( MARK_LOCALE, request.getLocale(  ) );
+        model.put( MARK_LOCALE, getLocale( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ACCOUNT_LIFE_TIME_EMAIL, getLocale(  ), model );
 
@@ -2109,12 +2108,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         for ( AdminUser user : listUser )
         {
-            Locale locale = user.getLocale(  );
-
-            if ( locale == null )
-            {
-                locale = Locale.getDefault(  );
-            }
+            Locale locale = getLocale( );
 
             // make password
             String strPassword = PasswordUtil.makePassword(  );
