@@ -53,8 +53,16 @@ public class Page implements RBACResource, IExtendableResource
     /////////////////////////////////////////////////////////////////////////////////
     // Constants
     public static final String RESOURCE_TYPE = "PAGE";
+    public static final String IMAGE_RESOURCE_TYPE_ID = "page_thumbnail";
     public static final String ROLE_NONE = "none";
     private static final String THEME_DEFAULT = "default";
+
+    private static final String SERVLET_IMAGE_PATH = "image";
+    private static final String CONSTANT_QUESTION_MARK = "?";
+    private static final String CONSTANT_AND = "&";
+    private static final String CONSTANT_EQUALS = "=";
+    private static final String MARK_RESOURCE_TYPE = "resource_type";
+    private static final String MARK_RESOURCE_ID = "id";
 
     // Variables declarations
     private int _nId;
@@ -515,9 +523,38 @@ public class Page implements RBACResource, IExtendableResource
         return _strName;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getExtendableResourceDescription( )
     {
         return _strDescription;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getExtendableResourceImageUrl( )
+    {
+        if ( _strImageContent != null && _strImageContent.length > 0 )
+        {
+            StringBuilder sbUrl = new StringBuilder( SERVLET_IMAGE_PATH );
+            sbUrl.append( CONSTANT_QUESTION_MARK );
+            sbUrl.append( MARK_RESOURCE_TYPE );
+            sbUrl.append( CONSTANT_EQUALS );
+            sbUrl.append( IMAGE_RESOURCE_TYPE_ID );
+            sbUrl.append( CONSTANT_AND );
+            sbUrl.append( MARK_RESOURCE_ID );
+            sbUrl.append( CONSTANT_EQUALS );
+            sbUrl.append( _nId );
+            return sbUrl.toString( );
+        }
+        else
+        {
+            // No image is associated to this resource
+            return null;
+        }
     }
 }

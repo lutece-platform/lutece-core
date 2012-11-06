@@ -38,9 +38,13 @@
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
 -->
-<#if page_id?? && isExtendInstalled?? && isExtendInstalled >
-	@Extender[${page_id},PAGE,opengraph,{header:true}]@
+<#if isExtendInstalled?? && isExtendInstalled >
+	<#if page_id??>
+		@Extender[${page_id},PAGE,opengraph,{header:true}]@
+	</#if>
+	@Extender[ExtendParameteredId,document,opengraph,{header:true}]@
 </#if>
+
 ${extend_meta!}
 ${document_meta?default("<!-- no document_meta -->")}
 ${rss?default("<!-- no RSS feed -->")}
@@ -67,7 +71,7 @@ ${contextinclude_1!}
 ${page_path}
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled >
 	<div class="span3 pull-right">
-		@Extender[${page_id},PAGE,opengraph,{header:false}]@
+		@Extender[${page_id},PAGE,opengraph,{header:false,footer:false}]@
 		@Extender[${page_id},PAGE,hit,{show:true}]@
 		@Extender[${page_id},PAGE,rating,{show:"all"}]@
 	</div>
@@ -86,6 +90,9 @@ ${contextinclude_2!}
 <footer>
 ${page_footer}
 </footer>
+<#if page_id?? && isExtendInstalled?? && isExtendInstalled >
+	@Extender[${page_id},PAGE,opengraph,{footer:true}]@
+</#if>
 <!-- Le javascript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->

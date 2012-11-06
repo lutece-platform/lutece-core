@@ -72,7 +72,6 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -83,7 +82,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.inject.Inject;
-
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -127,7 +125,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String CONTENT_SERVICE_NAME = "PageService";
     private static final String PROPERTY_COLUMN_MAX = "nb.columns";
     private static final int DEFAULT_COLUMN_MAX = 5;
-    private static final String IMAGE_RESOURCE_TYPE_ID = "page_thumbnail";
     private static final String KEY_THEME = "theme";
     private static final String TARGET_TOP = "target='_top'";
     private static final String WELCOME_PAGE_ID = "1";
@@ -751,7 +748,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     @Override
     public String getResourceTypeId(  )
     {
-        return IMAGE_RESOURCE_TYPE_ID;
+        return Page.IMAGE_RESOURCE_TYPE_ID;
     }
 
     /**

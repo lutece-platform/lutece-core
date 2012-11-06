@@ -45,29 +45,38 @@ public interface IExtendableResource
 {
     /**
      * Gets the id.
-     *
-     * @return the id
+     * 
+     * @return The id
      */
     String getIdExtendableResource(  );
 
     /**
      * Gets the resource type.
-     *
-     * @return the resource type
+     * 
+     * @return The resource type
      */
     String getExtendableResourceType(  );
 
     /**
      * Gets the name.
-     *
-     * @return the name
+     * 
+     * @return The name
      */
     String getExtendableResourceName(  );
 
     /**
      * Gets the name.
      * 
-     * @return the name
+     * @return The name
      */
     String getExtendableResourceDescription( );
+
+    /**
+     * Gets the URL of the image describing the resource.
+     * If the given URL does NOT starts with <i>http://</i>, then the base URL
+     * will be prefixed.
+     * @return The URL of the image describing the resource, or null if not
+     *         image is associated to this resource
+     */
+    String getExtendableResourceImageUrl( );
 }
