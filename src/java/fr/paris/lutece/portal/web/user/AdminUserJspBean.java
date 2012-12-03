@@ -55,11 +55,13 @@ import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.template.DatabaseTemplateService;
 import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
@@ -76,6 +78,8 @@ import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -86,8 +90,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -495,7 +497,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         // Default user parameter values
         String strDefaultLevel = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LEVEL ).getParameterValue(  );
         Level defaultLevel = LevelHome.findByPrimaryKey( Integer.parseInt( strDefaultLevel ) );
-        int nDefaultUserNotification = Integer.parseInt( DefaultUserParameterHome.findByKey( 
+        int nDefaultUserNotification = Integer.parseInt( DefaultUserParameterHome.findByKey(
                     PARAMETER_DEFAULT_USER_NOTIFICATION ).getParameterValue(  ) );
         String strDefaultUserLanguage = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LANGUAGE )
                                                                 .getParameterValue(  );
@@ -1199,6 +1201,23 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             {
                 AdminUserHome.createRightForUser( nUserId, arrayRights[i] );
             }
+        }
+
+        AdminUser userCurrent = AdminUserService.getAdminUser( request );
+        if ( user != null && userCurrent != null && user.getUserId( ) == userCurrent.getUserId( ) )
+        {
+        	try
+			{
+				AdminAuthenticationService.getInstance( ).registerUser( request, user );
+			}
+			catch ( AccessDeniedException e )
+			{
+				AppLogService.error( e.getMessage(  ), e );
+			}
+			catch ( UserNotSignedException e )
+			{
+				AppLogService.error( e.getMessage(  ), e );
+			}
         }
 
         return JSP_MANAGE_USER_RIGHTS + "?" + PARAMETER_USER_ID + "=" + nUserId;

@@ -932,11 +932,11 @@ public final class AdminUserService
      * @param request The request
      * @param strPassword The password to check
      * @param nUserId The id of the modified user
-     * @param bSkipeHistoryCheck Indicates if the password history should be checked or not.
+     * @param bSkipHistoryCheck Indicates if the password history should be checked or not.
      * @return Null if the password is correct, or the url of an admin message describing the error
      */
     public static String checkPassword( HttpServletRequest request, String strPassword, int nUserId,
-        boolean bSkipeHistoryCheck )
+        boolean bSkipHistoryCheck )
     {
         // Minimum password length
         int nMinimumLength = AdminUserService.getIntegerSecurityParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH );
@@ -958,7 +958,7 @@ public final class AdminUserService
         }
 
         // Check password history
-        if ( ( nUserId > 0 ) && !bSkipeHistoryCheck )
+        if ( ( nUserId > 0 ) && !bSkipHistoryCheck )
         {
             int nPasswordHistorySize = AdminUserService.getIntegerSecurityParameter( PARAMETER_PASSWORD_HISTORY_SIZE );
 

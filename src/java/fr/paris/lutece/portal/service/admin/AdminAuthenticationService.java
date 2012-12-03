@@ -49,7 +49,6 @@ import java.util.Collection;
 import java.util.Enumeration;
 
 import javax.security.auth.login.LoginException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -129,6 +128,7 @@ public final class AdminAuthenticationService
                 // User is not registered by Lutece, but it may be authenticated by another system
                 user = _authentication.getHttpAuthenticatedUser( request );
                 registerUser( request, user );
+                AdminUserService.updateDateLastLogin( user.getUserId(  ) );
 
                 // Start a new session
                 throw new UserNotSignedException(  );
@@ -146,6 +146,7 @@ public final class AdminAuthenticationService
                 {
                     unregisterUser( request );
                     registerUser( request, newUser );
+                    AdminUserService.updateDateLastLogin( user.getUserId(  ) );
 
                     // Start a new session
                     throw new UserNotSignedException(  );
@@ -188,6 +189,7 @@ public final class AdminAuthenticationService
         {
             throw new LoginException(  );
         }
+        AdminUserService.updateDateLastLogin( user.getUserId(  ) );
     }
 
     /**
@@ -234,7 +236,6 @@ public final class AdminAuthenticationService
 
         // retrieve the user in local system from the access code
         bindUser = AdminUserHome.findUserByLogin( user.getAccessCode(  ) );
-        AdminUserService.updateDateLastLogin( bindUser.getUserId(  ) );
 
         // only allow a user that is marked active
         if ( ( bindUser == null ) || ( !bindUser.isStatusActive(  ) ) )
@@ -259,7 +260,7 @@ public final class AdminAuthenticationService
      * @throws AccessDeniedException If the user cannot have access
      * @throws UserNotSignedException If the user is not signed
      */
-    private void registerUser( HttpServletRequest request, AdminUser user )
+    public void registerUser( HttpServletRequest request, AdminUser user )
         throws AccessDeniedException, UserNotSignedException
     {
         HttpSession session = request.getSession( true );
@@ -270,7 +271,7 @@ public final class AdminAuthenticationService
      * Unregister the user in the Http session
      * @param request The Http request
      */
-    private void unregisterUser( HttpServletRequest request )
+    public void unregisterUser( HttpServletRequest request )
     {
         HttpSession session = request.getSession( true );
         session.removeAttribute( ATTRIBUTE_ADMIN_USER );
