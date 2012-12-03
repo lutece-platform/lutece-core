@@ -57,6 +57,7 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
+import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -73,7 +74,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This class provides the user interface to manage admin features ( manage, create, modify, remove)
  */
-public class AdminMenuJspBean
+public class AdminMenuJspBean implements Serializable
 {
     /////////////////////////////////////////////////////////////////////////////////
     // Constants

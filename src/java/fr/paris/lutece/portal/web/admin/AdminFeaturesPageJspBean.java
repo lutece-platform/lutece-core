@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import java.io.Serializable;
 
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -60,7 +61,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Provides generic methods for jspBeans
  */
-public abstract class AdminFeaturesPageJspBean
+public abstract class AdminFeaturesPageJspBean implements Serializable
 {
     // template for all admin pages
     private static final String TEMPLATE_MAIN = "/admin/feature_frameset.html";
