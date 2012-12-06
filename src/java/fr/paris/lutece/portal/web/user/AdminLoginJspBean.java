@@ -58,6 +58,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
+import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -77,7 +78,7 @@ import javax.servlet.http.HttpSession;
 /**
  * This class provides the user interface to manage login features ( login, logout, ... )
  */
-public class AdminLoginJspBean
+public class AdminLoginJspBean implements Serializable
 {
     // //////////////////////////////////////////////////////////////////////////
     // Constants
