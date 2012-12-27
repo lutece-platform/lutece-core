@@ -24,7 +24,7 @@
             </tr>    
 
             <#list plugins_list as plugin >
-            <tr>
+            <tr id="plugin_${plugin.name}_${plugin.version}">
                 <td class="span1">
                     <#if plugin.iconUrl!="" >
                     <img src="${plugin.iconUrl}" alt="" title="${plugin.name}"/>
