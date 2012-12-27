@@ -107,15 +107,14 @@ file.amin.validation.flag=${webapp_home}/WEB-INF/exploit/admin_validation.flag
 
 log4j.rootLogger=ERROR, Error
 log4j.logger.lutece=DEBUG, Console
-log4j.logger.lutece.event=INFO, Application, Console
+log4j.logger.lutece.event=ERROR, Application, Console
 log4j.logger.lutece.error=ERROR, Error, Console
 log4j.logger.lutece.debug=ERROR, Console
 log4j.logger.lutece.debug.xmlContent=ERROR, Console
 log4j.logger.lutece.debug.sql=ERROR, Console
-log4j.logger.lutece.pool=INFO, Pool
+log4j.logger.lutece.pool=ERROR, Pool
 log4j.logger.lutece.mail=INFO, Mail
 log4j.logger.lutece.security=WARN, Security
-log4j.logger.lutece.jpa=ERROR, JPA
 log4j.logger.servlet=ERROR, Error
 log4j.logger.session=ERROR, Error
 log4j.logger.compiler=ERROR, Error
@@ -125,12 +124,12 @@ log4j.logger.freemarker=ERROR, Error
 log4j.logger.net.sf.ehcache=ERROR, Error
 log4j.logger.httpclient=ERROR, Error
 log4j.logger.org.apache.pdfbox=ERROR, PDF
+log4j.logger.lutece.jpa=INFO, JPA
 log4j.logger.org.hibernate=INFO, JPA
 log4j.logger.org.springframework.orm.jpa=INFO, JPA
 log4j.logger.org.springframework.transaction=INFO, JPA
 log4j.logger.lutece.indexer=ERROR, Indexer
 log4j.logger.org.apache.tika=ERROR, Indexer
-
 
 ########                       A P P E N D E R S                       #########                            
 
