@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.message;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import java.io.Serializable;
 
 import java.text.MessageFormat;
 
@@ -44,7 +45,7 @@ import java.util.Map;
 /**
  * The class provides a bean to hold message box informations
  */
-public class AdminMessage
+public class AdminMessage implements Serializable
 {
     public static final int TYPE_INFO = 0;
     public static final int TYPE_QUESTION = 1;
