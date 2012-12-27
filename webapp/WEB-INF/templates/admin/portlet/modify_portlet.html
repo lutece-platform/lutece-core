@@ -23,11 +23,11 @@
 			<@comboSortedWithParams name="role" default_value="${portlet.role}" additionalParameters="class=\"span10\"" items=portlet_role_combo />
 			<label>#i18n{portal.site.modify_portlet.labelAlias}</label>
 			<#if portlet.acceptAlias = 1 >
-				<input type= "radio" class="radio" name="accept_alias" value="1" checked="checked" />#i18n{portal.site.modify_portlet.radioButtonAcceptAliasYes}
-				<input type= "radio" class="radio" name="accept_alias" value="0" /> #i18n{portal.site.modify_portlet.radioButtonAcceptAliasNo}
+				<input type= "radio" class="radio" name="accept_alias" value="1" checked="checked" /> #i18n{portal.util.labelYes}
+				<input type= "radio" class="radio" name="accept_alias" value="0" /> #i18n{portal.util.labelNo}
 			<#else>
-				<input type= "radio" class="radio" name="accept_alias" value="1" />#i18n{portal.site.modify_portlet.radioButtonAcceptAliasYes}
-				<input type= "radio" class="radio" name="accept_alias" value="0" checked="checked" /> #i18n{portal.site.modify_portlet.radioButtonAcceptAliasNo}
+				<input type= "radio" class="radio" name="accept_alias" value="1" /> #i18n{portal.util.labelYes}
+				<input type= "radio" class="radio" name="accept_alias" value="0" checked="checked" /> #i18n{portal.util.labelNo}
 			</#if>
 			
 			<label>#i18n{portal.site.create_portlet.labelDisplayOnDevice}</label>

@@ -18,9 +18,9 @@
                 </#if>
                 <label>#i18n{portal.site.create_portlet.labelRole}<br /></label>
                 <@comboSortedWithParams name="role" default_value="none" additionalParameters="class=\"span10\"" items=portlet_role_combo />
-                <label>#i18n{portal.site.create_portlet.labelAlias}<br>
-                <input class="radio" type="radio" name="accept_alias" value="1" > #i18n{portal.site.create_portlet.radioButtonAcceptAliasYes}
-                <input class="radio" type="radio" name="accept_alias" value="0" checked > #i18n{portal.site.create_portlet.radioButtonAcceptAliasNo}</label>
+                <label>#i18n{portal.site.create_portlet.labelAlias}</label>
+                <input class="radio" type="radio" name="accept_alias" value="1" > #i18n{portal.util.labelYes}
+                <input class="radio" type="radio" name="accept_alias" value="0" checked > #i18n{portal.util.labelNo}
 				<label>#i18n{portal.site.create_portlet.labelDisplayOnDevice}</label>
 				<label for="display_on_small_device">
 					<input class="checkbox" type="checkbox" name="display_on_small_device" value="1" checked="checked">
