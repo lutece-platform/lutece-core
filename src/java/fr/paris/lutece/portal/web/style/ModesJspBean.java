@@ -66,20 +66,18 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MODE_LIST = "portal.style.manage_mode.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_CREATE_MODE = "portal.style.create_mode.pageTitle";
-    private static final String PROPERTY_PAGE_TITLE_VIEW_MODE = "portal.style.view_mode.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_MODE = "portal.style.modify_mode.pageTitle";
 
     // Templates files path
     private static final String TEMPLATE_MANAGE_MODES = "admin/style/manage_modes.html";
     private static final String TEMPLATE_CREATE_MODE = "admin/style/create_mode.html";
-    private static final String TEMPLATE_VIEW_MODE = "admin/style/view_mode.html";
     private static final String TEMPLATE_MODIFY_MODE = "admin/style/modify_mode.html";
 
     // Properties
     private static final String PROPERTY_PATH_XSL = "path.stylesheet";
 
     // Jsp definition
-    private static final String JSP_VIEW_MODE = "ViewMode.jsp";
+    private static final String JSP_MANAGE_MODES = "ManageModes.jsp";
 
     /**
      * Returns the list of modes
@@ -167,7 +165,7 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
         ModeHome.create( mode );
 
         // If the process is successfull, redirects towards the theme view
-        return JSP_VIEW_MODE + "?" + Parameters.MODE_ID + "=" + mode.getId(  );
+        return JSP_MANAGE_MODES;
     }
 
     /**
@@ -222,26 +220,7 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
         ModeHome.update( mode );
 
         // If the process is successfull, redirects towards the mode management page
-        return JSP_VIEW_MODE + "?" + Parameters.MODE_ID + "=" + strId;
+        return JSP_MANAGE_MODES;
     }
 
-    /**
-     * Returns the view of a mode whose identifier is stored in the http request
-     *
-     * @param request the http request
-     * @return the html code for the view of a mode
-     */
-    public String getModeView( HttpServletRequest request )
-    {
-        setPageTitleProperty( PROPERTY_PAGE_TITLE_VIEW_MODE );
-
-        int nModeId = Integer.parseInt( request.getParameter( Parameters.MODE_ID ) );
-
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_MODE, ModeHome.findByPrimaryKey( nModeId ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_MODE, getLocale(  ), model );
-
-        return getAdminPage( template.getHtml(  ) );
-    }
 }

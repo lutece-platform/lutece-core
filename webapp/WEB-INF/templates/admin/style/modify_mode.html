@@ -1,12 +1,13 @@
 <div class="row-fluid">	
     <legend>#i18n{portal.style.modify_mode.boxTitle} ${mode.description}</legend>
     <form class="form-horizontal" method="post" action="jsp/admin/style/DoModifyMode.jsp" name="modify_mode">
+        <input type="hidden" name="mode_id" value="${mode.id}"  />
         <fieldset>
 
             <div class="control-group">
                 <label class="control-label" > #i18n{portal.style.modify_mode.labelId}&nbsp;*&nbsp;:</label>
                 <div class="controls">
-                    <input type="text" name="mode_id" value="${mode.id}"  disabled="disabled" />
+                    ${mode.id}
                 </div>
             </div>
 
@@ -22,10 +23,9 @@
             <div class="control-group">
                 <label class="control-label" > #i18n{portal.style.modify_mode.labelXslPath}</label>
                 <div class="controls">
-                    <input type="text" name="path" value="${mode.path}"  disabled="disabled" />
+                    ${mode.path}
                 </div>
             </div>
-
 
             <h3>#i18n{portal.style.modify_mode.xslParameterValues}</h3>
 
@@ -87,7 +87,7 @@
 
             <div class="form-actions">
                 <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.style.modify_mode.buttonLabelValidate}</button>
-                <button class="btn btn-small" onclick="javascript:history.go(-1)" >#i18n{portal.admin.message.buttonCancel}</button>
+                <a href="jsp/admin/style/ManageModes.jsp" class="btn btn-small" >#i18n{portal.admin.message.buttonCancel}</a>
             </div>
 
         </fieldset>
