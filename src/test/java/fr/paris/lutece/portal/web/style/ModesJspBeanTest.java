@@ -46,7 +46,7 @@ import fr.paris.lutece.test.MokeHttpServletRequest;
  */
 public class ModesJspBeanTest extends LuteceTestCase
 {
-    private static final String TEST_MODE_ID = "0"; // normal mode 
+    private static final String TEST_MODE_ID = "0"; // normal mode
 
     /**
      * Test of getManageModes method, of class fr.paris.lutece.portal.web.style.ModesJspBean.
@@ -127,6 +127,5 @@ public class ModesJspBeanTest extends LuteceTestCase
 
         ModesJspBean instance = new ModesJspBean(  );
         instance.init( request, ModesJspBean.RIGHT_MANAGE_MODES );
-        instance.getModeView( request );
     }
 }
