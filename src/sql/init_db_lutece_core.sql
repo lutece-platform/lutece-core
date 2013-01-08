@@ -211,10 +211,10 @@ INSERT INTO core_template VALUES ('core_other_alert_mail', 'Bonjour ${first_name
 INSERT INTO core_template VALUES ('core_account_reactivated_mail', 'Bonjour ${first_name} ! Votre compte utilisateur a bien été réactivé. Il est désormais valable jusqu''au ${date_valid}.');
 INSERT INTO core_template VALUES ('core_password_expired', 'Bonjour ! Votre mot de passe a éxpiré. Lors de votre prochaine connection, vous pourrez le changer.');
 
-INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.globalmanagement.editors.labelBackTinyMCE', true );
-INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelBackNoEditor', true );
-INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelFrontNoEditor', false );
-INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.globalmanagement.editors.labelFrontMarkitupBBCode', false );
+INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.globalmanagement.editors.labelBackTinyMCE', 1 );
+INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelBackNoEditor', 1 );
+INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelFrontNoEditor', 0 );
+INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.globalmanagement.editors.labelFrontMarkitupBBCode', 0 );
 
 INSERT INTO core_admin_mailinglist VALUES( '1', 'admin', 'admin', 'all' );
 INSERT INTO core_admin_mailinglist_filter VALUES( '1', 'all', 'super_admin' );

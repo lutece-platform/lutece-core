@@ -101,10 +101,10 @@ INSERT INTO core_admin_right VALUES ('CORE_GLOBAL_MANAGEMENT', 'portal.globalman
 
 INSERT INTO core_user_right VALUES ('CORE_GLOBAL_MANAGEMENT', 1);
 
-INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.globalmanagement.editors.labelBackTinyMCE', true );
-INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelBackNoEditor', true );
-INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelFrontNoEditor', false );
-INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.globalmanagement.editors.labelFrontMarkitupBBCode', false );
+INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.globalmanagement.editors.labelBackTinyMCE', 1 );
+INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelBackNoEditor', 1 );
+INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelFrontNoEditor', 0 );
+INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.globalmanagement.editors.labelFrontMarkitupBBCode', 0 );
 
 INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce');
 INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'markitupbbcode');
