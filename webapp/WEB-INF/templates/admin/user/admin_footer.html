@@ -3,12 +3,14 @@
 <!-- footer menu -->
 <footer>
 <div id="footer" class="navbar navbar-fixed-bottom  hidden-phone">
+	<button id="btFooter" class="btn btn-mini" title="#i18n{portal.site.portal_footer.footerPosition}">
+		<i class="icon-arrow-down"></i>
+	</button>
 	<div class="pull-right">
-			<a href="http://fr.lutece.paris.fr" title="#i18n{portal.site.portal_footer.labelPortal}">
-		<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
-			<a href="http://fr.lutece.paris.fr" target="lutece">
-				<small>version ${version}</small>
-			</a>
+		<a href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
+			<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
+			<small>version ${version}</small>
+		</a>
 	</div>
 </div>
 </footer>
@@ -17,3 +19,15 @@
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function(e){
+	$("#btFooter").click( function(e){
+		if( $('#footer').hasClass("navbar-fixed-bottom") ){
+			$("#btFooter > i").removeClass("icon-arrow-down").addClass("icon-arrow-up");
+		} else {
+			$("#btFooter > i").removeClass("icon-arrow-up").addClass("icon-arrow-down");
+		}
+		$('#footer').toggleClass("navbar-fixed-bottom");
+	});
+});
+</script>
