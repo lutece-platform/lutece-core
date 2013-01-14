@@ -15,6 +15,16 @@
 	private final static String PROPERTY_DEBUG = "error.page.debug";
 	private final static String PROPERTY_DEBUG_DEFAULT = "true";
 	private final static String PROPERTY_MESSAGE = "portal.util.error.page.message";
+	private final static String PROPERTY_DETAIL = "portal.util.error.page.message.details";
+	private final static String PROPERTY_CONTACT_ADMIN = "portal.util.error.page.message.contact_admin";
+	private final static String PROPERTY_MESSAGE_SORRY = "portal.util.error.page.message.sorry";
+	private final static String PROPERTY_MESSAGE_ERROR = "portal.util.error.page.message_error";
+	private final static String PROPERTY_MESSAGE_STACK = "portal.util.error.page.message.stack_trace";
+	private final static String PROPERTY_HOME = "portal.site.page_home.label";
+	private final static String PROPERTY_SITE_MAP = "portal.site.site_map.pathLabel";
+    private final static String PROPERTY_XPAGE_CONTACT = "portal.site.page_menu_tools.xpage.contact";
+	private final static String PROPERTY_CREDITS = "portal.site.portal_footer.labelCredits";
+	private final static String PROPERTY_WINDOW = "portal.site.portal_footer.newWindow";
 %>
 
 <%
@@ -31,80 +41,125 @@
         String strRedirectUrl = AdminMessageService.getMessageUrl( request,
                 Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, JSP_URL_MODIFY_DEFAULT_USER_PASSWORD,
                 AdminMessage.TYPE_ERROR );
-        response.sendRedirect( strRedirectUrl );
+				response.sendRedirect( strRedirectUrl );
         //response.sendRedirect( AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_DEFAULT_USER_PASSWORD );
     }
     else
     {
 %>
 
-
 <html>
 <head>
 <base href="<%= AppPathService.getBaseUrl( request ) %>/" />
-<link rel="stylesheet"  href="css/page_template_structure.css" type="text/css"  media="screen" />
-<link rel="stylesheet"  href="css/page_template_styles.css" type="text/css"  media="screen" />
+<!-- Set the viewport width to device width for mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Le styles -->
+<link href="css/admin/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/admin/portal_admin.css" />
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<link href="css/admin/bootstrap-responsive.min.css" rel="stylesheet">
 </head>
-<body topmargin="0" leftmargin="0">
-
-<center>
-<table width="600">
- <tr>
-  <td>
-<div class="portlet">
-<h3 class="portlet-header">Internal error</h3>
-<div class="portlet-content">
-  <table border="0" cellpadding="5" cellspacing="5" width="100%" >
-<%
-	if( AppPropertiesService.getProperty( PROPERTY_DEBUG , PROPERTY_DEBUG_DEFAULT ).equalsIgnoreCase( "true" ))
-	{
-%>
-<%
-		String strErrorMessage = (exception.getMessage() != null ) ? exception.getMessage() : exception.toString();
-%>
-		<tr>
-         <td>
-
-		<br />
-		<pre id="stackMsg" style="display:none">
-		<%
-		java.io.CharArrayWriter cw = new java.io.CharArrayWriter();
-		java.io.PrintWriter pw = new java.io.PrintWriter(cw,true);
-		exception.printStackTrace(pw);
-		out.println(cw.toString());
-		%>
-		</pre>
-		<a onclick="document.getElementById('stackMsg').style.display='block'">Get more details.</a>
-		 </td>
-        </tr>
-
-<%
-	AppLogService.error( exception.getMessage(  ), exception );
-	}
-	else
-	{
-%>
-		<tr>
-         <td align="center">
-			<img src="images/admin/skin/messages/warning.png" />
-        </td>
-		</tr>
-		<tr>
-		 <td>
-		   <%= I18nService.getLocalizedString(PROPERTY_MESSAGE, request.getLocale() ) %>
-         </td>
-        </tr>
-<%
-	}
-	AppLogService.error( exception.getMessage(  ), exception );
-%>
-    </table>
+<body>
+<header>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
+                <img class="logo" src="images/logo-header.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />
+                &nbsp;<img src="images/admin/skin/external-link-white.png" alt="External Link" title=" " />
+            </a>
+            
+        </div> <!-- /navbar-inner -->
+    </div>
+    <h1 class="header"><a name="top">&nbsp;</a></h1>
+</header>
+<div class="container-fluid">
+<!-- container -->
+	<div class="row-fluid">
+		<div class="span12">
+			<br>
+			<br>
+			<br>
+			<div class="alert alert-error">
+			<h3>Internal error</h3>
+			<%
+			if( AppPropertiesService.getProperty( PROPERTY_DEBUG , PROPERTY_DEBUG_DEFAULT ).equalsIgnoreCase( "true" ))
+			{
+			%>
+			<p class="lead">
+				<i class="icon-ban-circle icon-white"></i>&nbsp;
+				<%
+				String strErrorMessage = (exception.getMessage() != null ) ? exception.getMessage() : exception.toString();
+				%>
+			</p>
+			<p>
+				<a class="btn btn-danger" id="btnStack">
+				<%= I18nService.getLocalizedString(PROPERTY_DETAIL, request.getLocale() ) %>
+				</a>
+			</p>
+			<pre id="stackMsg">
+				<%
+				java.io.CharArrayWriter cw = new java.io.CharArrayWriter();
+				java.io.PrintWriter pw = new java.io.PrintWriter(cw,true);
+				exception.printStackTrace(pw);
+				out.println(cw.toString());
+				%>
+			</pre>
+			
+			<p>
+				<a class="btn btn-danger" href="jsp/site/Portal.jsp">
+					<i class="icon-home icon-white"></i>&nbsp;Accueil du site
+				</a>
+			</p>
+			<%
+				AppLogService.error( exception.getMessage(  ), exception );
+				} else {
+			%>
+			<p>
+				<i class="icon-warning-sign"></i>
+				&nbsp;<%= I18nService.getLocalizedString(PROPERTY_MESSAGE, request.getLocale() ) %>
+			</p>
+			<p>
+				<a class="btn btn-danger" href="jsp/admin/AdminMenu.jsp">
+					<i class="icon-home icon-white"></i>&nbsp;Accueil de l'administration du site
+				</a>
+			</p>
+			<%
+				}
+			AppLogService.error( exception.getMessage(  ), exception );
+			%>
+			<%
+				} // end else access denied
+			%>
+			</div>
+		</div>
+	</div>
+<!-- end container -->
 </div>
+<!-- footer menu -->
+<footer>
+<div id="footer" class="navbar navbar-fixed-bottom  hidden-phone">
+	<div class="pull-right">
+		<a href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
+			<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
+			<small>version ${version}</small>
+		</a>
+	</div>
 </div>
-</td>
-</tr>
-</table>
-</center>
-<%
-	} // end else access denied
-%>
+</footer>
+<!-- Included JS Files -->
+<!-- Le javascript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function(e){
+	$('#stackMsg').toggle();
+	$("#btnStack").click( function(e){
+		$('#stackMsg').toggle();
+	});
+});
+</script>
+
+</body>
+</html>
