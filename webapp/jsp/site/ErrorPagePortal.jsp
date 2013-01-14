@@ -88,7 +88,7 @@
 					<a href="jsp/site/Portal.jsp?page=contact" class="btn btn-danger">
 						<i class="icon-user icon-white"></i>&nbsp;Accéder à la page contact 
 					</a>
-					<a href="jsp/site/Portal.jsp?page=contact" class="btn btn-info">
+					<a href="jsp/site/Portal.jsp" class="btn btn-info">
 						<i class="icon-home icon-white"></i>&nbsp;Accéder à l'accueil
 					</a>
 				</p>
