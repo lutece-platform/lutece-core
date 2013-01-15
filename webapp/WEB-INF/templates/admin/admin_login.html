@@ -24,7 +24,8 @@
 				<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
 				<label for="access_code" >#i18n{portal.admin.admin_login.loginLabel} :</label>
 				<div class="input-prepend">
-					<span class="add-on"><i class="icon-user"></i></span><input type="text" name="access_code" id="access_code" autocomplete="off" required="required" placeholder="#i18n{portal.admin.admin_login.loginLabel}" tabindex="1" />
+					<span class="add-on"><i class="icon-user"></i></span>
+					<input type="text" name="access_code" id="access_code" autofocus="autofocus" autocomplete="off" required="required" placeholder="#i18n{portal.admin.admin_login.loginLabel}" tabindex="1" />
 				</div>
 				<label for="password" >#i18n{portal.admin.admin_login.passwordLabel} :</label>
 				<div class="input-prepend">

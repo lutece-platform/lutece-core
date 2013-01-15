@@ -1,13 +1,13 @@
 <div class="row-fluid">
-    <div class="span11 ">
+    <div class="span12">
 		<fieldset>
 		<legend>#i18n{portal.features.modify_level.boxTitle} ${level.id}</legend>
 			<form method="post" class="form-horizontal" action="jsp/admin/features/DoModifyLevel.jsp" name="modify_level">
 			<input type="hidden" name="level_id" value="${level.id}" />	
 			<div class="control-group">
-				<label class="label-group" for="level_name" >#i18n{portal.features.modify_level.labelName} </label>
+				<label class="control-label" for="level_name" >#i18n{portal.features.modify_level.labelName} </label>
 				<div class="controls">
-					<input type="text" name="level_name" value="${level.name}" tabindex="1" class="input-xxlarge" maxlength="80" />			
+					<input type="text" name="level_name" value="${level.name}" tabindex="1" class="input-xxlarge" maxlength="80" >			
 				</div>
 			</div>
 			<div class="form-actions">
