@@ -51,6 +51,7 @@
 				<br>
 				<br>
 				<%
+				AppLogService.error( exception.getMessage(  ), exception ); 
 				if( AppPropertiesService.getProperty( PROPERTY_DEBUG , PROPERTY_DEBUG_DEFAULT ).equalsIgnoreCase( "true" )){
 				%>
 				<p class="lead">
@@ -78,7 +79,6 @@
 				%>
 				</pre>
 				<%  
-					AppLogService.error( exception.getMessage(  ), exception ); 
 					} else 	{ 
 				%>
 				<p class="lead">
