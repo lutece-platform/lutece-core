@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.portal.service.cache;
 
+import fr.paris.lutece.portal.service.page.PageEvent;
+import fr.paris.lutece.portal.service.page.PageEventListener;
+import fr.paris.lutece.portal.service.page.PageService;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.CacheManager;
@@ -58,7 +61,7 @@ import javax.servlet.http.HttpServletResponse;
  * Headers Page Caching Filter
  * based on EHCACHE WEB
  */
-public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFilter implements CacheableService
+public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFilter implements CacheableService, PageEventListener
 {
     private static final String BLOCKING_TIMEOUT_MILLIS = "blockingTimeoutMillis";
     private static final String INIT_PARAM_CACHE_NAME = "cacheName";
@@ -121,6 +124,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
                     blockingCache.setTimeoutMillis( blockingTimeoutMillis );
                 }
             }
+            PageService.addPageEventListener(this);
         }
 
         _bInit = true;
@@ -266,5 +270,20 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     public String getInfos(  )
     {
         return CacheService.getInfos( _cache );
+    }
+
+    /**
+     *  {@inheritDoc }
+     */
+    public void processPageEvent(PageEvent event)
+    {
+        String strPattern = "page_id=" + event.getPage().getId();
+        for( String strKey : (List<String>) blockingCache.getKeys() )
+        {
+            if( strKey.contains( strPattern ) && (event.getEventType() != PageEvent.PAGE_CREATED ))
+            {
+                blockingCache.remove(strKey);
+            }
+        }
     }
 }

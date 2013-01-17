@@ -139,7 +139,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
     private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
     private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_MAX, DEFAULT_COLUMN_MAX );
-    private List<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
+    private static List<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>(  );
     private ICacheKeyService _cksPage;
     private ICacheKeyService _cksPortlet;
     private PageCacheService _cachePages;
@@ -720,7 +720,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param listener
      *            An event listener to add
      */
-    public void addPageEventListener( PageEventListener listener )
+    public static void addPageEventListener( PageEventListener listener )
     {
         _listEventListeners.add( listener );
         AppLogService.info( "New Page Event Listener registered : " + listener.getClass(  ).getName(  ) );
