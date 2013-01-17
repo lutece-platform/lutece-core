@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.portlet;
+package fr.paris.lutece.portal.service.portlet;
 
 
 /**
@@ -41,8 +41,8 @@ package fr.paris.lutece.portal.business.portlet;
 public interface PortletEventListener
 {
     /**
-    * Process a page event
+    * Process a portlet event
     * @param event The event to process
     */
-    void processPageEvent( PortletEvent event );
+    void processPortletEvent( PortletEvent event );
 }

@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.portal.service.page;
 
-import fr.paris.lutece.portal.business.portlet.PortletEvent;
-import fr.paris.lutece.portal.business.portlet.PortletEventListener;
+import fr.paris.lutece.portal.service.portlet.PortletEvent;
+import fr.paris.lutece.portal.service.portlet.PortletEventListener;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 
 import org.apache.commons.lang.StringUtils;
@@ -61,7 +61,7 @@ public class PortletCacheService extends AbstractCacheableService implements Por
     /**
      * {@inheritDoc}
      */
-    public void processPageEvent( PortletEvent event )
+    public void processPortletEvent( PortletEvent event )
     {
         String strKey = "[" + CACHE_PORTLET_PREFIX + event.getPortletId(  ) + "]";
 

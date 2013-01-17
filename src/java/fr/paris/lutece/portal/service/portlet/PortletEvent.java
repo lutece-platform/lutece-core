@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.portlet;
+package fr.paris.lutece.portal.service.portlet;
 
 
 /**

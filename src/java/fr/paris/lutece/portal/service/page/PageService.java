@@ -37,8 +37,8 @@ import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.page.PageRoleRemovalListener;
 import fr.paris.lutece.portal.business.portlet.Portlet;
-import fr.paris.lutece.portal.business.portlet.PortletEvent;
-import fr.paris.lutece.portal.business.portlet.PortletEventListener;
+import fr.paris.lutece.portal.service.portlet.PortletEvent;
+import fr.paris.lutece.portal.service.portlet.PortletEventListener;
 import fr.paris.lutece.portal.business.portlet.PortletRoleRemovalListener;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.style.ModeHome;
@@ -829,7 +829,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * {@inheritDoc}
      */
     @Override
-    public void processPageEvent( PortletEvent event )
+    public void processPortletEvent( PortletEvent event )
     {
         invalidateContent( event.getPageId(  ) );
     }

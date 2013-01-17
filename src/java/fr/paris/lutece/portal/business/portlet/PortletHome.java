@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
+import fr.paris.lutece.portal.service.portlet.PortletEventListener;
+import fr.paris.lutece.portal.service.portlet.PortletEvent;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -322,7 +324,7 @@ public abstract class PortletHome implements PortletHomeInterface
     {
         for ( PortletEventListener listener : SpringContextService.getBeansOfType( PortletEventListener.class ) )
         {
-            listener.processPageEvent( event );
+            listener.processPortletEvent( event );
         }
     }
 }
