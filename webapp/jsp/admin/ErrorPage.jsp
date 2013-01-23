@@ -22,7 +22,7 @@
 	private final static String PROPERTY_MESSAGE_STACK = "portal.util.error.page.message.stack_trace";
 	private final static String PROPERTY_HOME = "portal.site.page_home.label";
 	private final static String PROPERTY_SITE_MAP = "portal.site.site_map.pathLabel";
-    private final static String PROPERTY_XPAGE_CONTACT = "portal.site.page_menu_tools.xpage.contact";
+        private final static String PROPERTY_XPAGE_CONTACT = "portal.site.page_menu_tools.xpage.contact";
 	private final static String PROPERTY_CREDITS = "portal.site.portal_footer.labelCredits";
 	private final static String PROPERTY_WINDOW = "portal.site.portal_footer.newWindow";
 %>
@@ -82,6 +82,7 @@
 			<div class="alert alert-error">
 			<h3>Internal error</h3>
 			<%
+			AppLogService.error( exception.getMessage(  ), exception );
 			if( AppPropertiesService.getProperty( PROPERTY_DEBUG , PROPERTY_DEBUG_DEFAULT ).equalsIgnoreCase( "true" ))
 			{
 			%>
@@ -111,7 +112,7 @@
 				</a>
 			</p>
 			<%
-				AppLogService.error( exception.getMessage(  ), exception );
+				
 				} else {
 			%>
 			<p>
@@ -125,9 +126,6 @@
 			</p>
 			<%
 				}
-			AppLogService.error( exception.getMessage(  ), exception );
-			%>
-			<%
 				} // end else access denied
 			%>
 			</div>
