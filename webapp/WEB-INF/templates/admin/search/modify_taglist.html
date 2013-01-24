@@ -10,12 +10,16 @@
                     <#if tag_filter = "0">
                     <p class="label label-warning"><em>#i18n{portal.search.modify_taglist.unactiveFilter}</em></p>
                         <div class="form-actions">
-                            <input type="submit" name="cancel" value="#i18n{portal.search.modify_taglist.buttonCancel}" class="btn btn-small" />
+                            <a href="jsp/admin/search/ManageSearch.jsp" name="cancel" class="btn btn-small">
+								<i class="icon-remove-circle"></i>&nbsp#i18n{portal.search.modify_taglist.buttonCancel}
+							</a>
                         </div>
                     <#else>
                         <div class="form-actions">
                             <button type="submit" name="submit" class="btn btn-primary btn-small"><i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.search.modify_taglist.buttonValidate}</button>
-                            <button type="submit" name="cancel" class="btn btn-small"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.search.modify_taglist.buttonCancel}</button>
+                            <button type="submit" name="cancel" class="btn btn-small">
+								<i class="icon-remove-circle"></i>&nbsp;#i18n{portal.search.modify_taglist.buttonCancel}
+							</button>
                         </div>
                     </#if>
                     </fieldset>
