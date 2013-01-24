@@ -47,9 +47,9 @@
                         -->
                     </div>
                 </div>
-                <div id="content-portlet" class="span8">
+                <div class="span8">
                     <label>#i18n{portal.site.modify_portlet.labelPortletTitle}</label>
-                    <input type="text" name="portlet_name" value="${portlet.name}" class="input-xxlarge" />
+                    <input type="text" name="portlet_name" value="${portlet.name}" class="input-xxlarge" maxlength="70" >
                     <label>#i18n{portal.site.modify_portlet.labelDisplayPortletTitle}           
                         <#if portlet.displayPortletTitle = 0 >
                         <input type="radio" class="radio inline" name="display_portlet_title" value="0" checked="checked"/>#i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleYes}
@@ -60,14 +60,12 @@
                         </#if>
                     </label>     
                     <#if portletType.modifySpecificTemplate != "" >
-                    <#include portletType.modifySpecificTemplate />
+                        <#include portletType.modifySpecificTemplate />
                     </#if>
                     <#if portletType.modifySpecificFormTemplate != "" >
-                    <#include portletType.modifySpecificFormTemplate />
+                        <#include portletType.modifySpecificFormTemplate />
                     </#if>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <div class="form-actions">
+                    <div class="form-actions">
                                 <button type="submit" class="btn btn-primary btn-small">
                                     <i class="icon-ok icon-white"></i>
                                     <span class="hidden-phone" >#i18n{portal.site.create_portlet.buttonValidate}</span>

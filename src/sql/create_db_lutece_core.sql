@@ -324,7 +324,7 @@ CREATE TABLE core_portlet (
 	id_portlet int default 0 NOT NULL,
 	id_portlet_type varchar(50) default NULL,
 	id_page int default NULL,
-	name varchar(40) default NULL,
+	name varchar(70) default NULL,
 	date_update timestamp default CURRENT_TIMESTAMP NOT NULL,
 	status smallint default 0 NOT NULL,
 	portlet_order int default NULL,

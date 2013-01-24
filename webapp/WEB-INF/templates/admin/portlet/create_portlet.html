@@ -35,35 +35,33 @@
                             &nbsp;#i18n{portal.site.create_portlet.checkboxLargeDevice} &nbsp;
                         </label>
                         <!--
-        <label for="display_on_xlarge_device">
-                                <input class="checkbox" type="checkbox" name="display_on_xlarge_device" value="1" checked="checked">
-                                &nbsp;#i18n{portal.site.create_portlet.checkboxXLargeDevice} &nbsp;
+                        <label for="display_on_xlarge_device">
+                           <input class="checkbox" type="checkbox" name="display_on_xlarge_device" value="1" checked="checked">
+                           &nbsp;#i18n{portal.site.create_portlet.checkboxXLargeDevice} &nbsp;
                         </label>
                         -->
                     </div>
                 </div>
-                <div id="content-portlet" class="span8">
+                <div class="span8">
                     <label>#i18n{portal.site.create_portlet.labelPortletTitle}</label> 
-                    <input type="text" name="portlet_name" class="input-xxlarge" />
+                    <input type="text" name="portlet_name" class="input-xxlarge" maxlength="70" >
                     <label for="display_portlet_title" >&nbsp;
                         <input class="radio inline" type="radio" name="display_portlet_title" value="0" checked="checked" />&nbsp;#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleYes}                      
                         <input class="radio inline" type="radio" name="display_portlet_title" value="1" />&nbsp;#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleNo}
                     </label>
-
                     <#if portletType.createSpecificTemplate != "" >
-                    <#include portletType.createSpecificTemplate />
+                        <#include portletType.createSpecificTemplate />
                     </#if>
                     <#if portletType.createSpecificFormTemplate != "" >
-                    <#include portletType.createSpecificFormTemplate />
+                        <#include portletType.createSpecificFormTemplate />
                     </#if>
-
-                    <div class="form-actions span7">
+                    <div class="form-actions">
                         <button type="submit" class="btn btn-primary btn-small">
-                            <i class="icon-ok icon-white"></i>
+                            <i class="icon-ok icon-white"></i>&nbsp;
                             <span class="hidden-phone" >#i18n{portal.site.create_portlet.buttonValidate}</span>
                         </button>                       
                         <a href="site/AdminSite.jsp" class="btn btn-small" target="_top">            
-                            <i class="icon-remove-circle"></i><span class="hidden-phone" >#i18n{portal.site.create_portlet.buttonBack}</span>
+                            <i class="icon-remove-circle"></i>&nbsp;<span class="hidden-phone">#i18n{portal.site.create_portlet.buttonBack}</span>
                         </a>                          
                     </div> 
                 </div> 
