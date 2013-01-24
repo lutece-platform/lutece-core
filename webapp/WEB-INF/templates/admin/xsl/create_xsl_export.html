@@ -6,13 +6,13 @@
 		    <div class="control-group">
 			<label class="control-label" for="title" >#i18n{portal.xsl.create_xsl_export.label_title} * : </label>
 				<div class="controls">
-					<input type="text" class="input-large" id="title" name="title" maxlength="255"/>
+					<input type="text" class="input-xxlarge" id="title" name="title" maxlength="255"/>
 			    </div>
 			</div>
 			<div class="control-group">
 			<label class="control-label" for="description" >#i18n{portal.xsl.create_xsl_export.label_description} * : </label>
 				<div class="controls">
-					<input type="text" class="input-xlarge" id="description" name="description" maxlength="255" value=""/>
+					<input type="text" class="input-xxlarge" id="description" name="description" maxlength="255" value=""/>
 			    </div>
 			</div>	
 			<div class="control-group">
@@ -29,7 +29,9 @@
 			</div>
 			<div class="form-actions">
 				<button class="btn btn-primary btn-small" type="submit"><i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_save}</button>
-				<button class="btn btn-primary btn-small" type="button" onclick="javascript:window.history.back();"><i class="icon-remove-circle icon-white"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_cancel}</button>
+				<a class="btn btn-small" href="jsp/admin/xsl/ManageXslExport.jsp">
+					<i class="icon-remove-circle"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_cancel}
+				</a>
 			</div>
 			</fieldset>
 		</form>
