@@ -1,10 +1,9 @@
 <div class="row-fluid">
 	<div class="span12">
-			<fieldset>
-			<legend>
-               <img src="images/local/skin/plugins/plugin.png" alt=" " title=" ">
-               #i18n{portal.system.view_file.boxTitle} <em>${files_system_directory}</em>
-			</legend>
+            <fieldset>
+            <legend>
+             #i18n{portal.system.view_file.boxTitle} <a href="jsp/admin/system/ManageFilesSytemDir.jsp?dir=${files_system_directory}">${files_system_directory}</a>
+            </legend>
             <p><strong>#i18n{portal.system.view_file.labelFile} </strong>&nbsp;&nbsp;${file_system_name}</p>
             <pre>${file_system_data?html}</pre>
 			</fieldset>
