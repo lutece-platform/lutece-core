@@ -21,6 +21,14 @@ img.thumblist-wide{width:128px;}
 #footer{background: none repeat scroll 0 0 #000;color: #fff;padding: 1px 5px 1px;height:24px;}
 #footer > a{color: #fff;font-size:80%;}
 
+/* Theme preview*/
+#preview-frame-container{display:none;}
+#back-to-preview{position:fixed;background: #000;box-shadow: 0 0 10px #000;left:0;top:150px;width:auto;z-index:99;}
+#back-to-preview a {display: block;float:left; margin:2px; padding: 5px 20px; background: #FFCC00;color:#000;text-decoration: none;}
+#back-to-preview a:hover { color: #fff;}
+#preview-frame{position:fixed;background:#000;box-shadow:10px #000;margin:5px;width:98%;height:100%;top:60px;left:0; overflow: auto; z-index: 99;}
+.oyh {overflow-y: hidden;}
+
 /* Portlets admin */
 #content-portlet{padding:0 10px;}
 a#trigger{
@@ -487,18 +495,6 @@ border-bottom-left-radius: 20px;
 .icon-x-skype { background-position: -1496px -204px }
 .icon-x-e-mail { background-position: -1530px -204px }
 
-.dropdown-menu p
-{
-	padding: 3px 20px;
-}
-
-.form-submenu
-{
-	margin: 0px;
-}
-
-.submenu-left
-{
-	right: 100% !important;
-	left: auto !important;
-}
+.dropdown-menu p{padding: 3px 20px;}
+.form-submenu{margin: 0px;}
+.submenu-left{right: 100% !important;left: auto !important;}

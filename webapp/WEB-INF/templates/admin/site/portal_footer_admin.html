@@ -1,1 +1,23 @@
 <!-- No footer needed -->
+<script>
+var path = window.location.pathname;
+if( path.match("AdminThemePreview.jsp")){
+	var myTheme = "";
+	var theme = window.location.search.split("?");
+	
+	if( theme[1].indexOf("&") < 0 ){
+		myTheme = theme[1] + '&';
+	} else {
+		var theme2 = theme[1].split("&");	
+		myTheme = theme2[0] + '&';
+	}
+	
+	$(".btn-group-portlet").remove();
+	
+	$("a").each(function (i) {
+		var newPath= $(this).attr('href').slice(29) ;
+		$(this).attr('href', 'jsp/admin/plugins/theme/AdminThemePreview.jsp?' + myTheme + newPath  ).attr('target', 'preview-frame' );
+		newpath="";
+	});
+}
+</script>
