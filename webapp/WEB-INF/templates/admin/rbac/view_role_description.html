@@ -1,22 +1,21 @@
 <div class="row-fluid">
-    <div class="span3">
-            <div class="well well-small">
-                <p class="lead">#i18n{portal.rbac.view_role_description.titleRoleDescription}</p>
-                <p><strong>#i18n{portal.rbac.view_role_description.labelKey} :</strong> ${role.key}
-                <strong>#i18n{portal.rbac.view_role_description.labelDescription} :</strong> ${role.description}
-				</p>
-                <form class="form-horizontal" method="post"  action="jsp/admin/rbac/ModifyRole.jsp">
-                    <input type="hidden" name="role_key" value="${role.key}" />
-                    <button class="btn btn-primary btn-small" type="submit" >
-						<i class="icon-edit icon-white"></i>&nbsp;#i18n{portal.rbac.view_role_description.buttonLabelModify}
-					</button>
-                  
-                </form>
-            </div>
+    <div class="span3 well well-small">
+		<fieldset>
+            <legend>#i18n{portal.rbac.view_role_description.titleRoleDescription}</legend>
+			<p><strong>#i18n{portal.rbac.view_role_description.labelKey} :</strong> ${role.key}</p>
+			<p><strong>#i18n{portal.rbac.view_role_description.labelDescription} :</strong> ${role.description}</p>
+			<form class="form-horizontal" method="post"  action="jsp/admin/rbac/ModifyRole.jsp">
+			<input type="hidden" name="role_key" value="${role.key}" />
+			<button class="btn btn-primary btn-small" type="submit" >
+				<i class="icon-edit icon-white"></i>&nbsp;#i18n{portal.rbac.view_role_description.buttonLabelModify}
+			</button>
+			</form>
+        </fieldset>
 	</div>
 	<div class="span8">
             <fieldset>
-                <legend>#i18n{portal.rbac.view_role_description.titleControlsList} "${role.key}" 
+                <legend>
+					<span class="pull-left">#i18n{portal.rbac.view_role_description.titleControlsList} "${role.key}" </span>
 					<form class="form-inline pull-right" method="post"  action="jsp/admin/rbac/AddControlToRole.jsp">
                         <select name="resource_type" >
                             <!--<option value =""></option>-->
@@ -39,14 +38,12 @@
                     </tr>
                     <#assign previousResourceTypeKey = "" >
                     <#list controled_resource_list as controled_resource >
-                    <#if controled_resource.resourceTypeKey != previousResourceTypeKey >
-                    <tr><td colspan="4">&nbsp;</td></tr>
-                    </#if>
+                    
                     <tr>
                         <#if controled_resource.resourceTypeKey != previousResourceTypeKey >
-                        <td>${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</td>
+							<td><strong>${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</strong></td>
                         <#else>
-                        <td>&nbsp;</td>
+							<td>&nbsp;</td>
                         </#if>
                         <!--<td>${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</td>-->
                         <td>${controled_resource.resourceIdLabel} (${controled_resource.resourceId})</td>

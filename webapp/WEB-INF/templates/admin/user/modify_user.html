@@ -32,6 +32,7 @@
     <div class="well">
         <h2>#i18n{portal.users.modify_user.titleModificationForm}</h2>
         <form method="post" name="modify_user" action="jsp/admin/user/DoModifyUser.jsp" enctype="multipart/form-data"  >
+		<input type="hidden" name="id_user" value="${user.userId}" />
             <div class="highlight-box">
                 <div class="highlight-box-content">
                     <p>
@@ -122,7 +123,7 @@
             </#if>
             <div class="well span10">
                 <span class="pull-left">
-                    <input type="hidden" name="id_user" value="${user.userId}" />
+                    
                     <button type="submit" class="btn btn-primary btn-small" tabindex="6">
                         <i class=" icon-edit icon-white"></i>
                         <span class="hidden-phone" >#i18n{portal.users.modify_user.buttonLabelModify}</span>

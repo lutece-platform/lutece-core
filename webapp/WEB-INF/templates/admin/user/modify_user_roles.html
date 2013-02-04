@@ -1,8 +1,8 @@
 <div class="row-fluid">
     <div class="span12">
-        <div class="well well-small"><i class="icon-user"></i>&nbsp;${user.lastName} ${user.firstName}
-			<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
-		</div>
+        <div class="well well-small"><i class="icon-user"></i>&nbsp;${user.lastName} ${user.firstName}</div>
+		<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
+		
         <ul class="nav nav-tabs">
             <li>
                 <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
@@ -14,7 +14,11 @@
         <h2>#i18n{portal.users.modify_user_role.titleRoleModificationForm}</h2>
         <form class="form-horizontal" method="post"  action="jsp/admin/user/DoModifyUserRoles.jsp" >
 			<fieldset>	
-            <legend>#i18n{portal.users.modify_user_roles.titleRoleModificationForm}</legend> 
+            <legend>#i18n{portal.users.modify_user_roles.titleRoleModificationForm}
+			<button class="btn btn-primary btn-small pull-right" type="submit" >
+						<i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}
+					</button>
+			</legend> 
 				<ul class="unstyled">
                 <#list all_role_list?sort_by('key') as role>
                     <#assign checked = "" >
@@ -35,7 +39,9 @@
                 </ul>  
                 <input type="hidden" name="id_user" value="${user.userId}" />
                 <div class="form-actions">
-                    <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}</button>
+                    <button class="btn btn-primary btn-small" type="submit" >
+						<i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}
+					</button>
                 </fieldset>
 				</div>
         </form>    

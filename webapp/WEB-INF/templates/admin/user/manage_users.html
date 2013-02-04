@@ -22,7 +22,7 @@
                             <#if (user_levels?has_content)>
                             <div class="control-group">
                                 <label class="control-label" for="user_level">#i18n{portal.users.manage_users.search_users.userLevelLabel} :</label>
-                                <select id="user_level" name="search_user_level" class="input-medium">
+                                <select id="user_level" name="search_user_level" class="input-normal">
                                     <#if (search_admin_user_filter.userLevel > -1) >
                                     <option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
                                     <#list user_levels as user_level>
@@ -67,7 +67,7 @@
                             </div>
                             <div class="control-group">
                                 <label class="control-label" for="status">#i18n{portal.users.manage_users.search_users.labelStatus} :</label>
-                                <select id="status" name="search_status" tabindex="5"  class="input-medium">
+                                <select id="status" name="search_status" tabindex="5"  class="input-normal">
                                     <#switch search_admin_user_filter.status >
                                     <#case 0 >
                                     <option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
@@ -96,12 +96,12 @@
                                     </#switch>
                                 </select>
                                 <#list attributes_list as attribute>
-                                <#if attribute.shownInSearch>
-                                ${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
-                                </#if>
+									<#if attribute.shownInSearch>
+										${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
+									</#if>
                                 </#list>
                             </div>
-                            <button class="btn btn-primary btn-small" type="submit" >
+                            <button class="btn btn-primary btn-small" type="submit" name="search_is_search">
                                 <i class="icon-search icon-white"></i>
                                 <span class="hidden-phone" >#i18n{portal.users.manage_users.search_users.buttonSearch}</span>
                             </button>

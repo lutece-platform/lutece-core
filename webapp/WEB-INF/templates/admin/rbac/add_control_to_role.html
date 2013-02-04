@@ -1,36 +1,31 @@
 <div class="row-fluid">
     <div class="span12">
+            <form class="form" method="post" action="jsp/admin/rbac/DoSelectResources.jsp" name="add_control">
+			<input type="hidden" name="role_key" value="${role_key}" />
+            <input type="hidden" name="resource_type" value="${resource_type}" />
             <fieldset>
-                <legend>#i18n{portal.rbac.add_control_to_role.titleAddControl}</legend>
-                <form class="form-horizontal" method="post" action="jsp/admin/rbac/DoSelectResources.jsp" name="add_control">
+                <legend>
+				#i18n{portal.rbac.add_control_to_role.titleAddControl}
+				<button class="btn btn-primary btn-small pull-right" type="submit" >
+					<i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.buttonLabelValidate}
+				</button>
+                <a class="btn btn-small pull-right spaced" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role_key}" >
+					<i class="icon-remove-circle"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}
+				</a>
+				</legend>
                     <#if resource_list_available = true >
-                    <div class="control-group">
-                        <label class="control-label" > #i18n{portal.rbac.add_control_to_role.labelSelectAllResources} :</label>
-                        <div class="controls">
-                            <input class="radio" type="radio" name="select_resources" value="all" checked="checked" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" > #i18n{portal.rbac.add_control_to_role.labelSelectResourcesInList} :</label>
-                        <div class="controls">
-                            <input class="radio" type="radio" name="select_resources" value="choose" />
-                        </div>
-                    </div>
-                    <#else>
-                    <input type="hidden" name="select_resources" value="all" />
-                    #i18n{portal.rbac.add_control_to_role.labelNoResourcesList}
+					<label class="radio inline">
+                        <input class="radio" type="radio" name="select_resources" value="all" checked="checked">#i18n{portal.rbac.add_control_to_role.labelSelectAllResources} 
+					</label>
+                    <label class="radio inline">
+                        <input class="radio" type="radio" name="select_resources" value="choose" />
+						#i18n{portal.rbac.add_control_to_role.labelSelectResourcesInList}
+					<#else>
+						<input type="hidden" name="select_resources" value="all" >
+						#i18n{portal.rbac.add_control_to_role.labelNoResourcesList}
                     </#if>
-                    <input type="hidden" name="role_key" value="${role_key}" />
-                    <input type="hidden" name="resource_type" value="${resource_type}" />
-                    <div class="form-actions"> 
-                        <button class="btn btn-primary btn-small" type="submit" >
-							<i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.buttonLabelValidate}
-						</button>
-                        <button class="btn btn-small" onclick="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role_key}" >
-							<i class="icon-remove-circle"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}
-						</button>
-                    </div>
-                </form>
-        </fieldset>
+					</label>
+			</fieldset>
+        </form>
     </div>
 </div>

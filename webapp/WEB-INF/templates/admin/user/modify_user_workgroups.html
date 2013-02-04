@@ -12,7 +12,11 @@
             </ul>
             <form class="form-horizontal" method="post"  action="jsp/admin/user/DoModifyUserWorkgroups.jsp" >
                 <fieldset>	
-                    <legend>#i18n{portal.users.modify_user_workgroups.titleRightModificationForm}</legend>
+                    <legend>#i18n{portal.users.modify_user_workgroups.titleRightModificationForm}
+					 <button class="btn btn-primary btn-small pull-right" type="submit" >
+							<i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.users.modify_user_workgroups.buttonLabelModifyWorkgroups}
+						</button>
+					</legend>
                     <input type="hidden" name="delegate_rights" value="${can_delegate}" />
                     <#list all_workgroup_list?sort_by('code') as workgroup>
                     <#if workgroup.checked>
@@ -28,7 +32,10 @@
                     </#list>        
                     <input type="hidden" name="id_user" value="${user.userId}" />
                     <div class="form-actions">                
-                        <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.users.modify_user_workgroups.buttonLabelModifyWorkgroups}</button>
+                        <button class="btn btn-primary btn-small" type="submit" >
+							<i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.users.modify_user_workgroups.buttonLabelModifyWorkgroups}
+						</button>
+						
                     </div>	
             </fieldset>
         </form>
