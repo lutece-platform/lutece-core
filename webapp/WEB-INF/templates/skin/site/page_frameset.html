@@ -53,9 +53,9 @@ ${rss?default("<!-- no RSS feed -->")}
 <link rel="stylesheet" href="js/jquery/plugins/ui/datepicker/ui.datepicker.css" type="text/css" media="screen, projection" />
 <link rel="stylesheet" href="js/jquery/plugins/autocomplete/jquery.autocomplete.css" type="text/css" media="screen, projection" / -->
 ${plugins_css_links}
-${statistical_include_head}
 <!-- Included JS Files -->
 <script src="js/jquery/jquery.min.js"></script>
+${statistical_include_head}
 </head>
 <body>
  <!-- header -->
@@ -101,16 +101,5 @@ ${page_footer}
 ${plugins_javascript_links}
 <script src="js/tools.js"></script>
 ${statistical_include}
-<!-- Google Analytics -->
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-var pageTracker = _gat._getTracker("UA-5582030-3");
-pageTracker._initData();
-pageTracker._trackPageview();
-</script>
-<!-- End Google Analytics -->
 </body>
 </html>
