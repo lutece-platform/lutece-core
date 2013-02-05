@@ -63,6 +63,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
+import javax.servlet.ServletContext;
 
 
 /**
@@ -93,20 +94,21 @@ public final class AppInit
     }
 
     /**
-     * Initializes all the application services
+     * Initializes all the application services (used for junit tests)
      * @param strConfPath The relative path to the config files
      */
     public static void initServices( String strConfPath )
     {
-        initServices( strConfPath, null );
+        initServices( null, strConfPath, null );
     }
 
     /**
      * Initializes all the application services
+     * @param context The servlet context
      * @param strConfPath The relative path to the config files
      * @param strRealPath The real path to the config files
      */
-    public static void initServices( String strConfPath, String strRealPath )
+    public static void initServices( ServletContext context, String strConfPath, String strRealPath )
     {
         try
         {
@@ -150,7 +152,7 @@ public final class AppInit
 
             // Initializes FilterService and ServletService
             FilterService.init(  );
-            ServletService.init(  );
+            ServletService.init( context );
 
             // Trace Contents services loading
             traceContentServicesLoading(  );

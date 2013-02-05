@@ -117,9 +117,10 @@ public final class ServletService
      * Initializes servlets
      * @throws LuteceInitException If an error occurs
      */
-    public static void init(  ) throws LuteceInitException
+    public static void init( ServletContext context ) throws LuteceInitException
     {
         AppLogService.info( "Initialize plugins servlets" );
+        _context = context;
 
         for ( LuteceServlet servlet : ServletService.getInstance(  ).getServlets(  ) )
         {
@@ -132,6 +133,7 @@ public final class ServletService
                     LuteceServletConfig servletConfig = new LuteceServletConfig( servlet.getName(  ), _context,
                             servlet.getInitParameters(  ) );
                     servlet.getServlet(  ).init( servletConfig );
+                    AppLogService.info( " * servlet '" + servlet.getName() + "' from plugin " + servlet.getPlugin().getName() + " initialized.");
                 }
             }
             catch ( Exception e )
