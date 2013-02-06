@@ -78,8 +78,6 @@ import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -90,6 +88,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -162,6 +162,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_ACCOUNT_DEACTIVATES_EMAIL = "portal.users.accountLifeTime.labelAccountDeactivatedEmail";
     private static final String PROPERTY_ACCOUNT_UPDATED_EMAIL = "portal.users.accountLifeTime.labelAccountUpdatedEmail";
     private static final String PROPERTY_NOTIFY_PASSWORD_EXPIRED = "portal.users.accountLifeTime.labelPasswordExpired";
+
+    private static final String MESSAGE_NOT_AUTHORIZED = "Action not permited to current user";
 
     // Properties
     private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
@@ -341,10 +343,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         for ( AdminUser user : availableUsers )
         {
-            if ( currentUser.isAdmin(  ) ||
-                    ( currentUser.isParent( user ) &&
-                    ( ( haveCommonWorkgroups( currentUser, user ) ) ||
-                    ( !AdminWorkgroupHome.checkUserHasWorkgroup( user.getUserId(  ) ) ) ) ) )
+            if ( isUserAuthorizedToModifyUser( currentUser, user ) )
             {
                 listUsers.add( user );
             }
@@ -713,11 +712,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Returns the form to update info about a AppUser
-     *
+     * 
      * @param request The Http request
      * @return The HTML form to update info
+     * @throws AccessDeniedException If the current user is not authorized to
+     *             modify the user
      */
-    public String getModifyAdminUser( HttpServletRequest request )
+    public String getModifyAdminUser( HttpServletRequest request ) throws AccessDeniedException
     {
         setPageTitleProperty( PROPERTY_MODIFY_USER_PAGETITLE );
 
@@ -741,6 +742,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             user = AdminUserHome.findByPrimaryKey( nUserId );
             strTemplateUrl = TEMPLATE_MODIFY_USER;
+        }
+        AdminUser currentUser = AdminUserService.getAdminUser( request );
+        if ( !isUserAuthorizedToModifyUser( currentUser, user ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
         Level level = LevelHome.findByPrimaryKey( user.getUserLevel(  ) );
@@ -767,11 +773,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Process the change form of an appUser
-     *
+     * 
      * @param request The Http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException If the current user is not authorized to
+     *             modify the user
      */
-    public String doModifyAdminUser( HttpServletRequest request )
+    public String doModifyAdminUser( HttpServletRequest request ) throws AccessDeniedException
     {
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         String strAccessCode = request.getParameter( PARAMETER_ACCESS_CODE );
@@ -780,6 +788,15 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strEmail = request.getParameter( PARAMETER_EMAIL );
         String strStatus = request.getParameter( PARAMETER_STATUS );
         String strAccessibilityMode = request.getParameter( PARAMETER_ACCESSIBILITY_MODE );
+
+        int nUserId = Integer.parseInt( strUserId );
+
+        AdminUser userToModify = AdminUserHome.findByPrimaryKey( nUserId );
+        AdminUser currentUser = AdminUserService.getAdminUser( request );
+        if ( !isUserAuthorizedToModifyUser( currentUser, userToModify ) )
+        {
+            throw new AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
 
         if ( ( strAccessCode == null ) || ( strAccessCode.equals( "" ) ) )
         {
@@ -805,8 +822,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             return AdminUserService.getEmailErrorMessageUrl( request );
         }
-
-        int nUserId = Integer.parseInt( strUserId );
 
         int checkCode = AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode );
 
@@ -989,15 +1004,23 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Process to the confirmation of deleting of an AppUser
-     *
+     * 
      * @param request The Http Request
      * @return the HTML page
+     * @throws AccessDeniedException If the user is not authorized
      */
-    public String doRemoveAdminUser( HttpServletRequest request )
+    public String doRemoveAdminUser( HttpServletRequest request ) throws AccessDeniedException
     {
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
         AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
+
+        AdminUser currentUser = AdminUserService.getAdminUser( request );
+        if ( !isUserAuthorizedToModifyUser( currentUser, user ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
+
         AdminUserFieldService.doRemoveUserFields( user, request, getLocale(  ) );
         AdminUserHome.removeAllRightsForUser( nUserId );
         AdminUserHome.removeAllRolesForUser( nUserId );
@@ -1009,11 +1032,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Build the User right list
-     *
+     * 
      * @param request Http Request
      * @return the right list
+     * @throws AccessDeniedException If the user is not authorized
      */
-    public String getManageAdminUserRights( HttpServletRequest request )
+    public String getManageAdminUserRights( HttpServletRequest request ) throws AccessDeniedException
     {
         setPageTitleProperty( PROPERTY_MANAGE_USER_RIGHTS_PAGETITLE );
 
@@ -1021,6 +1045,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         int nUserId = Integer.parseInt( strUserId );
 
         AdminUser selectedUser = AdminUserHome.findByPrimaryKey( nUserId );
+
+        AdminUser currentUser = AdminUserService.getAdminUser( request );
+        if ( !isUserAuthorizedToModifyUser( currentUser, selectedUser ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
+
         Collection<Right> rightList = AdminUserHome.getRightsListForUser( nUserId ).values(  );
 
         // ITEM NAVIGATION
@@ -1041,11 +1072,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Build the User workgroup list
-     *
+     * 
      * @param request Http Request
      * @return the right list
+     * @throws AccessDeniedException If the user is not authorized
      */
-    public String getManageAdminUserWorkgroups( HttpServletRequest request )
+    public String getManageAdminUserWorkgroups( HttpServletRequest request ) throws AccessDeniedException
     {
         setPageTitleProperty( PROPERTY_MANAGE_USER_WORKGROUPS_PAGETITLE );
 
@@ -1053,6 +1085,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         int nUserId = Integer.parseInt( strUserId );
 
         AdminUser selectedUser = AdminUserHome.findByPrimaryKey( nUserId );
+        AdminUser currentUser = AdminUserService.getAdminUser( request );
+        if ( !isUserAuthorizedToModifyUser( currentUser, selectedUser ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
+
         ReferenceList workgroupsList = AdminWorkgroupHome.getUserWorkgroups( selectedUser );
 
         // ITEM NAVIGATION
@@ -1073,11 +1111,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Build the assignable workgroups list
-     *
+     * 
      * @param request Http Request
      * @return the right list
+     * @throws AccessDeniedException If the user is not authorized
      */
-    public String getModifyAdminUserWorkgroups( HttpServletRequest request )
+    public String getModifyAdminUserWorkgroups( HttpServletRequest request ) throws AccessDeniedException
     {
         boolean bDelegateWorkgroups = Boolean.valueOf( request.getParameter( PARAMETER_DELEGATE_RIGHTS ) );
         setPageTitleProperty( PROPERTY_MODIFY_USER_WORKGROUPS_PAGETITLE );
@@ -1090,7 +1129,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
         AdminUser currentUser = getUser(  );
-
+        if ( !isUserAuthorizedToModifyUser( currentUser, user ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
         ReferenceList userWorkspaces = AdminWorkgroupHome.getUserWorkgroups( user );
         ReferenceList assignableWorkspaces = AdminWorkgroupHome.getUserWorkgroups( currentUser );
 
@@ -1119,11 +1161,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Build the right list
-     *
+     * 
      * @param request Http Request
      * @return the right list
+     * @throws AccessDeniedException If the user is not authorized
      */
-    public String getModifyAdminUserRights( HttpServletRequest request )
+    public String getModifyAdminUserRights( HttpServletRequest request ) throws AccessDeniedException
     {
         boolean bDelegateRights = Boolean.valueOf( request.getParameter( PARAMETER_DELEGATE_RIGHTS ) );
 
@@ -1137,11 +1180,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         int nUserId = Integer.parseInt( strUserId );
 
         AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
-
-        Collection<Right> rightList;
-        Collection<Right> allRightList = RightHome.getRightsList( user.getUserLevel(  ) );
-
         AdminUser currentUser = getUser(  );
+        if ( !isUserAuthorizedToModifyUser( currentUser, user ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
+        Collection<Right> rightList;
+        Collection<Right> allRightList = RightHome.getRightsList( user.getUserLevel( ) );
 
         if ( bDelegateRights )
         {
@@ -1180,11 +1225,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Process the change form of an appUser rights
-     *
+     * 
      * @param request The Http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException If the user is not authorized
      */
-    public String doModifyAdminUserRights( HttpServletRequest request )
+    public String doModifyAdminUserRights( HttpServletRequest request ) throws AccessDeniedException
     {
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
@@ -1192,7 +1238,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String[] arrayRights = request.getParameterValues( PARAMETER_RIGHT );
 
         AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
-
+        AdminUser userCurrent = AdminUserService.getAdminUser( request );
+        if ( !isUserAuthorizedToModifyUser( userCurrent, user ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
         AdminUserHome.removeAllOwnRightsForUser( user );
 
         if ( arrayRights != null )
@@ -1203,7 +1253,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        AdminUser userCurrent = AdminUserService.getAdminUser( request );
         if ( user != null && userCurrent != null && user.getUserId( ) == userCurrent.getUserId( ) )
         {
         	try
@@ -1225,17 +1274,23 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Build the User role list
-     *
+     * 
      * @param request Http Request
      * @return the right list
+     * @throws AccessDeniedException If the user is not authorized
      */
-    public String getManageAdminUserRoles( HttpServletRequest request )
+    public String getManageAdminUserRoles( HttpServletRequest request ) throws AccessDeniedException
     {
         setPageTitleProperty( PROPERTY_MANAGE_USER_ROLES_PAGETITLE );
 
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
         AdminUser selectedUser = AdminUserHome.findByPrimaryKey( nUserId );
+        AdminUser userCurrent = AdminUserService.getAdminUser( request );
+        if ( !isUserAuthorizedToModifyUser( userCurrent, selectedUser ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
         Collection<AdminRole> roleList = AdminUserHome.getRolesListForUser( nUserId ).values(  );
 
         // ITEM NAVIGATION
@@ -1255,17 +1310,25 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Build the role list
-     *
+     * 
      * @param request Http Request
      * @return the right list
+     * @throws AccessDeniedException IF the user is not authorized
      */
-    public String getModifyAdminUserRoles( HttpServletRequest request )
+    public String getModifyAdminUserRoles( HttpServletRequest request ) throws AccessDeniedException
     {
         boolean bDelegateRoles = Boolean.valueOf( request.getParameter( PARAMETER_DELEGATE_RIGHTS ) );
         setPageTitleProperty( PROPERTY_MODIFY_USER_ROLES_PAGETITLE );
 
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
+
+        AdminUser selectedUser = AdminUserHome.findByPrimaryKey( nUserId );
+        AdminUser userCurrent = AdminUserService.getAdminUser( request );
+        if ( !isUserAuthorizedToModifyUser( userCurrent, selectedUser ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
 
         Collection<AdminRole> roleList = AdminUserHome.getRolesListForUser( nUserId ).values(  );
         Collection<AdminRole> assignableRoleList;
@@ -1307,15 +1370,21 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Process the change form of an appUser roles
-     *
+     * 
      * @param request The Http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException IF the user is not authorized
      */
-    public String doModifyAdminUserRoles( HttpServletRequest request )
+    public String doModifyAdminUserRoles( HttpServletRequest request ) throws AccessDeniedException
     {
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
-
+        AdminUser selectedUser = AdminUserHome.findByPrimaryKey( nUserId );
+        AdminUser userCurrent = AdminUserService.getAdminUser( request );
+        if ( !isUserAuthorizedToModifyUser( userCurrent, selectedUser ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
         String[] arrayRoles = request.getParameterValues( PARAMETER_ROLE );
 
         AdminUserHome.removeAllRolesForUser( nUserId );
@@ -1333,16 +1402,22 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Process the change form of an appUser workspaces
-     *
+     * 
      * @param request The Http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException If the user is not authorized
      */
-    public String doModifyAdminUserWorkgroups( HttpServletRequest request )
+    public String doModifyAdminUserWorkgroups( HttpServletRequest request ) throws AccessDeniedException
     {
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
         AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
         AdminUser currentUser = getUser(  );
+        if ( !isUserAuthorizedToModifyUser( currentUser, user ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
+
         String[] arrayWorkspaces = request.getParameterValues( PARAMETER_WORKGROUP );
         ReferenceList assignableWorkgroups = AdminWorkgroupHome.getUserWorkgroups( currentUser );
 
@@ -2085,9 +2160,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             int nCurrentItemId = 0;
             int nIndex = 0;
 
+            AdminUser currentUser = getUser( );
             for ( AdminUser adminUser : AdminUserHome.findUserList(  ) )
             {
-                if ( adminUser != null )
+                if ( adminUser != null && isUserAuthorizedToModifyUser( currentUser, adminUser ) )
                 {
                     listIdsRight.add( Integer.toString( adminUser.getUserId(  ) ) );
 
@@ -2105,6 +2181,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         else
         {
             _itemNavigator.setCurrentItemId( Integer.toString( nIdAdminUser ) );
+            _itemNavigator.setBaseUrl( strUrl );
         }
     }
 
@@ -2167,5 +2244,19 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                     template.getHtml(  ) );
             }
         }
+    }
+
+    /**
+     * Check if a user is authorized to modify another user
+     * @param currentUser The current user
+     * @param userToModify The user to modify
+     * @return True if the current user can modify the other user, false
+     *         otherwise
+     */
+    private boolean isUserAuthorizedToModifyUser( AdminUser currentUser, AdminUser userToModify )
+    {
+        return currentUser.isAdmin( )
+                || ( currentUser.isParent( userToModify ) && ( ( haveCommonWorkgroups( currentUser, userToModify ) ) || ( !AdminWorkgroupHome
+                        .checkUserHasWorkgroup( userToModify.getUserId( ) ) ) ) );
     }
 }

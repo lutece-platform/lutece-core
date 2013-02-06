@@ -1,220 +1,220 @@
 <div class="row-fluid">
-    <div class="span12">
-    <fieldset>
-    <legend class="clearfix">#i18n{portal.users.manage_users.titleUserList}
-    <#if permission_advanced_parameter>
-                    <span class="pull-right">
-                        <form method="post" action="jsp/admin/user/ManageAdvancedParameters.jsp" class="form-inline spaced">
-                            <button type="submit" class="btn btn-primary btn-small"><i class="icon-cog icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}</span></button>
-                        </form>
-                    </span>&nbsp;		        
-                    </#if>  
-                    &nbsp;
-                    <span class="pull-right">
-                        <form method="post"  action="${url_user_creation}" class="form-inline">
-                            <button type="submit" class="btn btn-primary btn-small"><i class="icon-plus icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.users.manage_users.buttonLabelAddUser}</span></button>
-                        </form>
-                    </span>
-                </legend>
-                <div class="row-fluid">
-                    <div class="span3 well">
-                        <form method="post" name="search_users" action="jsp/admin/user/ManageUsers.jsp"  >
-                            <#if (user_levels?has_content)>
-                            <div class="control-group">
-                                <label class="control-label" for="user_level">#i18n{portal.users.manage_users.search_users.userLevelLabel} :</label>
-                                <select id="user_level" name="search_user_level" class="input-normal">
-                                    <#if (search_admin_user_filter.userLevel > -1) >
-                                    <option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
-                                    <#list user_levels as user_level>
-                                    <#if (search_admin_user_filter.userLevel == user_level.id) >
-                                    <option value="${user_level.id}" selected="selected" >${user_level.name}</option>
-                                    <#else>
-                                    <option value="${user_level.id}" >${user_level.name}</option>
-                                    </#if>
-                                    </#list>
-                                    <#else>
-                                    <option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
-                                    <#list user_levels as user_level>
-                                    <option value="${user_level.id}" >${user_level.name}</option>
-                                    </#list>
-                                    </#if>
-                                </select>
-                                </#if>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="access_code" >#i18n{portal.users.manage_users.search_users.labelAccessCode} :</label>
-                                <div class="controls">
-                                    <input type="text" id="access_code"  class="input-medium" name="search_access_code" value="${search_admin_user_filter.accessCode}" />
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="last_name" >#i18n{portal.users.manage_users.search_users.labelLastName} :</label>
-                                <div class="controls">
-                                    <input type="text"  id="last_name"  class="input-medium" name="search_last_name" value="${search_admin_user_filter.lastName}" maxlength="100" size="35" tabindex="2" />
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="first_name">#i18n{portal.users.manage_users.search_users.labelFirstName} :</label>
-                                <div class="controls">
-                                    <input type="text" id="first_name"  class="input-medium" name="search_first_name" value="${search_admin_user_filter.firstName}" maxlength="100" size="35" tabindex="3" />
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="email">#i18n{portal.users.manage_users.search_users.labelEmail} :</label>
-                                <div class="controls">
-                                    <input type="text" id="email"  class="input-medium" name="search_email" value="${search_admin_user_filter.email}" maxlength="100" size="35" tabindex="4" />
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="status">#i18n{portal.users.manage_users.search_users.labelStatus} :</label>
-                                <select id="status" name="search_status" tabindex="5"  class="input-normal">
-                                    <#switch search_admin_user_filter.status >
-                                    <#case 0 >
-                                    <option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-                                    <option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-                                    <option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-                                    <option value="10" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
-                                    <#break>
-                                    <#case 1 >
-                                    <option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-                                    <option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-                                    <option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-                                    <option value="10" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
-                                    <#break>
-                                    <#case 10 >
-                                    <option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-                                    <option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-                                    <option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-                                    <option value="10" selected="selected" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
-                                    <#break>
-                                    <#default>
-                                    <option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-                                    <option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-                                    <option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-                                    <option value="10" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
-                                    <#break>
-                                    </#switch>
-                                </select>
-                                <#list attributes_list as attribute>
-									<#if attribute.shownInSearch>
-										${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
+	<div class="span12">
+		<fieldset>
+			<legend class="clearfix">#i18n{portal.users.manage_users.titleUserList}
+				<#if permission_advanced_parameter>
+					<span class="pull-right">
+						<form method="post" action="jsp/admin/user/ManageAdvancedParameters.jsp" class="form-inline spaced">
+							<button type="submit" class="btn btn-primary btn-small"><i class="icon-cog icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}</span></button>
+						</form>
+					</span>&nbsp;				
+				</#if>  
+				&nbsp;
+				<span class="pull-right">
+					<form method="post"  action="${url_user_creation}" class="form-inline">
+						<button type="submit" class="btn btn-primary btn-small"><i class="icon-plus icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.users.manage_users.buttonLabelAddUser}</span></button>
+					</form>
+				</span>
+			</legend>
+			<div class="row-fluid">
+				<div class="span3 well">
+					<form method="post" name="search_users" action="jsp/admin/user/ManageUsers.jsp"  >
+						<#if (user_levels?has_content)>
+							<div class="control-group">
+								<label class="control-label" for="user_level">#i18n{portal.users.manage_users.search_users.userLevelLabel} :</label>
+								<select id="user_level" name="search_user_level" class="input-normal">
+									<#if (search_admin_user_filter.userLevel > -1) >
+										<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
+										<#list user_levels as user_level>
+											<#if (search_admin_user_filter.userLevel == user_level.id) >
+												<option value="${user_level.id}" selected="selected" >${user_level.name}</option>
+											<#else>
+												<option value="${user_level.id}" >${user_level.name}</option>
+											</#if>
+										</#list>
+									<#else>
+										<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
+										<#list user_levels as user_level>
+											<option value="${user_level.id}" >${user_level.name}</option>
+										</#list>
 									</#if>
-                                </#list>
-                            </div>
-                            <button class="btn btn-primary btn-small" type="submit" name="search_is_search">
-                                <i class="icon-search icon-white"></i>
-                                <span class="hidden-phone" >#i18n{portal.users.manage_users.search_users.buttonSearch}</span>
-                            </button>
-                        </form>
-                    </div>
-                    <div class="span9">        
-						<form  method="post" action="jsp/admin/user/ManageUsers.jsp">
-                            <@paginationAdmin paginator=paginator combo=1 form=0/>                    
-                            <#if search_is_search >
-                            <input type="hidden" name="search_is_search" value="true"/>
-                            <input type="hidden" name="search_user_level" value="${search_admin_user_filter.userLevel}"/>
-                            <input type="hidden" name="search_access_code" value="${search_admin_user_filter.accessCode}"/>
-                            <input type="hidden" name="search_last_name" value="${search_admin_user_filter.lastName}"/>
-                            <input type="hidden" name="search_first_name" value="${search_admin_user_filter.firstName}"/>
-                            <input type="hidden" name="search_email" value="${search_admin_user_filter.email}"/>
-                            <input type="hidden" name="search_status" value="${search_admin_user_filter.status}"/>
-                            <#if search_admin_user_field_filter.listUserFields?exists && search_admin_user_field_filter.listUserFields?has_content>
-                            <#list search_admin_user_field_filter.listUserFields as user_field>
-                            <#if user_field.attribute.attributeType.className == "fr.paris.lutece.portal.business.user.attribute.AttributeComboBox">
-                            <input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.attributeField.idField}"/>
-                            <#else>
-                            <input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.value}" />
-                            </#if>
-                            </#list>
-                            </#if>
-                            </#if>                
-                        </form>                                           
-                        <table class="table table-striped table-condensed">        
-                            <tr>            
-                                <th>
-                                    #i18n{portal.users.manage_users.columnTitleLastName}
-                                    <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="lastName${sort_search_attribute}" />
-                                </th>
-                                <th>
-                                    #i18n{portal.users.manage_users.columnTitleFirstName}
-                                    <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="firstName${sort_search_attribute}" />
-                                </th>
-                                <th>
-                                    #i18n{portal.users.manage_users.columnTitleAccessCode}
-                                    <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="accessCode${sort_search_attribute}" />
-                                </th>            
-                                <th>
-                                    #i18n{portal.users.manage_users.columnTitleEmail}
-                                    <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="email${sort_search_attribute}" />
-                                </th>
-                                <th>#i18n{portal.users.manage_users.columnTitleStatus}</th>
-                                <#list attributes_list as attribute>
-                                <#if attribute.shownInResultList>
-                                <th>${attribute.title}</th>
-                                </#if>
-                                </#list>	
-                                <th>#i18n{portal.users.manage_users.columnTitleActions}</th>
-                            </tr>
-                            <#list user_list as user>
-                            <tr>
-                                <td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if></td>
-                                <td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if></td>
-                                <td><em><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></em></td>            
-                                <td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else><a href="mailto:${user.email}" title="${user.email}" >${user.email}</a>
-                                    </#if></td>
-                                <td>
-                                    <#if user.status == 0 >
-                                    <span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>
-                                    <#else>
-                                    <span class="label label-important"><i class="icon-remove-sign icon-white"></i> #i18n{portal.util.labelDisabled}</span>
-                                    </#if>				
-                                </td>
-                                <#assign list_user_fields = map_id_user_list_user_fields["" + user.userId]>
-                                <#list attributes_list as attribute>
-                                <#if attribute.shownInResultList>
-                                <td>
-                                    <#assign index_user_field = 0>
-                                    <#list list_user_fields as user_field>
-                                    <#if user_field.attribute.idAttribute == attribute.idAttribute>
-                                    <#if index_user_field != 0>
-                                    <br />
-                                    </#if>
-                                    <#assign index_user_field = index_user_field + 1>
-                                    <#if user.status != 10 >${attribute.getHtmlValue( locale, user_field )}</#if>
-                                    </#if>
-                                    </#list>
-                                </td>
-                                </#if>
-                                </#list>
-                                <td>
-                                    <a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelUpdate}" >
-                                        <i class="icon-edit icon-white"></i>
-                                    </a>
-                                    <a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRights}">
-                                        <i class="icon-lock icon-white"></i>&nbsp;
-                                    </a>
-                                    <a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRoles}">
-                                        <i class="icon-list-alt icon-white"></i>&nbsp;
-                                    </a>
-                                    <a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelWorkgroups}">
-                                        <i class="icon-x-group icon-x-white"></i>
-                                    </a>
-                                    <#if !user.statusAnonymized>
-                                    <a class="btn btn-primary btn-small" href="jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelAnonymize}" >
-                                        <i class="icon-eye-close icon-white"></i>
-                                    </a>
-                                    </#if>
-                                    <a class="btn btn-danger btn-small" href="jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelDelete}">
-                                        <i class="icon-trash icon-white"></i>&nbsp;
-                        </a>
-						</td>
-					</tr>
-                </#list>		
-                </table>
-                <@paginationAdmin paginator=paginator />
+								</select>
+							</div>
+						</#if>
+						<div class="control-group">
+							<label class="control-label" for="access_code" >#i18n{portal.users.manage_users.search_users.labelAccessCode} :</label>
+							<div class="controls">
+								<input type="text" id="access_code"  class="input-medium" name="search_access_code" value="${search_admin_user_filter.accessCode}" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="last_name" >#i18n{portal.users.manage_users.search_users.labelLastName} :</label>
+							<div class="controls">
+								<input type="text"  id="last_name"  class="input-medium" name="search_last_name" value="${search_admin_user_filter.lastName}" maxlength="100" size="35" tabindex="2" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="first_name">#i18n{portal.users.manage_users.search_users.labelFirstName} :</label>
+							<div class="controls">
+								<input type="text" id="first_name"  class="input-medium" name="search_first_name" value="${search_admin_user_filter.firstName}" maxlength="100" size="35" tabindex="3" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="email">#i18n{portal.users.manage_users.search_users.labelEmail} :</label>
+							<div class="controls">
+								<input type="text" id="email"  class="input-medium" name="search_email" value="${search_admin_user_filter.email}" maxlength="100" size="35" tabindex="4" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="status">#i18n{portal.users.manage_users.search_users.labelStatus} :</label>
+							<select id="status" name="search_status" tabindex="5"  class="input-normal">
+								<#switch search_admin_user_filter.status >
+								<#case 0 >
+								<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+								<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+								<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+								<option value="10" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
+								<#break>
+								<#case 1 >
+								<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+								<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+								<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+								<option value="10" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
+								<#break>
+								<#case 10 >
+								<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+								<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+								<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+								<option value="10" selected="selected" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
+								<#break>
+								<#default>
+								<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+								<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+								<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+								<option value="10" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
+								<#break>
+								</#switch>
+							</select>
+							<#list attributes_list as attribute>
+								<#if attribute.shownInSearch>
+									${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
+								</#if>
+							</#list>
+						</div>
+						<button class="btn btn-primary btn-small" type="submit" name="search_is_search">
+							<i class="icon-search icon-white"></i>
+							<span class="hidden-phone" >#i18n{portal.users.manage_users.search_users.buttonSearch}</span>
+						</button>
+					</form>
+				</div>
+				<div class="span9">		
+					<form  method="post" action="jsp/admin/user/ManageUsers.jsp">
+						<@paginationAdmin paginator=paginator combo=1 form=0/>					
+						<#if search_is_search >
+							<input type="hidden" name="search_is_search" value="true"/>
+							<input type="hidden" name="search_user_level" value="${search_admin_user_filter.userLevel}"/>
+							<input type="hidden" name="search_access_code" value="${search_admin_user_filter.accessCode}"/>
+							<input type="hidden" name="search_last_name" value="${search_admin_user_filter.lastName}"/>
+							<input type="hidden" name="search_first_name" value="${search_admin_user_filter.firstName}"/>
+							<input type="hidden" name="search_email" value="${search_admin_user_filter.email}"/>
+							<input type="hidden" name="search_status" value="${search_admin_user_filter.status}"/>
+							<#if search_admin_user_field_filter.listUserFields?exists && search_admin_user_field_filter.listUserFields?has_content>
+								<#list search_admin_user_field_filter.listUserFields as user_field>
+									<#if user_field.attribute.attributeType.className == "fr.paris.lutece.portal.business.user.attribute.AttributeComboBox">
+										<input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.attributeField.idField}"/>
+									<#else>
+										<input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.value}" />
+									</#if>
+								</#list>
+							</#if>
+						</#if>				
+					</form>										   
+					<table class="table table-striped table-condensed">		
+						<tr>			
+							<th>
+								#i18n{portal.users.manage_users.columnTitleLastName}
+								<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="lastName${sort_search_attribute}" />
+							</th>
+							<th>
+								#i18n{portal.users.manage_users.columnTitleFirstName}
+								<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="firstName${sort_search_attribute}" />
+							</th>
+							<th>
+								#i18n{portal.users.manage_users.columnTitleAccessCode}
+								<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="accessCode${sort_search_attribute}" />
+							</th>			
+							<th>
+								#i18n{portal.users.manage_users.columnTitleEmail}
+								<@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="email${sort_search_attribute}" />
+							</th>
+							<th>#i18n{portal.users.manage_users.columnTitleStatus}</th>
+							<#list attributes_list as attribute>
+							<#if attribute.shownInResultList>
+							<th>${attribute.title}</th>
+							</#if>
+							</#list>	
+							<th>#i18n{portal.users.manage_users.columnTitleActions}</th>
+						</tr>
+						<#list user_list as user>
+							<tr>
+								<td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if></td>
+								<td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if></td>
+								<td><em><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></em></td>			
+								<td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else><a href="mailto:${user.email}" title="${user.email}" >${user.email}</a>
+									</#if></td>
+								<td>
+									<#if user.status == 0 >
+									<span class="label label-success"><i class="icon-ok-sign icon-white"></i> #i18n{portal.util.labelEnabled}</span>
+									<#else>
+									<span class="label label-important"><i class="icon-remove-sign icon-white"></i> #i18n{portal.util.labelDisabled}</span>
+									</#if>				
+								</td>
+								<#assign list_user_fields = map_id_user_list_user_fields["" + user.userId]>
+								<#list attributes_list as attribute>
+								<#if attribute.shownInResultList>
+								<td>
+									<#assign index_user_field = 0>
+									<#list list_user_fields as user_field>
+									<#if user_field.attribute.idAttribute == attribute.idAttribute>
+									<#if index_user_field != 0>
+									<br />
+									</#if>
+									<#assign index_user_field = index_user_field + 1>
+									<#if user.status != 10 >${attribute.getHtmlValue( locale, user_field )}</#if>
+									</#if>
+									</#list>
+								</td>
+								</#if>
+								</#list>
+								<td>
+									<a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelUpdate}" >
+										<i class="icon-edit icon-white"></i>
+									</a>
+									<a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRights}">
+										<i class="icon-lock icon-white"></i>&nbsp;
+									</a>
+									<a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRoles}">
+										<i class="icon-list-alt icon-white"></i>&nbsp;
+									</a>
+									<a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelWorkgroups}">
+										<i class="icon-x-group icon-x-white"></i>
+									</a>
+									<#if !user.statusAnonymized>
+										<a class="btn btn-primary btn-small" href="jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelAnonymize}" >
+											<i class="icon-eye-close icon-white"></i>
+										</a>
+									</#if>
+									<a class="btn btn-danger btn-small" href="jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelDelete}">
+										<i class="icon-trash icon-white"></i>&nbsp;
+									</a>
+								</td>
+							</tr>
+						</#list>		
+					</table>
+					<@paginationAdmin paginator=paginator />
 				</div>
 			</div>
 		</fieldset>
-    </div>
+	</div>
 </div>
 
