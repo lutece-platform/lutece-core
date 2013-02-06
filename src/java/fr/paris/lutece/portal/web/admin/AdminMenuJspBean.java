@@ -57,10 +57,8 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
+
 import java.io.Serializable;
-
-import org.apache.commons.lang.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -69,6 +67,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -107,6 +107,7 @@ public class AdminMenuJspBean implements Serializable
     private static final String PROPERTY_SITE_NAME = "lutece.name";
     private static final String PROPERTY_DASHBOARD_ZONES = "lutece.dashboard.zones.count";
     private static final int PROPERTY_DASHBOARD_ZONES_DEFAULT = 4;
+    private static final String REFERER = "referer";
 
     // Jsp
     private static final String PROPERTY_JSP_URL_ADMIN_MENU = "lutece.admin.menu.url";
@@ -481,6 +482,11 @@ public class AdminMenuJspBean implements Serializable
             boolean bIsAccessible = !user.getAccessibilityMode(  );
             user.setAccessibilityMode( bIsAccessible );
             AdminUserHome.update( user );
+        }
+        String strReferer = request.getHeader( REFERER );
+        if ( StringUtils.isNotBlank( strReferer ) )
+        {
+            return strReferer;
         }
 
         return AppPathService.getBaseUrl( request ) + AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_MENU );
