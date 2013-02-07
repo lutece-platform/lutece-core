@@ -108,7 +108,7 @@ file.amin.validation.flag=${webapp_home}/WEB-INF/exploit/admin_validation.flag
 log4j.rootLogger=ERROR, Error
 log4j.logger.lutece=DEBUG, Console
 log4j.logger.lutece.event=INFO, Application, Console
-log4j.logger.lutece.error=ERROR, Error, Console
+log4j.logger.lutece.error=ERROR, Error, SendMail, Console
 log4j.logger.lutece.debug=ERROR, Console
 log4j.logger.lutece.debug.xmlContent=ERROR, Console
 log4j.logger.lutece.debug.sql=ERROR, Console
@@ -212,7 +212,15 @@ log4j.appender.Console.layout=org.apache.log4j.PatternLayout
 log4j.appender.Console.layout.ConversionPattern=%d{dd/MM/yy HH:mm:ss} %-5p [%t] %c{2} - %m%n
 
 
-
-
-
-
+# Email
+log4j.appender.SendMail=org.apache.log4j.net.SMTPAppender
+log4j.appender.SendMail.SMTPHost=
+#log4j.appender.SendMail.SMTPUsername=
+#log4j.appender.SendMail.SMTPPassword=
+log4j.appender.SendMail.Subject=${sendmail_subject!}
+log4j.appender.SendMail.Threshold=ERROR
+log4j.appender.SendMail.BufferSize=10
+log4j.appender.SendMail.From=noreply@nowhere.org
+log4j.appender.SendMail.To=admin@nowhere.org
+log4j.appender.SendMail.layout=org.apache.log4j.PatternLayout
+log4j.appender.SendMail.layout.ConversionPattern=%d{dd/MM/yy HH:mm:ss} %-5p [%t] %c{2} - %m%n

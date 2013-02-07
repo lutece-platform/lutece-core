@@ -44,6 +44,7 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.fileimage.FileImageService;
 import fr.paris.lutece.portal.service.filter.FilterService;
 import fr.paris.lutece.portal.service.html.XmlTransformerCacheService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.PortalService;
@@ -62,7 +63,9 @@ import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+
 import javax.servlet.ServletContext;
 
 
@@ -74,8 +77,11 @@ public final class AppInit
 {
     private static final String PROPERTY_AUTOINIT = "autoInit";
     private static final String PROPERTY_INIT_WEBAPP_PROD_URL = "init.webapp.prod.url";
+    private static final String PROPERTY_SENDMAIL_SUBJECT = "portal.system.log4j.sendmail.subject";
+    private static final String PROPERTY_SITE_NAME = "lutece.name";
     private static final String MARK_WEBAPP_HOME = "webapp_home";
     private static final String MARK_PROD_URL = "lutece_prod_url";
+    private static final String MARK_SENDMAIL_SUBJECT = "sendmail_subject";
     private static final String MARK_AUTOINIT = "autoinit";
     private static final String PATH_CONFIG = "/WEB-INF/conf/";
     private static final String FILE_PROPERTIES_CONFIG = "config.properties";
@@ -245,7 +251,7 @@ public final class AppInit
      */
     private static void initProperties( String strRealPath )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         Properties p = new Properties(  );
 
         try
@@ -260,6 +266,9 @@ public final class AppInit
 
         if ( p.getProperty( PROPERTY_AUTOINIT ).equals( "true" ) )
         {
+        	Object[] params = { AppPropertiesService.getProperty( PROPERTY_SITE_NAME ) };
+        	String strSendMailSubject = I18nService.getLocalizedString( PROPERTY_SENDMAIL_SUBJECT, params, I18nService.getDefaultLocale( ) );
+        	model.put( MARK_SENDMAIL_SUBJECT, strSendMailSubject );
             model.put( MARK_WEBAPP_HOME, AppPathService.getWebAppPath(  ) );
             model.put( MARK_PROD_URL, p.getProperty( PROPERTY_INIT_WEBAPP_PROD_URL ) );
             model.put( MARK_AUTOINIT, "false" );
