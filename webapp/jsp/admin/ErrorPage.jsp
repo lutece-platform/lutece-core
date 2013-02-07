@@ -64,8 +64,8 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
-                <img class="logo" src="images/logo-header.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />
-                &nbsp;<img src="images/admin/skin/external-link-white.png" alt="External Link" title=" " />
+                &nbsp;<img class="logo" src="images/logo-header.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />
+                
             </a>
             
         </div> <!-- /navbar-inner -->
@@ -105,7 +105,6 @@
 				out.println(cw.toString());
 				%>
 			</pre>
-			
 			<p>
 				<a class="btn btn-danger" href="jsp/site/Portal.jsp">
 					<i class="icon-home icon-white"></i>&nbsp;Accueil du site

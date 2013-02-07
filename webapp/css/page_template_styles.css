@@ -4,6 +4,13 @@
 /* Fix for fixed-nav-bar*/
 body{padding-top:60px;}
 
+/* Digg style */
+.digg-list-content{min-height:120px;}
+.hr-heavy{border:1px dotted #817B72;}
+
+/* wrapper style*/
+iframe{border:none; width:100%;min-height:600px;}
+
 /* Lutece admin style do not remove ! */
 .btn-group-portlet{float:right;margin:5px 0 0 0;padding:4px;background-color:#DEDEDE;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;}
 .btn-group-portlet form{margin-bottom:2px !important; }
