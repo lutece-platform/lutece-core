@@ -40,7 +40,7 @@
 				multiple="multiple" size="10"
 		</#if>
 	>
-		<#if !attribute.mandatory && !isMultiple( attribute.listAttributeFields )>
+		<#if !attribute.mandatory>
 			<option value=""
 				<#if default_values_list?has_content && isEmptyString( default_values_list ) >
 					selected="selected"  
