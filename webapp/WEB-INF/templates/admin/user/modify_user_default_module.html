@@ -34,53 +34,49 @@
 			</div>
 			<div class="span4">
 				<fieldset>
-				<legend>#i18n{portal.users.modify_user.labelComplementaryAttributes} </legend>
-				<p>#i18n{portal.users.create_user.userLevelLabel} :</p>
-				<p><strong>${level.name}</strong></p>
-				 <label for="status">#i18n{portal.users.modify_user.labelStatus} :</label>
-				<select id="status" name="status" tabindex="7">
-					<#if user.status == 0 >
-						<option value="0" selected="selected" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
-						<option value="1" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
-					<#else>
-						<option value="0" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
-						<option value="1" selected="selected" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
-					</#if>
-				</select>
-				<label for="language">#i18n{portal.users.modify_user.labelLanguage} :</label>
-				<@comboSorted name="language" default_value="${current_language}" items=languages_list />
-				<#if attributes_list?has_content>
-					<#list attributes_list as attribute>
-						<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
-							<#assign idAttribute = "" + attribute.idAttribute>
-							${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+					<legend>#i18n{portal.users.modify_user.labelAttributes} </legend>
+					<p>#i18n{portal.users.create_user.userLevelLabel} :</p>
+					<p><strong>${level.name}</strong></p>
+					<label for="status">#i18n{portal.users.modify_user.labelStatus} :</label>
+					<select id="status" name="status" tabindex="7">
+						<#if user.status == 0 >
+							<option value="0" selected="selected" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
+							<option value="1" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
+						<#else>
+							<option value="0" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
+							<option value="1" selected="selected" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
 						</#if>
-					</#list>
-				</#if>
-				<#list attributes_list as attribute>
-					<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
-						<#assign idAttribute = "" + attribute.idAttribute>
-						${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
-						<#break>
-					</#if>
-				</#list>
-				</fieldset>
-			</div>
-			<div class="span5">
-				<fieldset>
-				<legend>#i18n{portal.users.create_user.labelTheme}
-				<button type="submit" class="btn btn-primary btn-small pull-right" tabindex="8">
-					<i class="icon-ok icon-white"></i>&nbsp;<span class="hidden-phone" >#i18n{portal.users.modify_user.buttonLabelModify}</span>
-				</button> 
-				</legend>
-				<div class="control-groups">
-				<label class="label-groups" for="">#i18n{portal.users.create_user.labelAccessibilityMode}</label>
+					</select>
+					<label for="language">#i18n{portal.users.modify_user.labelLanguage} :</label>
+					<@comboSorted name="language" default_value="${current_language}" items=languages_list />
+					<label class="label-groups" for="">#i18n{portal.users.create_user.labelTheme} :</label>
 					<div class="controls">
 						<label class="checkbox" for="accessibility_mode">#i18n{portal.users.create_user.labelAccessibilityMode}
 							<input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" <#if user.accessibilityMode>checked="checked"</#if>	/>
 						</label>
 					</div>
-				</div>
+				</fieldset>
+			</div>
+			<div class="span5">
+				<fieldset>
+					<legend>#i18n{portal.users.modify_user.labelComplementaryAttributes}</legend>
+					<div class="control-groups">
+						<#if attributes_list?has_content>
+							<#list attributes_list as attribute>
+								<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+									<#assign idAttribute = "" + attribute.idAttribute>
+									${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+								</#if>
+							</#list>
+						</#if>
+						<#list attributes_list as attribute>
+							<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
+								<#assign idAttribute = "" + attribute.idAttribute>
+								${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+								<#break>
+							</#if>
+						</#list>
+					</div>
 				</fieldset>
 			</div>
 		</div> 
