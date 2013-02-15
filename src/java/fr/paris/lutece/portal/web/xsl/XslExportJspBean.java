@@ -58,23 +58,20 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
-
-import org.xml.sax.InputSource;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+import org.xml.sax.InputSource;
 
 
 /**
@@ -113,7 +110,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
 
     // message
     private static final String MESSAGE_CONFIRM_REMOVE_XSL_EXPORT = "portal.xsl.message.confirm_remove_xsl_export";
-    private static final String MESSAGE_MANDATORY_FIELD = "directory.message.mandatory.field";
+    private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatory.field";
 
     // private static final String MESSAGE_CAN_NOT_REMOVE_XSL_EXPORT = "portal.xsl.message.can_not_remove_xsl_export";
     private static final String FIELD_TITLE = "portal.xsl.create_xsl_export.label_title";
