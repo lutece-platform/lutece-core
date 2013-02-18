@@ -8,10 +8,17 @@
 							<button type="submit" class="btn btn-primary btn-small"><i class="icon-cog icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}</span></button>
 						</form>
 					</span>&nbsp;				
-				</#if>  
+				</#if>
 				&nbsp;
 				<span class="pull-right">
-					<form method="post"  action="${url_user_creation}" class="form-inline">
+					<form method="post"  action="jsp/admin/user/ImportUsersFromFile.jsp" class="form-inline">
+						<button type="submit" class="btn btn-primary btn-small"><i class="icon-plus icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.users.manage_users.buttonLabelImportExportUsers}</span></button>
+					</form>
+				</span>
+				&nbsp;
+				&nbsp;
+				<span class="pull-right">
+					<form method="post"  action="${url_user_creation}" class="form-inline spaced">
 						<button type="submit" class="btn btn-primary btn-small"><i class="icon-plus icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.users.manage_users.buttonLabelAddUser}</span></button>
 					</form>
 				</span>

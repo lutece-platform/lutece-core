@@ -39,13 +39,13 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -53,7 +53,7 @@ import javax.servlet.http.HttpServletRequest;
  *  class EntryTypeRadioButton
  *
  */
-public class AttributeRadioButton extends AbstractAttribute
+public class AttributeRadioButton extends AbstractAttribute implements ISimpleValuesAttributes
 {
     // Constants
     private static final String CONSTANT_UNDERSCORE = "_";
@@ -200,28 +200,40 @@ public class AttributeRadioButton extends AbstractAttribute
      */
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
-        String strValue = request.getParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
+        String[] strValues = request.getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
+        return getUserFieldsData( strValues, user );
+    }
+
+    public List<AdminUserField> getUserFieldsData( String[] strValues, AdminUser user )
+    {
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
-        AdminUserField userField = new AdminUserField(  );
-        AttributeField attributeField;
-
-        if ( StringUtils.isNotBlank( strValue ) && StringUtils.isNumeric( strValue ) )
+        if ( strValues != null )
         {
-            int nIdField = Integer.parseInt( strValue );
-            attributeField = AttributeFieldService.getInstance(  ).getAttributeField( nIdField );
-
-            if ( attributeField != null )
+            for ( String strValue : strValues )
             {
-                userField.setUser( user );
-                userField.setAttribute( this );
-                userField.setAttributeField( attributeField );
-                userField.setValue( attributeField.getTitle(  ) );
-                listUserFields.add( userField );
+                AdminUserField userField = new AdminUserField( );
+                AttributeField attributeField;
+
+                if ( StringUtils.isNotBlank( strValue ) && StringUtils.isNumeric( strValue ) )
+                {
+                    int nIdField = Integer.parseInt( strValue );
+                    attributeField = AttributeFieldService.getInstance( ).getAttributeField( nIdField );
+
+                    if ( attributeField != null )
+                    {
+                        userField.setUser( user );
+                        userField.setAttribute( this );
+                        userField.setAttributeField( attributeField );
+                        userField.setValue( attributeField.getTitle( ) );
+                        listUserFields.add( userField );
+                    }
+                }
             }
         }
 
         return listUserFields;
     }
+
 
     /**
      * Get whether the attribute is anonymizable.

@@ -39,13 +39,13 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -53,7 +53,7 @@ import javax.servlet.http.HttpServletRequest;
  * AttributeComboBox
  *
  */
-public class AttributeCheckBox extends AbstractAttribute
+public class AttributeCheckBox extends AbstractAttribute implements ISimpleValuesAttributes
 {
     // Constants
     private static final String CONSTANT_UNDERSCORE = "_";
@@ -200,12 +200,23 @@ public class AttributeCheckBox extends AbstractAttribute
      */
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
-        String[] values = request.getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
+        String[] strValues = request.getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
+        return getUserFieldsData( strValues, user );
+    }
+
+    /**
+     * Get the data of the user fields
+     * @param strValues Values
+     * @param user user
+     * @return user field data
+     */
+    public List<AdminUserField> getUserFieldsData( String[] strValues, AdminUser user )
+    {
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
 
-        if ( values != null )
+        if ( strValues != null )
         {
-            for ( String strValue : values )
+            for ( String strValue : strValues )
             {
                 AdminUserField userField = new AdminUserField(  );
                 AttributeField attributeField;

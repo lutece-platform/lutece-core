@@ -50,6 +50,9 @@ import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.admin.ImportAdminUserService;
+import fr.paris.lutece.portal.service.csv.CSVMessageDescriptor;
+import fr.paris.lutece.portal.service.fileupload.FileUploadService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -67,10 +70,13 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.pluginaction.DefaultPluginActionResult;
+import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.date.DateUtil;
+import fr.paris.lutece.util.filesystem.FileSystemUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.ItemNavigator;
 import fr.paris.lutece.util.html.Paginator;
@@ -89,6 +95,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -97,6 +104,8 @@ import org.apache.commons.lang.StringUtils;
  */
 public class AdminUserJspBean extends AdminFeaturesPageJspBean
 {
+    private static final String ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES = "importUsersListMessages";
+
     // //////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String CONSTANTE_UN = "1";
@@ -125,6 +134,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD = "admin/admin_email_forgot_password.html";
     private static final String TEMPLATE_FIELD_ANONYMIZE_ADMIN_USER = "admin/user/field_anonymize_admin_user.html";
     private static final String TEMPLATE_ACCOUNT_LIFE_TIME_EMAIL = "admin/user/account_life_time_email.html";
+    private static final String TEMPLATE_IMPORT_USERS_FROM_FILE = "admin/user/import_users_from_file.html";
+    private static final String TEMPLATE_EXPORT_USERS_FROM_FILE = "admin/user/export_users.html";
 
     // Messages
     private static final String PROPERTY_MANAGE_USERS_PAGETITLE = "portal.users.manage_users.pageTitle";
@@ -135,6 +146,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MODIFY_USER_RIGHTS_PAGETITLE = "portal.users.modify_user_rights.pageTitle";
     private static final String PROPERTY_MANAGE_USER_ROLES_PAGETITLE = "portal.users.manage_user_roles.pageTitle";
     private static final String PROPERTY_MODIFY_USER_ROLES_PAGETITLE = "portal.users.modify_user_roles.pageTitle";
+    private static final String PROPERTY_IMPORT_USERS_FROM_FILE_PAGETITLE = "portal.users.import_users_from_file.pageTitle";
+    private static final String PROPERTY_EXPORT_USERS_PAGETITLE = "portal.users.export_users.pageTitle";
     private static final String PROPERTY_MESSAGE_CONFIRM_REMOVE = "portal.users.message.confirmRemoveUser";
     private static final String PROPERTY_USERS_PER_PAGE = "paginator.user.itemsPerPage";
     private static final String PROPERTY_DELEGATE_USER_RIGHTS_PAGETITLE = "portal.users.delegate_user_rights.pageTitle";
@@ -164,6 +177,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_NOTIFY_PASSWORD_EXPIRED = "portal.users.accountLifeTime.labelPasswordExpired";
 
     private static final String MESSAGE_NOT_AUTHORIZED = "Action not permited to current user";
+    private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryField";
+    private static final String MESSAGE_ERROR_CSV_FILE_IMPORT = "portal.users.import_users_from_file.error_csv_file_import";
+
+    private static final String FIELD_IMPORT_USERS_FILE = "portal.users.import_users_from_file.labelImportFile";
 
     // Properties
     private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
@@ -228,6 +245,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_PASSWORD_EXPIRED_MAIL_SENDER = "password_expired_mail_sender";
     private static final String PARAMETER_PASSWORD_EXPIRED_MAIL_SUBJECT = "password_expired_mail_subject";
     private static final String PARAMETER_NOTIFY_PASSWORD_EXPIRED = "core_password_expired";
+    private static final String PARAMETER_IMPORT_USERS_FILE = "import_file";
+    private static final String PARAMETER_SKIP_FIRST_LINE = "ignore_first_line";
 
     // Jsp url
     private static final String JSP_MANAGE_USER_RIGHTS = "ManageUserRights.jsp";
@@ -296,11 +315,21 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_EMAIL_LABEL = "emailLabel";
     private static final String MARK_WEBAPP_URL = "webapp_url";
     private static final String MARK_SITE_LINK = "site_link";
+    private static final String MARK_LIST_MESSAGES = "messages";
+    private static final String MARK_CSV_SEPARATOR = "csv_separator";
+    private static final String MARK_CSV_ESCAPE = "csv_escape";
+    private static final String MARK_ATTRIBUTES_SEPARATOR = "attributes_separator";
+
     private static final String CONSTANT_EMAIL_TYPE_FIRST = "first";
     private static final String CONSTANT_EMAIL_TYPE_OTHER = "other";
     private static final String CONSTANT_EMAIL_TYPE_EXPIRED = "expired";
     private static final String CONSTANT_EMAIL_TYPE_REACTIVATED = "reactivated";
     private static final String CONSTANT_EMAIL_PASSWORD_EXPIRED = "password_expired";
+    private static final String CONSTANT_EXTENSION_CSV_FILE = ".csv";
+    private static final String CONSTANT_MIME_TYPE_CSV = "application/csv";
+    private static final String CONSTANT_MIME_TYPE_TEXT_CSV = "text/csv";
+    private static final String CONSTANT_MIME_TYPE_OCTETSTREAM = "application/octet-stream";
+
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -943,6 +972,80 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         return JSP_MANAGE_USER;
+    }
+
+    public String getImportUsersFromFile( HttpServletRequest request )
+    {
+        setPageTitleProperty( PROPERTY_IMPORT_USERS_FROM_FILE_PAGETITLE );
+        Map<String, Object> model = new HashMap<String, Object>( );
+
+        model.put( MARK_LIST_MESSAGES, request.getAttribute( ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES ) );
+
+        String strCsvSeparator = StringUtils.EMPTY + ImportAdminUserService.getService( ).getCSVSeparator( );
+        String strCsvEscapeCharacter = StringUtils.EMPTY + ImportAdminUserService.getService( ).getCSVEscapeCharacter( );
+        String strAttributesSeparator = StringUtils.EMPTY
+                + ImportAdminUserService.getService( ).getAttributesSeparator( );
+        model.put( MARK_CSV_SEPARATOR, strCsvSeparator );
+        model.put( MARK_CSV_ESCAPE, strCsvEscapeCharacter );
+        model.put( MARK_ATTRIBUTES_SEPARATOR, strAttributesSeparator );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_IMPORT_USERS_FROM_FILE,
+                AdminUserService.getLocale( request ), model );
+        return template.getHtml( );
+    }
+
+    public DefaultPluginActionResult doImportUsersFromFile( HttpServletRequest request )
+    {
+        DefaultPluginActionResult result = new DefaultPluginActionResult( );
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        String strError = StringUtils.EMPTY;
+        FileItem fileItem = multipartRequest.getFile( PARAMETER_IMPORT_USERS_FILE );
+        String strMimeType = FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) );
+
+        if ( ( !strMimeType.equals( CONSTANT_MIME_TYPE_CSV ) && !strMimeType.equals( CONSTANT_MIME_TYPE_OCTETSTREAM ) && !strMimeType
+                .equals( CONSTANT_MIME_TYPE_TEXT_CSV ) )
+                || !fileItem.getName( ).toLowerCase( ).endsWith( CONSTANT_EXTENSION_CSV_FILE ) )
+        {
+            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_CSV_FILE_IMPORT,
+                    AdminMessage.TYPE_STOP ) );
+            return result;
+        }
+
+        if ( !( ( fileItem != null ) && ( fileItem.getName( ) != null ) && !StringUtils.EMPTY.equals( fileItem
+                .getName( ) ) ) )
+        {
+            strError = FIELD_IMPORT_USERS_FILE;
+        }
+
+        // Mandatory fields
+        if ( StringUtils.isNotBlank( strError ) )
+        {
+            Object[] tabRequiredFields = { I18nService.getLocalizedString( strError, getLocale( ) ) };
+            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields,
+                    AdminMessage.TYPE_STOP ) );
+            return result;
+        }
+
+        String strSkipFirstLine = multipartRequest.getParameter( PARAMETER_SKIP_FIRST_LINE );
+        boolean bSkipFirstLine = StringUtils.isNotEmpty( strSkipFirstLine );
+
+        // TODO : add dynamic attributes
+        List<CSVMessageDescriptor> listMessages = ImportAdminUserService.getService( ).readCSVFile( fileItem, 0,
+                false, false, bSkipFirstLine, AdminUserService.getLocale( request ) );
+
+        request.setAttribute( ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES, listMessages );
+        String strHtmlResult = getImportUsersFromFile( request );
+        result.setHtmlContent( strHtmlResult );
+        return result;
+    }
+
+    public String getExportUsers( HttpServletRequest request )
+    {
+        setPageTitleProperty( PROPERTY_EXPORT_USERS_PAGETITLE );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EXPORT_USERS_FROM_FILE,
+                AdminUserService.getLocale( request ), model );
+        return template.getHtml( );
     }
 
     /**

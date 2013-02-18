@@ -37,10 +37,13 @@ public abstract class CSVReaderService
     private static final String MESSAGE_UNKOWN_ERROR = "portal.xsl.message.errorUnknown";
 
     private static final String PROPERTY_DEFAULT_CSV_SEPARATOR = "lutece.csvReader.defaultCSVSeparator";
+    private static final String PROPERTY_DEFAULT_CSV_ESCAPE_CHARACTER = "lutece.csvReader.defaultCSVEscapeCharacter";
 
     private static final String CONSTANT_DEFAULT_CSV_SEPARATOR = ";";
+    private static final String CONSTANT_DEFAULT_CSV_ESCAPE_CHARACTER = "\"";
 
     private Character _strCSVSeparator;
+    private Character _strCSVEscapeCharacter;
 
     /**
      * Read a line of the CSV file.
@@ -92,6 +95,17 @@ public abstract class CSVReaderService
     }
 
     /**
+     * Get the default CSV escape character to use. If the property of the
+     * default escape character to use is not set, then the comma is returned.
+     * @return the default CSV escape character to use
+     */
+    public static Character getDefaultCSVEscapeCharacter( )
+    {
+        return AppPropertiesService.getProperty( PROPERTY_DEFAULT_CSV_ESCAPE_CHARACTER,
+                CONSTANT_DEFAULT_CSV_ESCAPE_CHARACTER ).charAt( 0 );
+    }
+
+    /**
      * Read a CSV file and call the method {@link #readLineOfCSVFile(String[])
      * readLineOfCSVFile} for each of its lines.
      * @param fileItem FileItem to get the CSV file from. If the creation of the
@@ -130,7 +144,7 @@ public abstract class CSVReaderService
             }
             if ( inputStreamReader != null )
             {
-                CSVReader csvReader = new CSVReader( inputStreamReader, getCSVSeparator( ) );
+                CSVReader csvReader = new CSVReader( inputStreamReader, getCSVSeparator( ), getCSVEscapeCharacter( ) );
                 return readCSVFile( csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine,
                         locale );
             }
@@ -170,7 +184,7 @@ public abstract class CSVReaderService
         try
         {
             FileReader fileReader = new FileReader( file );
-            CSVReader csvReader = new CSVReader( fileReader, getCSVSeparator( ) );
+            CSVReader csvReader = new CSVReader( fileReader, getCSVSeparator( ), getCSVEscapeCharacter( ) );
             return readCSVFile( csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine,
                     locale );
         }
@@ -254,7 +268,7 @@ public abstract class CSVReaderService
             {
                 InputStream inputStream = new ByteArrayInputStream( physicalFile.getValue( ) );
                 InputStreamReader inputStreamReader = new InputStreamReader( inputStream );
-                CSVReader csvReader = new CSVReader( inputStreamReader, getCSVSeparator( ) );
+                CSVReader csvReader = new CSVReader( inputStreamReader, getCSVSeparator( ), getCSVEscapeCharacter( ) );
                 return readCSVFile( csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine,
                         locale );
             }
@@ -593,6 +607,30 @@ public abstract class CSVReaderService
     public void setCSVSeparator( Character strCSVSeparator )
     {
         this._strCSVSeparator = strCSVSeparator;
+    }
+
+    /**
+     * Get the escape character used for CSV files. If no escape character has
+     * been set, then the default CSV escape character is used.
+     * @return the escape character used for CSV files, of the default one if
+     *         non has been set.
+     */
+    public Character getCSVEscapeCharacter( )
+    {
+        if ( this._strCSVEscapeCharacter == null )
+        {
+            this._strCSVEscapeCharacter = getDefaultCSVEscapeCharacter( );
+        }
+        return _strCSVEscapeCharacter;
+    }
+
+    /**
+     * Set the escape character to use for CSV files.
+     * @param strCSVEscapeCharacter The escape character to use for CSV files.
+     */
+    public void setCSVEscapeCharacter( Character strCSVEscapeCharacter )
+    {
+        this._strCSVEscapeCharacter = strCSVEscapeCharacter;
     }
 
     /**

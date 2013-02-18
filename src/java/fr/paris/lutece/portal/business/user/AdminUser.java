@@ -39,13 +39,13 @@ import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
 import fr.paris.lutece.portal.business.user.parameter.EmailPatternRegularExpressionRemovalListener;
 import fr.paris.lutece.portal.service.regularexpression.RegularExpressionRemovalListenerService;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
