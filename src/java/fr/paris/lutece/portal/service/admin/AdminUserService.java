@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
+import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
+import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserFilter;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
@@ -46,6 +48,7 @@ import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameter;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
+import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mail.MailService;
@@ -57,16 +60,17 @@ import fr.paris.lutece.portal.service.regularexpression.RegularExpressionService
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.template.DatabaseTemplateService;
 import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
+import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.CryptoService;
+import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringUtils;
+import fr.paris.lutece.util.xml.XmlUtil;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -81,6 +85,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -179,6 +185,29 @@ public final class AdminUserService
     private static final String ZERO = "0";
     private static final String CONSTANT_AT = "@";
     private static final String CONSTANT_UNDERSCORE = "_";
+    private static final String CONSTANT_XML_USER = "user";
+    private static final String CONSTANT_XML_ACCESS_CODE = "access_code";
+    private static final String CONSTANT_XML_LAST_NAME = "last_name";
+    private static final String CONSTANT_XML_FIRST_NAME = "first_name";
+    private static final String CONSTANT_XML_EMAIL = "email";
+    private static final String CONSTANT_XML_STATUS = "status";
+    private static final String CONSTANT_XML_LOCALE = "locale";
+    private static final String CONSTANT_XML_LEVEL = "level";
+    private static final String CONSTANT_XML_MUST_CHANGE_PASSWORD = "must_change_password";
+    private static final String CONSTANT_XML_ACCESSIBILITY_MODE = "accessibility_mode";
+    private static final String CONSTANT_XML_PASSWORD_MAX_VALID_DATE = "password_max_valid_date";
+    private static final String CONSTANT_XML_ACCOUNT_MAX_VALID_DATE = "account_max_valid_date";
+    private static final String CONSTANT_XML_DATE_LAST_LOGIN = "date_last_login";
+    private static final String CONSTANT_XML_ROLES = "roles";
+    private static final String CONSTANT_XML_RIGHTS = "rights";
+    private static final String CONSTANT_XML_WORKGROUPS = "workgroups";
+    private static final String CONSTANT_XML_ROLE = "role";
+    private static final String CONSTANT_XML_RIGHT = "right";
+    private static final String CONSTANT_XML_WORKGROUP = "workgroup";
+    private static final String CONSTANT_XML_ATTRIBUTES = "attributes";
+    private static final String CONSTANT_XML_ATTRIBUTE = "attribute";
+    private static final String CONSTANT_XML_ATTRIBUTE_ID = "attribute-id";
+    private static final String CONSTANT_XML_ATTRIBUTE_VALUE = "attribute-value";
 
     /** Private constructor */
     private AdminUserService(  )
@@ -1245,5 +1274,101 @@ public final class AdminUserService
     public static void updateDateLastLogin( int nIdUser )
     {
         AdminUserHome.updateDateLastLogin( nIdUser, new Timestamp( new Date(  ).getTime(  ) ) );
+    }
+
+    public static String getXmlFromUser( AdminUser user, boolean bIncludeRoles, boolean bIncludeRights,
+            boolean bIncludeWorkgroups, boolean bIncludeAttributes, List<IAttribute> listAttributes )
+    {
+        StringBuffer sbXml = new StringBuffer( );
+
+        XmlUtil.beginElement( sbXml, CONSTANT_XML_USER );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_ACCESS_CODE, user.getAccessCode( ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_LAST_NAME, user.getLastName( ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_FIRST_NAME, user.getFirstName( ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_EMAIL, user.getEmail( ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_STATUS, Integer.toString( user.getRealStatus( ) ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_LOCALE, user.getLocale( ).toString( ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_LEVEL, Integer.toString( user.getUserLevel( ) ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_MUST_CHANGE_PASSWORD, Boolean.toString( user.isPasswordReset( ) ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_ACCESSIBILITY_MODE, Boolean.toString( user.getAccessibilityMode( ) ) );
+
+        String strPasswordMaxValidDate = StringUtils.EMPTY;
+        if ( user.getPasswordMaxValidDate( ) != null )
+        {
+            strPasswordMaxValidDate = Long.toString( user.getPasswordMaxValidDate( ).getTime( ) );
+        }
+        XmlUtil.addElement( sbXml, CONSTANT_XML_PASSWORD_MAX_VALID_DATE, strPasswordMaxValidDate );
+
+        String strAccountMaxValidDate = StringUtils.EMPTY;
+        if ( user.getAccountMaxValidDate( ) != null )
+        {
+            strAccountMaxValidDate = Long.toString( user.getAccountMaxValidDate( ).getTime( ) );
+        }
+        XmlUtil.addElement( sbXml, CONSTANT_XML_ACCOUNT_MAX_VALID_DATE, strAccountMaxValidDate );
+
+        String strDateLastLogin = StringUtils.EMPTY;
+        if ( user.getDateLastLogin( ) != null )
+        {
+            strDateLastLogin = Long.toString( user.getDateLastLogin( ).getTime( ) );
+        }
+        XmlUtil.addElement( sbXml, CONSTANT_XML_DATE_LAST_LOGIN, strDateLastLogin );
+
+        if ( bIncludeRoles )
+        {
+            Map<String, AdminRole> mapRoles = AdminUserHome.getRolesListForUser( user.getUserId( ) );
+            XmlUtil.beginElement( sbXml, CONSTANT_XML_ROLES );
+            for ( String strRole : mapRoles.keySet( ) )
+            {
+                XmlUtil.addElement( sbXml, CONSTANT_XML_ROLE, strRole );
+            }
+            XmlUtil.endElement( sbXml, CONSTANT_XML_ROLES );
+        }
+        if ( bIncludeRights )
+        {
+            XmlUtil.beginElement( sbXml, CONSTANT_XML_RIGHTS );
+            Map<String, Right> mapRights = AdminUserHome.getRightsListForUser( user.getUserId( ) );
+            for ( String strRight : mapRights.keySet( ) )
+            {
+                XmlUtil.addElement( sbXml, CONSTANT_XML_RIGHT, strRight );
+            }
+            XmlUtil.endElement( sbXml, CONSTANT_XML_RIGHTS );
+        }
+        if ( bIncludeWorkgroups )
+        {
+            XmlUtil.beginElement( sbXml, CONSTANT_XML_WORKGROUPS );
+            ReferenceList refListWorkgroups = AdminWorkgroupHome.getUserWorkgroups( user );
+            for ( ReferenceItem refItem : refListWorkgroups )
+            {
+                XmlUtil.addElement( sbXml, CONSTANT_XML_WORKGROUP, refItem.getCode( ) );
+            }
+            XmlUtil.endElement( sbXml, CONSTANT_XML_WORKGROUPS );
+
+        }
+
+        if ( bIncludeAttributes )
+        {
+            Map<String, Object> mapAttributes = AdminUserFieldService.getAdminUserFields( listAttributes,
+                    user.getUserId( ), Locale.getDefault( ) );
+            XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTES );
+            for ( String strAttributeKey : mapAttributes.keySet( ) )
+            {
+                Object value = mapAttributes.get( strAttributeKey );
+                if ( value instanceof List<?> )
+                {
+                    List<AdminUserField> listFields = (List<AdminUserField>) value;
+                    for ( AdminUserField adminUserFields : listFields )
+                    {
+                        XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTE );
+                        XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_ID, strAttributeKey );
+                        XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_VALUE, adminUserFields.getValue( ) );
+                        XmlUtil.endElement( sbXml, CONSTANT_XML_ATTRIBUTE );
+                    }
+                }
+            }
+            XmlUtil.endElement( sbXml, CONSTANT_XML_ATTRIBUTES );
+        }
+
+        XmlUtil.endElement( sbXml, CONSTANT_XML_USER );
+        return sbXml.toString( );
     }
 }

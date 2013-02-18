@@ -43,10 +43,13 @@ import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
+import fr.paris.lutece.portal.business.user.attribute.ISimpleValuesAttributes;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameter;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
+import fr.paris.lutece.portal.business.xsl.XslExport;
+import fr.paris.lutece.portal.business.xsl.XslExportHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -67,6 +70,7 @@ import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.xsl.XslExportService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -82,8 +86,12 @@ import fr.paris.lutece.util.html.ItemNavigator;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
+import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
+import fr.paris.lutece.util.xml.XmlUtil;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -94,6 +102,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
@@ -247,6 +256,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_NOTIFY_PASSWORD_EXPIRED = "core_password_expired";
     private static final String PARAMETER_IMPORT_USERS_FILE = "import_file";
     private static final String PARAMETER_SKIP_FIRST_LINE = "ignore_first_line";
+    private static final String PARAMETER_XSL_EXPORT_ID = "xsl_export_id";
+    private static final String PARAMETER_EXPORT_ROLES = "export_roles";
+    private static final String PARAMETER_EXPORT_RIGHTS = "export_rights";
+    private static final String PARAMETER_EXPORT_WORKGROUPS = "export_workgroups";
 
     // Jsp url
     private static final String JSP_MANAGE_USER_RIGHTS = "ManageUserRights.jsp";
@@ -319,6 +332,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_CSV_SEPARATOR = "csv_separator";
     private static final String MARK_CSV_ESCAPE = "csv_escape";
     private static final String MARK_ATTRIBUTES_SEPARATOR = "attributes_separator";
+    private static final String MARK_LIST_XSL_EXPORT = "refListXsl";
 
     private static final String CONSTANT_EMAIL_TYPE_FIRST = "first";
     private static final String CONSTANT_EMAIL_TYPE_OTHER = "other";
@@ -326,9 +340,17 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String CONSTANT_EMAIL_TYPE_REACTIVATED = "reactivated";
     private static final String CONSTANT_EMAIL_PASSWORD_EXPIRED = "password_expired";
     private static final String CONSTANT_EXTENSION_CSV_FILE = ".csv";
+    private static final String CONSTANT_EXTENSION_XML_FILE = ".xml";
     private static final String CONSTANT_MIME_TYPE_CSV = "application/csv";
+    private static final String CONSTANT_MIME_TYPE_XML = "application/xml";
     private static final String CONSTANT_MIME_TYPE_TEXT_CSV = "text/csv";
     private static final String CONSTANT_MIME_TYPE_OCTETSTREAM = "application/octet-stream";
+    private static final String CONSTANT_EXPORT_USERS_FILE_NAME = "users";
+    private static final String CONSTANT_POINT = ".";
+    private static final String CONSTANT_QUOTE = "\"";
+    private static final String CONSTANT_ATTACHEMENT_FILE_NAME = "attachement; filename=\"";
+    private static final String CONSTANT_ATTACHEMENT_DISPOSITION = "Content-Disposition";
+    private static final String CONSTANT_XML_USERS = "users";
 
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
@@ -974,6 +996,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         return JSP_MANAGE_USER;
     }
 
+    /**
+     * Get a page to import users from a CSV file.
+     * @param request The request
+     * @return The HTML content
+     */
     public String getImportUsersFromFile( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_IMPORT_USERS_FROM_FILE_PAGETITLE );
@@ -994,6 +1021,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         return template.getHtml( );
     }
 
+    /**
+     * Do import users from a CSV file
+     * @param request The request
+     * @return A DefaultPluginActionResult with the URL of the page to display,
+     *         or the HTML content
+     */
     public DefaultPluginActionResult doImportUsersFromFile( HttpServletRequest request )
     {
         DefaultPluginActionResult result = new DefaultPluginActionResult( );
@@ -1039,13 +1072,93 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         return result;
     }
 
+    /**
+     * Get a page to export users
+     * @param request The request
+     * @return The html content
+     */
     public String getExportUsers( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_EXPORT_USERS_PAGETITLE );
         Map<String, Object> model = new HashMap<String, Object>( );
+
+        ReferenceList refListXsl = XslExportHome.getRefList( );
+
+        model.put( MARK_LIST_XSL_EXPORT, refListXsl );
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EXPORT_USERS_FROM_FILE,
                 AdminUserService.getLocale( request ), model );
         return template.getHtml( );
+    }
+
+    /**
+     * Do export users
+     * @param request
+     * @return
+     */
+    public DefaultPluginActionResult doExportUsers( HttpServletRequest request, HttpServletResponse response )
+            throws IOException
+    {
+        String strXslExportId = request.getParameter( PARAMETER_XSL_EXPORT_ID );
+        String strExportRoles = request.getParameter( PARAMETER_EXPORT_ROLES );
+        String strExportRights = request.getParameter( PARAMETER_EXPORT_RIGHTS );
+        String strExportWorkgroups = request.getParameter( PARAMETER_EXPORT_WORKGROUPS );
+        boolean bExportRoles = StringUtils.isNotEmpty( strExportRoles );
+        boolean bExportRights = StringUtils.isNotEmpty( strExportRights );
+        boolean bExportWorkgroups = StringUtils.isNotEmpty( strExportWorkgroups );
+
+        int nIdXslExport = Integer.parseInt( strXslExportId );
+
+        XslExport xslExport = XslExportHome.findByPrimaryKey( nIdXslExport );
+
+        Collection<AdminUser> listUsers = AdminUserHome.findUserList( );
+
+        List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithFields(
+                Locale.getDefault( ) );
+        List<IAttribute> listAttributesFiltered = new ArrayList<IAttribute>( );
+        for ( IAttribute attribute : listAttributes )
+        {
+            if ( attribute instanceof ISimpleValuesAttributes )
+            {
+                listAttributesFiltered.add( attribute );
+            }
+        }
+
+        StringBuffer sbXml = new StringBuffer( XmlUtil.getXmlHeader( ) );
+        XmlUtil.beginElement( sbXml, CONSTANT_XML_USERS );
+        for ( AdminUser user : listUsers )
+        {
+            if ( !user.isStatusAnonymized( ) )
+            {
+                sbXml.append( AdminUserService.getXmlFromUser( user, bExportRoles, bExportRights, bExportWorkgroups,
+                        true, listAttributesFiltered ) );
+            }
+        }
+        XmlUtil.endElement( sbXml, CONSTANT_XML_USERS );
+
+        String strXml = StringUtil.replaceAccent( sbXml.toString( ) );
+        String strExportedUsers = XslExportService.exportXMLWithXSL( nIdXslExport, strXml );
+
+        if ( CONSTANT_MIME_TYPE_CSV.contains( xslExport.getExtension( ) ) )
+        {
+            response.setContentType( CONSTANT_MIME_TYPE_CSV );
+        }
+        else if ( CONSTANT_EXTENSION_XML_FILE.contains( xslExport.getExtension( ) ) )
+        {
+            response.setContentType( CONSTANT_MIME_TYPE_XML );
+        }
+        else
+        {
+            response.setContentType( CONSTANT_MIME_TYPE_OCTETSTREAM );
+        }
+        String strFileName = CONSTANT_EXPORT_USERS_FILE_NAME + CONSTANT_POINT + xslExport.getExtension( );
+        response.setHeader( CONSTANT_ATTACHEMENT_DISPOSITION, CONSTANT_ATTACHEMENT_FILE_NAME + strFileName
+                + CONSTANT_QUOTE );
+        PrintWriter out = response.getWriter( );
+        out.write( strExportedUsers );
+        out.flush( );
+        out.close( );
+        return null;
     }
 
     /**

@@ -63,8 +63,6 @@ public class ImportAdminUserService extends CSVReaderService
     @Override
     protected List<CSVMessageDescriptor> readLineOfCSVFile( String[] strLineDataArray, int nLineNumber, Locale locale )
     {
-        // TODO Auto-generated method stub
-
         List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
         int nIndex = 0;
         String strAccessCode = strLineDataArray[nIndex++];
@@ -116,7 +114,7 @@ public class ImportAdminUserService extends CSVReaderService
         Timestamp dateLastLogin = new Timestamp( AdminUser.DEFAULT_DATE_LAST_LOGIN.getTime( ) );
         if ( StringUtils.isNotBlank( strDateLastLogin ) )
         {
-            int nLastLoginTime = Integer.parseInt( strDateLastLogin );
+            long nLastLoginTime = Long.parseLong( strDateLastLogin );
             if ( nLastLoginTime > 0 )
             {
                 dateLastLogin = new Timestamp( nLastLoginTime );

@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUse
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -60,7 +59,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String CONSTANT_PERCENT = "%";
     private static final String SQL_QUERY_NEWPK = "SELECT max( id_user ) FROM core_admin_user ";
     private static final String SQL_QUERY_INSERT = "INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, locale, level_user, accessibility_mode, password_max_valid_date, account_max_valid_date )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user, accessibility_mode FROM core_admin_user ORDER BY last_name ";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user, accessibility_mode, reset_password, password_max_valid_date, account_max_valid_date, last_login FROM core_admin_user ORDER BY last_name ";
     private static final String SQL_QUERY_SELECT_USER_FROM_USER_ID = "SELECT id_user , access_code, last_name , first_name, email, status, password, locale, level_user, reset_password, accessibility_mode, password_max_valid_date, account_max_valid_date FROM core_admin_user  WHERE id_user = ? ORDER BY last_name";
     private static final String SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE = "SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, reset_password, accessibility_mode, password_max_valid_date, last_login FROM core_admin_user  WHERE access_code = ? ";
     private static final String SQL_QUERY_SELECT_USER_FROM_EMAIL = "SELECT access_code FROM core_admin_user  WHERE email = ? ";
@@ -238,6 +237,14 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
             user.setUserLevel( daoUtil.getInt( 8 ) );
             user.setAccessibilityMode( daoUtil.getBoolean( 9 ) );
+            user.setPasswordReset( daoUtil.getBoolean( 10 ) );
+            user.setPasswordMaxValidDate( daoUtil.getTimestamp( 11 ) );
+            long accountTime = daoUtil.getLong( 12 );
+            if ( accountTime > 0 )
+            {
+                user.setAccountMaxValidDate( new Timestamp( accountTime ) );
+            }
+            user.setDateLastLogin( daoUtil.getTimestamp( 13 ) );
             userList.add( user );
         }
 
