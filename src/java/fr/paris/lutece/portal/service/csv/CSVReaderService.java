@@ -27,7 +27,8 @@ import au.com.bytecode.opencsv.CSVReader;
 /**
  * Service to get data from a CSV file. The CSV might be a physical file, or a
  * memory file.
- * Implementations can either be statefull or stateless.
+ * Implementations can either be statefull or stateless, but if the separator or
+ * the escape character are controlled by the user, then it has to be statefull.
  */
 public abstract class CSVReaderService
 {

@@ -1358,10 +1358,13 @@ public final class AdminUserService
                     List<AdminUserField> listFields = (List<AdminUserField>) value;
                     for ( AdminUserField adminUserFields : listFields )
                     {
-                        XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTE );
-                        XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_ID, strAttributeKey );
-                        XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_VALUE, adminUserFields.getValue( ) );
-                        XmlUtil.endElement( sbXml, CONSTANT_XML_ATTRIBUTE );
+                        if ( adminUserFields.getIdUserField( ) > 0 )
+                        {
+                            XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTE );
+                            XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_ID, strAttributeKey );
+                            XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_VALUE, adminUserFields.getValue( ) );
+                            XmlUtil.endElement( sbXml, CONSTANT_XML_ATTRIBUTE );
+                        }
                     }
                 }
             }

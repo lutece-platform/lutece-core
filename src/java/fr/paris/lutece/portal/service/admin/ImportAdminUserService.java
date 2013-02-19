@@ -3,6 +3,7 @@ package fr.paris.lutece.portal.service.admin;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
+import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldFilter;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.business.user.attribute.ISimpleValuesAttributes;
@@ -45,17 +46,12 @@ public class ImportAdminUserService extends CSVReaderService
     private static final String CONSTANT_RIGHT = "right";
     private static final String CONSTANT_ROLE = "role";
     private static final String CONSTANT_WORKGROUP = "workgroup";
-
-    private static ImportAdminUserService _instance = new ImportAdminUserService( );
+    private static final int CONSTANT_MINIMUM_COLUMNS_PER_LINE = 12;
 
     private static final AttributeService _attributeService = AttributeService.getInstance( );
 
     private Character _strAttributesSeparator;
-
-    public static ImportAdminUserService getService( )
-    {
-        return _instance;
-    }
+    private boolean _bUpdateExistingUsers = false;
 
     /**
      * {@inheritDoc}
@@ -65,10 +61,29 @@ public class ImportAdminUserService extends CSVReaderService
     {
         List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
         int nIndex = 0;
+
         String strAccessCode = strLineDataArray[nIndex++];
         String strLastName = strLineDataArray[nIndex++];
         String strFirstName = strLineDataArray[nIndex++];
         String strEmail = strLineDataArray[nIndex++];
+
+        boolean bUpdateUser = getUpdateExistingUsers( );
+        int nUserId = 0;
+        if ( bUpdateUser )
+        {
+            int nAccessCodeUserId = AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode );
+            int nEmailUserId = AdminUserHome.checkEmailAlreadyInUse( strEmail );
+            if ( nAccessCodeUserId > 0 )
+            {
+                nUserId = nAccessCodeUserId;
+            }
+            else if ( nEmailUserId > 0 )
+            {
+                nUserId = nEmailUserId;
+            }
+            bUpdateUser = nUserId > 0;
+        }
+
         String strStatus = strLineDataArray[nIndex++];
         int nStatus = 0;
         if ( StringUtils.isNotEmpty( strStatus ) )
@@ -97,17 +112,17 @@ public class ImportAdminUserService extends CSVReaderService
             listMessages.add( message );
         }
         // We ignore the rest password attribute because we set it to true anyway.
-        // String strResetPassword = strLineDataArray[7];
+        // String strResetPassword = strLineDataArray[nIndex++];
         nIndex++;
         boolean bResetPassword = true;
         String strAccessibilityMode = strLineDataArray[nIndex++];
         boolean bAccessibilityMode = Boolean.parseBoolean( strAccessibilityMode );
         // We ignore the password max valid date attribute because we changed the password.
-        // String strPasswordMaxValidDate = strLineDataArray[9];
+        // String strPasswordMaxValidDate = strLineDataArray[nIndex++];
         nIndex++;
         Timestamp passwordMaxValidDate = null;
         // We ignore the account max valid date attribute
-        // String strAccountMaxValidDate = strLineDataArray[10];
+        // String strAccountMaxValidDate = strLineDataArray[nIndex++];
         nIndex++;
         Timestamp accountMaxValidDate = AdminUserService.getAccountMaxValidDate( );
         String strDateLastLogin = strLineDataArray[nIndex++];
@@ -121,43 +136,54 @@ public class ImportAdminUserService extends CSVReaderService
             }
         }
         AdminUser user = null;
-        if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
+        if ( bUpdateUser )
         {
-            user = new LuteceDefaultAdminUser( );
-            String strPassword = PasswordUtil.makePassword( );
-            strPassword = AdminUserService.encryptPassword( strPassword );
-            user.setAccessCode( strAccessCode );
-            user.setLastName( strLastName );
-            user.setFirstName( strFirstName );
-            user.setEmail( strEmail );
-            user.setStatus( nStatus );
-            user.setUserLevel( nLevelUser );
-            user.setLocale( new Locale( strLocale ) );
-            user.setPasswordReset( bResetPassword );
-            user.setPasswordMaxValidDate( passwordMaxValidDate );
-            user.setAccountMaxValidDate( accountMaxValidDate );
-            user.setAccessibilityMode( bAccessibilityMode );
-            user.setDateLastLogin( dateLastLogin );
-            ( (LuteceDefaultAdminUser) user ).setPassword( strPassword );
-            AdminUserHome.create( user );
+            user = AdminUserHome.findByPrimaryKey( nUserId );
         }
         else
         {
-            user = new AdminUser( );
-            user.setAccessCode( strAccessCode );
-            user.setLastName( strLastName );
-            user.setFirstName( strFirstName );
-            user.setEmail( strEmail );
-            user.setStatus( nStatus );
-            user.setUserLevel( nLevelUser );
-            user.setLocale( new Locale( strLocale ) );
+            user = new LuteceDefaultAdminUser( );
+        }
+        user.setAccessCode( strAccessCode );
+        user.setLastName( strLastName );
+        user.setFirstName( strFirstName );
+        user.setEmail( strEmail );
+        user.setStatus( nStatus );
+        user.setUserLevel( nLevelUser );
+        user.setLocale( new Locale( strLocale ) );
+        user.setAccessibilityMode( bAccessibilityMode );
+
+        if ( bUpdateUser )
+        {
+            user.setUserId( nUserId );
+            AdminUserHome.update( user );
+            // We update the user
+            AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
+            auFieldFilter.setIdUser( user.getUserId( ) );
+            AdminUserFieldHome.removeByFilter( auFieldFilter );
+        }
+        else
+        {
+            // We create the user
             user.setPasswordReset( bResetPassword );
             user.setPasswordMaxValidDate( passwordMaxValidDate );
             user.setAccountMaxValidDate( accountMaxValidDate );
-            user.setAccessibilityMode( bAccessibilityMode );
             user.setDateLastLogin( dateLastLogin );
-            AdminUserHome.create( user );
+            if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
+            {
+                LuteceDefaultAdminUser defaultAdminUser = (LuteceDefaultAdminUser) user;
+                String strPassword = PasswordUtil.makePassword( );
+                strPassword = AdminUserService.encryptPassword( strPassword );
+                defaultAdminUser.setPassword( strPassword );
+                AdminUserHome.create( defaultAdminUser );
+            }
+            else
+            {
+                AdminUserHome.create( user );
+            }
         }
+        AdminUserHome.removeAllRightsForUser( user.getUserId( ) );
+        AdminUserHome.removeAllRolesForUser( user.getUserId( ) );
 
         List<IAttribute> listAttributes = _attributeService.getCoreAttributesWithoutFields( locale );
         Map<Integer, List<String>> mapAttributesValues = new HashMap<Integer, List<String>>( );
@@ -256,7 +282,7 @@ public class ImportAdminUserService extends CSVReaderService
     @Override
     protected List<CSVMessageDescriptor> checkLineOfCSVFile( String[] strLineDataArray, int nLineNumber, Locale locale )
     {
-        int nMinColumnNumber = 12;
+        int nMinColumnNumber = CONSTANT_MINIMUM_COLUMNS_PER_LINE;
         List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
         if ( strLineDataArray == null || strLineDataArray.length < nMinColumnNumber )
         {
@@ -266,21 +292,25 @@ public class ImportAdminUserService extends CSVReaderService
             listMessages.add( error );
             return listMessages;
         }
-        String strAccessCode = strLineDataArray[0];
-        String strEmail = strLineDataArray[3];
-        if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) > 0 )
+        if ( !getUpdateExistingUsers( ) )
         {
-            String strMessage = I18nService.getLocalizedString( MESSAGE_ACCESS_CODE_ALREADY_USED, locale );
-            CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, strMessage );
-            listMessages.add( error );
-        }
-        else
-        {
-            if ( AdminUserHome.checkEmailAlreadyInUse( strEmail ) > 0 )
+            String strAccessCode = strLineDataArray[0];
+            String strEmail = strLineDataArray[3];
+            if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) > 0 )
             {
-                String strMessage = I18nService.getLocalizedString( MESSAGE_EMAIL_ALREADY_USED, locale );
+                String strMessage = I18nService.getLocalizedString( MESSAGE_ACCESS_CODE_ALREADY_USED, locale );
                 CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, strMessage );
                 listMessages.add( error );
+            }
+            else
+            {
+                if ( AdminUserHome.checkEmailAlreadyInUse( strEmail ) > 0 )
+                {
+                    String strMessage = I18nService.getLocalizedString( MESSAGE_EMAIL_ALREADY_USED, locale );
+                    CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber,
+                            strMessage );
+                    listMessages.add( error );
+                }
             }
         }
 
@@ -314,6 +344,26 @@ public class ImportAdminUserService extends CSVReaderService
                     CONSTANT_DEFAULT_IMPORT_EXPORT_USER_SEPARATOR ).charAt( 0 );
         }
         return _strAttributesSeparator;
+    }
+
+    /**
+     * Get the update users flag
+     * @return True if existing users should be updated, false if they should be
+     *         ignored.
+     */
+    public boolean getUpdateExistingUsers( )
+    {
+        return _bUpdateExistingUsers;
+    }
+
+    /**
+     * Set the update users flag
+     * @param bUpdateExistingUsers True if existing users should be updated,
+     *            false if they should be ignored.
+     */
+    public void setUpdateExistingUsers( boolean bUpdateExistingUsers )
+    {
+        this._bUpdateExistingUsers = bUpdateExistingUsers;
     }
 
 }

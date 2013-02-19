@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.service.user.attribute;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
 
+import java.util.List;
+
 
 /**
  *
@@ -68,13 +70,24 @@ public final class AttributeFieldService
     }
 
     /**
-     * Get the attribute field from a given atribute field ID
+     * Get the attribute field from a given attribute field ID
      * @param nIdAttributeField the attribute field ID
      * @return the {@link AttributeField}
      */
     public AttributeField getAttributeField( int nIdAttributeField )
     {
         return AttributeFieldHome.findByPrimaryKey( nIdAttributeField );
+    }
+
+    /**
+     * Get a list of attribute fields from a given attribute ID and a title
+     * @param nIdAttribute the attribute ID
+     * @param strTitle The title of the attribute field
+     * @return the list of {@link AttributeField} matching the id and the title
+     */
+    public List<AttributeField> getAttributeFieldByAttributeIdAndTitle( int nIdAttribute, String strTitle )
+    {
+        return AttributeFieldHome.findAttributeFieldByAttributeIdAndTitle( nIdAttribute, strTitle );
     }
 
     /**

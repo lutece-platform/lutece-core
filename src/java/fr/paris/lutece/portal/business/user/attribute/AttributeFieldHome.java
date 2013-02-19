@@ -120,4 +120,16 @@ public final class AttributeFieldHome
     {
         _dao.deleteAttributeFieldsFromIdAttribute( nIdAttribute );
     }
+
+    /**
+     * Get a list of attribute fields from a given attribute ID and a title
+     * @param nIdAttribute the attribute ID
+     * @param strTitle The title of the attribute field
+     * @return the list of {@link AttributeField} matching the id and the title
+     */
+    public static List<AttributeField> findAttributeFieldByAttributeIdAndTitle( int nIdAttribute, String strTitle )
+    {
+        return _dao.findAttributeFieldByAttributeIdAndTitle( nIdAttribute, strTitle );
+    }
+
 }

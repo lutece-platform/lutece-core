@@ -60,6 +60,7 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -190,6 +191,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_ERROR_CSV_FILE_IMPORT = "portal.users.import_users_from_file.error_csv_file_import";
 
     private static final String FIELD_IMPORT_USERS_FILE = "portal.users.import_users_from_file.labelImportFile";
+    private static final String FIELD_XSL_EXPORT = "portal.users.import_users_from_file.labelImportFile";
 
     // Properties
     private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
@@ -256,6 +258,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_NOTIFY_PASSWORD_EXPIRED = "core_password_expired";
     private static final String PARAMETER_IMPORT_USERS_FILE = "import_file";
     private static final String PARAMETER_SKIP_FIRST_LINE = "ignore_first_line";
+    private static final String PARAMETER_UPDATE_USERS = "update_existing_users";
     private static final String PARAMETER_XSL_EXPORT_ID = "xsl_export_id";
     private static final String PARAMETER_EXPORT_ROLES = "export_roles";
     private static final String PARAMETER_EXPORT_RIGHTS = "export_rights";
@@ -356,6 +359,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
     private ItemNavigator _itemNavigator;
+    private ImportAdminUserService _importAdminUSerService = new ImportAdminUserService( );
 
     /**
      * Build the User list
@@ -1008,17 +1012,16 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_LIST_MESSAGES, request.getAttribute( ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES ) );
 
-        String strCsvSeparator = StringUtils.EMPTY + ImportAdminUserService.getService( ).getCSVSeparator( );
-        String strCsvEscapeCharacter = StringUtils.EMPTY + ImportAdminUserService.getService( ).getCSVEscapeCharacter( );
-        String strAttributesSeparator = StringUtils.EMPTY
-                + ImportAdminUserService.getService( ).getAttributesSeparator( );
+        String strCsvSeparator = StringUtils.EMPTY + _importAdminUSerService.getCSVSeparator( );
+        String strCsvEscapeCharacter = StringUtils.EMPTY + _importAdminUSerService.getCSVEscapeCharacter( );
+        String strAttributesSeparator = StringUtils.EMPTY + _importAdminUSerService.getAttributesSeparator( );
         model.put( MARK_CSV_SEPARATOR, strCsvSeparator );
         model.put( MARK_CSV_ESCAPE, strCsvEscapeCharacter );
         model.put( MARK_ATTRIBUTES_SEPARATOR, strAttributesSeparator );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_IMPORT_USERS_FROM_FILE,
                 AdminUserService.getLocale( request ), model );
-        return template.getHtml( );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
@@ -1061,9 +1064,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         String strSkipFirstLine = multipartRequest.getParameter( PARAMETER_SKIP_FIRST_LINE );
         boolean bSkipFirstLine = StringUtils.isNotEmpty( strSkipFirstLine );
-
-        // TODO : add dynamic attributes
-        List<CSVMessageDescriptor> listMessages = ImportAdminUserService.getService( ).readCSVFile( fileItem, 0,
+        String strUpdateUsers = multipartRequest.getParameter( PARAMETER_UPDATE_USERS );
+        boolean bUpdateUsers = StringUtils.isNotEmpty( strUpdateUsers );
+        _importAdminUSerService.setUpdateExistingUsers( bUpdateUsers );
+        List<CSVMessageDescriptor> listMessages = _importAdminUSerService.readCSVFile( fileItem, 0,
                 false, false, bSkipFirstLine, AdminUserService.getLocale( request ) );
 
         request.setAttribute( ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES, listMessages );
@@ -1082,13 +1086,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_EXPORT_USERS_PAGETITLE );
         Map<String, Object> model = new HashMap<String, Object>( );
 
-        ReferenceList refListXsl = XslExportHome.getRefList( );
+        ReferenceList refListXsl = XslExportHome.getRefListByPlugin( PluginService.getCore( ) );
 
         model.put( MARK_LIST_XSL_EXPORT, refListXsl );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EXPORT_USERS_FROM_FILE,
                 AdminUserService.getLocale( request ), model );
-        return template.getHtml( );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
@@ -1107,6 +1111,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         boolean bExportRights = StringUtils.isNotEmpty( strExportRights );
         boolean bExportWorkgroups = StringUtils.isNotEmpty( strExportWorkgroups );
 
+        if ( StringUtils.isBlank( strXslExportId ) )
+        {
+            DefaultPluginActionResult result = new DefaultPluginActionResult( );
+            Object[] tabRequiredFields = { I18nService.getLocalizedString( FIELD_XSL_EXPORT, getLocale( ) ) };
+            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields,
+                    AdminMessage.TYPE_STOP ) );
+            return result;
+        }
         int nIdXslExport = Integer.parseInt( strXslExportId );
 
         XslExport xslExport = XslExportHome.findByPrimaryKey( nIdXslExport );

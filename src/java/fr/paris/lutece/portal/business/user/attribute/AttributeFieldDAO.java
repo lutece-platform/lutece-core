@@ -61,6 +61,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
         " WHERE af.id_field = ? ";
     private static final String SQL_QUERY_SELECT_ATTRIBUTE_FIELDS_BY_ID_ATTRIBUTE = " SELECT id_field, id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, is_multiple, field_position " +
         " FROM core_attribute_field WHERE id_attribute = ? ORDER BY field_position ";
+    private static final String SQL_QUERY_SELECT_ATTRIBUTE_FIELDS_BY_ID_ATTRIBUTE_AND_TITLE = " SELECT id_field, id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, is_multiple, field_position FROM core_attribute_field WHERE id_attribute = ?  AND title = ? ORDER BY field_position ";
 
     // INSERT
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute_field (id_field, id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, is_multiple, field_position) " +
@@ -310,5 +311,42 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<AttributeField> findAttributeFieldByAttributeIdAndTitle( int nIdAttribute, String strTitle )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ATTRIBUTE_FIELDS_BY_ID_ATTRIBUTE_AND_TITLE );
+        daoUtil.setInt( 1, nIdAttribute );
+        daoUtil.setString( 2, strTitle );
+        daoUtil.executeQuery( );
+
+        List<AttributeField> listAttributeFields = new ArrayList<AttributeField>( );
+
+        while ( daoUtil.next( ) )
+        {
+            AttributeField attributeField = new AttributeField( );
+            attributeField = new AttributeField( );
+            attributeField.setIdField( daoUtil.getInt( 1 ) );
+
+            IAttribute attribute = selectAttributeByIdField( attributeField.getIdField( ) );
+            attributeField.setAttribute( attribute );
+            attributeField.setTitle( daoUtil.getString( 3 ) );
+            attributeField.setValue( daoUtil.getString( 4 ) );
+            attributeField.setDefaultValue( daoUtil.getBoolean( 5 ) );
+            attributeField.setHeight( daoUtil.getInt( 6 ) );
+            attributeField.setWidth( daoUtil.getInt( 7 ) );
+            attributeField.setMaxSizeEnter( daoUtil.getInt( 8 ) );
+            attributeField.setMultiple( daoUtil.getBoolean( 9 ) );
+            attributeField.setPosition( daoUtil.getInt( 10 ) );
+            listAttributeFields.add( attributeField );
+        }
+
+        daoUtil.free( );
+
+        return listAttributeFields;
     }
 }
