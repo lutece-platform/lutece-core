@@ -45,6 +45,8 @@ import fr.paris.lutece.portal.service.fileupload.FileUploadService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -53,6 +55,8 @@ import fr.paris.lutece.portal.service.xsl.XslExportResourceIdService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.filesystem.FileSystemUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
@@ -61,6 +65,7 @@ import fr.paris.lutece.util.url.UrlItem;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -96,6 +101,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final String MARK_PERMISSION_CREATE = "right_create";
     private static final String MARK_PERMISSION_MODIFY = "right_modify";
     private static final String MARK_PERMISSION_DELETE = "right_delete";
+    private static final String MARK_LIST_PLUGINS = "list_plugins";
 
     // parameters form
     private static final String PARAMETER_ID_XSL_EXPORT = "id_xsl_export";
@@ -104,6 +110,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_DESCRIPTION = "description";
     private static final String PARAMETER_EXTENSION = "extension";
     private static final String PARAMETER_PAGE_INDEX = "page_index";
+    private static final String PARAMETER_PLUGIN = "plugin";
 
     // other constants
     private static final String EMPTY_STRING = "";
@@ -183,6 +190,25 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
 
+        Collection<Plugin> listPlugins = PluginService.getPluginList( );
+        ReferenceList refListPlugins = new ReferenceList( );
+        ReferenceItem refItem = new ReferenceItem( );
+        Plugin pluginCore = PluginService.getCore( );
+        refItem.setCode( pluginCore.getName( ) );
+        refItem.setName( pluginCore.getName( ) );
+        refListPlugins.add( refItem );
+        for ( Plugin plugin : listPlugins )
+        {
+            if ( plugin != null )
+            {
+                refItem = new ReferenceItem( );
+                refItem.setCode( plugin.getName( ) );
+                refItem.setName( plugin.getName( ) );
+                refListPlugins.add( refItem );
+            }
+        }
+        model.put( MARK_LIST_PLUGINS, refListPlugins );
+
         if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
                     XslExportResourceIdService.PERMISSION_CREATE, getUser(  ) ) )
         {
@@ -249,8 +275,27 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         int nIdXslExport = Integer.parseInt( strIdXslExport );
         xslExport = XslExportHome.findByPrimaryKey( nIdXslExport );
-
         model.put( MARK_XSL_EXPORT, xslExport );
+
+        Collection<Plugin> listPlugins = PluginService.getPluginList( );
+        ReferenceList refListPlugins = new ReferenceList( );
+        ReferenceItem refItem = new ReferenceItem( );
+        Plugin pluginCore = PluginService.getCore( );
+        refItem.setCode( pluginCore.getName( ) );
+        refItem.setName( pluginCore.getName( ) );
+        refListPlugins.add( refItem );
+        for ( Plugin plugin : listPlugins )
+        {
+            if ( plugin != null )
+            {
+                refItem = new ReferenceItem( );
+                refItem.setCode( plugin.getName( ) );
+                refItem.setName( plugin.getName( ) );
+                refListPlugins.add( refItem );
+            }
+        }
+        model.put( MARK_LIST_PLUGINS, refListPlugins );
+
         setPageTitleProperty( PROPERTY_MODIFY_XSL_EXPORT_TITLE );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_XSL_EXPORT, getLocale(  ), model );
@@ -416,6 +461,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         String strTitle = request.getParameter( PARAMETER_TITLE );
         String strDescription = request.getParameter( PARAMETER_DESCRIPTION );
         String strExtension = request.getParameter( PARAMETER_EXTENSION );
+        String strPlugin = request.getParameter( PARAMETER_PLUGIN );
         File fileSource = getFileData( PARAMETER_ID_FILE, request );
 
         if ( ( strTitle == null ) || strTitle.trim(  ).equals( EMPTY_STRING ) )
@@ -431,6 +477,11 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         else if ( ( xslExport.getFile(  ) == null ) && ( fileSource == null ) )
         {
             strError = FIELD_FILE;
+        }
+
+        if ( strPlugin == null )
+        {
+            strPlugin = StringUtils.EMPTY;
         }
 
         // Mandatory fields
@@ -458,7 +509,9 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         xslExport.setTitle( strTitle );
         xslExport.setDescription( strDescription );
         xslExport.setExtension( strExtension );
+        xslExport.setPlugin( strPlugin );
 
+        
         xslExport.setFile( fileSource );
 
         return null;

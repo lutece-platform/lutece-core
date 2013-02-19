@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.xsl;
 
+import fr.paris.lutece.portal.service.plugin.Plugin;
+
 import java.util.List;
 
 
@@ -84,4 +86,11 @@ public interface IXslExportDAO
      * @return The list of all Xsl Export.
      */
     List<XslExport> selectList(  );
+
+    /**
+     * Get the list of Xsl Export associated to a specified plugin.
+     * @param The plugin
+     * @return The list of Xsl Export associated with the given plugin.
+     */
+    List<XslExport> selectListByPlugin( Plugin plugin );
 }

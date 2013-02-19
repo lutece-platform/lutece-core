@@ -571,6 +571,7 @@ CREATE TABLE core_xsl_export (
   description VARCHAR(255) DEFAULT NULL ,
   extension VARCHAR(255) DEFAULT NULL,
   id_file INT DEFAULT NULL,
+  plugin VARCHAR(255) DEFAULT '',
   PRIMARY KEY  (id_xsl_export)
 );
 

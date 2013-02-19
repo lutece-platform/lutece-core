@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.xsl;
 
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
+import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
 
@@ -111,8 +112,8 @@ public final class XslExportHome
     }
 
     /**
-     * Loads the data of all the XslExport who verify the filter and returns them in a list
-     * @return the list which contains the data of all the Xsl export
+     * Loads the data of all the XslExport and returns them in a list
+     * @return the list which contains the data of every Xsl export items
      */
     public static List<XslExport> getList(  )
     {
@@ -120,8 +121,20 @@ public final class XslExportHome
     }
 
     /**
-     * Loads in the reference list the data of all the XslExport who verify the filter and returns them in a list
-     * @return the list which contains the data of all the Xsl Export
+     * Loads the data of XslExport associated with a given plugin and returns
+     * them in a list
+     * @param plugin The plugin
+     * @return the list which contains the data of Xsl export items
+     */
+    public static List<XslExport> getListByPlugin( Plugin plugin )
+    {
+        return _dao.selectListByPlugin( plugin );
+    }
+
+    /**
+     * Loads in the reference list the data of all the XslExport and returns
+     * them in a list
+     * @return the list which contains the data of every Xsl Export items
      */
     public static ReferenceList getRefList(  )
     {
@@ -132,6 +145,26 @@ public final class XslExportHome
         for ( XslExport xslExport : xslList )
         {
             refList.addItem( xslExport.getIdXslExport(  ), xslExport.getTitle(  ) );
+        }
+
+        return refList;
+    }
+
+    /**
+     * Loads the data of XslExport associated with a given plugin and returns
+     * them in a list
+     * @param plugin The plugin
+     * @return the list which contains the data of Xsl export items
+     */
+    public static ReferenceList getRefListByPlugin( Plugin plugin )
+    {
+        ReferenceList refList = new ReferenceList( );
+
+        List<XslExport> xslList = getListByPlugin( plugin );
+
+        for ( XslExport xslExport : xslList )
+        {
+            refList.addItem( xslExport.getIdXslExport( ), xslExport.getTitle( ) );
         }
 
         return refList;

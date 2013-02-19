@@ -41,6 +41,14 @@ import fr.paris.lutece.portal.business.file.File;
  * class DirectoryXsl
  *
  */
+/**
+ * @author vbroussard
+ *
+ */
+/**
+ * @author vbroussard
+ * 
+ */
 public class XslExport
 {
     public static final String RESOURCE_TYPE = "XSL_EXPORT";
@@ -49,6 +57,7 @@ public class XslExport
     private String _strDescription;
     private String _strExtension;
     private File _file;
+    private String _strPlugin;
 
     /**
      *
@@ -138,5 +147,23 @@ public class XslExport
     public void setExtension( String extension )
     {
         _strExtension = extension;
+    }
+
+    /**
+     * Get the name of the plugin associated with this XSL
+     * @return The name of the plugin
+     */
+    public String getPlugin( )
+    {
+        return _strPlugin;
+    }
+
+    /**
+     * Set the name of the plugin associated with this XSL
+     * @param strPlugin The name of the plugin
+     */
+    public void setPlugin( String strPlugin )
+    {
+        this._strPlugin = strPlugin;
     }
 }
