@@ -50,9 +50,11 @@ public class AdminUserResourceIdService extends ResourceIdService
 {
     public static final String PERMISSION_MANAGE_ENCRYPTED_PASSWORD = "MANAGE_ENCRYPTED_PASSWORD";
     public static final String PERMISSION_MANAGE_ADVANCED_PARAMETERS = "MANAGE_ADVANCED_PARAMETERS";
+    public static final String PERMISSION_IMPORT_EXPORT_USERS = "IMPORT_EXPORT_USERS";
     private static final String PROPERTY_LABEL_RESOURCE_TYPE = "portal.users.userService.ressourceType";
     private static final String PROPERTY_LABEL_MANAGE_ENCRYPTED_PASSWORD = "portal.users.userService.permission.manageEncryptedPassword";
     private static final String PROPERTY_LABEL_MANAGE_ADVANCED_PARAMETERS = "portal.users.userService.permission.manageAdvancedParameters";
+    private static final String PROPERTY_LABEL_IMPORT_EXPORT_USERS = "portal.users.userService.permission.importExportUsers";
 
     /**
      * Initializes the service
@@ -72,6 +74,11 @@ public class AdminUserResourceIdService extends ResourceIdService
         p = new Permission(  );
         p.setPermissionKey( PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         p.setPermissionTitleKey( PROPERTY_LABEL_MANAGE_ADVANCED_PARAMETERS );
+        rt.registerPermission( p );
+
+        p = new Permission( );
+        p.setPermissionKey( PERMISSION_IMPORT_EXPORT_USERS );
+        p.setPermissionTitleKey( PROPERTY_LABEL_IMPORT_EXPORT_USERS );
         rt.registerPermission( p );
 
         ResourceTypeManager.registerResourceType( rt );

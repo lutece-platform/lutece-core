@@ -1129,7 +1129,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     {
         DefaultPluginActionResult result = new DefaultPluginActionResult( );
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+                AdminUserResourceIdService.PERMISSION_IMPORT_EXPORT_USERS, getUser( ) ) )
         {
             result.setHtmlContent( getManageAdminUsers( request ) );
             return result;
