@@ -41,8 +41,8 @@ public class CSVMessageDescriptor implements Comparable<CSVMessageDescriptor>
     }
 
     /**
-     * Set the level of the error
-     * @param errorLevel the level of the error
+     * Set the level of the message
+     * @param messageLevel the level of the message
      */
     public void setMessageLevel( CSVMessageLevel messageLevel )
     {
@@ -50,8 +50,9 @@ public class CSVMessageDescriptor implements Comparable<CSVMessageDescriptor>
     }
 
     /**
-     * Get the number of the line associated with this error.
-     * @return The number of the line associated with this error.
+     * Get the number of the line of the CSV file associated with this message.
+     * @return The number of the line of the CSV file associated with this
+     *         message.
      */
     public int getLineNumber( )
     {
@@ -59,8 +60,9 @@ public class CSVMessageDescriptor implements Comparable<CSVMessageDescriptor>
     }
 
     /**
-     * Set the number of the line associated with this error.
-     * @param nLineNumber The number of the line associated with this error.
+     * Set the number of the line of the CSV file associated with this error.
+     * @param nLineNumber The number of the line of the CSV file associated with
+     *            this error.
      */
     public void setLineNumber( int nLineNumber )
     {
@@ -86,7 +88,9 @@ public class CSVMessageDescriptor implements Comparable<CSVMessageDescriptor>
     }
 
     /**
-     * compare this CSVMessageDescriptor with another.
+     * compare this CSVMessageDescriptor with another.<br />
+     * <b>This method returns 0 for objects that are not equals ! Use with care
+     * in collections !</b>
      * @param o Object to compare to
      * @return Returns :<br />
      *         <ul>
@@ -109,7 +113,7 @@ public class CSVMessageDescriptor implements Comparable<CSVMessageDescriptor>
     @Override
     public int compareTo( CSVMessageDescriptor o )
     {
-        if ( o == null )
+        if ( null == o )
         {
             return 1;
         }

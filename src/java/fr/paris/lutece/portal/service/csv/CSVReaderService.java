@@ -259,15 +259,16 @@ public abstract class CSVReaderService
     public List<CSVMessageDescriptor> readCSVFile( PhysicalFile physicalFile, int nColumnNumber,
             boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale )
     {
-        if ( physicalFile != null && physicalFile.getValue( ) == null )
+        PhysicalFile importedPhysicalFile = physicalFile;
+        if ( importedPhysicalFile != null && importedPhysicalFile.getValue( ) == null )
         {
-            if ( physicalFile.getValue( ) == null )
+            if ( importedPhysicalFile.getValue( ) == null )
             {
-                physicalFile = PhysicalFileHome.findByPrimaryKey( physicalFile.getIdPhysicalFile( ) );
+                importedPhysicalFile = PhysicalFileHome.findByPrimaryKey( importedPhysicalFile.getIdPhysicalFile( ) );
             }
-            if ( physicalFile != null && physicalFile.getValue( ) == null )
+            if ( importedPhysicalFile != null && importedPhysicalFile.getValue( ) == null )
             {
-                InputStream inputStream = new ByteArrayInputStream( physicalFile.getValue( ) );
+                InputStream inputStream = new ByteArrayInputStream( importedPhysicalFile.getValue( ) );
                 InputStreamReader inputStreamReader = new InputStreamReader( inputStream );
                 CSVReader csvReader = new CSVReader( inputStreamReader, getCSVSeparator( ), getCSVEscapeCharacter( ) );
                 return readCSVFile( csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine,
@@ -577,7 +578,7 @@ public abstract class CSVReaderService
         if ( strLine == null || ( nColumnNumber > 0 && strLine.length != nColumnNumber ) )
         {
             List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
-            Object[] args = { strLine.length, nColumnNumber };
+            Object[] args = { strLine == null ? 0 : strLine.length, nColumnNumber };
             String strErrorMessage = I18nService.getLocalizedString( MESSAGE_ERROR_NUMBER_COLUMNS, args, locale );
             CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, strErrorMessage );
             listMessages.add( error );
@@ -603,7 +604,7 @@ public abstract class CSVReaderService
 
     /**
      * Set the separator to use for CSV files.
-     * @param strSeparator The separator to use for CSV files.
+     * @param strCSVSeparator The separator to use for CSV files.
      */
     public void setCSVSeparator( Character strCSVSeparator )
     {
