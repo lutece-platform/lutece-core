@@ -207,6 +207,7 @@ public final class AdminUserService
     private static final String CONSTANT_XML_ATTRIBUTES = "attributes";
     private static final String CONSTANT_XML_ATTRIBUTE = "attribute";
     private static final String CONSTANT_XML_ATTRIBUTE_ID = "attribute-id";
+    private static final String CONSTANT_XML_ATTRIBUTE_FIELD_ID = "attribute-field-id";
     private static final String CONSTANT_XML_ATTRIBUTE_VALUE = "attribute-value";
 
     /** Private constructor */
@@ -1362,6 +1363,8 @@ public final class AdminUserService
                         {
                             XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTE );
                             XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_ID, strAttributeKey );
+                            XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_FIELD_ID, adminUserFields
+                                    .getAttributeField( ).getIdField( ) );
                             XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_VALUE, adminUserFields.getValue( ) );
                             XmlUtil.endElement( sbXml, CONSTANT_XML_ATTRIBUTE );
                         }

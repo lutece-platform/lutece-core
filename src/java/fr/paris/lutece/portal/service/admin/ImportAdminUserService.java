@@ -13,6 +13,10 @@ import fr.paris.lutece.portal.service.csv.CSVMessageDescriptor;
 import fr.paris.lutece.portal.service.csv.CSVMessageLevel;
 import fr.paris.lutece.portal.service.csv.CSVReaderService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldListenerService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.password.PasswordUtil;
@@ -156,11 +160,8 @@ public class ImportAdminUserService extends CSVReaderService
         if ( bUpdateUser )
         {
             user.setUserId( nUserId );
-            AdminUserHome.update( user );
             // We update the user
-            AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
-            auFieldFilter.setIdUser( user.getUserId( ) );
-            AdminUserFieldHome.removeByFilter( auFieldFilter );
+            AdminUserHome.update( user );
         }
         else
         {
@@ -184,8 +185,17 @@ public class ImportAdminUserService extends CSVReaderService
         }
         AdminUserHome.removeAllRightsForUser( user.getUserId( ) );
         AdminUserHome.removeAllRolesForUser( user.getUserId( ) );
+        AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
+        auFieldFilter.setIdUser( user.getUserId( ) );
+        AdminUserFieldHome.removeByFilter( auFieldFilter );
 
-        List<IAttribute> listAttributes = _attributeService.getCoreAttributesWithoutFields( locale );
+        // TODO : implement-me !
+        //        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService
+        //                .getBeansOfType( AdminUserFieldListenerService.class ) )
+        //        {
+        //            adminUserFieldListenerService.doCreateUserFields( user, request, locale );
+        //        }
+
         Map<Integer, List<String>> mapAttributesValues = new HashMap<Integer, List<String>>( );
 
         // We get every attributes of the user
@@ -231,33 +241,6 @@ public class ImportAdminUserService extends CSVReaderService
             nIndex++;
         }
 
-        // We save the attributes found
-        for ( IAttribute attribute : listAttributes )
-        {
-            if ( attribute instanceof ISimpleValuesAttributes )
-            {
-                List<String> listValues = mapAttributesValues.get( attribute.getIdAttribute( ) );
-                if ( listValues != null && listValues.size( ) > 0 )
-                {
-                    String[] strValues = new String[listValues.size( )];
-                    int i = 0;
-                    for ( String strValue : listValues )
-                    {
-                        strValues[i++] = strValue;
-                    }
-                    List<AdminUserField> listUserFields = ( (ISimpleValuesAttributes) attribute ).getUserFieldsData(
-                            strValues, user );
-                    for ( AdminUserField userField : listUserFields )
-                    {
-                        if ( userField != null )
-                        {
-                            AdminUserFieldHome.create( userField );
-                        }
-                    }
-                }
-            }
-        }
-
         for ( String strRight : listAdminRights )
         {
             AdminUserHome.createRightForUser( user.getUserId( ), strRight );
@@ -271,6 +254,64 @@ public class ImportAdminUserService extends CSVReaderService
         for ( String strWorkgoup : listAdminWorkgroups )
         {
             AdminWorkgroupHome.addUserForWorkgroup( user, strWorkgoup );
+        }
+
+        List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( locale );
+        Plugin pluginCore = PluginService.getCore( );
+        // We save the attributes found
+        for ( IAttribute attribute : listAttributes )
+        {
+            if ( attribute instanceof ISimpleValuesAttributes )
+            {
+                List<String> listValues = mapAttributesValues.get( attribute.getIdAttribute( ) );
+                if ( listValues != null && listValues.size( ) > 0 )
+                {
+                    int nIdField = 0;
+                    boolean bCoreAttribute = attribute.getPlugin( ) == null
+                            || StringUtils.equals( pluginCore.getName( ), attribute.getPlugin( ).getName( ) );
+                    for ( String strValue : listValues )
+                    {
+                        int nSeparatorIndex = strValue.indexOf( getAttributesSeparator( ) );
+                        if ( nSeparatorIndex >= 0 )
+                        {
+                            nIdField = 0;
+                            try
+                            {
+                                nIdField = Integer.parseInt( strValue.substring( 0, nSeparatorIndex ) );
+                            }
+                            catch ( NumberFormatException e )
+                            {
+                                nIdField = 0;
+                            }
+                            strValue = strValue.substring( nSeparatorIndex + 1 );
+                        }
+                        else
+                        {
+                            nIdField = 0;
+                        }
+                        String[] strValues = { strValue };
+                        List<AdminUserField> listUserFields = ( (ISimpleValuesAttributes) attribute )
+                                .getUserFieldsData( strValues, user );
+
+                        for ( AdminUserField userField : listUserFields )
+                        {
+                            if ( userField != null )
+                            {
+                                userField.getAttributeField( ).setIdField( nIdField );
+                                AdminUserFieldHome.create( userField );
+                            }
+                        }
+                        if ( !bCoreAttribute )
+                        {
+                            for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService
+                                    .getBeansOfType( AdminUserFieldListenerService.class ) )
+                            {
+                                adminUserFieldListenerService.doCreateUserFields( user, listUserFields, locale );
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         return listMessages;
@@ -365,5 +406,4 @@ public class ImportAdminUserService extends CSVReaderService
     {
         this._bUpdateExistingUsers = bUpdateExistingUsers;
     }
-
 }

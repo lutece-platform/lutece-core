@@ -1007,6 +1007,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String getImportUsersFromFile( HttpServletRequest request )
     {
+        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+        {
+            return getManageAdminUsers( request );
+        }
         setPageTitleProperty( PROPERTY_IMPORT_USERS_FROM_FILE_PAGETITLE );
         Map<String, Object> model = new HashMap<String, Object>( );
 
@@ -1033,46 +1038,63 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public DefaultPluginActionResult doImportUsersFromFile( HttpServletRequest request )
     {
         DefaultPluginActionResult result = new DefaultPluginActionResult( );
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        String strError = StringUtils.EMPTY;
-        FileItem fileItem = multipartRequest.getFile( PARAMETER_IMPORT_USERS_FILE );
-        String strMimeType = FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) );
-
-        if ( ( !strMimeType.equals( CONSTANT_MIME_TYPE_CSV ) && !strMimeType.equals( CONSTANT_MIME_TYPE_OCTETSTREAM ) && !strMimeType
-                .equals( CONSTANT_MIME_TYPE_TEXT_CSV ) )
-                || !fileItem.getName( ).toLowerCase( ).endsWith( CONSTANT_EXTENSION_CSV_FILE ) )
+        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
         {
-            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_CSV_FILE_IMPORT,
-                    AdminMessage.TYPE_STOP ) );
+            result.setHtmlContent( getManageAdminUsers( request ) );
             return result;
         }
 
-        if ( !( ( fileItem != null ) && ( fileItem.getName( ) != null ) && !StringUtils.EMPTY.equals( fileItem
-                .getName( ) ) ) )
+        if ( request instanceof MultipartHttpServletRequest )
         {
-            strError = FIELD_IMPORT_USERS_FILE;
-        }
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            String strError = StringUtils.EMPTY;
+            FileItem fileItem = multipartRequest.getFile( PARAMETER_IMPORT_USERS_FILE );
+            String strMimeType = FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) );
 
-        // Mandatory fields
-        if ( StringUtils.isNotBlank( strError ) )
+            if ( ( !strMimeType.equals( CONSTANT_MIME_TYPE_CSV )
+                    && !strMimeType.equals( CONSTANT_MIME_TYPE_OCTETSTREAM ) && !strMimeType
+                    .equals( CONSTANT_MIME_TYPE_TEXT_CSV ) )
+                    || !fileItem.getName( ).toLowerCase( ).endsWith( CONSTANT_EXTENSION_CSV_FILE ) )
+            {
+                result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_CSV_FILE_IMPORT,
+                        AdminMessage.TYPE_STOP ) );
+                return result;
+            }
+
+            if ( !( ( fileItem != null ) && ( fileItem.getName( ) != null ) && !StringUtils.EMPTY.equals( fileItem
+                    .getName( ) ) ) )
+            {
+                strError = FIELD_IMPORT_USERS_FILE;
+            }
+
+            // Mandatory fields
+            if ( StringUtils.isNotBlank( strError ) )
+            {
+                Object[] tabRequiredFields = { I18nService.getLocalizedString( strError, getLocale( ) ) };
+                result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD,
+                        tabRequiredFields, AdminMessage.TYPE_STOP ) );
+                return result;
+            }
+
+            String strSkipFirstLine = multipartRequest.getParameter( PARAMETER_SKIP_FIRST_LINE );
+            boolean bSkipFirstLine = StringUtils.isNotEmpty( strSkipFirstLine );
+            String strUpdateUsers = multipartRequest.getParameter( PARAMETER_UPDATE_USERS );
+            boolean bUpdateUsers = StringUtils.isNotEmpty( strUpdateUsers );
+            _importAdminUSerService.setUpdateExistingUsers( bUpdateUsers );
+            List<CSVMessageDescriptor> listMessages = _importAdminUSerService.readCSVFile( fileItem, 0, false, false,
+                    bSkipFirstLine, AdminUserService.getLocale( request ) );
+
+            request.setAttribute( ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES, listMessages );
+            String strHtmlResult = getImportUsersFromFile( request );
+            result.setHtmlContent( strHtmlResult );
+        }
+        else
         {
-            Object[] tabRequiredFields = { I18nService.getLocalizedString( strError, getLocale( ) ) };
+            Object[] tabRequiredFields = { I18nService.getLocalizedString( FIELD_IMPORT_USERS_FILE, getLocale( ) ) };
             result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields,
                     AdminMessage.TYPE_STOP ) );
-            return result;
         }
-
-        String strSkipFirstLine = multipartRequest.getParameter( PARAMETER_SKIP_FIRST_LINE );
-        boolean bSkipFirstLine = StringUtils.isNotEmpty( strSkipFirstLine );
-        String strUpdateUsers = multipartRequest.getParameter( PARAMETER_UPDATE_USERS );
-        boolean bUpdateUsers = StringUtils.isNotEmpty( strUpdateUsers );
-        _importAdminUSerService.setUpdateExistingUsers( bUpdateUsers );
-        List<CSVMessageDescriptor> listMessages = _importAdminUSerService.readCSVFile( fileItem, 0,
-                false, false, bSkipFirstLine, AdminUserService.getLocale( request ) );
-
-        request.setAttribute( ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES, listMessages );
-        String strHtmlResult = getImportUsersFromFile( request );
-        result.setHtmlContent( strHtmlResult );
         return result;
     }
 
@@ -1083,6 +1105,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String getExportUsers( HttpServletRequest request )
     {
+        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+        {
+            return getManageAdminUsers( request );
+        }
         setPageTitleProperty( PROPERTY_EXPORT_USERS_PAGETITLE );
         Map<String, Object> model = new HashMap<String, Object>( );
 
@@ -1097,12 +1124,23 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Do export users
-     * @param request
-     * @return
+     * @param request The request
+     * @param response The response
+     * @return A DefaultPluginActionResult containing the result, or null if the
+     *         file download has been initialized
+     * @throws IOException If an IOException occurs
      */
     public DefaultPluginActionResult doExportUsers( HttpServletRequest request, HttpServletResponse response )
             throws IOException
     {
+        DefaultPluginActionResult result = new DefaultPluginActionResult( );
+        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+        {
+            result.setHtmlContent( getManageAdminUsers( request ) );
+            return result;
+        }
+
         String strXslExportId = request.getParameter( PARAMETER_XSL_EXPORT_ID );
         String strExportRoles = request.getParameter( PARAMETER_EXPORT_ROLES );
         String strExportRights = request.getParameter( PARAMETER_EXPORT_RIGHTS );
@@ -1113,7 +1151,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isBlank( strXslExportId ) )
         {
-            DefaultPluginActionResult result = new DefaultPluginActionResult( );
             Object[] tabRequiredFields = { I18nService.getLocalizedString( FIELD_XSL_EXPORT, getLocale( ) ) };
             result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields,
                     AdminMessage.TYPE_STOP ) );

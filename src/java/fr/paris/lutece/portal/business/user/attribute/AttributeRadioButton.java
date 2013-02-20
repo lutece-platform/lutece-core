@@ -40,10 +40,8 @@ import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -209,7 +207,6 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
     public List<AdminUserField> getUserFieldsData( String[] strValues, AdminUser user )
     {
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
-        Map<String, Integer> mapOcurrences = new HashMap<String, Integer>( );
         if ( strValues != null )
         {
             for ( String strValue : strValues )
@@ -224,37 +221,10 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
                 }
                 else
                 {
-                    List<AttributeField> listAttributes = null;
-                    if ( StringUtils.isNotBlank( strValue ) )
-                    {
-                        listAttributes = AttributeFieldService.getInstance( ).getAttributeFieldByAttributeIdAndTitle(
-                                getIdAttribute( ), strValue );
-                    }
-
-                    if ( listAttributes != null && listAttributes.size( ) > 0 )
-                    {
-                        if ( listAttributes.size( ) == 1 )
-                        {
-                            attributeField = listAttributes.get( 0 );
-                        }
-                        else
-                        {
-                            Integer nOccurences = mapOcurrences.get( strValue );
-                            if ( nOccurences == null )
-                            {
-                                nOccurences = 0;
-                            }
-                            attributeField = listAttributes.get( nOccurences );
-                            mapOcurrences.put( strValue, ++nOccurences );
-                        }
-                    }
-                    else
-                    {
-                        attributeField = new AttributeField( );
-                        attributeField.setAttribute( this );
-                        attributeField.setTitle( StringUtils.EMPTY );
-                        attributeField.setValue( StringUtils.EMPTY );
-                    }
+                    attributeField = new AttributeField( );
+                    attributeField.setAttribute( this );
+                    attributeField.setTitle( strValue );
+                    attributeField.setValue( strValue );
                 }
                 if ( attributeField != null )
                 {

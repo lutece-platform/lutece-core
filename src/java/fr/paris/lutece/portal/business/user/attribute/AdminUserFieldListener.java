@@ -41,9 +41,8 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- *
- * AdminUserFieldListener
- *
+ * Attributes managed with AdminUserFieldListener Can NOT be exported nor
+ * imported. To import or export them, use {@link SimpleAdminUserFieldListener}.
  */
 public interface AdminUserFieldListener
 {
