@@ -9,6 +9,7 @@
 						</form>
 					</span>&nbsp;				
 				</#if>
+				<#if permission_import_export_users>
 				&nbsp;
 				<span class="pull-right">
 					<form method="post"  action="jsp/admin/user/ExportUsers.jsp" class="form-inline">
@@ -16,6 +17,7 @@
 					</form>
 				</span>
 				&nbsp;
+				</#if>
 				&nbsp;
 				<span class="pull-right">
 					<form method="post"  action="${url_user_creation}" class="form-inline spaced">

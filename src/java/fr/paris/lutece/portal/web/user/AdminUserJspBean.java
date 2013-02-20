@@ -314,6 +314,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_LOGIN_URL = "login_url";
     private static final String MARK_NEW_PASSWORD = "new_password";
     private static final String MARK_PERMISSION_ADVANCED_PARAMETER = "permission_advanced_parameter";
+    private static final String MARK_PERMISSION_IMPORT_EXPORT_USERS = "permission_import_export_users";
     private static final String MARK_ITEM_NAVIGATOR = "item_navigator";
     private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
     private static final String MARK_LOCALE = "locale";
@@ -450,6 +451,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         boolean bPermissionAdvancedParameter = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE,
                 RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
                 getUser(  ) );
+        boolean bPermissionImportExportUsers = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE,
+                RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_IMPORT_EXPORT_USERS, getUser( ) );
 
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_USER_LEVELS_LIST, filteredLevels );
@@ -457,6 +460,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_USER_LIST, paginator.getPageItems(  ) );
         model.put( MARK_USER_CREATION_URL, strCreateUrl );
         model.put( MARK_PERMISSION_ADVANCED_PARAMETER, bPermissionAdvancedParameter );
+        model.put( MARK_PERMISSION_IMPORT_EXPORT_USERS, bPermissionImportExportUsers );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USERS, getLocale(  ), model );
 
