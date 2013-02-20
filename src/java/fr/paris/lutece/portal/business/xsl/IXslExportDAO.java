@@ -89,7 +89,7 @@ public interface IXslExportDAO
 
     /**
      * Get the list of Xsl Export associated to a specified plugin.
-     * @param The plugin
+     * @param plugin The plugin
      * @return The list of Xsl Export associated with the given plugin.
      */
     List<XslExport> selectListByPlugin( Plugin plugin );

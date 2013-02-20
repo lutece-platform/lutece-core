@@ -204,6 +204,10 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
         return getUserFieldsData( strValues, user );
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<AdminUserField> getUserFieldsData( String[] strValues, AdminUser user )
     {
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
