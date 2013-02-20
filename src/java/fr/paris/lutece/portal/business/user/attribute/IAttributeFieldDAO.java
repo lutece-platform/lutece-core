@@ -89,12 +89,4 @@ public interface IAttributeFieldDAO
      */
     void deleteAttributeFieldsFromIdAttribute( int nIdAttribute );
 
-    /**
-     * Get a list of attribute fields from a given attribute ID and a title
-     * @param nIdAttribute the attribute ID
-     * @param strTitle The title of the attribute field
-     * @return the list of {@link AttributeField} matching the id and the title
-     */
-    List<AttributeField> findAttributeFieldByAttributeIdAndTitle( int nIdAttribute, String strTitle );
-
 }

@@ -55,7 +55,7 @@ public class ImportAdminUserService extends CSVReaderService
     private static final AttributeService _attributeService = AttributeService.getInstance( );
 
     private Character _strAttributesSeparator;
-    private boolean _bUpdateExistingUsers = false;
+    private boolean _bUpdateExistingUsers;
 
     /**
      * {@inheritDoc}
@@ -189,13 +189,6 @@ public class ImportAdminUserService extends CSVReaderService
         auFieldFilter.setIdUser( user.getUserId( ) );
         AdminUserFieldHome.removeByFilter( auFieldFilter );
 
-        // TODO : implement-me !
-        //        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService
-        //                .getBeansOfType( AdminUserFieldListenerService.class ) )
-        //        {
-        //            adminUserFieldListenerService.doCreateUserFields( user, request, locale );
-        //        }
-
         Map<Integer, List<String>> mapAttributesValues = new HashMap<Integer, List<String>>( );
 
         // We get every attributes of the user
@@ -327,7 +320,16 @@ public class ImportAdminUserService extends CSVReaderService
         List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
         if ( strLineDataArray == null || strLineDataArray.length < nMinColumnNumber )
         {
-            Object[] args = { strLineDataArray.length, nMinColumnNumber };
+            int nNbCol;
+            if ( strLineDataArray == null )
+            {
+                nNbCol = 0;
+            }
+            else
+            {
+                nNbCol = strLineDataArray.length;
+            }
+            Object[] args = { nNbCol, nMinColumnNumber };
             String strErrorMessage = I18nService.getLocalizedString( MESSAGE_ERROR_MIN_NUMBER_COLUMNS, args, locale );
             CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, strErrorMessage );
             listMessages.add( error );

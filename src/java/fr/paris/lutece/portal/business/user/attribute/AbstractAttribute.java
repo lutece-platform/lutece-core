@@ -65,9 +65,9 @@ public abstract class AbstractAttribute implements IAttribute
     protected Plugin _plugin;
     protected boolean _bIsShownInSearch;
     protected boolean _bIsFieldInLine;
-    protected boolean _bIsAttributeImage = false;
+    protected boolean _bIsAttributeImage;
     protected boolean _bIsShownInResultList;
-    protected boolean _bAnonymize = false;
+    protected boolean _bAnonymize;
 
     /**
      * Constructor

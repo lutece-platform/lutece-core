@@ -483,7 +483,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( !( ( strLastName == null ) && ( strFirstName == null ) && ( strEmail == null ) ) ) // at least 1 criteria check
         {
-            if ( !( strLastName.equals( "" ) && strFirstName.equals( "" ) && strEmail.equals( "" ) ) )
+            if ( !( StringUtils.EMPTY.equals( strLastName ) && StringUtils.EMPTY.equals( strFirstName ) && StringUtils.EMPTY.equals( strEmail ) ) )
             {
                 allImportUsers = AdminAuthenticationService.getInstance(  )
                                                            .getUserListFromModule( strLastName, strFirstName, strEmail );
@@ -1055,6 +1055,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( ( !strMimeType.equals( CONSTANT_MIME_TYPE_CSV )
                     && !strMimeType.equals( CONSTANT_MIME_TYPE_OCTETSTREAM ) && !strMimeType
                     .equals( CONSTANT_MIME_TYPE_TEXT_CSV ) )
+                    || ( fileItem == null )
                     || !fileItem.getName( ).toLowerCase( ).endsWith( CONSTANT_EXTENSION_CSV_FILE ) )
             {
                 result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_CSV_FILE_IMPORT,
@@ -1062,8 +1063,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 return result;
             }
 
-            if ( !( ( fileItem != null ) && ( fileItem.getName( ) != null ) && !StringUtils.EMPTY.equals( fileItem
-                    .getName( ) ) ) )
+            if ( !( ( fileItem != null ) && !StringUtils.EMPTY.equals( fileItem.getName( ) ) ) )
             {
                 strError = FIELD_IMPORT_USERS_FILE;
             }
@@ -2478,10 +2478,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( ( strPassword != null ) && !strPassword.equals( CONSTANT_EMPTY_STRING ) )
             {
                 // Encrypted password
-                String strEncryptedPassword = strPassword;
-
-                // Encryption password
-                strEncryptedPassword = AdminUserService.encryptPassword( strPassword );
+                String strEncryptedPassword = AdminUserService.encryptPassword( strPassword );
 
                 LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
                 userStored.setPassword( strEncryptedPassword );

@@ -399,7 +399,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     {
         List<AdminUserField> listUserFields = auFieldFilter.getListUserFields(  );
 
-        if ( ( listUserFields == null ) || ( ( listUserFields != null ) && ( listUserFields.size(  ) == 0 ) ) )
+        if ( ( listUserFields == null ) || ( listUserFields.size( ) == 0 ) )
         {
             return null;
         }
