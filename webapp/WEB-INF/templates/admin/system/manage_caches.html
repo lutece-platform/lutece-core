@@ -3,17 +3,19 @@
             <fieldset>
                 <legend>
                     #i18n{portal.system.manage_caches.titleCacheList}
-					<div class="pull-right btn-group">
-						<a class="btn btn-primary btn-small" href="jsp/admin/system/DoResetCaches.jsp"> <i class="icon-trash  icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.buttonFlush}</a>
+					<div class="pull-right">
+						<form method="post" action="jsp/admin/system/DoReloadProperties.jsp" class="form-inline pull-left spaced">
+							<button class="btn btn-primary btn-small" type="submit" id="reload" title="#i18n{portal.system.manage_caches.titleReloadProperties}">
+								<i class="icon-refresh icon-white"></i>&nbsp;<!-- #i18n{portal.system.manage_caches.buttonReload} -->#i18n{portal.system.manage_caches.titleReloadProperties}
+							</button>
+						</form>
 						<a class="btn btn-primary btn-small" href="jsp/admin/system/CacheInfos.jsp"> <i class="icon-eye-open icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.buttonViewKeys}</a>
-					</div>
+						<a class="btn btn-danger btn-small" href="jsp/admin/system/DoResetCaches.jsp"> <i class="icon-trash  icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.buttonFlush}</a>
+        			</div>
                 </legend>
                 <table class="table table-striped table-condensed">
                     <tr>
                         <th>#i18n{portal.system.manage_caches.columnTitleName}</th>
-                        <th><i class="icon-info-sign" title="#i18n{portal.system.manage_caches.columnTitleCacheEnable}"></i></th>
-                        <th>#i18n{portal.system.manage_caches.columnTitleMaxElements}</th>
-                        <th>#i18n{portal.system.manage_caches.columnTitleTimeToLive}</th>
                         <th>#i18n{portal.system.manage_caches.columnTitleCacheSize}</th>
                         <th>#i18n{portal.system.manage_caches.columnTitleMemorySize}</th>
                         <th>#i18n{portal.system.manage_caches.columnTitleActions}</th>
@@ -21,28 +23,34 @@
                     <#assign id = 0>
                     <#list services_list as service>
                     <tr>
-                        <td class="span5">${service.name}</td>
-                        <td class="span2">
+                        <td>
                             <#if service.cacheEnable >
-                            <span class="label label-success" title="#i18n{portal.system.manage_caches.imgAltEnable}"><i class=" icon-ok-sign icon-white"></i>#i18n{portal.system.manage_caches.imgAltEnable}</span>
+								<span class="label label-success" title="#i18n{portal.system.manage_caches.imgAltEnable}">
+									<i class=" icon-ok-sign icon-white"></i>
+								</span>
                             <#else>
-                            <span class="label label-important" title="#i18n{portal.system.manage_caches.imgAltDisable}"><i class=" icon-remove-sign icon-white"></i>#i18n{portal.system.manage_caches.imgAltDisable}</span>
+								<span class="label label-important" title="#i18n{portal.system.manage_caches.imgAltDisable}">
+									<i class=" icon-remove-sign icon-white"></i>
+								</span>
                             </#if>
+							&nbsp;<strong>${service.name}</strong>
+							<br>
+							<i class="icon-info-sign"></i>&nbsp;#i18n{portal.system.manage_caches.columnTitleMaxElements}: ${service.maxElements}
+							&nbsp;|&nbsp;<i class="icon-time"></i>&nbsp;#i18n{portal.system.manage_caches.columnTitleTimeToLive} : ${service.timeToLive}
                         </td>
-                        <td>${service.maxElements}</td>
-                        <td>${service.timeToLive}</td>
+                       
                         <td>${service.cacheSize}</td>
                         <td>${service.memorySize}</td>
-                        <td class="span2" >
+                        <td>
                             <#if service.cacheEnable >
-                            <a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-danger btn-small" title="#i18n{portal.system.manage_caches.actionToggle}">
-                                <i class="icon-stop icon-white"></i>
-                            </a>
-                                <#else>
-                            <a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-success btn-small" title="#i18n{portal.system.manage_caches.actionToggle}">
-                                <i class="icon-play icon-white"></i>
-                            </a>
-                                </#if>
+								<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-danger btn-small" title="#i18n{portal.system.manage_caches.actionToggle}">
+									<i class="icon-stop icon-white"></i>
+								</a>
+                            <#else>
+								<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-success btn-small" title="#i18n{portal.system.manage_caches.actionToggle}">
+									<i class="icon-play icon-white"></i>
+								</a>
+                            </#if>
                             <a href="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" class="btn btn-primary btn-small" title="#i18n{portal.system.manage_caches.actionViewKeys}">
                                 <i class="icon-eye-open icon-white"></i>
                             </a>
@@ -55,13 +63,6 @@
                     <#assign id = id + 1>
                     </#list>
                 </table>
-        </fieldset>
-        <fieldset>
-			<legend>#i18n{portal.system.manage_caches.titleReloadProperties}</legend>
-            <form method="post"  action="jsp/admin/system/DoReloadProperties.jsp" class="well form-inline">
-                <label for="reload">#i18n{portal.system.manage_caches.labelReloadProperties}
-                    <button class="btn btn-primary btn-small" type="submit" id="reload" ><i class="icon-refresh icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.buttonReload}</button>
-            </form>
         </fieldset>
     </div>
 </div>
