@@ -1048,14 +1048,20 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( request instanceof MultipartHttpServletRequest )
         {
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-            String strError = StringUtils.EMPTY;
             FileItem fileItem = multipartRequest.getFile( PARAMETER_IMPORT_USERS_FILE );
             String strMimeType = FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) );
+
+            if ( !( ( fileItem != null ) && !StringUtils.EMPTY.equals( fileItem.getName( ) ) ) )
+            {
+                Object[] tabRequiredFields = { I18nService.getLocalizedString( FIELD_IMPORT_USERS_FILE, getLocale( ) ) };
+                result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD,
+                        tabRequiredFields, AdminMessage.TYPE_STOP ) );
+                return result;
+            }
 
             if ( ( !strMimeType.equals( CONSTANT_MIME_TYPE_CSV )
                     && !strMimeType.equals( CONSTANT_MIME_TYPE_OCTETSTREAM ) && !strMimeType
                     .equals( CONSTANT_MIME_TYPE_TEXT_CSV ) )
-                    || ( fileItem == null )
                     || !fileItem.getName( ).toLowerCase( ).endsWith( CONSTANT_EXTENSION_CSV_FILE ) )
             {
                 result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_CSV_FILE_IMPORT,
@@ -1063,19 +1069,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 return result;
             }
 
-            if ( !( ( fileItem != null ) && !StringUtils.EMPTY.equals( fileItem.getName( ) ) ) )
-            {
-                strError = FIELD_IMPORT_USERS_FILE;
-            }
 
-            // Mandatory fields
-            if ( StringUtils.isNotBlank( strError ) )
-            {
-                Object[] tabRequiredFields = { I18nService.getLocalizedString( strError, getLocale( ) ) };
-                result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD,
-                        tabRequiredFields, AdminMessage.TYPE_STOP ) );
-                return result;
-            }
 
             String strSkipFirstLine = multipartRequest.getParameter( PARAMETER_SKIP_FIRST_LINE );
             boolean bSkipFirstLine = StringUtils.isNotEmpty( strSkipFirstLine );
