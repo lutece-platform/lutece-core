@@ -191,7 +191,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_ERROR_CSV_FILE_IMPORT = "portal.users.import_users_from_file.error_csv_file_import";
 
     private static final String FIELD_IMPORT_USERS_FILE = "portal.users.import_users_from_file.labelImportFile";
-    private static final String FIELD_XSL_EXPORT = "portal.users.import_users_from_file.labelImportFile";
+    private static final String FIELD_XSL_EXPORT = "portal.users.export_users.labelXslt";
 
     // Properties
     private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
@@ -360,7 +360,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
     private ItemNavigator _itemNavigator;
-    private ImportAdminUserService _importAdminUSerService = new ImportAdminUserService( );
+    private ImportAdminUserService _importAdminUserService = new ImportAdminUserService( );
 
     /**
      * Build the User list
@@ -1021,9 +1021,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_LIST_MESSAGES, request.getAttribute( ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES ) );
 
-        String strCsvSeparator = StringUtils.EMPTY + _importAdminUSerService.getCSVSeparator( );
-        String strCsvEscapeCharacter = StringUtils.EMPTY + _importAdminUSerService.getCSVEscapeCharacter( );
-        String strAttributesSeparator = StringUtils.EMPTY + _importAdminUSerService.getAttributesSeparator( );
+        String strCsvSeparator = StringUtils.EMPTY + _importAdminUserService.getCSVSeparator( );
+        String strCsvEscapeCharacter = StringUtils.EMPTY + _importAdminUserService.getCSVEscapeCharacter( );
+        String strAttributesSeparator = StringUtils.EMPTY + _importAdminUserService.getAttributesSeparator( );
         model.put( MARK_CSV_SEPARATOR, strCsvSeparator );
         model.put( MARK_CSV_ESCAPE, strCsvEscapeCharacter );
         model.put( MARK_ATTRIBUTES_SEPARATOR, strAttributesSeparator );
@@ -1079,8 +1079,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             boolean bSkipFirstLine = StringUtils.isNotEmpty( strSkipFirstLine );
             String strUpdateUsers = multipartRequest.getParameter( PARAMETER_UPDATE_USERS );
             boolean bUpdateUsers = StringUtils.isNotEmpty( strUpdateUsers );
-            _importAdminUSerService.setUpdateExistingUsers( bUpdateUsers );
-            List<CSVMessageDescriptor> listMessages = _importAdminUSerService.readCSVFile( fileItem, 0, false, false,
+            _importAdminUserService.setUpdateExistingUsers( bUpdateUsers );
+            List<CSVMessageDescriptor> listMessages = _importAdminUserService.readCSVFile( fileItem, 0, false, false,
                     bSkipFirstLine, AdminUserService.getLocale( request ) );
 
             request.setAttribute( ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES, listMessages );
