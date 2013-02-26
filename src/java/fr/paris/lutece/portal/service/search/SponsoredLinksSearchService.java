@@ -35,11 +35,11 @@ package fr.paris.lutece.portal.service.search;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
-import java.util.Locale;
 
 
 /**
@@ -63,8 +63,7 @@ public class SponsoredLinksSearchService implements ISponsoredLinksSearchService
         try
         {
             //first check if the sponsoredlinks service bean is available
-            _sponsoredLinksService = (ISponsoredLinksService) SpringContextService.getPluginBean( SPRING_CONTEXT_NAME,
-                    "sponsoredlinks.sponsoredLinksService" );
+            _sponsoredLinksService = SpringContextService.getBean( "sponsoredlinks.sponsoredLinksService" );
             _bAvailable = _sponsoredLinksService != null;
         }
         catch ( BeanDefinitionStoreException e )
