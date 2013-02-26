@@ -45,7 +45,9 @@ import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -208,6 +210,7 @@ public class PortalJspBean
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_APP_VERSION, AppInfo.getVersion(  ) );
+        model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_PORTAL_DOMAIN, AppPropertiesService.getProperty( PROPERTY_PORTAL_DOMAIN ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_CREDITS, request.getLocale(  ), model );

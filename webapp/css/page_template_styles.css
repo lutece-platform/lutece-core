@@ -16,6 +16,9 @@ iframe{border:none; width:100%;min-height:600px;}
 .btn-group-portlet form{margin-bottom:2px !important; }
 .btn-group-portlet button{opacity:0.6;margin:0 1px;background-color:#DEDEDE !important;}
 .btn-group-portlet button:hover{opacity:1;background-color:#DEDEDE !important;}
+
+.form-in-dropdown{color:#555555;padding:5px;margin:0px;}
+.form-in-dropdown button{width:100%;}
 /*
 div.btn-group-portlet + [class^="portlet"]:hover,div.btn-group-portlet + [class*=" portlet"]:hover  > [class^="btn-group-portlet"]{background-color:#DEDEDE; }
 */
