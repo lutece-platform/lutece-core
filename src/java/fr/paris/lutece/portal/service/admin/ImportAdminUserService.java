@@ -183,15 +183,15 @@ public class ImportAdminUserService extends CSVReaderService
                 AdminUserHome.create( user );
             }
         }
+        // We remove any previous right, roles, workgroup adn attributes of the user
         AdminUserHome.removeAllRightsForUser( user.getUserId( ) );
         AdminUserHome.removeAllRolesForUser( user.getUserId( ) );
         AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
         auFieldFilter.setIdUser( user.getUserId( ) );
         AdminUserFieldHome.removeByFilter( auFieldFilter );
 
+        // We get every attribute, role, right and workgroup of the user
         Map<Integer, List<String>> mapAttributesValues = new HashMap<Integer, List<String>>( );
-
-        // We get every attributes of the user
         List<String> listAdminRights = new ArrayList<String>( );
         List<String> listAdminRoles = new ArrayList<String>( );
         List<String> listAdminWorkgroups = new ArrayList<String>( );
@@ -234,16 +234,19 @@ public class ImportAdminUserService extends CSVReaderService
             nIndex++;
         }
 
+        // We create rights
         for ( String strRight : listAdminRights )
         {
             AdminUserHome.createRightForUser( user.getUserId( ), strRight );
         }
 
+        // We create roles
         for ( String strRole : listAdminRoles )
         {
             AdminUserHome.createRoleForUser( user.getUserId( ), strRole );
         }
 
+        // We create workgroups
         for ( String strWorkgoup : listAdminWorkgroups )
         {
             AdminWorkgroupHome.addUserForWorkgroup( user, strWorkgoup );

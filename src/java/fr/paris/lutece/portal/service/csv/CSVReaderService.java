@@ -107,8 +107,9 @@ public abstract class CSVReaderService
     }
 
     /**
-     * Read a CSV file and call the method {@link #readLineOfCSVFile(String[])
-     * readLineOfCSVFile} for each of its lines.
+     * Read a CSV file and call the method
+     * {@link #readLineOfCSVFile(String[], int, Locale) readLineOfCSVFile} for
+     * each of its lines.
      * @param fileItem FileItem to get the CSV file from. If the creation of the
      *            input stream associated to this file throws a IOException,
      *            then an error is returned and the file is not red.
@@ -158,8 +159,9 @@ public abstract class CSVReaderService
     }
 
     /**
-     * Read a CSV file and call the method {@link #readLineOfCSVFile(String[])
-     * readLineOfCSVFile} for each of its lines.
+     * Read a CSV file and call the method
+     * {@link #readLineOfCSVFile(String[], int, Locale) readLineOfCSVFile} for
+     * each of its lines.
      * @param strPath Path if the file to read in the file system.
      * @param nColumnNumber Number of columns of each lines. Use 0 to skip
      *            column number check (for example if every lines don't have the
@@ -201,9 +203,9 @@ public abstract class CSVReaderService
     }
 
     /**
-     * Read a CSV file and call the method {@link #readLineOfCSVFile(String[])
-     * readLineOfCSVFile} for each
-     * of its lines.
+     * Read a CSV file and call the method
+     * {@link #readLineOfCSVFile(String[], int, Locale) readLineOfCSVFile} for
+     * each of its lines.
      * @param file File to get the values from. If the physical file of this
      *            file has no value, then it is gotten from the database.
      * @param nColumnNumber Number of columns of each lines. Use 0 to skip
@@ -233,9 +235,9 @@ public abstract class CSVReaderService
     }
 
     /**
-     * Read a CSV file and call the method {@link #readLineOfCSVFile(String[])
-     * readLineOfCSVFile} for each
-     * of its lines.
+     * Read a CSV file and call the method
+     * {@link #readLineOfCSVFile(String[], int, Locale) readLineOfCSVFile} for
+     * each of its lines.
      * @param physicalFile The physicalFile to get the values from. If the
      *            physical file has no value, then it is gotten from the
      *            database.
@@ -369,7 +371,10 @@ public abstract class CSVReaderService
                         return listMessages;
                     }
                 }
-                listLines.add( strLine );
+                if ( strLine != null )
+                {
+                    listLines.add( strLine );
+                }
             }
             while ( strLine != null );
             List<CSVMessageDescriptor> listCheckErrors = checkCSVFileValidity( listLines, nColumnNumber,
@@ -558,7 +563,11 @@ public abstract class CSVReaderService
             }
             if ( !doesListMessageContainError( listMessages ) )
             {
-                checkLineOfCSVFile( strLine, nLineNumber, locale );
+                listMessages = checkLineOfCSVFile( strLine, nLineNumber, locale );
+                if ( listMessages != null && listMessages.size( ) > 0 )
+                {
+                    listErrors.addAll( listMessages );
+                }
             }
         }
         return listErrors;
