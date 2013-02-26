@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.date.DateUtil;
 
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -80,7 +79,6 @@ public final class PasswordUtil
     {
         // reinitialize password
         Random r = new Random(  );
-        String strPassword = "";
         int nPasswordSize = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_SIZE, 8 );
         int nMinPasswordSize = AdminUserService.getIntegerSecurityParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH );
 
@@ -89,7 +87,7 @@ public final class PasswordUtil
             nPasswordSize = nMinPasswordSize;
         }
 
-        ArrayList<Character> listCharacters = new ArrayList<Character>(  );
+        ArrayList<Character> listCharacters = new ArrayList<Character>( nPasswordSize );
 
         // No of Big letters
         int nNumCapitalLetters = r.nextInt( nPasswordSize - 3 ) + 1; // choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE -1
@@ -106,35 +104,35 @@ public final class PasswordUtil
         for ( int j = 0; j < nNumCapitalLetters; j++ )
         {
             char c1 = (char) ( r.nextInt( CONSTANT_NUMBER_LETTERS ) + CONSTANT_ASCII_CODE_A_UPPERCASE );
-            listCharacters.add( new Character( c1 ) );
+            listCharacters.add( Character.valueOf( c1 ) );
         }
 
         for ( int j = 0; j < nNumSmallLetters; j++ )
         {
             char c1 = (char) ( r.nextInt( CONSTANT_NUMBER_LETTERS ) + CONSTANT_ASCII_CODE_A_LOWERCASE );
-            listCharacters.add( new Character( c1 ) );
+            listCharacters.add( Character.valueOf( c1 ) );
         }
 
         for ( int j = 0; j < nNumNumbers; j++ )
         {
             char c1 = (char) ( r.nextInt( CONSTANT_NUMBER_NUMBERS_BASE10 - 1 ) + CONSTANT_ASCII_CODE_ZERO );
-            listCharacters.add( new Character( c1 ) );
+            listCharacters.add( Character.valueOf( c1 ) );
         }
 
         for ( int j = 0; j < nNumSpecial; j++ )
         {
             char c1 = CONSTANT_SPECIAL_CHARACTERS[r.nextInt( CONSTANT_SPECIAL_CHARACTERS.length )];
-            listCharacters.add( new Character( c1 ) );
+            listCharacters.add( Character.valueOf( c1 ) );
         }
 
         Collections.shuffle( listCharacters );
-
+        StringBuilder sbPassword = new StringBuilder( listCharacters.size( ) );
         for ( Character myChar : listCharacters )
         {
-            strPassword += myChar;
+            sbPassword.append( myChar );
         }
 
-        return strPassword;
+        return sbPassword.toString( );
     }
 
     /**

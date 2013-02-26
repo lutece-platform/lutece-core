@@ -134,7 +134,8 @@ public final class FilterService
                     LuteceFilterConfig filterConfig = new LuteceFilterConfig( filter.getName(  ), _context,
                             filter.getInitParameters(  ) );
                     filter.getFilter(  ).init( filterConfig );
-                    AppLogService.info( " * filter '" + filter.getName() + "' from plugin " + filter.getPlugin().getName() + " initialized.");
+                    AppLogService.info( " * filter '" + filter.getName( ) + "' from plugin "
+                            + filter.getPlugin( ).getName( ) + " initialized." );
                 }
             }
             catch ( Exception e )

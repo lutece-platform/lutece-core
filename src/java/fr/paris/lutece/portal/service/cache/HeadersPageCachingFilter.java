@@ -36,6 +36,14 @@ package fr.paris.lutece.portal.service.cache;
 import fr.paris.lutece.portal.service.page.PageEvent;
 import fr.paris.lutece.portal.service.page.PageEventListener;
 import fr.paris.lutece.portal.service.page.PageService;
+
+import java.util.List;
+
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.CacheManager;
@@ -49,19 +57,13 @@ import net.sf.ehcache.constructs.web.filter.SimpleCachingHeadersPageCachingFilte
 
 import org.apache.log4j.Logger;
 
-import java.util.List;
-
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 
 /**
  * Headers Page Caching Filter
  * based on EHCACHE WEB
  */
-public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFilter implements CacheableService, PageEventListener
+public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFilter
+    implements CacheableService, PageEventListener
 {
     private static final String BLOCKING_TIMEOUT_MILLIS = "blockingTimeoutMillis";
     private static final String INIT_PARAM_CACHE_NAME = "cacheName";
@@ -72,7 +74,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     private String _strCacheName;
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
     @Override
     public void doInit( FilterConfig filterConfig ) throws CacheException
@@ -85,23 +87,23 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      * Initialization of the filter
      */
-    private void init(  )
+    private void init( )
     {
         // Execute the doInit
-        synchronized ( this.getClass(  ) )
+        synchronized ( this.getClass( ) )
         {
             if ( blockingCache == null )
             {
                 _strCacheName = filterConfig.getInitParameter( INIT_PARAM_CACHE_NAME );
-                CacheService.getInstance(  ).createCache( _strCacheName );
-                _cache = CacheManager.getInstance(  ).getCache( _strCacheName );
+                CacheService.getInstance( ).createCache( _strCacheName );
+                _cache = CacheManager.getInstance( ).getCache( _strCacheName );
                 CacheService.registerCacheableService( this );
                 _logger.debug( "Initializing cache : " + _strCacheName );
 
                 setCacheNameIfAnyConfigured( filterConfig );
 
-                final String localCacheName = getCacheName(  );
-                Ehcache cache = getCacheManager(  ).getEhcache( localCacheName );
+                final String localCacheName = getCacheName( );
+                Ehcache cache = getCacheManager( ).getEhcache( localCacheName );
 
                 if ( cache == null )
                 {
@@ -112,10 +114,10 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
                 {
                     // decorate and substitute
                     BlockingCache newBlockingCache = new BlockingCache( cache );
-                    getCacheManager(  ).replaceCacheWithDecoratedCache( cache, newBlockingCache );
+                    getCacheManager( ).replaceCacheWithDecoratedCache( cache, newBlockingCache );
                 }
 
-                blockingCache = (BlockingCache) getCacheManager(  ).getEhcache( localCacheName );
+                blockingCache = (BlockingCache) getCacheManager( ).getEhcache( localCacheName );
 
                 Integer blockingTimeoutMillis = parseBlockingCacheTimeoutMillis( filterConfig );
 
@@ -124,7 +126,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
                     blockingCache.setTimeoutMillis( blockingTimeoutMillis );
                 }
             }
-            PageService.addPageEventListener(this);
+            PageService.addPageEventListener( this );
         }
 
         _bInit = true;
@@ -134,7 +136,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
      * Reads the filterConfig for the parameter "blockingTimeoutMillis", and if
      * found, set the blocking timeout. If there is a parsing exception, no
      * timeout is set.
-     *
+     * 
      * @param filterConfig The filter config
      * @return The timeout value
      */
@@ -153,32 +155,31 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     }
 
     /**
-     *  {@inheritDoc }
-     *  This method is overriden to provide the cache name
+     * {@inheritDoc } This method is overriden to provide the cache name
      */
     @Override
-    protected String getCacheName(  )
+    protected String getCacheName( )
     {
         return _strCacheName;
     }
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
     @Override
     protected void doFilter( HttpServletRequest request, HttpServletResponse response, FilterChain chain )
-        throws AlreadyGzippedException, AlreadyCommittedException, FilterNonReentrantException, LockTimeoutException,
-            Exception
+            throws AlreadyGzippedException, AlreadyCommittedException, FilterNonReentrantException,
+            LockTimeoutException, Exception
     {
         if ( !_bInit )
         {
-            init(  );
+            init( );
         }
 
         if ( _bEnable )
         {
             super.doFilter( request, response, chain );
-            _logger.debug( "URI served from cache : " + request.getRequestURI(  ) );
+            _logger.debug( "URI served from cache : " + request.getRequestURI( ) );
         }
         else
         {
@@ -188,39 +189,39 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
 
     // Cacheable Service implementation
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
-    public boolean isCacheEnable(  )
+    public boolean isCacheEnable( )
     {
         return _bEnable;
     }
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
-    public int getCacheSize(  )
+    public int getCacheSize( )
     {
-        return _cache.getSize(  );
+        return _cache.getSize( );
     }
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
-    public void resetCache(  )
+    public void resetCache( )
     {
-        _cache.removeAll(  );
+        _cache.removeAll( );
     }
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strCacheName;
     }
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
     public void enableCache( boolean bEnable )
     {
@@ -228,61 +229,61 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
 
         if ( ( !_bEnable ) && ( _cache != null ) )
         {
-            _cache.removeAll(  );
+            _cache.removeAll( );
         }
     }
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
-    public List<String> getKeys(  )
+    public List<String> getKeys( )
     {
-        return _cache.getKeys(  );
+        return _cache.getKeys( );
     }
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
-    public int getMaxElements(  )
+    public int getMaxElements( )
     {
-        return _cache.getCacheConfiguration(  ).getMaxElementsInMemory(  );
+        return _cache.getCacheConfiguration( ).getMaxElementsInMemory( );
     }
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
-    public long getTimeToLive(  )
+    public long getTimeToLive( )
     {
-        return _cache.getCacheConfiguration(  ).getTimeToLiveSeconds(  );
+        return _cache.getCacheConfiguration( ).getTimeToLiveSeconds( );
     }
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
-    public long getMemorySize(  )
+    public long getMemorySize( )
     {
-        return _cache.calculateInMemorySize(  );
+        return _cache.calculateInMemorySize( );
     }
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
-    public String getInfos(  )
+    public String getInfos( )
     {
         return CacheService.getInfos( _cache );
     }
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
-    public void processPageEvent(PageEvent event)
+    public void processPageEvent( PageEvent event )
     {
-        String strPattern = "page_id=" + event.getPage().getId();
-        for( String strKey : (List<String>) blockingCache.getKeys() )
+        String strPattern = "page_id=" + event.getPage( ).getId( );
+        for ( String strKey : (List<String>) blockingCache.getKeys( ) )
         {
-            if( strKey.contains( strPattern ) && (event.getEventType() != PageEvent.PAGE_CREATED ))
+            if ( strKey.contains( strPattern ) && ( event.getEventType( ) != PageEvent.PAGE_CREATED ) )
             {
-                blockingCache.remove(strKey);
+                blockingCache.remove( strKey );
             }
         }
     }
