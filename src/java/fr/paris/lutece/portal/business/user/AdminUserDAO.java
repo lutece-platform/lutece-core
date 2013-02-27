@@ -78,7 +78,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_CHECK_ROLE_ATTRIBUTED = " SELECT id_user FROM core_user_role WHERE role_key = ?";
     private static final String SQL_CHECK_ACCESS_CODE_IN_USE = " SELECT id_user FROM core_admin_user WHERE access_code = ?";
     private static final String SQL_CHECK_EMAIL_IN_USE = " SELECT id_user FROM core_admin_user WHERE email = ?";
-    private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( id_user, access_code, last_name, first_name, email, status, password, locale, level_user, accessibility_mode, reset_password, password_max_valid_date )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( id_user, access_code, last_name, first_name, email, status, password, locale, level_user, accessibility_mode, reset_password, password_max_valid_date, account_max_valid_date, last_login )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_UPDATE_DEFAULT_USER = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, password = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ? WHERE id_user = ?  ";
     private static final String SQL_QUERY_SELECT_USERS_ID_BY_ROLES = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale, a.accessibility_mode, a.password_max_valid_date " +
         " FROM core_admin_user a, core_user_role b WHERE a.id_user = b.id_user AND b.role_key = ? ";
@@ -244,7 +244,11 @@ public class AdminUserDAO implements IAdminUserDAO
             {
                 user.setAccountMaxValidDate( new Timestamp( accountTime ) );
             }
-            user.setDateLastLogin( daoUtil.getTimestamp( 13 ) );
+            Timestamp dateLastLogin = daoUtil.getTimestamp( 13 );
+            if ( ( dateLastLogin != null ) && !dateLastLogin.equals( AdminUser.DEFAULT_DATE_LAST_LOGIN ) )
+            {
+                user.setDateLastLogin( dateLastLogin );
+            }
             userList.add( user );
         }
 
@@ -542,6 +546,15 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setBoolean( 10, user.getAccessibilityMode(  ) );
         daoUtil.setBoolean( 11, user.isPasswordReset(  ) );
         daoUtil.setTimestamp( 12, user.getPasswordMaxValidDate(  ) );
+        if ( user.getAccountMaxValidDate( ) == null )
+        {
+            daoUtil.setLongNull( 13 );
+        }
+        else
+        {
+            daoUtil.setLong( 13, user.getAccountMaxValidDate( ).getTime( ) );
+        }
+        daoUtil.setTimestamp( 14, user.getDateLastLogin( ) );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }

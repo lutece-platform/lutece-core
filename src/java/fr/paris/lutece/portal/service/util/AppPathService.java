@@ -240,9 +240,10 @@ public final class AppPathService
 
     /**
      * Return the url of the webapp. The method should only be used out of
-     * request context (by daemons for exemple). If there is a request context,
+     * request context (by daemons for example). If there is a request context,
      * use {@link AppPathService#getBaseUrl(HttpServletRequest)} instead.
-     * @return The webapp url
+     * @return The webapp url, or null if the 'lutece.base.url' property has not
+     *         been set.
      */
     public static String getBaseUrl( )
     {

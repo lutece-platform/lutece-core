@@ -18,12 +18,17 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldListenerService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.password.PasswordUtil;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -135,12 +140,22 @@ public class ImportAdminUserService extends CSVReaderService
         Timestamp accountMaxValidDate = AdminUserService.getAccountMaxValidDate( );
         String strDateLastLogin = strLineDataArray[nIndex++];
         Timestamp dateLastLogin = new Timestamp( AdminUser.DEFAULT_DATE_LAST_LOGIN.getTime( ) );
-        if ( StringUtils.isNotBlank( strDateLastLogin ) && StringUtils.isNumeric( strDateLastLogin ) )
+        if ( StringUtils.isNotBlank( strDateLastLogin ) )
         {
-            long nLastLoginTime = Long.parseLong( strDateLastLogin );
-            if ( nLastLoginTime > 0 )
+            DateFormat dateFormat = new SimpleDateFormat( );
+            Date dateParsed;
+            try
             {
-                dateLastLogin = new Timestamp( nLastLoginTime );
+                dateParsed = dateFormat.parse( strDateLastLogin );
+            }
+            catch ( ParseException e )
+            {
+                AppLogService.error( e.getMessage( ), e );
+                dateParsed = null;
+            }
+            if ( dateParsed != null )
+            {
+                dateLastLogin = new Timestamp( dateParsed.getTime( ) );
             }
         }
         AdminUser user = null;

@@ -1125,17 +1125,17 @@ public final class AdminUserService
      */
     public static Timestamp getAccountMaxValidDate(  )
     {
-        int nbMonthsPasswordValid = getIntegerSecurityParameter( MARK_ACCOUNT_LIFE_TIME );
+        int nbMonthsAccountValid = getIntegerSecurityParameter( MARK_ACCOUNT_LIFE_TIME );
 
-        if ( nbMonthsPasswordValid <= 0 )
+        if ( nbMonthsAccountValid <= 0 )
         {
             return null;
         }
 
-        Calendar calendare = new GregorianCalendar( Locale.getDefault(  ) );
-        calendare.add( Calendar.MONTH, nbMonthsPasswordValid );
+        Calendar calendar = new GregorianCalendar( Locale.getDefault( ) );
+        calendar.add( Calendar.MONTH, nbMonthsAccountValid );
 
-        return new Timestamp( calendare.getTimeInMillis(  ) );
+        return new Timestamp( calendar.getTimeInMillis( ) );
     }
 
     /**
@@ -1372,6 +1372,7 @@ public final class AdminUserService
             boolean bIncludeWorkgroups, boolean bIncludeAttributes, List<IAttribute> listAttributes )
     {
         StringBuffer sbXml = new StringBuffer( );
+        DateFormat dateFormat = new SimpleDateFormat( );
 
         XmlUtil.beginElement( sbXml, CONSTANT_XML_USER );
         XmlUtil.addElement( sbXml, CONSTANT_XML_ACCESS_CODE, user.getAccessCode( ) );
@@ -1387,22 +1388,23 @@ public final class AdminUserService
         String strPasswordMaxValidDate = StringUtils.EMPTY;
         if ( user.getPasswordMaxValidDate( ) != null )
         {
-            strPasswordMaxValidDate = Long.toString( user.getPasswordMaxValidDate( ).getTime( ) );
+            strPasswordMaxValidDate = dateFormat.format( user.getPasswordMaxValidDate( ) );
         }
         XmlUtil.addElement( sbXml, CONSTANT_XML_PASSWORD_MAX_VALID_DATE, strPasswordMaxValidDate );
 
         String strAccountMaxValidDate = StringUtils.EMPTY;
         if ( user.getAccountMaxValidDate( ) != null )
         {
-            strAccountMaxValidDate = Long.toString( user.getAccountMaxValidDate( ).getTime( ) );
+            strAccountMaxValidDate = dateFormat.format( user.getAccountMaxValidDate( ) );
         }
         XmlUtil.addElement( sbXml, CONSTANT_XML_ACCOUNT_MAX_VALID_DATE, strAccountMaxValidDate );
 
         String strDateLastLogin = StringUtils.EMPTY;
         if ( user.getDateLastLogin( ) != null )
         {
-            strDateLastLogin = Long.toString( user.getDateLastLogin( ).getTime( ) );
+            strDateLastLogin = dateFormat.format( user.getDateLastLogin( ) );
         }
+
         XmlUtil.addElement( sbXml, CONSTANT_XML_DATE_LAST_LOGIN, strDateLastLogin );
 
         if ( bIncludeRoles )
