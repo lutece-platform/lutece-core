@@ -159,6 +159,10 @@ public final class AdminUserService
     private static final String MARK_DATE_VALID = "date_valid";
     private static final String MARK_BANNED_DOMAIN_NAMES = "banned_domain_names";
     private static final String MARK_NOTIFY_USER_PASSWORD_EXPIRED = "notify_user_password_expired";
+    private static final String MARK_SITE_NAME = "site_name";
+    private static final String MARK_USER = "user";
+    private static final String MARK_SITE_LINK = "site_link";
+    private static final String MARK_LOGIN_URL = "login_url";
 
     // Properties
     private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
@@ -177,6 +181,8 @@ public final class AdminUserService
     private static final String PROPERTY_DEFAULT_HISTORY_SIZE = "security.defaultValues.passwordHistorySize";
     private static final String PROPERTY_DEFAULT_PASSWORD_DURATION = "security.defaultValues.passwordDuration";
     private static final String PROPERTY_DEFAULT_ENCRYPTION_ALGORITHM = "security.defaultValues.algorithm";
+    private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
+    private static final String PROPERTY_SITE_NAME = "lutece.name";
 
     // CONSTANTS
     private static final String CONSTANT_DEFAULT_ENCRYPT_ALGO = "SHA-256";
@@ -870,18 +876,15 @@ public final class AdminUserService
         {
             return 0;
         }
-        else
+        try
         {
-            try
-            {
-                int nValue = Integer.parseInt( defaultUserParameter.getParameterValue(  ) );
+            int nValue = Integer.parseInt( defaultUserParameter.getParameterValue( ) );
 
-                return nValue;
-            }
-            catch ( NumberFormatException e )
-            {
-                return 0;
-            }
+            return nValue;
+        }
+        catch ( NumberFormatException e )
+        {
+            return 0;
         }
     }
 
@@ -1275,6 +1278,32 @@ public final class AdminUserService
     public static void updateDateLastLogin( int nIdUser )
     {
         AdminUserHome.updateDateLastLogin( nIdUser, new Timestamp( new Date(  ).getTime(  ) ) );
+    }
+
+    /**
+     * Notify an user by email
+     * @param strBaseUrl The base URL of the webapp
+     * @param user The admin user to notify
+     * @param strPropertyEmailSubject the property of the subject email
+     * @param strTemplate the URL of the HTML Template
+     */
+    public static void notifyUser( String strBaseUrl, AdminUser user, String strPropertyEmailSubject, String strTemplate )
+    {
+        String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
+        String strSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
+        Locale locale = user.getLocale( );
+        String strEmailSubject = I18nService.getLocalizedString( strPropertyEmailSubject, new String[] { strSiteName },
+                locale );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_USER, user );
+        model.put( MARK_SITE_NAME, strSiteName );
+        model.put( MARK_LOGIN_URL, strBaseUrl + AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) );
+        model.put( MARK_SITE_LINK, MailService.getSiteLink( strBaseUrl, false ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, locale, model );
+
+        MailService
+                .sendMailHtml( user.getEmail( ), strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
     }
 
     /**

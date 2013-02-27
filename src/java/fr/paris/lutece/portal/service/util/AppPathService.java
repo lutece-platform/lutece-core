@@ -42,9 +42,7 @@ import fr.paris.lutece.util.url.UrlItem;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
 import java.text.MessageFormat;
-
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 
@@ -184,7 +182,7 @@ public final class AppPathService
     }
 
     /**
-     * Return the url of the webapp, built from rhe request
+     * Return the url of the webapp, built from the request
      * @param request The HttpServletRequest
      * @return strBase the webapp url
      */
@@ -238,6 +236,17 @@ public final class AppPathService
         }
 
         return strBase;
+    }
+
+    /**
+     * Return the url of the webapp. The method should only be used out of
+     * request context (by daemons for exemple). If there is a request context,
+     * use {@link AppPathService#getBaseUrl(HttpServletRequest)} instead.
+     * @return The webapp url
+     */
+    public static String getBaseUrl( )
+    {
+        return AppPropertiesService.getProperty( PROPERTY_BASE_URL );
     }
 
     /**

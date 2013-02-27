@@ -18,6 +18,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldListenerService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.password.PasswordUtil;
 
@@ -45,6 +46,9 @@ public class ImportAdminUserService extends CSVReaderService
     private static final String MESSAGE_ERROR_MIN_NUMBER_COLUMNS = "portal.users.import_users_from_file.messageErrorMinColumnNumber";
 
     private static final String PROPERTY_IMPORT_EXPORT_USER_SEPARATOR = "lutece.importExportUser.defaultSeparator";
+    private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER = "portal.users.notify_user.email.subject";
+
+    private static final String TEMPLATE_NOTIFY_USER = "admin/user/notify_user_account_created.html";
 
     private static final String CONSTANT_DEFAULT_IMPORT_EXPORT_USER_SEPARATOR = ":";
     private static final String CONSTANT_RIGHT = "right";
@@ -90,7 +94,7 @@ public class ImportAdminUserService extends CSVReaderService
 
         String strStatus = strLineDataArray[nIndex++];
         int nStatus = 0;
-        if ( StringUtils.isNotEmpty( strStatus ) )
+        if ( StringUtils.isNotEmpty( strStatus ) && StringUtils.isNumeric( strStatus ) )
         {
             nStatus = Integer.parseInt( strStatus );
         }
@@ -104,7 +108,7 @@ public class ImportAdminUserService extends CSVReaderService
         String strLocale = strLineDataArray[nIndex++];
         String strLevelUser = strLineDataArray[nIndex++];
         int nLevelUser = 3;
-        if ( StringUtils.isNotEmpty( strLevelUser ) )
+        if ( StringUtils.isNotEmpty( strLevelUser ) && StringUtils.isNumeric( strLevelUser ) )
         {
             nLevelUser = Integer.parseInt( strLevelUser );
         }
@@ -131,7 +135,7 @@ public class ImportAdminUserService extends CSVReaderService
         Timestamp accountMaxValidDate = AdminUserService.getAccountMaxValidDate( );
         String strDateLastLogin = strLineDataArray[nIndex++];
         Timestamp dateLastLogin = new Timestamp( AdminUser.DEFAULT_DATE_LAST_LOGIN.getTime( ) );
-        if ( StringUtils.isNotBlank( strDateLastLogin ) )
+        if ( StringUtils.isNotBlank( strDateLastLogin ) && StringUtils.isNumeric( strDateLastLogin ) )
         {
             long nLastLoginTime = Long.parseLong( strDateLastLogin );
             if ( nLastLoginTime > 0 )
@@ -174,9 +178,13 @@ public class ImportAdminUserService extends CSVReaderService
             {
                 LuteceDefaultAdminUser defaultAdminUser = (LuteceDefaultAdminUser) user;
                 String strPassword = PasswordUtil.makePassword( );
-                strPassword = AdminUserService.encryptPassword( strPassword );
-                defaultAdminUser.setPassword( strPassword );
+                String strEncryptedPassword = AdminUserService.encryptPassword( strPassword );
+                defaultAdminUser.setPassword( strEncryptedPassword );
                 AdminUserHome.create( defaultAdminUser );
+                // We un-encrypt the password to send it in an email
+                defaultAdminUser.setPassword( strPassword );
+                AdminUserService.notifyUser( AppPathService.getBaseUrl( ), user,
+                        PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
             }
             else
             {

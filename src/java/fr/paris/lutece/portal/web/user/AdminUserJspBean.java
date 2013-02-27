@@ -139,7 +139,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_MANAGE_USER_WORKGROUPS = "admin/user/manage_user_workgroups.html";
     private static final String TEMPLATE_MODIFY_USER_WORKGROUPS = "admin/user/modify_user_workgroups.html";
     private static final String TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS = "admin/user/user_email_change_status.html";
-    private static final String TEMPLATE_NOTIFY_USER = "admin/user/notify_user.html";
+    private static final String TEMPLATE_NOTIFY_USER = "admin/user/notify_user_account_created.html";
     private static final String TEMPLATE_MANAGE_ADVANCED_PARAMETERS = "admin/user/manage_advanced_parameters.html";
     private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD = "admin/admin_email_forgot_password.html";
     private static final String TEMPLATE_FIELD_ANONYMIZE_ADMIN_USER = "admin/user/field_anonymize_admin_user.html";
@@ -195,7 +195,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     // Properties
     private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
-    private static final String PROPERTY_SITE_NAME = "lutece.name";
 
     // Parameters
     private static final String PARAMETER_ACCESS_CODE = "access_code";
@@ -310,7 +309,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_USER_WORKGROUP_LIST = "user_workgroup_list";
     private static final String MARK_ALL_WORKSGROUP_LIST = "all_workgroup_list";
     private static final String MARK_SELECT_ALL = "select_all";
-    private static final String MARK_SITE_NAME = "site_name";
     private static final String MARK_LOGIN_URL = "login_url";
     private static final String MARK_NEW_PASSWORD = "new_password";
     private static final String MARK_PERMISSION_ADVANCED_PARAMETER = "permission_advanced_parameter";
@@ -738,7 +736,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 // Notify user for the creation of this account
                 // We set the password not encrypted for the email
                 user.setPassword( strSecondPassword );
-                notifyUser( request, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
+                AdminUserService.notifyUser( AppPathService.getBaseUrl( request ), user,
+                        PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
                 user.setPassword( strFirstPassword );
             }
         }
@@ -924,7 +923,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                     AdminMessage.TYPE_STOP );
             }
 
-            if ( !strFirstPassword.equals( strSecondPassword ) )
+            if ( !StringUtils.equals( strFirstPassword, strSecondPassword ) )
             {
                 // First and second password are filled but there are different
                 return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
@@ -959,7 +958,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( nStatus != user.getStatus(  ) )
             {
                 user.setStatus( nStatus );
-                notifyUser( request, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_CHANGE_STATUS,
+                AdminUserService.notifyUser( AppPathService.getBaseUrl( request ), user,
+                        PROPERTY_MESSAGE_EMAIL_SUBJECT_CHANGE_STATUS,
                     TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS );
             }
 
@@ -1206,45 +1206,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         out.flush( );
         out.close( );
         return null;
-    }
-
-    /**
-     * Notify an user by email
-     * @param request Http Request}
-     * @param user The admin user to notify
-     * @param strPropertyEmailSubject the property of the subject email
-     * @param strTemplate the URL of the HTML Template
-     */
-    private void notifyUser( HttpServletRequest request, AdminUser user, String strPropertyEmailSubject,
-        String strTemplate )
-    {
-        String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
-        String strSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
-
-        Locale locale;
-
-        if ( user.getLocale(  ) != null )
-        {
-            locale = user.getLocale(  );
-        }
-        else
-        {
-            locale = getLocale(  );
-        }
-
-        String strEmailSubject = I18nService.getLocalizedString( strPropertyEmailSubject, new String[] { strSiteName },
-                locale );
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_USER, user );
-        model.put( MARK_SITE_NAME, strSiteName );
-        model.put( MARK_LOGIN_URL,
-            AppPathService.getBaseUrl( request ) + AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ) );
-        model.put( MARK_SITE_LINK, MailService.getSiteLink( AppPathService.getBaseUrl( request ), false ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, locale, model );
-
-        MailService.sendMailHtml( user.getEmail(  ), strSenderEmail, strSenderEmail, strEmailSubject,
-            template.getHtml(  ) );
     }
 
     /**
@@ -2092,7 +2053,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         else
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_USE_ASP,
-                JSP_URL_USE_ADVANCED_SECUR_PARAM, AdminMessage.TYPE_CONFIRMATION );
+                    JSP_URL_USE_ADVANCED_SECUR_PARAM, AdminMessage.TYPE_CONFIRMATION );
         }
     }
 
