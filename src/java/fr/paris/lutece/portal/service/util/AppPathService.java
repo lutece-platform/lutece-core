@@ -247,7 +247,12 @@ public final class AppPathService
      */
     public static String getBaseUrl( )
     {
-        return AppPropertiesService.getProperty( PROPERTY_BASE_URL );
+        String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_BASE_URL );
+        if ( !strBaseUrl.endsWith( "/" ) )
+        {
+            strBaseUrl += "/";
+        }
+        return strBaseUrl;
     }
 
     /**

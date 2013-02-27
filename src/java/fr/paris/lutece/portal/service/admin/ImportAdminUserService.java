@@ -49,6 +49,7 @@ public class ImportAdminUserService extends CSVReaderService
     private static final String MESSAGE_EMAIL_ALREADY_USED = "portal.users.message.user.accessEmailUsed";
     private static final String MESSAGE_USERS_IMPORTED = "portal.users.import_users_from_file.usersImported";
     private static final String MESSAGE_ERROR_MIN_NUMBER_COLUMNS = "portal.users.import_users_from_file.messageErrorMinColumnNumber";
+    private static final String MESSAGE_ERROR_IMPORTING_ATTRIBUTES = "portal.users.import_users_from_file.errorImportingAttributes";
 
     private static final String PROPERTY_IMPORT_EXPORT_USER_SEPARATOR = "lutece.importExportUser.defaultSeparator";
     private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER = "portal.users.notify_user.email.subject";
@@ -309,24 +310,36 @@ public class ImportAdminUserService extends CSVReaderService
                             nIdField = 0;
                         }
                         String[] strValues = { strValue };
-                        List<AdminUserField> listUserFields = ( (ISimpleValuesAttributes) attribute )
-                                .getUserFieldsData( strValues, user );
-
-                        for ( AdminUserField userField : listUserFields )
+                        try
                         {
-                            if ( userField != null )
+                            List<AdminUserField> listUserFields = ( (ISimpleValuesAttributes) attribute )
+                                    .getUserFieldsData( strValues, user );
+
+                            for ( AdminUserField userField : listUserFields )
                             {
-                                userField.getAttributeField( ).setIdField( nIdField );
-                                AdminUserFieldHome.create( userField );
+                                if ( userField != null )
+                                {
+                                    userField.getAttributeField( ).setIdField( nIdField );
+                                    AdminUserFieldHome.create( userField );
+                                }
+                            }
+                            if ( !bCoreAttribute )
+                            {
+                                for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService
+                                        .getBeansOfType( AdminUserFieldListenerService.class ) )
+                                {
+                                    adminUserFieldListenerService.doCreateUserFields( user, listUserFields, locale );
+                                }
                             }
                         }
-                        if ( !bCoreAttribute )
+                        catch ( Exception e )
                         {
-                            for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService
-                                    .getBeansOfType( AdminUserFieldListenerService.class ) )
-                            {
-                                adminUserFieldListenerService.doCreateUserFields( user, listUserFields, locale );
-                            }
+                            AppLogService.error( e.getMessage( ), e );
+                            String strErrorMessage = I18nService.getLocalizedString(
+                                    MESSAGE_ERROR_IMPORTING_ATTRIBUTES, locale );
+                            CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber,
+                                    strErrorMessage );
+                            listMessages.add( error );
                         }
                     }
                 }
