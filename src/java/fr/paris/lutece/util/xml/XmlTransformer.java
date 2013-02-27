@@ -37,11 +37,10 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.io.StringWriter;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -224,13 +223,9 @@ public final class XmlTransformer
         {
             transformer.clearParameters(  );
 
-            Iterator<String> i = params.keySet(  ).iterator(  );
-
-            while ( i.hasNext(  ) )
+            for ( Entry<String, String> entry : params.entrySet( ) )
             {
-                String name = i.next(  );
-                String value = params.get( name );
-                transformer.setParameter( name, value );
+                transformer.setParameter( entry.getKey( ), entry.getValue( ) );
             }
         }
 
