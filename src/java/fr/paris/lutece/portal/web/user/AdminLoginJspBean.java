@@ -55,6 +55,7 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
@@ -336,7 +337,7 @@ public class AdminLoginJspBean implements Serializable
             // Creating a record of connections log
             UserLog userLog = new UserLog(  );
             userLog.setAccessCode( strAccessCode );
-            userLog.setIpAddress( request.getRemoteAddr(  ) );
+            userLog.setIpAddress( SecurityUtil.getRealIp( request ) );
             userLog.setDateLogin( new java.sql.Timestamp( new java.util.Date(  ).getTime(  ) ) );
             userLog.setLoginStatus( UserLog.LOGIN_DENIED ); // will be inserted only if access denied
             UserLogHome.addUserLog( userLog );

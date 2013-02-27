@@ -37,12 +37,12 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.log.UserLog;
 import fr.paris.lutece.portal.business.user.log.UserLogHome;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.util.http.SecurityUtil;
 
 import java.util.Collection;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
-
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -94,7 +94,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
         // Creating a record of connections log
         UserLog userLog = new UserLog(  );
         userLog.setAccessCode( strAccessCode );
-        userLog.setIpAddress( request.getRemoteAddr(  ) );
+        userLog.setIpAddress( SecurityUtil.getRealIp( request ) );
         userLog.setDateLogin( new java.sql.Timestamp( new java.util.Date(  ).getTime(  ) ) );
 
         // Test the number of errors during an interval of minutes

@@ -35,11 +35,12 @@ package fr.paris.lutece.util.http;
 
 import fr.paris.lutece.util.string.StringUtil;
 
-import org.apache.log4j.Logger;
-
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -50,8 +51,11 @@ public final class SecurityUtil
 {
     private static final String LOGGER_NAME = "lutece.security.http";
 
+    private static final String CONSTANT_HTTP_HEADER_X_FORWARDED_FOR = "X-Forwarded-For";
+    private static final String PATTERN_IP_ADDRESS = "^([0-9]{1,3}\\.){3}[0-9]{1,3}$";
+
+    private static final String CONSTANT_COMMA = ",";
     //private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
-    private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
 
     /**
      * Private Constructor
@@ -159,6 +163,40 @@ public final class SecurityUtil
         dumpHeaders( sbDump, request );
 
         return sbDump.toString(  );
+    }
+
+    /**
+     * Get the IP of the user from a request. If the user is behind an apache
+     * server, return the ip of the user instead of the ip of the server.
+     * @param request The request
+     * @return The IP of the user that made the request
+     */
+    public static String getRealIp( HttpServletRequest request )
+    {
+        String strIPAddress = request.getHeader( CONSTANT_HTTP_HEADER_X_FORWARDED_FOR );
+        if ( strIPAddress != null )
+        {
+            String strIpForwarded = null;
+            while ( !strIPAddress.matches( PATTERN_IP_ADDRESS ) && strIPAddress.contains( CONSTANT_COMMA ) )
+            {
+                strIpForwarded = strIPAddress.substring( 0, strIPAddress.indexOf( CONSTANT_COMMA ) );
+                strIPAddress = strIPAddress.substring( strIPAddress.indexOf( CONSTANT_COMMA ) )
+                        .replaceFirst( CONSTANT_COMMA, StringUtils.EMPTY ).trim( );
+                if ( strIpForwarded != null && strIpForwarded.matches( PATTERN_IP_ADDRESS ) )
+                {
+                    strIPAddress = strIpForwarded;
+                }
+            }
+            if ( !strIPAddress.matches( PATTERN_IP_ADDRESS ) )
+            {
+                strIPAddress = request.getRemoteAddr( );
+            }
+        }
+        else
+        {
+            strIPAddress = request.getRemoteAddr( );
+        }
+        return strIPAddress;
     }
 
     /**
