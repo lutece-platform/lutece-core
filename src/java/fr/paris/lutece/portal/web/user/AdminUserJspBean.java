@@ -260,6 +260,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_UPDATE_USERS = "update_existing_users";
     private static final String PARAMETER_XSL_EXPORT_ID = "xsl_export_id";
     private static final String PARAMETER_EXPORT_ROLES = "export_roles";
+    private static final String PARAMETER_EXPORT_ATTRIBUTES = "export_attributes";
     private static final String PARAMETER_EXPORT_RIGHTS = "export_rights";
     private static final String PARAMETER_EXPORT_WORKGROUPS = "export_workgroups";
 
@@ -1140,9 +1141,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         String strXslExportId = request.getParameter( PARAMETER_XSL_EXPORT_ID );
+        String strExportAttributes = request.getParameter( PARAMETER_EXPORT_ATTRIBUTES );
         String strExportRoles = request.getParameter( PARAMETER_EXPORT_ROLES );
         String strExportRights = request.getParameter( PARAMETER_EXPORT_RIGHTS );
         String strExportWorkgroups = request.getParameter( PARAMETER_EXPORT_WORKGROUPS );
+        boolean bExportAttributes = StringUtils.isNotEmpty( strExportAttributes );
         boolean bExportRoles = StringUtils.isNotEmpty( strExportRoles );
         boolean bExportRights = StringUtils.isNotEmpty( strExportRights );
         boolean bExportWorkgroups = StringUtils.isNotEmpty( strExportWorkgroups );
@@ -1178,7 +1181,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( !user.isStatusAnonymized( ) )
             {
                 sbXml.append( AdminUserService.getXmlFromUser( user, bExportRoles, bExportRights, bExportWorkgroups,
-                        true, listAttributesFiltered ) );
+                        bExportAttributes, listAttributesFiltered ) );
             }
         }
         XmlUtil.endElement( sbXml, CONSTANT_XML_USERS );

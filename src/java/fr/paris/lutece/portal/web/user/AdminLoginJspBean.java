@@ -58,10 +58,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
+
 import java.io.Serializable;
-
-import org.apache.commons.lang.StringUtils;
-
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -70,9 +68,10 @@ import java.util.Map;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -420,9 +419,7 @@ public class AdminLoginJspBean implements Serializable
         if ( ( strPassword != null ) && !strPassword.equals( CONSTANT_EMPTY_STRING ) )
         {
             // Encrypted password
-            String strEncryptedPassword = strPassword;
-
-            strEncryptedPassword = AdminUserService.encryptPassword( strPassword );
+            String strEncryptedPassword = AdminUserService.encryptPassword( strPassword );
 
             LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
             userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate(  ) );
@@ -539,15 +536,15 @@ public class AdminLoginJspBean implements Serializable
         }
 
         Collection<AdminUser> adminUserList = AdminUserHome.findByLevel( nIdLevel );
-        String strMailsTo = CONSTANT_EMPTY_STRING;
-
+        StringBuilder sbMailsTo = new StringBuilder( CONSTANT_EMPTY_STRING );
         for ( AdminUser adminUser : adminUserList )
         {
             if ( StringUtil.checkEmail( adminUser.getEmail(  ) ) )
             {
-                strMailsTo += ( adminUser.getEmail(  ) + CONSTANT_EMAIL_DELIMITER );
+                sbMailsTo.append( adminUser.getEmail( ) + CONSTANT_EMAIL_DELIMITER );
             }
         }
+        String strMailsTo = sbMailsTo.toString( );
 
         if ( !strMailsTo.equals( CONSTANT_EMPTY_STRING ) )
         {
