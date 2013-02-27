@@ -1,16 +1,40 @@
-/********************************
-/* Body 						*
-********************************/
+/******************************************
+/* SPECIFIC LUTECE DEFAULT THEME STYLES   *
+******************************************/
+/* CORE STYLES */
 /* Fix for fixed-nav-bar*/
 body{padding-top:60px;}
 
-/* Digg style */
+/* img list styles */
+img.thumblist-mini{width:24px;height:24px;}
+img.thumblist-small{width:32px;height:32px;}
+img.thumblist-medium{width:64px;height:64px;}
+img.thumblist-large{width:128px;height:128px;}
+/* END CORE STYLES */
+
+/* PLUGINS ADDITIONNAL STYLES */
+/* PLUGIN-DIGG */
 .digg-list-content{min-height:120px;}
 .hr-heavy{border:1px dotted #817B72;}
 
-/* wrapper style*/
+/* PLUGIN-CALENDAR */
+td.day{height:75px;width:85px;vertical-align: top;}
+td.day ul li a{font-size:0.8em;}
+td.selected-day{	background: #DEDEDE;border: 1px solid #000;}
+td.selected-day a{color:#000 !important;font-weight:bold;}
+td.day-off{background: #aaa;}
+td.day-old{ background: #F0F0F0 !important;}
+td.day-today{background: #bbf !important;border:1px solid #37A8E8;}
+td.small-day-off{background: #aaa !important;}
+td.small-day-old{ background: #F0F0F0 !important;}
+td.small-day-today{background: #bbf !important;border:1px solid #37A8E8;}
+
+/* PLUGIN-WRAPPER */
 iframe{border:none; width:100%;min-height:600px;}
 
+/* END PLUGINS ADDITIONNAL STYLES */
+
+/* ADMIN STYLES */
 /* Lutece admin style do not remove ! */
 .btn-group-portlet{float:right;margin:5px 0 0 0;padding:4px;background-color:#DEDEDE;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;}
 .btn-group-portlet form{margin-bottom:2px !important; }
