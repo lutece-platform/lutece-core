@@ -271,7 +271,7 @@
             <@paginationCombo paginator=paginator nb_items_per_page=nb_items_per_page/>
         </#if>
         <#-- Display item count -->
-        ${paginator.labelItemCount} : ${paginator.itemsCount}
+        <#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>${paginator.labelItemCount} : </#if>${paginator.itemsCount}
 </#macro>
 
 
