@@ -13,7 +13,7 @@
 				&nbsp;
 				<span class="pull-right">
 					<form method="post"  action="jsp/admin/user/ExportUsers.jsp" class="form-inline">
-						<button type="submit" class="btn btn-primary btn-small"><i class="icon-hdd icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.users.manage_users.buttonLabelImportExportUsers}</span></button>
+						<button type="submit" class="btn btn-primary btn-small"><i class="icon-download icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.users.manage_users.buttonLabelImportExportUsers}</span></button>
 					</form>
 				</span>
 				&nbsp;
@@ -206,7 +206,7 @@
 										<i class="icon-list-alt icon-white"></i>&nbsp;
 									</a>
 									<a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelWorkgroups}">
-										<i class="icon-x-group icon-x-white"></i>
+										<i class="icon-tags icon-white"></i>
 									</a>
 									<#if !user.statusAnonymized>
 										<a class="btn btn-primary btn-small" href="jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelAnonymize}" >
