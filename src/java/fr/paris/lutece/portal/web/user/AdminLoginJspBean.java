@@ -451,7 +451,7 @@ public class AdminLoginJspBean implements Serializable
         MailService.sendMailHtml( user.getEmail(  ), strSenderEmail, strSenderEmail, strEmailSubject,
             template.getHtml(  ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_SENDING_SUCCESS, AdminMessage.TYPE_INFO );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_SENDING_SUCCESS, JSP_URL_ADMIN_LOGIN, AdminMessage.TYPE_INFO );
     }
 
     /**
