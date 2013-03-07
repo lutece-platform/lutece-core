@@ -299,7 +299,7 @@ public class DataTableManager<T>
         else
         {
             _strCurrentPageIndex = Integer.toString( 1 );
-            _nItemsPerPage = 1;
+            _nItemsPerPage = filteredSortedPaginatedItems.size( );
         }
         _paginator = new LocalizedPaginator<T>( filteredSortedPaginatedItems, _nItemsPerPage, getSortUrl( ),
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale( ) );
