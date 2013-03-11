@@ -50,6 +50,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * this class provides services for locate repository or url
@@ -68,9 +70,11 @@ public final class AppPathService
     private static final String PROPERTY_VIRTUAL_HOST_KEY_PARAMETER = "virtualHostKey.parameterName";
     private static final String PROPERTY_VIRTUAL_HOST = "virtualHost.";
     private static final String PROPERTY_PREFIX_URL = "url.";
+    private static final String PROPERTY_PROD_BASE_URL = "lutece.prod.url";
     private static final String SUFFIX_BASE_URL = ".baseUrl";
     private static final String SUFFIX_DESCRIPTION = ".description";
     private static final String SLASH = "/";
+    private static final String DOUBLE_POINTS = ":";
     private static String _strWebAppPath;
 
     /**
@@ -143,7 +147,7 @@ public final class AppPathService
      */
     public static String getPath( String strKey, String strFilename )
     {
-        return getPath( strKey ) + "/" + strFilename;
+        return getPath( strKey ) + SLASH + strFilename;
     }
 
     /**
@@ -218,21 +222,21 @@ public final class AppPathService
         if ( ( strBase == null ) || ( strBase.equals( "" ) ) )
         {
             // Dynamic base URL if not defined in the properties
-            strBase = request.getScheme(  ) + "://" + request.getServerName(  );
+            strBase = request.getScheme( ) + DOUBLE_POINTS + SLASH + SLASH + request.getServerName( );
 
             int nPort = request.getServerPort(  );
 
             if ( nPort != PORT_NUMBER_HTTP )
             {
-                strBase += ( ":" + nPort );
+                strBase += ( DOUBLE_POINTS + nPort );
             }
 
             strBase += request.getContextPath(  );
         }
 
-        if ( !strBase.endsWith( "/" ) )
+        if ( !strBase.endsWith( SLASH ) )
         {
-            strBase += "/";
+            strBase += SLASH;
         }
 
         return strBase;
@@ -248,10 +252,54 @@ public final class AppPathService
     public static String getBaseUrl( )
     {
         String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_BASE_URL );
-        if ( !strBaseUrl.endsWith( "/" ) )
+        if ( !strBaseUrl.endsWith( SLASH ) )
         {
-            strBaseUrl += "/";
+            strBaseUrl += SLASH;
         }
+        return strBaseUrl;
+    }
+
+    /**
+     * Return the webapp prod url (or the base url if no prod url has been
+     * definied).
+     * @param request The HTTP request
+     * @return The prod url
+     */
+    public static String getProdUrl( HttpServletRequest request )
+    {
+        String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_PROD_BASE_URL );
+
+        if ( StringUtils.isBlank( strBaseUrl ) )
+        {
+            strBaseUrl = getBaseUrl( request );
+        }
+
+        if ( !strBaseUrl.endsWith( SLASH ) )
+        {
+            strBaseUrl += SLASH;
+        }
+
+        return strBaseUrl;
+    }
+
+    /**
+     * Return the webapp prod url (or the base url if no prod url has been
+     * definied)
+     * @return The prod url
+     */
+    public static String getProdUrl( )
+    {
+        String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_PROD_BASE_URL );
+
+        if ( StringUtils.isBlank( strBaseUrl ) )
+        {
+            strBaseUrl = getBaseUrl( );
+        }
+        if ( !strBaseUrl.endsWith( SLASH ) )
+        {
+            strBaseUrl += SLASH;
+        }
+
         return strBaseUrl;
     }
 
