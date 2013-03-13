@@ -45,6 +45,7 @@ public final class CryptoService
 {
     // Properties
     private static final String PROPERTY_ENCODING = "lutece.encoding";
+    private static final String PROPERTY_CRYPTO_KEY = "crypto.key";
 
     /**
      * Private constructor
@@ -83,6 +84,15 @@ public final class CryptoService
         }
 
         return hash;
+    }
+
+    /**
+     * Get the cryptographic key of the application
+     * @return The cryptographic key of the application
+     */
+    public static String getCryptoKey( )
+    {
+        return AppPropertiesService.getProperty( PROPERTY_CRYPTO_KEY );
     }
 
     /**
