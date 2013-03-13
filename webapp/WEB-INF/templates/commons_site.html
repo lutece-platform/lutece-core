@@ -6,6 +6,68 @@
 <#include "util/calendar/macro_datepicker.html" />
 <#-- Do not remove this comment -->
 
+<#macro comboSiteWithParams name default_value additionalParameters items >
+	<select id="${name}" name="${name}" ${additionalParameters} >
+		<#list items as item>
+			<#if default_value="${item.code}">
+				<option selected="selected" value="${item.code}" >${item.name}</option>
+		   	<#else>
+		   		<option value="${item.code}" >${item.name}</option>
+		   	</#if>
+		</#list>		
+	</select>
+</#macro>
+
+<#macro comboSiteSortedWithParams name default_value additionalParameters items >
+	<select id="${name}" name="${name}" ${additionalParameters} >
+		<#list items?sort_by("name") as item>
+			<#if default_value="${item.code}">
+				<option selected="selected" value="${item.code}" >${item.name}</option>
+		   	<#else>
+		   		<option value="${item.code}" >${item.name}</option>
+		   	</#if>
+		</#list>		
+	</select>
+</#macro>
+
+<#macro comboSiteWithParamsAndLength name default_value additionalParameters items max_length >
+	<select id="${name}" name="${name}" ${additionalParameters} >
+		<#list items as item>
+    	    <#if max_length < item.name?length >
+            	<#assign item_new = "..." + "${item.name?substring(item.name?length-max_length+3)}" >
+            <#else>
+              	<#assign item_new = "${item.name}">
+            </#if>	
+			<#if default_value="${item.code}"> 			
+      			<option selected="selected" value="${item.code}" >${item_new}</option>
+      		<#else>
+      			<option value="${item.code}" >${item_new}</option>
+      		</#if>
+    	</#list>		
+	</select>
+</#macro>
+
+<#macro comboSite name default_value items >
+	<@comboSiteWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
+</#macro>
+
+<#macro comboSiteSorted name default_value items >
+	<@comboSite name="${name}" default_value="${default_value}" items=items?sort_by("name") />
+</#macro>
+
+<#macro sortSite jsp_url attribute id="" >
+	<#if jsp_url?contains("?")>
+		<#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
+	<#else>
+		<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
+	</#if>
+	<a id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" >
+		<i class="icon-chevron-up">&nbsp;</i>
+	</a>
+	<a href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}">
+    	<i class="icon-chevron-down">&nbsp;</i>
+    </a>
+</#macro>
 
 <#macro paginationSite paginator combo=0 form=1 nb_items_per_page=nb_items_per_page >
 	<#if (paginator.pagesCount > 1) >
