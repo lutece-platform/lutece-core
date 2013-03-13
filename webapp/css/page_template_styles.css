@@ -32,6 +32,9 @@ td.small-day-today{background: #bbf !important;border:1px solid #37A8E8;}
 /* PLUGIN-WRAPPER */
 iframe{border:none; width:100%;min-height:600px;}
 
+/* PLUGIN-JAPTCHA */
+.jcaptchaframe{border:none; width:100%;min-height:70px;}
+
 /* END PLUGINS ADDITIONNAL STYLES */
 
 /* ADMIN STYLES */
