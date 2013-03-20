@@ -212,7 +212,7 @@
 </#macro>
 
 
-<#macro dataTableSiteSite dataTableManager actionMacro="" tableClass="table table-striped table-condensed" caption="&nbsp;" summary="data table" >
+<#macro dataTableSite dataTableManager actionMacro="" tableClass="table table-striped table-condensed" caption="&nbsp;" summary="data table" >
 	<#if 0 < dataTableManager.items?size >
 		<#if dataTableManager.enablePaginator>
 			<form class="form-inline" method="post" action="${dataTableManager.sortUrl}">
