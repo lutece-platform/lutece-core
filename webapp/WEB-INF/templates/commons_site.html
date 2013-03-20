@@ -210,3 +210,124 @@
 		</#if>
 	</div>
 </#macro>
+
+
+<#macro dataTableSiteSite dataTableManager actionMacro="" tableClass="table table-striped table-condensed" caption="&nbsp;" summary="data table" >
+	<#if 0 < dataTableManager.items?size >
+		<#if dataTableManager.enablePaginator>
+			<form class="form-inline" method="post" action="${dataTableManager.sortUrl}">
+			    <#if (dataTableManager.paginator.pagesCount > 1) >
+			        <@paginationSitePageLinks paginator=dataTableManager.paginator />
+			    </#if>
+			    <div class="pull-right">
+					<@paginationSiteItemCount paginator=dataTableManager.paginator combo=1 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string/>
+				</div>
+			</form>
+		</#if>
+		<table class="${tableClass}" summary="${summary}">
+			<caption>${caption}</caption>
+			<tr>
+				<#list dataTableManager.listColumn as column>
+					<th scope="col">
+						#i18n{${column.titleKey}}
+						<#if !(column.typeColumn = "ACTION") && column.sortable>
+							<@sortSite jsp_url=dataTableManager.sortUrl attribute=column.parameterName />
+						</#if>
+					</th>
+				</#list>
+			</tr>
+			<#list dataTableManager.items as item>
+				<tr>
+					<#list dataTableManager.listColumn as column>
+						<#if column.typeColumn = "STRING">
+							<#assign propName = "item." + column.parameterName>
+							<#assign value = propName?eval>
+							<td>${value!}</td>
+						<#elseif column.typeColumn = "LABEL">
+							<#assign propName = "item." + column.parameterName>
+							<#assign value = propName?eval>
+							<td>#i18n{${value!}}</td>
+						<#elseif column.typeColumn = "BOOLEAN">
+							<#assign propName = "item." + column.parameterName>
+							<#assign value = propName?eval>
+							<#if value?? && value>
+								<td><span class="label label-success" title="#i18n{${column.labelTrue!}}"><i class="icon-ok-sign icon-white"></i>#i18n{${column.labelTrue!}}</span></td>
+							<#else>
+								<td><span class="label label-important" title="#i18n{${column.labelFalse!}}"><i class="icon-remove-sign icon-white"></i>#i18n{${column.labelFalse!}}</span></td>
+							</#if>
+						<#elseif column.typeColumn = "EMAIL">
+							<#assign propName = "item." + column.parameterName>
+							<#assign value = propName?eval>
+							<td><#if value?? && value != ""><a href="mailto:${value}" title="${value}" >${value}</a></#if></td>
+						<#elseif column.typeColumn = "ACTION">
+							<#if column.parameterName?? && column.parameterName != "">
+								<#assign macroName = column.parameterName>
+							<#elseif actionMacro?? && actionMacro != "">
+								<#assign macroName = actionMacro>
+							</#if>
+							<#if macroName?? && macroName != "">
+								<td><@.vars[macroName] item=item /></td>
+							</#if>
+						</#if>
+					</#list>
+				</tr>
+			</#list>
+		</table>
+		<#if dataTableManager.enablePaginator>
+			<form class="form-inline" method="post" action="${dataTableManager.sortUrl}">
+			    <#if (dataTableManager.paginator.pagesCount > 1) >
+			        <@paginationSitePageLinks paginator=dataTableManager.paginator />
+			    </#if>
+			    <div class="pull-right">
+					<@paginationSiteItemCount paginator=dataTableManager.paginator combo=0 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string/>
+				</div>
+			</form>
+		</#if>
+	<#else>
+		#i18n{portal.util.labelNoItem}
+	</#if>
+</#macro>
+
+<#macro filterPanelSite dataTableManager formClass="form-horizontal" >
+	<#if dataTableManager.filterPanel.listFilter?? && 0 < dataTableManager.filterPanel.listFilter?size>
+		<form class="${formClass}" method="post" action="${dataTableManager.filterPanel.formUrl}" >
+			<fieldset>
+				<#list dataTableManager.filterPanel.listFilter as filter>
+					<div class="control-group">
+						<label class="control-label" for="description" >#i18n{${filter.filterLabel}} :</label>
+						<div class="controls">
+							<#if filter.filterType = "STRING">
+								<input type="text" name="${dataTableManager.filterPanelPrefix}${filter.parameterName}" id="${filter.parameterName}" size="30" value="${filter.value!}"/>
+							<#elseif filter.filterType = "BOOLEAN">
+								<input type="checkbox" value="true" name="${dataTableManager.filterPanelPrefix}${filter.parameterName}" id="${dataTableManager.filterPanelPrefix}${filter.parameterName}" <#if filter.value?? && filter.value = "true">checked="checked" </#if>/>
+							<#elseif filter.filterType = "DROPDOWNLIST">
+								<#if filter.value??>
+									<#assign filter_value = filter.value >
+								<#else>
+									<#assign filter_value = "" >
+								</#if>
+								<@comboSite name=dataTableManager.filterPanelPrefix+filter.parameterName default_value=filter_value items=filter.refList />
+							</#if>
+						</div>
+					</div>
+				</#list>
+				<div class="form-actions">
+					<input type="hidden" name="${dataTableManager.filterPanelPrefix}updateFilters" id="${dataTableManager.filterPanelPrefix}updateFilters" value="true" />
+					<button class="btn btn-primary btn-small" type="submit" >
+						<i class="icon-search icon-white"></i>
+						<span class="hidden-phone" >#i18n{portal.util.labelSearch}</span>
+					</button>
+					<#if dataTableManager.filterPanel.formUrl?contains("?")>
+						<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "&" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
+					<#else>
+						<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "?" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
+					</#if>
+					<a class="btn btn-primary btn-small" href="${dataTableResetUrl}" title="#i18n{portal.util.labelReset}">
+						<i class="icon-remove-circle icon-white"></i>
+						<span class="hidden-phone" >#i18n{portal.util.labelReset}</span>
+					</a>
+				</div>
+			</fieldset>
+		</form>
+	</#if>
+</#macro>
