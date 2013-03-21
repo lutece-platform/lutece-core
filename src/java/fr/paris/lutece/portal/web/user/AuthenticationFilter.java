@@ -131,6 +131,7 @@ public class AuthenticationFilter implements Filter
                 }
 
                 resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
+                return;
             }
             catch ( AccessDeniedException e )
             {
@@ -139,6 +140,7 @@ public class AuthenticationFilter implements Filter
                 String strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_AUTH_FAILURE,
                         getRedirectUrl( req ), AdminMessage.TYPE_ERROR );
                 resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
+                return;
             }
             catch ( PasswordResetException e )
             {
@@ -149,6 +151,7 @@ public class AuthenticationFilter implements Filter
                             Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, getChangePasswordUrl( req ),
                             AdminMessage.TYPE_ERROR );
                     resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
+                    return;
                 }
             }
         }
