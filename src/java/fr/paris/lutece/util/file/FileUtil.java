@@ -20,6 +20,13 @@ public final class FileUtil
     private static final String CONSTANT_COMMA = ",";
 
     /**
+     * Private constructor
+     */
+    private FileUtil( )
+    {
+    }
+
+    /**
      * Check if the extension of the file is an image extension
      * @param strImageFileName The file name to check
      * @return True if the extension is correct, false otherwise
