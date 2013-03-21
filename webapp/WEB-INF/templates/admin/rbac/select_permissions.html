@@ -22,11 +22,11 @@
 			<#list permissions_list as item>
 				<#if item.checked >
 					<label class="checkbox">
-						<input checked class="checkbox" onclick="document.add_control.select_permissions[1].checked=true;" type="checkbox" name="permission_key" value="${item.code}" /> ${item.name}
+						<input checked class="checkbox" onclick="document.add_control.select_permissions[0].checked=true;" type="checkbox" name="permission_key" value="${item.code}" /> ${item.name}
 					</label>
 				<#else>
 					<label class="checkbox">
-						<input class="checkbox" onclick="document.add_control.select_permissions[1].checked=true;" type="checkbox" name="permission_key" value="${item.code}" />
+						<input class="checkbox" onclick="document.add_control.select_permissions[0].checked=true;" type="checkbox" name="permission_key" value="${item.code}" />
 						${item.name}
 					</label>
 					</#if>
