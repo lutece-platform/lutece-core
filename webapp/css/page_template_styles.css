@@ -13,9 +13,6 @@ img.thumblist-large{width:128px;height:128px;}
 /* END CORE STYLES */
 
 /* PLUGINS ADDITIONNAL STYLES */
-/* PLUGIN-DIGG */
-.digg-list-content{min-height:120px;}
-.hr-heavy{border:1px dotted #817B72;}
 
 /* PLUGIN-CALENDAR */
 td.day{height:75px;width:85px;vertical-align: top;}
@@ -28,12 +25,6 @@ td.day-today{background: #bbf !important;border:1px solid #37A8E8;}
 td.small-day-off{background: #aaa !important;}
 td.small-day-old{ background: #F0F0F0 !important;}
 td.small-day-today{background: #bbf !important;border:1px solid #37A8E8;}
-
-/* PLUGIN-WRAPPER */
-iframe{border:none; width:100%;min-height:600px;}
-
-/* PLUGIN-JAPTCHA */
-.jcaptchaframe{border:none; width:100%;min-height:70px;}
 
 /* END PLUGINS ADDITIONNAL STYLES */
 
