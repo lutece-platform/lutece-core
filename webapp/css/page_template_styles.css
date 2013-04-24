@@ -12,21 +12,7 @@ img.thumblist-medium{width:64px;height:64px;}
 img.thumblist-large{width:128px;height:128px;}
 /* END CORE STYLES */
 
-/* PLUGINS ADDITIONNAL STYLES */
 
-/* PLUGIN-CALENDAR */
-td.day{height:75px;width:85px;vertical-align: top;}
-td.day ul li a{font-size:0.8em;}
-td.selected-day{	background: #DEDEDE;border: 1px solid #000;}
-td.selected-day a{color:#000 !important;font-weight:bold;}
-td.day-off{background: #aaa;}
-td.day-old{ background: #F0F0F0 !important;}
-td.day-today{background: #bbf !important;border:1px solid #37A8E8;}
-td.small-day-off{background: #aaa !important;}
-td.small-day-old{ background: #F0F0F0 !important;}
-td.small-day-today{background: #bbf !important;border:1px solid #37A8E8;}
-
-/* END PLUGINS ADDITIONNAL STYLES */
 
 /* ADMIN STYLES */
 /* Lutece admin style do not remove ! */
