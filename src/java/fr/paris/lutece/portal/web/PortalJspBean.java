@@ -112,65 +112,6 @@ public class PortalJspBean
             return getStartUpFailurePage(  );
         }
 
-        // Try to register the user in case of external authentication
-        if ( SecurityService.isAuthenticationEnable(  ) )
-        {
-            if ( SecurityService.getInstance(  ).isExternalAuthentication(  ) &&
-                    !SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
-            {
-                // The authentication is external
-                // Should register the user if it's not already done
-                if ( SecurityService.getInstance(  ).getRegisteredUser( request ) == null )
-                {
-                    if ( ( SecurityService.getInstance(  ).getRemoteUser( request ) == null ) &&
-                            ( SecurityService.getInstance(  ).isPortalAuthenticationRequired(  ) ) )
-                    {
-                        // Authentication is required to access to the portal
-                        throw new UserNotSignedException(  );
-                    }
-                }
-            }
-            else
-            {
-                LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
-
-                // no checks are needed if the user is already registered
-                if ( user == null )
-                {
-                    // if multiauthentication is supported, then when have to check remote user before other check
-                    if ( SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
-                    {
-                        // getRemoteUser needs to be checked before any check so the user is registered
-                        // getRemoteUser throws an exception if no user found, but here we have to bypass this exception to display login page.
-                        try
-                        {
-                            user = SecurityService.getInstance(  ).getRemoteUser( request );
-                        }
-                        catch ( UserNotSignedException unse )
-                        {
-                            // nothing to do, there might be another authentication provider or login page to display
-                        }
-                    }
-
-                    //If portal authentication is enabled and user is null and the requested URL
-                    //is not the login URL, user cannot access to Portal
-                    if ( SecurityService.getInstance(  ).isPortalAuthenticationRequired(  ) && ( user == null ) &&
-                            !SecurityService.getInstance(  ).isLoginUrl( request ) )
-                    {
-                        // Authentication is required to access to the portal
-                        throw new UserNotSignedException(  );
-                    }
-                }
-            }
-        }
-
-        ISiteMessageHandler handler = (ISiteMessageHandler) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
-
-        if ( handler.hasMessage( request ) )
-        {
-            return handler.getPage( request, nMode );
-        }
-
         // Search the content service invoked and call its getPage method
         ContentService cs = PortalService.getInvokedContentService( request );
 
@@ -179,6 +120,48 @@ public class PortalJspBean
         if ( ContentPostProcessorService.hasProcessor(  ) )
         {
             strContent = ContentPostProcessorService.process( request, strContent );
+        }
+
+        return strContent;
+    }
+
+    /**
+     * Returns the content of a page according to the parameters found in the http request. One distinguishes article,
+     * page and xpage and the mode.
+     *
+     * @param request The http request
+     * @param nMode The mode (normal or administration)
+     * @return the html code for the display of a page of a site
+     *
+     */
+    public String getSiteMessageContent( HttpServletRequest request )
+    {
+        return getSiteMessageContent( request, MODE_HTML );
+    }
+
+    /**
+     * Returns the content of a page according to the parameters found in the http request. One distinguishes article,
+     * page and xpage and the mode.
+     *
+     * @param request The http request
+     * @param nMode The mode (normal or administration)
+     * @return the html code for the display of a page of a site
+     *
+     */
+    public String getSiteMessageContent( HttpServletRequest request, int nMode )
+    {
+        String strContent = null;
+
+        if ( !AppInit.isWebappSuccessfullyLoaded(  ) )
+        {
+            return getStartUpFailurePage(  );
+        }
+
+        ISiteMessageHandler handler = (ISiteMessageHandler) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
+
+        if ( handler.hasMessage( request ) )
+        {
+            strContent = handler.getPage( request, nMode );
         }
 
         return strContent;

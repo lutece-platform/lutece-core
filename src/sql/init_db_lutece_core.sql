@@ -1,10 +1,12 @@
 INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('usersAdminDashboardComponent', 1, 1);
 INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('searchAdminDashboardComponent', 1, 2);
+INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('publicUrlAdminDashboardComponent', 1, 3);
 
 INSERT INTO core_admin_right VALUES ('CORE_ADMIN_SITE','portal.site.adminFeature.admin_site.name',2,'jsp/admin/site/AdminSite.jsp','portal.site.adminFeature.admin_site.description',1,NULL,'SITE','images/admin/skin/features/admin_site.png','jsp/admin/documentation/AdminDocumentation.jsp?doc=admin-site',1);
 INSERT INTO core_admin_right VALUES ('CORE_CACHE_MANAGEMENT','portal.system.adminFeature.cache_management.name',0,'jsp/admin/system/ManageCaches.jsp','portal.system.adminFeature.cache_management.description',1,NULL,'SYSTEM','images/admin/skin/features/manage_caches.png',NULL,1);
 INSERT INTO core_admin_right VALUES ('CORE_SEARCH_INDEXATION','portal.search.adminFeature.indexer.name',0,'jsp/admin/search/ManageSearchIndexation.jsp','portal.search.adminFeature.indexer.description',0,NULL,'SYSTEM',NULL,NULL,2);
 INSERT INTO core_admin_right VALUES ('CORE_SEARCH_MANAGEMENT','portal.search.adminFeature.search_management.name',0,'jsp/admin/search/ManageSearch.jsp','portal.search.adminFeature.search_management.description',0,NULL,'SYSTEM',NULL,NULL,3);
+INSERT INTO core_admin_right VALUES ('CORE_PUBLIC_URL_MANAGEMENT','portal.security.adminFeature.public_url_management.name',0,'jsp/admin/security/ManagePublicUrl.jsp','portal.security.adminFeature.public_url_management.description',0,NULL,'SYSTEM',NULL,NULL,3);
 INSERT INTO core_admin_right VALUES ('CORE_LOGS_VISUALISATION','portal.system.adminFeature.logs_visualisation.name',0,'jsp/admin/system/ManageFilesSystem.jsp','portal.system.adminFeature.logs_visualisation.description',1,NULL,'SYSTEM','images/admin/skin/features/view_logs.png',NULL,4);
 INSERT INTO core_admin_right VALUES ('CORE_MODES_MANAGEMENT','portal.style.adminFeature.modes_management.name',0,'jsp/admin/style/ManageModes.jsp','portal.style.adminFeature.modes_management.description',1,NULL,'STYLE','images/admin/skin/features/manage_modes.png',NULL,1);
 INSERT INTO core_admin_right VALUES ('CORE_PAGE_TEMPLATE_MANAGEMENT','portal.style.adminFeature.page_template_management.name',0,'jsp/admin/style/ManagePageTemplates.jsp','portal.style.adminFeature.page_template_management.description',0,NULL,'STYLE','images/admin/skin/features/manage_page_templates.png',NULL,2);
@@ -37,6 +39,7 @@ INSERT INTO core_admin_role_resource VALUES (101,'all_site_manager','PORTLET_TYP
 INSERT INTO core_admin_role_resource VALUES (111,'all_site_manager', 'ADMIN_USER', '*', '*');
 INSERT INTO core_admin_role_resource VALUES (137,'all_site_manager', 'SEARCH_SERVICE', '*', '*');
 INSERT INTO core_admin_role_resource VALUES (164,'all_site_manager', 'XSL_EXPORT', '*', '*');
+INSERT INTO core_admin_role_resource VALUES (170,'all_site_manager', 'CORE_PUBLIC_URL_MANAGEMENT', '*', '*');
 
 INSERT INTO core_admin_user VALUES (1,'admin','Admin','admin','admin@lutece.fr',0,'adminadmin','fr',0,0,0,null,null,0,'1980-01-01 00:00:00');
 INSERT INTO core_admin_user VALUES (2,'lutece','Lutèce','lutece','lutece@lutece.fr',0,'adminadmin','fr',1,0,0,null,null,0,'1980-01-01 00:00:00');
@@ -137,6 +140,8 @@ INSERT INTO core_user_right VALUES ('CORE_SEARCH_INDEXATION',1);
 INSERT INTO core_user_right VALUES ('CORE_SEARCH_INDEXATION',2);
 INSERT INTO core_user_right VALUES ('CORE_SEARCH_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_SEARCH_MANAGEMENT',2);
+INSERT INTO core_user_right VALUES ('CORE_PUBLIC_URL_MANAGEMENT',1);
+INSERT INTO core_user_right VALUES ('CORE_PUBLIC_URL_MANAGEMENT',2);
 INSERT INTO core_user_right VALUES ('CORE_STYLES_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_STYLESHEET_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_USERS_MANAGEMENT',1);

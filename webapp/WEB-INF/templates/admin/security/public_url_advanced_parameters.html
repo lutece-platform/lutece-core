@@ -1,0 +1,45 @@
+ <form method="post" name="security_public_url_advanced_parameters" action="jsp/admin/security/DoModifyAdvancedParameters.jsp" class="form">
+<fieldset>
+        <legend>
+			<i class="icon-cog"></i>&nbsp;#i18n{portal.security.public_url_advanced_parameters.tableLabel}
+		</legend>
+
+<div class="row-fluid">
+   
+            
+            <div class="control-group">
+				<label class="control-label" for="libelle_contribution">#i18n{portal.security.public_url_advanced_parameters.publicListUrlLabel} :</label>
+						<#if public_list_url?exists>
+								<#list public_list_url as public_url>	
+								<div class="controls">
+									<input class="input-xxlarge" type="text" name="public_list_url" value="${public_url.name}">
+									
+								</div>
+							</#list>
+						</#if>
+						
+						<div class="newfield">
+							<input type="text" class="new_input input-xxlarge" name="public_list_url" value="">
+						</div>
+						<button id="addField" class="btn btn-primary" type="button"><i class="icon-plus icon-white"></i> #i18n{portal.security.public_url_advanced_parameters.buttonAddUrl} </button>
+					 <p class="help-block">#i18n{portal.security.public_url_advanced_parameters.publicListUrlLabelComment}</p>
+			</div>
+	
+			</div>
+			 <div class="form-actions">
+                    <button type="submit" name="submit" class="btn btn-primary btn-small"><i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.security.public_url_advanced_parameters.buttonValidate}</button>
+                    <button type="button" name="cancel" class="btn btn-small" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.security.public_url_advanced_parameters.buttonCancel}</button> 
+                </div>
+        </fieldset>
+ </form>    
+ <script>
+ 	$(document).ready(function(){
+ 		$(".new_input").remove();
+ 		$("#addField").click(function(){
+ 			$('.newfield').append('<div class="controls"><input type="text" class="new_input input-xxlarge" name="public_list_url" value=""></div>');
+ 			return false;
+ 			
+ 		});
+ 	});
+ </script>    
+    

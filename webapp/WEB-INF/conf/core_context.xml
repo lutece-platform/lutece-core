@@ -98,6 +98,9 @@
     
     <!-- package search -->
     <bean id="searchParameterDAO"  class="fr.paris.lutece.portal.business.search.SearchParameterDAO" />
+    
+       <!-- package security -->
+    <bean id="publicUrlParameterDAO"  class="fr.paris.lutece.portal.business.security.PublicUrlParameterDAO" />
 
     <!-- package style -->
     <bean id="modeDAO"  class="fr.paris.lutece.portal.business.style.ModeDAO" />

@@ -39,18 +39,20 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import java.text.MessageFormat;
+
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -63,8 +65,8 @@ public final class AppPathService
     private static final int PORT_NUMBER_HTTP = 80;
     private static final String PROPERTY_BASE_URL = "lutece.base.url";
     private static final String PROPERTY_PORTAL_URL = "lutece.portal.path";
+    private static final String PROPERTY_SITE_MESSAGE_URL = "lutece.siteMessage.path";
     private static final String PROPERTY_ADMIN_URL = "lutece.admin.path";
-    private static final String PROPERTY_JSP_SITE = "path.jsp.site";
     private static final String PROPERTY_ADMIN_MENU_URL = "lutece.admin.menu.url";
     private static final String PROPERTY_VIRTUAL_HOST_KEYS = "virtualHostKeys";
     private static final String PROPERTY_VIRTUAL_HOST_KEY_PARAMETER = "virtualHostKey.parameterName";
@@ -222,7 +224,7 @@ public final class AppPathService
         if ( ( strBase == null ) || ( strBase.equals( "" ) ) )
         {
             // Dynamic base URL if not defined in the properties
-            strBase = request.getScheme( ) + DOUBLE_POINTS + SLASH + SLASH + request.getServerName( );
+            strBase = request.getScheme(  ) + DOUBLE_POINTS + SLASH + SLASH + request.getServerName(  );
 
             int nPort = request.getServerPort(  );
 
@@ -249,13 +251,15 @@ public final class AppPathService
      * @return The webapp url, or null if the 'lutece.base.url' property has not
      *         been set.
      */
-    public static String getBaseUrl( )
+    public static String getBaseUrl(  )
     {
         String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_BASE_URL );
+
         if ( !strBaseUrl.endsWith( SLASH ) )
         {
             strBaseUrl += SLASH;
         }
+
         return strBaseUrl;
     }
 
@@ -287,14 +291,15 @@ public final class AppPathService
      * definied)
      * @return The prod url
      */
-    public static String getProdUrl( )
+    public static String getProdUrl(  )
     {
         String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_PROD_BASE_URL );
 
         if ( StringUtils.isBlank( strBaseUrl ) )
         {
-            strBaseUrl = getBaseUrl( );
+            strBaseUrl = getBaseUrl(  );
         }
+
         if ( !strBaseUrl.endsWith( SLASH ) )
         {
             strBaseUrl += SLASH;
@@ -310,25 +315,8 @@ public final class AppPathService
      */
     public static String getSiteMessageUrl( HttpServletRequest request )
     {
-        // Get the base Url
-        String strBaseUrl = getBaseUrl( request );
-
-        // Determine the mode (Portal or Standalone)
-        String strRequestUrl = request.getRequestURL(  ).toString(  );
-        int nlastIndexOf = strRequestUrl.lastIndexOf( AppPropertiesService.getProperty( PROPERTY_JSP_SITE ) );
-
-        if ( nlastIndexOf > -1 )
-        {
-            strRequestUrl = strRequestUrl.substring( nlastIndexOf );
-
-            if ( strRequestUrl.startsWith( SLASH ) && strBaseUrl.endsWith( SLASH ) )
-            {
-                strRequestUrl = strRequestUrl.substring( SLASH.length(  ) );
-            }
-        }
-
         // Set the site message url
-        return SiteMessageService.setSiteMessageUrl( strBaseUrl + strRequestUrl );
+        return SiteMessageService.setSiteMessageUrl( getBaseUrl( request ) + getSiteMessageUrl(  ) );
     }
 
     /**
@@ -338,6 +326,15 @@ public final class AppPathService
     public static String getPortalUrl(  )
     {
         return AppPropertiesService.getProperty( PROPERTY_PORTAL_URL );
+    }
+
+    /**
+     * Returns the Site Message relative url (jsp/site/SiteMessage.jsp) defined in lutece.properties
+     * @return the SiteMessage Url
+     */
+    public static String getSiteMessageUrl(  )
+    {
+        return AppPropertiesService.getProperty( PROPERTY_SITE_MESSAGE_URL );
     }
 
     /**
