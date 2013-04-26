@@ -35,15 +35,17 @@ package fr.paris.lutece.portal.service.datastore;
 
 import fr.paris.lutece.portal.business.datastore.DataEntity;
 import fr.paris.lutece.portal.business.datastore.DataEntityHome;
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 
 
 /**
  * Datastore Service
  */
-public final class DatastoreService
+public final class DatastoreService 
 {
     public static final String VALUE_TRUE = "true";
     public static final String VALUE_FALSE = "false";
+    private static AbstractCacheableService _cache = new DatastoreCacheService();
 
     /**
      * Private constructor
@@ -51,6 +53,7 @@ public final class DatastoreService
     private DatastoreService(  )
     {
     }
+
 
     /**
      * Get entity
@@ -60,9 +63,17 @@ public final class DatastoreService
      */
     public static String getDataValue( String strKey, String strDefault )
     {
-        DataEntity entity = DataEntityHome.findByPrimaryKey( strKey );
-
-        return ( entity != null ) ? entity.getValue(  ) : strDefault;
+        DataEntity entity = (DataEntity) _cache.getFromCache(strKey);
+        if( entity == null )
+        {    
+            entity = DataEntityHome.findByPrimaryKey( strKey );
+            if( entity == null )
+            {
+                return strDefault;
+            }
+            _cache.putInCache( strKey, entity );
+        }
+        return entity.getValue(  );
     }
 
     /**
@@ -84,4 +95,5 @@ public final class DatastoreService
             DataEntityHome.create( p );
         }
     }
+
 }
