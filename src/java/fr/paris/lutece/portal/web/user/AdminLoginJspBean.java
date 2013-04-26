@@ -46,6 +46,7 @@ import fr.paris.lutece.portal.service.init.AppInfo;
 import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppHTTPSService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -132,7 +133,6 @@ public class AdminLoginJspBean implements Serializable
     // Properties
     private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
     private static final String PROPERTY_LEVEL = "askPasswordReinitialization.admin.level";
-    private static final String PROPERTY_SITE_NAME = "lutece.name";
 
     /**
      * Returns the view of login form
@@ -187,7 +187,7 @@ public class AdminLoginJspBean implements Serializable
         sbUrl.append( JSP_URL_DO_ADMIN_LOGIN );
 
         model.put( MARK_PARAM_VERSION, AppInfo.getVersion(  ) );
-        model.put( MARK_SITE_NAME, AppPropertiesService.getProperty( PROPERTY_SITE_NAME ) );
+        model.put( MARK_SITE_NAME, PortalService.getSiteName() );
         model.put( MARK_PARAMS_LIST, listParams );
         model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance(  ).getLostPasswordPageUrl(  ) );
         model.put( MARK_FORGOT_LOGIN_URL, AdminAuthenticationService.getInstance(  ).getLostLoginPageUrl(  ) );

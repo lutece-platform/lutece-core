@@ -40,7 +40,6 @@ import fr.paris.lutece.portal.service.init.AppInit;
 import fr.paris.lutece.portal.service.message.ISiteMessageHandler;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.portal.PortalService;
-import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -72,7 +71,6 @@ public class PortalJspBean
     private static final String MARK_ADDRESS_INFOS_CNIL = "confidentiality_info";
     private static final String MARK_APP_VERSION = "app_version";
     private static final String PROPERTY_INFOS_CNIL = "lutece.legal.infos";
-    private static final String PROPERTY_PORTAL_DOMAIN = "lutece.name";
     private static final String ATTRIBUTE_LOGIN_NEXT_URL = "luteceLoginNextUrl";
     private static final String ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL = "uploadFilterSiteNextUrl";
     private static final String MARK_FAILURE_MESSAGE = "failure_message";
@@ -194,7 +192,7 @@ public class PortalJspBean
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_APP_VERSION, AppInfo.getVersion(  ) );
         model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
-        model.put( MARK_PORTAL_DOMAIN, AppPropertiesService.getProperty( PROPERTY_PORTAL_DOMAIN ) );
+        model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName() );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_CREDITS, request.getLocale(  ), model );
 
@@ -211,7 +209,7 @@ public class PortalJspBean
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ADDRESS_INFOS_CNIL, AppPropertiesService.getProperty( PROPERTY_INFOS_CNIL ) );
-        model.put( MARK_PORTAL_DOMAIN, AppPropertiesService.getProperty( PROPERTY_PORTAL_DOMAIN ) );
+        model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName() );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_LEGAL_INFO, request.getLocale(  ), model );
 

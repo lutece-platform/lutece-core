@@ -89,13 +89,13 @@ public final class PortalService
     private static final String PROPERTY_INTERNAL_PAGE_HEADER = "internal.page.header.mode";
     private static final String PROPERTY_PAGE_TOOLS_MENU = "page.tools.menu.mode";
     private static final String PROPERTY_PORTAL_FOOTER = "page.portal.footer.mode";
-    private static final String PROPERTY_SITE_NAME = "lutece.name";
     private static final String PROPERTY_PATH_ON_ROOT = "lutece.root.path";
     private static final String PROPERTY_ENCODING = "lutece.encoding";
     private static final String PROPERTY_ENCODING_DEFAULT = "UTF-8";
     
     // Datastore keys
-    private static final String KEY_WEBMASTER_EMAIL = "core.webmaster.email";
+    private static final String KEY_SITE_NAME = "core.site.name";
+    private static final String KEY_WEBMASTER_EMAIL = "core.site.email";
 
     // Templates
     private static final String TEMPLATE_PAGE_FRAMESET = "skin/site/page_frameset.html";
@@ -676,13 +676,14 @@ public final class PortalService
             mapParameters.put( MARKER_TARGET, TARGET_TOP );
         }
     }
+    
     /**
-     * Get the <b>lutece.favourite</b> from the <b>webmaster.properties</b>
-     * @return the lutece.favourite value
+     * Returns the site name
+     * @return The site name
      */
-    public static String getLuteceFavourite(  )
+    public static String getSiteName()
     {
-        return AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
+        return DatastoreService.getDataValue( KEY_SITE_NAME, "" );
     }
 
 }

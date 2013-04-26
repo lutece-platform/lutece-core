@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<title><%= PortalService.getLuteceFavourite(  ) %> - Administration</title>
+<title><%= PortalService.getSiteName(  ) %> - Administration</title>
 <base href="<%= AppPathService.getBaseUrl( request ) %>"></base>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT" />

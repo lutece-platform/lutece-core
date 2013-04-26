@@ -5,9 +5,10 @@
             <form method="post" action="jsp/admin/DoModifyProperties.jsp" class="form-horizontal">
                 <#list properties_list as property>
                 <div class="control-group">
-                    <label class="control-label" for="${property.code}" >${property.code}</label>
+                    <label class="control-label" for="${property.code}" ></label>
                     <div class="controls">
                         <input type="text" name="${property.code}" id="${property.code}" value="${property.name}"  class="input-xlarge"/>
+                        <span class="help-block">${property.code}</span>
                     </div>
                 </div>
                 </#list>

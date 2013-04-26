@@ -38,8 +38,8 @@ import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -56,9 +56,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class LinksInclude implements PageInclude
 {
-    // Properties
-    private static final String PROPERTY_FAVOURITE = "lutece.favourite";
-    private static final String PROPERTY_PORTAL_NAME = "lutece.name";
 
     // Parameters
     private static final String PARAMETER_PAGE = "page";
@@ -92,8 +89,8 @@ public class LinksInclude implements PageInclude
         {
             // Add links coming from the data object
             String strFavourite = ( data.getFavourite(  ) != null ) ? data.getFavourite(  )
-                                                                    : AppPropertiesService.getProperty( PROPERTY_FAVOURITE );
-            String strPortalName = AppPropertiesService.getProperty( PROPERTY_PORTAL_NAME );
+                                                                    : PortalService.getSiteName();
+            String strPortalName = PortalService.getSiteName();
             rootModel.put( MARK_FAVOURITE, strFavourite );
             rootModel.put( MARK_PORTAL_NAME, strPortalName );
 

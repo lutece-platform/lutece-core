@@ -55,6 +55,7 @@ import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.regularexpression.RegularExpressionService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -182,7 +183,6 @@ public final class AdminUserService
     private static final String PROPERTY_DEFAULT_PASSWORD_DURATION = "security.defaultValues.passwordDuration";
     private static final String PROPERTY_DEFAULT_ENCRYPTION_ALGORITHM = "security.defaultValues.algorithm";
     private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
-    private static final String PROPERTY_SITE_NAME = "lutece.name";
 
     // CONSTANTS
     private static final String CONSTANT_DEFAULT_ENCRYPT_ALGO = "SHA-256";
@@ -1290,7 +1290,7 @@ public final class AdminUserService
     public static void notifyUser( String strBaseUrl, AdminUser user, String strPropertyEmailSubject, String strTemplate )
     {
         String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
-        String strSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
+        String strSiteName = PortalService.getSiteName();
         Locale locale = user.getLocale( );
         String strEmailSubject = I18nService.getLocalizedString( strPropertyEmailSubject, new String[] { strSiteName },
                 locale );

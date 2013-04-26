@@ -49,6 +49,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -104,7 +105,6 @@ public class AdminMenuJspBean implements Serializable
     // Properties
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
     private static final String PROPERTY_DOCUMENTATION_SUMMARY_URL = "lutece.documentation.summary.url";
-    private static final String PROPERTY_SITE_NAME = "lutece.name";
     private static final String PROPERTY_DASHBOARD_ZONES = "lutece.dashboard.zones.count";
     private static final int PROPERTY_DASHBOARD_ZONES_DEFAULT = 4;
     private static final String REFERER = "referer";
@@ -127,7 +127,7 @@ public class AdminMenuJspBean implements Serializable
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
         String strVersion = AppInfo.getVersion(  );
-        String strSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
+        String strSiteName = PortalService.getSiteName();
         AdminUser user = AdminUserService.getAdminUser( request );
         Locale locale = user.getLocale(  );
         List<FeatureGroup> aFeaturesGroupList = getFeatureGroupsList( user );
@@ -166,7 +166,7 @@ public class AdminMenuJspBean implements Serializable
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
         String strFooterVersion = AppInfo.getVersion(  );
-        String strFooterSiteName = AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
+        String strFooterSiteName = PortalService.getSiteName();
         AdminUser user = AdminUserService.getAdminUser( request );
         Locale locale = ( user != null ) ? user.getLocale(  ) : Locale.getDefault(  );
         model.put( Markers.VERSION, strFooterVersion );

@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.mail;
 
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.Daemon;
+import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -50,7 +51,6 @@ import java.util.List;
 public final class MailService
 {
     private static final String PROPERTY_MAIL_NOREPLY_EMAIL = "mail.noreply.email";
-    private static final String PROPERTY_LUTECE_NAME = "lutece.name";
     private static final String BEAN_MAIL_QUEUE = "mailQueue";
 
     /** Creates a new instance of AppMailService */
@@ -440,7 +440,7 @@ public final class MailService
     public static String getSiteLink( String strBaseUrl, boolean linkToFrontOffice )
     {
         StringBuilder sb = new StringBuilder(  );
-        String strSiteName = AppPropertiesService.getProperty( PROPERTY_LUTECE_NAME );
+        String strSiteName = PortalService.getSiteName();
 
         if ( strSiteName != null )
         {

@@ -4,6 +4,6 @@
 <jsp:useBean id="system" scope="session" class="fr.paris.lutece.portal.web.system.SystemJspBean" />
 
 <% system.init( request,  system.RIGHT_PROPERTIES_MANAGEMENT ); %>
-<%= system.getManageProperties ()%>
+<%= system.getManageProperties ( request )%>
 
 <%@ include file="AdminFooter.jsp" %>
