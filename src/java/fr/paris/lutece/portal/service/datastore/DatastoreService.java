@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.service.datastore;
 import fr.paris.lutece.portal.business.datastore.DataEntity;
 import fr.paris.lutece.portal.business.datastore.DataEntityHome;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.util.ReferenceList;
+import java.util.List;
 
 
 /**
@@ -95,5 +97,24 @@ public final class DatastoreService
             DataEntityHome.create( p );
         }
     }
+    
+    /**
+     * Gets a list of key/value where keys are matching a given prefix
+     * @param strPrefix The prefix
+     * @return The list
+     */
+    public static ReferenceList getDataByPrefix( String strPrefix )
+    {
+        ReferenceList list = new ReferenceList();
+        List<DataEntity> listEntities = DataEntityHome.findAll();
+        for( DataEntity entity : listEntities )
+        {
+            if( entity.getKey().startsWith(strPrefix))
+            {
+                list.addItem(entity.getKey(), entity.getValue());
+            }
+        }
+        return list;
+    }        
 
 }
