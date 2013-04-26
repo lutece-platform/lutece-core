@@ -34,8 +34,8 @@
 package fr.paris.lutece.portal.web.includes;
 
 import fr.paris.lutece.portal.service.content.PageData;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.includes.PageInclude;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.util.Map;
 
@@ -47,10 +47,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class MetasInclude implements PageInclude
 {
-    private static final String PROPERTY_HEAD_META_AUTHOR = "head.meta.author";
-    private static final String PROPERTY_HEAD_META_COPYRIGHT = "head.meta.copyright";
-    private static final String PROPERTY_HEAD_META_KEYWORDS = "head.meta.keywords";
-    private static final String PROPERTY_HEAD_META_DESCRIPTION = "head.meta.description";
+    private static final String KEY_WEBMASTER_META_AUTHOR = "core.webmaster.meta.author";
+    private static final String KEY_WEBMASTER_META_COPYRIGHT = "core.webmaster.meta.copyright";
+    private static final String KEY_WEBMASTER_META_KEYWORDS = "core.webmaster.meta.keywords";
+    private static final String KEY_WEBMASTER_META_DESCRIPTION = "core.webmaster.meta.description";
     private static final String MARK_PAGE_HEAD_META_AUTHOR = "meta_author";
     private static final String MARK_PAGE_HEAD_META_COPYRIGHT = "meta_copyright";
     private static final String MARK_PAGE_HEAD_META_KEYWORDS = "meta_keywords";
@@ -63,18 +63,19 @@ public class MetasInclude implements PageInclude
      * @param nMode The current mode
      * @param request The HTTP request
      */
+    @Override
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
         String strMetaAuthor = ( data.getMetaAuthor(  ) != null ) ? data.getMetaAuthor(  )
-                                                                  : AppPropertiesService.getProperty( PROPERTY_HEAD_META_AUTHOR );
+                                                                  : DatastoreService.getDataValue(KEY_WEBMASTER_META_AUTHOR, "");
         String strMetaCopyright = ( data.getMetaCopyright(  ) != null ) ? data.getMetaCopyright(  )
-                                                                        : AppPropertiesService.getProperty( PROPERTY_HEAD_META_COPYRIGHT );
+                                                                        : DatastoreService.getDataValue( KEY_WEBMASTER_META_COPYRIGHT, "" );
         String strMetaKeywords = ( ( data.getMetaKeywords(  ) != null ) && ( data.getMetaKeywords(  ).length(  ) > 0 ) )
-            ? ( AppPropertiesService.getProperty( PROPERTY_HEAD_META_KEYWORDS ) + ", " + data.getMetaKeywords(  ) )
-            : AppPropertiesService.getProperty( PROPERTY_HEAD_META_KEYWORDS );
+            ? ( DatastoreService.getDataValue( KEY_WEBMASTER_META_KEYWORDS, "" ) + ", " + data.getMetaKeywords(  ) )
+            : DatastoreService.getDataValue( KEY_WEBMASTER_META_KEYWORDS, "" );
         String strMetaDescription = ( ( data.getMetaDescription(  ) != null ) &&
             ( data.getMetaDescription(  ).length(  ) > 0 ) ) ? data.getMetaDescription(  )
-                                                             : AppPropertiesService.getProperty( PROPERTY_HEAD_META_DESCRIPTION );
+                                                             : DatastoreService.getDataValue( KEY_WEBMASTER_META_DESCRIPTION, "" );
 
         rootModel.put( MARK_PAGE_HEAD_META_AUTHOR, strMetaAuthor );
         rootModel.put( MARK_PAGE_HEAD_META_COPYRIGHT, strMetaCopyright );

@@ -1,23 +1,23 @@
 <div class="row-fluid">
     <div class="span10">
         <fieldset>
-        <legend>#i18n{portal.system.modify_properties.boxTitle}</legend>
-			<form method="post" action="jsp/admin/DoModifyProperties.jsp" class="form-horizontal">
-            <#list properties_list as property>
-			<div class="control-group">
-            <label class="control-label" for="${property.code}" >${property.code}</label>
-				<div class="controls">
-					<input type="text" name="${property.code}" id="${property.code}" value="${property.name}"  class="input-xlarge"/>
+            <legend>#i18n{portal.system.modify_properties.boxTitle}</legend>
+            <form method="post" action="jsp/admin/DoModifyProperties.jsp" class="form-horizontal">
+                <#list properties_list as property>
+                <div class="control-group">
+                    <label class="control-label" for="${property.code}" >${property.code}</label>
+                    <div class="controls">
+                        <input type="text" name="${property.code}" id="${property.code}" value="${property.name}"  class="input-xlarge"/>
+                    </div>
                 </div>
-            </div>
-            </#list>
-			<div class="form-actions">
-				<button type="submit" class="btn btn-primary btn-small" tabindex="1">
-					<i class=" icon-edit icon-white"></i>
-						<span class="hidden-phone" >#i18n{portal.system.modify_properties.buttonLabel}</span>
-					</button> 
-            </div>                                
-			</form>
+                </#list>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-small" tabindex="1">
+                        <i class=" icon-edit icon-white"></i>
+                        <span class="hidden-phone" >#i18n{portal.system.modify_properties.buttonLabel}</span>
+                    </button> 
+                </div>                                
+            </form>
         </fieldset>
     </div>
 </div>

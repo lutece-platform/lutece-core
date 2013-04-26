@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
@@ -88,11 +89,13 @@ public final class PortalService
     private static final String PROPERTY_INTERNAL_PAGE_HEADER = "internal.page.header.mode";
     private static final String PROPERTY_PAGE_TOOLS_MENU = "page.tools.menu.mode";
     private static final String PROPERTY_PORTAL_FOOTER = "page.portal.footer.mode";
-    private static final String PROPERTY_WEBMASTER_EMAIL = "email.webmaster";
+    private static final String PROPERTY_SITE_NAME = "lutece.name";
     private static final String PROPERTY_PATH_ON_ROOT = "lutece.root.path";
     private static final String PROPERTY_ENCODING = "lutece.encoding";
     private static final String PROPERTY_ENCODING_DEFAULT = "UTF-8";
-    private static final String PROPERTY_LUTECE_FAVOURITE = "lutece.favourite";
+    
+    // Datastore keys
+    private static final String KEY_WEBMASTER_EMAIL = "core.webmaster.email";
 
     // Templates
     private static final String TEMPLATE_PAGE_FRAMESET = "skin/site/page_frameset.html";
@@ -274,7 +277,7 @@ public final class PortalService
     {
         Locale locale = null;
         HashMap<String, Object> model = new HashMap<String, Object>(  );
-        String strWebmasterEmail = AppPropertiesService.getProperty( PROPERTY_WEBMASTER_EMAIL );
+        String strWebmasterEmail = DatastoreService.getDataValue( KEY_WEBMASTER_EMAIL , "" );
         model.put( Markers.WEBMASTER_EMAIL, strWebmasterEmail );
 
         if ( request != null )
@@ -673,13 +676,13 @@ public final class PortalService
             mapParameters.put( MARKER_TARGET, TARGET_TOP );
         }
     }
-
     /**
      * Get the <b>lutece.favourite</b> from the <b>webmaster.properties</b>
      * @return the lutece.favourite value
      */
     public static String getLuteceFavourite(  )
     {
-        return AppPropertiesService.getProperty( PROPERTY_LUTECE_FAVOURITE );
+        return AppPropertiesService.getProperty( PROPERTY_SITE_NAME );
     }
+
 }

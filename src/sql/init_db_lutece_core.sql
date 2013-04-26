@@ -196,6 +196,12 @@ INSERT INTO core_user_parameter VALUES ('password_expired_mail_subject', 'Votre 
 
 INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce');
 INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'markitupbbcode');
+INSERT INTO core_datastore VALUES ('core.webmaster.meta.author', '<author>');
+INSERT INTO core_datastore VALUES ('core.webmaster.meta.copyright', '<copyright>');
+INSERT INTO core_datastore VALUES ('core.webmaster.meta.description', '<description>');
+INSERT INTO core_datastore VALUES ('core.webmaster.meta.keywords', '<keywords>');
+INSERT INTO core_datastore VALUES ('core.webmaster.email', '<webmaster email>');
+
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');

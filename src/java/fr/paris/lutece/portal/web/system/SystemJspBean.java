@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -280,32 +281,10 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      */
     public String getModifyProperties( HttpServletRequest request )
     {
-        HashMap<String, ReferenceList> model = new HashMap<String, ReferenceList>(  );
-        ReferenceList updatePropertiesList = new ReferenceList(  );
+        ReferenceList updatePropertiesList = DatastoreService.getDataByPrefix( "core.webmaster.");
 
-        File file = new File( AppPropertiesService.getProperty( PROPERTY_WEBMASTER_FILE ) );
 
-        try
-        {
-            FileInputStream is = new FileInputStream( file );
-            _properties.load( is );
-
-            // Storage of the parameters in the hashtable
-            Enumeration updateProperties = _properties.keys(  );
-
-            while ( updateProperties.hasMoreElements(  ) )
-            {
-                String key = (String) updateProperties.nextElement(  );
-                _mapProperties.put( key, _properties.getProperty( key ) );
-
-                updatePropertiesList.addItem( key, _properties.getProperty( key ) );
-            }
-        }
-        catch ( IOException e )
-        {
-            AppLogService.error( e.getMessage(  ), e );
-        }
-
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         // Insert the rows in the list
         model.put( MARK_PROPERTIES_LIST, updatePropertiesList );
 
