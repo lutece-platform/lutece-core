@@ -47,10 +47,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class MetasInclude implements PageInclude
 {
-    private static final String KEY_WEBMASTER_META_AUTHOR = "core.site.meta.author";
-    private static final String KEY_WEBMASTER_META_COPYRIGHT = "core.site.meta.copyright";
-    private static final String KEY_WEBMASTER_META_KEYWORDS = "core.site.meta.keywords";
-    private static final String KEY_WEBMASTER_META_DESCRIPTION = "core.site.meta.description";
+    private static final String KEY_WEBMASTER_META_AUTHOR = "portal.site.site_property.meta.author";
+    private static final String KEY_WEBMASTER_META_COPYRIGHT = "portal.site.site_property.meta.copyright";
+    private static final String KEY_WEBMASTER_META_KEYWORDS = "portal.site.site_property.meta.keywords";
+    private static final String KEY_WEBMASTER_META_DESCRIPTION = "portal.site.site_property.meta.description";
     private static final String MARK_PAGE_HEAD_META_AUTHOR = "meta_author";
     private static final String MARK_PAGE_HEAD_META_COPYRIGHT = "meta_copyright";
     private static final String MARK_PAGE_HEAD_META_KEYWORDS = "meta_keywords";

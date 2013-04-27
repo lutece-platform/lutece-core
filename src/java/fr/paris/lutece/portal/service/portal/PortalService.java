@@ -94,8 +94,8 @@ public final class PortalService
     private static final String PROPERTY_ENCODING_DEFAULT = "UTF-8";
     
     // Datastore keys
-    private static final String KEY_SITE_NAME = "core.site.name";
-    private static final String KEY_WEBMASTER_EMAIL = "core.site.email";
+    private static final String KEY_SITE_NAME = "portal.site.site_property.name";
+    private static final String KEY_WEBMASTER_EMAIL = "portal.site.site_property.email";
 
     // Templates
     private static final String TEMPLATE_PAGE_FRAMESET = "skin/site/page_frameset.html";

@@ -183,4 +183,7 @@
     <!-- Cleaner Jsoup HTML --> 
     <!--  <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JSoupHtmlCleaner" /> -->
     
+    <!-- Site Properties Groups -->
+    <bean id="sitePropertiesGroup" class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
+    
 </beans>

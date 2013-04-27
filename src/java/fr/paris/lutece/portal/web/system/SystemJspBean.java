@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.web.system;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.site.properties.SitePropertiesService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -78,7 +79,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_FILES_SYSTEM_NAME = "file_system_name";
     private static final String MARK_FILE_SYSTEM_DATA = "file_system_data";
     private static final String MARK_WEBMASTER_PROPERTIES = "webmaster_properties";
-    private static final String MARK_PROPERTIES_LIST = "properties_list";
+    private static final String MARK_PROPERTIES_GROUPS_LIST = "groups_list";
     // Template Files path
     private static final String TEMPLATE_MANAGE_FILES_SYSTEM = "admin/system/manage_files_system.html";
     private static final String TEMPLATE_VIEW_FILES_SYSTEM = "admin/system/view_files_system.html";
@@ -258,12 +259,9 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageProperties( HttpServletRequest request )
     {
-        ReferenceList updatePropertiesList = DatastoreService.getDataByPrefix( "core.site." );
-
-
         HashMap<String, Object> model = new HashMap<String, Object>();
         // Insert the rows in the list
-        model.put( MARK_PROPERTIES_LIST, updatePropertiesList );
+        model.put( MARK_PROPERTIES_GROUPS_LIST, SitePropertiesService.getGroups( getLocale() ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PROPERTIES, getLocale(), model );
 

@@ -196,12 +196,12 @@ INSERT INTO core_user_parameter VALUES ('password_expired_mail_subject', 'Votre 
 
 INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce');
 INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'markitupbbcode');
-INSERT INTO core_datastore VALUES ('core.site.name', 'LUTECE');
-INSERT INTO core_datastore VALUES ('core.site.meta.author', '<author>');
-INSERT INTO core_datastore VALUES ('core.site.meta.copyright', '<copyright>');
-INSERT INTO core_datastore VALUES ('core.site.meta.description', '<description>');
-INSERT INTO core_datastore VALUES ('core.site.meta.keywords', '<keywords>');
-INSERT INTO core_datastore VALUES ('core.site.email', '<webmaster email>');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.name', 'LUTECE');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.author', '<author>');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.copyright', '<copyright>');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.description', '<description>');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.keywords', '<keywords>');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.email', '<webmaster email>');
 
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
