@@ -52,7 +52,7 @@ public class MailAttachmentCacheKeyService implements ICacheKeyService
      * {@inheritDoc}
      */
     @Override
-	public String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
+    public String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
         StringBuilder sbKey = new StringBuilder(  );
 
@@ -68,7 +68,7 @@ public class MailAttachmentCacheKeyService implements ICacheKeyService
      * {@inheritDoc}
      */
     @Override
-	public void setAllowedParametersList( List<String> arg0 )
+    public void setAllowedParametersList( List<String> arg0 )
     {
     }
 
@@ -76,7 +76,7 @@ public class MailAttachmentCacheKeyService implements ICacheKeyService
      * {@inheritDoc}
      */
     @Override
-	public void setIgnoredParametersList( List<String> arg0 )
+    public void setIgnoredParametersList( List<String> arg0 )
     {
     }
 }

@@ -51,7 +51,7 @@ public class JSoupHtmlCleaner implements IHtmlCleaner
     @Override
     public String clean( String strSource ) throws HtmlCleanerException
     {
-        String strSafe = Jsoup.clean( strSource, Whitelist.relaxed() );
+        String strSafe = Jsoup.clean( strSource, Whitelist.relaxed(  ) );
 
         return strSafe;
     }

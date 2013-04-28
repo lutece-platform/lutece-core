@@ -53,7 +53,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ExtendableResourceJspBean extends AdminFeaturesPageJspBean
 {
-
     /**
      * Do process extendable resource action.
      *

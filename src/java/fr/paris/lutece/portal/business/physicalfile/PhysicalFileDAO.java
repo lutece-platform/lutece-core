@@ -57,7 +57,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
      * @return The new primary key
      */
     @Override
-	public int newPrimaryKey(  )
+    public int newPrimaryKey(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
         daoUtil.executeQuery(  );
@@ -83,7 +83,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
      * @return the id of the new physical file
      */
     @Override
-	public synchronized int insert( PhysicalFile physicalFile )
+    public synchronized int insert( PhysicalFile physicalFile )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         daoUtil.setBytes( 2, physicalFile.getValue(  ) );
@@ -103,7 +103,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
      * @return the instance of the PhysicalFile
      */
     @Override
-	public PhysicalFile load( int nId )
+    public PhysicalFile load( int nId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY );
         daoUtil.setInt( 1, nId );
@@ -130,7 +130,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
      * @param nIdPhysicalFile The identifier of the PhyscalFile
      */
     @Override
-	public void delete( int nIdPhysicalFile )
+    public void delete( int nIdPhysicalFile )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
         daoUtil.setInt( 1, nIdPhysicalFile );
@@ -144,7 +144,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
      * @param physicalFile instance of the physicalFile object to update
      */
     @Override
-	public void store( PhysicalFile physicalFile )
+    public void store( PhysicalFile physicalFile )
     {
         int nIndex = 1;
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );

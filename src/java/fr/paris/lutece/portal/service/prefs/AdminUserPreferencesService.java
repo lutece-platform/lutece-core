@@ -46,11 +46,9 @@ public final class AdminUserPreferencesService
     private static IUserPreferencesService _singleton;
 
     /** private constructor */
-    private AdminUserPreferencesService()
+    private AdminUserPreferencesService(  )
     {
-        
     }
-    
 
     /**
      * Return the unique instance

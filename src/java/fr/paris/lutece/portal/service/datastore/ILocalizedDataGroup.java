@@ -33,30 +33,30 @@
  */
 package fr.paris.lutece.portal.service.datastore;
 
+
 /**
  * ISitePropertiesGroup interface
  */
 public interface ILocalizedDataGroup
 {
-
     /**
      * Returns the Name Key
      *
      * @return The Name Key
      */
-    String getNameKey();
+    String getNameKey(  );
 
     /**
      * Returns the Description Key
      *
      * @return The Description Key
      */
-    String getDescriptionKey();
+    String getDescriptionKey(  );
 
     /**
      * Returns the DataStore Keys Prefix
      *
      * @return The DataStore Keys Prefix
      */
-    String getDatastoreKeysPrefix();
+    String getDatastoreKeysPrefix(  );
 }

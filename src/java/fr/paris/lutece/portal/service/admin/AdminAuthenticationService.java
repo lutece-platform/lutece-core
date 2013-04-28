@@ -49,6 +49,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 
 import javax.security.auth.login.LoginException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -153,7 +154,7 @@ public final class AdminAuthenticationService
                 }
             }
         }
-        else// if not external authentication, just check if user is null or not
+        else // if not external authentication, just check if user is null or not
         {
             if ( user == null )
             {
@@ -189,6 +190,7 @@ public final class AdminAuthenticationService
         {
             throw new LoginException(  );
         }
+
         AdminUserService.updateDateLastLogin( user.getUserId(  ) );
     }
 

@@ -40,6 +40,7 @@ import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.FileUploadException;
 
 import java.io.IOException;
+
 import java.text.DecimalFormat;
 
 import javax.servlet.Filter;
@@ -87,7 +88,7 @@ public abstract class UploadFilter implements Filter
      *             The ServletException
      */
     @Override
-	public void init( FilterConfig config ) throws ServletException
+    public void init( FilterConfig config ) throws ServletException
     {
         _filterConfig = config;
 
@@ -136,7 +137,7 @@ public abstract class UploadFilter implements Filter
      *             The SerletException
      */
     @Override
-	public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
+    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
         throws IOException, ServletException
     {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -184,7 +185,7 @@ public abstract class UploadFilter implements Filter
      * Default implementation for subclasses
      */
     @Override
-	public void destroy(  )
+    public void destroy(  )
     {
     }
 

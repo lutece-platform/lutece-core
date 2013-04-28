@@ -41,13 +41,12 @@ import fr.paris.lutece.portal.business.template.DatabaseTemplateHome;
  */
 public final class DatabaseTemplateService
 {
-
-	/**
-	 * Instantiates a new database template service.
-	 */
-	private DatabaseTemplateService(  )
-	{
-	}
+    /**
+     * Instantiates a new database template service.
+     */
+    private DatabaseTemplateService(  )
+    {
+    }
 
     /**
      * Get a template in the database from its key

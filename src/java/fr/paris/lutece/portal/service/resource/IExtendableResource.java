@@ -34,42 +34,41 @@
 package fr.paris.lutece.portal.service.resource;
 
 
-
 /**
- * 
+ *
  * This interface represents resources that are eligible to
  * the extend functionalities.
- * 
+ *
  */
 public interface IExtendableResource
 {
     /**
      * Gets the id.
-     * 
+     *
      * @return The id
      */
     String getIdExtendableResource(  );
 
     /**
      * Gets the resource type.
-     * 
+     *
      * @return The resource type
      */
     String getExtendableResourceType(  );
 
     /**
      * Gets the name.
-     * 
+     *
      * @return The name
      */
     String getExtendableResourceName(  );
 
     /**
      * Gets the name.
-     * 
+     *
      * @return The name
      */
-    String getExtendableResourceDescription( );
+    String getExtendableResourceDescription(  );
 
     /**
      * Gets the URL of the image describing the resource.
@@ -78,5 +77,5 @@ public interface IExtendableResource
      * @return The URL of the image describing the resource, or null if not
      *         image is associated to this resource
      */
-    String getExtendableResourceImageUrl( );
+    String getExtendableResourceImageUrl(  );
 }

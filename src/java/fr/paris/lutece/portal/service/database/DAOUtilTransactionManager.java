@@ -38,10 +38,13 @@ import fr.paris.lutece.portal.service.plugin.PluginEventListener;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.apache.log4j.Logger;
+
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import java.io.PrintWriter;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
@@ -90,7 +93,7 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
      * {@inheritDoc}
      */
     @Override
-	public void processPluginEvent( PluginEvent event )
+    public void processPluginEvent( PluginEvent event )
     {
         if ( getPluginName(  ).equals( event.getPlugin(  ).getName(  ) ) )
         {
@@ -151,26 +154,26 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
         return new DataSource(  )
             {
                 @Override
-				public <T> T unwrap( Class<T> iface ) throws SQLException
+                public <T> T unwrap( Class<T> iface ) throws SQLException
                 {
                     return null;
                 }
 
                 @Override
-				public boolean isWrapperFor( Class<?> iface )
+                public boolean isWrapperFor( Class<?> iface )
                     throws SQLException
                 {
                     return false;
                 }
 
                 @Override
-				public void setLoginTimeout( int seconds )
+                public void setLoginTimeout( int seconds )
                     throws SQLException
                 {
                 }
 
                 @Override
-				public void setLogWriter( PrintWriter out )
+                public void setLogWriter( PrintWriter out )
                     throws SQLException
                 {
                 }
@@ -182,26 +185,26 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
                 }
 
                 @Override
-				public int getLoginTimeout(  ) throws SQLException
+                public int getLoginTimeout(  ) throws SQLException
                 {
                     return 0;
                 }
 
                 @Override
-				public PrintWriter getLogWriter(  ) throws SQLException
+                public PrintWriter getLogWriter(  ) throws SQLException
                 {
                     return null;
                 }
 
                 @Override
-				public Connection getConnection( String username, String password )
+                public Connection getConnection( String username, String password )
                     throws SQLException
                 {
                     return null;
                 }
 
                 @Override
-				public Connection getConnection(  ) throws SQLException
+                public Connection getConnection(  ) throws SQLException
                 {
                     return null;
                 }

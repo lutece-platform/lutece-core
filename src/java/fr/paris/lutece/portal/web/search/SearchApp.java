@@ -58,15 +58,16 @@ import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.UnsupportedEncodingException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -109,23 +110,24 @@ public class SearchApp implements XPageApplication
 
     /**
      * Returns search results
-     * 
+     *
      * @param request The HTTP request.
      * @param nMode The current mode.
      * @param plugin The plugin
      * @return The HTML code of the page.
      * @throws SiteMessageException If an error occurs
      */
-    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin ) throws SiteMessageException
+    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
+        throws SiteMessageException
     {
-        XPage page = new XPage( );
+        XPage page = new XPage(  );
         String strQuery = request.getParameter( PARAMETER_QUERY );
         String strTagFilter = request.getParameter( PARAMETER_TAG_FILTER );
 
         String strEncoding = AppPropertiesService.getProperty( PROPERTY_ENCODE_URI_ENCODING, DEFAULT_URI_ENCODING );
 
-        if ( StringUtils.equalsIgnoreCase( CONSTANT_HTTP_METHOD_GET, request.getMethod( ) )
-                && !StringUtils.equalsIgnoreCase( strEncoding, CONSTANT_ENCODING_UTF8 ) )
+        if ( StringUtils.equalsIgnoreCase( CONSTANT_HTTP_METHOD_GET, request.getMethod(  ) ) &&
+                !StringUtils.equalsIgnoreCase( strEncoding, CONSTANT_ENCODING_UTF8 ) )
         {
             try
             {
@@ -133,6 +135,7 @@ public class SearchApp implements XPageApplication
                 {
                     strQuery = new String( strQuery.getBytes( strEncoding ), CONSTANT_ENCODING_UTF8 );
                 }
+
                 if ( StringUtils.isNotBlank( strTagFilter ) )
                 {
                     strTagFilter = new String( strTagFilter.getBytes( strEncoding ), CONSTANT_ENCODING_UTF8 );
@@ -140,20 +143,21 @@ public class SearchApp implements XPageApplication
             }
             catch ( UnsupportedEncodingException e )
             {
-                AppLogService.error( e.getMessage( ), e );
+                AppLogService.error( e.getMessage(  ), e );
             }
         }
+
         if ( StringUtils.isNotEmpty( strTagFilter ) )
         {
             strQuery = strTagFilter;
         }
 
         boolean bEncodeUri = Boolean.parseBoolean( AppPropertiesService.getProperty( PROPERTY_ENCODE_URI,
-                Boolean.toString( DEFAULT_ENCODE_URI ) ) );
+                    Boolean.toString( DEFAULT_ENCODE_URI ) ) );
 
         String strSearchPageUrl = AppPropertiesService.getProperty( PROPERTY_SEARCH_PAGE_URL );
         String strError = "";
-        Locale locale = request.getLocale( );
+        Locale locale = request.getLocale(  );
 
         // Check XSS characters
         if ( ( strQuery != null ) && ( SecurityUtil.containsXssCharacters( request, strQuery ) ) )
@@ -177,7 +181,7 @@ public class SearchApp implements XPageApplication
         // The page should not be added to the cache
 
         // Notify results infos to QueryEventListeners 
-        notifyQueryListeners( strQuery, listResults.size( ), request );
+        notifyQueryListeners( strQuery, listResults.size(  ), request );
 
         UrlItem url = new UrlItem( strSearchPageUrl );
         String strQueryForPaginator = strQuery;
@@ -195,31 +199,31 @@ public class SearchApp implements XPageApplication
         url.addParameter( PARAMETER_QUERY, strQueryForPaginator );
         url.addParameter( PARAMETER_NB_ITEMS_PER_PAGE, nNbItemsPerPage );
 
-        Paginator<SearchResult> paginator = new Paginator<SearchResult>( listResults, nNbItemsPerPage, url.getUrl( ),
+        Paginator<SearchResult> paginator = new Paginator<SearchResult>( listResults, nNbItemsPerPage, url.getUrl(  ),
                 PARAMETER_PAGE_INDEX, strCurrentPageIndex );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_RESULTS_LIST, paginator.getPageItems( ) );
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        model.put( MARK_RESULTS_LIST, paginator.getPageItems(  ) );
         model.put( MARK_QUERY, strQuery );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_NB_ITEMS_PER_PAGE, strNbItemPerPage );
         model.put( MARK_ERROR, strError );
 
-        ISponsoredLinksSearchService sponsoredLinksService = new SponsoredLinksSearchService( );
+        ISponsoredLinksSearchService sponsoredLinksService = new SponsoredLinksSearchService(  );
 
-        if ( sponsoredLinksService.isAvailable( ) )
+        if ( sponsoredLinksService.isAvailable(  ) )
         {
             model.put( MARK_SPONSOREDLINKS_SET, sponsoredLinksService.getHtmlCode( strQuery, locale ) );
         }
 
-        model.put( MARK_LIST_TYPE_AND_LINK, SearchService.getSearchTypesAndLinks( ) );
-        model.putAll( SearchParameterHome.findAll( ) );
+        model.put( MARK_LIST_TYPE_AND_LINK, SearchService.getSearchTypesAndLinks(  ) );
+        model.putAll( SearchParameterHome.findAll(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESULTS, locale, model );
 
         page.setPathLabel( I18nService.getLocalizedString( PROPERTY_PATH_LABEL, locale ) );
         page.setTitle( I18nService.getLocalizedString( PROPERTY_PAGE_TITLE, locale ) );
-        page.setContent( template.getHtml( ) );
+        page.setContent( template.getHtml(  ) );
 
         return page;
     }
@@ -231,7 +235,8 @@ public class SearchApp implements XPageApplication
      * @return The encoded string
      * @throws SiteMessageException If an error occurs
      */
-    public static String encodeUrl( HttpServletRequest request, String strSource ) throws SiteMessageException
+    public static String encodeUrl( HttpServletRequest request, String strSource )
+        throws SiteMessageException
     {
         if ( strSource == null )
         {
@@ -256,10 +261,10 @@ public class SearchApp implements XPageApplication
      */
     private void notifyQueryListeners( String strQuery, int nResultsCount, HttpServletRequest request )
     {
-        QueryEvent event = new QueryEvent( );
+        QueryEvent event = new QueryEvent(  );
         event.setQuery( strQuery );
         event.setResultsCount( nResultsCount );
         event.setRequest( request );
-        QueryListenersService.getInstance( ).notifyListeners( event );
+        QueryListenersService.getInstance(  ).notifyListeners( event );
     }
 }

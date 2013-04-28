@@ -55,7 +55,7 @@ public class MainServlet implements Servlet
      * {@inheritDoc}
      */
     @Override
-	public void init( ServletConfig config ) throws ServletException
+    public void init( ServletConfig config ) throws ServletException
     {
     }
 
@@ -63,7 +63,7 @@ public class MainServlet implements Servlet
      * {@inheritDoc}
      */
     @Override
-	public void service( ServletRequest requestServlet, ServletResponse responseServlet )
+    public void service( ServletRequest requestServlet, ServletResponse responseServlet )
         throws ServletException, IOException
     {
         AppLogService.debug( "MainServlet : service()" );
@@ -95,7 +95,7 @@ public class MainServlet implements Servlet
      * {@inheritDoc}
      */
     @Override
-	public void destroy(  )
+    public void destroy(  )
     {
         for ( LuteceServlet servlet : ServletService.getInstance(  ).getServlets(  ) )
         {
@@ -144,7 +144,7 @@ public class MainServlet implements Servlet
      * {@inheritDoc}
      */
     @Override
-	public ServletConfig getServletConfig(  )
+    public ServletConfig getServletConfig(  )
     {
         throw new UnsupportedOperationException( "Not supported yet." );
     }
@@ -153,7 +153,7 @@ public class MainServlet implements Servlet
      * {@inheritDoc}
      */
     @Override
-	public String getServletInfo(  )
+    public String getServletInfo(  )
     {
         throw new UnsupportedOperationException( "Not supported yet." );
     }

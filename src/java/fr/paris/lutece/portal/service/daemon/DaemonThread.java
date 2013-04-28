@@ -62,7 +62,7 @@ public final class DaemonThread implements Runnable
          * This methods is called for regular interval
      */
     @Override
-	public void run(  )
+    public void run(  )
     {
         if ( _entry.isRunning(  ) )
         {

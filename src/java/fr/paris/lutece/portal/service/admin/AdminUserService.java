@@ -73,9 +73,13 @@ import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.url.UrlItem;
 import fr.paris.lutece.util.xml.XmlUtil;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.sql.Timestamp;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -87,8 +91,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -423,7 +425,7 @@ public final class AdminUserService
             Level defaultLevel = LevelHome.findByPrimaryKey( Integer.parseInt( strDefaultLevel ) );
 
             // USER NOTIFICATION
-            int nDefaultUserNotification = Integer.parseInt( DefaultUserParameterHome.findByKey(
+            int nDefaultUserNotification = Integer.parseInt( DefaultUserParameterHome.findByKey( 
                         PARAMETER_DEFAULT_USER_NOTIFICATION ).getParameterValue(  ) );
 
             // USER LANGUAGE
@@ -432,7 +434,7 @@ public final class AdminUserService
                                                                     .getParameterValue(  );
 
             // USER STATUS
-            int nDefaultUserStatus = Integer.parseInt( DefaultUserParameterHome.findByKey(
+            int nDefaultUserStatus = Integer.parseInt( DefaultUserParameterHome.findByKey( 
                         PARAMETER_DEFAULT_USER_STATUS ).getParameterValue(  ) );
 
             model.put( MARK_USER_LEVELS_LIST, LevelHome.getLevelsList(  ) );
@@ -876,9 +878,10 @@ public final class AdminUserService
         {
             return 0;
         }
+
         try
         {
-            int nValue = Integer.parseInt( defaultUserParameter.getParameterValue( ) );
+            int nValue = Integer.parseInt( defaultUserParameter.getParameterValue(  ) );
 
             return nValue;
         }
@@ -1047,7 +1050,8 @@ public final class AdminUserService
      */
     public static String encryptPassword( String strPassword )
     {
-    	String strPasswordTmp = strPassword;
+        String strPasswordTmp = strPassword;
+
         if ( getBooleanSecurityParameter( PARAMETER_ENABLE_PASSWORD_ENCRYPTION ) )
         {
             String strAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM )
@@ -1132,10 +1136,10 @@ public final class AdminUserService
             return null;
         }
 
-        Calendar calendar = new GregorianCalendar( Locale.getDefault( ) );
+        Calendar calendar = new GregorianCalendar( Locale.getDefault(  ) );
         calendar.add( Calendar.MONTH, nbMonthsAccountValid );
 
-        return new Timestamp( calendar.getTimeInMillis( ) );
+        return new Timestamp( calendar.getTimeInMillis(  ) );
     }
 
     /**
@@ -1290,20 +1294,20 @@ public final class AdminUserService
     public static void notifyUser( String strBaseUrl, AdminUser user, String strPropertyEmailSubject, String strTemplate )
     {
         String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
-        String strSiteName = PortalService.getSiteName();
-        Locale locale = user.getLocale( );
+        String strSiteName = PortalService.getSiteName(  );
+        Locale locale = user.getLocale(  );
         String strEmailSubject = I18nService.getLocalizedString( strPropertyEmailSubject, new String[] { strSiteName },
                 locale );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, user );
         model.put( MARK_SITE_NAME, strSiteName );
-        model.put( MARK_LOGIN_URL, strBaseUrl + AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) );
+        model.put( MARK_LOGIN_URL, strBaseUrl + AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ) );
         model.put( MARK_SITE_LINK, MailService.getSiteLink( strBaseUrl, false ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, locale, model );
 
-        MailService
-                .sendMailHtml( user.getEmail( ), strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
+        MailService.sendMailHtml( user.getEmail(  ), strSenderEmail, strSenderEmail, strEmailSubject,
+            template.getHtml(  ) );
     }
 
     /**
@@ -1369,106 +1373,125 @@ public final class AdminUserService
      * @return A string of XML describing the user.
      */
     public static String getXmlFromUser( AdminUser user, boolean bIncludeRoles, boolean bIncludeRights,
-            boolean bIncludeWorkgroups, boolean bIncludeAttributes, List<IAttribute> listAttributes )
+        boolean bIncludeWorkgroups, boolean bIncludeAttributes, List<IAttribute> listAttributes )
     {
-        StringBuffer sbXml = new StringBuffer( );
-        DateFormat dateFormat = new SimpleDateFormat( );
+        StringBuffer sbXml = new StringBuffer(  );
+        DateFormat dateFormat = new SimpleDateFormat(  );
 
         XmlUtil.beginElement( sbXml, CONSTANT_XML_USER );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_ACCESS_CODE, user.getAccessCode( ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_LAST_NAME, user.getLastName( ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_FIRST_NAME, user.getFirstName( ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_EMAIL, user.getEmail( ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_STATUS, Integer.toString( user.getRealStatus( ) ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_LOCALE, user.getLocale( ).toString( ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_LEVEL, Integer.toString( user.getUserLevel( ) ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_MUST_CHANGE_PASSWORD, Boolean.toString( user.isPasswordReset( ) ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_ACCESSIBILITY_MODE, Boolean.toString( user.getAccessibilityMode( ) ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_ACCESS_CODE, user.getAccessCode(  ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_LAST_NAME, user.getLastName(  ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_FIRST_NAME, user.getFirstName(  ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_EMAIL, user.getEmail(  ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_STATUS, Integer.toString( user.getRealStatus(  ) ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_LOCALE, user.getLocale(  ).toString(  ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_LEVEL, Integer.toString( user.getUserLevel(  ) ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_MUST_CHANGE_PASSWORD, Boolean.toString( user.isPasswordReset(  ) ) );
+        XmlUtil.addElement( sbXml, CONSTANT_XML_ACCESSIBILITY_MODE, Boolean.toString( user.getAccessibilityMode(  ) ) );
 
         String strPasswordMaxValidDate = StringUtils.EMPTY;
-        if ( user.getPasswordMaxValidDate( ) != null )
+
+        if ( user.getPasswordMaxValidDate(  ) != null )
         {
-            strPasswordMaxValidDate = dateFormat.format( user.getPasswordMaxValidDate( ) );
+            strPasswordMaxValidDate = dateFormat.format( user.getPasswordMaxValidDate(  ) );
         }
+
         XmlUtil.addElement( sbXml, CONSTANT_XML_PASSWORD_MAX_VALID_DATE, strPasswordMaxValidDate );
 
         String strAccountMaxValidDate = StringUtils.EMPTY;
-        if ( user.getAccountMaxValidDate( ) != null )
+
+        if ( user.getAccountMaxValidDate(  ) != null )
         {
-            strAccountMaxValidDate = dateFormat.format( user.getAccountMaxValidDate( ) );
+            strAccountMaxValidDate = dateFormat.format( user.getAccountMaxValidDate(  ) );
         }
+
         XmlUtil.addElement( sbXml, CONSTANT_XML_ACCOUNT_MAX_VALID_DATE, strAccountMaxValidDate );
 
         String strDateLastLogin = StringUtils.EMPTY;
-        if ( user.getDateLastLogin( ) != null )
+
+        if ( user.getDateLastLogin(  ) != null )
         {
-            strDateLastLogin = dateFormat.format( user.getDateLastLogin( ) );
+            strDateLastLogin = dateFormat.format( user.getDateLastLogin(  ) );
         }
 
         XmlUtil.addElement( sbXml, CONSTANT_XML_DATE_LAST_LOGIN, strDateLastLogin );
 
         if ( bIncludeRoles )
         {
-            Map<String, AdminRole> mapRoles = AdminUserHome.getRolesListForUser( user.getUserId( ) );
+            Map<String, AdminRole> mapRoles = AdminUserHome.getRolesListForUser( user.getUserId(  ) );
             XmlUtil.beginElement( sbXml, CONSTANT_XML_ROLES );
-            for ( String strRole : mapRoles.keySet( ) )
+
+            for ( String strRole : mapRoles.keySet(  ) )
             {
                 XmlUtil.addElement( sbXml, CONSTANT_XML_ROLE, strRole );
             }
+
             XmlUtil.endElement( sbXml, CONSTANT_XML_ROLES );
         }
+
         if ( bIncludeRights )
         {
             XmlUtil.beginElement( sbXml, CONSTANT_XML_RIGHTS );
-            Map<String, Right> mapRights = AdminUserHome.getRightsListForUser( user.getUserId( ) );
-            for ( String strRight : mapRights.keySet( ) )
+
+            Map<String, Right> mapRights = AdminUserHome.getRightsListForUser( user.getUserId(  ) );
+
+            for ( String strRight : mapRights.keySet(  ) )
             {
                 XmlUtil.addElement( sbXml, CONSTANT_XML_RIGHT, strRight );
             }
+
             XmlUtil.endElement( sbXml, CONSTANT_XML_RIGHTS );
         }
+
         if ( bIncludeWorkgroups )
         {
             XmlUtil.beginElement( sbXml, CONSTANT_XML_WORKGROUPS );
+
             ReferenceList refListWorkgroups = AdminWorkgroupHome.getUserWorkgroups( user );
+
             for ( ReferenceItem refItem : refListWorkgroups )
             {
-                XmlUtil.addElement( sbXml, CONSTANT_XML_WORKGROUP, refItem.getCode( ) );
+                XmlUtil.addElement( sbXml, CONSTANT_XML_WORKGROUP, refItem.getCode(  ) );
             }
-            XmlUtil.endElement( sbXml, CONSTANT_XML_WORKGROUPS );
 
+            XmlUtil.endElement( sbXml, CONSTANT_XML_WORKGROUPS );
         }
 
         if ( bIncludeAttributes )
         {
             Map<String, Object> mapAttributes = AdminUserFieldService.getAdminUserFields( listAttributes,
-                    user.getUserId( ), Locale.getDefault( ) );
+                    user.getUserId(  ), Locale.getDefault(  ) );
             XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTES );
-            for ( Entry<String, Object> entry : mapAttributes.entrySet( ) )
+
+            for ( Entry<String, Object> entry : mapAttributes.entrySet(  ) )
             {
-                String strAttributeKey = entry.getKey( );
-                Object value = entry.getValue( );
+                String strAttributeKey = entry.getKey(  );
+                Object value = entry.getValue(  );
+
                 if ( value instanceof List<?> )
                 {
                     List<AdminUserField> listFields = (List<AdminUserField>) value;
+
                     for ( AdminUserField adminUserFields : listFields )
                     {
-                        if ( adminUserFields.getIdUserField( ) > 0 )
+                        if ( adminUserFields.getIdUserField(  ) > 0 )
                         {
                             XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTE );
                             XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_ID, strAttributeKey );
-                            XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_FIELD_ID, adminUserFields
-                                    .getAttributeField( ).getIdField( ) );
-                            XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_VALUE, adminUserFields.getValue( ) );
+                            XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_FIELD_ID,
+                                adminUserFields.getAttributeField(  ).getIdField(  ) );
+                            XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_VALUE, adminUserFields.getValue(  ) );
                             XmlUtil.endElement( sbXml, CONSTANT_XML_ATTRIBUTE );
                         }
                     }
                 }
             }
+
             XmlUtil.endElement( sbXml, CONSTANT_XML_ATTRIBUTES );
         }
 
         XmlUtil.endElement( sbXml, CONSTANT_XML_USER );
-        return sbXml.toString( );
+
+        return sbXml.toString(  );
     }
 }

@@ -440,7 +440,7 @@ public final class MailService
     public static String getSiteLink( String strBaseUrl, boolean linkToFrontOffice )
     {
         StringBuilder sb = new StringBuilder(  );
-        String strSiteName = PortalService.getSiteName();
+        String strSiteName = PortalService.getSiteName(  );
 
         if ( strSiteName != null )
         {

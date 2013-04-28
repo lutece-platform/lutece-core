@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.io.StringWriter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -223,9 +224,9 @@ public final class XmlTransformer
         {
             transformer.clearParameters(  );
 
-            for ( Entry<String, String> entry : params.entrySet( ) )
+            for ( Entry<String, String> entry : params.entrySet(  ) )
             {
-                transformer.setParameter( entry.getKey( ), entry.getValue( ) );
+                transformer.setParameter( entry.getKey(  ), entry.getValue(  ) );
             }
         }
 

@@ -61,7 +61,10 @@ import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
+
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -70,10 +73,9 @@ import java.util.Map;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -187,7 +189,7 @@ public class AdminLoginJspBean implements Serializable
         sbUrl.append( JSP_URL_DO_ADMIN_LOGIN );
 
         model.put( MARK_PARAM_VERSION, AppInfo.getVersion(  ) );
-        model.put( MARK_SITE_NAME, PortalService.getSiteName() );
+        model.put( MARK_SITE_NAME, PortalService.getSiteName(  ) );
         model.put( MARK_PARAMS_LIST, listParams );
         model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance(  ).getLostPasswordPageUrl(  ) );
         model.put( MARK_FORGOT_LOGIN_URL, AdminAuthenticationService.getInstance(  ).getLostLoginPageUrl(  ) );
@@ -451,7 +453,8 @@ public class AdminLoginJspBean implements Serializable
         MailService.sendMailHtml( user.getEmail(  ), strSenderEmail, strSenderEmail, strEmailSubject,
             template.getHtml(  ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_SENDING_SUCCESS, JSP_URL_ADMIN_LOGIN, AdminMessage.TYPE_INFO );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_SENDING_SUCCESS, JSP_URL_ADMIN_LOGIN,
+            AdminMessage.TYPE_INFO );
     }
 
     /**
@@ -538,14 +541,16 @@ public class AdminLoginJspBean implements Serializable
 
         Collection<AdminUser> adminUserList = AdminUserHome.findByLevel( nIdLevel );
         StringBuilder sbMailsTo = new StringBuilder( CONSTANT_EMPTY_STRING );
+
         for ( AdminUser adminUser : adminUserList )
         {
             if ( StringUtil.checkEmail( adminUser.getEmail(  ) ) )
             {
-                sbMailsTo.append( adminUser.getEmail( ) + CONSTANT_EMAIL_DELIMITER );
+                sbMailsTo.append( adminUser.getEmail(  ) + CONSTANT_EMAIL_DELIMITER );
             }
         }
-        String strMailsTo = sbMailsTo.toString( );
+
+        String strMailsTo = sbMailsTo.toString(  );
 
         if ( !strMailsTo.equals( CONSTANT_EMPTY_STRING ) )
         {

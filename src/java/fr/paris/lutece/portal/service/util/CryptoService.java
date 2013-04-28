@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.util;
 
 import java.io.UnsupportedEncodingException;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -90,7 +91,7 @@ public final class CryptoService
      * Get the cryptographic key of the application
      * @return The cryptographic key of the application
      */
-    public static String getCryptoKey( )
+    public static String getCryptoKey(  )
     {
         return AppPropertiesService.getProperty( PROPERTY_CRYPTO_KEY );
     }

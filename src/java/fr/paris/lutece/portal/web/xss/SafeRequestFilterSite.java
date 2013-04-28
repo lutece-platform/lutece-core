@@ -48,7 +48,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SafeRequestFilterSite extends SafeRequestFilter
 {
-
     /**
      * {@inheritDoc}
      */

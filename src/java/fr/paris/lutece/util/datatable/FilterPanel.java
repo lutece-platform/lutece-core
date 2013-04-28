@@ -48,7 +48,7 @@ public class FilterPanel
     public static final String PARAM_UPDATE_FILTERS = "updateFilters";
     public static final String PARAM_RESET_FILTERS = "resetFilters";
     private String _strFormUrl;
-    private List<DataTableFilter> _listFilter = new ArrayList<DataTableFilter>( );
+    private List<DataTableFilter> _listFilter = new ArrayList<DataTableFilter>(  );
 
     /**
      * Instantiates a new filter panel.

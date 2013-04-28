@@ -47,327 +47,327 @@ import javax.servlet.http.HttpServletRequest;
  */
 public abstract class AbstractPaginator<E> implements IPaginator<E>
 {
-	/** Default value for Page Index Parameter */
-	public static final String PARAMETER_PAGE_INDEX = "page_index";
+    /** Default value for Page Index Parameter */
+    public static final String PARAMETER_PAGE_INDEX = "page_index";
 
-	/** Default value for Items Per Page Parameter */
-	public static final String PARAMETER_ITEMS_PER_PAGE = "items_per_page";
-	public static final String LABEL_FIRST = "|&lt;";
-	public static final String LABEL_PREVIOUS = "&lt;";
-	public static final String LABEL_NEXT = "&gt;";
-	public static final String LABEL_LAST = "&gt;|";
+    /** Default value for Items Per Page Parameter */
+    public static final String PARAMETER_ITEMS_PER_PAGE = "items_per_page";
+    public static final String LABEL_FIRST = "|&lt;";
+    public static final String LABEL_PREVIOUS = "&lt;";
+    public static final String LABEL_NEXT = "&gt;";
+    public static final String LABEL_LAST = "&gt;|";
 
-	// Variables declarations
-	/** page index parameter name */
-	protected String _strPageIndexParameterName;
+    // Variables declarations
+    /** page index parameter name */
+    protected String _strPageIndexParameterName;
 
-	/** imtes per page */
-	protected int _nItemPerPage;
+    /** imtes per page */
+    protected int _nItemPerPage;
 
-	/** base url */
-	protected String _strBaseUrl;
+    /** base url */
+    protected String _strBaseUrl;
 
-	/** the actual list */
-	protected List<E> _list;
+    /** the actual list */
+    protected List<E> _list;
 
-	/** the current page */
-	protected int _nPageCurrent;
+    /** the current page */
+    protected int _nPageCurrent;
 
-	/** items per page parameter name */
-	protected String _strItemsPerPageParameterName;
+    /** items per page parameter name */
+    protected String _strItemsPerPageParameterName;
 
-	/** element count */
-	protected int _nItemsCount;
+    /** element count */
+    protected int _nItemsCount;
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public int getPageCurrent(  )
-	{
-		return _nPageCurrent;
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public int getPageCurrent(  )
+    {
+        return _nPageCurrent;
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public String getFirstPageLink(  )
-	{
-		UrlItem url = new UrlItem( _strBaseUrl );
-		url.addParameter( _strPageIndexParameterName, "" + 1 );
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String getFirstPageLink(  )
+    {
+        UrlItem url = new UrlItem( _strBaseUrl );
+        url.addParameter( _strPageIndexParameterName, "" + 1 );
 
-		return url.getUrl(  );
-	}
+        return url.getUrl(  );
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public String getPreviousPageLink(  )
-	{
-		int nPreviousIndex = _nPageCurrent - 1;
-		UrlItem url = new UrlItem( _strBaseUrl );
-		url.addParameter( _strPageIndexParameterName, "" + nPreviousIndex );
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String getPreviousPageLink(  )
+    {
+        int nPreviousIndex = _nPageCurrent - 1;
+        UrlItem url = new UrlItem( _strBaseUrl );
+        url.addParameter( _strPageIndexParameterName, "" + nPreviousIndex );
 
-		return url.getUrl(  );
-	}
+        return url.getUrl(  );
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public String getLastPageLink(  )
-	{
-		UrlItem url = new UrlItem( _strBaseUrl );
-		url.addParameter( _strPageIndexParameterName, "" + getPagesCount(  ) );
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String getLastPageLink(  )
+    {
+        UrlItem url = new UrlItem( _strBaseUrl );
+        url.addParameter( _strPageIndexParameterName, "" + getPagesCount(  ) );
 
-		return url.getUrl(  );
-	}
+        return url.getUrl(  );
+    }
 
-	/**
-	 *
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getItemsPerPage(  )
-	{
-		return _nItemPerPage;
-	}
+    /**
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public int getItemsPerPage(  )
+    {
+        return _nItemPerPage;
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public String getNextPageLink(  )
-	{
-		int nNextIndex = _nPageCurrent + 1;
-		UrlItem url = new UrlItem( _strBaseUrl );
-		url.addParameter( _strPageIndexParameterName, "" + nNextIndex );
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String getNextPageLink(  )
+    {
+        int nNextIndex = _nPageCurrent + 1;
+        UrlItem url = new UrlItem( _strBaseUrl );
+        url.addParameter( _strPageIndexParameterName, "" + nNextIndex );
 
-		return url.getUrl(  );
-	}
+        return url.getUrl(  );
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public List<PaginatorPage> getPagesLinks(  )
-	{
-		List<PaginatorPage> list = new ArrayList<PaginatorPage>(  );
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public List<PaginatorPage> getPagesLinks(  )
+    {
+        List<PaginatorPage> list = new ArrayList<PaginatorPage>(  );
 
-		// Number of link pages in total
-		int nNbLinkPages = getPagesCount(  );
+        // Number of link pages in total
+        int nNbLinkPages = getPagesCount(  );
 
-		// Max number of link pages displayed
-		int nNbLinkPagesToDisplay = 10;
+        // Max number of link pages displayed
+        int nNbLinkPagesToDisplay = 10;
 
-		// Number of previous link pages to display
-		int nOffsetPrev = nNbLinkPagesToDisplay / 2;
+        // Number of previous link pages to display
+        int nOffsetPrev = nNbLinkPagesToDisplay / 2;
 
-		// Number of next link pages to display
-		int nOffsetNext = nNbLinkPagesToDisplay / 2;
+        // Number of next link pages to display
+        int nOffsetNext = nNbLinkPagesToDisplay / 2;
 
-		// Set the offsets
-		if ( _nPageCurrent <= ( nNbLinkPagesToDisplay - nOffsetPrev ) )
-		{
-			// If the current page is within the first 5 pages
-			nOffsetPrev = _nPageCurrent - 1;
-			nOffsetNext = nNbLinkPagesToDisplay - nOffsetPrev;
-		}
-		else if ( ( _nPageCurrent + nOffsetNext ) > nNbLinkPages )
-		{
-			// If the current page is within the last 5 pages
-			nOffsetNext = nNbLinkPages - _nPageCurrent;
-			nOffsetPrev = nNbLinkPagesToDisplay - nOffsetNext;
-		}
+        // Set the offsets
+        if ( _nPageCurrent <= ( nNbLinkPagesToDisplay - nOffsetPrev ) )
+        {
+            // If the current page is within the first 5 pages
+            nOffsetPrev = _nPageCurrent - 1;
+            nOffsetNext = nNbLinkPagesToDisplay - nOffsetPrev;
+        }
+        else if ( ( _nPageCurrent + nOffsetNext ) > nNbLinkPages )
+        {
+            // If the current page is within the last 5 pages
+            nOffsetNext = nNbLinkPages - _nPageCurrent;
+            nOffsetPrev = nNbLinkPagesToDisplay - nOffsetNext;
+        }
 
-		// Index of the last number of the link page to display
-		int nMax = nNbLinkPages;
+        // Index of the last number of the link page to display
+        int nMax = nNbLinkPages;
 
-		// Index of the first number of the link page to display
-		int nMin = 1;
+        // Index of the first number of the link page to display
+        int nMin = 1;
 
-		int nTmpMin = _nPageCurrent - nOffsetPrev;
-		int nTmpMax = _nPageCurrent + nOffsetNext;
+        int nTmpMin = _nPageCurrent - nOffsetPrev;
+        int nTmpMax = _nPageCurrent + nOffsetNext;
 
-		if ( nTmpMax < nMax )
-		{
-			nMax = nTmpMax;
-		}
+        if ( nTmpMax < nMax )
+        {
+            nMax = nTmpMax;
+        }
 
-		if ( nTmpMin > 0 )
-		{
-			nMin = nTmpMin;
-		}
+        if ( nTmpMin > 0 )
+        {
+            nMin = nTmpMin;
+        }
 
-		for ( int i = nMin; i <= nMax; i++ )
-		{
-			PaginatorPage page = new PaginatorPage(  );
-			String strIndex = "" + i;
-			UrlItem url = new UrlItem( _strBaseUrl );
-			url.addParameter( _strPageIndexParameterName, strIndex );
-			page.setUrl( url.getUrl(  ) );
-			page.setName( strIndex );
-			page.setIndex( i );
-			list.add( page );
-		}
+        for ( int i = nMin; i <= nMax; i++ )
+        {
+            PaginatorPage page = new PaginatorPage(  );
+            String strIndex = "" + i;
+            UrlItem url = new UrlItem( _strBaseUrl );
+            url.addParameter( _strPageIndexParameterName, strIndex );
+            page.setUrl( url.getUrl(  ) );
+            page.setName( strIndex );
+            page.setIndex( i );
+            list.add( page );
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public String getLabelFirst(  )
-	{
-		return LABEL_FIRST;
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String getLabelFirst(  )
+    {
+        return LABEL_FIRST;
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public String getLabelPrevious(  )
-	{
-		return LABEL_PREVIOUS;
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String getLabelPrevious(  )
+    {
+        return LABEL_PREVIOUS;
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public String getLabelNext(  )
-	{
-		return LABEL_NEXT;
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String getLabelNext(  )
+    {
+        return LABEL_NEXT;
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public String getLabelLast(  )
-	{
-		return LABEL_LAST;
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String getLabelLast(  )
+    {
+        return LABEL_LAST;
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public String getLabelItemCount(  )
-	{
-		return "";
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String getLabelItemCount(  )
+    {
+        return "";
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public String getLabelItemCountPerPage(  )
-	{
-		return "";
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String getLabelItemCountPerPage(  )
+    {
+        return "";
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public String getItemsPerPageParameterName(  )
-	{
-		return _strItemsPerPageParameterName;
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public String getItemsPerPageParameterName(  )
+    {
+        return _strItemsPerPageParameterName;
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public void setItemsPerPageParameterName( String strItemsPerPageParameterName )
-	{
-		_strItemsPerPageParameterName = strItemsPerPageParameterName;
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public void setItemsPerPageParameterName( String strItemsPerPageParameterName )
+    {
+        _strItemsPerPageParameterName = strItemsPerPageParameterName;
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public int getPagesCount(  )
-	{
-		return ( ( _nItemsCount - 1 ) / _nItemPerPage ) + 1;
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public int getPagesCount(  )
+    {
+        return ( ( _nItemsCount - 1 ) / _nItemPerPage ) + 1;
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public int getRangeMin(  )
-	{
-		return ( !_list.isEmpty(  ) ) ? ( ( _nItemPerPage * ( _nPageCurrent - 1 ) ) + 1 ) : 0;
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public int getRangeMin(  )
+    {
+        return ( !_list.isEmpty(  ) ) ? ( ( _nItemPerPage * ( _nPageCurrent - 1 ) ) + 1 ) : 0;
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public int getRangeMax(  )
-	{
-		return ( _nItemsCount < ( ( _nItemPerPage * _nPageCurrent ) - 1 ) ) ? _nItemsCount : ( _nItemPerPage * _nPageCurrent );
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public int getRangeMax(  )
+    {
+        return ( _nItemsCount < ( ( _nItemPerPage * _nPageCurrent ) - 1 ) ) ? _nItemsCount : ( _nItemPerPage * _nPageCurrent );
+    }
 
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public int getItemsCount(  )
-	{
-		return _nItemsCount;
-	}
+    /**
+     *{@inheritDoc}
+     */
+    @Override
+    public int getItemsCount(  )
+    {
+        return _nItemsCount;
+    }
 
-	/**
-	 * Gets the number of items per page from a request parameter
-	 * @param request The HTTP request
-	 * @param strParameter The request parameter name
-	 * @param nCurrent The current number of items
-	 * @param nDefault The default number of items
-	 * @return The new number of items
-	 */
-	public static int getItemsPerPage( HttpServletRequest request, String strParameter, int nCurrent, int nDefault )
-	{
-		int nItemsPerPage;
-		String strItemsPerPage = request.getParameter( strParameter );
+    /**
+     * Gets the number of items per page from a request parameter
+     * @param request The HTTP request
+     * @param strParameter The request parameter name
+     * @param nCurrent The current number of items
+     * @param nDefault The default number of items
+     * @return The new number of items
+     */
+    public static int getItemsPerPage( HttpServletRequest request, String strParameter, int nCurrent, int nDefault )
+    {
+        int nItemsPerPage;
+        String strItemsPerPage = request.getParameter( strParameter );
 
-		if ( strItemsPerPage != null )
-		{
-			nItemsPerPage = Integer.parseInt( strItemsPerPage );
-		}
-		else
-		{
-			if ( nCurrent != 0 )
-			{
-				nItemsPerPage = nCurrent;
-			}
-			else
-			{
-				nItemsPerPage = nDefault;
-			}
-		}
+        if ( strItemsPerPage != null )
+        {
+            nItemsPerPage = Integer.parseInt( strItemsPerPage );
+        }
+        else
+        {
+            if ( nCurrent != 0 )
+            {
+                nItemsPerPage = nCurrent;
+            }
+            else
+            {
+                nItemsPerPage = nDefault;
+            }
+        }
 
-		return nItemsPerPage;
-	}
+        return nItemsPerPage;
+    }
 
-	/**
-	 * Gets the new page index from a request parameter
-	 * @param request The HTTP request
-	 * @param strParameter The request parameter name
-	 * @param strCurrentPageIndex The current page index
-	 * @return The new page index
-	 */
-	public static String getPageIndex( HttpServletRequest request, String strParameter, String strCurrentPageIndex )
-	{
-		String strPageIndex = request.getParameter( strParameter );
-		strPageIndex = ( strPageIndex != null ) ? strPageIndex : strCurrentPageIndex;
+    /**
+     * Gets the new page index from a request parameter
+     * @param request The HTTP request
+     * @param strParameter The request parameter name
+     * @param strCurrentPageIndex The current page index
+     * @return The new page index
+     */
+    public static String getPageIndex( HttpServletRequest request, String strParameter, String strCurrentPageIndex )
+    {
+        String strPageIndex = request.getParameter( strParameter );
+        strPageIndex = ( strPageIndex != null ) ? strPageIndex : strCurrentPageIndex;
 
-		return strPageIndex;
-	}
+        return strPageIndex;
+    }
 }

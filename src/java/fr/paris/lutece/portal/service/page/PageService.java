@@ -37,8 +37,6 @@ import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.page.PageRoleRemovalListener;
 import fr.paris.lutece.portal.business.portlet.Portlet;
-import fr.paris.lutece.portal.service.portlet.PortletEvent;
-import fr.paris.lutece.portal.service.portlet.PortletEventListener;
 import fr.paris.lutece.portal.business.portlet.PortletRoleRemovalListener;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.style.ModeHome;
@@ -56,6 +54,8 @@ import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.portal.ThemesService;
+import fr.paris.lutece.portal.service.portlet.PortletEvent;
+import fr.paris.lutece.portal.service.portlet.PortletEventListener;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
@@ -72,6 +72,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -82,6 +83,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.inject.Inject;
+
 import javax.servlet.http.HttpServletRequest;
 
 

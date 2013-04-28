@@ -37,17 +37,18 @@ import fr.paris.lutece.portal.business.datastore.DataEntity;
 import fr.paris.lutece.portal.business.datastore.DataEntityHome;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.util.ReferenceList;
+
 import java.util.List;
 
 
 /**
  * Datastore Service
  */
-public final class DatastoreService 
+public final class DatastoreService
 {
     public static final String VALUE_TRUE = "true";
     public static final String VALUE_FALSE = "false";
-    private static AbstractCacheableService _cache = new DatastoreCacheService();
+    private static AbstractCacheableService _cache = new DatastoreCacheService(  );
 
     /**
      * Private constructor
@@ -55,7 +56,6 @@ public final class DatastoreService
     private DatastoreService(  )
     {
     }
-
 
     /**
      * Get entity
@@ -65,16 +65,20 @@ public final class DatastoreService
      */
     public static String getDataValue( String strKey, String strDefault )
     {
-        DataEntity entity = (DataEntity) _cache.getFromCache(strKey);
-        if( entity == null )
-        {    
+        DataEntity entity = (DataEntity) _cache.getFromCache( strKey );
+
+        if ( entity == null )
+        {
             entity = DataEntityHome.findByPrimaryKey( strKey );
-            if( entity == null )
+
+            if ( entity == null )
             {
                 return strDefault;
             }
+
             _cache.putInCache( strKey, entity );
         }
+
         return entity.getValue(  );
     }
 
@@ -97,7 +101,7 @@ public final class DatastoreService
             DataEntityHome.create( p );
         }
     }
-    
+
     /**
      * Gets a list of key/value where keys are matching a given prefix
      * @param strPrefix The prefix
@@ -105,16 +109,17 @@ public final class DatastoreService
      */
     public static ReferenceList getDataByPrefix( String strPrefix )
     {
-        ReferenceList list = new ReferenceList();
-        List<DataEntity> listEntities = DataEntityHome.findAll();
-        for( DataEntity entity : listEntities )
+        ReferenceList list = new ReferenceList(  );
+        List<DataEntity> listEntities = DataEntityHome.findAll(  );
+
+        for ( DataEntity entity : listEntities )
         {
-            if( entity.getKey().startsWith(strPrefix))
+            if ( entity.getKey(  ).startsWith( strPrefix ) )
             {
-                list.addItem(entity.getKey(), entity.getValue());
+                list.addItem( entity.getKey(  ), entity.getValue(  ) );
             }
         }
-        return list;
-    }        
 
+        return list;
+    }
 }

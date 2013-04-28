@@ -35,11 +35,11 @@ package fr.paris.lutece.portal.service.search;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-import java.util.Locale;
-
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+
+import java.util.Locale;
 
 
 /**

@@ -76,7 +76,7 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
      *{@inheritDoc}
      */
     @Override
-	@Transactional
+    @Transactional
     public void create( E entityBean )
     {
         getDao(  ).create( entityBean );
@@ -86,7 +86,7 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
      *{@inheritDoc}
      */
     @Override
-	@Transactional
+    @Transactional
     public void remove( K key )
     {
         getDao(  ).remove( key );
@@ -96,7 +96,7 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
      *{@inheritDoc}
      */
     @Override
-	public E findByPrimaryKey( K key )
+    public E findByPrimaryKey( K key )
     {
         return getDao(  ).findById( key );
     }
@@ -105,7 +105,7 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
      *{@inheritDoc}
      */
     @Override
-	@Transactional
+    @Transactional
     public void update( E entityBean )
     {
         getDao(  ).update( entityBean );
@@ -115,7 +115,7 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
      *{@inheritDoc}
      */
     @Override
-	public List<E> findAll(  )
+    public List<E> findAll(  )
     {
         return getDao(  ).findAll(  );
     }

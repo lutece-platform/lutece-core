@@ -78,7 +78,7 @@ public class EditorBbcodeService implements IEditorBbcodeService
      * {@inheritDoc}
      */
     @Override
-	public String parse( String strValue )
+    public String parse( String strValue )
     {
         return BbcodeUtil.parse( strValue, _listParserElement, _listParserComplexElement );
     }

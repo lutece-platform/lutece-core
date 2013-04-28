@@ -56,7 +56,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class LinksInclude implements PageInclude
 {
-
     // Parameters
     private static final String PARAMETER_PAGE = "page";
 
@@ -89,8 +88,8 @@ public class LinksInclude implements PageInclude
         {
             // Add links coming from the data object
             String strFavourite = ( data.getFavourite(  ) != null ) ? data.getFavourite(  )
-                                                                    : PortalService.getSiteName();
-            String strPortalName = PortalService.getSiteName();
+                                                                    : PortalService.getSiteName(  );
+            String strPortalName = PortalService.getSiteName(  );
             rootModel.put( MARK_FAVOURITE, strFavourite );
             rootModel.put( MARK_PORTAL_NAME, strPortalName );
 

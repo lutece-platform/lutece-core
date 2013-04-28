@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.site.properties;
 
+
 /**
  * This is the business class for the object SiteProperty
  */
@@ -42,32 +43,30 @@ public class DefaultSitePropertiesGroup implements ILocalizedSitePropertiesGroup
     private static final String KEY_DESCRIPTION = "portal.site.site_properties_group.description";
     private static final String PREFIX = "portal.site.site_property.";
 
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getNameKey(  )
+    {
+        return KEY_NAME;
+    }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String getNameKey()
-    {
-        return KEY_NAME;
-    }
-    
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getDescriptionKey()
+    public String getDescriptionKey(  )
     {
         return KEY_DESCRIPTION;
     }
 
-     /**
-     * {@inheritDoc }
-     */
-   @Override
-    public String getDatastoreKeysPrefix()
+    /**
+    * {@inheritDoc }
+    */
+    @Override
+    public String getDatastoreKeysPrefix(  )
     {
         return PREFIX;
     }
-    
- }
+}

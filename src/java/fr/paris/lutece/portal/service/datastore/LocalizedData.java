@@ -33,13 +33,13 @@
  */
 package fr.paris.lutece.portal.service.datastore;
 
+
 /**
  * This is the business class for the object SiteProperty
  */
 public class LocalizedData
 {
     // Variables declarations 
-
     private String _strKey;
     private String _strLabel;
     private String _strValue;
@@ -50,7 +50,7 @@ public class LocalizedData
      *
      * @return The Key
      */
-    public String getKey()
+    public String getKey(  )
     {
         return _strKey;
     }
@@ -60,7 +60,7 @@ public class LocalizedData
      *
      * @param strKey The Key
      */
-    public void setKey(String strKey)
+    public void setKey( String strKey )
     {
         _strKey = strKey;
     }
@@ -70,7 +70,7 @@ public class LocalizedData
      *
      * @return The Label
      */
-    public String getLabel()
+    public String getLabel(  )
     {
         return _strLabel;
     }
@@ -80,7 +80,7 @@ public class LocalizedData
      *
      * @param strLabel The Label
      */
-    public void setLabel(String strLabel)
+    public void setLabel( String strLabel )
     {
         _strLabel = strLabel;
     }
@@ -90,7 +90,7 @@ public class LocalizedData
      *
      * @return The Value
      */
-    public String getValue()
+    public String getValue(  )
     {
         return _strValue;
     }
@@ -100,17 +100,17 @@ public class LocalizedData
      *
      * @param strValue The Value
      */
-    public void setValue(String strValue)
+    public void setValue( String strValue )
     {
         _strValue = strValue;
     }
-    
+
     /**
      * Returns the Help
      *
      * @return The Help
      */
-    public String getHelp()
+    public String getHelp(  )
     {
         return _strHelp;
     }
@@ -120,9 +120,8 @@ public class LocalizedData
      *
      * @param strHelp The Help
      */
-    public void setHelp(String strHelp)
+    public void setHelp( String strHelp )
     {
         _strHelp = strHelp;
     }
-
 }

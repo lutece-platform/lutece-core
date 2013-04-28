@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.apache.lucene.demo.html.HTMLParser;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
@@ -50,6 +51,7 @@ import org.apache.lucene.document.Field;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +75,7 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-	public void indexDocuments(  ) throws IOException, InterruptedException, SiteMessageException
+    public void indexDocuments(  ) throws IOException, InterruptedException, SiteMessageException
     {
         String strPageBaseUrl = AppPropertiesService.getProperty( PROPERTY_PAGE_BASE_URL );
         List<Page> listPages = PageHome.getAllPages(  );
@@ -106,7 +108,7 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-	public List<Document> getDocuments( String nIdDocument )
+    public List<Document> getDocuments( String nIdDocument )
         throws IOException, InterruptedException, SiteMessageException
     {
         ArrayList<Document> listDocuments = new ArrayList<Document>(  );
@@ -130,7 +132,7 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-	public String getName(  )
+    public String getName(  )
     {
         return INDEXER_NAME;
     }
@@ -139,7 +141,7 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-	public String getVersion(  )
+    public String getVersion(  )
     {
         return INDEXER_VERSION;
     }
@@ -148,7 +150,7 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-	public String getDescription(  )
+    public String getDescription(  )
     {
         return INDEXER_DESCRIPTION;
     }
@@ -157,7 +159,7 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-	public boolean isEnable(  )
+    public boolean isEnable(  )
     {
         String strEnable = AppPropertiesService.getProperty( PROPERTY_INDEXER_ENABLE, "true" );
 
@@ -274,7 +276,7 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-	public List<String> getListType(  )
+    public List<String> getListType(  )
     {
         List<String> listType = new ArrayList<String>(  );
         listType.add( INDEX_TYPE_PAGE );
@@ -286,7 +288,7 @@ public class PageIndexer implements SearchIndexer
     * {@inheritDoc}
     */
     @Override
-	public String getSpecificSearchAppUrl(  )
+    public String getSpecificSearchAppUrl(  )
     {
         return AppPropertiesService.getProperty( PROPERTY_SEARCH_PAGE_URL );
     }

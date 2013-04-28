@@ -47,7 +47,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class UploadFilterAdmin extends UploadFilter
 {
-
     /**
      * {@inheritDoc}
      */

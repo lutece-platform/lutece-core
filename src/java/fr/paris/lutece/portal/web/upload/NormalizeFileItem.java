@@ -68,7 +68,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public void delete(  )
+    public void delete(  )
     {
         _item.delete(  );
     }
@@ -77,7 +77,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public byte[] get(  )
+    public byte[] get(  )
     {
         return _item.get(  );
     }
@@ -86,7 +86,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public String getContentType(  )
+    public String getContentType(  )
     {
         return _item.getContentType(  );
     }
@@ -95,7 +95,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public String getFieldName(  )
+    public String getFieldName(  )
     {
         return _item.getFieldName(  );
     }
@@ -104,7 +104,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public InputStream getInputStream(  ) throws IOException
+    public InputStream getInputStream(  ) throws IOException
     {
         return _item.getInputStream(  );
     }
@@ -113,7 +113,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public String getName(  )
+    public String getName(  )
     {
         return UploadUtil.cleanFileName( FilenameUtils.getName( _item.getName(  ) ) );
     }
@@ -122,7 +122,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public OutputStream getOutputStream(  ) throws IOException
+    public OutputStream getOutputStream(  ) throws IOException
     {
         return _item.getOutputStream(  );
     }
@@ -131,7 +131,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public long getSize(  )
+    public long getSize(  )
     {
         return _item.getSize(  );
     }
@@ -140,7 +140,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public String getString(  )
+    public String getString(  )
     {
         return _item.getString(  );
     }
@@ -149,7 +149,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public String getString( String encoding ) throws UnsupportedEncodingException
+    public String getString( String encoding ) throws UnsupportedEncodingException
     {
         return _item.getString( encoding );
     }
@@ -158,7 +158,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public boolean isFormField(  )
+    public boolean isFormField(  )
     {
         return _item.isFormField(  );
     }
@@ -167,7 +167,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public boolean isInMemory(  )
+    public boolean isInMemory(  )
     {
         return _item.isInMemory(  );
     }
@@ -176,7 +176,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public void setFieldName( String name )
+    public void setFieldName( String name )
     {
         _item.setFieldName( name );
     }
@@ -185,7 +185,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public void setFormField( boolean state )
+    public void setFormField( boolean state )
     {
         _item.setFormField( state );
     }
@@ -194,7 +194,7 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-	public void write( File file ) throws Exception
+    public void write( File file ) throws Exception
     {
         _item.write( file );
     }

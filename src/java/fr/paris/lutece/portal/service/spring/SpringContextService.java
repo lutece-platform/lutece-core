@@ -42,11 +42,14 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+
 import org.springframework.context.ApplicationContext;
+
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 import java.io.File;
 import java.io.FilenameFilter;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -298,7 +301,7 @@ public final class SpringContextService implements PluginEventListener
      * {@inheritDoc }
      */
     @Override
-	public void processPluginEvent( PluginEvent event )
+    public void processPluginEvent( PluginEvent event )
     {
         // Reset cache of beansOfType if a plugin is installed or uninstalled
         if ( ( event.getEventType(  ) == PluginEvent.PLUGIN_INSTALLED ) ||
@@ -325,7 +328,7 @@ public final class SpringContextService implements PluginEventListener
          * @return true if the file is a context file otherwise false
          */
         @Override
-		public boolean accept( File file, String strName )
+        public boolean accept( File file, String strName )
         {
             return strName.endsWith( SUFFIX_CONTEXT_FILE );
         }

@@ -67,15 +67,18 @@ public class MetasInclude implements PageInclude
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
         String strMetaAuthor = ( data.getMetaAuthor(  ) != null ) ? data.getMetaAuthor(  )
-                                                                  : DatastoreService.getDataValue(KEY_WEBMASTER_META_AUTHOR, "");
+                                                                  : DatastoreService.getDataValue( KEY_WEBMASTER_META_AUTHOR,
+                "" );
         String strMetaCopyright = ( data.getMetaCopyright(  ) != null ) ? data.getMetaCopyright(  )
-                                                                        : DatastoreService.getDataValue( KEY_WEBMASTER_META_COPYRIGHT, "" );
+                                                                        : DatastoreService.getDataValue( KEY_WEBMASTER_META_COPYRIGHT,
+                "" );
         String strMetaKeywords = ( ( data.getMetaKeywords(  ) != null ) && ( data.getMetaKeywords(  ).length(  ) > 0 ) )
             ? ( DatastoreService.getDataValue( KEY_WEBMASTER_META_KEYWORDS, "" ) + ", " + data.getMetaKeywords(  ) )
             : DatastoreService.getDataValue( KEY_WEBMASTER_META_KEYWORDS, "" );
         String strMetaDescription = ( ( data.getMetaDescription(  ) != null ) &&
             ( data.getMetaDescription(  ).length(  ) > 0 ) ) ? data.getMetaDescription(  )
-                                                             : DatastoreService.getDataValue( KEY_WEBMASTER_META_DESCRIPTION, "" );
+                                                             : DatastoreService.getDataValue( KEY_WEBMASTER_META_DESCRIPTION,
+                "" );
 
         rootModel.put( MARK_PAGE_HEAD_META_AUTHOR, strMetaAuthor );
         rootModel.put( MARK_PAGE_HEAD_META_COPYRIGHT, strMetaCopyright );

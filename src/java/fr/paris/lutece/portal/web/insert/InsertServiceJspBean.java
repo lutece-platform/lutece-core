@@ -43,6 +43,7 @@ import fr.paris.lutece.util.url.UrlItem;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.Serializable;
+
 import java.util.HashMap;
 import java.util.Locale;
 

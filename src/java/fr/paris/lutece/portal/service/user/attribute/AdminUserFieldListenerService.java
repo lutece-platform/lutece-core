@@ -46,13 +46,13 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * 
+ *
  * AdminUserFieldListenerService
- * 
+ *
  */
 public class AdminUserFieldListenerService
 {
-    private List<AdminUserFieldListener> _listRegisteredListeners = new ArrayList<AdminUserFieldListener>( );
+    private List<AdminUserFieldListener> _listRegisteredListeners = new ArrayList<AdminUserFieldListener>(  );
 
     /**
      * Register a new Removal listener
@@ -131,14 +131,14 @@ public class AdminUserFieldListenerService
      * @param currentUser current user
      */
     public void doModifyUserFields( AdminUser user, List<AdminUserField> listUserFields, Locale locale,
-            AdminUser currentUser )
+        AdminUser currentUser )
     {
         for ( AdminUserFieldListener listener : _listRegisteredListeners )
         {
             if ( listener instanceof SimpleAdminUserFieldListener )
             {
                 ( (SimpleAdminUserFieldListener) listener ).doModifyUserFields( user, listUserFields, locale,
-                        currentUser );
+                    currentUser );
             }
         }
     }

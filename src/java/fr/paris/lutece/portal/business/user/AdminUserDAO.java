@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUse
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -239,16 +240,21 @@ public class AdminUserDAO implements IAdminUserDAO
             user.setAccessibilityMode( daoUtil.getBoolean( 9 ) );
             user.setPasswordReset( daoUtil.getBoolean( 10 ) );
             user.setPasswordMaxValidDate( daoUtil.getTimestamp( 11 ) );
+
             long accountTime = daoUtil.getLong( 12 );
+
             if ( accountTime > 0 )
             {
                 user.setAccountMaxValidDate( new Timestamp( accountTime ) );
             }
+
             Timestamp dateLastLogin = daoUtil.getTimestamp( 13 );
+
             if ( ( dateLastLogin != null ) && !dateLastLogin.equals( AdminUser.DEFAULT_DATE_LAST_LOGIN ) )
             {
                 user.setDateLastLogin( dateLastLogin );
             }
+
             userList.add( user );
         }
 
@@ -546,15 +552,17 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setBoolean( 10, user.getAccessibilityMode(  ) );
         daoUtil.setBoolean( 11, user.isPasswordReset(  ) );
         daoUtil.setTimestamp( 12, user.getPasswordMaxValidDate(  ) );
-        if ( user.getAccountMaxValidDate( ) == null )
+
+        if ( user.getAccountMaxValidDate(  ) == null )
         {
             daoUtil.setLongNull( 13 );
         }
         else
         {
-            daoUtil.setLong( 13, user.getAccountMaxValidDate( ).getTime( ) );
+            daoUtil.setLong( 13, user.getAccountMaxValidDate(  ).getTime(  ) );
         }
-        daoUtil.setTimestamp( 14, user.getDateLastLogin( ) );
+
+        daoUtil.setTimestamp( 14, user.getDateLastLogin(  ) );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }

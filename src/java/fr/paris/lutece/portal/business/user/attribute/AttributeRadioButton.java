@@ -39,13 +39,13 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -201,6 +201,7 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
         String[] strValues = request.getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
+
         return getUserFieldsData( strValues, user );
     }
 
@@ -211,31 +212,33 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
     public List<AdminUserField> getUserFieldsData( String[] strValues, AdminUser user )
     {
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
+
         if ( strValues != null )
         {
             for ( String strValue : strValues )
             {
-                AdminUserField userField = new AdminUserField( );
+                AdminUserField userField = new AdminUserField(  );
                 AttributeField attributeField;
 
                 if ( StringUtils.isNotBlank( strValue ) && StringUtils.isNumeric( strValue ) )
                 {
                     int nIdField = Integer.parseInt( strValue );
-                    attributeField = AttributeFieldService.getInstance( ).getAttributeField( nIdField );
+                    attributeField = AttributeFieldService.getInstance(  ).getAttributeField( nIdField );
                 }
                 else
                 {
-                    attributeField = new AttributeField( );
+                    attributeField = new AttributeField(  );
                     attributeField.setAttribute( this );
                     attributeField.setTitle( strValue );
                     attributeField.setValue( strValue );
                 }
+
                 if ( attributeField != null )
                 {
                     userField.setUser( user );
                     userField.setAttribute( this );
                     userField.setAttributeField( attributeField );
-                    userField.setValue( attributeField.getTitle( ) );
+                    userField.setValue( attributeField.getTitle(  ) );
                     listUserFields.add( userField );
                 }
             }
@@ -243,7 +246,6 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
 
         return listUserFields;
     }
-
 
     /**
      * Get whether the attribute is anonymizable.

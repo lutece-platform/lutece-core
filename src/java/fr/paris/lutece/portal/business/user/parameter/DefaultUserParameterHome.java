@@ -43,7 +43,7 @@ public final class DefaultUserParameterHome
 {
     // Static variable pointed at the DAO instance
     /** The _dao. */
-    private static IDefaultUserParameterDAO _dao = (IDefaultUserParameterDAO) SpringContextService.getBean(
+    private static IDefaultUserParameterDAO _dao = (IDefaultUserParameterDAO) SpringContextService.getBean( 
             "defaultUserParameterDAO" );
 
     /**

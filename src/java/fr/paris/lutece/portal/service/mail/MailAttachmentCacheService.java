@@ -59,7 +59,7 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
      * {@inheritDoc}
      */
     @Override
-	public String getName(  )
+    public String getName(  )
     {
         return SERVICE_NAME;
     }

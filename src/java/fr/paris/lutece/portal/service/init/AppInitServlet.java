@@ -77,7 +77,7 @@ public class AppInitServlet extends HttpServlet
         AppPathService.init( context );
 
         // Initializes all other services
-        AppInit.initServices( context , PATH_CONF, AppPathService.getWebAppPath(  ) );
+        AppInit.initServices( context, PATH_CONF, AppPathService.getWebAppPath(  ) );
     }
 
     /**

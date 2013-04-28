@@ -1050,7 +1050,7 @@ public abstract class Plugin implements Comparable<Plugin>
      * @return 1, 0 ou -1 according the plugin name
      */
     @Override
-	public int compareTo( Plugin plugin )
+    public int compareTo( Plugin plugin )
     {
         Comparator<String> comparator = String.CASE_INSENSITIVE_ORDER;
 

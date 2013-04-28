@@ -43,7 +43,6 @@ import java.util.List;
  */
 public class DelegatePaginator<E> extends AbstractPaginator<E>
 {
-
     /**
      * Creates a new instance of Paginator.
      *
@@ -103,7 +102,7 @@ public class DelegatePaginator<E> extends AbstractPaginator<E>
      * @return The List
      */
     @Override
-	public List<E> getPageItems(  )
+    public List<E> getPageItems(  )
     {
         return _list;
     }

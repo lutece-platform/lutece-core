@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.security.SecurityService;
 
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,6 @@ public class Page implements RBACResource, IExtendableResource
     public static final String IMAGE_RESOURCE_TYPE_ID = "page_thumbnail";
     public static final String ROLE_NONE = "none";
     private static final String THEME_DEFAULT = "default";
-
     private static final String SERVLET_IMAGE_PATH = "image";
     private static final String CONSTANT_QUESTION_MARK = "?";
     private static final String CONSTANT_AND = "&";
@@ -527,7 +527,7 @@ public class Page implements RBACResource, IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceDescription( )
+    public String getExtendableResourceDescription(  )
     {
         return _strDescription;
     }
@@ -536,9 +536,9 @@ public class Page implements RBACResource, IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceImageUrl( )
+    public String getExtendableResourceImageUrl(  )
     {
-        if ( _strImageContent != null && _strImageContent.length > 0 )
+        if ( ( _strImageContent != null ) && ( _strImageContent.length > 0 ) )
         {
             StringBuilder sbUrl = new StringBuilder( SERVLET_IMAGE_PATH );
             sbUrl.append( CONSTANT_QUESTION_MARK );
@@ -549,7 +549,8 @@ public class Page implements RBACResource, IExtendableResource
             sbUrl.append( MARK_RESOURCE_ID );
             sbUrl.append( CONSTANT_EQUALS );
             sbUrl.append( _nId );
-            return sbUrl.toString( );
+
+            return sbUrl.toString(  );
         }
         else
         {

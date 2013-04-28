@@ -145,7 +145,7 @@ public final class AdminUserFieldService
         }
 
         // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType(
+        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 
                 AdminUserFieldListenerService.class ) )
         {
             adminUserFieldListenerService.doCreateUserFields( user, request, locale );
@@ -190,7 +190,7 @@ public final class AdminUserFieldService
         }
 
         // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType(
+        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 
                 AdminUserFieldListenerService.class ) )
         {
             adminUserFieldListenerService.doModifyUserFields( user, request, locale, currentUser );
@@ -210,7 +210,7 @@ public final class AdminUserFieldService
         AdminUserFieldHome.removeByFilter( auFieldFilter );
 
         // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType(
+        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 
                 AdminUserFieldListenerService.class ) )
         {
             adminUserFieldListenerService.doRemoveUserFields( user, request, locale );

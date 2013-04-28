@@ -133,7 +133,8 @@ public final class ServletService
                     LuteceServletConfig servletConfig = new LuteceServletConfig( servlet.getName(  ), _context,
                             servlet.getInitParameters(  ) );
                     servlet.getServlet(  ).init( servletConfig );
-                    AppLogService.info( " * servlet '" + servlet.getName() + "' from plugin " + servlet.getPlugin().getName() + " initialized." );
+                    AppLogService.info( " * servlet '" + servlet.getName(  ) + "' from plugin " +
+                        servlet.getPlugin(  ).getName(  ) + " initialized." );
                 }
             }
             catch ( Exception e )

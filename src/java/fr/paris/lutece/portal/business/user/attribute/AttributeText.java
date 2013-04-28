@@ -39,13 +39,13 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -250,6 +250,7 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
         String[] strValues = request.getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
+
         return getUserFieldsData( strValues, user );
     }
 
@@ -277,9 +278,9 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
                 userField.setUser( user );
                 userField.setAttribute( this );
 
-                if ( ( getListAttributeFields( ) != null ) && ( getListAttributeFields( ).size( ) > 0 ) )
+                if ( ( getListAttributeFields(  ) != null ) && ( getListAttributeFields(  ).size(  ) > 0 ) )
                 {
-                    userField.setAttributeField( getListAttributeFields( ).get( 0 ) );
+                    userField.setAttributeField( getListAttributeFields(  ).get( 0 ) );
                 }
 
                 userField.setValue( strValue );
@@ -287,6 +288,7 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
                 listUserFields.add( userField );
             }
         }
+
         return listUserFields;
     }
 

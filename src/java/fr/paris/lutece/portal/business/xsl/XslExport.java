@@ -41,13 +41,15 @@ import fr.paris.lutece.portal.business.file.File;
  * class DirectoryXsl
  *
  */
+
 /**
  * @author vbroussard
  *
  */
+
 /**
  * @author vbroussard
- * 
+ *
  */
 public class XslExport
 {
@@ -153,7 +155,7 @@ public class XslExport
      * Get the name of the plugin associated with this XSL
      * @return The name of the plugin
      */
-    public String getPlugin( )
+    public String getPlugin(  )
     {
         return _strPlugin;
     }

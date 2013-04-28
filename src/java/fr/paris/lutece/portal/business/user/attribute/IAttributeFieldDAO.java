@@ -88,5 +88,4 @@ public interface IAttributeFieldDAO
      * @param nIdAttribute the ID attribute
      */
     void deleteAttributeFieldsFromIdAttribute( int nIdAttribute );
-
 }

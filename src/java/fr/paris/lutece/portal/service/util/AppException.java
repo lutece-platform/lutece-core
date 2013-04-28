@@ -93,7 +93,7 @@ public class AppException extends RuntimeException
      * @return strMessage The error message
      */
     @Override
-	public String getMessage(  )
+    public String getMessage(  )
     {
         return getAppMessage(  );
     }

@@ -76,7 +76,7 @@ public class AdminUserResourceIdService extends ResourceIdService
         p.setPermissionTitleKey( PROPERTY_LABEL_MANAGE_ADVANCED_PARAMETERS );
         rt.registerPermission( p );
 
-        p = new Permission( );
+        p = new Permission(  );
         p.setPermissionKey( PERMISSION_IMPORT_EXPORT_USERS );
         p.setPermissionTitleKey( PROPERTY_LABEL_IMPORT_EXPORT_USERS );
         rt.registerPermission( p );

@@ -66,7 +66,7 @@ public interface IExtendableResourceService
      * Gets the resource type.
      * @return the resource type.
      */
-    String getResourceType( );
+    String getResourceType(  );
 
     /**
      * Gets the description of the resource type.

@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUse
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.sql.Timestamp;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

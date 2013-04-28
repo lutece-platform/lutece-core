@@ -36,6 +36,7 @@ package fr.paris.lutece.util.xml;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.io.StringWriter;
+
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -111,10 +112,10 @@ public final class XmlUtil
             {
                 transformer.clearParameters(  );
 
-                for ( Entry<String, String> entry : params.entrySet( ) )
+                for ( Entry<String, String> entry : params.entrySet(  ) )
                 {
-                    String name = entry.getKey( );
-                    String value = entry.getValue( );
+                    String name = entry.getKey(  );
+                    String value = entry.getValue(  );
                     transformer.setParameter( name, value );
                 }
             }
@@ -189,11 +190,11 @@ public final class XmlUtil
 
         if ( attrList != null )
         {
-            for ( Entry<?, ?> entry : attrList.entrySet( ) )
+            for ( Entry<?, ?> entry : attrList.entrySet(  ) )
             {
-                String code = (String) entry.getKey( );
-                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue( )
-                        + TAG_ENCLOSED );
+                String code = (String) entry.getKey(  );
+                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue(  ) +
+                    TAG_ENCLOSED );
             }
         }
 
@@ -215,11 +216,10 @@ public final class XmlUtil
 
         if ( attrList != null )
         {
-            for ( Entry<?, ?> entry : attrList.entrySet( ) )
+            for ( Entry<?, ?> entry : attrList.entrySet(  ) )
             {
-                String code = (String) entry.getKey( );
-                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue( )
-                        +
+                String code = (String) entry.getKey(  );
+                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue(  ) +
                     TAG_ENCLOSED );
             }
         }
@@ -276,11 +276,10 @@ public final class XmlUtil
 
         if ( attrList != null )
         {
-            for ( Entry<?, ?> entry : attrList.entrySet( ) )
+            for ( Entry<?, ?> entry : attrList.entrySet(  ) )
             {
-                String code = (String) entry.getKey( );
-                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue( )
-                        +
+                String code = (String) entry.getKey(  );
+                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue(  ) +
                     TAG_ENCLOSED );
             }
         }
@@ -317,11 +316,11 @@ public final class XmlUtil
 
         if ( attrList != null )
         {
-            for ( Entry<?, ?> entry : attrList.entrySet( ) )
+            for ( Entry<?, ?> entry : attrList.entrySet(  ) )
             {
-                String code = (String) entry.getKey( );
-                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue( )
-                        + TAG_ENCLOSED );
+                String code = (String) entry.getKey(  );
+                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue(  ) +
+                    TAG_ENCLOSED );
             }
         }
 

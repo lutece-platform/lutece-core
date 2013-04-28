@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.util.datatable;
 
+
 /**
  * Data table column
  */

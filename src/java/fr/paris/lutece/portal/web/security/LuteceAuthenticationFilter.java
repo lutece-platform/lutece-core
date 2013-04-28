@@ -236,7 +236,7 @@ public class LuteceAuthenticationFilter implements Filter
      *
      * @param request
      *            the http request
-    
+
      * @return true if the url is in the list, false otherwise
      *
      * */

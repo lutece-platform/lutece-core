@@ -62,21 +62,24 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+
+import org.xml.sax.InputSource;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
-import org.xml.sax.InputSource;
 
 
 /**
@@ -190,23 +193,25 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
 
-        Collection<Plugin> listPlugins = PluginService.getPluginList( );
-        ReferenceList refListPlugins = new ReferenceList( );
-        ReferenceItem refItem = new ReferenceItem( );
-        Plugin pluginCore = PluginService.getCore( );
-        refItem.setCode( pluginCore.getName( ) );
-        refItem.setName( pluginCore.getName( ) );
+        Collection<Plugin> listPlugins = PluginService.getPluginList(  );
+        ReferenceList refListPlugins = new ReferenceList(  );
+        ReferenceItem refItem = new ReferenceItem(  );
+        Plugin pluginCore = PluginService.getCore(  );
+        refItem.setCode( pluginCore.getName(  ) );
+        refItem.setName( pluginCore.getName(  ) );
         refListPlugins.add( refItem );
+
         for ( Plugin plugin : listPlugins )
         {
             if ( plugin != null )
             {
-                refItem = new ReferenceItem( );
-                refItem.setCode( plugin.getName( ) );
-                refItem.setName( plugin.getName( ) );
+                refItem = new ReferenceItem(  );
+                refItem.setCode( plugin.getName(  ) );
+                refItem.setName( plugin.getName(  ) );
                 refListPlugins.add( refItem );
             }
         }
+
         model.put( MARK_LIST_PLUGINS, refListPlugins );
 
         if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
@@ -277,23 +282,25 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         xslExport = XslExportHome.findByPrimaryKey( nIdXslExport );
         model.put( MARK_XSL_EXPORT, xslExport );
 
-        Collection<Plugin> listPlugins = PluginService.getPluginList( );
-        ReferenceList refListPlugins = new ReferenceList( );
-        ReferenceItem refItem = new ReferenceItem( );
-        Plugin pluginCore = PluginService.getCore( );
-        refItem.setCode( pluginCore.getName( ) );
-        refItem.setName( pluginCore.getName( ) );
+        Collection<Plugin> listPlugins = PluginService.getPluginList(  );
+        ReferenceList refListPlugins = new ReferenceList(  );
+        ReferenceItem refItem = new ReferenceItem(  );
+        Plugin pluginCore = PluginService.getCore(  );
+        refItem.setCode( pluginCore.getName(  ) );
+        refItem.setName( pluginCore.getName(  ) );
         refListPlugins.add( refItem );
+
         for ( Plugin plugin : listPlugins )
         {
             if ( plugin != null )
             {
-                refItem = new ReferenceItem( );
-                refItem.setCode( plugin.getName( ) );
-                refItem.setName( plugin.getName( ) );
+                refItem = new ReferenceItem(  );
+                refItem.setCode( plugin.getName(  ) );
+                refItem.setName( plugin.getName(  ) );
                 refListPlugins.add( refItem );
             }
         }
+
         model.put( MARK_LIST_PLUGINS, refListPlugins );
 
         setPageTitleProperty( PROPERTY_MODIFY_XSL_EXPORT_TITLE );
@@ -511,7 +518,6 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         xslExport.setExtension( strExtension );
         xslExport.setPlugin( strPlugin );
 
-        
         xslExport.setFile( fileSource );
 
         return null;

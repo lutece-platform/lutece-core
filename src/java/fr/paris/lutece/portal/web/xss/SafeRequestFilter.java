@@ -65,7 +65,7 @@ public abstract class SafeRequestFilter implements Filter
      * {@inheritDoc}
      */
     @Override
-	public void init( FilterConfig config ) throws ServletException
+    public void init( FilterConfig config ) throws ServletException
     {
         _filterConfig = config;
 
@@ -83,7 +83,7 @@ public abstract class SafeRequestFilter implements Filter
      * {@inheritDoc}
      */
     @Override
-	public void destroy(  )
+    public void destroy(  )
     {
         // Do nothing
     }
@@ -92,7 +92,7 @@ public abstract class SafeRequestFilter implements Filter
      * {@inheritDoc}
      */
     @Override
-	public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
+    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
         throws IOException, ServletException
     {
         HttpServletRequest httpRequest = (HttpServletRequest) request;

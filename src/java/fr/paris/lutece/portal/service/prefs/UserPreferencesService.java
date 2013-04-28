@@ -46,11 +46,10 @@ public final class UserPreferencesService
     private static IUserPreferencesService _singleton;
 
     /** private constructor */
-    private UserPreferencesService()
+    private UserPreferencesService(  )
     {
-        
     }
-    
+
     /**
      * Return the unique instance
      * @return The instance

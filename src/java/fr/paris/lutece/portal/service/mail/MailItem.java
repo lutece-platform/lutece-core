@@ -37,6 +37,7 @@ import fr.paris.lutece.util.mail.FileAttachment;
 import fr.paris.lutece.util.mail.UrlAttachment;
 
 import java.io.Serializable;
+
 import java.util.List;
 
 

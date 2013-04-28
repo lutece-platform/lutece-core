@@ -35,6 +35,7 @@ package fr.paris.lutece.util.pool.service;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+
 import java.sql.Connection;
 
 
@@ -80,7 +81,7 @@ public class LuteceConnectionProxy implements InvocationHandler
      * @throws Throwable the throwable
      */
     @Override
-	public Object invoke( Object proxy, Method method, Object[] args )
+    public Object invoke( Object proxy, Method method, Object[] args )
         throws Throwable
     {
         Object oReturn;

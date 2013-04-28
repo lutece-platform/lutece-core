@@ -207,7 +207,7 @@ public final class BbcodeUtil
             new Comparator(  )
             {
                 @Override
-				public int compare( Object o1, Object o2 )
+                public int compare( Object o1, Object o2 )
                 {
                     MutableCharSequence s1 = (MutableCharSequence) o1;
                     MutableCharSequence s2 = (MutableCharSequence) o2;
@@ -304,7 +304,7 @@ public final class BbcodeUtil
          * @return @see java.lang.CharSequence#length()
          */
         @Override
-		public int length(  )
+        public int length(  )
         {
             return _bLength;
         }
@@ -314,7 +314,7 @@ public final class BbcodeUtil
          * @return @see java.lang.CharSequence#charAt(int)
          */
         @Override
-		public char charAt( int index )
+        public char charAt( int index )
         {
             return _cBase.charAt( _nStart + index );
         }
@@ -325,7 +325,7 @@ public final class BbcodeUtil
          * @return @see java.lang.CharSequence#subSequence(int, int)
          */
         @Override
-		public CharSequence subSequence( int pStart, int end )
+        public CharSequence subSequence( int pStart, int end )
         {
             return new MutableCharSequence( _cBase, _nStart + pStart, _nStart + ( end - pStart ) );
         }
@@ -351,7 +351,7 @@ public final class BbcodeUtil
          * @return @see java.lang.Object#toString()
          */
         @Override
-		public String toString(  )
+        public String toString(  )
         {
             StringBuffer sb = new StringBuffer(  );
 

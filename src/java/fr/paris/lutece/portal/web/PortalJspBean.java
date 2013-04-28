@@ -192,7 +192,7 @@ public class PortalJspBean
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_APP_VERSION, AppInfo.getVersion(  ) );
         model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
-        model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName() );
+        model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_CREDITS, request.getLocale(  ), model );
 
@@ -209,7 +209,7 @@ public class PortalJspBean
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ADDRESS_INFOS_CNIL, AppPropertiesService.getProperty( PROPERTY_INFOS_CNIL ) );
-        model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName() );
+        model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_LEGAL_INFO, request.getLocale(  ), model );
 

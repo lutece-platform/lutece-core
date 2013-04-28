@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.message;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
+
 import java.io.Serializable;
 
 import java.text.MessageFormat;

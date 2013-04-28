@@ -46,7 +46,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SafeRequestFilterAdmin extends SafeRequestFilter
 {
-
     /**
      * {@inheritDoc}
      */

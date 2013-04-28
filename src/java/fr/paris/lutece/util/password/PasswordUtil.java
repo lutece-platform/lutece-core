@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.date.DateUtil;
 
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -126,13 +127,15 @@ public final class PasswordUtil
         }
 
         Collections.shuffle( listCharacters );
-        StringBuilder sbPassword = new StringBuilder( listCharacters.size( ) );
+
+        StringBuilder sbPassword = new StringBuilder( listCharacters.size(  ) );
+
         for ( Character myChar : listCharacters )
         {
             sbPassword.append( myChar );
         }
 
-        return sbPassword.toString( );
+        return sbPassword.toString(  );
     }
 
     /**

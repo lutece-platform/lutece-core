@@ -89,7 +89,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * @return the next mail item queue id
      */
     @Override
-	public int nextMailItemQueueId(  )
+    public int nextMailItemQueueId(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID );
 
@@ -112,7 +112,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * @param nIdMailItemQueue the id of the mail item  to lock
      */
     @Override
-	public void lockMailItemQueue( int nIdMailItemQueue )
+    public void lockMailItemQueue( int nIdMailItemQueue )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOCK_MAIL_ITEM );
         daoUtil.setInt( 1, nIdMailItemQueue );
@@ -125,7 +125,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * @param mailItemQueue the mail item
      */
     @Override
-	public synchronized void insert( MailItemQueue mailItemQueue )
+    public synchronized void insert( MailItemQueue mailItemQueue )
     {
         try
         {
@@ -171,7 +171,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * @return the first mail item in the table
      */
     @Override
-	public MailItemQueue load( int nIdMailItemQueue )
+    public MailItemQueue load( int nIdMailItemQueue )
     {
         MailItemQueue mailItemQueue = null;
         MailItem mailItem = null;
@@ -217,7 +217,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * @param nIdMailItemQueue The indentifier of the mail item to remove
      */
     @Override
-	public void delete( int nIdMailItemQueue )
+    public void delete( int nIdMailItemQueue )
     {
         Transaction transaction = new Transaction(  );
 
@@ -243,7 +243,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      *@return the number of mail item present in the core_mail_queue
      */
     @Override
-	public int getCountMailItem(  )
+    public int getCountMailItem(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_COUNT );
         daoUtil.executeQuery(  );

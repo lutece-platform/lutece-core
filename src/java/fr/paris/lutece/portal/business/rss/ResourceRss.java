@@ -53,7 +53,7 @@ public abstract class ResourceRss implements IResourceRss
     * @return the rss Id
     */
     @Override
-	public int getId(  )
+    public int getId(  )
     {
         return _nId;
     }
@@ -63,7 +63,7 @@ public abstract class ResourceRss implements IResourceRss
      * @param nId the rss id
      */
     @Override
-	public void setId( int nId )
+    public void setId( int nId )
     {
         _nId = nId;
     }
@@ -73,7 +73,7 @@ public abstract class ResourceRss implements IResourceRss
     * @return the description
     */
     @Override
-	public String getDescription(  )
+    public String getDescription(  )
     {
         return _strDescription;
     }
@@ -83,7 +83,7 @@ public abstract class ResourceRss implements IResourceRss
      * @param strDescription the description
      */
     @Override
-	public void setDescription( String strDescription )
+    public void setDescription( String strDescription )
     {
         _strDescription = strDescription;
     }
@@ -93,7 +93,7 @@ public abstract class ResourceRss implements IResourceRss
     * @return the name
     */
     @Override
-	public String getName(  )
+    public String getName(  )
     {
         return _strName;
     }
@@ -103,7 +103,7 @@ public abstract class ResourceRss implements IResourceRss
      * @param strName the name
      */
     @Override
-	public void setName( String strName )
+    public void setName( String strName )
     {
         _strName = strName;
     }
@@ -113,7 +113,7 @@ public abstract class ResourceRss implements IResourceRss
      * @return the ResourceRssType Object
      */
     @Override
-	public IResourceRssType getResourceRssType(  )
+    public IResourceRssType getResourceRssType(  )
     {
         return _taskType;
     }
@@ -124,7 +124,7 @@ public abstract class ResourceRss implements IResourceRss
      * @param taskType the new resource rss type
      */
     @Override
-	public void setResourceRssType( IResourceRssType taskType )
+    public void setResourceRssType( IResourceRssType taskType )
     {
         _taskType = taskType;
     }
@@ -134,7 +134,7 @@ public abstract class ResourceRss implements IResourceRss
      *{@inheritDoc}
      */
     @Override
-	public String getFeedType(  )
+    public String getFeedType(  )
     {
         return _strFeedType;
     }
@@ -144,7 +144,7 @@ public abstract class ResourceRss implements IResourceRss
      *{@inheritDoc}
      */
     @Override
-	public void setFeedType( String strFeedType )
+    public void setFeedType( String strFeedType )
     {
         _strFeedType = strFeedType;
     }
@@ -154,7 +154,7 @@ public abstract class ResourceRss implements IResourceRss
     *{@inheritDoc}
     */
     @Override
-	public String getEncoding(  )
+    public String getEncoding(  )
     {
         return _strEncoding;
     }
@@ -164,7 +164,7 @@ public abstract class ResourceRss implements IResourceRss
     *{@inheritDoc}
     */
     @Override
-	public void setEncoding( String strEncoding )
+    public void setEncoding( String strEncoding )
     {
         _strEncoding = strEncoding;
     }
@@ -174,7 +174,7 @@ public abstract class ResourceRss implements IResourceRss
      *{@inheritDoc}
      */
     @Override
-	public int getMaxItems(  )
+    public int getMaxItems(  )
     {
         return _nMaxItems;
     }
@@ -184,7 +184,7 @@ public abstract class ResourceRss implements IResourceRss
      *{@inheritDoc}
      */
     @Override
-	public void setMaxItems( int nMaxItems )
+    public void setMaxItems( int nMaxItems )
     {
         _nMaxItems = nMaxItems;
     }
@@ -195,7 +195,7 @@ public abstract class ResourceRss implements IResourceRss
      * @return the feed
      */
     @Override
-	public IFeedResource getFeed(  )
+    public IFeedResource getFeed(  )
     {
         return null;
     }
@@ -206,7 +206,7 @@ public abstract class ResourceRss implements IResourceRss
      * @return the string
      */
     @Override
-	@Deprecated
+    @Deprecated
     public String createHtmlRss(  )
     {
         return null;

@@ -35,9 +35,9 @@ package fr.paris.lutece.util.html;
 
 import fr.paris.lutece.util.url.UrlItem;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
+
+import java.util.List;
 
 
 /**
@@ -151,7 +151,7 @@ public class ItemNavigator
      * Get the Url of he navigator
      * @return The Url of the navigator
      */
-    public String getBaseUrl( )
+    public String getBaseUrl(  )
     {
         return _strBaseUrl;
     }

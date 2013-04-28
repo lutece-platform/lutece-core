@@ -36,25 +36,26 @@ package fr.paris.lutece.portal.service.datastore;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.cache.CacheService;
 
+
 /**
  * Datastore Cache Service
  */
-public class DatastoreCacheService extends AbstractCacheableService 
+public class DatastoreCacheService extends AbstractCacheableService
 {
-
     private static final String CACHE_SERVICE_NAME = "Datastore Cache Service";
-    
+
     /** Constructor */
-    public DatastoreCacheService()
+    public DatastoreCacheService(  )
     {
         CacheService.registerCacheableService( this );
     }
+
     /**
      * Gets the cache service name
      * @return The service name
      */
     @Override
-    public String getName()
+    public String getName(  )
     {
         return CACHE_SERVICE_NAME;
     }

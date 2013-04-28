@@ -42,6 +42,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.fileupload.FileItem;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -122,7 +123,7 @@ public class UploadServlet extends HttpServlet
      */
     private IAsynchronousUploadHandler getHandler( HttpServletRequest request )
     {
-        for ( IAsynchronousUploadHandler handler : SpringContextService.getBeansOfType(
+        for ( IAsynchronousUploadHandler handler : SpringContextService.getBeansOfType( 
                 IAsynchronousUploadHandler.class ) )
         {
             if ( handler.isInvoked( request ) )

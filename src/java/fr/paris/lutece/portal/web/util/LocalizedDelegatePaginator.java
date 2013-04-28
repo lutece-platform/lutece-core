@@ -78,7 +78,7 @@ public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
      * {@inheritDoc}
      */
     @Override
-	public String getLabelFirst(  )
+    public String getLabelFirst(  )
     {
         return I18nService.getLocalizedString( KEY_FIRST, _locale );
     }

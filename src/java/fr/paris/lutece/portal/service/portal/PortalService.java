@@ -62,6 +62,8 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -71,8 +73,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -92,7 +92,7 @@ public final class PortalService
     private static final String PROPERTY_PATH_ON_ROOT = "lutece.root.path";
     private static final String PROPERTY_ENCODING = "lutece.encoding";
     private static final String PROPERTY_ENCODING_DEFAULT = "UTF-8";
-    
+
     // Datastore keys
     private static final String KEY_SITE_NAME = "portal.site.site_property.name";
     private static final String KEY_WEBMASTER_EMAIL = "portal.site.site_property.email";
@@ -277,7 +277,7 @@ public final class PortalService
     {
         Locale locale = null;
         HashMap<String, Object> model = new HashMap<String, Object>(  );
-        String strWebmasterEmail = DatastoreService.getDataValue( KEY_WEBMASTER_EMAIL , "" );
+        String strWebmasterEmail = DatastoreService.getDataValue( KEY_WEBMASTER_EMAIL, "" );
         model.put( Markers.WEBMASTER_EMAIL, strWebmasterEmail );
 
         if ( request != null )
@@ -676,14 +676,13 @@ public final class PortalService
             mapParameters.put( MARKER_TARGET, TARGET_TOP );
         }
     }
-    
+
     /**
      * Returns the site name
      * @return The site name
      */
-    public static String getSiteName()
+    public static String getSiteName(  )
     {
         return DatastoreService.getDataValue( KEY_SITE_NAME, "" );
     }
-
 }

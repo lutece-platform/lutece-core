@@ -35,10 +35,10 @@ package fr.paris.lutece.portal.service.site.properties;
 
 import fr.paris.lutece.portal.service.datastore.ILocalizedDataGroup;
 
+
 /**
- * Localized Site Properties Group interface 
+ * Localized Site Properties Group interface
  */
 public interface ILocalizedSitePropertiesGroup extends ILocalizedDataGroup
 {
-    
 }

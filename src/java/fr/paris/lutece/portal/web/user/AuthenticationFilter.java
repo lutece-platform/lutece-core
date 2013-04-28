@@ -48,6 +48,7 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.io.IOException;
+
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 
@@ -77,7 +78,7 @@ public class AuthenticationFilter implements Filter
      * {@inheritDoc}
      */
     @Override
-	public void init( FilterConfig config ) throws ServletException
+    public void init( FilterConfig config ) throws ServletException
     {
     }
 
@@ -85,7 +86,7 @@ public class AuthenticationFilter implements Filter
      * {@inheritDoc}
      */
     @Override
-	public void destroy(  )
+    public void destroy(  )
     {
         // Do nothing
     }
@@ -94,7 +95,7 @@ public class AuthenticationFilter implements Filter
      * {@inheritDoc}
      */
     @Override
-	public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
+    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
         throws IOException, ServletException
     {
         HttpServletRequest req = (HttpServletRequest) request;
@@ -131,6 +132,7 @@ public class AuthenticationFilter implements Filter
                 }
 
                 resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
+
                 return;
             }
             catch ( AccessDeniedException e )
@@ -140,6 +142,7 @@ public class AuthenticationFilter implements Filter
                 String strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_AUTH_FAILURE,
                         getRedirectUrl( req ), AdminMessage.TYPE_ERROR );
                 resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
+
                 return;
             }
             catch ( PasswordResetException e )
@@ -151,6 +154,7 @@ public class AuthenticationFilter implements Filter
                             Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, getChangePasswordUrl( req ),
                             AdminMessage.TYPE_ERROR );
                     resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
+
                     return;
                 }
             }

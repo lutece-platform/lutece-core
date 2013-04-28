@@ -126,7 +126,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
      * @return AdminUserField
      */
     @Override
-	public AdminUserField load( int nIdUserField )
+    public AdminUserField load( int nIdUserField )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT + SQL_WHERE + SQL_FILTER_ID_USER_FIELD );
         daoUtil.setInt( 1, nIdUserField );
@@ -216,7 +216,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
      * @param userField the user field
      */
     @Override
-	public void insert( AdminUserField userField )
+    public void insert( AdminUserField userField )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         daoUtil.setInt( 1, newPrimaryKey(  ) );
@@ -244,7 +244,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
      * @param userField the adminuser field
      */
     @Override
-	public void store( AdminUserField userField )
+    public void store( AdminUserField userField )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
         daoUtil.setString( 1, userField.getValue(  ) );
@@ -259,7 +259,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
      * @param nIdUserField the ID of the user field
      */
     @Override
-	public void delete( int nIdUserField )
+    public void delete( int nIdUserField )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
         daoUtil.setInt( 1, nIdUserField );
@@ -273,7 +273,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
      * @param nIdField id field
      */
     @Override
-	public void deleteUserFieldsFromIdField( int nIdField )
+    public void deleteUserFieldsFromIdField( int nIdField )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_FROM_ID_FIELD );
         daoUtil.setInt( 1, nIdField );
@@ -287,7 +287,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
      * @param nIdUser id user
      */
     @Override
-	public void deleteUserFieldsFromIdUser( int nIdUser )
+    public void deleteUserFieldsFromIdUser( int nIdUser )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_FROM_ID_USER );
         daoUtil.setInt( 1, nIdUser );
@@ -301,7 +301,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
      * @param nIdAttribute the id attribute
      */
     @Override
-	public void deleteUserFieldsFromIdAttribute( int nIdAttribute )
+    public void deleteUserFieldsFromIdAttribute( int nIdAttribute )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_FROM_ID_ATTRIBUTE );
         daoUtil.setInt( 1, nIdAttribute );
@@ -317,7 +317,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
      * @return a list of adminuserfield
      */
     @Override
-	public List<AdminUserField> selectUserFieldsByIdUserIdAttribute( int nIdUser, int nIdAttribute )
+    public List<AdminUserField> selectUserFieldsByIdUserIdAttribute( int nIdUser, int nIdAttribute )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FIELDS_BY_ID_USER_ID_ATTRIBUTE );
         daoUtil.setInt( 1, nIdUser );
@@ -395,11 +395,11 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
      * @return a list of users
      */
     @Override
-	public List<AdminUser> selectUsersByFilter( AdminUserFieldFilter auFieldFilter )
+    public List<AdminUser> selectUsersByFilter( AdminUserFieldFilter auFieldFilter )
     {
         List<AdminUserField> listUserFields = auFieldFilter.getListUserFields(  );
 
-        if ( ( listUserFields == null ) || ( listUserFields.size( ) == 0 ) )
+        if ( ( listUserFields == null ) || ( listUserFields.size(  ) == 0 ) )
         {
             return null;
         }
@@ -473,7 +473,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
      * @return the list
      */
     @Override
-	public List<AdminUserField> selectByFilter( AdminUserFieldFilter auFieldFilter )
+    public List<AdminUserField> selectByFilter( AdminUserFieldFilter auFieldFilter )
     {
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
         List<String> listFilter = new ArrayList<String>(  );

@@ -158,13 +158,13 @@ public final class XslExportHome
      */
     public static ReferenceList getRefListByPlugin( Plugin plugin )
     {
-        ReferenceList refList = new ReferenceList( );
+        ReferenceList refList = new ReferenceList(  );
 
         List<XslExport> xslList = getListByPlugin( plugin );
 
         for ( XslExport xslExport : xslList )
         {
-            refList.addItem( xslExport.getIdXslExport( ), xslExport.getTitle( ) );
+            refList.addItem( xslExport.getIdXslExport(  ), xslExport.getTitle(  ) );
         }
 
         return refList;

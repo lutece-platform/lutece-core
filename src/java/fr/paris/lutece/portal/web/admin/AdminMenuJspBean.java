@@ -59,7 +59,10 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -68,8 +71,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -127,7 +128,7 @@ public class AdminMenuJspBean implements Serializable
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
         String strVersion = AppInfo.getVersion(  );
-        String strSiteName = PortalService.getSiteName();
+        String strSiteName = PortalService.getSiteName(  );
         AdminUser user = AdminUserService.getAdminUser( request );
         Locale locale = user.getLocale(  );
         List<FeatureGroup> aFeaturesGroupList = getFeatureGroupsList( user );
@@ -166,7 +167,7 @@ public class AdminMenuJspBean implements Serializable
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
         String strFooterVersion = AppInfo.getVersion(  );
-        String strFooterSiteName = PortalService.getSiteName();
+        String strFooterSiteName = PortalService.getSiteName(  );
         AdminUser user = AdminUserService.getAdminUser( request );
         Locale locale = ( user != null ) ? user.getLocale(  ) : Locale.getDefault(  );
         model.put( Markers.VERSION, strFooterVersion );
@@ -483,7 +484,9 @@ public class AdminMenuJspBean implements Serializable
             user.setAccessibilityMode( bIsAccessible );
             AdminUserHome.update( user );
         }
+
         String strReferer = request.getHeader( REFERER );
+
         if ( StringUtils.isNotBlank( strReferer ) )
         {
             return strReferer;

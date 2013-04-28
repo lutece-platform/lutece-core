@@ -51,7 +51,6 @@ import java.util.Locale;
 public final class RichTextEditorService
 {
     public static final String MARK_DEFAULT_TEXT_EDITOR = "default_text_editor";
-
     private static final String PARAMETER_DEFAULT_EDITOR_BACK_OFFICE = "core.backOffice.defaultEditor";
     private static final String PARAMETER_DEFAULT_EDITOR_FRONT_OFFICE = "core.frontOffice.defaultEditor";
     private static final String PROPERTY_DEFAULT_EDITOR_BACK_OFFICE = "lutece.backOffice.defaultEditor";

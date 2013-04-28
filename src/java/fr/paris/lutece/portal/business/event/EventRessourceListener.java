@@ -43,7 +43,6 @@ import java.util.EventListener;
 */
 public interface EventRessourceListener extends EventListener
 {
-
     /**
      * Return the listener service name.
      *

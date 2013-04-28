@@ -60,7 +60,9 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.io.FileInputStream;
 import java.io.FileWriter;
+
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -266,9 +268,10 @@ public final class AppInit
 
         if ( p.getProperty( PROPERTY_AUTOINIT ).equals( "true" ) )
         {
-        	Object[] params = { AppPropertiesService.getProperty( PROPERTY_SITE_NAME ) };
-        	String strSendMailSubject = I18nService.getLocalizedString( PROPERTY_SENDMAIL_SUBJECT, params, I18nService.getDefaultLocale( ) );
-        	model.put( MARK_SENDMAIL_SUBJECT, strSendMailSubject );
+            Object[] params = { AppPropertiesService.getProperty( PROPERTY_SITE_NAME ) };
+            String strSendMailSubject = I18nService.getLocalizedString( PROPERTY_SENDMAIL_SUBJECT, params,
+                    I18nService.getDefaultLocale(  ) );
+            model.put( MARK_SENDMAIL_SUBJECT, strSendMailSubject );
             model.put( MARK_WEBAPP_HOME, AppPathService.getWebAppPath(  ) );
             model.put( MARK_PROD_URL, p.getProperty( PROPERTY_INIT_WEBAPP_PROD_URL ) );
             model.put( MARK_AUTOINIT, "false" );

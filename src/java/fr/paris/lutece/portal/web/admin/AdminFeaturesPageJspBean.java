@@ -45,9 +45,10 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import java.io.Serializable;
 
 import org.apache.commons.beanutils.BeanUtils;
+
+import java.io.Serializable;
 
 import java.lang.reflect.InvocationTargetException;
 

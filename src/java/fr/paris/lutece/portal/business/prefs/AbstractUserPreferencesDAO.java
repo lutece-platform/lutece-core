@@ -51,17 +51,16 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     private final String _strSqlUpdate = "UPDATE " + getPreferencesTable(  ) +
         " SET pref_value = ? WHERE id_user = ? AND pref_key = ?";
     private final String _strSqlDelete = "DELETE FROM " + getPreferencesTable(  ) + " WHERE id_user = ? ";
-    private final String _strSqlSelectAll = "SELECT pref_key FROM " + getPreferencesTable(  ) +
-        " WHERE id_user = ?";
+    private final String _strSqlSelectAll = "SELECT pref_key FROM " + getPreferencesTable(  ) + " WHERE id_user = ?";
 
     /**
      * Gets the preferences table
-     * @return The table name that stores preferences 
+     * @return The table name that stores preferences
      */
     abstract String getPreferencesTable(  );
-    
+
     /**
-     * {@inheritDoc } 
+     * {@inheritDoc }
      */
     @Override
     public String load( String strUserId, String strKey, String strDefault )
@@ -84,7 +83,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     }
 
     /**
-     * {@inheritDoc } 
+     * {@inheritDoc }
      */
     @Override
     public void store( String strUserId, String strKey, String strValue )
@@ -107,7 +106,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     }
 
     /**
-     * {@inheritDoc } 
+     * {@inheritDoc }
      */
     @Override
     public List<String> keys( String strUserId )
@@ -128,7 +127,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     }
 
     /**
-     * {@inheritDoc } 
+     * {@inheritDoc }
      */
     @Override
     public void remove( String strUserId )

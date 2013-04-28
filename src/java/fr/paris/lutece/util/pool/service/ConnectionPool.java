@@ -38,10 +38,12 @@ import fr.paris.lutece.portal.service.util.AppException;
 import org.apache.log4j.Logger;
 
 import java.io.PrintWriter;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,7 +135,7 @@ public class ConnectionPool implements DataSource
      * @throws SQLException The SQL exception
      */
     @Override
-	public Connection getConnection(  ) throws SQLException
+    public Connection getConnection(  ) throws SQLException
     {
         _logger.debug( "Request for connection received" );
 
@@ -404,7 +406,7 @@ public class ConnectionPool implements DataSource
      * @throws SQLException the sQL exception
      */
     @Override
-	public Connection getConnection( String username, String password )
+    public Connection getConnection( String username, String password )
         throws SQLException
     {
         return getConnection(  );
@@ -417,7 +419,7 @@ public class ConnectionPool implements DataSource
      * @throws SQLException the sQL exception
      */
     @Override
-	public PrintWriter getLogWriter(  ) throws SQLException
+    public PrintWriter getLogWriter(  ) throws SQLException
     {
         _logger.debug( "ConnectionPool : DataSource getLogWriter called" );
 
@@ -431,7 +433,7 @@ public class ConnectionPool implements DataSource
      * @throws SQLException the sQL exception
      */
     @Override
-	public void setLogWriter( PrintWriter out ) throws SQLException
+    public void setLogWriter( PrintWriter out ) throws SQLException
     {
         _logger.debug( "ConnectionPool : DataSource setLogWriter called" );
         _logWriter = out;
@@ -444,7 +446,7 @@ public class ConnectionPool implements DataSource
      * @throws SQLException the sQL exception
      */
     @Override
-	public void setLoginTimeout( int seconds ) throws SQLException
+    public void setLoginTimeout( int seconds ) throws SQLException
     {
     }
 
@@ -455,7 +457,7 @@ public class ConnectionPool implements DataSource
      * @throws SQLException the sQL exception
      */
     @Override
-	public int getLoginTimeout(  ) throws SQLException
+    public int getLoginTimeout(  ) throws SQLException
     {
         return _nTimeOut;
     }
@@ -469,7 +471,7 @@ public class ConnectionPool implements DataSource
      * @throws SQLException the sQL exception
      */
     @Override
-	public <T> T unwrap( Class<T> iface ) throws SQLException
+    public <T> T unwrap( Class<T> iface ) throws SQLException
     {
         return null;
     }
@@ -482,7 +484,7 @@ public class ConnectionPool implements DataSource
      * @throws SQLException the sQL exception
      */
     @Override
-	public boolean isWrapperFor( Class<?> iface ) throws SQLException
+    public boolean isWrapperFor( Class<?> iface ) throws SQLException
     {
         return false;
     }

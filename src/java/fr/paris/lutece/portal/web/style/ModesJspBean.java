@@ -222,5 +222,4 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
         // If the process is successfull, redirects towards the mode management page
         return JSP_MANAGE_MODES;
     }
-
 }

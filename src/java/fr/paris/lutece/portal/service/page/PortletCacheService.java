@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.portal.service.page;
 
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.portlet.PortletEvent;
 import fr.paris.lutece.portal.service.portlet.PortletEventListener;
-import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 
 import org.apache.commons.lang.StringUtils;
 
