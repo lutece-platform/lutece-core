@@ -28,3 +28,9 @@ INSERT INTO core_admin_role_resource VALUES (170,'all_site_manager', 'CORE_PUBLI
 INSERT INTO core_user_right VALUES ('CORE_PUBLIC_URL_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_PUBLIC_URL_MANAGEMENT',2);
 
+INSERT INTO core_datastore VALUES ('portal.site.site_property.name', 'LUTECE');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.author', '<author>');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.copyright', '<copyright>');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.description', '<description>');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.keywords', '<keywords>');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.email', '<webmaster email>');
