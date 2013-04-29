@@ -101,6 +101,32 @@ public final class DatastoreService
             DataEntityHome.create( p );
         }
     }
+    
+    /**
+     * Remove a give key
+     * @param strKey The key
+     */
+    public static void removeData( String strKey )
+    {
+        DataEntityHome.remove(strKey);
+    }
+    
+    /**
+     * Remove all data where keys begin with a given prefix
+     * @param strPrefix The prefix
+     */
+    public static void removeDataByPrefix( String strPrefix )
+    {
+        List<DataEntity> listEntities = DataEntityHome.findAll(  );
+
+        for ( DataEntity entity : listEntities )
+        {
+            if ( entity.getKey(  ).startsWith( strPrefix ) )
+            {
+                DataEntityHome.remove( entity.getKey(  ) );
+            }
+        }
+    }
 
     /**
      * Gets a list of key/value where keys are matching a given prefix
