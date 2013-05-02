@@ -127,6 +127,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      *
      * @return true if enable, otherwise false
      */
+    @Override
     public boolean isCacheEnable(  )
     {
         return _bEnable;
@@ -135,6 +136,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
+    @Override
     public void enableCache( boolean bEnable )
     {
         _bEnable = bEnable;
@@ -153,6 +155,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * Reset the cache.
      */
+    @Override
     public void resetCache(  )
     {
         try
@@ -177,6 +180,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      *
      * @return the number of item currently in the cache.
      */
+    @Override
     public int getCacheSize(  )
     {
         return ( _cache != null ) ? _cache.getSize(  ) : 0;
@@ -194,6 +198,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
+    @Override
     public List<String> getKeys(  )
     {
         if ( _cache != null )
@@ -207,6 +212,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
     *  {@inheritDoc }
     */
+    @Override
     public int getMaxElements(  )
     {
         return _cache.getCacheConfiguration(  ).getMaxElementsInMemory(  );
@@ -215,6 +221,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      *  {@inheritDoc }
      */
+    @Override
     public long getTimeToLive(  )
     {
         return _cache.getCacheConfiguration(  ).getTimeToLiveSeconds(  );
@@ -223,6 +230,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      *  {@inheritDoc }
      */
+    @Override
     public long getMemorySize(  )
     {
         return _cache.calculateInMemorySize(  );
@@ -231,6 +239,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      *  {@inheritDoc }
      */
+    @Override
     public String getInfos(  )
     {
         return CacheService.getInfos( _cache );
@@ -251,6 +260,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
+    @Override
     public void notifyElementExpired( Ehcache cache, Element element )
     {
         // Remove the element from the cache
@@ -261,6 +271,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
+    @Override
     public void notifyElementRemoved( Ehcache ehch, Element elmnt )
         throws CacheException
     {
@@ -270,6 +281,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
+    @Override
     public void notifyElementEvicted( Ehcache ehch, Element elmnt )
     {
         // Do nothing
@@ -278,6 +290,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
+    @Override
     public void notifyRemoveAll( Ehcache ehch )
     {
         // Do nothing
@@ -286,6 +299,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
+    @Override
     public void notifyElementPut( Ehcache ehch, Element elmnt )
         throws CacheException
     {
@@ -295,6 +309,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
+    @Override
     public void notifyElementUpdated( Ehcache ehch, Element elmnt )
         throws CacheException
     {
@@ -304,8 +319,19 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * {@inheritDoc }
      */
+    @Override
     public void dispose(  )
     {
         // Do nothing
     }
+    
+    /**
+     * Remove a key from the cache 
+     * @param strKey The key to remove
+     */
+    public void removeKey( String strKey )
+    {
+        getCache().remove( strKey );
+    }
+            
 }

@@ -95,6 +95,7 @@ public final class DatastoreService
         if ( entity != null )
         {
             DataEntityHome.update( p );
+            _cache.removeKey( strKey );
         }
         else
         {
@@ -109,6 +110,7 @@ public final class DatastoreService
     public static void removeData( String strKey )
     {
         DataEntityHome.remove(strKey);
+        _cache.removeKey( strKey );
     }
     
     /**
@@ -123,7 +125,7 @@ public final class DatastoreService
         {
             if ( entity.getKey(  ).startsWith( strPrefix ) )
             {
-                DataEntityHome.remove( entity.getKey(  ) );
+                removeData( entity.getKey(  ) );
             }
         }
     }
