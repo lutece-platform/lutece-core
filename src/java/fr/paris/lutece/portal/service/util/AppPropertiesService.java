@@ -53,7 +53,6 @@ public final class AppPropertiesService
     private static final String FILE_PROPERTIES_CONFIG = "config.properties";
     private static final String FILE_PROPERTIES_DATABASE = "db.properties";
     private static final String FILE_PROPERTIES_LUTECE = "lutece.properties";
-    private static final String FILE_PROPERTIES_WEBMASTER = "webmaster.properties";
     private static final String FILE_PROPERTIES_SEARCH = "search.properties";
     private static final String FILE_PROPERTIES_DAEMONS = "daemons.properties";
     private static final String FILE_PROPERTIES_CACHES = "caches.properties";
@@ -86,7 +85,6 @@ public final class AppPropertiesService
             _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_CONFIG );
             _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_DATABASE );
             _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_LUTECE );
-            _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_WEBMASTER );
             _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_SEARCH );
             _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_DAEMONS );
             _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_CACHES );
