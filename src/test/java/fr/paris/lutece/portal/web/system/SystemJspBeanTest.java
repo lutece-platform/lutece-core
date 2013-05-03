@@ -111,21 +111,7 @@ public class SystemJspBeanTest extends LuteceTestCase
         MokeHttpServletRequest request = new MokeHttpServletRequest(  );
         request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
         instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        instance.getManageProperties(  );
+        instance.getManageProperties( request );
     }
 
-    /**
-     * Test of getModifyProperties method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
-     */
-    public void testGetModifyProperties(  ) throws AccessDeniedException
-    {
-        System.out.println( "getModifyProperties" );
-
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-
-        SystemJspBean instance = new SystemJspBean(  );
-        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        instance.getModifyProperties( request );
-    }
 }
