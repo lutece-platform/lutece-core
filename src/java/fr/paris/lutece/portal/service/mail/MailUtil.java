@@ -85,6 +85,8 @@ final class MailUtil
     private static final String PROPERTY_MAIL_SESSION_DEBUG = "mail.session.debug";
     private static final String MAIL_HOST = "mail.host";
     private static final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
+    private static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
+    private static final String TRUE = "true";
     private static final String SMTP = "smtp";
     private static final String ENCODING = "Q";
     private static final String HEADER_NAME = "Content-Transfer-Encoding";
@@ -243,7 +245,7 @@ final class MailUtil
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
 
         // Creation of the root part containing all the elements of the message
-        MimeMultipart multipart = ( ( fileAttachements == null ) || ( fileAttachements.size(  ) == 0 ) )
+        MimeMultipart multipart = ( ( fileAttachements == null ) || ( fileAttachements.isEmpty() ) )
             ? new MimeMultipart( MULTIPART_RELATED ) : new MimeMultipart(  );
 
         // Creation of the html part, the "core" of the message
@@ -257,7 +259,7 @@ final class MailUtil
 
         if ( urlAttachements != null )
         {
-            ByteArrayDataSource urlByteArrayDataSource = null;
+            ByteArrayDataSource urlByteArrayDataSource;
 
             for ( UrlAttachment urlAttachement : urlAttachements )
             {
@@ -541,6 +543,7 @@ final class MailUtil
 
         if ( StringUtils.isNotBlank( strUsername ) )
         {
+            props.put( MAIL_SMTP_AUTH, TRUE );
             // using authenticator class that return a PasswordAuthentication
             auth = new Authenticator(  )
                     {
@@ -691,7 +694,7 @@ final class MailUtil
                         input = (InputStream) o;
                         bo = new ByteArrayOutputStream(  );
 
-                        int read = -1;
+                        int read;
                         byte[] tab = new byte[CONSTANTE_FILE_ATTACHMET_BUFFER];
 
                         do
