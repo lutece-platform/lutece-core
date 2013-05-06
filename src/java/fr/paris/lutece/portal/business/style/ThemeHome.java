@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@ public final class ThemeHome
         return ThemesService.create( theme );
 
         /*_dao.insert( theme );
-
+        
         return theme;*/
     }
 
@@ -81,7 +81,7 @@ public final class ThemeHome
         return ThemesService.update( theme );
 
         /*_dao.store( theme );
-
+        
         return theme;*/
     }
 
@@ -145,12 +145,12 @@ public final class ThemeHome
         return ThemesService.isValidTheme( strCodeTheme );
 
         /*Theme theme = ThemeHome.findByPrimaryKey( strCodeTheme );
-
+        
         if ( theme != null )
         {
             return true;
         }
-
+        
         return false;*/
     }
 

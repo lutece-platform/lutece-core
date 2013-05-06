@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -439,7 +439,7 @@ public class AdminLoginJspBean implements Serializable
         }
 
         // send password by e-mail
-        String strSenderEmail = MailService.getNoReplyEmail();
+        String strSenderEmail = MailService.getNoReplyEmail(  );
         String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_SUBJECT, locale );
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_NEW_PASSWORD, strPassword );
@@ -492,7 +492,7 @@ public class AdminLoginJspBean implements Serializable
         }
 
         // send access code by e-mail
-        String strSenderEmail = MailService.getNoReplyEmail();
+        String strSenderEmail = MailService.getNoReplyEmail(  );
         String strEmailSubject = I18nService.getLocalizedString( MESSAGE_FORGOT_LOGIN_EMAIL_SUBJECT, locale );
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_LOGIN, strAccessCode );
@@ -545,7 +545,7 @@ public class AdminLoginJspBean implements Serializable
         {
             if ( StringUtil.checkEmail( adminUser.getEmail(  ) ) )
             {
-                sbMailsTo.append( adminUser.getEmail(  )).append( CONSTANT_EMAIL_DELIMITER);
+                sbMailsTo.append( adminUser.getEmail(  ) ).append( CONSTANT_EMAIL_DELIMITER );
             }
         }
 
@@ -553,7 +553,7 @@ public class AdminLoginJspBean implements Serializable
 
         if ( !strMailsTo.equals( CONSTANT_EMPTY_STRING ) )
         {
-            String strSenderEmail = MailService.getNoReplyEmail();
+            String strSenderEmail = MailService.getNoReplyEmail(  );
             String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_ADMIN_SUBJECT, locale );
 
             MailService.sendMailHtml( strMailsTo, strSenderEmail, strSenderEmail, strEmailSubject, strMessage );

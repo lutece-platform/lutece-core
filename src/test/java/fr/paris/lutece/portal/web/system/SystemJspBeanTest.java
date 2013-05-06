@@ -113,5 +113,4 @@ public class SystemJspBeanTest extends LuteceTestCase
         instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
         instance.getManageProperties( request );
     }
-
 }

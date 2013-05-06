@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -2499,7 +2499,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( !( ( user.getEmail(  ) == null ) || user.getEmail(  ).equals( CONSTANT_EMPTY_STRING ) ) )
             {
                 // send password by e-mail
-                String strSenderEmail = MailService.getNoReplyEmail();
+                String strSenderEmail = MailService.getNoReplyEmail(  );
                 String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_SUBJECT, locale );
                 HashMap<String, Object> model = new HashMap<String, Object>(  );
                 model.put( MARK_NEW_PASSWORD, strPassword );

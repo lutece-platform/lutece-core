@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -102,17 +102,17 @@ public final class DatastoreService
             DataEntityHome.create( p );
         }
     }
-    
+
     /**
      * Remove a give key
      * @param strKey The key
      */
     public static void removeData( String strKey )
     {
-        DataEntityHome.remove(strKey);
+        DataEntityHome.remove( strKey );
         _cache.removeKey( strKey );
     }
-    
+
     /**
      * Remove all data where keys begin with a given prefix
      * @param strPrefix The prefix

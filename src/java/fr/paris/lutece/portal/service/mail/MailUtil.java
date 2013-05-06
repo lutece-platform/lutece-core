@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -245,7 +245,7 @@ final class MailUtil
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
 
         // Creation of the root part containing all the elements of the message
-        MimeMultipart multipart = ( ( fileAttachements == null ) || ( fileAttachements.isEmpty() ) )
+        MimeMultipart multipart = ( ( fileAttachements == null ) || ( fileAttachements.isEmpty(  ) ) )
             ? new MimeMultipart( MULTIPART_RELATED ) : new MimeMultipart(  );
 
         // Creation of the html part, the "core" of the message

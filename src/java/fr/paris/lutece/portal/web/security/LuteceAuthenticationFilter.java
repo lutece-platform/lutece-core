@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,17 +33,6 @@
  */
 package fr.paris.lutece.portal.web.security;
 
-import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
@@ -56,6 +45,17 @@ import fr.paris.lutece.portal.web.PortalJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.url.UrlItem;
 
+import java.io.IOException;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * Filter to prevent unauthenticated access to site if site authentication is enabled
@@ -66,7 +66,6 @@ public class LuteceAuthenticationFilter implements Filter
     private static final String URL_AMPERSAND = "&";
     private static final String URL_EQUAL = "=";
     private static final String URL_STAR = "*";
-    
 
     /**
      * {@inheritDoc}
@@ -74,7 +73,6 @@ public class LuteceAuthenticationFilter implements Filter
     @Override
     public void init( FilterConfig config ) throws ServletException
     {
-
     }
 
     /**
@@ -95,8 +93,9 @@ public class LuteceAuthenticationFilter implements Filter
     {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-        
-       if ( SecurityService.isAuthenticationEnable(  ) && SecurityService.getInstance(  ).isPortalAuthenticationRequired(  ) && isPrivateUrl( req ) )
+
+        if ( SecurityService.isAuthenticationEnable(  ) &&
+                SecurityService.getInstance(  ).isPortalAuthenticationRequired(  ) && isPrivateUrl( req ) )
         {
             try
             {
@@ -141,8 +140,7 @@ public class LuteceAuthenticationFilter implements Filter
      * */
     private boolean isPrivateUrl( HttpServletRequest request )
     {
-        return !( ( isInSiteMessageUrl( request ) 
-        ||( isInPublicUrlList( request ) ) ));
+        return !( ( isInSiteMessageUrl( request ) || ( isInPublicUrlList( request ) ) ) );
     }
 
     /**
@@ -191,13 +189,12 @@ public class LuteceAuthenticationFilter implements Filter
                     // but here we have to bypass this exception to display
                     // login page.
                     user = SecurityService.getInstance(  ).getRemoteUser( request );
-                    
                 }
 
                 // If portal authentication is enabled and user is null and
                 // the requested URL
                 // is not the login URL, user cannot access to Portal
-                if (  user == null  )
+                if ( user == null )
                 {
                     // Authentication is required to access to the portal
                     throw new UserNotSignedException(  );
@@ -239,7 +236,6 @@ public class LuteceAuthenticationFilter implements Filter
         return false;
     }
 
-
     /**
      * method to test if the URL matches the pattern
     
@@ -249,41 +245,38 @@ public class LuteceAuthenticationFilter implements Filter
      */
     private boolean matchUrl( HttpServletRequest request, String strUrlPatern )
     {
-        boolean bMatch=false;
-        
-        if( strUrlPatern != null )
-        {
-        	UrlItem url = new UrlItem( getResquestedUrl(request));
-	        if ( strUrlPatern.contains( URL_INTERROGATIVE ) )
-	        {
-	          
-	            for ( String strParamPatternValue : strUrlPatern.substring( strUrlPatern.indexOf( URL_INTERROGATIVE ) + 1 )
-	                                                            .split( URL_AMPERSAND ) )
-	            {
-	                String[] arrayPatternParamValue = strParamPatternValue.split( URL_EQUAL );
+        boolean bMatch = false;
 
-	                if( arrayPatternParamValue != null && request.getParameter(arrayPatternParamValue[0])!=null)
-	                {
-	                	
-	                	 url.addParameter( arrayPatternParamValue[0],  request.getParameter(arrayPatternParamValue[0])  );
-	                }
-	            
-	            }
-	            
-	        }
-	        
-	        if(strUrlPatern.contains( URL_STAR ))
-	        {
-	        	String strUrlPaternLeftEnd=strUrlPatern.substring(0, strUrlPatern.indexOf(URL_STAR));
-	        	String strAbsoluteUrlPattern= getAbsoluteUrl( request,strUrlPaternLeftEnd);
-	        	bMatch=url.getUrl().startsWith(strAbsoluteUrlPattern);
-	        }
-	        else
-	        {
-	         
-	        	String strAbsoluteUrlPattern= getAbsoluteUrl( request,strUrlPatern);
-	        	bMatch=url.getUrl().equals(strAbsoluteUrlPattern);
-	        }
+        if ( strUrlPatern != null )
+        {
+            UrlItem url = new UrlItem( getResquestedUrl( request ) );
+
+            if ( strUrlPatern.contains( URL_INTERROGATIVE ) )
+            {
+                for ( String strParamPatternValue : strUrlPatern.substring( strUrlPatern.indexOf( URL_INTERROGATIVE ) +
+                        1 ).split( URL_AMPERSAND ) )
+                {
+                    String[] arrayPatternParamValue = strParamPatternValue.split( URL_EQUAL );
+
+                    if ( ( arrayPatternParamValue != null ) &&
+                            ( request.getParameter( arrayPatternParamValue[0] ) != null ) )
+                    {
+                        url.addParameter( arrayPatternParamValue[0], request.getParameter( arrayPatternParamValue[0] ) );
+                    }
+                }
+            }
+
+            if ( strUrlPatern.contains( URL_STAR ) )
+            {
+                String strUrlPaternLeftEnd = strUrlPatern.substring( 0, strUrlPatern.indexOf( URL_STAR ) );
+                String strAbsoluteUrlPattern = getAbsoluteUrl( request, strUrlPaternLeftEnd );
+                bMatch = url.getUrl(  ).startsWith( strAbsoluteUrlPattern );
+            }
+            else
+            {
+                String strAbsoluteUrlPattern = getAbsoluteUrl( request, strUrlPatern );
+                bMatch = url.getUrl(  ).equals( strAbsoluteUrlPattern );
+            }
         }
 
         return bMatch;

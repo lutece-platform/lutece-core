@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,18 +33,18 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.datastore.DatastoreService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.util.ReferenceItem;
-import fr.paris.lutece.util.ReferenceList;
 
 
 /**
@@ -58,7 +58,6 @@ public final class PublicUrlService
     public static final String RESOURCE_TYPE = "CORE_PUBLIC_URL_MANAGEMENT";
     public static final String MARK_PUBLIC_LIST_URL = "public_list_url";
     public static final String PUBLIC_URL_PREFIX = "portal.security.public_url.";
-  
     private static final String MARK_LOCALE = "locale";
     private static final String MARK_WEBAPP_URL = "webapp_url";
     private static PublicUrlService _singleton = new PublicUrlService(  );
@@ -89,14 +88,14 @@ public final class PublicUrlService
     public Map<String, Object> getManageAdvancedParameters( AdminUser user, HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
-        ReferenceList refListUrlPublic=DatastoreService.getDataByPrefix( PUBLIC_URL_PREFIX );
-        for(ReferenceItem refUrl:refListUrlPublic)
+        ReferenceList refListUrlPublic = DatastoreService.getDataByPrefix( PUBLIC_URL_PREFIX );
+
+        for ( ReferenceItem refUrl : refListUrlPublic )
         {
-        	refUrl.setCode(refUrl.getCode().replace(PUBLIC_URL_PREFIX, ""));
+            refUrl.setCode( refUrl.getCode(  ).replace( PUBLIC_URL_PREFIX, "" ) );
         }
-        
-        
-        model.put( MARK_PUBLIC_LIST_URL,refListUrlPublic);
+
+        model.put( MARK_PUBLIC_LIST_URL, refListUrlPublic );
         model.put( MARK_LOCALE, user.getLocale(  ) );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
 

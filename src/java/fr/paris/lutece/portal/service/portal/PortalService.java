@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -687,7 +687,7 @@ public final class PortalService
     {
         return DatastoreService.getDataValue( KEY_SITE_NAME, "" );
     }
-    
+
     public static String getHomeUrl(  )
     {
         return DatastoreService.getDataValue( KEY_HOME_URL, DEFAULT_HOME_URL );

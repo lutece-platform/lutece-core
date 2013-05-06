@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,12 +33,6 @@
  */
 package fr.paris.lutece.portal.web;
 
-import java.util.Enumeration;
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import fr.paris.lutece.portal.service.content.ContentPostProcessorService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.init.AppInfo;
@@ -56,6 +50,12 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
+
+import java.util.Enumeration;
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -110,42 +110,39 @@ public class PortalJspBean
         {
             return getStartUpFailurePage(  );
         }
-        
+
         // Try to register the user in case of external authentication
         if ( SecurityService.isAuthenticationEnable(  ) )
         {
-            
-        	try
+            try
             {
-            
-	        	if ( SecurityService.getInstance(  ).isExternalAuthentication(  ) &&
-	                    !SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
-	            {
-	        		SecurityService.getInstance(  ).getRemoteUser( request );
-	            }
-	            else
-	            {
-	                LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
-	                // no checks are needed if the user is already registered
-	                if ( user == null )
-	                {
-	                    // if multiauthentication is supported, then when have to check remote user before other check
-	                    if ( SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
-	                    {
-	                        // getRemoteUser needs to be checked before any check so the user is registered
-	                        // getRemoteUser throws an exception if no user found, but here we have to bypass this exception to display login page.
-	                    	user = SecurityService.getInstance(  ).getRemoteUser( request );
-	                        
-	                     }
-	                }
-	            }
-            }
-        	  catch ( UserNotSignedException unse )
-              {
-                  // nothing to do,Leave LuteceAuthenticationFilter testing if the access to the content requires authentication
-              }
-        }
+                if ( SecurityService.getInstance(  ).isExternalAuthentication(  ) &&
+                        !SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
+                {
+                    SecurityService.getInstance(  ).getRemoteUser( request );
+                }
+                else
+                {
+                    LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
 
+                    // no checks are needed if the user is already registered
+                    if ( user == null )
+                    {
+                        // if multiauthentication is supported, then when have to check remote user before other check
+                        if ( SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
+                        {
+                            // getRemoteUser needs to be checked before any check so the user is registered
+                            // getRemoteUser throws an exception if no user found, but here we have to bypass this exception to display login page.
+                            user = SecurityService.getInstance(  ).getRemoteUser( request );
+                        }
+                    }
+                }
+            }
+            catch ( UserNotSignedException unse )
+            {
+                // nothing to do,Leave LuteceAuthenticationFilter testing if the access to the content requires authentication
+            }
+        }
 
         // Search the content service invoked and call its getPage method
         ContentService cs = PortalService.getInvokedContentService( request );

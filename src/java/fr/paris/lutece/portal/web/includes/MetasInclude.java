@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -86,6 +86,6 @@ public class MetasInclude implements PageInclude
         rootModel.put( MARK_PAGE_HEAD_META_COPYRIGHT, strMetaCopyright );
         rootModel.put( MARK_PAGE_HEAD_META_KEYWORDS, strMetaKeywords );
         rootModel.put( MARK_PAGE_HEAD_META_DESCRIPTION, strMetaDescription );
-        rootModel.put( MARK_PAGE_HEAD_META_GENERATOR, "LUTECE " + AppInfo.getVersion() );
+        rootModel.put( MARK_PAGE_HEAD_META_GENERATOR, "LUTECE " + AppInfo.getVersion(  ) );
     }
 }

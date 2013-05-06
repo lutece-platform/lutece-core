@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1292,7 +1292,7 @@ public final class AdminUserService
      */
     public static void notifyUser( String strBaseUrl, AdminUser user, String strPropertyEmailSubject, String strTemplate )
     {
-        String strSenderEmail = MailService.getNoReplyEmail();
+        String strSenderEmail = MailService.getNoReplyEmail(  );
         String strSiteName = PortalService.getSiteName(  );
         Locale locale = user.getLocale(  );
         String strEmailSubject = I18nService.getLocalizedString( strPropertyEmailSubject, new String[] { strSiteName },
@@ -1320,13 +1320,13 @@ public final class AdminUserService
      * &nbsp;&nbsp;<b>&lt;status&gt;</b>value<b>&lt;/status&gt;</b><br />
      * &nbsp;&nbsp;<b>&lt;locale&gt;</b>value<b>&lt;/locale&gt;</b><br />
      * &nbsp;&nbsp;<b>&lt;level&gt;</b>value<b>&lt;/level&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;must_change_password&gt;</b>value<b>&lt;/
+     * &nbsp;&nbsp;<b>&lt;must_change_password&gt;</b>value<b>&lt;
      * must_change_password&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;accessibility_mode&gt;</b>value<b>&lt;/
+     * &nbsp;&nbsp;<b>&lt;accessibility_mode&gt;</b>value<b>&lt;
      * accessibility_mode&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;password_max_valid_date&gt;</b>value<b>&lt;/
+     * &nbsp;&nbsp;<b>&lt;password_max_valid_date&gt;</b>value<b>&lt;
      * password_max_valid_date&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;account_max_valid_date&gt;</b>value<b>&lt;/
+     * &nbsp;&nbsp;<b>&lt;account_max_valid_date&gt;</b>value<b>&lt;
      * account_max_valid_date&gt;</b><br />
      * &nbsp;&nbsp;<b>&lt;date_last_login&gt;</b>value<b>&lt;/date_last_login&gt
      * ;</b><br />
