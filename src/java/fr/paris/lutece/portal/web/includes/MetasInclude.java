@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.includes;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.includes.PageInclude;
+import fr.paris.lutece.portal.service.init.AppInfo;
 
 import java.util.Map;
 
@@ -55,6 +56,7 @@ public class MetasInclude implements PageInclude
     private static final String MARK_PAGE_HEAD_META_COPYRIGHT = "meta_copyright";
     private static final String MARK_PAGE_HEAD_META_KEYWORDS = "meta_keywords";
     private static final String MARK_PAGE_HEAD_META_DESCRIPTION = "meta_description";
+    private static final String MARK_PAGE_HEAD_META_GENERATOR = "meta_generator";
 
     /**
      * Substitue specific Freemarker markers in the page template.
@@ -84,5 +86,6 @@ public class MetasInclude implements PageInclude
         rootModel.put( MARK_PAGE_HEAD_META_COPYRIGHT, strMetaCopyright );
         rootModel.put( MARK_PAGE_HEAD_META_KEYWORDS, strMetaKeywords );
         rootModel.put( MARK_PAGE_HEAD_META_DESCRIPTION, strMetaDescription );
+        rootModel.put( MARK_PAGE_HEAD_META_GENERATOR, "LUTECE " + AppInfo.getVersion() );
     }
 }
