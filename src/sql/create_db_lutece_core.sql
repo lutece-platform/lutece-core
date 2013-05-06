@@ -479,16 +479,7 @@ CREATE TABLE core_user_parameter (
 	PRIMARY KEY (parameter_key)
 );
 
---
--- Table structure for table core_public_url_parameter
---
-DROP TABLE IF EXISTS core_public_url_parameter;
-CREATE TABLE core_public_url_parameter (
-	parameter_key varchar(100) NOT NULL,
-	parameter_value text NOT NULL
-	);
 
-CREATE INDEX index_public_url_parameter ON core_public_url_parameter (parameter_key);
 --
 -- Table structure for table core_attribute
 --

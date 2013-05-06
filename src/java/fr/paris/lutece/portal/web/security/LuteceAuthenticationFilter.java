@@ -33,25 +33,7 @@
  */
 package fr.paris.lutece.portal.web.security;
 
-import fr.paris.lutece.portal.service.message.SiteMessage;
-import fr.paris.lutece.portal.service.message.SiteMessageException;
-import fr.paris.lutece.portal.service.message.SiteMessageService;
-import fr.paris.lutece.portal.service.security.LuteceUser;
-import fr.paris.lutece.portal.service.security.PublicUrlService;
-import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.security.UserNotSignedException;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.web.LocalVariables;
-import fr.paris.lutece.portal.web.PortalJspBean;
-import fr.paris.lutece.portal.web.constants.Messages;
-import fr.paris.lutece.util.url.UrlItem;
-
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.PathMatcher;
-
 import java.io.IOException;
-
-import java.util.Enumeration;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -62,6 +44,18 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.paris.lutece.portal.service.message.SiteMessage;
+import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.message.SiteMessageService;
+import fr.paris.lutece.portal.service.security.LuteceUser;
+import fr.paris.lutece.portal.service.security.PublicUrlService;
+import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.web.PortalJspBean;
+import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.util.url.UrlItem;
+
 
 /**
  * Filter to prevent unauthenticated access to site if site authentication is enabled
@@ -71,7 +65,8 @@ public class LuteceAuthenticationFilter implements Filter
     private static final String URL_INTERROGATIVE = "?";
     private static final String URL_AMPERSAND = "&";
     private static final String URL_EQUAL = "=";
-    private PathMatcher _pathMatcher;
+    private static final String URL_STAR = "*";
+    
 
     /**
      * {@inheritDoc}
@@ -79,7 +74,7 @@ public class LuteceAuthenticationFilter implements Filter
     @Override
     public void init( FilterConfig config ) throws ServletException
     {
-        _pathMatcher = new AntPathMatcher(  );
+
     }
 
     /**
@@ -100,10 +95,8 @@ public class LuteceAuthenticationFilter implements Filter
     {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-        //init Local Variable
-        LocalVariables.setLocal( null, req, resp );
-
-        if ( SecurityService.isAuthenticationEnable(  ) && isPrivateUrl( req ) )
+        
+       if ( SecurityService.isAuthenticationEnable(  ) && SecurityService.getInstance(  ).isPortalAuthenticationRequired(  ) && isPrivateUrl( req ) )
         {
             try
             {
@@ -148,8 +141,8 @@ public class LuteceAuthenticationFilter implements Filter
      * */
     private boolean isPrivateUrl( HttpServletRequest request )
     {
-        return !( ( isInSiteMessageUrl( request ) ) || ( isInUnauthenticatedUrlList( request ) ) ||
-        ( isInPublicUrlList( request ) ) );
+        return !( ( isInSiteMessageUrl( request ) 
+        ||( isInPublicUrlList( request ) ) ));
     }
 
     /**
@@ -197,21 +190,14 @@ public class LuteceAuthenticationFilter implements Filter
                     // getRemoteUser throws an exception if no user found,
                     // but here we have to bypass this exception to display
                     // login page.
-                    try
-                    {
-                        user = SecurityService.getInstance(  ).getRemoteUser( request );
-                    }
-                    catch ( UserNotSignedException unse )
-                    {
-                        // nothing to do, there might be another
-                        // authentication provider or login page to display
-                    }
+                    user = SecurityService.getInstance(  ).getRemoteUser( request );
+                    
                 }
 
                 // If portal authentication is enabled and user is null and
                 // the requested URL
                 // is not the login URL, user cannot access to Portal
-                if ( SecurityService.getInstance(  ).isPortalAuthenticationRequired(  ) && ( user == null ) )
+                if (  user == null  )
                 {
                     // Authentication is required to access to the portal
                     throw new UserNotSignedException(  );
@@ -236,7 +222,7 @@ public class LuteceAuthenticationFilter implements Filter
      *
      * @param request
      *            the http request
-
+    
      * @return true if the url is in the list, false otherwise
      *
      * */
@@ -253,69 +239,51 @@ public class LuteceAuthenticationFilter implements Filter
         return false;
     }
 
-    /**
-     * Checks if the requested is in the list of urls used for authentication that shouldn't be protected
-     *@param request
-     *            the http request
-     * @return true if the url is in the list, false otherwise
-     *
-     * */
-    private boolean isInUnauthenticatedUrlList( HttpServletRequest request )
-    {
-        // recovers list from the
-        return matchUrl( request, SecurityService.getInstance(  ).getLoginPageUrl(  ) ) ||
-        matchUrl( request, SecurityService.getInstance(  ).getLostPasswordPageUrl(  ) ) ||
-        matchUrl( request, SecurityService.getInstance(  ).getNewAccountPageUrl(  ) ) ||
-        matchUrl( request, SecurityService.getInstance(  ).getDoLoginUrl(  ) );
-    }
 
     /**
      * method to test if the URL matches the pattern
-     * <p>Some examples:<br>
-     * <ul>
-     *  <li><code>jsp/site/Page.jsp?page=test</code> - matches <code>jsp/site/Page.jsp?action=test&page=test</code></li>
-     *  <li><code>jsp/site/*.jsp</code> - matches all files <code>.jsp</code> in the <code>jsp/site</code> directory</li>
-     *  <li><code>jsp/site/&#42;&#42;/test.jsp</code> - matches all  <code>test.jsp</code> files underneath the <code>jsp/site</code> directory</li>
-     *   <li><code>jsp/site/&#42;&#42;</code> - matches all  files underneath the <code>jsp/site</code> directory</li>
-     * </ul>
-     * </p>
+    
      * @param request the request
      * @param strUrlPatern the pattern
      * @return true if the URL matches the pattern
      */
     private boolean matchUrl( HttpServletRequest request, String strUrlPatern )
     {
-        boolean bMatch;
-
-        if ( strUrlPatern.contains( URL_INTERROGATIVE ) )
+        boolean bMatch=false;
+        
+        if( strUrlPatern != null )
         {
-            UrlItem url = new UrlItem( request.getRequestURI(  ) );
+        	UrlItem url = new UrlItem( getResquestedUrl(request));
+	        if ( strUrlPatern.contains( URL_INTERROGATIVE ) )
+	        {
+	          
+	            for ( String strParamPatternValue : strUrlPatern.substring( strUrlPatern.indexOf( URL_INTERROGATIVE ) + 1 )
+	                                                            .split( URL_AMPERSAND ) )
+	            {
+	                String[] arrayPatternParamValue = strParamPatternValue.split( URL_EQUAL );
 
-            for ( String strParamPatternValue : strUrlPatern.substring( strUrlPatern.indexOf( URL_INTERROGATIVE ) + 1 )
-                                                            .split( URL_AMPERSAND ) )
-            {
-                String[] arrayParamValueLoginPageUrl = strParamPatternValue.split( URL_EQUAL );
-                Enumeration<String> enumParams = request.getParameterNames(  );
-
-                while ( enumParams.hasMoreElements(  ) )
-                {
-                    String strRequestParameter = (String) enumParams.nextElement(  );
-
-                    if ( arrayParamValueLoginPageUrl[0].equals( strRequestParameter ) &&
-                            arrayParamValueLoginPageUrl[1].equals( request.getParameter( strRequestParameter ) ) )
-                    {
-                        url.addParameter( strRequestParameter, request.getParameter( strRequestParameter ) );
-                    }
-                }
-            }
-
-            bMatch = url.getUrl(  ).endsWith( strUrlPatern );
-        }
-        else
-        {
-            String strUrlPattern = getAbsoluteUrl( request, strUrlPatern );
-            String strUrl = getResquestedUrl( request );
-            bMatch = _pathMatcher.match( strUrlPattern, strUrl );
+	                if( arrayPatternParamValue != null && request.getParameter(arrayPatternParamValue[0])!=null)
+	                {
+	                	
+	                	 url.addParameter( arrayPatternParamValue[0],  request.getParameter(arrayPatternParamValue[0])  );
+	                }
+	            
+	            }
+	            
+	        }
+	        
+	        if(strUrlPatern.contains( URL_STAR ))
+	        {
+	        	String strUrlPaternLeftEnd=strUrlPatern.substring(0, strUrlPatern.indexOf(URL_STAR));
+	        	String strAbsoluteUrlPattern= getAbsoluteUrl( request,strUrlPaternLeftEnd);
+	        	bMatch=url.getUrl().startsWith(strAbsoluteUrlPattern);
+	        }
+	        else
+	        {
+	         
+	        	String strAbsoluteUrlPattern= getAbsoluteUrl( request,strUrlPatern);
+	        	bMatch=url.getUrl().equals(strAbsoluteUrlPattern);
+	        }
         }
 
         return bMatch;

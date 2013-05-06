@@ -4,6 +4,6 @@
 
 <%
 	publicUrlBean.init( request, fr.paris.lutece.portal.web.security.PublicUrlJspBean.RIGHT_MANAGE ) ; 
-	response.sendRedirect( publicUrlBean.doModifyAdvancedParameters( request ) );
+	response.sendRedirect( publicUrlBean.doRemovePublicUrl( request ) );
 %>
 

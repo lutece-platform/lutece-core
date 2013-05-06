@@ -33,9 +33,15 @@
  */
 package fr.paris.lutece.portal.web.security;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.rbac.RBAC;
-import fr.paris.lutece.portal.business.security.PublicUrlParameterHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
@@ -46,12 +52,7 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
+import fr.paris.lutece.util.url.UrlItem;
 
 
 /**
@@ -69,16 +70,24 @@ public class PublicUrlJspBean extends AdminFeaturesPageJspBean
 
     // Parameters
     private static final String PARAMETER_CANCEL = "cancel";
-    private static final String PARAMETER_PUBLIC_LIST_URL = "public_list_url";
+    private static final String PARAMETER_PUBLIC_URL_CODE = "public_url_code";
+    private static final String PARAMETER_PUBLIC_URL_VALUE = "public_url_value";
 
     // Jsp url
-    private static final String JSP_MANAGE_SECURITY = "ManagePublicUrl.jsp";
+    private static final String JSP_MANAGE_PUBLIC_URL = "ManagePublicUrl.jsp";
+    private static final String JSP_DO_REMOVE_PUBLIC_URL = "jsp/admin/security/DoRemovePublicUrl.jsp";
+    
 
     // Properties
     private static final String PROPERTY_MANAGE_PUBLIC_URL_PAGETITLE = "portal.security.manage_public_url.pageTitle";
 
     // Template
     private static final String TEMPLATE_MANAGE_PUBLIC_URL = "admin/security/manage_public_url.html";
+    //Message
+    private static final String MESSAGE_PUBLIC_URL_CODE_ALREADY_EXIST = "portal.security.messagePublicUrlCodeAlreadyExist";
+    private static final String MESSAGE_PUBLIC_URL_CONFIRM_REMOVE= "portal.security.messagePublicUrlConfirmRemove";
+    
+    
 
     /**
      * Builds the advanced parameters management page
@@ -102,14 +111,16 @@ public class PublicUrlJspBean extends AdminFeaturesPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+   
+    
     /**
-     * Processes the data capture form of advanced parameters
+     * Create public Url
      * @param request the HTTP request
      * @return the jsp URL of the process result
-     * @throws AccessDeniedException if permission to manage advanced parameters
+     * @throws AccessDeniedException if permission to create Public Url
      * on security service has not been granted to the user
      */
-    public String doModifyAdvancedParameters( HttpServletRequest request )
+    public String doCreatePublicUrl( HttpServletRequest request )
         throws AccessDeniedException
     {
         if ( !RBACService.isAuthorized( PublicUrlService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
@@ -118,35 +129,179 @@ public class PublicUrlJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
                 PublicUrlResourceIdService.PERMISSION_MANAGE );
         }
-
-        if ( ( request.getParameter( PARAMETER_CANCEL ) == null ) && ( validateFormSubmit( request ) == null ) )
+       
+        if ( 	request.getParameter( PARAMETER_CANCEL ) == null 	 )
         {
-            PublicUrlParameterHome.remove( PublicUrlService.PUBLIC_URL_PARAMETER );
+           
+        	
+        	ReferenceItem publicUrlData=getPublicUrlData(request);
+        	normalizedPublicUrlCode(publicUrlData);
+        	
+        	String strError = StringUtils.EMPTY;
+        	if ( StringUtils.isBlank( publicUrlData.getCode() ) || StringUtils.isBlank( publicUrlData.getName() ))
+             {
+                 strError = AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+             }
+        	else if (DatastoreService.getDataValue(publicUrlData.getCode(), null )!=null)
+             {
+            		strError = AdminMessageService.getMessageUrl( request, MESSAGE_PUBLIC_URL_CODE_ALREADY_EXIST, AdminMessage.TYPE_STOP );
+             }
+            
 
-            String[] tabPublicListUrl = request.getParameterValues( PARAMETER_PUBLIC_LIST_URL );
-            ReferenceItem paramPublicUrl = new ReferenceItem(  );
-            paramPublicUrl.setCode( PublicUrlService.PUBLIC_URL_PARAMETER );
-
-            for ( int i = 0; i < tabPublicListUrl.length; i++ )
+            if (!StringUtils.isBlank(strError))
             {
-                if ( !StringUtils.isBlank( tabPublicListUrl[i] ) )
-                {
-                    paramPublicUrl.setName( tabPublicListUrl[i] );
-                    PublicUrlParameterHome.create( paramPublicUrl );
-                }
-            }
+            	
+            	return strError;
+        	}
+          
+            //create public url
+           DatastoreService.setDataValue(publicUrlData.getCode(), publicUrlData.getName());
+         
+            	
         }
 
-        return JSP_MANAGE_SECURITY;
+        return JSP_MANAGE_PUBLIC_URL;
     }
+    
+    /**
+     * Do Modify Public Url
+     * @param request the HTTP request
+     * @return the jsp URL of the process result
+     * @throws AccessDeniedException if permission to Manage Public Url
+     * on security service has not been granted to the user
+     */
+    public String doModifyPublicUrl( HttpServletRequest request )
+        throws AccessDeniedException
+    {
+        if ( !RBACService.isAuthorized( PublicUrlService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                    PublicUrlResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+        {
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
+                PublicUrlResourceIdService.PERMISSION_MANAGE );
+        }
+       
+        if ( 	request.getParameter( PARAMETER_CANCEL ) == null )
+        {
+           
+        	
+        	ReferenceItem publicUrlData=getPublicUrlData(request);
+        	normalizedPublicUrlCode(publicUrlData);
+        	
+        	String strError = StringUtils.EMPTY;
+        	if ( StringUtils.isBlank( publicUrlData.getCode() ) || StringUtils.isBlank( publicUrlData.getName() ) ||DatastoreService.getDataValue(publicUrlData.getCode(), null ) == null)
+             {
+                 strError = AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+             }
+        
+            
+
+        	 if (!StringUtils.isBlank(strError))
+             
+            {
+            	
+            	return strError;
+        	}
+          
+            //updateParameter
+        	 DatastoreService.setDataValue(publicUrlData.getCode(), publicUrlData.getName());
+            	
+        }
+
+        return JSP_MANAGE_PUBLIC_URL;
+    }
+    
+    
+    /**
+     * Remove Public Url
+     * @param request the HTTP request
+     * @return the jsp URL of the process result
+     * @throws AccessDeniedException if permission manage Public Url
+     * on security service has not been granted to the user
+     */
+    public String doRemovePublicUrl( HttpServletRequest request )
+        throws AccessDeniedException
+    {
+        if ( !RBACService.isAuthorized( PublicUrlService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                    PublicUrlResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+        {
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
+                PublicUrlResourceIdService.PERMISSION_MANAGE );
+        }
+       
+        	ReferenceItem publicUrlData=getPublicUrlData(request);
+        	if(publicUrlData!=null)
+        	{
+        		normalizedPublicUrlCode(publicUrlData);
+        		DatastoreService.removeData(publicUrlData.getCode());
+        	} 
+            return JSP_MANAGE_PUBLIC_URL;
+            	
+     }
+
+
+    
 
     /**
-     * Validate Form Submit
-     * @param request the HTTP request
-     * @return true if the form submit is validate
+     * Get the Public Url Data
+     * @param request The HTTP request
+     * @return ReferenceItem
      */
-    private String validateFormSubmit( HttpServletRequest request )
+	private ReferenceItem getPublicUrlData(HttpServletRequest request)
+	
+	{
+		
+		ReferenceItem publicUrlData=new ReferenceItem();
+		String strPublicUrlCode=request.getParameter(PARAMETER_PUBLIC_URL_CODE)!=null ?request.getParameter(PARAMETER_PUBLIC_URL_CODE).trim():null;
+    	String strPublicUrlValue=request.getParameter(PARAMETER_PUBLIC_URL_VALUE)!=null ?request.getParameter(PARAMETER_PUBLIC_URL_VALUE).trim():null;
+    	publicUrlData.setCode(strPublicUrlCode);
+        publicUrlData.setName(strPublicUrlValue);
+		return publicUrlData;
+		
+	}
+	
+	
+    /**
+     * Gets the confirmation page of delete Public Url
+     * @param request The HTTP request
+     * @throws AccessDeniedException the {@link AccessDeniedException}
+     * @return the confirmation page of Remove Public Url
+     */
+    public String getConfirmRemovePublicUrl( HttpServletRequest request )
+        throws AccessDeniedException
     {
-        return null;
+    	 if ( !RBACService.isAuthorized( PublicUrlService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                 PublicUrlResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+     {
+         throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
+             PublicUrlResourceIdService.PERMISSION_MANAGE );
+     }
+    
+
+        UrlItem url = new UrlItem( JSP_DO_REMOVE_PUBLIC_URL );
+        url.addParameter( PARAMETER_PUBLIC_URL_CODE, request.getParameter(PARAMETER_PUBLIC_URL_CODE) );
+        
+        return AdminMessageService.getMessageUrl( request, MESSAGE_PUBLIC_URL_CONFIRM_REMOVE, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
     }
+    
+    
+    /**
+     * normalized public url code
+     * @param publicUrl publicUrlCode
+     */
+    private void normalizedPublicUrlCode(ReferenceItem publicUrl)
+    {
+    	
+    	if(!StringUtils.isBlank(publicUrl.getCode()))
+    	{
+    		String strCode=publicUrl.getCode();
+    		strCode=strCode.replaceAll(" ", "_");
+    		publicUrl.setCode(PublicUrlService.PUBLIC_URL_PREFIX+strCode);
+    	}
+    }
+
+	
+	
 }
+
+
+
