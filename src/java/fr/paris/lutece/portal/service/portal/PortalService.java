@@ -96,6 +96,8 @@ public final class PortalService
     // Datastore keys
     private static final String KEY_SITE_NAME = "portal.site.site_property.name";
     private static final String KEY_WEBMASTER_EMAIL = "portal.site.site_property.email";
+    private static final String KEY_HOME_URL = "portal.site.site_property.home_url";
+    private static final String DEFAULT_HOME_URL = "jsp/site/Portal.jsp";
 
     // Templates
     private static final String TEMPLATE_PAGE_FRAMESET = "skin/site/page_frameset.html";
@@ -684,5 +686,10 @@ public final class PortalService
     public static String getSiteName(  )
     {
         return DatastoreService.getDataValue( KEY_SITE_NAME, "" );
+    }
+    
+    public static String getHomeUrl(  )
+    {
+        return DatastoreService.getDataValue( KEY_HOME_URL, DEFAULT_HOME_URL );
     }
 }

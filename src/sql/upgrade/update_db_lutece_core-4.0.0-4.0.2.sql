@@ -23,3 +23,4 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.description',
 INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.keywords', '<keywords>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.email', '<webmaster email>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.noreply_email', 'no-reply@mydomain.com');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.home_url', 'jsp/site/Portal.jsp');
