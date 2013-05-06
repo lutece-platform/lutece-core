@@ -193,9 +193,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String FIELD_IMPORT_USERS_FILE = "portal.users.import_users_from_file.labelImportFile";
     private static final String FIELD_XSL_EXPORT = "portal.users.export_users.labelXslt";
 
-    // Properties
-    private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
-
     // Parameters
     private static final String PARAMETER_ACCESS_CODE = "access_code";
     private static final String PARAMETER_LAST_NAME = "last_name";
@@ -2502,7 +2499,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( !( ( user.getEmail(  ) == null ) || user.getEmail(  ).equals( CONSTANT_EMPTY_STRING ) ) )
             {
                 // send password by e-mail
-                String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
+                String strSenderEmail = MailService.getNoReplyEmail();
                 String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_SUBJECT, locale );
                 HashMap<String, Object> model = new HashMap<String, Object>(  );
                 model.put( MARK_NEW_PASSWORD, strPassword );

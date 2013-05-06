@@ -133,7 +133,6 @@ public class AdminLoginJspBean implements Serializable
     private static final String MESSAGE_WRONG_EMAIL_FORMAT = "portal.admin.message.admin_forgot_login.wrongEmailFormat";
 
     // Properties
-    private static final String PROPERTY_NO_REPLY_EMAIL = "mail.noreply.email";
     private static final String PROPERTY_LEVEL = "askPasswordReinitialization.admin.level";
 
     /**
@@ -440,7 +439,7 @@ public class AdminLoginJspBean implements Serializable
         }
 
         // send password by e-mail
-        String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
+        String strSenderEmail = MailService.getNoReplyEmail();
         String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_SUBJECT, locale );
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_NEW_PASSWORD, strPassword );
@@ -493,7 +492,7 @@ public class AdminLoginJspBean implements Serializable
         }
 
         // send access code by e-mail
-        String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
+        String strSenderEmail = MailService.getNoReplyEmail();
         String strEmailSubject = I18nService.getLocalizedString( MESSAGE_FORGOT_LOGIN_EMAIL_SUBJECT, locale );
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_LOGIN, strAccessCode );
@@ -546,7 +545,7 @@ public class AdminLoginJspBean implements Serializable
         {
             if ( StringUtil.checkEmail( adminUser.getEmail(  ) ) )
             {
-                sbMailsTo.append( adminUser.getEmail(  ) + CONSTANT_EMAIL_DELIMITER );
+                sbMailsTo.append( adminUser.getEmail(  )).append( CONSTANT_EMAIL_DELIMITER);
             }
         }
 
@@ -554,7 +553,7 @@ public class AdminLoginJspBean implements Serializable
 
         if ( !strMailsTo.equals( CONSTANT_EMPTY_STRING ) )
         {
-            String strSenderEmail = AppPropertiesService.getProperty( PROPERTY_NO_REPLY_EMAIL );
+            String strSenderEmail = MailService.getNoReplyEmail();
             String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_ADMIN_SUBJECT, locale );
 
             MailService.sendMailHtml( strMailsTo, strSenderEmail, strSenderEmail, strEmailSubject, strMessage );

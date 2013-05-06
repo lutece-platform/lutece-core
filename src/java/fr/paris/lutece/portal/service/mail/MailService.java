@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.mail;
 
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.Daemon;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -50,6 +51,7 @@ import java.util.List;
  */
 public final class MailService
 {
+    private static final String KEY_NO_REPLY_EMAIL = "portal.site.site_property.noreply_email";
     private static final String PROPERTY_MAIL_NOREPLY_EMAIL = "mail.noreply.email";
     private static final String BEAN_MAIL_QUEUE = "mailQueue";
 
@@ -391,7 +393,8 @@ public final class MailService
      */
     public static String getNoReplyEmail(  )
     {
-        return AppPropertiesService.getProperty( PROPERTY_MAIL_NOREPLY_EMAIL );
+        String strDefault = AppPropertiesService.getProperty( PROPERTY_MAIL_NOREPLY_EMAIL );
+        return DatastoreService.getDataValue( KEY_NO_REPLY_EMAIL, strDefault );
     }
 
     /**

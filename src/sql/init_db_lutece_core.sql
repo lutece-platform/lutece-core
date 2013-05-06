@@ -202,7 +202,7 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.copyright', '
 INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.description', '<description>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.keywords', '<keywords>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.email', '<webmaster email>');
-
+INSERT INTO core_datastore VALUES ('portal.site.site_property.noreply_email', 'no-reply@mydomain.com');
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');
