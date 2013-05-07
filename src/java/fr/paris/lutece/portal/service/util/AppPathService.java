@@ -39,20 +39,18 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
 import java.text.MessageFormat;
-
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -250,9 +248,13 @@ public final class AppPathService
      * use {@link AppPathService#getBaseUrl(HttpServletRequest)} instead.
      * @return The webapp url, or null if the 'lutece.base.url' property has not
      *         been set.
+     * @deprecated Use {@link AppPathService#getBaseUrl(HttpServletRequest)}
+     *             instead
      */
+    @Deprecated
     public static String getBaseUrl(  )
     {
+        // FIXME : lutece.base.url is only set when using WSSO
         String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_BASE_URL );
 
         if ( !strBaseUrl.endsWith( SLASH ) )
@@ -290,7 +292,10 @@ public final class AppPathService
      * Return the webapp prod url (or the base url if no prod url has been
      * definied)
      * @return The prod url
+     * @deprecated Use {@link AppPathService#getProdUrl(HttpServletRequest)}
+     *             instead
      */
+    @Deprecated
     public static String getProdUrl(  )
     {
         String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_PROD_BASE_URL );
@@ -300,7 +305,7 @@ public final class AppPathService
             strBaseUrl = getBaseUrl(  );
         }
 
-        if ( !strBaseUrl.endsWith( SLASH ) )
+        if ( strBaseUrl != null && !strBaseUrl.endsWith( SLASH ) )
         {
             strBaseUrl += SLASH;
         }
