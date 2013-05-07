@@ -52,24 +52,21 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldListenerService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.password.PasswordUtil;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.sql.Timestamp;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -100,7 +97,8 @@ public class ImportAdminUserService extends CSVReaderService
      * {@inheritDoc}
      */
     @Override
-    protected List<CSVMessageDescriptor> readLineOfCSVFile( String[] strLineDataArray, int nLineNumber, Locale locale )
+    protected List<CSVMessageDescriptor> readLineOfCSVFile( String[] strLineDataArray, int nLineNumber, Locale locale,
+            String strBaseUrl )
     {
         List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>(  );
         int nIndex = 0;
@@ -245,8 +243,8 @@ public class ImportAdminUserService extends CSVReaderService
                 AdminUserHome.create( defaultAdminUser );
                 // We un-encrypt the password to send it in an email
                 defaultAdminUser.setPassword( strPassword );
-                AdminUserService.notifyUser( AppPathService.getBaseUrl(  ), user,
-                    PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
+                AdminUserService.notifyUser( strBaseUrl, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER,
+                        TEMPLATE_NOTIFY_USER );
             }
             else
             {

@@ -91,14 +91,9 @@ import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 import fr.paris.lutece.util.xml.XmlUtil;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -109,6 +104,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -1088,7 +1086,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             _importAdminUserService.setUpdateExistingUsers( bUpdateUsers );
 
             List<CSVMessageDescriptor> listMessages = _importAdminUserService.readCSVFile( fileItem, 0, false, false,
-                    bSkipFirstLine, AdminUserService.getLocale( request ) );
+                    bSkipFirstLine, AdminUserService.getLocale( request ), AppPathService.getBaseUrl( request ) );
 
             request.setAttribute( ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES, listMessages );
 
