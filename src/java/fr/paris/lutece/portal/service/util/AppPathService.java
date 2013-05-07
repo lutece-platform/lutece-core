@@ -292,25 +292,35 @@ public final class AppPathService
      * Return the webapp prod url (or the base url if no prod url has been
      * definied)
      * @return The prod url
-     * @deprecated Use {@link AppPathService#getProdUrl(HttpServletRequest)}
-     *             instead
+     * @deprecated Use {@link AppPathService#getProdUrl(String)} instead
      */
     @Deprecated
     public static String getProdUrl(  )
     {
-        String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_PROD_BASE_URL );
+        return getProdUrl( getBaseUrl( ) );
+    }
 
-        if ( StringUtils.isBlank( strBaseUrl ) )
+    /**
+     * Return the webapp prod url. If no prod URL has been defined, then the
+     * base URL is returned
+     * @param strBaseUrl The base URL
+     * @return The prod url
+     */
+    public static String getProdUrl( String strBaseUrl )
+    {
+        String strProdUrl = AppPropertiesService.getProperty( PROPERTY_PROD_BASE_URL );
+
+        if ( StringUtils.isBlank( strProdUrl ) )
         {
-            strBaseUrl = getBaseUrl(  );
+            strProdUrl = strBaseUrl;
         }
 
-        if ( strBaseUrl != null && !strBaseUrl.endsWith( SLASH ) )
+        if ( strProdUrl != null && !strProdUrl.endsWith( SLASH ) )
         {
-            strBaseUrl += SLASH;
+            strProdUrl += SLASH;
         }
 
-        return strBaseUrl;
+        return strProdUrl;
     }
 
     /**

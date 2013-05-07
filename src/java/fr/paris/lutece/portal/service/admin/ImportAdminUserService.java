@@ -52,6 +52,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldListenerService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.password.PasswordUtil;
 
@@ -243,8 +244,8 @@ public class ImportAdminUserService extends CSVReaderService
                 AdminUserHome.create( defaultAdminUser );
                 // We un-encrypt the password to send it in an email
                 defaultAdminUser.setPassword( strPassword );
-                AdminUserService.notifyUser( strBaseUrl, user, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER,
-                        TEMPLATE_NOTIFY_USER );
+                AdminUserService.notifyUser( AppPathService.getProdUrl( strBaseUrl ), user,
+                        PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
             }
             else
             {
