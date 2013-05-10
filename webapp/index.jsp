@@ -1,3 +1,3 @@
-<%@page import="fr.paris.lutece.portal.service.portal.PortalService" %>
+<%@page import="fr.paris.lutece.portal.service.util.AppPathService" %>
 
-<jsp:forward page="<%= PortalService.getHomeUrl()%>" /> 
+<jsp:forward page="<%= AppPathService.getRootForwardUrl()%>" /> 

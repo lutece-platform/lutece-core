@@ -76,7 +76,11 @@ public final class AppPathService
     private static final String SUFFIX_DESCRIPTION = ".description";
     private static final String SLASH = "/";
     private static final String DOUBLE_POINTS = ":";
+    
+    // Datastore keys
     private static final String KEY_ADMIN_HOME_URL = "portal.site.site_property.admin_home_url";
+    private static final String KEY_PORTAL_HOME_URL = "portal.site.site_property.home_url";
+
     private static String _strWebAppPath;
 
     /**
@@ -346,6 +350,15 @@ public final class AppPathService
     }
 
     /**
+     * Returns the forward URL for webapp's root path. Default is (jsp/site/Portal.jsp) defined in lutece.properties
+     * @return the Portal Url
+     */
+    public static String getRootForwardUrl(  )
+    {
+        return DatastoreService.getDataValue( KEY_PORTAL_HOME_URL, AppPropertiesService.getProperty( PROPERTY_PORTAL_URL ));
+    }
+
+    /**
      * Returns the Site Message relative url (jsp/site/SiteMessage.jsp) defined in lutece.properties
      * @return the SiteMessage Url
      */
@@ -369,8 +382,7 @@ public final class AppPathService
      */
     public static String getAdminMenuUrl(  )
     {
-        String strAdminHomeUrl = DatastoreService.getDataValue( KEY_ADMIN_HOME_URL, AppPropertiesService.getProperty( PROPERTY_ADMIN_MENU_URL ));
-        return strAdminHomeUrl;
+        return DatastoreService.getDataValue( KEY_ADMIN_HOME_URL, AppPropertiesService.getProperty( PROPERTY_ADMIN_MENU_URL ));
     }
 
     /**
