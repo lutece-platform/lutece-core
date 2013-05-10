@@ -67,6 +67,7 @@ public final class AppPathService
     private static final String PROPERTY_SITE_MESSAGE_URL = "lutece.siteMessage.path";
     private static final String PROPERTY_ADMIN_URL = "lutece.admin.path";
     private static final String PROPERTY_ADMIN_MENU_URL = "lutece.admin.menu.url";
+    private static final String PROPERTY_PORTAL_REDIRECT_URL = "lutece.portal.redirect.url";
     private static final String PROPERTY_VIRTUAL_HOST_KEYS = "virtualHostKeys";
     private static final String PROPERTY_VIRTUAL_HOST_KEY_PARAMETER = "virtualHostKey.parameterName";
     private static final String PROPERTY_VIRTUAL_HOST = "virtualHost.";
@@ -351,11 +352,11 @@ public final class AppPathService
 
     /**
      * Returns the forward URL for webapp's root path. Default is (jsp/site/Portal.jsp) defined in lutece.properties
-     * @return the Portal Url
+     * @return the Portal Root forward Url
      */
     public static String getRootForwardUrl(  )
     {
-        return DatastoreService.getDataValue( KEY_PORTAL_HOME_URL, AppPropertiesService.getProperty( PROPERTY_PORTAL_URL ));
+        return DatastoreService.getDataValue( KEY_PORTAL_HOME_URL, AppPropertiesService.getProperty( PROPERTY_PORTAL_REDIRECT_URL ));
     }
 
     /**
