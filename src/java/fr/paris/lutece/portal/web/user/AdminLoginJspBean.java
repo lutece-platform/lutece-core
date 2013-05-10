@@ -92,7 +92,6 @@ public class AdminLoginJspBean implements Serializable
     private static final String REGEX_ID = "^[\\d]+$";
 
     // Jsp
-    private static final String JSP_URL_ADMIN_MENU = "jsp/admin/AdminMenu.jsp";
     private static final String JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD = "jsp/admin/user/ModifyDefaultUserPassword.jsp";
     private static final String JSP_URL_FORM_CONTACT = "AdminFormContact.jsp";
     private static final String JSP_URL_DO_ADMIN_LOGIN = "jsp/admin/DoAdminLogin.jsp";
@@ -375,7 +374,7 @@ public class AdminLoginJspBean implements Serializable
             }
             else
             {
-                url = AppPathService.resolveRedirectUrl( request, JSP_URL_ADMIN_MENU );
+                url = AppPathService.resolveRedirectUrl( request, AppPathService.getAdminMenuUrl() );
             }
         }
 

@@ -111,7 +111,6 @@ public class AdminMenuJspBean implements Serializable
     private static final String REFERER = "referer";
 
     // Jsp
-    private static final String PROPERTY_JSP_URL_ADMIN_MENU = "lutece.admin.menu.url";
     private static final String PROPERTY_JSP_URL_ADMIN_LOGOUT = "lutece.admin.logout.url";
     private static final String MESSAGE_CONTROL_PASSWORD_NO_CORRESPONDING = "portal.users.message.password.confirm.error";
     private static final String PASSWORD_ERROR = "portal.users.message.password.wrong.current";
@@ -138,7 +137,7 @@ public class AdminMenuJspBean implements Serializable
         model.put( MARK_SITE_NAME, strSiteName );
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
         model.put( MARK_ADMIN_URL,
-            AppPathService.getBaseUrl( request ) + AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_MENU ) );
+            AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl() );
         model.put( MARK_USER, user );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
         model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage(  ) );
@@ -351,7 +350,7 @@ public class AdminMenuJspBean implements Serializable
         user.setLocale( locale );
         AppPathService.getBaseUrl( request );
 
-        return AppPathService.getBaseUrl( request ) + AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_MENU );
+        return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl();
     }
 
     /**
@@ -492,6 +491,6 @@ public class AdminMenuJspBean implements Serializable
             return strReferer;
         }
 
-        return AppPathService.getBaseUrl( request ) + AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_MENU );
+        return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl();
     }
 }

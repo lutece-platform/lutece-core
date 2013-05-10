@@ -4,7 +4,9 @@
 <%@ page import="fr.paris.lutece.portal.service.util.*" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessageService" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessage" %>
-<%@page import="fr.paris.lutece.portal.service.i18n.I18nService" %>
+<%@ page import="fr.paris.lutece.portal.service.i18n.I18nService" %>
+
+
 
 <%@ page buffer="1024kb"%>
 <%@ page autoFlush="false"%>
@@ -119,7 +121,7 @@
 				&nbsp;<%= I18nService.getLocalizedString(PROPERTY_MESSAGE, request.getLocale() ) %>
 			</p>
 			<p>
-				<a class="btn btn-danger" href="jsp/admin/AdminMenu.jsp">
+				<a class="btn btn-danger" href="<%= AppPathService.getAdminMenuUrl() %>">
 					<i class="icon-home icon-white"></i>&nbsp;Accueil de l'administration du site
 				</a>
 			</p>

@@ -32,14 +32,14 @@
                 </ul>
                 <ul class="nav pull-right">
                     <li class="home">
-                        <a href="jsp/admin/AdminMenu.jsp" title="&nbsp;#i18n{portal.users.admin_header.homePage}"><i class="icon-home icon-white"></i></a>
+                        <a href="${admin_url}" title="&nbsp;#i18n{portal.users.admin_header.homePage}"><i class="icon-home icon-white"></i></a>
                     </li> 
                     <li>
 
                     </li>
                     <li class="dropdown">
 
-                        <a href="jsp/admin/AdminMenu.jsp#" id="dLabelUserHeader" data-toggle="dropdown" class="dropdown-toggle">
+                        <a href="${admin_url}#" id="dLabelUserHeader" data-toggle="dropdown" class="dropdown-toggle">
                             <i class="icon-user icon-white"></i>&nbsp;<#if dashboard_zone_4?has_content>${dashboard_zone_4}</#if><b class="caret"></b>
 
                         </a>

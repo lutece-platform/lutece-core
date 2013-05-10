@@ -277,7 +277,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_USE_ADVANCED_SECUR_PARAM = "jsp/admin/user/DoUseAdvancedSecurityParameters.jsp";
     private static final String JSP_URL_REMOVE_ADVANCED_SECUR_PARAM = "jsp/admin/user/DoRemoveAdvancedSecurityParameters.jsp";
     private static final String JSP_URL_ANONYMIZE_ADMIN_USER = "jsp/admin/user/DoAnonymizeAdminUser.jsp";
-    private static final String JSP_URL_ADMIN_MENU = "jsp/admin/AdminMenu.jsp";
 
     // Markers
     private static final String MARK_USER_LIST = "user_list";
@@ -2283,12 +2282,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
 
             strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCOUNT_REACTIVATED,
-                    JSP_URL_ADMIN_MENU, AdminMessage.TYPE_INFO );
+                    AppPathService.getAdminMenuUrl(), AdminMessage.TYPE_INFO );
         }
         else
         {
             strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ACCOUNT_TO_REACTIVATED,
-                    JSP_URL_ADMIN_MENU, AdminMessage.TYPE_ERROR );
+                    AppPathService.getAdminMenuUrl(), AdminMessage.TYPE_ERROR );
         }
 
         return strUrl;

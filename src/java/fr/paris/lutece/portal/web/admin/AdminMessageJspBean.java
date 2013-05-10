@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -61,6 +62,7 @@ public class AdminMessageJspBean
     private static final String MARK_MESSAGE = "message";
     private static final String MARK_REQUEST_PARAMETERS = "list_parameters";
     private static final String MARK_BACK_URL = "back_url";
+    private static final String MARK_ADMIN_URL = "admin_url";
     private static final String PROPERTY_TITLE_ERROR = "portal.util.message.titleError";
 
     /**
@@ -88,6 +90,7 @@ public class AdminMessageJspBean
         model.put( MARK_TARGET, message.getTarget(  ) );
         model.put( MARK_REQUEST_PARAMETERS, message.getRequestParameters(  ) );
         model.put( MARK_BACK_URL, message.getBackUrl(  ) );
+        model.put( MARK_ADMIN_URL, AppPathService.getAdminMenuUrl() );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MESSAGE, locale, model );
 

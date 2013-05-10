@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
@@ -75,6 +76,7 @@ public final class AppPathService
     private static final String SUFFIX_DESCRIPTION = ".description";
     private static final String SLASH = "/";
     private static final String DOUBLE_POINTS = ":";
+    private static final String KEY_ADMIN_HOME_URL = "portal.site.site_property.admin_home_url";
     private static String _strWebAppPath;
 
     /**
@@ -367,7 +369,8 @@ public final class AppPathService
      */
     public static String getAdminMenuUrl(  )
     {
-        return AppPropertiesService.getProperty( PROPERTY_ADMIN_MENU_URL );
+        String strAdminHomeUrl = DatastoreService.getDataValue( KEY_ADMIN_HOME_URL, AppPropertiesService.getProperty( PROPERTY_ADMIN_MENU_URL ));
+        return strAdminHomeUrl;
     }
 
     /**
