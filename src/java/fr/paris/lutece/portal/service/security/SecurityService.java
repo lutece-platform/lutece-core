@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -402,9 +403,8 @@ public final class SecurityService
      */
     public boolean isPortalAuthenticationRequired(  )
     {
-        String strAuthenticationRequired = AppPropertiesService.getProperty( PROPERTY_PORTAL_AUTHENTICATION_REQUIRED,
-                "false" );
-
+    	
+    	String strAuthenticationRequired =DatastoreService.getDataValue(PROPERTY_PORTAL_AUTHENTICATION_REQUIRED, "false" );
         return strAuthenticationRequired.equals( "true" );
     }
 

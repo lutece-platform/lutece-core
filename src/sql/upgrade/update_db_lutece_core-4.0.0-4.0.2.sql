@@ -9,13 +9,6 @@ INSERT INTO core_xsl_export VALUES (126,'Coeur - Export XML des administrateurs'
 INSERT INTO core_file VALUES (126,'export_users_xml.xml',126,259,'application/xml');
 INSERT INTO core_physical_file VALUES (126,'<?xml version=\"1.0\" ?>\r\n<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">\r\n	<xsl:template match=\"/ | @* | node()\">\r\n		<xsl:copy>\r\n			<xsl:apply-templates select=\"@* | node()\" />\r\n		</xsl:copy>\r\n	</xsl:template>\r\n</xsl:stylesheet>');
 
-
-INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('publicUrlAdminDashboardComponent', 1, 3);
-INSERT INTO core_admin_right VALUES ('CORE_PUBLIC_URL_MANAGEMENT','portal.security.adminFeature.public_url_management.name',0,'jsp/admin/security/ManagePublicUrl.jsp','portal.security.adminFeature.public_url_management.description',0,NULL,'SYSTEM',NULL,NULL,3);
-INSERT INTO core_admin_role_resource VALUES (170,'all_site_manager', 'CORE_PUBLIC_URL_MANAGEMENT', '*', '*');
-INSERT INTO core_user_right VALUES ('CORE_PUBLIC_URL_MANAGEMENT',1);
-INSERT INTO core_user_right VALUES ('CORE_PUBLIC_URL_MANAGEMENT',2);
-
 INSERT INTO core_datastore VALUES ('portal.site.site_property.name', 'LUTECE');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.author', '<author>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.copyright', '<copyright>');
