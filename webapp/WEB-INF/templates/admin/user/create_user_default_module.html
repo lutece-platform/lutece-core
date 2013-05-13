@@ -163,12 +163,4 @@ $(document).ready(function(){
 			}
 		$('#complexity').html(Math.round(complexity) + '%');
 	});
-	
-	$("#access_code").focus(function () {
-         $(this).val( $("#last_name").val().toLowerCase() + $("#first_name").val().substr(0,1).toLowerCase() );
-    });
-	$("#email").focus(function () {
-         $(this).val( $("#first_name").val().toLowerCase() + "." + $("#last_name").val().toLowerCase() + "@" );
-    });
-	
 })</script>
