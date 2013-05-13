@@ -32,6 +32,8 @@
         <url-pattern>/images/*</url-pattern>
         <url-pattern>/css/*</url-pattern>
         <url-pattern>/js/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+   		<dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 
     <filter>
@@ -50,6 +52,8 @@
         <filter-name>PageCachingFilter</filter-name>
         <url-pattern>/jsp/site/*</url-pattern>
         <url-pattern>/rest/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+   		<dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 	<filter>
         <filter-name>encodingFilter</filter-name>
@@ -146,36 +150,52 @@
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/jsp/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+   		<dispatcher>REQUEST</dispatcher>
     </filter-mapping>
     <filter-mapping>
         <filter-name>authenticationFilter</filter-name>
         <url-pattern>/jsp/admin/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+   		<dispatcher>REQUEST</dispatcher>
     </filter-mapping>
   
     <filter-mapping>
         <filter-name>dosFilter</filter-name>
         <url-pattern>/jsp/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+   		<dispatcher>REQUEST</dispatcher>
     </filter-mapping>
     <filter-mapping>
         <filter-name>pluginsFilters</filter-name>
         <url-pattern>/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+   		<dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 
      <filter-mapping>
         <filter-name>uploadFilterSite</filter-name>
         <url-pattern>/jsp/site/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+   		<dispatcher>REQUEST</dispatcher>
     </filter-mapping>
     <filter-mapping>
         <filter-name>uploadFilterAdmin</filter-name>
         <url-pattern>/jsp/admin/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+   		<dispatcher>REQUEST</dispatcher>
     </filter-mapping>
  	<filter-mapping>
         <filter-name>safeRequestFilterSite</filter-name>
         <url-pattern>/jsp/site/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+   		<dispatcher>REQUEST</dispatcher>
     </filter-mapping>
     <filter-mapping>
         <filter-name>safeRequestFilterAdmin</filter-name>
         <url-pattern>/jsp/admin/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+   		<dispatcher>REQUEST</dispatcher>
     </filter-mapping>
     
     <servlet>
