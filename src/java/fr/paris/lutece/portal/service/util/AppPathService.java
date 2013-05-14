@@ -538,4 +538,24 @@ public final class AppPathService
 
         return url;
     }
+    /**
+     * Returns the absolute url corresponding to the given one, if the later
+     * was found to be relative. An url starting with "http://" is absolute.
+     * A relative url should be given relatively to the webapp root.
+     * @param request the http request (provides the base path if needed)
+     * @param strUrl the url to transform
+     * @return the corresonding absolute url
+     *
+     * */
+    public static String getAbsoluteUrl( HttpServletRequest request, String strUrl )
+    {
+        if ( ( strUrl != null ) && !strUrl.startsWith( "http://" ) && !strUrl.startsWith( "https://" ) )
+        {
+            return AppPathService.getBaseUrl( request ) + strUrl;
+        }
+        else
+        {
+            return strUrl;
+        }
+    }
 }

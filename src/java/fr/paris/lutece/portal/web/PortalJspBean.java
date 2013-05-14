@@ -274,8 +274,11 @@ public class PortalJspBean
 
         String strRedirect = SecurityService.getInstance(  ).getLoginPageUrl(  );
 
-        return strRedirect;
+        return AppPathService.getAbsoluteUrl(request,strRedirect);
     }
+    
+    
+   
 
     /**
      * Returns the url (asked before login) to redirect after login
@@ -333,4 +336,5 @@ public class PortalJspBean
         HttpSession session = request.getSession(  );
         session.removeAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL );
     }
+  
 }
