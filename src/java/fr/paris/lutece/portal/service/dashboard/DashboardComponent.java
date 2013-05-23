@@ -33,14 +33,10 @@
  */
 package fr.paris.lutece.portal.service.dashboard;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -55,30 +51,10 @@ public abstract class DashboardComponent implements IDashboardComponent
     private Plugin _plugin;
 
     /**
-     * Gets dashboard data for a given user
-     * @param user The user
-     * @param request HttpServletRequest
-     * @return HTML content to insert into a dashboard zone
-     */
-    public String getDashboardData( AdminUser user, HttpServletRequest request )
-    {
-        return getDashboardData( user );
-    }
-
-    /**
-     * Gets dashboard data for a given user
-     * @param user The user
-     * @return HTML content to insert into a dashboard zone
-     */
-    public String getDashboardData( AdminUser user )
-    {
-        return StringUtils.EMPTY;
-    }
-
-    /**
      * Returns the Name
      * @return The Name
      */
+    @Override
     public String getName(  )
     {
         return _strName;
@@ -88,6 +64,7 @@ public abstract class DashboardComponent implements IDashboardComponent
      * Sets the Name
      * @param strName The Name
      */
+    @Override
     public void setName( String strName )
     {
         _strName = strName;
@@ -103,6 +80,7 @@ public abstract class DashboardComponent implements IDashboardComponent
      * Returns the Right
      * @return The Right
      */
+    @Override
     public String getRight(  )
     {
         return _strRight;
@@ -112,6 +90,7 @@ public abstract class DashboardComponent implements IDashboardComponent
      * Sets the Right
      * @param strRight The Right
      */
+    @Override
     public void setRight( String strRight )
     {
         _strRight = strRight;
@@ -121,6 +100,7 @@ public abstract class DashboardComponent implements IDashboardComponent
      * Returns the Zone
      * @return The Zone
      */
+    @Override
     public int getZone(  )
     {
         return _nZone;
@@ -130,6 +110,7 @@ public abstract class DashboardComponent implements IDashboardComponent
      * Sets the Zone
      * @param nZone The Zone
      */
+    @Override
     public void setZone( int nZone )
     {
         _nZone = nZone;
@@ -139,6 +120,7 @@ public abstract class DashboardComponent implements IDashboardComponent
      * Returns the Order
      * @return The Order
      */
+    @Override
     public int getOrder(  )
     {
         return _nOrder;
@@ -148,6 +130,7 @@ public abstract class DashboardComponent implements IDashboardComponent
      * Sets the Order
      * @param nOrder The Order
      */
+    @Override
     public void setOrder( int nOrder )
     {
         _nOrder = nOrder;
@@ -157,6 +140,7 @@ public abstract class DashboardComponent implements IDashboardComponent
      * Returns the Plugin
      * @return The Plugin
      */
+    @Override
     public Plugin getPlugin(  )
     {
         return _plugin;
@@ -166,6 +150,7 @@ public abstract class DashboardComponent implements IDashboardComponent
      * Sets the Plugin
      * @param plugin The plugin
      */
+    @Override
     public void setPlugin( Plugin plugin )
     {
         _plugin = plugin;
@@ -176,6 +161,7 @@ public abstract class DashboardComponent implements IDashboardComponent
      * @param o The component to compare to
      * @return less than 0 if the order is lower, 0 if equals and greater than 0 if higher
      */
+    @Override
     public int compareTo( IDashboardComponent o )
     {
         return getOrder(  ) - o.getOrder(  );
@@ -185,6 +171,7 @@ public abstract class DashboardComponent implements IDashboardComponent
      * Tells if the component is enabled
      * @return true if enabled
      */
+    @Override
     public boolean isEnabled(  )
     {
         return PluginService.isPluginEnable( _plugin.getName(  ) );
