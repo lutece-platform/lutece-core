@@ -73,7 +73,7 @@ ${contextinclude!}
 ${contextinclude_1!}
 ${page_path}
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled >
-	<div class="span3 pull-right">
+	<div class="pull-right">
 		@Extender[${page_id},PAGE,opengraph,{header:false,footer:false}]@
 		@Extender[${page_id},PAGE,hit,{show:true}]@
 		@Extender[${page_id},PAGE,rating,{show:"all"}]@
