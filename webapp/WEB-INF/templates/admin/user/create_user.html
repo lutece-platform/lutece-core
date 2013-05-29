@@ -38,14 +38,14 @@
 			</#if>
 			#i18n{portal.users.create_user.labelIdentity}
 			<label for="access_code">#i18n{portal.users.create_user.labelAccessCode} * :</label>
-			<input type="hidden" id="access_code" name="access_code" value="" />
+			<input type="hidden" id="access_code" name="access_code" value="${import_user.accessCode?if_exists}" />
 			<strong>${import_user.accessCode?if_exists}</strong>
 			<label for="last_name">#i18n{portal.users.create_user.labelLastName} * :</label>
-			<input type="text"  id="last_name" name="last_name" value="" maxlength="100" size="35" tabindex="2" />
+			<input type="text"  id="last_name" name="last_name" value="${import_user.lastName?if_exists}" maxlength="100" size="35" tabindex="2" />
 			<label for="first_name">#i18n{portal.users.create_user.labelFirstName} * :</label>
-			<input type="text" id="first_name" name="first_name" value="" maxlength="100" size="35" tabindex="3" />
+			<input type="text" id="first_name" name="first_name" value="${import_user.firstName?if_exists}" maxlength="100" size="35" tabindex="3" />
 			<label for="email">#i18n{portal.users.create_user.labelEmail} * :</label>
-			<input type="text" id="email" name="email" value="" maxlength="100" size="35" tabindex="4" />
+			<input type="text" id="email" name="email" value="${import_user.email?if_exists}" maxlength="100" size="35" tabindex="4" />
 			<label for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
 			<@comboSorted name="language" default_value="${default_user_language}" items=languages_list />
 			<label for="status">#i18n{portal.users.create_user.labelStatus} :</label>
