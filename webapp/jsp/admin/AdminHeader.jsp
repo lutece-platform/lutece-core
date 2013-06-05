@@ -8,8 +8,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<title><%= PortalService.getSiteName(  ) %> - Administration</title>
 <base href="<%= AppPathService.getBaseUrl( request ) %>"></base>
+<title><%= PortalService.getSiteName(  ) %> - Administration</title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT" />
 <meta http-equiv="Pragma" content="no-cache" /> 
@@ -39,7 +39,7 @@
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <!-- Le fav and touch icons -->
-<link rel="shortcut icon" href="favicon.ico">
+<link rel="shortcut icon" href="<%= AppPathService.getBaseUrl( request ) %>favicon.ico">
 <!-- 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114-precomposed.png">

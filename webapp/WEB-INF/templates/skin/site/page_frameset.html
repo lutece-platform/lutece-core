@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<base href="${base_url}"/>
 <title>${favourite} - ${page_name}</title>
-<base href="${base_url}" />
-<meta charset="${encoding}" />
-<meta http-equiv="Content-Type" content="text/html;charset=${encoding}" />
-<meta http-equiv="Content-Language" content="fr" />
-<meta name="author" content="${meta_author}" />
-<meta name="copyright" content="${meta_copyright}" />
-<meta name="keywords" content="${meta_keywords}" />
-<meta name="description" content="${meta_description}" />
-<meta name="generator" content="${meta_generator}" />
+<meta charset="${encoding}"/>
+<meta http-equiv="Content-Type" content="text/html;charset=${encoding}"/>
+<meta http-equiv="Content-Language" content="fr"/>
+<meta name="author" content="${meta_author}"/>
+<meta name="copyright" content="${meta_copyright}"/>
+<meta name="keywords" content="${meta_keywords}"/>
+<meta name="description" content="${meta_description}"/>
+<meta name="generator" content="${meta_generator}"/>
 <!-- Dublin Core metadatas -->
-<meta name="DC.Creator" content="${meta_author}" />
-<meta name="DC.Rights" content="${meta_copyright}" />
-<meta name="DC.Subject" content="${meta_keywords}" />
-<meta name="DC.Description" content="${meta_description}" />
+<meta name="DC.Creator" content="${meta_author}"/>
+<meta name="DC.Rights" content="${meta_copyright}"/>
+<meta name="DC.Subject" content="${meta_keywords}"/>
+<meta name="DC.Description" content="${meta_description}"/>
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Le styles -->
 <#if plugin_theme?? >
-<link href="${plugin_theme.pathCss}/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet"  href="${plugin_theme.pathCss}/page_template_styles.css" type="text/css"  media="screen" />
+<link href="${plugin_theme.pathCss}/bootstrap.min.css" rel="stylesheet"/>
+<link rel="stylesheet"  href="${plugin_theme.pathCss}/page_template_styles.css" type="text/css"  media="screen"/>
 <#else>
-<link href="${theme.pathCss}/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="${theme.pathCss}/page_template_styles.css" type="text/css" media="screen, projection" />
+<link href="${theme.pathCss}/bootstrap.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="${theme.pathCss}/page_template_styles.css" type="text/css" media="screen, projection"/>
 </#if>
-<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-<link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery-ui.custom.css" />
+<link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery-ui.custom.css"/>
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
-<link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery.ui.ie.css" />
+<link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery.ui.ie.css"/>
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <!-- Le fav and touch icons -->
-<link rel="shortcut icon" href="favicon.ico">
+<link rel="shortcut icon" href="${base_url}favicon.ico"/>
 <!-- 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114-precomposed.png">

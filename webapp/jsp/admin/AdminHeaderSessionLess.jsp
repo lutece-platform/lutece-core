@@ -10,14 +10,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<title><%= PortalService.getSiteName(  ) %> - Administration</title>
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <base href="<%= strBase %>"></base>
+<title><%= PortalService.getSiteName(  ) %> - Administration</title>
 <%	response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
 	response.setHeader("Pragma","no-cache"); //HTTP 1.0
 	response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
 %>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Le styles -->
@@ -32,7 +32,7 @@
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <!-- Le fav and touch icons -->
-<link rel="shortcut icon" href="favicon.ico">
+<link rel="shortcut icon" href="<%= strBase %>favicon.ico">
 <!-- 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114-precomposed.png">
