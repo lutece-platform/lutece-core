@@ -36,9 +36,12 @@ package fr.paris.lutece.portal.service.datastore;
 import fr.paris.lutece.portal.business.datastore.DataEntity;
 import fr.paris.lutece.portal.business.datastore.DataEntityHome;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -48,6 +51,8 @@ public final class DatastoreService
 {
     public static final String VALUE_TRUE = "true";
     public static final String VALUE_FALSE = "false";
+    private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile( "#dskey\\{(.*?)\\}" );
+    private static final String VALUE_MISSING = "DS Value Missing";
     private static AbstractCacheableService _cache = new DatastoreCacheService(  );
 
     /**
@@ -150,4 +155,43 @@ public final class DatastoreService
 
         return list;
     }
+    
+    /**
+     * This method replace keys by their value into a given content 
+     * @param strSource The string that contains datastore keys
+     * @return The string with keys replaced
+     */
+    public static String replaceKeys( String strSource )
+    {
+        String result = strSource;
+
+        if ( strSource != null )
+        {
+            Matcher matcher = PATTERN_DATASTORE_KEY.matcher( strSource );
+
+            if ( matcher.find(  ) )
+            {
+                StringBuffer sb = new StringBuffer(  );
+
+                do
+                {
+                    String strKey = matcher.group( 1 );
+                    String strValue = DatastoreService.getDataValue( strKey , VALUE_MISSING );
+                    if( VALUE_MISSING.equals(strValue ))
+                    {
+                        AppLogService.error( "Datastore Key missing : " + strKey + " - Please fix to avoid performance issues.");
+                    }
+                    matcher.appendReplacement( sb, strValue );
+                }
+                while ( matcher.find(  ) );
+
+                matcher.appendTail( sb );
+                result = sb.toString(  );
+            }
+        }
+
+        return result;
+    }
+
+
 }

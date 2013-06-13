@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.template;
 
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -164,7 +165,7 @@ public final class AppTemplateService
      */
     public static HtmlTemplate getTemplate( String strTemplate, Locale locale, Object model )
     {
-        HtmlTemplate template = null;
+        HtmlTemplate template;
 
         // Load the template from the file
         template = getTemplate( strTemplate, _strTemplateDefaultPath, locale, model );
@@ -184,7 +185,7 @@ public final class AppTemplateService
      */
     public static HtmlTemplate getTemplate( String strTemplate, String strPath, Locale locale, Object model )
     {
-        HtmlTemplate template = null;
+        HtmlTemplate template;
 
         // Load the template from the file
         template = loadTemplate( strPath, strTemplate, locale, model );
@@ -206,7 +207,7 @@ public final class AppTemplateService
     @Deprecated
     public static HtmlTemplate getTemplateFromStringFtl( String strFreemarkerTemplateData, Locale locale, Object model )
     {
-        HtmlTemplate template = null;
+        HtmlTemplate template;
         //    	 Load the template from the file
         template = loadTemplate( strFreemarkerTemplateData, locale, model );
 
@@ -223,7 +224,7 @@ public final class AppTemplateService
      */
     private static HtmlTemplate loadTemplate( String strPath, String strTemplate, Locale locale, Object model )
     {
-        HtmlTemplate template = null;
+        HtmlTemplate template;
         template = getFreeMarkerTemplateService(  ).loadTemplate( strPath, strTemplate, locale, model );
 
         if ( locale != null )
@@ -231,6 +232,8 @@ public final class AppTemplateService
             String strLocalized = I18nService.localize( template.getHtml(  ), locale );
             template = new HtmlTemplate( strLocalized );
         }
+        
+        template = new HtmlTemplate( DatastoreService.replaceKeys( template.getHtml() ));
 
         return template;
     }
@@ -249,7 +252,7 @@ public final class AppTemplateService
     @Deprecated
     private static HtmlTemplate loadTemplate( String strTemplateData, Locale locale, Object model )
     {
-        HtmlTemplate template = null;
+        HtmlTemplate template;
         template = getFreeMarkerTemplateService(  ).loadTemplate( strTemplateData, locale, model );
 
         if ( locale != null )
