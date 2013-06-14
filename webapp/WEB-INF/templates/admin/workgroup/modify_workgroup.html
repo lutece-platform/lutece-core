@@ -3,17 +3,17 @@
         <fieldset>
             <legend>#i18n{portal.workgroup.modify_workgroup.titleModificationForm}</legend>
             <form class="form-horizontal" method="post" action="jsp/admin/workgroup/DoModifyWorkgroup.jsp" >
-                <input type="hidden" name="old_workgroup_key" value="${workgroup.key}" />
+                <input type="hidden" name="workgroup_key" value="${workgroup.key}" />
                 <div class="control-group">
-                    <label class="control-label" for="workgroup_key">#i18n{portal.workgroup.create_workgroup.labelKey} * :</label>
+                    <label class="control-label" for="workgroup_key">#i18n{portal.workgroup.create_workgroup.labelKey} * </label>
                     <div class="controls">
-                        <input disabled="disabled" type="text" id="workgroup_key" name="workgroup_key" value="${workgroup.key}" maxlength="50" />
+                        <input disabled="disabled" type="text" id="workgroup_key" name="old_workgroup_key" value="${workgroup.key}" maxlength="50" >
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="workgroup_description">#i18n{portal.workgroup.modify_workgroup.labelDescription} * :</label>
+                    <label class="control-label" for="workgroup_description">#i18n{portal.workgroup.modify_workgroup.labelDescription} *</label>
                     <div class="controls">
-                        <input type="text" id="workgroup_description" name="workgroup_description" value="${workgroup.description}" maxlength="250" />
+						<input type="text" id="workgroup_description" name="workgroup_description" value="${workgroup.description}" maxlength="250">
                     </div>
                 </div>
                 <div class="form-actions">

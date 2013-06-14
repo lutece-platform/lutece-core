@@ -38,4 +38,9 @@ body {padding-top: 60px;padding-bottom: 40px;}
 <link rel="stylesheet" href="css/admin/portal_admin.css" />
 </head>
 <body>
-<button type="button" class="btn btn-remove-circle pull-right" onclick="javascript:window.history.back();" title="Retour"><i class="icon-remove-circle"></i>&nbsp;Retour</button>
+<div class="row">    
+	<div class="span12"> 
+	<button type="button" class="btn pull-right" onclick="javascript:window.history.back();" title="<%= I18nService.getLocalizedString( "portal.util.labelBack" , AdminUserService.getLocale( request )) %>">
+		<i class="icon-remove-circle"></i>&nbsp;<%= I18nService.getLocalizedString( "portal.util.labelBack" , AdminUserService.getLocale( request )) %></button>
+	</div>
+</div>
