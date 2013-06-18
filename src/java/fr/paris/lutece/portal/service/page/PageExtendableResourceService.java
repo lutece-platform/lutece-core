@@ -38,10 +38,13 @@ import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
-
-import org.apache.commons.lang.StringUtils;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.Locale;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -94,5 +97,16 @@ public class PageExtendableResourceService implements IExtendableResourceService
     public String getResourceTypeDescription( Locale locale )
     {
         return I18nService.getLocalizedString( MESSAGE_RESOURCE_TYPE_DESCRIPTION, locale );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getResourceUrl( String strIdResource, String strResourceType )
+    {
+        UrlItem url = new UrlItem( AppPathService.getPortalUrl( ) );
+        url.addParameter( Parameters.PAGE_ID, strIdResource );
+        return url.getUrl( );
     }
 }

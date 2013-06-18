@@ -74,4 +74,13 @@ public interface IExtendableResourceService
      * @return the description of the resource type.
      */
     String getResourceTypeDescription( Locale locale );
+
+    /**
+     * Get the main URL to access a resource
+     * @param strIdResource The id of the resource
+     * @param strResourceType The type of a resource
+     * @return The main URL to access a resource, or null if the resource has no
+     *         main URL
+     */
+    String getResourceUrl( String strIdResource, String strResourceType );
 }

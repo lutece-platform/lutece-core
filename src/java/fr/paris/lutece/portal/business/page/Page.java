@@ -34,12 +34,12 @@
 package fr.paris.lutece.portal.business.page;
 
 import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.rbac.RBACResource;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.security.SecurityService;
 
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -520,7 +520,7 @@ public class Page implements RBACResource, IExtendableResource
     @Override
     public String getExtendableResourceName(  )
     {
-        return _strName;
+        return _nId == 1 ? PortalService.getSiteName( ) : _strName;
     }
 
     /**

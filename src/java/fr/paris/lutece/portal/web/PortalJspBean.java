@@ -33,13 +33,21 @@
  */
 package fr.paris.lutece.portal.web;
 
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.content.ContentPostProcessorService;
 import fr.paris.lutece.portal.service.content.ContentService;
+import fr.paris.lutece.portal.service.editor.EditorBbcodeService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.init.AppInfo;
 import fr.paris.lutece.portal.service.init.AppInit;
+import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.ISiteMessageHandler;
+import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.resource.IExtendableResource;
+import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
@@ -48,14 +56,19 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
+import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -68,15 +81,39 @@ public class PortalJspBean
     private static final String TEMPLATE_POPUP_CREDITS = "skin/site/popup_credits.html";
     private static final String TEMPLATE_POPUP_LEGAL_INFO = "skin/site/popup_legal_info.html";
     private static final String TEMPLATE_STARTUP_FAILURE = "skin/site/startup_failure.html";
+    private static final String TEMPLATE_SEND_RESOURCE = "skin/site/popup_send_resource.html";
+    private static final String TEMPLATE_EMAIL_SEND_RESOURCE = "skin/site/mail_send_resource.html";
+
+    private static final String PROPERTY_INFOS_CNIL = "lutece.legal.infos";
+
+    private static final String ATTRIBUTE_LOGIN_NEXT_URL = "luteceLoginNextUrl";
+    private static final String ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL = "uploadFilterSiteNextUrl";
+
     private static final String MARK_PORTAL_DOMAIN = "portal_domain";
     private static final String MARK_ADDRESS_INFOS_CNIL = "confidentiality_info";
     private static final String MARK_APP_VERSION = "app_version";
-    private static final String PROPERTY_INFOS_CNIL = "lutece.legal.infos";
-    private static final String ATTRIBUTE_LOGIN_NEXT_URL = "luteceLoginNextUrl";
-    private static final String ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL = "uploadFilterSiteNextUrl";
     private static final String MARK_FAILURE_MESSAGE = "failure_message";
     private static final String MARK_FAILURE_DETAILS = "failure_details";
+    private static final String MARK_RESOURCE_URL = "resource_url";
+    private static final String MARK_RESOURCE = "resource";
+    private static final String MARK_ERROR = "error";
+    private static final String MARK_SUCCESS = "success";
+
     private static final String BEAN_SITE_MESSAGE_HANDLER = "siteMessageHandler";
+
+    private static final String PARAMETER_EXTENDABLE_RESOURCE_TYPE = "extendableResourceType";
+    private static final String PARAMETER_ID_EXTENDABLE_RESOURCE = "idExtendableResource";
+    private static final String PARAMETER_SENDER_NAME = "senderName";
+    private static final String PARAMETER_SENDER_FIRST_NAME = "senderFirstname";
+    private static final String PARAMETER_SENDER_EMAIL = "senderEmail";
+    private static final String PARAMETER_CONTENT = "content";
+    private static final String PARAMETER_SEND = "send";
+
+    private static final String MESSAGE_ERROR_WRONG_SENDER_EMAIL = "portal.site.error.wrongEmailFormat";
+    private static final String MESSAGE_ERROR_MANDATORY_FIELDS = "portal.util.message.mandatoryFields";
+    private static final String MESSAGE_NO_RESOURCE_FOUND = "portal.site.error.noResourceFound";
+
+    private static final String CONSTANT_SPACE = " ";
 
     /**
      * Returns the content of a page according to the parameters found in the http request. One distinguishes article,
@@ -162,7 +199,6 @@ public class PortalJspBean
      * page and xpage and the mode.
      *
      * @param request The http request
-     * @param nMode The mode (normal or administration)
      * @return the html code for the display of a page of a site
      *
      */
@@ -335,6 +371,135 @@ public class PortalJspBean
     {
         HttpSession session = request.getSession(  );
         session.removeAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL );
+    }
+    
+
+    //    /**
+    //     * Get the send resource page
+    //     * @param request The request
+    //     * @return The html content to display
+    //     */
+    //    public static String getSendResource( HttpServletRequest request )
+    //    {
+    //        String strExtendableResourceType = request.getParameter( PARAMETER_EXTENDABLE_RESOURCE_TYPE );
+    //        String strIdExtendableResource = request.getParameter( PARAMETER_ID_EXTENDABLE_RESOURCE );
+    //        IExtendableResource resource = null;
+    //
+    //        List<IExtendableResourceService> listExtendableResourceService = SpringContextService.getBeansOfType( IExtendableResourceService.class );
+    //        for ( IExtendableResourceService extendableResourceService : listExtendableResourceService )
+    //        {
+    //            if ( extendableResourceService.isInvoked( strExtendableResourceType ) )
+    //            {
+    //                resource = extendableResourceService.getResource( strIdExtendableResource, strExtendableResourceType );
+    //            }
+    //        }
+    //        
+    //        Map<String, Object> model = new HashMap<String, Object>( );
+    //        model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
+    //        model.put( MARK_RESOURCE, resource );
+    //        model.put( Markers.PAGE_MAIN_MENU, StringUtils.EMPTY );
+    //        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_SEND_RESOURCE, request.getLocale( ), model );
+    //        return template.getHtml( );
+    //    }
+
+    /**
+     * Do send a resource
+     * @param request The request
+     * @return The HTML content to display
+     * @throws SiteMessageException If the resource or its associated service is
+     *             not found
+     */
+    public static String sendResource( HttpServletRequest request ) throws SiteMessageException
+    {
+        String strSenderEmail = request.getParameter( PARAMETER_SENDER_EMAIL );
+        String strSenderName = request.getParameter( PARAMETER_SENDER_NAME );
+        String strSenderFirstName = request.getParameter( PARAMETER_SENDER_FIRST_NAME );
+        String strReceipientEmail = request.getParameter( Parameters.EMAIL );
+        String strContent = request.getParameter( PARAMETER_CONTENT );
+        String strExtendableResourceType = request.getParameter( PARAMETER_EXTENDABLE_RESOURCE_TYPE );
+        String strIdExtendableResource = request.getParameter( PARAMETER_ID_EXTENDABLE_RESOURCE );
+        String strSend = request.getParameter( PARAMETER_SEND );
+        IExtendableResource resource = null;
+
+        String strError = null;
+
+        // If the form was submited, we check data
+        if ( strSend != null )
+        {
+            if ( StringUtils.isEmpty( strSenderEmail ) || StringUtils.isEmpty( strSenderName )
+                    || StringUtils.isEmpty( strSenderFirstName ) || StringUtils.isEmpty( strReceipientEmail )
+                    || StringUtils.isEmpty( strContent ) )
+            {
+                strError = I18nService.getLocalizedString( MESSAGE_ERROR_MANDATORY_FIELDS, request.getLocale( ) );
+            }
+
+            if ( strError != null
+                    && ( !AdminUserService.checkEmail( strSenderEmail ) || !AdminUserService
+                            .checkEmail( strReceipientEmail ) ) )
+            {
+                strError = I18nService.getLocalizedString( MESSAGE_ERROR_WRONG_SENDER_EMAIL, request.getLocale( ) );
+            }
+        }
+        // We get the resource from its resource service
+        IExtendableResourceService resourceService = null;
+        List<IExtendableResourceService> listExtendableResourceService = SpringContextService
+                .getBeansOfType( IExtendableResourceService.class );
+        for ( IExtendableResourceService extendableResourceService : listExtendableResourceService )
+        {
+            if ( extendableResourceService.isInvoked( strExtendableResourceType ) )
+            {
+                resourceService = extendableResourceService;
+                resource = extendableResourceService.getResource( strIdExtendableResource, strExtendableResourceType );
+            }
+        }
+        if ( resourceService == null || resource == null )
+        {
+            SiteMessageService.setMessage( request, MESSAGE_NO_RESOURCE_FOUND, SiteMessage.TYPE_ERROR );
+            throw new SiteMessageException( );
+        }
+
+        listExtendableResourceService = null;
+
+        String strResourceUrl = resourceService.getResourceUrl( strIdExtendableResource, strExtendableResourceType );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_RESOURCE, resource );
+        model.put( MARK_RESOURCE_URL, strResourceUrl );
+        model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
+
+        if ( strSend != null && strError == null )
+        {
+            Map<String, Object> mailModel = new HashMap<String, Object>( );
+            mailModel.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
+            mailModel.put( MARK_RESOURCE, resource );
+            mailModel.put( PARAMETER_SENDER_EMAIL, strSenderEmail );
+            mailModel.put( PARAMETER_SENDER_NAME, strSenderName );
+            mailModel.put( PARAMETER_SENDER_FIRST_NAME, strSenderFirstName );
+            mailModel.put( Parameters.EMAIL, strReceipientEmail );
+            mailModel.put( PARAMETER_CONTENT, EditorBbcodeService.getInstance( ).parse( strContent ) );
+            mailModel.put( MARK_ERROR, strError );
+            mailModel.put( MARK_RESOURCE_URL,
+                    resourceService.getResourceUrl( strIdExtendableResource, strExtendableResourceType ) );
+            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EMAIL_SEND_RESOURCE, request.getLocale( ),
+                    mailModel );
+            MailService.sendMailHtml( strReceipientEmail, strSenderFirstName + CONSTANT_SPACE + strSenderName,
+                    strSenderEmail, resource.getExtendableResourceName( ), template.getHtml( ) );
+            model.put( MARK_SUCCESS, MARK_SUCCESS );
+        }
+        else
+        {
+            model.put( PARAMETER_SENDER_EMAIL, strSenderEmail );
+            model.put( PARAMETER_SENDER_NAME, strSenderName );
+            model.put( PARAMETER_SENDER_FIRST_NAME, strSenderFirstName );
+            model.put( Parameters.EMAIL, strReceipientEmail );
+            model.put( PARAMETER_CONTENT, strContent );
+            model.put( MARK_ERROR, strError );
+        }
+
+        model.put( Markers.PAGE_MAIN_MENU, StringUtils.EMPTY );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_SEND_RESOURCE, request.getLocale( ), model );
+
+        return template.getHtml( );
     }
   
 }

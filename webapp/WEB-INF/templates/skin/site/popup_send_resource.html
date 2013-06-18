@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<base href="${base_url}" />
+		<title>#i18n{portal.site.popup_send_resource.title}</title>
+		<meta http-equiv="Content-Type" content="text/html"/>
+		<meta http-equiv="Content-Language" content="fr"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- Le styles -->
+		<link href="css/bootstrap.min.css" rel="stylesheet"/>
+		<link rel="stylesheet" href="css/page_template_styles.css" type="text/css" media="screen, projection"/>
+		<link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
+		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<!-- Le fav and touch icons -->
+		<link rel="shortcut icon" href="${base_url}favicon.ico">
+		<script src="js/jquery/jquery.min.js"></script>
+	</head>
+	<body>
+		<#include "page_header_home.html" />
+		<div class="container-fluid">
+			<div class="row-fluid">
+			   	<form class="form form-inline" action="jsp/site/SendResource.jsp" method="post">
+			   		<fieldset>
+			   			<legend>#i18n{portal.site.popup_send_resource.title}</legend>
+			   			<#if error?? && error != "">
+			   				<div class="span11 alert alert-error">
+			   					${error}
+			   					<button type="button" class="close" data-dismiss="alert">&times;</button>
+			   				</div>
+			   			</#if>
+			   			<#if success??>
+			   				<div class="span11 alert alert-success">
+			   					#i18n{portal.site.popup_send_resource.labelSent}
+			   					<button type="button" class="close" data-dismiss="alert">&times;</button>
+			   				</div>
+			   			</#if>
+						<div class="span4 well">
+							<div class="control-group">
+								<label class="control-label" for="senderEmail">#i18n{portal.site.popup_send_resource.senderEmail} *:</label>
+								<br />
+								<input type="text" name="senderEmail" id="senderEmail" value="${senderEmail!}" >
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="senderName">#i18n{portal.site.popup_send_resource.senderName} *:</label>
+								<br />
+								<input type="text" name="senderName" id="senderName" value="${senderName!}" >
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="senderFirstname">#i18n{portal.site.popup_send_resource.senderFirstname} *:</label>
+								<br />
+								<input type="text" name="senderFirstname" id="senderFirstname" value="${senderFirstname!}" >
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="email">#i18n{portal.site.popup_send_resource.email} *:</label>
+								<br />
+								<input type="text" name="email" id="email" value="${email!}" >
+							</div>
+						</div>
+						<div class="span7">
+							<div class="control-group">
+								<label class="control-label" for="content">#i18n{portal.site.popup_send_resource.content} *:</label>
+								<textarea class="span richtext" rows="20" name="content" id="content">${content!}</textarea>
+							</div>
+							<#if resource??>
+								<div>
+									<legend><#if resource_url?? && resource_url != ""><a href="${base_url}${resource_url}"></#if>${resource.extendableResourceName}<#if resource_url?? && resource_url != ""></a></#if></legend>
+									<#if resource.extendableResourceImageUrl?? && resource.extendableResourceImageUrl != "">
+										<#if resource_url?? && resource_url != "">
+											<a href="${base_url}${resource_url}">
+										</#if>
+										<img src="${resource.extendableResourceImageUrl}" alt="${resource.extendableResourceName}" title="${resource.extendableResourceName}" />
+										<#if resource_url?? && resource_url != "">
+											</a>
+										</#if>
+									</#if>
+									<p>${resource.extendableResourceDescription}</p>
+								</div>
+							</#if>
+						</div>
+						<div class="span11">
+							<div class="form-actions">
+								<input type="hidden" name="extendableResourceType" value="${resource.extendableResourceType}" >
+								<input type="hidden" name="idExtendableResource" value="${resource.idExtendableResource}" >
+								<button class="btn btn-primary btn-small" name="send" value="send">
+									<i class="icon-envelope icon-white">&nbsp;</i>&nbsp;#i18n{portal.site.popup_send_resource.sendResource}
+								</button>
+								<a class="btn btn-small" href="javascript:window.close();">
+									<i class="icon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.site.popup_send_resource.close}
+								</a>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		<#include "/util/editor/editor.html" />
+		<@initEditor />
+		<#include "portal_footer.html" />
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/tools.js"></script>
+	</body>
+</html>
