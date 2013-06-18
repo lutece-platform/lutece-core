@@ -1,15 +1,16 @@
 <div class="row-fluid">
     <div class="span12">
-		<fieldset>
+		<form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp" class="form-inline pull-right">
+			<fieldset>
 			<legend>
-				<form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp" class="form-inline pull-right">
 					<label for="plugin_type" class="select">#i18n{portal.system.manage_plugins.labelComboFilter}</label>
 					<@comboSorted name="plugin_type" default_value="${current_filter}" items=filter_list />
 					<button type="submit" class="btn btn-primary btn-small">
 						<i class="icon-filter icon-white"></i>&nbsp;#i18n{portal.system.manage_plugins.buttonFilter}
 					</button>
-				</form>
 			</legend>
+	</fieldset>
+			</form>
 			<#if plugins_list?has_content >
 			<table class="table table-condensed table-striped">
             <tr>
@@ -85,7 +86,6 @@
 		<#else>
 			<div class="alert alert-error">#i18n{portal.system.manage_plugins.filterNoResult}</div>
 		</#if>
-		</fieldset>
 	</div>
 </div>
 
