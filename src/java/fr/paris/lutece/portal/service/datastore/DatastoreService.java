@@ -193,5 +193,26 @@ public final class DatastoreService
         return result;
     }
 
+    /**
+     * Check if a key is available in the datastore
+     * @param strKey The key
+     * @return True if the key is found otherwise false
+     */
+    public static boolean existsKey(String strKey)
+    {
+        DataEntity entity = (DataEntity) _cache.getFromCache( strKey );
+
+        if ( entity == null )
+        {
+            entity = DataEntityHome.findByPrimaryKey( strKey );
+
+            if ( entity == null )
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 }

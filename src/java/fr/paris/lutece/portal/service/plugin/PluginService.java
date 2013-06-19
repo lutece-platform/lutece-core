@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.plugin;
 
 import fr.paris.lutece.portal.service.database.AppConnectionService;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -41,7 +42,6 @@ import fr.paris.lutece.util.filesystem.FileListFilter;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 
 import java.util.ArrayList;
@@ -68,10 +68,10 @@ public final class PluginService
     private static final String EXTENSION_FILE = "xml";
     private static final String PROPERTY_IS_INSTALLED = ".installed";
     private static final String PROPERTY_DB_POOL_NAME = ".pool";
+    private static final String KEY_PLUGINS_STATUS = "core.plugins.status.";
 
     // Variables
     private static Map<String, Plugin> _mapPlugins = new HashMap<String, Plugin>(  );
-    private static Properties _propPluginsStatus = new Properties(  );
     private static List<PluginEventListener> _listPluginEventListeners = new ArrayList<PluginEventListener>(  );
 
     /**
@@ -91,7 +91,6 @@ public final class PluginService
         _mapPlugins.clear(  );
         loadCoreComponents(  );
         loadPlugins(  );
-        storePluginsStatus(  );
     }
 
     /**
@@ -125,7 +124,7 @@ public final class PluginService
     {
         File file = new File( AppPathService.getPath( PATH_CONF, CORE_XML ) );
 
-        if ( ( file != null ) && ( file.exists(  ) ) )
+        if ( file.exists(  ) )
         {
             loadPluginFromFile( file, false );
         }
@@ -139,7 +138,7 @@ public final class PluginService
     {
         File dirPlugin = new File( AppPathService.getPath( PATH_PLUGIN ) );
 
-        if ( ( dirPlugin != null ) && dirPlugin.exists(  ) )
+        if ( dirPlugin.exists(  ) )
         {
             FilenameFilter select = new FileListFilter( "", EXTENSION_FILE );
             File[] listFile = dirPlugin.listFiles( select );
@@ -246,40 +245,33 @@ public final class PluginService
      */
     public static void updatePluginData( Plugin plugin )
     {
-        String strKeyInstalled = plugin.getName(  ) + PROPERTY_IS_INSTALLED;
-        _propPluginsStatus.setProperty( strKeyInstalled, ( plugin.isInstalled(  ) ) ? "1" : "0" );
-
-        if ( plugin.isDbPoolRequired(  ) )
+        String strKey = getInstalledKey(plugin.getName());
+        String strValue = plugin.isInstalled() ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE;
+        DatastoreService.setDataValue(strKey, strValue);
+        if (plugin.isDbPoolRequired())
         {
-            String strKeyPool = plugin.getName(  ) + PROPERTY_DB_POOL_NAME;
-            _propPluginsStatus.setProperty( strKeyPool, plugin.getDbPoolName(  ) );
+            DatastoreService.setDataValue(getPoolNameKey(plugin.getName()), plugin.getDbPoolName());
         }
-
-        storePluginsStatus(  );
     }
 
     /**
-     * Stores the plugins info
+     * Build the datastore key for a given plugin
+     * @param strPluginName The plugin name
+     * @return The key
      */
-    private static void storePluginsStatus(  )
+    private static String getInstalledKey( String strPluginName )
     {
-        for ( Plugin plugin : getPluginList(  ) )
-        {
-            _propPluginsStatus.setProperty( plugin.getName(  ) + PROPERTY_IS_INSTALLED,
-                plugin.isInstalled(  ) ? "1" : "0" );
-        }
-
-        try
-        {
-            String strPluginStatusFile = AppPathService.getPath( PATH_PLUGIN, FILE_PLUGINS_STATUS );
-            File file = new File( strPluginStatusFile );
-            FileOutputStream fos = new FileOutputStream( file );
-            _propPluginsStatus.store( fos, "Plugins status file" );
-        }
-        catch ( Exception e )
-        {
-            AppLogService.error( "Error storing plugins status file : " + e.getMessage(  ), e );
-        }
+        return KEY_PLUGINS_STATUS + strPluginName + PROPERTY_IS_INSTALLED;
+    }
+    
+    /**
+     * Build the datastore key for a given plugin
+     * @param strPluginName The plugin name
+     * @return The key
+     */
+    private static String getPoolNameKey( String strPluginName )
+    {
+        return KEY_PLUGINS_STATUS + strPluginName + PROPERTY_DB_POOL_NAME;
     }
 
     /**
@@ -287,18 +279,49 @@ public final class PluginService
      */
     private static void loadPluginsStatus(  )
     {
+        // Load default values from the plugins.dat file
         String strPluginStatusFile = AppPathService.getPath( PATH_PLUGIN, FILE_PLUGINS_STATUS );
         File file = new File( strPluginStatusFile );
-
+        Properties props = new Properties();
         try
         {
             FileInputStream fis = new FileInputStream( file );
-            _propPluginsStatus.load( fis );
+            props.load( fis );
         }
         catch ( Exception e )
         {
             AppLogService.error( "Error loading plugin defined in file : " + file.getAbsolutePath(  ), e );
         }
+        
+        // If the keys aren't found in the datastore then create a key in it
+        for( String strKey : props.stringPropertyNames() )
+        {
+            // Initialize plugins status into Datastore
+            int nPos = strKey.indexOf( PROPERTY_IS_INSTALLED );
+            if( nPos > 0 )
+            {
+                String strPluginName = strKey.substring( 0 ,  nPos );
+                String strDSKey = getInstalledKey(strPluginName);
+                if( ! DatastoreService.existsKey( strDSKey ))
+                {
+                    String strValue = props.getProperty(strKey).equals("1") ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE;
+                    DatastoreService.setDataValue( strDSKey , strValue );
+                }
+            }    
+            // Initialize plugins connection pool into Datastore
+            nPos = strKey.indexOf( PROPERTY_DB_POOL_NAME );
+            if( nPos > 0 )
+            {
+                String strPluginName = strKey.substring( 0 ,  nPos );
+                String strDSKey = getPoolNameKey(strPluginName);
+                if( ! DatastoreService.existsKey( strDSKey ))
+                {
+                    String strValue = props.getProperty(strKey);
+                    DatastoreService.setDataValue( strDSKey , strValue );
+                }
+            }    
+            
+        }    
     }
 
     /**
@@ -309,9 +332,8 @@ public final class PluginService
      */
     private static boolean getPluginStatus( Plugin plugin )
     {
-        String strStatus = _propPluginsStatus.getProperty( plugin.getName(  ) + PROPERTY_IS_INSTALLED, "0" );
-
-        return ( strStatus.equals( "1" ) ? true : false );
+        String strValue = DatastoreService.getDataValue( getInstalledKey( plugin.getName() ) , DatastoreService.VALUE_FALSE );
+        return strValue.equals(DatastoreService.VALUE_TRUE);
     }
 
     /**
@@ -322,10 +344,7 @@ public final class PluginService
      */
     private static String getPluginPoolName( Plugin plugin )
     {
-        String strPoolName = _propPluginsStatus.getProperty( plugin.getName(  ) + PROPERTY_DB_POOL_NAME,
-                AppConnectionService.NO_POOL_DEFINED );
-
-        return strPoolName;
+        return DatastoreService.getDataValue( getPoolNameKey( plugin.getName()),AppConnectionService.NO_POOL_DEFINED );
     }
 
     /**
