@@ -1,43 +1,61 @@
-<div class="well">
-    <h2>#i18n{portal.users.create_attribute.pageTitleAttributeImage}</h2>
-    <form action="jsp/admin/user/attribute/DoCreateAttribute.jsp" method="post" name="" id=""  >
+<form class="form-horizontal" action="jsp/admin/user/attribute/DoCreateAttribute.jsp" method="post" name="" id=""  >
+	<fieldset>
+		<legend>#i18n{portal.users.create_attribute.pageTitleAttributeImage}</legend>
         <input name="attribute_type_class_name" value="${attribute_type.className}" type="hidden" /> 
-        <p>
-            <label for="title">#i18n{portal.users.create_attribute.labelTitle} * : </label>
-            <input type="text" name="title" id="title" size="80" value=""  maxlength="255" />
-            <br/>
-            <label>&nbsp;</label>#i18n{portal.users.create_attribute.labelTitleComment}
-        </p>
-        <p>
-            <label for="help_message"> #i18n{portal.users.create_attribute.labelHelpMessage} : </label>
-            <textarea  name="help_message" id="help_message"  cols="80" rows="5"></textarea>
-            <br/>
-            <label>&nbsp;</label> #i18n{portal.users.create_attribute.labelHelpMessageComment}
-        </p>
-        <p>
-            <label for="">#i18n{portal.users.create_attribute.labelType} : </label>
-            ${attribute_type.name}
-        </p>
-        <p>
-            <label for="is_shown_in_result_list">#i18n{portal.users.create_attribute.labelIsShownInResultList} : </label>
-            <input name="is_shown_in_result_list" value="1" type="checkbox" />
-        </p>
-        <p>
-            <label for="mandatory">#i18n{portal.users.create_attribute.labelMandatory} : </label>
-            <input name="mandatory" value="1" type="checkbox" />
-        </p>
-        <p>
-            <label for="width">#i18n{portal.users.create_attribute.labelWidth} : </label>
-            <input type="text" name="width" id="width" size="5" value="50" />
-        </p>
-        <p>
-            <label for="height">#i18n{portal.users.create_attribute.labelHeight} : </label>
-            <input type="text" name="height" id="height" size="5" value="50" />
-        </p>
-        <p>
-            <input type="submit" name="validate" value="#i18n{portal.users.create_attribute.buttonValidate}" class="button"/>
-            <input type="submit" name="apply" value="#i18n{portal.users.create_attribute.buttonApply}" class="button" />
-            <input type="submit" name="cancel" value="#i18n{portal.admin.message.buttonCancel}" class="button"/>
-        </p>
-    </form>
-</div>
+        <div class="control-group">
+            <label class="control-label" for="title">#i18n{portal.users.create_attribute.labelTitle} * : </label>
+            <div class="controls">
+				<input type="text" name="title" id="title" size="80" value=""  maxlength="255" />
+            	<span class="help-block">#i18n{portal.users.create_attribute.labelTitleComment}</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="help_message"> #i18n{portal.users.create_attribute.labelHelpMessage} : </label>
+            <div class="controls">
+				<textarea  name="help_message" id="help_message"  cols="80" rows="5"></textarea>
+				<span class="help-block">#i18n{portal.users.create_attribute.labelHelpMessageComment}</span>
+			</div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="">#i18n{portal.users.create_attribute.labelType} : </label>
+            <div class="controls">
+				${attribute_type.name}
+			</div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="is_shown_in_result_list">#i18n{portal.users.create_attribute.labelIsShownInResultList} : </label>
+            <div class="controls">
+				<input name="is_shown_in_result_list" value="1" type="checkbox" />
+			</div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="mandatory">#i18n{portal.users.create_attribute.labelMandatory} : </label>
+            <div class="controls">
+				<input name="mandatory" value="1" type="checkbox" />
+			</div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="width">#i18n{portal.users.create_attribute.labelWidth} : </label>
+            <div class="controls">
+				<input type="text" name="width" id="width" size="5" value="50" />
+			</div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="height">#i18n{portal.users.create_attribute.labelHeight} : </label>
+            <div class="controls">
+				<input type="text" name="height" id="height" size="5" value="50" />
+			</div>
+        </div>
+        <div class="form-actions">
+            <button class="btn btn-primary btn-small" type="submit" name="save" value="save" >
+				<i class="icon-ok icon-white">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonValidate}
+			</button>
+			<button class="btn btn-primary btn-small" type="submit" name="apply" value="apply" >
+				<i class="icon-ok-circle icon-white">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonApply}
+			</button>
+			<button class="btn btn-small" type="submit" name="cancel" value="cancel" >
+				<i class="icon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+			</button>
+        </div>
+	</fieldset>
+</form>

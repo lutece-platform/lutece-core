@@ -1,8 +1,8 @@
 <div class="row-fluid">
     <div class="container">
-        <fieldset>
-            <legend>#i18n{portal.users.create_attribute_field.pageTitle} :'${attribute.title}'</legend>
-            <form class="form-horizontal" action="jsp/admin/user/attribute/DoCreateAttributeField.jsp#list" method="post" name="" id="" >
+        <form class="form-horizontal" action="jsp/admin/user/attribute/DoCreateAttributeField.jsp#list" method="post" name="" id="" >
+            <fieldset>
+            	<legend>#i18n{portal.users.create_attribute_field.pageTitle} :'${attribute.title}'</legend>
                 <div class="control-group">
                     <label class="control-label" for="title">#i18n{portal.users.create_attribute_field.labelTitle} * :  </label>
                     <div class="controls">
@@ -26,7 +26,7 @@
                 <input type="hidden" value="${attribute.idAttribute}" name="id_attribute" />
                 <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.users.create_attribute_field.buttonSave}</button>
                 <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.admin.message.buttonCancel}</button>
-            </form>
-        </fieldset>
+        	</fieldset>
+        </form>
     </div>
 </div>
