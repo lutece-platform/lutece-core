@@ -1,72 +1,89 @@
-<div class="well">
-    <h2>#i18n{portal.users.modify_attribute.pageTitleAttributeComboBox}</h2>
-    <form action="jsp/admin/user/attribute/DoModifyAttribute.jsp" method="post" />
-    <p>
-        <label for="title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
-        <input type="text" name="title" id="title" size="80" value="${attribute.title}"  maxlength="255" />
-        <br/>
-        <label>&nbsp;</label>#i18n{portal.users.modify_attribute.labelTitleComment}
-    </p>
-    <p>
-        <label for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage} : </label>
-        <textarea  name="help_message" id="help_message"  cols="80" rows="5">${attribute.helpMessage}</textarea>
-        <br/>
-        <label>&nbsp;</label> #i18n{portal.users.modify_attribute.labelHelpMessageComment}
-    </p>
-    <p>
-        <label for="">#i18n{portal.users.modify_attribute.labelType} : </label>
-        ${attribute.attributeType.name}
-    </p>
-    <p>
-        <label for="is_shown_in_search">#i18n{portal.users.modify_attribute.labelIsShownInSearch} : </label>
-        <#if attribute.shownInSearch = false>
-        <input name="is_shown_in_search" value="1" type="checkbox" />
-        <#else>
-        <input name="is_shown_in_search" value="1" type="checkbox" checked="checked" />
-        </#if>
-    </p>
-    <p>
-        <label for="is_shown_in_result_list">#i18n{portal.users.modify_attribute.labelIsShownInResultList} : </label>
-        <#if attribute.shownInResultList = false>
-        <input name="is_shown_in_result_list" value="1" type="checkbox" />
-        <#else>
-        <input name="is_shown_in_result_list" value="1" type="checkbox" checked="checked" />
-        </#if>
-    </p>
-    <p>
-        <label for="mandatory">#i18n{portal.users.modify_attribute.labelMandatory} : </label>
-        <#if attribute.mandatory = false>
-        <input name="mandatory" value="1" type="checkbox" />
-        <#else>
-        <input name="mandatory" value="1" type="checkbox" checked="checked" />
-        </#if>
-    </p>
-    <p>
-        <label for="multiple">#i18n{portal.users.create_attribute.labelMultiple} : </label>
-        <#list attribute_fields_list as attribute_field>
-        <#if attribute_field.multiple = false>
-        <input name="multiple" value="1" type="checkbox" />
-        <#else>
-        <input name="multiple" value="1" type="checkbox" checked="checked" />
-        </#if>
-        <#break>
-        </#list>
-        <br/>
-        <label>&nbsp;</label>#i18n{portal.users.create_attribute.labelMultipleComment}
-    </p>
-    <p>
-        <input type="hidden" name="id_attribute" value="${attribute.idAttribute}" />
-        <input type="submit" name="validate" value="#i18n{portal.users.modify_attribute.buttonValidate}" class="button"/>
-        <input type="submit" name="apply" value="#i18n{portal.users.modify_attribute.buttonApply}" class="button" />
-        <input type="submit" name="cancel" value="#i18n{portal.admin.message.buttonCancel}" class="button"/>
-    </p>
+<form class="form-horizontal" action="jsp/admin/user/attribute/DoModifyAttribute.jsp" method="post" >
+	<fieldset>
+		<legend>#i18n{portal.users.modify_attribute.pageTitleAttributeComboBox}</legend>	
+	    <div class="control-group">
+	        <label class="control-label" for="title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
+	        <div class="controls">
+				<input type="text" name="title" id="title" size="80" value="${attribute.title}"  maxlength="255" />
+	        	<span class="help-block">#i18n{portal.users.modify_attribute.labelTitleComment}</span>
+	        </div>
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label" for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage} : </label>
+	        <div class="controls">
+				<textarea  name="help_message" id="help_message"  cols="80" rows="5">${attribute.helpMessage}</textarea>
+	        	<span class="help-block">#i18n{portal.users.modify_attribute.labelHelpMessageComment}</span>
+	        </div>
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label" for="">#i18n{portal.users.modify_attribute.labelType} : </label>
+	        <div class="controls">
+				${attribute.attributeType.name}
+			</div>
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label" for="is_shown_in_search">#i18n{portal.users.modify_attribute.labelIsShownInSearch} : </label>
+	        <div class="controls">
+				<#if attribute.shownInSearch = false>
+	        		<input name="is_shown_in_search" value="1" type="checkbox" />
+	        	<#else>
+	        		<input name="is_shown_in_search" value="1" type="checkbox" checked="checked" />
+	       		</#if>
+	       	</div>
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label" for="is_shown_in_result_list">#i18n{portal.users.modify_attribute.labelIsShownInResultList} : </label>
+	        <div class="controls">
+				<#if attribute.shownInResultList = false>
+	        		<input name="is_shown_in_result_list" value="1" type="checkbox" />
+	        	<#else>
+	        		<input name="is_shown_in_result_list" value="1" type="checkbox" checked="checked" />
+	        	</#if>
+	        </div>
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label" for="mandatory">#i18n{portal.users.modify_attribute.labelMandatory} : </label>
+	        <div class="controls">
+				<#if attribute.mandatory = false>
+	        		<input name="mandatory" value="1" type="checkbox" />
+	        	<#else>
+	        		<input name="mandatory" value="1" type="checkbox" checked="checked" />
+	        	</#if>
+	        </div>
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label" for="multiple">#i18n{portal.users.create_attribute.labelMultiple} : </label>
+	        <div class="controls">
+				<#list attribute_fields_list as attribute_field>
+	        		<#if attribute_field.multiple = false>
+	        	<input name="multiple" value="1" type="checkbox" />
+	        		<#else>
+	        	<input name="multiple" value="1" type="checkbox" checked="checked" />
+	        		</#if>
+	        		<#break>
+	        	</#list>
+	        	<span class="help-block">#i18n{portal.users.create_attribute.labelMultipleComment}</span>
+	        </div>
+	    </div>
+	    <div class="form-actions">
+	        <input type="hidden" name="id_attribute" value="${attribute.idAttribute}" />
+	        <button class="btn btn-primary btn-small" type="submit" name="validate" value="validate" >
+				<i class="icon-ok icon-white">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonValidate}
+			</button>
+			<button class="btn btn-primary btn-small" type="submit" name="apply" value="apply" >
+				<i class="icon-ok-circle icon-white">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonApply}
+			</button>
+			<button class="btn btn-small" type="submit" name="cancel" value="cancel" >
+				<i class="icon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+			</button>
+	    </div>
+	</fieldset>
 </form>
-</div>
 
 <div class="well">
-    <h2>#i18n{portal.users.modify_attribute.listAssociatedFields}</h2>
+    <legend>#i18n{portal.users.modify_attribute.listAssociatedFields}</legend>
     <a name="list" id="list"></a>
-    <table id="list">
+    <table class="table table-striped" id="list">
         <tr>
             <th>#i18n{portal.users.modify_attribute.columnLabelTitle}</th>
             <th>#i18n{portal.users.modify_attribute.columnLabelValue}</th>

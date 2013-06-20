@@ -1,26 +1,25 @@
-<p>
-	<label for="attribute_${attribute.idAttribute}">
+<div class="control-group">
+	<label class="control-label" for="attribute_${attribute.idAttribute}">
 		${attribute.title}
 		<#if attribute.mandatory>
 			*
 		</#if>
 		 : 
 	</label>
-	<#if default_values_list??>
-		<#assign file = default_values_list>
-		<img src="image?resource_type=core_attribute_img&id=${file.idFile}" height="40" /> 
-	<#else>
-		<input type="hidden" name="update_attribute_${attribute.idAttribute}" value="true" />
-	</#if>
-	<input type="file" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}"/>
-	<#if default_values_list??>
-		<br />
-		<label>&nbsp;</label>
-		#i18n{portal.users.attribute.labelUpdate} : <input class="checkbox" type="checkbox" name="update_attribute_${attribute.idAttribute}" />
-	</#if>
-	<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
-		<br />
-		<label>&nbsp;</label>
-		${attribute.helpMessage}
-	</#if>
-</p>
+	<div class="controls">
+		<#if default_values_list??>
+			<#assign file = default_values_list>
+			<img src="image?resource_type=core_attribute_img&id=${file.idFile}" height="40" /> 
+		<#else>
+			<input type="hidden" name="update_attribute_${attribute.idAttribute}" value="true" />
+		</#if>
+		<input type="file" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}"/>
+		<#if default_values_list??>
+			<br />
+			#i18n{portal.users.attribute.labelUpdate} : <input class="checkbox" type="checkbox" name="update_attribute_${attribute.idAttribute}" />
+		</#if>
+		<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
+			<span class="help-block">${attribute.helpMessage}</span>
+		</#if>
+	</div>
+</div>

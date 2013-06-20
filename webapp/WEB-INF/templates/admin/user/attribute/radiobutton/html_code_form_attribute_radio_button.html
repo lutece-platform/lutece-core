@@ -18,14 +18,15 @@
 	</#if>
 	<#return false>
 </#function>
-<p>
-	<label for="attribute_${attribute.idAttribute}">
+<div class="control-group">
+	<label class="control-label" for="attribute_${attribute.idAttribute}">
 		${attribute.title}
 	<#if attribute.mandatory>
 		*
 	</#if>
 		: 
 	</label>
+	<div class="controls">
 	<#if !attribute.mandatory>
 		<input type="radio" name="attribute_${attribute.idAttribute}" value="" 
 			<#if default_values_list?has_content && !hasElement( default_values_list )>
@@ -33,15 +34,18 @@
 			</#if>
 		/> #i18n{portal.users.attribute.labelNone}
 		<#if !attribute.fieldInLine>
-			<br />
+			</div>
+		</#if>
+	<#else>
+		<#if !attribute.fieldInLine>
+			</div>
 		</#if>
 	</#if>
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.title?exists && attributeField.value != "">
-			<#if !attribute.fieldInLine>
-				<#if ( attribute.mandatory && attributeField_index != 0 ) || !attribute.mandatory>
-					<label>&nbsp;</label>
-				</#if>
+		
+			<#if !attribute.fieldInLine >
+				<div class="controls">
 			</#if>
 			<input type="radio" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}" 
 				<#if ( attributeField.defaultValue && !default_values_list?has_content ) || ( default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) )>
@@ -49,15 +53,14 @@
 				</#if>
 			/> ${attributeField.title}
 			<#if !attribute.fieldInLine>
-				<br />
+				</div>
 			</#if>
 		</#if>
 	</#list>
 	<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
-		<#if attribute.fieldInLine>
-			<br />
-		</#if>
-		<label>&nbsp;</label>
-		${attribute.helpMessage}
+		<span class="help-block">${attribute.helpMessage}</span>
 	</#if>
-</p>
+	<#if attribute.fieldInLine>
+		</div>
+	</#if>
+</div>

@@ -6,31 +6,35 @@
 </#list>
 <#return false>
 </#function>
-<p>
-    <label for="attribute_${attribute.idAttribute}">
+<div class="control-group">
+    <label class="control-label" for="attribute_${attribute.idAttribute}">
         ${attribute.title} : 
     </label>
-    <input type="radio" name="attribute_${attribute.idAttribute}" value="" 
-           <#if !default_values_list?has_content>
-           checked="checked"
-           </#if>
-           /> #i18n{portal.users.attribute.labelAll}
-           <#if !attribute.fieldInLine>
-           <br />
+    <div class="control-group">
+	    <input type="radio" name="attribute_${attribute.idAttribute}" value="" 
+	           <#if !default_values_list?has_content>
+	           checked="checked"
+	           </#if>
+	           /> #i18n{portal.users.attribute.labelAll}
+	<#if !attribute.fieldInLine>
+		</div>
     </#if>
     <#list attribute.listAttributeFields as attributeField>
     <#if attributeField.title?exists && attributeField.value != "">
-    <#if !attribute.fieldInLine>
-    <label>&nbsp;</label>
-    </#if>
-    <input type="radio" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}"
-           <#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >
-           checked="checked"
-           </#if>
-           /> ${attributeField.title}
-           <#if !attribute.fieldInLine>
-           <br />
-    </#if>
+	    <#if !attribute.fieldInLine>
+	    	<div class="control-group">
+	    </#if>
+	    <input type="radio" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}"
+	           <#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >
+	           checked="checked"
+	           </#if>
+	           /> ${attributeField.title}
+	    <#if !attribute.fieldInLine>
+	    	</div>
+	    </#if>
     </#if>
     </#list>
-</p>
+    <#if attribute.fieldInLine>
+		</div>
+    </#if>
+</div>

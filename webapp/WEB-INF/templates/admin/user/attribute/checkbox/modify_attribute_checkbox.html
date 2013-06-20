@@ -1,113 +1,135 @@
-<div class="well">
-    <h2>#i18n{portal.users.modify_attribute.pageTitleAttributeCheckBox}</h2>
-    <form action="jsp/admin/user/attribute/DoModifyAttribute.jsp" method="post" />
-    <p>
-        <label for="title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
-        <input type="text" name="title" id="title" size="80" value="${attribute.title}" maxlength="255" />
-        <br/>
-        <label>&nbsp;</label>#i18n{portal.users.modify_attribute.labelTitleComment}
-    </p>
-    <p>
-        <label for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage} : </label>
-        <textarea  name="help_message" id="help_message"  cols="80" rows="5">${attribute.helpMessage}</textarea>
-        <br/>
-        <label>&nbsp;</label> #i18n{portal.users.modify_attribute.labelHelpMessageComment}
-    </p>
-    <p>
-        <label for="">#i18n{portal.users.modify_attribute.labelType} : </label>
-        ${attribute.attributeType.name}
-    </p>
-    <p>
-        <label for="is_shown_in_search">#i18n{portal.users.modify_attribute.labelIsShownInSearch} : </label>
-        <#if attribute.shownInSearch = false>
-        <input name="is_shown_in_search" value="1" type="checkbox" />
-        <#else>
-        <input name="is_shown_in_search" value="1" type="checkbox" checked="checked" />
-        </#if>
-    </p>
-    <p>
-        <label for="is_shown_in_result_list">#i18n{portal.users.modify_attribute.labelIsShownInResultList} : </label>
-        <#if attribute.shownInResultList = false>
-        <input name="is_shown_in_result_list" value="1" type="checkbox" />
-        <#else>
-        <input name="is_shown_in_result_list" value="1" type="checkbox" checked="checked" />
-        </#if>
-    </p>
-    <p>
-        <label for="mandatory">#i18n{portal.users.modify_attribute.labelMandatory} : </label>
-        <#if attribute.mandatory = false>
-        <input name="mandatory" value="1" type="checkbox" />
-        <#else>
-        <input name="mandatory" value="1" type="checkbox" checked="checked" />
-        </#if>
-    </p>
-    <p>
-        <label for="is_field_in_line">#i18n{portal.users.create_attribute.labelIsFieldInLine} : </label>
-        <#if attribute.fieldInLine = false>
-        <input name="is_field_in_line" value="1" type="checkbox" />
-        <#else>
-        <input name="is_field_in_line" value="1" type="checkbox" checked="checked" />
-        </#if>
-        <br/>
-        <label>&nbsp;</label>#i18n{portal.users.create_attribute.labelIsFieldInLineComment}
-    </p>
-    <p>
-        <input type="hidden" name="id_attribute" value="${attribute.idAttribute}" />
-        <input type="submit" name="validate" value="#i18n{portal.users.modify_attribute.buttonValidate}" class="button"/>
-        <input type="submit" name="apply" value="#i18n{portal.users.modify_attribute.buttonApply}" class="button" />
-        <input type="submit" name="cancel" value="#i18n{portal.admin.message.buttonCancel}" class="button"/>
-    </p>
+<form class="form-horizontal" action="jsp/admin/user/attribute/DoModifyAttribute.jsp" method="post" >
+	<fieldset>
+		<legend>#i18n{portal.users.modify_attribute.pageTitleAttributeCheckBox}</legend>
+		<div class="control-group">
+			<label class="control-label" for="title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
+			<div class="controls">
+				<input type="text" name="title" id="title" size="80" value="${attribute.title}" maxlength="255" />
+				<span class="help-block">#i18n{portal.users.modify_attribute.labelTitleComment}</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage} : </label>
+			<div class="controls">
+				<textarea  name="help_message" id="help_message"  cols="80" rows="5">${attribute.helpMessage}</textarea>
+				<span class="help-block">#i18n{portal.users.modify_attribute.labelHelpMessageComment}</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="">#i18n{portal.users.modify_attribute.labelType} : </label>
+			<div class="controls">
+				${attribute.attributeType.name}
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="is_shown_in_search">#i18n{portal.users.modify_attribute.labelIsShownInSearch} : </label>
+			<div class="controls">
+				<#if attribute.shownInSearch = false>
+					<input name="is_shown_in_search" value="1" type="checkbox" />
+				<#else>
+					<input name="is_shown_in_search" value="1" type="checkbox" checked="checked" />
+				</#if>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="is_shown_in_result_list">#i18n{portal.users.modify_attribute.labelIsShownInResultList} : </label>
+			<div class="controls">
+				<#if attribute.shownInResultList = false>
+					<input name="is_shown_in_result_list" value="1" type="checkbox" />
+				<#else>
+					<input name="is_shown_in_result_list" value="1" type="checkbox" checked="checked" />
+				</#if>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="mandatory">#i18n{portal.users.modify_attribute.labelMandatory} : </label>
+			<div class="controls">
+				<#if attribute.mandatory = false>
+					<input name="mandatory" value="1" type="checkbox" />
+				<#else>
+					<input name="mandatory" value="1" type="checkbox" checked="checked" />
+				</#if>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="is_field_in_line">#i18n{portal.users.create_attribute.labelIsFieldInLine} : </label>
+			<div class="controls">
+				<#if attribute.fieldInLine = false>
+					<input name="is_field_in_line" value="1" type="checkbox" />
+				<#else>
+					<input name="is_field_in_line" value="1" type="checkbox" checked="checked" />
+				</#if>
+				<span class="help-block">#i18n{portal.users.create_attribute.labelIsFieldInLineComment}</span>
+			</div>
+			<br/>
+		</div>
+		<div class="form-actions">
+			<input type="hidden" name="id_attribute" value="${attribute.idAttribute}" />
+			<button class="btn btn-primary btn-small" type="submit" name="validate" value="validate" >
+				<i class="icon-ok icon-white">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonValidate}
+			</button>
+			<button class="btn btn-primary btn-small" type="submit" name="apply" value="apply" >
+				<i class="icon-ok-circle icon-white">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonApply}
+			</button>
+			<button class="btn btn-small" type="submit" name="cancel" value="cancel" >
+				<i class="icon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+			</button>
+		</div>
+		</fieldset>
 </form>
-</div>
 
 <div class="well">
-    <h2>#i18n{portal.users.modify_attribute.listAssociatedFields}</h2>
-    <a name="list" id="list"></a>
-    <table id="list">
-        <tr>
-            <th>#i18n{portal.users.modify_attribute.columnLabelTitle}</th>
-            <th>#i18n{portal.users.modify_attribute.columnLabelValue}</th>
-            <th>#i18n{portal.users.modify_attribute.columnLabelDefaultValue}</th>
-            <th>#i18n{portal.users.modify_attribute.columnLabelId}</th>
-            <th>#i18n{portal.users.modify_attribute.columnLabelActions}</th>
-        </tr>
-        <#assign cpt = 0>
-        <#list attribute_fields_list as attribute_field>
-        <#if attribute_field.title?exists>
-        <#assign cpt = cpt + 1>
-        <tr>
-            <td>${attribute_field.title}</td>
-            <td>${attribute_field.value}</td>
-            <td>
-                <#if attribute_field.defaultValue>
-                <img src="images/admin/skin/enable.png" alt="#i18n{portal.users.modify_attribute.defaultValue}" title="#i18n{portal.users.modify_attribute.defaultValue}" />
-                </#if>
-            </td>
-            <td>${attribute_field.idField}</td>
-            <td>
-                <a href="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}">
-                    <img src="images/admin/skin/actions/modify.png" alt="#i18n{portal.users.modify_attribute.buttonLabelModify}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}" />
-                </a>
-                <#if cpt != 1>
-                <a href="jsp/admin/user/attribute/DoMoveUpAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list">
-                    <img src="images/admin/skin/actions/up.png"  alt="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
-                </a>
-                </#if>
-                <#if attribute_field_has_next>
-                <a href="jsp/admin/user/attribute/DoMoveDownAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list">
-                    <img src="images/admin/skin/actions/down.png" alt="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
-                </a>
-                </#if>
-                <a href="jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}">
-                    <img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.users.modify_attribute.buttonLabelDelete}" title="#i18n{portal.users.modify_attribute.buttonLabelDelete}" />
-                </a>
-            </td>
-        </tr>
-        </#if>
-        </#list>
-    </table>
-    <form method="post" action="jsp/admin/user/attribute/CreateAttributeField.jsp">
-        <input type="hidden" value="${attribute.idAttribute}" name="id_attribute" />
-        <input type="submit" name="create" value="#i18n{portal.users.modify_attribute.buttonCreateField}" class="button"/>
-    </form>
+	<div class="pull-right">
+		<form method="post" action="jsp/admin/user/attribute/CreateAttributeField.jsp">
+			<input type="hidden" value="${attribute.idAttribute}" name="id_attribute" />
+			<button type="submit" name="create" value="#i18n{portal.users.modify_attribute.buttonCreateField}" class="btn btn-primary btn-small">
+				<i class="icon-plus icon-white">&nbsp;</i>&nbsp;#i18n{portal.users.modify_attribute.buttonCreateField}
+			</button>
+		</form>
+	</div>
+	<legend>#i18n{portal.users.modify_attribute.listAssociatedFields}</legend>
+	<a name="list" id="list"></a>
+	<table class="table table-striped" id="list">
+		<tr>
+			<th>#i18n{portal.users.modify_attribute.columnLabelTitle}</th>
+			<th>#i18n{portal.users.modify_attribute.columnLabelValue}</th>
+			<th>#i18n{portal.users.modify_attribute.columnLabelDefaultValue}</th>
+			<th>#i18n{portal.users.modify_attribute.columnLabelId}</th>
+			<th>#i18n{portal.users.modify_attribute.columnLabelActions}</th>
+		</tr>
+		<#assign cpt = 0>
+		<#list attribute_fields_list as attribute_field>
+		<#if attribute_field.title?exists>
+		<#assign cpt = cpt + 1>
+		<tr>
+			<td>${attribute_field.title}</td>
+			<td>${attribute_field.value}</td>
+			<td>
+				<#if attribute_field.defaultValue>
+				<img src="images/admin/skin/enable.png" alt="#i18n{portal.users.modify_attribute.defaultValue}" title="#i18n{portal.users.modify_attribute.defaultValue}" />
+				</#if>
+			</td>
+			<td>${attribute_field.idField}</td>
+			<td>
+				<a class="btn btn-primary btn-small" href="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}">
+					<i class="icon-edit icon-white">&nbsp;</i>
+				</a>
+				<#if cpt != 1>
+					<a class="btn btn-primary btn-small" href="jsp/admin/user/attribute/DoMoveUpAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
+						<i class="icon-chevron-up icon-white">&nbsp;</i>
+					</a>
+				</#if>
+				<#if attribute_field_has_next>
+					<a class="btn btn-primary btn-small" href="jsp/admin/user/attribute/DoMoveDownAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
+						<i class="icon-chevron-down icon-white">&nbsp;</i>
+					</a>
+				</#if>
+				<a class="btn btn-danger btn-small" href="jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelDelete}">
+					<i class="icon-trash icon-white">&nbsp;</i>
+				</a>
+			</td>
+		</tr>
+		</#if>
+		</#list>
+	</table>
 </div>
