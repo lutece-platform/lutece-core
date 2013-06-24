@@ -138,15 +138,6 @@ CREATE TABLE core_admin_user_preferences (
 CREATE INDEX index_admin_user_preferences ON core_admin_user_preferences ( id_user );
 
 --
--- Table structure for table core_datastore
---
-CREATE TABLE core_datastore (		
-        entity_key VARCHAR(255) NOT NULL,
-        entity_value LONG VARCHAR,
-        PRIMARY KEY (entity_key)  
-);
-
---
 -- Table structure for table core_user_preferences 
 --
 
