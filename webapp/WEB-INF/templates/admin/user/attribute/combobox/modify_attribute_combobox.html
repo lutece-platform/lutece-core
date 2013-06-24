@@ -81,6 +81,14 @@
 </form>
 
 <div class="well">
+	<div class="pull-right">
+		<form method="post" action="jsp/admin/user/attribute/CreateAttributeField.jsp">
+	        <input type="hidden" value="${attribute.idAttribute}" name="id_attribute" />
+	        <button type="submit" name="create" value="#i18n{portal.users.modify_attribute.buttonCreateField}" class="btn btn-primary btn-small">	
+	        	<i class="icon-plus icon-white">&nbsp;</i>&nbsp;#i18n{portal.users.modify_attribute.buttonCreateField}
+	        </button>
+	    </form>
+	</div>
     <legend>#i18n{portal.users.modify_attribute.listAssociatedFields}</legend>
     <a name="list" id="list"></a>
     <table class="table table-striped" id="list">
@@ -100,34 +108,30 @@
             <td>${attribute_field.value}</td>
             <td>
                 <#if attribute_field.defaultValue>
-                <img src="images/admin/skin/enable.png" alt="#i18n{portal.users.modify_attribute.defaultValue}" title="#i18n{portal.users.modify_attribute.defaultValue}" />
+                	<span class="badge badge-success">#i18n{portal.users.modify_attribute.defaultValue}</span>
                 </#if>
             </td>
             <td>${attribute_field.idField}</td>
             <td>
-                <a href="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}">
-                    <img src="images/admin/skin/actions/modify.png" alt="#i18n{portal.users.modify_attribute.buttonLabelModify}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}" />
+                <a class="btn btn-small btn-primary" href="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}">
+                    <i class="icon-edit icon-white" >&nbsp;</i>
                 </a>
                 <#if cpt != 1>
-                <a href="jsp/admin/user/attribute/DoMoveUpAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list">
-                    <img src="images/admin/skin/actions/up.png"  alt="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
+                <a class="btn btn-small btn-primary" href="jsp/admin/user/attribute/DoMoveUpAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
+                    <i class="icon-chevron-up icon-white" >&nbsp;</i>
                 </a>
                 </#if>
                 <#if attribute_field_has_next>
-                <a href="jsp/admin/user/attribute/DoMoveDownAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list">
-                    <img src="images/admin/skin/actions/down.png" alt="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
+                <a class="btn btn-small btn-primary" href="jsp/admin/user/attribute/DoMoveDownAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
+                    <i class="icon-chevron-down icon-white" >&nbsp;</i>
                 </a>
                 </#if>
-                <a href="jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}">
-                    <img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.users.modify_attribute.buttonLabelDelete}" title="#i18n{portal.users.modify_attribute.buttonLabelDelete}" />
+                <a class="btn btn-small btn-danger" href="jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelDelete}">
+                    <i class="icon-trash icon-white" >&nbsp;</i>
                 </a>
             </td>
         </tr>
         </#if>
         </#list>
     </table>
-    <form method="post" action="jsp/admin/user/attribute/CreateAttributeField.jsp">
-        <input type="hidden" value="${attribute.idAttribute}" name="id_attribute" />
-        <input type="submit" name="create" value="#i18n{portal.users.modify_attribute.buttonCreateField}" class="button"/>
-    </form>
 </div>

@@ -25,7 +25,7 @@
 				<div class="controls">
 			</#if>
 			<input type="checkbox" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}"
-				<#if ( attributeField.defaultValue && !default_values_list?has_content ) || ( default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) )>
+				<#if attributeField.defaultValue >
 					checked="checked"
 				</#if>
 			/> ${attributeField.title}
