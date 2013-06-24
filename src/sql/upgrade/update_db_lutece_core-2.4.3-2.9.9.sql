@@ -1,7 +1,8 @@
 ALTER TABLE core_portlet ADD role varchar(50) default NULL;
 -- search admin dashboard --
 INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('searchAdminDashboardComponent', 1, 2);
-INSERT INTO core_admin_right VALUES ('CORE_SEARCH_MANAGEMENT','portal.search.adminFeature.search_management.name',0,'jsp/admin/search/ManageSearch.jsp','portal.search.adminFeature.search_management.description',0,NULL,'SYSTEM',NULL,NULL,NULL);INSERT INTO core_admin_role_resource VALUES (137,'all_site_manager', 'SEARCH_SERVICE', '*', '*');
+INSERT INTO core_admin_right VALUES ('CORE_SEARCH_MANAGEMENT','portal.search.adminFeature.search_management.name',0,'jsp/admin/search/ManageSearch.jsp','portal.search.adminFeature.search_management.description',0,NULL,'SYSTEM',NULL,NULL,NULL);
+INSERT INTO core_admin_role_resource VALUES (137,'all_site_manager', 'SEARCH_SERVICE', '*', '*');
 INSERT INTO core_user_right VALUES ('CORE_SEARCH_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_SEARCH_MANAGEMENT',2);
 
