@@ -20,6 +20,15 @@ INSERT INTO core_user_parameter VALUES ('other_alert_mail_subject', 'Votre compt
 INSERT INTO core_user_parameter VALUES ('account_reactivated_mail_sender', 'lutece@nowhere.com');
 INSERT INTO core_user_parameter VALUES ('account_reactivated_mail_subject', 'Votre compte a bien été réactivé');
 
+--
+-- Table structure for table core_datastore
+--
+CREATE TABLE core_datastore (		
+        entity_key VARCHAR(255) NOT NULL,
+        entity_value LONG VARCHAR,
+        PRIMARY KEY (entity_key)  
+);
+
 INSERT INTO core_datastore VALUES ('core_banned_domain_names', 'yopmail.com');
 
 DROP TABLE IF EXISTS core_template;
