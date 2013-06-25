@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.captcha;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -52,5 +54,24 @@ public interface ICaptchaService
      * Gets the captcha HTML code
      * @return The captcha HTML code
      */
-    String getHtmlCode(  );
+    String getHtmlCode( );
+
+    /**
+     * Get the list of captcha providers
+     * @return The list of captcha providers
+     */
+    List<String> getCaptchaEngineNameList( );
+
+    /**
+     * Get the default captcha engine to use
+     * @return The name of the default captcha engine
+     */
+    String getDefaultCaptchaEngineName( );
+
+    /**
+     * Set the default captcha engine to use
+     * @param strDefaultCaptchaEngine the name of the default captcha engine to
+     *            use
+     */
+    void setDefaultCaptchaEngineName( String strDefaultCaptchaEngine );
 }
