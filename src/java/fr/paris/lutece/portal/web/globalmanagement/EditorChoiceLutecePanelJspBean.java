@@ -51,6 +51,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
 {
+    /**
+     * Generated servial UID
+     */
+    private static final long serialVersionUID = -3558930087612105420L;
+
     private static final String LABEL_TITLE_EDITOR_CHOICE = "portal.globalmanagement.editorChoice.labelEditorChoice";
     private static final String PARAM_EDITOR_BACK_OFFICE = "editor_back_office";
     private static final String PARAM_EDITOR_FRONT_OFFICE = "editor_front_office";
@@ -59,7 +64,6 @@ public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
     private static final String MARK_CURRENT_EDITOR_BACK_OFFICE = "current_editor_back_office";
     private static final String MARK_CURRENT_EDITOR_FRONT_OFFICE = "current_editor_front_office";
     private static final String TEMPLATE_EDITOR_CHOICE_PANEL = "admin/globalmanagement/panel/editor_choice_panel.html";
-    private static final String JSP_URL_GLOBAL_MANAGEMENT = "jsp/admin/globalmanagement/GetGlobalManagement.jsp";
 
     /**
      * {@inheritDoc}
@@ -120,7 +124,7 @@ public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
         String strEditorName = request.getParameter( PARAM_EDITOR_BACK_OFFICE );
         RichTextEditorService.updateBackOfficeDefaultEditor( strEditorName );
 
-        return AppPathService.getBaseUrl( request ) + JSP_URL_GLOBAL_MANAGEMENT;
+        return AppPathService.getBaseUrl( request ) + GlobalManagementJspBean.JSP_URL_GLOBAL_MANAGEMENT;
     }
 
     /**
@@ -134,6 +138,6 @@ public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
         String strEditorName = request.getParameter( PARAM_EDITOR_FRONT_OFFICE );
         RichTextEditorService.updateFrontOfficeDefaultEditor( strEditorName );
 
-        return AppPathService.getBaseUrl( request ) + JSP_URL_GLOBAL_MANAGEMENT;
+        return AppPathService.getBaseUrl( request ) + GlobalManagementJspBean.JSP_URL_GLOBAL_MANAGEMENT;
     }
 }

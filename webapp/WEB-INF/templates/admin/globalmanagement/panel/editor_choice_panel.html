@@ -1,37 +1,35 @@
-<div class="row-fluid">  
-    <div class="well span6">
-    	<form class="form-inline" action="jsp/admin/globalmanagement/DoUpdateBackOfficeEditor.jsp">
-    		<fieldset>
-    			<legend>#i18n{portal.globalmanagement.editorChoice.editorBackOffice}</legend>
-    			<div class="control-group">
-    				<label class="control-label">#i18n{portal.globalmanagement.editorChoice.labelEditorBackOffice} :</label>
-    				<div class="controls">
-    					<#if !current_editor_back_office??>
-    						<#assign current_editor_back_office = "">
-    					</#if>
-    					<@combo name="editor_back_office" items=listEditorsBackOffice default_value=current_editor_back_office />
-    					<button type="submit" class="btn btn-primary btn-small"><i class="icon-ok icon-white">&nbsp;</i>#i18n{portal.util.labelModify}</button>
-    				</div>
-    			</div>
-    		</fieldset>
-    	</form>
-    </div>
-    
-    <div class="well span6">
-		<form class="form-inline" action="jsp/admin/globalmanagement/DoUpdateFrontOfficeEditor.jsp">
-			<fieldset>
-    			<legend>#i18n{portal.globalmanagement.editorChoice.editorFrontOffice}</legend>
-    			<div class="control-group">
-    				<label class="control-label">#i18n{portal.globalmanagement.editorChoice.labelEditorFrontOffice} :</label>
-    				<div class="controls">
-    					<#if !current_editor_front_office??>
-    						<#assign current_editor_front_office = "">
-    					</#if>
-    					<@combo name="editor_front_office" items=listEditorsFrontOffice default_value=current_editor_front_office />
-    					<button type="submit" class="btn btn-primary btn-small"><i class="icon-ok icon-white">&nbsp;</i>#i18n{portal.util.labelModify}</button>
-    				</div>
-    			</div>
-    		</fieldset>
-    	</form>
-    </div>
+<div class="well span5">
+	<form class="form-inline" action="jsp/admin/globalmanagement/DoUpdateBackOfficeEditor.jsp">
+		<fieldset>
+			<legend>#i18n{portal.globalmanagement.editorChoice.editorBackOffice}</legend>
+			<div class="control-group">
+				<label class="control-label">#i18n{portal.globalmanagement.editorChoice.labelEditorBackOffice} :</label>
+				<div class="controls">
+					<#if !current_editor_back_office??>
+						<#assign current_editor_back_office = "">
+					</#if>
+					<@combo name="editor_back_office" items=listEditorsBackOffice default_value=current_editor_back_office />
+					<button type="submit" class="btn btn-primary btn-small"><i class="icon-ok icon-white">&nbsp;</i>&nbsp;#i18n{portal.util.labelModify}</button>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+</div>
+
+<div class="well span5">
+	<form class="form-inline" action="jsp/admin/globalmanagement/DoUpdateFrontOfficeEditor.jsp">
+		<fieldset>
+			<legend>#i18n{portal.globalmanagement.editorChoice.editorFrontOffice}</legend>
+			<div class="control-group">
+				<label class="control-label">#i18n{portal.globalmanagement.editorChoice.labelEditorFrontOffice} :</label>
+				<div class="controls">
+					<#if !current_editor_front_office??>
+						<#assign current_editor_front_office = "">
+					</#if>
+					<@combo name="editor_front_office" items=listEditorsFrontOffice default_value=current_editor_front_office />
+					<button type="submit" class="btn btn-primary btn-small"><i class="icon-ok icon-white">&nbsp;</i>&nbsp;#i18n{portal.util.labelModify}</button>
+				</div>
+			</div>
+		</fieldset>
+	</form>
 </div>

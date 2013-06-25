@@ -51,6 +51,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class GlobalManagementJspBean extends PluginAdminPageJspBean
 {
+    public static final String JSP_URL_GLOBAL_MANAGEMENT = "jsp/admin/globalmanagement/GetGlobalManagement.jsp";
+
+    /**
+     * Generated serial UID
+     */
+    private static final long serialVersionUID = 4377398578063850128L;
     private static final String MARK_PANELS_LIST = "panels_list";
     private static final String TEMPLATE_GLOBAL_MANAGEMENT = "/admin/globalmanagement/global_management.html";
 
