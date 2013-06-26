@@ -69,13 +69,13 @@ public abstract class SafeRequestFilter implements Filter
     {
         _filterConfig = config;
 
-        String paramValue = _filterConfig.getInitParameter( PARAM_FILTER_XSS_CHARATERS );
-        _strXssCharacters = paramValue;
-        paramValue = _filterConfig.getInitParameter( ACTIVATE_XSS_FILTER );
+        String strParamValue = _filterConfig.getInitParameter( PARAM_FILTER_XSS_CHARATERS );
+        _strXssCharacters = strParamValue;
+        strParamValue = _filterConfig.getInitParameter( ACTIVATE_XSS_FILTER );
 
-        if ( paramValue != null )
+        if ( strParamValue != null )
         {
-            _bActivateXssFilter = new Boolean( paramValue );
+            _bActivateXssFilter = Boolean.valueOf( strParamValue );
         }
     }
 

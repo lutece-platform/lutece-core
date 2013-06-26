@@ -100,7 +100,7 @@ public final class AdminUserFieldService
                         attribute.getIdAttribute(  ) );
 
                 if ( attribute.isMandatory(  ) && ( strUpdateAttribute != null ) &&
-                        ( ( fileItem == null ) || ( ( fileItem != null ) && ( fileItem.getSize(  ) == 0 ) ) ) )
+                        ( ( fileItem == null ) || ( fileItem.getSize(  ) == 0 ) ) )
                 {
                     return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
                 }

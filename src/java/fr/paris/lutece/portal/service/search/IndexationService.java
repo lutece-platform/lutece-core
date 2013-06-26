@@ -75,7 +75,7 @@ public final class IndexationService
     public static final String PATH_INDEX = "search.lucene.indexPath";
     public static final String PARAM_FORCING = "forcing";
     public static final int ALL_DOCUMENT = -1;
-    public static Version LUCENE_INDEX_VERSION = Version.LUCENE_29;
+    public static final Version LUCENE_INDEX_VERSION = Version.LUCENE_29;
     private static final String PARAM_TYPE_PAGE = "Page";
     private static final String PROPERTY_WRITER_MERGE_FACTOR = "search.lucene.writer.mergeFactor";
     private static final String PROPERTY_WRITER_MAX_FIELD_LENGTH = "search.lucene.writer.maxFieldLength";
@@ -99,19 +99,19 @@ public final class IndexationService
     {
     }
 
-    /**
-     * 
-     * @return singleton
-     */
-    public static IndexationService getInstance( )
-    {
-        if ( _singleton == null )
-        {
-            _singleton = new IndexationService( );
-        }
-
-        return _singleton;
-    }
+    //    /**
+    //     * 
+    //     * @return singleton
+    //     */
+    //    public static IndexationService getInstance( )
+    //    {
+    //        if ( _singleton == null )
+    //        {
+    //            _singleton = new IndexationService( );
+    //        }
+    //
+    //        return _singleton;
+    //    }
 
     /**
      * Initalizes the service
@@ -445,6 +445,12 @@ public final class IndexationService
         error( strTitle, e, strMessage );
     }
 
+    /**
+     * Log an exception
+     * @param strTitle The title of the error
+     * @param e The exception to log
+     * @param strMessage The message
+     */
     private static void error( String strTitle, Exception e, String strMessage )
     {
         _sbLogs.append( "<strong class=\"alert\">" );

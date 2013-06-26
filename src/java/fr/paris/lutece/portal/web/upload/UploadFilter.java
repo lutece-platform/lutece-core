@@ -112,7 +112,7 @@ public abstract class UploadFilter implements Filter
 
             if ( paramValue != null )
             {
-                _bActivateNormalizeFileName = new Boolean( paramValue );
+                _bActivateNormalizeFileName = Boolean.valueOf( paramValue );
             }
         }
         catch ( NumberFormatException ex )
