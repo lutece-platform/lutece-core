@@ -41,7 +41,6 @@ import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -210,7 +209,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         }
 
         String strPageId = request.getParameter( PARAMETER_PAGE_ID );
-        int nPageId = PortalService.getRootPageId(  );
+        int nPageId;
 
         // Test format of the id and the existence of the page
         try

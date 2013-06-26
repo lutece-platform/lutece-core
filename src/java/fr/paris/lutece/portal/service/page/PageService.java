@@ -986,7 +986,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private String setPageBaseUrl( HttpServletRequest request, String strPage )
     {
         String strBase = AppPathService.getBaseUrl( request );
-        boolean bBefore = strPage.contains( strBase );
+//        boolean bBefore = strPage.contains( strBase );
 
         return strPage.replaceFirst( "<base href=\".*\" >", "<base href=\"" + strBase + "\" >" );
     }

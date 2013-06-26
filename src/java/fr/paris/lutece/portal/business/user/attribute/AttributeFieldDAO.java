@@ -219,7 +219,6 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
         while ( daoUtil.next(  ) )
         {
             AttributeField attributeField = new AttributeField(  );
-            attributeField = new AttributeField(  );
             attributeField.setIdField( daoUtil.getInt( 1 ) );
 
             IAttribute attribute = selectAttributeByIdField( attributeField.getIdField(  ) );

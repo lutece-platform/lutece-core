@@ -286,11 +286,9 @@ public class AttributeImage extends AbstractAttribute
                     file.setPhysicalFile( physicalFile );
                     file.setMimeType( FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) ) );
 
-                    if ( file != null )
-                    {
-                        //verify that the file is an image
-                        ImageIO.read( new ByteArrayInputStream( file.getPhysicalFile(  ).getValue(  ) ) );
-                    }
+                    
+                    //verify that the file is an image
+                    ImageIO.read( new ByteArrayInputStream( file.getPhysicalFile(  ).getValue(  ) ) );
 
                     AdminUserField userField = new AdminUserField(  );
                     userField.setUser( user );

@@ -40,7 +40,6 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
-import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.io.File;
@@ -48,14 +47,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
@@ -80,14 +77,14 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_FILES_SYSTEM_DIRECTORY = "files_system_directory";
     private static final String MARK_FILES_SYSTEM_NAME = "file_system_name";
     private static final String MARK_FILE_SYSTEM_DATA = "file_system_data";
-    private static final String MARK_WEBMASTER_PROPERTIES = "webmaster_properties";
+    //    private static final String MARK_WEBMASTER_PROPERTIES = "webmaster_properties";
     private static final String MARK_PROPERTIES_GROUPS_LIST = "groups_list";
 
     // Template Files path
     private static final String TEMPLATE_MANAGE_FILES_SYSTEM = "admin/system/manage_files_system.html";
     private static final String TEMPLATE_VIEW_FILES_SYSTEM = "admin/system/view_files_system.html";
     private static final String TEMPLATE_VIEW_FILE = "admin/system/view_file.html";
-    private static final String TEMPLATE_MANAGE_PROPERTIES = "admin/system/manage_properties.html";
+    //    private static final String TEMPLATE_MANAGE_PROPERTIES = "admin/system/manage_properties.html";
     private static final String TEMPLATE_MODIFY_PROPERTIES = "admin/system/modify_properties.html";
 
     // Parameters
@@ -96,7 +93,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_DIR = "dir";
 
     // Properties file definition
-    private static final String PROPERTY_WEBMASTER_FILE = "file.webmaster.properties";
+    //    private static final String PROPERTY_WEBMASTER_FILE = "file.webmaster.properties";
     private static final String PROPERTY_FILES_SYSTEM_LIST = "system.list";
     private static final String PROPERTY_TITLE_MANAGE_FILES_SYSTEM = "portal.system.manage_files_system.pageTitle";
     private static final String PROPERTY_FILE_DESCRIPTION = "portal.system.manage_files_system.description.";
@@ -105,10 +102,10 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_TITLE_VIEW_FILE = "portal.system.view_file.pageTitle";
 
     // Hashtable which contains the parameter to the webmaster.properties file
-    private static Map<String, String> _mapProperties = new HashMap<String, String>(  );
+    //    private static Map<String, String> _mapProperties = new HashMap<String, String>(  );
 
     // Property object will contains all property necessary to the updated webmaster.properties treatment
-    private static Properties _properties = new Properties(  );
+    //    private static Properties _properties = new Properties(  );
 
     /**
      * Returns ViewLogs page
@@ -193,7 +190,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
 
         for ( int i = 0; i < nLogNumber; i++ )
         {
-            File file = (File) screenArrayLog[i];
+            File file = screenArrayLog[i];
             SystemFile f = new SystemFile(  );
             f.setName( file.getName(  ) );
             f.setDirectory( strDir );

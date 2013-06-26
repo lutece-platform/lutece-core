@@ -43,7 +43,6 @@ import fr.paris.lutece.util.filesystem.FileListFilter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -71,13 +70,13 @@ public final class PluginService
     private static final String KEY_PLUGINS_STATUS = "core.plugins.status.";
 
     // Variables
-    private static Map<String, Plugin> _mapPlugins = new HashMap<String, Plugin>(  );
-    private static List<PluginEventListener> _listPluginEventListeners = new ArrayList<PluginEventListener>(  );
+    private static Map<String, Plugin> _mapPlugins = new HashMap<String, Plugin>( );
+    private static List<PluginEventListener> _listPluginEventListeners = new ArrayList<PluginEventListener>( );
 
     /**
      * Creates a new PluginService object.
      */
-    private PluginService(  )
+    private PluginService( )
     {
     }
 
@@ -85,29 +84,29 @@ public final class PluginService
      * Initialize the service
      * @throws LuteceInitException If an error occured
      */
-    public static void init(  ) throws LuteceInitException
+    public static void init( ) throws LuteceInitException
     {
-        loadPluginsStatus(  );
-        _mapPlugins.clear(  );
-        loadCoreComponents(  );
-        loadPlugins(  );
+        loadPluginsStatus( );
+        _mapPlugins.clear( );
+        loadCoreComponents( );
+        loadPlugins( );
     }
 
     /**
      * Returns the plugins file list
-     *
+     * 
      * @return the plugins file list as a File[]
      */
-    public static Collection<Plugin> getPluginList(  )
+    public static Collection<Plugin> getPluginList( )
     {
-        TreeSet<Plugin> setSorted = new TreeSet<Plugin>( _mapPlugins.values(  ) );
+        TreeSet<Plugin> setSorted = new TreeSet<Plugin>( _mapPlugins.values( ) );
 
         return setSorted;
     }
 
     /**
      * Returns a Plugin object from its name
-     *
+     * 
      * @param strPluginName The name of the plugin
      * @return The Plugin object corresponding to the name
      */
@@ -120,11 +119,11 @@ public final class PluginService
      * Load components of the core.
      * @throws LuteceInitException If an error occured
      */
-    private static void loadCoreComponents(  ) throws LuteceInitException
+    private static void loadCoreComponents( ) throws LuteceInitException
     {
         File file = new File( AppPathService.getPath( PATH_CONF, CORE_XML ) );
 
-        if ( file.exists(  ) )
+        if ( file.exists( ) )
         {
             loadPluginFromFile( file, false );
         }
@@ -134,11 +133,11 @@ public final class PluginService
      * Load all plugins installed on the system.
      * @throws LuteceInitException If an error occured
      */
-    private static void loadPlugins(  ) throws LuteceInitException
+    private static void loadPlugins( ) throws LuteceInitException
     {
         File dirPlugin = new File( AppPathService.getPath( PATH_PLUGIN ) );
 
-        if ( dirPlugin.exists(  ) )
+        if ( dirPlugin.exists( ) )
         {
             FilenameFilter select = new FileListFilter( "", EXTENSION_FILE );
             File[] listFile = dirPlugin.listFiles( select );
@@ -153,22 +152,22 @@ public final class PluginService
     /**
      * Load a plugin from a file definition
      * @param file The plugin file
-     * @param bRegisterAsPlugin Register it as a plugin : true for plugins, false for core components file
+     * @param bRegisterAsPlugin Register it as a plugin : true for plugins,
+     *            false for core components file
      * @throws LuteceInitException If an error occured
      */
-    private static void loadPluginFromFile( File file, boolean bRegisterAsPlugin )
-        throws LuteceInitException
+    private static void loadPluginFromFile( File file, boolean bRegisterAsPlugin ) throws LuteceInitException
     {
-        PluginFile pluginFile = new PluginFile(  );
-        pluginFile.load( file.getAbsolutePath(  ) );
+        PluginFile pluginFile = new PluginFile( );
+        pluginFile.load( file.getAbsolutePath( ) );
 
-        String strPluginClass = pluginFile.getPluginClass(  );
+        String strPluginClass = pluginFile.getPluginClass( );
 
         if ( strPluginClass != null )
         {
             try
             {
-                Plugin plugin = (Plugin) Class.forName( strPluginClass ).newInstance(  );
+                Plugin plugin = (Plugin) Class.forName( strPluginClass ).newInstance( );
                 plugin.load( pluginFile );
                 plugin.setStatus( getPluginStatus( plugin ) );
 
@@ -183,14 +182,14 @@ public final class PluginService
 
                 // If the plugin requires a database connection pool then
                 // get the pool name and initialize its ConnectionService
-                if ( plugin.isDbPoolRequired(  ) )
+                if ( plugin.isDbPoolRequired( ) )
                 {
                     String strPoolName = getPluginPoolName( plugin );
                     plugin.setPoolName( strPoolName );
                     plugin.initConnectionService( strPoolName );
                 }
 
-                plugin.init(  );
+                plugin.init( );
 
                 // plugin installed event
                 PluginEvent event = new PluginEvent( plugin, PluginEvent.PLUGIN_INSTALLED );
@@ -198,25 +197,25 @@ public final class PluginService
             }
             catch ( Exception e )
             {
-                throw new LuteceInitException( "Error instantiating plugin defined in file : " +
-                    file.getAbsolutePath(  ), e );
+                throw new LuteceInitException(
+                        "Error instantiating plugin defined in file : " + file.getAbsolutePath( ), e );
             }
         }
         else
         {
-            AppLogService.error( "No plugin class defined in file : " + file.getAbsolutePath(  ) );
+            AppLogService.error( "No plugin class defined in file : " + file.getAbsolutePath( ) );
         }
     }
 
     /**
      * Register the plugin as a plugin loaded in the system
-     *
+     * 
      * @param plugin The plugin object
      */
     private static void registerPlugin( Plugin plugin )
     {
-        _mapPlugins.put( plugin.getName(  ), plugin );
-        AppLogService.info( "New Plugin registered : " + plugin.getName(  ) );
+        _mapPlugins.put( plugin.getName( ), plugin );
+        AppLogService.info( "New Plugin registered : " + plugin.getName( ) );
     }
 
     /**
@@ -230,27 +229,27 @@ public final class PluginService
 
     /**
      * Gets the core.
-     *
+     * 
      * @return the core
      */
-    public static Plugin getCore(  )
+    public static Plugin getCore( )
     {
         return _corePlugin;
     }
 
     /**
      * Update plugins data.
-     *
+     * 
      * @param plugin The plugin object
      */
     public static void updatePluginData( Plugin plugin )
     {
-        String strKey = getInstalledKey(plugin.getName());
-        String strValue = plugin.isInstalled() ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE;
-        DatastoreService.setDataValue(strKey, strValue);
-        if (plugin.isDbPoolRequired())
+        String strKey = getInstalledKey( plugin.getName( ) );
+        String strValue = plugin.isInstalled( ) ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE;
+        DatastoreService.setDataValue( strKey, strValue );
+        if ( plugin.isDbPoolRequired( ) )
         {
-            DatastoreService.setDataValue(getPoolNameKey(plugin.getName()), plugin.getDbPoolName());
+            DatastoreService.setDataValue( getPoolNameKey( plugin.getName( ) ), plugin.getDbPoolName( ) );
         }
     }
 
@@ -263,7 +262,7 @@ public final class PluginService
     {
         return KEY_PLUGINS_STATUS + strPluginName + PROPERTY_IS_INSTALLED;
     }
-    
+
     /**
      * Build the datastore key for a given plugin
      * @param strPluginName The plugin name
@@ -277,12 +276,12 @@ public final class PluginService
     /**
      * Load plugins status
      */
-    private static void loadPluginsStatus(  )
+    private static void loadPluginsStatus( )
     {
         // Load default values from the plugins.dat file
         String strPluginStatusFile = AppPathService.getPath( PATH_PLUGIN, FILE_PLUGINS_STATUS );
         File file = new File( strPluginStatusFile );
-        Properties props = new Properties();
+        Properties props = new Properties( );
         try
         {
             FileInputStream fis = new FileInputStream( file );
@@ -290,61 +289,64 @@ public final class PluginService
         }
         catch ( Exception e )
         {
-            AppLogService.error( "Error loading plugin defined in file : " + file.getAbsolutePath(  ), e );
+            AppLogService.error( "Error loading plugin defined in file : " + file.getAbsolutePath( ), e );
         }
-        
+
         // If the keys aren't found in the datastore then create a key in it
-        for( String strKey : props.stringPropertyNames() )
+        for ( String strKey : props.stringPropertyNames( ) )
         {
             // Initialize plugins status into Datastore
             int nPos = strKey.indexOf( PROPERTY_IS_INSTALLED );
-            if( nPos > 0 )
+            if ( nPos > 0 )
             {
-                String strPluginName = strKey.substring( 0 ,  nPos );
-                String strDSKey = getInstalledKey(strPluginName);
-                if( ! DatastoreService.existsKey( strDSKey ))
+                String strPluginName = strKey.substring( 0, nPos );
+                String strDSKey = getInstalledKey( strPluginName );
+                if ( !DatastoreService.existsKey( strDSKey ) )
                 {
-                    String strValue = props.getProperty(strKey).equals("1") ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE;
-                    DatastoreService.setDataValue( strDSKey , strValue );
+                    String strValue = props.getProperty( strKey ).equals( "1" ) ? DatastoreService.VALUE_TRUE
+                            : DatastoreService.VALUE_FALSE;
+                    DatastoreService.setDataValue( strDSKey, strValue );
                 }
-            }    
+            }
             // Initialize plugins connection pool into Datastore
             nPos = strKey.indexOf( PROPERTY_DB_POOL_NAME );
-            if( nPos > 0 )
+            if ( nPos > 0 )
             {
-                String strPluginName = strKey.substring( 0 ,  nPos );
-                String strDSKey = getPoolNameKey(strPluginName);
-                if( ! DatastoreService.existsKey( strDSKey ))
+                String strPluginName = strKey.substring( 0, nPos );
+                String strDSKey = getPoolNameKey( strPluginName );
+                if ( !DatastoreService.existsKey( strDSKey ) )
                 {
-                    String strValue = props.getProperty(strKey);
-                    DatastoreService.setDataValue( strDSKey , strValue );
+                    String strValue = props.getProperty( strKey );
+                    DatastoreService.setDataValue( strDSKey, strValue );
                 }
-            }    
-            
-        }    
+            }
+
+        }
     }
 
     /**
      * Gets the plugin status
-     *
+     * 
      * @param plugin The plugin object
      * @return true if installed, otherwise false
      */
     private static boolean getPluginStatus( Plugin plugin )
     {
-        String strValue = DatastoreService.getDataValue( getInstalledKey( plugin.getName() ) , DatastoreService.VALUE_FALSE );
-        return strValue.equals(DatastoreService.VALUE_TRUE);
+        String strValue = DatastoreService.getDataValue( getInstalledKey( plugin.getName( ) ),
+                DatastoreService.VALUE_FALSE );
+        return strValue.equals( DatastoreService.VALUE_TRUE );
     }
 
     /**
      * Gets the pool that should be used by the plugin
-     *
+     * 
      * @param plugin The plugin Object
      * @return the pool name
      */
     private static String getPluginPoolName( Plugin plugin )
     {
-        return DatastoreService.getDataValue( getPoolNameKey( plugin.getName()),AppConnectionService.NO_POOL_DEFINED );
+        return DatastoreService
+                .getDataValue( getPoolNameKey( plugin.getName( ) ), AppConnectionService.NO_POOL_DEFINED );
     }
 
     /**
@@ -361,7 +363,7 @@ public final class PluginService
 
         Plugin plugin = getPlugin( strPluginName );
 
-        return ( ( plugin != null ) && ( plugin.isInstalled(  ) ) );
+        return ( ( plugin != null ) && ( plugin.isInstalled( ) ) );
     }
 
     /**

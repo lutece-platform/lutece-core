@@ -116,61 +116,64 @@ public class PortalJspBean
     private static final String CONSTANT_SPACE = " ";
 
     /**
-     * Returns the content of a page according to the parameters found in the http request. One distinguishes article,
+     * Returns the content of a page according to the parameters found in the
+     * http request. One distinguishes article,
      * page and xpage and the mode.
-     *
+     * 
      * @param request The http request
      * @return the html code for the display of a page of a site
      * @throws UserNotSignedException The UserNotSignedException
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws SiteMessageException occurs when a site message need to be
+     *             displayed
      */
-    public String getContent( HttpServletRequest request )
-        throws UserNotSignedException, SiteMessageException
+    public String getContent( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
         return getContent( request, MODE_HTML );
     }
 
     /**
-     * Returns the content of a page according to the parameters found in the http request. One distinguishes article,
+     * Returns the content of a page according to the parameters found in the
+     * http request. One distinguishes article,
      * page and xpage and the mode.
-     *
+     * 
      * @param request The http request
      * @param nMode The mode (normal or administration)
      * @return the html code for the display of a page of a site
      * @throws UserNotSignedException The UserNotSignedException
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws SiteMessageException occurs when a site message need to be
+     *             displayed
      */
-    public String getContent( HttpServletRequest request, int nMode )
-        throws UserNotSignedException, SiteMessageException
+    public String getContent( HttpServletRequest request, int nMode ) throws UserNotSignedException,
+            SiteMessageException
     {
-        if ( !AppInit.isWebappSuccessfullyLoaded(  ) )
+        if ( !AppInit.isWebappSuccessfullyLoaded( ) )
         {
-            return getStartUpFailurePage(  );
+            return getStartUpFailurePage( );
         }
 
         // Try to register the user in case of external authentication
-        if ( SecurityService.isAuthenticationEnable(  ) )
+        if ( SecurityService.isAuthenticationEnable( ) )
         {
             try
             {
-                if ( SecurityService.getInstance(  ).isExternalAuthentication(  ) &&
-                        !SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
+                if ( SecurityService.getInstance( ).isExternalAuthentication( )
+                        && !SecurityService.getInstance( ).isMultiAuthenticationSupported( ) )
                 {
-                    SecurityService.getInstance(  ).getRemoteUser( request );
+                    SecurityService.getInstance( ).getRemoteUser( request );
                 }
                 else
                 {
-                    LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
+                    LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
 
                     // no checks are needed if the user is already registered
                     if ( user == null )
                     {
                         // if multiauthentication is supported, then when have to check remote user before other check
-                        if ( SecurityService.getInstance(  ).isMultiAuthenticationSupported(  ) )
+                        if ( SecurityService.getInstance( ).isMultiAuthenticationSupported( ) )
                         {
                             // getRemoteUser needs to be checked before any check so the user is registered
                             // getRemoteUser throws an exception if no user found, but here we have to bypass this exception to display login page.
-                            user = SecurityService.getInstance(  ).getRemoteUser( request );
+                            SecurityService.getInstance( ).getRemoteUser( request );
                         }
                     }
                 }
@@ -184,9 +187,10 @@ public class PortalJspBean
         // Search the content service invoked and call its getPage method
         ContentService cs = PortalService.getInvokedContentService( request );
 
-        String strContent = ( cs != null ) ? cs.getPage( request, nMode ) : PortalService.getDefaultPage( request, nMode );
+        String strContent = ( cs != null ) ? cs.getPage( request, nMode ) : PortalService.getDefaultPage( request,
+                nMode );
 
-        if ( ContentPostProcessorService.hasProcessor(  ) )
+        if ( ContentPostProcessorService.hasProcessor( ) )
         {
             strContent = ContentPostProcessorService.process( request, strContent );
         }
@@ -195,12 +199,13 @@ public class PortalJspBean
     }
 
     /**
-     * Returns the content of a page according to the parameters found in the http request. One distinguishes article,
+     * Returns the content of a page according to the parameters found in the
+     * http request. One distinguishes article,
      * page and xpage and the mode.
-     *
+     * 
      * @param request The http request
      * @return the html code for the display of a page of a site
-     *
+     * 
      */
     public String getSiteMessageContent( HttpServletRequest request )
     {
@@ -208,21 +213,22 @@ public class PortalJspBean
     }
 
     /**
-     * Returns the content of a page according to the parameters found in the http request. One distinguishes article,
+     * Returns the content of a page according to the parameters found in the
+     * http request. One distinguishes article,
      * page and xpage and the mode.
-     *
+     * 
      * @param request The http request
      * @param nMode The mode (normal or administration)
      * @return the html code for the display of a page of a site
-     *
+     * 
      */
     public String getSiteMessageContent( HttpServletRequest request, int nMode )
     {
         String strContent = null;
 
-        if ( !AppInit.isWebappSuccessfullyLoaded(  ) )
+        if ( !AppInit.isWebappSuccessfullyLoaded( ) )
         {
-            return getStartUpFailurePage(  );
+            return getStartUpFailurePage( );
         }
 
         ISiteMessageHandler handler = (ISiteMessageHandler) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
@@ -237,57 +243,58 @@ public class PortalJspBean
 
     /**
      * Returns the code for the popup of the credits
-     *
+     * 
      * @return the html code for the popup credits
      */
-    public String getStartUpFailurePage(  )
+    public String getStartUpFailurePage( )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_FAILURE_MESSAGE, AppInit.getLoadingFailureCause(  ) );
-        model.put( MARK_FAILURE_DETAILS, AppInit.getLoadingFailureDetails(  ) );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_FAILURE_MESSAGE, AppInit.getLoadingFailureCause( ) );
+        model.put( MARK_FAILURE_DETAILS, AppInit.getLoadingFailureDetails( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_STARTUP_FAILURE, null, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Returns the code for the popup of the credits
-     *
+     * 
      * @param request The Http Request
      * @return the html code for the popup credits
      */
     public String getCredits( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_APP_VERSION, AppInfo.getVersion(  ) );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_APP_VERSION, AppInfo.getVersion( ) );
         model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
-        model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName(  ) );
+        model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_CREDITS, request.getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_CREDITS, request.getLocale( ), model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Returns the code for the popup of the legal infos
-     *
+     * 
      * @param request The Http Request
      * @return the html code for the legal infos
      */
     public String getLegalInfos( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ADDRESS_INFOS_CNIL, AppPropertiesService.getProperty( PROPERTY_INFOS_CNIL ) );
-        model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName(  ) );
+        model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_LEGAL_INFO, request.getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_LEGAL_INFO, request.getLocale( ), model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
-     * This method is called by Portal.jsp when it caught an UserNotSignedException.
+     * This method is called by Portal.jsp when it caught an
+     * UserNotSignedException.
      * It gives the login url and stores in the session the url asked
      * @param request The HTTP request
      * @return The login page URL
@@ -295,26 +302,23 @@ public class PortalJspBean
      */
     public static String redirectLogin( HttpServletRequest request )
     {
-        String strNextUrl = request.getRequestURI(  );
+        String strNextUrl = request.getRequestURI( );
         UrlItem url = new UrlItem( strNextUrl );
-        Enumeration enumParams = request.getParameterNames(  );
+        Enumeration enumParams = request.getParameterNames( );
 
-        while ( enumParams.hasMoreElements(  ) )
+        while ( enumParams.hasMoreElements( ) )
         {
-            String strParamName = (String) enumParams.nextElement(  );
+            String strParamName = (String) enumParams.nextElement( );
             url.addParameter( strParamName, request.getParameter( strParamName ) );
         }
 
         HttpSession session = request.getSession( true );
-        session.setAttribute( ATTRIBUTE_LOGIN_NEXT_URL, url.getUrl(  ) );
+        session.setAttribute( ATTRIBUTE_LOGIN_NEXT_URL, url.getUrl( ) );
 
-        String strRedirect = SecurityService.getInstance(  ).getLoginPageUrl(  );
+        String strRedirect = SecurityService.getInstance( ).getLoginPageUrl( );
 
-        return AppPathService.getAbsoluteUrl(request,strRedirect);
+        return AppPathService.getAbsoluteUrl( request, strRedirect );
     }
-    
-    
-   
 
     /**
      * Returns the url (asked before login) to redirect after login
@@ -324,7 +328,7 @@ public class PortalJspBean
      */
     public static String getLoginNextUrl( HttpServletRequest request )
     {
-        HttpSession session = request.getSession(  );
+        HttpSession session = request.getSession( );
         String strNextUrl = (String) session.getAttribute( ATTRIBUTE_LOGIN_NEXT_URL );
 
         return strNextUrl;
@@ -336,18 +340,18 @@ public class PortalJspBean
      */
     public static void setUploadFilterSiteNextUrl( HttpServletRequest request )
     {
-        String strNextUrl = request.getRequestURI(  );
+        String strNextUrl = request.getRequestURI( );
         UrlItem url = new UrlItem( strNextUrl );
-        Enumeration enumParams = request.getParameterNames(  );
+        Enumeration enumParams = request.getParameterNames( );
 
-        while ( enumParams.hasMoreElements(  ) )
+        while ( enumParams.hasMoreElements( ) )
         {
-            String strParamName = (String) enumParams.nextElement(  );
+            String strParamName = (String) enumParams.nextElement( );
             url.addParameter( strParamName, request.getParameter( strParamName ) );
         }
 
         HttpSession session = request.getSession( true );
-        session.setAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL, url.getUrl(  ) );
+        session.setAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL, url.getUrl( ) );
     }
 
     /**
@@ -357,7 +361,7 @@ public class PortalJspBean
      */
     public static String getUploadFilterSiteNextUrl( HttpServletRequest request )
     {
-        HttpSession session = request.getSession(  );
+        HttpSession session = request.getSession( );
         String strNextUrl = (String) session.getAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL );
 
         return strNextUrl;
@@ -369,10 +373,9 @@ public class PortalJspBean
      */
     public static void removeUploadFilterSiteNextUrl( HttpServletRequest request )
     {
-        HttpSession session = request.getSession(  );
+        HttpSession session = request.getSession( );
         session.removeAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL );
     }
-    
 
     //    /**
     //     * Get the send resource page
@@ -501,5 +504,5 @@ public class PortalJspBean
 
         return template.getHtml( );
     }
-  
+
 }

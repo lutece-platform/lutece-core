@@ -229,7 +229,6 @@ public final class AdminAuthenticationService
      */
     private AdminUser bindUser( AdminUser user ) throws AccessDeniedException, UserNotSignedException
     {
-        AdminUser bindUser = user;
 
         if ( user == null )
         {
@@ -237,7 +236,7 @@ public final class AdminAuthenticationService
         }
 
         // retrieve the user in local system from the access code
-        bindUser = AdminUserHome.findUserByLogin( user.getAccessCode(  ) );
+        AdminUser bindUser = AdminUserHome.findUserByLogin( user.getAccessCode(  ) );
 
         // only allow a user that is marked active
         if ( ( bindUser == null ) || ( !bindUser.isStatusActive(  ) ) )
