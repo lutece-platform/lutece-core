@@ -32,7 +32,7 @@
 <link href="css/admin/bootstrap-responsive.min.css" rel="stylesheet">
 <link href="css/admin/colorpicker.css" rel="stylesheet">
 <!-- link href="css/admin/datepicker.css" rel="stylesheet" -->
-<link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery-ui-1.8.16.custom.css" />
+<link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery-ui-1.10.0.custom.css" />
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
 <link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery.ui.1.8.16.ie.css" />
