@@ -56,18 +56,20 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.password.PasswordUtil;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.sql.Timestamp;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -99,7 +101,7 @@ public class ImportAdminUserService extends CSVReaderService
      */
     @Override
     protected List<CSVMessageDescriptor> readLineOfCSVFile( String[] strLineDataArray, int nLineNumber, Locale locale,
-            String strBaseUrl )
+        String strBaseUrl )
     {
         List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>(  );
         int nIndex = 0;
@@ -245,7 +247,7 @@ public class ImportAdminUserService extends CSVReaderService
                 // We un-encrypt the password to send it in an email
                 defaultAdminUser.setPassword( strPassword );
                 AdminUserService.notifyUser( AppPathService.getProdUrl( strBaseUrl ), user,
-                        PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
+                    PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
             }
             else
             {

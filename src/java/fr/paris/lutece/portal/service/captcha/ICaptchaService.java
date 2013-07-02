@@ -54,19 +54,19 @@ public interface ICaptchaService
      * Gets the captcha HTML code
      * @return The captcha HTML code
      */
-    String getHtmlCode( );
+    String getHtmlCode(  );
 
     /**
      * Get the list of captcha providers
      * @return The list of captcha providers
      */
-    List<String> getCaptchaEngineNameList( );
+    List<String> getCaptchaEngineNameList(  );
 
     /**
      * Get the default captcha engine to use
      * @return The name of the default captcha engine
      */
-    String getDefaultCaptchaEngineName( );
+    String getDefaultCaptchaEngineName(  );
 
     /**
      * Set the default captcha engine to use

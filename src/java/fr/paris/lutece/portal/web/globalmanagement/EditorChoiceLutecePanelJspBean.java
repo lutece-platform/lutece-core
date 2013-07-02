@@ -55,7 +55,6 @@ public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
      * Generated servial UID
      */
     private static final long serialVersionUID = -3558930087612105420L;
-
     private static final String LABEL_TITLE_EDITOR_CHOICE = "portal.globalmanagement.editorChoice.labelEditorChoice";
     private static final String PARAM_EDITOR_BACK_OFFICE = "editor_back_office";
     private static final String PARAM_EDITOR_FRONT_OFFICE = "editor_front_office";

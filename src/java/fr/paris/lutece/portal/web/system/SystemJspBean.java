@@ -47,6 +47,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -77,6 +78,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_FILES_SYSTEM_DIRECTORY = "files_system_directory";
     private static final String MARK_FILES_SYSTEM_NAME = "file_system_name";
     private static final String MARK_FILE_SYSTEM_DATA = "file_system_data";
+
     //    private static final String MARK_WEBMASTER_PROPERTIES = "webmaster_properties";
     private static final String MARK_PROPERTIES_GROUPS_LIST = "groups_list";
 
@@ -84,6 +86,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_MANAGE_FILES_SYSTEM = "admin/system/manage_files_system.html";
     private static final String TEMPLATE_VIEW_FILES_SYSTEM = "admin/system/view_files_system.html";
     private static final String TEMPLATE_VIEW_FILE = "admin/system/view_file.html";
+
     //    private static final String TEMPLATE_MANAGE_PROPERTIES = "admin/system/manage_properties.html";
     private static final String TEMPLATE_MODIFY_PROPERTIES = "admin/system/modify_properties.html";
 

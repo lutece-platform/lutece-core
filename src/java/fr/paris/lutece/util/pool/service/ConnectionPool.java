@@ -35,17 +35,19 @@ package fr.paris.lutece.util.pool.service;
 
 import fr.paris.lutece.portal.service.util.AppException;
 
+import org.apache.log4j.Logger;
+
 import java.io.PrintWriter;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
-
-import org.apache.log4j.Logger;
 
 
 /**
@@ -345,7 +347,7 @@ public class ConnectionPool implements DataSource
             }
         }
 
-        _freeConnections.clear( );
+        _freeConnections.clear(  );
     }
 
     /**

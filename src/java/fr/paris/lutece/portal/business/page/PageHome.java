@@ -91,7 +91,7 @@ public final class PageHome
         _dao.delete( nPageId );
         // We remove extensions of the removed page if any
         ExtendableResourceRemovalListenerService.doRemoveResourceExtentions( Page.RESOURCE_TYPE,
-                Integer.toString( nPageId ) );
+            Integer.toString( nPageId ) );
 
         PortalService.resetCache(  );
     }

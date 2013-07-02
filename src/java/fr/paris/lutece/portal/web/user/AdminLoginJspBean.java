@@ -374,7 +374,7 @@ public class AdminLoginJspBean implements Serializable
             }
             else
             {
-                url = AppPathService.resolveRedirectUrl( request, AppPathService.getAdminMenuUrl() );
+                url = AppPathService.resolveRedirectUrl( request, AppPathService.getAdminMenuUrl(  ) );
             }
         }
 

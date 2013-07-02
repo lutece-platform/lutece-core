@@ -53,12 +53,12 @@ public final class DatastoreService
     public static final String VALUE_FALSE = "false";
     private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile( "#dskey\\{(.*?)\\}" );
     private static final String VALUE_MISSING = "DS Value Missing";
-    private static AbstractCacheableService _cache = new DatastoreCacheService( );
+    private static AbstractCacheableService _cache = new DatastoreCacheService(  );
 
     /**
      * Private constructor
      */
-    private DatastoreService( )
+    private DatastoreService(  )
     {
     }
 
@@ -84,7 +84,7 @@ public final class DatastoreService
             _cache.putInCache( strKey, entity );
         }
 
-        return entity.getValue( );
+        return entity.getValue(  );
     }
 
     /**
@@ -124,13 +124,13 @@ public final class DatastoreService
      */
     public static void removeDataByPrefix( String strPrefix )
     {
-        List<DataEntity> listEntities = DataEntityHome.findAll( );
+        List<DataEntity> listEntities = DataEntityHome.findAll(  );
 
         for ( DataEntity entity : listEntities )
         {
-            if ( entity.getKey( ).startsWith( strPrefix ) )
+            if ( entity.getKey(  ).startsWith( strPrefix ) )
             {
-                removeData( entity.getKey( ) );
+                removeData( entity.getKey(  ) );
             }
         }
     }
@@ -142,14 +142,14 @@ public final class DatastoreService
      */
     public static ReferenceList getDataByPrefix( String strPrefix )
     {
-        ReferenceList list = new ReferenceList( );
-        List<DataEntity> listEntities = DataEntityHome.findAll( );
+        ReferenceList list = new ReferenceList(  );
+        List<DataEntity> listEntities = DataEntityHome.findAll(  );
 
         for ( DataEntity entity : listEntities )
         {
-            if ( entity.getKey( ).startsWith( strPrefix ) )
+            if ( entity.getKey(  ).startsWith( strPrefix ) )
             {
-                list.addItem( entity.getKey( ), entity.getValue( ) );
+                list.addItem( entity.getKey(  ), entity.getValue(  ) );
             }
         }
 
@@ -169,25 +169,27 @@ public final class DatastoreService
         {
             Matcher matcher = PATTERN_DATASTORE_KEY.matcher( strSource );
 
-            if ( matcher.find( ) )
+            if ( matcher.find(  ) )
             {
-                StringBuffer sb = new StringBuffer( );
+                StringBuffer sb = new StringBuffer(  );
 
                 do
                 {
                     String strKey = matcher.group( 1 );
                     String strValue = DatastoreService.getDataValue( strKey, VALUE_MISSING );
+
                     if ( VALUE_MISSING.equals( strValue ) )
                     {
-                        AppLogService.error( "Datastore Key missing : " + strKey
-                                + " - Please fix to avoid performance issues." );
+                        AppLogService.error( "Datastore Key missing : " + strKey +
+                            " - Please fix to avoid performance issues." );
                     }
+
                     matcher.appendReplacement( sb, strValue );
                 }
-                while ( matcher.find( ) );
+                while ( matcher.find(  ) );
 
                 matcher.appendTail( sb );
-                result = sb.toString( );
+                result = sb.toString(  );
             }
         }
 
@@ -212,7 +214,7 @@ public final class DatastoreService
                 return false;
             }
         }
+
         return true;
     }
-
 }

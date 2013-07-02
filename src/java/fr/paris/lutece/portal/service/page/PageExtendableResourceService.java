@@ -42,9 +42,9 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
 
-import java.util.Locale;
-
 import org.apache.commons.lang.StringUtils;
+
+import java.util.Locale;
 
 
 /**
@@ -105,8 +105,9 @@ public class PageExtendableResourceService implements IExtendableResourceService
     @Override
     public String getResourceUrl( String strIdResource, String strResourceType )
     {
-        UrlItem url = new UrlItem( AppPathService.getPortalUrl( ) );
+        UrlItem url = new UrlItem( AppPathService.getPortalUrl(  ) );
         url.addParameter( Parameters.PAGE_ID, strIdResource );
-        return url.getUrl( );
+
+        return url.getUrl(  );
     }
 }

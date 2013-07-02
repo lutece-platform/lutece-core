@@ -40,18 +40,20 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import java.text.MessageFormat;
+
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -81,19 +83,18 @@ public final class AppPathService
     // Datastore keys
     private static final String KEY_ADMIN_HOME_URL = "portal.site.site_property.admin_home_url";
     private static final String KEY_PORTAL_HOME_URL = "portal.site.site_property.home_url";
-
     private static String _strWebAppPath;
 
     /**
      * Creates a new AppPathService object.
      */
-    private AppPathService( )
+    private AppPathService(  )
     {
     }
 
     /**
      * Initialize The path service
-     * 
+     *
      * @param context The servlet context
      */
     public static void init( ServletContext context )
@@ -104,7 +105,7 @@ public final class AppPathService
 
     /**
      * Initialize The webapppath
-     * 
+     *
      * @param strWebAppPath The Webapp path
      */
     public static void init( String strWebAppPath )
@@ -115,8 +116,8 @@ public final class AppPathService
     /**
      * Returns the absolute path of a repository from a relative definition in
      * properties file
-     * 
-     * 
+     *
+     *
      * @return the repository absolute path
      * @param strKey the repository key definied in properties file
      */
@@ -132,16 +133,16 @@ public final class AppPathService
             throw new AppException( strMsg );
         }
 
-        return getWebAppPath( ) + strDirectory;
+        return getWebAppPath(  ) + strDirectory;
     }
 
     /**
      * Returns the webapp path from the properties file
-     * 
-     * 
+     *
+     *
      * @return the webapp path
      */
-    public static String getWebAppPath( )
+    public static String getWebAppPath(  )
     {
         return _strWebAppPath;
     }
@@ -149,7 +150,7 @@ public final class AppPathService
     /**
      * Returns the absolute path of file from its relative definition in
      * properties file.
-     * 
+     *
      * @param strKey the repository key defined in properties file
      * @param strFilename The name of file
      * @return the absolute path of file
@@ -167,7 +168,7 @@ public final class AppPathService
      */
     public static FileInputStream getResourceAsStream( String strPath, String strFilename )
     {
-        String strFilePath = getWebAppPath( ) + strPath + strFilename;
+        String strFilePath = getWebAppPath(  ) + strPath + strFilename;
 
         try
         {
@@ -184,8 +185,8 @@ public final class AppPathService
 
     /**
      * Returns the absolute path of a repository from a relative path
-     * 
-     * 
+     *
+     *
      * @return the repository absolute path
      * @param strDirectory the relative path
      */
@@ -231,16 +232,16 @@ public final class AppPathService
         if ( ( strBase == null ) || ( strBase.equals( "" ) ) )
         {
             // Dynamic base URL if not defined in the properties
-            strBase = request.getScheme( ) + DOUBLE_POINTS + SLASH + SLASH + request.getServerName( );
+            strBase = request.getScheme(  ) + DOUBLE_POINTS + SLASH + SLASH + request.getServerName(  );
 
-            int nPort = request.getServerPort( );
+            int nPort = request.getServerPort(  );
 
             if ( nPort != PORT_NUMBER_HTTP )
             {
                 strBase += ( DOUBLE_POINTS + nPort );
             }
 
-            strBase += request.getContextPath( );
+            strBase += request.getContextPath(  );
         }
 
         if ( !strBase.endsWith( SLASH ) )
@@ -261,7 +262,7 @@ public final class AppPathService
      *             instead
      */
     @Deprecated
-    public static String getBaseUrl( )
+    public static String getBaseUrl(  )
     {
         // FIXME : lutece.base.url is only set when using WSSO
         String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_BASE_URL );
@@ -304,9 +305,9 @@ public final class AppPathService
      * @deprecated Use {@link AppPathService#getProdUrl(String)} instead
      */
     @Deprecated
-    public static String getProdUrl( )
+    public static String getProdUrl(  )
     {
-        return getProdUrl( getBaseUrl( ) );
+        return getProdUrl( getBaseUrl(  ) );
     }
 
     /**
@@ -324,7 +325,7 @@ public final class AppPathService
             strProdUrl = strBaseUrl;
         }
 
-        if ( strProdUrl != null && !strProdUrl.endsWith( SLASH ) )
+        if ( ( strProdUrl != null ) && !strProdUrl.endsWith( SLASH ) )
         {
             strProdUrl += SLASH;
         }
@@ -340,7 +341,7 @@ public final class AppPathService
     public static String getSiteMessageUrl( HttpServletRequest request )
     {
         // Set the site message url
-        return SiteMessageService.setSiteMessageUrl( getBaseUrl( request ) + getSiteMessageUrl( ) );
+        return SiteMessageService.setSiteMessageUrl( getBaseUrl( request ) + getSiteMessageUrl(  ) );
     }
 
     /**
@@ -348,7 +349,7 @@ public final class AppPathService
      * lutece.properties
      * @return the Portal Url
      */
-    public static String getPortalUrl( )
+    public static String getPortalUrl(  )
     {
         return AppPropertiesService.getProperty( PROPERTY_PORTAL_URL );
     }
@@ -358,10 +359,10 @@ public final class AppPathService
      * (jsp/site/Portal.jsp) defined in lutece.properties
      * @return the Portal Root forward Url
      */
-    public static String getRootForwardUrl( )
+    public static String getRootForwardUrl(  )
     {
         return DatastoreService.getDataValue( KEY_PORTAL_HOME_URL,
-                AppPropertiesService.getProperty( PROPERTY_PORTAL_REDIRECT_URL ) );
+            AppPropertiesService.getProperty( PROPERTY_PORTAL_REDIRECT_URL ) );
     }
 
     /**
@@ -369,7 +370,7 @@ public final class AppPathService
      * in lutece.properties
      * @return the SiteMessage Url
      */
-    public static String getSiteMessageUrl( )
+    public static String getSiteMessageUrl(  )
     {
         return AppPropertiesService.getProperty( PROPERTY_SITE_MESSAGE_URL );
     }
@@ -379,7 +380,7 @@ public final class AppPathService
      * defined in lutece.properties
      * @return the Portal Url
      */
-    public static String getAdminPortalUrl( )
+    public static String getAdminPortalUrl(  )
     {
         return AppPropertiesService.getProperty( PROPERTY_ADMIN_URL );
     }
@@ -389,10 +390,10 @@ public final class AppPathService
      * defined in lutece.properties
      * @return the Admin Menu Url
      */
-    public static String getAdminMenuUrl( )
+    public static String getAdminMenuUrl(  )
     {
         return DatastoreService.getDataValue( KEY_ADMIN_HOME_URL,
-                AppPropertiesService.getProperty( PROPERTY_ADMIN_MENU_URL ) );
+            AppPropertiesService.getProperty( PROPERTY_ADMIN_MENU_URL ) );
     }
 
     /**
@@ -408,7 +409,7 @@ public final class AppPathService
         // remove the ending separator if present
         if ( strNormalized.endsWith( "/" ) )
         {
-            strNormalized = strNormalized.substring( 0, strNormalized.length( ) - 1 );
+            strNormalized = strNormalized.substring( 0, strNormalized.length(  ) - 1 );
         }
 
         return strNormalized;
@@ -423,7 +424,7 @@ public final class AppPathService
      *         virtual host configuration. The list is empty if there is no
      *         configuration defined.
      */
-    public static ReferenceList getAvailableVirtualHosts( )
+    public static ReferenceList getAvailableVirtualHosts(  )
     {
         ReferenceList list = null;
 
@@ -432,16 +433,16 @@ public final class AppPathService
 
         if ( strKeysList != null )
         {
-            list = new ReferenceList( );
+            list = new ReferenceList(  );
 
             // Extracts each key (separated by a comma)
             StringTokenizer strTokens = new StringTokenizer( strKeysList, "," );
 
-            while ( strTokens.hasMoreTokens( ) )
+            while ( strTokens.hasMoreTokens(  ) )
             {
-                String strHostKey = strTokens.nextToken( );
-                String strHostKeyDescription = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST + strHostKey
-                        + SUFFIX_DESCRIPTION );
+                String strHostKey = strTokens.nextToken(  );
+                String strHostKeyDescription = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST + strHostKey +
+                        SUFFIX_DESCRIPTION );
                 list.addItem( strHostKey, strHostKeyDescription );
             }
         }
@@ -461,8 +462,8 @@ public final class AppPathService
         // Get from config.properties the parameter name for virtual host keys
         String strVirtualHostKeyParameter = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST_KEY_PARAMETER );
 
-        if ( ( request != null ) && ( strVirtualHostKeyParameter != null )
-                && ( !strVirtualHostKeyParameter.equals( "" ) ) )
+        if ( ( request != null ) && ( strVirtualHostKeyParameter != null ) &&
+                ( !strVirtualHostKeyParameter.equals( "" ) ) )
         {
             // Search for this parameter into the request
             strVirtalHostKey = request.getParameter( strVirtualHostKeyParameter );
@@ -534,17 +535,17 @@ public final class AppPathService
             strUrl = strRedirectUrl;
         }
 
-        Enumeration enumParams = request.getParameterNames( );
+        Enumeration enumParams = request.getParameterNames(  );
         UrlItem url = new UrlItem( getBaseUrl( request ) + strUrl );
 
         String strParamName;
 
-        while ( enumParams.hasMoreElements( ) )
+        while ( enumParams.hasMoreElements(  ) )
         {
-            strParamName = (String) enumParams.nextElement( );
+            strParamName = (String) enumParams.nextElement(  );
 
-            if ( !strParamName.equals( Parameters.REDIRECT_URL ) && !strParamName.equals( Parameters.ACCESS_CODE )
-                    && !strParamName.equals( Parameters.PASSWORD ) )
+            if ( !strParamName.equals( Parameters.REDIRECT_URL ) && !strParamName.equals( Parameters.ACCESS_CODE ) &&
+                    !strParamName.equals( Parameters.PASSWORD ) )
             {
                 url.addParameter( strParamName, request.getParameter( strParamName ) );
             }
@@ -560,7 +561,7 @@ public final class AppPathService
      * @param request the http request (provides the base path if needed)
      * @param strUrl the url to transform
      * @return the corresonding absolute url
-     * 
+     *
      * */
     public static String getAbsoluteUrl( HttpServletRequest request, String strUrl )
     {

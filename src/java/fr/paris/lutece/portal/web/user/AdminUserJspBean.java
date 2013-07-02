@@ -91,9 +91,14 @@ import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 import fr.paris.lutece.util.xml.XmlUtil;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -104,9 +109,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -2282,12 +2284,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
 
             strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCOUNT_REACTIVATED,
-                    AppPathService.getAdminMenuUrl(), AdminMessage.TYPE_INFO );
+                    AppPathService.getAdminMenuUrl(  ), AdminMessage.TYPE_INFO );
         }
         else
         {
             strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ACCOUNT_TO_REACTIVATED,
-                    AppPathService.getAdminMenuUrl(), AdminMessage.TYPE_ERROR );
+                    AppPathService.getAdminMenuUrl(  ), AdminMessage.TYPE_ERROR );
         }
 
         return strUrl;

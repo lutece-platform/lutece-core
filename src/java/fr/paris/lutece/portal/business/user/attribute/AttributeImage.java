@@ -286,7 +286,6 @@ public class AttributeImage extends AbstractAttribute
                     file.setPhysicalFile( physicalFile );
                     file.setMimeType( FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) ) );
 
-                    
                     //verify that the file is an image
                     ImageIO.read( new ByteArrayInputStream( file.getPhysicalFile(  ).getValue(  ) ) );
 

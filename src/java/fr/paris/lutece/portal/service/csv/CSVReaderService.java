@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.csv;
 
+import au.com.bytecode.opencsv.CSVReader;
+
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
@@ -40,21 +42,20 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
+import org.apache.commons.fileupload.FileItem;
+
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
-import org.apache.commons.fileupload.FileItem;
-
-import au.com.bytecode.opencsv.CSVReader;
 
 
 /**
@@ -85,7 +86,7 @@ public abstract class CSVReaderService
      * @return Returns the list of messages associated with the line.
      */
     protected abstract List<CSVMessageDescriptor> readLineOfCSVFile( String[] strLineDataArray, int nLineNumber,
-            Locale locale, String strBaseUrl );
+        Locale locale, String strBaseUrl );
 
     /**
      * Check the line of the CSV file. This method is called once on each line
@@ -164,8 +165,8 @@ public abstract class CSVReaderService
      *      about sort
      */
     public List<CSVMessageDescriptor> readCSVFile( FileItem fileItem, int nColumnNumber,
-            boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale,
-            String strBaseUrl )
+        boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale,
+        String strBaseUrl )
     {
         if ( fileItem != null )
         {
@@ -185,7 +186,7 @@ public abstract class CSVReaderService
                 CSVReader csvReader = new CSVReader( inputStreamReader, getCSVSeparator(  ), getCSVEscapeCharacter(  ) );
 
                 return readCSVFile( csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine,
-                        locale, strBaseUrl );
+                    locale, strBaseUrl );
             }
         }
 
@@ -222,8 +223,8 @@ public abstract class CSVReaderService
      *      about sort
      */
     public List<CSVMessageDescriptor> readCSVFile( String strPath, int nColumnNumber,
-            boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale,
-            String strBaseUrl )
+        boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale,
+        String strBaseUrl )
     {
         java.io.File file = new java.io.File( strPath );
 
@@ -233,7 +234,7 @@ public abstract class CSVReaderService
             CSVReader csvReader = new CSVReader( fileReader, getCSVSeparator(  ), getCSVEscapeCharacter(  ) );
 
             return readCSVFile( csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine,
-                    locale, strBaseUrl );
+                locale, strBaseUrl );
         }
         catch ( FileNotFoundException e )
         {
@@ -274,10 +275,10 @@ public abstract class CSVReaderService
      *      about sort
      */
     public List<CSVMessageDescriptor> readCSVFile( File file, int nColumnNumber, boolean bCheckFileBeforeProcessing,
-            boolean bExitOnError, boolean bSkipFirstLine, Locale locale, String strBaseUrl )
+        boolean bExitOnError, boolean bSkipFirstLine, Locale locale, String strBaseUrl )
     {
         return readCSVFile( file.getPhysicalFile(  ), nColumnNumber, bCheckFileBeforeProcessing, bExitOnError,
-                bSkipFirstLine, locale, strBaseUrl );
+            bSkipFirstLine, locale, strBaseUrl );
     }
 
     /**
@@ -307,8 +308,8 @@ public abstract class CSVReaderService
      *      about sort
      */
     public List<CSVMessageDescriptor> readCSVFile( PhysicalFile physicalFile, int nColumnNumber,
-            boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale,
-            String strBaseUrl )
+        boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale,
+        String strBaseUrl )
     {
         PhysicalFile importedPhysicalFile = physicalFile;
 
@@ -326,7 +327,7 @@ public abstract class CSVReaderService
                 CSVReader csvReader = new CSVReader( inputStreamReader, getCSVSeparator(  ), getCSVEscapeCharacter(  ) );
 
                 return readCSVFile( csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine,
-                        locale, strBaseUrl );
+                    locale, strBaseUrl );
             }
         }
 
@@ -362,8 +363,8 @@ public abstract class CSVReaderService
      *      about sort
      */
     protected List<CSVMessageDescriptor> readCSVFile( CSVReader csvReader, int nColumnNumber,
-            boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale,
-            String strBaseUrl )
+        boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale,
+        String strBaseUrl )
     {
         List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>(  );
         int nLineNumber = 0;

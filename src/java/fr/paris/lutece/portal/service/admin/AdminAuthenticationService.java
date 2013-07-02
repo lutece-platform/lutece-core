@@ -229,7 +229,6 @@ public final class AdminAuthenticationService
      */
     private AdminUser bindUser( AdminUser user ) throws AccessDeniedException, UserNotSignedException
     {
-
         if ( user == null )
         {
             throw new UserNotSignedException(  );

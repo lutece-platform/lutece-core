@@ -62,6 +62,8 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -71,8 +73,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -329,7 +329,7 @@ public final class PortalService
 
         model.put( Markers.ENCODING, strEncoding );
 
-        model.put( MARK_IS_EXTEND_INSTALLED, isExtendActivated( ) );
+        model.put( MARK_IS_EXTEND_INSTALLED, isExtendActivated(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_FRAMESET, locale, model );
 
@@ -690,7 +690,7 @@ public final class PortalService
      * Check if the extend plugin is activated
      * @return True if the plugin is activate,d false otherwise
      */
-    public static boolean isExtendActivated( )
+    public static boolean isExtendActivated(  )
     {
         return PluginService.isPluginEnable( PLUGIN_EXTEND_NAME );
     }

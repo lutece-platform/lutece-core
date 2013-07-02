@@ -136,8 +136,7 @@ public class AdminMenuJspBean implements Serializable
         model.put( Markers.VERSION, strVersion );
         model.put( MARK_SITE_NAME, strSiteName );
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
-        model.put( MARK_ADMIN_URL,
-            AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl() );
+        model.put( MARK_ADMIN_URL, AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl(  ) );
         model.put( MARK_USER, user );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
         model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage(  ) );
@@ -350,7 +349,7 @@ public class AdminMenuJspBean implements Serializable
         user.setLocale( locale );
         AppPathService.getBaseUrl( request );
 
-        return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl();
+        return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl(  );
     }
 
     /**
@@ -491,6 +490,6 @@ public class AdminMenuJspBean implements Serializable
             return strReferer;
         }
 
-        return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl();
+        return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl(  );
     }
 }

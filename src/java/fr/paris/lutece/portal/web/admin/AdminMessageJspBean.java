@@ -90,7 +90,7 @@ public class AdminMessageJspBean
         model.put( MARK_TARGET, message.getTarget(  ) );
         model.put( MARK_REQUEST_PARAMETERS, message.getRequestParameters(  ) );
         model.put( MARK_BACK_URL, message.getBackUrl(  ) );
-        model.put( MARK_ADMIN_URL, AppPathService.getAdminMenuUrl() );
+        model.put( MARK_ADMIN_URL, AppPathService.getAdminMenuUrl(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MESSAGE, locale, model );
 

@@ -58,7 +58,7 @@ public final class AppTemplateService
     /**
      * Protected constructor
      */
-    private AppTemplateService( )
+    private AppTemplateService(  )
     {
     }
 
@@ -74,14 +74,14 @@ public final class AppTemplateService
     /**
      * Initializes autoincludes for plugins.
      */
-    public static void initAutoIncludes( )
+    public static void initAutoIncludes(  )
     {
         // register core
-        Plugin corePlugin = PluginService.getCore( );
+        Plugin corePlugin = PluginService.getCore(  );
         addPluginMacros( corePlugin );
 
         // register plugins
-        for ( Plugin plugin : PluginService.getPluginList( ) )
+        for ( Plugin plugin : PluginService.getPluginList(  ) )
         {
             addPluginMacros( plugin );
         }
@@ -89,38 +89,38 @@ public final class AppTemplateService
 
     /**
      * Adds the plugin macros.
-     * 
+     *
      * @param plugin the plugin
      */
     private static void addPluginMacros( Plugin plugin )
     {
-        for ( String strFileName : plugin.getFreeMarkerMacrosFiles( ) )
+        for ( String strFileName : plugin.getFreeMarkerMacrosFiles(  ) )
         {
-            AppLogService.info( "New freemarker autoinclude : " + strFileName + " from " + plugin.getName( ) );
-            getFreeMarkerTemplateService( ).addPluginMacros( strFileName );
+            AppLogService.info( "New freemarker autoinclude : " + strFileName + " from " + plugin.getName(  ) );
+            getFreeMarkerTemplateService(  ).addPluginMacros( strFileName );
         }
     }
 
     /**
      * Reset the cache
      */
-    public static void resetCache( )
+    public static void resetCache(  )
     {
-        getFreeMarkerTemplateService( ).resetCache( );
+        getFreeMarkerTemplateService(  ).resetCache(  );
     }
 
     /**
      * Resets the configuration cache
      */
-    public static void resetConfiguration( )
+    public static void resetConfiguration(  )
     {
-        getFreeMarkerTemplateService( ).resetConfiguration( );
+        getFreeMarkerTemplateService(  ).resetConfiguration(  );
     }
 
     /**
      * Returns a reference on a template object (load the template or get it
      * from the cache if present.)
-     * 
+     *
      * @param strTemplate The name of the template
      * @return The template object.
      */
@@ -132,7 +132,7 @@ public final class AppTemplateService
     /**
      * Returns a reference on a template object (load the template or get it
      * from the cache if present.)
-     * 
+     *
      * @param strTemplate The name of the template
      * @param strPath The specific path to load the template
      * @return The template object.
@@ -149,7 +149,7 @@ public final class AppTemplateService
     /**
      * Returns a reference on a template object (load the template or get it
      * from the cache if present.)
-     * 
+     *
      * @param strTemplate The name of the template
      * @param locale The current locale to localize the template
      * @return The template object.
@@ -182,7 +182,7 @@ public final class AppTemplateService
     /**
      * Returns a reference on a template object (load the template or get it
      * from the cache if present.)
-     * 
+     *
      * @param strTemplate The name of the template
      * @param strPath The specific path to load the template
      * @param locale The current locale to localize the template
@@ -202,10 +202,10 @@ public final class AppTemplateService
 
     /**
      * Returns a reference on a template object
-     * 
+     *
      * <br />
      * <b>Deprecated</b> Using Freemarker without cache is huge CPU consuming
-     * 
+     *
      * @param strFreemarkerTemplateData The content of the template
      * @param locale The current {@link Locale} to localize the template
      * @param model The model
@@ -233,15 +233,15 @@ public final class AppTemplateService
     private static HtmlTemplate loadTemplate( String strPath, String strTemplate, Locale locale, Object model )
     {
         HtmlTemplate template;
-        template = getFreeMarkerTemplateService( ).loadTemplate( strPath, strTemplate, locale, model );
+        template = getFreeMarkerTemplateService(  ).loadTemplate( strPath, strTemplate, locale, model );
 
         if ( locale != null )
         {
-            String strLocalized = I18nService.localize( template.getHtml( ), locale );
+            String strLocalized = I18nService.localize( template.getHtml(  ), locale );
             template = new HtmlTemplate( strLocalized );
         }
 
-        template = new HtmlTemplate( DatastoreService.replaceKeys( template.getHtml( ) ) );
+        template = new HtmlTemplate( DatastoreService.replaceKeys( template.getHtml(  ) ) );
 
         return template;
     }
@@ -250,10 +250,10 @@ public final class AppTemplateService
      * Load the template from the file
      * WARNING : This method must not be used in front office (no cache
      * management available).
-     * 
+     *
      * <br />
      * <b>Deprecated</b> Using Freemarker without cache is huge CPU consuming
-     * 
+     *
      * @param strTemplateData The data of the template
      * @param locale The current locale to localize the template
      * @param model the model to use for loading
@@ -263,11 +263,11 @@ public final class AppTemplateService
     private static HtmlTemplate loadTemplate( String strTemplateData, Locale locale, Object model )
     {
         HtmlTemplate template;
-        template = getFreeMarkerTemplateService( ).loadTemplate( strTemplateData, locale, model );
+        template = getFreeMarkerTemplateService(  ).loadTemplate( strTemplateData, locale, model );
 
         if ( locale != null )
         {
-            String strLocalized = I18nService.localize( template.getHtml( ), locale );
+            String strLocalized = I18nService.localize( template.getHtml(  ), locale );
             template = new HtmlTemplate( strLocalized );
         }
 
@@ -278,11 +278,11 @@ public final class AppTemplateService
      * Get the instance of free marker template service
      * @return the instance of free marker template service
      */
-    private static IFreeMarkerTemplateService getFreeMarkerTemplateService( )
+    private static IFreeMarkerTemplateService getFreeMarkerTemplateService(  )
     {
         if ( _freeMarkerTemplateService == null )
         {
-            _freeMarkerTemplateService = FreeMarkerTemplateService.getInstance( );
+            _freeMarkerTemplateService = FreeMarkerTemplateService.getInstance(  );
             _freeMarkerTemplateService.init( _strTemplateDefaultPath );
         }
 
