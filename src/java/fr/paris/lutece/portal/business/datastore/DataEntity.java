@@ -33,11 +33,13 @@
  */
 package fr.paris.lutece.portal.business.datastore;
 
+import java.io.Serializable;
+
 
 /**
  * This is the business class for the object Entity
  */
-public class DataEntity
+public class DataEntity implements Serializable
 {
     // Variables declarations 
     private String _strKey;
