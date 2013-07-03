@@ -47,7 +47,8 @@ public class DatastoreCacheService extends AbstractCacheableService
     /** Constructor */
     public DatastoreCacheService(  )
     {
-        CacheService.registerCacheableService( this );
+        initCache();
+        //CacheService.registerCacheableService( this );
     }
 
     /**

@@ -142,9 +142,11 @@ public final class AppInit
             AppLogService.info( "Creating connexions pool 'portal'." );
 
             // Spring ApplicationContext initialization
+            AppLogService.info( "Loading context files ..." );
             SpringContextService.init(  );
 
             // Initialize and run StartUp services
+            AppLogService.info( "Running extra startup services ..." );
             StartUpServiceManager.init(  );
 
             // XmlTransformer service cache manager
@@ -156,10 +158,13 @@ public final class AppInit
             IndexationService.init(  );
 
             // Initializes PluginService
+            AppLogService.info( "Initializing plugins ..." );
             PluginService.init(  );
 
             // Initializes FilterService and ServletService
+            AppLogService.info( "Initializing plugins filters ..." );
             FilterService.init(  );
+            AppLogService.info( "Initializing plugins servlets ..." );
             ServletService.init( context );
 
             // Trace Contents services loading
@@ -184,14 +189,20 @@ public final class AppInit
             AdminUserService.init(  );
 
             // Process post startup services
+            AppLogService.info( "Running post startup services ..." );
             PostStartUpServiceManager.init(  );
 
             // Initialize Content Post Processor Service
             ContentPostProcessorService.init(  );
+            
 
             _bInitSuccessfull = true;
 
             logStartupTime(  );
+
+            // Start datastore's cache after all processes that may use Datastore 
+            DatastoreService.startCache();
+
         }
         catch ( LuteceInitException e )
         {

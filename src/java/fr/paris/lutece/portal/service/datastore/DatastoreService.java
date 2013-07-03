@@ -53,7 +53,7 @@ public final class DatastoreService
     public static final String VALUE_FALSE = "false";
     private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile( "#dskey\\{(.*?)\\}" );
     private static final String VALUE_MISSING = "DS Value Missing";
-    private static AbstractCacheableService _cache = new DatastoreCacheService(  );
+    private static AbstractCacheableService _cache;
 
     /**
      * Private constructor
@@ -70,7 +70,12 @@ public final class DatastoreService
      */
     public static String getDataValue( String strKey, String strDefault )
     {
-        DataEntity entity = (DataEntity) _cache.getFromCache( strKey );
+        DataEntity entity = null;
+        
+        if( _cache != null )
+        {
+             entity = (DataEntity) _cache.getFromCache( strKey );
+        }
 
         if ( entity == null )
         {
@@ -81,7 +86,10 @@ public final class DatastoreService
                 return strDefault;
             }
 
-            _cache.putInCache( strKey, entity );
+            if( _cache != null )
+            {
+                _cache.putInCache( strKey, entity );
+            }
         }
 
         return entity.getValue(  );
@@ -100,7 +108,10 @@ public final class DatastoreService
         if ( entity != null )
         {
             DataEntityHome.update( p );
-            _cache.removeKey( strKey );
+            if( _cache != null )
+            {
+                _cache.removeKey( strKey );
+            }
         }
         else
         {
@@ -115,7 +126,10 @@ public final class DatastoreService
     public static void removeData( String strKey )
     {
         DataEntityHome.remove( strKey );
-        _cache.removeKey( strKey );
+        if( _cache != null )
+        {    
+            _cache.removeKey( strKey );
+        }
     }
 
     /**
@@ -203,8 +217,13 @@ public final class DatastoreService
      */
     public static boolean existsKey( String strKey )
     {
-        DataEntity entity = (DataEntity) _cache.getFromCache( strKey );
-
+        
+        DataEntity entity = null;
+        if( _cache != null )
+        {
+            entity = (DataEntity) _cache.getFromCache( strKey );
+        }
+        
         if ( entity == null )
         {
             entity = DataEntityHome.findByPrimaryKey( strKey );
@@ -217,4 +236,16 @@ public final class DatastoreService
 
         return true;
     }
+    
+    /**
+     * Start cache.
+     * NB : Cache can't be created at DataStore creation because CacheService uses
+     * DatastoreService (Circular reference)
+     */
+    public static void startCache()
+    {
+        _cache = new DatastoreCacheService(  );
+        AppLogService.info( "Datastore's cache started."  );
+    }
+
 }
