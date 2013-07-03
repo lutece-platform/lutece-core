@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>#i18n{portal.site.popup_credits.title}</title>
-		<base href="${base_url}" />
+        <base href="${base_url}" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Le styles -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -15,26 +15,26 @@
         <link rel="shortcut icon" href="favicon.ico">
     </head>
     <body>
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <div class="span8 ">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="hero-unit center">
 
-                    <h1>${portal_domain}</h1>
-                    <h2>#i18n{portal.site.popup_credits.pageTitle}</h2>
-                    <p>#i18n{portal.site.popup_credits.labelVersion} : Lutece v.${app_version}</p>
-                    <p>
-                        #i18n{portal.site.popup_credits.labelProducts} :
-                    <ul>
-                        <li>Apache Server, Tomcat, Xalan, Xerces, Lucene de l'Apache Software Foundation <a href="http://www.apache.org" target="_blank">www.apache.org</a></li>
-                        <li>Tidy du W3C <a href="http://www.w3c.org" target="_blank">www.w3c.org</a></li>
-                    </ul>
-                    #i18n{portal.site.popup_credits.labelTechnical}.
-                    </p>
-                    <div align="center">
+                        <h1>${portal_domain}</h1>
+                        <h2>#i18n{portal.site.popup_credits.pageTitle}</h2>
+                        <p>#i18n{portal.site.popup_credits.labelVersion} : Lutece v.${app_version}</p>
+
+                        #dskey{portal.site.site_property.popup_credits.text}
+                        
+                        <br>
                         <a href="http://fr.lutece.paris.fr" target="lutece"><img title="Lutece"  src="images/poweredby.jpg" /></a>
-                    </div>
-                    <div align="right">
-                        <b><a href="javascript:window.close();">&gt;&gt;#i18n{portal.site.popup_credits.close}</a></b>
+                        <br>
+                        <br>
+                        <a class="btn btn-large btn-info" href="javascript:window.close();">
+                            <i class="icon-close icon-white">
+                                #i18n{portal.site.popup_credits.close}
+                        </a>
+
                     </div>
                 </div>
             </div>

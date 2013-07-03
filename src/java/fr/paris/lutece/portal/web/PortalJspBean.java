@@ -278,6 +278,7 @@ public class PortalJspBean
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ADDRESS_INFOS_CNIL, AppPropertiesService.getProperty( PROPERTY_INFOS_CNIL ) );
+        model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName(  ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_LEGAL_INFO, request.getLocale(  ), model );
@@ -456,8 +457,6 @@ public class PortalJspBean
             SiteMessageService.setMessage( request, MESSAGE_NO_RESOURCE_FOUND, SiteMessage.TYPE_ERROR );
             throw new SiteMessageException(  );
         }
-
-        listExtendableResourceService = null;
 
         String strResourceUrl = resourceService.getResourceUrl( strIdExtendableResource, strExtendableResourceType );
         Map<String, Object> model = new HashMap<String, Object>(  );
