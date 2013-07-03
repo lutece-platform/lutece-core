@@ -44,9 +44,8 @@ import java.util.List;
 public final class DataEntityHome
 {
     // Static variable pointed at the DAO instance
-    private static final String BEAN_DAO = "dataEntityDAO";
-    private static IDataEntityDAO _dao = (IDataEntityDAO) SpringContextService.getBean( BEAN_DAO );
-
+    private static IDataEntityDAO _dao = new DataEntityDAO();
+    
     /**
      * Private constructor - this class need not be instantiated
      */

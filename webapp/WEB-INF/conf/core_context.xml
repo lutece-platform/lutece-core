@@ -12,7 +12,7 @@
     
 	<context:annotation-config />
     <import resource="jpa_context.xml"/>
-	
+    
     <bean id="pageCacheKeyService" class="fr.paris.lutece.portal.service.cache.DefaultCacheKeyService" >
         <property name="allowedParametersList" >
             <list>
@@ -66,8 +66,6 @@
     <bean id="roleRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
 
     <!--                       Data Access Objects                             -->
-    <!-- package datastore -->
-    <bean id="dataEntityDAO"  class="fr.paris.lutece.portal.business.datastore.DataEntityDAO" />
     
     <!-- package features -->
     <bean id="levelDAO"  class="fr.paris.lutece.portal.business.right.LevelDAO" />
