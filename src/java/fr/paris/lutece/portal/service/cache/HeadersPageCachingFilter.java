@@ -192,6 +192,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      * {@inheritDoc }
      */
+    @Override
     public boolean isCacheEnable(  )
     {
         return _bEnable;
@@ -200,6 +201,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      * {@inheritDoc }
      */
+    @Override
     public int getCacheSize(  )
     {
         return _cache.getSize(  );
@@ -208,6 +210,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      * {@inheritDoc }
      */
+    @Override
     public void resetCache(  )
     {
         _cache.removeAll(  );
@@ -216,6 +219,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      * {@inheritDoc }
      */
+    @Override
     public String getName(  )
     {
         return _strCacheName;
@@ -224,6 +228,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      * {@inheritDoc }
      */
+    @Override
     public void enableCache( boolean bEnable )
     {
         _bEnable = bEnable;
@@ -232,11 +237,13 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
         {
             _cache.removeAll(  );
         }
+        CacheService.updateCacheStatus( this );
     }
 
     /**
      * {@inheritDoc }
      */
+    @Override
     public List<String> getKeys(  )
     {
         return _cache.getKeys(  );
@@ -245,6 +252,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      * {@inheritDoc }
      */
+    @Override
     public int getMaxElements(  )
     {
         return _cache.getCacheConfiguration(  ).getMaxElementsInMemory(  );
@@ -253,6 +261,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      * {@inheritDoc }
      */
+    @Override
     public long getTimeToLive(  )
     {
         return _cache.getCacheConfiguration(  ).getTimeToLiveSeconds(  );
@@ -261,6 +270,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      * {@inheritDoc }
      */
+    @Override
     public long getMemorySize(  )
     {
         return _cache.calculateInMemorySize(  );
@@ -269,6 +279,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      * {@inheritDoc }
      */
+    @Override
     public String getInfos(  )
     {
         return CacheService.getInfos( _cache );
@@ -277,6 +288,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      * {@inheritDoc }
      */
+    @Override
     public void processPageEvent( PageEvent event )
     {
         String strPattern = "page_id=" + event.getPage(  ).getId(  );

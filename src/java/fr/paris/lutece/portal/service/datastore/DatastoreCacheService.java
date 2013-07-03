@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.service.datastore;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
-import fr.paris.lutece.portal.service.cache.CacheService;
 
 
 /**
@@ -48,7 +47,6 @@ public class DatastoreCacheService extends AbstractCacheableService
     public DatastoreCacheService(  )
     {
         initCache();
-        //CacheService.registerCacheableService( this );
     }
 
     /**

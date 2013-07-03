@@ -86,6 +86,7 @@ public class SiteMapApp extends AbstractCacheableService implements XPageApplica
      * Returns the service name
      * @return The service name
      */
+    @Override
     public String getName(  )
     {
         return SERVICE_NAME;
@@ -109,6 +110,7 @@ public class SiteMapApp extends AbstractCacheableService implements XPageApplica
      * @param plugin The plugin
      * @return The content of the site map
      */
+    @Override
     public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
     {
         XPage page = new XPage(  );
