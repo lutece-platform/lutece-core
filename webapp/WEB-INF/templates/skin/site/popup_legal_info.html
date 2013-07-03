@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>#i18n{portal.site.popup_legal_info.title}</title>
-	<base href="${base_url}" />
+        <base href="${base_url}" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Le styles -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -13,28 +13,39 @@
         <![endif]-->
         <!-- Le fav and touch icons -->
         <link rel="shortcut icon" href="favicon.ico">
+<style>
+  .center {text-align: center; margin-left: auto; margin-right: auto; margin-bottom:2em; margin-top: auto;}
+</style>
     </head>
     <body>
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <div class="span8 ">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="hero-unit center">
 
 
-                    <h1>${portal_domain}</h1>
+                        <h1>${portal_domain}</h1>
 
-                    <h2>#i18n{portal.site.popup_legal_info.pageTitle}</h2>
+                        <h2>#i18n{portal.site.popup_legal_info.pageTitle}</h2>
 
-                    <h3>#i18n{portal.site.popup_legal_info.copyright}</h3>
-                    <h3>#i18n{portal.site.popup_legal_info.privacy}</h3>
+                        <h3>#i18n{portal.site.popup_legal_info.copyright}</h3>
 
-                    <p>
-                        ${confidentiality_info!""}
-                    </p>
+                        #dskey{portal.site.site_property.popup_legal_info.copyright.text}
+                        <br>
+                        <br>
 
-                    <div align="right">
-                        <b><a class="btn btn-primary" href="javascript:window.close();">#i18n{portal.site.popup_legal_info.close}</a></b>
+                        <h3>#i18n{portal.site.popup_legal_info.privacy}</h3>
+
+                        #dskey{portal.site.site_property.popup_legal_info.privacy.text}
+                        <br>
+                        <br>
+                        <a class="btn btn-large btn-info" href="javascript:window.close();">
+                            <i class="icon-remove icon-white"></i>
+                            #i18n{portal.site.popup_legal_info.close}
+                        </a>
+
+
                     </div>
-
                 </div>
             </div>
         </div>
