@@ -215,7 +215,7 @@ public final class CacheService
      *
      * @param cs The CacheableService
      */
-    public static void registerCacheableService(CacheableService cs)
+    static void registerCacheableService(CacheableService cs)
     {
         _listCacheableServicesRegistry.add(cs);
 
