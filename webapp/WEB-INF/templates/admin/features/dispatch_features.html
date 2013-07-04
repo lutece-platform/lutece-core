@@ -16,8 +16,8 @@
 		<table class="table table-striped table-condensed">
 			<thead>
 				<tr>
-					<th class="span6">#i18n{portal.features.dispatch_features.tableLabelFeatureName}</th>
-					<th>#i18n{portal.features.dispatch_features.tableLabelGroup}</th>
+					<th class="span5">#i18n{portal.features.dispatch_features.tableLabelFeatureName}</th>
+					<th class="span4">#i18n{portal.features.dispatch_features.tableLabelGroup}</th>
 					<th>#i18n{portal.features.dispatch_features.tableLabelOrder}</th>
 				</tr>
 			</thead>
@@ -31,23 +31,27 @@
 					<small>${right.description}</small>
 				</td>
                 <td>
-                    <form method="post" class="inline" action="jsp/admin/features/DoDispatchFeature.jsp">
+                    <form method="post" class="form-inline" action="jsp/admin/features/DoDispatchFeature.jsp">
                     <input type="hidden" name="right_id" value="${right.id}" />
-						<@comboGroups name="group_name" default_value="${right.featureGroup?if_exists}" />
-						<button class="btn btn-primary  btn-small" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetGroup}">
-							<i class="icon-move icon-white"></i>
-						</button>
+						<div class="input-append">
+							<@comboGroups name="group_name" default_value="${right.featureGroup?if_exists}" />
+							<button class="btn btn-primary" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetGroup}">
+								<i class="icon-ok icon-white"></i>
+							</button>
+						</div>
                     </form>
                 </td>
 				<td>
                     <#if groupDisplay.order_list_state == true>
-						<form method="post" class="inline"  action="jsp/admin/features/DoDispatchFeature.jsp">
-						<@comboOrders name="order_id" default_value=right.order max=groupDisplay.feature_list?size />
+						<form method="post" class="form-inline" action="jsp/admin/features/DoDispatchFeature.jsp">
 						<input type="hidden" name="right_id" value="${right.id}" />
 						<input type="hidden" name="group_name" value="${right.featureGroup?if_exists}" />
-							<button class="btn btn-primary btn-small" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetOrder}">
-								<i class="icon-refresh icon-white"></i>
-							</button>
+							<div class="input-append">
+								<@comboOrders name="order_id" default_value=right.order max=groupDisplay.feature_list?size />
+								<button class="btn btn-primary" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetOrder}">
+									<i class="icon-refresh icon-white"></i>
+								</button>
+							</div>
 						</form>
                     <#else>
 						<div class="alert alert-error">
@@ -110,13 +114,13 @@
 <div class="row-fluid">
     <div class="span12">
 	<ul class="nav nav-tabs">
-        <li>
-            <a href="jsp/admin/features/ManageGroups.jsp">#i18n{portal.features.manage_features.groupManagement.label}</a>
-        </li>
         <li class="active">
             <a href="jsp/admin/features/DispatchFeatures.jsp" >
                 #i18n{portal.features.manage_features.featureDispatch.label}
             </a>
+        </li>
+        <li>
+            <a href="jsp/admin/features/ManageGroups.jsp">#i18n{portal.features.manage_features.groupManagement.label}</a>
         </li>
     </ul>
 	<#if no_group.feature_list?has_content >
