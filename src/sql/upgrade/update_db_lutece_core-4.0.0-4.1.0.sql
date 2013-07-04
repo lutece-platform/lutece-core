@@ -18,6 +18,9 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.email', '<webmaste
 INSERT INTO core_datastore VALUES ('portal.site.site_property.noreply_email', 'no-reply@mydomain.com');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.home_url', 'jsp/site/Portal.jsp');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.admin_home_url', 'jsp/admin/AdminMenu.jsp');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_credits.textblock', '&lt;credits text&gt;');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.copyright.textblock', '&lt;copyright text&gt;');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.privacy.textblock', '&lt;privacy text&gt;');
 
 
 UPDATE core_admin_right SET admin_url='jsp/admin/features/DispatchFeatures.jsp' WHERE id_right='CORE_FEATURES_MANAGEMENT';

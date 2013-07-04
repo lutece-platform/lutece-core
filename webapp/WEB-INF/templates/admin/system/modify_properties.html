@@ -11,7 +11,11 @@
                     <div class="control-group">
                         <label class="control-label" for="${property.key}" >${property.label}</label>
                         <div class="controls">
+                            <#if property.key?ends_with( ".textblock" )>
+                            <textarea name="${property.key}" id="${property.key}" >${property.value}</textarea>
+                            <#else>
                             <input type="text" name="${property.key}" id="${property.key}" value="${property.value}"  class="input-xlarge"/>
+                            </#if>
                             <span class="help-block">${property.help}</span>
                         </div>
                     </div>
