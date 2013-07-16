@@ -78,6 +78,8 @@ public class PortalJspBean
 {
     public static final int MODE_HTML = 0;
     public static final int MODE_ADMIN = 1;
+    private static final String TEMPLATE_PAGE_404 = "skin/site/page_404.html";
+    private static final String TEMPLATE_PAGE_FATAL_ERROR = "skin/site/page_fatal_error.html";
     private static final String TEMPLATE_POPUP_CREDITS = "skin/site/popup_credits.html";
     private static final String TEMPLATE_POPUP_LEGAL_INFO = "skin/site/popup_legal_info.html";
     private static final String TEMPLATE_STARTUP_FAILURE = "skin/site/startup_failure.html";
@@ -95,6 +97,8 @@ public class PortalJspBean
     private static final String MARK_RESOURCE = "resource";
     private static final String MARK_ERROR = "error";
     private static final String MARK_SUCCESS = "success";
+    private static final String MARK_PAGE_TITLE = "page_title";
+    private static final String MARK_ERROR_MESSAGE = "error_message";
     private static final String BEAN_SITE_MESSAGE_HANDLER = "siteMessageHandler";
     private static final String PARAMETER_EXTENDABLE_RESOURCE_TYPE = "extendableResourceType";
     private static final String PARAMETER_ID_EXTENDABLE_RESOURCE = "idExtendableResource";
@@ -106,6 +110,12 @@ public class PortalJspBean
     private static final String MESSAGE_ERROR_WRONG_SENDER_EMAIL = "portal.site.error.wrongEmailFormat";
     private static final String MESSAGE_ERROR_MANDATORY_FIELDS = "portal.util.message.mandatoryFields";
     private static final String MESSAGE_NO_RESOURCE_FOUND = "portal.site.error.noResourceFound";
+    private static final String PROPERTY_PAGE_TITLE_ERROR404 = "portal.util.error404.title";
+    private static final String PROPERTY_PAGE_TITLE_CREDITS = "portal.site.popup_credits.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_LEGAL_INFO = "portal.site.popup_legal_info.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_STARTUP_FAILURE = "portal.util.startup.failure.title";
+    private static final String PROPERTY_PAGE_TITLE_FATAL_ERROR = "portal.util.labelFatalError";
+   
     private static final String CONSTANT_SPACE = " ";
 
     /**
@@ -142,7 +152,7 @@ public class PortalJspBean
     {
         if ( !AppInit.isWebappSuccessfullyLoaded(  ) )
         {
-            return getStartUpFailurePage(  );
+            return getStartUpFailurePage( request );
         }
 
         // Try to register the user in case of external authentication
@@ -221,7 +231,7 @@ public class PortalJspBean
 
         if ( !AppInit.isWebappSuccessfullyLoaded(  ) )
         {
-            return getStartUpFailurePage(  );
+            return getStartUpFailurePage( request );
         }
 
         ISiteMessageHandler handler = (ISiteMessageHandler) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
@@ -239,13 +249,15 @@ public class PortalJspBean
      *
      * @return the html code for the popup credits
      */
-    public String getStartUpFailurePage(  )
+    public String getStartUpFailurePage( HttpServletRequest request )
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_FAILURE_MESSAGE, AppInit.getLoadingFailureCause(  ) );
         model.put( MARK_FAILURE_DETAILS, AppInit.getLoadingFailureDetails(  ) );
+        model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
+        model.put( MARK_PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_STARTUP_FAILURE , request.getLocale()));
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_STARTUP_FAILURE, null, model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_STARTUP_FAILURE, request.getLocale(), model );
 
         return template.getHtml(  );
     }
@@ -262,6 +274,7 @@ public class PortalJspBean
         model.put( MARK_APP_VERSION, AppInfo.getVersion(  ) );
         model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName(  ) );
+        model.put( MARK_PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_CREDITS , request.getLocale()));
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_CREDITS, request.getLocale(  ), model );
 
@@ -280,8 +293,29 @@ public class PortalJspBean
         model.put( MARK_ADDRESS_INFOS_CNIL, AppPropertiesService.getProperty( PROPERTY_INFOS_CNIL ) );
         model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName(  ) );
-
+        model.put( MARK_PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_LEGAL_INFO , request.getLocale()));
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_LEGAL_INFO, request.getLocale(  ), model );
+
+        return template.getHtml(  );
+    }
+    
+    public String get404Page( HttpServletRequest request )
+    {
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
+        model.put( MARK_PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR404 , request.getLocale()));
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_404, request.getLocale(  ), model );
+
+        return template.getHtml(  );
+    }
+    
+    public String getFatalErrorPage( HttpServletRequest request , String strMessage )
+    {
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
+        model.put( MARK_PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_FATAL_ERROR , request.getLocale()));
+        model.put( MARK_ERROR_MESSAGE, strMessage );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_FATAL_ERROR, request.getLocale(  ), model );
 
         return template.getHtml(  );
     }
@@ -371,33 +405,6 @@ public class PortalJspBean
         session.removeAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL );
     }
 
-    //    /**
-    //     * Get the send resource page
-    //     * @param request The request
-    //     * @return The html content to display
-    //     */
-    //    public static String getSendResource( HttpServletRequest request )
-    //    {
-    //        String strExtendableResourceType = request.getParameter( PARAMETER_EXTENDABLE_RESOURCE_TYPE );
-    //        String strIdExtendableResource = request.getParameter( PARAMETER_ID_EXTENDABLE_RESOURCE );
-    //        IExtendableResource resource = null;
-    //
-    //        List<IExtendableResourceService> listExtendableResourceService = SpringContextService.getBeansOfType( IExtendableResourceService.class );
-    //        for ( IExtendableResourceService extendableResourceService : listExtendableResourceService )
-    //        {
-    //            if ( extendableResourceService.isInvoked( strExtendableResourceType ) )
-    //            {
-    //                resource = extendableResourceService.getResource( strIdExtendableResource, strExtendableResourceType );
-    //            }
-    //        }
-    //        
-    //        Map<String, Object> model = new HashMap<String, Object>( );
-    //        model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
-    //        model.put( MARK_RESOURCE, resource );
-    //        model.put( Markers.PAGE_MAIN_MENU, StringUtils.EMPTY );
-    //        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_SEND_RESOURCE, request.getLocale( ), model );
-    //        return template.getHtml( );
-    //    }
 
     /**
      * Do send a resource

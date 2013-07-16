@@ -1,47 +1,29 @@
-<html>
-    <head>
-        <title>#i18n{portal.site.popup_credits.title}</title>
-        <base href="${base_url}" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Le styles -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet"  href="css/page_template_styles.css" type="text/css"  media="screen" />
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-        <!--[if lt IE 9]>
-        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-        <!-- Le fav and touch icons -->
-        <link rel="shortcut icon" href="favicon.ico">
-<style>
-  .center {text-align: center; margin-left: auto; margin-right: auto; margin-bottom:2em; margin-top: auto;}
-</style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="row">
-                <div class="span12">
-                    <div class="hero-unit center">
+<#include "minimal_header.html" />
 
-                        <h1>${portal_domain}</h1>
-                        <h2>#i18n{portal.site.popup_credits.pageTitle}</h2>
-                        <p>#i18n{portal.site.popup_credits.labelVersion} : Lutece v.${app_version}</p>
+<div class="container">
+    <div class="row">
+        <div class="span12">
+            <div class="hero-unit center">
 
-                        #dskey{portal.site.site_property.popup_credits.textblock}
-                        
-                        <br>
-                        <br>
-                        <a href="http://fr.lutece.paris.fr" target="lutece"><img title="Lutece"  src="images/poweredby.jpg" /></a>
-                        <br>
-                        <br>
-                        <a class="btn btn-large btn-info" href="javascript:window.close();">
-                            <i class="icon-remove icon-white"></i>
-                            #i18n{portal.site.popup_credits.close}
-                        </a>
+                <h1>${portal_domain}</h1>
+                <h2>#i18n{portal.site.popup_credits.pageTitle}</h2>
+                <p>#i18n{portal.site.popup_credits.labelVersion} : Lutece v.${app_version}</p>
 
-                    </div>
-                </div>
+                #dskey{portal.site.site_property.popup_credits.textblock}
+
+                <br>
+                <br>
+                <a href="http://fr.lutece.paris.fr" target="lutece"><img title="Lutece"  src="images/poweredby.jpg" /></a>
+                <br>
+                <br>
+                <a class="btn btn-large btn-info" href="javascript:window.close();">
+                    <i class="icon-remove icon-white"></i>
+                    #i18n{portal.site.popup_credits.close}
+                </a>
+
             </div>
         </div>
-    </body>
-</html>
+    </div>
+</div>
+
+<#include "minimal_footer.html" />

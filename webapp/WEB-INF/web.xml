@@ -262,6 +262,10 @@
         <location>/jsp/site/404.jsp</location>
     </error-page>
   
+    <error-page>
+        <error-code>500</error-code>
+        <location>/jsp/site/500.jsp</location>
+    </error-page>
 	<!-- uncomment the following lines if you use plugin-jsr168 -->
 	<!--
     <taglib>
