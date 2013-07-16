@@ -37,133 +37,180 @@ import fr.paris.lutece.portal.business.datastore.DataEntity;
 import fr.paris.lutece.portal.business.datastore.DataEntityHome;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.NoDatabaseException;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 /**
  * Datastore Service
  */
 public final class DatastoreService
 {
+
     public static final String VALUE_TRUE = "true";
     public static final String VALUE_FALSE = "false";
-    private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile( "#dskey\\{(.*?)\\}" );
+    private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile("#dskey\\{(.*?)\\}");
     private static final String VALUE_MISSING = "DS Value Missing";
     private static AbstractCacheableService _cache;
+    private static boolean _bDatabase = true;
 
     /**
      * Private constructor
      */
-    private DatastoreService(  )
+    private DatastoreService()
     {
     }
 
     /**
      * Get entity
+     *
      * @param strKey The entity's key
      * @param strDefault The default value
      * @return The value
      */
-    public static String getDataValue( String strKey, String strDefault )
+    public static String getDataValue(String strKey, String strDefault)
     {
-        DataEntity entity = null;
-        
-        if( _cache != null )
+        try
         {
-             entity = (DataEntity) _cache.getFromCache( strKey );
-        }
+            if (_bDatabase)
+            {
+                DataEntity entity = null;
 
-        if ( entity == null )
+                if (_cache != null)
+                {
+                    entity = (DataEntity) _cache.getFromCache(strKey);
+                }
+
+                if (entity == null)
+                {
+                    entity = DataEntityHome.findByPrimaryKey(strKey);
+
+                    if (entity == null)
+                    {
+                        return strDefault;
+                    }
+
+                    if (_cache != null)
+                    {
+                        _cache.putInCache(strKey, entity);
+                    }
+                }
+                return entity.getValue();
+            }
+        }
+        catch (NoDatabaseException e)
         {
-            entity = DataEntityHome.findByPrimaryKey( strKey );
-
-            if ( entity == null )
-            {
-                return strDefault;
-            }
-
-            if( _cache != null )
-            {
-                _cache.putInCache( strKey, entity );
-            }
+            _bDatabase = false;
         }
-
-        return entity.getValue(  );
+        return strDefault;
     }
 
     /**
      * Get entity
+     *
      * @param strKey The entity's key
      * @param strValue The value
      */
-    public static void setDataValue( String strKey, String strValue )
+    public static void setDataValue(String strKey, String strValue)
     {
-        DataEntity p = new DataEntity( strKey, strValue );
-        DataEntity entity = DataEntityHome.findByPrimaryKey( strKey );
-
-        if ( entity != null )
+        try
         {
-            DataEntityHome.update( p );
-            if( _cache != null )
+            if (_bDatabase)
             {
-                _cache.removeKey( strKey );
+                DataEntity p = new DataEntity(strKey, strValue);
+                DataEntity entity = DataEntityHome.findByPrimaryKey(strKey);
+
+                if (entity != null)
+                {
+                    DataEntityHome.update(p);
+                    if (_cache != null)
+                    {
+                        _cache.removeKey(strKey);
+                    }
+                }
+                else
+                {
+                    DataEntityHome.create(p);
+                }
             }
         }
-        else
+        catch (NoDatabaseException e)
         {
-            DataEntityHome.create( p );
+            _bDatabase = false;
         }
     }
 
     /**
      * Remove a give key
+     *
      * @param strKey The key
      */
-    public static void removeData( String strKey )
+    public static void removeData(String strKey)
     {
-        DataEntityHome.remove( strKey );
-        if( _cache != null )
-        {    
-            _cache.removeKey( strKey );
+        try
+        {
+            if (_bDatabase)
+            {
+                DataEntityHome.remove(strKey);
+                if (_cache != null)
+                {
+                    _cache.removeKey(strKey);
+                }
+            }
+        }
+        catch (NoDatabaseException e)
+        {
+            _bDatabase = false;
         }
     }
 
     /**
      * Remove all data where keys begin with a given prefix
+     *
      * @param strPrefix The prefix
      */
-    public static void removeDataByPrefix( String strPrefix )
+    public static void removeDataByPrefix(String strPrefix)
     {
-        List<DataEntity> listEntities = DataEntityHome.findAll(  );
-
-        for ( DataEntity entity : listEntities )
+        try
         {
-            if ( entity.getKey(  ).startsWith( strPrefix ) )
+            if (_bDatabase)
             {
-                removeData( entity.getKey(  ) );
+                List<DataEntity> listEntities = DataEntityHome.findAll();
+
+                for (DataEntity entity : listEntities)
+                {
+                    if (entity.getKey().startsWith(strPrefix))
+                    {
+                        removeData(entity.getKey());
+                    }
+                }
             }
+        }
+        catch (NoDatabaseException e)
+        {
+            _bDatabase = false;
         }
     }
 
     /**
      * Gets a list of key/value where keys are matching a given prefix
+     *
      * @param strPrefix The prefix
      * @return The list
      */
-    public static ReferenceList getDataByPrefix( String strPrefix )
+    public static ReferenceList getDataByPrefix(String strPrefix)
     {
-        ReferenceList list = new ReferenceList(  );
-        List<DataEntity> listEntities = DataEntityHome.findAll(  );
+        ReferenceList list = new ReferenceList();
+        List<DataEntity> listEntities = DataEntityHome.findAll();
 
-        for ( DataEntity entity : listEntities )
+        for (DataEntity entity : listEntities)
         {
-            if ( entity.getKey(  ).startsWith( strPrefix ) )
+            if (entity.getKey().startsWith(strPrefix))
             {
-                list.addItem( entity.getKey(  ), entity.getValue(  ) );
+                list.addItem(entity.getKey(), entity.getValue());
             }
         }
 
@@ -172,38 +219,39 @@ public final class DatastoreService
 
     /**
      * This method replace keys by their value into a given content
+     *
      * @param strSource The string that contains datastore keys
      * @return The string with keys replaced
      */
-    public static String replaceKeys( String strSource )
+    public static String replaceKeys(String strSource)
     {
         String result = strSource;
 
-        if ( strSource != null )
+        if (strSource != null)
         {
-            Matcher matcher = PATTERN_DATASTORE_KEY.matcher( strSource );
+            Matcher matcher = PATTERN_DATASTORE_KEY.matcher(strSource);
 
-            if ( matcher.find(  ) )
+            if (matcher.find())
             {
-                StringBuffer sb = new StringBuffer(  );
+                StringBuffer sb = new StringBuffer();
 
                 do
                 {
-                    String strKey = matcher.group( 1 );
-                    String strValue = DatastoreService.getDataValue( strKey, VALUE_MISSING );
+                    String strKey = matcher.group(1);
+                    String strValue = DatastoreService.getDataValue(strKey, VALUE_MISSING);
 
-                    if ( VALUE_MISSING.equals( strValue ) )
+                    if (VALUE_MISSING.equals(strValue))
                     {
-                        AppLogService.error( "Datastore Key missing : " + strKey +
-                            " - Please fix to avoid performance issues." );
+                        AppLogService.error("Datastore Key missing : " + strKey
+                                + " - Please fix to avoid performance issues.");
                     }
 
-                    matcher.appendReplacement( sb, strValue );
+                    matcher.appendReplacement(sb, strValue);
                 }
-                while ( matcher.find(  ) );
+                while (matcher.find());
 
-                matcher.appendTail( sb );
-                result = sb.toString(  );
+                matcher.appendTail(sb);
+                result = sb.toString();
             }
         }
 
@@ -212,40 +260,49 @@ public final class DatastoreService
 
     /**
      * Check if a key is available in the datastore
+     *
      * @param strKey The key
      * @return True if the key is found otherwise false
      */
-    public static boolean existsKey( String strKey )
+    public static boolean existsKey(String strKey)
     {
-        
-        DataEntity entity = null;
-        if( _cache != null )
+        try
         {
-            entity = (DataEntity) _cache.getFromCache( strKey );
-        }
-        
-        if ( entity == null )
-        {
-            entity = DataEntityHome.findByPrimaryKey( strKey );
-
-            if ( entity == null )
+            if (_bDatabase)
             {
-                return false;
+            DataEntity entity = null;
+            if (_cache != null)
+            {
+                entity = (DataEntity) _cache.getFromCache(strKey);
+            }
+
+            if (entity == null)
+            {
+                entity = DataEntityHome.findByPrimaryKey(strKey);
+
+                if (entity == null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
             }
         }
-
-        return true;
+        catch (NoDatabaseException e)
+        {
+            _bDatabase = false;
+        }
+         return false;
     }
-    
+
     /**
-     * Start cache.
-     * NB : Cache can't be created at DataStore creation because CacheService uses
-     * DatastoreService (Circular reference)
+     * Start cache. NB : Cache can't be created at DataStore creation because
+     * CacheService uses DatastoreService (Circular reference)
      */
     public static void startCache()
     {
-        _cache = new DatastoreCacheService(  );
-        AppLogService.info( "Datastore's cache started."  );
+        _cache = new DatastoreCacheService();
+        AppLogService.info("Datastore's cache started.");
     }
-
 }
