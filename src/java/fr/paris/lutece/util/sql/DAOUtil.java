@@ -39,14 +39,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
-import org.apache.log4j.Logger;
-
-import org.springframework.jdbc.datasource.DataSourceUtils;
-
-import org.springframework.transaction.support.TransactionSynchronizationManager;
-
 import java.io.InputStream;
-
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
@@ -56,15 +49,18 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
-
 import java.text.MessageFormat;
 
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+
 
 /**
  * Prepared statement util class
- *
+ * 
  * @since version 1.3
  */
 public class DAOUtil
@@ -95,11 +91,11 @@ public class DAOUtil
 
     /** The debug logger */
     private Logger _logger;
-    private StringBuffer _sbLogs = new StringBuffer(  );
+    private StringBuffer _sbLogs = new StringBuffer( );
 
     /**
      * Creates a new DAOUtil object.
-     *
+     * 
      * @param sql Sql Query for prepared Statement
      */
     public DAOUtil( String sql )
@@ -109,7 +105,7 @@ public class DAOUtil
 
     /**
      * Creates a new DAOUtil object.
-     *
+     * 
      * @param strSQL sql query for prepared Statement
      * @param plugin The plugin using this database access
      */
@@ -120,13 +116,13 @@ public class DAOUtil
 
         if ( plugin != null )
         {
-            _strPluginName = plugin.getName(  );
-            _connectionService = plugin.getConnectionService(  );
+            _strPluginName = plugin.getName( );
+            _connectionService = plugin.getConnectionService( );
         }
         else
         {
             _strPluginName = DEFAULT_MODULE_NAME;
-            _connectionService = AppConnectionService.getDefaultConnectionService(  );
+            _connectionService = AppConnectionService.getDefaultConnectionService( );
         }
 
         if ( _connectionService == null )
@@ -141,18 +137,19 @@ public class DAOUtil
         try
         {
             // first, we check if there is a managed transaction to get the transactionnal connection
-            _bTransactionnal = TransactionSynchronizationManager.isSynchronizationActive(  );
+            _bTransactionnal = TransactionSynchronizationManager.isSynchronizationActive( );
 
             if ( _bTransactionnal )
             {
-                DataSource ds = AppConnectionService.getPoolManager(  ).getDataSource( _connectionService.getPoolName(  ) );
+                DataSource ds = AppConnectionService.getPoolManager( )
+                        .getDataSource( _connectionService.getPoolName( ) );
                 _connection = DataSourceUtils.getConnection( ds );
-                _logger.debug( "Transactionnal context is used for pool " + _connectionService.getPoolName(  ) );
+                _logger.debug( "Transactionnal context is used for pool " + _connectionService.getPoolName( ) );
             }
             else
             {
                 // no transaction found, use the connection service directly
-                _connection = _connectionService.getConnection(  );
+                _connection = _connectionService.getConnection( );
             }
 
             if ( _connection != null )
@@ -161,13 +158,13 @@ public class DAOUtil
             }
             else
             {
-                throw new AppException( "Database access error for component '" + _strPluginName + "' on pool '" +
-                    _connectionService.getConnection(  ) + "'. Please check plugin installation and db.properties." );
+                throw new AppException( "Database access error for component '" + _strPluginName
+                        + "'. Please check plugin installation and db.properties." );
             }
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -179,29 +176,29 @@ public class DAOUtil
      */
     private String getErrorMessage( Exception e )
     {
-        free(  );
+        free( );
 
         StringBuffer sbError = new StringBuffer( "DAOUtil error : " );
-        sbError.append( e.getMessage(  ) );
+        sbError.append( e.getMessage( ) );
         sbError.append( " - SQL statement : " );
         sbError.append( " - Plugin : " );
         sbError.append( _strPluginName );
 
-        return sbError.toString(  );
+        return sbError.toString( );
     }
 
     /**
      * Executes the update request and throws an error if the result is not 1
      */
-    public void executeUpdate(  )
+    public void executeUpdate( )
     {
         try
         {
-            _statement.executeUpdate(  );
+            _statement.executeUpdate( );
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -209,15 +206,15 @@ public class DAOUtil
     /**
      * Executes a query
      */
-    public void executeQuery(  )
+    public void executeQuery( )
     {
         try
         {
-            _resultSet = _statement.executeQuery(  );
+            _resultSet = _statement.executeQuery( );
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -228,7 +225,7 @@ public class DAOUtil
      */
     private void log( String strMessage )
     {
-        if ( _logger.isDebugEnabled(  ) )
+        if ( _logger.isDebugEnabled( ) )
         {
             _sbLogs.append( strMessage );
         }
@@ -248,32 +245,32 @@ public class DAOUtil
     /**
      * Writes logs
      */
-    private void writeLogs(  )
+    private void writeLogs( )
     {
-        if ( _logger.isDebugEnabled(  ) )
+        if ( _logger.isDebugEnabled( ) )
         {
-            _logger.debug( _sbLogs.toString(  ) );
+            _logger.debug( _sbLogs.toString( ) );
         }
     }
 
     /**
      * Free connection
      */
-    public void free(  )
+    public void free( )
     {
-        writeLogs(  );
+        writeLogs( );
 
         try
         {
             // Close statement if necessary
             if ( _statement != null )
             {
-                _statement.close(  );
+                _statement.close( );
             }
         }
         catch ( SQLException e )
         {
-            throw new AppException( e.getMessage(  ), e );
+            throw new AppException( e.getMessage( ), e );
         }
         finally
         {
@@ -291,18 +288,19 @@ public class DAOUtil
     /**
      * Moves the cursor to the first row in this ResultSet object.
      * @deprecated
-     * @return true if the cursor is on a valid row; false if there are no rows in the result set
+     * @return true if the cursor is on a valid row; false if there are no rows
+     *         in the result set
      */
     @Deprecated
-    public boolean first(  )
+    public boolean first( )
     {
         try
         {
-            return _resultSet.first(  );
+            return _resultSet.first( );
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -311,22 +309,22 @@ public class DAOUtil
      * Indicates whether the cursor is on the last row of this ResultSet object.
      * @return true if the cursor is on the last row; false otherwise
      */
-    public boolean isLast(  )
+    public boolean isLast( )
     {
         try
         {
-            return _resultSet.isLast(  );
+            return _resultSet.isLast( );
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared statement with a date value
-     *
+     * 
      * @param nIndex parameter index
      * @param date date value
      */
@@ -338,14 +336,14 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared statement with a time value
-     *
+     * 
      * @param nIndex parameter index
      * @param time time value
      */
@@ -357,7 +355,7 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -365,7 +363,8 @@ public class DAOUtil
     /**
      * Fills the prepared statement with a binary value stream
      * @param nIndex parameter index
-     * @param iStream the java input stream which contains the binary parameter value
+     * @param iStream the java input stream which contains the binary parameter
+     *            value
      * @param nBlength the number of bytes in the stream
      */
     public void setBinaryStream( int nIndex, InputStream iStream, int nBlength )
@@ -376,14 +375,14 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Gets a binary stream from a resultSet
-     *
+     * 
      * @param nIndex column index
      * @return InputStream instance
      */
@@ -395,14 +394,14 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Gets a blob from a resultset
-     *
+     * 
      * @param nIndex column index
      * @return Blob instance
      */
@@ -414,16 +413,16 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Gets a blob from a resultset
-     *
+     * 
      * @param strColumnName column name
-     *
+     * 
      * @return Blob instance
      */
     public Blob getBlob( String strColumnName )
@@ -434,16 +433,16 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Gets a byte array from a resultset
-     *
+     * 
      * @param nIndex column index
-     *
+     * 
      * @return byte[] instance
      */
     public byte[] getBytes( int nIndex )
@@ -454,16 +453,16 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Gets a byte array from a resultset
-     *
+     * 
      * @param strColumnName column name
-     *
+     * 
      * @return byte[] instance
      */
     public byte[] getBytes( String strColumnName )
@@ -474,14 +473,14 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared statement with a int value
-     *
+     * 
      * @param nIndex parameter index in the prepared statement
      * @param nValue int value
      */
@@ -494,14 +493,14 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared statement with a Boolean value
-     *
+     * 
      * @param nIndex parameter index in the prepared statement
      * @param bValue Boolean value
      */
@@ -514,14 +513,14 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared statement with a byte array value
-     *
+     * 
      * @param nIndex parameter index in the prepared statement
      * @param tbValue byte array value
      */
@@ -533,14 +532,14 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared statement with a string value
-     *
+     * 
      * @param nIndex parameter index in the prepared statement
      * @param strValue string value
      */
@@ -553,14 +552,14 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared statement with a timestamp value
-     *
+     * 
      * @param nIndex parameter index in the prepared statement
      * @param ts timestamp value
      */
@@ -572,7 +571,7 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -590,18 +589,37 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Sets null value for a "double" column
+     * @param nIndex the index
+     */
+    public void setDoubleNull( int nIndex )
+    {
+        try
+        {
+            _statement.setNull( nIndex, Types.DOUBLE );
+        }
+        catch ( SQLException e )
+        {
+            free( );
+            throw new AppException( getErrorMessage( e ), e );
+        }
+    }
+
+    /**
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a java.sql.Date object in the Java programming language.
-     *
+     * 
      * @param nIndex the first column is 1, the second is 2, ...
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is null
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         null
      */
     public Date getDate( int nIndex )
     {
@@ -611,18 +629,20 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a java.sql.Date object in the Java programming language.
-     *
+     * 
      * @param strColumnName name of the column, ...
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is null
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         null
      */
     public Date getDate( String strColumnName )
     {
@@ -632,18 +652,20 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a java.sql.Time object in the Java programming language.
-     *
+     * 
      * @param nIndex the first column is 1, the second is 2, ...
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is null
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         null
      */
     public Time getTime( int nIndex )
     {
@@ -653,18 +675,20 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a java.sql.Time object in the Java programming language.
-     *
+     * 
      * @param strColumnName name of the column, ...
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is null
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         null
      */
     public Time getTime( String strColumnName )
     {
@@ -674,18 +698,20 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a int
-     *
+     * 
      * @param nIndex the first column is 1, the second is 2, ...
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is 0
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         0
      */
     public int getInt( int nIndex )
     {
@@ -695,18 +721,20 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a int
-     *
+     * 
      * @param strColumnName column name
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is 0
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         0
      */
     public int getInt( String strColumnName )
     {
@@ -716,18 +744,20 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a Boolean
-     *
+     * 
      * @param nIndex the first column is 1, the second is 2, ...
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is FALSE
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         FALSE
      */
     public boolean getBoolean( int nIndex )
     {
@@ -737,18 +767,20 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a Boolean
-     *
+     * 
      * @param strColumnName column name
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is FALSE
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         FALSE
      */
     public boolean getBoolean( String strColumnName )
     {
@@ -758,18 +790,20 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a string
-     *
+     * 
      * @param nIndex the first column is 1, the second is 2, ...
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is NULL
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         NULL
      */
     public String getString( int nIndex )
     {
@@ -779,18 +813,20 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a string
-     *
+     * 
      * @param strColumnName column name
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is NULL
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         NULL
      */
     public String getString( String strColumnName )
     {
@@ -800,18 +836,20 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a timestamp
-     *
+     * 
      * @param nIndex the first column is 1, the second is 2, ...
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is NULL
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         NULL
      */
     public Timestamp getTimestamp( int nIndex )
     {
@@ -821,18 +859,20 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a Timestamp
-     *
+     * 
      * @param strColumnName column name
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is NULL
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         NULL
      */
     public Timestamp getTimestamp( String strColumnName )
     {
@@ -842,16 +882,18 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a double
      * @param strColumnName column name
-     * @return the column value; if the value is SQL NULL, the value returned is NULL
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         NULL
      */
     public double getDouble( String strColumnName )
     {
@@ -861,17 +903,19 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a double
      * @param nIndex the first column is 1, the second is 2, ...
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is 0
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         0
      */
     public double getDouble( int nIndex )
     {
@@ -881,18 +925,20 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as a Object
-     *
+     * 
      * @param nIndex the first column is 1, the second is 2, ...
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is NULL
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         NULL
      */
     public Object getObject( int nIndex )
     {
@@ -902,7 +948,7 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -911,18 +957,20 @@ public class DAOUtil
      * Get the ResultSet
      * @return the resultSet
      */
-    public ResultSet getResultSet(  )
+    public ResultSet getResultSet( )
     {
         return _resultSet;
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet
+     * Gets the value of the designated column in the current row of this
+     * ResultSet
      * object as an Object
-     *
+     * 
      * @param strColumnName column name
-     *
-     * @return the column value; if the value is SQL NULL, the value returned is NULL
+     * 
+     * @return the column value; if the value is SQL NULL, the value returned is
+     *         NULL
      */
     public Object getObject( String strColumnName )
     {
@@ -932,25 +980,26 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Moves the cursor down one row from its current position in the ResultSet.
-     *
-     * @return true if the new current row is valid; false if there are no more rows
+     * 
+     * @return true if the new current row is valid; false if there are no more
+     *         rows
      */
-    public boolean next(  )
+    public boolean next( )
     {
         try
         {
-            return _resultSet.next(  );
+            return _resultSet.next( );
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -967,7 +1016,7 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -984,7 +1033,7 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -1002,7 +1051,7 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -1020,7 +1069,7 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -1038,7 +1087,7 @@ public class DAOUtil
         }
         catch ( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -1047,16 +1096,16 @@ public class DAOUtil
      * {@inheritDoc}
      */
     @Override
-    protected void finalize(  ) throws Throwable
+    protected void finalize( ) throws Throwable
     {
         if ( !_bReleased )
         {
-            free(  );
-            AppLogService.error( 
-                "A call to DAOUtil.free() seems to be missing or an unexpected exception has occured during the use of a DAOUtil object - plugin : " +
-                _strPluginName + " - SQL statement : " + _strSQL );
+            free( );
+            AppLogService
+                    .error( "A call to DAOUtil.free() seems to be missing or an unexpected exception has occured during the use of a DAOUtil object - plugin : "
+                            + _strPluginName + " - SQL statement : " + _strSQL );
         }
 
-        super.finalize(  );
+        super.finalize( );
     }
 }

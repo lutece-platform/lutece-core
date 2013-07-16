@@ -98,6 +98,12 @@
             <daemon-description>portal.system.daemon.accountLifeTimeDaemon.description</daemon-description>
             <daemon-class>fr.paris.lutece.portal.service.daemon.AccountLifeTimeDaemon</daemon-class>
         </daemon>
+        <daemon>
+            <daemon-id>threadLauncherDaemon</daemon-id>
+            <daemon-name>portal.system.daemon.threadLauncherDaemon.name</daemon-name>
+            <daemon-description>portal.system.daemon.threadLauncherDaemon.description</daemon-description>
+            <daemon-class>fr.paris.lutece.portal.service.daemon.ThreadLauncherDaemon</daemon-class>
+        </daemon>
     </daemons>
 
     <!-- RBAC Resources -->
