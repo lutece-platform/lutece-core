@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.database.PluginConnectionService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.NoDatabaseException;
 
 import java.io.InputStream;
 import java.sql.Blob;
@@ -127,7 +128,7 @@ public class DAOUtil
 
         if ( _connectionService == null )
         {
-            throw new AppException( "Database access error. Please check component installations and db.properties." );
+            throw new NoDatabaseException( "Database access error. Please check component installations and db.properties." );
         }
 
         // Use the logger name "lutece.debug.sql.<plugin_name>" to filter logs by plugins
@@ -178,7 +179,7 @@ public class DAOUtil
     {
         free( );
 
-        StringBuffer sbError = new StringBuffer( "DAOUtil error : " );
+        StringBuilder sbError = new StringBuilder( "DAOUtil error : " );
         sbError.append( e.getMessage( ) );
         sbError.append( " - SQL statement : " );
         sbError.append( " - Plugin : " );
@@ -256,7 +257,7 @@ public class DAOUtil
     /**
      * Free connection
      */
-    public void free( )
+    public final void free( )
     {
         writeLogs( );
 
