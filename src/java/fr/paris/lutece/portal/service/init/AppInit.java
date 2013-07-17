@@ -122,8 +122,8 @@ public final class AppInit
         {
             // Initializes the log service
             AppLogService.init( strConfPath, FILE_PROPERTIES_CONFIG );
-            AppLogService.info( "Starting application..." );
-
+            AppLogService.info( "Starting LUTECE ..." );
+            AppLogService.info( "Running version " + AppInfo.getVersion() );
             // Initializes the properties download files containing the variables used by the application
             AppPropertiesService.init( strConfPath );
 

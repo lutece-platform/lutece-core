@@ -54,6 +54,7 @@ public final class Markers
     public static final String WEBMASTER_EMAIL = "web_mail";
     public static final String PAGE_TEMPLATE_CHECKED = "checked";
     public static final String PAGE_ID = "page_id";
+    public static final String PAGE_TITLE = "page_title";
 
     // to retrieve the webapp url when using linkservice
     public static final String WEBAPP_PATH_FOR_LINKSERVICE = "webapp_path_for_linkservice";

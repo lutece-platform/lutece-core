@@ -12,7 +12,7 @@
 
 <jsp:useBean id="portal" scope="page" class="fr.paris.lutece.portal.web.PortalJspBean" />
 
-<%
+<%= portal.getSiteMessageContent(request) %>
 
 	// Required by JSR168 portlets (added in v1.2)
 	LocalVariables.setLocal( config, request, response );
@@ -23,7 +23,7 @@
 		String strContent = portal.getSiteMessageContent(request);
 		if(strContent ==  null)
 		{
-			response.sendRedirect(AppPathService.getBaseUrl(request) +AppPathService.getPortalUrl() );
+			response.sendRedirect(AppPathService.getBaseUrl(request) + AppPathService.getPortalUrl() );
 			
 		}
 		out.print( strContent );

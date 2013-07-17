@@ -4,5 +4,5 @@
 
 <jsp:useBean id="portal" scope="page" class="fr.paris.lutece.portal.web.PortalJspBean" />
 
-<%= portal.get404Page( request ) %>
+<%= portal.getError404Page( request ) %>
 

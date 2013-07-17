@@ -9,7 +9,7 @@ try
 }
 catch(Exception e )
 {
-	out.print( portal.getFatalErrorPage( request , e.getMessage() ) );
+	out.print( portal.getError500Page( request , e.getMessage() ) );
 }
 	
 %>
