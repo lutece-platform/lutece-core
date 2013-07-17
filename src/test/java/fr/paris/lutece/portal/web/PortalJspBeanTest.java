@@ -66,8 +66,33 @@ public class PortalJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getStartUpFailurePage" );
 
+        HttpServletRequest request = new MokeHttpServletRequest(  );
         PortalJspBean instance = new PortalJspBean(  );
-        String result = instance.getStartUpFailurePage(  );
+        String result = instance.getStartUpFailurePage( request );
+    }
+
+    /**
+     * Test of getError500Page method, of class fr.paris.lutece.portal.web.PortalJspBean.
+     */
+    public void testGetError500Page(  )
+    {
+        System.out.println( "getError500Page" );
+
+        HttpServletRequest request = new MokeHttpServletRequest(  );
+        PortalJspBean instance = new PortalJspBean(  );
+        String result = instance.getError500Page( request , "Cause" );
+    }
+
+    /**
+     * Test of getError404Page method, of class fr.paris.lutece.portal.web.PortalJspBean.
+     */
+    public void testGetError404Page(  )
+    {
+        System.out.println( "getError404Page" );
+
+        HttpServletRequest request = new MokeHttpServletRequest(  );
+        PortalJspBean instance = new PortalJspBean(  );
+        String result = instance.getError404Page( request );
     }
 
     /**
