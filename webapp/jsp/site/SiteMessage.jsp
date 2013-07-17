@@ -12,8 +12,7 @@
 
 <jsp:useBean id="portal" scope="page" class="fr.paris.lutece.portal.web.PortalJspBean" />
 
-<%= portal.getSiteMessageContent(request) %>
-
+<%
 	// Required by JSR168 portlets (added in v1.2)
 	LocalVariables.setLocal( config, request, response );
 
@@ -33,8 +32,6 @@
 	{
 		response.sendError(response.SC_NOT_FOUND);
 	}
-	
-	
 
 %>
 
