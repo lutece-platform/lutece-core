@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -56,6 +57,10 @@ public final class AppDaemonService
     private static final String PROPERTY_MAX_INITIAL_START_DELAY = "daemon.maxInitialStartDelay";
     private static final String PROPERTY_MAX_AWAIT_TERMINATION_DELAY = "daemon.maxAwaitTerminationDelay";
     private static final String PROPERTY_SCHEDULED_THREAD_CORE_POOL_SIZE = "daemon.ScheduledThreadCorePoolSize";
+    private static final String PROPERTY_DAEMON_ON_STARTUP = ".onStartUp";
+    private static final String PROPERTY_DAEMON_INTERVAL = ".interval";
+    private static final String KEY_DAEMON_PREFIX = "core.daemon.";
+   
     private static final int MAX_INITIAL_START_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_INITIAL_START_DELAY,
             30 );
     private static final int MAX_AWAIT_TERMINATION_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY,
@@ -137,8 +142,35 @@ public final class AppDaemonService
     public static void registerDaemon( DaemonEntry entry )
         throws LuteceInitException
     {
-        long lInterval = (long) AppPropertiesService.getPropertyInt( "daemon." + entry.getId(  ) + ".interval", 10 );
-        boolean bOnStartup = ( 1 == AppPropertiesService.getPropertyInt( "daemon." + entry.getId(  ) + ".onstartup", 0 ) );
+        
+        String strIntervalKey = getIntervalKey(  entry.getId(  ) );
+        String strIntervalKeyDefaultValue=null;
+        //init interval value if no exists
+        if ( !DatastoreService.existsKey(strIntervalKey  ) )
+        {
+        	strIntervalKeyDefaultValue=  AppPropertiesService.getProperty( "daemon." + entry.getId(  ) + ".interval", "10" );
+            DatastoreService.setDataValue( strIntervalKey, strIntervalKeyDefaultValue );
+        }
+        String strIntervalKeyValue=DatastoreService.getDataValue(strIntervalKey,strIntervalKeyDefaultValue);
+        
+        long lInterval = (long) new Long(strIntervalKeyValue);
+        
+        
+        String strOnStartupKey = getOnStartupKey(  entry.getId(  ) );
+        String strOnStartupDefaultValue=null;
+        //init onStartup value if no exists
+        if ( !DatastoreService.existsKey(strOnStartupKey  ) )
+        {
+        	 strOnStartupDefaultValue= AppPropertiesService.getProperty( "daemon." + entry.getId(  ) + ".onstartup","0").equals( "1" )? DatastoreService.VALUE_TRUE
+                     : DatastoreService.VALUE_FALSE;
+             DatastoreService.setDataValue( strOnStartupKey, strOnStartupDefaultValue );
+        }
+        
+        
+        
+        String strOnStarupvalue=DatastoreService.getDataValue(strOnStartupKey,strOnStartupDefaultValue);
+        boolean bOnStartup = new Boolean(strOnStarupvalue);
+        
         entry.setInterval( lInterval );
         entry.setOnStartUp( bOnStartup );
 
@@ -226,6 +258,8 @@ public final class AppDaemonService
         }
 
         entry.setIsRunning( true );
+        //update onStartup property
+        DatastoreService.setDataValue(getOnStartupKey(entry.getId()), DatastoreService.VALUE_TRUE);
     }
 
     /**
@@ -236,6 +270,8 @@ public final class AppDaemonService
     {
         cancelScheduledThread( entry.getId(  ) );
         entry.setIsRunning( false );
+        //update onStartup property
+        DatastoreService.setDataValue(getOnStartupKey(entry.getId()), DatastoreService.VALUE_FALSE);
         AppLogService.info( "Stopping daemon '" + entry.getId(  ) + "'" );
     }
 
@@ -322,5 +358,25 @@ public final class AppDaemonService
         DaemonEntry entry = _mapDaemonEntries.get( strDaemonKey );
 
         return entry.getDaemon(  );
+    }
+    
+    /**
+     * return the OnStartup key link to the daemon
+     * @param strDaemonKey The daemon key
+     * @return The key
+     */
+    private static String getOnStartupKey(  String strDaemonKey )
+    {
+        return KEY_DAEMON_PREFIX + strDaemonKey + PROPERTY_DAEMON_ON_STARTUP;
+    }
+    
+    /**
+     * return the Interval key link to the daemon
+     * @param strDaemonKey The daemon key
+     * @return The key
+     */
+    private static String getIntervalKey(  String strDaemonKey )
+    {
+        return KEY_DAEMON_PREFIX + strDaemonKey + PROPERTY_DAEMON_INTERVAL;
     }
 }
