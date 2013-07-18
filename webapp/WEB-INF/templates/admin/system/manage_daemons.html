@@ -12,41 +12,48 @@
                 </tr>
                 <#list daemons_list as daemon>
                 <tr>
-                    <td>${daemon.id}<br />(${daemon.pluginName})</td>
-                    <td>#i18n{${daemon.nameKey}}<br />#i18n{${daemon.descriptionKey}}</td>
-                    <td>
-                        <#if daemon.running>
-                        <span class="label label-success"><i class=" icon-ok-sign icon-white"></i>#i18n{portal.util.labelEnabled}</span>
-                        <#else>
-                        <span class="label label-important"><i class=" icon-remove-sign icon-white"></i>#i18n{portal.util.labelDisabled}</span>
-                        </#if>
-                    </td>
-                    <td>${daemon.interval}</td>
-                    <td>
-                        
-                        <span rel="popover" data-original-title="${daemon.pluginName}" data-content="${daemon.lastRunLogs?html}">${daemon.lastRunDate} - Logs ${daemon.id} - ${daemon.pluginName}...</span>
-						<pre class="logs">${daemon.lastRunLogs}</pre>
-                    </td>         
-                    <td>
-                        <form method="post" action="jsp/admin/system/DoDaemonAction.jsp" class="form-inline">
-                            <#if daemon.running>
-                            <input type="hidden" name="daemon" value="${daemon.id}" />
-                            <input type="hidden" name="action" value="STOP" />
-                            <button class="btn btn-danger btn-small pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStop}">
-                                <i class="icon-stop icon-white"></i>
-                            </button>
-
-                            <#else>
-                            <input type="hidden" name="daemon" value="${daemon.id}" />
-                            <input type="hidden" name="action" value="START" />
-                            <button class="btn btn-success btn-small pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStart}" >
-                                <i class="icon-play icon-white"></i>
-
-                            </button>
-                            </#if>
-                        </form>
-                    </td>
+                    <form method="post" action="jsp/admin/system/DoDaemonAction.jsp" class="form-inline">
+	                    <td>${daemon.id}<br />(${daemon.pluginName})</td>
+	                    <td>#i18n{${daemon.nameKey}}<br />#i18n{${daemon.descriptionKey}}</td>
+	                    <td>
+	                        <#if daemon.running>
+	                        <span class="label label-success"><i class=" icon-ok-sign icon-white"></i>#i18n{portal.util.labelEnabled}</span>
+	                        <#else>
+	                        <span class="label label-important"><i class=" icon-remove-sign icon-white"></i>#i18n{portal.util.labelDisabled}</span>
+	                        </#if>
+	                    </td>
+	                    <td>
+	                    	<#if daemon.running>
+	                    		${daemon.interval}
+	                    	<#else>
+	                    		<input type="text" class="input-small" name="interval" value="${daemon.interval}">
+	                    	</#if>	
+	                    </td>
+	                    <td>
+	                        
+	                        <span rel="popover" data-original-title="${daemon.pluginName}" data-content="${daemon.lastRunLogs?html}">${daemon.lastRunDate} - Logs ${daemon.id} - ${daemon.pluginName}...</span>
+							<pre class="logs">${daemon.lastRunLogs}</pre>
+	                    </td>         
+	                    <td>
+	                        
+	                             <input type="hidden" name="daemon" value="${daemon.id}" />
+	                            <#if daemon.running>
+		                          	<button class="btn btn-danger btn-small pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStop}" name="action" value="STOP">
+		                                <i class="icon-stop icon-white"></i>
+		                            </button>
+								<#else>
+	                          		<button class="btn btn-success btn-small pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStart}" name="action" value="START" >
+		                                <i class="icon-play icon-white"></i>
+		                            </button>
+		                            <button class="btn btn-primary btn-small pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonUpdateInterval}" name="action" value="UPDATE_INTERVAL" >
+		                                <i class="icon-ok icon-white"></i>
+		                            </button>
+	                            </#if>
+	                        
+	                    </td>
+                     </form>
                 </tr>
+               
                 </#list>
             </table>
     </div>

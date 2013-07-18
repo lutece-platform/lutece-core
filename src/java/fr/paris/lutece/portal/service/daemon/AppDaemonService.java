@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.string.StringUtil;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -228,6 +229,24 @@ public final class AppDaemonService
     public static void stopDaemon( String strDaemonKey )
     {
         unScheduleThread( _mapDaemonEntries.get( strDaemonKey ) );
+    }
+    
+
+    /**
+     * modify daemon interval
+     * @param strDaemonKey The daemon key
+     * @param strDaemonInterval the daemon interval
+     */
+    public static void modifyDaemonInterval( String strDaemonKey, String strDaemonInterval  )
+    {
+        DaemonEntry entry=  _mapDaemonEntries.get( strDaemonKey ) ;
+        if(entry != null)
+        {
+        	entry.setInterval(new Long(strDaemonInterval));
+        	DatastoreService.setDataValue( getIntervalKey(  entry.getId(  ) ), strDaemonInterval );
+        }
+       
+        
     }
 
     /**
