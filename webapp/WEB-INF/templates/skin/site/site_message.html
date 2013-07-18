@@ -1,23 +1,29 @@
 <div class="row-fluid">
-	<div class="span9 " style="min-height:550px;padding-top:100px;">
-		<div class="alert">
-		<h3>
+	<div class="span12" style="min-height:550px;padding-top:100px;">
+		<div class="hero-unit center">
+		<h1>${title}</h1>
+                <br>
+                <br>
 		<#if message.type = 0 >
+                <div class="alert alert-info">
 			<i class="icon-info-sign"></i>
 		<#elseif message.type = 1 > 
+                <div class="alert alert-info">
 			<i class="icon-question-sign"></i>
 		<#elseif message.type = 2 > 
+                <div class="alert alert-danger">
 			<i class="icon-remove-sign"></i>
 		<#elseif message.type = 3 > 
-			<i class="icon-exclamation-sign"></i>
+                <div class="alert alert-info">
+                    <i class="icon-exclamation-sign"></i>
 		<#elseif message.type = 4 > 
-			<i class="icon-ok-sign"></i>
+		<div class="alert alert-info">	
+                    <i class="icon-ok-sign"></i>
 		<#elseif message.type = 5 > 
 			<i class="icon-minus-sign"></i>
 		</#if>
-		&nbsp; ${title}
-		</h3>
-		<blockquote>${text}</blockquote>
+                    ${text}
+                </div>
 		<form method="post" action="${url!}" target="${target!}" class="form-inline">
 			<#if list_parameters?exists>
 			<#assign keys = list_parameters?keys>
@@ -26,7 +32,7 @@
 			</#list>
 			</#if>
 			<#if url?has_content> 
-			<button type="submit"class="btn btn-small"><i class="icon-ok"></i>&nbsp;#i18n{portal.util.labelValidate}</button>
+			<button type="submit"class="btn btn-large btn-info"><i class="icon-ok"></i>&nbsp;#i18n{portal.util.labelValidate}</button>
 			</#if>
 		</form>	
 		<#if back_url?has_content>
@@ -37,16 +43,16 @@
 			</#list>	
 			</#if>
 			<#if cancel_button = 1> 
-				<button type="submit" name="cancel" class="btn btn-small"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}</button>
+				<button type="submit" name="cancel" class="btn btn-large btn-info"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}</button>
 			<#elseif cancel_button = 2>
-				<button type="submit" name="cancel" class="btn btn-small"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}</button>
+				<button type="submit" name="cancel" class="btn btn-large btn-info"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}</button>
 			</#if>
 			</form>		
 		<#else>		
 			<#if cancel_button = 1> 
-				<button type="button" class="btn btn-small" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}</button>
+				<button type="button" class="btn btn-large btn-info" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}</button>
 			<#elseif cancel_button = 2>
-				<button type="button" class="btn btn-small" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}</button>
+				<button type="button" class="btn btn-large btn-info" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}</button>
 			</#if>
 		</#if>
 		</div>	
