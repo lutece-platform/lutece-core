@@ -103,7 +103,7 @@ public final class DatastoreService
         }
         catch (NoDatabaseException e)
         {
-            _bDatabase = false;
+            disableDatastore(e);
         }
         return strDefault;
     }
@@ -139,7 +139,7 @@ public final class DatastoreService
         }
         catch (NoDatabaseException e)
         {
-            _bDatabase = false;
+            disableDatastore(e);
         }
     }
 
@@ -163,7 +163,7 @@ public final class DatastoreService
         }
         catch (NoDatabaseException e)
         {
-            _bDatabase = false;
+            disableDatastore(e);
         }
     }
 
@@ -191,7 +191,7 @@ public final class DatastoreService
         }
         catch (NoDatabaseException e)
         {
-            _bDatabase = false;
+            disableDatastore(e);
         }
     }
 
@@ -204,16 +204,25 @@ public final class DatastoreService
     public static ReferenceList getDataByPrefix(String strPrefix)
     {
         ReferenceList list = new ReferenceList();
-        List<DataEntity> listEntities = DataEntityHome.findAll();
-
-        for (DataEntity entity : listEntities)
+        try
         {
-            if (entity.getKey().startsWith(strPrefix))
+            if (_bDatabase)
             {
-                list.addItem(entity.getKey(), entity.getValue());
+                List<DataEntity> listEntities = DataEntityHome.findAll();
+
+                for (DataEntity entity : listEntities)
+                {
+                    if (entity.getKey().startsWith(strPrefix))
+                    {
+                        list.addItem(entity.getKey(), entity.getValue());
+                    }
+                }
             }
         }
-
+        catch (NoDatabaseException e)
+        {
+            disableDatastore(e);
+        }
         return list;
     }
 
@@ -270,30 +279,30 @@ public final class DatastoreService
         {
             if (_bDatabase)
             {
-            DataEntity entity = null;
-            if (_cache != null)
-            {
-                entity = (DataEntity) _cache.getFromCache(strKey);
-            }
-
-            if (entity == null)
-            {
-                entity = DataEntityHome.findByPrimaryKey(strKey);
+                DataEntity entity = null;
+                if (_cache != null)
+                {
+                    entity = (DataEntity) _cache.getFromCache(strKey);
+                }
 
                 if (entity == null)
                 {
-                    return false;
-                }
-            }
+                    entity = DataEntityHome.findByPrimaryKey(strKey);
 
-            return true;
+                    if (entity == null)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
         }
         catch (NoDatabaseException e)
         {
-            _bDatabase = false;
+            disableDatastore(e);
         }
-         return false;
+        return false;
     }
 
     /**
@@ -304,5 +313,11 @@ public final class DatastoreService
     {
         _cache = new DatastoreCacheService();
         AppLogService.info("Datastore's cache started.");
+    }
+
+    private static void disableDatastore(NoDatabaseException e)
+    {
+        _bDatabase = false;
+        AppLogService.error("##### CRITICAL ERROR ##### : Datastore has been disabled due to a NoDatabaseException catched", e);
     }
 }
