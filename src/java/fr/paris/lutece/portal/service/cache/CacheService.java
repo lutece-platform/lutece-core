@@ -241,7 +241,7 @@ public final class CacheService
         for (CacheableService cs : _listCacheableServicesRegistry)
         {
             String strKey = getDSKey( cs.getName() , PROPERTY_IS_ENABLED );
-            DatastoreService.setDataValue(strKey, cs.isCacheEnable() ? ENABLED : DISABLED);
+            DatastoreService.setInstanceDataValue(strKey, cs.isCacheEnable() ? ENABLED : DISABLED);
         }
     }
 
@@ -313,10 +313,10 @@ public final class CacheService
             {
                 String strDSKey = KEY_PREFIX + strKey;
 
-                if (!DatastoreService.existsKey(strDSKey))
+                if (!DatastoreService.existsInstanceKey(strDSKey))
                 {
                     String strValue = properties.getProperty(strKey);
-                    DatastoreService.setDataValue(strDSKey, strValue);
+                    DatastoreService.setInstanceDataValue(strDSKey, strValue);
                 }
             }
         }
@@ -337,7 +337,7 @@ public final class CacheService
     public static void updateCacheStatus( CacheableService cs )
     {
         String strKey = getDSKey( cs.getName() , PROPERTY_IS_ENABLED );
-        DatastoreService.setDataValue( strKey ,  ( cs.isCacheEnable() ? ENABLED : DISABLED ));
+        DatastoreService.setInstanceDataValue( strKey ,  ( cs.isCacheEnable() ? ENABLED : DISABLED ));
     }
 
     /**
@@ -348,7 +348,7 @@ public final class CacheService
      */
     private static boolean getStatus(CacheableService cs)
     {
-        String strEnabled = DatastoreService.getDataValue( getDSKey( cs.getName() , PROPERTY_IS_ENABLED ), DISABLED );
+        String strEnabled = DatastoreService.getInstanceDataValue( getDSKey( cs.getName() , PROPERTY_IS_ENABLED ), DISABLED );
         return strEnabled.equals( ENABLED );
     }
     
@@ -408,12 +408,12 @@ public final class CacheService
     {
         String strKey = getDSKey(strCacheName, strProperty );
 
-        if ( DatastoreService.existsKey(strKey))
+        if ( DatastoreService.existsInstanceKey(strKey))
         {
             String strValue = NOT_FOUND;
             try
             {
-                strValue = DatastoreService.getDataValue( strKey, strValue );
+                strValue = DatastoreService.getInstanceDataValue( strKey, strValue );
                 int nValue = Integer.parseInt(strValue);
 
                 return nValue;
@@ -439,12 +439,12 @@ public final class CacheService
     {
         String strKey = getDSKey( strCacheName, strProperty );
 
-        if (DatastoreService.existsKey(strKey))
+        if (DatastoreService.existsInstanceKey(strKey))
         {
             String strValue = NOT_FOUND;
             try
             {
-                strValue = DatastoreService.getDataValue( strKey, strValue );
+                strValue = DatastoreService.getInstanceDataValue( strKey, strValue );
                 long lValue = Integer.parseInt(strValue);
 
                 return lValue;
@@ -470,9 +470,9 @@ public final class CacheService
     {
         String strKey = getDSKey( strCacheName, strProperty );
 
-        if ( DatastoreService.existsKey(strKey))
+        if ( DatastoreService.existsInstanceKey(strKey))
         {
-            String strValue = DatastoreService.getDataValue( strKey , NOT_FOUND );
+            String strValue = DatastoreService.getInstanceDataValue( strKey , NOT_FOUND );
             return (strValue.equalsIgnoreCase( TRUE ));
         }
 

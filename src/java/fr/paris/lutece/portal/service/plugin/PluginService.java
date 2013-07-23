@@ -248,11 +248,11 @@ public final class PluginService
     {
         String strKey = getInstalledKey( plugin.getName(  ) );
         String strValue = plugin.isInstalled(  ) ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE;
-        DatastoreService.setDataValue( strKey, strValue );
+        DatastoreService.setInstanceDataValue( strKey, strValue );
 
         if ( plugin.isDbPoolRequired(  ) )
         {
-            DatastoreService.setDataValue( getPoolNameKey( plugin.getName(  ) ), plugin.getDbPoolName(  ) );
+            DatastoreService.setInstanceDataValue( getPoolNameKey( plugin.getName(  ) ), plugin.getDbPoolName(  ) );
         }
     }
 
@@ -307,11 +307,11 @@ public final class PluginService
                 String strPluginName = strKey.substring( 0, nPos );
                 String strDSKey = getInstalledKey( strPluginName );
 
-                if ( !DatastoreService.existsKey( strDSKey ) )
+                if ( !DatastoreService.existsInstanceKey( strDSKey ) )
                 {
                     String strValue = props.getProperty( strKey ).equals( "1" ) ? DatastoreService.VALUE_TRUE
                                                                                 : DatastoreService.VALUE_FALSE;
-                    DatastoreService.setDataValue( strDSKey, strValue );
+                    DatastoreService.setInstanceDataValue( strDSKey, strValue );
                 }
             }
 
@@ -323,10 +323,10 @@ public final class PluginService
                 String strPluginName = strKey.substring( 0, nPos );
                 String strDSKey = getPoolNameKey( strPluginName );
 
-                if ( !DatastoreService.existsKey( strDSKey ) )
+                if ( !DatastoreService.existsInstanceKey( strDSKey ) )
                 {
                     String strValue = props.getProperty( strKey );
-                    DatastoreService.setDataValue( strDSKey, strValue );
+                    DatastoreService.setInstanceDataValue( strDSKey, strValue );
                 }
             }
         }
@@ -340,7 +340,7 @@ public final class PluginService
      */
     private static boolean getPluginStatus( Plugin plugin )
     {
-        String strValue = DatastoreService.getDataValue( getInstalledKey( plugin.getName(  ) ),
+        String strValue = DatastoreService.getInstanceDataValue( getInstalledKey( plugin.getName(  ) ),
                 DatastoreService.VALUE_FALSE );
 
         return strValue.equals( DatastoreService.VALUE_TRUE );
@@ -354,7 +354,7 @@ public final class PluginService
      */
     private static String getPluginPoolName( Plugin plugin )
     {
-        return DatastoreService.getDataValue( getPoolNameKey( plugin.getName(  ) ), AppConnectionService.NO_POOL_DEFINED );
+        return DatastoreService.getInstanceDataValue( getPoolNameKey( plugin.getName(  ) ), AppConnectionService.NO_POOL_DEFINED );
     }
 
     /**

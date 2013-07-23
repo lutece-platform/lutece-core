@@ -158,6 +158,18 @@ public final class DatastoreService
             disableDatastore(e);
         }
     }
+    
+    /**
+     * Get entity
+     *
+     * @param strKey The entity's key
+     * @param strValue The value
+     */
+    public static void setInstanceDataValue(String strKey, String strValue)
+    {
+    	String strInstanceKey = getInstanceKey( strKey );
+    	setDataValue(strInstanceKey, strValue);
+    }
 
     /**
      * Remove a give key
@@ -181,6 +193,17 @@ public final class DatastoreService
         {
             disableDatastore(e);
         }
+    }
+    
+    /**
+     * Remove a give key
+     *
+     * @param strKey The key
+     */
+    public static void removeInstanceData(String strKey)
+    {
+    	String strInstanceKey = getInstanceKey( strKey );
+    	removeData(strInstanceKey);
     }
 
     /**
@@ -209,6 +232,16 @@ public final class DatastoreService
         {
             disableDatastore(e);
         }
+    }
+    /**
+     * Remove all data where keys begin with a given prefix
+     *
+     * @param strPrefix The prefix
+     */
+    public static void removeInstanceDataByPrefix(String strPrefix)
+    {
+    	String strInstancePrefix = getInstanceKey( strPrefix );
+    	removeDataByPrefix(strInstancePrefix);
     }
 
     /**
@@ -240,6 +273,17 @@ public final class DatastoreService
             disableDatastore(e);
         }
         return list;
+    }
+    /**
+     * Gets a list of key/value where keys are matching a given prefix
+     *
+     * @param strPrefix The prefix
+     * @return The list
+     */
+    public static ReferenceList getInstanceDataByPrefix(String strPrefix)
+    {
+    	String strInstancePrefix = getInstanceKey( strPrefix );
+    	return getDataByPrefix(strInstancePrefix);
     }
 
     /**
@@ -283,6 +327,8 @@ public final class DatastoreService
         return result;
     }
 
+
+
     /**
      * Check if a key is available in the datastore
      *
@@ -320,6 +366,20 @@ public final class DatastoreService
         }
         return false;
     }
+    
+    /**
+     * Check if a key is available in the datastore
+     *
+     * @param strKey The key
+     * @return True if the key is found otherwise false
+     */
+    public static boolean existsInstanceKey(String strKey)
+    {
+    	String strInstanceKey = getInstanceKey( strKey );
+    	return existsKey(strInstanceKey);
+    }
+    
+    
 
     /**
      * Start cache. NB : Cache can't be created at DataStore creation because
@@ -343,7 +403,7 @@ public final class DatastoreService
     
 
     /**
-     * Return a datastore key for the current the current webapp instance
+     * Return a datastore key for the current webapp instance
      * @param strKey The key
      * @return The key for the current instance
      */
