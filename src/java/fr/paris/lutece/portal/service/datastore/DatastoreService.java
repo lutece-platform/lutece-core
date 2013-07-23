@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.datastore.DataEntity;
 import fr.paris.lutece.portal.business.datastore.DataEntityHome;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.NoDatabaseException;
 import fr.paris.lutece.util.ReferenceList;
 
@@ -56,6 +57,7 @@ public final class DatastoreService
     private static final String VALUE_MISSING = "DS Value Missing";
     private static AbstractCacheableService _cache;
     private static boolean _bDatabase = true;
+
 
     /**
      * Private constructor
@@ -107,6 +109,20 @@ public final class DatastoreService
         }
         return strDefault;
     }
+    
+    /**
+     * Get entity
+     *
+     * @param strKey The entity's key
+     * @param strDefault The default value
+     * @return The value
+     */
+    public static String getInstanceDataValue(String strKey, String strDefault)
+    {
+        String strInstanceKey = getInstanceKey( strKey );
+        return getDataValue( strInstanceKey, strDefault );
+    }
+    
 
     /**
      * Get entity
@@ -315,9 +331,31 @@ public final class DatastoreService
         AppLogService.info("Datastore's cache started.");
     }
 
+    /**
+     * Disable the Datastore if a NoDatabaseException is catched
+     * @param e The NoDatabaseException
+     */
     private static void disableDatastore(NoDatabaseException e)
     {
         _bDatabase = false;
         AppLogService.error("##### CRITICAL ERROR ##### : Datastore has been disabled due to a NoDatabaseException catched", e);
     }
+    
+
+    /**
+     * Return a datastore key for the current the current webapp instance
+     * @param strKey The key
+     * @return The key for the current instance
+     */
+    private static String getInstanceKey(String strKey)
+    {
+        if( ! AppPathService.isDefaultWebappInstance() )
+        {
+            StringBuilder sbInstanceKey = new StringBuilder();
+            sbInstanceKey.append( AppPathService.getWebappInstance()).append(".").append(strKey);
+            return sbInstanceKey.toString();
+        }
+        return strKey;
+    }
+
 }

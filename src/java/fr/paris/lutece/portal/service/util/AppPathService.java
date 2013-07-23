@@ -55,12 +55,12 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
 /**
  * this class provides services for locate repository or url
  */
 public final class AppPathService
 {
+
     public static final String SESSION_BASE_URL = "base_url";
     private static final String MSG_LOG_PROPERTY_NOT_FOUND = "Property {0} not found in the properties file ";
     private static final int PORT_NUMBER_HTTP = 80;
@@ -75,11 +75,12 @@ public final class AppPathService
     private static final String PROPERTY_VIRTUAL_HOST = "virtualHost.";
     private static final String PROPERTY_PREFIX_URL = "url.";
     private static final String PROPERTY_PROD_BASE_URL = "lutece.prod.url";
+    private static final String PROPERTY_INSTANCE = "lutece.webapp.instance";
+    private static final String INSTANCE_DEFAULT = "default";
     private static final String SUFFIX_BASE_URL = ".baseUrl";
     private static final String SUFFIX_DESCRIPTION = ".description";
     private static final String SLASH = "/";
     private static final String DOUBLE_POINTS = ":";
-
     // Datastore keys
     private static final String KEY_ADMIN_HOME_URL = "portal.site.site_property.admin_home_url";
     private static final String KEY_PORTAL_HOME_URL = "portal.site.site_property.home_url";
@@ -88,7 +89,7 @@ public final class AppPathService
     /**
      * Creates a new AppPathService object.
      */
-    private AppPathService(  )
+    private AppPathService()
     {
     }
 
@@ -97,10 +98,10 @@ public final class AppPathService
      *
      * @param context The servlet context
      */
-    public static void init( ServletContext context )
+    public static void init(ServletContext context)
     {
-        String strRealPath = context.getRealPath( "/" );
-        _strWebAppPath = normalizeWebappPath( strRealPath );
+        String strRealPath = context.getRealPath("/");
+        _strWebAppPath = normalizeWebappPath(strRealPath);
     }
 
     /**
@@ -108,7 +109,7 @@ public final class AppPathService
      *
      * @param strWebAppPath The Webapp path
      */
-    public static void init( String strWebAppPath )
+    public static void init(String strWebAppPath)
     {
         _strWebAppPath = strWebAppPath;
     }
@@ -121,19 +122,22 @@ public final class AppPathService
      * @return the repository absolute path
      * @param strKey the repository key definied in properties file
      */
-    public static String getPath( String strKey )
+    public static String getPath(String strKey)
     {
         // Adds relative path found from strKey
-        String strDirectory = AppPropertiesService.getProperty( strKey );
+        String strDirectory = AppPropertiesService.getProperty(strKey);
 
-        if ( strDirectory == null )
+        if (strDirectory == null)
         {
-            Object[] propertyMissing = { strKey };
-            String strMsg = MessageFormat.format( MSG_LOG_PROPERTY_NOT_FOUND, propertyMissing );
-            throw new AppException( strMsg );
+            Object[] propertyMissing =
+            {
+                strKey
+            };
+            String strMsg = MessageFormat.format(MSG_LOG_PROPERTY_NOT_FOUND, propertyMissing);
+            throw new AppException(strMsg);
         }
 
-        return getWebAppPath(  ) + strDirectory;
+        return getWebAppPath() + strDirectory;
     }
 
     /**
@@ -142,7 +146,7 @@ public final class AppPathService
      *
      * @return the webapp path
      */
-    public static String getWebAppPath(  )
+    public static String getWebAppPath()
     {
         return _strWebAppPath;
     }
@@ -155,31 +159,32 @@ public final class AppPathService
      * @param strFilename The name of file
      * @return the absolute path of file
      */
-    public static String getPath( String strKey, String strFilename )
+    public static String getPath(String strKey, String strFilename)
     {
-        return getPath( strKey ) + SLASH + strFilename;
+        return getPath(strKey) + SLASH + strFilename;
     }
 
     /**
      * Gets a file as stream
+     *
      * @param strPath the path
      * @param strFilename The name of file
      * @return a FileInput Stream object
      */
-    public static FileInputStream getResourceAsStream( String strPath, String strFilename )
+    public static FileInputStream getResourceAsStream(String strPath, String strFilename)
     {
-        String strFilePath = getWebAppPath(  ) + strPath + strFilename;
+        String strFilePath = getWebAppPath() + strPath + strFilename;
 
         try
         {
-            File file = new File( strFilePath );
-            FileInputStream fis = new FileInputStream( file );
+            File file = new File(strFilePath);
+            FileInputStream fis = new FileInputStream(file);
 
             return fis;
         }
-        catch ( IOException e )
+        catch (IOException e)
         {
-            throw new AppException( "Unable to get file : " + strFilePath );
+            throw new AppException("Unable to get file : " + strFilePath);
         }
     }
 
@@ -190,33 +195,34 @@ public final class AppPathService
      * @return the repository absolute path
      * @param strDirectory the relative path
      */
-    public static String getAbsolutePathFromRelativePath( String strDirectory )
+    public static String getAbsolutePathFromRelativePath(String strDirectory)
     {
         return _strWebAppPath + strDirectory;
     }
 
     /**
      * Return the url of the webapp, built from the request
+     *
      * @param request The HttpServletRequest
      * @return strBase the webapp url
      */
-    public static String getBaseUrl( HttpServletRequest request )
+    public static String getBaseUrl(HttpServletRequest request)
     {
         String strBase;
 
         // Search for a Virtual Host Base Url defined in the request
-        strBase = getVirtualHostBaseUrl( request );
+        strBase = getVirtualHostBaseUrl(request);
 
         // If not found, get the base url from session
-        if ( ( strBase == null ) || strBase.equals( "" ) )
+        if ((strBase == null) || strBase.equals(""))
         {
-            HttpSession session = request.getSession( false );
+            HttpSession session = request.getSession(false);
 
-            if ( session != null )
+            if (session != null)
             {
-                Object oBase = session.getAttribute( SESSION_BASE_URL );
+                Object oBase = session.getAttribute(SESSION_BASE_URL);
 
-                if ( oBase != null )
+                if (oBase != null)
                 {
                     strBase = (String) oBase;
                 }
@@ -224,27 +230,27 @@ public final class AppPathService
         }
 
         // If not found, get the base url from the config.properties
-        if ( ( strBase == null ) || ( strBase.equals( "" ) ) )
+        if ((strBase == null) || (strBase.equals("")))
         {
-            strBase = AppPropertiesService.getProperty( PROPERTY_BASE_URL );
+            strBase = AppPropertiesService.getProperty(PROPERTY_BASE_URL);
         }
 
-        if ( ( strBase == null ) || ( strBase.equals( "" ) ) )
+        if ((strBase == null) || (strBase.equals("")))
         {
             // Dynamic base URL if not defined in the properties
-            strBase = request.getScheme(  ) + DOUBLE_POINTS + SLASH + SLASH + request.getServerName(  );
+            strBase = request.getScheme() + DOUBLE_POINTS + SLASH + SLASH + request.getServerName();
 
-            int nPort = request.getServerPort(  );
+            int nPort = request.getServerPort();
 
-            if ( nPort != PORT_NUMBER_HTTP )
+            if (nPort != PORT_NUMBER_HTTP)
             {
-                strBase += ( DOUBLE_POINTS + nPort );
+                strBase += (DOUBLE_POINTS + nPort);
             }
 
-            strBase += request.getContextPath(  );
+            strBase += request.getContextPath();
         }
 
-        if ( !strBase.endsWith( SLASH ) )
+        if (!strBase.endsWith(SLASH))
         {
             strBase += SLASH;
         }
@@ -256,18 +262,19 @@ public final class AppPathService
      * Return the url of the webapp. The method should only be used out of
      * request context (by daemons for example). If there is a request context,
      * use {@link AppPathService#getBaseUrl(HttpServletRequest)} instead.
+     *
      * @return The webapp url, or null if the 'lutece.base.url' property has not
-     *         been set.
+     * been set.
      * @deprecated Use {@link AppPathService#getBaseUrl(HttpServletRequest)}
-     *             instead
+     * instead
      */
     @Deprecated
-    public static String getBaseUrl(  )
+    public static String getBaseUrl()
     {
         // FIXME : lutece.base.url is only set when using WSSO
-        String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_BASE_URL );
+        String strBaseUrl = AppPropertiesService.getProperty(PROPERTY_BASE_URL);
 
-        if ( !strBaseUrl.endsWith( SLASH ) )
+        if (!strBaseUrl.endsWith(SLASH))
         {
             strBaseUrl += SLASH;
         }
@@ -278,19 +285,20 @@ public final class AppPathService
     /**
      * Return the webapp prod url (or the base url if no prod url has been
      * definied).
+     *
      * @param request The HTTP request
      * @return The prod url
      */
-    public static String getProdUrl( HttpServletRequest request )
+    public static String getProdUrl(HttpServletRequest request)
     {
-        String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_PROD_BASE_URL );
+        String strBaseUrl = AppPropertiesService.getProperty(PROPERTY_PROD_BASE_URL);
 
-        if ( StringUtils.isBlank( strBaseUrl ) )
+        if (StringUtils.isBlank(strBaseUrl))
         {
-            strBaseUrl = getBaseUrl( request );
+            strBaseUrl = getBaseUrl(request);
         }
 
-        if ( !strBaseUrl.endsWith( SLASH ) )
+        if (!strBaseUrl.endsWith(SLASH))
         {
             strBaseUrl += SLASH;
         }
@@ -301,31 +309,33 @@ public final class AppPathService
     /**
      * Return the webapp prod url (or the base url if no prod url has been
      * definied)
+     *
      * @return The prod url
      * @deprecated Use {@link AppPathService#getProdUrl(String)} instead
      */
     @Deprecated
-    public static String getProdUrl(  )
+    public static String getProdUrl()
     {
-        return getProdUrl( getBaseUrl(  ) );
+        return getProdUrl(getBaseUrl());
     }
 
     /**
      * Return the webapp prod url. If no prod URL has been defined, then the
      * base URL is returned
+     *
      * @param strBaseUrl The base URL
      * @return The prod url
      */
-    public static String getProdUrl( String strBaseUrl )
+    public static String getProdUrl(String strBaseUrl)
     {
-        String strProdUrl = AppPropertiesService.getProperty( PROPERTY_PROD_BASE_URL );
+        String strProdUrl = AppPropertiesService.getProperty(PROPERTY_PROD_BASE_URL);
 
-        if ( StringUtils.isBlank( strProdUrl ) )
+        if (StringUtils.isBlank(strProdUrl))
         {
             strProdUrl = strBaseUrl;
         }
 
-        if ( ( strProdUrl != null ) && !strProdUrl.endsWith( SLASH ) )
+        if ((strProdUrl != null) && !strProdUrl.endsWith(SLASH))
         {
             strProdUrl += SLASH;
         }
@@ -335,81 +345,88 @@ public final class AppPathService
 
     /**
      * Return the url of the webapp, built from the request
+     *
      * @param request The HttpServletRequest
      * @return strBase the webapp url
      */
-    public static String getSiteMessageUrl( HttpServletRequest request )
+    public static String getSiteMessageUrl(HttpServletRequest request)
     {
         // Set the site message url
-        return SiteMessageService.setSiteMessageUrl( getBaseUrl( request ) + getSiteMessageUrl(  ) );
+        return SiteMessageService.setSiteMessageUrl(getBaseUrl(request) + getSiteMessageUrl());
     }
 
     /**
      * Returns the portal page relative url (jsp/site/Portal.jsp) defined in
      * lutece.properties
+     *
      * @return the Portal Url
      */
-    public static String getPortalUrl(  )
+    public static String getPortalUrl()
     {
-        return AppPropertiesService.getProperty( PROPERTY_PORTAL_URL );
+        return AppPropertiesService.getProperty(PROPERTY_PORTAL_URL);
     }
 
     /**
      * Returns the forward URL for webapp's root path. Default is
      * (jsp/site/Portal.jsp) defined in lutece.properties
+     *
      * @return the Portal Root forward Url
      */
-    public static String getRootForwardUrl(  )
+    public static String getRootForwardUrl()
     {
-        return DatastoreService.getDataValue( KEY_PORTAL_HOME_URL,
-            AppPropertiesService.getProperty( PROPERTY_PORTAL_REDIRECT_URL ) );
+        return DatastoreService.getDataValue(KEY_PORTAL_HOME_URL,
+                AppPropertiesService.getProperty(PROPERTY_PORTAL_REDIRECT_URL));
     }
 
     /**
      * Returns the Site Message relative url (jsp/site/SiteMessage.jsp) defined
      * in lutece.properties
+     *
      * @return the SiteMessage Url
      */
-    public static String getSiteMessageUrl(  )
+    public static String getSiteMessageUrl()
     {
-        return AppPropertiesService.getProperty( PROPERTY_SITE_MESSAGE_URL );
+        return AppPropertiesService.getProperty(PROPERTY_SITE_MESSAGE_URL);
     }
 
     /**
      * Returns the admin portal page relative url (jsp/admin/site/AdminSite.jsp)
      * defined in lutece.properties
+     *
      * @return the Portal Url
      */
-    public static String getAdminPortalUrl(  )
+    public static String getAdminPortalUrl()
     {
-        return AppPropertiesService.getProperty( PROPERTY_ADMIN_URL );
+        return AppPropertiesService.getProperty(PROPERTY_ADMIN_URL);
     }
 
     /**
      * Returns the admin menu page relative url (jsp/admin/site/AdminMenu.jsp)
      * defined in lutece.properties
+     *
      * @return the Admin Menu Url
      */
-    public static String getAdminMenuUrl(  )
+    public static String getAdminMenuUrl()
     {
-        return DatastoreService.getDataValue( KEY_ADMIN_HOME_URL,
-            AppPropertiesService.getProperty( PROPERTY_ADMIN_MENU_URL ) );
+        return DatastoreService.getDataValue(KEY_ADMIN_HOME_URL,
+                AppPropertiesService.getProperty(PROPERTY_ADMIN_MENU_URL));
     }
 
     /**
      * Normalizes the Webapp Path
+     *
      * @param strPath The path to normalize
      * @return The normalized path
      */
-    private static String normalizeWebappPath( String strPath )
+    private static String normalizeWebappPath(String strPath)
     {
         // convert Windows path separator if present
-        String strNormalized = StringUtil.substitute( strPath, "/", "\\" );
+        String strNormalized = StringUtil.substitute(strPath, "/", "\\");
 
         // remove the ending separator if present
-        if ( strNormalized.endsWith( "/" ) )
+        if (strNormalized.endsWith("/"))
         {
-            strNormalized = strNormalized.substring( 0, strNormalized.length(  ) - 1 );
+            strNormalized = strNormalized.substring(0, strNormalized.length() - 1);
         }
 
         return strNormalized;
@@ -417,33 +434,33 @@ public final class AppPathService
 
     ////////////////////////////////////////////////////////////////////////////
     // Multiple virtual hosts configuration management
-
     /**
      * Gets available virtual hosts defined in the config.properties
+     *
      * @return A reference list containing the key and the description of each
-     *         virtual host configuration. The list is empty if there is no
-     *         configuration defined.
+     * virtual host configuration. The list is empty if there is no
+     * configuration defined.
      */
-    public static ReferenceList getAvailableVirtualHosts(  )
+    public static ReferenceList getAvailableVirtualHosts()
     {
         ReferenceList list = null;
 
         // Get keys list form config.properties
-        String strKeysList = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST_KEYS );
+        String strKeysList = AppPropertiesService.getProperty(PROPERTY_VIRTUAL_HOST_KEYS);
 
-        if ( strKeysList != null )
+        if (strKeysList != null)
         {
-            list = new ReferenceList(  );
+            list = new ReferenceList();
 
             // Extracts each key (separated by a comma)
-            StringTokenizer strTokens = new StringTokenizer( strKeysList, "," );
+            StringTokenizer strTokens = new StringTokenizer(strKeysList, ",");
 
-            while ( strTokens.hasMoreTokens(  ) )
+            while (strTokens.hasMoreTokens())
             {
-                String strHostKey = strTokens.nextToken(  );
-                String strHostKeyDescription = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST + strHostKey +
-                        SUFFIX_DESCRIPTION );
-                list.addItem( strHostKey, strHostKeyDescription );
+                String strHostKey = strTokens.nextToken();
+                String strHostKeyDescription = AppPropertiesService.getProperty(PROPERTY_VIRTUAL_HOST + strHostKey
+                        + SUFFIX_DESCRIPTION);
+                list.addItem(strHostKey, strHostKeyDescription);
             }
         }
 
@@ -452,21 +469,22 @@ public final class AppPathService
 
     /**
      * Gets a Virtual Host Key if the request contains a virtual host key
+     *
      * @param request The HTTP request
      * @return A Virtual Host Key if present, otherwise null.
      */
-    public static String getVirtualHostKey( HttpServletRequest request )
+    public static String getVirtualHostKey(HttpServletRequest request)
     {
         String strVirtalHostKey = null;
 
         // Get from config.properties the parameter name for virtual host keys
-        String strVirtualHostKeyParameter = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST_KEY_PARAMETER );
+        String strVirtualHostKeyParameter = AppPropertiesService.getProperty(PROPERTY_VIRTUAL_HOST_KEY_PARAMETER);
 
-        if ( ( request != null ) && ( strVirtualHostKeyParameter != null ) &&
-                ( !strVirtualHostKeyParameter.equals( "" ) ) )
+        if ((request != null) && (strVirtualHostKeyParameter != null)
+                && (!strVirtualHostKeyParameter.equals("")))
         {
             // Search for this parameter into the request
-            strVirtalHostKey = request.getParameter( strVirtualHostKeyParameter );
+            strVirtalHostKey = request.getParameter(strVirtualHostKeyParameter);
         }
 
         return strVirtalHostKey;
@@ -475,18 +493,19 @@ public final class AppPathService
     /**
      * Gets a Base Url for a virtual host if the request contains a virtual host
      * key
+     *
      * @param request The HTTP request
      * @return A virtual host base url if present, otherwise null.
      */
-    private static String getVirtualHostBaseUrl( HttpServletRequest request )
+    private static String getVirtualHostBaseUrl(HttpServletRequest request)
     {
         String strBaseUrl = null;
-        String strVirtalHostKey = getVirtualHostKey( request );
+        String strVirtalHostKey = getVirtualHostKey(request);
 
-        if ( ( strVirtalHostKey != null ) && ( !strVirtalHostKey.equals( "" ) ) )
+        if ((strVirtalHostKey != null) && (!strVirtalHostKey.equals("")))
         {
             // If found gets the Base url for this virtual host by its key
-            strBaseUrl = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST + strVirtalHostKey + SUFFIX_BASE_URL );
+            strBaseUrl = AppPropertiesService.getProperty(PROPERTY_VIRTUAL_HOST + strVirtalHostKey + SUFFIX_BASE_URL);
         }
 
         return strBaseUrl;
@@ -495,59 +514,61 @@ public final class AppPathService
     /**
      * Build the url item to use for a url that includes the redirection
      * parameter for reconnection.
+     *
      * @param strRootUrl the root part of the url, to build an absolute url
      * @param strUrlPropertySuffixKey The property suffix to retrieve the url
      * @return an absolute url, completed with the redirectUrl parameter
-     *         (contains the relative part of the url), as an UrlItem
+     * (contains the relative part of the url), as an UrlItem
      */
-    public static UrlItem buildRedirectUrlItem( String strRootUrl, String strUrlPropertySuffixKey )
+    public static UrlItem buildRedirectUrlItem(String strRootUrl, String strUrlPropertySuffixKey)
     {
-        String strUrl = AppPropertiesService.getProperty( PROPERTY_PREFIX_URL + strUrlPropertySuffixKey );
-        UrlItem url = new UrlItem( strRootUrl + strUrl );
-        url.addParameter( Parameters.REDIRECT_URL, strUrlPropertySuffixKey );
+        String strUrl = AppPropertiesService.getProperty(PROPERTY_PREFIX_URL + strUrlPropertySuffixKey);
+        UrlItem url = new UrlItem(strRootUrl + strUrl);
+        url.addParameter(Parameters.REDIRECT_URL, strUrlPropertySuffixKey);
 
         return url;
     }
 
     /**
      * Retrieve the url to redirect to after login. It is given by the
-     * redirectUrl parameter if found.
-     * The request parameters are copied (except the login and acces code).
-     * This is to be used by the doLogin method of AdminLoginJspBean.
+     * redirectUrl parameter if found. The request parameters are copied (except
+     * the login and acces code). This is to be used by the doLogin method of
+     * AdminLoginJspBean.
+     *
      * @param request the http request
      * @param strDefaultRedirectUrl the default url to go to after login
      * @return an UrlItem corresponding to the url to redirect to after login.
      */
-    public static UrlItem resolveRedirectUrl( HttpServletRequest request, String strDefaultRedirectUrl )
+    public static UrlItem resolveRedirectUrl(HttpServletRequest request, String strDefaultRedirectUrl)
     {
         String strUrl = strDefaultRedirectUrl;
 
-        String strUrlKey = request.getParameter( Parameters.REDIRECT_URL );
+        String strUrlKey = request.getParameter(Parameters.REDIRECT_URL);
         String strRedirectUrl = null;
 
-        if ( strUrlKey != null )
+        if (strUrlKey != null)
         {
-            strRedirectUrl = AppPropertiesService.getProperty( PROPERTY_PREFIX_URL + strUrlKey );
+            strRedirectUrl = AppPropertiesService.getProperty(PROPERTY_PREFIX_URL + strUrlKey);
         }
 
-        if ( strRedirectUrl != null )
+        if (strRedirectUrl != null)
         {
             strUrl = strRedirectUrl;
         }
 
-        Enumeration enumParams = request.getParameterNames(  );
-        UrlItem url = new UrlItem( getBaseUrl( request ) + strUrl );
+        Enumeration enumParams = request.getParameterNames();
+        UrlItem url = new UrlItem(getBaseUrl(request) + strUrl);
 
         String strParamName;
 
-        while ( enumParams.hasMoreElements(  ) )
+        while (enumParams.hasMoreElements())
         {
-            strParamName = (String) enumParams.nextElement(  );
+            strParamName = (String) enumParams.nextElement();
 
-            if ( !strParamName.equals( Parameters.REDIRECT_URL ) && !strParamName.equals( Parameters.ACCESS_CODE ) &&
-                    !strParamName.equals( Parameters.PASSWORD ) )
+            if (!strParamName.equals(Parameters.REDIRECT_URL) && !strParamName.equals(Parameters.ACCESS_CODE)
+                    && !strParamName.equals(Parameters.PASSWORD))
             {
-                url.addParameter( strParamName, request.getParameter( strParamName ) );
+                url.addParameter(strParamName, request.getParameter(strParamName));
             }
         }
 
@@ -555,23 +576,52 @@ public final class AppPathService
     }
 
     /**
-     * Returns the absolute url corresponding to the given one, if the later
-     * was found to be relative. An url starting with "http://" is absolute.
-     * A relative url should be given relatively to the webapp root.
+     * Returns the absolute url corresponding to the given one, if the later was
+     * found to be relative. An url starting with "http://" is absolute. A
+     * relative url should be given relatively to the webapp root.
+     *
      * @param request the http request (provides the base path if needed)
      * @param strUrl the url to transform
      * @return the corresonding absolute url
      *
-     * */
-    public static String getAbsoluteUrl( HttpServletRequest request, String strUrl )
+     *
+     */
+    public static String getAbsoluteUrl(HttpServletRequest request, String strUrl)
     {
-        if ( ( strUrl != null ) && !strUrl.startsWith( "http://" ) && !strUrl.startsWith( "https://" ) )
+        if ((strUrl != null) && !strUrl.startsWith("http://") && !strUrl.startsWith("https://"))
         {
-            return AppPathService.getBaseUrl( request ) + strUrl;
+            return AppPathService.getBaseUrl(request) + strUrl;
         }
         else
         {
             return strUrl;
         }
+    }
+
+    /**
+     * Gets the webapp instance defined in the config.properties file with the
+     * key lutece.webapp.instance
+     *
+     * @return The instance name
+     * @since 4.1
+     */
+    public static String getWebappInstance()
+    {
+        String strInstance = AppPropertiesService.getProperty(PROPERTY_INSTANCE);
+        if ((strInstance != null) && (!strInstance.equals("")))
+        {
+            return strInstance;
+        }
+        return INSTANCE_DEFAULT;
+    }
+
+    /**
+     * Returns whether the current instance is the default webapp instance
+     *
+     * @return true if default, otherwise false
+     */
+    public static boolean isDefaultWebappInstance()
+    {
+        return INSTANCE_DEFAULT.equals(getWebappInstance());
     }
 }
