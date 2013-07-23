@@ -21,6 +21,8 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.admin_home_url', '
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_credits.textblock', '&lt;credits text&gt;');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.copyright.textblock', '&lt;copyright text&gt;');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.privacy.textblock', '&lt;privacy text&gt;');
+INSERT INTO core_datastore VALUES ('core.daemon.threadLauncherDaemon.interval', '10');
+INSERT INTO core_datastore VALUES ('core.daemon.threadLauncherDaemon.onStartup', '10');
 
 
 UPDATE core_admin_right SET admin_url='jsp/admin/features/DispatchFeatures.jsp' WHERE id_right='CORE_FEATURES_MANAGEMENT';
