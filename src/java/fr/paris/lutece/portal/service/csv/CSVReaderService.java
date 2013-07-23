@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.service.csv;
 
-import au.com.bytecode.opencsv.CSVReader;
-
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
@@ -42,20 +40,22 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
-import org.apache.commons.fileupload.FileItem;
-
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+
+import org.apache.commons.fileupload.FileItem;
+
+import au.com.bytecode.opencsv.CSVReader;
 
 
 /**
@@ -185,7 +185,8 @@ public abstract class CSVReaderService
             {
                 CSVReader csvReader = new CSVReader( inputStreamReader, getCSVSeparator(  ), getCSVEscapeCharacter(  ) );
 
-                return readCSVFile( csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine,
+                return readCSVFile( inputStreamReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing,
+                        bExitOnError, bSkipFirstLine,
                     locale, strBaseUrl );
             }
         }
@@ -233,7 +234,8 @@ public abstract class CSVReaderService
             FileReader fileReader = new FileReader( file );
             CSVReader csvReader = new CSVReader( fileReader, getCSVSeparator(  ), getCSVEscapeCharacter(  ) );
 
-            return readCSVFile( csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine,
+            return readCSVFile( fileReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError,
+                    bSkipFirstLine,
                 locale, strBaseUrl );
         }
         catch ( FileNotFoundException e )
@@ -326,7 +328,8 @@ public abstract class CSVReaderService
                 InputStreamReader inputStreamReader = new InputStreamReader( inputStream );
                 CSVReader csvReader = new CSVReader( inputStreamReader, getCSVSeparator(  ), getCSVEscapeCharacter(  ) );
 
-                return readCSVFile( csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine,
+                return readCSVFile( inputStreamReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing,
+                        bExitOnError, bSkipFirstLine,
                     locale, strBaseUrl );
             }
         }
@@ -343,6 +346,8 @@ public abstract class CSVReaderService
      * Read a CSV file and call the method {@link #readLineOfCSVFile(String[])
      * readLineOfCSVFile} for each
      * of its lines.
+     * @param reader The file reader that was used to create the CSV reader.
+     *            This reader will be closed by this method
      * @param csvReader CSV reader to use to read the CSV file
      * @param nColumnNumber Number of columns of each lines. Use 0 to skip
      *            column number check (for example if every lines don't have the
@@ -362,7 +367,7 @@ public abstract class CSVReaderService
      *      CSVMessageDescriptor.compareTo(CSVMessageDescriptor) for information
      *      about sort
      */
-    protected List<CSVMessageDescriptor> readCSVFile( CSVReader csvReader, int nColumnNumber,
+    protected List<CSVMessageDescriptor> readCSVFile( Reader reader, CSVReader csvReader, int nColumnNumber,
         boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale,
         String strBaseUrl )
     {
@@ -389,6 +394,7 @@ public abstract class CSVReaderService
                     try
                     {
                         csvReader.close(  );
+                        reader.close(  );
                     }
                     catch ( IOException ex )
                     {
@@ -428,6 +434,7 @@ public abstract class CSVReaderService
                         try
                         {
                             csvReader.close(  );
+                            reader.close(  );
                         }
                         catch ( IOException ex )
                         {
@@ -459,6 +466,7 @@ public abstract class CSVReaderService
                     try
                     {
                         csvReader.close(  );
+                        reader.close(  );
                     }
                     catch ( IOException ex )
                     {
@@ -603,6 +611,7 @@ public abstract class CSVReaderService
         try
         {
             csvReader.close(  );
+            reader.close(  );
         }
         catch ( IOException ex )
         {
