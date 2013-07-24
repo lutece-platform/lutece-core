@@ -111,7 +111,7 @@ public final class DatastoreService
     }
     
     /**
-     * Get entity
+     * Get entity depending the current web app instance
      *
      * @param strKey The entity's key
      * @param strDefault The default value
@@ -125,7 +125,7 @@ public final class DatastoreService
     
 
     /**
-     * Get entity
+     * Set entity
      *
      * @param strKey The entity's key
      * @param strValue The value
@@ -160,7 +160,7 @@ public final class DatastoreService
     }
     
     /**
-     * Get entity
+     * Set entity depending the current web app instance
      *
      * @param strKey The entity's key
      * @param strValue The value
@@ -196,7 +196,7 @@ public final class DatastoreService
     }
     
     /**
-     * Remove a give key
+     * Remove a give key depending the current web app instance
      *
      * @param strKey The key
      */
@@ -234,7 +234,7 @@ public final class DatastoreService
         }
     }
     /**
-     * Remove all data where keys begin with a given prefix
+     * Remove all data where keys begin with a given prefix depending the current web app instance
      *
      * @param strPrefix The prefix
      */
@@ -275,7 +275,7 @@ public final class DatastoreService
         return list;
     }
     /**
-     * Gets a list of key/value where keys are matching a given prefix
+     * Gets a list of key/value where keys are matching a given prefix depending the current web app instance
      *
      * @param strPrefix The prefix
      * @return The list
@@ -368,7 +368,7 @@ public final class DatastoreService
     }
     
     /**
-     * Check if a key is available in the datastore
+     * Check if a key is available in the datastore depending the current web app instance
      *
      * @param strKey The key
      * @return True if the key is found otherwise false
