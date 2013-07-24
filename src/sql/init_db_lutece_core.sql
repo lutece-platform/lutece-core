@@ -193,8 +193,6 @@ INSERT INTO core_user_parameter VALUES ('password_expired_mail_subject', 'Votre 
 
 INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce');
 INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'markitupbbcode');
-INSERT INTO core_datastore VALUES ('core.daemon.threadLauncherDaemon.interval', '10');
-INSERT INTO core_datastore VALUES ('core.daemon.threadLauncherDaemon.onStartup', '10');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.name', 'LUTECE');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.author', '<author>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.copyright', '<copyright>');
