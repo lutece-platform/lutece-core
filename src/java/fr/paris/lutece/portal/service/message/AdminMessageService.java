@@ -406,7 +406,7 @@ public final class AdminMessageService
         model.put( MARK_ERRORS_LIST, constraintViolations );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale(), model );
-        String[] formatedErrors = { template.toString() };
+        String[] formatedErrors = { template.getHtml() };
         return formatedErrors;
     }
 

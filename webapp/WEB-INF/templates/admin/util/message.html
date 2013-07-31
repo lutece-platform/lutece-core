@@ -1,14 +1,14 @@
 <#assign alerttype="info" />
 <#assign icontype="icon-info-sign" />
 <#if message.type == 2 >
-<#assign alerttype="error" />
-<#assign icontype="icon-question-sign" />
+   <#assign alerttype="error" />
+   <#assign icontype="icon-question-sign" />
 <#elseif message.type == 3 >
-<#assign alerttype="block" />
-<#assign icontype="icon-exclamation-sign" />
+   <#assign alerttype="block" />
+   <#assign icontype="icon-exclamation-sign" />
 <#elseif message.type == 5 >
-<#assign alerttype="error" />
-<#assign icontype="icon-minus-sign" />
+   <#assign alerttype="error" />
+   <#assign icontype="icon-minus-sign" />
 </#if>
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
