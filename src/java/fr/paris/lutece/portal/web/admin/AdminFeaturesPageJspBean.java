@@ -44,6 +44,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -230,17 +231,6 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     protected static void populate( Object bean, HttpServletRequest request )
     {
-        try
-        {
-            BeanUtils.populate( bean, request.getParameterMap(  ) );
-        }
-        catch ( IllegalAccessException e )
-        {
-            AppLogService.error( "Unable to fetch data from request", e );
-        }
-        catch ( InvocationTargetException e )
-        {
-            AppLogService.error( "Unable to fetch data from request", e );
-        }
+        BeanUtil.populate( bean , request );
     }
 }
