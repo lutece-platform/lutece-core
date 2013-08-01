@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.bean.BeanUtil;
+import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -56,8 +57,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 
 
 /**
@@ -229,8 +232,21 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      * @param bean bean to populate
      * @param request http request
      */
-    protected static void populate( Object bean, HttpServletRequest request )
+    protected void populate( Object bean, HttpServletRequest request )
     {
         BeanUtil.populate( bean , request );
     }
+    
+    /**
+     * Validates a bean.
+     *
+     * @param <T> the bean type
+     * @param bean the bean to validate
+     * @return the sets of constraints that has been violated
+     */
+    public <T> Set<ConstraintViolation<T>> validate( T bean )
+    {
+        return BeanValidationUtil.validate( bean );
+    }
+
 }
