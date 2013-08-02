@@ -47,9 +47,6 @@ public class XPage
     private static final String TAG_PAGE_LINK = "page_link";
     private static final String TAG_PAGE_NAME = "page-name";
     private static final String TAG_PAGE_URL = "page-url";
-
-    
-    
     private String _strContent;
     private String _strTitle;
     private String _strKeyword;
@@ -145,7 +142,7 @@ public class XPage
     {
         _strXmlExtendedPathLabel = strXmlExtendedPathLabel;
     }
-    
+
     /**
      * Build a path from a referencelist. Each item of the list is an element of the path
      * The item's code is the label, the item's name is used for the URL of the link.
@@ -154,16 +151,15 @@ public class XPage
     public void setExtendedPathLabel( ReferenceList listPathItem )
     {
         StringBuffer sbXml = new StringBuffer(  );
-        
-        for( ReferenceItem item : listPathItem )
+
+        for ( ReferenceItem item : listPathItem )
         {
             XmlUtil.beginElement( sbXml, TAG_PAGE_LINK );
-            XmlUtil.addElement( sbXml, TAG_PAGE_NAME, item.getCode() );
-            XmlUtil.addElement( sbXml, TAG_PAGE_URL, item.getName() );
+            XmlUtil.addElement( sbXml, TAG_PAGE_NAME, item.getCode(  ) );
+            XmlUtil.addElement( sbXml, TAG_PAGE_URL, item.getName(  ) );
             XmlUtil.endElement( sbXml, TAG_PAGE_LINK );
         }
+
         _strXmlExtendedPathLabel = sbXml.toString(  );
     }
-        
-    
 }

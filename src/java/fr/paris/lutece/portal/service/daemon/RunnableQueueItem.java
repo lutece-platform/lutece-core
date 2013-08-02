@@ -1,3 +1,36 @@
+/*
+ * Copyright (c) 2002-2012, Mairie de Paris
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice
+ *     and the following disclaimer.
+ *
+ *  2. Redistributions in binary form must reproduce the above copyright notice
+ *     and the following disclaimer in the documentation and/or other materials
+ *     provided with the distribution.
+ *
+ *  3. Neither the name of 'Mairie de Paris' nor 'Lutece' nor the names of its
+ *     contributors may be used to endorse or promote products derived from
+ *     this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * License 1.0
+ */
 package fr.paris.lutece.portal.service.daemon;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -33,15 +66,15 @@ public class RunnableQueueItem implements Runnable
      * {@inheritDoc}
      */
     @Override
-    public void run( )
+    public void run(  )
     {
         try
         {
-            _runnable.run( );
+            _runnable.run(  );
         }
         catch ( Exception e )
         {
-            AppLogService.error( e.getMessage( ), e );
+            AppLogService.error( e.getMessage(  ), e );
         }
     }
 
@@ -49,7 +82,7 @@ public class RunnableQueueItem implements Runnable
      * Get the runnable that is waiting for its execution
      * @return The runnable
      */
-    public Runnable getRunnable( )
+    public Runnable getRunnable(  )
     {
         return _runnable;
     }
@@ -58,7 +91,7 @@ public class RunnableQueueItem implements Runnable
      * Get the key that identifies the runnable.
      * @return the key of the runnable
      */
-    public String getKey( )
+    public String getKey(  )
     {
         return _strKey;
     }
@@ -67,7 +100,7 @@ public class RunnableQueueItem implements Runnable
      * Get the plugin that created the runnable
      * @return The plugin that created the runnable
      */
-    public Plugin getPlugin( )
+    public Plugin getPlugin(  )
     {
         return _plugin;
     }
@@ -79,12 +112,13 @@ public class RunnableQueueItem implements Runnable
      * plugin.
      * @return The computed key of this runnable item
      */
-    protected String computeKey( )
+    protected String computeKey(  )
     {
-        if ( _strKey != null && _plugin != null )
+        if ( ( _strKey != null ) && ( _plugin != null ) )
         {
-            return _plugin.getName( ) + _strKey;
+            return _plugin.getName(  ) + _strKey;
         }
+
         return null;
     }
 }

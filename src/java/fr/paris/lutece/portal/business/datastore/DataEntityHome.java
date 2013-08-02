@@ -44,8 +44,8 @@ import java.util.List;
 public final class DataEntityHome
 {
     // Static variable pointed at the DAO instance
-    private static IDataEntityDAO _dao = new DataEntityDAO();
-    
+    private static IDataEntityDAO _dao = new DataEntityDAO(  );
+
     /**
      * Private constructor - this class need not be instantiated
      */

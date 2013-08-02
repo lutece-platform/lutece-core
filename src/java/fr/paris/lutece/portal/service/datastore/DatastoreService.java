@@ -45,24 +45,23 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 /**
  * Datastore Service
  */
 public final class DatastoreService
 {
-
     public static final String VALUE_TRUE = "true";
     public static final String VALUE_FALSE = "false";
-    private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile("#dskey\\{(.*?)\\}");
+    private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile( "#dskey\\{(.*?)\\}" );
     private static final String VALUE_MISSING = "DS Value Missing";
     private static AbstractCacheableService _cache;
     private static boolean _bDatabase = true;
 
-
     /**
      * Private constructor
      */
-    private DatastoreService()
+    private DatastoreService(  )
     {
     }
 
@@ -73,43 +72,45 @@ public final class DatastoreService
      * @param strDefault The default value
      * @return The value
      */
-    public static String getDataValue(String strKey, String strDefault)
+    public static String getDataValue( String strKey, String strDefault )
     {
         try
         {
-            if (_bDatabase)
+            if ( _bDatabase )
             {
                 DataEntity entity = null;
 
-                if (_cache != null)
+                if ( _cache != null )
                 {
-                    entity = (DataEntity) _cache.getFromCache(strKey);
+                    entity = (DataEntity) _cache.getFromCache( strKey );
                 }
 
-                if (entity == null)
+                if ( entity == null )
                 {
-                    entity = DataEntityHome.findByPrimaryKey(strKey);
+                    entity = DataEntityHome.findByPrimaryKey( strKey );
 
-                    if (entity == null)
+                    if ( entity == null )
                     {
                         return strDefault;
                     }
 
-                    if (_cache != null)
+                    if ( _cache != null )
                     {
-                        _cache.putInCache(strKey, entity);
+                        _cache.putInCache( strKey, entity );
                     }
                 }
-                return entity.getValue();
+
+                return entity.getValue(  );
             }
         }
-        catch (NoDatabaseException e)
+        catch ( NoDatabaseException e )
         {
-            disableDatastore(e);
+            disableDatastore( e );
         }
+
         return strDefault;
     }
-    
+
     /**
      * Get entity depending the current web app instance
      *
@@ -117,12 +118,12 @@ public final class DatastoreService
      * @param strDefault The default value
      * @return The value
      */
-    public static String getInstanceDataValue(String strKey, String strDefault)
+    public static String getInstanceDataValue( String strKey, String strDefault )
     {
         String strInstanceKey = getInstanceKey( strKey );
+
         return getDataValue( strInstanceKey, strDefault );
     }
-    
 
     /**
      * Set entity
@@ -130,45 +131,46 @@ public final class DatastoreService
      * @param strKey The entity's key
      * @param strValue The value
      */
-    public static void setDataValue(String strKey, String strValue)
+    public static void setDataValue( String strKey, String strValue )
     {
         try
         {
-            if (_bDatabase)
+            if ( _bDatabase )
             {
-                DataEntity p = new DataEntity(strKey, strValue);
-                DataEntity entity = DataEntityHome.findByPrimaryKey(strKey);
+                DataEntity p = new DataEntity( strKey, strValue );
+                DataEntity entity = DataEntityHome.findByPrimaryKey( strKey );
 
-                if (entity != null)
+                if ( entity != null )
                 {
-                    DataEntityHome.update(p);
-                    if (_cache != null)
+                    DataEntityHome.update( p );
+
+                    if ( _cache != null )
                     {
-                        _cache.removeKey(strKey);
+                        _cache.removeKey( strKey );
                     }
                 }
                 else
                 {
-                    DataEntityHome.create(p);
+                    DataEntityHome.create( p );
                 }
             }
         }
-        catch (NoDatabaseException e)
+        catch ( NoDatabaseException e )
         {
-            disableDatastore(e);
+            disableDatastore( e );
         }
     }
-    
+
     /**
      * Set entity depending the current web app instance
      *
      * @param strKey The entity's key
      * @param strValue The value
      */
-    public static void setInstanceDataValue(String strKey, String strValue)
+    public static void setInstanceDataValue( String strKey, String strValue )
     {
-    	String strInstanceKey = getInstanceKey( strKey );
-    	setDataValue(strInstanceKey, strValue);
+        String strInstanceKey = getInstanceKey( strKey );
+        setDataValue( strInstanceKey, strValue );
     }
 
     /**
@@ -176,34 +178,35 @@ public final class DatastoreService
      *
      * @param strKey The key
      */
-    public static void removeData(String strKey)
+    public static void removeData( String strKey )
     {
         try
         {
-            if (_bDatabase)
+            if ( _bDatabase )
             {
-                DataEntityHome.remove(strKey);
-                if (_cache != null)
+                DataEntityHome.remove( strKey );
+
+                if ( _cache != null )
                 {
-                    _cache.removeKey(strKey);
+                    _cache.removeKey( strKey );
                 }
             }
         }
-        catch (NoDatabaseException e)
+        catch ( NoDatabaseException e )
         {
-            disableDatastore(e);
+            disableDatastore( e );
         }
     }
-    
+
     /**
      * Remove a give key depending the current web app instance
      *
      * @param strKey The key
      */
-    public static void removeInstanceData(String strKey)
+    public static void removeInstanceData( String strKey )
     {
-    	String strInstanceKey = getInstanceKey( strKey );
-    	removeData(strInstanceKey);
+        String strInstanceKey = getInstanceKey( strKey );
+        removeData( strInstanceKey );
     }
 
     /**
@@ -211,37 +214,38 @@ public final class DatastoreService
      *
      * @param strPrefix The prefix
      */
-    public static void removeDataByPrefix(String strPrefix)
+    public static void removeDataByPrefix( String strPrefix )
     {
         try
         {
-            if (_bDatabase)
+            if ( _bDatabase )
             {
-                List<DataEntity> listEntities = DataEntityHome.findAll();
+                List<DataEntity> listEntities = DataEntityHome.findAll(  );
 
-                for (DataEntity entity : listEntities)
+                for ( DataEntity entity : listEntities )
                 {
-                    if (entity.getKey().startsWith(strPrefix))
+                    if ( entity.getKey(  ).startsWith( strPrefix ) )
                     {
-                        removeData(entity.getKey());
+                        removeData( entity.getKey(  ) );
                     }
                 }
             }
         }
-        catch (NoDatabaseException e)
+        catch ( NoDatabaseException e )
         {
-            disableDatastore(e);
+            disableDatastore( e );
         }
     }
+
     /**
      * Remove all data where keys begin with a given prefix depending the current web app instance
      *
      * @param strPrefix The prefix
      */
-    public static void removeInstanceDataByPrefix(String strPrefix)
+    public static void removeInstanceDataByPrefix( String strPrefix )
     {
-    	String strInstancePrefix = getInstanceKey( strPrefix );
-    	removeDataByPrefix(strInstancePrefix);
+        String strInstancePrefix = getInstanceKey( strPrefix );
+        removeDataByPrefix( strInstancePrefix );
     }
 
     /**
@@ -250,40 +254,44 @@ public final class DatastoreService
      * @param strPrefix The prefix
      * @return The list
      */
-    public static ReferenceList getDataByPrefix(String strPrefix)
+    public static ReferenceList getDataByPrefix( String strPrefix )
     {
-        ReferenceList list = new ReferenceList();
+        ReferenceList list = new ReferenceList(  );
+
         try
         {
-            if (_bDatabase)
+            if ( _bDatabase )
             {
-                List<DataEntity> listEntities = DataEntityHome.findAll();
+                List<DataEntity> listEntities = DataEntityHome.findAll(  );
 
-                for (DataEntity entity : listEntities)
+                for ( DataEntity entity : listEntities )
                 {
-                    if (entity.getKey().startsWith(strPrefix))
+                    if ( entity.getKey(  ).startsWith( strPrefix ) )
                     {
-                        list.addItem(entity.getKey(), entity.getValue());
+                        list.addItem( entity.getKey(  ), entity.getValue(  ) );
                     }
                 }
             }
         }
-        catch (NoDatabaseException e)
+        catch ( NoDatabaseException e )
         {
-            disableDatastore(e);
+            disableDatastore( e );
         }
+
         return list;
     }
+
     /**
      * Gets a list of key/value where keys are matching a given prefix depending the current web app instance
      *
      * @param strPrefix The prefix
      * @return The list
      */
-    public static ReferenceList getInstanceDataByPrefix(String strPrefix)
+    public static ReferenceList getInstanceDataByPrefix( String strPrefix )
     {
-    	String strInstancePrefix = getInstanceKey( strPrefix );
-    	return getDataByPrefix(strInstancePrefix);
+        String strInstancePrefix = getInstanceKey( strPrefix );
+
+        return getDataByPrefix( strInstancePrefix );
     }
 
     /**
@@ -292,42 +300,40 @@ public final class DatastoreService
      * @param strSource The string that contains datastore keys
      * @return The string with keys replaced
      */
-    public static String replaceKeys(String strSource)
+    public static String replaceKeys( String strSource )
     {
         String result = strSource;
 
-        if (strSource != null)
+        if ( strSource != null )
         {
-            Matcher matcher = PATTERN_DATASTORE_KEY.matcher(strSource);
+            Matcher matcher = PATTERN_DATASTORE_KEY.matcher( strSource );
 
-            if (matcher.find())
+            if ( matcher.find(  ) )
             {
-                StringBuffer sb = new StringBuffer();
+                StringBuffer sb = new StringBuffer(  );
 
                 do
                 {
-                    String strKey = matcher.group(1);
-                    String strValue = DatastoreService.getDataValue(strKey, VALUE_MISSING);
+                    String strKey = matcher.group( 1 );
+                    String strValue = DatastoreService.getDataValue( strKey, VALUE_MISSING );
 
-                    if (VALUE_MISSING.equals(strValue))
+                    if ( VALUE_MISSING.equals( strValue ) )
                     {
-                        AppLogService.error("Datastore Key missing : " + strKey
-                                + " - Please fix to avoid performance issues.");
+                        AppLogService.error( "Datastore Key missing : " + strKey +
+                            " - Please fix to avoid performance issues." );
                     }
 
-                    matcher.appendReplacement(sb, strValue);
+                    matcher.appendReplacement( sb, strValue );
                 }
-                while (matcher.find());
+                while ( matcher.find(  ) );
 
-                matcher.appendTail(sb);
-                result = sb.toString();
+                matcher.appendTail( sb );
+                result = sb.toString(  );
             }
         }
 
         return result;
     }
-
-
 
     /**
      * Check if a key is available in the datastore
@@ -335,23 +341,24 @@ public final class DatastoreService
      * @param strKey The key
      * @return True if the key is found otherwise false
      */
-    public static boolean existsKey(String strKey)
+    public static boolean existsKey( String strKey )
     {
         try
         {
-            if (_bDatabase)
+            if ( _bDatabase )
             {
                 DataEntity entity = null;
-                if (_cache != null)
+
+                if ( _cache != null )
                 {
-                    entity = (DataEntity) _cache.getFromCache(strKey);
+                    entity = (DataEntity) _cache.getFromCache( strKey );
                 }
 
-                if (entity == null)
+                if ( entity == null )
                 {
-                    entity = DataEntityHome.findByPrimaryKey(strKey);
+                    entity = DataEntityHome.findByPrimaryKey( strKey );
 
-                    if (entity == null)
+                    if ( entity == null )
                     {
                         return false;
                     }
@@ -360,62 +367,63 @@ public final class DatastoreService
                 return true;
             }
         }
-        catch (NoDatabaseException e)
+        catch ( NoDatabaseException e )
         {
-            disableDatastore(e);
+            disableDatastore( e );
         }
+
         return false;
     }
-    
+
     /**
      * Check if a key is available in the datastore depending the current web app instance
      *
      * @param strKey The key
      * @return True if the key is found otherwise false
      */
-    public static boolean existsInstanceKey(String strKey)
+    public static boolean existsInstanceKey( String strKey )
     {
-    	String strInstanceKey = getInstanceKey( strKey );
-    	return existsKey(strInstanceKey);
+        String strInstanceKey = getInstanceKey( strKey );
+
+        return existsKey( strInstanceKey );
     }
-    
-    
 
     /**
      * Start cache. NB : Cache can't be created at DataStore creation because
      * CacheService uses DatastoreService (Circular reference)
      */
-    public static void startCache()
+    public static void startCache(  )
     {
-        _cache = new DatastoreCacheService();
-        AppLogService.info("Datastore's cache started.");
+        _cache = new DatastoreCacheService(  );
+        AppLogService.info( "Datastore's cache started." );
     }
 
     /**
      * Disable the Datastore if a NoDatabaseException is catched
      * @param e The NoDatabaseException
      */
-    private static void disableDatastore(NoDatabaseException e)
+    private static void disableDatastore( NoDatabaseException e )
     {
         _bDatabase = false;
-        AppLogService.error("##### CRITICAL ERROR ##### : Datastore has been disabled due to a NoDatabaseException catched", e);
+        AppLogService.error( "##### CRITICAL ERROR ##### : Datastore has been disabled due to a NoDatabaseException catched",
+            e );
     }
-    
 
     /**
      * Return a datastore key for the current webapp instance
      * @param strKey The key
      * @return The key for the current instance
      */
-    private static String getInstanceKey(String strKey)
+    private static String getInstanceKey( String strKey )
     {
-        if( ! AppPathService.isDefaultWebappInstance() )
+        if ( !AppPathService.isDefaultWebappInstance(  ) )
         {
-            StringBuilder sbInstanceKey = new StringBuilder();
-            sbInstanceKey.append( AppPathService.getWebappInstance()).append(".").append(strKey);
-            return sbInstanceKey.toString();
+            StringBuilder sbInstanceKey = new StringBuilder(  );
+            sbInstanceKey.append( AppPathService.getWebappInstance(  ) ).append( "." ).append( strKey );
+
+            return sbInstanceKey.toString(  );
         }
+
         return strKey;
     }
-
 }

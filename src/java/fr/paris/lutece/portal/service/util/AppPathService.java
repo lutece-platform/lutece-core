@@ -55,12 +55,12 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+
 /**
  * this class provides services for locate repository or url
  */
 public final class AppPathService
 {
-
     public static final String SESSION_BASE_URL = "base_url";
     private static final String MSG_LOG_PROPERTY_NOT_FOUND = "Property {0} not found in the properties file ";
     private static final int PORT_NUMBER_HTTP = 80;
@@ -81,6 +81,7 @@ public final class AppPathService
     private static final String SUFFIX_DESCRIPTION = ".description";
     private static final String SLASH = "/";
     private static final String DOUBLE_POINTS = ":";
+
     // Datastore keys
     private static final String KEY_ADMIN_HOME_URL = "portal.site.site_property.admin_home_url";
     private static final String KEY_PORTAL_HOME_URL = "portal.site.site_property.home_url";
@@ -89,7 +90,7 @@ public final class AppPathService
     /**
      * Creates a new AppPathService object.
      */
-    private AppPathService()
+    private AppPathService(  )
     {
     }
 
@@ -98,10 +99,10 @@ public final class AppPathService
      *
      * @param context The servlet context
      */
-    public static void init(ServletContext context)
+    public static void init( ServletContext context )
     {
-        String strRealPath = context.getRealPath("/");
-        _strWebAppPath = normalizeWebappPath(strRealPath);
+        String strRealPath = context.getRealPath( "/" );
+        _strWebAppPath = normalizeWebappPath( strRealPath );
     }
 
     /**
@@ -109,7 +110,7 @@ public final class AppPathService
      *
      * @param strWebAppPath The Webapp path
      */
-    public static void init(String strWebAppPath)
+    public static void init( String strWebAppPath )
     {
         _strWebAppPath = strWebAppPath;
     }
@@ -122,22 +123,19 @@ public final class AppPathService
      * @return the repository absolute path
      * @param strKey the repository key definied in properties file
      */
-    public static String getPath(String strKey)
+    public static String getPath( String strKey )
     {
         // Adds relative path found from strKey
-        String strDirectory = AppPropertiesService.getProperty(strKey);
+        String strDirectory = AppPropertiesService.getProperty( strKey );
 
-        if (strDirectory == null)
+        if ( strDirectory == null )
         {
-            Object[] propertyMissing =
-            {
-                strKey
-            };
-            String strMsg = MessageFormat.format(MSG_LOG_PROPERTY_NOT_FOUND, propertyMissing);
-            throw new AppException(strMsg);
+            Object[] propertyMissing = { strKey };
+            String strMsg = MessageFormat.format( MSG_LOG_PROPERTY_NOT_FOUND, propertyMissing );
+            throw new AppException( strMsg );
         }
 
-        return getWebAppPath() + strDirectory;
+        return getWebAppPath(  ) + strDirectory;
     }
 
     /**
@@ -146,7 +144,7 @@ public final class AppPathService
      *
      * @return the webapp path
      */
-    public static String getWebAppPath()
+    public static String getWebAppPath(  )
     {
         return _strWebAppPath;
     }
@@ -159,9 +157,9 @@ public final class AppPathService
      * @param strFilename The name of file
      * @return the absolute path of file
      */
-    public static String getPath(String strKey, String strFilename)
+    public static String getPath( String strKey, String strFilename )
     {
-        return getPath(strKey) + SLASH + strFilename;
+        return getPath( strKey ) + SLASH + strFilename;
     }
 
     /**
@@ -171,20 +169,20 @@ public final class AppPathService
      * @param strFilename The name of file
      * @return a FileInput Stream object
      */
-    public static FileInputStream getResourceAsStream(String strPath, String strFilename)
+    public static FileInputStream getResourceAsStream( String strPath, String strFilename )
     {
-        String strFilePath = getWebAppPath() + strPath + strFilename;
+        String strFilePath = getWebAppPath(  ) + strPath + strFilename;
 
         try
         {
-            File file = new File(strFilePath);
-            FileInputStream fis = new FileInputStream(file);
+            File file = new File( strFilePath );
+            FileInputStream fis = new FileInputStream( file );
 
             return fis;
         }
-        catch (IOException e)
+        catch ( IOException e )
         {
-            throw new AppException("Unable to get file : " + strFilePath);
+            throw new AppException( "Unable to get file : " + strFilePath );
         }
     }
 
@@ -195,7 +193,7 @@ public final class AppPathService
      * @return the repository absolute path
      * @param strDirectory the relative path
      */
-    public static String getAbsolutePathFromRelativePath(String strDirectory)
+    public static String getAbsolutePathFromRelativePath( String strDirectory )
     {
         return _strWebAppPath + strDirectory;
     }
@@ -206,23 +204,23 @@ public final class AppPathService
      * @param request The HttpServletRequest
      * @return strBase the webapp url
      */
-    public static String getBaseUrl(HttpServletRequest request)
+    public static String getBaseUrl( HttpServletRequest request )
     {
         String strBase;
 
         // Search for a Virtual Host Base Url defined in the request
-        strBase = getVirtualHostBaseUrl(request);
+        strBase = getVirtualHostBaseUrl( request );
 
         // If not found, get the base url from session
-        if ((strBase == null) || strBase.equals(""))
+        if ( ( strBase == null ) || strBase.equals( "" ) )
         {
-            HttpSession session = request.getSession(false);
+            HttpSession session = request.getSession( false );
 
-            if (session != null)
+            if ( session != null )
             {
-                Object oBase = session.getAttribute(SESSION_BASE_URL);
+                Object oBase = session.getAttribute( SESSION_BASE_URL );
 
-                if (oBase != null)
+                if ( oBase != null )
                 {
                     strBase = (String) oBase;
                 }
@@ -230,27 +228,27 @@ public final class AppPathService
         }
 
         // If not found, get the base url from the config.properties
-        if ((strBase == null) || (strBase.equals("")))
+        if ( ( strBase == null ) || ( strBase.equals( "" ) ) )
         {
-            strBase = AppPropertiesService.getProperty(PROPERTY_BASE_URL);
+            strBase = AppPropertiesService.getProperty( PROPERTY_BASE_URL );
         }
 
-        if ((strBase == null) || (strBase.equals("")))
+        if ( ( strBase == null ) || ( strBase.equals( "" ) ) )
         {
             // Dynamic base URL if not defined in the properties
-            strBase = request.getScheme() + DOUBLE_POINTS + SLASH + SLASH + request.getServerName();
+            strBase = request.getScheme(  ) + DOUBLE_POINTS + SLASH + SLASH + request.getServerName(  );
 
-            int nPort = request.getServerPort();
+            int nPort = request.getServerPort(  );
 
-            if (nPort != PORT_NUMBER_HTTP)
+            if ( nPort != PORT_NUMBER_HTTP )
             {
-                strBase += (DOUBLE_POINTS + nPort);
+                strBase += ( DOUBLE_POINTS + nPort );
             }
 
-            strBase += request.getContextPath();
+            strBase += request.getContextPath(  );
         }
 
-        if (!strBase.endsWith(SLASH))
+        if ( !strBase.endsWith( SLASH ) )
         {
             strBase += SLASH;
         }
@@ -269,12 +267,12 @@ public final class AppPathService
      * instead
      */
     @Deprecated
-    public static String getBaseUrl()
+    public static String getBaseUrl(  )
     {
         // FIXME : lutece.base.url is only set when using WSSO
-        String strBaseUrl = AppPropertiesService.getProperty(PROPERTY_BASE_URL);
+        String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_BASE_URL );
 
-        if (!strBaseUrl.endsWith(SLASH))
+        if ( !strBaseUrl.endsWith( SLASH ) )
         {
             strBaseUrl += SLASH;
         }
@@ -289,16 +287,16 @@ public final class AppPathService
      * @param request The HTTP request
      * @return The prod url
      */
-    public static String getProdUrl(HttpServletRequest request)
+    public static String getProdUrl( HttpServletRequest request )
     {
-        String strBaseUrl = AppPropertiesService.getProperty(PROPERTY_PROD_BASE_URL);
+        String strBaseUrl = AppPropertiesService.getProperty( PROPERTY_PROD_BASE_URL );
 
-        if (StringUtils.isBlank(strBaseUrl))
+        if ( StringUtils.isBlank( strBaseUrl ) )
         {
-            strBaseUrl = getBaseUrl(request);
+            strBaseUrl = getBaseUrl( request );
         }
 
-        if (!strBaseUrl.endsWith(SLASH))
+        if ( !strBaseUrl.endsWith( SLASH ) )
         {
             strBaseUrl += SLASH;
         }
@@ -314,9 +312,9 @@ public final class AppPathService
      * @deprecated Use {@link AppPathService#getProdUrl(String)} instead
      */
     @Deprecated
-    public static String getProdUrl()
+    public static String getProdUrl(  )
     {
-        return getProdUrl(getBaseUrl());
+        return getProdUrl( getBaseUrl(  ) );
     }
 
     /**
@@ -326,16 +324,16 @@ public final class AppPathService
      * @param strBaseUrl The base URL
      * @return The prod url
      */
-    public static String getProdUrl(String strBaseUrl)
+    public static String getProdUrl( String strBaseUrl )
     {
-        String strProdUrl = AppPropertiesService.getProperty(PROPERTY_PROD_BASE_URL);
+        String strProdUrl = AppPropertiesService.getProperty( PROPERTY_PROD_BASE_URL );
 
-        if (StringUtils.isBlank(strProdUrl))
+        if ( StringUtils.isBlank( strProdUrl ) )
         {
             strProdUrl = strBaseUrl;
         }
 
-        if ((strProdUrl != null) && !strProdUrl.endsWith(SLASH))
+        if ( ( strProdUrl != null ) && !strProdUrl.endsWith( SLASH ) )
         {
             strProdUrl += SLASH;
         }
@@ -349,10 +347,10 @@ public final class AppPathService
      * @param request The HttpServletRequest
      * @return strBase the webapp url
      */
-    public static String getSiteMessageUrl(HttpServletRequest request)
+    public static String getSiteMessageUrl( HttpServletRequest request )
     {
         // Set the site message url
-        return SiteMessageService.setSiteMessageUrl(getBaseUrl(request) + getSiteMessageUrl());
+        return SiteMessageService.setSiteMessageUrl( getBaseUrl( request ) + getSiteMessageUrl(  ) );
     }
 
     /**
@@ -361,9 +359,9 @@ public final class AppPathService
      *
      * @return the Portal Url
      */
-    public static String getPortalUrl()
+    public static String getPortalUrl(  )
     {
-        return AppPropertiesService.getProperty(PROPERTY_PORTAL_URL);
+        return AppPropertiesService.getProperty( PROPERTY_PORTAL_URL );
     }
 
     /**
@@ -372,10 +370,10 @@ public final class AppPathService
      *
      * @return the Portal Root forward Url
      */
-    public static String getRootForwardUrl()
+    public static String getRootForwardUrl(  )
     {
-        return DatastoreService.getDataValue(KEY_PORTAL_HOME_URL,
-                AppPropertiesService.getProperty(PROPERTY_PORTAL_REDIRECT_URL));
+        return DatastoreService.getDataValue( KEY_PORTAL_HOME_URL,
+            AppPropertiesService.getProperty( PROPERTY_PORTAL_REDIRECT_URL ) );
     }
 
     /**
@@ -384,9 +382,9 @@ public final class AppPathService
      *
      * @return the SiteMessage Url
      */
-    public static String getSiteMessageUrl()
+    public static String getSiteMessageUrl(  )
     {
-        return AppPropertiesService.getProperty(PROPERTY_SITE_MESSAGE_URL);
+        return AppPropertiesService.getProperty( PROPERTY_SITE_MESSAGE_URL );
     }
 
     /**
@@ -395,9 +393,9 @@ public final class AppPathService
      *
      * @return the Portal Url
      */
-    public static String getAdminPortalUrl()
+    public static String getAdminPortalUrl(  )
     {
-        return AppPropertiesService.getProperty(PROPERTY_ADMIN_URL);
+        return AppPropertiesService.getProperty( PROPERTY_ADMIN_URL );
     }
 
     /**
@@ -406,10 +404,10 @@ public final class AppPathService
      *
      * @return the Admin Menu Url
      */
-    public static String getAdminMenuUrl()
+    public static String getAdminMenuUrl(  )
     {
-        return DatastoreService.getDataValue(KEY_ADMIN_HOME_URL,
-                AppPropertiesService.getProperty(PROPERTY_ADMIN_MENU_URL));
+        return DatastoreService.getDataValue( KEY_ADMIN_HOME_URL,
+            AppPropertiesService.getProperty( PROPERTY_ADMIN_MENU_URL ) );
     }
 
     /**
@@ -418,15 +416,15 @@ public final class AppPathService
      * @param strPath The path to normalize
      * @return The normalized path
      */
-    private static String normalizeWebappPath(String strPath)
+    private static String normalizeWebappPath( String strPath )
     {
         // convert Windows path separator if present
-        String strNormalized = StringUtil.substitute(strPath, "/", "\\");
+        String strNormalized = StringUtil.substitute( strPath, "/", "\\" );
 
         // remove the ending separator if present
-        if (strNormalized.endsWith("/"))
+        if ( strNormalized.endsWith( "/" ) )
         {
-            strNormalized = strNormalized.substring(0, strNormalized.length() - 1);
+            strNormalized = strNormalized.substring( 0, strNormalized.length(  ) - 1 );
         }
 
         return strNormalized;
@@ -441,26 +439,26 @@ public final class AppPathService
      * virtual host configuration. The list is empty if there is no
      * configuration defined.
      */
-    public static ReferenceList getAvailableVirtualHosts()
+    public static ReferenceList getAvailableVirtualHosts(  )
     {
         ReferenceList list = null;
 
         // Get keys list form config.properties
-        String strKeysList = AppPropertiesService.getProperty(PROPERTY_VIRTUAL_HOST_KEYS);
+        String strKeysList = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST_KEYS );
 
-        if (strKeysList != null)
+        if ( strKeysList != null )
         {
-            list = new ReferenceList();
+            list = new ReferenceList(  );
 
             // Extracts each key (separated by a comma)
-            StringTokenizer strTokens = new StringTokenizer(strKeysList, ",");
+            StringTokenizer strTokens = new StringTokenizer( strKeysList, "," );
 
-            while (strTokens.hasMoreTokens())
+            while ( strTokens.hasMoreTokens(  ) )
             {
-                String strHostKey = strTokens.nextToken();
-                String strHostKeyDescription = AppPropertiesService.getProperty(PROPERTY_VIRTUAL_HOST + strHostKey
-                        + SUFFIX_DESCRIPTION);
-                list.addItem(strHostKey, strHostKeyDescription);
+                String strHostKey = strTokens.nextToken(  );
+                String strHostKeyDescription = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST + strHostKey +
+                        SUFFIX_DESCRIPTION );
+                list.addItem( strHostKey, strHostKeyDescription );
             }
         }
 
@@ -473,18 +471,18 @@ public final class AppPathService
      * @param request The HTTP request
      * @return A Virtual Host Key if present, otherwise null.
      */
-    public static String getVirtualHostKey(HttpServletRequest request)
+    public static String getVirtualHostKey( HttpServletRequest request )
     {
         String strVirtalHostKey = null;
 
         // Get from config.properties the parameter name for virtual host keys
-        String strVirtualHostKeyParameter = AppPropertiesService.getProperty(PROPERTY_VIRTUAL_HOST_KEY_PARAMETER);
+        String strVirtualHostKeyParameter = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST_KEY_PARAMETER );
 
-        if ((request != null) && (strVirtualHostKeyParameter != null)
-                && (!strVirtualHostKeyParameter.equals("")))
+        if ( ( request != null ) && ( strVirtualHostKeyParameter != null ) &&
+                ( !strVirtualHostKeyParameter.equals( "" ) ) )
         {
             // Search for this parameter into the request
-            strVirtalHostKey = request.getParameter(strVirtualHostKeyParameter);
+            strVirtalHostKey = request.getParameter( strVirtualHostKeyParameter );
         }
 
         return strVirtalHostKey;
@@ -497,15 +495,15 @@ public final class AppPathService
      * @param request The HTTP request
      * @return A virtual host base url if present, otherwise null.
      */
-    private static String getVirtualHostBaseUrl(HttpServletRequest request)
+    private static String getVirtualHostBaseUrl( HttpServletRequest request )
     {
         String strBaseUrl = null;
-        String strVirtalHostKey = getVirtualHostKey(request);
+        String strVirtalHostKey = getVirtualHostKey( request );
 
-        if ((strVirtalHostKey != null) && (!strVirtalHostKey.equals("")))
+        if ( ( strVirtalHostKey != null ) && ( !strVirtalHostKey.equals( "" ) ) )
         {
             // If found gets the Base url for this virtual host by its key
-            strBaseUrl = AppPropertiesService.getProperty(PROPERTY_VIRTUAL_HOST + strVirtalHostKey + SUFFIX_BASE_URL);
+            strBaseUrl = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST + strVirtalHostKey + SUFFIX_BASE_URL );
         }
 
         return strBaseUrl;
@@ -520,11 +518,11 @@ public final class AppPathService
      * @return an absolute url, completed with the redirectUrl parameter
      * (contains the relative part of the url), as an UrlItem
      */
-    public static UrlItem buildRedirectUrlItem(String strRootUrl, String strUrlPropertySuffixKey)
+    public static UrlItem buildRedirectUrlItem( String strRootUrl, String strUrlPropertySuffixKey )
     {
-        String strUrl = AppPropertiesService.getProperty(PROPERTY_PREFIX_URL + strUrlPropertySuffixKey);
-        UrlItem url = new UrlItem(strRootUrl + strUrl);
-        url.addParameter(Parameters.REDIRECT_URL, strUrlPropertySuffixKey);
+        String strUrl = AppPropertiesService.getProperty( PROPERTY_PREFIX_URL + strUrlPropertySuffixKey );
+        UrlItem url = new UrlItem( strRootUrl + strUrl );
+        url.addParameter( Parameters.REDIRECT_URL, strUrlPropertySuffixKey );
 
         return url;
     }
@@ -539,36 +537,36 @@ public final class AppPathService
      * @param strDefaultRedirectUrl the default url to go to after login
      * @return an UrlItem corresponding to the url to redirect to after login.
      */
-    public static UrlItem resolveRedirectUrl(HttpServletRequest request, String strDefaultRedirectUrl)
+    public static UrlItem resolveRedirectUrl( HttpServletRequest request, String strDefaultRedirectUrl )
     {
         String strUrl = strDefaultRedirectUrl;
 
-        String strUrlKey = request.getParameter(Parameters.REDIRECT_URL);
+        String strUrlKey = request.getParameter( Parameters.REDIRECT_URL );
         String strRedirectUrl = null;
 
-        if (strUrlKey != null)
+        if ( strUrlKey != null )
         {
-            strRedirectUrl = AppPropertiesService.getProperty(PROPERTY_PREFIX_URL + strUrlKey);
+            strRedirectUrl = AppPropertiesService.getProperty( PROPERTY_PREFIX_URL + strUrlKey );
         }
 
-        if (strRedirectUrl != null)
+        if ( strRedirectUrl != null )
         {
             strUrl = strRedirectUrl;
         }
 
-        Enumeration enumParams = request.getParameterNames();
-        UrlItem url = new UrlItem(getBaseUrl(request) + strUrl);
+        Enumeration enumParams = request.getParameterNames(  );
+        UrlItem url = new UrlItem( getBaseUrl( request ) + strUrl );
 
         String strParamName;
 
-        while (enumParams.hasMoreElements())
+        while ( enumParams.hasMoreElements(  ) )
         {
-            strParamName = (String) enumParams.nextElement();
+            strParamName = (String) enumParams.nextElement(  );
 
-            if (!strParamName.equals(Parameters.REDIRECT_URL) && !strParamName.equals(Parameters.ACCESS_CODE)
-                    && !strParamName.equals(Parameters.PASSWORD))
+            if ( !strParamName.equals( Parameters.REDIRECT_URL ) && !strParamName.equals( Parameters.ACCESS_CODE ) &&
+                    !strParamName.equals( Parameters.PASSWORD ) )
             {
-                url.addParameter(strParamName, request.getParameter(strParamName));
+                url.addParameter( strParamName, request.getParameter( strParamName ) );
             }
         }
 
@@ -586,11 +584,11 @@ public final class AppPathService
      *
      *
      */
-    public static String getAbsoluteUrl(HttpServletRequest request, String strUrl)
+    public static String getAbsoluteUrl( HttpServletRequest request, String strUrl )
     {
-        if ((strUrl != null) && !strUrl.startsWith("http://") && !strUrl.startsWith("https://"))
+        if ( ( strUrl != null ) && !strUrl.startsWith( "http://" ) && !strUrl.startsWith( "https://" ) )
         {
-            return AppPathService.getBaseUrl(request) + strUrl;
+            return AppPathService.getBaseUrl( request ) + strUrl;
         }
         else
         {
@@ -605,13 +603,15 @@ public final class AppPathService
      * @return The instance name
      * @since 4.1
      */
-    public static String getWebappInstance()
+    public static String getWebappInstance(  )
     {
-        String strInstance = AppPropertiesService.getProperty(PROPERTY_INSTANCE);
-        if ((strInstance != null) && (!strInstance.equals("")))
+        String strInstance = AppPropertiesService.getProperty( PROPERTY_INSTANCE );
+
+        if ( ( strInstance != null ) && ( !strInstance.equals( "" ) ) )
         {
             return strInstance;
         }
+
         return INSTANCE_DEFAULT;
     }
 
@@ -620,8 +620,8 @@ public final class AppPathService
      *
      * @return true if default, otherwise false
      */
-    public static boolean isDefaultWebappInstance()
+    public static boolean isDefaultWebappInstance(  )
     {
-        return INSTANCE_DEFAULT.equals(getWebappInstance());
+        return INSTANCE_DEFAULT.equals( getWebappInstance(  ) );
     }
 }

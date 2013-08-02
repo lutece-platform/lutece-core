@@ -45,6 +45,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import javax.validation.ConstraintViolation;
 
 
@@ -67,7 +68,6 @@ public final class AdminMessageService
     private static final String MARK_MESSAGES_LIST = "messages_list";
     private static final String TEMPLATE_ERRORS_LIST = "admin/util/errors_list.html";
     private static final String MARK_ERRORS_LIST = "errors_list";
-
 
     /**
      * Private constructor
@@ -221,7 +221,7 @@ public final class AdminMessageService
         return getMessageUrl( request, strMessageKey, messageArgs, strTitleKey, strUrl, strTarget, nMessageType,
             requestParameters, null );
     }
-    
+
     /**
      * Returns the Url that display the given message
      * @param <T> The type of the bean that has been validated
@@ -230,10 +230,11 @@ public final class AdminMessageService
      * @param constraintViolations The set of violations
      * @return The Url of the JSP that display the message
      */
-    public static <T> String getMessageUrl( HttpServletRequest request, String strMessageKey, Set<ConstraintViolation<T>> constraintViolations )
+    public static <T> String getMessageUrl( HttpServletRequest request, String strMessageKey,
+        Set<ConstraintViolation<T>> constraintViolations )
     {
-        return getMessageUrl( request, strMessageKey, formatConstraintViolations( request , constraintViolations ), null, JSP_BACK, TARGET_SELF, AdminMessage.TYPE_ERROR );
-        
+        return getMessageUrl( request, strMessageKey, formatConstraintViolations( request, constraintViolations ),
+            null, JSP_BACK, TARGET_SELF, AdminMessage.TYPE_ERROR );
     }
 
     /**
@@ -393,6 +394,7 @@ public final class AdminMessageService
 
         return template.getHtml(  );
     }
+
     /**
      * Format a set of constraints violations as en error list.
      * @param <T> The type of the object
@@ -400,14 +402,15 @@ public final class AdminMessageService
      * @param constraintViolations The set of violations
      * @return The formatted errors list as an object array
      */
-    private static <T> Object[] formatConstraintViolations( HttpServletRequest request, Set<ConstraintViolation<T>> constraintViolations)
+    private static <T> Object[] formatConstraintViolations( HttpServletRequest request,
+        Set<ConstraintViolation<T>> constraintViolations )
     {
-        Map<String, Object > model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ERRORS_LIST, constraintViolations );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale(), model );
-        String[] formatedErrors = { template.getHtml() };
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale(  ), model );
+        String[] formatedErrors = { template.getHtml(  ) };
+
         return formatedErrors;
     }
-
 }

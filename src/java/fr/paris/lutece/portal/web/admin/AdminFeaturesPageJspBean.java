@@ -60,6 +60,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+
 import javax.validation.ConstraintViolation;
 
 
@@ -234,9 +235,9 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     protected void populate( Object bean, HttpServletRequest request )
     {
-        BeanUtil.populate( bean , request );
+        BeanUtil.populate( bean, request );
     }
-    
+
     /**
      * Validates a bean.
      *
@@ -248,5 +249,4 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     {
         return BeanValidationUtil.validate( bean );
     }
-
 }

@@ -150,6 +150,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
         {
             createCache( getName(  ) );
         }
+
         CacheService.updateCacheStatus( this );
     }
 

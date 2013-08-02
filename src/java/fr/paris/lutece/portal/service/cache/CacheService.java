@@ -55,15 +55,16 @@ import java.util.Properties;
 
 import javax.management.MBeanServer;
 
+
 /**
  * Provides cache object for cacheable services
  */
 public final class CacheService
 {
-
     private static final String PROPERTY_PATH_CONF = "path.conf";
     private static final String PROPERTY_IS_ENABLED = ".enabled";
     private static final String FILE_CACHES_STATUS = "caches.dat";
+
     // Cache configuration properties
     private static final String PROPERTY_MAX_ELEMENTS = ".maxElementsInMemory";
     private static final String PROPERTY_ETERNAL = ".eternal";
@@ -73,8 +74,10 @@ public final class CacheService
     private static final String PROPERTY_DISK_PERSISTENT = ".diskPersistent";
     private static final String PROPERTY_DISK_EXPIRY = ".diskExpiryThreadIntervalSeconds";
     private static final String PROPERTY_MAX_ELEMENTS_DISK = ".maxElementsOnDisk";
+
     // Datastore
     private static final String KEY_PREFIX = "core.cache.status.";
+
     // JMX monitoring properties
     private static final String PROPERTY_JMX_MONITORING = "lutece.cache.jmx.monitoring.enabled";
     private static final String PROPERTY_MONITOR_CACHE_MANAGER = "lutece.cache.jmx.monitorCacheManager";
@@ -89,10 +92,10 @@ public final class CacheService
     private static final String PREFIX_DEFAULT = "lutece.cache.default";
     private static CacheService _singleton;
     private static CacheManager _manager;
-//    private static Properties _propertiesCacheConfig;
-    // Cacheable Services registry
-    private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<CacheableService>();
 
+    //    private static Properties _propertiesCacheConfig;
+    // Cacheable Services registry
+    private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<CacheableService>(  );
     private int _nDefaultMaxElementsInMemory;
     private boolean _bDefaultEternal;
     private long _lDefaultTimeToIdle;
@@ -105,7 +108,7 @@ public final class CacheService
     /**
      * Creates a new instance of CacheService
      */
-    private CacheService()
+    private CacheService(  )
     {
     }
 
@@ -114,12 +117,12 @@ public final class CacheService
      *
      * @return The unique instance of the CacheService
      */
-    public static synchronized CacheService getInstance()
+    public static synchronized CacheService getInstance(  )
     {
-        if (_singleton == null)
+        if ( _singleton == null )
         {
-            _singleton = new CacheService();
-            _singleton.init();
+            _singleton = new CacheService(  );
+            _singleton.init(  );
         }
 
         return _singleton;
@@ -129,36 +132,36 @@ public final class CacheService
      * Itializes the service by creating a manager object with a given
      * configuration file.
      */
-    private void init()
+    private void init(  )
     {
-        _manager = CacheManager.create();
-        loadDefaults();
-        loadCachesConfig();
+        _manager = CacheManager.create(  );
+        loadDefaults(  );
+        loadCachesConfig(  );
 
-        boolean bJmxMonitoring = AppPropertiesService.getProperty(PROPERTY_JMX_MONITORING, FALSE).equals(TRUE);
+        boolean bJmxMonitoring = AppPropertiesService.getProperty( PROPERTY_JMX_MONITORING, FALSE ).equals( TRUE );
 
-        if (bJmxMonitoring)
+        if ( bJmxMonitoring )
         {
-            initJmxMonitoring();
+            initJmxMonitoring(  );
         }
     }
 
     /**
      * Init JMX monitoring configuration
      */
-    private void initJmxMonitoring()
+    private void initJmxMonitoring(  )
     {
-        MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+        MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer(  );
 
-        boolean bRegisterCacheManager = AppPropertiesService.getProperty(PROPERTY_MONITOR_CACHE_MANAGER, FALSE)
-                .equals(TRUE);
-        boolean bRegisterCaches = AppPropertiesService.getProperty(PROPERTY_MONITOR_CACHES, FALSE).equals(TRUE);
-        boolean bRegisterCacheConfigurations = AppPropertiesService.getProperty(PROPERTY_MONITOR_CACHE_CONFIGURATIONS,
-                FALSE).equals(TRUE);
-        boolean bRegisterCacheStatistics = AppPropertiesService.getProperty(PROPERTY_MONITOR_CACHE_STATISTICS, FALSE)
-                .equals(TRUE);
-        ManagementService.registerMBeans(_manager, mBeanServer, bRegisterCacheManager, bRegisterCaches,
-                bRegisterCacheConfigurations, bRegisterCacheStatistics);
+        boolean bRegisterCacheManager = AppPropertiesService.getProperty( PROPERTY_MONITOR_CACHE_MANAGER, FALSE )
+                                                            .equals( TRUE );
+        boolean bRegisterCaches = AppPropertiesService.getProperty( PROPERTY_MONITOR_CACHES, FALSE ).equals( TRUE );
+        boolean bRegisterCacheConfigurations = AppPropertiesService.getProperty( PROPERTY_MONITOR_CACHE_CONFIGURATIONS,
+                FALSE ).equals( TRUE );
+        boolean bRegisterCacheStatistics = AppPropertiesService.getProperty( PROPERTY_MONITOR_CACHE_STATISTICS, FALSE )
+                                                               .equals( TRUE );
+        ManagementService.registerMBeans( _manager, mBeanServer, bRegisterCacheManager, bRegisterCaches,
+            bRegisterCacheConfigurations, bRegisterCacheStatistics );
     }
 
     /**
@@ -167,23 +170,23 @@ public final class CacheService
      * @param strCacheName The Cache/Service name
      * @return A cache object
      */
-    public Cache createCache(String strCacheName)
+    public Cache createCache( String strCacheName )
     {
-        Cache cache = new Cache(getCacheConfiguration(strCacheName));
-        _manager.addCache(cache);
+        Cache cache = new Cache( getCacheConfiguration( strCacheName ) );
+        _manager.addCache( cache );
 
-        return _manager.getCache(strCacheName);
+        return _manager.getCache( strCacheName );
     }
 
     /**
      * Reset all caches
      */
-    public static void resetCaches()
+    public static void resetCaches(  )
     {
         // Reset cache
-        for (CacheableService cs : _listCacheableServicesRegistry)
+        for ( CacheableService cs : _listCacheableServicesRegistry )
         {
-            cs.resetCache();
+            cs.resetCache(  );
         }
     }
 
@@ -191,10 +194,10 @@ public final class CacheService
      * Shutdown the cache service and the cache manager. Should be called when
      * the webapp is stopped.
      */
-    public void shutdown()
+    public void shutdown(  )
     {
-        CacheService.storeCachesStatus();
-        _manager.shutdown();
+        CacheService.storeCachesStatus(  );
+        _manager.shutdown(  );
     }
 
     /**
@@ -205,9 +208,9 @@ public final class CacheService
      * @param cs The CacheableService
      */
     @Deprecated
-    public static void registerCacheableService(String strName, CacheableService cs)
+    public static void registerCacheableService( String strName, CacheableService cs )
     {
-        registerCacheableService(cs);
+        registerCacheableService( cs );
     }
 
     /**
@@ -215,12 +218,12 @@ public final class CacheService
      *
      * @param cs The CacheableService
      */
-    public static void registerCacheableService(CacheableService cs)
+    public static void registerCacheableService( CacheableService cs )
     {
-        _listCacheableServicesRegistry.add(cs);
+        _listCacheableServicesRegistry.add( cs );
 
         // read cache status from file "caches.dat"
-        cs.enableCache(getStatus(cs));
+        cs.enableCache( getStatus( cs ) );
     }
 
     /**
@@ -228,7 +231,7 @@ public final class CacheService
      *
      * @return A collection containing all registered Cacheable services
      */
-    public static List<CacheableService> getCacheableServicesList()
+    public static List<CacheableService> getCacheableServicesList(  )
     {
         return _listCacheableServicesRegistry;
     }
@@ -236,12 +239,12 @@ public final class CacheService
     /**
      * Stores cache status
      */
-    public static void storeCachesStatus()
+    public static void storeCachesStatus(  )
     {
-        for (CacheableService cs : _listCacheableServicesRegistry)
+        for ( CacheableService cs : _listCacheableServicesRegistry )
         {
-            String strKey = getDSKey( cs.getName() , PROPERTY_IS_ENABLED );
-            DatastoreService.setInstanceDataValue(strKey, cs.isCacheEnable() ? ENABLED : DISABLED);
+            String strKey = getDSKey( cs.getName(  ), PROPERTY_IS_ENABLED );
+            DatastoreService.setInstanceDataValue( strKey, cs.isCacheEnable(  ) ? ENABLED : DISABLED );
         }
     }
 
@@ -251,82 +254,82 @@ public final class CacheService
      * @param cache The cache
      * @return Cache infos
      */
-    static String getInfos(Cache cache)
+    static String getInfos( Cache cache )
     {
-        StringBuilder sbInfos = new StringBuilder();
-        sbInfos.append(PROPERTY_MAX_ELEMENTS).append("=")
-                .append(cache.getCacheConfiguration().getMaxElementsInMemory()).append("\n");
-        sbInfos.append(PROPERTY_ETERNAL).append("=").append(cache.getCacheConfiguration().isEternal())
-                .append("\n");
-        sbInfos.append(PROPERTY_TIME_TO_IDLE).append("=")
-                .append(cache.getCacheConfiguration().getTimeToIdleSeconds()).append("\n");
-        sbInfos.append(PROPERTY_TIME_TO_LIVE).append("=")
-                .append(cache.getCacheConfiguration().getTimeToLiveSeconds()).append("\n");
-        sbInfos.append(PROPERTY_OVERFLOW_TO_DISK).append("=")
-                .append(cache.getCacheConfiguration().isOverflowToDisk()).append("\n");
-        sbInfos.append(PROPERTY_DISK_PERSISTENT).append("=")
-                .append(cache.getCacheConfiguration().isDiskPersistent()).append("\n");
-        sbInfos.append(PROPERTY_DISK_EXPIRY).append("=")
-                .append(cache.getCacheConfiguration().getDiskExpiryThreadIntervalSeconds()).append("\n");
-        sbInfos.append(PROPERTY_MAX_ELEMENTS_DISK).append("=")
-                .append(cache.getCacheConfiguration().getMaxElementsOnDisk()).append("\n");
+        StringBuilder sbInfos = new StringBuilder(  );
+        sbInfos.append( PROPERTY_MAX_ELEMENTS ).append( "=" )
+               .append( cache.getCacheConfiguration(  ).getMaxElementsInMemory(  ) ).append( "\n" );
+        sbInfos.append( PROPERTY_ETERNAL ).append( "=" ).append( cache.getCacheConfiguration(  ).isEternal(  ) )
+               .append( "\n" );
+        sbInfos.append( PROPERTY_TIME_TO_IDLE ).append( "=" )
+               .append( cache.getCacheConfiguration(  ).getTimeToIdleSeconds(  ) ).append( "\n" );
+        sbInfos.append( PROPERTY_TIME_TO_LIVE ).append( "=" )
+               .append( cache.getCacheConfiguration(  ).getTimeToLiveSeconds(  ) ).append( "\n" );
+        sbInfos.append( PROPERTY_OVERFLOW_TO_DISK ).append( "=" )
+               .append( cache.getCacheConfiguration(  ).isOverflowToDisk(  ) ).append( "\n" );
+        sbInfos.append( PROPERTY_DISK_PERSISTENT ).append( "=" )
+               .append( cache.getCacheConfiguration(  ).isDiskPersistent(  ) ).append( "\n" );
+        sbInfos.append( PROPERTY_DISK_EXPIRY ).append( "=" )
+               .append( cache.getCacheConfiguration(  ).getDiskExpiryThreadIntervalSeconds(  ) ).append( "\n" );
+        sbInfos.append( PROPERTY_MAX_ELEMENTS_DISK ).append( "=" )
+               .append( cache.getCacheConfiguration(  ).getMaxElementsOnDisk(  ) ).append( "\n" );
 
-        return sbInfos.toString();
+        return sbInfos.toString(  );
     }
 
     /**
      * Load defaults configuration parameters
      */
-    private void loadDefaults()
+    private void loadDefaults(  )
     {
-        _nDefaultMaxElementsInMemory = AppPropertiesService.getPropertyInt(PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS,
-                10000);
-        _bDefaultEternal = AppPropertiesService.getPropertyBoolean(PREFIX_DEFAULT + PROPERTY_ETERNAL, false);
-        _lDefaultTimeToIdle = AppPropertiesService.getPropertyLong(PREFIX_DEFAULT + PROPERTY_TIME_TO_IDLE, 10000L);
-        _lDefaultTimeToLive = AppPropertiesService.getPropertyLong(PREFIX_DEFAULT + PROPERTY_TIME_TO_LIVE, 10000L);
-        _bDefaultOverflowToDisk = AppPropertiesService.getPropertyBoolean(PREFIX_DEFAULT + PROPERTY_OVERFLOW_TO_DISK,
-                true);
-        _bDefaultDiskPersistent = AppPropertiesService.getPropertyBoolean(PREFIX_DEFAULT + PROPERTY_DISK_PERSISTENT,
-                true);
-        _lDefaultDiskExpiry = AppPropertiesService.getPropertyLong(PREFIX_DEFAULT + PROPERTY_DISK_EXPIRY, 120L);
-        _nDefaultMaxElementsOnDisk = AppPropertiesService.getPropertyInt(PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS_DISK,
-                10000);
+        _nDefaultMaxElementsInMemory = AppPropertiesService.getPropertyInt( PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS,
+                10000 );
+        _bDefaultEternal = AppPropertiesService.getPropertyBoolean( PREFIX_DEFAULT + PROPERTY_ETERNAL, false );
+        _lDefaultTimeToIdle = AppPropertiesService.getPropertyLong( PREFIX_DEFAULT + PROPERTY_TIME_TO_IDLE, 10000L );
+        _lDefaultTimeToLive = AppPropertiesService.getPropertyLong( PREFIX_DEFAULT + PROPERTY_TIME_TO_LIVE, 10000L );
+        _bDefaultOverflowToDisk = AppPropertiesService.getPropertyBoolean( PREFIX_DEFAULT + PROPERTY_OVERFLOW_TO_DISK,
+                true );
+        _bDefaultDiskPersistent = AppPropertiesService.getPropertyBoolean( PREFIX_DEFAULT + PROPERTY_DISK_PERSISTENT,
+                true );
+        _lDefaultDiskExpiry = AppPropertiesService.getPropertyLong( PREFIX_DEFAULT + PROPERTY_DISK_EXPIRY, 120L );
+        _nDefaultMaxElementsOnDisk = AppPropertiesService.getPropertyInt( PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS_DISK,
+                10000 );
     }
 
     /**
      * Load caches status
      */
-    private void loadCachesConfig()
+    private void loadCachesConfig(  )
     {
-        String strCachesStatusFile = AppPathService.getPath(PROPERTY_PATH_CONF, FILE_CACHES_STATUS);
-        File file = new File(strCachesStatusFile);
+        String strCachesStatusFile = AppPathService.getPath( PROPERTY_PATH_CONF, FILE_CACHES_STATUS );
+        File file = new File( strCachesStatusFile );
 
         try
         {
-            Properties properties = new Properties();
+            Properties properties = new Properties(  );
 
-            FileInputStream fis = new FileInputStream(file);
-            properties.load(fis);
+            FileInputStream fis = new FileInputStream( file );
+            properties.load( fis );
 
             // If the keys aren't found in the datastore then create a key in it
-            for (String strKey : properties.stringPropertyNames())
+            for ( String strKey : properties.stringPropertyNames(  ) )
             {
                 String strDSKey = KEY_PREFIX + strKey;
 
-                if (!DatastoreService.existsInstanceKey(strDSKey))
+                if ( !DatastoreService.existsInstanceKey( strDSKey ) )
                 {
-                    String strValue = properties.getProperty(strKey);
-                    DatastoreService.setInstanceDataValue(strDSKey, strValue);
+                    String strValue = properties.getProperty( strKey );
+                    DatastoreService.setInstanceDataValue( strDSKey, strValue );
                 }
             }
         }
-        catch (FileNotFoundException e)
+        catch ( FileNotFoundException e )
         {
-            AppLogService.error("No cache.dat file. Should be created at shutdown.");
+            AppLogService.error( "No cache.dat file. Should be created at shutdown." );
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
-            AppLogService.error("Error loading caches status defined in file : " + file.getAbsolutePath(), e);
+            AppLogService.error( "Error loading caches status defined in file : " + file.getAbsolutePath(  ), e );
         }
     }
 
@@ -336,8 +339,8 @@ public final class CacheService
      */
     public static void updateCacheStatus( CacheableService cs )
     {
-        String strKey = getDSKey( cs.getName() , PROPERTY_IS_ENABLED );
-        DatastoreService.setInstanceDataValue( strKey ,  ( cs.isCacheEnable() ? ENABLED : DISABLED ));
+        String strKey = getDSKey( cs.getName(  ), PROPERTY_IS_ENABLED );
+        DatastoreService.setInstanceDataValue( strKey, ( cs.isCacheEnable(  ) ? ENABLED : DISABLED ) );
     }
 
     /**
@@ -346,19 +349,21 @@ public final class CacheService
      * @param cs The cacheable service
      * @return The status
      */
-    private static boolean getStatus(CacheableService cs)
+    private static boolean getStatus( CacheableService cs )
     {
-        String strEnabled = DatastoreService.getInstanceDataValue( getDSKey( cs.getName() , PROPERTY_IS_ENABLED ), DISABLED );
+        String strEnabled = DatastoreService.getInstanceDataValue( getDSKey( cs.getName(  ), PROPERTY_IS_ENABLED ),
+                DISABLED );
+
         return strEnabled.equals( ENABLED );
     }
-    
+
     /**
      * Return the key of a datastore property
      * @param cs The cacheable service
      * @param strProperty The property
      * @return The DS key
      */
-    private static String getDSKey( String strCacheName , String strProperty )
+    private static String getDSKey( String strCacheName, String strProperty )
     {
         return KEY_PREFIX + normalizeName( strCacheName ) + strProperty;
     }
@@ -369,9 +374,9 @@ public final class CacheService
      * @param strName The name to normalize
      * @return The normalized name
      */
-    private static String normalizeName(String strName)
+    private static String normalizeName( String strName )
     {
-        return strName.replace(" ", "");
+        return strName.replace( " ", "" );
     }
 
     /**
@@ -380,18 +385,20 @@ public final class CacheService
      * @param strCacheName The cache name
      * @return The config
      */
-    private CacheConfiguration getCacheConfiguration(String strCacheName)
+    private CacheConfiguration getCacheConfiguration( String strCacheName )
     {
-        CacheConfiguration config = new CacheConfiguration();
-        config.setName(strCacheName);
-        config.setMaxElementsInMemory(getIntProperty(strCacheName, PROPERTY_MAX_ELEMENTS, _nDefaultMaxElementsInMemory));
-        config.setEternal(getBooleanProperty(strCacheName, PROPERTY_ETERNAL, _bDefaultEternal));
-        config.setTimeToIdleSeconds(getLongProperty(strCacheName, PROPERTY_TIME_TO_IDLE, _lDefaultTimeToIdle));
-        config.setTimeToLiveSeconds(getLongProperty(strCacheName, PROPERTY_TIME_TO_LIVE, _lDefaultTimeToLive));
-        config.setOverflowToDisk(getBooleanProperty(strCacheName, PROPERTY_OVERFLOW_TO_DISK, _bDefaultOverflowToDisk));
-        config.setDiskPersistent(getBooleanProperty(strCacheName, PROPERTY_DISK_PERSISTENT, _bDefaultDiskPersistent));
-        config.setDiskExpiryThreadIntervalSeconds(getLongProperty(strCacheName, PROPERTY_DISK_EXPIRY, _lDefaultDiskExpiry));
-        config.setMaxElementsOnDisk(getIntProperty(strCacheName, PROPERTY_MAX_ELEMENTS_DISK, _nDefaultMaxElementsOnDisk));
+        CacheConfiguration config = new CacheConfiguration(  );
+        config.setName( strCacheName );
+        config.setMaxElementsInMemory( getIntProperty( strCacheName, PROPERTY_MAX_ELEMENTS, _nDefaultMaxElementsInMemory ) );
+        config.setEternal( getBooleanProperty( strCacheName, PROPERTY_ETERNAL, _bDefaultEternal ) );
+        config.setTimeToIdleSeconds( getLongProperty( strCacheName, PROPERTY_TIME_TO_IDLE, _lDefaultTimeToIdle ) );
+        config.setTimeToLiveSeconds( getLongProperty( strCacheName, PROPERTY_TIME_TO_LIVE, _lDefaultTimeToLive ) );
+        config.setOverflowToDisk( getBooleanProperty( strCacheName, PROPERTY_OVERFLOW_TO_DISK, _bDefaultOverflowToDisk ) );
+        config.setDiskPersistent( getBooleanProperty( strCacheName, PROPERTY_DISK_PERSISTENT, _bDefaultDiskPersistent ) );
+        config.setDiskExpiryThreadIntervalSeconds( getLongProperty( strCacheName, PROPERTY_DISK_EXPIRY,
+                _lDefaultDiskExpiry ) );
+        config.setMaxElementsOnDisk( getIntProperty( strCacheName, PROPERTY_MAX_ELEMENTS_DISK,
+                _nDefaultMaxElementsOnDisk ) );
 
         return config;
     }
@@ -404,23 +411,25 @@ public final class CacheService
      * @param nDefault the default value
      * @return The property's value
      */
-    private int getIntProperty(String strCacheName, String strProperty, int nDefault)
+    private int getIntProperty( String strCacheName, String strProperty, int nDefault )
     {
-        String strKey = getDSKey(strCacheName, strProperty );
+        String strKey = getDSKey( strCacheName, strProperty );
 
-        if ( DatastoreService.existsInstanceKey(strKey))
+        if ( DatastoreService.existsInstanceKey( strKey ) )
         {
             String strValue = NOT_FOUND;
+
             try
             {
                 strValue = DatastoreService.getInstanceDataValue( strKey, strValue );
-                int nValue = Integer.parseInt(strValue);
+
+                int nValue = Integer.parseInt( strValue );
 
                 return nValue;
             }
-            catch (NumberFormatException e)
+            catch ( NumberFormatException e )
             {
-                AppLogService.error("Invalid numeric property : " + strCacheName + strProperty + "=" + strValue, e);
+                AppLogService.error( "Invalid numeric property : " + strCacheName + strProperty + "=" + strValue, e );
             }
         }
 
@@ -435,23 +444,25 @@ public final class CacheService
      * @param lDefault the default value
      * @return The property's value
      */
-    private long getLongProperty(String strCacheName, String strProperty, long lDefault)
+    private long getLongProperty( String strCacheName, String strProperty, long lDefault )
     {
         String strKey = getDSKey( strCacheName, strProperty );
 
-        if (DatastoreService.existsInstanceKey(strKey))
+        if ( DatastoreService.existsInstanceKey( strKey ) )
         {
             String strValue = NOT_FOUND;
+
             try
             {
                 strValue = DatastoreService.getInstanceDataValue( strKey, strValue );
-                long lValue = Integer.parseInt(strValue);
+
+                long lValue = Integer.parseInt( strValue );
 
                 return lValue;
             }
-            catch (NumberFormatException e)
+            catch ( NumberFormatException e )
             {
-                AppLogService.error("Invalid numeric property : " + strCacheName + strProperty + "=" + strValue, e);
+                AppLogService.error( "Invalid numeric property : " + strCacheName + strProperty + "=" + strValue, e );
             }
         }
 
@@ -466,14 +477,15 @@ public final class CacheService
      * @param bDefault the default value
      * @return The property's value
      */
-    private boolean getBooleanProperty(String strCacheName, String strProperty, boolean bDefault)
+    private boolean getBooleanProperty( String strCacheName, String strProperty, boolean bDefault )
     {
         String strKey = getDSKey( strCacheName, strProperty );
 
-        if ( DatastoreService.existsInstanceKey(strKey))
+        if ( DatastoreService.existsInstanceKey( strKey ) )
         {
-            String strValue = DatastoreService.getInstanceDataValue( strKey , NOT_FOUND );
-            return (strValue.equalsIgnoreCase( TRUE ));
+            String strValue = DatastoreService.getInstanceDataValue( strKey, NOT_FOUND );
+
+            return ( strValue.equalsIgnoreCase( TRUE ) );
         }
 
         return bDefault;

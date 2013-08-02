@@ -33,6 +33,11 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,11 +47,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import fr.paris.lutece.portal.service.datastore.DatastoreService;
-import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 
 /**
@@ -60,7 +60,6 @@ public final class AppDaemonService
     private static final String PROPERTY_DAEMON_ON_STARTUP = ".onStartUp";
     private static final String PROPERTY_DAEMON_INTERVAL = ".interval";
     private static final String KEY_DAEMON_PREFIX = "core.daemon.";
-   
     private static final int MAX_INITIAL_START_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_INITIAL_START_DELAY,
             30 );
     private static final int MAX_AWAIT_TERMINATION_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY,
@@ -142,35 +141,36 @@ public final class AppDaemonService
     public static void registerDaemon( DaemonEntry entry )
         throws LuteceInitException
     {
-        
-        String strIntervalKey = getIntervalKey(  entry.getId(  ) );
-        String strIntervalKeyDefaultValue=null;
+        String strIntervalKey = getIntervalKey( entry.getId(  ) );
+        String strIntervalKeyDefaultValue = null;
+
         //init interval value if no exists
-        if ( !DatastoreService.existsInstanceKey(strIntervalKey  ) )
+        if ( !DatastoreService.existsInstanceKey( strIntervalKey ) )
         {
-        	strIntervalKeyDefaultValue=  AppPropertiesService.getProperty( "daemon." + entry.getId(  ) + ".interval", "10" );
+            strIntervalKeyDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId(  ) + ".interval",
+                    "10" );
             DatastoreService.setInstanceDataValue( strIntervalKey, strIntervalKeyDefaultValue );
         }
-        String strIntervalKeyValue=DatastoreService.getInstanceDataValue(strIntervalKey,strIntervalKeyDefaultValue);
-        
-        long lInterval = (long) new Long(strIntervalKeyValue);
-        
-        
-        String strOnStartupKey = getOnStartupKey(  entry.getId(  ) );
-        String strOnStartupDefaultValue=null;
+
+        String strIntervalKeyValue = DatastoreService.getInstanceDataValue( strIntervalKey, strIntervalKeyDefaultValue );
+
+        long lInterval = (long) new Long( strIntervalKeyValue );
+
+        String strOnStartupKey = getOnStartupKey( entry.getId(  ) );
+        String strOnStartupDefaultValue = null;
+
         //init onStartup value if no exists
-        if ( !DatastoreService.existsInstanceKey(strOnStartupKey  ) )
+        if ( !DatastoreService.existsInstanceKey( strOnStartupKey ) )
         {
-        	 strOnStartupDefaultValue= AppPropertiesService.getProperty( "daemon." + entry.getId(  ) + ".onstartup","0").equals( "1" )? DatastoreService.VALUE_TRUE
-                     : DatastoreService.VALUE_FALSE;
-             DatastoreService.setInstanceDataValue( strOnStartupKey, strOnStartupDefaultValue );
+            strOnStartupDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId(  ) + ".onstartup", "0" )
+                                                           .equals( "1" ) ? DatastoreService.VALUE_TRUE
+                                                                          : DatastoreService.VALUE_FALSE;
+            DatastoreService.setInstanceDataValue( strOnStartupKey, strOnStartupDefaultValue );
         }
-        
-        
-        
-        String strOnStarupvalue=DatastoreService.getInstanceDataValue(strOnStartupKey,strOnStartupDefaultValue);
-        boolean bOnStartup = new Boolean(strOnStarupvalue);
-        
+
+        String strOnStarupvalue = DatastoreService.getInstanceDataValue( strOnStartupKey, strOnStartupDefaultValue );
+        boolean bOnStartup = new Boolean( strOnStarupvalue );
+
         entry.setInterval( lInterval );
         entry.setOnStartUp( bOnStartup );
 
@@ -229,23 +229,21 @@ public final class AppDaemonService
     {
         unScheduleThread( _mapDaemonEntries.get( strDaemonKey ) );
     }
-    
 
     /**
      * modify daemon interval
      * @param strDaemonKey The daemon key
      * @param strDaemonInterval the daemon interval
      */
-    public static void modifyDaemonInterval( String strDaemonKey, String strDaemonInterval  )
+    public static void modifyDaemonInterval( String strDaemonKey, String strDaemonInterval )
     {
-        DaemonEntry entry=  _mapDaemonEntries.get( strDaemonKey ) ;
-        if(entry != null)
+        DaemonEntry entry = _mapDaemonEntries.get( strDaemonKey );
+
+        if ( entry != null )
         {
-        	entry.setInterval(new Long(strDaemonInterval));
-        	DatastoreService.setInstanceDataValue( getIntervalKey(  entry.getId(  ) ), strDaemonInterval );
+            entry.setInterval( new Long( strDaemonInterval ) );
+            DatastoreService.setInstanceDataValue( getIntervalKey( entry.getId(  ) ), strDaemonInterval );
         }
-       
-        
     }
 
     /**
@@ -277,7 +275,7 @@ public final class AppDaemonService
 
         entry.setIsRunning( true );
         //update onStartup property
-        DatastoreService.setInstanceDataValue(getOnStartupKey(entry.getId()), DatastoreService.VALUE_TRUE);
+        DatastoreService.setInstanceDataValue( getOnStartupKey( entry.getId(  ) ), DatastoreService.VALUE_TRUE );
     }
 
     /**
@@ -289,7 +287,7 @@ public final class AppDaemonService
         cancelScheduledThread( entry.getId(  ) );
         entry.setIsRunning( false );
         //update onStartup property
-        DatastoreService.setInstanceDataValue(getOnStartupKey(entry.getId()), DatastoreService.VALUE_FALSE);
+        DatastoreService.setInstanceDataValue( getOnStartupKey( entry.getId(  ) ), DatastoreService.VALUE_FALSE );
         AppLogService.info( "Stopping daemon '" + entry.getId(  ) + "'" );
     }
 
@@ -377,23 +375,23 @@ public final class AppDaemonService
 
         return entry.getDaemon(  );
     }
-    
+
     /**
      * return the OnStartup key link to the daemon
      * @param strDaemonKey The daemon key
      * @return The key
      */
-    private static String getOnStartupKey(  String strDaemonKey )
+    private static String getOnStartupKey( String strDaemonKey )
     {
         return KEY_DAEMON_PREFIX + strDaemonKey + PROPERTY_DAEMON_ON_STARTUP;
     }
-    
+
     /**
      * return the Interval key link to the daemon
      * @param strDaemonKey The daemon key
      * @return The key
      */
-    private static String getIntervalKey(  String strDaemonKey )
+    private static String getIntervalKey( String strDaemonKey )
     {
         return KEY_DAEMON_PREFIX + strDaemonKey + PROPERTY_DAEMON_INTERVAL;
     }

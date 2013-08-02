@@ -80,7 +80,7 @@ public class PortalJspBeanTest extends LuteceTestCase
 
         HttpServletRequest request = new MokeHttpServletRequest(  );
         PortalJspBean instance = new PortalJspBean(  );
-        String result = instance.getError500Page( request , "Cause" );
+        String result = instance.getError500Page( request, "Cause" );
     }
 
     /**

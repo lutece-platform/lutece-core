@@ -34,11 +34,16 @@
 package fr.paris.lutece.util.bean;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+
+import org.apache.commons.beanutils.BeanUtils;
+
 import java.lang.reflect.InvocationTargetException;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.beanutils.BeanUtils;
+
 
 /**
  * Bean Utils
@@ -53,22 +58,22 @@ public class BeanUtil
      * @param bean bean to populate
      * @param request http request
      */
-    public static void populate(Object bean, HttpServletRequest request)
+    public static void populate( Object bean, HttpServletRequest request )
     {
         try
         {
-            BeanUtils.populate(bean, convertMap( request.getParameterMap() ));
+            BeanUtils.populate( bean, convertMap( request.getParameterMap(  ) ) );
         }
-        catch (IllegalAccessException e)
+        catch ( IllegalAccessException e )
         {
-            AppLogService.error("Unable to fetch data from request", e);
+            AppLogService.error( "Unable to fetch data from request", e );
         }
-        catch (InvocationTargetException e)
+        catch ( InvocationTargetException e )
         {
-            AppLogService.error("Unable to fetch data from request", e);
+            AppLogService.error( "Unable to fetch data from request", e );
         }
     }
-    
+
     /**
      * Convert map by casifying parameters names.
      * @param mapInput The input map
@@ -76,15 +81,16 @@ public class BeanUtil
      */
     public static Map convertMap( Map<String, Object> mapInput )
     {
-        Map<String, Object> mapOutput = new HashMap<String, Object>();
-        for( String strKey : mapInput.keySet())
+        Map<String, Object> mapOutput = new HashMap<String, Object>(  );
+
+        for ( String strKey : mapInput.keySet(  ) )
         {
-            mapOutput.put( convertUnderscores(strKey), mapInput.get(strKey));
+            mapOutput.put( convertUnderscores( strKey ), mapInput.get( strKey ) );
         }
+
         return mapOutput;
-        
     }
-            
+
     /**
      * Remove underscore and set the next letter in caps
      * @param strSource The source
@@ -92,27 +98,29 @@ public class BeanUtil
      */
     public static String convertUnderscores( String strSource )
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(  );
         boolean bCapitalizeNext = false;
-        for (char c : strSource .toCharArray())
+
+        for ( char c : strSource.toCharArray(  ) )
         {
-            if (c == UNDERSCORE)
+            if ( c == UNDERSCORE )
             {
                 bCapitalizeNext = true;
             }
             else
             {
-                if (bCapitalizeNext)
+                if ( bCapitalizeNext )
                 {
-                    sb.append(Character.toUpperCase(c));
+                    sb.append( Character.toUpperCase( c ) );
                     bCapitalizeNext = false;
                 }
                 else
                 {
-                    sb.append(c);
+                    sb.append( c );
                 }
             }
         }
-        return sb.toString();
+
+        return sb.toString(  );
     }
 }

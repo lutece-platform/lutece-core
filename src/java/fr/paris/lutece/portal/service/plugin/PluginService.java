@@ -354,7 +354,8 @@ public final class PluginService
      */
     private static String getPluginPoolName( Plugin plugin )
     {
-        return DatastoreService.getInstanceDataValue( getPoolNameKey( plugin.getName(  ) ), AppConnectionService.NO_POOL_DEFINED );
+        return DatastoreService.getInstanceDataValue( getPoolNameKey( plugin.getName(  ) ),
+            AppConnectionService.NO_POOL_DEFINED );
     }
 
     /**

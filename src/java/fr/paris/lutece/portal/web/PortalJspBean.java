@@ -119,7 +119,7 @@ public class PortalJspBean
     private static final String PROPERTY_PAGE_TITLE_STARTUP_FAILURE = "portal.util.startup.failure.title";
     private static final String PROPERTY_PAGE_TITLE_ERROR500 = "portal.util.error500.title";
     private final static String PROPERTY_DEBUG = "error.page.debug";
-    private final static String PROPERTY_DEBUG_DEFAULT = "true";   
+    private final static String PROPERTY_DEBUG_DEFAULT = "true";
     private static final String CONSTANT_SPACE = " ";
 
     /**
@@ -256,12 +256,13 @@ public class PortalJspBean
     public String getStartUpFailurePage( HttpServletRequest request )
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
-        fillPageModel(request, model);
+        fillPageModel( request, model );
         model.put( MARK_FAILURE_MESSAGE, AppInit.getLoadingFailureCause(  ) );
         model.put( MARK_FAILURE_DETAILS, AppInit.getLoadingFailureDetails(  ) );
-        model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_STARTUP_FAILURE , request.getLocale()));
+        model.put( Markers.PAGE_TITLE,
+            I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_STARTUP_FAILURE, request.getLocale(  ) ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_STARTUP_FAILURE, request.getLocale(), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_STARTUP_FAILURE, request.getLocale(  ), model );
 
         return template.getHtml(  );
     }
@@ -275,10 +276,11 @@ public class PortalJspBean
     public String getCredits( HttpServletRequest request )
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
-        fillPageModel(request, model);
+        fillPageModel( request, model );
         model.put( MARK_APP_VERSION, AppInfo.getVersion(  ) );
         model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName(  ) );
-        model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_CREDITS , request.getLocale()));
+        model.put( Markers.PAGE_TITLE,
+            I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_CREDITS, request.getLocale(  ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_CREDITS, request.getLocale(  ), model );
 
@@ -294,16 +296,17 @@ public class PortalJspBean
     public String getLegalInfos( HttpServletRequest request )
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
-        fillPageModel(request, model);
+        fillPageModel( request, model );
         model.put( MARK_ADDRESS_INFOS_CNIL, AppPropertiesService.getProperty( PROPERTY_INFOS_CNIL ) );
         model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName(  ) );
-        model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_LEGAL_INFO , request.getLocale()));
+        model.put( Markers.PAGE_TITLE,
+            I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_LEGAL_INFO, request.getLocale(  ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_LEGAL_INFO, request.getLocale(  ), model );
 
         return template.getHtml(  );
     }
-    
+
     /**
      * Returns the 404 Error page
      * @param request The HTTP request
@@ -312,8 +315,9 @@ public class PortalJspBean
     public String getError404Page( HttpServletRequest request )
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
-        fillPageModel(request, model);
-        model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR404 , request.getLocale()));
+        fillPageModel( request, model );
+        model.put( Markers.PAGE_TITLE,
+            I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR404, request.getLocale(  ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ERROR404, request.getLocale(  ), model );
 
@@ -326,32 +330,38 @@ public class PortalJspBean
      * @param exception The Exception
      * @return The page
      */
-    public String getError500Page( HttpServletRequest request , Throwable exception )
+    public String getError500Page( HttpServletRequest request, Throwable exception )
     {
-        AppLogService.error( "Error 500 : " + exception.getMessage() , exception );
+        AppLogService.error( "Error 500 : " + exception.getMessage(  ), exception );
+
         String strCause = null;
-        if( AppPropertiesService.getProperty( PROPERTY_DEBUG , PROPERTY_DEBUG_DEFAULT ).equalsIgnoreCase( "true" ) && ( exception != null ))
+
+        if ( AppPropertiesService.getProperty( PROPERTY_DEBUG, PROPERTY_DEBUG_DEFAULT ).equalsIgnoreCase( "true" ) &&
+                ( exception != null ) )
         {
-            strCause = exception.getMessage();
-            if( exception.getCause() != null )
+            strCause = exception.getMessage(  );
+
+            if ( exception.getCause(  ) != null )
             {
-                strCause += exception.getCause().getMessage();
+                strCause += exception.getCause(  ).getMessage(  );
             }
         }
-        return getError500Page( request , strCause ); 
+
+        return getError500Page( request, strCause );
     }
-    
+
     /**
      * Returns the 500 Error page
      * @param request The HTTP request
      * @param strMessage The message
      * @return The page
      */
-    public String getError500Page( HttpServletRequest request , String strCause )
+    public String getError500Page( HttpServletRequest request, String strCause )
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );
-        fillPageModel(request, model);
-        model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR500 , request.getLocale()));
+        fillPageModel( request, model );
+        model.put( Markers.PAGE_TITLE,
+            I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR500, request.getLocale(  ) ) );
         model.put( MARK_ERROR_CAUSE, strCause );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ERROR500, request.getLocale(  ), model );
@@ -363,9 +373,9 @@ public class PortalJspBean
     {
         model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_PLUGIN_THEME, null );
-        model.put( MARK_THEME,  ThemesService.getGlobalThemeObject() );
-       
+        model.put( MARK_THEME, ThemesService.getGlobalThemeObject(  ) );
     }
+
     /**
      * This method is called by Portal.jsp when it caught an
      * UserNotSignedException.
@@ -450,7 +460,6 @@ public class PortalJspBean
         HttpSession session = request.getSession(  );
         session.removeAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL );
     }
-
 
     /**
      * Do send a resource

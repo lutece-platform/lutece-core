@@ -34,54 +34,56 @@
 package fr.paris.lutece.portal.service.validation;
 
 import static fr.paris.lutece.portal.service.i18n.I18nService.getLocalizedString;
+
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.validation.MessageInterpolator;
 import javax.validation.MessageInterpolator.Context;
 import javax.validation.Validation;
 
 
 /**
- * Lutece Message Interpolator 
+ * Lutece Message Interpolator
  */
 public class LuteceMessageInterpolator implements MessageInterpolator
 {
     private static final Pattern PATTERN_LOCALIZED_KEY = Pattern.compile( "#i18n\\{(.*?)\\}" );
-
     private MessageInterpolator _interpolator;
 
     /**
      * Constructor;
      */
-    public LuteceMessageInterpolator()
+    public LuteceMessageInterpolator(  )
     {
-        _interpolator = Validation.byDefaultProvider().configure().getDefaultMessageInterpolator();
-    }
-
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String interpolate(String messageTemplate, Context context)
-    {
-        String strMessage = _interpolator.interpolate(messageTemplate, context);
-        return interpolateMessage( strMessage , Locale.getDefault() );
+        _interpolator = Validation.byDefaultProvider(  ).configure(  ).getDefaultMessageInterpolator(  );
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public String interpolate(String messageTemplate, Context context, Locale locale)
+    public String interpolate( String messageTemplate, Context context )
     {
-        String strMessage = _interpolator.interpolate(messageTemplate, context);
-        return interpolateMessage(strMessage , locale );
+        String strMessage = _interpolator.interpolate( messageTemplate, context );
+
+        return interpolateMessage( strMessage, Locale.getDefault(  ) );
     }
-    
+
     /**
-     * 
+     * {@inheritDoc }
+     */
+    @Override
+    public String interpolate( String messageTemplate, Context context, Locale locale )
+    {
+        String strMessage = _interpolator.interpolate( messageTemplate, context );
+
+        return interpolateMessage( strMessage, locale );
+    }
+
+    /**
+     *
      * @param strMessage The message to transform
      * @param locale The Locale
      * @return The transformed message
@@ -92,18 +94,18 @@ public class LuteceMessageInterpolator implements MessageInterpolator
 
         if ( matcher.find(  ) )
         {
-                StringBuffer sb = new StringBuffer(  );
+            StringBuffer sb = new StringBuffer(  );
 
-                do
-                {
-                    matcher.appendReplacement( sb, getLocalizedString( matcher.group( 1 ), locale ) );
-                }
-                while ( matcher.find(  ) );
+            do
+            {
+                matcher.appendReplacement( sb, getLocalizedString( matcher.group( 1 ), locale ) );
+            }
+            while ( matcher.find(  ) );
 
-                matcher.appendTail( sb );
-                strMessage = sb.toString(  );
+            matcher.appendTail( sb );
+            strMessage = sb.toString(  );
         }
+
         return strMessage;
     }
-
 }

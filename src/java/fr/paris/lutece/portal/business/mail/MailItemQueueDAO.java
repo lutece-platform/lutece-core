@@ -64,14 +64,14 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * Generates a new primary key
      * @return The new primary key
      */
-    private int newPrimaryKey( )
+    private int newPrimaryKey(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
 
         int nKey;
 
-        if ( !daoUtil.next( ) )
+        if ( !daoUtil.next(  ) )
         {
             // if the table is empty
             nKey = 1;
@@ -79,7 +79,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
 
         nKey = daoUtil.getInt( 1 ) + 1;
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return nKey;
     }
@@ -89,20 +89,20 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * @return the next mail item queue id
      */
     @Override
-    public int nextMailItemQueueId( )
+    public int nextMailItemQueueId(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID );
 
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
 
         int nIdMailItemQueue = -1;
 
-        if ( daoUtil.next( ) )
+        if ( daoUtil.next(  ) )
         {
             nIdMailItemQueue = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return nIdMailItemQueue;
     }
@@ -116,8 +116,8 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOCK_MAIL_ITEM );
         daoUtil.setInt( 1, nIdMailItemQueue );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
     }
 
     /**
@@ -129,28 +129,28 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     {
         try
         {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream( );
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(  );
             ObjectOutputStream objectOutputStream;
             objectOutputStream = new ObjectOutputStream( byteArrayOutputStream );
-            objectOutputStream.writeObject( mailItemQueue.getMailItem( ) );
-            objectOutputStream.close( );
-            byteArrayOutputStream.close( );
+            objectOutputStream.writeObject( mailItemQueue.getMailItem(  ) );
+            objectOutputStream.close(  );
+            byteArrayOutputStream.close(  );
 
-            Transaction transaction = new Transaction( );
+            Transaction transaction = new Transaction(  );
 
             try
             {
-                int nNewPrimaryKey = newPrimaryKey( );
+                int nNewPrimaryKey = newPrimaryKey(  );
                 mailItemQueue.setIdMailItemQueue( nNewPrimaryKey );
                 transaction.prepareStatement( SQL_QUERY_INSERT );
-                transaction.getStatement( ).setInt( 1, nNewPrimaryKey );
-                transaction.executeStatement( );
+                transaction.getStatement(  ).setInt( 1, nNewPrimaryKey );
+                transaction.executeStatement(  );
                 transaction.prepareStatement( SQL_QUERY_INSERT_MAIL_ITEM );
-                transaction.getStatement( ).setInt( 1, nNewPrimaryKey );
-                transaction.getStatement( ).setBytes( 2, byteArrayOutputStream.toByteArray( ) );
-                transaction.executeStatement( );
+                transaction.getStatement(  ).setInt( 1, nNewPrimaryKey );
+                transaction.getStatement(  ).setBytes( 2, byteArrayOutputStream.toByteArray(  ) );
+                transaction.executeStatement(  );
 
-                transaction.commit( );
+                transaction.commit(  );
             }
 
             catch ( Exception e )
@@ -178,20 +178,20 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
         InputStream inputStream;
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_MAIL_ITEM );
         daoUtil.setInt( 1, nIdMailItemQueue );
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
 
-        if ( daoUtil.next( ) )
+        if ( daoUtil.next(  ) )
         {
-            mailItemQueue = new MailItemQueue( );
+            mailItemQueue = new MailItemQueue(  );
             mailItemQueue.setIdMailItemQueue( daoUtil.getInt( 1 ) );
             inputStream = daoUtil.getBinaryStream( 2 );
 
             try
             {
                 ObjectInputStream objectInputStream = new ObjectInputStream( inputStream );
-                mailItem = (MailItem) objectInputStream.readObject( );
-                objectInputStream.close( );
-                inputStream.close( );
+                mailItem = (MailItem) objectInputStream.readObject(  );
+                objectInputStream.close(  );
+                inputStream.close(  );
             }
             catch ( IOException e )
             {
@@ -207,7 +207,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
             mailItemQueue.setMailItem( mailItem );
         }
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return mailItemQueue;
     }
@@ -219,17 +219,17 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     @Override
     public void delete( int nIdMailItemQueue )
     {
-        Transaction transaction = new Transaction( );
+        Transaction transaction = new Transaction(  );
 
         try
         {
             transaction.prepareStatement( SQL_QUERY_DELETE_MAIL_ITEM );
-            transaction.getStatement( ).setInt( 1, nIdMailItemQueue );
-            transaction.executeStatement( );
+            transaction.getStatement(  ).setInt( 1, nIdMailItemQueue );
+            transaction.executeStatement(  );
             transaction.prepareStatement( SQL_QUERY_DELETE );
-            transaction.getStatement( ).setInt( 1, nIdMailItemQueue );
-            transaction.executeStatement( );
-            transaction.commit( );
+            transaction.getStatement(  ).setInt( 1, nIdMailItemQueue );
+            transaction.executeStatement(  );
+            transaction.commit(  );
         }
 
         catch ( Exception e )
@@ -243,19 +243,19 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      * @return the number of mail item present in the core_mail_queue
      */
     @Override
-    public int getCountMailItem( )
+    public int getCountMailItem(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_COUNT );
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
 
         int nCount = 0;
 
-        if ( daoUtil.next( ) )
+        if ( daoUtil.next(  ) )
         {
             nCount = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return nCount;
     }

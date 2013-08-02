@@ -237,6 +237,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
         {
             _cache.removeAll(  );
         }
+
         CacheService.updateCacheStatus( this );
     }
 

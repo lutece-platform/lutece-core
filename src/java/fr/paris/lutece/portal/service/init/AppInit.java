@@ -123,7 +123,7 @@ public final class AppInit
             // Initializes the log service
             AppLogService.init( strConfPath, FILE_PROPERTIES_CONFIG );
             AppLogService.info( "Starting LUTECE ..." );
-            AppLogService.info( "Running version " + AppInfo.getVersion() );
+            AppLogService.info( "Running version " + AppInfo.getVersion(  ) );
             // Initializes the properties download files containing the variables used by the application
             AppPropertiesService.init( strConfPath );
 
@@ -194,15 +194,13 @@ public final class AppInit
 
             // Initialize Content Post Processor Service
             ContentPostProcessorService.init(  );
-            
 
             _bInitSuccessfull = true;
 
             logStartupTime(  );
 
             // Start datastore's cache after all processes that may use Datastore 
-            DatastoreService.startCache();
-
+            DatastoreService.startCache(  );
         }
         catch ( LuteceInitException e )
         {

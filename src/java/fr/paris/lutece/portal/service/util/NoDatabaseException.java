@@ -33,21 +33,20 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+
 /**
  * NoDatabaseException
- * 
+ *
  * @since v4.1
  */
 public class NoDatabaseException extends AppException
 {
     /**
      * Constructor
-     * @param strMessage 
+     * @param strMessage
      */
-
-    public NoDatabaseException(String strMessage )
+    public NoDatabaseException( String strMessage )
     {
         super( strMessage );
     }
-    
 }
