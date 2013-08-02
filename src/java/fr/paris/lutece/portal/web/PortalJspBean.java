@@ -118,8 +118,8 @@ public class PortalJspBean
     private static final String PROPERTY_PAGE_TITLE_LEGAL_INFO = "portal.site.popup_legal_info.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_STARTUP_FAILURE = "portal.util.startup.failure.title";
     private static final String PROPERTY_PAGE_TITLE_ERROR500 = "portal.util.error500.title";
-    private final static String PROPERTY_DEBUG = "error.page.debug";
-    private final static String PROPERTY_DEBUG_DEFAULT = "true";
+    private static final String PROPERTY_DEBUG = "error.page.debug";
+    private static final String PROPERTY_DEBUG_DEFAULT = "true";
     private static final String CONSTANT_SPACE = " ";
 
     /**
@@ -250,7 +250,7 @@ public class PortalJspBean
 
     /**
      * Returns the code for the popup of the credits
-     *
+     * @param request The HTTP request
      * @return the html code for the popup credits
      */
     public String getStartUpFailurePage( HttpServletRequest request )
@@ -353,7 +353,7 @@ public class PortalJspBean
     /**
      * Returns the 500 Error page
      * @param request The HTTP request
-     * @param strMessage The message
+     * @param strCause The message
      * @return The page
      */
     public String getError500Page( HttpServletRequest request, String strCause )
@@ -369,6 +369,11 @@ public class PortalJspBean
         return template.getHtml(  );
     }
 
+    /**
+     * Fill the model'map with commons values
+     * @param request The HTTP request
+     * @param model The map containing the model
+     */
     private static void fillPageModel( HttpServletRequest request, HashMap<String, Object> model )
     {
         model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );

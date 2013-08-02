@@ -55,19 +55,19 @@ public abstract class AbstractAttribute implements IAttribute
     private static final String MARK_ATTRIBUTE = "attribute";
     private static final String MARK_DEFAULT_VALUES_LIST = "default_values_list";
     private static final String MARK_USER_FIELD = "user_field";
-    protected int _nIdAttribute;
-    protected boolean _bMandatory;
-    protected String _strTitle;
-    protected String _strHelpMessage;
-    protected int _nPosition;
-    protected AttributeType _attributeType;
-    protected List<AttributeField> _listAttributeFields;
-    protected Plugin _plugin;
-    protected boolean _bIsShownInSearch;
-    protected boolean _bIsFieldInLine;
-    protected boolean _bIsAttributeImage;
-    protected boolean _bIsShownInResultList;
-    protected boolean _bAnonymize;
+    private int _nIdAttribute;
+    private boolean _bMandatory;
+    private String _strTitle;
+    private String _strHelpMessage;
+    private int _nPosition;
+    private AttributeType _attributeType;
+    private List<AttributeField> _listAttributeFields;
+    private Plugin _plugin;
+    private boolean _bIsShownInSearch;
+    private boolean _bIsFieldInLine;
+    private boolean _bIsAttributeImage;
+    private boolean _bIsShownInResultList;
+    private boolean _bAnonymize;
 
     /**
      * Constructor
@@ -80,6 +80,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Get ID Attribute
      * @return ID attribute
      */
+    @Override
     public int getIdAttribute(  )
     {
         return _nIdAttribute;
@@ -89,6 +90,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Set ID Attribute
      * @param nIdAttribute ID Attribute
      */
+    @Override
     public void setIdAttribute( int nIdAttribute )
     {
         _nIdAttribute = nIdAttribute;
@@ -98,6 +100,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Get Mandatory
      * @return true if it's mandatory, false otherwise
      */
+    @Override
     public boolean isMandatory(  )
     {
         return _bMandatory;
@@ -107,6 +110,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Set mandatory
      * @param bMandatory true if it's mandatory, false otherwise
      */
+    @Override
     public void setMandatory( boolean bMandatory )
     {
         _bMandatory = bMandatory;
@@ -116,6 +120,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Get list fields
      * @return list fields
      */
+    @Override
     public List<AttributeField> getListAttributeFields(  )
     {
         return _listAttributeFields;
@@ -125,6 +130,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Set list fields
      * @param listAttributeFields list fields
      */
+    @Override
     public void setListAttributeFields( List<AttributeField> listAttributeFields )
     {
         _listAttributeFields = listAttributeFields;
@@ -134,6 +140,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Get title
      * @return title
      */
+    @Override
     public String getTitle(  )
     {
         return _strTitle;
@@ -143,6 +150,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Set title
      * @param strTitle title
      */
+    @Override
     public void setTitle( String strTitle )
     {
         _strTitle = strTitle;
@@ -152,6 +160,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Get help Message
      * @return help message
      */
+    @Override
     public String getHelpMessage(  )
     {
         return _strHelpMessage;
@@ -161,6 +170,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Set help message
      * @param strHelpMessage help message
      */
+    @Override
     public void setHelpMessage( String strHelpMessage )
     {
         _strHelpMessage = strHelpMessage;
@@ -170,6 +180,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Get position
      * @return position
      */
+    @Override
     public int getPosition(  )
     {
         return _nPosition;
@@ -179,6 +190,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Set position
      * @param nPosition position
      */
+    @Override
     public void setPosition( int nPosition )
     {
         _nPosition = nPosition;
@@ -188,6 +200,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Get attribute type
      * @return attribute type
      */
+    @Override
     public AttributeType getAttributeType(  )
     {
         return _attributeType;
@@ -197,6 +210,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Set attribute Type
      * @param attributeType attribute type
      */
+    @Override
     public void setAttributeType( AttributeType attributeType )
     {
         _attributeType = attributeType;
@@ -206,6 +220,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Get the anonymize status of the attribute
      * @return True if the attribute should be anonymize, false otherwise.
      */
+    @Override
     public boolean getAnonymize(  )
     {
         return _bAnonymize;
@@ -216,6 +231,7 @@ public abstract class AbstractAttribute implements IAttribute
      * @param bAnonymize New anonymize status. True if the attribute should be
      *            anonymize, false otherwise.
      */
+    @Override
     public void setAnonymize( boolean bAnonymize )
     {
         _bAnonymize = bAnonymize;
@@ -265,7 +281,7 @@ public abstract class AbstractAttribute implements IAttribute
         List<AdminUserField> listUserFields = auFieldFilter.getListUserFields(  );
         List<AdminUserField> selectedUserFields = null;
 
-        if ( ( listUserFields != null ) && ( listUserFields.size(  ) != 0 ) )
+        if ( ( listUserFields != null ) && ( !listUserFields.isEmpty() ) )
         {
             selectedUserFields = new ArrayList<AdminUserField>(  );
 
@@ -308,6 +324,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Get plugin
      * @return plugin
      */
+    @Override
     public Plugin getPlugin(  )
     {
         return _plugin;
@@ -317,6 +334,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Set plugin
      * @param plugin plugin
      */
+    @Override
     public void setPlugin( Plugin plugin )
     {
         _plugin = plugin;
@@ -326,6 +344,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Check if the attribute is shown in search
      * @return true if it is, false otherwise
      */
+    @Override
     public boolean isShownInSearch(  )
     {
         return _bIsShownInSearch;
@@ -335,6 +354,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Set isShownInSearch
      * @param bIsShownInSearch shown in search
      */
+    @Override
     public void setShownInSearch( boolean bIsShownInSearch )
     {
         _bIsShownInSearch = bIsShownInSearch;
@@ -344,6 +364,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Check if the attribute is to be shown in line
      * @return true if it is shown in line, false otherwise
      */
+    @Override
     public boolean isFieldInLine(  )
     {
         return _bIsFieldInLine;
@@ -353,6 +374,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Set isFieldInLine
      * @param bIsFieldInLine shown in line
      */
+    @Override
     public void setFieldInLine( boolean bIsFieldInLine )
     {
         _bIsFieldInLine = bIsFieldInLine;
@@ -362,6 +384,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Check if it is an attribute image
      * @return true if it is, false otherwise
      */
+    @Override
     public boolean isAttributeImage(  )
     {
         return _bIsAttributeImage;
@@ -371,6 +394,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Set the attribute as an attribute image
      * @param bIsAttributeImage true if it is an image, false otherwise
      */
+    @Override
     public void setAttributeImage( boolean bIsAttributeImage )
     {
         _bIsAttributeImage = bIsAttributeImage;
@@ -380,6 +404,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Check if the attribute is shown in result list
      * @return true if it is, false otherwise
      */
+    @Override
     public boolean isShownInResultList(  )
     {
         return _bIsShownInResultList;
@@ -389,6 +414,7 @@ public abstract class AbstractAttribute implements IAttribute
      * Set isShownInResultList
      * @param bIsShownInResultList shown in result list
      */
+    @Override
     public void setShownInResultList( boolean bIsShownInResultList )
     {
         _bIsShownInResultList = bIsShownInResultList;

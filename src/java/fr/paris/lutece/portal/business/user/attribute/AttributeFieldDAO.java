@@ -61,7 +61,6 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
         " WHERE af.id_field = ? ";
     private static final String SQL_QUERY_SELECT_ATTRIBUTE_FIELDS_BY_ID_ATTRIBUTE = " SELECT id_field, id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, is_multiple, field_position " +
         " FROM core_attribute_field WHERE id_attribute = ? ORDER BY field_position ";
-    private static final String SQL_QUERY_SELECT_ATTRIBUTE_FIELDS_BY_ID_ATTRIBUTE_AND_TITLE = " SELECT id_field, id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, is_multiple, field_position FROM core_attribute_field WHERE id_attribute = ?  AND title = ? ORDER BY field_position ";
 
     // INSERT
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute_field (id_field, id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, is_multiple, field_position) " +
@@ -125,6 +124,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
      * @param nIdField ID Field
      * @return Attribute Field
      */
+    @Override
     public AttributeField load( int nIdField )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
@@ -160,6 +160,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
      * @param nIdField id field
      * @return user attribute
      */
+    @Override
     public IAttribute selectAttributeByIdField( int nIdField )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ATTRIBUTE_BY_ID_FIELD );
@@ -208,6 +209,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
      * @param nIdAttribute the ID attribute
      * @return the list of attribute fields
      */
+    @Override
     public List<AttributeField> selectAttributeFieldsByIdAttribute( int nIdAttribute )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ATTRIBUTE_FIELDS_BY_ID_ATTRIBUTE );
@@ -244,6 +246,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
      * @param attributeField the attribute field
      * @return new PK
      */
+    @Override
     public int insert( AttributeField attributeField )
     {
         int nNewPrimaryKey = newPrimaryKey(  );
@@ -269,6 +272,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
      * Update an attribute field
      * @param attributeField the attribute field
      */
+    @Override
     public void store( AttributeField attributeField )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
@@ -290,6 +294,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
      * Delete an attribute field
      * @param nIdField The id field
      */
+    @Override
     public void delete( int nIdField )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
@@ -303,6 +308,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
      * Delete all attribute field from an attribute id
      * @param nIdAttribute the ID attribute
      */
+    @Override
     public void deleteAttributeFieldsFromIdAttribute( int nIdAttribute )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_ID_ATTRIBUTE );

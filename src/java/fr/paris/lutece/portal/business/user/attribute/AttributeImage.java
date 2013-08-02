@@ -110,6 +110,7 @@ public class AttributeImage extends AbstractAttribute
      * Get the template create an attribute
      * @return The URL of the template
      */
+    @Override
     public String getTemplateCreateAttribute(  )
     {
         return TEMPLATE_CREATE_ATTRIBUTE;
@@ -119,6 +120,7 @@ public class AttributeImage extends AbstractAttribute
      * Get the template modify an attribute
      * @return The URL of the template
      */
+    @Override
     public String getTemplateModifyAttribute(  )
     {
         return TEMPLATE_MODIFY_ATTRIBUTE;
@@ -128,6 +130,7 @@ public class AttributeImage extends AbstractAttribute
      * Get the template html form attribute
      * @return the template
      */
+    @Override
     public String getTemplateHtmlFormAttribute(  )
     {
         return TEMPLATE_HTML_FORM_ATTRIBUTE;
@@ -137,6 +140,7 @@ public class AttributeImage extends AbstractAttribute
      * Get the template html form search attribute
      * @return the template
      */
+    @Override
     public String getTemplateHtmlFormSearchAttribute(  )
     {
         return EMPTY_STRING;
@@ -146,6 +150,7 @@ public class AttributeImage extends AbstractAttribute
      * Get the template html for the value of the attribute
      * @return the template
      */
+    @Override
     public String getTemplateHtmlValue(  )
     {
         return TEMPLATE_HTML_VALUE;
@@ -155,6 +160,7 @@ public class AttributeImage extends AbstractAttribute
      * Get page title for create page
      * @return page title
      */
+    @Override
     public String getPropertyCreatePageTitle(  )
     {
         return PROPERTY_CREATE_IMAGE_PAGETITLE;
@@ -164,6 +170,7 @@ public class AttributeImage extends AbstractAttribute
      * Get page title for modify page
      * @return page title
      */
+    @Override
     public String getPropertyModifyPageTitle(  )
     {
         return PROPERTY_MODIFY_IMAGE_PAGETITLE;
@@ -174,6 +181,7 @@ public class AttributeImage extends AbstractAttribute
      * @param request HttpServletRequest
      * @return null if there are no errors
      */
+    @Override
     public String setAttributeData( HttpServletRequest request )
     {
         String strTitle = request.getParameter( PARAMETER_TITLE );
@@ -246,6 +254,7 @@ public class AttributeImage extends AbstractAttribute
      * Set attribute type
      * @param locale locale
      */
+    @Override
     public void setAttributeType( Locale locale )
     {
         AttributeType attributeType = new AttributeType(  );
@@ -261,10 +270,11 @@ public class AttributeImage extends AbstractAttribute
      * @param user user
      * @return user field data
      */
+    @Override
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
         String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE +
-                _nIdAttribute );
+                getIdAttribute() );
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
 
         try
@@ -273,7 +283,7 @@ public class AttributeImage extends AbstractAttribute
             {
                 MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
                 FileItem fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE +
-                        _nIdAttribute );
+                        getIdAttribute() );
 
                 if ( ( fileItem != null ) && ( fileItem.getName(  ) != null ) &&
                         !EMPTY_STRING.equals( fileItem.getName(  ) ) )
@@ -344,6 +354,7 @@ public class AttributeImage extends AbstractAttribute
      * Get whether the attribute is anonymizable.
      * @return True if the attribute can be anonymized, false otherwise.
      */
+    @Override
     public boolean isAnonymizable(  )
     {
         return false;

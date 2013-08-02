@@ -47,7 +47,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class CaptchaSecurityService implements ICaptchaSecurityService
 {
-    private static final String SPRING_CONTEXT_NAME = "jcaptcha";
     private boolean _bActive = true;
     private boolean _bAvailable;
     private ICaptchaService _captchaService;
@@ -83,6 +82,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getActiveBlockHtml(  )
     {
         // TODO Auto-generated method stub
@@ -92,6 +92,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getHtmlCode(  )
     {
         if ( isAvailable(  ) && isActive(  ) )
@@ -107,6 +108,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setActive( boolean isActive )
     {
         _bActive = isActive;
@@ -115,6 +117,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean validate( HttpServletRequest request )
     {
         if ( isAvailable(  ) && isActive(  ) )
@@ -130,6 +133,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isActive(  )
     {
         return _bActive;
@@ -138,6 +142,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isAvailable(  )
     {
         return _bAvailable;

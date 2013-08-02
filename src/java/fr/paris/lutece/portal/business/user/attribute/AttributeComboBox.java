@@ -90,6 +90,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      * Get the template create an attribute
      * @return The URL of the template
      */
+    @Override
     public String getTemplateCreateAttribute(  )
     {
         return TEMPLATE_CREATE_ATTRIBUTE;
@@ -99,6 +100,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      * Get the template modify an attribute
      * @return The URL of the template
      */
+    @Override
     public String getTemplateModifyAttribute(  )
     {
         return TEMPLATE_MODIFY_ATTRIBUTE;
@@ -108,6 +110,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      * Get the template html form attribute
      * @return the template
      */
+    @Override
     public String getTemplateHtmlFormAttribute(  )
     {
         return TEMPLATE_HTML_FORM_ATTRIBUTE;
@@ -117,6 +120,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      * Get the template html form search attribute
      * @return the template
      */
+    @Override
     public String getTemplateHtmlFormSearchAttribute(  )
     {
         return TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE;
@@ -126,6 +130,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      * Get the template html for the value of the attribute
      * @return the template
      */
+    @Override
     public String getTemplateHtmlValue(  )
     {
         return TEMPLATE_HTML_VALUE;
@@ -135,6 +140,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      * Get page title for create page
      * @return page title
      */
+    @Override
     public String getPropertyCreatePageTitle(  )
     {
         return PROPERTY_CREATE_COMBOBOX_PAGETITLE;
@@ -144,6 +150,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      * Get page title for modify page
      * @return page title
      */
+    @Override
     public String getPropertyModifyPageTitle(  )
     {
         return PROPERTY_MODIFY_COMBOBOX_PAGETITLE;
@@ -154,6 +161,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      * @param request HttpServletRequest
      * @return null if there are no errors
      */
+    @Override
     public String setAttributeData( HttpServletRequest request )
     {
         String strTitle = request.getParameter( PARAMETER_TITLE );
@@ -192,6 +200,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      * Set attribute type
      * @param locale locale
      */
+    @Override
     public void setAttributeType( Locale locale )
     {
         AttributeType attributeType = new AttributeType(  );
@@ -207,9 +216,10 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      * @param user user
      * @return user field data
      */
+    @Override
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
-        String[] strValues = request.getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + _nIdAttribute );
+        String[] strValues = request.getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute() );
 
         return getUserFieldsData( strValues, user );
     }
@@ -220,6 +230,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      * @param user user
      * @return user field data
      */
+    @Override
     public List<AdminUserField> getUserFieldsData( String[] strValues, AdminUser user )
     {
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
@@ -260,6 +271,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      * Get whether the attribute is anonymizable.
      * @return True if the attribute can be anonymized, false otherwise.
      */
+    @Override
     public boolean isAnonymizable(  )
     {
         return false;

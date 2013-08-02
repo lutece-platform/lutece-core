@@ -82,22 +82,21 @@ public final class LutecePanelService<T extends LutecePanel>
 
     /**
      * Get the instance of a PanelService for a given type.
-     * @param <A> Specialized type of the PanelService
+     * @param <T> Specialized type of the PanelService
      * @param clazz Class associated to the type A.
      * @return The instance of the PanelService with the generic type A. This instance is unique.
      */
-    @SuppressWarnings( "unchecked" )
-    public static synchronized <A extends LutecePanel> LutecePanelService<A> instance( Class<A> clazz )
+    public static synchronized <T extends LutecePanel> LutecePanelService<T> instance( Class<T> clazz )
     {
         for ( LutecePanelService<?extends LutecePanel> storedPanelService : _listSingletons )
         {
             if ( storedPanelService.getGenericTypeClass(  ).equals( clazz ) )
             {
-                return (LutecePanelService<A>) storedPanelService;
+                return (LutecePanelService<T>) storedPanelService;
             }
         }
 
-        LutecePanelService<A> panelService = new LutecePanelService<A>( clazz );
+        LutecePanelService<T> panelService = new LutecePanelService<T>( clazz );
         _listSingletons.add( panelService );
 
         return panelService;

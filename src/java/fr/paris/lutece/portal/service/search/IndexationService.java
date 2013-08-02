@@ -88,7 +88,6 @@ public final class IndexationService
     private static int _nWriterMaxFieldLength;
     private static Analyzer _analyzer;
     private static Map<String, SearchIndexer> _mapIndexers = new HashMap<String, SearchIndexer>(  );
-    private static IndexationService _singleton;
     private static IndexWriter _writer;
     private static StringBuffer _sbLogs;
     private static SearchIndexerComparator _comparator = new SearchIndexerComparator(  );
@@ -99,20 +98,6 @@ public final class IndexationService
     private IndexationService(  )
     {
     }
-
-    //    /**
-    //     * 
-    //     * @return singleton
-    //     */
-    //    public static IndexationService getInstance( )
-    //    {
-    //        if ( _singleton == null )
-    //        {
-    //            _singleton = new IndexationService( );
-    //        }
-    //
-    //        return _singleton;
-    //    }
 
     /**
      * Initalizes the service
@@ -163,11 +148,6 @@ public final class IndexationService
             _mapIndexers.put( indexer.getName(  ), indexer );
             AppLogService.info( "New search indexer registered : " + indexer.getName(  ) );
         }
-
-        //        else
-        //        {
-        //            AppLogService.info( "Bad search indexer not registered : " + indexer.getName( ) );
-        //        }
     }
 
     /**
