@@ -3,33 +3,42 @@
 <#include portletType.modifyScriptTemplate />
 </#if>
 <div class="row-fluid">
-    <div class="span12">
-        <fieldset>
-            <legend>&nbsp;#i18n{portal.site.portletType.labelModify} ${portletType.name}</legend>
-            <form method="post" name="form" action="${portletType.doModifyUrl}"  target="_top" class="form">
-                <input type="hidden" name="portlet_id" value="${portlet.id}" />
-                <input type="hidden" name="portlet_type_id" value="${portletType.id}" />
-                <div id="panel" class="span3">
-                    <div class="well">
-                        <label>#i18n{portal.site.modify_portlet.labelPortletPageId}</label>
-                        <input type="text" name="page_id" value="${portlet.pageId}" class="input-mini" />
-                        <label for="column">#i18n{portal.site.modify_portlet.labelColumn}</label>
-                        <@comboSortedWithParams name="column" default_value="${portlet.column}" additionalParameters="class=\"span5\"" items=portlet_columns_combo />
-                        <label for="order">#i18n{portal.site.modify_portlet.labelOrder}</label>
-                        <@comboSortedWithParams name="order" default_value="${portlet.order}" additionalParameters="class=\"span5\"" items=portlet_order_combo />
-                        <label for="style">#i18n{portal.site.modify_portlet.labelStyle}</label>
-                        <@comboSortedWithParams name="style" default_value="${portlet.styleId}" additionalParameters="class=\"span10\"" items=portlet_style_combo />
-                        <label for="role">#i18n{portal.site.modify_portlet.labelRole}</label>
+	<div class="span12">
+		<form method="post" name="form" action="${portletType.doModifyUrl}"  target="_top" class="form">
+		<input type="hidden" name="portlet_id" value="${portlet.id}" />
+		<input type="hidden" name="portlet_type_id" value="${portletType.id}" />
+		<fieldset>
+			<legend>&nbsp;#i18n{portal.site.portletType.labelModify} ${portletType.name}</legend>
+				<div id="panel" class="span3">
+					<div class="well">
+						<label>#i18n{portal.site.modify_portlet.labelPortletPageId}</label>
+						<input type="text" name="page_id" value="${portlet.pageId}" class="input-mini" />
+						<label for="column">#i18n{portal.site.modify_portlet.labelColumn}</label>
+						<@comboSortedWithParams name="column" default_value="${portlet.column}" additionalParameters="class=\"span5\"" items=portlet_columns_combo />
+						<label for="order">#i18n{portal.site.modify_portlet.labelOrder}</label>
+						<@comboSortedWithParams name="order" default_value="${portlet.order}" additionalParameters="class=\"span5\"" items=portlet_order_combo />
+						<label for="style">#i18n{portal.site.modify_portlet.labelStyle}</label>
+						<@comboSortedWithParams name="style" default_value="${portlet.styleId}" additionalParameters="class=\"span10\"" items=portlet_style_combo />
+						<label for="role">#i18n{portal.site.modify_portlet.labelRole}</label>
                         <@comboSortedWithParams name="role" default_value="${portlet.role}" additionalParameters="class=\"span10\"" items=portlet_role_combo />
-                        <label>#i18n{portal.site.modify_portlet.labelAlias}</label>
+						<label>#i18n{portal.site.modify_portlet.labelAlias}</label>
                         <#if portlet.acceptAlias = 1 >
-                        <input type= "radio" class="radio" name="accept_alias" value="1" checked="checked" /> #i18n{portal.util.labelYes}
-                        <input type= "radio" class="radio" name="accept_alias" value="0" /> #i18n{portal.util.labelNo}
+							<label class="radio inline">     
+								<input type="radio" class="radio" name="accept_alias" value="1" checked="checked"> #i18n{portal.util.labelYes}
+							</label>
+							<label class="radio inline">     	
+								<input type="radio" class="radio" name="accept_alias" value="0">
+								#i18n{portal.util.labelNo}
+							</label>
                         <#else>
-                        <input type= "radio" class="radio" name="accept_alias" value="1" /> #i18n{portal.util.labelYes}
-                        <input type= "radio" class="radio" name="accept_alias" value="0" checked="checked" /> #i18n{portal.util.labelNo}
+							<label class="radio inline">     	
+								<input type= "radio" class="radio" name="accept_alias" value="1">
+								#i18n{portal.util.labelYes}
+							</label>
+							<label class="radio inline">     	
+								<input type= "radio" class="radio" name="accept_alias" value="0" checked="checked"> #i18n{portal.util.labelNo}
+							</label>
                         </#if>
-
                         <label>#i18n{portal.site.create_portlet.labelDisplayOnDevice}</label>
                         <label for="display_on_small_device">
                             <input class="checkbox" type="checkbox" name="display_on_small_device" value="1" ${small_checked} > #i18n{portal.site.create_portlet.checkboxSmallDevice} &nbsp;
@@ -50,15 +59,22 @@
                 <div class="span8">
                     <label>#i18n{portal.site.modify_portlet.labelPortletTitle}</label>
                     <input type="text" name="portlet_name" value="${portlet.name}" class="input-xxlarge" maxlength="70" >
-                    <label>#i18n{portal.site.modify_portlet.labelDisplayPortletTitle}           
-                        <#if portlet.displayPortletTitle = 0 >
-                        <input type="radio" class="radio inline" name="display_portlet_title" value="0" checked="checked"/>#i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleYes}
-                        <input type="radio" class="radio inline" name="display_portlet_title" value="1"/> #i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleNo}
-                        <#else>
-                        <input type="radio" class="radio inline" name="display_portlet_title" value="0"/>#i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleYes}
-                        <input type="radio" class="radio inline" name="display_portlet_title" value="1" checked="checked"/> #i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleNo}
-                        </#if>
-                    </label>     
+					<p>#i18n{portal.site.modify_portlet.labelDisplayPortletTitle}</p> 
+					<#if portlet.displayPortletTitle = 0 >
+						<label class="radio inline">          
+							<input type="radio" class="radio inline" id="display_portlet_title" name="display_portlet_title" value="0" checked="checked"/>#i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleYes}
+						</label>
+						<label class="radio inline">          
+							<input type="radio" class="radio inline" id="display_portlet_title" name="display_portlet_title" value="1"/> #i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleNo}
+						</label>
+					<#else>
+						<label class="radio">  
+							<input type="radio" class="radio inline" id="display_portlet_title" name="display_portlet_title" value="0"/>#i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleYes}
+						</label> 
+						<label class="radio">  
+							<input type="radio" class="radio inline" id="display_portlet_title" name="display_portlet_title" value="1" checked="checked"/> #i18n{portal.site.modify_portlet.radioButtonDisplayPortletTitleNo}
+						</label>     
+					</#if>
                     <#if portletType.modifySpecificTemplate != "" >
                         <#include portletType.modifySpecificTemplate />
                     </#if>
@@ -66,23 +82,21 @@
                         <#include portletType.modifySpecificFormTemplate />
                     </#if>
                     <div class="form-actions">
-                                <button type="submit" class="btn btn-primary btn-small">
-                                    <i class="icon-ok icon-white"></i>
-                                    <span class="hidden-phone" >#i18n{portal.site.create_portlet.buttonValidate}</span>
-                                </button>                       
-                                <a href="site/AdminSite.jsp?page_id=${portlet.pageId}" class="btn btn-small" target="_top">            
-                                    <i class="icon-remove-circle"></i>
-                                    <span class="hidden-phone" >#i18n{portal.site.create_portlet.buttonBack}</span>
-                                </a>                          
-                            </div> 
-                        </div> 
-                    </div>
-                </div>
-            </form>			
-        </fieldset>
-        <a id="trigger" class="active" href="#" title="#i18n{portal.site.portletType.labelModify}">&nbsp;</a>
+						<button type="submit" class="btn btn-primary btn-small">
+							<i class="icon-ok icon-white"></i>
+                               <span class="hidden-phone" >#i18n{portal.site.create_portlet.buttonValidate}</span>
+                            </button>                       
+                            <a href="site/AdminSite.jsp?page_id=${portlet.pageId}" class="btn btn-small" target="_top">            
+                                <i class="icon-remove-circle"></i>
+                                <span class="hidden-phone" >#i18n{portal.site.create_portlet.buttonBack}</span>
+                            </a>                          
+                    </div> 
+                  </div> 
     </div>
 </div>
+</fieldset>
+</form>			
+<a id="trigger" class="active" href="#" title="#i18n{portal.site.portletType.labelModify}">&nbsp;</a>
 <script type="text/javascript">
     $(document).ready(function(){
         /*$("#panel").hide();*/
