@@ -33,73 +33,34 @@
  */
 package fr.paris.lutece.util.beanvalidation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- * BeanValidationUtils validates beans using JSR303 annotations.
- * @see #validate(Object)
+ * BeanValidationUtilTest
  */
-public final class BeanValidationUtil
+public class BeanValidationUtilTest
 {
-    /**
-    * Validator (JSR 303) is thread safe.
-    */
-    private static final Validator VALIDATOR;
-
-    static
-    {
-        // initialize the validator
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory(  );
-        VALIDATOR = factory.getValidator(  );
-    }
 
     /**
-     * Utility class
+     * Test of validate method, of class BeanValidationUtil.
      */
-    private BeanValidationUtil(  )
+    @Test
+    public void testValidate_GenericType_Locale()
     {
-        // nothing
-    }
-
-    /**
-     * Validates a bean.
-     *
-     * @param <T> the bean type
-     * @param bean the bean to validate
-     * @return the sets the
-     */
-    public static <T> Set<ConstraintViolation<T>> validate( T bean )
-    {
-        return VALIDATOR.validate( bean );
-    }
-
-    /**
-     * Use this in case you need more than a global validation
-     * @return the validator
-     */
-    public static Validator getValidator(  )
-    {
-        return VALIDATOR;
-    }
-    
-    
-    public static <T> List<ValidationError> validate( T bean , Locale locale )
-    {
-        List<ValidationError> list = new ArrayList<ValidationError>(); 
-        Set<ConstraintViolation<T>> setViolation = validate( bean );
-        for( ConstraintViolation<T> cv : setViolation )
+        System.out.println("validate");
+        Bean bean = new Bean();
+        Locale locale = Locale.FRENCH;
+        bean.setDescription( "Desc");
+        bean.setName( "Hello30");
+        bean.setEmail( "invalid-email" );
+        List<ValidationError> list = BeanValidationUtil.validate(bean, locale);
+        assertTrue( list.size() > 0 );
+        for( ValidationError error : list )
         {
-            list.add( new ValidationError(cv, locale));
+            System.out.println( error.getMessage() );
         }
-        return list;
     }
 }

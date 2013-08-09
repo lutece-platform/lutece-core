@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.message;
 
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.util.beanvalidation.ValidationError;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.HashMap;
@@ -237,6 +238,22 @@ public final class AdminMessageService
             null, JSP_BACK, TARGET_SELF, AdminMessage.TYPE_ERROR );
     }
 
+
+    /**
+     * Returns the Url that display the given message
+     * @param <T> The type of the bean that has been validated
+     * @param request The HTTP request
+     * @param strMessageKey The message key
+     * @param errors The set of violations
+     * @return The Url of the JSP that display the message
+     */
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey,
+        List<ValidationError> errors )
+    {
+        return getMessageUrl( request, strMessageKey, formatValidationErrors( request, errors ),
+            null, JSP_BACK, TARGET_SELF, AdminMessage.TYPE_ERROR );
+    }
+
     /**
      * Returns the Url that display the given message.
      *
@@ -413,4 +430,23 @@ public final class AdminMessageService
 
         return formatedErrors;
     }
+    
+    /**
+     * Format a set of constraints violations as en error list.
+     * @param request The HTTP request
+     * @param erroes The set of violations
+     * @return The formatted errors list as an object array
+     */
+    private static <T> Object[] formatValidationErrors( HttpServletRequest request,
+        List<ValidationError> erroes )
+    {
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        model.put( MARK_ERRORS_LIST, erroes );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale(  ), model );
+        String[] formatedErrors = { template.getHtml(  ) };
+
+        return formatedErrors;
+    }
+
 }
