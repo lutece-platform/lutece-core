@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.util.beanvalidation;
 
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import static fr.paris.lutece.portal.service.i18n.I18nService.getLocalizedString;
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -49,19 +50,22 @@ public class ValidationError
     private static final Pattern PATTERN_LOCALIZED_KEY = Pattern.compile( "#i18n\\{(.*?)\\}" );
     private static final String VALUE1 = "value,regexp,min";
     private static final String VALUE2 = "max";
+    private static final String[] PREFIX  = { "_str" , "_n" , "_l" , "_" };
 
     private Locale _locale;
     private ConstraintViolation _constraintViolation;
+    private String _strFieldKeysPrefix;
     
     /**
      * Constructor
      * @param cv The constraint violation
      * @param locale  The locale
      */
-    public ValidationError( ConstraintViolation cv , Locale locale )
+    public ValidationError( ConstraintViolation cv , Locale locale , String strFieldKeysPrefix )
     {
         _constraintViolation = cv;
         _locale = locale;
+        _strFieldKeysPrefix = strFieldKeysPrefix;
     }
     
     /**
@@ -101,10 +105,42 @@ public class ValidationError
                 strValue2 = getValue( mapAttributes.get(strKey));
             }
         }
-        strMessage = MessageFormat.format( strMessage, _constraintViolation.getPropertyPath() , _constraintViolation.getInvalidValue() , strValue1 , strValue2);
+        String strFieldname = "";
+        
+        if( _strFieldKeysPrefix != null )
+        {
+            strFieldname = getFieldname();
+        }
+        strMessage = MessageFormat.format( strMessage, strFieldname, strValue1 , strValue2 , _constraintViolation.getInvalidValue() );
         
         return strMessage;
        
+    }
+    
+    
+    private String getFieldname( )
+    {
+        String strField = _constraintViolation.getPropertyPath().toString();
+        
+        // remove the variable prefix
+        for( int i = 0 ; i < PREFIX.length ; i++ )
+        {
+            strField = ( strField.startsWith( PREFIX[i] ))? strField.substring( PREFIX[i].length()) : strField;
+        }
+        
+        // set first letter in lower case
+        strField = strField.substring( 0 , 1 ).toLowerCase() + strField.substring( 1 );
+        String strKey = _strFieldKeysPrefix + strField;
+        
+        String strFieldName = I18nService.getLocalizedString( strKey , _locale );
+        
+        // if the key isn't found
+        if( strFieldName.equals( "" ))
+        {
+            // display the missing key as the field name
+            strFieldName = "[" + strKey + "]";
+        }
+        return strFieldName;
     }
 
     /**

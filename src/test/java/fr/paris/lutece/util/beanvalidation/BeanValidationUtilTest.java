@@ -56,7 +56,7 @@ public class BeanValidationUtilTest
         bean.setDescription( "Desc");
         bean.setName( "Hello30");
         bean.setEmail( "invalid-email" );
-        List<ValidationError> list = BeanValidationUtil.validate(bean, locale);
+        List<ValidationError> list = BeanValidationUtil.validate( bean, locale, "prefix." );
         assertTrue( list.size() > 0 );
         for( ValidationError error : list )
         {

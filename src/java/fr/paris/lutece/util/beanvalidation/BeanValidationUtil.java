@@ -92,13 +92,13 @@ public final class BeanValidationUtil
     }
     
     
-    public static <T> List<ValidationError> validate( T bean , Locale locale )
+    public static <T> List<ValidationError> validate( T bean , Locale locale , String strFieldKeysPrefix )
     {
         List<ValidationError> list = new ArrayList<ValidationError>(); 
         Set<ConstraintViolation<T>> setViolation = validate( bean );
         for( ConstraintViolation<T> cv : setViolation )
         {
-            list.add( new ValidationError(cv, locale));
+            list.add( new ValidationError(cv, locale, strFieldKeysPrefix ));
         }
         return list;
     }
