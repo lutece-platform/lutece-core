@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.util.beanvalidation;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
 import org.junit.Test;
@@ -51,16 +53,35 @@ public class BeanValidationUtilTest
     public void testValidate_GenericType_Locale()
     {
         System.out.println("validate");
-        Bean bean = new Bean();
         Locale locale = Locale.FRENCH;
-        bean.setDescription( "Desc");
-        bean.setName( "Hello30");
-        bean.setEmail( "invalid-email" );
-        List<ValidationError> list = BeanValidationUtil.validate( bean, locale, "prefix." );
-        assertTrue( list.size() > 0 );
-        for( ValidationError error : list )
+
+        Bean[] beans =
         {
-            System.out.println( error.getMessage() );
+            new BeanDefaultMessages(), new BeanLuteceMessages()
+        };
+
+        for (int i = 0; i < beans.length; i++)
+        {
+            Bean bean = beans[i];
+            bean.setName("contains-invalid-char-1");
+            bean.setDescription("too-short");
+            bean.setEmail("invalid-email");
+
+            long lTimeNow = new java.util.Date().getTime();
+            bean.setDateBirth(new Date(lTimeNow + 1000000000L));
+            bean.setDateEndOfWorld(new Date(lTimeNow - 1000000000L));
+
+            bean.setSalary(new BigDecimal("100.00"));
+            bean.setPercent(new BigDecimal("200.00"));
+            bean.setCurrency("150.9999");
+
+            List<ValidationError> list = BeanValidationUtil.validate( bean, locale, "fields_prefix." );
+            assertTrue(list.size() > 0);
+            for (ValidationError error : list)
+            {
+                System.out.println(error.getMessage());
+            }
         }
+
     }
 }

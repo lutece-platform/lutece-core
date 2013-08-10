@@ -43,29 +43,30 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-
 /**
  * BeanValidationUtils validates beans using JSR303 annotations.
+ *
  * @see #validate(Object)
  */
 public final class BeanValidationUtil
 {
+
     /**
-    * Validator (JSR 303) is thread safe.
-    */
+     * Validator (JSR 303) is thread safe.
+     */
     private static final Validator VALIDATOR;
 
     static
     {
         // initialize the validator
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory(  );
-        VALIDATOR = factory.getValidator(  );
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        VALIDATOR = factory.getValidator();
     }
 
     /**
      * Utility class
      */
-    private BeanValidationUtil(  )
+    private BeanValidationUtil()
     {
         // nothing
     }
@@ -77,28 +78,51 @@ public final class BeanValidationUtil
      * @param bean the bean to validate
      * @return the sets the
      */
-    public static <T> Set<ConstraintViolation<T>> validate( T bean )
+    public static <T> Set<ConstraintViolation<T>> validate(T bean)
     {
-        return VALIDATOR.validate( bean );
+        return VALIDATOR.validate(bean);
     }
 
     /**
      * Use this in case you need more than a global validation
+     *
      * @return the validator
      */
-    public static Validator getValidator(  )
+    public static Validator getValidator()
     {
         return VALIDATOR;
     }
-    
-    
-    public static <T> List<ValidationError> validate( T bean , Locale locale , String strFieldKeysPrefix )
+
+    /**
+     * Validate a bean
+     * @param <T> The bean class
+     * @param bean The bean 
+     * @param locale The locale
+     * @param strFieldKeysPrefix The fields keys prefix in the resource file
+     * @return A list of errors
+     */
+    public static <T> List<ValidationError> validate(T bean, Locale locale, String strFieldKeysPrefix)
     {
-        List<ValidationError> list = new ArrayList<ValidationError>(); 
-        Set<ConstraintViolation<T>> setViolation = validate( bean );
-        for( ConstraintViolation<T> cv : setViolation )
+        DefaultValidationErrorConfig config = new DefaultValidationErrorConfig();
+        config.setFieldKeysPrefix(strFieldKeysPrefix);
+        return validate(bean, locale, config);
+    }
+
+    /**
+     * Validate a bean
+     * @param <T> The bean class
+     * @param bean The bean 
+     * @param locale The locale
+     * @param config  The config for validation errors rendering
+     * @return A list of errors
+     */
+    public static <T> List<ValidationError> validate(T bean, Locale locale, ValidationErrorConfig config)
+    {
+        List<ValidationError> list = new ArrayList<ValidationError>();
+        Set<ConstraintViolation<T>> setViolation = validate(bean);
+        for (ConstraintViolation<T> cv : setViolation)
         {
-            list.add( new ValidationError(cv, locale, strFieldKeysPrefix ));
+            list.add(new ValidationError(cv, locale, config));
         }
         return list;
     }
