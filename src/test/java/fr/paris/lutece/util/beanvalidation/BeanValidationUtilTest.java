@@ -37,6 +37,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
+import javax.validation.Validator;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -84,4 +85,5 @@ public class BeanValidationUtilTest
         }
 
     }
+    
 }

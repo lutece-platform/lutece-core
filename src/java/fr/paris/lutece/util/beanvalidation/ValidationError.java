@@ -33,11 +33,8 @@
  */
 package fr.paris.lutece.util.beanvalidation;
 
-import static fr.paris.lutece.portal.service.i18n.I18nService.getLocalizedString;
 import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.validation.ConstraintViolation;
 
 /**
@@ -45,8 +42,6 @@ import javax.validation.ConstraintViolation;
  */
 public class ValidationError
 {
-    private static final Pattern PATTERN_LOCALIZED_KEY = Pattern.compile( "#i18n\\{(.*?)\\}" );
-
     private Locale _locale;
     private ConstraintViolation _constraintViolation;
     private ValidationErrorConfig _config;
@@ -70,22 +65,6 @@ public class ValidationError
     public String getMessage()
     {
         String strMessage = _constraintViolation.getMessage();
-        Matcher matcher = PATTERN_LOCALIZED_KEY.matcher( strMessage );
-
-        if ( matcher.find(  ) )
-        {
-            StringBuffer sb = new StringBuffer(  );
-
-            do
-            {
-                matcher.appendReplacement( sb, getLocalizedString( matcher.group( 1 ), _locale ) );
-            }
-            while ( matcher.find(  ) );
-
-            matcher.appendTail( sb );
-            strMessage = sb.toString(  );
-        }
-        
         String strValue1 = ValidationErrorUtil.getValue1( _constraintViolation , _config );
         String strValue2 = ValidationErrorUtil.getValue2( _constraintViolation , _config );
         String strFieldname = ValidationErrorUtil.getFieldname(_constraintViolation, _config, _locale);
