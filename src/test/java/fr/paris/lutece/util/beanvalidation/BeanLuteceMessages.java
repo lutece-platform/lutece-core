@@ -45,6 +45,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.URL;
 
 /**
  * BeanLuteceMessages class for bean validation tests
@@ -56,7 +57,7 @@ public class BeanLuteceMessages implements Bean
 
     private int _nIdObject;
     @NotEmpty(message = "#i18n{portal.validation.message.notEmpty}")
-    @Pattern(regexp = "[a-z-A-Z]", message = "#i18n{portal.validation.message.regexp}")
+    @Pattern(regexp = "[a-z-A-Z]", message = "#i18n{portal.validation.message.pattern}")
     @Size(max = 5, message = "#i18n{portal.validation.message.sizeMax}")
     private String _strName;
     @Size(min = 10, max = 50, message = "#i18n{portal.validation.message.size}")
@@ -75,6 +76,8 @@ public class BeanLuteceMessages implements Bean
     private BigDecimal _percent;
     @Digits(integer = 15, fraction = 2, message = "#i18n{portal.validation.message.digits}")
     private String _strCurrency;
+    @URL( message = "#i18n{portal.validation.message.url}" )
+    private String _strUrl;
 
     /**
      * Returns the IdObject
@@ -275,4 +278,23 @@ public class BeanLuteceMessages implements Bean
     {
         _strCurrency = strCurrency;
     }
+
+    /**
+     * @return the _strUrl
+     */
+    @Override
+    public String getUrl()
+    {
+        return _strUrl;
+    }
+
+    /**
+     * @param strUrl the _strUrl to set
+     */
+    @Override
+    public void setUrl(String strUrl)
+    {
+        _strUrl = strUrl;
+    }
+    
 }

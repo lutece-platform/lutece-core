@@ -132,4 +132,8 @@ public interface Bean
      */
     void setSalary(BigDecimal salary);
     
+    void setUrl(String strUrl);
+    String getUrl();
+
+    
 }

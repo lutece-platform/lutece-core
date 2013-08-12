@@ -75,6 +75,7 @@ public class BeanValidationUtilTest
             bean.setSalary(new BigDecimal("100.00"));
             bean.setPercent(new BigDecimal("200.00"));
             bean.setCurrency("150.9999");
+            bean.setUrl( "invalid-url" );
 
             List<ValidationError> list = BeanValidationUtil.validate( bean, locale, "fields_prefix." );
             assertTrue(list.size() > 0);

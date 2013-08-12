@@ -16,6 +16,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.URL;
 
 /**
  *
@@ -23,10 +24,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class BeanDefaultMessages implements Bean
 {
-    
 
     // Variables declarations 
-
     private int _nIdObject;
     @NotEmpty()
     @Pattern(regexp = "[a-z-A-Z]")
@@ -48,6 +47,8 @@ public class BeanDefaultMessages implements Bean
     private BigDecimal _percent;
     @Digits(integer = 15, fraction = 2)
     private String _strCurrency;
+    @URL()
+    private String _strUrl;
 
     /**
      * Returns the IdObject
@@ -247,5 +248,23 @@ public class BeanDefaultMessages implements Bean
     public void setCurrency(String strCurrency)
     {
         _strCurrency = strCurrency;
+    }
+
+    /**
+     * @return the _strUrl
+     */
+    @Override
+    public String getUrl()
+    {
+        return _strUrl;
+    }
+
+    /**
+     * @param strUrl the _strUrl to set
+     */
+    @Override
+    public void setUrl(String strUrl)
+    {
+        _strUrl = strUrl;
     }
 }
