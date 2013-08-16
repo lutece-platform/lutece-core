@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.service.message;
 
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.util.beanvalidation.ValidationError;
+import fr.paris.lutece.util.ErrorMessage;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.HashMap;
@@ -245,7 +245,7 @@ public final class AdminMessageService
      * @param errors The set of violations
      * @return The Url of the JSP that display the message
      */
-    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, List<ValidationError> errors )
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, List<ErrorMessage> errors )
     {
         return getMessageUrl( request, strMessageKey, formatValidationErrors( request, errors ), null, JSP_BACK,
             TARGET_SELF, AdminMessage.TYPE_ERROR );
@@ -435,7 +435,7 @@ public final class AdminMessageService
      * @param errors The set of violations
      * @return The formatted errors list as an object array
      */
-    private static <T> Object[] formatValidationErrors( HttpServletRequest request, List<ValidationError> errors )
+    private static <T> Object[] formatValidationErrors( HttpServletRequest request, List<ErrorMessage> errors )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ERRORS_LIST, errors );

@@ -31,52 +31,17 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.util.beanvalidation;
-
-import fr.paris.lutece.util.ErrorMessage;
-import java.text.MessageFormat;
-
-import java.util.Locale;
-
-import javax.validation.ConstraintViolation;
-
+package fr.paris.lutece.util;
 
 /**
- * ValidationError
+ * ErrorMessage interface
  */
-public class ValidationError implements ErrorMessage
+public interface ErrorMessage
 {
-    private Locale _locale;
-    private ConstraintViolation _constraintViolation;
-    private ValidationErrorConfig _config;
-
     /**
-     * Constructor
-     * @param cv The constraint violation
-     * @param locale  The locale
-     * @param config The config
+     * Returns the error's message
+     * @return The message
      */
-    public ValidationError( ConstraintViolation cv, Locale locale, ValidationErrorConfig config )
-    {
-        _constraintViolation = cv;
-        _locale = locale;
-        _config = config;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String getMessage(  )
-    {
-        String strMessage = _constraintViolation.getMessage(  );
-        String strValue1 = ValidationErrorUtil.getValue1( _constraintViolation, _config );
-        String strValue2 = ValidationErrorUtil.getValue2( _constraintViolation, _config );
-        String strFieldname = ValidationErrorUtil.getFieldname( _constraintViolation, _config, _locale );
-
-        strMessage = MessageFormat.format( strMessage, strFieldname, strValue1, strValue2,
-                _constraintViolation.getInvalidValue(  ) );
-
-        return strMessage;
-    }
+    String getMessage();
+    
 }
