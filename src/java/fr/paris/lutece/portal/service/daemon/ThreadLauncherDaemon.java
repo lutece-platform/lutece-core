@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -182,7 +182,7 @@ public class ThreadLauncherDaemon extends Daemon
      * Add a runnable item to the queue
      * @param runnableItem The runnable item to add to the queue
      */
-    private synchronized static void addItemToQueue( RunnableQueueItem runnableItem )
+    private static synchronized void addItemToQueue( RunnableQueueItem runnableItem )
     {
         _stackItems.addLast( runnableItem );
     }
@@ -191,7 +191,7 @@ public class ThreadLauncherDaemon extends Daemon
      * Pop the first item of the queue. The item is removed from the queue.
      * @return The first item of the queue, or null if the queue is empty
      */
-    private synchronized static RunnableQueueItem popItemFromQueue(  )
+    private static synchronized RunnableQueueItem popItemFromQueue(  )
     {
         if ( _stackItems.size(  ) == 0 )
         {
@@ -205,7 +205,7 @@ public class ThreadLauncherDaemon extends Daemon
      * Count the number of items in the queue.
      * @return The current number of items in the queue
      */
-    public synchronized static Integer countItemsInQueue(  )
+    public static synchronized Integer countItemsInQueue(  )
     {
         return _stackItems.size(  );
     }

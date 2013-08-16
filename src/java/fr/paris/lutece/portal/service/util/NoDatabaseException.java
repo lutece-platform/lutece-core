@@ -43,7 +43,7 @@ public class NoDatabaseException extends AppException
 {
     /**
      * Constructor
-     * @param strMessage
+     * @param strMessage The message
      */
     public NoDatabaseException( String strMessage )
     {

@@ -48,9 +48,14 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Bean Utils
  */
-public class BeanUtil
+public final class BeanUtil
 {
     private static final char UNDERSCORE = '_';
+
+    /** Private constructor */
+    private BeanUtil()
+    {
+    }
 
     /**
      * Populate a bean using parameters in http request

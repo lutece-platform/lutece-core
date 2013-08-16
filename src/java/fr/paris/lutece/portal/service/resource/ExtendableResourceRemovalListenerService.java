@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2012, Mairie de Paris
+ * Copyright (c) 2002-2013, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,12 +38,16 @@ import java.util.List;
 
 
 /**
- * @author vbroussard
- *
+ * Extendable Resource Removal Listener Service
  */
-public class ExtendableResourceRemovalListenerService
+public final class ExtendableResourceRemovalListenerService
 {
     private static List<IExtendableResourceRemovalListener> _listListeners = new ArrayList<IExtendableResourceRemovalListener>(  );
+
+    /** Private Constructor */
+    private ExtendableResourceRemovalListenerService()
+    {
+    }
 
     /**
      * Register an extendable resource removal listener.

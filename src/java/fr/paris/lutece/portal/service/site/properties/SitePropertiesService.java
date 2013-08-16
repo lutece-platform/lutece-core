@@ -44,8 +44,13 @@ import java.util.Locale;
 /**
  * Site Properties Service
  */
-public class SitePropertiesService
+public final class SitePropertiesService
 {
+    /** Private constructor */
+    private SitePropertiesService()
+    {
+    }
+    
     /**
      * Gets an localized instance of all groups and properties
      * @param locale The Locale

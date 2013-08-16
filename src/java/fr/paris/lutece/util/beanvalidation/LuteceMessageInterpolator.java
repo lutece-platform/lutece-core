@@ -62,6 +62,10 @@ public class LuteceMessageInterpolator implements MessageInterpolator
         _locale = Locale.getDefault(  );
     }
 
+    /**
+     * Sets the locale for messages
+     * @param locale The locale
+     */
     public static void setLocale( Locale locale )
     {
         _locale = locale;
@@ -110,7 +114,7 @@ public class LuteceMessageInterpolator implements MessageInterpolator
             while ( matcher.find(  ) );
 
             matcher.appendTail( sb );
-            strMessage = sb.toString(  );
+            return sb.toString(  );
         }
 
         return strMessage;

@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.datastore;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 

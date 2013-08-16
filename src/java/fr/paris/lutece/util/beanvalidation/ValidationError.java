@@ -53,6 +53,7 @@ public class ValidationError
      * Constructor
      * @param cv The constraint violation
      * @param locale  The locale
+     * @param config The config
      */
     public ValidationError( ConstraintViolation cv, Locale locale, ValidationErrorConfig config )
     {

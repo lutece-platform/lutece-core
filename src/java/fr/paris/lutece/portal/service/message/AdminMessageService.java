@@ -240,7 +240,6 @@ public final class AdminMessageService
 
     /**
      * Returns the Url that display the given message
-     * @param <T> The type of the bean that has been validated
      * @param request The HTTP request
      * @param strMessageKey The message key
      * @param errors The set of violations
@@ -431,14 +430,15 @@ public final class AdminMessageService
 
     /**
      * Format a set of constraints violations as en error list.
+     * @param <T> The type of the bean that has been validated
      * @param request The HTTP request
-     * @param erroes The set of violations
+     * @param errors The set of violations
      * @return The formatted errors list as an object array
      */
-    private static <T> Object[] formatValidationErrors( HttpServletRequest request, List<ValidationError> erroes )
+    private static <T> Object[] formatValidationErrors( HttpServletRequest request, List<ValidationError> errors )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_ERRORS_LIST, erroes );
+        model.put( MARK_ERRORS_LIST, errors );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale(  ), model );
         String[] formatedErrors = { template.getHtml(  ) };
