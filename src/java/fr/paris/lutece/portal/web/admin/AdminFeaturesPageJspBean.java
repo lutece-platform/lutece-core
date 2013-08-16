@@ -49,9 +49,7 @@ import fr.paris.lutece.util.beanvalidation.ValidationError;
 import fr.paris.lutece.util.beanvalidation.ValidationErrorConfig;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-
 import java.io.Serializable;
-
 
 import java.util.HashMap;
 import java.util.List;
@@ -249,7 +247,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     {
         return BeanValidationUtil.validate( bean );
     }
-    
+
     /**
      * Validates a bean
      * @param <T> The bean type
@@ -257,11 +255,11 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      * @param strFieldsKeyPrefix The fields keys prefix in resources files
      * @return The error list
      */
-    public <T> List<ValidationError> validate( T bean , String strFieldsKeyPrefix )
+    public <T> List<ValidationError> validate( T bean, String strFieldsKeyPrefix )
     {
-        return BeanValidationUtil.validate( bean, getLocale(), strFieldsKeyPrefix);
+        return BeanValidationUtil.validate( bean, getLocale(  ), strFieldsKeyPrefix );
     }
-    
+
     /**
      * Validates a bean
      * @param <T> The bean type
@@ -269,9 +267,8 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      * @param config  The config for Error validation rendering
      * @return The error list
      */
-    public <T> List<ValidationError> validate( T bean , ValidationErrorConfig config )
+    public <T> List<ValidationError> validate( T bean, ValidationErrorConfig config )
     {
-        return BeanValidationUtil.validate( bean, getLocale(), config );
+        return BeanValidationUtil.validate( bean, getLocale(  ), config );
     }
-
 }

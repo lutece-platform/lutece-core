@@ -34,38 +34,40 @@
 package fr.paris.lutece.util.beanvalidation;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
+
 import java.util.Locale;
 import java.util.Map;
+
 import javax.validation.ConstraintViolation;
+
 
 /**
  * ValidationError Utils
  */
 public class ValidationErrorUtil
 {
- 
     /**
      * Return the attribute's value to set as the value#1 of the message
      * @param constraintViolation The Constraint violation
      * @param config The config
      * @return The value
      */
-    public static String getValue1(ConstraintViolation constraintViolation, ValidationErrorConfig config)
+    public static String getValue1( ConstraintViolation constraintViolation, ValidationErrorConfig config )
     {
-        return getValue(constraintViolation, config,config.getValue1Attributes());
+        return getValue( constraintViolation, config, config.getValue1Attributes(  ) );
     }
-    
+
     /**
      * Return the attribute's value to set as the value#2 of the message
      * @param constraintViolation The Constraint violation
      * @param config The config
      * @return The value
      */
-    public static String getValue2(ConstraintViolation constraintViolation, ValidationErrorConfig config)
+    public static String getValue2( ConstraintViolation constraintViolation, ValidationErrorConfig config )
     {
-        return getValue(constraintViolation, config,config.getValue2Attributes());
+        return getValue( constraintViolation, config, config.getValue2Attributes(  ) );
     }
-    
+
     /**
      * Return the field name as it will appear in the message
      * @param constraintViolation The Constraint violation
@@ -73,47 +75,53 @@ public class ValidationErrorUtil
      * @param locale The locale
      * @return The field name
      */
-    public static String getFieldname( ConstraintViolation constraintViolation , ValidationErrorConfig config , Locale locale)
+    public static String getFieldname( ConstraintViolation constraintViolation, ValidationErrorConfig config,
+        Locale locale )
     {
-        String strField = constraintViolation.getPropertyPath().toString();
-        
+        String strField = constraintViolation.getPropertyPath(  ).toString(  );
+
         // remove the variable prefix
-        String[] prefix = config.getVariablesPrefix();
-        for( int i = 0 ; i < prefix.length ; i++ )
+        String[] prefix = config.getVariablesPrefix(  );
+
+        for ( int i = 0; i < prefix.length; i++ )
         {
-            strField = removePrefix( strField , prefix[i] ); 
-            
+            strField = removePrefix( strField, prefix[i] );
         }
-        
+
         // set first letter in lower case
-        strField = strField.substring( 0 , 1 ).toLowerCase() + strField.substring( 1 );
-        String strKey = config.getFieldKeysPrefix() + strField;
-        
-        String strFieldName = I18nService.getLocalizedString( strKey , locale );
-        
+        strField = strField.substring( 0, 1 ).toLowerCase(  ) + strField.substring( 1 );
+
+        String strKey = config.getFieldKeysPrefix(  ) + strField;
+
+        String strFieldName = I18nService.getLocalizedString( strKey, locale );
+
         // if the key isn't found
-        if( strFieldName.equals( "" ))
+        if ( strFieldName.equals( "" ) )
         {
             // display the missing key as the field name
             strFieldName = "[" + strKey + "]";
         }
-        strFieldName = config.getFieldWrapperBegin() + strFieldName + config.getFieldWrapperEnd();
+
+        strFieldName = config.getFieldWrapperBegin(  ) + strFieldName + config.getFieldWrapperEnd(  );
+
         return strFieldName;
     }
-    
+
     /**
      * Remove the variable prefix
      * @param strSource The source
      * @param strPrefix The prefix
      * @return The string with the prefix removed
      */
-    private static String removePrefix( String strSource , String strPrefix )
+    private static String removePrefix( String strSource, String strPrefix )
     {
         String strReturn = strSource;
-        if( strSource.startsWith( strPrefix ))
+
+        if ( strSource.startsWith( strPrefix ) )
         {
-            strReturn = strSource.substring( strPrefix.length());
+            strReturn = strSource.substring( strPrefix.length(  ) );
         }
+
         return strReturn;
     }
 
@@ -124,37 +132,41 @@ public class ValidationErrorUtil
      * @param strAttributes The attributes names list
      * @return The value
      */
-    private static String getValue(ConstraintViolation constraintViolation, ValidationErrorConfig config, String strAttributes )
+    private static String getValue( ConstraintViolation constraintViolation, ValidationErrorConfig config,
+        String strAttributes )
     {
         String strValue = "";
-        
-        Map<String,Object> mapAttributes = constraintViolation.getConstraintDescriptor().getAttributes();
-        for( String strKey : mapAttributes.keySet() )
+
+        Map<String, Object> mapAttributes = constraintViolation.getConstraintDescriptor(  ).getAttributes(  );
+
+        for ( String strKey : mapAttributes.keySet(  ) )
         {
-            if( strAttributes.contains(strKey))
+            if ( strAttributes.contains( strKey ) )
             {
-                strValue = getValue( mapAttributes.get(strKey));
+                strValue = getValue( mapAttributes.get( strKey ) );
             }
         }
+
         return strValue;
-     }
-    
+    }
+
     /**
      * Convert an unkown type value to a String value
      * @param value The valus
      * @return The value as a String
      */
-    private static String getValue(Object value)
+    private static String getValue( Object value )
     {
-        if( value instanceof Integer )
+        if ( value instanceof Integer )
         {
             return Integer.toString( (Integer) value );
         }
-        if( value instanceof Long )
+
+        if ( value instanceof Long )
         {
             return Long.toString( (Long) value );
         }
+
         return (String) value;
     }
-
 }

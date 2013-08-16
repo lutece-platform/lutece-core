@@ -5,7 +5,9 @@
 package fr.paris.lutece.util.beanvalidation;
 
 import java.math.BigDecimal;
+
 import java.sql.Date;
+
 
 /**
  *
@@ -13,127 +15,125 @@ import java.sql.Date;
  */
 public interface Bean
 {
-
     /**
      * Returns the Age
      *
      * @return The Age
      */
-    int getAge();
+    int getAge(  );
 
     /**
      * @return the _strCurrency
      */
-    String getCurrency();
+    String getCurrency(  );
 
     /**
      * @return the _dateBirth
      */
-    Date getDateBirth();
+    Date getDateBirth(  );
 
     /**
      * @return the _dateEndOfWorld
      */
-    Date getDateEndOfWorld();
+    Date getDateEndOfWorld(  );
 
     /**
      * Returns the Description
      *
      * @return The Description
      */
-    String getDescription();
+    String getDescription(  );
 
     /**
      * Returns the Email
      * @return The Email
      */
-    String getEmail();
+    String getEmail(  );
 
     /**
      * Returns the IdObject
      *
      * @return The IdObject
      */
-    int getIdObject();
+    int getIdObject(  );
 
     /**
      * Returns the Name
      *
      * @return The Name
      */
-    String getName();
+    String getName(  );
 
     /**
      * @return the _percent
      */
-    BigDecimal getPercent();
+    BigDecimal getPercent(  );
 
     /**
      * @return the _salary
      */
-    BigDecimal getSalary();
+    BigDecimal getSalary(  );
 
     /**
      * Sets the Age
      *
      * @param nAge The Age
      */
-    void setAge(int nAge);
+    void setAge( int nAge );
 
     /**
      * @param strCurrency the _strCurrency to set
      */
-    void setCurrency(String strCurrency);
+    void setCurrency( String strCurrency );
 
     /**
      * @param dateBirth the _dateBirth to set
      */
-    void setDateBirth(Date dateBirth);
+    void setDateBirth( Date dateBirth );
 
     /**
      * @param dateEndOfWorld the _dateEndOfWorld to set
      */
-    void setDateEndOfWorld(Date dateEndOfWorld);
+    void setDateEndOfWorld( Date dateEndOfWorld );
 
     /**
      * Sets the Description
      *
      * @param strDescription The Description
      */
-    void setDescription(String strDescription);
+    void setDescription( String strDescription );
 
     /**
      * Sets the Email
      * @param strEmail The Email
      */
-    void setEmail(String strEmail);
+    void setEmail( String strEmail );
 
     /**
      * Sets the IdObject
      *
      * @param nIdObject The IdObject
      */
-    void setIdObject(int nIdObject);
+    void setIdObject( int nIdObject );
 
     /**
      * Sets the Name
      *
      * @param strName The Name
      */
-    void setName(String strName);
+    void setName( String strName );
 
     /**
      * @param percent the _percent to set
      */
-    void setPercent(BigDecimal percent);
+    void setPercent( BigDecimal percent );
 
     /**
      * @param salary the _salary to set
      */
-    void setSalary(BigDecimal salary);
-    
-    void setUrl(String strUrl);
-    String getUrl();
+    void setSalary( BigDecimal salary );
 
-    
+    void setUrl( String strUrl );
+
+    String getUrl(  );
 }

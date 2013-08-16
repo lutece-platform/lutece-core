@@ -33,58 +33,59 @@
  */
 package fr.paris.lutece.util.beanvalidation;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import java.math.BigDecimal;
+
 import java.sql.Date;
+
 import java.util.List;
 import java.util.Locale;
+
 import javax.validation.Validator;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * BeanValidationUtilTest
  */
 public class BeanValidationUtilTest
 {
-
     /**
      * Test of validate method, of class BeanValidationUtil.
      */
     @Test
-    public void testValidate_GenericType_Locale()
+    public void testValidate_GenericType_Locale(  )
     {
-        System.out.println("validate");
+        System.out.println( "validate" );
+
         Locale locale = Locale.FRENCH;
 
-        Bean[] beans =
-        {
-            new BeanDefaultMessages(), new BeanLuteceMessages()
-        };
+        Bean[] beans = { new BeanDefaultMessages(  ), new BeanLuteceMessages(  ) };
 
-        for (int i = 0; i < beans.length; i++)
+        for ( int i = 0; i < beans.length; i++ )
         {
             Bean bean = beans[i];
-            bean.setName("contains-invalid-char-1");
-            bean.setDescription("too-short");
-            bean.setEmail("invalid-email");
+            bean.setName( "contains-invalid-char-1" );
+            bean.setDescription( "too-short" );
+            bean.setEmail( "invalid-email" );
 
-            long lTimeNow = new java.util.Date().getTime();
-            bean.setDateBirth(new Date(lTimeNow + 1000000000L));
-            bean.setDateEndOfWorld(new Date(lTimeNow - 1000000000L));
+            long lTimeNow = new java.util.Date(  ).getTime(  );
+            bean.setDateBirth( new Date( lTimeNow + 1000000000L ) );
+            bean.setDateEndOfWorld( new Date( lTimeNow - 1000000000L ) );
 
-            bean.setSalary(new BigDecimal("100.00"));
-            bean.setPercent(new BigDecimal("200.00"));
-            bean.setCurrency("150.9999");
+            bean.setSalary( new BigDecimal( "100.00" ) );
+            bean.setPercent( new BigDecimal( "200.00" ) );
+            bean.setCurrency( "150.9999" );
             bean.setUrl( "invalid-url" );
 
             List<ValidationError> list = BeanValidationUtil.validate( bean, locale, "fields_prefix." );
-            assertTrue(list.size() > 0);
-            for (ValidationError error : list)
+            assertTrue( list.size(  ) > 0 );
+
+            for ( ValidationError error : list )
             {
-                System.out.println(error.getMessage());
+                System.out.println( error.getMessage(  ) );
             }
         }
-
     }
-    
 }

@@ -72,7 +72,6 @@ public class XPageAppService extends ContentService
     private static final String CONTENT_SERVICE_NAME = "XPageAppService";
     private static final String MESSAGE_ERROR_APP_BODY = "portal.util.message.errorXpageApp";
     private static final String ATTRIBUTE_XPAGE = "LUTECE_XPAGE_";
-    
     private static Map<String, XPageApplicationEntry> _mapApplications = new HashMap<String, XPageApplicationEntry>(  );
 
     /**
@@ -219,7 +218,7 @@ public class XPageAppService extends ContentService
 
                     if ( bAutorized )
                     {
-                        XPageApplication application = getXPageSessionInstance( request , entry );
+                        XPageApplication application = getXPageSessionInstance( request, entry );
                         page = application.getPage( request, nMode, entry.getPlugin(  ) );
                     }
                     else
@@ -238,7 +237,7 @@ public class XPageAppService extends ContentService
             }
             else
             {
-                XPageApplication application = getXPageSessionInstance( request , entry );
+                XPageApplication application = getXPageSessionInstance( request, entry );
                 page = application.getPage( request, nMode, entry.getPlugin(  ) );
             }
 
@@ -285,27 +284,30 @@ public class XPageAppService extends ContentService
     {
         return _mapApplications.values(  );
     }
-    
+
     /**
      * Return an instance of the XPage attached to the current Http Session
      * @param request The HTTP request
      * @param entry The XPage entry
      * @return The XPage instance
      */
-    private static XPageApplication getXPageSessionInstance( HttpServletRequest request , XPageApplicationEntry entry )
+    private static XPageApplication getXPageSessionInstance( HttpServletRequest request, XPageApplicationEntry entry )
     {
         HttpSession session = request.getSession( true );
-        String strAttribute = ATTRIBUTE_XPAGE + entry.getId();
+        String strAttribute = ATTRIBUTE_XPAGE + entry.getId(  );
         XPageApplication application = (XPageApplication) session.getAttribute( strAttribute );
-        if( application == null )
+
+        if ( application == null )
         {
             application = getApplicationInstance( entry );
             session.setAttribute( strAttribute, application );
-            AppLogService.debug( "New XPage instance of " + entry.getClassName() + " created and attached to session " + session );
+            AppLogService.debug( "New XPage instance of " + entry.getClassName(  ) +
+                " created and attached to session " + session );
         }
+
         return application;
     }
-    
+
     /**
      * Get an XPage instance
      * @param entry The Xpage entry
@@ -314,6 +316,7 @@ public class XPageAppService extends ContentService
     public static XPageApplication getApplicationInstance( XPageApplicationEntry entry )
     {
         XPageApplication application = null;
+
         try
         {
             application = (XPageApplication) Class.forName( entry.getClassName(  ) ).newInstance(  );
@@ -323,7 +326,7 @@ public class XPageAppService extends ContentService
             throw new AppException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
                 e.getCause(  ), e );
         }
+
         return application;
     }
-
 }

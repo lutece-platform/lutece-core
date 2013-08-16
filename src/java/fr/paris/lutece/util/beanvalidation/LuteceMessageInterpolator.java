@@ -50,8 +50,8 @@ import javax.validation.Validation;
 public class LuteceMessageInterpolator implements MessageInterpolator
 {
     private static final Pattern PATTERN_LOCALIZED_KEY = Pattern.compile( "#i18n\\{(.*?)\\}" );
-    private MessageInterpolator _interpolator;
     private static Locale _locale;
+    private MessageInterpolator _interpolator;
 
     /**
      * Constructor;
@@ -59,9 +59,9 @@ public class LuteceMessageInterpolator implements MessageInterpolator
     public LuteceMessageInterpolator(  )
     {
         _interpolator = Validation.byDefaultProvider(  ).configure(  ).getDefaultMessageInterpolator(  );
-        _locale = Locale.getDefault();
+        _locale = Locale.getDefault(  );
     }
-    
+
     public static void setLocale( Locale locale )
     {
         _locale = locale;

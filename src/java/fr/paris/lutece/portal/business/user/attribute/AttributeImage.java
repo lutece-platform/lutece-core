@@ -274,7 +274,7 @@ public class AttributeImage extends AbstractAttribute
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
         String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE +
-                getIdAttribute() );
+                getIdAttribute(  ) );
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
 
         try
@@ -283,7 +283,7 @@ public class AttributeImage extends AbstractAttribute
             {
                 MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
                 FileItem fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE +
-                        getIdAttribute() );
+                        getIdAttribute(  ) );
 
                 if ( ( fileItem != null ) && ( fileItem.getName(  ) != null ) &&
                         !EMPTY_STRING.equals( fileItem.getName(  ) ) )

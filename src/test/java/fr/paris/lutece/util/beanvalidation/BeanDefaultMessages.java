@@ -4,8 +4,14 @@
  */
 package fr.paris.lutece.util.beanvalidation;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.URL;
+
 import java.math.BigDecimal;
+
 import java.sql.Date;
+
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
@@ -14,9 +20,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.URL;
+
 
 /**
  *
@@ -24,30 +28,29 @@ import org.hibernate.validator.constraints.URL;
  */
 public class BeanDefaultMessages implements Bean
 {
-
     // Variables declarations 
     private int _nIdObject;
-    @NotEmpty()
-    @Pattern(regexp = "[a-z-A-Z]")
-    @Size(max = 5)
+    @NotEmpty(  )
+    @Pattern( regexp = "[a-z-A-Z]" )
+    @Size( max = 5 )
     private String _strName;
-    @Size(min = 10)
+    @Size( min = 10 )
     private String _strDescription;
-    @Min(value = 5)
+    @Min( value = 5 )
     private int _nAge;
-    @Email()
+    @Email(  )
     private String _strEmail;
-    @Past()
+    @Past(  )
     private Date _dateBirth;
-    @Future()
+    @Future(  )
     private Date _dateEndOfWorld;
-    @DecimalMin(value = "1500.0")
+    @DecimalMin( value = "1500.0" )
     private BigDecimal _salary;
-    @DecimalMax(value = "100.0")
+    @DecimalMax( value = "100.0" )
     private BigDecimal _percent;
-    @Digits(integer = 15, fraction = 2)
+    @Digits( integer = 15, fraction = 2 )
     private String _strCurrency;
-    @URL()
+    @URL(  )
     private String _strUrl;
 
     /**
@@ -56,7 +59,7 @@ public class BeanDefaultMessages implements Bean
      * @return The IdObject
      */
     @Override
-    public int getIdObject()
+    public int getIdObject(  )
     {
         return _nIdObject;
     }
@@ -67,7 +70,7 @@ public class BeanDefaultMessages implements Bean
      * @param nIdObject The IdObject
      */
     @Override
-    public void setIdObject(int nIdObject)
+    public void setIdObject( int nIdObject )
     {
         _nIdObject = nIdObject;
     }
@@ -78,7 +81,7 @@ public class BeanDefaultMessages implements Bean
      * @return The Name
      */
     @Override
-    public String getName()
+    public String getName(  )
     {
         return _strName;
     }
@@ -89,7 +92,7 @@ public class BeanDefaultMessages implements Bean
      * @param strName The Name
      */
     @Override
-    public void setName(String strName)
+    public void setName( String strName )
     {
         _strName = strName;
     }
@@ -100,7 +103,7 @@ public class BeanDefaultMessages implements Bean
      * @return The Description
      */
     @Override
-    public String getDescription()
+    public String getDescription(  )
     {
         return _strDescription;
     }
@@ -111,7 +114,7 @@ public class BeanDefaultMessages implements Bean
      * @param strDescription The Description
      */
     @Override
-    public void setDescription(String strDescription)
+    public void setDescription( String strDescription )
     {
         _strDescription = strDescription;
     }
@@ -122,7 +125,7 @@ public class BeanDefaultMessages implements Bean
      * @return The Age
      */
     @Override
-    public int getAge()
+    public int getAge(  )
     {
         return _nAge;
     }
@@ -133,7 +136,7 @@ public class BeanDefaultMessages implements Bean
      * @param nAge The Age
      */
     @Override
-    public void setAge(int nAge)
+    public void setAge( int nAge )
     {
         _nAge = nAge;
     }
@@ -144,7 +147,7 @@ public class BeanDefaultMessages implements Bean
      * @return The Email
      */
     @Override
-    public String getEmail()
+    public String getEmail(  )
     {
         return _strEmail;
     }
@@ -155,7 +158,7 @@ public class BeanDefaultMessages implements Bean
      * @param strEmail The Email
      */
     @Override
-    public void setEmail(String strEmail)
+    public void setEmail( String strEmail )
     {
         _strEmail = strEmail;
     }
@@ -164,7 +167,7 @@ public class BeanDefaultMessages implements Bean
      * @return the _dateBirth
      */
     @Override
-    public Date getDateBirth()
+    public Date getDateBirth(  )
     {
         return _dateBirth;
     }
@@ -173,7 +176,7 @@ public class BeanDefaultMessages implements Bean
      * @param dateBirth the _dateBirth to set
      */
     @Override
-    public void setDateBirth(Date dateBirth)
+    public void setDateBirth( Date dateBirth )
     {
         _dateBirth = dateBirth;
     }
@@ -182,7 +185,7 @@ public class BeanDefaultMessages implements Bean
      * @return the _dateEndOfWorld
      */
     @Override
-    public Date getDateEndOfWorld()
+    public Date getDateEndOfWorld(  )
     {
         return _dateEndOfWorld;
     }
@@ -191,7 +194,7 @@ public class BeanDefaultMessages implements Bean
      * @param dateEndOfWorld the _dateEndOfWorld to set
      */
     @Override
-    public void setDateEndOfWorld(Date dateEndOfWorld)
+    public void setDateEndOfWorld( Date dateEndOfWorld )
     {
         _dateEndOfWorld = dateEndOfWorld;
     }
@@ -200,7 +203,7 @@ public class BeanDefaultMessages implements Bean
      * @return the _salary
      */
     @Override
-    public BigDecimal getSalary()
+    public BigDecimal getSalary(  )
     {
         return _salary;
     }
@@ -209,7 +212,7 @@ public class BeanDefaultMessages implements Bean
      * @param salary the _salary to set
      */
     @Override
-    public void setSalary(BigDecimal salary)
+    public void setSalary( BigDecimal salary )
     {
         _salary = salary;
     }
@@ -218,7 +221,7 @@ public class BeanDefaultMessages implements Bean
      * @return the _percent
      */
     @Override
-    public BigDecimal getPercent()
+    public BigDecimal getPercent(  )
     {
         return _percent;
     }
@@ -227,7 +230,7 @@ public class BeanDefaultMessages implements Bean
      * @param percent the _percent to set
      */
     @Override
-    public void setPercent(BigDecimal percent)
+    public void setPercent( BigDecimal percent )
     {
         _percent = percent;
     }
@@ -236,7 +239,7 @@ public class BeanDefaultMessages implements Bean
      * @return the _strCurrency
      */
     @Override
-    public String getCurrency()
+    public String getCurrency(  )
     {
         return _strCurrency;
     }
@@ -245,7 +248,7 @@ public class BeanDefaultMessages implements Bean
      * @param strCurrency the _strCurrency to set
      */
     @Override
-    public void setCurrency(String strCurrency)
+    public void setCurrency( String strCurrency )
     {
         _strCurrency = strCurrency;
     }
@@ -254,7 +257,7 @@ public class BeanDefaultMessages implements Bean
      * @return the _strUrl
      */
     @Override
-    public String getUrl()
+    public String getUrl(  )
     {
         return _strUrl;
     }
@@ -263,7 +266,7 @@ public class BeanDefaultMessages implements Bean
      * @param strUrl the _strUrl to set
      */
     @Override
-    public void setUrl(String strUrl)
+    public void setUrl( String strUrl )
     {
         _strUrl = strUrl;
     }

@@ -259,7 +259,8 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
     @Override
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
-        String[] strValues = request.getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute() );
+        String[] strValues = request.getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE +
+                getIdAttribute(  ) );
 
         return getUserFieldsData( strValues, user );
     }

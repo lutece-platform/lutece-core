@@ -33,8 +33,14 @@
  */
 package fr.paris.lutece.util.beanvalidation;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.URL;
+
 import java.math.BigDecimal;
+
 import java.sql.Date;
+
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
@@ -43,38 +49,34 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.URL;
+
 
 /**
  * BeanLuteceMessages class for bean validation tests
  */
 public class BeanLuteceMessages implements Bean
 {
-
     // Variables declarations 
-
     private int _nIdObject;
-    @NotEmpty(message = "#i18n{portal.validation.message.notEmpty}")
-    @Pattern(regexp = "[a-z-A-Z]", message = "#i18n{portal.validation.message.pattern}")
-    @Size(max = 5, message = "#i18n{portal.validation.message.sizeMax}")
+    @NotEmpty( message = "#i18n{portal.validation.message.notEmpty}" )
+    @Pattern( regexp = "[a-z-A-Z]", message = "#i18n{portal.validation.message.pattern}" )
+    @Size( max = 5, message = "#i18n{portal.validation.message.sizeMax}" )
     private String _strName;
-    @Size(min = 10, max = 50, message = "#i18n{portal.validation.message.size}")
+    @Size( min = 10, max = 50, message = "#i18n{portal.validation.message.size}" )
     private String _strDescription;
-    @Min(value = 5, message = "#i18n{portal.validation.message.min}")
+    @Min( value = 5, message = "#i18n{portal.validation.message.min}" )
     private int _nAge;
-    @Email(message = "#i18n{portal.validation.message.email}")
+    @Email( message = "#i18n{portal.validation.message.email}" )
     private String _strEmail;
-    @Past(message = "#i18n{portal.validation.message.past}")
+    @Past( message = "#i18n{portal.validation.message.past}" )
     private Date _dateBirth;
-    @Future(message = "#i18n{portal.validation.message.future}")
+    @Future( message = "#i18n{portal.validation.message.future}" )
     private Date _dateEndOfWorld;
-    @DecimalMin(value = "1500.0", message = "#i18n{portal.validation.message.decimalMin}")
+    @DecimalMin( value = "1500.0", message = "#i18n{portal.validation.message.decimalMin}" )
     private BigDecimal _salary;
-    @DecimalMax(value = "100.0", message = "#i18n{portal.validation.message.decimalMax}")
+    @DecimalMax( value = "100.0", message = "#i18n{portal.validation.message.decimalMax}" )
     private BigDecimal _percent;
-    @Digits(integer = 15, fraction = 2, message = "#i18n{portal.validation.message.digits}")
+    @Digits( integer = 15, fraction = 2, message = "#i18n{portal.validation.message.digits}" )
     private String _strCurrency;
     @URL( message = "#i18n{portal.validation.message.url}" )
     private String _strUrl;
@@ -85,7 +87,7 @@ public class BeanLuteceMessages implements Bean
      * @return The IdObject
      */
     @Override
-    public int getIdObject()
+    public int getIdObject(  )
     {
         return _nIdObject;
     }
@@ -96,7 +98,7 @@ public class BeanLuteceMessages implements Bean
      * @param nIdObject The IdObject
      */
     @Override
-    public void setIdObject(int nIdObject)
+    public void setIdObject( int nIdObject )
     {
         _nIdObject = nIdObject;
     }
@@ -107,7 +109,7 @@ public class BeanLuteceMessages implements Bean
      * @return The Name
      */
     @Override
-    public String getName()
+    public String getName(  )
     {
         return _strName;
     }
@@ -118,7 +120,7 @@ public class BeanLuteceMessages implements Bean
      * @param strName The Name
      */
     @Override
-    public void setName(String strName)
+    public void setName( String strName )
     {
         _strName = strName;
     }
@@ -129,7 +131,7 @@ public class BeanLuteceMessages implements Bean
      * @return The Description
      */
     @Override
-    public String getDescription()
+    public String getDescription(  )
     {
         return _strDescription;
     }
@@ -140,7 +142,7 @@ public class BeanLuteceMessages implements Bean
      * @param strDescription The Description
      */
     @Override
-    public void setDescription(String strDescription)
+    public void setDescription( String strDescription )
     {
         _strDescription = strDescription;
     }
@@ -151,7 +153,7 @@ public class BeanLuteceMessages implements Bean
      * @return The Age
      */
     @Override
-    public int getAge()
+    public int getAge(  )
     {
         return _nAge;
     }
@@ -162,7 +164,7 @@ public class BeanLuteceMessages implements Bean
      * @param nAge The Age
      */
     @Override
-    public void setAge(int nAge)
+    public void setAge( int nAge )
     {
         _nAge = nAge;
     }
@@ -173,7 +175,7 @@ public class BeanLuteceMessages implements Bean
      * @return The Email
      */
     @Override
-    public String getEmail()
+    public String getEmail(  )
     {
         return _strEmail;
     }
@@ -184,7 +186,7 @@ public class BeanLuteceMessages implements Bean
      * @param strEmail The Email
      */
     @Override
-    public void setEmail(String strEmail)
+    public void setEmail( String strEmail )
     {
         _strEmail = strEmail;
     }
@@ -193,7 +195,7 @@ public class BeanLuteceMessages implements Bean
      * @return the _dateBirth
      */
     @Override
-    public Date getDateBirth()
+    public Date getDateBirth(  )
     {
         return _dateBirth;
     }
@@ -202,7 +204,7 @@ public class BeanLuteceMessages implements Bean
      * @param dateBirth the _dateBirth to set
      */
     @Override
-    public void setDateBirth(Date dateBirth)
+    public void setDateBirth( Date dateBirth )
     {
         _dateBirth = dateBirth;
     }
@@ -211,7 +213,7 @@ public class BeanLuteceMessages implements Bean
      * @return the _dateEndOfWorld
      */
     @Override
-    public Date getDateEndOfWorld()
+    public Date getDateEndOfWorld(  )
     {
         return _dateEndOfWorld;
     }
@@ -220,7 +222,7 @@ public class BeanLuteceMessages implements Bean
      * @param dateEndOfWorld the _dateEndOfWorld to set
      */
     @Override
-    public void setDateEndOfWorld(Date dateEndOfWorld)
+    public void setDateEndOfWorld( Date dateEndOfWorld )
     {
         _dateEndOfWorld = dateEndOfWorld;
     }
@@ -229,7 +231,7 @@ public class BeanLuteceMessages implements Bean
      * @return the _salary
      */
     @Override
-    public BigDecimal getSalary()
+    public BigDecimal getSalary(  )
     {
         return _salary;
     }
@@ -238,7 +240,7 @@ public class BeanLuteceMessages implements Bean
      * @param salary the _salary to set
      */
     @Override
-    public void setSalary(BigDecimal salary)
+    public void setSalary( BigDecimal salary )
     {
         _salary = salary;
     }
@@ -247,7 +249,7 @@ public class BeanLuteceMessages implements Bean
      * @return the _percent
      */
     @Override
-    public BigDecimal getPercent()
+    public BigDecimal getPercent(  )
     {
         return _percent;
     }
@@ -256,7 +258,7 @@ public class BeanLuteceMessages implements Bean
      * @param percent the _percent to set
      */
     @Override
-    public void setPercent(BigDecimal percent)
+    public void setPercent( BigDecimal percent )
     {
         _percent = percent;
     }
@@ -265,7 +267,7 @@ public class BeanLuteceMessages implements Bean
      * @return the _strCurrency
      */
     @Override
-    public String getCurrency()
+    public String getCurrency(  )
     {
         return _strCurrency;
     }
@@ -274,7 +276,7 @@ public class BeanLuteceMessages implements Bean
      * @param strCurrency the _strCurrency to set
      */
     @Override
-    public void setCurrency(String strCurrency)
+    public void setCurrency( String strCurrency )
     {
         _strCurrency = strCurrency;
     }
@@ -283,7 +285,7 @@ public class BeanLuteceMessages implements Bean
      * @return the _strUrl
      */
     @Override
-    public String getUrl()
+    public String getUrl(  )
     {
         return _strUrl;
     }
@@ -292,9 +294,8 @@ public class BeanLuteceMessages implements Bean
      * @param strUrl the _strUrl to set
      */
     @Override
-    public void setUrl(String strUrl)
+    public void setUrl( String strUrl )
     {
         _strUrl = strUrl;
     }
-    
 }

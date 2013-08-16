@@ -281,7 +281,7 @@ public abstract class AbstractAttribute implements IAttribute
         List<AdminUserField> listUserFields = auFieldFilter.getListUserFields(  );
         List<AdminUserField> selectedUserFields = null;
 
-        if ( ( listUserFields != null ) && ( !listUserFields.isEmpty() ) )
+        if ( ( listUserFields != null ) && ( !listUserFields.isEmpty(  ) ) )
         {
             selectedUserFields = new ArrayList<AdminUserField>(  );
 

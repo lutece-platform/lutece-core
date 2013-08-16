@@ -238,7 +238,6 @@ public final class AdminMessageService
             null, JSP_BACK, TARGET_SELF, AdminMessage.TYPE_ERROR );
     }
 
-
     /**
      * Returns the Url that display the given message
      * @param <T> The type of the bean that has been validated
@@ -247,11 +246,10 @@ public final class AdminMessageService
      * @param errors The set of violations
      * @return The Url of the JSP that display the message
      */
-    public static String getMessageUrl( HttpServletRequest request, String strMessageKey,
-        List<ValidationError> errors )
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, List<ValidationError> errors )
     {
-        return getMessageUrl( request, strMessageKey, formatValidationErrors( request, errors ),
-            null, JSP_BACK, TARGET_SELF, AdminMessage.TYPE_ERROR );
+        return getMessageUrl( request, strMessageKey, formatValidationErrors( request, errors ), null, JSP_BACK,
+            TARGET_SELF, AdminMessage.TYPE_ERROR );
     }
 
     /**
@@ -430,15 +428,14 @@ public final class AdminMessageService
 
         return formatedErrors;
     }
-    
+
     /**
      * Format a set of constraints violations as en error list.
      * @param request The HTTP request
      * @param erroes The set of violations
      * @return The formatted errors list as an object array
      */
-    private static <T> Object[] formatValidationErrors( HttpServletRequest request,
-        List<ValidationError> erroes )
+    private static <T> Object[] formatValidationErrors( HttpServletRequest request, List<ValidationError> erroes )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ERRORS_LIST, erroes );
@@ -448,5 +445,4 @@ public final class AdminMessageService
 
         return formatedErrors;
     }
-
 }
