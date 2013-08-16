@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
@@ -54,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -69,6 +71,8 @@ public class XPageAppService extends ContentService
     public static final String PARAM_XPAGE_APP = "page";
     private static final String CONTENT_SERVICE_NAME = "XPageAppService";
     private static final String MESSAGE_ERROR_APP_BODY = "portal.util.message.errorXpageApp";
+    private static final String ATTRIBUTE_XPAGE = "LUTECE_XPAGE_";
+    
     private static Map<String, XPageApplicationEntry> _mapApplications = new HashMap<String, XPageApplicationEntry>(  );
 
     /**
@@ -215,7 +219,7 @@ public class XPageAppService extends ContentService
 
                     if ( bAutorized )
                     {
-                        XPageApplication application = entry.getApplication(  );
+                        XPageApplication application = getXPageSessionInstance( request , entry );
                         page = application.getPage( request, nMode, entry.getPlugin(  ) );
                     }
                     else
@@ -234,7 +238,7 @@ public class XPageAppService extends ContentService
             }
             else
             {
-                XPageApplication application = entry.getApplication(  );
+                XPageApplication application = getXPageSessionInstance( request , entry );
                 page = application.getPage( request, nMode, entry.getPlugin(  ) );
             }
 
@@ -281,4 +285,45 @@ public class XPageAppService extends ContentService
     {
         return _mapApplications.values(  );
     }
+    
+    /**
+     * Return an instance of the XPage attached to the current Http Session
+     * @param request The HTTP request
+     * @param entry The XPage entry
+     * @return The XPage instance
+     */
+    private static XPageApplication getXPageSessionInstance( HttpServletRequest request , XPageApplicationEntry entry )
+    {
+        HttpSession session = request.getSession( true );
+        String strAttribute = ATTRIBUTE_XPAGE + entry.getId();
+        XPageApplication application = (XPageApplication) session.getAttribute( strAttribute );
+        if( application == null )
+        {
+            application = getApplicationInstance( entry );
+            session.setAttribute( strAttribute, application );
+            AppLogService.debug( "New XPage instance of " + entry.getClassName() + " created and attached to session " + session );
+        }
+        return application;
+    }
+    
+    /**
+     * Get an XPage instance
+     * @param entry The Xpage entry
+     * @return An instance of a given XPage
+     */
+    public static XPageApplication getApplicationInstance( XPageApplicationEntry entry )
+    {
+        XPageApplication application = null;
+        try
+        {
+            application = (XPageApplication) Class.forName( entry.getClassName(  ) ).newInstance(  );
+        }
+        catch ( Exception e )
+        {
+            throw new AppException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
+                e.getCause(  ), e );
+        }
+        return application;
+    }
+
 }
