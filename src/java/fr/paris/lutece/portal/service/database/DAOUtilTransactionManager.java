@@ -37,19 +37,15 @@ import fr.paris.lutece.portal.service.plugin.PluginEvent;
 import fr.paris.lutece.portal.service.plugin.PluginEventListener;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 
-import org.apache.commons.lang.StringUtils;
-
-import org.apache.log4j.Logger;
-
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-
 import java.io.PrintWriter;
-
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
 
 import javax.sql.DataSource;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 
 /**
@@ -176,12 +172,6 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
                 public void setLogWriter( PrintWriter out )
                     throws SQLException
                 {
-                }
-
-                public java.util.logging.Logger getParentLogger(  )
-                    throws SQLFeatureNotSupportedException
-                {
-                    return null;
                 }
 
                 @Override

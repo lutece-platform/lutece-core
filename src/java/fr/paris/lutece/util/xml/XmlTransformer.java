@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.io.StringWriter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -186,17 +185,12 @@ public final class XmlTransformer
                 else
                 {
                     // Aggressive release ( speed up GC )
-                    transformer = null;
                     transformerList.clear(  );
 
                     AppLogService.info( "XmlTransformer : cache is full, you may need to increase cache size." );
                 }
             }
             while ( ( result != null ) && ( nTransformerListIndex < TRANSFORMER_POOL_SIZE ) );
-        }
-        else
-        {
-            transformer = null;
         }
     }
 

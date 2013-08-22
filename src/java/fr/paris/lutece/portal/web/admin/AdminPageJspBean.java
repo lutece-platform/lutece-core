@@ -69,15 +69,15 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -214,7 +214,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         int nPageId = Integer.parseInt( mRequest.getParameter( Parameters.PAGE_ID ) );
 
         Page page = PageHome.getPage( nPageId );
-        Integer bOldAutorisationNode = page.getIdAuthorizationNode(  );
+        Integer nOldAutorisationNode = page.getIdAuthorizationNode(  );
 
         String strErrorUrl = getPageData( mRequest, page );
 
@@ -246,7 +246,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             page.setIdAuthorizationNode( page.getId(  ) );
         }
 
-        if ( bOldAutorisationNode != page.getIdAuthorizationNode(  ) )
+        if ( page.getIdAuthorizationNode( ) == null || !page.getIdAuthorizationNode( ).equals( nOldAutorisationNode ) )
         {
             PageService.updateChildrenAuthorizationNode( page.getId(  ), page.getIdAuthorizationNode(  ) );
         }

@@ -38,6 +38,8 @@ package fr.paris.lutece.util.url;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * This class provides utility methods for the generation of Url String
@@ -90,21 +92,23 @@ public class UrlItem
      */
     public String getUrl(  )
     {
-        String urlCode = _strRoot;
+        StringBuilder urlCode = new StringBuilder( _strRoot );
 
+        boolean bFirst = ( _strRoot.indexOf( '?' ) == -1 );
         for ( UrlParameterItem parameter : _listParameters )
         {
             // Add a ? or & to the root url if it does already contains one
-            boolean bFirst = ( urlCode.indexOf( '?' ) == -1 );
-            urlCode += parameter.getCode( bFirst );
+            urlCode.append( parameter.getCode( bFirst ) );
+            bFirst = false;
         }
 
-        if ( ( getAnchor(  ) != null ) && !getAnchor(  ).equals( "" ) )
+        if ( ( getAnchor( ) != null ) && !getAnchor( ).equals( StringUtils.EMPTY ) )
         {
-            urlCode += ( ANCHOR_DELIMITER + getAnchor(  ) );
+            urlCode.append( ANCHOR_DELIMITER );
+            urlCode.append( getAnchor( ) );
         }
 
-        return urlCode;
+        return urlCode.toString( );
     }
 
     /**

@@ -67,12 +67,12 @@ public class FileListFilter implements FilenameFilter
     {
         boolean fileOK = true;
 
-        if ( ( _strName != null ) || _strName.equals( "" ) )
+        if ( ( _strName != null ) )
         {
             fileOK &= fileName.startsWith( _strName );
         }
 
-        if ( ( _strExtension != null ) || _strExtension.equals( "" ) )
+        if ( ( _strExtension != null ) )
         {
             fileOK &= fileName.endsWith( "." + _strExtension );
         }

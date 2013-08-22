@@ -45,7 +45,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.io.File;
-
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -129,7 +128,7 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( !strPath.endsWith( "/" ) & !strPath.endsWith( "\\" ) )
+        if ( !strPath.endsWith( "/" ) && !strPath.endsWith( "\\" ) )
         {
             strPath += File.separator;
         }

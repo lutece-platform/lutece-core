@@ -62,8 +62,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -71,6 +69,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -336,8 +336,7 @@ public class PortalJspBean
 
         String strCause = null;
 
-        if ( AppPropertiesService.getProperty( PROPERTY_DEBUG, PROPERTY_DEBUG_DEFAULT ).equalsIgnoreCase( "true" ) &&
-                ( exception != null ) )
+        if ( AppPropertiesService.getProperty( PROPERTY_DEBUG, PROPERTY_DEBUG_DEFAULT ).equalsIgnoreCase( "true" ) )
         {
             strCause = exception.getMessage(  );
 
@@ -541,7 +540,6 @@ public class PortalJspBean
             mailModel.put( PARAMETER_SENDER_FIRST_NAME, strSenderFirstName );
             mailModel.put( Parameters.EMAIL, strReceipientEmail );
             mailModel.put( PARAMETER_CONTENT, EditorBbcodeService.getInstance(  ).parse( strContent ) );
-            mailModel.put( MARK_ERROR, strError );
             mailModel.put( MARK_RESOURCE_URL,
                 resourceService.getResourceUrl( strIdExtendableResource, strExtendableResourceType ) );
 

@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.date.DateUtil;
 
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -58,7 +57,8 @@ public final class PasswordUtil
     private static final int CONSTANT_ASCII_CODE_ZERO = 48;
     private static final char[] CONSTANT_SPECIAL_CHARACTERS = 
         {
-            '!', ',', ':', '?', '$', '-', '@', '}', '{', '(', ')', '*', '+', '=', '[', ']', '%', '.'
+ '!', ',', ':', '?', '$', '-', '@', '}', '{', '(', ')',
+            '*', '+', '=', '[', ']', '%', '.'
         };
     private static final String CONSTANT_PASSWORD_BEGIN_REGEX = "^";
     private static final String CONSTANT_PASSWORD_REGEX_NUM = "(?=.*[0-9])";

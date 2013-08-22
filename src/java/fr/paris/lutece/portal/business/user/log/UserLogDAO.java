@@ -57,7 +57,7 @@ public final class UserLogDAO implements IUserLogDAO
     {
         int nCount = 0;
         java.sql.Timestamp dateEnd = new java.sql.Timestamp( new java.util.Date(  ).getTime(  ) );
-        java.sql.Timestamp dateBegin = new java.sql.Timestamp( dateEnd.getTime(  ) - ( nIntervalMinutes * 1000 * 60 ) );
+        java.sql.Timestamp dateBegin = new java.sql.Timestamp( dateEnd.getTime( ) - ( nIntervalMinutes * 1000l * 60l ) );
 
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LOGIN_ERRORS );
 
