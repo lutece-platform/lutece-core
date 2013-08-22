@@ -15,30 +15,32 @@
 	</#list>
 	<#return false>
 </#function>
-<p>
-	<label for="attribute_${attribute.idAttribute}">
+<div class="control-group">
+	<label class="control-label" for="attribute_${attribute.idAttribute}">
 		${attribute.title} : 
 	</label>
-	<select name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}"
-		<#if isMultiple( attribute.listAttributeFields ) >
-				multiple="multiple" size="10"
-		</#if>
-	>
-		<#if !isMultiple( attribute.listAttributeFields )>
-			<option value="">
-				#i18n{portal.users.attribute.labelAll}
-			</option>
-		</#if>
-		<#list attribute.listAttributeFields as attributeField>
-			<#if attributeField.title?exists && attributeField.value != "">
-				<option value="${attributeField.idField}"
-					<#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >
-						selected="selected"
-					</#if>
-				>
-						${attributeField.title}
+	<div class="controls">
+		<select name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}"
+			<#if isMultiple( attribute.listAttributeFields ) >
+					multiple="multiple" size="10"
+			</#if>
+		>
+			<#if !isMultiple( attribute.listAttributeFields )>
+				<option value="">
+					#i18n{portal.users.attribute.labelAll}
 				</option>
 			</#if>
-		</#list>
-	</select>
-</p>
+			<#list attribute.listAttributeFields as attributeField>
+				<#if attributeField.title?exists && attributeField.value != "">
+					<option value="${attributeField.idField}"
+						<#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >
+							selected="selected"
+						</#if>
+					>
+							${attributeField.title}
+					</option>
+				</#if>
+			</#list>
+		</select>
+	</div>
+</div>

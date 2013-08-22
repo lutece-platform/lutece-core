@@ -27,39 +27,39 @@
 	</#list>
 	<#return false>
 </#function>
-<p>
-	<label for="attribute_${attribute.idAttribute}">
+<div class="control-group">
+	<label class="control-label" for="attribute_${attribute.idAttribute}">
 		${attribute.title}
 	<#if attribute.mandatory>
 		*
 	</#if>
 		: 
 	</label>
-	<select name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}"
-		<#if isMultiple( attribute.listAttributeFields ) >
-				multiple="multiple" size="10"
-		</#if>
-	>
-		<#if !attribute.mandatory>
-			<option value="">
-				#i18n{portal.users.attribute.labelNone}
-			</option>
-		</#if>
-		<#list attribute.listAttributeFields as attributeField>
-			<#if attributeField.title?exists && attributeField.value != "">
-				<option value="${attributeField.idField}"
-					<#if attributeField.defaultValue >
-						selected="selected"  
-					</#if>
-					>
-						${attributeField.title}
+	<div class="controls">
+		<select name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}"
+			<#if isMultiple( attribute.listAttributeFields ) >
+					multiple="multiple" size="10"
+			</#if>
+		>
+			<#if !attribute.mandatory>
+				<option value="">
+					#i18n{portal.users.attribute.labelNone}
 				</option>
 			</#if>
-		</#list>
-	</select>
-	<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
-		<br />
-		<label>&nbsp;</label>
-		${attribute.helpMessage}
-	</#if>
-</p>
+			<#list attribute.listAttributeFields as attributeField>
+				<#if attributeField.title?exists && attributeField.value != "">
+					<option value="${attributeField.idField}"
+						<#if attributeField.defaultValue >
+							selected="selected"  
+						</#if>
+						>
+							${attributeField.title}
+					</option>
+				</#if>
+			</#list>
+		</select>
+		<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
+		<span class="help-block">${attribute.helpMessage}</span>
+		</#if>
+	</div>
+</div>
