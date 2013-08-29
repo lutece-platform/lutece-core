@@ -482,4 +482,24 @@ public final class WorkflowService
 
         return false;
     }
+
+    /**
+     * Proceed automatic reflexive actions of state given in parameter. This
+     * method should be called anytime a service changed the state of a resource
+     * without proceeding a workflow action
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     * @param nIdState the state of the resource id
+     * @param nIdExternalParent the external parent id*
+     * @param locale locale
+     */
+    public void doProcessAutomaticReflexiveActions( int nIdResource, String strResourceType, int nIdState,
+            Integer nIdExternalParent, Locale locale )
+    {
+        if ( isAvailable( ) )
+        {
+            _service.doProcessAutomaticReflexiveActions( nIdResource, strResourceType, nIdState, nIdExternalParent,
+                    locale );
+        }
+    }
 }
