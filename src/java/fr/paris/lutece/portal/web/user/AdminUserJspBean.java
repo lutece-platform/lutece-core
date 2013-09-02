@@ -116,6 +116,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 {
     private static final String ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES = "importUsersListMessages";
 
+    private static final long serialVersionUID = -6323157489236186522L;
+
     // //////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String CONSTANTE_UN = "1";
@@ -1371,10 +1373,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         throws AccessDeniedException
     {
         boolean bDelegateWorkgroups = Boolean.valueOf( request.getParameter( PARAMETER_DELEGATE_RIGHTS ) );
-        setPageTitleProperty( PROPERTY_MODIFY_USER_WORKGROUPS_PAGETITLE );
 
         setPageTitleProperty( bDelegateWorkgroups ? PROPERTY_DELEGATE_USER_RIGHTS_PAGETITLE
-                                                  : PROPERTY_MODIFY_USER_RIGHTS_PAGETITLE );
+                : PROPERTY_MODIFY_USER_WORKGROUPS_PAGETITLE );
 
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
