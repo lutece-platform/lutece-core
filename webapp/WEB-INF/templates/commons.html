@@ -306,6 +306,7 @@
 			    <div class="pull-right">
 					<@paginationItemCount paginator=dataTableManager.paginator combo=1 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string/>
 				</div>
+				<input type="hidden" name="${dataTableManager.id}" id="${dataTableManager.id}" value="${dataTableManager.id}" />
 			</form>
 		</#if>
 		<table class="${tableClass}" summary="${summary}">
@@ -365,6 +366,7 @@
 			    <div class="pull-right">
 					<@paginationItemCount paginator=dataTableManager.paginator combo=0 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string/>
 				</div>
+				<input type="hidden" name="${dataTableManager.id}" id="${dataTableManager.id}" value="${dataTableManager.id}" />
 			</form>
 		</#if>
 	<#else>
@@ -397,6 +399,7 @@
 				</#list>
 				<div class="form-actions">
 					<input type="hidden" name="${dataTableManager.filterPanelPrefix}updateFilters" id="${dataTableManager.filterPanelPrefix}updateFilters" value="true" />
+					<input type="hidden" name="${dataTableManager.id}" id="${dataTableManager.id}" value="${dataTableManager.id}" />
 					<button class="btn btn-primary btn-small" type="submit" >
 						<i class="icon-search icon-white"></i>
 						<span class="hidden-phone" >#i18n{portal.util.labelSearch}</span>
