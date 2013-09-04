@@ -50,9 +50,16 @@ public class BaseUserPreferencesService implements IUserPreferencesService
 
     /**
      * Constructor
+     */
+    BaseUserPreferencesService()
+    {
+    }
+
+    /**
+     * Sets the DAO
      * @param dao The DAO
      */
-    BaseUserPreferencesService( IPreferencesDAO dao )
+    void setDao( IPreferencesDAO dao )
     {
         _dao = dao;
     }

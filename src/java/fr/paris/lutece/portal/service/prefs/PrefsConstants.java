@@ -33,33 +33,17 @@
  */
 package fr.paris.lutece.portal.service.prefs;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-
-
 /**
- * AdminUser Preferences Service
+ * Preferences constants
  */
-public final class AdminUserPreferencesService
+public final class PrefsConstants
 {
-    private static final String BEAN_USER_PREFERENCE_SERVICE = "adminUserPreferencesService";
-    private static IUserPreferencesService _singleton;
-
-    /** private constructor */
-    private AdminUserPreferencesService(  )
+    public static final String PORTAL_PSEUDO = "portal.pseudo";
+    public static final String PORTAL_LOCALE = "portal.locale";
+    
+    /** Private constructor */
+    private PrefsConstants()
     {
-    }
-
-    /**
-     * Return the unique instance
-     * @return The instance
-     */
-    public static synchronized IUserPreferencesService instance(  )
-    {
-        if ( _singleton == null )
-        {
-            _singleton = SpringContextService.getBean( BEAN_USER_PREFERENCE_SERVICE );
-        }
-
-        return _singleton;
+        
     }
 }
