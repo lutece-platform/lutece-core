@@ -59,7 +59,7 @@ public class BaseUserPreferencesService implements IUserPreferencesService
      * Sets the DAO
      * @param dao The DAO
      */
-    void setDao( IPreferencesDAO dao )
+    public void setDao( IPreferencesDAO dao )
     {
         _dao = dao;
     }
