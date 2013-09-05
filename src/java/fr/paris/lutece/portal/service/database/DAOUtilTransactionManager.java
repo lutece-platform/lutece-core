@@ -40,6 +40,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 
 import javax.sql.DataSource;
 
@@ -197,6 +198,11 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
                 public Connection getConnection(  ) throws SQLException
                 {
                     return null;
+                }
+
+                public java.util.logging.Logger getParentLogger(  ) throws SQLFeatureNotSupportedException
+                {
+                    return java.util.logging.Logger.getGlobal();
                 }
             };
     }
