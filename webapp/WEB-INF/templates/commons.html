@@ -106,14 +106,14 @@
         <#if ( paginator.pageCurrent - offsetPrev > 1 )>
         <li class="previous-off">
         <a href="${paginator.firstPageLink?xhtml}">
-            <i class="icon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelNext}
+            <i class=" icon-fast-backward"></i>&nbsp;#i18n{portal.util.labelNext}
         </a>
         </li>
         </#if>
         <#if ( paginator.pageCurrent > 1 )>
         <li class="previous">
         <a href="${paginator.previousPageLink?xhtml}">
-            <i class="icon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelPrevious}
+            <i class="icon-step-backward"></i>&nbsp;#i18n{portal.util.labelPrevious}
         </a>
         </li>
         <#else>
@@ -135,13 +135,13 @@
         <#if ( paginator.pageCurrent < paginator.pagesCount )>
         <li class="next">
         <a href="${paginator.nextPageLink?xhtml}">
-            <i class="icon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelNext}
+            <i class="icon-step-forward"></i>&nbsp;#i18n{portal.util.labelNext}
         </a>
         </li>
         <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
         <li class="next-off">
         <a href="${paginator.lastPageLink?xhtml}">
-            <i class="icon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelPrevious}
+            <i class="icon-fast-forward"></i>&nbsp;#i18n{portal.util.labelPrevious}
         </a>
         </li>
         </#if>
