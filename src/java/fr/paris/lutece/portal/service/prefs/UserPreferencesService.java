@@ -42,7 +42,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class UserPreferencesService
 {
     private static final String BEAN_USER_PREFERENCE_SERVICE = "userPreferencesService";
-    private static IUserPreferencesService _singleton;
+    private static IPortalUserPreferencesService _singleton;
 
     /** private constructor */
     private UserPreferencesService(  )
@@ -53,7 +53,7 @@ public final class UserPreferencesService
      * Return the unique instance
      * @return The instance
      */
-    public static synchronized IUserPreferencesService instance(  )
+    public static synchronized IPortalUserPreferencesService instance(  )
     {
         if ( _singleton == null )
         {

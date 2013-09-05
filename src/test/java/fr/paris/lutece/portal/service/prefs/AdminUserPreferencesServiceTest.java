@@ -36,12 +36,14 @@ package fr.paris.lutece.portal.service.prefs;
 import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.List;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 
 /**
  * User Preferences Service Test
  */
-public class UserPreferencesServiceTest extends LuteceTestCase
+public class AdminUserPreferencesServiceTest extends LuteceTestCase
 {
     private final static String USER_ID_1 = "1";
     private final static String KEY1 = "KEY1";
@@ -57,7 +59,7 @@ public class UserPreferencesServiceTest extends LuteceTestCase
 
     public void testBusinessLevel(  )
     {
-        IPortalUserPreferencesService service = UserPreferencesService.instance(  );
+        IUserPreferencesService service = UserPreferencesService.instance(  );
 
         service.clear( USER_ID_1 );
 
@@ -79,9 +81,6 @@ public class UserPreferencesServiceTest extends LuteceTestCase
         bValue = service.getBoolean( USER_ID_1, KEY3, BOOL_DEFAULT );
         assertEquals( bValue, BOOL_VALUE );
         
-        service.setNickname( USER_ID_1, NICKNAME );
-        assertTrue( NICKNAME.equals( service.getNickname( USER_ID_1 )));
-
         // List Test
         List list = service.keys( USER_ID_1 );
         assertTrue( list.size(  ) > 0 );

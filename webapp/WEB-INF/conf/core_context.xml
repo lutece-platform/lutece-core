@@ -173,10 +173,10 @@
     <bean id="userPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.UserPreferencesDAO" />
     <bean id="adminUserPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.AdminUserPreferencesDAO" />
     
-    <bean id="userPreferenceService" class="fr.paris.lutece.portal.service.prefs.BaseUserPreferencesService">
+    <bean id="userPreferencesService" class="fr.paris.lutece.portal.service.prefs.PortalUserPreferenceServiceImpl">
         <property name="dao" ref="userPreferencesDAO" />
     </bean>
-    <bean id="adminUserPreferenceService" class="fr.paris.lutece.portal.service.prefs.BaseUserPreferencesService">
+    <bean id="adminUserPreferencesService" class="fr.paris.lutece.portal.service.prefs.BaseUserPreferencesServiceImpl">
         <property name="dao" ref="adminUserPreferencesDAO" />
     </bean>
     

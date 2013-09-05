@@ -42,7 +42,7 @@ import java.util.List;
  * Abstract User Preferences Service
  * @since 4.0
  */
-public class BaseUserPreferencesService implements IUserPreferencesService
+public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
 {
     private static final String TRUE = "true";
     private static final String FALSE = "false";
@@ -51,7 +51,7 @@ public class BaseUserPreferencesService implements IUserPreferencesService
     /**
      * Constructor
      */
-    BaseUserPreferencesService()
+    BaseUserPreferencesServiceImpl()
     {
     }
 

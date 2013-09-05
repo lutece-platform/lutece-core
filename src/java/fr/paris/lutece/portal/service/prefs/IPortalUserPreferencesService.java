@@ -31,19 +31,26 @@
  *
  * License 1.0
  */
+
 package fr.paris.lutece.portal.service.prefs;
 
 /**
- * Preferences constants
+ * IPortalUserPreferencesService
  */
-public final class PrefsConstants
+public interface IPortalUserPreferencesService extends IUserPreferencesService
 {
-    public static final String PORTAL_NICKNAME = "portal.nickname";
-    public static final String PORTAL_LOCALE = "portal.locale";
+    /**
+     * Gets the user's nickname
+     * @param strUserId The User ID
+     * @return The nickname
+     */
+    String getNickname( String strUserId );
     
-    /** Private constructor */
-    private PrefsConstants()
-    {
-        
-    }
+    /**
+     * Sets the nickname
+     * @param strUserId The User ID
+     * @param strNickname The nickname
+     */
+    void setNickname( String strUserId , String strNickname );
+    
 }
