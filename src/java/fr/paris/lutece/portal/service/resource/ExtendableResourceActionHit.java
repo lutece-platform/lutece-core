@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 
 /**
  * Class to notify listeners of actions performed on resources. Listeners keep
- * at least track of the number of actions performed over a given resource
+ * at least track of the number of actions performed over a given resource.
  */
 public class ExtendableResourceActionHit
 {
@@ -141,7 +141,9 @@ public class ExtendableResourceActionHit
      * @param strExtendableResourceType The type of the resource the action was
      *            performed on
      * @param strActionName The name of the action that was performed on the
-     *            resource
+     *            resource. Action names can be any strings, but
+     *            the class {@link ExtendableResourceActionHit} exposes standard
+     *            action names.
      */
     public void notifyActionOnResource( String strExtendableResourceId, String strExtendableResourceType,
             String strActionName )
