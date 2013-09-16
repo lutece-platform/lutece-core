@@ -13,6 +13,31 @@ import java.util.Map.Entry;
  */
 public class ExtendableResourceActionHit
 {
+    /**
+     * Download action
+     */
+    public static final String ACTION_DOWNLOAD = "download";
+
+    /**
+     * Creation action
+     */
+    public static final String ACTION_CREATION = "creation";
+
+    /**
+     * Update action
+     */
+    public static final String ACTION_UPDATE = "update";
+
+    /**
+     * Archive action
+     */
+    public static final String ACTION_ARCHIVE = "archive";
+
+    /**
+     * Delete action
+     */
+    public static final String ACTION_DELETE = "delete";
+
     private static ExtendableResourceActionHit _instance;
 
     /**

@@ -87,7 +87,7 @@ public interface IPluginAction<FieldsDTO>
 
     /**
      * Gets the template to display the action (typically a button - but also check box, select...)
-     * Return an empty strict if no display is needed (for default directory actions : create, search...)
+     * Return an empty string if no display is needed (for default directory actions : create, search...)
      * @return the template
      */
     String getButtonTemplate(  );
