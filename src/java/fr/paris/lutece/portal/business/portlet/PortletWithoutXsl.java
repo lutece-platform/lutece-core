@@ -8,7 +8,7 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 /**
  * Class that allow templates to generate content without using XML and XSL.
  */
-public abstract class PortletWithoutXml extends Portlet
+public abstract class PortletWithoutXsl extends Portlet
 {
     /**
      * {@inheritDoc}
