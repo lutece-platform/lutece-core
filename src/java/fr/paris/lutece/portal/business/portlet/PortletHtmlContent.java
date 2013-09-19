@@ -46,6 +46,13 @@ public abstract class PortletHtmlContent extends Portlet
 {
     /**
      * {@inheritDoc}
+     * Force to override the default implementation
+     */
+    @Override
+    public abstract String getHtmlContent( HttpServletRequest request );
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public String getXml( HttpServletRequest request ) throws SiteMessageException
