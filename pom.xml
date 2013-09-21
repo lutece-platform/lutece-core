@@ -108,24 +108,24 @@
         </dependency>
 
 
-<!--
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>1.3.0</version>
-        </dependency>
--->
+        <!--
+                <dependency>
+                    <groupId>net.sf.ehcache</groupId>
+                    <artifactId>ehcache</artifactId>
+                    <version>1.3.0</version>
+                </dependency>
+        -->
 
         <dependency>
             <groupId>jtidy</groupId>
             <artifactId>jtidy</artifactId>
             <version>8.0</version>
         </dependency>
-       <dependency>
-		  <groupId>org.jsoup</groupId>
-		  <artifactId>jsoup</artifactId>
-		  <version>1.7.1</version>
-		</dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.7.1</version>
+        </dependency>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
@@ -192,32 +192,32 @@
         
         <!-- Lutece API -->
         
-    	<dependency>
-			<groupId>fr.paris.lutece.plugins</groupId>
-			<artifactId>library-rbac-api</artifactId>
-			<version>1.0.0</version>
-		<type>jar</type> 
-		</dependency>
-		<dependency>
-			<groupId>fr.paris.lutece.plugins</groupId>
-			<artifactId>library-workgroup-api</artifactId>
-			<version>1.0.0</version>
-			<type>jar</type> 
-		</dependency> 
-		<dependency>
-			<groupId>fr.paris.lutece.plugins</groupId>
-			<artifactId>library-freemarker</artifactId>
-			<version>1.0.0</version>
-			<type>jar</type>
-		</dependency>
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-rbac-api</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type> 
+        </dependency>
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-workgroup-api</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type> 
+        </dependency> 
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-freemarker</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+        </dependency>
 		
-		<!-- Workflow -->
-		<dependency>
-			<groupId>fr.paris.lutece.plugins</groupId>
-			<artifactId>library-workflow-core</artifactId>
-			<version>1.0.4</version>
-			<type>jar</type>
-		</dependency>
+        <!-- Workflow -->
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-workflow-core</artifactId>
+            <version>1.0.4</version>
+            <type>jar</type>
+        </dependency>
         
         <!-- JPA 2 spec. -->
         <dependency>
@@ -232,7 +232,7 @@
             <version>1.0.2</version>
         </dependency>
 
-		<!-- JSON -->
+        <!-- JSON -->
         <dependency>
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
@@ -242,13 +242,13 @@
         
         <!-- @Inject API -->
         <dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
-		</dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
 		
-		<!-- Bean validation -->
-		<dependency>
+        <!-- Bean validation -->
+        <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>1.0.0.GA</version>
@@ -260,23 +260,31 @@
         </dependency>
         
         <!-- Dozer - Java Bean to Java Bean -->
-		<dependency>
+        <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
             <version>5.3.2</version>
         </dependency>
         
         <!-- Open CSV -->
-		<dependency>
-			<groupId>net.sf.opencsv</groupId>
-			<artifactId>opencsv</artifactId>
-			<version>1.8</version>
-		</dependency>
+        <dependency>
+            <groupId>net.sf.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>1.8</version>
+        </dependency>
+        
+        <!-- MVC library -->
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-mvc</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+                                
     </dependencies>
 	
     <build>
         <extensions>
-			<!-- Enabling the use of FTP -->
+            <!-- Enabling the use of FTP -->
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-ftp</artifactId>
