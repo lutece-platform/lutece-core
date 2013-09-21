@@ -420,3 +420,34 @@
 		</form>
 	</#if>
 </#macro>
+
+
+
+<#-- Macro messages : display message block for errors or infos -->
+<#macro messages errors=[] infos=[]>
+
+    <#-- Error messages handling -->
+    <#if errors??>
+        <#if errors?size &gt; 0 >
+            <div class="alert alert-danger">
+                <a class="close" data-dismiss="alert" href="#">x</a>
+                <#list errors as error >
+                    <i class="icon-exclamation-sign"></i> ${error.message} <br>
+                </#list>
+            </div>
+        </#if>
+    </#if>
+
+    <#-- Info messages handling -->
+    <#if infos??>
+        <#if infos?size &gt; 0 >
+            <div class="alert alert-info">
+                <a class="close" data-dismiss="alert" href="#">x</a>
+                <#list infos as info >
+                    <i class="icon-info-sign"></i> ${info.message} <br>
+                </#list>
+            </div>
+        </#if>
+    </#if>
+
+</#macro>
