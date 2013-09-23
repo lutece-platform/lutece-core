@@ -115,6 +115,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String MARK_CUSTOM_ACTIONS = "custom_action_list";
     private static final String MARK_URL_LOGIN = "url_login";
     private static final String MARKER_TARGET = "target";
+    private static final String MARKER_IS_USER_AUTHENTICATED = "is-user-authenticated";
 
     // Parameters
     private static final String PARAMETER_SITE_PATH = "site-path";
@@ -132,6 +133,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String WELCOME_PAGE_ID = "1";
     private static final String WELCOME_PAGE_CACHE_KEY = "mode0";
     private static final int MODE_ADMIN = 1;
+    private static final String VALUE_TRUE = "1";
+    private static final String VALUE_FALSE = "0";
     private static final String XSL_UNIQUE_PREFIX = "page-";
 
     // Specific for plugin-document
@@ -986,6 +989,10 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         if ( nMode != MODE_ADMIN )
         {
             mapModifyParam.put( PARAMETER_SITE_PATH, AppPathService.getPortalUrl( ) );
+            if( SecurityService.isAuthenticationEnable())
+            {	
+            	mapModifyParam.put(MARKER_IS_USER_AUTHENTICATED, SecurityService.getInstance().getRegisteredUser( request ) != null ? VALUE_TRUE: VALUE_FALSE);
+	        }
         }
         else
         {
@@ -997,7 +1004,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         {
             mapModifyParam.put( Parameters.PAGE_ID, Integer.toString( PortalService.getRootPageId( ) ) );
         }
-
+         
         return mapModifyParam;
     }
 
