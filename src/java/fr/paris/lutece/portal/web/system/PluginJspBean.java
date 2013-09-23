@@ -33,6 +33,14 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Locale;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -48,14 +56,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -188,7 +188,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         String strMessageKey = PROPERTY_PLUGIN_MESSAGE;
         String strUrl = "jsp/admin/system/DoUninstallPlugin.jsp?plugin_name=" + strPluginName;
         String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, strUrl, "",
-                AdminMessage.TYPE_WARNING );
+                AdminMessage.TYPE_CONFIRMATION );
 
         for ( PortletType portletType : listPortletTypes )
         {
@@ -200,7 +200,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
                 {
                     strMessageKey = PROPERTY_PLUGIN_PORTLET_EXIST_MESSAGE;
                     strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey,
-                            AdminMessage.TYPE_WARNING );
+                            AdminMessage.TYPE_CONFIRMATION );
                 }
             }
         }
