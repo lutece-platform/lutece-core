@@ -33,14 +33,6 @@
  */
 package fr.paris.lutece.portal.service.spring;
 
-import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginEvent;
-import fr.paris.lutece.portal.service.plugin.PluginEventListener;
-import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
@@ -52,6 +44,14 @@ import java.util.Map;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
+
+import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginEvent;
+import fr.paris.lutece.portal.service.plugin.PluginEventListener;
+import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 
 
 /**
@@ -236,7 +236,7 @@ public final class SpringContextService implements PluginEventListener
 
         if ( list != null )
         {
-            return list;
+            return new ArrayList<T>( list );
         }
 
         // The list is not in the cache, so we have to build it
@@ -255,7 +255,7 @@ public final class SpringContextService implements PluginEventListener
             }
         }
 
-        _mapBeansOfType.put( classDef, list );
+        _mapBeansOfType.put( classDef, new ArrayList<T>( list ) );
 
         return list;
     }
