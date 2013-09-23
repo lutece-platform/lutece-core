@@ -424,12 +424,12 @@
 
 
 <#-- Macro messages : display message block for errors or infos -->
-<#macro messages errors=[] infos=[]>
+<#macro messages errors=[] infos=[] errors_class="alert alert-danger" infos_class="alert alert-info" >
 
     <#-- Error messages handling -->
     <#if errors??>
         <#if errors?size &gt; 0 >
-            <div class="alert alert-danger">
+            <div class="${errors_class}" id="messages_errors_div">
                 <a class="close" data-dismiss="alert" href="#">x</a>
                 <#list errors as error >
                     <i class="icon-exclamation-sign"></i> ${error.message} <br>
@@ -441,7 +441,7 @@
     <#-- Info messages handling -->
     <#if infos??>
         <#if infos?size &gt; 0 >
-            <div class="alert alert-info">
+            <div class="${infos_class}" id="messages_infos_div" >
                 <a class="close" data-dismiss="alert" href="#">x</a>
                 <#list infos as info >
                     <i class="icon-info-sign"></i> ${info.message} <br>
