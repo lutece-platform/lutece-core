@@ -1,61 +1,68 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-	<head>
-		
-		<title>#i18n{portal.site.standalone_app.applicationsList.pageName}</title>
-		
-		<base href="${base_url}" />
-		
-		<link rel="stylesheet" href="css/page_template_structure.css"
-			type="text/css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="css/customize.css" />
-		
-		<link rel="stylesheet" href="css/print_template_styles.css"
-			type="text/css" media="print" />
-		<link rel="stylesheet" href="css/print_template_structure.css"
-			type="text/css" media="print" />
-		
-		<!--[if IE]>
-			<link rel="stylesheet" type="text/css" href="css/ie/page_template_ie.css" />
-		<![endif]-->
-		
-		<!--[if IE 7]>
-			<link rel="stylesheet" type="text/css" href="css/ie/page_template_ie7.css" />
-		<![endif]-->
-		
-		<link rel="shortcut icon" href="favicon.ico" />
-	</head>
-
-	<body>
-		<h1><a href="http://fr.lutece.paris.fr"> <img class="png" src="images/local/skin/logo.png" 
-		alt="LUTECE - Free Software Portal" title="LUTECE - Free Software Portal" /></a></h1>
-		
-		<div class="content">
-			<div class="one-zone-first">
-				<div class="one-zone-first-content">
-				
-					<br />
-					<h2 class="page-title">#i18n{portal.site.standalone_app.applicationsList.pageTitle}</h2>
-					
-					<table class="data-table">
-						<tr>
-							<th>#i18n{portal.site.standalone_app.applicationsList.labelName}</th>
-							<th>#i18n{portal.site.standalone_app.applicationsList.labelVersion}</th>
-							<th>#i18n{portal.site.standalone_app.applicationsList.labelDescription}</th>
-							<th>#i18n{portal.site.standalone_app.applicationsList.labelAuthor}</th>
-						</tr>
-						<#list plugins_list as plugin>
-							<tr>
-								<td><a href="jsp/site/RunStandaloneApp.jsp?page=${plugin.name}">${plugin.name}</a></td>
-								<td>${plugin.version}</td>
-								<td>${plugin.description}</td>
-								<td>${plugin.provider}</td>
-							</tr>
-						</#list>
-					</table>
-				</div>
-			</div>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<base href="${base_url}"/>
+<title>#i18n{portal.site.standalone_app.applicationsList.pageTitle}</title>
+<meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1" >
+<meta charset="UTF-8"/>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+<meta http-equiv="Content-Language" content="fr"/>
+<meta name="author" content=""/>
+<meta name="copyright" content=""/>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="generator" content="Lutece"/>
+<!-- Set the viewport width to device width for mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Le styles -->
+<link href="css/bootstrap.min.css" rel="stylesheet"/>
+<link href="css/page_template_styles.css" rel="stylesheet"  type="text/css"  media="screen"/>
+<link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
+<link href="js/jquery/plugins/ui/css/jquery-ui.custom.css" rel="stylesheet" />
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery.ui.ie.css"/>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<link rel="stylesheet" href="css/page_template_styles.css_ie" type="text/css" media="screen, projection"/>
+<![endif]-->
+<!-- Le fav and touch icons -->
+<link rel="shortcut icon" href="favicon.ico"/>
+<!-- 
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
+-->
+<!-- Included JS Files -->
+<script src="js/jquery/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<div class="row-fluid">
+		<div class="span12">
+			<h2>#i18n{portal.site.standalone_app.applicationsList.pageTitle}</h2>
+			<table class="table table-striped">
+				<tr>
+					<th>#i18n{portal.site.standalone_app.applicationsList.labelName}</th>
+					<th>#i18n{portal.site.standalone_app.applicationsList.labelVersion}</th>
+					<th>#i18n{portal.site.standalone_app.applicationsList.labelDescription}</th>
+					<th>#i18n{portal.site.standalone_app.applicationsList.labelAuthor}</th>
+				</tr>
+				<#list plugins_list as plugin>
+					<tr>
+						<td><a href="jsp/site/RunStandaloneApp.jsp?page=${plugin.name}">${plugin.name}</a></td>
+						<td>${plugin.version}</td>
+						<td>${plugin.description}</td>
+						<td>${plugin.provider}</td>
+					</tr>
+				</#list>
+			</table>
 		</div>
-	</body>
+	</div>
+</div>
+<!-- Le javascript ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/tools.js"></script>
+</body>
 </html>

@@ -1,36 +1,50 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-
-<base href="${base_url}">
-
+<base href="${base_url}"/>
 <title>${favourite} - ${page_name}</title>
-
-<meta http-equiv="Expires" content="0" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Cache-Control" content="no-cache" />
-
-<link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection" />
-<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print" />
-<!--[if IE]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
-<link rel="stylesheet" href="css/commons.css" type="text/css" media="screen, projection" />
-<link rel="stylesheet" href="${theme.pathCss}" type="text/css" media="screen, projection" />
-
+<meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1" >
+<meta charset="UTF-8"/>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+<meta http-equiv="Content-Language" content="fr"/>
+<meta name="author" content=""/>
+<meta name="copyright" content=""/>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="generator" content="Lutece"/>
+<!-- Set the viewport width to device width for mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Le styles -->
+<link href="css/bootstrap.min.css" rel="stylesheet"/>
+<link href="css/page_template_styles.css" rel="stylesheet"  type="text/css"  media="screen"/>
+<link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
+<link href="js/jquery/plugins/ui/css/jquery-ui.custom.css" rel="stylesheet" />
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery.ui.ie.css"/>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<link rel="stylesheet" href="css/page_template_styles.css_ie" type="text/css" media="screen, projection"/>
+<![endif]-->
+<!-- Le fav and touch icons -->
+<link rel="shortcut icon" href="favicon.ico"/>
+<!-- 
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
+-->
 ${plugins_css_links}
-${plugins_javascript_links}
-
-<link rel="shortcut icon" href="favicon.ico" />
-
+<!-- Included JS Files -->
+<script src="js/jquery/jquery.min.js"></script>
 </head>
-
-<body style="margin: 0" topmargin="0" leftmargin="0">
-	
-	<div id="global-container" >
-		<div id="page-content" >
-			${page_content}
-		</div>    
-	</div>
- 
- </body>
+<body>
+<div class="container">
+${page_content}
+</div>
+<!-- Le javascript ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/bootstrap.min.js"></script>
+${plugins_javascript_links}
+<script src="js/tools.js"></script>
+</body>
 </html>
