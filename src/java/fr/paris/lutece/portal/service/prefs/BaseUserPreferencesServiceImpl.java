@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.portal.service.prefs;
 
-import fr.paris.lutece.portal.business.prefs.IPreferencesDAO;
-
 import java.util.List;
+
+import fr.paris.lutece.portal.business.prefs.IPreferencesDAO;
 
 
 /**
@@ -51,7 +51,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     /**
      * Constructor
      */
-    BaseUserPreferencesServiceImpl()
+    BaseUserPreferencesServiceImpl( )
     {
     }
 
@@ -138,5 +138,14 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public void clear( String strUserId )
     {
         _dao.remove( strUserId );
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<String> getUsers( String strKey, String strValue )
+    {
+        return _dao.getUserId( strKey, strValue );
     }
 }

@@ -69,6 +69,15 @@ public interface IUserPreferencesService
     boolean getBoolean( String strUserId, String strKey, boolean bDefault );
 
     /**
+     * Get the list of users associated with a key and a value
+     * @param strKey The preference's key
+     * @param strValue The preference's value
+     * @return The list of user id associated with a key and a value, or an
+     *         empty list if no user id is associated with the given parameters.
+     */
+    List<String> getUsers( String strKey, String strValue );
+
+    /**
      * Put a preference for a given user
      * @param strUserId The user's ID
      * @param strKey The preference's key

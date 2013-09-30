@@ -51,6 +51,16 @@ public interface IPreferencesDAO
     String load( String strUserId, String strKey, String strDefault );
 
     /**
+     * Get the list of user id associated with the given key and value
+     * @param strKey The preference's key
+     * @param strValue The preference's value
+     * @return The list of user id associated with the given key and value. If
+     *         there is no user id associated with the parameters, then an empty
+     *         list is returned
+     */
+    List<String> getUserId( String strKey, String strValue );
+
+    /**
      * Store a preference for a given user
      * @param strUserId The user's ID
      * @param strKey The preference's key
