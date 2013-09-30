@@ -33,7 +33,8 @@
  */
 package fr.paris.lutece.portal.service.cache;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
@@ -43,8 +44,7 @@ import net.sf.ehcache.event.CacheEventListener;
 
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
+import fr.paris.lutece.portal.service.util.AppLogService;
 
 
 /**
@@ -92,10 +92,9 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      */
     public void putInCache( String strKey, Object object )
     {
-        Element element = new Element( strKey, object );
-
         if ( ( _cache != null ) && isCacheEnable(  ) )
         {
+            Element element = new Element( strKey, object );
             _cache.put( element );
         }
     }

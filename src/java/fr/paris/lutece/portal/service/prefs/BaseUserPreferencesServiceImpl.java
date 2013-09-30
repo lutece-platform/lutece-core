@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.service.prefs;
 
 import java.util.List;
 
+import org.springframework.beans.factory.InitializingBean;
+
 import fr.paris.lutece.portal.business.prefs.IPreferencesDAO;
 
 
@@ -42,16 +44,17 @@ import fr.paris.lutece.portal.business.prefs.IPreferencesDAO;
  * Abstract User Preferences Service
  * @since 4.0
  */
-public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
+public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, InitializingBean
 {
     private static final String TRUE = "true";
     private static final String FALSE = "false";
     private IPreferencesDAO _dao;
+    private static BaseUserPreferencesCacheService _cache;
 
     /**
      * Constructor
      */
-    BaseUserPreferencesServiceImpl( )
+    protected BaseUserPreferencesServiceImpl( )
     {
     }
 
@@ -70,7 +73,15 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     @Override
     public String get( String strUserId, String strKey, String strDefault )
     {
-        return _dao.load( strUserId, strKey, strDefault );
+        String strCacheKey = _cache.getCacheKey( strUserId, strKey );
+        String strValue = (String) _cache.getFromCache( strCacheKey );
+        if ( strValue == null )
+        {
+            strValue = _dao.load( strUserId, strKey, strDefault );
+            _cache.putInCache( strCacheKey, strValue );
+        }
+
+        return strValue;
     }
 
     /**
@@ -79,7 +90,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     @Override
     public int getInt( String strUserId, String strKey, int nDefault )
     {
-        return Integer.parseInt( _dao.load( strUserId, strKey, String.valueOf( nDefault ) ) );
+        return Integer.parseInt( get( strUserId, strKey, String.valueOf( nDefault ) ) );
     }
 
     /**
@@ -89,7 +100,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public boolean getBoolean( String strUserId, String strKey, boolean bDefault )
     {
         String strDefault = bDefault ? TRUE : FALSE;
-        String strValue = _dao.load( strUserId, strKey, strDefault );
+        String strValue = get( strUserId, strKey, strDefault );
 
         return strValue.equals( TRUE );
     }
@@ -101,6 +112,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public void put( String strUserId, String strKey, String strValue )
     {
         _dao.store( strUserId, strKey, strValue );
+        _cache.putInCache( _cache.getCacheKey( strUserId, strKey ), strValue );
     }
 
     /**
@@ -109,7 +121,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     @Override
     public void putInt( String strUserId, String strKey, int nValue )
     {
-        _dao.store( strUserId, strKey, String.valueOf( nValue ) );
+        put( strUserId, strKey, String.valueOf( nValue ) );
     }
 
     /**
@@ -119,7 +131,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public void putBoolean( String strUserId, String strKey, boolean bValue )
     {
         String strValue = bValue ? TRUE : FALSE;
-        _dao.store( strUserId, strKey, strValue );
+        put( strUserId, strKey, strValue );
     }
 
     /**
@@ -138,6 +150,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public void clear( String strUserId )
     {
         _dao.remove( strUserId );
+        _cache.removeCacheValuesOfUser( strUserId );
     }
 
     /**
@@ -147,5 +160,21 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public List<String> getUsers( String strKey, String strValue )
     {
         return _dao.getUserId( strKey, strValue );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void afterPropertiesSet( ) throws Exception
+    {
+        synchronized ( BaseUserPreferencesServiceImpl.class )
+        {
+            if ( _cache == null )
+            {
+                _cache = new BaseUserPreferencesCacheService( );
+                _cache.initCache( );
+            }
+        }
     }
 }

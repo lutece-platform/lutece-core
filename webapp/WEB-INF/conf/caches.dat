@@ -15,3 +15,5 @@ MailAttachmentCacheService.maxElementsInMemory=10
 MailAttachmentCacheService.overflowToDisk=true
 MailAttachmentCacheService.diskPersistent=true
 MailAttachmentCacheService.timeToLiveSeconds=7200
+BaseUserPreferencesCacheService.enabled=1
+BaseUserPreferencesCacheService.maxElementsInMemory=1000
