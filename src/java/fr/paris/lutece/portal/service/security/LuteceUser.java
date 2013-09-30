@@ -33,17 +33,14 @@
  */
 package fr.paris.lutece.portal.service.security;
 
-import org.apache.commons.lang.ObjectUtils;
-
 import java.io.Serializable;
-
 import java.security.Principal;
-
 import java.sql.Timestamp;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.lang.ObjectUtils;
 
 
 /**
@@ -224,11 +221,11 @@ public abstract class LuteceUser implements Principal, Serializable
 
     /**
      * hashCode implementation
-     * @return The hascode
+     * @return The hashcode
      */
     public int hashCode(  )
     {
-        return 0;
+        return _strUserName == null ? 0 : _strUserName.hashCode( );
     }
 
     /**
