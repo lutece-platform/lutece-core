@@ -33,12 +33,10 @@
  */
 package fr.paris.lutece.portal.service.content;
 
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -46,35 +44,33 @@ import javax.servlet.http.HttpServletRequest;
  */
 public final class ContentPostProcessorService
 {
-    private static List<ContentPostProcessor> _listProcessors;
 
     /**
      * Instantiates a new content post processor service.
      */
-    private ContentPostProcessorService(  )
+    private ContentPostProcessorService( )
     {
     }
 
     /**
      * Initialize the service
      */
-    public static void init(  )
+    public static void init( )
     {
-        _listProcessors = SpringContextService.getBeansOfType( ContentPostProcessor.class );
-
-        for ( ContentPostProcessor processor : _listProcessors )
+        for ( ContentPostProcessor processor : SpringContextService.getBeansOfType( ContentPostProcessor.class ) )
         {
-            AppLogService.info( "New Content Post Processor registered : " + processor.getName(  ) );
+            AppLogService.info( "New Content Post Processor registered : " + processor.getName( ) );
         }
     }
 
     /**
-     * Has processor registered. Use this method before processing for performance issue.
+     * Has processor registered. Use this method before processing for
+     * performance issue.
      * @return True if there at least one processor registered
      */
-    public static boolean hasProcessor(  )
+    public static boolean hasProcessor( )
     {
-        return !_listProcessors.isEmpty(  );
+        return !SpringContextService.getBeansOfType( ContentPostProcessor.class ).isEmpty( );
     }
 
     /**
@@ -87,7 +83,7 @@ public final class ContentPostProcessorService
     {
         String strProcessed = strContent;
 
-        for ( ContentPostProcessor processor : _listProcessors )
+        for ( ContentPostProcessor processor : SpringContextService.getBeansOfType( ContentPostProcessor.class ) )
         {
             strProcessed = processor.process( request, strProcessed );
         }
