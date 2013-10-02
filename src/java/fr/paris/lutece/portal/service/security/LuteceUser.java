@@ -46,7 +46,7 @@ import org.apache.commons.lang.ObjectUtils;
 /**
  * This Interface defines all methods required for a Lutece user implementation
  */
-public abstract class LuteceUser implements Principal, Serializable
+public abstract class LuteceUser implements Principal, Serializable, Cloneable
 {
     /* These attribute names are derived from the Platform for Privacy
      * Preferences 1.0 (P3P 1.0) Specification by the
@@ -413,5 +413,14 @@ public abstract class LuteceUser implements Principal, Serializable
     public void setLuteceAuthenticationService( LuteceAuthentication authenticationService )
     {
         _luteceAuthenticationService = authenticationService;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object clone( ) throws CloneNotSupportedException
+    {
+        return super.clone( );
     }
 }
