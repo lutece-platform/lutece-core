@@ -299,6 +299,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                             // The key is not in the cache, so we have to build
                             // the page
                             strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
+
+                            // We check if the page contains portlets that can not be cached. 
                             if ( request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) != null
                                     && !(Boolean) request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) )
                             {
@@ -506,11 +508,13 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             {
                 arrayContent[nCol] += getPortletContent( request, portlet, mapParams, nMode );
             }
+            // We check if the portlet can be cached
             if ( user != null ? !portlet.canBeCachedForConnectedUsers( ) : !portlet.canBeCachedForAnonymousUsers( ) )
             {
                 bCanPageBeCached = false;
             }
         }
+        // We save that the page that is generating can not be cached
         if ( !bCanPageBeCached )
         {
             request.setAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED, false );
