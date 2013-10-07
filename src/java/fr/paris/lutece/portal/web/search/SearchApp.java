@@ -58,16 +58,15 @@ import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.io.UnsupportedEncodingException;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -241,6 +240,7 @@ public class SearchApp implements XPageApplication
         if ( strSource == null )
         {
             SiteMessageService.setMessage( request, MESSAGE_QUERY_NULL, SiteMessage.TYPE_ERROR );
+            return null;
         }
 
         String strEncoded = EncodingService.encodeUrl( strSource, PROPERTY_ENCODE_URI_ENCODING, DEFAULT_URI_ENCODING );

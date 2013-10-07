@@ -1451,12 +1451,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             Map<String, Right> rights = AdminUserHome.getRightsListForUser( currentUser.getUserId(  ) );
             rightList = new ArrayList<Right>(  );
 
-            for ( String strRights : rights.keySet(  ) )
+            for ( Right right : rights.values( ) )
             {
                 // logged user can only delegate rights with level higher or equal to user level.
-                if ( rights.get( strRights ).getLevel(  ) >= user.getUserLevel(  ) )
+                if ( right.getLevel( ) >= user.getUserLevel( ) )
                 {
-                    rightList.add( rights.get( strRights ) );
+                    rightList.add( right );
                 }
             }
         }

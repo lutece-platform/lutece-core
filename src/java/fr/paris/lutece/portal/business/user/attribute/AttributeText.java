@@ -39,13 +39,13 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -194,7 +194,7 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
                     return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS,
                         AdminMessage.TYPE_STOP );
                 }
-                else if ( ( strMaxSizeEnter != null ) && strMaxSizeEnter.equals( EMPTY_STRING ) )
+                else if ( strMaxSizeEnter == null || strMaxSizeEnter.equals( EMPTY_STRING ) )
                 {
                     nMaxSizeEnter = -1;
                 }

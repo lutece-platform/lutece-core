@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.validation.ConstraintViolation;
 
@@ -139,11 +140,11 @@ public class ValidationErrorUtil
 
         Map<String, Object> mapAttributes = constraintViolation.getConstraintDescriptor(  ).getAttributes(  );
 
-        for ( String strKey : mapAttributes.keySet(  ) )
+        for ( Entry<String, Object> entry : mapAttributes.entrySet( ) )
         {
-            if ( strAttributes.contains( strKey ) )
+            if ( strAttributes.contains( entry.getKey( ) ) )
             {
-                strValue = getValue( mapAttributes.get( strKey ) );
+                strValue = getValue( entry.getValue( ) );
             }
         }
 

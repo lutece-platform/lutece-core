@@ -79,6 +79,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -97,7 +98,9 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     // //////////////////////////////////////////////////////////////////////////
     // Variables
 
-    // Redirection
+    /**
+     * Key for redirections
+     */
     public static final String REDIRECTION_KEY = "redirect:";
 
     // Templates
@@ -600,9 +603,9 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             {
                 if ( mapXslParams != null )
                 {
-                    for ( String strMapKey : mapXslParams.keySet( ) )
+                    for ( Entry<String, String> entry : mapXslParams.entrySet( ) )
                     {
-                        mapParams.put( strMapKey, mapXslParams.get( strMapKey ) );
+                        mapParams.put( entry.getKey( ), entry.getValue( ) );
                     }
                 }
             }

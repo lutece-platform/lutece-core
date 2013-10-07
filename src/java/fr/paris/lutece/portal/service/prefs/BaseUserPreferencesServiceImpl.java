@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.portal.service.prefs;
 
+import fr.paris.lutece.portal.business.prefs.IPreferencesDAO;
+
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
-
-import fr.paris.lutece.portal.business.prefs.IPreferencesDAO;
 
 
 /**
@@ -48,8 +48,8 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, 
 {
     private static final String TRUE = "true";
     private static final String FALSE = "false";
-    private IPreferencesDAO _dao;
     private static BaseUserPreferencesCacheService _cache;
+    private IPreferencesDAO _dao;
 
     /**
      * Constructor

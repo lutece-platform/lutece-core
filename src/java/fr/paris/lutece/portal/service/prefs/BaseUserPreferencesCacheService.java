@@ -1,11 +1,11 @@
 package fr.paris.lutece.portal.service.prefs;
 
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-
-import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 
 
 /**
@@ -39,7 +39,7 @@ public class BaseUserPreferencesCacheService extends AbstractCacheableService
 
     /**
      * Remove every values stored in cache for a given user
-     * @param strUserId
+     * @param strUserId The user id to remove from cache
      */
     public void removeCacheValuesOfUser( String strUserId )
     {

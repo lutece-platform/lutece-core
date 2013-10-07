@@ -11,7 +11,7 @@ import java.util.Map.Entry;
  * Class to notify listeners of actions performed on resources. Listeners keep
  * at least track of the number of actions performed over a given resource.
  */
-public class ExtendableResourceActionHit
+public final class ExtendableResourceActionHit
 {
     /**
      * Download action

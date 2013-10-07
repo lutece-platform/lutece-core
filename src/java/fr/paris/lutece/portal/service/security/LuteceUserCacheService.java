@@ -6,7 +6,7 @@ import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 /**
  * Cache service for LuteceUserService
  */
-public class LuteceUserCacheService extends AbstractCacheableService
+public final class LuteceUserCacheService extends AbstractCacheableService
 {
     private static final String CACHE_SERVICE_NAME = "LuteceUserCacheService";
 

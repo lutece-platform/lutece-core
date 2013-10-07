@@ -117,21 +117,22 @@ public class UrlItem
      */
     public String getUrlWithEntity(  )
     {
-        String urlCode = _strRoot;
+        StringBuilder urlCode = new StringBuilder( _strRoot );
 
+        boolean bFirst = ( _strRoot.indexOf( '?' ) == -1 );
         for ( UrlParameterItem parameter : _listParameters )
         {
             // Add a ? or & to the root url if it does already contains one
-            boolean bFirst = ( urlCode.indexOf( '?' ) == -1 );
-            urlCode += parameter.getCodeEntity( bFirst );
+            urlCode.append( parameter.getCodeEntity( bFirst ) );
+            bFirst = false;
         }
 
-        if ( ( getAnchor(  ) != null ) && !getAnchor(  ).equals( "" ) )
+        if ( StringUtils.isNotEmpty( getAnchor( ) ) )
         {
-            urlCode += ( ANCHOR_DELIMITER + getAnchor(  ) );
+            urlCode.append( ANCHOR_DELIMITER + getAnchor( ) );
         }
 
-        return urlCode;
+        return urlCode.toString( );
     }
 
     /**

@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.web.upload;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.io.IOException;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -80,7 +79,7 @@ public class DosGuardFilter implements Filter
     {
         _filterConfig = config;
         _mapLastRequestTimes = new HashMap<String, Long>( INITIAL_CAPACITY );
-        _listOrderedRequests = new LinkedList<Entry>(  );
+        _listOrderedRequests = new LinkedList<Entry>( );
 
         try
         {
@@ -100,7 +99,7 @@ public class DosGuardFilter implements Filter
         }
         catch ( NumberFormatException ex )
         {
-            ServletException servletEx = new ServletException( ex.getMessage(  ) );
+            ServletException servletEx = new ServletException( ex.getMessage( ) );
             servletEx.initCause( ex );
             throw servletEx;
         }
@@ -109,7 +108,7 @@ public class DosGuardFilter implements Filter
     /**
      * {@inheritDoc}
      */
-    public void destroy(  )
+    public void destroy( )
     {
         // Do nothing
     }
@@ -117,11 +116,11 @@ public class DosGuardFilter implements Filter
     /**
      * {@inheritDoc}
      */
-    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
-        throws IOException, ServletException
+    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain ) throws IOException,
+            ServletException
     {
         // DOS check
-        if ( this.isAllowed( request.getRemoteAddr(  ), request.getContentLength(  ) ) )
+        if ( this.isAllowed( request.getRemoteAddr( ), request.getContentLength( ) ) )
         {
             chain.doFilter( request, response );
         }
@@ -133,7 +132,7 @@ public class DosGuardFilter implements Filter
 
     /**
      * Checks if a client is allowed to make a request at the present time.
-     *
+     * 
      * @param strRemoteAddr the IP address of the client
      * @param iContentLength the size of the request
      * @return true if allowed, false otherwize
@@ -151,7 +150,7 @@ public class DosGuardFilter implements Filter
         }
 
         // Record the time of this request
-        long lRequestTime = System.currentTimeMillis(  );
+        long lRequestTime = System.currentTimeMillis( );
         AppLogService.debug( "Request time : " + lRequestTime );
 
         // Test if IP was previously recorded
@@ -163,76 +162,70 @@ public class DosGuardFilter implements Filter
             AppLogService.debug( "IP is in the map" );
 
             // Test if IP is allowed to make a new request
-            if ( lRequestTime > ( previousRequestTime.longValue(  ) + _nMinInterval ) )
+            if ( lRequestTime > ( previousRequestTime.longValue( ) + _nMinInterval ) )
             {
                 AppLogService.debug( "IP is allowed to make a new request" );
 
                 // Clean up
-                this.cleanExpiredEntries(  );
+                this.cleanExpiredEntries( );
 
                 // Update the map with the new time
-                _mapLastRequestTimes.put( strRemoteAddr, new Long( lRequestTime ) );
+                _mapLastRequestTimes.put( strRemoteAddr, Long.valueOf( lRequestTime ) );
 
                 // Add a new entry in the list
                 _listOrderedRequests.addFirst( new Entry( strRemoteAddr, lRequestTime ) );
 
                 return true;
             }
-            else
-            {
-                AppLogService.debug( "IP is not allowed to make a new request" );
+            AppLogService.debug( "IP is not allowed to make a new request" );
 
-                return false;
-            }
+            return false;
         }
-        else
-        {
-            AppLogService.debug( "IP is not in the map" );
+        AppLogService.debug( "IP is not in the map" );
 
-            // Clean up
-            this.cleanExpiredEntries(  );
+        // Clean up
+        this.cleanExpiredEntries( );
 
-            // Add the IP and the time to the map
-            _mapLastRequestTimes.put( strRemoteAddr, new Long( lRequestTime ) );
+        // Add the IP and the time to the map
+        _mapLastRequestTimes.put( strRemoteAddr, new Long( lRequestTime ) );
 
-            // Add a new entry in the list
-            _listOrderedRequests.addFirst( new Entry( strRemoteAddr, lRequestTime ) );
+        // Add a new entry in the list
+        _listOrderedRequests.addFirst( new Entry( strRemoteAddr, lRequestTime ) );
 
-            return true;
-        }
+        return true;
     }
 
     /**
      * Cleans the internal map from expired entries.
      */
-    private void cleanExpiredEntries(  )
+    private void cleanExpiredEntries( )
     {
         AppLogService.debug( "DosGuard.class : cleanExpiredEntries()" );
 
-        if ( _listOrderedRequests.size(  ) != 0 )
+        if ( _listOrderedRequests.size( ) != 0 )
         {
             // Expired entries are those where the IP can't be blocked anymore
-            long lMinTime = System.currentTimeMillis(  ) - _nMinInterval;
+            long lMinTime = System.currentTimeMillis( ) - _nMinInterval;
 
             AppLogService.debug( "Min time : " + lMinTime );
 
             // Read entries from the list, remove them as long as they are expired
             boolean bDone = false;
 
-            while ( !bDone && ( _listOrderedRequests.size(  ) > 0 ) )
+            while ( !bDone && ( _listOrderedRequests.size( ) > 0 ) )
             {
                 // The list is ordered by arrival time, so the last one is the
                 // oldest
-                Entry lastEntry = _listOrderedRequests.getLast(  );
+                Entry lastEntry = _listOrderedRequests.getLast( );
 
-                if ( lastEntry.getRequestTime(  ) < lMinTime )
+                if ( lastEntry.getRequestTime( ) < lMinTime )
                 {
                     // The entry is expired, remove it from the map and the list
-                    _mapLastRequestTimes.remove( lastEntry.getRemoteAddr(  ) );
-                    _listOrderedRequests.removeLast(  );
+                    _mapLastRequestTimes.remove( lastEntry.getRemoteAddr( ) );
+                    _listOrderedRequests.removeLast( );
 
-                    AppLogService.debug( "Removing [" + lastEntry.getRemoteAddr(  ) + ", " +
-                        lastEntry.getRequestTime(  ) + "]" );
+                    AppLogService.debug( "Removing [" + lastEntry.getRemoteAddr( ) + ", " + lastEntry.getRequestTime( )
+                            + "]" );
                 }
                 else
                 {
@@ -265,7 +258,7 @@ public class DosGuardFilter implements Filter
          * Gets the remote address
          * @return The remote address
          */
-        public String getRemoteAddr(  )
+        public String getRemoteAddr( )
         {
             return _strRemoteAddr;
         }
@@ -274,7 +267,7 @@ public class DosGuardFilter implements Filter
          * Gets the request time
          * @return The request time
          */
-        public long getRequestTime(  )
+        public long getRequestTime( )
         {
             return _lRequestTime;
         }
