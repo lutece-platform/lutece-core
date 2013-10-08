@@ -45,7 +45,7 @@ public final class UserPreferencesService
     private static IPortalUserPreferencesService _singleton;
 
     /** private constructor */
-    private UserPreferencesService(  )
+    private UserPreferencesService( )
     {
     }
 
@@ -53,7 +53,7 @@ public final class UserPreferencesService
      * Return the unique instance
      * @return The instance
      */
-    public static synchronized IPortalUserPreferencesService instance(  )
+    public static synchronized IPortalUserPreferencesService instance( )
     {
         if ( _singleton == null )
         {

@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.service.security.LuteceUser;
 
+
 /**
  * IPortalUserPreferencesService
  */
@@ -47,19 +48,19 @@ public interface IPortalUserPreferencesService extends IUserPreferencesService
      * @return The nickname
      */
     String getNickname( String strUserId );
-    
+
     /**
      * Gets the user's nickname
      * @param user The User
      * @return The nickname
      */
     String getNickname( LuteceUser user );
-    
+
     /**
      * Sets the nickname
      * @param strUserId The User ID
      * @param strNickname The nickname
      */
-    void setNickname( String strUserId , String strNickname );
-    
+    void setNickname( String strUserId, String strNickname );
+
 }

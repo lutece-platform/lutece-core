@@ -33,17 +33,15 @@
  */
 package fr.paris.lutece.util.pool.service;
 
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import java.util.Hashtable;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
-
 import javax.sql.DataSource;
+
+import org.apache.log4j.Logger;
 
 
 /**
@@ -111,12 +109,6 @@ public class TomcatConnectionService implements ConnectionService
             String strDs = htParamsConnectionPool.get( getPoolName(  ) + ".ds" );
             Context ctx = new InitialContext(  );
 
-            if ( ctx == null )
-            {
-                //TODO : throw an exception
-                _logger.error( "The context of the pool " + getPoolName(  ) + " wasn't found." );
-            }
-
             _ds = (DataSource) ctx.lookup( "java:comp/env/" + strDs );
         }
         catch ( Exception e )
@@ -165,6 +157,7 @@ public class TomcatConnectionService implements ConnectionService
      */
     public void release(  )
     {
+        // Nothing to do
     }
 
     /**

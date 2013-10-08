@@ -93,7 +93,7 @@ public class LinksInclude implements PageInclude
             rootModel.put( MARK_FAVOURITE, strFavourite );
             rootModel.put( MARK_PORTAL_NAME, strPortalName );
 
-            Locale locale = ( request == null ) ? Locale.getDefault(  ) : request.getLocale(  );
+            Locale locale = request.getLocale( );
 
             // Add CSS links coming from plugins
             Collection<Plugin> listPlugins = PluginService.getPluginList(  );

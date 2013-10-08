@@ -36,10 +36,12 @@ package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.service.security.LuteceUser;
 
+
 /**
  * Portal User Preference Service
  */
-public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceImpl implements IPortalUserPreferencesService
+public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceImpl
+    implements IPortalUserPreferencesService
 {
 
     /**
@@ -48,7 +50,7 @@ public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceI
     @Override
     public String getNickname( LuteceUser user )
     {
-        return getNickname( user.getName() );
+        return getNickname( user.getName( ) );
     }
 
     /**
@@ -57,17 +59,16 @@ public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceI
     @Override
     public String getNickname( String strUserId )
     {
-        return get( strUserId, PrefsConstants.PORTAL_NICKNAME , "" );
+        return get( strUserId, PrefsConstants.PORTAL_NICKNAME, "" );
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public void setNickname(String strUserId, String strNickname)
+    public void setNickname( String strUserId, String strNickname )
     {
         put( strUserId, PrefsConstants.PORTAL_NICKNAME, strNickname );
     }
 
-    
 }

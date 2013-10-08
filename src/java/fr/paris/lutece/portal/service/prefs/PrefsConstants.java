@@ -40,10 +40,10 @@ public final class PrefsConstants
 {
     public static final String PORTAL_NICKNAME = "portal.nickname";
     public static final String PORTAL_LOCALE = "portal.locale";
-    
+
     /** Private constructor */
-    private PrefsConstants()
+    private PrefsConstants( )
     {
-        
+
     }
 }

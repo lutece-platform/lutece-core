@@ -6,7 +6,7 @@ import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 /**
  * SiteMapCacheService
  */
-public class SiteMapCacheService extends AbstractCacheableService
+public final class SiteMapCacheService extends AbstractCacheableService
 {
     private static final String SERVICE_NAME = "SiteMapService";
 

@@ -163,7 +163,7 @@ public class RegularExpression
      */
     public boolean equals( Object obj )
     {
-        if ( obj != null && ( (RegularExpression) obj ).getIdExpression( ) == _nIdExpression )
+        if ( obj instanceof RegularExpression && ( (RegularExpression) obj ).getIdExpression( ) == _nIdExpression )
         {
             return true;
         }

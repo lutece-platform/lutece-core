@@ -187,7 +187,7 @@ public class DosGuardFilter implements Filter
         this.cleanExpiredEntries( );
 
         // Add the IP and the time to the map
-        _mapLastRequestTimes.put( strRemoteAddr, new Long( lRequestTime ) );
+        _mapLastRequestTimes.put( strRemoteAddr, Long.valueOf( lRequestTime ) );
 
         // Add a new entry in the list
         _listOrderedRequests.addFirst( new Entry( strRemoteAddr, lRequestTime ) );
@@ -238,7 +238,7 @@ public class DosGuardFilter implements Filter
     /**
      * Utility class used to store entries in the list.
      */
-    private class Entry
+    private static class Entry
     {
         private String _strRemoteAddr;
         private long _lRequestTime;

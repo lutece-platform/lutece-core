@@ -101,12 +101,14 @@ public final class AdminUserFieldHome
      */
     public static void remove( AdminUserField userField )
     {
-        if ( ( userField != null ) && ( userField.getFile(  ) != null ) )
+        if ( userField != null )
         {
-            FileHome.remove( userField.getFile(  ).getIdFile(  ) );
+            if ( userField.getFile( ) != null )
+            {
+                FileHome.remove( userField.getFile( ).getIdFile( ) );
+            }
+            _dao.delete( userField.getIdUserField( ) );
         }
-
-        _dao.delete( userField.getIdUserField(  ) );
     }
 
     /**

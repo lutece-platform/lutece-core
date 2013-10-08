@@ -45,8 +45,16 @@ import javax.validation.ConstraintViolation;
 /**
  * ValidationError Utils
  */
-public class ValidationErrorUtil
+public final class ValidationErrorUtil
 {
+    /**
+     * Private constructor
+     */
+    private ValidationErrorUtil( )
+    {
+        // Nothing to do
+    }
+    
     /**
      * Return the attribute's value to set as the value#1 of the message
      * @param constraintViolation The Constraint violation

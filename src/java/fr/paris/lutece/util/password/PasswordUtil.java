@@ -45,7 +45,7 @@ import java.util.Random;
 
 /**
  * Utility class used to generate random passwords
- *
+ * 
  */
 public final class PasswordUtil
 {
@@ -55,11 +55,8 @@ public final class PasswordUtil
     private static final int CONSTANT_ASCII_CODE_A_UPPERCASE = 65;
     private static final int CONSTANT_ASCII_CODE_A_LOWERCASE = 97;
     private static final int CONSTANT_ASCII_CODE_ZERO = 48;
-    private static final char[] CONSTANT_SPECIAL_CHARACTERS = 
-        {
- '!', ',', ':', '?', '$', '-', '@', '}', '{', '(', ')',
-            '*', '+', '=', '[', ']', '%', '.'
-        };
+    private static final char[] CONSTANT_SPECIAL_CHARACTERS = { '!', ',', ':', '?', '$', '-', '@', '}', '{', '(', ')',
+            '*', '+', '=', '[', ']', '%', '.', };
     private static final String CONSTANT_PASSWORD_BEGIN_REGEX = "^";
     private static final String CONSTANT_PASSWORD_REGEX_NUM = "(?=.*[0-9])";
     private static final String CONSTANT_PASSWORD_REGEX_SPECIAL = "(?=.*[^a-zA-Z0-9])";
@@ -68,7 +65,7 @@ public final class PasswordUtil
     private static final String PARAMETER_PASSWORD_MINIMUM_LENGTH = "password_minimum_length";
 
     /** Private Constructor */
-    private PasswordUtil(  )
+    private PasswordUtil( )
     {
     }
 
@@ -76,10 +73,10 @@ public final class PasswordUtil
      * Generate a new random password
      * @return the new password
      */
-    public static String makePassword(  )
+    public static String makePassword( )
     {
         // reinitialize password
-        Random r = new Random(  );
+        Random r = new Random( );
         int nPasswordSize = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_SIZE, 8 );
         int nMinPasswordSize = AdminUserService.getIntegerSecurityParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH );
 
@@ -91,7 +88,7 @@ public final class PasswordUtil
         ArrayList<Character> listCharacters = new ArrayList<Character>( nPasswordSize );
 
         // No of Big letters
-        int nNumCapitalLetters = r.nextInt( nPasswordSize - 3 ) + 1; // choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE -1
+        int nNumCapitalLetters = r.nextInt( nPasswordSize - 3 ) + 1; // choose a number between 1 and CONSTANT_PASSWORD_SIZE -1
 
         // No of small
         int nNumSmallLetters = r.nextInt( nPasswordSize - 2 - nNumCapitalLetters ) + 1; // choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE - a1
@@ -128,14 +125,14 @@ public final class PasswordUtil
 
         Collections.shuffle( listCharacters );
 
-        StringBuilder sbPassword = new StringBuilder( listCharacters.size(  ) );
+        StringBuilder sbPassword = new StringBuilder( listCharacters.size( ) );
 
         for ( Character myChar : listCharacters )
         {
             sbPassword.append( myChar );
         }
 
-        return sbPassword.toString(  );
+        return sbPassword.toString( );
     }
 
     /**
@@ -146,7 +143,7 @@ public final class PasswordUtil
      */
     public static boolean checkPasswordFormat( String strPassword )
     {
-        if ( ( strPassword == null ) || strPassword.isEmpty(  ) )
+        if ( ( strPassword == null ) || strPassword.isEmpty( ) )
         {
             return false;
         }
@@ -157,7 +154,7 @@ public final class PasswordUtil
         sbRegex.append( CONSTANT_PASSWORD_REGEX_SPECIAL );
         sbRegex.append( CONSTANT_PASSWORD_END_REGEX );
 
-        return strPassword.matches( sbRegex.toString(  ) );
+        return strPassword.matches( sbRegex.toString( ) );
     }
 
     /**
@@ -174,7 +171,7 @@ public final class PasswordUtil
         }
 
         long nMilliSeconds = DateUtil.convertDaysInMiliseconds( nNumberDay );
-        Timestamp maxValidDate = new Timestamp( new java.util.Date(  ).getTime(  ) + nMilliSeconds );
+        Timestamp maxValidDate = new Timestamp( new java.util.Date( ).getTime( ) + nMilliSeconds );
 
         return maxValidDate;
     }

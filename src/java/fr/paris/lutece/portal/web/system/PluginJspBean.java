@@ -33,14 +33,6 @@
  */
 package fr.paris.lutece.portal.web.system;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -57,6 +49,14 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Locale;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * This class provides the user interface to manage the lutece plugins
@@ -67,6 +67,9 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     ////////////////////////////////////////////////////////////////////////////////
     // Constants
     public static final String RIGHT_MANAGE_PLUGINS = "CORE_PLUGINS_MANAGEMENT";
+
+    private static final long serialVersionUID = -9058113426951331118L;
+
     private static final String TEMPLATE_MANAGE_PLUGINS = "admin/system/manage_plugins.html";
     private static final String MARK_PLUGINS_LIST = "plugins_list";
     private static final String MARK_POOLS_LIST = "pools_list";
@@ -382,7 +385,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         bMax = ( ( ( strMaxCoreVersion == null ) || strMaxCoreVersion.trim(  ).equals( "" ) ) ? true : false );
 
         // test the min core version
-        if ( !strMinCoreVersion.trim(  ).equals( "" ) )
+        if ( strMinCoreVersion != null && !strMinCoreVersion.trim( ).equals( "" ) )
         {
             String[] minCoreVersion = strMinCoreVersion.split( "\\." );
 
@@ -394,7 +397,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         }
 
         // test the max core version
-        if ( !strMaxCoreVersion.trim(  ).equals( "" ) )
+        if ( strMaxCoreVersion != null && !strMaxCoreVersion.trim( ).equals( "" ) )
         {
             String[] maxCoreVersion = strMaxCoreVersion.split( "\\." );
 
