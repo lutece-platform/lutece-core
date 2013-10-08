@@ -154,7 +154,7 @@ public final class AppDaemonService
 
         String strIntervalKeyValue = DatastoreService.getInstanceDataValue( strIntervalKey, strIntervalKeyDefaultValue );
 
-        long lInterval = (long) new Long( strIntervalKeyValue );
+        long lInterval = Long.valueOf( strIntervalKeyValue );
 
         String strOnStartupKey = getOnStartupKey( entry.getId(  ) );
         String strOnStartupDefaultValue = null;
@@ -169,7 +169,7 @@ public final class AppDaemonService
         }
 
         String strOnStarupvalue = DatastoreService.getInstanceDataValue( strOnStartupKey, strOnStartupDefaultValue );
-        boolean bOnStartup = new Boolean( strOnStarupvalue );
+        boolean bOnStartup = Boolean.valueOf( strOnStarupvalue );
 
         entry.setInterval( lInterval );
         entry.setOnStartUp( bOnStartup );
