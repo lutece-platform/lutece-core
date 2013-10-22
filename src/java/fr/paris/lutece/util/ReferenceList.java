@@ -111,7 +111,7 @@ public class ReferenceList extends ArrayList<ReferenceItem>
      * @return The ReferenceList filled
      * @since v1.1
      */
-    public static ReferenceList convert( Collection<Object> collection, String strCodeAttribute,
+    public static ReferenceList convert( Collection collection, String strCodeAttribute,
             String strNameAttribute, boolean bNumericCode )
     {
         ReferenceList list = new ReferenceList( );
