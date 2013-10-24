@@ -44,6 +44,7 @@ import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -64,8 +65,13 @@ import org.apache.commons.lang.StringUtils;
  * Class to manage data tables with freemarker macros
  * @param <T> Type of data to display
  */
-public class DataTableManager<T>
+public class DataTableManager<T> implements Serializable
 {
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = -3906455886374172029L;
+
     private static final String CONSTANT_GET = "get";
     private static final String CONSTANT_IS = "is";
     private static final String CONSTANT_DATA_TABLE_MANAGER_ID_PREFIX = "dataTableManager";
