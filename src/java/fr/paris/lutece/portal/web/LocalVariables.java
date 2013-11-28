@@ -44,9 +44,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public final class LocalVariables
 {
-    private static ThreadLocal _tlConfig = new ThreadLocal(  );
-    private static ThreadLocal _tlRequest = new ThreadLocal(  );
-    private static ThreadLocal _tlResponse = new ThreadLocal(  );
+    private static ThreadLocal<ServletConfig> _tlConfig = new ThreadLocal<ServletConfig>( );
+    private static ThreadLocal<HttpServletRequest> _tlRequest = new ThreadLocal<HttpServletRequest>( );
+    private static ThreadLocal<HttpServletResponse> _tlResponse = new ThreadLocal<HttpServletResponse>( );
 
     /**
      * Utility classes have no constructor
@@ -76,7 +76,7 @@ public final class LocalVariables
      */
     public static ServletConfig getConfig(  )
     {
-        return (ServletConfig) _tlConfig.get(  );
+        return _tlConfig.get( );
     }
 
     /**
@@ -86,7 +86,7 @@ public final class LocalVariables
      */
     public static HttpServletRequest getRequest(  )
     {
-        return (HttpServletRequest) _tlRequest.get(  );
+        return _tlRequest.get( );
     }
 
     /**
@@ -96,6 +96,6 @@ public final class LocalVariables
      */
     public static HttpServletResponse getResponse(  )
     {
-        return (HttpServletResponse) _tlResponse.get(  );
+        return _tlResponse.get( );
     }
 }
