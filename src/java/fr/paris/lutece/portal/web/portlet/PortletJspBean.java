@@ -33,12 +33,6 @@
  */
 package fr.paris.lutece.portal.web.portlet;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
@@ -55,6 +49,15 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -80,6 +83,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PORTLET_PAGE_ID = "portlet_page_id";
     private static final String MARK_PORTLET_ORDER_COMBO = "portlet_order_combo";
     private static final String MARK_PORTLET_COLUMNS_COMBO = "portlet_columns_combo";
+    private static final String MARK_PORTLET_FIRST_COLUMN = "portlet_first_column";
     private static final String MARK_PORTLET_STYLES_COMBO = "portlet_style_combo";
     private static final String MARK_PORTLET_ROLES_COMBO = "portlet_role_combo";
     private static final String MARK_SMALL_CHECKED = "small_checked";
@@ -140,21 +144,48 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     // Order combo
 
     /**
-     * Returns a list of orders
-     * 
-     * @return the list of orders in form of ReferenceList
+     * Returns a list of available orders for a column
+     * @param model the model
+     * @param columnId the column id
+     * @return the list of orders in string
      */
-    private ReferenceList getOrdersList( )
+    private String getOrdersList( Map<String, Object> model, int columnId, boolean isModif )
     {
-        ReferenceList list = new ReferenceList( );
+        List<Integer> existingOrders = PortletHome.getUsedOrdersForColumns(
+                (Integer) model.get( MARK_PORTLET_PAGE_ID ), columnId );
         int nOrderMax = AppPropertiesService.getPropertyInt( PROPERTY_LIST_ORDER_MAX, 15 );
 
-        for ( int i = 1; i <= nOrderMax; i++ )
+        String result = StringUtils.EMPTY;
+
+        int column = -1;
+        int orderId = -1;
+
+        if ( isModif )
         {
-            list.addItem( i, String.valueOf( i ) );
+            Portlet portlet = (Portlet) model.get( MARK_PORTLET );
+            column = portlet.getColumn( );
+            orderId = portlet.getOrder( );
         }
 
-        return list;
+        StringBuilder order = new StringBuilder( );
+        for ( int i = 1; i <= nOrderMax; i++ )
+        {
+            if ( !existingOrders.contains( i ) )
+            {
+                order.append( i ).append( ";" );
+            }
+            else if ( i == orderId && isModif && column == columnId )
+            {
+                order.append( orderId ).append( ";" );
+            }
+        }
+
+        if ( order.length( ) > 0 )
+        {
+            result = order.substring( 0, order.length( ) - 1 );
+        }
+
+        return result;
     }
 
     /**
@@ -163,17 +194,25 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
      * 
      * @return the list of the page columns in form of ReferenceList
      */
-    private ReferenceList getColumnsList( )
+    private void getColumnsList( Map<String, Object> model, boolean isModif )
     {
         ReferenceList list = new ReferenceList( );
+        Map<String, Object> orders = new HashMap<String, Object>( );
         int nColumnNumMax = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_NUM_MAX, 1 );
 
         for ( int i = 1; i <= nColumnNumMax; i++ )
         {
-            list.addItem( i, String.valueOf( i ) );
+            String order = getOrdersList( model, i, isModif );
+            if ( StringUtils.isNotBlank( order ) )
+            {
+                orders.put( String.valueOf( i ), order );
+                list.addItem( i, String.valueOf( i ) );
+            }
         }
 
-        return list;
+        model.put( MARK_PORTLET_ORDER_COMBO, orders );
+        model.put( MARK_PORTLET_COLUMNS_COMBO, list );
+        model.put( MARK_PORTLET_FIRST_COLUMN, list.get( 0 ).getCode( ) );
     }
 
     /**
@@ -309,9 +348,8 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         portletType.setLocale( locale );
 
         model.put( MARK_PORTLET_TYPE, portletType );
-        model.put( MARK_PORTLET_PAGE_ID, strPageId );
-        model.put( MARK_PORTLET_ORDER_COMBO, getOrdersList( ) );
-        model.put( MARK_PORTLET_COLUMNS_COMBO, getColumnsList( ) );
+        model.put( MARK_PORTLET_PAGE_ID, Integer.valueOf( strPageId ) );
+        getColumnsList( model, false );
         model.put( MARK_PORTLET_STYLES_COMBO, PortletHome.getStylesList( strPortletTypeId ) );
         model.put( MARK_PORTLET_ROLES_COMBO, RoleHome.getRolesList( getUser( ) ) );
 
@@ -344,8 +382,9 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         portletType.setLocale( getLocale( ) );
         model.put( MARK_PORTLET_TYPE, portletType );
         model.put( MARK_PORTLET, portlet );
-        model.put( MARK_PORTLET_ORDER_COMBO, getOrdersList( ) );
-        model.put( MARK_PORTLET_COLUMNS_COMBO, getColumnsList( ) );
+        model.put( MARK_PORTLET_PAGE_ID, portlet.getPageId( ) );
+        // model.put( MARK_PORTLET_ORDER_COMBO, getOrdersList( ) );
+        getColumnsList( model, true );
         model.put( MARK_PORTLET_STYLES_COMBO, PortletHome.getStylesList( portlet.getPortletTypeId( ) ) );
         model.put( MARK_PORTLET_ROLES_COMBO, RoleHome.getRolesList( getUser( ) ) );
         putCheckBox( model, MARK_SMALL_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_SMALL_DEVICE ) );
