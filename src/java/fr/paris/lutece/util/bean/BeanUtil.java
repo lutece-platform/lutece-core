@@ -35,14 +35,15 @@ package fr.paris.lutece.util.bean;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import org.apache.commons.beanutils.BeanUtils;
+
 import java.lang.reflect.InvocationTargetException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.beanutils.BeanUtils;
 
 
 /**
@@ -53,13 +54,13 @@ public final class BeanUtil
     private static final char UNDERSCORE = '_';
 
     /** Private constructor */
-    private BeanUtil( )
+    private BeanUtil(  )
     {
     }
 
     /**
      * Populate a bean using parameters in http request
-     * 
+     *
      * @param bean bean to populate
      * @param request http request
      */
@@ -67,7 +68,7 @@ public final class BeanUtil
     {
         try
         {
-            BeanUtils.populate( bean, convertMap( request.getParameterMap( ) ) );
+            BeanUtils.populate( bean, convertMap( request.getParameterMap(  ) ) );
         }
         catch ( IllegalAccessException e )
         {
@@ -86,11 +87,11 @@ public final class BeanUtil
      */
     public static Map<String, Object> convertMap( Map<String, Object> mapInput )
     {
-        Map<String, Object> mapOutput = new HashMap<String, Object>( );
+        Map<String, Object> mapOutput = new HashMap<String, Object>(  );
 
-        for ( Entry<String, Object> entry : mapInput.entrySet( ) )
+        for ( Entry<String, Object> entry : mapInput.entrySet(  ) )
         {
-            mapOutput.put( convertUnderscores( entry.getKey( ) ), entry.getValue( ) );
+            mapOutput.put( convertUnderscores( entry.getKey(  ) ), entry.getValue(  ) );
         }
 
         return mapOutput;
@@ -103,10 +104,10 @@ public final class BeanUtil
      */
     public static String convertUnderscores( String strSource )
     {
-        StringBuilder sb = new StringBuilder( );
+        StringBuilder sb = new StringBuilder(  );
         boolean bCapitalizeNext = false;
 
-        for ( char c : strSource.toCharArray( ) )
+        for ( char c : strSource.toCharArray(  ) )
         {
             if ( c == UNDERSCORE )
             {
@@ -126,6 +127,6 @@ public final class BeanUtil
             }
         }
 
-        return sb.toString( );
+        return sb.toString(  );
     }
 }

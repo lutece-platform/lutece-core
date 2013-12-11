@@ -75,7 +75,7 @@ public class SiteMapApp implements XPageApplication
     /**
      * Creates a new SiteMapPage object
      */
-    public SiteMapApp( )
+    public SiteMapApp(  )
     {
     }
 
@@ -92,7 +92,7 @@ public class SiteMapApp implements XPageApplication
     /**
      * Build or get in the cache the page which contains the site map depending
      * on the mode
-     * 
+     *
      * @param request The Http request
      * @param nMode The selected mode
      * @param plugin The plugin
@@ -101,16 +101,16 @@ public class SiteMapApp implements XPageApplication
     @Override
     public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
     {
-        XPage page = new XPage( );
+        XPage page = new XPage(  );
         String strKey = getKey( nMode, request );
 
-        Locale locale = request.getLocale( );
+        Locale locale = request.getLocale(  );
 
-        SiteMapCacheService siteMapCacheService = SiteMapCacheService.getInstance( );
+        SiteMapCacheService siteMapCacheService = SiteMapCacheService.getInstance(  );
 
         // Check the key in the cache
-        String strCachedPage = siteMapCacheService.isCacheEnable( ) ? (String) siteMapCacheService
-                .getFromCache( strKey ) : null;
+        String strCachedPage = siteMapCacheService.isCacheEnable(  )
+            ? (String) siteMapCacheService.getFromCache( strKey ) : null;
 
         if ( strCachedPage == null )
         {
@@ -118,13 +118,14 @@ public class SiteMapApp implements XPageApplication
             String strPage = buildPageContent( nMode, request );
 
             // Add it to the cache
-            if ( siteMapCacheService.isCacheEnable( ) )
+            if ( siteMapCacheService.isCacheEnable(  ) )
             {
                 synchronized ( strKey )
                 {
                     siteMapCacheService.putInCache( strKey, strPage );
                 }
             }
+
             page.setPathLabel( I18nService.getLocalizedString( PROPERTY_PATH_LABEL, locale ) );
             page.setTitle( I18nService.getLocalizedString( PROPERTY_PAGE_TITLE, locale ) );
             page.setContent( strPage );
@@ -150,13 +151,13 @@ public class SiteMapApp implements XPageApplication
     {
         String strUser = "-";
 
-        if ( SecurityService.isAuthenticationEnable( ) )
+        if ( SecurityService.isAuthenticationEnable(  ) )
         {
-            LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
+            LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
 
             if ( user != null )
             {
-                strUser = user.getName( );
+                strUser = user.getName(  );
             }
         }
 
@@ -173,11 +174,11 @@ public class SiteMapApp implements XPageApplication
      */
     private String buildPageContent( int nMode, HttpServletRequest request )
     {
-        StringBuffer strArborescenceXml = new StringBuffer( );
-        strArborescenceXml.append( XmlUtil.getXmlHeader( ) );
+        StringBuffer strArborescenceXml = new StringBuffer(  );
+        strArborescenceXml.append( XmlUtil.getXmlHeader(  ) );
 
         int nLevel = 0;
-        findPages( strArborescenceXml, PortalService.getRootPageId( ), nLevel, request );
+        findPages( strArborescenceXml, PortalService.getRootPageId(  ), nLevel, request );
 
         // Added in v1.3
         // Use the same stylesheet for normal or admin mode
@@ -185,38 +186,38 @@ public class SiteMapApp implements XPageApplication
 
         switch ( nMode )
         {
-        case MODE_NORMAL:
-        case MODE_ADMIN:
-            xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_SITE_MAP_ID, MODE_NORMAL );
+            case MODE_NORMAL:
+            case MODE_ADMIN:
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_SITE_MAP_ID, MODE_NORMAL );
 
-            break;
+                break;
 
-        default:
-            xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_SITE_MAP_ID, nMode );
+            default:
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_SITE_MAP_ID, nMode );
 
-            break;
+                break;
         }
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapParamRequest = new HashMap<String, String>( );
+        Map<String, String> mapParamRequest = new HashMap<String, String>(  );
 
         if ( nMode != MODE_ADMIN )
         {
-            mapParamRequest.put( PARAMETER_SITE_PATH, AppPathService.getPortalUrl( ) );
+            mapParamRequest.put( PARAMETER_SITE_PATH, AppPathService.getPortalUrl(  ) );
         }
         else
         {
-            mapParamRequest.put( PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl( ) );
+            mapParamRequest.put( PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl(  ) );
             mapParamRequest.put( MARKER_TARGET, TARGET_TOP );
         }
 
         Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
 
-        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
+        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
 
-        return xmlTransformerService.transformBySourceWithXslCache( strArborescenceXml.toString( ), xslSource,
-                mapParamRequest, outputProperties );
+        return xmlTransformerService.transformBySourceWithXslCache( strArborescenceXml.toString(  ), xslSource,
+            mapParamRequest, outputProperties );
     }
 
     /**
@@ -235,22 +236,22 @@ public class SiteMapApp implements XPageApplication
         if ( page.isVisible( request ) )
         {
             XmlUtil.beginElement( strXmlArborescence, XmlContent.TAG_PAGE );
-            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_ID, page.getId( ) );
-            XmlUtil.addElementHtml( strXmlArborescence, XmlContent.TAG_PAGE_NAME, page.getName( ) );
-            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_DESCRIPTION, page.getDescription( ) );
+            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_ID, page.getId(  ) );
+            XmlUtil.addElementHtml( strXmlArborescence, XmlContent.TAG_PAGE_NAME, page.getName(  ) );
+            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_DESCRIPTION, page.getDescription(  ) );
             XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_LEVEL, nLevel );
 
-            AdminPageJspBean adminPage = new AdminPageJspBean( );
+            AdminPageJspBean adminPage = new AdminPageJspBean(  );
 
-            if ( page.getImageContent( ) != null )
+            if ( page.getImageContent(  ) != null )
             {
-                int nImageLength = page.getImageContent( ).length;
+                int nImageLength = page.getImageContent(  ).length;
 
                 if ( nImageLength >= 1 )
                 {
-                    String strPageId = Integer.toString( page.getId( ) );
+                    String strPageId = Integer.toString( page.getId(  ) );
                     XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_IMAGE,
-                            adminPage.getResourceImagePage( page, strPageId ) );
+                        adminPage.getResourceImagePage( page, strPageId ) );
                 }
             }
 
@@ -258,7 +259,7 @@ public class SiteMapApp implements XPageApplication
 
             for ( Page pageChild : PageHome.getChildPagesMinimalData( nPageId ) )
             {
-                findPages( strXmlArborescence, pageChild.getId( ), nLevel + 1, request );
+                findPages( strXmlArborescence, pageChild.getId(  ), nLevel + 1, request );
             }
 
             XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_CHILD_PAGES_LIST );

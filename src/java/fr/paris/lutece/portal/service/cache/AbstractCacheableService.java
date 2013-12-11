@@ -33,8 +33,7 @@
  */
 package fr.paris.lutece.portal.service.cache;
 
-import java.util.ArrayList;
-import java.util.List;
+import fr.paris.lutece.portal.service.util.AppLogService;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
@@ -44,7 +43,8 @@ import net.sf.ehcache.event.CacheEventListener;
 
 import org.apache.log4j.Logger;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**

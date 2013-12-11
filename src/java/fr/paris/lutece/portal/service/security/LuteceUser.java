@@ -33,14 +33,17 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import org.apache.commons.lang.ObjectUtils;
+
 import java.io.Serializable;
+
 import java.security.Principal;
+
 import java.sql.Timestamp;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang.ObjectUtils;
 
 
 /**
@@ -131,6 +134,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
     public static final String BUSINESS_INFO_ONLINE_URI = "user.business-info.online.uri";
     public static final String ANONYMOUS_USERNAME = "GUEST";
     public static final Timestamp DEFAULT_DATE_LAST_LOGIN = Timestamp.valueOf( "1980-01-01 00:00:00" );
+    private static final long serialVersionUID = -8733640540563208835L;
 
     /** Map containing users info */
     private Map<String, String> _mapUserInfo = new HashMap<String, String>(  );
@@ -225,7 +229,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
      */
     public int hashCode(  )
     {
-        return _strUserName == null ? 0 : _strUserName.hashCode( );
+        return ( _strUserName == null ) ? 0 : _strUserName.hashCode(  );
     }
 
     /**
@@ -419,8 +423,8 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
      * {@inheritDoc}
      */
     @Override
-    public Object clone( ) throws CloneNotSupportedException
+    public Object clone(  ) throws CloneNotSupportedException
     {
-        return super.clone( );
+        return super.clone(  );
     }
 }

@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.service.content;
 
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -44,22 +44,21 @@ import fr.paris.lutece.portal.service.util.AppLogService;
  */
 public final class ContentPostProcessorService
 {
-
     /**
      * Instantiates a new content post processor service.
      */
-    private ContentPostProcessorService( )
+    private ContentPostProcessorService(  )
     {
     }
 
     /**
      * Initialize the service
      */
-    public static void init( )
+    public static void init(  )
     {
         for ( ContentPostProcessor processor : SpringContextService.getBeansOfType( ContentPostProcessor.class ) )
         {
-            AppLogService.info( "New Content Post Processor registered : " + processor.getName( ) );
+            AppLogService.info( "New Content Post Processor registered : " + processor.getName(  ) );
         }
     }
 
@@ -68,9 +67,9 @@ public final class ContentPostProcessorService
      * performance issue.
      * @return True if there at least one processor registered
      */
-    public static boolean hasProcessor( )
+    public static boolean hasProcessor(  )
     {
-        return !SpringContextService.getBeansOfType( ContentPostProcessor.class ).isEmpty( );
+        return !SpringContextService.getBeansOfType( ContentPostProcessor.class ).isEmpty(  );
     }
 
     /**

@@ -245,7 +245,8 @@ public final class AdminMessageService
      * @param errors The set of violations
      * @return The Url of the JSP that display the message
      */
-    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, List<? extends ErrorMessage> errors )
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey,
+        List<?extends ErrorMessage> errors )
     {
         return getMessageUrl( request, strMessageKey, formatValidationErrors( request, errors ), null, JSP_BACK,
             TARGET_SELF, AdminMessage.TYPE_ERROR );
@@ -435,7 +436,7 @@ public final class AdminMessageService
      * @param errors The set of violations
      * @return The formatted errors list as an object array
      */
-    private static <T> Object[] formatValidationErrors( HttpServletRequest request, List<? extends ErrorMessage> errors )
+    private static <T> Object[] formatValidationErrors( HttpServletRequest request, List<?extends ErrorMessage> errors )
     {
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_ERRORS_LIST, errors );

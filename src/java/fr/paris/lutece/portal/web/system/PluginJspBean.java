@@ -67,9 +67,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     ////////////////////////////////////////////////////////////////////////////////
     // Constants
     public static final String RIGHT_MANAGE_PLUGINS = "CORE_PLUGINS_MANAGEMENT";
-
     private static final long serialVersionUID = -9058113426951331118L;
-
     private static final String TEMPLATE_MANAGE_PLUGINS = "admin/system/manage_plugins.html";
     private static final String MARK_PLUGINS_LIST = "plugins_list";
     private static final String MARK_POOLS_LIST = "pools_list";
@@ -385,7 +383,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         bMax = ( ( ( strMaxCoreVersion == null ) || strMaxCoreVersion.trim(  ).equals( "" ) ) ? true : false );
 
         // test the min core version
-        if ( strMinCoreVersion != null && !strMinCoreVersion.trim( ).equals( "" ) )
+        if ( ( strMinCoreVersion != null ) && !strMinCoreVersion.trim(  ).equals( "" ) )
         {
             String[] minCoreVersion = strMinCoreVersion.split( "\\." );
 
@@ -397,7 +395,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         }
 
         // test the max core version
-        if ( strMaxCoreVersion != null && !strMaxCoreVersion.trim( ).equals( "" ) )
+        if ( ( strMaxCoreVersion != null ) && !strMaxCoreVersion.trim(  ).equals( "" ) )
         {
             String[] maxCoreVersion = strMaxCoreVersion.split( "\\." );
 

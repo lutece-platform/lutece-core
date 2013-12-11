@@ -31,7 +31,6 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.service.security.LuteceUser;
@@ -43,14 +42,13 @@ import fr.paris.lutece.portal.service.security.LuteceUser;
 public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceImpl
     implements IPortalUserPreferencesService
 {
-
     /**
      * {@inheritDoc }
      */
     @Override
     public String getNickname( LuteceUser user )
     {
-        return getNickname( user.getName( ) );
+        return getNickname( user.getName(  ) );
     }
 
     /**
@@ -70,5 +68,4 @@ public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceI
     {
         put( strUserId, PrefsConstants.PORTAL_NICKNAME, strNickname );
     }
-
 }

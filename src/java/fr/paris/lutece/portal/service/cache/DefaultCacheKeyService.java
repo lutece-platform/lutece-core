@@ -42,7 +42,7 @@ import java.util.Map.Entry;
 
 /**
  * Default cache key service
- * 
+ *
  */
 public class DefaultCacheKeyService implements ICacheKeyService
 {
@@ -58,24 +58,25 @@ public class DefaultCacheKeyService implements ICacheKeyService
      */
     public String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
-        StringBuilder sbKey = new StringBuilder( );
+        StringBuilder sbKey = new StringBuilder(  );
 
-        for ( Entry<String, String> entry : mapParams.entrySet( ) )
+        for ( Entry<String, String> entry : mapParams.entrySet(  ) )
         {
-            String strHtKey = entry.getKey( );
-            if ( ( ( _listAllowedParameters == null ) || _listAllowedParameters.contains( strHtKey ) )
-                    && ( ( _listIgnoredParameters == null ) || ( !_listIgnoredParameters.contains( strHtKey ) ) ) )
+            String strHtKey = entry.getKey(  );
+
+            if ( ( ( _listAllowedParameters == null ) || _listAllowedParameters.contains( strHtKey ) ) &&
+                    ( ( _listIgnoredParameters == null ) || ( !_listIgnoredParameters.contains( strHtKey ) ) ) )
             {
-                sbKey.append( "[" ).append( strHtKey ).append( ":" ).append( entry.getValue( ) ).append( "]" );
+                sbKey.append( "[" ).append( strHtKey ).append( ":" ).append( entry.getValue(  ) ).append( "]" );
             }
         }
 
-        String strUserName = ( user != null ) ? user.getName( ) : "-";
+        String strUserName = ( user != null ) ? user.getName(  ) : "-";
 
         sbKey.append( "[m:" ).append( nMode ).append( "]" );
         sbKey.append( "[user:" ).append( strUserName ).append( "]" );
 
-        return sbKey.toString( );
+        return sbKey.toString(  );
     }
 
     /**

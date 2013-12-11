@@ -91,9 +91,14 @@ import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 import fr.paris.lutece.util.xml.XmlUtil;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -105,9 +110,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
-
 
 /**
  * This class provides the user interface to manage app user features ( manage, create, modify, remove, ... )
@@ -115,7 +117,6 @@ import org.apache.commons.lang.StringUtils;
 public class AdminUserJspBean extends AdminFeaturesPageJspBean
 {
     private static final String ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES = "importUsersListMessages";
-
     private static final long serialVersionUID = -6323157489236186522L;
 
     // //////////////////////////////////////////////////////////////////////////
@@ -1375,7 +1376,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         boolean bDelegateWorkgroups = Boolean.valueOf( request.getParameter( PARAMETER_DELEGATE_RIGHTS ) );
 
         setPageTitleProperty( bDelegateWorkgroups ? PROPERTY_DELEGATE_USER_RIGHTS_PAGETITLE
-                : PROPERTY_MODIFY_USER_WORKGROUPS_PAGETITLE );
+                                                  : PROPERTY_MODIFY_USER_WORKGROUPS_PAGETITLE );
 
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
@@ -1398,7 +1399,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             checkedValues.add( item.getCode(  ) );
         }
 
-        assignableWorkspaces.checkItems( checkedValues.toArray( new String[checkedValues.size( )] ) );
+        assignableWorkspaces.checkItems( checkedValues.toArray( new String[checkedValues.size(  )] ) );
 
         // ITEM NAVIGATION
         setItemNavigator( nUserId, AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_WORKGROUPS );
@@ -1451,10 +1452,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             Map<String, Right> rights = AdminUserHome.getRightsListForUser( currentUser.getUserId(  ) );
             rightList = new ArrayList<Right>(  );
 
-            for ( Right right : rights.values( ) )
+            for ( Right right : rights.values(  ) )
             {
                 // logged user can only delegate rights with level higher or equal to user level.
-                if ( right.getLevel( ) >= user.getUserLevel( ) )
+                if ( right.getLevel(  ) >= user.getUserLevel(  ) )
                 {
                     rightList.add( right );
                 }

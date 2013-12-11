@@ -31,7 +31,6 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.service.security.LuteceUser;
@@ -62,5 +61,4 @@ public interface IPortalUserPreferencesService extends IUserPreferencesService
      * @param strNickname The nickname
      */
     void setNickname( String strUserId, String strNickname );
-
 }

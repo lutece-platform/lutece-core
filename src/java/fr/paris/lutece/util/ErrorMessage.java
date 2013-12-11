@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.util;
 
+
 /**
  * ErrorMessage interface
  */
@@ -42,6 +43,5 @@ public interface ErrorMessage
      * Returns the error's message
      * @return The message
      */
-    String getMessage();
-    
+    String getMessage(  );
 }

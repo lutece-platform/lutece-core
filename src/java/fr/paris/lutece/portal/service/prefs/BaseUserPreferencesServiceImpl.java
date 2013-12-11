@@ -35,9 +35,9 @@ package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.business.prefs.IPreferencesDAO;
 
-import java.util.List;
-
 import org.springframework.beans.factory.InitializingBean;
+
+import java.util.List;
 
 
 /**
@@ -54,7 +54,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, 
     /**
      * Constructor
      */
-    protected BaseUserPreferencesServiceImpl( )
+    protected BaseUserPreferencesServiceImpl(  )
     {
     }
 
@@ -75,6 +75,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, 
     {
         String strCacheKey = _cache.getCacheKey( strUserId, strKey );
         String strValue = (String) _cache.getFromCache( strCacheKey );
+
         if ( strValue == null )
         {
             strValue = _dao.load( strUserId, strKey, strDefault );
@@ -166,14 +167,14 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, 
      * {@inheritDoc}
      */
     @Override
-    public void afterPropertiesSet( ) throws Exception
+    public void afterPropertiesSet(  ) throws Exception
     {
         synchronized ( BaseUserPreferencesServiceImpl.class )
         {
             if ( _cache == null )
             {
-                _cache = new BaseUserPreferencesCacheService( );
-                _cache.initCache( );
+                _cache = new BaseUserPreferencesCacheService(  );
+                _cache.initCache(  );
             }
         }
     }

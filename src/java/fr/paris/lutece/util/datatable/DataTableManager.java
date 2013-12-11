@@ -44,9 +44,14 @@ import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -56,9 +61,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -71,12 +73,11 @@ public class DataTableManager<T> implements Serializable
      * Serial version UID
      */
     private static final long serialVersionUID = -3906455886374172029L;
-
     private static final String CONSTANT_GET = "get";
     private static final String CONSTANT_IS = "is";
     private static final String CONSTANT_DATA_TABLE_MANAGER_ID_PREFIX = "dataTableManager";
     private String _strSortUrl;
-    private List<DataTableColumn> _listColumn = new ArrayList<DataTableColumn>( );
+    private List<DataTableColumn> _listColumn = new ArrayList<DataTableColumn>(  );
     private FilterPanel _filterPanel;
     private IPaginator<T> _paginator;
     private String _strCurrentPageIndex = StringUtils.EMPTY;
@@ -91,9 +92,9 @@ public class DataTableManager<T> implements Serializable
     /**
      * Private constructor
      */
-    protected DataTableManager( )
+    protected DataTableManager(  )
     {
-        generateDataTableId( );
+        generateDataTableId(  );
     }
 
     /**
@@ -110,7 +111,7 @@ public class DataTableManager<T> implements Serializable
         _nItemsPerPage = _nDefautlItemsPerPage;
         _strCurrentPageIndex = "1";
         _bEnablePaginator = bEnablePaginator;
-        generateDataTableId( );
+        generateDataTableId(  );
         setSortUrl( strSortUrl );
     }
 
@@ -190,8 +191,7 @@ public class DataTableManager<T> implements Serializable
      */
     public void addFreeColumn( String strColumnTitle, String strFreemarkerMacroName )
     {
-        _listColumn
-                .add( new DataTableColumn( strColumnTitle, strFreemarkerMacroName, false, DataTableColumnType.ACTION ) );
+        _listColumn.add( new DataTableColumn( strColumnTitle, strFreemarkerMacroName, false, DataTableColumnType.ACTION ) );
     }
 
     /**
@@ -252,26 +252,24 @@ public class DataTableManager<T> implements Serializable
         boolean bSubmitedDataTable = hasDataTableFormBeenSubmited( request );
 
         // FILTER
-        Collection<DataTableFilter> listFilters = _filterPanel.getListFilter( );
+        Collection<DataTableFilter> listFilters = _filterPanel.getListFilter(  );
         boolean bUpdateFilter = false;
         boolean bResetFilter = false;
 
         // We check if filters must be updated or cleared
         if ( bSubmitedDataTable )
         {
-            bResetFilter = StringUtils.equals(
-                    request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_RESET_FILTERS ),
-                    Boolean.TRUE.toString( ) );
+            bResetFilter = StringUtils.equals( request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX +
+                        FilterPanel.PARAM_RESET_FILTERS ), Boolean.TRUE.toString(  ) );
             bUpdateFilter = true;
 
             if ( !bResetFilter )
             {
-                bUpdateFilter = StringUtils
-                        .equals(
-                                request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX
-                                        + FilterPanel.PARAM_UPDATE_FILTERS ), Boolean.TRUE.toString( ) );
+                bUpdateFilter = StringUtils.equals( request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX +
+                            FilterPanel.PARAM_UPDATE_FILTERS ), Boolean.TRUE.toString(  ) );
             }
         }
+
         for ( DataTableFilter filter : listFilters )
         {
             String strFilterValue;
@@ -279,33 +277,33 @@ public class DataTableManager<T> implements Serializable
             if ( bSubmitedDataTable && bUpdateFilter )
             {
                 // We update or clear filters
-                strFilterValue = request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX
-                        + filter.getParameterName( ) );
+                strFilterValue = request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX +
+                        filter.getParameterName(  ) );
 
-                if ( !bResetFilter && ( filter.getFilterType( ) == DataTableFilterType.BOOLEAN )
-                        && ( strFilterValue == null ) )
+                if ( !bResetFilter && ( filter.getFilterType(  ) == DataTableFilterType.BOOLEAN ) &&
+                        ( strFilterValue == null ) )
                 {
-                    strFilterValue = Boolean.FALSE.toString( );
+                    strFilterValue = Boolean.FALSE.toString(  );
                 }
 
                 filter.setValue( strFilterValue );
             }
             else
             {
-                strFilterValue = filter.getValue( );
+                strFilterValue = filter.getValue(  );
             }
 
             if ( StringUtils.isNotBlank( strFilterValue ) )
             {
-                List<T> bufferList = new ArrayList<T>( );
+                List<T> bufferList = new ArrayList<T>(  );
 
                 for ( T item : filteredSortedPaginatedItems )
                 {
-                    Method method = getMethod( item, filter.getParameterName( ), CONSTANT_GET );
+                    Method method = getMethod( item, filter.getParameterName(  ), CONSTANT_GET );
 
-                    if ( ( method == null ) && ( filter.getFilterType( ) == DataTableFilterType.BOOLEAN ) )
+                    if ( ( method == null ) && ( filter.getFilterType(  ) == DataTableFilterType.BOOLEAN ) )
                     {
-                        method = getMethod( item, filter.getParameterName( ), CONSTANT_IS );
+                        method = getMethod( item, filter.getParameterName(  ), CONSTANT_IS );
                     }
 
                     if ( method != null )
@@ -314,14 +312,14 @@ public class DataTableManager<T> implements Serializable
                         {
                             Object value = method.invoke( item );
 
-                            if ( ( value != null ) && strFilterValue.equals( value.toString( ) ) )
+                            if ( ( value != null ) && strFilterValue.equals( value.toString(  ) ) )
                             {
                                 bufferList.add( item );
                             }
                         }
                         catch ( Exception e )
                         {
-                            AppLogService.error( e.getMessage( ), e );
+                            AppLogService.error( e.getMessage(  ), e );
                         }
                     }
                 }
@@ -343,11 +341,12 @@ public class DataTableManager<T> implements Serializable
                 _bIsAscSort = Boolean.parseBoolean( request.getParameter( Parameters.SORTED_ASC ) );
             }
         }
+
         // We sort the items
         if ( _strSortedAttributeName != null )
         {
-            Collections.sort( filteredSortedPaginatedItems, new AttributeComparator( _strSortedAttributeName,
-                    _bIsAscSort ) );
+            Collections.sort( filteredSortedPaginatedItems,
+                new AttributeComparator( _strSortedAttributeName, _bIsAscSort ) );
         }
 
         // PAGINATION
@@ -364,20 +363,20 @@ public class DataTableManager<T> implements Serializable
             else
             {
                 _strCurrentPageIndex = Integer.toString( 1 );
-                _nItemsPerPage = filteredSortedPaginatedItems.size( );
+                _nItemsPerPage = filteredSortedPaginatedItems.size(  );
             }
         }
 
         // We paginate create the new paginator
-        _paginator = new LocalizedPaginator<T>( filteredSortedPaginatedItems, _nItemsPerPage, getSortUrl( ),
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale( ) );
+        _paginator = new LocalizedPaginator<T>( filteredSortedPaginatedItems, _nItemsPerPage, getSortUrl(  ),
+                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale(  ) );
     }
 
     /**
      * Get the filter panel of the DataTableManager
      * @return The filter panel of the DataTableManager
      */
-    public FilterPanel getFilterPanel( )
+    public FilterPanel getFilterPanel(  )
     {
         return _filterPanel;
     }
@@ -395,7 +394,7 @@ public class DataTableManager<T> implements Serializable
      * Get the list of columns of this DataTableManager
      * @return The list of columns of this DataTableManager
      */
-    public List<DataTableColumn> getListColumn( )
+    public List<DataTableColumn> getListColumn(  )
     {
         return _listColumn;
     }
@@ -413,7 +412,7 @@ public class DataTableManager<T> implements Serializable
      * Get the sort url of this DataTableManager
      * @return The sort url of this DataTableManager
      */
-    public String getSortUrl( )
+    public String getSortUrl(  )
     {
         return _strSortUrl;
     }
@@ -425,13 +424,14 @@ public class DataTableManager<T> implements Serializable
     public void setSortUrl( String strSortUrl )
     {
         _strSortUrl = strSortUrl;
-        if ( _strSortUrl != null && StringUtils.isNotEmpty( _strSortUrl )
-                && !StringUtils.contains( _strSortUrl, getId( ) ) )
+
+        if ( ( _strSortUrl != null ) && StringUtils.isNotEmpty( _strSortUrl ) &&
+                !StringUtils.contains( _strSortUrl, getId(  ) ) )
         {
             // We add to the sort URL the unique parameter of this data table manager
             UrlItem urlItem = new UrlItem( _strSortUrl );
-            urlItem.addParameter( getId( ), getId( ) );
-            _strSortUrl = urlItem.getUrl( );
+            urlItem.addParameter( getId(  ), getId(  ) );
+            _strSortUrl = urlItem.getUrl(  );
         }
     }
 
@@ -441,9 +441,9 @@ public class DataTableManager<T> implements Serializable
      * @return The filtered, sorted and paginated items collection of this
      *         DataTableManager
      */
-    public List<T> getItems( )
+    public List<T> getItems(  )
     {
-        return _paginator.getPageItems( );
+        return _paginator.getPageItems(  );
     }
 
     /**
@@ -461,7 +461,7 @@ public class DataTableManager<T> implements Serializable
      */
     public void setItems( List<T> items, int nTotalItemsNumber )
     {
-        _paginator = new LocalizedDelegatePaginator<T>( items, _nItemsPerPage, getSortUrl( ),
+        _paginator = new LocalizedDelegatePaginator<T>( items, _nItemsPerPage, getSortUrl(  ),
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, nTotalItemsNumber, _locale );
     }
 
@@ -469,7 +469,7 @@ public class DataTableManager<T> implements Serializable
      * Clear the items stored by this DataTableManager so that the garbage
      * collector can free the memory they use.
      */
-    public void clearItems( )
+    public void clearItems(  )
     {
         _paginator = null;
         _locale = null;
@@ -482,7 +482,7 @@ public class DataTableManager<T> implements Serializable
      * getAndUpdatePaginator} instead to get up to date values !
      * @return The paginator
      */
-    public IPaginator<T> getPaginator( )
+    public IPaginator<T> getPaginator(  )
     {
         return _paginator;
     }
@@ -491,7 +491,7 @@ public class DataTableManager<T> implements Serializable
      * Get the enable paginator boolean
      * @return True if pagination is active, false otherwise
      */
-    public boolean getEnablePaginator( )
+    public boolean getEnablePaginator(  )
     {
         return _bEnablePaginator;
     }
@@ -500,7 +500,7 @@ public class DataTableManager<T> implements Serializable
      * Get the locale
      * @return The locale
      */
-    public Locale getLocale( )
+    public Locale getLocale(  )
     {
         return _locale;
     }
@@ -518,7 +518,7 @@ public class DataTableManager<T> implements Serializable
      * Get the unique id of this data table manager
      * @return The unique id of this data table manager
      */
-    public String getId( )
+    public String getId(  )
     {
         return _strUid;
     }
@@ -534,7 +534,8 @@ public class DataTableManager<T> implements Serializable
 
         if ( _bEnablePaginator )
         {
-            paginationProperties = new DataTablePaginationProperties( );
+            paginationProperties = new DataTablePaginationProperties(  );
+
             if ( hasDataTableFormBeenSubmited( request ) )
             {
                 _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX,
@@ -542,6 +543,7 @@ public class DataTableManager<T> implements Serializable
                 _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE,
                         _nItemsPerPage, _nDefautlItemsPerPage );
             }
+
             paginationProperties.setItemsPerPage( _nItemsPerPage );
 
             int nCurrentPageIndex = 1;
@@ -554,7 +556,7 @@ public class DataTableManager<T> implements Serializable
             paginationProperties.setCurrentPageIndex( nCurrentPageIndex );
         }
 
-        _locale = request != null ? request.getLocale( ) : Locale.getDefault( );
+        _locale = ( request != null ) ? request.getLocale(  ) : Locale.getDefault(  );
 
         return paginationProperties;
     }
@@ -577,6 +579,7 @@ public class DataTableManager<T> implements Serializable
                 _bIsAscSort = Boolean.parseBoolean( request.getParameter( Parameters.SORTED_ASC ) );
             }
         }
+
         DataTableSort sort = new DataTableSort( _strSortedAttributeName, _bIsAscSort );
 
         return sort;
@@ -592,61 +595,60 @@ public class DataTableManager<T> implements Serializable
      */
     public <K> K getAndUpdateFilter( HttpServletRequest request, K filterObject )
     {
-        List<DataTableFilter> listFilters = _filterPanel.getListFilter( );
+        List<DataTableFilter> listFilters = _filterPanel.getListFilter(  );
 
         boolean bSubmitedDataTable = hasDataTableFormBeenSubmited( request );
 
         boolean bResetFilter = false;
         boolean bUpdateFilter = false;
 
-        Map<String, Object> mapFilter = new HashMap<String, Object>( );
+        Map<String, Object> mapFilter = new HashMap<String, Object>(  );
 
         if ( bSubmitedDataTable )
         {
             bUpdateFilter = true;
-            StringUtils.equals(
-                    request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_RESET_FILTERS ),
-                    Boolean.TRUE.toString( ) );
+            StringUtils.equals( request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX +
+                    FilterPanel.PARAM_RESET_FILTERS ), Boolean.TRUE.toString(  ) );
 
             if ( !bResetFilter )
             {
-                bUpdateFilter = StringUtils
-                        .equals(
-                                request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX
-                                        + FilterPanel.PARAM_UPDATE_FILTERS ), Boolean.TRUE.toString( ) );
+                bUpdateFilter = StringUtils.equals( request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX +
+                            FilterPanel.PARAM_UPDATE_FILTERS ), Boolean.TRUE.toString(  ) );
             }
         }
+
         for ( DataTableFilter filter : listFilters )
         {
             if ( bSubmitedDataTable )
             {
-                String strFilterValue = request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX
-                        + filter.getParameterName( ) );
+                String strFilterValue = request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX +
+                        filter.getParameterName(  ) );
 
                 if ( bUpdateFilter )
                 {
                     filter.setValue( strFilterValue );
                 }
             }
-            if ( StringUtils.isNotBlank( filter.getValue( ) ) )
+
+            if ( StringUtils.isNotBlank( filter.getValue(  ) ) )
             {
-                mapFilter.put( filter.getParameterName( ), filter.getValue( ) );
+                mapFilter.put( filter.getParameterName(  ), filter.getValue(  ) );
             }
         }
 
         try
         {
-            BeanUtilsBean.getInstance( ).populate( filterObject, mapFilter );
+            BeanUtilsBean.getInstance(  ).populate( filterObject, mapFilter );
         }
         catch ( IllegalAccessException e )
         {
-            AppLogService.error( e.getMessage( ), e );
+            AppLogService.error( e.getMessage(  ), e );
 
             return null;
         }
         catch ( InvocationTargetException e )
         {
-            AppLogService.error( e.getMessage( ), e );
+            AppLogService.error( e.getMessage(  ), e );
 
             return null;
         }
@@ -658,7 +660,7 @@ public class DataTableManager<T> implements Serializable
      * Internal method. Get the prefix of html attributes used by filters
      * @return The prefix of html attributes used by filters
      */
-    public String getFilterPanelPrefix( )
+    public String getFilterPanelPrefix(  )
     {
         return FilterPanel.PARAM_FILTER_PANEL_PREFIX;
     }
@@ -675,14 +677,14 @@ public class DataTableManager<T> implements Serializable
     private Method getMethod( Object obj, String strAttributName, String strMethodPrefix )
     {
         Method method = null;
-        String strFirstLetter = strAttributName.substring( 0, 1 ).toUpperCase( );
+        String strFirstLetter = strAttributName.substring( 0, 1 ).toUpperCase(  );
 
-        String strMethodName = strMethodPrefix + strFirstLetter
-                + strAttributName.substring( 1, strAttributName.length( ) );
+        String strMethodName = strMethodPrefix + strFirstLetter +
+            strAttributName.substring( 1, strAttributName.length(  ) );
 
         try
         {
-            method = obj.getClass( ).getMethod( strMethodName );
+            method = obj.getClass(  ).getMethod( strMethodName );
         }
         catch ( Exception e )
         {
@@ -695,9 +697,9 @@ public class DataTableManager<T> implements Serializable
     /**
      * Generates the unique identifier of this data table manager
      */
-    private void generateDataTableId( )
+    private void generateDataTableId(  )
     {
-        this._strUid = CONSTANT_DATA_TABLE_MANAGER_ID_PREFIX + UniqueIDGenerator.getNewId( );
+        this._strUid = CONSTANT_DATA_TABLE_MANAGER_ID_PREFIX + UniqueIDGenerator.getNewId(  );
     }
 
     /**
@@ -708,6 +710,6 @@ public class DataTableManager<T> implements Serializable
      */
     private boolean hasDataTableFormBeenSubmited( HttpServletRequest request )
     {
-        return request != null ? StringUtils.equals( request.getParameter( getId( ) ), getId( ) ) : false;
+        return ( request != null ) ? StringUtils.equals( request.getParameter( getId(  ) ), getId(  ) ) : false;
     }
 }

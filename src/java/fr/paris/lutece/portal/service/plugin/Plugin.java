@@ -303,7 +303,7 @@ public abstract class Plugin implements Comparable<Plugin>
         {
             RightHome.remove( right.getId(  ) );
 
-            if ( !( right.getId( ).equals( "" ) ) )
+            if ( !( right.getId(  ).equals( "" ) ) )
             {
                 RightHome.create( right );
             }

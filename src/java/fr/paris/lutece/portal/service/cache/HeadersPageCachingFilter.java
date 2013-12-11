@@ -37,13 +37,6 @@ import fr.paris.lutece.portal.service.page.PageEvent;
 import fr.paris.lutece.portal.service.page.PageEventListener;
 import fr.paris.lutece.portal.service.page.PageService;
 
-import java.util.List;
-
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.CacheManager;
@@ -56,6 +49,13 @@ import net.sf.ehcache.constructs.web.filter.FilterNonReentrantException;
 import net.sf.ehcache.constructs.web.filter.SimpleCachingHeadersPageCachingFilter;
 
 import org.apache.log4j.Logger;
+
+import java.util.List;
+
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 /**

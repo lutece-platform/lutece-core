@@ -59,20 +59,21 @@ public final class SiteMessageService
     /**
      * Private constructor
      */
-    private SiteMessageService( )
+    private SiteMessageService(  )
     {
     }
 
     /**
      * Set the INFO message, store it in session and throw a
      * LuteceSiteMessageException
-     * 
+     *
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @throws SiteMessageException occurs when a site message need to be
      *             displayed
      */
-    public static void setMessage( HttpServletRequest request, String strMessageKey ) throws SiteMessageException
+    public static void setMessage( HttpServletRequest request, String strMessageKey )
+        throws SiteMessageException
     {
         setMessage( request, strMessageKey, null, null, null, null, SiteMessage.TYPE_INFO );
     }
@@ -80,7 +81,7 @@ public final class SiteMessageService
     /**
      * Set the message, store it in session and throw a
      * LuteceSiteMessageException
-     * 
+     *
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @param nMessageType The message type
@@ -88,7 +89,7 @@ public final class SiteMessageService
      *             displayed
      */
     public static void setMessage( HttpServletRequest request, String strMessageKey, int nMessageType )
-            throws SiteMessageException
+        throws SiteMessageException
     {
         setMessage( request, strMessageKey, null, null, null, null, nMessageType );
     }
@@ -96,7 +97,7 @@ public final class SiteMessageService
     /**
      * Set the message, store it in session and throw a
      * LuteceSiteMessageException
-     * 
+     *
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @param nMessageType The message type
@@ -105,7 +106,7 @@ public final class SiteMessageService
      *             displayed
      */
     public static void setMessage( HttpServletRequest request, String strMessageKey, int nMessageType, String strUrl )
-            throws SiteMessageException
+        throws SiteMessageException
     {
         setMessage( request, strMessageKey, null, null, strUrl, null, nMessageType );
     }
@@ -113,7 +114,7 @@ public final class SiteMessageService
     /**
      * Set the message, store it in session and throw a
      * LuteceSiteMessageException
-     * 
+     *
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @param nMessageType The message type
@@ -123,7 +124,7 @@ public final class SiteMessageService
      *             displayed
      */
     public static void setMessage( HttpServletRequest request, String strMessageKey, int nMessageType, String strUrl,
-            Map<String, Object> requestParameters ) throws SiteMessageException
+        Map<String, Object> requestParameters ) throws SiteMessageException
     {
         setMessage( request, strMessageKey, null, null, strUrl, null, nMessageType, requestParameters );
     }
@@ -131,7 +132,7 @@ public final class SiteMessageService
     /**
      * Set the message, store it in session and throw a
      * LuteceSiteMessageException
-     * 
+     *
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @param strTitleKey The title key
@@ -140,7 +141,7 @@ public final class SiteMessageService
      *             displayed
      */
     public static void setMessage( HttpServletRequest request, String strMessageKey, String strTitleKey,
-            int nMessageType ) throws SiteMessageException
+        int nMessageType ) throws SiteMessageException
     {
         setMessage( request, strMessageKey, null, strTitleKey, null, null, nMessageType );
     }
@@ -148,7 +149,7 @@ public final class SiteMessageService
     /**
      * Set the message, store it in session and throw a
      * LuteceSiteMessageException
-     * 
+     *
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @param messageArgs Message Arguments
@@ -158,7 +159,7 @@ public final class SiteMessageService
      *             displayed
      */
     public static void setMessage( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-            String strTitleKey, int nMessageType ) throws SiteMessageException
+        String strTitleKey, int nMessageType ) throws SiteMessageException
     {
         setMessage( request, strMessageKey, messageArgs, strTitleKey, null, null, nMessageType );
     }
@@ -166,7 +167,7 @@ public final class SiteMessageService
     /**
      * Set the message, store it in session and throw a
      * LuteceSiteMessageException
-     * 
+     *
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @param messageArgs Message Arguments
@@ -175,7 +176,7 @@ public final class SiteMessageService
      *             displayed
      */
     public static void setMessage( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-            int nMessageType ) throws SiteMessageException
+        int nMessageType ) throws SiteMessageException
     {
         setMessage( request, strMessageKey, messageArgs, null, null, null, nMessageType );
     }
@@ -183,7 +184,7 @@ public final class SiteMessageService
     /**
      * Set the message, store it in session and throw a
      * LuteceSiteMessageException
-     * 
+     *
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @param messageArgs Message arguments
@@ -194,7 +195,8 @@ public final class SiteMessageService
      *             displayed
      */
     public static void setMessage( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-            int nMessageType, String strUrl, String strTitleKey ) throws SiteMessageException
+        int nMessageType, String strUrl, String strTitleKey )
+        throws SiteMessageException
     {
         setMessage( request, strMessageKey, messageArgs, strTitleKey, strUrl, null, nMessageType );
     }
@@ -202,7 +204,7 @@ public final class SiteMessageService
     /**
      * Set the message, store it in session and throw a
      * LuteceSiteMessageException
-     * 
+     *
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @param messageArgs Message Arguments
@@ -213,7 +215,7 @@ public final class SiteMessageService
      *             displayed
      */
     public static void setMessage( HttpServletRequest request, String strMessageKey, int nMessageType, String strUrl,
-            String strTitleKey, Object[] messageArgs ) throws SiteMessageException
+        String strTitleKey, Object[] messageArgs ) throws SiteMessageException
     {
         setMessage( request, strMessageKey, messageArgs, strTitleKey, strUrl, null, nMessageType );
     }
@@ -221,7 +223,7 @@ public final class SiteMessageService
     /**
      * Set the message, store it in session and throw a
      * LuteceSiteMessageException
-     * 
+     *
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @param messageArgs Message Arguments
@@ -233,7 +235,8 @@ public final class SiteMessageService
      *             displayed
      */
     public static void setMessage( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-            String strTitleKey, String strUrl, String strTarget, int nMessageType ) throws SiteMessageException
+        String strTitleKey, String strUrl, String strTarget, int nMessageType )
+        throws SiteMessageException
     {
         setMessage( request, strMessageKey, messageArgs, strTitleKey, strUrl, strTarget, nMessageType, null );
     }
@@ -241,7 +244,7 @@ public final class SiteMessageService
     /**
      * Set the message, store it in session and throw a
      * LuteceSiteMessageException
-     * 
+     *
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @param messageArgs Message Arguments
@@ -254,17 +257,17 @@ public final class SiteMessageService
      *             displayed
      */
     public static void setMessage( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-            String strTitleKey, String strUrl, String strTarget, int nMessageType, Map<String, Object> requestParameters )
-            throws SiteMessageException
+        String strTitleKey, String strUrl, String strTarget, int nMessageType, Map<String, Object> requestParameters )
+        throws SiteMessageException
     {
         setMessage( request, strMessageKey, messageArgs, strTitleKey, strUrl, strTarget, nMessageType,
-                requestParameters, null );
+            requestParameters, null );
     }
 
     /**
      * Set the message, store it in session and throw a
      * LuteceSiteMessageException
-     * 
+     *
      * @param request The HttpRequest
      * @param strMessageKey The message key
      * @param messageArgs Message Arguments
@@ -278,15 +281,15 @@ public final class SiteMessageService
      *             displayed
      */
     public static void setMessage( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-            String strTitleKey, String strUrl, String strTarget, int nMessageType,
-            Map<String, Object> requestParameters, String strBackUrl ) throws SiteMessageException
+        String strTitleKey, String strUrl, String strTarget, int nMessageType, Map<String, Object> requestParameters,
+        String strBackUrl ) throws SiteMessageException
     {
         String strTitle = ( strTitleKey != null ) ? strTitleKey : getDefaultTitle( nMessageType );
         SiteMessage message = new SiteMessage( strMessageKey, messageArgs, strTitle, strUrl, strTarget, nMessageType,
                 getTypeButton( nMessageType, strUrl ), requestParameters, strBackUrl );
         setMessage( request, message );
 
-        throw new SiteMessageException( );
+        throw new SiteMessageException(  );
     }
 
     /**
@@ -315,7 +318,7 @@ public final class SiteMessageService
 
     /**
      * Delete the message in session
-     * 
+     *
      * @param request The HTTP request
      */
     public static void cleanMessageSession( HttpServletRequest request )
@@ -326,7 +329,7 @@ public final class SiteMessageService
 
     /**
      * Set the site message url with parameters if necessary
-     * 
+     *
      * @param strRequestUrl The Request url
      * @return The message url
      */
@@ -335,7 +338,7 @@ public final class SiteMessageService
         UrlItem urlItem = new UrlItem( strRequestUrl );
         urlItem.addParameter( PARAMETER_SITE_MESSAGE, PARAMETER_SITE_MESSAGE_VALUE );
 
-        return urlItem.getUrl( );
+        return urlItem.getUrl(  );
     }
 
     /**
@@ -349,35 +352,35 @@ public final class SiteMessageService
 
         switch ( nMessageType )
         {
-        case SiteMessage.TYPE_QUESTION:
-            strTitleKey = PROPERTY_TITLE_QUESTION;
+            case SiteMessage.TYPE_QUESTION:
+                strTitleKey = PROPERTY_TITLE_QUESTION;
 
-            break;
+                break;
 
-        case SiteMessage.TYPE_ERROR:
-            strTitleKey = PROPERTY_TITLE_ERROR;
+            case SiteMessage.TYPE_ERROR:
+                strTitleKey = PROPERTY_TITLE_ERROR;
 
-            break;
+                break;
 
-        case SiteMessage.TYPE_WARNING:
-            strTitleKey = PROPERTY_TITLE_WARNING;
+            case SiteMessage.TYPE_WARNING:
+                strTitleKey = PROPERTY_TITLE_WARNING;
 
-            break;
+                break;
 
-        case SiteMessage.TYPE_CONFIRMATION:
-            strTitleKey = PROPERTY_TITLE_CONFIRMATION;
+            case SiteMessage.TYPE_CONFIRMATION:
+                strTitleKey = PROPERTY_TITLE_CONFIRMATION;
 
-            break;
+                break;
 
-        case SiteMessage.TYPE_STOP:
-            strTitleKey = PROPERTY_TITLE_STOP;
+            case SiteMessage.TYPE_STOP:
+                strTitleKey = PROPERTY_TITLE_STOP;
 
-            break;
+                break;
 
-        default:
-            strTitleKey = PROPERTY_TITLE_DEFAULT;
+            default:
+                strTitleKey = PROPERTY_TITLE_DEFAULT;
 
-            break;
+                break;
         }
 
         return strTitleKey;
@@ -409,16 +412,16 @@ public final class SiteMessageService
         {
             switch ( nMessageType )
             {
-            case SiteMessage.TYPE_QUESTION:
-            case SiteMessage.TYPE_CONFIRMATION:
-                nTypeButton = SiteMessage.TYPE_BUTTON_CANCEL;
+                case SiteMessage.TYPE_QUESTION:
+                case SiteMessage.TYPE_CONFIRMATION:
+                    nTypeButton = SiteMessage.TYPE_BUTTON_CANCEL;
 
-                break;
+                    break;
 
-            default:
-                nTypeButton = SiteMessage.TYPE_BUTTON_HIDDEN;
+                default:
+                    nTypeButton = SiteMessage.TYPE_BUTTON_HIDDEN;
 
-                break;
+                    break;
             }
         }
         else

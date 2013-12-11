@@ -37,7 +37,11 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.http.MultipartUtil;
 
+import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
+import org.apache.commons.fileupload.FileUploadException;
+
 import java.io.IOException;
+
 import java.text.DecimalFormat;
 
 import javax.servlet.Filter;
@@ -48,9 +52,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
-import org.apache.commons.fileupload.FileUploadException;
 
 
 /**
@@ -71,7 +72,7 @@ public abstract class UploadFilter implements Filter
 
     /**
      * Forward the error message url depends site or admin implementation.
-     * 
+     *
      * @param request The http request
      * @param strMessageKey the str message key
      * @param messageArgs the message args
@@ -79,7 +80,7 @@ public abstract class UploadFilter implements Filter
      * @return Message
      */
     protected abstract String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey,
-            Object[] messageArgs, String strTitleKey );
+        Object[] messageArgs, String strTitleKey );
 
     /**
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
@@ -118,8 +119,8 @@ public abstract class UploadFilter implements Filter
         }
         catch ( NumberFormatException ex )
         {
-            AppLogService.error( ex.getMessage( ), ex );
-            throw new ServletException( ex.getMessage( ), ex );
+            AppLogService.error( ex.getMessage(  ), ex );
+            throw new ServletException( ex.getMessage(  ), ex );
         }
     }
 
@@ -138,8 +139,8 @@ public abstract class UploadFilter implements Filter
      *             The SerletException
      */
     @Override
-    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain ) throws IOException,
-            ServletException
+    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
+        throws IOException, ServletException
     {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
@@ -157,17 +158,16 @@ public abstract class UploadFilter implements Filter
             }
             catch ( SizeLimitExceededException e )
             {
-                AppLogService.error( e.getMessage( ), e );
+                AppLogService.error( e.getMessage(  ), e );
 
-                Object[] args = { getDisplaySize( ) };
-                ( (HttpServletResponse) response ).sendRedirect( AppPathService
-                        .getBaseUrl( httpRequest )
-                        + getMessageRelativeUrl( httpRequest, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args,
-                                PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED ) );
+                Object[] args = { getDisplaySize(  ) };
+                ( (HttpServletResponse) response ).sendRedirect( AppPathService.getBaseUrl( httpRequest ) +
+                    getMessageRelativeUrl( httpRequest, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args,
+                        PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED ) );
             }
             catch ( FileUploadException e )
             {
-                AppLogService.error( e.getMessage( ), e );
+                AppLogService.error( e.getMessage(  ), e );
                 throw new ServletException( "Unkown error occured during the upload", e );
             }
         }
@@ -175,10 +175,10 @@ public abstract class UploadFilter implements Filter
 
     /**
      * Get the max size of upload file
-     * 
+     *
      * @return The max size
      */
-    public long getRequestSizeMax( )
+    public long getRequestSizeMax(  )
     {
         return _nRequestSizeMax;
     }
@@ -187,22 +187,22 @@ public abstract class UploadFilter implements Filter
      * Default implementation for subclasses
      */
     @Override
-    public void destroy( )
+    public void destroy(  )
     {
     }
 
     /**
-     * 
+     *
      * @return the size of the request to display in the error message
      */
-    private String getDisplaySize( )
+    private String getDisplaySize(  )
     {
-        long lSizeMax = getRequestSizeMax( );
-        DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance( );
+        long lSizeMax = getRequestSizeMax(  );
+        DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance(  );
         decimalFormat.applyPattern( "#" );
 
-        String strMessage = ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) ) : ( decimalFormat
-                .format( lSizeMax / KILO_BYTE ) );
+        String strMessage = ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) )
+                                                      : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
 
         return strMessage;
     }

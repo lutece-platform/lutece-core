@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.prefs;
 
+
 /**
  * Preferences constants
  */
@@ -42,8 +43,7 @@ public final class PrefsConstants
     public static final String PORTAL_LOCALE = "portal.locale";
 
     /** Private constructor */
-    private PrefsConstants( )
+    private PrefsConstants(  )
     {
-
     }
 }

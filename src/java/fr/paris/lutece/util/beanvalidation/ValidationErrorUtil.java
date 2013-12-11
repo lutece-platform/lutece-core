@@ -50,11 +50,11 @@ public final class ValidationErrorUtil
     /**
      * Private constructor
      */
-    private ValidationErrorUtil( )
+    private ValidationErrorUtil(  )
     {
         // Nothing to do
     }
-    
+
     /**
      * Return the attribute's value to set as the value#1 of the message
      * @param constraintViolation The Constraint violation
@@ -148,11 +148,11 @@ public final class ValidationErrorUtil
 
         Map<String, Object> mapAttributes = constraintViolation.getConstraintDescriptor(  ).getAttributes(  );
 
-        for ( Entry<String, Object> entry : mapAttributes.entrySet( ) )
+        for ( Entry<String, Object> entry : mapAttributes.entrySet(  ) )
         {
-            if ( strAttributes.contains( entry.getKey( ) ) )
+            if ( strAttributes.contains( entry.getKey(  ) ) )
             {
-                strValue = getValue( entry.getValue( ) );
+                strValue = getValue( entry.getValue(  ) );
             }
         }
 

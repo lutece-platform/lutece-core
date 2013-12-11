@@ -34,6 +34,7 @@
 package fr.paris.lutece.util.beanvalidation;
 
 import fr.paris.lutece.util.ErrorMessage;
+
 import java.text.MessageFormat;
 
 import java.util.Locale;

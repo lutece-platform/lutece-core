@@ -40,10 +40,12 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.security.Principal;
+
 import java.util.Collection;
 import java.util.Enumeration;
 
 import javax.security.auth.login.LoginException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 

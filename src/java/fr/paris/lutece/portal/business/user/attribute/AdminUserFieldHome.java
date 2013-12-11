@@ -103,11 +103,12 @@ public final class AdminUserFieldHome
     {
         if ( userField != null )
         {
-            if ( userField.getFile( ) != null )
+            if ( userField.getFile(  ) != null )
             {
-                FileHome.remove( userField.getFile( ).getIdFile( ) );
+                FileHome.remove( userField.getFile(  ).getIdFile(  ) );
             }
-            _dao.delete( userField.getIdUserField( ) );
+
+            _dao.delete( userField.getIdUserField(  ) );
         }
     }
 

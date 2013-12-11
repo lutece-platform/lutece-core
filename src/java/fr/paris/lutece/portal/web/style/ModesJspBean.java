@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.io.File;
+
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;

@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.datastore;
 
-
 import java.util.List;
 
 

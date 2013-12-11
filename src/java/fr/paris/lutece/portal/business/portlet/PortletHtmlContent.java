@@ -31,12 +31,11 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.portal.business.portlet;
 
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.service.message.SiteMessageException;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -55,7 +54,8 @@ public abstract class PortletHtmlContent extends Portlet
      * {@inheritDoc}
      */
     @Override
-    public String getXml( HttpServletRequest request ) throws SiteMessageException
+    public String getXml( HttpServletRequest request )
+        throws SiteMessageException
     {
         return null;
     }
@@ -64,7 +64,8 @@ public abstract class PortletHtmlContent extends Portlet
      * {@inheritDoc}
      */
     @Override
-    public String getXmlDocument( HttpServletRequest request ) throws SiteMessageException
+    public String getXmlDocument( HttpServletRequest request )
+        throws SiteMessageException
     {
         return null;
     }
@@ -73,9 +74,8 @@ public abstract class PortletHtmlContent extends Portlet
      * {@inheritDoc}
      */
     @Override
-    public boolean isContentGeneratedByXmlAndXsl( )
+    public boolean isContentGeneratedByXmlAndXsl(  )
     {
         return false;
     }
-
 }

@@ -54,9 +54,9 @@ public class ReferenceList extends ArrayList<ReferenceItem>
     /**
      * Default constructor.
      */
-    public ReferenceList( )
+    public ReferenceList(  )
     {
-        super( );
+        super(  );
     }
 
     /**
@@ -70,13 +70,13 @@ public class ReferenceList extends ArrayList<ReferenceItem>
 
     /**
      * This method adds a new element (code, name) to the list
-     * 
+     *
      * @param strCode The code as a String
      * @param strName The name corresponding to the code as a String
      */
     public void addItem( String strCode, String strName )
     {
-        ReferenceItem item = new ReferenceItem( );
+        ReferenceItem item = new ReferenceItem(  );
         item.setCode( strCode );
         item.setName( strName );
         add( item );
@@ -86,13 +86,13 @@ public class ReferenceList extends ArrayList<ReferenceItem>
      * This method converts the int code specified in parameter as a String and
      * adds a new element (code, name) to the
      * list
-     * 
+     *
      * @param nCode The code to convert an add
      * @param strName The name corresponding to the code as a String
      */
     public void addItem( int nCode, String strName )
     {
-        ReferenceItem item = new ReferenceItem( );
+        ReferenceItem item = new ReferenceItem(  );
         String strCode = String.valueOf( nCode );
         item.setCode( strCode );
         item.setName( strName );
@@ -111,14 +111,14 @@ public class ReferenceList extends ArrayList<ReferenceItem>
      * @return The ReferenceList filled
      * @since v1.1
      */
-    public static ReferenceList convert( Collection collection, String strCodeAttribute,
-            String strNameAttribute, boolean bNumericCode )
+    public static ReferenceList convert( Collection collection, String strCodeAttribute, String strNameAttribute,
+        boolean bNumericCode )
     {
-        ReferenceList list = new ReferenceList( );
-        String strCodeGetter = "get" + Character.toUpperCase( strCodeAttribute.charAt( 0 ) )
-                + strCodeAttribute.substring( 1 );
-        String strNameGetter = "get" + Character.toUpperCase( strNameAttribute.charAt( 0 ) )
-                + strNameAttribute.substring( 1 );
+        ReferenceList list = new ReferenceList(  );
+        String strCodeGetter = "get" + Character.toUpperCase( strCodeAttribute.charAt( 0 ) ) +
+            strCodeAttribute.substring( 1 );
+        String strNameGetter = "get" + Character.toUpperCase( strNameAttribute.charAt( 0 ) ) +
+            strNameAttribute.substring( 1 );
         String strCode;
         String strName;
 
@@ -129,17 +129,17 @@ public class ReferenceList extends ArrayList<ReferenceItem>
                 // build getter method name
                 if ( bNumericCode )
                 {
-                    Integer nCode = (Integer) o.getClass( ).getMethod( strCodeGetter, (Class[]) null )
-                            .invoke( o, (Object[]) null );
-                    strCode = nCode.toString( );
+                    Integer nCode = (Integer) o.getClass(  ).getMethod( strCodeGetter, (Class[]) null )
+                                               .invoke( o, (Object[]) null );
+                    strCode = nCode.toString(  );
                 }
                 else
                 {
-                    strCode = (String) o.getClass( ).getMethod( strCodeGetter, (Class[]) null )
-                            .invoke( o, (Object[]) null );
+                    strCode = (String) o.getClass(  ).getMethod( strCodeGetter, (Class[]) null )
+                                        .invoke( o, (Object[]) null );
                 }
 
-                strName = (String) o.getClass( ).getMethod( strNameGetter, (Class[]) null ).invoke( o, (Object[]) null );
+                strName = (String) o.getClass(  ).getMethod( strNameGetter, (Class[]) null ).invoke( o, (Object[]) null );
                 list.addItem( strCode, strName );
             }
         }
@@ -160,11 +160,11 @@ public class ReferenceList extends ArrayList<ReferenceItem>
     {
         if ( map != null )
         {
-            ReferenceList list = new ReferenceList( );
+            ReferenceList list = new ReferenceList(  );
 
-            for ( Entry<String, String> param : map.entrySet( ) )
+            for ( Entry<String, String> param : map.entrySet(  ) )
             {
-                list.addItem( param.getKey( ), param.getValue( ) );
+                list.addItem( param.getKey(  ), param.getValue(  ) );
             }
 
             return list;
@@ -177,15 +177,15 @@ public class ReferenceList extends ArrayList<ReferenceItem>
      * Convert the ReferenceList into a map
      * @return the converted map
      */
-    public Map<String, String> toMap( )
+    public Map<String, String> toMap(  )
     {
-        Map<String, String> map = new HashMap<String, String>( );
+        Map<String, String> map = new HashMap<String, String>(  );
 
-        if ( !this.isEmpty( ) )
+        if ( !this.isEmpty(  ) )
         {
             for ( ReferenceItem item : this )
             {
-                map.put( item.getCode( ), item.getName( ) );
+                map.put( item.getCode(  ), item.getName(  ) );
             }
         }
 
@@ -202,7 +202,7 @@ public class ReferenceList extends ArrayList<ReferenceItem>
         {
             for ( ReferenceItem item : this )
             {
-                if ( item.getCode( ).equals( valuesToCheck[i] ) )
+                if ( item.getCode(  ).equals( valuesToCheck[i] ) )
                 {
                     item.setChecked( true );
                 }

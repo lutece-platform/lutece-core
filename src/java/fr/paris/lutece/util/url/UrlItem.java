@@ -33,12 +33,11 @@
  */
 package fr.paris.lutece.util.url;
 
+import org.apache.commons.lang.StringUtils;
 
 // Java Util
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -95,6 +94,7 @@ public class UrlItem
         StringBuilder urlCode = new StringBuilder( _strRoot );
 
         boolean bFirst = ( _strRoot.indexOf( '?' ) == -1 );
+
         for ( UrlParameterItem parameter : _listParameters )
         {
             // Add a ? or & to the root url if it does already contains one
@@ -102,13 +102,13 @@ public class UrlItem
             bFirst = false;
         }
 
-        if ( ( getAnchor( ) != null ) && !getAnchor( ).equals( StringUtils.EMPTY ) )
+        if ( ( getAnchor(  ) != null ) && !getAnchor(  ).equals( StringUtils.EMPTY ) )
         {
             urlCode.append( ANCHOR_DELIMITER );
-            urlCode.append( getAnchor( ) );
+            urlCode.append( getAnchor(  ) );
         }
 
-        return urlCode.toString( );
+        return urlCode.toString(  );
     }
 
     /**
@@ -120,6 +120,7 @@ public class UrlItem
         StringBuilder urlCode = new StringBuilder( _strRoot );
 
         boolean bFirst = ( _strRoot.indexOf( '?' ) == -1 );
+
         for ( UrlParameterItem parameter : _listParameters )
         {
             // Add a ? or & to the root url if it does already contains one
@@ -127,12 +128,12 @@ public class UrlItem
             bFirst = false;
         }
 
-        if ( StringUtils.isNotEmpty( getAnchor( ) ) )
+        if ( StringUtils.isNotEmpty( getAnchor(  ) ) )
         {
-            urlCode.append( ANCHOR_DELIMITER + getAnchor( ) );
+            urlCode.append( ANCHOR_DELIMITER + getAnchor(  ) );
         }
 
-        return urlCode.toString( );
+        return urlCode.toString(  );
     }
 
     /**

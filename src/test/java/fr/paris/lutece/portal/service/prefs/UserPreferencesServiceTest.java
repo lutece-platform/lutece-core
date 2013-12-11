@@ -78,9 +78,9 @@ public class UserPreferencesServiceTest extends LuteceTestCase
         service.putBoolean( USER_ID_1, KEY3, BOOL_VALUE );
         bValue = service.getBoolean( USER_ID_1, KEY3, BOOL_DEFAULT );
         assertEquals( bValue, BOOL_VALUE );
-        
+
         service.setNickname( USER_ID_1, NICKNAME );
-        assertTrue( NICKNAME.equals( service.getNickname( USER_ID_1 )));
+        assertTrue( NICKNAME.equals( service.getNickname( USER_ID_1 ) ) );
 
         // List Test
         List list = service.keys( USER_ID_1 );

@@ -114,6 +114,7 @@ public class LuteceMessageInterpolator implements MessageInterpolator
             while ( matcher.find(  ) );
 
             matcher.appendTail( sb );
+
             return sb.toString(  );
         }
 

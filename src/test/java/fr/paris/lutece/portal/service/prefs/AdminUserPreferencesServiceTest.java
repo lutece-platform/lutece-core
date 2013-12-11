@@ -34,10 +34,10 @@
 package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.test.LuteceTestCase;
-
-import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+
+import java.util.List;
 
 
 /**
@@ -80,7 +80,7 @@ public class AdminUserPreferencesServiceTest extends LuteceTestCase
         service.putBoolean( USER_ID_1, KEY3, BOOL_VALUE );
         bValue = service.getBoolean( USER_ID_1, KEY3, BOOL_DEFAULT );
         assertEquals( bValue, BOOL_VALUE );
-        
+
         // List Test
         List list = service.keys( USER_ID_1 );
         assertTrue( list.size(  ) > 0 );

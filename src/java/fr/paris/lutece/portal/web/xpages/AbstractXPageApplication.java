@@ -37,15 +37,19 @@ import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 import fr.paris.lutece.util.beanvalidation.ValidationError;
 import fr.paris.lutece.util.beanvalidation.ValidationErrorConfig;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
+
 import javax.validation.ConstraintViolation;
 
+
 /**
- * Abstract XPageApplication provides 
- * 
+ * Abstract XPageApplication provides
+ *
  */
 public abstract class AbstractXPageApplication implements XPageApplication
 {
@@ -81,7 +85,7 @@ public abstract class AbstractXPageApplication implements XPageApplication
      */
     protected <T> List<ValidationError> validate( T bean, String strFieldsKeyPrefix, Locale locale )
     {
-        return BeanValidationUtil.validate( bean, locale , strFieldsKeyPrefix );
+        return BeanValidationUtil.validate( bean, locale, strFieldsKeyPrefix );
     }
 
     /**
@@ -95,6 +99,4 @@ public abstract class AbstractXPageApplication implements XPageApplication
     {
         return BeanValidationUtil.validate( bean, locale, config );
     }
-    
-   
 }

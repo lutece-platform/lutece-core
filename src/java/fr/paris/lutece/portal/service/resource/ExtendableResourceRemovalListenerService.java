@@ -45,7 +45,7 @@ public final class ExtendableResourceRemovalListenerService
     private static List<IExtendableResourceRemovalListener> _listListeners = new ArrayList<IExtendableResourceRemovalListener>(  );
 
     /** Private Constructor */
-    private ExtendableResourceRemovalListenerService()
+    private ExtendableResourceRemovalListenerService(  )
     {
     }
 
