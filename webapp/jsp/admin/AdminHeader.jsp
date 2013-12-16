@@ -20,6 +20,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Le styles -->
 <link href="css/admin/bootstrap.min.css" rel="stylesheet">
+<link href="css/admin/bootstrap-theme.min.css" rel="stylesheet">
 <link rel="stylesheet" href="css/admin/portal_admin.css" />
 <%
 	if ( AdminThemeService.isModeAccessible( request ) ){
@@ -29,7 +30,6 @@
 	}
 %>
 <link rel="stylesheet" type="text/css" href="css/admin/print_admin.css" media="print" />
-<link href="css/admin/bootstrap-responsive.min.css" rel="stylesheet">
 <link href="css/admin/colorpicker.css" rel="stylesheet">
 <!-- link href="css/admin/datepicker.css" rel="stylesheet" -->
 <link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery-ui-1.10.0.custom.css" />
@@ -46,8 +46,7 @@
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
 -->
-
-<script src="js/jquery/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 </head>
 <body>
 <%-- Display the admin menu --%>

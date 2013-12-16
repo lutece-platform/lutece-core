@@ -2,6 +2,8 @@
  # More information for jQuery UI Datepicker usage :
  # http://docs.jquery.com/UI/Datepicker
  # http://marcgrabanski.com/code/ui-datepicker/ 
+ # ---------------- Bootstrap datepicker ------------
+ # http://www.eyecon.ro/bootstrap-datepicker/
 -->
  
 <#-- getDatePicker
@@ -15,10 +17,14 @@
  #
 -->
 <#macro getDatePicker idField language >
+	<script src="js/bootstrap-datepicker.js"></script>
+	<script src="js/locales/bootstrap-datepicker.fr.js" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		<#-- <@setDefaultsDatePicker /> -->
-		$('#${idField}').datepicker($.extend({showStatus: true}, $.datepicker.regional['<@getRegional language=language />']));
+		/* $('#${idField}').datepicker($.extend({showStatus: true}, $.datepicker.regional['<@getRegional language=language />'])); */
+		<!-- boostrap version -->
+ 		$('#${idField}').datepicker());
 	}); 
 	</script>
 </#macro>
@@ -35,11 +41,13 @@
  # <@getDatePickerRange idFieldFrom="document_validity_begin" idFieldTo="document_validity_end" language=locale.language />
  #
 -->
+
+<!-- Deprecated -->
 <#macro getDatePickerRange idFieldFrom idFieldTo language >
 	<script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		<#-- <@setDefaultsDatePicker /> -->
-		$('#${idFieldFrom}').datepicker({beforeShow: customRange}, $.extend({showStatus: true})); 
+		$('#${idFieldFrom}').datepicker(); 
 		$('#${idFieldTo}').datepicker({beforeShow: customRange}, $.extend({showStatus: true})); 
 		// Customize two date pickers to work as a date range 
 		function customRange(input) { 
@@ -47,12 +55,21 @@
 		    return {minDate: (input.id == '${idFieldTo}' ? $('#${idFieldFrom}').datepicker('getDate') : null), 
 	        maxDate: (input.id == '${idFieldFrom}' ? $('#${idFieldTo}').datepicker('getDate') : null)}; 
 		}
+		$('.${idFieldFrom}').datepicker({language: '<@getRegional language=language />'});
 	});
 	</script>
 </#macro>
 
-
-
+<!-- New Bootstrap Date range picker to use -->
+<#macro getDatePickerRangeBootstrap classDiv language >
+	<script src="js/bootstrap-datepicker.js"></script>
+	<script src="js/locales/bootstrap-datepicker.fr.js" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$('.${classDiv}').datepicker({language: '<@getRegional language=language />'});
+	});
+	</script>
+</#macro>
 
 <#-- ------------ Privates macro --------------- -->
 
