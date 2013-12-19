@@ -38,7 +38,6 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -51,44 +50,45 @@ public final class PortletDAO implements IPortletDAO
 {
     // queries
     private static final String SQL_QUERY_NEW_PK = "SELECT max(id_portlet) FROM core_portlet ";
-    private static final String SQL_QUERY_UPDATE = " UPDATE core_portlet SET name = ?, date_update = ?, column_no = ?, " +
-        " portlet_order = ? , id_style = ? , id_page = ?, accept_alias = ? , display_portlet_title = ?, role = ?, device_display_flags = ? " +
-        " WHERE id_portlet = ?";
-    private static final String SQL_QUERY_SELECT = " SELECT b.id_portlet_type, a.id_page, a.id_style, a.name , b.name, " +
-        " b.url_creation, b.url_update, a.date_update, a.column_no, a.portlet_order, " +
-        " b.home_class, a.accept_alias , a.role , b.plugin_name , a.display_portlet_title, a.status, a.device_display_flags " +
-        " FROM core_portlet a , core_portlet_type b WHERE a.id_portlet_type = b.id_portlet_type AND a.id_portlet = ?";
-    private static final String SQL_QUERY_SELECT_ALIAS = " SELECT a.id_portlet FROM core_portlet a, core_portlet_alias b " +
-        " WHERE a.id_portlet = b.id_portlet AND b.id_alias= ? ";
+    private static final String SQL_QUERY_UPDATE = " UPDATE core_portlet SET name = ?, date_update = ?, column_no = ?, "
+            + " portlet_order = ? , id_style = ? , id_page = ?, accept_alias = ? , display_portlet_title = ?, role = ?, device_display_flags = ? "
+            + " WHERE id_portlet = ?";
+    private static final String SQL_QUERY_SELECT = " SELECT b.id_portlet_type, a.id_page, a.id_style, a.name , b.name, "
+            + " b.url_creation, b.url_update, a.date_update, a.column_no, a.portlet_order, "
+            + " b.home_class, a.accept_alias , a.role , b.plugin_name , a.display_portlet_title, a.status, a.device_display_flags "
+            + " FROM core_portlet a , core_portlet_type b WHERE a.id_portlet_type = b.id_portlet_type AND a.id_portlet = ?";
+    private static final String SQL_QUERY_SELECT_ALIAS = " SELECT a.id_portlet FROM core_portlet a, core_portlet_alias b "
+            + " WHERE a.id_portlet = b.id_portlet AND b.id_alias= ? ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_portlet WHERE id_portlet = ?";
     private static final String SQL_QUERY_UPDATE_STATUS = " UPDATE core_portlet SET status = ?, date_update = ? WHERE id_portlet = ? ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_portlet ( id_portlet, id_portlet_type, id_page, id_style, name, " +
-        " date_creation, date_update, status, column_no, portlet_order, accept_alias, display_portlet_title, role, device_display_flags ) " +
-        " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?)";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_portlet ( id_portlet, id_portlet_type, id_page, id_style, name, "
+            + " date_creation, date_update, status, column_no, portlet_order, accept_alias, display_portlet_title, role, device_display_flags ) "
+            + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?)";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_STYLE = "SELECT id_portlet, name, id_page FROM core_portlet WHERE id_style=?";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_ROLE = "SELECT id_portlet, name, id_page FROM core_portlet WHERE role=?";
-    private static final String SQL_QUERY_SELECT_XSL_FILE = " SELECT a.id_stylesheet , a.description , a.file_name, a.source " +
-        " FROM core_stylesheet a, core_portlet b, core_style_mode_stylesheet c " +
-        " WHERE a.id_stylesheet = c.id_stylesheet " +
-        " AND b.id_style = c.id_style AND b.id_portlet = ? AND c.id_mode = ? ";
-    private static final String SQL_QUERY_SELECT_STYLE_LIST = " SELECT distinct a.id_style , a.description_style " +
-        " FROM core_style a , core_style_mode_stylesheet b " + " WHERE  a.id_style = b.id_style " +
-        " AND a.id_portlet_type = ? ORDER BY a.description_style";
-    private static final String SQL_QUERY_SELECT_PORTLET_TYPE = " SELECT id_portlet_type , name , url_creation, url_update, plugin_name " +
-        " FROM core_portlet_type WHERE id_portlet_type = ? ORDER BY id_portlet_type ";
-    private static final String SQL_QUERY_SELECT_PORTLET_ALIAS = " SELECT a.id_portlet FROM core_portlet a , core_portlet_alias b" +
-        " WHERE a.id_portlet = b.id_portlet " + " AND b.id_alias= ? ";
-    private static final String SQL_QUERY_SELECT_ALIASES_FOR_PORTLET = "SELECT p.id_portlet, p.id_page, p.name " +
-        "FROM core_portlet_alias a JOIN core_portlet p ON p.id_portlet = a.id_portlet WHERE a.id_alias = ? ";
+    private static final String SQL_QUERY_SELECT_XSL_FILE = " SELECT a.id_stylesheet , a.description , a.file_name, a.source "
+            + " FROM core_stylesheet a, core_portlet b, core_style_mode_stylesheet c "
+            + " WHERE a.id_stylesheet = c.id_stylesheet "
+            + " AND b.id_style = c.id_style AND b.id_portlet = ? AND c.id_mode = ? ";
+    private static final String SQL_QUERY_SELECT_STYLE_LIST = " SELECT distinct a.id_style , a.description_style "
+            + " FROM core_style a , core_style_mode_stylesheet b " + " WHERE  a.id_style = b.id_style "
+            + " AND a.id_portlet_type = ? ORDER BY a.description_style";
+    private static final String SQL_QUERY_SELECT_PORTLET_TYPE = " SELECT id_portlet_type , name , url_creation, url_update, plugin_name "
+            + " FROM core_portlet_type WHERE id_portlet_type = ? ORDER BY id_portlet_type ";
+    private static final String SQL_QUERY_SELECT_PORTLET_ALIAS = " SELECT a.id_portlet FROM core_portlet a , core_portlet_alias b"
+            + " WHERE a.id_portlet = b.id_portlet " + " AND b.id_alias= ? ";
+    private static final String SQL_QUERY_SELECT_ALIASES_FOR_PORTLET = "SELECT p.id_portlet, p.id_page, p.name "
+            + "FROM core_portlet_alias a JOIN core_portlet p ON p.id_portlet = a.id_portlet WHERE a.id_alias = ? ";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_NAME = " SELECT id_portlet , id_page , name FROM core_portlet WHERE name LIKE ? ";
-    private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_TYPE = " SELECT a.id_portlet, a.id_portlet_type, a.id_page, a.name, " +
-        "a.date_update, a.status, a.portlet_order, a.column_no, a.id_style, a.accept_alias, a.date_creation, a.display_portlet_title, a.role, a.device_display_flags " +
-        " FROM core_portlet a, core_page b  WHERE a.id_page = b.id_page " + " AND a.id_portlet_type = ? ";
-    private static final String SQL_QUERY_SELECT_LAST_MODIFIED_PORTLET = " SELECT a.id_portlet, b.id_portlet_type, a.id_page, a.id_style, a.name , b.name, " +
-        " b.url_creation, b.url_update, a.date_update, a.column_no, a.portlet_order, " +
-        " b.home_class, a.accept_alias , a.role , b.plugin_name , a.display_portlet_title, a.status , a.device_display_flags " +
-        " FROM core_portlet a , core_portlet_type b WHERE a.id_portlet_type = b.id_portlet_type ORDER BY a.date_update DESC LIMIT 1 ";
-    private static final String SQL_QUERY_SELECT_ORDER_FROM_PAGE_AND_COLUMN = " SELECT portlet_order FROM core_portlet WHERE column_no = ? AND id_page = ?  ORDER BY portlet_order";
+    private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_TYPE = " SELECT a.id_portlet, a.id_portlet_type, a.id_page, a.name, "
+            + "a.date_update, a.status, a.portlet_order, a.column_no, a.id_style, a.accept_alias, a.date_creation, a.display_portlet_title, a.role, a.device_display_flags "
+            + " FROM core_portlet a, core_page b  WHERE a.id_page = b.id_page " + " AND a.id_portlet_type = ? ";
+    private static final String SQL_QUERY_SELECT_LAST_MODIFIED_PORTLET = " SELECT a.id_portlet, b.id_portlet_type, a.id_page, a.id_style, a.name , b.name, "
+            + " b.url_creation, b.url_update, a.date_update, a.column_no, a.portlet_order, "
+            + " b.home_class, a.accept_alias , a.role , b.plugin_name , a.display_portlet_title, a.status , a.device_display_flags "
+            + " FROM core_portlet a , core_portlet_type b WHERE a.id_portlet_type = b.id_portlet_type ORDER BY a.date_update DESC LIMIT 1 ";
+    private static final String SQL_QUERY_SELECT_PORTLET_ID_BY_ORDER_AND_COLUMN = "SELECT id_portlet FROM core_portlet WHERE portlet_order = ? AND column_no = ? ";
+    private static final String SQL_QUERY_UPDATE_PORTLET_ORDER = "UPDATE core_portlet SET portlet_order = ? WHERE id_portlet = ?";
 
     ///////////////////////////////////////////////////////////////////////////////////////
     //Access methods to data
@@ -100,23 +100,23 @@ public final class PortletDAO implements IPortletDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
-        daoUtil.setInt( 1, portlet.getId(  ) );
-        daoUtil.setString( 2, portlet.getPortletTypeId(  ) );
-        daoUtil.setInt( 3, portlet.getPageId(  ) );
-        daoUtil.setInt( 4, portlet.getStyleId(  ) );
-        daoUtil.setString( 5, portlet.getName(  ) );
-        daoUtil.setTimestamp( 6, new Timestamp( new java.util.Date(  ).getTime(  ) ) );
-        daoUtil.setTimestamp( 7, new Timestamp( new java.util.Date(  ).getTime(  ) ) );
-        daoUtil.setInt( 8, portlet.getStatus(  ) );
-        daoUtil.setInt( 9, portlet.getColumn(  ) );
-        daoUtil.setInt( 10, portlet.getOrder(  ) );
-        daoUtil.setInt( 11, portlet.getAcceptAlias(  ) );
-        daoUtil.setInt( 12, portlet.getDisplayPortletTitle(  ) );
-        daoUtil.setString( 13, portlet.getRole(  ) );
-        daoUtil.setInt( 14, portlet.getDeviceDisplayFlags(  ) );
+        daoUtil.setInt( 1, portlet.getId( ) );
+        daoUtil.setString( 2, portlet.getPortletTypeId( ) );
+        daoUtil.setInt( 3, portlet.getPageId( ) );
+        daoUtil.setInt( 4, portlet.getStyleId( ) );
+        daoUtil.setString( 5, portlet.getName( ) );
+        daoUtil.setTimestamp( 6, new Timestamp( new java.util.Date( ).getTime( ) ) );
+        daoUtil.setTimestamp( 7, new Timestamp( new java.util.Date( ).getTime( ) ) );
+        daoUtil.setInt( 8, portlet.getStatus( ) );
+        daoUtil.setInt( 9, portlet.getColumn( ) );
+        daoUtil.setInt( 10, portlet.getOrder( ) );
+        daoUtil.setInt( 11, portlet.getAcceptAlias( ) );
+        daoUtil.setInt( 12, portlet.getDisplayPortletTitle( ) );
+        daoUtil.setString( 13, portlet.getRole( ) );
+        daoUtil.setInt( 14, portlet.getDeviceDisplayFlags( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -127,21 +127,21 @@ public final class PortletDAO implements IPortletDAO
         // we recover the alias of the portlet parent to delete
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALIAS );
         daoUtil.setInt( 1, nPortletId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            AliasPortletHome.getInstance(  ).remove( PortletHome.findByPrimaryKey( daoUtil.getInt( 1 ) ) );
+            AliasPortletHome.getInstance( ).remove( PortletHome.findByPrimaryKey( daoUtil.getInt( 1 ) ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         // we delete the portlet
         daoUtil = new DAOUtil( SQL_QUERY_DELETE );
         daoUtil.setInt( 1, nPortletId );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -151,11 +151,11 @@ public final class PortletDAO implements IPortletDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setInt( 1, nPortletId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        PortletImpl portlet = new PortletImpl(  );
+        PortletImpl portlet = new PortletImpl( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             portlet.setId( nPortletId );
             portlet.setPortletTypeId( daoUtil.getString( 1 ) );
@@ -177,7 +177,7 @@ public final class PortletDAO implements IPortletDAO
             portlet.setDeviceDisplayFlags( daoUtil.getInt( 17 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return portlet;
     }
@@ -189,42 +189,42 @@ public final class PortletDAO implements IPortletDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
 
-        daoUtil.setString( 1, portlet.getName(  ) );
-        daoUtil.setTimestamp( 2, new Timestamp( new java.util.Date(  ).getTime(  ) ) );
-        daoUtil.setInt( 3, portlet.getColumn(  ) );
-        daoUtil.setInt( 4, portlet.getOrder(  ) );
-        daoUtil.setInt( 5, portlet.getStyleId(  ) );
-        daoUtil.setInt( 6, portlet.getPageId(  ) );
-        daoUtil.setInt( 7, portlet.getAcceptAlias(  ) );
-        daoUtil.setInt( 8, portlet.getDisplayPortletTitle(  ) );
-        daoUtil.setString( 9, portlet.getRole(  ) );
-        daoUtil.setInt( 10, portlet.getDeviceDisplayFlags(  ) );
-        daoUtil.setInt( 11, portlet.getId(  ) );
+        daoUtil.setString( 1, portlet.getName( ) );
+        daoUtil.setTimestamp( 2, new Timestamp( new java.util.Date( ).getTime( ) ) );
+        daoUtil.setInt( 3, portlet.getColumn( ) );
+        daoUtil.setInt( 4, portlet.getOrder( ) );
+        daoUtil.setInt( 5, portlet.getStyleId( ) );
+        daoUtil.setInt( 6, portlet.getPageId( ) );
+        daoUtil.setInt( 7, portlet.getAcceptAlias( ) );
+        daoUtil.setInt( 8, portlet.getDisplayPortletTitle( ) );
+        daoUtil.setString( 9, portlet.getRole( ) );
+        daoUtil.setInt( 10, portlet.getDeviceDisplayFlags( ) );
+        daoUtil.setInt( 11, portlet.getId( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Returns a new primary key which will be used to add a new portlet
-     *
+     * 
      * @return The new key.
      */
-    public int newPrimaryKey(  )
+    public int newPrimaryKey( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nKey;
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
             nKey = 1; // if the table is empty
         }
 
         nKey = daoUtil.getInt( 1 ) + 1;
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nKey;
     }
@@ -237,11 +237,11 @@ public final class PortletDAO implements IPortletDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_STATUS );
 
         daoUtil.setInt( 1, nStatus );
-        daoUtil.setTimestamp( 2, new Timestamp( new java.util.Date(  ).getTime(  ) ) );
-        daoUtil.setInt( 3, portlet.getId(  ) );
+        daoUtil.setTimestamp( 2, new Timestamp( new java.util.Date( ).getTime( ) ) );
+        daoUtil.setInt( 3, portlet.getId( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -252,11 +252,11 @@ public final class PortletDAO implements IPortletDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_XSL_FILE );
         daoUtil.setInt( 1, nPortletId );
         daoUtil.setInt( 2, nIdMode );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        StyleSheet stylesheet = new StyleSheet(  );
+        StyleSheet stylesheet = new StyleSheet( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             stylesheet.setId( daoUtil.getInt( 1 ) );
             stylesheet.setDescription( daoUtil.getString( 2 ) );
@@ -264,7 +264,7 @@ public final class PortletDAO implements IPortletDAO
             stylesheet.setSource( daoUtil.getBytes( 4 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return stylesheet;
     }
@@ -276,13 +276,13 @@ public final class PortletDAO implements IPortletDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_LIST_BY_NAME );
         daoUtil.setString( 1, '%' + strPortletName + '%' );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        List<PortletImpl> list = new ArrayList<PortletImpl>(  );
+        List<PortletImpl> list = new ArrayList<PortletImpl>( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            PortletImpl portlet = new PortletImpl(  );
+            PortletImpl portlet = new PortletImpl( );
             portlet.setId( daoUtil.getInt( 1 ) );
             portlet.setPageId( daoUtil.getInt( 2 ) );
             portlet.setName( daoUtil.getString( 3 ) );
@@ -290,7 +290,7 @@ public final class PortletDAO implements IPortletDAO
             list.add( portlet );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return list;
     }
@@ -302,13 +302,13 @@ public final class PortletDAO implements IPortletDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALIASES_FOR_PORTLET );
         daoUtil.setInt( 1, nPortletId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        List<Portlet> list = new ArrayList<Portlet>(  );
+        List<Portlet> list = new ArrayList<Portlet>( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            PortletImpl portlet = new PortletImpl(  );
+            PortletImpl portlet = new PortletImpl( );
             portlet.setId( daoUtil.getInt( 1 ) );
             portlet.setPageId( daoUtil.getInt( 2 ) );
             portlet.setName( daoUtil.getString( 3 ) );
@@ -316,7 +316,7 @@ public final class PortletDAO implements IPortletDAO
             list.add( portlet );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return list;
     }
@@ -328,13 +328,13 @@ public final class PortletDAO implements IPortletDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_LIST_BY_TYPE );
         daoUtil.setString( 1, strPortletTypeId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        List<Portlet> list = new ArrayList<Portlet>(  );
+        List<Portlet> list = new ArrayList<Portlet>( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            PortletImpl portlet = new PortletImpl(  );
+            PortletImpl portlet = new PortletImpl( );
             portlet.setId( daoUtil.getInt( 1 ) );
             portlet.setPortletTypeId( daoUtil.getString( 2 ) );
             portlet.setPageId( daoUtil.getInt( 3 ) );
@@ -359,7 +359,7 @@ public final class PortletDAO implements IPortletDAO
             list.add( portlet );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return list;
     }
@@ -371,16 +371,16 @@ public final class PortletDAO implements IPortletDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_STYLE_LIST );
         daoUtil.setString( 1, strPortletTypeId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        ReferenceList list = new ReferenceList(  );
+        ReferenceList list = new ReferenceList( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             list.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return list;
     }
@@ -394,14 +394,14 @@ public final class PortletDAO implements IPortletDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_ALIAS );
         daoUtil.setInt( 1, nPortletId );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             bHasAlias = true;
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return bHasAlias;
     }
@@ -414,11 +414,11 @@ public final class PortletDAO implements IPortletDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_TYPE );
 
         daoUtil.setString( 1, strPortletTypeId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        PortletType portletType = new PortletType(  );
+        PortletType portletType = new PortletType( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             portletType.setId( daoUtil.getString( 1 ) );
             portletType.setNameKey( daoUtil.getString( 2 ) );
@@ -427,7 +427,7 @@ public final class PortletDAO implements IPortletDAO
             portletType.setPluginName( daoUtil.getString( 5 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return portletType;
     }
@@ -437,15 +437,15 @@ public final class PortletDAO implements IPortletDAO
      */
     public Collection<PortletImpl> selectPortletListByStyle( int nStyleId )
     {
-        Collection<PortletImpl> portletList = new ArrayList<PortletImpl>(  );
+        Collection<PortletImpl> portletList = new ArrayList<PortletImpl>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_LIST_BY_STYLE );
 
         daoUtil.setInt( 1, nStyleId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            PortletImpl portlet = new PortletImpl(  );
+            PortletImpl portlet = new PortletImpl( );
 
             portlet.setId( daoUtil.getInt( 1 ) );
             portlet.setName( daoUtil.getString( 2 ) );
@@ -454,7 +454,7 @@ public final class PortletDAO implements IPortletDAO
             portletList.add( portlet );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return portletList;
     }
@@ -466,13 +466,13 @@ public final class PortletDAO implements IPortletDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_LIST_BY_ROLE );
         daoUtil.setString( 1, strRole );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        List<Portlet> list = new ArrayList<Portlet>(  );
+        List<Portlet> list = new ArrayList<Portlet>( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            PortletImpl portlet = new PortletImpl(  );
+            PortletImpl portlet = new PortletImpl( );
             portlet.setId( daoUtil.getInt( 1 ) );
             portlet.setPortletTypeId( daoUtil.getString( 2 ) );
             portlet.setPageId( daoUtil.getInt( 3 ) );
@@ -480,7 +480,7 @@ public final class PortletDAO implements IPortletDAO
             list.add( portlet );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return list;
     }
@@ -488,16 +488,16 @@ public final class PortletDAO implements IPortletDAO
     /**
      * {@inheritDoc}
      */
-    public Portlet loadLastModifiedPortlet(  )
+    public Portlet loadLastModifiedPortlet( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LAST_MODIFIED_PORTLET );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         PortletImpl portlet = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            portlet = new PortletImpl(  );
+            portlet = new PortletImpl( );
 
             int nIndex = 1;
             portlet.setId( daoUtil.getInt( nIndex++ ) );
@@ -520,7 +520,7 @@ public final class PortletDAO implements IPortletDAO
             portlet.setDeviceDisplayFlags( daoUtil.getInt( nIndex++ ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return portlet;
     }
@@ -528,23 +528,34 @@ public final class PortletDAO implements IPortletDAO
     /**
      * {@inheritDoc}
      */
-    @Override
-    public List<Integer> getUsedOrdersForColumns( int pageId, int columnId )
+    public Collection<Integer> selectPortletIdByOrderAndColumn( int nPortletOrder, int nColumnNumber )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ORDER_FROM_PAGE_AND_COLUMN );
-        daoUtil.setInt( 1, columnId );
-        daoUtil.setInt( 2, pageId );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_ID_BY_ORDER_AND_COLUMN );
+        daoUtil.setInt( 1, nPortletOrder );
+        daoUtil.setInt( 2, nColumnNumber );
+        daoUtil.executeQuery( );
 
-        List<Integer> result = new ArrayList<Integer>(  );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
+        List<Integer> list = new ArrayList<Integer>( );
+        while ( daoUtil.next( ) )
         {
-            result.add( daoUtil.getInt( 1 ) );
+            list.add( daoUtil.getInt( 1 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
-        return result;
+        return list;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void storePortletOrder( int nIdPortletToShift, int nNewOrder )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PORTLET_ORDER );
+        daoUtil.setInt( 1, nNewOrder );
+        daoUtil.setInt( 2, nIdPortletToShift );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
+
     }
 }
