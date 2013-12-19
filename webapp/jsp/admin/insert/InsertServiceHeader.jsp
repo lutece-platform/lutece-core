@@ -36,6 +36,7 @@ body {padding-top: 60px;padding-bottom: 40px;}
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
 -->
 <link rel="stylesheet" href="css/admin/portal_admin.css" />
+<script src="js/jquery/jquery.min.js"></script>
 </head>
 <body>
 <div class="row">    
