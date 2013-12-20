@@ -62,7 +62,7 @@ public final class PluginService
     private static final String PATH_CONF = "path.conf";
     private static final String CORE_XML = "core.xml";
     private static final String CORE = "core";
-    private static Plugin _corePlugin;
+    private static Plugin _pluginCore;
     private static final String PATH_PLUGIN = "path.plugins";
     private static final String FILE_PLUGINS_STATUS = "plugins.dat";
     private static final String EXTENSION_FILE = "xml";
@@ -217,7 +217,8 @@ public final class PluginService
     private static void registerPlugin( Plugin plugin )
     {
         _mapPlugins.put( plugin.getName(  ), plugin );
-        AppLogService.info( "New Plugin registered : " + plugin.getName(  ) );
+        String strStatusWarning = ( plugin.isInstalled() ) ? "" : " *** Warning : current status is 'disabled' ***";
+        AppLogService.info( "New Plugin registered : " + plugin.getName(  ) + strStatusWarning );
     }
 
     /**
@@ -226,7 +227,7 @@ public final class PluginService
      */
     private static synchronized void registerCore( Plugin plugin )
     {
-        _corePlugin = plugin;
+        _pluginCore = plugin;
     }
 
     /**
@@ -236,7 +237,7 @@ public final class PluginService
      */
     public static Plugin getCore(  )
     {
-        return _corePlugin;
+        return _pluginCore;
     }
 
     /**
