@@ -165,6 +165,18 @@ public abstract class PortletHome implements PortletHomeInterface
         portlet.setStatus( AppPropertiesService.getPropertyInt( PROPERTY_PORTLET_CREATION_STATUS,
                 CONSTANT_DEFAULT_STATUS ) );
 
+        // Shift existing portlets order
+        int nOrderMax = AppPropertiesService.getPropertyInt( PROPERTY_LIST_ORDER_MAX, 15 );
+        int nColumnNumber = portlet.getColumn( );
+        for ( int i = nOrderMax; i > ( portlet.getOrder( ) - 1 ); i-- )
+        {
+            Collection<Integer> lIdsPortletToShift = PortletHome.getPortletIdByOrderAndColumn( i, nColumnNumber );
+            for ( Integer nIdPortletToShift : lIdsPortletToShift )
+            {
+                PortletHome.updatePortletOrder( nIdPortletToShift.intValue( ), i + 1 );
+            }
+        }
+
         // Creation of the portlet child
         getDAO( ).insert( portlet );
 
@@ -205,6 +217,23 @@ public abstract class PortletHome implements PortletHomeInterface
      */
     public synchronized void remove( Portlet portlet )
     {
+        // Shifting existing portlets order, if current portlet is the last with its order
+        int nColumnNumber = portlet.getColumn( );
+        Collection<Integer> lIdsPortletWithOrder = PortletHome.getPortletIdByOrderAndColumn( portlet.getOrder( ),
+                nColumnNumber );
+        if ( lIdsPortletWithOrder.size( ) == 1 )
+        {
+            int nOrderMax = AppPropertiesService.getPropertyInt( PROPERTY_LIST_ORDER_MAX, 15 );
+
+            for ( int i = portlet.getOrder( ) + 1; i <= nOrderMax; i++ )
+            {
+                Collection<Integer> lIdsPortletToShift = PortletHome.getPortletIdByOrderAndColumn( i, nColumnNumber );
+                for ( Integer nIdPortletToShift : lIdsPortletToShift )
+                {
+                    PortletHome.updatePortletOrder( nIdPortletToShift.intValue( ), i - 1 );
+                }
+            }
+        }
         // Deleting of the portlet child
         getDAO( ).delete( portlet.getId( ) );
 
