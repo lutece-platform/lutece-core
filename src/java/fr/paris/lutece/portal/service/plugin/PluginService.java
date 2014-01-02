@@ -355,8 +355,16 @@ public final class PluginService
      */
     private static String getPluginPoolName( Plugin plugin )
     {
-        return DatastoreService.getInstanceDataValue( getPoolNameKey( plugin.getName(  ) ),
+        String strPoolname = DatastoreService.getInstanceDataValue( getPoolNameKey( plugin.getName(  ) ),
             AppConnectionService.NO_POOL_DEFINED );
+        
+        if( strPoolname.equals( AppConnectionService.NO_POOL_DEFINED ) && plugin.isDbPoolRequired() && !plugin.getName().equals(CORE))
+        {
+            AppLogService.info( " *** WARNING *** - The plugin '" + plugin + "' has no pool defined in db.properties or datastore. Using the default pool '" 
+                    + AppConnectionService.DEFAULT_POOL_NAME + "' instead." );
+            strPoolname = AppConnectionService.DEFAULT_POOL_NAME;
+        }
+        return strPoolname;
     }
 
     /**

@@ -53,6 +53,7 @@ public final class AppConnectionService
     ////////////////////////////////////////////////////////////////////////////
     // Constants
     public static final String NO_POOL_DEFINED = "none";
+    public static final String DEFAULT_POOL_NAME = "portal";
     private static PoolManager _poolManager;
     private static PluginConnectionService _connectionService;
 
