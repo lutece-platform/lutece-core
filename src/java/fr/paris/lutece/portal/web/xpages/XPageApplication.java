@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.xpages;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import java.io.Serializable;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,8 +46,9 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @see fr.paris.lutece.portal.service.XPageAppService
  */
-public interface XPageApplication
+public interface XPageApplication extends Serializable
 {
+    
     /**
      * Returns the XPage content depending on the request parameters and the current mode.
      *
