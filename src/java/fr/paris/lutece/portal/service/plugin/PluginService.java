@@ -217,7 +217,8 @@ public final class PluginService
     private static void registerPlugin( Plugin plugin )
     {
         _mapPlugins.put( plugin.getName(  ), plugin );
-        String strStatusWarning = ( plugin.isInstalled() ) ? "" : " *** Warning : current status is 'disabled' ***";
+
+        String strStatusWarning = ( plugin.isInstalled(  ) ) ? "" : " *** Warning : current status is 'disabled' ***";
         AppLogService.info( "New Plugin registered : " + plugin.getName(  ) + strStatusWarning );
     }
 
@@ -356,14 +357,17 @@ public final class PluginService
     private static String getPluginPoolName( Plugin plugin )
     {
         String strPoolname = DatastoreService.getInstanceDataValue( getPoolNameKey( plugin.getName(  ) ),
-            AppConnectionService.NO_POOL_DEFINED );
-        
-        if( strPoolname.equals( AppConnectionService.NO_POOL_DEFINED ) && plugin.isDbPoolRequired() && !plugin.getName().equals(CORE))
+                AppConnectionService.NO_POOL_DEFINED );
+
+        if ( strPoolname.equals( AppConnectionService.NO_POOL_DEFINED ) && plugin.isDbPoolRequired(  ) &&
+                !plugin.getName(  ).equals( CORE ) )
         {
-            AppLogService.info( " *** WARNING *** - The plugin '" + plugin + "' has no pool defined in db.properties or datastore. Using the default pool '" 
-                    + AppConnectionService.DEFAULT_POOL_NAME + "' instead." );
+            AppLogService.info( " *** WARNING *** - The plugin '" + plugin +
+                "' has no pool defined in db.properties or datastore. Using the default pool '" +
+                AppConnectionService.DEFAULT_POOL_NAME + "' instead." );
             strPoolname = AppConnectionService.DEFAULT_POOL_NAME;
         }
+
         return strPoolname;
     }
 
