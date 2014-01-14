@@ -40,7 +40,7 @@ package fr.paris.lutece.portal.service.init;
 public final class AppInfo
 {
     /** Defines the current version of the application */
-    private static final String APP_VERSION = "4.1.2";
+    private static final String APP_VERSION = "4.2.0";
 
     /**
      * Creates a new AppInfo object.
