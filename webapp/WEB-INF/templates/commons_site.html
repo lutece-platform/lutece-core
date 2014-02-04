@@ -331,3 +331,47 @@
 		</form>
 	</#if>
 </#macro>
+
+<#macro fieldInputTextSite i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
+	<div class="control-group">
+		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
+		<div class="controls">
+			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if> />
+			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
+		</div>
+	</div>
+</#macro>
+
+<#macro fieldInputCalendarSite i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='' language='fr'>
+	<div class="control-group">
+		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
+		<div class="controls">
+			<div class="input-prepend">
+				<span class="add-on"><i class="icon-calendar">&nbsp;</i></span>
+				<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" />
+			</div>
+			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
+		</div>
+	</div>
+	<@getDatePicker idField=inputName language=language />
+</#macro>
+
+<#macro fieldInputCheckBoxSite i18nLabelKey inputName value="" checked=fakse i18nHelpBlockKey='' cssClass='' >
+	<div class="control-group">
+		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} :</label> 
+		<div class="controls">
+			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked="checked"</#if> />
+			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
+		</div>
+	</div>
+</#macro>
+
+<#macro fieldTextAreaSite i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
+	<div class="control-group">
+		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
+		<div class="controls">
+			<textarea class="${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
+			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
+		</div>
+	</div>
+</#macro>
