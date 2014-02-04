@@ -208,6 +208,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
      * @param object The object to compare
      * @return true if equal, otherwise false
      */
+    @Override
     public boolean equals( Object object )
     {
         // FIXME : use LuteceUser property instead of object.toString()
@@ -218,6 +219,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
      * toString implementation
      * @return The username
      */
+    @Override
     public String toString(  )
     {
         return _strUserName;
@@ -227,6 +229,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
      * hashCode implementation
      * @return The hashcode
      */
+    @Override
     public int hashCode(  )
     {
         return ( _strUserName == null ) ? 0 : _strUserName.hashCode(  );
@@ -236,6 +239,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
      * Return the user's name
      * @return The username
      */
+    @Override
     public String getName(  )
     {
         return _strUserName;
@@ -316,7 +320,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
      */
     private String[] addInArray( String[] array, Collection<String> collection )
     {
-        String[] newArray = null;
+        String[] newArray;
 
         int j = 0;
 
@@ -426,5 +430,14 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
     public Object clone(  ) throws CloneNotSupportedException
     {
         return super.clone(  );
+    }
+    
+    /**
+     * Get the users email
+     * @return The email
+     */
+    public String getEmail()
+    {
+        return null;
     }
 }
