@@ -44,14 +44,9 @@ import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.lang.StringUtils;
-
 import java.io.Serializable;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -61,6 +56,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -355,10 +353,19 @@ public class DataTableManager<T> implements Serializable
             // We update the pagination properties
             if ( _bEnablePaginator )
             {
-                _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX,
-                        _strCurrentPageIndex );
+                int nOldItemsPerPage = _nItemsPerPage;
                 _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE,
                         _nItemsPerPage, _nDefautlItemsPerPage );
+                // If the number of items per page has changed, we switch to the first page
+                if ( _nItemsPerPage != nOldItemsPerPage )
+                {
+                    _strCurrentPageIndex = Integer.toString( 1 );
+                }
+                else
+                {
+                    _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX,
+                            _strCurrentPageIndex );
+                }
             }
             else
             {
