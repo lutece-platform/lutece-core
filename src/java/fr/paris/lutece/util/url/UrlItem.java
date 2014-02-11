@@ -153,4 +153,13 @@ public class UrlItem
     {
         _strAnchor = strAnchorName;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString(  )
+    {
+        return getUrl(  );
+    }
 }
