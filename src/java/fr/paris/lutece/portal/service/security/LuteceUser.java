@@ -431,12 +431,12 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
     {
         return super.clone(  );
     }
-    
+
     /**
      * Get the users email
      * @return The email
      */
-    public String getEmail()
+    public String getEmail(  )
     {
         return null;
     }
