@@ -486,6 +486,17 @@
 	</div>
 </#macro>
 
+<#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='' >
+	<div class="control-group">
+		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label> 
+		<div class="controls">
+			<#assign params = "class='" + cssClass + "'" >
+			<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
+			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
+		</div>
+	</div>
+</#macro>
+
 <#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 	<div class="control-group">
 		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
