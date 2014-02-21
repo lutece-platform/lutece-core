@@ -191,17 +191,25 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
                 ObjectInputStream objectInputStream = new ObjectInputStream( inputStream );
                 mailItem = (MailItem) objectInputStream.readObject(  );
                 objectInputStream.close(  );
-                inputStream.close(  );
             }
             catch ( IOException e )
             {
-                // TODO Auto-generated catch block
-                AppLogService.error( e );
+                AppLogService.error( e.getMessage(  ), e );
             }
             catch ( ClassNotFoundException e )
             {
-                // TODO Auto-generated catch block
-                AppLogService.error( e );
+                AppLogService.error( e.getMessage(  ), e );
+            }
+            finally
+            {
+                try
+                {
+                    inputStream.close(  );
+                }
+                catch ( IOException e )
+                {
+                    AppLogService.error( e.getMessage(  ), e );
+                }
             }
 
             mailItemQueue.setMailItem( mailItem );

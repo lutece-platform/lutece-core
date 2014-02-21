@@ -54,7 +54,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import javax.activation.CommandInfo;
 import javax.activation.DataHandler;
+import javax.activation.MailcapCommandMap;
+import javax.activation.MimetypesFileTypeMap;
 
 import javax.mail.Authenticator;
 import javax.mail.BodyPart;
@@ -82,6 +85,7 @@ final class MailUtil
     private static final String PROPERTY_MAIL_LIST_SEPARATOR = "mail.list.separator";
     private static final String PROPERTY_MAIL_TYPE_HTML = "mail.type.html";
     private static final String PROPERTY_MAIL_TYPE_PLAIN = "mail.type.plain";
+    private static final String PROPERTY_MAIL_TYPE_CALENDAR = "mail.type.calendar";
     private static final String PROPERTY_MAIL_SESSION_DEBUG = "mail.session.debug";
     private static final String MAIL_HOST = "mail.host";
     private static final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
@@ -92,9 +96,50 @@ final class MailUtil
     private static final String HEADER_NAME = "Content-Transfer-Encoding";
     private static final String HEADER_VALUE = "quoted-printable";
     private static final String HEADER_CONTENT_LOCATION = "Content-Location";
+    private static final String CONTENT_HANDLER = "content-handler";
     private static final String MULTIPART_RELATED = "related";
     private static final String MSG_ATTACHMENT_NOT_FOUND = " not found, document ignored.";
     private static final int CONSTANTE_FILE_ATTACHMET_BUFFER = 4096;
+    private static final String MIME_TYPE_TEXT_PLAIN = "text/plain";
+    private static final String MIME_TYPE_TEXT_CALENDAR = "text/calendar";
+    private static final String CONSTANT_REGISTER_MIME_TYPE_HANDLER = ";; x-java-content-handler=";
+    private static final String DEFAULT_PLAIN_TEXT_HANDLER = "com.sun.mail.handlers.text_plain";
+
+    static
+    {
+        // We create the mime text/calendar mime type
+        MimetypesFileTypeMap mimetypes = (MimetypesFileTypeMap) MimetypesFileTypeMap.getDefaultFileTypeMap(  );
+        mimetypes.addMimeTypes( MIME_TYPE_TEXT_CALENDAR );
+
+        // We register the handler for the text/calendar mime type
+        MailcapCommandMap mailcap = (MailcapCommandMap) MailcapCommandMap.getDefaultCommandMap(  );
+
+        // We try to get the default handler for plain text
+        CommandInfo[] commandInfos = mailcap.getAllCommands( MIME_TYPE_TEXT_PLAIN );
+        CommandInfo commandInfoText = null;
+
+        if ( ( commandInfos != null ) && ( commandInfos.length > 0 ) )
+        {
+            for ( CommandInfo commandInfo : commandInfos )
+            {
+                if ( StringUtils.equals( commandInfo.getCommandName(  ), CONTENT_HANDLER ) )
+                {
+                    commandInfoText = commandInfo;
+
+                    break;
+                }
+            }
+
+            if ( commandInfoText == null )
+            {
+                commandInfoText = commandInfos[0];
+            }
+        }
+
+        // If the default handler for plain text was not found, we just use the default one
+        String strHandler = ( commandInfoText != null ) ? commandInfoText.getCommandClass(  ) : DEFAULT_PLAIN_TEXT_HANDLER;
+        mailcap.addMailcap( MIME_TYPE_TEXT_CALENDAR + CONSTANT_REGISTER_MIME_TYPE_HANDLER + strHandler + "\n" );
+    }
 
     /**
      * Creates a new MailUtil object
@@ -283,7 +328,7 @@ final class MailUtil
             for ( FileAttachment fileAttachement : fileAttachements )
             {
                 String strFileName = fileAttachement.getFileName(  );
-                byte[] bContentFile = (byte[]) fileAttachement.getData(  );
+                byte[] bContentFile = fileAttachement.getData(  );
                 String strContentType = fileAttachement.getType(  );
                 ByteArrayDataSource dataSource = new ByteArrayDataSource( bContentFile, strContentType );
                 msgBodyPart = new MimeBodyPart(  );
@@ -361,7 +406,7 @@ final class MailUtil
             for ( FileAttachment fileAttachement : fileAttachements )
             {
                 String strFileName = fileAttachement.getFileName(  );
-                byte[] bContentFile = (byte[]) fileAttachement.getData(  );
+                byte[] bContentFile = fileAttachement.getData(  );
                 String strContentType = fileAttachement.getType(  );
                 ByteArrayDataSource dataSource = new ByteArrayDataSource( bContentFile, strContentType );
                 msgBodyPart = new MimeBodyPart(  );
@@ -371,6 +416,56 @@ final class MailUtil
                 multipart.addBodyPart( msgBodyPart );
             }
         }
+
+        msg.setContent( multipart );
+
+        sendMessage( msg, transport );
+    }
+
+    /**
+     * Send a calendar message.
+     * @param strHost The SMTP name or IP address.
+     * @param strRecipientsTo The list of the main recipients email. Every
+     *            recipient must be separated by the mail separator defined in
+     *            config.properties
+     * @param strRecipientsCc The recipients list of the carbon copies .
+     * @param strRecipientsBcc The recipients list of the blind carbon copies .
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The HTML message.
+     * @param strCalendarMessage The calendar message.
+     * @param transport the smtp transport object
+     * @param session the smtp session object
+     * @throws AddressException If invalid address
+     * @throws SendFailedException If an error occurred during sending
+     * @throws MessagingException If a messaging error occurred
+     */
+    protected static void sendMessageCalendar( String strHost, String strRecipientsTo, String strRecipientsCc,
+        String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
+        String strCalendarMessage, Transport transport, Session session )
+        throws MessagingException, AddressException, SendFailedException
+    {
+        Message msg = prepareMessage( strHost, strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName,
+                strSenderEmail, strSubject, session );
+        msg.setHeader( HEADER_NAME, HEADER_VALUE );
+
+        MimeMultipart multipart = new MimeMultipart(  );
+        BodyPart msgBodyPart = new MimeBodyPart(  );
+        // msgBodyPart.setContent( strMessage, BODY_PART_MIME_TYPE );
+        msgBodyPart.setDataHandler( new DataHandler( 
+                new ByteArrayDataSource( strMessage,
+                    AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML ) +
+                    AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
+
+        multipart.addBodyPart( msgBodyPart );
+
+        BodyPart calendarBodyPart = new MimeBodyPart(  );
+        calendarBodyPart.addHeader( "Content-Class", "urn:content-classes:calendarmessage" );
+        calendarBodyPart.setContent( strCalendarMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_CALENDAR ) );
+        //        calendarBodyPart.setDataHandler( new DataHandler( new ByteArrayDataSource( strCalendarMessage,
+        //                AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML ) ) ) );
+        multipart.addBodyPart( calendarBodyPart );
 
         msg.setContent( multipart );
 
@@ -662,10 +757,11 @@ final class MailUtil
     }
 
     /**
-     * This Method convert a UrlAttachmentDataSource to a ByteArrayDataSource and
+     * This Method convert a UrlAttachmentDataSource to a ByteArrayDataSource
+     * and
      * used MailAttachmentCacheService for caching resource.
      *
-     * @param urlAttachement  {@link UrlAttachment}
+     * @param urlAttachement {@link UrlAttachment}
      * @return a {@link ByteArrayDataSource}
      */
     private static ByteArrayDataSource convertUrlAttachmentDataSourceToByteArrayDataSource( 

@@ -37,11 +37,12 @@ import java.io.Serializable;
 
 
 /**
- * @author lenaini
- *
+ * Image resource
  */
 public class ImageResource implements Serializable
 {
+    private static final long serialVersionUID = -3832656263478838897L;
+
     // Variables declarations 
     private byte[] _strImage;
     private String _strMimeType;

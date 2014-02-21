@@ -237,6 +237,13 @@ public class MailSenderDaemon extends Daemon
 
                     break;
 
+                case MailItem.FORMAT_CALENDAR:
+                    MailUtil.sendMessageCalendar( strHost, mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                        mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
+                        mail.getSubject(  ), mail.getMessage(  ), mail.getCalendarMessage(  ), transportSmtp, session );
+
+                    break;
+
                 default:
                     break;
             }

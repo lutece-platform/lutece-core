@@ -63,33 +63,30 @@ public final class MailService
     /**
      * Send a message asynchronously. The message is queued until a daemon
      * thread send all awaiting messages
-     * @deprecated
      * @param strRecipient The recipient email.
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param strMessage The message.
+     * @deprecated Use
+     *             {@link #sendMailText(String strRecipient, String strSenderName, String strSenderEmail, String strSubject, String strMessage)}
+     *             instead
      */
+    @Deprecated
     public static void sendMail( String strRecipient, String strSenderName, String strSenderEmail, String strSubject,
         String strMessage )
     {
-        MailItem item = new MailItem(  );
-        item.setRecipientsTo( strRecipient );
-        item.setSenderName( strSenderName );
-        item.setSenderEmail( strSenderEmail );
-        item.setSubject( strSubject );
-        item.setMessage( strMessage );
-
-        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
-        queue.send( item );
+        sendMailText( strRecipient, strSenderName, strSenderEmail, strSubject, strMessage );
     }
 
     /**
      * Send a HTML message asynchronously. The message is queued until a daemon
      * thread send all awaiting messages
      *
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator define in config.properties
+     * @param strRecipientsTo The list of the main recipients email.Every
+     *            recipient
+     *            must be separated by the mail separator define in
+     *            config.properties
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
@@ -105,8 +102,10 @@ public final class MailService
      * Send a HTML message asynchronously. The message is queued until a daemon
      * thread send all awaiting messages
      *
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsTo The list of the main recipients email.Every
+     *            recipient
+     *            must be separated by the mail separator defined in
+     *            config.properties
      * @param strRecipientsCc The recipients list of the carbon copies .
      * @param strRecipientsBcc The recipients list of the blind carbon copies .
      * @param strSenderName The sender name.
@@ -125,15 +124,18 @@ public final class MailService
      * Send a HTML message asynchronously. The message is queued until a daemon
      * thread send all awaiting messages
      *
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsTo The list of the main recipients email.Every
+     *            recipient
+     *            must be separated by the mail separator defined in
+     *            config.properties
      * @param strRecipientsCc The recipients list of the carbon copies .
      * @param strRecipientsBcc The recipients list of the blind carbon copies .
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param strMessage The message.
-     * @param bUniqueRecipientTo true if the mail must be send unitarily for each recipient
+     * @param bUniqueRecipientTo true if the mail must be send unitarily for
+     *            each recipient
      */
     public static void sendMailHtml( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
         String strSenderName, String strSenderEmail, String strSubject, String strMessage, boolean bUniqueRecipientTo )
@@ -154,16 +156,20 @@ public final class MailService
     }
 
     /**
-     * Send a HTML message asynchronously with the attachements associated to the message . The message is queued until a daemon
+     * Send a HTML message asynchronously with the attachments associated to
+     * the message . The message is queued until a daemon
      * thread send all awaiting messages
      *
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsTo The list of the main recipients email.Every
+     *            recipient
+     *            must be separated by the mail separator defined in
+     *            config.properties
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param strMessage The message.
-     * @param urlsAttachement The List of UrlAttachement Object, containing the URL of attachments associated with their content-location.
+     * @param urlsAttachement The List of UrlAttachement Object, containing the
+     *            URL of attachments associated with their content-location.
      */
     public static void sendMailMultipartHtml( String strRecipientsTo, String strSenderName, String strSenderEmail,
         String strSubject, String strMessage, List<UrlAttachment> urlsAttachement )
@@ -173,18 +179,22 @@ public final class MailService
     }
 
     /**
-     * Send a HTML message asynchronously with the attachements associated to the message and attached files . The message is queued until a daemon
+     * Send a HTML message asynchronously with the attachments associated to
+     * the message and attached files . The message is queued until a daemon
      * thread send all awaiting messages
      *
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsTo The list of the main recipients email.Every
+     *            recipient
+     *            must be separated by the mail separator defined in
+     *            config.properties
      * @param strRecipientsCc The recipients list of the carbon copies .
      * @param strRecipientsBcc The recipients list of the blind carbon copies .
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param strMessage The message.
-     * @param urlsAttachement The List of UrlAttachement Object, containing the URL of attachments associated with their content-location
+     * @param urlsAttachement The List of UrlAttachement Object, containing the
+     *            URL of attachments associated with their content-location
      * @param filesAttachement The list of attached files.
      */
     public static void sendMailMultipartHtml( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
@@ -196,20 +206,25 @@ public final class MailService
     }
 
     /**
-     * Send a HTML message asynchronously with the attachements associated to the message and attached files . The message is queued until a daemon
+     * Send a HTML message asynchronously with the attachments associated to
+     * the message and attached files . The message is queued until a daemon
      * thread send all awaiting messages
      *
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsTo The list of the main recipients email.Every
+     *            recipient
+     *            must be separated by the mail separator defined in
+     *            config.properties
      * @param strRecipientsCc The recipients list of the carbon copies .
      * @param strRecipientsBcc The recipients list of the blind carbon copies .
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param strMessage The message.
-     * @param urlsAttachement The List of UrlAttachement Object, containing the URL of attachments associated with their content-location
+     * @param urlsAttachement The List of UrlAttachement Object, containing the
+     *            URL of attachments associated with their content-location
      * @param filesAttachement The list of attached files.
-     * @param bUniqueRecipientTo true if the mail must be send unitarily for each recipient
+     * @param bUniqueRecipientTo true if the mail must be send unitarily for
+     *            each recipient
      */
     public static void sendMailMultipartHtml( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
         String strSenderName, String strSenderEmail, String strSubject, String strMessage,
@@ -233,11 +248,87 @@ public final class MailService
     }
 
     /**
+     * Send a calendar message asynchronously. The message is queued until a
+     * daemon thread send all awaiting messages
+     * @param strRecipientsTo The list of the main recipients email. Every
+     *            recipient must be separated by the mail separator defined in
+     *            config.properties
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The message.
+     * @param strCalendarMessage The calendar message
+     */
+    public static void sendMailCalendar( String strRecipientsTo, String strSenderName, String strSenderEmail,
+        String strSubject, String strMessage, String strCalendarMessage )
+    {
+        sendMailCalendar( strRecipientsTo, null, null, strSenderName, strSenderEmail, strSubject, strMessage,
+            strCalendarMessage );
+    }
+
+    /**
+     * Send a calendar message asynchronously. The message is queued until a
+     * daemon thread send all awaiting messages
+     * @param strRecipientsTo The list of the main recipients email. Every
+     *            recipient must be separated by the mail separator defined in
+     *            config.properties
+     * @param strRecipientsCc The recipients list of the carbon copies .
+     * @param strRecipientsBcc The recipients list of the blind carbon copies .
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The message.
+     * @param strCalendarMessage The calendar message
+     */
+    public static void sendMailCalendar( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
+        String strSenderName, String strSenderEmail, String strSubject, String strMessage, String strCalendarMessage )
+    {
+        sendMailCalendar( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail,
+            strSubject, strMessage, strCalendarMessage, false );
+    }
+
+    /**
+     * Send a calendar message asynchronously. The message is queued until a
+     * daemon thread send all awaiting messages
+     * @param strRecipientsTo The list of the main recipients email. Every
+     *            recipient must be separated by the mail separator defined in
+     *            config.properties
+     * @param strRecipientsCc The recipients list of the carbon copies .
+     * @param strRecipientsBcc The recipients list of the blind carbon copies .
+     * @param strSenderName The sender name.
+     * @param strSenderEmail The sender email address.
+     * @param strSubject The message subject.
+     * @param strMessage The message.
+     * @param strCalendarMessage The calendar message
+     * @param bUniqueRecipientTo true if the mail must be send unitarily for
+     *            each recipient
+     */
+    public static void sendMailCalendar( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
+        String strSenderName, String strSenderEmail, String strSubject, String strMessage, String strCalendarMessage,
+        boolean bUniqueRecipientTo )
+    {
+        MailItem item = new MailItem(  );
+        item.setRecipientsTo( strRecipientsTo );
+        item.setRecipientsCc( strRecipientsCc );
+        item.setRecipientsBcc( strRecipientsBcc );
+        item.setSenderName( strSenderName );
+        item.setSenderEmail( strSenderEmail );
+        item.setSubject( strSubject );
+        item.setMessage( strMessage );
+        item.setCalendarMessage( strCalendarMessage );
+        item.setFormat( MailItem.FORMAT_CALENDAR );
+        item.setUniqueRecipientTo( bUniqueRecipientTo );
+
+        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
+        queue.send( item );
+    }
+
+    /**
      * Send a text message asynchronously. The message is queued until a daemon
      * thread send all awaiting messages
-     *
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsTo The list of the main recipients email. Every
+     *            recipient must be separated by the mail separator defined in
+     *            config.properties
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
@@ -252,8 +343,9 @@ public final class MailService
     /**
      * Send a text message asynchronously. The message is queued until a daemon
      * thread send all awaiting messages
-     *@param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsTo The list of the main recipients email. Every
+     *            recipient must be separated by the mail separator defined in
+     *            config.properties
      * @param strRecipientsCc The recipients list of the carbon copies .
      * @param strRecipientsBcc The recipients list of the blind carbon copies .
      * @param strSenderName The sender name.
@@ -271,15 +363,17 @@ public final class MailService
     /**
      * Send a text message asynchronously. The message is queued until a daemon
      * thread send all awaiting messages
-     *@param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsTo The list of the main recipients email. Every
+     *            recipient must be separated by the mail separator defined in
+     *            config.properties
      * @param strRecipientsCc The recipients list of the carbon copies .
      * @param strRecipientsBcc The recipients list of the blind carbon copies .
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
      * @param strMessage The message.
-     * @param bUniqueRecipientTo true if the mail must be send unitarily for each recipient
+     * @param bUniqueRecipientTo true if the mail must be send unitarily for
+     *            each recipient
      */
     public static void sendMailText( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
         String strSenderName, String strSenderEmail, String strSubject, String strMessage, boolean bUniqueRecipientTo )
@@ -300,11 +394,14 @@ public final class MailService
     }
 
     /**
-     * Send a text message asynchronously with attached files. The message is queued until a daemon
+     * Send a text message asynchronously with attached files. The message is
+     * queued until a daemon
      * thread send all awaiting messages
      *
-     * @param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsTo The list of the main recipients email.Every
+     *            recipient
+     *            must be separated by the mail separator defined in
+     *            config.properties
      * @param strSenderName The sender name.
      * @param strSenderEmail The sender email address.
      * @param strSubject The message subject.
@@ -319,10 +416,13 @@ public final class MailService
     }
 
     /**
-     * Send a text message asynchronously with attached files. The message is queued until a daemon
+     * Send a text message asynchronously with attached files. The message is
+     * queued until a daemon
      * thread send all awaiting messages
-     *@param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsTo The list of the main recipients email.Every
+     *            recipient
+     *            must be separated by the mail separator defined in
+     *            config.properties
      * @param strRecipientsCc The recipients list of the carbon copies .
      * @param strRecipientsBcc The recipients list of the blind carbon copies .
      * @param strSenderName The sender name.
@@ -340,10 +440,13 @@ public final class MailService
     }
 
     /**
-     * Send a text message asynchronously with attached files. The message is queued until a daemon
+     * Send a text message asynchronously with attached files. The message is
+     * queued until a daemon
      * thread send all awaiting messages
-     *@param strRecipientsTo The list of the main recipients email.Every recipient
-     *                   must be separated by the mail separator defined in config.properties
+     * @param strRecipientsTo The list of the main recipients email.Every
+     *            recipient
+     *            must be separated by the mail separator defined in
+     *            config.properties
      * @param strRecipientsCc The recipients list of the carbon copies .
      * @param strRecipientsBcc The recipients list of the blind carbon copies .
      * @param strSenderName The sender name.
@@ -351,7 +454,8 @@ public final class MailService
      * @param strSubject The message subject.
      * @param strMessage The message.
      * @param filesAttachement The list of attached files.
-     * @param bUniqueRecipientTo true if the mail must be send unitarily for each recipient
+     * @param bUniqueRecipientTo true if the mail must be send unitarily for
+     *            each recipient
      */
     public static void sendMailMultipartText( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
         String strSenderName, String strSenderEmail, String strSubject, String strMessage,
@@ -410,15 +514,20 @@ public final class MailService
     }
 
     /**
-     * Extract a collection of elements to be attached to a mail from an HTML string.
+     * Extract a collection of elements to be attached to a mail from an HTML
+     * string.
      *
-     * The collection contains the Url used for created DataHandler  for each url associated with
-     * an HTML tag img, script or link. Those urls must start with the url strBaseUrl.
+     * The collection contains the Url used for created DataHandler for each url
+     * associated with
+     * an HTML tag img, script or link. Those urls must start with the url
+     * strBaseUrl.
      *
      * @param strHtml The HTML code.
      * @param strBaseUrl The base url, can be null in order to extract all urls.
-     * @param useAbsoluteUrl Determine if we use absolute or relative url for attachement content-location
-     * @return a collection of UrlAttachment Object  for created  DataHandler associated with attachment urls.
+     * @param useAbsoluteUrl Determine if we use absolute or relative url for
+     *            attachement content-location
+     * @return a collection of UrlAttachment Object for created DataHandler
+     *         associated with attachment urls.
      */
     public static List<UrlAttachment> getUrlAttachmentList( String strHtml, String strBaseUrl, boolean useAbsoluteUrl )
     {
@@ -426,9 +535,11 @@ public final class MailService
     }
 
     /**
-     * Return a String that contains a list of recipients separated with mail separator
+     * Return a String that contains a list of recipients separated with mail
+     * separator
      * @param listRecipients a list of string recipients
-     * @return a String that contains a list of recipients separated with mail separator
+     * @return a String that contains a list of recipients separated with mail
+     *         separator
      */
     public static String getStrRecipients( List<String> listRecipients )
     {
@@ -436,9 +547,11 @@ public final class MailService
     }
 
     /**
-     * Get a string that contains an html link to the site back office or front office.
+     * Get a string that contains an html link to the site back office or front
+     * office.
      * @param strBaseUrl The base url of the site
-     * @param linkToFrontOffice True if the link should be directed to the front office, false if it should be directed to the back office.
+     * @param linkToFrontOffice True if the link should be directed to the front
+     *            office, false if it should be directed to the back office.
      * @return A string containing an html link.
      */
     public static String getSiteLink( String strBaseUrl, boolean linkToFrontOffice )

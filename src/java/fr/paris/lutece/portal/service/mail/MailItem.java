@@ -50,6 +50,7 @@ public class MailItem implements Serializable
     public static final int FORMAT_TEXT = 1;
     public static final int FORMAT_MULTIPART_HTML = 2;
     public static final int FORMAT_MULTIPART_TEXT = 3;
+    public static final int FORMAT_CALENDAR = 4;
     private static final long serialVersionUID = 1L;
 
     // Variables declarations
@@ -60,6 +61,7 @@ public class MailItem implements Serializable
     private String _strSenderEmail;
     private String _strSubject;
     private String _strMessage;
+    private String _strCalendarMessage;
     private int _nFormat;
     private List<UrlAttachment> _listUrlsAttachement;
     private List<FileAttachment> _listFilesAttachement;
@@ -203,6 +205,26 @@ public class MailItem implements Serializable
     public void setMessage( String strMessage )
     {
         _strMessage = strMessage;
+    }
+
+    /**
+     * Returns the calendar message
+     *
+     * @return The calendar message
+     */
+    public String getCalendarMessage(  )
+    {
+        return _strCalendarMessage;
+    }
+
+    /**
+     * Sets the calendar message
+     *
+     * @param strCalendarMessage The calendar message
+     */
+    public void setCalendarMessage( String strCalendarMessage )
+    {
+        _strCalendarMessage = strCalendarMessage;
     }
 
     /**
