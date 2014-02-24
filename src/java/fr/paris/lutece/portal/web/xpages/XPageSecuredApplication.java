@@ -41,8 +41,6 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * This interface is used to add Xpages to the portal.
- *
- * @see fr.paris.lutece.portal.service.XPageAppService
  */
 public interface XPageSecuredApplication
 {

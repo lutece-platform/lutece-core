@@ -70,7 +70,15 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     // Constants
 
     // Right
+    /**
+     * Right to manage styles
+     */
     public static final String RIGHT_MANAGE_STYLE = "CORE_STYLES_MANAGEMENT";
+
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = 7138319350433775587L;
 
     // Markers
     private static final String MARK_STYLE_LIST = "style_list";
@@ -146,7 +154,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
 
-        LocalizedPaginator paginator = new LocalizedPaginator( listStyles, _nItemsPerPage, strURL,
+        LocalizedPaginator<Style> paginator = new LocalizedPaginator<Style>( listStyles, _nItemsPerPage, strURL,
                 Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         Map<String, Object> model = new HashMap<String, Object>(  );

@@ -104,6 +104,7 @@ final class MailUtil
     private static final String MIME_TYPE_TEXT_CALENDAR = "text/calendar";
     private static final String CONSTANT_REGISTER_MIME_TYPE_HANDLER = ";; x-java-content-handler=";
     private static final String DEFAULT_PLAIN_TEXT_HANDLER = "com.sun.mail.handlers.text_plain";
+    private static final String CONSTANT_DISPOSITION_ATTACHMENT = "attachment";
 
     static
     {
@@ -278,7 +279,7 @@ final class MailUtil
      * @throws SendFailedException
      *             If an error occured during sending
      * @throws MessagingException
-     *             If a messaging error occured
+     *             If a messaging error occurred
      */
     protected static void sendMultipartMessageHtml( String strHost, String strRecipientsTo, String strRecipientsCc,
         String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
@@ -334,7 +335,7 @@ final class MailUtil
                 msgBodyPart = new MimeBodyPart(  );
                 msgBodyPart.setDataHandler( new DataHandler( dataSource ) );
                 msgBodyPart.setFileName( strFileName );
-                msgBodyPart.setDisposition( "attachment" );
+                msgBodyPart.setDisposition( CONSTANT_DISPOSITION_ATTACHMENT );
                 multipart.addBodyPart( msgBodyPart );
             }
         }
@@ -400,7 +401,6 @@ final class MailUtil
         multipart.addBodyPart( msgBodyPart );
 
         // add File Attachement
-        // add File Attachement
         if ( fileAttachements != null )
         {
             for ( FileAttachment fileAttachement : fileAttachements )
@@ -412,7 +412,7 @@ final class MailUtil
                 msgBodyPart = new MimeBodyPart(  );
                 msgBodyPart.setDataHandler( new DataHandler( dataSource ) );
                 msgBodyPart.setFileName( strFileName );
-                msgBodyPart.setDisposition( "attachment" );
+                msgBodyPart.setDisposition( CONSTANT_DISPOSITION_ATTACHMENT );
                 multipart.addBodyPart( msgBodyPart );
             }
         }
@@ -452,7 +452,6 @@ final class MailUtil
 
         MimeMultipart multipart = new MimeMultipart(  );
         BodyPart msgBodyPart = new MimeBodyPart(  );
-        // msgBodyPart.setContent( strMessage, BODY_PART_MIME_TYPE );
         msgBodyPart.setDataHandler( new DataHandler( 
                 new ByteArrayDataSource( strMessage,
                     AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML ) +
@@ -463,8 +462,6 @@ final class MailUtil
         BodyPart calendarBodyPart = new MimeBodyPart(  );
         calendarBodyPart.addHeader( "Content-Class", "urn:content-classes:calendarmessage" );
         calendarBodyPart.setContent( strCalendarMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_CALENDAR ) );
-        //        calendarBodyPart.setDataHandler( new DataHandler( new ByteArrayDataSource( strCalendarMessage,
-        //                AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML ) ) ) );
         multipart.addBodyPart( calendarBodyPart );
 
         msg.setContent( multipart );
@@ -530,15 +527,15 @@ final class MailUtil
     /**
      * Common part for sending message process :
      * <ul>
-     * <li>initializes a mail session with the smtp server</li>
+     * <li>initializes a mail session with the SMTP server</li>
      * <li>activates debugging</li>
-     * <li>instanciates and initializes a mime message</li>
+     * <li>instantiates and initializes a mime message</li>
      * <li>sets the sent date, the from field, the subject field</li>
      * <li>sets the recipients</li>
      * </ul>
      *
      *
-     * @return the message object initialised with the common settings
+     * @return the message object initialized with the common settings
      * @param strHost
      *            The SMTP name or IP address.
      * @param strRecipientsTo
@@ -555,17 +552,17 @@ final class MailUtil
      * @param strSubject
      *            The message subject.
      * @param session
-     *            the smtp session object
+     *            the SMTP session object
      * @throws AddressException
      *             If invalid address
      * @throws MessagingException
-     *             If a messaging error occured
+     *             If a messaging error occurred
      */
     protected static Message prepareMessage( String strHost, String strRecipientsTo, String strRecipientsCc,
         String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, Session session )
         throws MessagingException, AddressException
     {
-        // Instanciate and initialize a mime message
+        // Instantiate and initialize a mime message
         Message msg = new MimeMessage( session );
         msg.setSentDate( new Date(  ) );
 
@@ -581,7 +578,7 @@ final class MailUtil
             throw new AppException( e.toString(  ) );
         }
 
-        // Instanciation of the list of address
+        // Instantiation of the list of address
         if ( strRecipientsTo != null )
         {
             msg.setRecipients( Message.RecipientType.TO, getAllAdressOfRecipients( strRecipientsTo ) );
@@ -626,8 +623,8 @@ final class MailUtil
      */
     protected static Session getMailSession( String strHost, final String strUsername, final String strPassword )
     {
-        String strDebug = AppPropertiesService.getProperty( PROPERTY_MAIL_SESSION_DEBUG, "false" );
-        boolean bSessionDebug = ( strDebug.equalsIgnoreCase( "true" ) ) ? true : false;
+        String strDebug = AppPropertiesService.getProperty( PROPERTY_MAIL_SESSION_DEBUG, Boolean.FALSE.toString(  ) );
+        boolean bSessionDebug = Boolean.parseBoolean( strDebug );
 
         // Initializes a mail session with the SMTP server
         Properties props = System.getProperties(  );
@@ -663,13 +660,11 @@ final class MailUtil
     }
 
     /**
-     * return the transport object of the smtp session
+     * return the transport object of the SMTP session
      *
-     * @return the transport object of the smtp session
-     * @param session
-     *            the smtp session
-     * @throws NoSuchProviderException
-     *             If the provider is not found
+     * @return the transport object of the SMTP session
+     * @param session the SMTP session
+     * @throws NoSuchProviderException If the provider is not found
      */
     protected static Transport getTransport( Session session )
         throws NoSuchProviderException
@@ -678,9 +673,9 @@ final class MailUtil
     }
 
     /**
-     * extract The list of Internet Adress content in the string strRecipients
+     * extract The list of Internet Address content in the string strRecipients
      *
-     * @return The list of Internet Adress content in the string strRecipients
+     * @return The list of Internet Address content in the string strRecipients
      * @param strRecipients
      *            The list of recipient separated by the mail separator defined
      *            in config.properties
@@ -703,12 +698,10 @@ final class MailUtil
     }
 
     /**
-     * extract The list of String Adress content in the string strRecipients
-     *
-     * @return The list of String Adress content in the string strRecipients
-     * @param strRecipients
-     *            The list of recipient separated by the mail separator defined
-     *            in config.properties
+     * Extract The list of String Address content in the string strRecipients
+     * @return The list of String Address content in the string strRecipients
+     * @param strRecipients The list of recipient separated by the mail
+     *            separator defined in config.properties
      *
      */
     public static List<String> getAllStringAdressOfRecipients( String strRecipients )
@@ -728,10 +721,8 @@ final class MailUtil
     /**
      * Return a String that contains a list of recipients separated with mail
      * separator
-     *
-     * @param listRecipients
-     *            a list of string recipients
-     * @return a String that contains a list of recipients separated with mail
+     * @param listRecipients a list of string recipients
+     * @return A String that contains a list of recipients separated with mail
      *         separator
      */
     protected static String getStrRecipients( List<String> listRecipients )
@@ -758,9 +749,7 @@ final class MailUtil
 
     /**
      * This Method convert a UrlAttachmentDataSource to a ByteArrayDataSource
-     * and
-     * used MailAttachmentCacheService for caching resource.
-     *
+     * and used MailAttachmentCacheService for caching resource.
      * @param urlAttachement {@link UrlAttachment}
      * @return a {@link ByteArrayDataSource}
      */

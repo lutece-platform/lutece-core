@@ -54,6 +54,11 @@ import javax.validation.ConstraintViolation;
 public abstract class AbstractXPageApplication implements XPageApplication
 {
     /**
+     * Generated serial version UID
+     */
+    private static final long serialVersionUID = -6298306432030274941L;
+
+    /**
      * Populate a bean using parameters in http request
      * @param bean bean to populate
      * @param request http request
@@ -92,7 +97,8 @@ public abstract class AbstractXPageApplication implements XPageApplication
      * Validates a bean
      * @param <T> The bean type
      * @param bean The bean to validate
-     * @param config  The config for Error validation rendering
+     * @param config The config for Error validation rendering
+     * @param locale The locale
      * @return The error list
      */
     protected <T> List<ValidationError> validate( T bean, ValidationErrorConfig config, Locale locale )

@@ -87,11 +87,11 @@ public final class SecurityUtil
         String key;
         String[] values;
 
-        Enumeration e = request.getParameterNames(  );
+        Enumeration<String> e = request.getParameterNames(  );
 
         while ( e.hasMoreElements(  ) )
         {
-            key = (String) e.nextElement(  );
+            key = e.nextElement(  );
             values = request.getParameterValues( key );
 
             int length = values.length;
@@ -246,18 +246,18 @@ public final class SecurityUtil
      */
     private static void dumpHeaders( StringBuffer sb, HttpServletRequest request )
     {
-        Enumeration values;
+        Enumeration<String> values;
         String key;
-        Enumeration headers = request.getHeaderNames(  );
+        Enumeration<String> headers = request.getHeaderNames(  );
 
         while ( headers.hasMoreElements(  ) )
         {
-            key = (String) headers.nextElement(  );
+            key = headers.nextElement(  );
             values = request.getHeaders( key );
 
             while ( values.hasMoreElements(  ) )
             {
-                dumpVariable( sb, key, (String) values.nextElement(  ) );
+                dumpVariable( sb, key, values.nextElement(  ) );
             }
         }
     }
@@ -272,11 +272,11 @@ public final class SecurityUtil
         String key;
         String[] values;
 
-        Enumeration e = request.getParameterNames(  );
+        Enumeration<String> e = request.getParameterNames(  );
 
         while ( e.hasMoreElements(  ) )
         {
-            key = (String) e.nextElement(  );
+            key = e.nextElement(  );
             values = request.getParameterValues( key );
 
             int length = values.length;

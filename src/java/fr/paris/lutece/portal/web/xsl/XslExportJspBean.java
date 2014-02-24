@@ -89,6 +89,14 @@ import javax.xml.parsers.SAXParserFactory;
  */
 public class XslExportJspBean extends PluginAdminPageJspBean
 {
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = -8697851692630602527L;
+
+    /**
+     * Right to manage XSL Export
+     */
     public static final String RIGHT_MANAGE_XSL_EXPORT = "CORE_XSL_EXPORT_MANAGEMENT";
 
     // templates
@@ -169,7 +177,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
             RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
                 XslExportResourceIdService.PERMISSION_DELETE, getUser(  ) ) );
 
-        LocalizedPaginator paginator = new LocalizedPaginator( listXslExport, _nItemsPerPage,
+        LocalizedPaginator<XslExport> paginator = new LocalizedPaginator<XslExport>( listXslExport, _nItemsPerPage,
                 getJspManageXslExport( request ), PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         model.put( MARK_PAGINATOR, paginator );

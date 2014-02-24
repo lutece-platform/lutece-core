@@ -54,6 +54,11 @@ import javax.servlet.http.HttpServletResponse;
 public class ExtendableResourceJspBean extends AdminFeaturesPageJspBean
 {
     /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = -2783981113148281852L;
+
+    /**
      * Do process extendable resource action.
      *
      * @param request the request

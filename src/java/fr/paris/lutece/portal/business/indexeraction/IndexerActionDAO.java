@@ -45,7 +45,14 @@ import java.util.List;
 public final class IndexerActionDAO implements IIndexerActionDAO
 {
     // Constants
+    /**
+     * SQL Where constant
+     */
     public static final String CONSTANT_WHERE = " WHERE ";
+
+    /**
+     * SQL And constant
+     */
     public static final String CONSTANT_AND = " AND ";
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_action ) FROM core_indexer_action";
     private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_action,id_document,id_task,indexer_name, id_portlet" +
@@ -62,6 +69,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public int newPrimaryKey(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
@@ -84,6 +92,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized void insert( IndexerAction indexerAction )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
@@ -102,6 +111,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public IndexerAction load( int nId )
     {
         IndexerAction indexerAction = null;
@@ -128,6 +138,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public void delete( int nId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
@@ -139,6 +150,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public void deleteAll(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_TRUNCATE );
@@ -149,6 +161,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public void store( IndexerAction indexerAction )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
@@ -165,6 +178,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<IndexerAction> selectList( IndexerActionFilter filter )
     {
         List<IndexerAction> indexerActionList = new ArrayList<IndexerAction>(  );
@@ -185,7 +199,6 @@ public final class IndexerActionDAO implements IIndexerActionDAO
         if ( filter.containsIdTask(  ) )
         {
             daoUtil.setInt( nIndex, filter.getIdTask(  ) );
-            nIndex++;
         }
 
         daoUtil.executeQuery(  );
@@ -209,6 +222,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<IndexerAction> selectList(  )
     {
         List<IndexerAction> indexerActionList = new ArrayList<IndexerAction>(  );

@@ -40,7 +40,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.validation.MessageInterpolator;
-import javax.validation.MessageInterpolator.Context;
 import javax.validation.Validation;
 
 

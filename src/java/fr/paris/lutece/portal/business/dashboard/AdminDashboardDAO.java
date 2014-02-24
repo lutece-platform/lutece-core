@@ -71,6 +71,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public void delete( String strBeanName )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_NAME );
@@ -85,6 +86,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public void deleteAll(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
@@ -97,6 +99,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public void insert( IAdminDashboardComponent dashboardComponent )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
@@ -123,6 +126,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public IAdminDashboardComponent load( String strClassName )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PRIMARY_KEY );
@@ -157,6 +161,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<IAdminDashboardComponent> selectAllDashboardComponents(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
@@ -192,6 +197,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public int selectMaxOrder(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_MAX_ORDER );
@@ -213,6 +219,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public int selectMaxOrder( int nColumn )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_MAX_ORDER_COLUMN );
@@ -236,6 +243,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<IAdminDashboardComponent> selectDashboardComponents( AdminDashboardFilter filter )
     {
         StringBuilder sbSQL = new StringBuilder( SQL_QUERY_SELECT );
@@ -277,12 +285,13 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public void store( IAdminDashboardComponent dashboardComponent )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
 
         int nIndex = setInsertOrUpdateValues( 1, dashboardComponent, daoUtil );
-        daoUtil.setString( nIndex++, dashboardComponent.getName(  ) );
+        daoUtil.setString( nIndex, dashboardComponent.getName(  ) );
 
         daoUtil.executeUpdate(  );
 
@@ -292,6 +301,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<Integer> selectColumns(  )
     {
         List<Integer> listColumns = new ArrayList<Integer>(  );
@@ -311,7 +321,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     }
 
     /**
-     * Loads compenent data from daoUtil
+     * Loads component data from daoUtil
      * @param component the component
      * @param daoUtil the daoutil
      */
@@ -324,7 +334,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     }
 
     /**
-     * Sets daoUtil values from componnet
+     * Sets daoUtil values from component
      * @param nStartIndex the start index
      * @param component the component
      * @param daoUtil daoutil

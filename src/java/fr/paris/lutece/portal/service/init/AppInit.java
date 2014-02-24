@@ -60,6 +60,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import java.text.SimpleDateFormat;
 
@@ -265,17 +266,33 @@ public final class AppInit
         Map<String, Object> model = new HashMap<String, Object>(  );
         Properties p = new Properties(  );
 
+        FileInputStream fis = null;
+
         try
         {
-            FileInputStream fis = new FileInputStream( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG );
+            fis = new FileInputStream( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG );
             p.load( fis );
         }
         catch ( Exception e )
         {
             AppLogService.error( e.getMessage(  ), e );
         }
+        finally
+        {
+            if ( fis != null )
+            {
+                try
+                {
+                    fis.close(  );
+                }
+                catch ( IOException e )
+                {
+                    AppLogService.error( e.getMessage(  ), e );
+                }
+            }
+        }
 
-        if ( p.getProperty( PROPERTY_AUTOINIT ).equals( "true" ) )
+        if ( Boolean.parseBoolean( p.getProperty( PROPERTY_AUTOINIT ) ) )
         {
             Object[] params = { AppPropertiesService.getProperty( PROPERTY_SITE_NAME ) };
             String strSendMailSubject = I18nService.getLocalizedString( PROPERTY_SENDMAIL_SUBJECT, params,
@@ -283,21 +300,36 @@ public final class AppInit
             model.put( MARK_SENDMAIL_SUBJECT, strSendMailSubject );
             model.put( MARK_WEBAPP_HOME, AppPathService.getWebAppPath(  ) );
             model.put( MARK_PROD_URL, p.getProperty( PROPERTY_INIT_WEBAPP_PROD_URL ) );
-            model.put( MARK_AUTOINIT, "false" );
+            model.put( MARK_AUTOINIT, Boolean.FALSE.toString(  ) );
 
             HtmlTemplate configTemplate = AppTemplateService.getTemplate( CONFIG_PROPERTIES_TEMPLATE, null, model );
             // reset configuration cache to avoid configuration caching before macros are set. See LUTECE-1460
             AppTemplateService.resetConfiguration(  );
 
+            FileWriter fw = null;
+
             try
             {
-                FileWriter fw = new FileWriter( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG );
+                fw = new FileWriter( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG );
                 fw.write( configTemplate.getHtml(  ) );
-                fw.close(  );
             }
             catch ( Exception io )
             {
                 io.printStackTrace(  );
+            }
+            finally
+            {
+                if ( fw != null )
+                {
+                    try
+                    {
+                        fw.close(  );
+                    }
+                    catch ( IOException e )
+                    {
+                        AppLogService.error( e.getMessage(  ), e );
+                    }
+                }
             }
         }
     }

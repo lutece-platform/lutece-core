@@ -46,6 +46,7 @@ import net.sf.ehcache.management.ManagementService;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import java.lang.management.ManagementFactory;
 
@@ -304,11 +305,12 @@ public final class CacheService
         String strCachesStatusFile = AppPathService.getPath( PROPERTY_PATH_CONF, FILE_CACHES_STATUS );
         File file = new File( strCachesStatusFile );
 
+        FileInputStream fis = null;
+
         try
         {
             Properties properties = new Properties(  );
-
-            FileInputStream fis = new FileInputStream( file );
+            fis = new FileInputStream( file );
             properties.load( fis );
 
             // If the keys aren't found in the datastore then create a key in it
@@ -330,6 +332,20 @@ public final class CacheService
         catch ( Exception e )
         {
             AppLogService.error( "Error loading caches status defined in file : " + file.getAbsolutePath(  ), e );
+        }
+        finally
+        {
+            if ( fis != null )
+            {
+                try
+                {
+                    fis.close(  );
+                }
+                catch ( IOException e )
+                {
+                    AppLogService.error( e.getMessage(  ), e );
+                }
+            }
         }
     }
 

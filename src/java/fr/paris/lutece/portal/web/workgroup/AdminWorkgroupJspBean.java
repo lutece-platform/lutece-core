@@ -79,7 +79,15 @@ import javax.servlet.http.HttpServletRequest;
 public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 {
     //Rights
+    /**
+     * Right to manage workgroups
+     */
     public static final String RIGHT_MANAGE_WORKGROUPS = "CORE_WORKGROUPS_MANAGEMENT";
+
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = 5945178935890410656L;
 
     // Templates
     private static final String TEMPLATE_MANAGE_WORGROUPS = "admin/workgroup/manage_workgroups.html";
@@ -318,10 +326,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_WORKGROUP, args,
                 AdminMessage.TYPE_STOP );
         }
-        else
-        {
-            AdminWorkgroupHome.remove( strWorkgroupKey );
-        }
+
+        AdminWorkgroupHome.remove( strWorkgroupKey );
 
         return JSP_MANAGE_WORKGROUPS;
     }
@@ -361,7 +367,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         String strWorgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
         String strDescription = request.getParameter( PARAMETER_WORKGROUP_DESCRIPTION );
 
-        if ( ( strDescription == null ) || ( strDescription.equals( "" ) ) )
+        if ( StringUtils.isEmpty( strDescription ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }

@@ -91,7 +91,15 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     // Constants
 
     // Right
+    /**
+     * Right to manage stylesheets
+     */
     public static final String RIGHT_MANAGE_STYLESHEET = "CORE_STYLESHEET_MANAGEMENT";
+
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = 8176263113722225633L;
 
     // Markers
     private static final String MARK_MODE_ID = "mode_id";
@@ -172,8 +180,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
 
-        LocalizedPaginator paginator = new LocalizedPaginator( listStyleSheets, _nItemsPerPage, strURL,
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
+        LocalizedPaginator<StyleSheet> paginator = new LocalizedPaginator<StyleSheet>( listStyleSheets, _nItemsPerPage,
+                strURL, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_MODE_ID, strModeId );
@@ -406,7 +414,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strPathStyleSheet = AppPathService.getPath( PROPERTY_PATH_XSL ) + mode.getPath(  );
         File fileToDelete = new File( strPathStyleSheet, strFile );
 
-        if ( ( fileToDelete != null ) && fileToDelete.exists(  ) )
+        if ( fileToDelete.exists(  ) )
         {
             fileToDelete.delete(  );
         }
@@ -456,6 +464,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strFileName = stylesheet.getFile(  );
         String strFilePath = strPathStyleSheet + strFileName;
 
+        FileOutputStream fos = null;
+
         try
         {
             File file = new File( strFilePath );
@@ -465,14 +475,27 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
                 file.delete(  );
             }
 
-            FileOutputStream fos = new FileOutputStream( file );
+            fos = new FileOutputStream( file );
             fos.write( stylesheet.getSource(  ) );
             fos.flush(  );
-            fos.close(  );
         }
         catch ( IOException e )
         {
             AppLogService.error( e.getMessage(  ), e );
+        }
+        finally
+        {
+            if ( fos != null )
+            {
+                try
+                {
+                    fos.close(  );
+                }
+                catch ( IOException e )
+                {
+                    AppLogService.error( e.getMessage(  ), e );
+                }
+            }
         }
     }
 

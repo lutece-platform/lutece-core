@@ -112,7 +112,8 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- * This class provides the user interface to manage app user features ( manage, create, modify, remove, ... )
+ * This class provides the user interface to manage app user features ( manage,
+ * create, modify, remove, ... )
  */
 public class AdminUserJspBean extends AdminFeaturesPageJspBean
 {
@@ -462,7 +463,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Display the page for user import. This page is used in module mode to link a user to its code in the module (for later authentication) and to populate the creation form with the data the module
+     * Display the page for user import. This page is used in module mode to
+     * link a user to its code in the module (for later authentication) and to
+     * populate the creation form with the data the module
      * is able to provide.
      * @param request the http request
      * @return the html code for the import page
@@ -501,9 +504,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Performs checks on the selected user to import and redirects on the creation form. This page is used in module mode.
+     * Performs checks on the selected user to import and redirects on the
+     * creation form. This page is used in module mode.
      * @param request The HTTP Request
-     * @return The Jsp URL of the creation form if check ok, an error page url otherwise
+     * @return The Jsp URL of the creation form if check ok, an error page url
+     *         otherwise
      */
     public String doSelectImportUser( HttpServletRequest request )
     {
@@ -2015,7 +2020,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * Reset the email pattern
      * @param request {@link HttpServletRequest}
      * @return the jsp return
-     * @throws AccessDeniedException access denied if the AdminUser does not have the permission
+     * @throws AccessDeniedException access denied if the AdminUser does not
+     *             have the permission
      */
     public String doResetEmailPattern( HttpServletRequest request )
         throws AccessDeniedException
@@ -2036,7 +2042,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * Do insert a regular expression
      * @param request {@link HttpServletRequest}
      * @return the jsp return
-     * @throws AccessDeniedException access denied if the AdminUser does not have the permission
+     * @throws AccessDeniedException access denied if the AdminUser does not
+     *             have the permission
      */
     public String doInsertRegularExpression( HttpServletRequest request )
         throws AccessDeniedException
@@ -2063,7 +2070,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * Do remove a regular expression
      * @param request {@link HttpServletRequest}
      * @return the jsp return
-     * @throws AccessDeniedException access denied if the AdminUser does not have the permission
+     * @throws AccessDeniedException access denied if the AdminUser does not
+     *             have the permission
      */
     public String doRemoveRegularExpression( HttpServletRequest request )
         throws AccessDeniedException
@@ -2087,7 +2095,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Get the admin message to confirm the enabling or the disabling of the advanced security parameters
+     * Get the admin message to confirm the enabling or the disabling of the
+     * advanced security parameters
      * @param request The request
      * @return The url of the admin message
      */
@@ -2098,15 +2107,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ASP,
                 JSP_URL_REMOVE_ADVANCED_SECUR_PARAM, AdminMessage.TYPE_CONFIRMATION );
         }
-        else
-        {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_USE_ASP,
-                JSP_URL_USE_ADVANCED_SECUR_PARAM, AdminMessage.TYPE_CONFIRMATION );
-        }
+
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_USE_ASP,
+            JSP_URL_USE_ADVANCED_SECUR_PARAM, AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
-     * Enable advanced security parameters, and change users password if password encryption change
+     * Enable advanced security parameters, and change users password if
+     * password encryption change
      * @param request The request
      * @return The Jsp URL of the process result
      */

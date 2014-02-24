@@ -83,6 +83,11 @@ import javax.servlet.http.HttpSession;
  */
 public class AdminLoginJspBean implements Serializable
 {
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = 1437296329596757569L;
+
     // //////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String CONSTANT_EMAIL_DELIMITER = ";";
@@ -156,13 +161,13 @@ public class AdminLoginJspBean implements Serializable
 
         Locale locale = AdminUserService.getLocale( request );
 
-        Enumeration enumParams = request.getParameterNames(  );
+        Enumeration<String> enumParams = request.getParameterNames(  );
         ReferenceList listParams = new ReferenceList(  );
         String strParamName;
 
         while ( enumParams.hasMoreElements(  ) )
         {
-            strParamName = (String) enumParams.nextElement(  );
+            strParamName = enumParams.nextElement(  );
 
             String strParamValue = request.getParameter( strParamName );
             listParams.addItem( strParamName, strParamValue );
@@ -218,13 +223,13 @@ public class AdminLoginJspBean implements Serializable
 
         Locale locale = AdminUserService.getLocale( request );
 
-        Enumeration enumParams = request.getParameterNames(  );
+        Enumeration<String> enumParams = request.getParameterNames(  );
         ReferenceList listParams = new ReferenceList(  );
         String strParamName;
 
         while ( enumParams.hasMoreElements(  ) )
         {
-            strParamName = (String) enumParams.nextElement(  );
+            strParamName = enumParams.nextElement(  );
 
             String strParamValue = request.getParameter( strParamName );
             listParams.addItem( strParamName, strParamValue );
@@ -258,13 +263,13 @@ public class AdminLoginJspBean implements Serializable
 
         Locale locale = AdminUserService.getLocale( request );
 
-        Enumeration enumParams = request.getParameterNames(  );
+        Enumeration<String> enumParams = request.getParameterNames(  );
         ReferenceList listParams = new ReferenceList(  );
         String strParamName;
 
         while ( enumParams.hasMoreElements(  ) )
         {
-            strParamName = (String) enumParams.nextElement(  );
+            strParamName = enumParams.nextElement(  );
 
             String strParamValue = request.getParameter( strParamName );
             listParams.addItem( strParamName, strParamValue );

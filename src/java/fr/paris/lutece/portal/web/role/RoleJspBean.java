@@ -63,7 +63,15 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     // Constant
 
     // Right
+    /**
+     * Right to manage roles
+     */
     public static final String RIGHT_ROLES_MANAGEMENT = "CORE_ROLES_MANAGEMENT";
+
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = -764350969432795013L;
 
     // Markers
     private static final String MARK_ROLES_LIST = "roles_list";
@@ -190,7 +198,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> model = new HashMap<String, Object>(  );
 
-        String strPageRole = (String) request.getParameter( PARAMETER_PAGE_ROLE );
+        String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
         model.put( MARK_ROLE, RoleHome.findByPrimaryKey( strPageRole ) );
         model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
 
@@ -245,7 +253,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
      */
     public String doRemovePageRole( HttpServletRequest request )
     {
-        String strPageRole = (String) request.getParameter( PARAMETER_PAGE_ROLE );
+        String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
         ArrayList<String> listErrors = new ArrayList<String>(  );
 
         if ( !RoleRemovalListenerService.getService(  ).checkForRemoval( strPageRole, listErrors, getLocale(  ) ) )
@@ -255,10 +263,8 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
         }
-        else
-        {
-            RoleHome.remove( strPageRole );
-        }
+
+        RoleHome.remove( strPageRole );
 
         return getHomeUrl( request );
     }

@@ -292,7 +292,7 @@ public class DAOUtil
 
     /**
      * Moves the cursor to the first row in this ResultSet object.
-     * @deprecated
+     * @deprecated Use {@link #next()} instead
      * @return true if the cursor is on a valid row; false if there are no rows
      *         in the result set
      */

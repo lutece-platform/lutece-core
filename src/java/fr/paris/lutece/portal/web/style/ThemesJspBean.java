@@ -57,7 +57,15 @@ import javax.servlet.http.HttpServletResponse;
 public class ThemesJspBean extends AdminFeaturesPageJspBean
 {
     // Right
+    /**
+     * Right to manage themes
+     */
     public static final String RIGHT_MANAGE_THEMES = "CORE_THEMES_MANAGEMENT";
+
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = -8201123021058332937L;
 
     // Templates files path
     private static final String TEMPLATE_MANAGE_THEMES = "admin/style/manage_themes.html";

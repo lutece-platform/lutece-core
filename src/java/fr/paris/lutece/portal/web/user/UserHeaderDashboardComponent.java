@@ -60,6 +60,7 @@ public class UserHeaderDashboardComponent extends DashboardComponent
      * @param request HttpServletRequest
      * @return The dashboard data
      */
+    @Override
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
         HashMap<String, Object> model = new HashMap<String, Object>(  );

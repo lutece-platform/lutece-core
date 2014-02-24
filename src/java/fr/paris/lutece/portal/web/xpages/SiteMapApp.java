@@ -62,6 +62,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SiteMapApp implements XPageApplication
 {
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = 1799476496018552101L;
     private static final int PORTAL_COMPONENT_SITE_MAP_ID = 6;
     private static final int MODE_NORMAL = 0;
     private static final int MODE_ADMIN = 1;

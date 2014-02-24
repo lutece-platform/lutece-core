@@ -75,6 +75,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SearchApp implements XPageApplication
 {
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = -9101183157272256639L;
+
     ////////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String BEAN_SEARCH_ENGINE = "searchEngine";
@@ -106,8 +111,6 @@ public class SearchApp implements XPageApplication
     private static final String CONSTANT_HTTP_METHOD_GET = "GET";
     private static final boolean DEFAULT_ENCODE_URI = false;
 
-    //    private static final int MODE_ADMIN = 1;
-
     /**
      * Returns search results
      *
@@ -117,6 +120,7 @@ public class SearchApp implements XPageApplication
      * @return The HTML code of the page.
      * @throws SiteMessageException If an error occurs
      */
+    @Override
     public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
         throws SiteMessageException
     {

@@ -96,8 +96,10 @@ public class ScannotationDB implements IAnnotationDB
     }
 
     /**
-     * Scans the WEB-INF/classes and WEB-INF/lib using {@link #getFileFilter()} to filter jars.
+     * Scans the WEB-INF/classes and WEB-INF/lib using {@link #getFileFilter()}
+     * to filter jars.
      */
+    @Override
     public void init(  )
     {
         AppLogService.info( "ScannotationDB Scanning classpath..." );
@@ -117,6 +119,10 @@ public class ScannotationDB implements IAnnotationDB
 
         String[] allJars = libDirectory.list( new FilenameFilter(  )
                 {
+                    /**
+                     * {@inheritDoc}
+                     */
+                    @Override
                     public boolean accept( File dir, String name )
                     {
                         return name.matches( _strFileFilter );
@@ -167,15 +173,16 @@ public class ScannotationDB implements IAnnotationDB
     /**
      * {@inheritDoc}
      */
+    @Override
     public Set<String> getClassesName( Class<?extends Annotation> annotationType )
     {
         return getClassesName( annotationType.getName(  ) );
     }
 
     /**
-     *
      * {@inheritDoc}
      */
+    @Override
     public Set<String> getClassesName( String strAnnotationType )
     {
         Map<String, Set<String>> index = _db.getAnnotationIndex(  );

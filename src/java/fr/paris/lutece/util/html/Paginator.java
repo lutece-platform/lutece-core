@@ -85,7 +85,8 @@ public class Paginator<E> extends AbstractPaginator<E>
      * @param strBaseUrl The base Url for build links on each page link
      * @param strPageIndexParameterName The parameter name for the page index
      * @param strPageIndex The current page index
-         * @param strItemsPerPageParameterName The parameter name of the number items per page
+     * @param strItemsPerPageParameterName The parameter name of the number
+     *            items per page
      */
     public Paginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
         String strPageIndex, String strItemsPerPageParameterName )
@@ -95,8 +96,9 @@ public class Paginator<E> extends AbstractPaginator<E>
     }
 
     /**
-         *{@inheritDoc}
-         */
+     * {@inheritDoc}
+     */
+    @Override
     public List<E> getPageItems(  )
     {
         int nStartIndex = ( _nPageCurrent - 1 ) * _nItemPerPage;

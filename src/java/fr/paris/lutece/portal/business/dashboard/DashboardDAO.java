@@ -70,6 +70,7 @@ public class DashboardDAO implements IDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public void delete( String strBeanName )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_NAME );
@@ -84,6 +85,7 @@ public class DashboardDAO implements IDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public void deleteAll(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
@@ -96,6 +98,7 @@ public class DashboardDAO implements IDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public void insert( IDashboardComponent dashboardComponent )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
@@ -122,6 +125,7 @@ public class DashboardDAO implements IDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public IDashboardComponent load( String strClassName )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PRIMARY_KEY );
@@ -156,6 +160,7 @@ public class DashboardDAO implements IDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<IDashboardComponent> selectAllDashboardComponents(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
@@ -191,6 +196,7 @@ public class DashboardDAO implements IDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public int selectMaxOrder(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_MAX_ORDER );
@@ -212,6 +218,7 @@ public class DashboardDAO implements IDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public int selectMaxOrder( int nColumn )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_MAX_ORDER_COLUMN );
@@ -235,6 +242,7 @@ public class DashboardDAO implements IDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<IDashboardComponent> selectDashboardComponents( DashboardFilter filter )
     {
         StringBuilder sbSQL = new StringBuilder( SQL_QUERY_SELECT );
@@ -276,12 +284,13 @@ public class DashboardDAO implements IDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public void store( IDashboardComponent dashboardComponent )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
 
         int nIndex = setInsertOrUpdateValues( 1, dashboardComponent, daoUtil );
-        daoUtil.setString( nIndex++, dashboardComponent.getName(  ) );
+        daoUtil.setString( nIndex, dashboardComponent.getName(  ) );
 
         daoUtil.executeUpdate(  );
 
@@ -291,6 +300,7 @@ public class DashboardDAO implements IDashboardDAO
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<Integer> selectColumns(  )
     {
         List<Integer> listColumns = new ArrayList<Integer>(  );

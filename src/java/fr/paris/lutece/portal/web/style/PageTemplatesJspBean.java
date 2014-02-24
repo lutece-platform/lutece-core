@@ -69,7 +69,15 @@ import javax.servlet.http.HttpServletRequest;
 public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 {
     // Right
+    /**
+     * Right to manage page templates
+     */
     public static final String RIGHT_MANAGE_PAGE_TEMPLATES = "CORE_PAGE_TEMPLATE_MANAGEMENT";
+
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = -142214702397662732L;
 
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_PAGE_TEMPLATE_LIST = "portal.style.manage_page_templates.pageTitle";
@@ -379,6 +387,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      */
     private void writeTemplateFile( String strFileName, String strPath, FileItem fileItem )
     {
+        FileOutputStream fosFile = null;
+
         try
         {
             File file = new File( strPath + strFileName );
@@ -388,7 +398,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
                 file.delete(  );
             }
 
-            FileOutputStream fosFile = new FileOutputStream( file );
+            fosFile = new FileOutputStream( file );
             fosFile.flush(  );
             fosFile.write( fileItem.get(  ) );
             fosFile.close(  );
@@ -396,6 +406,20 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         catch ( IOException e )
         {
             AppLogService.error( e.getMessage(  ), e );
+        }
+        finally
+        {
+            if ( fosFile != null )
+            {
+                try
+                {
+                    fosFile.close(  );
+                }
+                catch ( IOException e )
+                {
+                    AppLogService.error( e.getMessage(  ), e );
+                }
+            }
         }
     }
 }

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.image;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
@@ -60,7 +61,8 @@ public class ImageServlet extends HttpServlet
     private static final String PROPERTY_IMAGE_PAGE_DEFAULT = "image.page.default";
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException the servlet Exception
@@ -100,52 +102,76 @@ public class ImageServlet extends HttpServlet
                 File file = new File( strImageUrl );
                 response.setContentLength( (int) file.length(  ) );
 
-                //Open the file and output streams
-                FileInputStream in = new FileInputStream( file );
-                OutputStream out = response.getOutputStream(  );
+                FileInputStream in = null;
 
-                // Copy the contents of the file to the output stream
-                byte[] buf = new byte[1024];
-                int count = 0;
-
-                while ( ( count = in.read( buf ) ) >= 0 )
+                try
                 {
-                    out.write( buf, 0, count );
-                }
+                    //Open the file and output streams
+                    in = new FileInputStream( file );
 
-                in.close(  );
-                out.close(  );
+                    OutputStream out = response.getOutputStream(  );
+
+                    // Copy the contents of the file to the output stream
+                    byte[] buf = new byte[1024];
+                    int count = 0;
+
+                    while ( ( count = in.read( buf ) ) >= 0 )
+                    {
+                        out.write( buf, 0, count );
+                    }
+
+                    in.close(  );
+                    out.close(  );
+                }
+                catch ( IOException e )
+                {
+                    AppLogService.error( e.getMessage(  ), e );
+                    throw e;
+                }
+                finally
+                {
+                    if ( in != null )
+                    {
+                        in.close(  );
+                    }
+                }
             }
         }
     }
 
-    /** Handles the HTTP <code>GET</code> method.
+    /**
+     * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
      * @param response servlet response
-         * @throws ServletException the servlet Exception
-         * @throws IOException the io exception
+     * @throws ServletException the servlet Exception
+     * @throws IOException the io exception
      */
+    @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
     {
         processRequest( request, response );
     }
 
-    /** Handles the HTTP <code>POST</code> method.
+    /**
+     * Handles the HTTP <code>POST</code> method.
      * @param request servlet request
      * @param response servlet response
-         * @throws ServletException the servlet Exception
-         * @throws IOException the io exception
+     * @throws ServletException the servlet Exception
+     * @throws IOException the io exception
      */
+    @Override
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
     {
         processRequest( request, response );
     }
 
-    /** Returns a short description of the servlet.
-         * @return message
+    /**
+     * Returns a short description of the servlet.
+     * @return message
      */
+    @Override
     public String getServletInfo(  )
     {
         return "Servlet serving images content";

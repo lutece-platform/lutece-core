@@ -92,13 +92,13 @@ public class PropertiesService
     {
         File directory = new File( _strRootPath + strRelativePath );
 
-        if ( ( directory != null ) && directory.exists(  ) )
+        if ( directory.exists(  ) )
         {
             File[] listFile = directory.listFiles(  );
 
             for ( int i = 0; i < listFile.length; i++ )
             {
-                File file = (File) listFile[i];
+                File file = listFile[i];
 
                 if ( file.getName(  ).endsWith( ".properties" ) )
                 {
@@ -121,6 +121,15 @@ public class PropertiesService
         File file = new File( strFullPath );
         FileInputStream fis = new FileInputStream( file );
         _properties.load( fis );
+
+        try
+        {
+            fis.close(  );
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( e.getMessage(  ), e );
+        }
     }
 
     /**

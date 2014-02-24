@@ -52,12 +52,21 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * This class provides the user interface to manage modes features ( manage, create, modify, remove)
+ * This class provides the user interface to manage modes features ( manage,
+ * create, modify, remove)
  */
 public class ModesJspBean extends AdminFeaturesPageJspBean
 {
     // Right
+    /**
+     * Right to manage modes
+     */
     public static final String RIGHT_MANAGE_MODES = "CORE_MODES_MANAGEMENT";
+
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = 8205010720652090863L;
 
     // Markers
     private static final String MARK_MODES_LIST = "mode_list";
@@ -113,7 +122,8 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation form of a new mode by recovering the parameters in the http request
+     * Processes the creation form of a new mode by recovering the parameters in
+     * the http request
      *
      * @param request the http request
      * @return The Jsp URL of the process result
@@ -140,12 +150,10 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.PATH_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
         }
-        else
+
+        if ( !dirPath.mkdir(  ) )
         {
-            if ( !dirPath.mkdir(  ) )
-            {
-                return AdminMessageService.getMessageUrl( request, Messages.PATH_CREATION_ERROR, AdminMessage.TYPE_ERROR );
-            }
+            return AdminMessageService.getMessageUrl( request, Messages.PATH_CREATION_ERROR, AdminMessage.TYPE_ERROR );
         }
 
         Mode mode = new Mode(  );
@@ -189,7 +197,8 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the updating form of a mode whose new parameters are stored in the http request
+     * Processes the updating form of a mode whose new parameters are stored in
+     * the http request
      *
      * @param request The http request
      * @return The Jsp URL of the process result

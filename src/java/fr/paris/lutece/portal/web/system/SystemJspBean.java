@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.site.properties.SitePropertiesService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
@@ -284,11 +285,11 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      */
     public static String doModifyProperties( HttpServletRequest request, ServletContext context )
     {
-        Enumeration enumKey = request.getParameterNames(  );
+        Enumeration<String> enumKey = request.getParameterNames(  );
 
         while ( enumKey.hasMoreElements(  ) )
         {
-            String strKey = (String) enumKey.nextElement(  );
+            String strKey = enumKey.nextElement(  );
             String strValue = request.getParameter( strKey );
             DatastoreService.setDataValue( strKey, strValue );
         }
@@ -309,9 +310,12 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     {
         StringBuilder sbData = new StringBuilder(  );
 
+        FileInputStream is = null;
+
         try
         {
-            FileInputStream is = new FileInputStream( strFilePath );
+            is = new FileInputStream( strFilePath );
+
             int chr = 0;
 
             while ( chr != -1 )
@@ -320,7 +324,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
                 sbData.append( (char) chr );
             }
 
-            //we delete the end of file caracter
+            //we delete the end of file character
             sbData.setLength( sbData.length(  ) - 1 );
         }
         catch ( FileNotFoundException e )
@@ -331,6 +335,20 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         {
             sbData.append( "Error reading the file : " );
             sbData.append( strFilePath );
+        }
+        finally
+        {
+            if ( is != null )
+            {
+                try
+                {
+                    is.close(  );
+                }
+                catch ( IOException e )
+                {
+                    AppLogService.error( e.getMessage(  ), e );
+                }
+            }
         }
 
         return sbData.toString(  );

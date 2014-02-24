@@ -43,6 +43,7 @@ import fr.paris.lutece.util.filesystem.FileListFilter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -287,15 +288,30 @@ public final class PluginService
         String strPluginStatusFile = AppPathService.getPath( PATH_PLUGIN, FILE_PLUGINS_STATUS );
         File file = new File( strPluginStatusFile );
         Properties props = new Properties(  );
+        FileInputStream fis = null;
 
         try
         {
-            FileInputStream fis = new FileInputStream( file );
+            fis = new FileInputStream( file );
             props.load( fis );
         }
         catch ( Exception e )
         {
             AppLogService.error( "Error loading plugin defined in file : " + file.getAbsolutePath(  ), e );
+        }
+        finally
+        {
+            if ( fis != null )
+            {
+                try
+                {
+                    fis.close(  );
+                }
+                catch ( IOException e )
+                {
+                    AppLogService.error( e.getMessage(  ), e );
+                }
+            }
         }
 
         // If the keys aren't found in the datastore then create a key in it

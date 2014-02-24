@@ -80,6 +80,7 @@ public class AuthenticationFilter implements Filter
     @Override
     public void init( FilterConfig config ) throws ServletException
     {
+        // Do nothing
     }
 
     /**
@@ -173,13 +174,13 @@ public class AuthenticationFilter implements Filter
     {
         UrlItem url = new UrlItem( getLoginUrl( request ) );
 
-        Enumeration enumParams = request.getParameterNames(  );
+        Enumeration<String> enumParams = request.getParameterNames(  );
 
         String strParamName;
 
         while ( enumParams.hasMoreElements(  ) )
         {
-            strParamName = (String) enumParams.nextElement(  );
+            strParamName = enumParams.nextElement(  );
 
             if ( !strParamName.equals( Parameters.ACCESS_CODE ) && !strParamName.equals( Parameters.PASSWORD ) )
             {
@@ -322,7 +323,7 @@ public class AuthenticationFilter implements Filter
      * A relative url should be given relatively to the webapp root.
      * @param request the http request (provides the base path if needed)
      * @param strUrl the url to transform
-     * @return the corresonding absolute url
+     * @return the corresponding absolute url
      *
      * */
     private String getAbsoluteUrl( HttpServletRequest request, String strUrl )
@@ -331,10 +332,8 @@ public class AuthenticationFilter implements Filter
         {
             return AppPathService.getBaseUrl( request ) + strUrl;
         }
-        else
-        {
-            return strUrl;
-        }
+
+        return strUrl;
     }
 
     /**

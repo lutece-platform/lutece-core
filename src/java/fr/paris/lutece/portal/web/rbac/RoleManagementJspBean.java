@@ -83,7 +83,15 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 {
     //////////////////////////////////////////////////////////////////////////////////
     // Contants
+    /**
+     * Right to manage RBAC
+     */
     public static final String RIGHT_MANAGE_ROLES = "CORE_RBAC_MANAGEMENT";
+
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = 5909246296083478844L;
 
     // parameters
     private static final String PARAMETER_METHOD_SELECTION_ALL = "all";
@@ -214,11 +222,11 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         }
 
         // PAGINATOR
-        LocalizedPaginator paginator = new LocalizedPaginator( listRole, _nItemsPerPage, url.getUrl(  ),
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
+        LocalizedPaginator<AdminRole> paginator = new LocalizedPaginator<AdminRole>( listRole, _nItemsPerPage,
+                url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
+        model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_ROLE_LIST, paginator.getPageItems(  ) );
 
@@ -255,8 +263,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         String strRoleDescription = request.getParameter( PARAMETER_ROLE_DESCRIPTION );
 
-        if ( ( strRoleKey == null ) || ( strRoleKey.trim(  ).equals( "" ) ) || ( strRoleDescription == null ) ||
-                ( strRoleDescription.trim(  ).equals( "" ) ) )
+        if ( StringUtils.isBlank( strRoleKey ) || StringUtils.isBlank( strRoleDescription ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -281,7 +288,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Get the role modification page.
-     * This corresponds to the modification of the basic information linked to the role : key and description
+     * This corresponds to the modification of the basic information linked to
+     * the role : key and description
      * @param request the http request
      * @return the html code for the modification page
      */
@@ -303,7 +311,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * Performs the modification of the role's key and description.
      * The role key entered should not already exist.
      * The role key is mandatory.
-     * It should update the key for all the entries in the role-resource association list.
+     * It should update the key for all the entries in the role-resource
+     * association list.
      * @param request the http request
      * @return the url to forward to
      */
@@ -314,41 +323,35 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         String strRoleDescription = request.getParameter( PARAMETER_ROLE_DESCRIPTION );
 
         // check that new role key is valid
-        if ( ( strNewRoleKey == null ) || ( strNewRoleKey.trim(  ).equals( "" ) ) || ( strRoleDescription == null ) ||
-                ( strRoleDescription.trim(  ).equals( "" ) ) )
+        if ( StringUtils.isBlank( strNewRoleKey ) || StringUtils.isBlank( strRoleDescription ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        else
-        {
-            if ( strOldRoleKey.equals( strNewRoleKey ) ) // if the key doesn't change, update the description
-            {
-                // update the role
-                AdminRole role = AdminRoleHome.findByPrimaryKey( strOldRoleKey );
-                role.setKey( strNewRoleKey );
-                role.setDescription( strRoleDescription );
-                AdminRoleHome.update( strOldRoleKey, role );
-            }
-            else // if the key changes, first check that the new key doesn't exist
-            {
-                if ( AdminRoleHome.checkExistRole( strNewRoleKey ) )
-                {
-                    return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS,
-                        AdminMessage.TYPE_STOP );
-                }
-                else
-                {
-                    // update the role
-                    AdminRole role = AdminRoleHome.findByPrimaryKey( strOldRoleKey );
-                    role.setKey( strNewRoleKey );
-                    role.setDescription( strRoleDescription );
-                    AdminRoleHome.update( strOldRoleKey, role );
-                    AdminUserHome.updateUsersRole( strOldRoleKey, role );
 
-                    //  update the role key in the role-resource associations
-                    RBACHome.updateRoleKey( strOldRoleKey, strNewRoleKey );
-                }
+        if ( strOldRoleKey.equals( strNewRoleKey ) ) // if the key doesn't change, update the description
+        {
+            // update the role
+            AdminRole role = AdminRoleHome.findByPrimaryKey( strOldRoleKey );
+            role.setKey( strNewRoleKey );
+            role.setDescription( strRoleDescription );
+            AdminRoleHome.update( strOldRoleKey, role );
+        }
+        else // if the key changes, first check that the new key doesn't exist
+        {
+            if ( AdminRoleHome.checkExistRole( strNewRoleKey ) )
+            {
+                return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
             }
+
+            // update the role
+            AdminRole role = AdminRoleHome.findByPrimaryKey( strOldRoleKey );
+            role.setKey( strNewRoleKey );
+            role.setDescription( strRoleDescription );
+            AdminRoleHome.update( strOldRoleKey, role );
+            AdminUserHome.updateUsersRole( strOldRoleKey, role );
+
+            //  update the role key in the role-resource associations
+            RBACHome.updateRoleKey( strOldRoleKey, strNewRoleKey );
         }
 
         return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strNewRoleKey;
@@ -356,7 +359,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Get the confirmation page before deletion of a role
-     * @param request the http request
+     * @param request the HTTP request
      * @return the url of the confirmation page
      */
     public String doConfirmRemoveRole( HttpServletRequest request )
@@ -407,8 +410,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Get the page describing a role and the resource associated
-     * @param request the http request
-     * @return the html code for the description page
+     * @param request the HTTP request
+     * @return the HTML code for the description page
      */
     public String getViewRoleDescription( HttpServletRequest request )
     {
@@ -472,10 +475,11 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * 2 methods are provided :
      * <ul>
      * <li>wildcard selection : all resources of this type are selected.</li>
-     * <li>specific selection : a page with the list of resource ids available is provided next for user choice.</li>
+     * <li>specific selection : a page with the list of resource ids available
+     * is provided next for user choice.</li>
      * </ul>
-     * @param request the http request
-     * @return the html content for the resource selection method choice
+     * @param request the HTTP request
+     * @return the HTML content for the resource selection method choice
      */
     public String getAddControlToRole( HttpServletRequest request )
     {
@@ -489,7 +493,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         ResourceType resourceType = ResourceTypeManager.getResourceType( strResourceType );
 
         boolean bResourceListAvailable = true;
-        List listResources = resourceType.getResourceIdService(  ).getResourceIdList( getLocale(  ) );
+        ReferenceList listResources = resourceType.getResourceIdService(  ).getResourceIdList( getLocale(  ) );
 
         if ( ( listResources == null ) || ( listResources.size(  ) == 0 ) )
         {
@@ -506,11 +510,15 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Perform the checks on the resource selection method and perform the suitable redirection.
+     * Perform the checks on the resource selection method and perform the
+     * suitable redirection.
      * <ul>
-     * <li>If selection method is global (wilcard selection - parameter "all"), the user is redirected to the permission selection page.</li>
-     * <li>If selection method is specific (id selection - parameter "choose"), the user is redirected to the resource id selection page.</li>
-     * <li>If no selection method is found, or if it's neither parameter "all" nor "choose", the user is redirected to a error page.</li>
+     * <li>If selection method is global (wilcard selection - parameter "all"),
+     * the user is redirected to the permission selection page.</li>
+     * <li>If selection method is specific (id selection - parameter "choose"),
+     * the user is redirected to the resource id selection page.</li>
+     * <li>If no selection method is found, or if it's neither parameter "all"
+     * nor "choose", the user is redirected to a error page.</li>
      * </ul>
      * @param request the http request
      * @return the url of the page to be redirected to
@@ -545,7 +553,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Get the list of ids corresponding to the current resource type.
-     * This allows to provide the selection of resource ids that should be controled for the current role.
+     * This allows to provide the selection of resource ids that should be
+     * controlled for the current role.
      * @param request the http request
      * @return the html code for the list of ids to select
      */
@@ -572,15 +581,20 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Perform the check on the resource id list selected on the specific id selection page perform the suitable redirection.
+     * Perform the check on the resource id list selected on the specific id
+     * selection page perform the suitable redirection.
      * <ul>
      * <li>If selection method is specific (id selection - parameter "choose"),
-     *         <ul>
-     *                 <li>if at least one id as been selected, the user is redirected to the permission selection page.</li>
-     *                 <li>if no id as been selected, the user is redirected to an error page.</li>
-     *         </ul>
-     * <li>If selection method is global (wilcard selection - parameter "all"), the user is redirected to the permission selection page (This check could be avoided as is should not happen).</li>
-     * <li>If no selection method is found, or if it's neither parameter "all" nor "choose", the user is redirected to a error page.</li>
+     * <ul>
+     * <li>if at least one id as been selected, the user is redirected to the
+     * permission selection page.</li>
+     * <li>if no id as been selected, the user is redirected to an error page.</li>
+     * </ul>
+     * <li>If selection method is global (wilcard selection - parameter "all"),
+     * the user is redirected to the permission selection page (This check could
+     * be avoided as is should not happen).</li>
+     * <li>If no selection method is found, or if it's neither parameter "all"
+     * nor "choose", the user is redirected to a error page.</li>
      * </ul>
      * @param request the http request
      * @return the url of the page to be redirected to
@@ -610,21 +624,47 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             }
             else
             {
-                strUrl = JSP_URL_SELECT_PERMISSIONS + "?" + PARAMETER_RESOURCE_TYPE + "=" + strResourceType + "&" +
-                    PARAMETER_ROLE_KEY + "=" + strRoleKey + "&" + PARAMETER_SELECT_RESOURCES_METHOD + "=" +
-                    strSelectionMethod;
+                StringBuilder sbUrl = new StringBuilder( JSP_URL_SELECT_PERMISSIONS );
+                sbUrl.append( "?" );
+                sbUrl.append( PARAMETER_RESOURCE_TYPE );
+                sbUrl.append( "=" );
+                sbUrl.append( strResourceType );
+                sbUrl.append( "&" );
+                sbUrl.append( PARAMETER_ROLE_KEY );
+                sbUrl.append( "=" );
+                sbUrl.append( strRoleKey );
+                sbUrl.append( "&" );
+                sbUrl.append( PARAMETER_SELECT_RESOURCES_METHOD );
+                sbUrl.append( "=" );
+                sbUrl.append( strSelectionMethod );
 
                 for ( int i = 0; i < strArrayResourceIds.length; i++ )
                 {
-                    strUrl = strUrl + "&" + PARAMETER_RESOURCE_ID + "=" + strArrayResourceIds[i];
+                    sbUrl.append( "&" );
+                    sbUrl.append( PARAMETER_RESOURCE_ID );
+                    sbUrl.append( "=" );
+                    sbUrl.append( strArrayResourceIds[i] );
                 }
+
+                strUrl = sbUrl.toString(  );
             }
         }
         else if ( strSelectionMethod.equals( PARAMETER_METHOD_SELECTION_ALL ) )
         {
-            strUrl = JSP_URL_SELECT_PERMISSIONS + "?" + PARAMETER_RESOURCE_TYPE + "=" + strResourceType + "&" +
-                PARAMETER_ROLE_KEY + "=" + strRoleKey + "&" + PARAMETER_SELECT_RESOURCES_METHOD + "=" +
-                strSelectionMethod;
+            StringBuilder sbUrl = new StringBuilder( JSP_URL_SELECT_PERMISSIONS );
+            sbUrl.append( "?" );
+            sbUrl.append( PARAMETER_RESOURCE_TYPE );
+            sbUrl.append( "=" );
+            sbUrl.append( strResourceType );
+            sbUrl.append( "&" );
+            sbUrl.append( PARAMETER_ROLE_KEY );
+            sbUrl.append( "=" );
+            sbUrl.append( strRoleKey );
+            sbUrl.append( "&" );
+            sbUrl.append( PARAMETER_SELECT_RESOURCES_METHOD );
+            sbUrl.append( "=" );
+            sbUrl.append( strSelectionMethod );
+            strUrl = sbUrl.toString(  );
         }
         else
         {
@@ -640,7 +680,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * 2 methods are provided :
      * <ul>
      * <li>wildcard selection : all permissions for this type are selected.</li>
-     * <li>specific selection : the choice is to be made by the user in the list of available permissions.</li>
+     * <li>specific selection : the choice is to be made by the user in the list
+     * of available permissions.</li>
      * </ul>
      * @param request the http request
      * @return the html code for the permission selection page.
@@ -677,16 +718,23 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Perform the checks on the permission selection and redirects to the description of the role if ok.
+     * Perform the checks on the permission selection and redirects to the
+     * description of the role if ok.
      * <ul>
-     * <li>If selection method is global (wilcard selection - parameter "all"), the correspondind entry is stored as a control for all resources previously selected. The user is redirected to the role description page.</li>
-     * <li>If selection method is specific (id selection - parameter "choose"),
-     *         <ul>
-     *                 <li>if no permission is found, the user is redirected to an error page.</li>
-     *                 <li>if at least one permission is found, the correspondind entry is stored as a control for all resources previously selected. The user is redirected to the role description page.</li>
-     *         </ul>
+     * <li>If selection method is global (wilcard selection - parameter "all"),
+     * the correspondind entry is stored as a control for all resources
+     * previously selected. The user is redirected to the role description page.
      * </li>
-     * <li>If no selection method is found, or if it's neither parameter "all" nor "choose", the user is redirected to a error page.</li>
+     * <li>If selection method is specific (id selection - parameter "choose"),
+     * <ul>
+     * <li>if no permission is found, the user is redirected to an error page.</li>
+     * <li>if at least one permission is found, the correspondind entry is
+     * stored as a control for all resources previously selected. The user is
+     * redirected to the role description page.</li>
+     * </ul>
+     * </li>
+     * <li>If no selection method is found, or if it's neither parameter "all"
+     * nor "choose", the user is redirected to a error page.</li>
      * </ul>
      * @param request the http request
      * @return the url of the page to be redirected to

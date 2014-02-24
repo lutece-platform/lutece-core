@@ -63,6 +63,11 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
     /** Unique name for the right to manage search parameters */
     public static final String RIGHT_SEARCH_MANAGEMENT = "CORE_SEARCH_MANAGEMENT";
 
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = -2095709285081142039L;
+
     ////////////////////////////////////////////////////////////////////////////
     //Constants
     private static final String EMPTY_STRING = "";

@@ -56,12 +56,15 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- *
  * AttributeFieldJspBean
- *
  */
 public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 {
+    /**
+     * Generated serial version UID
+     */
+    private static final long serialVersionUID = 3304151197655135630L;
+
     // CONSTANTS
     private static final String QUESTION_MARK = "?";
     private static final String EQUAL = "=";

@@ -61,6 +61,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AttributeJspBean extends AdminFeaturesPageJspBean
 {
+    /**
+     * Generated serial version UID
+     */
+    private static final long serialVersionUID = 183073111112521149L;
+
     // CONSTANTS
     private static final String QUESTION_MARK = "?";
     private static final String EQUAL = "=";
@@ -144,8 +149,13 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         }
         catch ( IllegalAccessException e )
         {
-            // can't access to rhe class
+            // can't access to the class
             AppLogService.error( e );
+        }
+
+        if ( attribute == null )
+        {
+            return getManageAttributes( request );
         }
 
         setPageTitleProperty( attribute.getPropertyCreatePageTitle(  ) );
@@ -195,6 +205,11 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             {
                 // can't access to the class
                 AppLogService.error( e );
+            }
+
+            if ( attribute == null )
+            {
+                return getManageAttributes( request );
             }
 
             String strError = attribute.setAttributeData( request );

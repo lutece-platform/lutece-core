@@ -52,9 +52,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
         "id_physical_file=?,file_value=? WHERE id_physical_file = ?";
 
     /**
-     * Generates a new primary key
-     *
-     * @return The new primary key
+     * {@inheritDoc}
      */
     @Override
     public int newPrimaryKey(  )
@@ -77,10 +75,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     }
 
     /**
-     * Insert a new record in the table.
-     *
-     * @param physicalFile  instance of the PhysicalFile object to insert
-     * @return the id of the new physical file
+     * {@inheritDoc}
      */
     @Override
     public synchronized int insert( PhysicalFile physicalFile )
@@ -97,10 +92,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     }
 
     /**
-     * Load the data of the PhysicalFile from the table
-     *
-     * @param nId The identifier of the file
-     * @return the instance of the PhysicalFile
+     * {@inheritDoc}
      */
     @Override
     public PhysicalFile load( int nId )
@@ -116,7 +108,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
             int nIndex = 1;
             physicalFile = new PhysicalFile(  );
             physicalFile.setIdPhysicalFile( daoUtil.getInt( nIndex++ ) );
-            physicalFile.setValue( daoUtil.getBytes( nIndex++ ) );
+            physicalFile.setValue( daoUtil.getBytes( nIndex ) );
         }
 
         daoUtil.free(  );
@@ -125,9 +117,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     }
 
     /**
-     * Delete a record from the table
-     *
-     * @param nIdPhysicalFile The identifier of the PhyscalFile
+     * {@inheritDoc}
      */
     @Override
     public void delete( int nIdPhysicalFile )
@@ -139,9 +129,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     }
 
     /**
-     * Update the physical file in the table
-     *
-     * @param physicalFile instance of the physicalFile object to update
+     * {@inheritDoc}
      */
     @Override
     public void store( PhysicalFile physicalFile )
@@ -150,7 +138,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
         daoUtil.setInt( nIndex++, physicalFile.getIdPhysicalFile(  ) );
         daoUtil.setBytes( nIndex++, physicalFile.getValue(  ) );
-        daoUtil.setInt( nIndex++, physicalFile.getIdPhysicalFile(  ) );
+        daoUtil.setInt( nIndex, physicalFile.getIdPhysicalFile(  ) );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
