@@ -62,6 +62,7 @@ public class MailItem implements Serializable
     private String _strSubject;
     private String _strMessage;
     private String _strCalendarMessage;
+    private boolean _bCreateEvent;
     private int _nFormat;
     private List<UrlAttachment> _listUrlsAttachement;
     private List<FileAttachment> _listFilesAttachement;
@@ -225,6 +226,26 @@ public class MailItem implements Serializable
     public void setCalendarMessage( String strCalendarMessage )
     {
         _strCalendarMessage = strCalendarMessage;
+    }
+
+    /**
+     * Check if the calendar event of this mail item should be created or
+     * removed
+     * @return True if the event should be created, false if it should be
+     *         removed
+     */
+    public boolean getCreateEvent(  )
+    {
+        return _bCreateEvent;
+    }
+
+    /**
+     * Create or remove the event of this mail item
+     * @param bCreateEvent True to create the event, false otherwise
+     */
+    public void setCreateEvent( boolean bCreateEvent )
+    {
+        this._bCreateEvent = bCreateEvent;
     }
 
     /**

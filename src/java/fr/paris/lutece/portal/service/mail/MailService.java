@@ -258,12 +258,13 @@ public final class MailService
      * @param strSubject The message subject.
      * @param strMessage The message.
      * @param strCalendarMessage The calendar message
+     * @param bCreateEvent True to create the calendar event, false to remove it
      */
     public static void sendMailCalendar( String strRecipientsTo, String strSenderName, String strSenderEmail,
-        String strSubject, String strMessage, String strCalendarMessage )
+        String strSubject, String strMessage, String strCalendarMessage, boolean bCreateEvent )
     {
         sendMailCalendar( strRecipientsTo, null, null, strSenderName, strSenderEmail, strSubject, strMessage,
-            strCalendarMessage );
+            strCalendarMessage, bCreateEvent );
     }
 
     /**
@@ -279,12 +280,14 @@ public final class MailService
      * @param strSubject The message subject.
      * @param strMessage The message.
      * @param strCalendarMessage The calendar message
+     * @param bCreateEvent True to create the calendar event, false to remove it
      */
     public static void sendMailCalendar( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
-        String strSenderName, String strSenderEmail, String strSubject, String strMessage, String strCalendarMessage )
+        String strSenderName, String strSenderEmail, String strSubject, String strMessage, String strCalendarMessage,
+        boolean bCreateEvent )
     {
         sendMailCalendar( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail,
-            strSubject, strMessage, strCalendarMessage, false );
+            strSubject, strMessage, strCalendarMessage, bCreateEvent, false );
     }
 
     /**
@@ -300,12 +303,13 @@ public final class MailService
      * @param strSubject The message subject.
      * @param strMessage The message.
      * @param strCalendarMessage The calendar message
+     * @param bCreateEvent True to create the calendar event, false to remove it
      * @param bUniqueRecipientTo true if the mail must be send unitarily for
      *            each recipient
      */
     public static void sendMailCalendar( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
         String strSenderName, String strSenderEmail, String strSubject, String strMessage, String strCalendarMessage,
-        boolean bUniqueRecipientTo )
+        boolean bCreateEvent, boolean bUniqueRecipientTo )
     {
         MailItem item = new MailItem(  );
         item.setRecipientsTo( strRecipientsTo );
@@ -316,6 +320,7 @@ public final class MailService
         item.setSubject( strSubject );
         item.setMessage( strMessage );
         item.setCalendarMessage( strCalendarMessage );
+        item.setCreateEvent( bCreateEvent );
         item.setFormat( MailItem.FORMAT_CALENDAR );
         item.setUniqueRecipientTo( bUniqueRecipientTo );
 

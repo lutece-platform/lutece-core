@@ -56,14 +56,17 @@ import javax.mail.internet.AddressException;
 public class MailSenderDaemon extends Daemon
 {
     private static final String PROPERTY_MAIL_HOST = "mail.server";
+    private static final String PROPERTY_MAIL_PORT = "mail.server.port";
     private static final String PROPERTY_MAIL_DEAMON_WAITTIME = "mail.daemon.waittime";
     private static final String PROPERTY_MAIL_DEAMON_COUNT = "mail.daemon.count";
     private static final String PROPERTY_MAIL_USERNAME = "mail.username";
     private static final String PROPERTY_MAIL_PASSWORD = "mail.password";
+    private static final int DEFAULT_SMTP_PORT = 25;
 
     /**
-     * Implements Runable interface
+     * {@inheritDoc}
      */
+    @Override
     public synchronized void run(  )
     {
         Logger logger = Logger.getLogger( "lutece.mail" );
@@ -72,6 +75,7 @@ public class MailSenderDaemon extends Daemon
         String strHost = AppPropertiesService.getProperty( PROPERTY_MAIL_HOST );
         String strUsername = AppPropertiesService.getProperty( PROPERTY_MAIL_USERNAME, null );
         String strPassword = AppPropertiesService.getProperty( PROPERTY_MAIL_PASSWORD, null );
+        int nStmpPort = AppPropertiesService.getPropertyInt( PROPERTY_MAIL_PORT, DEFAULT_SMTP_PORT );
         int nWaitTime = AppPropertiesService.getPropertyInt( PROPERTY_MAIL_DEAMON_WAITTIME, 1 );
         int nCount = AppPropertiesService.getPropertyInt( PROPERTY_MAIL_DEAMON_COUNT, 1000 );
 
@@ -84,7 +88,7 @@ public class MailSenderDaemon extends Daemon
         {
             sbLogs.append( new Date(  ).toString(  ) );
 
-            Session session = MailUtil.getMailSession( strHost, strUsername, strPassword );
+            Session session = MailUtil.getMailSession( strHost, nStmpPort, strUsername, strPassword );
             Transport transportSmtp = null;
 
             try
@@ -171,7 +175,7 @@ public class MailSenderDaemon extends Daemon
                 }
             }
 
-            //reset all ressource stored in MailAttachmentCacheService
+            //reset all resource stored in MailAttachmentCacheService
             MailAttachmentCacheService.getInstance(  ).resetCache(  );
             setLastRunLogs( sbLogs.toString(  ) );
         }
@@ -179,7 +183,7 @@ public class MailSenderDaemon extends Daemon
         {
             sbLogs.append( "\r\nNo mail to send " );
             sbLogs.append( new Date(  ).toString(  ) );
-            logger.info( sbLogs.toString(  ) );
+            logger.debug( sbLogs.toString(  ) );
         }
     }
 
@@ -190,7 +194,7 @@ public class MailSenderDaemon extends Daemon
      * @param transportSmtp the smtp transport
      * @param session the session smtp
      * @param sbLogsLine the log line
-     * @throws MessagingException  @see MessagingException
+     * @throws MessagingException @see MessagingException
      */
     private void sendMail( MailItem mail, String strHost, Transport transportSmtp, Session session,
         StringBuilder sbLogsLine ) throws MessagingException
@@ -209,21 +213,21 @@ public class MailSenderDaemon extends Daemon
             switch ( mail.getFormat(  ) )
             {
                 case MailItem.FORMAT_HTML:
-                    MailUtil.sendMessageHtml( strHost, mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                    MailUtil.sendMessageHtml( mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
                         mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
                         mail.getSubject(  ), mail.getMessage(  ), transportSmtp, session );
 
                     break;
 
                 case MailItem.FORMAT_TEXT:
-                    MailUtil.sendMessageText( strHost, mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                    MailUtil.sendMessageText( mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
                         mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
                         mail.getSubject(  ), mail.getMessage(  ), transportSmtp, session );
 
                     break;
 
                 case MailItem.FORMAT_MULTIPART_HTML:
-                    MailUtil.sendMultipartMessageHtml( strHost, mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                    MailUtil.sendMultipartMessageHtml( mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
                         mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
                         mail.getSubject(  ), mail.getMessage(  ), mail.getUrlsAttachement(  ),
                         mail.getFilesAttachement(  ), transportSmtp, session );
@@ -231,16 +235,17 @@ public class MailSenderDaemon extends Daemon
                     break;
 
                 case MailItem.FORMAT_MULTIPART_TEXT:
-                    MailUtil.sendMultipartMessageText( strHost, mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                    MailUtil.sendMultipartMessageText( mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
                         mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
                         mail.getSubject(  ), mail.getMessage(  ), mail.getFilesAttachement(  ), transportSmtp, session );
 
                     break;
 
                 case MailItem.FORMAT_CALENDAR:
-                    MailUtil.sendMessageCalendar( strHost, mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                    MailUtil.sendMessageCalendar( mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
                         mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
-                        mail.getSubject(  ), mail.getMessage(  ), mail.getCalendarMessage(  ), transportSmtp, session );
+                        mail.getSubject(  ), mail.getMessage(  ), mail.getCalendarMessage(  ), mail.getCreateEvent(  ),
+                        transportSmtp, session );
 
                     break;
 

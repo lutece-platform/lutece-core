@@ -46,6 +46,7 @@ public class DatabaseQueue implements IMailQueue
      * Put a mail item into the database queue
      * @param item The mail item to add to the queue
      */
+    @Override
     public synchronized void send( MailItem item )
     {
         MailItemQueue mailQueue = new MailItemQueue(  );
@@ -57,6 +58,7 @@ public class DatabaseQueue implements IMailQueue
      * Get a mail item from the database queue and remove it from the queue
      * @return The older mail item of the queue
      */
+    @Override
     public synchronized MailItem consume(  )
     {
         MailItemQueue mailItemQueue = MailItemQueueHome.getNextMailItemQueue(  );
@@ -75,6 +77,7 @@ public class DatabaseQueue implements IMailQueue
      * get the DatabaseQueue size
      * @return the DatabaseQueue size
      */
+    @Override
     public int size(  )
     {
         return MailItemQueueHome.getMailItemNumber(  );
