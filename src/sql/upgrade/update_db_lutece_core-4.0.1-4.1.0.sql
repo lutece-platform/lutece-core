@@ -1,4 +1,4 @@
-ALTER TABLE core_portlet CHANGE COLUMN name name VARCHAR(70) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci' AFTER id_page;
+ALTER TABLE core_portlet MODIFY COLUMN name VARCHAR(70) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci' AFTER id_page;
 ALTER TABLE core_xsl_export ADD COLUMN plugin VARCHAR(255) DEFAULT '';
 
 INSERT INTO core_xsl_export VALUES (125,'Coeur - Export CSV des administrateurs','Export des utilisateurs back office dans un fichier CSV','csv',125,'core');
