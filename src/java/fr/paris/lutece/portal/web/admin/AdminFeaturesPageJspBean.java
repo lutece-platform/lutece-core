@@ -50,7 +50,6 @@ import fr.paris.lutece.util.beanvalidation.ValidationErrorConfig;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.io.Serializable;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -58,7 +57,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-
 import javax.validation.ConstraintViolation;
 
 
@@ -67,6 +65,11 @@ import javax.validation.ConstraintViolation;
  */
 public abstract class AdminFeaturesPageJspBean implements Serializable
 {
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = -7952383741759547934L;
+
     // template for all admin pages
     private static final String TEMPLATE_MAIN = "/admin/feature_frameset.html";
 
