@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
+import org.apache.commons.lang.StringUtils;
+
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -47,19 +49,30 @@ public class PortletImpl extends Portlet
      * @param request The HTTP servlet request
      * @return none
      */
+    @Override
     public String getXml( HttpServletRequest request )
     {
-        return "";
+        return StringUtils.EMPTY;
     }
 
     /**
-     * Must be overloaded to return the complete Xml document (whith heading)
-     *
+     * Must be overloaded to return the complete Xml document (with heading)
+     * 
      * @param request The HTTP servlet request
      * @return none
      */
+    @Override
     public String getXmlDocument( HttpServletRequest request )
     {
-        return "";
+        return StringUtils.EMPTY;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void remove( )
+    {
+        // Do nothing
     }
 }
