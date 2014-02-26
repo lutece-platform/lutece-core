@@ -90,14 +90,14 @@ import javax.xml.parsers.SAXParserFactory;
 public class XslExportJspBean extends PluginAdminPageJspBean
 {
     /**
-     * Serial version UID
-     */
-    private static final long serialVersionUID = -8697851692630602527L;
-
-    /**
      * Right to manage XSL Export
      */
     public static final String RIGHT_MANAGE_XSL_EXPORT = "CORE_XSL_EXPORT_MANAGEMENT";
+
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = -8697851692630602527L;
 
     // templates
     private static final String TEMPLATE_MANAGE_XSL_EXPORT = "admin/xsl/manage_xsl_export.html";

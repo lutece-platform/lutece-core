@@ -57,7 +57,7 @@ public class PortletImpl extends Portlet
 
     /**
      * Must be overloaded to return the complete Xml document (with heading)
-     * 
+     *
      * @param request The HTTP servlet request
      * @return none
      */
@@ -71,7 +71,7 @@ public class PortletImpl extends Portlet
      * {@inheritDoc}
      */
     @Override
-    public void remove( )
+    public void remove(  )
     {
         // Do nothing
     }
