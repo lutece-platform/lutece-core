@@ -61,7 +61,7 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     /** page index parameter name */
     protected String _strPageIndexParameterName;
 
-    /** imtes per page */
+    /** items per page */
     protected int _nItemPerPage;
 
     /** base url */

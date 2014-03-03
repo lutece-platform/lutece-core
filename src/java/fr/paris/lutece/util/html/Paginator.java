@@ -57,7 +57,7 @@ public class Paginator<E> extends AbstractPaginator<E>
     {
         _list = list;
         _nItemsCount = _list.size(  );
-        _nItemPerPage = nItemPerPage;
+        _nItemPerPage = nItemPerPage <= 0 ? 1 : nItemPerPage;
         _strBaseUrl = strBaseUrl;
         _strPageIndexParameterName = strPageIndexParameterName;
         _strItemsPerPageParameterName = PARAMETER_ITEMS_PER_PAGE;

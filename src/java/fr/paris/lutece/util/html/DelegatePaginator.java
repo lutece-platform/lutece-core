@@ -58,7 +58,7 @@ public class DelegatePaginator<E> extends AbstractPaginator<E>
     {
         _nItemsCount = nItemsCount;
         _list = list;
-        _nItemPerPage = nItemPerPage;
+        _nItemPerPage = nItemPerPage <= 0 ? 1 : nItemPerPage;
         _strBaseUrl = strBaseUrl;
         _strPageIndexParameterName = strPageIndexParameterName;
         _strItemsPerPageParameterName = PARAMETER_ITEMS_PER_PAGE;
