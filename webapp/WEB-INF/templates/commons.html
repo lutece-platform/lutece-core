@@ -100,7 +100,7 @@
 		<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
 		<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
 	</#if>
-	<div class="pagination">
+	<div class="pagination pagination-centered">
 		<ul>
 		<#if ( paginator.pagesCount > 1 )>
 			<#if ( paginator.pageCurrent - offsetPrev > 1 )>
