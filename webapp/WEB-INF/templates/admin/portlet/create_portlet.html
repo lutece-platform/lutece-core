@@ -9,9 +9,9 @@
                 <div id="panel" class="span3">
                     <div class="well">
                         <label>#i18n{portal.site.create_portlet.labelColumn}</label>
-                        <@comboSortedWithParams name="column" default_value="1" additionalParameters="class=\"span5\"" items=portlet_columns_combo />
+                        <@comboWithParams name="column" default_value="1" additionalParameters="class=\"span5\"" items=portlet_columns_combo />
                         <label>#i18n{portal.site.create_portlet.labelOrder} </label>
-                        <@comboSortedWithParams name="order" default_value="1" additionalParameters="class=\"span5\"" items=portlet_order_combo />
+                        <@comboWithParams name="order" default_value="1" additionalParameters="class=\"span5\"" items=portlet_order_combo />
                         <#if portletType.id != "ALIAS_PORTLET">
                         <label>#i18n{portal.site.create_portlet.labelStyle} </label>
                         <@comboSortedWithParams name="style" default_value="0" additionalParameters="class=\"span10\"" items=portlet_style_combo />

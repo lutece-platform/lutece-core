@@ -14,9 +14,9 @@
 						<label>#i18n{portal.site.modify_portlet.labelPortletPageId}</label>
 						<input type="text" name="page_id" value="${portlet.pageId}" class="input-mini" />
 						<label for="column">#i18n{portal.site.modify_portlet.labelColumn}</label>
-						<@comboSortedWithParams name="column" default_value="${portlet.column}" additionalParameters="class=\"span5\"" items=portlet_columns_combo />
+						<@comboWithParams name="column" default_value="${portlet.column}" additionalParameters="class=\"span5\"" items=portlet_columns_combo />
 						<label for="order">#i18n{portal.site.modify_portlet.labelOrder}</label>
-						<@comboSortedWithParams name="order" default_value="${portlet.order}" additionalParameters="class=\"span5\"" items=portlet_order_combo />
+						<@comboWithParams name="order" default_value="${portlet.order}" additionalParameters="class=\"span5\"" items=portlet_order_combo />
 						<label for="style">#i18n{portal.site.modify_portlet.labelStyle}</label>
 						<@comboSortedWithParams name="style" default_value="${portlet.styleId}" additionalParameters="class=\"span10\"" items=portlet_style_combo />
 						<label for="role">#i18n{portal.site.modify_portlet.labelRole}</label>
