@@ -225,7 +225,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_ID_EXPRESSION = "id_expression";
     private static final String PARAMETER_FORCE_CHANGE_PASSWORD_REINIT = "force_change_password_reinit";
     private static final String PARAMETER_PASSWORD_MINIMUM_LENGTH = "password_minimum_length";
-    private static final String PARAMETER_PASSWORD_FORMAT = "password_format";
+    private static final String PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE = "password_format_upper_lower_case";
+    private static final String PARAMETER_PASSWORD_FORMAT_NUMERO = "password_format_numero";
+    private static final String PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS = "password_format_special_characters";
+
     private static final String PARAMETER_PASSWORD_DURATION = "password_duration";
     private static final String PARAMETER_PASSWORD_HISTORY_SIZE = "password_history_size";
     private static final String PARAMETER_MAXIMUM_NUMBER_PASSWORD_CHANGE = "maximum_number_password_change";
@@ -1927,9 +1930,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( bUseAdvancedSecurityParameter )
         {
             // Parameter format
-            AdminUserService.updateSecurityParameter( PARAMETER_PASSWORD_FORMAT,
-                request.getParameter( PARAMETER_PASSWORD_FORMAT ) );
-
+        	AdminUserService.updateSecurityParameter( PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE,
+                    request.getParameter( PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE ) );
+            AdminUserService.updateSecurityParameter( PARAMETER_PASSWORD_FORMAT_NUMERO,
+                    request.getParameter( PARAMETER_PASSWORD_FORMAT_NUMERO ) );
+            AdminUserService.updateSecurityParameter( PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS,
+                    request.getParameter( PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) );
             // Parameter password duration
             AdminUserService.updateSecurityParameter( PARAMETER_PASSWORD_DURATION,
                 request.getParameter( PARAMETER_PASSWORD_DURATION ) );
@@ -2488,7 +2494,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             Locale locale = getLocale(  );
 
             // make password
-            String strPassword = PasswordUtil.makePassword(  );
+            String strPassword = AdminUserService.makePassword(  );
 
             // update password
             if ( ( strPassword != null ) && !strPassword.equals( CONSTANT_EMPTY_STRING ) )

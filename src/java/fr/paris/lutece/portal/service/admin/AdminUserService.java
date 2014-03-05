@@ -108,7 +108,9 @@ public final class AdminUserService
     private static final String PARAMETER_EMAIL_PATTERN = "email_pattern";
     private static final String PARAMETER_EMAIL_PATTERN_VERIFY_BY = "email_pattern_verify_by";
     private static final String PARAMETER_PASSWORD_MINIMUM_LENGTH = "password_minimum_length";
-    private static final String PARAMETER_PASSWORD_FORMAT = "password_format";
+    private static final String PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE = "password_format_upper_lower_case";
+    private static final String PARAMETER_PASSWORD_FORMAT_NUMERO = "password_format_numero";
+    private static final String PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS = "password_format_special_characters";
     private static final String PARAMETER_PASSWORD_HISTORY_SIZE = "password_history_size";
     private static final String PARAMETER_MAXIMUM_NUMBER_PASSWORD_CHANGE = "maximum_number_password_change";
     private static final String PARAMETER_TSW_SIZE_PASSWORD_CHANGE = "tsw_size_password_change";
@@ -145,8 +147,10 @@ public final class AdminUserService
     private static final String MARK_PLUGIN_REGULAREXPRESSION = "plugin_regularexpression";
     private static final String MARK_FORCE_CHANGE_PASSWORD_REINIT = "force_change_password_reinit";
     private static final String MARK_PASSWORD_MINIMUM_LENGTH = "password_minimum_length";
-    private static final String MARK_PASSWORD_FORMAT = "password_format";
-    private static final String MARK_PASSWORD_DURATION = "password_duration";
+    private static final String MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE = "password_format_upper_lower_case";
+    private static final String MARK_PASSWORD_FORMAT_NUMERO = "password_format_numero";
+    private static final String MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS = "password_format_special_characters";
+     private static final String MARK_PASSWORD_DURATION = "password_duration";
     private static final String MARK_PASSWORD_HISTORY_SIZE = "password_history_size";
     private static final String MARK_MAXIMUM_NUMBER_PASSWORD_CHANGE = "maximum_number_password_change";
     private static final String MARK_TSW_SIZE_PASSWORD_CHANGE = "tsw_size_password_change";
@@ -175,6 +179,9 @@ public final class AdminUserService
     private static final String PROPERTY_MESSAGE_EMAIL_FORMAT_BANNED_DOMAIN_NAME = "portal.users.message.user.emailFormatBannedDomainNames";
     private static final String PROPERTY_MESSAGE_MINIMUM_PASSWORD_LENGTH = "portal.users.message.password.minimumPasswordLength";
     private static final String PROPERTY_MESSAGE_PASSWORD_FORMAT = "portal.users.message.password.format";
+    private static final String PROPERTY_MESSAGE_PASSWORD_FORMAT_UPPER_LOWER_CASE = "portal.users.message.password.formatUpperLowerCase";
+    private static final String PROPERTY_MESSAGE_PASSWORD_FORMAT_NUMERO = "portal.users.message.password.formatNumero";
+    private static final String PROPERTY_MESSAGE_PASSWORD_FORMAT_SPECIAL_CHARACTERS = "portal.users.message.password.formatSpecialCharacters";
     private static final String PROPERTY_MESSAGE_PASSWORD_ALREADY_USED = "portal.users.message.password.passwordAlreadyUsed";
     private static final String PROPERTY_MESSAGE_MAX_PASSWORD_CHANGE = "portal.users.message.password.maxPasswordChange";
     private static final String PROPERTY_ANONYMIZATION_ENCRYPT_ALGO = "security.anonymization.encryptAlgo";
@@ -230,7 +237,7 @@ public final class AdminUserService
     {
         AdminUser.init(  );
     }
-
+   
     /**
      * Get the user in session
      * @param request The HTTP request
@@ -461,7 +468,9 @@ public final class AdminUserService
             if ( bUseAdvancesSecurityParameters )
             {
                 // SECURITY PARAMETERS
-                model.put( MARK_PASSWORD_FORMAT, getBooleanSecurityParameter( MARK_PASSWORD_FORMAT ) );
+                model.put( MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE, getBooleanSecurityParameter( MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE ) );
+                model.put( MARK_PASSWORD_FORMAT_NUMERO, getBooleanSecurityParameter( MARK_PASSWORD_FORMAT_NUMERO ) );
+                model.put( MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS, getBooleanSecurityParameter( MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) );
                 model.put( MARK_PASSWORD_DURATION, getIntegerSecurityParameter( MARK_PASSWORD_DURATION ) );
                 model.put( MARK_PASSWORD_HISTORY_SIZE, getIntegerSecurityParameter( MARK_PASSWORD_HISTORY_SIZE ) );
                 model.put( MARK_MAXIMUM_NUMBER_PASSWORD_CHANGE,
@@ -985,11 +994,42 @@ public final class AdminUserService
         }
 
         // Password format
-        boolean bUsePasswordFormat = AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT );
-
-        if ( bUsePasswordFormat && !PasswordUtil.checkPasswordFormat( strPassword ) )
+       
+        boolean bUserPasswordFormatUpperLowerCase=	AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE ) ;
+        boolean bUserPasswordFormatNumero=	AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_NUMERO ) ;
+        boolean bUserPasswordFormatSpecialCaracters= AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) ;
+        if ( (bUserPasswordFormatUpperLowerCase || bUserPasswordFormatNumero || bUserPasswordFormatSpecialCaracters) && !PasswordUtil.checkPasswordFormat( strPassword,bUserPasswordFormatUpperLowerCase,bUserPasswordFormatNumero,bUserPasswordFormatSpecialCaracters ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_FORMAT, AdminMessage.TYPE_STOP );
+        	
+        	StringBuffer strParam=new StringBuffer();
+        	//Add Message Upper Lower Case
+        	if( bUserPasswordFormatUpperLowerCase )
+        	{
+        		strParam.append(I18nService.getLocalizedString(PROPERTY_MESSAGE_PASSWORD_FORMAT_UPPER_LOWER_CASE, request.getLocale()));
+        	}
+        	//Add Message Numero
+        	if(bUserPasswordFormatNumero)
+        	{
+        		if(bUserPasswordFormatUpperLowerCase)
+        		{
+        			strParam.append(", ");
+        		}
+        		strParam.append(I18nService.getLocalizedString(PROPERTY_MESSAGE_PASSWORD_FORMAT_NUMERO, request.getLocale()));
+        		
+        	}
+        	//Add Message Special Characters
+        	if( bUserPasswordFormatSpecialCaracters )
+        	{
+        		if(bUserPasswordFormatUpperLowerCase||bUserPasswordFormatNumero)
+        		{
+        			strParam.append(", ");
+        		}
+        		strParam.append(I18nService.getLocalizedString(PROPERTY_MESSAGE_PASSWORD_FORMAT_SPECIAL_CHARACTERS, request.getLocale()));
+        	}
+        	
+        	 Object[] param = { strParam.toString() };
+        	
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_FORMAT,param, AdminMessage.TYPE_STOP );
         }
 
         // Check password history
@@ -1041,6 +1081,22 @@ public final class AdminUserService
 
         return null;
     }
+    
+    
+    /**
+     * Generate a new random password
+     * @return the new password
+     */
+    public static String makePassword( )
+    {
+    	// Password format
+        boolean bUserPasswordFormatUpperLowerCase =	AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE ) ;
+        boolean bUserPasswordFormatNumero =	AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_NUMERO ) ;
+        boolean bUserPasswordFormatSpecialCaracters = AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) ;
+        int nMinPasswordSize = AdminUserService.getIntegerSecurityParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH );
+        
+        return PasswordUtil.makePassword(nMinPasswordSize, bUserPasswordFormatUpperLowerCase, bUserPasswordFormatNumero, bUserPasswordFormatSpecialCaracters);
+    }
 
     /**
      * Encrypt a password with the encryption algorithm choosed by the admin
@@ -1072,7 +1128,9 @@ public final class AdminUserService
             AppPropertiesService.getProperty( PROPERTY_DEFAULT_MAXIMUM_NUMBER_PASSWORD_CHANGE ) );
         updateSecurityParameter( MARK_PASSWORD_DURATION,
             AppPropertiesService.getProperty( PROPERTY_DEFAULT_PASSWORD_DURATION ) );
-        updateSecurityParameter( MARK_PASSWORD_FORMAT, Boolean.TRUE.toString(  ) );
+        updateSecurityParameter( MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE, Boolean.TRUE.toString(  ) );
+        updateSecurityParameter( MARK_PASSWORD_FORMAT_NUMERO, Boolean.TRUE.toString(  ) );
+        updateSecurityParameter( MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS, Boolean.TRUE.toString(  ) );
         updateSecurityParameter( MARK_PASSWORD_HISTORY_SIZE,
             AppPropertiesService.getProperty( PROPERTY_DEFAULT_HISTORY_SIZE ) );
         updateSecurityParameter( MARK_TSW_SIZE_PASSWORD_CHANGE,
@@ -1100,7 +1158,9 @@ public final class AdminUserService
         updateSecurityParameter( MARK_USE_ADVANCED_SECURITY_PARAMETERS, StringUtils.EMPTY );
         updateSecurityParameter( MARK_MAXIMUM_NUMBER_PASSWORD_CHANGE, StringUtils.EMPTY );
         updateSecurityParameter( MARK_PASSWORD_DURATION, StringUtils.EMPTY );
-        updateSecurityParameter( MARK_PASSWORD_FORMAT, StringUtils.EMPTY );
+        updateSecurityParameter( MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE, StringUtils.EMPTY );
+        updateSecurityParameter( MARK_PASSWORD_FORMAT_NUMERO, StringUtils.EMPTY );
+        updateSecurityParameter( MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS, StringUtils.EMPTY );
         updateSecurityParameter( MARK_PASSWORD_HISTORY_SIZE, StringUtils.EMPTY );
         updateSecurityParameter( MARK_TSW_SIZE_PASSWORD_CHANGE, StringUtils.EMPTY );
         updateSecurityParameter( MARK_NOTIFY_USER_PASSWORD_EXPIRED, StringUtils.EMPTY );

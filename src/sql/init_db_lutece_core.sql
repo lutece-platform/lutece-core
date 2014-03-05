@@ -167,7 +167,9 @@ INSERT INTO core_user_parameter VALUES ('email_pattern', '^[\\w_.\\-!\\#\\$\\%\\
 INSERT INTO core_user_parameter VALUES ('email_pattern_verify_by', '');
 INSERT INTO core_user_parameter VALUES ('force_change_password_reinit', 'false');
 INSERT INTO core_user_parameter VALUES ('password_minimum_length', '8');
-INSERT INTO core_user_parameter VALUES ('password_format', 'false');
+INSERT INTO core_user_parameter VALUES ('password_format_upper_lower_case', 'false');
+INSERT INTO core_user_parameter VALUES ('password_format_numero', 'false');
+INSERT INTO core_user_parameter VALUES ('password_format_special_characters', 'false');
 INSERT INTO core_user_parameter VALUES ('password_history_size', '');
 INSERT INTO core_user_parameter VALUES ('maximum_number_password_change', '');
 INSERT INTO core_user_parameter VALUES ('tsw_size_password_change', '');

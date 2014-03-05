@@ -240,7 +240,7 @@ public class ImportAdminUserService extends CSVReaderService
             if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
             {
                 LuteceDefaultAdminUser defaultAdminUser = (LuteceDefaultAdminUser) user;
-                String strPassword = PasswordUtil.makePassword(  );
+                String strPassword = AdminUserService.makePassword(  );
                 String strEncryptedPassword = AdminUserService.encryptPassword( strPassword );
                 defaultAdminUser.setPassword( strEncryptedPassword );
                 AdminUserHome.create( defaultAdminUser );

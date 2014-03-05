@@ -79,7 +79,6 @@ public final class PasswordUtil
     public static String makePassword(  )
     {
         // reinitialize password
-        Random r = new Random(  );
         int nPasswordSize = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_SIZE, 8 );
         int nMinPasswordSize = AdminUserService.getIntegerSecurityParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH );
 
@@ -87,20 +86,37 @@ public final class PasswordUtil
         {
             nPasswordSize = nMinPasswordSize;
         }
-
+        return makePassword(nMinPasswordSize, true, true, true);
+    }
+    
+    
+    /**
+     * Generate a new random password
+     * @param nPasswordSize the password size
+     * @param bUpperAndLowerCase true if the password must contain upper and lower case
+     * @param bNumero if the password must contain numero  
+     * @param bSpecialCaracters if the password must contain special characters
+ 
+     * @return the new password
+     */
+    public static String makePassword( int nPasswordSize,boolean bUpperAndLowerCase,boolean bNumero,boolean bSpecialCaracters  )
+    {
+        // reinitialize password
+        Random r = new Random(  );
+       
         ArrayList<Character> listCharacters = new ArrayList<Character>( nPasswordSize );
 
         // No of Big letters
-        int nNumCapitalLetters = r.nextInt( nPasswordSize - 3 ) + 1; // choose a number between 1 and CONSTANT_PASSWORD_SIZE -1
-
-        // No of small
-        int nNumSmallLetters = r.nextInt( nPasswordSize - 2 - nNumCapitalLetters ) + 1; // choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE - a1
+        int nNumCapitalLetters = bUpperAndLowerCase ? r.nextInt( nPasswordSize - 3 ) + 1: 0; // choose a number between 1 and CONSTANT_PASSWORD_SIZE -1
+        
+        // no on special characters
+        int nNumSpecial =bSpecialCaracters? r.nextInt( nPasswordSize - 2 - nNumCapitalLetters ) + 1: 0; // choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE - a1
 
         // no of nos
-        int nNumNumbers = r.nextInt( nPasswordSize - 1 - nNumCapitalLetters - nNumSmallLetters ) + 1; // choose a number to complete list of CONSTANT_PASSWORD_SIZE characters
+        int nNumNumbers = bNumero ? r.nextInt( nPasswordSize - 1 - nNumCapitalLetters - nNumSpecial ) + 1 : 0; // choose a number to complete list of CONSTANT_PASSWORD_SIZE characters
 
-        // no on special characters
-        int nNumSpecial = nPasswordSize - nNumCapitalLetters - nNumSmallLetters - nNumNumbers; // choose a number to complete list of CONSTANT_PASSWORD_SIZE characters
+        // no of small
+        int nNumSmallLetters = nPasswordSize - nNumCapitalLetters - nNumSpecial - nNumNumbers; // choose a number to complete list of CONSTANT_PASSWORD_SIZE characters
 
         for ( int j = 0; j < nNumCapitalLetters; j++ )
         {
@@ -138,6 +154,7 @@ public final class PasswordUtil
         return sbPassword.toString(  );
     }
 
+
     /**
      * Check whether a password contains upper and lower case letters, special
      * characters and numbers.
@@ -146,15 +163,41 @@ public final class PasswordUtil
      */
     public static boolean checkPasswordFormat( String strPassword )
     {
+       return checkPasswordFormat(strPassword, true, true, true);
+    }
+    
+    
+    /**
+     * Check whether a password contains upper and lower case letters, special
+     * characters and numbers.
+     * @param strPassword The password to check
+     * @param bUpperAndLowerCase true if the password must contain upper and lower case
+     * @param bNumero if the password must contain numero  
+     * @param bSpecialCaracters if the password must contain special characters
+     * 
+     * @return True if the password format is correct, false otherwise
+     */
+    public static boolean checkPasswordFormat( String strPassword,boolean bUpperAndLowerCase,boolean bNumero,boolean bSpecialCaracters )
+    {
         if ( ( strPassword == null ) || strPassword.isEmpty(  ) )
         {
             return false;
         }
 
         StringBuilder sbRegex = new StringBuilder( CONSTANT_PASSWORD_BEGIN_REGEX );
-        sbRegex.append( CONSTANT_PASSWORD_REGEX_UPPER_LOWER );
-        sbRegex.append( CONSTANT_PASSWORD_REGEX_NUM );
-        sbRegex.append( CONSTANT_PASSWORD_REGEX_SPECIAL );
+        if( bUpperAndLowerCase )
+        {
+        	sbRegex.append( CONSTANT_PASSWORD_REGEX_UPPER_LOWER );
+        }
+        if( bNumero )
+        {
+        	sbRegex.append( CONSTANT_PASSWORD_REGEX_NUM );
+        }
+        if( bSpecialCaracters )
+        {
+        	sbRegex.append( CONSTANT_PASSWORD_REGEX_SPECIAL );
+        }
+        
         sbRegex.append( CONSTANT_PASSWORD_END_REGEX );
 
         return strPassword.matches( sbRegex.toString(  ) );

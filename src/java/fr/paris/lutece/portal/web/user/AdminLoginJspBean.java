@@ -419,7 +419,7 @@ public class AdminLoginJspBean implements Serializable
         }
 
         // make password
-        String strPassword = PasswordUtil.makePassword(  );
+        String strPassword = AdminUserService.makePassword(  );
 
         // update password
         if ( ( strPassword != null ) && !strPassword.equals( CONSTANT_EMPTY_STRING ) )
