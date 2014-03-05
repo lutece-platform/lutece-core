@@ -250,7 +250,7 @@ public class PageIndexer implements SearchIndexer
             sbFieldMetadata.append( strMetaKeywords );
         }
 
-        doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString( ), TextField.TYPE_STORED ) );
+        doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString( ), TextField.TYPE_NOT_STORED ) );
 
         if ( StringUtils.isNotBlank( page.getMetaDescription( ) ) )
         {
