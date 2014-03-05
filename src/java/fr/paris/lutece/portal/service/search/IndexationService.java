@@ -57,10 +57,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
-import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.NIOFSDirectory;
@@ -77,7 +75,7 @@ public final class IndexationService
     public static final String PATH_INDEX_IN_WEBAPP = "search.lucene.indexInWebapp";
     public static final String PARAM_FORCING = "forcing";
     public static final int ALL_DOCUMENT = -1;
-    public static final Version LUCENE_INDEX_VERSION = Version.LUCENE_46;
+    public static final Version LUCENE_INDEX_VERSION = Version.LUCENE_29;
     private static final String PARAM_TYPE_PAGE = "Page";
     private static final String PROPERTY_WRITER_MERGE_FACTOR = "search.lucene.writer.mergeFactor";
     private static final String PROPERTY_WRITER_MAX_FIELD_LENGTH = "search.lucene.writer.maxFieldLength";
@@ -179,24 +177,15 @@ public final class IndexationService
         {
             Directory dir = IndexationService.getDirectoryIndex( );
 
-            if ( !DirectoryReader.indexExists( dir ) )
+            if ( !IndexReader.indexExists( dir ) )
             { //init index
                 bCreateIndex = true;
             }
 
             Date start = new Date( );
-            IndexWriterConfig conf = new IndexWriterConfig( Version.LUCENE_46, _analyzer );
-
-            if ( bCreateIndex )
-            {
-                conf.setOpenMode( OpenMode.CREATE );
-            }
-            else
-            {
-                conf.setOpenMode( OpenMode.APPEND );
-            }
-
-            _writer = new IndexWriter( dir, conf );
+            _writer = new IndexWriter( dir, _analyzer, bCreateIndex, IndexWriter.MaxFieldLength.UNLIMITED );
+            _writer.setMergeFactor( _nWriterMergeFactor );
+            _writer.setMaxFieldLength( _nWriterMaxFieldLength );
 
             if ( bCreateIndex )
             {
@@ -206,6 +195,9 @@ public final class IndexationService
             {
                 processIncrementalIndexing( );
             }
+
+            _sbLogs.append( "\r\nOptimization of the index for the current site...\r\n\r\n" );
+            _writer.optimize( );
 
             Date end = new Date( );
             _sbLogs.append( "Duration of the treatment : " );
