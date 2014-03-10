@@ -38,20 +38,30 @@ import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.lucene.demo.html.HTMLParser;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
+import org.apache.tika.exception.TikaException;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.html.HtmlParser;
+import org.apache.tika.sax.BodyContentHandler;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
 
 
 /**
@@ -184,36 +194,40 @@ public class PageIndexer implements SearchIndexer
 
         // Add the url as a field named "url".  Use an UnIndexed field, so
         // that the url is just stored with the document, but is not searchable.
-        doc.add( new Field( SearchItem.FIELD_URL, strUrl, Field.Store.YES, Field.Index.NOT_ANALYZED ) );
+        doc.add( new Field( SearchItem.FIELD_URL, strUrl, TextField.TYPE_STORED ) );
 
         // Add the last modified date of the file a field named "modified".
         // Use a field that is indexed (i.e. searchable), but don't tokenize
         // the field into words.
         String strDate = DateTools.dateToString( page.getDateUpdate( ), DateTools.Resolution.DAY );
-        doc.add( new Field( SearchItem.FIELD_DATE, strDate, Field.Store.YES, Field.Index.NOT_ANALYZED ) );
+        doc.add( new Field( SearchItem.FIELD_DATE, strDate, TextField.TYPE_STORED ) );
 
         // Add the uid as a field, so that index can be incrementally maintained.
         // This field is not stored with document, it is indexed, but it is not
         // tokenized prior to indexing.
         String strIdPage = String.valueOf( page.getId( ) );
-        doc.add( new Field( SearchItem.FIELD_UID, strIdPage, Field.Store.NO, Field.Index.NOT_ANALYZED ) );
+        doc.add( new StringField( SearchItem.FIELD_UID, strIdPage, Field.Store.NO ) );
 
         String strPageContent = _pageService.getPageContent( page.getId( ), 0, null );
-        StringReader readerPage = new StringReader( strPageContent );
-        HTMLParser parser = new HTMLParser( readerPage );
+        ContentHandler handler = new BodyContentHandler( );
+        Metadata metadata = new Metadata( );
+        try
+        {
+            new HtmlParser( ).parse( new ByteArrayInputStream( strPageContent.getBytes( ) ), handler, metadata,
+                    new ParseContext( ) );
+        }
+        catch ( SAXException e )
+        {
+            throw new AppException( "Error during page parsing." );
+        }
+        catch ( TikaException e )
+        {
+            throw new AppException( "Error during page parsing." );
+        }
 
         //the content of the article is recovered in the parser because this one
         //had replaced the encoded caracters (as &eacute;) by the corresponding special caracter (as ?)
-        Reader reader = parser.getReader( );
-        int c;
-        StringBuilder sb = new StringBuilder( );
-
-        while ( ( c = reader.read( ) ) != -1 )
-        {
-            sb.append( String.valueOf( (char) c ) );
-        }
-
-        reader.close( );
+        StringBuilder sb = new StringBuilder( handler.toString( ) );
 
         // Add the tag-stripped contents as a Reader-valued Text field so it will
         // get tokenized and indexed.
@@ -236,7 +250,7 @@ public class PageIndexer implements SearchIndexer
             sbFieldMetadata.append( strMetaKeywords );
         }
 
-        doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString( ), Field.Store.NO, Field.Index.ANALYZED ) );
+        doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString( ), TextField.TYPE_NOT_STORED ) );
 
         if ( StringUtils.isNotBlank( page.getMetaDescription( ) ) )
         {
@@ -250,23 +264,25 @@ public class PageIndexer implements SearchIndexer
 
         if ( sbFieldMetadata.length( ) > 0 )
         {
-            doc.add( new Field( SearchItem.FIELD_METADATA, sbFieldMetadata.toString( ), Field.Store.NO,
-                    Field.Index.ANALYZED ) );
+            doc.add( new StringField( SearchItem.FIELD_METADATA, sbFieldMetadata.toString( ), Field.Store.NO ) );
         }
 
         // Add the title as a separate Text field, so that it can be searched
         // separately.
-        doc.add( new Field( SearchItem.FIELD_TITLE, page.getName( ), Field.Store.YES, Field.Index.NO ) );
+        doc.add( new Field( SearchItem.FIELD_TITLE, page.getName( ), TextField.TYPE_STORED ) );
 
         if ( ( page.getDescription( ) != null ) && ( page.getDescription( ).length( ) > 1 ) )
         {
             // Add the summary as an UnIndexed field, so that it is stored and returned
             // with hit documents for display.
-            doc.add( new Field( SearchItem.FIELD_SUMMARY, page.getDescription( ), Field.Store.YES, Field.Index.ANALYZED ) );
+            doc.add( new StoredField( SearchItem.FIELD_SUMMARY, page.getDescription( ) ) );
         }
 
-        doc.add( new Field( SearchItem.FIELD_TYPE, INDEX_TYPE_PAGE, Field.Store.YES, Field.Index.NOT_ANALYZED ) );
-        doc.add( new Field( SearchItem.FIELD_ROLE, page.getRole( ), Field.Store.YES, Field.Index.NOT_ANALYZED ) );
+        FieldType ft = new FieldType( StringField.TYPE_STORED );
+        ft.setOmitNorms( false );
+
+        doc.add( new Field( SearchItem.FIELD_TYPE, INDEX_TYPE_PAGE, ft ) );
+        doc.add( new Field( SearchItem.FIELD_ROLE, page.getRole( ), TextField.TYPE_STORED ) );
 
         // return the document
         return doc;

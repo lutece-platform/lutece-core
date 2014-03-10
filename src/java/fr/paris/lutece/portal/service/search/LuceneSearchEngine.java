@@ -50,9 +50,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.DateTools.Resolution;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.misc.ChainedFilter;
-import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.queries.ChainedFilter;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.CachingWrapperFilter;
@@ -61,10 +63,10 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.QueryWrapperFilter;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.util.BytesRef;
 
 
 /**
@@ -91,7 +93,7 @@ public class LuceneSearchEngine implements SearchEngine
     {
         ArrayList<SearchItem> listResults = new ArrayList<SearchItem>( );
         ArrayList<Filter> listFilter = new ArrayList<Filter>( );
-        Searcher searcher = null;
+        IndexSearcher searcher = null;
         boolean bFilterResult = false;
         LuteceUser user = null;
         String[] typeFilter = request.getParameterValues( PARAMETER_TYPE_FILTER );
@@ -142,20 +144,20 @@ public class LuceneSearchEngine implements SearchEngine
 
         if ( StringUtils.isNotBlank( strDateAfter ) || StringUtils.isNotBlank( strDateBefore ) )
         {
-            String strAfter = null;
-            String strBefore = null;
+            BytesRef strAfter = null;
+            BytesRef strBefore = null;
 
             if ( StringUtils.isNotBlank( strDateAfter ) )
             {
                 Date dateAfter = DateUtil.formatDate( strDateAfter, request.getLocale( ) );
-                strAfter = DateTools.dateToString( dateAfter, Resolution.DAY );
+                strAfter = new BytesRef( DateTools.dateToString( dateAfter, Resolution.DAY ) );
                 bDateAfter = true;
             }
 
             if ( StringUtils.isNotBlank( strDateBefore ) )
             {
                 Date dateBefore = DateUtil.formatDate( strDateBefore, request.getLocale( ) );
-                strBefore = DateTools.dateToString( dateBefore, Resolution.DAY );
+                strBefore = new BytesRef( DateTools.dateToString( dateBefore, Resolution.DAY ) );
                 bDateBefore = true;
             }
 
@@ -184,23 +186,23 @@ public class LuceneSearchEngine implements SearchEngine
 
         try
         {
-            searcher = new IndexSearcher( IndexationService.getDirectoryIndex( ), true );
+            IndexReader ir = DirectoryReader.open( IndexationService.getDirectoryIndex( ) );
+            searcher = new IndexSearcher( ir );
 
             Query query = null;
-
             if ( StringUtils.isNotBlank( strTagFilter ) )
             {
                 BooleanQuery bQuery = new BooleanQuery( );
                 QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION,
                         SearchItem.FIELD_METADATA, IndexationService.getAnalyser( ) );
 
-                Query queryMetaData = parser.parse( ( strQuery != null ) ? strQuery : "" );
+                Query queryMetaData = parser.parse( ( strQuery != null ) ? strQuery : "*:*" );
                 bQuery.add( queryMetaData, BooleanClause.Occur.SHOULD );
 
                 parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_SUMMARY,
                         IndexationService.getAnalyser( ) );
 
-                Query querySummary = parser.parse( ( strQuery != null ) ? strQuery : "" );
+                Query querySummary = parser.parse( ( strQuery != null ) ? strQuery : "*:*" );
                 bQuery.add( querySummary, BooleanClause.Occur.SHOULD );
                 query = bQuery;
             }
@@ -216,7 +218,7 @@ public class LuceneSearchEngine implements SearchEngine
                     parser.setDefaultOperator( QueryParser.AND_OPERATOR );
                 }
 
-                query = parser.parse( ( strQuery != null ) ? strQuery : "" );
+                query = parser.parse( ( StringUtils.isNotBlank( strQuery ) ) ? strQuery : "*:*" );
             }
 
             // Get results documents
@@ -235,8 +237,6 @@ public class LuceneSearchEngine implements SearchEngine
                     listResults.add( si );
                 }
             }
-
-            searcher.close( );
         }
         catch ( Exception e )
         {
