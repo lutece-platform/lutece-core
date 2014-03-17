@@ -38,18 +38,19 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 /**
  * UploadUtil Test Class
- *
+ * 
  */
 public class UploadUtilTest extends LuteceTestCase
 {
     /**
-     * Test of cleanFileName method, of class fr.paris.lutece.util.filesystem.UploadUtil.
+     * Test of cleanFileName method, of class
+     * fr.paris.lutece.util.filesystem.UploadUtil.
      */
-    public void testCleanFileName(  )
+    public void testCleanFileName( )
     {
         System.out.println( "cleanFileName" );
 
-        String strName = "~h�llo&#'\"()[]$*/w�rld.file";
+        String strName = "~hello&#'\"()[]$*/world.file";
 
         String expResult = "_hello___________world.file";
         String result = UploadUtil.cleanFileName( strName );
@@ -57,13 +58,14 @@ public class UploadUtilTest extends LuteceTestCase
     }
 
     /**
-     * Test of cleanFilePath method, of class fr.paris.lutece.util.filesystem.UploadUtil.
+     * Test of cleanFilePath method, of class
+     * fr.paris.lutece.util.filesystem.UploadUtil.
      */
-    public void testCleanFilePath(  )
+    public void testCleanFilePath( )
     {
         System.out.println( "cleanFilePath" );
 
-        String strPath = "~h�llo&#'\"()[]$*/w�rld.file";
+        String strPath = "~hello&#'\"()[]$*/world.file";
 
         String expResult = "_hello__________/world.file";
         String result = UploadUtil.cleanFilePath( strPath );

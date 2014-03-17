@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.util;
 
 import fr.paris.lutece.portal.service.database.AppConnectionService;
-import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
@@ -42,7 +41,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.sql.Connection;
-
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -55,7 +53,7 @@ public class AppInitTest extends LuteceTestCase
     /**
      * Tests the initServices method
      */
-    public void testInitServices(  )
+    public void testInitServices( )
     {
         // initServices is loaded by the LuteceTestCase setUp method
     }
@@ -63,20 +61,20 @@ public class AppInitTest extends LuteceTestCase
     /**
      * Check Template service
      */
-    public void testTemplateService(  )
+    public void testTemplateService( )
     {
-        HashMap model = new HashMap(  );
+        HashMap model = new HashMap( );
         model.put( "web_mail", "lutece@paris.fr" );
         model.put( Markers.PAGE_MAIN_MENU, "menu" );
 
-        HtmlTemplate t = AppTemplateService.getTemplate( "skin/site/portal_footer.html", Locale.getDefault(  ), model );
+        HtmlTemplate t = AppTemplateService.getTemplate( "skin/site/portal_footer.html", Locale.getDefault( ), model );
         assertNotNull( t );
     }
 
     /**
      * Check some keys from config.properties
      */
-    public void testInitConfigProperties(  )
+    public void testInitConfigProperties( )
     {
         //        assertNotNull( AppPropertiesService.getProperty( "webapp.path" ) );
         //        assertNotNull( AppPropertiesService.getProperty( "lutece.webapp.url" ) );
@@ -85,27 +83,18 @@ public class AppInitTest extends LuteceTestCase
     /**
      * Check some keys from lutece.properties
      */
-    public void testInitLuteceProperties(  )
+    public void testInitLuteceProperties( )
     {
         assertNotNull( AppPropertiesService.getProperty( "lutece.page.root" ) );
         assertNotNull( AppPropertiesService.getProperty( "lutece.root.name" ) );
     }
 
     /**
-     * Check some keys from webmaster.properties
-     */
-    public void testInitWebmasterProperties(  )
-    {
-        assertNotNull( AppPropertiesService.getProperty( "head.meta.author" ) );
-        assertNotNull( AppPropertiesService.getProperty( "email.webmaster" ) );
-    }
-
-    /**
      * Check pool initialization for AppConnection Service
      */
-    public void testInitAppConnectionService(  )
+    public void testInitAppConnectionService( )
     {
-        Connection connection = AppConnectionService.getConnection(  );
+        Connection connection = AppConnectionService.getConnection( );
         assertNotNull( connection );
         AppConnectionService.freeConnection( connection );
     }
