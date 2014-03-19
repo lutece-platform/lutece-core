@@ -21,7 +21,7 @@
                     <@comboWithParams name="portal_component" default_value="${style.portalComponentId}" additionalParameters="${javascriptComboParams}" items=portal_component_list />
                 </div>
             </div>
-            <#if style.portletTypeId?has_content>
+            <#if style.portletTypeId??>
             <div class="control-group">
                 <label class="control-label" for="portlet_type" >#i18n{portal.style.modify_style.labelPortletType} :</label>
                 <div class="controls">
