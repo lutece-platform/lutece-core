@@ -21,12 +21,14 @@
                     <@comboWithParams name="portal_component" default_value="${style.portalComponentId}" additionalParameters="${javascriptComboParams}" items=portal_component_list />
                 </div>
             </div>
+            <#if style.portletTypeId?has_content>
             <div class="control-group">
                 <label class="control-label" for="portlet_type" >#i18n{portal.style.modify_style.labelPortletType} :</label>
                 <div class="controls">
                     <@comboSorted name="portlet_type" default_value="${style.portletTypeId}"  items=portlet_type_list />
                 </div>
             </div>
+            </#if>
             <div class="form-actions">
                 <button class="btn btn-primary btn-small" type="submit" >
                     <i class="icon-ok icon-white"></i> #i18n{portal.style.modify_style.buttonModify}
@@ -39,9 +41,9 @@
     </form>
     <script>
     if( document.modify_style.portal_component.value == '0' ){
-		document.modify_style.portlet_type.disabled=false;
+        document.modify_style.portlet_type.disabled=false;
     } else {
-		document.modify_style.portlet_type.disabled=true;
+        document.modify_style.portlet_type.disabled=true;
     }
     </script>
 </div>
