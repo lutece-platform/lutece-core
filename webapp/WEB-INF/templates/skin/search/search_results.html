@@ -62,6 +62,7 @@
             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
         </div>
         </#if>
+        <#if taglist?has_content>
         <#if tag_filter == "1" && taglist?trim != "">
         <#-- tag_filter -->
         <#list taglist?split(" ") as tag>
@@ -70,6 +71,7 @@
         </#if>
         </#list>
 
+        </#if>
         </#if>
     </form>
 </div>
