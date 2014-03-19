@@ -48,21 +48,21 @@
                                 <a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="icon-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a>
                             </li>
                             <li class="dropdown-submenu">
-								<a tabindex="-1" href="#"><i class="icon-flag"></i>&nbsp;#i18n{portal.admin.admin_home.language}</a>
+                                <a tabindex="-1" href="#"><i class="icon-flag"></i>&nbsp;#i18n{portal.admin.admin_home.language}</a>
                                      <ul class="dropdown-menu">
-									 <#list languages_list as lang>
-										<li>
-											<a href="jsp/admin/DoChangeLanguage.jsp?language=${lang.code}">
-												${lang.name}&nbsp;
-												<#if current_language==lang.code>
-												<i class="icon-ok"></i>
-											</#if>
-											</a>
-										</li>
-									 </#list>
+                                     <#list languages_list as lang>
+                                        <li>
+                                            <a href="jsp/admin/DoChangeLanguage.jsp?language=${lang.code}">
+                                                ${lang.name}&nbsp;
+                                                <#if current_language==lang.code>
+                                                <i class="icon-ok"></i>
+                                            </#if>
+                                            </a>
+                                        </li>
+                                     </#list>
                                        </ul>
                               
-                            </li>	
+                            </li>   
                             <#if user.accessibilityMode>
                             <li>
                                 <a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}"><i class="icon-eye-open"></i>&nbsp;#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}</a>
@@ -100,6 +100,5 @@
             </div><!-- /.nav-collapse -->
         </div> <!-- /navbar-inner -->
     </div>
-    <h1 class="header"><a name="top">&nbsp;</a></h1>
 </header>
 <div class="container-fluid">
