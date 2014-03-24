@@ -10,12 +10,6 @@
 			<xsl:apply-templates select="child-pages-list" />
 		</div>
 	</div>
-	<div id="sidebar" class="span-6 append-1 append-bottom last">
-		<div class="portlet -lutece-border-radius">
-			<img src="document?id=7&amp;id_attribute=52" alt="banner" title="banner"/>
-			&#160;
-		</div>
-	</div>
 </xsl:template>
 
 
