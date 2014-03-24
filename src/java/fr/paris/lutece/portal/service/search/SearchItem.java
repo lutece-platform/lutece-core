@@ -84,17 +84,17 @@ public class SearchItem
 
     /**
      * Returns the Id
-     *
+     * 
      * @return The Id
      */
-    public String getId(  )
+    public String getId( )
     {
         return _strId;
     }
 
     /**
      * Sets the Id
-     *
+     * 
      * @param strId The Id
      */
     public void setId( String strId )
@@ -104,17 +104,17 @@ public class SearchItem
 
     /**
      * Returns the DocPortletId
-     *
+     * 
      * @return The DocPortletId
      */
-    public String getDocPortletId(  )
+    public String getDocPortletId( )
     {
         return _strDocPortletId;
     }
 
     /**
      * Sets the DocPortletId
-     *
+     * 
      * @param strDocPortletId The DocPortletId
      */
     public void setDocPortletId( String strDocPortletId )
@@ -124,17 +124,17 @@ public class SearchItem
 
     /**
      * Returns the Title
-     *
+     * 
      * @return The Title
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
 
     /**
      * Sets the Title
-     *
+     * 
      * @param strTitle The Title
      */
     public void setTitle( String strTitle )
@@ -144,17 +144,17 @@ public class SearchItem
 
     /**
      * Returns the Summary
-     *
+     * 
      * @return The Summary
      */
-    public String getSummary(  )
+    public String getSummary( )
     {
         return ( _strSummary != null ) ? _strSummary : "";
     }
 
     /**
      * Sets the Summary
-     *
+     * 
      * @param strSummary The Summary
      */
     public void setSummary( String strSummary )
@@ -164,17 +164,17 @@ public class SearchItem
 
     /**
      * Returns the meta data
-     *
+     * 
      * @return The meta data
      */
-    public String getMetadata(  )
+    public String getMetadata( )
     {
         return ( _strMetadata != null ) ? _strMetadata : "";
     }
 
     /**
      * Sets the meta data
-     *
+     * 
      * @param strMetadata The meta data
      */
     public void setMetadata( String strMetadata )
@@ -184,17 +184,17 @@ public class SearchItem
 
     /**
      * Returns the Url
-     *
+     * 
      * @return The Url
      */
-    public String getUrl(  )
+    public String getUrl( )
     {
         return _strUrl;
     }
 
     /**
      * Sets the Url
-     *
+     * 
      * @param strUrl The Url
      */
     public void setUrl( String strUrl )
@@ -204,17 +204,17 @@ public class SearchItem
 
     /**
      * Returns the LastModifiedDate
-     *
+     * 
      * @return The LastModifiedDate
      */
-    public String getDate(  )
+    public String getDate( )
     {
         return ( _strLastModifiedDate != null ) ? _strLastModifiedDate : "";
     }
 
     /**
      * Sets the LastModifiedDate
-     *
+     * 
      * @param strLastModifiedDate The LastModifiedDate
      */
     public void setDate( String strLastModifiedDate )
@@ -224,17 +224,17 @@ public class SearchItem
 
     /**
      * Returns the Type
-     *
+     * 
      * @return The Type
      */
-    public String getType(  )
+    public String getType( )
     {
         return _strType;
     }
 
     /**
      * Sets the Type
-     *
+     * 
      * @param strType The Type
      */
     public void setType( String strType )
@@ -246,7 +246,7 @@ public class SearchItem
      * Return the role of the document
      * @return the role of the document
      */
-    public String getRole(  )
+    public String getRole( )
     {
         return _strRole;
     }
@@ -261,10 +261,10 @@ public class SearchItem
     }
 
     /**
-    * Return the state of the document
-    * @return the state of the document
-    */
-    public String getState(  )
+     * Return the state of the document
+     * @return the state of the document
+     */
+    public String getState( )
     {
         return _strState;
     }

@@ -169,9 +169,9 @@ public class PageIndexer implements SearchIndexer
     @Override
     public boolean isEnable( )
     {
-        String strEnable = AppPropertiesService.getProperty( PROPERTY_INDEXER_ENABLE, "true" );
+        String strEnable = AppPropertiesService.getProperty( PROPERTY_INDEXER_ENABLE, Boolean.TRUE.toString( ) );
 
-        return ( strEnable.equalsIgnoreCase( "true" ) );
+        return ( strEnable.equalsIgnoreCase( Boolean.TRUE.toString( ) ) );
     }
 
     /**
