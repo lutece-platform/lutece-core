@@ -150,7 +150,7 @@ public final class AdminUserService
     private static final String MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE = "password_format_upper_lower_case";
     private static final String MARK_PASSWORD_FORMAT_NUMERO = "password_format_numero";
     private static final String MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS = "password_format_special_characters";
-     private static final String MARK_PASSWORD_DURATION = "password_duration";
+    private static final String MARK_PASSWORD_DURATION = "password_duration";
     private static final String MARK_PASSWORD_HISTORY_SIZE = "password_history_size";
     private static final String MARK_MAXIMUM_NUMBER_PASSWORD_CHANGE = "maximum_number_password_change";
     private static final String MARK_TSW_SIZE_PASSWORD_CHANGE = "tsw_size_password_change";
@@ -237,7 +237,7 @@ public final class AdminUserService
     {
         AdminUser.init(  );
     }
-   
+
     /**
      * Get the user in session
      * @param request The HTTP request
@@ -468,9 +468,11 @@ public final class AdminUserService
             if ( bUseAdvancesSecurityParameters )
             {
                 // SECURITY PARAMETERS
-                model.put( MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE, getBooleanSecurityParameter( MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE ) );
+                model.put( MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE,
+                    getBooleanSecurityParameter( MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE ) );
                 model.put( MARK_PASSWORD_FORMAT_NUMERO, getBooleanSecurityParameter( MARK_PASSWORD_FORMAT_NUMERO ) );
-                model.put( MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS, getBooleanSecurityParameter( MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) );
+                model.put( MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS,
+                    getBooleanSecurityParameter( MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) );
                 model.put( MARK_PASSWORD_DURATION, getIntegerSecurityParameter( MARK_PASSWORD_DURATION ) );
                 model.put( MARK_PASSWORD_HISTORY_SIZE, getIntegerSecurityParameter( MARK_PASSWORD_HISTORY_SIZE ) );
                 model.put( MARK_MAXIMUM_NUMBER_PASSWORD_CHANGE,
@@ -994,42 +996,51 @@ public final class AdminUserService
         }
 
         // Password format
-       
-        boolean bUserPasswordFormatUpperLowerCase=	AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE ) ;
-        boolean bUserPasswordFormatNumero=	AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_NUMERO ) ;
-        boolean bUserPasswordFormatSpecialCaracters= AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) ;
-        if ( (bUserPasswordFormatUpperLowerCase || bUserPasswordFormatNumero || bUserPasswordFormatSpecialCaracters) && !PasswordUtil.checkPasswordFormat( strPassword,bUserPasswordFormatUpperLowerCase,bUserPasswordFormatNumero,bUserPasswordFormatSpecialCaracters ) )
+        boolean bUserPasswordFormatUpperLowerCase = AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE );
+        boolean bUserPasswordFormatNumero = AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_NUMERO );
+        boolean bUserPasswordFormatSpecialCaracters = AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS );
+
+        if ( ( bUserPasswordFormatUpperLowerCase || bUserPasswordFormatNumero || bUserPasswordFormatSpecialCaracters ) &&
+                !PasswordUtil.checkPasswordFormat( strPassword, bUserPasswordFormatUpperLowerCase,
+                    bUserPasswordFormatNumero, bUserPasswordFormatSpecialCaracters ) )
         {
-        	
-        	StringBuffer strParam=new StringBuffer();
-        	//Add Message Upper Lower Case
-        	if( bUserPasswordFormatUpperLowerCase )
-        	{
-        		strParam.append(I18nService.getLocalizedString(PROPERTY_MESSAGE_PASSWORD_FORMAT_UPPER_LOWER_CASE, request.getLocale()));
-        	}
-        	//Add Message Numero
-        	if(bUserPasswordFormatNumero)
-        	{
-        		if(bUserPasswordFormatUpperLowerCase)
-        		{
-        			strParam.append(", ");
-        		}
-        		strParam.append(I18nService.getLocalizedString(PROPERTY_MESSAGE_PASSWORD_FORMAT_NUMERO, request.getLocale()));
-        		
-        	}
-        	//Add Message Special Characters
-        	if( bUserPasswordFormatSpecialCaracters )
-        	{
-        		if(bUserPasswordFormatUpperLowerCase||bUserPasswordFormatNumero)
-        		{
-        			strParam.append(", ");
-        		}
-        		strParam.append(I18nService.getLocalizedString(PROPERTY_MESSAGE_PASSWORD_FORMAT_SPECIAL_CHARACTERS, request.getLocale()));
-        	}
-        	
-        	 Object[] param = { strParam.toString() };
-        	
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_FORMAT,param, AdminMessage.TYPE_STOP );
+            StringBuffer strParam = new StringBuffer(  );
+
+            //Add Message Upper Lower Case
+            if ( bUserPasswordFormatUpperLowerCase )
+            {
+                strParam.append( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_UPPER_LOWER_CASE,
+                        request.getLocale(  ) ) );
+            }
+
+            //Add Message Numero
+            if ( bUserPasswordFormatNumero )
+            {
+                if ( bUserPasswordFormatUpperLowerCase )
+                {
+                    strParam.append( ", " );
+                }
+
+                strParam.append( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_NUMERO,
+                        request.getLocale(  ) ) );
+            }
+
+            //Add Message Special Characters
+            if ( bUserPasswordFormatSpecialCaracters )
+            {
+                if ( bUserPasswordFormatUpperLowerCase || bUserPasswordFormatNumero )
+                {
+                    strParam.append( ", " );
+                }
+
+                strParam.append( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_SPECIAL_CHARACTERS,
+                        request.getLocale(  ) ) );
+            }
+
+            Object[] param = { strParam.toString(  ) };
+
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_FORMAT, param,
+                AdminMessage.TYPE_STOP );
         }
 
         // Check password history
@@ -1081,21 +1092,21 @@ public final class AdminUserService
 
         return null;
     }
-    
-    
+
     /**
      * Generate a new random password
      * @return the new password
      */
-    public static String makePassword( )
+    public static String makePassword(  )
     {
-    	// Password format
-        boolean bUserPasswordFormatUpperLowerCase =	AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE ) ;
-        boolean bUserPasswordFormatNumero =	AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_NUMERO ) ;
-        boolean bUserPasswordFormatSpecialCaracters = AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) ;
+        // Password format
+        boolean bUserPasswordFormatUpperLowerCase = AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE );
+        boolean bUserPasswordFormatNumero = AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_NUMERO );
+        boolean bUserPasswordFormatSpecialCaracters = AdminUserService.getBooleanSecurityParameter( PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS );
         int nMinPasswordSize = AdminUserService.getIntegerSecurityParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH );
-        
-        return PasswordUtil.makePassword(nMinPasswordSize, bUserPasswordFormatUpperLowerCase, bUserPasswordFormatNumero, bUserPasswordFormatSpecialCaracters);
+
+        return PasswordUtil.makePassword( nMinPasswordSize, bUserPasswordFormatUpperLowerCase,
+            bUserPasswordFormatNumero, bUserPasswordFormatSpecialCaracters );
     }
 
     /**

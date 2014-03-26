@@ -42,12 +42,8 @@ import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
+
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -55,13 +51,21 @@ import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
+
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.html.HtmlParser;
 import org.apache.tika.sax.BodyContentHandler;
+
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -83,25 +87,25 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-    public void indexDocuments( ) throws IOException, InterruptedException, SiteMessageException
+    public void indexDocuments(  ) throws IOException, InterruptedException, SiteMessageException
     {
         String strPageBaseUrl = AppPropertiesService.getProperty( PROPERTY_PAGE_BASE_URL );
-        List<Page> listPages = PageHome.getAllPages( );
+        List<Page> listPages = PageHome.getAllPages(  );
 
         for ( Page page : listPages )
         {
             UrlItem url = new UrlItem( strPageBaseUrl );
-            url.addParameter( PARAMETER_PAGE_ID, page.getId( ) );
+            url.addParameter( PARAMETER_PAGE_ID, page.getId(  ) );
 
             Document doc = null;
 
             try
             {
-                doc = getDocument( page, url.getUrl( ) );
+                doc = getDocument( page, url.getUrl(  ) );
             }
             catch ( Exception e )
             {
-                String strMessage = "Page ID : " + page.getId( );
+                String strMessage = "Page ID : " + page.getId(  );
                 IndexationService.error( this, e, strMessage );
             }
 
@@ -116,20 +120,20 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-    public List<Document> getDocuments( String nIdDocument ) throws IOException, InterruptedException,
-            SiteMessageException
+    public List<Document> getDocuments( String nIdDocument )
+        throws IOException, InterruptedException, SiteMessageException
     {
-        ArrayList<Document> listDocuments = new ArrayList<Document>( );
+        ArrayList<Document> listDocuments = new ArrayList<Document>(  );
         String strPageBaseUrl = AppPropertiesService.getProperty( PROPERTY_PAGE_BASE_URL );
 
         Page page = PageHome.getPage( Integer.parseInt( nIdDocument ) );
 
-        if ( ( page != null ) && ( page.getId( ) != 0 ) )
+        if ( ( page != null ) && ( page.getId(  ) != 0 ) )
         {
             UrlItem url = new UrlItem( strPageBaseUrl );
-            url.addParameter( PARAMETER_PAGE_ID, page.getId( ) );
+            url.addParameter( PARAMETER_PAGE_ID, page.getId(  ) );
 
-            Document doc = getDocument( page, url.getUrl( ) );
+            Document doc = getDocument( page, url.getUrl(  ) );
             listDocuments.add( doc );
         }
 
@@ -140,7 +144,7 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-    public String getName( )
+    public String getName(  )
     {
         return INDEXER_NAME;
     }
@@ -149,7 +153,7 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-    public String getVersion( )
+    public String getVersion(  )
     {
         return INDEXER_VERSION;
     }
@@ -158,7 +162,7 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-    public String getDescription( )
+    public String getDescription(  )
     {
         return INDEXER_DESCRIPTION;
     }
@@ -167,11 +171,11 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-    public boolean isEnable( )
+    public boolean isEnable(  )
     {
-        String strEnable = AppPropertiesService.getProperty( PROPERTY_INDEXER_ENABLE, Boolean.TRUE.toString( ) );
+        String strEnable = AppPropertiesService.getProperty( PROPERTY_INDEXER_ENABLE, Boolean.TRUE.toString(  ) );
 
-        return ( strEnable.equalsIgnoreCase( Boolean.TRUE.toString( ) ) );
+        return ( strEnable.equalsIgnoreCase( Boolean.TRUE.toString(  ) ) );
     }
 
     /**
@@ -186,11 +190,11 @@ public class PageIndexer implements SearchIndexer
      * @throws SiteMessageException occurs when a site message need to be
      *             displayed
      */
-    protected Document getDocument( Page page, String strUrl ) throws IOException, InterruptedException,
-            SiteMessageException
+    protected Document getDocument( Page page, String strUrl )
+        throws IOException, InterruptedException, SiteMessageException
     {
         // make a new, empty document
-        Document doc = new Document( );
+        Document doc = new Document(  );
 
         // Add the url as a field named "url".  Use an UnIndexed field, so
         // that the url is just stored with the document, but is not searchable.
@@ -199,22 +203,23 @@ public class PageIndexer implements SearchIndexer
         // Add the last modified date of the file a field named "modified".
         // Use a field that is indexed (i.e. searchable), but don't tokenize
         // the field into words.
-        String strDate = DateTools.dateToString( page.getDateUpdate( ), DateTools.Resolution.DAY );
+        String strDate = DateTools.dateToString( page.getDateUpdate(  ), DateTools.Resolution.DAY );
         doc.add( new Field( SearchItem.FIELD_DATE, strDate, TextField.TYPE_STORED ) );
 
         // Add the uid as a field, so that index can be incrementally maintained.
         // This field is not stored with document, it is indexed, but it is not
         // tokenized prior to indexing.
-        String strIdPage = String.valueOf( page.getId( ) );
+        String strIdPage = String.valueOf( page.getId(  ) );
         doc.add( new StringField( SearchItem.FIELD_UID, strIdPage, Field.Store.NO ) );
 
-        String strPageContent = _pageService.getPageContent( page.getId( ), 0, null );
-        ContentHandler handler = new BodyContentHandler( );
-        Metadata metadata = new Metadata( );
+        String strPageContent = _pageService.getPageContent( page.getId(  ), 0, null );
+        ContentHandler handler = new BodyContentHandler(  );
+        Metadata metadata = new Metadata(  );
+
         try
         {
-            new HtmlParser( ).parse( new ByteArrayInputStream( strPageContent.getBytes( ) ), handler, metadata,
-                    new ParseContext( ) );
+            new HtmlParser(  ).parse( new ByteArrayInputStream( strPageContent.getBytes(  ) ), handler, metadata,
+                new ParseContext(  ) );
         }
         catch ( SAXException e )
         {
@@ -227,22 +232,22 @@ public class PageIndexer implements SearchIndexer
 
         //the content of the article is recovered in the parser because this one
         //had replaced the encoded caracters (as &eacute;) by the corresponding special caracter (as ?)
-        StringBuilder sb = new StringBuilder( handler.toString( ) );
+        StringBuilder sb = new StringBuilder( handler.toString(  ) );
 
         // Add the tag-stripped contents as a Reader-valued Text field so it will
         // get tokenized and indexed.
-        StringBuilder sbFieldContent = new StringBuilder( );
-        StringBuilder sbFieldMetadata = new StringBuilder( );
-        sbFieldContent.append( page.getName( ) ).append( " " ).append( sb.toString( ) );
+        StringBuilder sbFieldContent = new StringBuilder(  );
+        StringBuilder sbFieldMetadata = new StringBuilder(  );
+        sbFieldContent.append( page.getName(  ) ).append( " " ).append( sb.toString(  ) );
 
         // Add the metadata description of the page if it exists
-        if ( page.getDescription( ) != null )
+        if ( page.getDescription(  ) != null )
         {
-            sbFieldContent.append( " " ).append( page.getDescription( ) );
+            sbFieldContent.append( " " ).append( page.getDescription(  ) );
         }
 
         // Add the metadata keywords of the page if it exists
-        String strMetaKeywords = page.getMetaKeywords( );
+        String strMetaKeywords = page.getMetaKeywords(  );
 
         if ( StringUtils.isNotBlank( strMetaKeywords ) )
         {
@@ -250,39 +255,39 @@ public class PageIndexer implements SearchIndexer
             sbFieldMetadata.append( strMetaKeywords );
         }
 
-        doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString( ), TextField.TYPE_NOT_STORED ) );
+        doc.add( new Field( SearchItem.FIELD_CONTENTS, sbFieldContent.toString(  ), TextField.TYPE_NOT_STORED ) );
 
-        if ( StringUtils.isNotBlank( page.getMetaDescription( ) ) )
+        if ( StringUtils.isNotBlank( page.getMetaDescription(  ) ) )
         {
-            if ( sbFieldMetadata.length( ) > 0 )
+            if ( sbFieldMetadata.length(  ) > 0 )
             {
                 sbFieldMetadata.append( " " );
             }
 
-            sbFieldMetadata.append( page.getMetaDescription( ) );
+            sbFieldMetadata.append( page.getMetaDescription(  ) );
         }
 
-        if ( sbFieldMetadata.length( ) > 0 )
+        if ( sbFieldMetadata.length(  ) > 0 )
         {
-            doc.add( new StringField( SearchItem.FIELD_METADATA, sbFieldMetadata.toString( ), Field.Store.NO ) );
+            doc.add( new StringField( SearchItem.FIELD_METADATA, sbFieldMetadata.toString(  ), Field.Store.NO ) );
         }
 
         // Add the title as a separate Text field, so that it can be searched
         // separately.
-        doc.add( new Field( SearchItem.FIELD_TITLE, page.getName( ), TextField.TYPE_STORED ) );
+        doc.add( new Field( SearchItem.FIELD_TITLE, page.getName(  ), TextField.TYPE_STORED ) );
 
-        if ( ( page.getDescription( ) != null ) && ( page.getDescription( ).length( ) > 1 ) )
+        if ( ( page.getDescription(  ) != null ) && ( page.getDescription(  ).length(  ) > 1 ) )
         {
             // Add the summary as an UnIndexed field, so that it is stored and returned
             // with hit documents for display.
-            doc.add( new StoredField( SearchItem.FIELD_SUMMARY, page.getDescription( ) ) );
+            doc.add( new StoredField( SearchItem.FIELD_SUMMARY, page.getDescription(  ) ) );
         }
 
         FieldType ft = new FieldType( StringField.TYPE_STORED );
         ft.setOmitNorms( false );
 
         doc.add( new Field( SearchItem.FIELD_TYPE, INDEX_TYPE_PAGE, ft ) );
-        doc.add( new Field( SearchItem.FIELD_ROLE, page.getRole( ), TextField.TYPE_STORED ) );
+        doc.add( new Field( SearchItem.FIELD_ROLE, page.getRole(  ), TextField.TYPE_STORED ) );
 
         // return the document
         return doc;
@@ -292,9 +297,9 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-    public List<String> getListType( )
+    public List<String> getListType(  )
     {
-        List<String> listType = new ArrayList<String>( );
+        List<String> listType = new ArrayList<String>(  );
         listType.add( INDEX_TYPE_PAGE );
 
         return listType;
@@ -304,7 +309,7 @@ public class PageIndexer implements SearchIndexer
      * {@inheritDoc}
      */
     @Override
-    public String getSpecificSearchAppUrl( )
+    public String getSpecificSearchAppUrl(  )
     {
         return AppPropertiesService.getProperty( PROPERTY_SEARCH_PAGE_URL );
     }

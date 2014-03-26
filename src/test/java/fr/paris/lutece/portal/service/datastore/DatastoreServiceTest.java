@@ -45,7 +45,7 @@ public class DatastoreServiceTest extends LuteceTestCase
     private static final String VALUE_DEFAULT = "default";
     private static final String VALUE1 = "value1";
 
-    public void test( )
+    public void test(  )
     {
         String strValue = DatastoreService.getDataValue( KEY1, VALUE_DEFAULT );
         assertEquals( strValue, VALUE_DEFAULT );

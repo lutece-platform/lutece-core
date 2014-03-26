@@ -39,14 +39,8 @@ import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.date.DateUtil;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
+
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.DateTools.Resolution;
 import org.apache.lucene.document.Document;
@@ -68,6 +62,14 @@ import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 
+import java.text.ParseException;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * LuceneSearchEngine
@@ -84,15 +86,15 @@ public class LuceneSearchEngine implements SearchEngine
 
     /**
      * Return search results
-     * 
+     *
      * @param strQuery The search query
      * @param request The HTTP request
      * @return Results as a collection of SearchResult
      */
     public List<SearchResult> getSearchResults( String strQuery, HttpServletRequest request )
     {
-        ArrayList<SearchItem> listResults = new ArrayList<SearchItem>( );
-        ArrayList<Filter> listFilter = new ArrayList<Filter>( );
+        ArrayList<SearchItem> listResults = new ArrayList<SearchItem>(  );
+        ArrayList<Filter> listFilter = new ArrayList<Filter>(  );
         IndexSearcher searcher = null;
         boolean bFilterResult = false;
         LuteceUser user = null;
@@ -104,15 +106,15 @@ public class LuceneSearchEngine implements SearchEngine
         Filter allFilter = null;
         String strTagFilter = request.getParameter( PARAMETER_TAG_FILTER );
 
-        if ( SecurityService.isAuthenticationEnable( ) )
+        if ( SecurityService.isAuthenticationEnable(  ) )
         {
-            user = SecurityService.getInstance( ).getRegisteredUser( request );
+            user = SecurityService.getInstance(  ).getRegisteredUser( request );
 
             Filter[] filtersRole = null;
 
             if ( user != null )
             {
-                String[] userRoles = SecurityService.getInstance( ).getRolesByUser( user );
+                String[] userRoles = SecurityService.getInstance(  ).getRolesByUser( user );
 
                 if ( userRoles != null )
                 {
@@ -149,14 +151,14 @@ public class LuceneSearchEngine implements SearchEngine
 
             if ( StringUtils.isNotBlank( strDateAfter ) )
             {
-                Date dateAfter = DateUtil.formatDate( strDateAfter, request.getLocale( ) );
+                Date dateAfter = DateUtil.formatDate( strDateAfter, request.getLocale(  ) );
                 strAfter = new BytesRef( DateTools.dateToString( dateAfter, Resolution.DAY ) );
                 bDateAfter = true;
             }
 
             if ( StringUtils.isNotBlank( strDateBefore ) )
             {
-                Date dateBefore = DateUtil.formatDate( strDateBefore, request.getLocale( ) );
+                Date dateBefore = DateUtil.formatDate( strDateBefore, request.getLocale(  ) );
                 strBefore = new BytesRef( DateTools.dateToString( dateBefore, Resolution.DAY ) );
                 bDateBefore = true;
             }
@@ -165,8 +167,8 @@ public class LuceneSearchEngine implements SearchEngine
             listFilter.add( new CachingWrapperFilter( new QueryWrapperFilter( queryDate ) ) );
         }
 
-        if ( ( typeFilter != null ) && ( typeFilter.length > 0 )
-                && !typeFilter[0].equals( SearchService.TYPE_FILTER_NONE ) )
+        if ( ( typeFilter != null ) && ( typeFilter.length > 0 ) &&
+                !typeFilter[0].equals( SearchService.TYPE_FILTER_NONE ) )
         {
             Filter[] filtersType = new Filter[typeFilter.length];
 
@@ -179,28 +181,29 @@ public class LuceneSearchEngine implements SearchEngine
             listFilter.add( new ChainedFilter( filtersType, ChainedFilter.OR ) );
         }
 
-        if ( !listFilter.isEmpty( ) )
+        if ( !listFilter.isEmpty(  ) )
         {
             allFilter = new ChainedFilter( listFilter.toArray( new Filter[1] ), ChainedFilter.AND );
         }
 
         try
         {
-            IndexReader ir = DirectoryReader.open( IndexationService.getDirectoryIndex( ) );
+            IndexReader ir = DirectoryReader.open( IndexationService.getDirectoryIndex(  ) );
             searcher = new IndexSearcher( ir );
 
             Query query = null;
+
             if ( StringUtils.isNotBlank( strTagFilter ) )
             {
-                BooleanQuery bQuery = new BooleanQuery( );
+                BooleanQuery bQuery = new BooleanQuery(  );
                 QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION,
-                        SearchItem.FIELD_METADATA, IndexationService.getAnalyser( ) );
+                        SearchItem.FIELD_METADATA, IndexationService.getAnalyser(  ) );
 
                 Query queryMetaData = parser.parse( ( strQuery != null ) ? strQuery : "*:*" );
                 bQuery.add( queryMetaData, BooleanClause.Occur.SHOULD );
 
                 parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_SUMMARY,
-                        IndexationService.getAnalyser( ) );
+                        IndexationService.getAnalyser(  ) );
 
                 Query querySummary = parser.parse( ( strQuery != null ) ? strQuery : "*:*" );
                 bQuery.add( querySummary, BooleanClause.Occur.SHOULD );
@@ -209,7 +212,7 @@ public class LuceneSearchEngine implements SearchEngine
             else
             {
                 QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION,
-                        SearchItem.FIELD_CONTENTS, IndexationService.getAnalyser( ) );
+                        SearchItem.FIELD_CONTENTS, IndexationService.getAnalyser(  ) );
 
                 String operator = request.getParameter( PARAMETER_DEFAULT_OPERATOR );
 
@@ -231,8 +234,8 @@ public class LuceneSearchEngine implements SearchEngine
                 Document document = searcher.doc( docId );
                 SearchItem si = new SearchItem( document );
 
-                if ( ( !bFilterResult ) || ( si.getRole( ).equals( Page.ROLE_NONE ) )
-                        || ( SecurityService.getInstance( ).isUserInRole( request, si.getRole( ) ) ) )
+                if ( ( !bFilterResult ) || ( si.getRole(  ).equals( Page.ROLE_NONE ) ) ||
+                        ( SecurityService.getInstance(  ).isUserInRole( request, si.getRole(  ) ) ) )
                 {
                     listResults.add( si );
                 }
@@ -240,7 +243,7 @@ public class LuceneSearchEngine implements SearchEngine
         }
         catch ( Exception e )
         {
-            AppLogService.error( e.getMessage( ), e );
+            AppLogService.error( e.getMessage(  ), e );
         }
 
         return convertList( listResults );
@@ -253,27 +256,27 @@ public class LuceneSearchEngine implements SearchEngine
      */
     private List<SearchResult> convertList( List<SearchItem> listSource )
     {
-        List<SearchResult> listDest = new ArrayList<SearchResult>( );
+        List<SearchResult> listDest = new ArrayList<SearchResult>(  );
 
         for ( SearchItem item : listSource )
         {
-            SearchResult result = new SearchResult( );
-            result.setId( item.getId( ) );
+            SearchResult result = new SearchResult(  );
+            result.setId( item.getId(  ) );
 
             try
             {
-                result.setDate( DateTools.stringToDate( item.getDate( ) ) );
+                result.setDate( DateTools.stringToDate( item.getDate(  ) ) );
             }
             catch ( ParseException e )
             {
-                AppLogService.error( "Bad Date Format for indexed item \"" + item.getTitle( ) + "\" : "
-                        + e.getMessage( ) );
+                AppLogService.error( "Bad Date Format for indexed item \"" + item.getTitle(  ) + "\" : " +
+                    e.getMessage(  ) );
             }
 
-            result.setUrl( item.getUrl( ) );
-            result.setTitle( item.getTitle( ) );
-            result.setSummary( item.getSummary( ) );
-            result.setType( item.getType( ) );
+            result.setUrl( item.getUrl(  ) );
+            result.setTitle( item.getTitle(  ) );
+            result.setSummary( item.getSummary(  ) );
+            result.setType( item.getType(  ) );
             listDest.add( result );
         }
 

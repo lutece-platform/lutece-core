@@ -43,10 +43,10 @@ public class RoleTest extends LuteceTestCase
     private final static String ROLEDESCRIPTION2 = "RoleDescription 2";
     private final static String WORKGROUP_KEY = "all";
 
-    public void testBusinessRole( )
+    public void testBusinessRole(  )
     {
         // Initialize an object
-        Role role = new Role( );
+        Role role = new Role(  );
         role.setRole( ROLE );
         role.setRoleDescription( ROLEDESCRIPTION1 );
         role.setWorkgroup( WORKGROUP_KEY );
@@ -54,19 +54,19 @@ public class RoleTest extends LuteceTestCase
         // Create test
         RoleHome.create( role );
 
-        Role roleStored = RoleHome.findByPrimaryKey( role.getRole( ) );
-        assertEquals( roleStored.getRoleDescription( ), role.getRoleDescription( ) );
+        Role roleStored = RoleHome.findByPrimaryKey( role.getRole(  ) );
+        assertEquals( roleStored.getRoleDescription(  ), role.getRoleDescription(  ) );
 
         // Update test
         role.setRoleDescription( ROLEDESCRIPTION2 );
 
         RoleHome.update( role );
-        roleStored = RoleHome.findByPrimaryKey( role.getRole( ) );
-        assertEquals( roleStored.getRoleDescription( ), role.getRoleDescription( ) );
+        roleStored = RoleHome.findByPrimaryKey( role.getRole(  ) );
+        assertEquals( roleStored.getRoleDescription(  ), role.getRoleDescription(  ) );
 
         // Delete test
-        RoleHome.remove( role.getRole( ) );
-        roleStored = RoleHome.findByPrimaryKey( role.getRole( ) );
+        RoleHome.remove( role.getRole(  ) );
+        roleStored = RoleHome.findByPrimaryKey( role.getRole(  ) );
         assertNull( roleStored );
 
         // List test
