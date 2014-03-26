@@ -61,7 +61,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_NEWPK = "SELECT max( id_user ) FROM core_admin_user ";
     private static final String SQL_QUERY_INSERT = "INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, locale, level_user, accessibility_mode, password_max_valid_date, account_max_valid_date )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user, accessibility_mode, reset_password, password_max_valid_date, account_max_valid_date, last_login FROM core_admin_user ORDER BY last_name ";
-    private static final String SQL_QUERY_SELECT_USER_FROM_USER_ID = "SELECT id_user , access_code, last_name , first_name, email, status, password, locale, level_user, reset_password, accessibility_mode, password_max_valid_date, account_max_valid_date FROM core_admin_user  WHERE id_user = ? ORDER BY last_name";
+    private static final String SQL_QUERY_SELECT_USER_FROM_USER_ID = "SELECT id_user , access_code, last_name , first_name, email, status, password, locale, level_user, reset_password, accessibility_mode, password_max_valid_date, account_max_valid_date FROM core_admin_user  WHERE id_user = ? ";
     private static final String SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE = "SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, reset_password, accessibility_mode, password_max_valid_date, last_login FROM core_admin_user  WHERE access_code = ? ";
     private static final String SQL_QUERY_SELECT_USER_FROM_EMAIL = "SELECT access_code FROM core_admin_user  WHERE email = ? ";
     private static final String SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID = " SELECT a.id_right , a.name, a.admin_url , a.description , a.plugin_name, a.id_feature_group, a.icon_url, a.level_right, a.documentation_url, a.id_order " +
@@ -72,7 +72,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_INSERT_USER_RIGHT = "INSERT INTO core_user_right ( id_right, id_user )  VALUES ( ? , ? ) ";
     private static final String SQL_QUERY_DELETE_ALL_USER_RIGHTS = "DELETE FROM core_user_right WHERE id_user = ? ";
     private static final String SQL_QUERY_SELECT_ROLES_FROM_USER_ID = " SELECT a.role_key , a.role_description " +
-        " FROM core_admin_role a , core_user_role b " + " WHERE a.role_key = b.role_key " +
+        " FROM core_admin_role a , core_user_role b WHERE a.role_key = b.role_key " +
         " AND b.id_user = ?  ORDER BY a.role_key ";
     private static final String SQL_QUERY_INSERT_USER_ROLE = " INSERT INTO core_user_role ( role_key, id_user )  VALUES ( ? , ? ) ";
     private static final String SQL_QUERY_DELETE_ALL_USER_ROLES = " DELETE FROM core_user_role WHERE id_user = ? ";
