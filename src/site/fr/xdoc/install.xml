@@ -747,9 +747,6 @@ CATALINA_OPTS="-Xms128m -Xmx512m"
                                      <code>lucene.nb.docs.per.page=5</code>
                                 </p>
                                 <p>
-                                    <code>lucene.last.indexation.file=C:/tomcat/webapps/lutece/WEB-INF/logs/last_indexation.log</code>
-                                </p>
-                                <p>
                                     <code>lucene.list.sites.toindex= http://localhost:8080/lutece/servlet/XmlServlet</code>
                                 </p>
                                 <p>
