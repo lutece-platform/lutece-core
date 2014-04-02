@@ -33,6 +33,13 @@
  */
 package fr.paris.lutece.portal.web.role;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -45,13 +52,6 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -105,8 +105,8 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Creates a new RoleJspBean object.
-    */
-    public RoleJspBean(  )
+     */
+    public RoleJspBean( )
     {
     }
 
@@ -119,14 +119,14 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( null );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        Collection<Role> listRoles = RoleHome.findAll(  );
-        listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, getUser(  ) );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        Collection<Role> listRoles = RoleHome.findAll( );
+        listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, getUser( ) );
         model.put( MARK_ROLES_LIST, listRoles );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ROLES, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ROLES, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
@@ -138,14 +138,14 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_ROLE );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         model.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
-        model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
+        model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_ROLE, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_ROLE, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
@@ -160,8 +160,8 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         String strPageWorkgroup = request.getParameter( PARAMETER_PAGE_WORKGROUP );
 
         // Mandatory field
-        if ( ( strPageRole == null ) || strPageRole.equals( "" ) || ( strPageRoleDescription == null ) ||
-                strPageRoleDescription.equals( "" ) || ( strPageWorkgroup == null ) )
+        if ( ( strPageRole == null ) || strPageRole.equals( "" ) || ( strPageRoleDescription == null )
+                || strPageRoleDescription.equals( "" ) || ( strPageWorkgroup == null ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -178,7 +178,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_EXIST, AdminMessage.TYPE_STOP );
         }
 
-        Role role = new Role(  );
+        Role role = new Role( );
         role.setRole( strPageRole );
         role.setRoleDescription( strPageRoleDescription );
         role.setWorkgroup( strPageWorkgroup );
@@ -188,7 +188,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     *
+     * 
      * @param request The HTTP request
      * @return String The html code page
      */
@@ -196,15 +196,23 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_ROLE );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
-        model.put( MARK_ROLE, RoleHome.findByPrimaryKey( strPageRole ) );
-        model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ROLE_MODIFY, getLocale(  ), model );
+        Role role = RoleHome.findByPrimaryKey( strPageRole );
 
-        return getAdminPage( template.getHtml(  ) );
+        if ( role == null )
+        {
+            return getManagePageRole( request );
+        }
+
+        model.put( MARK_ROLE, role );
+        model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ROLE_MODIFY, getLocale( ), model );
+
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
@@ -224,7 +232,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        Role role = new Role(  );
+        Role role = new Role( );
         role.setRole( strPageRole );
         role.setRoleDescription( strPageRoleDescription );
         role.setWorkgroup( strPageWorkgroup );
@@ -242,8 +250,8 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         UrlItem url = new UrlItem( PATH_JSP + JSP_REMOVE_ROLE + "?role=" + request.getParameter( PARAMETER_PAGE_ROLE ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, url.getUrl(  ),
-            AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, url.getUrl( ),
+                AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
@@ -254,14 +262,15 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     public String doRemovePageRole( HttpServletRequest request )
     {
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
-        ArrayList<String> listErrors = new ArrayList<String>(  );
+        ArrayList<String> listErrors = new ArrayList<String>( );
 
-        if ( !RoleRemovalListenerService.getService(  ).checkForRemoval( strPageRole, listErrors, getLocale(  ) ) )
+        if ( !RoleRemovalListenerService.getService( ).checkForRemoval( strPageRole, listErrors, getLocale( ) ) )
         {
-            String strCause = AdminMessageService.getFormattedList( listErrors, getLocale(  ) );
+            String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
             Object[] args = { strCause };
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
+            return AdminMessageService
+                    .getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
         }
 
         RoleHome.remove( strPageRole );
