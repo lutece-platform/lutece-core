@@ -130,6 +130,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     // private static final String MESSAGE_CAN_NOT_REMOVE_XSL_EXPORT = "portal.xsl.message.can_not_remove_xsl_export";
     private static final String FIELD_TITLE = "portal.xsl.create_xsl_export.label_title";
     private static final String FIELD_DESCRIPTION = "portal.xsl.create_xsl_export.label_description";
+    private static final String FIELD_EXTENSION = "portal.xsl.create_xsl_export.label_extension";
 
     // private static final String FIELD_EXTENSION = "portal.xsl.create_xsl_export.label_extension";
     private static final String FIELD_FILE = "portal.xsl.create_xsl_export.label_file";
@@ -476,6 +477,11 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         else if ( ( strDescription == null ) || strDescription.trim( ).equals( EMPTY_STRING ) )
         {
             strError = FIELD_DESCRIPTION;
+        }
+
+        else if ( StringUtils.isBlank( strExtension ) )
+        {
+            strError = FIELD_EXTENSION;
         }
 
         else if ( ( xslExport.getFile( ) == null ) && ( fileSource == null ) )
