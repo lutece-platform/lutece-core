@@ -54,7 +54,6 @@ import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.password.PasswordUtil;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -518,6 +517,6 @@ public class ImportAdminUserService extends CSVReaderService
      */
     public void setUpdateExistingUsers( boolean bUpdateExistingUsers )
     {
-        this._bUpdateExistingUsers = bUpdateExistingUsers;
+        _bUpdateExistingUsers = bUpdateExistingUsers;
     }
 }

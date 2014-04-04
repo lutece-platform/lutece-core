@@ -225,6 +225,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE = "password_format_upper_lower_case";
     private static final String PARAMETER_PASSWORD_FORMAT_NUMERO = "password_format_numero";
     private static final String PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS = "password_format_special_characters";
+
     private static final String PARAMETER_PASSWORD_DURATION = "password_duration";
     private static final String PARAMETER_PASSWORD_HISTORY_SIZE = "password_history_size";
     private static final String PARAMETER_MAXIMUM_NUMBER_PASSWORD_CHANGE = "maximum_number_password_change";
@@ -354,7 +355,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
     private ItemNavigator _itemNavigator;
-    private ImportAdminUserService _importAdminUserService = new ImportAdminUserService( );
+
+    private static ImportAdminUserService _importAdminUserService = new ImportAdminUserService(  );
 
     /**
      * Build the User list
@@ -1093,6 +1095,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             boolean bSkipFirstLine = StringUtils.isNotEmpty( strSkipFirstLine );
             String strUpdateUsers = multipartRequest.getParameter( PARAMETER_UPDATE_USERS );
             boolean bUpdateUsers = StringUtils.isNotEmpty( strUpdateUsers );
+            
             _importAdminUserService.setUpdateExistingUsers( bUpdateUsers );
 
             List<CSVMessageDescriptor> listMessages = _importAdminUserService.readCSVFile( fileItem, 0, false, false,

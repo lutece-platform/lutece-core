@@ -34,10 +34,9 @@
 package fr.paris.lutece.util.html;
 
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringUtils;
-
+import java.io.Serializable;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -45,7 +44,7 @@ import java.util.List;
  * ItemNavigation provides a way to navigate between items
  *
  */
-public class ItemNavigator
+public class ItemNavigator implements Serializable
 {
     private List<String> _listItems;
     private int _nCurrentItemId;
