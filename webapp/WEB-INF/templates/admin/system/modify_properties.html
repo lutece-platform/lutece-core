@@ -16,7 +16,13 @@
                             <#else>
                             <input type="text" name="${property.key}" id="${property.key}" value="${property.value}"  class="input-xlarge"/>
                             </#if>
-                            <span class="help-block">${property.help}</span>
+                            <span class="help-block">
+                                <#if property.help?length &gt; 0>
+                                    ${property.help}
+                                <#else>
+                                    ${property.key}
+                                </#if>
+                            </span>
                         </div>
                     </div>
                     </#list>
