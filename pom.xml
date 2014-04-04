@@ -277,7 +277,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-mvc</artifactId>
-            <version>1.3.0.</version>
+            <version>1.3.0</version>
         </dependency>
           
         <!-- Lutece JMX API Library -->                                              
