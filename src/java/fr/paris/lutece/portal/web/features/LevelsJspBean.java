@@ -33,6 +33,10 @@
  */
 package fr.paris.lutece.portal.web.features;
 
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -43,13 +47,10 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
-
 
 /**
- * This class provides the user interface to manage levels features ( manage, create, modify )
+ * This class provides the user interface to manage levels features ( manage,
+ * create, modify )
  */
 public class LevelsJspBean extends AdminFeaturesPageJspBean
 {
@@ -75,7 +76,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Returns the list of levels
-     *
+     * 
      * @param request The Http request
      * @return the html code for display the levels list
      */
@@ -83,17 +84,17 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_LEVEL_LIST );
 
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_LEVELS_LIST, LevelHome.getLevelsList(  ) );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_LEVELS_LIST, LevelHome.getLevelsList( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_LEVELS, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_LEVELS, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Returns the level form of creation
-     *
+     * 
      * @param request The Http request
      * @return the html code of the level
      */
@@ -101,14 +102,15 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_LEVEL );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_LEVEL, getLocale(  ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_LEVEL, getLocale( ) );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
-     * Processes the creation form of a new level by recovering the parameters in the http request
-     *
+     * Processes the creation form of a new level by recovering the parameters
+     * in the http request
+     * 
      * @param request the http request
      * @return The Jsp URL of the process result
      */
@@ -122,7 +124,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        Level level = new Level(  );
+        Level level = new Level( );
         level.setName( strName );
         LevelHome.create( level );
 
@@ -132,7 +134,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Returns the level form of update
-     *
+     * 
      * @param request The Http request
      * @return the html code of the level form
      */
@@ -142,17 +144,25 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
 
         String strId = request.getParameter( Parameters.LEVEL_ID );
 
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_LEVEL, LevelHome.findByPrimaryKey( Integer.parseInt( strId ) ) );
+        Level level = LevelHome.findByPrimaryKey( Integer.parseInt( strId ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_LEVEL, getLocale(  ), model );
+        if ( level == null )
+        {
+            return getManageLevels( request );
+        }
 
-        return getAdminPage( template.getHtml(  ) );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_LEVEL, level );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_LEVEL, getLocale( ), model );
+
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
-     * Processes the updating form of a level whose new parameters are stored in the http request
-     *
+     * Processes the updating form of a level whose new parameters are stored in
+     * the http request
+     * 
      * @param request The http request
      * @return The Jsp URL of the process result
      */
