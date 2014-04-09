@@ -95,6 +95,7 @@ public class SearchApp implements XPageApplication
     private static final String PARAMETER_NB_ITEMS_PER_PAGE = "items_per_page";
     private static final String PARAMETER_QUERY = "query";
     private static final String PARAMETER_TAG_FILTER = "tag_filter";
+    private static final String PARAMETER_DEFAULT_OPERATOR = "default_operator";
     private static final String MARK_RESULTS_LIST = "results_list";
     private static final String MARK_QUERY = "query";
     private static final String MARK_PAGINATOR = "paginator";
@@ -200,8 +201,15 @@ public class SearchApp implements XPageApplication
         url.addParameter( PARAMETER_QUERY, strQueryForPaginator );
         url.addParameter( PARAMETER_NB_ITEMS_PER_PAGE, nNbItemsPerPage );
 
-        Paginator<SearchResult> paginator = new Paginator<SearchResult>( listResults, nNbItemsPerPage, url.getUrl( ),
-                PARAMETER_PAGE_INDEX, strCurrentPageIndex );
+        StringBuilder sbUrl = new StringBuilder( );
+        sbUrl = sbUrl.append( url.getUrl( ) );
+        if ( StringUtils.isNotBlank( request.getParameter( PARAMETER_DEFAULT_OPERATOR ) ) )
+        {
+            sbUrl = sbUrl.append( "&default_operator=" + request.getParameter( PARAMETER_DEFAULT_OPERATOR ) );
+        }
+
+        Paginator<SearchResult> paginator = new Paginator<SearchResult>( listResults, nNbItemsPerPage,
+                sbUrl.toString( ), PARAMETER_PAGE_INDEX, strCurrentPageIndex );
 
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_RESULTS_LIST, paginator.getPageItems( ) );
@@ -219,6 +227,11 @@ public class SearchApp implements XPageApplication
 
         model.put( MARK_LIST_TYPE_AND_LINK, SearchService.getSearchTypesAndLinks( ) );
         model.putAll( SearchParameterHome.findAll( ) );
+        if ( StringUtils.isNotBlank( request.getParameter( PARAMETER_DEFAULT_OPERATOR ) ) )
+        {
+            // Override default_operator value
+            model.put( PARAMETER_DEFAULT_OPERATOR, request.getParameter( PARAMETER_DEFAULT_OPERATOR ) );
+        }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESULTS, locale, model );
 
