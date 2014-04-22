@@ -20,49 +20,44 @@
 	</head>
 	<body>
 		<#include "page_header_home.html" />
-		<div class="container">
-			<div class="row">
+		<div class="container-fluid">
+			<div class="row-fluid">
 			   	<form class="form form-inline" action="jsp/site/SendResource.jsp" method="post">
 			   		<fieldset>
 			   			<legend>#i18n{portal.site.popup_send_resource.title}</legend>
 			   			<#if error?? && error != "">
-			   				<div class="col-md-11 alert alert-error">
+			   				<div class="span11 alert alert-error">
 			   					${error}
 			   					<button type="button" class="close" data-dismiss="alert">&times;</button>
 			   				</div>
 			   			</#if>
 			   			<#if success??>
-			   				<div class="col-md-11 alert alert-success">
+			   				<div class="span11 alert alert-success">
 			   					#i18n{portal.site.popup_send_resource.labelSent}
 			   					<button type="button" class="close" data-dismiss="alert">&times;</button>
 			   				</div>
 			   			</#if>
-						<div class="col-md-4 well">
-							<div class="form-group">
-								<label class="control-label" for="senderEmail">#i18n{portal.site.popup_send_resource.senderEmail} *:</label>
-								<br />
-								<input type="text" name="senderEmail" id="senderEmail" value="${senderEmail!}"  />
-							</div>
-							<div class="form-group">
+						<div class="span4 well">
+							<div class="control-group">
 								<label class="control-label" for="senderName">#i18n{portal.site.popup_send_resource.senderName} *:</label>
 								<br />
-								<input type="text" name="senderName" id="senderName" value="${senderName!}"  />
+								<input type="text" name="senderName" id="senderName" value="${senderName!}" >
 							</div>
-							<div class="form-group">
+							<div class="control-group">
 								<label class="control-label" for="senderFirstname">#i18n{portal.site.popup_send_resource.senderFirstname} *:</label>
 								<br />
-								<input type="text" name="senderFirstname" id="senderFirstname" value="${senderFirstname!}"  />
+								<input type="text" name="senderFirstname" id="senderFirstname" value="${senderFirstname!}" >
 							</div>
-							<div class="form-group">
+							<div class="control-group">
 								<label class="control-label" for="email">#i18n{portal.site.popup_send_resource.email} *:</label>
 								<br />
-								<input type="text" name="email" id="email" value="${email!}"  />
+								<input type="text" name="email" id="email" value="${email!}" >
 							</div>
 						</div>
-						<div class="col-md-7">
-							<div class="form-group">
+						<div class="span7">
+							<div class="control-group">
 								<label class="control-label" for="content">#i18n{portal.site.popup_send_resource.content} *:</label>
-								<textarea class="col-md- richtext" rows="20" name="content" id="content">${content!}</textarea>
+								<textarea class="span richtext" rows="20" name="content" id="content">${content!}</textarea>
 							</div>
 							<#if resource??>
 								<div>
@@ -80,15 +75,15 @@
 								</div>
 							</#if>
 						</div>
-						<div class="col-md-11">
-							<div class="form-group ">
-								<input type="hidden" name="extendableResourceType" value="${resource.extendableResourceType}"  />
-								<input type="hidden" name="idExtendableResource" value="${resource.idExtendableResource}"  />
-								<button class="btn btn-primary btn-sm" name="send" value="send">
-									<i class="glyphicon glyphicon-envelope">&nbsp;</i>&nbsp;#i18n{portal.site.popup_send_resource.sendResource}
+						<div class="span11">
+							<div class="form-actions">
+								<input type="hidden" name="extendableResourceType" value="${resource.extendableResourceType}" >
+								<input type="hidden" name="idExtendableResource" value="${resource.idExtendableResource}" >
+								<button class="btn btn-primary btn-small" name="send" value="send">
+									<i class="icon-envelope icon-white">&nbsp;</i>&nbsp;#i18n{portal.site.popup_send_resource.sendResource}
 								</button>
-								<a class="btn btn-default btn-sm" href="javascript:window.close();">
-									<i class="glyphicon glyphicon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.site.popup_send_resource.close}
+								<a class="btn btn-small" href="javascript:window.close();">
+									<i class="icon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.site.popup_send_resource.close}
 								</a>
 							</div>
 						</div>
