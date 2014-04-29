@@ -470,17 +470,6 @@ CREATE TABLE core_id_generator (
 );
 
 --
--- Table structure for table core_user_parameters
---
-DROP TABLE IF EXISTS core_user_parameter;
-CREATE TABLE core_user_parameter (
-	parameter_key varchar(100) NOT NULL,
-	parameter_value varchar(100) NOT NULL,
-	PRIMARY KEY (parameter_key)
-);
-
-
---
 -- Table structure for table core_attribute
 --
 DROP TABLE IF EXISTS core_attribute;

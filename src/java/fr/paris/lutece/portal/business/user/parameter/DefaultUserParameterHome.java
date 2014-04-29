@@ -33,7 +33,9 @@
  */
 package fr.paris.lutece.portal.business.user.parameter;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -42,35 +44,31 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class DefaultUserParameterHome
 {
     // Static variable pointed at the DAO instance
-    /** The _dao. */
-    private static IDefaultUserParameterDAO _dao = (IDefaultUserParameterDAO) SpringContextService.getBean( 
-            "defaultUserParameterDAO" );
-
     /**
      * Instantiates a new default user parameter home.
      */
-    private DefaultUserParameterHome(  )
+    private DefaultUserParameterHome( )
     {
     }
 
     /**
      * Load the parameter value.
-     *
+     * 
      * @param strParameterKey the parameter key
      * @return The parameter value
      */
-    public static DefaultUserParameter findByKey( String strParameterKey )
+    public static String findByKey( String strParameterKey )
     {
-        return _dao.load( strParameterKey );
+        return DatastoreService.getDataValue( strParameterKey, StringUtils.EMPTY );
     }
 
     /**
      * Update the parameter value.
-     *
-     * @param userParam The User parameters
+     * @param strParameterKey The User key
+     * @param strParameterValue the value
      */
-    public static void update( DefaultUserParameter userParam )
+    public static void update( String strParameterKey, String strParameterValue )
     {
-        _dao.store( userParam );
+        DatastoreService.setDataValue( strParameterKey, strParameterValue );
     }
 }
