@@ -518,7 +518,7 @@ public final class SecurityService
     }
 
     /**
-     * Gets the actual authentication implementatation
+     * Gets the actual authentication implementation
      * @return {@link LuteceAuthentication} implementation
      */
     public LuteceAuthentication getAuthenticationService(  )
