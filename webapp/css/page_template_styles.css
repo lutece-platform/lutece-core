@@ -5,6 +5,8 @@
 /* Fix for fixed-nav-bar*/
 body{padding-top:60px;}
 
+.container{min-height:600px;}
+
 /* img list styles */
 img.thumblist-mini{width:24px;height:24px;}
 img.thumblist-small{width:32px;height:32px;}
