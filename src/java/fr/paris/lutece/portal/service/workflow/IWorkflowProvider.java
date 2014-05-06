@@ -202,7 +202,8 @@ public interface IWorkflowProvider
         Locale locale );
 
     /**
-     * Perform the information on the various tasks associated with the given action specified in parameter.
+     * Perform the information on the various tasks associated with the given
+     * action specified in parameter.
      *
      * @param nIdResource the resource id
      * @param strResourceType the resource type
@@ -211,7 +212,11 @@ public interface IWorkflowProvider
      * @param request the request
      * @param locale the locale
      * @param strUserAccessCode the user access code
+     * @deprecated This method should not be used. Use
+     *             {@link WorkflowService#doProcessAction(int, String, int, Integer, HttpServletRequest, Locale, boolean)
+     *             WorkflowService.doProcessAction } instead.
      */
+    @Deprecated
     void doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
         HttpServletRequest request, Locale locale, String strUserAccessCode );
 }

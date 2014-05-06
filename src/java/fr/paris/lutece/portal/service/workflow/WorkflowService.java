@@ -262,12 +262,7 @@ public final class WorkflowService
                 return strError;
             }
 
-            if ( canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, false ) )
-            {
-                String strUserAccessCode = _provider.getUserAccessCode( request );
-                _provider.doSaveTasksForm( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale,
-                    strUserAccessCode );
-            }
+            doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, false );
         }
 
         return null;
