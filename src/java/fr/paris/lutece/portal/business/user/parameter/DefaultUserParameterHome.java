@@ -47,13 +47,13 @@ public final class DefaultUserParameterHome
     /**
      * Instantiates a new default user parameter home.
      */
-    private DefaultUserParameterHome( )
+    private DefaultUserParameterHome(  )
     {
     }
 
     /**
      * Load the parameter value.
-     * 
+     *
      * @param strParameterKey the parameter key
      * @return The parameter value
      */

@@ -33,14 +33,6 @@
  */
 package fr.paris.lutece.portal.web.system;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -56,6 +48,14 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Locale;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -96,7 +96,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Returns the plugins management page
-     * 
+     *
      * @param request The Http request
      * @return Html page
      */
@@ -104,21 +104,21 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     {
         Locale locale = AdminUserService.getLocale( request );
         String strPluginTypeFilter = request.getParameter( PARAM_PLUGIN_TYPE );
-        Collection<Plugin> listPlugins = PluginService.getPluginList( );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        Collection<Plugin> listPlugins = PluginService.getPluginList(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLUGINS_LIST, filterPluginsList( listPlugins, strPluginTypeFilter ) );
-        model.put( MARK_POOLS_LIST, getPoolsList( ) );
+        model.put( MARK_POOLS_LIST, getPoolsList(  ) );
         model.put( MARK_FILTER_LIST, getPluginTypeFilterList( locale ) );
         model.put( MARK_CURRENT_FILTER, ( strPluginTypeFilter != null ) ? strPluginTypeFilter : "" );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_PLUGINS, locale, model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
      * Install a plugin
-     * 
+     *
      * @param request The Http request
      * @param context The servlet context
      * @return the url of the page containing a log essage
@@ -132,19 +132,19 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
             if ( verifyCoreCompatibility( plugin ) )
             {
-                plugin.install( );
+                plugin.install(  );
             }
             else
             {
-                Object[] args = { plugin.getMinCoreVersion( ), plugin.getMaxCoreVersion( ) };
+                Object[] args = { plugin.getMinCoreVersion(  ), plugin.getMaxCoreVersion(  ) };
 
                 return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args,
-                        AdminMessage.TYPE_STOP );
+                    AdminMessage.TYPE_STOP );
             }
         }
         catch ( Exception e )
         {
-            AppLogService.error( e.getMessage( ), e );
+            AppLogService.error( e.getMessage(  ), e );
 
             return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_INSTALL_ERROR, AdminMessage.TYPE_STOP );
         }
@@ -154,7 +154,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Uninstall a plugin
-     * 
+     *
      * @param request The Http request
      * @param context The servlet context
      * @return the url of the page containing a log essage
@@ -165,11 +165,11 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         {
             String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );
             Plugin plugin = PluginService.getPlugin( strPluginName );
-            plugin.uninstall( );
+            plugin.uninstall(  );
         }
         catch ( Exception e )
         {
-            AppLogService.error( e.getMessage( ), e );
+            AppLogService.error( e.getMessage(  ), e );
         }
 
         return getHomeUrl( request );
@@ -177,7 +177,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Returns the page of confirmation for uninstalling a plugin
-     * 
+     *
      * @param request The Http Request
      * @return the HTML page
      */
@@ -185,7 +185,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     {
         String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );
         Plugin plugin = PluginService.getPlugin( strPluginName );
-        Collection<PortletType> listPortletTypes = plugin.getPortletTypes( );
+        Collection<PortletType> listPortletTypes = plugin.getPortletTypes(  );
         String strMessageKey = PROPERTY_PLUGIN_MESSAGE;
         String strUrl = "jsp/admin/system/DoUninstallPlugin.jsp?plugin_name=" + strPluginName;
         String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, strUrl, "",
@@ -193,9 +193,9 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
         for ( PortletType portletType : listPortletTypes )
         {
-            String strPluginHomeClass = portletType.getHomeClass( );
+            String strPluginHomeClass = portletType.getHomeClass(  );
 
-            if ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) != 0 )
+            if ( ( plugin.getType(  ) & Plugin.PLUGIN_TYPE_PORTLET ) != 0 )
             {
                 if ( isPortletExists( strPluginHomeClass ) )
                 {
@@ -226,7 +226,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         }
         catch ( Exception e )
         {
-            AppLogService.error( e.getMessage( ), e );
+            AppLogService.error( e.getMessage(  ), e );
         }
 
         return getHomeUrl( request );
@@ -243,15 +243,15 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         Plugin plugin = PluginService.getPlugin( strPluginName );
 
         // set the locale for the feature labels
-        I18nService.localizeCollection( plugin.getRights( ), getLocale( ) );
+        I18nService.localizeCollection( plugin.getRights(  ), getLocale(  ) );
         // set the locale for the portlet types labels
-        I18nService.localizeCollection( plugin.getPortletTypes( ), getLocale( ) );
+        I18nService.localizeCollection( plugin.getPortletTypes(  ), getLocale(  ) );
         // set the locale for the  link services labels
-        I18nService.localizeCollection( plugin.getInsertServices( ), getLocale( ) );
+        I18nService.localizeCollection( plugin.getInsertServices(  ), getLocale(  ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_DETAILS, getLocale( ), plugin );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_DETAILS, getLocale(  ), plugin );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -265,43 +265,43 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      */
     private Collection<Plugin> filterPluginsList( Collection<Plugin> listPlugins, String strPluginTypeFilter )
     {
-        Collection<Plugin> list = new ArrayList<Plugin>( );
+        Collection<Plugin> list = new ArrayList<Plugin>(  );
 
         for ( Plugin plugin : listPlugins )
         {
             // Checks for filtering the plugin list
             if ( strPluginTypeFilter != null )
             {
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_APPLICATION )
-                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_APPLICATION ) == 0 ) )
+                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_APPLICATION ) &&
+                        ( ( plugin.getType(  ) & Plugin.PLUGIN_TYPE_APPLICATION ) == 0 ) )
                 {
                     // skip this plugin
                     continue;
                 }
 
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_PORTLET )
-                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) == 0 ) )
+                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_PORTLET ) &&
+                        ( ( plugin.getType(  ) & Plugin.PLUGIN_TYPE_PORTLET ) == 0 ) )
                 {
                     // skip this plugin
                     continue;
                 }
 
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_FEATURE )
-                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_FEATURE ) == 0 ) )
+                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_FEATURE ) &&
+                        ( ( plugin.getType(  ) & Plugin.PLUGIN_TYPE_FEATURE ) == 0 ) )
                 {
                     // skip this plugin
                     continue;
                 }
 
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_INSERTSERVICE )
-                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_INSERTSERVICE ) == 0 ) )
+                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_INSERTSERVICE ) &&
+                        ( ( plugin.getType(  ) & Plugin.PLUGIN_TYPE_INSERTSERVICE ) == 0 ) )
                 {
                     // skip this plugin
                     continue;
                 }
 
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_CONTENTSERVICE )
-                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_CONTENTSERVICE ) == 0 ) )
+                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_CONTENTSERVICE ) &&
+                        ( ( plugin.getType(  ) & Plugin.PLUGIN_TYPE_CONTENTSERVICE ) == 0 ) )
                 {
                     // skip this plugin
                     continue;
@@ -321,18 +321,18 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      */
     private ReferenceList getPluginTypeFilterList( Locale locale )
     {
-        ReferenceList list = new ReferenceList( );
+        ReferenceList list = new ReferenceList(  );
         list.addItem( PARAM_PLUGIN_TYPE_ALL, I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_ALL, locale ) );
         list.addItem( PARAM_PLUGIN_TYPE_APPLICATION,
-                I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_APPLICATION, locale ) );
+            I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_APPLICATION, locale ) );
         list.addItem( PARAM_PLUGIN_TYPE_PORTLET,
-                I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_PORTLET, locale ) );
+            I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_PORTLET, locale ) );
         list.addItem( PARAM_PLUGIN_TYPE_FEATURE,
-                I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_FEATURE, locale ) );
+            I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_FEATURE, locale ) );
         list.addItem( PARAM_PLUGIN_TYPE_INSERTSERVICE,
-                I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_INSERTSERVICE, locale ) );
+            I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_INSERTSERVICE, locale ) );
         list.addItem( PARAM_PLUGIN_TYPE_CONTENTSERVICE,
-                I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_CONTENTSERVICE, locale ) );
+            I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_CONTENTSERVICE, locale ) );
 
         return list;
     }
@@ -341,9 +341,9 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      * Return a list of pools
      * @return listPools the list of pools
      */
-    private ReferenceList getPoolsList( )
+    private ReferenceList getPoolsList(  )
     {
-        ReferenceList listPools = new ReferenceList( );
+        ReferenceList listPools = new ReferenceList(  );
         listPools.addItem( AppConnectionService.NO_POOL_DEFINED, " " );
         AppConnectionService.getPoolList( listPools );
 
@@ -352,7 +352,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Returns the status of the existence of a portlet on the site
-     * 
+     *
      * @param strPluginHomeClass The home class of the plugin
      * @return The existence status as a boolean
      */
@@ -365,7 +365,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Verify the core compatibility for a plugin
-     * 
+     *
      * @param plugin The plugin
      * @return true if compatible with the current core version
      */
@@ -374,34 +374,34 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         boolean bCompatibility = false;
         boolean bMin = false;
         boolean bMax = false;
-        String[] coreVersion = AppInfo.getVersion( ).split( "\\." );
+        String[] coreVersion = AppInfo.getVersion(  ).split( "\\." );
 
-        String strMinCoreVersion = ( plugin.getMinCoreVersion( ) == null ) ? "" : plugin.getMinCoreVersion( );
-        String strMaxCoreVersion = ( plugin.getMaxCoreVersion( ) == null ) ? "" : plugin.getMaxCoreVersion( );
+        String strMinCoreVersion = ( plugin.getMinCoreVersion(  ) == null ) ? "" : plugin.getMinCoreVersion(  );
+        String strMaxCoreVersion = ( plugin.getMaxCoreVersion(  ) == null ) ? "" : plugin.getMaxCoreVersion(  );
 
-        bMin = ( ( ( strMinCoreVersion == null ) || strMinCoreVersion.trim( ).equals( "" ) ) ? true : false );
-        bMax = ( ( ( strMaxCoreVersion == null ) || strMaxCoreVersion.trim( ).equals( "" ) ) ? true : false );
+        bMin = ( ( ( strMinCoreVersion == null ) || strMinCoreVersion.trim(  ).equals( "" ) ) ? true : false );
+        bMax = ( ( ( strMaxCoreVersion == null ) || strMaxCoreVersion.trim(  ).equals( "" ) ) ? true : false );
 
         // test the min core version
-        if ( ( strMinCoreVersion != null ) && !strMinCoreVersion.trim( ).equals( "" ) )
+        if ( ( strMinCoreVersion != null ) && !strMinCoreVersion.trim(  ).equals( "" ) )
         {
             String[] minCoreVersion = strMinCoreVersion.split( "\\." );
 
             if ( checkCoreMinCompatibility( minCoreVersion, coreVersion ) )
             {
-                AppLogService.debug( "Min core version ok : " + plugin.getMinCoreVersion( ) );
+                AppLogService.debug( "Min core version ok : " + plugin.getMinCoreVersion(  ) );
                 bMin = true;
             }
         }
 
         // test the max core version
-        if ( ( strMaxCoreVersion != null ) && !strMaxCoreVersion.trim( ).equals( "" ) )
+        if ( ( strMaxCoreVersion != null ) && !strMaxCoreVersion.trim(  ).equals( "" ) )
         {
             String[] maxCoreVersion = strMaxCoreVersion.split( "\\." );
 
             if ( checkCoreMaxCompatibility( maxCoreVersion, coreVersion ) )
             {
-                AppLogService.debug( "Max core version ok : " + plugin.getMaxCoreVersion( ) );
+                AppLogService.debug( "Max core version ok : " + plugin.getMaxCoreVersion(  ) );
                 bMax = true;
             }
         }

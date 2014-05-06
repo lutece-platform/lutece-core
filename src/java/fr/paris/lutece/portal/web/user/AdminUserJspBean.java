@@ -89,9 +89,14 @@ import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 import fr.paris.lutece.util.xml.XmlUtil;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -102,9 +107,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -224,7 +226,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE = "password_format_upper_lower_case";
     private static final String PARAMETER_PASSWORD_FORMAT_NUMERO = "password_format_numero";
     private static final String PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS = "password_format_special_characters";
-
     private static final String PARAMETER_PASSWORD_DURATION = "password_duration";
     private static final String PARAMETER_PASSWORD_HISTORY_SIZE = "password_history_size";
     private static final String PARAMETER_MAXIMUM_NUMBER_PASSWORD_CHANGE = "maximum_number_password_change";
@@ -350,8 +351,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String CONSTANT_ATTACHEMENT_FILE_NAME = "attachement; filename=\"";
     private static final String CONSTANT_ATTACHEMENT_DISPOSITION = "Content-Disposition";
     private static final String CONSTANT_XML_USERS = "users";
-    private static ImportAdminUserService _importAdminUserService = new ImportAdminUserService( );
-
+    private static ImportAdminUserService _importAdminUserService = new ImportAdminUserService(  );
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -359,7 +359,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Build the User list
-     * 
+     *
      * @param request Http Request
      * @return the AppUser list
      */
@@ -368,15 +368,15 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_MANAGE_USERS_PAGETITLE );
 
         // Reinit session
-        reinitItemNavigator( );
+        reinitItemNavigator(  );
 
         String strCreateUrl;
-        AdminUser currentUser = getUser( );
+        AdminUser currentUser = getUser(  );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         // creation in no-module mode : no import
-        if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
+        if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
         {
             strCreateUrl = JSP_URL_CREATE_USER;
         }
@@ -388,9 +388,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strURL = getHomeUrl( request );
         UrlItem url = new UrlItem( strURL );
 
-        List<AdminUser> listUsers = (List<AdminUser>) AdminUserHome.findUserList( );
+        List<AdminUser> listUsers = (List<AdminUser>) AdminUserHome.findUserList(  );
         List<AdminUser> availableUsers = AdminUserService.getFilteredUsersInterface( listUsers, request, model, url );
-        listUsers = new ArrayList<AdminUser>( );
+        listUsers = new ArrayList<AdminUser>(  );
 
         for ( AdminUser user : availableUsers )
         {
@@ -430,36 +430,36 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         // PAGINATOR
         LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listUsers, _nItemsPerPage,
-                url.getUrl( ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
+                url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         // USER LEVEL
-        Collection<Level> filteredLevels = new ArrayList<Level>( );
+        Collection<Level> filteredLevels = new ArrayList<Level>(  );
 
-        for ( Level level : LevelHome.getLevelsList( ) )
+        for ( Level level : LevelHome.getLevelsList(  ) )
         {
-            if ( currentUser.isAdmin( ) || currentUser.hasRights( level.getId( ) ) )
+            if ( currentUser.isAdmin(  ) || currentUser.hasRights( level.getId(  ) ) )
             {
                 filteredLevels.add( level );
             }
         }
 
-        boolean bPermissionAdvancedParameter = RBACService
-                .isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                        AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) );
+        boolean bPermissionAdvancedParameter = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE,
+                RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
+                getUser(  ) );
         boolean bPermissionImportExportUsers = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE,
-                RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_IMPORT_EXPORT_USERS, getUser( ) );
+                RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_IMPORT_EXPORT_USERS, getUser(  ) );
 
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_USER_LEVELS_LIST, filteredLevels );
         model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_USER_LIST, paginator.getPageItems( ) );
+        model.put( MARK_USER_LIST, paginator.getPageItems(  ) );
         model.put( MARK_USER_CREATION_URL, strCreateUrl );
         model.put( MARK_PERMISSION_ADVANCED_PARAMETER, bPermissionAdvancedParameter );
         model.put( MARK_PERMISSION_IMPORT_EXPORT_USERS, bPermissionImportExportUsers );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USERS, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USERS, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
@@ -479,16 +479,16 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strFirstName = request.getParameter( PARAMETER_FIRST_NAME );
         String strEmail = request.getParameter( PARAMETER_EMAIL );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         Collection<?> allImportUsers = null;
 
         if ( !( ( strLastName == null ) && ( strFirstName == null ) && ( strEmail == null ) ) ) // at least 1 criteria check
         {
-            if ( !( StringUtils.EMPTY.equals( strLastName ) && StringUtils.EMPTY.equals( strFirstName ) && StringUtils.EMPTY
-                    .equals( strEmail ) ) )
+            if ( !( StringUtils.EMPTY.equals( strLastName ) && StringUtils.EMPTY.equals( strFirstName ) &&
+                    StringUtils.EMPTY.equals( strEmail ) ) )
             {
-                allImportUsers = AdminAuthenticationService.getInstance( ).getUserListFromModule( strLastName,
-                        strFirstName, strEmail );
+                allImportUsers = AdminAuthenticationService.getInstance(  )
+                                                           .getUserListFromModule( strLastName, strFirstName, strEmail );
             }
         }
 
@@ -498,9 +498,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_FIRST_NAME, strFirstName );
         model.put( MARK_EMAIL, strEmail );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_IMPORT_USER, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_IMPORT_USER, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
@@ -523,16 +523,16 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) != -1 )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED,
-                    AdminMessage.TYPE_STOP );
+                AdminMessage.TYPE_STOP );
         }
 
-        return AppPathService.getBaseUrl( request ) + JSP_URL_CREATE_USER + "?" + PARAMETER_ACCESS_CODE + "="
-                + strAccessCode;
+        return AppPathService.getBaseUrl( request ) + JSP_URL_CREATE_USER + "?" + PARAMETER_ACCESS_CODE + "=" +
+        strAccessCode;
     }
 
     /**
      * Returns the data capture form of a new User
-     * 
+     *
      * @param request The HTTP Request
      * @return The HTML form
      */
@@ -541,12 +541,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_CREATE_USER_PAGETITLE );
 
         HtmlTemplate template;
-        AdminUser currentUser = getUser( );
-        Collection<Level> filteredLevels = new ArrayList<Level>( );
+        AdminUser currentUser = getUser(  );
+        Collection<Level> filteredLevels = new ArrayList<Level>(  );
 
-        for ( Level level : LevelHome.getLevelsList( ) )
+        for ( Level level : LevelHome.getLevelsList(  ) )
         {
-            if ( currentUser.isAdmin( ) || currentUser.hasRights( level.getId( ) ) )
+            if ( currentUser.isAdmin(  ) || currentUser.hasRights( level.getId(  ) ) )
             {
                 filteredLevels.add( level );
             }
@@ -555,32 +555,31 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         // Default user parameter values
         String strDefaultLevel = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LEVEL );
         Level defaultLevel = LevelHome.findByPrimaryKey( Integer.parseInt( strDefaultLevel ) );
-        int nDefaultUserNotification = Integer.parseInt( DefaultUserParameterHome
-                .findByKey( PARAMETER_DEFAULT_USER_NOTIFICATION ) );
+        int nDefaultUserNotification = Integer.parseInt( DefaultUserParameterHome.findByKey( 
+                    PARAMETER_DEFAULT_USER_NOTIFICATION ) );
         String strDefaultUserLanguage = DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_LANGUAGE );
         int nDefaultUserStatus = Integer.parseInt( DefaultUserParameterHome.findByKey( PARAMETER_DEFAULT_USER_STATUS ) );
 
         // Specific attributes
-        List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithFields( getLocale( ) );
+        List<IAttribute> listAttributes = AttributeService.getInstance(  ).getAllAttributesWithFields( getLocale(  ) );
 
         // creation in no-module mode : load empty form
-        if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
+        if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
         {
-            Map<String, Object> model = new HashMap<String, Object>( );
+            Map<String, Object> model = new HashMap<String, Object>(  );
 
             model.put( MARK_USER_LEVELS_LIST, filteredLevels );
             model.put( MARK_CURRENT_USER, currentUser );
-            model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( getLocale( ) ) );
+            model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( getLocale(  ) ) );
             model.put( MARK_DEFAULT_USER_LEVEL, defaultLevel );
             model.put( MARK_DEFAULT_USER_NOTIFICATION, nDefaultUserNotification );
             model.put( MARK_DEFAULT_USER_LANGUAGE, strDefaultUserLanguage );
             model.put( MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
             model.put( MARK_ATTRIBUTES_LIST, listAttributes );
-            model.put( MARK_LOCALE, getLocale( ) );
-            template = AppTemplateService.getTemplate( TEMPLATE_DEFAULT_CREATE_USER, getLocale( ), model );
+            model.put( MARK_LOCALE, getLocale(  ) );
+            template = AppTemplateService.getTemplate( TEMPLATE_DEFAULT_CREATE_USER, getLocale(  ), model );
         }
-        else
-        // creation in module mode : populate the form with the data from the user selected for import
+        else// creation in module mode : populate the form with the data from the user selected for import
         {
             // parameters retrieved from the "import" action (retrieves the data from the access code)
             String strAccessCode = request.getParameter( PARAMETER_ACCESS_CODE );
@@ -588,34 +587,34 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             if ( ( strAccessCode != null ) && ( !strAccessCode.equals( "" ) ) )
             {
-                user = AdminAuthenticationService.getInstance( ).getUserPublicDataFromModule( strAccessCode );
+                user = AdminAuthenticationService.getInstance(  ).getUserPublicDataFromModule( strAccessCode );
             }
 
-            Map<String, Object> model = new HashMap<String, Object>( );
+            Map<String, Object> model = new HashMap<String, Object>(  );
 
             if ( user != null )
             {
                 model.put( MARK_USER_LEVELS_LIST, filteredLevels );
                 model.put( MARK_CURRENT_USER, currentUser );
                 model.put( MARK_IMPORT_USER, user );
-                model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale( ) ) );
+                model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale(  ) ) );
                 model.put( MARK_DEFAULT_USER_LEVEL, defaultLevel );
                 model.put( MARK_DEFAULT_USER_NOTIFICATION, nDefaultUserNotification );
                 model.put( MARK_DEFAULT_USER_LANGUAGE, strDefaultUserLanguage );
                 model.put( MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
                 model.put( MARK_ATTRIBUTES_LIST, listAttributes );
-                model.put( MARK_LOCALE, getLocale( ) );
+                model.put( MARK_LOCALE, getLocale(  ) );
             }
 
-            template = AppTemplateService.getTemplate( TEMPLATE_CREATE_USER, getLocale( ), model );
+            template = AppTemplateService.getTemplate( TEMPLATE_CREATE_USER, getLocale(  ), model );
         }
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
      * Process the data capture form of a new appUser
-     * 
+     *
      * @param request The HTTP Request
      * @return The Jsp URL of the process result
      */
@@ -645,7 +644,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( ( ( strEmail == null ) || ( strEmail.trim( ).equals( "" ) ) ) )
+        if ( ( ( strEmail == null ) || ( strEmail.trim(  ).equals( "" ) ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -659,29 +658,29 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) != -1 )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED,
-                    AdminMessage.TYPE_STOP );
+                AdminMessage.TYPE_STOP );
         }
 
         // check again that email is not in use
         if ( AdminUserHome.checkEmailAlreadyInUse( strEmail ) != -1 )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_ALREADY_USED,
-                    AdminMessage.TYPE_STOP );
+                AdminMessage.TYPE_STOP );
         }
 
         // defines the new created user level
         int nNewUserLevel = Integer.valueOf( strUserLevel );
 
         // check if the user is still an admin
-        if ( !( getUser( ).hasRights( nNewUserLevel ) || getUser( ).isAdmin( ) ) )
+        if ( !( getUser(  ).hasRights( nNewUserLevel ) || getUser(  ).isAdmin(  ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.USER_ACCESS_DENIED, AdminMessage.TYPE_STOP );
         }
 
         // creation in no-module mode : we manage the password
-        if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
+        if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
         {
-            LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( );
+            LuteceDefaultAdminUser user = new LuteceDefaultAdminUser(  );
             String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
             String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
 
@@ -693,7 +692,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( !strFirstPassword.equals( strSecondPassword ) )
             {
                 return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
-                        AdminMessage.TYPE_STOP );
+                    AdminMessage.TYPE_STOP );
             }
 
             String strUrl = AdminUserService.checkPassword( request, strFirstPassword, 0 );
@@ -708,8 +707,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             user.setPassword( strFirstPassword );
 
-            user.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
-            user.setAccountMaxValidDate( AdminUserService.getAccountMaxValidDate( ) );
+            user.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate(  ) );
+            user.setAccountMaxValidDate( AdminUserService.getAccountMaxValidDate(  ) );
 
             user.setAccessCode( strAccessCode );
             user.setLastName( strLastName );
@@ -722,7 +721,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setPasswordReset( Boolean.TRUE );
             user.setAccessibilityMode( strAccessibilityMode != null );
 
-            String strError = AdminUserFieldService.checkUserFields( request, getLocale( ) );
+            String strError = AdminUserFieldService.checkUserFields( request, getLocale(  ) );
 
             if ( strError != null )
             {
@@ -730,7 +729,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
 
             AdminUserHome.create( user );
-            AdminUserFieldService.doCreateUserFields( user, request, getLocale( ) );
+            AdminUserFieldService.doCreateUserFields( user, request, getLocale(  ) );
 
             if ( ( strNotifyUser != null ) && strNotifyUser.equals( CONSTANTE_UN ) )
             {
@@ -738,13 +737,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 // We set the password not encrypted for the email
                 user.setPassword( strSecondPassword );
                 AdminUserService.notifyUser( AppPathService.getBaseUrl( request ), user,
-                        PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
+                    PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
                 user.setPassword( strFirstPassword );
             }
         }
         else
         {
-            AdminUser user = new AdminUser( );
+            AdminUser user = new AdminUser(  );
             user.setAccessCode( strAccessCode );
             user.setLastName( strLastName );
             user.setFirstName( strFirstName );
@@ -755,7 +754,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setUserLevel( nNewUserLevel );
             user.setAccessibilityMode( strAccessibilityMode != null );
 
-            String strError = AdminUserFieldService.checkUserFields( request, getLocale( ) );
+            String strError = AdminUserFieldService.checkUserFields( request, getLocale(  ) );
 
             if ( strError != null )
             {
@@ -763,7 +762,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
 
             AdminUserHome.create( user );
-            AdminUserFieldService.doCreateUserFields( user, request, getLocale( ) );
+            AdminUserFieldService.doCreateUserFields( user, request, getLocale(  ) );
         }
 
         return JSP_MANAGE_USER;
@@ -771,13 +770,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Returns the form to update info about a AppUser
-     * 
+     *
      * @param request The Http request
      * @return The HTML form to update info
      * @throws AccessDeniedException If the current user is not authorized to
      *             modify the user
      */
-    public String getModifyAdminUser( HttpServletRequest request ) throws AccessDeniedException
+    public String getModifyAdminUser( HttpServletRequest request )
+        throws AccessDeniedException
     {
         setPageTitleProperty( PROPERTY_MODIFY_USER_PAGETITLE );
 
@@ -785,14 +785,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         int nUserId = Integer.parseInt( strUserId );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         HtmlTemplate template;
 
         AdminUser user = null;
         String strTemplateUrl = "";
 
         // creation in no-module mode : load form with password modification field and login modification field
-        if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
+        if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
         {
             user = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( nUserId );
             strTemplateUrl = TEMPLATE_DEFAULT_MODIFY_USER;
@@ -803,7 +803,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             strTemplateUrl = TEMPLATE_MODIFY_USER;
         }
 
-        if ( user == null || user.getUserId( ) == 0 )
+        if ( ( user == null ) || ( user.getUserId(  ) == 0 ) )
         {
             return getManageAdminUsers( request );
         }
@@ -815,37 +815,38 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
-        Level level = LevelHome.findByPrimaryKey( user.getUserLevel( ) );
+        Level level = LevelHome.findByPrimaryKey( user.getUserLevel(  ) );
 
         // ITEM NAVIGATION
-        setItemNavigator( user.getUserId( ), AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_USER );
+        setItemNavigator( user.getUserId(  ), AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_USER );
 
-        List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithFields( getLocale( ) );
-        Map<String, Object> map = AdminUserFieldService.getAdminUserFields( listAttributes, nUserId, getLocale( ) );
+        List<IAttribute> listAttributes = AttributeService.getInstance(  ).getAllAttributesWithFields( getLocale(  ) );
+        Map<String, Object> map = AdminUserFieldService.getAdminUserFields( listAttributes, nUserId, getLocale(  ) );
 
         model.put( MARK_USER, user );
         model.put( MARK_LEVEL, level );
-        model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale( ) ) );
-        model.put( MARK_CURRENT_LANGUAGE, user.getLocale( ).getLanguage( ) );
+        model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale(  ) ) );
+        model.put( MARK_CURRENT_LANGUAGE, user.getLocale(  ).getLanguage(  ) );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_ATTRIBUTES_LIST, listAttributes );
-        model.put( MARK_LOCALE, getLocale( ) );
+        model.put( MARK_LOCALE, getLocale(  ) );
         model.put( MARK_MAP_LIST_ATTRIBUTE_DEFAULT_VALUES, map );
 
-        template = AppTemplateService.getTemplate( strTemplateUrl, getLocale( ), model );
+        template = AppTemplateService.getTemplate( strTemplateUrl, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
      * Process the change form of an appUser
-     * 
+     *
      * @param request The Http request
      * @return The Jsp URL of the process result
      * @throws AccessDeniedException If the current user is not authorized to
      *             modify the user
      */
-    public String doModifyAdminUser( HttpServletRequest request ) throws AccessDeniedException
+    public String doModifyAdminUser( HttpServletRequest request )
+        throws AccessDeniedException
     {
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         String strAccessCode = request.getParameter( PARAMETER_ACCESS_CODE );
@@ -880,7 +881,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( ( ( strEmail == null ) || ( strEmail.trim( ).equals( "" ) ) ) )
+        if ( ( ( strEmail == null ) || ( strEmail.trim(  ).equals( "" ) ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -896,7 +897,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( ( checkCode != -1 ) && ( checkCode != nUserId ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED,
-                    AdminMessage.TYPE_STOP );
+                AdminMessage.TYPE_STOP );
         }
 
         checkCode = AdminUserHome.checkEmailAlreadyInUse( strEmail );
@@ -905,38 +906,38 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( ( checkCode != -1 ) && ( checkCode != nUserId ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_ALREADY_USED,
-                    AdminMessage.TYPE_STOP );
+                AdminMessage.TYPE_STOP );
         }
 
         // modification in no-module mode : we manage the password
-        if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
+        if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
         {
             LuteceDefaultAdminUser user = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( nUserId );
 
             String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
             String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
 
-            if ( ( strFirstPassword != null ) && ( strFirstPassword.equals( "" ) ) && ( strSecondPassword != null )
-                    && ( !strSecondPassword.equals( "" ) ) )
+            if ( ( strFirstPassword != null ) && ( strFirstPassword.equals( "" ) ) && ( strSecondPassword != null ) &&
+                    ( !strSecondPassword.equals( "" ) ) )
             {
                 // First password is empty but second password is filled
                 return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
-                        AdminMessage.TYPE_STOP );
+                    AdminMessage.TYPE_STOP );
             }
 
-            if ( ( strSecondPassword != null ) && ( strSecondPassword.equals( "" ) ) && ( strFirstPassword != null )
-                    && !strFirstPassword.equals( "" ) )
+            if ( ( strSecondPassword != null ) && ( strSecondPassword.equals( "" ) ) && ( strFirstPassword != null ) &&
+                    !strFirstPassword.equals( "" ) )
             {
                 // First password is filled but second password is empty
                 return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
-                        AdminMessage.TYPE_STOP );
+                    AdminMessage.TYPE_STOP );
             }
 
             if ( !StringUtils.equals( strFirstPassword, strSecondPassword ) )
             {
                 // First and second password are filled but there are different
                 return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
-                        AdminMessage.TYPE_STOP );
+                    AdminMessage.TYPE_STOP );
             }
 
             if ( ( strFirstPassword != null ) && !strFirstPassword.equals( "" ) )
@@ -953,7 +954,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
                 user.setPassword( strFirstPassword );
                 user.setPasswordReset( Boolean.FALSE );
-                user.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
+                user.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate(  ) );
             }
 
             user.setUserId( nUserId );
@@ -964,17 +965,17 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             int nStatus = Integer.parseInt( strStatus );
 
-            if ( nStatus != user.getStatus( ) )
+            if ( nStatus != user.getStatus(  ) )
             {
                 user.setStatus( nStatus );
                 AdminUserService.notifyUser( AppPathService.getBaseUrl( request ), user,
-                        PROPERTY_MESSAGE_EMAIL_SUBJECT_CHANGE_STATUS, TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS );
+                    PROPERTY_MESSAGE_EMAIL_SUBJECT_CHANGE_STATUS, TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS );
             }
 
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
             user.setAccessibilityMode( strAccessibilityMode != null );
 
-            String strError = AdminUserFieldService.checkUserFields( request, getLocale( ) );
+            String strError = AdminUserFieldService.checkUserFields( request, getLocale(  ) );
 
             if ( strError != null )
             {
@@ -983,11 +984,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             AdminUserHome.update( user );
 
-            AdminUserFieldService.doModifyUserFields( user, request, getLocale( ), getUser( ) );
+            AdminUserFieldService.doModifyUserFields( user, request, getLocale(  ), getUser(  ) );
         }
         else
         {
-            AdminUser user = new AdminUser( );
+            AdminUser user = new AdminUser(  );
             user.setUserId( nUserId );
             user.setAccessCode( strAccessCode );
             user.setLastName( strLastName );
@@ -997,7 +998,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
             user.setAccessibilityMode( strAccessibilityMode != null );
 
-            String strError = AdminUserFieldService.checkUserFields( request, getLocale( ) );
+            String strError = AdminUserFieldService.checkUserFields( request, getLocale(  ) );
 
             if ( strError != null )
             {
@@ -1006,7 +1007,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             AdminUserHome.update( user );
 
-            AdminUserFieldService.doModifyUserFields( user, request, getLocale( ), getUser( ) );
+            AdminUserFieldService.doModifyUserFields( user, request, getLocale(  ), getUser(  ) );
         }
 
         return JSP_MANAGE_USER;
@@ -1020,20 +1021,20 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public String getImportUsersFromFile( HttpServletRequest request )
     {
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
             return getManageAdminUsers( request );
         }
 
         setPageTitleProperty( PROPERTY_IMPORT_USERS_FROM_FILE_PAGETITLE );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         model.put( MARK_LIST_MESSAGES, request.getAttribute( ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES ) );
 
-        String strCsvSeparator = StringUtils.EMPTY + _importAdminUserService.getCSVSeparator( );
-        String strCsvEscapeCharacter = StringUtils.EMPTY + _importAdminUserService.getCSVEscapeCharacter( );
-        String strAttributesSeparator = StringUtils.EMPTY + _importAdminUserService.getAttributesSeparator( );
+        String strCsvSeparator = StringUtils.EMPTY + _importAdminUserService.getCSVSeparator(  );
+        String strCsvEscapeCharacter = StringUtils.EMPTY + _importAdminUserService.getCSVEscapeCharacter(  );
+        String strAttributesSeparator = StringUtils.EMPTY + _importAdminUserService.getAttributesSeparator(  );
         model.put( MARK_CSV_SEPARATOR, strCsvSeparator );
         model.put( MARK_CSV_ESCAPE, strCsvEscapeCharacter );
         model.put( MARK_ATTRIBUTES_SEPARATOR, strAttributesSeparator );
@@ -1041,7 +1042,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_IMPORT_USERS_FROM_FILE,
                 AdminUserService.getLocale( request ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
@@ -1052,10 +1053,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public DefaultPluginActionResult doImportUsersFromFile( HttpServletRequest request )
     {
-        DefaultPluginActionResult result = new DefaultPluginActionResult( );
+        DefaultPluginActionResult result = new DefaultPluginActionResult(  );
 
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
             result.setHtmlContent( getManageAdminUsers( request ) );
 
@@ -1068,19 +1069,19 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             FileItem fileItem = multipartRequest.getFile( PARAMETER_IMPORT_USERS_FILE );
             String strMimeType = FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) );
 
-            if ( !( ( fileItem != null ) && !StringUtils.EMPTY.equals( fileItem.getName( ) ) ) )
+            if ( !( ( fileItem != null ) && !StringUtils.EMPTY.equals( fileItem.getName(  ) ) ) )
             {
-                Object[] tabRequiredFields = { I18nService.getLocalizedString( FIELD_IMPORT_USERS_FILE, getLocale( ) ) };
+                Object[] tabRequiredFields = { I18nService.getLocalizedString( FIELD_IMPORT_USERS_FILE, getLocale(  ) ) };
                 result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD,
                         tabRequiredFields, AdminMessage.TYPE_STOP ) );
 
                 return result;
             }
 
-            if ( ( !strMimeType.equals( CONSTANT_MIME_TYPE_CSV )
-                    && !strMimeType.equals( CONSTANT_MIME_TYPE_OCTETSTREAM ) && !strMimeType
-                        .equals( CONSTANT_MIME_TYPE_TEXT_CSV ) )
-                    || !fileItem.getName( ).toLowerCase( ).endsWith( CONSTANT_EXTENSION_CSV_FILE ) )
+            if ( ( !strMimeType.equals( CONSTANT_MIME_TYPE_CSV ) &&
+                    !strMimeType.equals( CONSTANT_MIME_TYPE_OCTETSTREAM ) &&
+                    !strMimeType.equals( CONSTANT_MIME_TYPE_TEXT_CSV ) ) ||
+                    !fileItem.getName(  ).toLowerCase(  ).endsWith( CONSTANT_EXTENSION_CSV_FILE ) )
             {
                 result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_CSV_FILE_IMPORT,
                         AdminMessage.TYPE_STOP ) );
@@ -1105,7 +1106,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
         else
         {
-            Object[] tabRequiredFields = { I18nService.getLocalizedString( FIELD_IMPORT_USERS_FILE, getLocale( ) ) };
+            Object[] tabRequiredFields = { I18nService.getLocalizedString( FIELD_IMPORT_USERS_FILE, getLocale(  ) ) };
             result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields,
                     AdminMessage.TYPE_STOP ) );
         }
@@ -1121,23 +1122,23 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public String getExportUsers( HttpServletRequest request )
     {
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
             return getManageAdminUsers( request );
         }
 
         setPageTitleProperty( PROPERTY_EXPORT_USERS_PAGETITLE );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
-        ReferenceList refListXsl = XslExportHome.getRefListByPlugin( PluginService.getCore( ) );
+        ReferenceList refListXsl = XslExportHome.getRefListByPlugin( PluginService.getCore(  ) );
 
         model.put( MARK_LIST_XSL_EXPORT, refListXsl );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EXPORT_USERS_FROM_FILE,
                 AdminUserService.getLocale( request ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
@@ -1149,12 +1150,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @throws IOException If an IOException occurs
      */
     public DefaultPluginActionResult doExportUsers( HttpServletRequest request, HttpServletResponse response )
-            throws IOException
+        throws IOException
     {
-        DefaultPluginActionResult result = new DefaultPluginActionResult( );
+        DefaultPluginActionResult result = new DefaultPluginActionResult(  );
 
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_IMPORT_EXPORT_USERS, getUser( ) ) )
+                    AdminUserResourceIdService.PERMISSION_IMPORT_EXPORT_USERS, getUser(  ) ) )
         {
             result.setHtmlContent( getManageAdminUsers( request ) );
 
@@ -1173,7 +1174,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isBlank( strXslExportId ) )
         {
-            Object[] tabRequiredFields = { I18nService.getLocalizedString( FIELD_XSL_EXPORT, getLocale( ) ) };
+            Object[] tabRequiredFields = { I18nService.getLocalizedString( FIELD_XSL_EXPORT, getLocale(  ) ) };
             result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields,
                     AdminMessage.TYPE_STOP ) );
 
@@ -1184,11 +1185,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         XslExport xslExport = XslExportHome.findByPrimaryKey( nIdXslExport );
 
-        Collection<AdminUser> listUsers = AdminUserHome.findUserList( );
+        Collection<AdminUser> listUsers = AdminUserHome.findUserList(  );
 
-        List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithFields(
-                Locale.getDefault( ) );
-        List<IAttribute> listAttributesFiltered = new ArrayList<IAttribute>( );
+        List<IAttribute> listAttributes = AttributeService.getInstance(  )
+                                                          .getAllAttributesWithFields( Locale.getDefault(  ) );
+        List<IAttribute> listAttributesFiltered = new ArrayList<IAttribute>(  );
 
         for ( IAttribute attribute : listAttributes )
         {
@@ -1198,12 +1199,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        StringBuffer sbXml = new StringBuffer( XmlUtil.getXmlHeader( ) );
+        StringBuffer sbXml = new StringBuffer( XmlUtil.getXmlHeader(  ) );
         XmlUtil.beginElement( sbXml, CONSTANT_XML_USERS );
 
         for ( AdminUser user : listUsers )
         {
-            if ( !user.isStatusAnonymized( ) )
+            if ( !user.isStatusAnonymized(  ) )
             {
                 sbXml.append( AdminUserService.getXmlFromUser( user, bExportRoles, bExportRights, bExportWorkgroups,
                         bExportAttributes, listAttributesFiltered ) );
@@ -1212,14 +1213,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         XmlUtil.endElement( sbXml, CONSTANT_XML_USERS );
 
-        String strXml = StringUtil.replaceAccent( sbXml.toString( ) );
+        String strXml = StringUtil.replaceAccent( sbXml.toString(  ) );
         String strExportedUsers = XslExportService.exportXMLWithXSL( nIdXslExport, strXml );
 
-        if ( CONSTANT_MIME_TYPE_CSV.contains( xslExport.getExtension( ) ) )
+        if ( CONSTANT_MIME_TYPE_CSV.contains( xslExport.getExtension(  ) ) )
         {
             response.setContentType( CONSTANT_MIME_TYPE_CSV );
         }
-        else if ( CONSTANT_EXTENSION_XML_FILE.contains( xslExport.getExtension( ) ) )
+        else if ( CONSTANT_EXTENSION_XML_FILE.contains( xslExport.getExtension(  ) ) )
         {
             response.setContentType( CONSTANT_MIME_TYPE_XML );
         }
@@ -1228,21 +1229,21 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             response.setContentType( CONSTANT_MIME_TYPE_OCTETSTREAM );
         }
 
-        String strFileName = CONSTANT_EXPORT_USERS_FILE_NAME + CONSTANT_POINT + xslExport.getExtension( );
-        response.setHeader( CONSTANT_ATTACHEMENT_DISPOSITION, CONSTANT_ATTACHEMENT_FILE_NAME + strFileName
-                + CONSTANT_QUOTE );
+        String strFileName = CONSTANT_EXPORT_USERS_FILE_NAME + CONSTANT_POINT + xslExport.getExtension(  );
+        response.setHeader( CONSTANT_ATTACHEMENT_DISPOSITION,
+            CONSTANT_ATTACHEMENT_FILE_NAME + strFileName + CONSTANT_QUOTE );
 
-        PrintWriter out = response.getWriter( );
+        PrintWriter out = response.getWriter(  );
         out.write( strExportedUsers );
-        out.flush( );
-        out.close( );
+        out.flush(  );
+        out.close(  );
 
         return null;
     }
 
     /**
      * Returns the page of confirmation for deleting a provider
-     * 
+     *
      * @param request The Http Request
      * @return the confirmation url
      */
@@ -1260,12 +1261,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Process to the confirmation of deleting of an AppUser
-     * 
+     *
      * @param request The Http Request
      * @return the HTML page
      * @throws AccessDeniedException If the user is not authorized
      */
-    public String doRemoveAdminUser( HttpServletRequest request ) throws AccessDeniedException
+    public String doRemoveAdminUser( HttpServletRequest request )
+        throws AccessDeniedException
     {
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
@@ -1278,7 +1280,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
-        AdminUserFieldService.doRemoveUserFields( user, request, getLocale( ) );
+        AdminUserFieldService.doRemoveUserFields( user, request, getLocale(  ) );
         AdminUserHome.removeAllRightsForUser( nUserId );
         AdminUserHome.removeAllRolesForUser( nUserId );
         AdminUserHome.removeAllPasswordHistoryForUser( nUserId );
@@ -1289,12 +1291,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Build the User right list
-     * 
+     *
      * @param request Http Request
      * @return the right list
      * @throws AccessDeniedException If the user is not authorized
      */
-    public String getManageAdminUserRights( HttpServletRequest request ) throws AccessDeniedException
+    public String getManageAdminUserRights( HttpServletRequest request )
+        throws AccessDeniedException
     {
         setPageTitleProperty( PROPERTY_MANAGE_USER_RIGHTS_PAGETITLE );
 
@@ -1310,31 +1313,33 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
-        Collection<Right> rightList = AdminUserHome.getRightsListForUser( nUserId ).values( );
+        Collection<Right> rightList = AdminUserHome.getRightsListForUser( nUserId ).values(  );
 
         // ITEM NAVIGATION
-        setItemNavigator( selectedUser.getUserId( ), AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_RIGHTS );
+        setItemNavigator( selectedUser.getUserId(  ), AppPathService.getBaseUrl( request ) +
+            JSP_URL_MANAGE_USER_RIGHTS );
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_CAN_MODIFY, getUser( ).isParent( selectedUser ) || getUser( ).isAdmin( ) );
-        model.put( MARK_CAN_DELEGATE, getUser( ).getUserId( ) != nUserId );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        model.put( MARK_CAN_MODIFY, getUser(  ).isParent( selectedUser ) || getUser(  ).isAdmin(  ) );
+        model.put( MARK_CAN_DELEGATE, getUser(  ).getUserId(  ) != nUserId );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
-        model.put( MARK_USER_RIGHT_LIST, I18nService.localizeCollection( rightList, getLocale( ) ) );
+        model.put( MARK_USER_RIGHT_LIST, I18nService.localizeCollection( rightList, getLocale(  ) ) );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USER_RIGHTS, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USER_RIGHTS, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
      * Build the User workgroup list
-     * 
+     *
      * @param request Http Request
      * @return the right list
      * @throws AccessDeniedException If the user is not authorized
      */
-    public String getManageAdminUserWorkgroups( HttpServletRequest request ) throws AccessDeniedException
+    public String getManageAdminUserWorkgroups( HttpServletRequest request )
+        throws AccessDeniedException
     {
         setPageTitleProperty( PROPERTY_MANAGE_USER_WORKGROUPS_PAGETITLE );
 
@@ -1355,39 +1360,40 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         setItemNavigator( nUserId, AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_WORKGROUPS );
 
         // ReferenceList assignableWorkgroupsList = AdminWorkgroupHome.getUserWorkgroups( selectedUser );
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_CAN_MODIFY, getUser( ).isParent( selectedUser ) || getUser( ).isAdmin( ) );
-        model.put( MARK_CAN_DELEGATE, getUser( ).getUserId( ) != nUserId );
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        model.put( MARK_CAN_MODIFY, getUser(  ).isParent( selectedUser ) || getUser(  ).isAdmin(  ) );
+        model.put( MARK_CAN_DELEGATE, getUser(  ).getUserId(  ) != nUserId );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_WORKGROUP_LIST, workgroupsList );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USER_WORKGROUPS, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USER_WORKGROUPS, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
      * Build the assignable workgroups list
-     * 
+     *
      * @param request Http Request
      * @return the right list
      * @throws AccessDeniedException If the user is not authorized
      */
-    public String getModifyAdminUserWorkgroups( HttpServletRequest request ) throws AccessDeniedException
+    public String getModifyAdminUserWorkgroups( HttpServletRequest request )
+        throws AccessDeniedException
     {
         boolean bDelegateWorkgroups = Boolean.valueOf( request.getParameter( PARAMETER_DELEGATE_RIGHTS ) );
 
         setPageTitleProperty( bDelegateWorkgroups ? PROPERTY_DELEGATE_USER_RIGHTS_PAGETITLE
-                : PROPERTY_MODIFY_USER_WORKGROUPS_PAGETITLE );
+                                                  : PROPERTY_MODIFY_USER_WORKGROUPS_PAGETITLE );
 
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
 
         AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
-        AdminUser currentUser = getUser( );
+        AdminUser currentUser = getUser(  );
 
-        if ( user == null || user.getUserId( ) == 0 )
+        if ( ( user == null ) || ( user.getUserId(  ) == 0 ) )
         {
             return getManageAdminUsers( request );
         }
@@ -1400,37 +1406,38 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         ReferenceList userWorkspaces = AdminWorkgroupHome.getUserWorkgroups( user );
         ReferenceList assignableWorkspaces = AdminWorkgroupHome.getUserWorkgroups( currentUser );
 
-        ArrayList<String> checkedValues = new ArrayList<String>( );
+        ArrayList<String> checkedValues = new ArrayList<String>(  );
 
         for ( ReferenceItem item : userWorkspaces )
         {
-            checkedValues.add( item.getCode( ) );
+            checkedValues.add( item.getCode(  ) );
         }
 
-        assignableWorkspaces.checkItems( checkedValues.toArray( new String[checkedValues.size( )] ) );
+        assignableWorkspaces.checkItems( checkedValues.toArray( new String[checkedValues.size(  )] ) );
 
         // ITEM NAVIGATION
         setItemNavigator( nUserId, AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_WORKGROUPS );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_ALL_WORKSGROUP_LIST, assignableWorkspaces );
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateWorkgroups ) );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_WORKGROUPS, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_WORKGROUPS, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
      * Build the right list
-     * 
+     *
      * @param request Http Request
      * @return the right list
      * @throws AccessDeniedException If the user is not authorized
      */
-    public String getModifyAdminUserRights( HttpServletRequest request ) throws AccessDeniedException
+    public String getModifyAdminUserRights( HttpServletRequest request )
+        throws AccessDeniedException
     {
         boolean bDelegateRights = Boolean.valueOf( request.getParameter( PARAMETER_DELEGATE_RIGHTS ) );
 
@@ -1438,15 +1445,15 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         boolean bSelectAll = ( ( strSelectAll != null ) && strSelectAll.equals( PARAMETER_SELECT_ALL ) ) ? true : false;
 
         setPageTitleProperty( bDelegateRights ? PROPERTY_DELEGATE_USER_RIGHTS_PAGETITLE
-                : PROPERTY_MODIFY_USER_RIGHTS_PAGETITLE );
+                                              : PROPERTY_MODIFY_USER_RIGHTS_PAGETITLE );
 
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
 
         AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
-        AdminUser currentUser = getUser( );
+        AdminUser currentUser = getUser(  );
 
-        if ( user == null || user.getUserId( ) == 0 )
+        if ( ( user == null ) || ( user.getUserId(  ) == 0 ) )
         {
             return getManageAdminUsers( request );
         }
@@ -1457,17 +1464,17 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         Collection<Right> rightList;
-        Collection<Right> allRightList = RightHome.getRightsList( user.getUserLevel( ) );
+        Collection<Right> allRightList = RightHome.getRightsList( user.getUserLevel(  ) );
 
         if ( bDelegateRights )
         {
-            Map<String, Right> rights = AdminUserHome.getRightsListForUser( currentUser.getUserId( ) );
-            rightList = new ArrayList<Right>( );
+            Map<String, Right> rights = AdminUserHome.getRightsListForUser( currentUser.getUserId(  ) );
+            rightList = new ArrayList<Right>(  );
 
-            for ( Right right : rights.values( ) )
+            for ( Right right : rights.values(  ) )
             {
                 // logged user can only delegate rights with level higher or equal to user level.
-                if ( right.getLevel( ) >= user.getUserLevel( ) )
+                if ( right.getLevel(  ) >= user.getUserLevel(  ) )
                 {
                     rightList.add( right );
                 }
@@ -1475,33 +1482,34 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
         else
         {
-            rightList = AdminUserHome.getRightsListForUser( nUserId ).values( );
+            rightList = AdminUserHome.getRightsListForUser( nUserId ).values(  );
         }
 
         // ITEM NAVIGATION
         setItemNavigator( nUserId, AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_RIGHTS );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
-        model.put( MARK_USER_RIGHT_LIST, I18nService.localizeCollection( rightList, getLocale( ) ) );
-        model.put( MARK_ALL_RIGHT_LIST, I18nService.localizeCollection( allRightList, getLocale( ) ) );
+        model.put( MARK_USER_RIGHT_LIST, I18nService.localizeCollection( rightList, getLocale(  ) ) );
+        model.put( MARK_ALL_RIGHT_LIST, I18nService.localizeCollection( allRightList, getLocale(  ) ) );
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateRights ) );
         model.put( MARK_SELECT_ALL, bSelectAll );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_RIGHTS, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_RIGHTS, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
      * Process the change form of an appUser rights
-     * 
+     *
      * @param request The Http request
      * @return The Jsp URL of the process result
      * @throws AccessDeniedException If the user is not authorized
      */
-    public String doModifyAdminUserRights( HttpServletRequest request ) throws AccessDeniedException
+    public String doModifyAdminUserRights( HttpServletRequest request )
+        throws AccessDeniedException
     {
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
@@ -1526,19 +1534,19 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        if ( ( user != null ) && ( userCurrent != null ) && ( user.getUserId( ) == userCurrent.getUserId( ) ) )
+        if ( ( user != null ) && ( userCurrent != null ) && ( user.getUserId(  ) == userCurrent.getUserId(  ) ) )
         {
             try
             {
-                AdminAuthenticationService.getInstance( ).registerUser( request, user );
+                AdminAuthenticationService.getInstance(  ).registerUser( request, user );
             }
             catch ( AccessDeniedException e )
             {
-                AppLogService.error( e.getMessage( ), e );
+                AppLogService.error( e.getMessage(  ), e );
             }
             catch ( UserNotSignedException e )
             {
-                AppLogService.error( e.getMessage( ), e );
+                AppLogService.error( e.getMessage(  ), e );
             }
         }
 
@@ -1547,12 +1555,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Build the User role list
-     * 
+     *
      * @param request Http Request
      * @return the right list
      * @throws AccessDeniedException If the user is not authorized
      */
-    public String getManageAdminUserRoles( HttpServletRequest request ) throws AccessDeniedException
+    public String getManageAdminUserRoles( HttpServletRequest request )
+        throws AccessDeniedException
     {
         setPageTitleProperty( PROPERTY_MANAGE_USER_ROLES_PAGETITLE );
 
@@ -1566,31 +1575,32 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
-        Collection<AdminRole> roleList = AdminUserHome.getRolesListForUser( nUserId ).values( );
+        Collection<AdminRole> roleList = AdminUserHome.getRolesListForUser( nUserId ).values(  );
 
         // ITEM NAVIGATION
         setItemNavigator( nUserId, AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_ROLES );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_CAN_MODIFY, getUser( ).isParent( selectedUser ) || getUser( ).isAdmin( ) );
-        model.put( MARK_CAN_DELEGATE, getUser( ).getUserId( ) != nUserId );
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        model.put( MARK_CAN_MODIFY, getUser(  ).isParent( selectedUser ) || getUser(  ).isAdmin(  ) );
+        model.put( MARK_CAN_DELEGATE, getUser(  ).getUserId(  ) != nUserId );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_ROLE_LIST, roleList );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USER_ROLES, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USER_ROLES, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
      * Build the role list
-     * 
+     *
      * @param request Http Request
      * @return the right list
      * @throws AccessDeniedException IF the user is not authorized
      */
-    public String getModifyAdminUserRoles( HttpServletRequest request ) throws AccessDeniedException
+    public String getModifyAdminUserRoles( HttpServletRequest request )
+        throws AccessDeniedException
     {
         boolean bDelegateRoles = Boolean.valueOf( request.getParameter( PARAMETER_DELEGATE_RIGHTS ) );
         setPageTitleProperty( PROPERTY_MODIFY_USER_ROLES_PAGETITLE );
@@ -1601,7 +1611,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AdminUser selectedUser = AdminUserHome.findByPrimaryKey( nUserId );
         AdminUser userCurrent = AdminUserService.getAdminUser( request );
 
-        if ( selectedUser == null || selectedUser.getUserId( ) == 0 )
+        if ( ( selectedUser == null ) || ( selectedUser.getUserId(  ) == 0 ) )
         {
             return getManageAdminUsers( request );
         }
@@ -1611,19 +1621,19 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
-        Collection<AdminRole> roleList = AdminUserHome.getRolesListForUser( nUserId ).values( );
+        Collection<AdminRole> roleList = AdminUserHome.getRolesListForUser( nUserId ).values(  );
         Collection<AdminRole> assignableRoleList;
 
         if ( bDelegateRoles )
         {
             // assign connected user roles
-            assignableRoleList = new ArrayList<AdminRole>( );
+            assignableRoleList = new ArrayList<AdminRole>(  );
 
-            AdminUser currentUser = getUser( );
+            AdminUser currentUser = getUser(  );
 
-            for ( AdminRole role : AdminRoleHome.findAll( ) )
+            for ( AdminRole role : AdminRoleHome.findAll(  ) )
             {
-                if ( currentUser.isAdmin( ) || RBACService.isUserInRole( currentUser, role.getKey( ) ) )
+                if ( currentUser.isAdmin(  ) || RBACService.isUserInRole( currentUser, role.getKey(  ) ) )
                 {
                     assignableRoleList.add( role );
                 }
@@ -1632,31 +1642,32 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         else
         {
             // assign all available roles
-            assignableRoleList = AdminRoleHome.findAll( );
+            assignableRoleList = AdminRoleHome.findAll(  );
         }
 
         // ITEM NAVIGATION
         setItemNavigator( nUserId, AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_ROLES );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, AdminUserHome.findByPrimaryKey( nUserId ) );
         model.put( MARK_USER_ROLE_LIST, roleList );
         model.put( MARK_ALL_ROLE_LIST, assignableRoleList );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_ROLES, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_ROLES, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
      * Process the change form of an appUser roles
-     * 
+     *
      * @param request The Http request
      * @return The Jsp URL of the process result
      * @throws AccessDeniedException IF the user is not authorized
      */
-    public String doModifyAdminUserRoles( HttpServletRequest request ) throws AccessDeniedException
+    public String doModifyAdminUserRoles( HttpServletRequest request )
+        throws AccessDeniedException
     {
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
@@ -1685,17 +1696,18 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Process the change form of an appUser workspaces
-     * 
+     *
      * @param request The Http request
      * @return The Jsp URL of the process result
      * @throws AccessDeniedException If the user is not authorized
      */
-    public String doModifyAdminUserWorkgroups( HttpServletRequest request ) throws AccessDeniedException
+    public String doModifyAdminUserWorkgroups( HttpServletRequest request )
+        throws AccessDeniedException
     {
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
         AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
-        AdminUser currentUser = getUser( );
+        AdminUser currentUser = getUser(  );
 
         if ( !isUserAuthorizedToModifyUser( currentUser, user ) )
         {
@@ -1707,7 +1719,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         for ( ReferenceItem item : assignableWorkgroups )
         {
-            AdminWorkgroupHome.removeUserFromWorkgroup( user, item.getCode( ) );
+            AdminWorkgroupHome.removeUserFromWorkgroup( user, item.getCode(  ) );
         }
 
         if ( arrayWorkspaces != null )
@@ -1731,14 +1743,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     {
         ReferenceList workgroups = AdminWorkgroupHome.getUserWorkgroups( user1 );
 
-        if ( workgroups.size( ) == 0 )
+        if ( workgroups.size(  ) == 0 )
         {
             return true;
         }
 
         for ( ReferenceItem item : workgroups )
         {
-            if ( AdminWorkgroupHome.isUserInWorkgroup( user2, item.getCode( ) ) )
+            if ( AdminWorkgroupHome.isUserInWorkgroup( user2, item.getCode(  ) ) )
             {
                 return true;
             }
@@ -1755,24 +1767,24 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public String getManageAdvancedParameters( HttpServletRequest request )
     {
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
             return getManageAdminUsers( request );
         }
 
         setPageTitleProperty( PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE );
 
-        Map<String, Object> model = AdminUserService.getManageAdvancedParameters( getUser( ) );
+        Map<String, Object> model = AdminUserService.getManageAdvancedParameters( getUser(  ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ADVANCED_PARAMETERS, getUser( )
-                .getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ADVANCED_PARAMETERS,
+                getUser(  ).getLocale(  ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
      * Returns the page of confirmation for modifying the password encryption
-     * 
+     *
      * @param request The Http Request
      * @return the confirmation url
      */
@@ -1786,20 +1798,19 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             strEncryptionAlgorithm = CONSTANT_EMPTY_STRING;
         }
 
-        String strCurrentPasswordEnableEncryption = DefaultUserParameterHome
-                .findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
+        String strCurrentPasswordEnableEncryption = DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
         String strCurrentEncryptionAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM );
 
         String strUrl = "";
 
-        if ( strEnablePasswordEncryption.equals( strCurrentPasswordEnableEncryption )
-                && strEncryptionAlgorithm.equals( strCurrentEncryptionAlgorithm ) )
+        if ( strEnablePasswordEncryption.equals( strCurrentPasswordEnableEncryption ) &&
+                strEncryptionAlgorithm.equals( strCurrentEncryptionAlgorithm ) )
         {
             strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_CHANGE_PASSWORD_ENCRYPTION,
                     JSP_URL_MANAGE_ADVANCED_PARAMETERS, AdminMessage.TYPE_INFO );
         }
-        else if ( strEnablePasswordEncryption.equals( String.valueOf( Boolean.TRUE ) )
-                && strEncryptionAlgorithm.equals( CONSTANT_EMPTY_STRING ) )
+        else if ( strEnablePasswordEncryption.equals( String.valueOf( Boolean.TRUE ) ) &&
+                strEncryptionAlgorithm.equals( CONSTANT_EMPTY_STRING ) )
         {
             strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_INVALID_ENCRYPTION_ALGORITHM,
                     JSP_URL_MANAGE_ADVANCED_PARAMETERS, AdminMessage.TYPE_STOP );
@@ -1811,8 +1822,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 strEncryptionAlgorithm = "";
             }
 
-            String strUrlModify = JSP_URL_MODIFY_PASSWORD_ENCRYPTION + "?" + PARAMETER_ENABLE_PASSWORD_ENCRYPTION + "="
-                    + strEnablePasswordEncryption + "&" + PARAMETER_ENCRYPTION_ALGORITHM + "=" + strEncryptionAlgorithm;
+            String strUrlModify = JSP_URL_MODIFY_PASSWORD_ENCRYPTION + "?" + PARAMETER_ENABLE_PASSWORD_ENCRYPTION +
+                "=" + strEnablePasswordEncryption + "&" + PARAMETER_ENCRYPTION_ALGORITHM + "=" +
+                strEncryptionAlgorithm;
 
             strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_MODIFY_PASSWORD_ENCRYPTION,
                     strUrlModify, AdminMessage.TYPE_CONFIRMATION );
@@ -1827,24 +1839,24 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @return The Jsp URL of the process result
      * @throws AccessDeniedException If the user does not have the permission
      */
-    public String doModifyPasswordEncryption( HttpServletRequest request ) throws AccessDeniedException
+    public String doModifyPasswordEncryption( HttpServletRequest request )
+        throws AccessDeniedException
     {
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ENCRYPTED_PASSWORD, getUser( ) ) )
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ENCRYPTED_PASSWORD, getUser(  ) ) )
         {
-            throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
-                    + AdminUserResourceIdService.PERMISSION_MANAGE_ENCRYPTED_PASSWORD );
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
+                AdminUserResourceIdService.PERMISSION_MANAGE_ENCRYPTED_PASSWORD );
         }
 
         String strEnablePasswordEncryption = request.getParameter( PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
         String strEncryptionAlgorithm = request.getParameter( PARAMETER_ENCRYPTION_ALGORITHM );
 
-        String strCurrentPasswordEnableEncryption = DefaultUserParameterHome
-                .findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
+        String strCurrentPasswordEnableEncryption = DefaultUserParameterHome.findByKey( PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
         String strCurrentEncryptionAlgorithm = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM );
 
-        if ( strEnablePasswordEncryption.equals( strCurrentPasswordEnableEncryption )
-                && strEncryptionAlgorithm.equals( strCurrentEncryptionAlgorithm ) )
+        if ( strEnablePasswordEncryption.equals( strCurrentPasswordEnableEncryption ) &&
+                strEncryptionAlgorithm.equals( strCurrentEncryptionAlgorithm ) )
         {
             return JSP_MANAGE_ADVANCED_PARAMETERS;
         }
@@ -1863,19 +1875,20 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @return The Jsp URL of the process result
      * @throws AccessDeniedException If the user does not have the permission
      */
-    public String doModifyDefaultUserParameterValues( HttpServletRequest request ) throws AccessDeniedException
+    public String doModifyDefaultUserParameterValues( HttpServletRequest request )
+        throws AccessDeniedException
     {
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
-            throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
-                    + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
+                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
 
         DefaultUserParameterHome.update( PARAMETER_DEFAULT_USER_STATUS, request.getParameter( PARAMETER_STATUS ) );
         DefaultUserParameterHome.update( PARAMETER_DEFAULT_USER_LEVEL, request.getParameter( PARAMETER_USER_LEVEL ) );
         DefaultUserParameterHome.update( PARAMETER_DEFAULT_USER_NOTIFICATION,
-                request.getParameter( PARAMETER_NOTIFY_USER ) );
+            request.getParameter( PARAMETER_NOTIFY_USER ) );
         DefaultUserParameterHome.update( PARAMETER_DEFAULT_USER_LANGUAGE, request.getParameter( PARAMETER_LANGUAGE ) );
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;
@@ -1887,85 +1900,85 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @return The Jsp URL of the process result
      * @throws AccessDeniedException If the user does not have the permission
      */
-    public String doModifyDefaultUserSecurityValues( HttpServletRequest request ) throws AccessDeniedException
+    public String doModifyDefaultUserSecurityValues( HttpServletRequest request )
+        throws AccessDeniedException
     {
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
-            throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
-                    + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
+                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
 
         String strForceChangePasswordValue = request.getParameter( PARAMETER_FORCE_CHANGE_PASSWORD_REINIT );
-        strForceChangePasswordValue = StringUtils.isNotBlank( strForceChangePasswordValue ) ? strForceChangePasswordValue
-                : StringUtils.EMPTY;
+        strForceChangePasswordValue = StringUtils.isNotBlank( strForceChangePasswordValue )
+            ? strForceChangePasswordValue : StringUtils.EMPTY;
 
         DefaultUserParameterHome.update( PARAMETER_FORCE_CHANGE_PASSWORD_REINIT, strForceChangePasswordValue );
 
         // Parameter password length
         AdminUserService.updateSecurityParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH,
-                request.getParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH ) );
+            request.getParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH ) );
 
-        boolean bUseAdvancedSecurityParameter = AdminUserService
-                .getBooleanSecurityParameter( PARAMETER_USE_ADVANCED_SECURITY_PARAMETERS );
+        boolean bUseAdvancedSecurityParameter = AdminUserService.getBooleanSecurityParameter( PARAMETER_USE_ADVANCED_SECURITY_PARAMETERS );
 
         if ( bUseAdvancedSecurityParameter )
         {
             // Parameter format
             AdminUserService.updateSecurityParameter( PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE,
-                    request.getParameter( PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE ) );
+                request.getParameter( PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE ) );
             AdminUserService.updateSecurityParameter( PARAMETER_PASSWORD_FORMAT_NUMERO,
-                    request.getParameter( PARAMETER_PASSWORD_FORMAT_NUMERO ) );
+                request.getParameter( PARAMETER_PASSWORD_FORMAT_NUMERO ) );
             AdminUserService.updateSecurityParameter( PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS,
-                    request.getParameter( PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) );
+                request.getParameter( PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) );
             // Parameter password duration
             AdminUserService.updateSecurityParameter( PARAMETER_PASSWORD_DURATION,
-                    request.getParameter( PARAMETER_PASSWORD_DURATION ) );
+                request.getParameter( PARAMETER_PASSWORD_DURATION ) );
 
             // Password history size
             AdminUserService.updateSecurityParameter( PARAMETER_PASSWORD_HISTORY_SIZE,
-                    request.getParameter( PARAMETER_PASSWORD_HISTORY_SIZE ) );
+                request.getParameter( PARAMETER_PASSWORD_HISTORY_SIZE ) );
 
             // maximum number of password change
             AdminUserService.updateSecurityParameter( PARAMETER_MAXIMUM_NUMBER_PASSWORD_CHANGE,
-                    request.getParameter( PARAMETER_MAXIMUM_NUMBER_PASSWORD_CHANGE ) );
+                request.getParameter( PARAMETER_MAXIMUM_NUMBER_PASSWORD_CHANGE ) );
 
             // maximum number of password change
             AdminUserService.updateSecurityParameter( PARAMETER_TSW_SIZE_PASSWORD_CHANGE,
-                    request.getParameter( PARAMETER_TSW_SIZE_PASSWORD_CHANGE ) );
+                request.getParameter( PARAMETER_TSW_SIZE_PASSWORD_CHANGE ) );
 
             // Notify user when his password expires
             AdminUserService.updateSecurityParameter( PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED,
-                    request.getParameter( PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED ) );
+                request.getParameter( PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED ) );
         }
 
         // Time of life of accounts
         AdminUserService.updateSecurityParameter( PARAMETER_ACCOUNT_LIFE_TIME,
-                request.getParameter( PARAMETER_ACCOUNT_LIFE_TIME ) );
+            request.getParameter( PARAMETER_ACCOUNT_LIFE_TIME ) );
 
         // Time before the first alert when an account will expire
         AdminUserService.updateSecurityParameter( PARAMETER_TIME_BEFORE_ALERT_ACCOUNT,
-                request.getParameter( PARAMETER_TIME_BEFORE_ALERT_ACCOUNT ) );
+            request.getParameter( PARAMETER_TIME_BEFORE_ALERT_ACCOUNT ) );
 
         // Number of alerts sent to a user when his account will expire
         AdminUserService.updateSecurityParameter( PARAMETER_NB_ALERT_ACCOUNT,
-                request.getParameter( PARAMETER_NB_ALERT_ACCOUNT ) );
+            request.getParameter( PARAMETER_NB_ALERT_ACCOUNT ) );
 
         // Time between alerts
         AdminUserService.updateSecurityParameter( PARAMETER_TIME_BETWEEN_ALERTS_ACCOUNT,
-                request.getParameter( PARAMETER_TIME_BETWEEN_ALERTS_ACCOUNT ) );
+            request.getParameter( PARAMETER_TIME_BETWEEN_ALERTS_ACCOUNT ) );
 
         // Max access failure
         AdminUserService.updateSecurityParameter( MARK_ACCESS_FAILURES_MAX,
-                request.getParameter( MARK_ACCESS_FAILURES_MAX ) );
+            request.getParameter( MARK_ACCESS_FAILURES_MAX ) );
 
         // Access failure interval
         AdminUserService.updateSecurityParameter( MARK_ACCESS_FAILURES_INTERVAL,
-                request.getParameter( MARK_ACCESS_FAILURES_INTERVAL ) );
+            request.getParameter( MARK_ACCESS_FAILURES_INTERVAL ) );
 
         // Banned domain names
         AdminUserService.updateLargeSecurityParameter( MARK_BANNED_DOMAIN_NAMES,
-                request.getParameter( MARK_BANNED_DOMAIN_NAMES ) );
+            request.getParameter( MARK_BANNED_DOMAIN_NAMES ) );
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;
     }
@@ -1976,13 +1989,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @return The Jsp URL of the process result
      * @throws AccessDeniedException If the user does not have the permission
      */
-    public String doModifyEmailPattern( HttpServletRequest request ) throws AccessDeniedException
+    public String doModifyEmailPattern( HttpServletRequest request )
+        throws AccessDeniedException
     {
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
-            throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
-                    + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
+                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
 
         String strJsp = StringUtils.EMPTY;
@@ -2010,16 +2024,17 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException access denied if the AdminUser does not
      *             have the permission
      */
-    public String doResetEmailPattern( HttpServletRequest request ) throws AccessDeniedException
+    public String doResetEmailPattern( HttpServletRequest request )
+        throws AccessDeniedException
     {
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
-            throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
-                    + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
+                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
 
-        AdminUserService.doResetEmailPattern( );
+        AdminUserService.doResetEmailPattern(  );
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;
     }
@@ -2031,13 +2046,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException access denied if the AdminUser does not
      *             have the permission
      */
-    public String doInsertRegularExpression( HttpServletRequest request ) throws AccessDeniedException
+    public String doInsertRegularExpression( HttpServletRequest request )
+        throws AccessDeniedException
     {
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
-            throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
-                    + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
+                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
 
         String strRegularExpressionId = request.getParameter( PARAMETER_ID_EXPRESSION );
@@ -2058,13 +2074,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException access denied if the AdminUser does not
      *             have the permission
      */
-    public String doRemoveRegularExpression( HttpServletRequest request ) throws AccessDeniedException
+    public String doRemoveRegularExpression( HttpServletRequest request )
+        throws AccessDeniedException
     {
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) ) )
+                    AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
         {
-            throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
-                    + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
+            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
+                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
 
         String strRegularExpressionId = request.getParameter( PARAMETER_ID_EXPRESSION );
@@ -2089,11 +2106,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( AdminUserService.getBooleanSecurityParameter( PARAMETER_USE_ADVANCED_SECURITY_PARAMETERS ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ASP,
-                    JSP_URL_REMOVE_ADVANCED_SECUR_PARAM, AdminMessage.TYPE_CONFIRMATION );
+                JSP_URL_REMOVE_ADVANCED_SECUR_PARAM, AdminMessage.TYPE_CONFIRMATION );
         }
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_USE_ASP,
-                JSP_URL_USE_ADVANCED_SECUR_PARAM, AdminMessage.TYPE_CONFIRMATION );
+            JSP_URL_USE_ADVANCED_SECUR_PARAM, AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
@@ -2104,16 +2121,15 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doUseAdvancedSecurityParameters( HttpServletRequest request )
     {
-        boolean isPwdEncryptionEnabled = AdminUserService
-                .getBooleanSecurityParameter( PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
+        boolean isPwdEncryptionEnabled = AdminUserService.getBooleanSecurityParameter( PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
         String defaultUserParameter = DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM );
         String strEncryptionAlgorithm = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
 
-        AdminUserService.useAdvancedSecurityParameters( );
+        AdminUserService.useAdvancedSecurityParameters(  );
 
-        if ( !isPwdEncryptionEnabled
-                || !StringUtils.equals( strEncryptionAlgorithm,
-                        DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ) ) )
+        if ( !isPwdEncryptionEnabled ||
+                !StringUtils.equals( strEncryptionAlgorithm,
+                    DefaultUserParameterHome.findByKey( PARAMETER_ENCRYPTION_ALGORITHM ) ) )
         {
             reinitUserPasswordsAndNotify( request );
         }
@@ -2128,7 +2144,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doRemoveAdvancedSecurityParameters( HttpServletRequest request )
     {
-        AdminUserService.removeAdvancedSecurityParameters( );
+        AdminUserService.removeAdvancedSecurityParameters(  );
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;
     }
@@ -2140,15 +2156,15 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String getChangeFieldAnonymizeAdminUsers( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
-        List<IAttribute> listAllAttributes = AttributeService.getInstance( )
-                .getAllAttributesWithoutFields( getLocale( ) );
-        List<IAttribute> listAttributesText = new ArrayList<IAttribute>( );
+        List<IAttribute> listAllAttributes = AttributeService.getInstance(  )
+                                                             .getAllAttributesWithoutFields( getLocale(  ) );
+        List<IAttribute> listAttributesText = new ArrayList<IAttribute>(  );
 
         for ( IAttribute attribut : listAllAttributes )
         {
-            if ( attribut.isAnonymizable( ) )
+            if ( attribut.isAnonymizable(  ) )
             {
                 listAttributesText.add( attribut );
             }
@@ -2156,14 +2172,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_ATTRIBUTES_LIST, listAttributesText );
 
-        model.putAll( AdminUserHome.getAnonymizationStatusUserStaticField( ) );
+        model.putAll( AdminUserHome.getAnonymizationStatusUserStaticField(  ) );
 
         setPageTitleProperty( PROPERTY_MESSAGE_TITLE_CHANGE_ANONYMIZE_USER );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FIELD_ANONYMIZE_ADMIN_USER, getLocale( ),
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FIELD_ANONYMIZE_ADMIN_USER, getLocale(  ),
                 model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
@@ -2179,22 +2195,22 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         AdminUserHome.updateAnonymizationStatusUserStaticField( PARAMETER_ACCESS_CODE,
-                Boolean.valueOf( request.getParameter( PARAMETER_ACCESS_CODE ) ) );
+            Boolean.valueOf( request.getParameter( PARAMETER_ACCESS_CODE ) ) );
         AdminUserHome.updateAnonymizationStatusUserStaticField( PARAMETER_FIRST_NAME,
-                Boolean.valueOf( request.getParameter( PARAMETER_FIRST_NAME ) ) );
+            Boolean.valueOf( request.getParameter( PARAMETER_FIRST_NAME ) ) );
         AdminUserHome.updateAnonymizationStatusUserStaticField( PARAMETER_LAST_NAME,
-                Boolean.valueOf( request.getParameter( PARAMETER_LAST_NAME ) ) );
+            Boolean.valueOf( request.getParameter( PARAMETER_LAST_NAME ) ) );
         AdminUserHome.updateAnonymizationStatusUserStaticField( PARAMETER_EMAIL,
-                Boolean.valueOf( request.getParameter( PARAMETER_EMAIL ) ) );
+            Boolean.valueOf( request.getParameter( PARAMETER_EMAIL ) ) );
 
-        AttributeService attributeService = AttributeService.getInstance( );
+        AttributeService attributeService = AttributeService.getInstance(  );
 
-        List<IAttribute> listAllAttributes = attributeService.getAllAttributesWithoutFields( getLocale( ) );
-        List<IAttribute> listAttributesText = new ArrayList<IAttribute>( );
+        List<IAttribute> listAllAttributes = attributeService.getAllAttributesWithoutFields( getLocale(  ) );
+        List<IAttribute> listAttributesText = new ArrayList<IAttribute>(  );
 
         for ( IAttribute attribut : listAllAttributes )
         {
-            if ( attribut.isAnonymizable( ) )
+            if ( attribut.isAnonymizable(  ) )
             {
                 listAttributesText.add( attribut );
             }
@@ -2202,9 +2218,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         for ( IAttribute attribute : listAttributesText )
         {
-            Boolean bNewValue = Boolean.valueOf( request.getParameter( PARAMETER_ATTRIBUTE
-                    + Integer.toString( attribute.getIdAttribute( ) ) ) );
-            attributeService.updateAnonymizationStatusUserField( attribute.getIdAttribute( ), bNewValue );
+            Boolean bNewValue = Boolean.valueOf( request.getParameter( PARAMETER_ATTRIBUTE +
+                        Integer.toString( attribute.getIdAttribute(  ) ) ) );
+            attributeService.updateAnonymizationStatusUserField( attribute.getIdAttribute(  ), bNewValue );
         }
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;
@@ -2221,16 +2237,16 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         String strAdminUserId = request.getParameter( PARAMETER_USER_ID );
 
-        if ( ( strAdminUserId == null ) || strAdminUserId.isEmpty( ) )
+        if ( ( strAdminUserId == null ) || strAdminUserId.isEmpty(  ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ADMIN_USER_SELECTED,
-                    AdminMessage.TYPE_STOP );
+                AdminMessage.TYPE_STOP );
         }
 
         url.addParameter( PARAMETER_USER_ID, strAdminUserId );
 
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_ANONYMIZE_USER, url.getUrl( ),
-                AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_ANONYMIZE_USER, url.getUrl(  ),
+            AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
@@ -2242,13 +2258,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     {
         String strAdminUserId = request.getParameter( PARAMETER_USER_ID );
 
-        if ( ( strAdminUserId == null ) || strAdminUserId.isEmpty( ) )
+        if ( ( strAdminUserId == null ) || strAdminUserId.isEmpty(  ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ADMIN_USER_SELECTED,
-                    AdminMessage.TYPE_STOP );
+                AdminMessage.TYPE_STOP );
         }
 
-        AdminUserService.anonymizeUser( Integer.parseInt( strAdminUserId ), getLocale( ) );
+        AdminUserService.anonymizeUser( Integer.parseInt( strAdminUserId ), getLocale(  ) );
 
         return JSP_MANAGE_USER;
     }
@@ -2260,28 +2276,28 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String reactivateAccount( HttpServletRequest request )
     {
-        AdminUser user = AdminUserHome.findByPrimaryKey( AdminUserService.getAdminUser( request ).getUserId( ) );
+        AdminUser user = AdminUserHome.findByPrimaryKey( AdminUserService.getAdminUser( request ).getUserId(  ) );
         String strUrl = StringUtils.EMPTY;
         int nbDaysBeforeFirstAlert = AdminUserService.getIntegerSecurityParameter( PARAMETER_TIME_BEFORE_ALERT_ACCOUNT );
-        Timestamp firstAlertMaxDate = new Timestamp( new java.util.Date( ).getTime( )
-                + DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
+        Timestamp firstAlertMaxDate = new Timestamp( new java.util.Date(  ).getTime(  ) +
+                DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
 
-        if ( user.getAccountMaxValidDate( ) != null )
+        if ( user.getAccountMaxValidDate(  ) != null )
         {
             // If the account is close to expire but has not expired yet
-            if ( ( user.getAccountMaxValidDate( ).getTime( ) < firstAlertMaxDate.getTime( ) )
-                    && ( user.getStatus( ) < AdminUser.EXPIRED_CODE ) )
+            if ( ( user.getAccountMaxValidDate(  ).getTime(  ) < firstAlertMaxDate.getTime(  ) ) &&
+                    ( user.getStatus(  ) < AdminUser.EXPIRED_CODE ) )
             {
                 AdminUserService.updateUserExpirationDate( user );
             }
 
             strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCOUNT_REACTIVATED,
-                    AppPathService.getAdminMenuUrl( ), AdminMessage.TYPE_INFO );
+                    AppPathService.getAdminMenuUrl(  ), AdminMessage.TYPE_INFO );
         }
         else
         {
             strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ACCOUNT_TO_REACTIVATED,
-                    AppPathService.getAdminMenuUrl( ), AdminMessage.TYPE_ERROR );
+                    AppPathService.getAdminMenuUrl(  ), AdminMessage.TYPE_ERROR );
         }
 
         return strUrl;
@@ -2296,7 +2312,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     {
         String strEmailType = request.getParameter( PARAMETER_EMAIL_TYPE );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         String strSenderKey = StringUtils.EMPTY;
         String strSubjectKey = StringUtils.EMPTY;
         String strBodyKey = StringUtils.EMPTY;
@@ -2342,6 +2358,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strSender = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
 
         defaultUserParameter = DefaultUserParameterHome.findByKey( strSubjectKey );
+
         String strSubject = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
 
         model.put( PARAMETER_EMAIL_TYPE, strEmailType );
@@ -2350,11 +2367,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_EMAIL_BODY, DatabaseTemplateService.getTemplateFromKey( strBodyKey ) );
         model.put( MARK_EMAIL_LABEL, strTitle );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
-        model.put( MARK_LOCALE, getLocale( ) );
+        model.put( MARK_LOCALE, getLocale(  ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ACCOUNT_LIFE_TIME_EMAIL, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ACCOUNT_LIFE_TIME_EMAIL, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
@@ -2417,19 +2434,19 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     {
         if ( _itemNavigator == null )
         {
-            List<String> listIdsRight = new ArrayList<String>( );
+            List<String> listIdsRight = new ArrayList<String>(  );
             int nCurrentItemId = 0;
             int nIndex = 0;
 
-            AdminUser currentUser = getUser( );
+            AdminUser currentUser = getUser(  );
 
-            for ( AdminUser adminUser : AdminUserHome.findUserList( ) )
+            for ( AdminUser adminUser : AdminUserHome.findUserList(  ) )
             {
                 if ( ( adminUser != null ) && isUserAuthorizedToModifyUser( currentUser, adminUser ) )
                 {
-                    listIdsRight.add( Integer.toString( adminUser.getUserId( ) ) );
+                    listIdsRight.add( Integer.toString( adminUser.getUserId(  ) ) );
 
-                    if ( adminUser.getUserId( ) == nIdAdminUser )
+                    if ( adminUser.getUserId(  ) == nIdAdminUser )
                     {
                         nCurrentItemId = nIndex;
                     }
@@ -2450,7 +2467,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     /**
      * Reinit the item navigator
      */
-    private void reinitItemNavigator( )
+    private void reinitItemNavigator(  )
     {
         _itemNavigator = null;
     }
@@ -2462,14 +2479,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private void reinitUserPasswordsAndNotify( HttpServletRequest request )
     {
         // Alert all users their password have been reinitialized.
-        Collection<AdminUser> listUser = AdminUserHome.findUserList( );
+        Collection<AdminUser> listUser = AdminUserHome.findUserList(  );
 
         for ( AdminUser user : listUser )
         {
-            Locale locale = getLocale( );
+            Locale locale = getLocale(  );
 
             // make password
-            String strPassword = AdminUserService.makePassword( );
+            String strPassword = AdminUserService.makePassword(  );
 
             // update password
             if ( ( strPassword != null ) && !strPassword.equals( CONSTANT_EMPTY_STRING ) )
@@ -2477,30 +2494,30 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 // Encrypted password
                 String strEncryptedPassword = AdminUserService.encryptPassword( strPassword );
 
-                LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user
-                        .getUserId( ) );
+                LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
                 userStored.setPassword( strEncryptedPassword );
-                userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
+                userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate(  ) );
                 userStored.setPasswordReset( Boolean.TRUE );
                 AdminUserHome.update( userStored );
             }
 
-            if ( !( ( user.getEmail( ) == null ) || user.getEmail( ).equals( CONSTANT_EMPTY_STRING ) ) )
+            if ( !( ( user.getEmail(  ) == null ) || user.getEmail(  ).equals( CONSTANT_EMPTY_STRING ) ) )
             {
                 // send password by e-mail
-                String strSenderEmail = MailService.getNoReplyEmail( );
+                String strSenderEmail = MailService.getNoReplyEmail(  );
                 String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_SUBJECT, locale );
-                HashMap<String, Object> model = new HashMap<String, Object>( );
+                HashMap<String, Object> model = new HashMap<String, Object>(  );
                 model.put( MARK_NEW_PASSWORD, strPassword );
-                model.put( MARK_LOGIN_URL, AppPathService.getBaseUrl( request )
-                        + AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) );
+                model.put( MARK_LOGIN_URL,
+                    AppPathService.getBaseUrl( request ) +
+                    AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ) );
                 model.put( MARK_SITE_LINK, MailService.getSiteLink( AppPathService.getBaseUrl( request ), false ) );
 
                 HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD, locale,
                         model );
 
-                MailService.sendMailHtml( user.getEmail( ), strSenderEmail, strSenderEmail, strEmailSubject,
-                        template.getHtml( ) );
+                MailService.sendMailHtml( user.getEmail(  ), strSenderEmail, strSenderEmail, strEmailSubject,
+                    template.getHtml(  ) );
             }
         }
     }
@@ -2514,8 +2531,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     private boolean isUserAuthorizedToModifyUser( AdminUser currentUser, AdminUser userToModify )
     {
-        return currentUser.isAdmin( )
-                || ( currentUser.isParent( userToModify ) && ( ( haveCommonWorkgroups( currentUser, userToModify ) ) || ( !AdminWorkgroupHome
-                        .checkUserHasWorkgroup( userToModify.getUserId( ) ) ) ) );
+        return currentUser.isAdmin(  ) ||
+        ( currentUser.isParent( userToModify ) &&
+        ( ( haveCommonWorkgroups( currentUser, userToModify ) ) ||
+        ( !AdminWorkgroupHome.checkUserHasWorkgroup( userToModify.getUserId(  ) ) ) ) );
     }
 }

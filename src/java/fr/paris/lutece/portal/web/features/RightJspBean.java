@@ -33,17 +33,6 @@
  */
 package fr.paris.lutece.portal.web.features;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -65,6 +54,17 @@ import fr.paris.lutece.util.html.ItemNavigator;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -114,7 +114,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Returns the list of rights
-     * 
+     *
      * @param request The Http request
      * @return the html code for display the rights list
      */
@@ -123,25 +123,25 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_MANAGE_RIGHTS_PAGETITLE );
 
         // Reinit session
-        reinitItemNavigator( );
+        reinitItemNavigator(  );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_RIGHTS_LIST, I18nService.localizeCollection( RightHome.getRightsList( ), getLocale( ) ) );
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        model.put( MARK_RIGHTS_LIST, I18nService.localizeCollection( RightHome.getRightsList(  ), getLocale(  ) ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_RIGHTS, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_RIGHTS, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
      * Returns the users assignation form
-     * 
+     *
      * @param request The Http request
      * @return the html code for display the modes list
      */
     public String getAssignUsers( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
         setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGETITLE );
 
         String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_RIGHT;
@@ -156,15 +156,15 @@ public class RightJspBean extends AdminFeaturesPageJspBean
             return getManageRights( request );
         }
 
-        right.setLocale( getLocale( ) );
+        right.setLocale( getLocale(  ) );
 
         // ASSIGNED USERS
-        List<AdminUser> listAssignedUsers = new ArrayList<AdminUser>( );
+        List<AdminUser> listAssignedUsers = new ArrayList<AdminUser>(  );
 
         for ( AdminUser user : AdminUserHome.findByRight( strIdRight ) )
         {
             //Add users with higher level then connected user or add all users if connected user is administrator
-            if ( ( user.getUserLevel( ) > getUser( ).getUserLevel( ) ) || ( getUser( ).isAdmin( ) ) )
+            if ( ( user.getUserLevel(  ) > getUser(  ).getUserLevel(  ) ) || ( getUser(  ).isAdmin(  ) ) )
             {
                 listAssignedUsers.add( user );
             }
@@ -174,20 +174,20 @@ public class RightJspBean extends AdminFeaturesPageJspBean
                 model, url );
 
         // AVAILABLE USERS
-        ReferenceList listAvailableUsers = new ReferenceList( );
+        ReferenceList listAvailableUsers = new ReferenceList(  );
         ReferenceItem itemUser = null;
         boolean bAssigned;
 
-        for ( AdminUser user : AdminUserHome.findUserList( ) )
+        for ( AdminUser user : AdminUserHome.findUserList(  ) )
         {
-            itemUser = new ReferenceItem( );
-            itemUser.setCode( Integer.toString( user.getUserId( ) ) );
-            itemUser.setName( user.getAccessCode( ) + "(" + user.getFirstName( ) + " " + user.getLastName( ) + ")" );
+            itemUser = new ReferenceItem(  );
+            itemUser.setCode( Integer.toString( user.getUserId(  ) ) );
+            itemUser.setName( user.getAccessCode(  ) + "(" + user.getFirstName(  ) + " " + user.getLastName(  ) + ")" );
             bAssigned = Boolean.FALSE;
 
             for ( AdminUser assignedUser : listAssignedUsers )
             {
-                if ( Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) )
+                if ( Integer.toString( assignedUser.getUserId(  ) ).equals( itemUser.getCode(  ) ) )
                 {
                     bAssigned = Boolean.TRUE;
 
@@ -196,8 +196,9 @@ public class RightJspBean extends AdminFeaturesPageJspBean
             }
 
             //Add users with higher level then connected user or add all users if connected user is administrator
-            if ( !bAssigned && ( ( user.getUserLevel( ) > getUser( ).getUserLevel( ) ) || ( getUser( ).isAdmin( ) ) )
-                    && ( user.getUserLevel( ) <= right.getLevel( ) ) )
+            if ( !bAssigned &&
+                    ( ( user.getUserLevel(  ) > getUser(  ).getUserLevel(  ) ) || ( getUser(  ).isAdmin(  ) ) ) &&
+                    ( user.getUserLevel(  ) <= right.getLevel(  ) ) )
             {
                 listAvailableUsers.add( itemUser );
             }
@@ -232,20 +233,20 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         }
 
         // ITEM NAVITATOR
-        setItemNavigator( strIdRight, url.getUrl( ) );
+        setItemNavigator( strIdRight, url.getUrl(  ) );
 
         // PAGINATOR
-        url.addParameter( PARAMETER_ID_RIGHT, right.getId( ) );
+        url.addParameter( PARAMETER_ID_RIGHT, right.getId(  ) );
 
         LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listFilteredUsers, _nItemsPerPage,
-                url.getUrl( ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
+                url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
 
         // USER LEVEL
-        Collection<Level> filteredLevels = new ArrayList<Level>( );
+        Collection<Level> filteredLevels = new ArrayList<Level>(  );
 
-        for ( Level level : LevelHome.getLevelsList( ) )
+        for ( Level level : LevelHome.getLevelsList(  ) )
         {
-            if ( getUser( ).isAdmin( ) || getUser( ).hasRights( level.getId( ) ) )
+            if ( getUser(  ).isAdmin(  ) || getUser(  ).hasRights( level.getId(  ) ) )
             {
                 filteredLevels.add( level );
             }
@@ -254,20 +255,20 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_RIGHT, right );
         model.put( MARK_USER_LEVELS_LIST, filteredLevels );
         model.put( MARK_AVAILABLE_USERS_LIST, listAvailableUsers );
-        model.put( MARK_ASSIGNED_USERS_LIST, paginator.getPageItems( ) );
-        model.put( MARK_ASSIGNED_USERS_NUMBER, listAssignedUsers.size( ) );
+        model.put( MARK_ASSIGNED_USERS_LIST, paginator.getPageItems(  ) );
+        model.put( MARK_ASSIGNED_USERS_NUMBER, listAssignedUsers.size(  ) );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale(  ), model );
 
-        return getAdminPage( template.getHtml( ) );
+        return getAdminPage( template.getHtml(  ) );
     }
 
     /**
      * Process the data capture form for assign users to a role
-     * 
+     *
      * @param request The HTTP Request
      * @return The Jsp URL of the process result
      */
@@ -338,17 +339,17 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     {
         if ( _itemNavigator == null )
         {
-            List<String> listIdsRight = new ArrayList<String>( );
+            List<String> listIdsRight = new ArrayList<String>(  );
             int nCurrentItemId = 0;
             int nIndex = 0;
 
-            for ( Right right : RightHome.getRightsList( ) )
+            for ( Right right : RightHome.getRightsList(  ) )
             {
-                if ( ( right != null ) && StringUtils.isNotBlank( right.getId( ) ) )
+                if ( ( right != null ) && StringUtils.isNotBlank( right.getId(  ) ) )
                 {
-                    listIdsRight.add( right.getId( ) );
+                    listIdsRight.add( right.getId(  ) );
 
-                    if ( right.getId( ).equals( strIdRight ) )
+                    if ( right.getId(  ).equals( strIdRight ) )
                     {
                         nCurrentItemId = nIndex;
                     }
@@ -368,7 +369,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     /**
      * Reinit the item navigator
      */
-    private void reinitItemNavigator( )
+    private void reinitItemNavigator(  )
     {
         _itemNavigator = null;
     }

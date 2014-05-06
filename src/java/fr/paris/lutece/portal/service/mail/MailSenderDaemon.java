@@ -33,6 +33,12 @@
  */
 package fr.paris.lutece.portal.service.mail;
 
+import fr.paris.lutece.portal.service.daemon.Daemon;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
+import org.apache.log4j.Logger;
+
 import java.util.Date;
 import java.util.List;
 
@@ -42,12 +48,6 @@ import javax.mail.SendFailedException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
-
-import org.apache.log4j.Logger;
-
-import fr.paris.lutece.portal.service.daemon.Daemon;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 
 /**
@@ -67,7 +67,7 @@ public class MailSenderDaemon extends Daemon
      * {@inheritDoc}
      */
     @Override
-    public synchronized void run( )
+    public synchronized void run(  )
     {
         Logger logger = Logger.getLogger( "lutece.mail" );
         logger.setAdditivity( false );
@@ -80,13 +80,13 @@ public class MailSenderDaemon extends Daemon
         int nCount = AppPropertiesService.getPropertyInt( PROPERTY_MAIL_DEAMON_COUNT, 1000 );
 
         // Initializes a mail session with the SMTP server
-        StringBuilder sbLogs = new StringBuilder( );
+        StringBuilder sbLogs = new StringBuilder(  );
         StringBuilder sbLogsLine;
-        IMailQueue queue = MailService.getQueue( );
+        IMailQueue queue = MailService.getQueue(  );
 
-        if ( queue.size( ) != 0 )
+        if ( queue.size(  ) != 0 )
         {
-            sbLogs.append( new Date( ).toString( ) );
+            sbLogs.append( new Date(  ).toString(  ) );
 
             Session session = MailUtil.getMailSession( strHost, nStmpPort, strUsername, strPassword );
             Transport transportSmtp = null;
@@ -106,34 +106,33 @@ public class MailSenderDaemon extends Daemon
                 {
                     transportSmtp.connect( strHost, nStmpPort, strUsername, strPassword );
 
-                    MailItem mail = queue.consume( );
+                    MailItem mail = queue.consume(  );
                     int count = 0;
 
                     while ( mail != null )
                     {
                         try
                         {
-                            if ( mail.isUniqueRecipientTo( ) )
+                            if ( mail.isUniqueRecipientTo(  ) )
                             {
-                                List<String> listAdressTo = MailUtil.getAllStringAdressOfRecipients( mail
-                                        .getRecipientsTo( ) );
+                                List<String> listAdressTo = MailUtil.getAllStringAdressOfRecipients( mail.getRecipientsTo(  ) );
 
                                 for ( String strAdressTo : listAdressTo )
                                 {
-                                    sbLogsLine = new StringBuilder( );
+                                    sbLogsLine = new StringBuilder(  );
                                     //just one recipient by mail
                                     mail.setRecipientsTo( strAdressTo );
                                     sendMail( mail, strHost, transportSmtp, session, sbLogsLine );
-                                    logger.info( sbLogsLine.toString( ) );
+                                    logger.info( sbLogsLine.toString(  ) );
                                     sbLogs.append( "\r\n" );
                                     sbLogs.append( sbLogsLine );
                                 }
                             }
                             else
                             {
-                                sbLogsLine = new StringBuilder( );
+                                sbLogsLine = new StringBuilder(  );
                                 sendMail( mail, strHost, transportSmtp, session, sbLogsLine );
-                                logger.info( sbLogsLine.toString( ) );
+                                logger.info( sbLogsLine.toString(  ) );
                                 sbLogs.append( "\r\n" );
                                 sbLogs.append( sbLogsLine );
                             }
@@ -147,45 +146,44 @@ public class MailSenderDaemon extends Daemon
                             break;
                         }
 
-                        mail = queue.consume( );
+                        mail = queue.consume(  );
 
                         // Tempo
                         count++;
 
                         if ( ( count % nCount ) == 0 )
                         {
-                            transportSmtp.close( );
+                            transportSmtp.close(  );
                             wait( nWaitTime );
-                            transportSmtp.connect( );
+                            transportSmtp.connect(  );
                         }
                     }
 
-                    transportSmtp.close( );
+                    transportSmtp.close(  );
                 }
                 catch ( MessagingException e )
                 {
                     sbLogs.append( "MailService - Error sending mail (MessagingException): " );
-                    sbLogs.append( e.getMessage( ) );
-                    AppLogService
-                            .error( "MailService - Error sending mail (MessagingException): " + e.getMessage( ), e );
+                    sbLogs.append( e.getMessage(  ) );
+                    AppLogService.error( "MailService - Error sending mail (MessagingException): " + e.getMessage(  ), e );
                 }
                 catch ( Exception e )
                 {
                     sbLogs.append( "MailService - Error sending mail : " );
-                    sbLogs.append( e.getMessage( ) );
-                    AppLogService.error( "MailService - Error sending mail : " + e.getMessage( ), e );
+                    sbLogs.append( e.getMessage(  ) );
+                    AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
                 }
             }
 
             //reset all resource stored in MailAttachmentCacheService
-            MailAttachmentCacheService.getInstance( ).resetCache( );
-            setLastRunLogs( sbLogs.toString( ) );
+            MailAttachmentCacheService.getInstance(  ).resetCache(  );
+            setLastRunLogs( sbLogs.toString(  ) );
         }
         else
         {
             sbLogs.append( "\r\nNo mail to send " );
-            sbLogs.append( new Date( ).toString( ) );
-            logger.debug( sbLogs.toString( ) );
+            sbLogs.append( new Date(  ).toString(  ) );
+            logger.debug( sbLogs.toString(  ) );
         }
     }
 
@@ -199,59 +197,60 @@ public class MailSenderDaemon extends Daemon
      * @throws MessagingException @see MessagingException
      */
     private void sendMail( MailItem mail, String strHost, Transport transportSmtp, Session session,
-            StringBuilder sbLogsLine ) throws MessagingException
+        StringBuilder sbLogsLine ) throws MessagingException
     {
         try
         {
             sbLogsLine.append( " - To " );
-            sbLogsLine.append( ( ( mail.getRecipientsTo( ) != null ) ? mail.getRecipientsTo( ) : "" ) );
+            sbLogsLine.append( ( ( mail.getRecipientsTo(  ) != null ) ? mail.getRecipientsTo(  ) : "" ) );
             sbLogsLine.append( " - Cc " );
-            sbLogsLine.append( ( mail.getRecipientsCc( ) != null ) ? mail.getRecipientsCc( ) : "" );
+            sbLogsLine.append( ( mail.getRecipientsCc(  ) != null ) ? mail.getRecipientsCc(  ) : "" );
             sbLogsLine.append( " - Bcc " );
-            sbLogsLine.append( ( mail.getRecipientsBcc( ) != null ) ? mail.getRecipientsBcc( ) : "" );
+            sbLogsLine.append( ( mail.getRecipientsBcc(  ) != null ) ? mail.getRecipientsBcc(  ) : "" );
             sbLogsLine.append( " - Subject : " );
-            sbLogsLine.append( mail.getSubject( ) );
+            sbLogsLine.append( mail.getSubject(  ) );
 
-            switch ( mail.getFormat( ) )
+            switch ( mail.getFormat(  ) )
             {
-            case MailItem.FORMAT_HTML:
-                MailUtil.sendMessageHtml( mail.getRecipientsTo( ), mail.getRecipientsCc( ), mail.getRecipientsBcc( ),
-                        mail.getSenderName( ), mail.getSenderEmail( ), mail.getSubject( ), mail.getMessage( ),
+                case MailItem.FORMAT_HTML:
+                    MailUtil.sendMessageHtml( mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                        mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
+                        mail.getSubject(  ), mail.getMessage(  ), transportSmtp, session );
+
+                    break;
+
+                case MailItem.FORMAT_TEXT:
+                    MailUtil.sendMessageText( mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                        mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
+                        mail.getSubject(  ), mail.getMessage(  ), transportSmtp, session );
+
+                    break;
+
+                case MailItem.FORMAT_MULTIPART_HTML:
+                    MailUtil.sendMultipartMessageHtml( mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                        mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
+                        mail.getSubject(  ), mail.getMessage(  ), mail.getUrlsAttachement(  ),
+                        mail.getFilesAttachement(  ), transportSmtp, session );
+
+                    break;
+
+                case MailItem.FORMAT_MULTIPART_TEXT:
+                    MailUtil.sendMultipartMessageText( mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                        mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
+                        mail.getSubject(  ), mail.getMessage(  ), mail.getFilesAttachement(  ), transportSmtp, session );
+
+                    break;
+
+                case MailItem.FORMAT_CALENDAR:
+                    MailUtil.sendMessageCalendar( mail.getRecipientsTo(  ), mail.getRecipientsCc(  ),
+                        mail.getRecipientsBcc(  ), mail.getSenderName(  ), mail.getSenderEmail(  ),
+                        mail.getSubject(  ), mail.getMessage(  ), mail.getCalendarMessage(  ), mail.getCreateEvent(  ),
                         transportSmtp, session );
 
-                break;
+                    break;
 
-            case MailItem.FORMAT_TEXT:
-                MailUtil.sendMessageText( mail.getRecipientsTo( ), mail.getRecipientsCc( ), mail.getRecipientsBcc( ),
-                        mail.getSenderName( ), mail.getSenderEmail( ), mail.getSubject( ), mail.getMessage( ),
-                        transportSmtp, session );
-
-                break;
-
-            case MailItem.FORMAT_MULTIPART_HTML:
-                MailUtil.sendMultipartMessageHtml( mail.getRecipientsTo( ), mail.getRecipientsCc( ),
-                        mail.getRecipientsBcc( ), mail.getSenderName( ), mail.getSenderEmail( ), mail.getSubject( ),
-                        mail.getMessage( ), mail.getUrlsAttachement( ), mail.getFilesAttachement( ), transportSmtp,
-                        session );
-
-                break;
-
-            case MailItem.FORMAT_MULTIPART_TEXT:
-                MailUtil.sendMultipartMessageText( mail.getRecipientsTo( ), mail.getRecipientsCc( ),
-                        mail.getRecipientsBcc( ), mail.getSenderName( ), mail.getSenderEmail( ), mail.getSubject( ),
-                        mail.getMessage( ), mail.getFilesAttachement( ), transportSmtp, session );
-
-                break;
-
-            case MailItem.FORMAT_CALENDAR:
-                MailUtil.sendMessageCalendar( mail.getRecipientsTo( ), mail.getRecipientsCc( ),
-                        mail.getRecipientsBcc( ), mail.getSenderName( ), mail.getSenderEmail( ), mail.getSubject( ),
-                        mail.getMessage( ), mail.getCalendarMessage( ), mail.getCreateEvent( ), transportSmtp, session );
-
-                break;
-
-            default:
-                break;
+                default:
+                    break;
             }
 
             sbLogsLine.append( " - Status [ OK ]" );
@@ -260,23 +259,23 @@ public class MailSenderDaemon extends Daemon
         {
             //a wrongly formatted address is encountered in the list of recipients
             sbLogsLine.append( " - Status [ Failed ] : " );
-            sbLogsLine.append( e.getMessage( ) );
-            AppLogService.error( "MailService - Error sending mail : " + e.getMessage( ), e );
+            sbLogsLine.append( e.getMessage(  ) );
+            AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
         }
         catch ( SendFailedException e )
         {
             //the send failed because of invalid addresses.
             sbLogsLine.append( " - Status [ Failed ] : " );
-            sbLogsLine.append( e.getMessage( ) );
-            AppLogService.error( "MailService - Error sending mail : " + e.getMessage( ), e );
+            sbLogsLine.append( e.getMessage(  ) );
+            AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
         }
         catch ( MessagingException e )
         {
             //if the connection is dead or not in the connected state
             //we put the mail in the queue before end process
             sbLogsLine.append( " - Status [ Failed ] : " );
-            sbLogsLine.append( e.getMessage( ) );
-            AppLogService.error( "MailService - Error sending mail : " + e.getMessage( ), e );
+            sbLogsLine.append( e.getMessage(  ) );
+            AppLogService.error( "MailService - Error sending mail : " + e.getMessage(  ), e );
             throw e;
         }
     }
