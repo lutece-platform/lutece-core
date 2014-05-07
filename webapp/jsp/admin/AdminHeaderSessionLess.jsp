@@ -29,8 +29,9 @@
 <link href="css/admin/bootstrap-theme.min.css" rel="stylesheet">
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
-<link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery.ui.1.10.0.ie.css" />
-<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery.ui.1.10.0.ie.css" />
+	<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 <!-- Le fav and touch icons -->
 <link rel="shortcut icon" href="<%= strBase %>favicon.ico">

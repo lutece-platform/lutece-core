@@ -39,7 +39,9 @@
 <!--[if lt IE 9]>
 <link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery.ui.1.10.0.ie.css" >
 <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 <!-- Le fav and touch icons -->
 <link rel="shortcut icon" href="<%= AppPathService.getBaseUrl( request ) %>favicon.ico">
 <!-- 
