@@ -164,12 +164,14 @@
     <form method="post" action="">
     </#if>
     	<div class="row-fluid">
-    <div class="pull-right" >
-    	<div class="form-inline">
-    		<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
-    	</div>
-    </div>
-    </div>
+    		<div class="span12">
+			    <div class="pull-right" >
+			    	<div class="form-inline control-group">
+			    		<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
+			    	</div>
+			    </div>
+		    </div>
+		</div>
     <#if form == 1 >
     </form>
     </#if>

@@ -38,7 +38,7 @@
 			<#if messages?? && messages?has_content>
 				<div class="well" >
 					<#list messages as message>
-						<div <#if message.messageLevel?string == "ERROR">class="alert-error"</#if>>
+						<div <#if message.messageLevel?string == "ERROR">class="alert-danger"</#if>>
 							<#if 0 < message.lineNumber >#i18n{portal.users.import_users_from_file.lineNumber} ${message.lineNumber} - </#if>${message.messageContent}
 						</div>
 					</#list>

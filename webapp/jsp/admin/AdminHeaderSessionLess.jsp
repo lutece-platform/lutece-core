@@ -23,9 +23,10 @@
 <!-- Le styles -->
 <link href="css/admin/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="css/admin/portal_admin.css" />
-<link href="css/admin/bootstrap-responsive.min.css" rel="stylesheet">
 <!-- link href="css/admin/datepicker.css" rel="stylesheet" -->
 <link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery-ui-1.10.0.custom.css" />
+<link href="css/bootstrap2-compatibility.css" rel="stylesheet">
+<link href="css/admin/bootstrap-theme.min.css" rel="stylesheet">
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
 <link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery.ui.1.10.0.ie.css" />

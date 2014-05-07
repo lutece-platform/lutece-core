@@ -107,7 +107,7 @@
 					</button>
 				</form>
             <#else>
-                <div class="alert alert-error">#i18n{portal.rbac.assign_users.noUserToAssign}</div>
+                <div class="alert alert-danger">#i18n{portal.rbac.assign_users.noUserToAssign}</div>
             </#if>
             <hr>           
             <p class="lead">#i18n{portal.rbac.assign_users.labelAssignedUser}</p>
@@ -168,7 +168,7 @@
 				</table>
 				<@paginationAdmin paginator=paginator />
 			<#else>
-				<div class="alert alert-error">#i18n{portal.rbac.assign_users.noAssignedList}</div>
+				<div class="alert alert-danger">#i18n{portal.rbac.assign_users.noAssignedList}</div>
 			</#if>
 		</fieldset>	
     </div>

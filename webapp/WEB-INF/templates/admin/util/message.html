@@ -4,7 +4,7 @@
    <#assign alerttype="error" />
    <#assign icontype="icon-question-sign" />
 <#elseif message.type == 3 >
-   <#assign alerttype="block" />
+   <#assign alerttype="warning" />
    <#assign icontype="icon-exclamation-sign" />
 <#elseif message.type == 5 >
    <#assign alerttype="error" />
@@ -12,21 +12,25 @@
 </#if>
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
-        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-		
-        <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} " target="_blank" class="brand">
-            &nbsp;<img class="logo" src="images/logo-header.png" title="#i18n{portal.users.admin_header.title.viewSite}"  alt="" />
-        </a>
-        <div class="nav-collapse">
-            <ul class="nav pull-right">
+		<div class="pull-left">
+	        <a href="jsp/site/Portal.jsp" class="navbar-brand" title="#i18n{portal.users.admin_header.title.viewSite} " target="_blank">
+	            &nbsp;<img class="logo" src="images/logo-header.png" title="#i18n{portal.users.admin_header.title.viewSite}"  alt="" />
+	        </a>
+        </div>
+        <nav class="collapse nav-collapse navbar-collapse bs-navbar-collapse">
+        	<ul class="nav navbar-nav pull-right">
                 <li class="home">
-                    <a href="${admin_url}" title="&nbsp;#i18n{portal.users.admin_header.homePage}"><i class="icon-home icon-white"></i></a>
+                    <a href="${admin_url}" title="&nbsp;#i18n{portal.users.admin_header.homePage}">
+                    	<i class="icon-home icon-white">&nbsp;</i>
+                    </a>
                 </li> 
-        </div><!-- /.nav-collapse -->
+       		</ul>
+        </nav>
     </div> <!-- /navbar-inner -->
 </div>
 <h1 class="header"><a name="top">&nbsp;</a></h1>
@@ -48,7 +52,7 @@
                         <input type="hidden" name="${key}" value="${list_parameters[key]}" />
                         </#list>
                         </#if>
-                        <button class="btn btn-small" type="submit"><i class="icon-ok"></i>&nbsp;#i18n{portal.admin.message.buttonValidate}</button> 
+                        <button class="btn btn-small btn-default" type="submit"><i class="icon-ok"></i>&nbsp;#i18n{portal.admin.message.buttonValidate}</button> 
                     </form>
                     <#if message.cancel>
                     <#if back_url?has_content>
@@ -58,10 +62,10 @@
                         <input type="hidden" name="${key}" value="${list_parameters[key]}" />
                         </#list>	
                         </#if>
-                        <button class="btn btn-small" type="submit"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}</button> 
+                        <button class="btn btn-small btn-default" type="submit"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}</button> 
                     </form>		
                     <#else>
-                    <button class="btn btn-small" type="button" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}</button> 
+                    <button class="btn btn-small btn-default" type="button" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}</button> 
                     </#if>	
                     </#if>
                     </#if>

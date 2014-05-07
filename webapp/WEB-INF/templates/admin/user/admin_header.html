@@ -1,36 +1,38 @@
 <header>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top" style="border-width: 0px;">
         <div class="navbar-inner">
-            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
-                <#if site_name="Lutece">
-                &nbsp;<img class="logo" src="images/logo-header.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />
-                <#else>
-                &nbsp;<img class="logo" src="images/logo-header-icon.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />&nbsp;${site_name}
-                </#if>
-                <!-- &nbsp;<img src="images/admin/skin/external-link-white.png" alt="External Link" title=" " /> -->
-                &nbsp;<i class="icon-lutece-external-link-white pull-right" title="External Link" ></i>
-            </a>
-            <div class="nav-collapse">
-                <ul class="nav">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	            </button>
+        	<div class="pull-left">
+	            <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand">
+	                <#if site_name="Lutece" || site_name="LUTECE" >
+	                &nbsp;<img class="logo" src="images/logo-header.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />
+	                <#else>
+	                &nbsp;<img class="logo" src="images/logo-header-icon.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />&nbsp;<span class="visible-desktop">${site_name}</span>
+	                </#if>
+	                <!-- &nbsp;<img src="images/admin/skin/external-link-white.png" alt="External Link" title=" " /> -->
+	                &nbsp;<i class="icon-lutece-external-link-white pull-right" title="External Link" ></i>
+	            </a>
+            </div>
+            <nav class="collapse nav-collapse navbar-collapse bs-navbar-collapse">
+                <ul class="nav navbar-nav nav-collapse">
                     <#list feature_group_list as feature_group>
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
-                            <#list feature_group.features as feature >
-                            <li>
-                                <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
-                            </li>
-                            </#list>
-                        </ul>
-                    </li>
+	                    <li class="dropdown">
+	                        <a data-toggle="dropdown" class="dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
+	                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
+	                            <#list feature_group.features as feature >
+	                            <li>
+	                                <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
+	                            </li>
+	                            </#list>
+	                        </ul>
+	                    </li>
                     </#list>
                 </ul>
-                <ul class="nav pull-right">
+                <ul class="nav navbar-nav pull-right">
                     <li class="home">
                         <a href="${admin_url}" title="&nbsp;#i18n{portal.users.admin_header.homePage}"><i class="icon-home icon-white"></i></a>
                     </li> 
@@ -38,10 +40,11 @@
 
                     </li>
                     <li class="dropdown">
-
                         <a href="${admin_url}#" id="dLabelUserHeader" data-toggle="dropdown" class="dropdown-toggle">
-                            <#if dashboard_zone_4?has_content>${dashboard_zone_4}</#if>&nbsp;<i class="icon-user icon-white"></i><b class="caret"></b>
-
+                            <#if dashboard_zone_4?has_content>
+                            	<span class="visible-desktop">${dashboard_zone_4}</span>
+                            </#if>
+                            &nbsp;<i class="icon-user icon-white"></i><b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
                             <li>
@@ -49,19 +52,18 @@
                             </li>
                             <li class="dropdown-submenu">
                                 <a tabindex="-1" href="#"><i class="icon-flag"></i>&nbsp;#i18n{portal.admin.admin_home.language}</a>
-                                     <ul class="dropdown-menu">
-                                     <#list languages_list as lang>
-                                        <li>
+                          		<ul class="dropdown-menu">
+                           			<#list languages_list as lang>
+                          				<li>
                                             <a href="jsp/admin/DoChangeLanguage.jsp?language=${lang.code}">
                                                 ${lang.name}&nbsp;
                                                 <#if current_language==lang.code>
-                                                <i class="icon-ok"></i>
-                                            </#if>
+	                                                <i class="icon-ok"></i>
+	                                            </#if>
                                             </a>
                                         </li>
                                      </#list>
-                                       </ul>
-                              
+                           		</ul>
                             </li>   
                             <#if user.accessibilityMode>
                             <li>
@@ -93,11 +95,9 @@
                                 </#if>
                             </li>
                         </ul>
-
                     </li>
-
                 </ul> 
-            </div><!-- /.nav-collapse -->
+        	</nav>
         </div> <!-- /navbar-inner -->
     </div>
 </header>

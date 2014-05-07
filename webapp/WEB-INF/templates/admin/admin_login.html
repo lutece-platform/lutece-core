@@ -2,7 +2,7 @@
 	<div class="row-fluid">
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
-                    <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
+                    <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand">
                         &nbsp;<img src="images/logo-header.png" class="logo" alt="logo" title="" /> &nbsp;${site_name}
                     </a>
                     <div class="nav-collapse">
@@ -23,13 +23,16 @@
 				<form method="post" name="login" id="login" action="${do_admin_login_url}" class="form">
 				<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
 				<label for="access_code" >#i18n{portal.admin.admin_login.loginLabel} </label>
-				<div class="input-prepend">
-					<span class="add-on"><i class="icon-user"></i></span>
-					<input type="text" name="access_code" id="access_code" autofocus="autofocus" autocomplete="off" required="required" placeholder="#i18n{portal.admin.admin_login.loginLabel}" tabindex="1" />
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon-user"></i></span>
+					<input type="text" class="form-control" name="access_code" id="access_code" autofocus="autofocus" autocomplete="off" required="required" placeholder="#i18n{portal.admin.admin_login.loginLabel}" tabindex="1" />
 				</div>
 				<label for="password" >#i18n{portal.admin.admin_login.passwordLabel} </label>
-				<div class="input-prepend">
-					<span class="add-on"><i class="icon-lock"></i></span><input type="password" name="password" id="password"autocomplete="off" required="required" placeholder="#i18n{portal.admin.admin_login.passwordLabel}"  tabindex="2" />
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="icon-lock"></i>
+					</span>
+					<input type="password" class="form-control" name="password" id="password"autocomplete="off" required="required" placeholder="#i18n{portal.admin.admin_login.passwordLabel}"  tabindex="2" />
 				</div>
 				<div class="form-actions">
 					<button class="btn btn-primary btn-small" tabindex="3" type="submit">

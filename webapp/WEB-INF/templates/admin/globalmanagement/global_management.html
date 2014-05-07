@@ -1,5 +1,9 @@
-<div class="span12">
-	<#list panels_list as panel>
-		${panel.panelContent}
-	</#list>
+<div class="row-fluid">
+	<div class="span12">
+		<#list panels_list as panel>
+			<div class="row-fluid">
+				${panel.panelContent}
+			</div>
+		</#list>
+	</div>
 </div>

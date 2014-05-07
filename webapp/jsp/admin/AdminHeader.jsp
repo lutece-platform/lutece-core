@@ -21,12 +21,13 @@
 <!-- Le styles -->
 <link href="css/admin/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/admin/print_admin.css" media="print" >
-<link href="css/admin/bootstrap-responsive.min.css" rel="stylesheet">
 <link href="css/admin/colorpicker.css" rel="stylesheet">
 <link href="css/admin/datepicker.css" rel="stylesheet" >
 <link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery-ui-1.10.0.custom.css" >
 <link href="css/admin/font-awesome.min.css"  rel="stylesheet" >
 <link href="css/admin/portal_admin.css" rel="stylesheet" >
+<link href="css/bootstrap2-compatibility.css" rel="stylesheet">
+<link href="css/admin/bootstrap-theme.min.css" rel="stylesheet">
 <%
 	if ( AdminThemeService.isModeAccessible( request ) ){
 %>
