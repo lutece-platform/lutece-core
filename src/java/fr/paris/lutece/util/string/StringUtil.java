@@ -38,9 +38,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.text.Normalizer;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 
 /**
  * This class provides String utils.
@@ -49,7 +46,6 @@ public final class StringUtil
 {
     private static final String PROPERTY_XSS_CHARACTERS = "input.xss.characters";
     private static final String EMAIL_PATTERN = "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$";
-    private static final String ACCENTUATED_PATTERN = "[�������������������������]";
     private static final String STRING_CODE_PATTERN = "^[\\w]+$";
     private static final String CONSTANT_AT = "@";
 
@@ -74,7 +70,7 @@ public final class StringUtil
      */
     public static String substitute( String strSource, String strValue, String strBookmark )
     {
-        StringBuffer strResult = new StringBuffer(  );
+        StringBuilder strResult = new StringBuilder(  );
         int nPos = strSource.indexOf( strBookmark );
         String strModifySource = strSource;
 
@@ -193,7 +189,7 @@ public final class StringUtil
 
         if ( _xssCharactersAsString == null )
         {
-            StringBuffer sbfCharList = new StringBuffer(  );
+            StringBuilder sbfCharList = new StringBuilder(  );
 
             int iIndex;
 
@@ -223,6 +219,7 @@ public final class StringUtil
         return strEmail.matches( EMAIL_PATTERN );
     }
 
+    
     /**
      * This function checks if an email is in a valid format, and is not in a banned domain names list. Returns true if the email is valid
      *
@@ -237,6 +234,7 @@ public final class StringUtil
         return bIsValid && checkEmailDomainName( strEmail, strBannedDomainNames );
     }
 
+    
     /**
      * Check if a domain name of an email address is not in a banned domain names list.
      * @param strEmail Email addresse to check
@@ -278,25 +276,6 @@ public final class StringUtil
     }
 
     /**
-     * This function checks if an string is in a valid format Returns true if the string is valid
-     *
-     * @param strString The string to check
-     * @return boolean true if r is valid
-     */
-    public static synchronized boolean checkAccentuatedCharacter( String strString )
-    {
-        boolean bAccentuatedCharacter = true;
-        Matcher matcher = Pattern.compile( ACCENTUATED_PATTERN ).matcher( strString );
-
-        while ( matcher.find(  ) )
-        {
-            bAccentuatedCharacter = false;
-        }
-
-        return bAccentuatedCharacter;
-    }
-
-    /**
      * Check a code key.<br />
      * Return true if each character of String is
      * <ul>
@@ -313,6 +292,7 @@ public final class StringUtil
         return ( strCodeKey == null ) ? false : strCodeKey.matches( STRING_CODE_PATTERN );
     }
 
+    
     /**
      * Converts <code>strValue</code> to an int value.
      * @param strValue the value to convert
