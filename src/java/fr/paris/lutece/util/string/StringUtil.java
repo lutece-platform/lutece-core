@@ -36,7 +36,7 @@ package fr.paris.lutece.util.string;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
-import java.text.Collator;
+import java.text.Normalizer;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -94,39 +94,14 @@ public final class StringUtil
     /**
      * This function converts French diacritics characters into non diacritics.
      *
-     * @param strInit The String to convert
+     * @param strSource The String to convert
      * @return The sTring converted to French non diacritics characters
      */
-    public static String replaceAccent( String strInit )
+    public static String replaceAccent( String strSource )
     {
-        char charTest;
-        char[] tabTemp = strInit.toCharArray(  );
-        char[] voyelle = { 'a', 'c', 'e', 'i', 'o', 'u', 'y' };
-
-        // Collator can compare 2 strings using locale-sensitive String comparison
-        Collator collator = Collator.getInstance( java.util.Locale.FRENCH );
-        collator.setStrength( Collator.PRIMARY );
-
-        for ( int i = 0; i < strInit.length(  ); i++ )
-        {
-            charTest = strInit.charAt( i );
-
-            // Test character only when it's in the range [192-255]
-            if ( ( charTest > 191 ) && ( charTest < 256 ) )
-            {
-                for ( int j = 0; j < voyelle.length; j++ )
-                {
-                    if ( collator.compare( String.valueOf( charTest ), String.valueOf( voyelle[j] ) ) == 0 )
-                    {
-                        tabTemp[i] = voyelle[j];
-
-                        break;
-                    }
-                }
-            }
-        }
-
-        return String.valueOf( tabTemp );
+        String  strNormalized = Normalizer.normalize( strSource, Normalizer.Form.NFKD );
+        strNormalized = strNormalized.replaceAll("\\p{M}", "");
+        return strNormalized;
     }
 
     /**
