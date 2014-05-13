@@ -47,9 +47,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import java.lang.management.ManagementFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -375,7 +373,7 @@ public final class CacheService
 
     /**
      * Return the key of a datastore property
-     * @param cs The cacheable service
+     * @param strCacheName The cacheable service
      * @param strProperty The property
      * @return The DS key
      */

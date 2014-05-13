@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.util.html;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -40,7 +41,7 @@ import java.util.List;
  * Handles paging
  * @param <E> the type
  */
-public interface IPaginator<E>
+public interface IPaginator<E> extends Serializable
 {
     /** Default value for Page Index Parameter */
     String PARAMETER_PAGE_INDEX = "page_index";

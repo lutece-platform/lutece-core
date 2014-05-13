@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.date.DateUtil;
 
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -46,7 +45,6 @@ import java.util.Random;
 
 /**
  * Utility class used to generate random passwords
- *
  */
 public final class PasswordUtil
 {
@@ -87,19 +85,20 @@ public final class PasswordUtil
             nPasswordSize = nMinPasswordSize;
         }
 
-        return makePassword( nMinPasswordSize, true, true, true );
+        return makePassword( nPasswordSize, true, true, true );
     }
 
     /**
      * Generate a new random password
      * @param nPasswordSize the password size
-     * @param bUpperAndLowerCase true if the password must contain upper and lower case
-     * @param bNumero if the password must contain numero
+     * @param bUpperAndLowerCase true if the password must contain upper and
+     *            lower case
+     * @param bNumbers if the password must contain numbers
      * @param bSpecialCaracters if the password must contain special characters
-    
+     * 
      * @return the new password
      */
-    public static String makePassword( int nPasswordSize, boolean bUpperAndLowerCase, boolean bNumero,
+    public static String makePassword( int nPasswordSize, boolean bUpperAndLowerCase, boolean bNumbers,
         boolean bSpecialCaracters )
     {
         // reinitialize password
@@ -114,7 +113,7 @@ public final class PasswordUtil
         int nNumSpecial = bSpecialCaracters ? ( r.nextInt( nPasswordSize - 2 - nNumCapitalLetters ) + 1 ) : 0; // choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE - a1
 
         // no of nos
-        int nNumNumbers = bNumero ? ( r.nextInt( nPasswordSize - 1 - nNumCapitalLetters - nNumSpecial ) + 1 ) : 0; // choose a number to complete list of CONSTANT_PASSWORD_SIZE characters
+        int nNumNumbers = bNumbers ? ( r.nextInt( nPasswordSize - 1 - nNumCapitalLetters - nNumSpecial ) + 1 ) : 0; // choose a number to complete list of CONSTANT_PASSWORD_SIZE characters
 
         // no of small
         int nNumSmallLetters = nPasswordSize - nNumCapitalLetters - nNumSpecial - nNumNumbers; // choose a number to complete list of CONSTANT_PASSWORD_SIZE characters

@@ -34,7 +34,6 @@
 package fr.paris.lutece.util.mail;
 
 import java.io.Serializable;
-
 import java.net.URL;
 
 
@@ -45,6 +44,7 @@ import java.net.URL;
  */
 public class UrlAttachment implements Serializable
 {
+    private static final long serialVersionUID = 5638898463494932360L;
     private String _strContentLocation; //content location
     private URL _urlData; //the url data
 

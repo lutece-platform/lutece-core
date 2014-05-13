@@ -33,12 +33,16 @@
  */
 package fr.paris.lutece.util.datatable;
 
+import java.io.Serializable;
+
 
 /**
  * Data table column
  */
-public class DataTableColumn
+public class DataTableColumn implements Serializable
 {
+    private static final long serialVersionUID = 7018948403682749643L;
+
     private String _strTitleKey;
     private String _strParameterName;
     private boolean _bSortable;

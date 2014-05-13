@@ -58,6 +58,9 @@ public class AliasPortletJspBean extends PortletJspBean
 
     // Right
     public static final String RIGHT_MANAGE_ADMIN_SITE = "CORE_ADMIN_SITE";
+
+    private static final long serialVersionUID = 1894295808070813451L;
+
     private static final String PARAM_PORTLET_NAME = "portlet_name";
     private static final String PARAM_ORDER = "order";
     private static final String PARAM_COLUMN = "column";
@@ -72,6 +75,7 @@ public class AliasPortletJspBean extends PortletJspBean
      * @param request The Http request
      * @return The management url
      */
+    @Override
     public String doCreate( HttpServletRequest request )
     {
         AliasPortlet aliasPortlet = new AliasPortlet(  );
@@ -126,6 +130,7 @@ public class AliasPortletJspBean extends PortletJspBean
      * @param request The http request
      * @return Management's Url
      */
+    @Override
     public String doModify( HttpServletRequest request )
     {
         // recovers portlet attributes
@@ -170,6 +175,7 @@ public class AliasPortletJspBean extends PortletJspBean
      * @param request The http request
      * @return The HTML form
      */
+    @Override
     public String getCreate( HttpServletRequest request )
     {
         String strIdPage = request.getParameter( PARAMETER_PAGE_ID );
@@ -188,6 +194,7 @@ public class AliasPortletJspBean extends PortletJspBean
      * @param request The Http request
      * @return The HTML form
      */
+    @Override
     public String getModify( HttpServletRequest request )
     {
         String strIdPortlet = request.getParameter( PARAMETER_PORTLET_ID );

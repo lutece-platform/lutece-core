@@ -62,7 +62,6 @@ import fr.paris.lutece.util.string.StringUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -81,6 +80,8 @@ public class AdminMenuJspBean implements Serializable
     /////////////////////////////////////////////////////////////////////////////////
     // Constants
     public static final String PROPERTY_LOGOUT_URL = "lutece.admin.logout.url";
+
+    private static final long serialVersionUID = -8939026727319948581L;
 
     // Markers
     private static final String MARK_FEATURE_GROUP_LIST = "feature_group_list";

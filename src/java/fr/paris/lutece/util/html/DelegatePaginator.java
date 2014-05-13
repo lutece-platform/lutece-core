@@ -43,6 +43,8 @@ import java.util.List;
  */
 public class DelegatePaginator<E> extends AbstractPaginator<E>
 {
+    private static final long serialVersionUID = -3528471886593833180L;
+
     /**
      * Creates a new instance of Paginator.
      *

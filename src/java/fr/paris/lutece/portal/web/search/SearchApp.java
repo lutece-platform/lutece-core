@@ -61,7 +61,6 @@ import fr.paris.lutece.util.url.UrlItem;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.UnsupportedEncodingException;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -256,14 +255,12 @@ public class SearchApp implements XPageApplication
     public static String encodeUrl( HttpServletRequest request, String strSource )
         throws SiteMessageException
     {
-        if ( strSource == null )
-        {
-            strSource = StringUtils.EMPTY;
-        }
+        String strSourceUrl = strSource == null ? strSource : StringUtils.EMPTY;
 
-        String strEncoded = EncodingService.encodeUrl( strSource, PROPERTY_ENCODE_URI_ENCODING, DEFAULT_URI_ENCODING );
+        String strEncoded = EncodingService
+                .encodeUrl( strSourceUrl, PROPERTY_ENCODE_URI_ENCODING, DEFAULT_URI_ENCODING );
 
-        if ( StringUtils.isBlank( strEncoded ) && StringUtils.isNotBlank( strSource ) )
+        if ( StringUtils.isBlank( strEncoded ) && StringUtils.isNotBlank( strSourceUrl ) )
         {
             SiteMessageService.setMessage( request, MESSAGE_ENCODING_ERROR, SiteMessage.TYPE_ERROR );
         }

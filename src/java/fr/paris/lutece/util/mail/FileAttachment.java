@@ -43,6 +43,7 @@ import java.io.Serializable;
  */
 public class FileAttachment implements Serializable
 {
+    private static final long serialVersionUID = 9072808576472163734L;
     private String _strFileName; //file-name
     private byte[] _data; // data
     private String _strType; // Content-type

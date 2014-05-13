@@ -164,6 +164,7 @@ public class LuteceFilter implements Comparable<LuteceFilter>
      * for debug purpose
      * @return The name of the filter
      */
+    @Override
     public String toString(  )
     {
         return getName(  );
@@ -202,5 +203,27 @@ public class LuteceFilter implements Comparable<LuteceFilter>
         }
 
         return luteceFilter.getOrder(  ) - this.getOrder(  );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals( Object o )
+    {
+        if ( !( o instanceof LuteceFilter ) )
+        {
+            return false;
+        }
+        return super.equals( o );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode( )
+    {
+        return getOrder( );
     }
 }

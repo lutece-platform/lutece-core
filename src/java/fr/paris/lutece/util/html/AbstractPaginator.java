@@ -57,6 +57,8 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     public static final String LABEL_NEXT = "&gt;";
     public static final String LABEL_LAST = "&gt;|";
 
+    private static final long serialVersionUID = -2795417742672443863L;
+
     // Variables declarations
     /** page index parameter name */
     protected String _strPageIndexParameterName;

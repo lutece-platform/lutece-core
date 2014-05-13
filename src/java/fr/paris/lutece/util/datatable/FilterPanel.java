@@ -35,6 +35,7 @@ package fr.paris.lutece.util.datatable;
 
 import fr.paris.lutece.util.ReferenceList;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,11 +43,14 @@ import java.util.List;
 /**
  * Class to manage filter panel
  */
-public class FilterPanel
+public class FilterPanel implements Serializable
 {
     public static final String PARAM_FILTER_PANEL_PREFIX = "filter_panel_";
     public static final String PARAM_UPDATE_FILTERS = "updateFilters";
     public static final String PARAM_RESET_FILTERS = "resetFilters";
+
+    private static final long serialVersionUID = 761740458592056772L;
+
     private String _strFormUrl;
     private List<DataTableFilter> _listFilter = new ArrayList<DataTableFilter>(  );
 

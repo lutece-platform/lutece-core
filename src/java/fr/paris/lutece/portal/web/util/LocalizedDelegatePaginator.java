@@ -48,6 +48,7 @@ import java.util.Locale;
  */
 public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
 {
+    private static final long serialVersionUID = -2433297121331132765L;
     private static final String KEY_FIRST = "portal.util.labelFirst";
     private static final String KEY_PREVIOUS = "portal.util.labelPrevious";
     private static final String KEY_NEXT = "portal.util.labelNext";

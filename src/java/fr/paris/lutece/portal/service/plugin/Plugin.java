@@ -1058,6 +1058,19 @@ public abstract class Plugin implements Comparable<Plugin>
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals( Object o )
+    {
+        if ( !( o instanceof Plugin ) )
+        {
+            return false;
+        }
+        return compareTo( (Plugin) o ) == 0;
+    }
+
+    /**
      * Returns all CSS Style Sheets of the plugin
      * @return The list of CSS Style Sheets
      */
@@ -1158,5 +1171,18 @@ public abstract class Plugin implements Comparable<Plugin>
     public String toString(  )
     {
         return getName(  );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode( )
+    {
+        if ( getName( ) == null )
+        {
+            return 0;
+        }
+        return getName( ).toLowerCase( ).hashCode( );
     }
 }

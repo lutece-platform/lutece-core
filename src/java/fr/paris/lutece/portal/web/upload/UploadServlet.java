@@ -42,10 +42,8 @@ import net.sf.json.JSONObject;
 import org.apache.commons.fileupload.FileItem;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
@@ -77,7 +75,7 @@ public class UploadServlet extends HttpServlet
         JSONObject json = new JSONObject(  );
         json.element( JSON_FILES, new JSONArray(  ) );
 
-        for ( Entry<String, FileItem> entry : ( (Map<String, FileItem>) request.getFileMap(  ) ).entrySet(  ) )
+        for ( Entry<String, FileItem> entry : ( request.getFileMap( ) ).entrySet( ) )
         {
             FileItem fileItem = entry.getValue(  );
 

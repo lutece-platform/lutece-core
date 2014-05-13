@@ -36,13 +36,11 @@ package fr.paris.lutece.util.date;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
 import java.sql.Timestamp;
-
 import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
 import java.util.Locale;
 
@@ -408,16 +406,13 @@ public final class DateUtil
             {
                 return strLocalizedDateFormat;
             }
-            else
+            DateFormat df = DateFormat.getDateInstance( DateFormat.SHORT, locale );
+
+            if ( df instanceof SimpleDateFormat )
             {
-                DateFormat df = DateFormat.getDateInstance( DateFormat.SHORT, locale );
+                SimpleDateFormat sdf = (SimpleDateFormat) df;
 
-                if ( df instanceof SimpleDateFormat )
-                {
-                    SimpleDateFormat sdf = (SimpleDateFormat) df;
-
-                    return sdf.toPattern(  );
-                }
+                return sdf.toPattern( );
             }
         }
 

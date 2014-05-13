@@ -46,6 +46,7 @@ import java.util.Locale;
  */
 public class LocalizedPaginator<E> extends Paginator<E>
 {
+    private static final long serialVersionUID = 6863575639914868230L;
     private static final String KEY_FIRST = "portal.util.labelFirst";
     private static final String KEY_PREVIOUS = "portal.util.labelPrevious";
     private static final String KEY_NEXT = "portal.util.labelNext";

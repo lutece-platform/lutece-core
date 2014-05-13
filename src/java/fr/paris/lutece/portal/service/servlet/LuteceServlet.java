@@ -80,16 +80,6 @@ public class LuteceServlet
     }
 
     /**
-     * Sets the Name
-     *
-     * @param strName The Name
-     */
-    public void setName( String strName )
-    {
-        _strName = strName;
-    }
-
-    /**
      * Returns the servlet
      *
      * @return The servlet
@@ -97,16 +87,6 @@ public class LuteceServlet
     public Servlet getServlet(  )
     {
         return _servlet;
-    }
-
-    /**
-     * Sets the servlet
-     *
-     * @param servlet The servlet
-     */
-    public void setServlet( Servlet servlet )
-    {
-        _servlet = servlet;
     }
 
     /**
@@ -120,16 +100,6 @@ public class LuteceServlet
     }
 
     /**
-     * Sets the Mapping
-     *
-     * @param strMapping The Mapping
-     */
-    public void setMappingUrlPattern( String strMapping )
-    {
-        _strMapping = strMapping;
-    }
-
-    /**
          * Returns the Plugin
          *
          * @return The Plugin
@@ -137,16 +107,6 @@ public class LuteceServlet
     public Plugin getPlugin(  )
     {
         return _plugin;
-    }
-
-    /**
-     * Sets the Plugin
-     *
-     * @param plugin The plugin
-     */
-    public void setPlugin( Plugin plugin )
-    {
-        _plugin = plugin;
     }
 
     /**
@@ -162,6 +122,7 @@ public class LuteceServlet
      * for debug purpose
      * @return The name of the servlet
      */
+    @Override
     public String toString(  )
     {
         return getName(  );

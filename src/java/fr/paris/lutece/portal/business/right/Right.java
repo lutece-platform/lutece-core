@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.i18n.Localizable;
 
 import java.io.Serializable;
-
 import java.util.Locale;
 
 
@@ -64,10 +63,10 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     private int _nIdOrder;
 
     /**
-     * set the local used by  this right
-     *
+     * Set the local used by this right
      * @param locale the local to use
      */
+    @Override
     public void setLocale( Locale locale )
     {
         _locale = locale;
@@ -298,6 +297,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      * @param o The right to be compared with the instanced right
      * @return The result of comparison
      */
+    @Override
     public int compareTo( Right o )
     {
         if ( this.getOrder(  ) > o.getOrder(  ) )
@@ -312,5 +312,28 @@ public class Right implements Localizable, Comparable<Right>, Serializable
         {
             return this.getId(  ).compareTo( o.getId(  ) );
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals( Object o )
+    {
+        if ( !( o instanceof Right ) )
+        {
+            return false;
+        }
+        return compareTo( (Right) o ) == 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode( )
+    {
+        int nIdHash = getId( ) == null ? 0 : getId( ).hashCode( );
+        return getOrder( ) * 100 + nIdHash;
     }
 }

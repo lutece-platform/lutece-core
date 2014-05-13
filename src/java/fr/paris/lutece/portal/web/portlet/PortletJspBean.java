@@ -74,6 +74,8 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     protected static final String PARAMETER_PORTLET_ID = "portlet_id";
     protected static final String PARAMETER_PORTLET_TYPE_ID = "portlet_type_id";
 
+    private static final long serialVersionUID = -3546292252642160812L;
+
     // Markers
     private static final String MARK_PORTLET = "portlet";
     private static final String MARK_PORTLET_TYPE = "portletType";

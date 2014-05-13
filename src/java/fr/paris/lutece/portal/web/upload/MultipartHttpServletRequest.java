@@ -69,6 +69,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      * Gets parameters names
      * @return An enumeration of parameters names
      */
+    @Override
     public Enumeration getParameterNames(  )
     {
         return Collections.enumeration( _stringParameters.keySet(  ) );
@@ -79,6 +80,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      * @param strName The parameter name
      * @return The value
      */
+    @Override
     public String getParameter( String strName )
     {
         String[] values = getParameterValues( strName );
@@ -91,15 +93,17 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      * @param strName The parameter name
      * @return An array of values
      */
+    @Override
     public String[] getParameterValues( String strName )
     {
-        return (String[]) _stringParameters.get( strName );
+        return _stringParameters.get( strName );
     }
 
     /**
      * Gets the parameter map
      * @return A map containing all request parameters
      */
+    @Override
     public Map getParameterMap(  )
     {
         return _stringParameters;
@@ -109,7 +113,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      * Gets the list of filenames attached to the request
      * @return The list as an enumeration
      */
-    public Enumeration getFileNames(  )
+    public Enumeration<String> getFileNames( )
     {
         return Collections.enumeration( _multipartFiles.keySet(  ) );
     }
@@ -118,7 +122,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      * Gets a map of all files attached to the request
      * @return The map
      */
-    public Map getFileMap(  )
+    public Map<String, FileItem> getFileMap( )
     {
         return _multipartFiles;
     }

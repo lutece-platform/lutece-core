@@ -43,7 +43,6 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
@@ -58,7 +57,7 @@ import org.apache.lucene.util.Version;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -176,10 +175,10 @@ public final class IndexationService
         _writer = null;
 
         boolean bCreateIndex = bCreate;
-
+        Directory dir = null;
         try
         {
-            Directory dir = IndexationService.getDirectoryIndex(  );
+            dir = IndexationService.getDirectoryIndex( );
 
             if ( !DirectoryReader.indexExists( dir ) )
             { //init index
@@ -230,6 +229,17 @@ public final class IndexationService
             catch ( IOException e )
             {
                 AppLogService.error( e.getMessage(  ), e );
+            }
+            try
+            {
+                if ( dir != null )
+                {
+                    dir.close( );
+                }
+            }
+            catch ( IOException e )
+            {
+                AppLogService.error( e.getMessage( ), e );
             }
         }
 
@@ -593,8 +603,13 @@ public final class IndexationService
     /**
      * Comparator to sort indexer
      */
-    private static class SearchIndexerComparator implements Comparator<SearchIndexer>
+    private static class SearchIndexerComparator implements Comparator<SearchIndexer>, Serializable
     {
+        private static final long serialVersionUID = -3800252801777838562L;
+
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int compare( SearchIndexer si1, SearchIndexer si2 )
         {

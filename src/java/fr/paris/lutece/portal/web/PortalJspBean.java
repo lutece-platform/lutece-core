@@ -394,11 +394,11 @@ public class PortalJspBean
     {
         String strNextUrl = request.getRequestURI(  );
         UrlItem url = new UrlItem( strNextUrl );
-        Enumeration enumParams = request.getParameterNames(  );
+        Enumeration<String> enumParams = request.getParameterNames( );
 
         while ( enumParams.hasMoreElements(  ) )
         {
-            String strParamName = (String) enumParams.nextElement(  );
+            String strParamName = enumParams.nextElement( );
             url.addParameter( strParamName, request.getParameter( strParamName ) );
         }
 
@@ -432,11 +432,11 @@ public class PortalJspBean
     {
         String strNextUrl = request.getRequestURI(  );
         UrlItem url = new UrlItem( strNextUrl );
-        Enumeration enumParams = request.getParameterNames(  );
+        Enumeration<String> enumParams = request.getParameterNames( );
 
         while ( enumParams.hasMoreElements(  ) )
         {
-            String strParamName = (String) enumParams.nextElement(  );
+            String strParamName = enumParams.nextElement( );
             url.addParameter( strParamName, request.getParameter( strParamName ) );
         }
 

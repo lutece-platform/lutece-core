@@ -34,21 +34,24 @@
 package fr.paris.lutece.util.filesystem;
 
 import java.io.File;
-
+import java.io.Serializable;
 import java.util.Comparator;
 
 
 /**
  * Comparator to order files by filenames
  */
-public class FileNameComparator implements Comparator<File>
+public class FileNameComparator implements Comparator<File>, Serializable
 {
+    private static final long serialVersionUID = 7482455452759456827L;
+
     /**
      * Compare filenames
      * @param file1 File1
      * @param file2 File2
      * @return The result of the comparaison
      */
+    @Override
     public int compare( File file1, File file2 )
     {
         return String.CASE_INSENSITIVE_ORDER.compare( file1.getName(  ), file2.getName(  ) );

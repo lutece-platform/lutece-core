@@ -44,4 +44,5 @@ import fr.paris.lutece.portal.web.pluginaction.IPluginAction;
  */
 public interface IExtendableResourcePluginAction extends IPluginAction<IExtendableResource>
 {
+    // Do nothing
 }

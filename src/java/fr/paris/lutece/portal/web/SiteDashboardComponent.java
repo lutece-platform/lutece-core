@@ -78,6 +78,7 @@ public class SiteDashboardComponent extends DashboardComponent
      * @param request HttpServletRequest
      * @return The dashboard component
      */
+    @Override
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
         Right right = RightHome.findByPrimaryKey( getRight(  ) );

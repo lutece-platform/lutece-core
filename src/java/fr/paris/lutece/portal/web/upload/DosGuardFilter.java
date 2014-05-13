@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.web.upload;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.io.IOException;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -76,6 +75,7 @@ public class DosGuardFilter implements Filter
     /**
      * {@inheritDoc}
      */
+    @Override
     public void init( FilterConfig config ) throws ServletException
     {
         _filterConfig = config;
@@ -109,6 +109,7 @@ public class DosGuardFilter implements Filter
     /**
      * {@inheritDoc}
      */
+    @Override
     public void destroy(  )
     {
         // Do nothing
@@ -117,6 +118,7 @@ public class DosGuardFilter implements Filter
     /**
      * {@inheritDoc}
      */
+    @Override
     public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
         throws IOException, ServletException
     {

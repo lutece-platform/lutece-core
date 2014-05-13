@@ -44,6 +44,8 @@ import java.util.List;
  */
 public class Paginator<E> extends AbstractPaginator<E>
 {
+    private static final long serialVersionUID = 1531851701326259139L;
+
     /**
      * Creates a new instance of Paginator
      * @param list The collection to paginate

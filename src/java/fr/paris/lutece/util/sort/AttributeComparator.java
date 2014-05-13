@@ -35,17 +35,19 @@ package fr.paris.lutece.util.sort;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import java.util.Comparator;
 
 
 /**
  * This class provide Attribute Comparator
  */
-public class AttributeComparator implements Comparator<Object>
+public class AttributeComparator implements Comparator<Object>, Serializable
 {
+    private static final long serialVersionUID = 8552197766086300259L;
+
     private String _strSortedAttribute;
     private boolean _bIsASC;
 
@@ -76,6 +78,7 @@ public class AttributeComparator implements Comparator<Object>
      * @param o2 Object
      * @return < 0 if o1 is before o2 in the alphabetical order 0 if o1 equals o2 > 0 if o1 is after o2
      */
+    @Override
     public int compare( Object o1, Object o2 )
     {
         int nStatus = 0;

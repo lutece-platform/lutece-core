@@ -54,6 +54,7 @@ public class DefaultPluginActionResult implements IPluginActionResult
      * Returns the redirect url, <code>null</code> otherwise.
      * @return the redirect url, <code>null</code> otherwise
      */
+    @Override
     public String getRedirect(  )
     {
         return _strRedirect;
@@ -63,6 +64,7 @@ public class DefaultPluginActionResult implements IPluginActionResult
      * Sets the redirect url, <code>null</code> otherwise.
      * @param strRedirect the redirect url, <code>null</code> otherwise.
      */
+    @Override
     public void setRedirect( String strRedirect )
     {
         _strRedirect = strRedirect;
@@ -72,6 +74,7 @@ public class DefaultPluginActionResult implements IPluginActionResult
      * Returns <code>true</code> if no operation needed, <code>false</code> otherwise.
      * @return <code>true</code> if no operation needed, <code>false</code> otherwise.
      */
+    @Override
     public boolean isNoop(  )
     {
         return _bNoop;
@@ -81,6 +84,7 @@ public class DefaultPluginActionResult implements IPluginActionResult
      * Set to <code>true</code> if no operation needed, <code>false</code> otherwise.
      * @param bNoop <code>true</code> if no operation needed, <code>false</code> otherwise.
      */
+    @Override
     public void setNoop( boolean bNoop )
     {
         _bNoop = bNoop;
@@ -90,6 +94,7 @@ public class DefaultPluginActionResult implements IPluginActionResult
      * Returns the html content if any, <code>null</code> otherwise
      * @return the html content if any, <code>null</code> otherwise
      */
+    @Override
     public String getHtmlContent(  )
     {
         return _strHtmlContent;
@@ -99,6 +104,7 @@ public class DefaultPluginActionResult implements IPluginActionResult
      * Sets the html content if any, <code>null</code> otherwise
      * @param strHtmlContent the html content if any, <code>null</code> otherwise
      */
+    @Override
     public void setHtmlContent( String strHtmlContent )
     {
         _strHtmlContent = strHtmlContent;
