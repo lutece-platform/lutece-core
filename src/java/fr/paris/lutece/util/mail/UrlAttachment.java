@@ -34,6 +34,7 @@
 package fr.paris.lutece.util.mail;
 
 import java.io.Serializable;
+
 import java.net.URL;
 
 

@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.date.DateUtil;
 
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -95,7 +96,7 @@ public final class PasswordUtil
      *            lower case
      * @param bNumbers if the password must contain numbers
      * @param bSpecialCaracters if the password must contain special characters
-     * 
+     *
      * @return the new password
      */
     public static String makePassword( int nPasswordSize, boolean bUpperAndLowerCase, boolean bNumbers,

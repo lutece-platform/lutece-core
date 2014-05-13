@@ -36,7 +36,9 @@ package fr.paris.lutece.portal.service.message;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
 import java.io.Serializable;
+
 import java.text.MessageFormat;
+
 import java.util.Locale;
 import java.util.Map;
 
@@ -46,13 +48,13 @@ import java.util.Map;
  */
 public class AdminMessage implements Serializable
 {
-    private static final long serialVersionUID = 1924932226627941151L;
     public static final int TYPE_INFO = 0;
     public static final int TYPE_QUESTION = 1;
     public static final int TYPE_ERROR = 2;
     public static final int TYPE_WARNING = 3;
     public static final int TYPE_CONFIRMATION = 4;
     public static final int TYPE_STOP = 5;
+    private static final long serialVersionUID = 1924932226627941151L;
     private String _strTextKey;
     private String _strTitleKey;
     private String _strUrl;

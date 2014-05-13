@@ -336,7 +336,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             role.setDescription( strRoleDescription );
             AdminRoleHome.update( strOldRoleKey, role );
         }
-        else// if the key changes, first check that the new key doesn't exist
+        else // if the key changes, first check that the new key doesn't exist
         {
             if ( AdminRoleHome.checkExistRole( strNewRoleKey ) )
             {

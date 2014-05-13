@@ -113,7 +113,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      * Gets the list of filenames attached to the request
      * @return The list as an enumeration
      */
-    public Enumeration<String> getFileNames( )
+    public Enumeration<String> getFileNames(  )
     {
         return Collections.enumeration( _multipartFiles.keySet(  ) );
     }
@@ -122,7 +122,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      * Gets a map of all files attached to the request
      * @return The map
      */
-    public Map<String, FileItem> getFileMap( )
+    public Map<String, FileItem> getFileMap(  )
     {
         return _multipartFiles;
     }

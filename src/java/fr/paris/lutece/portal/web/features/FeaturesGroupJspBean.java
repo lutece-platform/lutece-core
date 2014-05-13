@@ -48,6 +48,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -64,9 +65,7 @@ import javax.servlet.http.HttpServletRequest;
 public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 {
     public static final String RIGHT_FEATURES_MANAGEMENT = "CORE_FEATURES_MANAGEMENT";
-
     private static final long serialVersionUID = -8573499137269541850L;
-
     private static final String TEMPLATE_MANAGE_FEATURES = "admin/features/manage_features.html";
     private static final String TEMPLATE_MANAGE_GROUPS = "admin/features/manage_groups.html";
     private static final String TEMPLATE_DISPATCH_FEATURES = "admin/features/dispatch_features.html";

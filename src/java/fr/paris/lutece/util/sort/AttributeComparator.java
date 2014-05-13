@@ -36,8 +36,10 @@ package fr.paris.lutece.util.sort;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.io.Serializable;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import java.util.Comparator;
 
 
@@ -47,7 +49,6 @@ import java.util.Comparator;
 public class AttributeComparator implements Comparator<Object>, Serializable
 {
     private static final long serialVersionUID = 8552197766086300259L;
-
     private String _strSortedAttribute;
     private boolean _bIsASC;
 

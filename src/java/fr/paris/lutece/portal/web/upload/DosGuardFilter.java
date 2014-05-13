@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.upload;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;

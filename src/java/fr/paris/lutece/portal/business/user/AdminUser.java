@@ -42,7 +42,9 @@ import fr.paris.lutece.portal.service.regularexpression.RegularExpressionRemoval
 import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
+
 import java.sql.Timestamp;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -59,10 +61,8 @@ public class AdminUser implements Serializable
     public static final int EXPIRED_CODE = 5;
     public static final int ANONYMIZED_CODE = 10;
     public static final Timestamp DEFAULT_DATE_LAST_LOGIN = Timestamp.valueOf( "1980-01-01 00:00:00" );
-
     private static final long serialVersionUID = 7533831976351347197L;
     private static EmailPatternRegularExpressionRemovalListener _listenerRegularExpression;
-
     private int _nUserId;
     private String _strAccessCode;
     private String _strLastName;
@@ -80,13 +80,13 @@ public class AdminUser implements Serializable
      * User's rights. We use a HashMap instead of a Map so that the field is
      * forced to be serializable.
      */
-    private HashMap<String, Right> _rights = new HashMap<String, Right>( );
+    private HashMap<String, Right> _rights = new HashMap<String, Right>(  );
 
     /**
      * User's roles. We use a HashMap instead of a Map so that the field is
      * forced to be serializable.
      */
-    private HashMap<String, AdminRole> _roles = new HashMap<String, AdminRole>( );
+    private HashMap<String, AdminRole> _roles = new HashMap<String, AdminRole>(  );
 
     /** Authentication Service */
     private String _strAuthenticationService;

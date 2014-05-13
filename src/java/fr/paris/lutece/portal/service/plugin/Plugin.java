@@ -1067,6 +1067,7 @@ public abstract class Plugin implements Comparable<Plugin>
         {
             return false;
         }
+
         return compareTo( (Plugin) o ) == 0;
     }
 
@@ -1177,12 +1178,13 @@ public abstract class Plugin implements Comparable<Plugin>
      * {@inheritDoc}
      */
     @Override
-    public int hashCode( )
+    public int hashCode(  )
     {
-        if ( getName( ) == null )
+        if ( getName(  ) == null )
         {
             return 0;
         }
-        return getName( ).toLowerCase( ).hashCode( );
+
+        return getName(  ).toLowerCase(  ).hashCode(  );
     }
 }

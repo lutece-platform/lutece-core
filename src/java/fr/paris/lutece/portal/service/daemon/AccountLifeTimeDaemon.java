@@ -146,7 +146,6 @@ public class AccountLifeTimeDaemon extends Daemon
             AppLogService.info( sbLogs.toString(  ) );
             sbResult.append( sbLogs.toString(  ) );
             sbResult.append( "\n" );
-            accountsToSetAsExpired = null;
         }
         else
         {

@@ -58,9 +58,7 @@ public class AliasPortletJspBean extends PortletJspBean
 
     // Right
     public static final String RIGHT_MANAGE_ADMIN_SITE = "CORE_ADMIN_SITE";
-
     private static final long serialVersionUID = 1894295808070813451L;
-
     private static final String PARAM_PORTLET_NAME = "portlet_name";
     private static final String PARAM_ORDER = "order";
     private static final String PARAM_COLUMN = "column";

@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -118,12 +119,12 @@ public class PropertiesService
     private void loadFile( String strFullPath ) throws FileNotFoundException, IOException
     {
         FileInputStream fis = null;
+
         try
         {
             File file = new File( strFullPath );
             fis = new FileInputStream( file );
             _properties.load( fis );
-
         }
         catch ( FileNotFoundException fnfe )
         {
@@ -139,11 +140,11 @@ public class PropertiesService
             {
                 try
                 {
-                    fis.close( );
+                    fis.close(  );
                 }
                 catch ( IOException e )
                 {
-                    AppLogService.error( e.getMessage( ), e );
+                    AppLogService.error( e.getMessage(  ), e );
                 }
             }
         }

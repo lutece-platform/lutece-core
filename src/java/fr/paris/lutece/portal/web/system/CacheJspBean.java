@@ -59,7 +59,6 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
 
     // Jsp definition
     public static final String JSP_MANAGE_CACHES = "ManageCaches.jsp";
-
     private static final long serialVersionUID = 7010476999488231065L;
 
     // Markers

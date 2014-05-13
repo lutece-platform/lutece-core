@@ -59,7 +59,6 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
     ////////////////////////////////////////////////////////////////////////////
     // Right
     public static final String RIGHT_MANAGE_LINK_SERVICE = "CORE_LINK_SERVICE_MANAGEMENT";
-
     private static final long serialVersionUID = 3395846045509139922L;
 
     // Constants

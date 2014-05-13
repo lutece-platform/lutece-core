@@ -215,6 +215,7 @@ public class LuteceFilter implements Comparable<LuteceFilter>
         {
             return false;
         }
+
         return super.equals( o );
     }
 
@@ -222,8 +223,8 @@ public class LuteceFilter implements Comparable<LuteceFilter>
      * {@inheritDoc}
      */
     @Override
-    public int hashCode( )
+    public int hashCode(  )
     {
-        return getOrder( );
+        return getOrder(  );
     }
 }

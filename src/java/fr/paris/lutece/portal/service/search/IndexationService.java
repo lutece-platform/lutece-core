@@ -43,6 +43,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
@@ -58,6 +59,7 @@ import org.apache.lucene.util.Version;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -176,9 +178,10 @@ public final class IndexationService
 
         boolean bCreateIndex = bCreate;
         Directory dir = null;
+
         try
         {
-            dir = IndexationService.getDirectoryIndex( );
+            dir = IndexationService.getDirectoryIndex(  );
 
             if ( !DirectoryReader.indexExists( dir ) )
             { //init index
@@ -230,16 +233,17 @@ public final class IndexationService
             {
                 AppLogService.error( e.getMessage(  ), e );
             }
+
             try
             {
                 if ( dir != null )
                 {
-                    dir.close( );
+                    dir.close(  );
                 }
             }
             catch ( IOException e )
             {
-                AppLogService.error( e.getMessage( ), e );
+                AppLogService.error( e.getMessage(  ), e );
             }
         }
 

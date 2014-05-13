@@ -48,7 +48,7 @@ public class CSVMessageDescriptor implements Comparable<CSVMessageDescriptor>
     /**
      * Default constructor
      */
-    public CSVMessageDescriptor( )
+    public CSVMessageDescriptor(  )
     {
     }
 
@@ -70,7 +70,7 @@ public class CSVMessageDescriptor implements Comparable<CSVMessageDescriptor>
      * Get the level of the message
      * @return The level of the message
      */
-    public CSVMessageLevel getMessageLevel( )
+    public CSVMessageLevel getMessageLevel(  )
     {
         return _messageLevel;
     }
@@ -89,7 +89,7 @@ public class CSVMessageDescriptor implements Comparable<CSVMessageDescriptor>
      * @return The number of the line of the CSV file associated with this
      *         message.
      */
-    public int getLineNumber( )
+    public int getLineNumber(  )
     {
         return _nLineNumber;
     }
@@ -108,7 +108,7 @@ public class CSVMessageDescriptor implements Comparable<CSVMessageDescriptor>
      * Get the description of the message
      * @return The description of the message
      */
-    public String getMessageContent( )
+    public String getMessageContent(  )
     {
         return _strMessageContent;
     }
@@ -153,26 +153,31 @@ public class CSVMessageDescriptor implements Comparable<CSVMessageDescriptor>
             return 1;
         }
 
-        if ( this.getLineNumber( ) == o.getLineNumber( ) )
+        if ( this.getLineNumber(  ) == o.getLineNumber(  ) )
         {
-            if ( this.getMessageLevel( ) == CSVMessageLevel.ERROR )
+            if ( this.getMessageLevel(  ) == CSVMessageLevel.ERROR )
             {
-                if ( o.getMessageLevel( ) == CSVMessageLevel.ERROR )
+                if ( o.getMessageLevel(  ) == CSVMessageLevel.ERROR )
                 {
-                    return getMessageContent( ).compareTo( o.getMessageContent( ) );
+                    return getMessageContent(  ).compareTo( o.getMessageContent(  ) );
                 }
+
                 return 1;
             }
-            if ( o.getMessageLevel( ) == CSVMessageLevel.INFO )
+
+            if ( o.getMessageLevel(  ) == CSVMessageLevel.INFO )
             {
-                return getMessageContent( ).compareTo( o.getMessageContent( ) );
+                return getMessageContent(  ).compareTo( o.getMessageContent(  ) );
             }
+
             return -1;
         }
-        if ( this.getLineNumber( ) > o.getLineNumber( ) )
+
+        if ( this.getLineNumber(  ) > o.getLineNumber(  ) )
         {
             return 1;
         }
+
         return -1;
     }
 
@@ -186,19 +191,21 @@ public class CSVMessageDescriptor implements Comparable<CSVMessageDescriptor>
         {
             return false;
         }
+
         CSVMessageDescriptor other = (CSVMessageDescriptor) o;
-        return getLineNumber( ) == other.getLineNumber( )
-                && ( ( getMessageLevel( ) == null && other.getMessageLevel( ) == null ) || getMessageLevel( ).equals(
-                        other.getMessageLevel( ) ) )
-                && StringUtils.equals( getMessageContent( ), other.getMessageContent( ) );
+
+        return ( getLineNumber(  ) == other.getLineNumber(  ) ) &&
+        ( ( ( getMessageLevel(  ) == null ) && ( other.getMessageLevel(  ) == null ) ) ||
+        getMessageLevel(  ).equals( other.getMessageLevel(  ) ) ) &&
+        StringUtils.equals( getMessageContent(  ), other.getMessageContent(  ) );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int hashCode( )
+    public int hashCode(  )
     {
-        return this.getLineNumber( ) * 1000 + this.getMessageLevel( ).hashCode( );
+        return ( this.getLineNumber(  ) * 1000 ) + this.getMessageLevel(  ).hashCode(  );
     }
 }

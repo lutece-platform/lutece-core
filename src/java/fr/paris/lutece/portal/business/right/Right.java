@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.i18n.Localizable;
 
 import java.io.Serializable;
+
 import java.util.Locale;
 
 
@@ -324,6 +325,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
         {
             return false;
         }
+
         return compareTo( (Right) o ) == 0;
     }
 
@@ -331,9 +333,10 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      * {@inheritDoc}
      */
     @Override
-    public int hashCode( )
+    public int hashCode(  )
     {
-        int nIdHash = getId( ) == null ? 0 : getId( ).hashCode( );
-        return getOrder( ) * 100 + nIdHash;
+        int nIdHash = ( getId(  ) == null ) ? 0 : getId(  ).hashCode(  );
+
+        return ( getOrder(  ) * 100 ) + nIdHash;
     }
 }

@@ -95,8 +95,9 @@ public final class StringUtil
      */
     public static String replaceAccent( String strSource )
     {
-        String  strNormalized = Normalizer.normalize( strSource, Normalizer.Form.NFKD );
-        strNormalized = strNormalized.replaceAll("\\p{M}", "");
+        String strNormalized = Normalizer.normalize( strSource, Normalizer.Form.NFKD );
+        strNormalized = strNormalized.replaceAll( "\\p{M}", "" );
+
         return strNormalized;
     }
 
@@ -219,7 +220,6 @@ public final class StringUtil
         return strEmail.matches( EMAIL_PATTERN );
     }
 
-    
     /**
      * This function checks if an email is in a valid format, and is not in a banned domain names list. Returns true if the email is valid
      *
@@ -234,7 +234,6 @@ public final class StringUtil
         return bIsValid && checkEmailDomainName( strEmail, strBannedDomainNames );
     }
 
-    
     /**
      * Check if a domain name of an email address is not in a banned domain names list.
      * @param strEmail Email addresse to check
@@ -292,7 +291,6 @@ public final class StringUtil
         return ( strCodeKey == null ) ? false : strCodeKey.matches( STRING_CODE_PATTERN );
     }
 
-    
     /**
      * Converts <code>strValue</code> to an int value.
      * @param strValue the value to convert

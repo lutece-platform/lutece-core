@@ -42,6 +42,7 @@ import java.io.Serializable;
 public class DataEntity implements Serializable
 {
     private static final long serialVersionUID = -1891572928576705478L;
+
     // Variables declarations 
     private String _strKey;
     private String _strValue;

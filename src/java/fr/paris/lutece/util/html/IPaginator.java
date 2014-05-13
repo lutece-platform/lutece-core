@@ -34,6 +34,7 @@
 package fr.paris.lutece.util.html;
 
 import java.io.Serializable;
+
 import java.util.List;
 
 

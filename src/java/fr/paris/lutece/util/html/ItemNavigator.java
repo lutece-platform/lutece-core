@@ -38,6 +38,7 @@ import fr.paris.lutece.util.url.UrlItem;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
+
 import java.util.List;
 
 
@@ -49,7 +50,6 @@ import java.util.List;
 public class ItemNavigator implements Serializable
 {
     private static final long serialVersionUID = -6240496590042563143L;
-
     private List<String> _listItems;
     private int _nCurrentItemId;
     private String _strBaseUrl;
