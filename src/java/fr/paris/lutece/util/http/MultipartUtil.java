@@ -46,6 +46,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +114,7 @@ public final class MultipartUtil
                 strEncoding = EncodingService.getEncoding(  );
             }
 
-            Map<String, FileItem> mapFiles = new HashMap<String, FileItem>(  );
+            Map<String, List<FileItem>> mapFiles = new HashMap<String, List<FileItem>>(  );
             Map<String, String[]> mapParameters = new HashMap<String, String[]>(  );
 
             List<FileItem> listItems = upload.parseRequest( request );
@@ -161,9 +162,20 @@ public final class MultipartUtil
                 else
                 {
                     // multipart file field, if the parameter filter ActivateNormalizeFileName is set to true
-                    //all file name will be normalize
-                    mapFiles.put( item.getFieldName(  ),
-                        bActivateNormalizeFileName ? new NormalizeFileItem( item ) : item );
+                    // all file name will be normalize
+                    FileItem fileItem = bActivateNormalizeFileName ? new NormalizeFileItem( item ) : item;
+                    List<FileItem> listFileItem = mapFiles.get( fileItem.getFieldName(  ) );
+
+                    if ( listFileItem != null )
+                    {
+                        listFileItem.add( fileItem );
+                    }
+                    else
+                    {
+                        listFileItem = new ArrayList<FileItem>( 1 );
+                        listFileItem.add( fileItem );
+                        mapFiles.put( fileItem.getFieldName(  ), listFileItem );
+                    }
                 }
             }
 

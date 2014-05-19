@@ -39,9 +39,9 @@ import fr.paris.lutece.portal.service.rbac.ResourceIdService;
 import fr.paris.lutece.portal.service.rbac.ResourceType;
 import fr.paris.lutece.portal.service.rbac.ResourceTypeManager;
 
-import java.util.Locale;
-
 import org.apache.commons.lang.StringUtils;
+
+import java.util.Locale;
 
 
 /**
@@ -74,7 +74,7 @@ public class RBAC implements Localizable
      * Returns the RBAC ID
      * @return The RBAC ID
      */
-    public int getRBACId( )
+    public int getRBACId(  )
     {
         return _nRBACId;
     }
@@ -92,7 +92,7 @@ public class RBAC implements Localizable
      * Returns the Permission Key
      * @return The Permission Key
      */
-    public String getPermissionKey( )
+    public String getPermissionKey(  )
     {
         return _strPermissionKey;
     }
@@ -110,7 +110,7 @@ public class RBAC implements Localizable
      * Returns the Resource Id
      * @return The Resource Id
      */
-    public String getResourceId( )
+    public String getResourceId(  )
     {
         return _strResourceId;
     }
@@ -128,7 +128,7 @@ public class RBAC implements Localizable
      * Returns the Resource Type Key
      * @return The Resource Type Key.
      */
-    public String getResourceTypeKey( )
+    public String getResourceTypeKey(  )
     {
         return _strResourceTypeKey;
     }
@@ -146,7 +146,7 @@ public class RBAC implements Localizable
      * Returns the Role Key.
      * @return The Role Key.
      */
-    public String getRoleKey( )
+    public String getRoleKey(  )
     {
         return _strRoleKey;
     }
@@ -164,14 +164,15 @@ public class RBAC implements Localizable
      * Retrieve the label of the resource type from the resource type key
      * @return the label of the resource type
      */
-    public String getResourceTypeLabel( )
+    public String getResourceTypeLabel(  )
     {
-        ResourceType resourceType = ResourceTypeManager.getResourceType( getResourceTypeKey( ) );
+        ResourceType resourceType = ResourceTypeManager.getResourceType( getResourceTypeKey(  ) );
 
         if ( resourceType != null )
         {
-            return resourceType.getResourceTypeLabel( );
+            return resourceType.getResourceTypeLabel(  );
         }
+
         return StringUtils.EMPTY;
     }
 
@@ -179,21 +180,21 @@ public class RBAC implements Localizable
      * Retrieve the label of the resource from the resource id
      * @return the label of the resource
      */
-    public String getResourceIdLabel( )
+    public String getResourceIdLabel(  )
     {
-        if ( getResourceId( ).equals( WILDCARD_RESOURCES_ID ) )
+        if ( getResourceId(  ).equals( WILDCARD_RESOURCES_ID ) )
         {
             return WILDCARD_RESOURCES_ID;
         }
         else
         {
-            ResourceType resourceType = ResourceTypeManager.getResourceType( getResourceTypeKey( ) );
+            ResourceType resourceType = ResourceTypeManager.getResourceType( getResourceTypeKey(  ) );
 
             if ( resourceType != null )
             {
-                ResourceIdService resourceManagerService = resourceType.getResourceIdService( );
+                ResourceIdService resourceManagerService = resourceType.getResourceIdService(  );
 
-                String strTitle = resourceManagerService.getTitle( getResourceId( ), _locale );
+                String strTitle = resourceManagerService.getTitle( getResourceId(  ), _locale );
 
                 if ( strTitle != null )
                 {
@@ -201,9 +202,10 @@ public class RBAC implements Localizable
                 }
                 else
                 {
-                    return getResourceId( );
+                    return getResourceId(  );
                 }
             }
+
             return StringUtils.EMPTY;
         }
     }
@@ -212,19 +214,19 @@ public class RBAC implements Localizable
      * Retrieve the label of the permission from the permission key
      * @return the label of the permission
      */
-    public String getPermissionLabel( )
+    public String getPermissionLabel(  )
     {
-        if ( getPermissionKey( ).equals( WILDCARD_PERMISSIONS_KEY ) )
+        if ( getPermissionKey(  ).equals( WILDCARD_PERMISSIONS_KEY ) )
         {
             return WILDCARD_PERMISSIONS_KEY;
         }
         else
         {
-            ResourceType resourceType = ResourceTypeManager.getResourceType( getResourceTypeKey( ) );
-            Permission permission = resourceType.getPermission( getPermissionKey( ) );
+            ResourceType resourceType = ResourceTypeManager.getResourceType( getResourceTypeKey(  ) );
+            Permission permission = resourceType.getPermission( getPermissionKey(  ) );
             permission.setLocale( _locale );
 
-            return permission.getPermissionTitle( );
+            return permission.getPermissionTitle(  );
         }
     }
 }

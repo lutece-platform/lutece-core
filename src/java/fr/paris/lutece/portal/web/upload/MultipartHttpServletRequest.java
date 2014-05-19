@@ -37,18 +37,23 @@ import org.apache.commons.fileupload.FileItem;
 
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 
 /**
- * This class provides a Wrapper of an HTTP request that handle multipart content
+ * This class provides a Wrapper of an HTTP request that handle multipart
+ * content
  */
 public class MultipartHttpServletRequest extends HttpServletRequestWrapper
 {
-    private final Map<String, FileItem> _multipartFiles;
+    private final Map<String, FileItem> _multipartSingleFiles;
+    private final Map<String, List<FileItem>> _multipartFiles;
     private final Map<String, String[]> _stringParameters;
 
     /**
@@ -57,12 +62,13 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      * @param multipartFiles Files
      * @param parameters Request parameters
      */
-    public MultipartHttpServletRequest( HttpServletRequest request, Map<String, FileItem> multipartFiles,
+    public MultipartHttpServletRequest( HttpServletRequest request, Map<String, List<FileItem>> multipartFiles,
         Map<String, String[]> parameters )
     {
         super( request );
         _multipartFiles = Collections.unmodifiableMap( multipartFiles );
         _stringParameters = Collections.unmodifiableMap( parameters );
+        _multipartSingleFiles = Collections.unmodifiableMap( convertFileMap( _multipartFiles ) );
     }
 
     /**
@@ -119,12 +125,37 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
     }
 
     /**
+     * Gets a map of files attached to the request. Only one file is returned
+     * for each name of the form.
+     * @return The map
+     * @deprecated use {@link #getFileListMap()} instead to get every files
+     */
+    @Deprecated
+    public Map<String, FileItem> getFileMap(  )
+    {
+        return _multipartSingleFiles;
+    }
+
+    /**
      * Gets a map of all files attached to the request
      * @return The map
      */
-    public Map<String, FileItem> getFileMap(  )
+    public Map<String, List<FileItem>> getFileListMap(  )
     {
         return _multipartFiles;
+    }
+
+    /**
+     * Gets a file. If several files are available for a given name, then only
+     * the first one is returned
+     * @param strName The file name
+     * @return The file as a FileItem
+     */
+    public FileItem getFile( String strName )
+    {
+        List<FileItem> listFileItem = _multipartFiles.get( strName );
+
+        return ( ( listFileItem != null ) && ( listFileItem.size(  ) > 0 ) ) ? listFileItem.get( 0 ) : null;
     }
 
     /**
@@ -132,8 +163,28 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      * @param strName The file name
      * @return The file as a FileItem
      */
-    public FileItem getFile( String strName )
+    public List<FileItem> getFileList( String strName )
     {
         return _multipartFiles.get( strName );
+    }
+
+    /**
+     * Convert a map of file list with their name into a map of single files
+     * with their names
+     * @param multipartFiles The map to convert
+     * @return The converted map
+     */
+    private Map<String, FileItem> convertFileMap( Map<String, List<FileItem>> multipartFiles )
+    {
+        Map<String, FileItem> mapFiles = new HashMap<String, FileItem>( multipartFiles.size(  ) );
+
+        for ( Entry<String, List<FileItem>> entry : multipartFiles.entrySet(  ) )
+        {
+            mapFiles.put( entry.getKey(  ),
+                ( ( entry.getValue(  ) == null ) || ( entry.getValue(  ).size(  ) == 0 ) ) ? null
+                                                                                           : entry.getValue(  ).get( 0 ) );
+        }
+
+        return mapFiles;
     }
 }

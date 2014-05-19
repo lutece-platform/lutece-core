@@ -76,18 +76,19 @@ public class UploadServlet extends HttpServlet
         JSONObject json = new JSONObject(  );
         json.element( JSON_FILES, new JSONArray(  ) );
 
-        for ( Entry<String, FileItem> entry : ( request.getFileMap(  ) ).entrySet(  ) )
+        for ( Entry<String, List<FileItem>> entry : ( request.getFileListMap(  ) ).entrySet(  ) )
         {
-            FileItem fileItem = entry.getValue(  );
+            for ( FileItem fileItem : entry.getValue(  ) )
+            {
+                JSONObject jsonFile = new JSONObject(  );
+                jsonFile.element( JSON_FILE_NAME, fileItem.getName(  ) );
+                jsonFile.element( JSON_FILE_SIZE, fileItem.getSize(  ) );
 
-            JSONObject jsonFile = new JSONObject(  );
-            jsonFile.element( JSON_FILE_NAME, fileItem.getName(  ) );
-            jsonFile.element( JSON_FILE_SIZE, fileItem.getSize(  ) );
+                // add to existing array
+                json.accumulate( JSON_FILES, jsonFile );
 
-            // add to existing array
-            json.accumulate( JSON_FILES, jsonFile );
-
-            listFileItems.add( fileItem );
+                listFileItems.add( fileItem );
+            }
         }
 
         IAsynchronousUploadHandler handler = getHandler( request );
