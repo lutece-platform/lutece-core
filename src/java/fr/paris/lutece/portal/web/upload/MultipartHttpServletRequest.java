@@ -52,9 +52,9 @@ import javax.servlet.http.HttpServletRequestWrapper;
  */
 public class MultipartHttpServletRequest extends HttpServletRequestWrapper
 {
-    private final Map<String, FileItem> _multipartSingleFiles;
     private final Map<String, List<FileItem>> _multipartFiles;
     private final Map<String, String[]> _stringParameters;
+    private Map<String, FileItem> _multipartSingleFiles;
 
     /**
      * Constructor
@@ -68,7 +68,6 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
         super( request );
         _multipartFiles = Collections.unmodifiableMap( multipartFiles );
         _stringParameters = Collections.unmodifiableMap( parameters );
-        _multipartSingleFiles = Collections.unmodifiableMap( convertFileMap( _multipartFiles ) );
     }
 
     /**
@@ -133,6 +132,11 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
     @Deprecated
     public Map<String, FileItem> getFileMap(  )
     {
+        if ( _multipartSingleFiles == null )
+        {
+            _multipartSingleFiles = Collections.unmodifiableMap( convertFileMap( _multipartFiles ) );
+        }
+
         return _multipartSingleFiles;
     }
 
