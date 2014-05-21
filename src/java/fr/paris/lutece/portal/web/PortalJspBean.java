@@ -62,10 +62,12 @@ import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 import org.apache.commons.lang.StringUtils;
+
+import java.io.UnsupportedEncodingException;
+
+import java.net.URLEncoder;
 
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -392,7 +394,7 @@ public class PortalJspBean
      * @return The login page URL
      * @since v1.1
      */
-    public static String redirectLogin( HttpServletRequest request ) 
+    public static String redirectLogin( HttpServletRequest request )
     {
         String strNextUrl = request.getRequestURI(  );
         UrlItem url = new UrlItem( strNextUrl );
@@ -401,13 +403,14 @@ public class PortalJspBean
         while ( enumParams.hasMoreElements(  ) )
         {
             String strParamName = enumParams.nextElement(  );
+
             try
             {
-                url.addParameter( strParamName, URLEncoder.encode( request.getParameter( strParamName ) , "UTF-8" ));
+                url.addParameter( strParamName, URLEncoder.encode( request.getParameter( strParamName ), "UTF-8" ) );
             }
-            catch (UnsupportedEncodingException ex)
+            catch ( UnsupportedEncodingException ex )
             {
-                AppLogService.error( "Redirection error while encoding URL : " + ex.getMessage() , ex);
+                AppLogService.error( "Redirection error while encoding URL : " + ex.getMessage(  ), ex );
             }
         }
 

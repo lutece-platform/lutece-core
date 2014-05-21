@@ -35,14 +35,17 @@ package fr.paris.lutece.portal.business.file;
 
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 
+import java.io.Serializable;
+
 
 /**
  *
  * class File
  *
  */
-public class File
+public class File implements Serializable
 {
+    private static final long serialVersionUID = -2014847000871390972L;
     private int _nIdFile;
     private PhysicalFile _physicalFile;
     private String _strTitle;

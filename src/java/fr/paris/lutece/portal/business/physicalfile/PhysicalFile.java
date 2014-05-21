@@ -33,14 +33,17 @@
  */
 package fr.paris.lutece.portal.business.physicalfile;
 
+import java.io.Serializable;
+
 
 /**
  *
  * class PhysicalFile
  *
  */
-public class PhysicalFile
+public class PhysicalFile implements Serializable
 {
+    private static final long serialVersionUID = 2417106117403081560L;
     private int _nIdPhysicalFile;
     private byte[] _byValue;
 
