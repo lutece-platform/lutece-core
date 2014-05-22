@@ -1,61 +1,71 @@
 <div class="row">
-	<div class="col-md-12" style="min-height:550px;padding-top:100px;">
-		<div class="hero-unit center">
-		<h1>${title}</h1>
-                <br />
-                <br />
-		<#if message.type = 0 >
-                <div class="alert alert-info">
-			<i class="glyphicon glyphicon-info-sign"></i>
-		<#elseif message.type = 1 > 
-                <div class="alert alert-info">
-			<i class="glyphicon glyphicon-question-sign"></i>
-		<#elseif message.type = 2 > 
-                <div class="alert alert-danger">
-			<i class="glyphicon glyphicon-remove-sign"></i>
-		<#elseif message.type = 3 > 
-                <div class="alert alert-info">
-                    <i class="glyphicon glyphicon-exclamation-sign"></i>
-		<#elseif message.type = 4 > 
-		<div class="alert alert-info">	
-                    <i class="glyphicon glyphicon-ok-sign"></i>
-		<#elseif message.type = 5 > 
-			<i class="glyphicon glyphicon-minus-sign"></i>
-		</#if>
-                    ${text}
-                </div>
-		<form method="post" action="${url!}" target="${target!}" class="form-inline">
-			<#if list_parameters?exists>
-			<#assign keys = list_parameters?keys>
-			<#list keys as key>
-			<input type="hidden" name="${key}" value="${list_parameters[key]}" />
-			</#list>
-			</#if>
-			<#if url?has_content> 
-			<button type="submit"class="btn btn-lg btn-info"><i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.util.labelValidate}</button>
-			</#if>
-		</form>	
-		<#if back_url?has_content>
-			<form method="post" action="${back_url}" class="form-inline" >
-			<#if list_parameters?exists>
-			<#list keys as key>
-			<input type="hidden" name="${key}" value="${list_parameters[key]}" />
-			</#list>	
-			</#if>
-			<#if cancel_button = 1> 
-				<button type="submit" name="cancel" class="btn btn-lg btn-info"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}</button>
-			<#elseif cancel_button = 2>
-				<button type="submit" name="cancel" class="btn btn-lg btn-info"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}</button>
-			</#if>
-			</form>		
-		<#else>		
-			<#if cancel_button = 1> 
-				<button type="button" class="btn btn-lg btn-info" onclick="javascript:window.history.back();"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}</button>
-			<#elseif cancel_button = 2>
-				<button type="button" class="btn btn-lg btn-info" onclick="javascript:window.history.back();"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}</button>
-			</#if>
-		</#if>
-		</div>	
+	<div class="col-md-12">
+		<div class="jumbotron">
+			<div class="container">
+				<h1>
+				<#if message.type = 0 >
+					<i class="glyphicon glyphicon-info-sign"></i>
+				<#elseif message.type = 1 > 
+						<i class="glyphicon glyphicon-question-sign"></i>
+					<#elseif message.type = 2 > 
+							<i class="glyphicon glyphicon-remove-sign"></i>
+					<#elseif message.type = 3 > 
+							<i class="glyphicon glyphicon-exclamation-sign"></i>
+					<#elseif message.type = 4 > 
+							<i class="glyphicon glyphicon-ok-sign"></i>
+					<#elseif message.type = 5  > 
+						
+				</#if>${title}</h1>
+				<#if message.type = 0 >
+					<div class="alert alert-info">
+				<#elseif message.type = 1 > 
+					<div class="alert alert-info">
+					<#elseif message.type = 2 > 
+						<div class="alert alert-danger">
+					<#elseif message.type = 3 > 
+						<div class="alert alert-info">
+					<#elseif message.type = 4 > 
+						<div class="alert alert-info">	
+					</#if>
+					<br>
+					${text}
+					<br>
+					<div class="col-md-6 text-center clearfix">
+					<#if list_parameters?exists>
+						<form method="post" action="${url!}" target="${target!}" class="form-inline">
+							<#assign keys = list_parameters?keys>
+							<#list keys as key>
+							<input type="hidden" name="${key}" value="${list_parameters[key]}" />
+							</#list>
+							</#if>
+							<#if url?has_content> 
+							<button type="submit"class="btn btn-lg btn-info"><i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.util.labelValidate}</button>
+						</form>	
+					</#if>
+					<#if back_url?has_content>
+						<form method="post" action="${back_url}" class="form-inline" >
+						<#if list_parameters?exists>
+						<#list keys as key>
+						<input type="hidden" name="${key}" value="${list_parameters[key]}" />
+						</#list>	
+						</#if>
+						<#if cancel_button = 1> 
+							<button type="submit" name="cancel" class="btn btn-lg btn-info"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}</button>
+						<#elseif cancel_button = 2>
+							<button type="submit" name="cancel" class="btn btn-lg btn-info"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}</button>
+						</#if>
+						</form>		
+					<#else>		
+						<#if cancel_button = 1> 
+							<button type="button" class="btn btn-lg btn-info pagination-centered" onclick="javascript:window.history.back();"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}</button>
+						<#elseif cancel_button = 2>
+							<button type="button" class="btn btn-lg btn-info pagination-centered" onclick="javascript:window.history.back();"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}</button>
+						</#if>
+					</#if>
+					</div>
+				</div>
+			</div>	
+		</div>
 	</div>
 </div>
 
