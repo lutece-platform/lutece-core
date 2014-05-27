@@ -84,6 +84,9 @@ public abstract class MVCApplication implements XPageApplication
     private static final String URL_PORTAL = "Portal.jsp";
     private static final String PATH_PORTAL = "jsp/site/";
     private static final String VIEW_MESSAGEBOX = "messageBox";
+    private static final String CONTENT_TYPE_JSON = "application/json";
+    private static final String CONTENT_TYPE_XML = "application/xml";
+    
     private static Logger _logger = MVCUtils.getLogger(  );
     private List<ErrorMessage> _listErrors = new ArrayList<ErrorMessage>(  );
     private List<ErrorMessage> _listInfos = new ArrayList<ErrorMessage>(  );
@@ -627,6 +630,56 @@ public abstract class MVCApplication implements XPageApplication
         return new XPage(  );
     }
     
+    /**
+     * Return a response as JSON content
+     * @param strJSON The JSON
+     * @return An unused XPage
+     */
+    protected XPage responseJSON( String strJSON )
+    {
+        HttpServletResponse response = LocalVariables.getResponse(  );
+        response.setContentType( CONTENT_TYPE_JSON );
+
+        try
+        {
+            ServletOutputStream out = response.getOutputStream(  );
+            out.print( strJSON );
+            out.flush();
+            out.close(  );
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( e.getStackTrace(  ), e );
+        }
+
+        return new XPage(  );
+    }
+
+    /**
+     * Return a response as XML content
+     * @param strXML The XML
+     * @return An unused XPage
+     */
+    protected XPage responseXML( String strXML )
+    {
+        HttpServletResponse response = LocalVariables.getResponse(  );
+        response.setContentType( CONTENT_TYPE_XML );
+
+        try
+        {
+            ServletOutputStream out = response.getOutputStream(  );
+            out.print( strXML );
+            out.flush();
+            out.close(  );
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( e.getStackTrace(  ), e );
+        }
+
+        return new XPage(  );
+    }
+
     /**
      * Add download headers to the response
      * @param response The response
