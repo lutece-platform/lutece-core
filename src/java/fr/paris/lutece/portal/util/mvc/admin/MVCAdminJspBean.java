@@ -45,20 +45,26 @@ import fr.paris.lutece.util.ErrorMessage;
 import fr.paris.lutece.util.beanvalidation.ValidationError;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.log4j.Logger;
+
+import org.springframework.util.ReflectionUtils;
+
 import java.io.IOException;
 import java.io.Serializable;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
-import org.springframework.util.ReflectionUtils;
 
 
 /**
@@ -68,9 +74,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 {
     private static final String MARK_ERRORS = "errors";
     private static final String MARK_INFOS = "infos";
-    
     private static Logger _logger = MVCUtils.getLogger(  );
-    
     private List<ErrorMessage> _listErrors = new ArrayList<ErrorMessage>(  );
     private List<ErrorMessage> _listInfos = new ArrayList<ErrorMessage>(  );
     private Controller _controller = getClass(  ).getAnnotation( Controller.class );
@@ -116,9 +120,9 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
         }
         catch ( InvocationTargetException e )
         {
-            if ( e.getTargetException( ) instanceof AccessDeniedException )
+            if ( e.getTargetException(  ) instanceof AccessDeniedException )
             {
-                throw (AccessDeniedException) e.getTargetException( );
+                throw (AccessDeniedException) e.getTargetException(  );
             }
 
             throw new AppException( "MVC Error dispaching view and action ", e );
@@ -355,12 +359,13 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 
         if ( additionalParameters != null )
         {
-            for ( Entry<String, String> entry : additionalParameters.entrySet( ) )
+            for ( Entry<String, String> entry : additionalParameters.entrySet(  ) )
             {
-                url.addParameter( entry.getKey( ), entry.getValue( ) );
+                url.addParameter( entry.getKey(  ), entry.getValue(  ) );
             }
         }
-        return redirect( request, url.getUrl( ) );
+
+        return redirect( request, url.getUrl(  ) );
     }
 
     /**

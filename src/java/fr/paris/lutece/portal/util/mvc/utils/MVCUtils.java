@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.util.mvc.utils;
 
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+
 import org.apache.log4j.Logger;
 
 import java.lang.reflect.Method;
@@ -61,9 +62,8 @@ public final class MVCUtils
      */
     private MVCUtils(  )
     {
-        
     }
-    
+
     /**
      * Get the view parameter
      * @param request The HTTP request

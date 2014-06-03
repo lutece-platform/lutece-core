@@ -57,5 +57,4 @@ public @interface View
      * If the view is the default view. One and only one view should set this value to true.
      */
     boolean defaultView(  ) default false;
-
 }
