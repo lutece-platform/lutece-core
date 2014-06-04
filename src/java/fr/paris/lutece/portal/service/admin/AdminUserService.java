@@ -97,6 +97,37 @@ import javax.servlet.http.HttpServletRequest;
  */
 public final class AdminUserService
 {
+    // DataStore keys
+    public static final String DSKEY_ACCOUNT_REACTIVATED_MAIL_SENDER = "core.advanced_parameters.account_reactivated_mail_sender";
+    public static final String DSKEY_ACCOUNT_REACTIVATED_MAIL_SUBJECT = "core.advanced_parameters.account_reactivated_mail_subject";
+    public static final String DSKEY_ACCOUNT_REACTIVATED_MAIL_BODY = "core_account_reactivated_mail";
+    public static final String DSKEY_PASSWORD_DURATION = "core.advanced_parameters.password_duration";
+    public static final String DSKEY_MAXIMUM_NUMBER_PASSWORD_CHANGE = "core.advanced_parameters.maximum_number_password_change";
+    public static final String DSKEY_PASSWORD_HISTORY_SIZE = "core.advanced_parameters.password_history_size";
+    public static final String DSKEY_TSW_SIZE_PASSWORD_CHANGE = "core.advanced_parameters.tsw_size_password_change";
+    public static final String DSKEY_NOTIFY_USER_PASSWORD_EXPIRED = "core.advanced_parameters.notify_user_password_expired";
+    public static final String DSKEY_BANNED_DOMAIN_NAMES = "banned_domain_names";
+    public static final String DSKEY_ACCOUNT_LIFE_TIME = "core.advanced_parameters.account_life_time";
+    public static final String DSKEY_TIME_BEFORE_ALERT_ACCOUNT = "core.advanced_parameters.time_before_alert_account";
+    public static final String DSKEY_NB_ALERT_ACCOUNT = "core.advanced_parameters.nb_alert_account";
+    public static final String DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT = "core.advanced_parameters.time_between_alerts_account";
+    public static final String DSKEY_ACCES_FAILURES_MAX = "core.advanced_parameters.access_failures_max";
+    public static final String DSKEY_ACCES_FAILURES_INTERVAL = "core.advanced_parameters.access_failures_interval";
+    public static final String DSKEY_EMAIL_PATTERN = "core.advanced_parameters.email_pattern";
+    public static final String DSKEY_EMAIL_PATTERN_VERIFY_BY = "core.advanced_parameters.email_pattern_verify_by";
+    public static final String DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS = "core.advanced_parameters.password_format_special_characters";
+    public static final String DSKEY_PASSWORD_FORMAT_NUMERO = "core.advanced_parameters.password_format_numero";
+    public static final String DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE = "core.advanced_parameters.password_format_upper_lower_case";
+    public static final String DSKEY_FORCE_CHANGE_PASSWORD_REINIT = "core.advanced_parameters.force_change_password_reinit";
+    public static final String DSKEY_PASSWORD_MINIMUM_LENGTH = "core.advanced_parameters.password_minimum_length";
+    public static final String DSKEY_DEFAULT_USER_STATUS = "core.advanced_parameters.default_user_status";
+    public static final String DSKEY_DEFAULT_USER_LANGUAGE = "core.advanced_parameters.default_user_language";
+    public static final String DSKEY_DEFAULT_USER_NOTIFICATION = "core.advanced_parameters.default_user_notification";
+    public static final String DSKEY_DEFAULT_USER_LEVEL = "core.advanced_parameters.default_user_level";
+    public static final String DSKEY_ENABLE_PASSWORD_ENCRYPTION = "core.advanced_parameters.enable_password_encryption";
+    public static final String DSKEY_ENCRYPTION_ALGORITHM = "core.advanced_parameters.encryption_algorithm";
+    public static final String DSKEY_USE_ADVANCED_SECURITY_PARAMETERS = "core.advanced_parameters.use_advanced_security_parameters";
+
     // Parameter
     private static final String PARAMETER_ACCESS_CODE = "access_code";
     private static final String PARAMETER_LAST_NAME = "last_name";
@@ -204,37 +235,6 @@ public final class AdminUserService
     private static final String CONSTANT_XML_ATTRIBUTE_ID = "attribute-id";
     private static final String CONSTANT_XML_ATTRIBUTE_FIELD_ID = "attribute-field-id";
     private static final String CONSTANT_XML_ATTRIBUTE_VALUE = "attribute-value";
-
-    // DSKEY
-    public static final String DSKEY_ACCOUNT_REACTIVATED_MAIL_SENDER = "core.advanced_parameters.account_reactivated_mail_sender";
-    public static final String DSKEY_ACCOUNT_REACTIVATED_MAIL_SUBJECT = "core.advanced_parameters.account_reactivated_mail_subject";
-    public static final String DSKEY_ACCOUNT_REACTIVATED_MAIL_BODY = "core_account_reactivated_mail";
-    public static final String DSKEY_PASSWORD_DURATION = "core.advanced_parameters.password_duration";
-    public static final String DSKEY_MAXIMUM_NUMBER_PASSWORD_CHANGE = "core.advanced_parameters.maximum_number_password_change";
-    public static final String DSKEY_PASSWORD_HISTORY_SIZE = "core.advanced_parameters.password_history_size";
-    public static final String DSKEY_TSW_SIZE_PASSWORD_CHANGE = "core.advanced_parameters.tsw_size_password_change";
-    public static final String DSKEY_NOTIFY_USER_PASSWORD_EXPIRED = "core.advanced_parameters.notify_user_password_expired";
-    public static final String DSKEY_BANNED_DOMAIN_NAMES = "banned_domain_names";
-    public static final String DSKEY_ACCOUNT_LIFE_TIME = "core.advanced_parameters.account_life_time";
-    public static final String DSKEY_TIME_BEFORE_ALERT_ACCOUNT = "core.advanced_parameters.time_before_alert_account";
-    public static final String DSKEY_NB_ALERT_ACCOUNT = "core.advanced_parameters.nb_alert_account";
-    public static final String DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT = "core.advanced_parameters.time_between_alerts_account";
-    public static final String DSKEY_ACCES_FAILURES_MAX = "core.advanced_parameters.access_failures_max";
-    public static final String DSKEY_ACCES_FAILURES_INTERVAL = "core.advanced_parameters.access_failures_interval";
-    public static final String DSKEY_EMAIL_PATTERN = "core.advanced_parameters.email_pattern";
-    public static final String DSKEY_EMAIL_PATTERN_VERIFY_BY = "core.advanced_parameters.email_pattern_verify_by";
-    public static final String DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS = "core.advanced_parameters.password_format_special_characters";
-    public static final String DSKEY_PASSWORD_FORMAT_NUMERO = "core.advanced_parameters.password_format_numero";
-    public static final String DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE = "core.advanced_parameters.password_format_upper_lower_case";
-    public static final String DSKEY_FORCE_CHANGE_PASSWORD_REINIT = "core.advanced_parameters.force_change_password_reinit";
-    public static final String DSKEY_PASSWORD_MINIMUM_LENGTH = "core.advanced_parameters.password_minimum_length";
-    public static final String DSKEY_DEFAULT_USER_STATUS = "core.advanced_parameters.default_user_status";
-    public static final String DSKEY_DEFAULT_USER_LANGUAGE = "core.advanced_parameters.default_user_language";
-    public static final String DSKEY_DEFAULT_USER_NOTIFICATION = "core.advanced_parameters.default_user_notification";
-    public static final String DSKEY_DEFAULT_USER_LEVEL = "core.advanced_parameters.default_user_level";
-    public static final String DSKEY_ENABLE_PASSWORD_ENCRYPTION = "core.advanced_parameters.enable_password_encryption";
-    public static final String DSKEY_ENCRYPTION_ALGORITHM = "core.advanced_parameters.encryption_algorithm";
-    public static final String DSKEY_USE_ADVANCED_SECURITY_PARAMETERS = "core.advanced_parameters.use_advanced_security_parameters";
 
     /** Private constructor */
     private AdminUserService(  )
