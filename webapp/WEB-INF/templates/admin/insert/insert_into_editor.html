@@ -1,0 +1,14 @@
+<script type="text/javascript">
+	if (opener != null){
+		// XINHA The caller must provide an insert_html method
+		// opener.xinha_editors.${input}.insertHTML( '${insert}' );
+		// TinyMCE insert test
+		var t1 = '${input}';
+		if ( t1 !='undefined' ){
+			opener.document.forms[0].${input}.value='${insert}';
+		} else {
+			opener.tinyMCE.activeEditor.selection.setContent('${insert} ');
+		}
+	}
+	self.close();
+</script>  

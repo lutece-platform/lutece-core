@@ -1,21 +1,12 @@
 <script type="text/javascript">
-	if (opener.xinha_editors != null && opener.xinha_editors.${input} != null )
-	{
-		// The caller must provide an insert_html method
-		opener.xinha_editors.${input}.insertHTML( '${insert}' );
-	}
-	else
-	{
-		// we do no use xinha...
-		// opener.document.forms[0].${input}.value='${insert}';
-		// var elementInput = opener.document.getElementById("${input}");
-		// elementInput.value = '${insert}';
+		// TinyMCE insert
 		var t1 = '${input}';
  		if ( t1 !='undefined' ){
-			opener.document.forms[0].${input}.value='${insert}';
+			var elementInput = opener.document.getElementById("${input}");
+			elementInput.value = '${insert}';
+			window.close();
 		} else {
-			opener.tinyMCE.activeEditor.selection.setContent('${insert} ');
+			parent.tinymce.activeEditor.insertContent('${insert}');
+			parent.tinymce.activeEditor.windowManager.close();	
 		}
-	}
-	self.close();
 </script>
