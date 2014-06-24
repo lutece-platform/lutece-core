@@ -85,6 +85,7 @@ import javax.validation.ConstraintViolation;
  */
 public abstract class MVCApplication implements XPageApplication
 {
+    private static final long serialVersionUID = 6093635383465830355L;
     private static final String MARK_ERRORS = "errors";
     private static final String MARK_INFOS = "infos";
     private static final String MARK_MESSAGE_BOX = "messageBox";
