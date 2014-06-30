@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.util.xml.XmlUtil;
 
 import java.sql.Timestamp;
-
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -646,7 +645,8 @@ public abstract class Portlet implements XmlContent
      * @return True if the content of the portlet can be put in cache if the
      *         user is not authenticated, false otherwise.<br />
      *         The default value is true.
-     * @see {@link #canBeCachedForConnectedUsers()} for cache for
+     * @see #canBeCachedForConnectedUsers()
+     *      {@link #canBeCachedForConnectedUsers()} for cache for
      *      authenticated users
      */
     public boolean canBeCachedForAnonymousUsers(  )
@@ -665,7 +665,8 @@ public abstract class Portlet implements XmlContent
      * @return True if the content of the portlet can be put in cache if the
      *         user is authenticated, false otherwise.<br />
      *         The default value is true.
-     * @see {@link #canBeCachedForAnonymousUsers()} for cache for anonymous
+     * @see #canBeCachedForAnonymousUsers()
+     *      {@link #canBeCachedForAnonymousUsers()} for cache for anonymous
      *      users
      */
     public boolean canBeCachedForConnectedUsers(  )
