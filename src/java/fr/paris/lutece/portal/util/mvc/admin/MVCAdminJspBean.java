@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.utils.MVCMessage;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
@@ -51,6 +52,8 @@ import org.apache.log4j.Logger;
 import org.springframework.util.ReflectionUtils;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 
 import java.lang.reflect.InvocationTargetException;
@@ -414,5 +417,60 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
         url.addParameter( MVCUtils.PARAMETER_ACTION, strAction );
 
         return url.getUrl(  );
+    }
+
+    /**
+     * Initiates a file download
+     * @param strData Data of the file to download
+     * @param strFilename Name of file
+     * @param strContentType content type to set to the response
+     */
+    protected void download( String strData, String strFilename, String strContentType )
+    {
+        HttpServletResponse response = _response;
+        PrintWriter out = null;
+        response.setHeader( "Content-Disposition", "attachment; filename=\"" + strFilename + "\";" );
+        MVCUtils.addDownloadHeaderToResponse( response, strFilename, strContentType );
+
+        try
+        {
+            out = response.getWriter(  );
+            out.print( strData );
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( e.getStackTrace(  ), e );
+        }
+        finally
+        {
+            if ( out != null )
+            {
+                out.close(  );
+            }
+        }
+    }
+
+    /**
+     * Initiates a download of a byte array
+     * @param data Data to download
+     * @param strFilename Name of the downloaded file
+     * @param strContentType Content type to set to the response
+     */
+    protected void download( byte[] data, String strFilename, String strContentType )
+    {
+        HttpServletResponse response = _response;
+        OutputStream os;
+        MVCUtils.addDownloadHeaderToResponse( response, strFilename, strContentType );
+
+        try
+        {
+            os = response.getOutputStream(  );
+            os.write( data );
+            os.close(  );
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( e.getStackTrace(  ), e );
+        }
     }
 }

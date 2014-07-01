@@ -589,7 +589,7 @@ public abstract class MVCApplication implements XPageApplication
         HttpServletResponse response = LocalVariables.getResponse(  );
         PrintWriter out = null;
         response.setHeader( "Content-Disposition", "attachment; filename=\"" + strFilename + "\";" );
-        addDownloadHeaderToResponse( response, strFilename, strContentType );
+        MVCUtils.addDownloadHeaderToResponse( response, strFilename, strContentType );
 
         try
         {
@@ -622,7 +622,7 @@ public abstract class MVCApplication implements XPageApplication
     {
         HttpServletResponse response = LocalVariables.getResponse(  );
         OutputStream os;
-        addDownloadHeaderToResponse( response, strFilename, strContentType );
+        MVCUtils.addDownloadHeaderToResponse( response, strFilename, strContentType );
 
         try
         {
@@ -686,22 +686,6 @@ public abstract class MVCApplication implements XPageApplication
         }
 
         return new XPage(  );
-    }
-
-    /**
-     * Add download headers to the response
-     * @param response The response
-     * @param strFilename The name of the file to download
-     * @param strContentType The content type of the downloaded file
-     */
-    private void addDownloadHeaderToResponse( HttpServletResponse response, String strFilename, String strContentType )
-    {
-        response.setHeader( "Content-Disposition", "attachment; filename=\"" + strFilename + "\";" );
-        response.setHeader( "Content-type", strContentType );
-        response.addHeader( "Content-Encoding", "UTF-8" );
-        response.addHeader( "Pragma", "public" );
-        response.addHeader( "Expires", "0" );
-        response.addHeader( "Cache-Control", "must-revalidate,post-check=0,pre-check=0" );
     }
 
     ////////////////////////////////////////////////////////////////////////////

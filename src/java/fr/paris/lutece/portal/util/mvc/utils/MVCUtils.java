@@ -43,6 +43,7 @@ import java.lang.reflect.Method;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -203,6 +204,23 @@ public final class MVCUtils
         _logger.error( "MVC controller - No default view found" );
 
         return null;
+    }
+
+    /**
+     * Add download headers to the response
+     * @param response The response
+     * @param strFilename The name of the file to download
+     * @param strContentType The content type of the downloaded file
+     */
+    public static void addDownloadHeaderToResponse( HttpServletResponse response, String strFilename,
+        String strContentType )
+    {
+        response.setHeader( "Content-Disposition", "attachment; filename=\"" + strFilename + "\";" );
+        response.setHeader( "Content-type", strContentType );
+        response.addHeader( "Content-Encoding", "UTF-8" );
+        response.addHeader( "Pragma", "public" );
+        response.addHeader( "Expires", "0" );
+        response.addHeader( "Cache-Control", "must-revalidate,post-check=0,pre-check=0" );
     }
 
     /**

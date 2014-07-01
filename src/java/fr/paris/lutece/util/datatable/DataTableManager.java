@@ -99,7 +99,7 @@ public class DataTableManager<T> implements Serializable
 
     /**
      * Constructor of the DataTableManager class
-     * @param strSortUrl URL used by the paginator and to sort data
+     * @param strSortUrl URL used by the paginator to sort data
      * @param strFilterUrl URL used to filter data
      * @param nDefautlItemsPerPage Default number of items to display per page
      * @param bEnablePaginator True to enable pagination, false to disable it
