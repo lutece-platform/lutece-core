@@ -100,157 +100,149 @@
 		<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
 		<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
 	</#if>
-	<div class="pagination pagination-centered">
-		<ul>
-		<#if ( paginator.pagesCount > 1 )>
-			<#if ( paginator.pageCurrent - offsetPrev > 1 )>
-			<li class="previous-off">
-				<a href="${paginator.firstPageLink?xhtml}">
-					<i class="icon-fast-backward"></i>&nbsp;#i18n{portal.util.labelFirst}
-				</a>
-			</li>
-			</#if>
-			<#if ( paginator.pageCurrent > 1 )>
-			<li class="previous">
-				<a href="${paginator.previousPageLink?xhtml}">
-					<i class="icon-step-backward"></i>&nbsp;#i18n{portal.util.labelPrevious}
-				</a>
-			</li>
-			<#else>
-				&nbsp;&nbsp;
-			</#if>
-			<#if ( paginator.pageCurrent - offsetPrev > 1 )>
-				<li>
-					<a href="${(paginator.pagesLinks?first).url?xhtml}"><strong>...</strong></a>
-				</li>
-			</#if>
-			<#list paginator.pagesLinks as link>
-				<#if link.index == paginator.pageCurrent>
-					<li class="active"><a href="${link.url?xhtml}">${link.name}</a></li>
-				<#else>
-					<li><a href="${link.url?xhtml}">${link.name}</a></li>
-				</#if>
-			</#list>
-			<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-				<a href="${(paginator.pagesLinks?last).url?xhtml}"><strong>...</strong></a>
-			</#if>
-			<#if ( paginator.pageCurrent < paginator.pagesCount )>
-			<li class="next">
-				<a href="${paginator.nextPageLink?xhtml}">
-					<i class="icon-step-forward"></i>&nbsp;#i18n{portal.util.labelNext}
-				</a>
-			</li>
-			<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-			<li class="next-off">
-			<a href="${paginator.lastPageLink?xhtml}">
-				<i class="icon-fast-forward"></i>&nbsp;#i18n{portal.util.labelLast}
+<ul class="pagination">
+<#if ( paginator.pagesCount > 1 )>
+	<#if ( paginator.pageCurrent - offsetPrev > 1 )>
+	<li class="previous-off">
+		<a href="${paginator.firstPageLink?xhtml}">
+			<i class="icon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelNext}
+		</a>
+	</li>
+	</#if>
+	<#if ( paginator.pageCurrent > 1 )>
+		<li class="previous">
+			<a href="${paginator.previousPageLink?xhtml}">
+				<i class="icon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelPrevious}
 			</a>
-			</li>
-			</#if>
-			<#else>
-				&nbsp;&nbsp;
-			</#if>
+		</li>
+	<#else>
+		&nbsp;&nbsp;
+	</#if>
+	<#if ( paginator.pageCurrent - offsetPrev > 1 )>
+		<strong>...</strong>
+	</#if>
+	<#list paginator.pagesLinks as link>
+		<#if link.index == paginator.pageCurrent>
+			<li class="active"><a href="${link.url?xhtml}">${link.name}</a></li>
+		<#else>
+			<li><a href="${link.url?xhtml}">${link.name}</a></li>
 		</#if>
-		</ul>
-	</div>
+	</#list>
+	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
+		<strong>...</strong>
+	</#if>
+	<#if ( paginator.pageCurrent < paginator.pagesCount )>
+		<li class="next">
+			<a href="${paginator.nextPageLink?xhtml}">
+				<i class="icon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelNext}
+			</a>
+		</li>
+		<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
+		<li class="next-off">
+			<a href="${paginator.lastPageLink?xhtml}">
+				<i class="icon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelPrevious}
+			</a>
+		</li>
+	</#if>
+	<#else>
+		&nbsp;&nbsp;
+	</#if>
+</#if>
+</ul>
 </#macro>
 
 
 <#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page >
-    <#if (paginator.pagesCount > 1) >
-        <@pagination paginator=paginator />
-    </#if>
-    <#if form == 1 >
-    <form method="post" action="">
-    </#if>
-    	<div class="row-fluid">
-    		<div class="span12">
-			    <div class="pull-right" >
-			    	<div class="form-inline control-group">
-			    		<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
-			    	</div>
-			    </div>
-		    </div>
+<#if (paginator.pagesCount > 1) >
+	<@paginationPageLinks paginator=paginator />
+</#if>
+<#if form == 1 >
+	<form method="post" action="">
+</#if>
+	<div class="row-fluid">
+		<div class="pull-right" >
+			<div class="form-inline">
+				<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
+			</div>
 		</div>
-    <#if form == 1 >
-    </form>
-    </#if>
-    <div class="table"></div>
+	</div>
+<#if form == 1 >
+	</form>
+</#if>
+<div class="table"></div>
  </#macro>
 
-<#macro paginationPageLinks paginator >
-	<#assign nbLinkPagesToDisplay = 10 />
-	<#assign offsetPrev = nbLinkPagesToDisplay / 2 />
-	<#assign offsetNext = nbLinkPagesToDisplay / 2 />
-	<#if ( paginator.pageCurrent <= nbLinkPagesToDisplay - offsetPrev )>
-		<#assign offsetPrev = paginator.pageCurrent - 1 />
-		<#assign offsetNext = nbLinkPagesToDisplay - offsetPrev />
-	<#elseif ( paginator.pageCurrent + offsetNext > paginator.pagesCount )>
-		<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
-		<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
+ <#macro paginationPageLinks paginator >
+<#assign nbLinkPagesToDisplay = 10 />
+<#assign offsetPrev = nbLinkPagesToDisplay / 2 />
+<#assign offsetNext = nbLinkPagesToDisplay / 2 />
+<#if ( paginator.pageCurrent <= nbLinkPagesToDisplay - offsetPrev )>
+	<#assign offsetPrev = paginator.pageCurrent - 1 />
+	<#assign offsetNext = nbLinkPagesToDisplay - offsetPrev />
+<#elseif ( paginator.pageCurrent + offsetNext > paginator.pagesCount )>
+	<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
+	<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
+</#if>
+<ul class="pagination pagination-sm">
+<#if ( paginator.pageCurrent - offsetPrev > 1 )>
+	<li>
+		<a href="${paginator.firstPageLink?xhtml}">
+			${paginator.labelFirst}
+		</a>
+	</li>
+</#if>
+<#if (paginator.pageCurrent > 1) >
+	<li class="previous">
+		<a href="${paginator.previousPageLink?xhtml}">
+			${paginator.labelPrevious}
+		</a>
+	</li>
+<#else>
+	<li class="disabled">
+		<a href="${paginator.firstPageLink?xhtml}">${paginator.labelPrevious}</a>
+	</li>
+</#if>
+<#if ( paginator.pageCurrent - offsetPrev > 1 )>
+	<li>
+		<a href="${(paginator.pagesLinks?first).url?xhtml}"><strong>...</strong></a>
+	</li>
+</#if>
+<#list paginator.pagesLinks as link>
+	<#if ( link.index == paginator.pageCurrent )>
+		<li class="active">
+			<a href="${link.url?xhtml}">${link.name}</a>
+		</li>
+	<#else>
+		<li>
+			<a href="${link.url?xhtml}">${link.name}</a>
+		</li>
 	</#if>
-	<div class="pagination pagination-centered">
-		<ul>
-			<#if ( paginator.pageCurrent - offsetPrev > 1 )>
-				<li>
-					<a href="${paginator.firstPageLink?xhtml}">
-						${paginator.labelFirst}
-					</a>
-				</li>
-			</#if>
-			<#if (paginator.pageCurrent > 1) >
-				<li class="previous">
-					<a href="${paginator.previousPageLink?xhtml}">
-						${paginator.labelPrevious}
-					</a>
-				</li>
-			<#else>
-				<li class="disabled">
-					<a href="${paginator.firstPageLink?xhtml}">${paginator.labelPrevious}</a>
-				</li>
-			</#if>
-			<#if ( paginator.pageCurrent - offsetPrev > 1 )>
-				<li>
-					<a href="${(paginator.pagesLinks?first).url?xhtml}"><strong>...</strong></a>
-				</li>
-			</#if>
-			<#list paginator.pagesLinks as link>
-				<#if ( link.index == paginator.pageCurrent )>
-					<li class="active">
-						<a href="${link.url?xhtml}">${link.name}</a>
-					</li>
-				<#else>
-					<li>
-						<a href="${link.url?xhtml}">${link.name}</a>
-					</li>
-				</#if>
-			</#list>
-			<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-			<li>
-				<a href="${(paginator.pagesLinks?last).url?xhtml}"><strong>...</strong></a>
-			</li>
-			</#if>
-			<#if (paginator.pageCurrent < paginator.pagesCount) >
-			<li class="next">
-				<a href="${paginator.nextPageLink?xhtml}">
-				${paginator.labelNext}
-				</a>
-			</li>
-			<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-			<li class="next">
+</#list>
+<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
+	<li>
+		<a href="${(paginator.pagesLinks?last).url?xhtml}"><strong>...</strong></a>
+	</li>
+</#if>
+<#if (paginator.pageCurrent < paginator.pagesCount) >
+	<li class="next">
+		<a href="${paginator.nextPageLink?xhtml}">
+			${paginator.labelNext}
+		</a>
+	</li>
+	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
+		<li class="next">
 			<a href="${paginator.lastPageLink?xhtml}">
 				${paginator.labelLast}
 			</a>
-			</li>
-			</#if>
-			<#else>
-			<li class="disabled">
-				<a href="${paginator.lastPageLink?xhtml}">${paginator.labelNext}</a>
-			</li>
-			</#if>
-		</ul>
-	</div>
-</#macro>
+		</li>
+	</#if>
+<#else>
+	<li class="disabled">
+		<a href="${paginator.lastPageLink?xhtml}">${paginator.labelNext}</a>
+	</li>
+</#if>
+</ul>
+ </#macro>
  
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page>
 <span class="add-on">${paginator.labelItemCountPerPage}</span>
@@ -421,90 +413,4 @@
 			</fieldset>
 		</form>
 	</#if>
-</#macro>
-
-
-
-<#-- Macro messages : display message block for errors or infos -->
-<#macro messages errors=[] infos=[] errors_class="alert alert-danger" infos_class="alert alert-info" >
-
-    <#-- Error messages handling -->
-    <#if errors??>
-        <#if errors?size &gt; 0 >
-            <div class="${errors_class}" id="messages_errors_div">
-                <a class="close" data-dismiss="alert" href="#">x</a>
-                <#list errors as error >
-                    <i class="icon-exclamation-sign"></i> ${error.message} <br>
-                </#list>
-            </div>
-        </#if>
-    </#if>
-
-    <#-- Info messages handling -->
-    <#if infos??>
-        <#if infos?size &gt; 0 >
-            <div class="${infos_class}" id="messages_infos_div" >
-                <a class="close" data-dismiss="alert" href="#">x</a>
-                <#list infos as info >
-                    <i class="icon-info-sign"></i> ${info.message} <br>
-                </#list>
-            </div>
-        </#if>
-    </#if>
-
-</#macro>
-
-<#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
-		<div class="controls">
-			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if> />
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
-		</div>
-	</div>
-</#macro>
-
-<#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='' language='fr'>
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
-		<div class="controls">
-			<div class="input-prepend">
-				<span class="add-on"><i class="icon-calendar">&nbsp;</i></span>
-				<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" />
-			</div>
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
-		</div>
-	</div>
-	<@getDatePicker idField=inputName language=language />
-</#macro>
-
-<#macro fieldInputCheckBox i18nLabelKey inputName value="" checked=false i18nHelpBlockKey='' cssClass='' >
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} :</label> 
-		<div class="controls">
-			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked="checked"</#if> />
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
-		</div>
-	</div>
-</#macro>
-
-<#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='' >
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label> 
-		<div class="controls">
-			<#assign params = "class='" + cssClass + "'" >
-			<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
-		</div>
-	</div>
-</#macro>
-
-<#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
-		<div class="controls">
-			<textarea class="${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
-		</div>
-	</div>
 </#macro>

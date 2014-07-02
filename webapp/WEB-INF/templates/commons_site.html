@@ -100,8 +100,7 @@
 		<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
 		<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
 	</#if>
-	<div class="pagination pagination-centered">
-		<ul>
+		<ul class="pagination pagination-sm">
 			<#if ( paginator.pageCurrent - offsetPrev > 1 )>
 				<li>
 					<a href="${paginator.firstPageLink?xhtml}">
@@ -160,7 +159,6 @@
 				</li>
 			</#if>
 		</ul>
-	</div>
  </#macro>
  
 <#macro paginationSiteCombo paginator nb_items_per_page=nb_items_per_page>
