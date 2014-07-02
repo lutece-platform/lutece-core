@@ -1,29 +1,29 @@
 <!-- end container -->
 </div>
 <!-- footer menu -->
-<footer>
-<div id="footer" class="navbar navbar-fixed-bottom  hidden-phone">
-	<span id="btFooter" class="badge" title="#i18n{portal.site.portal_footer.footerPosition}">
-		<i class="icon-arrow-down icon-white"></i>
-	</span>
-	<div class="pull-right">
-		<a href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
-			<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
-			<small>version ${version}</small>
-		</a>
-	</div>
-</div>
+<footer class="hidden-phone">
+	<nav id="footer" class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+		<div class="container">
+			<span id="btFooter" class="badge" title="#i18n{portal.site.portal_footer.footerPosition}">
+				<i class="icon-arrow-down icon-white"></i>
+			</span>
+			<div class="navbar-text navbar-right">
+				<a class="navbar-link" href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
+					<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
+					<small>version ${version}</small>
+				</a>
+			</div>
+		</div>
+	</nav>
 </footer>
 <!-- Included JS Files -->
-<!-- Le javascript
+<!-- Le javascript 
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="js/bootstrap.min.js"></script>
 <script src="js/bootstrap-datepicker.js"></script>
 <script src="js/locales/bootstrap-datepicker.fr.js"></script>
-
 <script src="js/jquery/plugins/ui/jquery-ui-1.9.2.custom.min.js"></script>
-
 <script>
 $(document).ready(function(e){
 	$("#btFooter").click( function(e){

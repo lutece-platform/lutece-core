@@ -1,43 +1,23 @@
 <div class="row-fluid">
-<#if dashboard_zone_3?has_content>
-<div class="span9">
-	${dashboard_zone_3}
-</div>
-<#else>
-<div class="span9">
-	<#list feature_group_list as feature_group >
-    <div class="well">
-    <fieldset>
-	<legend>${feature_group.label}
-		<span class="pull-right">
-			<a href="jsp/admin/AdminMenu.jsp#top" class="top"><i class="icon-arrow-up"></i></a>
-        </span>
-    </legend>                   
-	<ul class="unstyled">
-		<#list feature_group.features as feature >
-		<li>
-			<a href="${feature.url}?plugin_name=${feature.pluginName}">
-				<img src="${feature.iconUrl}" alt="icon ${feature.name}" title="${feature.name}" />
-                <strong>${feature.name}</strong>
-			</a>
-            <p>${feature.description}</p>
-		</li>
-		</#list>
-    </ul>
-    </fieldset>
-    </div>
-    </#list>
-</div>
-</#if>
-
-<#if dashboard_zone_1?has_content>
-<div class="span3">
-<fieldset>
-<legend>#i18n{portal.admin.admin_home.dashboard}</legend>
-${dashboard_zone_1}
-</#if>
-<#if dashboard_zone_2?has_content>
-${dashboard_zone_2}
-</#if>
-</fieldset>            
+	<div class="col-md-12 widget">
+		<section class="dashboard-widgets ui-sortable">
+			<div class="row-fluid">
+				<div class="col-md-4 widget">
+					<#if dashboard_zone_1?has_content>
+							${dashboard_zone_1}
+					</#if>
+				</div>
+				<div class="col-md-4 widget">
+					<#if dashboard_zone_2?has_content>
+						${dashboard_zone_2}
+					</#if>
+				</div>
+				<div class="col-md-4 widget">
+					<#if dashboard_zone_2?has_content>
+						${dashboard_zone_3}
+					</#if>
+				</div>
+			</div>
+		</section>
+	</div>
 </div>

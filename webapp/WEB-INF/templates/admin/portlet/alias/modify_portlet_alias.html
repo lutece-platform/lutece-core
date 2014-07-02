@@ -1,11 +1,9 @@
-<p>
-	<label>Rubrique source : </label>
-	<@comboSorted name="alias_id" default_value=alias_portlet items=alias_portlets_list />
-</p>
-
+<div class="form-group">
+	<label for="alias_id">#i18n{portal.portlet_alias.labelResourcePortlet}</label>
+	<@comboWithParams name="alias_id" default_value=alias_portlet?string additionalParameters="class=\"form-control\"" items=alias_portlets_list />
+</div>
+<input type="hidden" name="accept_alias" value="0" />
 <script language="javascript">
 document.form.accept_alias[0].disabled = true;
 document.form.accept_alias[1].disabled = true;
 </script>
-
-<input type="hidden" name="accept_alias" value="0" />

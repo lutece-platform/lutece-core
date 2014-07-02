@@ -19,15 +19,15 @@
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Le styles -->
+<link href="css/admin/bootstrap2-compatibility.css" rel="stylesheet">
 <link href="css/admin/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="css/admin/print_admin.css" media="print" >
+<link href="css/admin/bootstrap-theme.min.css" rel="stylesheet">
+<link href="css/admin/font-awesome.min.css"  rel="stylesheet" >
+<link href="css/admin/print_admin.css" rel="stylesheet" type="text/css" media="print" >
 <link href="css/admin/colorpicker.css" rel="stylesheet">
 <link href="css/admin/datepicker.css" rel="stylesheet" >
-<link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery-ui-1.10.0.custom.css" >
-<link href="css/admin/font-awesome.min.css"  rel="stylesheet" >
+<link href="js/jquery/plugins/ui/css/jquery-ui-1.10.0.custom.css" rel="stylesheet" >
 <link href="css/admin/portal_admin.css" rel="stylesheet" >
-<link href="css/bootstrap2-compatibility.css" rel="stylesheet">
-<link href="css/admin/bootstrap-theme.min.css" rel="stylesheet">
 <%
 	if ( AdminThemeService.isModeAccessible( request ) ){
 %>
@@ -49,8 +49,9 @@
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
--->
 <script src="js/jquery/jquery.min.js"></script>
+-->
+<script src="js/jquery/jquery-1.11.1.min.js"></script>
 </head>
 <body>
 <%-- Display the admin menu --%>

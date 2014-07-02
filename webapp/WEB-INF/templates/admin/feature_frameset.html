@@ -1,22 +1,23 @@
 <div class="row-fluid">
-	<div class="span12">
-	<fieldset>
-		<legend><img class="thumblist" src="${feature_icon}" alt="Icon ${feature_title}" title="${feature_title}"/> 
-		<a href="${feature_url}">${feature_title}</a>
-		<#if page_title?has_content>
-			<small>${page_title}</small> 
-		</#if>
-		<#if feature_documentation?has_content >
-			<#if feature_documentation?exists>
-			<span class="pull-right">
-				<a class="btn btn-primary btn-small" target="_blank" href="${feature_documentation}" title="#i18n{portal.features.documentation.help}">
-					<i class="icon-book icon-white" ></i>
+	<div class="col-md-12">
+		<div class="page-header">
+			<h1>
+				<img class="thumblist-small" src="${feature_icon}" alt="${feature_title}" title="${feature_title}"/> 
+				<a href="${feature_url}" title="${feature_title}">
+					${feature_title}
 				</a>
-			</span>
-			</#if>
-		</#if>
-		</legend>
-    </fieldset>
+				<#if page_title?has_content><small>${page_title}</small></#if>
+				<#if feature_documentation?has_content >
+					<#if feature_documentation?exists>
+						<span class="pull-right">
+							<a class="btn btn-primary btn-sm" target="_blank" href="${feature_documentation}" title="#i18n{portal.features.documentation.help}">
+								<i class="glyphicon glyphicon-book" ></i>
+							</a>
+						</span>
+					</#if>
+				</#if>
+			</h1>
+		</div>
 	</div>
 </div>
 ${page_content}

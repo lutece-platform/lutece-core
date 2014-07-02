@@ -1,66 +1,89 @@
 <div class="row-fluid">
-	<div class="span12">
-		<strong><span class="badge badge-primary">${page.id}</span><a class="btn btn-link" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">Page ${page.name}</a></strong>
-		<span class="pull-right" >
-			<form method="post"  action="jsp/admin/site/AdminSite.jsp" class="form-search">
-				<input type="text" name="page_id" class="input-small" value="" />
-				<button type="submit" class="btn btn-primary btn-small">
-					<i class="icon-search icon-white"></i>
-					<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonSearchPage}</span>
-				</button>        
-				<#if page_message!=""><br><span class="label label-important">${page_message}</span><#else/></#if>
-			</form>	
-		</span>
-		<span class="pull-right">
-			<a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary btn-small">
-				<i class="icon-map-marker icon-white" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>
-				<span class="hidden-phone" >#i18n{portal.site.admin_page.tabAdminMapSite}</span>
-			</a>
-		</span> 
-		<span class="pull-right">
-			<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary btn-small">
-				<i class="icon-plus icon-white"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
-				<span class="hidden-phone" >#i18n{portal.site.admin_page.labelChildPagePage}</span>
-			</a>
-		</span> 
-		<span class="pull-right">
-			<div class="btn-group">
-				<a class="btn btn-primary btn-small dropdown-toggle" data-toggle="dropdown" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=">
-					<i class="icon-th-large icon-white" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}" ></i>
-					<span class="hidden-phone" >#i18n{portal.site.admin_page.labelPortletPage}</span>
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu">
-					<#if portlet_types_list?has_content>		
-					<li><#list portlet_types_list?sort_by("name") as portlet_type>
-						<a href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&page_id=${page.id}" class="link" target="preview">${portlet_type.name}</a>                    
-						</#list>
-					</li>
+	<div class="col-md-12">
+		<div id="admin-site-toolbar">
+			<div class="btn-toolbar" role="toolbar">
+				<div class="btn-group">
+					<a class="btn btn-default btn-sm" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">
+						<span class="badge badge-primary">${page.id}</span> Page ${page.name}
+					</a>
+					<#if page.id != 1>
+						<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}" class="btn btn-success btn-sm">
+							<i class="icon-arrow-up icon-white"  alt="#i18n{portal.site.admin_page.buttonUpToParentPage}" title="#i18n{portal.site.admin_page.buttonUpToParentPage}" ></i>            
+						</a>
+						<a href="jsp/admin/site/RemovePage.jsp?page_id=${page.id}" class="btn btn-danger btn-sm">
+							<i class="icon-trash icon-white"  alt="#i18n{portal.site.admin_page.buttonDeletePage}" title="#i18n{portal.site.admin_page.buttonDeletePage}" ></i>            
+						</a>
 					</#if>
-				</ul>
+					<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="btn btn-primary btn-sm">
+						<i class="icon-wrench icon-white" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>
+						<span class="hidden-phone" >#i18n{portal.site.admin_page.labelPageProperty}</span>
+					</a>
+					<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary btn-sm">
+						<i class="icon-plus icon-white"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
+						<span class="hidden-phone">#i18n{portal.site.admin_page.labelChildPagePage}</span>
+					</a>
+					<div class="btn-group">
+						<a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" id="portlet-type" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=">
+							<i class="icon-th-large icon-white" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}" ></i>
+							<span class="hidden-phone">#i18n{portal.site.admin_page.labelPortletPage}</span>
+							&nbsp;<b class="caret"></b>
+						</a>
+						<#if portlet_types_list?has_content>
+							<ul class="dropdown-menu" aria-labelledby="portlet-type" role="menu">
+								<#list portlet_types_list?sort_by("name") as portlet_type>
+									<li class="portlet-type">
+										<a class="portlet-type-ref" href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&page_id=${page.id}" title="${portlet_type.name}" >${portlet_type.name}</a>
+									</li>
+								</#list>
+							</ul>
+						</#if>
+					</div>
+					<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
+						<div class="btn-group">
+							${extendableResourceActionsHtml!}
+						</div>
+					</#if>
+					<div class="btn-group">
+						<a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary btn-sm">
+							<i class="fa fa-sitemap" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>
+							<span class="hidden-phone" >#i18n{portal.site.admin_page.tabAdminMapSite}</span>
+						</a>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-2">
+						<form method="post" action="jsp/admin/site/AdminSite.jsp" class="form-inline" role="search">
+						<label class="sr-only">#i18n{portal.site.admin_page.buttonSearchPage}</label>
+						<div class="input-group">
+							<input type="text" name="page_id" class="form-control input-sm" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
+							<span class="input-group-btn">
+								<button class="btn btn-default btn-sm" type="submit" title="#i18n{portal.site.admin_page.buttonSearchPage}">
+									<i class="glyphicon glyphicon-search"></i>
+								</button>
+							</span>
+						</div>
+						<#if page_message!=""><p class="span"/><span class="help-block"><span class="label label-important">${page_message}</span></span></#if>
+						</form>	
+					</div>
+				</div>
 			</div>
-		</span> 
-		<span class="pull-right">
-			<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="btn btn-primary btn-small">
-				<i class="icon-wrench icon-white" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>
-				<span class="hidden-phone" >#i18n{portal.site.admin_page.labelPageProperty}</span>
-			</a>
-		</span>
-		<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
-			${extendableResourceActionsHtml!}
-		</#if>
-		<#if page.id != 1>
-		<span class="pull-right" >
-			<a href="jsp/admin/site/RemovePage.jsp?page_id=${page.id}" class="btn btn-danger btn-small">
-				<i class="icon-trash icon-white"  alt="#i18n{portal.site.admin_page.buttonDeletePage}" title="#i18n{portal.site.admin_page.buttonDeletePage}" ></i>            
-			</a>	
-		</span>	
-		<span class="pull-right" >
-			<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}" class="btn btn-success btn-small">
-				<i class="icon-arrow-up icon-white"  alt="#i18n{portal.site.admin_page.buttonUpToParentPage}" title="#i18n{portal.site.admin_page.buttonUpToParentPage}" ></i>            
-			</a>	
-		</span>
-		</#if>
+		</div>
+		<div class="row-fluid">
+			<div class="col-md-12">
+				${page_block}
+			</div>
+		</div>
 	</div>
-	${page_block}
 </div>
+
+<script>
+$(document).ready(function(){
+	$(".portlet-type").on('click', function(e) {
+		// Stop the link default behaviour.
+		e.preventDefault();
+		// Set the iframe src with the clicked link href.
+		console.log( "type :" + $(this).children().attr('href') );
+		$('#preview').attr('src', $(this).children().attr('href') );
+	});
+});
+</script>

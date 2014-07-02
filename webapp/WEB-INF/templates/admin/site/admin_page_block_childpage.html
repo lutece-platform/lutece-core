@@ -1,56 +1,95 @@
 <div class="row-fluid">
-	<div class="span12">
-		<form method="post"  action="jsp/admin/site/DoCreateChildPage.jsp" class="form" enctype="multipart/form-data">
+	<div class="col-md-12">
+		<div class="well">
+		<form method="post"  action="jsp/admin/site/DoCreateChildPage.jsp" class="form-horizontal" enctype="multipart/form-data">
 		<input type="hidden" name="page_id" value="${page.id}" />
 		<input type="hidden" name="node_status" value="1" />
-		<div class="row-fluid">
-			<div class="span4">
-				<fieldset>
-				<legend>#i18n{portal.site.admin_page.titleAddChildPage}</legend>
-				<label for="child_page_name">#i18n{portal.site.admin_page.labelChildPageName} </label>
-				<input type="text" name="page_name" class="input-large" />
-				<label for="child_page_description">#i18n{portal.site.admin_page.labelDescription} </label>
-				<textarea name="page_description" class="input-large"></textarea>
-				<label for="roles_list">#i18n{portal.site.admin_page.labelRole}</label>
-				<@comboSorted name="role" default_value="${page.role}" items=page_roles_list />
-				</fieldset>
-			</div>
-			<div class="span4">				
-				<fieldset>
-				<legend>#i18n{portal.site.admin_page.labelTheme}</legend>
-					<@comboSorted name="theme" default_value="${page.codeTheme}" items=page_themes_list />
-					<h3>#i18n{portal.site.admin_page.labelMetadata}</h3>
-					<label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords}</label>  
-					<input type="text" name="meta_keywords" size="40" maxlength="250" />               
-					<label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}</label>
-					<input type="text" name="meta_description" size="40" maxlength="250" />
-					<p class="help-block"> #i18n{portal.site.admin_page.labelMetaDescriptionInfo}</p>
-					<h3>#i18n{portal.site.admin_page.labelPageTemplateList}</h3>
-					<dl class="unstyled">
-						${page_templates_list}							        
-					</dl>	
-				</fieldset>
-			</div>
-			<div class="span4">
-				<fieldset>
-				<legend>#i18n{portal.site.admin_page.titlePictureProperties}</legend>
-					<label for="image_content">#i18n{portal.site.admin_page.labelNewPicture} </label>
-					<input class="input-file" id="image_content" name="image_content" type="file">
-				</fieldset>
-			</div>
-			<div class="span11">   
-				<div class="form-actions">
-					<button type="submit" class="btn btn-primary btn-small">
-						<i class="icon-plus icon-white"></i>&nbsp;
-						<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonCreate}</span>
-					</button>  
-					<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" class="btn btn-small">
-						<i class="icon-remove-circle"></i>&nbsp;
-						<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonClosed}</span>
-					</a> 
-				</div>            
-			</div>
+			<fieldset>
+				<legend>#i18n{portal.site.admin_page.titleAddChildPage} 
+				<button class="btn btn-default btn-xs pull-right" type="button" id="btn-params">
+					#i18n{portal.site.admin_page.labelAdvancedParameters} <i id="glyph" class="glyphicon glyphicon-collapse-down"></i> 
+				</button>
+				</legend>
+				<div class="row-fluid">
+					<div class="col-md-offset-1 col-md-3">
+						<div class="form-group">
+							<label for="child_page_name">#i18n{portal.site.admin_page.labelChildPageName} </label>
+							<input type="text" name="page_name" class="form-control" >
+						</div>
+						<div class="form-group">
+							<label for="child_page_description">#i18n{portal.site.admin_page.labelDescription} </label>
+							<textarea name="page_description" class="form-control"></textarea>
+						</div>
+						<fieldset>
+						<legend>#i18n{portal.site.admin_page.titlePictureProperties}</legend>
+							<div class="form-group">
+								<label for="image_content">#i18n{portal.site.admin_page.labelNewPicture} </label>
+								<input class="form-control"  id="image_content" name="image_content" type="file">
+							</div>
+						</fieldset>
+					</div>
+					<div class="col-md-offset-1 col-md-3">
+						<fieldset>
+							<legend>#i18n{portal.site.admin_page.labelPageTemplateList} </legend>
+							<div class="form-group">
+								<dl class="unstyled">
+									${page_templates_list}
+								</dl>	
+							</div>
+						</fieldset>
+					</div>
+					<div id="adv_param" class="col-md-offset-1 col-md-3">
+						<fieldset>
+							<legend>#i18n{portal.site.admin_page.labelMetadata}</legend>
+							<div class="form-group">
+								<label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords}</label>  
+								<input type="text" name="meta_keywords" class="form-control" maxlength="250" >
+							</div>
+							<div class="form-group">
+								<label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}</label>
+								<input type="text" name="meta_description" class="form-control" maxlength="250" >
+								<p class="help-block"> #i18n{portal.site.admin_page.labelMetaDescriptionInfo}</p>
+							</div>
+						</fieldset>
+						<div class="form-group">
+							<label for="theme">#i18n{portal.site.admin_page.labelTheme}</label>
+							<@comboSortedWithParams name="theme" default_value="${page.codeTheme}" additionalParameters=" class=\"form-control\"" items=page_themes_list />
+						</div>
+						<div class="form-group">
+							<label for="roles_list">#i18n{portal.site.admin_page.labelRole}</label>
+							<@comboSortedWithParams name="role" default_value="${page.role}" additionalParameters=" class=\"form-control\"" items=page_roles_list />
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="col-md-11">   
+							<div class="form-group">
+								<div class="col-md-offset-3">
+									<button type="submit" class="btn btn-primary">
+										<i class="icon-plus icon-white"></i>&nbsp;
+										<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonCreate}</span>
+									</button>  
+									<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" class="btn btn-default">
+										<i class="icon-remove-circle"></i>&nbsp;
+										<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonClosed}</span>
+									</a> 
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+		</form>
 		</div>
-        </form>
 	</div>
 </div>
+<script>
+	$().ready( function(){
+		$("#adv_param").toggle();
+		$("#btn-params").click( function(){
+		$("#adv_param").fadeToggle();
+		$("#btn-params").children().toggleClass("glyphicon-collapse-down");
+		$("#btn-params").children().toggleClass("glyphicon-collapse-up");
+		});
+	})
+
+</script>

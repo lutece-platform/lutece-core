@@ -1,44 +1,48 @@
-<div class="row">
-	<div class="col-md-12">
-		<div class="pull-right">
-		    <div class="btn-group-portlet">
-		        <#if portlet.status = portlet_status_published>
-		        <form method="post" action="jsp/admin/site/ModifyPortletStatus.jsp" class="form-inline pull-left">
-		            <input type="hidden" name="portlet_id" value="${portlet.id}" />
-		            <input type="hidden" name="status" value="${portlet_status_unpublished}" />
-		            <button type="submit" class="btn btn-small btn-danger" title="#i18n{portal.site.portletPreview.buttonSuspend}" >
-						<i class="icon-remove icon-white"></i>
-					</button>
-		        </form>
-		        <#else>
-		        <form method="post" action="jsp/admin/site/ModifyPortletStatus.jsp" class="form-inline pull-left">
-		            <input type="hidden" name="portlet_id" value="${portlet.id}" />
-		            <input type="hidden" name="status" value="${portlet_status_published}" />
-		            <button type="submit"class="btn btn-small btn-success" title="#i18n{portal.site.portletPreview.buttonActivate}" >
-						<i class="icon-ok icon-white"></i>
-					</button>
-		        </form>
-		        </#if>
-		        <form method="post" action="jsp/admin/DoModifyPortlet.jsp" class="form-inline pull-left">
-		            <input type="hidden" name="portlet_id" value="${portlet.id}" />
-		            <button type="submit" class="btn btn-small btn-primary" title="#i18n{portal.site.portletPreview.buttonModify}" >
-						<i class="icon-edit icon-white"></i>
-					</button>
-		        </form>
-		        <#list custom_action_list as custom_action>
-		        <form method="post" action="${custom_action.actionUrl}" target="_parent" class="form-inline pull-left">
-		            <input type="hidden" name="id_portlet" value="${portlet.id}" />
-		            <!-- input type="image" title="#i18n{${custom_action.title}}" alt="#i18n{${custom_action.title}}" src="${custom_action.imageUrl}"  / -->
-		            <button type="submit" class="btn btn-small btn-primary" title="#i18n{${custom_action.title}}">
-						<i class="icon-globe icon-white"></i>
-					</button>
-		        </form>
-		        </#list>
-		        <form method="post" action="jsp/admin/site/RemovePortlet.jsp" class="form-inline pull-left">
-		            <input type="hidden" name="portlet_id" value="${portlet.id}" />
-		            <button type="submit" class="btn btn-small btn-danger" title="#i18n{portal.site.portletPreview.buttonDelete}" ><i class="icon-trash icon-white"></i></button>
-		        </form>
-		    </div>
-		</div>
+<div class="btn-toolbar pull-right" role="toolbar">
+	<div class="btn-group">
+		<#if portlet.status = portlet_status_published>
+			<form method="post" action="jsp/admin/site/ModifyPortletStatus.jsp" class="form-inline">
+				<input type="hidden" name="portlet_id" value="${portlet.id}" />
+				<input type="hidden" name="status" value="${portlet_status_unpublished}" />
+				<button type="submit" class="btn btn-xs btn-danger" title="#i18n{portal.site.portletPreview.buttonSuspend}" >
+					<i class="glyphicon glyphicon-remove"></i>
+				</button>
+			</form>
+		<#else>
+			<form method="post" action="jsp/admin/site/ModifyPortletStatus.jsp" class="form-inline">
+				<input type="hidden" name="portlet_id" value="${portlet.id}" />
+				<input type="hidden" name="status" value="${portlet_status_published}" />
+				<button type="submit"class="btn btn-xs btn-success" title="#i18n{portal.site.portletPreview.buttonActivate}" >
+					<i class="glyphicon glyphicon-ok"></i>
+				</button>
+				</form>
+		</#if>
+	</div>
+	<div class="btn-group">
+		<form method="post" action="jsp/admin/DoModifyPortlet.jsp" class="form-inline pull-left">
+			<input type="hidden" name="portlet_id" value="${portlet.id}" />
+			<button type="submit" class="btn btn-xs btn-primary" title="#i18n{portal.site.portletPreview.buttonModify}" >
+				<i class="glyphicon glyphicon-edit"></i>
+			</button>
+		</form>
+	</div>
+	<div class="btn-group">
+		<#list custom_action_list as custom_action>
+			<form method="post" action="${custom_action.actionUrl}" target="_parent" class="form-inline">
+				<input type="hidden" name="id_portlet" value="${portlet.id}" />
+				<!-- input type="image" title="#i18n{${custom_action.title}}" alt="#i18n{${custom_action.title}}" src="${custom_action.imageUrl}"  / -->
+				<button type="submit" class="btn btn-xs btn-primary" title="#i18n{${custom_action.title}}">
+					<i class="glyphicon glyphicon-globe"></i>
+				</button>
+			</form>
+		</#list>
+	</div>
+	<div class="btn-group">
+		<form method="post" action="jsp/admin/site/RemovePortlet.jsp" class="form-inline">
+			<input type="hidden" name="portlet_id" value="${portlet.id}" />
+			<button type="submit" class="btn btn-xs btn-danger" title="#i18n{portal.site.portletPreview.buttonDelete}" >
+				<i class="glyphicon glyphicon-trash"></i>
+			</button>
+		</form>
 	</div>
 </div>

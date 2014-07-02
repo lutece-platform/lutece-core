@@ -1,6 +1,15 @@
-<div class="well" >
-    <img src="images/admin/skin/features/manage_plugins.png" width="24" height="24" align="middle"/>
-    <a href="jsp/admin/system/ManagePlugins.jsp" >
-        #i18n{portal.system.dashboard.pluginsCount}
-    </a> <span class="badge badge-info pull-right">${plugins_count}</span>
+<div class="lutece-widget">
+	<div class="panel-small panel-four">
+		<div class="panel-header">
+			
+			<span>#i18n{portal.system.adminFeature.plugins_management.name} </span>
+			<a class="pull-right" href="jsp/admin/system/ManagePlugins.jsp" title="#i18n{portal.system.adminFeature.plugins_management.name}" >
+				<i class="fa fa-puzzle-piece"></i>
+			</a>
+		</div>
+		<div class="panel-content-small">
+			#i18n{portal.system.dashboard.pluginsCount}<span class="badge badge-info pull-right">${plugins_count}</span>
+		</div>
+	</div>
 </div>
+

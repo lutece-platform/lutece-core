@@ -1,36 +1,29 @@
 <script type="text/javascript" src="${webapp_url}js/editors/tinymce/tinymce.min.js"></script>
-<#macro initEditor editorWidth=800 >
+
+<#macro initEditor editorWidth=450 >
 	<script type="text/javascript">
 	tinyMCE.init({
-		// General options
+		// General options ${locale}_${locale?upper_case}
 		selector : "textarea.richtext",
 		theme : "modern",
 		document_base_url : "${webapp_url}",
 		width : "${editorWidth}",
 		language : '${locale}_${locale?upper_case}',
 		plugins: [
-         "lutece advlist autolink link image lists charmap hr anchor pagebreak ",
+         "lutece advlist autolink link image lists charmap print preview hr anchor pagebreak ",
          "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-         "table contextmenu directionality paste textcolor importcss" 
+         "save table contextmenu directionality template paste textcolor youtube importcss"
 		],
 		paste_as_text: true,
-		paste_word_valid_elements: "b,strong,h1,h2,h3,p,br",
-		content_css: "css/editors_styles.css",
-		spellchecker_language: 'fr_FR',
-		toolbar: "bold italic | styleselect blockquote bullist numlist | undo | link unlink charmap nonbreaking image lutece fullscreen code", 
+		paste_word_valid_elements: "b,strong,i,em,h1,h2,h3,p,br",
+		content_css: "css/bootstrap.min.css,css/page_template_styles.css",
+		importcss_groups: [
+			{title: 'Table styles', filter: /^(td|tr)\./}, // td.class and tr.class
+			{title: 'Block styles', filter: /^(div|p)\./}, // div.class and p.class
+			{title: 'Other styles'} // The rest
+		],
+		toolbar: "undo redo | paste | styleselect | bold italic  | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lutece link media | print preview fullscreen code", 
 		contextmenu: "lutece link image | paste copy cut | inserttable | cell row column deletetable",
-		importcss_append: true,
-		convert_urls: false,
-		importcss_selector_filter: ".color",
-		insertdatetime_formats: ["%H:%M:%S", "%d-%m-%Y"],
-		style_formats: [
-			{title: 'h2', block: 'h2'},
-			{title: 'h3', block: 'h3'},
-			{title: 'h4', block: 'h4'},
-			{title: 'div', block: 'div'},
-			{title: 'blockquote', block: 'blockquote', wrapper: true},
-			{title: 'Liste a puce', block: 'ul', classes: 'liste-puces'}
-		]
 	});
 </script>
 </#macro>
