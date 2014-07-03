@@ -57,20 +57,32 @@
 
 <#macro radioImageList name default_value items >
 <#list items as item>
-    <#if default_value="${item.code}"> 			
+    <#if default_value="${item.code}">
+		<div class="radio">
+		<label>
         <input checked="checked" class="radio" type="radio" name="${name}" value="${item.code}" /><img src="${item.name}" alt="" />
+		</label>
+		</div>
     <#else>
+		<div class="radio">
+		<label>
         <input class="radio" type="radio" name="${name}" value="${item.code}" /><img src="${item.name}" alt="" />
+		</label>
+		</div>
     </#if>
 </#list>
 </#macro>
 
 <#macro checkboxList name default_values items >
 <#list items as item>
-	<#if item.checked > 			
+	<#if item.checked >
+		<div class="checkbox">
 		<label for="document_type"><input checked class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}</label>
+		</div>
     <#else>
+		<div class="checkbox">
         <label for="document_type"><input class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}</label>
+		</div>
 	</#if>
 </#list>
 </#macro>                
@@ -82,10 +94,10 @@
 		<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
 	</#if>
 	<a id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" >
-		<i class="icon-chevron-up">&nbsp;</i>
+		<i class="glyphicon glyphicon-chevron-up">&nbsp;</i>
 	</a>
 	<a href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}">
-    	<i class="icon-chevron-down">&nbsp;</i>
+    	<i class="glyphicon glyphicon-chevron-down">&nbsp;</i>
     </a>
 </#macro>
 
@@ -140,7 +152,7 @@
 		<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 		<li class="next-off">
 			<a href="${paginator.lastPageLink?xhtml}">
-				<i class="icon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelPrevious}
+				<i class="glyphicon glyphicon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelPrevious}
 			</a>
 		</li>
 	</#if>
@@ -159,10 +171,12 @@
 <#if form == 1 >
 	<form method="post" action="">
 </#if>
-	<div class="row-fluid">
-		<div class="pull-right" >
-			<div class="form-inline">
-				<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="pull-right" >
+				<div class="form-inline">
+					<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -246,7 +260,7 @@
  
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page>
 <span class="add-on">${paginator.labelItemCountPerPage}</span>
-<select class="input-mini" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
+<select class="input-sm" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
 	<#list [ "10" , "20" , "50" , "100" ] as nb>
 		<#if nb_items_per_page = nb >
 			<option selected="selected" value="${nb}">${nb}</option>
@@ -255,8 +269,8 @@
         </#if>
     </#list>
 </select>
-<button class="btn btn-small" type="submit" title="#i18n{portal.util.labelRefresh}"/>
-<i class="icon-repeat"></i>
+<button class="btn btn-sm" type="submit" title="#i18n{portal.util.labelRefresh}"/>
+<i class="glyphicon glyphicon-repeat"></i>
 </button>
 &nbsp;-&nbsp;
 </#macro>
@@ -275,7 +289,7 @@
 <div id="item-navigator">
 	<#if (item_navigator.currentItemId > 0)>
 		<a href="${item_navigator.previousPageLink?xhtml}" title="#i18n{portal.util.labelPrevious}">
-	        <i class="icon-circle-arrow-left"></i>
+	        <i class="glyphicon glyphicon-circle-arrow-left"></i>
 	        #i18n{portal.util.labelPrevious}
 	    </a>
 	<#else>
@@ -284,7 +298,7 @@
 	<#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
 		<a href="${item_navigator.nextPageLink?xhtml}" title="#i18n{portal.util.labelNext}">
 			#i18n{portal.util.labelNext}
-	        <i class="icon-circle-arrow-right"></i>
+	        <i class="glyphicon glyphicon-circle-arrow-right"></i>
 	    </a>
 	<#else>
 		&nbsp;&nbsp;
@@ -332,9 +346,9 @@
 							<#assign propName = "item." + column.parameterName>
 							<#assign value = propName?eval>
 							<#if value?? && value>
-								<td><span class="label label-success" title="#i18n{${column.labelTrue!}}"><i class="icon-ok-sign icon-white"></i>#i18n{${column.labelTrue!}}</span></td>
+								<td><span class="label label-success" title="#i18n{${column.labelTrue!}}"><i class="glyphicon glyphicon-ok-sign icon-white"></i>#i18n{${column.labelTrue!}}</span></td>
 							<#else>
-								<td><span class="label label-important" title="#i18n{${column.labelFalse!}}"><i class="icon-remove-sign icon-white"></i>#i18n{${column.labelFalse!}}</span></td>
+								<td><span class="label label-important" title="#i18n{${column.labelFalse!}}"><i class="glyphicon glyphicon-remove-sign icon-white"></i>#i18n{${column.labelFalse!}}</span></td>
 							</#if>
 						<#elseif column.typeColumn = "EMAIL">
 							<#assign propName = "item." + column.parameterName>
@@ -376,8 +390,8 @@
 			<fieldset>
 				<#list dataTableManager.filterPanel.listFilter as filter>
 					<div class="control-group">
-						<label class="control-label" for="description" >#i18n{${filter.filterLabel}} :</label>
-						<div class="controls">
+						<label class="col-xs-12 col-sm-3 col-md-3" for="description" >#i18n{${filter.filterLabel}} :</label>
+						<div class="col-xs-12 col-sm-8 col-md-6">
 							<#if filter.filterType = "STRING">
 								<input type="text" name="${dataTableManager.filterPanelPrefix}${filter.parameterName}" id="${filter.parameterName}" size="30" value="${filter.value!}"/>
 							<#elseif filter.filterType = "BOOLEAN">
@@ -396,8 +410,8 @@
 				<div class="form-actions">
 					<input type="hidden" name="${dataTableManager.filterPanelPrefix}updateFilters" id="${dataTableManager.filterPanelPrefix}updateFilters" value="true" />
 					<input type="hidden" name="${dataTableManager.id}" id="${dataTableManager.id}" value="${dataTableManager.id}" />
-					<button class="btn btn-primary btn-small" type="submit" >
-						<i class="icon-search icon-white"></i>
+					<button class="btn btn-primary btn-sm" type="submit" >
+						<i class="glyphicon glyphicon-search"></i>
 						<span class="hidden-phone" >#i18n{portal.util.labelSearch}</span>
 					</button>
 					<#if dataTableManager.filterPanel.formUrl?contains("?")>
@@ -405,8 +419,8 @@
 					<#else>
 						<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "?" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
 					</#if>
-					<a class="btn btn-primary btn-small" href="${dataTableResetUrl}" title="#i18n{portal.util.labelReset}">
-						<i class="icon-remove-circle icon-white"></i>
+					<a class="btn btn-primary btn-sm" href="${dataTableResetUrl}" title="#i18n{portal.util.labelReset}">
+						<i class="glyphicon glyphicon-remove-circle"></i>
 						<span class="hidden-phone" >#i18n{portal.util.labelReset}</span>
 					</a>
 				</div>
@@ -426,7 +440,7 @@
             <div class="${errors_class}" id="messages_errors_div">
                 <a class="close" data-dismiss="alert" href="#">x</a>
                 <#list errors as error >
-                    <i class="icon-exclamation-sign"></i> ${error.message} <br>
+                    <i class="glyphicon glyphicon-exclamation-sign"></i> ${error.message} <br>
                 </#list>
             </div>
         </#if>
@@ -438,7 +452,7 @@
             <div class="${infos_class}" id="messages_infos_div" >
                 <a class="close" data-dismiss="alert" href="#">x</a>
                 <#list infos as info >
-                    <i class="icon-info-sign"></i> ${info.message} <br>
+                    <i class="glyphicon glyphicon-info-sign"></i> ${info.message} <br>
                 </#list>
             </div>
         </#if>
@@ -447,9 +461,9 @@
 </#macro>
 
 <#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
-		<div class="controls">
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
+		<div class="col-xs-12 col-sm-8 col-md-6">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if> />
 			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
 		</div>
@@ -458,10 +472,10 @@
 
 <#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='' language='fr'>
 	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
-		<div class="controls">
-			<div class="input-prepend">
-				<span class="add-on"><i class="icon-calendar">&nbsp;</i></span>
+		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
+		<div class="col-xs-12 col-sm-8 col-md-6">
+			<div class="input-group">
+				<span class="add-on"><i class="glyphicon glyphicon-calendar">&nbsp;</i></span>
 				<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" />
 			</div>
 			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
@@ -471,9 +485,9 @@
 </#macro>
 
 <#macro fieldInputCheckBox i18nLabelKey inputName value="" checked=false i18nHelpBlockKey='' cssClass='' >
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} :</label> 
-		<div class="controls">
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} :</label> 
+		<div class="col-xs-12 col-sm-8 col-md-6">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked="checked"</#if> />
 			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
 		</div>
@@ -481,9 +495,9 @@
 </#macro>
 
 <#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='' >
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label> 
-		<div class="controls">
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label> 
+		<div class="col-xs-12 col-sm-8 col-md-6">
 			<#assign params = "class='" + cssClass + "'" >
 			<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
 			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
@@ -492,9 +506,9 @@
 </#macro>
 
 <#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
-		<div class="controls">
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
+		<div class="col-xs-12 col-sm-8 col-md-6">
 			<textarea class="${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
 			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
 		</div>

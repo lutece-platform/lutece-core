@@ -20,24 +20,24 @@
 	</head>
 	<body>
 		<#include "page_header_home.html" />
-		<div class="container-fluid">
-			<div class="row-fluid">
+		<div class="container">
+			<div class="row">
 			   	<form class="form form-inline" action="jsp/site/SendResource.jsp" method="post">
 			   		<fieldset>
 			   			<legend>#i18n{portal.site.popup_send_resource.title}</legend>
 			   			<#if error?? && error != "">
-			   				<div class="span11 alert alert-danger">
+			   				<div class="col-xs-12 col-sm-11 col-md-11 alert alert-danger">
 			   					${error}
 			   					<button type="button" class="close" data-dismiss="alert">&times;</button>
 			   				</div>
 			   			</#if>
 			   			<#if success??>
-			   				<div class="span11 alert alert-success">
+			   				<div class="col-xs-12 col-sm-11 col-md-11 alert alert-success">
 			   					#i18n{portal.site.popup_send_resource.labelSent}
 			   					<button type="button" class="close" data-dismiss="alert">&times;</button>
 			   				</div>
 			   			</#if>
-						<div class="span4 well">
+						<div class="col-xs-12 col-sm-4 col-md-4 well">
 							<div class="control-group">
 								<label class="control-label" for="senderName">#i18n{portal.site.popup_send_resource.senderName} *:</label>
 								<br />
@@ -54,7 +54,7 @@
 								<input type="text" name="email" id="email" value="${email!}" >
 							</div>
 						</div>
-						<div class="span7">
+						<div class="col-xs-12 col-sm-7 col-md-7">
 							<div class="control-group">
 								<label class="control-label" for="content">#i18n{portal.site.popup_send_resource.content} *:</label>
 								<textarea class="span richtext" rows="20" name="content" id="content">${content!}</textarea>
@@ -75,7 +75,7 @@
 								</div>
 							</#if>
 						</div>
-						<div class="span11">
+						<div class="col-xs-12 col-sm-11 col-md-11">
 							<div class="form-actions">
 								<input type="hidden" name="extendableResourceType" value="${resource.extendableResourceType}" >
 								<input type="hidden" name="idExtendableResource" value="${resource.idExtendableResource}" >
