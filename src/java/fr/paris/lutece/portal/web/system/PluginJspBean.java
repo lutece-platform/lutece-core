@@ -371,18 +371,22 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      */
     private boolean verifyCoreCompatibility( Plugin plugin )
     {
-        boolean bCompatibility = false;
-        boolean bMin = false;
-        boolean bMax = false;
-        String[] coreVersion = AppInfo.getVersion(  ).split( "\\." );
+        String strCoreVersion = AppInfo.getVersion(  );
+        
+        // Remove version qualifier (-SNAPSHOT, -RC-XX, ...)
+        int nPos = strCoreVersion.indexOf( "-" );
+        if( nPos > 0 )
+        {
+            strCoreVersion = strCoreVersion.substring( 0 , nPos );
+        }
+        String[] coreVersion = strCoreVersion.split( "\\." );
 
         String strMinCoreVersion = ( plugin.getMinCoreVersion(  ) == null ) ? "" : plugin.getMinCoreVersion(  );
         String strMaxCoreVersion = ( plugin.getMaxCoreVersion(  ) == null ) ? "" : plugin.getMaxCoreVersion(  );
 
-        bMin = ( ( ( strMinCoreVersion == null ) || strMinCoreVersion.trim(  ).equals( "" ) ) ? true : false );
-        bMax = ( ( ( strMaxCoreVersion == null ) || strMaxCoreVersion.trim(  ).equals( "" ) ) ? true : false );
 
         // test the min core version
+        boolean bMin = ( strMinCoreVersion == null ) || strMinCoreVersion.trim(  ).equals( "" );
         if ( ( strMinCoreVersion != null ) && !strMinCoreVersion.trim(  ).equals( "" ) )
         {
             String[] minCoreVersion = strMinCoreVersion.split( "\\." );
@@ -395,6 +399,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         }
 
         // test the max core version
+        boolean bMax = ( strMaxCoreVersion == null ) || strMaxCoreVersion.trim(  ).equals( "" );
         if ( ( strMaxCoreVersion != null ) && !strMaxCoreVersion.trim(  ).equals( "" ) )
         {
             String[] maxCoreVersion = strMaxCoreVersion.split( "\\." );
@@ -406,12 +411,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        if ( bMin && bMax )
-        {
-            bCompatibility = true;
-        }
-
-        return bCompatibility;
+        return bMin && bMax;
     }
 
     /**
