@@ -461,19 +461,22 @@
 </#macro>
 
 <#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
+	<div class="row">
 	<div class="form-group">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
-		<div class="col-xs-12 col-sm-8 col-md-6">
+		<div class="col-xs-12 col-sm-9 col-md-9">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if> />
 			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
 		</div>
 	</div>
+	</div>
 </#macro>
 
 <#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='' language='fr'>
-	<div class="control-group">
+	<div class="row">
+	<div class="form-group">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
-		<div class="col-xs-12 col-sm-8 col-md-6">
+		<div class="col-xs-12 col-sm-9 col-md-9">
 			<div class="input-group">
 				<span class="add-on"><i class="glyphicon glyphicon-calendar">&nbsp;</i></span>
 				<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" />
@@ -481,36 +484,43 @@
 			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
 		</div>
 	</div>
+	</div>
 	<@getDatePicker idField=inputName language=language />
 </#macro>
 
 <#macro fieldInputCheckBox i18nLabelKey inputName value="" checked=false i18nHelpBlockKey='' cssClass='' >
+	<div class="row">
 	<div class="form-group">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} :</label> 
-		<div class="col-xs-12 col-sm-8 col-md-6">
+		<div class="col-xs-12 col-sm-9 col-md-9">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked="checked"</#if> />
 			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
 		</div>
 	</div>
+	</div>
 </#macro>
 
 <#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='' >
+	<div class="row">
 	<div class="form-group">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label> 
-		<div class="col-xs-12 col-sm-8 col-md-6">
+		<div class="col-xs-12 col-sm-9 col-md-9">
 			<#assign params = "class='" + cssClass + "'" >
 			<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
 			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
 		</div>
 	</div>
+	</div>
 </#macro>
 
 <#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
+	<div class="row">
 	<div class="form-group">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
-		<div class="col-xs-12 col-sm-8 col-md-6">
+		<div class="col-xs-12 col-sm-9 col-md-9">
 			<textarea class="${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
 			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
 		</div>
+	</div>
 	</div>
 </#macro>
