@@ -45,10 +45,10 @@ INSERT INTO core_admin_user VALUES (2,'lutece','Lutèce','lutece','lutece@lutece
 INSERT INTO core_admin_user VALUES (3,'redac','redac','redac','redac@lutece.fr',0,'adminadmin','fr',2,0,0,null,null,0,'1980-01-01 00:00:00');
 INSERT INTO core_admin_user VALUES (4,'valid','valid','valid','valid@lutece.fr',0,'adminadmin','fr',3,0,0,null,null,0,'1980-01-01 00:00:00');
 
-INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_SYSTEM', 1, 3);
+INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_SYSTEM', 1, 2);
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_USERS', 1, 1);
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_USER', 4, 1);
-INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_PAGES', 1, 2);
+INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_PAGES', 2, 1);
 
 INSERT INTO core_feature_group VALUES ('CONTENT','portal.features.group.content.description','portal.features.group.content.label',1);
 INSERT INTO core_feature_group VALUES ('APPLICATIONS','portal.features.group.applications.description','portal.features.group.applications.label',3);

@@ -69,8 +69,7 @@ public class SiteDashboardComponent extends DashboardComponent
     private static final String MARK_IMAGE_THUMBNAIL_PAGE_URL = "image_thumbnail_page_url";
 
     // TEMPLATES
-    private static final String TEMPLATE_DASHBOARD_ZONE_1 = "/admin/site/site_dashboard_zone_1.html";
-    private static final String TEMPLATE_DASHBOARD_OTHER_ZONE = "/admin/site/site_dashboard_other_zone.html";
+    private static final String TEMPLATE_DASHBOARD = "/admin/site/site_dashboard.html";
 
     /**
      * The HTML code of the component
@@ -104,22 +103,8 @@ public class SiteDashboardComponent extends DashboardComponent
             }
         }
 
-        HtmlTemplate t = AppTemplateService.getTemplate( getTemplateDashboard(  ), user.getLocale(  ), model );
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale( ), model );
 
         return t.getHtml(  );
-    }
-
-    /**
-     * Get the template
-     * @return the template
-     */
-    private String getTemplateDashboard(  )
-    {
-        if ( getZone(  ) == ZONE_1 )
-        {
-            return TEMPLATE_DASHBOARD_ZONE_1;
-        }
-
-        return TEMPLATE_DASHBOARD_OTHER_ZONE;
     }
 }
