@@ -57,7 +57,7 @@ import javax.servlet.http.HttpServletRequest;
 public class SiteDashboardComponent extends DashboardComponent
 {
     // CONSTANTS
-    private static final int ZONE_1 = 1;
+    //    private static final int ZONE_1 = 1;
     private static final String BEAN_PAGE_SERVICE = "pageService";
 
     // MARKS
@@ -85,25 +85,19 @@ public class SiteDashboardComponent extends DashboardComponent
         model.put( MARK_URL, right.getUrl(  ) );
         model.put( MARK_ICON, right.getIconUrl(  ) );
 
-        if ( getZone(  ) == ZONE_1 )
-        {
-            model.put( MARK_PAGES_COUNT, PageHome.getAllPages(  ).size(  ) );
-        }
-        else
-        {
-            PageService pageService = (PageService) SpringContextService.getBean( BEAN_PAGE_SERVICE );
-            Page page = PageHome.getLastModifiedPage(  );
-            model.put( MARK_LAST_MODIFIED_PAGE, page );
-            model.put( MARK_LAST_MODIFIED_PORTLET, PortletHome.getLastModifiedPortlet(  ) );
+        PageService pageService = (PageService) SpringContextService.getBean( BEAN_PAGE_SERVICE );
+        Page page = PageHome.getLastModifiedPage(  );
+        model.put( MARK_LAST_MODIFIED_PAGE, page );
+        model.put( MARK_LAST_MODIFIED_PORTLET, PortletHome.getLastModifiedPortlet(  ) );
+        model.put( MARK_PAGES_COUNT, PageHome.getAllPages(  ).size(  ) );
 
-            if ( page != null )
-            {
-                model.put( MARK_IMAGE_THUMBNAIL_PAGE_URL,
-                    pageService.getResourceImagePage( String.valueOf( page.getId(  ) ) ) );
-            }
+        if ( page != null )
+        {
+            model.put( MARK_IMAGE_THUMBNAIL_PAGE_URL,
+                pageService.getResourceImagePage( String.valueOf( page.getId(  ) ) ) );
         }
 
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale( ), model );
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale(  ), model );
 
         return t.getHtml(  );
     }

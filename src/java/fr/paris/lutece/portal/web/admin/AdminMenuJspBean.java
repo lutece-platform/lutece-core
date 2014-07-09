@@ -62,6 +62,7 @@ import fr.paris.lutece.util.string.StringUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
