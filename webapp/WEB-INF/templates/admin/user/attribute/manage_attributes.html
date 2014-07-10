@@ -1,9 +1,9 @@
-<div class="row-fluid">
+<div class="row">
 	<div class="well">
 		<form class="form-inline" method="post" action="jsp/admin/user/attribute/CreateAttribute.jsp">
 			<fieldset>
-				<div class="control-group">
-					<label class="control-label" for="attribute_type_class_name">#i18n{portal.users.manage_attributes.addNewAttributes} :</label>
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-3 col-md-3" for="attribute_type_class_name">#i18n{portal.users.manage_attributes.addNewAttributes} :</label>
 					<select id="attribute_type_class_name" name="attribute_type_class_name">
 						<#list attribute_types_list as attribute_type>
 							<option value="${attribute_type.className}">${attribute_type.name}</option>
@@ -18,7 +18,7 @@
 	</div>
 </div>
 
-<div class="row-fluid">
+<div class="row">
 	<fieldset>
 		<legend>#i18n{portal.users.manage_attributes.pageTitle}</legend>
 		<a name="list" id="list"></a>

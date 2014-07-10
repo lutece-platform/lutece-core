@@ -1,47 +1,47 @@
 <form class="form-horizontal" action="jsp/admin/user/attribute/DoCreateAttribute.jsp" method="post" name="" id=""  >
 	<fieldset>
 		<legend>#i18n{portal.users.create_attribute.pageTitleAttributeComboBox}</legend>
-        <div class="control-group">
-            <label class="control-label" for="title">#i18n{portal.users.create_attribute.labelTitle} * : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.create_attribute.labelTitle} * : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				<input type="text" name="title" id="title" size="80" value=""  maxlength="255" />
 	        	<span class="help-block">#i18n{portal.users.create_attribute.labelTitleComment}</span>
 	        </div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="help_message"> #i18n{portal.users.create_attribute.labelHelpMessage} : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="help_message"> #i18n{portal.users.create_attribute.labelHelpMessage} : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				<textarea name="help_message" id="help_message" cols="80" rows="5"></textarea>
 				<span class="help-block">#i18n{portal.users.create_attribute.labelHelpMessageComment}</span>
 			</div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="">#i18n{portal.users.create_attribute.labelType} : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="">#i18n{portal.users.create_attribute.labelType} : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				${attribute_type.name}
 			</div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="is_shown_in_search">#i18n{portal.users.create_attribute.labelIsShownInSearch} : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_search">#i18n{portal.users.create_attribute.labelIsShownInSearch} : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				<input name="is_shown_in_search" value="1" type="checkbox" />
 			</div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="is_shown_in_result_list">#i18n{portal.users.create_attribute.labelIsShownInResultList} : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_result_list">#i18n{portal.users.create_attribute.labelIsShownInResultList} : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				<input name="is_shown_in_result_list" value="1" type="checkbox" />
 			</div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="mandatory">#i18n{portal.users.create_attribute.labelMandatory} : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="mandatory">#i18n{portal.users.create_attribute.labelMandatory} : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				<input name="mandatory" value="1" type="checkbox" />
 			</div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="multiple">#i18n{portal.users.create_attribute.labelMultiple} : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="multiple">#i18n{portal.users.create_attribute.labelMultiple} : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				<input name="multiple" value="1" type="checkbox" />
             	<span class="help-block">#i18n{portal.users.create_attribute.labelMultipleComment}</span>
             </div>

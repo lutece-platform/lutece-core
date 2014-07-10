@@ -6,16 +6,16 @@
 	</#list>
 	<#return false>
 </#function>
-<label class="control-label" for="attribute_${attribute.idAttribute}">
+<label class="control-label col-xs-12 col-sm-3 col-md-3" for="attribute_${attribute.idAttribute}">
 	${attribute.title} : 
 </label>
 <#if attribute.fieldInLine>
-	<div class="controls">
+	<div class="col-xs-12 col-sm-9 col-md-9">
 </#if>
 <#list attribute.listAttributeFields as attributeField>
 	<#if attributeField.title?exists && attributeField.value != "">
 		<#if !attribute.fieldInLine>
-			<div class="controls">
+			<div class="col-xs-12 col-sm-9 col-md-9">
 		</#if>
 		<input type="checkbox" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}"
 			<#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >

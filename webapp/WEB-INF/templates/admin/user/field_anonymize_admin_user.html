@@ -1,31 +1,31 @@
-<div class="row-fluid">
+<div class="row">
    <legend>#i18n{portal.users.anonymize_user.titleAnonymizeUser}</legend>
     <form class="form-horizontal" method="post" name="anonymize_user" action="jsp/admin/user/DoChangeFieldAnonymizeAdminUsers.jsp" >
         <fieldset>
             <div class="well">
                 <div class="well-content">
                     #i18n{portal.users.create_user.labelIdentity}
-                    <div class="control-group">
-                        <label class="control-label" for="access_code" >#i18n{portal.users.create_user.labelAccessCode} </label>
-                        <div class="controls">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="access_code" >#i18n{portal.users.create_user.labelAccessCode} </label>
+                        <div class="col-xs-12 col-sm-9 col-md-9">
                             <input type="checkbox" id="access_code" name="access_code" value="true" <#if access_code?? && access_code>checked="checked"</#if> />
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label" for="last_name" >#i18n{portal.users.create_user.labelLastName} </label>
-                        <div class="controls">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="last_name" >#i18n{portal.users.create_user.labelLastName} </label>
+                        <div class="col-xs-12 col-sm-9 col-md-9">
                             <input type="checkbox"  id="last_name" name="last_name" value="true" tabindex="2" <#if last_name?? && last_name>checked="checked"</#if> />
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label" for="first_name">#i18n{portal.users.create_user.labelFirstName} </label>
-                        <div class="controls">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="first_name">#i18n{portal.users.create_user.labelFirstName} </label>
+                        <div class="col-xs-12 col-sm-9 col-md-9">
                             <input type="checkbox" id="first_name" name="first_name" value="true" tabindex="3" <#if first_name?? && first_name>checked="checked"</#if> />
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label" for="email">#i18n{portal.users.create_user.labelEmail} </label>
-                        <div class="controls">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="email">#i18n{portal.users.create_user.labelEmail} </label>
+                        <div class="col-xs-12 col-sm-9 col-md-9">
                             <input type="checkbox" id="email" name="email" value="true" tabindex="4" <#if email?? && email>checked="checked"</#if> />
                         </div>
                     </div>
@@ -38,9 +38,9 @@
                     <#list attributes_list as attribute>
                     <#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
 
-                    <div class="control-group">
-                        <label class="control-label" for="attribute_${attribute.idAttribute}">${attribute.title} :</label>
-                        <div class="controls">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="attribute_${attribute.idAttribute}">${attribute.title} :</label>
+                        <div class="col-xs-12 col-sm-9 col-md-9">
                             <input type="checkbox" value="true" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}" <#if attribute.anonymize >checked="checked"</#if> />
                         </div>
                     </div>

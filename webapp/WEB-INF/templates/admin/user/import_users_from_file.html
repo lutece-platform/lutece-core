@@ -1,4 +1,4 @@
-<div class="row-fluid">
+<div class="row">
 	<form class="form-horizontal" enctype="multipart/form-data" method="post" name="import_users_from_file" action="jsp/admin/user/DoImportUsersFromFile.jsp">
 		<fieldset>
 		    <legend>#i18n{portal.users.import_users_from_file.pageTitle}</legend> 
@@ -10,9 +10,9 @@
 					<a href="jsp/admin/user/ImportUsersFromFile.jsp" >#i18n{portal.users.import_users_from_file.labelImportUsers}</a>
 				</li>
 			</ul>
-			<div class="control-group">
-				<label class="control-label" for="import_file">#i18n{portal.users.import_users_from_file.labelImportFile} * :</label>
-				<div class="controls">
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="import_file">#i18n{portal.users.import_users_from_file.labelImportFile} * :</label>
+				<div class="col-xs-12 col-sm-9 col-md-9">
 					<input type="file" id="import_file" name="import_file"/>
 					<span class="help-block">#i18n{portal.users.import_users_from_file.labelCSVSeparator} "<strong>${csv_separator}</strong>".<br />
 					#i18n{portal.users.import_users_from_file.labelListColumns}<br />
@@ -21,16 +21,16 @@
 					<span class="help-block">#i18n{portal.users.import_users_from_file.labelFileEncoding}</span>
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label" for="ignore_first_line">#i18n{portal.users.import_users_from_file.labelIgnoreFirstLine} :</label>
-				<div class="controls">
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="ignore_first_line">#i18n{portal.users.import_users_from_file.labelIgnoreFirstLine} :</label>
+				<div class="col-xs-12 col-sm-9 col-md-9">
 					<input type="checkbox" id="ignore_first_line" name="ignore_first_line"/>
 					<span class="help-block">#i18n{portal.users.import_users_from_file.labelHelpIgnoreFirstLine}</span>
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label" for="update_existing_users">#i18n{portal.users.import_users_from_file.labelUpdateExistingUsers} :</label>
-				<div class="controls">
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="update_existing_users">#i18n{portal.users.import_users_from_file.labelUpdateExistingUsers} :</label>
+				<div class="col-xs-12 col-sm-9 col-md-9">
 					<input type="checkbox" id="update_existing_users" name="update_existing_users"/>
 					<span class="help-block">#i18n{portal.users.import_users_from_file.labelHelpUpdateExistingUsers}</span>
 				</div>

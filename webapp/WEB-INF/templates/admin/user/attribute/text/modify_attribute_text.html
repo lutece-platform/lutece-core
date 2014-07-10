@@ -1,37 +1,37 @@
 <form class="form-horizontal" action="jsp/admin/user/attribute/DoModifyAttribute.jsp" method="post" >
 	<fieldset>
 		<legend>#i18n{portal.users.modify_attribute.pageTitleAttributeText}</legend>
-	    <div class="control-group">
-	        <label class="control-label" for="title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
-	        <div class="controls">
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
+	        <div class="col-xs-12 col-sm-9 col-md-9">
 		        <input type="text" name="title" id="title" size="80" value="${attribute.title}"  maxlength="255" />
 		        <span class="help-block">#i18n{portal.users.modify_attribute.labelTitleComment}</span>
 			</div>
 	    </div>
-	    <div class="control-group">
-	        <label class="control-label" for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage} : </label>
-	        <div class="controls">
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage} : </label>
+	        <div class="col-xs-12 col-sm-9 col-md-9">
 		        <textarea  name="help_message" id="help_message"  cols="80" rows="5">${attribute.helpMessage}</textarea>
 	       		<span class="help-block">#i18n{portal.users.modify_attribute.labelHelpMessageComment}</span>
 	       	</div>
 	    </div>
-	    <div class="control-group">
-	        <label class="control-label" for="value">#i18n{portal.users.create_attribute.labelDefaultValue} : </label>
-	        <div class="controls">
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="value">#i18n{portal.users.create_attribute.labelDefaultValue} : </label>
+	        <div class="col-xs-12 col-sm-9 col-md-9">
 		        <#list attribute_fields_list as attribute_field>
 	        		<input type="text" name="value" id="value" size="80" value="${attribute_field.value}" />
 	        	</#list>
 	        </div>
 	    </div>
-	    <div class="control-group">
-	        <label class="control-label" for="">#i18n{portal.users.modify_attribute.labelType} : </label>
-	        <div class="controls">
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="">#i18n{portal.users.modify_attribute.labelType} : </label>
+	        <div class="col-xs-12 col-sm-9 col-md-9">
 		        ${attribute.attributeType.name}
 		    </div>
 	    </div>
-	    <div class="control-group">
-	        <label class="control-label" for="is_shown_in_search">#i18n{portal.users.modify_attribute.labelIsShownInSearch} : </label>
-	       <div class="controls">
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_search">#i18n{portal.users.modify_attribute.labelIsShownInSearch} : </label>
+	       <div class="col-xs-12 col-sm-9 col-md-9">
 		        <#if attribute.shownInSearch = false>
 	        		<input name="is_shown_in_search" value="1" type="checkbox" />
 	        	<#else>
@@ -39,9 +39,9 @@
 	        	</#if>
 	        </div>
 	    </div>
-	    <div class="control-group">
-	        <label class="control-label" for="is_shown_in_result_list">#i18n{portal.users.modify_attribute.labelIsShownInResultList} : </label>
-	        <div class="controls">
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_result_list">#i18n{portal.users.modify_attribute.labelIsShownInResultList} : </label>
+	        <div class="col-xs-12 col-sm-9 col-md-9">
 		        <#if attribute.shownInResultList = false>
 	        		<input name="is_shown_in_result_list" value="1" type="checkbox" />
 	        	<#else>
@@ -49,9 +49,9 @@
 	        	</#if>
 	        </div>
 	    </div>
-	    <div class="control-group">
-	        <label class="control-label" for="mandatory">#i18n{portal.users.modify_attribute.labelMandatory} : </label>
-	        <div class="controls">
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="mandatory">#i18n{portal.users.modify_attribute.labelMandatory} : </label>
+	        <div class="col-xs-12 col-sm-9 col-md-9">
 		        <#if attribute.mandatory = false>
 	        		<input name="mandatory" value="1" type="checkbox" />
 	        	<#else>
@@ -59,9 +59,9 @@
 	        	</#if>
 	        </div>
 	    </div>	
-	    <div class="control-group">
-	        <label class="control-label" for="width">#i18n{portal.users.modify_attribute.labelWidth} * : </label>
-	        <div class="controls">
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="width">#i18n{portal.users.modify_attribute.labelWidth} * : </label>
+	        <div class="col-xs-12 col-sm-9 col-md-9">
 		        <#list attribute_fields_list as attribute_field>
 	        		<input type="text" name="width" id="width" size="5" 
 	           		<#if attribute_field.width?? && ( attribute_field.width >= 0 )>
@@ -73,9 +73,9 @@
 	      		</#list>
 	      	</div>
 	    </div>
-	    <div class="control-group">
-	        <label class="control-label" for="max_size_enter">#i18n{portal.users.modify_attribute.labelMaxSizeEnter}  : </label>
-	        <div class="controls">
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="max_size_enter">#i18n{portal.users.modify_attribute.labelMaxSizeEnter}  : </label>
+	        <div class="col-xs-12 col-sm-9 col-md-9">
 		        <#list attribute_fields_list as attribute_field>
 	        		<input type="text" name="max_size_enter" id="max_size_enter" size="5" 
 	               <#if attribute_field.maxSizeEnter?? && ( attribute_field.maxSizeEnter >= 0 )>

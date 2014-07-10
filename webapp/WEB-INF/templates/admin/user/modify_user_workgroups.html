@@ -1,4 +1,4 @@
-<div class="row-fluid">
+<div class="row">
         <div class="span12">
             <div class="well well-small"><i class="icon-user"></i>&nbsp;${user.lastName} ${user.firstName}
             <span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span></div>
@@ -24,7 +24,7 @@
                     <#else>
                     <#assign checked = ""/>
                     </#if>
-                    <div class="controls">
+                    <div class="col-xs-12 col-sm-9 col-md-9">
                         <label class="checkbox">${workgroup.name}
                             <input class="checkbox" type="checkbox" name="workgroup" value="${workgroup.code}" ${checked}/>
                         </label>

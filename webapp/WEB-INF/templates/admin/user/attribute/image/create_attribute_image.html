@@ -2,47 +2,47 @@
 	<fieldset>
 		<legend>#i18n{portal.users.create_attribute.pageTitleAttributeImage}</legend>
         <input name="attribute_type_class_name" value="${attribute_type.className}" type="hidden" /> 
-        <div class="control-group">
-            <label class="control-label" for="title">#i18n{portal.users.create_attribute.labelTitle} * : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.create_attribute.labelTitle} * : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				<input type="text" name="title" id="title" size="80" value=""  maxlength="255" />
             	<span class="help-block">#i18n{portal.users.create_attribute.labelTitleComment}</span>
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="help_message"> #i18n{portal.users.create_attribute.labelHelpMessage} : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="help_message"> #i18n{portal.users.create_attribute.labelHelpMessage} : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				<textarea  name="help_message" id="help_message"  cols="80" rows="5"></textarea>
 				<span class="help-block">#i18n{portal.users.create_attribute.labelHelpMessageComment}</span>
 			</div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="">#i18n{portal.users.create_attribute.labelType} : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="">#i18n{portal.users.create_attribute.labelType} : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				${attribute_type.name}
 			</div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="is_shown_in_result_list">#i18n{portal.users.create_attribute.labelIsShownInResultList} : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_result_list">#i18n{portal.users.create_attribute.labelIsShownInResultList} : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				<input name="is_shown_in_result_list" value="1" type="checkbox" />
 			</div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="mandatory">#i18n{portal.users.create_attribute.labelMandatory} : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="mandatory">#i18n{portal.users.create_attribute.labelMandatory} : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				<input name="mandatory" value="1" type="checkbox" />
 			</div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="width">#i18n{portal.users.create_attribute.labelWidth} : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="width">#i18n{portal.users.create_attribute.labelWidth} : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				<input type="text" name="width" id="width" size="5" value="50" />
 			</div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="height">#i18n{portal.users.create_attribute.labelHeight} : </label>
-            <div class="controls">
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="height">#i18n{portal.users.create_attribute.labelHeight} : </label>
+            <div class="col-xs-12 col-sm-9 col-md-9">
 				<input type="text" name="height" id="height" size="5" value="50" />
 			</div>
         </div>

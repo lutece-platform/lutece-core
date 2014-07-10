@@ -27,15 +27,15 @@
     </#list>
     <#return false>
 </#function>
-<div class="control-group">
-    <label class="control-label" for="attribute_${attribute.idAttribute}">
+<div class="form-group">
+    <label class="control-label col-xs-12 col-sm-3 col-md-3" for="attribute_${attribute.idAttribute}">
         ${attribute.title}
     <#if attribute.mandatory>
         *
     </#if>
         : 
     </label>
-    <div class="controls">
+    <div class="col-xs-12 col-sm-9 col-md-9">
         <select name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}"
             <#if isMultiple( attribute.listAttributeFields ) >
                     multiple="multiple" size="10"

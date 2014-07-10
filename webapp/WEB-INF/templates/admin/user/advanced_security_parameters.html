@@ -1,22 +1,22 @@
 <form class="form-horizontal" method="post" name="password_global_security" action="jsp/admin/user/DoModifyDefaultUserSecurityParameterValues.jsp#footer">
         <fieldset>
             <legend>#i18n{portal.users.manage_advanced_parameters.securityParameters}</legend>
-            <div class="control-group">
-            	<label class="control-label" for="banned_domain_names">#i18n{portal.users.manage_advanced_parameters.labelBannedDomainNames} : </label>
-            	<div class="controls">
+            <div class="form-group">
+            	<label class="control-label col-xs-12 col-sm-3 col-md-3" for="banned_domain_names">#i18n{portal.users.manage_advanced_parameters.labelBannedDomainNames} : </label>
+            	<div class="col-xs-12 col-sm-9 col-md-9">
             		<textarea rows="4" cols="20" name="banned_domain_names" id="banned_domain_names" >${banned_domain_names}</textarea>
             	</div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="password_minimum_length">#i18n{portal.users.manage_advanced_parameters.labelMinimumPasswordLength} * : </label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="password_minimum_length">#i18n{portal.users.manage_advanced_parameters.labelMinimumPasswordLength} * : </label>
+                <div class="col-xs-12 col-sm-9 col-md-9">
                     <input type="text" name="password_minimum_length" value="${password_minimum_length!}" />
                 </div>
             </div>
             <#if use_advanced_security_parameters>
-          	<div class="control-group">
-                <label class="control-label" for="">#i18n{portal.users.manage_advanced_parameters.labelPasswordFormat} :</label>
-                <div class="controls">
+          	<div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="">#i18n{portal.users.manage_advanced_parameters.labelPasswordFormat} :</label>
+                <div class="col-xs-12 col-sm-9 col-md-9">
 					<label class="checkbox inline" for="password_format_upper_lower_case">
                         <input type="checkbox" name="password_format_upper_lower_case" value="true" <#if password_format_upper_lower_case?? && password_format_upper_lower_case>checked="checked"</#if> />#i18n{portal.users.manage_advanced_parameters.labelPasswordFormatUpperLowerCase}
 					</label>
@@ -28,15 +28,15 @@
 					</label>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="password_duration">#i18n{portal.users.manage_advanced_parameters.labelPasswordDuration} : </label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="password_duration">#i18n{portal.users.manage_advanced_parameters.labelPasswordDuration} : </label>
+                <div class="col-xs-12 col-sm-9 col-md-9">
                     <input type="text" name="password_duration" value="${password_duration!}" />
                 </div>
             </div>
-			<div class="control-group">
-				<label class="control-label" for="">#i18n{portal.users.manage_advanced_parameters.labelNotifyUserPasswordExpired} :</label>
-				<div class="controls">
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="">#i18n{portal.users.manage_advanced_parameters.labelNotifyUserPasswordExpired} :</label>
+				<div class="col-xs-12 col-sm-9 col-md-9">
 					<label class="checkbox" for="notify_user_password_expired">
 						<input type="checkbox" name="notify_user_password_expired" value="true" <#if notify_user_password_expired?? && notify_user_password_expired>checked="checked"</#if> />
 						#i18n{portal.users.manage_advanced_parameters.labelNotifyUserPasswordExpired}
@@ -44,65 +44,65 @@
 				</div>
 			</div>
             </#if>
-            <div class="control-group">
-                <label class="control-label" for="force_change_password_reinit">#i18n{portal.users.manage_advanced_parameters.labelForcePasswordAfterReset} : </label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="force_change_password_reinit">#i18n{portal.users.manage_advanced_parameters.labelForcePasswordAfterReset} : </label>
+                <div class="col-xs-12 col-sm-9 col-md-9">
                     <input type="checkbox" name="force_change_password_reinit" value="true" <#if force_change_password_reinit>checked="checked"</#if> />
                 </div>
             </div>
             <#if use_advanced_security_parameters>
-            <div class="control-group">
-                <label class="control-label" for="password_history_size">#i18n{portal.users.manage_advanced_parameters.labelPasswordHistorySize} : </label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="password_history_size">#i18n{portal.users.manage_advanced_parameters.labelPasswordHistorySize} : </label>
+                <div class="col-xs-12 col-sm-9 col-md-9">
                     <input type="text" name="password_history_size" value="${password_history_size!}" />
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="maximum_number_password_change">#i18n{portal.users.manage_advanced_parameters.labelMaxNumberPasswordChange} : </label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="maximum_number_password_change">#i18n{portal.users.manage_advanced_parameters.labelMaxNumberPasswordChange} : </label>
+                <div class="col-xs-12 col-sm-9 col-md-9">
                     <input type="text" name="maximum_number_password_change" value="${maximum_number_password_change!}" />
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="tsw_size_password_change">#i18n{portal.users.manage_advanced_parameters.labelPasswordChangeTSWSize} : </label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="tsw_size_password_change">#i18n{portal.users.manage_advanced_parameters.labelPasswordChangeTSWSize} : </label>
+                <div class="col-xs-12 col-sm-9 col-md-9">
                     <input type="text" name="tsw_size_password_change" value="${tsw_size_password_change!}" />
                 </div>
             </div>
             </#if>
-            <div class="control-group">
-                <label class="control-label" for="access_failures_max">#i18n{portal.users.manage_advanced_parameters.labelAccesFailuresMax} : </label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="access_failures_max">#i18n{portal.users.manage_advanced_parameters.labelAccesFailuresMax} : </label>
+                <div class="col-xs-12 col-sm-9 col-md-9">
                     <input type="text" name="access_failures_max" value="${access_failures_max!}" />
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="access_failures_interval">#i18n{portal.users.manage_advanced_parameters.labelAccesFailuresInterval} : </label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="access_failures_interval">#i18n{portal.users.manage_advanced_parameters.labelAccesFailuresInterval} : </label>
+                <div class="col-xs-12 col-sm-9 col-md-9">
                     <input type="text" name="access_failures_interval" value="${access_failures_interval!}" />
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="account_life_time">#i18n{portal.users.manage_advanced_parameters.labelAccountLifeTime} : </label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="account_life_time">#i18n{portal.users.manage_advanced_parameters.labelAccountLifeTime} : </label>
+                <div class="col-xs-12 col-sm-9 col-md-9">
                     <input type="text" name="account_life_time" value="${account_life_time!}" />
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="time_before_alert_account">#i18n{portal.users.manage_advanced_parameters.labelTimeBeforeAlert} : </label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="time_before_alert_account">#i18n{portal.users.manage_advanced_parameters.labelTimeBeforeAlert} : </label>
+                <div class="col-xs-12 col-sm-9 col-md-9">
                     <input type="text" name="time_before_alert_account" value="${time_before_alert_account!}" />
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="nb_alert_account">#i18n{portal.users.manage_advanced_parameters.labelNbAlert} : </label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="nb_alert_account">#i18n{portal.users.manage_advanced_parameters.labelNbAlert} : </label>
+                <div class="col-xs-12 col-sm-9 col-md-9">
                     <input type="text" name="nb_alert_account" value="${nb_alert_account!}" />
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="time_between_alerts_account">#i18n{portal.users.manage_advanced_parameters.labelTimeBetweenAlerts} : </label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="time_between_alerts_account">#i18n{portal.users.manage_advanced_parameters.labelTimeBetweenAlerts} : </label>
+                <div class="col-xs-12 col-sm-9 col-md-9">
                     <input type="text" name="time_between_alerts_account" value="${time_between_alerts_account!}" />
                 </div>
             </div>
@@ -115,9 +115,9 @@
     <form class="form-horizontal append-bottom" method="post" action="jsp/admin/user/ModifyAccountLifeTimeEmails.jsp">
         <fieldset>
             <legend>#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}</legend>
-            <div class="control-group">
-                <label class="control-label" for="email_type">#i18n{portal.users.accountLifeTime.labelSelectEmail} :</label>
-				<div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="email_type">#i18n{portal.users.accountLifeTime.labelSelectEmail} :</label>
+				<div class="col-xs-12 col-sm-9 col-md-9">
                 <select name="email_type" >
                     <option value="first" selected="selected" >#i18n{portal.users.accountLifeTime.labelFirstEmail}</option>
                     <option value="other" >#i18n{portal.users.accountLifeTime.labelOtherEmail}</option>

@@ -1,4 +1,4 @@
-<div class="row-fluid">
+<div class="row">
 	<div class="span12">
 		<div class="well well-small">
 			<i class="icon-user"></i>&nbsp;${user.lastName} ${user.firstName}
@@ -43,7 +43,7 @@
 							</#list>
 						</#if>
 						<li>
-							<div class="controls">	
+							<div class="col-xs-12 col-sm-9 col-md-9">	
 								<label class="checkbox">${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}
 									<input class="checkbox" type="checkbox" name="right" value="${right.id}" ${checked} />
 								</label>

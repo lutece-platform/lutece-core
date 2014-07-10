@@ -10,24 +10,24 @@
     <form class="form-horizontal" method="post" name="password_encryption" action="jsp/admin/user/ModifyPasswordEncryption.jsp">
 			<fieldset>
             <legend>#i18n{portal.users.manage_advanced_parameters.labelEnablePasswordEncryption}</legend>
-            <div class="control-group">
-				<label class="control-label" for="enable_password_encryption">#i18n{portal.users.manage_advanced_parameters.labelEnablePasswordEncryption} :</label>
+            <div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="enable_password_encryption">#i18n{portal.users.manage_advanced_parameters.labelEnablePasswordEncryption} :</label>
                 <#if enable_password_encryption = "false">
-					<div class="controls">
+					<div class="col-xs-12 col-sm-9 col-md-9">
 						<label class="radio">#i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
 							<input type="radio" name="enable_password_encryption" value="false" <#if use_advanced_security_parameters>disabled="disabled"</#if> checked="checked" /> 
 						</label>
 					</div>
-					<div class="controls">
+					<div class="col-xs-12 col-sm-9 col-md-9">
 						<label class="radio">#i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
 							<input type="radio" name="enable_password_encryption" value="true" <#if use_advanced_security_parameters>disabled="disabled"</#if> /> 
 						</label>	
 					</div>
                 <#else>
-                    <div class="controls">
+                    <div class="col-xs-12 col-sm-9 col-md-9">
 						<input type="radio" name="enable_password_encryption" value="false" <#if use_advanced_security_parameters>disabled="disabled"</#if> /> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
                     </div>
-                    <div class="controls">
+                    <div class="col-xs-12 col-sm-9 col-md-9">
                     <label>#i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
                             <input type="radio" name="enable_password_encryption" value="true" <#if use_advanced_security_parameters>disabled="disabled"</#if> checked="checked"/> 
                      </label>
@@ -37,9 +37,9 @@
             <#if use_advanced_security_parameters>
             <input type="hidden" name="enable_password_encryption" value="<#if enable_password_encryption?? && enable_password_encryption! = 'true'>true<#else>false</#if>"/>
             </#if>
-            <div class="control-group">
-            <label class="control-label" for="encryption_algorithm">#i18n{portal.users.manage_advanced_parameters.labelEncryptionAlgorithm} :</label>
-				<div class="controls">
+            <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="encryption_algorithm">#i18n{portal.users.manage_advanced_parameters.labelEncryptionAlgorithm} :</label>
+				<div class="col-xs-12 col-sm-9 col-md-9">
 					<select name="encryption_algorithm" <#if use_advanced_security_parameters>disabled="disabled"</#if>>
 					<#if !encryption_algorithm?has_content>
 						<option value="noValue" selected="selected">#i18n{portal.users.manage_advanced_parameters.labelNoAlgorithm}</option>
@@ -68,9 +68,9 @@
         <legend>#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}</legend>
 			<form class="form-horizontal" method="post" name="default_user_parameters" action="jsp/admin/user/DoModifyDefaultUserParameterValues.jsp">
                 <!-- USER LEVEL -->
-                <div class="control-group">
-                <label class="control-label" for="user_level">#i18n{portal.users.manage_advanced_parameters.userLevelLabel} </label>
-                    <div class="controls">
+                <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="user_level">#i18n{portal.users.manage_advanced_parameters.userLevelLabel} </label>
+                    <div class="col-xs-12 col-sm-9 col-md-9">
                         <select id="user_level" name="user_level">
                             <#list user_levels as user_level>
                                 <#if user_level.id = default_user_level.id>
@@ -83,26 +83,26 @@
                     </div>
                 </div>
 				<!-- USER NOTIFICATION -->
-                <div class="control-group">
-                <label class="control-label" for="notify_user">#i18n{portal.users.manage_advanced_parameters.labelNotify} </label>
+                <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="notify_user">#i18n{portal.users.manage_advanced_parameters.labelNotify} </label>
                 <#if default_user_notification = 1>
-					<div class="controls">
+					<div class="col-xs-12 col-sm-9 col-md-9">
 						<label class="radio">#i18n{portal.util.labelYes}
 							<input type="radio" name="notify_user" value="1" checked="checked" tabindex="8" />
                         </label>
                     </div>
-                    <div class="controls">
+                    <div class="col-xs-12 col-sm-9 col-md-9">
                     <label class="radio">#i18n{portal.util.labelNo}
                         <input type="radio" name="notify_user" value="0" tabindex="9" />
                     </label>	
                     </div>
                 <#else>
-                    <div class="controls">
+                    <div class="col-xs-12 col-sm-9 col-md-9">
                     <label class="radio">#i18n{portal.util.labelYes}
 						<input type="radio" name="notify_user" value="1" tabindex="8" />
                     </label>
                     </div>
-                    <div class="controls">
+                    <div class="col-xs-12 col-sm-9 col-md-9">
 					<label class="radio">#i18n{portal.util.labelNo}
 						<input type="radio" name="notify_user" value="0" checked="checked" tabindex="9" />
                     </label>
@@ -110,16 +110,16 @@
                 </#if>
                 </div>
 				<!-- USER LANGUAGE -->
-				<div class="control-group">
-				<label class="control-label" for="language">#i18n{portal.users.manage_advanced_parameters.labelLanguage} </label>
-					<div class="controls">
+				<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="language">#i18n{portal.users.manage_advanced_parameters.labelLanguage} </label>
+					<div class="col-xs-12 col-sm-9 col-md-9">
 						<@comboSorted name="language" default_value="${default_user_language}" items=languages_list />
 					</div>
 				</div>
 				<!-- USER STATUS -->
-				<div class="control-group">
-				<label class="control-label" for="status">#i18n{portal.users.manage_advanced_parameters.labelStatus}</label>
-					<div class="controls">
+				<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="status">#i18n{portal.users.manage_advanced_parameters.labelStatus}</label>
+					<div class="col-xs-12 col-sm-9 col-md-9">
 						<select id="status" name="status" tabindex="10">
 							<#if default_user_status = 1>
 								<option value="0">#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
@@ -140,9 +140,9 @@
 		<legend>#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}</legend>
 			<form class="form-horizontal" method="post" name="email_pattern_form" action="jsp/admin/user/DoModifyEmailPattern.jsp">
 			<#if plugin_regularexpression>
-				<div class="control-group">
-				<label class="control-label" for="is_email_pattern_set_manually">#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManually} :</label>
-					<div class="controls">
+				<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_email_pattern_set_manually">#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManually} :</label>
+					<div class="col-xs-12 col-sm-9 col-md-9">
 						<label class="checkbox">
 							<input type="checkbox" name="is_email_pattern_set_manually" value="1"<#if is_email_pattern_set_manually> checked="checked"</#if> />
 							#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManuallyComment}
@@ -153,9 +153,9 @@
 				<input type="hidden" name="is_email_pattern_set_manually" value="1" />
 			</#if>
 			<#if is_email_pattern_set_manually>
-				<div class="control-group">
-				<label class="control-label" for="email_pattern">#i18n{portal.users.manage_advanced_parameters.labelEmailPattern} :</label>
-					<div class="controls">
+				<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="email_pattern">#i18n{portal.users.manage_advanced_parameters.labelEmailPattern} :</label>
+					<div class="col-xs-12 col-sm-9 col-md-9">
 						<input type="text" size="40" name="email_pattern" value="${email_pattern}" />
 					</div>
 				</div>
@@ -172,9 +172,9 @@
         <fieldset>
         <legend>#i18n{portal.users.manage_advanced_parameters.labelRegularExpression}</legend>
             <form class="form-horizontal" method="post" action="jsp/admin/user/DoInsertRegularExpression.jsp#list-regularexpressions">
-				<div class="control-group">
-				<label class="control-label" for="id_expression">#i18n{portal.users.manage_advanced_parameters.labelRegularExpression} :</label>
-					<div class="controls">
+				<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="id_expression">#i18n{portal.users.manage_advanced_parameters.labelRegularExpression} :</label>
+					<div class="col-xs-12 col-sm-9 col-md-9">
 					    <@comboSorted name="id_expression" items=available_regularexpressions default_value=-1 />
                     </div>
                 </div>

@@ -18,15 +18,15 @@
 	</#if>
 	<#return false>
 </#function>
-<div class="control-group">
-	<label class="control-label" for="attribute_${attribute.idAttribute}">
+<div class="form-group">
+	<label class="control-label col-xs-12 col-sm-3 col-md-3" for="attribute_${attribute.idAttribute}">
 		${attribute.title}
 	<#if attribute.mandatory>
 		*
 	</#if>
 		: 
 	</label>
-	<div class="controls">
+	<div class="col-xs-12 col-sm-9 col-md-9">
 	<#if !attribute.mandatory>
 		<input type="radio" name="attribute_${attribute.idAttribute}" value="" 
 			<#if default_values_list?has_content && !hasElement( default_values_list )>
@@ -45,7 +45,7 @@
 		<#if attributeField.title?exists && attributeField.value != "">
 		
 			<#if !attribute.fieldInLine >
-				<div class="controls">
+				<div class="col-xs-12 col-sm-9 col-md-9">
 			</#if>
 			<input type="radio" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}" 
 				<#if attributeField.defaultValue >

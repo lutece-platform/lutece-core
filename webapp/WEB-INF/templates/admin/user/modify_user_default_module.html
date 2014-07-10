@@ -1,4 +1,4 @@
-<div class="row-fluid">
+<div class="row">
 	<div class="span12">
 		<div class="well well-small"><i class="icon-user"></i>&nbsp;${user.lastName} ${user.firstName}</div>
 		<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
@@ -12,32 +12,32 @@
 			<li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
 		</ul>
 		<form method="post" name="modify_user" action="jsp/admin/user/DoModifyUser.jsp" enctype="multipart/form-data">
-			<div class="row-fluid">
+			<div class="row">
 				<div class="span3 ">
 					<input type="hidden" name="id_user" value="${user.userId}" />    
 					<fieldset>
 					<legend>#i18n{portal.users.modify_user.labelIdentity}</legend>
-				   	<div class="control-group">
+				   	<div class="form-group">
 						<label for="access_code" >#i18n{portal.users.modify_user.labelAccessCode} * :</label>
 						<input type="text"  id="access_code" name="access_code" maxlength="100" size="35" tabindex="1" value="${user.accessCode}" />
 					</div>
-					<div class="control-group">
+					<div class="form-group">
 						<label for="first_password" >#i18n{portal.users.modify_user.labelFirstPassword} :</label>
 						<input type="password"  id="password" name="first_password" maxlength="100" size="35" tabindex="2" value="" />
 					</div>
-					<div class="control-group">
+					<div class="form-group">
 						<label for="second_password" >#i18n{portal.users.modify_user.labelSecondPassword} :</label>
 						<input type="password"  id="password" name="second_password" maxlength="100" size="35" tabindex="3" value="" />
 					</div>
-					<div class="control-group">
+					<div class="form-group">
 						<label for="last_name" >#i18n{portal.users.modify_user.labelLastName} * :</label>
 						<input type="text"  id="last_name" name="last_name" maxlength="100" size="35" tabindex="4" value="${user.lastName}" />
 					</div>
-					<div class="control-group">
+					<div class="form-group">
 						<label for="first_name">#i18n{portal.users.modify_user.labelFirstName} * :</label>
 						<input type="text" id="first_name" name="first_name" maxlength="100" size="35" tabindex="5" value="${user.firstName}" />
 					</div>
-					<div class="control-group">
+					<div class="form-group">
 						<label for="email">#i18n{portal.users.modify_user.labelEmail} * :</label>
 						<input type="text" id="email" name="email" maxlength="100" size="35" tabindex="6" value="${user.email}" />
 					</div>
@@ -46,11 +46,11 @@
 				<div class="span4">
 					<fieldset>
 						<legend>#i18n{portal.users.modify_user.labelAttributes} </legend>
-						<div class="control-group">
+						<div class="form-group">
 							<p>#i18n{portal.users.create_user.userLevelLabel} :</p>
 							<p><strong>${level.name}</strong></p>
 						</div>
-						<div class="control-group">
+						<div class="form-group">
 							<label for="status">#i18n{portal.users.modify_user.labelStatus} :</label>
 							<select id="status" name="status" tabindex="7">
 								<#if user.status == 0 >
@@ -62,13 +62,13 @@
 								</#if>
 							</select>
 						</div>
-						<div class="control-group">
+						<div class="form-group">
 							<label for="language">#i18n{portal.users.modify_user.labelLanguage} :</label>
 							<@comboSorted name="language" default_value="${current_language}" items=languages_list />
 						</div>
-						<div class="control-group">
+						<div class="form-group">
 							<label class="label-groups" for="">#i18n{portal.users.create_user.labelTheme} :</label>
-							<div class="controls">
+							<div class="col-xs-12 col-sm-9 col-md-9">
 								<label class="checkbox" for="accessibility_mode">#i18n{portal.users.create_user.labelAccessibilityMode}
 									<input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" <#if user.accessibilityMode>checked="checked"</#if>	/>
 								</label>
@@ -79,7 +79,7 @@
 				<div class="span5">
 					<fieldset>
 						<legend>#i18n{portal.users.modify_user.labelComplementaryAttributes}</legend>
-						<div class="control-groups">
+						<div class="form-groups">
 							<#if attributes_list?has_content>
 								<#list attributes_list as attribute>
 									<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>

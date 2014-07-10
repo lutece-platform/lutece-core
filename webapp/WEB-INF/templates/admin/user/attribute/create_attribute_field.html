@@ -1,22 +1,22 @@
-<div class="row-fluid">
+<div class="row">
 	<form class="form-horizontal" action="jsp/admin/user/attribute/DoCreateAttributeField.jsp#list" method="post" name="" id="" >
 		<fieldset>
 			<legend>#i18n{portal.users.create_attribute_field.pageTitle} :'${attribute.title}'</legend>
-			<div class="control-group">
-				<label class="control-label" for="title">#i18n{portal.users.create_attribute_field.labelTitle} * :  </label>
-				<div class="controls">
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.create_attribute_field.labelTitle} * :  </label>
+				<div class="col-xs-12 col-sm-9 col-md-9">
 					<input type="text" name="title" id="title" size="80" value=""  maxlength="255" />
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label" for="value">#i18n{portal.users.create_attribute_field.labelValue} * :  </label>
-				<div class="controls">
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="value">#i18n{portal.users.create_attribute_field.labelValue} * :  </label>
+				<div class="col-xs-12 col-sm-9 col-md-9">
 					<input type="text" name="value" id="value" size="80" value="" />
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label" for="default_value">#i18n{portal.users.create_attribute_field.labelDefaultValue}</label>
-				<div class="controls">
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="default_value">#i18n{portal.users.create_attribute_field.labelDefaultValue}</label>
+				<div class="col-xs-12 col-sm-9 col-md-9">
 					<label class="checkbox">
 						<input name="default_value" value="1" type="checkbox" >
 					</label>
