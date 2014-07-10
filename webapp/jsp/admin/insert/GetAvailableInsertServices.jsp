@@ -5,6 +5,6 @@
 
 <% insertServiceSelector.init( request , insertServiceSelector.RIGHT_MANAGE_LINK_SERVICE ); %>
 <%= insertServiceSelector.getServicesListPage( request ) %>
-
+</div>
 </body>
 </html>
