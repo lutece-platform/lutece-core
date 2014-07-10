@@ -17,18 +17,18 @@
 			<div class="form-group">
 				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="default_value">#i18n{portal.users.create_attribute_field.labelDefaultValue}</label>
 				<div class="col-xs-12 col-sm-9 col-md-9">
-					<label class="checkbox">
+					<div class="checkbox"><label>
 						<input name="default_value" value="1" type="checkbox" >
 					</label>
 				</div>
 			</div>
-			<div class="form-actions">
+			<div class="form-group">
 				<input type="hidden" value="${attribute.idAttribute}" name="id_attribute" />
-				<button class="btn btn-primary btn-small" type="submit" >
-					<i class="icon-ok icon-white">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute_field.buttonSave}
+				<button class="btn btn-primary btn-sm" type="submit" >
+					<i class="glyphicon glyphicon-ok">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute_field.buttonSave}
 				</button>
-				<button class="btn btn-small" type="submit" >
-					<i class="icon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+				<button class="btn btn-sm" type="submit" >
+					<i class="glyphicon glyphicon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
 				</button>
 			</div>
 		</fieldset>

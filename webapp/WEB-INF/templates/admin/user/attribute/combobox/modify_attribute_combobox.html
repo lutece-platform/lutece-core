@@ -65,16 +65,16 @@
 	        	<span class="help-block">#i18n{portal.users.create_attribute.labelMultipleComment}</span>
 	        </div>
 	    </div>
-	    <div class="form-actions">
+	    <div class="form-group">
 	        <input type="hidden" name="id_attribute" value="${attribute.idAttribute}" />
-	        <button class="btn btn-primary btn-small" type="submit" name="validate" value="validate" >
-				<i class="icon-ok icon-white">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonValidate}
+	        <button class="btn btn-primary btn-sm" type="submit" name="validate" value="validate" >
+				<i class="glyphicon glyphicon-ok">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonValidate}
 			</button>
-			<button class="btn btn-primary btn-small" type="submit" name="apply" value="apply" >
-				<i class="icon-ok-circle icon-white">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonApply}
+			<button class="btn btn-primary btn-sm" type="submit" name="apply" value="apply" >
+				<i class="glyphicon glyphicon-ok-circle">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonApply}
 			</button>
-			<button class="btn btn-small" type="submit" name="cancel" value="cancel" >
-				<i class="icon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+			<button class="btn btn-sm" type="submit" name="cancel" value="cancel" >
+				<i class="glyphicon glyphicon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
 			</button>
 	    </div>
 	</fieldset>
@@ -84,8 +84,8 @@
 	<div class="pull-right">
 		<form method="post" action="jsp/admin/user/attribute/CreateAttributeField.jsp">
 	        <input type="hidden" value="${attribute.idAttribute}" name="id_attribute" />
-	        <button type="submit" name="create" value="#i18n{portal.users.modify_attribute.buttonCreateField}" class="btn btn-primary btn-small">	
-	        	<i class="icon-plus icon-white">&nbsp;</i>&nbsp;#i18n{portal.users.modify_attribute.buttonCreateField}
+	        <button type="submit" name="create" value="#i18n{portal.users.modify_attribute.buttonCreateField}" class="btn btn-primary btn-sm">	
+	        	<i class="glyphicon glyphicon-plus">&nbsp;</i>&nbsp;#i18n{portal.users.modify_attribute.buttonCreateField}
 	        </button>
 	    </form>
 	</div>
@@ -113,21 +113,21 @@
             </td>
             <td>${attribute_field.idField}</td>
             <td>
-                <a class="btn btn-small btn-primary" href="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}">
-                    <i class="icon-edit icon-white" >&nbsp;</i>
+                <a class="btn btn-sm btn-primary" href="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}">
+                    <i class="glyphicon glyphicon-edit" >&nbsp;</i>
                 </a>
                 <#if cpt != 1>
-                <a class="btn btn-small btn-primary" href="jsp/admin/user/attribute/DoMoveUpAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
-                    <i class="icon-chevron-up icon-white" >&nbsp;</i>
+                <a class="btn btn-sm btn-primary" href="jsp/admin/user/attribute/DoMoveUpAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
+                    <i class="glyphicon glyphicon-chevron-up" >&nbsp;</i>
                 </a>
                 </#if>
                 <#if attribute_field_has_next>
-                <a class="btn btn-small btn-primary" href="jsp/admin/user/attribute/DoMoveDownAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
-                    <i class="icon-chevron-down icon-white" >&nbsp;</i>
+                <a class="btn btn-sm btn-primary" href="jsp/admin/user/attribute/DoMoveDownAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
+                    <i class="glyphicon glyphicon-chevron-down" >&nbsp;</i>
                 </a>
                 </#if>
-                <a class="btn btn-small btn-danger" href="jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelDelete}">
-                    <i class="icon-trash icon-white" >&nbsp;</i>
+                <a class="btn btn-sm btn-danger" href="jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelDelete}">
+                    <i class="glyphicon glyphicon-trash" >&nbsp;</i>
                 </a>
             </td>
         </tr>
