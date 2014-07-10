@@ -55,37 +55,52 @@
 	<@combo name="${name}" default_value="${default_value}" items=items?sort_by("name") />
 </#macro>
 
-<#macro radioImageList name default_value items >
-<#list items as item>
-    <#if default_value="${item.code}">
-		<div class="radio">
-		<label>
-        <input checked="checked" class="radio" type="radio" name="${name}" value="${item.code}" /><img src="${item.name}" alt="" />
+
+<#macro radioImageList name default_value items inline>
+<#if inline=1>
+	<div class="radio">
+	<#list items as item>
+		<label for="${name}" class="radio-inline">
+			<input <#if default_value="${item.code}">checked="checked"</#if> class="radio" type="radio" name="${name}" value="${item.code}">
+			<img src="${item.name}" alt="${item.name}" title="${item.name}">
 		</label>
-		</div>
-    <#else>
+	</#list>
+	</div>
+<#else>
+	<#list items as item>
 		<div class="radio">
-		<label>
-        <input class="radio" type="radio" name="${name}" value="${item.code}" /><img src="${item.name}" alt="" />
-		</label>
+			<label for="${name}">
+				<input <#if default_value="${item.code}">checked="checked"</#if> class="radio" type="radio" name="${name}" value="${item.code}">
+				<img src="${item.name}" alt="${item.name}" title="${item.name}">
+			</label>
 		</div>
-    </#if>
-</#list>
+	</#list>
+</#if>
 </#macro>
 
-<#macro checkboxList name default_values items >
-<#list items as item>
-	<#if item.checked >
-		<div class="checkbox">
-		<label for="document_type"><input checked class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}</label>
-		</div>
-    <#else>
-		<div class="checkbox">
-        <label for="document_type"><input class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}</label>
-		</div>
-	</#if>
-</#list>
-</#macro>                
+<#macro checkboxList name default_values items inline=0>
+<#if inline=1>
+	<div class="checkbox">
+		<#list items as item>
+			<label for="${name}" class="checkbox-inline">
+				<input <#if item.checked >checked</#if> class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}
+			</label>
+		</#list>
+	</div>
+ <#else>
+	<#list items as item>
+		<#if item.checked >
+			<div class="checkbox">
+			<label for="document_type"><input checked class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}</label>
+			</div>
+		<#else>
+			<div class="checkbox">
+			<label for="document_type"><input class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}</label>
+			</div>
+		</#if>
+	</#list>
+</#if>
+</#macro>              
 
 <#macro sort jsp_url attribute id="" >
 	<#if jsp_url?contains("?")>
