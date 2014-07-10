@@ -33,13 +33,18 @@ legend#adv_param{font-size:120%;}
 
 /* Button space */
 .spaced{margin:0 2px;}
+.spaced-xs{margin:0 1px;}
 
 /* Footer */
-#footer{background: none repeat scroll 0 0 #000;color: #fff;padding: 1px 5px 1px;height:24px;}
+#footer{background: none repeat scroll 0 0 #000;color: #fff;margin-bottom:0;}
 #footer > a{color: #fff;font-size:80%;}
 
 /* Admin message */
 .msg-admin{margin:10em 0; }
+
+/* thumbnail list */
+div.thumbnail img.thumbnail{max-height:80px;}
+div.thumbnail div.caption{background:#DEDEDE;}
 
 /* Image lists */
 img.thumblist-small{width:24px;}
@@ -50,17 +55,12 @@ img.thumblist-wide{width:128px;}
 li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
 #content-portlet{padding:0 10px;}
 #admin-site-toolbar{margin-bottom:0px;padding:2px;}
+#preview{position:fixed;left:0;height:720px;width:100%;}
+.richtext{width:100%;}
+.mce-fullscreen{margin-top:50px !important;}
 
-/* Button to toggle full portlet view 
-a#trigger{position:absolute;top:5px;margin-left:95%;}
-*/
 
 /* Plugins admin added styles */
-
-/* plugin document*/
-/* Fix thumbnail list */
-ul.thumbnails li.span4:nth-child(3n + 4) {margin-left : 0px;}
-
 /* plugin extend*/
 .form-submenu{margin: 0px;}
 .dropdown-menu p{padding: 3px 20px;}
@@ -81,11 +81,36 @@ ul.thumbnails li.span4:nth-child(3n + 4) {margin-left : 0px;}
 .modal-top{top:20% !important;}
 .append-bottom{margin-bottom:75px;}
 
-[class*="lutece-dashboard"] .panel {-webkit-box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05);box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05); border:1px solid;height:200px;}
-[class*="lutece-dashboard"] .panel-small {-webkit-box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05);box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05); border:1px solid;height:80px;}
-[class*="lutece-dashboard"] .panel-content {padding:10px;height:140px;overflow-y:scroll;}
-[class*="lutece-dashboard"] .panel-content-small{padding:10px;height:50px;}
-[class*="lutece-dashboard"] .panel-content .panel-action {padding:3px;}
+/* Dashboard Lutece Widget */
+.dashboard-widgets {padding: 15px;}
+
+.lutece-widget {margin:15px 5px;}
+.lutece-widget  .panel {-webkit-box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05);box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05); border:1px solid;height:200px;}
+.lutece-widget  .panel-small {-webkit-box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05);box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05); border:1px solid;height:80px;}
+
+.lutece-widget .panel-header {position: relative;padding:8px 15px;z-index: 2;}
+.lutece-widget .panel-header a{color:#fff;}
+
+.lutece-widget .panel-content {padding:10px;height:140px;overflow-y:scroll;}
+.lutece-widget .panel-content-small{padding:10px;height:50px;}
+.lutece-widget .panel-content .panel-action {padding:3px;}
+
+/* primary style */
+.lutece-widget .panel-primary {border-color:#6D84CB;}
+.lutece-widget .panel-primary .panel-header {background-color:#6D84CB;color:#fff;}
+
+/* secondary style */
+.lutece-widget .panel-secondary {border-color:#f0ad4e;}
+.lutece-widget .panel-secondary .panel-header {background-color:#f0ad4e;color:#fff;}
+
+/* third style */
+.lutece-widget .panel-third {border-color:#5cb85c;}
+.lutece-widget .panel-third .panel-header {background-color:#5cb85c;color:#fff;}
+
+/* Four style */
+.lutece-widget .panel-four {border-color:#d9534f;}
+.lutece-widget .panel-four .panel-header {background-color:#d9534f;color:#fff;}
+
 /* Lutece extra-icons */
 [class^="icon-lutece-"],[class*=" icon-lutece-"] {display:inline-block;width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;background-image:url("../img/lutece-icons.png");background-repeat:no-repeat;}
 [class^="icon-lutece-"]:last-child,[class*=" icon-lutece-"]:last-child {*margin-left:0;}
@@ -97,15 +122,12 @@ ul.thumbnails li.span4:nth-child(3n + 4) {margin-left : 0px;}
 .icon-lutece-page-template-document2{ background-position: -196px 0; width: 24px; height: 24px; } 
 .icon-lutece-add-shopping-cart { background-position: -360px -120px;}
 
+
 /* Plugins admin added styles */
 /* Plugin Document*/
 .document-toolbar{background-color:#D4D4D4;border:5px #000 edge;padding:10px;margin:-20px 5px 5px 0;border-radius:8px;-moz-box-shadow: 0px 5px 5px 0px #656565;-webkit-box-shadow: 0px 5px 5px 0px #656565;-o-box-shadow: 0px 5px 5px 0px #656565;box-shadow: 0px 5px 5px 0px #656565;filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);}
 .table-document tr:hover td{background:#DEDEDE !important;}
-/* Fix thumbnail list */
-ul.thumbnails li.span4:nth-child(3n + 4) {margin-left : 0px;}
-ul.thumbnails li div.thumbnail{height:200px;}
-ul.thumbnails li div.thumbnail img{height:110px;margin-bottom:5px;}
-ul.thumbnails li div.thumbnail div.caption{background:#DEDEDE;}
+
 
 /* Plugin Extend*/
 .form-submenu{margin: 0px;}
@@ -129,54 +151,3 @@ ul.thumbnails li div.thumbnail div.caption{background:#DEDEDE;}
 
 /* Insert services */
 div.insert-service div.pagination{height:auto;}
-
-[class*="lutece-dashboard"].well, [class*="lutece-dashboard"] .well {
-	background: none;
-	border-radius: 4px;
-	padding: 0px;
-	border: 1px solid #2f70a9;
-}
-
-[class*="lutece-dashboard"] legend {
-    color: #FFFFFF;
-    border: none;
-    padding: 5px;
-    font-size: 14px;
-    background-color: #2f70a9;
-}
-
-[class*="lutece-dashboard"] legend a, [class*="lutece-dashboard"] legend a:hover {
-    color: #FFFFFF;
-}
-
-.lutece-dashboard-application legend {
-	background-color: #5cb85c;
-}
-
-.well.lutece-dashboard-application {
-	border: 1px solid #5cb85c;
-}
-
-.lutece-dashboard-content legend {
-	background-color: #F0AD4E;
-}
-
-.well.lutece-dashboard-content {
-	border: 1px solid #F0AD4E;
-}
-
-.lutece-dashboard-system legend {
-	background-color: #d9534f;
-}
-
-.well.lutece-dashboard-system {
-	border: 1px solid #d9534f;
-}
-
-.lutece-dashboard-user legend {
-	background-color: #31afd5;
-}
-
-.well.lutece-dashboard-user {
-	border: 1px solid #31afd5;
-}

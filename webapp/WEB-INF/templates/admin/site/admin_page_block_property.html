@@ -1,9 +1,8 @@
 <div class="row-fluid">
 	<div class="col-md-12">
 		<div class="well">
-		 <form method="post"  enctype="multipart/form-data" action="jsp/admin/site/DoModifyPage.jsp" class="form-horizontal" >            
+		<form method="post"  enctype="multipart/form-data" action="jsp/admin/site/DoModifyPage.jsp" class="form-horizontal" >            
 		<input type="hidden" name="page_id" value="${page.id}" >
-		<input type="hidden" name="parent_id" value="${page.parentPageId}" >
 		<fieldset>
 			<legend>#i18n{portal.site.admin_page.titlePageProperties} 
 				<button class="btn btn-default btn-xs pull-right" type="button" id="btn-params">
@@ -25,8 +24,9 @@
 							<label for="parent_id">#i18n{portal.site.admin_page.labelParentPageId}</label>	
 							<#if page.id = 1>
 								<span class="label label-warning">#i18n{portal.site.admin_page.labelParentPageIdMessage}</span>
+								<input type="hidden" name="parent_id" value="${page.parentPageId}">
 							<#else>
-								<input type="text" name="parent_id" class="form-control" value="${page.parentPageId}" />
+								<input type="text" name="parent_id" class="form-control" value="${page.parentPageId}">
 							</#if>
 						</div>
 						<fieldset>
