@@ -43,7 +43,7 @@ legend#adv_param{font-size:120%;}
 .msg-admin{margin:10em 0; }
 
 /* thumbnail list */
-div.thumbnail img.thumbnail{max-height:80px;}
+div.thumbnail img.thumbnail{max-height:80px;min-height:100px;}
 div.thumbnail div.caption{background:#DEDEDE;}
 
 /* Image lists */
@@ -58,9 +58,12 @@ li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
 #preview{position:fixed;left:0;height:720px;width:100%;}
 .richtext{width:100%;}
 .mce-fullscreen{margin-top:50px !important;}
-
+/* */
+.management-toolbar{background:#DEDEDE;padding:5px 2px;margin-bottom:5px;border:2px solid #D1CACA;border-radius:2px;}
 
 /* Plugins admin added styles */
+/* plugin Document */
+
 /* plugin extend*/
 .form-submenu{margin: 0px;}
 .dropdown-menu p{padding: 3px 20px;}

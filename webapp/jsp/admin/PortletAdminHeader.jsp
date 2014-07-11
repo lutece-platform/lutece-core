@@ -23,4 +23,5 @@
 <script src="../../js/jquery/jquery.min.js"></script>
 <style>body{padding-top:0;}</style>
 </head>
-<body>
+<body class="portlet">
+<div class="container-fluid">
