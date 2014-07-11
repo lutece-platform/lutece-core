@@ -26,13 +26,17 @@
 <script src="js/jquery/plugins/ui/jquery-ui-1.9.2.custom.min.js"></script>
 <script>
 $(document).ready(function(e){
-	$("#btFooter").click( function(e){
-		if( $('#footer').hasClass("navbar-fixed-bottom") ){
-			$("#btFooter > i").removeClass("icon-arrow-down").addClass("icon-arrow-up");
-		} else {
-			$("#btFooter > i").removeClass("icon-arrow-up").addClass("icon-arrow-down");
-		}
-		$('#footer').toggleClass("navbar-fixed-bottom");
-	});
+	if( $("body").hasClass("portlet") ){
+		$("#footer").remove();
+	} else {
+		$("#btFooter").click( function(e){
+			if( $('#footer').hasClass("navbar-fixed-bottom") ){
+				$("#btFooter > i").removeClass("icon-arrow-down").addClass("icon-arrow-up");
+			} else {
+				$("#btFooter > i").removeClass("icon-arrow-up").addClass("icon-arrow-down");
+			}
+			$('#footer').toggleClass("navbar-fixed-bottom");
+		});
+	}
 });
 </script>
