@@ -84,6 +84,11 @@ public class UserPreferencesServiceTest extends LuteceTestCase
 
         // List Test
         List list = service.keys( USER_ID_1 );
-        assertTrue( list.size(  ) > 0 );
+        assertTrue( list.size(  ) == 4 );
+        
+        service.clearKey( USER_ID_1, KEY1 );
+        service.clearKeyPrefix( USER_ID_1, KEY2 );
+        list = service.keys( USER_ID_1 );
+        assertTrue( list.size(  ) == 2 );
     }
 }
