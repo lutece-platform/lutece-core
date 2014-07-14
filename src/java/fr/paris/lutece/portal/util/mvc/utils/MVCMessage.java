@@ -34,12 +34,13 @@
 package fr.paris.lutece.portal.util.mvc.utils;
 
 import fr.paris.lutece.util.ErrorMessage;
+import java.io.Serializable;
 
 
 /**
  * MVCMessage
  */
-public class MVCMessage implements ErrorMessage
+public class MVCMessage implements ErrorMessage, Serializable
 {
     private String _strMessage;
 
