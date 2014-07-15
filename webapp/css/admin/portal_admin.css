@@ -154,3 +154,13 @@ li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
 
 /* Insert services */
 div.insert-service div.pagination{height:auto;}
+
+.dropdown-menu > form > li > a {
+    clear: both;
+    color: #333;
+    display: block;
+    font-weight: normal;
+    line-height: 1.42857;
+    padding: 3px 20px;
+    white-space: nowrap;
+}
