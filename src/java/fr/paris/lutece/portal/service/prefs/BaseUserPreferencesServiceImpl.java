@@ -158,9 +158,9 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, 
      * {@inheritDoc }
      */
     @Override
-    public void clearKey( String strUserId , String strKey )
+    public void clearKey( String strUserId, String strKey )
     {
-        _dao.removeKey( strUserId , strKey );
+        _dao.removeKey( strUserId, strKey );
         _cache.removeCacheValuesOfUser( strUserId );
     }
 
@@ -168,9 +168,9 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, 
      * {@inheritDoc }
      */
     @Override
-    public void clearKeyPrefix( String strUserId , String strKeyPrefix )
+    public void clearKeyPrefix( String strUserId, String strKeyPrefix )
     {
-        _dao.removeKeyPrefix( strUserId , strKeyPrefix );
+        _dao.removeKeyPrefix( strUserId, strKeyPrefix );
         _cache.removeCacheValuesOfUser( strUserId );
     }
 

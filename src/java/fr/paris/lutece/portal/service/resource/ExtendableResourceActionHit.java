@@ -70,7 +70,7 @@ public final class ExtendableResourceActionHit
      * Delete action
      */
     public static final String ACTION_DELETE = "delete";
-    private static ExtendableResourceActionHit _instance;
+    private static volatile ExtendableResourceActionHit _instance;
 
     /**
      * Private constructor

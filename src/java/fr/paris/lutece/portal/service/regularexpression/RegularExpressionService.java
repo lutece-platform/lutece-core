@@ -51,7 +51,7 @@ import java.util.List;
 public final class RegularExpressionService
 {
     private static final String PLUGIN_REGULAR_EXPRESSION_NAME = "regularexpression";
-    private static RegularExpressionService _singleton;
+    private static volatile RegularExpressionService _singleton;
     private boolean _bServiceAvailable = true;
     private IRegularExpressionService _service;
 

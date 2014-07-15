@@ -64,7 +64,7 @@ public final class WorkflowService
 {
     private static final String PLUGIN_WORKFLOW_NAME = "workflow";
     private static final String BEAN_WORKFLOW_PROVIDER = "workflow.workflowProvider";
-    private static WorkflowService _singleton;
+    private static volatile WorkflowService _singleton;
     private boolean _bServiceAvailable = true;
     private IWorkflowService _service;
     private IWorkflowProvider _provider;

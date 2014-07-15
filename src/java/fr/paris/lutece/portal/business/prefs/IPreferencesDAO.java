@@ -86,16 +86,12 @@ public interface IPreferencesDAO
      * @param strUserId The user's ID
      * @param strKey The preference's key
      */
-    void removeKey( String strUserId , String strKey );
+    void removeKey( String strUserId, String strKey );
 
     /**
      * Clear all preferences for a given user
      * @param strUserId The user's ID
      * @param strKeyPrefix The key prefix
      */
-    void removeKeyPrefix( String strUserId , String strKeyPrefix );
-
-
-
-
+    void removeKeyPrefix( String strUserId, String strKeyPrefix );
 }

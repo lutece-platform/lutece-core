@@ -49,7 +49,7 @@ import java.util.Locale;
  */
 public final class AttributeTypeService
 {
-    private static AttributeTypeService _singleton;
+    private static volatile AttributeTypeService _singleton;
     private static List<AttributeType> _listAttributeTypes;
 
     /**

@@ -70,7 +70,7 @@ public class EditorBbcodeService implements IEditorBbcodeService
     private static final String PROPERTY_PARSER_ELEMENTS = "editors.parser.bbcode.elements";
     private static final String PROPERTY_PARSER_COMPLEX_ELEMENTS = "editors.parser.bbcode.complexElements";
     private static final String SEPARATOR = ",";
-    private static EditorBbcodeService _singleton;
+    private static volatile EditorBbcodeService _singleton;
     private static List<ParserElement> _listParserElement;
     private static List<ParserComplexElement> _listParserComplexElement;
 

@@ -45,7 +45,7 @@ import java.util.List;
 public final class QueryListenersService
 {
     private static List<QueryEventListener> _listListeners = new ArrayList<QueryEventListener>(  );
-    private static QueryListenersService _singleton;
+    private static volatile QueryListenersService _singleton;
 
     /**
      * Creates a new instance of QueryListenersService

@@ -51,7 +51,7 @@ import java.util.Date;
  */
 public final class JobSchedulerService
 {
-    private static JobSchedulerService _singleton;
+    private static volatile JobSchedulerService _singleton;
     private static Scheduler _scheduler;
 
     /** Creates a new instance of JobSchedulerService */

@@ -118,7 +118,7 @@ public class AdminUser implements Serializable
     /**
      * Init
      */
-    public static void init(  )
+    public static synchronized void init(  )
     {
         if ( _listenerRegularExpression == null )
         {

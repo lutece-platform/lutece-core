@@ -119,12 +119,12 @@ public interface IUserPreferencesService
      * @param strUserId The user's ID
      * @param strKey The preference's key
      */
-    void clearKey( String strUserId , String strKey );
+    void clearKey( String strUserId, String strKey );
 
     /**
      * Clear all preferences with a given prefix for a given user
      * @param strUserId The user's ID
      * @param strPrefix The keys prefix
      */
-    void clearKeyPrefix( String strUserId , String strPrefix );
+    void clearKeyPrefix( String strUserId, String strPrefix );
 }

@@ -57,7 +57,7 @@ public class MailingList
     /**
      * Initialize the rule
      */
-    public static void init(  )
+    public static synchronized void init(  )
     {
         // Create removal listeners and register them
         if ( _listenerWorkgroup == null )

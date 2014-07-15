@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.util.mvc.utils;
 
 import fr.paris.lutece.util.ErrorMessage;
+
 import java.io.Serializable;
 
 

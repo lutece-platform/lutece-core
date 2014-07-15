@@ -44,7 +44,7 @@ import java.util.HashMap;
  */
 public final class MailAttachmentCacheService extends AbstractCacheableService
 {
-    private static MailAttachmentCacheService _singleton;
+    private static volatile MailAttachmentCacheService _singleton;
     private static ICacheKeyService _cksMailAttachment = new MailAttachmentCacheKeyService(  );
     private static final String SERVICE_NAME = "Mail Attachment Cache Service";
 
