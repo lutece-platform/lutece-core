@@ -4,14 +4,14 @@
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
-		        <input type="text" name="title" id="title" size="80" value="${attribute.title}"  maxlength="255" />
+		        <input type="text" class="form-control input-sm" name="title" id="title" size="80" value="${attribute.title}" maxlength="255">
 		        <span class="help-block">#i18n{portal.users.modify_attribute.labelTitleComment}</span>
 			</div>
 	    </div>
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage} : </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
-		        <textarea  name="help_message" id="help_message"  cols="80" rows="5">${attribute.helpMessage}</textarea>
+		        <textarea name="help_message" class="form-control input-sm" id="help_message"  cols="80" rows="5">${attribute.helpMessage}</textarea>
 	       		<span class="help-block">#i18n{portal.users.modify_attribute.labelHelpMessageComment}</span>
 	       	</div>
 	    </div>
@@ -19,7 +19,7 @@
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="value">#i18n{portal.users.create_attribute.labelDefaultValue} : </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
 		        <#list attribute_fields_list as attribute_field>
-	        		<input type="text" name="value" id="value" size="80" value="${attribute_field.value}" />
+	        		<input type="text" class="form-control input-sm" name="value" id="value" size="80" value="${attribute_field.value}">
 	        	</#list>
 	        </div>
 	    </div>
@@ -32,44 +32,56 @@
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_search">#i18n{portal.users.modify_attribute.labelIsShownInSearch} : </label>
 	       <div class="col-xs-12 col-sm-9 col-md-9">
+				<div class="checkbox">
+					<label>
 		        <#if attribute.shownInSearch = false>
-	        		<input name="is_shown_in_search" value="1" type="checkbox" />
+						<input name="is_shown_in_search" value="1" type="checkbox">&nbsp;
 	        	<#else>
-	        		<input name="is_shown_in_search" value="1" type="checkbox" checked="checked" />
+						<input name="is_shown_in_search" value="1" type="checkbox" checked="checked">&nbsp;
 	        	</#if>
+					</label>
+				</div>
 	        </div>
 	    </div>
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_result_list">#i18n{portal.users.modify_attribute.labelIsShownInResultList} : </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
+				<div class="checkbox">
+					<label>
 		        <#if attribute.shownInResultList = false>
-	        		<input name="is_shown_in_result_list" value="1" type="checkbox" />
+						<input name="is_shown_in_result_list" value="1" type="checkbox">&nbsp;
 	        	<#else>
-	        		<input name="is_shown_in_result_list" value="1" type="checkbox" checked="checked" />
+						<input name="is_shown_in_result_list" value="1" type="checkbox" checked="checked">&nbsp;
 	        	</#if>
+					</label>
+				</div>
 	        </div>
 	    </div>
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="mandatory">#i18n{portal.users.modify_attribute.labelMandatory} : </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
+				<div class="checkbox">
+					<label>
 		        <#if attribute.mandatory = false>
-	        		<input name="mandatory" value="1" type="checkbox" />
+						<input name="mandatory" value="1" type="checkbox">&nbsp;
 	        	<#else>
-	        		<input name="mandatory" value="1" type="checkbox" checked="checked" />
+						<input name="mandatory" value="1" type="checkbox" checked="checked">&nbsp;
 	        	</#if>
+					</label>
+				</div>
 	        </div>
 	    </div>	
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="width">#i18n{portal.users.modify_attribute.labelWidth} * : </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
 		        <#list attribute_fields_list as attribute_field>
-	        		<input type="text" name="width" id="width" size="5" 
+	        		<input type="text" class="form-control input-sm" name="width" id="width" size="5" 
 	           		<#if attribute_field.width?? && ( attribute_field.width >= 0 )>
 	           			value="${attribute_field.width}"
 	          		<#else>
 	          			value=""
 	        		</#if>
-	          		/>
+	          		>
 	      		</#list>
 	      	</div>
 	    </div>
@@ -77,27 +89,29 @@
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="max_size_enter">#i18n{portal.users.modify_attribute.labelMaxSizeEnter}  : </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
 		        <#list attribute_fields_list as attribute_field>
-	        		<input type="text" name="max_size_enter" id="max_size_enter" size="5" 
+	        		<input type="text" class="form-control input-sm" name="max_size_enter" id="max_size_enter" size="5" 
 	               <#if attribute_field.maxSizeEnter?? && ( attribute_field.maxSizeEnter >= 0 )>
 	               value="${attribute_field.maxSizeEnter}"
 	               <#else>
 	               value=""
 	               </#if>
-	               />
+					>
 	   			</#list>
 	   		</div>
 	    </div>
 	    <div class="form-group">
-	        <input type="hidden" name="id_attribute" value="${attribute.idAttribute}" />
-	        <button name="validate" value="#i18n{portal.users.modify_attribute.buttonValidate}" class="btn btn-primary btn-sm" >
-	        	<i class="glyphicon glyphicon-ok">&nbsp;</i>&nbsp;#i18n{portal.users.modify_attribute.buttonValidate}
-	        </button>
-	        <button name="apply" value="#i18n{portal.users.modify_attribute.buttonApply}" class="btn btn-primary btn-sm" >
-	        	<i class="glyphicon glyphicon-ok-circle">&nbsp;</i>&nbsp;#i18n{portal.users.modify_attribute.buttonApply}
-	        </button>
-	        <button name="cancel" value="#i18n{portal.admin.message.buttonCancel}" class="btn btn-sm" >
-	        	<i class="glyphicon glyphicon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
-	        </button>
+			<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
+				<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
+				<button name="validate" value="#i18n{portal.users.modify_attribute.buttonValidate}" class="btn btn-primary btn-sm" >
+					<i class="glyphicon glyphicon-ok">&nbsp;</i>&nbsp;#i18n{portal.users.modify_attribute.buttonValidate}
+				</button>
+				<button name="apply" value="#i18n{portal.users.modify_attribute.buttonApply}" class="btn btn-primary btn-sm" >
+					<i class="glyphicon glyphicon-ok-circle">&nbsp;</i>&nbsp;#i18n{portal.users.modify_attribute.buttonApply}
+				</button>
+				<button name="cancel" value="#i18n{portal.admin.message.buttonCancel}" class="btn btn-default btn-sm" >
+					<i class="glyphicon glyphicon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+				</button>
+			</div>
 	    </div>
     </fieldset>
 </form>

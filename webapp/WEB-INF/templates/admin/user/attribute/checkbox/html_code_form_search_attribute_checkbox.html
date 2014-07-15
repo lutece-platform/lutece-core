@@ -6,27 +6,36 @@
 	</#list>
 	<#return false>
 </#function>
-<label class="control-label col-xs-12 col-sm-3 col-md-3" for="attribute_${attribute.idAttribute}">
+<div class="form-group">
+<label class="col-xs-12 col-sm-12 col-md-12" for="attribute_${attribute.idAttribute}">
 	${attribute.title} : 
 </label>
-<#if attribute.fieldInLine>
-	<div class="col-xs-12 col-sm-9 col-md-9">
-</#if>
+	<div class="col-xs-12 col-sm-12 col-md-12">
+
 <#list attribute.listAttributeFields as attributeField>
 	<#if attributeField.title?exists && attributeField.value != "">
 		<#if !attribute.fieldInLine>
-			<div class="col-xs-12 col-sm-9 col-md-9">
+	    <div class="checkbox">
+		<label>
 		</#if>
+		<#if attribute.fieldInLine>
+	    <label class="checkbox-inline">
+		</#if>
+
 		<input type="checkbox" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}"
 			<#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >
 				checked="checked"
 			</#if>
 		/> ${attributeField.title}
-		<#if !attribute.fieldInLine>
+		
+		<#if !attribute.fieldInLine >
+			</label>
 			</div>
+		</#if>
+		<#if attribute.fieldInLine >
+			</label>
 		</#if>
 	</#if>
 </#list>
-<#if attribute.fieldInLine>
 	</div>
-</#if>
+</div>

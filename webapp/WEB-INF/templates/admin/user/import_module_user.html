@@ -8,7 +8,7 @@
             <div class="form-group">
                 <label class="control-label col-xs-12 col-sm-3 col-md-3" for="last_name" >#i18n{portal.users.import_module_user.searchBoxLabelLastName} :</label>
                 <div class="col-xs-12 col-sm-9 col-md-9">
-                    <input type="text" id="last_name"  name="last_name" value="${last_name?if_exists}" maxlength="100" size="35" tabindex="1" />
+                    <input type="text" id="last_name"  name="last_name" value="${last_name?if_exists}" maxlength="100" size="35" tabindex="1">
                 </div>
             </div>
 
@@ -16,7 +16,7 @@
             <div class="form-group">
                 <label class="control-label col-xs-12 col-sm-3 col-md-3" for="first_name" >#i18n{portal.users.import_module_user.searchBoxLabelFirstName} :</label>
                 <div class="col-xs-12 col-sm-9 col-md-9">
-                    <input type="text" id="first_name"  name="first_name" value="${first_name?if_exists}" maxlength="100" size="35" tabindex="1" />
+                    <input type="text" id="first_name"  name="first_name" value="${first_name?if_exists}" maxlength="100" size="35" tabindex="1">
                 </div>
             </div>
 
@@ -24,11 +24,11 @@
             <div class="form-group">
                 <label class="control-label col-xs-12 col-sm-3 col-md-3" for="email" >#i18n{portal.users.import_module_user.searchBoxLabelEmail} :</label>
                 <div class="col-xs-12 col-sm-9 col-md-9">
-                    <input type="text" id="email"  name="email" value="${email?if_exists}" maxlength="100" size="100" tabindex="1" />
+                    <input type="text" id="email"  name="email" value="${email?if_exists}" maxlength="100" size="100" tabindex="1">
                 </div>
             </div>
 
-            <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.users.import_module_user.searchBoxbuttonLabelSearch}</button>
+            <button class="btn btn-primary btn-sm" type="submit" >#i18n{portal.users.import_module_user.searchBoxbuttonLabelSearch}</button>
 
         </fieldset>
     </form>
@@ -56,7 +56,7 @@
                 <form class="form-horizontal" method="post"  name="importUsers" action="jsp/admin/user/DoSelectImportUser.jsp">
                     <fieldset>
                         <input type="hidden" name="access_code" value="${user.accessCode}" />
-                        <button class="btn btn-primary btn-small" type="submit" >#i18n{portal.users.import_module_user.resultButtonLabelImportUser}</button>
+                        <button class="btn btn-primary btn-sm" type="submit" >#i18n{portal.users.import_module_user.resultButtonLabelImportUser}</button>
 
                     </fieldset>
                 </form>

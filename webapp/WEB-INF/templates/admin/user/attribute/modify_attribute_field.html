@@ -4,34 +4,40 @@
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.modify_attribute_field.labelTitle} * :  </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
-				<input type="text" name="title" id="title" size="80" value="${attribute_field.title}"  maxlength="255" />
+				<input type="text" name="title" id="title" size="80" value="${attribute_field.title}"  maxlength="255">
 			</div>
 	    </div>
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="value">#i18n{portal.users.modify_attribute_field.labelValue} * :  </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
-				<input type="text" name="value" id="value" size="80" value="${attribute_field.value}" />
+				<input type="text" name="value" id="value" size="80" value="${attribute_field.value}">
 			</div>
 	    </div>
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="default_value">#i18n{portal.users.modify_attribute_field.labelDefaultValue} :</label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
+				<div class="checkbox">
+					<label>
 				<#if attribute_field.defaultValue>
-	        		<input name="default_value" value="1" type="checkbox" checked="checked" />
+						<input name="default_value" value="1" type="checkbox" checked="checked">&nbsp;
 	        	<#else>
-	        		<input name="default_value" value="1" type="checkbox" />
+						<input name="default_value" value="1" type="checkbox">&nbsp;
 	        	</#if>
+					</label>
+				</div>
 	        </div>
 	    </div>
 	    <div class="form-group">
-	        <input type="hidden" value="${attribute.idAttribute}" name="id_attribute" />
-	        <input type="hidden" value="${attribute_field.idField}" name="id_field" />
-	        <button type="submit" value="#i18n{portal.users.modify_attribute_field.buttonSave}" class="btn btn-primary btn-sm" name="save" >
-	        	<i class="glyphicon glyphicon-ok">&nbsp;</i>&nbsp;#i18n{portal.users.modify_attribute_field.buttonSave}
-	        </button>
-	        <button type="submit" value="#i18n{portal.admin.message.buttonCancel}" class="btn btn-sm" name="cancel" >
-	        	<i class="glyphicon glyphicon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
-	        </button>
+			<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
+				<input type="hidden" value="${attribute.idAttribute}" name="id_attribute">
+				<input type="hidden" value="${attribute_field.idField}" name="id_field">
+				<button type="submit" value="#i18n{portal.users.modify_attribute_field.buttonSave}" class="btn btn-primary btn-sm" name="save" >
+					<i class="glyphicon glyphicon-ok">&nbsp;</i>&nbsp;#i18n{portal.users.modify_attribute_field.buttonSave}
+				</button>
+				<button type="submit" value="#i18n{portal.admin.message.buttonCancel}" class="btn btn-default btn-sm" name="cancel" >
+					<i class="glyphicon glyphicon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+				</button>
+			</div>
 	    </div>
 	</fieldset>
 </form>

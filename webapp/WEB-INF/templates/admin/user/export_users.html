@@ -13,7 +13,7 @@
 			<div class="form-group">
 				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="xsl_export_id">#i18n{portal.users.export_users.labelXslt} :</label>
 				<div class="col-xs-12 col-sm-9 col-md-9">
-					<select id="xsl_export_id" name="xsl_export_id">
+					<select id="xsl_export_id" name="xsl_export_id" class="form-control input-sm">
 						<#list refListXsl as xsl>
 							<option value="${xsl.code}" >${xsl.name}</option>
 						</#list>
@@ -23,40 +23,50 @@
 			<div class="form-group">
 				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="export_attributes">#i18n{portal.users.export_users.labelExportAttributes} :</label>
 				<div class="col-xs-12 col-sm-9 col-md-9">
-					<input type="checkbox" id="export_attributes" name="export_attributes" checked="checked"/>
-					<span class="help-block">#i18n{portal.users.export_users.labelHelpExportAttributes}</span>
+					<label class="checkbox-inline">
+						<input type="checkbox" id="export_attributes" name="export_attributes" checked="checked">
+						<span class="help-block">#i18n{portal.users.export_users.labelHelpExportAttributes}</span>
+					</label>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="export_roles">#i18n{portal.users.export_users.labelExportRoles} :</label>
 				<div class="col-xs-12 col-sm-9 col-md-9">
-					<input type="checkbox" id="export_roles" name="export_roles" checked="checked"/>
-					<span class="help-block">#i18n{portal.users.export_users.labelHelpExportRoles}</span>
+					<label class="checkbox-inline">
+						<input type="checkbox" id="export_roles" name="export_roles" checked="checked">
+						<span class="help-block">#i18n{portal.users.export_users.labelHelpExportRoles}</span>
+					</label>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="export_rights">#i18n{portal.users.export_users.labelExportRights} :</label>
 				<div class="col-xs-12 col-sm-9 col-md-9">
-					<input type="checkbox" id="export_rights" name="export_rights" checked="checked"/>
-					<span class="help-block">#i18n{portal.users.export_users.labelHelpExportRights}</span>
+					<label class="checkbox-inline">
+						<input type="checkbox" id="export_rights" name="export_rights" checked="checked">
+						<span class="help-block">#i18n{portal.users.export_users.labelHelpExportRights}</span>
+					</label>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="export_workgroups">#i18n{portal.users.export_users.labelExportWorkgroups} :</label>
 				<div class="col-xs-12 col-sm-9 col-md-9">
-					<input type="checkbox" id="export_workgroups" name="export_workgroups" checked="checked"/>
-					<span class="help-block">#i18n{portal.users.export_users.labelHelpExportWorkgroups}</span>
+					<label class="checkbox-inline">
+						<input type="checkbox" id="export_workgroups" name="export_workgroups" checked="checked">
+						<span class="help-block">#i18n{portal.users.export_users.labelHelpExportWorkgroups}</span>
+					</label>
 				</div>
 			</div>
-			<div class="form-actions">
-				<button class="btn btn-primary btn-small" type="submit">
-					<i class="icon-white icon-ok">&nbsp;</i>
-					#i18n{portal.util.labelValidate}
-				</button>
-				<a class="btn btn-small" href="jsp/admin/user/ManageUsers.jsp">
-					<i class="icon-remove-circle"></i>
-					 #i18n{portal.util.labelBack}
-				</a>
+			<div class="form-group">
+				<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
+					<button class="btn btn-primary btn-sm" type="submit">
+						<i class="glyphicon glyphicon-ok"></i>
+						#i18n{portal.util.labelValidate}
+					</button>
+					<a class="btn btn-default btn-sm" href="jsp/admin/user/ManageUsers.jsp">
+						<i class="glyphicon glyphicon-remove-circle"></i>
+						 #i18n{portal.util.labelBack}
+					</a>
+				</div>
 			</div>
 		</fieldset>
 	</form>

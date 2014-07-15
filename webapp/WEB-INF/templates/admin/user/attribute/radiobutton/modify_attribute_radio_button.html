@@ -4,14 +4,14 @@
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
-				<input type="text" name="title" id="title" size="80" value="${attribute.title}" maxlength="255" />
+				<input type="text" class="form-control input-sm" name="title" id="title" size="80" value="${attribute.title}" maxlength="255" />
 	        	<span class="help-block">#i18n{portal.users.modify_attribute.labelTitleComment}</span>
 	        </div>
 	    </div>
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage} : </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
-				<textarea name="help_message" id="help_message"  cols="80" rows="5">${attribute.helpMessage}</textarea>
+				<textarea name="help_message" class="form-control input-sm" id="help_message"  cols="80" rows="5">${attribute.helpMessage}</textarea>
 	        	<span class="help-block">#i18n{portal.users.modify_attribute.labelHelpMessageComment}</span>
 	        </div>
 	    </div>
@@ -24,41 +24,57 @@
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_search">#i18n{portal.users.modify_attribute.labelIsShownInSearch} : </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
+				<div class="checkbox">
+					<label>
 				<#if attribute.shownInSearch = false>
-	        		<input name="is_shown_in_search" value="1" type="checkbox" />
+						<input name="is_shown_in_search" value="1" type="checkbox" />&nbsp;
 	        	<#else>
-	        		<input name="is_shown_in_search" value="1" type="checkbox" checked="checked" />
+						<input name="is_shown_in_search" value="1" type="checkbox" checked="checked" />&nbsp;
 	        	</#if>
+					</label>
+				</div>
 	        </div>
 	    </div>
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_result_list">#i18n{portal.users.modify_attribute.labelIsShownInResultList} : </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
+				<div class="checkbox">
+					<label>
 				<#if attribute.shownInResultList = false>
-	        		<input name="is_shown_in_result_list" value="1" type="checkbox" />
+						<input name="is_shown_in_result_list" value="1" type="checkbox" />&nbsp;
 	        	<#else>
-	        		<input name="is_shown_in_result_list" value="1" type="checkbox" checked="checked" />
+						<input name="is_shown_in_result_list" value="1" type="checkbox" checked="checked" />&nbsp;
 	        	</#if>
+					</label>
+				</div>
 	        </div>
 	    </div>
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="mandatory">#i18n{portal.users.modify_attribute.labelMandatory} : </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
+				<div class="checkbox">
+					<label>
 				<#if attribute.mandatory = false>
-	        		<input name="mandatory" value="1" type="checkbox" />
+						<input name="mandatory" value="1" type="checkbox" />&nbsp;
 	        	<#else>
-	        		<input name="mandatory" value="1" type="checkbox" checked="checked" />
+						<input name="mandatory" value="1" type="checkbox" checked="checked" />&nbsp;
 	        	</#if>
+					</label>
+				</div>
 	        </div>
 	    </div>
 	    <div class="form-group">
 	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_field_in_line">#i18n{portal.users.create_attribute.labelIsFieldInLine} : </label>
 	        <div class="col-xs-12 col-sm-9 col-md-9">
+				<div class="checkbox">
+					<label>
 				<#if attribute.fieldInLine = false>
-	        		<input name="is_field_in_line" value="1" type="checkbox" />
+						<input name="is_field_in_line" value="1" type="checkbox" />&nbsp;
 	       		<#else>
-	       			<input name="is_field_in_line" value="1" type="checkbox" checked="checked" />
+						<input name="is_field_in_line" value="1" type="checkbox" checked="checked" />&nbsp;
 	        	</#if>
+					</label>
+				</div>
 		        <span class="help-block">#i18n{portal.users.create_attribute.labelIsFieldInLineComment}</span>
 			</div>
 	    </div>
@@ -71,7 +87,7 @@
 				<button class="btn btn-primary btn-sm" type="submit" name="apply" value="apply" >
 					<i class="glyphicon glyphicon-ok-circle">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonApply}
 				</button>
-				<button class="btn btn-sm" type="submit" name="cancel" value="cancel" >
+				<button class="btn btn-default btn-sm" type="submit" name="cancel" value="cancel" >
 					<i class="glyphicon glyphicon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
 				</button>
 			</div>
@@ -112,21 +128,21 @@
             </td>
             <td>${attribute_field.idField}</td>
             <td>
-                <a class="btn btn-primary btn-sm" href="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}">
-                    <i class="glyphicon glyphicon-edit">&nbsp;</i>
+                <a class="btn btn-primary btn-xs" href="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}">
+                    <i class="glyphicon glyphicon-edit"></i>
                 </a>
                 <#if cpt != 1>
-	                <a class="btn btn-primary btn-sm" href="jsp/admin/user/attribute/DoMoveUpAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
-	                    <i class="glyphicon glyphicon-chevron-up">&nbsp;</i>
+	                <a class="btn btn-primary btn-xs" href="jsp/admin/user/attribute/DoMoveUpAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list" title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp}">
+	                    <i class="glyphicon glyphicon-chevron-up"></i>
 	                </a>
                 </#if>
                 <#if attribute_field_has_next>
-	                <a class="btn btn-primary btn-sm" href="jsp/admin/user/attribute/DoMoveDownAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
-	                    <i class="glyphicon glyphicon-chevron-down">&nbsp;</i>
+	                <a class="btn btn-primary btn-xs" href="jsp/admin/user/attribute/DoMoveDownAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list" title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown}">
+	                    <i class="glyphicon glyphicon-chevron-down"></i>
 	                </a>
                 </#if>
-                <a class="btn btn-danger btn-sm" href="jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelDelete}">
-                    <i class="glyphicon glyphicon-trash">&nbsp;</i>
+                <a class="btn btn-danger btn-xs" href="jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelDelete}">
+                    <i class="glyphicon glyphicon-trash"></i>
                 </a>
             </td>
         </tr>

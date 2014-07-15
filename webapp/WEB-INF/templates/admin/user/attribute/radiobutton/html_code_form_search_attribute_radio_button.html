@@ -7,34 +7,52 @@
 <#return false>
 </#function>
 <div class="form-group">
-    <label class="control-label col-xs-12 col-sm-3 col-md-3" for="attribute_${attribute.idAttribute}">
+    <label class="col-xs-12 col-sm-12 col-md-12" for="attribute_${attribute.idAttribute}">
         ${attribute.title} : 
     </label>
-    <div class="form-group">
-	    <input type="radio" name="attribute_${attribute.idAttribute}" value="" 
+		<div class="col-xs-12 col-sm-12 col-md-12">
+			
+			<#if !attribute.fieldInLine>
+	    	<div class="radio">
+			<label>
+			</#if>
+			<#if attribute.fieldInLine>
+	    	<label class="radio-inline">
+			</#if>
+			<input type="radio" name="attribute_${attribute.idAttribute}" value="" 
 	           <#if !default_values_list?has_content>
 	           checked="checked"
 	           </#if>
 	           /> #i18n{portal.users.attribute.labelAll}
-	<#if !attribute.fieldInLine>
-		</div>
-    </#if>
+			<#if !attribute.fieldInLine >
+			</label>
+			</div>
+			</#if>
+			<#if attribute.fieldInLine >
+			</label>
+			</#if>
     <#list attribute.listAttributeFields as attributeField>
     <#if attributeField.title?exists && attributeField.value != "">
-	    <#if !attribute.fieldInLine>
-	    	<div class="form-group">
-	    </#if>
-	    <input type="radio" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}"
+			<#if !attribute.fieldInLine>
+	    	<div class="radio">
+			<label>
+			</#if>
+			<#if attribute.fieldInLine>
+	    	<label class="radio-inline">
+			</#if>
+			<input type="radio" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}"
 	           <#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >
 	           checked="checked"
 	           </#if>
 	           /> ${attributeField.title}
-	    <#if !attribute.fieldInLine>
-	    	</div>
-	    </#if>
+		<#if !attribute.fieldInLine >
+			</label>
+			</div>
+		</#if>
+		<#if attribute.fieldInLine >
+			</label>
+		</#if>
     </#if>
     </#list>
-    <#if attribute.fieldInLine>
-		</div>
-    </#if>
+	</div>
 </div>

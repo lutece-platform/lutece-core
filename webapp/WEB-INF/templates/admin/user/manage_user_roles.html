@@ -1,6 +1,6 @@
 <div class="row">
-	<div class="span12">
-		<div class="well well-small"><i class="icon-user"></i>&nbsp;${user.lastName} ${user.firstName}</div>
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="well well-small"><i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}</div>
         <span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
         <ul class="nav nav-tabs">
 			<li>
@@ -14,10 +14,10 @@
         <input type="hidden" name="id_user" value="${user.userId}" />
         <input type="hidden" name="delegate_rights" value="false"/>
         <#if can_modify>
-        <button type="submit"class="btn btn-primary btn-small" ><i class="icon-edit icon-white"></i>&nbsp;#i18n{portal.users.manage_user_roles.buttonLabelModifyRoles}</button>
+        <button type="submit"class="btn btn-primary btn-sm" ><i class="glyphicon glyphicon-edit"></i>&nbsp;#i18n{portal.users.manage_user_roles.buttonLabelModifyRoles}</button>
         </#if>
         <#if can_delegate>
-        <button type="submit" class="btn btn-primary btn-small" ><i class="icon-share icon-white"></i>&nbsp;#i18n{portal.users.manage_user_roles.buttonLabelDelegateRoles}</button>      
+        <button type="submit" class="btn btn-primary btn-sm" ><i class="glyphicon glyphicon-share"></i>&nbsp;#i18n{portal.users.manage_user_roles.buttonLabelDelegateRoles}</button>      
         </#if>
         </form>
 		<div class="row">

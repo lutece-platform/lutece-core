@@ -204,26 +204,38 @@
 								</#if>
 								</#list>
 								<td>
-									<a class="btn btn-primary btn-xs" href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelUpdate}" >
-										<i class="glyphicon glyphicon-edit"></i>
-									</a>
+									<div class="col-xs-6 col-sm-2 col-md-1">
+										<a class="btn btn-primary btn-xs" href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelUpdate}" >
+											<i class="glyphicon glyphicon-edit"></i>
+										</a>
+									</div>
+									<div class="col-xs-6 col-sm-2 col-md-1">
 									<a class="btn btn-primary btn-xs" href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRights}">
 										<i class="glyphicon glyphicon-lock"></i>&nbsp;
 									</a>
+									</div>
+									<div class="col-xs-6 col-sm-2 col-md-1">
 									<a class="btn btn-primary btn-xs" href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelRoles}">
 										<i class="glyphicon glyphicon-list-alt"></i>&nbsp;
 									</a>
+									</div>
+									<div class="col-xs-6 col-sm-2 col-md-1">
 									<a class="btn btn-primary btn-xs" href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelWorkgroups}">
 										<i class="glyphicon glyphicon-tags"></i>
 									</a>
+									</div>
 									<#if !user.statusAnonymized>
+										<div class="col-xs-6 col-sm-2 col-md-1">
 										<a class="btn btn-primary btn-xs" href="jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}"  title="#i18n{portal.users.actions.labelAnonymize}" >
 											<i class="glyphicon glyphicon-eye-close"></i>
 										</a>
+										</div>
 									</#if>
+									<div class="col-xs-6 col-sm-2 col-md-1">
 									<a class="btn btn-danger btn-xs" href="jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelDelete}">
 										<i class="glyphicon glyphicon-trash"></i>&nbsp;
 									</a>
+									</div>
 								</td>
 							</tr>
 						</#list>		

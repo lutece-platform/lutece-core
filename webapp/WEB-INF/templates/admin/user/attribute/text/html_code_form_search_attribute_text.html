@@ -1,8 +1,8 @@
 <div class="form-group">
-	<label class="col-xs-12 col-sm-3 col-md-3" for="attribute_${attribute.idAttribute}">${attribute.title} : </label>
-	<div class="col-xs-12 col-sm-9 col-md-9">
+	<label class="col-xs-12 col-sm-12 col-md-12" for="attribute_${attribute.idAttribute}">${attribute.title} : </label>
+	<div class="col-xs-12 col-sm-12 col-md-12">
 		<#list attribute.listAttributeFields as attributeField>
-			<input type="text" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}" size="${attributeField.width}" 
+			<input type="text" class="form-control input-sm" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}" size="${attributeField.width}" 
     		<#if attributeField.maxSizeEnter!=-1>	maxlength="${attributeField.maxSizeEnter}"</#if>
 			<#if default_values_list?exists && default_values_list?has_content>
 				<#list default_values_list as default_value> value="${default_value.value}"	<#break></#list>
