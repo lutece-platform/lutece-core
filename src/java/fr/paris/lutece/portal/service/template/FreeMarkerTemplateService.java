@@ -59,8 +59,12 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
     {
         if ( _singleton == null )
         {
-            _singleton = new FreeMarkerTemplateService(  );
-            _singleton.setTemplateUpdateDelay( TEMPLATE_UPDATE_DELAY );
+            synchronized ( FreeMarkerTemplateService.class )
+            {
+                FreeMarkerTemplateService service = new FreeMarkerTemplateService(  );
+                service.setTemplateUpdateDelay( TEMPLATE_UPDATE_DELAY );
+                _singleton = service;
+            }
         }
 
         return _singleton;

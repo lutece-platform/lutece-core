@@ -72,8 +72,12 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
     {
         if ( _singleton == null )
         {
-            _singleton = new MailAttachmentCacheService(  );
-            _singleton.initCache(  );
+            synchronized ( MailAttachmentCacheService.class )
+            {
+                MailAttachmentCacheService service = new MailAttachmentCacheService(  );
+                service.initCache(  );
+                _singleton = service;
+            }
         }
 
         return _singleton;

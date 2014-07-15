@@ -91,8 +91,12 @@ public class EditorBbcodeService implements IEditorBbcodeService
     {
         if ( _singleton == null )
         {
-            _singleton = new EditorBbcodeService(  );
-            _singleton.init(  );
+            synchronized ( EditorBbcodeService.class )
+            {
+                EditorBbcodeService service = new EditorBbcodeService(  );
+                service.init(  );
+                _singleton = service;
+            }
         }
 
         return _singleton;

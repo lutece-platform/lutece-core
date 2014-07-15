@@ -50,7 +50,7 @@ import java.util.Locale;
 public final class AttributeTypeService
 {
     private static volatile AttributeTypeService _singleton;
-    private static List<AttributeType> _listAttributeTypes;
+    private static volatile List<AttributeType> _listAttributeTypes;
 
     /**
      * Private constructor
@@ -82,12 +82,20 @@ public final class AttributeTypeService
     {
         if ( _listAttributeTypes == null )
         {
-            _listAttributeTypes = new ArrayList<AttributeType>(  );
-
-            for ( IAttribute attribute : SpringContextService.getBeansOfType( IAttribute.class ) )
+            synchronized ( this )
             {
-                attribute.setAttributeType( locale );
-                _listAttributeTypes.add( attribute.getAttributeType(  ) );
+                if ( _listAttributeTypes == null )
+                {
+                    List<AttributeType> listAttributTypes = new ArrayList<AttributeType>(  );
+
+                    for ( IAttribute attribute : SpringContextService.getBeansOfType( IAttribute.class ) )
+                    {
+                        attribute.setAttributeType( locale );
+                        listAttributTypes.add( attribute.getAttributeType(  ) );
+                    }
+
+                    _listAttributeTypes = listAttributTypes;
+                }
             }
         }
 

@@ -67,8 +67,12 @@ public final class JobSchedulerService
     {
         if ( _singleton == null )
         {
-            _singleton = new JobSchedulerService(  );
-            _singleton.init(  );
+            synchronized ( JobSchedulerService.class )
+            {
+                JobSchedulerService service = new JobSchedulerService(  );
+                service.init(  );
+                _singleton = service;
+            }
         }
 
         return _singleton;
