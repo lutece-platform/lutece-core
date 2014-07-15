@@ -1,13 +1,13 @@
-<div class="lutece-widget">
-	<div class="panel-small panel-third">
-		<div class="panel-header">
-			<span> #i18n{portal.users.adminFeature.users_management.name}</span>
-			<a class="pull-right" href="${url}" title="#i18n{portal.users.adminFeature.users_management.name}">
+<div class="well lutece-dashboard-user">
+	<legend>
+		<a href="${url}" title="#i18n{portal.users.adminFeature.users_management.name}">
+			#i18n{portal.users.adminFeature.users_management.name}
+			<span class="pull-right">
 				<i class="fa fa-group"></i>
-			</a>
-		</div>
-		<div class="panel-content-small">
-			#i18n{portal.users.dashboard.usersCount}<span class="badge badge-info pull-right">${users_count}</span> 
-		</div>
+			</span>
+		</a>
+	</legend>
+	<div class="panel-content-small">
+		#i18n{portal.users.dashboard.usersCount}<span class="badge badge-info pull-right">${users_count}</span> 
 	</div>
 </div>
