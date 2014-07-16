@@ -1,5 +1,5 @@
-<div class="row-fluid">
-	<div class="col-md-12">
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
 		<div class="well">
 		<form method="post"  enctype="multipart/form-data" action="jsp/admin/site/DoModifyPage.jsp" class="form-horizontal" >            
 		<input type="hidden" name="page_id" value="${page.id}" >
@@ -9,38 +9,45 @@
 					#i18n{portal.site.admin_page.labelAdvancedParameters} <i id="glyph" class="glyphicon glyphicon-collapse-down"></i> 
 				</button>
 			</legend>
-			<div class="row-fluid">
 				<#if authorization != "1">    
-					<div class="col-md-offset-1 col-md-3">
+					<div class="col-md-4">
 						<div class="form-group">
-							<label for="child_page_name">#i18n{portal.site.admin_page.labelChildPageName} </label>
-							<input type="text" name="page_name" class="form-control" value="${page.name!}" >
+							<label class="col-md-12" for="child_page_name">#i18n{portal.site.admin_page.labelChildPageName} </label>
+							<div class="col-md-12">
+								<input type="text" class="form-control input-sm" name="page_name" class="form-control" value="${page.name!}" >
+							</div>
 						</div>
 						<div class="form-group">
-							<label for="child_page_description">#i18n{portal.site.admin_page.labelDescription} </label>
-							<textarea name="page_description" class="form-control">${page.description!}</textarea>
+							<label class="col-md-12" for="child_page_description">#i18n{portal.site.admin_page.labelDescription} </label>
+							<div class="col-md-12">
+								<textarea name="page_description" class="form-control input-sm">${page.description!}</textarea>
+							</div>
 						</div>
 						<div class="form-group">
-							<label for="parent_id">#i18n{portal.site.admin_page.labelParentPageId}</label>	
-							<#if page.id = 1>
-								<span class="label label-warning">#i18n{portal.site.admin_page.labelParentPageIdMessage}</span>
-								<input type="hidden" name="parent_id" value="${page.parentPageId}">
-							<#else>
-								<input type="text" name="parent_id" class="form-control" value="${page.parentPageId}">
-							</#if>
+							<label class="col-md-12" for="parent_id">#i18n{portal.site.admin_page.labelParentPageId}</label>
+							<div class="col-md-12">
+								<#if page.id = 1>
+									<span class="label label-warning">#i18n{portal.site.admin_page.labelParentPageIdMessage}</span>
+									<input type="hidden" name="parent_id" value="${page.parentPageId}">
+								<#else>
+									<input type="text" name="parent_id" class="form-control input-sm" value="${page.parentPageId}">
+								</#if>
+							</div>
 						</div>
 						<fieldset>
 						<legend>#i18n{portal.site.admin_page.titlePictureProperties}</legend>
 							<div class="form-group">
-								<label for="image_content">
+								<label class="col-md-12" for="image_content">
 									<img src="${image_url}" class="img-thumbnail thumblist-medium" alt="#i18n{portal.site.admin_page.labelAltImgDefinition}" title="#i18n{portal.site.admin_page.labelAltImgDefinition}"> 
 									#i18n{portal.site.admin_page.labelNewPicture} 
 								</label>
-								<input class="form-control" id="image_content" name="image_content" type="file">
+								<div class="col-md-12">
+									<input class="input-xs" id="image_content" name="image_content" type="file">
+								</div>
 							</div>
 							<div class="form-group">
-								<div class="checkbox">
-									<label for="image_content">
+								<div class="checkbox col-md-12">
+									<label class="image_content">
 										<input class="checkbox" type="checkbox" name="update_image" id="update_image">
 										#i18n{portal.site.admin_page.checkedUpdateImage}
 									</label>
@@ -49,7 +56,7 @@
 						</fieldset>
 					</div>
 				</#if> 
-				<div class="col-md-offset-1 col-md-3">
+				<div class="col-md-4">
 					<fieldset>
 						<legend>#i18n{portal.site.admin_page.labelPageTemplateList}</legend>
 						<div class="form-group">
@@ -60,66 +67,73 @@
 					</fieldset>
 					<div class="form-group">
 						<label for="page_order_list">#i18n{portal.site.admin_page.labelOrderPage}</label>
-						<@comboWithParams name="order" default_value="${page.order}" additionalParameters="class=\"form-control\"" items=page_order_list />
+						<@comboWithParams name="order" default_value="${page.order}" additionalParameters="class=\"form-control input-sm\"" items=page_order_list />
 					</div>
 				</div>
-				<div class="col-md-offset-1 col-md-3" id="adv_param">
+				<div class="col-md-4" id="adv_param">
 					<fieldset>
 					<legend>#i18n{portal.site.admin_page.labelMetadata}</legend>
 					<div class="form-group">
-						<label for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords}</label>  
-						<input type="text" name="meta_keywords" class="form-control" maxlength="250" <#if page.metaKeywords?exists && page.metaKeywords?has_content>value="${page.metaKeywords}"<#else>value=""</#if>  >
+						<label class="col-md-12" for="meta_keywords" >#i18n{portal.site.admin_page.labelMetaKeywords}</label>  
+						<div class="col-md-12">
+							<input type="text" name="meta_keywords" class="form-control" maxlength="250" <#if page.metaKeywords?exists && page.metaKeywords?has_content>value="${page.metaKeywords}"<#else>value=""</#if>  >
+						</div>
 					</div>
 					<div class="form-group">
-						<label for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}</label>
+						<label class="col-md-12" for="meta_description" >#i18n{portal.site.admin_page.labelMetaDescription}</label>
+						<div class="col-md-12">
 							<input type="text" name="meta_description" class="form-control" maxlength="250" <#if page.metaDescription?exists && page.metaDescription?has_content>value="${page.metaDescription}"<#else>value=""</#if>>
 							<p class="help-block"> #i18n{portal.site.admin_page.labelMetaDescriptionInfo}</p>
 						</div>
+					</div>
 					</fieldset>
 					<div class="form-group">
-						<label for="theme">#i18n{portal.site.admin_page.labelTheme}</label>
-						<@comboSortedWithParams name="theme" default_value="${page.codeTheme}" additionalParameters=" class=\"form-control\"" items=page_themes_list />
+						<label class="col-md-12" for="theme">#i18n{portal.site.admin_page.labelTheme}</label>
+						<div class="col-md-12">
+							<@comboSortedWithParams name="theme" default_value="${page.codeTheme}" additionalParameters=" class=\"form-control input-sm\"" items=page_themes_list />
+						</div>
 					</div>
 					<div class="form-group">
-						<label for="roles_list">#i18n{portal.site.admin_page.labelRole}</label>
-						<@comboSortedWithParams name="role" default_value="${page.role}" additionalParameters=" class=\"form-control\"" items=page_roles_list />
+						<label class="col-md-12" for="roles_list">#i18n{portal.site.admin_page.labelRole}</label>
+						<div class="col-md-12">
+							<@comboSortedWithParams name="role" default_value="${page.role}" additionalParameters=" class=\"form-control input-sm\"" items=page_roles_list />
+						</div>
 					</div>
 					<div class="form-group">
-						<label for="roles_list">#i18n{portal.site.admin_page.labelNodeStatus}</label>
-						<#if page.nodeStatus = 0>
-							<select name="node_status" class="form-control">
-								<option value="0" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus0}</option>
-								<option value="1">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
-							</select>
-						<#else>
-							<select name="node_status" class="form-control">
-								<option value="0" >#i18n{portal.site.admin_page.labelNodeStatus0}</option>
-								<option value="1" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
-							</select>
-						</#if> 
-					</div>
-				</div>
-				<div class="row-fluid">
-					<div class="col-md-11">   
-						<div class="form-group">
-							<div class="col-md-offset-3">
-								<button type="submit" class="btn btn-primary">
-									<i class="icon-plus icon-white"></i>&nbsp;
-									<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonModify}</span>
-								</button>  
-								<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" class="btn btn-default">
-									<i class="icon-remove-circle"></i>&nbsp;
-									<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonClosed}</span>
-								</a> 
-							</div>
+						<label class="col-md-12" for="roles_list">#i18n{portal.site.admin_page.labelNodeStatus}</label>
+						<div class="col-md-12">
+							<#if page.nodeStatus = 0>
+								<select name="node_status" class="form-control">
+									<option value="0" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus0}</option>
+									<option value="1">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
+								</select>
+							<#else>
+								<select name="node_status" class="form-control">
+									<option value="0" >#i18n{portal.site.admin_page.labelNodeStatus0}</option>
+									<option value="1" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
+								</select>
+							</#if> 
 						</div>
 					</div>
 				</div>
-			</div>
-			</fieldset>
-		</form>
-		</div>
+				<div class="row">
+					<div class="col-md-12">   
+						<div class="form-group">
+								<button type="submit" class="btn btn-primary btn-sm">
+									<i class="glyphicon glyphicon-plus"></i>&nbsp;
+									<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonModify}</span>
+								</button>  
+								<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" class="btn btn-default btn-sm">
+									<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;
+									<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonClosed}</span>
+								</a> 
+						</div>
+					</div>
+				</div>
+		</fieldset>
+	</form>
 	</div>
+</div>
 </div>
 <script>
 $().ready( function(){

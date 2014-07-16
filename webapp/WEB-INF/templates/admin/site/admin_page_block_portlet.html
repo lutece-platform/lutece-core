@@ -1,5 +1,5 @@
-<div class="row-fluid">
-	<div class="col-md-12">
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
 		<#if portlet_types_list?has_content>
 			<form method="post"  action="jsp/admin/DoCreatePortlet.jsp" target="preview">
 				<fieldset>
@@ -13,7 +13,7 @@
 						</#list>
 						</select>
 					</div>	
-					<button type="submit" class="btn btn-primary btn-small">
+					<button type="submit" class="btn btn-primary btn-sm">
 						<i class="glyphicon glyphicon-plus"></i>&nbsp;#i18n{portal.site.admin_page.buttonAdd}
 					</button>
 				</fieldset>

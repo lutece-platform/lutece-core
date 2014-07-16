@@ -1,11 +1,29 @@
-<div id="banner">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<a href="http://www.paris.fr">
-					<img class="logo png_bg" src="images/local/skin/mdp.png" title="Paris.fr" alt="Paris.fr" />
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#lutece-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="glyphicon glyphicon-bar"></span>
+            <span class="glyphicon glyphicon-bar"></span>
+            <span class="glyphicon glyphicon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+            <img src="images/logo-header.png" title="Home" alt="Home" />
+        </a>
+    </div>
+    <div class="collapse navbar-collapse" id="lutece-navbar-collapse">
+        <#assign menu=page_main_menu>
+        <ul class="nav navbar-nav">
+            ${page_main_menu_html!menu}
+        </ul>
+        <form class="navbar-form navbar-left" role="search" action="jsp/site/Portal.jsp" method="get">
+            <input type="hidden" name="page" value="search" >
+            <div class="form-group">
+                <input type="text" class="form-control" name="query" id="query" placeholder="#i18n{portal.site.page_menu_tools.labelSearch}">
+            </div>
+            <button type="submit" class="btn btn-default">#i18n{portal.site.page_menu_tools.labelSearch}</button>
+        </form>  
+        <ul class="nav navbar-nav">
+            ${pageinclude_userlogin?default("<!-- no myLutece plugin installed -->")}
+        </ul>
+    </div>
+</nav>
