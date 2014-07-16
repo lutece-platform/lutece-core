@@ -1,9 +1,9 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="well well-small">
+		<div class="well well-sm">
 			<i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}
 		</div>
-		<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
+		<div class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></div>
 		<ul class="nav nav-tabs">
 			<li>
 				<a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
@@ -29,7 +29,7 @@
 				</button>
 				</legend>
 				<input type="hidden" name="delegate_rights" value="${can_delegate}" />
-				<ul class="unstyled">
+
 					<#list all_right_list?sort_by('name') as right>
 						<#if select_all = true >
 							<#assign checked >checked="checked"</#assign>
@@ -42,17 +42,18 @@
 								</#if>
 							</#list>
 						</#if>
-						<li>
-							<div class="col-xs-12 col-sm-9 col-md-9">	
+
+							<div class="col-xs-12 col-sm-12 col-md-12">	
 								<div class="checkbox">
-									<label>${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}
+									<label>
 									<input class="checkbox" type="checkbox" name="right" value="${right.id}" ${checked} />
+									${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}
 									</label>
 								</div>
 							</div>
-						</li>
+
 					</#list>
-				</ul>
+
 				<input type="hidden" name="id_user" value="${user.userId}" />
 				<div class="form-group">
 				   <button type="submit" class="btn btn-primary btn-sm" >
