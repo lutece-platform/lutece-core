@@ -18,9 +18,9 @@
                 <#assign dashboard_order=dashboard.order/>
                 </#if>
                 <input type="hidden" name="dashboard_order" value="${dashboard_order}"/>
-                <@comboSortedWithParams name="dashboard_column" default_value="${dashboard.zone!}" items=list_available_columns additionalParameters="class=\"input-mini\"" />
-                <button type="submit" class="btn btn-primary btn-small">
-                    <i class="icon-check icon-white"></i>&nbsp;#i18n{portal.dashboard.table.action.setColumn}
+                <@comboSortedWithParams name="dashboard_column" default_value="${dashboard.zone!}" items=list_available_columns additionalParameters="class=\"input-xs\"" />
+                <button type="submit" class="btn btn-primary btn-xs">
+                    <i class="glyphicon glyphicon-check"></i>&nbsp;#i18n{portal.dashboard.table.action.setColumn}
                 </button>
             </form>
             </form>
@@ -35,9 +35,9 @@
                 <#assign dashboard_column=dashboard.zone />
                 </#if>
                 <input type="hidden" name="dashboard_column" value="${dashboard_column}"/>
-                <@comboSortedWithParams name="dashboard_order" default_value="${dashboard.order!}" items=list_available_orders_column additionalParameters="class=\"input-mini\"" />
-                <button type="submit" class="btn btn-primary btn-small">
-                    <i class="icon-move icon-white"></i>&nbsp;#i18n{portal.dashboard.table.action.move}
+                <@comboSortedWithParams name="dashboard_order" default_value="${dashboard.order!}" items=list_available_orders_column additionalParameters="class=\"input-xs\"" />
+                <button type="submit" class="btn btn-primary btn-xs">
+                    <i class="glyphicon glyphicon-move"></i>&nbsp;#i18n{portal.dashboard.table.action.move}
                 </button>
             </form>
         </td> <#-- /order -->
@@ -52,8 +52,8 @@
 </#if>
 </#macro>
 
-<div class="row-fluid" >
-    <div class="span12">
+<div class="row" >
+    <div class="col-xs-12 col-sm-12 col-md-12">
         <fieldset>
             <legend>#i18n{portal.admindashboard.title.manage}</legend>
             <#-- column lists -->
@@ -64,7 +64,7 @@
                 <h2>#i18n{portal.admindashboard.title.column} ${column_key}
                     <#if map_column_order_status[column_key]?exists && !map_column_order_status[column_key]>
                     <a class="btn btn-warning" href="jsp/admin/admindashboard/DoReorderColumn.jsp?column=${column_key}" title="#i18n{portal.dashboard.action.reorder}">
-                        <i class="icon-move icon-white"></i>&nbsp;#i18n{portal.dashboard.action.reorder}
+                        <i class="glyphicon glyphicon-move"></i>&nbsp;#i18n{portal.dashboard.action.reorder}
                     </a>
                     </#if>
                 </h2>

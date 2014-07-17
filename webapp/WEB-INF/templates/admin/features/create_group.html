@@ -1,40 +1,42 @@
-<div class="row-fluid">
-	<div class="span12">
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
 		<fieldset>
         <legend>#i18n{portal.features.create_group.title}</legend>
         <form method="post" class="form-horizontal" action="jsp/admin/features/DoCreateGroup.jsp">
-			<div class="control-group">
-				<label class="control-label" for="group_id">#i18n{portal.features.create_group.labelId}</label>
-				<div class="controls">
-					<input type="text" id="group_id" name="group_id" value="" class="input-large">
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="group_id">#i18n{portal.features.create_group.labelId}</label>
+				<div class="col-xs-12 col-sm-6 col-md-6">
+					<input type="text" id="group_id" name="group_id" value="" class="form-control input-sm">
 				</div>	
 			</div>	
-			<div class="control-group">
-			<label class="control-label" for="group_name">#i18n{portal.features.create_group.labelName}</label>
-				<div class="controls">
-					<input type="text"  id="group_name" name="group_name" value="" class="input-xxlarge">
+			<div class="form-group">
+			<label class="control-label col-xs-12 col-sm-3 col-md-3" for="group_name">#i18n{portal.features.create_group.labelName}</label>
+				<div class="col-xs-12 col-sm-6 col-md-6">
+					<input type="text"  id="group_name" name="group_name" value="" class="form-control input-sm">
 				</div>	
 			</div>
-			<div class="control-group">
-				<label class="control-label" for="group_description">#i18n{portal.features.create_group.labelDescription}</label>
-				<div class="controls">
-					<input type="text" id="group_description" name="group_description" value="" class="input-xxlarge" />
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="group_description">#i18n{portal.features.create_group.labelDescription}</label>
+				<div class="col-xs-12 col-sm-6 col-md-6">
+					<input type="text" id="group_description" name="group_description" value="" class="form-control input-sm" />
 				</div>	
 			</div>
-			<div class="control-group">
-				<label class="control-label" for="group_order">#i18n{portal.features.create_group.labelOrder}</label>
-				<div class="controls">
-					<@comboSorted name="group_order" default_value="${order_default}"  items=order_list />
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="group_order">#i18n{portal.features.create_group.labelOrder}</label>
+				<div class="col-xs-12 col-sm-6 col-md-6">
+					<@comboSortedWithParams name="group_order" default_value="${order_default}" additionalParameters="class='form-control input-sm'" items=order_list />
 				</div>	
 			</div>
-			<div class="form-actions">
-				<button class="btn btn-small btn-primary" type="submit">
-					<i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.features.create_group.buttonCreate}
-				</button>
-				<a class="btn btn-small" href="jsp/admin/features/ManageGroups.jsp">
-					<i class="icon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}
-				</a>
+			<div class="form-group">
+				<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
+					<button class="btn btn-sm btn-primary" type="submit">
+						<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.features.create_group.buttonCreate}
+					</button>
+					<a class="btn btn-default btn-sm" href="jsp/admin/features/ManageGroups.jsp">
+						<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}
+					</a>
 				</div>
+			</div>
 			</form>
 		</fieldset>		
     </div>

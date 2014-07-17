@@ -1,10 +1,10 @@
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
 		<fieldset>
 		<legend class="clearfix">#i18n{portal.features.manage_levels.boxTitle}
 			<span class="pull-right">
-			<form method="post"  action="jsp/admin/features/CreateLevel.jsp" class="form-inline">
-				<button type="submit" tabindex="1" class="btn btn-primary btn-small pull-right"><i class="icon-plus icon-white"></i>&nbsp;#i18n{portal.features.manage_levels.buttonLabelCreate}</button>
+			<form method="post" action="jsp/admin/features/CreateLevel.jsp" class="form-inline">
+				<button type="submit" tabindex="1" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;#i18n{portal.features.manage_levels.buttonLabelCreate}</button>
 			</form>
 			</span>
 		</legend>
@@ -21,7 +21,7 @@
 				<tr>
 					<td>${level.id}</td>
 					<td>${level.name}</td>
-					<td><a href="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" class="btn btn-small btn-primary"><i class="icon-edit icon-white"></i></a></td>
+					<td><a href="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i></a></td>
 				</tr>			
 			</#list>
 			</tbody>
@@ -29,4 +29,3 @@
 		</fieldset>
     </div>
 </div>
-

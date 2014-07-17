@@ -1,20 +1,20 @@
-<div class="row-fluid">
-    <div class="span10">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
         <fieldset>
             <legend>#i18n{portal.system.modify_properties.boxTitle}</legend>
             <form method="post" action="jsp/admin/DoModifyProperties.jsp" class="form-horizontal">
                 <#list groups_list as group>
-                <div class="well-small">
+                <div class="well-sm">
                     <h4>${group.name}</h4>
                     <p>${group.description}</p>
                     <#list group.localizedDataList as property>
-                    <div class="control-group">
-                        <label class="control-label" for="${property.key}" >${property.label}</label>
-                        <div class="controls">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="${property.key}" >${property.label}</label>
+                        <div class="col-xs-12 -col-sm-9 col-md-9">
                             <#if property.key?ends_with( ".textblock" )>
-                            <textarea name="${property.key}" id="${property.key}" >${property.value}</textarea>
+                            <textarea name="${property.key}" id="${property.key}" class="form-control input-sm">${property.value}</textarea>
                             <#else>
-                            <input type="text" name="${property.key}" id="${property.key}" value="${property.value}"  class="input-xlarge"/>
+                            <input type="text" name="${property.key}" id="${property.key}" value="${property.value}"  class="form-control input-sm">
                             </#if>
                             <span class="help-block">
                                 <#if property.help?length &gt; 0>
@@ -28,11 +28,13 @@
                     </#list>
                 </div>
                 </#list>
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary btn-small" tabindex="1">
-                        <i class=" icon-edit icon-white"></i>
-                        <span class="hidden-phone" >#i18n{portal.system.modify_properties.buttonLabel}</span>
-                    </button> 
+                <div class="form-group">
+					<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
+						<button type="submit" class="btn btn-primary btn-sm" tabindex="1">
+							<i class="glyphicon glyphicon-edit"></i>
+							<span class="hidden-phone" >#i18n{portal.system.modify_properties.buttonLabel}</span>
+						</button> 
+					</div>
                 </div>                                
             </form>
         </fieldset>

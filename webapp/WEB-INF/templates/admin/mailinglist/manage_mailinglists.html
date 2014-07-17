@@ -19,26 +19,32 @@
 	<#return sortSearchAttribute + "&amp;session=sesssion" />
 </#function>
 
-<div class="row-fluid">
-	<div class="span12">
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
 		<fieldset>
         <legend>#i18n{portal.mailinglist.manage_mailinglists.boxTitle}
 			<span class="btn-group pull-right">
 				<form class="form-inline" method="post"  action="jsp/admin/mailinglist/CreateMailingList.jsp">
-					<button class="btn btn-primary btn-small pull-right" type="submit" >
-						<i class="icon-plus icon-white" ></i>
+					<button class="btn btn-primary btn-sm pull-right" type="submit" >
+						<i class="glyphicon glyphicon-plus" ></i>
 							<span class="hidden-phone" >#i18n{portal.mailinglist.manage_mailinglists.buttonLabelCreate}</span>
                     </button>
                 </form>
             </span>
         </legend>
-        <div class="well well-small">
-			<form class="form-search" method="post" name="search_mailinglist" action="jsp/admin/mailinglist/ManageMailingLists.jsp"  >
-			<label for="name">#i18n{portal.mailinglist.manage_mailinglists.labelName}</label>
-			<input type="text" id="name" name="name" value="${mailinglistFilter.name!}" maxlength="100" class="input-medium" />
-			<label for="description" >#i18n{portal.mailinglist.manage_mailinglists.labelDescription}</label>
-			<input type="text" id="description" name="description" value="${mailinglistFilter.description!}" maxlength="255"  class="input-xlarge" tabindex="2" />
-			<button class="btn btn-primary btn-small" type="submit" ><i class="icon-search icon-white"></i>#i18n{portal.mailinglist.manage_mailinglists.buttonSearch}</button>
+        <div class="well well-sm">
+			<form class="form-inline" method="post" name="search_mailinglist" action="jsp/admin/mailinglist/ManageMailingLists.jsp" >
+			<div class="form-group">
+				<label for="name">#i18n{portal.mailinglist.manage_mailinglists.labelName}</label>
+				<input type="text" class="form-control input-sm" id="name" name="name" value="${mailinglistFilter.name!}" maxlength="100">
+			</div>
+			<div class="form-group">
+				<label for="description" >#i18n{portal.mailinglist.manage_mailinglists.labelDescription}</label>
+				<input type="text" class="form-control input-sm" id="description" name="description" value="${mailinglistFilter.description!}" maxlength="255" tabindex="2">
+			</div>
+			<div class="form-group">
+				<button class="btn btn-primary btn-sm" type="submit"><i class="glyphicon glyphicon-search"></i>#i18n{portal.mailinglist.manage_mailinglists.buttonSearch}</button>
+			</div>
 			</form>
 	    </div>
         <@paginationAdmin paginator=paginator combo=1 />
@@ -56,9 +62,9 @@
                 <td>${mailinglist.description}</td>
                 <td>${mailinglist.workgroup}</td>
                 <td>
-					<a class="btn btn-primary btn-small" href="jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}"  title="#i18n{portal.mailinglist.modify_mailinglist.buttonModify}" ><i class="icon-edit icon-white"></i></a>
-                    <a class="btn btn-primary btn-small" href="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}"  title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}" ><i class="icon-user icon-white"></i></a>
-                    <a class="btn btn-danger btn-small" href="jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}"  title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}" ><i class="icon-trash icon-white"></i></a>
+					<a class="btn btn-primary btn-xs" href="jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}"  title="#i18n{portal.mailinglist.modify_mailinglist.buttonModify}" ><i class="glyphicon glyphicon-edit"></i></a>
+                    <a class="btn btn-primary btn-xs" href="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}"  title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}" ><i class="glyphicon glyphicon-user"></i></a>
+                    <a class="btn btn-danger btn-xs" href="jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}"  title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}" ><i class="glyphicon glyphicon-trash"></i></a>
                 </td>
             </tr>
             </#list>

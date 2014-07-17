@@ -1,11 +1,11 @@
-<div class="row-fluid">
-	<div class="span12">
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
 	<fieldset>
 		<legend>
 		#i18n{portal.role.manage_roles.boxTitle}
 		<form class="form-inline pull-right" method="post"  action="jsp/admin/role/CreatePageRole.jsp">
-			<button class="btn btn-primary btn-small pull-right" type="submit" >
-			<i class="icon-plus icon-white" ></i>
+			<button class="btn btn-primary btn-sm pull-right" type="submit" >
+			<i class="glyphicon glyphicon-plus" ></i>
 			<span class="hidden-phone" >#i18n{portal.role.manage_roles.buttonLabelCreate}</span>
 			</button>
 		</form>
@@ -25,11 +25,11 @@
             <td>${role.roleDescription}</td>
             <td>${role.workgroup}</td>
             <td>
-                <a class="btn btn-primary btn-small" href="jsp/admin/role/ModifyPageRole.jsp?role=${role.role}"  title="#i18n{portal.util.labelModify}" >
-                    <i class="icon-edit icon-white"></i>
+                <a class="btn btn-primary btn-xs" href="jsp/admin/role/ModifyPageRole.jsp?role=${role.role}"  title="#i18n{portal.util.labelModify}" >
+                    <i class="glyphicon glyphicon-edit"></i>
                 </a>
-                <a class="btn btn-danger btn-small" href="jsp/admin/role/RemovePageRole.jsp?role=${role.role}"  title="#i18n{portal.util.labelDelete}" >
-                    <i class="icon-trash icon-white"></i>
+                <a class="btn btn-danger btn-xs" href="jsp/admin/role/RemovePageRole.jsp?role=${role.role}"  title="#i18n{portal.util.labelDelete}" >
+                    <i class="glyphicon glyphicon-trash"></i>
                 </a>
 
             </td>

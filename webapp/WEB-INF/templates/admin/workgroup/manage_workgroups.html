@@ -1,27 +1,27 @@
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
             <legend class="clearfix">#i18n{portal.workgroup.manage_workgroups.pageTitle}
                 <span class="btn-group pull-right">
                     <form class="form-inline" method="post"  action="jsp/admin/workgroup/CreateWorkgroup.jsp">
-                        <button class="btn btn-primary btn-small pull-right" type="submit" ><i class="icon-plus icon-white" ></i><span class="hidden-phone">#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}</span></button>
+                        <button class="btn btn-primary btn-sm pull-right" type="submit" ><i class="glyphicon glyphicon-plus"></i><span class="hidden-phone">#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}</span></button>
                     </form>
                 </span>
             </legend>
             <div class="well">
-                <form class="form-search" method="post" name="search_workgroups" action="jsp/admin/workgroup/ManageWorkgroups.jsp"  >
+                <form class="form-inline" method="post" name="search_workgroups" action="jsp/admin/workgroup/ManageWorkgroups.jsp"  >
                     <label for="key" >#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelKey} :</label>
-                    <input type="text" id="key" name="search_key" value="${search_admin_workgroup_filter.key}" maxlength="50" size="20" />
+                    <input type="text" class="form-control input-sm" id="key" name="search_key" value="${search_admin_workgroup_filter.key}" maxlength="50" size="20" class="form-control input-sm">
                     <label for="description" >#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelDescription} :</label>
-                    <input type="text" id="description" name="search_description" value="${search_admin_workgroup_filter.description}" maxlength="250" size="50" tabindex="2" />
-                    <button class="btn btn-primary btn-small" type="submit" ><i class="icon-search icon-white"></i> #i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}</button>
+                    <input type="text" class="form-control input-sm" id="description" name="search_description" value="${search_admin_workgroup_filter.description}" maxlength="250" size="50" tabindex="2"  class="form-control input-sm">
+                    <button class="btn btn-primary btn-sm" type="submit" ><i class="glyphicon glyphicon-search"></i> #i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}</button>
                 </form>
             </div>
             <form class="form-horizontal" method="post" action="jsp/admin/workgroup/ManageWorkgroups.jsp">
                 <@paginationAdmin paginator=paginator combo=1 form=0 />
                 <#if search_is_search >
-                <input type="hidden" name="search_is_search" value="true"/>
-                <input type="hidden" name="search_key" value="${search_admin_workgroup_filter.key}"/>
-                <input type="hidden" name="search_description" value="${search_admin_workgroup_filter.description}"/>
+                <input type="hidden" name="search_is_search" value="true">
+                <input type="hidden" name="search_key" value="${search_admin_workgroup_filter.key}">
+                <input type="hidden" name="search_description" value="${search_admin_workgroup_filter.description}">
                 </#if>
                 </fieldset>
             </form>
@@ -36,11 +36,11 @@
                     <td>${workgroup.key}</td>
                     <td>${workgroup.description}</td>
                     <td>
-                        <a class="btn btn-primary btn-small" href="jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}" >
-                            <i class="icon-edit icon-white"></i>
+                        <a class="btn btn-primary btn-xs" href="jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}" >
+                            <i class="glyphicon glyphicon-edit"></i>
                         </a>
-                        <a class="btn btn-primary btn-small" href="jsp/admin/workgroup/AssignUsersWorkgroup.jsp?workgroup_key=${workgroup.key}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers}"><i class="icon-user icon-white"></i></a>
-                        <a class="btn btn-danger btn-small" href="jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}"><i class="icon-trash icon-white"></i></a>
+                        <a class="btn btn-primary btn-xs" href="jsp/admin/workgroup/AssignUsersWorkgroup.jsp?workgroup_key=${workgroup.key}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers}"><i class="glyphicon glyphicon-user"></i></a>
+                        <a class="btn btn-danger btn-xs" href="jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}"><i class="glyphicon glyphicon-trash"></i></a>
                     </td>
                 </tr>
                 </#list>

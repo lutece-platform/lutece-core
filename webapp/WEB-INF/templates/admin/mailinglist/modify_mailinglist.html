@@ -1,50 +1,50 @@
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
 		<fieldset>
 			<legend>#i18n{portal.mailinglist.modify_mailinglist.title}</legend>
         </fieldset>
-		<div class="row-fluid">
-			<div class="span3">
+		<div class="row">
+			<div class="col-xs-12 col-sm-3 col-md-3">
 				<fieldset>
 					<legend>#i18n{portal.mailinglist.modify_mailinglist.labelName}</legend>
-					<form method="post"  action="jsp/admin/mailinglist/DoModifyMailingList.jsp">
+					<form method="post" class="form-horizontal" action="jsp/admin/mailinglist/DoModifyMailingList.jsp">
 						<input type="hidden"  id="id_mailinglist" name="id_mailinglist" value="${mailinglist.id}" />
-						<div class="control-group">
-							<label class="control-label" for="name" >#i18n{portal.mailinglist.modify_mailinglist.labelName}* : </label>
-							<div class="controls">
-								<input type="text"  id="name" name="name" value="${mailinglist.name}" size="50" />
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-12 col-md-12" for="name" >#i18n{portal.mailinglist.modify_mailinglist.labelName}* : </label>
+							<div class="col-xs-12 col-sm-12 col-md-12">
+								<input type="text" class="form-control input-sm"  id="name" name="name" value="${mailinglist.name}" size="50" />
 							</div>
 						</div>
-						<div class="control-group">
-							<label class="control-label" for="description" >#i18n{portal.mailinglist.modify_mailinglist.labelDescription}* : </label>
-							<div class="controls">
-								<input type="text" id="description" name="description" value="${mailinglist.description}" size="100" />
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-12 col-md-12" for="description" >#i18n{portal.mailinglist.modify_mailinglist.labelDescription}* : </label>
+							<div class="col-xs-12 col-sm-12 col-md-12">
+								<input type="text" class="form-control input-sm" id="description" name="description" value="${mailinglist.description}" size="100" />
 							</div>
 						</div>
-						<div class="control-group">
-							<label class="control-label" for="workgroup" >#i18n{portal.mailinglist.modify_mailinglist.labelWorkgroup}* : </label>
-							<div class="controls">
-								<div class="controls">
-									<@comboSorted name="workgroup" default_value="${mailinglist.workgroup}" items=workgroups_list />
-								</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-12 col-md-12" for="workgroup" >#i18n{portal.mailinglist.modify_mailinglist.labelWorkgroup}* : </label>
+							<div class="col-xs-12 col-sm-12 col-md-12">
+								<@comboSortedWithParams name="workgroup" default_value="${mailinglist.workgroup}" additionalParameters="class='form-control input-sm'" items=workgroups_list />
 							</div>
 						</div>
-						<div class="form-actions">
-							<button class="btn btn-primary btn-small" type="submit" ><i class="icon-edit icon-white"></i>&nbsp;#i18n{portal.mailinglist.modify_mailinglist.buttonModify}</button>
+						<div class="form-group">
+							<div class="col-xs-12 col-sm-12 col-md-12">
+								<button class="btn btn-primary btn-sm" type="submit" ><i class="glyphicon glyphicon-edit"></i>&nbsp;#i18n{portal.mailinglist.modify_mailinglist.buttonModify}</button>
+							</div>
 						</div>
 					</form>
 				</fieldset>
 			</div>
-			<div class="span8">
+			<div class="col-xs-12 col-sm-8 col-md-8">
 				<fieldset>
 					<legend>#i18n{portal.mailinglist.view_users.boxTitle}
 						<form class="form-inline pull-right spaced" method="get" action="jsp/admin/mailinglist/AddUsers.jsp">
 						<input type="hidden" name="id_mailinglist" value="${mailinglist.id!}" />
-						<button class="btn btn-primary btn-small" type="submit" ><i class="icon-plus icon-white"></i></i><span class="hidden-phone">&nbsp;#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}</span></button>
+						<button class="btn btn-primary btn-sm" type="submit" ><i class="glyphicon glyphicon-plus"></i></i><span class="hidden-phone">&nbsp;#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}</span></button>
 						</form>
 						<form class="form-inline pull-right" method="get" action="jsp/admin/mailinglist/ViewUsers.jsp">
 						<input type="hidden" name="id_mailinglist" value="${mailinglist.id!}" />
-						<button class="btn btn-primary btn-small" type="submit" ><i class="icon-eye-open icon-white"></i><span class="hidden-phone">&nbsp;#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}</span></button>
+						<button class="btn btn-primary btn-sm" type="submit" ><i class="glyphicon glyphicon-eye-open"></i><span class="hidden-phone">&nbsp;#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}</span></button>
 						</form>
 					</legend>
 					<table class="table table-striped table-condensed">
@@ -58,8 +58,8 @@
 							<td>${filter.workgroup}</td>
 							<td>${filter.role}</td>
 							<td>
-								<a class="btn btn-primary btn-small" href="jsp/admin/mailinglist/ViewUsers.jsp?workgroup=${filter.workgroup}&amp;role=${filter.role}"  title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}" ><i class="icon-eye-open icon-white"></i></a>
-								<a class="btn btn-danger btn-small" href="jsp/admin/mailinglist/DoDeleteFilter.jsp?id_mailinglist=${mailinglist.id}&amp;workgroup=${filter.workgroup}&amp;role=${filter.role}"  title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}" ><i class="icon-trash icon-white"></i></a>
+								<a class="btn btn-primary btn-xs" href="jsp/admin/mailinglist/ViewUsers.jsp?workgroup=${filter.workgroup}&amp;role=${filter.role}"  title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}" ><i class="glyphicon glyphicon-eye-open"></i></a>
+								<a class="btn btn-danger btn-xs" href="jsp/admin/mailinglist/DoDeleteFilter.jsp?id_mailinglist=${mailinglist.id}&amp;workgroup=${filter.workgroup}&amp;role=${filter.role}"  title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}" ><i class="glyphicon glyphicon-trash"></i></a>
 							</td>
 						</tr>
 						</#list>

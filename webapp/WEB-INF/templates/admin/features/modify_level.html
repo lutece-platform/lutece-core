@@ -1,18 +1,18 @@
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
 		<fieldset>
 		<legend>#i18n{portal.features.modify_level.boxTitle} ${level.id}</legend>
 			<form method="post" class="form-horizontal" action="jsp/admin/features/DoModifyLevel.jsp" name="modify_level">
 			<input type="hidden" name="level_id" value="${level.id}" />	
-			<div class="control-group">
-				<label class="control-label" for="level_name" >#i18n{portal.features.modify_level.labelName} </label>
-				<div class="controls">
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-3" for="level_name" >#i18n{portal.features.modify_level.labelName} </label>
+				<div class="col-xs-12 col-sm-6 col-md-6">
 					<input type="text" name="level_name" value="${level.name}" tabindex="1" class="input-xxlarge" maxlength="80" >			
 				</div>
 			</div>
-			<div class="form-actions">
-				<button type="submit" class="btn btn-primary btn-small" tabindex="2">
-					<i class="icon-ok icon-white"></i>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary btn-sm" tabindex="2">
+					<i class="glyphicon glyphicon-ok"></i>
 					<span class="hidden-phone">#i18n{portal.features.modify_level.buttonLabelModify}</span>
 				</button> 
 			</div>

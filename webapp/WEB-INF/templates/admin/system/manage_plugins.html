@@ -1,18 +1,18 @@
-<div class="row-fluid">
-	<div class="span12">
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
 		<form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp" class="form-inline pull-right">
 			<fieldset>
 				<label for="plugin_type" class="select">#i18n{portal.system.manage_plugins.labelComboFilter}</label>
 				<@comboSorted name="plugin_type" default_value="${current_filter}" items=filter_list />
-				<button type="submit" class="btn btn-primary btn-small">
-					<i class="icon-filter icon-white"></i>&nbsp;#i18n{portal.system.manage_plugins.buttonFilter}
+				<button type="submit" class="btn btn-primary btn-xs">
+					<i class="glyphicon glyphicon-filter"></i>&nbsp;#i18n{portal.system.manage_plugins.buttonFilter}
 				</button>
 			</fieldset>
 		</form>
 	</div>
 </div>
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
 		<#if plugins_list?has_content >
 			<table class="table table-condensed table-striped">
             <tr>
@@ -30,11 +30,11 @@
 					<br>
 					<#if plugin.installed >
 						<span class="label label-success" title="#i18n{portal.system.manage_caches.imgAltEnable}">
-							<i class="icon-ok-sign icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltEnable}
+							<i class="glyphicon glyphicon-ok-sign"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltEnable}
 						</span>			
                     <#else>
-						<span class="label label-important" title="#i18n{portal.system.manage_caches.imgAltDisable}">
-							<i class="icon-remove-sign icon-white"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltDisable}
+						<span class="label label-danger" title="#i18n{portal.system.manage_caches.imgAltDisable}">
+							<i class="glyphicon glyphicon-remove-sign"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltDisable}
 						</span>	
                     </#if>
 				</td>
@@ -43,9 +43,9 @@
 					<h5>&nbsp;#i18n{portal.system.manage_plugins.labelVersion}: ${plugin.version}</h5>
                     <p>#i18n{${plugin.description}}</p>
 					<p>
-						<i class="icon-user"></i>&nbsp;
+						<i class="glyphicon glyphicon-user"></i>&nbsp;
 						<em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}}</em>&nbsp;|
-						<i class="icon-globe"></i>&nbsp;
+						<i class="glyphicon glyphicon-globe"></i>&nbsp;
 						<em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <a href="${plugin.providerUrl}" target="_blank">${plugin.providerUrl}</a></em>
 					</p> 
                 </td>
@@ -55,29 +55,29 @@
 							<form method="post" class="form-inline" action="jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}">
 								<@comboSortedWithParams name="db_pool_name" default_value="${plugin.dbPoolName}" items=pools_list  additionalParameters="class=\"input-small\"" />
 								<input type="hidden" name="plugin_name" value="${plugin.name}" />
-								<button type="submit" class="btn btn-primary btn-small" title="#i18n{portal.system.manage_plugins.buttonModifyDbPool}"  >
-									<i class="icon-ok icon-white"></i> #i18n{portal.util.labelModify}
+								<button type="submit" class="btn btn-primary btn-xs" title="#i18n{portal.system.manage_plugins.buttonModifyDbPool}"  >
+									<i class="glyphicon glyphicon-ok"></i> #i18n{portal.util.labelModify}
 								</button>
 							</form>
 						</#if>   
                     </#if>
                 </td>
                 <td>
-                    <a class="btn btn-primary btn-small" href="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" title="#i18n{portal.system.manage_plugins.actionDisplay}">
-                        <i class="icon-info-sign icon-white"></i>
+                    <a class="btn btn-primary btn-xs" href="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" title="#i18n{portal.system.manage_plugins.actionDisplay}">
+                        <i class="glyphicon glyphicon-info-sign"></i>
                     </a>
                     <#if plugin.installed >
 						<form method="post" class="form-inline pull-left spaced" action="jsp/admin/system/ConfirmUninstallPlugin.jsp">
 							<input type="hidden" name="plugin_name" value="${plugin.name}" />
-							<button type="submit" class="btn btn-danger btn-small" title="#i18n{portal.system.manage_plugins.buttonDisable}">
-								<i class="icon-stop icon-white"></i>
+							<button type="submit" class="btn btn-danger btn-xs" title="#i18n{portal.system.manage_plugins.buttonDisable}">
+								<i class="glyphicon glyphicon-stop"></i>
 							</button>
 						</form>
                     <#else>
 						<form method="post" class="form-inline pull-left spaced" action="jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}" class="form-inline">
 							<input type="hidden" name="plugin_name" value="${plugin.name}" />
-							<button type="submit" class="btn btn-success btn-small" title="#i18n{portal.system.manage_plugins.buttonEnable}">
-								<i class="icon-play icon-white"></i>
+							<button type="submit" class="btn btn-success btn-xs" title="#i18n{portal.system.manage_plugins.buttonEnable}">
+								<i class="glyphicon glyphicon-play"></i>
 							</button>
 						</form>
                     </#if>
