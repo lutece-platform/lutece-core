@@ -1,16 +1,16 @@
-<div class="span6">
+<div class="col-md-6">
 	<div class="well">
 		<form class="form-inline" action="jsp/admin/globalmanagement/DoUpdateBackOfficeEditor.jsp">
 			<fieldset>
 				<legend>#i18n{portal.globalmanagement.editorChoice.editorBackOffice}</legend>
-				<div class="control-group">
-					<label class="control-label">#i18n{portal.globalmanagement.editorChoice.labelEditorBackOffice} :</label>
-					<div class="controls">
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-12 col-md-12">#i18n{portal.globalmanagement.editorChoice.labelEditorBackOffice} :</label>
+					<div class="col-xs-12 col-sm-12 col-md-12">
 						<#if !current_editor_back_office??>
 							<#assign current_editor_back_office = "">
 						</#if>
-						<@combo name="editor_back_office" items=listEditorsBackOffice default_value=current_editor_back_office />
-						<button type="submit" class="btn btn-primary btn-small"><i class="icon-ok icon-white">&nbsp;</i>&nbsp;#i18n{portal.util.labelModify}</button>
+						<@comboWithParams name="editor_back_office" additionalParameters="class='form-control input-sm'" items=listEditorsBackOffice default_value=current_editor_back_office />
+						<button type="submit" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.util.labelModify}</button>
 					</div>
 				</div>
 			</fieldset>
@@ -18,19 +18,19 @@
 	</div>
 </div>
 
-<div class="span6">
+<div class="col-md-6">
 	<div class="well">
 		<form class="form-inline" action="jsp/admin/globalmanagement/DoUpdateFrontOfficeEditor.jsp">
 			<fieldset>
 				<legend>#i18n{portal.globalmanagement.editorChoice.editorFrontOffice}</legend>
-				<div class="control-group">
-					<label class="control-label">#i18n{portal.globalmanagement.editorChoice.labelEditorFrontOffice} :</label>
-					<div class="controls">
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-12 col-md-12">#i18n{portal.globalmanagement.editorChoice.labelEditorFrontOffice} :</label>
+					<div class="col-xs-12 col-sm-12 col-md-12">
 						<#if !current_editor_front_office??>
 							<#assign current_editor_front_office = "">
 						</#if>
-						<@combo name="editor_front_office" items=listEditorsFrontOffice default_value=current_editor_front_office />
-						<button type="submit" class="btn btn-primary btn-small"><i class="icon-ok icon-white">&nbsp;</i>&nbsp;#i18n{portal.util.labelModify}</button>
+						<@comboWithParams name="editor_front_office" additionalParameters="class='form-control input-sm'" items=listEditorsFrontOffice default_value=current_editor_front_office />
+						<button type="submit" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.util.labelModify}</button>
 					</div>
 				</div>
 			</fieldset>

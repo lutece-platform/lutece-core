@@ -1,13 +1,13 @@
-<div class="row-fluid">
-	<div class="span12" >
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12" >
 		<form class="form-inline" method="post" action="jsp/admin/xsl/CreateXslExport.jsp">
             <fieldset>
 				<legend>
 					#i18n{portal.xsl.manage_xsl_export.title}
 					<#if right_create>
 					<div class="pull-right">
-						<button class="btn btn-primary btn-small" type="submit" >
-			                <i class="icon-plus icon-white" ></i>
+						<button class="btn btn-primary btn-sm" type="submit" >
+			                <i class="glyphicon glyphicon-plus" ></i>
 			                <span class="hidden-phone" >#i18n{portal.xsl.manage_xsl_export.button_create}</span>
 			            </button>
 		            </div>
@@ -38,13 +38,13 @@
 					</td>
 					<td >
 						<#if right_modify>
-							<a class="btn btn-primary btn-small" href="jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_modify}">
-								<i class="icon-edit icon-white">&nbsp;</i>
+							<a class="btn btn-primary btn-xs" href="jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_modify}">
+								<i class="glyphicon glyphicon-edit"></i>
 							</a>
 						</#if>
 						<#if right_delete>
-							<a class="btn btn-danger btn-small" href="jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_delete}">
-								<i class="icon-trash icon-white">&nbsp;</i>
+							<a class="btn btn-danger btn-xs" href="jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_delete}">
+								<i class="glyphicon glyphicon-trash"></i>
 							</a>
 						</#if>
 					</td>

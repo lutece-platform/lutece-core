@@ -1,45 +1,71 @@
 <#include "/admin/util/editor/editor.html" />
-<div class="row-fluid">
-        <form method="post" name="search_advanced_parameters" action="jsp/admin/search/DoModifyAdvancedParameters.jsp" class="form">
-            <div class="span3">
+<div class="row">
+        <form method="post" name="search_advanced_parameters" action="jsp/admin/search/DoModifyAdvancedParameters.jsp" class="form-horizontal">
+            <div class="col-md-3">
                     <!-- TYPE FILTER -->
-                    <label for="type_filter">#i18n{portal.search.advanced_parameters.typeFilter.label} :</label>
-                    <select id="type_filter" name="type_filter">
-                        <#list ["none", "option", "radio" "checkbox"] as display_option>
-                        <option value="${display_option}" <#if type_filter = display_option>selected="selected"</#if> >#i18n{portal.search.advanced_parameters.typeFilter.${display_option}}</option>
-                        </#list>
-                    </select>
+					<div class="form-group">
+						<label class="col-md-12" for="type_filter">#i18n{portal.search.advanced_parameters.typeFilter.label} :</label>
+						<div class="col-md-12">
+							<select id="type_filter" name="type_filter" class="form-control input-sm">
+							<#list ["none", "option", "radio" "checkbox"] as display_option>
+							<option value="${display_option}" <#if type_filter = display_option>selected="selected"</#if> >#i18n{portal.search.advanced_parameters.typeFilter.${display_option}}</option>
+							</#list>
+							</select>
+						</div>
+					</div>
                     <!-- DATE FILTER -->
-                    <label for="date_filter">#i18n{portal.search.advanced_parameters.dateFilter.label} :</label>
-                    <select id="date_filter" name="date_filter">
-                        <#list ["0", "1"] as b_active>
-                        <option value="${b_active}" <#if date_filter = b_active>selected="selected"</#if> >#i18n{portal.search.advanced_parameters.activeLabel.${b_active}}</option>
-                        </#list>
-                    </select>
+					<div class="form-group">
+						<label class="col-md-12" for="date_filter">#i18n{portal.search.advanced_parameters.dateFilter.label} :</label>
+						<div class="col-md-12">
+							<select id="date_filter" name="date_filter" class="form-control input-sm">
+							<#list ["0", "1"] as b_active>
+							<option value="${b_active}" <#if date_filter = b_active>selected="selected"</#if> >#i18n{portal.search.advanced_parameters.activeLabel.${b_active}}</option>
+							</#list>
+							</select>
+						</div>
+					</div>
                     <!-- TAG FILTER -->
-                    <label for="tag_filter">#i18n{portal.search.advanced_parameters.tagFilter.label} :</label>
-                    <select id="tag_filter" name="tag_filter">
-                        <#list ["0", "1"] as b_active>
-                        <option value="${b_active}" <#if tag_filter = b_active>selected="selected"</#if> >#i18n{portal.search.advanced_parameters.activeLabel.${b_active}}</option>
-                        </#list>
-                    </select>
+					<div class="form-group">
+						<label class="col-md-12" for="tag_filter">#i18n{portal.search.advanced_parameters.tagFilter.label} :</label>
+						<div class="col-md-12">
+							<select id="tag_filter" name="tag_filter" class="form-control input-sm">
+							<#list ["0", "1"] as b_active>
+							<option value="${b_active}" <#if tag_filter = b_active>selected="selected"</#if> >#i18n{portal.search.advanced_parameters.activeLabel.${b_active}}</option>
+							</#list>
+							</select>
+						</div>
+					</div>
                     <!-- DEFAULT OPERATOR -->
-                    <label for="default_operator">#i18n{portal.search.advanced_parameters.defaultOperator.label} :</label>
-                    <select id="default_operator" name="default_operator">
+					<div class="form-group">
+                    <label class="col-md-12" for="default_operator">#i18n{portal.search.advanced_parameters.defaultOperator.label} :</label>
+						<div class="col-md-12">
+						<select id="default_operator" name="default_operator" class="form-control input-sm">
                         <#list ["OR", "AND"] as operator>
                         <option value="${operator}" <#if default_operator = operator>selected="selected"</#if> >#i18n{portal.search.advanced_parameters.defaultOperator.${operator}}</option>
                         </#list>
-                    </select>
-        </div>
-        <div class="span8">
+						</select>
+						</div>
+					</div>
+			</div>
+        <div class="col-md-8">
                <!-- HELP MESSAGE -->
-                <label for="help_message">#i18n{portal.search.advanced_parameters.helpMessage.label} :</label>
-                <textarea name="help_message" id="help_message" style="100%" rows="20" class="richtext">${help_message!}</textarea>
-			    <div class="form-actions">
-                    <button type="submit" name="submit" class="btn btn-primary btn-small"><i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.search.advanced_parameters.buttonValidate}</button>
-                    <button type="button" name="cancel" class="btn btn-small" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.search.advanced_parameters.buttonCancel}</button> 
+                <div class="form-group">
+					<label class="col-md-12" for="help_message">#i18n{portal.search.advanced_parameters.helpMessage.label} :</label>
+					<div class="col-md-12">
+						<textarea name="help_message" id="help_message" style="100%" rows="20" class="form-control input-sm richtext">${help_message!}</textarea>
+					</div>
+				</div>
+		</div>
+		
+		<div class="col-md-12">
+				
+                <div class="form-group">
+					<div class="col-md-offset-3 col-md-9">
+                    <button type="submit" name="submit" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.search.advanced_parameters.buttonValidate}</button>
+                    <button type="button" name="cancel" class="btn btn-default btn-sm" onclick="javascript:window.history.back();"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.search.advanced_parameters.buttonCancel}</button> 
+					</div>
                 </div>
         </div>
-     </form>
-</div>
-<@initEditor />       
+    </div>
+</form>
+<@initEditor />      
