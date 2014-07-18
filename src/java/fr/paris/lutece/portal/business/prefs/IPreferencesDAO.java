@@ -94,4 +94,14 @@ public interface IPreferencesDAO
      * @param strKeyPrefix The key prefix
      */
     void removeKeyPrefix( String strUserId, String strKeyPrefix );
+    
+    /**
+     * Cheks if a preference key exists
+     * @param strUserId The User ID
+     * @param strKey The Pref key
+     * @return 1 if exists otherwise false
+     */
+    boolean existsKey( String strUserId, String strKey );
+
+    
 }

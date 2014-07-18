@@ -58,6 +58,8 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         " WHERE id_user = ? AND pref_key = ? ";
     private final String _strSqlDeleteKeyPrefix = "DELETE FROM " + getPreferencesTable(  ) +
         " WHERE id_user = ? AND pref_key LIKE ? ";
+    private final String _strSqlSelectCount = "SELECT COUNT(*) FROM " + getPreferencesTable(  ) +
+        " WHERE id_user = ? AND pref_key = ?";
 
     /**
      * Gets the preferences table
@@ -118,7 +120,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     {
         String strSQL = _strSqlInsert;
 
-        if ( load( strUserId, strKey, null ) != null )
+        if ( existsKey(strUserId, strKey ) )
         {
             strSQL = _strSqlUpdate;
         }
@@ -191,4 +193,28 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
+    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean existsKey( String strUserId, String strKey )
+    {
+        DAOUtil daoUtil = new DAOUtil( _strSqlSelectCount );
+        daoUtil.setString( 1, strUserId );
+        daoUtil.setString( 2, strKey );
+        daoUtil.executeQuery(  );
+
+        int nValue = 0;
+
+        if ( daoUtil.next(  ) )
+        {
+            nValue = ( daoUtil.getInt( 1 ) );
+        }
+
+        daoUtil.free(  );
+
+        return  ( nValue != 0 );
+    }
+
 }

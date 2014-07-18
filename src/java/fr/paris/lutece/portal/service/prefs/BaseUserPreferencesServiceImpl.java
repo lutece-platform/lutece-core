@@ -168,10 +168,19 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, 
      * {@inheritDoc }
      */
     @Override
-    public void clearKeyPrefix( String strUserId, String strKeyPrefix )
+    public void clearKeyPrefix( String strUserId, String strPrefix )
     {
-        _dao.removeKeyPrefix( strUserId, strKeyPrefix );
+        _dao.removeKeyPrefix( strUserId, strPrefix );
         _cache.removeCacheValuesOfUser( strUserId );
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean existsKey( String strUserId, String strKey )
+    {
+        return _dao.existsKey( strUserId, strKey );
     }
 
     /**

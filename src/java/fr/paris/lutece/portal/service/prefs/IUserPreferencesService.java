@@ -127,4 +127,13 @@ public interface IUserPreferencesService
      * @param strPrefix The keys prefix
      */
     void clearKeyPrefix( String strUserId, String strPrefix );
+    
+    /**
+     * Cheks if a preference key exists
+     * @param strUserId The User ID
+     * @param strKey The Pref key
+     * @return 1 if exists otherwise false
+     */
+    boolean existsKey( String strUserId, String strKey );
+
 }
