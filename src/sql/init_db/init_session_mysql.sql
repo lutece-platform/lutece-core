@@ -1,1 +1,1 @@
-SET storage_engine=InnoDB;
+SET storage_engine=MyISAM;
