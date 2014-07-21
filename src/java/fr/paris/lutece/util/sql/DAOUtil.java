@@ -41,13 +41,10 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.NoDatabaseException;
 
 import org.apache.log4j.Logger;
-
 import org.springframework.jdbc.datasource.DataSourceUtils;
-
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.io.InputStream;
-
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
@@ -57,7 +54,6 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
-
 import java.text.MessageFormat;
 
 import javax.sql.DataSource;
@@ -79,6 +75,7 @@ public class DAOUtil
 
     /** JDBC Connection */
     private Connection _connection;
+    private Transaction _transaction;
 
     /** Plugin name */
     private String _strPluginName;
@@ -138,28 +135,50 @@ public class DAOUtil
 
         // Use the logger name "lutece.debug.sql.<plugin_name>" to filter logs by plugins
         _logger = Logger.getLogger( LOGGER_DEBUG_SQL + _strPluginName );
-        log( "Module : '" + _strPluginName + "' - SQL Statement : " + _strSQL );
+        if ( _logger.isDebugEnabled( ) )
+        {
+            log( "Module : '" + _strPluginName + "' - SQL Statement : " + _strSQL );
+        }
 
         try
         {
             // first, we check if there is a managed transaction to get the transactionnal connection
-            _bTransactionnal = TransactionSynchronizationManager.isSynchronizationActive(  );
-
-            if ( _bTransactionnal )
+            if ( TransactionSynchronizationManager.isSynchronizationActive( ) )
             {
+                _bTransactionnal = true;
                 DataSource ds = AppConnectionService.getPoolManager(  ).getDataSource( _connectionService.getPoolName(  ) );
                 _connection = DataSourceUtils.getConnection( ds );
-                _logger.debug( "Transactionnal context is used for pool " + _connectionService.getPoolName(  ) );
+                if ( _logger.isDebugEnabled( ) )
+                {
+                    _logger.debug( "Transactionnal context is used for pool " + _connectionService.getPoolName( ) );
+                }
             }
             else
             {
-                // no transaction found, use the connection service directly
-                _connection = _connectionService.getConnection(  );
+                _transaction = TransactionManager.getCurrentTransaction( plugin );
+                if ( _transaction != null )
+                {
+                    _bTransactionnal = true;
+                    _connection = _transaction.getConnection( );
+                }
+                else
+                {
+                    // no transaction found, use the connection service directly
+                    _connection = _connectionService.getConnection( );
+                }
             }
 
             if ( _connection != null )
             {
-                _statement = _connection.prepareStatement( strSQL );
+                if ( _transaction != null )
+                {
+                    _transaction.prepareStatement( strSQL );
+                    _statement = _transaction.getStatement( );
+                }
+                else
+                {
+                    _statement = _connection.prepareStatement( strSQL );
+                }
             }
             else
             {
@@ -199,7 +218,14 @@ public class DAOUtil
     {
         try
         {
-            _statement.executeUpdate(  );
+            if ( _transaction != null )
+            {
+                _transaction.executeStatement( );
+            }
+            else
+            {
+                _statement.executeUpdate( );
+            }
         }
         catch ( SQLException e )
         {
@@ -553,7 +579,10 @@ public class DAOUtil
         try
         {
             _statement.setString( nIndex, strValue );
-            logParameter( nIndex, strValue );
+            if ( _logger.isDebugEnabled( ) )
+            {
+                logParameter( nIndex, strValue );
+            }
         }
         catch ( SQLException e )
         {

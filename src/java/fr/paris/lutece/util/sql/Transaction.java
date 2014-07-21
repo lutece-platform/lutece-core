@@ -187,6 +187,16 @@ public class Transaction
     }
 
     /**
+     * Get the underlying connection.
+     * @return The connection of this transaction. If the transaction has not
+     *         begin, then return null.
+     */
+    protected Connection getConnection( )
+    {
+        return _connection;
+    }
+
+    /**
      * Begin a transaction
      * @param plugin The plugin owner of the transaction
      */
