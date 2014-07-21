@@ -1,9 +1,9 @@
 
-<div class="row-fluid">
-   <div class="span12">
+<div class="row">
+   <div class="col-xs-12 col-sm-12 col-md-12">
 	<fieldset>
         <legend>
-			<i class="icon-cog"></i>&nbsp;#i18n{portal.security.public_url_advanced_parameters.tableLabel}
+			<i class="glyphicon glyphicon-cog"></i>&nbsp;#i18n{portal.security.public_url_advanced_parameters.tableLabel}
 		</legend>
 		<#if public_list_url?exists>
 			<#list public_list_url as public_url>
@@ -12,12 +12,12 @@
 						<input type="hidden" name="public_url_code" value="${public_url.code}">
 						<input type="text" name="" value="${public_url.code}" disabled>
 						<label class="inline" for="public_url_value">#i18n{portal.security.public_url_advanced_parameters.labelPublicUrlValue}</label>
-						<input type="text" class="input-xxlarge" name="public_url_value" value="${public_url.name}">
-						<button type="submit" name="submit" class="btn btn-primary btn-small">
-							<i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.security.public_url_advanced_parameters.buttonValidate}
+						<input type="text" class="input-sm" name="public_url_value" value="${public_url.name}">
+						<button type="submit" name="submit" class="btn btn-primary btn-sm">
+							<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.security.public_url_advanced_parameters.buttonValidate}
 						</button>
-						<a class="btn btn-danger btn-small" title="Supprimer" href="jsp/admin/security/ConfirmRemovePublicUrl.jsp?public_url_code=${public_url.code}">
-							<i class="icon-trash icon-white"></i>
+						<a class="btn btn-danger btn-sm" title="Supprimer" href="jsp/admin/security/ConfirmRemovePublicUrl.jsp?public_url_code=${public_url.code}">
+							<i class="glyphicon glyphicon-trash"></i>
 						</a>
 					</form>	
 				</#list>
@@ -26,13 +26,13 @@
 				<label class="inline" for="public_url_code">#i18n{portal.security.public_url_advanced_parameters.labelPublicUrlCode}</label>
 				<input type="text" name="public_url_code" value="">
 				<label class="inline" for="new_public_url_value">#i18n{portal.security.public_url_advanced_parameters.labelPublicUrlValue}</label>
-				<input type="text" class="input-xxlarge" name="public_url_value" value="">
+				<input type="text" class="input-sm" name="public_url_value" value="">
 				<button id="addField" class="btn btn-primary" type="submit">
-					<i class="icon-plus icon-white"></i> #i18n{portal.security.public_url_advanced_parameters.buttonAddUrl} 
+					<i class="glyphicon glyphicon-plus"></i> #i18n{portal.security.public_url_advanced_parameters.buttonAddUrl} 
 				</button>
 				<p class="help-block">#i18n{portal.security.public_url_advanced_parameters.publicListUrlLabelComment}</p>
-				 <div class="form-actions">
-                    <button type="button" name="cancel" class="btn btn-small" onclick="javascript:window.history.back();"><i class="icon-remove-circle"></i>&nbsp;#i18n{portal.security.public_url_advanced_parameters.buttonCancel}</button> 
+				 <div class="form-group">
+                    <button type="button" name="cancel" class="btn btn-default btn-sm" onclick="javascript:window.history.back();"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.security.public_url_advanced_parameters.buttonCancel}</button> 
                 </div>
                 </form>
         </fieldset>

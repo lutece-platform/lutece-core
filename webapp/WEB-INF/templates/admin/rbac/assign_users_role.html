@@ -1,4 +1,4 @@
-<div class="row-fluid">
+<div class="row">
     <div class="span4">
 		<fieldset>
 			<legend>
@@ -6,21 +6,21 @@
 			
 			</legend>
             <p>
-				<i class="icon-info-sign"></i>&nbsp;#i18n{portal.rbac.assign_users.role.description} : ${role.description}
+				<i class="glyphicon glyphicon-info-sign"></i>&nbsp;#i18n{portal.rbac.assign_users.role.description} : ${role.description}
 			</p>
             <p>
-				<i class="icon-user"></i>&nbsp;#i18n{portal.rbac.assign_users.role.number_user} : 
+				<i class="glyphicon glyphicon-user"></i>&nbsp;#i18n{portal.rbac.assign_users.role.number_user} : 
 				<span class="badge">${assigned_users_number}</span>
 			</p>
             <p>
 				<strong>#i18n{portal.rbac.assign_users.role.actions}</strong>
 			</p>
 			<p>
-				<a class="btn btn-primary btn-small" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}" >
-					<i class="icon-edit icon-white"></i>
+				<a class="btn btn-primary btn-sm" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}" >
+					<i class="glyphicon glyphicon-edit"></i>
 				</a>
-				<a class="btn btn-danger btn-small" href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" >
-					<i class="icon-trash icon-white"></i>
+				<a class="btn btn-danger btn-sm" href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" >
+					<i class="glyphicon glyphicon-trash"></i>
 				</a>
 			</p>
 			<hr>
@@ -49,15 +49,15 @@
 						</#if>
 					</select>
 				</#if>
-                <label class="control-label" for="access_code">#i18n{portal.users.manage_users.search_users.labelAccessCode}</label>
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="access_code">#i18n{portal.users.manage_users.search_users.labelAccessCode}</label>
                 <input type="text" id="access_code" name="search_access_code" value="${search_admin_user_filter.accessCode}">
-                <label class="control-label" for="last_name" >#i18n{portal.users.manage_users.search_users.labelLastName} </label>
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="last_name" >#i18n{portal.users.manage_users.search_users.labelLastName} </label>
                 <input type="text"  id="last_name" name="search_last_name" value="${search_admin_user_filter.lastName}" maxlength="100" size="35" tabindex="2" />
-                <label class="control-label" for="first_name">#i18n{portal.users.manage_users.search_users.labelFirstName}</label>
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="first_name">#i18n{portal.users.manage_users.search_users.labelFirstName}</label>
                 <input type="text" id="first_name" name="search_first_name" value="${search_admin_user_filter.firstName}" maxlength="100" size="35" tabindex="3" />
-                <label class="control-label" for="email">#i18n{portal.users.manage_users.search_users.labelEmail}</label>
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="email">#i18n{portal.users.manage_users.search_users.labelEmail}</label>
                 <input type="text" id="email" name="search_email" value="${search_admin_user_filter.email}" maxlength="100" size="35" tabindex="4" />
-                <label class="control-label" for="status">#i18n{portal.users.manage_users.search_users.labelStatus}</label>
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="status">#i18n{portal.users.manage_users.search_users.labelStatus}</label>
                 <select id="status" name="search_status" tabindex="5">
                 <#switch search_admin_user_filter.status >
                     <#case 0 >
@@ -82,8 +82,8 @@
                     <#if attribute.shownInSearch>
 						${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
                     </#if>
-						<button class="btn btn-primary btn-small" type="submit" name="search_is_search">
-							<i class="icon-search icon-white"></i>&nbsp;#i18n{portal.users.manage_users.search_users.buttonSearch}
+						<button class="btn btn-primary btn-sm" type="submit" name="search_is_search">
+							<i class="glyphicon glyphicon-search"></i>&nbsp;#i18n{portal.users.manage_users.search_users.buttonSearch}
 						</button>
                     </#list>
 				</p>	
@@ -102,8 +102,8 @@
 					<p>
 						<@comboWithParamsAndLength name="available_users_list" default_value="" additionalParameters="multiple='multiple' size='10' style='width:100%;'" items=available_users_list max_length=175 /></td>
 					</p>
-					<button class="btn btn-primary btn-small" type="submit" >
-						<i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.rbac.assign_users.labelButtonValidate}
+					<button class="btn btn-primary btn-sm" type="submit" >
+						<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.rbac.assign_users.labelButtonValidate}
 					</button>
 				</form>
             <#else>
@@ -156,11 +156,11 @@
 							<a class="btn btn-link" href="mailto:${assigned_user.email}"  title="${assigned_user.email}">${assigned_user.email}</a>							</a>
 						</td>
 						<td>
-							<a class="btn btn-primary btn-small" href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}"  title="#i18n{portal.rbac.assign_users.actionModify}" >
-								<i class="icon-edit icon-white"></i>
+							<a class="btn btn-primary btn-sm" href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}"  title="#i18n{portal.rbac.assign_users.actionModify}" >
+								<i class="glyphicon glyphicon-edit"></i>
 							</a>
-							<a class="btn btn-danger btn-small" href="jsp/admin/rbac/DoUnassignUserRole.jsp?id_user=${assigned_user.userId}&amp;role_key=${role.key}&anchor=anchor-${anchor}"  title="#i18n{portal.rbac.assign_users.actionUnassign}" >
-								<i class="icon-trash icon-white"></i>
+							<a class="btn btn-danger btn-sm" href="jsp/admin/rbac/DoUnassignUserRole.jsp?id_user=${assigned_user.userId}&amp;role_key=${role.key}&anchor=anchor-${anchor}"  title="#i18n{portal.rbac.assign_users.actionUnassign}" >
+								<i class="glyphicon glyphicon-trash"></i>
 							</a>
 						</td>
 					</tr>

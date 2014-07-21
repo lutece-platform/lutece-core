@@ -76,8 +76,10 @@
 							<input type="password" id="second_password" name="second_password" maxlength="100" class="form-control input-sm" tabindex="6" value="">
 						</div>
 						<p class="help-block">#i18n{portal.users.create_user.passwordComplexity}</p>
-						<div id="progressbar" class="progress progress-striped span5">
-							<div id="progress"><div id="complexity">0%</div></div>
+						<div class="progress">
+							<div id="progressbar" class="progress-bar progress-bar-striped col-md-5" role="progressbar">
+								<div id="complexity">0%</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -191,9 +193,9 @@ $(document).ready(function(){
 		$("#second_password").val(pwd);
 		$("#first_password").complexify({}, function (valid, complexity) {
 			if (!valid) {
-				$('#progress').css({'width':complexity + '%'}).removeClass('bar bar-success').addClass('bar bar-danger');
+				$('#progressbar').css({'width':complexity + '%'}).removeClass('progress-bar progress-bar-success').addClass('progress-bar progress-bar-danger');
 			} else {
-				$('#progress').css({'width':complexity + '%'}).removeClass('bar bar-danger').addClass('bar bar-success');
+				$('#progressbar').css({'width':complexity + '%'}).removeClass('progress-bar progress-bar-danger').addClass('progress-bar progress-bar-success');
 				}
 			$('#complexity').html(Math.round(complexity) + '%');
 		});
@@ -201,9 +203,9 @@ $(document).ready(function(){
 
 	$("#first_password").complexify({}, function (valid, complexity) {
 		if (!valid) {
-			$('#progress').css({'width':complexity + '%'}).removeClass('bar bar-success').addClass('bar bar-danger');
+			$('#progressbar').css({'width':complexity + '%'}).removeClass('progress-bar progress-bar-success').addClass('progress-bar progress-bar-danger');
 		} else {
-			$('#progress').css({'width':complexity + '%'}).removeClass('bar bar-danger').addClass('bar bar-success');
+			$('#progressbar').css({'width':complexity + '%'}).removeClass('progress-bar progress-bar-danger').addClass('progress-bar progress-bar-success');
 			}
 		$('#complexity').html(Math.round(complexity) + '%');
 	});

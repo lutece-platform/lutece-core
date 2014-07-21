@@ -1,16 +1,16 @@
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
             <form class="form" method="post" action="jsp/admin/rbac/DoSelectResources.jsp" name="add_control">
 			<input type="hidden" name="role_key" value="${role_key}" />
             <input type="hidden" name="resource_type" value="${resource_type}" />
             <fieldset>
                 <legend>
 				#i18n{portal.rbac.add_control_to_role.titleAddControl}
-				<button class="btn btn-primary btn-small pull-right" type="submit" >
-					<i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.buttonLabelValidate}
+				<button class="btn btn-primary btn-sm pull-right" type="submit" >
+					<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.buttonLabelValidate}
 				</button>
-                <a class="btn btn-small pull-right spaced" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role_key}" >
-					<i class="icon-remove-circle"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}
+                <a class="btn btn-default btn-sm pull-right spaced" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role_key}" >
+					<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}
 				</a>
 				</legend>
                     <#if resource_list_available = true >

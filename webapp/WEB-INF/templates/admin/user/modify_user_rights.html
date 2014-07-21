@@ -3,7 +3,7 @@
 		<div class="well well-sm">
 			<i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}
 		</div>
-		<div class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></div>
+		<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
 		<ul class="nav nav-tabs">
 			<li>
 				<a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
@@ -21,7 +21,7 @@
 				<i class="glyphicon glyphicon-filter"></i>#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}
 			</button>
 		</form>
-		<form method="post"  action="jsp/admin/user/DoModifyUserRights.jsp" class="form-horizontal"> 
+		<form method="post" action="jsp/admin/user/DoModifyUserRights.jsp" class="form-horizontal"> 
 			<fieldset>	
 				<legend>#i18n{portal.users.modify_user_rights.titleRightModificationForm}
 				<button type="submit" class="btn btn-primary btn-sm pull-right" >
@@ -29,38 +29,42 @@
 				</button>
 				</legend>
 				<input type="hidden" name="delegate_rights" value="${can_delegate}" />
-
-					<#list all_right_list?sort_by('name') as right>
-						<#if select_all = true >
-							<#assign checked >checked="checked"</#assign>
-						<#else>
-							<#assign checked = "" >
-							<#list user_right_list as user_right>
-								<#if user_right.id = right.id >
-									<#assign checked >checked="checked"</#assign>
-									<#break>
-								</#if>
-							</#list>
-						</#if>
-
-							<div class="col-xs-12 col-sm-12 col-md-12">	
-								<div class="checkbox">
-									<label>
-									<input class="checkbox" type="checkbox" name="right" value="${right.id}" ${checked} />
-									${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}
-									</label>
-								</div>
-							</div>
-
-					</#list>
-
-				<input type="hidden" name="id_user" value="${user.userId}" />
 				<div class="form-group">
-				   <button type="submit" class="btn btn-primary btn-sm" >
+					<ul class="list-unstyled">
+						<#list all_right_list?sort_by('name') as right>
+							<#if select_all = true >
+								<#assign checked >checked="checked"</#assign>
+							<#else>
+								<#assign checked = "" >
+								<#list user_right_list as user_right>
+									<#if user_right.id = right.id >
+										<#assign checked >checked="checked"</#assign>
+										<#break>
+									</#if>
+								</#list>
+							</#if>
+							<li>
+								<div class="col-xs-12 col-sm-12 col-md-12">	
+									<div class="checkbox">
+										<label>
+										<input class="checkbox" type="checkbox" name="right" value="${right.id}" ${checked}>
+										${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}
+										</label>
+									</div>
+								</div>
+							</li>
+						</#list>
+					</ul>
+				</div>
+	</div>
+				<input type="hidden" name="id_user" value="${user.userId}">
+				<div class="form-group">
+					<div class="col-md-12">
+						<button type="submit" class="btn btn-primary btn-sm">
 						<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}
-					</button>
+						</button>
+					</div>
 				</div>
 			</fieldset>
 		</form>
-	</div>
 </div>

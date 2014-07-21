@@ -37,7 +37,7 @@
 						<fieldset>
 							<legend>#i18n{portal.site.admin_page.labelPageTemplateList} </legend>
 							<div class="form-group">
-								<dl class="unstyled">
+								<dl class="list-unstyled">
 									${page_templates_list}
 								</dl>	
 							</div>
@@ -74,18 +74,16 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-12">   
-							<div class="form-group">
-									<button type="submit" class="btn btn-primary btn-sm">
-										<i class="glyphicon glyphicon-plus"></i>&nbsp;
-										<span class="hidden-phone">#i18n{portal.site.admin_page.buttonCreate}</span>
-									</button>  
-									<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" class="btn btn-default btn-sm">
-										<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;
-										<span class="hidden-phone">#i18n{portal.site.admin_page.buttonClosed}</span>
-									</a> 
-							</div>
+					<div class="col-md-12">   
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary btn-sm">
+								<i class="glyphicon glyphicon-plus"></i>&nbsp;
+								<span class="hidden-phone">#i18n{portal.site.admin_page.buttonCreate}</span>
+							</button>  
+							<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" class="btn btn-default btn-sm">
+								<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;
+								<span class="hidden-phone">#i18n{portal.site.admin_page.buttonClosed}</span>
+							</a> 
 						</div>
 					</div>
 

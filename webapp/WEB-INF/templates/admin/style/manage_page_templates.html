@@ -1,10 +1,10 @@
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
             <fieldset>
                 <legend class="clearfix">#i18n{portal.style.manage_page_templates.pageTitle}
                     <span class="pull-right">
                         <form class="form-inline" method="post" action="jsp/admin/style/CreatePageTemplate.jsp" >
-                            <button class="btn btn-primary btn-small pull-right" type="submit" ><i class="icon-plus icon-white"></i><span class="hidden-phone">#i18n{portal.style.manage_page_templates.buttonLabelCreate}</span></button>
+                            <button class="btn btn-primary btn-sm pull-right" type="submit" ><i class="glyphicon glyphicon-plus"></i><span class="hidden-phone">#i18n{portal.style.manage_page_templates.buttonLabelCreate}</span></button>
                         </form>
                     </span>
                 </legend>
@@ -21,10 +21,10 @@
                         <td>${page_templates.file}</td>
                         <td><img src="images/admin/skin/page_templates/${page_templates.picture}" align="middle" /></td>
                         <td>
-                            <a class="btn btn-primary btn-small" href="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}"  title="#i18n{portal.util.labelModify}" >
-                                <i class="icon-edit icon-white"></i></a>
-                            <a class="btn btn-danger btn-small" href="jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}"  title="#i18n{portal.style.manage_styles.actionDelete}" >
-                                <i class="icon-trash icon-white"></i></a>
+                            <a class="btn btn-primary btn-xs" href="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}"  title="#i18n{portal.util.labelModify}" >
+                                <i class="glyphicon glyphicon-edit"></i></a>
+                            <a class="btn btn-danger btn-xs" href="jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}"  title="#i18n{portal.style.manage_styles.actionDelete}" >
+                                <i class="glyphicon glyphicon-trash"></i></a>
                         </td>            
                     </tr>			
                     </#list>

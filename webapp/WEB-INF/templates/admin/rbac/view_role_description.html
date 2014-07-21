@@ -1,31 +1,31 @@
-<div class="row-fluid">
-    <div class="span3 well well-small">
+<div class="row">
+    <div class="col-md-3 well well-sm">
 		<fieldset>
             <legend>#i18n{portal.rbac.view_role_description.titleRoleDescription}</legend>
 			<p><strong>#i18n{portal.rbac.view_role_description.labelKey} :</strong> ${role.key}</p>
 			<p><strong>#i18n{portal.rbac.view_role_description.labelDescription} :</strong> ${role.description}</p>
 			<form class="form-horizontal" method="post"  action="jsp/admin/rbac/ModifyRole.jsp">
 			<input type="hidden" name="role_key" value="${role.key}" />
-			<button class="btn btn-primary btn-small" type="submit" >
-				<i class="icon-edit icon-white"></i>&nbsp;#i18n{portal.rbac.view_role_description.buttonLabelModify}
+			<button class="btn btn-primary btn-sm" type="submit" >
+				<i class="glyphicon glyphicon-edit"></i>&nbsp;#i18n{portal.rbac.view_role_description.buttonLabelModify}
 			</button>
 			</form>
         </fieldset>
 	</div>
-	<div class="span8">
+	<div class="col-md-8">
 			<form class="form-inline pull-right" method="post"  action="jsp/admin/rbac/AddControlToRole.jsp">
             <fieldset>
                 <legend>
-					<span class="pull-left">#i18n{portal.rbac.view_role_description.titleControlsList} "${role.key}" </span>
-                        <select name="resource_type" >
+					<span class="pull-left">#i18n{portal.rbac.view_role_description.titleControlsList} "${role.key}"</span>
+                        <select class="form-control input-sm" name="resource_type" >
                             <!--<option value =""></option>-->
                             <#list resource_type_list?sort_by("resourceTypeLabel") as resource_type >
                             <option value ="${resource_type.resourceTypeKey}">${resource_type.resourceTypeLabel}</option>
                             </#list>
                         </select>
                         <input type="hidden" name="role_key" value="${role.key}" />
-                        <button class="btn btn-primary btn-small" type="submit" title="#i18n{portal.rbac.view_role_description.buttonLabelAddControl}">
-							<i class="icon-plus icon-white"></i>
+                        <button class="btn btn-primary btn-sm" type="submit" title="#i18n{portal.rbac.view_role_description.buttonLabelAddControl}">
+							<i class="glyphicon glyphicon-plus"></i>
 						</button>
 				</legend>
 				</fieldset>
@@ -53,8 +53,8 @@
                         <td>
                             <form class="form-inline" method="post"  action="jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp">
 								<input type="hidden" name="rbac_id" value="${controled_resource.RBACId}" />
-								<button class="btn btn-danger btn-small" type="submit" title="#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}">
-									<i class="icon-trash icon-white"></i>
+								<button class="btn btn-danger btn-xs" type="submit" title="#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}">
+									<i class="glyphicon glyphicon-trash"></i>
 								</button>
                             </form>
                         </td>

@@ -1,5 +1,5 @@
 <#if portletType.modifyScriptTemplate != "" ><#include portletType.modifyScriptTemplate /></#if>
-<div class="row-fluid">
+<div class="row">
 	<div class="col-md-12">
 		<form method="post" id="form-portlet" name="form" action="${portletType.doModifyUrl}" target="_top" role="form">
 		<input type="hidden" name="portlet_id" value="${portlet.id}" />
@@ -8,7 +8,7 @@
 			<legend>
 				&nbsp;#i18n{portal.site.portletType.labelModify} ${portletType.name}
 			</legend>
-			<div class="row-fluid">
+			<div class="row">
 				<div id="panel" class="col-md-2">
 					<div class="well">
 						<div class="form-group">
@@ -92,12 +92,12 @@
 					</#if>
 					 <div class="form-group">
 						<div class="center-block">
-						<button type="submit" class="btn btn-primary btn-small">
-							<i class="icon-ok icon-white"></i>
+						<button type="submit" class="btn btn-primary btn-sm">
+							<i class="glyphicon glyphicon-ok"></i>
 							<span class="hidden-phone" >#i18n{portal.site.create_portlet.buttonValidate}</span>
 						</button>
-						<a href="site/AdminSite.jsp?page_id=${portlet.pageId}" class="btn btn-default btn-small" target="_top">            
-							<i class="icon-remove-circle"></i>
+						<a href="site/AdminSite.jsp?page_id=${portlet.pageId}" class="btn btn-default btn-sm" target="_top">            
+							<i class="glyphicon glyphicon-remove-circle"></i>
 							<span class="hidden-phone" >#i18n{portal.site.create_portlet.buttonBack}</span>
 						</a>
 					</div> 

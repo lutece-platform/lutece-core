@@ -1,11 +1,11 @@
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
             <fieldset>
                 <legend class="clearfix">#i18n{portal.style.manage_styles.title}
                     <span class="pull-right">
                         <form class="form-inline" method="post"  action="jsp/admin/style/CreateStyle.jsp">
-                            <button class="btn btn-primary btn-small" type="submit" >
-							<i class="icon-plus icon-white" ></i>
+                            <button class="btn btn-primary btn-sm" type="submit" >
+							<i class="glyphicon glyphicon-plus" ></i>
 							<span class="hidden-phone" >&nbsp;#i18n{portal.style.manage_styles.buttonCreate}</span>
 							</button>
                         </form>
@@ -36,11 +36,11 @@
                         <td >${style.portalComponentName}</td>
                         <td >#i18n{${style.portletTypeName}}</td>
                         <td  >
-                            <a class="btn btn-primary btn-small" href="jsp/admin/style/ModifyStyle.jsp?style_id=${style.id}"  title="#i18n{portal.util.labelModify}" >
-                                <i class="icon-edit icon-white"></i>
+                            <a class="btn btn-primary btn-xs" href="jsp/admin/style/ModifyStyle.jsp?style_id=${style.id}"  title="#i18n{portal.util.labelModify}" >
+                                <i class="glyphicon glyphicon-edit"></i>
                             </a>
-                            <a class="btn btn-danger btn-small" href="jsp/admin/style/RemoveStyle.jsp?style_id=${style.id}"  title="#i18n{portal.util.labelDelete}" >
-                                <i class="icon-trash icon-white"></i>
+                            <a class="btn btn-danger btn-xs" href="jsp/admin/style/RemoveStyle.jsp?style_id=${style.id}"  title="#i18n{portal.util.labelDelete}" >
+                                <i class="glyphicon glyphicon-trash"></i>
                             </a>
                         </td>
                     </tr>

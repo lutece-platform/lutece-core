@@ -9,13 +9,13 @@
 					<input type="text" value="${taglist!}" class="form-control input-sm" id="taglist" name="taglist" maxlength="255">
                     <#if tag_filter = "0">
                     <p class="label label-warning"><em>#i18n{portal.search.modify_taglist.unactiveFilter}</em></p>
-                        <div class="form-actions">
+                        <div class="form-group">
                             <a href="jsp/admin/search/ManageSearch.jsp" name="cancel" class="btn btn-default btn-sm">
 								<i class="glyphicon glyphicon-remove-circle"></i>&nbsp#i18n{portal.search.modify_taglist.buttonCancel}
 							</a>
                         </div>
                     <#else>
-                        <div class="form-actions">
+                        <div class="form-group">
                             <button type="submit" name="submit" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.search.modify_taglist.buttonValidate}</button>
                             <button type="submit" name="cancel" class="btn btn-default btn-sm">
 								<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.search.modify_taglist.buttonCancel}

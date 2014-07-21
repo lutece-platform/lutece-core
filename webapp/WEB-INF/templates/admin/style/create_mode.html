@@ -1,19 +1,19 @@
-<div class="row-fluid" >
+<div class="row" >
     <legend>#i18n{portal.style.create_mode.boxTitle}</legend>
     <form class="form-horizontal" method="post" name="create_mode" action="jsp/admin/style/DoCreateMode.jsp">
         <fieldset>		
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_mode.labelModeName}</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_mode.labelModeName}</label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="text" name="mode_description" tabindex="1" size="60" maxlength="50" />
                 </div>
             </div>
 
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_mode.labelXslDirectory}</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_mode.labelXslDirectory}</label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="text" name="mode_path" size="60" tabindex="2" maxlength="50" />
                     <p class="help-block">#i18n{portal.style.create_mode.xslDirectorySampleMessage}</p>
                 </div>
@@ -23,67 +23,67 @@
             <h3>#i18n{portal.style.create_mode.xslParametersValues}</h3>
 
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_mode.labelMethod}</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_mode.labelMethod}</label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="text" name="mode_output_xsl_method" tabindex="3" size="60" maxlength="50" />
                 </div>
             </div>
 
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_mode.labelVersion}</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_mode.labelVersion}</label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="text" name="mode_output_xsl_version" tabindex="4" size="60" maxlength="50" />
                 </div>
             </div>
 
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_mode.labelMediaType}</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_mode.labelMediaType}</label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="text" name="mode_output_xsl_media_type" tabindex="5" size="60" maxlength="50" />
                 </div>
             </div>
 
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_mode.labelEncoding}</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_mode.labelEncoding}</label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="text" name="mode_output_xsl_encoding" tabindex="6" size="60" maxlength="50" />
                 </div>
             </div>
 
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_mode.labelIndent}</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_mode.labelIndent}</label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="text" name="mode_output_xsl_indent" tabindex="7" size="60" maxlength="50" />
                 </div>
             </div>
 
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_mode.labelOmitXmlDeclaration}</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_mode.labelOmitXmlDeclaration}</label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="text" name="mode_output_xsl_omit_xml_declaration" tabindex="8" size="60" maxlength="50" />
                 </div>
             </div>
 
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_mode.labelStandalone}</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_mode.labelStandalone}</label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="text" name="mode_output_xsl_standalone" tabindex="9" size="60" maxlength="50" />
                 </div>
             </div>
 
-            <div class="form-actions">
-                <button class="btn btn-primary btn-small" type="submit" >
-                    <i class="icon-ok icon-white"></i> #i18n{portal.style.create_mode.buttonLabelCreate}
+            <div class="form-group">
+                <button class="btn btn-primary btn-sm" type="submit" >
+                    <i class="glyphicon glyphicon-ok"></i> #i18n{portal.style.create_mode.buttonLabelCreate}
                 </button>
-                <a  class="btn btn-small" href="jsp/admin/style/ManageModes.jsp" >
-                    <i class="icon-remove-circle"></i> #i18n{portal.util.labelCancel}
+                <a  class="btn btn-default btn-sm" href="jsp/admin/style/ManageModes.jsp" >
+                    <i class="glyphicon glyphicon-remove-circle"></i> #i18n{portal.util.labelCancel}
                 </a>
             </div>	
 

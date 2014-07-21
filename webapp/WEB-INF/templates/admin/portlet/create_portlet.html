@@ -1,12 +1,12 @@
 <#if portletType.createScriptTemplate != "" ><#include portletType.createScriptTemplate! /></#if>
-<div class="row-fluid">
+<div class="row">
 	<div class="col-md-12">
 		<form method="post" name="form" action="${portletType.doCreateUrl}" target="_top" role="form">  
 		<input type="hidden" name="page_id" value="${portlet_page_id}">
 		<input type="hidden" name="portlet_type_id" value="${portletType.id}">
 		<fieldset>     
 			<legend>&nbsp;#i18n{portal.site.portletType.labelCreate} ${portletType.name}</legend>
-			<div class="row-fluid">
+			<div class="row">
 				<div id="panel" class="col-md-3">
 					<div class="well">
 						<div class="form-group">
@@ -85,12 +85,12 @@
 						<#include portletType.createSpecificFormTemplate />
 					</#if>
 					<div class="form-group">
-						<button type="submit" class="btn btn-primary btn-small">
-							<i class="icon-ok icon-white"></i>&nbsp;
+						<button type="submit" class="btn btn-primary btn-sm">
+							<i class="glyphicon glyphicon-ok"></i>&nbsp;
 							<span class="hidden-phone" >#i18n{portal.site.create_portlet.buttonValidate}</span>
 						</button>                       
-						<a href="site/AdminSite.jsp" class="btn btn-default btn-small" target="_top">            
-							<i class="icon-remove-circle"></i>&nbsp;<span class="hidden-phone">#i18n{portal.site.create_portlet.buttonBack}</span>
+						<a href="site/AdminSite.jsp" class="btn btn-default btn-sm" target="_top">            
+							<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;<span class="hidden-phone">#i18n{portal.site.create_portlet.buttonBack}</span>
 						</a>
 					</div> 
 				</div> 

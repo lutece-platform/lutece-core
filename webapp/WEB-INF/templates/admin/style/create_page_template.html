@@ -1,34 +1,34 @@
-<div class="row-fluid" >
+<div class="row" >
     <legend>#i18n{portal.style.create_page_template.boxTitle}</legend>
     <form class="form-horizontal" method="post" name="create_page_template" enctype="multipart/form-data" action="jsp/admin/style/DoCreatePageTemplate.jsp">
         <fieldset>		
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_page_template.labelDescription}</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_page_template.labelDescription}</label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="text" name="page_template_description" tabindex="1" maxlength="50" />
                 </div>
             </div>
 
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_page_template.labelFile}</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_page_template.labelFile}</label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="file" name="page_template_file" tabindex="2" maxlength="100" />
                 </div>
             </div>
 
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_page_template.labelPicture}</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_page_template.labelPicture}</label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="file" name="page_template_picture" tabindex="3" maxlength="100" />
                 </div>
             </div>
 
-            <div class="form-actions">
-                <button class="btn btn-primary btn-small" type="submit" ><i class="icon-ok icon-white"></i> #i18n{portal.style.create_mode.buttonLabelCreate}</button>
-                <a href="jsp/admin/style/ManagePageTemplates.jsp" class="btn btn-small" ><i class="icon-remove-circle"></i> #i18n{portal.util.labelCancel}</a>
+            <div class="form-group">
+                <button class="btn btn-primary btn-sm" type="submit" ><i class="glyphicon glyphicon-ok"></i> #i18n{portal.style.create_mode.buttonLabelCreate}</button>
+                <a href="jsp/admin/style/ManagePageTemplates.jsp" class="btn btn-default btn-sm" ><i class="glyphicon glyphicon-remove-circle"></i> #i18n{portal.util.labelCancel}</a>
             </div>
 
         </fieldset>

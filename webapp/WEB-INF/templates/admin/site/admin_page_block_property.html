@@ -4,7 +4,7 @@
 		<form method="post"  enctype="multipart/form-data" action="jsp/admin/site/DoModifyPage.jsp" class="form-horizontal" >            
 		<input type="hidden" name="page_id" value="${page.id}" >
 		<fieldset>
-			<legend>#i18n{portal.site.admin_page.titlePageProperties} 
+			<legend>#i18n{portal.site.admin_page.titlePageProperties}
 				<button class="btn btn-default btn-xs pull-right" type="button" id="btn-params">
 					#i18n{portal.site.admin_page.labelAdvancedParameters} <i id="glyph" class="glyphicon glyphicon-collapse-down"></i> 
 				</button>
@@ -60,7 +60,7 @@
 					<fieldset>
 						<legend>#i18n{portal.site.admin_page.labelPageTemplateList}</legend>
 						<div class="form-group">
-								<dl class="unstyled">
+								<dl class="list-unstyled">
 									${page_templates_list}
 								</dl>	
 							</div>
@@ -116,20 +116,20 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-12">   
-						<div class="form-group">
-								<button type="submit" class="btn btn-primary btn-sm">
-									<i class="glyphicon glyphicon-plus"></i>&nbsp;
-									<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonModify}</span>
-								</button>  
-								<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" class="btn btn-default btn-sm">
-									<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;
-									<span class="hidden-phone" >#i18n{portal.site.admin_page.buttonClosed}</span>
-								</a> 
-						</div>
+
+				<div class="col-md-12">   
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-sm">
+							<i class="glyphicon glyphicon-plus"></i>&nbsp;
+							<span class="hidden-phone">#i18n{portal.site.admin_page.buttonModify}</span>
+						</button>  
+						<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" class="btn btn-default btn-sm">
+							<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;
+							<span class="hidden-phone">#i18n{portal.site.admin_page.buttonClosed}</span>
+						</a> 
 					</div>
 				</div>
+
 		</fieldset>
 	</form>
 	</div>

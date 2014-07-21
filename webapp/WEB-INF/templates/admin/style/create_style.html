@@ -1,46 +1,48 @@
-<div class="row-fluid" >
+<div class="row" >
     <legend>#i18n{portal.style.create_style.title}</legend>
     <form class="form-horizontal" method="post"  name="create_style" action="jsp/admin/style/DoCreateStyle.jsp">
         <fieldset>
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_style.labelId} * : </label>
-                <div class="controls">
-                    <input type="text" name="style_id" size="5" maxlength="10" />
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_style.labelId} * : </label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <input type="text" class="form-control input-sm" name="style_id" size="5" maxlength="10">
                 </div>
             </div>
 
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_style.labelName} * : </label>
-                <div class="controls">
-                    <input type="text" name="style_name" size="60" maxlength="100" />
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_style.labelName} * : </label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <input type="text" class="form-control input-sm" name="style_name" size="60" maxlength="100">
                 </div>
             </div>
 
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_style.labelComponentType} :</label>
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_style.labelComponentType} :</label>
                 <#assign javascriptComboParams>onChange="javascript:if( document.create_style.portal_component.value == '0' ) {document.create_style.portlet_type.disabled=false;} else {document.create_style.portlet_type.disabled=true;}"</#assign>
-                <div class="controls">
-                    <@comboWithParams name="portal_component" default_value="0" additionalParameters="${javascriptComboParams}" items=portal_component_list />
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <@comboWithParams name="portal_component" default_value="0" additionalParameters="${javascriptComboParams} class='form-control input-sm'" items=portal_component_list />
                 </div>
             </div>
 
 
-            <div class="control-group">
-                <label class="control-label" > #i18n{portal.style.create_style.labelPortletType} :</label>
-                <div class="controls">
-                    <@comboSorted name="portlet_type" default_value="0"  items=portlet_type_list />
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_style.labelPortletType} :</label>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <@comboSortedWithParams name="portlet_type" default_value="0" additionalParameters="class='form-control input-sm'" items=portlet_type_list />
                 </div>
             </div>
 
-            <div class="form-actions">
-                <button class="btn btn-primary btn-small" type="submit" >
-                    <i class="icon-plus icon-white"></i>&nbsp;#i18n{portal.style.create_style.buttonCreate}
-                </button>
-                <a class="btn btn-small" href="jsp/admin/style/ManageStyles.jsp" >
-                    <i class="icon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
-                </a>
+            <div class="form-group">
+				<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
+					<button class="btn btn-primary btn-sm" type="submit" >
+						<i class="glyphicon glyphicon-plus"></i>&nbsp;#i18n{portal.style.create_style.buttonCreate}
+					</button>
+					<a class="btn btn-default btn-sm" href="jsp/admin/style/ManageStyles.jsp">
+						<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+					</a>
+				</div>
             </div>
 
         </fieldset>

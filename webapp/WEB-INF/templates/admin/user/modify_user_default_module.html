@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="well well-small"><i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}</div>
+		<div class="well well-sm"><i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}</div>
 		<span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span>
 		
 		<ul class="nav nav-tabs">
@@ -13,33 +13,33 @@
 		</ul>
 		<form method="post" name="modify_user" action="jsp/admin/user/DoModifyUser.jsp" enctype="multipart/form-data">
 			<div class="row">
-				<div class="col-xs-12 col-sm-3 col-md-3">
+				<div class="col-xs-12 col-sm-3 col-md-3 ">
 					<input type="hidden" name="id_user" value="${user.userId}" />    
 					<fieldset>
 					<legend>#i18n{portal.users.modify_user.labelIdentity}</legend>
 				   	<div class="form-group">
-						<label for="access_code" >#i18n{portal.users.modify_user.labelAccessCode} * :</label>
-						<input type="text" class="form-control input-sm" id="access_code" name="access_code" maxlength="100" size="35" tabindex="1" value="${user.accessCode}" />
+						<label for="access_code">#i18n{portal.users.modify_user.labelAccessCode} * :</label>
+						<input type="text" class="form-control input-sm" id="access_code" name="access_code" maxlength="100" size="35" tabindex="1" value="${user.accessCode}">
 					</div>
 					<div class="form-group">
-						<label for="first_password" >#i18n{portal.users.modify_user.labelFirstPassword} :</label>
-						<input type="password" class="form-control input-sm" id="password" name="first_password" maxlength="100" size="35" tabindex="2" value="" />
+						<label for="first_password">#i18n{portal.users.modify_user.labelFirstPassword} :</label>
+						<input type="password" class="form-control input-sm" id="password" name="first_password" maxlength="100" size="35" tabindex="2" value="">
 					</div>
 					<div class="form-group">
-						<label for="second_password" >#i18n{portal.users.modify_user.labelSecondPassword} :</label>
-						<input type="password" class="form-control input-sm" id="password" name="second_password" maxlength="100" size="35" tabindex="3" value="" />
+						<label for="second_password">#i18n{portal.users.modify_user.labelSecondPassword} :</label>
+						<input type="password" class="form-control input-sm" id="password" name="second_password" maxlength="100" size="35" tabindex="3" value="">
 					</div>
 					<div class="form-group">
-						<label for="last_name" >#i18n{portal.users.modify_user.labelLastName} * :</label>
-						<input type="text" class="form-control input-sm" id="last_name" name="last_name" maxlength="100" size="35" tabindex="4" value="${user.lastName}" />
+						<label for="last_name">#i18n{portal.users.modify_user.labelLastName} * :</label>
+						<input type="text" class="form-control input-sm" id="last_name" name="last_name" maxlength="100" size="35" tabindex="4" value="${user.lastName}">
 					</div>
 					<div class="form-group">
 						<label for="first_name">#i18n{portal.users.modify_user.labelFirstName} * :</label>
-						<input type="text" class="form-control input-sm" id="first_name" name="first_name" maxlength="100" size="35" tabindex="5" value="${user.firstName}" />
+						<input type="text" class="form-control input-sm" id="first_name" name="first_name" maxlength="100" size="35" tabindex="5" value="${user.firstName}">
 					</div>
 					<div class="form-group">
 						<label for="email">#i18n{portal.users.modify_user.labelEmail} * :</label>
-						<input type="text" class="form-control input-sm" id="email" name="email" maxlength="100" size="35" tabindex="6" value="${user.email}" />
+						<input type="text" class="form-control input-sm" id="email" name="email" maxlength="100" size="35" tabindex="6" value="${user.email}">
 					</div>
 				   </fieldset>
 				</div>
@@ -64,20 +64,22 @@
 						</div>
 						<div class="form-group">
 							<label for="language">#i18n{portal.users.modify_user.labelLanguage} :</label>
-							<@comboSortedWithParams name="language" default_value="${current_language}" additionalParameters="class=\"form-control input-sm\"" items=languages_list />
+							<@comboSortedWithParams name="language" default_value="${current_language}" additionalParameters="class='form-control input-sm'" items=languages_list />
 						</div>
 						<div class="form-group">
-							<label>#i18n{portal.users.create_user.labelTheme} :</label>
+							<label for="">#i18n{portal.users.create_user.labelTheme} :</label>
+							<div class="col-xs-12 col-sm-12 col-md-12">
 								<div class="checkbox" for="accessibility_mode">
 									<label>
-										<input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" <#if user.accessibilityMode>checked="checked"</#if>	/>
+										<input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" <#if user.accessibilityMode>checked="checked"</#if> />
 										#i18n{portal.users.create_user.labelAccessibilityMode}
 									</label>
 								</div>
+							</div>
 						</div>
 					</fieldset>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-5">
+				<div class="col-md-5">
 					<fieldset>
 						<legend>#i18n{portal.users.modify_user.labelComplementaryAttributes}</legend>
 						<div class="form-group">

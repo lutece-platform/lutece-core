@@ -1,47 +1,49 @@
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
             <fieldset>
                 <legend>#i18n{portal.style.modify_stylesheet.title}
                     <div class="pull-right">
                         <form class="form-inline" method="post"  action="ViewStyleSheetFile"  name="modify_stylesheet">
-                            <input type="hidden" name="stylesheet_id" value="${stylesheet.id}" />
-                            <button class="btn btn-primary btn-small" type="submit" ><i class="icon-eye-open icon-white"></i>&nbsp;<span class="hidden-phone">#i18n{portal.style.modify_stylesheet.buttonView}</span></button>
+                            <input type="hidden" name="stylesheet_id" value="${stylesheet.id}">
+                            <button class="btn btn-primary btn-sm" type="submit"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;<span class="hidden-phone">#i18n{portal.style.modify_stylesheet.buttonView}</span></button>
                         </form>
                     </div>
                 </legend>
                 <form class="form-horizontal" method="post" action="jsp/admin/style/DoModifyStyleSheet.jsp" enctype="multipart/form-data" name="modify_stylesheet">
-                    <div class="control-group">
-                        <label class="control-label" for="stylesheet_name">#i18n{portal.style.modify_stylesheet.labelName}&nbsp;*&nbsp;:</label>
-                        <input type="hidden" name="stylesheet_id" value="${stylesheet.id}" />
-                        <div class="controls">
-                            <input type="text" class="input-xxlarge" id="stylesheet_name" name="stylesheet_name" value="${stylesheet.description}" maxlength="255" />
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="stylesheet_name">#i18n{portal.style.modify_stylesheet.labelName}&nbsp;*&nbsp;:</label>
+                        <input type="hidden" name="stylesheet_id" value="${stylesheet.id}">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <input type="text" class="form-control input-sm" id="stylesheet_name" name="stylesheet_name" value="${stylesheet.description}" maxlength="255">
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label" for="stylesheet_source" >#i18n{portal.style.modify_stylesheet.labelFilename}&nbsp;*&nbsp;:</label>
-                        <div class="controls">
-                            <input type="file" id="stylesheet_source" name="stylesheet_source"  />
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="stylesheet_source" >#i18n{portal.style.modify_stylesheet.labelFilename}&nbsp;*&nbsp;:</label>
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <input type="file" class="input-xs" id="stylesheet_source" name="stylesheet_source">
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label" for="styles" >#i18n{portal.style.modify_stylesheet.labelStyle}&nbsp;*&nbsp;:</label>
-                        <div class="controls">
-                            <@comboSortedWithParams name="styles" default_value="${stylesheet.styleId}" additionalParameters="class=\"input-xxlarge\"" items=style_list />
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="styles" >#i18n{portal.style.modify_stylesheet.labelStyle}&nbsp;*&nbsp;:</label>
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <@comboSortedWithParams name="styles" default_value="${stylesheet.styleId}" additionalParameters="class=\"form-control input-sm\"" items=style_list />
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label" for="mode_stylesheet" >#i18n{portal.style.modify_stylesheet.labelMode}&nbsp;*&nbsp;:</label>
-                        <div class="controls">
-                            <@comboSorted name="mode_stylesheet" default_value="${stylesheet.modeId}" items=mode_list />
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="mode_stylesheet" >#i18n{portal.style.modify_stylesheet.labelMode}&nbsp;*&nbsp;:</label>
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <@comboSortedWithParams name="mode_stylesheet" default_value="${stylesheet.modeId}" additionalParameters="class='form-control input-sm'" items=mode_list />
                         </div>
                     </div>
-                    <div class="form-actions">    
-                        <button class="btn btn-primary btn-small" type="submit" >
-							<i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.style.modify_stylesheet.buttonModify}
-						</button>
-						 <a href="jsp/admin/style/ManageStyleSheets.jsp" class="btn btn-small" type="button" >
-							<i class="icon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
-						</a>
+                    <div class="form-group">  
+						<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
+							<button class="btn btn-primary btn-sm" type="submit" >
+								<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.style.modify_stylesheet.buttonModify}
+							</button>
+							 <a href="jsp/admin/style/ManageStyleSheets.jsp" class="btn btn-default btn-sm" type="button">
+								<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+							</a>
+						</div>
                     </div>
             </fieldset>
             </form>

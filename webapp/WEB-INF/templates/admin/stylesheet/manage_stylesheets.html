@@ -1,19 +1,19 @@
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
             <fieldset>
                 <legend class="clearfix">#i18n{portal.style.manage_stylesheets.title}
                     <span class="pull-right">
                         <form class="form-inline" method="post"  action="jsp/admin/style/CreateStyleSheet.jsp" >
                             <input type="hidden" name="mode_id" value="${mode_id}" />
-                            <button class="btn btn-primary btn-small pull-right" type="submit" ><i class="icon-plus icon-white"></i><span class="hidden-phone">#i18n{portal.style.manage_stylesheets.buttonAdd}</span></button>
+                            <button class="btn btn-primary btn-sm pull-right" type="submit" ><i class="glyphicon glyphicon-plus"></i><span class="hidden-phone">#i18n{portal.style.manage_stylesheets.buttonAdd}</span></button>
                         </form>
                     </span>
                 </legend>
                 <div class="well">
                     <form class="form-search" method="post" >
-                        <label class="control-label" for="mode_id" >#i18n{portal.style.manage_stylesheets.labelSortByMode} :</label>
+                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="mode_id" >#i18n{portal.style.manage_stylesheets.labelSortByMode} :</label>
                         <@comboSorted name="mode_id" default_value="${mode_id}" items=mode_list />
-                        <button class="btn btn-primary btn-small" type="submit" ><i class="icon-filter icon-white"></i>#i18n{portal.util.labelFilter}</button>
+                        <button class="btn btn-primary btn-xs" type="submit" ><i class="glyphicon glyphicon-filter"></i>#i18n{portal.util.labelFilter}</button>
                     </form>
                 </div>
                 <@paginationAdmin paginator=paginator combo=1 />   
@@ -30,7 +30,7 @@
                     <tr>
                         <td>${stylesheet.description}</td>
                         <td>${stylesheet.file}</td>
-                        <td><a href="jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}" class="btn btn-primary btn-small"><i class="icon-edit icon-white"></i></a></td>
+                        <td><a href="jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-edit"></i></a></td>
                     </tr>
                     </#list>       
                 </table>

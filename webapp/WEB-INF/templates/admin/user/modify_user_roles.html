@@ -12,14 +12,15 @@
             <li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
         </ul>
         <h2>#i18n{portal.users.modify_user_role.titleRoleModificationForm}</h2>
-        <form class="form-horizontal" method="post" action="jsp/admin/user/DoModifyUserRoles.jsp" >
+        <form class="form-horizontal" method="post" action="jsp/admin/user/DoModifyUserRoles.jsp">
 			<fieldset>	
             <legend>#i18n{portal.users.modify_user_roles.titleRoleModificationForm}
-			<button class="btn btn-primary btn-sm pull-right" type="submit" >
-						<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}
-					</button>
-			</legend> 
-
+			<button class="btn btn-primary btn-sm pull-right" type="submit">
+				<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}
+			</button>
+			</legend>
+			<div class="form-group">
+				<ul class="list-unstyled">
                 <#list all_role_list?sort_by('key') as role>
                     <#assign checked = "" >
                     <#list user_role_list as user_role>
@@ -28,25 +29,28 @@
                         <#break>
 						</#if>
                     </#list>
-
-                        <div class="col-xs-12 col-sm-9 col-md-9">
+                    <li>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="checkbox">
 								<label>
-                                <input class="checkbox" type="checkbox" name="roles" value="${role.key}" ${checked} />
+                                <input class="checkbox" type="checkbox" name="roles" value="${role.key}" ${checked}>
 								${role.key} - ${role.description}
 								</label>
 							</div>
                         </div>
-
+                    </li>
                 </#list>
- 
-                <input type="hidden" name="id_user" value="${user.userId}" />
-                <div class="form-group">
-                    <button class="btn btn-primary btn-sm" type="submit" >
+                </ul> 
+			</div>
+            <input type="hidden" name="id_user" value="${user.userId}" />
+				<div class="form-group">
+					<div class="col-xs-12 col-sm-12 col-md-12">
+					<button class="btn btn-primary btn-sm" type="submit" >
 						<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}
 					</button>
-                </fieldset>
 				</div>
+            </fieldset>
+			</div>
         </form>    
     </div>
 </div>
