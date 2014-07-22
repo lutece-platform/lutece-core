@@ -49,7 +49,13 @@
 						<div class="form-group">
 							<p>#i18n{portal.users.create_user.userLevelLabel} :</p>
 							<p><strong>${level.name}</strong></p>
-						</div>
+						</div>						
+						<div class="form-group">
+			                <label> #i18n{portal.role.create_role.labelWorkgroupKey} * :</label>
+							<div>
+			                    <@comboSortedWithParams name="workgroup_key" default_value="${user.workgroupKey!}" additionalParameters="class=\"form-control input-sm\"" items=workgroup_key_list />
+			                </div>
+			            </div>
 						<div class="form-group">
 							<label for="status">#i18n{portal.users.modify_user.labelStatus} :</label>
 							<select id="status" name="status" class="form-control input-sm" tabindex="7">

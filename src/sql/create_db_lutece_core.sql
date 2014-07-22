@@ -96,6 +96,7 @@ CREATE TABLE core_admin_user (
 	account_max_valid_date bigint NULL,
 	nb_alerts_sent INTEGER DEFAULT 0 NOT NULL,
 	last_login TIMESTAMP DEFAULT '1980-01-01 00:00:00',
+	workgroup_key varchar(50) DEFAULT 'all',
 	PRIMARY KEY (id_user)
 );
 

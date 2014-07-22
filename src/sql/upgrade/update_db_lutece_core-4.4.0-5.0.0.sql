@@ -46,3 +46,5 @@ UPDATE core_datastore SET entity_value = CASE
 END;
 
 DROP TABLE core_user_parameter;
+
+ALTER TABLE core_admin_user ADD COLUMN workgroup_key varchar(50) DEFAULT 'all';

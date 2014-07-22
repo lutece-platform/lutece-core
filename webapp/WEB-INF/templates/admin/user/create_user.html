@@ -28,7 +28,13 @@
 				</#if>
 				</#list>
 			</select>
-			</#if>
+			</#if>      
+			<div class="form-group">
+	            <label class="control-label col-xs-12 col-sm-3 col-md-3"> #i18n{portal.role.create_role.labelWorkgroupKey} * :</label>
+	            <div class="col-xs-12 col-sm-6 col-md-6">
+	                <@comboSortedWithParams name="workgroup_key" default_value="${workgroup_key_default_value}" additionalParameters="class=\"form-control input-sm\"" items=workgroup_key_list />
+	            </div>
+	        </div>
 			<#list attributes_list as attribute>
 			<#if attribute.plugin?exists && attribute.plugin.name =="profiles">
 			${attribute.getHtmlFormAttribute( locale )}

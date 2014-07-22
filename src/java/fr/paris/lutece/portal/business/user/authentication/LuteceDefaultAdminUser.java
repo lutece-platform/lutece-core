@@ -50,9 +50,9 @@ public class LuteceDefaultAdminUser extends AdminUser
     /**
      * Constructor
      */
-    public LuteceDefaultAdminUser(  )
+    public LuteceDefaultAdminUser( )
     {
-        super(  );
+        super( );
     }
 
     /**
@@ -69,7 +69,7 @@ public class LuteceDefaultAdminUser extends AdminUser
      * Returns the Password
      * @return The Password.
      */
-    public String getPassword(  )
+    public String getPassword( )
     {
         return _strPassword;
     }
@@ -87,7 +87,7 @@ public class LuteceDefaultAdminUser extends AdminUser
      * Returns the password validity date
      * @return The password validity date
      */
-    public Date getDateValidityPassword(  )
+    public Date getDateValidityPassword( )
     {
         return _dateValidityPassword;
     }
@@ -105,7 +105,7 @@ public class LuteceDefaultAdminUser extends AdminUser
      * Returns the Last Password.
      * @return The Last Password.
      */
-    public String getLastPassword(  )
+    public String getLastPassword( )
     {
         return _strLastPassword;
     }
