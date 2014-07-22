@@ -35,6 +35,8 @@ package fr.paris.lutece.util.sql;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
+import org.apache.commons.lang.NotImplementedException;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -105,8 +107,6 @@ public class MultiPluginTransaction extends Transaction
         throws SQLException
     {
         // Get a new statement 
-        _strSQL = strSQL;
-
         if ( getConnection(  ) == null )
         {
             throw new SQLException( 
@@ -114,7 +114,17 @@ public class MultiPluginTransaction extends Transaction
                 strSQL );
         }
 
-        return getConnection(  ).prepareStatement( _strSQL );
+        return getConnection(  ).prepareStatement( strSQL );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void executeStatement(  ) throws SQLException
+    {
+        throw new NotImplementedException( 
+            "The method executeStatement( ) of class MultiPluginTransaction must not be called. Use manually PreparedStatement.executeQuery() instead." );
     }
 
     /**

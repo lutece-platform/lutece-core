@@ -33,11 +33,10 @@
  */
 package fr.paris.lutece.util.sql;
 
-import com.mysql.jdbc.Connection;
-
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import java.util.HashMap;
@@ -47,10 +46,18 @@ import java.util.Map;
 /**
  * Class to manage transactions
  */
-public class TransactionManager
+public final class TransactionManager
 {
     private static final String DEFAULT_POOL_NAME = "portal";
     private static ThreadLocal<Map<String, MultiPluginTransaction>> _tlTransactions = new ThreadLocal<Map<String, MultiPluginTransaction>>(  );
+
+    /**
+     * Default constructor
+     */
+    private TransactionManager(  )
+    {
+        // Do nothing
+    }
 
     /**
      * Begin a transaction for the current thread using the pool of a specific

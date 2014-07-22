@@ -584,7 +584,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             template = AppTemplateService.getTemplate( TEMPLATE_DEFAULT_CREATE_USER, getLocale(  ), model );
         }
-        else// creation in module mode : populate the form with the data from the user selected for import
+        else // creation in module mode : populate the form with the data from the user selected for import
         {
             // parameters retrieved from the "import" action (retrieves the data from the access code)
             String strAccessCode = request.getParameter( PARAMETER_ACCESS_CODE );

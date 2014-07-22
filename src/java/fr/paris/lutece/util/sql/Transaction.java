@@ -72,10 +72,10 @@ public class Transaction
     /**
      * The last SQL query executed by this transaction
      */
-    protected String _strSQL = StringUtils.EMPTY;
+    private String _strSQL = StringUtils.EMPTY;
 
     /** JDBC Connection */
-    protected Connection _connection;
+    private Connection _connection;
 
     /** Connection Service providing connection from a defined pool */
     private PluginConnectionService _connectionService;
