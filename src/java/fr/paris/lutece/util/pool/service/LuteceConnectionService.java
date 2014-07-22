@@ -39,6 +39,7 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 import java.util.Hashtable;
 
 import javax.sql.DataSource;
@@ -163,6 +164,7 @@ public class LuteceConnectionService implements ConnectionService
         try
         {
             Connection connection = _connPool.getConnection(  );
+
             return connection;
         }
         catch ( SQLException e )

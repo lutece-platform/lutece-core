@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.filter;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.sql.TransactionManager;
 
 import java.io.IOException;
 
@@ -105,6 +106,8 @@ public class MainFilter implements Filter
 
         // Follow the standard filters chain
         chain.doFilter( request, response );
+        // We check that some transactions is not still running for the current thread
+        TransactionManager.rollBackEveryTransaction(  );
     }
 
     /**
@@ -148,7 +151,7 @@ public class MainFilter implements Filter
      * @param strRequestUrl The request Url
      * @return True if the request match the url pattern
      *
-     * Algorithm comming from tomcat6
+     *         Algorithm comming from tomcat6
      */
     boolean matchFilterUrl( String strUrlPattern, String strRequestUrl )
     {

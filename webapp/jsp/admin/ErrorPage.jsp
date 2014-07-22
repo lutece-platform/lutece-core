@@ -1,3 +1,4 @@
+<%@page import="fr.paris.lutece.util.sql.TransactionManager"%>
 <%@page import="fr.paris.lutece.portal.service.admin.PasswordResetException"%>
 <%@ page isErrorPage="true" %>
 <%@ page import="fr.paris.lutece.portal.web.constants.Messages" %>
@@ -30,6 +31,8 @@
 %>
 
 <%
+
+	TransactionManager.rollBackEveryTransaction( exception );
     if( exception instanceof fr.paris.lutece.portal.service.admin.AccessDeniedException )
     {
     	if ( exception.getMessage(  ) != null )

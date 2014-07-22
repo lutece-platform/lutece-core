@@ -84,6 +84,8 @@ public final class FileDAO implements IFileDAO
      */
     public synchronized int insert( File file )
     {
+        file.setIdFile( newPrimaryKey(  ) );
+
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         daoUtil.setString( 2, file.getTitle(  ) );
 
@@ -99,7 +101,6 @@ public final class FileDAO implements IFileDAO
         daoUtil.setInt( 4, file.getSize(  ) );
         daoUtil.setString( 5, file.getMimeType(  ) );
 
-        file.setIdFile( newPrimaryKey(  ) );
         daoUtil.setInt( 1, file.getIdFile(  ) );
         daoUtil.executeUpdate(  );
 

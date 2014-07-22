@@ -74,7 +74,7 @@ public class TransactionTest extends LuteceTestCase
             transaction.rollback( ex );
         }
 
-        assertTrue( transaction.getStatus(  ) == Transaction.COMMITED );
+        assertTrue( transaction.getStatus(  ) == Transaction.COMMITTED );
     }
 
     public void testRollback(  )

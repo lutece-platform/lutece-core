@@ -95,12 +95,13 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     @Override
     public synchronized void insert( IndexerAction indexerAction )
     {
+        indexerAction.setIdAction( newPrimaryKey(  ) );
+
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         daoUtil.setString( 2, indexerAction.getIdDocument(  ) );
         daoUtil.setInt( 3, indexerAction.getIdTask(  ) );
         daoUtil.setString( 4, indexerAction.getIndexerName(  ) );
         daoUtil.setInt( 5, indexerAction.getIdPortlet(  ) );
-        indexerAction.setIdAction( newPrimaryKey(  ) );
         daoUtil.setInt( 1, indexerAction.getIdAction(  ) );
 
         daoUtil.executeUpdate(  );

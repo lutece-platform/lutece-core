@@ -120,7 +120,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     {
         String strSQL = _strSqlInsert;
 
-        if ( existsKey(strUserId, strKey ) )
+        if ( existsKey( strUserId, strKey ) )
         {
             strSQL = _strSqlUpdate;
         }
@@ -193,7 +193,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
-    
+
     /**
      * {@inheritDoc }
      */
@@ -214,7 +214,6 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
 
         daoUtil.free(  );
 
-        return  ( nValue != 0 );
+        return ( nValue != 0 );
     }
-
 }

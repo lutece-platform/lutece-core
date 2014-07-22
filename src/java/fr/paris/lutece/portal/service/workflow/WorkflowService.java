@@ -39,7 +39,9 @@ import fr.paris.lutece.plugins.workflowcore.service.workflow.IWorkflowService;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.sql.TransactionManager;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -199,9 +201,20 @@ public final class WorkflowService
         if ( isAvailable(  ) &&
                 canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, bIsAutomatic ) )
         {
-            String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request );
-            _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale,
-                bIsAutomatic, strUserAccessCode );
+            TransactionManager.beginTransaction( null );
+
+            try
+            {
+                String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request );
+                _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale,
+                    bIsAutomatic, strUserAccessCode );
+                TransactionManager.commitTransaction( null );
+            }
+            catch ( Exception e )
+            {
+                TransactionManager.rollBack( null );
+                throw new AppException( e.getMessage(  ), e );
+            }
         }
     }
 
@@ -288,7 +301,7 @@ public final class WorkflowService
     }
 
     /**
-     * Remove in all workflows the resource specified in parameter
+     * Remove in every workflows the resource specified in parameter
      * @param nIdResource the resource id
      * @param strResourceType the resource type
      */
@@ -296,7 +309,18 @@ public final class WorkflowService
     {
         if ( isAvailable(  ) )
         {
-            _service.doRemoveWorkFlowResource( nIdResource, strResourceType );
+            TransactionManager.beginTransaction( null );
+
+            try
+            {
+                _service.doRemoveWorkFlowResource( nIdResource, strResourceType );
+                TransactionManager.commitTransaction( null );
+            }
+            catch ( Exception e )
+            {
+                TransactionManager.rollBack( null );
+                throw new AppException( e.getMessage(  ), e );
+            }
         }
     }
 
@@ -311,7 +335,18 @@ public final class WorkflowService
     {
         if ( isAvailable(  ) )
         {
-            _service.doRemoveWorkFlowResourceByListId( lListIdResource, strResourceType, nIdWorflow );
+            TransactionManager.beginTransaction( null );
+
+            try
+            {
+                _service.doRemoveWorkFlowResourceByListId( lListIdResource, strResourceType, nIdWorflow );
+                TransactionManager.commitTransaction( null );
+            }
+            catch ( Exception e )
+            {
+                TransactionManager.rollBack( null );
+                throw new AppException( e.getMessage(  ), e );
+            }
         }
     }
 
@@ -422,8 +457,23 @@ public final class WorkflowService
      */
     public State getState( int nIdResource, String strResourceType, int nIdWorkflow, Integer nIdExternalParentId )
     {
-        return isAvailable(  ) ? _service.getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId )
-                               : null;
+        if ( isAvailable(  ) )
+        {
+            TransactionManager.beginTransaction( null );
+
+            try
+            {
+                _service.getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId );
+                TransactionManager.commitTransaction( null );
+            }
+            catch ( Exception e )
+            {
+                TransactionManager.rollBack( null );
+                throw new AppException( e.getMessage(  ), e );
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -438,7 +488,18 @@ public final class WorkflowService
     {
         if ( isAvailable(  ) )
         {
-            _service.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId );
+            TransactionManager.beginTransaction( null );
+
+            try
+            {
+                _service.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId );
+                TransactionManager.commitTransaction( null );
+            }
+            catch ( Exception e )
+            {
+                TransactionManager.rollBack( null );
+                throw new AppException( e.getMessage(  ), e );
+            }
         }
     }
 
@@ -496,8 +557,19 @@ public final class WorkflowService
     {
         if ( isAvailable(  ) )
         {
-            _service.doProcessAutomaticReflexiveActions( nIdResource, strResourceType, nIdState, nIdExternalParent,
-                locale );
+            TransactionManager.beginTransaction( null );
+
+            try
+            {
+                _service.doProcessAutomaticReflexiveActions( nIdResource, strResourceType, nIdState, nIdExternalParent,
+                    locale );
+                TransactionManager.commitTransaction( null );
+            }
+            catch ( Exception e )
+            {
+                TransactionManager.rollBack( null );
+                throw new AppException( e.getMessage(  ), e );
+            }
         }
     }
 }

@@ -38,6 +38,8 @@ import fr.paris.lutece.portal.service.database.PluginConnectionService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppException;
 
+import org.apache.commons.lang.StringUtils;
+
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -50,17 +52,33 @@ import java.sql.SQLException;
  */
 public class Transaction
 {
+    /**
+     * Status for opened transactions
+     */
     public static final int OPENED = -1;
-    public static final int COMMITED = 0;
+
+    /**
+     * Status for committed transactions
+     */
+    public static final int COMMITTED = 0;
+
+    /**
+     * Status for roll backed transactions
+     */
     public static final int ROLLEDBACK = 1;
     private static final String DEFAULT_MODULE_NAME = "core";
     private static final String LOGGER_DEBUG_SQL = "lutece.debug.sql.";
 
-    /** Connection Service providing connection from a defined pool */
-    private PluginConnectionService _connectionService;
+    /**
+     * The last SQL query executed by this transaction
+     */
+    protected String _strSQL = StringUtils.EMPTY;
 
     /** JDBC Connection */
-    private Connection _connection;
+    protected Connection _connection;
+
+    /** Connection Service providing connection from a defined pool */
+    private PluginConnectionService _connectionService;
 
     /** Plugin name */
     private String _strPluginName;
@@ -70,7 +88,6 @@ public class Transaction
     private PreparedStatement _statement;
     private int _nStatus = OPENED;
     private boolean _bAutoCommit;
-    private String _strSQL;
 
     /**
      * Constructor
@@ -82,7 +99,7 @@ public class Transaction
 
     /**
      * Constructor
-     * @param plugin The plugin ownner of the transaction
+     * @param plugin The plugin owner of the transaction
      */
     public Transaction( Plugin plugin )
     {
@@ -92,9 +109,11 @@ public class Transaction
     /**
      * Gets a prepared statement
      * @param strSQL The SQL statement
+     * @return The prepared statement
      * @throws SQLException If an SQL error occurs
      */
-    public void prepareStatement( String strSQL ) throws SQLException
+    public PreparedStatement prepareStatement( String strSQL )
+        throws SQLException
     {
         // Close the previous statement if exists
         if ( _statement != null )
@@ -104,7 +123,16 @@ public class Transaction
 
         // Get a new statement 
         _strSQL = strSQL;
+
+        if ( _connection == null )
+        {
+            throw new SQLException( "Plugin : '" + _strPluginName +
+                "' - Connection has been closed. The new prepared statement can not be created : " + strSQL );
+        }
+
         _statement = _connection.prepareStatement( _strSQL );
+
+        return _statement;
     }
 
     /**
@@ -133,9 +161,15 @@ public class Transaction
     {
         try
         {
+            if ( _connection == null )
+            {
+                throw new SQLException( "Plugin : '" + _strPluginName +
+                    "' - Transaction has already been closed and can not be committed" );
+            }
+
             _connection.commit(  );
             _logger.debug( "Plugin : '" + _strPluginName + "' - COMMIT TRANSACTION" );
-            closeTransaction( COMMITED );
+            closeTransaction( COMMITTED );
         }
         catch ( SQLException e )
         {
@@ -164,8 +198,15 @@ public class Transaction
 
         try
         {
-            _connection.rollback(  );
-            _logger.debug( "Plugin : '" + _strPluginName + "' - ROLLBACK TRANSACTION" );
+            if ( _connection != null )
+            {
+                _connection.rollback(  );
+                _logger.debug( "Plugin : '" + _strPluginName + "' - ROLLBACK TRANSACTION" );
+            }
+            else
+            {
+                _logger.debug( "Plugin : '" + _strPluginName + "' - TRANSACTION HAS ALREADY BEEN ROLLED BACK" );
+            }
         }
         catch ( SQLException ex )
         {
@@ -191,7 +232,7 @@ public class Transaction
      * @return The connection of this transaction. If the transaction has not
      *         begin, then return null.
      */
-    protected Connection getConnection( )
+    protected Connection getConnection(  )
     {
         return _connection;
     }
@@ -200,7 +241,7 @@ public class Transaction
      * Begin a transaction
      * @param plugin The plugin owner of the transaction
      */
-    private void beginTransaction( Plugin plugin )
+    protected void beginTransaction( Plugin plugin )
     {
         if ( plugin != null )
         {
@@ -251,7 +292,10 @@ public class Transaction
             }
 
             // Restore the autocommit configuration of the connection
-            _connection.setAutoCommit( _bAutoCommit );
+            if ( _connection != null )
+            {
+                _connection.setAutoCommit( _bAutoCommit );
+            }
         }
         catch ( SQLException ex )
         {
@@ -260,11 +304,12 @@ public class Transaction
         finally
         {
             _connectionService.freeConnection( _connection );
+            _connection = null;
         }
     }
 
     /**
-     * Checks that the transaction has been commited (or rolled back) before
+     * Checks that the transaction has been committed (or rolled back) before
      * being destroyed and release all transaction resources (statement,
      * connection, ...) if not. {@inheritDoc }
      */

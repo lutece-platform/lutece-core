@@ -86,9 +86,9 @@ public class UserPreferencesServiceTest extends LuteceTestCase
         List list = service.keys( USER_ID_1 );
         assertTrue( list.size(  ) == 4 );
 
-        assertTrue( service.existsKey( USER_ID_1, KEY1 ));
+        assertTrue( service.existsKey( USER_ID_1, KEY1 ) );
         service.clearKey( USER_ID_1, KEY1 );
-        assertTrue( ! service.existsKey( USER_ID_1, KEY1 ));
+        assertTrue( !service.existsKey( USER_ID_1, KEY1 ) );
         service.clearKeyPrefix( USER_ID_1, KEY2 );
         list = service.keys( USER_ID_1 );
         assertTrue( list.size(  ) == 2 );

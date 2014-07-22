@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.mail.MailItem;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
 import fr.paris.lutece.util.sql.Transaction;
+import fr.paris.lutece.util.sql.TransactionManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -136,26 +137,25 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
             objectOutputStream.close(  );
             byteArrayOutputStream.close(  );
 
-            Transaction transaction = new Transaction(  );
+            TransactionManager.beginTransaction( null );
+
+            int nNewPrimaryKey = newPrimaryKey(  );
+            mailItemQueue.setIdMailItemQueue( nNewPrimaryKey );
 
             try
             {
-                int nNewPrimaryKey = newPrimaryKey(  );
-                mailItemQueue.setIdMailItemQueue( nNewPrimaryKey );
-                transaction.prepareStatement( SQL_QUERY_INSERT );
-                transaction.getStatement(  ).setInt( 1, nNewPrimaryKey );
-                transaction.executeStatement(  );
-                transaction.prepareStatement( SQL_QUERY_INSERT_MAIL_ITEM );
-                transaction.getStatement(  ).setInt( 1, nNewPrimaryKey );
-                transaction.getStatement(  ).setBytes( 2, byteArrayOutputStream.toByteArray(  ) );
-                transaction.executeStatement(  );
-
-                transaction.commit(  );
+                DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+                daoUtil.setInt( 1, nNewPrimaryKey );
+                daoUtil.executeUpdate(  );
+                daoUtil = new DAOUtil( SQL_QUERY_INSERT_MAIL_ITEM );
+                daoUtil.setInt( 1, nNewPrimaryKey );
+                daoUtil.setBytes( 2, byteArrayOutputStream.toByteArray(  ) );
+                daoUtil.executeUpdate(  );
+                TransactionManager.commitTransaction( null );
             }
-
             catch ( Exception e )
             {
-                transaction.rollback( e );
+                TransactionManager.rollBack( null );
                 AppLogService.error( e );
             }
         }
@@ -227,6 +227,8 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     @Override
     public void delete( int nIdMailItemQueue )
     {
+        TransactionManager.beginTransaction( null );
+
         Transaction transaction = new Transaction(  );
 
         try
