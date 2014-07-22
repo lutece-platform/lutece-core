@@ -218,8 +218,10 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     @Override
     public void insert( AdminUserField userField )
     {
+        userField.setIdUserField( newPrimaryKey(  ) );
+
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setInt( 1, newPrimaryKey(  ) );
+        daoUtil.setInt( 1, userField.getIdUserField(  ) );
         daoUtil.setInt( 2, userField.getUser(  ).getUserId(  ) );
         daoUtil.setInt( 3, userField.getAttribute(  ).getIdAttribute(  ) );
         daoUtil.setInt( 4, userField.getAttributeField(  ).getIdField(  ) );

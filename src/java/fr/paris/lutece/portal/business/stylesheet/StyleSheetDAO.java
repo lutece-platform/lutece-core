@@ -96,9 +96,9 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     public synchronized void insert( StyleSheet stylesheet )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-
         stylesheet.setId( newPrimaryKey(  ) );
+
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
         daoUtil.setInt( 1, stylesheet.getId(  ) );
         daoUtil.setString( 2, stylesheet.getDescription(  ) );

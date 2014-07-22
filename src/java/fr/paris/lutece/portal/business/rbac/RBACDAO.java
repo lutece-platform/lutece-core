@@ -91,8 +91,9 @@ public final class RBACDAO implements IRBACDAO
      */
     public synchronized void insert( RBAC rBAC )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         rBAC.setRBACId( newPrimaryKey(  ) );
+
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         daoUtil.setInt( 1, rBAC.getRBACId(  ) );
         daoUtil.setString( 2, rBAC.getRoleKey(  ) );
         daoUtil.setString( 3, rBAC.getResourceTypeKey(  ) );

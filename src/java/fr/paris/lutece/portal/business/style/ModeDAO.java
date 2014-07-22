@@ -93,8 +93,9 @@ public final class ModeDAO implements IModeDAO
      */
     public synchronized void insert( Mode mode )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         mode.setId( newPrimaryKey(  ) );
+
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
         daoUtil.setInt( 1, mode.getId(  ) );
         daoUtil.setString( 2, mode.getDescription(  ) );

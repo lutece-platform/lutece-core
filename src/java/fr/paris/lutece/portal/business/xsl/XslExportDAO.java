@@ -88,7 +88,10 @@ public final class XslExportDAO implements IXslExportDAO
     @Override
     public synchronized void insert( XslExport xslExport )
     {
+        xslExport.setIdXslExport( newPrimaryKey(  ) );
+
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        daoUtil.setInt( 1, xslExport.getIdXslExport(  ) );
         daoUtil.setString( 2, xslExport.getTitle(  ) );
         daoUtil.setString( 3, xslExport.getDescription(  ) );
         daoUtil.setString( 4, xslExport.getExtension(  ) );
@@ -103,9 +106,6 @@ public final class XslExportDAO implements IXslExportDAO
         }
 
         daoUtil.setString( 6, xslExport.getPlugin(  ) );
-
-        xslExport.setIdXslExport( newPrimaryKey(  ) );
-        daoUtil.setInt( 1, xslExport.getIdXslExport(  ) );
 
         daoUtil.executeUpdate(  );
 

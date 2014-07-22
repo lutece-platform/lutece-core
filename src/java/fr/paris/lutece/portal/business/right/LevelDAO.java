@@ -85,8 +85,9 @@ public final class LevelDAO implements ILevelDAO
      */
     public synchronized void insert( Level level )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         level.setId( newPrimaryKey(  ) );
+
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         daoUtil.setInt( 1, level.getId(  ) );
         daoUtil.setString( 2, level.getName(  ) );
 

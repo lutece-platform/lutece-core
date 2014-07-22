@@ -87,9 +87,9 @@ public final class PageTemplateDAO implements IPageTemplateDAO
      */
     public synchronized void insert( PageTemplate pageTemplate )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-
         pageTemplate.setId( newPrimaryKey(  ) );
+
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
         daoUtil.setInt( 1, pageTemplate.getId(  ) );
         daoUtil.setString( 2, pageTemplate.getDescription(  ) );
