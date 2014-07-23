@@ -227,8 +227,6 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     @Override
     public void delete( int nIdMailItemQueue )
     {
-        TransactionManager.beginTransaction( null );
-
         Transaction transaction = new Transaction(  );
 
         try
@@ -241,7 +239,6 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
             transaction.executeStatement(  );
             transaction.commit(  );
         }
-
         catch ( Exception e )
         {
             transaction.rollback( e );
