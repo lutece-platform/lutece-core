@@ -41,13 +41,10 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.NoDatabaseException;
 
 import org.apache.log4j.Logger;
-
 import org.springframework.jdbc.datasource.DataSourceUtils;
-
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.io.InputStream;
-
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
@@ -57,7 +54,6 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
-
 import java.text.MessageFormat;
 
 import javax.sql.DataSource;
@@ -146,28 +142,27 @@ public class DAOUtil
 
         try
         {
-            // first, we check if there is a managed transaction to get the transactionnal connection
-            MultiPluginTransaction transaction = null;
+            MultiPluginTransaction transaction = TransactionManager.getCurrentTransaction( plugin );
 
-            if ( TransactionSynchronizationManager.isSynchronizationActive(  ) )
+            if ( transaction != null )
             {
                 _bTransactionnal = true;
-
-                DataSource ds = AppConnectionService.getPoolManager(  ).getDataSource( _connectionService.getPoolName(  ) );
-                _connection = DataSourceUtils.getConnection( ds );
-
-                if ( _logger.isDebugEnabled(  ) )
-                {
-                    _logger.debug( "Transactionnal context is used for pool " + _connectionService.getPoolName(  ) );
-                }
             }
             else
             {
-                transaction = TransactionManager.getCurrentTransaction( plugin );
-
-                if ( transaction != null )
+                // We check if there is a managed transaction to get the transactionnal connection
+                if ( TransactionSynchronizationManager.isSynchronizationActive( ) )
                 {
                     _bTransactionnal = true;
+
+                    DataSource ds = AppConnectionService.getPoolManager( ).getDataSource(
+                            _connectionService.getPoolName( ) );
+                    _connection = DataSourceUtils.getConnection( ds );
+
+                    if ( _logger.isDebugEnabled( ) )
+                    {
+                        _logger.debug( "Transactionnal context is used for pool " + _connectionService.getPoolName( ) );
+                    }
                 }
                 else
                 {
