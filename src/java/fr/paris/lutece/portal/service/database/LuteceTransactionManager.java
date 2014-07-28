@@ -37,6 +37,8 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.util.sql.TransactionManager;
 
+import org.apache.commons.lang.StringUtils;
+
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionException;
@@ -109,7 +111,14 @@ public class LuteceTransactionManager implements PlatformTransactionManager
     {
         if ( _plugin == null )
         {
-            this._plugin = PluginService.getPlugin( _strPluginName );
+            if ( StringUtils.isNotBlank( _strPluginName ) )
+            {
+                this._plugin = PluginService.getPlugin( _strPluginName );
+            }
+            else
+            {
+                _plugin = PluginService.getCore(  );
+            }
         }
 
         return _plugin;

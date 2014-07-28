@@ -459,11 +459,12 @@ public final class WorkflowService
     {
         if ( isAvailable(  ) )
         {
+            State state = null;
             TransactionManager.beginTransaction( null );
 
             try
             {
-                _service.getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId );
+                state = _service.getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId );
                 TransactionManager.commitTransaction( null );
             }
             catch ( Exception e )
@@ -471,6 +472,8 @@ public final class WorkflowService
                 TransactionManager.rollBack( null );
                 throw new AppException( e.getMessage(  ), e );
             }
+
+            return state;
         }
 
         return null;
