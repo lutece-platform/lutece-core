@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.database;
 import fr.paris.lutece.portal.service.plugin.PluginEvent;
 import fr.paris.lutece.portal.service.plugin.PluginEventListener;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.util.sql.TransactionManager;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -53,8 +54,11 @@ import javax.sql.DataSource;
 
 
 /**
- * DataSource transaction manager.
- *
+ * DataSource transaction manager. This transaction manager use Spring
+ * transaction manager, and do not use {@link TransactionManager}. This
+ * transaction manager allow to use transaction in a given plugin, but does not
+ * influence other plugins. To create transactions throw multiple plugins, use
+ * {@link LuteceTransactionManager}
  */
 public class DAOUtilTransactionManager extends DataSourceTransactionManager implements PluginEventListener
 {
