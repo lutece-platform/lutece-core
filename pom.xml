@@ -176,7 +176,7 @@
             <artifactId>spring-web</artifactId>
             <version>${springVersion}</version>
         </dependency>
-       <dependency>
+        <dependency>
             <groupId>opensymphony</groupId>
             <artifactId>quartz</artifactId>
             <version>1.6.3</version>
@@ -240,10 +240,10 @@
             <classifier>jdk15</classifier>
         </dependency>
         <dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.13</version>
-		</dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
         
         <!-- @Inject API -->
         <dependency>
@@ -282,7 +282,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-jmx-api</artifactId>
-            <version>[0.1.0,)</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 	
