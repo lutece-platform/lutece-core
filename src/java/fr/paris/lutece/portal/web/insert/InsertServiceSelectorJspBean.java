@@ -56,9 +56,15 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
 {
-    ////////////////////////////////////////////////////////////////////////////
-    // Right
+    /**
+     * Right to manage this feature
+     */
     public static final String RIGHT_MANAGE_LINK_SERVICE = "CORE_LINK_SERVICE_MANAGEMENT";
+
+    /**
+     * Session key to set the content to insert
+     */
+    public static final String SESSION_INSERT = "portal.session.insertServiceSelector.contentToInsert";
     private static final long serialVersionUID = 3395846045509139922L;
 
     // Constants
@@ -138,7 +144,15 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
     {
         String strMode = request.getParameter( PARAMETER_MODE );
         String strInput = request.getParameter( PARAMETER_INPUT );
-        String strInsert = request.getParameter( PARAMETER_INSERT );
+        String strInsert = (String) request.getSession(  ).getAttribute( SESSION_INSERT );
+
+        if ( strInsert == null )
+        {
+            strInsert = request.getParameter( PARAMETER_INSERT );
+        }
+
+        request.getSession(  ).removeAttribute( SESSION_INSERT );
+
         Map<String, String> model = new HashMap<String, String>(  );
         model.put( MARK_INPUT, strInput );
         model.put( MARK_INSERT, strInsert );
