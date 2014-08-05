@@ -186,7 +186,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-lucene</artifactId>
-            <version>1.0.6-SNAPSHOT</version>
+            <version>2.0.0</version>
             <type>lutece-plugin</type>
         </dependency>
         
