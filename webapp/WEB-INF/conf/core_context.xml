@@ -177,7 +177,7 @@
         <property name="dao" ref="adminUserPreferencesDAO" />
     </bean>
     <!-- Security Token Service -->
-    <bean id="securityTokenService" class="fr.paris.lutece.portal.service.security.SecurityTokenService">
+    <bean id="securityTokenService" class="fr.paris.lutece.portal.service.security.SecurityTokenService"/>
     <!-- Cleaner HTML -->
     <!-- Cleaner Jtidy HTML -->
     <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JTidyHtmlCleaner" />
