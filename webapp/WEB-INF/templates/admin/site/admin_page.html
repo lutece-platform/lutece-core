@@ -89,7 +89,7 @@ $(document).ready(function(){
 		// Set the iframe src with the clicked link href.
 		$('#preview').attr('src', $(this).children().attr('href') );
 	});
-	
+	$("footer").remove();
 	$("#fullscreen").on('click', function(e) {
 		// Stop the link default behaviour.
 		e.preventDefault();

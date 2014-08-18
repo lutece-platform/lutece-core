@@ -33,5 +33,9 @@
 
 
 %>
-<iframe id="preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="100%" height="750" scrolling="auto">Pr&eacute;visualisation du site</iframe>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<iframe id="preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="100%" height="750" scrolling="auto">Pr&eacute;visualisation du site</iframe>
+	</div>	
+</div>	
 <%@ include file="../AdminFooter.jsp"%>
