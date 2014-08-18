@@ -177,9 +177,9 @@ INSERT INTO core_datastore VALUES ('core.advanced_parameters.access_failures_int
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.expired_alert_mail_sender', 'lutece@nowhere.com');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.expired_alert_mail_subject', 'Votre compte a expiré');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.first_alert_mail_sender', 'lutece@nowhere.com');
-INSERT INTO core_datastore VALUES ('core.advanced_parameters.first_alert_mail_subject', 'Votre compte va bientot expirer');
+INSERT INTO core_datastore VALUES ('core.advanced_parameters.first_alert_mail_subject', 'Votre compte va bientôt expirer');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.other_alert_mail_sender', 'lutece@nowhere.com');
-INSERT INTO core_datastore VALUES ('core.advanced_parameters.other_alert_mail_subject', 'Votre compte va bientot expirer');
+INSERT INTO core_datastore VALUES ('core.advanced_parameters.other_alert_mail_subject', 'Votre compte va bientôt expirer');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.account_reactivated_mail_sender', 'lutece@nowhere.com');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.account_reactivated_mail_subject', 'Votre compte a bien été réactivé');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.access_failures_captcha', '1');
@@ -220,7 +220,7 @@ INSERT INTO core_template VALUES ('core_first_alert_mail', 'Bonjour ${first_name
 INSERT INTO core_template VALUES ('core_expiration_mail', 'Bonjour ${first_name} ! Votre compte a expiré. Vous ne pourrez plus vous connecter avec, et les données vous concernant ont été anonymisées');
 INSERT INTO core_template VALUES ('core_other_alert_mail', 'Bonjour ${first_name} ! Votre compte utilisateur arrive à expiration. Pour prolonger sa validité, veuillez <a href="${url}">cliquer ici</a>.</br>Si vous ne le faites pas avant le ${date_valid}, il sera désactivé.');
 INSERT INTO core_template VALUES ('core_account_reactivated_mail', 'Bonjour ${first_name} ! Votre compte utilisateur a bien été réactivé. Il est désormais valable jusqu''au ${date_valid}.');
-INSERT INTO core_template VALUES ('core_password_expired', 'Bonjour ! Votre mot de passe a expiré. Lors de votre prochaine connection, vous pourrez le changer.');
+INSERT INTO core_template VALUES ('core_password_expired', 'Bonjour ! Votre mot de passe a expiré. Lors de votre prochaine connexion, vous pourrez le changer.');
 
 INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.globalmanagement.editors.labelBackTinyMCE', 1 );
 INSERT INTO core_text_editor VALUES ( '', 'portal.globalmanagement.editors.labelBackNoEditor', 1 );

@@ -14,9 +14,9 @@ INSERT INTO core_user_parameter VALUES ('access_failures_interval', '10');
 INSERT INTO core_user_parameter VALUES ('expired_alert_mail_sender', 'lutece@nowhere.com');
 INSERT INTO core_user_parameter VALUES ('expired_alert_mail_subject', 'Votre compte a expiré');
 INSERT INTO core_user_parameter VALUES ('first_alert_mail_sender', 'lutece@nowhere.com');
-INSERT INTO core_user_parameter VALUES ('first_alert_mail_subject', 'Votre compte va bientot expirer');
+INSERT INTO core_user_parameter VALUES ('first_alert_mail_subject', 'Votre compte va bientôt expirer');
 INSERT INTO core_user_parameter VALUES ('other_alert_mail_sender', 'lutece@nowhere.com');
-INSERT INTO core_user_parameter VALUES ('other_alert_mail_subject', 'Votre compte va bientot expirer');
+INSERT INTO core_user_parameter VALUES ('other_alert_mail_subject', 'Votre compte va bientôt expirer');
 INSERT INTO core_user_parameter VALUES ('account_reactivated_mail_sender', 'lutece@nowhere.com');
 INSERT INTO core_user_parameter VALUES ('account_reactivated_mail_subject', 'Votre compte a bien été réactivé');
 
@@ -70,7 +70,7 @@ INSERT INTO core_template VALUES ('core_first_alert_mail', 'Bonjour ${first_name
 INSERT INTO core_template VALUES ('core_expiration_mail', 'Bonjour ${first_name} ! Votre compte a expiré. Vous ne pourrez plus vous connecter avec, et les données vous concernant ont été anonymisées');
 INSERT INTO core_template VALUES ('core_other_alert_mail', 'Bonjour ${first_name} ! Votre compte utilisateur arrive à expiration. Pour prolonger sa validité, veuillez <a href="${url}">cliquer ici</a>.</br>Si vous ne le faites pas avant le ${date_valid}, il sera désactivé.');
 INSERT INTO core_template VALUES ('core_account_reactivated_mail', 'Bonjour ${first_name} ! Votre compte utilisateur a bien été réactivé. Il est désormais valable jusqu''au ${date_valid}.');
-INSERT INTO core_template VALUES ('core_password_expired', 'Bonjour ! Votre mot de passe a éxpiré. Lors de votre prochaine connection, vous pourrez le changer.');
+INSERT INTO core_template VALUES ('core_password_expired', 'Bonjour ! Votre mot de passe a expiré. Lors de votre prochaine connexion, vous pourrez le changer.');
 
 --
 -- UPDATE of email size to 256 for respecting WSSO constraints 
