@@ -2,17 +2,12 @@
 </div>
 <!-- footer menu -->
 <footer class="hidden-phone">
-	<nav id="footer" class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-		<div class="container">
-			<span id="btFooter" class="badge" title="#i18n{portal.site.portal_footer.footerPosition}">
-				<i class="glyphicon glyphicon-arrow-down"></i>
-			</span>
-			<div class="navbar-text navbar-right">
-				<a class="navbar-link" href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
-					<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
-					<small>version ${version}</small>
-				</a>
-			</div>
+	<nav id="footer" class="navbar navbar-default" role="navigation">
+		<div class="navbar-text navbar-right">
+			<a class="navbar-link" href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
+				<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
+				<small>version ${version}</small>
+			</a>
 		</div>
 	</nav>
 </footer>
@@ -25,14 +20,26 @@
 <script src="js/locales/bootstrap-datepicker.fr.js"></script>
 <script src="js/jquery/plugins/ui/jquery-ui-1.9.2.custom.min.js"></script>
 <script>
-$(document).ready(function(e){
-	$("#btFooter").click( function(e){
-		if( $('#footer').hasClass("navbar-fixed-bottom") ){
-			$("#btFooter > i").removeClass("icon-arrow-down").addClass("icon-arrow-up");
-		} else {
-			$("#btFooter > i").removeClass("icon-arrow-up").addClass("icon-arrow-down");
-		}
-		$('#footer').toggleClass("navbar-fixed-bottom");
-	});
+// Resize Footer 
+$(window).bind("load", function() { 
+       var footerHeight = 0,footerTop = 0, $footer = $("footer");
+       positionFooter();
+       
+       function positionFooter() {
+                footerHeight = $footer.height();
+                footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px";
+               if ( ($(document.body).height()+footerHeight) < $(window).height()) {
+                   $footer.css({
+                        position: "absolute"
+                   }).css({
+                        top: footerTop
+                   })
+               } else {
+                   $footer.css({
+                        position: "static"
+                   })
+               }
+       }
+       $(window).scroll(positionFooter).resize(positionFooter);
 });
 </script>
