@@ -44,6 +44,3 @@
 			</button>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-xs-offset-12 col-md-offset-12">&nbsp;</div>
-	</div>
