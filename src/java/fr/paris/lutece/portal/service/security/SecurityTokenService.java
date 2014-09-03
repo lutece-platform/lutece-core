@@ -54,7 +54,7 @@ public class SecurityTokenService implements ISecurityTokenService
 {
     public static final String MARK_TOKEN = "token";
     public static final String PARAMETER_TOKEN = "token";
-    private static final String BEAN_SECURITY_TOKEN_SERVICE = "secutityTokenService";
+    private static final String BEAN_SECURITY_TOKEN_SERVICE = "securityTokenService";
     private static final String PARAMETER_SESSION_TOKENS = "tokens";
     private static ISecurityTokenService _singleton;
 
