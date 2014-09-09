@@ -147,10 +147,12 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
                 DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
                 daoUtil.setInt( 1, nNewPrimaryKey );
                 daoUtil.executeUpdate(  );
+                daoUtil.free();
                 daoUtil = new DAOUtil( SQL_QUERY_INSERT_MAIL_ITEM );
                 daoUtil.setInt( 1, nNewPrimaryKey );
                 daoUtil.setBytes( 2, byteArrayOutputStream.toByteArray(  ) );
                 daoUtil.executeUpdate(  );
+                daoUtil.free();
                 TransactionManager.commitTransaction( null );
             }
             catch ( Exception e )
