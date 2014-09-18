@@ -1,57 +1,59 @@
-<div class="row">  
-	<div class="col-xs-12 col-sm-12 col-md-12"> 
-		<form class="form-horizontal" method="post" action="jsp/admin/xsl/DoModifyXslExport.jsp" enctype="multipart/form-data">
-			<fieldset>
-				<legend>#i18n{portal.xsl.modify_xsl_export.title}</legend>
-				<input name="id_xsl_export" value="${xsl_export.idXslExport}" type="hidden" />
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-3 col-md-3" for="title" >#i18n{portal.xsl.create_xsl_export.label_title} * : </label>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<input type="text" class="form-control input-sm" id="title" name="title" maxlength="255" value="${xsl_export.title}">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="box box-danger">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.xsl.modify_xsl_export.title}</h3>
+			</div><!-- /.box-header -->
+			<div class="box-body">
+				<form class="form-horizontal" method="post" action="jsp/admin/xsl/DoModifyXslExport.jsp" enctype="multipart/form-data">
+					<input name="id_xsl_export" value="${xsl_export.idXslExport}" type="hidden" />
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="title" >#i18n{portal.xsl.create_xsl_export.label_title} *</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control" id="title" name="title" maxlength="255" value="${xsl_export.title}">
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-3 col-md-3" for="description" >#i18n{portal.xsl.create_xsl_export.label_description} * : </label>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<input type="text" class="form-control input-sm" id="description" name="description" maxlength="255" value="${xsl_export.description}">
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="description" >#i18n{portal.xsl.create_xsl_export.label_description} *</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control" id="description" name="description" maxlength="255" value="${xsl_export.description}">
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-3 col-md-3" for="extension" >#i18n{portal.xsl.create_xsl_export.label_extension} (*) : </label>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<input type="text" class="form-control input-sm" id="extension" name="extension" maxlength="10" value="${xsl_export.extension}">
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="extension" >#i18n{portal.xsl.create_xsl_export.label_extension} (*)</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control" id="extension" name="extension" maxlength="10" value="${xsl_export.extension}">
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-3 col-md-3" for="plugin" >#i18n{portal.xsl.create_xsl_export.label_plugin} * : </label>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<@comboSortedWithParams name="plugin" additionalParameters="class='form-control input-sm'" items=list_plugins default_value=xsl_export.plugin />
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="plugin" >#i18n{portal.xsl.create_xsl_export.label_plugin} *</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<@comboSortedWithParams name="plugin" additionalParameters="class='form-control'" items=list_plugins default_value=xsl_export.plugin />
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-3 col-md-3" for="id_file" >#i18n{portal.xsl.create_xsl_export.label_file} * : </label>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<input type="file" id="id_file" name="id_file" class="input-xs" maxlength="100"/>
-						<p class="help-block">
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="id_file" >#i18n{portal.xsl.create_xsl_export.label_file} *</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="file" id="id_file" name="id_file"  maxlength="100" >
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
 							<#if xsl_export.file?exists >
-								<span class="label label-inverse">
-									<a href="jsp/admin/xsl/DoDownloadXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.labelDownload} ${xsl_export.file.title}" >
-										<i class="glyphicon glyphicon-download"></i>&nbsp;${xsl_export.file.title}(${xsl_export.file.size} O)
-									</a>
-								</span>
-							</#if>	 
-						</p>	
-					</div>	
-				</div>
-				<div class="form-group">
-					<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
-						<button class="btn btn-primary btn-sm" type="submit"><i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_save}</button>
-						<a class="btn btn-default btn-sm" href="jsp/admin/xsl/ManageXslExport.jsp">
-							<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_cancel}
-						</a>
+								<a class="btn btn-info btn-flat" href="jsp/admin/xsl/DoDownloadXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.labelDownload} ${xsl_export.file.title}" >
+									<i class="glyphicon glyphicon-download"></i>&nbsp;${xsl_export.file.title}(${xsl_export.file.size} O)
+								</a>
+							</#if>
+							<button class="btn btn-primary btn-flat" type="submit">
+								<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_save}
+							</button>
+							<a class="btn btn-default btn-flat" href="jsp/admin/xsl/ManageXslExport.jsp">
+								<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_cancel}
+							</a>
+						</div>
 					</div>
-				</div>
-			</fieldset>
-		</form>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>

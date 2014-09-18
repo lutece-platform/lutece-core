@@ -1,6 +1,7 @@
+<!--
 <div class="well lutece-dashboard-user">
 	<legend>
-		<a href="${url}" title="#i18n{portal.users.adminFeature.users_management.name}">
+		<a href="" title="#i18n{portal.users.adminFeature.users_management.name}">
 			#i18n{portal.users.adminFeature.users_management.name}
 			<span class="pull-right">
 				<i class="fa fa-group"></i>
@@ -8,6 +9,20 @@
 		</a>
 	</legend>
 	<div class="panel-content-small">
-		#i18n{portal.users.dashboard.usersCount}<span class="badge badge-info pull-right">${users_count}</span> 
+		<span class="badge badge-info pull-right"></span> 
 	</div>
+</div>
+-->
+<!-- small box -->
+<div class="small-box bg-yellow">
+	<div class="inner">
+		<h3>${users_count}</h3>
+        <p>#i18n{portal.users.dashboard.usersCount}</p>
+    </div>
+    <div class="icon">
+		<i class="fa fa-user"></i>
+    </div>
+    <a href="${url}" class="small-box-footer">
+		#i18n{portal.users.adminFeature.users_management.name} <i class="fa fa-arrow-circle-right"></i>
+    </a>
 </div>

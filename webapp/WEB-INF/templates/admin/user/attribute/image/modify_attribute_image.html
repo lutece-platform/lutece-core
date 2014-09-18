@@ -1,91 +1,102 @@
-<form class="form-horizontal" action="jsp/admin/user/attribute/DoModifyAttribute.jsp" method="post" >
-	<fieldset>
-		<legend>#i18n{portal.users.modify_attribute.pageTitleAttributeImage}</legend>
-	    <div class="form-group">
-	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
-	        <div class="col-xs-12 col-sm-9 col-md-9">
-				<input type="text" class="form-control input-sm" name="title" id="title" size="80" value="${attribute.title}"  maxlength="255">
-	        	<span class="help-block">#i18n{portal.users.modify_attribute.labelTitleComment}</span>
-	        </div>
-	    </div>
-	    <div class="form-group">
-	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage} : </label>
-	        <div class="col-xs-12 col-sm-9 col-md-9">
-				<textarea name="help_message" class="form-control input-sm" id="help_message"  cols="80" rows="5">${attribute.helpMessage}</textarea>
-	        	#i18n{portal.users.modify_attribute.labelHelpMessageComment}
-	       	</div>
-	    </div>
-	    <div class="form-group">
-	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="">#i18n{portal.users.modify_attribute.labelType} : </label>
-	        <div class="col-xs-12 col-sm-9 col-md-9">
-				${attribute.attributeType.name}
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-success">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.users.modify_attribute.pageTitleAttributeImage}</h3>
 			</div>
-	    </div>
-	    <div class="form-group">
-	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_result_list">#i18n{portal.users.modify_attribute.labelIsShownInResultList} : </label>
-	        <div class="col-xs-12 col-sm-9 col-md-9">
-				<div class="checkbox">
-					<label>
-				<#if attribute.shownInResultList = false>
-						<input name="is_shown_in_result_list" value="1" type="checkbox">&nbsp;
-	        	<#else>
-						<input name="is_shown_in_result_list" value="1" type="checkbox" checked="checked">&nbsp;
-	        	</#if>
-					</label>
-				</div>
-	        </div>
-	    </div>
-	    <div class="form-group">
-	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="mandatory">#i18n{portal.users.modify_attribute.labelMandatory} : </label>
-	        <div class="col-xs-12 col-sm-9 col-md-9">
-				<div class="checkbox">
-					<label>
-				<#if attribute.mandatory = false>
-						<input name="mandatory" value="1" type="checkbox">&nbsp;
-	        	<#else>
-						<input name="mandatory" value="1" type="checkbox" checked="checked">&nbsp;
-	        	</#if>
-					</label>
-				</div>
-	        </div>
-	    </div>	
-	    <div class="form-group">
-	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="width">#i18n{portal.users.modify_attribute.labelWidth} : </label>
-	        <div class="col-xs-12 col-sm-9 col-md-9">
-				<#list attribute_fields_list as attribute_field>
-	        		<#if attribute_field.width != -1>
-	        			<input type="text" class="form-control input-sm" name="width" id="width" size="5" value="${attribute_field.width}">
-	        		<#else>
-	        			<input type="text" class="form-control input-sm" name="width" id="width" size="5" value="">
-	        		</#if>
-	        	</#list>
-	        </div>
-	    </div>
-	    <div class="form-group">
-	        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="height">#i18n{portal.users.modify_attribute.labelHeight} : </label>
-	        <div class="col-xs-12 col-sm-9 col-md-9">
-				<#list attribute_fields_list as attribute_field>
-	        		<#if attribute_field.height != -1>
-	        			<input type="text" class="form-control input-sm" name="height" id="height" size="5" value="${attribute_field.height}">
-	        		<#else>
-	        			<input type="text" class="form-control input-sm" name="height" id="height" size="5" value="">
-	        		</#if>
-	        	</#list>
-	        </div>
-	    </div>
-	    <div class="form-group">
-			<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
-				<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
-				<button class="btn btn-primary btn-sm" type="submit" name="validate" value="validate" >
-					<i class="glyphicon glyphicon-ok">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonValidate}
-				</button>
-				<button class="btn btn-primary btn-sm" type="submit" name="apply" value="apply" >
-					<i class="glyphicon glyphicon-ok-circle">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonApply}
-				</button>
-				<button class="btn btn-default btn-sm" type="submit" name="cancel" value="cancel" >
-					<i class="glyphicon glyphicon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
-				</button>
+			<div class="box-body">
+				<form class="form-horizontal" action="jsp/admin/user/attribute/DoModifyAttribute.jsp" method="post" >
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
+						<div class="col-xs-12 col-sm-9 col-md-9">
+							<input type="text" class="form-control" name="title" id="title" value="${attribute.title}"  maxlength="255">
+							<span class="help-block">#i18n{portal.users.modify_attribute.labelTitleComment}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage}</label>
+						<div class="col-xs-12 col-sm-9 col-md-9">
+							<textarea name="help_message" class="form-control" id="help_message" cols="80" rows="5">${attribute.helpMessage}</textarea>
+							#i18n{portal.users.modify_attribute.labelHelpMessageComment}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="">#i18n{portal.users.modify_attribute.labelType}</label>
+						<div class="col-xs-12 col-sm-9 col-md-9">
+							${attribute.attributeType.name}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_result_list"></label>
+						<div class="col-xs-12 col-sm-9 col-md-9">
+							<div class="checkbox">
+								<label>
+									<#if attribute.shownInResultList = false>
+											<input name="is_shown_in_result_list" value="1" type="checkbox">&nbsp;
+									<#else>
+											<input name="is_shown_in_result_list" value="1" type="checkbox" checked="checked">&nbsp;
+									</#if>
+									#i18n{portal.users.modify_attribute.labelIsShownInResultList}
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="mandatory"></label>
+						<div class="col-xs-12 col-sm-9 col-md-9">
+							<div class="checkbox">
+								<label>
+									<#if attribute.mandatory = false>
+											<input name="mandatory" value="1" type="checkbox">&nbsp;
+									<#else>
+											<input name="mandatory" value="1" type="checkbox" checked="checked">&nbsp;
+									</#if>
+									#i18n{portal.users.modify_attribute.labelMandatory} 
+								</label>
+							</div>
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="width">#i18n{portal.users.modify_attribute.labelWidth}</label>
+						<div class="col-xs-12 col-sm-9 col-md-9">
+							<#list attribute_fields_list as attribute_field>
+								<#if attribute_field.width != -1>
+									<input type="text" class="form-control" name="width" id="width" value="${attribute_field.width}">
+								<#else>
+									<input type="text" class="form-control" name="width" id="width" value="">
+								</#if>
+							</#list>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="height">#i18n{portal.users.modify_attribute.labelHeight}</label>
+						<div class="col-xs-12 col-sm-9 col-md-9">
+							<#list attribute_fields_list as attribute_field>
+								<#if attribute_field.height != -1>
+									<input type="text" class="form-control" name="height" id="height" value="${attribute_field.height}">
+								<#else>
+									<input type="text" class="form-control" name="height" id="height" value="">
+								</#if>
+							</#list>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
+							<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
+							<button class="btn btn-primary btn-flat" type="submit" name="validate" value="validate" >
+								<i class="glyphicon glyphicon-ok">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonValidate}
+							</button>
+							<button class="btn btn-primary btn-flat" type="submit" name="apply" value="apply" >
+								<i class="glyphicon glyphicon-ok-circle">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonApply}
+							</button>
+							<button class="btn btn-default btn-flat" type="submit" name="cancel" value="cancel" >
+								<i class="glyphicon glyphicon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+							</button>
+						</div>
+					</div>
+				</form>
 			</div>
-	    </div>
-    </fieldset>
-</form>
+		</div>
+	</div>
+</div>
+

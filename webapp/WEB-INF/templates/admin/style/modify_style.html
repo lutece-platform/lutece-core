@@ -1,51 +1,57 @@
-<div class="row" >
-    <legend>#i18n{portal.style.modify_style.title}</legend>
-    <form class="form-horizontal" method="post" name="modify_style" action="jsp/admin/style/DoModifyStyle.jsp">
-        <fieldset>
-            <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="style_id" >#i18n{portal.style.modify_style.labelId} * : </label>
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <input type="text" class="form-control input-sm" id="style_id" name="style_id" readonly="readonly" value="${style.id}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="style_name">#i18n{portal.style.modify_style.labelName} * : </label>
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <input type="text" class="form-control input-sm" id="style_name" name="style_name" value="${style.description}" size="60" maxlength="100">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="portal_component">#i18n{portal.style.modify_style.labelComponentType} :</label>
-                <#assign javascriptComboParams>onChange="javascript:if( document.modify_style.portal_component.value == '0' ) {document.modify_style.portlet_type.disabled=false;} else {document.modify_style.portlet_type.disabled=true;}"</#assign>
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <@comboWithParams name="portal_component" default_value="${style.portalComponentId}" additionalParameters="${javascriptComboParams} class='form-control input-sm'" items=portal_component_list />
-                </div>
-            </div>
-            <#if style.portletTypeId??>
-            <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="portlet_type">#i18n{portal.style.modify_style.labelPortletType} :</label>
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <@comboSortedWithParams name="portlet_type" default_value="${style.portletTypeId}" additionalParameters="class='form-control input-sm'" items=portlet_type_list />
-                </div>
-            </div>
-            </#if>
-            <div class="form-group">
-				<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
-					<button class="btn btn-primary btn-sm" type="submit" >
-						<i class="glyphicon glyphicon-ok"></i> #i18n{portal.style.modify_style.buttonModify}
-					</button>
-					<a class="btn btn-default btn-sm" href="jsp/admin/style/ManageStyles.jsp">
-						<i class="glyphicon glyphicon-remove-circle"></i> #i18n{portal.admin.message.buttonCancel}
-					</a>
-				</div>
-            </div>
-        </fieldset>
-    </form>
-    <script>
-    if( document.modify_style.portal_component.value == '0' ){
-        document.modify_style.portlet_type.disabled=false;
-    } else {
-        document.modify_style.portlet_type.disabled=true;
-    }
-    </script>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="box box-info">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.style.modify_style.title}</h3>
+			</div><!-- /.box-header -->
+			<div class="box-body">
+				<form class="form-horizontal" method="post" name="modify_style" action="jsp/admin/style/DoModifyStyle.jsp">
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="style_id" >#i18n{portal.style.modify_style.labelId} *</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control" id="style_id" name="style_id" readonly="readonly" value="${style.id}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="style_name">#i18n{portal.style.modify_style.labelName} *</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control" id="style_name" name="style_name" value="${style.description}" size="60" maxlength="100">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="portal_component">#i18n{portal.style.modify_style.labelComponentType} </label>
+						<#assign javascriptComboParams>onChange="javascript:if( document.modify_style.portal_component.value == '0' ) {document.modify_style.portlet_type.disabled=false;} else {document.modify_style.portlet_type.disabled=true;}"</#assign>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<@comboWithParams name="portal_component" default_value="${style.portalComponentId}" additionalParameters="${javascriptComboParams} class='form-control'" items=portal_component_list />
+						</div>
+					</div>
+					<#if style.portletTypeId??>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="portlet_type">#i18n{portal.style.modify_style.labelPortletType} </label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<@comboSortedWithParams name="portlet_type" default_value="${style.portletTypeId}" additionalParameters="class='form-control'" items=portlet_type_list />
+						</div>
+					</div>
+					</#if>
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
+							<button class="btn btn-primary btn-flat" type="submit" >
+								<i class="glyphicon glyphicon-ok"></i> #i18n{portal.style.modify_style.buttonModify}
+							</button>
+							<a class="btn btn-default btn-flat" href="jsp/admin/style/ManageStyles.jsp">
+								<i class="glyphicon glyphicon-remove-circle"></i> #i18n{portal.admin.message.buttonCancel}
+							</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
+    <script>
+		if( document.modify_style.portal_component.value == '0' ){
+			document.modify_style.portlet_type.disabled=false;
+		} else {
+			document.modify_style.portlet_type.disabled=true;
+		}
+    </script>

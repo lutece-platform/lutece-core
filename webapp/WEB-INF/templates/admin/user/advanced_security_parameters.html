@@ -1,6 +1,6 @@
-    <fieldset>
-        <legend>#i18n{portal.users.manage_advanced_parameters.securityParameters}</legend>
 		<form class="form-horizontal" method="post" name="password_global_security" action="jsp/admin/user/DoModifyDefaultUserSecurityParameterValues.jsp#footer">
+		<fieldset>
+			<legend>#i18n{portal.users.manage_advanced_parameters.securityParameters}</legend>
             <div class="form-group">
             	<label class="control-label col-xs-12 col-sm-3 col-md-3" for="banned_domain_names">#i18n{portal.users.manage_advanced_parameters.labelBannedDomainNames} : </label>
             	<div class="col-xs-12 col-sm-9 col-md-9">
@@ -113,11 +113,11 @@
 					<button class="btn btn-primary btn-sm" type="submit" >#i18n{portal.util.labelModify}</button>
 				</div>
             </div>
+		</fieldset>
 		</form>
-    </fieldset>
 
-    <fieldset>
 		<form class="form-horizontal append-bottom" method="post" action="jsp/admin/user/ModifyAccountLifeTimeEmails.jsp">
+			<fieldset>
             <legend>#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}</legend>
             <div class="form-group">
                 <label class="control-label col-xs-12 col-sm-3 col-md-3" for="email_type">#i18n{portal.users.accountLifeTime.labelSelectEmail} :</label>
@@ -138,5 +138,5 @@
 					&nbsp;#i18n{portal.users.accountLifeTime.labelEditEmail}</button>
 				</div>
             </div>
-    </fieldset>
+		</fieldset>
     </form>

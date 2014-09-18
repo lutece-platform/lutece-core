@@ -5,5 +5,4 @@
 
 <%= login.getLogin( request ) %>
 
-<%@ include file="AdminFooter.jsp" %>
 

@@ -1,56 +1,52 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12" >
-		<form class="form-inline" method="post" action="jsp/admin/xsl/CreateXslExport.jsp">
-            <fieldset>
-				<legend>
-					#i18n{portal.xsl.manage_xsl_export.title}
-					<#if right_create>
-					<div class="pull-right">
-						<button class="btn btn-primary btn-sm" type="submit" >
-			                <i class="glyphicon glyphicon-plus" ></i>
-			                <span class="hidden-phone" >#i18n{portal.xsl.manage_xsl_export.button_create}</span>
-			            </button>
-		            </div>
-					</#if>
-				</legend>
-			</fieldset>
-		</form>
-		<@paginationAdmin paginator=paginator combo=1 />
-		<table class="table table-striped table-condensed" summary="#i18n{portal.xsl.manage_xsl_export.title}">
-			<caption>&nbsp;</caption>
-			<tr>
-				<th scope="col">#i18n{portal.xsl.manage_xsl_export.row_title}</th>
-				<th scope="col">#i18n{portal.xsl.manage_xsl_export.row_description}</th>
-				<th scope="col">#i18n{portal.xsl.manage_xsl_export.row_extension}</th>
-				<th scope="col">#i18n{portal.xsl.manage_xsl_export.row_actions}</th>
-			</tr>
-			   
-			<#list xsl_export_list as xsl_export>
-				<tr>
-					<td>
-						${xsl_export.title}
-					</td>
-					<td>
-						${xsl_export.description}
-					</td>
-					<td >
-						${xsl_export.extension}
-					</td>
-					<td >
-						<#if right_modify>
-							<a class="btn btn-primary btn-xs" href="jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_modify}">
-								<i class="glyphicon glyphicon-edit"></i>
-							</a>
-						</#if>
-						<#if right_delete>
-							<a class="btn btn-danger btn-xs" href="jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_delete}">
-								<i class="glyphicon glyphicon-trash"></i>
-							</a>
-						</#if>
-					</td>
-				</tr>
-			</#list>
-		</table> 
-		<@paginationAdmin paginator=paginator />
+		<div class="box box-danger">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.xsl.manage_xsl_export.title}</h3>
+				<#if right_create>
+					<div class="box-tools pull-right">
+						<form class="form-inline" method="post" action="jsp/admin/xsl/CreateXslExport.jsp">
+						<button class="btn btn-primary btn-xs btn-flat" type="submit" >
+							<i class="glyphicon glyphicon-plus" ></i>
+							<span class="hidden-phone" >#i18n{portal.xsl.manage_xsl_export.button_create}</span>
+						</button>
+					</form>
+					</div>
+				</#if>
+			</div><!-- /.box-header -->
+			<div class="box-body table-responsive">
+				<table class="table table-hover table-condensed" summary="#i18n{portal.xsl.manage_xsl_export.title}">
+					<caption>&nbsp;</caption>
+					<tr>
+						<th scope="col">#i18n{portal.xsl.manage_xsl_export.row_title}</th>
+						<th scope="col">#i18n{portal.xsl.manage_xsl_export.row_description}</th>
+						<th scope="col">#i18n{portal.xsl.manage_xsl_export.row_extension}</th>
+						<th scope="col">#i18n{portal.xsl.manage_xsl_export.row_actions}</th>
+					</tr>
+					<#list xsl_export_list as xsl_export>
+						<tr>
+							<td>${xsl_export.title}</td>
+							<td>${xsl_export.description}</td>
+							<td>${xsl_export.extension}</td>
+							<td>
+								<#if right_modify>
+									<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_modify}">
+										<i class="glyphicon glyphicon-edit"></i>
+									</a>
+								</#if>
+								<#if right_delete>
+									<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_delete}">
+										<i class="glyphicon glyphicon-trash"></i>
+									</a>
+								</#if>
+							</td>
+						</tr>
+					</#list>
+				</table> 
+			</div> 
+			<div class="box-footer">
+				<@paginationAdmin paginator=paginator combo=1 />
+			</div> 
+		</div> 
 	</div> 
 </div> 

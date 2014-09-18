@@ -1,25 +1,31 @@
-<div class="clearfix">
-    <div class="row">
-        <div class="col-md-12">
-			<fieldset>
-                            <legend>
-                            #i18n{portal.system.view_files_system.boxTitle} <a href="jsp/admin/system/ManageFilesSystem.jsp">${files_system_directory}</a>
-                            </legend>
-				
-			</fieldset>
-			<table class="table">
+<div class="row">
+	<div class="col-md-12">
+		<div class="box box-danger">
+			<div class="box-header">
+				<h3 class="box-title">
+					#i18n{portal.system.view_files_system.boxTitle} 
+					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/system/ManageFilesSystem.jsp">${files_system_directory}</a>
+				</h3>
+			</div><!-- /.box-header -->
+			
+            <div class="box-body table-responsive no-padding">
+				<table class="table table-hover table-condensed">
 				<tr>
 					<th>#i18n{portal.system.view_files_system.labelName}</th>
 					<th>#i18n{portal.system.view_files_system.labelDate}</th>
 					<th>#i18n{portal.system.view_files_system.labelLenght}</th>
+					<th></th>
 				</tr>
 				<#list files_list as file>
 				<tr>
-					<td>
-						<a href="jsp/admin/system/ViewFile.jsp?directory=${file.directory}&file=${file.name}" >${file.name}</a>
-					</td>
+					<td>${file.name}</td>
 					<td>${file.date?datetime?string.medium_short}</td>
 					<td>${file.size} Ko</td>
+					<td>
+						<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/system/ViewFile.jsp?directory=${file.directory}&file=${file.name}">
+							 <i class="glyphicon glyphicon-eye-open"></i>
+						</a>
+					</td>
 				</tr>	
 				</#list>			
             </table>

@@ -1,209 +1,204 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12">
-            <fieldset>
-                <legend>#i18n{portal.workgroup.assign_users.pageTitle} "${workgroup.key}" 
-				<small>${workgroup.description} | #i18n{portal.workgroup.assign_users.workgroup.number_user} : ${assigned_users_number}</small>
-                <span class="pull-right">
-					<a class="btn btn-primary btn-xs" href="jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}" ><i class="glyphicon glyphicon-edit"></i></a>
-					<a class="btn btn-danger btn-xs" href="jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}" ><i class="glyphicon glyphicon-trash"></i></a>
-				</span>
-				</legend>
-            </fieldset>
-		<div class="row">
-		<div class="col-xs-12 col-sm-3 col-md-3">
-		<@item_navigation item_navigator=item_navigator />
-        <!--  -->
-		<#if assigned_users_list?size &gt; 0 || search_is_search >
-			<fieldset>
-                <legend>
-                    #i18n{portal.workgroup.assign_users.labelAssignedUser}
-                </legend>
-                <form class="form-horizontal" method="post" name="search_users" action="jsp/admin/workgroup/AssignUsersWorkgroup.jsp">
+		<div class="box box-success">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.workgroup.assign_users.pageTitle} <strong title="#i18n{portal.workgroup.assign_users.workgroup.description} : ${workgroup.description}"> ${workgroup.key}</strong>
+					<small class="spaced"><i class="glyphicon glyphicon-user"></i>&nbsp;#i18n{portal.workgroup.assign_users.workgroup.number_user} : <span class="badge">${assigned_users_number}</span></small>
+						
+				</h3>
+				<div class="box-tools">
+					<span class="pull-right">
+						<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}" >
+							<i class="glyphicon glyphicon-edit"></i><span class="hidden-xs">#i18n{portal.workgroup.manage_workgroup.buttonLabelDelete}</span>
+						</a>
+						<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}" >
+							<i class="glyphicon glyphicon-trash"></i><span class="hidden-xs">#i18n{portal.workgroup.manage_workgroup.buttonLabelDelete}</span>
+						</a>
+					</span>
+					<small class="pull-left" style="color:#000;"><@item_navigation item_navigator=item_navigator /></small>
+				</div>	
+			</div>	
+			<div class="box-body">
+			<#if assigned_users_list?size &gt; 0 || search_is_search >
+			     <form class="form-inline" method="post" name="search_users" action="jsp/admin/workgroup/AssignUsersWorkgroup.jsp">
                 <#if (user_levels?has_content)>
-					<div class="form-group">
-						<label class="col-xs-12 col-sm-12 col-md-12" for="user_level">#i18n{portal.users.manage_users.search_users.userLevelLabel} :</label>
-						<div class="col-xs-12 col-sm-12 col-md-12">
-							<select id="user_level" name="search_user_level" class="form-control input-sm">
-								<#if (search_admin_user_filter.userLevel > -1) >
-									<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
-									<#list user_levels as user_level>
-										<#if (search_admin_user_filter.userLevel == user_level.id) >
-											<option value="${user_level.id}" selected="selected" >${user_level.name}</option>
-										<#else>
-											<option value="${user_level.id}" >${user_level.name}</option>
-										</#if>
-									</#list>
+					<label for="user_level">#i18n{portal.users.manage_users.search_users.userLevelLabel} :</label>
+					<select id="user_level" name="search_user_level" class="form-control input-xs">
+						<#if (search_admin_user_filter.userLevel > -1) >
+							<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
+							<#list user_levels as user_level>
+								<#if (search_admin_user_filter.userLevel == user_level.id) >
+									<option value="${user_level.id}" selected="selected" >${user_level.name}</option>
 								<#else>
-									<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
-									<#list user_levels as user_level>
-										<option value="${user_level.id}" >${user_level.name}</option>
-									</#list>
+									<option value="${user_level.id}" >${user_level.name}</option>
 								</#if>
-							</select>
-						</div>
-					</div>
-                </#if>
-				<div class="form-group">
-					<label class="col-xs-12 col-sm-12 col-md-12" for="access_code" >#i18n{portal.users.manage_users.search_users.labelAccessCode} :</label>
-					<div class="col-xs-12 col-sm-12 col-md-12">
-						<input type="text" class="form-control input-sm" class="form-control input-sm" id="access_code" name="search_access_code" value="${search_admin_user_filter.accessCode}">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-12 col-sm-12 col-md-12" for="last_name" >#i18n{portal.users.manage_users.search_users.labelLastName} :</label>
-					<div class="col-xs-12 col-sm-12 col-md-12">
-						<input type="text" class="form-control input-sm"  class="form-control input-sm" id="last_name" name="search_last_name" value="${search_admin_user_filter.lastName}" maxlength="100" class="input-sm" tabindex="2">
-					</div>
-				</div>
-				<div class="form-group">				
-					<label class="col-xs-12 col-sm-12 col-md-12" for="first_name">#i18n{portal.users.manage_users.search_users.labelFirstName} :</label>
-					<div class="col-xs-12 col-sm-12 col-md-12">
-						<input type="text" class="form-control input-sm" class="form-control input-sm" id="first_name" name="search_first_name" value="${search_admin_user_filter.firstName}" maxlength="100" class="input-sm" tabindex="3">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-12 col-sm-12 col-md-12" for="email">#i18n{portal.users.manage_users.search_users.labelEmail} :</label>
-					<div class="col-xs-12 col-sm-12 col-md-12">
-						<input type="text" class="form-control input-sm" class="form-control input-sm" id="email" name="search_email" value="${search_admin_user_filter.email}" maxlength="100" class="input-sm" tabindex="4">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-12 col-sm-12 col-md-12" for="status">#i18n{portal.users.manage_users.search_users.labelStatus} :</label>
-					<div class="col-xs-12 col-sm-12 col-md-12">
-						<select id="status" class="form-control input-sm" name="search_status" tabindex="5">
-						<#switch search_admin_user_filter.status >
-							<#case 0 >
-								<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-								<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-								<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-							<#break>
-							<#case 1 >
-								<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-								<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-								<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-							<#break>
-							<#default>
-								<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-								<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-								<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-							<#break>
-						</#switch>
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<#list attributes_list as attribute>
-						<#if attribute.shownInSearch>
-							${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
+							</#list>
+						<#else>
+							<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
+							<#list user_levels as user_level>
+								<option value="${user_level.id}" >${user_level.name}</option>
+							</#list>
 						</#if>
-					</#list>
-					<input type="hidden" name="workgroup_key" value="${workgroup.key}">
-					<div class="col-xs-12 col-sm-12 col-md-12">
-						<button class="btn btn-primary btn-sm" type="submit" tabindex="6" name="search_is_search"> 
-							<i class="glyphicon glyphicon-search"></i>
-							#i18n{portal.users.manage_users.search_users.buttonSearch}
-						</button>
-					</div>
-				</div>
-                </form>
-            </fieldset>
-        </div>
-        <div class="col-xs-12 col-sm-9 col-md-9">
-		<#if users_list?size &gt; 0 >
-			<form name="assignUser" method="post" action="jsp/admin/workgroup/DoAssignUsersWorkgroup.jsp" class="form-horizontal">
-            <input type="hidden" name="workgroup_key" value="${workgroup.key}">
-			<div class="form-group">
-				<label class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.workgroup.assign_users.labelAvailableUser}</label>
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<@comboWithParamsAndLength name="list_users" default_value="" additionalParameters="multiple='multiple' class='form-control input-sm' size='10'" items=users_list max_length=175 />
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<button type="submit" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.workgroup.assign_users.labelButtonValidate}</button>
-					<button type="button" name="cancel" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}</button>
-				</div>
-			</div>
-            </form>
-        <#else>
-            <p class="label label-warning">#i18n{portal.workgroup.assign_users.noUserToAssign}</p>
-        </#if>
-            <fieldset>
-                <form class="form-horizontal" method="post" action="jsp/admin/workgroup/AssignUsersWorkgroup.jsp">
-                    <@paginationAdmin paginator=paginator combo=1 form=0 />
-                    <#if search_is_search >
-                    <input type="hidden" name="search_is_search" value="true">
-                    <input type="hidden" name="search_user_level" value="${search_admin_user_filter.userLevel}">
-                    <input type="hidden" name="search_access_code" value="${search_admin_user_filter.accessCode}">
-                    <input type="hidden" name="search_last_name" value="${search_admin_user_filter.lastName}">
-                    <input type="hidden" name="search_first_name" value="${search_admin_user_filter.firstName}">
-                    <input type="hidden" name="search_email" value="${search_admin_user_filter.email}">
-                    <input type="hidden" name="search_status" value="${search_admin_user_filter.status}">
-                    </#if>
-                    <#if search_admin_user_field_filter.listUserFields?exists && search_admin_user_field_filter.listUserFields?has_content>
-                    <#list search_admin_user_field_filter.listUserFields as user_field>
-                    <#if user_field.attribute.attributeType.className == "fr.paris.lutece.portal.business.user.attribute.AttributeComboBox">
-                    <input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.attributeField.idField}">
-                    <#else>
-                    <input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.value}">
-                    </#if>
-                    </#list>
-                    </#if>
-                    <input type="hidden" name="workgroup_key" value="${workgroup.key}">
-            </fieldset>
-            </form>
-            <table class="table table-striped table-condensed">
-                <tr>            
-                    <th>
-                        #i18n{portal.users.manage_users.columnTitleLastName}
-                        <@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="lastName&workgroup_key=${workgroup.key}${sort_search_attribute}" />
-                    </th>
-                    <th>
-                        #i18n{portal.users.manage_users.columnTitleFirstName}
-                        <@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="firstName&workgroup_key=${workgroup.key}${sort_search_attribute}" />
-                    </th> 
-                    <th>
-                        #i18n{portal.users.manage_users.columnTitleAccessCode}
-                        <@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="accessCode&workgroup_key=${workgroup.key}${sort_search_attribute}" />
-                    </th>        
-                    <th>
-                        #i18n{portal.users.manage_users.columnTitleEmail}
-                        <@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="email&workgroup_key=${workgroup.key}${sort_search_attribute}" />
-                    </th>
-                    <th>#i18n{portal.users.manage_users.columnTitleActions}</th>
-                </tr>
-                <#list assigned_users_list as assigned_user>
-					<#if assigned_user_has_next>
-						<#assign anchor = assigned_user_index>
-					<#else>
-						<#assign anchor = assigned_user_index - 1 >
+					</select>
+                </#if>
+				<label for="access_code" >#i18n{portal.users.manage_users.search_users.labelAccessCode} :</label>
+				<input type="text" class="form-control input-xs" id="access_code" name="search_access_code" value="${search_admin_user_filter.accessCode}">
+				<label for="last_name" >#i18n{portal.users.manage_users.search_users.labelLastName} :</label>
+				<input type="text" class="form-control input-xs" id="last_name" name="search_last_name" value="${search_admin_user_filter.lastName}" maxlength="100" class="input-sm" tabindex="2">
+				<label for="first_name">#i18n{portal.users.manage_users.search_users.labelFirstName} :</label>
+				<input type="text" class="form-control input-xs" id="first_name" name="search_first_name" value="${search_admin_user_filter.firstName}" maxlength="100" class="input-sm" tabindex="3">
+				<label for="email">#i18n{portal.users.manage_users.search_users.labelEmail} :</label>
+				<input type="text" class="form-control input-xs" id="email" name="search_email" value="${search_admin_user_filter.email}" maxlength="100" class="input-sm" tabindex="4">
+				<label for="status">#i18n{portal.users.manage_users.search_users.labelStatus} :</label>
+				<select id="status" class="form-control input-xs" name="search_status" tabindex="5">
+					<#switch search_admin_user_filter.status >
+						<#case 0 >
+							<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+							<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+							<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+						<#break>
+						<#case 1 >
+							<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+							<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+							<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+						<#break>
+						<#default>
+							<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+							<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+							<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+						<#break>
+					</#switch>
+				</select>
+				<#list attributes_list as attribute>
+					<#if attribute.shownInSearch>
+						${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
 					</#if>
-                <tr id="anchor-${assigned_user_index}">
-                    <td>${assigned_user.lastName}</td>
-                    <td>${assigned_user.firstName}</td>
-                    <td>${assigned_user.accessCode}</td>
-                    <td>${assigned_user.email}</td>	                
-                    <td>
-                        <a class="btn btn-primary btn-xs" href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}"  title="#i18n{portal.workgroup.assign_users.actionModify}">
-                            <i class="glyphicon glyphicon-edit"></i>
-                        </a>
-
-                        <a class="btn btn-danger btn-xs" href="jsp/admin/workgroup/DoUnassignUser.jsp?id_user=${assigned_user.userId}&workgroup_key=${workgroup.key}&anchor=anchor-${anchor}"  title="#i18n{portal.workgroup.assign_users.actionUnassign}">
-                            <i class="glyphicon glyphicon-trash"></i>
-                        </a>
-
-                    </td>
-                </tr>            
-                </#list>
-            </table>
-            <@paginationAdmin paginator=paginator />
-        <#else>
+				</#list>
+				<input type="hidden" name="workgroup_key" value="${workgroup.key}">
+				<button class="btn btn-primary btn-xs btn-flat" type="submit" tabindex="6" name="search_is_search"> 
+					<i class="glyphicon glyphicon-search"></i>
+					#i18n{portal.users.manage_users.search_users.buttonSearch}
+				</button>
+				</form>
+			</#if>
 			</div>
-			<div class="col-xs-12 col-sm-9 col-md-9">
-			<p class="label label-warning">#i18n{portal.workgroup.assign_users.noAssignedList}</p>
-        </#if>
-		<!--  -->		
-        </div>	
+        </div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="box">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.workgroup.assign_users.labelAvailableUser}</h3>
+				<div class="box-tools pull-right"><@item_navigation item_navigator=item_navigator /></div>
+			</div>
+			<div class="box-body">   
+				<#if users_list?size &gt; 0 >
+					<form name="assignUser" method="post" action="jsp/admin/workgroup/DoAssignUsersWorkgroup.jsp" class="form-horizontal">
+						<input type="hidden" name="workgroup_key" value="${workgroup.key}">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.workgroup.assign_users.labelAvailableUser}</label>
+							<div class="col-xs-12 col-sm-12 col-md-12">
+								<@comboWithParamsAndLength name="list_users" default_value="" additionalParameters="multiple='multiple' class='form-control input-sm' size='10'" items=users_list max_length=175 />
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-12 col-sm-12 col-md-12">
+								<button type="submit" class="btn btn-primary btn-block btn-flat">
+									<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.workgroup.assign_users.labelButtonValidate}
+								</button>
+							</div>
+						</div>
+					</form>
+				<#else>
+					<div class="alert alert-warning">
+					    <i class="fa fa-warning"></i>
+                           #i18n{portal.workgroup.assign_users.noUserToAssign}
+                       </div>
+				</#if>
+			</div>
 		</div>
 	</div>
+	<div class="col-xs-12 col-sm-6 col-md-6">	
+        <div class="box">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.workgroup.assign_users.labelAssignedUser}</h3>
+				<div class="box-tools pull-right"><@item_navigation item_navigator=item_navigator /></div>
+			</div>
+			<div class="box-body">
+					<#if assigned_users_list?size &gt; 0 >
+						<form class="form-horizontal" method="post" action="jsp/admin/workgroup/AssignUsersWorkgroup.jsp">
+							<#if search_is_search >
+								<input type="hidden" name="search_is_search" value="true">
+								<input type="hidden" name="search_user_level" value="${search_admin_user_filter.userLevel}">
+								<input type="hidden" name="search_access_code" value="${search_admin_user_filter.accessCode}">
+								<input type="hidden" name="search_last_name" value="${search_admin_user_filter.lastName}">
+								<input type="hidden" name="search_first_name" value="${search_admin_user_filter.firstName}">
+								<input type="hidden" name="search_email" value="${search_admin_user_filter.email}">
+								<input type="hidden" name="search_status" value="${search_admin_user_filter.status}">
+							</#if>
+							<#if search_admin_user_field_filter.listUserFields?exists && search_admin_user_field_filter.listUserFields?has_content>
+								<#list search_admin_user_field_filter.listUserFields as user_field>
+									<#if user_field.attribute.attributeType.className == "fr.paris.lutece.portal.business.user.attribute.AttributeComboBox">
+										<input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.attributeField.idField}">
+									<#else>
+										<input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.value}">
+									</#if>
+								</#list>
+							</#if>
+							<input type="hidden" name="workgroup_key" value="${workgroup.key}">
+						</form>
+						<table class="table table-striped table-condensed">
+							<tr>            
+								<th>
+									#i18n{portal.users.manage_users.columnTitleLastName}
+									<@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="lastName&workgroup_key=${workgroup.key}${sort_search_attribute}" />
+								</th>
+								<th>
+									#i18n{portal.users.manage_users.columnTitleFirstName}
+									<@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="firstName&workgroup_key=${workgroup.key}${sort_search_attribute}" />
+								</th> 
+								<th>
+									#i18n{portal.users.manage_users.columnTitleAccessCode}
+									<@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="accessCode&workgroup_key=${workgroup.key}${sort_search_attribute}" />
+								</th>        
+								<th>
+									#i18n{portal.users.manage_users.columnTitleEmail}
+									<@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="email&workgroup_key=${workgroup.key}${sort_search_attribute}" />
+								</th>
+								<th>#i18n{portal.users.manage_users.columnTitleActions}</th>
+							</tr>
+							<#list assigned_users_list as assigned_user>
+								<#if assigned_user_has_next>
+									<#assign anchor = assigned_user_index>
+								<#else>
+									<#assign anchor = assigned_user_index - 1 >
+								</#if>
+							<tr id="anchor-${assigned_user_index}">
+								<td>${assigned_user.lastName}</td>
+								<td>${assigned_user.firstName}</td>
+								<td>${assigned_user.accessCode}</td>
+								<td>${assigned_user.email}</td>	                
+								<td>
+									<a class="btn btn-primary btn-xs" href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}"  title="#i18n{portal.workgroup.assign_users.actionModify}">
+										<i class="glyphicon glyphicon-edit"></i>
+									</a>
+									<a class="btn btn-danger btn-xs" href="jsp/admin/workgroup/DoUnassignUser.jsp?id_user=${assigned_user.userId}&workgroup_key=${workgroup.key}&anchor=anchor-${anchor}"  title="#i18n{portal.workgroup.assign_users.actionUnassign}">
+										<i class="glyphicon glyphicon-trash"></i>
+									</a>
+								</td>
+							</tr>            
+							</#list>
+						</table>
+						<#if assigned_users_list?size &gt; 8>
+							<@paginationAdmin paginator=paginator combo=1 form=0 />
+						</#if>
+					<#else>
+						<div class="alert alert-warning"><i class="fa fa-warning"></i>#i18n{portal.rbac.assign_users.noAssignedList}</div>
+					</#if>
+				</div>	
+			</div>	
+		</div>	
+	</div>
+</div>
 </div>

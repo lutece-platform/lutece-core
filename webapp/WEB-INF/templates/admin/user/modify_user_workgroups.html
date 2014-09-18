@@ -1,47 +1,57 @@
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="well well-sm"><i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}
-        <span class="pull-right"><small><@item_navigation item_navigator=item_navigator /></small></span></div>
-        <ul class="nav nav-tabs">
-            <li>
-                <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
-            </li>
-            <li><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
-            <li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
-            <li class="active"><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
-        </ul>
-        <form class="form-horizontal" method="post"  action="jsp/admin/user/DoModifyUserWorkgroups.jsp">
-            <fieldset>	
-            <legend>#i18n{portal.users.modify_user_workgroups.titleRightModificationForm}
-				<button class="btn btn-primary btn-sm pull-right" type="submit">
-					<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.users.modify_user_workgroups.buttonLabelModifyWorkgroups}
-				</button>
-			</legend>
-            <input type="hidden" name="delegate_rights" value="${can_delegate}">
-                <#list all_workgroup_list?sort_by('code') as workgroup>
-                <#if workgroup.checked>
-                <#assign checked = "checked='checked'"/>
-                <#else>
-                <#assign checked = ""/>
-                </#if>
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="checkbox">
-						<label>${workgroup.name}
-							<input class="checkbox" type="checkbox" name="workgroup" value="${workgroup.code}" ${checked}>
-						</label>
-					</div>>
-                </div>
-                </#list>        
-                <input type="hidden" name="id_user" value="${user.userId}">
-                
-				<div class="form-group">
-					<div class="col-xs-12 col-sm-9 col-md-9">
-						<button class="btn btn-primary btn-sm" type="submit">
-							<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.users.modify_user_workgroups.buttonLabelModifyWorkgroups}
-						</button>
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-success">
+			<div class="box-header">
+				<h3 class="box-title">
+					<span class="hidden-xs">#i18n{portal.users.modify_user_workgroups.titleRightModificationForm}</span> <i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}
+					<small><@item_navigation item_navigator=item_navigator /></small>
+				</h3>
+				<div class="box-tools">
+					
+				</div>
+			</div>
+			<div class="box-body content-padding">
+				<ul class="nav nav-tabs">
+					<li>
+						<a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
+					</li>
+					<li><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
+					<li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
+					<li class="active"><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+				</ul>
+				<form class="form-horizontal" method="post"  action="jsp/admin/user/DoModifyUserWorkgroups.jsp">
+					<input type="hidden" name="delegate_rights" value="${can_delegate}">
+					<input type="hidden" name="id_user" value="${user.userId}">
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<ul class="list-group">
+								<#list all_workgroup_list?sort_by('code') as workgroup>
+									<#if workgroup.checked>
+										<#assign checked = "checked='checked'"/>
+									<#else>
+										<#assign checked = ""/>
+									</#if>
+									<li class="list-group-item">
+										<div class="checkbox">
+											<label>
+												<input class="checkbox" type="checkbox" name="workgroup" value="${workgroup.code}" ${checked}>
+												${workgroup.name}
+											</label>
+										</div>
+									</li>
+								</#list>        
+							</ul>	
+						</div>	
 					</div>	
-				</div>	
-            </fieldset>
-		</form>
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-9 col-md-9">
+							<button class="btn btn-primary btn-sm" type="submit">
+								<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.users.modify_user_workgroups.buttonLabelModifyWorkgroups}
+							</button>
+						</div>	
+					</div>	
+				</form>
+			</div>
+		</div>	
 	</div>
 </div>

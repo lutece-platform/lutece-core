@@ -1,61 +1,27 @@
-<div class="container">
-	<div class="row">
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                    <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand">
-                        &nbsp;<img src="images/logo-header.png" class="logo" alt="logo" title="" /> &nbsp;${site_name}
-                    </a>
-                    <div class="nav-collapse">
-                </div><!-- /.nav-collapse -->
+<div class="form-box" id="login-box">
+    <div class="header bg-blue"><h3>#i18n{portal.admin.admin_login.welcome}</h3><small>#i18n{portal.admin.admin_login.boxTitle}</small></div>
+    <form method="post" name="login" id="login" action="${do_admin_login_url}" class="form" role="form">
+		<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
+		<div class="body bg-gray">
+			<div class="form-group">
+				<label class="sr-only" for="access_code">#i18n{portal.admin.admin_login.loginLabel}</label>
+                <input type="text" name="access_code" class="form-control"  tabindex="1" placeholder="#i18n{portal.admin.admin_login.loginLabel}">
             </div>
-        </div><!-- /navbar-inner -->
-    </div>
-	<div class="row">
-		<div class="col-xs-12 col-sm-3 col-md-3 hidden-phone">
-		&nbsp;
+            <div class="form-group">
+				<label class="sr-only" for="password">#i18n{portal.admin.admin_login.passwordLabel}</label>
+				<input type="password" name="password" class="form-control"  tabindex="2" placeholder="#i18n{portal.admin.admin_login.passwordLabel}">
+            </div>          
+        </div>
+        <div class="footer">                                                               
+			<button type="submit" class="btn btn-primary btn-block">#i18n{portal.admin.admin_login.buttonConnect}</button>  
+			<p><a href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}" tabindex="3">#i18n{portal.admin.admin_login.forgotPassword}</a></p>
 		</div>
-		<div class="col-xs-12 col-sm-6 col-md-6">
-            <h3>#i18n{portal.admin.admin_login.welcome}</h3>
-            <div class="well">#i18n{portal.admin.admin_login.helpText}</div>
-			<div class="well">
-				<fieldset>
-				<legend>#i18n{portal.admin.admin_login.boxTitle}</legend>
-				<form method="post" name="login" id="login" action="${do_admin_login_url}" class="form">
-				<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
-				<label for="access_code" >#i18n{portal.admin.admin_login.loginLabel} </label>
-				<div class="input-group">
-					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					<input type="text" class="form-control" name="access_code" id="access_code" autofocus="autofocus" autocomplete="off" required="required" placeholder="#i18n{portal.admin.admin_login.loginLabel}" tabindex="1" />
-				</div>
-				<label for="password" >#i18n{portal.admin.admin_login.passwordLabel} </label>
-				<div class="input-group">
-					<span class="input-group-addon">
-						<i class="glyphicon glyphicon-lock"></i>
-					</span>
-					<input type="password" class="form-control" name="password" id="password"autocomplete="off" required="required" placeholder="#i18n{portal.admin.admin_login.passwordLabel}"  tabindex="2" />
-				</div>
-				<div class="form-actions">
-					<button class="btn btn-primary btn-sm" tabindex="3" type="submit">
-					<i class="glyphicon glyphicon-ok-sign"></i>&nbsp;#i18n{portal.admin.admin_login.buttonConnect}</button>
-					<div class="hidden-phone">
-						<span class="pull-right">
-							<a class=" btn btn-link" href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}" tabindex="4" >
-								<i class="glyphicon glyphicon-exclamation-sign">&nbsp;</i>&nbsp;#i18n{portal.admin.admin_login.forgotPassword}
-							</a>
-						</span>
-					</div>
-				</div>
-				</form>
-				<div class="visible-phone">
-					<p>
-						<a class=" btn btn-link" href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}" tabindex="4" >
-							<i class="glyphicon glyphicon-exclamation-sign">&nbsp;</i>&nbsp;#i18n{portal.admin.admin_login.forgotPassword}
-						</a>
-					</p>
-				</div>
-				</fieldset>
-			</div>
-		</div>
+    </form>
+	<div class="margin text-center">
+		<span>#i18n{portal.admin.admin_login.helpText}</span>
+		<br/>
+		<button class="btn btn-link">
+			<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
+		</button>
 	</div>
- </div>
-
+</div>	

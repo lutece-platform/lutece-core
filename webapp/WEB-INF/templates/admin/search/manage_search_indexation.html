@@ -1,44 +1,43 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12">
-			<fieldset>
-			<legend>
-				<i class="glyphicon glyphicon-bookmark"></i>#i18n{portal.search.manage_indexer.labelIndexersList}
-			</legend>
-			<table class="table table-striped table-condensed">
-			<tr>
-				<th>#i18n{portal.search.manage_indexer.columnIndexerName}</th>
-				<th>#i18n{portal.search.manage_indexer.columnIndexerVersion}</th>
-				<th>#i18n{portal.search.manage_indexer.columnIndexerDescription}</th>
-				<th>#i18n{portal.search.manage_indexer.columnIndexerEnable}</th>
-			</tr>
-			<#list indexers_list as indexer>
-				<tr>
-					<td>${indexer.name}</td>
-					<td>${indexer.version}</td>
-					<td>${indexer.description}</td>
-					<td>
-					<#if indexer.enable >  
-						<span class="label label-success" title=" "><i class="glyphicon glyphicon-ok-sign"></i></span>					
-					<#else>    
-						<span class="label label-important" title=" "><i class="glyphicon glyphicon-remove-sign"></i></span>		  
-					</#if>
-					</td>
-				</tr>
-			</#list>
-			</table>
-			<form method="get" name="doIndexing" action="jsp/admin/search/DoIndexing.jsp" class="form-search">
-				<div class="btn-group">
-					<button class="btn btn-primary btn-sm" type="submit" name="total">
-						<i class="glyphicon glyphicon-repeat"></i>&nbsp;#i18n{portal.search.manage_indexer.buttonDoIndex}
-					</button>
-					<button class="btn btn-primary btn-sm" type="submit" name="incremental">
-						 <i class="glyphicon glyphicon-refresh"></i>&nbsp;#i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}
-					</button>
-					<button class="btn btn-default btn-sm" type="button" onclick="javascript:window.history.back();" >
-						 <i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}
-					</button>
+		<div class="box box-danger">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.search.manage_indexer.labelIndexersList}</h3>
+				<div class="box-tools">
+					<form method="get" name="doIndexing" action="jsp/admin/search/DoIndexing.jsp" class="form-inline pull-right">
+						<button class="btn btn-primary btn-xs btn-flat" type="submit" name="total">
+							<i class="glyphicon glyphicon-repeat"></i>&nbsp;#i18n{portal.search.manage_indexer.buttonDoIndex}
+						</button>
+						<button class="btn btn-primary btn-xs btn-flat" type="submit" name="incremental">
+							 <i class="glyphicon glyphicon-refresh"></i>&nbsp;#i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}
+						</button>
+					</form>
 				</div>
-			</form>
-			</fieldset>
+			</div><!-- /.box-header -->
+			<div class="box-body table-responsive no-padding">
+				<table class="table table-hover table-condensed">
+				<tr>
+					<th>#i18n{portal.search.manage_indexer.columnIndexerName}</th>
+					<th>#i18n{portal.search.manage_indexer.columnIndexerVersion}</th>
+					<th>#i18n{portal.search.manage_indexer.columnIndexerDescription}</th>
+					<th>#i18n{portal.search.manage_indexer.columnIndexerEnable}</th>
+				</tr>
+				<#list indexers_list as indexer>
+					<tr>
+						<td>${indexer.name}</td>
+						<td>${indexer.version}</td>
+						<td>${indexer.description}</td>
+						<td>
+						<#if indexer.enable >  
+							<span class="label label-success" title=" "><i class="glyphicon glyphicon-ok-sign"></i></span>					
+						<#else>    
+							<span class="label label-important" title=" "><i class="glyphicon glyphicon-remove-sign"></i></span>		  
+						</#if>
+						</td>
+					</tr>
+				</#list>
+				</table>
+			</div>
+		</div>	
 	</div>
 </div>

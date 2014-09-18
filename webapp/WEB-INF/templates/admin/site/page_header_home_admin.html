@@ -1,29 +1,37 @@
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#lutece-navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="glyphicon glyphicon-bar"></span>
-            <span class="glyphicon glyphicon-bar"></span>
-            <span class="glyphicon glyphicon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">
-            <img src="images/logo-header.png" title="Home" alt="Home" />
-        </a>
-    </div>
-    <div class="collapse navbar-collapse" id="lutece-navbar-collapse">
-        <#assign menu=page_main_menu>
-        <ul class="nav navbar-nav">
-            ${page_main_menu_html!menu}
-        </ul>
-        <form class="navbar-form navbar-left" role="search" action="jsp/site/Portal.jsp" method="get">
-            <input type="hidden" name="page" value="search" >
-            <div class="form-group">
-                <input type="text" class="form-control" name="query" id="query" placeholder="#i18n{portal.site.page_menu_tools.labelSearch}">
-            </div>
-            <button type="submit" class="btn btn-default">#i18n{portal.site.page_menu_tools.labelSearch}</button>
-        </form>  
-        <ul class="nav navbar-nav">
-            ${pageinclude_userlogin?default("<!-- no myLutece plugin installed -->")}
-        </ul>
-    </div>
-</nav>
+<div id="banner">
+	<div class="row row-banner bordered">
+		<div class="col-md-9 col-main">
+			<div class="row bordered-top row-header">
+				<div class="col-md-2 hidden-xs hidden-sm">
+					<a href="http://www.paris.fr" title="http://www.paris.fr">
+						<img id="logo-header" src="images/local/skin/mdp.png" title="Paris.fr" alt="Paris.fr" />
+					</a>
+				</div>
+				<div class="col-md-10">
+					<h3>NOTRE BUDGET, NOTRE VILLE, NOTRE DECISION</h3>
+				</div>
+			</div>
+			<div class="row bordered-top">
+				<div class="col-md-4">
+					<div id="banner-main-logo" class="col-md-2">
+						<a href="accueil.html" title="Accueil"><img src="images/local/skin/logo-header.jpg" alt="logo" title=""></a>
+					</div>
+				</div>
+				<div id="banner-main" class="col-md-6">
+					<p><span class="fgt">VOTEZ</span> du <span class="fgt">24 septembre</span></p>
+					<p>au 1er octobre 2014</p>
+				</div>
+			</div>
+		</div>
+		<div id="banner-main-arrow" class="col-md-1">
+			&nbsp;
+		</div>
+		<div class="col-md-2">
+			<div id="banner-inscription" class="col-md-2">
+				<a class="btn btn-link btn-inscription" href="jsp/site/Portal.jsp?page=mesInfos&view=myVotes" title="">
+					MES VOTES
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,23 +1,19 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="page-header">
-			<h1>
-				<img class="thumblist-small" src="${feature_icon}" alt="${feature_title}" title="${feature_title}"/> 
-				<a href="${feature_url}" title="${feature_title}">
-					${feature_title}
+<section class="content-header">
+	<h1>
+		<a href="${feature_url}" title="${feature_title}">${feature_title}</a>
+		<#if page_title?has_content><small>${page_title}</small></#if>
+	</h1>
+	<ol class="breadcrumb">
+       <#if feature_documentation?has_content >
+			<#if feature_documentation?exists>
+			<li>
+				<a target="_blank" href="${feature_documentation}" title="#i18n{portal.features.documentation.help}">
+					<i class="fa fa-life-ring" ></i> #i18n{portal.features.documentation.help}
 				</a>
-				<#if page_title?has_content><small>${page_title}</small></#if>
-				<#if feature_documentation?has_content >
-					<#if feature_documentation?exists>
-						<span class="pull-right">
-							<a class="btn btn-primary btn-sm" target="_blank" href="${feature_documentation}" title="#i18n{portal.features.documentation.help}">
-								<i class="glyphicon glyphicon-book" ></i>
-							</a>
-						</span>
-					</#if>
-				</#if>
-			</h1>
-		</div>
-	</div>
-</div>
-${page_content}
+			</li>
+			</#if>
+		</#if>
+    </ol>
+</section>
+<section class="content <#if feature_url?ends_with("AdminSite.jsp")>no-padding</#if>">
+	${page_content}

@@ -1,7 +1,13 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
-            <fieldset>
-                <legend>#i18n{portal.style.create_stylesheet.title}</legend>
+        <div class="box box-info">
+			<div class="box-header">
+				<h3 class="box-title">
+					#i18n{portal.style.create_stylesheet.title}
+				</h3>
+				<div class="box-tools"></div>
+			</div><!-- /.box-header -->
+			<div class="box-body">
                 <form class="form-horizontal" method="post" action="jsp/admin/style/DoCreateStyleSheet.jsp" enctype="multipart/form-data" name="create_stylesheet">
                     <div class="form-group">
                         <label class="control-label col-xs-12 col-sm-3 col-md-3" for="stylesheet_name" >#i18n{portal.style.create_stylesheet.labelName}&nbsp;:&nbsp;*</label>
@@ -30,15 +36,16 @@
                     <div class="form-group">
 						<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6"
 							<input type="hidden" name="mode_id" value="${mode_id}">
-							<button class="btn btn-primary btn-sm" type="submit">
+							<button class="btn btn-primary btn-flat" type="submit">
 								<i class="glyphicon glyphicon-plus"></i>&nbsp;#i18n{portal.style.create_stylesheet.buttonCreate}
 							</button>
-							<a href="jsp/admin/style/ManageStyleSheets.jsp" class="btn btn-default btn-sm" type="button">
+							<a href="jsp/admin/style/ManageStyleSheets.jsp" class="btn btn-default btn-flat" type="button">
 								<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
 							</a>
 						</div>
                     </div>
-            </fieldset>
-            </form>
-    </div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>

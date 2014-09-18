@@ -1,33 +1,33 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="well">
-			<form action="" class="form-inline clearfix" role="form">
-				<div class="form-group col-md-2">
-					<a class="btn btn-link" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" title="Page ${page.name}" alt="Page ${page.name}">
-						<i class="glyphicon glyphicon-globe"></i>&nbsp;${page.id}&nbsp;-&nbsp;Page ${page.name}
-					</a>
+		<div class="box content-padding">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.site.site_map.pageTitle}</h3>
+				<div class="box-tools">
+					<form action="" class="form-inline margin" role="form">
+						<a class="btn btn-info btn-xs btn-flat" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" title="Page ${page.name}" alt="Page ${page.name}">
+							<i class="glyphicon glyphicon-globe"></i>&nbsp;${page.id}&nbsp;-&nbsp;Page ${page.name}
+						</a>
+						<label for="page_id" class="sr-only">Page&nbsp;${page.id}</label>
+						<input type="text" class="form-control input-xs" id="tree_search" class="form-control" tabindex="1" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
+						<button class="btn btn-default btn-xs btn-flat" id="btn-tree_search" type="submit" tabindex="2" title="#i18n{portal.site.admin_page.buttonSearchPage}">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
+					</form>
 				</div>
-				<div class="form-group col-md-offset-1 col-md-6">
-					<label for="page_id" class="sr-only">Page&nbsp;${page.id}</label>
-					<div class="input-group">
-						<input type="text" class="form-control input-sm" id="tree_search" class="form-control" tabindex="1" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
-						<span class="input-group-btn">
-							<button class="btn btn-default input-sm" id="btn-tree_search" type="submit" tabindex="2" title="#i18n{portal.site.admin_page.buttonSearchPage}">
-								<i class="glyphicon glyphicon-search"></i>
-							</button>
-						</span>
+			</div>
+			<div class="box-body content-padding">
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-offset-1 col-md-10">
+						<i class="glyphicon glyphicon-map-marker" ></i>
+						${map_site}
 					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
 </div>
-<div class="row">
-	<div class="col-md-offset-1 col-md-10">	
-	<i class="glyphicon glyphicon-map-marker" ></i>
-		${map_site}
-	</div>
-</div>
+
 <script src="js/jquery/plugins/ui/jstree/jquery.cookie.js"></script>
 <script src="js/jquery/plugins/ui/jstree/jquery.jstree.js"></script>
 <script type="text/javascript">
@@ -42,7 +42,7 @@
 		$.cookie("jstree_select", "#node-${page.id}" );
 		$("#tree").jstree({
 			"themes" : {
-				"theme" : "apple",
+				"theme" : "classic",
 			},
 			"cookies" : {
 				"save_opened" : false,

@@ -1,3 +1,4 @@
+<!--
 <div class="well lutece-dashboard-system">
 	<legend>
 		<a href="jsp/admin/system/ManagePlugins.jsp" title="#i18n{portal.system.adminFeature.plugins_management.name}" >
@@ -11,4 +12,17 @@
 		#i18n{portal.system.dashboard.pluginsCount}<span class="badge badge-info pull-right">${plugins_count}</span>
 	</div>
 </div>
-
+-->
+<!-- small box -->
+<div class="small-box bg-red">
+	<div class="inner">
+		<h3>${plugins_count}</h3>
+        <p>#i18n{portal.system.dashboard.pluginsCount}</p>
+    </div>
+    <div class="icon">
+		<i class="fa fa-puzzle-piece"></i>
+    </div>
+    <a href="jsp/admin/system/ManagePlugins.jsp" class="small-box-footer">
+		#i18n{portal.system.adminFeature.plugins_management.name} <i class="fa fa-arrow-circle-right"></i>
+    </a>
+</div>

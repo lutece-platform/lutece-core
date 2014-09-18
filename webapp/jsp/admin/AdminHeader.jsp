@@ -23,10 +23,15 @@
 <link href="css/admin/bootstrap2-compatibility.css" rel="stylesheet">
 <link href="css/admin/bootstrap-theme.min.css" rel="stylesheet">
 <link href="css/admin/font-awesome.min.css"  rel="stylesheet" >
+<link href="css/admin/ionicons.min.css"  rel="stylesheet" >
+<!--
 <link href="css/admin/print_admin.css" rel="stylesheet" type="text/css" media="print" >
 <link href="css/admin/colorpicker.css" rel="stylesheet">
 <link href="css/admin/datepicker.css" rel="stylesheet" >
 <link href="js/jquery/plugins/ui/css/jquery-ui-1.10.0.custom.css" rel="stylesheet" >
+-->
+
+<link href="css/admin/AdminLTE.css" rel="stylesheet" >
 <link href="css/admin/portal_admin.css" rel="stylesheet" >
 <%
 	if ( AdminThemeService.isModeAccessible( request ) ){
@@ -53,6 +58,6 @@
 -->
 <script src="js/jquery/jquery-1.11.1.min.js"></script>
 </head>
-<body>
+ <body class="skin-blue">
 <%-- Display the admin menu --%>
 <%= adminMenu.getAdminMenuHeader( request ) %>

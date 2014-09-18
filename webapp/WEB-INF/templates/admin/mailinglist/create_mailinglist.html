@@ -1,39 +1,44 @@
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <fieldset>
-            <legend>#i18n{portal.mailinglist.create_mailinglist.title}</legend>
-            <form class="form-horizontal" method="post"  action="jsp/admin/mailinglist/DoCreateMailingList.jsp">
-                <div class="form-group">
-                    <label class="col-xs-12 col-sm-3 col-md-3" for="name" >#i18n{portal.mailinglist.create_mailinglist.labelName}* : </label>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                        <input type="text" class="form-control input-sm" id="name" name="name" value="" size="50" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-12 col-sm-3 col-md-3" for="description" >#i18n{portal.mailinglist.create_mailinglist.labelDescription}* : </label>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                        <input type="text" class="form-control input-sm" id="description" name="description" value="" size="100" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-12 col-sm-3 col-md-3" for="workgroup" >#i18n{portal.mailinglist.create_mailinglist.labelWorkgroup}* : </label>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                        <@comboSortedWithParams name="workgroup" default_value="all" additionalParameters="class='form-control input-sm'" items=workgroups_list />
-                    </div>
-                </div>
-                <div class="form-group">
-					<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
-						<button type="submit" class="btn btn-primary btn-sm" tabindex="1">
-							<i class="glyphicon glyphicon-ok"></i>
-							<span class="hidden-phone" >#i18n{portal.mailinglist.create_mailinglist.buttonCreate}</span>
-						</button> 
-						<button type="button" class="btn btn-default btn-sm" onclick="javascript:window.history.go(-1);" name="cancel" tabindex="2">
-							<i class="glyphicon glyphicon-remove-circle"></i>
-							<span class="hidden-phone" >#i18n{portal.util.labelCancel}</span>
-						</button> 
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-success">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.mailinglist.create_mailinglist.title}</h3>
+				<div class="box-tools"></div>
+			</div><!-- /.box-header -->
+			<div class="box-body">
+				<form class="form-horizontal" role="form" method="post"  action="jsp/admin/mailinglist/DoCreateMailingList.jsp">
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="name" >#i18n{portal.mailinglist.create_mailinglist.labelName}*</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control" id="name" name="name" value="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="description" >#i18n{portal.mailinglist.create_mailinglist.labelDescription}*</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control" id="description" name="description" value="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="workgroup" >#i18n{portal.mailinglist.create_mailinglist.labelWorkgroup}*</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<@comboSortedWithParams name="workgroup" default_value="all" additionalParameters="class='form-control'" items=workgroups_list />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
+							<button type="submit" class="btn btn-primary btn-flat" tabindex="1">
+								<i class="glyphicon glyphicon-ok"></i>
+								<span class="hidden-phone" >#i18n{portal.mailinglist.create_mailinglist.buttonCreate}</span>
+							</button> 
+							<button type="button" class="btn btn-default btn-flat" onclick="javascript:window.history.go(-1);" name="cancel" tabindex="2">
+								<i class="glyphicon glyphicon-remove-circle"></i>
+								<span class="hidden-phone" >#i18n{portal.util.labelCancel}</span>
+							</button> 
+						</div>                      
 					</div>                      
-                </div>                      
-            </form>
-        </fieldset>
+				</form>
+			</div>
+		</div>
     </div>
 </div>

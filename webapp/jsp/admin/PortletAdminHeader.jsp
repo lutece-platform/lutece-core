@@ -24,4 +24,4 @@
 <style>body{padding-top:0;}</style>
 </head>
 <body class="portlet">
-<div class="container-fluid">
+<div id="admin-wrapper">

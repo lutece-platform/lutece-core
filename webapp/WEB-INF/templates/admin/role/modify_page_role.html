@@ -1,35 +1,37 @@
 <div class="row">
-    <legend>#i18n{portal.role.modify_role.boxTitle} ${role.role}</legend>
-    <form class="form-horizontal" method="post" action="jsp/admin/role/DoModifyPageRole.jsp" name="modify_page_role">
-        <fieldset>
-
-            <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-3 col-md-3">#i18n{portal.role.modify_role.labelDescription} * :</label>
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <input type="text" class="form-control input-sm" name="role_description" value="${role.roleDescription}" size="78" maxlength="50" />
-                </div>
-            </div>
-            <input type="hidden" name="role" value="${role.role}" />
-
-
-            <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-3 col-md-3">#i18n{portal.role.modify_role.labelWorkgroupKey} * :</label>
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <@comboSortedWithParams name="workgroup_key" default_value="${role.workgroup}" additionalParameters="class=\"form-control input-sm\"" items=workgroup_key_list />
-                </div>
-            </div>
-
-            <div class="form-group">
-				<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
-					<button class="btn btn-primary btn-sm" type="submit" >
-						<i class="glyphicon glyphicon-ok"></i> #i18n{portal.role.modify_role.buttonLabelValidate}
-					</button>
-					<a class="btn btn-default btn-sm" href="jsp/admin/role/ManagePageRole.jsp" >
-						<i class="glyphicon glyphicon-remove-circle"></i> #i18n{portal.admin.message.buttonCancel}
-					</a>
-				</div>
-            </div>
-
-        </fieldset>
-    </form>
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-success">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.role.modify_role.boxTitle} ${role.role}</h3>
+				<div class="box-tools"></div>
+			</div><!-- /.box-header -->
+			<div class="box-body">
+				<form class="form-horizontal" method="post" action="jsp/admin/role/DoModifyPageRole.jsp" name="modify_page_role">
+					<input type="hidden" name="role" value="${role.role}" />
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3">#i18n{portal.role.modify_role.labelDescription} *</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control" name="role_description" value="${role.roleDescription}" size="78" maxlength="50" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3">#i18n{portal.role.modify_role.labelWorkgroupKey} *</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<@comboSortedWithParams name="workgroup_key" default_value="${role.workgroup}" additionalParameters="class=\"form-control\"" items=workgroup_key_list />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
+							<button class="btn btn-primary btn-flat" type="submit" >
+								<i class="glyphicon glyphicon-ok"></i> #i18n{portal.role.modify_role.buttonLabelValidate}
+							</button>
+							<a class="btn btn-default btn-flat" href="jsp/admin/role/ManagePageRole.jsp" >
+								<i class="glyphicon glyphicon-remove-circle"></i> #i18n{portal.admin.message.buttonCancel}
+							</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>

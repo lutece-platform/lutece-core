@@ -1,29 +1,27 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div id="admin-site-toolbar">
-			<div class="btn-toolbar" role="toolbar">
+		<div class="box">
+			<div class="box-header">
+				<div class="box-tools btn-toolbar" role="toolbar">
 				<div class="btn-group">
-					<a class="btn btn-default btn-sm" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">
-						<span class="badge badge-primary">${page.id}</span> Page ${page.name}
+					<button type="button" id="fullscreen" class="btn btn-default btn-sm btn-flat hidden-xs">
+						<i class="glyphicon glyphicon-fullscreen"></i>
+					</button>
+					<a class="btn btn-default btn-sm btn-flat" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">
+						<span class="badge badge-primary" title="${page.id} - ${page.name}">${page.id}</span> <span class="hidden-xs">Page ${page.name}</span>
 					</a>
+				</div>
+				<div class="btn-group">
 					<#if page.id != 1>
-						<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}" class="btn btn-success btn-sm">
+						<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}" class="btn btn-success  btn-sm btn-flat">
 							<i class="glyphicon glyphicon-arrow-up"  alt="#i18n{portal.site.admin_page.buttonUpToParentPage}" title="#i18n{portal.site.admin_page.buttonUpToParentPage}" ></i>            
 						</a>
-						<a href="jsp/admin/site/RemovePage.jsp?page_id=${page.id}" class="btn btn-danger btn-sm">
+						<a href="jsp/admin/site/RemovePage.jsp?page_id=${page.id}" class="btn btn-danger btn-sm btn-flat">
 							<i class="glyphicon glyphicon-trash"  alt="#i18n{portal.site.admin_page.buttonDeletePage}" title="#i18n{portal.site.admin_page.buttonDeletePage}" ></i>            
 						</a>
 					</#if>
-					<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="btn btn-primary btn-sm">
-						<i class="glyphicon glyphicon-wrench" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>
-						<span class="hidden-phone" >#i18n{portal.site.admin_page.labelPageProperty}</span>
-					</a>
-					<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary btn-sm">
-						<i class="glyphicon glyphicon-plus"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
-						<span class="hidden-phone">#i18n{portal.site.admin_page.labelChildPagePage}</span>
-					</a>
 					<div class="btn-group">
-						<a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" id="portlet-type" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=">
+						<a class="btn btn-primary dropdown-toggle btn-sm btn-flat" data-toggle="dropdown" id="portlet-type" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=">
 							<i class="glyphicon glyphicon-th-large" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}" ></i>
 							<span class="hidden-phone">#i18n{portal.site.admin_page.labelPortletPage}</span>
 							&nbsp;<b class="caret"></b>
@@ -41,73 +39,37 @@
 					<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
 						${extendableResourceActionsHtml!}
 					</#if>
+					<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="btn btn-primary btn-sm btn-flat">
+						<i class="glyphicon glyphicon-wrench" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>
+						<span class="hidden-phone" >#i18n{portal.site.admin_page.labelPageProperty}</span>
+					</a>
+					<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary btn-sm btn-flat">
+						<i class="glyphicon glyphicon-plus"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
+						<span class="hidden-phone">#i18n{portal.site.admin_page.labelChildPagePage}</span>
+					</a>
 					<div class="btn-group">
-						<a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary btn-sm">
+						<a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary btn-sm btn-flat">
 							<i class="fa fa-sitemap" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>
 							<span class="hidden-phone" >#i18n{portal.site.admin_page.tabAdminMapSite}</span>
 						</a>
 					</div>
 				</div>
-				<div class="form-group">
-					<div class="col-md-2">
-						<form method="post" action="jsp/admin/site/AdminSite.jsp" class="form-inline" role="search">
+				<div class="btn-group hidden-xs">
+					<form method="post" action="jsp/admin/site/AdminSite.jsp" class="form-inline pull-right" role="search">
 						<label class="sr-only">#i18n{portal.site.admin_page.buttonSearchPage}</label>
 						<div class="input-group">
 							<input type="text" name="page_id" class="form-control input-sm" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
 							<span class="input-group-btn">
-								<button class="btn btn-default btn-sm" type="submit" title="#i18n{portal.site.admin_page.buttonSearchPage}">
+								<button class="btn btn-default btn-sm btn-flat" type="submit" title="#i18n{portal.site.admin_page.buttonSearchPage}">
 									<i class="glyphicon glyphicon-search"></i>
 								</button>
 							</span>
 						</div>
 						<#if page_message!=""><p class="span"/><span class="help-block"><span class="label label-important">${page_message}</span></span></#if>
-						</form>	
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="pull-right">
-						<button type="button" id="fullscreen" class="btn btn-default btn-xs">
-							<i class="glyphicon glyphicon-fullscreen"></i>
-						</button>
-					</div>
+					</form>	
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12">
+			</div><!-- /.box-header -->
+			<div class="box-body no-padding">
 				${page_block}
-			</div>
-		</div>
-	</div>
-</div>
-
-<script>
-$(document).ready(function(){
-	$(".portlet-type").on('click', function(e) {
-		// Stop the link default behaviour.
-		e.preventDefault();
-		// Set the iframe src with the clicked link href.
-		$('#preview').attr('src', $(this).children().attr('href') );
-	});
-	$("footer").remove();
-	$("#fullscreen").on('click', function(e) {
-		// Stop the link default behaviour.
-		e.preventDefault();
-		// Set the iframe src with the clicked link href.
-		$('.page-header').toggle();
-		$('header').toggle();
-		if ( $('body').css('padding-top') == "60px" ){
-			$('body').css('padding-top','0px');
-			$('#preview').css('height','780px');
-		} else {
-			$('body').css('padding-top','60px') ;
-			$('#preview').css('height','720px');
-		}
-		$(this).children().toggleClass('glyphicon-fullscreen');
-		$(this).children().toggleClass('glyphicon-remove');
-	});
-	
-	
-	
-});
-</script>
+			<!-- HTML in jsp/admin/AdminSite.jsp -->

@@ -1,136 +1,82 @@
-/********************************
-/* Lutece core admin styles    *
-********************************/
-/* Fix for fixed-nav-bar*/
-body{padding-top:60px;}
-textarea{width:100%;}
+/* 
+Admin wrapper for all admin features 
+------------------------------------
+*/
+#admin-wrapper{min-height:750px;padding:0 15px;margin:0 15px;}
+#admin-wrapper > .content {padding: 10px;overflow:hidden;}
+#admin-wrapper > .content-header {position: relative;padding: 15px 15px 10px 20px;background: none repeat scroll 0 0 #fbfbfb;box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);}
+#admin-wrapper > .content-header > h1 { margin: 0;font-size: 24px;}
+#admin-wrapper > .content-header > h1 > small {font-size: 15px;display: inline-block;padding-left: 4px;font-weight: 300;}
+#admin-wrapper > .content-header > .breadcrumb {float: right;background: transparent;margin-top: 0px;margin-bottom: 0;font-size: 12px;padding: 7px 5px;position: absolute;top: 15px;right: 10px;-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px;}
+#admin-wrapper > .content-header > .breadcrumb > li > a {color: #444;text-decoration: none;}
+#admin-wrapper > .content-header > .breadcrumb > li > a > .fa,#admin-wrapper > .content-header > .breadcrumb > li > a > .glyphicon{margin-right: 5px;}
+#admin-wrapper > .content-header > .breadcrumb > li + li:before {content: '>\00a0';}
+#admin-wrapper .box .box-tools a { color: #fff;}
+/* 
+    Dropdown menus
+----------------------------
+*/
+/*Dropdowns in general*/
+.dropdown-menu > li  {color: #fff;}
+.dropdown-menu > li > a:hover,.dropdown-menu > li > a:focus {background-color: #000;background-image: none;color: #fff;}
+.navbar-nav .open .dropdown-menu > li > a:hover,.dropdown-menu > li > a:focus {background-color: #000;background-image: none;color: #fff;}
+.dropdown-menu > li > ul > li > a{background-color: #fff;color: #000;}
+.dropdown-menu > li > ul.list-inline{margin-left: 40px;}
+.dropdown-menu > li > ul > li > span > a {color: #fff;}
+.dropdown-menu > li > ul > li > a:hover {background-color: #000;background-image: none;color: #fff;}
+/*
+    Navbar custom dropdown menu
+------------------------------------
+*/
+.skin-blue .logo {background-color:#303030;color: #fff;}
+.skin-blue .logo:hover {background-color:#303030;color: #fff;}
+/* MAIN MENU */
+.navbar-nav > .tasks-menu > .dropdown-menu { width: 310px;padding: 0 0 0 0!important;margin: 0!important;top: 100%;border: 1px solid #dfdfdf;-webkit-border-radius: 4px !important;-moz-border-radius: 4px !important;border-radius: 4px !important; }
+.navbar-nav > .tasks-menu > .dropdown-menu:after {bottom: 100%;left:10px;border: solid transparent;content: " "; height: 0;width: 0;position: absolute;pointer-events: none;border-color: rgba(255, 255, 255, 0);border-bottom-color: #fff;border-width: 10px;margin-left: 0px;}
+.navbar-nav > .tasks-menu > .dropdown-menu > li .menu { margin: 0; padding: 0; list-style: none; overflow-x: hidden;}
+.navbar-nav > .tasks-menu > .dropdown-menu > li .menu > a { display: block; white-space: nowrap; /* Prevent text from breaking */ border-bottom: 1px solid #f4f4f4; padding: 10px;}
+/* USER MENU */
+.navbar-nav.navbar-right:last-child { margin-right:15px;}
+.navbar-nav > .user-menu > .dropdown-menu {-webkit-border-radius: 0;-moz-border-radius: 0;border-radius: 0;padding: 1px 0 0 0;border-top-width: 0;width: 280px;left: -140px;}
+.navbar-nav > .user-menu > .dropdown-menu li a {color:#000;}
+.navbar-nav > .user-menu > .dropdown-menu li a:hover {color:#fff;}
+.navbar-nav > .user-menu > .dropdown-menu:after {bottom: 100%;right:10px;border: solid transparent;content: " ";height: 0;width: 0;position: absolute;pointer-events: none; border-color: rgba(255, 255, 255, 0); border-bottom-color: #ffffff;border-width: 10px; margin-left: -10px;}
+.navbar-collapse.collapse{ display:none;}
+.navbar-collapse.in {overflow-y: auto; background-color:#000;}
+/* MENUS */
+@keyframes fadeAnimation { from { opacity: 0;}  to { opacity: 1; } }
+@-webkit-keyframes fadeAnimation { from {  opacity: 0; } to {  opacity: 1; }}
 
-/* Fix accessibility issue on links */
-a{color:#6D84CB;}
-a:hover,a:active {outline:thin dotted;}
+/* 
+	Header
+----------------------------
+*/
+.home{background-color:#6D84CB !important;color:#fff;margin:0 0 0 0;display:block;} 
+.home>a>i{color:#fff !important;} 
 
-/* Header */ 
-li.home{background-color:#6D84CB !important;color:#fff !important;} 
-li.home>a>i{color:#fff !important;} 
-
-/* Submenu fix for B3 */
-.dropdown-submenu{position:relative;}
-.dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
-.dropdown-submenu:hover>.dropdown-menu{display:block;}
-.dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
-.dropdown-submenu:hover>a:after{border-left-color:#ffffff;}
-.dropdown-submenu.pull-left{float:none;}.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
-
-/* Logo */
-.logo{height:16px;float:left;margin:0 2px;}
-.logo-min{height:16px;float:left;margin:0 2px;}
-h1.header{display:none;}
-
-.page-header{margin:0 !important;}
-.page-header h1{font-size:150%;}
-
-legend#adv_param{font-size:120%;}
-
-/* Button space */
-.spaced{margin:0 2px;}
-.spaced-xs{margin:0 1px;}
-
-/* Footer */
+/* 
+	Footer
+----------------------------
+*/
 #footer{background: none repeat scroll 0 0 #000;color: #fff;margin-bottom:0;}
 #footer > a{color: #fff;font-size:80%;}
 
-/* Admin message */
-.msg-admin{margin:10em 0; }
 
+/* 
+	Helpers classes
+----------------------------
+*/
+/* Add class for input text in box > box-header > box-tools */
+.input-xs, .form-horizontal .form-group-xs .form-control { border-radius: 3px; font-size: 12px; height: 22px; line-height: 1.5; padding: 1px 10px;}
 /* thumbnail list */
 div.thumbnail img.thumbnail{max-height:80px;min-height:100px;}
 div.thumbnail div.caption{background:#DEDEDE;}
-
-/* Image lists */
+/* Image  size for thumbnails list */
 img.thumblist-small{width:24px;}
 img.thumblist-medium{width:64px;}
 img.thumblist-wide{width:128px;}
-
-/* Portlets admin */
-li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
-#content-portlet{padding:0 10px;}
-#admin-site-toolbar{margin-bottom:0px;padding:2px;}
-#preview{position:fixed;left:0;height:720px;width:100%;}
-.richtext{width:100%;}
-.mce-fullscreen{margin-top:50px !important;}
-/* */
-.management-toolbar{background:#DEDEDE;padding:5px 2px;margin-bottom:5px;border:2px solid #D1CACA;border-radius:2px;}
-
-/* Plugins admin added styles */
-/* plugin Document */
-
-/* plugin extend*/
-.form-submenu{margin: 0px;}
-.dropdown-menu p{padding: 3px 20px;}
-.submenu-left{right: 100% !important;left: auto !important;}
-
-/* plugin theme preview*/
-#preview-frame-container{display:none;}
-#back-to-preview{position:fixed;background: #000;box-shadow: 0 0 10px #000;left:0;top:150px;width:auto;z-index:99;}
-#back-to-preview a {display: block;float:left; margin:2px; padding: 5px 20px; background:#3399FF;color:#fff;text-decoration: none;}
-#back-to-preview a:hover {color:#000;}
-#preview-frame{position:fixed;background:#000;box-shadow:10px #000;margin:5px;width:98%;height:100%;top:60px;left:0; overflow: auto; z-index: 99;}
-.oyh {overflow-y: hidden;}
-
-/* plugin digg */
-.f-nav{ z-index: 9999; position: fixed; left:0; top:4.4%;background-color:#fff;padding:1% 2% 1% 2%;-moz-box-shadow: 0px 5px 5px 0px #656565;-webkit-box-shadow: 0px 5px 5px 0px #656565;-o-box-shadow: 0px 5px 5px 0px #656565;box-shadow: 0px 5px 5px 0px #656565;filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);} /* this make our menu fixed top */
-.span-fixed {z-index:9998;position:fixed;} /* this make our menu fixed top */
-.badge-waiting {border-radius: 20px 20px 20px 20px;font-size: 15px;padding: 5px 9px;-moz-box-shadow: 0px 5px 5px 0px #656565;-webkit-box-shadow: 0px 5px 5px 0px #656565;-o-box-shadow: 0px 5px 5px 0px #656565;box-shadow: 0px 5px 5px 0px #656565;filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);}
-.modal-top{top:20% !important;}
-.append-bottom{margin-bottom:75px;}
-
-/* Dashboard Lutece Widget */
-[class*="lutece-dashboard"] .panel {-webkit-box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05);box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05); border:1px solid;height:200px;}
-[class*="lutece-dashboard"] .panel-small {-webkit-box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05);box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05); border:1px solid;height:80px;}
-[class*="lutece-dashboard"] .panel-content {padding:10px;height:140px;overflow-y:scroll;}
-[class*="lutece-dashboard"] .panel-content-small{padding:10px;height:50px;}
-[class*="lutece-dashboard"] .panel-content .panel-action {padding:3px;}
-[class*="lutece-dashboard"].well, [class*="lutece-dashboard"] .well {
-	background: none;
-	border-radius: 4px;
-	padding: 0px;
-	border: 1px solid #2f70a9;
-}
-[class*="lutece-dashboard"] legend {
-    color: #FFFFFF;
-    border: none;
-    padding: 5px;
-    font-size: 14px;
-    background-color: #2f70a9;
-}
-[class*="lutece-dashboard"] legend a, [class*="lutece-dashboard"] legend a:hover {
-    color: #FFFFFF;
-}
-.lutece-dashboard-application legend {
-	background-color: #5cb85c;
-}
-.well.lutece-dashboard-application {
-	border: 1px solid #5cb85c;
-}
-.lutece-dashboard-content legend {
-	background-color: #F0AD4E;
-}
-.well.lutece-dashboard-content {
-	border: 1px solid #F0AD4E;
-}
-.lutece-dashboard-system legend {
-	background-color: #d9534f;
-}
-.well.lutece-dashboard-system {
-	border: 1px solid #d9534f;
-}
-.lutece-dashboard-user legend {
-	background-color: #31afd5;
-}
-.well.lutece-dashboard-user {
-	border: 1px solid #31afd5;
-}
-
+/* Append right and left 2px space */
+.spaced{margin:0 2px;}
 /* Lutece extra-icons */
 [class^="icon-lutece-"],[class*=" icon-lutece-"] {display:inline-block;width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;background-image:url("../img/lutece-icons.png");background-repeat:no-repeat;}
 [class^="icon-lutece-"]:last-child,[class*=" icon-lutece-"]:last-child {*margin-left:0;}
@@ -141,20 +87,80 @@ li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
 .icon-lutece-page-template-document1{ background-position: -150px 0; width: 24px; height: 24px; } 
 .icon-lutece-page-template-document2{ background-position: -196px 0; width: 24px; height: 24px; } 
 .icon-lutece-add-shopping-cart { background-position: -360px -120px;}
+/* Submenu fix for B3 */
+.dropdown-submenu{position:relative;}
+.dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
+.dropdown-submenu:hover>.dropdown-menu{display:block;}
+.dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
+.dropdown-submenu:hover>a:after{border-left-color:#ffffff;}
+.dropdown-submenu.pull-left{float:none;}.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
 
+/* 
+	Plugins list
+----------------------------
+*/
+.plugins{min-height:300px;max-height:300px;}
 
-/* Plugins admin added styles */
-/* Plugin Document*/
+/* 
+	Admin Site
+----------------------------
+*/
+/* Portlets */
+li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
+#content-portlet{padding:0 10px;}
+#preview{left:0;width:100%;height:850px;min-height:850px;position:relative;z-index:0;}
+.richtext{width:100%;}
+.mce-fullscreen{margin-top:50px !important;}
+/* Menu */
+/* Override color for admin site menu */
+.btn-toolbar .btn-default, .btn-toolbar .dropdown-menu > li  a, .btn-toolbar .dropdown-menu  .dropdown-submenu  a{color: #000 !important;}
+/* Site Map */
+.jstree-classic a.jstree-search ,.jstree-default a.jstree-search ,.jstree-apple a.jstree-search {background-color:#6277B6 !important;color:#fff !important;font-style:normal;text-decoration:underline;}
+
+/* Deprecated use adminlte box classes */
+/* Dashboard Lutece Widget */
+[class*="lutece-dashboard"] .panel {-webkit-box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05);box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05); border:1px solid;height:200px;}
+[class*="lutece-dashboard"] .panel-small {-webkit-box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05);box-shadow: 0 5px 5px -3px rgba(0,0,0,0.05); border:1px solid;height:80px;}
+[class*="lutece-dashboard"] .panel-content {padding:10px;height:140px;overflow-y:scroll;}
+[class*="lutece-dashboard"] .panel-content-small{padding:10px;height:50px;}
+[class*="lutece-dashboard"] .panel-content .panel-action {padding:3px;}
+[class*="lutece-dashboard"].well, [class*="lutece-dashboard"] .well {background: none;border-radius: 4px;padding: 0px;border: 1px solid #2f70a9;}
+[class*="lutece-dashboard"] legend {color: #fff;border: none; padding: 5px;font-size: 14px;background-color: #2f70a9;}
+[class*="lutece-dashboard"] legend a, [class*="lutece-dashboard"] legend a:hover { color: #fff;}
+.lutece-dashboard-application legend {background-color: #5cb85c;}
+.well.lutece-dashboard-application {	border: 1px solid #5cb85c;}
+.lutece-dashboard-content legend {background-color: #F0AD4E;}
+.well.lutece-dashboard-content {	border: 1px solid #F0AD4E;}
+.lutece-dashboard-system legend {	background-color: #d9534f;}
+.well.lutece-dashboard-system {	border: 1px solid #d9534f;}
+.lutece-dashboard-user legend {background-color: #31afd5;}
+.well.lutece-dashboard-user {border: 1px solid #31afd5;}
+/**************************************************************/
+
+/*
+	Plugins admin added styles
+----------------------------
+*/
+
+/* 
+	Plugin Document
+----------------------------
+*/
 .document-toolbar{background-color:#D4D4D4;border:5px #000 edge;padding:10px;margin:-20px 5px 5px 0;border-radius:8px;-moz-box-shadow: 0px 5px 5px 0px #656565;-webkit-box-shadow: 0px 5px 5px 0px #656565;-o-box-shadow: 0px 5px 5px 0px #656565;box-shadow: 0px 5px 5px 0px #656565;filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);}
 .table-document tr:hover td{background:#DEDEDE !important;}
 
-
-/* Plugin Extend*/
+/* 
+	Plugin Extend
+----------------------------
+*/
 .form-submenu{margin: 0px;}
 .dropdown-menu p{padding: 3px 20px;}
 .submenu-left{right: 100% !important;left: auto !important;}
 
-/* Plugin Theme Preview*/
+/* 
+	Plugin Theme Preview
+----------------------------
+*/
 #preview-frame-container{display:none;}
 #back-to-preview{position:fixed;background: #000;box-shadow: 0 0 10px #000;left:0;top:150px;width:auto;z-index:99;}
 #back-to-preview a {display: block;float:left; margin:2px; padding: 5px 20px; background: #FFCC00;color:#000;text-decoration: none;}
@@ -162,22 +168,93 @@ li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
 #preview-frame{position:fixed;background:#000;box-shadow:10px #000;margin:5px;width:98%;height:100%;top:60px;left:0; overflow: auto; z-index: 99;}
 .oyh {overflow-y: hidden;}
 
-/* Plugin Digg */
+/* 
+	Plugin Digg
+----------------------------
+*/
 .f-nav{ z-index: 9999; position: fixed; left:0; top:4.4%;background-color:#fff;padding:1% 2% 1% 2%;-moz-box-shadow: 0px 5px 5px 0px #656565;-webkit-box-shadow: 0px 5px 5px 0px #656565;-o-box-shadow: 0px 5px 5px 0px #656565;box-shadow: 0px 5px 5px 0px #656565;filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);} 
 /* this make our menu fixed top */
 .span-fixed {z-index:9998;position:fixed;} /* this make our menu fixed top */
 .badge-waiting { border-radius: 20px; font-size: 15px;padding: 5px 9px;-moz-box-shadow: 0px 5px 5px 0px #656565;-webkit-box-shadow: 0px 5px 5px 0px #656565;-o-box-shadow: 0px 5px 5px 0px #656565;box-shadow: 0px 5px 5px 0px #656565;filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);}
 .modal-top{top:20% !important;}
 
-/* Insert services */
+/* 
+	Insert services
+----------------------------
+*/
 div.insert-service div.pagination{height:auto;}
 
-.dropdown-menu > form > li > a {
-    clear: both;
-    color: #333;
-    display: block;
-    font-weight: normal;
-    line-height: 1.42857;
-    padding: 3px 20px;
-    white-space: nowrap;
+
+/*==================================================
+=            Bootstrap 3 Media Queries             =
+==================================================*/
+
+/*==========  Mobile First Method  ==========*/
+
+/* Custom, iPhone Retina */ 
+@media only screen and (min-width : 320px) {
+    
+}
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (min-width : 480px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+
+}
+
+
+/*==========  Non-Mobile First Method  ==========*/
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 992px) {
+	.header .navbar-header .logo{display:none;}
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+	#admin-wrapper > .content-header > .breadcrumb { position: relative;margin-top: 5px;top: 0;right: 0;float: none;background: #efefef;}
+  .navbar .navbar-nav > li {float: left;}
+  .navbar-nav {margin: 0;float: left;}
+  .navbar-nav > li > a {padding-top: 15px;padding-bottom: 15px;line-height: 20px;}
+  .navbar .navbar-right {float: right;}
+}
+
+@media screen and (max-width: 560px) {
+  body > .header {position: relative; }
+  body > .header .logo,body > .header .navbar {position: relative!important;}
+  body > .header .navbar {margin: 0;}
+}
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (max-width : 480px) {
+	.navbar-nav > .tasks-menu {width: 100%;}	
+	.navbar-nav > .tasks-menu > .dropdown-menu {-webkit-border-radius: 0 !important;-moz-border-radius: 0!important;border-radius: 0 !important;}	
+	.navbar-nav > .tasks-menu > .dropdown-menu {position:relative;top:0;left:0;width:100%;}
+	.navbar-nav > .tasks-menu > .dropdown-menu:after {border-bottom-color: #ffffff;border-width: 0px;	margin-left: 0px;}
+	.navbar-nav > .user-menu > .dropdown-menu {left: -175px;width: 220px;	}
+	.btn-toolbar{margin:0 auto;width:100%;}
+}
+
+/* Custom, iPhone Retina */ 
+@media only screen and (max-width : 320px) {
+    
 }

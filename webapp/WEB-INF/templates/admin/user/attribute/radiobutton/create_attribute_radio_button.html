@@ -1,80 +1,84 @@
-<form class="form-horizontal" action="jsp/admin/user/attribute/DoCreateAttribute.jsp" method="post" name="" id="">
-	<fieldset>
-		<legend>#i18n{portal.users.create_attribute.pageTitleAttributeRadioButton}</legend>
-        <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.create_attribute.labelTitle} * : </label>
-            <div class="col-xs-12 col-sm-9 col-md-9">
-				<input type="text" class="form-control input-sm" name="title" id="title" size="80" value="" maxlength="255">
-            	<span class="help-block">#i18n{portal.users.create_attribute.labelTitleComment}</span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="help_message"> #i18n{portal.users.create_attribute.labelHelpMessage} : </label>
-            <div class="col-xs-12 col-sm-9 col-md-9">
-				<textarea name="help_message" class="form-control input-sm" id="help_message" cols="80" rows="5"></textarea>
-				<span class="help-block">#i18n{portal.users.create_attribute.labelHelpMessageComment}</span>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-success">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.users.modify_attribute.pageTitleAttributeText}</h3>
 			</div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="">#i18n{portal.users.create_attribute.labelType} : </label>
-            <div class="col-xs-12 col-sm-9 col-md-9">
-				${attribute_type.name}
+			<div class="box-body">
+				<form class="form-horizontal" role="form" action="jsp/admin/user/attribute/DoCreateAttribute.jsp" method="post" name="" id="">
+					<fieldset>
+						<legend>#i18n{portal.users.create_attribute.pageTitleAttributeRadioButton}</legend>
+						<div class="form-group">
+							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.create_attribute.labelTitle} * </label>
+							<div class="col-xs-12 col-sm-9 col-md-9">
+								<input type="text" class="form-control" name="title" id="title" value="" maxlength="255">
+								<span class="help-block">#i18n{portal.users.create_attribute.labelTitleComment}</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="help_message"> #i18n{portal.users.create_attribute.labelHelpMessage} </label>
+							<div class="col-xs-12 col-sm-9 col-md-9">
+								<textarea name="help_message" class="form-control" id="help_message" cols="80" rows="5"></textarea>
+								<span class="help-block">#i18n{portal.users.create_attribute.labelHelpMessageComment}</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_search"> </label>
+							<div class="col-xs-12 col-sm-9 col-md-9">
+								<div class="checkbox">
+									<label>
+										<input name="is_shown_in_search" value="1" type="checkbox">&nbsp;#i18n{portal.users.create_attribute.labelIsShownInSearch}
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_result_list"> </label>
+							<div class="col-xs-12 col-sm-9 col-md-9">
+								<div class="checkbox">
+									<label>
+										<input name="is_shown_in_result_list" value="1" type="checkbox">&nbsp;#i18n{portal.users.create_attribute.labelIsShownInResultList}
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="mandatory"> </label>
+							<div class="col-xs-12 col-sm-9 col-md-9">
+								<div class="checkbox">
+									<label>
+										<input name="mandatory" value="1" type="checkbox">&nbsp;#i18n{portal.users.create_attribute.labelMandatory}
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_field_in_line"></label>
+							<div class="col-xs-12 col-sm-9 col-md-9">
+							<div class="checkbox">
+								<label>
+									<input name="is_field_in_line" value="1" type="checkbox">&nbsp;#i18n{portal.users.create_attribute.labelIsFieldInLine} 
+								</label>
+							</div>
+							<p class="help-block">#i18n{portal.users.create_attribute.labelIsFieldInLineComment}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
+							<input name="attribute_type_class_name" value="${attribute_type.className}" type="hidden"> 
+							<button class="btn btn-primary btn-sm" type="submit" name="validate" value="validate" >
+								<i class="glyphicon glyphicon-ok">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonValidate}
+							</button>
+							<button class="btn btn-primary btn-sm" type="submit" name="apply" value="apply" >
+								<i class="glyphicon glyphicon-ok-circle">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonApply}
+							</button>
+							<button class="btn btn-default btn-sm" type="submit" name="cancel" value="cancel" >
+								<i class="glyphicon glyphicon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+							</button>
+						</div>
+					</div>
+				</form>
 			</div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_search">#i18n{portal.users.create_attribute.labelIsShownInSearch} : </label>
-            <div class="col-xs-12 col-sm-9 col-md-9">
-				<div class="checkbox">
-					<label>
-						<input name="is_shown_in_search" value="1" type="checkbox">&nbsp;
-					</label>
-				</div>
-			</div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_result_list">#i18n{portal.users.create_attribute.labelIsShownInResultList} : </label>
-            <div class="col-xs-12 col-sm-9 col-md-9">
-				<div class="checkbox">
-					<label>
-						<input name="is_shown_in_result_list" value="1" type="checkbox">&nbsp;
-					</label>
-				</div>
-			</div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="mandatory">#i18n{portal.users.create_attribute.labelMandatory} : </label>
-            <div class="col-xs-12 col-sm-9 col-md-9">
-				<div class="checkbox">
-					<label>
-						<input name="mandatory" value="1" type="checkbox">&nbsp;
-					</label>
-				</div>
-			</div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_field_in_line">#i18n{portal.users.create_attribute.labelIsFieldInLine} : </label>
-            <div class="col-xs-12 col-sm-9 col-md-9">
-				<div class="checkbox">
-					<label>
-						<input name="is_field_in_line" value="1" type="checkbox">&nbsp;
-					</label>
-				</div>
-            	<span class="help-block">#i18n{portal.users.create_attribute.labelIsFieldInLineComment}</span>
-            </div>
-        </div>
-        <div class="form-group">
-			<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
-				<input name="attribute_type_class_name" value="${attribute_type.className}" type="hidden"> 
-				<button class="btn btn-primary btn-sm" type="submit" name="validate" value="validate" >
-					<i class="glyphicon glyphicon-ok">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonValidate}
-				</button>
-				<button class="btn btn-primary btn-sm" type="submit" name="apply" value="apply" >
-					<i class="glyphicon glyphicon-ok-circle">&nbsp;</i>&nbsp;#i18n{portal.users.create_attribute.buttonApply}
-				</button>
-				<button class="btn btn-default btn-sm" type="submit" name="cancel" value="cancel" >
-					<i class="glyphicon glyphicon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
-				</button>
-			</div>
-        </div>
-	</fieldset>
-</form>
+		</div>
+	</div>
+</div>

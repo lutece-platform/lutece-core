@@ -1,62 +1,67 @@
 <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <legend>#i18n{portal.system.manage_daemons.titleCacheList}</legend>
-            <table class="table table-striped table-condensed">
-                <tr>
-                    <th>#i18n{portal.system.manage_daemons.columnTitleId}</th>
-                    <th>#i18n{portal.system.manage_daemons.columnTitleName}</th>
-                    <th>#i18n{portal.system.manage_daemons.columnTitleRunningStatus}</th>
-                    <th>#i18n{portal.system.manage_daemons.columnTitleInterval}</th>
-                    <th>#i18n{portal.system.manage_daemons.columnTitleLastRun}</th>
-                    <th>#i18n{portal.system.manage_daemons.columnTitleActions}</th>
-                </tr>
-                <#list daemons_list as daemon>
-                <tr>
-                    <form method="post" action="jsp/admin/system/DoDaemonAction.jsp" class="form-inline">
-	                    <td>${daemon.id}<br />(${daemon.pluginName})</td>
-	                    <td>#i18n{${daemon.nameKey}}<br />#i18n{${daemon.descriptionKey}}</td>
-	                    <td>
-	                        <#if daemon.running>
-	                        <span class="label label-success"><i class="glyphicon glyphicon-ok-sign"></i>#i18n{portal.util.labelEnabled}</span>
-	                        <#else>
-	                        <span class="label label-important"><i class="glyphicon glyphicon-remove-sign"></i>#i18n{portal.util.labelDisabled}</span>
-	                        </#if>
-	                    </td>
-	                    <td>
-	                    	<#if daemon.running>
-	                    		${daemon.interval}
-	                    	<#else>
-	                    		<input type="text" class="input-small" name="interval" value="${daemon.interval}">
-	                    	</#if>	
-	                    </td>
-	                    <td>
-	                        
-	                        <span rel="popover" data-original-title="${daemon.pluginName}" data-content="${daemon.lastRunLogs?html}">${daemon.lastRunDate} - Logs ${daemon.id} - ${daemon.pluginName}...</span>
-							<pre class="logs">${daemon.lastRunLogs}</pre>
-	                    </td>         
-	                    <td>
-	                        
-	                             <input type="hidden" name="daemon" value="${daemon.id}" />
-	                            <#if daemon.running>
-		                          	<button class="btn btn-danger btn-xs pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStop}" name="action" value="STOP">
-		                                <i class="glyphicon glyphicon-stop"></i>
-		                            </button>
-								<#else>
-	                          		<button class="btn btn-success btn-xs pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonStart}" name="action" value="START" >
-		                                <i class="glyphicon glyphicon-play"></i>
-		                            </button>
-		                            <button class="btn btn-primary btn-xs pull-right" type="submit" title="#i18n{portal.system.manage_daemons.buttonUpdateInterval}" name="action" value="UPDATE_INTERVAL" >
-		                                <i class="glyphicon glyphicon-ok"></i>
-		                            </button>
-	                            </#if>
-	                        
-	                    </td>
-                     </form>
-                </tr>
-               
-                </#list>
-            </table>
-    </div>
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-danger">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.system.manage_daemons.titleCacheList}</h3>
+			</div><!-- /.box-header -->
+			<div class="box-body table-responsive no-padding">
+				<table class="table table-striped table-condensed table-hover">
+					<tr>
+						<th>#i18n{portal.system.manage_daemons.columnTitleId}</th>
+						<th>#i18n{portal.system.manage_daemons.columnTitleName}</th>
+						<th>#i18n{portal.system.manage_daemons.columnTitleRunningStatus}</th>
+						<th>#i18n{portal.system.manage_daemons.columnTitleInterval}</th>
+						<th>#i18n{portal.system.manage_daemons.columnTitleLastRun}</th>
+						<th>#i18n{portal.system.manage_daemons.columnTitleActions}</th>
+					</tr>
+					<#list daemons_list as daemon>
+						<form method="post" action="jsp/admin/system/DoDaemonAction.jsp" class="form-inline">
+							<input type="hidden" name="daemon" value="${daemon.id}">
+							<tr>
+								<td>${daemon.id}<br />(${daemon.pluginName})</td>
+								<td>#i18n{${daemon.nameKey}}<br />#i18n{${daemon.descriptionKey}}</td>
+								<td>
+									<#if daemon.running>
+										<span class="label label-success" style="width:80px;display:inline-block;text-align:left"> <i class="glyphicon glyphicon-ok-sign"></i>&nbsp;&nbsp;#i18n{portal.util.labelEnabled}</span>
+									<#else>
+										<span class="label label-important" style="width:80px;display:inline-block;;text-align:left"> <i class="glyphicon glyphicon-remove-sign"></i>&nbsp;&nbsp;#i18n{portal.util.labelDisabled}</span>
+									</#if>
+								</td>
+								<td>
+									<#if daemon.running>
+										${daemon.interval}
+									<#else>
+										<label for="interval" class="sr-only"></label>
+										<input type="text" class="form-control" name="interval" value="${daemon.interval}">
+									</#if>	
+								</td>
+								<td>
+									<span rel="popover" data-original-title="${daemon.pluginName}" data-content="${daemon.lastRunLogs?html}">${daemon.lastRunDate} - Logs ${daemon.id} - ${daemon.pluginName}...</span>
+									<pre class="logs">${daemon.lastRunLogs}</pre>
+								</td>         
+								<td>
+									<div class="pull-right">
+									<#if daemon.running>
+										<button class="btn btn-danger btn-xs btn-flat" type="submit" title="#i18n{portal.system.manage_daemons.buttonStop}" name="action" value="STOP">
+											<i class="glyphicon glyphicon-stop"></i>
+										</button>
+									<#else>
+										<button class="btn btn-success btn-xs btn-flat" type="submit" title="#i18n{portal.system.manage_daemons.buttonStart}" name="action" value="START" >
+											<i class="glyphicon glyphicon-play"></i>
+										</button>
+										<button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.system.manage_daemons.buttonUpdateInterval}" name="action" value="UPDATE_INTERVAL" >
+											<i class="glyphicon glyphicon-ok"></i>
+										</button>
+									</#if>
+									</div>
+								</td>
+							</tr>
+							</form>
+					</#list>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 <script>
 $(document).ready( function () {

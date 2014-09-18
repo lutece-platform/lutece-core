@@ -1,70 +1,76 @@
 <div class="row">
-   <legend>#i18n{portal.users.anonymize_user.titleAnonymizeUser}</legend>
-    <form class="form-horizontal" method="post" name="anonymize_user" action="jsp/admin/user/DoChangeFieldAnonymizeAdminUsers.jsp" >
-        <fieldset>
-            <div class="well">
-                <div class="well-content">
-                    #i18n{portal.users.create_user.labelIdentity}
-                    <div class="form-group">
-                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="access_code" >#i18n{portal.users.create_user.labelAccessCode} </label>
-                        <div class="col-xs-12 col-sm-9 col-md-9">
-							<div class="checkbox">
-								<input type="checkbox" id="access_code" name="access_code" value="true" <#if access_code?? && access_code>checked="checked"</#if>>
-							</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="last_name" >#i18n{portal.users.create_user.labelLastName} </label>
-                        <div class="col-xs-12 col-sm-9 col-md-9">
-							<div class="checkbox">
-								<input type="checkbox"  id="last_name" name="last_name" value="true" tabindex="2" <#if last_name?? && last_name>checked="checked"</#if>>
-							</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="first_name">#i18n{portal.users.create_user.labelFirstName} </label>
-                        <div class="col-xs-12 col-sm-9 col-md-9">
-							<div class="checkbox">
-								<input type="checkbox" id="first_name" name="first_name" value="true" tabindex="3" <#if first_name?? && first_name>checked="checked"</#if>>
-							</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="email">#i18n{portal.users.create_user.labelEmail} </label>
-                        <div class="col-xs-12 col-sm-9 col-md-9">
-                            <div class="checkbox">
-								<input type="checkbox" id="email" name="email" value="true" tabindex="4" <#if email?? && email>checked="checked"</#if>>
-							</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <#if attributes_list?has_content>
-            <div class="well">
-                <div class="well-content">
-                    #i18n{portal.users.create_user.labelComplementaryAttributes}
-                    <#list attributes_list as attribute>
-                    <#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
-
-                    <div class="form-group">
-                        <label class="control-label col-xs-12 col-sm-3 col-md-3" for="attribute_${attribute.idAttribute}">${attribute.title} :</label>
-                        <div class="col-xs-12 col-sm-9 col-md-9">
-							<div class="checkbox">
-								<input type="checkbox" value="true" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}" <#if attribute.anonymize >checked="checked"</#if>>
-							</div>
-                        </div>
-                    </div>
-                    </#if>
-                    </#list>
-                </div>
-            </div>
-            </#if>
-			
-			<div class="form-group pull-right">
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<button class="btn btn-primary btn-sm" type="submit">#i18n{portal.users.anonymize_user.buttonSave}</button>
-				</div>
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-success">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.users.anonymize_user.titleAnonymizeUser}</h3>
 			</div>
-        </fieldset>
-    </form>
+			<div class="box-body">
+				<form class="form-horizontal" role="form" method="post" name="anonymize_user" action="jsp/admin/user/DoChangeFieldAnonymizeAdminUsers.jsp" >
+					<fieldset>
+						<legend>#i18n{portal.users.create_user.labelIdentity}</legend>
+						<div class="form-group">
+							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="access_code" ></label>
+							<div class="col-xs-12 col-sm-9 col-md-9">
+								<div class="checkbox">
+									<input type="checkbox" id="access_code" name="access_code" value="true" <#if access_code?? && access_code>checked="checked"</#if>>
+									#i18n{portal.users.create_user.labelAccessCode} 
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="last_name" ></label>
+							<div class="col-xs-12 col-sm-9 col-md-9">
+								<div class="checkbox">
+									<input type="checkbox"  id="last_name" name="last_name" value="true" tabindex="2" <#if last_name?? && last_name>checked="checked"</#if>>
+									#i18n{portal.users.create_user.labelLastName} 
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="first_name"></label>
+							<div class="col-xs-12 col-sm-9 col-md-9">
+								<div class="checkbox">
+									<input type="checkbox" id="first_name" name="first_name" value="true" tabindex="3" <#if first_name?? && first_name>checked="checked"</#if>>
+									#i18n{portal.users.create_user.labelFirstName} 
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="email"></label>
+							<div class="col-xs-12 col-sm-9 col-md-9">
+								<div class="checkbox">
+									<input type="checkbox" id="email" name="email" value="true" tabindex="4" <#if email?? && email>checked="checked"</#if>>
+									#i18n{portal.users.create_user.labelEmail} 
+								</div>
+							</div>
+						</div>
+					</fieldset>	
+					<#if attributes_list?has_content>
+						<fieldset>
+							<legend>#i18n{portal.users.create_user.labelComplementaryAttributes}</legend>
+							<#list attributes_list as attribute>
+								<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+								<div class="form-group">
+									<label class="control-label col-xs-12 col-sm-3 col-md-3" for="attribute_${attribute.idAttribute}">${attribute.title} :</label>
+									<div class="col-xs-12 col-sm-9 col-md-9">
+										<div class="checkbox">
+											<input type="checkbox" value="true" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}" <#if attribute.anonymize >checked="checked"</#if>>
+										</div>
+									</div>
+								</div>
+								</#if>
+							</#list>
+						<fieldset>
+					</#if>
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
+							<button class="btn btn-primary btn-flat" type="submit">
+								<i class="glyphicon glyphicon-ok"></i><span class="hidden-xs"> #i18n{portal.users.anonymize_user.buttonSave}</span>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>

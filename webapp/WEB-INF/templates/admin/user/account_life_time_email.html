@@ -1,46 +1,57 @@
 <#include "/admin/util/editor/editor.html" />
 <div class="row">
-    <legend>#i18n{${emailLabel}}</legend>
-    <form class="form-horizontal" method="post" action="jsp/admin/user/DoModifyAccountLifeTimeEmails.jsp">
-        <fieldset>
-            <input type="hidden" name="email_type" value="${email_type}">
-
-            <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="email_sender"> #i18n{portal.users.accountLifeTime.labelSenderEmail} : </label>
-                <div class="col-xs-12 col-sm-9 col-md-9">
-                    <input type="text" name="email_sender" value="${email_sender!}" size="100">
-                </div>
-            </div>
-            <br>
-
-            <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="email_subject"> #i18n{portal.users.accountLifeTime.labelSubjectEmail} : </label>
-                <div class="col-xs-12 col-sm-9 col-md-9">
-                    <input type="text" name="email_subject" value="${email_subject!}" size="100">
-                </div>
-            </div>
-            <br>
-
-            <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-3 col-md-3" for="email_body"> #i18n{portal.users.accountLifeTime.labelBodyEmail} : </label>
-                <div class="editor">
-                    <textarea class="richtext" rows="30" cols="100" id="email_body" name="email_body" >${email_body!}</textarea>
-                </div>
-                <br>
-
-                #i18n{portal.users.accountLifeTime.labelParameters} : 
-                <ul>
-                    <#if email_type != "reactivated" && email_type != "expired" && email_type != "password_expired" >
-                    	<li>${r"${url}"} : #i18n{portal.users.accountLifeTime.labelUrl}</li>
-                    </#if>
-                    <li>${r"${first_name}"} : #i18n{portal.users.accountLifeTime.labelFirstName}</li>
-                    <li>${r"${last_name}"} : #i18n{portal.users.accountLifeTime.labelLastName}</li>
-                    <#if email_type != "password_expired" >
-                    	<li>${r"${date_valid}"} : #i18n{portal.users.accountLifeTime.labelDateValid}</li>
-                    </#if>
-                </ul>
-                <button class="btn btn-primary btn-sm" type="submit" ><i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.util.labelModify}</button>
-        </fieldset>
-    </form>
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-success">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{${emailLabel}}</h3>
+				<div class="box-tools"></div>
+			</div><!-- /.box-header -->
+			<div class="box-body">
+				<form class="form-horizontal" method="post" action="jsp/admin/user/DoModifyAccountLifeTimeEmails.jsp">
+					<input type="hidden" name="email_type" value="${email_type}">
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="email_sender"> #i18n{portal.users.accountLifeTime.labelSenderEmail} : </label>
+						<div class="col-xs-12 col-sm-9 col-md-9">
+							<input type="text" name="email_sender" value="${email_sender!}" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="email_subject"> #i18n{portal.users.accountLifeTime.labelSubjectEmail} : </label>
+						<div class="col-xs-12 col-sm-9 col-md-9">
+							<input type="text" name="email_subject" value="${email_subject!}" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="email_body"> #i18n{portal.users.accountLifeTime.labelBodyEmail} : </label>
+						<div class="editor">
+							<textarea class="form-control richtext" rows="30" cols="100" id="email_body" name="email_body" >${email_body!}</textarea>
+						</div>
+					</div>	
+					<div class="form-group">
+						 <label class="control-label col-xs-12 col-sm-3 col-md-3" for="email_body">#i18n{portal.users.accountLifeTime.labelParameters}</label>
+						 <div class="col-xs-12 col-sm-9 col-md-9">
+							<ul>
+								<#if email_type != "reactivated" && email_type != "expired" && email_type != "password_expired" >
+									<li>${r"${url}"} : #i18n{portal.users.accountLifeTime.labelUrl}</li>
+								</#if>
+								<li>${r"${first_name}"} : #i18n{portal.users.accountLifeTime.labelFirstName}</li>
+								<li>${r"${last_name}"} : #i18n{portal.users.accountLifeTime.labelLastName}</li>
+								<#if email_type != "password_expired" >
+									<li>${r"${date_valid}"} : #i18n{portal.users.accountLifeTime.labelDateValid}</li>
+								</#if>
+							</ul>
+						  </div>
+					</div>	
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">		
+							<button class="btn btn-primary btn-flat" type="submit" >
+								<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.util.labelModify}
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 <@initEditor />

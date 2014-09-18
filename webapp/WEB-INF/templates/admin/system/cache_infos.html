@@ -1,15 +1,23 @@
-<#list services_list as service>
-<div class="col-md-12">
-    <h2>${service.name}</h2>
-    <blockquote>
-        <h4>Configuration</h4>
-        <blockquote>
-            <pre>${service.infos}</pre>
-        </blockquote>
-        <h4>Keys</h4>
-        <blockquote>
-            <#list service.keys as key >${key}<br/></#list>
-        </blockquote>
-    </blockquote>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<#list services_list as service>
+		<div class="box box-danger">
+			<div class="box-header">
+				<h3 class="box-title">${service.name}</h3>
+			</div><!-- /.box-header -->
+			<div class="box-body">
+				<blockquote>
+					<h4>Configuration</h4>
+					<blockquote>
+						<pre>${service.infos}</pre>
+					</blockquote>
+					<h4>Keys</h4>
+					<blockquote>
+						<#list service.keys as key >${key}<br/></#list>
+					</blockquote>
+				</blockquote>
+			</div>
+		</div>
+		</#list>
+	</div>
 </div>
-</#list>

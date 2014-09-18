@@ -1,65 +1,66 @@
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12">
-	<ul class="nav nav-tabs">
-        <li>
-            <a href="jsp/admin/features/DispatchFeatures.jsp" >
-                #i18n{portal.features.manage_features.featureDispatch.label}
-            </a>
-        </li>
-        <li class="active">
-            <a href="jsp/admin/features/ManageGroups.jsp">#i18n{portal.features.manage_features.groupManagement.label}</a>
-        </li>
-    </ul>
-    <fieldset>
-		<legend>
-			#i18n{portal.features.manage_groups.title}
-            <a class="btn btn-primary btn-sm pull-right" href="jsp/admin/features/CreateGroup.jsp">
-                <i class="glyphicon glyphicon-plus"></i>&nbsp;#i18n{portal.features.manage_groups.buttonCreate}
-            </a>
-		</legend>
-		
-        <table class="table table-striped table-condensed">
-		<thead>
-			<tr>
-				<th class="col-md-5">#i18n{portal.features.manage_groups.labelId}</th>
-                <th class="col-md-2">#i18n{portal.features.manage_groups.labelOrder}</th>
-                <th>#i18n{portal.features.manage_groups.labelActions}</th>
-            </tr>
-		</thead>
-        <#list groups_list?sort_by('order') as group>
-		<tbody>
-        <tr>
-			<td>
-				<strong>${group.id}</strong>
-				<br>
-				#i18n{portal.features.manage_groups.labelName}: <em>${group.labelKey}</em>
-				<br>
-				#i18n{portal.features.manage_groups.labelDescription}: <small>${group.descriptionKey}</small>
-            <td>
-				<form method="post" action="jsp/admin/features/DoDispatchFeatureGroup.jsp" class="form-inline">
-                <input type="hidden" name="group_id" value="${group.id}" />
-				<div class="form-group">  
-					<@comboSortedWithParams name="order_id" default_value=group.order?string additionalParameters=" class=\"input-xs\"" items=order_list />
-					<button class="btn btn-primary btn-xs" type="submit" title="#i18n{portal.features.manage_groups.buttonChangeOrder}" >
-						<i class="glyphicon glyphicon-refresh"></i>
-					</button>
-				</div>	
-                </form>
-            </td>
-            <td>
-				<a class="btn btn-primary pull-left btn-xs" href="jsp/admin/features/ModifyGroup.jsp?group_id=${group.id}" title="#i18n{portal.util.labelModify} ${group.id}" >
-					<i class="glyphicon glyphicon-edit"></i>
-				</a>
-				<form class="inline pull-left spaced" method="post"  action="jsp/admin/features/RemoveGroup.jsp">
-                <input type="hidden" name="group_id" value="${group.id}">
-                <button class="btn btn-danger btn-xs type="submit" title="#i18n{portal.features.manage_groups.buttonDelete}" >
-					<i class="glyphicon glyphicon-trash"></i>
-				</button>
-                </form> 
-            </td>
-        </tr>
-        </#list>
-		</tbody>
-		</table>
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-danger">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.features.manage_features.title}</h3>
+				<div class="box-tools pull-right">
+					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/features/CreateGroup.jsp">
+						<i class="glyphicon glyphicon-plus"></i>&nbsp;#i18n{portal.features.manage_groups.buttonCreate}
+					</a></div>
+			</div><!-- /.box-header -->
+			<div class="box-body table-responsive">
+			<ul class="nav nav-tabs">
+				<li>
+					<a href="jsp/admin/features/DispatchFeatures.jsp" >
+						#i18n{portal.features.manage_features.featureDispatch.label}
+					</a>
+				</li>
+				<li class="active">
+					<a href="jsp/admin/features/ManageGroups.jsp">#i18n{portal.features.manage_features.groupManagement.label}</a>
+				</li>
+			</ul>
+			<table class="table table-hover table-condensed">
+				<thead>
+					<tr>
+						<th class="col-md-5">#i18n{portal.features.manage_groups.labelId}</th>
+						<th class="col-md-2">#i18n{portal.features.manage_groups.labelOrder}</th>
+						<th>#i18n{portal.features.manage_groups.labelActions}</th>
+					</tr>
+				</thead>
+				<#list groups_list?sort_by('order') as group>
+				<tbody>
+				<tr>
+					<td>
+						<strong>${group.id}</strong>
+						<br>
+						#i18n{portal.features.manage_groups.labelName}: <em>${group.labelKey}</em>
+						<br>
+						#i18n{portal.features.manage_groups.labelDescription}: <small>${group.descriptionKey}</small>
+					<td>
+						<form method="post" action="jsp/admin/features/DoDispatchFeatureGroup.jsp" class="form-inline">
+							<input type="hidden" name="group_id" value="${group.id}">
+							<@comboSortedWithParams name="order_id" default_value=group.order?string additionalParameters=" class=\"form-control input-xs\"" items=order_list />
+							<button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.features.manage_groups.buttonChangeOrder}" >
+								<i class="glyphicon glyphicon-refresh"></i>
+							</button>
+						</form>
+					</td>
+					<td>
+						<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/features/ModifyGroup.jsp?group_id=${group.id}" title="#i18n{portal.util.labelModify} ${group.id}" >
+							<i class="glyphicon glyphicon-edit"></i>
+						</a>
+						<form class="inline" method="post"  action="jsp/admin/features/RemoveGroup.jsp">
+							<input type="hidden" name="group_id" value="${group.id}">
+							<button class="btn btn-danger btn-xs btn-flat" type="submit" title="#i18n{portal.features.manage_groups.buttonDelete}" >
+								<i class="glyphicon glyphicon-trash"></i>
+							</button>
+						</form> 
+					</td>
+				</tr>
+				</#list>
+				</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 </div>

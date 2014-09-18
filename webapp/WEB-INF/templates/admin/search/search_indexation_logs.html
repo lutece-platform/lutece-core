@@ -1,15 +1,11 @@
 <div class="row">
     <div class="container">
         <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="content-box">
-                <h2 class="clearfix">#i18n{portal.search.indexer_logs.titleIndexerLogs}</h2>
-                <pre>${logs}</pre>  
-                <form method="post" name="return" action="">
-                    <button class="btn btn-default btn-sm" type="button" onclick="javascript:window.history.back();" >
-                        <i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}
-                    </button>
-                </form>
-            </div>
+            <h2>#i18n{portal.search.indexer_logs.titleIndexerLogs}</h2>
+            <pre>${logs}</pre>  
+			<button class="btn btn-default btn-sm" type="button" onclick="javascript:window.history.back();" >
+                <i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}
+            </button>
         </div>
     </div>
 </div>
