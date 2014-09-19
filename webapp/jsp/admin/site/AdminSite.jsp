@@ -1,13 +1,9 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 <%@ page import="java.util.Enumeration" %>
-
 <jsp:include page="../AdminHeader.jsp" />
 <jsp:useBean id="admin" scope="session" class="fr.paris.lutece.portal.web.admin.AdminPageJspBean" />
-
 <% admin.init( request , admin.RIGHT_MANAGE_ADMIN_SITE ); %>
-
 <jsp:include page="AdminPage.jsp" />
-
 <%
 	String strParams = "";
 	String strSeparator = "?";
@@ -33,9 +29,31 @@
 
 
 %>
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<iframe id="preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" width="100%" height="750" scrolling="auto">Pr&eacute;visualisation du site</iframe>
-	</div>	
-</div>	
+				<iframe id="preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" scrolling="auto">Pr&eacute;visualisation du site</iframe>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function(){
+	$(".portlet-type").on('click', function(e) {
+		// Stop the link default behaviour.
+		e.preventDefault();
+		// Set the iframe src with the clicked link href.
+		$('#preview').attr('src', $(this).children().attr('href') );
+	});
+	
+	$("#fullscreen").on('click', function(e) {
+		// Stop the link default behaviour.
+		e.preventDefault();
+		// Set the iframe src with the clicked link href.
+		$('.content-header').toggle();
+		$('.page-header').toggle();
+		$('header').toggle();
+		$(this).children().toggleClass('glyphicon-fullscreen');
+		$(this).children().toggleClass('glyphicon-remove');
+	});
+});
+</script>
 <%@ include file="../AdminFooter.jsp"%>
