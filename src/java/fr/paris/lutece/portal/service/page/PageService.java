@@ -636,8 +636,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                     user = SecurityService.getInstance(  ).getRegisteredUser( request );
                 }
 
-                boolean bCanBeCached = ( user != null ) ? ( !portlet.canBeCachedForConnectedUsers(  ) )
-                                                        : ( !portlet.canBeCachedForAnonymousUsers(  ) );
+                boolean bCanBeCached = ( user != null ) ? ( portlet.canBeCachedForConnectedUsers(  ) )
+                                                        : ( portlet.canBeCachedForAnonymousUsers(  ) );
 
                 if ( bCanBeCached )
                 {
@@ -669,8 +669,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                     user = SecurityService.getInstance(  ).getRegisteredUser( request );
                 }
 
-                boolean bCanBeCached = ( user != null ) ? ( !portlet.canBeCachedForConnectedUsers(  ) )
-                                                        : ( !portlet.canBeCachedForAnonymousUsers(  ) );
+                boolean bCanBeCached = ( user != null ) ? ( portlet.canBeCachedForConnectedUsers(  ) )
+                        : ( portlet.canBeCachedForAnonymousUsers(  ) );
 
                 if ( bCanBeCached )
                 {
