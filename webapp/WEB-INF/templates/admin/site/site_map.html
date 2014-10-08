@@ -7,8 +7,8 @@
 						<button type="button" id="fullscreen" class="btn btn-default btn-sm btn-flat hidden-xs">
 							<i class="glyphicon glyphicon-fullscreen"></i>
 						</button>
-						<a class="btn btn-default btn-sm btn-flat" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">
-							<span class="badge badge-primary" title="${page.id} - ${page.name}">${page.id}</span> <span class="hidden-xs">Page ${page.name}</span>
+						<a class="btn btn-default btn-sm btn-flat" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" title="#i18n{portal.site.admin_page.tabPageManagement} ${page.name} - ${page.id} ">
+							<span class="badge badge-primary" >${page.id}</span> <span class="hidden-xs">Page ${page.name}</span>
 						</a>
 					</div>
 					<div class="btn-group pull-right hidden-xs">
@@ -60,6 +60,12 @@
 							<i class="glyphicon glyphicon-plus"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
 							<span class="hidden-phone">#i18n{portal.site.admin_page.labelChildPagePage}</span>
 						</a>
+						<div class="btn-group">
+							<a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary btn-sm btn-flat disabled">
+								<i class="fa fa-sitemap" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>
+								<span class="hidden-phone" >#i18n{portal.site.admin_page.tabAdminMapSite}</span>
+							</a>
+						</div>
 					</div>
 				</div>
 			</div><!-- /.box-header -->
