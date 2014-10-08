@@ -1,26 +1,77 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box content-padding">
+		<div class="box">
 			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.site.site_map.pageTitle}</h3>
-				<div class="box-tools">
-					<form action="" class="form-inline margin" role="form">
-						<a class="btn btn-info btn-xs btn-flat" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" title="Page ${page.name}" alt="Page ${page.name}">
-							<i class="glyphicon glyphicon-globe"></i>&nbsp;${page.id}&nbsp;-&nbsp;Page ${page.name}
-						</a>
-						<label for="page_id" class="sr-only">Page&nbsp;${page.id}</label>
-						<input type="text" class="form-control input-xs" id="tree_search" class="form-control" tabindex="1" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
-						<button class="btn btn-default btn-xs btn-flat" id="btn-tree_search" type="submit" tabindex="2" title="#i18n{portal.site.admin_page.buttonSearchPage}">
-							<i class="glyphicon glyphicon-search"></i>
+				<div class="box-tools btn-toolbar" role="toolbar">
+					<div class="btn-group">
+						<button type="button" id="fullscreen" class="btn btn-default btn-sm btn-flat hidden-xs">
+							<i class="glyphicon glyphicon-fullscreen"></i>
 						</button>
-					</form>
+						<a class="btn btn-default btn-sm btn-flat" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">
+							<span class="badge badge-primary" title="${page.id} - ${page.name}">${page.id}</span> <span class="hidden-xs">Page ${page.name}</span>
+						</a>
+					</div>
+					<div class="btn-group pull-right hidden-xs">
+						<#if page.id != 1>
+							<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}" class="btn btn-success  btn-sm btn-flat">
+								<i class="glyphicon glyphicon-arrow-up"  alt="#i18n{portal.site.admin_page.buttonUpToParentPage}" title="#i18n{portal.site.admin_page.buttonUpToParentPage}" ></i>            
+							</a>
+							<a href="jsp/admin/site/RemovePage.jsp?page_id=${page.id}" class="btn btn-danger btn-sm btn-flat">
+								<i class="glyphicon glyphicon-trash"  alt="#i18n{portal.site.admin_page.buttonDeletePage}" title="#i18n{portal.site.admin_page.buttonDeletePage}" ></i>            
+							</a>
+						</#if>
+						<div class="btn-group pull-right spaced">
+						<form method="post" action="jsp/admin/site/AdminSite.jsp" class="form-inline pull-right" role="search">
+							<label class="sr-only">#i18n{portal.site.admin_page.buttonSearchPage}</label>
+							<div class="input-group">
+								<input type="text" class="form-control input-sm" id="tree_search" class="form-control" tabindex="1" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
+								<span class="input-group-btn">
+									<button class="btn btn-default btn-sm btn-flat" id="btn-tree_search" type="submit" tabindex="2" title="#i18n{portal.site.admin_page.buttonSearchPage}">
+										<i class="glyphicon glyphicon-search"></i>
+									</button>
+								</span>
+							</div>
+						</form>	
+						</div>
+						<div class="btn-group">
+							<a class="btn btn-primary dropdown-toggle btn-sm btn-flat" data-toggle="dropdown" id="portlet-type" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=">
+								<i class="glyphicon glyphicon-th-large" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}" ></i>
+								<span class="hidden-phone">#i18n{portal.site.admin_page.labelPortletPage}</span>
+								&nbsp;<b class="caret"></b>
+							</a>
+							<#if portlet_types_list?has_content>
+								<ul class="dropdown-menu" aria-labelledby="portlet-type" role="menu">
+									<#list portlet_types_list?sort_by("name") as portlet_type>
+										<li class="portlet-type">
+											<a class="portlet-type-ref" href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&page_id=${page.id}" title="${portlet_type.name}" >${portlet_type.name}</a>
+										</li>
+									</#list>
+								</ul>
+							</#if>
+						</div>
+						<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
+							${extendableResourceActionsHtml!}
+						</#if>
+						<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="btn btn-primary btn-sm btn-flat">
+							<i class="glyphicon glyphicon-wrench" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>
+							<span class="hidden-phone" >#i18n{portal.site.admin_page.labelPageProperty}</span>
+						</a>
+						<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary btn-sm btn-flat">
+							<i class="glyphicon glyphicon-plus"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
+							<span class="hidden-phone">#i18n{portal.site.admin_page.labelChildPagePage}</span>
+						</a>
+					</div>
 				</div>
-			</div>
-			<div class="box-body content-padding">
+			</div><!-- /.box-header -->
+			<div class="box-body no-padding sitemap">
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-offset-1 col-md-10">
-						<i class="glyphicon glyphicon-map-marker" ></i>
-						${map_site}
+						<div id="map">
+							<a href="jsp/admin/site/AdminSite.jsp?page_id=1">
+								<i class="glyphicon glyphicon-map-marker" ></i> Accueil
+							</a>
+							${map_site}
+						</div>
 					</div>
 				</div>
 			</div>

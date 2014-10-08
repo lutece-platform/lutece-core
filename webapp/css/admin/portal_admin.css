@@ -68,15 +68,19 @@ Admin wrapper for all admin features
 */
 /* Add class for input text in box > box-header > box-tools */
 .input-xs, .form-horizontal .form-group-xs .form-control { border-radius: 3px; font-size: 12px; height: 22px; line-height: 1.5; padding: 1px 10px;}
+
 /* thumbnail list */
 div.thumbnail img.thumbnail{max-height:80px;min-height:100px;}
 div.thumbnail div.caption{background:#DEDEDE;}
+
 /* Image  size for thumbnails list */
 img.thumblist-small{width:24px;}
 img.thumblist-medium{width:64px;}
 img.thumblist-wide{width:128px;}
+
 /* Append right and left 2px space */
 .spaced{margin:0 2px;}
+
 /* Lutece extra-icons */
 [class^="icon-lutece-"],[class*=" icon-lutece-"] {display:inline-block;width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;background-image:url("../img/lutece-icons.png");background-repeat:no-repeat;}
 [class^="icon-lutece-"]:last-child,[class*=" icon-lutece-"]:last-child {*margin-left:0;}
@@ -111,11 +115,17 @@ li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
 #preview{left:0;width:100%;height:850px;min-height:850px;position:relative;z-index:0;}
 .richtext{width:100%;}
 .mce-fullscreen{margin-top:50px !important;}
+
 /* Menu */
+
 /* Override color for admin site menu */
 .btn-toolbar .btn-default, .btn-toolbar .dropdown-menu > li  a, .btn-toolbar .dropdown-menu  .dropdown-submenu  a{color: #000 !important;}
+
 /* Site Map */
+.sitemap{border:2px solid #000;min-height:650px;}
+.sitemap #map{margin-top:20px;}
 .jstree-classic a.jstree-search ,.jstree-default a.jstree-search ,.jstree-apple a.jstree-search {background-color:#6277B6 !important;color:#fff !important;font-style:normal;text-decoration:underline;}
+.jstree-classic .jstree-clicked { padding:0 5px !important;}
 
 /* Deprecated use adminlte box classes */
 /* Dashboard Lutece Widget */
@@ -136,7 +146,6 @@ li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
 .lutece-dashboard-user legend {background-color: #31afd5;}
 .well.lutece-dashboard-user {border: 1px solid #31afd5;}
 /**************************************************************/
-
 /*
 	Plugins admin added styles
 ----------------------------

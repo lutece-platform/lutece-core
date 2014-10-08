@@ -1,50 +1,54 @@
-<div class="box box-solid box-primary">
-	<div title="" data-toggle="tooltip" class="box-header" data-original-title="Header tooltip">
-		<h3 class="box-title">#i18n{portal.site.adminFeature.admin_site.name}</h3>
-		<div class="box-tools pull-right">
-			<!--
-			<button data-widget="collapse" class="btn btn-primary btn-xs"><i class="fa fa-minus"></i></button>
-			<button data-widget="remove" class="btn btn-primary btn-xs"><i class="fa fa-times"></i></button>
-			-->
+<#if last_modified_page??>
+	<div class="box box-solid box-primary">
+		<div class="box-header">
+			<h3 class="box-title">#i18n{portal.site.adminFeature.admin_site.name}</h3>
 		</div>
-    </div>
-    <div class="box-body">
-		<#if last_modified_page??>
+		<div class="box-body">
 			<strong class="clearfix">#i18n{portal.site.dashboard.columnLastModifiedPage} </strong>
-				<span class="label label-info" title="#i18n{portal.site.dashboard.labelPageId} ">${last_modified_page.id}</span> 
-				<span title="${last_modified_page.name} #i18n{portal.site.dashboard.labelDateModification} : ${last_modified_page.dateUpdate}"><#if last_modified_page.name?length &gt; 35>${last_modified_page.name?substring(0,35)}...<#else>${last_modified_page.name}</#if> </span>
+			<span class="label label-info" title="#i18n{portal.site.dashboard.labelPageId} ">${last_modified_page.id}</span> 
+			<span title="${last_modified_page.name} #i18n{portal.site.dashboard.labelDateModification} : ${last_modified_page.dateUpdate}"><#if last_modified_page.name?length &gt; 35>${last_modified_page.name?substring(0,35)}...<#else>${last_modified_page.name}</#if> </span>
 			<p class="pull-right">
 				<a class="btn btn-xs btn-success btn-flat spaced" href="jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&param_block=5" title="#i18n{portal.site.admin_page.titleAddChildPage}" >
 					<i class="fa fa-plus"></i> 
 				</a>
-				<a class="btn btn-xs btn-primary btn-flat spaced" href="jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}" title="#i18n{portal.util.name}${last_modified_page.name}" >
+				<a class="btn btn-xs btn-primary btn-flat spaced" href="jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}" title="#i18n{portal.site.admin_page.tabPageManagement}" >
 					<i class="fa fa-edit"></i> 
 				</a>
-				<a class="btn btn-xs btn-primary btn-flat spaced" href="jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&param_block=2" title="#i18n{portal.site.admin_page.name}">
+				<a class="btn btn-xs btn-primary btn-flat spaced" href="jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&param_block=2" title="#i18n{portal.site.admin_page.titlePageProperties}">
 					<i class="fa fa-wrench"></i> 
 				</a>
 			</p>
-		</#if>
-		<#if last_modified_portlet??>
-			<strong class="clearfix">#i18n{portal.site.dashboard.columnLastModifiedPortlet}</strong>
-			<p>
-				<#if last_modified_portlet.status = 0> 
-					<span class="label label-success" title="#i18n{portal.site.dashboard.publishedStatus}">
-						<i class="fa fa-thumbs-up"></i>
-					</span>
-				<#else>
-					<span class="label label-important" title="#i18n{portal.site.dashboard.unpublishedStatus}">
-						<i class="fa fa-thumbs-down"></i>
-					</span>
-				</#if>
-				&nbsp;
-				<span title="Portlet Id: ${last_modified_portlet.id}">${last_modified_portlet.name} - #i18n{${last_modified_portlet.portletTypeName}}</span>
-				<a class="pull-right btn btn-xs btn-primary btn-flat spaced" href="jsp/admin/DoModifyPortlet.jsp?portlet_id=${last_modified_portlet.id}" title="${last_modified_portlet.name} - #i18n{portal.site.dashboard.labelDateModification} : ${last_modified_portlet.dateUpdate}">
-					<i class="fa fa-edit"></i> 
-				</a>
-				
-			</p>
-		</#if>
+		</div><!-- /.box-body -->
+		<div class="box-footer text-center">
+			<a href="${url}" title="#i18n{portal.site.adminFeature.admin_site.name}">
+				#i18n{portal.site.adminFeature.admin_site.name} <i class="fa fa-arrow-circle-right"></i>
+			</a>	
+		</div><!-- /.box-footer-->
+	</div>
+</#if>
+<#if last_modified_portlet??>
+<div class="box box-solid box-primary">
+	<div class="box-header">
+		<h3 class="box-title">#i18n{portal.site.adminFeature.admin_site.name}</h3>
+    </div>
+    <div class="box-body">
+		<strong class="clearfix">#i18n{portal.site.dashboard.columnLastModifiedPortlet}</strong>
+		<p>
+			<#if last_modified_portlet.status = 0> 
+				<span class="label label-success" title="#i18n{portal.site.dashboard.publishedStatus}">
+					<i class="fa fa-thumbs-up"></i>
+				</span>
+			<#else>
+				<span class="label label-important" title="#i18n{portal.site.dashboard.unpublishedStatus}">
+					<i class="fa fa-thumbs-down"></i>
+				</span>
+			</#if>
+			&nbsp;
+			<span title="Portlet Id: ${last_modified_portlet.id}">${last_modified_portlet.name} - #i18n{${last_modified_portlet.portletTypeName}}</span>
+			<a class="pull-right btn btn-xs btn-primary btn-flat spaced" href="jsp/admin/DoModifyPortlet.jsp?portlet_id=${last_modified_portlet.id}" title="${last_modified_portlet.name} - #i18n{portal.site.dashboard.labelDateModification} : ${last_modified_portlet.dateUpdate}">
+				<i class="fa fa-edit"></i> 
+			</a>
+		</p>
 	</div><!-- /.box-body -->
     <div class="box-footer text-center">
 		<a href="${url}" title="#i18n{portal.site.adminFeature.admin_site.name}">
@@ -52,3 +56,4 @@
 		</a>	
 	</div><!-- /.box-footer-->
 </div>
+</#if>
