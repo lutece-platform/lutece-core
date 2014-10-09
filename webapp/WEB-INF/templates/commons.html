@@ -161,7 +161,7 @@
 	<#if ( paginator.pageCurrent < paginator.pagesCount )>
 		<li class="next">
 			<a href="${paginator.nextPageLink?xhtml}">
-				<i class="icon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelNext}
+				<i class="glyphicon glyphicon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelNext}
 			</a>
 		</li>
 		<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
@@ -274,8 +274,9 @@
  </#macro>
  
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page>
-<span class="add-on">${paginator.labelItemCountPerPage}</span>
-<select class="input-sm" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
+<span>${paginator.labelItemCountPerPage}</span>
+<div class="input-group">
+<select class="form-control input-sm" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
 	<#list [ "10" , "20" , "50" , "100" ] as nb>
 		<#if nb_items_per_page = nb >
 			<option selected="selected" value="${nb}">${nb}</option>
@@ -284,9 +285,12 @@
         </#if>
     </#list>
 </select>
-<button class="btn btn-sm" type="submit" title="#i18n{portal.util.labelRefresh}"/>
+<span class="input-group-btn">
+<button class="btn btn-default btn-sm btn-flat" type="submit" title="#i18n{portal.util.labelRefresh}"/>
 <i class="glyphicon glyphicon-repeat"></i>
 </button>
+</span>
+</div>
 &nbsp;-&nbsp;
 </#macro>
 
