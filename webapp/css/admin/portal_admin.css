@@ -11,7 +11,9 @@ Admin wrapper for all admin features
 #admin-wrapper > .content-header > .breadcrumb > li > a {color: #444;text-decoration: none;}
 #admin-wrapper > .content-header > .breadcrumb > li > a > .fa,#admin-wrapper > .content-header > .breadcrumb > li > a > .glyphicon{margin-right: 5px;}
 #admin-wrapper > .content-header > .breadcrumb > li + li:before {content: '>\00a0';}
-#admin-wrapper .box .box-tools a { color: #fff;}
+
+#admin-wrapper .box .box-tools a.btn { color: #fff;}
+
 /* 
     Dropdown menus
 ----------------------------
@@ -103,7 +105,7 @@ img.thumblist-wide{width:128px;}
 	Plugins list
 ----------------------------
 */
-.plugins{min-height:300px;max-height:300px;}
+.plugin{min-height:300px;max-height:300px;}
 
 /* 
 	Admin Site

@@ -4,21 +4,28 @@
 			<div class="box-header">
 				<h3 class="box-title">Liste des plugins</h3>
 				<div class="box-tools">
+					<form method="post" name="" action="" class="form-inline pull-right spaced">
+						<label for="plugin_type" class="sr-only"></label>
+						<input type="text" autocomplete="off" id="search_plugins" class="form-control input-xs" placeholder="#i18n{portal.system.manage_plugins.buttonFilter}">
+						<button type="button" id="th" class="btn btn-primary btn-xs btn-flat spaced">
+							<i class="glyphicon glyphicon-th"></i>
+						</button>
+					</form>
 					<form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp" class="form-inline pull-right">
-						<label for="plugin_type" class="select">#i18n{portal.system.manage_plugins.labelComboFilter}</label>
-						<@comboSortedWithParams name="plugin_type" default_value="${current_filter}" additionalParameters="class=\"form-control input-sm\"" items=filter_list />
-						<button type="submit" class="btn btn-primary btn-sm btn-flat">
-							<i class="glyphicon glyphicon-filter"></i>&nbsp;#i18n{portal.system.manage_plugins.buttonFilter}
+						<label for="plugin_type">#i18n{portal.system.manage_plugins.labelComboFilter}</label>
+						<@comboSortedWithParams name="plugin_type" default_value="${current_filter}" additionalParameters="class=\"form-control input-xs\"" items=filter_list />
+						<button type="submit" class="btn btn-primary btn-xs btn-flat" title="#i18n{portal.system.manage_plugins.buttonFilter}">
+							<i class="glyphicon glyphicon-filter"></i>
 						</button>
 					</form>
 				</div>
 			</div><!-- /.box-header -->
 			<div class="box-body no-padding">
-				<div class="row">
+				<div id="plugins" class="row">
 				<#if plugins_list?has_content >
 					<#list plugins_list as plugin >
-					<div class="col-md-4">
-						<div id="plugin_${plugin.name}_${plugin.version}" class="box plugins">
+					<div class="col-md-4 plugins">
+						<div id="plugin_${plugin.name}_${plugin.version}" data-plugin="${plugin.name}" class="box plugin-box plugin">
 						<div class="box-header">
 							<h2 class="box-title">
 								<a name="${plugin.name}" href="javascript:return false;">
@@ -100,3 +107,30 @@
 	</div>
 </div>
 
+<script>
+	/* Get list or box plugin's presentation */
+	$("#th").click( function(){
+		var addOrRemove;
+		$(".plugins").toggleClass("col-md-12", addOrRemove ).toggleClass("col-md-4", addOrRemove);
+		$(".box").toggleClass("pull-left", addOrRemove );
+		$(".plugin-box").toggleClass("plugin", addOrRemove );
+		$(".plugin-box > div").toggleClass("pull-left", addOrRemove ).toggleClass("col-md-4", addOrRemove );
+		$(this).children().toggleClass("glyphicon-th", addOrRemove).toggleClass("glyphicon-th-list", addOrRemove);
+	});
+	
+	/* Filter plugins list */
+	$("#search_plugins").on("keyup", function(){
+		var addOrRemove;
+		var search = $("#search_plugins").val();
+		$(".plugin-box").each( function( index ) {
+			var pluginName = $(this).attr("data-plugin");
+			if ( pluginName.match( search ) == null ){
+				console.log( search + "|" + pluginName + " | " + pluginName.match( search ) );
+				$(this).parent().slideUp(200).fadeOut(500);
+			} else {
+				console.log( search + "|" + pluginName + " | " + pluginName.match( search ) );
+				$(this).parent().slideDown(200).fadeIn(500);
+			}
+		});
+	});
+</script>
