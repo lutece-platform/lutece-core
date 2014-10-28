@@ -84,46 +84,10 @@ $( document ).ready(function( $ ) {
 			});
 		} 
 	});
-
-	if ( $("textarea#document_summary").length > 0 ){
-		// Limit to 250 the text in summary
-		var limit=250;
-		$("textarea#document_summary").after("<span id=\"charLimit\"></span>");
-		
-		$("textarea#document_summary").keypress(function(e) {
-			
-		if( e.charCode >= 48 ){
-			var nCar = $(this).val().length;
-			if( nCar >= limit){
-				$("span#charLimit").html("<span class=\"label label-danger\"><i class=\"fa fa-frown-o\"></i>&nbsp; Attention limite atteinte !</alert>");
-				return false;
-				} else {
-					$("span#charLimit").html("<strong>" + eval(nCar + 1) + " caract&egrave;res</strong>");
-				}
-			}
-		});
-		
-		$("textarea#document_summary").keyup(function(e) {
-		if( e.keyCode == 8 ){
-			var nCar = $(this).val().length;
-			if( nCar >= limit){
-				$("span#charLimit").html("<span class=\"label label-danger\"><i class=\"fa fa-frown-o\"></i>&nbsp; Attention limite atteinte !</alert>");
-				return false;
-				} else {
-					$("span#charLimit").html("<strong>" + eval(nCar + 1) + " caract&egrave;res</strong>");
-				}
-			}
-		});
-		
-		$("textarea#document_summary").blur(function(e) {
-			var txt = $(this).val();
-			if( txt.length> limit){
-				$("span#charLimit").html("<span class=\"label label-danger\"><i class=\"fa fa-frown-o\"></i>&nbsp; Attention limite atteinte !</alert>");
-				$(this).val( txt.substr(0,limit) );
-				var txtLenght = $(this).val().length;
-				$("span#charLimit").html("<strong>" + txtLenght + " caract&egrave;res</strong>");
-			}
-		});
-	}
+	
+	// File Input Style 
+	$(":file").addClass("filestyle");
+	$(":file").filestyle({buttonText: "&nbsp;Parcourir"});
+	
 });
 		
