@@ -127,21 +127,21 @@
 		<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
 		<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
 	</#if>
-<ul class="pagination">
+
 <#if ( paginator.pagesCount > 1 )>
 	<#if ( paginator.pageCurrent - offsetPrev > 1 )>
-	<li class="previous-off">
+	
 		<a href="${paginator.firstPageLink?xhtml}">
-			<i class="icon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelNext}
+			<i class="icon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelFirst}
 		</a>
-	</li>
+	
 	</#if>
 	<#if ( paginator.pageCurrent > 1 )>
-		<li class="previous">
+		
 			<a href="${paginator.previousPageLink?xhtml}">
 				<i class="icon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelPrevious}
 			</a>
-		</li>
+
 	<#else>
 		&nbsp;&nbsp;
 	</#if>
@@ -150,54 +150,48 @@
 	</#if>
 	<#list paginator.pagesLinks as link>
 		<#if link.index == paginator.pageCurrent>
-			<li class="active"><a href="${link.url?xhtml}">${link.name}</a></li>
+			<strong>${link.name}</strong>
 		<#else>
-			<li><a href="${link.url?xhtml}">${link.name}</a></li>
+			<a href="${link.url?xhtml}">${link.name}</a>
 		</#if>
 	</#list>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 		<strong>...</strong>
 	</#if>
 	<#if ( paginator.pageCurrent < paginator.pagesCount )>
-		<li class="next">
 			<a href="${paginator.nextPageLink?xhtml}">
-				<i class="glyphicon glyphicon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelNext}
+				<i class="icon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelNext}
 			</a>
-		</li>
 		<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-		<li class="next-off">
 			<a href="${paginator.lastPageLink?xhtml}">
-				<i class="glyphicon glyphicon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelPrevious}
+				<i class="glyphicon glyphicon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelLast}
 			</a>
-		</li>
 	</#if>
 	<#else>
 		&nbsp;&nbsp;
 	</#if>
 </#if>
-</ul>
 </#macro>
 
 
 <#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page >
-<#if (paginator.pagesCount > 1) >
-	<@paginationPageLinks paginator=paginator />
-</#if>
-<#if form == 1 >
-	<form method="post" action="">
-</#if>
-	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<div class="pull-right" >
-				<div class="form-inline">
-					<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
-				</div>
-			</div>
-		</div>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<#if (paginator.pagesCount > 1) >
+			<@paginationPageLinks paginator=paginator />
+		</#if>
+	<div class="pull-right">
+	<#if form == 1 >
+		<form method="post" action="">
+	</#if>
+		<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
+		
+	<#if form == 1 >
+		</form>
+	</#if>
 	</div>
-<#if form == 1 >
-	</form>
-</#if>
+	</div>
+</div>
 <div class="table"></div>
  </#macro>
 
@@ -274,9 +268,8 @@
  </#macro>
  
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page>
-<span>${paginator.labelItemCountPerPage}</span>
-<div class="input-group">
-<select class="form-control input-sm" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
+<span class="add-on">${paginator.labelItemCountPerPage}</span>
+<select class="input-xs" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
 	<#list [ "10" , "20" , "50" , "100" ] as nb>
 		<#if nb_items_per_page = nb >
 			<option selected="selected" value="${nb}">${nb}</option>
@@ -285,12 +278,9 @@
         </#if>
     </#list>
 </select>
-<span class="input-group-btn">
-<button class="btn btn-default btn-sm btn-flat" type="submit" title="#i18n{portal.util.labelRefresh}"/>
+<button class="btn btn-xs" type="submit" title="#i18n{portal.util.labelRefresh}"/>
 <i class="glyphicon glyphicon-repeat"></i>
 </button>
-</span>
-</div>
 &nbsp;-&nbsp;
 </#macro>
 
