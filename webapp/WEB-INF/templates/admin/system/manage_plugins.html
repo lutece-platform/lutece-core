@@ -8,7 +8,7 @@
 						<label for="plugin_type" class="sr-only"></label>
 						<input type="text" autocomplete="off" id="search_plugins" class="form-control input-xs" placeholder="#i18n{portal.system.manage_plugins.buttonFilter}">
 						<button type="button" id="th" class="btn btn-primary btn-xs btn-flat spaced">
-							<i class="glyphicon glyphicon-th"></i>
+							<i class="glyphicon glyphicon-th-list"></i>
 						</button>
 					</form>
 					<form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp" class="form-inline pull-right">
@@ -115,7 +115,7 @@
 		$(".box").toggleClass("pull-left", addOrRemove );
 		$(".plugin-box").toggleClass("plugin", addOrRemove );
 		$(".plugin-box > div").toggleClass("pull-left", addOrRemove ).toggleClass("col-md-4", addOrRemove );
-		$(this).children().toggleClass("glyphicon-th", addOrRemove).toggleClass("glyphicon-th-list", addOrRemove);
+		$(this).children().toggleClass("glyphicon-th-list", addOrRemove).toggleClass("glyphicon-th", addOrRemove);
 	});
 	
 	/* Filter plugins list */
