@@ -56,7 +56,7 @@
 </#macro>
 
 
-<#macro radioImageList name default_value items inline>
+<#macro radioImageList name default_value items inline=0>
 <#if inline=1>
 	<#list items as item>
 		<label for="${name}" class="radio-inline">
@@ -78,13 +78,11 @@
 
 <#macro checkboxList name default_values items inline=0>
 <#if inline=1>
-	<div class="checkbox">
-		<#list items as item>
-			<label for="${name}" class="checkbox-inline">
-				<input <#if item.checked >checked</#if> class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}
-			</label>
-		</#list>
-	</div>
+	<#list items as item>
+		<label for="${name}" class="checkbox-inline">
+			<input <#if item.checked >checked</#if> class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}
+		</label>
+	</#list>
  <#else>
 	<#list items as item>
 		<#if item.checked >
