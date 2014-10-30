@@ -58,14 +58,12 @@
 
 <#macro radioImageList name default_value items inline>
 <#if inline=1>
-	<div class="radio">
 	<#list items as item>
 		<label for="${name}" class="radio-inline">
 			<input <#if default_value="${item.code}">checked="checked"</#if> class="radio" type="radio" name="${name}" value="${item.code}">
 			<img src="${item.name}" alt="${item.name}" title="${item.name}">
 		</label>
 	</#list>
-	</div>
 <#else>
 	<#list items as item>
 		<div class="radio">
