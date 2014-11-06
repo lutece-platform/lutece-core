@@ -34,26 +34,4 @@
 		</div>
 	</div>
 </div>
-
-<script>
-$(document).ready(function(){
-	$(".portlet-type").on('click', function(e) {
-		// Stop the link default behaviour.
-		e.preventDefault();
-		// Set the iframe src with the clicked link href.
-		$('#preview').attr('src', $(this).children().attr('href') );
-	});
-	
-	$("#fullscreen").on('click', function(e) {
-		// Stop the link default behaviour.
-		e.preventDefault();
-		// Set the iframe src with the clicked link href.
-		$('.content-header').toggle();
-		$('.page-header').toggle();
-		$('header').toggle();
-		$(this).children().toggleClass('glyphicon-fullscreen');
-		$(this).children().toggleClass('glyphicon-remove');
-	});
-});
-</script>
 <%@ include file="../AdminFooter.jsp"%>

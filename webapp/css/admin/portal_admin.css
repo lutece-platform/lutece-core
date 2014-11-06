@@ -2,18 +2,44 @@
 Admin wrapper for all admin features 
 ------------------------------------
 */
-#admin-wrapper{min-height:750px;padding:0 15px;margin:0 15px;}
-#admin-wrapper > .content {padding: 10px;overflow:hidden;}
-#admin-wrapper > .content-header {position: relative;padding: 15px 15px 10px 20px;background: none repeat scroll 0 0 #fbfbfb;box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);}
-#admin-wrapper > .content-header > h1 { margin: 0;font-size: 24px;}
-#admin-wrapper > .content-header > h1 > small {font-size: 15px;display: inline-block;padding-left: 4px;font-weight: 300;}
-#admin-wrapper > .content-header > .breadcrumb {float: right;background: transparent;margin-top: 0px;margin-bottom: 0;font-size: 12px;padding: 7px 5px;position: absolute;top: 15px;right: 10px;-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px;}
-#admin-wrapper > .content-header > .breadcrumb > li > a {color: #444;text-decoration: none;}
-#admin-wrapper > .content-header > .breadcrumb > li > a > .fa,#admin-wrapper > .content-header > .breadcrumb > li > a > .glyphicon{margin-right: 5px;}
-#admin-wrapper > .content-header > .breadcrumb > li + li:before {content: '>\00a0';}
-
+/* Menu */
+/* Off Canvas Menu Styles */
+#canvas {width: 100%;height: 100%;position: relative;
+  -webkit-transform:translateX(0);
+   -moz-transform:translateX(0);
+    -ms-transform:translateX(0);
+     -o-transform:translateX(0);
+        transform:translateX(0);
+  -webkit-transition:.5s ease all;
+   -moz-transition:.5s ease all;
+     -o-transition:.5s ease all;
+        transition:.5s ease all;
+}
+#admin-wrapper{min-height:900px;padding:0 15px;margin:0 15px;}
+#admin-wrapper.display-nav #canvas {
+   -webkit-transform:translateX(300px);
+   -moz-transform:translateX(300px);
+    -ms-transform:translateX(300px);
+     -o-transform:translateX(300px);
+        transform:translateX(300px);
+}
+/* transition the menu with perspective on "show-nav" */
+#admin-wrapper.display-nav #nav {
+    -webkit-transform-origin:100% 50%;
+	-moz-transform-origin:100% 50%;
+	-ms-transform-origin:100% 50%;-o-transform-origin:100% 50%; transform-origin:100% 50%;
+    -webkit-transform:perspective(600px) rotateY(0deg);-moz-transform:perspective(600px) rotateY(0deg);
+	-ms-transform:perspective(600px) rotateY(0deg);-o-transform:perspective(600px) rotateY(0deg);transform:perspective(600px) rotateY(0deg);
+}
+#admin-wrapper > #canvas > .content {padding: 10px;overflow:hidden;}
+#admin-wrapper > #canvas > .content-header {position: relative;padding: 15px 15px 10px 20px;background: none repeat scroll 0 0 #fbfbfb;box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);}
+#admin-wrapper > #canvas > .content-header > h1 { margin: 0;font-size: 24px;}
+#admin-wrapper > #canvas > .content-header > h1 > small {font-size: 15px;display: inline-block;padding-left: 4px;font-weight: 300;}
+#admin-wrapper > #canvas > .content-header > .breadcrumb {float: right;background: transparent;margin-top: 0px;margin-bottom: 0;font-size: 12px;padding: 7px 5px;position: absolute;top: 15px;right: 10px;-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px;}
+#admin-wrapper > #canvas > .content-header > .breadcrumb > li > a {color: #444;text-decoration: none;}
+#admin-wrapper > #canvas > .content-header > .breadcrumb > li > a > .fa,#admin-wrapper > .content-header > .breadcrumb > li > a > .glyphicon{margin-right: 5px;}
+#admin-wrapper > #canvas > .content-header > .breadcrumb > li + li:before {content: '>\00a0';}
 #admin-wrapper .box .box-tools a.btn { color: #fff;}
-
 
 /* 
     Dropdown menus
@@ -34,19 +60,57 @@ Admin wrapper for all admin features
 .skin-blue .logo {background-color:#303030;color: #fff;}
 .skin-blue .logo:hover {background-color:#303030;color: #fff;}
 /* MAIN MENU */
+body > .header .navbar { margin-left: 0;}
+/* External Link */
+.navbar-brand > span.fa-external-link{font-size:50%;padding-top:2em;}
 .navbar-nav > .tasks-menu > .dropdown-menu { width: 310px;padding: 0 0 0 0!important;margin: 0!important;top: 100%;border: 1px solid #dfdfdf;-webkit-border-radius: 4px !important;-moz-border-radius: 4px !important;border-radius: 4px !important; }
 .navbar-nav > .tasks-menu > .dropdown-menu:after {bottom: 100%;left:10px;border: solid transparent;content: " "; height: 0;width: 0;position: absolute;pointer-events: none;border-color: rgba(255, 255, 255, 0);border-bottom-color: #fff;border-width: 10px;margin-left: 0px;}
 .navbar-nav > .tasks-menu > .dropdown-menu > li .menu { margin: 0; padding: 0; list-style: none; overflow-x: hidden;}
 .navbar-nav > .tasks-menu > .dropdown-menu > li .menu > a { display: block; white-space: nowrap; /* Prevent text from breaking */ border-bottom: 1px solid #f4f4f4; padding: 10px;}
 /* USER MENU */
 .navbar-nav.navbar-right:last-child { margin-right:15px;}
-.navbar-nav > .user-menu > .dropdown-menu {-webkit-border-radius: 0;-moz-border-radius: 0;border-radius: 0;padding: 1px 0 0 0;border-top-width: 0;width: 280px;left: -140px;}
+.navbar-nav > .user-menu > .dropdown-menu {-webkit-border-radius: 0;-moz-border-radius: 0;border-radius: 0;padding: 1px 0 0 0;border-top-width: 0;width: 280px;left:-140px;left:-40px;}
 .navbar-nav > .user-menu > .dropdown-menu li a {color:#000;}
 .navbar-nav > .user-menu > .dropdown-menu li a:hover {color:#fff;}
 .navbar-nav > .user-menu > .dropdown-menu:after {bottom: 100%;right:10px;border: solid transparent;content: " ";height: 0;width: 0;position: absolute;pointer-events: none; border-color: rgba(255, 255, 255, 0); border-bottom-color: #ffffff;border-width: 10px; margin-left: -10px;}
 .navbar-collapse.collapse{ display:none;}
 .navbar-collapse.in {overflow-y: auto; background-color:#000;}
 /* MENUS */
+.navbar-toolbar{margin-left:5%;} 
+.navbar-toolbar li{margin: 0 -0.5em;} 
+
+/* TOGGLE NAV
+-------------------------------------------------*/
+#nav {width: 320px; height: 100%;background: #fff; position:absolute; padding:0 5px; left: -325px; top: 0;    
+    -webkit-transition:.5s ease all;
+   -moz-transition:.5s ease all;
+     -o-transition:.5s ease all;
+        transition:.5s ease all;
+ 
+   /* By default, rotate the menu 90deg inwards */
+    -webkit-transform:rotateY(-90deg);
+   -moz-transform:rotateY(-90deg);
+    -ms-transform:rotateY(-90deg);
+     -o-transform:rotateY(-90deg);
+        transform:rotateY(-90deg);
+}
+#nav h2#title:hover{cursor:pointer;}
+#bars{font-size: 34px;margin-left:49px;color:#fff;}
+#toggle {list-style: none;margin-top: 40px;padding:0;}
+#toggle div{padding:0 0 0 0.5em;}
+#toggle div:hover {background: #dedede;-webkit-box-shadow:inset 0 -1px rgba(0,0,0,0);-moz-box-shadow:inset 0 -1px rgba(0,0,0,0);box-shadow:inset 0 -1px rgba(0,0,0,0);color: #fff;}
+#toggle div.active {background: #dedede;}
+#toggle div {cursor: pointer;display: block;border-bottom: 1px solid rgba(0,0,0,0.2);}
+span.menu-icons {font-size: 20px;height: 20px;width: 22px;float: left; margin: 11px 0px 10px 37px; color: #000;}
+span.the-btn {float: right;font-size: 20px;height: 30px;width: 43px;margin-top: 10px;margin-right: 8px;padding:0;color: #000;}
+#toggle ul { padding:0 0 0 0.7em;list-style: none;display:none;color: #000;background: #F3F4F5;-webkit-box-shadow:inset 0 -1px rgba(0,0,0,0); -moz-box-shadow:inset 0 -1px rgba(0,0,0,0);box-shadow:inset 0 -1px rgba(0,0,0,0);}
+#toggle li a {line-height: 41px;color: #000;list-style: circle;width: 240px;padding: 0;margin: 0 0 0 0;}
+#toggle a {margin: 0 0 0 20px;padding: 0;color: #fff;line-height: 41px;font-weight: normal;font-size: 18px;text-decoration: none;}
+#toggle ul li { margin-left: 0;}
+#toggle ul li a:hover{text-decoration:underline;}
+#toggle ul li a {margin-left: 0;font-size:100%;line-height: 30px;}
+/* Off Canvas Menu Styles */
+
 @keyframes fadeAnimation { from { opacity: 0;}  to { opacity: 1; } }
 @-webkit-keyframes fadeAnimation { from {  opacity: 0; } to {  opacity: 1; }}
 
@@ -71,6 +135,11 @@ Admin wrapper for all admin features
 */
 /* Add class for input text in box > box-header > box-tools */
 .input-xs, .form-horizontal .form-group-xs .form-control { border-radius: 3px; font-size: 12px; height: 22px; line-height: 1.5; padding: 1px 10px;}
+
+.btn-primary, .btn-danger, .btn-info, .btn-default, .btn-success, .btn-warning{
+  background-image: none;
+  border: 0;
+} 
 
 /* thumbnail list */
 div.thumbnail img.thumbnail{max-height:80px;min-height:100px;}
@@ -107,7 +176,6 @@ img.thumblist-wide{width:128px;}
 -----------------------------
 */
 ul.pagination{margin-top:0;}
-
 
 /* 
 	Plugins list
@@ -203,6 +271,38 @@ li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
 */
 div.insert-service div.pagination{height:auto;}
 
+/* 
+	Files2Docs
+----------------------------
+*/
+/* --------------------	*/
+/* SWFUPLOAD Fieldset   */
+/* -------------------- */
+div.box-upload {min-height:100px;}
+/* ----------------	*/
+/* File progress 	*/
+/* ---------------- 	*/
+/*
+.progressWrapper {width:auto;overflow:hidden;}
+.progressContainer {margin:5px;padding:4px;border:1px solid #e8e8e8;background-color:#f7f7f7;overflow:hidden;}
+*/
+/* Error */
+.red {border : 1px solid #b50000;background-color : #ffebeb;}
+/* Current */
+.green {border:1px solid #ddf0dd;background-color : #ebffeb;}
+/* Complete */
+.blue {border : 1px solid #cee2f2;background-color : #f0f5ff;}
+.progressName {font-size : 8pt;font-weight : 700;color : #555;width : 323px;height : 14px;text-align : left;	white-space : nowrap;overflow : hidden;}
+.progressBarInProgress,.progressBarComplete,.progressBarError {font-size : 0;width : 0%;height : 2px;background-color : blue;margin-top : 2px;}
+.progressBarComplete {width : 100%;background-color : green;visibility : hidden;}
+.progressBarError {width : 100%;background-color : red;visibility : hidden;}
+.progressBarStatus {	margin-top : 2px;width : 337px;font-size : 7pt;	font-family : Arial;text-align : left;white-space : nowrap;}
+
+/* ----------------------- 	*/
+/* SWFUpload Object Styles 	*/
+/* ----------------------- 	*/
+.swfupload {vertical-align : top;position : absolute;z-index : 1;}
+
 
 /*==================================================
 =            Bootstrap 3 Media Queries             =
@@ -212,17 +312,17 @@ div.insert-service div.pagination{height:auto;}
 
 /* Custom, iPhone Retina */ 
 @media only screen and (min-width : 320px) {
-    
+    .bs-fixed-body{padding-top:0;}
 }
 
 /* Extra Small Devices, Phones */ 
 @media only screen and (min-width : 480px) {
-
+	
 }
 
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
-
+.bs-fixed-body{padding-top:70px;}
 }
 
 /* Medium Devices, Desktops */

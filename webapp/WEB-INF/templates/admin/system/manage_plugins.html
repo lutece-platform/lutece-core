@@ -4,18 +4,19 @@
 			<div class="box-header">
 				<h3 class="box-title">Liste des plugins</h3>
 				<div class="box-tools">
-					<form method="post" name="" action="" class="form-inline pull-right spaced">
+					<form method="post" name="" action="" class="form-inline pull-left">
 						<label for="plugin_type" class="sr-only"></label>
 						<input type="text" autocomplete="off" id="search_plugins" class="form-control input-xs" placeholder="#i18n{portal.system.manage_plugins.buttonFilter}">
-						<button type="button" id="th" class="btn btn-primary btn-xs btn-flat spaced">
-							<i class="glyphicon glyphicon-th-list"></i>
+						<button type="submit" class="btn btn-primary btn-xs btn-flat" title="#i18n{portal.system.manage_plugins.buttonFilter}">
+							<i class="glyphicon glyphicon-filter"></i>
 						</button>
+						
 					</form>
 					<form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp" class="form-inline pull-right">
 						<label for="plugin_type">#i18n{portal.system.manage_plugins.labelComboFilter}</label>
 						<@comboSortedWithParams name="plugin_type" default_value="${current_filter}" additionalParameters="class=\"form-control input-xs\"" items=filter_list />
-						<button type="submit" class="btn btn-primary btn-xs btn-flat" title="#i18n{portal.system.manage_plugins.buttonFilter}">
-							<i class="glyphicon glyphicon-filter"></i>
+						<button type="button" id="th" class="btn btn-primary btn-xs btn-flat spaced">
+							<i class="glyphicon glyphicon-th-list"></i>
 						</button>
 					</form>
 				</div>

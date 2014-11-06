@@ -32,7 +32,14 @@
 										${daemon.interval}
 									<#else>
 										<label for="interval" class="sr-only"></label>
-										<input type="text" class="form-control" name="interval" value="${daemon.interval}">
+										<div class="input-group">
+											<input type="text" class="form-control input-xs" name="interval" value="${daemon.interval}">
+											<span class="input-group-btn">
+												<button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.system.manage_daemons.buttonUpdateInterval}" name="action" value="UPDATE_INTERVAL" >
+													<i class="glyphicon glyphicon-ok"></i>
+												</button>
+											</span>
+										</div>
 									</#if>	
 								</td>
 								<td>
@@ -49,9 +56,7 @@
 										<button class="btn btn-success btn-xs btn-flat" type="submit" title="#i18n{portal.system.manage_daemons.buttonStart}" name="action" value="START" >
 											<i class="glyphicon glyphicon-play"></i>
 										</button>
-										<button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.system.manage_daemons.buttonUpdateInterval}" name="action" value="UPDATE_INTERVAL" >
-											<i class="glyphicon glyphicon-ok"></i>
-										</button>
+										
 									</#if>
 									</div>
 								</td>

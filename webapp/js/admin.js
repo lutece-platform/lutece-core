@@ -88,6 +88,70 @@ $( document ).ready(function( $ ) {
 	// File Input Style 
 	$(":file").addClass("filestyle");
 	$(":file").filestyle({buttonText: "&nbsp;Parcourir"});
+	// Off Canvas Menu Begin
+	// Calling the function
+	$(function() {
+		$('.toggle-nav').click(function( e ) {
+			toggleNavigation();
+			e.preventDefault();
+		});
+		$('#nav>h2#title').click(function( e ) {
+			toggleNavigation();
+		});
+	});
+
+	// The toggleNav function itself
+	function toggleNavigation() {
+		if ($('#admin-wrapper').hasClass('display-nav')) {
+			// Close Nav
+			$('#admin-wrapper').removeClass('display-nav');
+		} else {
+			// Open Nav
+			$('#admin-wrapper').addClass('display-nav');
+		}
+	}
+
+	// Sliding codes
+	$("#toggle > li > div").click(function (e) {
+		e.preventDefault();
+		if (false == $(this).next().is(':visible')) {
+			$('#toggle ul').slideUp();
+		}
+
+		var $currIcon=$(this).find("span.the-btn");
+
+		$("span.the-btn").not($currIcon).addClass('fa-plus').removeClass('fa-minus');
+
+		$currIcon.toggleClass('fa-minus fa-plus');
+
+		$(this).next().slideToggle();
+
+		$("#toggle > li > div").removeClass("active");
+		$(this).addClass('active');
+
+	});
+	// Off Canvas Menu End
 	
+	$(".portlet-type").on('click', function(e) {
+		// Stop the link default behaviour.
+		e.preventDefault();
+		// Set the iframe src with the clicked link href.
+		$('#preview').attr('src', $(this).children().attr('href') );
+	});
+	
+	// Admin Preview fullscreen
+	if ( $("#fullscreen").length > 0 ){
+		$("#fullscreen").on('click', function(e) {
+			// Stop the link default behaviour.
+			e.preventDefault();
+			// Set the iframe src with the clicked link href.
+			$('body').toggleClass("bs-fixed-body");
+			$('.content-header').toggle();
+			$('.page-header').toggle();
+			$('header').toggle();
+			$(this).children().toggleClass('glyphicon-fullscreen');
+			$(this).children().toggleClass('glyphicon-remove');
+		});	
+	}
 });
 		
