@@ -33,9 +33,15 @@
  */
 package fr.paris.lutece.portal.service.i18n;
 
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -47,6 +53,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -71,6 +78,45 @@ public final class I18nService
     private static Map<String, String> _pluginBundleNames = Collections.synchronizedMap(new HashMap<String, String>());
     private static Map<String, String> _moduleBundleNames = Collections.synchronizedMap(new HashMap<String, String>());
     private static Map<String, String> _portalBundleNames = Collections.synchronizedMap(new HashMap<String, String>());
+    
+   private static final String PROPERTY_PATH_OVERRIDE = "path.i18n.override";
+
+    private static final ClassLoader _overrideLoader;
+    private static final Map<String, ResourceBundle> _resourceBundleCache = Collections.synchronizedMap(new HashMap<String, ResourceBundle>());
+
+    /**
+     * initialize the classloader responsible for loading override messages
+     */
+    static
+    {
+    	File overridePath = null;
+    	try
+    	{
+    		overridePath = new File( AppPathService.getPath( PROPERTY_PATH_OVERRIDE ) );
+    	} catch ( AppException e )
+    	{
+    		// the key is unknown. Message override will be deactivated
+    		AppLogService.error( "property " + PROPERTY_PATH_OVERRIDE + " is undefined. Message overriding will be disabled.");
+    	}
+    	URL[] overrideURL = null;
+    	if ( overridePath != null )
+    	{
+	    	try
+	        {
+	        	overrideURL = new URL[ ] { overridePath.toURI( ).toURL( ) };
+	        } catch ( MalformedURLException e )
+	        {
+	        	AppLogService.error( "Error initializing message overriding: " + e.getMessage( ), e );
+	        }
+    	}
+    	if ( overrideURL != null )
+    	{
+    		_overrideLoader = new URLClassLoader( overrideURL, null );
+    	} else
+    	{
+    		_overrideLoader = null;
+    	}
+    }    
     
     /**
      * Private constructor
@@ -183,7 +229,7 @@ public final class I18nService
                     locale = LOCALE_DEFAULT;
                 }
 
-                ResourceBundle rbLabels = ResourceBundle.getBundle( strBundle, locale );
+                ResourceBundle rbLabels = getResourceBundle(locale, strBundle);                
                 strReturn = rbLabels.getString( strStringKey );
             }
         }
@@ -414,4 +460,39 @@ public final class I18nService
 
         return list;
     }
+    
+    
+    /**
+     * get the resource bundle, possibly with its override
+     * @param locale the locale
+     * @param strBundle the bundle name
+     * @return the resource bundle
+     */
+	private static ResourceBundle getResourceBundle( Locale locale, String strBundle )
+	{
+		String key = strBundle + locale.toString( );
+		ResourceBundle rbLabels = _resourceBundleCache.get( key );
+		if ( rbLabels == null )
+		{
+			rbLabels = ResourceBundle.getBundle( strBundle, locale );
+			if ( _overrideLoader != null )
+			{
+				ResourceBundle overrideBundle = null;
+				try
+				{
+					overrideBundle = ResourceBundle.getBundle( strBundle, locale, _overrideLoader );
+				} catch ( MissingResourceException e )
+				{
+					// no override for this resource
+					_resourceBundleCache.put( key, rbLabels );
+					return rbLabels;
+				}
+				ResourceBundle res = new CombinedResourceBundle( overrideBundle, rbLabels );
+				_resourceBundleCache.put( key, res );
+				return res;
+			}
+			_resourceBundleCache.put( key, rbLabels );
+		}
+		return rbLabels;
+	}
 }
