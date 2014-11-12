@@ -33,7 +33,10 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.datastore.LocalizedData;
+import fr.paris.lutece.portal.service.datastore.LocalizedDataGroup;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.site.properties.SitePropertiesService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -48,12 +51,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -306,13 +309,20 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      */
     public static String doModifyProperties( HttpServletRequest request, ServletContext context )
     {
-        Enumeration<String> enumKey = request.getParameterNames(  );
-
-        while ( enumKey.hasMoreElements(  ) )
+        List<LocalizedDataGroup> groups = SitePropertiesService.getGroups( AdminUserService.getAdminUser( request ).getLocale( ) );
+        
+        for (LocalizedDataGroup group : groups)
         {
-            String strKey = enumKey.nextElement(  );
-            String strValue = request.getParameter( strKey );
-            DatastoreService.setDataValue( strKey, strValue );
+        	List<LocalizedData> datas = group.getLocalizedDataList( );
+        	
+        	for (LocalizedData data : datas)
+        	{
+        		String strValue = request.getParameter( data.getKey( ) );
+        		if ( strValue != null && !data.getValue( ).equals( strValue ) )
+        		{
+        			DatastoreService.setDataValue( data.getKey( ), strValue);
+        		}
+        	}
         }
 
         // if the operation occurred well, redirects towards the view of the Properties
