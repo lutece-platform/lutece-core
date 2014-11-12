@@ -10,6 +10,12 @@
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
     
+	<bean id="appProperties" class="java.util.Properties" >
+		<constructor-arg value="#{ T(fr.paris.lutece.portal.service.util.AppPropertiesService).getProperties() }" />
+	</bean>
+	
+	<context:property-placeholder properties-ref="appProperties" />    
+	
 	<context:annotation-config />
     <import resource="jpa_context.xml"/>
     
