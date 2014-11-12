@@ -39,12 +39,14 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.text.DateFormat;
 import java.text.MessageFormat;
-
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -66,6 +68,10 @@ public final class I18nService
     private static final String PROPERTY_DEFAULT_LOCALE = "lutece.i18n.defaultLocale";
     private static final String PROPERTY_FORMAT_DATE_SHORT_LIST = "lutece.format.date.short";
 
+    private static Map<String, String> _pluginBundleNames = Collections.synchronizedMap(new HashMap<String, String>());
+    private static Map<String, String> _moduleBundleNames = Collections.synchronizedMap(new HashMap<String, String>());
+    private static Map<String, String> _portalBundleNames = Collections.synchronizedMap(new HashMap<String, String>());
+    
     /**
      * Private constructor
      */
@@ -152,16 +158,12 @@ public final class I18nService
                         String strModule = strStringKey.substring( 0, nPos );
                         strStringKey = strStringKey.substring( nPos + 1 );
 
-                        Object[] params = { strPlugin, strModule };
-                        MessageFormat format = new MessageFormat( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION );
-                        strBundle = format.format( params );
+                        strBundle = getModuleBundleName( strPlugin, strModule) ;
                     }
                     else
                     {
                         // plugin resource
-                        Object[] params = { strBundleKey };
-                        MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION );
-                        strBundle = format.format( params );
+                        strBundle = getPluginBundleName( strBundleKey );
                     }
                 }
                 else
@@ -171,9 +173,7 @@ public final class I18nService
                     String strElement = strStringKey.substring( 0, nPos );
                     strStringKey = strStringKey.substring( nPos + 1 );
 
-                    Object[] params = { strElement };
-                    MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION );
-                    strBundle = format.format( params );
+                    strBundle = getPortalBundleName( strElement );
                 }
 
                 // if language is english use a special locale to force using default 
@@ -201,6 +201,62 @@ public final class I18nService
 
         return strReturn;
     }
+
+    /**
+     * Get resource bundle name for plugin
+     * @param strBundleKey the plugin key
+     * @return resource bundle name
+     */
+    private static String getPluginBundleName( String strBundleKey ) 
+    {
+		String strBundle = _pluginBundleNames.get( strBundleKey );
+		if ( strBundle == null )
+		{
+			Object[] params = { strBundleKey };
+			MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION );
+			strBundle = format.format( params );
+			_pluginBundleNames.put( strBundleKey, strBundle );
+		}
+		return strBundle;
+	}
+    
+    /**
+     * Get resource bundle name for module
+     * @param strPlugin the plugin key
+     * @param strModule the module key
+     * @return resource bundle name
+     */
+	private static String getModuleBundleName(String strPlugin, String strModule)
+	{
+		String key = strPlugin + strModule;
+		String strBundle = _moduleBundleNames.get( key );
+		if (strBundle == null)
+		{
+			Object[] params = { strPlugin, strModule };
+			MessageFormat format = new MessageFormat( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION );
+			strBundle = format.format( params );
+			_moduleBundleNames.put( key, strBundle );
+		}
+		return strBundle;
+	}
+    
+	/**
+	 * Get resource bundle name for core element
+	 * @param strElement element name
+	 * @return resource bundle name
+	 */
+	private static String getPortalBundleName(String strElement)
+	{
+		String strBundle = _portalBundleNames.get( strElement );
+		if (strBundle == null)
+		{
+			Object[] params = { strElement };
+			MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION );
+			strBundle = format.format( params );
+			_portalBundleNames.put( strElement, strBundle) ;
+		}
+		return strBundle;
+	}
 
     /**
      * Returns the string corresponding to a given key for a given locale that use a
