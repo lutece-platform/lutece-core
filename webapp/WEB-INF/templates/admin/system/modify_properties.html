@@ -15,9 +15,9 @@
 							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="${property.key}" >${property.label}</label>
 							<div class="col-xs-12 -col-sm-9 col-md-9">
 								<#if property.key?ends_with( ".textblock" )>
-								<textarea name="${property.key}" id="${property.key}" class="form-control input-sm">${property.value}</textarea>
+								<textarea name="${property.key}" id="${property.key}" class="form-control input-sm">${property.value?html}</textarea>
 								<#else>
-								<input type="text" name="${property.key}" id="${property.key}" value="${property.value}"  class="form-control input-sm">
+								<input type="text" name="${property.key}" id="${property.key}" value="${property.value?html}"  class="form-control input-sm">
 								</#if>
 								<span class="help-block">
 									<#if property.help?length &gt; 0>
