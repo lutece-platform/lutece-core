@@ -46,9 +46,13 @@ import fr.paris.lutece.portal.service.rbac.RBACResourceTypeEntry;
 import fr.paris.lutece.portal.service.search.SearchIndexerEntry;
 import fr.paris.lutece.portal.service.servlet.ServletEntry;
 import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 
 import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.Substitutor;
+import org.apache.commons.digester.substitution.MultiVariableExpander;
+import org.apache.commons.digester.substitution.VariableSubstitutor;
 import org.apache.commons.digester.xmlrules.DigesterLoader;
 
 import org.xml.sax.SAXException;
@@ -120,6 +124,12 @@ public class PluginFile
         URL rules = getClass(  ).getResource( FILE_RULES );
         Digester digester = DigesterLoader.createDigester( rules );
 
+        // Allow variables in plugin files
+        MultiVariableExpander expander = new MultiVariableExpander();
+        expander.addSource( "$" , AppPropertiesService.getPropertiesAsMap( ) );
+        Substitutor substitutor = new VariableSubstitutor( expander );
+        digester.setSubstitutor( substitutor );
+        
         // Push empty List onto Digester's Stack
         digester.push( this );
         digester.setValidating( false );
@@ -138,6 +148,10 @@ public class PluginFile
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
         }
         catch ( IOException e )
+        {
+            throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
+        }
+        catch (IllegalArgumentException e)
         {
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
         }

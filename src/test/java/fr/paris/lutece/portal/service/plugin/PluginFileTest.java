@@ -7,6 +7,7 @@
 package fr.paris.lutece.portal.service.plugin;
 
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
 
 import junit.framework.*;
@@ -47,8 +48,11 @@ public class PluginFileTest extends LuteceTestCase
 
         PluginFile instance = new PluginFile(  );
 
-        //TODO phath en dur...
+        //TODO path en dur...
         String strFilename = getResourcesDir(  ) + "../test-classes/plugin-test.xml";
         instance.load( strFilename );
+        
+        assertNotNull(instance.getParams());
+        assertEquals(AppPropertiesService.getProperty("lutece.encoding"), instance.getParams().get("test_properties"));
     }
 }

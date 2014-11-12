@@ -41,7 +41,9 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 
@@ -214,6 +216,25 @@ public final class AppPropertiesService
     {
         // Return a copy of all properties
         return new Properties( _propertiesService.getProperties(  ) );
+    }
+    
+    /**
+     * Gets all properties as a Map
+     * @return a Map of all properties
+     * @since version 5.0
+     */
+    public static Map<String, String> getPropertiesAsMap(  )
+    {
+    	Map<String, String> res = new HashMap<String, String>(  );
+    	Properties properties = _propertiesService.getProperties(  );
+    	// enumerate over property names to get all properties, including one which are defaults
+    	Enumeration<?> names = properties.propertyNames();
+    	while ( names.hasMoreElements() )
+    	{
+    		String name = (String) names.nextElement(  );
+    		res.put( name, properties.getProperty( name ) );;
+    	}
+    	return res;
     }
 
     /**

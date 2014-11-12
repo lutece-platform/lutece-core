@@ -90,6 +90,11 @@
         <param-value>0</param-value>
         <param-description>Source local</param-description>
     </param>
+    <param>
+        <param-name>test_properties</param-name>
+        <param-value>${lutece.encoding}</param-value>
+        <param-description>Param to test property placeholder in plugin xml file</param-description>
+    </param>
   </params>
 
 
