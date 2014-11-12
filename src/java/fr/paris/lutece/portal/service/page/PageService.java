@@ -670,7 +670,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 }
 
                 boolean bCanBeCached = ( user != null ) ? ( portlet.canBeCachedForConnectedUsers(  ) )
-                        : ( portlet.canBeCachedForAnonymousUsers(  ) );
+                                                        : ( portlet.canBeCachedForAnonymousUsers(  ) );
 
                 if ( bCanBeCached )
                 {

@@ -51,6 +51,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -309,20 +310,22 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      */
     public static String doModifyProperties( HttpServletRequest request, ServletContext context )
     {
-        List<LocalizedDataGroup> groups = SitePropertiesService.getGroups( AdminUserService.getAdminUser( request ).getLocale( ) );
-        
-        for (LocalizedDataGroup group : groups)
+        List<LocalizedDataGroup> groups = SitePropertiesService.getGroups( AdminUserService.getAdminUser( request )
+                                                                                           .getLocale(  ) );
+
+        for ( LocalizedDataGroup group : groups )
         {
-        	List<LocalizedData> datas = group.getLocalizedDataList( );
-        	
-        	for (LocalizedData data : datas)
-        	{
-        		String strValue = request.getParameter( data.getKey( ) );
-        		if ( strValue != null && !data.getValue( ).equals( strValue ) )
-        		{
-        			DatastoreService.setDataValue( data.getKey( ), strValue);
-        		}
-        	}
+            List<LocalizedData> datas = group.getLocalizedDataList(  );
+
+            for ( LocalizedData data : datas )
+            {
+                String strValue = request.getParameter( data.getKey(  ) );
+
+                if ( ( strValue != null ) && !data.getValue(  ).equals( strValue ) )
+                {
+                    DatastoreService.setDataValue( data.getKey(  ), strValue );
+                }
+            }
         }
 
         // if the operation occurred well, redirects towards the view of the Properties

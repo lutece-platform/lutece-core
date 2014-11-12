@@ -125,11 +125,12 @@ public class PluginFile
         Digester digester = DigesterLoader.createDigester( rules );
 
         // Allow variables in plugin files
-        MultiVariableExpander expander = new MultiVariableExpander();
-        expander.addSource( "$" , AppPropertiesService.getPropertiesAsMap( ) );
+        MultiVariableExpander expander = new MultiVariableExpander(  );
+        expander.addSource( "$", AppPropertiesService.getPropertiesAsMap(  ) );
+
         Substitutor substitutor = new VariableSubstitutor( expander );
         digester.setSubstitutor( substitutor );
-        
+
         // Push empty List onto Digester's Stack
         digester.push( this );
         digester.setValidating( false );
@@ -151,7 +152,7 @@ public class PluginFile
         {
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
         }
-        catch (IllegalArgumentException e)
+        catch ( IllegalArgumentException e )
         {
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
         }

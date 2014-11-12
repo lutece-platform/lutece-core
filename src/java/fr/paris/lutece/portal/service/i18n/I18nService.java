@@ -38,13 +38,16 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
+
 import java.io.File;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
 import java.text.DateFormat;
 import java.text.MessageFormat;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -74,50 +77,52 @@ public final class I18nService
     private static final Locale LOCALE_DEFAULT = new Locale( "", "", "" );
     private static final String PROPERTY_DEFAULT_LOCALE = "lutece.i18n.defaultLocale";
     private static final String PROPERTY_FORMAT_DATE_SHORT_LIST = "lutece.format.date.short";
-
-    private static Map<String, String> _pluginBundleNames = Collections.synchronizedMap(new HashMap<String, String>());
-    private static Map<String, String> _moduleBundleNames = Collections.synchronizedMap(new HashMap<String, String>());
-    private static Map<String, String> _portalBundleNames = Collections.synchronizedMap(new HashMap<String, String>());
-    
-   private static final String PROPERTY_PATH_OVERRIDE = "path.i18n.override";
-
+    private static Map<String, String> _pluginBundleNames = Collections.synchronizedMap( new HashMap<String, String>(  ) );
+    private static Map<String, String> _moduleBundleNames = Collections.synchronizedMap( new HashMap<String, String>(  ) );
+    private static Map<String, String> _portalBundleNames = Collections.synchronizedMap( new HashMap<String, String>(  ) );
+    private static final String PROPERTY_PATH_OVERRIDE = "path.i18n.override";
     private static final ClassLoader _overrideLoader;
-    private static final Map<String, ResourceBundle> _resourceBundleCache = Collections.synchronizedMap(new HashMap<String, ResourceBundle>());
+    private static final Map<String, ResourceBundle> _resourceBundleCache = Collections.synchronizedMap( new HashMap<String, ResourceBundle>(  ) );
 
-    /**
-     * initialize the classloader responsible for loading override messages
-     */
     static
     {
-    	File overridePath = null;
-    	try
-    	{
-    		overridePath = new File( AppPathService.getPath( PROPERTY_PATH_OVERRIDE ) );
-    	} catch ( AppException e )
-    	{
-    		// the key is unknown. Message override will be deactivated
-    		AppLogService.error( "property " + PROPERTY_PATH_OVERRIDE + " is undefined. Message overriding will be disabled.");
-    	}
-    	URL[] overrideURL = null;
-    	if ( overridePath != null )
-    	{
-	    	try
-	        {
-	        	overrideURL = new URL[ ] { overridePath.toURI( ).toURL( ) };
-	        } catch ( MalformedURLException e )
-	        {
-	        	AppLogService.error( "Error initializing message overriding: " + e.getMessage( ), e );
-	        }
-    	}
-    	if ( overrideURL != null )
-    	{
-    		_overrideLoader = new URLClassLoader( overrideURL, null );
-    	} else
-    	{
-    		_overrideLoader = null;
-    	}
-    }    
-    
+        File overridePath = null;
+
+        try
+        {
+            overridePath = new File( AppPathService.getPath( PROPERTY_PATH_OVERRIDE ) );
+        }
+        catch ( AppException e )
+        {
+            // the key is unknown. Message override will be deactivated
+            AppLogService.error( "property " + PROPERTY_PATH_OVERRIDE +
+                " is undefined. Message overriding will be disabled." );
+        }
+
+        URL[] overrideURL = null;
+
+        if ( overridePath != null )
+        {
+            try
+            {
+                overrideURL = new URL[] { overridePath.toURI(  ).toURL(  ) };
+            }
+            catch ( MalformedURLException e )
+            {
+                AppLogService.error( "Error initializing message overriding: " + e.getMessage(  ), e );
+            }
+        }
+
+        if ( overrideURL != null )
+        {
+            _overrideLoader = new URLClassLoader( overrideURL, null );
+        }
+        else
+        {
+            _overrideLoader = null;
+        }
+    }
+
     /**
      * Private constructor
      */
@@ -204,7 +209,7 @@ public final class I18nService
                         String strModule = strStringKey.substring( 0, nPos );
                         strStringKey = strStringKey.substring( nPos + 1 );
 
-                        strBundle = getModuleBundleName( strPlugin, strModule) ;
+                        strBundle = getModuleBundleName( strPlugin, strModule );
                     }
                     else
                     {
@@ -229,7 +234,7 @@ public final class I18nService
                     locale = LOCALE_DEFAULT;
                 }
 
-                ResourceBundle rbLabels = getResourceBundle(locale, strBundle);                
+                ResourceBundle rbLabels = getResourceBundle( locale, strBundle );
                 strReturn = rbLabels.getString( strStringKey );
             }
         }
@@ -253,56 +258,62 @@ public final class I18nService
      * @param strBundleKey the plugin key
      * @return resource bundle name
      */
-    private static String getPluginBundleName( String strBundleKey ) 
+    private static String getPluginBundleName( String strBundleKey )
     {
-		String strBundle = _pluginBundleNames.get( strBundleKey );
-		if ( strBundle == null )
-		{
-			Object[] params = { strBundleKey };
-			MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION );
-			strBundle = format.format( params );
-			_pluginBundleNames.put( strBundleKey, strBundle );
-		}
-		return strBundle;
-	}
-    
+        String strBundle = _pluginBundleNames.get( strBundleKey );
+
+        if ( strBundle == null )
+        {
+            Object[] params = { strBundleKey };
+            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION );
+            strBundle = format.format( params );
+            _pluginBundleNames.put( strBundleKey, strBundle );
+        }
+
+        return strBundle;
+    }
+
     /**
      * Get resource bundle name for module
      * @param strPlugin the plugin key
      * @param strModule the module key
      * @return resource bundle name
      */
-	private static String getModuleBundleName(String strPlugin, String strModule)
-	{
-		String key = strPlugin + strModule;
-		String strBundle = _moduleBundleNames.get( key );
-		if (strBundle == null)
-		{
-			Object[] params = { strPlugin, strModule };
-			MessageFormat format = new MessageFormat( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION );
-			strBundle = format.format( params );
-			_moduleBundleNames.put( key, strBundle );
-		}
-		return strBundle;
-	}
-    
-	/**
-	 * Get resource bundle name for core element
-	 * @param strElement element name
-	 * @return resource bundle name
-	 */
-	private static String getPortalBundleName(String strElement)
-	{
-		String strBundle = _portalBundleNames.get( strElement );
-		if (strBundle == null)
-		{
-			Object[] params = { strElement };
-			MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION );
-			strBundle = format.format( params );
-			_portalBundleNames.put( strElement, strBundle) ;
-		}
-		return strBundle;
-	}
+    private static String getModuleBundleName( String strPlugin, String strModule )
+    {
+        String key = strPlugin + strModule;
+        String strBundle = _moduleBundleNames.get( key );
+
+        if ( strBundle == null )
+        {
+            Object[] params = { strPlugin, strModule };
+            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION );
+            strBundle = format.format( params );
+            _moduleBundleNames.put( key, strBundle );
+        }
+
+        return strBundle;
+    }
+
+    /**
+     * Get resource bundle name for core element
+     * @param strElement element name
+     * @return resource bundle name
+     */
+    private static String getPortalBundleName( String strElement )
+    {
+        String strBundle = _portalBundleNames.get( strElement );
+
+        if ( strBundle == null )
+        {
+            Object[] params = { strElement };
+            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION );
+            strBundle = format.format( params );
+            _portalBundleNames.put( strElement, strBundle );
+        }
+
+        return strBundle;
+    }
 
     /**
      * Returns the string corresponding to a given key for a given locale that use a
@@ -460,39 +471,47 @@ public final class I18nService
 
         return list;
     }
-    
-    
+
     /**
      * get the resource bundle, possibly with its override
      * @param locale the locale
      * @param strBundle the bundle name
      * @return the resource bundle
      */
-	private static ResourceBundle getResourceBundle( Locale locale, String strBundle )
-	{
-		String key = strBundle + locale.toString( );
-		ResourceBundle rbLabels = _resourceBundleCache.get( key );
-		if ( rbLabels == null )
-		{
-			rbLabels = ResourceBundle.getBundle( strBundle, locale );
-			if ( _overrideLoader != null )
-			{
-				ResourceBundle overrideBundle = null;
-				try
-				{
-					overrideBundle = ResourceBundle.getBundle( strBundle, locale, _overrideLoader );
-				} catch ( MissingResourceException e )
-				{
-					// no override for this resource
-					_resourceBundleCache.put( key, rbLabels );
-					return rbLabels;
-				}
-				ResourceBundle res = new CombinedResourceBundle( overrideBundle, rbLabels );
-				_resourceBundleCache.put( key, res );
-				return res;
-			}
-			_resourceBundleCache.put( key, rbLabels );
-		}
-		return rbLabels;
-	}
+    private static ResourceBundle getResourceBundle( Locale locale, String strBundle )
+    {
+        String key = strBundle + locale.toString(  );
+        ResourceBundle rbLabels = _resourceBundleCache.get( key );
+
+        if ( rbLabels == null )
+        {
+            rbLabels = ResourceBundle.getBundle( strBundle, locale );
+
+            if ( _overrideLoader != null )
+            {
+                ResourceBundle overrideBundle = null;
+
+                try
+                {
+                    overrideBundle = ResourceBundle.getBundle( strBundle, locale, _overrideLoader );
+                }
+                catch ( MissingResourceException e )
+                {
+                    // no override for this resource
+                    _resourceBundleCache.put( key, rbLabels );
+
+                    return rbLabels;
+                }
+
+                ResourceBundle res = new CombinedResourceBundle( overrideBundle, rbLabels );
+                _resourceBundleCache.put( key, res );
+
+                return res;
+            }
+
+            _resourceBundleCache.put( key, rbLabels );
+        }
+
+        return rbLabels;
+    }
 }

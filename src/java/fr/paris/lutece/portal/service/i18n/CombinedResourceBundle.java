@@ -37,39 +37,41 @@ import java.util.Enumeration;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+
 public class CombinedResourceBundle extends ResourceBundle
 {
+    private final ResourceBundle _override;
+    private final ResourceBundle _defaults;
 
-	private final ResourceBundle _override;
-	private final ResourceBundle _defaults;
+    public CombinedResourceBundle( ResourceBundle override, ResourceBundle defaults )
+    {
+        this._override = override;
+        this._defaults = defaults;
+    }
 
-	public CombinedResourceBundle( ResourceBundle override, ResourceBundle defaults )
-	{
-		this._override = override;
-		this._defaults = defaults;
-	}
+    @Override
+    protected Object handleGetObject( String key )
+    {
+        try
+        {
+            return _override.getObject( key );
+        }
+        catch ( MissingResourceException e )
+        {
+            try
+            {
+                return _defaults.getObject( key );
+            }
+            catch ( MissingResourceException e2 )
+            {
+                return null;
+            }
+        }
+    }
 
-	@Override
-	protected Object handleGetObject( String key )
-	{
-		try
-		{
-			return _override.getObject( key );
-		} catch ( MissingResourceException e )
-		{
-			try
-			{
-				return _defaults.getObject( key );
-			} catch ( MissingResourceException e2 )
-			{
-				return null;
-			}
-		}
-	}
-
-	@Override
-	public Enumeration<String> getKeys( )
-	{
-		return _defaults.getKeys() ;
-	}
+    @Override
+    public Enumeration<String> getKeys(  )
+    {
+        return _defaults.getKeys(  );
+    }
 }
