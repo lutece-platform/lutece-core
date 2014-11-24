@@ -38,6 +38,8 @@ INSERT INTO core_datastore VALUES ('core.advanced_parameters.access_failures_cap
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.notify_user_password_expired', '');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_expired_mail_sender', 'lutece@nowhere.com');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_expired_mail_subject', 'Votre mot de passe a expiré');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_url', 'images/logo-header-icon.png');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.menu.position', 'top');
 
 UPDATE core_datastore SET entity_value = CASE 
 	WHEN (SELECT parameter_value from core_user_parameter WHERE entity_key LIKE concat('%', parameter_key)) IS NOT NULL 

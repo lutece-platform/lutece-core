@@ -202,6 +202,9 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_credits.text
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.copyright.textblock', '&lt;copyright text&gt;');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.privacy.textblock', '&lt;privacy text&gt;');
 INSERT INTO core_datastore VALUES ('core_banned_domain_names', 'yopmail.com');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_url', 'images/logo-header-icon.png');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.menu.position', 'right');
+
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');
