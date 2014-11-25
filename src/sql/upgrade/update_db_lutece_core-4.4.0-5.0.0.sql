@@ -9,7 +9,7 @@ INSERT INTO core_datastore VALUES ('core.advanced_parameters.default_user_level'
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.default_user_notification', '1');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.default_user_language', 'fr');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.default_user_status', '0');
-INSERT INTO core_datastore VALUES ('core.advanced_parameters.email_pattern', '^[\\w_.\\-!\\#\\$\\%\\&\\\'\\*\\+\\/\\=\\?\\^\\\`\\}\\{\\|\\~]+@[\\w_.\\-]+\\.[\\w]+$');
+INSERT INTO core_datastore VALUES ("core.advanced_parameters.email_pattern", "^[\\w_.\\-!\\#\\$\\%\\&\\\'\\*\\+\\/\\=\\?\\^\\\`\\}\\{\\|\\~]+@[\\w_.\\-]+\\.[\\w]+$");
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.email_pattern_verify_by', '');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.force_change_password_reinit', 'false');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_minimum_length', '8');
