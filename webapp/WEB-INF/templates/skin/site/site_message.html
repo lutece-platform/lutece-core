@@ -31,14 +31,14 @@
 					${text}
 					<br>
 					<div class="col-xs-12 col-sm-8 col-md-6 text-center clearfix">
-					<#if url?has_content>
+					<#if list_parameters?exists>
 						<form method="post" action="${url!}" target="${target!}" class="form-inline">
-							<#if list_parameters?exists>
-								<#assign keys = list_parameters?keys>
-								<#list keys as key>
-									<input type="hidden" name="${key}" value="${list_parameters[key]}" />
-								</#list>
+							<#assign keys = list_parameters?keys>
+							<#list keys as key>
+							<input type="hidden" name="${key}" value="${list_parameters[key]}" />
+							</#list>
 							</#if>
+							<#if url?has_content> 
 							<button type="submit"class="btn btn-lg btn-info"><i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.util.labelValidate}</button>
 						</form>	
 					</#if>
