@@ -6,7 +6,7 @@
 		<div class="box-body">
 			<strong class="clearfix">#i18n{portal.site.dashboard.columnLastModifiedPage} </strong>
 			<span class="label label-info" title="#i18n{portal.site.dashboard.labelPageId} ">${last_modified_page.id}</span> 
-			<span title="${last_modified_page.name} #i18n{portal.site.dashboard.labelDateModification} : ${last_modified_page.dateUpdate}"><#if last_modified_page.name?length &gt; 35>${last_modified_page.name?substring(0,35)}...<#else>${last_modified_page.name}</#if> </span>
+			<span title="${i18n( 'portal.site.dashboard.labelDateModification', last_modified_page.dateUpdate)}"><#if last_modified_page.name?length &gt; 35>${last_modified_page.name?substring(0,35)}...<#else>${last_modified_page.name}</#if> </span>
 			<p class="pull-right">
 				<a class="btn btn-xs btn-success btn-flat spaced" href="jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&param_block=5" title="#i18n{portal.site.admin_page.titleAddChildPage}" >
 					<i class="fa fa-plus"></i> 

@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.template;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.i18n.I18nTemplateMethod;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -69,6 +70,7 @@ public final class AppTemplateService
     public static void init( String strTemplatePath )
     {
         _strTemplateDefaultPath = strTemplatePath;
+        getFreeMarkerTemplateService(  ).setSharedVariable( "i18n", new I18nTemplateMethod(  ) );
     }
 
     /**
