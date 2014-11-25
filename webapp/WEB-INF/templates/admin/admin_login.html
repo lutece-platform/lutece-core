@@ -1,24 +1,31 @@
 <div class="form-box" id="login-box">
-    <div class="header bg-blue"><h3>#i18n{portal.admin.admin_login.welcome}</h3><small>#i18n{portal.admin.admin_login.boxTitle}</small></div>
+    <div class="header bg-blue">
+		<h3>#i18n{portal.admin.admin_login.welcome} </h3>
+		<small>#i18n{portal.admin.admin_login.boxTitle}</small>
+	</div>
     <form method="post" name="login" id="login" action="${do_admin_login_url}" class="form" role="form">
 		<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
 		<div class="body bg-gray">
 			<div class="form-group">
+				<label class="sr-only" for="access_code">#i18n{portal.admin.adminFeature.admin_site.name}</label>
+				 <p class="form-control-static text-info"></p>
+            </div>
+			<div class="form-group">
 				<label class="sr-only" for="access_code">#i18n{portal.admin.admin_login.loginLabel}</label>
-                <input type="text" name="access_code" class="form-control" autofocus tabindex="1" placeholder="#i18n{portal.admin.admin_login.loginLabel}">
+				<input type="text" name="access_code" class="form-control" autofocus tabindex="1" placeholder="#i18n{portal.admin.admin_login.loginLabel}">
             </div>
             <div class="form-group">
 				<label class="sr-only" for="password">#i18n{portal.admin.admin_login.passwordLabel}</label>
-				<input type="password" name="password" class="form-control"  tabindex="2" placeholder="#i18n{portal.admin.admin_login.passwordLabel}">
+				<input type="password" name="password" class="form-control" tabindex="2" placeholder="#i18n{portal.admin.admin_login.passwordLabel}">
             </div>          
         </div>
         <div class="footer">                                                               
 			<button type="submit" class="btn btn-primary btn-block">#i18n{portal.admin.admin_login.buttonConnect}</button>  
-			<p><a href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}" tabindex="3">#i18n{portal.admin.admin_login.forgotPassword}</a></p>
+			<p><a href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}" tabindex="3">#i18n{portal.admin.admin_login.forgotPassword} ?</a></p>
 		</div>
     </form>
 	<div class="margin text-center">
-		<span>#i18n{portal.admin.admin_login.helpText}</span>
+		<span>#i18n{portal.admin.admin_login.helpText} </span><span class="text-info"> <a href="jsp/site/Portal.jsp" title="#i18n{portal.admin.page_home.label}">${site_name}</a></span>
 		<br/>
 		<button class="btn btn-link">
 			<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
