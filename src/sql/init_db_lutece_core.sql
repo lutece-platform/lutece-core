@@ -203,7 +203,7 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.c
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.privacy.textblock', '&lt;privacy text&gt;');
 INSERT INTO core_datastore VALUES ('core_banned_domain_names', 'yopmail.com');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_url', 'images/logo-header-icon.png');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.menu.position', 'right');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.menu.position', 'top');
 
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
