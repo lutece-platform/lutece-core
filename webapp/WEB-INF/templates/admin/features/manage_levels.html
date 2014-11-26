@@ -1,39 +1,39 @@
 <div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.features.manage_levels.boxTitle}</h3>
-				<div class="box-tools">
-					<form method="post"  action="jsp/admin/features/CreateLevel.jsp" class="form-inline pull-right">
-						<button type="submit" tabindex="1" class="btn btn-primary btn-xs btn-flat"><i class="glyphicon glyphicon-plus"></i>&nbsp;#i18n{portal.features.manage_levels.buttonLabelCreate}</button>
-					</form>
-				</div>
-			</div><!-- /.box-header -->
-			<div class="box-body table-responsive no-padding">
-				<table class="table table-hover table-condensed">
-					<thead>
-						<tr>            
-							<th >#i18n{portal.features.manage_levels.columnTitleId}</th>
-							<th >#i18n{portal.features.manage_levels.columnTitleName}</th>
-							<th >#i18n{portal.features.manage_groups.labelActions}</th>
-						</tr>
-					</thead>
-					<tbody>
-					<#list levels_list as level >
-						<tr>
-							<td>${level.id}</td>
-							<td>${level.name}</td>
-							<td>
-								<a href="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" class="btn btn-xs btn-primary btn-flat">
-									<i class="glyphicon glyphicon-edit"></i>
-								</a>
-							</td>
-						</tr>			
-					</#list>
-					</tbody>
-				</table>
-			</div>
-		</div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">#i18n{portal.features.manage_levels.boxTitle}</h3>
+                <div class="box-tools">
+                    <form method="post"  action="jsp/admin/features/CreateLevel.jsp" class="form-inline pull-right">
+                        <button type="submit" tabindex="1" class="btn btn-primary btn-xs btn-flat"><i class="glyphicon glyphicon-plus"></i>&nbsp;#i18n{portal.features.manage_levels.buttonLabelCreate}</button>
+                    </form>
+                </div>
+            </div><!-- /.box-header -->
+            <div class="box-body table-responsive">
+                <table class="table table-hover table-condensed">
+                    <thead>
+                        <tr>            
+                            <th >#i18n{portal.features.manage_levels.columnTitleId}</th>
+                            <th >#i18n{portal.features.manage_levels.columnTitleName}</th>
+                            <th >#i18n{portal.features.manage_groups.labelActions}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <#list levels_list as level >
+                        <tr>
+                            <td>${level.id}</td>
+                            <td>${level.name}</td>
+                            <td>
+                                <a href="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" class="btn btn-xs btn-primary btn-flat">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                </a>
+                            </td>
+                        </tr>			
+                        </#list>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 

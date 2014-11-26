@@ -1,60 +1,60 @@
 <div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.rbac.manage_roles.pageTitle}</h3>
-				<div class="box-tools pull-right">
-					<form class="form-inline" method="post" action="jsp/admin/rbac/CreateRole.jsp">
-						<button class="btn btn-primary btn-xs" type="submit" >
-							<i class="glyphicon glyphicon-plus" ></i>
-							<span class="hidden-phone" >#i18n{portal.rbac.manage_roles.buttonLabelNewRole}</span>
-						</button>
-					</form>
-				</div>
-			</div><!-- /.box-header -->
-			<div class="box-body table-responsive no-padding">
-				<table class="table table-hover table-condensed">
-					<thead>
-						<tr>
-							<th>
-								#i18n{portal.rbac.manage_roles.columnTitleKey}
-								<@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="key" />
-							</th>
-							<th>
-								#i18n{portal.rbac.manage_roles.columnTitleDescription}
-								<@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="description" />
-							</th>
-							<th>#i18n{portal.rbac.manage_roles.columnTitleActions}</th>
-						</tr>
-					</thead>
-					<tbody>
-						<#list role_list as role >
-						<tr>
-							<td>${role.key}
-							</td>
-							<td>${role.description}</td>
-							<td>
-								<a class="btn btn-primary btn-xs" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.view_role_description.labelDescription}">
-									<i class="glyphicon glyphicon-edit"></i>
-								</a>
-								<a class="btn btn-primary btn-xs" href="jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers}">
-									<i class="glyphicon glyphicon-user"></i>
-								</a>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">#i18n{portal.rbac.manage_roles.pageTitle}</h3>
+                <div class="box-tools pull-right">
+                    <form class="form-inline" method="post" action="jsp/admin/rbac/CreateRole.jsp">
+                        <button class="btn btn-primary btn-xs btn-flat" type="submit" >
+                            <i class="glyphicon glyphicon-plus" ></i>
+                            <span class="hidden-phone" >#i18n{portal.rbac.manage_roles.buttonLabelNewRole}</span>
+                        </button>
+                    </form>
+                </div>
+            </div><!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>
+                                #i18n{portal.rbac.manage_roles.columnTitleKey}
+                                <@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="key" />
+                            </th>
+                            <th>
+                                #i18n{portal.rbac.manage_roles.columnTitleDescription}
+                                <@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="description" />
+                            </th>
+                            <th>#i18n{portal.rbac.manage_roles.columnTitleActions}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <#list role_list as role >
+                        <tr>
+                            <td>${role.key}
+                            </td>
+                            <td>${role.description}</td>
+                            <td>
+                                <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.view_role_description.labelDescription}">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                </a>
+                                <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers}">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                </a>
 
-								<a class="btn btn-danger btn-xs" href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}">
-									<i class="glyphicon glyphicon-trash"></i>
-								</a>
+                                <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </a>
 
-							</td>
-						</tr>
-						</#list>
-					</tbody>
-				</table>
-			</div>	
-			<div class="box-header">	
-				<@paginationAdmin paginator=paginator combo=1 />
-			</div>	
-		</div>
+                            </td>
+                        </tr>
+                        </#list>
+                    </tbody>
+                </table>
+            </div>	
+            <div class="box-header">	
+                <@paginationAdmin paginator=paginator combo=1 />
+            </div>	
+        </div>
     </div>
 </div>
 

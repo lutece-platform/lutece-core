@@ -1,151 +1,159 @@
 <#macro featuresGroupDisplay groupDisplay >
-	<div class="box box-danger">
-	<div class="box-header">
-		<#if groupDisplay.feature_list?has_content>
-		<h3 class="box-title">
-			<#if groupDisplay.feature_group.order != 0>
-				#i18n{${groupDisplay.feature_group.labelKey}} <a name="${groupDisplay.feature_group.id?if_exists}" >&nbsp;</a>
-			<#else>
-				#i18n{portal.features.nogroup.title}
-			</#if>
-		</h3>
-		 <div class="box-tools pull-right">
-			<#if groupDisplay.feature_group.order != 0>
-				<#if groupDisplay.order_list_state == false>
-					<a class="btn btn-xs btn-warning " href="jsp/admin/features/DoReinitFeatures.jsp?group_id=${groupDisplay.feature_group.id?if_exists}">
-						<i class="glyphicon glyphicon-refresh"></i>&nbsp;#i18n{portal.features.dispatch_features.reinitFeatureOrders}
-					</a>
-				</#if>
-			</#if>
-		 </div>
-	</#if>
-	<div class="box-body">
-    <#if groupDisplay.feature_list?has_content>
-		<table class="table table-hover table-condensed">
-			<thead>
-				<tr>
-					<th class="col-md-5">#i18n{portal.features.dispatch_features.tableLabelFeatureName}</th>
-					<th class="col-md-4">#i18n{portal.features.dispatch_features.tableLabelGroup}</th>
-					<th>#i18n{portal.features.dispatch_features.tableLabelOrder}</th>
-				</tr>
-			</thead>
-			<tbody>
-            <#list groupDisplay.feature_list?sort_by('order') as right >
-				<#if right.url?has_content >
-				<tr>
-					<td>
-						<strong>${right.name}</strong>
-						<br>
-						<small>${right.description}</small>
-					</td>
-					<td>
-						<form method="post" class="form-inline" action="jsp/admin/features/DoDispatchFeature.jsp">
-							<input type="hidden" name="right_id" value="${right.id}">
-							<div class="form-group">
-								<@comboGroups name="group_name" default_value="${right.featureGroup?if_exists}" />
-							</div>
-							<button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetGroup}">
-								<i class="glyphicon glyphicon-ok"></i>
-							</button>
-						</form>
-					</td>
-					<td>
-						<#if groupDisplay.order_list_state == true>
-							<form method="post" class="form-inline" action="jsp/admin/features/DoDispatchFeature.jsp">
-							<input type="hidden" name="right_id" value="${right.id}">
-							<input type="hidden" name="group_name" value="${right.featureGroup?if_exists}">
-								<div class="form-group">
-									<@comboOrders name="order_id" default_value=right.order max=groupDisplay.feature_list?size />
-									<button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetOrder}">
-										<i class="glyphicon glyphicon-refresh"></i>
-									</button>
-								</div>
-							</form>
-						<#else>
-							<span class="label label-important">
-								<em>#i18n{portal.features.dispatch_features.notAvailable}</em>
-							</span>
-						</#if>
-					</td>
-				</tr>
-				<#else>
-				 <!--
-				 <tr>
-					<td colspan="3">
-						<span class="label label-important">
-							<em>#i18n{portal.features.dispatch_features.noFeatureForGroup}</em>
-						</span>
-					</td>
-				</tr>
-					-->
-				</#if>
-			</#list>
-			</tbody>
-        </table>
-	<#else>
-		<span class="label label-important">
-			<em>#i18n{portal.features.dispatch_features.noFeatureForGroup}</em>
-		</span> 
-    </#if>
-	</div>
-	<div class="box-footer pull-right"></div>
-	</div>
-</#macro>
-
-<#macro comboGroups name default_value >
-<select id="${name}" name="${name}" class="input-xs form-control" >
-	<#if default_value="${no_group.feature_group.id?if_exists}">
-		<option selected="selected" value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
-	<#else>
-        <option value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
-    </#if>
-    <#list feature_group_list as groupDisplay>
-		<#if default_value="${groupDisplay.feature_group.id?if_exists}">
-			<option selected="selected" value="${groupDisplay.feature_group.id?if_exists}" >#i18n{${groupDisplay.feature_group.labelKey}}</option>
-        <#else>
-            <option value="${groupDisplay.feature_group.id?if_exists}" >#i18n{${groupDisplay.feature_group.labelKey}}</option>
+<div class="box box-danger">
+    <div class="box-header">
+        <#if groupDisplay.feature_list?has_content>
+        <h3 class="box-title">
+            <#if groupDisplay.feature_group.order != 0>
+            #i18n{${groupDisplay.feature_group.labelKey}} <a name="${groupDisplay.feature_group.id?if_exists}" >&nbsp;</a>
+            <#else>
+            #i18n{portal.features.nogroup.title}
+            </#if>
+        </h3>
+        <div class="box-tools pull-right">
+            <#if groupDisplay.feature_group.order != 0>
+            <#if groupDisplay.order_list_state == false>
+            <a class="btn btn-xs btn-warning " href="jsp/admin/features/DoReinitFeatures.jsp?group_id=${groupDisplay.feature_group.id?if_exists}" title="#i18n{portal.features.dispatch_features.reinitFeatureOrders}">
+                <i class="glyphicon glyphicon-refresh"></i><span class="hidden-xs">&nbsp;#i18n{portal.features.dispatch_features.reinitFeatureOrders}</span>
+            </a>
+            </#if>
+            </#if>
+        </div>
         </#if>
-    </#list>
-    </select>
-</#macro>
+        <div class="box-body">
+            <#if groupDisplay.feature_list?has_content>
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th class="col-md-5">#i18n{portal.features.dispatch_features.tableLabelFeatureName}</th>
+                        <th class="col-md-4">#i18n{portal.features.dispatch_features.tableLabelGroup}</th>
+                        <th>#i18n{portal.features.dispatch_features.tableLabelOrder}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <#list groupDisplay.feature_list?sort_by('order') as right >
+                    <#if right.url?has_content >
+                    <tr>
+                        <td>
+                            <strong>${right.name}</strong>
+                            <br>
+                            <small>${right.description}</small>
+                        </td>
+                        <td>
+                            <form method="post" class="form-inline" action="jsp/admin/features/DoDispatchFeature.jsp">
+                                <input type="hidden" name="right_id" value="${right.id}">
+                                <div class="form-group">
+                                    <div class="input-group"> 
+                                    <@comboGroups name="group_name" default_value="${right.featureGroup?if_exists}" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetGroup}">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        </button>
+                                    </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                        <td>
+                            <#if groupDisplay.order_list_state == true>
+                            <form method="post" class="form-inline" action="jsp/admin/features/DoDispatchFeature.jsp">
+                                <input type="hidden" name="right_id" value="${right.id}">
+                                <input type="hidden" name="group_name" value="${right.featureGroup?if_exists}">
+                                <div class="form-group">
+                                    <div class="input-group"> 
+                                        <@comboOrders name="order_id" default_value=right.order max=groupDisplay.feature_list?size />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetOrder}">
+                                                <i class="glyphicon glyphicon-refresh"></i>
+                                            </button>
+                                        </span>
+                                    </div>    
+                                </div>
+                            </form>
+                            <#else>
+                            <span class="label label-important">
+                                <em>#i18n{portal.features.dispatch_features.notAvailable}</em>
+                            </span>
+                            </#if>
+                        </td>
+                    </tr>
+                    <#else>
+                        <!--
+                        <tr>
+                               <td colspan="3">
+                                       <span class="label label-important">
+                                               <em>#i18n{portal.features.dispatch_features.noFeatureForGroup}</em>
+                                       </span>
+                               </td>
+                       </tr>
+                        -->
+                    </#if>
+                    </#list>
+                </tbody>
+            </table>
+            <#else>
+            <span class="label label-important">
+                <em>#i18n{portal.features.dispatch_features.noFeatureForGroup}</em>
+            </span> 
+            </#if>
+        </div>
+        <div class="box-footer pull-right"></div>
+    </div>
+    </#macro>
 
-<#macro comboOrders name default_value max >
-<select id="${name}" name="${name}" class="input-xs form-control">
-<#list 1..max as i>
-	<#if "${default_value}" == "${i}">
-		<option selected="selected" value="${i}" >${i}</option>
-	<#else>
-		<option value="${i}" >${i}</option>
-    </#if>
-</#list>
-</select>
-</#macro>
+    <#macro comboGroups name default_value >
+        <select id="${name}" name="${name}" class="input-xs form-control" >
+            <#if default_value="${no_group.feature_group.id?if_exists}">
+            <option selected="selected" value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
+            <#else>
+            <option value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
+            </#if>
+            <#list feature_group_list as groupDisplay>
+            <#if default_value="${groupDisplay.feature_group.id?if_exists}">
+            <option selected="selected" value="${groupDisplay.feature_group.id?if_exists}" >#i18n{${groupDisplay.feature_group.labelKey}}</option>
+            <#else>
+            <option value="${groupDisplay.feature_group.id?if_exists}" >#i18n{${groupDisplay.feature_group.labelKey}}</option>
+            </#if>
+            </#list>
+        </select>
+    </#macro>
 
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-danger">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.features.manage_features.title}</h3>
-				<div class="box-tools"></div>
-			</div><!-- /.box-header -->
-			<div class="box-body table-responsive">
-				<ul class="nav nav-tabs">
-					<li class="active">
-						<a href="jsp/admin/features/DispatchFeatures.jsp" >
-							#i18n{portal.features.manage_features.featureDispatch.label}
-						</a>
-					</li>
-					<li>
-						<a href="jsp/admin/features/ManageGroups.jsp">#i18n{portal.features.manage_features.groupManagement.label}</a>
-					</li>
-				</ul>
-				<#if no_group.feature_list?has_content && no_group.feature_list?size &gt; 1	 >
-					<@featuresGroupDisplay groupDisplay=no_group />
-				</#if>
-				<#list feature_group_list as groupDisplay>
-					<@featuresGroupDisplay groupDisplay=groupDisplay />
-				</#list>
-			</div>
-		</div>
-	</div>
-</div>
+    <#macro comboOrders name default_value max >
+        <select id="${name}" name="${name}" class="input-xs form-control">
+            <#list 1..max as i>
+            <#if "${default_value}" == "${i}">
+            <option selected="selected" value="${i}" >${i}</option>
+            <#else>
+            <option value="${i}" >${i}</option>
+            </#if>
+            </#list>
+        </select>
+    </#macro>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="box box-danger">
+                <div class="box-header">
+                    <h3 class="box-title">#i18n{portal.features.manage_features.title}</h3>
+                    <div class="box-tools"></div>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="jsp/admin/features/DispatchFeatures.jsp" >
+                                #i18n{portal.features.manage_features.featureDispatch.label}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="jsp/admin/features/ManageGroups.jsp">#i18n{portal.features.manage_features.groupManagement.label}</a>
+                        </li>
+                    </ul>
+                    <#if no_group.feature_list?has_content && no_group.feature_list?size &gt; 1	 >
+                    <@featuresGroupDisplay groupDisplay=no_group />
+                    </#if>
+                    <#list feature_group_list as groupDisplay>
+                    <@featuresGroupDisplay groupDisplay=groupDisplay />
+                    </#list>
+                </div>
+            </div>
+        </div>
+    </div>

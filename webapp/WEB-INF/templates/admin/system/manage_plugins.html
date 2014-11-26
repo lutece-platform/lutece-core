@@ -1,137 +1,156 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-danger">
-			<div class="box-header">
-				<h3 class="box-title">Liste des plugins</h3>
-				<div class="box-tools">
-					<form method="post" name="" action="" class="form-inline pull-left">
-						<label for="plugin_type" class="sr-only"></label>
-						<input type="text" autocomplete="off" id="search_plugins" class="form-control input-xs" placeholder="#i18n{portal.system.manage_plugins.buttonFilter}">
-						<button type="submit" class="btn btn-primary btn-xs btn-flat" title="#i18n{portal.system.manage_plugins.buttonFilter}">
-							<i class="glyphicon glyphicon-filter"></i>
-						</button>
-						
-					</form>
-					<form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp" class="form-inline pull-right">
-						<label for="plugin_type">#i18n{portal.system.manage_plugins.labelComboFilter}</label>
-						<@comboSortedWithParams name="plugin_type" default_value="${current_filter}" additionalParameters="class=\"form-control input-xs\"" items=filter_list />
-						<button type="button" id="th" class="btn btn-primary btn-xs btn-flat spaced">
-							<i class="glyphicon glyphicon-th-list"></i>
-						</button>
-					</form>
-				</div>
-			</div><!-- /.box-header -->
-			<div class="box-body no-padding">
-				<div id="plugins" class="row">
-				<#if plugins_list?has_content >
-					<#list plugins_list as plugin >
-					<div class="col-md-4 plugins">
-						<div id="plugin_${plugin.name}_${plugin.version}" data-plugin="${plugin.name}" class="box plugin-box plugin">
-						<div class="box-header">
-							<h2 class="box-title">
-								<a name="${plugin.name}" href="javascript:return false;">
-									<img src="${plugin.iconUrl}" alt="logo" title="${plugin.name}" class="thumbnails thumb-list">
-								</a>	
-								${plugin.name}
-							</h2>
-                            <div class="box-tools pull-right">
-								<#if plugin.installed >
-									<span class="label label-success" title="#i18n{portal.system.manage_caches.imgAltEnable}">
-										<i class="glyphicon glyphicon-ok-sign"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltEnable}
-									</span>			
-								<#else>
-									<span class="label label-danger" title="#i18n{portal.system.manage_caches.imgAltDisable}">
-										<i class="glyphicon glyphicon-remove-sign"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltDisable}
-									</span>	
-								</#if>
-								
-							</div>
+        <div class="box box-danger">
+            <div class="box-header">
+                <h3 class="box-title">Liste des plugins</h3>
+                <div class="box-tools" style="margin-top:6px;">
+                    <form method="post" name="" action="" class="form-inline pull-left">
+                        <label for="plugin_type" class="sr-only"></label>
+                        <div class="input-group"> 
+                            <input type="text" autocomplete="off" id="search_plugins" class="form-control input-xs" placeholder="#i18n{portal.system.manage_plugins.buttonFilter}">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-primary btn-xs btn-flat" title="#i18n{portal.system.manage_plugins.buttonFilter}">
+                                    <i class="glyphicon glyphicon-filter"></i>
+                                </button>
+                            </span>
                         </div>
-                        <div class="box-body">
-							<p>#i18n{portal.system.manage_plugins.labelVersion}: ${plugin.version}</p>
-							<p>#i18n{${plugin.description}}</p>
-							<p>
-							<i class="glyphicon glyphicon-user"></i>&nbsp;
-								<em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}}</em>&nbsp;
-							</p>	
-							<p>	
-								<i class="glyphicon glyphicon-globe"></i>&nbsp;
-								<em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <a href="${plugin.providerUrl}" target="_blank">${plugin.providerUrl}</a></em>
-							</p> 
-						
-                        </div><!-- /.box-body -->
-                        <div class="box-footer">
-							<#if plugin.installed >
-								<#if plugin.dbPoolRequired >
-									<form method="post" class="form-inline pull-right" action="jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}">
-										<@comboSortedWithParams name="db_pool_name" default_value="${plugin.dbPoolName}" items=pools_list  additionalParameters="class=\"form-control input-sm\"" />
-										<input type="hidden" name="plugin_name" value="${plugin.name}">
-										<button type="submit" class="btn btn-primary btn-sm btn-flat" title="#i18n{portal.system.manage_plugins.buttonModifyDbPool}"  >
-											<i class="glyphicon glyphicon-ok"></i>
-										</button>
-									</form>
-									&nbsp;
-								</#if>   
-							</#if>
-							<form method="post" class="form-inline pull-right" action="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}">
-								<button type="submit" class="btn btn-primary btn-sm btn-flat spaced" href="" title="#i18n{portal.system.manage_plugins.actionDisplay}">
-								<i class="glyphicon glyphicon-info-sign"></i>
-								</button>
-							</form>
-							<#if plugin.installed >
-								<form method="post" class="form-inline pull-right" action="jsp/admin/system/ConfirmUninstallPlugin.jsp">
-									<input type="hidden" name="plugin_name" value="${plugin.name}" />
-									<button type="submit" class="btn btn-danger btn-sm btn-flat spaced" title="#i18n{portal.system.manage_plugins.buttonDisable}">
-										<i class="glyphicon glyphicon-stop"></i>
-									</button>
-								</form>
-							<#else>
-								<form method="post" class="form-inline pull-right" action="jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}" class="form-inline">
-									<input type="hidden" name="plugin_name" value="${plugin.name}" />
-									<button type="submit" class="btn btn-success btn-sm  btn-flat spaced" title="#i18n{portal.system.manage_plugins.buttonEnable}">
-										<i class="glyphicon glyphicon-play"></i>
-									</button>
-								</form>
-							</#if>
-                        </div><!-- /.box-footer-->
-                    </div>
+                    </form>
+                    <form method="post" name="FilterPluginsForm" action="jsp/admin/system/ManagePlugins.jsp" class="form-inline pull-right hidden-xs">
+                        <label for="plugin_type" class="hidden-sm">#i18n{portal.system.manage_plugins.labelComboFilter}</label>
+                        <div class="input-group">
+                            <@comboSortedWithParams name="plugin_type" default_value="${current_filter}" additionalParameters="class=\"form-control input-xs\"" items=filter_list />
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-primary btn-xs btn-flat spaced">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        
+                        <button type="button" id="th" class="btn btn-primary btn-xs btn-flat spaced">
+                            <i class="glyphicon glyphicon-th-list"></i>
+                        </button>
+                    </form>
+                </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <div id="plugins" class="row">
+                    <#if plugins_list?has_content >
+                    <#list plugins_list as plugin >
+                    <div class="col-md-4 plugins">
+                        <div id="plugin_${plugin.name}_${plugin.version}" data-plugin="${plugin.name}" class="box plugin-box plugin">
+                            <div class="box-header">
+                                <h2 class="box-title">
+                                    <a name="${plugin.name}" href="javascript:return false;">
+                                        <img src="${plugin.iconUrl}" alt="logo" title="${plugin.name}" class="thumbnails thumb-list">
+                                    </a>	
+                                    ${plugin.name}
+                                </h2>
+                                <div class="box-tools pull-right">
+                                    <#if plugin.installed >
+                                    <span class="label label-success" title="#i18n{portal.system.manage_caches.imgAltEnable}">
+                                        <i class="glyphicon glyphicon-ok-sign"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltEnable}
+                                    </span>			
+                                    <#else>
+                                    <span class="label label-danger" title="#i18n{portal.system.manage_caches.imgAltDisable}">
+                                        <i class="glyphicon glyphicon-remove-sign"></i>&nbsp;#i18n{portal.system.manage_caches.imgAltDisable}
+                                    </span>	
+                                    </#if>
 
-				</div>
-				</#list>	
-			</div>
-		
-		<#else>
-			<div class="alert alert-danger">#i18n{portal.system.manage_plugins.filterNoResult}</div>
-		</#if>
-		</div>
-		</div>
-	</div>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <p>#i18n{portal.system.manage_plugins.labelVersion}: ${plugin.version}</p>
+                                <p>#i18n{${plugin.description}}</p>
+                                <p>
+                                    <i class="glyphicon glyphicon-user"></i>&nbsp;
+                                    <em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}}</em>&nbsp;
+                                </p>	
+                                <p>	
+                                    <i class="glyphicon glyphicon-globe"></i>&nbsp;
+                                    <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <a href="${plugin.providerUrl}" target="_blank">${plugin.providerUrl}</a></em>
+                                </p> 
+
+                            </div><!-- /.box-body -->
+                            <div class="box-footer">
+                                <#if plugin.installed >
+                                <#if plugin.dbPoolRequired >
+                                <form method="post" class="form-inline pull-right" action="jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}">
+                                    <@comboSortedWithParams name="db_pool_name" default_value="${plugin.dbPoolName}" items=pools_list  additionalParameters="class=\"form-control input-sm\"" />
+                                    <input type="hidden" name="plugin_name" value="${plugin.name}">
+                                    <button type="submit" class="btn btn-primary btn-sm btn-flat" title="#i18n{portal.system.manage_plugins.buttonModifyDbPool}"  >
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </button>
+                                </form>
+                                &nbsp;
+                                </#if>   
+                                </#if>
+                                <form method="post" class="form-inline pull-right" action="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}">
+                                    <button type="submit" class="btn btn-primary btn-sm btn-flat spaced" href="" title="#i18n{portal.system.manage_plugins.actionDisplay}">
+                                        <i class="glyphicon glyphicon-info-sign"></i>
+                                    </button>
+                                </form>
+                                <#if plugin.installed >
+                                <form method="post" class="form-inline pull-right" action="jsp/admin/system/ConfirmUninstallPlugin.jsp">
+                                    <input type="hidden" name="plugin_name" value="${plugin.name}" />
+                                    <button type="submit" class="btn btn-danger btn-sm btn-flat spaced" title="#i18n{portal.system.manage_plugins.buttonDisable}">
+                                        <i class="glyphicon glyphicon-stop"></i>
+                                    </button>
+                                </form>
+                                <#else>
+                                <form method="post" class="form-inline pull-right" action="jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}" class="form-inline">
+                                    <input type="hidden" name="plugin_name" value="${plugin.name}" />
+                                    <button type="submit" class="btn btn-success btn-sm  btn-flat spaced" title="#i18n{portal.system.manage_plugins.buttonEnable}">
+                                        <i class="glyphicon glyphicon-play"></i>
+                                    </button>
+                                </form>
+                                </#if>
+                            </div><!-- /.box-footer-->
+                        </div>
+
+                    </div>
+                    </#list>	
+                </div>
+
+                <#else>
+                <div class="alert alert-danger">#i18n{portal.system.manage_plugins.filterNoResult}</div>
+                </#if>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-	/* Get list or box plugin's presentation */
-	$("#th").click( function(){
-		var addOrRemove;
-		$(".plugins").toggleClass("col-md-12", addOrRemove ).toggleClass("col-md-4", addOrRemove);
-		$(".box").toggleClass("pull-left", addOrRemove );
-		$(".plugin-box").toggleClass("plugin", addOrRemove );
-		$(".plugin-box > div").toggleClass("pull-left", addOrRemove ).toggleClass("col-md-4", addOrRemove );
-		$(this).children().toggleClass("glyphicon-th-list", addOrRemove).toggleClass("glyphicon-th", addOrRemove);
-	});
-	
-	/* Filter plugins list */
-	$("#search_plugins").on("keyup", function(){
-		var addOrRemove;
-		var search = $("#search_plugins").val();
-		$(".plugin-box").each( function( index ) {
-			var pluginName = $(this).attr("data-plugin");
-			if ( pluginName.match( search ) == null ){
-				console.log( search + "|" + pluginName + " | " + pluginName.match( search ) );
-				$(this).parent().slideUp(200).fadeOut(500);
-			} else {
-				console.log( search + "|" + pluginName + " | " + pluginName.match( search ) );
-				$(this).parent().slideDown(200).fadeIn(500);
-			}
-		});
-	});
+    function switchList(){
+        var addOrRemove;
+        $(".plugins").toggleClass("col-md-12", addOrRemove).toggleClass("col-md-4", addOrRemove);
+        $(".box").toggleClass("pull-left", addOrRemove);
+        $(".plugin-box").toggleClass("plugin", addOrRemove);
+        $(".plugin-box > div").toggleClass("pull-left", addOrRemove).toggleClass("col-md-4", addOrRemove);
+        $(this).children().toggleClass("glyphicon-th-list", addOrRemove).toggleClass("glyphicon-th", addOrRemove);
+    }
+    
+    /* Get list or box plugin's presentation */
+    $("#th").click( function(){
+        switchList();
+    });
+    
+    /* Filter plugins list */
+    $("#search_plugins").on("keyup", function () {
+        var addOrRemove;
+        var search = $("#search_plugins").val();
+        $(".plugin-box").each(function (index) {
+            var pluginName = $(this).attr("data-plugin");
+            if (pluginName.match(search) == null) {
+                console.log(search + "|" + pluginName + " | " + pluginName.match(search));
+                $(this).parent().slideUp(200).fadeOut(500);
+            } else {
+                console.log(search + "|" + pluginName + " | " + pluginName.match(search));
+                $(this).parent().slideDown(200).fadeIn(500);
+            }
+        });
+    });
+    
+    $(document).ready( function(){
+         switchList();
+    });
 </script>
