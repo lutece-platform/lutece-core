@@ -24,9 +24,9 @@ INSERT INTO core_user_parameter VALUES ('account_reactivated_mail_subject', 'Vot
 -- Table structure for table core_datastore
 --
 CREATE TABLE core_datastore (		
-        entity_key VARCHAR(255) NOT NULL,
-        entity_value LONG VARCHAR,
-        PRIMARY KEY (entity_key)  
+    entity_key VARCHAR(255) NOT NULL,
+    entity_value TEXT,
+    PRIMARY KEY (entity_key)  
 );
 
 INSERT INTO core_datastore VALUES ('core_banned_domain_names', 'yopmail.com');
@@ -34,7 +34,7 @@ INSERT INTO core_datastore VALUES ('core_banned_domain_names', 'yopmail.com');
 DROP TABLE IF EXISTS core_template;
 CREATE TABLE core_template (
   template_name VARCHAR(100) NOT NULL,
-  template_value LONG VARCHAR NULL,
+  template_value TEXT,
   PRIMARY KEY (template_name)
   );
   
@@ -131,7 +131,7 @@ DROP TABLE IF EXISTS core_admin_user_preferences;
 CREATE TABLE core_admin_user_preferences (		
         id_user VARCHAR(100) NOT NULL,
         pref_key VARCHAR(100) NOT NULL,
-        pref_value LONG VARCHAR,
+        pref_value TEXT,
         PRIMARY KEY ( id_user , pref_key)  
 );
 
@@ -145,7 +145,7 @@ DROP TABLE IF EXISTS core_user_preferences;
 CREATE TABLE core_user_preferences (		
         id_user VARCHAR(100) NOT NULL,
         pref_key VARCHAR(100) NOT NULL,
-        pref_value LONG VARCHAR,
+        pref_value TEXT,
         PRIMARY KEY ( id_user , pref_key)  
 );
 
