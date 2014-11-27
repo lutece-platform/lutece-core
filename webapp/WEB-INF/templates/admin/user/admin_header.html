@@ -1,9 +1,11 @@
-<header class="header" role="banner" data-menu="#dskey{portal.site.site_property.menu.position}">
+<header class="header" role="banner" data-menu="top">
+<!-- header class="header" role="banner" data-menu="#dskey{portal.site.site_property.menu.position}" -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-left">
                 <li>
-                    <a href="#" class="toggle-nav visible-xs menu-#dskey{portal.site.site_property.menu.position}" id="menu-#dskey{portal.site.site_property.menu.position}">
+                    <!-- a href="#" class="toggle-nav visible-xs menu-#dskey{portal.site.site_property.menu.position}" id="menu-#dskey{portal.site.site_property.menu.position}" -->
+                    <a href="#" class="toggle-nav visible-xs menu-top" id="menu-top">
                         MENU <span class="fa fa-bars"></span>
                     </a>
                 </li>
@@ -18,11 +20,7 @@
                 </#if>
                 &nbsp;<span class="fa fa-external-link hidden-xs" title="External Link"></span>
             </a>
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="fa fa-bars"></span>
-            </button>
-            <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand visible-xs pull-left">
+            <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand visible-xs visible-sm visible-md pull-left">
                 <img src="#dskey{portal.site.site_property.logo_url}" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"><small> ${site_name}</small>
             </a>
             <ul class="nav navbar-nav navbar-right user visible-xs">
@@ -108,7 +106,6 @@
                 </li>
                 </#list>
             </ul>
-
         </div>
         <ul class="nav navbar-nav navbar-right user hidden-xs">
             <li class="home hidden-xs">
@@ -143,7 +140,7 @@
                                 <#if current_language==lang.code>
                                 <span class="label label-success">
                                     </#if>	
-                                    <a  href="jsp/admin/DoChangeLanguage.jsp?language=${lang.code}">
+                                    <a href="jsp/admin/DoChangeLanguage.jsp?language=${lang.code}">
                                         ${lang.name}&nbsp;
                                     </a>
                                     <#if current_language==lang.code>

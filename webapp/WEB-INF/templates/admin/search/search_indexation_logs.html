@@ -1,11 +1,17 @@
 <div class="row">
-    <div class="container">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <h2>#i18n{portal.search.indexer_logs.titleIndexerLogs}</h2>
-            <pre>${logs}</pre>  
-			<button class="btn btn-default btn-sm" type="button" onclick="javascript:window.history.back();" >
-                <i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}
-            </button>
-        </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="box box-danger">
+            <div class="box-header">
+                <h3 class="box-title">#i18n{portal.search.indexer_logs.titleIndexerLogs}</h3>
+            </div>
+            <div class="box-body">
+                <div class="jumbotron">    
+                <pre class="">${logs}</pre>  
+		<button class="btn btn-default btn-sm" type="button" onclick="javascript:window.history.back();" >
+                    <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;#i18n{portal.util.labelBack}
+                 </button>
+                 </div>
+            </div>
+        </div>    
     </div>
 </div>

@@ -85,18 +85,9 @@ body > .header .navbar span#zone4{ min-width:180px;display:inline-block;}
 /* TOGGLE NAV
 -------------------------------------------------*/
 #nav {width: 320px; height: 100%;background: #fff; position:absolute; padding:0 5px; left: -325px; top: 0;    
-    -webkit-transition:.5s ease all;
-   -moz-transition:.5s ease all;
-     -o-transition:.5s ease all;
-        transition:.5s ease all;
- 
+    -webkit-transition:.5s ease all;-moz-transition:.5s ease all;-o-transition:.5s ease all;transition:.5s ease all;
    /* By default, rotate the menu 90deg inwards */
-    -webkit-transform:rotateY(-90deg);
-   -moz-transform:rotateY(-90deg);
-    -ms-transform:rotateY(-90deg);
-     -o-transform:rotateY(-90deg);
-        transform:rotateY(-90deg);
-}
+    -webkit-transform:rotateY(-90deg);-moz-transform:rotateY(-90deg);-ms-transform:rotateY(-90deg); -o-transform:rotateY(-90deg); transform:rotateY(-90deg);}
 #nav h2#title:hover{cursor:pointer;}
 /* #bars{font-size: 34px;margin-left:49px;color:#fff;} */
 #toggle {list-style: none;margin-top: 40px;padding:0;}
@@ -117,6 +108,63 @@ span.the-btn {float: right;font-size: 20px;height: 30px;width: 43px;margin-top: 
 @keyframes fadeAnimation { from { opacity: 0;}  to { opacity: 1; } }
 @-webkit-keyframes fadeAnimation { from {  opacity: 0; } to {  opacity: 1; }}
 
+
+/* -------------------------------- 
+
+Menu droite
+
+-------------------------------- */
+
+/* -------------------------------- 
+
+Modules - reusable parts of our design
+
+-------------------------------- */
+.overflow-hidden { overflow: hidden;}
+
+#cd-lateral-nav { position: fixed; height: 100%; right: 0; top:4%; visibility: hidden;
+  /* the secondary navigation is covered by the main element */
+  z-index: 1; width: 260px; background-color: #242e30; overflow-y: auto;
+  /* Force Hardware Acceleration in WebKit */
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -webkit-transition: -webkit-transform .4s 0s, visibility 0s .4s;
+  -moz-transition: -moz-transform .4s 0s, visibility 0s .4s;
+  transition: transform .4s 0s, visibility 0s .4s;
+  /* this creates the subtle slide in animation of the navigation */
+  -webkit-transform: translateX(80px);
+  -moz-transform: translateX(80px);
+  -ms-transform: translateX(80px);
+  -o-transform: translateX(80px);
+  transform: translateX(80px);
+}
+#cd-lateral-nav .cd-navigation { margin: 0 5px;}
+#cd-lateral-nav .sub-menu { padding: 0; display: none;}
+#cd-lateral-nav a { display: block; line-height: 2em; padding: 0; color: #aab5b7;}
+#cd-lateral-nav a.current { background-color: #3a4a4d; color: #FFF;}
+.no-touch #cd-lateral-nav a:hover { color: #FFF;}
+@media only screen and (min-width: 768px) { 
+	#cd-lateral-nav .cd-navigation { margin:10px -20px;}
+}
+#cd-lateral-nav.lateral-menu-is-open {
+  visibility: visible;
+ -webkit-transform: translateX(0);-moz-transform: translateX(0); -ms-transform: translateX(0); -o-transform: translateX(0); transform: translateX(0);
+  -webkit-transition: -webkit-transform .4s 0s, visibility 0s 0s; -moz-transition: -moz-transform .4s 0s, visibility 0s 0s; transition: transform .4s 0s, visibility 0s 0s;
+  /* smooth the scrolling on touch devices - webkit browsers */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* style menu items which have a submenu  */
+#cd-lateral-nav .item-has-children > a {position: relative; text-transform: uppercase; font-weight: 600;  /* this is the right arrow to show that the item has a submenu  */}
+#cd-lateral-nav .item-has-children > a::after {content: '';display: block;height: 11px;width: 8px; position: absolute; top: 50%; bottom: auto; right:0.5em; -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);-ms-transform: translateY(-50%);-o-transform: translateY(-50%);transform: translateY(-50%);
+  -webkit-transition-property: -webkit-transform;-moz-transition-property: -moz-transform;transition-property: transform; 
+  -webkit-transition-duration: 0.2s; -moz-transition-duration: 0.2s; transition-duration: 0.2s;
+}
+#cd-lateral-nav .item-has-children > a.submenu-open::after {
+  -webkit-transform: translateY(-50%) rotate(90deg);-moz-transform: translateY(-50%) rotate(90deg);-ms-transform: translateY(-50%) rotate(90deg);-o-transform: translateY(-50%) rotate(90deg);transform: translateY(-50%) rotate(90deg);
+}
+
 /* 
 	Header
 ----------------------------
@@ -130,7 +178,6 @@ span.the-btn {float: right;font-size: 20px;height: 30px;width: 43px;margin-top: 
 */
 #footer{background: none repeat scroll 0 0 #000;color: #fff;margin-bottom:0;}
 #footer > a{color: #fff;font-size:80%;}
-
 
 /* 
 	Helpers classes
@@ -317,6 +364,9 @@ div.box-upload {min-height:100px;}
 .swfupload {vertical-align : top;position : absolute;z-index : 1;}
 
 
+
+
+
 /*==================================================
 =            Bootstrap 3 Media Queries             =
 ==================================================*/
@@ -335,7 +385,7 @@ div.box-upload {min-height:100px;}
 
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
-	.bs-fixed-body{padding-top:70px;}
+    .bs-fixed-body{padding-top:70px;}
 }
 
 /* Medium Devices, Desktops */
@@ -358,112 +408,37 @@ div.box-upload {min-height:100px;}
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width : 992px) {
-	
+    .navbar-nav > .user-menu > .dropdown-menu {left: -175px;width: 220px;}
 }
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : 768px) {
-	
-	#admin-wrapper > .content-header > .breadcrumb { position: relative;margin-top: 5px;top: 0;right: 0;float: none;background: #efefef;}
-	.navbar .navbar-nav > li {float: left;}
-	.navbar-nav {margin: 0;float: left;}
-	.navbar-nav > li > a {padding-top: 15px;padding-bottom: 15px;line-height: 20px;}
-	.navbar .navbar-right {float: right;}
-	#cd-lateral-nav{margin-top:25px;}
+    #admin-wrapper {margin-top: 75px;}
+    #admin-wrapper > .content-header > .breadcrumb { position: relative;margin-top: 25px;top: 0;right: 0;float: none;background: #efefef;}
+    .navbar .navbar-nav > li {float: left;}
+    .navbar-nav {margin: 0;float: left;}
+    .navbar-nav > li > a {padding-top: 15px;padding-bottom: 15px;line-height: 20px;}
+    .navbar .navbar-right {float: right;}
+    #cd-lateral-nav{margin-top:25px;}
 }
 
 @media screen and (max-width: 560px) {
-	body > .header {position: relative; }
-	body > .header .logo,body > .header .navbar {position: relative!important;}
-	body > .header .navbar {margin: 0;}
+    body > .header {position: relative; }
+    body > .header .logo,body > .header .navbar {position: relative!important;}
+    body > .header .navbar {margin: 0;}
 }
 
 /* Extra Small Devices, Phones */ 
 @media only screen and (max-width : 480px) {
-	.navbar-nav > .tasks-menu {width: 100%;}	
-	.navbar-nav > .tasks-menu > .dropdown-menu {-webkit-border-radius: 0 !important;-moz-border-radius: 0!important;border-radius: 0 !important;}	
-	.navbar-nav > .tasks-menu > .dropdown-menu {position:relative;top:0;left:0;width:100%;}
-	.navbar-nav > .tasks-menu > .dropdown-menu:after {border-bottom-color: #ffffff;border-width: 0px;	margin-left: 0px;}
-	.navbar-nav > .user-menu > .dropdown-menu {left: -175px;width: 220px;	}
-	.btn-toolbar{margin:0 auto;width:100%;}
+    #admin-wrapper {margin-top: 50px;}    
+    .navbar-nav > .tasks-menu {width: 100%;}	
+    .navbar-nav > .tasks-menu > .dropdown-menu {-webkit-border-radius: 0 !important;-moz-border-radius: 0!important;border-radius: 0 !important;}	
+    .navbar-nav > .tasks-menu > .dropdown-menu {position:relative;top:0;left:0;width:100%;}
+    .navbar-nav > .tasks-menu > .dropdown-menu:after {border-bottom-color: #ffffff;border-width: 0px;	margin-left: 0px;}
+    .btn-toolbar{margin:0 auto;width:100%;}
 }
 
 /* Custom, iPhone Retina */ 
 @media only screen and (max-width : 320px) {
     .header .navbar-header .navbar-brand small{display:none;}
 }
-
-/* -------------------------------- 
-
-Menu droite
-
--------------------------------- */
-
-/* -------------------------------- 
-
-Modules - reusable parts of our design
-
--------------------------------- */
-.overflow-hidden { overflow: hidden;}
-
-#cd-lateral-nav { position: fixed; height: 100%; right: 0; top:4%; visibility: hidden;
-  /* the secondary navigation is covered by the main element */
-  z-index: 1; width: 260px; background-color: #242e30; overflow-y: auto;
-  /* Force Hardware Acceleration in WebKit */
-  -webkit-transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  -webkit-transition: -webkit-transform .4s 0s, visibility 0s .4s;
-  -moz-transition: -moz-transform .4s 0s, visibility 0s .4s;
-  transition: transform .4s 0s, visibility 0s .4s;
-  /* this creates the subtle slide in animation of the navigation */
-  -webkit-transform: translateX(80px);
-  -moz-transform: translateX(80px);
-  -ms-transform: translateX(80px);
-  -o-transform: translateX(80px);
-  transform: translateX(80px);
-}
-#cd-lateral-nav .cd-navigation { margin: 0 5px;}
-#cd-lateral-nav .sub-menu { padding: 0; display: none;}
-#cd-lateral-nav a { display: block; line-height: 2em; padding: 0; color: #aab5b7;}
-#cd-lateral-nav a.current { background-color: #3a4a4d; color: #FFF;}
-.no-touch #cd-lateral-nav a:hover { color: #FFF;}
-@media only screen and (min-width: 768px) { 
-	#cd-lateral-nav .cd-navigation { margin:10px -20px;}
-}
-#cd-lateral-nav.lateral-menu-is-open {
-  visibility: visible;
- -webkit-transform: translateX(0);
-  -moz-transform: translateX(0);
-  -ms-transform: translateX(0);
-  -o-transform: translateX(0);
-  transform: translateX(0);
-  -webkit-transition: -webkit-transform .4s 0s, visibility 0s 0s;
-  -moz-transition: -moz-transform .4s 0s, visibility 0s 0s;
-  transition: transform .4s 0s, visibility 0s 0s;
-  /* smooth the scrolling on touch devices - webkit browsers */
-  -webkit-overflow-scrolling: touch;
-}
-
-/* style menu items which have a submenu  */
-#cd-lateral-nav .item-has-children > a {position: relative; text-transform: uppercase; font-weight: 600;  /* this is the right arrow to show that the item has a submenu  */}
-#cd-lateral-nav .item-has-children > a::after {content: '';display: block;height: 11px;width: 8px; position: absolute; top: 50%; bottom: auto; right:0.5em; -webkit-transform: translateY(-50%);
-  -moz-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -o-transform: translateY(-50%);
-  transform: translateY(-50%);
-  -webkit-transition-property: -webkit-transform;
-  -moz-transition-property: -moz-transform;
-  transition-property: transform;
-  -webkit-transition-duration: 0.2s;
-  -moz-transition-duration: 0.2s;
-  transition-duration: 0.2s;
-}
-#cd-lateral-nav .item-has-children > a.submenu-open::after {
-  -webkit-transform: translateY(-50%) rotate(90deg);
-  -moz-transform: translateY(-50%) rotate(90deg);
-  -ms-transform: translateY(-50%) rotate(90deg);
-  -o-transform: translateY(-50%) rotate(90deg);
-  transform: translateY(-50%) rotate(90deg);
-}
-
-

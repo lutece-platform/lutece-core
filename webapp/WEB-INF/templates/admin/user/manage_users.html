@@ -41,10 +41,8 @@
                             </#if>
                         </select>
                     </#if>
-                    <!--
-                    <label for="access_code" >#i18n{portal.users.manage_users.search_users.labelAccessCode}</label>
-                    <input type="text" id="access_code" class="form-control input-xs" name="search_access_code" value="${search_admin_user_filter.accessCode}" />
-                    -->
+                    <label for="access_code" class="hidden-xs hidden-sm">#i18n{portal.users.manage_users.search_users.labelAccessCode}</label>
+                    <input type="text" id="access_code" class="form-control input-xs hidden-xs hidden-sm" name="search_access_code" value="${search_admin_user_filter.accessCode}" />
                     <label for="last_name" class="hidden-xs hidden-sm">#i18n{portal.users.manage_users.search_users.labelLastName}</label>
                     <input type="text" id="last_name" class="form-control input-xs hidden-xs hidden-sm" name="search_last_name" value="${search_admin_user_filter.lastName}" maxlength="100" size="35" tabindex="2" />
                     <label for="first_name" class="hidden-xs hidden-sm">#i18n{portal.users.manage_users.search_users.labelFirstName}</label>
