@@ -88,8 +88,7 @@ public final class PortletDAO implements IPortletDAO
         " b.url_creation, b.url_update, a.date_update, a.column_no, a.portlet_order, " +
         " b.home_class, a.accept_alias , a.role , b.plugin_name , a.display_portlet_title, a.status , a.device_display_flags " +
         " FROM core_portlet a , core_portlet_type b WHERE a.id_portlet_type = b.id_portlet_type ORDER BY a.date_update DESC LIMIT 1 ";
-    private static final String SQL_QUERY_SELECT_PORTLET_ID_BY_ORDER_AND_COLUMN = "SELECT id_portlet FROM core_portlet WHERE portlet_order = ? AND column_no = ? ";
-    private static final String SQL_QUERY_UPDATE_PORTLET_ORDER = "UPDATE core_portlet SET portlet_order = ? WHERE id_portlet = ?";
+    private static final String SQL_QUERY_SELECT_ORDER_FROM_PAGE_AND_COLUMN = " SELECT portlet_order FROM core_portlet WHERE column_no = ? AND id_page = ?  ORDER BY portlet_order";
 
     ///////////////////////////////////////////////////////////////////////////////////////
     //Access methods to data
@@ -529,34 +528,23 @@ public final class PortletDAO implements IPortletDAO
     /**
      * {@inheritDoc}
      */
-    public Collection<Integer> selectPortletIdByOrderAndColumn( int nPortletOrder, int nColumnNumber )
+    @Override
+    public List<Integer> getUsedOrdersForColumns( int pageId, int columnId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_ID_BY_ORDER_AND_COLUMN );
-        daoUtil.setInt( 1, nPortletOrder );
-        daoUtil.setInt( 2, nColumnNumber );
-        daoUtil.executeQuery(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ORDER_FROM_PAGE_AND_COLUMN );
+        daoUtil.setInt( 1, columnId );
+        daoUtil.setInt( 2, pageId );
 
-        List<Integer> list = new ArrayList<Integer>(  );
+        List<Integer> result = new ArrayList<Integer>(  );
+        daoUtil.executeQuery(  );
 
         while ( daoUtil.next(  ) )
         {
-            list.add( daoUtil.getInt( 1 ) );
+            result.add( daoUtil.getInt( 1 ) );
         }
 
         daoUtil.free(  );
 
-        return list;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void storePortletOrder( int nIdPortletToShift, int nNewOrder )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PORTLET_ORDER );
-        daoUtil.setInt( 1, nNewOrder );
-        daoUtil.setInt( 2, nIdPortletToShift );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        return result;
     }
 }

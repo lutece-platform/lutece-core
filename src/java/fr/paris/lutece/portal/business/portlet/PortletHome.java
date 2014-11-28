@@ -52,7 +52,6 @@ import java.util.List;
 public abstract class PortletHome implements PortletHomeInterface
 {
     private static final String PROPERTY_PORTLET_CREATION_STATUS = "lutece.portlet.creation.status";
-    private static final String PROPERTY_LIST_ORDER_MAX = "list.order.max";
     private static final int CONSTANT_DEFAULT_STATUS = Portlet.STATUS_PUBLISHED;
 
     // Static variable pointed at the DAO instance
@@ -165,21 +164,7 @@ public abstract class PortletHome implements PortletHomeInterface
         portlet.setStatus( AppPropertiesService.getPropertyInt( PROPERTY_PORTLET_CREATION_STATUS,
                 CONSTANT_DEFAULT_STATUS ) );
 
-        // Shift existing portlets order
-        int nOrderMax = AppPropertiesService.getPropertyInt( PROPERTY_LIST_ORDER_MAX, 15 );
-        int nColumnNumber = portlet.getColumn(  );
-
-        for ( int i = nOrderMax; i > ( portlet.getOrder(  ) - 1 ); i-- )
-        {
-            Collection<Integer> lIdsPortletToShift = PortletHome.getPortletIdByOrderAndColumn( i, nColumnNumber );
-
-            for ( Integer nIdPortletToShift : lIdsPortletToShift )
-            {
-                PortletHome.updatePortletOrder( nIdPortletToShift.intValue(  ), i + 1 );
-            }
-        }
-
-        // Creation of the portlet child
+       // Creation of the portlet child
         getDAO(  ).insert( portlet );
 
         // Creation of the portlet parent
@@ -191,15 +176,7 @@ public abstract class PortletHome implements PortletHomeInterface
         return portlet;
     }
 
-    /**
-     * Set portlet order for given id
-     * @param nIdPortletToShift the id of portlet to modify
-     * @param nNewOrder the new order
-     */
-    private static void updatePortletOrder( int nIdPortletToShift, int nNewOrder )
-    {
-        _dao.storePortletOrder( nIdPortletToShift, nNewOrder );
-    }
+  
 
     /**
      * Recovery of an identifier for the new portlet
@@ -218,26 +195,7 @@ public abstract class PortletHome implements PortletHomeInterface
      */
     public synchronized void remove( Portlet portlet )
     {
-        // Shifting existing portlets order, if current portlet is the last with its order
-        int nColumnNumber = portlet.getColumn(  );
-        Collection<Integer> lIdsPortletWithOrder = PortletHome.getPortletIdByOrderAndColumn( portlet.getOrder(  ),
-                nColumnNumber );
-
-        if ( lIdsPortletWithOrder.size(  ) == 1 )
-        {
-            int nOrderMax = AppPropertiesService.getPropertyInt( PROPERTY_LIST_ORDER_MAX, 15 );
-
-            for ( int i = portlet.getOrder(  ) + 1; i <= nOrderMax; i++ )
-            {
-                Collection<Integer> lIdsPortletToShift = PortletHome.getPortletIdByOrderAndColumn( i, nColumnNumber );
-
-                for ( Integer nIdPortletToShift : lIdsPortletToShift )
-                {
-                    PortletHome.updatePortletOrder( nIdPortletToShift.intValue(  ), i - 1 );
-                }
-            }
-        }
-
+       
         // Deleting of the portlet child
         getDAO(  ).delete( portlet.getId(  ) );
 
@@ -255,36 +213,7 @@ public abstract class PortletHome implements PortletHomeInterface
      */
     public void update( Portlet portlet )
     {
-        // Shift existing portlets order
-        Portlet oldPortlet = PortletHome.findByPrimaryKey( portlet.getId(  ) );
-        int nOldOrder = oldPortlet.getOrder(  );
-        int nNewOrder = portlet.getOrder(  );
-        int nColumnNumber = portlet.getColumn(  );
-
-        if ( nNewOrder < nOldOrder )
-        {
-            for ( int i = nOldOrder - 1; i > ( nNewOrder - 1 ); i-- )
-            {
-                Collection<Integer> lIdsPortletToShift = PortletHome.getPortletIdByOrderAndColumn( i, nColumnNumber );
-
-                for ( Integer nIdPortletToShift : lIdsPortletToShift )
-                {
-                    PortletHome.updatePortletOrder( nIdPortletToShift.intValue(  ), i + 1 );
-                }
-            }
-        }
-        else if ( nNewOrder > nOldOrder )
-        {
-            for ( int i = nOldOrder; i < ( nNewOrder + 1 ); i++ )
-            {
-                Collection<Integer> lIdsPortletToShift = PortletHome.getPortletIdByOrderAndColumn( i, nColumnNumber );
-
-                for ( Integer nIdPortletToShift : lIdsPortletToShift )
-                {
-                    PortletHome.updatePortletOrder( nIdPortletToShift.intValue(  ), i - 1 );
-                }
-            }
-        }
+        
 
         getDAO(  ).store( portlet );
         _dao.store( portlet );
@@ -405,15 +334,17 @@ public abstract class PortletHome implements PortletHomeInterface
             listener.processPortletEvent( event );
         }
     }
-
+    
     /**
-     * Search the portlets id by their order and column
-     * @return the ids of given order and column
-     * @param nPortletOrder the portlet order
-     * @param nColumnNumber the portlet column
+     * Get list of used orders for a column
+     * @param pageId the page id
+     * @param columnId the column id
+     * @return list of orders used for this column
      */
-    public static Collection<Integer> getPortletIdByOrderAndColumn( int nPortletOrder, int nColumnNumber )
+    public static List<Integer> getUsedOrdersForColumns( int pageId, int columnId )
     {
-        return _dao.selectPortletIdByOrderAndColumn( nPortletOrder, nColumnNumber );
+        return _dao.getUsedOrdersForColumns( pageId, columnId );
     }
+
+    
 }

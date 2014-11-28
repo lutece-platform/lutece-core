@@ -168,19 +168,13 @@ public interface IPortletDAO
      * @return the last modified {@link Portlet}
      */
     Portlet loadLastModifiedPortlet(  );
-
+    
     /**
-     * Returns a portlet identifier for given order
-     * @return The portlet id
-     * @param nPortletOrder The order number
-     * @param nColumnNumber TODO
+     * Get list of used orders for a column
+     * @param pageId the page id
+     * @param columnId the column id
+     * @return list of orders used for this column
      */
-    Collection<Integer> selectPortletIdByOrderAndColumn( int nPortletOrder, int nColumnNumber );
+    List<Integer> getUsedOrdersForColumns( int pageId, int columnId );
 
-    /**
-     * Set portlet order for given id
-     * @param nIdPortletToShift the id of portlet to modify
-     * @param nNewOrder the new order
-     */
-    void storePortletOrder( int nIdPortletToShift, int nNewOrder );
 }
