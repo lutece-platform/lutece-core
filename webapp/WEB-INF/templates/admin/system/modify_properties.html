@@ -17,7 +17,7 @@
                             <#if property.key?ends_with( ".textblock" )>
                             <textarea name="${property.key}" id="${property.key}" class="form-control input-sm">${property.value?html}</textarea>
                             <#elseif property.key?ends_with( ".htmlblock") >
-                            <textarea name="${property.key}" id="${property.key}" class="richtext form-control">${property.value?html}</textarea>
+                            <textarea name="${property.key}" id="${property.key}" class="richtext">${property.value?html}</textarea>
                             <#else>
                             <input type="text" name="${property.key}" id="${property.key}" value="${property.value?html}"  class="form-control input-sm">
                             </#if>
@@ -45,3 +45,5 @@
         </div>
     </div>
 </div>
+<#include "/admin/util/editor/editor.html" />
+<@initEditor />
