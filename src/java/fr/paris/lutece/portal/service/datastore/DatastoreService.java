@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.datastore;
 import fr.paris.lutece.portal.business.datastore.DataEntity;
 import fr.paris.lutece.portal.business.datastore.DataEntityHome;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.template.FreeMarkerTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.NoDatabaseException;
@@ -53,8 +54,9 @@ public final class DatastoreService
 {
     public static final String VALUE_TRUE = "true";
     public static final String VALUE_FALSE = "false";
-    private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile( "#dskey\\{(.*?)\\}" );
-    private static final String VALUE_MISSING = "DS Value Missing";
+    private static final String DATASTORE_KEY = "dskey";
+    private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile( "#" + DATASTORE_KEY + "\\{(.*?)\\}" );
+    static final String VALUE_MISSING = "DS Value Missing";
     private static AbstractCacheableService _cache;
     private static boolean _bDatabase = true;
 
@@ -63,6 +65,14 @@ public final class DatastoreService
      */
     private DatastoreService(  )
     {
+    }
+
+    /**
+     * initialize the service
+     */
+    public static void init(  )
+    {
+    	FreeMarkerTemplateService.getInstance( ).setSharedVariable( DATASTORE_KEY, new DatastoreTemplateMethod( ) );
     }
 
     /**
