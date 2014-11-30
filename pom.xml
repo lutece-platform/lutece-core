@@ -298,9 +298,9 @@
     </build>
 
     <scm>
-        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/core</connection>
-        <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/core</developerConnection>
-        <url>http://dev.lutece.paris.fr/viewvc/lutece/portal/trunk/core/</url>
+        <connection>scm:git:https://github.com/lutece-platform/lutece-core.git</connection>
+        <developerConnection>scm:git:https://github.com/lutece-platform/lutece-core.git</developerConnection>
+        <url>https://github.com/lutece-platform/lutece-core.git</url>
     </scm>
 
     <distributionManagement>
