@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUse
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.init.AppInfo;
@@ -81,6 +82,8 @@ public class AdminMenuJspBean implements Serializable
     /////////////////////////////////////////////////////////////////////////////////
     // Constants
     public static final String PROPERTY_LOGOUT_URL = "lutece.admin.logout.url";
+    public static final String PROPERTY_MENU_DEFAULT_POS = "top";
+    public static final String PROPERTY_MENU_DATASTORE_POS = "portal.site.site_property.menu.position";
     private static final long serialVersionUID = -8939026727319948581L;
 
     // Markers
@@ -92,6 +95,7 @@ public class AdminMenuJspBean implements Serializable
     private static final String MARK_ADMIN_LOGOUT_URL = "admin_logout_url";
     private static final String MARK_ADMIN_SUMMARY_DOCUMENTATION_URL = "admin_summary_documentation_url";
     private static final String MARK_SITE_NAME = "site_name";
+    private static final String MARK_MENU_POS = "menu_pos";
     private static final String MARK_MODIFY_PASSWORD_URL = "url_modify_password";
     private static final String MARK_DASHBOARD_ZONE = "dashboard_zone_";
 
@@ -136,6 +140,7 @@ public class AdminMenuJspBean implements Serializable
         // Displays the menus accroding to the rights of the users
         model.put( Markers.VERSION, strVersion );
         model.put( MARK_SITE_NAME, strSiteName );
+        model.put( MARK_MENU_POS, DatastoreService.getInstanceDataValue(PROPERTY_MENU_DATASTORE_POS, PROPERTY_MENU_DEFAULT_POS) );
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
         model.put( MARK_ADMIN_URL, AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl(  ) );
         model.put( MARK_USER, user );
