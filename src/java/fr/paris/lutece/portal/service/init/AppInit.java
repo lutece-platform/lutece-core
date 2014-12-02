@@ -131,6 +131,9 @@ public final class AppInit
             // Initializes the template services from the servlet context information
             AppTemplateService.init( PATH_TEMPLATES );
 
+            // Initializes the Datastore Service
+            DatastoreService.init(  );
+
             if ( strRealPath != null )
             {
                 // Initializes the properties download files containing the
