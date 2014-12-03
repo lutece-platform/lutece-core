@@ -80,6 +80,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     private static final String MARK_FEATURE_TITLE = "feature_title";
     private static final String MARK_FEATURE_ICON = "feature_icon";
     private static final String MARK_FEATURE_DOCUMENTATION = "feature_documentation";
+    private static final String MARK_FEATURE_GROUP = "feature_group";
     private static final String MARK_PAGE_TITLE = "page_title";
     private static final String MARK_PAGE_CONTENT = "page_content";
 
@@ -92,6 +93,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     private String _strFeatureUrl;
     private String _strFeatureIcon;
     private String _strFeatureDocumentation;
+    private String _strFeatureGroup;
     private String _strPageTitleKey;
     private Locale _locale;
     private AdminUser _user;
@@ -129,6 +131,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
         _strFeatureUrl = right.getUrl(  );
         _strFeatureIcon = right.getIconUrl(  );
         _strFeatureDocumentation = right.getDocumentationUrl(  );
+	_strFeatureGroup = right.getFeatureGroup();
     }
 
     /**
@@ -197,6 +200,16 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
         _strFeatureIcon = strFeatureIcon;
     }
 
+	    
+    /**
+     * Sets the feature group
+     * @param strFeatureGroup the feature group
+     */
+    public void setFeatureGroup( String strFeatureGroup )
+    {
+        _strFeatureGroup = strFeatureGroup;
+    }
+	
     /**
      * Get the admin page from a content data
      *
@@ -222,7 +235,8 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
         }
 
         rootModel.put( MARK_FEATURE_DOCUMENTATION, strDocumentationUrl );
-
+	rootModel.put( MARK_FEATURE_GROUP, _strFeatureGroup );
+		
         rootModel.put( MARK_PAGE_TITLE, getPageTitle(  ) );
         rootModel.put( MARK_PAGE_CONTENT, strContent );
 
