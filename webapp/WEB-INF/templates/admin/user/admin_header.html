@@ -9,12 +9,12 @@
                 </li>
             </ul>	
             <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="logo navbar-brand">
-                <#if site_name="Lutece" || site_name="LUTECE" >
-                &nbsp;<img src="images/logo.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}" class="hidden-xs">
-                <img src="images/logo-header-icon.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"  class="visible-xs">
+                <#if site_name?upper_case="LUTECE" >
+					&nbsp;<img src="images/logo.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}" class="hidden-xs">
+					<img src="images/logo-header-icon.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"  class="visible-xs">
                 <#else>
-                &nbsp;<img src="images/logo-header-icon.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}">
-                &nbsp;<span title="${site_name}"><#if site_name?length &gt; 18>${site_name?substring(0,16)}...<#else>${site_name}</#if></span>
+					&nbsp;<img src="images/logo-header-icon.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}">
+					&nbsp;<span title="${site_name}"><#if site_name?length &gt; 18>${site_name?substring(0,16)}...<#else>${site_name}</#if></span>
                 </#if>
                 &nbsp;<span class="fa fa-external-link hidden-xs" title="External Link"></span>
             </a>
