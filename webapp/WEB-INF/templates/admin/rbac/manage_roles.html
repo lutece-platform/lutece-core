@@ -34,14 +34,14 @@
                             </td>
                             <td>${role.description}</td>
                             <td>
-                                <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.view_role_description.labelDescription}">
+                                <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.view_role_description.labelDescription} (${role.description})">
                                     <i class="glyphicon glyphicon-edit"></i>
                                 </a>
-                                <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers}">
+                                <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} (${role.description})">
                                     <i class="glyphicon glyphicon-user"></i>
                                 </a>
 
-                                <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}">
+                                <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelDelete} (${role.description})">
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </a>
 

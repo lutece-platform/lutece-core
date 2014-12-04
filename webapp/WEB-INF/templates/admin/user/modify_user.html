@@ -63,15 +63,15 @@
                     </p>
                     <p>
                         <label for="last_name" >#i18n{portal.users.modify_user.labelLastName} * :</label>
-                        <input type="text"  id="last_name" name="last_name" maxlength="100" size="35" tabindex="2" value="${user.lastName}" />
+                        <input type="text"  id="last_name" name="last_name" maxlength="100" size="35" value="${user.lastName}" />
                     </p>
                     <p>
                         <label for="first_name">#i18n{portal.users.modify_user.labelFirstName} * :</label>
-                        <input type="text" id="first_name" name="first_name" maxlength="100" size="35" tabindex="3" value="${user.firstName}" />
+                        <input type="text" id="first_name" name="first_name" maxlength="100" size="35" value="${user.firstName}" />
                     </p>
                     <p>
                         <label for="email">#i18n{portal.users.modify_user.labelEmail} * :</label>
-                        <input type="text" id="email" name="email" maxlength="100" size="35" tabindex="4" value="${user.email}" />
+                        <input type="text" id="email" name="email" maxlength="100" size="35" value="${user.email}" />
                     </p>
                     <p>
                         <label for="language">#i18n{portal.users.modify_user.labelLanguage} :</label>
@@ -79,7 +79,7 @@
                     </p>       
                     <p>
                         <label for="status">#i18n{portal.users.modify_user.labelStatus} :</label>
-                        <select id="status" name="status" tabindex="5">
+                        <select id="status" name="status">
                             <#if user.status == 0 >
                             <option value="0" selected="selected" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
                             <option value="1" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
@@ -124,7 +124,7 @@
             <div class="well span10">
                 <span class="pull-left">
                     
-                    <button type="submit" class="btn btn-primary btn-sm" tabindex="6">
+                    <button type="submit" class="btn btn-primary btn-sm">
                         <i class="glyphicon glyphicon-edit"></i>
                         <span class="hidden-phone" >#i18n{portal.users.modify_user.buttonLabelModify}</span>
                     </button> 

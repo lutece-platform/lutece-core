@@ -9,14 +9,14 @@
                     <tr>
                         <th>#i18n{portal.system.manage_files_system.labelCategory}</th>
                         <th>#i18n{portal.system.manage_files_system.labelDescription}</th>
-                        <th></th>
+                        <th>#i18n{portal.system.manage_files_system.labelView}</th>
                     </tr>
                     <#list files_list as file >
                     <tr>
                         <td>${file.name}</td>
                         <td>${file.description}</td>
                         <td>
-                            <a href="jsp/admin/system/ManageFilesSytemDir.jsp?dir=${file.directory}" class="btn btn-primary btn-xs btn-flat" title="${file.name}">
+                            <a href="jsp/admin/system/ManageFilesSytemDir.jsp?dir=${file.directory}" class="btn btn-primary btn-xs btn-flat" title="#i18n{portal.system.files_system.view} ${file.name}">
                                 <i class="glyphicon glyphicon-eye-open"></i>
                             </a>
                         </td>

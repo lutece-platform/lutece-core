@@ -30,12 +30,12 @@
                         <td class="hidden-xs" >${xsl_export.extension}</td>
                         <td>
                             <#if right_modify>
-                            <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_modify}">
+                            <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_modify} (${xsl_export.title})">
                                 <i class="glyphicon glyphicon-edit"></i>
                             </a>
                             </#if>
                             <#if right_delete>
-                            <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_delete}">
+                            <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_delete} (${xsl_export.title})">
                                 <i class="glyphicon glyphicon-trash"></i>
                             </a>
                             </#if>

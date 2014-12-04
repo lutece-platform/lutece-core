@@ -31,9 +31,9 @@
                                 <#if daemon.running>
                                  ${daemon.interval}
                                 <#else>
-                                <label for="interval" class="sr-only"></label>
+                                <label for="interval" class="sr-only">#i18n{portal.system.manage_daemons.columnTitleInterval}></label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control input-xs" name="interval" value="${daemon.interval}">
+                                    <input type="text" class="form-control input-xs" name="interval" id="interval" value="${daemon.interval}">
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.system.manage_daemons.buttonUpdateInterval}" name="action" value="UPDATE_INTERVAL" >
                                             <i class="glyphicon glyphicon-ok"></i>
@@ -50,11 +50,11 @@
                             <td>
                                 <div class="pull-right">
                                     <#if daemon.running>
-                                    <button class="btn btn-danger btn-xs btn-flat" type="submit" title="#i18n{portal.system.manage_daemons.buttonStop}" name="action" value="STOP">
+                                    <button class="btn btn-danger btn-xs btn-flat" type="submit" title="#i18n{portal.system.manage_daemons.buttonStop} ${daemon.id}" name="action" value="STOP">
                                         <i class="glyphicon glyphicon-stop"></i>
                                     </button>
                                     <#else>
-                                    <button class="btn btn-success btn-xs btn-flat" type="submit" title="#i18n{portal.system.manage_daemons.buttonStart}" name="action" value="START" >
+                                    <button class="btn btn-success btn-xs btn-flat" type="submit" title="#i18n{portal.system.manage_daemons.buttonStart} ${daemon.id}" name="action" value="START" >
                                         <i class="glyphicon glyphicon-play"></i>
                                     </button>
 

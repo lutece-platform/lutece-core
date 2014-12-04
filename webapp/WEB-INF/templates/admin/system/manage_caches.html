@@ -40,11 +40,11 @@
 							<div class="visible-xs">
 							<blockquote>	
 								<#if service.cacheEnable >
-									<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-danger btn-xs" title="#i18n{portal.system.manage_caches.actionToggle}">
+									<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-danger btn-xs" title="#i18n{portal.system.manage_caches.actionDisable} - #i18n{portal.system.manage_caches.actionToggle}">
 										<i class="glyphicon glyphicon-stop"></i>
 									</a>
 								<#else>
-									<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-success btn-xs" title="#i18n{portal.system.manage_caches.actionToggle}">
+									<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-success btn-xs" title="#i18n{portal.system.manage_caches.actionEnable} - #i18n{portal.system.manage_caches.actionToggle}">
 										<i class="glyphicon glyphicon-play"></i>
 									</a>
 								</#if>
@@ -68,11 +68,11 @@
 						<td class="hidden-xs">${service.memorySize}</td>
 						<td>
 							<#if service.cacheEnable >
-								<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-danger btn-xs" title="#i18n{portal.system.manage_caches.actionToggle}">
+								<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-danger btn-xs" title="#i18n{portal.system.manage_caches.actionDisable}">
 									<i class="glyphicon glyphicon-stop"></i>
 								</a>
 							<#else>
-								<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-success btn-xs" title="#i18n{portal.system.manage_caches.actionToggle}">
+								<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-success btn-xs" title="#i18n{portal.system.manage_caches.actionEnable}">
 									<i class="glyphicon glyphicon-play"></i>
 								</a>
 							</#if>

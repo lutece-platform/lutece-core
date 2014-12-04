@@ -37,13 +37,13 @@
                     <label for="access_code" >#i18n{portal.users.manage_users.search_users.labelAccessCode} :</label>
 					<input type="text" class="form-control input-xs" id="access_code" name="search_access_code" value="${search_admin_user_filter.accessCode}">
 					<label for="last_name" >#i18n{portal.users.manage_users.search_users.labelLastName}</label>
-					<input type="text" class="form-control input-xs" id="last_name" name="search_last_name" value="${search_admin_user_filter.lastName}" maxlength="100" tabindex="2">
+					<input type="text" class="form-control input-xs" id="last_name" name="search_last_name" value="${search_admin_user_filter.lastName}" maxlength="100">
 					<label for="first_name">#i18n{portal.users.manage_users.search_users.labelFirstName}</label>
-					<input type="text" class="form-control input-xs" id="first_name" name="search_first_name" value="${search_admin_user_filter.firstName}" maxlength="100" tabindex="3">
+					<input type="text" class="form-control input-xs" id="first_name" name="search_first_name" value="${search_admin_user_filter.firstName}" maxlength="100">
 					<label for="email">#i18n{portal.users.manage_users.search_users.labelEmail}</label>
-					<input type="text" class="form-control input-xs" id="email" name="search_email" value="${search_admin_user_filter.email}" maxlength="100" tabindex="4">
+					<input type="text" class="form-control input-xs" id="email" name="search_email" value="${search_admin_user_filter.email}" maxlength="100">
 					<label for="status">#i18n{portal.users.manage_users.search_users.labelStatus}</label>
-					<select id="status" name="search_status" tabindex="5" class="form-control input-xs">
+					<select id="status" name="search_status" class="form-control input-xs">
 						<#switch search_admin_user_filter.status >
 							<#case 0 >
                                 <option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
@@ -68,7 +68,7 @@
                         </#if>
                     </#list>
                    <input type="hidden" name="id_right" value="${right.id}" />
-                   <button type="submit" class="btn btn-primary btn-xs btn-flat" tabindex="2" name="search_is_search">
+                   <button type="submit" class="btn btn-primary btn-xs btn-flat" name="search_is_search">
 						<i class="glyphicon glyphicon-search"></i>
                         <span class="hidden-phone" >#i18n{portal.users.manage_users.search_users.buttonSearch}</span>
                     </button>          
@@ -97,7 +97,7 @@
 						</div>
 						<div class="form-group">
 							<div class="col-xs-12 col-sm-12 col-md-12">
-								<button type="submit" class="btn btn-primary btn-block btn-flat" tabindex="2">
+								<button type="submit" class="btn btn-primary btn-block btn-flat">
 									<i class="glyphicon glyphicon-ok"></i>&nbsp;
 									<span class="hidden-phone" >#i18n{portal.features.assign_users.labelButtonValidate}</span>
 								</button>  

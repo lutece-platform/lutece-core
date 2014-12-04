@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="box box-success">
@@ -14,7 +15,7 @@
                         <input type="text" class="form-control input-xs" id="key" name="search_key" value="${search_admin_workgroup_filter.key}" maxlength="50" size="10" class="form-control input-sm">
                         <label for="description" >#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelDescription}</label>
                         <div class="input-group">
-                            <input type="text" class="form-control input-xs" id="description" name="search_description" value="${search_admin_workgroup_filter.description}" maxlength="250" size="30" tabindex="2"  class="form-control input-sm">
+                            <input type="text" class="form-control input-xs" id="description" name="search_description" value="${search_admin_workgroup_filter.description}" maxlength="250" size="30"  class="form-control input-sm">
                             <span class="input-group-btn">
                                 <button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}" >
                                     <i class="glyphicon glyphicon-search"></i> 
@@ -45,11 +46,11 @@
                         <td>${workgroup.key}</td>
                         <td>${workgroup.description}</td>
                         <td>
-                            <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}" >
+                            <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelModify} (${workgroup.key})">
                                 <i class="glyphicon glyphicon-edit"></i>
                             </a>
-                            <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/workgroup/AssignUsersWorkgroup.jsp?workgroup_key=${workgroup.key}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers}"><i class="glyphicon glyphicon-user"></i></a>
-                            <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}"><i class="glyphicon glyphicon-trash"></i></a>
+                            <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/workgroup/AssignUsersWorkgroup.jsp?workgroup_key=${workgroup.key}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers} (${workgroup.key})"><i class="glyphicon glyphicon-user"></i></a>
+                            <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}" title="#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete} (${workgroup.key})"><i class="glyphicon glyphicon-trash"></i></a>
                         </td>
                     </tr>
                     </#list>

@@ -47,15 +47,15 @@
 			<input type="hidden" id="access_code" name="access_code" value="${import_user.accessCode?if_exists}">
 			<strong>${import_user.accessCode?if_exists}</strong>
 			<label for="last_name">#i18n{portal.users.create_user.labelLastName} * :</label>
-			<input type="text"  id="last_name" name="last_name" value="${import_user.lastName?if_exists}" maxlength="100" size="35" tabindex="2">
+			<input type="text"  id="last_name" name="last_name" value="${import_user.lastName?if_exists}" maxlength="100" size="35">
 			<label for="first_name">#i18n{portal.users.create_user.labelFirstName} * :</label>
-			<input type="text" id="first_name" name="first_name" value="${import_user.firstName?if_exists}" maxlength="100" size="35" tabindex="3">
+			<input type="text" id="first_name" name="first_name" value="${import_user.firstName?if_exists}" maxlength="100" size="35">
 			<label for="email">#i18n{portal.users.create_user.labelEmail} * :</label>
-			<input type="text" id="email" name="email" value="${import_user.email?if_exists}" maxlength="100" size="35" tabindex="4">
+			<input type="text" id="email" name="email" value="${import_user.email?if_exists}" maxlength="100" size="35">
 			<label for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
 			<@comboSorted name="language" default_value="${default_user_language}" items=languages_list />
 			<label for="status">#i18n{portal.users.create_user.labelStatus} :</label>
-			<select id="status" name="status" tabindex="5">
+			<select id="status" name="status">
 				<#if default_user_status = 1>
 				<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
 				<option value="1" selected="selected">#i18n{portal.users.create_user.statusLabelDisabled}</option>
@@ -75,7 +75,7 @@
 			</#if>
 			</#list>
 			</#if>
-			<button type="submit" class="btn btn-primary btn-sm" tabindex="6">
+			<button type="submit" class="btn btn-primary btn-sm">
 				<i class="glyphicon glyphicon-plus-sign"></i>
 				<span class="hidden-phone">#i18n{portal.users.create_user.buttonLabelCreate}</span>
 			</button> 

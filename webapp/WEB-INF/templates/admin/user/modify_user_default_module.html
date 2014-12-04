@@ -25,37 +25,37 @@
                                 <div class="form-group">
                                     <label for="access_code" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelAccessCode} *</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <input type="text" class="form-control" id="access_code" name="access_code" maxlength="100" tabindex="1" value="${user.accessCode}">
+                                        <input type="text" class="form-control" id="access_code" name="access_code" maxlength="100" value="${user.accessCode}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="first_password" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelFirstPassword}</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <input type="password" class="form-control" id="password" name="first_password" maxlength="100" tabindex="2" value="">
+                                        <input type="password" class="form-control" id="password" name="first_password" maxlength="100" value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="second_password" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelSecondPassword}</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <input type="password" class="form-control" id="password" name="second_password" maxlength="100" tabindex="3" value="">
+                                        <input type="password" class="form-control" id="password" name="second_password" maxlength="100" value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="last_name" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelLastName} *</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <input type="text" class="form-control" id="last_name" name="last_name" maxlength="100" tabindex="4" value="${user.lastName}">
+                                        <input type="text" class="form-control" id="last_name" name="last_name" maxlength="100" value="${user.lastName}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="first_name" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelFirstName} *</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <input type="text" class="form-control" id="first_name" name="first_name" maxlength="100" tabindex="5" value="${user.firstName}">
+                                        <input type="text" class="form-control" id="first_name" name="first_name" maxlength="100" value="${user.firstName}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelEmail} *</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <input type="text" class="form-control" id="email" name="email" maxlength="100" tabindex="6" value="${user.email}">
+                                        <input type="text" class="form-control" id="email" name="email" maxlength="100" value="${user.email}">
                                     </div>
                                 </div>
                             </fieldset>
@@ -78,7 +78,7 @@
                                 <div class="form-group">
                                     <label for="status" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelStatus}</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <select id="status" name="status" class="form-control" tabindex="7">
+                                        <select id="status" name="status" class="form-control">
                                             <#if user.status == 0 >
                                             <option value="0" selected="selected" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
                                             <option value="1" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
@@ -137,7 +137,7 @@
                     </div> 
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-offset-4 col-md-4 ">
-                            <button type="submit" class="btn btn-primary btn-block" tabindex="8">
+                            <button type="submit" class="btn btn-primary btn-block">
                                 <i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.users.modify_user.buttonLabelModify}
                             </button> 
                         </div>   

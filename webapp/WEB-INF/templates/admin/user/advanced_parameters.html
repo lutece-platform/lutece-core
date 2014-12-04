@@ -103,22 +103,22 @@
 								<#if default_user_notification = 1>
 									<div class="col-xs-12 col-sm-9 col-md-9">
 										<label class="radio-inline">
-											<input type="radio" name="notify_user" value="1" checked="checked" tabindex="8">
+											<input type="radio" name="notify_user" value="1" checked="checked">
 											#i18n{portal.util.labelYes}
 										</label>
 										<label class="radio-inline">
-											<input type="radio" name="notify_user" value="0" tabindex="9">
+											<input type="radio" name="notify_user" value="0">
 											#i18n{portal.util.labelNo}
 										</label>	
 									</div>
 								<#else>
 									<div class="col-xs-12 col-sm-9 col-md-9">
 										<label class="radio-inline">
-											<input type="radio" name="notify_user" value="1" tabindex="8">
+											<input type="radio" name="notify_user" value="1">
 											#i18n{portal.util.labelYes}
 										</label>
 										<label class="radio-inline">
-											<input type="radio" name="notify_user" value="0" checked="checked" tabindex="9">
+											<input type="radio" name="notify_user" value="0" checked="checked">
 											#i18n{portal.util.labelNo}
 										</label>
 									</div>
@@ -135,7 +135,7 @@
 							<div class="form-group">
 								<label class="control-label col-xs-12 col-sm-3 col-md-3" for="status">#i18n{portal.users.manage_advanced_parameters.labelStatus}</label>
 								<div class="col-xs-12 col-sm-9 col-md-9">
-									<select id="status" name="status" tabindex="10" class="form-control input-sm">
+									<select id="status" name="status" class="form-control input-sm">
 										<#if default_user_status = 1>
 											<option value="0">#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
 											<option value="1" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>

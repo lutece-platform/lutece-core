@@ -29,9 +29,9 @@
 						<td>${indexer.description}</td>
 						<td>
 						<#if indexer.enable >  
-							<span class="label label-success" title=" "><i class="glyphicon glyphicon-ok-sign"></i></span>					
+							<span class="label label-success" title="${indexer.name} #i18n{portal.search.manage_indexer.IndexerEnable}"><i class="glyphicon glyphicon-ok-sign"></i></span>					
 						<#else>    
-							<span class="label label-important" title=" "><i class="glyphicon glyphicon-remove-sign"></i></span>		  
+							<span class="label label-important" title=" "><i class="glyphicon glyphicon-remove-sign" title="${indexer.name} #i18n{portal.search.manage_indexer.IndexerDisable}"></i></span>		  
 						</#if>
 						</td>
 					</tr>

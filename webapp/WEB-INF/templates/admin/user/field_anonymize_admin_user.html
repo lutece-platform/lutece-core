@@ -21,7 +21,7 @@
 							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="last_name" ></label>
 							<div class="col-xs-12 col-sm-9 col-md-9">
 								<div class="checkbox">
-									<input type="checkbox"  id="last_name" name="last_name" value="true" tabindex="2" <#if last_name?? && last_name>checked="checked"</#if>>
+									<input type="checkbox"  id="last_name" name="last_name" value="true" <#if last_name?? && last_name>checked="checked"</#if>>
 									#i18n{portal.users.create_user.labelLastName} 
 								</div>
 							</div>
@@ -30,7 +30,7 @@
 							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="first_name"></label>
 							<div class="col-xs-12 col-sm-9 col-md-9">
 								<div class="checkbox">
-									<input type="checkbox" id="first_name" name="first_name" value="true" tabindex="3" <#if first_name?? && first_name>checked="checked"</#if>>
+									<input type="checkbox" id="first_name" name="first_name" value="true" <#if first_name?? && first_name>checked="checked"</#if>>
 									#i18n{portal.users.create_user.labelFirstName} 
 								</div>
 							</div>
@@ -39,7 +39,7 @@
 							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="email"></label>
 							<div class="col-xs-12 col-sm-9 col-md-9">
 								<div class="checkbox">
-									<input type="checkbox" id="email" name="email" value="true" tabindex="4" <#if email?? && email>checked="checked"</#if>>
+									<input type="checkbox" id="email" name="email" value="true" <#if email?? && email>checked="checked"</#if>>
 									#i18n{portal.users.create_user.labelEmail} 
 								</div>
 							</div>
