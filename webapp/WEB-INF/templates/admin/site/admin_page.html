@@ -4,7 +4,7 @@
 			<div class="box-header">
 				<div class="box-tools btn-toolbar" role="toolbar">
 					<div class="btn-group">
-						<button type="button" id="fullscreen" class="btn btn-default btn-sm btn-flat hidden-xs">
+						<button type="button" id="fullscreen" class="btn btn-default btn-sm btn-flat hidden-xs" title="#i18n{portal.site.admin_page.buttonFullscreen}">
 							<i class="glyphicon glyphicon-fullscreen"></i>
 						</button>
 						<a class="btn btn-default btn-sm btn-flat" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">
@@ -24,7 +24,7 @@
 						<form method="post" action="jsp/admin/site/AdminSite.jsp" class="form-inline pull-right" role="search">
 							<label class="sr-only">#i18n{portal.site.admin_page.buttonSearchPage}</label>
 							<div class="input-group">
-								<input type="text" name="page_id" class="form-control input-sm" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
+								<input type="text" name="page_id" title="#i18n{portal.site.admin_page.buttonSearchPage" class="form-control input-sm" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
 								<span class="input-group-btn">
 									<button class="btn btn-default btn-sm btn-flat" type="submit" title="#i18n{portal.site.admin_page.buttonSearchPage}">
 										<i class="glyphicon glyphicon-search"></i>

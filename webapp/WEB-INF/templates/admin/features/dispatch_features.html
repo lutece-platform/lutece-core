@@ -101,7 +101,7 @@
     </#macro>
 
     <#macro comboGroups name default_value >
-        <select id="${name}" name="${name}" class="input-xs form-control" >
+        <select id="${name}" name="${name}" class="input-xs form-control" title="#i18n{portal.features.dispatch_features.tableLabelGroup}">
             <#if default_value="${no_group.feature_group.id?if_exists}">
             <option selected="selected" value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
             <#else>
@@ -118,7 +118,7 @@
     </#macro>
 
     <#macro comboOrders name default_value max >
-        <select id="${name}" name="${name}" class="input-xs form-control">
+        <select id="${name}" name="${name}" class="input-xs form-control" title="#i18n{portal.features.dispatch_features.tableLabelOrder}">
             <#list 1..max as i>
             <#if "${default_value}" == "${i}">
             <option selected="selected" value="${i}" >${i}</option>

@@ -5,7 +5,7 @@
                 <h3 class="box-title">#i18n{portal.features.manage_levels.boxTitle}</h3>
                 <div class="box-tools">
                     <form method="post"  action="jsp/admin/features/CreateLevel.jsp" class="form-inline pull-right">
-                        <button type="submit" tabindex="1" class="btn btn-primary btn-xs btn-flat"><i class="glyphicon glyphicon-plus"></i>&nbsp;#i18n{portal.features.manage_levels.buttonLabelCreate}</button>
+                        <button type="submit" class="btn btn-primary btn-xs btn-flat"><i class="glyphicon glyphicon-plus"></i>&nbsp;#i18n{portal.features.manage_levels.buttonLabelCreate}</button>
                     </form>
                 </div>
             </div><!-- /.box-header -->
@@ -24,7 +24,7 @@
                             <td>${level.id}</td>
                             <td>${level.name}</td>
                             <td>
-                                <a href="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" class="btn btn-xs btn-primary btn-flat">
+                                <a href="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" class="btn btn-xs btn-primary btn-flat" title="#i18n{portal.features.manage_groups.buttonModify}(${level.name})">
                                     <i class="glyphicon glyphicon-edit"></i>
                                 </a>
                             </td>

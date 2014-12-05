@@ -29,7 +29,7 @@
 
 
 %>
-				<iframe id="preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" scrolling="auto">Pr&eacute;visualisation du site</iframe>
+				<iframe id="preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" scrolling="auto" title="Pr&eacute;visualisation du site">Pr&eacute;visualisation du site</iframe>
 			</div>
 		</div>
 	</div>
