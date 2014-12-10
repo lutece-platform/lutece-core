@@ -41,6 +41,9 @@ import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
+import fr.paris.lutece.portal.service.page.PageEvent;
+import fr.paris.lutece.portal.service.page.PageEventListener;
+import fr.paris.lutece.portal.service.page.PageService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.util.xml.XmlUtil;
@@ -56,7 +59,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This Service build the portal menu
  */
-public final class PortalMenuService extends AbstractCacheableService
+public final class PortalMenuService extends AbstractCacheableService implements PageEventListener
 {
     public static final int MENU_INIT = 0;
     public static final int MENU_MAIN = 1;
@@ -73,6 +76,7 @@ public final class PortalMenuService extends AbstractCacheableService
     private PortalMenuService(  )
     {
         initCache( getName(  ) );
+        PageService.addPageEventListener( this );
     }
 
     /**
@@ -273,4 +277,10 @@ public final class PortalMenuService extends AbstractCacheableService
 
         return sbKey.toString(  );
     }
+
+	@Override
+	public void processPageEvent(PageEvent event) {
+		// page was added, removed or updated; clear cache
+		resetCache();
+	}
 }
