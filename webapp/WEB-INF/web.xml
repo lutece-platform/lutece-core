@@ -5,6 +5,11 @@
     version="2.5">
 
     <listener>
+        <display-name>Lutece context listener</display-name>
+        <listener-class>fr.paris.lutece.portal.service.init.AppInitListener</listener-class>
+    </listener>
+
+    <listener>
         <display-name>Lutece Main Listener</display-name>
         <listener-class>fr.paris.lutece.portal.service.sessionlistener.MainHttpSessionListener</listener-class>
     </listener>
@@ -198,15 +203,6 @@
    		<dispatcher>REQUEST</dispatcher>
     </filter-mapping>
     
-    <servlet>
-        <servlet-name>InitApp</servlet-name>
-        <servlet-class>fr.paris.lutece.portal.service.init.AppInitServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>InitApp</servlet-name>
-        <url-pattern>/InitApp</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>PluginsServlets</servlet-name>
         <servlet-class>fr.paris.lutece.portal.service.servlet.MainServlet</servlet-class>
