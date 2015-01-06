@@ -167,7 +167,7 @@ public final class AppInit
 
             // Initializes FilterService and ServletService
             AppLogService.info( "Initializing plugins filters ..." );
-            FilterService.init(  );
+            FilterService.init( context );
             AppLogService.info( "Initializing plugins servlets ..." );
             ServletService.init( context );
 
