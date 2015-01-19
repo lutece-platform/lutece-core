@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Lutece">
-    <skin>
-        <groupId>org.apache.maven.skins</groupId>
-        <artifactId>maven-fluido-skin</artifactId>
-        <version>1.3.1</version>
-    </skin>
+    
+    <bannerLeft>
+        <name>LUTECE</name>
+        <src>images/banner_left.png</src>
+        <href>http://dev.lutece.paris.fr/</href>
+    </bannerLeft>
+    
+    <bannerRight>
+        <name>LUTECE</name>
+        <src>images/banner_right.png</src>
+    </bannerRight>
+
+    <custom>
+        <fluidoSkin>
+            <gitHub>
+                <projectId>${github.project}</projectId>
+            </gitHub>
+        </fluidoSkin>
+    </custom>
+
     <version />
+    
     <body>
         <links>
             <item name="EN" href="../index.html" />
@@ -13,19 +29,12 @@
 
         <menu name="Lutece : le noyau">
             <item name="Introduction" href="index.html" />
-            <item name="Utilisation" href="/user/admin-core.html" collapse="true">
-                <item name="Administration du site" href="/user/admin-site.html" />
-            </item>
-            <item name="Paramètres de s&#233;curit&#233;" href="admin-user-security.html" />
-        </menu>
-        <menu name="Guide de d&#233;veloppement">
-            <item name="Services de base" href="core-services.html" />
         </menu>
 
         <menu name="T&#233;l&#233;chargements" inherit="bottom">			
             <item name="Versions stables" href="../../stable_builds/lutece-core/" />
             <item name="Nightly builds" href="../../nightly_builds/lutece-core/" />
         </menu>
-
     </body>
+
 </project>
