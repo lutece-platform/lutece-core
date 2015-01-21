@@ -287,17 +287,6 @@
             <version>1.0.0</version>
         </dependency>
     </dependencies>
-	
-    <build>
-        <extensions>
-            <!-- Enabling the use of FTP -->
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ftp</artifactId>
-                <version>2.2</version>
-            </extension>
-        </extensions>
-    </build>
 
     <scm>
         <connection>scm:git:https://github.com/lutece-platform/lutece-core.git</connection>
@@ -305,10 +294,5 @@
         <url>https://github.com/lutece-platform/lutece-core.git</url>
         <tag>HEAD</tag>
     </scm>
-    <distributionManagement>
-            <site>
-                <id>lutece_ftp_site_maven</id>
-                <url>ftp://site-deploy.dev.lutece.paris.fr/site/lutece-core</url>
-            </site>
-    </distributionManagement>
+
 </project>
