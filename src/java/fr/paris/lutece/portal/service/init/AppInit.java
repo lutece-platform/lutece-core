@@ -121,6 +121,8 @@ public final class AppInit
     {
         try
         {
+            
+            Thread.currentThread().setName( "Lutece-MainThread" );
             // Initializes the log service
             AppLogService.init( strConfPath, FILE_PROPERTIES_CONFIG );
             AppLogService.info( "Starting LUTECE ..." );
