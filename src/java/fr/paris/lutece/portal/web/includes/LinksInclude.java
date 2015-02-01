@@ -124,14 +124,11 @@ public class LinksInclude implements PageInclude
                     {
                         for ( String strCssStyleSheet : plugin.getCssStyleSheets(  ) )
                         {
-                            String strPrefix = ( strCssStyleSheet.startsWith( ABSOLUTE_URL ) ) ? "" : PREFIX_PLUGINS_CSS;
-
-                            Map<String, String> model = new HashMap<String, String>(  );
-                            model.put( MARK_PLUGIN_CSS_STYLESHEET, strCssStyleSheet );
-                            model.put( MARK_CSS_PREFIX, strPrefix );
-
-                            HtmlTemplate tCss = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_CSS_LINK, locale, model );
-                            sbCssLinks.append( tCss.getHtml(  ) );
+                            appendStyleSheet( sbCssLinks, strCssStyleSheet, locale );
+                        }
+                        for ( String strCssStyleSheet : plugin.getCssStyleSheets( nMode ) )
+                        {
+                            appendStyleSheet( sbCssLinks, strCssStyleSheet, locale );
                         }
                     }
 
@@ -139,12 +136,11 @@ public class LinksInclude implements PageInclude
                     {
                         for ( String strJavascriptFile : plugin.getJavascriptFiles(  ) )
                         {
-                            Map<String, String> model = new HashMap<String, String>(  );
-                            model.put( MARK_PLUGIN_JAVASCRIPT_FILE, strJavascriptFile );
-
-                            HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale,
-                                    model );
-                            sbJsLinks.append( tJs.getHtml(  ) );
+                            appendJavascriptFile( sbJsLinks, strJavascriptFile, locale );
+                        }
+                        for ( String strJavascriptFile : plugin.getJavascriptFiles( nMode ) )
+                        {
+                            appendJavascriptFile( sbJsLinks, strJavascriptFile, locale );
                         }
                     }
                 }
@@ -153,6 +149,40 @@ public class LinksInclude implements PageInclude
             rootModel.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString(  ) );
             rootModel.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString(  ) );
         }
+    }
+
+    /**
+     * Append a script to the links
+     * @param sbJsLinks links in construction
+     * @param strJavascriptFile the script to append
+     * @param locale the locale
+     */
+    private void appendJavascriptFile( StringBuilder sbJsLinks, String strJavascriptFile, Locale locale )
+    {
+        Map<String, String> model = new HashMap<String, String>( 1 );
+        model.put( MARK_PLUGIN_JAVASCRIPT_FILE, strJavascriptFile );
+
+        HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale,
+                model );
+        sbJsLinks.append( tJs.getHtml(  ) );
+    }
+
+    /**
+     * Append a css to the stylesheets
+     * @param sbCssLinks stylesheets in construction
+     * @param strCssStyleSheet the stylesheet to append
+     * @param locale the locale
+     */
+    private void appendStyleSheet( StringBuilder sbCssLinks, String strCssStyleSheet, Locale locale )
+    {
+        String strPrefix = ( strCssStyleSheet.startsWith( ABSOLUTE_URL ) ) ? "" : PREFIX_PLUGINS_CSS;
+
+        Map<String, String> model = new HashMap<String, String>( 2 );
+        model.put( MARK_PLUGIN_CSS_STYLESHEET, strCssStyleSheet );
+        model.put( MARK_CSS_PREFIX, strPrefix );
+
+        HtmlTemplate tCss = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_CSS_LINK, locale, model );
+        sbCssLinks.append( tCss.getHtml(  ) );
     }
 
     /**
