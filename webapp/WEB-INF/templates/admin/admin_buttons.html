@@ -25,7 +25,7 @@
 				<i class="glyphicon glyphicon-edit"></i>
 			</button>
 		</form>
-	</div>
+	</div><#if custom_action_list?has_content>
 	<div class="btn-group">
 		<#list custom_action_list as custom_action>
 			<form method="post" action="${custom_action.actionUrl}" target="_parent" class="form-inline">
@@ -36,7 +36,7 @@
 				</button>
 			</form>
 		</#list>
-	</div>
+	</div></#if>
 	<div class="btn-group">
 		<form method="post" action="jsp/admin/site/RemovePortlet.jsp" class="form-inline">
 			<input type="hidden" name="portlet_id" value="${portlet.id}" />
