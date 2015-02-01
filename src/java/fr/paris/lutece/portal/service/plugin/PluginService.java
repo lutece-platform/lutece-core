@@ -172,14 +172,15 @@ public final class PluginService
             {
                 Plugin plugin = (Plugin) Class.forName( strPluginClass ).newInstance(  );
                 plugin.load( pluginFile );
-                plugin.setStatus( getPluginStatus( plugin ) );
 
                 if ( bRegisterAsPlugin )
                 {
+                    plugin.setStatus( getPluginStatus( plugin ) );
                     registerPlugin( plugin );
                 }
                 else
                 {
+                    plugin.setStatus( true );
                     registerCore( plugin );
                 }
 

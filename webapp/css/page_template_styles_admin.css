@@ -1,0 +1,12 @@
+/******************************************
+/* SPECIFIC LUTECE DEFAULT THEME STYLES   *
+******************************************/
+/* ADMIN STYLES */
+body#tinymce{padding-top:0;}
+.btn-group-portlet{float:right;margin:5px 0 0 0;padding:4px;background-color:#DEDEDE;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;}
+.btn-group-portlet form{margin-bottom:2px !important; }
+.btn-group-portlet button{opacity:0.6;margin:0 1px;background-color:#DEDEDE !important;}
+.btn-group-portlet button:hover{opacity:1;background-color:#DEDEDE !important;}
+
+.form-in-dropdown{color:#555555;padding:5px;margin:0px;}
+.form-in-dropdown button{width:100%;}

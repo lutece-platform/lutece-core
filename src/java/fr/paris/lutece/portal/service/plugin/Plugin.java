@@ -67,6 +67,8 @@ import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerService
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -115,8 +117,8 @@ public abstract class Plugin implements Comparable<Plugin>
     private List<FilterEntry> _listFilters;
     private List<ServletEntry> _listServlets;
     private List<HttpSessionListenerEntry> _listListeners;
-    private List<String> _listCssStyleSheets;
-    private List<String> _listJavascriptFiles;
+    private Map<Integer, List<String>> _listCssStyleSheets;
+    private Map<Integer, List<String>> _listJavascriptFiles;
     private List<Right> _listRights;
     private List<PortletType> _listPortletTypes;
     private List<ContentServiceEntry> _listContentServices;
@@ -179,10 +181,10 @@ public abstract class Plugin implements Comparable<Plugin>
             _mapParams = pluginFile.getParams(  );
             _bDbPoolRequired = pluginFile.isDbPoolRequired(  );
 
-            _listCssStyleSheets = pluginFile.getCssStyleSheets(  );
+            _listCssStyleSheets = pluginFile.getCssStyleSheetsForAllModes(  );
             _strCssStylesheetsScope = ( pluginFile.getCssStylesheetsScope(  ) != null )
                 ? pluginFile.getCssStylesheetsScope(  ) : SCOPE_XPAGE;
-            _listJavascriptFiles = pluginFile.getJavascriptFiles(  );
+            _listJavascriptFiles = pluginFile.getJavascriptFilesForAllModes(  );
             _strJavascriptFilesScope = ( pluginFile.getJavascriptFilesScope(  ) != null )
                 ? pluginFile.getJavascriptFilesScope(  ) : SCOPE_XPAGE;
             _listFreemarkerMacrosFiles = pluginFile.getFreemarkerMacrosFiles(  );
@@ -1072,12 +1074,33 @@ public abstract class Plugin implements Comparable<Plugin>
     }
 
     /**
-     * Returns all CSS Style Sheets of the plugin
-     * @return The list of CSS Style Sheets
+     * Returns all CSS Style Sheets of the plugin with no mode associated
+     * @return The list of CSS Style Sheets with no mode associated
      */
     public List<String> getCssStyleSheets(  )
     {
-        return _listCssStyleSheets;
+        List<String> res = _listCssStyleSheets.get( null );
+        if ( res == null)
+        {
+            return Collections.emptyList( );
+        }
+        return res;
+    }
+
+    /**
+     * Returns all CSS Style Sheets of the plugin associated with a mode
+     * @param mode the mode
+     * @return The list of CSS Style Sheets associated with the mode
+     * @since 5.1.0
+     */
+    public List<String> getCssStyleSheets( int mode )
+    {
+        List<String> res = _listCssStyleSheets.get( mode );
+        if ( res == null)
+        {
+            return Collections.emptyList( );
+        }
+        return res;
     }
 
     /**
@@ -1091,21 +1114,48 @@ public abstract class Plugin implements Comparable<Plugin>
     }
 
     /**
-     * Add an Javascript File to the plugin definition
+     * Add an Javascript File to the plugin definition, not associated with a mode
      * @param strJavascriptFile The Javascript File path
      */
     public void addJavascriptFile( String strJavascriptFile )
     {
-        _listJavascriptFiles.add( strJavascriptFile );
+        List<String> files = _listJavascriptFiles.get( null );
+        if ( files == null )
+        {
+            files = new ArrayList<String>( );
+            _listJavascriptFiles.put( null, files );
+        }
+        files.add( strJavascriptFile );
     }
 
     /**
-     * Returns all Javascript File of the plugin
-     * @return The list of Javascript File
+     * Returns all Javascript File of the plugin with no mode associated
+     * @return The list of Javascript File with no mode associated
      */
     public List<String> getJavascriptFiles(  )
     {
-        return _listJavascriptFiles;
+        List<String> res = _listJavascriptFiles.get( null );
+        if ( res == null)
+        {
+            return Collections.emptyList( );
+        }
+        return res;
+    }
+
+    /**
+     * Returns all Javascript File of the plugin associated with a mode
+     * @param mode the mode
+     * @return The list of Javascript File with associated with the mode
+     * @since 5.1.0
+     */
+    public List<String> getJavascriptFiles( int mode )
+    {
+        List<String> res = _listJavascriptFiles.get( mode );
+        if ( res == null)
+        {
+            return Collections.emptyList( );
+        }
+        return res;
     }
 
     /**
