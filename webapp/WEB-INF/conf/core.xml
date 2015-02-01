@@ -171,6 +171,10 @@
     	<freemarker-macro-file>*/commons.html</freemarker-macro-file>
         <freemarker-macro-file>*/commons_site.html</freemarker-macro-file>
     </freemarker-macro-files>
-    
-    
+
+    <css-stylesheets>
+    	<css-stylesheets-scope>portal</css-stylesheets-scope>
+    	<css-stylesheet mode="1">../page_template_styles_admin.css</css-stylesheet>
+    </css-stylesheets>
+
 </plug-in>
