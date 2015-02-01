@@ -97,6 +97,7 @@ public class LinksInclude implements PageInclude
 
             // Add CSS links coming from plugins
             Collection<Plugin> listPlugins = PluginService.getPluginList(  );
+            listPlugins.add( PluginService.getCore( ) );
             StringBuilder sbCssLinks = new StringBuilder(  );
             StringBuilder sbJsLinks = new StringBuilder(  );
 
