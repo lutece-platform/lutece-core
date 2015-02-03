@@ -280,55 +280,37 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
                 if ( strPage == null )
                 {
-                    // only one thread can evaluate the page
-                    synchronized ( strKey )
+                    Boolean bCanBeCached = Boolean.TRUE;
+
+                    AppLogService.debug( "Page generation " + strKey );
+
+                    RedirectionResponseWrapper response = new RedirectionResponseWrapper( LocalVariables.getResponse(  ) );
+
+                    LocalVariables.setLocal( LocalVariables.getConfig(  ), LocalVariables.getRequest(  ),
+                        response );
+                    request.setAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED, null );
+                    // The key is not in the cache, so we have to build
+                    // the page
+                    strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
+
+                    // We check if the page contains portlets that can not be cached. 
+                    if ( ( request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) != null ) &&
+                            !(Boolean) request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) )
                     {
-                        // can be useful if an other thread had evaluate the
-                        // page
-                        strPage = (String) _cachePages.getFromCache( strKey );
+                        bCanBeCached = Boolean.FALSE;
+                    }
 
-                        // ignore checkstyle, this double verification is useful
-                        // when page cache has been created when thread is
-                        // blocked on synchronized
-                        if ( strPage == null )
-                        {
-                            Boolean bCanBeCached = Boolean.TRUE;
+                    if ( response.getRedirectLocation(  ) != null )
+                    {
+                        AppLogService.debug( "Redirection found " + response.getRedirectLocation(  ) );
+                        strPage = REDIRECTION_KEY + response.getRedirectLocation(  );
+                    }
 
-                            AppLogService.debug( "Page generation " + strKey );
-
-                            RedirectionResponseWrapper response = new RedirectionResponseWrapper( LocalVariables.getResponse(  ) );
-
-                            LocalVariables.setLocal( LocalVariables.getConfig(  ), LocalVariables.getRequest(  ),
-                                response );
-                            request.setAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED, null );
-                            // The key is not in the cache, so we have to build
-                            // the page
-                            strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
-
-                            // We check if the page contains portlets that can not be cached. 
-                            if ( ( request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) != null ) &&
-                                    !(Boolean) request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) )
-                            {
-                                bCanBeCached = Boolean.FALSE;
-                            }
-
-                            if ( response.getRedirectLocation(  ) != null )
-                            {
-                                AppLogService.debug( "Redirection found " + response.getRedirectLocation(  ) );
-                                strPage = REDIRECTION_KEY + response.getRedirectLocation(  );
-                            }
-
-                            // Add the page to the cache if the page can be
-                            // cached
-                            if ( bCanBeCached.booleanValue(  ) && ( nMode != MODE_ADMIN ) )
-                            {
-                                _cachePages.putInCache( strKey, strPage );
-                            }
-                        }
-                        else
-                        {
-                            AppLogService.debug( "Page read from cache after synchronisation " + strKey );
-                        }
+                    // Add the page to the cache if the page can be
+                    // cached
+                    if ( bCanBeCached.booleanValue(  ) && ( nMode != MODE_ADMIN ) )
+                    {
+                        _cachePages.putInCache( strKey, strPage );
                     }
                 }
                 else
