@@ -10,3 +10,25 @@ body#tinymce{padding-top:0;}
 
 .form-in-dropdown{color:#555555;padding:5px;margin:0px;}
 .form-in-dropdown button{width:100%;}
+
+.admin_column_outline:hover {
+	outline: 1px dotted grey;
+}
+.admin_column_id {
+	display: none;
+}
+.admin_column_outline:hover .admin_column_id {
+	display: block;
+	position: absolute;
+	height 20px;
+	width: 10em;
+	top: -20px;
+	z-index: 1030;
+	padding-left: 0.5em;
+	background: rgba(200, 200, 200, 0.75);
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+.admin_column_outline > div:empty {
+	height: 100px;
+}
