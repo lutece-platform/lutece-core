@@ -24,17 +24,20 @@
 	<script type="text/javascript" charset="utf-8">
 	$(document).ready( function() {
 		<#-- boostrap version -->
- 		$('#${idField}').datepicker({language: '<@getRegional language=language />',format: 'dd/mm/yyyy'});
+ 		$('#${idField}').datepicker({language: '<@getRegional language=language />'});
 	}); 
 	</script>
 </#macro>
 
 <#-- Deprecated -->
 <#macro getDatePicker idField language >
+	<script src="js/jquery/plugins/ui/datepicker/ui.datepicker.js"></script>
+	<script src="js/jquery/plugins/ui/datepicker/ui.datepicker-fr.js"></script>
+
 	<script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		<#-- <@setDefaultsDatePicker /> -->
-		$('#${idField}').datepicker($.extend({showStatus: true}, $.datepicker.regional['<@getRegional language=language />']));
+		
+		$('#${idField}').datepicker({language: '<@getRegional language=language />'});
 	}); 
 	</script>
 </#macro>
@@ -65,13 +68,15 @@
 					<span class="add-on">to</span>
 					<input type="text" class="input-small" />
 				</div> -->
- 		$('.input-daterange').datepicker({format:"dd/mm/yyyy",language: "<@getRegional language=language />"});
+ 		$('.input-daterange').datepicker({language: "<@getRegional language=language />"});
 	}); 
 	</script>
 </#macro>
 
 <#-- Deprecated -->
 <#macro getDatePickerRange idFieldFrom idFieldTo language >
+	<script src="js/jquery/plugins/ui/datepicker/ui.datepicker.js"></script>
+	<script src="js/jquery/plugins/ui/datepicker/ui.datepicker-fr.js"></script>
 	<script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		<#-- <@setDefaultsDatePicker /> -->
@@ -123,15 +128,6 @@
  # <@getDatePicker idField="my_date" language=locale.language />
  #
 -->
-<#macro getDatePicker idField language >
-	<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-		<#-- <@setDefaultsDatePicker /> -->
-		$('#${idField}').datepicker($.extend({showStatus: true}, $.datepicker.regional['<@getRegional language=language />']));
-	}); 
-	</script>
-</#macro>
-
 <#-- getDatePickerRange
  # Get a datepicker range
  # idFieldFrom The id of the 'from' text field
@@ -144,39 +140,3 @@
  # <@getDatePickerRange idFieldFrom="document_validity_begin" idFieldTo="document_validity_end" language=locale.language />
  #
 -->
-<#macro getDatePickerRange idFieldFrom idFieldTo language >
-	<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-		<#-- <@setDefaultsDatePicker /> -->
-		$('#${idFieldFrom}').datepicker({beforeShow: customRange}, $.extend({showStatus: true})); 
-		$('#${idFieldTo}').datepicker({beforeShow: customRange}, $.extend({showStatus: true})); 
-		// Customize two date pickers to work as a date range 
-		function customRange(input) { 
-			$.datepicker.setDefaults($.datepicker.regional['<@getRegional language=language />']);
-		    return {minDate: (input.id == '${idFieldTo}' ? $('#${idFieldFrom}').datepicker('getDate') : null), 
-	        maxDate: (input.id == '${idFieldFrom}' ? $('#${idFieldTo}').datepicker('getDate') : null)}; 
-		}
-	});
-	</script>
-</#macro>
-
-
-
-
-<#-- ------------ Privates macro --------------- -->
-
-<#-- setDefaultsDatePicker
- # This macro should not be called directly
- # 
--->
-<#macro setDefaultsDatePicker >
-	$.datepicker.setDefaults({showOn: 'button', buttonImageOnly: true, 
-    buttonImage: 'js/jquery/plugins/ui/datepicker/calendar.png', buttonText: 'Calendar', 
-    showAnim: 'slideDown', speed: 'fast'});
-</#macro>
-
-<#-- getRegional
- # This macro should not be called directly
- # 
--->
-<#macro getRegional language><#if !('${language}'=='en')>${language}</#if></#macro>
