@@ -1,16 +1,15 @@
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <artifactId>lutece-parent-pom</artifactId>
-        <groupId>fr.paris.lutece</groupId>
-        <version>3.6</version>
+        <artifactId>lutece-global-pom</artifactId>
+        <groupId>fr.paris.lutece.tools</groupId>
+        <version>3.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.paris.lutece</groupId>
     <artifactId>lutece-core</artifactId>
     <packaging>lutece-core</packaging>
-    <version>5.0.0-SNAPSHOT</version>
+    <version>5.0.1-SNAPSHOT</version>
     <name>Lutece</name>
     <url>http://dev.lutece.paris.fr/</url>
 
@@ -19,6 +18,9 @@
         <jiraComponentId>10000</jiraComponentId>
         <springVersion>3.1.0.RELEASE</springVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <github.project>lutece-platform/lutece-core</github.project>
+        <twitter.account>LuteceFoundry</twitter.account>
+        <openhub.id>7203</openhub.id>
     </properties>
 
     <repositories>
@@ -285,29 +287,12 @@
             <version>1.0.0</version>
         </dependency>
     </dependencies>
-	
-    <build>
-        <extensions>
-            <!-- Enabling the use of FTP -->
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ftp</artifactId>
-                <version>2.2</version>
-            </extension>
-        </extensions>
-    </build>
 
     <scm>
         <connection>scm:git:https://github.com/lutece-platform/lutece-core.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-core.git</developerConnection>
         <url>https://github.com/lutece-platform/lutece-core.git</url>
+        <tag>HEAD</tag>
     </scm>
-
-    <distributionManagement>
-        <site>
-            <id>lutece_ftp_site_maven</id>
-            <url>ftp://site-deploy.dev.lutece.paris.fr/site/lutece-core</url>
-        </site>
-    </distributionManagement>
 
 </project>

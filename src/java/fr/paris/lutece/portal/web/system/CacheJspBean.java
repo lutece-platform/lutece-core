@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.web.system;
 
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
-import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
@@ -102,8 +102,9 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         }
         else
         {
-            PortalService.resetCache(  );
+            CacheService.resetCaches(  );
             AppTemplateService.resetCache(  );
+            I18nService.resetCache();
         }
 
         return JSP_MANAGE_CACHES;

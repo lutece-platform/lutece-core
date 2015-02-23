@@ -112,6 +112,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /** Access Controled template */
     public static final String TEMPLATE_PAGE_ACCESS_CONTROLED = "/skin/site/page_access_controled.html";
     private static final String TEMPLATE_ADMIN_BUTTONS = "/admin/admin_buttons.html";
+    private static final String TEMPLATE_COLUMN_OUTLINE = "/admin/column_outline.html";
 
     // Markers
     private static final String MARK_PORTLET = "portlet";
@@ -121,6 +122,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String MARK_URL_LOGIN = "url_login";
     private static final String MARKER_TARGET = "target";
     private static final String MARKER_IS_USER_AUTHENTICATED = "is-user-authenticated";
+    private static final String MARK_COLUMN_CONTENT = "column_content";
+    private static final String MARK_COLUMN_ID = "column_id";
 
     // Parameters
     private static final String PARAMETER_SITE_PATH = "site-path";
@@ -280,55 +283,37 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
                 if ( strPage == null )
                 {
-                    // only one thread can evaluate the page
-                    synchronized ( strKey )
+                    Boolean bCanBeCached = Boolean.TRUE;
+
+                    AppLogService.debug( "Page generation " + strKey );
+
+                    RedirectionResponseWrapper response = new RedirectionResponseWrapper( LocalVariables.getResponse(  ) );
+
+                    LocalVariables.setLocal( LocalVariables.getConfig(  ), LocalVariables.getRequest(  ),
+                        response );
+                    request.setAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED, null );
+                    // The key is not in the cache, so we have to build
+                    // the page
+                    strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
+
+                    // We check if the page contains portlets that can not be cached. 
+                    if ( ( request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) != null ) &&
+                            !(Boolean) request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) )
                     {
-                        // can be useful if an other thread had evaluate the
-                        // page
-                        strPage = (String) _cachePages.getFromCache( strKey );
+                        bCanBeCached = Boolean.FALSE;
+                    }
 
-                        // ignore checkstyle, this double verification is useful
-                        // when page cache has been created when thread is
-                        // blocked on synchronized
-                        if ( strPage == null )
-                        {
-                            Boolean bCanBeCached = Boolean.TRUE;
+                    if ( response.getRedirectLocation(  ) != null )
+                    {
+                        AppLogService.debug( "Redirection found " + response.getRedirectLocation(  ) );
+                        strPage = REDIRECTION_KEY + response.getRedirectLocation(  );
+                    }
 
-                            AppLogService.debug( "Page generation " + strKey );
-
-                            RedirectionResponseWrapper response = new RedirectionResponseWrapper( LocalVariables.getResponse(  ) );
-
-                            LocalVariables.setLocal( LocalVariables.getConfig(  ), LocalVariables.getRequest(  ),
-                                response );
-                            request.setAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED, null );
-                            // The key is not in the cache, so we have to build
-                            // the page
-                            strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
-
-                            // We check if the page contains portlets that can not be cached. 
-                            if ( ( request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) != null ) &&
-                                    !(Boolean) request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) )
-                            {
-                                bCanBeCached = Boolean.FALSE;
-                            }
-
-                            if ( response.getRedirectLocation(  ) != null )
-                            {
-                                AppLogService.debug( "Redirection found " + response.getRedirectLocation(  ) );
-                                strPage = REDIRECTION_KEY + response.getRedirectLocation(  );
-                            }
-
-                            // Add the page to the cache if the page can be
-                            // cached
-                            if ( bCanBeCached.booleanValue(  ) && ( nMode != MODE_ADMIN ) )
-                            {
-                                _cachePages.putInCache( strKey, strPage );
-                            }
-                        }
-                        else
-                        {
-                            AppLogService.debug( "Page read from cache after synchronisation " + strKey );
-                        }
+                    // Add the page to the cache if the page can be
+                    // cached
+                    if ( bCanBeCached.booleanValue(  ) && ( nMode != MODE_ADMIN ) )
+                    {
+                        _cachePages.putInCache( strKey, strPage );
                     }
                 }
                 else
@@ -496,6 +481,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     public String getPageContent( int nIdPage, int nMode, HttpServletRequest request )
         throws SiteMessageException
     {
+        Locale locale = ( request == null ) ? Locale.getDefault(  ) : request.getLocale(  );
+
         String[] arrayContent = new String[MAX_COLUMNS];
 
         for ( int i = 0; i < MAX_COLUMNS; i++ )
@@ -524,6 +511,14 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 bCanPageBeCached = false;
             }
         }
+        // Add columns outline in admin mode
+        if ( nMode == MODE_ADMIN )
+        {
+            for ( int i = 0; i < MAX_COLUMNS; i++ )
+            {
+                arrayContent[i] = addColumnOutline( i + 1, arrayContent[i], locale );
+            }
+        }
 
         // We save that the page that is generating can not be cached
         if ( !bCanPageBeCached )
@@ -547,9 +542,31 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         }
 
         HtmlTemplate t = AppTemplateService.getTemplate( page.getTemplate(  ),
-                ( request == null ) ? Locale.getDefault(  ) : request.getLocale(  ), rootModel );
+                locale, rootModel );
 
         return t.getHtml(  );
+    }
+
+    /**
+     * Add the HTML code to display column outlines
+     *
+     * @param columnId
+     *            the column id
+     * @param content
+     *            the column content
+     * @param locale
+     *            the locale
+     * @return The column code
+     */
+    private String addColumnOutline( int columnId, String content, Locale locale )
+    {
+        Map<String, Object> model = new HashMap<String, Object>( 2 );
+        model.put( MARK_COLUMN_CONTENT, content );
+        model.put( MARK_COLUMN_ID, columnId );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_COLUMN_OUTLINE, locale, model );
+
+        return template.getHtml(  );
     }
 
     /**

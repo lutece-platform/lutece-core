@@ -34,12 +34,15 @@
 package fr.paris.lutece.portal.web.xpages;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.page.PageEvent;
+import fr.paris.lutece.portal.service.page.PageEventListener;
+import fr.paris.lutece.portal.service.page.PageService;
 
 
 /**
  * SiteMapCacheService
  */
-public final class SiteMapCacheService extends AbstractCacheableService
+public final class SiteMapCacheService extends AbstractCacheableService implements PageEventListener
 {
     private static final String SERVICE_NAME = "SiteMapService";
     private static SiteMapCacheService _instance = new SiteMapCacheService(  );
@@ -50,6 +53,7 @@ public final class SiteMapCacheService extends AbstractCacheableService
     private SiteMapCacheService(  )
     {
         initCache(  );
+        PageService.addPageEventListener( this );
     }
 
     /**
@@ -69,5 +73,11 @@ public final class SiteMapCacheService extends AbstractCacheableService
     public String getName(  )
     {
         return SERVICE_NAME;
+    }
+
+    @Override
+    public void processPageEvent(PageEvent event) {
+        // page was added, removed or updated; clear cache
+        resetCache();
     }
 }
