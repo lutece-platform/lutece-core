@@ -68,6 +68,7 @@ public class Page implements RBACResource, IExtendableResource
     // Variables declarations
     private int _nId;
     private int _nParentPageId;
+    private int _nOrigParentPageId;
     private int _nOrder;
     private int _nStatus;
     private int _nPageTemplateId;
@@ -139,6 +140,30 @@ public class Page implements RBACResource, IExtendableResource
     public int getParentPageId(  )
     {
         return _nParentPageId;
+    }
+
+    /**
+     * Sets the identifier of the parent page as stored
+     * in the db. Only settable by the DAO
+     *
+     * @param nParentPageId the parent page identifier
+     * @since 5.1.0
+     */
+    void setOrigParentPageId( int nParentPageId )
+    {
+        _nOrigParentPageId = nParentPageId;
+    }
+
+    /**
+     * Returns the identifier of the parent page as
+     * loaded from the db
+     *
+     * @return the parent page identifier
+     * @since 5.1.0
+     */
+    public int getOrigParentPageId( )
+    {
+        return _nOrigParentPageId;
     }
 
     /**
