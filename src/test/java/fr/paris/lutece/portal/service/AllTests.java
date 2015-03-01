@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2015, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.html.HtmlCleanerServiceTest;
 import fr.paris.lutece.portal.service.i18n.I18nServiceTest;
 import fr.paris.lutece.portal.service.insert.InsertServiceManagerTest;
 import fr.paris.lutece.portal.service.message.AdminMessageServiceTest;
+import fr.paris.lutece.portal.service.page.PageServiceTest;
 import fr.paris.lutece.portal.service.plugin.PluginFileTest;
 import fr.paris.lutece.portal.service.portal.PortalMenuServiceTest;
 import fr.paris.lutece.portal.service.security.LuteceUserTest;
@@ -75,6 +76,7 @@ public final class AllTests
         suite.addTest( new TestSuite( I18nServiceTest.class ) );
         suite.addTest( new TestSuite( InsertServiceManagerTest.class ) );
         suite.addTest( new TestSuite( AdminMessageServiceTest.class ) );
+        suite.addTest( new TestSuite( PageServiceTest.class ) );
         suite.addTest( new TestSuite( PluginFileTest.class ) );
         suite.addTest( new TestSuite( LuteceUserTest.class ) );
         suite.addTest( new TestSuite( FreeMarkerTemplateServiceTest.class ) );

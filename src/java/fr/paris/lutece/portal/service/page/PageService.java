@@ -266,6 +266,10 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 {
                     htParamRequest.put( Parameters.PAGE_ID, strIdPage );
                 }
+                if ( !htParamRequest.containsKey( Parameters.BASE_URL ) )
+                {
+                    htParamRequest.put( Parameters.BASE_URL, AppPathService.getBaseUrl( request ) );
+                }
 
                 LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
                 String strUserTheme = ThemesService.getUserTheme( request );
@@ -341,8 +345,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 Boolean bCanBeCached = Boolean.FALSE;
                 strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
             }
-
-            strPage = setPageBaseUrl( request, strPage );
 
             return strPage;
         }
@@ -1067,23 +1069,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         }
 
         return mapModifyParam;
-    }
-
-    /**
-     * Replace the current base url into the page
-     *
-     * @param request
-     *            The HTTP request
-     * @param strPage
-     *            The page's code
-     * @return The new page's code
-     */
-    private String setPageBaseUrl( HttpServletRequest request, String strPage )
-    {
-        String strBase = AppPathService.getBaseUrl( request );
-
-        //        boolean bBefore = strPage.contains( strBase );
-        return strPage.replaceFirst( "<base href=\".*\" >", "<base href=\"" + strBase + "\" >" );
     }
 
     /**
