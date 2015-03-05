@@ -118,4 +118,41 @@ public class PropertiesServiceTest extends LuteceTestCase
         assertEquals( props.getProperty( "test1" ), instance.getProperty( "test1" ) );
         assertNull( instance.getProperty( "test2" ) );
     }
+
+    public void testReloadAllOrder( ) throws IOException
+    {
+        File propsFile = File.createTempFile( "junit", ".properties" );
+        propsFile.deleteOnExit( );
+
+        Properties props = new Properties( );
+        props.put( "key", "1" );
+        OutputStream os = new FileOutputStream( propsFile );
+        props.store( os, this.getClass( ).getName( ) );
+        os.close( );
+
+        PropertiesService instance = new PropertiesService( propsFile.getParent( ) );
+        instance.addPropertiesFile( "", propsFile.getName( ) );
+
+        assertEquals( "1", instance.getProperty( "key" ) );
+
+        for ( int i = 2; i < 10; i++ )
+        {
+            propsFile = File.createTempFile( "junit", ".properties" );
+            propsFile.deleteOnExit( );
+
+            props = new Properties( );
+            props.put( "key", Integer.toString( i ) );
+            os = new FileOutputStream( propsFile );
+            props.store( os, this.getClass( ).getName( ) );
+            os.close( );
+
+            instance.addPropertiesFile( "", propsFile.getName( ) );
+
+            assertEquals( Integer.toString( i ), instance.getProperty( "key" ) );
+
+            instance.reloadAll( );
+
+            assertEquals( Integer.toString( i ), instance.getProperty( "key" ) );
+        }
+    }
 }
