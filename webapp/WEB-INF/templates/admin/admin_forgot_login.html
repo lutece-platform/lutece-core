@@ -1,40 +1,34 @@
-<div class="row">
-	<div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite}" target="_blank" class="navbar-brand">
-                    <img src="images/logo-header.png" class="logo" alt="logo" title="" /> &nbsp;<i class="glyphicon glyphicon-globe"></i>&nbsp;<!-- site_name --->
-                </a>
-                <div class="nav-collapse">
-                </div><!-- /.nav-collapse -->
-            </div>
-        </div><!-- /navbar-inner -->
-    </div>
-</div>
-<div class="row">
-	<div class="container">
-		<div class="col-xs-12 col-sm-9 col-md-9">
-        <h2><!-- Add Sitename --></h2>
-        <form method="post" name="forgot_login" id="forgot_login" action="jsp/admin/DoAdminForgotLogin.jsp" class="well form-horizontal">
-            <fieldset>
-                <legend><i class="glyphicon glyphicon-lock"></i> #i18n{portal.admin.admin_forgot_login.text}</legend>
-				<#list params_list as param>
-					<input type="hidden" name="${param.code}" value="${param.name}" />
-				</#list>
-                <div class="control-group">
-                    <label for="email" class="control-label col-xs-12 col-sm-3 col-md-3" >#i18n{portal.admin.admin_forgot_login.emailLabel} * </label>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                        <input type="text" class="form-control" name="email" id="email" autocomplete="off" required="required" />
-                    </div>
-                </div>
-                <div class="form-actions">
-                    <button class="btn btn-primary btn-sm" type="submit" name="Submit"><i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.admin.admin_forgot_password.buttonSubmit}</button>
-                    <a class="btn btn-sm btn-default" href="jsp/admin/AdminLogin.jsp" name="cancel">
-						<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+<div class="form-box margin" id="forgot-login-box">
+    <div class="header bg-blue">
+		<h3>#i18n{portal.admin.admin_forgot_login.text}</h3>
+	</div>
+	<form method="post" name="forgot_login" id="forgot_login" action="jsp/admin/DoAdminForgotLogin.jsp" class="form-horizontal" role="form">
+		<div class="body bg-gray">
+			<#list params_list as param>
+				<input type="hidden" name="${param.code}" value="${param.name}">
+			</#list>
+           <div class="form-group">
+				<div class="input-group">
+					<div class="input-group-addon"><span class="fa fa-envelope"></span></div>
+						<label for="email" class="sr-only" >#i18n{portal.admin.admin_forgot_login.emailLabel} * </label>
+						<input type="text" class="form-control" placeholder="#i18n{portal.admin.admin_forgot_login.emailLabel} *" name="email" id="email" autocomplete="off" required>
+					</div>
+		    </div>
+        </div>
+		<div class="footer">                                                               
+			<div class="text-center">
+				<p>
+					<button class="btn btn-primary btn-flat" type="submit" name="Submit"><i class="fa fa-check"></i>&nbsp;#i18n{portal.admin.admin_forgot_password.buttonSubmit}</button>
+                    <a class="btn btn-default btn-flat" href="jsp/admin/AdminLogin.jsp" name="cancel">
+						<i class="fa fa-remove"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
 					</a>
-                </div>
-			</fieldset>
-        </form>
-    </div>
-</div> 
-</div> 
+				</p>
+				<p>
+					<a class="btn btn-default btn-flat" href="http://fr.lutece.paris.fr" target="_blank" title="#i18n{portal.site.portal_footer.labelPortal}">
+						<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
+					</a>
+				</p>
+			</div>
+		</div>
+	</form>
+</div>	

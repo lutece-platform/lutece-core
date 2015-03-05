@@ -24,6 +24,7 @@
 <link href="css/admin/bootstrap.min.css" rel="stylesheet">
 <link href="css/admin/font-awesome.min.css"  rel="stylesheet" >
 <link rel="stylesheet" href="css/admin/AdminLTE.css" >
+<link rel="stylesheet" href="css/admin/portal_admin.css" >
 <style>
 #login-box{-webkit-box-shadow: 0px 1px 5px 1px rgba(50, 50, 50, 0.75);-moz-box-shadow:0px 1px 5px 1px rgba(50, 50, 50, 0.75);box-shadow:0px 1px 5px 1px rgba(50, 50, 50, 0.75);}
 </style>
@@ -36,4 +37,4 @@
 <link rel="shortcut icon" href="<%= strBase %>favicon.ico">
 <script src="js/jquery/jquery.min.js"></script>
 </head>
-<body>
+<body class="login-page">
