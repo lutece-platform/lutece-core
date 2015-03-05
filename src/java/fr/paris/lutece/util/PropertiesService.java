@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2015, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,7 +54,7 @@ public class PropertiesService
 {
     // Static variables
     private static String _strRootPath;
-    private static Properties _properties = new Properties(  );
+    private static volatile Properties _properties = new Properties(  );
     private static Map<String, String> _mapPropertiesFiles = new HashMap<String, String>(  );
 
     /**
@@ -118,35 +118,21 @@ public class PropertiesService
      */
     private void loadFile( String strFullPath ) throws FileNotFoundException, IOException
     {
-        FileInputStream fis = null;
+        loadFile( strFullPath, _properties );
+    }
 
-        try
+    /**
+     * Load properties of a file
+     * @param strFullPath The absolute path of the properties file
+     * @param props properties to load into
+     * @throws java.io.IOException If an error occurs reading the file
+     * @throws java.io.FileNotFoundException If the file is not found
+     */
+    private void loadFile( String strFullPath, Properties props ) throws FileNotFoundException, IOException
+    {
+        try ( FileInputStream fis = new FileInputStream( new File( strFullPath ) ) )
         {
-            File file = new File( strFullPath );
-            fis = new FileInputStream( file );
-            _properties.load( fis );
-        }
-        catch ( FileNotFoundException fnfe )
-        {
-            throw fnfe;
-        }
-        catch ( IOException e )
-        {
-            throw e;
-        }
-        finally
-        {
-            if ( fis != null )
-            {
-                try
-                {
-                    fis.close(  );
-                }
-                catch ( IOException e )
-                {
-                    AppLogService.error( e.getMessage(  ), e );
-                }
-            }
+            props.load( fis );
         }
     }
 
@@ -167,10 +153,12 @@ public class PropertiesService
      */
     public void reloadAll(  ) throws IOException
     {
+        Properties newProperties = new Properties( );
         for ( String strFullPath : _mapPropertiesFiles.values(  ) )
         {
-            loadFile( strFullPath );
+            loadFile( strFullPath, newProperties );
         }
+        _properties = newProperties;
     }
 
     /**
