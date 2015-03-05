@@ -86,8 +86,6 @@
             <artifactId>commons-dbcp</artifactId>
             <version>1.2.2</version>
         </dependency>
-
-        <!-- Tests 2.5 -->
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache-core</artifactId>
@@ -108,16 +106,6 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.6.1</version>
         </dependency>
-
-
-        <!--
-                <dependency>
-                    <groupId>net.sf.ehcache</groupId>
-                    <artifactId>ehcache</artifactId>
-                    <version>1.3.0</version>
-                </dependency>
-        -->
-
         <dependency>
             <groupId>jtidy</groupId>
             <artifactId>jtidy</artifactId>

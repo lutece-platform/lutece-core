@@ -258,7 +258,7 @@ public final class CacheService
     {
         StringBuilder sbInfos = new StringBuilder(  );
         sbInfos.append( PROPERTY_MAX_ELEMENTS ).append( "=" )
-               .append( cache.getCacheConfiguration(  ).getMaxEntriesLocalHeap(  ) ).append( "\n" );
+               .append( cache.getCacheConfiguration(  ).getMaxElementsInMemory(  ) ).append( "\n" );
         sbInfos.append( PROPERTY_ETERNAL ).append( "=" ).append( cache.getCacheConfiguration(  ).isEternal(  ) )
                .append( "\n" );
         sbInfos.append( PROPERTY_TIME_TO_IDLE ).append( "=" )
