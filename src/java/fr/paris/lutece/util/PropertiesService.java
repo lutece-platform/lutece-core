@@ -45,6 +45,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * This class provides utility methods to read values of the properties stored in the .properties file of the
@@ -189,8 +191,8 @@ public class PropertiesService
      * Returns the value of a variable defined in the .properties file of the application as an int
      *
      * @param strProperty The variable name
-     * @param nDefault The default value which is returned if no value is found for the variable in the le downloadFile
-     *        .properties. .properties file.
+     * @param nDefault The default value which is returned if no value is found for the variable in the
+     *        .properties file, or if the value is not numeric
      * @return The variable value read in the properties file
      */
     public int getPropertyInt( String strProperty, int nDefault )
@@ -200,7 +202,7 @@ public class PropertiesService
 
         try
         {
-            if ( ( strValue != null ) && strValue.matches( "^[\\d]+$" ) )
+            if ( StringUtils.isNumeric( strValue ) )
             {
                 nValue = Integer.parseInt( strValue );
             }
