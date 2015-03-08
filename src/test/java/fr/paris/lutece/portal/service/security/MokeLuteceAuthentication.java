@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2015, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.security.auth.login.LoginException;
@@ -82,7 +83,7 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
 
     public boolean isUserInRole( LuteceUser user, HttpServletRequest request, String strRole )
     {
-        return true;
+        return Arrays.asList( user.getRoles( ) ).contains( strRole );
     }
 
     public String[] getRolesByUser( LuteceUser user )

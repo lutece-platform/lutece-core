@@ -41,19 +41,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Properties;
 import java.util.Random;
 
-import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.page.IPageService;
-import fr.paris.lutece.portal.service.security.LoginRedirectException;
-import fr.paris.lutece.portal.service.security.LuteceAuthentication;
 import fr.paris.lutece.portal.service.security.LuteceUser;
+import fr.paris.lutece.portal.service.security.MokeLuteceAuthentication;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -238,7 +235,7 @@ public class PortalMenuServiceTest extends LuteceTestCase
             props.load( is );
             is.close( );
             props.setProperty( "mylutece.authentication.enable", "true" );
-            props.setProperty( "mylutece.authentication.class", TestLuteceAuthentication.class.getName( ) );
+            props.setProperty( "mylutece.authentication.class", MokeLuteceAuthentication.class.getName( ) );
             OutputStream os = new FileOutputStream( luteceProperties );
             props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
             os.close( );
@@ -267,210 +264,4 @@ public class PortalMenuServiceTest extends LuteceTestCase
         return createPage( pageName, null );
     }
 
-    public static final class TestLuteceAuthentication implements LuteceAuthentication
-    {
-
-        @Override
-        public String getAuthServiceName( )
-        {
-            return this.getClass( ).getName( );
-        }
-
-        @Override
-        public String getAuthType( HttpServletRequest request )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public LuteceUser login( String strUserName, String strUserPassword, HttpServletRequest request )
-                throws LoginException, LoginRedirectException
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public void logout( LuteceUser user )
-        {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public boolean findResetPassword( HttpServletRequest request, String strLogin )
-        {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public LuteceUser getAnonymousUser( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public boolean isUserInRole( LuteceUser user, HttpServletRequest request, String strRole )
-        {
-            return Arrays.asList( user.getRoles( ) ).contains( strRole );
-        }
-
-        @Override
-        public String[ ] getRolesByUser( LuteceUser user )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public boolean isExternalAuthentication( )
-        {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public boolean isDelegatedAuthentication( )
-        {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public LuteceUser getHttpAuthenticatedUser( HttpServletRequest request )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getLoginPageUrl( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getDoLoginUrl( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getDoLogoutUrl( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getNewAccountPageUrl( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getViewAccountPageUrl( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getLostPasswordPageUrl( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getLostLoginPageUrl( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getResetPasswordPageUrl( HttpServletRequest request )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getAccessDeniedTemplate( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getAccessControledTemplate( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public boolean isUsersListAvailable( )
-        {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public Collection<LuteceUser> getUsers( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public LuteceUser getUser( String strUserLogin )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public boolean isMultiAuthenticationSupported( )
-        {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public String getIconUrl( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getName( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getPluginName( )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public void updateDateLastLogin( LuteceUser user, HttpServletRequest request )
-        {
-            // TODO Auto-generated method stub
-
-        }
-
-    }
 }
