@@ -41,7 +41,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -57,7 +57,7 @@ public class PropertiesService
     // Static variables
     private static String _strRootPath;
     private static volatile Properties _properties = new Properties(  );
-    private static Map<String, String> _mapPropertiesFiles = new HashMap<String, String>(  );
+    private static Map<String, String> _mapPropertiesFiles = new LinkedHashMap<String, String>(  );
 
     /**
      * Constructor should define the base root path for properties files
