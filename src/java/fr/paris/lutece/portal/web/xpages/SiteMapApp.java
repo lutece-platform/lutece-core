@@ -49,12 +49,15 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminPageJspBean;
 import fr.paris.lutece.util.xml.XmlUtil;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -153,7 +156,7 @@ public class SiteMapApp implements XPageApplication
      */
     private String getKey( int nMode, HttpServletRequest request )
     {
-        String strUser = "-";
+        String strRoles = "-";
 
         if ( SecurityService.isAuthenticationEnable(  ) )
         {
@@ -161,11 +164,13 @@ public class SiteMapApp implements XPageApplication
 
             if ( user != null )
             {
-                strUser = user.getName(  );
+                String[ ] roles = user.getRoles( );
+                Arrays.sort( roles );
+                strRoles = StringUtils.join( roles, ',' );
             }
         }
 
-        return "[m:" + nMode + "][user:" + strUser + "]";
+        return "[m:" + nMode + "][roles:" + strRoles + "]";
     }
 
     /**
