@@ -269,9 +269,12 @@ public final class PortalMenuService extends AbstractCacheableService implements
 
                 if ( user != null )
                 {
-                    String[] roles = user.getRoles( );
-                    Arrays.sort( roles );
-                    strRoles = StringUtils.join( roles, ',' );
+                    
+                	String[] roles = user.getRoles( );
+                	if( roles != null ){
+                		Arrays.sort( roles );
+                		strRoles = StringUtils.join( roles, ',' );
+                	}
                 }
             }
         }
