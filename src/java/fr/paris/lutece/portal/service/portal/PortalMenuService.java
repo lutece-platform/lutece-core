@@ -267,14 +267,11 @@ public final class PortalMenuService extends AbstractCacheableService implements
             {
                 LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
 
-                if ( user != null )
+                if ( user != null && user.getRoles( ) != null)
                 {
-                    
-                	String[] roles = user.getRoles( );
-                	if( roles != null ){
-                		Arrays.sort( roles );
-                		strRoles = StringUtils.join( roles, ',' );
-                	}
+                    String[] roles = user.getRoles( );
+                    Arrays.sort( roles );
+                    strRoles = StringUtils.join( roles, ',' );
                 }
             }
         }
