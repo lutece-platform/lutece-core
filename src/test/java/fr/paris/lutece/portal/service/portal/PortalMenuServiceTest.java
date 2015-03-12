@@ -109,7 +109,7 @@ public class PortalMenuServiceTest extends LuteceTestCase
             // test twice to test the cache
             for ( int i = 0; i < 2; i++ )
             {
-                // test menu content with no role
+                // test menu content with no user
                 HttpServletRequest request = new MokeHttpServletRequest( );
                 String menu = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL,
                         PortalMenuService.MENU_MAIN, request );
@@ -120,7 +120,7 @@ public class PortalMenuServiceTest extends LuteceTestCase
                 assertFalse( "Portal menu should not contain page associated with role " + ROLE2 + " named "
                         + pageRole2.getName( ) + " (call " + ( i + 1 ) + ")", menu.contains( pageRole2.getName( ) ) );
 
-                // test menu content with ROLE1
+                // test menu content with no role
                 @SuppressWarnings( "serial" )
                 LuteceUser user = new LuteceUser( "junit", SecurityService.getInstance( ).getAuthenticationService( ) )
                 {
@@ -133,8 +133,17 @@ public class PortalMenuServiceTest extends LuteceTestCase
                     }
 
                 };
-                user.setRoles( Arrays.asList( ROLE1 ) );
                 request.getSession( ).setAttribute( "lutece_user", user );
+                menu = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL,
+                        PortalMenuService.MENU_MAIN, request );
+                assertTrue( "Portal menu should contain page not associated with a role named " + pageNoRole.getName( )
+                        + " (call " + ( i + 1 ) + ")", menu.contains( pageNoRole.getName( ) ) );
+                assertFalse( "Portal menu should not contain page associated with role " + ROLE1 + " named "
+                        + pageRole1.getName( ) + " (call " + ( i + 1 ) + ")", menu.contains( pageRole1.getName( ) ) );
+                assertFalse( "Portal menu should not contain page associated with role " + ROLE2 + " named "
+                        + pageRole2.getName( ) + " (call " + ( i + 1 ) + ")", menu.contains( pageRole2.getName( ) ) );
+                // test menu content with ROLE1
+                user.setRoles( Arrays.asList( ROLE1 ) );
                 menu = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL,
                         PortalMenuService.MENU_MAIN, request );
                 assertTrue( "Portal menu should contain page not associated with a role named " + pageNoRole.getName( )
