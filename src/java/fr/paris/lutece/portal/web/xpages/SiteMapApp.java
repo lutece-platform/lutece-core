@@ -162,7 +162,7 @@ public class SiteMapApp implements XPageApplication
         {
             LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
 
-            if ( user != null )
+            if ( user != null && user.getRoles( ) != null )
             {
                 String[ ] roles = user.getRoles( );
                 Arrays.sort( roles );
