@@ -199,13 +199,13 @@ public class LuceneSearchEngine implements SearchEngine
                 QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION,
                         SearchItem.FIELD_METADATA, IndexationService.getAnalyser(  ) );
 
-                Query queryMetaData = parser.parse( ( strQuery != null ) ? strQuery : "*:*" );
+                Query queryMetaData = parser.parse( ( strQuery != null ) ? strQuery : "" );
                 bQuery.add( queryMetaData, BooleanClause.Occur.SHOULD );
 
                 parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_SUMMARY,
                         IndexationService.getAnalyser(  ) );
 
-                Query querySummary = parser.parse( ( strQuery != null ) ? strQuery : "*:*" );
+                Query querySummary = parser.parse( ( strQuery != null ) ? strQuery : "" );
                 bQuery.add( querySummary, BooleanClause.Occur.SHOULD );
                 query = bQuery;
             }
@@ -221,7 +221,7 @@ public class LuceneSearchEngine implements SearchEngine
                     parser.setDefaultOperator( QueryParser.AND_OPERATOR );
                 }
 
-                query = parser.parse( ( StringUtils.isNotBlank( strQuery ) ) ? strQuery : "*:*" );
+                query = parser.parse( ( StringUtils.isNotBlank( strQuery ) ) ? strQuery : "" );
             }
 
             // Get results documents
