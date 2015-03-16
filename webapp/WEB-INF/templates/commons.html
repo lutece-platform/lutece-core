@@ -129,12 +129,12 @@
 <#if ( paginator.pagesCount > 1 )>
 	<#if ( paginator.pageCurrent - offsetPrev > 1 )>
 		<a href="${paginator.firstPageLink?xhtml}">
-			<i class="icon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelFirst}
+			<i class="fa fa-arrow-circle-right"></i>&nbsp;#i18n{portal.util.labelFirst}
 		</a>
 	</#if>
 	<#if ( paginator.pageCurrent > 1 )>
 		<a href="${paginator.previousPageLink?xhtml}">
-			<i class="icon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelPrevious}
+			<i class="fa fa-arrow-circle-left"></i>&nbsp;#i18n{portal.util.labelPrevious}
 		</a>
 	<#else>
 		&nbsp;&nbsp;
@@ -154,11 +154,11 @@
 	</#if>
 	<#if ( paginator.pageCurrent < paginator.pagesCount )>
 		<a href="${paginator.nextPageLink?xhtml}">
-			<i class="icon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelNext}
+			<i class="fa fa-arrow-circle-right"></i>&nbsp;#i18n{portal.util.labelNext}
 		</a>
 		<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 			<a href="${paginator.lastPageLink?xhtml}">
-				<i class="glyphicon glyphicon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelLast}
+				<i class="fa fa-arrow-circle-left"></i>&nbsp;#i18n{portal.util.labelLast}
 			</a>
 		</#if>
 	<#else>
@@ -278,7 +278,7 @@
 	</select>
 	<span class="input-group-btn">
 		<button class="btn btn-default btn-xs" type="submit" title="#i18n{portal.util.labelRefresh}">
-			<i class="glyphicon glyphicon-repeat"></i>
+			<i class="fa fa-repeat"></i>
 		</button>
 	</span>
 </#macro>
@@ -426,8 +426,8 @@
 					<input type="hidden" name="${dataTableManager.filterPanelPrefix}updateFilters" id="${dataTableManager.filterPanelPrefix}updateFilters" value="true" />
 					<input type="hidden" name="${dataTableManager.id}" id="${dataTableManager.id}" value="${dataTableManager.id}" />
 					<button class="btn btn-primary btn-sm" type="submit" >
-						<i class="glyphicon glyphicon-search"></i>
-						<span class="hidden-phone" >#i18n{portal.util.labelSearch}</span>
+						<i class="fa fa-search"></i>
+						<span class="hidden-xs" >#i18n{portal.util.labelSearch}</span>
 					</button>
 					<#if dataTableManager.filterPanel.formUrl?contains("?")>
 						<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "&" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
@@ -435,8 +435,8 @@
 						<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "?" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
 					</#if>
 					<a class="btn btn-primary btn-sm" href="${dataTableResetUrl}" title="#i18n{portal.util.labelReset}">
-						<i class="glyphicon glyphicon-remove-circle"></i>
-						<span class="hidden-phone" >#i18n{portal.util.labelReset}</span>
+						<i class="fa fa-remove-circle"></i>
+						<span class="hidden-xs" >#i18n{portal.util.labelReset}</span>
 					</a>
 				</div>
 			</fieldset>
@@ -455,7 +455,7 @@
             <div class="${errors_class}" id="messages_errors_div">
                 <a class="close" data-dismiss="alert" href="#">x</a>
                 <#list errors as error >
-                    <i class="glyphicon glyphicon-exclamation-sign"></i> ${error.message} <br>
+                    <i class="fa fa-exclamation-circle"></i> ${error.message} <br>
                 </#list>
             </div>
         </#if>
@@ -467,7 +467,7 @@
             <div class="${infos_class}" id="messages_infos_div" >
                 <a class="close" data-dismiss="alert" href="#">x</a>
                 <#list infos as info >
-                    <i class="glyphicon glyphicon-info-sign"></i> ${info.message} <br>
+                    <i class="fa fa-info-circle"></i> ${info.message} <br>
                 </#list>
             </div>
         </#if>
@@ -477,65 +477,55 @@
 
 <#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 	<div class="form-group">
-	<div class="row">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if> />
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
+			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
 		</div>
-	</div>
 	</div>
 </#macro>
 
 <#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='' language='fr'>
 	<div class="form-group">
-	<div class="row">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
 			<div class="input-group">
-				<div class="input-group-addon"><i class="glyphicon glyphicon-calendar">&nbsp;</i></div>
+				<div class="input-group-addon"><i class="fa fa-calendar">&nbsp;</i></div>
 				<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" />
 			</div>
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
+			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
 		</div>
 	</div>
-	</div>
-	<@getDatePicker idField=inputName language=language />
+	<@getDatePickerBootstrap idField=inputName language=language />
 </#macro>
 
 <#macro fieldInputCheckBox i18nLabelKey inputName value="" checked=false i18nHelpBlockKey='' cssClass='' >
 	<div class="form-group">
-	<div class="row">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} :</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked="checked"</#if> />
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
+			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
 		</div>
-	</div>
 	</div>
 </#macro>
 
 <#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='' >
 	<div class="form-group">
-	<div class="row">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
 			<#assign params = "class='" + cssClass + "'" >
 			<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
+			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
 		</div>
-	</div>
 	</div>
 </#macro>
 
 <#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 	<div class="form-group">
-	<div class="row">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
 			<textarea class="${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
+			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
 		</div>
-	</div>
 	</div>
 </#macro>
