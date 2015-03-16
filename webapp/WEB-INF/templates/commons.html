@@ -104,12 +104,14 @@
 	<#else>
 		<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
 	</#if>
-	<a id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" >
-		<i class="glyphicon glyphicon-chevron-up">&nbsp;</i>
-	</a>
-	<a href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}">
-    	<i class="glyphicon glyphicon-chevron-down">&nbsp;</i>
-    </a>
+	<div class="btn-group" role="group" aria-label="sortButton">
+		<a class="btn btn-default btn-flat btn-xs" id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" >
+			<i class="fa fa-chevron-up"></i>
+		</a>
+		<a class="btn btn-default btn-flat btn-xs" href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}">
+			<i class="fa fa-chevron-down"></i>
+		</a>
+	</div>	
 </#macro>
 
 <#macro pagination paginator >
@@ -126,18 +128,14 @@
 
 <#if ( paginator.pagesCount > 1 )>
 	<#if ( paginator.pageCurrent - offsetPrev > 1 )>
-	
 		<a href="${paginator.firstPageLink?xhtml}">
 			<i class="icon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelFirst}
 		</a>
-	
 	</#if>
 	<#if ( paginator.pageCurrent > 1 )>
-		
-			<a href="${paginator.previousPageLink?xhtml}">
-				<i class="icon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelPrevious}
-			</a>
-
+		<a href="${paginator.previousPageLink?xhtml}">
+			<i class="icon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelPrevious}
+		</a>
 	<#else>
 		&nbsp;&nbsp;
 	</#if>
@@ -155,14 +153,14 @@
 		<strong>...</strong>
 	</#if>
 	<#if ( paginator.pageCurrent < paginator.pagesCount )>
-			<a href="${paginator.nextPageLink?xhtml}">
-				<i class="icon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelNext}
-			</a>
+		<a href="${paginator.nextPageLink?xhtml}">
+			<i class="icon-circle-arrow-right"></i>&nbsp;#i18n{portal.util.labelNext}
+		</a>
 		<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 			<a href="${paginator.lastPageLink?xhtml}">
 				<i class="glyphicon glyphicon-circle-arrow-left"></i>&nbsp;#i18n{portal.util.labelLast}
 			</a>
-	</#if>
+		</#if>
 	<#else>
 		&nbsp;&nbsp;
 	</#if>
@@ -170,22 +168,23 @@
 </#macro>
 
 
-<#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page >
+<#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=1 >
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12">
 		<#if (paginator.pagesCount > 1) >
 			<@paginationPageLinks paginator=paginator />
 		</#if>
-	<div class="pull-right">
-	<#if form == 1 >
-		<form method="post" action="">
-	</#if>
-		<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
-		
-	<#if form == 1 >
-		</form>
-	</#if>
-	</div>
+		<div class="pull-right">
+			<#if form == 1 >
+				<form method="post" action="">
+			</#if>
+				<div class="input-group">
+					<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount />
+				</div>
+			<#if form == 1 >
+				</form>
+			</#if>
+		</div>
 	</div>
 </div>
 <div class="table"></div>
@@ -264,51 +263,62 @@
  </#macro>
  
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page>
-<span class="add-on">${paginator.labelItemCountPerPage}</span>
-<select class="input-xs" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
-	<#list [ "10" , "20" , "50" , "100" ] as nb>
-		<#if nb_items_per_page = nb >
-			<option selected="selected" value="${nb}">${nb}</option>
-        <#else>
-          	<option value="${nb}">${nb}</option>
-        </#if>
-    </#list>
-</select>
-<button class="btn btn-xs" type="submit" title="#i18n{portal.util.labelRefresh}"/>
-<i class="glyphicon glyphicon-repeat"></i>
-</button>
-&nbsp;-&nbsp;
+	<label>${paginator.labelItemCountPerPage}</label>
+	<select data-max-item="${paginator.itemsCount}" class="input-xs" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
+		<#list [ "10" , "20" , "50" , "100" ] as nb>
+			<#if nb_items_per_page = nb >
+				<option selected="selected" value="${nb}">${nb}</option>
+			<#else>
+				<option value="${nb}">${nb}</option>
+			</#if>
+		</#list>
+		<#if paginator.itemsCount &gt; 100 >
+			<option <#if nb_items_per_page?number = paginator.itemsCount?number >selected="selected"</#if> value="${paginator.itemsCount}" class="${nb_items_per_page}">#i18n{portal.util.labelAll}</option>
+		 </#if>	
+	</select>
+	<span class="input-group-btn">
+		<button class="btn btn-default btn-xs" type="submit" title="#i18n{portal.util.labelRefresh}">
+			<i class="glyphicon glyphicon-repeat"></i>
+		</button>
+	</span>
 </#macro>
 
-<#macro paginationItemCount paginator combo=0 nb_items_per_page=nb_items_per_page>
+<#macro paginationItemCount paginator combo=0 nb_items_per_page=nb_items_per_page showcount=1>
         <#-- Display combo -->
         <#if combo == 1 >
             <@paginationCombo paginator=paginator nb_items_per_page=nb_items_per_page/>
         </#if>
         <#-- Display item count -->
-        <#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>${paginator.labelItemCount} : </#if>${paginator.itemsCount}
+		 <#if showcount == 1 >
+			<span class="showcount">
+				<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>&nbsp;-&nbsp;${paginator.labelItemCount} : </#if> ${paginator.itemsCount}
+			</span>
+		</#if>
 </#macro>
 
 
 <#macro item_navigation item_navigator>
-<div id="item-navigator">
+<nav id="item-navigator">
+  <ul class="pager">
 	<#if (item_navigator.currentItemId > 0)>
+		<li class="previous">
 		<a href="${item_navigator.previousPageLink?xhtml}" title="#i18n{portal.util.labelPrevious}">
-	        <i class="glyphicon glyphicon-circle-arrow-left"></i>
-	        #i18n{portal.util.labelPrevious}
+	        <span aria-hidden="true">&larr;</span> #i18n{portal.util.labelPrevious}
 	    </a>
+		</li>
 	<#else>
 		&nbsp;&nbsp;
 	</#if>
 	<#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-		<a href="${item_navigator.nextPageLink?xhtml}" title="#i18n{portal.util.labelNext}">
-			#i18n{portal.util.labelNext}
-	        <i class="glyphicon glyphicon-circle-arrow-right"></i>
-	    </a>
+		<li class="next">
+			<a href="${item_navigator.nextPageLink?xhtml}" title="#i18n{portal.util.labelNext}">
+				#i18n{portal.util.labelNext} <span aria-hidden="true">&rarr;</span>
+			</a>
+	    </li>
 	<#else>
 		&nbsp;&nbsp;
 	</#if>
-</div>
+</nav>
 </#macro>
 
 <#macro dataTable dataTableManager actionMacro="" tableClass="table table-striped table-condensed" caption="&nbsp;" summary="data table" >
@@ -319,7 +329,7 @@
 			        <@paginationPageLinks paginator=dataTableManager.paginator />
 			    </#if>
 			    <div class="pull-right">
-					<@paginationItemCount paginator=dataTableManager.paginator combo=1 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string/>
+					<@paginationItemCount paginator=dataTableManager.paginator combo=1 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string />
 				</div>
 				<input type="hidden" name="${dataTableManager.id}" id="${dataTableManager.id}" value="${dataTableManager.id}" />
 			</form>
@@ -379,7 +389,7 @@
 			        <@paginationPageLinks paginator=dataTableManager.paginator />
 			    </#if>
 			    <div class="pull-right">
-					<@paginationItemCount paginator=dataTableManager.paginator combo=0 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string/>
+					<@paginationItemCount paginator=dataTableManager.paginator combo=0 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string />
 				</div>
 				<input type="hidden" name="${dataTableManager.id}" id="${dataTableManager.id}" value="${dataTableManager.id}" />
 			</form>
