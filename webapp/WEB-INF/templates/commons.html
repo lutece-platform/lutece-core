@@ -475,7 +475,7 @@
 
 </#macro>
 
-<#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
+<#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
 	<div class="form-group">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
@@ -485,7 +485,7 @@
 	</div>
 </#macro>
 
-<#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='' language='fr'>
+<#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='form-control' language='fr'>
 	<div class="form-group">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
@@ -499,7 +499,7 @@
 	<@getDatePickerBootstrap idField=inputName language=language />
 </#macro>
 
-<#macro fieldInputCheckBox i18nLabelKey inputName value="" checked=false i18nHelpBlockKey='' cssClass='' >
+<#macro fieldInputCheckBox i18nLabelKey inputName value="" checked=false i18nHelpBlockKey='' cssClass='form-control' >
 	<div class="form-group">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} :</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
@@ -509,7 +509,7 @@
 	</div>
 </#macro>
 
-<#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='' >
+<#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='form-control' >
 	<div class="form-group">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
@@ -520,7 +520,7 @@
 	</div>
 </#macro>
 
-<#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
+<#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
 	<div class="form-group">
 		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
