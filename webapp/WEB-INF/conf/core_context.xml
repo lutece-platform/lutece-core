@@ -23,6 +23,7 @@
         <property name="allowedParametersList" >
             <list>
                 <value>page_id</value>
+                <value>base_url</value>
             </list>
         </property>
     </bean>
