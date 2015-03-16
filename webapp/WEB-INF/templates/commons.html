@@ -529,3 +529,36 @@
 		</div>
 	</div>
 </#macro>
+
+
+<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' offset=3 >
+<#assign col = 11 - offset />
+<div class="form-group">
+    <div class="col-xs-12 col-sm-offset-${offset} col-sm-${col} col-md-offset-${offset} col-md-${col}">
+        <#if url1 != ''>
+        <a class="btn btn-primary" href="${url1}"  >
+            <i class="fa fa-check"></i>&nbsp;#i18n{${i18nValue1Key}}
+        </a>
+        <#else>
+        <button  class="btn btn-primary" name="${button1Name}" type="submit">
+            <i class=" fa fa-check"></i>&nbsp;#i18n{${i18nValue1Key}}
+        </button>
+        </#if>
+        <#if url2 != ''>
+        <a class="btn btn-default" href="${url2}"  >
+            <i class="fa fa-close"></i>&nbsp;#i18n{${i18nValue2Key}}
+        </a>
+        <#else>
+        <button class="btn btn-default" name="${button2Name}" type="submit" >
+            <i class="fa fa-close"></i>&nbsp;#i18n{${i18nValue2Key}}
+        </button>
+        </#if>
+    </div>
+</div>
+</#macro>
+
+<#macro boxHeader i18nTitleKey>
+    <div class="box-header">
+        <h3 class="box-title">#i18n{i18nTitleKey}</h3>
+    </div>
+</#macro>
