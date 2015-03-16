@@ -54,8 +54,6 @@ public class UploadFilterAdmin extends UploadFilter
     protected String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
         String strTitleKey )
     {
-        AdminMessageService.getMessageUrl( request, strMessageKey, messageArgs, AdminMessage.TYPE_STOP );
-
-        return AdminMessageService.getMessageRelativeUrl(  );
+        return AdminMessageService.getMessageUrl( request, strMessageKey, messageArgs, AdminMessage.TYPE_STOP );
     }
 }

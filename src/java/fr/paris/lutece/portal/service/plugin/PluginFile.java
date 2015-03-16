@@ -54,20 +54,20 @@ import org.apache.commons.digester.Substitutor;
 import org.apache.commons.digester.substitution.MultiVariableExpander;
 import org.apache.commons.digester.substitution.VariableSubstitutor;
 import org.apache.commons.digester.xmlrules.DigesterLoader;
-
 import org.xml.sax.SAXException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.net.URL;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -91,8 +91,8 @@ public class PluginFile
     private String _strMaxCoreVersion;
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
-    private List<String> _listCssStyleSheets = new ArrayList<String>(  );
-    private List<String> _listJavascriptFiles = new ArrayList<String>(  );
+    private Map<Integer, List<String>> _listCssStyleSheets = new HashMap<Integer, List<String>>( );
+    private Map<Integer, List<String>> _listJavascriptFiles = new HashMap<Integer, List<String>>( );
     private List<String> _listFreemarkerMacrosFiles = new ArrayList<String>(  );
     private List<Right> _listRights = new ArrayList<Right>(  );
     private List<PortletType> _listPortletTypes = new ArrayList<PortletType>(  );
@@ -399,37 +399,120 @@ public class PluginFile
     }
 
     /**
-     * Add an CSS stylesheet to the plugin definition
+     * convert a mode as a string into an integer
+     * @param mode the mode to convert
+     * @return the mode as an {@link java.lang.Integer} or <code>null</code> if mode is <code>null</code>
+     */
+    private Integer getMode( String mode )
+    {
+        Integer nMode = null;
+        if ( mode != null )
+        {
+            nMode = Integer.valueOf( mode );
+        }
+        return nMode;
+    }
+
+    /**
+     * Add an CSS stylesheet to the plugin definition with no mode associated
      * @param strStyleSheet The StyleSheet path
      */
     public void addCssStyleSheet( String strStyleSheet )
     {
-        _listCssStyleSheets.add( strStyleSheet );
+        addCssStyleSheet( strStyleSheet, null );
     }
 
     /**
-     * Returns all CSS Style Sheets of the plugin
-     * @return The list of CSS Style Sheets
+     * Add an CSS stylesheet to the plugin definition
+     * @param strStyleSheet The StyleSheet path
+     * @param mode mode associated with the stylesheet. Can be <code>null</code>, must be an integer
      */
+    public void addCssStyleSheet( String strStyleSheet, String mode )
+    {
+        Integer nMode = getMode( mode );
+        List<String> cssStyleSheets = _listCssStyleSheets.get( nMode );
+        if ( cssStyleSheets == null )
+        {
+            cssStyleSheets = new ArrayList<String>( );
+            _listCssStyleSheets.put( nMode, cssStyleSheets );
+        }
+        cssStyleSheets.add( strStyleSheet );
+    }
+
+    /**
+     * Returns all CSS Style Sheets of the plugin not associated with a mode
+     * @return The list of CSS Style Sheets not associated with a mode
+     */
+    @NotNull
     public List<String> getCssStyleSheets(  )
+    {
+        List<String> res = _listCssStyleSheets.get( null );
+        if ( res == null)
+        {
+            return Collections.emptyList( );
+        }
+        return res;
+    }
+
+    /**
+     * Return all CSS Style Sheets of the plugin for all modes
+     * @return the list of CSS style Sheets for all modes
+     * @since 5.1.0
+     */
+    @NotNull
+    public Map<Integer, List<String>> getCssStyleSheetsForAllModes( )
     {
         return _listCssStyleSheets;
     }
 
     /**
-     * Add an Javascript File to the plugin definition
+     * Add an Javascript File to the plugin definition with no mode associated
      * @param strJavascriptFile The Javascript File path
      */
     public void addJavascriptFile( String strJavascriptFile )
     {
-        _listJavascriptFiles.add( strJavascriptFile );
+        addJavascriptFile( strJavascriptFile, null );
     }
 
     /**
-     * Returns all Javascript File of the plugin
-     * @return The list of Javascript File
+     * Add an Javascript File to the plugin definition
+     * @param strJavascriptFile The Javascript File path
+     * @param mode mode associated with the Javascript file. Can be <code>null</code>, must be an integer
      */
+    public void addJavascriptFile( String strJavascriptFile, String mode )
+    {
+        Integer nMode = getMode( mode );
+        List<String> javascriptFiles = _listJavascriptFiles.get( nMode );
+        if ( javascriptFiles == null )
+        {
+            javascriptFiles = new ArrayList<String>( );
+            _listJavascriptFiles.put( nMode, javascriptFiles );
+        }
+        javascriptFiles.add( strJavascriptFile );
+    }
+
+    /**
+     * Returns all Javascript File of the plugin not associated with a mode
+     * @return The list of Javascript File not associated with a mode
+     */
+    @NotNull
     public List<String> getJavascriptFiles(  )
+    {
+        List<String> res = _listJavascriptFiles.get( null );
+        if ( res == null)
+        {
+            return Collections.emptyList( );
+        }
+        return res;
+    }
+
+    /**
+     * Return all CSS Style Sheets of the plugin for all modes
+     * @return the list of CSS style Sheets for all modes
+     * @since 5.1.0
+     */
+    @NotNull
+    public Map<Integer, List<String>> getJavascriptFilesForAllModes( )
     {
         return _listJavascriptFiles;
     }

@@ -1,41 +1,28 @@
-<div class="container">
-	<div class="row">
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                    <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} " target="_blank" class="navbar-brand">
-                        &nbsp;<img src="images/logo-header.png" class="logo" alt="logo" title="" /> &nbsp;
-                    </a>
-                    <div class="nav-collapse">
-                </div><!-- /.nav-collapse -->
-            </div>
-        </div><!-- /navbar-inner -->
-    </div>
-	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-12">
-			<div class="alert alert-warning">
-				<h2>#i18n{portal.admin.admin_form_contact.boxTitle}</h2>
-				#i18n{portal.admin.message.admin_form_contact.sendingError}
-			</div>
-		</div>
-    </div>
-	<div class="row">
-		<div class="col-xs-12 col-sm-10 col-md-10">
-        <fieldset>
-			<legend><i class="glyphicon glyphicon-lock"></i> #i18n{portal.admin.admin_form_contact.lostInfos}</legend>
-			<form method="post" name="form_contact" id="form_contact" action="jsp/admin/DoAdminFormContact.jsp" class="form-horizontal" >
-			<div class="control-group">
-			<label for="message_contact" class="control-label col-xs-12 col-sm-3 col-md-3">#i18n{portal.admin.admin_form_contact.messageContactLabel} * </label>
-				<div class="col-xs-12 col-sm-6 col-md-6">
+<div class="form-box margin" id="login-box">
+    <div class="header bg-blue">
+		<h3>#i18n{portal.admin.admin_form_contact.boxTitle}</h3>
+	</div>
+	<form method="post" name="form_contact" id="form_contact" action="jsp/admin/DoAdminFormContact.jsp" class="form-horizontal" role="form">
+		<div class="body bg-gray">
+			<div class="form-group">
+				<p class="form-control-static margin">#i18n{portal.admin.message.admin_form_contact.sendingError}</p>
+				<label class="col-xs-12 col-sm-12 col-md-12" for="message_contact">#i18n{portal.admin.admin_form_contact.messageContactLabel} * </label>
+				<div class="col-xs-12 col-sm-12 col-md-12">
 					<textarea rows="5" class="form-control" name="message_contact" id="message_contact" required="required"></textarea>
 				</div>
 			</div>
-			<div class="form-actions">
-				<button class="btn btn-primary btn-sm" type="submit">
-					<i class="glyphicon glyphicon-envelope"></i>&nbsp;#i18n{portal.admin.admin_form_contact.buttonSubmit} 
-				</button>
-			</div>
-			</form>
-        </fieldset>
 		</div>
-	</div>
-</div>
+		<div class="footer">                                                               
+			<button class="btn btn-primary btn-block" type="submit">
+				<span class="fa fa-envelope"></span>&nbsp;#i18n{portal.admin.admin_form_contact.buttonSubmit} 
+			</button>
+			<div class="text-center">
+				<p>
+					<a class="btn btn-default btn-flat" href="http://fr.lutece.paris.fr" target="_blank" title="#i18n{portal.site.portal_footer.labelPortal}">
+						<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
+					</a>
+				</p>
+			</div>
+		</div>
+    </form>
+</div>	

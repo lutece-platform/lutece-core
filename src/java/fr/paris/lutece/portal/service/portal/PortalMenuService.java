@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2015, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,10 +41,14 @@ import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
+import fr.paris.lutece.portal.service.page.PageEvent;
+import fr.paris.lutece.portal.service.page.PageEventListener;
+import fr.paris.lutece.portal.service.page.PageService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.util.xml.XmlUtil;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,11 +56,13 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * This Service build the portal menu
  */
-public final class PortalMenuService extends AbstractCacheableService
+public final class PortalMenuService extends AbstractCacheableService implements PageEventListener
 {
     public static final int MENU_INIT = 0;
     public static final int MENU_MAIN = 1;
@@ -73,6 +79,7 @@ public final class PortalMenuService extends AbstractCacheableService
     private PortalMenuService(  )
     {
         initCache( getName(  ) );
+        PageService.addPageEventListener( this );
     }
 
     /**
@@ -243,7 +250,7 @@ public final class PortalMenuService extends AbstractCacheableService
     }
 
     /**
-     * Returns the key corresponding to the part accroding to the selected mode
+     * Returns the key corresponding to the part according to the selected mode
      *
      * @param nMode The mode
      * @param nPart the part
@@ -252,7 +259,7 @@ public final class PortalMenuService extends AbstractCacheableService
      */
     private String getKey( int nMode, int nPart, HttpServletRequest request )
     {
-        String strUser = "-";
+        String strRoles = "-";
 
         if ( SecurityService.isAuthenticationEnable(  ) )
         {
@@ -260,17 +267,25 @@ public final class PortalMenuService extends AbstractCacheableService
             {
                 LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
 
-                if ( user != null )
+                if ( user != null && user.getRoles( ) != null)
                 {
-                    strUser = user.getName(  );
+                    String[] roles = user.getRoles( );
+                    Arrays.sort( roles );
+                    strRoles = StringUtils.join( roles, ',' );
                 }
             }
         }
 
         StringBuilder sbKey = new StringBuilder(  );
-        sbKey.append( "[menu:" ).append( nPart ).append( "][m:" ).append( nMode ).append( "][user:" ).append( strUser )
-             .append( "]" );
+        sbKey.append( "[menu:" ).append( nPart ).append( "][m:" ).append( nMode ).append( "][roles:" ).append( strRoles )
+             .append( ']' );
 
         return sbKey.toString(  );
     }
+
+	@Override
+	public void processPageEvent(PageEvent event) {
+		// page was added, removed or updated; clear cache
+		resetCache();
+	}
 }

@@ -514,4 +514,18 @@ public final class I18nService
 
         return rbLabels;
     }
+
+    /**
+     * Reset the caches
+     * @since 5.1
+     */
+    public static void resetCache(  )
+    {
+        ResourceBundle.clearCache(  );
+        if ( _overrideLoader != null)
+        {
+            ResourceBundle.clearCache( _overrideLoader );
+        }
+        _resourceBundleCache.clear(  );
+    }
 }

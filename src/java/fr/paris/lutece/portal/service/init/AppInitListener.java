@@ -33,6 +33,10 @@
  */
 package fr.paris.lutece.portal.service.init;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
@@ -41,58 +45,43 @@ import fr.paris.lutece.portal.service.scheduler.JobSchedulerService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-
 
 /**
  * The initialization servlet of the application. This servlet is declared load-on-startup in the downloadFile web.xml
  */
-public class AppInitServlet extends HttpServlet
+public class AppInitListener implements ServletContextListener
 {
-    /**
-     * Generated serialVersionUID
-     */
-    private static final long serialVersionUID = -8203628198804406773L;
-
     //////////////////////////////////////////////////////////////////////////////////
     //Constants
     private static final String PATH_CONF = "/WEB-INF/conf/";
 
-    /**
-     * Initializes the servlet
-     *
-     * @param config The configuration information of the servlet
-     * @throws ServletException The Servlet Exception
-     */
-    public void init( ServletConfig config ) throws ServletException
-    {
-        super.init( config );
-
-        ServletContext context = config.getServletContext(  );
+	/**
+	 * Initialize the application
+	 * @param sce context event
+	 */
+    @Override
+	public void contextInitialized(ServletContextEvent sce) {
+        ServletContext context = sce.getServletContext(  );
 
         // Initializes the PathService that give Absolute paths or URL to other services
         AppPathService.init( context );
 
         // Initializes all other services
         AppInit.initServices( context, PATH_CONF, AppPathService.getWebAppPath(  ) );
-    }
+	}
 
     /**
-     * Overloads the servlet destroy() method
+     * Shutdown the application
+     * @param sce context event
      */
-    @Override
-    public void destroy(  )
-    {
+	@Override
+	public void contextDestroyed(ServletContextEvent sce) {
         MailService.shutdown(  );
         AppDaemonService.shutdown(  );
         JobSchedulerService.shutdown(  );
         ShutdownServiceManager.shutdown(  );
         CacheService.getInstance(  ).shutdown(  );
         AppConnectionService.releasePool(  );
-        super.destroy(  );
         AppLogService.info( "Application stopped" );
-    }
+	}
 }

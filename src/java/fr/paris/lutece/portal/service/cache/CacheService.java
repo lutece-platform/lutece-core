@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.config.CacheConfiguration;
@@ -47,9 +46,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import java.lang.management.ManagementFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -75,6 +72,7 @@ public final class CacheService
     private static final String PROPERTY_DISK_PERSISTENT = ".diskPersistent";
     private static final String PROPERTY_DISK_EXPIRY = ".diskExpiryThreadIntervalSeconds";
     private static final String PROPERTY_MAX_ELEMENTS_DISK = ".maxElementsOnDisk";
+    private static final String PROPERTY_STATISTICS = ".statistics";
 
     // Datastore
     private static final String KEY_PREFIX = "core.cache.status.";
@@ -105,6 +103,7 @@ public final class CacheService
     private boolean _bDefaultDiskPersistent;
     private long _lDefaultDiskExpiry;
     private int _nDefaultMaxElementsOnDisk;
+    private boolean _bDefaultStatistics;
 
     /**
      * Creates a new instance of CacheService
@@ -274,6 +273,8 @@ public final class CacheService
                .append( cache.getCacheConfiguration(  ).getDiskExpiryThreadIntervalSeconds(  ) ).append( "\n" );
         sbInfos.append( PROPERTY_MAX_ELEMENTS_DISK ).append( "=" )
                .append( cache.getCacheConfiguration(  ).getMaxElementsOnDisk(  ) ).append( "\n" );
+        sbInfos.append( PROPERTY_STATISTICS ).append( '=' )
+               .append( cache.getCacheConfiguration(  ).getStatistics(  ) ).append( "\n" );
 
         return sbInfos.toString(  );
     }
@@ -295,6 +296,8 @@ public final class CacheService
         _lDefaultDiskExpiry = AppPropertiesService.getPropertyLong( PREFIX_DEFAULT + PROPERTY_DISK_EXPIRY, 120L );
         _nDefaultMaxElementsOnDisk = AppPropertiesService.getPropertyInt( PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS_DISK,
                 10000 );
+        _bDefaultStatistics = AppPropertiesService.getPropertyBoolean( PREFIX_DEFAULT + PROPERTY_STATISTICS,
+                false );
     }
 
     /**
@@ -415,6 +418,7 @@ public final class CacheService
                 _lDefaultDiskExpiry ) );
         config.setMaxElementsOnDisk( getIntProperty( strCacheName, PROPERTY_MAX_ELEMENTS_DISK,
                 _nDefaultMaxElementsOnDisk ) );
+        config.setStatistics( getBooleanProperty( strCacheName, PROPERTY_STATISTICS, _bDefaultStatistics ) );
 
         return config;
     }

@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Lutece">
-    <skin>
-        <groupId>org.apache.maven.skins</groupId>
-        <artifactId>maven-fluido-skin</artifactId>
-        <version>1.3.1</version>
-    </skin>
+    
+    <custom>
+        <fluidoSkin>
+            <gitHub>
+                <projectId>${github.project}</projectId>
+            </gitHub>
+       </fluidoSkin>
+    </custom>
+
     <version />
+    
     <body>
         <links>
             <item name="FR" href="/fr/index.html" />
@@ -13,16 +18,6 @@
 
         <menu name="Lutece : core component">
             <item name="Introduction" href="index.html" />
-            <item name="Security parameters" href="admin-user-security.html" />
-        </menu>
-
-        <menu name="Developer's Resources">
-            <item name="Core Services" href="core-services.html" />
-            <!--
-                    <item name="Security" href="security.html" collapse="true"> <item
-                    name="Attributes" href="attributes.html"/> <item name="Schema"
-                    href="schema.html"/> </item>
-            -->
         </menu>
 
         <menu name="Downloads" inherit="bottom">
@@ -30,5 +25,7 @@
             <item name="Nightly builds" href="../nightly_builds/lutece-core/" />
         </menu>
 
+        <menu ref="reports" inherit="bottom" />
     </body>
+
 </project>

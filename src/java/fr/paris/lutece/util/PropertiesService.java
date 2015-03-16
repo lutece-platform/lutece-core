@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2015, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,9 +41,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -54,8 +56,8 @@ public class PropertiesService
 {
     // Static variables
     private static String _strRootPath;
-    private static Properties _properties = new Properties(  );
-    private static Map<String, String> _mapPropertiesFiles = new HashMap<String, String>(  );
+    private static volatile Properties _properties = new Properties(  );
+    private static Map<String, String> _mapPropertiesFiles = new LinkedHashMap<String, String>(  );
 
     /**
      * Constructor should define the base root path for properties files
@@ -118,35 +120,21 @@ public class PropertiesService
      */
     private void loadFile( String strFullPath ) throws FileNotFoundException, IOException
     {
-        FileInputStream fis = null;
+        loadFile( strFullPath, _properties );
+    }
 
-        try
+    /**
+     * Load properties of a file
+     * @param strFullPath The absolute path of the properties file
+     * @param props properties to load into
+     * @throws java.io.IOException If an error occurs reading the file
+     * @throws java.io.FileNotFoundException If the file is not found
+     */
+    private void loadFile( String strFullPath, Properties props ) throws FileNotFoundException, IOException
+    {
+        try ( FileInputStream fis = new FileInputStream( new File( strFullPath ) ) )
         {
-            File file = new File( strFullPath );
-            fis = new FileInputStream( file );
-            _properties.load( fis );
-        }
-        catch ( FileNotFoundException fnfe )
-        {
-            throw fnfe;
-        }
-        catch ( IOException e )
-        {
-            throw e;
-        }
-        finally
-        {
-            if ( fis != null )
-            {
-                try
-                {
-                    fis.close(  );
-                }
-                catch ( IOException e )
-                {
-                    AppLogService.error( e.getMessage(  ), e );
-                }
-            }
+            props.load( fis );
         }
     }
 
@@ -167,10 +155,12 @@ public class PropertiesService
      */
     public void reloadAll(  ) throws IOException
     {
+        Properties newProperties = new Properties( );
         for ( String strFullPath : _mapPropertiesFiles.values(  ) )
         {
-            loadFile( strFullPath );
+            loadFile( strFullPath, newProperties );
         }
+        _properties = newProperties;
     }
 
     /**
@@ -201,8 +191,8 @@ public class PropertiesService
      * Returns the value of a variable defined in the .properties file of the application as an int
      *
      * @param strProperty The variable name
-     * @param nDefault The default value which is returned if no value is found for the variable in the le downloadFile
-     *        .properties. .properties file.
+     * @param nDefault The default value which is returned if no value is found for the variable in the
+     *        .properties file, or if the value is not numeric
      * @return The variable value read in the properties file
      */
     public int getPropertyInt( String strProperty, int nDefault )
@@ -212,7 +202,7 @@ public class PropertiesService
 
         try
         {
-            if ( ( strValue != null ) && strValue.matches( "^[\\d]+$" ) )
+            if ( StringUtils.isNumeric( strValue ) )
             {
                 nValue = Integer.parseInt( strValue );
             }

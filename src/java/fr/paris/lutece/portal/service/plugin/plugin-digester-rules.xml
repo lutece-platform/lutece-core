@@ -24,13 +24,15 @@
         </pattern>
         <pattern value="css-stylesheets">
             <bean-property-setter-rule pattern="css-stylesheets-scope" propertyname="cssStylesheetsScope"/>
-            <call-method-rule pattern="css-stylesheet" methodname="addCssStyleSheet" paramcount="1" />
+            <call-method-rule pattern="css-stylesheet" methodname="addCssStyleSheet" paramcount="2" />
             <call-param-rule pattern="css-stylesheet" paramnumber="0"/>
+            <call-param-rule pattern="css-stylesheet" attrname="mode" paramnumber="1" />
         </pattern>
         <pattern value="javascript-files">
             <bean-property-setter-rule pattern="javascript-files-scope" propertyname="javascriptFilesScope"/>
-            <call-method-rule pattern="javascript-file" methodname="addJavascriptFile" paramcount="1" />
+            <call-method-rule pattern="javascript-file" methodname="addJavascriptFile" paramcount="2" />
             <call-param-rule pattern="javascript-file" paramnumber="0"/>
+            <call-param-rule pattern="javascript-file" attrname="mode" paramnumber="1" />
         </pattern>
         <pattern value="content-services/content-service">
             <object-create-rule classname="fr.paris.lutece.portal.service.content.ContentServiceEntry" />

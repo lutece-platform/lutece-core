@@ -121,6 +121,8 @@ public final class AppInit
     {
         try
         {
+            
+            Thread.currentThread().setName( "Lutece-MainThread" );
             // Initializes the log service
             AppLogService.init( strConfPath, FILE_PROPERTIES_CONFIG );
             AppLogService.info( "Starting LUTECE ..." );
@@ -167,7 +169,7 @@ public final class AppInit
 
             // Initializes FilterService and ServletService
             AppLogService.info( "Initializing plugins filters ..." );
-            FilterService.init(  );
+            FilterService.init( context );
             AppLogService.info( "Initializing plugins servlets ..." );
             ServletService.init( context );
 

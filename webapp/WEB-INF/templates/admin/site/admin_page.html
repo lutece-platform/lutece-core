@@ -3,14 +3,22 @@
 		<div class="box">
 			<div class="box-header">
 				<div class="box-tools btn-toolbar" role="toolbar">
-					<div class="btn-group">
-						<button type="button" id="fullscreen" class="btn btn-default btn-sm btn-flat hidden-xs" title="#i18n{portal.site.admin_page.buttonFullscreen}">
-							<i class="glyphicon glyphicon-fullscreen"></i>
-						</button>
-						<a class="btn btn-default btn-sm btn-flat" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}">
-							<span class="badge badge-primary" title="${page.id} - ${page.name}">${page.id}</span> <span class="hidden-xs">Page ${page.name}</span>
+					<div class="btn-group pull-left">	
+						<a class="" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" data-toggle="tooltip" data-placement="bottom"  title="${page.name}">
+							<span class="badge badge-primary" title="${page.id} - ${page.name}">${page.id}</span>  ${page.name}
 						</a>
 					</div>
+					<div class="btn-group  pull-left">
+						<a class="btn btn-default btn-xs btn-flat first hidden-xs hidden-sm" id="display-full" href="#" data-toggle="tooltip" data-placement="bottom" title="Ecran large"><i class="fa fa-desktop fa-fw"></i></a>
+                        <a class="btn btn-default btn-xs btn-flat hidden-xs hidden-sm" id="display-940" href="#" data-toggle="tooltip" data-placement="bottom" title="Tablette - 940px"><i class="fa fa-tablet fa-fw"></i></a>
+                        <a class="btn btn-default btn-xs btn-flat hidden-xs hidden-sm" id="display-480" href="#" data-toggle="tooltip" data-placement="bottom" title="SmartPhone - 480px"><i class="fa fa-mobile fa-fw"></i></a>
+					</div>	
+					<div class="btn-group pull-left">
+						<button type="button" id="fullscreen" class="btn btn-default btn-xs btn-flat" data-toggle="tooltip" data-placement="bottom"  title="#i18n{portal.site.admin_page.buttonFullscreen}">
+							<i class="fa fa-arrows-alt fa-fw"></i>
+						</button>
+					</div>
+					
 					<div class="btn-group pull-right">
 						<#if page.id != 1>
 							<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}" class="btn btn-success btn-sm btn-flat">
@@ -24,7 +32,7 @@
 						<form method="post" action="jsp/admin/site/AdminSite.jsp" class="form-inline pull-right" role="search">
 							<label class="sr-only">#i18n{portal.site.admin_page.buttonSearchPage}</label>
 							<div class="input-group">
-								<input type="text" name="page_id" title="#i18n{portal.site.admin_page.buttonSearchPage" class="form-control input-sm" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
+								<input type="text" name="page_id" title="#i18n{portal.site.admin_page.buttonSearchPage}" class="form-control input-sm" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
 								<span class="input-group-btn">
 									<button class="btn btn-default btn-sm btn-flat" type="submit" title="#i18n{portal.site.admin_page.buttonSearchPage}">
 										<i class="glyphicon glyphicon-search"></i>
@@ -37,14 +45,16 @@
 						<div class="btn-group">
 							<a class="btn btn-primary dropdown-toggle btn-sm btn-flat" data-toggle="dropdown" id="portlet-type" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=">
 								<i class="glyphicon glyphicon-th-large" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}" ></i>
-								<span class="hidden-phone">#i18n{portal.site.admin_page.labelPortletPage}</span>
+								<span class="hidden-xs">#i18n{portal.site.admin_page.labelPortletPage}</span>
 								&nbsp;<b class="caret"></b>
 							</a>
 							<#if portlet_types_list?has_content>
 								<ul class="dropdown-menu" aria-labelledby="portlet-type" role="menu">
 									<#list portlet_types_list?sort_by("name") as portlet_type>
 										<li class="portlet-type">
-											<a class="portlet-type-ref" href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&page_id=${page.id}" title="${portlet_type.name}" >${portlet_type.name}</a>
+											<a class="portlet-type-ref" href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&page_id=${page.id}" title="${portlet_type.name}" >
+												${portlet_type.name}
+											</a>
 										</li>
 									</#list>
 								</ul>
@@ -55,22 +65,22 @@
 						</#if>
 						<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="btn btn-primary btn-sm btn-flat">
 							<i class="glyphicon glyphicon-wrench" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>
-							<span class="hidden-phone" >#i18n{portal.site.admin_page.labelPageProperty}</span>
+							<span class="hidden-xs" >#i18n{portal.site.admin_page.labelPageProperty}</span>
 						</a>
 						<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary btn-sm btn-flat">
 							<i class="glyphicon glyphicon-plus"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
-							<span class="hidden-phone">#i18n{portal.site.admin_page.labelChildPagePage}</span>
+							<span class="hidden-xs">#i18n{portal.site.admin_page.labelChildPagePage}</span>
 						</a>
 						<div class="btn-group">
 							<a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary btn-sm btn-flat">
 								<i class="fa fa-sitemap" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>
-								<span class="hidden-phone" >#i18n{portal.site.admin_page.tabAdminMapSite}</span>
+								<span class="hidden-xs" >#i18n{portal.site.admin_page.tabAdminMapSite}</span>
 							</a>
 						</div>
 					</div>
 				</div>
 			</div><!-- /.box-header -->
-			<div class="box-body no-padding">
+			<div class="box-body" id="admin-page-preview">
 				${page_block}
-			<!-- HTML in jsp/admin/AdminSite.jsp -->
+				<!-- HTML in jsp/admin/AdminSite.jsp -->
 			

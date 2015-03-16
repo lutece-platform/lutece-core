@@ -135,6 +135,7 @@ public final class PageDAO implements IPageDAO
 
         int nNewPrimaryKey = newPrimaryKey(  );
         page.setId( nNewPrimaryKey );
+        page.setOrigParentPageId( page.getParentPageId(  ) );
 
         daoUtil.setInt( 1, page.getId(  ) );
         daoUtil.setInt( 2, page.getParentPageId(  ) );
@@ -201,6 +202,7 @@ public final class PageDAO implements IPageDAO
         {
             page.setId( nPageId );
             page.setParentPageId( daoUtil.getInt( 1 ) );
+            page.setOrigParentPageId( daoUtil.getInt( 1 ) );
             page.setName( daoUtil.getString( 2 ) );
             page.setDescription( daoUtil.getString( 3 ) );
             page.setPageTemplateId( daoUtil.getInt( 4 ) );
@@ -252,6 +254,7 @@ public final class PageDAO implements IPageDAO
         {
             page.setId( nPageId );
             page.setParentPageId( daoUtil.getInt( 1 ) );
+            page.setOrigParentPageId( daoUtil.getInt( 1 ) );
             page.setName( daoUtil.getString( 2 ) );
             page.setDescription( daoUtil.getString( 3 ) );
             page.setPageTemplateId( daoUtil.getInt( 4 ) );
@@ -302,6 +305,7 @@ public final class PageDAO implements IPageDAO
         {
             page.setId( daoUtil.getInt( 1 ) );
             page.setParentPageId( daoUtil.getInt( 2 ) );
+            page.setOrigParentPageId( daoUtil.getInt( 2 ) );
             page.setName( daoUtil.getString( 3 ) );
             page.setDescription( daoUtil.getString( 4 ) );
             page.setPageTemplateId( daoUtil.getInt( 5 ) );
@@ -462,6 +466,7 @@ public final class PageDAO implements IPageDAO
 
             page.setId( daoUtil.getInt( 1 ) );
             page.setParentPageId( daoUtil.getInt( 2 ) );
+            page.setOrigParentPageId( daoUtil.getInt( 2 ) );
             page.setName( daoUtil.getString( 3 ) );
             page.setDescription( daoUtil.getString( 4 ) );
             page.setOrder( daoUtil.getInt( 5 ) );
@@ -503,6 +508,7 @@ public final class PageDAO implements IPageDAO
             Page page = new Page(  );
             page.setId( daoUtil.getInt( 1 ) );
             page.setParentPageId( daoUtil.getInt( 2 ) );
+            page.setOrigParentPageId( daoUtil.getInt( 2 ) );
             page.setName( daoUtil.getString( 3 ) );
             page.setDescription( daoUtil.getString( 4 ) );
             page.setRole( daoUtil.getString( 5 ) );
@@ -529,6 +535,7 @@ public final class PageDAO implements IPageDAO
 
             page.setId( daoUtil.getInt( 1 ) );
             page.setParentPageId( daoUtil.getInt( 2 ) );
+            page.setOrigParentPageId( daoUtil.getInt( 2 ) );
             page.setName( daoUtil.getString( 3 ) );
             page.setDescription( daoUtil.getString( 4 ) );
             page.setDateUpdate( daoUtil.getTimestamp( 5 ) );
@@ -610,6 +617,7 @@ public final class PageDAO implements IPageDAO
 
             page.setId( daoUtil.getInt( 1 ) );
             page.setParentPageId( daoUtil.getInt( 2 ) );
+            page.setOrigParentPageId( daoUtil.getInt( 2 ) );
             page.setName( daoUtil.getString( 3 ) );
             page.setDescription( daoUtil.getString( 4 ) );
             page.setOrder( daoUtil.getInt( 5 ) );
@@ -723,6 +731,7 @@ public final class PageDAO implements IPageDAO
             int nIndex = 1;
             page.setId( daoUtil.getInt( nIndex++ ) );
             page.setParentPageId( daoUtil.getInt( nIndex++ ) );
+            page.setOrigParentPageId( page.getParentPageId( ) );
             page.setName( daoUtil.getString( nIndex++ ) );
             page.setDescription( daoUtil.getString( nIndex++ ) );
             page.setPageTemplateId( daoUtil.getInt( nIndex++ ) );

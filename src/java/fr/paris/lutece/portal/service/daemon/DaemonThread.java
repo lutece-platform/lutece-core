@@ -68,10 +68,12 @@ public final class DaemonThread implements Runnable
         {
             if ( _strDaemonName == null )
             {
-                _strDaemonName = "Daemon '" + _entry.getId(  ) + "'";
+                _strDaemonName = "Daemon " + _entry.getId(  );
             }
-
-            Thread.currentThread(  ).setName( _strDaemonName );
+            
+            Thread currentThread = Thread.currentThread(  );
+            String strPooledThreadName = currentThread.getName();
+            currentThread.setName( "Lutece-Daemon-" + _entry.getId(  ) );
 
             Daemon daemon = _entry.getDaemon(  );
             AppLogService.info( _strDaemonName + " - starts processing." );
@@ -96,6 +98,7 @@ public final class DaemonThread implements Runnable
             }
 
             AppLogService.info( _strDaemonName + " - end of process." );
+            currentThread.setName( strPooledThreadName );
         }
         else
         {
