@@ -477,7 +477,7 @@
 
 <#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
 	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
+		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if> />
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
@@ -487,7 +487,7 @@
 
 <#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='form-control' language='fr'>
 	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
+		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
 			<div class="input-group">
 				<div class="input-group-addon"><i class="fa fa-calendar">&nbsp;</i></div>
@@ -501,7 +501,7 @@
 
 <#macro fieldInputCheckBox i18nLabelKey inputName value="" checked=false i18nHelpBlockKey='' cssClass='form-control' >
 	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} :</label> 
+		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;:</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked="checked"</#if> />
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
@@ -511,7 +511,7 @@
 
 <#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='form-control' >
 	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label> 
+		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*&nbsp;</#if>:</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
 			<#assign params = "class='" + cssClass + "'" >
 			<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
@@ -522,7 +522,7 @@
 
 <#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
 	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
+		<label class="col-xs-12 col-sm-3 col-md-3" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label> 
 		<div class="col-xs-12 col-sm-9 col-md-9">
 			<textarea class="${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
@@ -569,6 +569,17 @@
 <#macro boxBody>
     <div class="box-body">
         <#nested>
+    </div>
+</#macro>
+
+<#macro boxSized col i18nTitleKey boxClass='box-primary' >
+    <div class="col-md-${col}">
+        <div class="box ${boxClass}">
+            <@boxHeader i18nTitleKey=i18nTitleKey />
+            <div class="box-body">
+                <#nested>
+            </div>
+        </div>
     </div>
 </#macro>
 
